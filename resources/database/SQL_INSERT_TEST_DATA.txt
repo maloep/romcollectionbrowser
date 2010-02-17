@@ -1,0 +1,201 @@
+
+INSERT INTO Year VALUES(NULL, '1985');
+INSERT INTO Year VALUES(NULL, '1986');
+INSERT INTO Year VALUES(NULL, '1987');
+INSERT INTO Year VALUES(NULL, '1992');
+INSERT INTO Year VALUES(NULL, '1994');
+
+INSERT INTO Publisher VALUES(NULL, 'Code Masters');
+INSERT INTO Publisher VALUES(NULL, 'Ascaron');
+INSERT INTO Publisher VALUES(NULL, 'Bluebyte');
+
+INSERT INTO Manufacturer VALUES(NULL, 'Nintendo');
+INSERT INTO Manufacturer VALUES(NULL, 'Commodore');
+
+INSERT INTO Genre VALUES(NULL, 'Action');
+INSERT INTO Genre VALUES(NULL, 'Sports');
+INSERT INTO Genre VALUES(NULL, 'Adventure');
+INSERT INTO Genre VALUES(NULL, 'Soccer');
+INSERT INTO Genre VALUES(NULL, 'Jump n Run');
+INSERT INTO Genre VALUES(NULL, 'Racing');
+
+INSERT INTO FileType VALUES(NULL, 'rom');
+INSERT INTO FileType VALUES(NULL, 'screenshot');
+INSERT INTO FileType VALUES(NULL, 'cover');
+INSERT INTO FileType VALUES(NULL, 'manual');
+INSERT INTO FileType VALUES(NULL, 'ingameVideo');
+INSERT INTO FileType VALUES(NULL, 'trailer');
+INSERT INTO FileType VALUES(NULL, 'description');
+INSERT INTO FileType VALUES(NULL, 'configuration');
+
+INSERT INTO Author VALUES(NULL, 'Kevin Spacey');
+INSERT INTO Author VALUES(NULL, 'Duke Nukem');
+INSERT INTO Author VALUES(NULL, 'William Barneby');
+INSERT INTO Author VALUES(NULL, 'Sandra Stevenson');
+INSERT INTO Author VALUES(NULL, 'Melanie Smith');
+
+
+INSERT INTO Console VALUES(NULL, 'Super Nintendo', 'The Super Nintendo (SNES) is a 16-bit video game console released in 1990. 32768 (15-bit) colors, 8 channels 16-bit 32 kHz audio channels. 128 kB main RAM, 64 kB Video RAM and 64 kB Audio RAM.',
+	 'E:\Emulatoren\data\consoleImages\zsnes.png',
+	(SELECT id From Manufacturer Where name = 'Nintendo'));
+INSERT INTO Console VALUES(NULL, 'Amiga', 'The Amiga 500, also known as the A500 (or its code name Rock Lobster), was the first low-end Commodore Amiga 16/32-bit multimedia home/personal computer. It was announced at the winter Consumer Electronics Show in January 1987, at the same time as the high-end Amiga 2000, and competed directly against the Atari 520ST.',
+	'E:\Emulatoren\data\consoleImages\uae.png',
+	(SELECT id From Manufacturer Where name = 'Commodore'));
+
+	
+INSERT INTO RomCollection VALUES(NULL, 'xtras-Amiga', 
+	(SELECT id From Console Where name = 'Amiga'),
+	'winuae.exe {-%I% %ROM%}', 1, 1, 'DescriptionParser-xtras.xml', 1, 0, 1, '_Disk');
+INSERT INTO RomCollection VALUES(NULL, 'xtras-SNES', 
+	(SELECT id From Console Where name = 'Super Nintendo'),
+	'zsnes -m %ROM%', 1, 1, 'DescriptionParser-xtras.xml', 1, 0, 1, '_Disk');	
+	
+
+INSERT INTO FileExtension VALUES(NULL, 'adf',
+	(SELECT id From FileType Where name = 'rom'),
+	(SELECT id From RomCollection Where name = 'xtras-Amiga'));
+INSERT INTO FileExtension VALUES(NULL, 'smc',
+	(SELECT id From FileType Where name = 'rom'),
+	(SELECT id From RomCollection Where name = 'xtras-SNES'));
+INSERT INTO FileExtension VALUES(NULL, 'jpg',
+	(SELECT id From FileType Where name = 'screenshot'), NULL);
+INSERT INTO FileExtension VALUES(NULL, 'gif',
+	(SELECT id From FileType Where name = 'screenshot'), NULL);
+INSERT INTO FileExtension VALUES(NULL, 'png',
+	(SELECT id From FileType Where name = 'screenshot'), NULL);
+
+
+
+INSERT INTO Game VALUES(NULL, 'KickOff 2', 'incredible Soccer game', '', '',
+	(SELECT id From RomCollection Where name = 'xtras-Amiga'),
+	(SELECT id From Publisher Where name = 'Code Masters'),
+	(SELECT id From Year Where name = '1986'));
+INSERT INTO Game VALUES(NULL, 'Gods', 'Tricky', '', '',
+	(SELECT id From RomCollection Where name = 'xtras-Amiga'),
+	(SELECT id From Publisher Where name = 'Bluebyte'),
+	(SELECT id From Year Where name = '1985'));
+INSERT INTO Game VALUES(NULL, 'Lemmings 2', 'rescue them!', '', '',
+	(SELECT id From RomCollection Where name = 'xtras-Amiga'),
+	(SELECT id From Publisher Where name = 'Bluebyte'),
+	(SELECT id From Year Where name = '1992'));
+INSERT INTO Game VALUES(NULL, 'Super Mario Kart', 'classical car racing', '', '',
+	(SELECT id From RomCollection Where name = 'xtras-SNES'),
+	(SELECT id From Publisher Where name = 'Ascaron'),
+	(SELECT id From Year Where name = '1987'));
+INSERT INTO Game VALUES(NULL, 'Legends of Zelda', 'nice Adventure', '', '',
+	(SELECT id From RomCollection Where name = 'xtras-SNES'),
+	(SELECT id From Publisher Where name = 'Code Masters'),
+	(SELECT id From Year Where name = '1994'));
+
+
+INSERT INTO File VALUES(NULL, 'KickOff2.adf',
+	(SELECT id From FileType Where name = 'rom'),
+	(SELECT id From Game Where name = 'KickOff 2'));
+INSERT INTO File VALUES(NULL, 'E:\Emulatoren\data\Amiga\xtras V1\screens\KickOff 2.gif',
+	(SELECT id From FileType Where name = 'screenshot'),
+	(SELECT id From Game Where name = 'KickOff 2'));
+INSERT INTO File VALUES(NULL, 'Gods.adf',
+	(SELECT id From FileType Where name = 'rom'),
+	(SELECT id From Game Where name = 'Gods'));
+INSERT INTO File VALUES(NULL, 'E:\Emulatoren\data\Amiga\xtras V1\screens\Gods.jpg',
+	(SELECT id From FileType Where name = 'screenshot'),
+	(SELECT id From Game Where name = 'Gods'));
+INSERT INTO File VALUES(NULL, 'Lemmings2_Disk1.adf',
+	(SELECT id From FileType Where name = 'rom'),
+	(SELECT id From Game Where name = 'Lemmings 2'));
+INSERT INTO File VALUES(NULL, 'Lemmings2_Disk2.adf',
+	(SELECT id From FileType Where name = 'rom'),
+	(SELECT id From Game Where name = 'Lemmings 2'));
+INSERT INTO File VALUES(NULL, 'Lemmings2_Disk3.adf',
+	(SELECT id From FileType Where name = 'rom'),
+	(SELECT id From Game Where name = 'Lemmings 2'));
+INSERT INTO File VALUES(NULL, 'E:\Emulatoren\data\Amiga\xtras V1\screens\Lemmings 2.jpg',
+	(SELECT id From FileType Where name = 'screenshot'),
+	(SELECT id From Game Where name = 'Lemmings 2'));
+INSERT INTO File VALUES(NULL, 'Super Mario Kart.smc',
+	(SELECT id From FileType Where name = 'rom'),
+	(SELECT id From Game Where name = 'Super Mario Kart'));
+INSERT INTO File VALUES(NULL, 'E:\Emulatoren\data\SNES\xtras V1\screens\Super Mario Kart.png',
+	(SELECT id From FileType Where name = 'screenshot'),
+	(SELECT id From Game Where name = 'Super Mario Kart'));
+INSERT INTO File VALUES(NULL, 'Legends of Zelda.smc',
+	(SELECT id From FileType Where name = 'rom'),
+	(SELECT id From Game Where name = 'Legends of Zelda'));
+INSERT INTO File VALUES(NULL, 'E:\Emulatoren\data\SNES\xtras V1\screens\Legend of Zelda - A Link to the Past.png',
+	(SELECT id From FileType Where name = 'screenshot'),
+	(SELECT id From Game Where name = 'Legends of Zelda'));
+
+
+INSERT INTO Path VALUES(NULL, 'E:\Emulatoren\data\Amiga\xtras V1\roms\*.adf',
+	(SELECT id From FileType Where name = 'rom'),
+	(SELECT id From RomCollection Where name = 'xtras-Amiga'));
+INSERT INTO Path VALUES(NULL, 'E:\Emulatoren\data\Amiga\xtras V1\synopsis\synopsis.txt',
+	(SELECT id From FileType Where name = 'description'),
+	(SELECT id From RomCollection Where name = 'xtras-Amiga'));
+INSERT INTO Path VALUES(NULL, 'E:\Emulatoren\data\Amiga\xtras V1\screens\%GAME%.jpg',
+	(SELECT id From FileType Where name = 'screenshot'),
+	(SELECT id From RomCollection Where name = 'xtras-Amiga'));
+INSERT INTO Path VALUES(NULL, 'E:\Emulatoren\data\Amiga\xtras V1\cover\%GAME%.jpg',
+	(SELECT id From FileType Where name = 'cover'),
+	(SELECT id From RomCollection Where name = 'xtras-Amiga'));
+INSERT INTO Path VALUES(NULL, 'E:\Emulatoren\data\Amiga\xtras V1\ingameVideo',
+	(SELECT id From FileType Where name = 'ingameVideo'),
+	(SELECT id From RomCollection Where name = 'xtras-Amiga'));
+INSERT INTO Path VALUES(NULL, 'E:\Emulatoren\data\Amiga\xtras V1\manuals',
+	(SELECT id From FileType Where name = 'manual'),
+	(SELECT id From RomCollection Where name = 'xtras-Amiga'));
+INSERT INTO Path VALUES(NULL, 'E:\Emulatoren\data\Amiga\xtras V1\trailer',
+	(SELECT id From FileType Where name = 'trailer'),
+	(SELECT id From RomCollection Where name = 'xtras-Amiga'));
+	
+	
+	
+INSERT INTO Path VALUES(NULL, '/home/lom/rom/SNES/',
+	(SELECT id From FileType Where name = 'rom'),
+	(SELECT id From RomCollection Where name = 'xtras-SNES'));
+INSERT INTO Path VALUES(NULL, '/home/lom/rom/Database/ZSNES/',
+	(SELECT id From FileType Where name = 'screenshot'),
+	(SELECT id From RomCollection Where name = 'xtras-SNES'));
+
+
+INSERT INTO AuthorGame VALUES(NULL,
+	(SELECT id From Author Where name = 'Kevin Spacey'),
+	(SELECT id From Game Where name = 'KickOff 2'));
+INSERT INTO AuthorGame VALUES(NULL,
+	(SELECT id From Author Where name = 'Sandra Stevenson'),
+	(SELECT id From Game Where name = 'Lemmings 2'));
+INSERT INTO AuthorGame VALUES(NULL,
+	(SELECT id From Author Where name = 'William Barneby'),
+	(SELECT id From Game Where name = 'Gods'));
+INSERT INTO AuthorGame VALUES(NULL,
+	(SELECT id From Author Where name = 'Melanie Smith'),
+	(SELECT id From Game Where name = 'Legends of Zelda'));
+INSERT INTO AuthorGame VALUES(NULL,
+	(SELECT id From Author Where name = 'Melanie Smith'),
+	(SELECT id From Game Where name = 'Super Mario Kart'));
+
+
+INSERT INTO GenreGame VALUES(NULL,
+	(SELECT id From Genre Where name = 'Sports'),
+	(SELECT id From Game Where name = 'KickOff 2'));
+INSERT INTO GenreGame VALUES(NULL,
+	(SELECT id From Genre Where name = 'Soccer'),
+	(SELECT id From Game Where name = 'KickOff 2'));
+INSERT INTO GenreGame VALUES(NULL,
+	(SELECT id From Genre Where name = 'Action'),
+	(SELECT id From Game Where name = 'Gods'));
+INSERT INTO GenreGame VALUES(NULL,
+	(SELECT id From Genre Where name = 'Action'),
+	(SELECT id From Game Where name = 'Lemmings 2'));
+INSERT INTO GenreGame VALUES(NULL,
+	(SELECT id From Genre Where name = 'Adventure'),
+	(SELECT id From Game Where name = 'Legends of Zelda'));
+INSERT INTO GenreGame VALUES(NULL,
+	(SELECT id From Genre Where name = 'Action'),
+	(SELECT id From Game Where name = 'Super Mario Kart'));
+INSERT INTO GenreGame VALUES(NULL,
+	(SELECT id From Genre Where name = 'Sports'),
+	(SELECT id From Game Where name = 'Super Mario Kart'));
+INSERT INTO GenreGame VALUES(NULL,
+	(SELECT id From Genre Where name = 'Racing'),
+	(SELECT id From Game Where name = 'Super Mario Kart'));
