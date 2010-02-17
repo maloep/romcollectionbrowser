@@ -1,0 +1,48 @@
+<config>
+	<Emulators>
+		<Emulator> 
+			<name>uae</name>
+			<cmd>uae {-%I% %ROM%}</cmd>
+			<desc>Amiga Emulation</desc>
+			<useSolo>1</useSolo>
+			<escapeCmd>1</escapeCmd>
+			<author>Kevin Spacey</author>
+		</Emulator>
+		<Emulator> 
+			<name>zsnes</name>
+			<cmd>zsnes -m %ROM%</cmd>
+			<desc>Super Nintendo Emulation</desc>
+			<useSolo>1</useSolo>
+			<escapeCmd>1</escapeCmd>
+			<author>Duke Nukem</author>
+		</Emulator>
+	</Emulators>
+	<Consoles>
+		<Console>
+			<name>Super Nintendo</name>
+			<desc>The Super Nintendo (SNES) is a 16-bit video game console released in 1990. 32768 (15-bit) colors, 8 channels 16-bit 32 kHz audio channels. 128 kB main RAM, 64 kB Video RAM and 64 kB Audio RAM.</desc>
+			<imgFile>/home/lom/rom/Database/consoles/zsnes.png</imgFile>			
+		</Console>
+	</Consoles>
+	<FileTypes>
+		<FileType>
+			<name>rom</name>
+		</FileType>
+		<FileType>
+			<name>screenshot</name>
+		</FileType>
+		<FileType>
+			<name>cover</name>
+		</FileType>
+		<FileType>
+			<name>fanart</name>
+		</FileType>
+	</FileTypes>
+	<FileExtensions>
+		<FileExtension>
+			<name></name>
+			<fileType></fileType>
+			<console></console>
+		</FileExtension>
+	</FileExtensions>
+</config>

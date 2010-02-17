@@ -1,0 +1,158 @@
+CREATE TABLE IF NOT EXISTS [Author] 
+(
+    [id] INTEGER PRIMARY KEY AUTOINCREMENT,
+    [name] TEXT NOT NULL UNIQUE
+);
+
+CREATE TABLE IF NOT EXISTS [FileType] 
+(
+    [id] INTEGER PRIMARY KEY AUTOINCREMENT,
+    [name] TEXT NOT NULL UNIQUE
+);
+
+CREATE TABLE IF NOT EXISTS [Genre] 
+(
+    [id] INTEGER PRIMARY KEY AUTOINCREMENT,
+    [name] TEXT UNIQUE
+);
+
+CREATE TABLE IF NOT EXISTS [Manufacturer] 
+(
+    [id] INTEGER PRIMARY KEY AUTOINCREMENT,
+    [name] NONE NOT NULL UNIQUE
+);
+
+CREATE TABLE IF NOT EXISTS [Publisher] 
+(
+    [id] INTEGER PRIMARY KEY AUTOINCREMENT,
+    [name] NONE NOT NULL UNIQUE
+);
+
+CREATE TABLE IF NOT EXISTS [Year] 
+(
+    [id] INTEGER PRIMARY KEY AUTOINCREMENT,
+    [name] TEXT UNIQUE
+);
+
+CREATE TABLE IF NOT EXISTS [Console] 
+(
+    [id] INTEGER PRIMARY KEY AUTOINCREMENT,
+    [name] TEXT NOT NULL UNIQUE,
+    [description] TEXT,
+    [imageFileName] TEXT,
+    [manufacturerId] INTEGER REFERENCES [Manufacturer]
+    (
+        id
+    )
+);
+
+CREATE TABLE IF NOT EXISTS [FileExtension] 
+(
+    [id] INTEGER PRIMARY KEY AUTOINCREMENT,
+    [name] TEXT,
+    [fileTypeId] INTEGER NOT NULL REFERENCES [FileTypes]
+    (
+        id
+    ),
+    [romCollectionId] INTEGER REFERENCES [RomCollection]
+    (
+        id
+    )
+);
+
+CREATE TABLE IF NOT EXISTS [RomCollection]
+(
+    [id] INTEGER PRIMARY KEY AUTOINCREMENT,
+    [name] TEXT NOT NULL UNIQUE,
+    [consoleId] INTEGER REFERENCES [Console]
+    (
+        id
+    ),
+    [emuCommandline] TEXT,
+    [useEmuSolo] INTEGER,
+    [escapeEmuCmd] INTEGER,
+    [descriptionParserFile] TEXT,
+	[relyOnFileNaming] INTEGER,
+	[startWithDescFile] INTEGER,
+	[descFilePerGame] INTEGER,
+	[diskPrefix] TEXT
+);
+
+CREATE TABLE IF NOT EXISTS [Game] 
+(
+    [id] INTEGER PRIMARY KEY AUTOINCREMENT,
+    [name] TEXT NOT NULL UNIQUE,
+    [description] TEXT,
+	[gameCmd] TEXT,
+	[alternateGameCmd] TEXT,
+    [romCollectionId] INTEGER REFERENCES [RomCollection]
+    (
+        id
+    ),    
+    [publisherId] INTEGER REFERENCES [Publisher]
+    (
+        id
+    ),
+    [yearId] INTEGER REFERENCES [Year]
+    (
+        id
+    )
+);
+
+
+CREATE TABLE IF NOT EXISTS [File] 
+(
+    [id] INTEGER PRIMARY KEY AUTOINCREMENT,
+    [name] TEXT NOT NULL,
+    [fileTypeId] INTEGER NOT NULL REFERENCES [FileTypes]
+    (
+        id
+    ),
+    [gameId] INTEGER REFERENCES [Game]
+    (
+        id
+    )
+);
+
+CREATE TABLE IF NOT EXISTS [Path] 
+(
+    [id] INTEGER PRIMARY KEY AUTOINCREMENT,
+    [name] TEXT NOT NULL,
+    [fileTypeId] INTEGER NOT NULL REFERENCES [FileTypes]
+    (
+        id
+    ),
+    [romCollectionId] INTEGER REFERENCES [RomCollection]
+    (
+        id
+    )
+);
+
+
+CREATE TABLE IF NOT EXISTS [AuthorGame] 
+(
+    [id] INTEGER PRIMARY KEY AUTOINCREMENT,
+    [authorId] INTEGER REFERENCES [Author]
+    (
+        id
+    ),
+    [gameId] INTEGER REFERENCES [Game]
+    (
+        id
+    )
+);
+
+CREATE TABLE IF NOT EXISTS [GenreGame] 
+(
+    [id] INTEGER PRIMARY KEY AUTOINCREMENT,
+    [genreId] INTEGER REFERENCES [Genre]
+    (
+        id
+    ),
+    [gameId] INTEGER REFERENCES [Game]
+    (
+        id
+    )
+);
+
+
