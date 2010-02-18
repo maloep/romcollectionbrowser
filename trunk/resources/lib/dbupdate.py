@@ -69,10 +69,11 @@ class DBUpdate:
 					if(os.path.exists(descriptionfile)):
 						dp = DescriptionParser()
 						results = dp.parseDescriptionSearch(descriptionfile, '', gamename)
+						#results = dp.parseDescriptionSearch('E:\\Emulatoren\\data\\Amiga\\xtras V1\\synopsis\\synopsis.txt', '', gamename)
 						
-						for result in results:
-							#sreader = codecs.getreader('iso-8859-15')
-							#lines = sreader.readLines()
+						print "results returned"
+						
+						for result in results:							
 							print result.encode('iso-8859-15')
 							
 						#TODO delete objects?
