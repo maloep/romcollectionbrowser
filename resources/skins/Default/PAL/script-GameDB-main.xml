@@ -7,19 +7,19 @@
         	<posy>0</posy>
 	</coordinates>
 	<controls>
-		<control type="image">
+		<!--<control type="image">
 		    <description>background image</description>
 		    <posx>0</posx>
 		    <posy>0</posy>
 		    <width>720</width>
 		    <height>580</height>
 		    <texture>background.png</texture>
-		</control>
+		</control>-->
 		<!-- Console -->		
 		<control type="label">
 			<description>Consoles</description>
-			<posx>100</posx>
-			<posy>30</posy>
+			<posx>90</posx>
+			<posy>20</posy>
 		    	<textcolor>DDFFFFFF</textcolor>
 		    	<label>Consoles</label>
 		</control>
@@ -28,7 +28,7 @@
 			<posx>50</posx>
 			<posy>50</posy>
 			<width>125</width>
-			<height>100</height>
+			<height>96</height>
 			<onleft>3000</onleft>
 			<onright>600</onright>
 			<onup>500</onup>
@@ -92,7 +92,7 @@
 		<control type="label">
 			<description>Genre</description>
 			<posx>250</posx>
-			<posy>30</posy>
+			<posy>20</posy>
 		    	<textcolor>DDFFFFFF</textcolor>
 		    	<label>Genre</label>
 		</control>
@@ -100,7 +100,7 @@
 			<posx>200</posx>
 			<posy>50</posy>
 			<width>125</width>
-			<height>100</height>
+			<height>96</height>
 			<onleft>500</onleft>
 			<onright>700</onright>
 			<onup>600</onup>
@@ -163,7 +163,7 @@
 		<control type="label">
 			<description>Year</description>
 			<posx>400</posx>
-			<posy>30</posy>
+			<posy>20</posy>
 		    	<textcolor>DDFFFFFF</textcolor>
 		    	<label>Year</label>
 		</control>		
@@ -171,7 +171,7 @@
 			<posx>350</posx>
 			<posy>50</posy>
 			<width>125</width>
-			<height>100</height>
+			<height>96</height>
 			<onleft>600</onleft>
 			<onright>800</onright>
 			<onup>700</onup>
@@ -234,8 +234,8 @@
 		</control>
 		<control type="label">
 			<description>Publisher</description>
-			<posx>525</posx>
-			<posy>30</posy>
+			<posx>535</posx>
+			<posy>20</posy>
 		    	<textcolor>DDFFFFFF</textcolor>
 		    	<label>Publisher</label>
 		</control>		
@@ -243,7 +243,7 @@
 			<posx>500</posx>
 			<posy>50</posy>
 			<width>125</width>
-			<height>100</height>
+			<height>96</height>
 			<onleft>700</onleft>
 			<onright>500</onright>
 			<onup>800</onup>
