@@ -200,27 +200,3 @@ class Path(DataBaseObject):
 			return ""	
 		return path[0]
 		
-		
-class FileExtension(DataBaseObject):	
-	filterQuery = "Select name from FileExtension \
-					where romCollectionId = ? AND \
-					filetypeid = (select id from filetype where name = ?)"
-	
-	filterQueryNoCollection = "Select name from FileExtension \
-					where filetypeid = (select id from filetype where name = ?)"
-	
-	def __init__(self, gdb):		
-		self.gdb = gdb
-		self.tableName = "FileExtension"
-		
-	def getRomExtensionsByRomCollectionId(self, romCollectionId):
-		extensions = self.getObjectsByQuery((romCollectionId, 'rom'))
-		return extensions
-
-
-	def getScreenshotExtensions(self):
-		self.gdb.cursor.execute(self.filterQueryNoCollection, ('screenshot',))
-		allObjects = self.gdb.cursor.fetchall()		
-		return allObjects
-
-	

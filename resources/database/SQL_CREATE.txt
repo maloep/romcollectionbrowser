@@ -46,19 +46,6 @@ CREATE TABLE IF NOT EXISTS [Console]
     )
 );
 
-CREATE TABLE IF NOT EXISTS [FileExtension] 
-(
-    [id] INTEGER PRIMARY KEY AUTOINCREMENT,
-    [name] TEXT,
-    [fileTypeId] INTEGER NOT NULL REFERENCES [FileTypes]
-    (
-        id
-    ),
-    [romCollectionId] INTEGER REFERENCES [RomCollection]
-    (
-        id
-    )
-);
 
 CREATE TABLE IF NOT EXISTS [RomCollection]
 (

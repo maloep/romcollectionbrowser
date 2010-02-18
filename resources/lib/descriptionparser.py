@@ -1,6 +1,6 @@
 # -*- coding: iso-8859-15 -*-
 
-import os, sys
+import os, sys, re
 import codecs
 
 #taken from apple movie trailer script (thanks to Nuka1195 and others)
@@ -91,16 +91,18 @@ class DescriptionParser:
 		#desc = SkipTo(star)
 		desc = ZeroOrMore(unicode(Word(printables + alphas8bit))) +SkipTo(star)
 		desc = desc.setResultsName('desc')
-		delimiter = Suppress(Optional(SkipTo(LineEnd())))		
+		delimiter = Suppress(Optional(SkipTo(LineEnd())))
 		
-		grammar = game +platform + region + media + controller + genre \
+		gamegrammar = game +platform + region + media + controller + genre \
 			+ year + dev +publisher +players +line + star +desc +delimiter
 		
-		file = OneOrMore(grammar)
+		filegrammar = OneOrMore(gamegrammar)
 		
-		unicodeFile = codecs.open(descFile, encoding='iso-8859-15')
-		results = file.parseFile(unicodeFile)
-		#print str(results.asXML())
+		fh = open(str(descFile), 'r')
+		fileAsString = fh.read()		
+		fileAsString = fileAsString.decode('iso-8859-15')		
+				
+		results = filegrammar.parseString(fileAsString)		
 		
 		return results
 
@@ -109,5 +111,5 @@ class DescriptionParser:
 
 
 #dp = DescriptionParser()
-#dp.parseDescriptionSearch('E:\\Emulatoren\\data\\Amiga\\xtras V1\\synopsis\\synopsis_example.txt', '', 'ABC Monday Night Football')
+#dp.parseDescriptionSearch('E:\\Emulatoren\\data\\Amiga\\xtras V1\\synopsis\\synopsis.txt', '', 'Dogfight')
 #del dp

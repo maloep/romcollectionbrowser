@@ -49,21 +49,6 @@ INSERT INTO RomCollection VALUES(NULL, 'xtras-Amiga',
 INSERT INTO RomCollection VALUES(NULL, 'xtras-SNES', 
 	(SELECT id From Console Where name = 'Super Nintendo'),
 	'zsnes -m %ROM%', 1, 1, 'DescriptionParser-xtras.xml', 1, 0, 1, '_Disk');	
-	
-
-INSERT INTO FileExtension VALUES(NULL, 'adf',
-	(SELECT id From FileType Where name = 'rom'),
-	(SELECT id From RomCollection Where name = 'xtras-Amiga'));
-INSERT INTO FileExtension VALUES(NULL, 'smc',
-	(SELECT id From FileType Where name = 'rom'),
-	(SELECT id From RomCollection Where name = 'xtras-SNES'));
-INSERT INTO FileExtension VALUES(NULL, 'jpg',
-	(SELECT id From FileType Where name = 'screenshot'), NULL);
-INSERT INTO FileExtension VALUES(NULL, 'gif',
-	(SELECT id From FileType Where name = 'screenshot'), NULL);
-INSERT INTO FileExtension VALUES(NULL, 'png',
-	(SELECT id From FileType Where name = 'screenshot'), NULL);
-
 
 
 INSERT INTO Game VALUES(NULL, 'KickOff 2', 'incredible Soccer game', '', '',
