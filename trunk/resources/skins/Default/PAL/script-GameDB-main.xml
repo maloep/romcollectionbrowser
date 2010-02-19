@@ -386,23 +386,23 @@
 			<posx>350</posx>
 			<posy>340</posy>
 			<width>275</width>
-		    	<height>150</height>
+		    <height>150</height>
 			<wrapmultiline>true</wrapmultiline>		    	
 			<textcolor>DDFFFFFF</textcolor>
 			<!--<visible>false</visible>-->
 		    	<label></label>
 		</control>
 		<control type="button" id="3000"> 
-			<description>Settings</description>
-			<posx>80</posx>
-			<posy>500</posy>
+			<description>Testdata</description>
+			<posx>50</posx>
+			<posy>525</posy>
 			<width>100</width>
 			<height>30</height>
 			<visible>true</visible>
 			<colordiffuse>DDFFFFFF</colordiffuse>
 			<texturefocus>btnFocus.png</texturefocus>
 			<texturenofocus>btn.png</texturenofocus>
-			<label>Settings</label>
+			<label>Testdata</label>
 			<!--font12-->
 			<textcolor>DDFFFFFF</textcolor>
 			<disabledcolor>80FFFFFF</disabledcolor>
@@ -418,8 +418,8 @@
 		</control>
 		<control type="button" id="3100"> 
 			<description>Update DB</description>
-			<posx>200</posx>
-			<posy>500</posy>
+			<posx>175</posx>
+			<posy>525</posy>
 			<width>100</width>
 			<height>30</height>
 			<visible>true</visible>
@@ -442,8 +442,8 @@
 		</control>
 		<control type="button" id="3200"> 
 			<description>Change View</description>
-			<posx>320</posx>
-			<posy>500</posy>
+			<posx>300</posx>
+			<posy>525</posy>
 			<width>100</width>
 			<height>30</height>
 			<visible>true</visible>
