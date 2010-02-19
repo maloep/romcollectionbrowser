@@ -166,6 +166,14 @@ class File(DataBaseObject):
 		
 	def getScreenshotByGameId(self, gameId):
 		file = self.getObjectByQuery((gameId, 'screenshot'))
+		if file == None:
+			return ""		
+		return file[0]
+		
+	def getCoverByGameId(self, gameId):
+		file = self.getObjectByQuery((gameId, 'cover'))
+		if file == None:
+			return ""		
 		return file[0]
 		
 	def getRomsByGameId(self, gameId):

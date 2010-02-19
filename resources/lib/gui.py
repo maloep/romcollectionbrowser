@@ -14,6 +14,8 @@ __language__ = xbmc.Language( os.getcwd() ).getLocalizedString
 # See guilib/Key.h
 ACTION_EXIT_SCRIPT = ( 10, )
 ACTION_CANCEL_DIALOG = ACTION_EXIT_SCRIPT + ( 9, )
+ACTION_MOVEMENT_LEFT = ( 1, )
+ACTION_MOVEMENT_RIGHT = ( 2, )
 ACTION_MOVEMENT_UP = ( 3, )
 ACTION_MOVEMENT_DOWN = ( 4, )
 ACTION_MOVEMENT = ( 1, 2, 3, 4, )
@@ -29,6 +31,8 @@ CONTROL_CONSOLES = 500
 CONTROL_GENRE = 600
 CONTROL_YEAR = 700
 CONTROL_PUBLISHER = 800
+FILTER_CONTROLS = (500, 600, 700, 800,)
+
 CONTROL_GAMES = 1500
 CONTROL_CONSOLE_IMG = 2000
 CONTROL_CONSOLE_DESC = 2100
@@ -76,28 +80,37 @@ class UIGameDB(xbmcgui.WindowXML):
 			self.close()
 		elif(action.getId() in ACTION_MOVEMENT_UP or action.getId() in ACTION_MOVEMENT_DOWN):
 			try:
-				control = self.getControl(self.selectedControlId)			
+				control = self.getControl(self.selectedControlId)
+			except: 
+				return
+			
+			if(self.selectedControlId in FILTER_CONTROLS):
+				label = str(control.getSelectedItem().getLabel())
+				label2 = str(control.getSelectedItem().getLabel2())
+					
+				if (self.selectedControlId == CONTROL_CONSOLES):				
+					self.selectedConsoleId = int(label2)
+					if (self.selectedConsoleId == 0):
+						self.getControl(CONTROL_CONSOLE_IMG).setVisible(0)
+						self.getControl(CONTROL_CONSOLE_DESC).setVisible(0)
+					else:
+						self.showConsoleInfo()
+				elif (self.selectedControlId == CONTROL_GENRE):
+					self.selectedGenreId = int(label2)
+				elif (self.selectedControlId == CONTROL_YEAR):
+					self.selectedYearId = int(label2)
+				elif (self.selectedControlId == CONTROL_PUBLISHER):
+					self.selectedPublisherId = int(label2)
+					
+				self.showGames()
+		elif(action.getId() in ACTION_MOVEMENT_LEFT or action.getId() in ACTION_MOVEMENT_RIGHT):
+			try:
+				control = self.getControl(self.selectedControlId)
 			except: 
 				return
 				
-			label = str(control.getSelectedItem().getLabel())
-			label2 = str(control.getSelectedItem().getLabel2())
-				
-			if (self.selectedControlId == CONTROL_CONSOLES):				
-				self.selectedConsoleId = int(label2)
-				if (self.selectedConsoleId == 0):
-					self.getControl(CONTROL_CONSOLE_IMG).setVisible(0)
-					self.getControl(CONTROL_CONSOLE_DESC).setVisible(0)
-				else:
-					self.showConsoleInfo()
-			elif (self.selectedControlId == CONTROL_GENRE):
-				self.selectedGenreId = int(label2)
-			elif (self.selectedControlId == CONTROL_YEAR):
-				self.selectedYearId = int(label2)
-			elif (self.selectedControlId == CONTROL_PUBLISHER):
-				self.selectedPublisherId = int(label2)
-				
-			self.showGames()
+			if(self.selectedControlId == CONTROL_GAMES):
+				self.showGameInfo()
 
 
 
@@ -107,7 +120,8 @@ class UIGameDB(xbmcgui.WindowXML):
 		Notice: it gives the ID of the control not the control object
 		"""
 		if (controlId == CONTROL_BUTTON_SETTINGS):
-			print "Button Settings"
+			print "Button Testdata"
+			self.gdb.prepareTestDataBase()
 		elif (controlId == CONTROL_BUTTON_UPDATEDB):
 			print "Button UpdateDB"
 			self.updateDB()
@@ -115,6 +129,7 @@ class UIGameDB(xbmcgui.WindowXML):
 			print "Button Change View"
 		elif (controlId != CONTROL_GAMES):
 			self.setFocus(self.getControl(CONTROL_GAMES))
+			self.showGameInfo()
 		else:
 			self.launchEmu()
 
@@ -171,25 +186,35 @@ class UIGameDB(xbmcgui.WindowXML):
 		self.getControl(CONTROL_GAMES).setVisible(1)
 		self.getControl(CONTROL_GAMES).reset()
 		
-		for game in games:
-			#Todo FetchOne
-			#path = Path(self.gdb).getScreenshotPathByRomCollectionId(game[5])
-			#print path
-			scrFile = File(self.gdb).getScreenshotByGameId(game[0])
-			print scrFile
-			#scrPath = os.path.join(path, file)
-			#print scrPath
-			self.getControl(CONTROL_GAMES).addItem(xbmcgui.ListItem(str(game[1]), str(game[0]), scrFile, scrFile))
+		for game in games:			
+			coverFile = File(self.gdb).getCoverByGameId(game[0])			
+			self.getControl(CONTROL_GAMES).addItem(xbmcgui.ListItem(str(game[1]), str(game[0]), coverFile, coverFile))
 		
 		#xbmcgui.unlock()	
 
 	def showConsoleInfo(self):
 		print "show Console Info"
 		consoleRow = Console(self.gdb).getObjectById(self.selectedConsoleId)
-		image = consoleRow[3]
+		image = consoleRow[3]		
 		description = consoleRow[2]
 		self.getControl(CONTROL_CONSOLE_IMG).setVisible(1)
 		self.getControl(CONTROL_CONSOLE_IMG).setImage(image)
+		self.getControl(CONTROL_CONSOLE_DESC).setVisible(1)
+		self.getControl(CONTROL_CONSOLE_DESC).setLabel(description)
+		
+	
+	def showGameInfo(self):
+		print "show Game Info"
+		selectedGame = self.getControl(CONTROL_GAMES).getSelectedItem()
+		gameId = selectedGame.getLabel2()
+		gameRow = Game(self.gdb).getObjectById(gameId)
+		screenshotFile = File(self.gdb).getScreenshotByGameId(gameId)
+		#screenshotFile = 'E:\\Emulatoren\\data\\Amiga\\xtras V1\\screens\\Airborn Ranger.gif'
+		description = gameRow[2]
+		print "Screenshot: " +screenshotFile
+		print "Screenshot exists: " +str(os.path.exists(screenshotFile))		
+		self.getControl(CONTROL_CONSOLE_IMG).setVisible(1)		
+		self.getControl(CONTROL_CONSOLE_IMG).setImage(screenshotFile)
 		self.getControl(CONTROL_CONSOLE_DESC).setVisible(1)
 		self.getControl(CONTROL_CONSOLE_DESC).setLabel(description)
 
