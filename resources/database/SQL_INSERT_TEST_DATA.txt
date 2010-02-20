@@ -13,9 +13,6 @@ INSERT INTO Publisher VALUES(NULL, 'Black Legend Ltd.');
 INSERT INTO Publisher VALUES(NULL, 'Domark Software, Inc.');
 INSERT INTO Publisher VALUES(NULL, 'Ascon GmbH');
 
-INSERT INTO Manufacturer VALUES(NULL, 'Nintendo');
-INSERT INTO Manufacturer VALUES(NULL, 'Commodore');
-
 INSERT INTO Genre VALUES(NULL, 'Action');
 INSERT INTO Genre VALUES(NULL, 'Sports');
 INSERT INTO Genre VALUES(NULL, 'Simulation');
@@ -41,11 +38,9 @@ INSERT INTO Author VALUES(NULL, 'Melanie Smith');
 
 
 INSERT INTO Console VALUES(NULL, 'Super Nintendo', 'The Super Nintendo (SNES) is a 16-bit video game console released in 1990. 32768 (15-bit) colors, 8 channels 16-bit 32 kHz audio channels. 128 kB main RAM, 64 kB Video RAM and 64 kB Audio RAM.',
-	 'E:\Emulatoren\data\consoleImages\zsnes.png',
-	(SELECT id From Manufacturer Where name = 'Nintendo'));
+	 'E:\Emulatoren\data\consoleImages\zsnes.png');
 INSERT INTO Console VALUES(NULL, 'Amiga', 'The Amiga 500, also known as the A500 (or its code name Rock Lobster), was the first low-end Commodore Amiga 16/32-bit multimedia home/personal computer. It was announced at the winter Consumer Electronics Show in January 1987, at the same time as the high-end Amiga 2000, and competed directly against the Atari 520ST.',
-	'E:\Emulatoren\data\consoleImages\uae.png',
-	(SELECT id From Manufacturer Where name = 'Commodore'));
+	'E:\Emulatoren\data\consoleImages\uae.png');
 
 	
 INSERT INTO RomCollection VALUES(NULL, 'xtras-Amiga', 
@@ -237,13 +232,13 @@ INSERT INTO Path VALUES(NULL, 'E:\Emulatoren\data\Amiga\xtras V1\screens\%GAME%.
 INSERT INTO Path VALUES(NULL, 'E:\Emulatoren\data\Amiga\xtras V1\cover\%GAME%.jpg',
 	(SELECT id From FileType Where name = 'cover'),
 	(SELECT id From RomCollection Where name = 'xtras-Amiga'));
-INSERT INTO Path VALUES(NULL, 'E:\Emulatoren\data\Amiga\xtras V1\ingameVideo',
+INSERT INTO Path VALUES(NULL, 'E:\Emulatoren\data\Amiga\xtras V1\ingameVideo\%GAME%.wmv',
 	(SELECT id From FileType Where name = 'ingamevideo'),
 	(SELECT id From RomCollection Where name = 'xtras-Amiga'));
-INSERT INTO Path VALUES(NULL, 'E:\Emulatoren\data\Amiga\xtras V1\manuals',
+INSERT INTO Path VALUES(NULL, 'E:\Emulatoren\data\Amiga\xtras V1\manuals\%GAME%.txt',
 	(SELECT id From FileType Where name = 'manual'),
 	(SELECT id From RomCollection Where name = 'xtras-Amiga'));
-INSERT INTO Path VALUES(NULL, 'E:\Emulatoren\data\Amiga\xtras V1\trailer',
+INSERT INTO Path VALUES(NULL, 'E:\Emulatoren\data\Amiga\xtras V1\trailer\%GAME%.wmv',
 	(SELECT id From FileType Where name = 'trailer'),
 	(SELECT id From RomCollection Where name = 'xtras-Amiga'));
 	

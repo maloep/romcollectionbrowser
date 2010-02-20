@@ -72,10 +72,24 @@ class DataBaseObject:
 		self.gdb = gdb
 		self.tableName = tableName
 	
+	def insert(self, args):		
+		paramsString = ( "?, " * len(args))
+		paramsString = paramsString[0:len(paramsString)-2]
+		insertString = "Insert INTO %(tablename)s VALUES (NULL, %(args)s)" % {'tablename':self.tableName, 'args': paramsString }
+		print insertString
+		self.gdb.cursor.execute(insertString, args)
+		
+		#print("Insert INTO %(tablename)s VALUES (%(args)s)" % {'tablename':self.tableName, 'args': ( "?, " * len(args)) })
+	
 	def getAll(self):
 		self.gdb.cursor.execute("SELECT * FROM '%s'" % self.tableName)
 		allObjects = self.gdb.cursor.fetchall()		
 		return allObjects
+		
+	def getOneByName(self, name):			
+		self.gdb.cursor.execute("SELECT * FROM '%s' WHERE name = ?" % self.tableName, (name,))
+		object = self.gdb.cursor.fetchone()
+		return object
 	
 	
 	def getObjectsByWildcardQuery(self, args):		
@@ -143,7 +157,8 @@ class Genre(DataBaseObject):
 		self.tableName = "Genre"
 
 
-class Year(DataBaseObject):	
+class Year(DataBaseObject):
+	
 	def __init__(self, gdb):		
 		self.gdb = gdb
 		self.tableName = "Year"
@@ -231,7 +246,6 @@ class Path(DataBaseObject):
 		return path
 		
 	def getConfigurationPathsByRomCollectionId(self, romCollectionId):
-		path = self.getObjectsByQuery((romCollectionId, 'configurtion'))
+		path = self.getObjectsByQuery((romCollectionId, 'configuration'))
 		return path
-		
 		

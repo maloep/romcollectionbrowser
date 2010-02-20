@@ -74,7 +74,8 @@ class DescriptionParser:
 		media = media.setResultsName('media')
 		controller = Suppress(Literal('Controller: ')) +SkipTo(NotAny('\r') +Suppress(LineEnd()))
 		controller = controller.setResultsName('controller')
-		genre = Suppress(Literal('Genre: ')) +SkipTo(NotAny('\r') +Suppress(LineEnd()))
+		#TODO Item Delimiter		
+		genre = Suppress(Literal('Genre: ')) +commaSeparatedList #+SkipTo(NotAny('\r') +Suppress(LineEnd()))
 		genre = genre.setResultsName('genre')				
 		year = Suppress(Literal('Release Year: ')) +SkipTo(NotAny('\r') +Suppress(LineEnd()))
 		year = year.setResultsName('year')				
@@ -109,7 +110,8 @@ class DescriptionParser:
 
 
 
-
-#dp = DescriptionParser()
-#dp.parseDescriptionSearch('E:\\Emulatoren\\data\\Amiga\\xtras V1\\synopsis\\synopsis.txt', '', 'Dogfight')
-#del dp
+dp = DescriptionParser()
+results = dp.parseDescriptionSearch('E:\\Emulatoren\\data\\Amiga\\xtras V1\\synopsis\\synopsis.txt', '', 'Dogfight')
+#results = dp.parseDescriptionSearch('E:\\Emulatoren\\data\\Amiga\\xtras V1\\synopsis\\synopsis.txt', '', 'Formula One Grand Prix')
+print results['genre']
+del dp
