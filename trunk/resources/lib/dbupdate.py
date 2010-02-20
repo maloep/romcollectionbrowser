@@ -29,8 +29,8 @@ class DBUpdate:
 				print "descriptionPath: " +str(descriptionPath)
 				ingameScreenshotPaths = Path(self.gdb).getIngameScreenshotPathsByRomCollectionId(romCollectionRow[0])
 				print "screenPathIngame: " +str(ingameScreenshotPaths)
-				screenshotPathsTitle = Path(self.gdb).getTitleScreenshotPathsByRomCollectionId(romCollectionRow[0])
-				print "screenPathTitle: " +str(screenshotPathsTitle)
+				titleScreenshotPaths = Path(self.gdb).getTitleScreenshotPathsByRomCollectionId(romCollectionRow[0])
+				print "screenPathTitle: " +str(titleScreenshotPaths)
 				coverPaths = Path(self.gdb).getCoverPathsByRomCollectionId(romCollectionRow[0])
 				print "coverPath: " +str(coverPaths)
 				cartridgePaths = Path(self.gdb).getCartridgePathsByRomCollectionId(romCollectionRow[0])
@@ -43,7 +43,6 @@ class DBUpdate:
 				print "trailerPath: " +str(trailerPaths)
 				configurationPaths = Path(self.gdb).getConfigurationPathsByRomCollectionId(romCollectionRow[0])
 				print "configurationPath: " +str(configurationPaths)
-				
 				
 				# read ROMs from disk
 				if os.path.isdir(os.path.dirname(romPath)):
@@ -74,41 +73,81 @@ class DBUpdate:
 						
 					lastgamename = gamename
 					
-					#repeat for every path
-					for ingameScreenshotPath in ingameScreenshotPaths:
-						ingameScreenshotFile = ingameScreenshotPath[0].replace("%GAME%", gamename)
-						#TODO Handle WildcardPaths
-						print "screenPath: " +ingameScreenshotFile
-						print "screenPath exists: " +str(os.path.exists(ingameScreenshotFile))
-										
-					descriptionfile = descriptionPath.replace("%GAME%", gamename)
-					print "descriptionPath: " +descriptionfile
-					print "descriptionPath exists: " +str(os.path.exists(descriptionfile))
-										
-					if(os.path.exists(descriptionfile)):
-						dp = DescriptionParser()
-						results = dp.parseDescriptionSearch(descriptionfile, '', gamename)
-						#results = dp.parseDescriptionSearch('E:\\Emulatoren\\data\\Amiga\\xtras V1\\synopsis\\synopsis.txt', '', gamename)
+					self.resolvePath(ingameScreenshotPaths, gamename)
+					self.resolvePath(titleScreenshotPaths, gamename)
+					self.resolvePath(coverPaths, gamename)
+					self.resolvePath(cartridgePaths, gamename)
+					self.resolvePath(manualPaths, gamename)
+					self.resolvePath(ingameVideoPaths, gamename)
+					self.resolvePath(trailerPaths, gamename)
+					self.resolvePath(configurationPaths, gamename)
+															
+					self.parseDescriptionFile(descriptionPath, gamename)
+					
+					
+					# Year
+					# Publisher
+					# Genre
+					# Game
+					# GenreGame
+					# File
 						
-						print "Result game = " +str(results['game'])
-						print "Result desc = " +str(results['description'])
-						print "Result year = " +str(results['year'])
-						print "Result publisher = " +str(results['publisher'])
-						
-						#print results.keys()
-						
-						#for result in results:							
-							#print result.encode('iso-8859-15')
+	
+	def resolvePath(self, paths, gamename):
+		#repeat for every path
+		for path in paths:
+			file = path[0].replace("%GAME%", gamename)
+			#TODO Handle WildcardPaths
+			print "File: " +file
+			print "File exists: " +str(os.path.exists(file))
+			
+	
+	def parseDescriptionFile(self, descriptionPath, gamename):
+		descriptionfile = descriptionPath.replace("%GAME%", gamename)
+		print "descriptionPath: " +descriptionfile
+		print "descriptionPath exists: " +str(os.path.exists(descriptionfile))
 							
-						#TODO delete objects?
-						del dp
+		if(os.path.exists(descriptionfile)):
+			dp = DescriptionParser()
+			results = dp.parseDescriptionSearch(descriptionfile, '', gamename)			
+			
+			print "Result game = " +str(results['game'])
+			print "Result desc = " +str(results['description'])
+			print "Result year = " +str(results['year'])
+			print "Result genre = " +str(results['genre'])
+			print "Result publisher = " +str(results['publisher'])
+			
+			year = results.year
+			yearRow = Year(self.gdb).getOneByName(year[0])
+			print yearRow
+			if(yearRow == None):
+				print "add year: "+str(year)
+				Year(self.gdb).insert(year)
+				self.gdb.commit()
+				
+			genres = results.genre
+			print genres
+			#TODO itemDelimiter?			
+			for genreItem in genres:
+				print genreItem
+				genreRow = Genre(self.gdb).getOneByName(genreItem)
+				if(genreRow == None):
+					Genre(self.gdb).insert((genreItem,))
+					print "add genre: "+str(genreItem)
+					self.gdb.commit()
+					
+				
+				
+			#TODO delete objects?
+			del dp
+		
 
 
 
-#gdb = GameDataBase(os.path.join(os.getcwd(), '..', 'database'))
-#dbupdate = DBUpdate()
-#gdb.connect()
-#dbupdate.updateDB(gdb)
-#gdb.close()
-#del dbupdate
-#del gdb
+gdb = GameDataBase(os.path.join(os.getcwd(), '..', 'database'))
+dbupdate = DBUpdate()
+gdb.connect()
+dbupdate.updateDB(gdb)
+gdb.close()
+del dbupdate
+del gdb

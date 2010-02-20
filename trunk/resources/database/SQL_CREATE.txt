@@ -16,12 +16,6 @@ CREATE TABLE IF NOT EXISTS [Genre]
     [name] TEXT UNIQUE
 );
 
-CREATE TABLE IF NOT EXISTS [Manufacturer] 
-(
-    [id] INTEGER PRIMARY KEY AUTOINCREMENT,
-    [name] NONE NOT NULL UNIQUE
-);
-
 CREATE TABLE IF NOT EXISTS [Publisher] 
 (
     [id] INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -39,11 +33,7 @@ CREATE TABLE IF NOT EXISTS [Console]
     [id] INTEGER PRIMARY KEY AUTOINCREMENT,
     [name] TEXT NOT NULL UNIQUE,
     [description] TEXT,
-    [imageFileName] TEXT,
-    [manufacturerId] INTEGER REFERENCES [Manufacturer]
-    (
-        id
-    )
+    [imageFileName] TEXT
 );
 
 
