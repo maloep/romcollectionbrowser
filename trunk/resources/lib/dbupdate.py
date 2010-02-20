@@ -22,14 +22,28 @@ class DBUpdate:
 			#romCollectionRow[8] = startWithDescFile
 			if(romCollectionRow[8] == 1):
 				pass
-			else:
-				#TODO support for more than one path
+			else:				
 				romPath = Path(self.gdb).getRomPathByRomCollectionId(romCollectionRow[0])
-				print "RomPath: " +str(romPath)
-				screenshotPath = Path(self.gdb).getScreenshotPathByRomCollectionId(romCollectionRow[0])
-				print "screenPath: " +str(screenshotPath)
+				print "RomPath: " +str(romPath)				
 				descriptionPath = Path(self.gdb).getDescriptionPathByRomCollectionId(romCollectionRow[0])
-				print "descriptionPath: " +str(descriptionPath)				
+				print "descriptionPath: " +str(descriptionPath)
+				ingameScreenshotPaths = Path(self.gdb).getIngameScreenshotPathsByRomCollectionId(romCollectionRow[0])
+				print "screenPathIngame: " +str(ingameScreenshotPaths)
+				screenshotPathsTitle = Path(self.gdb).getTitleScreenshotPathsByRomCollectionId(romCollectionRow[0])
+				print "screenPathTitle: " +str(screenshotPathsTitle)
+				coverPaths = Path(self.gdb).getCoverPathsByRomCollectionId(romCollectionRow[0])
+				print "coverPath: " +str(coverPaths)
+				cartridgePaths = Path(self.gdb).getCartridgePathsByRomCollectionId(romCollectionRow[0])
+				print "cartridgePath: " +str(cartridgePaths)
+				manualPaths = Path(self.gdb).getManualPathsByRomCollectionId(romCollectionRow[0])
+				print "manualPath: " +str(manualPaths)
+				ingameVideoPaths = Path(self.gdb).getIngameVideoPathsByRomCollectionId(romCollectionRow[0])
+				print "ingameVideoPath: " +str(ingameVideoPaths)
+				trailerPaths = Path(self.gdb).getTrailerPathsByRomCollectionId(romCollectionRow[0])
+				print "trailerPath: " +str(trailerPaths)
+				configurationPaths = Path(self.gdb).getConfigurationPathsByRomCollectionId(romCollectionRow[0])
+				print "configurationPath: " +str(configurationPaths)
+				
 				
 				# read ROMs from disk
 				if os.path.isdir(os.path.dirname(romPath)):
@@ -39,7 +53,7 @@ class DBUpdate:
 				else:
 					files = []
 					
-				print "files " +str(files)
+				lastgamename = ""
 					
 				for filename in files:
 					subrom = False
@@ -55,12 +69,17 @@ class DBUpdate:
 					print "gameName = " +gamename
 					print "filename = " +filename
 					
-					#TODO Handle subrom
+					if(gamename == lastgamename):
+						continue
+						
+					lastgamename = gamename
 					
 					#repeat for every path
-					screenshotfile = screenshotPath.replace("%GAME%", gamename)
-					print "screenPath: " +screenshotfile
-					print "screenPath exists: " +str(os.path.exists(screenshotfile))
+					for ingameScreenshotPath in ingameScreenshotPaths:
+						ingameScreenshotFile = ingameScreenshotPath[0].replace("%GAME%", gamename)
+						#TODO Handle WildcardPaths
+						print "screenPath: " +ingameScreenshotFile
+						print "screenPath exists: " +str(os.path.exists(ingameScreenshotFile))
 										
 					descriptionfile = descriptionPath.replace("%GAME%", gamename)
 					print "descriptionPath: " +descriptionfile
@@ -71,14 +90,18 @@ class DBUpdate:
 						results = dp.parseDescriptionSearch(descriptionfile, '', gamename)
 						#results = dp.parseDescriptionSearch('E:\\Emulatoren\\data\\Amiga\\xtras V1\\synopsis\\synopsis.txt', '', gamename)
 						
-						print "results returned"
+						print "Result game = " +str(results['game'])
+						print "Result desc = " +str(results['description'])
+						print "Result year = " +str(results['year'])
+						print "Result publisher = " +str(results['publisher'])
 						
-						for result in results:							
-							print result.encode('iso-8859-15')
+						#print results.keys()
+						
+						#for result in results:							
+							#print result.encode('iso-8859-15')
 							
 						#TODO delete objects?
 						del dp
-					
 
 
 

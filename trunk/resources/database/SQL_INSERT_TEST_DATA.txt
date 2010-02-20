@@ -23,10 +23,12 @@ INSERT INTO Genre VALUES(NULL, 'Strategy');
 INSERT INTO Genre VALUES(NULL, 'Racing');
 
 INSERT INTO FileType VALUES(NULL, 'rom');
-INSERT INTO FileType VALUES(NULL, 'screenshot');
+INSERT INTO FileType VALUES(NULL, 'screenshottitle');
+INSERT INTO FileType VALUES(NULL, 'screenshotingame');
 INSERT INTO FileType VALUES(NULL, 'cover');
+INSERT INTO FileType VALUES(NULL, 'cartridge');
 INSERT INTO FileType VALUES(NULL, 'manual');
-INSERT INTO FileType VALUES(NULL, 'ingameVideo');
+INSERT INTO FileType VALUES(NULL, 'ingamevideo');
 INSERT INTO FileType VALUES(NULL, 'trailer');
 INSERT INTO FileType VALUES(NULL, 'description');
 INSERT INTO FileType VALUES(NULL, 'configuration');
@@ -54,7 +56,7 @@ INSERT INTO RomCollection VALUES(NULL, 'xtras-SNES',
 	'zsnes -m %ROM%', 1, 1, 'DescriptionParser-xtras.xml', 1, 0, 1, '_Disk');	
 
 
-INSERT INTO Game VALUES(NULL, 'Airborn Ranger', 'In this action/simulation game by Microprose the player takes the role of an U.S. Army airborne ranger. These Airborne rangers are dropped behind enemy lines by parachute to perform all kinds of dangerous missions. Gameplay consists of 3 phases:
+INSERT INTO Game VALUES(NULL, 'Airborne Ranger', 'In this action/simulation game by Microprose the player takes the role of an U.S. Army Airborne ranger. These Airborne rangers are dropped behind enemy lines by parachute to perform all kinds of dangerous missions. Gameplay consists of 3 phases:
 Reading the mission briefing and outfitting 3 supply pods with machine gun ammo, time bombs, first-aid kits, grenades &amp; LAW rockets depending on this briefing.
 Flying over the mission map in a V-22 Osprey plane to drop your 3 supply pods and parachuting out of the plane yourself.
 Performing the actual missions and reaching the pick-up point before time runs out. There are 12 different missions which include capturing an enemy officer, blowing up an ammunition depot, photographing an experimental aircraft and liberating P.O.W.s
@@ -152,31 +154,31 @@ INSERT INTO File VALUES(NULL, 'Ports Of Call.adf',
 	(SELECT id From Game Where name = 'Ports Of Call'));
 	
 	
-INSERT INTO File VALUES(NULL, 'E:\Emulatoren\data\Amiga\xtras V1\screens\Airborn Ranger.jpg',
-	(SELECT id From FileType Where name = 'screenshot'),
-	(SELECT id From Game Where name = 'Airborn Ranger'));
+INSERT INTO File VALUES(NULL, 'E:\Emulatoren\data\Amiga\xtras V1\screens\Airborne Ranger.jpg',
+	(SELECT id From FileType Where name = 'screenshotingame'),
+	(SELECT id From Game Where name = 'Airborne Ranger'));
 INSERT INTO File VALUES(NULL, 'E:\Emulatoren\data\Amiga\xtras V1\screens\Dogfight.png',
-	(SELECT id From FileType Where name = 'screenshot'),
+	(SELECT id From FileType Where name = 'screenshotingame'),
 	(SELECT id From Game Where name = 'Dogfight'));
 INSERT INTO File VALUES(NULL, 'E:\Emulatoren\data\Amiga\xtras V1\screens\Eliminator.jpg',
-	(SELECT id From FileType Where name = 'screenshot'),
+	(SELECT id From FileType Where name = 'screenshotingame'),
 	(SELECT id From Game Where name = 'Eliminator'));
 INSERT INTO File VALUES(NULL, 'E:\Emulatoren\data\Amiga\xtras V1\screens\Football Glory.jpg',
-	(SELECT id From FileType Where name = 'screenshot'),
+	(SELECT id From FileType Where name = 'screenshotingame'),
 	(SELECT id From Game Where name = 'Football Glory'));
 INSERT INTO File VALUES(NULL, 'E:\Emulatoren\data\Amiga\xtras V1\screens\Formula One Grand Prix.jpg',
-	(SELECT id From FileType Where name = 'screenshot'),
+	(SELECT id From FileType Where name = 'screenshotingame'),
 	(SELECT id From Game Where name = 'Formula One Grand Prix'));
 INSERT INTO File VALUES(NULL, 'E:\Emulatoren\data\Amiga\xtras V1\screens\Hanse - Die Expedition.jpg',
-	(SELECT id From FileType Where name = 'screenshot'),
+	(SELECT id From FileType Where name = 'screenshotingame'),
 	(SELECT id From Game Where name = 'Hanse - Die Expedition.gif'));
 INSERT INTO File VALUES(NULL, 'E:\Emulatoren\data\Amiga\xtras V1\screens\Ports Of Call.jpg',
-	(SELECT id From FileType Where name = 'screenshot'),
+	(SELECT id From FileType Where name = 'screenshotingame'),
 	(SELECT id From Game Where name = 'Ports Of Call'));
 	
-INSERT INTO File VALUES(NULL, 'E:\Emulatoren\data\Amiga\xtras V1\cover\Airborn Ranger.jpg',
+INSERT INTO File VALUES(NULL, 'E:\Emulatoren\data\Amiga\xtras V1\cover\Airborne Ranger.jpg',
 	(SELECT id From FileType Where name = 'cover'),
-	(SELECT id From Game Where name = 'Airborn Ranger'));
+	(SELECT id From Game Where name = 'Airborne Ranger'));
 INSERT INTO File VALUES(NULL, 'E:\Emulatoren\data\Amiga\xtras V1\cover\Dogfight.png',
 	(SELECT id From FileType Where name = 'cover'),
 	(SELECT id From Game Where name = 'Dogfight'));
@@ -201,7 +203,7 @@ INSERT INTO File VALUES(NULL, 'Super Mario Kart.smc',
 	(SELECT id From FileType Where name = 'rom'),
 	(SELECT id From Game Where name = 'Super Mario Kart'));
 INSERT INTO File VALUES(NULL, 'E:\Emulatoren\data\SNES\xtras V1\screens\Super Mario Kart.png',
-	(SELECT id From FileType Where name = 'screenshot'),
+	(SELECT id From FileType Where name = 'screenshotingame'),
 	(SELECT id From Game Where name = 'Super Mario Kart'));
 INSERT INTO File VALUES(NULL, 'E:\Emulatoren\data\SNES\xtras V1\screens\Super Mario Kart.png',
 	(SELECT id From FileType Where name = 'cover'),
@@ -210,7 +212,7 @@ INSERT INTO File VALUES(NULL, 'Legends of Zelda.smc',
 	(SELECT id From FileType Where name = 'rom'),
 	(SELECT id From Game Where name = 'Legends of Zelda'));
 INSERT INTO File VALUES(NULL, 'E:\Emulatoren\data\SNES\xtras V1\screens\Legend of Zelda - A Link to the Past.png',
-	(SELECT id From FileType Where name = 'screenshot'),
+	(SELECT id From FileType Where name = 'screenshotingame'),
 	(SELECT id From Game Where name = 'Legends of Zelda'));
 INSERT INTO File VALUES(NULL, 'E:\Emulatoren\data\SNES\xtras V1\screens\Legend of Zelda - A Link to the Past.png',
 	(SELECT id From FileType Where name = 'cover'),
@@ -224,19 +226,19 @@ INSERT INTO Path VALUES(NULL, 'E:\Emulatoren\data\Amiga\xtras V1\synopsis\synops
 	(SELECT id From FileType Where name = 'description'),
 	(SELECT id From RomCollection Where name = 'xtras-Amiga'));
 INSERT INTO Path VALUES(NULL, 'E:\Emulatoren\data\Amiga\xtras V1\screens\%GAME%.jpg',
-	(SELECT id From FileType Where name = 'screenshot'),
+	(SELECT id From FileType Where name = 'screenshotingame'),
 	(SELECT id From RomCollection Where name = 'xtras-Amiga'));
 INSERT INTO Path VALUES(NULL, 'E:\Emulatoren\data\Amiga\xtras V1\screens\%GAME%.gif',
-	(SELECT id From FileType Where name = 'screenshot'),
+	(SELECT id From FileType Where name = 'screenshotingame'),
 	(SELECT id From RomCollection Where name = 'xtras-Amiga'));
 INSERT INTO Path VALUES(NULL, 'E:\Emulatoren\data\Amiga\xtras V1\screens\%GAME%.png',
-	(SELECT id From FileType Where name = 'screenshot'),
+	(SELECT id From FileType Where name = 'screenshotingame'),
 	(SELECT id From RomCollection Where name = 'xtras-Amiga'));
 INSERT INTO Path VALUES(NULL, 'E:\Emulatoren\data\Amiga\xtras V1\cover\%GAME%.jpg',
 	(SELECT id From FileType Where name = 'cover'),
 	(SELECT id From RomCollection Where name = 'xtras-Amiga'));
 INSERT INTO Path VALUES(NULL, 'E:\Emulatoren\data\Amiga\xtras V1\ingameVideo',
-	(SELECT id From FileType Where name = 'ingameVideo'),
+	(SELECT id From FileType Where name = 'ingamevideo'),
 	(SELECT id From RomCollection Where name = 'xtras-Amiga'));
 INSERT INTO Path VALUES(NULL, 'E:\Emulatoren\data\Amiga\xtras V1\manuals',
 	(SELECT id From FileType Where name = 'manual'),
@@ -250,7 +252,7 @@ INSERT INTO Path VALUES(NULL, '/home/lom/rom/SNES/',
 	(SELECT id From FileType Where name = 'rom'),
 	(SELECT id From RomCollection Where name = 'xtras-SNES'));
 INSERT INTO Path VALUES(NULL, '/home/lom/rom/Database/ZSNES/',
-	(SELECT id From FileType Where name = 'screenshot'),
+	(SELECT id From FileType Where name = 'screenshotingame'),
 	(SELECT id From RomCollection Where name = 'xtras-SNES'));
 
 

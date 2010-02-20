@@ -60,14 +60,10 @@ class UIGameDB(xbmcgui.WindowXML):
 	def onInit(self):
 		self.gdb.connect()
 		
-		#prepare FilterControls
-		print "Invoke ShowConsoles"
+		#prepare FilterControls		
 		self.showConsoles()		
-		print "Invoke ShowConsoles"
 		self.showGenre()		
-		print "Invoke ShowYear"
 		self.showYear()
-		print "Invoke ShowPublisher"
 		self.showPublisher()
 		
 		self.setFocus(self.getControl(CONTROL_CONSOLES))
@@ -134,15 +130,12 @@ class UIGameDB(xbmcgui.WindowXML):
 			self.launchEmu()
 
 
-	def onFocus(self, controlId):
-		print "onFocus: " +str(controlId)
+	def onFocus(self, controlId):		
 		self.selectedControlId = controlId		
 	
 	
 	def showFilterControl(self, dbo, controlId):
-		#xbmcgui.lock()				
-		print "Begin showFilterControl"
-		
+		#xbmcgui.lock()
 		rows = dbo.getAll()
 		
 		self.getControl(controlId).setVisible(1)
@@ -208,11 +201,10 @@ class UIGameDB(xbmcgui.WindowXML):
 		selectedGame = self.getControl(CONTROL_GAMES).getSelectedItem()
 		gameId = selectedGame.getLabel2()
 		gameRow = Game(self.gdb).getObjectById(gameId)
-		screenshotFile = File(self.gdb).getScreenshotByGameId(gameId)
-		#screenshotFile = 'E:\\Emulatoren\\data\\Amiga\\xtras V1\\screens\\Airborn Ranger.gif'
+		screenshotFile = File(self.gdb).getIngameScreenshotByGameId(gameId)		
 		description = gameRow[2]
-		print "Screenshot: " +screenshotFile
-		print "Screenshot exists: " +str(os.path.exists(screenshotFile))		
+		#print "Screenshot: " +screenshotFile
+		#print "Screenshot exists: " +str(os.path.exists(screenshotFile))		
 		self.getControl(CONTROL_CONSOLE_IMG).setVisible(1)		
 		self.getControl(CONTROL_CONSOLE_IMG).setImage(screenshotFile)
 		self.getControl(CONTROL_CONSOLE_DESC).setVisible(1)

@@ -39,7 +39,7 @@ class DescriptionParser:
 		year = Suppress(Literal('Release Year: ')) +SkipTo(NotAny('\r') +Suppress(LineEnd()))
 		year = year.setResultsName('year')				
 		dev = Suppress(Literal('Developer: ')) +SkipTo(NotAny('\r') +Suppress(LineEnd()))
-		dev = dev.setResultsName('dev')				
+		dev = dev.setResultsName('developer')				
 		publisher = Suppress(Literal('Publisher: ')) +SkipTo(NotAny('\r') +Suppress(LineEnd()))
 		publisher = publisher.setResultsName('publisher')
 		players = Suppress(Literal('Players: ')) +SkipTo(NotAny('\r') +Suppress(LineEnd()))
@@ -47,7 +47,7 @@ class DescriptionParser:
 		line = Suppress(Combine(OneOrMore(Literal('_'))))
 		line = line.setResultsName('line')
 		desc = SkipTo(star)
-		desc = desc.setResultsName('desc')
+		desc = desc.setResultsName('description')
 		delimiter = Suppress(Optional(SkipTo(LineEnd())))
 		
 		grammar = star + crc +game +platform + region + media + controller + genre \
@@ -79,7 +79,7 @@ class DescriptionParser:
 		year = Suppress(Literal('Release Year: ')) +SkipTo(NotAny('\r') +Suppress(LineEnd()))
 		year = year.setResultsName('year')				
 		dev = Suppress(Literal('Developer: ')) +SkipTo(NotAny('\r') +Suppress(LineEnd()))
-		dev = dev.setResultsName('dev')				
+		dev = dev.setResultsName('developer')				
 		publisher = Suppress(Literal('Publisher: ')) +SkipTo(NotAny('\r') +Suppress(LineEnd()))
 		publisher = publisher.setResultsName('publisher')
 		players = Suppress(Literal('Players: ')) +SkipTo(NotAny('\r') +Suppress(LineEnd()))
@@ -90,7 +90,7 @@ class DescriptionParser:
 		star = star.setResultsName('star')
 		#desc = SkipTo(star)
 		desc = ZeroOrMore(unicode(Word(printables + alphas8bit))) +SkipTo(star)
-		desc = desc.setResultsName('desc')
+		desc = desc.setResultsName('description')
 		delimiter = Suppress(Optional(SkipTo(LineEnd())))
 		
 		gamegrammar = game +platform + region + media + controller + genre \
