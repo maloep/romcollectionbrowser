@@ -164,8 +164,8 @@ class File(DataBaseObject):
 		self.gdb = gdb
 		self.tableName = "File"
 		
-	def getScreenshotByGameId(self, gameId):
-		file = self.getObjectByQuery((gameId, 'screenshot'))
+	def getIngameScreenshotByGameId(self, gameId):
+		file = self.getObjectByQuery((gameId, 'screenshotingame'))
 		if file == None:
 			return ""		
 		return file[0]
@@ -190,12 +190,6 @@ class Path(DataBaseObject):
 		self.gdb = gdb
 		self.tableName = "Path"
 		
-	def getScreenshotPathByRomCollectionId(self, romCollectionId):
-		path = self.getObjectByQuery((romCollectionId, 'screenshot'))
-		if path == None:
-			return ""			
-		return path[0]
-		
 	def getRomPathByRomCollectionId(self, romCollectionId):
 		path = self.getObjectByQuery((romCollectionId, 'rom'))
 		if path == None:
@@ -207,4 +201,37 @@ class Path(DataBaseObject):
 		if path == None:
 			return ""	
 		return path[0]
+		
+	def getIngameScreenshotPathsByRomCollectionId(self, romCollectionId):
+		path = self.getObjectsByQuery((romCollectionId, 'screenshotingame'))
+		return path
+		
+	def getTitleScreenshotPathsByRomCollectionId(self, romCollectionId):
+		path = self.getObjectsByQuery((romCollectionId, 'screenshottitle'))
+		return path
+		
+	def getCoverPathsByRomCollectionId(self, romCollectionId):
+		path = self.getObjectsByQuery((romCollectionId, 'cover'))
+		return path
+		
+	def getCartridgePathsByRomCollectionId(self, romCollectionId):
+		path = self.getObjectsByQuery((romCollectionId, 'cartridge'))
+		return path
+		
+	def getManualPathsByRomCollectionId(self, romCollectionId):
+		path = self.getObjectsByQuery((romCollectionId, 'manual'))
+		return path
+		
+	def getIngameVideoPathsByRomCollectionId(self, romCollectionId):
+		path = self.getObjectsByQuery((romCollectionId, 'ingamevideo'))
+		return path
+		
+	def getTrailerPathsByRomCollectionId(self, romCollectionId):
+		path = self.getObjectsByQuery((romCollectionId, 'trailer'))
+		return path
+		
+	def getConfigurationPathsByRomCollectionId(self, romCollectionId):
+		path = self.getObjectsByQuery((romCollectionId, 'configurtion'))
+		return path
+		
 		
