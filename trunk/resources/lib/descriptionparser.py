@@ -75,7 +75,7 @@ class DescriptionParser:
 		controller = Suppress(Literal('Controller: ')) +SkipTo(NotAny('\r') +Suppress(LineEnd()))
 		controller = controller.setResultsName('controller')
 		#TODO Item Delimiter		
-		genre = Suppress(Literal('Genre: ')) +commaSeparatedList #+SkipTo(NotAny('\r') +Suppress(LineEnd()))
+		genre = Suppress(Literal('Genre: ')) +commaSeparatedList
 		genre = genre.setResultsName('genre')				
 		year = Suppress(Literal('Release Year: ')) +SkipTo(NotAny('\r') +Suppress(LineEnd()))
 		year = year.setResultsName('year')				
