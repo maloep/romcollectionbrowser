@@ -58,6 +58,8 @@ class DBUpdate:
 						gamename = os.path.splitext(gamename)[0]					
 					
 					if(gamename == lastgamename):
+						gameRow = Game(self.gdb).getOneByName(gamename)
+						self.insertFile(str(filename), gameRow[0], "rom")
 						continue
 						
 					lastgamename = gamename
@@ -73,7 +75,7 @@ class DBUpdate:
 															
 					gamedescription = self.parseDescriptionFile(descriptionPath, gamename)
 					
-					self.insertData(gamedescription, romCollectionRow[0], ingameScreenFiles, titleScreenFiles, coverFiles, cartridgeFiles,
+					self.insertData(gamedescription, romCollectionRow[0], filename, ingameScreenFiles, titleScreenFiles, coverFiles, cartridgeFiles,
 						manualFiles, ingameVideoFiles, trailerFiles, configurationFiles)
 						
 	
@@ -99,7 +101,7 @@ class DBUpdate:
 			return results
 			
 			
-	def insertData(self, gamedescription, romCollectionId, ingameScreenFiles, titleScreenFiles, coverFiles, cartridgeFiles,
+	def insertData(self, gamedescription, romCollectionId, romFile, ingameScreenFiles, titleScreenFiles, coverFiles, cartridgeFiles,
 						manualFiles, ingameVideoFiles, trailerFiles, configurationFiles):
 		
 		print "Result game = " +str(gamedescription.game)
@@ -107,6 +109,7 @@ class DBUpdate:
 		print "Result year = " +str(gamedescription.year)
 		print "Result genre = " +str(gamedescription.genre)
 		print "Result publisher = " +str(gamedescription.publisher)
+		print "rom File = " +str(romFile)
 		print "Ingame Screenshots = " +str(ingameScreenFiles)
 		print "Title Screenshots = " +str(titleScreenFiles)
 		print "Cover = " +str(coverFiles)
@@ -116,14 +119,7 @@ class DBUpdate:
 		print "Trailer = " +str(trailerFiles)
 		print "ConfigurationFiles = " +str(configurationFiles)
 		
-		# Year
-		# Publisher
-		# Genre
-		# Game
-		# GenreGame
-		# File
 		
-		#TODO Transaction (per game or complete update?)
 		year = gamedescription.year
 		yearRow = Year(self.gdb).getOneByName(year[0])
 		print yearRow
@@ -133,16 +129,17 @@ class DBUpdate:
 		else:
 			yearId = yearRow[0]
 			
-		genres = gamedescription.genre			
+		genres = gamedescription.genre
+		genreIds = []
 		
 		for genreItem in genres:				
 			genreRow = Genre(self.gdb).getOneByName(genreItem)
 			if(genreRow == None):
 				Genre(self.gdb).insert((genreItem,))
 				#TODO GenreGame
-				genreId = self.gdb.cursor.lastrowid
+				genreIds.append(self.gdb.cursor.lastrowid)
 			else:
-				genreId = genreRow[0]
+				genreIds.append(genreRow[0])
 				
 		publisher = gamedescription.publisher
 		publisherRow = Publisher(self.gdb).getOneByName(publisher[0])
@@ -157,22 +154,52 @@ class DBUpdate:
 		game = gamedescription.game
 		gameRow = Game(self.gdb).getOneByName(game[0])
 		print gameRow
-		if(gameRow == None):
-			print game
-			print gamedescription.description
-			print romCollectionId
-			print "YearId: " +str(yearId)
-			print "GenreId: " +str(genreId)
-			print "PublisherId: " +str(publisherId)
+		if(gameRow == None):			
 			Game(self.gdb).insert((game[0], gamedescription.description[0], '', '', romCollectionId, publisherId, yearId))
-			self.gdb.commit()
+			gameId = self.gdb.cursor.lastrowid
+		else:
+			gameId = gameRow[0]
+		
+		for genreId in genreIds:
+			genreGame = GenreGame(self.gdb).getObjectByQuery((genreId, gameId))
+			if(genreGame == None):
+				GenreGame(self.gdb).insert((genreId, gameId))
+		
+		self.insertFile(romFile, gameId, "rom")
+		self.insertFiles(ingameScreenFiles, gameId, "screenshotingame")
+		self.insertFiles(titleScreenFiles, gameId, "screenshottitle")
+		self.insertFiles(coverFiles, gameId, "cover")
+		self.insertFiles(cartridgeFiles, gameId, "cartridge")
+		self.insertFiles(manualFiles, gameId, "manual")
+		self.insertFiles(ingameVideoFiles, gameId, "ingamevideo")
+		self.insertFiles(trailerFiles, gameId, "trailer")
+		self.insertFiles(configurationFiles, gameId, "configuration")
+		
+			
+		
+		#TODO Transaction (per game or complete update?)
+		self.gdb.commit()
+		
+	
+	
+	def insertFiles(self, fileNames, gameId, fileType):
+		for fileName in fileNames:
+			self.insertFile(fileName, gameId, fileType)
+			
+		
+	def insertFile(self, fileName, gameId, fileType):
+		fileRow = File(self.gdb).getFileByNameAndType(fileName, fileType)
+		fileTypeRow = FileType(self.gdb).getOneByName(fileType)
+		if(fileRow == None):
+			File(self.gdb).insert((str(fileName), fileTypeRow[0], gameId))
+			
 
 
 
-gdb = GameDataBase(os.path.join(os.getcwd(), '..', 'database'))
-dbupdate = DBUpdate()
-gdb.connect()
-dbupdate.updateDB(gdb)
-gdb.close()
-del dbupdate
-del gdb
+#gdb = GameDataBase(os.path.join(os.getcwd(), '..', 'database'))
+#dbupdate = DBUpdate()
+#gdb.connect()
+#dbupdate.updateDB(gdb)
+#gdb.close()
+#del dbupdate
+#del gdb
