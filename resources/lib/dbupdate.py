@@ -23,7 +23,7 @@ class DBUpdate:
 			if(romCollectionRow[8] == 1):
 				pass
 			else:				
-				romPath = Path(self.gdb).getRomPathByRomCollectionId(romCollectionRow[0])				
+				romPath = Path(self.gdb).getRomPathByRomCollectionId(romCollectionRow[0])
 				descriptionPath = Path(self.gdb).getDescriptionPathByRomCollectionId(romCollectionRow[0])				
 				ingameScreenshotPaths = Path(self.gdb).getIngameScreenshotPathsByRomCollectionId(romCollectionRow[0])				
 				titleScreenshotPaths = Path(self.gdb).getTitleScreenshotPathsByRomCollectionId(romCollectionRow[0])				
@@ -33,8 +33,7 @@ class DBUpdate:
 				ingameVideoPaths = Path(self.gdb).getIngameVideoPathsByRomCollectionId(romCollectionRow[0])				
 				trailerPaths = Path(self.gdb).getTrailerPathsByRomCollectionId(romCollectionRow[0])				
 				configurationPaths = Path(self.gdb).getConfigurationPathsByRomCollectionId(romCollectionRow[0])
-				
-				
+								
 				# read ROMs from disk
 				if os.path.isdir(os.path.dirname(romPath)):
 					#glob is same as "os.listdir(romPath)" but it can handle wildcards like *.adf
@@ -80,13 +79,16 @@ class DBUpdate:
 						
 	
 	def resolvePath(self, paths, gamename):		
-		files = []		
+		resolvedFiles = []
+				
 		for path in paths:
-			file = path[0].replace("%GAME%", gamename)
-			#TODO Handle WildCard paths
-			if(os.path.exists(file)):
-				files.append(file)
-		return files
+			pathname = path[0].replace("%GAME%", gamename)
+			files = glob.glob(pathname)
+			for file in files:
+				if(os.path.exists(file)):
+					resolvedFiles.append(file)		
+		return resolvedFiles
+		
 	
 	def parseDescriptionFile(self, descriptionPath, gamename):
 		descriptionfile = descriptionPath.replace("%GAME%", gamename)		
@@ -174,8 +176,6 @@ class DBUpdate:
 		self.insertFiles(ingameVideoFiles, gameId, "ingamevideo")
 		self.insertFiles(trailerFiles, gameId, "trailer")
 		self.insertFiles(configurationFiles, gameId, "configuration")
-		
-			
 		
 		#TODO Transaction (per game or complete update?)
 		self.gdb.commit()
