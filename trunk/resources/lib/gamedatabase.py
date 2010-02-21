@@ -146,15 +146,19 @@ class RomCollection(DataBaseObject):
 		self.tableName = "RomCollection"
 
 
-class Genre(DataBaseObject):	
-	#GetByFilter = "SELECT * FROM Genre WHERE Id IN \
-	#				(SELECT Genreid From GenreGame WHERE GameId IN \
-	#					(Select Id From Game Where EmulatorId IN \
-	#						(Select EmulatorId From EmulatorConsole Where ConsoleId = 1)))"
-	
+class Genre(DataBaseObject):
 	def __init__(self, gdb):		
 		self.gdb = gdb
 		self.tableName = "Genre"
+
+
+class GenreGame(DataBaseObject):	
+	filterQuery = "Select * from GenreGame \
+					where genreId = ? AND gameId = ?"
+					
+	def __init__(self, gdb):		
+		self.gdb = gdb
+		self.tableName = "GenreGame"
 
 
 class Year(DataBaseObject):
@@ -170,6 +174,12 @@ class Publisher(DataBaseObject):
 		self.tableName = "Publisher"
 
 
+class FileType(DataBaseObject):	
+	def __init__(self, gdb):		
+		self.gdb = gdb
+		self.tableName = "FileType"
+
+
 class File(DataBaseObject):	
 	filterQuery = "Select name from File \
 					where gameId = ? AND \
@@ -178,6 +188,10 @@ class File(DataBaseObject):
 	def __init__(self, gdb):		
 		self.gdb = gdb
 		self.tableName = "File"
+		
+	def getFileByNameAndType(self, name, type):
+		file = self.getObjectByQuery((name, type))
+		return file
 		
 	def getIngameScreenshotByGameId(self, gameId):
 		file = self.getObjectByQuery((gameId, 'screenshotingame'))
