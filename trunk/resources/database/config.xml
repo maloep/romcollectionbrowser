@@ -33,7 +33,7 @@
 			<ingamescreenshotPath>E:\Emulatoren\data\Amiga\Collection V1\screens\%GAME%.png</ingamescreenshotPath>
 			<titleScreenshotPath></titleScreenshotPath>
 			<cartridgePath></cartridgePath>
-			<configFilesPath></configFilesPath>			
+			<configFilePath></configFilePath>
 			<ingamevidPath>E:\Emulatoren\data\Amiga\Collection V1\ingameVideo\%GAME%.wmv</ingamevidPath>
 			<trailerPath>E:\Emulatoren\data\Amiga\Collection V1\trailer\%GAME%.wmv</trailerPath>
 			<manualPath>E:\Emulatoren\data\Amiga\Collection V1\manuals\%GAME%.txt</manualPath>			
