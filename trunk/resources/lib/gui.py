@@ -197,7 +197,7 @@ class UIGameDB(xbmcgui.WindowXML):
 		self.getControl(CONTROL_CONSOLE_IMG).setVisible(1)
 		self.getControl(CONTROL_CONSOLE_IMG).setImage(image)
 		self.getControl(CONTROL_CONSOLE_DESC).setVisible(1)
-		self.getControl(CONTROL_CONSOLE_DESC).setLabel(description)
+		self.getControl(CONTROL_CONSOLE_DESC).setText(description)
 		
 	
 	def showGameInfo(self):
@@ -212,7 +212,7 @@ class UIGameDB(xbmcgui.WindowXML):
 		self.getControl(CONTROL_CONSOLE_IMG).setVisible(1)		
 		self.getControl(CONTROL_CONSOLE_IMG).setImage(screenshotFile)
 		self.getControl(CONTROL_CONSOLE_DESC).setVisible(1)
-		self.getControl(CONTROL_CONSOLE_DESC).setLabel(description)
+		self.getControl(CONTROL_CONSOLE_DESC).setText(description)
 
 
 	def launchEmu(self):

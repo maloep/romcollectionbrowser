@@ -381,16 +381,35 @@
 			<texture></texture>
 		</control>
 		<!-- Console -->
-		<control type="label" id="2100">
+		<control type="textbox" id="2100">
 			<description>Consoles</description>
 			<posx>350</posx>
 			<posy>340</posy>
 			<width>275</width>
-		    <height>150</height>
-			<wrapmultiline>true</wrapmultiline>		    	
-			<textcolor>DDFFFFFF</textcolor>
-			<!--<visible>false</visible>-->
-		    	<label></label>
+		    <height>150</height>			
+			<pagecontrol>2200</pagecontrol>			
+			<textcolor>DDFFFFFF</textcolor>			
+			<autoscroll delay="3000" time="1000" repeat="10000">!Control.HasFocus(2200)</autoscroll>
+		</control>
+		<control type="scrollbar" id="2200">
+			<description>ConsoleDesc Scrollbar</description>
+			<posx>630</posx>
+			<posy>345</posy>
+			<width>5</width>
+			<height>150</height>
+			<visible>Control.IsVisible(2100)</visible>
+			<texturesliderbackground>scrollbar-bg.png</texturesliderbackground>
+			<texturesliderbar>scrollbar-bar.png</texturesliderbar>
+			<texturesliderbarfocus>scrollbar-barFocus.png</texturesliderbarfocus>
+			<textureslidernib>scrollbar-nib.png</textureslidernib>
+			<textureslidernibfocus>scrollbar-nibFocus.png</textureslidernibfocus>
+			<pulseonselect></pulseonselect>
+			<orientation>vertical</orientation>
+			<showonepage>false</showonepage>
+			<onup>2200</onup>
+			<ondown>2200</ondown>
+			<onleft>3200</onleft>
+			<onright>800</onright>
 		</control>
 		<control type="button" id="3000"> 
 			<description>Import Settings</description>
@@ -462,7 +481,7 @@
 			<onup>1500</onup>
 			<ondown>500</ondown>
 			<onleft>3100</onleft>
-			<onright>800</onright>
+			<onright>2200</onright>
 		</control>
 	</controls>
 </window>
