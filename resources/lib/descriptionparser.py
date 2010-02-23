@@ -110,8 +110,8 @@ class DescriptionParser:
 
 
 
-dp = DescriptionParser()
-results = dp.parseDescriptionSearch('E:\\Emulatoren\\data\\Amiga\\xtras V1\\synopsis\\synopsis.txt', '', 'Dogfight')
+#dp = DescriptionParser()
+#results = dp.parseDescriptionSearch('E:\\Emulatoren\\data\\Amiga\\xtras V1\\synopsis\\synopsis.txt', '', 'Dogfight')
 #results = dp.parseDescriptionSearch('E:\\Emulatoren\\data\\Amiga\\xtras V1\\synopsis\\synopsis.txt', '', 'Formula One Grand Prix')
-print results['genre']
-del dp
+#print results['genre']
+#del dp

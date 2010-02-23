@@ -4,10 +4,11 @@ from pysqlite2 import dbapi2 as sqlite
 from gamedatabase import *
 from xml.dom.minidom import Document, parseString
 
-class ImportSettings:
+class SettingsImporter:
 	
-	def importSettings(self, configFile, gdb):
+	def importSettings(self, gdb, databaseDir):
 		
+		configFile = os.path.join(databaseDir, 'config.xml')
 		fh=open(configFile,"r")
 		xmlDoc = fh.read()
 		fh.close()
@@ -57,6 +58,17 @@ class ImportSettings:
 						
 			romCollectionId = self.insertRomCollection(gdb, consoleName, romCollName, emuCmd, emuSolo, escapeCmd, relyOnNaming, startWithDescFile, 
 				descFilePerGame, descParserFile, diskPrefix)
+				
+			self.insertPaths(gdb, romCollectionId, romPaths, 'rom')
+			self.insertPaths(gdb, romCollectionId, descFilePaths, 'description')
+			self.insertPaths(gdb, romCollectionId, coverPaths, 'cover')
+			self.insertPaths(gdb, romCollectionId, titlescreenPaths, 'screenshottitle')
+			self.insertPaths(gdb, romCollectionId, ingamescreenPaths, 'screenshotingame')
+			self.insertPaths(gdb, romCollectionId, cartridgePaths, 'cartridge')
+			self.insertPaths(gdb, romCollectionId, configFilePaths, 'configuration')
+			self.insertPaths(gdb, romCollectionId, ingamevidPaths, 'ingamevideo')
+			self.insertPaths(gdb, romCollectionId, trailerPaths, 'trailer')
+			self.insertPaths(gdb, romCollectionId, manualPaths, 'manual')
 				
 			
 			
@@ -110,7 +122,7 @@ class ImportSettings:
 			consoleId = consoleRow[0] 
 			RomCollection(gdb).insert((romCollName, consoleId, emuCmd, emuSolo, escapeCmd, descParserFile, relyOnNaming, 
 			startWithDescFile, descFilePerGame, diskPrefix))
-			romCollectionId = self.gdb.cursor.lastrowid
+			romCollectionId = gdb.cursor.lastrowid
 		else:
 			romCollectionId = romCollectionRow[0]
 			
@@ -123,12 +135,26 @@ class ImportSettings:
 			FileType(gdb).insert((fileTypeName,))
 			
 
+	def insertPaths(self, gdb, romCollectionId, paths, fileType):
+		fileTypeRow = FileType(gdb).getOneByName(fileType)
+		if(fileTypeRow == None):				
+			return
+			
+		for path in paths:
+			print path
+			print fileType
+			pathRow = Path(gdb).getPathByNameAndType(path, fileType)
+			print pathRow
+			if(pathRow == None):				
+				Path(gdb).insert((path, fileTypeRow[0], romCollectionId))
+			
 
-gdb = GameDataBase(os.path.join(os.getcwd(), '..', 'database'))
-gdb.connect()
-file = os.path.join( os.getcwd(), "..", "database", "config.xml")
-iS = ImportSettings()
-iS.importSettings(file, gdb)
-gdb.close()
-del iS
-del gdb
+
+#gdb = GameDataBase(os.path.join(os.getcwd(), '..', 'database'))
+#gdb.connect()
+#file = os.path.join( os.getcwd(), "..", "database")
+#si = SettingsImporter()
+#si.importSettings(gdb, file)
+#gdb.close()
+#del si
+#del gdb

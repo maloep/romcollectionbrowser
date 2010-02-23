@@ -21,6 +21,7 @@ class DBUpdate:
 			print str(romCollectionRow)
 			#romCollectionRow[8] = startWithDescFile
 			if(romCollectionRow[8] == 1):
+				print "start with desc file"
 				pass
 			else:				
 				romPath = Path(self.gdb).getRomPathByRomCollectionId(romCollectionRow[0])
@@ -33,7 +34,8 @@ class DBUpdate:
 				ingameVideoPaths = Path(self.gdb).getIngameVideoPathsByRomCollectionId(romCollectionRow[0])				
 				trailerPaths = Path(self.gdb).getTrailerPathsByRomCollectionId(romCollectionRow[0])				
 				configurationPaths = Path(self.gdb).getConfigurationPathsByRomCollectionId(romCollectionRow[0])
-								
+							
+				print romPath
 				# read ROMs from disk
 				if os.path.isdir(os.path.dirname(romPath)):
 					#glob is same as "os.listdir(romPath)" but it can handle wildcards like *.adf
@@ -43,6 +45,7 @@ class DBUpdate:
 					files = []
 					
 				lastgamename = ""
+				print files
 					
 				for filename in files:
 					subrom = False
@@ -163,7 +166,7 @@ class DBUpdate:
 			gameId = gameRow[0]
 		
 		for genreId in genreIds:
-			genreGame = GenreGame(self.gdb).getObjectByQuery((genreId, gameId))
+			genreGame = GenreGame(self.gdb).getGenreGameByGenreIdAndGameId(genreId, gameId)
 			if(genreGame == None):
 				GenreGame(self.gdb).insert((genreId, gameId))
 		
