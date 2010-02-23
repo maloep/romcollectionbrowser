@@ -51,7 +51,10 @@ def main():
 
 	gdb = GameDataBase(os.path.join(os.getcwd(), '..', 'database'))
 	gdb.connect()
-	gdb.prepareTestDataBase()
+	gdb.dropTables()		
+	gdb.createTables()
+	gdb.commit()
+	#gdb.prepareTestDataBase()
 	gdb.close()
 
 	#game = Game(gdb)

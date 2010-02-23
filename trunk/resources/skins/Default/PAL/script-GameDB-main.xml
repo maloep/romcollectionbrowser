@@ -393,7 +393,7 @@
 		    	<label></label>
 		</control>
 		<control type="button" id="3000"> 
-			<description>Testdata</description>
+			<description>Import Settings</description>
 			<posx>50</posx>
 			<posy>525</posy>
 			<width>100</width>
@@ -402,7 +402,7 @@
 			<colordiffuse>DDFFFFFF</colordiffuse>
 			<texturefocus>btnFocus.png</texturefocus>
 			<texturenofocus>btn.png</texturenofocus>
-			<label>Testdata</label>
+			<label>Import Settings</label>
 			<!--font12-->
 			<textcolor>DDFFFFFF</textcolor>
 			<disabledcolor>80FFFFFF</disabledcolor>

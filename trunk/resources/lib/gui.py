@@ -5,7 +5,7 @@ import getpass, ntpath, re, string, glob, xbmc, xbmcgui
 from xml.dom.minidom import Document, parseString
 from pysqlite2 import dbapi2 as sqlite
 
-import dbupdate
+import dbupdate, importsettings
 from gamedatabase import *
 
 __language__ = xbmc.Language( os.getcwd() ).getLocalizedString
@@ -60,15 +60,19 @@ class UIGameDB(xbmcgui.WindowXML):
 	def onInit(self):
 		self.gdb.connect()
 		
-		#prepare FilterControls		
+		self.updateControls()
+		
+		self.setFocus(self.getControl(CONTROL_CONSOLES))
+		self.showGames()
+
+
+	def updateControls(self):
+		#prepare FilterControls	
 		self.showConsoles()		
 		self.showGenre()		
 		self.showYear()
 		self.showPublisher()
 		
-		self.setFocus(self.getControl(CONTROL_CONSOLES))
-		self.showGames()
-
 
 	def onAction(self, action):
 		if(action.getId() in ACTION_CANCEL_DIALOG):
@@ -116,8 +120,8 @@ class UIGameDB(xbmcgui.WindowXML):
 		Notice: it gives the ID of the control not the control object
 		"""
 		if (controlId == CONTROL_BUTTON_SETTINGS):
-			print "Button Testdata"
-			self.gdb.prepareTestDataBase()
+			print "Button Import Settings"
+			self.importSettings()
 		elif (controlId == CONTROL_BUTTON_UPDATEDB):
 			print "Button UpdateDB"
 			self.updateDB()
@@ -277,13 +281,14 @@ class UIGameDB(xbmcgui.WindowXML):
 		#os.system(cmd)
 		
 		
-	def updateDB(self):
-		print "updateDB"
+	def updateDB(self):		
+		dbupdate.DBUpdate().updateDB(self.gdb, )
+		self.updateControls()
 		
-		dbupdate.DBUpdate().updateDB(self.gdb)
-					
-					
-					
+	
+	def importSettings(self):
+		importsettings.SettingsImporter().importSettings(self.gdb, os.path.join(os.getcwd(), 'resources', 'database'))
+		self.updateControls()
 
 
 def main():
