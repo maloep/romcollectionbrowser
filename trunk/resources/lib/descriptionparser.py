@@ -14,87 +14,144 @@ sys.path.append( os.path.join( BASE_RESOURCE_PATH, "platform_libraries", env ) )
 from pyparsing import *
 from string import lowercase
 
+from xml.dom.minidom import Document, Node, parseString
+
+
 class DescriptionParser:
 	
 	def parseDescription(self, descFile, descParseInstruction, gamename):
-		print descFile
 		
-		star = Suppress(Literal('*') +LineEnd())
-		star = star.setResultsName('star')
-		crc = Word(printables) +Suppress(LineEnd())
-		crc = crc.setResultsName('crc')
-		game = Literal(gamename) +Suppress(LineEnd())
-		#game = SkipTo(NotAny('\r') +Suppress(LineEnd()))
-		game = game.setResultsName('game')
-		platform = Suppress(Literal('Platform: ')) +SkipTo(NotAny('\r') +Suppress(LineEnd()))
-		platform = platform.setResultsName('platform')
-		region = Suppress(Literal('Region: ')) +SkipTo(NotAny('\r') +Suppress(LineEnd()))
-		region = region.setResultsName('region')
-		media = Suppress(Literal('Media: ')) +SkipTo(NotAny('\r') +Suppress(LineEnd()))
-		media = media.setResultsName('media')
-		controller = Suppress(Literal('Controller: ')) +SkipTo(NotAny('\r') +Suppress(LineEnd()))
-		controller = controller.setResultsName('controller')
-		genre = Suppress(Literal('Genre: ')) +SkipTo(NotAny('\r') +Suppress(LineEnd()))
-		genre = genre.setResultsName('genre')				
-		year = Suppress(Literal('Release Year: ')) +SkipTo(NotAny('\r') +Suppress(LineEnd()))
-		year = year.setResultsName('year')				
-		dev = Suppress(Literal('Developer: ')) +SkipTo(NotAny('\r') +Suppress(LineEnd()))
-		dev = dev.setResultsName('developer')				
-		publisher = Suppress(Literal('Publisher: ')) +SkipTo(NotAny('\r') +Suppress(LineEnd()))
-		publisher = publisher.setResultsName('publisher')
-		players = Suppress(Literal('Players: ')) +SkipTo(NotAny('\r') +Suppress(LineEnd()))
-		players = players.setResultsName('players')
-		line = Suppress(Combine(OneOrMore(Literal('_'))))
-		line = line.setResultsName('line')
-		desc = SkipTo(star)
-		desc = desc.setResultsName('description')
-		delimiter = Suppress(Optional(SkipTo(LineEnd())))
+		#configFile = os.path.join(databaseDir, 'parserConfig.xml')
+		fh=open(descParseInstruction,"r")
+		xmlDoc = fh.read()
+		fh.close()
 		
-		grammar = star + crc +game +platform + region + media + controller + genre \
-			+ year + dev +publisher +players +line + star +desc +delimiter
+		xmlDoc = parseString(xmlDoc)
+		
+		gameGrammar = xmlDoc.getElementsByTagName('GameGrammar')
+		if(gameGrammar == None):
+			return "";
+			
+		grammarNode = gameGrammar[0]
+		attributes = grammarNode.attributes
+		attrNode = attributes.get('type')
+		if(attrNode == None):
+			return "";
+			
+		parserType = attrNode.nodeValue
+		if(parserType == 'multiline'):
+			self.parseMultiline(descFile, grammarNode, gamename)
+		
+		
+		
+	def parseMultiline(self, descFile, grammarNode, gamename):
+		
+		grammarList = []
+		rolGrammar = SkipTo(LineEnd()) +Suppress(LineEnd())
+		
+		for node in grammarNode.childNodes:			
+			
+			if (node.nodeType != Node.ELEMENT_NODE):
+				continue			
+			
+			nodeGrammar = Optional('')
+			
+			literal = None
+			if (node.hasChildNodes()):
+				print "add ChildNode: " +node.firstChild.nodeValue
+				literal = Literal(node.firstChild.nodeValue)
+			
+			isRol = False
+			rol = node.attributes.get('restOfLine')
+			if(rol != None and rol.nodeValue == 'true'):
+				isRol = True
+				
+			delimiter = node.attributes.get('delimiter')
+			if(delimiter != None):
+				print "add delimiter"
+				if (isRol):
+					nodeGrammar += Optional(~LineEnd() +commaSeparatedList)
+				else:
+					nodeGrammar += Optional(commaSeparatedList)			
+			elif (isRol):
+				print "add restOfLine"
+				nodeGrammar += rolGrammar
+				
+			skipTo = node.attributes.get('skipTo')
+			if(skipTo != None):
+				nodeGrammar += SkipTo(Literal(skipTo.nodeValue))
 
-		file = OneOrMore(grammar)
-		results = file.parseFile(descFile)
-		#print str(results.asXML())
+			if(node.nodeName == 'SkippableContent'):
+				print "add SkippableContent"
+				if(literal != None):
+					nodeGrammar += Suppress(literal)				
+			else:
+				nodeGrammar = nodeGrammar.setResultsName(node.nodeName)
+										
+			grammarList.append(nodeGrammar)
+				
+
+		grammar = ParserElement()
+		for grammarItem in grammarList:			
+			grammar += grammarItem
 		
-		return results
+		all = OneOrMore(grammar)
+		
+		fh = open(str(descFile), 'r')
+		fileAsString = fh.read()		
+		fileAsString = fileAsString.decode('iso-8859-15')		
+				
+		results = all.parseString(fileAsString)		
+		
+		print results.asXML()		
+		return ""
 		
 	
-	def parseDescriptionSearch(self, descFile, descParseInstruction, gamename):
+	def parseDescriptionConfig(self, descFile, descParseInstruction, gamename):
 		print descFile
 		
-		game = Suppress(SkipTo(Literal(gamename))) +Literal(gamename) +Suppress(LineEnd())
-		#game = SkipTo(NotAny('\r') +Suppress(LineEnd()))
+		#TODO Entries before game?
+		star = Suppress(Literal('*')) +Suppress(LineEnd())
+		star = star.setResultsName('star')
+		#crc = Optional(~LineEnd() +commaSeparatedList).setDebug() +Suppress(LineEnd())
+		crc = Optional(~LineEnd() +delimitedList(',')) +SkipTo(LineEnd()) +Suppress(LineEnd())
+		crc = crc.setResultsName('crc')
+		
+		#TODO handle different delimiters?
+		
+		#game = Suppress(SkipTo(Literal())) +Literal(gamename) +Suppress(LineEnd())
+		game = Optional(~LineEnd() +delimitedList(',')) +SkipTo(LineEnd()).setDebug()
 		game = game.setResultsName('game')
-		platform = Suppress(Literal('Platform: ')) +SkipTo(NotAny('\r') +Suppress(LineEnd()))
+		#TODO csv + \r\n +optional?
+		platform = Suppress(Literal('Platform: ')) +(Optional(~LineEnd() +commaSeparatedList))
 		platform = platform.setResultsName('platform')
-		region = Suppress(Literal('Region: ')) +SkipTo(NotAny('\r') +Suppress(LineEnd()))
+		region = Suppress(Literal('Region: ')) +(Optional(~LineEnd() +commaSeparatedList))
 		region = region.setResultsName('region')
-		media = Suppress(Literal('Media: ')) +SkipTo(NotAny('\r') +Suppress(LineEnd()))
+		media = Suppress(Literal('Media: ')) +(Optional(~LineEnd() +commaSeparatedList))
 		media = media.setResultsName('media')
-		controller = Suppress(Literal('Controller: ')) +SkipTo(NotAny('\r') +Suppress(LineEnd()))
+		controller = Suppress(Literal('Controller: ')) +(Optional(~LineEnd() +commaSeparatedList))
 		controller = controller.setResultsName('controller')
 		#TODO Item Delimiter		
-		genre = Suppress(Literal('Genre: ')) +commaSeparatedList
+		genre = Suppress(Literal('Genre: ')) +(Optional(~LineEnd() +commaSeparatedList))
 		genre = genre.setResultsName('genre')				
-		year = Suppress(Literal('Release Year: ')) +SkipTo(NotAny('\r') +Suppress(LineEnd()))
+		year = Suppress(Literal('Release Year: ')) +(Optional(~LineEnd() +commaSeparatedList))
 		year = year.setResultsName('year')				
-		dev = Suppress(Literal('Developer: ')) +SkipTo(NotAny('\r') +Suppress(LineEnd()))
+		dev = Suppress(Literal('Developer: ')) +(Optional(~LineEnd() +commaSeparatedList))
 		dev = dev.setResultsName('developer')				
-		publisher = Suppress(Literal('Publisher: ')) +SkipTo(NotAny('\r') +Suppress(LineEnd()))
+		publisher = Suppress(Literal('Publisher: ')) +(Optional(~LineEnd() +commaSeparatedList))
 		publisher = publisher.setResultsName('publisher')
-		players = Suppress(Literal('Players: ')) +SkipTo(NotAny('\r') +Suppress(LineEnd()))
+		players = Suppress(Literal('Players: ')) +(Optional(~LineEnd() +commaSeparatedList))
 		players = players.setResultsName('players')
 		line = Suppress(Combine(OneOrMore(Literal('_'))))
 		line = line.setResultsName('line')
-		star = Suppress(Literal('*') +LineEnd())
-		star = star.setResultsName('star')
+		#star = Suppress(Literal('*') +LineEnd())
+		#star = star.setResultsName('star')
 		#desc = SkipTo(star)
 		desc = ZeroOrMore(unicode(Word(printables + alphas8bit))) +SkipTo(star)
 		desc = desc.setResultsName('description')
-		delimiter = Suppress(Optional(SkipTo(LineEnd())))
+		delimiter = Suppress(SkipTo(LineEnd()))
 		
-		gamegrammar = game +platform + region + media + controller + genre \
+		gamegrammar = star +crc +game +platform + region + media + controller + genre \
 			+ year + dev +publisher +players +line + star +desc +delimiter
 		
 		filegrammar = OneOrMore(gamegrammar)
@@ -110,8 +167,11 @@ class DescriptionParser:
 
 
 
-#dp = DescriptionParser()
-#results = dp.parseDescriptionSearch('E:\\Emulatoren\\data\\Amiga\\xtras V1\\synopsis\\synopsis.txt', '', 'Dogfight')
-#results = dp.parseDescriptionSearch('E:\\Emulatoren\\data\\Amiga\\xtras V1\\synopsis\\synopsis.txt', '', 'Formula One Grand Prix')
-#print results['genre']
-#del dp
+dp = DescriptionParser()
+results = dp.parseDescription('E:\\Emulatoren\\data\\Amiga\\Collection V1\\synopsis\\synopsis parserTest.txt', 
+	'C:\\Dokumente und Einstellungen\\lom\\Anwendungsdaten\\XBMC\\scripts\\RomCollectionBrowser\\resources\\database\\parserConfig.xml', 'Football Glory')
+#print results
+#results = dp.parseDescriptionConfig('E:\\Emulatoren\\data\\Amiga\\Collection V1\\synopsis\\synopsis parserTest.txt', '', 'Formula One Grand Prix')
+#print results.asDict()
+#print results['crc']
+del dp
