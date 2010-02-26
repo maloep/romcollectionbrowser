@@ -19,13 +19,26 @@ class DBUpdate:
 		
 		for romCollectionRow in romCollectionRows:
 			print str(romCollectionRow)
+						
+			descParserFile = romCollectionRow[6]
+			print descParserFile
+			descriptionPath = Path(self.gdb).getDescriptionPathByRomCollectionId(romCollectionRow[0])				
+			print descriptionPath
+			
+			print romCollectionRow[9]
+			#romCollectionRow[9] = descFilePerGame
+			if(romCollectionRow[9] == 'False'):				
+				results = self.parseDescriptionFile(str(descriptionPath), str(descParserFile), '')
+				
+				#for result in results:
+				#	print result.asDict()
+			
 			#romCollectionRow[8] = startWithDescFile
-			if(romCollectionRow[8] == 1):
+			if(romCollectionRow[8] == 'True'):
 				print "start with desc file"
 				pass
 			else:				
-				romPath = Path(self.gdb).getRomPathByRomCollectionId(romCollectionRow[0])
-				descriptionPath = Path(self.gdb).getDescriptionPathByRomCollectionId(romCollectionRow[0])				
+				romPath = Path(self.gdb).getRomPathByRomCollectionId(romCollectionRow[0])				
 				ingameScreenshotPaths = Path(self.gdb).getIngameScreenshotPathsByRomCollectionId(romCollectionRow[0])				
 				titleScreenshotPaths = Path(self.gdb).getTitleScreenshotPathsByRomCollectionId(romCollectionRow[0])				
 				coverPaths = Path(self.gdb).getCoverPathsByRomCollectionId(romCollectionRow[0])				
@@ -44,8 +57,7 @@ class DBUpdate:
 				else:
 					files = []
 					
-				lastgamename = ""
-				print files
+				lastgamename = ""				
 					
 				for filename in files:
 					subrom = False
@@ -60,7 +72,8 @@ class DBUpdate:
 						gamename = os.path.splitext(gamename)[0]					
 					
 					if(gamename == lastgamename):
-						gameRow = Game(self.gdb).getOneByName(gamename)
+						print gamename
+						gameRow = Game(self.gdb).getOneByName(gamename)						
 						self.insertFile(str(filename), gameRow[0], "rom")
 						continue
 						
@@ -74,8 +87,18 @@ class DBUpdate:
 					ingameVideoFiles = self.resolvePath(ingameVideoPaths, gamename)
 					trailerFiles = self.resolvePath(trailerPaths, gamename)
 					configurationFiles = self.resolvePath(configurationPaths, gamename)
-															
-					gamedescription = self.parseDescriptionFile(descriptionPath, gamename)
+
+
+					#romCollectionRow[9] = descFilePerGame
+					if(romCollectionRow[9] == 'False'):
+						#TODO Hash with gamename?
+						for result in results:
+							gamedesc = result['Game'][0]
+							
+							if (gamedesc.strip() == gamename.strip()):								
+								gamedescription = result
+					else:
+						gamedescription = self.parseDescriptionFile(descriptionPath, descParserFile, gamename)
 					
 					self.insertData(gamedescription, romCollectionRow[0], filename, ingameScreenFiles, titleScreenFiles, coverFiles, cartridgeFiles,
 						manualFiles, ingameVideoFiles, trailerFiles, configurationFiles)
@@ -93,12 +116,14 @@ class DBUpdate:
 		return resolvedFiles
 		
 	
-	def parseDescriptionFile(self, descriptionPath, gamename):
-		descriptionfile = descriptionPath.replace("%GAME%", gamename)		
+	def parseDescriptionFile(self, descriptionPath, descParserFile, gamename):
+		descriptionfile = descriptionPath.replace("%GAME%", gamename)
 							
 		if(os.path.exists(descriptionfile)):
 			dp = DescriptionParser()
-			results = dp.parseDescriptionSearch(descriptionfile, '', gamename)
+			results = dp.parseDescription(descriptionfile, descParserFile, gamename)
+			
+			print results
 				
 			#TODO delete objects?
 			del dp
@@ -109,11 +134,11 @@ class DBUpdate:
 	def insertData(self, gamedescription, romCollectionId, romFile, ingameScreenFiles, titleScreenFiles, coverFiles, cartridgeFiles,
 						manualFiles, ingameVideoFiles, trailerFiles, configurationFiles):
 		
-		print "Result game = " +str(gamedescription.game)
-		print "Result desc = " +str(gamedescription.description)
-		print "Result year = " +str(gamedescription.year)
-		print "Result genre = " +str(gamedescription.genre)
-		print "Result publisher = " +str(gamedescription.publisher)
+		print "Result game = " +str(gamedescription.Game)
+		print "Result desc = " +str(gamedescription.Description)
+		print "Result year = " +str(gamedescription.ReleaseYear)
+		print "Result genre = " +str(gamedescription.Genre)
+		print "Result publisher = " +str(gamedescription.Publisher)
 		print "rom File = " +str(romFile)
 		print "Ingame Screenshots = " +str(ingameScreenFiles)
 		print "Title Screenshots = " +str(titleScreenFiles)
@@ -125,42 +150,41 @@ class DBUpdate:
 		print "ConfigurationFiles = " +str(configurationFiles)
 		
 		
-		year = gamedescription.year
-		yearRow = Year(self.gdb).getOneByName(year[0])
-		print yearRow
+		year = gamedescription.ReleaseYear[0].strip()
+		yearRow = Year(self.gdb).getOneByName(year)
 		if(yearRow == None):				
-			Year(self.gdb).insert(year)			
+			Year(self.gdb).insert((year,))
 			yearId = self.gdb.cursor.lastrowid
 		else:
 			yearId = yearRow[0]
 			
-		genres = gamedescription.genre
+		genres = gamedescription.Genre
 		genreIds = []
 		
-		for genreItem in genres:				
+		for genreItem in genres:
+			genreItem = genreItem.strip()
 			genreRow = Genre(self.gdb).getOneByName(genreItem)
 			if(genreRow == None):
-				Genre(self.gdb).insert((genreItem,))
-				#TODO GenreGame
+				Genre(self.gdb).insert((genreItem,))				
 				genreIds.append(self.gdb.cursor.lastrowid)
 			else:
 				genreIds.append(genreRow[0])
 				
-		publisher = gamedescription.publisher
-		publisherRow = Publisher(self.gdb).getOneByName(publisher[0])
+		publisher = gamedescription.Publisher[0].strip()
+		publisherRow = Publisher(self.gdb).getOneByName(publisher)
 		print publisherRow
 		if(publisherRow == None):				
-			Publisher(self.gdb).insert(publisher)
+			Publisher(self.gdb).insert((publisher,))
 			publisherId = self.gdb.cursor.lastrowid
 		else:
 			publisherId = publisherRow[0]
 		
 		
-		game = gamedescription.game
-		gameRow = Game(self.gdb).getOneByName(game[0])
+		game = gamedescription.Game[0].strip()
+		gameRow = Game(self.gdb).getOneByName(game)
 		print gameRow
 		if(gameRow == None):			
-			Game(self.gdb).insert((game[0], gamedescription.description[0], '', '', romCollectionId, publisherId, yearId))
+			Game(self.gdb).insert((game, gamedescription.Description[0], '', '', romCollectionId, publisherId, yearId))
 			gameId = self.gdb.cursor.lastrowid
 		else:
 			gameId = gameRow[0]
@@ -191,6 +215,7 @@ class DBUpdate:
 			
 		
 	def insertFile(self, fileName, gameId, fileType):
+		print fileName
 		fileRow = File(self.gdb).getFileByNameAndType(fileName, fileType)
 		fileTypeRow = FileType(self.gdb).getOneByName(fileType)
 		if(fileRow == None):
@@ -198,11 +223,14 @@ class DBUpdate:
 			
 
 
-
-#gdb = GameDataBase(os.path.join(os.getcwd(), '..', 'database'))
-#dbupdate = DBUpdate()
-#gdb.connect()
-#dbupdate.updateDB(gdb)
-#gdb.close()
-#del dbupdate
-#del gdb
+def main():
+	gdb = GameDataBase(os.path.join(os.getcwd(), '..', 'database'))
+	dbupdate = DBUpdate()
+	gdb.connect()
+	dbupdate.updateDB(gdb)
+	gdb.close()
+	del dbupdate
+	del gdb
+	
+	
+#main()

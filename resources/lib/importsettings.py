@@ -150,11 +150,15 @@ class SettingsImporter:
 			
 
 
-#gdb = GameDataBase(os.path.join(os.getcwd(), '..', 'database'))
-#gdb.connect()
-#file = os.path.join( os.getcwd(), "..", "database")
-#si = SettingsImporter()
-#si.importSettings(gdb, file)
-#gdb.close()
-#del si
-#del gdb
+def main():
+
+	gdb = GameDataBase(os.path.join(os.getcwd(), '..', 'database'))
+	gdb.connect()
+	file = os.path.join( os.getcwd(), "..", "database")
+	si = SettingsImporter()
+	si.importSettings(gdb, file)
+	gdb.close()
+	del si
+	del gdb
+
+#main()

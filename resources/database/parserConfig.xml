@@ -18,7 +18,7 @@
 		<SkippableContent>Developer: </SkippableContent>
 		<Developer delimiter="," restOfLine="true"></Developer>
 		<SkippableContent>Publisher: </SkippableContent>
-		<Publisher delimiter="," restOfLine="true"></Publisher>
+		<Publisher restOfLine="true"></Publisher>
 		<SkippableContent>Players: </SkippableContent>
 		<Players delimiter="," restOfLine="true"></Players>
 		<SkippableContent restOfLine="true"></SkippableContent>

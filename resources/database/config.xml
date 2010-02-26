@@ -21,7 +21,7 @@
 			<relyOnNaming>True</relyOnNaming>
 			<startWithDescFile>False</startWithDescFile>
 			<DescFilePerGame>False</DescFilePerGame>
-			<descriptionParserFile>Not Done Yet</descriptionParserFile>
+			<descriptionParserFile>C:\Dokumente und Einstellungen\lom\Anwendungsdaten\XBMC\scripts\RomCollectionBrowser\resources\database\parserConfig.xml</descriptionParserFile>
 			<diskPrefix>_Disk</diskPrefix>
 			<romPath>E:\Emulatoren\data\Amiga\Collection V1\roms\*.adf</romPath>
 			<descFilePath>E:\Emulatoren\data\Amiga\Collection V1\synopsis\synopsis.txt</descFilePath>
