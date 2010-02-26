@@ -40,7 +40,9 @@ class DescriptionParser:
 			
 		parserType = attrNode.nodeValue
 		if(parserType == 'multiline'):
-			self.parseMultiline(descFile, grammarNode, gamename)
+			results = self.parseMultiline(descFile, grammarNode, gamename)
+			
+		return results
 		
 		
 		
@@ -79,7 +81,7 @@ class DescriptionParser:
 				
 			delimiter = node.attributes.get('delimiter')
 			if(delimiter != None):				
-				nodeGrammar += (Optional(~LineEnd() +commaSeparatedList))				
+				nodeGrammar += (Optional(~LineEnd() +commaSeparatedList))		
 			elif (isRol):				
 				nodeGrammar += rolGrammar
 				
@@ -92,8 +94,7 @@ class DescriptionParser:
 					nodeGrammar += Suppress(literal)				
 			else:
 				nodeGrammar = nodeGrammar.setResultsName(node.nodeName)
-			
-			print nodeGrammar
+						
 			if(appendNextNode == False):				
 				grammarList.append(nodeGrammar)	
 				
@@ -107,7 +108,7 @@ class DescriptionParser:
 
 		grammar = ParserElement()
 		for grammarItem in grammarList:			
-			grammar += grammarItem.setDebug()
+			grammar += grammarItem
 		
 		gameGrammar = Group(grammar)
 		
@@ -116,15 +117,18 @@ class DescriptionParser:
 		fh = open(str(descFile), 'r')
 		fileAsString = fh.read()		
 		fileAsString = fileAsString.decode('iso-8859-15')		
-				
+		
 		results = all.parseString(fileAsString)		
 		
-		print results.asList()
-		for result in results:
-			print result.asDict()
+		#print results.asList()
+		#for result in results:
+		#	print result.asDict()
 		
-		return ""
+		return results
 		
+	
+	
+	
 	
 	def parseDescriptionConfig(self, descFile, descParseInstruction, gamename):
 		print descFile
@@ -140,8 +144,7 @@ class DescriptionParser:
 		
 		#game = Suppress(SkipTo(Literal())) +Literal(gamename) +Suppress(LineEnd())
 		game = Optional(~LineEnd() +delimitedList(',')) +SkipTo(LineEnd())
-		game = game.setResultsName('game')
-		#TODO csv + \r\n +optional?
+		game = game.setResultsName('game')		
 		platform = Suppress(Literal('Platform: ')) +(Optional(~LineEnd() +commaSeparatedList))
 		platform = platform.setResultsName('platform')
 		region = Suppress(Literal('Region: ')) +(Optional(~LineEnd() +commaSeparatedList))
@@ -169,7 +172,6 @@ class DescriptionParser:
 		desc = ZeroOrMore(unicode(Word(printables + alphas8bit))) +SkipTo(star)
 		desc = desc.setResultsName('description')
 		delimiter = Suppress(SkipTo(LineEnd()))
-		
 		gamegrammar = star +crc +game +platform + region + media + controller + genre \
 			+ year + dev +publisher +players +line + star +desc +delimiter
 		
@@ -179,18 +181,17 @@ class DescriptionParser:
 		fileAsString = fh.read()		
 		fileAsString = fileAsString.decode('iso-8859-15')		
 				
-		results = filegrammar.parseString(fileAsString)		
+		results = filegrammar.parseString(fileAsString)
 		
 		return results
 
 
 
-
-dp = DescriptionParser()
-results = dp.parseDescription('E:\\Emulatoren\\data\\Amiga\\Collection V1\\synopsis\\synopsis parserTest.txt', 
-	'C:\\Dokumente und Einstellungen\\lom\\Anwendungsdaten\\XBMC\\scripts\\RomCollectionBrowser\\resources\\database\\parserConfig.xml', 'Football Glory')
-#print results
-#results = dp.parseDescriptionConfig('E:\\Emulatoren\\data\\Amiga\\Collection V1\\synopsis\\synopsis parserTest.txt', '', 'Formula One Grand Prix')
-#print results.asDict()
-#print results['crc']
-del dp
+def main():
+	dp = DescriptionParser()
+	results = dp.parseDescription('E:\\Emulatoren\\data\\Amiga\\Collection V1\\synopsis\\synopsis parserTest.txt', 
+		'C:\\Dokumente und Einstellungen\\lom\\Anwendungsdaten\\XBMC\\scripts\\RomCollectionBrowser\\resources\\database\\parserConfig.xml', 'Football Glory')
+	print results	
+	del dp
+	
+#main()
