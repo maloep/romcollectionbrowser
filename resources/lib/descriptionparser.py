@@ -48,54 +48,70 @@ class DescriptionParser:
 		
 		grammarList = []
 		rolGrammar = SkipTo(LineEnd()) +Suppress(LineEnd())
+	
+		appendNextNode = False
+		appendToPreviousNode = False
+		lastNodeGrammar = Empty()
 		
 		for node in grammarNode.childNodes:			
 			
 			if (node.nodeType != Node.ELEMENT_NODE):
-				continue			
+				continue
 			
-			nodeGrammar = Optional('')
+			#appendToPreviousNode was set at the end of the last loop
+			if(appendToPreviousNode):				
+				nodeGrammar = lastNodeGrammar
+			else:					
+				nodeGrammar = Empty()
 			
 			literal = None
-			if (node.hasChildNodes()):
-				print "add ChildNode: " +node.firstChild.nodeValue
+			if (node.hasChildNodes()):				
 				literal = Literal(node.firstChild.nodeValue)
-			
-			isRol = False
+							
 			rol = node.attributes.get('restOfLine')
 			if(rol != None and rol.nodeValue == 'true'):
 				isRol = True
+				#appendNextNode is used in the current loop
+				appendNextNode = False
+			else:
+				isRol = False
+				appendNextNode = True
 				
 			delimiter = node.attributes.get('delimiter')
-			if(delimiter != None):
-				print "add delimiter"
-				if (isRol):
-					nodeGrammar += Optional(~LineEnd() +commaSeparatedList)
-				else:
-					nodeGrammar += Optional(commaSeparatedList)			
-			elif (isRol):
-				print "add restOfLine"
+			if(delimiter != None):				
+				nodeGrammar += (Optional(~LineEnd() +commaSeparatedList))				
+			elif (isRol):				
 				nodeGrammar += rolGrammar
 				
 			skipTo = node.attributes.get('skipTo')
 			if(skipTo != None):
 				nodeGrammar += SkipTo(Literal(skipTo.nodeValue))
 
-			if(node.nodeName == 'SkippableContent'):
-				print "add SkippableContent"
+			if(node.nodeName == 'SkippableContent'):				
 				if(literal != None):
 					nodeGrammar += Suppress(literal)				
 			else:
 				nodeGrammar = nodeGrammar.setResultsName(node.nodeName)
-										
-			grammarList.append(nodeGrammar)
+			
+			print nodeGrammar
+			if(appendNextNode == False):				
+				grammarList.append(nodeGrammar)	
+				
+			if(isRol == True):			
+				appendToPreviousNode = False
+				lastNodeGrammar = Empty()
+			else:
+				appendToPreviousNode = True
+				lastNodeGrammar += nodeGrammar
 				
 
 		grammar = ParserElement()
 		for grammarItem in grammarList:			
-			grammar += grammarItem
+			grammar += grammarItem.setDebug()
 		
-		all = OneOrMore(grammar)
+		gameGrammar = Group(grammar)
+		
+		all = OneOrMore(gameGrammar)		
 		
 		fh = open(str(descFile), 'r')
 		fileAsString = fh.read()		
@@ -103,7 +119,10 @@ class DescriptionParser:
 				
 		results = all.parseString(fileAsString)		
 		
-		print results.asXML()		
+		print results.asList()
+		for result in results:
+			print result.asDict()
+		
 		return ""
 		
 	
@@ -113,22 +132,22 @@ class DescriptionParser:
 		#TODO Entries before game?
 		star = Suppress(Literal('*')) +Suppress(LineEnd())
 		star = star.setResultsName('star')
-		#crc = Optional(~LineEnd() +commaSeparatedList).setDebug() +Suppress(LineEnd())
+		#crc = Optional(~LineEnd() +commaSeparatedList).bug() +Suppress(LineEnd())
 		crc = Optional(~LineEnd() +delimitedList(',')) +SkipTo(LineEnd()) +Suppress(LineEnd())
 		crc = crc.setResultsName('crc')
 		
 		#TODO handle different delimiters?
 		
 		#game = Suppress(SkipTo(Literal())) +Literal(gamename) +Suppress(LineEnd())
-		game = Optional(~LineEnd() +delimitedList(',')) +SkipTo(LineEnd()).setDebug()
+		game = Optional(~LineEnd() +delimitedList(',')) +SkipTo(LineEnd())
 		game = game.setResultsName('game')
 		#TODO csv + \r\n +optional?
 		platform = Suppress(Literal('Platform: ')) +(Optional(~LineEnd() +commaSeparatedList))
 		platform = platform.setResultsName('platform')
 		region = Suppress(Literal('Region: ')) +(Optional(~LineEnd() +commaSeparatedList))
-		region = region.setResultsName('region')
+		region = region.setResultsName('region')		
 		media = Suppress(Literal('Media: ')) +(Optional(~LineEnd() +commaSeparatedList))
-		media = media.setResultsName('media')
+		media = media.setResultsName('media').setDebug()		
 		controller = Suppress(Literal('Controller: ')) +(Optional(~LineEnd() +commaSeparatedList))
 		controller = controller.setResultsName('controller')
 		#TODO Item Delimiter		
