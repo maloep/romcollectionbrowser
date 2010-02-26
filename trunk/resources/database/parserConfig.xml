@@ -2,14 +2,15 @@
 	<GameGrammar type="multiline">
 		<SkippableContent restOfLine="true"></SkippableContent>
 		<crc restOfLine="true" delimiter=","></crc>
-		<Game restOfLine="true"></Game>
-		<SkippableContent restOfLine="true"></SkippableContent>
+		<Game restOfLine="true"></Game>		
+		<SkippableContent>Platform: </SkippableContent>
+		<Platform delimiter="," restOfLine="true"></Platform>
 		<SkippableContent>Region: </SkippableContent>
 		<Region delimiter="," restOfLine="true"></Region>
 		<SkippableContent>Media: </SkippableContent>
 		<Media delimiter="," restOfLine="true"></Media>
 		<SkippableContent>Controller: </SkippableContent>
-		<Controller delimiter=","></Controller>
+		<Controller delimiter="," restOfLine="true"></Controller>
 		<SkippableContent>Genre: </SkippableContent>
 		<Genre delimiter="," restOfLine="true"></Genre>
 		<SkippableContent>Release Year: </SkippableContent>
