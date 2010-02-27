@@ -259,7 +259,7 @@ class UIGameDB(xbmcgui.WindowXML):
 				cmd += ' ' +newrepl			
 			fileindex += 1
 		#romCollectionRow[4] = useSolo
-		if (romCollectionRow[4] == 1):
+		if (romCollectionRow[4] == 'True'):
 			# Backup original autoexec.py		
 			#autoexec = SCRIPTUSR+'/autoexec.py'
 			#self.doBackup(autoexec)
@@ -272,13 +272,16 @@ class UIGameDB(xbmcgui.WindowXML):
 
 			# Remember selection
 			#self.saveState()
-			
-			cmd = os.path.join(re.escape(os.getcwd()), 'applaunch.sh ') +cmd
+			env = ( os.environ.get( "OS", "win32" ), "win32", )[ os.environ.get( "OS", "win32" ) == "xbox" ]		
+			print "Env: " +env
+			if(env == "win32"):
+				cmd = '\"' +os.path.join(os.getcwd(), 'applaunch.bat') +'\" ' +cmd
+			else:
+				cmd = os.path.join(os.getcwd(), 'applaunch.sh ') +cmd
 		
 		print "cmd: " +cmd
-		env = ( os.environ.get( "OS", "win32" ), "win32", )[ os.environ.get( "OS", "win32" ) == "xbox" ]
-		print "Env: " +env
-		#os.system(cmd)
+		os.system(cmd)
+		#xbmc.executebuiltin( "System.Exec(" +cmd +")" ) 
 		
 		
 	def updateDB(self):		

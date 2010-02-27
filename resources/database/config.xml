@@ -15,8 +15,8 @@
 		<RomCollection>			
 			<name>Collection V1</name>
 			<consoleName>Amiga</consoleName>
-			<emulatorCmd>winuae.exe {-%I% %ROM%}</emulatorCmd>
-			<useEmuSolo>True</useEmuSolo>
+			<emulatorCmd>E:\Emulatoren\WINUAE\winuae.exe -f "E:\Emulatoren\WINUAE\Configurations\Host\Amiga 500.uae" {-%I% "%ROM%"}</emulatorCmd>
+			<useEmuSolo>False</useEmuSolo>
 			<escapeCommand>True</escapeCommand>
 			<relyOnNaming>True</relyOnNaming>
 			<startWithDescFile>False</startWithDescFile>
