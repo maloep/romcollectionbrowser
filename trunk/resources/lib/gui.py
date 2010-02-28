@@ -277,7 +277,7 @@ class UIGameDB(xbmcgui.WindowXML):
 			if(env == "win32"):
 				cmd = '\"' +os.path.join(os.getcwd(), 'applaunch.bat') +'\" ' +cmd
 			else:
-				cmd = os.path.join(os.getcwd(), 'applaunch.sh ') +cmd
+				cmd = os.path.join(re.escape(os.getcwd()), 'applaunch.sh ') +cmd
 		
 		print "cmd: " +cmd
 		os.system(cmd)
