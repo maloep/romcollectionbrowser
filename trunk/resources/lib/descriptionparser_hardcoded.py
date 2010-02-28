@@ -115,22 +115,21 @@ class DescriptionParser:
 		#TODO Entries before game?
 		star = Suppress(Literal('*')) +Suppress(LineEnd())
 		star = star.setResultsName('star')
-		#crc = Optional(~LineEnd() +commaSeparatedList).setDebug() +Suppress(LineEnd())
+		#crc = Optional(~LineEnd() +commaSeparatedList).bug() +Suppress(LineEnd())
 		crc = Optional(~LineEnd() +delimitedList(',')) +SkipTo(LineEnd()) +Suppress(LineEnd())
 		crc = crc.setResultsName('crc')
 		
 		#TODO handle different delimiters?
 		
 		#game = Suppress(SkipTo(Literal())) +Literal(gamename) +Suppress(LineEnd())
-		game = Optional(~LineEnd() +delimitedList(',')) +SkipTo(LineEnd()).setDebug()
-		game = game.setResultsName('game')
-		#TODO csv + \r\n +optional?
+		game = Optional(~LineEnd() +delimitedList(',')) +SkipTo(LineEnd())
+		game = game.setResultsName('game')		
 		platform = Suppress(Literal('Platform: ')) +(Optional(~LineEnd() +commaSeparatedList))
 		platform = platform.setResultsName('platform')
 		region = Suppress(Literal('Region: ')) +(Optional(~LineEnd() +commaSeparatedList))
-		region = region.setResultsName('region')
+		region = region.setResultsName('region')		
 		media = Suppress(Literal('Media: ')) +(Optional(~LineEnd() +commaSeparatedList))
-		media = media.setResultsName('media')
+		media = media.setResultsName('media').setDebug()		
 		controller = Suppress(Literal('Controller: ')) +(Optional(~LineEnd() +commaSeparatedList))
 		controller = controller.setResultsName('controller')
 		#TODO Item Delimiter		
@@ -152,7 +151,6 @@ class DescriptionParser:
 		desc = ZeroOrMore(unicode(Word(printables + alphas8bit))) +SkipTo(star)
 		desc = desc.setResultsName('description')
 		delimiter = Suppress(SkipTo(LineEnd()))
-		
 		gamegrammar = star +crc +game +platform + region + media + controller + genre \
 			+ year + dev +publisher +players +line + star +desc +delimiter
 		
@@ -162,7 +160,7 @@ class DescriptionParser:
 		fileAsString = fh.read()		
 		fileAsString = fileAsString.decode('iso-8859-15')		
 				
-		results = filegrammar.parseString(fileAsString)		
+		results = filegrammar.parseString(fileAsString)
 		
 		return results
 

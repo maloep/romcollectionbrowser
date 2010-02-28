@@ -79,21 +79,21 @@ class DescriptionParser:
 				isRol = False
 				appendNextNode = True
 				
-			delimiter = node.attributes.get('delimiter')
-			if(delimiter != None):				
-				nodeGrammar += (Optional(~LineEnd() +commaSeparatedList))		
-			elif (isRol):				
-				nodeGrammar += rolGrammar
-				
 			skipTo = node.attributes.get('skipTo')
 			if(skipTo != None):
 				nodeGrammar += SkipTo(Literal(skipTo.nodeValue))
 
 			if(node.nodeName == 'SkippableContent'):				
 				if(literal != None):
-					nodeGrammar += Suppress(literal)				
+					nodeGrammar += Suppress(literal)
 			else:
 				nodeGrammar = nodeGrammar.setResultsName(node.nodeName)
+				
+			delimiter = node.attributes.get('delimiter')
+			if(delimiter != None):				
+				nodeGrammar += (Optional(~LineEnd() +commaSeparatedList))
+			elif (isRol):		
+				nodeGrammar += rolGrammar
 						
 			if(appendNextNode == False):				
 				grammarList.append(nodeGrammar)	
@@ -119,79 +119,17 @@ class DescriptionParser:
 		fileAsString = fileAsString.decode('iso-8859-15')		
 		
 		results = all.parseString(fileAsString)		
-		
-		#print results.asList()
-		#for result in results:
-		#	print result.asDict()
-		
-		return results
-		
-	
-	
-	
-	
-	def parseDescriptionConfig(self, descFile, descParseInstruction, gamename):
-		print descFile
-		
-		#TODO Entries before game?
-		star = Suppress(Literal('*')) +Suppress(LineEnd())
-		star = star.setResultsName('star')
-		#crc = Optional(~LineEnd() +commaSeparatedList).bug() +Suppress(LineEnd())
-		crc = Optional(~LineEnd() +delimitedList(',')) +SkipTo(LineEnd()) +Suppress(LineEnd())
-		crc = crc.setResultsName('crc')
-		
-		#TODO handle different delimiters?
-		
-		#game = Suppress(SkipTo(Literal())) +Literal(gamename) +Suppress(LineEnd())
-		game = Optional(~LineEnd() +delimitedList(',')) +SkipTo(LineEnd())
-		game = game.setResultsName('game')		
-		platform = Suppress(Literal('Platform: ')) +(Optional(~LineEnd() +commaSeparatedList))
-		platform = platform.setResultsName('platform')
-		region = Suppress(Literal('Region: ')) +(Optional(~LineEnd() +commaSeparatedList))
-		region = region.setResultsName('region')		
-		media = Suppress(Literal('Media: ')) +(Optional(~LineEnd() +commaSeparatedList))
-		media = media.setResultsName('media').setDebug()		
-		controller = Suppress(Literal('Controller: ')) +(Optional(~LineEnd() +commaSeparatedList))
-		controller = controller.setResultsName('controller')
-		#TODO Item Delimiter		
-		genre = Suppress(Literal('Genre: ')) +(Optional(~LineEnd() +commaSeparatedList))
-		genre = genre.setResultsName('genre')				
-		year = Suppress(Literal('Release Year: ')) +(Optional(~LineEnd() +commaSeparatedList))
-		year = year.setResultsName('year')				
-		dev = Suppress(Literal('Developer: ')) +(Optional(~LineEnd() +commaSeparatedList))
-		dev = dev.setResultsName('developer')				
-		publisher = Suppress(Literal('Publisher: ')) +(Optional(~LineEnd() +commaSeparatedList))
-		publisher = publisher.setResultsName('publisher')
-		players = Suppress(Literal('Players: ')) +(Optional(~LineEnd() +commaSeparatedList))
-		players = players.setResultsName('players')
-		line = Suppress(Combine(OneOrMore(Literal('_'))))
-		line = line.setResultsName('line')
-		#star = Suppress(Literal('*') +LineEnd())
-		#star = star.setResultsName('star')
-		#desc = SkipTo(star)
-		desc = ZeroOrMore(unicode(Word(printables + alphas8bit))) +SkipTo(star)
-		desc = desc.setResultsName('description')
-		delimiter = Suppress(SkipTo(LineEnd()))
-		gamegrammar = star +crc +game +platform + region + media + controller + genre \
-			+ year + dev +publisher +players +line + star +desc +delimiter
-		
-		filegrammar = OneOrMore(gamegrammar)
-		
-		fh = open(str(descFile), 'r')
-		fileAsString = fh.read()		
-		fileAsString = fileAsString.decode('iso-8859-15')		
 				
-		results = filegrammar.parseString(fileAsString)
-		
 		return results
 
 
 
 def main():
 	dp = DescriptionParser()
-	results = dp.parseDescription('E:\\Emulatoren\\data\\Amiga\\Collection V1\\synopsis\\synopsis parserTest.txt', 
-		'C:\\Dokumente und Einstellungen\\lom\\Anwendungsdaten\\XBMC\\scripts\\RomCollectionBrowser\\resources\\database\\parserConfig.xml', 'Football Glory')
-	print results	
+	results = dp.parseDescription('E:\\Emulatoren\\data\\Testdata\\parserExamples\\03 - synopsis.txt', 
+		'E:\\Emulatoren\\data\\Testdata\\parserExamples\\03 - parserConfig.xml', '')
+	for result in results:
+		print result.asDict()
 	del dp
 	
 #main()
