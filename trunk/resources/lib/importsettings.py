@@ -37,6 +37,7 @@ class SettingsImporter:
 		romCollections = xmlDoc.getElementsByTagName('RomCollection')
 		for romCollection in romCollections:			
 			romCollName = self.getElementValue(romCollection, 'name')
+			consoleName = self.getElementValue(romCollection, 'consoleName')
 			emuCmd = self.getElementValue(romCollection, 'emulatorCmd')
 			emuSolo = self.getElementValue(romCollection, 'useEmuSolo')
 			escapeCmd = self.getElementValue(romCollection, 'escapeCommand')
