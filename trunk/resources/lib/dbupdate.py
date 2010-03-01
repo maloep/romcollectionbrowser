@@ -26,7 +26,7 @@ class DBUpdate:
 		self.log("Reading Rom Collections from database")
 		romCollectionRows = RomCollection(self.gdb).getAll()
 		if(romCollectionRows == None):
-			self.log("ERROR: There are no Rom Collections in database. Make sure you import settings first.")
+			self.log("ERROR: There are no Rom Collections in database. Make sure to import settings first.")
 			self.exit()
 			return
 		self.log(str(len(romCollectionRows)) +" Rom Collections read")		
@@ -119,6 +119,7 @@ class DBUpdate:
 								"This usually happens if game name in description file differs from game name in rom file name.")
 							continue
 						self.insertFile(str(filename), gameRow[0], "rom")
+						self.gdb.commit()
 						continue
 						
 					lastgamename = gamename
@@ -157,8 +158,7 @@ class DBUpdate:
 						if(gamedescription == Emty()):
 							self.log("WARNING: game " +gamename +" could not be found in parsed results")
 							continue
-					else:
-						self.log("Parsing game description")
+					else:						
 						results = self.parseDescriptionFile(str(descriptionPath), str(descParserFile), gamename)
 						if(results == None):							
 							lastgamename = ""
@@ -168,7 +168,7 @@ class DBUpdate:
 					
 					self.insertData(gamedescription, romCollectionRow[0], filename, ingameScreenFiles, titleScreenFiles, coverFiles, cartridgeFiles,
 						manualFiles, ingameVideoFiles, trailerFiles, configurationFiles)
-		exit()
+		self.exit()
 		
 	
 	def resolvePath(self, paths, gamename):		
@@ -185,10 +185,17 @@ class DBUpdate:
 	
 	def parseDescriptionFile(self, descriptionPath, descParserFile, gamename):
 		descriptionfile = descriptionPath.replace("%GAME%", gamename)
-							
+
 		if(os.path.exists(descriptionfile)):
+			self.log("Parsing game description: " +descriptionfile)
 			dp = DescriptionParser()
-			results = dp.parseDescription(descriptionfile, descParserFile, gamename)
+			
+			try:
+				results = dp.parseDescription(descriptionfile, descParserFile, gamename)
+			except ParseException as exc:
+				self.log("WARNING: an error occured while parsing game description: " +descriptionfile)
+				self.log("Parser complains about: " +str(exc))
+				return None
 				
 			#TODO delete objects?
 			del dp
@@ -204,17 +211,18 @@ class DBUpdate:
 	def insertData(self, gamedescription, romCollectionId, romFile, ingameScreenFiles, titleScreenFiles, coverFiles, cartridgeFiles,
 						manualFiles, ingameVideoFiles, trailerFiles, configurationFiles):
 		self.log("Insert data")
-		self.log("Result game (form Parser) = " +str(gamedescription.Game))
-		self.log("Result desc (form Parser) = " +str(gamedescription.Description))
-		self.log("Result year (form Parser) = " +str(gamedescription.ReleaseYear))
-		self.log("Result genre (form Parser) = " +str(gamedescription.Genre))
-		self.log("Result publisher (form Parser) = " +str(gamedescription.Publisher))
+		self.log("Result game (from Parser) = " +str(gamedescription.Game))
+		self.log("Result desc (from Parser) = " +str(gamedescription.Description))
+		self.log("Result year (from Parser) = " +str(gamedescription.ReleaseYear))
+		self.log("Result genre (from Parser) = " +str(gamedescription.Genre))
+		self.log("Result publisher (from Parser) = " +str(gamedescription.Publisher))
 		
 		
 		year = gamedescription.ReleaseYear[0].strip()
 		self.log("Result year (as string) = " +year)
 		yearRow = Year(self.gdb).getOneByName(year)
-		if(yearRow == None):				
+		if(yearRow == None):	
+			self.log("Year does not exist in database. Insert year: " +year)
 			Year(self.gdb).insert((year,))
 			yearId = self.gdb.cursor.lastrowid
 		else:
@@ -228,6 +236,7 @@ class DBUpdate:
 			self.log("Result genre (as string) = " +genreItem)
 			genreRow = Genre(self.gdb).getOneByName(genreItem)
 			if(genreRow == None):
+				self.log("Genre does not exist in database. Insert genre: " +genreItem)
 				Genre(self.gdb).insert((genreItem,))				
 				genreIds.append(self.gdb.cursor.lastrowid)
 			else:
@@ -237,7 +246,8 @@ class DBUpdate:
 		self.log("Result publisher (as string) = " +publisher)
 		publisherRow = Publisher(self.gdb).getOneByName(publisher)
 		print publisherRow
-		if(publisherRow == None):				
+		if(publisherRow == None):
+			self.log("Publisher does not exist in database. Insert publisher: " +publisher)
 			Publisher(self.gdb).insert((publisher,))
 			publisherId = self.gdb.cursor.lastrowid
 		else:
@@ -248,7 +258,8 @@ class DBUpdate:
 		self.log("Result game (as string) = " +game)
 		gameRow = Game(self.gdb).getOneByName(game)
 		print gameRow
-		if(gameRow == None):			
+		if(gameRow == None):
+			self.log("Game does not exist in database. Insert game: " +game)
 			Game(self.gdb).insert((game, gamedescription.Description[0], '', '', romCollectionId, publisherId, yearId))
 			gameId = self.gdb.cursor.lastrowid
 		else:
@@ -280,10 +291,11 @@ class DBUpdate:
 			
 		
 	def insertFile(self, fileName, gameId, fileType):
-		self.log("Insert file: " +fileName)
+		self.log("Begin Insert file: " +fileName)
 		fileRow = File(self.gdb).getFileByNameAndType(fileName, fileType)
 		fileTypeRow = FileType(self.gdb).getOneByName(fileType)
 		if(fileRow == None):
+			self.log("File does not exist in database. Insert file: " +fileName)
 			File(self.gdb).insert((str(fileName), fileTypeRow[0], gameId))
 			
 
@@ -292,6 +304,7 @@ class DBUpdate:
 			self.logFile.write(message +"\n")
 		
 	def exit(self):
+		self.log("Update finished")
 		self.logFile.close()
 
 
@@ -305,4 +318,4 @@ def main():
 	del gdb
 	
 	
-#main()
+main()
