@@ -85,15 +85,15 @@ class DescriptionParser:
 
 			if(node.nodeName == 'SkippableContent'):				
 				if(literal != None):
-					nodeGrammar += Suppress(literal)
-			else:
-				nodeGrammar = nodeGrammar.setResultsName(node.nodeName)
+					nodeGrammar += Suppress(literal)			
 				
 			delimiter = node.attributes.get('delimiter')
 			if(delimiter != None):				
 				nodeGrammar += (Optional(~LineEnd() +commaSeparatedList))
 			elif (isRol):		
 				nodeGrammar += rolGrammar
+				
+			nodeGrammar = nodeGrammar.setResultsName(node.nodeName)
 						
 			if(appendNextNode == False):				
 				grammarList.append(nodeGrammar)	
