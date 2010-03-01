@@ -51,7 +51,7 @@ class DBUpdate:
 				
 				if(DEBUG):
 					for result in results:
-						self.log(result.asDict())
+						self.log(str(result.asDict()))
 			
 			#romCollectionRow[8] = startWithDescFile
 			self.log("using start with description file: " +romCollectionRow[8])
@@ -155,7 +155,7 @@ class DBUpdate:
 							if (gamedesc.strip() == gamename.strip()):
 								self.log("result found: " +gamedesc)
 								gamedescription = result
-						if(gamedescription == Emty()):
+						if(gamedescription == Empty()):
 							self.log("WARNING: game " +gamename +" could not be found in parsed results")
 							continue
 					else:						
@@ -192,7 +192,7 @@ class DBUpdate:
 			
 			try:
 				results = dp.parseDescription(descriptionfile, descParserFile, gamename)
-			except ParseException as exc:
+			except Exception, (exc):
 				self.log("WARNING: an error occured while parsing game description: " +descriptionfile)
 				self.log("Parser complains about: " +str(exc))
 				return None
@@ -318,4 +318,4 @@ def main():
 	del gdb
 	
 	
-main()
+#main()
