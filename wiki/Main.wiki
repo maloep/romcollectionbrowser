@@ -86,7 +86,7 @@ An example file could look like this:
 	</Consoles>
 	<RomCollections>
 		<RomCollection>			
-			<name>Collection V3</name>
+			<name>Collection V1</name>
 			<consoleName>Amiga</consoleName>
 			<emulatorCmd>uae {-%I% "%ROM%"}</emulatorCmd>
 			<useEmuSolo>True</useEmuSolo>
@@ -94,16 +94,16 @@ An example file could look like this:
 			<relyOnNaming>True</relyOnNaming>
 			<startWithDescFile>False</startWithDescFile>
 			<DescFilePerGame>True</DescFilePerGame>
-			<descriptionParserFile>/home/user/emu/Amiga/Collection V3/parserConfig.xml</descriptionParserFile>
+			<descriptionParserFile>/home/user/emu/Amiga/Collection V1/parserConfig.xml</descriptionParserFile>
 			<diskPrefix>_Disk</diskPrefix>
-			<romPath>/home/user/emu/Amiga/Collection V3/games/*.adf</romPath>
-			<descFilePath>/home/user/emu/Amiga/Collection V3/%GAME%/info.txt</descFilePath>
-			<coverPath>/home/user/emu/Amiga/Collection V3/%GAME%/covers/*.jpg</coverPath>
-			<coverPath>/home/user/emu/Amiga/Collection V3/%GAME%/covers/*.gif</coverPath>
-			<coverPath>/home/user/emu/Amiga/Collection V3/%GAME%/covers/*.png</coverPath>
-			<ingamescreenshotPath>/home/user/emu/Amiga/Collection V3/%GAME%/screens/*.jpg</ingamescreenshotPath>
-			<ingamescreenshotPath>/home/user/emu/Amiga/Collection V3/%GAME%/screens/*.gif</ingamescreenshotPath>
-			<ingamescreenshotPath>/home/user/emu/Amiga/Collection V3/%GAME%/screens\*.png</ingamescreenshotPath>
+			<romPath>/home/user/emu/Amiga/Collection V1/games/*.adf</romPath>
+			<descFilePath>/home/user/emu/Amiga/Collection V1/%GAME%/info.txt</descFilePath>
+			<coverPath>/home/user/emu/Amiga/Collection V1/%GAME%/covers/*.jpg</coverPath>
+			<coverPath>/home/user/emu/Amiga/Collection V1/%GAME%/covers/*.gif</coverPath>
+			<coverPath>/home/user/emu/Amiga/Collection V1/%GAME%/covers/*.png</coverPath>
+			<ingamescreenshotPath>/home/user/emu/Amiga/Collection V1/%GAME%/screens/*.jpg</ingamescreenshotPath>
+			<ingamescreenshotPath>/home/user/emu/Amiga/Collection V1/%GAME%/screens/*.gif</ingamescreenshotPath>
+			<ingamescreenshotPath>/home/user/emu/Amiga/Collection V1/%GAME%/screens/*.png</ingamescreenshotPath>
 			<titleScreenshotPath></titleScreenshotPath>
 			<cartridgePath></cartridgePath>
 			<configFilePath></configFilePath>
@@ -123,27 +123,7 @@ An example file could look like this:
 		<FileType>
 			<name>screenshotingame</name>
 		</FileType>
-		<FileType>
-			<name>cover</name>
-		</FileType>
-		<FileType>
-			<name>cartridge</name>
-		</FileType>
-		<FileType>
-			<name>manual</name>
-		</FileType>
-		<FileType>
-			<name>ingamevideo</name>
-		</FileType>
-		<FileType>
-			<name>trailer</name>
-		</FileType>
-		<FileType>
-			<name>description</name>
-		</FileType>
-		<FileType>
-			<name>configuration</name>
-		</FileType>
+		...
 	</FileTypes>	
 </config>
 }}}
