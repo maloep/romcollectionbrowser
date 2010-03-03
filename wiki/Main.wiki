@@ -1,6 +1,8 @@
 #labels RomCollectionBrowser,documentation
 =Rom Collection Browser=
 
+Information on this site is incomplete
+
 == Introduction ==
 As the name says this script will handle rom collections that you can buy, download or collect by yourself. That means that you will have all information (screenshots, covers, description files, ...) on your computer. You can point this script to your rom folders and additional data and tell it to import all information to its database. Afterwards you should be able to browse all imported roms by filter criteria (console, genre, ...), show some extra info like screenshots, publisher, plot, ... and invoke an external emulator with additional parameters like selected rom file name.
 
@@ -128,13 +130,3 @@ An example file could look like this:
 	</FileTypes>	
 </config>
 }}}
-
-
-=== parserConfig.xml ===
-
-== Configuration Examples ==
-
-== What is done ==
-== What is left ==
-== Known issues ==
-== Change History ==
