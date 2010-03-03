@@ -6,12 +6,13 @@ As the name says this script will handle rom collections that you can buy, downl
 
 Actually this script relies on file naming. If you have a Game "Mygame" its rom file should be named "Mygame.adf" if it is an amiga game. All screenshots must be named "Mygame.jpg", "Mygame.png", ... OR they will have to reside in a folder that is called "Mygame". Then this script will import all image files in this folder and associate it with the game "Mygame". Configuration of screenshot paths can look like this:
 
-"/home/user/emus/amiga/screens/%GAME%/`*`.png"
+"/home/user/emu/amiga/screens/%GAME%/`*`.png"
 
-"/home/user/emus/amiga/%GAME%/screens/`*`.png"
+"/home/user/emu/amiga/%GAME%/screens/`*`.png"
 
-"/home/user/emus/amiga/screens/%GAME%.png"
+"/home/user/emu/amiga/screens/%GAME%.png"
 
+%GAME% will be replaced with the current game name during import.
 
 == Setup test scenario ==
 To show you how this script will work and how data should (could) be organized I also provide a zip file with testdata. This includes cover screenshots, game screenshots, game description files and sample configuration files. It only includes placeholder files for the roms (empty text files that show you a sample naming convention). You can download the roms here: http://www.amigaland.de/index.php?option=com_remository&Itemid=27&func=select&id=2. As they say all roms on this page are free to download legally. You will have to rename some of them because I need a special disk indicator to support multiple roms for one game (explained in configuration section).
