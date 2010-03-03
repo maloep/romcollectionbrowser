@@ -17,7 +17,7 @@ Actually this script relies on file naming. If you have a Game "Mygame" its rom 
 == Setup test scenario ==
 To show you how this script will work and how data should (could) be organized I also provide a zip file with testdata. This includes cover screenshots, game screenshots, game description files and sample configuration files. It only includes placeholder files for the roms (empty text files that show you a sample naming convention). You can download the roms here: http://www.amigaland.de/index.php?option=com_remository&Itemid=27&func=select&id=2. As they say all roms on this page are free to download legally. You will have to rename some of them because I need a special disk indicator to support multiple roms for one game (explained in configuration section).
 
-1. Download "Rom Collection Browser V0.2.zip (http://romcollectionbrowser.googleco...ser%20V0.2.zip)
+1. Download "Rom Collection Browser V0.2.zip (http://romcollectionbrowser.googlecode.com/files/Rom%20Collection%20Browser%20V0.2.zip)
 
 2. Unzip it to your XBMC scripts folder
 
