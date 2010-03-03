@@ -21,7 +21,7 @@ To show you how this script will work and how data should (could) be organized I
 
 2. Unzip it to your XBMC scripts folder
 
-3. Download "Testdata.zip" (http://romcollectionbrowser.googleco...s/Testdata.zip)
+3. Download "Testdata.zip" (http://romcollectionbrowser.googlecode.com/files/Testdata.zip)
 
 4. Unzip it somewhere
 
