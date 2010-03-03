@@ -63,8 +63,92 @@ If you add new data to one of your rom collection you can use "Updata DB" as oft
 
 
 == Configuration ==
+Configuration is done via xml files. There is one main configuration file "config.xml" that you can find in the database directory. There can also be some parser configuration files that will allow you to control the behaviour of the description file parser.
 
 === config.xml ===
+This is the main configuration file. You can find it here: XBMC/scripts/Rom Collection Browser/resources/database/config.xml. 
+
+An example file could look like this:
+
+{{{
+<config>
+	<Consoles>		
+		<Console>
+			<name>Amiga</name>
+			<desc>Description of Amiga</desc>
+			<imgFile>/home/user/emu/Amiga.png</imgFile>
+		</Console>
+		<Console>
+			<name>Super Nintendo</name>
+			<desc>Description of Super Nintendo</desc>
+			<imgFile>/home/user/emu/NES.png</imgFile>
+		</Console>
+	</Consoles>
+	<RomCollections>
+		<RomCollection>			
+			<name>Collection V3</name>
+			<consoleName>Amiga</consoleName>
+			<emulatorCmd>uae {-%I% "%ROM%"}</emulatorCmd>
+			<useEmuSolo>True</useEmuSolo>
+			<escapeCommand>True</escapeCommand>
+			<relyOnNaming>True</relyOnNaming>
+			<startWithDescFile>False</startWithDescFile>
+			<DescFilePerGame>True</DescFilePerGame>
+			<descriptionParserFile>/home/user/emu/Amiga/Collection V3/parserConfig.xml</descriptionParserFile>
+			<diskPrefix>_Disk</diskPrefix>
+			<romPath>/home/user/emu/Amiga/Collection V3/games/*.adf</romPath>
+			<descFilePath>/home/user/emu/Amiga/Collection V3/%GAME%/info.txt</descFilePath>
+			<coverPath>/home/user/emu/Amiga/Collection V3/%GAME%/covers/*.jpg</coverPath>
+			<coverPath>/home/user/emu/Amiga/Collection V3/%GAME%/covers/*.gif</coverPath>
+			<coverPath>/home/user/emu/Amiga/Collection V3/%GAME%/covers/*.png</coverPath>
+			<ingamescreenshotPath>/home/user/emu/Amiga/Collection V3/%GAME%/screens/*.jpg</ingamescreenshotPath>
+			<ingamescreenshotPath>/home/user/emu/Amiga/Collection V3/%GAME%/screens/*.gif</ingamescreenshotPath>
+			<ingamescreenshotPath>/home/user/emu/Amiga/Collection V3/%GAME%/screens\*.png</ingamescreenshotPath>
+			<titleScreenshotPath></titleScreenshotPath>
+			<cartridgePath></cartridgePath>
+			<configFilePath></configFilePath>
+			<ingamevidPath></ingamevidPath>
+			<trailerPath></trailerPath>
+			<manualPath></manualPath>
+		</RomCollection>
+	</RomCollections>
+	<!-- Don't edit filetypes -->
+	<FileTypes>
+		<FileType>
+			<name>rom</name>
+		</FileType>
+		<FileType>
+			<name>screenshottitle</name>
+		</FileType>
+		<FileType>
+			<name>screenshotingame</name>
+		</FileType>
+		<FileType>
+			<name>cover</name>
+		</FileType>
+		<FileType>
+			<name>cartridge</name>
+		</FileType>
+		<FileType>
+			<name>manual</name>
+		</FileType>
+		<FileType>
+			<name>ingamevideo</name>
+		</FileType>
+		<FileType>
+			<name>trailer</name>
+		</FileType>
+		<FileType>
+			<name>description</name>
+		</FileType>
+		<FileType>
+			<name>configuration</name>
+		</FileType>
+	</FileTypes>	
+</config>
+}}}
+
+
 === parserConfig.xml ===
 
 == Configuration Examples ==
