@@ -4,7 +4,7 @@
 == Introduction ==
 As the name says this script will handle rom collections that you can buy, download or collect by yourself. That means that you will have some roms, screenshots, covers, description files, ... on your computer. You can point this script to your rom folders and additional data and tell it to import all information to its database. Afterwards you should be able to browse all imported roms by some filter criteria (console, genre, ...), show some extra info like screenshots, publisher, plot, ... and invoke an external emulator with additional parameters like selected rom file name.
 
-Actually this script relies on file naming. If you have a Game _MyGame_ its rom file should be named _MyGame.adf_ if it is an amiga game for example. All screenshots must be named _MyGame.jpg_, _MyGame.png_, ... OR they will have to reside in a folder that is called _MyGame_. Then this script will import all image files in this folder and associate it with _MyGame_. Configuration of screenshot paths will look like this: _/home/user/emus/amiga/screens/%GAME%/`*`.png_ or _/home/user/emus/amiga/screens/%GAME%.png_.
+Actually this script relies on file naming. If you have a Game "Mygame" its rom file should be named "Mygame.adf" if it is an amiga game for example. All screenshots must be named "Mygame.jpg", "Mygame.png", ... OR they will have to reside in a folder that is called "Mygame". Then this script will import all image files in this folder and associate it with the game "Mygame". Configuration of screenshot paths will look like this: _/home/user/emus/amiga/screens/%GAME%/`*`.png_ or _/home/user/emus/amiga/screens/%GAME%.png_.
 
 
 == Setup test scenario ==
