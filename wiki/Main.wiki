@@ -1,0 +1,66 @@
+#labels RomCollectionBrowser,documentation
+=Rom Collection Browser=
+
+== Introduction ==
+As the name says this script will handle rom collections that you can buy, download or collect by yourself. That means that you will have some roms, screenshots, covers, description files, ... on your computer. You can point this script to your rom folders and additional data and tell it to import all information to its database. Afterwards you should be able to browse all imported roms by some filter criteria (console, genre, ...), show some extra info like screenshots, publisher, plot, ... and invoke an external emulator with additional parameters like selected rom file name.
+
+Actually this script relies on file naming. If you have a Game "MyGame" its rom file should be named "MyGame.adf" if it is an amiga game for example. All screenshots must be named "MyGame.jpg", "MyGame.png", ... OR they will have to reside in a folder that is called "MyGame". Then this script will import all image files in this folder and associate it with "MyGame". Configuration of screenshot paths will look like this: "/home/user/emus/amiga/screens/%GAME%/`*`.png" or "/home/user/emus/amiga/screens/%GAME%.png".
+
+
+== Setup test scenario ==
+To show you how this script will work and how data should (could) be organized I also provide a zip file with testdata. This includes cover screenshots, game screenshots, game description files and sample configuration files. It only includes placeholder files for the roms (empty text files that show you a sample naming convention). You can download the roms here: http://www.amigaland.de/index.php?option=com_remository&Itemid=27&func=select&id=2. As they say all roms on this page are free to download legally. You will have to rename some of them because I need a special disk indicator to support multiple roms for one game (explained in configuration section).
+
+1. Download "Rom Collection Browser V0.2.zip (http://romcollectionbrowser.googleco...ser%20V0.2.zip)
+
+2. Unzip it to your XBMC scripts folder
+
+3. Download "Testdata.zip" (http://romcollectionbrowser.googleco...s/Testdata.zip)
+
+4. Unzip it somewhere
+
+5. Go to the Testdata folder
+
+6. Edit "config_Windows.xml" or "config_Linux.xml": Replace every occurance of "PathToTestData" with the absolute path to your Testdata folder (e.g "/home/user/Testdata")
+
+7. (Optionally) edit the value of property "emulatorCmd". This command will be invoked when you launch a rom file. %ROM% will be replaced with the name of the rom file to be launched. If you have multiple rom files for one game %I% will be replaced with the (zero-based) index of the current file.
+
+8. Rename "config_Windows.xml" or "config_Linux.xml" to "config.xml"
+
+9. Copy "config.xml" to "XBMC/scripts/Rom Collection Browser/resources/database" (overwrite the existing file)
+
+10. Linux only: make the file "XBMC/scripts/Rom Collection Browser/applaunch.sh" executable
+
+11. Start xbmc
+
+12. Go to "Rom Collection Browser": You should see the initial view with some empty lists and three buttons.
+
+13. Click "Import Settings": After some seconds you should see the entries "Amiga" and "Super Nintendo" in the filter list "Consoles".
+
+14. Click "Update DB": After some seconds all other filter lists should be filled with data. Now you can move around and get a filtered view of all imported rom files (only 7 amiga games in this test scenario).
+
+
+== Usage ==
+"Rom Collection Browser" will scan your rom folders and data folders and will import as much game relevant data as it can get. To get this job done you have to tell it where to search and what to search for. At the moment this is done via xml configuration file. In a later release this could be done via settings page.
+
+=== Import Settings ===
+To prepare implementation of a settings page I decided to store configuration information in the database. So you will have to import settings from your xml config file before you can start scanning rom folders. This will import settings from "XBMC/scripts/Rom Collection Browser/resources/database/config.xml" to database "MyGames.db" (same folder). The format of this configuration file is explained in a later section.
+
+At the momoment there is no way to update configuration information! If you change your configuration you will have to delete database "MyGames.db" (just delete the file) and reimport settings (and start "Update DB" again). You could also use a database tool like sqlitestudio to edit the values directly in database.
+
+
+=== Update DB ===
+This will use the settings information you imported in the previous step and scans the configured folders for roms and data. Every imported file will be associated with a game and a filetype (rom, ingame screenshot, title screenshot, cover, ...). Only the path to the file is imported, not the file itself. If you delete or move the file after importing it won't work anymore.
+
+RCB will also try to parse description files for your games. There is a configurable parser that will read an xml parser configuration file that tells it how to parse the current file format. At the moment this only works with simple multiline text files. Maybe I will try to improve this feature by adding support for xml files and one-line csv files. The format of this parser configuration is explained in a later section.
+
+
+== Configuration ==
+=== config.xml ===
+=== parserConfig.xml ===
+
+== Configuration Examples ==
+
+== What is done ==
+== What is left ==
+== Known issues ==
+== Change History ==
