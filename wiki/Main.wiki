@@ -4,7 +4,13 @@
 == Introduction ==
 As the name says this script will handle rom collections that you can buy, download or collect by yourself. That means that you will have some roms, screenshots, covers, description files, ... on your computer. You can point this script to your rom folders and additional data and tell it to import all information to its database. Afterwards you should be able to browse all imported roms by some filter criteria (console, genre, ...), show some extra info like screenshots, publisher, plot, ... and invoke an external emulator with additional parameters like selected rom file name.
 
-Actually this script relies on file naming. If you have a Game "Mygame" its rom file should be named "Mygame.adf" if it is an amiga game for example. All screenshots must be named "Mygame.jpg", "Mygame.png", ... OR they will have to reside in a folder that is called "Mygame". Then this script will import all image files in this folder and associate it with the game "Mygame". Configuration of screenshot paths will look like this: _/home/user/emus/amiga/screens/%GAME%/`*`.png_ or _/home/user/emus/amiga/screens/%GAME%.png_.
+Actually this script relies on file naming. If you have a Game "Mygame" its rom file should be named "Mygame.adf" if it is an amiga game. All screenshots must be named "Mygame.jpg", "Mygame.png", ... OR they will have to reside in a folder that is called "Mygame". Then this script will import all image files in this folder and associate it with the game "Mygame". Configuration of screenshot paths can look like this:
+
+"/home/user/emus/amiga/screens/%GAME%/`*`.png"
+
+"/home/user/emus/amiga/%GAME%/screens/`*`.png"
+
+"/home/user/emus/amiga/screens/%GAME%.png"
 
 
 == Setup test scenario ==
@@ -43,18 +49,21 @@ To show you how this script will work and how data should (could) be organized I
 "Rom Collection Browser" will scan your rom folders and data folders and will import as much game relevant data as it can get. To get this job done you have to tell it where to search and what to search for. At the moment this is done via xml configuration file. In a later release this could be done via settings page.
 
 === Import Settings ===
-To prepare implementation of a settings page I decided to store configuration information in the database. So you will have to import settings from your xml config file before you can start scanning rom folders. This will import settings from "XBMC/scripts/Rom Collection Browser/resources/database/config.xml" to database "MyGames.db" (same folder). The format of this configuration file is explained in a later section.
+To prepare implementation of a settings page I decided to store configuration information in the database. So you will have to import settings from your xml config file before you can start scanning rom folders. Import settings means that information from your configuration file "XBMC/scripts/Rom Collection Browser/resources/database/config.xml" will be written to database "MyGames.db" (same folder). The format of this configuration file is explained in a later section.
 
 At the momoment there is no way to update configuration information! If you change your configuration you will have to delete database "MyGames.db" (just delete the file) and reimport settings (and start "Update DB" again). You could also use a database tool like sqlitestudio to edit the values directly in database.
 
 
 === Update DB ===
-This will use the settings information you imported in the previous step and scans the configured folders for roms and data. Every imported file will be associated with a game and a filetype (rom, ingame screenshot, title screenshot, cover, ...). Only the path to the file is imported, not the file itself. If you delete or move the file after importing it won't work anymore.
+This will use the settings information you imported in the previous step to scan the configured folders for roms and data. Every imported file will be associated with a game and a filetype (rom, ingame screenshot, title screenshot, cover, ...). Only the path to the file is imported, not the file itself. If you delete or move the file after importing it won't work anymore.
 
-RCB will also try to parse description files for your games. There is a configurable parser that will read an xml parser configuration file that tells it how to parse the current file format. At the moment this only works with simple multiline text files. Maybe I will try to improve this feature by adding support for xml files and one-line csv files. The format of this parser configuration is explained in a later section.
+RCB will also try to parse description files for your games. There is a configurable parser that will read an xml parser configuration file that tells it how to parse the current file format. At the moment this only works with simple multiline text files. The format of this parser configuration is explained in a later section.
+
+If you add new data to one of your rom collection you can use "Updata DB" as often as you like. Every run will only import new data and will ignore all data that is already stored in database. But that also means that you won't be able to update data of your roms. To achieve this you have to delete your database and reimport.
 
 
 == Configuration ==
+
 === config.xml ===
 === parserConfig.xml ===
 
