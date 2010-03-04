@@ -135,7 +135,7 @@ An example file could look like this:
 You must add every console you want to emulate here. Configuration properties should be self explanating.
 
 
-==== RomCollection ====
+==== `RomCollection` ====
 There is a 1:n relation from rom collection to console: you can configure 1 emulator for each rom collection but there could be different rom collections that use the same emulator. Usually there will be one RomCollection entry for each emulator/console.
 
 ===== name =====
@@ -154,7 +154,7 @@ This command will be invoked when you select a game. You can use the following p
 If the emulator supports multiple rom files (like uae) you can use {} for repeating parameters. In a command like "uae {-%I% "%ROM%"}" the part in the {} brackets will be repeated for any disk file of the game. For example if you have an amiga game (MyGame) that consists of 2 disk files the uae command at runtime could be: uae -0 "MyGame_Disk1.adf" -1 "MyGame_Disk2.adf".
 
 ===== diskPrefix =====
-This is used to detect multi rom games. I don't want to show every rom file in th UI if they all belong to the same game. Second reason to use this property are emulators that support to load more than one file at once (like uae). I can't rely on file numbering becaus you will also have different releases for one game (Lemmings, Lemmings 2, Lemmings 3).
+This is used to detect multi rom games. I don't want to show every rom file in th UI if they all belong to the same game. Second reason to use this property are emulators that support to load more than one file at once (like uae). I can't rely on file numbering because you will also have different releases for one game (Lemmings, Lemmings 2, Lemmings 3).
 
 If you use "_Disk" as diskPrefix and you have some rom files named "Mygame.adf", "Mygame 2_Disk1.adf" and "Mygame 2_Disk2.adf" this will be detected as two games "Mygame" and "Mygame 2" where "Mygame 2" consists of two rom files. In the UI you will see the "friendly" gamename "Mygame 2". If you have your emulatorCmd configured to support multiple rom files you can load both files at once (see explanation of parameter "emulatorCmd").
 
