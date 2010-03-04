@@ -201,9 +201,9 @@ The path to the cover files. There can be multiple paths per `RomCollection`. Al
 
 Examples:
 
-"/home/user/emu/amiga/covers/%GAME%/*.png"
+"/home/user/emu/amiga/covers/%GAME%/`*`.png"
 
-"/home/user/emu/amiga/%GAME%/covers/*.png"
+"/home/user/emu/amiga/%GAME%/covers/`*`.png"
 
 "/home/user/emu/amiga/covers/%GAME%.png"
 
@@ -217,9 +217,9 @@ The path to the ingame screenshot files. There can be multiple paths per `RomCol
 
 Examples:
 
-"/home/user/emu/amiga/ingame screens/%GAME%/*.png"
+"/home/user/emu/amiga/ingame screens/%GAME%/`*`.png"
 
-"/home/user/emu/amiga/%GAME%/ingame screens/*.png"
+"/home/user/emu/amiga/%GAME%/ingame screens/`*`.png"
 
 "/home/user/emu/amiga/ingame screens/%GAME%.png"
 
@@ -233,9 +233,9 @@ The path to the title screenshot files. There can be multiple paths per `RomColl
 
 Examples:
 
-"/home/user/emu/amiga/title screens/%GAME%/*.png"
+"/home/user/emu/amiga/title screens/%GAME%/`*`.png"
 
-"/home/user/emu/amiga/%GAME%/title screens/*.png"
+"/home/user/emu/amiga/%GAME%/title screens/`*`.png"
 
 "/home/user/emu/amiga/title screens/%GAME%.png"
 
@@ -251,9 +251,9 @@ The path to the cartridge files. There can be multiple paths per `RomCollection`
 
 Examples:
 
-"/home/user/emu/amiga/cartridges/%GAME%/*.png"
+"/home/user/emu/amiga/cartridges/%GAME%/`*`.png"
 
-"/home/user/emu/amiga/%GAME%/cartridges/*.png"
+"/home/user/emu/amiga/%GAME%/cartridges/`*`.png"
 
 "/home/user/emu/amiga/cartridges/%GAME%.png"
 
