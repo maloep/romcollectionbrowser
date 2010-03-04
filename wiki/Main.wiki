@@ -172,7 +172,7 @@ This will escape the rom file names passed to the emulatorCmd. I did not have pr
 ===== relyOnNaming =====
 This must be "True" actually. I thought about implementing other ways of importing rom files where you don't have to take care of your file naming. But as long as that is not done it must be "True".
 
-===== `DescFilePerGame` =====
+===== DescFilePerGame =====
 There can be one big description file with descriptions for all games in it. Or you can just have one description file per game. In second case the gamename must be somewhere in the path of the descFilePath.
 
 ===== startWithDescFile =====
@@ -182,7 +182,7 @@ This must be "False" actually. There are some rom collections (Amiga classix for
 Most rom collections that use game description files will have a different file format. I built a configurable parser that reads parse instructions from an xml file and then tries to parse the game descriptions with these instructions. There can only be one description parser file per `RomCollection` entry. The format of the parser file is explained in a later section.
 
 ===== romPath =====
-The path to your rom files. This path should include wildcards and file extension (*.adf).
+The path to your rom files. This path should include wildcards and file extension (`*`.adf for example).
 
 Actually there is only one rom path per RomCollection supported. This should be changed in a later release because you may have different paths and file extensions (.zip and .smc for example) in one collection.
 
