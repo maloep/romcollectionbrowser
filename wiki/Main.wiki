@@ -14,7 +14,7 @@ Actually this script relies on file naming. If you have a Game "Mygame" its rom 
 
 "/home/user/emu/amiga/screens/%GAME%.png"
 
-%GAME% will be replaced with the current game name during import.
+%GAME% will be replaced with the current game name during import. All files that match this file mask will be imported.
 
 == Setup test scenario ==
 To show you how this script will work and how data should (could) be organized I also provide a zip file with testdata. This includes cover screenshots, game screenshots, game description files and sample configuration files. It only includes placeholder files for the roms (empty text files that show you a sample naming convention). You can download the roms here: http://www.amigaland.de/index.php?option=com_remository&Itemid=27&func=select&id=2. As they say all roms on this page are free to download legally. You will have to rename some of them because I need a special disk indicator to support multiple roms for one game (explained in configuration section).
@@ -92,13 +92,13 @@ An example file could look like this:
 			<name>Collection V1</name>
 			<consoleName>Amiga</consoleName>
 			<emulatorCmd>uae {-%I% "%ROM%"}</emulatorCmd>
+			<diskPrefix>_Disk</diskPrefix>
 			<useEmuSolo>True</useEmuSolo>
 			<escapeCommand>True</escapeCommand>
-			<relyOnNaming>True</relyOnNaming>
-			<startWithDescFile>False</startWithDescFile>
+			<relyOnNaming>True</relyOnNaming>			
 			<DescFilePerGame>True</DescFilePerGame>
-			<descriptionParserFile>/home/user/emu/Amiga/Collection V1/parserConfig.xml</descriptionParserFile>
-			<diskPrefix>_Disk</diskPrefix>
+			<startWithDescFile>False</startWithDescFile>
+			<descriptionParserFile>/home/user/emu/Amiga/Collection V1/parserConfig.xml</descriptionParserFile>			
 			<romPath>/home/user/emu/Amiga/Collection V1/games/*.adf</romPath>
 			<descFilePath>/home/user/emu/Amiga/Collection V1/%GAME%/info.txt</descFilePath>
 			<coverPath>/home/user/emu/Amiga/Collection V1/%GAME%/covers/*.jpg</coverPath>
@@ -130,3 +130,117 @@ An example file could look like this:
 	</FileTypes>	
 </config>
 }}}
+
+==== Console ====
+You must add every console you want to emulate here. Configuration properties should be self explanating.
+
+
+==== RomCollection ====
+There is a 1:n relation from rom collection to console: you can configure 1 emulator for each rom collection but there could be different rom collections that use the same emulator. Usually there will be one RomCollection entry for each emulator/console.
+
+===== name =====
+This is only used to distinguish rom collections.
+
+===== consoleName =====
+This will associate all games of the current rom collection to this console. It is important that you use the exactly same name as in console configuration above.
+
+===== emulatorCmd =====
+This command will be invoked when you select a game. You can use the following placeholders in your commands:
+%ROM% will be replaced with the current file name
+%I% will be replaced with the zero-based index of the current rom file
+
+If the emulator supports multiple rom files (like uae) you can use {} for repeating parameters. In a command like "uae {-%I% "%ROM%"}" the part in the {} brackets will be repeated for any disk file of the game. For example if you have an amiga game (MyGame) that consists of 2 disk files the uae command at runtime could be: uae -0 "MyGame_Disk1.adf" -1 "MyGame_Disk2.adf".
+
+===== diskPrefix =====
+This is used to detect multi rom games. I don't want to show every rom file in th UI if they all belong to the same game. Second reason to use this property are emulators that support to load more than one file at once (like uae). I can't rely on file numbering becaus you will also have different releases for one game (Lemmings, Lemmings 2, Lemmings 3).
+
+If you use "_Disk" as diskPrefix and you have some rom files named "Mygame.adf", "Mygame 2_Disk1.adf" and "Mygame 2_Disk2.adf" this will be detected as two games "Mygame" and "Mygame 2" where "Mygame 2" consists of two rom files. In the UI you will see the "friendly" gamename "Mygame 2". If you have your emulatorCmd configured to support multiple rom files you can load both files at once (see explanation of parameter "emulatorCmd").
+
+
+===== useEmuSolo =====
+If set to "True" RCB will try to kill XBMC before starting the emulator. After exiting the emulator you will return to XBMC. If "False" the emulator will be launched while XBMC is running in the background.
+
+In a later release this should also launch RCB again and show your last selection before you launched the game.
+
+In current release there are some problems with this mechanism in windows. I am not able to launch the batch file that should kill XBMC. But I am on it.
+
+===== escapeCommand =====
+This will escape the rom file names passed to the emulatorCmd. I did not have problems with using "True" in Linux and Windows. But maybe you can try to change this if you are running into problems with launching games.
+
+===== relyOnNaming =====
+This must be "True" actually. I thought about implementing other ways of importing rom files where you don't have to take care of your file naming. But as long as that is not done it must be "True".
+
+===== DescFilePerGame =====
+There can be one big description file with descriptions for all games in it. Or you can just have one description file per game. In second case the gamename must be somewhere in the path of the descFilePath.
+
+===== startWithDescFile =====
+This must be "False" actually. There are some rom collections (Amiga classix for example) that don't use proper file naming (rom files are named different than screenshots) but have one big description file where you will be linked to the rom files and the screenshot files. I am thinking about adding support for this scenario but this has a low priority at the moment.
+
+===== descriptionParserFile =====
+Most rom collections that use game description files will have a different file format. I built a configurable parser that reads parse instructions from an xml file and then tries to parse the game descriptions with these instructions. There can only be one description parser file per RomCollection entry. The format of the parser file is explained in a later section.
+
+===== romPath =====
+The path to your rom files. This path should include wildcards and file extension (*.adf).
+
+Actually there is only one rom path per RomCollection supported. This should be changed in a later release because you may have different paths and file extensions (.zip and .smc for example) in one collection.
+
+===== descFilePath =====
+The path to the game description files. These files will be used to obtain additional information like genre, plot, publisher etc. about a game. Depending on the "DescFilePerGame"-Parameter this should be the absolute path to one description file or a path using the %GAME%-placeholder. There can only be one descFilePath per RomCollection.
+
+Examples:
+"/home/user/emu/Amiga/Collection V1/%GAME%/info.txt"
+"/home/user/emu/Amiga/Collection V1/Info/all.txt"
+
+===== coverPath =====
+The path to the cover files. There can be multiple paths per RomCollection. Also used to define file extensions for your files.
+
+Examples:
+"/home/user/emu/amiga/covers/%GAME%/*.png"
+"/home/user/emu/amiga/%GAME%/covers/*.png"
+"/home/user/emu/amiga/covers/%GAME%.png"
+"/home/user/emu/amiga/covers/%GAME%.jpg"
+"/home/user/emu/amiga/covers/%GAME%.gif"
+
+===== ingamescreenshotPath =====
+The path to the ingame screenshot files. There can be multiple paths per RomCollection. Also used to define file extensions for your files.
+
+Examples:
+"/home/user/emu/amiga/ingame screens/%GAME%/*.png"
+"/home/user/emu/amiga/%GAME%/ingame screens/*.png"
+"/home/user/emu/amiga/ingame screens/%GAME%.png"
+"/home/user/emu/amiga/ingame screens/%GAME%.jpg"
+"/home/user/emu/amiga/ingame screens/%GAME%.gif"
+
+===== titleScreenshotPath =====
+The path to the title screenshot files. There can be multiple paths per RomCollection. Also used to define file extensions for your files.
+
+"/home/user/emu/amiga/title screens/%GAME%/*.png"
+"/home/user/emu/amiga/%GAME%/title screens/*.png"
+"/home/user/emu/amiga/title screens/%GAME%.png"
+"/home/user/emu/amiga/title screens/%GAME%.jpg"
+"/home/user/emu/amiga/title screens/%GAME%.gif"
+
+NOTE: These files will be imported but not shown in the UI actually.
+
+===== cartridgePath =====
+The path to the cartridge files. There can be multiple paths per RomCollection. Also used to define file extensions for your files.
+
+"/home/user/emu/amiga/cartridges/%GAME%/*.png"
+"/home/user/emu/amiga/%GAME%/cartridges/*.png"
+"/home/user/emu/amiga/cartridges/%GAME%.png"
+"/home/user/emu/amiga/cartridges/%GAME%.jpg"
+"/home/user/emu/amiga/cartridges/%GAME%.gif"
+
+NOTE: These files will be imported but not shown in the UI actually.
+
+===== configFilePath =====
+not implemented in current release.
+
+===== ingamevidPath =====
+not implemented in current release.
+
+===== trailerPath =====
+not implemented in current release.
+
+===== manualPath =====
+not implemented in current release.
