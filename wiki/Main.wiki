@@ -146,7 +146,9 @@ This will associate all games of the current rom collection to this console. It 
 
 ===== emulatorCmd =====
 This command will be invoked when you select a game. You can use the following placeholders in your commands:
+
 %ROM% will be replaced with the current file name
+
 %I% will be replaced with the zero-based index of the current rom file
 
 If the emulator supports multiple rom files (like uae) you can use {} for repeating parameters. In a command like "uae {-%I% "%ROM%"}" the part in the {} brackets will be repeated for any disk file of the game. For example if you have an amiga game (MyGame) that consists of 2 disk files the uae command at runtime could be: uae -0 "MyGame_Disk1.adf" -1 "MyGame_Disk2.adf".
@@ -188,50 +190,80 @@ Actually there is only one rom path per RomCollection supported. This should be 
 The path to the game description files. These files will be used to obtain additional information like genre, plot, publisher etc. about a game. Depending on the "DescFilePerGame"-Parameter this should be the absolute path to one description file or a path using the %GAME%-placeholder. There can only be one descFilePath per RomCollection.
 
 Examples:
+
 "/home/user/emu/Amiga/Collection V1/%GAME%/info.txt"
+
 "/home/user/emu/Amiga/Collection V1/Info/all.txt"
+
 
 ===== coverPath =====
 The path to the cover files. There can be multiple paths per RomCollection. Also used to define file extensions for your files.
 
 Examples:
+
 "/home/user/emu/amiga/covers/%GAME%/*.png"
+
 "/home/user/emu/amiga/%GAME%/covers/*.png"
+
 "/home/user/emu/amiga/covers/%GAME%.png"
+
 "/home/user/emu/amiga/covers/%GAME%.jpg"
+
 "/home/user/emu/amiga/covers/%GAME%.gif"
+
 
 ===== ingamescreenshotPath =====
 The path to the ingame screenshot files. There can be multiple paths per RomCollection. Also used to define file extensions for your files.
 
 Examples:
+
 "/home/user/emu/amiga/ingame screens/%GAME%/*.png"
+
 "/home/user/emu/amiga/%GAME%/ingame screens/*.png"
+
 "/home/user/emu/amiga/ingame screens/%GAME%.png"
+
 "/home/user/emu/amiga/ingame screens/%GAME%.jpg"
+
 "/home/user/emu/amiga/ingame screens/%GAME%.gif"
+
 
 ===== titleScreenshotPath =====
 The path to the title screenshot files. There can be multiple paths per RomCollection. Also used to define file extensions for your files.
 
+Examples:
+
 "/home/user/emu/amiga/title screens/%GAME%/*.png"
+
 "/home/user/emu/amiga/%GAME%/title screens/*.png"
+
 "/home/user/emu/amiga/title screens/%GAME%.png"
+
 "/home/user/emu/amiga/title screens/%GAME%.jpg"
+
 "/home/user/emu/amiga/title screens/%GAME%.gif"
+
 
 NOTE: These files will be imported but not shown in the UI actually.
 
 ===== cartridgePath =====
 The path to the cartridge files. There can be multiple paths per RomCollection. Also used to define file extensions for your files.
 
+Examples:
+
 "/home/user/emu/amiga/cartridges/%GAME%/*.png"
+
 "/home/user/emu/amiga/%GAME%/cartridges/*.png"
+
 "/home/user/emu/amiga/cartridges/%GAME%.png"
+
 "/home/user/emu/amiga/cartridges/%GAME%.jpg"
+
 "/home/user/emu/amiga/cartridges/%GAME%.gif"
 
+
 NOTE: These files will be imported but not shown in the UI actually.
+
 
 ===== configFilePath =====
 not implemented in current release.
