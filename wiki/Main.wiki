@@ -184,10 +184,10 @@ Most rom collections that use game description files will have a different file 
 ===== romPath =====
 The path to your rom files. This path should include wildcards and file extension (`*`.adf for example).
 
-Actually there is only one rom path per RomCollection supported. This should be changed in a later release because you may have different paths and file extensions (.zip and .smc for example) in one collection.
+Actually there is only one rom path per `RomCollection` supported. This should be changed in a later release because you may have different paths and file extensions (.zip and .smc for example) in one collection.
 
 ===== descFilePath =====
-The path to the game description files. These files will be used to obtain additional information like genre, plot, publisher etc. about a game. Depending on the "DescFilePerGame"-Parameter this should be the absolute path to one description file or a path using the %GAME%-placeholder. There can only be one descFilePath per RomCollection.
+The path to the game description files. These files will be used to obtain additional information like genre, plot, publisher etc. about a game. Depending on the "`DescFilePerGame`"-Parameter this should be the absolute path to one description file or a path using the %GAME%-placeholder. There can only be one descFilePath per `RomCollection`.
 
 Examples:
 
@@ -197,7 +197,7 @@ Examples:
 
 
 ===== coverPath =====
-The path to the cover files. There can be multiple paths per RomCollection. Also used to define file extensions for your files.
+The path to the cover files. There can be multiple paths per `RomCollection`. Also used to define file extensions for your files.
 
 Examples:
 
@@ -213,7 +213,7 @@ Examples:
 
 
 ===== ingamescreenshotPath =====
-The path to the ingame screenshot files. There can be multiple paths per RomCollection. Also used to define file extensions for your files.
+The path to the ingame screenshot files. There can be multiple paths per `RomCollection`. Also used to define file extensions for your files.
 
 Examples:
 
@@ -229,7 +229,7 @@ Examples:
 
 
 ===== titleScreenshotPath =====
-The path to the title screenshot files. There can be multiple paths per RomCollection. Also used to define file extensions for your files.
+The path to the title screenshot files. There can be multiple paths per `RomCollection`. Also used to define file extensions for your files.
 
 Examples:
 
@@ -247,7 +247,7 @@ Examples:
 NOTE: These files will be imported but not shown in the UI actually.
 
 ===== cartridgePath =====
-The path to the cartridge files. There can be multiple paths per RomCollection. Also used to define file extensions for your files.
+The path to the cartridge files. There can be multiple paths per `RomCollection`. Also used to define file extensions for your files.
 
 Examples:
 
