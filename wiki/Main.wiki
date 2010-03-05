@@ -1,11 +1,8 @@
 #labels RomCollectionBrowser,documentation
-=Rom Collection Browser=
-
-
 <wiki:toc max_depth="5" />
 
 
-== Introduction ==
+= Introduction =
 With this XBMC script you can import and browse rom collections. You can point it to your rom folders and additional data (screenshots, description files, ...) that is already stored on your computer and tell it to import all information to its database. Afterwards you should be able to browse all imported games by filter criteria (console, genre, ...), show some extra information and invoke an external emulator with the selected rom file as parameter.
 
 Actually this script relies on file naming. If you have a Game "Mygame" its rom file should be named "Mygame.adf" if it is an amiga game. All screenshots must be named "Mygame.jpg", "Mygame.png", ... OR they will have to reside in a folder that is called "Mygame". Then this script will import all image files in this folder and associate it with the game "Mygame". Configuration of screenshot paths can look like this:
@@ -18,7 +15,7 @@ Actually this script relies on file naming. If you have a Game "Mygame" its rom 
 
 %GAME% will be replaced with the current game name during import. All files that match this file mask will be imported.
 
-== Setup test scenario ==
+= Setup test scenario =
 To show you how this script will work and how data should (could) be organized I also provide a zip file with testdata. This includes cover screenshots, game screenshots, game description files and sample configuration files. It only includes placeholder files for the roms (empty text files that show you a sample naming convention). You can download the roms here: http://www.amigaland.de/index.php?option=com_remository&Itemid=27&func=select&id=2. As they say all roms on this page are free to download legally. You will have to rename some of them because I need a special disk indicator to support multiple roms for one game (explained in configuration section).
 
 1. Download "Rom Collection Browser V0.2.zip (http://romcollectionbrowser.googlecode.com/files/Rom%20Collection%20Browser%20V0.2.zip)
@@ -50,16 +47,16 @@ To show you how this script will work and how data should (could) be organized I
 14. Click "Update DB": After some seconds all other filter lists should be filled with data. Now you can move around and get a filtered view of all imported rom files (only 7 amiga games in this test scenario).
 
 
-== Usage ==
+= Usage =
 "Rom Collection Browser" will scan your rom folders and data folders and will import as much game relevant data as it can get. To get this job done you have to tell it where to search and what to search for. At the moment this is done via xml configuration file. In a later release this could be done via settings page.
 
-=== Import Settings ===
+== Import Settings ==
 To prepare implementation of a settings page I decided to store configuration information in the database. So you will have to import settings from your xml config file before you can start scanning rom folders. Import settings means that information from your configuration file "XBMC/scripts/Rom Collection Browser/resources/database/config.xml" will be written to database "MyGames.db" (same folder). The format of this configuration file is explained in a later section.
 
 At the momoment there is no way to update configuration information! If you change your configuration you will have to delete database "MyGames.db" (just delete the file) and reimport settings (and start "Update DB" again). You could also use a database tool like sqlitestudio to edit the values directly in database.
 
 
-=== Update DB ===
+== Update DB ==
 This will use the settings information you imported in the previous step to scan the configured folders for roms and data. Every imported file will be associated with a game and a filetype (rom, ingame screenshot, title screenshot, cover, ...). Only the path to the file is imported, not the file itself. If you delete or move the file after importing it won't work anymore.
 
 RCB will also try to parse description files for your games during import. There is a configurable parser that will read an xml parser configuration file that tells it how to parse the current file format. At the moment this only works with simple multiline text files. The format of this parser configuration is explained in a later section.
@@ -67,10 +64,10 @@ RCB will also try to parse description files for your games during import. There
 If you add new data to one of your rom collection you can use "Updata DB" as often as you like. Every run will only import new data and will ignore all data that is already stored in database. But that also means that you won't be able to update data of your roms. To achieve this you have to delete your database and reimport data.
 
 
-== Configuration ==
+= Configuration =
 Configuration is done via xml files. There is one main configuration file "config.xml" that you can find in the database directory. There can also be some parser configuration files that will allow you to control the behaviour of the description file parser.
 
-=== config.xml ===
+== config.xml ==
 This is the main configuration file. You can find it here: XBMC/scripts/Rom Collection Browser/resources/database/config.xml. 
 
 An example file could look like this:
@@ -133,20 +130,20 @@ An example file could look like this:
 </config>
 }}}
 
-==== Console ====
+=== Console ===
 You must add every console you want to emulate here. Configuration properties should be self explanating.
 
 
-==== `RomCollection` ====
+=== `RomCollection` ===
 There is a 1:n relation from rom collection to console: you can configure 1 emulator for each rom collection but there could be different rom collections that use the same emulator. Usually there will be one `RomCollection` entry for each emulator/console.
 
-===== name =====
+==== name ====
 This is only used to distinguish rom collections.
 
-===== consoleName =====
+==== consoleName ====
 This will associate all games of the current rom collection to this console. It is important that you use the exactly same name as in console configuration above.
 
-===== emulatorCmd =====
+==== emulatorCmd ====
 This command will be invoked when you select a game. You can use the following placeholders in your commands:
 
 %ROM% will be replaced with the current file name
@@ -155,40 +152,40 @@ This command will be invoked when you select a game. You can use the following p
 
 If the emulator supports multiple rom files (like uae) you can use {} for repeating parameters. In a command like "uae {-%I% "%ROM%"}" the part in the {} brackets will be repeated for any disk file of the game. For example if you have an amiga game (`MyGame`) that consists of 2 disk files the uae command at runtime could be: uae -0 "`MyGame_Disk1.adf`" -1 "`MyGame_Disk2.adf`".
 
-===== diskPrefix =====
+==== diskPrefix ====
 This is used to detect multi rom games. I don't want to show every rom file in th UI if they all belong to the same game. Second reason to use this property are emulators that support to load more than one file at once (like uae). I can't rely on file numbering because you will also have different releases for one game (Lemmings, Lemmings 2, Lemmings 3).
 
 If you use "`_Disk`" as diskPrefix and you have some rom files named "`Mygame.adf`", "`Mygame 2_Disk1.adf`" and "`Mygame 2_Disk2.adf`" this will be detected as two games "`Mygame`" and "`Mygame 2`" where "`Mygame 2`" consists of two rom files. In the UI you will see the "friendly" gamename "`Mygame 2`". If you have your emulatorCmd configured to support multiple rom files you can load both files at once (see explanation of parameter "emulatorCmd").
 
 
-===== useEmuSolo =====
+==== useEmuSolo ====
 If set to "True" RCB will try to kill XBMC before starting the emulator. After exiting the emulator you will return to XBMC. If "False" the emulator will be launched while XBMC is running in the background.
 
 In a later release this should also launch RCB again and show your last selection before you launched the game.
 
 In current release there are some problems with this mechanism in windows. I am not able to launch the batch file that should kill XBMC. But I am on it.
 
-===== escapeCommand =====
+==== escapeCommand ====
 This will escape the rom file names passed to the emulatorCmd. I did not have problems with using "True" in Linux and Windows. But maybe you can try to change this if you are running into problems with launching games.
 
-===== relyOnNaming =====
+==== relyOnNaming ====
 This must be "True" actually. I thought about implementing other ways of importing rom files where you don't have to take care of your file naming. But as long as that is not done it must be "True".
 
-===== DescFilePerGame =====
+==== DescFilePerGame ====
 There can be one big description file with descriptions for all games in it. Or you can just have one description file per game. In second case the gamename must be somewhere in the path of the descFilePath.
 
-===== startWithDescFile =====
+==== startWithDescFile ====
 This must be "False" actually. There are some rom collections (Amiga classix for example) that don't use proper file naming (rom files are named different than screenshots) but have one big description file where you will be linked to the rom files and the screenshot files. I am thinking about adding support for this scenario but this has a low priority at the moment.
 
-===== descriptionParserFile =====
+==== descriptionParserFile ====
 Most rom collections that use game description files will have a different file format. I built a configurable parser that reads parse instructions from an xml file and then tries to parse the game descriptions with these instructions. There can only be one description parser file per `RomCollection` entry. The format of the parser file is explained in a later section.
 
-===== romPath =====
+==== romPath ====
 The path to your rom files. This path should include wildcards and file extension (`*`.adf for example).
 
 Actually there is only one rom path per `RomCollection` supported. This should be changed in a later release because you may have different paths and file extensions (.zip and .smc for example) in one collection.
 
-===== descFilePath =====
+==== descFilePath ====
 The path to the game description files. These files will be used to obtain additional information like genre, plot, publisher etc. about a game. Depending on the "`DescFilePerGame`"-Parameter this should be the absolute path to one description file or a path using the %GAME%-placeholder. There can only be one descFilePath per `RomCollection`.
 
 Examples:
@@ -198,7 +195,7 @@ Examples:
 "/home/user/emu/Amiga/Collection V1/Info/all.txt"
 
 
-===== coverPath =====
+==== coverPath ====
 The path to the cover files. There can be multiple paths per `RomCollection`. Also used to define file extensions for your files.
 
 Examples:
@@ -214,7 +211,7 @@ Examples:
 "/home/user/emu/amiga/covers/%GAME%.gif"
 
 
-===== ingamescreenshotPath =====
+==== ingamescreenshotPath ====
 The path to the ingame screenshot files. There can be multiple paths per `RomCollection`. Also used to define file extensions for your files.
 
 Examples:
@@ -230,7 +227,7 @@ Examples:
 "/home/user/emu/amiga/ingame screens/%GAME%.gif"
 
 
-===== titleScreenshotPath =====
+==== titleScreenshotPath ====
 The path to the title screenshot files. There can be multiple paths per `RomCollection`. Also used to define file extensions for your files.
 
 Examples:
@@ -248,7 +245,7 @@ Examples:
 
 NOTE: These files will be imported but not shown in the UI actually.
 
-===== cartridgePath =====
+==== cartridgePath ====
 The path to the cartridge files. There can be multiple paths per `RomCollection`. Also used to define file extensions for your files.
 
 Examples:
@@ -267,20 +264,20 @@ Examples:
 NOTE: These files will be imported but not shown in the UI actually.
 
 
-===== configFilePath =====
+==== configFilePath ====
 not implemented in current release.
 
-===== ingamevidPath =====
+==== ingamevidPath ====
 not implemented in current release.
 
-===== trailerPath =====
+==== trailerPath ====
 not implemented in current release.
 
-===== manualPath =====
+==== manualPath ====
 not implemented in current release.
 
 
-=== parserConfig.xml ===
+== parserConfig.xml ==
 This parser is very simple. It will read the parserConfig-File that you specify in config.xml (you can have different parserConfigs for every `RomCollection`). This parserConfig xml file will be read element by element and transferred into pyparsing parser grammar. So you have to take care of the elements order. Afterwards pyparsing reads the text file and tries to apply its given grammar. It always moves forward and looks for a match to the actual grammar token. If it does not match it will raise an exception. You will find this exception message in the log file "update.log" (scripts home directory).
 
 This is an example game description text file:
@@ -361,58 +358,34 @@ The parser config for this text file will look like this:
 
 There are not many configuration options at the moment. Actually only `GameGrammar type="multiline`" is supported. I think about adding support for xml files or one-line csv but that has a low prio.
 
-==== Elements ====
+=== Elements ===
 There are only two types of elements in the current version.
 
-===== Named Element =====
+==== Named Element ====
 A named element like `<Game restOfLine="true"></Game>` will return a key value pair to RCB where the element name is the key and the parsed content will be the value. All information in your description file that is valuable input to RCB must be declared as a named element in this configuration file.
 
 Supported elements in current version:
 
-Game
-
-Genre
-
-ReleaseYear
-
-Publisher
-
-Description
+Game, Genre, ReleaseYear, Publisher, Description
 
 
 Planned for next versions:
 
-Region
-
-Media
-
-Controller
-
-Players
-
-Developer
-
-URL
-
-Rating
-
-Votes
-
-Perspective
+Region, Media, Controller, Players, Developer, URL, Rating, Votes, Perspective
 
 
-===== SkippableContent =====
+==== SkippableContent ====
 As the name says all content that matches the given instruction will be skipped. `SkippableContent` may have an element value. This value must occur exactly at the current position in the description file.
 
 
-==== Attributes ====
-===== restOfLine =====
+=== Attributes ===
+==== restOfLine ====
 If "true" all content from current position to the rest of the line will be matched by this expression
 
-===== delimiter =====
+==== delimiter ====
 If you have delimited values this will specify the used delimiter. Every delimited value will be saved to database as a single entry.
 
 NOTE: Actually only the "," will be recognized as a delimiter.
 
-===== skipTo =====
+==== skipTo ====
 If you have multiline values (like description in the above example) you can specify a token that must occur after the multiline value. This token must be unique enough to not occur in your multiline value. The `*` in the above example may be a bad choice as there is a good chance of a star to occur in a game description.
