@@ -1,6 +1,10 @@
 #labels RomCollectionBrowser,documentation
 =Rom Collection Browser=
 
+
+<wiki:toc max_depth="5" />
+
+
 == Introduction ==
 With this XBMC script you can import and browse rom collections. You can point it to your rom folders and additional data (screenshots, description files, ...) that is already stored on your computer and tell it to import all information to its database. Afterwards you should be able to browse all imported games by filter criteria (console, genre, ...), show some extra information and invoke an external emulator with the selected rom file as parameter.
 
