@@ -278,7 +278,7 @@ not implemented in current release.
 
 
 == parserConfig.xml ==
-This parser is very simple. It will read the parserConfig-File that you specify in config.xml (you can have different parserConfigs for every `RomCollection`). This parserConfig xml file will be read element by element and transferred into pyparsing parser grammar. So you have to take care of the elements order. Afterwards pyparsing reads the text file and tries to apply its given grammar. It always moves forward and looks for a match to the actual grammar token. If it does not match it will raise an exception. You will find this exception message in the log file "update.log" (scripts home directory).
+The description file parser is very simple. It will read the parserConfig file that you specify in config.xml (you can have different parserConfigs for every `RomCollection`). This parserConfig xml file will be read element by element and transferred into pyparsing parser grammar. That means you have to take care of the elements order. Afterwards pyparsing reads the text file and tries to apply its given grammar. It always moves forward and looks for a match to the actual grammar token. If it does not match it will raise an exception. You will find this exception message in the log file "update.log" (scripts home directory).
 
 This is an example game description text file:
 {{{
