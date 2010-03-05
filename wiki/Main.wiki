@@ -163,8 +163,6 @@ If you use "`_Disk`" as diskPrefix and you have some rom files named "`Mygame.ad
 ==== useEmuSolo ====
 If set to "True" RCB will try to kill XBMC before starting the emulator. After exiting the emulator you will return to XBMC. If "False" the emulator will be launched while XBMC is running in the background.
 
-In a later release this should also launch RCB again and show your last selection before you launched the game.
-
 In current release there are some problems with this mechanism in windows. I am not able to launch the batch file that should kill XBMC. But I am on it.
 
 ==== escapeCommand ====
@@ -174,7 +172,7 @@ This will escape the rom file names passed to the emulatorCmd. I did not have pr
 This must be "True" actually. I thought about implementing other ways of importing rom files where you don't have to take care of your file naming. But as long as that is not done it must be "True".
 
 ==== DescFilePerGame ====
-There can be one big description file with descriptions for all games in it. Or you can just have one description file per game. In second case the gamename must be somewhere in the path of the descFilePath.
+There can be one big description file with descriptions for all games in it. Or you can have one description file per game. In second case the gamename must be somewhere in the path of the descFilePath.
 
 ==== startWithDescFile ====
 This must be "False" actually. There are some rom collections (Amiga classix for example) that don't use proper file naming (rom files are named different than screenshots) but have one big description file where you will be linked to the rom files and the screenshot files. I am thinking about adding support for this scenario but this has a low priority at the moment.
