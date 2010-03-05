@@ -58,7 +58,7 @@ At the momoment there is no way to update configuration information! If you chan
 === Update DB ===
 This will use the settings information you imported in the previous step to scan the configured folders for roms and data. Every imported file will be associated with a game and a filetype (rom, ingame screenshot, title screenshot, cover, ...). Only the path to the file is imported, not the file itself. If you delete or move the file after importing it won't work anymore.
 
-RCB will also try to parse description files for your games. There is a configurable parser that will read an xml parser configuration file that tells it how to parse the current file format. At the moment this only works with simple multiline text files. The format of this parser configuration is explained in a later section.
+RCB will also try to parse description files for your games during import. There is a configurable parser that will read an xml parser configuration file that tells it how to parse the current file format. At the moment this only works with simple multiline text files. The format of this parser configuration is explained in a later section.
 
 If you add new data to one of your rom collection you can use "Updata DB" as often as you like. Every run will only import new data and will ignore all data that is already stored in database. But that also means that you won't be able to update data of your roms. To achieve this you have to delete your database and reimport.
 
