@@ -366,22 +366,38 @@ There are only two types of elements in the current version.
 A named element like `<Game restOfLine="true"></Game>` will return a key value pair to RCB where the element name is the key and the parsed content will be the value. All information in your description file that is valuable input to RCB must be declared as a named element in this configuration file.
 
 Supported elements in current version:
+
 Game
+
 Genre
+
 ReleaseYear
+
 Publisher
+
 Description
 
+
 Planned for next versions:
+
 Region
+
 Media
+
 Controller
+
 Players
+
 Developer
+
 URL
+
 Rating
+
 Votes
+
 Perspective
+
 
 ===== SkippableContent =====
 As the name says all content that matches the given instruction will be skipped. `SkippableContent` may have an element value. This value must occur exactly at the current position in the description file.
