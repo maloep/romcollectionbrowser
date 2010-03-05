@@ -134,7 +134,7 @@ An example file could look like this:
 You must add every console you want to emulate here. Configuration properties should be self explanating.
 
 
-=== `<RomCollection>` ===
+=== ))RomCollection(( ===
 There is a 1:n relation from rom collection to console: you can configure 1 emulator for each rom collection but there could be different rom collections that use the same emulator. Usually there will be one `RomCollection` entry for each emulator/console.
 
 ==== name ====
