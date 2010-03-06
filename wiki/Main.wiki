@@ -28,7 +28,7 @@ To show you how this script will work and how data should (could) be organized I
 
 5. Go to the new Testdata folder
 
-6. Edit "config_Windows.xml" or "config_Linux.xml": Replace every occurance of "PathToTestData" with the absolute path to your Testdata folder (e.g "/home/user/Testdata")
+6. Edit "config_Windows.xml" or "config_Linux.xml": Replace every occurance of "PathToTestData" with the absolute path to your Testdata folder (e.g. "/home/user/Testdata")
 
 7. (Optionally) edit the value of property "emulatorCmd". This command will be invoked when you launch a rom file. %ROM% will be replaced with the name of the rom file to be launched. If you have multiple rom files for one game %I% will be replaced with the (zero-based) index of the current file.
 
