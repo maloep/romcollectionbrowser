@@ -67,7 +67,7 @@ If you add new data to one of your rom collection you can use "Updata DB" as oft
 
 
 = Configuration =
-Configuration is done via xml files. There is one main configuration file "config.xml" that you can find in the database directory. There can also be some parser configuration files that will allow you to control the behaviour of the description file parser.
+Configuration is done via xml files. There is one main configuration file "config.xml" that you can find in the database directory. There can also be some parser configuration files (one for every different file format) that will allow you to control the behaviour of the description file parser.
 
 == config.xml ==
 This is the main configuration file. You can find it here: XBMC/scripts/Rom Collection Browser/resources/database/config.xml. 
