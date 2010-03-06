@@ -90,7 +90,7 @@ An example file could look like this:
 	</Consoles>
 	<RomCollections>
 		<RomCollection>			
-			<name>Collection V1</name>
+			<name>Collection V1 Amiga</name>
 			<consoleName>Amiga</consoleName>
 			<emulatorCmd>uae {-%I% "%ROM%"}</emulatorCmd>
 			<diskPrefix>_Disk</diskPrefix>
@@ -108,6 +108,32 @@ An example file could look like this:
 			<ingamescreenshotPath>/home/user/emu/Amiga/Collection V1/%GAME%/screens/*.jpg</ingamescreenshotPath>
 			<ingamescreenshotPath>/home/user/emu/Amiga/Collection V1/%GAME%/screens/*.gif</ingamescreenshotPath>
 			<ingamescreenshotPath>/home/user/emu/Amiga/Collection V1/%GAME%/screens/*.png</ingamescreenshotPath>
+			<titleScreenshotPath></titleScreenshotPath>
+			<cartridgePath></cartridgePath>
+			<configFilePath></configFilePath>
+			<ingamevidPath></ingamevidPath>
+			<trailerPath></trailerPath>
+			<manualPath></manualPath>
+		</RomCollection>
+		<RomCollection>                 
+			<name>Collection V1 NES</name>
+			<consoleName>Super Nintendo</consoleName>
+			<emulatorCmd>zsnes -m "%ROM%"</emulatorCmd>
+			<diskPrefix>_Disk</diskPrefix>
+			<useEmuSolo>True</useEmuSolo>
+			<escapeCommand>True</escapeCommand>
+			<relyOnNaming>True</relyOnNaming>                       
+			<DescFilePerGame>True</DescFilePerGame>
+			<startWithDescFile>False</startWithDescFile>
+			<descriptionParserFile>/home/user/emu/NES/Collection V1/parserConfig.xml</descriptionParserFile>                      
+			<romPath>/home/user/emu/NES/Collection V1/games/*.adf</romPath>
+			<descFilePath>/home/user/emu/NES/Collection V1/%GAME%/info.txt</descFilePath>
+			<coverPath>/home/user/emu/NES/Collection V1/%GAME%/covers/*.jpg</coverPath>
+			<coverPath>/home/user/emu/NES/Collection V1/%GAME%/covers/*.gif</coverPath>
+			<coverPath>/home/user/emu/NES/Collection V1/%GAME%/covers/*.png</coverPath>
+			<ingamescreenshotPath>/home/user/emu/NES/Collection V1/%GAME%/screens/*.jpg</ingamescreenshotPath>
+			<ingamescreenshotPath>/home/user/emu/NES/Collection V1/%GAME%/screens/*.gif</ingamescreenshotPath>
+			<ingamescreenshotPath>/home/user/emu/NES/Collection V1/%GAME%/screens/*.png</ingamescreenshotPath>
 			<titleScreenshotPath></titleScreenshotPath>
 			<cartridgePath></cartridgePath>
 			<configFilePath></configFilePath>
