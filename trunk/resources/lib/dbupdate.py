@@ -80,6 +80,7 @@ class DBUpdate:
 				self.log("configuration path: " +str(configurationPaths))
 						
 				self.log("Reading rom files")
+				#TODO handle multiple rom paths
 				# read ROMs from disk
 				if os.path.isdir(os.path.dirname(romPath)):
 					#glob is same as "os.listdir(romPath)" but it can handle wildcards like *.adf

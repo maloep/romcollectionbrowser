@@ -275,13 +275,13 @@ class UIGameDB(xbmcgui.WindowXML):
 			env = ( os.environ.get( "OS", "win32" ), "win32", )[ os.environ.get( "OS", "win32" ) == "xbox" ]		
 			print "Env: " +env
 			if(env == "win32"):
-				cmd = '\"' +os.path.join(os.getcwd(), 'applaunch.bat') +'\" ' +cmd
+				#There is a problem with quotes passed as argument to windows command shell. This only works with "call"
+				cmd = 'call \"' +os.path.join(os.getcwd(), 'applaunch.bat') +'\" ' +cmd						
 			else:
 				cmd = os.path.join(re.escape(os.getcwd()), 'applaunch.sh ') +cmd
 		
 		print "cmd: " +cmd
-		os.system(cmd)
-		#xbmc.executebuiltin( "System.Exec(" +cmd +")" ) 
+		os.system(cmd)		
 		
 		
 	def updateDB(self):		
