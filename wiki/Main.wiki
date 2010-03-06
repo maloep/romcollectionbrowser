@@ -26,7 +26,7 @@ To show you how this script will work and how data should (could) be organized I
 
 4. Unzip it somewhere
 
-5. Go to the Testdata folder
+5. Go to the new Testdata folder
 
 6. Edit "config_Windows.xml" or "config_Linux.xml": Replace every occurance of "PathToTestData" with the absolute path to your Testdata folder (e.g "/home/user/Testdata")
 
