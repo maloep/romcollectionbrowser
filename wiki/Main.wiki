@@ -353,7 +353,7 @@ The parser config for this text file will look like this:
 {{{
 <parserConfig>
 	<GameGrammar type="multiline">
-		<SkippableContent>Game: </SkippableContent>		
+		<SkippableContent>Game: </SkippableContent>
 		<Game restOfLine="true"></Game>		
 		<SkippableContent>Platform: </SkippableContent>
 		<Platform delimiter="," restOfLine="true"></Platform>
@@ -381,6 +381,9 @@ The parser config for this text file will look like this:
 	</GameGrammar>
 </parserConfig>
 }}}
+
+Lets explain the first two lines of the config file:
+`<SkippableContent>Game: </SkippableContent>` will search for the exact occurance of "Game: " at the beginning of the text file. If it is not found pyparsing will raise an exception and stop parsing. If the text is found it will skip this content and executes the next rule: `<Game restOfLine="true"></Game>`. This will take all text from the current position (we are one letter behind "Game: " now) to the end of the line and stores this as a value to the key `Game`. When parsing of the complete file is done RCB can access this value using the given key.
 
 There are not many configuration options at the moment. Actually only `GameGrammar type="multiline`" is supported. I think about adding support for xml files or one-line csv but that has a low prio.
 
