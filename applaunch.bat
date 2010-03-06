@@ -6,9 +6,6 @@ taskkill /f /IM XBMC.exe
 REM Wait for the kill
 REM sleep 
 
-
-echo %*
-
 REM Launch app
 %*
 
