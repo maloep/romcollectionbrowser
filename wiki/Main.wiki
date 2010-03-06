@@ -5,7 +5,7 @@
 = Introduction =
 With this XBMC script you can import and browse rom collections. You can point it to your rom folders and additional data (screenshots, description files, ...) that is already stored on your computer and tell it to import all information to its database. Afterwards you should be able to browse all imported games by filter criteria (console, genre, ...), show some extra information and invoke an external emulator with the selected rom file as parameter.
 
-Actually this script relies on file naming. If you have a Game "Mygame" its rom file should be named "Mygame.adf" if it is an amiga game. All screenshots must be named "Mygame.jpg", "Mygame.png", ... OR they will have to reside in a folder that is called "Mygame". Then this script will import all image files in this folder and associate it with the game "Mygame". Configuration of screenshot paths can look like this:
+Actually this script relies on file naming. If you have a Game "Mygame" its rom file should be named "Mygame.adf" (if it is an amiga game). All screenshots must be named "Mygame.ext" (jpg, png, ...) OR they will have to reside in a folder that is called "Mygame". Then this script will import all image files in this folder and associate it with the game "Mygame". Configuration of screenshot paths can look like this:
 
 "/home/user/emu/amiga/screens/%GAME%/`*`.png"
 
