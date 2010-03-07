@@ -316,7 +316,7 @@
 			<orientation>horizontal</orientation>
 			<focusposition>1</focusposition>
 			<viewtype label="Games">wrap</viewtype>			
-			<scrolltime>200</scrolltime>
+			<scrolltime>0</scrolltime>
 			<itemlayout width="145">
 				<control type="image">
 					<width>140</width>
