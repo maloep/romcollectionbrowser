@@ -211,58 +211,31 @@ class DBUpdate:
 			
 	def insertData(self, gamedescription, romCollectionId, romFile, ingameScreenFiles, titleScreenFiles, coverFiles, cartridgeFiles,
 						manualFiles, ingameVideoFiles, trailerFiles, configurationFiles):
-		self.log("Insert data")
-		self.log("Result game (from Parser) = " +str(gamedescription.Game))
-		self.log("Result desc (from Parser) = " +str(gamedescription.Description))
-		self.log("Result year (from Parser) = " +str(gamedescription.ReleaseYear))
-		self.log("Result genre (from Parser) = " +str(gamedescription.Genre))
-		self.log("Result publisher (from Parser) = " +str(gamedescription.Publisher))
-		
-		
-		year = gamedescription.ReleaseYear[0].strip()
-		self.log("Result year (as string) = " +year)
-		yearRow = Year(self.gdb).getOneByName(year)
-		if(yearRow == None):	
-			self.log("Year does not exist in database. Insert year: " +year)
-			Year(self.gdb).insert((year,))
-			yearId = self.gdb.cursor.lastrowid
-		else:
-			yearId = yearRow[0]
-			
-		genres = gamedescription.Genre
-		genreIds = []
-		
-		for genreItem in genres:
-			genreItem = genreItem.strip()
-			self.log("Result genre (as string) = " +genreItem)
-			genreRow = Genre(self.gdb).getOneByName(genreItem)
-			if(genreRow == None):
-				self.log("Genre does not exist in database. Insert genre: " +genreItem)
-				Genre(self.gdb).insert((genreItem,))				
-				genreIds.append(self.gdb.cursor.lastrowid)
-			else:
-				genreIds.append(genreRow[0])
+		self.log("Insert data")		
 				
-		publisher = gamedescription.Publisher[0].strip()
-		self.log("Result publisher (as string) = " +publisher)
-		publisherRow = Publisher(self.gdb).getOneByName(publisher)
-		print publisherRow
-		if(publisherRow == None):
-			self.log("Publisher does not exist in database. Insert publisher: " +publisher)
-			Publisher(self.gdb).insert((publisher,))
-			publisherId = self.gdb.cursor.lastrowid
-		else:
-			publisherId = publisherRow[0]
+		yearId = self.insertForeignKeyItem(gamedescription.ReleaseYear, 'Year', Year(self.gdb))
+		genreIds = self.insertForeignKeyItemList(gamedescription.Genre, 'Genre', Genre(self.gdb))		
+		publisherId = self.insertForeignKeyItem(gamedescription.Publisher, 'Publisher', Publisher(self.gdb))
+		developerId = self.insertForeignKeyItem(gamedescription.Developer, 'Developer', Developer(self.gdb))
+		reviewerId = self.insertForeignKeyItem(gamedescription.Reviewer, 'Reviewer', Reviewer(self.gdb))		
 		
+		region = self.resolveParseResult(gamedescription.Region, 'Region')		
+		media = self.resolveParseResult(gamedescription.Media, 'Media')
+		controller = self.resolveParseResult(gamedescription.Controller, 'Controller')
+		players = self.resolveParseResult(gamedescription.Players, 'Players')		
+		rating = self.resolveParseResult(gamedescription.Rating, 'Rating')
+		votes = self.resolveParseResult(gamedescription.Votes, 'Votes')
+		url = self.resolveParseResult(gamedescription.URL, 'URL')
+		perspective = self.resolveParseResult(gamedescription.Perspective, 'Perspective')		
 		
+		self.log("Result Game (from parser) = " +str(gamedescription.Game))
 		game = gamedescription.Game[0].strip()
-		self.log("Result game (as string) = " +game)
-		gameRow = Game(self.gdb).getOneByName(game)
-		print gameRow
+		self.log("Result Game (as string) = " +game)
+		gameRow = Game(self.gdb).getOneByName(game)		
 		if(gameRow == None):
 			self.log("Game does not exist in database. Insert game: " +game)
-			Game(self.gdb).insert((game, gamedescription.Description[0], 'NULL', 'NULL', romCollectionId, publisherId, 'NULL', 'NULL', yearId, 
-				'NULL', 'NULL', 'NULL', 'NULL', 'NULL', 'NULL', 'NULL', 'NULL', 'NULL', 'NULL'))
+			Game(self.gdb).insert((game, gamedescription.Description[0], 'NULL', 'NULL', romCollectionId, publisherId, developerId, reviewerId, yearId, 
+				players, rating, votes, url, region, media, perspective, controller, 0, 0))
 			gameId = self.gdb.cursor.lastrowid
 		else:
 			gameId = gameRow[0]
@@ -286,6 +259,52 @@ class DBUpdate:
 		#TODO Transaction (per game or complete update?)
 		self.gdb.commit()
 		
+	
+	def insertForeignKeyItem(self, result, itemName, gdbObject):
+		self.log("Result " +itemName +" (from Parser) = " +str(result))
+		#if(result != Empty()):
+		if(len(result) != 0):
+			item = result[0].strip()
+			self.log("Result "  +itemName +" (as string) = " +item)
+			itemRow = gdbObject.getOneByName(item)
+			if(itemRow == None):	
+				self.log(itemName +" does not exist in database. Insert: " +item)
+				gdbObject.insert((item,))
+				itemId = self.gdb.cursor.lastrowid
+			else:
+				itemId = itemRow[0]
+		else:
+			itemId = None
+			
+		return itemId
+		
+	
+	def insertForeignKeyItemList(self, resultList, itemName, gdbObject):	
+		self.log("Result " +itemName +" (from Parser) = " +str(resultList))
+		idList = []
+		
+		for resultItem in resultList:			
+			item = resultItem.strip()
+			self.log("Result " +itemName +" (as string) = " +item)
+			itemRow = gdbObject.getOneByName(item)
+			if(itemRow == None):
+				self.log(itemName +" does not exist in database. Insert: " +item)
+				gdbObject.insert((item,))
+				idList.append(self.gdb.cursor.lastrowid)
+			else:
+				idList.append(itemRow[0])
+				
+		return idList
+		
+		
+	def resolveParseResult(self, result, itemName):
+		self.log("Result " +itemName +" (from Parser) = " +str(result))		
+		if(len(result) != 0):
+			item = result[0].strip()
+		else:
+			item = ""
+		self.log("Result " +itemName +" (as string) = " +item)
+		return item
 	
 	
 	def insertFiles(self, fileNames, gameId, fileType):

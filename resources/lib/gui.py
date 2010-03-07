@@ -143,7 +143,7 @@ class UIGameDB(xbmcgui.WindowXML):
 	
 	def showFilterControl(self, dbo, controlId):
 		#xbmcgui.lock()
-		rows = dbo.getAll()
+		rows = dbo.getAllOrdered()
 		
 		self.getControl(controlId).setVisible(1)
 		self.getControl(controlId).reset()
