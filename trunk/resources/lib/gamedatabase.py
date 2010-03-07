@@ -191,6 +191,17 @@ class Publisher(DataBaseObject):
 	def __init__(self, gdb):		
 		self.gdb = gdb
 		self.tableName = "Publisher"
+		
+
+class Developer(DataBaseObject):
+	def __init__(self, gdb):		
+		self.gdb = gdb
+		self.tableName = "Developer"
+		
+class Reviewer(DataBaseObject):
+	def __init__(self, gdb):		
+		self.gdb = gdb
+		self.tableName = "Reviewer"
 
 
 class FileType(DataBaseObject):	
