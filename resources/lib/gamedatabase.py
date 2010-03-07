@@ -82,9 +82,16 @@ class DataBaseObject:
 		#print("Insert INTO %(tablename)s VALUES (%(args)s)" % {'tablename':self.tableName, 'args': ( "?, " * len(args)) })
 	
 	def getAll(self):
-		self.gdb.cursor.execute("SELECT * FROM '%s' ORDER By name" % self.tableName)
-		allObjects = self.gdb.cursor.fetchall()		
+		self.gdb.cursor.execute("SELECT * FROM '%s'" % self.tableName)
+		allObjects = self.gdb.cursor.fetchall()
 		return allObjects
+		
+		
+	def getAllOrdered(self):
+		self.gdb.cursor.execute("SELECT * FROM '%s' ORDER BY name" % self.tableName)
+		allObjects = self.gdb.cursor.fetchall()
+		return allObjects
+		
 		
 	def getOneByName(self, name):			
 		self.gdb.cursor.execute("SELECT * FROM '%s' WHERE name = ?" % self.tableName, (name,))
@@ -138,6 +145,12 @@ class Console(DataBaseObject):
 	def __init__(self, gdb):		
 		self.gdb = gdb
 		self.tableName = "Console"
+
+
+class RCBSetting(DataBaseObject):	
+	def __init__(self, gdb):		
+		self.gdb = gdb
+		self.tableName = "RCBSetting"
 
 
 class RomCollection(DataBaseObject):	

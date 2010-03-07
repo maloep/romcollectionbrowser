@@ -1,4 +1,10 @@
-CREATE TABLE IF NOT EXISTS [Author] 
+CREATE TABLE IF NOT EXISTS [Developer] 
+(
+    [id] INTEGER PRIMARY KEY AUTOINCREMENT,
+    [name] TEXT NOT NULL UNIQUE
+);
+
+CREATE TABLE IF NOT EXISTS [Reviewer]
 (
     [id] INTEGER PRIMARY KEY AUTOINCREMENT,
     [name] TEXT NOT NULL UNIQUE
@@ -37,6 +43,42 @@ CREATE TABLE IF NOT EXISTS [Console]
 );
 
 
+CREATE TABLE IF NOT EXISTS [RCBSetting]
+(
+    [id] INTEGER PRIMARY KEY AUTOINCREMENT,
+    [lastSelectedView] TEXT,
+    [lastSelectedConsoleId] INTEGER REFERENCES [Console]
+    (
+        id
+    ),	
+	[lastSelectedGenreId] INTEGER REFERENCES [Genre]
+    (
+        id
+    ),
+	[lastSelectedPublisherId] INTEGER REFERENCES [Publisher]
+    (
+        id
+    ),
+    [lastSelectedYearId] INTEGER REFERENCES [Year]
+    (
+        id
+    ),
+	[lastSelectedGameId] INTEGER REFERENCES [Game]
+    (
+        id
+    ),
+	[favoriteConsoleId] INTEGER REFERENCES [Console]
+    (
+        id
+    ),
+	[favoriteGenreId] INTEGER REFERENCES [Genre]
+    (
+        id
+    ),
+	[autoexecBackupPath] TEXT
+);
+
+
 CREATE TABLE IF NOT EXISTS [RomCollection]
 (
     [id] INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -52,7 +94,8 @@ CREATE TABLE IF NOT EXISTS [RomCollection]
 	[relyOnFileNaming] INTEGER,
 	[startWithDescFile] INTEGER,
 	[descFilePerGame] INTEGER,
-	[diskPrefix] TEXT
+	[diskPrefix] TEXT,
+	[typeOfManual] TEXT
 );
 
 CREATE TABLE IF NOT EXISTS [Game] 
@@ -70,10 +113,28 @@ CREATE TABLE IF NOT EXISTS [Game]
     (
         id
     ),
+	[developerId] INTEGER REFERENCES [Developer]
+    (
+        id
+    ),
+	[reviewerId] INTEGER REFERENCES [Reviewer]
+    (
+        id
+    ),
     [yearId] INTEGER REFERENCES [Year]
     (
         id
-    )
+    ),
+	[maxPlayers] TEXT,
+    [rating] TEXT,
+    [numVotes] INTEGER,
+	[url] TEXT,
+    [region] TEXT,
+	[media] TEXT,
+    [perspective] TEXT,
+    [controller type] TEXT,
+	[isFavorite] INTEGER,
+	[launchCount] INTEGER
 );
 
 
@@ -105,19 +166,6 @@ CREATE TABLE IF NOT EXISTS [Path]
     )
 );
 
-
-CREATE TABLE IF NOT EXISTS [AuthorGame] 
-(
-    [id] INTEGER PRIMARY KEY AUTOINCREMENT,
-    [authorId] INTEGER REFERENCES [Author]
-    (
-        id
-    ),
-    [gameId] INTEGER REFERENCES [Game]
-    (
-        id
-    )
-);
 
 CREATE TABLE IF NOT EXISTS [GenreGame] 
 (

@@ -19,6 +19,14 @@ class SettingsImporter:
 		
 		#print xmlDoc
 		
+		rcbSettings = xmlDoc.getElementsByTagName('RCBSettings')
+		#TODO only 1 Setting allowed
+		for rcbSetting in rcbSettings:
+			favoriteConsole = self.getElementValue(rcbSetting, 'favoriteConsole')
+			favoriteGenre = self.getElementValue(rcbSetting, 'favoriteGenre')
+			
+			self.insertRCBSetting(gdb, favoriteConsole, favoriteGenre)
+		
 		consoles = xmlDoc.getElementsByTagName('Console')
 		for console in consoles:			
 			consoleName = self.getElementValue(console, 'name')
@@ -45,7 +53,8 @@ class SettingsImporter:
 			startWithDescFile = self.getElementValue(romCollection, 'startWithDescFile')
 			descFilePerGame = self.getElementValue(romCollection, 'DescFilePerGame')
 			descParserFile = self.getElementValue(romCollection, 'descriptionParserFile')
-			diskPrefix = self.getElementValue(romCollection, 'diskPrefix')			
+			diskPrefix = self.getElementValue(romCollection, 'diskPrefix')
+			typeOfManual = self.getElementValue(romCollection, 'typeOfManual')
 			romPaths = self.getElementValues(romCollection, 'romPath')
 			descFilePaths = self.getElementValues(romCollection, 'descFilePath')
 			coverPaths = self.getElementValues(romCollection, 'coverPath')
@@ -58,7 +67,7 @@ class SettingsImporter:
 			manualPaths = self.getElementValues(romCollection, 'manualPath')
 						
 			romCollectionId = self.insertRomCollection(gdb, consoleName, romCollName, emuCmd, emuSolo, escapeCmd, relyOnNaming, startWithDescFile, 
-				descFilePerGame, descParserFile, diskPrefix)
+				descFilePerGame, descParserFile, diskPrefix, typeOfManual)
 				
 			self.insertPaths(gdb, romCollectionId, romPaths, 'rom')
 			self.insertPaths(gdb, romCollectionId, descFilePaths, 'description')
@@ -107,6 +116,16 @@ class SettingsImporter:
 		return valueList
 		
 	
+	def insertRCBSetting(self, gdb, favoriteConsole, favoriteGenre):
+		rcbSettingRows = RCBSetting(gdb).getAll()	
+		if(rcbSettingRows == None or len(rcbSettingRows) == 0):
+			if(favoriteConsole == ''):
+				favoriteConsole = 'NULL'
+			if(favoriteGenre == ''):
+				favoriteGenre = 'NULL'
+			RCBSetting(gdb).insert(('NULL', 'NULL', 'NULL', 'NULL', 'NULL', 'NULL', favoriteConsole, favoriteGenre, 'NULL'))
+	
+	
 	def insertConsole(self, gdb, consoleName, consoleDesc, consoleImage):
 		consoleRow = Console(gdb).getOneByName(consoleName)		
 		if(consoleRow == None):				
@@ -114,7 +133,7 @@ class SettingsImporter:
 	
 	
 	def insertRomCollection(self, gdb, consoleName, romCollName, emuCmd, emuSolo, escapeCmd, relyOnNaming, startWithDescFile, 
-				descFilePerGame, descParserFile, diskPrefix):		
+				descFilePerGame, descParserFile, diskPrefix, typeOfManual):		
 		romCollectionRow = RomCollection(gdb).getOneByName(romCollName)		
 		if(romCollectionRow == None):
 			consoleRow = Console(gdb).getOneByName(consoleName)
@@ -122,7 +141,7 @@ class SettingsImporter:
 				return
 			consoleId = consoleRow[0] 
 			RomCollection(gdb).insert((romCollName, consoleId, emuCmd, emuSolo, escapeCmd, descParserFile, relyOnNaming, 
-			startWithDescFile, descFilePerGame, diskPrefix))
+			startWithDescFile, descFilePerGame, diskPrefix, typeOfManual))
 			romCollectionId = gdb.cursor.lastrowid
 		else:
 			romCollectionId = romCollectionRow[0]
