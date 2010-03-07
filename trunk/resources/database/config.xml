@@ -1,4 +1,8 @@
 <config>
+	<RCBSettings>
+		<favoriteConsole>1</favoriteConsole>
+		<favoriteGenre></favoriteGenre>
+	</RCBSettings>
 	<Consoles>		
 		<Console>
 			<name>Amiga</name>
@@ -23,6 +27,7 @@
 			<DescFilePerGame>True</DescFilePerGame>
 			<descriptionParserFile>E:\Emulatoren\data\Amiga\Collection V3\parserConfig.xml</descriptionParserFile>
 			<diskPrefix>_Disk</diskPrefix>
+			<typeOfManual>Text</typeOfManual>
 			<romPath>E:\Emulatoren\data\Amiga\games\*.adf</romPath>
 			<descFilePath>E:\Emulatoren\data\Amiga\Collection V3\%GAME%\synopsis.txt</descFilePath>
 			<coverPath>E:\Emulatoren\data\Amiga\Collection V3\%GAME%\covers\*.jpg</coverPath>

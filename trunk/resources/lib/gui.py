@@ -40,9 +40,12 @@ CONTROL_BUTTON_SETTINGS = 3000
 CONTROL_BUTTON_UPDATEDB = 3100
 CONTROL_BUTTON_CHANGEVIEW = 3200
 
+RCBHOME = os.getcwd()
+
+
 class UIGameDB(xbmcgui.WindowXML):
 	
-	gdb = GameDataBase(os.path.join(os.getcwd(), 'resources', 'database'))
+	gdb = GameDataBase(os.path.join(RCBHOME, 'resources', 'database'))
 	
 	selectedControlId = 0	
 	selectedConsoleId = 0
@@ -264,14 +267,14 @@ class UIGameDB(xbmcgui.WindowXML):
 		#romCollectionRow[4] = useSolo
 		if (romCollectionRow[4] == 'True'):
 			# Backup original autoexec.py		
-			#autoexec = SCRIPTUSR+'/autoexec.py'
+			autoexec = os.path.join(RCBHOME, '..', 'autoexec.py') 			
 			#self.doBackup(autoexec)
 
 			# Write new autoexec.py
-			#fh = open(autoexec,'w') # truncate to 0
-			#fh.write("import xbmc\n")
-			#fh.write("xbmc.executescript('"+HOMEDIR+"default.py')\n")
-			#fh.close()
+			fh = open(autoexec,'w') # truncate to 0
+			fh.write("import xbmc\n")
+			fh.write("xbmc.executescript('"+ os.path.join(RCBHOME, 'default.py')+"')\n")
+			fh.close()
 
 			# Remember selection
 			#self.saveState()
@@ -279,9 +282,9 @@ class UIGameDB(xbmcgui.WindowXML):
 			print "Env: " +env
 			if(env == "win32"):
 				#There is a problem with quotes passed as argument to windows command shell. This only works with "call"
-				cmd = 'call \"' +os.path.join(os.getcwd(), 'applaunch.bat') +'\" ' +cmd						
+				cmd = 'call \"' +os.path.join(RCBHOME, 'applaunch.bat') +'\" ' +cmd						
 			else:
-				cmd = os.path.join(re.escape(os.getcwd()), 'applaunch.sh ') +cmd
+				cmd = os.path.join(re.escape(RCBHOME), 'applaunch.sh ') +cmd
 		
 		print "cmd: " +cmd
 		os.system(cmd)		
@@ -293,8 +296,16 @@ class UIGameDB(xbmcgui.WindowXML):
 		
 	
 	def importSettings(self):
-		importsettings.SettingsImporter().importSettings(self.gdb, os.path.join(os.getcwd(), 'resources', 'database'))
+		importsettings.SettingsImporter().importSettings(self.gdb, os.path.join(RCBHOME, 'resources', 'database'))
 		self.updateControls()
+		
+		
+	def doBackup(self,fName):
+		if os.path.isfile(fName):
+			for n in range(1, 999):
+				if not os.path.isfile(fName+'.bak'+str(n)):
+					os.rename(fName, fName+'.bak'+str(n))
+					break
 
 
 def main():

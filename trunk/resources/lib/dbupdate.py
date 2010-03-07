@@ -261,10 +261,12 @@ class DBUpdate:
 		print gameRow
 		if(gameRow == None):
 			self.log("Game does not exist in database. Insert game: " +game)
-			Game(self.gdb).insert((game, gamedescription.Description[0], '', '', romCollectionId, publisherId, yearId))
+			Game(self.gdb).insert((game, gamedescription.Description[0], 'NULL', 'NULL', romCollectionId, publisherId, 'NULL', 'NULL', yearId, 
+				'NULL', 'NULL', 'NULL', 'NULL', 'NULL', 'NULL', 'NULL', 'NULL', 'NULL', 'NULL'))
 			gameId = self.gdb.cursor.lastrowid
 		else:
 			gameId = gameRow[0]
+		
 		
 		for genreId in genreIds:
 			genreGame = GenreGame(self.gdb).getGenreGameByGenreIdAndGameId(genreId, gameId)
