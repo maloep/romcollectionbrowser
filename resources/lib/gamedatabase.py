@@ -82,7 +82,7 @@ class DataBaseObject:
 		#print("Insert INTO %(tablename)s VALUES (%(args)s)" % {'tablename':self.tableName, 'args': ( "?, " * len(args)) })
 	
 	def getAll(self):
-		self.gdb.cursor.execute("SELECT * FROM '%s'" % self.tableName)
+		self.gdb.cursor.execute("SELECT * FROM '%s' ORDER By name" % self.tableName)
 		allObjects = self.gdb.cursor.fetchall()		
 		return allObjects
 		
@@ -121,7 +121,8 @@ class Game(DataBaseObject):
 					(RomCollectionId IN (Select Id From RomCollection Where ConsoleId = ?) OR (0 = ?)) AND \
 					(Id IN (Select GameId From GenreGame Where GenreId = ?) OR (0 = ?)) AND \
 					(YearId = ? OR (0 = ?)) AND \
-					(PublisherId = ? OR (0 = ?))"
+					(PublisherId = ? OR (0 = ?)) \
+					ORDER BY name"
 	
 	def __init__(self, gdb):		
 		self.gdb = gdb

@@ -178,14 +178,17 @@ class UIGameDB(xbmcgui.WindowXML):
 		print "Begin ShowGames"
 			
 		games = Game(self.gdb).getFilteredGames(self.selectedConsoleId, self.selectedGenreId, self.selectedYearId, self.selectedPublisherId)
-		print str(games)
+		#print str(games)
 			
 		self.getControl(CONTROL_GAMES).setVisible(1)
 		self.getControl(CONTROL_GAMES).reset()
 		
+		items = []
 		for game in games:			
-			coverFile = File(self.gdb).getCoverByGameId(game[0])			
-			self.getControl(CONTROL_GAMES).addItem(xbmcgui.ListItem(str(game[1]), str(game[0]), coverFile, coverFile))
+			coverFile = File(self.gdb).getCoverByGameId(game[0])		
+			items.append(xbmcgui.ListItem(str(game[1]), str(game[0]), coverFile, ''))
+				
+		self.getControl(CONTROL_GAMES).addItems(items)
 		
 		#xbmcgui.unlock()	
 
