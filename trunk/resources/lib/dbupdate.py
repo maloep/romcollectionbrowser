@@ -234,7 +234,7 @@ class DBUpdate:
 		gameRow = Game(self.gdb).getOneByName(game)		
 		if(gameRow == None):
 			self.log("Game does not exist in database. Insert game: " +game)
-			Game(self.gdb).insert((game, gamedescription.Description[0], 'NULL', 'NULL', romCollectionId, publisherId, developerId, reviewerId, yearId, 
+			Game(self.gdb).insert((game, gamedescription.Description[0], None, None, romCollectionId, publisherId, developerId, reviewerId, yearId, 
 				players, rating, votes, url, region, media, perspective, controller, 0, 0))
 			gameId = self.gdb.cursor.lastrowid
 		else:

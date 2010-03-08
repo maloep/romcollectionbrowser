@@ -120,10 +120,10 @@ class SettingsImporter:
 		rcbSettingRows = RCBSetting(gdb).getAll()	
 		if(rcbSettingRows == None or len(rcbSettingRows) == 0):
 			if(favoriteConsole == ''):
-				favoriteConsole = 'NULL'
+				favoriteConsole = None
 			if(favoriteGenre == ''):
-				favoriteGenre = 'NULL'
-			RCBSetting(gdb).insert(('NULL', 'NULL', 'NULL', 'NULL', 'NULL', 'NULL', favoriteConsole, favoriteGenre, 'NULL'))
+				favoriteGenre = None
+			RCBSetting(gdb).insert((None, None, None, None, None, None, favoriteConsole, favoriteGenre, None))
 	
 	
 	def insertConsole(self, gdb, consoleName, consoleDesc, consoleImage):

@@ -80,6 +80,26 @@ class DataBaseObject:
 		self.gdb.cursor.execute(insertString, args)
 		
 		#print("Insert INTO %(tablename)s VALUES (%(args)s)" % {'tablename':self.tableName, 'args': ( "?, " * len(args)) })
+		
+	
+	def update(self, columns, args, id):
+		
+		if(len(columns) != len(args)):
+			#TODO raise Exception?
+			print "columns != args"
+			return
+			
+		updateString = "Update %s SET " %self.tableName
+		for i in range(0, len(columns)):
+			updateString += columns[i] +  " = ?"
+			if(i < len(columns) -1):
+				updateString += ", "
+				
+		updateString += " WHERE id = " +str(id)
+			
+		print updateString
+		self.gdb.cursor.execute(updateString, args)
+	
 	
 	def getAll(self):
 		self.gdb.cursor.execute("SELECT * FROM '%s'" % self.tableName)

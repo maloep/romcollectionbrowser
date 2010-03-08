@@ -75,7 +75,7 @@ CREATE TABLE IF NOT EXISTS [RCBSetting]
     (
         id
     ),
-	[autoexecBackupPath] TEXT
+	[autoexecBackupPath] TEXT	
 );
 
 
