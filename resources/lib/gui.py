@@ -67,6 +67,8 @@ class UIGameDB(xbmcgui.WindowXML):
 		
 		self.setFocus(self.getControl(CONTROL_CONSOLES))
 		self.showGames()
+		
+		self.checkAutoExec()
 
 
 	def updateControls(self):
@@ -267,17 +269,18 @@ class UIGameDB(xbmcgui.WindowXML):
 		#romCollectionRow[4] = useSolo
 		if (romCollectionRow[4] == 'True'):
 			# Backup original autoexec.py		
-			autoexec = os.path.join(RCBHOME, '..', 'autoexec.py') 			
-			#self.doBackup(autoexec)
+			autoexec = os.path.join(RCBHOME, '..', 'autoexec.py')
+			self.doBackup(autoexec)			
 
 			# Write new autoexec.py
 			fh = open(autoexec,'w') # truncate to 0
+			fh.write("#Rom Collection Browser autoexec\n")
 			fh.write("import xbmc\n")
 			fh.write("xbmc.executescript('"+ os.path.join(RCBHOME, 'default.py')+"')\n")
-			fh.close()
+			fh.close()			
 
 			# Remember selection
-			#self.saveState()
+			#TODO self.saveState()
 			env = ( os.environ.get( "OS", "win32" ), "win32", )[ os.environ.get( "OS", "win32" ) == "xbox" ]		
 			print "Env: " +env
 			if(env == "win32"):
@@ -302,10 +305,60 @@ class UIGameDB(xbmcgui.WindowXML):
 		
 	def doBackup(self,fName):
 		if os.path.isfile(fName):
-			for n in range(1, 999):
-				if not os.path.isfile(fName+'.bak'+str(n)):
-					os.rename(fName, fName+'.bak'+str(n))
-					break
+			newFileName = fName+'.bak'
+			
+			if os.path.isfile(newFileName):
+				return
+				
+			os.rename(fName, newFileName)
+			
+			rcbSetting = self.getRCBSetting()
+			if (rcbSetting == None):
+				return
+			
+			RCBSetting(self.gdb).update(('autoexecBackupPath',), (newFileName,), rcbSetting[0])
+			self.gdb.commit()
+			
+			
+	def checkAutoExec(self):
+		
+		autoexec = os.path.join(RCBHOME, '..', 'autoexec.py')		
+		if (os.path.isfile(autoexec)):			
+			fh = fh=open(autoexec,"r")
+			lines = fh.readlines()
+			fh.close()
+			if(len(lines) > 0):
+				firstLine = lines[0]
+				#check if it is our autoexec
+				if(firstLine.startswith('#Rom Collection Browser autoexec')):
+					os.remove(autoexec)
+				else:
+					return
+		
+		rcbSetting = self.getRCBSetting()
+		if (rcbSetting == None):
+			print "No RCB"
+			return
+					
+		autoExecBackupPath = rcbSetting[9]
+		if (autoExecBackupPath == None):
+			return
+			
+		if (os.path.isfile(autoExecBackupPath)):
+			os.rename(autoExecBackupPath, autoexec)
+			
+		RCBSetting(self.gdb).update(('autoexecBackupPath',), (None,), rcbSetting[0])
+		self.gdb.commit()
+			
+			
+			
+	def getRCBSetting(self):
+		rcbSettingRows = RCBSetting(self.gdb).getAll()
+		if(rcbSettingRows == None or len(rcbSettingRows) != 1):
+			#TODO raise error
+			return None
+						
+		return rcbSettingRows[0]
 
 
 def main():
