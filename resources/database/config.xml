@@ -1,7 +1,11 @@
 <config>
 	<RCBSettings>
-		<favoriteConsole>1</favoriteConsole>
+		<favoriteConsole></favoriteConsole>
 		<favoriteGenre></favoriteGenre>
+		<showEntryAllConsoles>True</showEntryAllConsoles>
+		<showEntryAllGenres>True</showEntryAllGenres>
+		<showEntryAllYears>True</showEntryAllYears>
+		<showEntryAllPublisher>True</showEntryAllPublisher>
 	</RCBSettings>
 	<Consoles>		
 		<Console>
@@ -24,10 +28,11 @@
 			<escapeCommand>True</escapeCommand>
 			<relyOnNaming>True</relyOnNaming>
 			<startWithDescFile>False</startWithDescFile>
-			<DescFilePerGame>True</DescFilePerGame>
+			<descFilePerGame>True</descFilePerGame>
 			<descriptionParserFile>E:\Emulatoren\data\Amiga\Collection V3\parserConfig.xml</descriptionParserFile>
 			<diskPrefix>_Disk</diskPrefix>
 			<typeOfManual>Text</typeOfManual>
+			<allowUpdate>True</allowUpdate>
 			<romPath>E:\Emulatoren\data\Amiga\games\*.adf</romPath>
 			<descFilePath>E:\Emulatoren\data\Amiga\Collection V3\%GAME%\synopsis.txt</descFilePath>
 			<coverPath>E:\Emulatoren\data\Amiga\Collection V3\%GAME%\covers\*.jpg</coverPath>
