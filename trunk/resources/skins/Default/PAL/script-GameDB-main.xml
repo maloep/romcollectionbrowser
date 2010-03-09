@@ -483,5 +483,17 @@
 			<onleft>3100</onleft>
 			<onright>2200</onright>
 		</control>
+		<control type="label" id="4000">
+			<description>Notes</description>
+			<posx>700</posx>
+			<posy>560</posy>
+			<width>680</width>
+			<height>10</height>
+			<align>right</align>
+			<scroll>true</scroll>
+		    <textcolor>DDFFFFFF</textcolor>
+		    <label></label>
+			<font>font10</font>
+		</control>
 	</controls>
 </window>

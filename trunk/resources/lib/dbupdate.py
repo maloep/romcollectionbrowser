@@ -18,7 +18,7 @@ class DBUpdate:
 	def __init__(self):			
 		self.logFile = open(self.logFilePath, 'w')
 	
-	def updateDB(self, gdb):		
+	def updateDB(self, gdb, gui):		
 		self.gdb = gdb
 		
 		self.log("Start Update DB")
@@ -26,12 +26,14 @@ class DBUpdate:
 		self.log("Reading Rom Collections from database")
 		romCollectionRows = RomCollection(self.gdb).getAll()
 		if(romCollectionRows == None):
+			gui.writeMsg("ERROR: There are no Rom Collections in database. Make sure to import settings first.")
 			self.log("ERROR: There are no Rom Collections in database. Make sure to import settings first.")
 			self.exit()
 			return
 		self.log(str(len(romCollectionRows)) +" Rom Collections read")		
 		
 		for romCollectionRow in romCollectionRows:
+			gui.writeMsg("Importing Rom Collection: " +romCollectionRow[1])
 			self.log("current Rom Collection: " +romCollectionRow[1])
 						
 			descParserFile = romCollectionRow[6]
@@ -45,7 +47,8 @@ class DBUpdate:
 				self.log("Start parsing description file")
 				results = self.parseDescriptionFile(str(descriptionPath), str(descParserFile), '')
 				if(results == None):
-					self.log("ERROR: There was an error parsing the description file. Please see xbmc log file")
+					gui.writeMsg("ERROR: There was an error parsing the description file. Please see log file for more information.")
+					self.log("ERROR: There was an error parsing the description file. Please see log file for more information.")
 					self.exit()
 					return
 				
@@ -100,7 +103,6 @@ class DBUpdate:
 			
 					#build friendly romname
 					gamename = os.path.basename(filename)
-					
 					self.log("gamename (file): " +gamename)
 					
 					#romCollectionRow[10] = DiskPrefix
@@ -111,6 +113,7 @@ class DBUpdate:
 						gamename = os.path.splitext(gamename)[0]					
 					
 					self.log("gamename (friendly): " +gamename)
+					gui.writeMsg("Importing Game: " +gamename)
 					
 					if(gamename == lastgamename):
 						self.log("handling multi rom game: " +lastgamename)
@@ -169,6 +172,7 @@ class DBUpdate:
 					
 					self.insertData(gamedescription, romCollectionRow[0], filename, ingameScreenFiles, titleScreenFiles, coverFiles, cartridgeFiles,
 						manualFiles, ingameVideoFiles, trailerFiles, configurationFiles)
+		gui.writeMsg("Done.")
 		self.exit()
 		
 	

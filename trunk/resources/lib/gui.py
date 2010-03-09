@@ -40,6 +40,8 @@ CONTROL_BUTTON_SETTINGS = 3000
 CONTROL_BUTTON_UPDATEDB = 3100
 CONTROL_BUTTON_CHANGEVIEW = 3200
 
+CONTROL_LABEL_MSG = 4000
+
 RCBHOME = os.getcwd()
 
 
@@ -180,7 +182,6 @@ class UIGameDB(xbmcgui.WindowXML):
 
 	def showGames(self):
 		#xbmcgui.lock()		
-		print "Begin ShowGames"
 			
 		games = Game(self.gdb).getFilteredGames(self.selectedConsoleId, self.selectedGenreId, self.selectedYearId, self.selectedPublisherId)
 		#print str(games)
@@ -188,12 +189,15 @@ class UIGameDB(xbmcgui.WindowXML):
 		self.getControl(CONTROL_GAMES).setVisible(1)
 		self.getControl(CONTROL_GAMES).reset()
 		
+		self.writeMsg("loading games...")
+		
 		items = []
 		for game in games:			
 			coverFile = File(self.gdb).getCoverByGameId(game[0])		
 			items.append(xbmcgui.ListItem(str(game[1]), str(game[0]), coverFile, ''))
 				
 		self.getControl(CONTROL_GAMES).addItems(items)
+		self.writeMsg("")
 		
 		#xbmcgui.unlock()	
 
@@ -228,20 +232,18 @@ class UIGameDB(xbmcgui.WindowXML):
 		gameId = selectedGame.getLabel2()
 		
 		gameRow = Game(self.gdb).getObjectById(gameId)		
-		print "Selected Game = " +str(gameRow)
+		self.writeMsg("Launch Game " +str(gameRow))
 		
 		romPath = Path(self.gdb).getRomPathByRomCollectionId(gameRow[5])
 		romCollectionRow = RomCollection(self.gdb).getObjectById(gameRow[5])
-		cmd = romCollectionRow[3]
-		print "Cmd = " +str(cmd)
+		cmd = romCollectionRow[3]		
 		
 		#handle multi rom scenario
 		filenameRows = File(self.gdb).getRomsByGameId(gameRow[0])
 		fileindex = int(0)
 		for fileNameRow in filenameRows:
 			fileName = fileNameRow[0]
-			rom = os.path.join(romPath, fileName)
-			print "Rom = " +rom
+			rom = os.path.join(romPath, fileName)			
 			#cmd could be: uae {-%I% %ROM%}
 			#we have to repeat the part inside the brackets and replace the %I% with the current index
 			obIndex = cmd.find('{')
@@ -281,8 +283,7 @@ class UIGameDB(xbmcgui.WindowXML):
 
 			# Remember selection
 			#TODO self.saveState()
-			env = ( os.environ.get( "OS", "win32" ), "win32", )[ os.environ.get( "OS", "win32" ) == "xbox" ]		
-			print "Env: " +env
+			env = ( os.environ.get( "OS", "win32" ), "win32", )[ os.environ.get( "OS", "win32" ) == "xbox" ]				
 			if(env == "win32"):
 				#There is a problem with quotes passed as argument to windows command shell. This only works with "call"
 				cmd = 'call \"' +os.path.join(RCBHOME, 'applaunch.bat') +'\" ' +cmd						
@@ -294,12 +295,12 @@ class UIGameDB(xbmcgui.WindowXML):
 		
 		
 	def updateDB(self):		
-		dbupdate.DBUpdate().updateDB(self.gdb, )
+		dbupdate.DBUpdate().updateDB(self.gdb, self)
 		self.updateControls()
 		
 	
 	def importSettings(self):
-		importsettings.SettingsImporter().importSettings(self.gdb, os.path.join(RCBHOME, 'resources', 'database'))
+		importsettings.SettingsImporter().importSettings(self.gdb, os.path.join(RCBHOME, 'resources', 'database'), self)
 		self.updateControls()
 		
 		
@@ -350,6 +351,9 @@ class UIGameDB(xbmcgui.WindowXML):
 		RCBSetting(self.gdb).update(('autoexecBackupPath',), (None,), rcbSetting[0])
 		self.gdb.commit()
 			
+	
+	def writeMsg(self, msg):
+		self.getControl(CONTROL_LABEL_MSG).setLabel(msg)
 			
 			
 	def getRCBSetting(self):
