@@ -6,18 +6,16 @@ from xml.dom.minidom import Document, parseString
 
 class SettingsImporter:
 	
-	def importSettings(self, gdb, databaseDir):
+	def importSettings(self, gdb, databaseDir, gui):
 		
 		configFile = os.path.join(databaseDir, 'config.xml')
 		fh=open(configFile,"r")
 		xmlDoc = fh.read()
-		fh.close()
-		#Strip tidyness
-		#xmlDoc = re.sub(r"[\t\n\r]",r"",xmlDoc)
-		#xmlDoc = xmlDoc.strip()
+		fh.close()		
 		xmlDoc = parseString(xmlDoc)
 		
-		#print xmlDoc
+		gui.writeMsg("Importing Settings...")
+		
 		
 		rcbSettings = xmlDoc.getElementsByTagName('RCBSettings')
 		#TODO only 1 Setting allowed
@@ -26,6 +24,8 @@ class SettingsImporter:
 			favoriteGenre = self.getElementValue(rcbSetting, 'favoriteGenre')
 			
 			self.insertRCBSetting(gdb, favoriteConsole, favoriteGenre)
+			
+		gui.writeMsg("Importing Console Info...")
 		
 		consoles = xmlDoc.getElementsByTagName('Console')
 		for console in consoles:			
@@ -34,17 +34,20 @@ class SettingsImporter:
 			consoleImage =  self.getElementValue(console, 'imgFile')
 			
 			self.insertConsole(gdb, consoleName, consoleDesc, consoleImage)
-			
+		
+		gui.writeMsg("Importing File Types...")
 			
 		fileTypes= xmlDoc.getElementsByTagName('FileType')		
 		for fileType in fileTypes:
 			fileTypeName = self.getElementValue(fileType, 'name')
 			self.insertFileType(gdb, fileTypeName)
-			
+		
+		gui.writeMsg("Importing Rom Collections...")
 		
 		romCollections = xmlDoc.getElementsByTagName('RomCollection')
 		for romCollection in romCollections:			
 			romCollName = self.getElementValue(romCollection, 'name')
+			gui.writeMsg("Importing Rom Collection: " +romCollName)
 			consoleName = self.getElementValue(romCollection, 'consoleName')
 			emuCmd = self.getElementValue(romCollection, 'emulatorCmd')
 			emuSolo = self.getElementValue(romCollection, 'useEmuSolo')
@@ -84,6 +87,7 @@ class SettingsImporter:
 			
 		#TODO Transaction?
 		gdb.commit()
+		gui.writeMsg("Done.")
 		
 	
 	
@@ -117,7 +121,7 @@ class SettingsImporter:
 		
 	
 	def insertRCBSetting(self, gdb, favoriteConsole, favoriteGenre):
-		rcbSettingRows = RCBSetting(gdb).getAll()	
+		rcbSettingRows = RCBSetting(gdb).getAll()
 		if(rcbSettingRows == None or len(rcbSettingRows) == 0):
 			if(favoriteConsole == ''):
 				favoriteConsole = None
