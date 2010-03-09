@@ -49,11 +49,16 @@ class UIGameDB(xbmcgui.WindowXML):
 	
 	gdb = GameDataBase(os.path.join(RCBHOME, 'resources', 'database'))
 	
-	selectedControlId = 0	
+	selectedControlId = 0
 	selectedConsoleId = 0
 	selectedGenreId = 0
 	selectedYearId = 0
 	selectedPublisherId = 0
+	
+	selectedConsoleIndex = 0
+	selectedGenreIndex = 0
+	selectedYearIndex = 0
+	selectedPublisherIndex = 0
 	
 	def __init__(self,strXMLname, strFallbackPath, strDefaultName, forceFallback):
 		# Changing the three varibles passed won't change, anything
@@ -66,12 +71,9 @@ class UIGameDB(xbmcgui.WindowXML):
 		self.gdb.connect()
 		
 		self.updateControls()
-		
-		self.setFocus(self.getControl(CONTROL_CONSOLES))
-		self.showGames()
-		
+		self.loadViewState()
 		self.checkAutoExec()
-
+		
 
 	def updateControls(self):
 		#prepare FilterControls	
@@ -82,6 +84,7 @@ class UIGameDB(xbmcgui.WindowXML):
 		
 
 	def onAction(self, action):
+		
 		if(action.getId() in ACTION_CANCEL_DIALOG):
 			self.gdb.close()
 			self.close()
@@ -97,6 +100,7 @@ class UIGameDB(xbmcgui.WindowXML):
 					
 				if (self.selectedControlId == CONTROL_CONSOLES):				
 					self.selectedConsoleId = int(label2)
+					self.selectedConsoleIndex = control.getSelectedPosition()
 					if (self.selectedConsoleId == 0):
 						self.getControl(CONTROL_CONSOLE_IMG).setVisible(0)
 						self.getControl(CONTROL_CONSOLE_DESC).setVisible(0)
@@ -104,10 +108,13 @@ class UIGameDB(xbmcgui.WindowXML):
 						self.showConsoleInfo()
 				elif (self.selectedControlId == CONTROL_GENRE):
 					self.selectedGenreId = int(label2)
+					self.selectedGenreIndex = control.getSelectedPosition()
 				elif (self.selectedControlId == CONTROL_YEAR):
 					self.selectedYearId = int(label2)
+					self.selectedYearIndex = control.getSelectedPosition()
 				elif (self.selectedControlId == CONTROL_PUBLISHER):
 					self.selectedPublisherId = int(label2)
+					self.selectedPublisherIndex = control.getSelectedPosition()
 					
 				self.showGames()
 		elif(action.getId() in ACTION_MOVEMENT_LEFT or action.getId() in ACTION_MOVEMENT_RIGHT):
@@ -126,11 +133,9 @@ class UIGameDB(xbmcgui.WindowXML):
 		Notice: onClick not onControl
 		Notice: it gives the ID of the control not the control object
 		"""
-		if (controlId == CONTROL_BUTTON_SETTINGS):
-			print "Button Import Settings"
+		if (controlId == CONTROL_BUTTON_SETTINGS):			
 			self.importSettings()
-		elif (controlId == CONTROL_BUTTON_UPDATEDB):
-			print "Button UpdateDB"
+		elif (controlId == CONTROL_BUTTON_UPDATEDB):			
 			self.updateDB()
 		elif (controlId == CONTROL_BUTTON_CHANGEVIEW):
 			print "Button Change View"
@@ -142,7 +147,7 @@ class UIGameDB(xbmcgui.WindowXML):
 
 
 	def onFocus(self, controlId):		
-		self.selectedControlId = controlId		
+		self.selectedControlId = controlId
 	
 	
 	def showFilterControl(self, dbo, controlId):
@@ -158,11 +163,6 @@ class UIGameDB(xbmcgui.WindowXML):
 			self.getControl(controlId).addItem(xbmcgui.ListItem(str(row[1]), str(row[0]), "", ""))
 			
 		#xbmcgui.unlock
-		
-		#TODO index nach neustart
-		#self.lstMain.selectItem(0)		
-		#self.setEmuDesc()
-		#self.setFocus(self.lstMain)
 		
 	def showConsoles(self):
 		self.showFilterControl(Console(self.gdb), CONTROL_CONSOLES)
@@ -182,9 +182,8 @@ class UIGameDB(xbmcgui.WindowXML):
 
 	def showGames(self):
 		#xbmcgui.lock()		
-			
-		games = Game(self.gdb).getFilteredGames(self.selectedConsoleId, self.selectedGenreId, self.selectedYearId, self.selectedPublisherId)
-		#print str(games)
+		
+		games = Game(self.gdb).getFilteredGames(self.selectedConsoleId, self.selectedGenreId, self.selectedYearId, self.selectedPublisherId)		
 			
 		self.getControl(CONTROL_GAMES).setVisible(1)
 		self.getControl(CONTROL_GAMES).reset()
@@ -201,8 +200,7 @@ class UIGameDB(xbmcgui.WindowXML):
 		
 		#xbmcgui.unlock()	
 
-	def showConsoleInfo(self):
-		print "show Console Info"
+	def showConsoleInfo(self):		
 		consoleRow = Console(self.gdb).getObjectById(self.selectedConsoleId)
 		image = consoleRow[3]		
 		description = consoleRow[2]
@@ -212,15 +210,12 @@ class UIGameDB(xbmcgui.WindowXML):
 		self.getControl(CONTROL_CONSOLE_DESC).setText(description)
 		
 	
-	def showGameInfo(self):
-		print "show Game Info"
+	def showGameInfo(self):		
 		selectedGame = self.getControl(CONTROL_GAMES).getSelectedItem()
 		gameId = selectedGame.getLabel2()
 		gameRow = Game(self.gdb).getObjectById(gameId)
 		screenshotFile = File(self.gdb).getIngameScreenshotByGameId(gameId)		
-		description = gameRow[2]
-		#print "Screenshot: " +screenshotFile
-		#print "Screenshot exists: " +str(os.path.exists(screenshotFile))		
+		description = gameRow[2]		
 		self.getControl(CONTROL_CONSOLE_IMG).setVisible(1)		
 		self.getControl(CONTROL_CONSOLE_IMG).setImage(screenshotFile)
 		self.getControl(CONTROL_CONSOLE_DESC).setVisible(1)
@@ -282,7 +277,9 @@ class UIGameDB(xbmcgui.WindowXML):
 			fh.close()			
 
 			# Remember selection
-			#TODO self.saveState()
+			self.saveViewState()
+			
+			#invoke batch file that kills xbmc before launching the emulator
 			env = ( os.environ.get( "OS", "win32" ), "win32", )[ os.environ.get( "OS", "win32" ) == "xbox" ]				
 			if(env == "win32"):
 				#There is a problem with quotes passed as argument to windows command shell. This only works with "call"
@@ -337,8 +334,7 @@ class UIGameDB(xbmcgui.WindowXML):
 					return
 		
 		rcbSetting = self.getRCBSetting()
-		if (rcbSetting == None):
-			print "No RCB"
+		if (rcbSetting == None):			
 			return
 					
 		autoExecBackupPath = rcbSetting[9]
@@ -363,6 +359,46 @@ class UIGameDB(xbmcgui.WindowXML):
 			return None
 						
 		return rcbSettingRows[0]
+		
+		
+	def saveViewState(self):
+		rcbSetting = self.getRCBSetting()
+		
+		selectedGameIndex = self.getControl(CONTROL_GAMES).getSelectedPosition()		
+		
+		RCBSetting(self.gdb).update(('lastSelectedView', 'lastSelectedConsoleIndex', 'lastSelectedGenreIndex', 'lastSelectedPublisherIndex', 'lastSelectedYearIndex', 'lastSelectedGameIndex'),
+			('gameListAsIcons', self.selectedConsoleIndex, self.selectedGenreIndex, self.selectedPublisherIndex, self.selectedYearIndex, selectedGameIndex), rcbSetting[0])
+		self.gdb.commit()
+		
+	
+	def loadViewState(self):
+		rcbSetting = self.getRCBSetting()
+		
+		self.selectedConsoleId = int(self.setFilterSelection(CONTROL_CONSOLES, rcbSetting[2]))	
+		self.selectedConsoleIndex = rcbSetting[2]
+		self.selectedGenreId = int(self.setFilterSelection(CONTROL_GENRE, rcbSetting[3]))
+		self.selectedGenreIndex = rcbSetting[3]
+		self.selectedPublisherId = int(self.setFilterSelection(CONTROL_PUBLISHER, rcbSetting[4]))
+		self.selectedPublisherIndex = rcbSetting[4]
+		self.selectedYearId = int(self.setFilterSelection(CONTROL_YEAR, rcbSetting[5]))
+		self.selectedYearIndex = rcbSetting[5]
+
+		self.showGames()
+		self.setFilterSelection(CONTROL_GAMES, rcbSetting[6])
+		self.setFocus(self.getControl(CONTROL_GAMES))
+		
+			
+			
+	def setFilterSelection(self, controlId, selectedIndex):
+		if(selectedIndex != None):
+			control = self.getControl(controlId)
+			control.selectItem(selectedIndex)
+			selectedItem = control.getSelectedItem()
+			label2 = selectedItem.getLabel2()
+			return label2
+		else:
+			return 0
+		
 
 
 def main():

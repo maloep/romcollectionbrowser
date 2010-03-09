@@ -47,26 +47,11 @@ CREATE TABLE IF NOT EXISTS [RCBSetting]
 (
     [id] INTEGER PRIMARY KEY AUTOINCREMENT,
     [lastSelectedView] TEXT,
-    [lastSelectedConsoleId] INTEGER REFERENCES [Console]
-    (
-        id
-    ),	
-	[lastSelectedGenreId] INTEGER REFERENCES [Genre]
-    (
-        id
-    ),
-	[lastSelectedPublisherId] INTEGER REFERENCES [Publisher]
-    (
-        id
-    ),
-    [lastSelectedYearId] INTEGER REFERENCES [Year]
-    (
-        id
-    ),
-	[lastSelectedGameId] INTEGER REFERENCES [Game]
-    (
-        id
-    ),
+    [lastSelectedConsoleIndex] INTEGER,	
+	[lastSelectedGenreIndex] INTEGER,
+	[lastSelectedPublisherIndex] INTEGER,
+    [lastSelectedYearIndex] INTEGER,
+	[lastSelectedGameIndex] INTEGER,
 	[favoriteConsoleId] INTEGER REFERENCES [Console]
     (
         id
