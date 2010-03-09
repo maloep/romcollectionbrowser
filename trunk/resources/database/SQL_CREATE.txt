@@ -75,7 +75,12 @@ CREATE TABLE IF NOT EXISTS [RCBSetting]
     (
         id
     ),
-	[autoexecBackupPath] TEXT	
+	[autoexecBackupPath] TEXT,
+	[dbVersion] TEXT,
+	[showEntryAllConsoles] INTEGER,
+	[showEntryAllGenres] INTEGER,
+	[showEntryAllYears] INTEGER,
+	[showEntryAllPublisher] INTEGER	
 );
 
 
@@ -95,7 +100,8 @@ CREATE TABLE IF NOT EXISTS [RomCollection]
 	[startWithDescFile] INTEGER,
 	[descFilePerGame] INTEGER,
 	[diskPrefix] TEXT,
-	[typeOfManual] TEXT
+	[typeOfManual] TEXT,
+	[allowUpdate] INTEGER
 );
 
 CREATE TABLE IF NOT EXISTS [Game] 
