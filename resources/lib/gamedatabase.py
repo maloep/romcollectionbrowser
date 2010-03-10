@@ -75,8 +75,7 @@ class DataBaseObject:
 	def insert(self, args):		
 		paramsString = ( "?, " * len(args))
 		paramsString = paramsString[0:len(paramsString)-2]
-		insertString = "Insert INTO %(tablename)s VALUES (NULL, %(args)s)" % {'tablename':self.tableName, 'args': paramsString }
-		print insertString
+		insertString = "Insert INTO %(tablename)s VALUES (NULL, %(args)s)" % {'tablename':self.tableName, 'args': paramsString }		
 		self.gdb.cursor.execute(insertString, args)
 		
 		#print("Insert INTO %(tablename)s VALUES (%(args)s)" % {'tablename':self.tableName, 'args': ( "?, " * len(args)) })
@@ -85,8 +84,7 @@ class DataBaseObject:
 	def update(self, columns, args, id):
 		
 		if(len(columns) != len(args)):
-			#TODO raise Exception?
-			print "columns != args"
+			#TODO raise Exception?			
 			return
 			
 		updateString = "Update %s SET " %self.tableName
@@ -96,8 +94,7 @@ class DataBaseObject:
 				updateString += ", "
 				
 		updateString += " WHERE id = " +str(id)
-			
-		print updateString
+		
 		self.gdb.cursor.execute(updateString, args)
 	
 	
@@ -281,11 +278,9 @@ class Path(DataBaseObject):
 		file = self.getObjectByQuery(self.filterQueryByNameAndType, (name, type))
 		return file
 		
-	def getRomPathByRomCollectionId(self, romCollectionId):
-		path = self.getObjectByQuery(self.filterQueryByRomCollectionIdAndFileType, (romCollectionId, 'rom'))
-		if path == None:
-			return ""	
-		return path[0]
+	def getRomPathsByRomCollectionId(self, romCollectionId):
+		path = self.getObjectsByQuery(self.filterQueryByRomCollectionIdAndFileType, (romCollectionId, 'rom'))
+		return path
 		
 	def getDescriptionPathByRomCollectionId(self, romCollectionId):
 		path = self.getObjectByQuery(self.filterQueryByRomCollectionIdAndFileType, (romCollectionId, 'description'))

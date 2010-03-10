@@ -173,22 +173,38 @@ class UIGameDB(xbmcgui.WindowXML):
 		
 	def showConsoles(self):
 		rcbSetting = self.getRCBSetting()
-		self.selectedConsoleId = self.showFilterControl(Console(self.gdb), CONTROL_CONSOLES, rcbSetting[11])
+		if(rcbSetting == None):
+			showEntryAllItems = 'True'
+		else:
+			showEntryAllItems = rcbSetting[11]
+		self.selectedConsoleId = self.showFilterControl(Console(self.gdb), CONTROL_CONSOLES, showEntryAllItems)
 
 
 	def showGenre(self):
 		rcbSetting = self.getRCBSetting()
-		self.selectedGenreId = self.showFilterControl(Genre(self.gdb), CONTROL_GENRE, rcbSetting[12])
+		if(rcbSetting == None):
+			showEntryAllItems = 'True'
+		else:
+			showEntryAllItems = rcbSetting[11]
+		self.selectedGenreId = self.showFilterControl(Genre(self.gdb), CONTROL_GENRE, showEntryAllItems)
 		
 	
 	def showYear(self):
 		rcbSetting = self.getRCBSetting()
-		self.selectedYearId = self.showFilterControl(Year(self.gdb), CONTROL_YEAR, rcbSetting[13])
+		if(rcbSetting == None):
+			showEntryAllItems = 'True'
+		else:
+			showEntryAllItems = rcbSetting[11]
+		self.selectedYearId = self.showFilterControl(Year(self.gdb), CONTROL_YEAR, showEntryAllItems)
 		
 		
 	def showPublisher(self):
 		rcbSetting = self.getRCBSetting()
-		self.selectedPublisherId = self.showFilterControl(Publisher(self.gdb), CONTROL_PUBLISHER, rcbSetting[14])
+		if(rcbSetting == None):
+			showEntryAllItems = 'True'
+		else:
+			showEntryAllItems = rcbSetting[11]
+		self.selectedPublisherId = self.showFilterControl(Publisher(self.gdb), CONTROL_PUBLISHER, showEntryAllItems)
 
 
 	def showGames(self):
@@ -240,7 +256,7 @@ class UIGameDB(xbmcgui.WindowXML):
 		gameRow = Game(self.gdb).getObjectById(gameId)		
 		self.writeMsg("Launch Game " +str(gameRow))
 		
-		romPath = Path(self.gdb).getRomPathByRomCollectionId(gameRow[5])
+		romPaths = Path(self.gdb).getRomPathsByRomCollectionId(gameRow[5])
 		romCollectionRow = RomCollection(self.gdb).getObjectById(gameRow[5])
 		cmd = romCollectionRow[3]		
 		
@@ -249,7 +265,11 @@ class UIGameDB(xbmcgui.WindowXML):
 		fileindex = int(0)
 		for fileNameRow in filenameRows:
 			fileName = fileNameRow[0]
-			rom = os.path.join(romPath, fileName)			
+			#we could have multiple rom Paths
+			for romPath in romPaths:
+				rom = os.path.join(romPath, fileName)
+				if(os.path.isfile(rom)):
+					break
 			#cmd could be: uae {-%I% %ROM%}
 			#we have to repeat the part inside the brackets and replace the %I% with the current index
 			obIndex = cmd.find('{')
@@ -374,6 +394,8 @@ class UIGameDB(xbmcgui.WindowXML):
 		
 	def saveViewState(self, isOnExit):
 		rcbSetting = self.getRCBSetting()
+		if(rcbSetting == None):
+			return
 		
 		if(isOnExit):
 			#saveViewStateOnExit
@@ -396,6 +418,8 @@ class UIGameDB(xbmcgui.WindowXML):
 	
 	def loadViewState(self):
 		rcbSetting = self.getRCBSetting()
+		if(rcbSetting == None):
+			return
 		
 		if(rcbSetting[2] != None):
 			self.selectedConsoleId = int(self.setFilterSelection(CONTROL_CONSOLES, rcbSetting[2]))	
@@ -430,6 +454,8 @@ class UIGameDB(xbmcgui.WindowXML):
 			control = self.getControl(controlId)
 			control.selectItem(selectedIndex)
 			selectedItem = control.getSelectedItem()
+			if(selectedItem == None):
+				return 0
 			label2 = selectedItem.getLabel2()
 			return label2
 		else:
