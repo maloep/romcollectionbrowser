@@ -36,6 +36,7 @@
 			<typeOfManual>Text</typeOfManual>
 			<allowUpdate>True</allowUpdate>
 			<romPath>E:\Emulatoren\data\Amiga\games\*.adf</romPath>
+			<romPath>E:\Emulatoren\data\Amiga\games\*.ADF</romPath>
 			<descFilePath>E:\Emulatoren\data\Amiga\Collection V3\%GAME%\synopsis.txt</descFilePath>
 			<coverPath>E:\Emulatoren\data\Amiga\Collection V3\%GAME%\covers\*.jpg</coverPath>
 			<coverPath>E:\Emulatoren\data\Amiga\Collection V3\%GAME%\covers\*.gif</coverPath>

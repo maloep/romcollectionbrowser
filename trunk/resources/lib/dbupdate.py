@@ -63,8 +63,8 @@ class DBUpdate:
 				return
 			else:		
 				self.log("Reading configured paths from database")
-				romPath = Path(self.gdb).getRomPathByRomCollectionId(romCollectionRow[0])
-				self.log("Rom path: " +str(romPath))
+				romPaths = Path(self.gdb).getRomPathsByRomCollectionId(romCollectionRow[0])
+				self.log("Rom path: " +str(romPaths))
 				ingameScreenshotPaths = Path(self.gdb).getIngameScreenshotPathsByRomCollectionId(romCollectionRow[0])				
 				self.log("ingame screen path: " +str(ingameScreenshotPaths))
 				titleScreenshotPaths = Path(self.gdb).getTitleScreenshotPathsByRomCollectionId(romCollectionRow[0])
@@ -83,14 +83,15 @@ class DBUpdate:
 				self.log("configuration path: " +str(configurationPaths))
 						
 				self.log("Reading rom files")
-				#TODO handle multiple rom paths
-				# read ROMs from disk
-				if os.path.isdir(os.path.dirname(romPath)):
-					#glob is same as "os.listdir(romPath)" but it can handle wildcards like *.adf
-					files = glob.glob(romPath)
-					files.sort()
-				else:
-					files = []
+				files = []
+				for romPath in romPaths:				
+					if os.path.isdir(os.path.dirname(romPath[0])):
+						#glob is same as "os.listdir(romPath)" but it can handle wildcards like *.adf
+						allFiles = glob.glob(romPath[0])
+						#did not find appendall or slt
+						for file in allFiles:							
+							files.append(file)
+				files.sort()
 					
 				self.log("Files read: " +str(files))
 					
@@ -115,6 +116,7 @@ class DBUpdate:
 					self.log("gamename (friendly): " +gamename)
 					gui.writeMsg("Importing Game: " +gamename)
 					
+					
 					if(gamename == lastgamename):
 						self.log("handling multi rom game: " +lastgamename)
 						gameRow = Game(self.gdb).getOneByName(gamename)
@@ -127,6 +129,7 @@ class DBUpdate:
 						continue
 						
 					lastgamename = gamename
+					
 									
 					self.log("Resolving paths")
 					ingameScreenFiles = self.resolvePath(ingameScreenshotPaths, gamename)
