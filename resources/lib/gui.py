@@ -229,6 +229,10 @@ class UIGameDB(xbmcgui.WindowXML):
 
 	def showConsoleInfo(self):		
 		consoleRow = Console(self.gdb).getObjectById(self.selectedConsoleId)
+		
+		if(consoleRow == None):
+			return
+			
 		image = consoleRow[3]		
 		description = consoleRow[2]
 		self.getControl(CONTROL_CONSOLE_IMG).setVisible(1)
@@ -239,13 +243,23 @@ class UIGameDB(xbmcgui.WindowXML):
 	
 	def showGameInfo(self):		
 		selectedGame = self.getControl(CONTROL_GAMES).getSelectedItem()
+		
+		if(selectedGame == None):
+			return
+			
 		gameId = selectedGame.getLabel2()
 		gameRow = Game(self.gdb).getObjectById(gameId)
+		
+		if(gameRow == None):
+			return
+			
 		screenshotFile = File(self.gdb).getIngameScreenshotByGameId(gameId)		
 		description = gameRow[2]		
 		self.getControl(CONTROL_CONSOLE_IMG).setVisible(1)		
 		self.getControl(CONTROL_CONSOLE_IMG).setImage(screenshotFile)
 		self.getControl(CONTROL_CONSOLE_DESC).setVisible(1)
+		if(description == None):
+			description = ""
 		self.getControl(CONTROL_CONSOLE_DESC).setText(description)
 
 
