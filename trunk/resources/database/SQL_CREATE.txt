@@ -65,7 +65,10 @@ CREATE TABLE IF NOT EXISTS [RCBSetting]
 	[showEntryAllConsoles] INTEGER,
 	[showEntryAllGenres] INTEGER,
 	[showEntryAllYears] INTEGER,
-	[showEntryAllPublisher] INTEGER	
+	[showEntryAllPublisher] INTEGER,
+	[saveViewStateOnExit] INTEGER,
+	[saveViewStateOnLaunchEmu] INTEGER,
+	[lastFocusedControl] INTEGER
 );
 
 

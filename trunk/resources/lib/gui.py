@@ -86,8 +86,7 @@ class UIGameDB(xbmcgui.WindowXML):
 	def onAction(self, action):
 		
 		if(action.getId() in ACTION_CANCEL_DIALOG):
-			self.gdb.close()
-			self.close()
+			self.exit()
 		elif(action.getId() in ACTION_MOVEMENT_UP or action.getId() in ACTION_MOVEMENT_DOWN):
 			try:
 				control = self.getControl(self.selectedControlId)
@@ -277,7 +276,7 @@ class UIGameDB(xbmcgui.WindowXML):
 			fh.close()			
 
 			# Remember selection
-			self.saveViewState()
+			self.saveViewState(False)
 			
 			#invoke batch file that kills xbmc before launching the emulator
 			env = ( os.environ.get( "OS", "win32" ), "win32", )[ os.environ.get( "OS", "win32" ) == "xbox" ]				
@@ -361,13 +360,25 @@ class UIGameDB(xbmcgui.WindowXML):
 		return rcbSettingRows[0]
 		
 		
-	def saveViewState(self):
+	def saveViewState(self, isOnExit):
 		rcbSetting = self.getRCBSetting()
 		
-		selectedGameIndex = self.getControl(CONTROL_GAMES).getSelectedPosition()		
+		if(isOnExit):
+			#saveViewStateOnExit
+			saveViewState = rcbSetting[15]
+		else:
+			#saveViewStateOnLaunchEmu
+			saveViewState = rcbSetting[16]
 		
-		RCBSetting(self.gdb).update(('lastSelectedView', 'lastSelectedConsoleIndex', 'lastSelectedGenreIndex', 'lastSelectedPublisherIndex', 'lastSelectedYearIndex', 'lastSelectedGameIndex'),
-			('gameListAsIcons', self.selectedConsoleIndex, self.selectedGenreIndex, self.selectedPublisherIndex, self.selectedYearIndex, selectedGameIndex), rcbSetting[0])
+		selectedGameIndex = self.getControl(CONTROL_GAMES).getSelectedPosition()
+		
+		if(saveViewState == 'True'):
+			RCBSetting(self.gdb).update(('lastSelectedView', 'lastSelectedConsoleIndex', 'lastSelectedGenreIndex', 'lastSelectedPublisherIndex', 'lastSelectedYearIndex', 'lastSelectedGameIndex', 'lastFocusedControl'),
+				('gameListAsIcons', self.selectedConsoleIndex, self.selectedGenreIndex, self.selectedPublisherIndex, self.selectedYearIndex, selectedGameIndex, self.selectedControlId), rcbSetting[0])
+		else:
+			RCBSetting(self.gdb).update(('lastSelectedView', 'lastSelectedConsoleIndex', 'lastSelectedGenreIndex', 'lastSelectedPublisherIndex', 'lastSelectedYearIndex', 'lastSelectedGameIndex', 'lastFocusedControl'),
+				(None, None, None, None, None, None, None), rcbSetting[0])
+				
 		self.gdb.commit()
 		
 	
@@ -385,8 +396,17 @@ class UIGameDB(xbmcgui.WindowXML):
 
 		self.showGames()
 		self.setFilterSelection(CONTROL_GAMES, rcbSetting[6])
-		self.setFocus(self.getControl(CONTROL_GAMES))
-		
+						
+		#lastFocusedControl
+		if(rcbSetting[17] != None):
+			self.setFocus(self.getControl(rcbSetting[17]))
+			if(rcbSetting[17] == CONTROL_CONSOLES):
+				self.showConsoleInfo()
+			elif(rcbSetting[17] == CONTROL_GAMES):
+				self.showGameInfo()
+		else:
+			self.setFocus(self.getControl(CONTROL_CONSOLES))
+			
 			
 			
 	def setFilterSelection(self, controlId, selectedIndex):
@@ -398,6 +418,14 @@ class UIGameDB(xbmcgui.WindowXML):
 			return label2
 		else:
 			return 0
+			
+	
+	def exit(self):				
+		
+		self.saveViewState(True)
+		
+		self.gdb.close()
+		self.close()
 		
 
 
