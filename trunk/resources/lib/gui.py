@@ -149,34 +149,46 @@ class UIGameDB(xbmcgui.WindowXML):
 		self.selectedControlId = controlId
 	
 	
-	def showFilterControl(self, dbo, controlId):
+	def showFilterControl(self, dbo, controlId, showEntryAllItems):
 		#xbmcgui.lock()
 		rows = dbo.getAllOrdered()
 		
-		self.getControl(controlId).setVisible(1)
-		self.getControl(controlId).reset()
+		control = self.getControl(controlId)
+		control.setVisible(1)
+		control.reset()
 		
-		self.getControl(controlId).addItem(xbmcgui.ListItem("All", "0", "", ""))
+		items = []
+		if(showEntryAllItems == 'True'):
+			items.append(xbmcgui.ListItem("All", "0", "", ""))		
 		
 		for row in rows:
-			self.getControl(controlId).addItem(xbmcgui.ListItem(str(row[1]), str(row[0]), "", ""))
+			items.append(xbmcgui.ListItem(str(row[1]), str(row[0]), "", ""))
 			
+		control.addItems(items)
+			
+		label2 = str(control.getSelectedItem().getLabel2())		
+		return int(label2)
 		#xbmcgui.unlock
 		
+		
 	def showConsoles(self):
-		self.showFilterControl(Console(self.gdb), CONTROL_CONSOLES)
+		rcbSetting = self.getRCBSetting()
+		self.selectedConsoleId = self.showFilterControl(Console(self.gdb), CONTROL_CONSOLES, rcbSetting[11])
 
 
 	def showGenre(self):
-		self.showFilterControl(Genre(self.gdb), CONTROL_GENRE)
+		rcbSetting = self.getRCBSetting()
+		self.selectedGenreId = self.showFilterControl(Genre(self.gdb), CONTROL_GENRE, rcbSetting[12])
 		
 	
 	def showYear(self):
-		self.showFilterControl(Year(self.gdb), CONTROL_YEAR)
+		rcbSetting = self.getRCBSetting()
+		self.selectedYearId = self.showFilterControl(Year(self.gdb), CONTROL_YEAR, rcbSetting[13])
 		
 		
 	def showPublisher(self):
-		self.showFilterControl(Publisher(self.gdb), CONTROL_PUBLISHER)
+		rcbSetting = self.getRCBSetting()
+		self.selectedPublisherId = self.showFilterControl(Publisher(self.gdb), CONTROL_PUBLISHER, rcbSetting[14])
 
 
 	def showGames(self):
@@ -385,14 +397,18 @@ class UIGameDB(xbmcgui.WindowXML):
 	def loadViewState(self):
 		rcbSetting = self.getRCBSetting()
 		
-		self.selectedConsoleId = int(self.setFilterSelection(CONTROL_CONSOLES, rcbSetting[2]))	
-		self.selectedConsoleIndex = rcbSetting[2]
-		self.selectedGenreId = int(self.setFilterSelection(CONTROL_GENRE, rcbSetting[3]))
-		self.selectedGenreIndex = rcbSetting[3]
-		self.selectedPublisherId = int(self.setFilterSelection(CONTROL_PUBLISHER, rcbSetting[4]))
-		self.selectedPublisherIndex = rcbSetting[4]
-		self.selectedYearId = int(self.setFilterSelection(CONTROL_YEAR, rcbSetting[5]))
-		self.selectedYearIndex = rcbSetting[5]
+		if(rcbSetting[2] != None):
+			self.selectedConsoleId = int(self.setFilterSelection(CONTROL_CONSOLES, rcbSetting[2]))	
+			self.selectedConsoleIndex = rcbSetting[2]
+		if(rcbSetting[3] != None):
+			self.selectedGenreId = int(self.setFilterSelection(CONTROL_GENRE, rcbSetting[3]))
+			self.selectedGenreIndex = rcbSetting[3]
+		if(rcbSetting[4] != None):
+			self.selectedPublisherId = int(self.setFilterSelection(CONTROL_PUBLISHER, rcbSetting[4]))
+			self.selectedPublisherIndex = rcbSetting[4]
+		if(rcbSetting[5] != None):
+			self.selectedYearId = int(self.setFilterSelection(CONTROL_YEAR, rcbSetting[5]))
+			self.selectedYearIndex = rcbSetting[5]
 
 		self.showGames()
 		self.setFilterSelection(CONTROL_GAMES, rcbSetting[6])
