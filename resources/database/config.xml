@@ -6,6 +6,8 @@
 		<showEntryAllGenres>True</showEntryAllGenres>
 		<showEntryAllYears>True</showEntryAllYears>
 		<showEntryAllPublisher>True</showEntryAllPublisher>
+		<saveViewStateOnExit>True</saveViewStateOnExit>
+		<saveViewStateOnLaunchEmu>True</saveViewStateOnLaunchEmu>
 	</RCBSettings>
 	<Consoles>		
 		<Console>

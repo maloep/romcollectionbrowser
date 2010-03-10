@@ -26,8 +26,11 @@ class SettingsImporter:
 			showEntryAllGenres = self.getElementValue(rcbSetting, 'showEntryAllGenres')
 			showEntryAllYears = self.getElementValue(rcbSetting, 'showEntryAllYears')
 			showEntryAllPublisher = self.getElementValue(rcbSetting, 'showEntryAllPublisher')
+			saveViewStateOnExit = self.getElementValue(rcbSetting, 'saveViewStateOnExit')
+			saveViewStateOnLaunchEmu = self.getElementValue(rcbSetting, 'saveViewStateOnLaunchEmu')
 			
-			self.insertRCBSetting(gdb, favoriteConsole, favoriteGenre, showEntryAllConsoles, showEntryAllGenres, showEntryAllYears, showEntryAllPublisher)
+			self.insertRCBSetting(gdb, favoriteConsole, favoriteGenre, showEntryAllConsoles, showEntryAllGenres, showEntryAllYears, showEntryAllPublisher, 
+				saveViewStateOnExit, saveViewStateOnLaunchEmu)
 			
 		gui.writeMsg("Importing Console Info...")
 		
@@ -125,7 +128,7 @@ class SettingsImporter:
 		return valueList
 		
 	
-	def insertRCBSetting(self, gdb, favoriteConsole, favoriteGenre, showEntryAllConsoles, showEntryAllGenres, showEntryAllYears, showEntryAllPublisher):
+	def insertRCBSetting(self, gdb, favoriteConsole, favoriteGenre, showEntryAllConsoles, showEntryAllGenres, showEntryAllYears, showEntryAllPublisher, saveViewStateOnExit, saveViewStateOnLaunchEmu):
 		rcbSettingRows = RCBSetting(gdb).getAll()
 		if(rcbSettingRows == None or len(rcbSettingRows) == 0):
 			if(favoriteConsole == ''):
@@ -133,7 +136,7 @@ class SettingsImporter:
 			if(favoriteGenre == ''):
 				favoriteGenre = None
 			RCBSetting(gdb).insert((None, None, None, None, None, None, favoriteConsole, favoriteGenre, None, 'V0.3', 
-				showEntryAllConsoles, showEntryAllGenres, showEntryAllYears, showEntryAllPublisher))
+				showEntryAllConsoles, showEntryAllGenres, showEntryAllYears, showEntryAllPublisher, saveViewStateOnExit, saveViewStateOnLaunchEmu, None))
 	
 	
 	def insertConsole(self, gdb, consoleName, consoleDesc, consoleImage):
