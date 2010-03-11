@@ -126,7 +126,7 @@ CREATE TABLE IF NOT EXISTS [Game]
     [region] TEXT,
 	[media] TEXT,
     [perspective] TEXT,
-    [controller type] TEXT,
+    [controllerType] TEXT,
 	[isFavorite] INTEGER,
 	[launchCount] INTEGER
 );

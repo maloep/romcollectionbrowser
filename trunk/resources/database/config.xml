@@ -2,8 +2,8 @@
 	<RCBSettings>
 		<favoriteConsole></favoriteConsole>
 		<favoriteGenre></favoriteGenre>
-		<showEntryAllConsoles>True</showEntryAllConsoles>
-		<showEntryAllGenres>True</showEntryAllGenres>
+		<showEntryAllConsoles>False</showEntryAllConsoles>
+		<showEntryAllGenres>False</showEntryAllGenres>
 		<showEntryAllYears>True</showEntryAllYears>
 		<showEntryAllPublisher>True</showEntryAllPublisher>
 		<saveViewStateOnExit>True</saveViewStateOnExit>
@@ -34,7 +34,7 @@
 			<descriptionParserFile>E:\Emulatoren\data\Amiga\Collection V3\parserConfig.xml</descriptionParserFile>
 			<diskPrefix>_Disk</diskPrefix>
 			<typeOfManual>Text</typeOfManual>
-			<allowUpdate>True</allowUpdate>
+			<allowUpdate>False</allowUpdate>
 			<romPath>E:\Emulatoren\data\Amiga\games\*.adf</romPath>
 			<romPath>E:\Emulatoren\data\Amiga\games\*.ADF</romPath>
 			<descFilePath>E:\Emulatoren\data\Amiga\Collection V3\%GAME%\synopsis.txt</descFilePath>

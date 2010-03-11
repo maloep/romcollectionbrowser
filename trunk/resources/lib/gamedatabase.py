@@ -93,8 +93,7 @@ class DataBaseObject:
 			if(i < len(columns) -1):
 				updateString += ", "
 				
-		updateString += " WHERE id = " +str(id)
-		
+		updateString += " WHERE id = " +str(id)		
 		self.gdb.cursor.execute(updateString, args)
 	
 	

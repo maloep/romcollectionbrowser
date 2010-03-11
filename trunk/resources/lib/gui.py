@@ -185,7 +185,7 @@ class UIGameDB(xbmcgui.WindowXML):
 		if(rcbSetting == None):
 			showEntryAllItems = 'True'
 		else:
-			showEntryAllItems = rcbSetting[11]
+			showEntryAllItems = rcbSetting[12]
 		self.selectedGenreId = self.showFilterControl(Genre(self.gdb), CONTROL_GENRE, showEntryAllItems)
 		
 	
@@ -194,7 +194,7 @@ class UIGameDB(xbmcgui.WindowXML):
 		if(rcbSetting == None):
 			showEntryAllItems = 'True'
 		else:
-			showEntryAllItems = rcbSetting[11]
+			showEntryAllItems = rcbSetting[13]
 		self.selectedYearId = self.showFilterControl(Year(self.gdb), CONTROL_YEAR, showEntryAllItems)
 		
 		
@@ -203,7 +203,7 @@ class UIGameDB(xbmcgui.WindowXML):
 		if(rcbSetting == None):
 			showEntryAllItems = 'True'
 		else:
-			showEntryAllItems = rcbSetting[11]
+			showEntryAllItems = rcbSetting[14]
 		self.selectedPublisherId = self.showFilterControl(Publisher(self.gdb), CONTROL_PUBLISHER, showEntryAllItems)
 
 
