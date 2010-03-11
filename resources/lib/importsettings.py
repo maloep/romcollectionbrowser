@@ -130,33 +130,60 @@ class SettingsImporter:
 	
 	def insertRCBSetting(self, gdb, favoriteConsole, favoriteGenre, showEntryAllConsoles, showEntryAllGenres, showEntryAllYears, showEntryAllPublisher, saveViewStateOnExit, saveViewStateOnLaunchEmu):
 		rcbSettingRows = RCBSetting(gdb).getAll()
-		if(rcbSettingRows == None or len(rcbSettingRows) == 0):
-			if(favoriteConsole == ''):
-				favoriteConsole = None
-			if(favoriteGenre == ''):
-				favoriteGenre = None
+		
+		if(favoriteConsole == ''):
+			favoriteConsole = None
+		if(favoriteGenre == ''):
+			favoriteGenre = None
+		if(showEntryAllConsoles == ''):
+			showEntryAllConsoles = None
+		if(showEntryAllGenres == ''):
+			showEntryAllGenres = None
+		if(showEntryAllYears == ''):
+			showEntryAllYears = None
+		if(showEntryAllPublisher == ''):
+			showEntryAllPublisher = None
+		if(saveViewStateOnExit == ''):
+			saveViewStateOnExit = None
+		if(saveViewStateOnLaunchEmu == ''):
+			saveViewStateOnLaunchEmu = None
+		
+		if(rcbSettingRows == None or len(rcbSettingRows) == 0):			
 			RCBSetting(gdb).insert((None, None, None, None, None, None, favoriteConsole, favoriteGenre, None, 'V0.3', 
 				showEntryAllConsoles, showEntryAllGenres, showEntryAllYears, showEntryAllPublisher, saveViewStateOnExit, saveViewStateOnLaunchEmu, None))
+		else:
+			rcbSetting = rcbSettingRows[0]
+			RCBSetting(gdb).update(('favoriteConsoleId', 'favoriteGenreId', 'showEntryAllConsoles', 'showEntryAllGenres', 'showEntryAllYears', 'showEntryAllPublisher', 'saveViewStateOnExit', 'saveViewStateOnLaunchEmu'),
+				(favoriteConsole, favoriteGenre, showEntryAllConsoles, showEntryAllGenres, showEntryAllYears, showEntryAllPublisher, saveViewStateOnExit, saveViewStateOnLaunchEmu), rcbSetting[0])
 	
 	
 	def insertConsole(self, gdb, consoleName, consoleDesc, consoleImage):
 		consoleRow = Console(gdb).getOneByName(consoleName)		
-		if(consoleRow == None):				
+		if(consoleRow == None):			
 			Console(gdb).insert((consoleName, consoleDesc, consoleImage))
+		else:
+			Console(gdb).update(('name', 'description', 'imageFileName'), (consoleName, consoleDesc, consoleImage), consoleRow[0])
 	
 	
 	def insertRomCollection(self, gdb, consoleName, romCollName, emuCmd, emuSolo, escapeCmd, relyOnNaming, startWithDescFile, 
 				descFilePerGame, descParserFile, diskPrefix, typeOfManual, allowUpdate):		
-		romCollectionRow = RomCollection(gdb).getOneByName(romCollName)		
-		if(romCollectionRow == None):
-			consoleRow = Console(gdb).getOneByName(consoleName)
-			if(consoleRow == None):
-				return
-			consoleId = consoleRow[0] 
+		
+		consoleRow = Console(gdb).getOneByName(consoleName)
+		if(consoleRow == None):
+			return
+		consoleId = consoleRow[0] 
+				
+		romCollectionRow = RomCollection(gdb).getOneByName(romCollName)
+		if(romCollectionRow == None):		
 			RomCollection(gdb).insert((romCollName, consoleId, emuCmd, emuSolo, escapeCmd, descParserFile, relyOnNaming, 
 			startWithDescFile, descFilePerGame, diskPrefix, typeOfManual, allowUpdate))
 			romCollectionId = gdb.cursor.lastrowid
 		else:
+			RomCollection(gdb).update(('name', 'consoleId', 'emuCommandline', 'useEmuSolo', 'escapeEmuCmd', 'descriptionParserFile', 'relyOnFileNaming', 'startWithDescFile',
+								'descFilePerGame', 'diskPrefix', 'typeOfManual', 'allowUpdate'),
+								(romCollName, consoleId, emuCmd, emuSolo, escapeCmd, descParserFile, relyOnNaming, startWithDescFile, descFilePerGame, diskPrefix, typeOfManual, allowUpdate),	
+								romCollectionRow[0])
+			
 			romCollectionId = romCollectionRow[0]
 			
 		return romCollectionId
@@ -173,11 +200,8 @@ class SettingsImporter:
 		if(fileTypeRow == None):				
 			return
 			
-		for path in paths:
-			print path
-			print fileType
-			pathRow = Path(gdb).getPathByNameAndType(path, fileType)
-			print pathRow
+		for path in paths:			
+			pathRow = Path(gdb).getPathByNameAndType(path, fileType)			
 			if(pathRow == None):				
 				Path(gdb).insert((path, fileTypeRow[0], romCollectionId))
 			
