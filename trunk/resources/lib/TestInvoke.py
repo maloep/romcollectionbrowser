@@ -84,24 +84,60 @@ class TestRCB(unittest.TestCase):
 		self.assertTrue(gameRows != None)
 		self.assertTrue(len(gameRows) == 1)
 		
+		#NES 1st person shooter
+		gameRows = Game(self.gdb).getFilteredGames(2, 8, 0, 0)
+		self.assertTrue(gameRows != None)		
+		self.assertTrue(len(gameRows) == 1)
+		
+		#NES 1992
+		gameRows = Game(self.gdb).getFilteredGames(2, 0, 7, 0)
+		self.assertTrue(gameRows != None)
+		self.assertTrue(len(gameRows) == 4)
+		
+		#NES Nintendo
+		gameRows = Game(self.gdb).getFilteredGames(2, 0, 0, 11)
+		self.assertTrue(gameRows != None)
+		self.assertTrue(len(gameRows) == 3)
+		
+		#NES 1992 Racing Nintendo 
+		gameRows = Game(self.gdb).getFilteredGames(2, 11, 7, 11)
+		self.assertTrue(gameRows != None)
+		self.assertTrue(len(gameRows) == 1)
+		
 		gameRows = Game(self.gdb).getAllOrdered()	
 		self.assertTrue(gameRows != None)
-		self.assertTrue(len(gameRows) == 7)
+		self.assertTrue(len(gameRows) == 15)
 		
 		airborneRanger = gameRows[0]
-		self.assertEqual(airborneRanger[1], 'Airborne Ranger')
-		dogFight = gameRows[1]
+		self.assertEqual(airborneRanger[1], 'Airborne Ranger')		
+		calGames = gameRows[1]
+		self.assertEqual(calGames[1], 'California Games II')				
+		demolitionMan = gameRows[2]
+		self.assertEqual(demolitionMan[1], 'Demolition Man')
+		dogFight = gameRows[3]
 		self.assertEqual(dogFight[1], 'Dogfight')
-		eliminator = gameRows[2]
-		self.assertEqual(eliminator[1], 'Eliminator')
-		footballGlory = gameRows[3]
+		doom = gameRows[4]
+		self.assertEqual(doom[1], 'Doom')
+		eliminator = gameRows[5]
+		self.assertEqual(eliminator[1], 'Eliminator')		
+		footballGlory = gameRows[6]
 		self.assertEqual(footballGlory[1], 'Football Glory')
-		formulaOne = gameRows[4]
+		formulaOne = gameRows[7]
 		self.assertEqual(formulaOne[1], 'Formula One Grand Prix')
-		hanse = gameRows[5]
+		hanse = gameRows[8]
 		self.assertEqual(hanse[1], 'Hanse - Die Expedition')
-		ports = gameRows[6]
+		zelda = gameRows[9]
+		self.assertEqual(zelda[1], 'Legend of Zelda - A Link to the Past')
+		madden = gameRows[10]
+		self.assertEqual(madden[1], 'Madden NFL \'98')		
+		ports = gameRows[11]
 		self.assertEqual(ports[1], 'Ports Of Call')
+		spaceInvaders = gameRows[12]
+		self.assertEqual(spaceInvaders[1], 'Space Invaders')
+		streetFighter = gameRows[13]
+		self.assertEqual(streetFighter[1], 'Street Fighter II - The World Warrior')
+		superMario = gameRows[14]
+		self.assertEqual(superMario[1], 'Super Mario Kart')
 		
 		
 

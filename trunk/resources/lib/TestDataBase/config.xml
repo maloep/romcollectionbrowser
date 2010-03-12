@@ -67,12 +67,41 @@
 			<romPath>TestDataBase\Collection V2\roms\*.adf</romPath>
 			<romPath>TestDataBase\Collection V2\roms\*.ADF</romPath>
 			<descFilePath>TestDataBase\Collection V2\synopsis\%GAME%\synopsis.txt</descFilePath>
-			<coverPath>TestDataBase\Collection V1\cover\%GAME%\*.jpg</coverPath>
-			<coverPath>TestDataBase\Collection V1\cover\%GAME%\*.gif</coverPath>
-			<coverPath>TestDataBase\Collection V1\cover\%GAME%\*.png</coverPath>
-			<ingamescreenshotPath>TestDataBase\Collection V1\screens\%GAME%\*.jpg</ingamescreenshotPath>
-			<ingamescreenshotPath>TestDataBase\Collection V1\screens\%GAME%\*.gif</ingamescreenshotPath>
-			<ingamescreenshotPath>TestDataBase\Collection V1\screens\%GAME%\*.png</ingamescreenshotPath>
+			<coverPath>TestDataBase\Collection V2\cover\%GAME%\*.jpg</coverPath>
+			<coverPath>TestDataBase\Collection V2\cover\%GAME%\*.gif</coverPath>
+			<coverPath>TestDataBase\Collection V2\cover\%GAME%\*.png</coverPath>
+			<ingamescreenshotPath>TestDataBase\Collection V2\screens\%GAME%\*.jpg</ingamescreenshotPath>
+			<ingamescreenshotPath>TestDataBase\Collection V2\screens\%GAME%\*.gif</ingamescreenshotPath>
+			<ingamescreenshotPath>TestDataBase\Collection V2\screens\%GAME%\*.png</ingamescreenshotPath>
+			<titleScreenshotPath></titleScreenshotPath>
+			<cartridgePath></cartridgePath>
+			<configFilePath></configFilePath>
+			<ingamevidPath></ingamevidPath>
+			<trailerPath></trailerPath>
+			<manualPath></manualPath>
+		</RomCollection>		
+		<RomCollection>			
+			<name>Collection V3</name>
+			<consoleName>Super Nintendo</consoleName>
+			<emulatorCmd>E:\Emulatoren\SNES\zsnes.exe -m "%ROM%"</emulatorCmd>
+			<useEmuSolo>True</useEmuSolo>
+			<escapeCommand>True</escapeCommand>
+			<relyOnNaming>True</relyOnNaming>
+			<startWithDescFile>False</startWithDescFile>
+			<descFilePerGame>False</descFilePerGame>
+			<descriptionParserFile>TestDataBase\Collection V3\parserConfig.xml</descriptionParserFile>
+			<diskPrefix>_Disk</diskPrefix>
+			<typeOfManual>Text</typeOfManual>
+			<allowUpdate>False</allowUpdate>
+			<romPath>TestDataBase\Collection V3\roms\*.zip</romPath>
+			<romPath>TestDataBase\Collection V3\roms\*.smc</romPath>
+			<descFilePath>TestDataBase\Collection V3\description\synopsis.txt</descFilePath>
+			<coverPath>TestDataBase\Collection V3\cover\%GAME%.jpg</coverPath>
+			<coverPath>TestDataBase\Collection V3\cover\%GAME%.gif</coverPath>
+			<coverPath>TestDataBase\Collection V3\cover\%GAME%.png</coverPath>
+			<ingamescreenshotPath>TestDataBase\Collection V3\screens\%GAME%.jpg</ingamescreenshotPath>
+			<ingamescreenshotPath>TestDataBase\Collection V3\screens\%GAME%.gif</ingamescreenshotPath>
+			<ingamescreenshotPath>TestDataBase\Collection V3\screens\%GAME%.png</ingamescreenshotPath>
 			<titleScreenshotPath></titleScreenshotPath>
 			<cartridgePath></cartridgePath>
 			<configFilePath></configFilePath>
