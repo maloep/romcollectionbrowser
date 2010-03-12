@@ -29,8 +29,7 @@ class GameDataBase:
 		self.connection = sqlite.connect(self.dataBasePath)
 		self.cursor = self.connection.cursor()
 		
-	def commit( self ):
-		print "commit"
+	def commit( self ):		
 		try:
 			self.connection.commit()
 			return True
@@ -51,19 +50,8 @@ class GameDataBase:
 		
 	def dropTables(self):
 		print "Drop Tables"
-		self.executeSQLScript(os.path.join(self.databaseDir, 'SQL_DROP_ALL.txt'))
-		
-	def insertTestData(self):
-		print "Insert Test Data"
-		self.executeSQLScript(os.path.join(self.databaseDir, 'SQL_INSERT_TEST_DATA.txt'))	
+		self.executeSQLScript(os.path.join(self.databaseDir, 'SQL_DROP_ALL.txt'))			
 	
-	def prepareTestDataBase(self):
-		print "prepareTestDataBase"		
-		self.dropTables()		
-		self.createTables()		
-		self.insertTestData()
-		self.commit()
-		print "Ready"		
 	
 
 class DataBaseObject:
