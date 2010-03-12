@@ -204,18 +204,3 @@ class SettingsImporter:
 			pathRow = Path(gdb).getPathByNameAndType(path, fileType)			
 			if(pathRow == None):				
 				Path(gdb).insert((path, fileTypeRow[0], romCollectionId))
-			
-
-
-def main():
-
-	gdb = GameDataBase(os.path.join(os.getcwd(), '..', 'database'))
-	gdb.connect()
-	file = os.path.join( os.getcwd(), "..", "database")
-	si = SettingsImporter()
-	si.importSettings(gdb, file)
-	gdb.close()
-	del si
-	del gdb
-
-#main()

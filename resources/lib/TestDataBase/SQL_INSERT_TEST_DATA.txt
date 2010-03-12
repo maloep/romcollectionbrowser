@@ -1,0 +1,52 @@
+
+
+INSERT INTO Game VALUES(NULL, 'Super Mario Kart', 'classical car racing', '', '',
+	(SELECT id From RomCollection Where name = 'xtras-SNES'),
+	(SELECT id From Publisher Where name = 'Ascaron'),
+	(SELECT id From Year Where name = '1987'));
+INSERT INTO Game VALUES(NULL, 'Legends of Zelda', 'nice Adventure', '', '',
+	(SELECT id From RomCollection Where name = 'xtras-SNES'),
+	(SELECT id From Publisher Where name = 'Code Masters'),
+	(SELECT id From Year Where name = '1994'));
+	
+
+INSERT INTO File VALUES(NULL, 'Super Mario Kart.smc',
+	(SELECT id From FileType Where name = 'rom'),
+	(SELECT id From Game Where name = 'Super Mario Kart'));
+INSERT INTO File VALUES(NULL, 'E:\Emulatoren\data\SNES\xtras V1\screens\Super Mario Kart.png',
+	(SELECT id From FileType Where name = 'screenshotingame'),
+	(SELECT id From Game Where name = 'Super Mario Kart'));
+INSERT INTO File VALUES(NULL, 'E:\Emulatoren\data\SNES\xtras V1\screens\Super Mario Kart.png',
+	(SELECT id From FileType Where name = 'cover'),
+	(SELECT id From Game Where name = 'Super Mario Kart'));
+INSERT INTO File VALUES(NULL, 'Legends of Zelda.smc',
+	(SELECT id From FileType Where name = 'rom'),
+	(SELECT id From Game Where name = 'Legends of Zelda'));
+INSERT INTO File VALUES(NULL, 'E:\Emulatoren\data\SNES\xtras V1\screens\Legend of Zelda - A Link to the Past.png',
+	(SELECT id From FileType Where name = 'screenshotingame'),
+	(SELECT id From Game Where name = 'Legends of Zelda'));
+INSERT INTO File VALUES(NULL, 'E:\Emulatoren\data\SNES\xtras V1\screens\Legend of Zelda - A Link to the Past.png',
+	(SELECT id From FileType Where name = 'cover'),
+	(SELECT id From Game Where name = 'Legends of Zelda'));
+
+	
+INSERT INTO Path VALUES(NULL, '/home/lom/rom/SNES/',
+	(SELECT id From FileType Where name = 'rom'),
+	(SELECT id From RomCollection Where name = 'xtras-SNES'));
+INSERT INTO Path VALUES(NULL, '/home/lom/rom/Database/ZSNES/',
+	(SELECT id From FileType Where name = 'screenshotingame'),
+	(SELECT id From RomCollection Where name = 'xtras-SNES'));
+
+	
+INSERT INTO GenreGame VALUES(NULL,
+	(SELECT id From Genre Where name = 'Adventure'),
+	(SELECT id From Game Where name = 'Legends of Zelda'));
+INSERT INTO GenreGame VALUES(NULL,
+	(SELECT id From Genre Where name = 'Action'),
+	(SELECT id From Game Where name = 'Super Mario Kart'));
+INSERT INTO GenreGame VALUES(NULL,
+	(SELECT id From Genre Where name = 'Sports'),
+	(SELECT id From Game Where name = 'Super Mario Kart'));
+INSERT INTO GenreGame VALUES(NULL,
+	(SELECT id From Genre Where name = 'Racing'),
+	(SELECT id From Game Where name = 'Super Mario Kart'));
