@@ -35,6 +35,7 @@
 			<diskPrefix>_Disk</diskPrefix>
 			<typeOfManual>Text</typeOfManual>
 			<allowUpdate>False</allowUpdate>
+			<ignoreOnScan>False</ignoreOnScan>
 			<romPath>TestDataBase\Collection V1\roms\*.adf</romPath>
 			<romPath>TestDataBase\Collection V1\roms\*.ADF</romPath>
 			<descFilePath>TestDataBase\Collection V1\synopsis\synopsis.txt</descFilePath>
@@ -64,6 +65,7 @@
 			<diskPrefix>_Disk</diskPrefix>
 			<typeOfManual>Text</typeOfManual>
 			<allowUpdate>False</allowUpdate>
+			<ignoreOnScan>False</ignoreOnScan>
 			<romPath>TestDataBase\Collection V2\roms\*.adf</romPath>
 			<romPath>TestDataBase\Collection V2\roms\*.ADF</romPath>
 			<descFilePath>TestDataBase\Collection V2\synopsis\%GAME%\synopsis.txt</descFilePath>
@@ -93,6 +95,7 @@
 			<diskPrefix>_Disk</diskPrefix>
 			<typeOfManual>Text</typeOfManual>
 			<allowUpdate>False</allowUpdate>
+			<ignoreOnScan>False</ignoreOnScan>
 			<romPath>TestDataBase\Collection V3\roms\*.zip</romPath>
 			<romPath>TestDataBase\Collection V3\roms\*.smc</romPath>
 			<descFilePath>TestDataBase\Collection V3\description\synopsis.txt</descFilePath>

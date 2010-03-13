@@ -89,7 +89,8 @@ CREATE TABLE IF NOT EXISTS [RomCollection]
 	[descFilePerGame] INTEGER,
 	[diskPrefix] TEXT,
 	[typeOfManual] TEXT,
-	[allowUpdate] INTEGER
+	[allowUpdate] INTEGER,
+	[ignoreOnScan] INTEGER
 );
 
 CREATE TABLE IF NOT EXISTS [Game] 

@@ -66,6 +66,7 @@ class SettingsImporter:
 			diskPrefix = self.getElementValue(romCollection, 'diskPrefix')
 			typeOfManual = self.getElementValue(romCollection, 'typeOfManual')
 			allowUpdate = self.getElementValue(romCollection, 'allowUpdate')
+			ignoreOnScan = self.getElementValue(romCollection, 'ignoreOnScan')
 			romPaths = self.getElementValues(romCollection, 'romPath')
 			descFilePaths = self.getElementValues(romCollection, 'descFilePath')
 			coverPaths = self.getElementValues(romCollection, 'coverPath')
@@ -78,7 +79,7 @@ class SettingsImporter:
 			manualPaths = self.getElementValues(romCollection, 'manualPath')
 						
 			romCollectionId = self.insertRomCollection(gdb, consoleName, romCollName, emuCmd, emuSolo, escapeCmd, relyOnNaming, startWithDescFile, 
-				descFilePerGame, descParserFile, diskPrefix, typeOfManual, allowUpdate)
+				descFilePerGame, descParserFile, diskPrefix, typeOfManual, allowUpdate, ignoreOnScan)
 				
 			self.insertPaths(gdb, romCollectionId, romPaths, 'rom')
 			self.insertPaths(gdb, romCollectionId, descFilePaths, 'description')
@@ -166,7 +167,7 @@ class SettingsImporter:
 	
 	
 	def insertRomCollection(self, gdb, consoleName, romCollName, emuCmd, emuSolo, escapeCmd, relyOnNaming, startWithDescFile, 
-				descFilePerGame, descParserFile, diskPrefix, typeOfManual, allowUpdate):		
+				descFilePerGame, descParserFile, diskPrefix, typeOfManual, allowUpdate, ignoreOnScan):		
 		
 		consoleRow = Console(gdb).getOneByName(consoleName)
 		if(consoleRow == None):
@@ -176,12 +177,12 @@ class SettingsImporter:
 		romCollectionRow = RomCollection(gdb).getOneByName(romCollName)
 		if(romCollectionRow == None):		
 			RomCollection(gdb).insert((romCollName, consoleId, emuCmd, emuSolo, escapeCmd, descParserFile, relyOnNaming, 
-			startWithDescFile, descFilePerGame, diskPrefix, typeOfManual, allowUpdate))
+			startWithDescFile, descFilePerGame, diskPrefix, typeOfManual, allowUpdate, ignoreOnScan))
 			romCollectionId = gdb.cursor.lastrowid
 		else:
 			RomCollection(gdb).update(('name', 'consoleId', 'emuCommandline', 'useEmuSolo', 'escapeEmuCmd', 'descriptionParserFile', 'relyOnFileNaming', 'startWithDescFile',
-								'descFilePerGame', 'diskPrefix', 'typeOfManual', 'allowUpdate'),
-								(romCollName, consoleId, emuCmd, emuSolo, escapeCmd, descParserFile, relyOnNaming, startWithDescFile, descFilePerGame, diskPrefix, typeOfManual, allowUpdate),	
+								'descFilePerGame', 'diskPrefix', 'typeOfManual', 'allowUpdate', 'ignoreOnScan'),
+								(romCollName, consoleId, emuCmd, emuSolo, escapeCmd, descParserFile, relyOnNaming, startWithDescFile, descFilePerGame, diskPrefix, typeOfManual, allowUpdate, ignoreOnScan),
 								romCollectionRow[0])
 			
 			romCollectionId = romCollectionRow[0]

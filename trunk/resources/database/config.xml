@@ -35,6 +35,7 @@
 			<diskPrefix>_Disk</diskPrefix>
 			<typeOfManual>Text</typeOfManual>
 			<allowUpdate>False</allowUpdate>
+			<ignoreOnScan>False</ignoreOnScan>
 			<romPath>E:\Emulatoren\data\Amiga\games\*.adf</romPath>
 			<romPath>E:\Emulatoren\data\Amiga\games\*.ADF</romPath>
 			<descFilePath>E:\Emulatoren\data\Amiga\Collection V3\%GAME%\synopsis.txt</descFilePath>
