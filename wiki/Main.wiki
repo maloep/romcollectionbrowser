@@ -557,7 +557,7 @@ To update an earlier version of RCB you have to delete your current database (ju
 If you just played around with the test scenario and did not make any relevant changes to "config.xml" or the parser configuration you can just delete the complete RCB folder and follow the steps in the chapter "Installation" or "Setup test scenario".
 
 === preserving configuration changes ===
-If you want to preserve your changes to "config.xml" the easiest way will be to backup your config file, delete the complete RCB folder, download and unzip the new version and copy your backup config to the database folder.
+If you want to preserve your changes to "config.xml" the easiest way will be to backup your config file, delete the complete RCB folder, download and unzip the new version and copy your backup config back to the database folder.
 
 You have to make the following changes to your config.xml:
 Add new element `RCBSettings` as a child of the `<config>` element
