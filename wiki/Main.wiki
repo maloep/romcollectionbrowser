@@ -27,7 +27,7 @@ If you would like to play with the test scenario just skip these steps and go to
 
 4. Start XBMC and launch RCB
 
-5. Click "Import Settings": The Console list should be filled with all you configured consoles
+5. Click "Import Settings": The Console list should be filled with all your configured consoles
 
 6. Click "Update DB": Depending on your rom collections size this step can take some time. When it is done all other lists should be filled with the imported data.
 
@@ -548,3 +548,56 @@ NOTE: Actually only the "," will be recognized as a delimiter.
 
 ==== skipTo ====
 If you have multiline values (like description in the above example) you can specify a token that must occur after the multiline value. This token must be unique enough to not occur in your multiline value. The `*` in the above example may be a bad choice as there is a good chance of a star to occur in a game description.
+
+= Update =
+== V0.3 ==
+To update an earlier version of RCB you have to delete your current database (just delete or rename the file "MyGames.db" in database directory) and reimport Settings and all game relevant data.
+
+=== without preserving configuration changes ===
+If you just played around with the test scenario and did not make any relevant changes to "config.xml" or the parser configuration you can just delete the complete RCB folder and follow the steps in the chapter "Installation" or "Setup test scenario".
+
+=== preserving configuration changes ===
+If you want to preserve your changes to "config.xml" the easiest way will be to backup your config file, delete the complete RCB folder, download and unzip the new version and copy your backup config to the database folder.
+
+You have to make the following changes to your config.xml:
+Add new element `RCBSettings` as a child of the `<config>` element
+{{{
+	<RCBSettings>
+		<favoriteConsole></favoriteConsole>
+		<favoriteGenre></favoriteGenre>
+		<showEntryAllConsoles>True</showEntryAllConsoles>
+		<showEntryAllGenres>True</showEntryAllGenres>
+		<showEntryAllYears>True</showEntryAllYears>
+		<showEntryAllPublisher>True</showEntryAllPublisher>
+		<saveViewStateOnExit>True</saveViewStateOnExit>
+		<saveViewStateOnLaunchEmu>True</saveViewStateOnLaunchEmu>
+	</RCBSettings>
+}}}
+
+Add new elements to all `<RomCollection>` elements:
+{{{
+		<typeOfManual>Text</typeOfManual>
+		<allowUpdate>True</allowUpdate>
+		<ignoreOnScan>False</ignoreOnScan>
+}}}
+
+Rename all elements `DescFilePerGame` (just make the first letter lowercase):
+{{{
+	<descFilePerGame>
+}}}
+
+
+= Changelog =
+== V0.3 ==
+- solved problem with executing batch file in windows
+- using autoexec.py to launch RCB when restarting in solo mode
+- saving and loading view state when relaunching RCB
+- update entries during "import settings" and "update db"
+- added support for multiple rom paths per rom collection
+- importing games without game description
+- better performance while loading game list
+- added info label (shows information during import)
+- sort filter list items alphabetically
+- new Rom Collection property "ignoreOnScan": no changes to this collection during import
+- new Game properties (imported via description file): developer, reviewer, maxPlayers, rating, votes, url, region, media, perspective, controller
+- new global settings: showEntryAllConsoles, showEntryAllGenres, showEntryAllYears, showEntryAllPublisher, saveViewStateOnExit, saveViewStateOnLaunchEmu
