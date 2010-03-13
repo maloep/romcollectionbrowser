@@ -551,7 +551,7 @@ If you have multiline values (like description in the above example) you can spe
 
 = Update =
 == V0.3 ==
-To update an earlier version of RCB you have to delete your current database (just delete or rename the file "MyGames.db" in database directory) and reimport Settings and all game relevant data.
+To update an earlier version of RCB you have to delete your current database (just delete or rename the file `"MyGames.db"` in database directory) and reimport Settings and all game relevant data.
 
 === without preserving configuration changes ===
 If you just played around with the test scenario and did not make any relevant changes to "config.xml" or the parser configuration you can just delete the complete RCB folder and follow the steps in the chapter "Installation" or "Setup test scenario".
@@ -590,14 +590,25 @@ Rename all elements `DescFilePerGame` (just make the first letter lowercase):
 = Changelog =
 == V0.3 ==
 - solved problem with executing batch file in windows
+
 - using autoexec.py to launch RCB when restarting in solo mode
+
 - saving and loading view state when relaunching RCB
+
 - update entries during "import settings" and "update db"
+
 - added support for multiple rom paths per rom collection
+
 - importing games without game description
+
 - better performance while loading game list
+
 - added info label (shows information during import)
+
 - sort filter list items alphabetically
+
 - new Rom Collection property "ignoreOnScan": no changes to this collection during import
+
 - new Game properties (imported via description file): developer, reviewer, maxPlayers, rating, votes, url, region, media, perspective, controller
+
 - new global settings: showEntryAllConsoles, showEntryAllGenres, showEntryAllYears, showEntryAllPublisher, saveViewStateOnExit, saveViewStateOnLaunchEmu
