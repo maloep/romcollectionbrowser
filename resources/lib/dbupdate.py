@@ -36,6 +36,12 @@ class DBUpdate:
 			gui.writeMsg("Importing Rom Collection: " +romCollectionRow[1])
 			self.log("current Rom Collection: " +romCollectionRow[1])
 						
+			ignoreOnScan = romCollectionRow[13]
+			self.log("ignoreOnScan: " +ignoreOnScan)
+			if(ignoreOnScan == 'True'):
+				self.log("current Rom Collection will be ignored.")
+				continue
+			
 			descParserFile = romCollectionRow[6]
 			self.log("using parser file: " +descParserFile)
 			descriptionPath = Path(self.gdb).getDescriptionPathByRomCollectionId(romCollectionRow[0])				
