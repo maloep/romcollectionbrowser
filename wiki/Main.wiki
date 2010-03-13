@@ -551,7 +551,7 @@ If you have multiline values (like description in the above example) you can spe
 
 = Update =
 == V0.3 ==
-To update an earlier version of RCB you have to delete your current database (just delete or rename the file `"MyGames.db"` in database directory) and reimport Settings and all game relevant data.
+To update an earlier version of RCB you have to delete your current database (just delete or rename the file `"MyGames.db"` in database directory) and reimport Settings and all game relevant data. I am sorry, but there is no option to keep your old database. I hope this will be added to the next release.
 
 === without preserving configuration changes ===
 If you just played around with the test scenario and did not make any relevant changes to "config.xml" or the parser configuration you can just delete the complete RCB folder and follow the steps in the chapter "Installation" or "Setup test scenario".
