@@ -231,17 +231,29 @@ class File(DataBaseObject):
 		file = self.getObjectByQuery(self.filterQueryByNameAndType, (name, type))
 		return file
 		
+	def getFilesByNameAndType(self, name, type):
+		files = self.getObjectsByQuery(self.filterQueryByNameAndType, (name, type))
+		return files
+		
 	def getIngameScreenshotByGameId(self, gameId):
 		file = self.getObjectByQuery(self.filterQueryByGameIdAndFileType, (gameId, 'screenshotingame'))
 		if file == None:
 			return ""		
 		return file[0]
 		
+	def getIngameScreenshotsByGameId(self, gameId):
+		files = self.getObjectsByQuery(self.filterQueryByGameIdAndFileType, (gameId, 'screenshotingame'))		
+		return files
+		
 	def getCoverByGameId(self, gameId):
 		file = self.getObjectByQuery(self.filterQueryByGameIdAndFileType, (gameId, 'cover'))
 		if file == None:
 			return ""		
 		return file[0]
+		
+	def getCoversByGameId(self, gameId):
+		files = self.getObjectsByQuery(self.filterQueryByGameIdAndFileType, (gameId, 'cover'))			
+		return files
 		
 	def getRomsByGameId(self, gameId):
 		files = self.getObjectsByQuery(self.filterQueryByGameIdAndFileType, (gameId, 'rom'))
