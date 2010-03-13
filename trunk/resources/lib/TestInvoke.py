@@ -56,6 +56,14 @@ class TestRCB(unittest.TestCase):
 		collV1 = romCollectionRows[0]
 		self.assertEqual(collV1[1], 'Collection V1')
 		self.assertEqual(collV1[3], 'E:\Emulatoren\WINUAE\winuae.exe -f "E:\Emulatoren\WINUAE\Configurations\Host\Amiga 500.uae" {-%I% "%ROM%"}')
+		
+		collV2 = romCollectionRows[1]
+		self.assertEqual(collV2[1], 'Collection V2')
+		self.assertEqual(collV2[3], 'E:\Emulatoren\WINUAE\winuae.exe {-%I% "%ROM%"}')
+		
+		collV3 = romCollectionRows[2]
+		self.assertEqual(collV3[1], 'Collection V3')
+		self.assertEqual(collV3[3], 'E:\Emulatoren\SNES\zsnes.exe -m "%ROM%"')
 
 	
 	def test_UpdateDB(self):				
@@ -108,37 +116,45 @@ class TestRCB(unittest.TestCase):
 		self.assertTrue(gameRows != None)
 		self.assertTrue(len(gameRows) == 15)
 		
-		airborneRanger = gameRows[0]
-		self.assertEqual(airborneRanger[1], 'Airborne Ranger')		
-		calGames = gameRows[1]
-		self.assertEqual(calGames[1], 'California Games II')				
-		demolitionMan = gameRows[2]
-		self.assertEqual(demolitionMan[1], 'Demolition Man')
-		dogFight = gameRows[3]
-		self.assertEqual(dogFight[1], 'Dogfight')
-		doom = gameRows[4]
-		self.assertEqual(doom[1], 'Doom')
-		eliminator = gameRows[5]
-		self.assertEqual(eliminator[1], 'Eliminator')		
-		footballGlory = gameRows[6]
-		self.assertEqual(footballGlory[1], 'Football Glory')
-		formulaOne = gameRows[7]
-		self.assertEqual(formulaOne[1], 'Formula One Grand Prix')
-		hanse = gameRows[8]
-		self.assertEqual(hanse[1], 'Hanse - Die Expedition')
-		zelda = gameRows[9]
-		self.assertEqual(zelda[1], 'Legend of Zelda - A Link to the Past')
-		madden = gameRows[10]
-		self.assertEqual(madden[1], 'Madden NFL \'98')		
-		ports = gameRows[11]
-		self.assertEqual(ports[1], 'Ports Of Call')
-		spaceInvaders = gameRows[12]
-		self.assertEqual(spaceInvaders[1], 'Space Invaders')
-		streetFighter = gameRows[13]
-		self.assertEqual(streetFighter[1], 'Street Fighter II - The World Warrior')
-		superMario = gameRows[14]
-		self.assertEqual(superMario[1], 'Super Mario Kart')
 		
+		self.gameTest(gameRows[0], 'Airborne Ranger', 'In this action/simulation game by Microprose the player takes the role of an U.S. Army airborne ranger.', 1, 1, 1)
+		self.gameTest(gameRows[1], 'California Games II',  '"At least it ends..."', 1, 1, 1)
+		self.gameTest(gameRows[2], 'Demolition Man', 'Demolition Man is a multiplatform, run and gun action game based on the film of the same name.', 1, 1, 1)
+		self.gameTest(gameRows[3], 'Dogfight', 'Dogfight is a two-player game with roots in the same primordial soup as Ataris Combat and other basic dogfighting games.', 3, 1, 2)
+		self.gameTest(gameRows[4], 'Doom', 'Doom on the PC was without a doubt my favorite first person shooter "back in the day', 1, 1, 1)
+		self.gameTest(gameRows[5], 'Eliminator', 'A shoot em up set on a patchwork-quilt coloured road, Eliminator puts you in control of a ship with a basic weapon, flying along at breakneck speed.', 1, 1, 1)		
+		self.gameTest(gameRows[6], 'Football Glory', 'From Croatia came this overhead view football game resembling Sensible Soccer.', 3, 1, 1)
+		self.gameTest(gameRows[7], 'Formula One Grand Prix', 'F1 is an Official Formula One Racing Game.', 4, 1, 1)
+		self.gameTest(gameRows[8], 'Hanse - Die Expedition', 'Hanse makes you a trader in the 13th Century.', 3, 1, 1)
+		self.gameTest(gameRows[9], 'Legend of Zelda - A Link to the Past', 'This installment in the Zelda series was my favorite.', 1, 1, 1)
+		self.gameTest(gameRows[10], 'Madden NFL \'98', 'Madden NFL 98 is a football video game.', 1, 1, 1)
+		self.gameTest(gameRows[11], 'Ports Of Call', 'Ports of Call gives you the job of a shipowner.', 1, 1, 1)
+		self.gameTest(gameRows[12], 'Space Invaders', 'Taito and Nintendo have brought back the classic Space Invaders game, with very little modification.', 1, 1, 1)
+		self.gameTest(gameRows[13], 'Street Fighter II - The World Warrior', 'Eight fighters from across the globe have come together to see which of them has the strength, skill and courage to challenge the mysterious Grand Masters.', 1, 1, 1)
+		self.gameTest(gameRows[14], 'Super Mario Kart', 'Hi everybody! Thanks for dropping to by the Super Mario Kart race track.', 1, 1, 1)
+		
+		
+		
+	def gameTest(self, game, name, descStart, numRoms, numCovers, numIngameScreens):
+		self.assertEqual(game[1], name)
+		description = game[2]
+		descStart = descStart
+		self.assertTrue(description.startswith(descStart))
+		
+		roms = File(self.gdb).getRomsByGameId(game[0])
+		self.assertTrue(roms != None)
+		numRomsActual = len(roms)
+		self.assertEqual(numRomsActual, numRoms)
+		
+		cover = File(self.gdb).getCoversByGameId(game[0])
+		self.assertTrue(cover != None)
+		numCoversActual = len(cover)
+		self.assertEqual(numCoversActual, numCovers)
+		
+		ingameScreens = File(self.gdb).getIngameScreenshotsByGameId(game[0])
+		self.assertTrue(ingameScreens != None)
+		numIngameScreensActual = len(ingameScreens)
+		self.assertEqual(numIngameScreensActual, numIngameScreens)
 		
 
 
