@@ -583,7 +583,7 @@ Add new elements to all `<RomCollection>` elements:
 
 Rename all elements `DescFilePerGame` (just make the first letter lowercase):
 {{{
-	<descFilePerGame>
+		<descFilePerGame>
 }}}
 
 
