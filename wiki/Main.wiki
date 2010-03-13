@@ -3,7 +3,7 @@
 
 
 = Introduction =
-With this XBMC script you can import and browse rom collections. You can point it to your rom folders and additional data (screenshots, description files, ...) that is already stored on your computer and tell it to import all information to its database. Afterwards you should be able to browse all imported games by filter criteria (console, genre, ...), show some extra information and invoke an external emulator with the selected rom file as parameter.
+With this XBMC script you can import and browse rom collections. You can point it to your rom folders and additional data (screenshots, description files, ...) that is already stored on your computer and tell it to import all information to its database. Afterwards you can browse all imported games by filter criteria (console, genre, ...), show some extra information and invoke an external emulator to play the selected rom file.
 
 Actually this script relies on file naming. If you have a Game "Mygame" its rom file should be named "Mygame.adf" (if it is an amiga game). All screenshots must be named "Mygame.ext" (jpg, png, ...) OR they will have to reside in a folder that is called "Mygame". Then this script will import all image files in this folder and associate it with the game "Mygame". Configuration of screenshot paths can look like this:
 
@@ -15,28 +15,48 @@ Actually this script relies on file naming. If you have a Game "Mygame" its rom 
 
 %GAME% will be replaced with the current game name during import. All files that match this file mask will be imported.
 
-= Setup test scenario =
-To show you how this script will work and how data should (could) be organized I also provide a zip file with testdata. This includes cover screenshots, game screenshots, game description files and sample configuration files. It only includes placeholder files for the roms (empty text files that show you a sample naming convention). You can download the roms here: http://www.amigaland.de/index.php?option=com_remository&Itemid=27&func=select&id=2. As they say all roms on this page are free to download legally. You will have to rename some of them because I need a special disk indicator to support multiple roms for one game (explained in configuration section).
 
-1. Download "Rom Collection Browser V0.2.zip (http://romcollectionbrowser.googlecode.com/files/Rom%20Collection%20Browser%20V0.2.zip)
+= Installation =
+If you would like to play with the test scenario just skip these steps and go to the next chapter.
+
+1. Download "Rom Collection Browser V0.3.zip (http://romcollectionbrowser.googlecode.com/files/Rom%20Collection%20Browser%20V0.3.zip)
 
 2. Unzip it to your XBMC scripts folder
 
-3. Download "Testdata.zip" (http://romcollectionbrowser.googlecode.com/files/Testdata.zip)
+3. Create a "config.xml" file here: "XBMC/scripts/Rom Collection Browser/resources/database" (Check configuration section for a sample configuration and to learn how to configure RCB)
+
+4. Start XBMC and launch RCB
+
+5. Click "Import Settings": The Console list should be filled with all you configured consoles
+
+6. Click "Update DB": Depending on your rom collections size this step can take some time. When it is done all other lists should be filled with the imported data.
+
+
+= Setup test scenario =
+To show you how this script will work and how data should (could) be organized I also provide a zip file with testdata. This includes cover screenshots, game screenshots, game description files and sample configuration files. It only includes placeholder files for the roms (empty text files that show you a sample naming convention). There are examples for three different rom collections (two amiga and one snes). You can download the amiga roms here: http://www.amigaland.de/index.php?option=com_remository&Itemid=27&func=select&id=2. As they say all roms on this page are free to download legally. You will have to rename some of them because I need a special disk indicator to support multiple roms for one game (explained in configuration section). Unfortunately there are not many public domain roms for SNES and I could not find any additional data for one of them. I decided to include screenshots and description files of some commercial roms but can't provide a download link for the related rom files. But this test scenario is not really meant to play the games, it should just show you how to configure this script.
+
+
+1. Download "Rom Collection Browser V0.3.zip (http://romcollectionbrowser.googlecode.com/files/Rom%20Collection%20Browser%20V0.3.zip)
+
+2. Unzip it to your XBMC scripts folder
+
+3. Download "Testdata V0.3.zip" (http://romcollectionbrowser.googlecode.com/files/Testdata%20V0.3.zip)
 
 4. Unzip it somewhere
 
 5. Go to the new Testdata folder
 
-6. Edit "config_Windows.xml" or "config_Linux.xml": Replace every occurance of "PathToTestData" with the absolute path to your Testdata folder (e.g. "/home/user/Testdata")
+6. Edit "config_Windows.xml" or "config_Linux.xml": Replace every occurance of "PathToTestData" with the absolute path to your Testdata folder (e.g. "/home/user/Testdata V0.3" or "D:\Downloads\RCB\Testdata V0.3")
 
 7. (Optionally) edit the value of property "emulatorCmd". This command will be invoked when you launch a rom file. %ROM% will be replaced with the name of the rom file to be launched. If you have multiple rom files for one game %I% will be replaced with the (zero-based) index of the current file.
 
 8. Rename "config_Windows.xml" or "config_Linux.xml" to "config.xml"
 
-9. Copy "config.xml" to "XBMC/scripts/Rom Collection Browser/resources/database" (overwrite the existing file)
+9. Copy "config.xml" to "XBMC/scripts/Rom Collection Browser/resources/database"
 
 10. Linux only: make the file "XBMC/scripts/Rom Collection Browser/applaunch.sh" executable
+
+10a. Windows only: check the path to your XBMC installation at the end of the file "XBMC/scripts/Rom Collection Browser/applaunch.bat"
 
 11. Start xbmc
 
@@ -46,6 +66,8 @@ To show you how this script will work and how data should (could) be organized I
 
 14. Click "Update DB": After some seconds all other filter lists should be filled with data. Now you can move around and get a filtered view of all imported rom files (only 7 amiga games in this test scenario).
 
+15. If you would like to launch and play the rom files go to your Testdata folder an replace the placeholder rom files with real ones (e.g. Testdata V0.3/Collection V1/roms/).
+
 
 = Usage =
 "Rom Collection Browser" will scan your rom folders and data folders and will import as much game relevant data as it can get. To get this job done you have to tell it where to search and what to search for. At the moment this is done via xml configuration file. In a later release this could be done via settings page.
@@ -53,61 +75,79 @@ To show you how this script will work and how data should (could) be organized I
 == Import Settings ==
 To prepare implementation of a settings page I decided to store configuration information in the database. So you will have to import settings from your xml config file before you can start scanning rom folders. Import settings means that information from your configuration file "XBMC/scripts/Rom Collection Browser/resources/database/config.xml" will be written to database "MyGames.db" (same folder). The format of this configuration file is explained in a later section.
 
-At the momoment there is no way to update configuration information! If you change your configuration you will have to delete database "MyGames.db" (just delete the file) and reimport settings (and start "Update DB" again). You could also use a database tool like sqlitestudio to edit the values directly in database.
+If you want to make changes to the configuration just edit the xml file an click "Import Settings" again.
 
 
 == Update DB ==
 This will use the settings information you imported in the previous step to scan the configured folders for roms and data. Every imported file will be associated with a game and a filetype (rom, ingame screenshot, title screenshot, cover, ...). Only the path to the file is imported, not the file itself. If you delete or move the file after importing it won't work anymore.
 
-RCB will also try to parse description files for your games during import. There is a configurable parser that will read an xml parser configuration file that tells it how to parse the current file format. At the moment this only works with simple multiline text files. The format of this parser configuration is explained in a later section.
+RCB will also try to parse description files for your games during import. At the moment this only works with simple multiline text files. There is a configurable parser that will read parse instructions from an xml configuration file that tells it how to parse the current file format.  The format of this parser configuration is explained in a later section.
+
+If you don't have any description files or the parser can't read the file format the game will be imported without description. That means that you won't have any extra information about this game.
 
 If you encounter any errors or miss some games after import check the logfile "update.log" in the scripts home directory. Search for any occurance of "ERROR" or "WARNING" to see what went wrong.
 
-If you add new data to one of your rom collection you can use "Updata DB" as often as you like. Every run will only import new data and will ignore all data that is already stored in database. But that also means that you won't be able to update data of your roms. To achieve this you have to delete your database and reimport data.
+If you add new data to one of your rom collections you can use "Updata DB" as often as you like. Every run will import new data and updates the data that is already stored in database. You can configure RCB not to import any new game relevant data from description files. In that mode it will only look for new game related files (screenshots for example). You can also mark a rom collection to be ignored completely when scanning for new data. See configuration section for more information about these options.
+
+Depending on your rom collections size this step can take some time. You can see the current import status in the lower right corner.
 
 
 = Configuration =
-Configuration is done via xml files. There is one main configuration file "config.xml" that you can find in the database directory. There can also be some parser configuration files (one for every different file format) that will allow you to control the behaviour of the description file parser.
+Configuration is done via xml files. There is one main configuration file "config.xml" that must be placed in the database directory. There may also be some parser configuration files (one for every different file format) that will allow you to control the behaviour of the description file parser. You have to point RCB to these files via "config.xml".
 
 == config.xml ==
-This is the main configuration file. You can find it here: XBMC/scripts/Rom Collection Browser/resources/database/config.xml. 
+This is the main configuration file. You can find it here: "XBMC/scripts/Rom Collection Browser/resources/database/config.xml" (create it, if it is not there).
 
-An example file could look like this:
+An example file could look like this (Example from test scenario with three rom collections: 2 Amiga (with different folder structures) and 1 SNES):
 
 {{{
 <config>
+	<RCBSettings>
+		<favoriteConsole></favoriteConsole>
+		<favoriteGenre></favoriteGenre>
+		<showEntryAllConsoles>True</showEntryAllConsoles>
+		<showEntryAllGenres>True</showEntryAllGenres>
+		<showEntryAllYears>True</showEntryAllYears>
+		<showEntryAllPublisher>True</showEntryAllPublisher>
+		<saveViewStateOnExit>True</saveViewStateOnExit>
+		<saveViewStateOnLaunchEmu>True</saveViewStateOnLaunchEmu>
+	</RCBSettings>
 	<Consoles>		
 		<Console>
 			<name>Amiga</name>
-			<desc>Description of Amiga</desc>
-			<imgFile>/home/user/emu/Amiga.png</imgFile>
+			<desc>The Amiga 500, also known as the A500 (or its code name Rock Lobster), was the first low-end Commodore Amiga 16/32-bit multimedia home/personal computer. It was announced at the winter Consumer Electronics Show in January 1987, at the same time as the high-end Amiga 2000, and competed directly against the Atari 520ST.</desc>
+			<imgFile>PathToTestData/consoleImages/Amiga.png</imgFile>
 		</Console>
 		<Console>
 			<name>Super Nintendo</name>
-			<desc>Description of Super Nintendo</desc>
-			<imgFile>/home/user/emu/NES.png</imgFile>
+			<desc>The Super Nintendo (SNES) is a 16-bit video game console released in 1990. 32768 (15-bit) colors, 8 channels 16-bit 32 kHz audio channels. 128 kB main RAM, 64 kB Video RAM and 64 kB Audio RAM.</desc>
+			<imgFile>PathToTestData/consoleImages/SNES.png</imgFile>
 		</Console>
 	</Consoles>
 	<RomCollections>
 		<RomCollection>			
-			<name>Collection V1 Amiga</name>
+			<name>Collection V1</name>
 			<consoleName>Amiga</consoleName>
 			<emulatorCmd>uae {-%I% "%ROM%"}</emulatorCmd>
-			<diskPrefix>_Disk</diskPrefix>
 			<useEmuSolo>True</useEmuSolo>
 			<escapeCommand>True</escapeCommand>
-			<relyOnNaming>True</relyOnNaming>			
-			<DescFilePerGame>True</DescFilePerGame>
+			<relyOnNaming>True</relyOnNaming>
 			<startWithDescFile>False</startWithDescFile>
-			<descriptionParserFile>/home/user/emu/Amiga/Collection V1/parserConfig.xml</descriptionParserFile>			
-			<romPath>/home/user/emu/Amiga/Collection V1/games/*.adf</romPath>
-			<descFilePath>/home/user/emu/Amiga/Collection V1/%GAME%/info.txt</descFilePath>
-			<coverPath>/home/user/emu/Amiga/Collection V1/%GAME%/covers/*.jpg</coverPath>
-			<coverPath>/home/user/emu/Amiga/Collection V1/%GAME%/covers/*.gif</coverPath>
-			<coverPath>/home/user/emu/Amiga/Collection V1/%GAME%/covers/*.png</coverPath>
-			<ingamescreenshotPath>/home/user/emu/Amiga/Collection V1/%GAME%/screens/*.jpg</ingamescreenshotPath>
-			<ingamescreenshotPath>/home/user/emu/Amiga/Collection V1/%GAME%/screens/*.gif</ingamescreenshotPath>
-			<ingamescreenshotPath>/home/user/emu/Amiga/Collection V1/%GAME%/screens/*.png</ingamescreenshotPath>
+			<descFilePerGame>False</descFilePerGame>
+			<descriptionParserFile>PathToTestData/Collection V1/parserConfig.xml</descriptionParserFile>
+			<diskPrefix>_Disk</diskPrefix>
+			<typeOfManual>Text</typeOfManual>
+			<allowUpdate>True</allowUpdate>
+			<ignoreOnScan>False</ignoreOnScan>
+			<romPath>PathToTestData/Collection V1/roms/*.adf</romPath>
+			<romPath>PathToTestData/Collection V1/roms/*.ADF</romPath>
+			<descFilePath>PathToTestData/Collection V1/synopsis/synopsis.txt</descFilePath>
+			<coverPath>PathToTestData/Collection V1/cover/%GAME%.jpg</coverPath>
+			<coverPath>PathToTestData/Collection V1/cover/%GAME%.gif</coverPath>
+			<coverPath>PathToTestData/Collection V1/cover/%GAME%.png</coverPath>
+			<ingamescreenshotPath>PathToTestData/Collection V1/screens/%GAME%.jpg</ingamescreenshotPath>
+			<ingamescreenshotPath>PathToTestData/Collection V1/screens/%GAME%.gif</ingamescreenshotPath>
+			<ingamescreenshotPath>PathToTestData/Collection V1/screens/%GAME%.png</ingamescreenshotPath>
 			<titleScreenshotPath></titleScreenshotPath>
 			<cartridgePath></cartridgePath>
 			<configFilePath></configFilePath>
@@ -115,25 +155,59 @@ An example file could look like this:
 			<trailerPath></trailerPath>
 			<manualPath></manualPath>
 		</RomCollection>
-		<RomCollection>                 
-			<name>Collection V1 NES</name>
-			<consoleName>Super Nintendo</consoleName>
-			<emulatorCmd>zsnes -m "%ROM%"</emulatorCmd>
-			<diskPrefix>_Disk</diskPrefix>
+		<RomCollection>			
+			<name>Collection V2</name>
+			<consoleName>Amiga</consoleName>
+			<emulatorCmd>uae {-%I% "%ROM%"}</emulatorCmd>
 			<useEmuSolo>True</useEmuSolo>
 			<escapeCommand>True</escapeCommand>
-			<relyOnNaming>True</relyOnNaming>                       
-			<DescFilePerGame>True</DescFilePerGame>
+			<relyOnNaming>True</relyOnNaming>
 			<startWithDescFile>False</startWithDescFile>
-			<descriptionParserFile>/home/user/emu/NES/Collection V1/parserConfig.xml</descriptionParserFile>                      
-			<romPath>/home/user/emu/NES/Collection V1/games/*.adf</romPath>
-			<descFilePath>/home/user/emu/NES/Collection V1/%GAME%/info.txt</descFilePath>
-			<coverPath>/home/user/emu/NES/Collection V1/%GAME%/covers/*.jpg</coverPath>
-			<coverPath>/home/user/emu/NES/Collection V1/%GAME%/covers/*.gif</coverPath>
-			<coverPath>/home/user/emu/NES/Collection V1/%GAME%/covers/*.png</coverPath>
-			<ingamescreenshotPath>/home/user/emu/NES/Collection V1/%GAME%/screens/*.jpg</ingamescreenshotPath>
-			<ingamescreenshotPath>/home/user/emu/NES/Collection V1/%GAME%/screens/*.gif</ingamescreenshotPath>
-			<ingamescreenshotPath>/home/user/emu/NES/Collection V1/%GAME%/screens/*.png</ingamescreenshotPath>
+			<descFilePerGame>True</descFilePerGame>
+			<descriptionParserFile>PathToTestData/Collection V2/parserConfig.xml</descriptionParserFile>
+			<diskPrefix>_Disk</diskPrefix>
+			<typeOfManual>Text</typeOfManual>
+			<allowUpdate>True</allowUpdate>
+			<ignoreOnScan>False</ignoreOnScan>
+			<romPath>PathToTestData/Collection V2/roms/*.adf</romPath>
+			<romPath>PathToTestData/Collection V2/roms/*.ADF</romPath>
+			<descFilePath>PathToTestData/Collection V2/synopsis/%GAME%/synopsis.txt</descFilePath>
+			<coverPath>PathToTestData/Collection V2/cover/%GAME%/*.jpg</coverPath>
+			<coverPath>PathToTestData/Collection V2/cover/%GAME%/*.gif</coverPath>
+			<coverPath>PathToTestData/Collection V2/cover/%GAME%/*.png</coverPath>
+			<ingamescreenshotPath>PathToTestData/Collection V2/screens/%GAME%/*.jpg</ingamescreenshotPath>
+			<ingamescreenshotPath>PathToTestData/Collection V2/screens/%GAME%/*.gif</ingamescreenshotPath>
+			<ingamescreenshotPath>PathToTestData/Collection V2/screens/%GAME%/*.png</ingamescreenshotPath>
+			<titleScreenshotPath></titleScreenshotPath>
+			<cartridgePath></cartridgePath>
+			<configFilePath></configFilePath>
+			<ingamevidPath></ingamevidPath>
+			<trailerPath></trailerPath>
+			<manualPath></manualPath>
+		</RomCollection>		
+		<RomCollection>			
+			<name>Collection V3</name>
+			<consoleName>Super Nintendo</consoleName>
+			<emulatorCmd>zsnes.exe -m "%ROM%"</emulatorCmd>
+			<useEmuSolo>True</useEmuSolo>
+			<escapeCommand>True</escapeCommand>
+			<relyOnNaming>True</relyOnNaming>
+			<startWithDescFile>False</startWithDescFile>
+			<descFilePerGame>False</descFilePerGame>
+			<descriptionParserFile>PathToTestData/Collection V3/parserConfig.xml</descriptionParserFile>
+			<diskPrefix>_Disk</diskPrefix>
+			<typeOfManual>Text</typeOfManual>
+			<allowUpdate>True</allowUpdate>
+			<ignoreOnScan>False</ignoreOnScan>
+			<romPath>PathToTestData/Collection V3/roms/*.zip</romPath>
+			<romPath>PathToTestData/Collection V3/roms/*.smc</romPath>
+			<descFilePath>PathToTestData/Collection V3/description/synopsis.txt</descFilePath>
+			<coverPath>PathToTestData/Collection V3/cover/%GAME%.jpg</coverPath>
+			<coverPath>PathToTestData/Collection V3/cover/%GAME%.gif</coverPath>
+			<coverPath>PathToTestData/Collection V3/cover/%GAME%.png</coverPath>
+			<ingamescreenshotPath>PathToTestData/Collection V3/screens/%GAME%.jpg</ingamescreenshotPath>
+			<ingamescreenshotPath>PathToTestData/Collection V3/screens/%GAME%.gif</ingamescreenshotPath>
+			<ingamescreenshotPath>PathToTestData/Collection V3/screens/%GAME%.png</ingamescreenshotPath>
 			<titleScreenshotPath></titleScreenshotPath>
 			<cartridgePath></cartridgePath>
 			<configFilePath></configFilePath>
@@ -153,17 +227,66 @@ An example file could look like this:
 		<FileType>
 			<name>screenshotingame</name>
 		</FileType>
-		...
+		<FileType>
+			<name>cover</name>
+		</FileType>
+		<FileType>
+			<name>cartridge</name>
+		</FileType>
+		<FileType>
+			<name>manual</name>
+		</FileType>
+		<FileType>
+			<name>ingamevideo</name>
+		</FileType>
+		<FileType>
+			<name>trailer</name>
+		</FileType>
+		<FileType>
+			<name>description</name>
+		</FileType>
+		<FileType>
+			<name>configuration</name>
+		</FileType>
 	</FileTypes>	
 </config>
+
 }}}
+
+=== RCBSettings ===
+These are the global settings of RCB.
+	
+==== showEntryAllConsoles ====
+Actually there are four filter lists to browse your rom files. Every list has an entry "All" per default. If you have a large rom collection and you try to load all your roms unfiltered this can take some time. You can set this property to "False" to remove the entry "All" from the Console filter list.
+
+==== showEntryAllGenres ====
+You can set this property to "False" to remove the entry "All" from the Genre filter list.
+
+==== showEntryAllYears ====
+You can set this property to "False" to remove the entry "All" from the Year filter list.
+
+==== showEntryAllPublisher ====
+You can set this property to "False" to remove the entry "All" from the Publisher filter list.
+		
+==== saveViewStateOnExit ====
+If set to "True" RCB will save the current view state (selected filter criteria and focused control) and restores it when you launch it the next time. This option will be used when exiting RCB.
+
+==== saveViewStateOnLaunchEmu ====
+If set to "True" RCB will save the current view state (selected filter criteria and focused control) and restores it when you launch it the next time. This option will be used when launching an emulator in "solo" mode.
+		
+==== favoriteConsole ====
+This option is not implemented yet.
+
+==== favoriteGenre ====
+This option is not implemented yet.
+
 
 === Console ===
 You must add every console you want to emulate here. Configuration properties should be self explanating.
 
 
 === Rom Collection ===
-There is a 1:n relation from rom collection to console: you can configure 1 emulator for each rom collection but there could be different rom collections that use the same emulator. Usually there will be one `RomCollection` entry for each emulator/console.
+There is a 1:n relation from `RomCollection` to console and emulator: you can configure 1 emulator and 1 console for each `RomCollection` but there could be different rom collections that use the same emulator or console. Usually there will be one `RomCollection` entry for each emulator/console.
 
 ==== name ====
 This is only used to distinguish rom collections.
@@ -189,7 +312,9 @@ If you use "`_Disk`" as diskPrefix and you have some rom files named "`Mygame.ad
 ==== useEmuSolo ====
 If set to "True" RCB will try to kill XBMC before starting the emulator. After exiting the emulator you will return to XBMC. If "False" the emulator will be launched while XBMC is running in the background.
 
-In current release there are some problems with this mechanism in windows. I am not able to launch the batch file that should kill XBMC. But I am on it.
+This mechanism invokes a batch (Windows) or bash (Linux) file. If you have problems with launching the emulator or returning to XBMC please check the commands in the file "applaunch.bat" (Windows) or "applaunch.sh" (Linux). You must be able to execute the command that is used to launch XBMC.
+
+When restarting XBMC RCB will try to create a file "autoexec.py" in XBMCs main script directory. This will be used by XBMC to launch RCB automatically after restarting. If you already use an "autoexec.py" RCB will try to backup your original file and restores it after restarting. Make sure that the user that runs XBMC has write access to XBMCs main script directory.
 
 ==== escapeCommand ====
 This will escape the rom file names passed to the emulatorCmd. I did not have problems with using "True" in Linux and Windows. But maybe you can try to change this if you are running into problems with launching games.
@@ -197,7 +322,7 @@ This will escape the rom file names passed to the emulatorCmd. I did not have pr
 ==== relyOnNaming ====
 This must be "True" actually. I thought about implementing other ways of importing rom files where you don't have to take care of your file naming. But as long as that is not done it must be "True".
 
-==== DescFilePerGame ====
+==== descFilePerGame ====
 There can be one big description file with descriptions for all games in it. Or you can have one description file per game. In second case the gamename must be somewhere in the path of the property `descFilePath` (configuration of descFilePath should look like this: "/home/user/emu/Amiga/Collection V1/%GAME%/info.txt").
 
 ==== startWithDescFile ====
@@ -206,10 +331,19 @@ This must be "False" actually. There are some rom collections (Amiga classix for
 ==== descriptionParserFile ====
 Most rom collections that use game description files will have a different file format. I built a configurable parser that reads parse instructions from an xml file and then tries to parse the game descriptions with these instructions. There can only be one description parser file per `RomCollection` entry. The format of the parser file is explained in a later section.
 
+==== allowUpdate ====
+If set to "False" RCB won't update your already imported game descriptions. All additional files (e.g. screenshots) will be imported if not already in database.
+
+==== ignoreOnScan ====
+If set to "True" this `RomCollection` will be ignored completely during import. If you have all data for one `RomCollection` in database you can set this to "False" and there won't be any changes to this collection during the next imports.
+
+==== typeOfManual ====
+This option is not implemented yet.
+
 ==== romPath ====
 The path to your rom files. This path should include wildcards and file extension (`*`.adf for example).
 
-Actually there is only one rom path per `RomCollection` supported. This should be changed in a later release because you may have different paths and file extensions (.zip and .smc for example) in one collection.
+You may use different paths and file extensions (.zip and .smc for example) for one collection.
 
 ==== descFilePath ====
 The path to the game description files. These files will be used to obtain additional information like genre, plot, publisher etc. about a game. Depending on the "`DescFilePerGame`"-Parameter this should be the absolute path to one description file or a path using the %GAME%-placeholder. There can only be one descFilePath per `RomCollection`.
@@ -291,20 +425,20 @@ NOTE: These files will be imported but not shown in the UI actually.
 
 
 ==== configFilePath ====
-not implemented in current release.
+NOTE: These files will be imported but not shown in the UI actually.
 
 ==== ingamevidPath ====
-not implemented in current release.
+NOTE: These files will be imported but not shown in the UI actually.
 
 ==== trailerPath ====
-not implemented in current release.
+NOTE: These files will be imported but not shown in the UI actually.
 
 ==== manualPath ====
-not implemented in current release.
+NOTE: These files will be imported but not shown in the UI actually.
 
 
 == parserConfig.xml ==
-The description file parser is very simple. It will read the parserConfig file that you specify in config.xml (you can have different parserConfigs for every `RomCollection`). This parserConfig xml file will be read element by element and transferred into pyparsing parser grammar. That means you have to take care of the elements order. Afterwards pyparsing reads the text file and tries to apply its given grammar. It always moves forward and looks for a match to the actual grammar token. If it does not match it will raise an exception. You will find this exception message in the log file "update.log" (scripts home directory).
+The description file parser is very simple. It will read the parserConfig file that you specify in config.xml (you can have different parserConfigs for every `RomCollection`). This parserConfig xml file will be read element by element and transferred into parser grammar (using pyparsing). That means you have to take care of the elements order. Afterwards pyparsing reads the text file and tries to apply its given grammar. It always moves forward and looks for a match to the actual grammar token. If it does not match it will raise an exception. You will find this exception message in the log file "update.log" (RCB home directory).
 
 This is an example game description text file:
 {{{
@@ -383,7 +517,7 @@ The parser config for this text file will look like this:
 }}}
 
 Lets explain the first two lines of the config file:
-`<SkippableContent>Game: </SkippableContent>` will search for the exact occurance of "Game: " at the beginning of the text file. If it is not found pyparsing will raise an exception and stop parsing. If the text is found it will skip this content and executes the next rule: `<Game restOfLine="true"></Game>`. This will take all text from the current position (we are one letter behind "Game: " now) to the end of the line and stores this as a value to the key `Game`. When parsing of the complete file is done RCB can access this value using the given key.
+`<SkippableContent>Game: </SkippableContent>` will search for the exact occurance of "Game: " at the beginning of the text file. If it is not found pyparsing will raise an exception and stops parsing. If the text is found it will skip this content and executes the next rule: `<Game restOfLine="true"></Game>`. This will take all text from the current position (we are one letter behind "Game: " now) to the end of the line and stores this as a value to the key `Game`. When parsing of the complete file is done RCB can access this value using the given key.
 
 There are not many configuration options at the moment. Actually only `GameGrammar type="multiline`" is supported. I think about adding support for xml files or one-line csv but that has a low prio.
 
@@ -395,12 +529,8 @@ A named element like `<Game restOfLine="true"></Game>` will return a key value p
 
 Supported elements in current version:
 
-Game, Genre, ReleaseYear, Publisher, Description
+Game, Genre, ReleaseYear, Publisher, Description, Reviewer, Region, Media, Controller, Players, Developer, URL, Rating, Votes, Perspective
 
-
-Planned for next versions:
-
-Region, Media, Controller, Players, Developer, URL, Rating, Votes, Perspective
 
 
 ==== Skippable Content ====
