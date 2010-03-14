@@ -255,8 +255,8 @@ class UIGameDB(xbmcgui.WindowXML):
 		if(gameRow == None):
 			return
 			
-		screenshotFile = File(self.gdb).getIngameScreenshotByGameId(gameId)		
-		description = gameRow[2]		
+		screenshotFile = File(self.gdb).getIngameScreenshotByGameId(gameId)
+		description = gameRow[2]
 		self.getControl(CONTROL_CONSOLE_IMG).setVisible(1)		
 		self.getControl(CONTROL_CONSOLE_IMG).setImage(screenshotFile)
 		self.getControl(CONTROL_CONSOLE_DESC).setVisible(1)
