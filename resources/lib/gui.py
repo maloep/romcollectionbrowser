@@ -19,11 +19,7 @@ ACTION_MOVEMENT_RIGHT = ( 2, )
 ACTION_MOVEMENT_UP = ( 3, )
 ACTION_MOVEMENT_DOWN = ( 4, )
 ACTION_MOVEMENT = ( 1, 2, 3, 4, )
-
-ACTION_SHOW_INFO =		(11,) # GREEN - 195
-ACTION_CONTEXT_MENU =	(117,) # RED - 229
-ACTION_SHOW_GUI =		(18,) # YELLOW - 213
-ACTION_SELECT_ITEM = ( 7, )
+ACTION_INFO = ( 11, )
 
 
 #ControlIds
@@ -83,8 +79,7 @@ class UIGameDB(xbmcgui.WindowXML):
 		self.showPublisher()
 		
 
-	def onAction(self, action):
-		
+	def onAction(self, action):		
 		if(action.getId() in ACTION_CANCEL_DIALOG):
 			self.exit()
 		elif(action.getId() in ACTION_MOVEMENT_UP or action.getId() in ACTION_MOVEMENT_DOWN):
@@ -124,6 +119,13 @@ class UIGameDB(xbmcgui.WindowXML):
 				
 			if(self.selectedControlId == CONTROL_GAMES):
 				self.showGameInfo()
+		elif(action.getId() in ACTION_INFO):
+			try:
+				control = self.getControl(self.selectedControlId)
+			except: 
+				return
+			if(self.selectedControlId == CONTROL_GAMES):
+				self.showGameInfoDialog()
 
 
 
@@ -137,7 +139,7 @@ class UIGameDB(xbmcgui.WindowXML):
 		elif (controlId == CONTROL_BUTTON_UPDATEDB):			
 			self.updateDB()
 		elif (controlId == CONTROL_BUTTON_CHANGEVIEW):
-			print "Button Change View"
+			print "Button Change View"			
 		elif (controlId != CONTROL_GAMES):
 			self.setFocus(self.getControl(CONTROL_GAMES))
 			self.showGameInfo()
@@ -267,8 +269,8 @@ class UIGameDB(xbmcgui.WindowXML):
 		selectedGame = self.getControl(CONTROL_GAMES).getSelectedItem()
 		gameId = selectedGame.getLabel2()
 		
-		gameRow = Game(self.gdb).getObjectById(gameId)		
-		self.writeMsg("Launch Game " +str(gameRow))
+		gameRow = Game(self.gdb).getObjectById(gameId)
+		self.writeMsg("Launch Game " +str(gameRow[1]))
 		
 		romPaths = Path(self.gdb).getRomPathsByRomCollectionId(gameRow[5])
 		romCollectionRow = RomCollection(self.gdb).getObjectById(gameRow[5])
@@ -476,6 +478,16 @@ class UIGameDB(xbmcgui.WindowXML):
 			return 0
 			
 	
+	def showGameInfoDialog(self):
+		selectedGame = self.getControl(CONTROL_GAMES).getSelectedItem()
+		gameId = selectedGame.getLabel2()
+		
+		import gameinfodialog
+		gid = gameinfodialog.UIGameInfoView("script-Rom_Collection_Browser-gameinfo.xml", os.getcwd(), "Default", 1, gdb=self.gdb, gameId=gameId, 
+			consoleId=self.selectedConsoleId, genreId=self.selectedGenreId, yearId=self.selectedYearId, publisherId=self.selectedPublisherId)
+		del gid
+	
+	
 	def exit(self):				
 		
 		self.saveViewState(True)
@@ -492,7 +504,7 @@ def main():
     #ui = GameDB( "script-%s-main.xml" % ( __scriptname__.replace( " ", "_" ), ), os.getcwd(), settings[ "skin" ], force_fallback )
     #xmlFile = os.path.join(os.getcwd() + '/resources/skins/Default/720p/script-GameDB-main.xml' )
     #print xmlFile
-    ui = UIGameDB("script-GameDB-main.xml", os.getcwd(), "Default", 1)
+    ui = UIGameDB("script-Rom_Collection_Browser-main.xml", os.getcwd(), "Default", 1)
     #_progress_dialog( -1 )
     ui.doModal()
     del ui
