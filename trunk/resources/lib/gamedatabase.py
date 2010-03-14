@@ -164,12 +164,19 @@ class RomCollection(DataBaseObject):
 
 
 class Genre(DataBaseObject):
+	
+	filteGenreByGameId = "SELECT * FROM Genre WHERE Id IN (Select GenreId From GenreGame Where GameId = ?)"
+	
 	def __init__(self, gdb):		
 		self.gdb = gdb
 		self.tableName = "Genre"
+		
+	def getGenresByGameId(self, gameId):
+		genres = self.getObjectsByQuery(self.filteGenreByGameId, (gameId,))
+		return genres
 
 
-class GenreGame(DataBaseObject):	
+class GenreGame(DataBaseObject):
 					
 	filterQueryByGenreIdAndGameId = "Select * from GenreGame \
 					where genreId = ? AND \
