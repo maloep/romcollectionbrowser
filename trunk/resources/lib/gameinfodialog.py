@@ -13,9 +13,11 @@ ACTION_MOVEMENT_UP = ( 3, )
 ACTION_MOVEMENT_DOWN = ( 4, )
 ACTION_MOVEMENT = ( 1, 2, 3, 4, )
 
+CONTROL_GAME_LIST = 1000
+CONTROL_IMG_BACK = 2000
+
 CONTROL_LABEL_MSG = 4000
 
-CONTROL_LABEL_GAME = 6000
 CONTROL_LABEL_GENRE = 6100
 CONTROL_LABEL_YEAR = 6200
 CONTROL_LABEL_PUBLISHER = 6300
@@ -31,11 +33,16 @@ CONTROL_LABEL_REVIEWER = 7200
 CONTROL_LABEL_URL = 7300
 CONTROL_LABEL_LAUNCHCOUNT = 7400
 
-CONTROL_GAME_LIST = 1000
-CONTROL_IMG_BACK = 10000
-CONTROL_IMG_CARTRIDGE = 8000
-CONTROL_LABEL_DESC = 8100
-CONTROL_IMG_INGAMEVIDEO = 9000
+CONTROL_LABEL_DESC = 8000
+
+CONTROL_IMG_GAMEINFO1 = 9000
+CONTROL_IMG_GAMEINFO2 = 9100
+CONTROL_IMG_GAMEINFO3 = 9200
+CONTROL_IMG_GAMEINFO4 = 9300
+
+CONTROL_IMG_INGAMEVIDEO = 10000
+
+
 
 RCBHOME = os.getcwd()
 
@@ -118,8 +125,7 @@ class UIGameInfoView(xbmcgui.WindowXMLDialog):
 		publisher = self.getItemName(Publisher(self.gdb), gameRow[6])
 		developer = self.getItemName(Developer(self.gdb), gameRow[7])
 		reviewer = self.getItemName(Reviewer(self.gdb), gameRow[8])
-		
-		#self.setLabel(CONTROL_LABEL_GAME, gameRow[1])
+				
 		self.setLabel(CONTROL_LABEL_GENRE, genreString)
 		self.setLabel(CONTROL_LABEL_YEAR, year)
 		self.setLabel(CONTROL_LABEL_PUBLISHER, publisher)
@@ -142,6 +148,7 @@ class UIGameInfoView(xbmcgui.WindowXMLDialog):
 		self.getControl(CONTROL_LABEL_DESC).setText(description)
 		
 		#TODO more than one?
+		
 		titleScreenshots = File(self.gdb).getTitleScreenshotsByGameId(self.selectedGameId)		
 		if(titleScreenshots != None and len(titleScreenshots) != 0):
 			titleScreenshot = titleScreenshots[0]			
@@ -150,14 +157,12 @@ class UIGameInfoView(xbmcgui.WindowXMLDialog):
 			#TODO setVisible?
 			background = os.path.join(RCBHOME, 'resources', 'skins', 'Default', 'media', 'background.png')			
 			self.getControl(CONTROL_IMG_BACK).setImage(background)
-			
-		cartridges = File(self.gdb).getCartridgesByGameId(self.selectedGameId)
-		if(cartridges != None and len(cartridges) != 0):
-			cartridge = cartridges[0]
-			self.getControl(CONTROL_IMG_CARTRIDGE).setImage(cartridge[0])
-			self.getControl(CONTROL_IMG_CARTRIDGE).setVisible(1)
-		else:
-			self.getControl(CONTROL_IMG_CARTRIDGE).setVisible(0)
+				
+		#self.setImage(CONTROL_IMG_BACK, 'titlescreenshot')
+		self.setImage(CONTROL_IMG_GAMEINFO1, 'titlescreenshot')		
+		self.setImage(CONTROL_IMG_GAMEINFO2, 'cover')
+		self.setImage(CONTROL_IMG_GAMEINFO3, 'ingamescreenshot')	
+		self.setImage(CONTROL_IMG_GAMEINFO4, 'cartridge')
 			
 		ingameVideos = File(self.gdb).getIngameVideosByGameId(self.selectedGameId)
 		if(ingameVideos != None and len(ingameVideos) != 0):
@@ -185,6 +190,28 @@ class UIGameInfoView(xbmcgui.WindowXMLDialog):
 		if(value == None):
 			value = ""		
 		self.getControl(controlId).setLabel(str(value))
+		
+		
+	def setImage(self, controlId, imageType):
+		
+		#TODO get imageType from DB
+		if(imageType == 'cartridge'):
+			images = File(self.gdb).getCartridgesByGameId(self.selectedGameId)
+		elif(imageType == 'cover'):
+			images = File(self.gdb).getCoversByGameId(self.selectedGameId)
+		elif(imageType == 'ingamescreenshot'):
+			images = File(self.gdb).getIngameScreenshotsByGameId(self.selectedGameId)
+		elif(imageType == 'titlescreenshot'):
+			images = File(self.gdb).getTitleScreenshotsByGameId(self.selectedGameId)
+		else:
+			return
+			
+		if(images != None and len(images) != 0):
+			image = images[0]
+			self.getControl(controlId).setImage(image[0])
+			self.getControl(controlId).setVisible(1)
+		else:
+			self.getControl(controlId).setVisible(0)
 	
 		
 		
