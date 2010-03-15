@@ -7,7 +7,7 @@
         	<posy>0</posy>
 	</coordinates>
 	<controls>
-		<control type="image" id="10000">
+		<control type="image" id="2000">
 		    <description>background image</description>
 		    <posx>0</posx>
 		    <posy>0</posy>
@@ -229,41 +229,22 @@
 			<control type="label" id="7300">
 				<description>URL value</description>
 				<posx>0</posx>
-				<posy>260</posy>
-				<width>300</width>				
+				<posy>260</posy>					
 				<textcolor>DDFFFFFF</textcolor>
 			</control>			
 		</control>
 		
-		
-		
-		<control type="image" id="8000">
-		    	<description>cartridge image</description>
-		    	<posx>50</posx>
-		    	<posy>400</posy>
-		    	<width>100</width>
-		    	<height>80</height>			
-			<texture></texture>
-		</control>
-		<control type="image" id="9000">
-		    	<description>ingame vid</description>
-		    	<posx>400</posx>
-		    	<posy>400</posy>
-		    	<width>100</width>
-		    	<height>80</height>
-			<texture></texture>
-		</control>
-		<control type="textbox" id="8100">
+		<control type="textbox" id="8000">
 			<description>game desc</description>
 			<posx>350</posx>
 			<posy>80</posy>
 			<width>330</width>
 		    <height>255</height>			
-			<pagecontrol>8200</pagecontrol>			
+			<pagecontrol>8100</pagecontrol>			
 			<textcolor>DDFFFFFF</textcolor>			
 			<!--<autoscroll delay="3000" time="1000" repeat="10000">!Control.HasFocus(8200)</autoscroll>-->
 		</control>
-		<control type="scrollbar" id="8200">
+		<control type="scrollbar" id="8100">
 			<description>GameDesc Scrollbar</description>
 			<posx>685</posx>
 			<posy>85</posy>
@@ -278,44 +259,44 @@
 			<pulseonselect></pulseonselect>
 			<orientation>vertical</orientation>
 			<showonepage>false</showonepage>
-			<onup>2200</onup>
-			<ondown>2200</ondown>
+			<onup>8100</onup>
+			<ondown>8100</ondown>
 			<onleft>3200</onleft>
-			<onright>800</onright>
-		</control>		
-		
-		<!--<control type="button" id="1000"> 
-			<description>Left</description>
-			<posx>20</posx>
-			<posy>15</posy>
-			<width>50</width>
-			<height>20</height>
-			<visible>true</visible>
-			<colordiffuse>DDFFFFFF</colordiffuse>
-			<texturefocus>left-arrow-focus.png</texturefocus>
-			<texturenofocus>left-arrow.png</texturenofocus>					
-			<disabledcolor>80FFFFFF</disabledcolor>			
-			<onup>3000</onup>
-			<ondown>3000</ondown>
-			<onleft>1000</onleft>
-			<onright>1100</onright>
+			<onright>1000</onright>
 		</control>
-		<control type="button" id="1100"> 
-			<description>Right</description>
-			<posx>650</posx>
-			<posy>15</posy>
-			<width>50</width>
-			<height>20</height>
-			<visible>true</visible>
-			<colordiffuse>DDFFFFFF</colordiffuse>
-			<texturefocus>right-arrow-focus.png</texturefocus>
-			<texturenofocus>right-arrow.png</texturenofocus>					
-			<disabledcolor>80FFFFFF</disabledcolor>			
-			<onup>3000</onup>
-			<ondown>3000</ondown>
-			<onleft>1000</onleft>
-			<onright>1100</onright>
-		</control>-->
+		
+		<control type="image" id="9000">
+		    	<description>gameinfo1</description>
+		    	<posx>50</posx>
+		    	<posy>400</posy>
+		    	<width>100</width>
+		    	<height>80</height>			
+			<texture></texture>
+		</control>
+		<control type="image" id="9100">
+		    	<description>gameinfo2</description>
+		    	<posx>200</posx>
+		    	<posy>400</posy>
+		    	<width>100</width>
+		    	<height>80</height>			
+			<texture></texture>
+		</control>
+		<control type="image" id="9200">
+		    	<description>gameinfo3</description>
+		    	<posx>350</posx>
+		    	<posy>400</posy>
+		    	<width>100</width>
+		    	<height>80</height>
+			<texture></texture>
+		</control>		
+		<control type="image" id="9300">
+		    	<description>gameinfo4</description>
+		    	<posx>500</posx>
+		    	<posy>400</posy>
+		    	<width>100</width>
+		    	<height>80</height>
+			<texture></texture>
+		</control>
 		
 		<control type="button" id="3000"> 
 			<description>Play Game</description>
@@ -387,7 +368,7 @@
 			<onup>1000</onup>
 			<ondown>1000</ondown>
 			<onleft>3100</onleft>
-			<onright>8200</onright>
+			<onright>8100</onright>
 		</control>
 		<control type="label" id="4000">
 			<description>Notes</description>
