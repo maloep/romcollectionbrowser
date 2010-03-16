@@ -219,6 +219,31 @@ class FileType(DataBaseObject):
 	def __init__(self, gdb):		
 		self.gdb = gdb
 		self.tableName = "FileType"
+		
+		
+class FileTypeForControl(DataBaseObject):
+	filterQueryByKey = "Select * from FileTypeForControl \
+					where romCollectionId = ? AND \
+					fileTypeId = (select id from filetype where name = ?) AND \
+					control = ? AND \
+					priority = ?"
+					
+	filterQueryByKeyNoPrio = "Select * from FileTypeForControl \
+					where romCollectionId = ? AND \
+					control = ? \
+					ORDER BY priority"
+	
+	def __init__(self, gdb):		
+		self.gdb = gdb
+		self.tableName = "FileTypeForControl"
+		
+	def getFileTypeForControlByKey(self, romCollectionId, fileType, control, priority):
+		fileType = self.getObjectByQuery(self.filterQueryByKey, (romCollectionId, fileType, control, priority))
+		return fileType
+		
+	def getFileTypesForControlByKey(self, romCollectionId, control):
+		fileTypes = self.getObjectsByQuery(self.filterQueryByKeyNoPrio, (romCollectionId, control))
+		return fileTypes
 
 
 class File(DataBaseObject):	
@@ -229,6 +254,10 @@ class File(DataBaseObject):
 	filterQueryByNameAndType = "Select * from File \
 					where name = ? AND \
 					filetypeid = (select id from filetype where name = ?)"
+					
+	filterQueryByGameIdAndTypeId = "Select * from File \
+					where gameId = ? AND \
+					filetypeid = ?"
 	
 	def __init__(self, gdb):		
 		self.gdb = gdb
@@ -240,6 +269,10 @@ class File(DataBaseObject):
 		
 	def getFilesByNameAndType(self, name, type):
 		files = self.getObjectsByQuery(self.filterQueryByNameAndType, (name, type))
+		return files
+		
+	def getFilesByFileGameIdAndTypeId(self, gameId, fileTypeId):
+		files = self.getObjectsByQuery(self.filterQueryByGameIdAndTypeId, (gameId, fileTypeId))
 		return files
 		
 	def getIngameScreenshotByGameId(self, gameId):

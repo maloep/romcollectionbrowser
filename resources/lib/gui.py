@@ -482,9 +482,11 @@ class UIGameDB(xbmcgui.WindowXML):
 		selectedGame = self.getControl(CONTROL_GAMES).getSelectedItem()
 		gameId = selectedGame.getLabel2()
 		
+		selectedGameIndex = self.getControl(CONTROL_GAMES).getSelectedPosition()
+		
 		import gameinfodialog
 		gid = gameinfodialog.UIGameInfoView("script-Rom_Collection_Browser-gameinfo.xml", os.getcwd(), "Default", 1, gdb=self.gdb, gameId=gameId, 
-			consoleId=self.selectedConsoleId, genreId=self.selectedGenreId, yearId=self.selectedYearId, publisherId=self.selectedPublisherId)
+			consoleId=self.selectedConsoleId, genreId=self.selectedGenreId, yearId=self.selectedYearId, publisherId=self.selectedPublisherId, selectedGameIndex=selectedGameIndex)
 		del gid
 	
 	

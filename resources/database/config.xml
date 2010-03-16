@@ -51,6 +51,13 @@
 			<ingamevidPath></ingamevidPath>
 			<trailerPath></trailerPath>
 			<manualPath></manualPath>
+			<fileTypeForGameList>cover</fileTypeForGameList>
+			<fileTypeForMainViewGameInfo>screenshotingame</fileTypeForMainViewGameInfo>
+			<fileTypeForGameInfoViewBackground>screenshottitle</fileTypeForGameInfoViewBackground>
+			<fileTypeForGameInfoView1>screenshottitle</fileTypeForGameInfoView1>
+			<fileTypeForGameInfoView2>screenshotingame</fileTypeForGameInfoView2>
+			<fileTypeForGameInfoView3>cover</fileTypeForGameInfoView3>
+			<fileTypeForGameInfoView4>cartridge</fileTypeForGameInfoView4>
 		</RomCollection>
 		<RomCollection>			
 			<name>Collection V2</name>
@@ -81,6 +88,13 @@
 			<ingamevidPath></ingamevidPath>
 			<trailerPath></trailerPath>
 			<manualPath></manualPath>
+			<fileTypeForGameList>cover</fileTypeForGameList>
+			<fileTypeForMainViewGameInfo>screenshotingame</fileTypeForMainViewGameInfo>
+			<fileTypeForGameInfoViewBackground>screenshottitle</fileTypeForGameInfoViewBackground>
+			<fileTypeForGameInfoView1>screenshottitle</fileTypeForGameInfoView1>
+			<fileTypeForGameInfoView2>screenshotingame</fileTypeForGameInfoView2>
+			<fileTypeForGameInfoView3>cover</fileTypeForGameInfoView3>
+			<fileTypeForGameInfoView4>cartridge</fileTypeForGameInfoView4>
 		</RomCollection>		
 		<RomCollection>			
 			<name>Collection V3</name>
@@ -115,6 +129,13 @@
 			<ingamevidPath>E:\Emulatoren\data\Testdata V0.3_Instance\Collection V3\ingameVids\%GAME%.wmv</ingamevidPath>
 			<trailerPath></trailerPath>
 			<manualPath></manualPath>
+			<fileTypeForGameList>cover</fileTypeForGameList>
+			<fileTypeForMainViewGameInfo>screenshotingame</fileTypeForMainViewGameInfo>
+			<fileTypeForGameInfoViewBackground>screenshottitle</fileTypeForGameInfoViewBackground>
+			<fileTypeForGameInfoView1>screenshottitle</fileTypeForGameInfoView1>
+			<fileTypeForGameInfoView2>screenshotingame</fileTypeForGameInfoView2>
+			<fileTypeForGameInfoView3>cover</fileTypeForGameInfoView3>
+			<fileTypeForGameInfoView4>cartridge</fileTypeForGameInfoView4>
 		</RomCollection>
 	</RomCollections>
 	<!-- Don't edit filetypes -->

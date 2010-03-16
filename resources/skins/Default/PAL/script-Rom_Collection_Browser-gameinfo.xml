@@ -250,7 +250,7 @@
 			<posy>85</posy>
 			<width>5</width>
 			<height>250</height>
-			<visible>Control.IsVisible(8100)</visible>
+			<visible>Control.IsVisible(8000)</visible>
 			<texturesliderbackground>scrollbar-bg.png</texturesliderbackground>
 			<texturesliderbar>scrollbar-bar.png</texturesliderbar>
 			<texturesliderbarfocus>scrollbar-barFocus.png</texturesliderbarfocus>

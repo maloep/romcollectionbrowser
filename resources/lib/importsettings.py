@@ -77,10 +77,25 @@ class SettingsImporter:
 			ingamevidPaths = self.getElementValues(romCollection, 'ingamevidPath')			
 			trailerPaths = self.getElementValues(romCollection, 'trailerPath')
 			manualPaths = self.getElementValues(romCollection, 'manualPath')
+			fileTypesForGameList = self.getElementValues(romCollection, 'fileTypeForGameList')
+			fileTypesForMainViewGameInfo = self.getElementValues(romCollection, 'fileTypeForMainViewGameInfo')
+			fileTypesForGameInfoViewBackground = self.getElementValues(romCollection, 'fileTypeForGameInfoViewBackground')
+			fileTypesForGameInfoView1 = self.getElementValues(romCollection, 'fileTypeForGameInfoView1')
+			fileTypesForGameInfoView2 = self.getElementValues(romCollection, 'fileTypeForGameInfoView2')
+			fileTypesForGameInfoView3 = self.getElementValues(romCollection, 'fileTypeForGameInfoView3')
+			fileTypesForGameInfoView4 = self.getElementValues(romCollection, 'fileTypeForGameInfoView4')
 						
 			romCollectionId = self.insertRomCollection(gdb, consoleName, romCollName, emuCmd, emuSolo, escapeCmd, relyOnNaming, startWithDescFile, 
 				descFilePerGame, descParserFile, diskPrefix, typeOfManual, allowUpdate, ignoreOnScan)
-				
+			
+			self.insertFileTypeForControl(gdb, romCollectionId, fileTypesForGameList, 'gamelist')
+			self.insertFileTypeForControl(gdb, romCollectionId, fileTypesForMainViewGameInfo, 'mainviewgameinfo')
+			self.insertFileTypeForControl(gdb, romCollectionId, fileTypesForGameInfoViewBackground, 'gameinfoviewbackground')
+			self.insertFileTypeForControl(gdb, romCollectionId, fileTypesForGameInfoView1, 'gameinfoview1')
+			self.insertFileTypeForControl(gdb, romCollectionId, fileTypesForGameInfoView2, 'gameinfoview2')
+			self.insertFileTypeForControl(gdb, romCollectionId, fileTypesForGameInfoView3, 'gameinfoview3')
+			self.insertFileTypeForControl(gdb, romCollectionId, fileTypesForGameInfoView4, 'gameinfoview4')
+			
 			self.insertPaths(gdb, romCollectionId, romPaths, 'rom')
 			self.insertPaths(gdb, romCollectionId, descFilePaths, 'description')
 			self.insertPaths(gdb, romCollectionId, coverPaths, 'cover')
@@ -205,3 +220,15 @@ class SettingsImporter:
 			pathRow = Path(gdb).getPathByNameAndType(path, fileType)			
 			if(pathRow == None):				
 				Path(gdb).insert((path, fileTypeRow[0], romCollectionId))
+				
+	
+	def insertFileTypeForControl(self, gdb, romCollectionId, fileTypes, control):
+		for i in range(0, len(fileTypes)):
+			fileType = fileTypes[i]			
+			fileTypeRow = FileType(gdb).getOneByName(fileType)			
+			if(fileTypeRow == None):				
+				return
+			
+			fileTypeForControlRow = FileTypeForControl(gdb).getFileTypeForControlByKey(romCollectionId, fileType, control, str(i))
+			if(fileTypeForControlRow == None):
+				FileTypeForControl(gdb).insert((control, str(i), romCollectionId, fileTypeRow[0]))
