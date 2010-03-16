@@ -56,7 +56,8 @@ class UIGameInfoView(xbmcgui.WindowXMLDialog):
 		self.selectedConsoleId = kwargs[ "consoleId" ]
 		self.selectedGenreId = kwargs[ "genreId" ]		
 		self.selectedYearId = kwargs[ "yearId" ]		
-		self.selectedPublisherId = kwargs[ "publisherId" ]		
+		self.selectedPublisherId = kwargs[ "publisherId" ]
+		self.selectedGameIndex = kwargs[ "selectedGameIndex" ]
 		
 		self.doModal()
 		
@@ -98,11 +99,13 @@ class UIGameInfoView(xbmcgui.WindowXMLDialog):
 		self.writeMsg("loading games...")
 		
 		items = []
+		#TODO Configure Images
 		for game in games:			
 			coverFile = File(self.gdb).getCoverByGameId(game[0])
 			items.append(xbmcgui.ListItem(str(game[1]), str(game[0]), coverFile, ''))
 				
 		self.getControl(CONTROL_GAME_LIST).addItems(items)
+		self.getControl(CONTROL_GAME_LIST).selectItem(self.selectedGameIndex)		
 		self.writeMsg("")
 	
 		
@@ -146,23 +149,14 @@ class UIGameInfoView(xbmcgui.WindowXMLDialog):
 		if(description == None):
 			description = ""		
 		self.getControl(CONTROL_LABEL_DESC).setText(description)
-		
-		#TODO more than one?
-		
-		titleScreenshots = File(self.gdb).getTitleScreenshotsByGameId(self.selectedGameId)		
-		if(titleScreenshots != None and len(titleScreenshots) != 0):
-			titleScreenshot = titleScreenshots[0]			
-			self.getControl(CONTROL_IMG_BACK).setImage(titleScreenshot[0])
-		else:
-			#TODO setVisible?
-			background = os.path.join(RCBHOME, 'resources', 'skins', 'Default', 'media', 'background.png')			
-			self.getControl(CONTROL_IMG_BACK).setImage(background)
 				
-		#self.setImage(CONTROL_IMG_BACK, 'titlescreenshot')
-		self.setImage(CONTROL_IMG_GAMEINFO1, 'titlescreenshot')		
-		self.setImage(CONTROL_IMG_GAMEINFO2, 'cover')
-		self.setImage(CONTROL_IMG_GAMEINFO3, 'ingamescreenshot')	
-		self.setImage(CONTROL_IMG_GAMEINFO4, 'cartridge')
+		#gameRow[5] = romCollectionId
+		background = os.path.join(RCBHOME, 'resources', 'skins', 'Default', 'media', 'background.png')	
+		self.setImage(CONTROL_IMG_BACK, 'gameinfoviewbackground', gameRow[0], gameRow[5], background)				
+		self.setImage(CONTROL_IMG_GAMEINFO1, 'gameinfoview1', gameRow[0], gameRow[5], None)
+		self.setImage(CONTROL_IMG_GAMEINFO2, 'gameinfoview2', gameRow[0], gameRow[5], None)
+		self.setImage(CONTROL_IMG_GAMEINFO3, 'gameinfoview3', gameRow[0], gameRow[5], None)
+		self.setImage(CONTROL_IMG_GAMEINFO4, 'gameinfoview4', gameRow[0], gameRow[5], None)
 			
 		ingameVideos = File(self.gdb).getIngameVideosByGameId(self.selectedGameId)
 		if(ingameVideos != None and len(ingameVideos) != 0):
@@ -192,26 +186,28 @@ class UIGameInfoView(xbmcgui.WindowXMLDialog):
 		self.getControl(controlId).setLabel(str(value))
 		
 		
-	def setImage(self, controlId, imageType):
-		
-		#TODO get imageType from DB
-		if(imageType == 'cartridge'):
-			images = File(self.gdb).getCartridgesByGameId(self.selectedGameId)
-		elif(imageType == 'cover'):
-			images = File(self.gdb).getCoversByGameId(self.selectedGameId)
-		elif(imageType == 'ingamescreenshot'):
-			images = File(self.gdb).getIngameScreenshotsByGameId(self.selectedGameId)
-		elif(imageType == 'titlescreenshot'):
-			images = File(self.gdb).getTitleScreenshotsByGameId(self.selectedGameId)
-		else:
+	def setImage(self, controlId, controlName, gameId, romCollectionId, defaultImage):
+				
+		fileTypeForControlRows = FileTypeForControl(self.gdb).getFileTypesForControlByKey(romCollectionId, controlName)
+		if(fileTypeForControlRows == None):
 			return
-			
+		
+		images = []		
+		for fileTypeForControlRow in fileTypeForControlRows:
+			files = File(self.gdb).getFilesByFileGameIdAndTypeId(gameId, fileTypeForControlRow[4])
+			for file in files:				
+				images.append(file[1])		
+		
+		#TODO more than one image?
 		if(images != None and len(images) != 0):
-			image = images[0]
-			self.getControl(controlId).setImage(image[0])
+			image = images[0]			
+			self.getControl(controlId).setImage(image)
 			self.getControl(controlId).setVisible(1)
 		else:
-			self.getControl(controlId).setVisible(0)
+			if(defaultImage == None):
+				self.getControl(controlId).setVisible(0)
+			else:						
+				self.getControl(controlId).setImage(defaultImage)
 	
 		
 		
