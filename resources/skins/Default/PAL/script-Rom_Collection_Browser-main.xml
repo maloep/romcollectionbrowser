@@ -459,7 +459,7 @@
 			<onleft>3000</onleft>
 			<onright>3200</onright>
 		</control>
-		<control type="button" id="3200"> 
+		<!--<control type="button" id="3200"> 
 			<description>Change View</description>
 			<posx>300</posx>
 			<posy>525</posy>
@@ -469,8 +469,7 @@
 			<colordiffuse>DDFFFFFF</colordiffuse>
 			<texturefocus>btnFocus.png</texturefocus>
 			<texturenofocus>btn.png</texturenofocus>
-			<label>Change View</label>
-			<!--font12-->
+			<label>Change View</label>			
 			<textcolor>DDFFFFFF</textcolor>
 			<disabledcolor>80FFFFFF</disabledcolor>
 			<align>center</align>
@@ -482,7 +481,7 @@
 			<ondown>500</ondown>
 			<onleft>3100</onleft>
 			<onright>2200</onright>
-		</control>
+		</control>-->
 		<control type="label" id="4000">
 			<description>Notes</description>
 			<posx>700</posx>

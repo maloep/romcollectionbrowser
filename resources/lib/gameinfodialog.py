@@ -98,11 +98,14 @@ class UIGameInfoView(xbmcgui.WindowXMLDialog):
 		
 		self.writeMsg("loading games...")
 		
-		items = []
-		#TODO Configure Images
-		for game in games:			
-			coverFile = File(self.gdb).getCoverByGameId(game[0])
-			items.append(xbmcgui.ListItem(str(game[1]), str(game[0]), coverFile, ''))
+		items = []		
+		for game in games:
+			images = self.getImagesByControl('gameinfoviewgamelist', game[0], game[5])
+			if(images != None and len(images) != 0):
+				image = images[0]
+			else:
+				image = ""
+			items.append(xbmcgui.ListItem(str(game[1]), str(game[0]), image, ''))
 				
 		self.getControl(CONTROL_GAME_LIST).addItems(items)
 		self.getControl(CONTROL_GAME_LIST).selectItem(self.selectedGameIndex)		
@@ -152,7 +155,7 @@ class UIGameInfoView(xbmcgui.WindowXMLDialog):
 				
 		#gameRow[5] = romCollectionId
 		background = os.path.join(RCBHOME, 'resources', 'skins', 'Default', 'media', 'background.png')	
-		self.setImage(CONTROL_IMG_BACK, 'gameinfoviewbackground', gameRow[0], gameRow[5], background)				
+		self.setImage(CONTROL_IMG_BACK, 'gameinfoviewbackground', gameRow[0], gameRow[5], background)
 		self.setImage(CONTROL_IMG_GAMEINFO1, 'gameinfoview1', gameRow[0], gameRow[5], None)
 		self.setImage(CONTROL_IMG_GAMEINFO2, 'gameinfoview2', gameRow[0], gameRow[5], None)
 		self.setImage(CONTROL_IMG_GAMEINFO3, 'gameinfoview3', gameRow[0], gameRow[5], None)
@@ -188,15 +191,7 @@ class UIGameInfoView(xbmcgui.WindowXMLDialog):
 		
 	def setImage(self, controlId, controlName, gameId, romCollectionId, defaultImage):
 				
-		fileTypeForControlRows = FileTypeForControl(self.gdb).getFileTypesForControlByKey(romCollectionId, controlName)
-		if(fileTypeForControlRows == None):
-			return
-		
-		images = []		
-		for fileTypeForControlRow in fileTypeForControlRows:
-			files = File(self.gdb).getFilesByFileGameIdAndTypeId(gameId, fileTypeForControlRow[4])
-			for file in files:				
-				images.append(file[1])		
+		images = self.getImagesByControl(controlName, gameId, romCollectionId)
 		
 		#TODO more than one image?
 		if(images != None and len(images) != 0):
@@ -209,6 +204,19 @@ class UIGameInfoView(xbmcgui.WindowXMLDialog):
 			else:						
 				self.getControl(controlId).setImage(defaultImage)
 	
+	
+	def getImagesByControl(self, controlName, gameId, romCollectionId):
+		fileTypeForControlRows = FileTypeForControl(self.gdb).getFileTypesForControlByKey(romCollectionId, controlName)
+		if(fileTypeForControlRows == None):
+			return
+		
+		images = []		
+		for fileTypeForControlRow in fileTypeForControlRows:
+			files = File(self.gdb).getFilesByFileGameIdAndTypeId(gameId, fileTypeForControlRow[4])
+			for file in files:				
+				images.append(file[1])
+				
+		return images
 		
 		
 	def writeMsg(self, msg):

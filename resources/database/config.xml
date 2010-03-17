@@ -54,6 +54,8 @@
 			<fileTypeForGameList>cover</fileTypeForGameList>
 			<fileTypeForMainViewGameInfo>screenshotingame</fileTypeForMainViewGameInfo>
 			<fileTypeForGameInfoViewBackground>screenshottitle</fileTypeForGameInfoViewBackground>
+			<fileTypeForGameInfoViewBackground>cover</fileTypeForGameInfoViewBackground>
+			<fileTypeForGameInfoViewGamelist>cover</fileTypeForGameInfoViewGamelist>
 			<fileTypeForGameInfoView1>screenshottitle</fileTypeForGameInfoView1>
 			<fileTypeForGameInfoView2>screenshotingame</fileTypeForGameInfoView2>
 			<fileTypeForGameInfoView3>cover</fileTypeForGameInfoView3>
@@ -91,6 +93,8 @@
 			<fileTypeForGameList>cover</fileTypeForGameList>
 			<fileTypeForMainViewGameInfo>screenshotingame</fileTypeForMainViewGameInfo>
 			<fileTypeForGameInfoViewBackground>screenshottitle</fileTypeForGameInfoViewBackground>
+			<fileTypeForGameInfoViewBackground>cover</fileTypeForGameInfoViewBackground>
+			<fileTypeForGameInfoViewGamelist>cover</fileTypeForGameInfoViewGamelist>
 			<fileTypeForGameInfoView1>screenshottitle</fileTypeForGameInfoView1>
 			<fileTypeForGameInfoView2>screenshotingame</fileTypeForGameInfoView2>
 			<fileTypeForGameInfoView3>cover</fileTypeForGameInfoView3>
@@ -132,6 +136,8 @@
 			<fileTypeForGameList>cover</fileTypeForGameList>
 			<fileTypeForMainViewGameInfo>screenshotingame</fileTypeForMainViewGameInfo>
 			<fileTypeForGameInfoViewBackground>screenshottitle</fileTypeForGameInfoViewBackground>
+			<fileTypeForGameInfoViewBackground>cover</fileTypeForGameInfoViewBackground>
+			<fileTypeForGameInfoViewGamelist>cover</fileTypeForGameInfoViewGamelist>
 			<fileTypeForGameInfoView1>screenshottitle</fileTypeForGameInfoView1>
 			<fileTypeForGameInfoView2>screenshotingame</fileTypeForGameInfoView2>
 			<fileTypeForGameInfoView3>cover</fileTypeForGameInfoView3>
