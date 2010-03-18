@@ -7,6 +7,7 @@ from pysqlite2 import dbapi2 as sqlite
 
 import dbupdate, importsettings
 from gamedatabase import *
+import helper
 
 __language__ = xbmc.Language( os.getcwd() ).getLocalizedString
 
@@ -174,7 +175,7 @@ class UIGameDB(xbmcgui.WindowXML):
 		
 		
 	def showConsoles(self):
-		rcbSetting = self.getRCBSetting()
+		rcbSetting = helper.getRCBSetting(self.gdb)
 		if(rcbSetting == None):
 			showEntryAllItems = 'True'
 		else:
@@ -183,7 +184,7 @@ class UIGameDB(xbmcgui.WindowXML):
 
 
 	def showGenre(self):
-		rcbSetting = self.getRCBSetting()
+		rcbSetting = helper.getRCBSetting(self.gdb)
 		if(rcbSetting == None):
 			showEntryAllItems = 'True'
 		else:
@@ -192,7 +193,7 @@ class UIGameDB(xbmcgui.WindowXML):
 		
 	
 	def showYear(self):
-		rcbSetting = self.getRCBSetting()
+		rcbSetting = helper.getRCBSetting(self.gdb)
 		if(rcbSetting == None):
 			showEntryAllItems = 'True'
 		else:
@@ -201,7 +202,7 @@ class UIGameDB(xbmcgui.WindowXML):
 		
 		
 	def showPublisher(self):
-		rcbSetting = self.getRCBSetting()
+		rcbSetting = helper.getRCBSetting(self.gdb)
 		if(rcbSetting == None):
 			showEntryAllItems = 'True'
 		else:
@@ -220,9 +221,14 @@ class UIGameDB(xbmcgui.WindowXML):
 		self.writeMsg("loading games...")
 		
 		items = []
-		for game in games:			
-			coverFile = File(self.gdb).getCoverByGameId(game[0])		
-			items.append(xbmcgui.ListItem(str(game[1]), str(game[0]), coverFile, ''))
+		for game in games:
+			images = helper.getImagesByControl(self.gdb, 'gamelist', game[0], game[5])
+			if(images != None and len(images) != 0):
+				image = images[0]
+			else:
+				image = ""
+			#coverFile = File(self.gdb).getCoverByGameId(game[0])		
+			items.append(xbmcgui.ListItem(str(game[1]), str(game[0]), image, ''))
 				
 		self.getControl(CONTROL_GAMES).addItems(items)
 		self.writeMsg("")
@@ -255,10 +261,15 @@ class UIGameDB(xbmcgui.WindowXML):
 		if(gameRow == None):
 			return
 			
-		screenshotFile = File(self.gdb).getIngameScreenshotByGameId(gameId)
+		images = helper.getImagesByControl(self.gdb, 'mainviewgameinfo', gameRow[0], gameRow[5])
+		if(images != None and len(images) != 0):
+			image = images[0]
+		else:
+			image = ""
+		
 		description = gameRow[2]
-		self.getControl(CONTROL_CONSOLE_IMG).setVisible(1)		
-		self.getControl(CONTROL_CONSOLE_IMG).setImage(screenshotFile)
+		self.getControl(CONTROL_CONSOLE_IMG).setVisible(1)
+		self.getControl(CONTROL_CONSOLE_IMG).setImage(image)
 		self.getControl(CONTROL_CONSOLE_DESC).setVisible(1)
 		if(description == None):
 			description = ""
@@ -269,73 +280,7 @@ class UIGameDB(xbmcgui.WindowXML):
 		selectedGame = self.getControl(CONTROL_GAMES).getSelectedItem()
 		gameId = selectedGame.getLabel2()
 		
-		gameRow = Game(self.gdb).getObjectById(gameId)
-		self.writeMsg("Launch Game " +str(gameRow[1]))
-		
-		romPaths = Path(self.gdb).getRomPathsByRomCollectionId(gameRow[5])
-		romCollectionRow = RomCollection(self.gdb).getObjectById(gameRow[5])
-		cmd = romCollectionRow[3]		
-		
-		#handle multi rom scenario
-		filenameRows = File(self.gdb).getRomsByGameId(gameRow[0])
-		fileindex = int(0)
-		for fileNameRow in filenameRows:
-			fileName = fileNameRow[0]
-			#we could have multiple rom Paths
-			for romPath in romPaths:
-				rom = os.path.join(romPath, fileName)
-				if(os.path.isfile(rom)):
-					break
-			#cmd could be: uae {-%I% %ROM%}
-			#we have to repeat the part inside the brackets and replace the %I% with the current index
-			obIndex = cmd.find('{')
-			cbIndex = cmd.find('}')			
-			if obIndex > -1 and cbIndex > 1:
-				replString = cmd[obIndex+1:cbIndex]
-			cmd = cmd.replace("{", "")
-			cmd = cmd.replace("}", "")
-			if fileindex == 0:
-				#romCollectionRow[5] = escapeCmd
-				if (romCollectionRow[5] == 1):				
-					cmd = cmd.replace('%ROM%', re.escape(rom))					
-				else:					
-					cmd = cmd.replace('%ROM%', rom)
-				cmd = cmd.replace('%I%', str(fileindex))
-			else:
-				newrepl = replString
-				if (romCollectionRow[5] == 1):
-					newrepl = newrepl.replace('%ROM%', re.escape(rom))					
-				else:					
-					newrepl = newrepl.replace('%ROM%', rom)
-				newrepl = newrepl.replace('%I%', str(fileindex))
-				cmd += ' ' +newrepl			
-			fileindex += 1
-		#romCollectionRow[4] = useSolo
-		if (romCollectionRow[4] == 'True'):
-			# Backup original autoexec.py		
-			autoexec = os.path.join(RCBHOME, '..', 'autoexec.py')
-			self.doBackup(autoexec)			
-
-			# Write new autoexec.py
-			fh = open(autoexec,'w') # truncate to 0
-			fh.write("#Rom Collection Browser autoexec\n")
-			fh.write("import xbmc\n")
-			fh.write("xbmc.executescript('"+ os.path.join(RCBHOME, 'default.py')+"')\n")
-			fh.close()			
-
-			# Remember selection
-			self.saveViewState(False)
-			
-			#invoke batch file that kills xbmc before launching the emulator
-			env = ( os.environ.get( "OS", "win32" ), "win32", )[ os.environ.get( "OS", "win32" ) == "xbox" ]				
-			if(env == "win32"):
-				#There is a problem with quotes passed as argument to windows command shell. This only works with "call"
-				cmd = 'call \"' +os.path.join(RCBHOME, 'applaunch.bat') +'\" ' +cmd						
-			else:
-				cmd = os.path.join(re.escape(RCBHOME), 'applaunch.sh ') +cmd
-		
-		print "cmd: " +cmd
-		os.system(cmd)		
+		helper.launchEmu(self.gdb, self, gameId)
 		
 		
 	def updateDB(self):		
@@ -347,23 +292,6 @@ class UIGameDB(xbmcgui.WindowXML):
 		importsettings.SettingsImporter().importSettings(self.gdb, os.path.join(RCBHOME, 'resources', 'database'), self)
 		self.updateControls()
 		
-		
-	def doBackup(self,fName):
-		if os.path.isfile(fName):
-			newFileName = fName+'.bak'
-			
-			if os.path.isfile(newFileName):
-				return
-				
-			os.rename(fName, newFileName)
-			
-			rcbSetting = self.getRCBSetting()
-			if (rcbSetting == None):
-				return
-			
-			RCBSetting(self.gdb).update(('autoexecBackupPath',), (newFileName,), rcbSetting[0])
-			self.gdb.commit()
-			
 			
 	def checkAutoExec(self):
 		
@@ -380,7 +308,7 @@ class UIGameDB(xbmcgui.WindowXML):
 				else:
 					return
 		
-		rcbSetting = self.getRCBSetting()
+		rcbSetting = helper.getRCBSetting(self.gdb)
 		if (rcbSetting == None):			
 			return
 					
@@ -397,19 +325,10 @@ class UIGameDB(xbmcgui.WindowXML):
 	
 	def writeMsg(self, msg):
 		self.getControl(CONTROL_LABEL_MSG).setLabel(msg)
-			
-			
-	def getRCBSetting(self):
-		rcbSettingRows = RCBSetting(self.gdb).getAll()
-		if(rcbSettingRows == None or len(rcbSettingRows) != 1):
-			#TODO raise error
-			return None
-						
-		return rcbSettingRows[0]
 		
 		
 	def saveViewState(self, isOnExit):
-		rcbSetting = self.getRCBSetting()
+		rcbSetting = helper.getRCBSetting(self.gdb)
 		if(rcbSetting == None):
 			return
 		
@@ -433,7 +352,7 @@ class UIGameDB(xbmcgui.WindowXML):
 		
 	
 	def loadViewState(self):
-		rcbSetting = self.getRCBSetting()
+		rcbSetting = helper.getRCBSetting(self.gdb)
 		if(rcbSetting == None):
 			return
 		
