@@ -68,7 +68,8 @@ CREATE TABLE IF NOT EXISTS [RCBSetting]
 	[showEntryAllPublisher] INTEGER,
 	[saveViewStateOnExit] INTEGER,
 	[saveViewStateOnLaunchEmu] INTEGER,
-	[lastFocusedControl] INTEGER
+	[lastFocusedControlMainView] INTEGER,
+	[lastFocusedControlGameInfoView] INTEGER
 );
 
 

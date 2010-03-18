@@ -60,7 +60,12 @@ class UIGameInfoView(xbmcgui.WindowXMLDialog):
 		self.selectedGenreId = kwargs[ "genreId" ]		
 		self.selectedYearId = kwargs[ "yearId" ]		
 		self.selectedPublisherId = kwargs[ "publisherId" ]
+		self.selectedConsoleIndex = kwargs[ "consoleIndex" ]
+		self.selectedGenreIndex = kwargs[ "genreIndex" ]		
+		self.selectedYearIndex = kwargs[ "yearIndex" ]		
+		self.selectedPublisherIndex = kwargs[ "publisherIndex" ]
 		self.selectedGameIndex = kwargs[ "selectedGameIndex" ]
+		self.selectedControlIdMainView = kwargs["controlIdMainView"]
 		
 		self.doModal()
 		
@@ -217,10 +222,13 @@ class UIGameInfoView(xbmcgui.WindowXMLDialog):
 		helper.launchEmu(self.gdb, self, gameId)
 		
 	
-	def saveViewState(self, isOnExit):
-		pass
+	def saveViewState(self, isOnExit):				
+		selectedGameIndex = self.getControl(CONTROL_GAME_LIST).getSelectedPosition()
 		
-		
+		helper.saveViewState(self.gdb, isOnExit, 'gameInfoView', selectedGameIndex, self.selectedConsoleIndex, self.selectedGenreIndex, self.selectedPublisherIndex, 
+			self.selectedYearIndex, self.selectedControlIdMainView, self.selectedControlId)
+
+
 	def writeMsg(self, msg):
 		print "writeMsg: " +msg
 		self.getControl(CONTROL_LABEL_MSG).setLabel(msg)

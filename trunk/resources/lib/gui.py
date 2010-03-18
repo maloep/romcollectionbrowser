@@ -328,28 +328,11 @@ class UIGameDB(xbmcgui.WindowXML):
 		
 		
 	def saveViewState(self, isOnExit):
-		rcbSetting = helper.getRCBSetting(self.gdb)
-		if(rcbSetting == None):
-			return
-		
-		if(isOnExit):
-			#saveViewStateOnExit
-			saveViewState = rcbSetting[15]
-		else:
-			#saveViewStateOnLaunchEmu
-			saveViewState = rcbSetting[16]
-		
 		selectedGameIndex = self.getControl(CONTROL_GAMES).getSelectedPosition()
 		
-		if(saveViewState == 'True'):
-			RCBSetting(self.gdb).update(('lastSelectedView', 'lastSelectedConsoleIndex', 'lastSelectedGenreIndex', 'lastSelectedPublisherIndex', 'lastSelectedYearIndex', 'lastSelectedGameIndex', 'lastFocusedControl'),
-				('gameListAsIcons', self.selectedConsoleIndex, self.selectedGenreIndex, self.selectedPublisherIndex, self.selectedYearIndex, selectedGameIndex, self.selectedControlId), rcbSetting[0])
-		else:
-			RCBSetting(self.gdb).update(('lastSelectedView', 'lastSelectedConsoleIndex', 'lastSelectedGenreIndex', 'lastSelectedPublisherIndex', 'lastSelectedYearIndex', 'lastSelectedGameIndex', 'lastFocusedControl'),
-				(None, None, None, None, None, None, None), rcbSetting[0])
-				
-		self.gdb.commit()
-		
+		helper.saveViewState(self.gdb, isOnExit, 'gameListAsIcons', selectedGameIndex, self.selectedConsoleIndex, self.selectedGenreIndex, self.selectedPublisherIndex, 
+			self.selectedYearIndex, self.selectedControlId, None)
+
 	
 	def loadViewState(self):
 		rcbSetting = helper.getRCBSetting(self.gdb)
@@ -381,6 +364,10 @@ class UIGameDB(xbmcgui.WindowXML):
 				self.showGameInfo()
 		else:
 			self.setFocus(self.getControl(CONTROL_CONSOLES))
+		
+		#lastSelectedView
+		if(rcbSetting[1] == 'gameInfoView'):
+			self.showGameInfoDialog()
 			
 			
 			
@@ -405,7 +392,9 @@ class UIGameDB(xbmcgui.WindowXML):
 		
 		import gameinfodialog
 		gid = gameinfodialog.UIGameInfoView("script-Rom_Collection_Browser-gameinfo.xml", os.getcwd(), "Default", 1, gdb=self.gdb, gameId=gameId, 
-			consoleId=self.selectedConsoleId, genreId=self.selectedGenreId, yearId=self.selectedYearId, publisherId=self.selectedPublisherId, selectedGameIndex=selectedGameIndex)
+			consoleId=self.selectedConsoleId, genreId=self.selectedGenreId, yearId=self.selectedYearId, publisherId=self.selectedPublisherId, selectedGameIndex=selectedGameIndex,
+			consoleIndex=self.selectedConsoleIndex, genreIndex=self.selectedGenreIndex, yearIndex=self.selectedYearIndex, publisherIndex=self.selectedPublisherIndex, 
+			controlIdMainView=self.selectedControlId)
 		del gid
 	
 	

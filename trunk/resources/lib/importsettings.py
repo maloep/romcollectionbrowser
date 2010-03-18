@@ -171,7 +171,7 @@ class SettingsImporter:
 		
 		if(rcbSettingRows == None or len(rcbSettingRows) == 0):			
 			RCBSetting(gdb).insert((None, None, None, None, None, None, favoriteConsole, favoriteGenre, None, 'V0.3', 
-				showEntryAllConsoles, showEntryAllGenres, showEntryAllYears, showEntryAllPublisher, saveViewStateOnExit, saveViewStateOnLaunchEmu, None))
+				showEntryAllConsoles, showEntryAllGenres, showEntryAllYears, showEntryAllPublisher, saveViewStateOnExit, saveViewStateOnLaunchEmu, None, None))
 		else:
 			rcbSetting = rcbSettingRows[0]
 			RCBSetting(gdb).update(('favoriteConsoleId', 'favoriteGenreId', 'showEntryAllConsoles', 'showEntryAllGenres', 'showEntryAllYears', 'showEntryAllPublisher', 'saveViewStateOnExit', 'saveViewStateOnLaunchEmu'),
