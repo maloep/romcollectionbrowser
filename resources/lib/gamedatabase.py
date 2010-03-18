@@ -83,6 +83,10 @@ class DataBaseObject:
 				
 		updateString += " WHERE id = " +str(id)		
 		self.gdb.cursor.execute(updateString, args)
+		
+	
+	def deleteAll(self):
+		self.gdb.cursor.execute("DELETE FROM '%s'" % self.tableName)		
 	
 	
 	def getAll(self):
