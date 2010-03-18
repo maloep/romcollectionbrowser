@@ -266,36 +266,44 @@
 		</control>
 		
 		<control type="image" id="9000">
-		    	<description>gameinfo1</description>
-		    	<posx>50</posx>
-		    	<posy>400</posy>
-		    	<width>100</width>
-		    	<height>80</height>			
+		    <description>gameinfo1</description>
+		    <posx>50</posx>
+		    <posy>400</posy>
+		    <width>100</width>
+		    <height>80</height>			
 			<texture></texture>
 		</control>
 		<control type="image" id="9100">
-		    	<description>gameinfo2</description>
-		    	<posx>200</posx>
-		    	<posy>400</posy>
-		    	<width>100</width>
-		    	<height>80</height>			
+		    <description>gameinfo2</description>
+		    <posx>200</posx>
+		    <posy>400</posy>
+		    <width>100</width>
+		    <height>80</height>			
 			<texture></texture>
 		</control>
 		<control type="image" id="9200">
-		    	<description>gameinfo3</description>
-		    	<posx>350</posx>
-		    	<posy>400</posy>
-		    	<width>100</width>
-		    	<height>80</height>
+		    <description>gameinfo3</description>
+		    <posx>350</posx>
+		    <posy>400</posy>
+		    <width>100</width>
+		    <height>80</height>
 			<texture></texture>
 		</control>		
 		<control type="image" id="9300">
-		    	<description>gameinfo4</description>
-		    	<posx>500</posx>
-		    	<posy>400</posy>
-		    	<width>100</width>
-		    	<height>80</height>
+		    <description>gameinfo4</description>
+		    <posx>500</posx>
+		    <posy>400</posy>
+		    <width>100</width>
+		    <height>80</height>
 			<texture></texture>
+		</control>
+		<control type="videowindow" id="10000">
+			<description>video control</description>
+			<posx>460</posx>
+			<posy>370</posy>
+			<width>240</width>
+			<height>180</height>
+			<visible>true</visible>
 		</control>
 		
 		<control type="button" id="3000"> 

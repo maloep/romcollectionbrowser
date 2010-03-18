@@ -88,6 +88,8 @@ class UIGameInfoView(xbmcgui.WindowXMLDialog):
 
 	def onAction( self, action ):		
 		if(action.getId() in ACTION_CANCEL_DIALOG):
+			#stop Player (if playing)
+			xbmc.Player().stop()
 			self.close()
 		elif(action.getId() in ACTION_MOVEMENT_LEFT or action.getId() in ACTION_MOVEMENT_RIGHT):
 			if(self.selectedControlId == CONTROL_GAME_LIST):
@@ -122,7 +124,11 @@ class UIGameInfoView(xbmcgui.WindowXMLDialog):
 		self.writeMsg("")
 	
 		
-	def showGameInfo(self):			
+	def showGameInfo(self):
+		
+		#stop video (if playing)
+		xbmc.Player().stop()
+		
 		gameRow = Game(self.gdb).getObjectById(self.selectedGameId)
 		if(gameRow == None):
 			self.writeMsg('Selected game could not be read from database.')
@@ -174,15 +180,11 @@ class UIGameInfoView(xbmcgui.WindowXMLDialog):
 		ingameVideos = File(self.gdb).getIngameVideosByGameId(self.selectedGameId)
 		if(ingameVideos != None and len(ingameVideos) != 0):
 			ingameVideo = ingameVideos[0]			
-			
-			""" TODO Play Video embedded
+						
 			playlist = xbmc.PlayList( xbmc.PLAYLIST_VIDEO)
-			playlist.clear()
-			listitem = xbmcgui.ListItem( gameRow[0], thumbnailImage=titleScreenshot[0] )
-			listitem.setInfo( "video", { "Title": gameRow[0]} )
-			playlist.add( ingameVideo[0], listitem )
-			xbmc.Player().play( playlist )
-			"""
+			playlist.clear()			
+			xbmc.Player().play(ingameVideo[0])
+			
 		
 		
 	def getItemName(self, object, itemId):
