@@ -3,6 +3,7 @@ import os, sys
 import xbmc, xbmcgui
 import dbupdate, importsettings
 from gamedatabase import *
+import helper
 
 
 ACTION_EXIT_SCRIPT = ( 10, )
@@ -12,6 +13,8 @@ ACTION_MOVEMENT_RIGHT = ( 2, )
 ACTION_MOVEMENT_UP = ( 3, )
 ACTION_MOVEMENT_DOWN = ( 4, )
 ACTION_MOVEMENT = ( 1, 2, 3, 4, )
+
+CONTROL_BUTTON_PLAYGAME = 3000
 
 CONTROL_GAME_LIST = 1000
 CONTROL_IMG_BACK = 2000
@@ -71,7 +74,9 @@ class UIGameInfoView(xbmcgui.WindowXMLDialog):
 		
 		
 	def onClick( self, controlId ):
-		return		
+		if (controlId == CONTROL_BUTTON_PLAYGAME):			
+			self.launchEmu()
+			
 
 	def onFocus( self, controlId ):
 		self.selectedControlId = controlId
@@ -100,7 +105,7 @@ class UIGameInfoView(xbmcgui.WindowXMLDialog):
 		
 		items = []		
 		for game in games:
-			images = self.getImagesByControl('gameinfoviewgamelist', game[0], game[5])
+			images = helper.getImagesByControl(self.gdb, 'gameinfoviewgamelist', game[0], game[5])
 			if(images != None and len(images) != 0):
 				image = images[0]
 			else:
@@ -191,7 +196,7 @@ class UIGameInfoView(xbmcgui.WindowXMLDialog):
 		
 	def setImage(self, controlId, controlName, gameId, romCollectionId, defaultImage):
 				
-		images = self.getImagesByControl(controlName, gameId, romCollectionId)
+		images = helper.getImagesByControl(self.gdb, controlName, gameId, romCollectionId)
 		
 		#TODO more than one image?
 		if(images != None and len(images) != 0):
@@ -205,18 +210,15 @@ class UIGameInfoView(xbmcgui.WindowXMLDialog):
 				self.getControl(controlId).setImage(defaultImage)
 	
 	
-	def getImagesByControl(self, controlName, gameId, romCollectionId):
-		fileTypeForControlRows = FileTypeForControl(self.gdb).getFileTypesForControlByKey(romCollectionId, controlName)
-		if(fileTypeForControlRows == None):
-			return
+	def launchEmu(self):
+		selectedGame = self.getControl(CONTROL_GAME_LIST).getSelectedItem()
+		gameId = selectedGame.getLabel2()
 		
-		images = []		
-		for fileTypeForControlRow in fileTypeForControlRows:
-			files = File(self.gdb).getFilesByFileGameIdAndTypeId(gameId, fileTypeForControlRow[4])
-			for file in files:				
-				images.append(file[1])
-				
-		return images
+		helper.launchEmu(self.gdb, self, gameId)
+		
+	
+	def saveViewState(self, isOnExit):
+		pass
 		
 		
 	def writeMsg(self, msg):
