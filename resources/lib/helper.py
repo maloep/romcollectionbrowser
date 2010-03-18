@@ -88,6 +88,11 @@ def launchEmu(gdb, gui, gameId):
 			else:
 				cmd = os.path.join(re.escape(RCBHOME), 'applaunch.sh ') +cmd
 		
+		#update LaunchCount
+		launchCount = gameRow[19]
+		Game(gdb).update(('launchCount',), (launchCount +1,) , gameRow[0])
+		gdb.commit()
+		
 		print "cmd: " +cmd
 		os.system(cmd)	
 		
@@ -106,7 +111,7 @@ def doBackup(gdb, fName):
 				return
 			
 			RCBSetting(gdb).update(('autoexecBackupPath',), (newFileName,), rcbSetting[0])
-			self.gdb.commit()
+			gdb.commit()
 			
 			
 def saveViewState(gdb, isOnExit, selectedView, selectedGameIndex, selectedConsoleIndex, selectedGenreIndex, selectedPublisherIndex, selectedYearIndex, 
@@ -131,6 +136,7 @@ def saveViewState(gdb, isOnExit, selectedView, selectedGameIndex, selectedConsol
 				(None, None, None, None, None, None, None, None), rcbSetting[0])
 				
 		gdb.commit()
+
 
 			
 def getRCBSetting(gdb):
