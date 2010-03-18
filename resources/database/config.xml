@@ -25,7 +25,7 @@
 		<RomCollection>			
 			<name>Collection V1</name>
 			<consoleName>Amiga</consoleName>
-			<emulatorCmd>winuae.exe -f "E:\Emulatoren\WINUAE\Configurations\Host\Amiga 500.uae" {-%I% "%ROM%"}</emulatorCmd>
+			<emulatorCmd>E:\Emulatoren\WINUAE\winuae.exe -f "E:\Emulatoren\WINUAE\Configurations\Host\Amiga 500.uae" {-%I% "%ROM%"}</emulatorCmd>
 			<useEmuSolo>True</useEmuSolo>
 			<escapeCommand>True</escapeCommand>
 			<relyOnNaming>True</relyOnNaming>
@@ -50,7 +50,7 @@
 			<configFilePath></configFilePath>
 			<ingamevidPath></ingamevidPath>
 			<trailerPath></trailerPath>
-			<manualPath></manualPath>
+			<manualPath></manualPath>			
 			<fileTypeForGameList>cover</fileTypeForGameList>
 			<fileTypeForMainViewGameInfo>screenshotingame</fileTypeForMainViewGameInfo>
 			<fileTypeForGameInfoViewBackground>screenshottitle</fileTypeForGameInfoViewBackground>
@@ -64,7 +64,7 @@
 		<RomCollection>			
 			<name>Collection V2</name>
 			<consoleName>Amiga</consoleName>
-			<emulatorCmd>winuae.exe {-%I% "%ROM%"}</emulatorCmd>
+			<emulatorCmd>E:\Emulatoren\WINUAE\winuae.exe {-%I% "%ROM%"}</emulatorCmd>
 			<useEmuSolo>True</useEmuSolo>
 			<escapeCommand>True</escapeCommand>
 			<relyOnNaming>True</relyOnNaming>
@@ -103,7 +103,7 @@
 		<RomCollection>			
 			<name>Collection V3</name>
 			<consoleName>Super Nintendo</consoleName>
-			<emulatorCmd>zsnesw.exe -m "%ROM%"</emulatorCmd>
+			<emulatorCmd>E:\Emulatoren\zsnes\zsnesw.exe -m "%ROM%"</emulatorCmd>
 			<useEmuSolo>True</useEmuSolo>
 			<escapeCommand>True</escapeCommand>
 			<relyOnNaming>True</relyOnNaming>
