@@ -24,8 +24,7 @@ class GameDataBase:
 		self.commit()
 		self.close()
 		
-	def connect( self ):
-		print "connect to " +self.dataBasePath
+	def connect( self ):		
 		self.connection = sqlite.connect(self.dataBasePath)
 		self.cursor = self.connection.cursor()
 		

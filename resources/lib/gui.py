@@ -41,9 +41,8 @@ CONTROL_LABEL_MSG = 4000
 
 RCBHOME = os.getcwd()
 
+class UIGameDB(xbmcgui.WindowXML):	
 
-class UIGameDB(xbmcgui.WindowXML):
-	
 	gdb = GameDataBase(os.path.join(RCBHOME, 'resources', 'database'))
 	
 	selectedControlId = 0
@@ -61,15 +60,21 @@ class UIGameDB(xbmcgui.WindowXML):
 		# Changing the three varibles passed won't change, anything
 		# Doing strXMLname = "bah.xml" will not change anything.
 		# don't put GUI sensitive stuff here (as the xml hasn't been read yet
-		# Idea to initialize your variables here
-		pass
-
+		# Idea to initialize your variables here		
+		self.isInit = True
+		
 	def onInit(self):
+		#only init once
+		if(not self.isInit):
+			return
+			
+		self.isInit = False		
+		
 		self.gdb.connect()
 		
 		self.updateControls()
 		self.loadViewState()
-		self.checkAutoExec()
+		self.checkAutoExec()		
 		
 
 	def updateControls(self):
@@ -364,6 +369,9 @@ class UIGameDB(xbmcgui.WindowXML):
 				self.showGameInfo()
 		else:
 			self.setFocus(self.getControl(CONTROL_CONSOLES))
+				
+		#reset viewState
+		#helper.saveViewState(self.gdb, False, 'gameListAsIcons', None, None, None, None, None, None, None)
 		
 		#lastSelectedView
 		if(rcbSetting[1] == 'gameInfoView'):
