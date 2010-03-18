@@ -109,6 +109,30 @@ def doBackup(gdb, fName):
 			self.gdb.commit()
 			
 			
+def saveViewState(gdb, isOnExit, selectedView, selectedGameIndex, selectedConsoleIndex, selectedGenreIndex, selectedPublisherIndex, selectedYearIndex, 
+	selectedControlIdMainView, selectedControlIdGameInfoView):
+		rcbSetting = getRCBSetting(gdb)
+		if(rcbSetting == None):
+			return
+		
+		if(isOnExit):
+			#saveViewStateOnExit
+			saveViewState = rcbSetting[15]
+		else:
+			#saveViewStateOnLaunchEmu
+			saveViewState = rcbSetting[16]
+			
+		
+		if(saveViewState == 'True'):
+			RCBSetting(gdb).update(('lastSelectedView', 'lastSelectedConsoleIndex', 'lastSelectedGenreIndex', 'lastSelectedPublisherIndex', 'lastSelectedYearIndex', 'lastSelectedGameIndex', 'lastFocusedControlMainView', 'lastFocusedControlGameInfoView'),
+				(selectedView, selectedConsoleIndex, selectedGenreIndex, selectedPublisherIndex, selectedYearIndex, selectedGameIndex, selectedControlIdMainView, selectedControlIdGameInfoView), rcbSetting[0])
+		else:
+			RCBSetting(gdb).update(('lastSelectedView', 'lastSelectedConsoleIndex', 'lastSelectedGenreIndex', 'lastSelectedPublisherIndex', 'lastSelectedYearIndex', 'lastSelectedGameIndex', 'lastFocusedControlMainView', 'lastFocusedControlGameInfoView'),
+				(None, None, None, None, None, None, None, None), rcbSetting[0])
+				
+		gdb.commit()
+
+			
 def getRCBSetting(gdb):
 		rcbSettingRows = RCBSetting(gdb).getAll()
 		if(rcbSettingRows == None or len(rcbSettingRows) != 1):
