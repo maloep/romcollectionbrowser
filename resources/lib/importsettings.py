@@ -51,6 +51,9 @@ class SettingsImporter:
 		
 		gui.writeMsg("Importing Rom Collections...")
 		
+		#fileTypesForControl must be deleted. There is no useful unique key
+		FileTypeForControl(gdb).deleteAll()
+		
 		romCollections = xmlDoc.getElementsByTagName('RomCollection')
 		for romCollection in romCollections:			
 			romCollName = self.getElementValue(romCollection, 'name')
@@ -88,7 +91,7 @@ class SettingsImporter:
 						
 			romCollectionId = self.insertRomCollection(gdb, consoleName, romCollName, emuCmd, emuSolo, escapeCmd, relyOnNaming, startWithDescFile, 
 				descFilePerGame, descParserFile, diskPrefix, typeOfManual, allowUpdate, ignoreOnScan)
-			
+						
 			self.insertFileTypeForControl(gdb, romCollectionId, fileTypesForGameList, 'gamelist')
 			self.insertFileTypeForControl(gdb, romCollectionId, fileTypesForMainViewGameInfo, 'mainviewgameinfo')
 			self.insertFileTypeForControl(gdb, romCollectionId, fileTypesForGameInfoViewBackground, 'gameinfoviewbackground')
