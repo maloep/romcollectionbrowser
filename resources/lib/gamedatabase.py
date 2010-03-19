@@ -12,6 +12,8 @@ sys.path.append( os.path.join( BASE_RESOURCE_PATH, "platform_libraries", env ) )
 
 from pysqlite2 import dbapi2 as sqlite
 
+CURRENT_SCRIPT_VERSION = "V0.4"
+
 
 class GameDataBase:	
 	
@@ -19,7 +21,10 @@ class GameDataBase:
 		self.databaseDir = databaseDir
 		self.dataBasePath = os.path.join(self.databaseDir, 'MyGames.db')		
 		self.connect()
+		
 		#TODO check if db exists
+		#TODO check DB Update (ALTER Tables)
+		self.checkDBStructure()
 		self.createTables()
 		self.commit()
 		self.close()
@@ -49,7 +54,34 @@ class GameDataBase:
 		
 	def dropTables(self):
 		print "Drop Tables"
-		self.executeSQLScript(os.path.join(self.databaseDir, 'SQL_DROP_ALL.txt'))			
+		self.executeSQLScript(os.path.join(self.databaseDir, 'SQL_DROP_ALL.txt'))
+
+	
+	def checkDBStructure(self):				
+		
+		print "checkDBStructure"
+		dbVersion = ""
+		try:
+			rcbSettingRows = RCBSetting(self).getAll()
+			if(rcbSettingRows == None or len(rcbSettingRows) != 1):	
+				print "return no rows"
+				return
+			rcbSetting = rcbSettingRows[0]
+			dbVersion = rcbSetting[10]
+			
+		except  Exception, (exc): 
+			print "return exc: " +str(exc)
+			return
+		
+		print dbVersion
+		print CURRENT_SCRIPT_VERSION
+		
+		#Alter Table
+		if(dbVersion != CURRENT_SCRIPT_VERSION):
+			alterTableScript = "SQL_ALTER_%(old)s_%(new)s.txt" %{'old': dbVersion, 'new':CURRENT_SCRIPT_VERSION}
+			print alterTableScript
+			self.executeSQLScript(str(os.path.join(self.databaseDir, alterTableScript)))
+			
 	
 	
 
