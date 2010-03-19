@@ -1,0 +1,287 @@
+INSERT INTO Year VALUES(NULL, '1987');
+INSERT INTO Year VALUES(NULL, '1988');
+INSERT INTO Year VALUES(NULL, '1989');
+INSERT INTO Year VALUES(NULL, '1990');
+INSERT INTO Year VALUES(NULL, '1993');
+INSERT INTO Year VALUES(NULL, '1994');
+
+INSERT INTO Publisher VALUES(NULL, 'Aegis International');
+INSERT INTO Publisher VALUES(NULL, 'MicroProse Software, Inc.');
+INSERT INTO Publisher VALUES(NULL, 'Hewson Consultants Ltd.');
+INSERT INTO Publisher VALUES(NULL, 'Black Legend Ltd.');
+INSERT INTO Publisher VALUES(NULL, 'Domark Software, Inc.');
+INSERT INTO Publisher VALUES(NULL, 'Ascon GmbH');
+
+INSERT INTO Developer VALUES(NULL, 'Aegis International');
+INSERT INTO Developer VALUES(NULL, 'MicroProse Software, Inc.');
+INSERT INTO Developer VALUES(NULL, 'Hewson Consultants Ltd.');
+INSERT INTO Developer VALUES(NULL, 'Black Legend Ltd.');
+INSERT INTO Developer VALUES(NULL, 'Domark Software, Inc.');
+INSERT INTO Developer VALUES(NULL, 'Ascon GmbH');
+
+INSERT INTO Genre VALUES(NULL, 'Action');
+INSERT INTO Genre VALUES(NULL, 'Sports');
+INSERT INTO Genre VALUES(NULL, 'Simulation');
+INSERT INTO Genre VALUES(NULL, 'Strategy');
+INSERT INTO Genre VALUES(NULL, 'Racing');
+
+INSERT INTO FileType VALUES(NULL, 'rom');
+INSERT INTO FileType VALUES(NULL, 'screenshottitle');
+INSERT INTO FileType VALUES(NULL, 'screenshotingame');
+INSERT INTO FileType VALUES(NULL, 'cover');
+INSERT INTO FileType VALUES(NULL, 'cartridge');
+INSERT INTO FileType VALUES(NULL, 'manual');
+INSERT INTO FileType VALUES(NULL, 'ingamevideo');
+INSERT INTO FileType VALUES(NULL, 'trailer');
+INSERT INTO FileType VALUES(NULL, 'description');
+INSERT INTO FileType VALUES(NULL, 'configuration');
+
+INSERT INTO Reviewer VALUES(NULL, 'Kevin Spacey');
+INSERT INTO Reviewer VALUES(NULL, 'Duke Nukem');
+INSERT INTO Reviewer VALUES(NULL, 'William Barneby');
+INSERT INTO Reviewer VALUES(NULL, 'Sandra Stevenson');
+INSERT INTO Reviewer VALUES(NULL, 'Melanie Smith');
+
+
+INSERT INTO Console VALUES(NULL, 'Super Nintendo', 'The Super Nintendo (SNES) is a 16-bit video game console released in 1990. 32768 (15-bit) colors, 8 channels 16-bit 32 kHz audio channels. 128 kB main RAM, 64 kB Video RAM and 64 kB Audio RAM.',
+'E:\Emulatoren\data\consoleImages\zsnes.png');
+INSERT INTO Console VALUES(NULL, 'Amiga', 'The Amiga 500, also known as the A500 (or its code name Rock Lobster), was the first low-end Commodore Amiga 16/32-bit multimedia home/personal computer. It was announced at the winter Consumer Electronics Show in January 1987, at the same time as the high-end Amiga 2000, and competed directly against the Atari 520ST.',
+'E:\Emulatoren\data\consoleImages\uae.png');
+
+
+INSERT INTO RomCollection VALUES(NULL, 'Amiga',
+(SELECT id From Console Where name = 'Amiga'),
+'winuae.exe {-%I% %ROM%}', 1, 1, 'DescriptionParser.xml', 1, 0, 1, '_Disk', 1, 1, 1);
+INSERT INTO RomCollection VALUES(NULL, 'SNES',
+(SELECT id From Console Where name = 'Super Nintendo'),
+'zsnes -m %ROM%', 1, 1, 'DescriptionParser.xml', 1, 0, 1, '_Disk', 1, 1, 1);
+
+
+INSERT INTO Game VALUES(NULL, 'Airborne Ranger', 'In this action/simulation game by Microprose the player takes the role of an U.S. Army Airborne ranger. These Airborne rangers are dropped behind enemy lines by parachute to perform all kinds of dangerous missions. Gameplay consists of 3 phases:
+Reading the mission briefing and outfitting 3 supply pods with machine gun ammo, time bombs, first-aid kits, grenades &amp; LAW rockets depending on this briefing.
+Flying over the mission map in a V-22 Osprey plane to drop your 3 supply pods and parachuting out of the plane yourself.
+Performing the actual missions and reaching the pick-up point before time runs out. There are 12 different missions which include capturing an enemy officer, blowing up an ammunition depot, photographing an experimental aircraft and liberating P.O.W.s
+Missions take place in either an arctic, desert or temperate setting. Using the mission map the player must decide the route towards the mission objective. This might require them to crawl through trenches, run around minefields or take out enemy soldiers and bunkers. Airborne Ranger was one of the first games with some missions that required a stealthy approach (staying undetected until a certain time, taking out a guard and stealing an enemy uniform etc.).
+
+Airborne Ranger can be played in practice or veteran mode. In practice mode, gameplay is limited to a single mission, while in veteran mode, a series of missions or an entire campaign is played in order to earn medals &amp; promotions. All missions can be played on several difficulty levels.',
+'', '',
+(SELECT id From RomCollection Where name = 'Amiga'),
+(SELECT id From Publisher Where name = 'MicroProse Software, Inc.'),
+(SELECT id From Developer Where name = 'MicroProse Software, Inc.'),
+(SELECT id From Reviewer Where name = 'Sandra Stevenson'),
+(SELECT id From Year Where name = '1989'), '4', '5', '15', 'www', 'USA', 'Disk', '1st Person', 'Joystick', 0, 0);
+
+INSERT INTO Game VALUES(NULL, 'Dogfight', 'Dogfight is a two-player game with roots in the same primordial soup as Ataris Combat and other basic dogfighting games.', '', '',
+(SELECT id From RomCollection Where name = 'Amiga'),
+(SELECT id From Publisher Where name = 'MicroProse Software, Inc.'),
+(SELECT id From Developer Where name = 'MicroProse Software, Inc.'),
+(SELECT id From Reviewer Where name = 'Kevin Spacey'),
+(SELECT id From Year Where name = '1990'), '2', '4', '10', 'www', 'USA', 'Disk', '1st Person', 'Joystick', 0, 0);
+
+
+INSERT INTO Game VALUES(NULL, 'Football Glory', 'From Croatia came this overhead view football game resembling Sensible Soccer. The standard selection of competitions are on offer, with a full range of club and national competitions.
+
+Far more moves are possible in this one though, including overhead kicks, backheelers, riding tackles and even some impressive overhead kicks, all of which need practice to be perfected. Passing works in a similar way to Sensible, but requiring a longer tap, and giving more versatility in where the pass is placed. Extra details such as an on-screen referee and a zoom feature on replays are included. Kits can be edited in more detail than most games of the time as well.', '', '',
+(SELECT id From RomCollection Where name = 'Amiga'),
+(SELECT id From Publisher Where name = 'Black Legend Ltd.'),
+(SELECT id From Developer Where name = 'Black Legend Ltd.'),
+(SELECT id From Reviewer Where name = 'Duke Nukem'),
+(SELECT id From Year Where name = '1994'), '2', '2', '7', 'www', 'USA', 'Disk', 'Top', 'Joystick', 0, 0);
+
+INSERT INTO Game VALUES(NULL, 'Formula One Grand Prix', 'F1 is an Official Formula One Racing Game. There are two modes of play available: &quot;Arcade&quot;, &quot;Grand Prix&quot;. In both of these modes you complete a certain number of laps (4, 8, or 12) and select which circuit that you want to race on. The circuits include San Marino, France, Britain, Germany, Italy, Portugal, Japan, and Australia. Some circuits are easy, while some are difficult.
+
+There are slight differences between the two modes. For instance, &quot;Arcade&quot; allows you to select the circuit in any order that you like, whereas &quot;Grand Prix&quot; only allows you to fine-tune your car before starting a race. You also need to race a circuit in the order that they appear on the circuit selection screen, but you can skip a track if you want.
+
+F1 is a 1-2 player game, meaning that if you have another player handy, you can compete against each other.', '', '',
+(SELECT id From RomCollection Where name = 'Amiga'),
+(SELECT id From Publisher Where name = 'Domark Software, Inc.'),
+(SELECT id From Developer Where name = 'Domark Software, Inc.'),
+(SELECT id From Reviewer Where name = 'Kevin Spacey'),
+(SELECT id From Year Where name = '1993'), '2', '7', '32', 'www', 'USA', 'Disk', 'Top', 'Joystick', 0, 0);
+
+INSERT INTO Game VALUES(NULL, 'Hanse - Die Expedition', 'Hanse makes you a trader.', '', '',
+(SELECT id From RomCollection Where name = 'Amiga'),
+(SELECT id From Publisher Where name = 'Ascon GmbH'),
+(SELECT id From Developer Where name = 'Ascon GmbH'),
+(SELECT id From Reviewer Where name = 'Melanie Smith'),
+(SELECT id From Year Where name = '1994'), '2', '2', '7', 'www', 'USA', 'Disk', 'Top', 'Joystick', 0, 0);
+
+
+INSERT INTO Game VALUES(NULL, 'Legends of Zelda', 'nice Adventure', '', '',
+(SELECT id From RomCollection Where name = 'SNES'),
+(SELECT id From Publisher Where name = 'Code Masters'),
+(SELECT id From Developer Where name = 'Code Masters'),
+(SELECT id From Reviewer Where name = 'William Barneby'),
+(SELECT id From Year Where name = '1994'), '4', '10', '35', 'www', 'USA', 'Cartridge', 'Top', 'Gamepad', 0, 0);
+
+
+INSERT INTO RCBSetting VALUES(NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, 1, '', 'V0.3', 'True', 'True', 'True', 'True', 'True', 'True', 3000);
+
+
+INSERT INTO File VALUES(NULL, 'Airborne Ranger.adf',
+(SELECT id From FileType Where name = 'rom'),
+(SELECT id From Game Where name = 'Airborne Ranger'));
+INSERT INTO File VALUES(NULL, 'Dogfight_Disk1.adf',
+(SELECT id From FileType Where name = 'rom'),
+(SELECT id From Game Where name = 'Dogfight'));
+INSERT INTO File VALUES(NULL, 'Dogfight_Disk2.adf',
+(SELECT id From FileType Where name = 'rom'),
+(SELECT id From Game Where name = 'Dogfight'));
+INSERT INTO File VALUES(NULL, 'Dogfight_Disk3.adf',
+(SELECT id From FileType Where name = 'rom'),
+(SELECT id From Game Where name = 'Dogfight'));
+INSERT INTO File VALUES(NULL, 'Football Glory_Disk01.adf',
+(SELECT id From FileType Where name = 'rom'),
+(SELECT id From Game Where name = 'Football Glory'));
+INSERT INTO File VALUES(NULL, 'Football Glory_Disk02.adf',
+(SELECT id From FileType Where name = 'rom'),
+(SELECT id From Game Where name = 'Football Glory'));
+INSERT INTO File VALUES(NULL, 'Football Glory_Disk03.adf',
+(SELECT id From FileType Where name = 'rom'),
+(SELECT id From Game Where name = 'Football Glory'));
+INSERT INTO File VALUES(NULL, 'Formula One Grand Prix_Disk 1.adf',
+(SELECT id From FileType Where name = 'rom'),
+(SELECT id From Game Where name = 'Formula One Grand Prix'));
+INSERT INTO File VALUES(NULL, 'Formula One Grand Prix_Disk 2.adf',
+(SELECT id From FileType Where name = 'rom'),
+(SELECT id From Game Where name = 'Formula One Grand Prix'));
+INSERT INTO File VALUES(NULL, 'Formula One Grand Prix_Disk 3.adf',
+(SELECT id From FileType Where name = 'rom'),
+(SELECT id From Game Where name = 'Formula One Grand Prix'));
+INSERT INTO File VALUES(NULL, 'Formula One Grand Prix_Disk 4.adf',
+(SELECT id From FileType Where name = 'rom'),
+(SELECT id From Game Where name = 'Formula One Grand Prix'));
+INSERT INTO File VALUES(NULL, 'Hanse - Die Expedition_Disk 1.adf',
+(SELECT id From FileType Where name = 'rom'),
+(SELECT id From Game Where name = 'Hanse - Die Expedition'));
+INSERT INTO File VALUES(NULL, 'Hanse - Die Expedition_Disk 2.adf',
+(SELECT id From FileType Where name = 'rom'),
+(SELECT id From Game Where name = 'Hanse - Die Expedition'));
+INSERT INTO File VALUES(NULL, 'Hanse - Die Expedition_Disk 3.adf',
+(SELECT id From FileType Where name = 'rom'),
+(SELECT id From Game Where name = 'Hanse - Die Expedition'));
+INSERT INTO File VALUES(NULL, 'Ports Of Call.adf',
+(SELECT id From FileType Where name = 'rom'),
+(SELECT id From Game Where name = 'Ports Of Call'));
+
+
+INSERT INTO File VALUES(NULL, 'E:\Emulatoren\data\Amiga\Collection V1\screens\Airborne Ranger.jpg',
+(SELECT id From FileType Where name = 'screenshotingame'),
+(SELECT id From Game Where name = 'Airborne Ranger'));
+INSERT INTO File VALUES(NULL, 'E:\Emulatoren\data\Amiga\Collection V1\screens\Dogfight.png',
+(SELECT id From FileType Where name = 'screenshotingame'),
+(SELECT id From Game Where name = 'Dogfight'));
+INSERT INTO File VALUES(NULL, 'E:\Emulatoren\data\Amiga\Collection V1\screens\Football Glory.jpg',
+(SELECT id From FileType Where name = 'screenshotingame'),
+(SELECT id From Game Where name = 'Football Glory'));
+INSERT INTO File VALUES(NULL, 'E:\Emulatoren\data\Amiga\Collection V1\screens\Formula One Grand Prix.jpg',
+(SELECT id From FileType Where name = 'screenshotingame'),
+(SELECT id From Game Where name = 'Formula One Grand Prix'));
+INSERT INTO File VALUES(NULL, 'E:\Emulatoren\data\Amiga\Collection V1\screens\Hanse - Die Expedition.jpg',
+(SELECT id From FileType Where name = 'screenshotingame'),
+(SELECT id From Game Where name = 'Hanse - Die Expedition.gif'));
+INSERT INTO File VALUES(NULL, 'E:\Emulatoren\data\Amiga\Collection V1\screens\Ports Of Call.jpg',
+(SELECT id From FileType Where name = 'screenshotingame'),
+(SELECT id From Game Where name = 'Ports Of Call'));
+
+INSERT INTO File VALUES(NULL, 'E:\Emulatoren\data\Amiga\Collection V1\cover\Airborne Ranger.jpg',
+(SELECT id From FileType Where name = 'cover'),
+(SELECT id From Game Where name = 'Airborne Ranger'));
+INSERT INTO File VALUES(NULL, 'E:\Emulatoren\data\Amiga\Collection V1\cover\Dogfight.png',
+(SELECT id From FileType Where name = 'cover'),
+(SELECT id From Game Where name = 'Dogfight'));
+INSERT INTO File VALUES(NULL, 'E:\Emulatoren\data\Amiga\Collection V1\cover\Football Glory.jpg',
+(SELECT id From FileType Where name = 'cover'),
+(SELECT id From Game Where name = 'Football Glory'));
+INSERT INTO File VALUES(NULL, 'E:\Emulatoren\data\Amiga\Collection V1\cover\Formula One Grand Prix.jpg',
+(SELECT id From FileType Where name = 'cover'),
+(SELECT id From Game Where name = 'Formula One Grand Prix'));
+INSERT INTO File VALUES(NULL, 'E:\Emulatoren\data\Amiga\Collection V1\cover\Hanse.jpg',
+(SELECT id From FileType Where name = 'cover'),
+(SELECT id From Game Where name = 'Hanse - Die Expedition'));
+INSERT INTO File VALUES(NULL, 'E:\Emulatoren\data\Amiga\Collection V1\cover\Ports of Call.jpg',
+(SELECT id From FileType Where name = 'cover'),
+(SELECT id From Game Where name = 'Ports Of Call'));
+
+
+INSERT INTO File VALUES(NULL, 'Legends of Zelda.smc',
+(SELECT id From FileType Where name = 'rom'),
+(SELECT id From Game Where name = 'Legends of Zelda'));
+INSERT INTO File VALUES(NULL, 'E:\Emulatoren\data\SNES\Collection V1\screens\Legend of Zelda - A Link to the Past.png',
+(SELECT id From FileType Where name = 'screenshotingame'),
+(SELECT id From Game Where name = 'Legends of Zelda'));
+INSERT INTO File VALUES(NULL, 'E:\Emulatoren\data\SNES\Collection V1\screens\Legend of Zelda - A Link to the Past.png',
+(SELECT id From FileType Where name = 'cover'),
+(SELECT id From Game Where name = 'Legends of Zelda'));
+
+
+
+INSERT INTO Path VALUES(NULL, 'E:\Emulatoren\data\Amiga\Collection V1\roms\*.adf',
+(SELECT id From FileType Where name = 'rom'),
+(SELECT id From RomCollection Where name = 'Amiga'));
+INSERT INTO Path VALUES(NULL, 'E:\Emulatoren\data\Amiga\Collection V1\synopsis\synopsis.txt',
+(SELECT id From FileType Where name = 'description'),
+(SELECT id From RomCollection Where name = 'Amiga'));
+INSERT INTO Path VALUES(NULL, 'E:\Emulatoren\data\Amiga\Collection V1\screens\%GAME%.jpg',
+(SELECT id From FileType Where name = 'screenshotingame'),
+(SELECT id From RomCollection Where name = 'Amiga'));
+INSERT INTO Path VALUES(NULL, 'E:\Emulatoren\data\Amiga\Collection V1\screens\%GAME%.gif',
+(SELECT id From FileType Where name = 'screenshotingame'),
+(SELECT id From RomCollection Where name = 'Amiga'));
+INSERT INTO Path VALUES(NULL, 'E:\Emulatoren\data\Amiga\Collection V1\screens\%GAME%.png',
+(SELECT id From FileType Where name = 'screenshotingame'),
+(SELECT id From RomCollection Where name = 'Amiga'));
+INSERT INTO Path VALUES(NULL, 'E:\Emulatoren\data\Amiga\Collection V1\cover\%GAME%.jpg',
+(SELECT id From FileType Where name = 'cover'),
+(SELECT id From RomCollection Where name = 'Amiga'));
+INSERT INTO Path VALUES(NULL, 'E:\Emulatoren\data\Amiga\Collection V1\ingameVideo\%GAME%.wmv',
+(SELECT id From FileType Where name = 'ingamevideo'),
+(SELECT id From RomCollection Where name = 'Amiga'));
+INSERT INTO Path VALUES(NULL, 'E:\Emulatoren\data\Amiga\Collection V1\manuals\%GAME%.txt',
+(SELECT id From FileType Where name = 'manual'),
+(SELECT id From RomCollection Where name = 'Amiga'));
+INSERT INTO Path VALUES(NULL, 'E:\Emulatoren\data\Amiga\Collection V1\trailer\%GAME%.wmv',
+(SELECT id From FileType Where name = 'trailer'),
+(SELECT id From RomCollection Where name = 'Amiga'));
+
+
+INSERT INTO Path VALUES(NULL, '/home/lom/rom/SNES/',
+(SELECT id From FileType Where name = 'rom'),
+(SELECT id From RomCollection Where name = 'SNES'));
+INSERT INTO Path VALUES(NULL, '/home/lom/rom/Database/ZSNES/',
+(SELECT id From FileType Where name = 'screenshotingame'),
+(SELECT id From RomCollection Where name = 'SNES'));
+
+
+INSERT INTO GenreGame VALUES(NULL,
+(SELECT id From Genre Where name = 'Simulation'),
+(SELECT id From Game Where name = 'Ports Of Call'));
+INSERT INTO GenreGame VALUES(NULL,
+(SELECT id From Genre Where name = 'Action'),
+(SELECT id From Game Where name = 'Airborne Ranger'));
+INSERT INTO GenreGame VALUES(NULL,
+(SELECT id From Genre Where name = 'Simulation'),
+(SELECT id From Game Where name = 'Airborne Ranger'));
+INSERT INTO GenreGame VALUES(NULL,
+(SELECT id From Genre Where name = 'Action'),
+(SELECT id From Game Where name = 'Dogfight'));
+INSERT INTO GenreGame VALUES(NULL,
+(SELECT id From Genre Where name = 'Sports'),
+(SELECT id From Game Where name = 'Football Glory'));
+INSERT INTO GenreGame VALUES(NULL,
+(SELECT id From Genre Where name = 'Racing'),
+(SELECT id From Game Where name = 'Formula One Grand Prix'));
+INSERT INTO GenreGame VALUES(NULL,
+(SELECT id From Genre Where name = 'Sports'),
+(SELECT id From Game Where name = 'Formula One Grand Prix'));
+INSERT INTO GenreGame VALUES(NULL,
+(SELECT id From Genre Where name = 'Strategy'),
+(SELECT id From Game Where name = 'Hanse - Die Expedition'));
+
+
+INSERT INTO GenreGame VALUES(NULL,
+(SELECT id From Genre Where name = 'Adventure'),
+(SELECT id From Game Where name = 'Legends of Zelda'));
+INSERT INTO GenreGame VALUES(NULL,
+(SELECT id From Genre Where name = 'Racing'),
+(SELECT id From Game Where name = 'Super Mario Kart'));

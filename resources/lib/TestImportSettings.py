@@ -22,8 +22,8 @@ class TestImportSettings(unittest.TestCase):
 		self.databasedir = os.path.join( os.getcwd(), 'TestDataBase')
 		self.gdb = GameDataBase(self.databasedir)
 		self.gdb.connect()
-		self.gdb.dropTables()		
-		self.gdb.createTables()		
+		self.gdb.dropTables()
+		self.gdb.createTables()
 	
 	def test_ImportSettings(self):		
 		si = importsettings.SettingsImporter()
@@ -62,15 +62,68 @@ class TestImportSettings(unittest.TestCase):
 		
 		collV1 = romCollectionRows[0]
 		self.assertEqual(collV1[1], 'Collection V1')
+		console = Console(self.gdb).getObjectById(collV1[2])
+		self.assertEqual(console[1], 'Amiga')
 		self.assertEqual(collV1[3], 'E:\Emulatoren\WINUAE\winuae.exe -f "E:\Emulatoren\WINUAE\Configurations\Host\Amiga 500.uae" {-%I% "%ROM%"}')
+		self.assertEqual(collV1[4], 'True')
+		self.assertEqual(collV1[5], 'True')
+		self.assertEqual(collV1[6], 'TestDataBase\Collection V1\parserConfig.xml')
+		self.assertEqual(collV1[7], 'True')
+		self.assertEqual(collV1[8], 'False')
+		self.assertEqual(collV1[9], 'False')
+		self.assertEqual(collV1[10], '_Disk')
+		self.assertEqual(collV1[11], 'Text')
+		self.assertEqual(collV1[12], 'False')
+		self.assertEqual(collV1[13], 'False')
 		
 		collV2 = romCollectionRows[1]
 		self.assertEqual(collV2[1], 'Collection V2')
+		console = Console(self.gdb).getObjectById(collV2[2])
+		self.assertEqual(console[1], 'Amiga')
 		self.assertEqual(collV2[3], 'E:\Emulatoren\WINUAE\winuae.exe {-%I% "%ROM%"}')
+		self.assertEqual(collV2[4], 'True')
+		self.assertEqual(collV2[5], 'True')
+		self.assertEqual(collV2[6], 'TestDataBase\Collection V2\parserConfig.xml')
+		self.assertEqual(collV2[7], 'True')
+		self.assertEqual(collV2[8], 'False')
+		self.assertEqual(collV2[9], 'True')
+		self.assertEqual(collV2[10], '_Disk')
+		self.assertEqual(collV2[11], 'Text')
+		self.assertEqual(collV2[12], 'False')
+		self.assertEqual(collV2[13], 'False')
 		
 		collV3 = romCollectionRows[2]
 		self.assertEqual(collV3[1], 'Collection V3')
-		self.assertEqual(collV3[3], 'E:\Emulatoren\SNES\zsnes.exe -m "%ROM%"')		
+		console = Console(self.gdb).getObjectById(collV3[2])
+		self.assertEqual(console[1], 'Super Nintendo')
+		self.assertEqual(collV3[3], 'E:\Emulatoren\SNES\zsnes.exe -m "%ROM%"')	
+		self.assertEqual(collV3[4], 'True')
+		self.assertEqual(collV3[5], 'True')
+		self.assertEqual(collV3[6], 'TestDataBase\Collection V3\parserConfig.xml')
+		self.assertEqual(collV3[7], 'True')
+		self.assertEqual(collV3[8], 'False')
+		self.assertEqual(collV3[9], 'False')
+		self.assertEqual(collV3[10], '_Disk')
+		self.assertEqual(collV3[11], 'Text')
+		self.assertEqual(collV3[12], 'False')
+		self.assertEqual(collV3[13], 'False')
+
+
+		fileTypes = FileType(self.gdb).getAll()
+		self.assertEqual(fileTypes[0][1], 'rom')
+		self.assertEqual(fileTypes[1][1], 'screenshottitle')
+		self.assertEqual(fileTypes[2][1], 'screenshotingame')
+		self.assertEqual(fileTypes[3][1], 'cover')
+		self.assertEqual(fileTypes[4][1], 'cartridge')
+		self.assertEqual(fileTypes[5][1], 'manual')
+		self.assertEqual(fileTypes[6][1], 'ingamevideo')
+		self.assertEqual(fileTypes[7][1], 'trailer')
+		self.assertEqual(fileTypes[8][1], 'description')
+		self.assertEqual(fileTypes[9][1], 'configuration')
+		
+		paths = Path(self.gdb).getAll()
+		self.assertTrue(paths != None)
+		self.assertTrue(len(paths) == 27)
 
 
 class RCBMock():

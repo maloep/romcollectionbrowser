@@ -25,15 +25,12 @@ class TestAlterTable(unittest.TestCase):
 	def test_V03toV04(self):
 		#create Table V0.3
 		self.gdb.executeSQLScript(os.path.join(self.databasedir, 'SQL_CREATE_V0.3.txt'))
-		
-		#set dbVersion (usually done by import settings)
-		rcbSettingRows = RCBSetting(self.gdb).getAll()
-		if(rcbSettingRows == None or len(rcbSettingRows) != 1):	
-			return
-		rcbSetting = rcbSettingRows[0]
-		RCBSetting(self.gdb).update(('dbVersion',), ("V0.3",), rcbSetting[0])
-		
+		#insert data
+		self.gdb.executeSQLScript(os.path.join(self.databasedir, 'SQL_INSERT_TEST_DATA_V0.3.txt'))
+
 		self.gdb.checkDBStructure()
+		
+		#TODO Test SELECT
 		
 		
 		
