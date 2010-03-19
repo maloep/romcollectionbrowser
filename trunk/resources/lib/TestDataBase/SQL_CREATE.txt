@@ -10,7 +10,7 @@ CREATE TABLE IF NOT EXISTS [Reviewer]
     [name] TEXT NOT NULL UNIQUE
 );
 
-CREATE TABLE IF NOT EXISTS [FileType] 
+CREATE TABLE IF NOT EXISTS [FileType]
 (
     [id] INTEGER PRIMARY KEY AUTOINCREMENT,
     [name] TEXT NOT NULL UNIQUE
@@ -68,7 +68,8 @@ CREATE TABLE IF NOT EXISTS [RCBSetting]
 	[showEntryAllPublisher] INTEGER,
 	[saveViewStateOnExit] INTEGER,
 	[saveViewStateOnLaunchEmu] INTEGER,
-	[lastFocusedControl] INTEGER
+	[lastFocusedControlMainView] INTEGER,
+	[lastFocusedControlGameInfoView] INTEGER
 );
 
 
@@ -91,6 +92,21 @@ CREATE TABLE IF NOT EXISTS [RomCollection]
 	[typeOfManual] TEXT,
 	[allowUpdate] INTEGER,
 	[ignoreOnScan] INTEGER
+);
+
+CREATE TABLE IF NOT EXISTS [FileTypeForControl]
+(
+    [id] INTEGER PRIMARY KEY AUTOINCREMENT,
+	[control] TEXT,
+	[priority] INTEGER,
+    [romCollectionId] INTEGER REFERENCES [RomCollection]
+    (
+        id
+    ),
+	[fileTypeId] INTEGER NOT NULL REFERENCES [FileTypes]
+    (
+        id
+    )
 );
 
 CREATE TABLE IF NOT EXISTS [Game] 
