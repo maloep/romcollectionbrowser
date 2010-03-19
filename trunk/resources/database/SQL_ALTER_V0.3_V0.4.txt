@@ -1,5 +1,58 @@
-CREATE TABLE IF NOT EXISTS [Developer] 
+
+DROP TABLE IF EXISTS RCBSettings_tmp;
+
+ALTER TABLE RCBSetting RENAME TO RCBSettings_tmp;
+
+CREATE TABLE IF NOT EXISTS [RCBSetting]
 (
     [id] INTEGER PRIMARY KEY AUTOINCREMENT,
-    [name] TEXT NOT NULL UNIQUE
+    [lastSelectedView] TEXT,
+    [lastSelectedConsoleIndex] INTEGER,	
+	[lastSelectedGenreIndex] INTEGER,
+	[lastSelectedPublisherIndex] INTEGER,
+    [lastSelectedYearIndex] INTEGER,
+	[lastSelectedGameIndex] INTEGER,
+	[favoriteConsoleId] INTEGER REFERENCES [Console]
+    (
+        id
+    ),
+	[favoriteGenreId] INTEGER REFERENCES [Genre]
+    (
+        id
+    ),
+	[autoexecBackupPath] TEXT,
+	[dbVersion] TEXT,
+	[showEntryAllConsoles] INTEGER,
+	[showEntryAllGenres] INTEGER,
+	[showEntryAllYears] INTEGER,
+	[showEntryAllPublisher] INTEGER,
+	[saveViewStateOnExit] INTEGER,
+	[saveViewStateOnLaunchEmu] INTEGER,
+	[lastFocusedControlMainView] INTEGER,
+	[lastFocusedControlGameInfoView] INTEGER
 );
+
+
+INSERT INTO RCBSetting(id, lastSelectedView, lastSelectedConsoleIndex, lastSelectedGenreIndex, lastSelectedPublisherIndex, lastSelectedPublisherIndex, lastSelectedYearIndex, lastSelectedGameIndex, favoriteConsoleId, favoriteGenreId, autoexecBackupPath, dbVersion, showEntryAllConsoles, showEntryAllGenres, showEntryAllYears, showEntryAllPublisher, saveViewStateOnExit, saveViewStateOnLaunchEmu, lastFocusedControlMainView)
+SELECT id, lastSelectedView, lastSelectedConsoleIndex, lastSelectedGenreIndex, lastSelectedPublisherIndex, lastSelectedPublisherIndex, lastSelectedYearIndex, lastSelectedGameIndex, favoriteConsoleId, favoriteGenreId, autoexecBackupPath, dbVersion, showEntryAllConsoles, showEntryAllGenres, showEntryAllYears, showEntryAllPublisher, saveViewStateOnExit, saveViewStateOnLaunchEmu, lastFocusedControl
+FROM RCBSettings_tmp;
+
+DROP TABLE RCBSettings_tmp;
+
+
+CREATE TABLE IF NOT EXISTS [FileTypeForControl]
+(
+    [id] INTEGER PRIMARY KEY AUTOINCREMENT,
+	[control] TEXT,
+	[priority] INTEGER,
+    [romCollectionId] INTEGER REFERENCES [RomCollection]
+    (
+        id
+    ),
+	[fileTypeId] INTEGER NOT NULL REFERENCES [FileTypes]
+    (
+        id
+    )
+);
+
+

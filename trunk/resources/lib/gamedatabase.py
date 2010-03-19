@@ -24,7 +24,7 @@ class GameDataBase:
 		
 		#TODO check if db exists
 		#TODO check DB Update (ALTER Tables)
-		self.checkDBStructure()
+		#self.checkDBStructure()
 		self.createTables()
 		self.commit()
 		self.close()
