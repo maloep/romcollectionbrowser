@@ -29,7 +29,7 @@ class TestAlterTable(unittest.TestCase):
 		self.gdb.executeSQLScript(os.path.join(self.databasedir, 'SQL_INSERT_TEST_DATA_V0.3.txt'))
 
 		#convert V0.3 to V0.4
-		#self.gdb.checkDBStructure()
+		self.gdb.checkDBStructure()
 		
 		#Test
 		rcbSettingRows = RCBSetting(self.gdb).getAll()
@@ -99,31 +99,32 @@ class TestAlterTable(unittest.TestCase):
 		
 		
 		fileTypes = FileType(self.gdb).getAll()
-		self.assertEqual(fileTypes[0][1], 'rom')
+		self.assertEqual(fileTypes[0][1], 'rcb_rom')
 		self.assertEqual(fileTypes[1][1], 'screenshottitle')
 		self.assertEqual(fileTypes[2][1], 'screenshotingame')
 		self.assertEqual(fileTypes[3][1], 'cover')
-		self.assertEqual(fileTypes[4][1], 'cartridge')
-		self.assertEqual(fileTypes[5][1], 'manual')
+		self.assertEqual(fileTypes[4][1], 'cartridge')		
+		self.assertEqual(fileTypes[5][1], 'rcb_manual')
 		self.assertEqual(fileTypes[6][1], 'ingamevideo')
 		self.assertEqual(fileTypes[7][1], 'trailer')
-		self.assertEqual(fileTypes[8][1], 'description')
-		self.assertEqual(fileTypes[9][1], 'configuration')
+		self.assertEqual(fileTypes[8][1], 'rcb_description')
+		self.assertEqual(fileTypes[9][1], 'rcb_configuration')
+		
 		
 		paths = Path(self.gdb).getAll()
 		self.assertTrue(paths != None)
 		self.assertTrue(len(paths) == 11)
 		
 		self.assertEqual(paths[0][1], 'E:\Emulatoren\data\Amiga\Collection V1\\roms\*.adf')		
-		self.pathTest(paths[1][1], 'E:\Emulatoren\data\Amiga\Collection V1\synopsis\synopsis.txt', paths[1][2], 'description', paths[1][3], 'Collection V1')
+		self.pathTest(paths[1][1], 'E:\Emulatoren\data\Amiga\Collection V1\synopsis\synopsis.txt', paths[1][2], 'rcb_description', paths[1][3], 'Collection V1')
 		self.pathTest(paths[2][1], 'E:\Emulatoren\data\Amiga\Collection V1\screens\%GAME%.jpg', paths[2][2], 'screenshotingame', paths[2][3], 'Collection V1')
 		self.pathTest(paths[3][1], 'E:\Emulatoren\data\Amiga\Collection V1\screens\%GAME%.gif', paths[3][2], 'screenshotingame', paths[3][3], 'Collection V1')
 		self.pathTest(paths[4][1], 'E:\Emulatoren\data\Amiga\Collection V1\screens\%GAME%.png', paths[4][2], 'screenshotingame', paths[4][3], 'Collection V1')
 		self.pathTest(paths[5][1], 'E:\Emulatoren\data\Amiga\Collection V1\cover\%GAME%.jpg', paths[5][2], 'cover', paths[5][3], 'Collection V1')
 		self.pathTest(paths[6][1], 'E:\Emulatoren\data\Amiga\Collection V1\ingameVideo\%GAME%.wmv', paths[6][2], 'ingamevideo', paths[6][3], 'Collection V1')
-		self.pathTest(paths[7][1], 'E:\Emulatoren\data\Amiga\Collection V1\manuals\%GAME%.txt', paths[7][2], 'manual', paths[7][3], 'Collection V1')
+		self.pathTest(paths[7][1], 'E:\Emulatoren\data\Amiga\Collection V1\manuals\%GAME%.txt', paths[7][2], 'rcb_manual', paths[7][3], 'Collection V1')
 		self.pathTest(paths[8][1], 'E:\Emulatoren\data\Amiga\Collection V1\\trailer\%GAME%.wmv', paths[8][2], 'trailer', paths[8][3], 'Collection V1')
-		self.pathTest(paths[9][1], 'E:\Emulatoren\data\Amiga\Collection V2\\roms\*.smc', paths[9][2], 'rom', paths[9][3], 'Collection V2')
+		self.pathTest(paths[9][1], 'E:\Emulatoren\data\Amiga\Collection V2\\roms\*.smc', paths[9][2], 'rcb_rom', paths[9][3], 'Collection V2')
 		self.pathTest(paths[10][1], 'E:\Emulatoren\data\Amiga\Collection V2\screens\*.png', paths[10][2], 'screenshotingame', paths[10][3], 'Collection V2')
 		
 		
@@ -183,6 +184,9 @@ class TestAlterTable(unittest.TestCase):
 		numRomsActual = len(roms)
 		self.assertEqual(numRomsActual, numRoms)
 		
+		#TODO Test all fileTypes
+		
+		""""
 		cover = File(self.gdb).getCoversByGameId(game[0])
 		self.assertTrue(cover != None)
 		numCoversActual = len(cover)
@@ -192,6 +196,7 @@ class TestAlterTable(unittest.TestCase):
 		self.assertTrue(ingameScreens != None)
 		numIngameScreensActual = len(ingameScreens)
 		self.assertEqual(numIngameScreensActual, numIngameScreens)
+		"""
 		
 	
 	def pathTest(self, pathActual, pathExpected, fileTypeId, fileTypeExpected, romCollId, romCollExpected):

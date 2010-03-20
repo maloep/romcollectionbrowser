@@ -12,11 +12,11 @@ def getImagesByControl(gdb, controlName, gameId, romCollectionId):
 			return
 		
 		images = []		
-		for fileTypeForControlRow in fileTypeForControlRows:
-			files = File(gdb).getFilesByFileGameIdAndTypeId(gameId, fileTypeForControlRow[4])
+		for fileTypeForControlRow in fileTypeForControlRows:			
+			files = File(gdb).getFilesByGameIdAndTypeId(gameId, fileTypeForControlRow[4])
 			for file in files:				
 				images.append(file[1])
-				
+						
 		return images
 		
 

@@ -237,8 +237,7 @@ class UIGameDB(xbmcgui.WindowXML):
 			if(images != None and len(images) != 0):
 				image = images[0]
 			else:
-				image = ""
-			#coverFile = File(self.gdb).getCoverByGameId(game[0])		
+				image = ""			
 			items.append(xbmcgui.ListItem(str(game[1]), str(game[0]), image, ''))
 				
 		self.getControl(CONTROL_GAMES).addItems(items)

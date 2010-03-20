@@ -34,7 +34,7 @@ class TestImportSettings(unittest.TestCase):
 		self.assertTrue(len(rcbSettingRows) == 1)
 			
 		rcbSetting = rcbSettingRows[0]
-		self.assertEqual(rcbSetting[10], 'V0.3')
+		self.assertEqual(rcbSetting[10], 'V0.4')
 		self.assertEqual(rcbSetting[11], 'False')
 		self.assertEqual(rcbSetting[12], 'False')
 		self.assertEqual(rcbSetting[13], 'True')
@@ -110,26 +110,32 @@ class TestImportSettings(unittest.TestCase):
 
 
 		fileTypes = FileType(self.gdb).getAll()
-		self.assertEqual(fileTypes[0][1], 'rom')
-		self.assertEqual(fileTypes[1][1], 'screenshottitle')
-		self.assertEqual(fileTypes[2][1], 'screenshotingame')
-		self.assertEqual(fileTypes[3][1], 'cover')
-		self.assertEqual(fileTypes[4][1], 'cartridge')
-		self.assertEqual(fileTypes[5][1], 'manual')
-		self.assertEqual(fileTypes[6][1], 'ingamevideo')
-		self.assertEqual(fileTypes[7][1], 'trailer')
-		self.assertEqual(fileTypes[8][1], 'description')
-		self.assertEqual(fileTypes[9][1], 'configuration')
+		self.assertEqual(fileTypes[0][1], 'rcb_rom')
+		self.assertEqual(fileTypes[1][1], 'rcb_manual')
+		self.assertEqual(fileTypes[2][1], 'rcb_description')
+		self.assertEqual(fileTypes[3][1], 'rcb_configuration')		
+		
+		self.assertEqual(fileTypes[4][1], 'cover')
+		self.assertEqual(fileTypes[5][1], 'screenshotingame')
+		
+		#self.assertEqual(fileTypes[6][1], 'screenshottitle')
+		#self.assertEqual(fileTypes[7][1], 'cartridge')		
+		#self.assertEqual(fileTypes[8][1], 'ingamevideo')
+		#self.assertEqual(fileTypes[9][1], 'trailer')
+		
 		
 		paths = Path(self.gdb).getAll()
 		self.assertTrue(paths != None)
-		self.assertTrue(len(paths) == 27)
+		self.assertTrue(len(paths) == 28)
+		
+		#TODO Test video path
+		#TODO Test filetypeForControl
 		
 		self.assertEqual(paths[0][1], 'TestDataBase\Collection V1\\roms\*.adf')		
-		self.pathTest(paths[1][1], 'TestDataBase\Collection V1\\roms\*.ADF', paths[1][2], 'rom', paths[1][3], 'Collection V1')
-		self.pathTest(paths[2][1], 'TestDataBase\Collection V1\synopsis\synopsis.txt', paths[2][2], 'description', paths[1][3], 'Collection V1')
+		self.pathTest(paths[1][1], 'TestDataBase\Collection V1\\roms\*.ADF', paths[1][2], 'rcb_rom', paths[1][3], 'Collection V1')
+		self.pathTest(paths[2][1], 'TestDataBase\Collection V1\synopsis\synopsis.txt', paths[2][2], 'rcb_description', paths[1][3], 'Collection V1')
 		self.pathTest(paths[5][1], 'TestDataBase\Collection V1\cover\%GAME%.png', paths[5][2], 'cover', paths[1][3], 'Collection V1')
-		self.pathTest(paths[9][1], 'TestDataBase\Collection V2\\roms\*.adf', paths[9][2], 'rom', paths[9][3], 'Collection V2')
+		self.pathTest(paths[9][1], 'TestDataBase\Collection V2\\roms\*.adf', paths[9][2], 'rcb_rom', paths[9][3], 'Collection V2')
 		self.pathTest(paths[14][1], 'TestDataBase\Collection V2\cover\%GAME%\*.png', paths[14][2], 'cover', paths[14][3], 'Collection V2')
 		self.pathTest(paths[17][1], 'TestDataBase\Collection V2\screens\%GAME%\*.png', paths[17][2], 'screenshotingame', paths[17][3], 'Collection V2')
 		self.pathTest(paths[21][1], 'TestDataBase\Collection V3\cover\%GAME%.jpg', paths[21][2], 'cover', paths[21][3], 'Collection V3')

@@ -56,3 +56,8 @@ CREATE TABLE IF NOT EXISTS [FileTypeForControl]
 
 
 UPDATE RCBSetting SET dbVersion = 'V0.4';
+
+UPDATE FileType SET name = 'rcb_rom' WHERE name = 'rom';
+UPDATE FileType SET name = 'rcb_description' WHERE name = 'description';
+UPDATE FileType SET name = 'rcb_manual' WHERE name = 'manual';
+UPDATE FileType SET name = 'rcb_configuration' WHERE name = 'configuration';

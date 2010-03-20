@@ -8,6 +8,7 @@ class SettingsImporter:
 	
 	def importSettings(self, gdb, databaseDir, gui):
 		
+		self.gdb = gdb
 		configFile = os.path.join(databaseDir, 'config.xml')
 		fh=open(configFile,"r")
 		xmlDoc = fh.read()
@@ -29,7 +30,7 @@ class SettingsImporter:
 			saveViewStateOnExit = self.getElementValue(rcbSetting, 'saveViewStateOnExit')
 			saveViewStateOnLaunchEmu = self.getElementValue(rcbSetting, 'saveViewStateOnLaunchEmu')
 			
-			self.insertRCBSetting(gdb, favoriteConsole, favoriteGenre, showEntryAllConsoles, showEntryAllGenres, showEntryAllYears, showEntryAllPublisher, 
+			self.insertRCBSetting(favoriteConsole, favoriteGenre, showEntryAllConsoles, showEntryAllGenres, showEntryAllYears, showEntryAllPublisher, 
 				saveViewStateOnExit, saveViewStateOnLaunchEmu)
 			
 		gui.writeMsg("Importing Console Info...")
@@ -40,19 +41,20 @@ class SettingsImporter:
 			consoleDesc = self.getElementValue(console, 'desc')
 			consoleImage =  self.getElementValue(console, 'imgFile')
 			
-			self.insertConsole(gdb, consoleName, consoleDesc, consoleImage)
+			self.insertConsole(consoleName, consoleDesc, consoleImage)
+		
 		
 		gui.writeMsg("Importing File Types...")
-			
-		fileTypes= xmlDoc.getElementsByTagName('FileType')		
-		for fileType in fileTypes:
-			fileTypeName = self.getElementValue(fileType, 'name')
-			self.insertFileType(gdb, fileTypeName)
+		self.insertFileType('rcb_rom')
+		self.insertFileType('rcb_manual')
+		self.insertFileType('rcb_description')
+		self.insertFileType('rcb_configuration')
+		
 		
 		gui.writeMsg("Importing Rom Collections...")
 		
 		#fileTypesForControl must be deleted. There is no useful unique key
-		FileTypeForControl(gdb).deleteAll()
+		FileTypeForControl(self.gdb).deleteAll()
 		
 		romCollections = xmlDoc.getElementsByTagName('RomCollection')
 		for romCollection in romCollections:			
@@ -64,22 +66,35 @@ class SettingsImporter:
 			escapeCmd = self.getElementValue(romCollection, 'escapeCommand')
 			relyOnNaming = self.getElementValue(romCollection, 'relyOnNaming')
 			startWithDescFile = self.getElementValue(romCollection, 'startWithDescFile')
-			descFilePerGame = self.getElementValue(romCollection, 'descFilePerGame')
-			descParserFile = self.getElementValue(romCollection, 'descriptionParserFile')
+			descFilePerGame = self.getElementValue(romCollection, 'descFilePerGame')			
+			descParserFile = self.getElementValue(romCollection, 'descriptionParserFile')			
 			diskPrefix = self.getElementValue(romCollection, 'diskPrefix')
 			typeOfManual = self.getElementValue(romCollection, 'typeOfManual')
 			allowUpdate = self.getElementValue(romCollection, 'allowUpdate')
 			ignoreOnScan = self.getElementValue(romCollection, 'ignoreOnScan')
+				
+			
 			romPaths = self.getElementValues(romCollection, 'romPath')
 			descFilePaths = self.getElementValues(romCollection, 'descFilePath')
-			coverPaths = self.getElementValues(romCollection, 'coverPath')
-			titlescreenPaths = self.getElementValues(romCollection, 'titleScreenshotPath')
-			ingamescreenPaths = self.getElementValues(romCollection, 'ingamescreenshotPath')
-			cartridgePaths = self.getElementValues(romCollection, 'cartridgePath')
 			configFilePaths = self.getElementValues(romCollection, 'configFilePath')
-			ingamevidPaths = self.getElementValues(romCollection, 'ingamevidPath')			
-			trailerPaths = self.getElementValues(romCollection, 'trailerPath')
 			manualPaths = self.getElementValues(romCollection, 'manualPath')
+			
+			
+			#import romCollection first to obtain the id
+			romCollectionId = self.insertRomCollection(consoleName, romCollName, emuCmd, emuSolo, escapeCmd, relyOnNaming, startWithDescFile, 
+				descFilePerGame, descParserFile, diskPrefix, typeOfManual, allowUpdate, ignoreOnScan)
+			
+			
+			self.insertPaths(romCollectionId, romPaths, 'rcb_rom')
+			self.insertPaths(romCollectionId, descFilePaths, 'rcb_description')
+			self.insertPaths(romCollectionId, configFilePaths, 'rcb_configuration')
+			self.insertPaths(romCollectionId, manualPaths, 'rcb_manual')
+			
+			
+			self.handleTypedElements(romCollection, 'imgPath', romCollectionId)
+			self.handleTypedElements(romCollection, 'videoPath', romCollectionId)
+			#TODO videoPath
+			
 			fileTypesForGameList = self.getElementValues(romCollection, 'fileTypeForGameList')
 			fileTypesForMainViewGameInfo = self.getElementValues(romCollection, 'fileTypeForMainViewGameInfo')
 			fileTypesForGameInfoViewBackground = self.getElementValues(romCollection, 'fileTypeForGameInfoViewBackground')
@@ -88,29 +103,19 @@ class SettingsImporter:
 			fileTypesForGameInfoView2 = self.getElementValues(romCollection, 'fileTypeForGameInfoView2')
 			fileTypesForGameInfoView3 = self.getElementValues(romCollection, 'fileTypeForGameInfoView3')
 			fileTypesForGameInfoView4 = self.getElementValues(romCollection, 'fileTypeForGameInfoView4')
-						
-			romCollectionId = self.insertRomCollection(gdb, consoleName, romCollName, emuCmd, emuSolo, escapeCmd, relyOnNaming, startWithDescFile, 
-				descFilePerGame, descParserFile, diskPrefix, typeOfManual, allowUpdate, ignoreOnScan)
-						
-			self.insertFileTypeForControl(gdb, romCollectionId, fileTypesForGameList, 'gamelist')
-			self.insertFileTypeForControl(gdb, romCollectionId, fileTypesForMainViewGameInfo, 'mainviewgameinfo')
-			self.insertFileTypeForControl(gdb, romCollectionId, fileTypesForGameInfoViewBackground, 'gameinfoviewbackground')
-			self.insertFileTypeForControl(gdb, romCollectionId, fileTypesForGameInfoViewGamelist, 'gameinfoviewgamelist')
-			self.insertFileTypeForControl(gdb, romCollectionId, fileTypesForGameInfoView1, 'gameinfoview1')
-			self.insertFileTypeForControl(gdb, romCollectionId, fileTypesForGameInfoView2, 'gameinfoview2')
-			self.insertFileTypeForControl(gdb, romCollectionId, fileTypesForGameInfoView3, 'gameinfoview3')
-			self.insertFileTypeForControl(gdb, romCollectionId, fileTypesForGameInfoView4, 'gameinfoview4')
+			fileTypesForGameInfoViewVideoWindow = self.getElementValues(romCollection, 'fileTypeForGameInfoViewVideoWindow')
 			
-			self.insertPaths(gdb, romCollectionId, romPaths, 'rom')
-			self.insertPaths(gdb, romCollectionId, descFilePaths, 'description')
-			self.insertPaths(gdb, romCollectionId, coverPaths, 'cover')
-			self.insertPaths(gdb, romCollectionId, titlescreenPaths, 'screenshottitle')
-			self.insertPaths(gdb, romCollectionId, ingamescreenPaths, 'screenshotingame')
-			self.insertPaths(gdb, romCollectionId, cartridgePaths, 'cartridge')
-			self.insertPaths(gdb, romCollectionId, configFilePaths, 'configuration')
-			self.insertPaths(gdb, romCollectionId, ingamevidPaths, 'ingamevideo')
-			self.insertPaths(gdb, romCollectionId, trailerPaths, 'trailer')
-			self.insertPaths(gdb, romCollectionId, manualPaths, 'manual')
+			
+			
+			self.insertFileTypeForControl(romCollectionId, fileTypesForGameList, 'gamelist')
+			self.insertFileTypeForControl(romCollectionId, fileTypesForMainViewGameInfo, 'mainviewgameinfo')
+			self.insertFileTypeForControl(romCollectionId, fileTypesForGameInfoViewBackground, 'gameinfoviewbackground')
+			self.insertFileTypeForControl(romCollectionId, fileTypesForGameInfoViewGamelist, 'gameinfoviewgamelist')
+			self.insertFileTypeForControl(romCollectionId, fileTypesForGameInfoView1, 'gameinfoview1')
+			self.insertFileTypeForControl(romCollectionId, fileTypesForGameInfoView2, 'gameinfoview2')
+			self.insertFileTypeForControl(romCollectionId, fileTypesForGameInfoView3, 'gameinfoview3')
+			self.insertFileTypeForControl(romCollectionId, fileTypesForGameInfoView4, 'gameinfoview4')
+			self.insertFileTypeForControl(romCollectionId, fileTypesForGameInfoViewVideoWindow, 'gameinfoviewvideowindow')
 				
 			
 			
@@ -148,9 +153,35 @@ class SettingsImporter:
 			
 		return valueList
 		
+		
+	def handleTypedElements(self, parentNode, elementName, romCollectionId):
+		nodeList = parentNode.getElementsByTagName(elementName)
+		for node in nodeList:
+			if(node == None):
+				continue
+			if(node.firstChild == None):
+				continue
+			
+			path = node.firstChild.nodeValue
+			
+			if(not node.hasAttributes()):
+				#TODO raiseException
+				continue
+				
+			fileType = node.getAttribute('type')
+			
+			if(elementName == 'videoPath'):
+				fileType = 'video_' +fileType
+			fileTypeId = self.insertFileType(fileType)
+			
+			#TODO videos?
+			self.insertPath(node.firstChild.nodeValue, fileType, fileTypeId, romCollectionId)
+			
+		
 	
-	def insertRCBSetting(self, gdb, favoriteConsole, favoriteGenre, showEntryAllConsoles, showEntryAllGenres, showEntryAllYears, showEntryAllPublisher, saveViewStateOnExit, saveViewStateOnLaunchEmu):
-		rcbSettingRows = RCBSetting(gdb).getAll()
+	def insertRCBSetting(self, favoriteConsole, favoriteGenre, showEntryAllConsoles, showEntryAllGenres, showEntryAllYears, showEntryAllPublisher, saveViewStateOnExit, saveViewStateOnLaunchEmu):
+		
+		rcbSettingRows = RCBSetting(self.gdb).getAll()
 		
 		if(favoriteConsole == ''):
 			favoriteConsole = None
@@ -170,37 +201,37 @@ class SettingsImporter:
 			saveViewStateOnLaunchEmu = None
 		
 		if(rcbSettingRows == None or len(rcbSettingRows) == 0):			
-			RCBSetting(gdb).insert((None, None, None, None, None, None, favoriteConsole, favoriteGenre, None, CURRENT_SCRIPT_VERSION, 
+			RCBSetting(self.gdb).insert((None, None, None, None, None, None, favoriteConsole, favoriteGenre, None, CURRENT_SCRIPT_VERSION, 
 				showEntryAllConsoles, showEntryAllGenres, showEntryAllYears, showEntryAllPublisher, saveViewStateOnExit, saveViewStateOnLaunchEmu, None, None))
 		else:
 			rcbSetting = rcbSettingRows[0]
-			RCBSetting(gdb).update(('dbVersion', 'favoriteConsoleId', 'favoriteGenreId', 'showEntryAllConsoles', 'showEntryAllGenres', 'showEntryAllYears', 'showEntryAllPublisher', 'saveViewStateOnExit', 'saveViewStateOnLaunchEmu'),
+			RCBSetting(self.gdb).update(('dbVersion', 'favoriteConsoleId', 'favoriteGenreId', 'showEntryAllConsoles', 'showEntryAllGenres', 'showEntryAllYears', 'showEntryAllPublisher', 'saveViewStateOnExit', 'saveViewStateOnLaunchEmu'),
 				(CURRENT_SCRIPT_VERSION, favoriteConsole, favoriteGenre, showEntryAllConsoles, showEntryAllGenres, showEntryAllYears, showEntryAllPublisher, saveViewStateOnExit, saveViewStateOnLaunchEmu), rcbSetting[0])
 	
 	
-	def insertConsole(self, gdb, consoleName, consoleDesc, consoleImage):
-		consoleRow = Console(gdb).getOneByName(consoleName)		
+	def insertConsole(self, consoleName, consoleDesc, consoleImage):
+		consoleRow = Console(self.gdb).getOneByName(consoleName)		
 		if(consoleRow == None):			
-			Console(gdb).insert((consoleName, consoleDesc, consoleImage))
+			Console(self.gdb).insert((consoleName, consoleDesc, consoleImage))
 		else:
-			Console(gdb).update(('name', 'description', 'imageFileName'), (consoleName, consoleDesc, consoleImage), consoleRow[0])
+			Console(self.gdb).update(('name', 'description', 'imageFileName'), (consoleName, consoleDesc, consoleImage), consoleRow[0])
 	
 	
-	def insertRomCollection(self, gdb, consoleName, romCollName, emuCmd, emuSolo, escapeCmd, relyOnNaming, startWithDescFile, 
+	def insertRomCollection(self, consoleName, romCollName, emuCmd, emuSolo, escapeCmd, relyOnNaming, startWithDescFile, 
 				descFilePerGame, descParserFile, diskPrefix, typeOfManual, allowUpdate, ignoreOnScan):		
 		
-		consoleRow = Console(gdb).getOneByName(consoleName)
+		consoleRow = Console(self.gdb).getOneByName(consoleName)
 		if(consoleRow == None):
 			return
 		consoleId = consoleRow[0] 
 				
-		romCollectionRow = RomCollection(gdb).getOneByName(romCollName)
+		romCollectionRow = RomCollection(self.gdb).getOneByName(romCollName)
 		if(romCollectionRow == None):		
-			RomCollection(gdb).insert((romCollName, consoleId, emuCmd, emuSolo, escapeCmd, descParserFile, relyOnNaming, 
+			RomCollection(self.gdb).insert((romCollName, consoleId, emuCmd, emuSolo, escapeCmd, descParserFile, relyOnNaming, 
 			startWithDescFile, descFilePerGame, diskPrefix, typeOfManual, allowUpdate, ignoreOnScan))
-			romCollectionId = gdb.cursor.lastrowid
+			romCollectionId = self.gdb.cursor.lastrowid
 		else:
-			RomCollection(gdb).update(('name', 'consoleId', 'emuCommandline', 'useEmuSolo', 'escapeEmuCmd', 'descriptionParserFile', 'relyOnFileNaming', 'startWithDescFile',
+			RomCollection(self.gdb).update(('name', 'consoleId', 'emuCommandline', 'useEmuSolo', 'escapeEmuCmd', 'descriptionParserFile', 'relyOnFileNaming', 'startWithDescFile',
 								'descFilePerGame', 'diskPrefix', 'typeOfManual', 'allowUpdate', 'ignoreOnScan'),
 								(romCollName, consoleId, emuCmd, emuSolo, escapeCmd, descParserFile, relyOnNaming, startWithDescFile, descFilePerGame, diskPrefix, typeOfManual, allowUpdate, ignoreOnScan),
 								romCollectionRow[0])
@@ -210,30 +241,40 @@ class SettingsImporter:
 		return romCollectionId
 		
 	
-	def insertFileType(self, gdb, fileTypeName):
-		fileTypeRow = FileType(gdb).getOneByName(fileTypeName)
+	def insertFileType(self, fileTypeName):
+		fileTypeRow = FileType(self.gdb).getOneByName(fileTypeName)
 		if(fileTypeRow == None):				
-			FileType(gdb).insert((fileTypeName,))
+			FileType(self.gdb).insert((fileTypeName,))
+			return self.gdb.cursor.lastrowid
+		return fileTypeRow[0]
+		
 			
 
-	def insertPaths(self, gdb, romCollectionId, paths, fileType):
-		fileTypeRow = FileType(gdb).getOneByName(fileType)
+	def insertPaths(self, romCollectionId, paths, fileType):
+		fileTypeRow = FileType(self.gdb).getOneByName(fileType)
 		if(fileTypeRow == None):				
 			return
 			
-		for path in paths:			
-			pathRow = Path(gdb).getPathByNameAndType(path, fileType)			
-			if(pathRow == None):				
-				Path(gdb).insert((path, fileTypeRow[0], romCollectionId))
+		for path in paths:
+			self.insertPath(path, fileType, fileTypeRow[0], romCollectionId)			
+			#pathRow = Path(gdb).getPathByNameAndType(path, fileType)
+			#if(pathRow == None):				
+			#	Path(gdb).insert((path, fileTypeRow[0], romCollectionId))
 				
 	
-	def insertFileTypeForControl(self, gdb, romCollectionId, fileTypes, control):
+	def insertPath(self, path, fileTypeName, fileTypeId, romCollectionId):
+		pathRow = Path(self.gdb).getPathByNameAndType(path, fileTypeName)
+		if(pathRow == None):				
+			Path(self.gdb).insert((path, fileTypeId, romCollectionId))
+				
+	
+	def insertFileTypeForControl(self, romCollectionId, fileTypes, control):
 		for i in range(0, len(fileTypes)):
 			fileType = fileTypes[i]			
-			fileTypeRow = FileType(gdb).getOneByName(fileType)			
+			fileTypeRow = FileType(self.gdb).getOneByName(fileType)			
 			if(fileTypeRow == None):				
 				return
 			
-			fileTypeForControlRow = FileTypeForControl(gdb).getFileTypeForControlByKey(romCollectionId, fileType, control, str(i))
+			fileTypeForControlRow = FileTypeForControl(self.gdb).getFileTypeForControlByKey(romCollectionId, fileType, control, str(i))
 			if(fileTypeForControlRow == None):
-				FileTypeForControl(gdb).insert((control, str(i), romCollectionId, fileTypeRow[0]))
+				FileTypeForControl(self.gdb).insert((control, str(i), romCollectionId, fileTypeRow[0]))
