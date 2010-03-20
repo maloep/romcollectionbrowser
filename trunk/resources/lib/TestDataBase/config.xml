@@ -111,9 +111,13 @@
 			<imgPath type="screenshotingame">TestDataBase\Collection V3\screens\%GAME%.jpg</imgPath>
 			<imgPath type="screenshotingame">TestDataBase\Collection V3\screens\%GAME%.gif</imgPath>
 			<imgPath type="screenshotingame">TestDataBase\Collection V3\screens\%GAME%.png</imgPath>
-			<imgPath type="screenshottitle"></imgPath>
-			<imgPath type="cartridge"></imgPath>			
-			<videoPath type="gameplay">Test</videoPath>					
+			<imgPath type="screenshottitle">TestDataBase\Collection V3\titles\%GAME%.png</imgPath>
+			<imgPath type="screenshottitle">TestDataBase\Collection V3\titles\%GAME%.jpg</imgPath>
+			<imgPath type="screenshottitle">TestDataBase\Collection V3\titles\%GAME%.gif</imgPath>
+			<imgPath type="cartridge">TestDataBase\Collection V3\cartridge\%GAME%.gif</imgPath>
+			<imgPath type="cartridge">TestDataBase\Collection V3\cartridge\%GAME%.png</imgPath>
+			<imgPath type="cartridge">TestDataBase\Collection V3\cartridge\%GAME%.jpg</imgPath>
+			<videoPath type="gameplay">TestDataBase\Collection V3\ingameVids\%GAME%.wmv</videoPath>
 			<fileTypeForGameList>cover</fileTypeForGameList>
 			<fileTypeForMainViewGameInfo>screenshotingame</fileTypeForMainViewGameInfo>
 			<fileTypeForGameInfoViewBackground>screenshottitle</fileTypeForGameInfoViewBackground>
@@ -125,38 +129,5 @@
 			<fileTypeForGameInfoView4>cartridge</fileTypeForGameInfoView4>
 			<fileTypeForGameInfoViewVideoWindow>gameplay</fileTypeForGameInfoViewVideoWindow>
 		</RomCollection>
-	</RomCollections>
-	<!-- Don't edit filetypes -->
-	<FileTypes>
-		<FileType>
-			<name>rom</name>
-		</FileType>
-		<FileType>
-			<name>screenshottitle</name>
-		</FileType>
-		<FileType>
-			<name>screenshotingame</name>
-		</FileType>
-		<FileType>
-			<name>cover</name>
-		</FileType>
-		<FileType>
-			<name>cartridge</name>
-		</FileType>
-		<FileType>
-			<name>manual</name>
-		</FileType>
-		<FileType>
-			<name>ingamevideo</name>
-		</FileType>
-		<FileType>
-			<name>trailer</name>
-		</FileType>
-		<FileType>
-			<name>description</name>
-		</FileType>
-		<FileType>
-			<name>configuration</name>
-		</FileType>
-	</FileTypes>	
+	</RomCollections>	
 </config>

@@ -80,55 +80,55 @@ class TestUpdateDB(unittest.TestCase):
 		
 		self.gameTest(gameRows[0], 'Airborne Ranger', 'In this action/simulation game by Microprose the player takes the role of an U.S. Army airborne ranger.', 
 			None,  None, 1, 1, 1, None, 1, '????', '', '', 'http://www.mobygames.com/game/amiga/airborne-ranger', '', '', '', '', 0, 0,
-			1, 1, 1)
+			1, 1, 1, 0, 0, 0)
 		self.gameTest(gameRows[1], 'California Games II',  '"At least it ends..."', 
 			None,  None, 3, 8, 8, None, 7, '', '', '', '', 'USA', 'Cartridge', '', 'Gamepad', 0, 0,
-			1, 1, 1)
+			1, 1, 1, 1, 1, 1)
 		self.gameTest(gameRows[2], 'Demolition Man', 'Demolition Man is a multiplatform, run and gun action game based on the film of the same name.', 
 			None,  None, 3, 9, 9, None, 8, '', '', '', '', 'USA', 'Cartridge', '', 'Gamepad', 0, 0,
-			1, 1, 1)
+			1, 1, 1, 1, 1, 1)
 		self.gameTest(gameRows[3], 'Dogfight', 'Dogfight is a two-player game with roots in the same primordial soup as Ataris Combat and other basic dogfighting games.', 	
 			None,  None, 2, 5, 5, None, 5, '2 Players', '', '', 'http://www.mobygames.com/game/amiga/dogfight', '', '', '', '', 0, 0,
-			3, 1, 2)
+			3, 1, 2, 0, 0, 0)
 		self.gameTest(gameRows[4], 'Doom', 'Doom on the PC was without a doubt my favorite first person shooter "back in the day', 
 			None,  None, 3, 10, 10, None, 9, '1', '', '', '', 'USA', 'Cartridge', '', 'Gamepad', 0, 0,
-			1, 1, 1)
+			1, 1, 1, 1, 1, 1)
 		self.gameTest(gameRows[5], 'Eliminator', 'A shoot em up set on a patchwork-quilt coloured road, Eliminator puts you in control of a ship with a basic weapon, flying along at breakneck speed.', 
 			None,  None, 1, 2, 2, None, 2, '????', '', '', 'http://www.mobygames.com/game/amiga/eliminator-', '', '', '', '', 0, 0,
-			1, 1, 1)		
+			1, 1, 1, 0, 0, 0)		
 		self.gameTest(gameRows[6], 'Football Glory', 'From Croatia came this overhead view football game resembling Sensible Soccer.', 
 			None,  None, 2, 6, 6, None, 6, '1-2 Players', '', '', 'http://www.mobygames.com/game/amiga/football-glory', '', '', '', '', 0, 0,
-			3, 1, 1)
+			3, 1, 1, 0, 0, 0)
 		self.gameTest(gameRows[7], 'Formula One Grand Prix', 'F1 is an Official Formula One Racing Game.', 
 			None,  None, 1, 3, 3, None, 3, '????', '', '', 'http://www.mobygames.com/game/amiga/formula-one_', '', '', '', '', 0, 0,
-			4, 1, 1)
+			4, 1, 1, 0, 0, 0)
 		self.gameTest(gameRows[8], 'Hanse - Die Expedition', 'Hanse makes you a trader in the 13th Century.', 
 			None,  None, 2, 7, 7, None, 6, '????', '', '', 'http://www.mobygames.com/game/amiga/hanse-die-expedition', '', '', '', '', 0, 0,
-			3, 1, 1)
+			3, 1, 1, 0, 0, 0)
 		self.gameTest(gameRows[9], 'Legend of Zelda - A Link to the Past', 'This installment in the Zelda series was my favorite.', 
 			None,  None, 3, 11, 11, None, 7, '1', '', '', '', 'USA', 'Cartridge', '', 'Gamepad', 0, 0,
-			1, 1, 1)
+			1, 1, 1, 1, 1, 0)
 		self.gameTest(gameRows[10], 'Madden NFL \'98', 'Madden NFL 98 is a football video game.', 
 			None,  None, 3, 12, 12, None, 10, '', '', '', '', 'USA', 'Cartridge', '', 'Gamepad', 0, 0,
-			1, 1, 1)
+			1, 1, 1, 1, 1, 0)
 		self.gameTest(gameRows[11], 'Ports Of Call', 'Ports of Call gives you the job of a shipowner.', 
 			None,  None, 1, 4, 4, None, 4, '4', '', '', 'http://www.mobygames.com/game/amiga/ports-of-call', 'USA', 'Disk', '', 'Joystick', 0, 0,
-			1, 1, 1)				
+			1, 1, 1, 0, 0, 0)			
 		self.gameTest(gameRows[12], 'Space Invaders', 'Taito and Nintendo have brought back the classic Space Invaders game, with very little modification.', 
 			None,  None, 3, 11, 13, None, 9, '', '', '', '', 'USA', 'Cartridge', '', 'Gamepad', 0, 0,
-			1, 1, 1)
+			1, 1, 1, 1, 1, 0)
 		self.gameTest(gameRows[13], 'Street Fighter II - The World Warrior', 'Eight fighters from across the globe have come together to see which of them has the strength, skill and courage to challenge the mysterious Grand Masters.', 
 			None,  None, 3, 13, 14, None, 7, '1 or 2 VS', '', '', '', 'USA', 'Cartridge', '', 'Gamepad', 0, 0,
-			1, 1, 1)
+			1, 1, 1, 1, 1, 0)
 		self.gameTest(gameRows[14], 'Super Mario Kart', 'Hi everybody! Thanks for dropping to by the Super Mario Kart race track.', 
 			None,  None, 3, 11, 11, None, 7, '1 to 4 VS', '', '', '', 'USA', 'Cartridge', '', 'Gamepad', 0, 0,
-			1, 1, 1)
+			1, 1, 1, 1, 1, 0)
 		
 		
 		
 	def gameTest(self, game, name, descStart, gameCmd, alternateGameCmd, romCollectionId, publisherId, developerId, reviewerId,
 			yearId, maxPlayers, rating, numVotes, url, region, media, perspective, controllerType, isFavorite, launchCount,
-			numRoms, numCovers, numIngameScreens):
+			numRoms, numCovers, numIngameScreens, numTitleScreens, numCartridges, numVideos):
 		
 		print name
 		self.assertEqual(game[1], name)
@@ -157,19 +157,20 @@ class TestUpdateDB(unittest.TestCase):
 		self.assertTrue(roms != None)
 		numRomsActual = len(roms)
 		self.assertEqual(numRomsActual, numRoms)
-		
-		#TODO Test all fileTypes
-		fileTypeRow = FileType(self.gdb).getOneByName('cover')		
-		cover = File(self.gdb).getFilesByGameIdAndTypeId(game[0], fileTypeRow[0])		
-		self.assertTrue(cover != None)
-		numCoversActual = len(cover)
-		self.assertEqual(numCoversActual, numCovers)
 				
-		fileTypeRow = FileType(self.gdb).getOneByName('screenshotingame')		
-		ingameScreens = File(self.gdb).getFilesByGameIdAndTypeId(game[0], fileTypeRow[0])		
-		self.assertTrue(ingameScreens != None)
-		numIngameScreensActual = len(ingameScreens)
-		self.assertEqual(numIngameScreensActual, numIngameScreens)
+		self.fileTypeTest('cover', numCovers, game[0])
+		self.fileTypeTest('screenshotingame', numIngameScreens, game[0])
+		self.fileTypeTest('screenshottitle', numTitleScreens, game[0])
+		self.fileTypeTest('cartridge', numCartridges, game[0])
+		self.fileTypeTest('video_gameplay', numVideos, game[0])
+				
+		
+	def fileTypeTest(self, typeName, numFilesExpected, gameId):
+		fileTypeRow = FileType(self.gdb).getOneByName(typeName)
+		files = File(self.gdb).getFilesByGameIdAndTypeId(gameId, fileTypeRow[0])		
+		self.assertTrue(files != None)
+		numfiles = len(files)
+		self.assertEqual(numfiles, numFilesExpected)
 		
 		
 

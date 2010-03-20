@@ -126,10 +126,8 @@ class TestImportSettings(unittest.TestCase):
 		
 		paths = Path(self.gdb).getAll()
 		self.assertTrue(paths != None)
-		self.assertTrue(len(paths) == 28)
-		
-		#TODO Test video path
-		#TODO Test filetypeForControl
+		self.assertTrue(len(paths) == 34)
+				
 		
 		self.assertEqual(paths[0][1], 'TestDataBase\Collection V1\\roms\*.adf')		
 		self.pathTest(paths[1][1], 'TestDataBase\Collection V1\\roms\*.ADF', paths[1][2], 'rcb_rom', paths[1][3], 'Collection V1')
@@ -141,11 +139,42 @@ class TestImportSettings(unittest.TestCase):
 		self.pathTest(paths[21][1], 'TestDataBase\Collection V3\cover\%GAME%.jpg', paths[21][2], 'cover', paths[21][3], 'Collection V3')
 		self.pathTest(paths[24][1], 'TestDataBase\Collection V3\screens\%GAME%.jpg', paths[24][2], 'screenshotingame', paths[24][3], 'Collection V3')
 		self.pathTest(paths[26][1], 'TestDataBase\Collection V3\screens\%GAME%.png', paths[26][2], 'screenshotingame', paths[26][3], 'Collection V3')
+		self.pathTest(paths[28][1], 'TestDataBase\Collection V3\\titles\%GAME%.jpg', paths[28][2], 'screenshottitle', paths[28][3], 'Collection V3')
+		self.pathTest(paths[30][1], 'TestDataBase\Collection V3\cartridge\%GAME%.gif', paths[30][2], 'cartridge', paths[30][3], 'Collection V3')
+		self.pathTest(paths[32][1], 'TestDataBase\Collection V3\cartridge\%GAME%.jpg', paths[32][2], 'cartridge', paths[32][3], 'Collection V3')
+		self.pathTest(paths[33][1], 'TestDataBase\Collection V3\ingameVids\%GAME%.wmv', paths[33][2], 'video_gameplay', paths[33][3], 'Collection V3')
+		
+		
+		fileTypesForControl = FileTypeForControl(self.gdb).getAll()
+		self.assertTrue(paths != None)
+		numFileTypes = len(fileTypesForControl)
+		self.assertEqual(numFileTypes, 22)
+		
+		self.fileTypeForControlTestTest(fileTypesForControl[0][1], 'gamelist', fileTypesForControl[0][2], 0, fileTypesForControl[0][4], 'cover', fileTypesForControl[0][3], 'Collection V1')
+		self.fileTypeForControlTestTest(fileTypesForControl[2][1], 'gameinfoviewbackground', fileTypesForControl[2][2], 0, fileTypesForControl[2][4], 'cover', fileTypesForControl[2][3], 'Collection V1')
+		self.fileTypeForControlTestTest(fileTypesForControl[5][1], 'gameinfoview3', fileTypesForControl[5][2], 0, fileTypesForControl[5][4], 'cover', fileTypesForControl[5][3], 'Collection V1')
+		self.fileTypeForControlTestTest(fileTypesForControl[8][1], 'gameinfoviewbackground', fileTypesForControl[8][2], 0, fileTypesForControl[8][4], 'cover', fileTypesForControl[8][3], 'Collection V2')
+		self.fileTypeForControlTestTest(fileTypesForControl[11][1], 'gameinfoview3', fileTypesForControl[11][2], 0, fileTypesForControl[11][4], 'cover', fileTypesForControl[11][3], 'Collection V2')
+		self.fileTypeForControlTestTest(fileTypesForControl[15][1], 'gameinfoviewbackground', fileTypesForControl[15][2], 1, fileTypesForControl[15][4], 'cover', fileTypesForControl[15][3], 'Collection V3')
+		self.fileTypeForControlTestTest(fileTypesForControl[16][1], 'gameinfoviewgamelist', fileTypesForControl[16][2], 0, fileTypesForControl[16][4], 'cover', fileTypesForControl[16][3], 'Collection V3')
+		self.fileTypeForControlTestTest(fileTypesForControl[18][1], 'gameinfoview2', fileTypesForControl[18][2], 0, fileTypesForControl[18][4], 'screenshotingame', fileTypesForControl[18][3], 'Collection V3')
+		self.fileTypeForControlTestTest(fileTypesForControl[20][1], 'gameinfoview4', fileTypesForControl[20][2], 0, fileTypesForControl[20][4], 'cartridge', fileTypesForControl[20][3], 'Collection V3')
+		self.fileTypeForControlTestTest(fileTypesForControl[21][1], 'gameinfoviewvideowindow', fileTypesForControl[21][2], 0, fileTypesForControl[21][4], 'video_gameplay', fileTypesForControl[21][3], 'Collection V3')
+		
 		
 		
 	def pathTest(self, pathActual, pathExpected, fileTypeId, fileTypeExpected, romCollId, romCollExpected):
 		self.assertEqual(pathActual, pathExpected)
 		fileType = FileType(self.gdb).getObjectById(fileTypeId)
+		self.assertEqual(fileType[1], fileTypeExpected)
+		romCollection = RomCollection(self.gdb).getObjectById(romCollId)
+		self.assertEqual(romCollection[1], romCollExpected)
+		
+		
+	def fileTypeForControlTestTest(self, nameActual, nameExpected, priority, priorityExpected, fileTypeId, fileTypeExpected, romCollId, romCollExpected):
+		self.assertEqual(nameActual, nameExpected)
+		fileType = FileType(self.gdb).getObjectById(fileTypeId)
+		self.assertEqual(priority, priorityExpected)
 		self.assertEqual(fileType[1], fileTypeExpected)
 		romCollection = RomCollection(self.gdb).getObjectById(romCollId)
 		self.assertEqual(romCollection[1], romCollExpected)

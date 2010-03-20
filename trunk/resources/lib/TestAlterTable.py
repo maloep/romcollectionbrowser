@@ -134,27 +134,27 @@ class TestAlterTable(unittest.TestCase):
 				
 		self.gameTest(gameRows[0], 'Airborne Ranger', 'In this action/simulation game by Microprose the player takes the role of an U.S. Army Airborne ranger.', 
 			'',  '', 1, 2, 2, 4, 3, '4', '5', 15, 'www', 'USA', 'Disk', '1st Person', 'Joystick', 0, 0,
-			1, 1, 1)				
+			1, 1, 1, 0, 0, 0)				
 		self.gameTest(gameRows[1], 'Dogfight', 'Dogfight is a two-player game with roots in the same primordial soup as Ataris Combat and other basic dogfighting games.', 	
 			'',  '', 1, 2, 2, 1, 4, '2', '4', 10, 'www', 'USA', 'Disk', '1st Person', 'Joystick', 0, 0,
-			3, 1, 1)				
+			3, 1, 1, 0, 0, 0)				
 		self.gameTest(gameRows[2], 'Football Glory', 'From Croatia came this overhead view football game resembling Sensible Soccer.', 
 			'',  '', 1, 4, 4, 2, 6, '2', '2', 7, 'www', 'USA', 'Disk', 'Top', 'Joystick', 0, 0,
-			3, 1, 1)
+			3, 1, 1, 0, 0, 0)
 		self.gameTest(gameRows[3], 'Formula One Grand Prix', 'F1 is an Official Formula One Racing Game.', 
 			'',  '', 1, 5, 5, 1, 5, '2', '7', 32, 'www', 'USA', 'Disk', 'Top', 'Joystick', 0, 0,
-			4, 1, 1)
+			4, 1, 1, 0, 0, 0)
 		self.gameTest(gameRows[4], 'Hanse - Die Expedition', 'Hanse makes you a trader.', 
 			'',  '', 1, 6, 6, 5, 6, '2', '2', 7, 'www', 'USA', 'Disk', 'Top', 'Joystick', 0, 0,
-			3, 1, 1)
+			3, 1, 1, 0, 0, 0)
 		self.gameTest(gameRows[5], 'Legends of Zelda', 'This installment in the Zelda series was my favorite.', 
 			'', '', 2, 6, 6, 3, 6, '4', '10', 35, 'www', 'USA', 'Cartridge', 'Top', 'Gamepad', 0, 0,
-			1, 1, 1)		
+			1, 1, 1, 0, 0, 0)	
 		
 		
 	def gameTest(self, game, name, descStart, gameCmd, alternateGameCmd, romCollectionId, publisherId, developerId, reviewerId,
 			yearId, maxPlayers, rating, numVotes, url, region, media, perspective, controllerType, isFavorite, launchCount,
-			numRoms, numCovers, numIngameScreens):
+			numRoms, numCovers, numIngameScreens, numTitleScreens, numCartridges, numVideos):
 		
 		print name
 		self.assertEqual(game[1], name)		
@@ -184,19 +184,11 @@ class TestAlterTable(unittest.TestCase):
 		numRomsActual = len(roms)
 		self.assertEqual(numRomsActual, numRoms)
 		
-		#TODO Test all fileTypes
+		self.fileTypeTest('cover', numCovers, game[0])
+		self.fileTypeTest('screenshotingame', numIngameScreens, game[0])
+		self.fileTypeTest('screenshottitle', numTitleScreens, game[0])
+		self.fileTypeTest('cartridge', numCartridges, game[0])		
 		
-		""""
-		cover = File(self.gdb).getCoversByGameId(game[0])
-		self.assertTrue(cover != None)
-		numCoversActual = len(cover)
-		self.assertEqual(numCoversActual, numCovers)
-		
-		ingameScreens = File(self.gdb).getIngameScreenshotsByGameId(game[0])
-		self.assertTrue(ingameScreens != None)
-		numIngameScreensActual = len(ingameScreens)
-		self.assertEqual(numIngameScreensActual, numIngameScreens)
-		"""
 		
 	
 	def pathTest(self, pathActual, pathExpected, fileTypeId, fileTypeExpected, romCollId, romCollExpected):
@@ -205,6 +197,13 @@ class TestAlterTable(unittest.TestCase):
 		self.assertEqual(fileType[1], fileTypeExpected)
 		romCollection = RomCollection(self.gdb).getObjectById(romCollId)
 		self.assertEqual(romCollection[1], romCollExpected)
+		
+	def fileTypeTest(self, typeName, numFilesExpected, gameId):
+		fileTypeRow = FileType(self.gdb).getOneByName(typeName)
+		files = File(self.gdb).getFilesByGameIdAndTypeId(gameId, fileTypeRow[0])		
+		self.assertTrue(files != None)
+		numfiles = len(files)
+		self.assertEqual(numfiles, numFilesExpected)
 		
 			
 		
