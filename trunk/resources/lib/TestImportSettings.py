@@ -124,7 +124,26 @@ class TestImportSettings(unittest.TestCase):
 		paths = Path(self.gdb).getAll()
 		self.assertTrue(paths != None)
 		self.assertTrue(len(paths) == 27)
-
+		
+		self.assertEqual(paths[0][1], 'TestDataBase\Collection V1\\roms\*.adf')		
+		self.pathTest(paths[1][1], 'TestDataBase\Collection V1\\roms\*.ADF', paths[1][2], 'rom', paths[1][3], 'Collection V1')
+		self.pathTest(paths[2][1], 'TestDataBase\Collection V1\synopsis\synopsis.txt', paths[2][2], 'description', paths[1][3], 'Collection V1')
+		self.pathTest(paths[5][1], 'TestDataBase\Collection V1\cover\%GAME%.png', paths[5][2], 'cover', paths[1][3], 'Collection V1')
+		self.pathTest(paths[9][1], 'TestDataBase\Collection V2\\roms\*.adf', paths[9][2], 'rom', paths[9][3], 'Collection V2')
+		self.pathTest(paths[14][1], 'TestDataBase\Collection V2\cover\%GAME%\*.png', paths[14][2], 'cover', paths[14][3], 'Collection V2')
+		self.pathTest(paths[17][1], 'TestDataBase\Collection V2\screens\%GAME%\*.png', paths[17][2], 'screenshotingame', paths[17][3], 'Collection V2')
+		self.pathTest(paths[21][1], 'TestDataBase\Collection V3\cover\%GAME%.jpg', paths[21][2], 'cover', paths[21][3], 'Collection V3')
+		self.pathTest(paths[24][1], 'TestDataBase\Collection V3\screens\%GAME%.jpg', paths[24][2], 'screenshotingame', paths[24][3], 'Collection V3')
+		self.pathTest(paths[26][1], 'TestDataBase\Collection V3\screens\%GAME%.png', paths[26][2], 'screenshotingame', paths[26][3], 'Collection V3')
+		
+		
+	def pathTest(self, pathActual, pathExpected, fileTypeId, fileTypeExpected, romCollId, romCollExpected):
+		self.assertEqual(pathActual, pathExpected)
+		fileType = FileType(self.gdb).getObjectById(fileTypeId)
+		self.assertEqual(fileType[1], fileTypeExpected)
+		romCollection = RomCollection(self.gdb).getObjectById(romCollId)
+		self.assertEqual(romCollection[1], romCollExpected)
+		
 
 class RCBMock():
 	def writeMsg(self, msg):
