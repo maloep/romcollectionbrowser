@@ -271,9 +271,11 @@ class SettingsImporter:
 	def insertFileTypeForControl(self, romCollectionId, fileTypes, control):
 		for i in range(0, len(fileTypes)):
 			fileType = fileTypes[i]			
+			if(control == 'gameinfoviewvideowindow'):
+				fileType = 'video_' +fileType
 			fileTypeRow = FileType(self.gdb).getOneByName(fileType)			
 			if(fileTypeRow == None):				
-				return
+				return						
 			
 			fileTypeForControlRow = FileTypeForControl(self.gdb).getFileTypeForControlByKey(romCollectionId, fileType, control, str(i))
 			if(fileTypeForControlRow == None):

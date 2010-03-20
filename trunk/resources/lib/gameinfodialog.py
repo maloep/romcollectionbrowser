@@ -112,7 +112,7 @@ class UIGameInfoView(xbmcgui.WindowXMLDialog):
 		
 		items = []		
 		for game in games:
-			images = helper.getImagesByControl(self.gdb, 'gameinfoviewgamelist', game[0], game[5])
+			images = helper.getFilesByControl(self.gdb, 'gameinfoviewgamelist', game[0], game[5])
 			if(images != None and len(images) != 0):
 				image = images[0]
 			else:
@@ -177,15 +177,17 @@ class UIGameInfoView(xbmcgui.WindowXMLDialog):
 		self.setImage(CONTROL_IMG_GAMEINFO3, 'gameinfoview3', gameRow[0], gameRow[5], None)
 		self.setImage(CONTROL_IMG_GAMEINFO4, 'gameinfoview4', gameRow[0], gameRow[5], None)
 			
-		"""
-		ingameVideos = File(self.gdb).getIngameVideosByGameId(self.selectedGameId)
-		if(ingameVideos != None and len(ingameVideos) != 0):
-			ingameVideo = ingameVideos[0]			
+		
+		videos = helper.getFilesByControl(self.gdb, 'gameinfoviewvideowindow', gameRow[0], gameRow[5])
+		print videos
+		#ingameVideos = File(self.gdb).getIngameVideosByGameId(self.selectedGameId)
+		if(videos != None and len(videos) != 0):
+			video = videos[0]			
 						
 			playlist = xbmc.PlayList( xbmc.PLAYLIST_VIDEO)
 			playlist.clear()			
-			xbmc.Player().play(ingameVideo[0])
-		"""
+			xbmc.Player().play(video)
+		
 			
 		
 		
@@ -205,7 +207,7 @@ class UIGameInfoView(xbmcgui.WindowXMLDialog):
 		
 	def setImage(self, controlId, controlName, gameId, romCollectionId, defaultImage):
 				
-		images = helper.getImagesByControl(self.gdb, controlName, gameId, romCollectionId)
+		images = helper.getFilesByControl(self.gdb, controlName, gameId, romCollectionId)
 		
 		#TODO more than one image?
 		if(images != None and len(images) != 0):
