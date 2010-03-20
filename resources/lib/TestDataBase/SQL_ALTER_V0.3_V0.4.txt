@@ -39,7 +39,6 @@ FROM RCBSettings_tmp;
 
 DROP TABLE RCBSettings_tmp;
 
-
 CREATE TABLE IF NOT EXISTS [FileTypeForControl]
 (
     [id] INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -56,3 +55,4 @@ CREATE TABLE IF NOT EXISTS [FileTypeForControl]
 );
 
 
+UPDATE RCBSetting SET dbVersion = 'V0.4'

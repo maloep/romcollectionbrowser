@@ -43,18 +43,18 @@ INSERT INTO Reviewer VALUES(NULL, 'Sandra Stevenson');
 INSERT INTO Reviewer VALUES(NULL, 'Melanie Smith');
 
 
-INSERT INTO Console VALUES(NULL, 'Super Nintendo', 'The Super Nintendo (SNES) is a 16-bit video game console released in 1990. 32768 (15-bit) colors, 8 channels 16-bit 32 kHz audio channels. 128 kB main RAM, 64 kB Video RAM and 64 kB Audio RAM.',
-'E:\Emulatoren\data\consoleImages\zsnes.png');
-INSERT INTO Console VALUES(NULL, 'Amiga', 'The Amiga 500, also known as the A500 (or its code name Rock Lobster), was the first low-end Commodore Amiga 16/32-bit multimedia home/personal computer. It was announced at the winter Consumer Electronics Show in January 1987, at the same time as the high-end Amiga 2000, and competed directly against the Atari 520ST.',
+INSERT INTO Console VALUES(NULL, 'Amiga', 'The Amiga 500 is also known as the A500 (or its code name Rock Lobster).',
 'E:\Emulatoren\data\consoleImages\uae.png');
+INSERT INTO Console VALUES(NULL, 'Super Nintendo', 'The Super Nintendo (SNES) is a 16-bit video game console released in 1990.',
+'E:\Emulatoren\data\consoleImages\zsnes.png');
 
 
-INSERT INTO RomCollection VALUES(NULL, 'Amiga',
+INSERT INTO RomCollection VALUES(NULL, 'Collection V1',
 (SELECT id From Console Where name = 'Amiga'),
-'winuae.exe {-%I% %ROM%}', 1, 1, 'DescriptionParser.xml', 1, 0, 1, '_Disk', 1, 1, 1);
-INSERT INTO RomCollection VALUES(NULL, 'SNES',
+'winuae.exe {-%I% "%ROM%"}', 'True', 'True', 'DescriptionParser.xml', 'True', 'False', 'True', '_Disk', 'Text', 'True', 'True');
+INSERT INTO RomCollection VALUES(NULL, 'Collection V2',
 (SELECT id From Console Where name = 'Super Nintendo'),
-'zsnes -m %ROM%', 1, 1, 'DescriptionParser.xml', 1, 0, 1, '_Disk', 1, 1, 1);
+'zsnes.exe -m "%ROM%"', 'True', 'True', 'DescriptionParser.xml', 'True', 'False', 'True', '_Disk', 'Text', 'True', 'True');
 
 
 INSERT INTO Game VALUES(NULL, 'Airborne Ranger', 'In this action/simulation game by Microprose the player takes the role of an U.S. Army Airborne ranger. These Airborne rangers are dropped behind enemy lines by parachute to perform all kinds of dangerous missions. Gameplay consists of 3 phases:
@@ -65,14 +65,14 @@ Missions take place in either an arctic, desert or temperate setting. Using the 
 
 Airborne Ranger can be played in practice or veteran mode. In practice mode, gameplay is limited to a single mission, while in veteran mode, a series of missions or an entire campaign is played in order to earn medals &amp; promotions. All missions can be played on several difficulty levels.',
 '', '',
-(SELECT id From RomCollection Where name = 'Amiga'),
+(SELECT id From RomCollection Where name = 'Collection V1'),
 (SELECT id From Publisher Where name = 'MicroProse Software, Inc.'),
 (SELECT id From Developer Where name = 'MicroProse Software, Inc.'),
 (SELECT id From Reviewer Where name = 'Sandra Stevenson'),
 (SELECT id From Year Where name = '1989'), '4', '5', '15', 'www', 'USA', 'Disk', '1st Person', 'Joystick', 0, 0);
 
 INSERT INTO Game VALUES(NULL, 'Dogfight', 'Dogfight is a two-player game with roots in the same primordial soup as Ataris Combat and other basic dogfighting games.', '', '',
-(SELECT id From RomCollection Where name = 'Amiga'),
+(SELECT id From RomCollection Where name = 'Collection V1'),
 (SELECT id From Publisher Where name = 'MicroProse Software, Inc.'),
 (SELECT id From Developer Where name = 'MicroProse Software, Inc.'),
 (SELECT id From Reviewer Where name = 'Kevin Spacey'),
@@ -82,7 +82,7 @@ INSERT INTO Game VALUES(NULL, 'Dogfight', 'Dogfight is a two-player game with ro
 INSERT INTO Game VALUES(NULL, 'Football Glory', 'From Croatia came this overhead view football game resembling Sensible Soccer. The standard selection of competitions are on offer, with a full range of club and national competitions.
 
 Far more moves are possible in this one though, including overhead kicks, backheelers, riding tackles and even some impressive overhead kicks, all of which need practice to be perfected. Passing works in a similar way to Sensible, but requiring a longer tap, and giving more versatility in where the pass is placed. Extra details such as an on-screen referee and a zoom feature on replays are included. Kits can be edited in more detail than most games of the time as well.', '', '',
-(SELECT id From RomCollection Where name = 'Amiga'),
+(SELECT id From RomCollection Where name = 'Collection V1'),
 (SELECT id From Publisher Where name = 'Black Legend Ltd.'),
 (SELECT id From Developer Where name = 'Black Legend Ltd.'),
 (SELECT id From Reviewer Where name = 'Duke Nukem'),
@@ -93,24 +93,24 @@ INSERT INTO Game VALUES(NULL, 'Formula One Grand Prix', 'F1 is an Official Formu
 There are slight differences between the two modes. For instance, &quot;Arcade&quot; allows you to select the circuit in any order that you like, whereas &quot;Grand Prix&quot; only allows you to fine-tune your car before starting a race. You also need to race a circuit in the order that they appear on the circuit selection screen, but you can skip a track if you want.
 
 F1 is a 1-2 player game, meaning that if you have another player handy, you can compete against each other.', '', '',
-(SELECT id From RomCollection Where name = 'Amiga'),
+(SELECT id From RomCollection Where name = 'Collection V1'),
 (SELECT id From Publisher Where name = 'Domark Software, Inc.'),
 (SELECT id From Developer Where name = 'Domark Software, Inc.'),
 (SELECT id From Reviewer Where name = 'Kevin Spacey'),
 (SELECT id From Year Where name = '1993'), '2', '7', '32', 'www', 'USA', 'Disk', 'Top', 'Joystick', 0, 0);
 
 INSERT INTO Game VALUES(NULL, 'Hanse - Die Expedition', 'Hanse makes you a trader.', '', '',
-(SELECT id From RomCollection Where name = 'Amiga'),
+(SELECT id From RomCollection Where name = 'Collection V1'),
 (SELECT id From Publisher Where name = 'Ascon GmbH'),
 (SELECT id From Developer Where name = 'Ascon GmbH'),
 (SELECT id From Reviewer Where name = 'Melanie Smith'),
 (SELECT id From Year Where name = '1994'), '2', '2', '7', 'www', 'USA', 'Disk', 'Top', 'Joystick', 0, 0);
 
 
-INSERT INTO Game VALUES(NULL, 'Legends of Zelda', 'nice Adventure', '', '',
-(SELECT id From RomCollection Where name = 'SNES'),
-(SELECT id From Publisher Where name = 'Code Masters'),
-(SELECT id From Developer Where name = 'Code Masters'),
+INSERT INTO Game VALUES(NULL, 'Legends of Zelda', 'This installment in the Zelda series was my favorite.', '', '',
+(SELECT id From RomCollection Where name = 'Collection V2'),
+(SELECT id From Publisher Where name = 'Ascon GmbH'),
+(SELECT id From Developer Where name = 'Ascon GmbH'),
 (SELECT id From Reviewer Where name = 'William Barneby'),
 (SELECT id From Year Where name = '1994'), '4', '10', '35', 'www', 'USA', 'Cartridge', 'Top', 'Gamepad', 0, 0);
 
@@ -179,7 +179,7 @@ INSERT INTO File VALUES(NULL, 'E:\Emulatoren\data\Amiga\Collection V1\screens\Fo
 (SELECT id From Game Where name = 'Formula One Grand Prix'));
 INSERT INTO File VALUES(NULL, 'E:\Emulatoren\data\Amiga\Collection V1\screens\Hanse - Die Expedition.jpg',
 (SELECT id From FileType Where name = 'screenshotingame'),
-(SELECT id From Game Where name = 'Hanse - Die Expedition.gif'));
+(SELECT id From Game Where name = 'Hanse - Die Expedition'));
 INSERT INTO File VALUES(NULL, 'E:\Emulatoren\data\Amiga\Collection V1\screens\Ports Of Call.jpg',
 (SELECT id From FileType Where name = 'screenshotingame'),
 (SELECT id From Game Where name = 'Ports Of Call'));
@@ -218,39 +218,39 @@ INSERT INTO File VALUES(NULL, 'E:\Emulatoren\data\SNES\Collection V1\screens\Leg
 
 INSERT INTO Path VALUES(NULL, 'E:\Emulatoren\data\Amiga\Collection V1\roms\*.adf',
 (SELECT id From FileType Where name = 'rom'),
-(SELECT id From RomCollection Where name = 'Amiga'));
+(SELECT id From RomCollection Where name = 'Collection V1'));
 INSERT INTO Path VALUES(NULL, 'E:\Emulatoren\data\Amiga\Collection V1\synopsis\synopsis.txt',
 (SELECT id From FileType Where name = 'description'),
-(SELECT id From RomCollection Where name = 'Amiga'));
+(SELECT id From RomCollection Where name = 'Collection V1'));
 INSERT INTO Path VALUES(NULL, 'E:\Emulatoren\data\Amiga\Collection V1\screens\%GAME%.jpg',
 (SELECT id From FileType Where name = 'screenshotingame'),
-(SELECT id From RomCollection Where name = 'Amiga'));
+(SELECT id From RomCollection Where name = 'Collection V1'));
 INSERT INTO Path VALUES(NULL, 'E:\Emulatoren\data\Amiga\Collection V1\screens\%GAME%.gif',
 (SELECT id From FileType Where name = 'screenshotingame'),
-(SELECT id From RomCollection Where name = 'Amiga'));
+(SELECT id From RomCollection Where name = 'Collection V1'));
 INSERT INTO Path VALUES(NULL, 'E:\Emulatoren\data\Amiga\Collection V1\screens\%GAME%.png',
 (SELECT id From FileType Where name = 'screenshotingame'),
-(SELECT id From RomCollection Where name = 'Amiga'));
+(SELECT id From RomCollection Where name = 'Collection V1'));
 INSERT INTO Path VALUES(NULL, 'E:\Emulatoren\data\Amiga\Collection V1\cover\%GAME%.jpg',
 (SELECT id From FileType Where name = 'cover'),
-(SELECT id From RomCollection Where name = 'Amiga'));
+(SELECT id From RomCollection Where name = 'Collection V1'));
 INSERT INTO Path VALUES(NULL, 'E:\Emulatoren\data\Amiga\Collection V1\ingameVideo\%GAME%.wmv',
 (SELECT id From FileType Where name = 'ingamevideo'),
-(SELECT id From RomCollection Where name = 'Amiga'));
+(SELECT id From RomCollection Where name = 'Collection V1'));
 INSERT INTO Path VALUES(NULL, 'E:\Emulatoren\data\Amiga\Collection V1\manuals\%GAME%.txt',
 (SELECT id From FileType Where name = 'manual'),
-(SELECT id From RomCollection Where name = 'Amiga'));
+(SELECT id From RomCollection Where name = 'Collection V1'));
 INSERT INTO Path VALUES(NULL, 'E:\Emulatoren\data\Amiga\Collection V1\trailer\%GAME%.wmv',
 (SELECT id From FileType Where name = 'trailer'),
-(SELECT id From RomCollection Where name = 'Amiga'));
+(SELECT id From RomCollection Where name = 'Collection V1'));
 
 
-INSERT INTO Path VALUES(NULL, '/home/lom/rom/SNES/',
+INSERT INTO Path VALUES(NULL, 'E:\Emulatoren\data\Amiga\Collection V2\roms\*.smc',
 (SELECT id From FileType Where name = 'rom'),
-(SELECT id From RomCollection Where name = 'SNES'));
-INSERT INTO Path VALUES(NULL, '/home/lom/rom/Database/ZSNES/',
+(SELECT id From RomCollection Where name = 'Collection V2'));
+INSERT INTO Path VALUES(NULL, 'E:\Emulatoren\data\Amiga\Collection V2\screens\*.png',
 (SELECT id From FileType Where name = 'screenshotingame'),
-(SELECT id From RomCollection Where name = 'SNES'));
+(SELECT id From RomCollection Where name = 'Collection V2'));
 
 
 INSERT INTO GenreGame VALUES(NULL,
