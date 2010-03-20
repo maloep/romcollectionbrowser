@@ -63,14 +63,20 @@ class UIGameDB(xbmcgui.WindowXML):
 		# Idea to initialize your variables here		
 		self.isInit = True
 		
+		self.gdb.connect()
+		#check if we have an actual database
+		#create new one or alter existing one
+		self.gdb.checkDBStructure()		
+		self.gdb.commit()		
+		
+		
+		
 	def onInit(self):
 		#only init once
 		if(not self.isInit):
 			return
 			
-		self.isInit = False		
-		
-		self.gdb.connect()
+		self.isInit = False
 		
 		self.updateControls()
 		self.loadViewState()

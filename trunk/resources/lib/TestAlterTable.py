@@ -29,7 +29,7 @@ class TestAlterTable(unittest.TestCase):
 		self.gdb.executeSQLScript(os.path.join(self.databasedir, 'SQL_INSERT_TEST_DATA_V0.3.txt'))
 
 		#convert V0.3 to V0.4
-		self.gdb.checkDBStructure()
+		#self.gdb.checkDBStructure()
 		
 		#Test
 		rcbSettingRows = RCBSetting(self.gdb).getAll()
@@ -157,10 +157,8 @@ class TestAlterTable(unittest.TestCase):
 		
 		print name
 		self.assertEqual(game[1], name)		
-		description = game[2]
-		print description
-		descStart = descStart
-		print descStart
+		description = game[2]		
+		descStart = descStart		
 		self.assertTrue(description.startswith(descStart))
 		self.assertEqual(game[3], gameCmd)
 		self.assertEqual(game[4], alternateGameCmd)

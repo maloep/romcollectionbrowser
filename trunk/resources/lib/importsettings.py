@@ -170,12 +170,12 @@ class SettingsImporter:
 			saveViewStateOnLaunchEmu = None
 		
 		if(rcbSettingRows == None or len(rcbSettingRows) == 0):			
-			RCBSetting(gdb).insert((None, None, None, None, None, None, favoriteConsole, favoriteGenre, None, 'V0.3', 
+			RCBSetting(gdb).insert((None, None, None, None, None, None, favoriteConsole, favoriteGenre, None, CURRENT_SCRIPT_VERSION, 
 				showEntryAllConsoles, showEntryAllGenres, showEntryAllYears, showEntryAllPublisher, saveViewStateOnExit, saveViewStateOnLaunchEmu, None, None))
 		else:
 			rcbSetting = rcbSettingRows[0]
-			RCBSetting(gdb).update(('favoriteConsoleId', 'favoriteGenreId', 'showEntryAllConsoles', 'showEntryAllGenres', 'showEntryAllYears', 'showEntryAllPublisher', 'saveViewStateOnExit', 'saveViewStateOnLaunchEmu'),
-				(favoriteConsole, favoriteGenre, showEntryAllConsoles, showEntryAllGenres, showEntryAllYears, showEntryAllPublisher, saveViewStateOnExit, saveViewStateOnLaunchEmu), rcbSetting[0])
+			RCBSetting(gdb).update(('dbVersion', 'favoriteConsoleId', 'favoriteGenreId', 'showEntryAllConsoles', 'showEntryAllGenres', 'showEntryAllYears', 'showEntryAllPublisher', 'saveViewStateOnExit', 'saveViewStateOnLaunchEmu'),
+				(CURRENT_SCRIPT_VERSION, favoriteConsole, favoriteGenre, showEntryAllConsoles, showEntryAllGenres, showEntryAllYears, showEntryAllPublisher, saveViewStateOnExit, saveViewStateOnLaunchEmu), rcbSetting[0])
 	
 	
 	def insertConsole(self, gdb, consoleName, consoleDesc, consoleImage):

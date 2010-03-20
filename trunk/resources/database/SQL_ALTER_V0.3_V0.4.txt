@@ -55,4 +55,4 @@ CREATE TABLE IF NOT EXISTS [FileTypeForControl]
 );
 
 
-UPDATE RCBSetting SET dbVersion = 'V0.4'
+UPDATE RCBSetting SET dbVersion = 'V0.4';
