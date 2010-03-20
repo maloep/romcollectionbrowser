@@ -6,18 +6,18 @@ from gamedatabase import *
 RCBHOME = os.getcwd()
 
 
-def getImagesByControl(gdb, controlName, gameId, romCollectionId):
+def getFilesByControl(gdb, controlName, gameId, romCollectionId):
 		fileTypeForControlRows = FileTypeForControl(gdb).getFileTypesForControlByKey(romCollectionId, controlName)
 		if(fileTypeForControlRows == None):
 			return
 		
-		images = []		
+		mediaFiles = []		
 		for fileTypeForControlRow in fileTypeForControlRows:			
 			files = File(gdb).getFilesByGameIdAndTypeId(gameId, fileTypeForControlRow[4])
 			for file in files:				
-				images.append(file[1])
+				mediaFiles.append(file[1])
 						
-		return images
+		return mediaFiles
 		
 
 

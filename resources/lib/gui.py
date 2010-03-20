@@ -233,7 +233,7 @@ class UIGameDB(xbmcgui.WindowXML):
 		
 		items = []
 		for game in games:
-			images = helper.getImagesByControl(self.gdb, 'gamelist', game[0], game[5])
+			images = helper.getFilesByControl(self.gdb, 'gamelist', game[0], game[5])
 			if(images != None and len(images) != 0):
 				image = images[0]
 			else:
@@ -271,7 +271,7 @@ class UIGameDB(xbmcgui.WindowXML):
 		if(gameRow == None):
 			return
 			
-		images = helper.getImagesByControl(self.gdb, 'mainviewgameinfo', gameRow[0], gameRow[5])
+		images = helper.getFilesByControl(self.gdb, 'mainviewgameinfo', gameRow[0], gameRow[5])
 		if(images != None and len(images) != 0):
 			image = images[0]
 		else:

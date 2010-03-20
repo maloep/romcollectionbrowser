@@ -130,37 +130,4 @@
 			<fileTypeForGameInfoViewVideoWindow>gameplay</fileTypeForGameInfoViewVideoWindow>
 		</RomCollection>
 	</RomCollections>
-	<!-- Don't edit filetypes -->
-	<FileTypes>
-		<FileType>
-			<name>rom</name>
-		</FileType>
-		<FileType>
-			<name>screenshottitle</name>
-		</FileType>
-		<FileType>
-			<name>screenshotingame</name>
-		</FileType>
-		<FileType>
-			<name>cover</name>
-		</FileType>
-		<FileType>
-			<name>cartridge</name>
-		</FileType>
-		<FileType>
-			<name>manual</name>
-		</FileType>
-		<FileType>
-			<name>ingamevideo</name>
-		</FileType>
-		<FileType>
-			<name>trailer</name>
-		</FileType>
-		<FileType>
-			<name>description</name>
-		</FileType>
-		<FileType>
-			<name>configuration</name>
-		</FileType>
-	</FileTypes>	
 </config>
