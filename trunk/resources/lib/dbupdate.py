@@ -72,23 +72,7 @@ class DBUpdate:
 			else:		
 				self.log("Reading configured paths from database")
 				romPaths = Path(self.gdb).getRomPathsByRomCollectionId(romCollectionRow[0])
-				self.log("Rom path: " +str(romPaths))
-				ingameScreenshotPaths = Path(self.gdb).getIngameScreenshotPathsByRomCollectionId(romCollectionRow[0])				
-				self.log("ingame screen path: " +str(ingameScreenshotPaths))
-				titleScreenshotPaths = Path(self.gdb).getTitleScreenshotPathsByRomCollectionId(romCollectionRow[0])
-				self.log("title screen  path: " +str(titleScreenshotPaths))
-				coverPaths = Path(self.gdb).getCoverPathsByRomCollectionId(romCollectionRow[0])				
-				self.log("cover path: " +str(coverPaths))
-				cartridgePaths = Path(self.gdb).getCartridgePathsByRomCollectionId(romCollectionRow[0])				
-				self.log("cartridge path: " +str(cartridgePaths))
-				manualPaths = Path(self.gdb).getManualPathsByRomCollectionId(romCollectionRow[0])			
-				self.log("manual path: " +str(manualPaths))
-				ingameVideoPaths = Path(self.gdb).getIngameVideoPathsByRomCollectionId(romCollectionRow[0])				
-				self.log("ingame video path: " +str(ingameVideoPaths))
-				trailerPaths = Path(self.gdb).getTrailerPathsByRomCollectionId(romCollectionRow[0])				
-				self.log("trailer path: " +str(trailerPaths))
-				configurationPaths = Path(self.gdb).getConfigurationPathsByRomCollectionId(romCollectionRow[0])
-				self.log("configuration path: " +str(configurationPaths))
+				self.log("Rom path: " +str(romPaths))							
 						
 				self.log("Reading rom files")
 				files = []
@@ -132,30 +116,12 @@ class DBUpdate:
 							self.log("WARNING: multi rom game could not be read from database. "\
 								"This usually happens if game name in description file differs from game name in rom file name.")
 							continue
-						self.insertFile(str(filename), gameRow[0], "rom")
+						self.insertFile(str(filename), gameRow[0], "rcb_rom")
 						self.gdb.commit()
 						continue
 						
-					lastgamename = gamename
+					lastgamename = gamename							
 					
-									
-					self.log("Resolving paths")
-					ingameScreenFiles = self.resolvePath(ingameScreenshotPaths, gamename)
-					self.log("ingame screen files: " +str(ingameScreenFiles))
-					titleScreenFiles = self.resolvePath(titleScreenshotPaths, gamename)
-					self.log("title screen files: " +str(titleScreenFiles))
-					coverFiles = self.resolvePath(coverPaths, gamename)
-					self.log("cover files: " +str(titleScreenFiles))
-					cartridgeFiles = self.resolvePath(cartridgePaths, gamename)
-					self.log("cartridge files: " +str(titleScreenFiles))
-					manualFiles = self.resolvePath(manualPaths, gamename)
-					self.log("manual files: " +str(titleScreenFiles))
-					ingameVideoFiles = self.resolvePath(ingameVideoPaths, gamename)
-					self.log("ingame video files: " +str(titleScreenFiles))
-					trailerFiles = self.resolvePath(trailerPaths, gamename)
-					self.log("trailer files: " +str(titleScreenFiles))
-					configurationFiles = self.resolvePath(configurationPaths, gamename)
-					self.log("configuration files: " +str(titleScreenFiles))
 
 					gamedescription = Empty()
 
@@ -182,8 +148,7 @@ class DBUpdate:
 						else:
 							gamedescription = results[0]
 					
-					self.insertData(gamedescription, gamename, romCollectionRow[0], filename, ingameScreenFiles, titleScreenFiles, coverFiles, cartridgeFiles,
-						manualFiles, ingameVideoFiles, trailerFiles, configurationFiles, allowUpdate)
+					self.insertData(gamedescription, gamename, romCollectionRow[0], filename, allowUpdate)
 		gui.writeMsg("Done.")
 		self.exit()
 		
@@ -192,8 +157,11 @@ class DBUpdate:
 		resolvedFiles = []
 				
 		for path in paths:
-			pathname = path[0].replace("%GAME%", gamename)
+			self.log("resolve path: " +path)
+			pathname = path.replace("%GAME%", gamename)
+			self.log("resolved path: " +pathname)
 			files = glob.glob(pathname)
+			self.log("resolved files: " +str(files))
 			for file in files:
 				if(os.path.exists(file)):
 					resolvedFiles.append(file)		
@@ -225,11 +193,10 @@ class DBUpdate:
 			return None
 			
 			
-	def insertData(self, gamedescription, gamenameFromFile, romCollectionId, romFile, ingameScreenFiles, titleScreenFiles, coverFiles, cartridgeFiles,
-						manualFiles, ingameVideoFiles, trailerFiles, configurationFiles, allowUpdate):
+	def insertData(self, gamedescription, gamenameFromFile, romCollectionId, romFile, allowUpdate):
 		self.log("Insert data")		
 				
-		if(gamedescription != Empty()):
+		if(gamedescription != Empty()):			
 			yearId = self.insertForeignKeyItem(gamedescription.ReleaseYear, 'Year', Year(self.gdb))
 			genreIds = self.insertForeignKeyItemList(gamedescription.Genre, 'Genre', Genre(self.gdb))		
 			publisherId = self.insertForeignKeyItem(gamedescription.Publisher, 'Publisher', Publisher(self.gdb))
@@ -246,10 +213,10 @@ class DBUpdate:
 			perspective = self.resolveParseResult(gamedescription.Perspective, 'Perspective')		
 		
 			self.log("Result Game (from parser) = " +str(gamedescription.Game))
-			gameNameFromParser = gamedescription.Game[0].strip()		
+			gamename = gamedescription.Game[0].strip()		
 			
-			self.log("Result Game (as string) = " +gameNameFromParser)
-			gameId = self.insertGame(gameNameFromParser, gamedescription.Description[0], romCollectionId, publisherId, developerId, reviewerId, yearId, 
+			self.log("Result Game (as string) = " +gamename)
+			gameId = self.insertGame(gamename, gamedescription.Description[0], romCollectionId, publisherId, developerId, reviewerId, yearId, 
 				players, rating, votes, url, region, media, perspective, controller, allowUpdate)
 				
 			for genreId in genreIds:
@@ -257,19 +224,39 @@ class DBUpdate:
 				if(genreGame == None):
 					GenreGame(self.gdb).insert((genreId, gameId))
 		else:
-			gameId = self.insertGame(gamenameFromFile, None, romCollectionId, None, None, None, None, 
+			gamename = gamenameFromFile
+			gameId = self.insertGame(gamename, None, romCollectionId, None, None, None, None, 
 					None, None, None, None, None, None, None, None, allowUpdate)				
 			
 		
-		self.insertFile(romFile, gameId, "rom")
-		self.insertFiles(ingameScreenFiles, gameId, "screenshotingame")
-		self.insertFiles(titleScreenFiles, gameId, "screenshottitle")
-		self.insertFiles(coverFiles, gameId, "cover")
-		self.insertFiles(cartridgeFiles, gameId, "cartridge")
+		self.insertFile(romFile, gameId, "rcb_rom")
+		
+		
+		allPathRows = Path(self.gdb).getPathsByRomCollectionId(romCollectionId)		
+		for pathRow in allPathRows:
+			self.log("Additional data path: " +str(pathRow))
+			files = self.resolvePath((pathRow[1],), gamename)
+			self.log("Importing files: " +str(files))
+			fileTypeRow = FileType(self.gdb).getObjectById(pathRow[2])
+			self.log("FileType: " +str(fileTypeRow)) 
+			if(fileTypeRow == None):
+				continue
+			self.insertFiles(files, gameId, fileTypeRow[1])
+			
+		
+		
+		manualPaths = Path(self.gdb).getManualPathsByRomCollectionId(romCollectionId)
+		self.log("manual path: " +str(manualPaths))
+		manualFiles = self.resolvePath(manualPaths, gamename)
+		self.log("manual files: " +str(manualFiles))
 		self.insertFiles(manualFiles, gameId, "manual")
-		self.insertFiles(ingameVideoFiles, gameId, "ingamevideo")
-		self.insertFiles(trailerFiles, gameId, "trailer")
+		
+		configurationPaths = Path(self.gdb).getConfigurationPathsByRomCollectionId(romCollectionId)
+		self.log("configuration path: " +str(configurationPaths))
+		configurationFiles = self.resolvePath(configurationPaths, gamename)
+		self.log("configuration files: " +str(configurationFiles))
 		self.insertFiles(configurationFiles, gameId, "configuration")
+		
 		
 		#TODO Transaction?
 		self.gdb.commit()

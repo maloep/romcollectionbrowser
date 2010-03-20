@@ -39,27 +39,20 @@
 			<romPath>TestDataBase\Collection V1\roms\*.adf</romPath>
 			<romPath>TestDataBase\Collection V1\roms\*.ADF</romPath>
 			<descFilePath>TestDataBase\Collection V1\synopsis\synopsis.txt</descFilePath>
-			<coverPath>TestDataBase\Collection V1\cover\%GAME%.jpg</coverPath>
-			<coverPath>TestDataBase\Collection V1\cover\%GAME%.gif</coverPath>
-			<coverPath>TestDataBase\Collection V1\cover\%GAME%.png</coverPath>
-			<ingamescreenshotPath>TestDataBase\Collection V1\screens\%GAME%.jpg</ingamescreenshotPath>
-			<ingamescreenshotPath>TestDataBase\Collection V1\screens\%GAME%.gif</ingamescreenshotPath>
-			<ingamescreenshotPath>TestDataBase\Collection V1\screens\%GAME%.png</ingamescreenshotPath>
-			<titleScreenshotPath></titleScreenshotPath>
-			<cartridgePath></cartridgePath>
-			<configFilePath></configFilePath>
-			<ingamevidPath></ingamevidPath>
-			<trailerPath></trailerPath>
+			<configFilePath></configFilePath>			
 			<manualPath></manualPath>
+			<imgPath type="cover">TestDataBase\Collection V1\cover\%GAME%.jpg</imgPath>
+			<imgPath type="cover">TestDataBase\Collection V1\cover\%GAME%.gif</imgPath>
+			<imgPath type="cover">TestDataBase\Collection V1\cover\%GAME%.png</imgPath>
+			<imgPath type="screenshotingame">TestDataBase\Collection V1\screens\%GAME%.jpg</imgPath>
+			<imgPath type="screenshotingame">TestDataBase\Collection V1\screens\%GAME%.gif</imgPath>
+			<imgPath type="screenshotingame">TestDataBase\Collection V1\screens\%GAME%.png</imgPath>						
 			<fileTypeForGameList>cover</fileTypeForGameList>
-			<fileTypeForMainViewGameInfo>screenshotingame</fileTypeForMainViewGameInfo>
-			<fileTypeForGameInfoViewBackground>screenshottitle</fileTypeForGameInfoViewBackground>
+			<fileTypeForMainViewGameInfo>screenshotingame</fileTypeForMainViewGameInfo>			
 			<fileTypeForGameInfoViewBackground>cover</fileTypeForGameInfoViewBackground>
-			<fileTypeForGameInfoViewGamelist>cover</fileTypeForGameInfoViewGamelist>
-			<fileTypeForGameInfoView1>screenshottitle</fileTypeForGameInfoView1>
+			<fileTypeForGameInfoViewGamelist>cover</fileTypeForGameInfoViewGamelist>			
 			<fileTypeForGameInfoView2>screenshotingame</fileTypeForGameInfoView2>
-			<fileTypeForGameInfoView3>cover</fileTypeForGameInfoView3>
-			<fileTypeForGameInfoView4>cartridge</fileTypeForGameInfoView4>
+			<fileTypeForGameInfoView3>cover</fileTypeForGameInfoView3>			
 		</RomCollection>
 		<RomCollection>			
 			<name>Collection V2</name>
@@ -78,27 +71,20 @@
 			<romPath>TestDataBase\Collection V2\roms\*.adf</romPath>
 			<romPath>TestDataBase\Collection V2\roms\*.ADF</romPath>
 			<descFilePath>TestDataBase\Collection V2\synopsis\%GAME%\synopsis.txt</descFilePath>
-			<coverPath>TestDataBase\Collection V2\cover\%GAME%\*.jpg</coverPath>
-			<coverPath>TestDataBase\Collection V2\cover\%GAME%\*.gif</coverPath>
-			<coverPath>TestDataBase\Collection V2\cover\%GAME%\*.png</coverPath>
-			<ingamescreenshotPath>TestDataBase\Collection V2\screens\%GAME%\*.jpg</ingamescreenshotPath>
-			<ingamescreenshotPath>TestDataBase\Collection V2\screens\%GAME%\*.gif</ingamescreenshotPath>
-			<ingamescreenshotPath>TestDataBase\Collection V2\screens\%GAME%\*.png</ingamescreenshotPath>
-			<titleScreenshotPath></titleScreenshotPath>
-			<cartridgePath></cartridgePath>
-			<configFilePath></configFilePath>
-			<ingamevidPath></ingamevidPath>
-			<trailerPath></trailerPath>
+			<configFilePath></configFilePath>			
 			<manualPath></manualPath>
+			<imgPath type="cover">TestDataBase\Collection V2\cover\%GAME%\*.jpg</imgPath>
+			<imgPath type="cover">TestDataBase\Collection V2\cover\%GAME%\*.gif</imgPath>
+			<imgPath type="cover">TestDataBase\Collection V2\cover\%GAME%\*.png</imgPath>
+			<imgPath type="screenshotingame">TestDataBase\Collection V2\screens\%GAME%\*.jpg</imgPath>
+			<imgPath type="screenshotingame">TestDataBase\Collection V2\screens\%GAME%\*.gif</imgPath>
+			<imgPath type="screenshotingame">TestDataBase\Collection V2\screens\%GAME%\*.png</imgPath>						
 			<fileTypeForGameList>cover</fileTypeForGameList>
-			<fileTypeForMainViewGameInfo>screenshotingame</fileTypeForMainViewGameInfo>
-			<fileTypeForGameInfoViewBackground>screenshottitle</fileTypeForGameInfoViewBackground>
+			<fileTypeForMainViewGameInfo>screenshotingame</fileTypeForMainViewGameInfo>			
 			<fileTypeForGameInfoViewBackground>cover</fileTypeForGameInfoViewBackground>
-			<fileTypeForGameInfoViewGamelist>cover</fileTypeForGameInfoViewGamelist>
-			<fileTypeForGameInfoView1>screenshottitle</fileTypeForGameInfoView1>
+			<fileTypeForGameInfoViewGamelist>cover</fileTypeForGameInfoViewGamelist>			
 			<fileTypeForGameInfoView2>screenshotingame</fileTypeForGameInfoView2>
-			<fileTypeForGameInfoView3>cover</fileTypeForGameInfoView3>
-			<fileTypeForGameInfoView4>cartridge</fileTypeForGameInfoView4>
+			<fileTypeForGameInfoView3>cover</fileTypeForGameInfoView3>			
 		</RomCollection>		
 		<RomCollection>			
 			<name>Collection V3</name>
@@ -117,18 +103,17 @@
 			<romPath>TestDataBase\Collection V3\roms\*.zip</romPath>
 			<romPath>TestDataBase\Collection V3\roms\*.smc</romPath>
 			<descFilePath>TestDataBase\Collection V3\description\synopsis.txt</descFilePath>
-			<coverPath>TestDataBase\Collection V3\cover\%GAME%.jpg</coverPath>
-			<coverPath>TestDataBase\Collection V3\cover\%GAME%.gif</coverPath>
-			<coverPath>TestDataBase\Collection V3\cover\%GAME%.png</coverPath>
-			<ingamescreenshotPath>TestDataBase\Collection V3\screens\%GAME%.jpg</ingamescreenshotPath>
-			<ingamescreenshotPath>TestDataBase\Collection V3\screens\%GAME%.gif</ingamescreenshotPath>
-			<ingamescreenshotPath>TestDataBase\Collection V3\screens\%GAME%.png</ingamescreenshotPath>
-			<titleScreenshotPath></titleScreenshotPath>
-			<cartridgePath></cartridgePath>
 			<configFilePath></configFilePath>
-			<ingamevidPath></ingamevidPath>
-			<trailerPath></trailerPath>
 			<manualPath></manualPath>
+			<imgPath type="cover">TestDataBase\Collection V3\cover\%GAME%.jpg</imgPath>
+			<imgPath type="cover">TestDataBase\Collection V3\cover\%GAME%.gif</imgPath>
+			<imgPath type="cover">TestDataBase\Collection V3\cover\%GAME%.png</imgPath>
+			<imgPath type="screenshotingame">TestDataBase\Collection V3\screens\%GAME%.jpg</imgPath>
+			<imgPath type="screenshotingame">TestDataBase\Collection V3\screens\%GAME%.gif</imgPath>
+			<imgPath type="screenshotingame">TestDataBase\Collection V3\screens\%GAME%.png</imgPath>
+			<imgPath type="screenshottitle"></imgPath>
+			<imgPath type="cartridge"></imgPath>			
+			<videoPath type="gameplay">Test</videoPath>					
 			<fileTypeForGameList>cover</fileTypeForGameList>
 			<fileTypeForMainViewGameInfo>screenshotingame</fileTypeForMainViewGameInfo>
 			<fileTypeForGameInfoViewBackground>screenshottitle</fileTypeForGameInfoViewBackground>
@@ -138,6 +123,7 @@
 			<fileTypeForGameInfoView2>screenshotingame</fileTypeForGameInfoView2>
 			<fileTypeForGameInfoView3>cover</fileTypeForGameInfoView3>
 			<fileTypeForGameInfoView4>cartridge</fileTypeForGameInfoView4>
+			<fileTypeForGameInfoViewVideoWindow>gameplay</fileTypeForGameInfoViewVideoWindow>
 		</RomCollection>
 	</RomCollections>
 	<!-- Don't edit filetypes -->

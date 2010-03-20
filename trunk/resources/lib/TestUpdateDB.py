@@ -158,15 +158,19 @@ class TestUpdateDB(unittest.TestCase):
 		numRomsActual = len(roms)
 		self.assertEqual(numRomsActual, numRoms)
 		
-		cover = File(self.gdb).getCoversByGameId(game[0])
+		#TODO Test all fileTypes
+		fileTypeRow = FileType(self.gdb).getOneByName('cover')		
+		cover = File(self.gdb).getFilesByGameIdAndTypeId(game[0], fileTypeRow[0])		
 		self.assertTrue(cover != None)
 		numCoversActual = len(cover)
 		self.assertEqual(numCoversActual, numCovers)
-		
-		ingameScreens = File(self.gdb).getIngameScreenshotsByGameId(game[0])
+				
+		fileTypeRow = FileType(self.gdb).getOneByName('screenshotingame')		
+		ingameScreens = File(self.gdb).getFilesByGameIdAndTypeId(game[0], fileTypeRow[0])		
 		self.assertTrue(ingameScreens != None)
 		numIngameScreensActual = len(ingameScreens)
 		self.assertEqual(numIngameScreensActual, numIngameScreens)
+		
 		
 
 class RCBMock():

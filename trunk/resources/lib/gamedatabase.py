@@ -295,48 +295,20 @@ class File(DataBaseObject):
 		files = self.getObjectsByQuery(self.filterQueryByNameAndType, (name, type))
 		return files
 		
-	def getFilesByFileGameIdAndTypeId(self, gameId, fileTypeId):
+	def getFilesByGameIdAndTypeId(self, gameId, fileTypeId):
 		files = self.getObjectsByQuery(self.filterQueryByGameIdAndTypeId, (gameId, fileTypeId))
 		return files
 		
-	def getIngameScreenshotByGameId(self, gameId):
-		file = self.getObjectByQuery(self.filterQueryByGameIdAndFileType, (gameId, 'screenshotingame'))
-		if file == None:
-			return ""		
-		return file[0]
-		
-	def getIngameScreenshotsByGameId(self, gameId):
-		files = self.getObjectsByQuery(self.filterQueryByGameIdAndFileType, (gameId, 'screenshotingame'))		
-		return files
-		
-	def getTitleScreenshotsByGameId(self, gameId):
-		files = self.getObjectsByQuery(self.filterQueryByGameIdAndFileType, (gameId, 'screenshottitle'))		
-		return files
-		
-	def getCartridgesByGameId(self, gameId):
-		files = self.getObjectsByQuery(self.filterQueryByGameIdAndFileType, (gameId, 'cartridge'))	
-		return files
-		
-	def getIngameVideosByGameId(self, gameId):
-		files = self.getObjectsByQuery(self.filterQueryByGameIdAndFileType, (gameId, 'ingamevideo'))
-		return files
-		
-	def getCoverByGameId(self, gameId):
-		file = self.getObjectByQuery(self.filterQueryByGameIdAndFileType, (gameId, 'cover'))
-		if file == None:
-			return ""		
-		return file[0]
-		
-	def getCoversByGameId(self, gameId):
-		files = self.getObjectsByQuery(self.filterQueryByGameIdAndFileType, (gameId, 'cover'))			
-		return files
-		
 	def getRomsByGameId(self, gameId):
-		files = self.getObjectsByQuery(self.filterQueryByGameIdAndFileType, (gameId, 'rom'))
+		files = self.getObjectsByQuery(self.filterQueryByGameIdAndFileType, (gameId, 'rcb_rom'))
 		return files
 		
 
 class Path(DataBaseObject):	
+	filterQueryByRomCollectionId = "SELECT * FROM Path \
+					WHERE romCollectionId = ? \
+					AND filetypeId NOT IN (SELECT id FROM filetype WHERE name LIKE 'rcb_%')"
+	
 	filterQueryByRomCollectionIdAndFileType = "Select name from Path \
 					where romCollectionId = ? AND \
 					filetypeid = (select id from filetype where name = ?)"
@@ -353,45 +325,25 @@ class Path(DataBaseObject):
 		file = self.getObjectByQuery(self.filterQueryByNameAndType, (name, type))
 		return file
 		
+	def getPathsByRomCollectionId(self, romCollectionId):
+		paths = self.getObjectsByQuery(self.filterQueryByRomCollectionId, (romCollectionId,))
+		return paths
+		
 	def getRomPathsByRomCollectionId(self, romCollectionId):
-		path = self.getObjectsByQuery(self.filterQueryByRomCollectionIdAndFileType, (romCollectionId, 'rom'))
+		path = self.getObjectsByQuery(self.filterQueryByRomCollectionIdAndFileType, (romCollectionId, 'rcb_rom'))
 		return path
 		
 	def getDescriptionPathByRomCollectionId(self, romCollectionId):
-		path = self.getObjectByQuery(self.filterQueryByRomCollectionIdAndFileType, (romCollectionId, 'description'))
+		path = self.getObjectByQuery(self.filterQueryByRomCollectionIdAndFileType, (romCollectionId, 'rcb_description'))
 		if path == None:
 			return ""	
 		return path[0]
 		
-	def getIngameScreenshotPathsByRomCollectionId(self, romCollectionId):
-		path = self.getObjectsByQuery(self.filterQueryByRomCollectionIdAndFileType, (romCollectionId, 'screenshotingame'))
-		return path
-		
-	def getTitleScreenshotPathsByRomCollectionId(self, romCollectionId):
-		path = self.getObjectsByQuery(self.filterQueryByRomCollectionIdAndFileType, (romCollectionId, 'screenshottitle'))
-		return path
-		
-	def getCoverPathsByRomCollectionId(self, romCollectionId):
-		path = self.getObjectsByQuery(self.filterQueryByRomCollectionIdAndFileType, (romCollectionId, 'cover'))
-		return path
-		
-	def getCartridgePathsByRomCollectionId(self, romCollectionId):
-		path = self.getObjectsByQuery(self.filterQueryByRomCollectionIdAndFileType, (romCollectionId, 'cartridge'))
-		return path
 		
 	def getManualPathsByRomCollectionId(self, romCollectionId):
 		path = self.getObjectsByQuery(self.filterQueryByRomCollectionIdAndFileType, (romCollectionId, 'manual'))
 		return path
-		
-	def getIngameVideoPathsByRomCollectionId(self, romCollectionId):
-		path = self.getObjectsByQuery(self.filterQueryByRomCollectionIdAndFileType, (romCollectionId, 'ingamevideo'))
-		return path
-		
-	def getTrailerPathsByRomCollectionId(self, romCollectionId):
-		path = self.getObjectsByQuery(self.filterQueryByRomCollectionIdAndFileType, (romCollectionId, 'trailer'))
-		return path
-		
+	
 	def getConfigurationPathsByRomCollectionId(self, romCollectionId):
 		path = self.getObjectsByQuery(self.filterQueryByRomCollectionIdAndFileType, (romCollectionId, 'configuration'))
 		return path
-		

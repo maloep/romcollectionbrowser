@@ -177,6 +177,7 @@ class UIGameInfoView(xbmcgui.WindowXMLDialog):
 		self.setImage(CONTROL_IMG_GAMEINFO3, 'gameinfoview3', gameRow[0], gameRow[5], None)
 		self.setImage(CONTROL_IMG_GAMEINFO4, 'gameinfoview4', gameRow[0], gameRow[5], None)
 			
+		"""
 		ingameVideos = File(self.gdb).getIngameVideosByGameId(self.selectedGameId)
 		if(ingameVideos != None and len(ingameVideos) != 0):
 			ingameVideo = ingameVideos[0]			
@@ -184,6 +185,7 @@ class UIGameInfoView(xbmcgui.WindowXMLDialog):
 			playlist = xbmc.PlayList( xbmc.PLAYLIST_VIDEO)
 			playlist.clear()			
 			xbmc.Player().play(ingameVideo[0])
+		"""
 			
 		
 		
