@@ -20,14 +20,6 @@ class GameDataBase:
 	def __init__(self, databaseDir):
 		self.databaseDir = databaseDir
 		self.dataBasePath = os.path.join(self.databaseDir, 'MyGames.db')		
-		self.connect()
-		
-		#TODO check if db exists
-		#TODO check DB Update (ALTER Tables)
-		#self.checkDBStructure()
-		self.createTables()
-		self.commit()
-		self.close()
 		
 	def connect( self ):		
 		self.connection = sqlite.connect(self.dataBasePath)
@@ -58,29 +50,26 @@ class GameDataBase:
 
 	
 	def checkDBStructure(self):				
-		
-		print "checkDBStructure"
+				
 		dbVersion = ""
 		try:
 			rcbSettingRows = RCBSetting(self).getAll()
 			if(rcbSettingRows == None or len(rcbSettingRows) != 1):	
-				print "return no rows"
+				self.self.createTables()
 				return
 			rcbSetting = rcbSettingRows[0]
 			dbVersion = rcbSetting[10]
 			
 		except  Exception, (exc): 
-			print "return exc: " +str(exc)
+			self.createTables()
 			return
-		
-		print dbVersion
-		print CURRENT_SCRIPT_VERSION
 		
 		#Alter Table
 		if(dbVersion != CURRENT_SCRIPT_VERSION):
 			alterTableScript = "SQL_ALTER_%(old)s_%(new)s.txt" %{'old': dbVersion, 'new':CURRENT_SCRIPT_VERSION}
+			alterTableScript = str(os.path.join(self.databaseDir, alterTableScript))
 			print alterTableScript
-			self.executeSQLScript(str(os.path.join(self.databaseDir, alterTableScript)))
+			self.executeSQLScript(alterTableScript)
 			
 	
 	
