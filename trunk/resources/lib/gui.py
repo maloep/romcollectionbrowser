@@ -95,9 +95,9 @@ class UIGameDB(xbmcgui.WindowXML):
 		if(action.getId() in ACTION_CANCEL_DIALOG):
 			self.exit()
 		elif(action.getId() in ACTION_MOVEMENT_UP or action.getId() in ACTION_MOVEMENT_DOWN):
-			try:
-				control = self.getControl(self.selectedControlId)
-			except: 
+			
+			control = self.getControlById(self.selectedControlId)
+			if(control == None):
 				return
 			
 			if(self.selectedControlId in FILTER_CONTROLS):
@@ -107,6 +107,7 @@ class UIGameDB(xbmcgui.WindowXML):
 				if (self.selectedControlId == CONTROL_CONSOLES):				
 					self.selectedConsoleId = int(label2)
 					self.selectedConsoleIndex = control.getSelectedPosition()
+					#consoleId 0 = Entry "All"
 					if (self.selectedConsoleId == 0):
 						self.getControl(CONTROL_CONSOLE_IMG).setVisible(0)
 						self.getControl(CONTROL_CONSOLE_DESC).setVisible(0)
@@ -124,17 +125,15 @@ class UIGameDB(xbmcgui.WindowXML):
 					
 				self.showGames()
 		elif(action.getId() in ACTION_MOVEMENT_LEFT or action.getId() in ACTION_MOVEMENT_RIGHT):
-			try:
-				control = self.getControl(self.selectedControlId)
-			except: 
+			control = self.getControlById(self.selectedControlId)
+			if(control == None):
 				return
 				
 			if(self.selectedControlId == CONTROL_GAMES):
 				self.showGameInfo()
 		elif(action.getId() in ACTION_INFO):
-			try:
-				control = self.getControl(self.selectedControlId)
-			except: 
+			control = self.getControlById(self.selectedControlId)
+			if(control == None):
 				return
 			if(self.selectedControlId == CONTROL_GAMES):
 				self.showGameInfoDialog()
@@ -167,7 +166,10 @@ class UIGameDB(xbmcgui.WindowXML):
 		#xbmcgui.lock()
 		rows = dbo.getAllOrdered()
 		
-		control = self.getControl(controlId)
+		control = self.getControlById(controlId)
+		if(control == None):
+			return
+		
 		control.setVisible(1)
 		control.reset()
 		
@@ -180,7 +182,7 @@ class UIGameDB(xbmcgui.WindowXML):
 			
 		control.addItems(items)
 			
-		label2 = str(control.getSelectedItem().getLabel2())		
+		label2 = str(control.getSelectedItem().getLabel2())
 		return int(label2)
 		#xbmcgui.unlock
 		
@@ -225,9 +227,13 @@ class UIGameDB(xbmcgui.WindowXML):
 		#xbmcgui.lock()		
 		
 		games = Game(self.gdb).getFilteredGames(self.selectedConsoleId, self.selectedGenreId, self.selectedYearId, self.selectedPublisherId)		
-			
-		self.getControl(CONTROL_GAMES).setVisible(1)
-		self.getControl(CONTROL_GAMES).reset()
+		
+		control = self.getControlById(CONTROL_GAMES)
+		if(control == None):
+			return
+		
+		control.setVisible(1)
+		control.reset()
 		
 		self.writeMsg("loading games...")
 		
@@ -240,10 +246,11 @@ class UIGameDB(xbmcgui.WindowXML):
 				image = ""			
 			items.append(xbmcgui.ListItem(str(game[1]), str(game[0]), image, ''))
 				
-		self.getControl(CONTROL_GAMES).addItems(items)
+		control.addItems(items)
 		self.writeMsg("")
 		
-		#xbmcgui.unlock()	
+		#xbmcgui.unlock()
+		
 
 	def showConsoleInfo(self):		
 		consoleRow = Console(self.gdb).getObjectById(self.selectedConsoleId)
@@ -253,14 +260,24 @@ class UIGameDB(xbmcgui.WindowXML):
 			
 		image = consoleRow[3]		
 		description = consoleRow[2]
-		self.getControl(CONTROL_CONSOLE_IMG).setVisible(1)
-		self.getControl(CONTROL_CONSOLE_IMG).setImage(image)
-		self.getControl(CONTROL_CONSOLE_DESC).setVisible(1)
-		self.getControl(CONTROL_CONSOLE_DESC).setText(description)
+		
+		controlImg = self.getControlById(CONTROL_CONSOLE_IMG)
+		controlDesc = self.getControlById(CONTROL_CONSOLE_DESC)
+		
+		if(controlImg != None):
+			controlImg.setVisible(1)
+			controlImg.setImage(image)
+		if(controlDesc != None):
+			controlDesc.setVisible(1)
+			controlDesc.setText(description)
 		
 	
-	def showGameInfo(self):		
-		selectedGame = self.getControl(CONTROL_GAMES).getSelectedItem()
+	def showGameInfo(self):
+		control = self.getControlById(CONTROL_GAMES)
+		if(control == None):
+			return
+			
+		selectedGame = control.getSelectedItem()
 		
 		if(selectedGame == None):
 			return
@@ -278,16 +295,29 @@ class UIGameDB(xbmcgui.WindowXML):
 			image = ""
 		
 		description = gameRow[2]
-		self.getControl(CONTROL_CONSOLE_IMG).setVisible(1)
-		self.getControl(CONTROL_CONSOLE_IMG).setImage(image)
-		self.getControl(CONTROL_CONSOLE_DESC).setVisible(1)
 		if(description == None):
 			description = ""
-		self.getControl(CONTROL_CONSOLE_DESC).setText(description)
+		
+		controlImg = self.getControlById(CONTROL_CONSOLE_IMG)
+		controlDesc = self.getControlById(CONTROL_CONSOLE_DESC)
+		
+		if(controlImg != None):
+			controlImg.setVisible(1)
+			controlImg.setImage(image)
+		if(controlDesc != None):
+			controlDesc.setVisible(1)		
+			controlDesc.setText(description)
 
 
 	def launchEmu(self):
-		selectedGame = self.getControl(CONTROL_GAMES).getSelectedItem()
+		control = self.getControlById(CONTROL_GAMES)
+		if(control == None):
+			return
+		selectedGame = control.getSelectedItem()
+		
+		if(selectedGame == None):
+			return
+			
 		gameId = selectedGame.getLabel2()
 		
 		helper.launchEmu(self.gdb, self, gameId)
@@ -306,15 +336,25 @@ class UIGameDB(xbmcgui.WindowXML):
 	def checkAutoExec(self):
 		
 		autoexec = os.path.join(RCBHOME, '..', 'autoexec.py')		
-		if (os.path.isfile(autoexec)):			
-			fh = fh=open(autoexec,"r")
-			lines = fh.readlines()
-			fh.close()
+		if (os.path.isfile(autoexec)):	
+			lines = ""
+			try:
+				fh = fh=open(autoexec,"r")
+				lines = fh.readlines()
+				fh.close()
+			except Exception, (exc):
+				print("RCB ERROR: Cannot access autoexec.py: " +str(exc))
+				return
+				
 			if(len(lines) > 0):
 				firstLine = lines[0]
 				#check if it is our autoexec
 				if(firstLine.startswith('#Rom Collection Browser autoexec')):
-					os.remove(autoexec)
+					try:
+						os.remove(autoexec)
+					except Exception, (exc):
+						print("RCB ERROR: Cannot remove autoexec.py: " +str(exc))
+						return
 				else:
 					return
 		
@@ -327,18 +367,30 @@ class UIGameDB(xbmcgui.WindowXML):
 			return
 			
 		if (os.path.isfile(autoExecBackupPath)):
-			os.rename(autoExecBackupPath, autoexec)
+			try:
+				os.rename(autoExecBackupPath, autoexec)
+			except Exception, (exc):
+				print("RCB ERROR: Cannot rename autoexec.py: " +str(exc))
+				return
 			
 		RCBSetting(self.gdb).update(('autoexecBackupPath',), (None,), rcbSetting[0])
 		self.gdb.commit()
 			
 	
 	def writeMsg(self, msg):
-		self.getControl(CONTROL_LABEL_MSG).setLabel(msg)
+		control = self.getControlById(CONTROL_LABEL_MSG)
+		if(control == None):
+			return
+		control.setLabel(msg)
 		
 		
 	def saveViewState(self, isOnExit):
-		selectedGameIndex = self.getControl(CONTROL_GAMES).getSelectedPosition()
+		control = self.getControlById(CONTROL_GAMES)
+		if(control == None):
+			return
+		selectedGameIndex = control.getSelectedPosition()
+		if(selectedGameIndex == None):
+			return
 		
 		helper.saveViewState(self.gdb, isOnExit, 'gameListAsIcons', selectedGameIndex, self.selectedConsoleIndex, self.selectedGenreIndex, self.selectedPublisherIndex, 
 			self.selectedYearIndex, self.selectedControlId, None)
@@ -367,16 +419,19 @@ class UIGameDB(xbmcgui.WindowXML):
 						
 		#lastFocusedControl
 		if(rcbSetting[17] != None):
-			self.setFocus(self.getControl(rcbSetting[17]))
+			focusControl = self.getControlById(rcbSetting[17])
+			if(focusControl == None):
+				return
+			self.setFocus(focusControl)
 			if(rcbSetting[17] == CONTROL_CONSOLES):
 				self.showConsoleInfo()
 			elif(rcbSetting[17] == CONTROL_GAMES):
 				self.showGameInfo()
 		else:
-			self.setFocus(self.getControl(CONTROL_CONSOLES))
-				
-		#reset viewState
-		#helper.saveViewState(self.gdb, False, 'gameListAsIcons', None, None, None, None, None, None, None)
+			focusControl = self.getControlById(CONTROL_CONSOLES)
+			if(focusControl == None):
+				return
+			self.setFocus(focusControl)
 		
 		#lastSelectedView
 		if(rcbSetting[1] == 'gameInfoView'):
@@ -386,7 +441,9 @@ class UIGameDB(xbmcgui.WindowXML):
 			
 	def setFilterSelection(self, controlId, selectedIndex):
 		if(selectedIndex != None):
-			control = self.getControl(controlId)
+			control = self.getControlById(controlId)
+			if(control == None):
+				return			
 			control.selectItem(selectedIndex)
 			selectedItem = control.getSelectedItem()
 			if(selectedItem == None):
@@ -398,10 +455,15 @@ class UIGameDB(xbmcgui.WindowXML):
 			
 	
 	def showGameInfoDialog(self):
-		selectedGame = self.getControl(CONTROL_GAMES).getSelectedItem()
+		control = self.getControlById(CONTROL_GAMES)
+		if(control == None):
+			return
+		selectedGame = control.getSelectedItem()
+		if(selectedGame == None):
+			return
 		gameId = selectedGame.getLabel2()
 		
-		selectedGameIndex = self.getControl(CONTROL_GAMES).getSelectedPosition()
+		selectedGameIndex = control.getSelectedPosition()
 		
 		import gameinfodialog
 		gid = gameinfodialog.UIGameInfoView("script-Rom_Collection_Browser-gameinfo.xml", os.getcwd(), "Default", 1, gdb=self.gdb, gameId=gameId, 
@@ -409,6 +471,17 @@ class UIGameDB(xbmcgui.WindowXML):
 			consoleIndex=self.selectedConsoleIndex, genreIndex=self.selectedGenreIndex, yearIndex=self.selectedYearIndex, publisherIndex=self.selectedPublisherIndex, 
 			controlIdMainView=self.selectedControlId)
 		del gid
+		
+	
+	def getControlById(self, controlId):
+		try:
+			control = self.getControl(controlId)
+		except: 
+			print("RCB ERROR: Control with id: %s could not be found. Check WindowXML file." %str(controlId))
+			self.writeMsg("Control with id: %s could not be found. Check WindowXML file." %str(controlId))
+			return None
+		
+		return control
 	
 	
 	def exit(self):				
