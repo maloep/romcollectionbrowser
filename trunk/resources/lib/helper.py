@@ -24,10 +24,17 @@ def getFilesByControl(gdb, controlName, gameId, romCollectionId):
 def launchEmu(gdb, gui, gameId):
 		
 		gameRow = Game(gdb).getObjectById(gameId)
+		if(gameRow == None):
+			print("RCB ERROR:Game with id %s could not be found in database" %gameId)
+			return
+			
 		gui.writeMsg("Launch Game " +str(gameRow[1]))
 		
 		romPaths = Path(gdb).getRomPathsByRomCollectionId(gameRow[5])
 		romCollectionRow = RomCollection(gdb).getObjectById(gameRow[5])
+		if(romCollectionRow == None):
+			print("RCB ERROR: Rom Collection with id %s could not be found in database" %gameRow[5])
+			return
 		cmd = romCollectionRow[3]		
 		
 		#handle multi rom scenario
@@ -35,11 +42,15 @@ def launchEmu(gdb, gui, gameId):
 		fileindex = int(0)
 		for fileNameRow in filenameRows:
 			fileName = fileNameRow[0]
-			#we could have multiple rom Paths
+			rom = ""
+			#we could have multiple rom Paths - search for the correct one
 			for romPath in romPaths:
 				rom = os.path.join(romPath, fileName)
 				if(os.path.isfile(rom)):
 					break
+			if(rom == ""):
+				print("RCB ERROR: no rom file found for game: " +str(gameRow[1]))
+				
 			#cmd could be: uae {-%I% %ROM%}
 			#we have to repeat the part inside the brackets and replace the %I% with the current index
 			obIndex = cmd.find('{')
@@ -71,11 +82,15 @@ def launchEmu(gdb, gui, gameId):
 			doBackup(gdb, autoexec)			
 
 			# Write new autoexec.py
-			fh = open(autoexec,'w') # truncate to 0
-			fh.write("#Rom Collection Browser autoexec\n")
-			fh.write("import xbmc\n")
-			fh.write("xbmc.executescript('"+ os.path.join(RCBHOME, 'default.py')+"')\n")
-			fh.close()			
+			try:
+				fh = open(autoexec,'w') # truncate to 0
+				fh.write("#Rom Collection Browser autoexec\n")
+				fh.write("import xbmc\n")
+				fh.write("xbmc.executescript('"+ os.path.join(RCBHOME, 'default.py')+"')\n")
+				fh.close()
+			except Exception, (exc):
+				print("RCB ERROR: Cannot write to autoexec.py: " +str(exc))
+				return
 
 			# Remember selection
 			gui.saveViewState(False)
@@ -102,9 +117,14 @@ def doBackup(gdb, fName):
 			newFileName = fName+'.bak'
 			
 			if os.path.isfile(newFileName):
+				print("RCB ERROR: Cannot backup autoexec.py: File exists.")
 				return
-				
-			os.rename(fName, newFileName)
+			
+			try:
+				os.rename(fName, newFileName)
+			except Exception, (exc):
+				print("RCB ERROR: Cannot rename autoexec.py: " +str(exc))
+				return
 			
 			rcbSetting = getRCBSetting()
 			if (rcbSetting == None):

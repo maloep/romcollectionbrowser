@@ -15,8 +15,14 @@ class DBUpdate:
 	logFilePath = os.path.join(os.getcwd(), 'update.log')
 	logFile = None
 	
-	def __init__(self):			
-		self.logFile = open(self.logFilePath, 'w')
+	def __init__(self):
+		try:
+			self.logFile = open(self.logFilePath, 'w')
+			self.logFileWritable = True
+		except Exception, (exc):
+			print("RCB WARNING: Cannot write log file update.log: " +str(exc))
+			self.logFileWritable = False
+			return
 	
 	def updateDB(self, gdb, gui):		
 		self.gdb = gdb
@@ -181,8 +187,7 @@ class DBUpdate:
 				self.log("WARNING: an error occured while parsing game description: " +descriptionfile)
 				self.log("Parser complains about: " +str(exc))
 				return None
-				
-			#TODO delete objects?
+							
 			del dp
 			
 			return results
@@ -345,8 +350,9 @@ class DBUpdate:
 			
 
 	def log(self, message):
-		if(DEBUG):
-			self.logFile.write(message +"\n")
+		if(DEBUG and self.logFileWritable):
+			self.logFile.write(message +"\n")			
+				
 		
 	def exit(self):
 		self.log("Update finished")
