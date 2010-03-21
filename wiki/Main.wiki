@@ -375,6 +375,7 @@ Examples:
 The fileTypeFor...-elements are used for dynamic image placing. Actually there are 8 different image controls in RCB. With the fileTypeFor...-elements you can associate each of these controls with a specific image type. If you configure multiple fileTypeFor...-elements of the same type they will be used as fallback: if there is no image of file type 1, it will try to load an image of file type 2. The file types must exactly match the value of `type` attribute that you used for `imgPath` and `videoPath` configuration.
 
 These controls are available in current RCB version:
+
 - fileTypeForGameList:	The list of games that is shown in the main window.
 
 - fileTypeForMainViewGameInfo: Image that is shown when you select a game in the main window.
@@ -515,6 +516,7 @@ If you just played around with the test scenario and did not make any relevant c
 
 === preserving configuration changes ===
 If you want to keep your old database and your old config.xml you have to do the following steps:
+
 - Backup your database (just copy the file `MyGames.db` from RCB database folder somewhere outside the RCB path)
 
 - Backup your `config.xml`
