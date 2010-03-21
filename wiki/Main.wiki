@@ -624,7 +624,7 @@ Rename all elements `DescFilePerGame` (just make the first letter lowercase):
 
 = Changelog =
 == V0.4 ==
- new game info view: pressing info button when a game is selected will open a new window with additional game information
+- new game info view: pressing info button when a game is selected will open a new window with additional game information
 
 - showing video in game info view
 
