@@ -19,11 +19,11 @@ Actually this script relies on file naming. If you have a Game "Mygame" its rom 
 = Installation =
 If you would like to play with the test scenario just skip these steps and go to the next chapter.
 
-1. Download "Rom Collection Browser V0.3.zip (http://romcollectionbrowser.googlecode.com/files/Rom%20Collection%20Browser%20V0.3.zip)
+1. Download "Rom Collection Browser V0.4.zip (http://romcollectionbrowser.googlecode.com/files/Rom%20Collection%20Browser%20V0.4.zip)
 
 2. Unzip it to your XBMC scripts folder
 
-3. Create a "config.xml" file here: "XBMC/scripts/Rom Collection Browser/resources/database" (Check configuration section for a sample configuration and to learn how to configure RCB)
+3. Edit the main configuration file "config.xml" ("XBMC/scripts/Rom Collection Browser/resources/database/config.xml"). Check configuration section for a sample configuration and to learn how to configure RCB
 
 4. Start XBMC and launch RCB
 
@@ -33,47 +33,49 @@ If you would like to play with the test scenario just skip these steps and go to
 
 
 = Setup test scenario =
-To show you how this script will work and how data should (could) be organized I also provide a zip file with testdata. This includes cover screenshots, game screenshots, game description files and sample configuration files. It only includes placeholder files for the roms (empty text files that show you a sample naming convention). There are examples for three different rom collections (two amiga and one snes). You can download the amiga roms here: http://www.amigaland.de/index.php?option=com_remository&Itemid=27&func=select&id=2. As they say all roms on this page are free to download legally. You will have to rename some of them because I need a special disk indicator to support multiple roms for one game (explained in configuration section). Unfortunately there are not many public domain roms for SNES and I could not find any additional data for one of them. I decided to include screenshots and description files of some commercial roms but can't provide a download link for the related rom files. But this test scenario is not really meant to play the games, it should just show you how to configure this script.
+To show you how this script will work and how data should (could) be organized I also provide a zip file with testdata. This includes cover screenshots, game screenshots, game description files and sample configuration files. In V0.4 I also added 3 gameplay videos to show how videos will look like in RCB. It only includes placeholder files for the roms (empty text files that show you a sample naming convention). There are examples for three different rom collections (two amiga and one snes). You can download the amiga roms here: http://www.amigaland.de/index.php?option=com_remository&Itemid=27&func=select&id=2. As they say all roms on this page are free to download legally. You will have to rename some of them because I need a special disk indicator to support multiple roms for one game (explained in configuration section). Unfortunately there are not many public domain roms for SNES and I could not find any additional data for one of them. I decided to include screenshots and description files of some commercial roms but can't provide a download link for the related rom files. But this test scenario is not really meant to play the games, it should just show you how to configure this script.
 
 
-1. Download "Rom Collection Browser V0.3.zip (http://romcollectionbrowser.googlecode.com/files/Rom%20Collection%20Browser%20V0.3.zip)
+1. Download "Rom Collection Browser V0.4.zip (http://romcollectionbrowser.googlecode.com/files/Rom%20Collection%20Browser%20V0.4.zip)
 
 2. Unzip it to your XBMC scripts folder
 
-3. Download "Testdata V0.3.zip" (http://romcollectionbrowser.googlecode.com/files/Testdata%20V0.3.zip)
+3. Download "Testdata V0.4.zip" (http://romcollectionbrowser.googlecode.com/files/Testdata%20V0.4.zip)
 
 4. Unzip it somewhere
 
 5. Go to the new Testdata folder
 
-6. Edit "config_Windows.xml" or "config_Linux.xml": Replace every occurance of "PathToTestData" with the absolute path to your Testdata folder (e.g. "/home/user/Testdata V0.3" or "D:\Downloads\RCB\Testdata V0.3")
+6. Edit "config_Windows.xml" or "config_Linux.xml": Replace every occurance of "PathToTestData" with the absolute path to your Testdata folder (e.g. "/home/user/Testdata V0.4" or "D:\Downloads\RCB\Testdata V0.4")
 
 7. (Optionally) edit the value of property "emulatorCmd". This command will be invoked when you launch a rom file. %ROM% will be replaced with the name of the rom file to be launched. If you have multiple rom files for one game %I% will be replaced with the (zero-based) index of the current file.
 
 8. Rename "config_Windows.xml" or "config_Linux.xml" to "config.xml"
 
-9. Copy "config.xml" to "XBMC/scripts/Rom Collection Browser/resources/database"
+9. Copy "config.xml" to "XBMC/scripts/Rom Collection Browser/resources/database" (overwrite existing file)
 
 10. Linux only: make the file "XBMC/scripts/Rom Collection Browser/applaunch.sh" executable
 
 10a. Windows only: check the path to your XBMC installation at the end of the file "XBMC/scripts/Rom Collection Browser/applaunch.bat"
 
-11. Start xbmc
+11. Make sure that the xbmc user has write access to XBMCs script directory if you want to use the "solo" mode when launching emulators. RCB tries to create an "autoexec.py" in this directory.
 
-12. Go to "Rom Collection Browser": You should see the initial view with some empty lists and three buttons.
+12. Start xbmc
 
-13. Click "Import Settings": After some seconds you should see the entries "Amiga" and "Super Nintendo" in the filter list "Consoles".
+13. Go to "Rom Collection Browser": You should see the initial view with some empty lists and two buttons.
 
-14. Click "Update DB": After some seconds all other filter lists should be filled with data. Now you can move around and get a filtered view of all imported rom files (only 7 amiga games in this test scenario).
+14. Click "Import Settings": After some seconds you should see the entries "Amiga" and "Super Nintendo" in the filter list "Consoles".
 
-15. If you would like to launch and play the rom files go to your Testdata folder an replace the placeholder rom files with real ones (e.g. Testdata V0.3/Collection V1/roms/).
+15. Click "Update DB": After some seconds all other filter lists should be filled with data. Now you can move around and get a filtered view of all imported rom files (only 7 amiga games and 8 SNES games in this test scenario).
+
+16. If you would like to launch and play the rom files go to your Testdata folder an replace the placeholder rom files with real ones (e.g. Testdata V0.4/Collection V1/roms/).
 
 
 = Usage =
 "Rom Collection Browser" will scan your rom folders and data folders and will import as much game relevant data as it can get. To get this job done you have to tell it where to search and what to search for. At the moment this is done via xml configuration file. In a later release this could be done via settings page.
 
 == Import Settings ==
-To prepare implementation of a settings page I decided to store configuration information in the database. So you will have to import settings from your xml config file before you can start scanning rom folders. Import settings means that information from your configuration file "XBMC/scripts/Rom Collection Browser/resources/database/config.xml" will be written to database "MyGames.db" (same folder). The format of this configuration file is explained in a later section.
+To prepare implementation of a settings page I decided to store configuration information in database. So you will have to import settings from your xml config file before you can start scanning rom folders (and every time you make changes to your configuration). Import settings means that information from your configuration file "XBMC/scripts/Rom Collection Browser/resources/database/config.xml" will be written to database "MyGames.db" (same folder). The format of this configuration file is explained in a later section.
 
 If you want to make changes to the configuration just edit the xml file an click "Import Settings" again.
 
@@ -98,7 +100,7 @@ Configuration is done via xml files. There is one main configuration file "confi
 == config.xml ==
 This is the main configuration file. You can find it here: "XBMC/scripts/Rom Collection Browser/resources/database/config.xml" (create it, if it is not there).
 
-An example file could look like this (Example from test scenario with three rom collections: 2 Amiga (with different folder structures) and 1 SNES):
+An example file could look like this (taken from test scenario with three rom collections: 2 Amiga (with different folder structures) and 1 SNES):
 
 {{{
 <config>
@@ -141,19 +143,19 @@ An example file could look like this (Example from test scenario with three rom 
 			<ignoreOnScan>False</ignoreOnScan>
 			<romPath>PathToTestData/Collection V1/roms/*.adf</romPath>
 			<romPath>PathToTestData/Collection V1/roms/*.ADF</romPath>
-			<descFilePath>PathToTestData/Collection V1/synopsis/synopsis.txt</descFilePath>
-			<coverPath>PathToTestData/Collection V1/cover/%GAME%.jpg</coverPath>
-			<coverPath>PathToTestData/Collection V1/cover/%GAME%.gif</coverPath>
-			<coverPath>PathToTestData/Collection V1/cover/%GAME%.png</coverPath>
-			<ingamescreenshotPath>PathToTestData/Collection V1/screens/%GAME%.jpg</ingamescreenshotPath>
-			<ingamescreenshotPath>PathToTestData/Collection V1/screens/%GAME%.gif</ingamescreenshotPath>
-			<ingamescreenshotPath>PathToTestData/Collection V1/screens/%GAME%.png</ingamescreenshotPath>
-			<titleScreenshotPath></titleScreenshotPath>
-			<cartridgePath></cartridgePath>
-			<configFilePath></configFilePath>
-			<ingamevidPath></ingamevidPath>
-			<trailerPath></trailerPath>
-			<manualPath></manualPath>
+			<descFilePath>PathToTestData/Collection V1/synopsis/synopsis.txt</descFilePath>			
+			<imgPath type="cover">PathToTestData/Collection V1/cover/%GAME%.jpg</imgPath>
+			<imgPath type="cover">PathToTestData/Collection V1/cover/%GAME%.gif</imgPath>
+			<imgPath type="cover">PathToTestData/Collection V1/cover/%GAME%.png</imgPath>
+			<imgPath type="screenshotingame">PathToTestData/Collection V1/screens/%GAME%.jpg</imgPath>
+			<imgPath type="screenshotingame">PathToTestData/Collection V1/screens/%GAME%.gif</imgPath>
+			<imgPath type="screenshotingame">PathToTestData/Collection V1/screens/%GAME%.png</imgPath>				
+			<fileTypeForGameList>cover</fileTypeForGameList>
+			<fileTypeForMainViewGameInfo>screenshotingame</fileTypeForMainViewGameInfo>			
+			<fileTypeForGameInfoViewBackground>cover</fileTypeForGameInfoViewBackground>
+			<fileTypeForGameInfoViewGamelist>cover</fileTypeForGameInfoViewGamelist>			
+			<fileTypeForGameInfoView2>screenshotingame</fileTypeForGameInfoView2>
+			<fileTypeForGameInfoView3>cover</fileTypeForGameInfoView3>			
 		</RomCollection>
 		<RomCollection>			
 			<name>Collection V2</name>
@@ -171,24 +173,24 @@ An example file could look like this (Example from test scenario with three rom 
 			<ignoreOnScan>False</ignoreOnScan>
 			<romPath>PathToTestData/Collection V2/roms/*.adf</romPath>
 			<romPath>PathToTestData/Collection V2/roms/*.ADF</romPath>
-			<descFilePath>PathToTestData/Collection V2/synopsis/%GAME%/synopsis.txt</descFilePath>
-			<coverPath>PathToTestData/Collection V2/cover/%GAME%/*.jpg</coverPath>
-			<coverPath>PathToTestData/Collection V2/cover/%GAME%/*.gif</coverPath>
-			<coverPath>PathToTestData/Collection V2/cover/%GAME%/*.png</coverPath>
-			<ingamescreenshotPath>PathToTestData/Collection V2/screens/%GAME%/*.jpg</ingamescreenshotPath>
-			<ingamescreenshotPath>PathToTestData/Collection V2/screens/%GAME%/*.gif</ingamescreenshotPath>
-			<ingamescreenshotPath>PathToTestData/Collection V2/screens/%GAME%/*.png</ingamescreenshotPath>
-			<titleScreenshotPath></titleScreenshotPath>
-			<cartridgePath></cartridgePath>
-			<configFilePath></configFilePath>
-			<ingamevidPath></ingamevidPath>
-			<trailerPath></trailerPath>
-			<manualPath></manualPath>
+			<descFilePath>PathToTestData/Collection V2/synopsis/%GAME%/synopsis.txt</descFilePath>			
+			<imgPath type="cover">PathToTestData/Collection V2/cover/%GAME%/*.jpg</imgPath>
+			<imgPath type="cover">PathToTestData/Collection V2/cover/%GAME%/*.gif</imgPath>
+			<imgPath type="cover">PathToTestData/Collection V2/cover/%GAME%/*.png</imgPath>
+			<imgPath type="screenshotingame">PathToTestData/Collection V2/screens/%GAME%/*.jpg</imgPath>
+			<imgPath type="screenshotingame">PathToTestData/Collection V2/screens/%GAME%/*.gif</imgPath>
+			<imgPath type="screenshotingame">PathToTestData/Collection V2/screens/%GAME%/*.png</imgPath>				
+			<fileTypeForGameList>cover</fileTypeForGameList>
+			<fileTypeForMainViewGameInfo>screenshotingame</fileTypeForMainViewGameInfo>			
+			<fileTypeForGameInfoViewBackground>cover</fileTypeForGameInfoViewBackground>
+			<fileTypeForGameInfoViewGamelist>cover</fileTypeForGameInfoViewGamelist>			
+			<fileTypeForGameInfoView2>screenshotingame</fileTypeForGameInfoView2>
+			<fileTypeForGameInfoView3>cover</fileTypeForGameInfoView3>			
 		</RomCollection>		
 		<RomCollection>			
 			<name>Collection V3</name>
 			<consoleName>Super Nintendo</consoleName>
-			<emulatorCmd>zsnes.exe -m "%ROM%"</emulatorCmd>
+			<emulatorCmd>zsnes -m "%ROM%"</emulatorCmd>
 			<useEmuSolo>True</useEmuSolo>
 			<escapeCommand>True</escapeCommand>
 			<relyOnNaming>True</relyOnNaming>
@@ -201,54 +203,32 @@ An example file could look like this (Example from test scenario with three rom 
 			<ignoreOnScan>False</ignoreOnScan>
 			<romPath>PathToTestData/Collection V3/roms/*.zip</romPath>
 			<romPath>PathToTestData/Collection V3/roms/*.smc</romPath>
-			<descFilePath>PathToTestData/Collection V3/description/synopsis.txt</descFilePath>
-			<coverPath>PathToTestData/Collection V3/cover/%GAME%.jpg</coverPath>
-			<coverPath>PathToTestData/Collection V3/cover/%GAME%.gif</coverPath>
-			<coverPath>PathToTestData/Collection V3/cover/%GAME%.png</coverPath>
-			<ingamescreenshotPath>PathToTestData/Collection V3/screens/%GAME%.jpg</ingamescreenshotPath>
-			<ingamescreenshotPath>PathToTestData/Collection V3/screens/%GAME%.gif</ingamescreenshotPath>
-			<ingamescreenshotPath>PathToTestData/Collection V3/screens/%GAME%.png</ingamescreenshotPath>
-			<titleScreenshotPath></titleScreenshotPath>
-			<cartridgePath></cartridgePath>
-			<configFilePath></configFilePath>
-			<ingamevidPath></ingamevidPath>
-			<trailerPath></trailerPath>
-			<manualPath></manualPath>
+			<descFilePath>PathToTestData/Collection V3/description/synopsis.txt</descFilePath>			
+			<imgPath type="cover">PathToTestData/Collection V3/cover/%GAME%.jpg</imgPath>
+			<imgPath type="cover">PathToTestData/Collection V3/cover/%GAME%.gif</imgPath>
+			<imgPath type="cover">PathToTestData/Collection V3/cover/%GAME%.png</imgPath>
+			<imgPath type="screenshotingame">PathToTestData/Collection V3/screens/%GAME%.jpg</imgPath>
+			<imgPath type="screenshotingame">PathToTestData/Collection V3/screens/%GAME%.gif</imgPath>
+			<imgPath type="screenshotingame">PathToTestData/Collection V3/screens/%GAME%.png</imgPath>
+			<imgPath type="screenshottitle">PathToTestData/Collection V3/titles/%GAME%.jpg</imgPath>
+			<imgPath type="screenshottitle">PathToTestData/Collection V3/titles/%GAME%.gif</imgPath>
+			<imgPath type="screenshottitle">PathToTestData/Collection V3/titles/%GAME%.png</imgPath>
+			<imgPath type="cartridge">PathToTestData/Collection V3/cartridge/%GAME%.png</imgPath>
+			<imgPath type="cartridge">PathToTestData/Collection V3/cartridge/%GAME%.gif</imgPath>
+			<imgPath type="cartridge">PathToTestData/Collection V3/cartridge/%GAME%.jpg</imgPath>			
+			<videoPath type="gameplay">PathToTestData/Collection V3/ingameVids/%GAME%.wmv</videoPath>
+			<fileTypeForGameList>cover</fileTypeForGameList>
+			<fileTypeForMainViewGameInfo>screenshotingame</fileTypeForMainViewGameInfo>
+			<fileTypeForGameInfoViewBackground>screenshottitle</fileTypeForGameInfoViewBackground>
+			<fileTypeForGameInfoViewBackground>cover</fileTypeForGameInfoViewBackground>
+			<fileTypeForGameInfoViewGamelist>cover</fileTypeForGameInfoViewGamelist>
+			<fileTypeForGameInfoView1>screenshottitle</fileTypeForGameInfoView1>
+			<fileTypeForGameInfoView2>screenshotingame</fileTypeForGameInfoView2>
+			<fileTypeForGameInfoView3>cover</fileTypeForGameInfoView3>
+			<fileTypeForGameInfoView4>cartridge</fileTypeForGameInfoView4>
+			<fileTypeForGameInfoViewVideoWindow>gameplay</fileTypeForGameInfoViewVideoWindow>
 		</RomCollection>
 	</RomCollections>
-	<!-- Don't edit filetypes -->
-	<FileTypes>
-		<FileType>
-			<name>rom</name>
-		</FileType>
-		<FileType>
-			<name>screenshottitle</name>
-		</FileType>
-		<FileType>
-			<name>screenshotingame</name>
-		</FileType>
-		<FileType>
-			<name>cover</name>
-		</FileType>
-		<FileType>
-			<name>cartridge</name>
-		</FileType>
-		<FileType>
-			<name>manual</name>
-		</FileType>
-		<FileType>
-			<name>ingamevideo</name>
-		</FileType>
-		<FileType>
-			<name>trailer</name>
-		</FileType>
-		<FileType>
-			<name>description</name>
-		</FileType>
-		<FileType>
-			<name>configuration</name>
-		</FileType>
-	</FileTypes>	
 </config>
 
 }}}
@@ -308,7 +288,6 @@ This is used to detect multi rom games. I don't want to show every rom file in t
 
 If you use "`_Disk`" as diskPrefix and you have some rom files named "`Mygame.adf`", "`Mygame 2_Disk1.adf`" and "`Mygame 2_Disk2.adf`" this will be detected as two games "`Mygame`" and "`Mygame 2`" where "`Mygame 2`" consists of two rom files. In the UI you will see the "friendly" gamename "`Mygame 2`". If you have your emulatorCmd configured to support multiple rom files you can load both files at once (see explanation of parameter "emulatorCmd").
 
-
 ==== useEmuSolo ====
 If set to "True" RCB will try to kill XBMC before starting the emulator. After exiting the emulator you will return to XBMC. If "False" the emulator will be launched while XBMC is running in the background.
 
@@ -345,6 +324,12 @@ The path to your rom files. This path should include wildcards and file extensio
 
 You may use different paths and file extensions (.zip and .smc for example) for one collection.
 
+Examples:
+
+/home/user/emu/SNES/Collection V3/roms/*.zip
+
+/home/user/emu/SNES/Collection V3/roms/*.smc
+
 ==== descFilePath ====
 The path to the game description files. These files will be used to obtain additional information like genre, plot, publisher etc. about a game. Depending on the "`DescFilePerGame`"-Parameter this should be the absolute path to one description file or a path using the %GAME%-placeholder. There can only be one descFilePath per `RomCollection`.
 
@@ -354,9 +339,10 @@ Examples:
 
 "/home/user/emu/Amiga/Collection V1/Info/all.txt"
 
+==== imgPath ====
+The path to your image files. There can be multiple `<imgPath>` elements per `RomCollection`. Each element needs an attribute `type`. With this type you can define your own image types (or image categories). All images that match the given path will be imported and associated with the image type. Types will be used to configure the fileTypeFor...-elements (see next section).
 
-==== coverPath ====
-The path to the cover files. There can be multiple paths per `RomCollection`. Also used to define file extensions for your files.
+You can use multiple `<imgPath>` entries with the same type to import from different locations or to configure different file extensions.
 
 Examples:
 
@@ -371,70 +357,33 @@ Examples:
 "/home/user/emu/amiga/covers/%GAME%.gif"
 
 
-==== ingamescreenshotPath ====
-The path to the ingame screenshot files. There can be multiple paths per `RomCollection`. Also used to define file extensions for your files.
+==== videoPath ====
+The path to your video files. There can be multiple `<videoPath>` elements per `RomCollection`. Each element needs an attribute `type`. With this type you can define your own video types (or video categories). All videos that match the given path will be imported and associated with the video type. Types will be used to configure the fileTypeFor...-elements (see next section).
+
+You can use multiple `<videoPath>` entries with the same type to import from different locations or to configure different file extensions.
 
 Examples:
 
-"/home/user/emu/amiga/ingame screens/%GAME%/`*`.png"
+"/home/user/emu/amiga/gameplayvids/%GAME%/`*`.wmv"
 
-"/home/user/emu/amiga/%GAME%/ingame screens/`*`.png"
+"/home/user/emu/amiga/%GAME%/gameplayvids/`*`.wmv"
 
-"/home/user/emu/amiga/ingame screens/%GAME%.png"
-
-"/home/user/emu/amiga/ingame screens/%GAME%.jpg"
-
-"/home/user/emu/amiga/ingame screens/%GAME%.gif"
+"/home/user/emu/amiga/gameplayvids/%GAME%.wmv"
 
 
-==== titleScreenshotPath ====
-The path to the title screenshot files. There can be multiple paths per `RomCollection`. Also used to define file extensions for your files.
+==== fileTypeFor... ====
+The fileTypeFor...-elements are used for dynamic image placing. Actually there are 8 different image controls in RCB. With the fileTypeFor...-elements you can associate each of these controls with a specific image type. If you configure multiple fileTypeFor...-elements of the same type they will be used as fallback: if there is no image of file type 1, it will try to load an image of file type 2. The file types must exactly match the value of `type` attribute that you used for `imgPath` and `videoPath` configuration.
 
-Examples:
-
-"/home/user/emu/amiga/title screens/%GAME%/`*`.png"
-
-"/home/user/emu/amiga/%GAME%/title screens/`*`.png"
-
-"/home/user/emu/amiga/title screens/%GAME%.png"
-
-"/home/user/emu/amiga/title screens/%GAME%.jpg"
-
-"/home/user/emu/amiga/title screens/%GAME%.gif"
-
-
-NOTE: These files will be imported but not shown in the UI actually.
-
-==== cartridgePath ====
-The path to the cartridge files. There can be multiple paths per `RomCollection`. Also used to define file extensions for your files.
-
-Examples:
-
-"/home/user/emu/amiga/cartridges/%GAME%/`*`.png"
-
-"/home/user/emu/amiga/%GAME%/cartridges/`*`.png"
-
-"/home/user/emu/amiga/cartridges/%GAME%.png"
-
-"/home/user/emu/amiga/cartridges/%GAME%.jpg"
-
-"/home/user/emu/amiga/cartridges/%GAME%.gif"
-
-
-NOTE: These files will be imported but not shown in the UI actually.
-
-
-==== configFilePath ====
-NOTE: These files will be imported but not shown in the UI actually.
-
-==== ingamevidPath ====
-NOTE: These files will be imported but not shown in the UI actually.
-
-==== trailerPath ====
-NOTE: These files will be imported but not shown in the UI actually.
-
-==== manualPath ====
-NOTE: These files will be imported but not shown in the UI actually.
+These controls are available in current RCB version:
+* fileTypeForGameList:	The list of games that is shown in the main window.
+* fileTypeForMainViewGameInfo: Image that is shown when you select a game in the main window.
+* fileTypeForGameInfoViewBackground: Background image of the game info window.
+* fileTypeForGameInfoViewGamelist: The list of games that is shown in the game info window (very small).
+* fileTypeForGameInfoView1: One of the images that is shown in the game info window
+* fileTypeForGameInfoView2: One of the images that is shown in the game info window
+* fileTypeForGameInfoView3: One of the images that is shown in the game info window
+* fileTypeForGameInfoView4: One of the images that is shown in the game info window
+* fileTypeForGameInfoViewVideoWindow: If there is a video of the given type it will be shown in the lower right corner of the game info window (it overlays `GameInfoView4`).
 
 
 == parserConfig.xml ==
@@ -550,6 +499,73 @@ NOTE: Actually only the "," will be recognized as a delimiter.
 If you have multiline values (like description in the above example) you can specify a token that must occur after the multiline value. This token must be unique enough to not occur in your multiline value. The `*` in the above example may be a bad choice as there is a good chance of a star to occur in a game description.
 
 = Update =
+== V0.4 ==
+With V0.4 it should be possible to keep your old database. Changes to data structure will be done automatically. Please backup your database before trying this. I tested a lot but who knows...
+
+=== without preserving configuration changes ===
+If you just played around with the test scenario and did not make any relevant changes to "config.xml" or the parser configuration you can just delete the complete RCB folder and follow the steps in the chapter "Installation" or "Setup test scenario".
+
+=== preserving configuration changes ===
+If you want to keep your old database and your old config.xml you have to do the following steps:
+* Backup your database (just copy the file `MyGames.db` from RCB database folder somewhere outside the RCB path)
+* Backup your `config.xml`
+* Delete the folder "Rom Collection Browser"
+* Download "Rom Collection Browser V0.4.zip (http://romcollectionbrowser.googlecode.com/files/Rom%20Collection%20Browser%20V0.4.zip)
+* Unzip it to your XBMC scripts folder
+* Copy `MyGames.db` and `config.xml` back to the database folder of your new RCB
+* Make the following changes to your `config.xml`:
+
+Rename all of these elements:
+{{{
+			<coverPath>your path here</coverPath>
+			<ingamescreenshotPath>your path here</ingamescreenshotPath>
+			<titleScreenshotPath>your path here</titleScreenshotPath>
+			<cartridgePath>your path here</cartridgePath>
+			<ingamevidPath>your path here</ingamevidPath>
+			<trailerPath>your path here</trailerPath>
+}}}
+
+to this new structure (the logic behind this should be self explanating...):
+{{{
+			<imgPath type="cover">your path here</imgPath>
+			<imgPath type="screenshotingame">your path here</imgPath>
+			<imgPath type="screenshottitle">your path here</imgPath>
+			<imgPath type="cartridge">your path here</imgPath>
+			<videoPath type="gameplay">your path here</videoPath>
+			<videoPath type="trailer">your path here</videoPath>
+}}}
+
+Add new elements to all `<RomCollection>` elements:
+{{{
+			<fileTypeForGameList>cover</fileTypeForGameList>
+			<fileTypeForMainViewGameInfo>screenshotingame</fileTypeForMainViewGameInfo>
+			<fileTypeForGameInfoViewBackground>cover</fileTypeForGameInfoViewBackground>			
+			<fileTypeForGameInfoViewGamelist>cover</fileTypeForGameInfoViewGamelist>
+			<fileTypeForGameInfoView1>screenshottitle</fileTypeForGameInfoView1>
+			<fileTypeForGameInfoView2>screenshotingame</fileTypeForGameInfoView2>
+			<fileTypeForGameInfoView3>cover</fileTypeForGameInfoView3>
+			<fileTypeForGameInfoView4>cartridge</fileTypeForGameInfoView4>
+			<fileTypeForGameInfoViewVideoWindow>gameplay</fileTypeForGameInfoViewVideoWindow>
+}}}
+
+Optional: Delete the complete element `<FileTypes>`:
+{{{
+	<FileTypes>
+		<FileType>
+			<name>rom</name>
+		</FileType>
+		<FileType>
+			<name>screenshottitle</name>
+		</FileType>
+		...
+	</FileTypes>
+}}}
+
+* Launch RCB: You should see your old data but without any images
+* Click `Import Settings`: Now you should see your images again.
+
+
+
 == V0.3 ==
 To update an earlier version of RCB you have to delete your current database (just delete or rename the file `"MyGames.db"` in database directory) and reimport Settings and all game relevant data. I am sorry, but there is no option to keep your old database. I hope this will be added to the next release.
 
@@ -589,27 +605,38 @@ Rename all elements `DescFilePerGame` (just make the first letter lowercase):
 
 
 = Changelog =
+== V0.4 ==
+* new game info view: pressing info button when a game is selected will open a new window with additional game information
+
+* showing video in game info view
+
+* dynamic image placing: RCB has 8 different controls to show images. The image type (screenshot, cover, ...) can be configured for every control.
+
+* dynamic image types: there won't be fix image categories anymore. You can define your own image types (e.g. ingame screenshots, title screenshots, highscore screenshots, ...) and use this categories to configure image placing. Actually you could use 8 different image types or 7 image types and 1 video type (video window overlays one of the image controls).
+
+
+
 == V0.3 ==
-- solved problem with executing batch file in windows
+* solved problem with executing batch file in windows
 
-- using autoexec.py to launch RCB when restarting in solo mode
+* using autoexec.py to launch RCB when restarting in solo mode
 
-- saving and loading view state when relaunching RCB
+* saving and loading view state when relaunching RCB
 
-- update entries during "import settings" and "update db"
+* update entries during "import settings" and "update db"
 
-- added support for multiple rom paths per rom collection
+* added support for multiple rom paths per rom collection
 
-- importing games without game description
+* importing games without game description
 
-- better performance while loading game list
+* better performance while loading game list
 
-- added info label (shows information during import)
+* added info label (shows information during import)
 
-- sort filter list items alphabetically
+* sort filter list items alphabetically
 
-- new Rom Collection property "ignoreOnScan": no changes to this collection during import
+* new Rom Collection property "ignoreOnScan": no changes to this collection during import
 
-- new Game properties (imported via description file): developer, reviewer, maxPlayers, rating, votes, url, region, media, perspective, controller
+* new Game properties (imported via description file): developer, reviewer, maxPlayers, rating, votes, url, region, media, perspective, controller
 
-- new global settings: showEntryAllConsoles, showEntryAllGenres, showEntryAllYears, showEntryAllPublisher, saveViewStateOnExit, saveViewStateOnLaunchEmu
+* new global settings: showEntryAllConsoles, showEntryAllGenres, showEntryAllYears, showEntryAllPublisher, saveViewStateOnExit, saveViewStateOnLaunchEmu
