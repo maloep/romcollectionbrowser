@@ -507,13 +507,20 @@ If you just played around with the test scenario and did not make any relevant c
 
 === preserving configuration changes ===
 If you want to keep your old database and your old config.xml you have to do the following steps:
-* Backup your database (just copy the file `MyGames.db` from RCB database folder somewhere outside the RCB path)
-* Backup your `config.xml`
-* Delete the folder "Rom Collection Browser"
-* Download "Rom Collection Browser V0.4.zip (http://romcollectionbrowser.googlecode.com/files/Rom%20Collection%20Browser%20V0.4.zip)
-* Unzip it to your XBMC scripts folder
-* Copy `MyGames.db` and `config.xml` back to the database folder of your new RCB
-* Make the following changes to your `config.xml`:
+- Backup your database (just copy the file `MyGames.db` from RCB database folder somewhere outside the RCB path)
+
+- Backup your `config.xml`
+
+- Delete the folder "Rom Collection Browser"
+
+- Download "Rom Collection Browser V0.4.zip (http://romcollectionbrowser.googlecode.com/files/Rom%20Collection%20Browser%20V0.4.zip)
+
+- Unzip it to your XBMC scripts folder
+
+- Copy `MyGames.db` and `config.xml` back to the database folder of your new RCB
+
+- Make the following changes to your `config.xml`:
+
 
 Rename all of these elements:
 {{{
@@ -561,8 +568,9 @@ Optional: Delete the complete element `<FileTypes>`:
 	</FileTypes>
 }}}
 
-* Launch RCB: You should see your old data but without any images
-* Click `Import Settings`: Now you should see your images again.
+- Launch RCB: You should see your old data but without any images
+
+- Click `Import Settings`: Now you should see your images again.
 
 
 
@@ -606,37 +614,37 @@ Rename all elements `DescFilePerGame` (just make the first letter lowercase):
 
 = Changelog =
 == V0.4 ==
-* new game info view: pressing info button when a game is selected will open a new window with additional game information
+ new game info view: pressing info button when a game is selected will open a new window with additional game information
 
-* showing video in game info view
+- showing video in game info view
 
-* dynamic image placing: RCB has 8 different controls to show images. The image type (screenshot, cover, ...) can be configured for every control.
+- dynamic image placing: RCB has 8 different controls to show images. The image type (screenshot, cover, ...) can be configured for every control.
 
-* dynamic image types: there won't be fix image categories anymore. You can define your own image types (e.g. ingame screenshots, title screenshots, highscore screenshots, ...) and use this categories to configure image placing. Actually you could use 8 different image types or 7 image types and 1 video type (video window overlays one of the image controls).
+- dynamic image types: there won't be fix image categories anymore. You can define your own image types (e.g. ingame screenshots, title screenshots, highscore screenshots, ...) and use this categories to configure image placing. Actually you could use 8 different image types or 7 image types and 1 video type (video window overlays one of the image controls).
 
 
 
 == V0.3 ==
-* solved problem with executing batch file in windows
+- solved problem with executing batch file in windows
 
-* using autoexec.py to launch RCB when restarting in solo mode
+- using autoexec.py to launch RCB when restarting in solo mode
 
-* saving and loading view state when relaunching RCB
+- saving and loading view state when relaunching RCB
 
-* update entries during "import settings" and "update db"
+- update entries during "import settings" and "update db"
 
-* added support for multiple rom paths per rom collection
+- added support for multiple rom paths per rom collection
 
-* importing games without game description
+- importing games without game description
 
-* better performance while loading game list
+- better performance while loading game list
 
-* added info label (shows information during import)
+- added info label (shows information during import)
 
-* sort filter list items alphabetically
+- sort filter list items alphabetically
 
-* new Rom Collection property "ignoreOnScan": no changes to this collection during import
+- new Rom Collection property "ignoreOnScan": no changes to this collection during import
 
-* new Game properties (imported via description file): developer, reviewer, maxPlayers, rating, votes, url, region, media, perspective, controller
+- new Game properties (imported via description file): developer, reviewer, maxPlayers, rating, votes, url, region, media, perspective, controller
 
-* new global settings: showEntryAllConsoles, showEntryAllGenres, showEntryAllYears, showEntryAllPublisher, saveViewStateOnExit, saveViewStateOnLaunchEmu
+- new global settings: showEntryAllConsoles, showEntryAllGenres, showEntryAllYears, showEntryAllPublisher, saveViewStateOnExit, saveViewStateOnLaunchEmu
