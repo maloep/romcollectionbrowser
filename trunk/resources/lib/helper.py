@@ -1,5 +1,5 @@
 
-import os, sys
+import os, sys, re
 import dbupdate, importsettings
 from gamedatabase import *
 
