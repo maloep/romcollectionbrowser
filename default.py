@@ -11,7 +11,7 @@
 # You should have received a copy of the GNU General Public License along with this program; 
 # if not, see <http://www.gnu.org/licenses/>.
 
-# I have built this script from scratch but you sure will find some lines or ideas that are taken 
+# I have built this script from scratch but you will find some lines or ideas that are taken 
 # from other xbmc scripts. Some basic ideas are taken from Redsandros "Arcade Browser" and I often 
 # had a look at Nuka1195's "Apple Movie Trailers" script while implementing this one. Thanks for your work!
 

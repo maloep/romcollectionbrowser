@@ -7,8 +7,9 @@
         	<posy>0</posy>
 	</coordinates>
 	<controls>
+		<!-- gameinfoviewbackground -->
 		<control type="image" id="2000">
-		    <description>background image</description>
+		    <description>gameinfoviewbackground</description>
 		    <posx>0</posx>
 		    <posy>0</posy>
 		    <width>720</width>
@@ -16,7 +17,7 @@
 		    <texture>background.png</texture>
 		</control>
 		<control type="image">
-			<description>background image</description>
+			<description>black background overlay</description>
 			<posx>20</posx>
 			<posy>15</posy>
 			<width>680</width>
@@ -25,7 +26,7 @@
 			<colordiffuse>90FFFFFF</colordiffuse>
 		</control>
 		
-		<!-- Games -->
+		<!-- gameinfoviewgamelist -->
 		<control type="wraplist" id="1000">
 			<posx>20</posx>
 			<posy>15</posy>
@@ -65,7 +66,7 @@
 		</control>
 		
 		
-		<!-- Game description -->
+		<!-- Game info -->
 		<control type="group">
 			<posx>25</posx>			
 			<posy>80</posy>
@@ -234,6 +235,7 @@
 			</control>			
 		</control>
 		
+		<!-- game description -->
 		<control type="textbox" id="8000">
 			<description>game desc</description>
 			<posx>350</posx>
@@ -265,6 +267,7 @@
 			<onright>1000</onright>
 		</control>
 		
+		<!-- gameinfoview1 -->
 		<control type="image" id="9000">
 		    <description>gameinfo1</description>
 		    <posx>50</posx>
@@ -273,6 +276,7 @@
 		    <height>80</height>			
 			<texture></texture>
 		</control>
+		<!-- gameinfoview2 -->
 		<control type="image" id="9100">
 		    <description>gameinfo2</description>
 		    <posx>200</posx>
@@ -281,6 +285,7 @@
 		    <height>80</height>			
 			<texture></texture>
 		</control>
+		<!-- gameinfoview3 -->
 		<control type="image" id="9200">
 		    <description>gameinfo3</description>
 		    <posx>350</posx>
@@ -288,7 +293,8 @@
 		    <width>100</width>
 		    <height>80</height>
 			<texture></texture>
-		</control>		
+		</control>
+		<!-- gameinfoview4 -->
 		<control type="image" id="9300">
 		    <description>gameinfo4</description>
 		    <posx>500</posx>
@@ -297,6 +303,7 @@
 		    <height>80</height>
 			<texture></texture>
 		</control>
+		<!-- gameinfoviewvideowindow -->
 		<control type="videowindow" id="10000">
 			<description>video control</description>
 			<posx>460</posx>
@@ -330,7 +337,7 @@
 			<onleft>1000</onleft>
 			<onright>3100</onright>
 		</control>
-		<control type="button" id="3100"> 
+		<!--<control type="button" id="3100"> 
 			<description>Make Favorite</description>
 			<posx>175</posx>
 			<posy>525</posy>
@@ -340,8 +347,7 @@
 			<colordiffuse>DDFFFFFF</colordiffuse>
 			<texturefocus>btnFocus.png</texturefocus>
 			<texturenofocus>btn.png</texturenofocus>
-			<label>Make Favorite</label>
-			<!--font12-->
+			<label>Make Favorite</label>			
 			<textcolor>DDFFFFFF</textcolor>
 			<disabledcolor>80FFFFFF</disabledcolor>
 			<align>center</align>
@@ -364,8 +370,7 @@
 			<colordiffuse>DDFFFFFF</colordiffuse>
 			<texturefocus>btnFocus.png</texturefocus>
 			<texturenofocus>btn.png</texturenofocus>
-			<label>Edit Game</label>
-			<!--font12-->
+			<label>Edit Game</label>			
 			<textcolor>DDFFFFFF</textcolor>
 			<disabledcolor>80FFFFFF</disabledcolor>
 			<align>center</align>
@@ -377,9 +382,9 @@
 			<ondown>1000</ondown>
 			<onleft>3100</onleft>
 			<onright>8100</onright>
-		</control>
+		</control>-->
 		<control type="label" id="4000">
-			<description>Notes</description>
+			<description>Messages</description>
 			<posx>700</posx>
 			<posy>560</posy>
 			<width>680</width>

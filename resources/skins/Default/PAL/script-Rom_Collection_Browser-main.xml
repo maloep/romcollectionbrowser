@@ -15,15 +15,15 @@
 		    <height>580</height>
 		    <texture>background.png</texture>
 		</control>-->
-		<!-- Console -->		
+		
+		<!-- Console filter -->		
 		<control type="label">
 			<description>Consoles</description>
 			<posx>90</posx>
 			<posy>20</posy>
 		    	<textcolor>DDFFFFFF</textcolor>
 		    	<label>Consoles</label>
-		</control>
-		<!-- ** Required ** Do not change <id> or <type> -->		
+		</control>		
 		<control type="wraplist" id="500">
 			<posx>50</posx>
 			<posy>50</posy>
@@ -88,7 +88,7 @@
 				</control>
 			</focusedlayout>
 		</control>	
-		<!-- Genre -->	
+		<!-- Genre filter -->	
 		<control type="label">
 			<description>Genre</description>
 			<posx>250</posx>
@@ -159,7 +159,8 @@
 					<info>ListItem.Label</info>
 				</control>
 			</focusedlayout>
-		</control>		
+		</control>
+		<!-- Year filter -->	
 		<control type="label">
 			<description>Year</description>
 			<posx>400</posx>
@@ -177,8 +178,7 @@
 			<onup>700</onup>
 			<ondown>700</ondown>
 			<viewtype label="Year">wrap</viewtype>
-			<focusposition>1</focusposition>
-			<!--<pagecontrol>710</pagecontrol>-->
+			<focusposition>1</focusposition>			
 			<scrolltime>200</scrolltime>
 			<itemlayout height="32">
 				<control type="image">
@@ -232,6 +232,7 @@
 				</control>
 			</focusedlayout>
 		</control>
+		<!-- Publisher filter -->	
 		<control type="label">
 			<description>Publisher</description>
 			<posx>535</posx>
@@ -303,7 +304,8 @@
 				</control>
 			</focusedlayout>
 		</control>
-		<!-- Games -->
+		
+		<!-- gamelist -->
 		<control type="wraplist" id="1500">
 			<posx>25</posx>
 			<posy>150</posy>
@@ -353,8 +355,7 @@
 					<height>120</height>
 					<posx>25</posx>
 					<posy>25</posy>
-					<visible>!Control.HasFocus(1500)</visible>
-					<!--<texture border="5">btn.png</texture>-->
+					<visible>!Control.HasFocus(1500)</visible>					
 					<info>ListItem.Icon</info>
 				</control>
 				<control type="label">
@@ -371,16 +372,17 @@
 				</control>
 			</focusedlayout>
 		</control>
+		
+		<!-- mainviewgameinfo (also used for console image) -->
 		<control type="image" id="2000">
 		    	<description>console image</description>
 		    	<posx>100</posx>
 		    	<posy>340</posy>
 		    	<width>200</width>
-		    	<height>150</height>
-			<!--<visible>false</visible>-->
+		    	<height>150</height>			
 			<texture></texture>
 		</control>
-		<!-- Console -->
+		<!-- game / console description -->
 		<control type="textbox" id="2100">
 			<description>Consoles</description>
 			<posx>350</posx>
@@ -411,6 +413,8 @@
 			<onleft>3200</onleft>
 			<onright>800</onright>
 		</control>
+		
+		<!-- Buttons -->
 		<control type="button" id="3000"> 
 			<description>Import Settings</description>
 			<posx>50</posx>
@@ -445,8 +449,7 @@
 			<colordiffuse>DDFFFFFF</colordiffuse>
 			<texturefocus>btnFocus.png</texturefocus>
 			<texturenofocus>btn.png</texturenofocus>
-			<label>Update DB</label>
-			<!--font12-->
+			<label>Update DB</label>			
 			<textcolor>DDFFFFFF</textcolor>
 			<disabledcolor>80FFFFFF</disabledcolor>
 			<align>center</align>
@@ -482,6 +485,8 @@
 			<onleft>3100</onleft>
 			<onright>2200</onright>
 		</control>-->
+		
+		<!-- Messages -->
 		<control type="label" id="4000">
 			<description>Notes</description>
 			<posx>700</posx>

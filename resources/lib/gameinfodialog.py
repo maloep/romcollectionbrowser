@@ -73,7 +73,11 @@ class UIGameInfoView(xbmcgui.WindowXMLDialog):
 	def onInit(self):
 		self.showGameList()
 		self.showGameInfo()
-		self.setFocus(self.getControl(CONTROL_GAME_LIST))
+		
+		control = self.getControlById(CONTROL_GAME_LIST)
+		if(control == None):
+			return
+		self.setFocus(control)
 		self.selectedControlId = CONTROL_GAME_LIST
 		
 		
@@ -93,7 +97,10 @@ class UIGameInfoView(xbmcgui.WindowXMLDialog):
 			self.close()
 		elif(action.getId() in ACTION_MOVEMENT_LEFT or action.getId() in ACTION_MOVEMENT_RIGHT):
 			if(self.selectedControlId == CONTROL_GAME_LIST):
-				selectedGame = self.getControl(CONTROL_GAME_LIST).getSelectedItem()
+				control = self.getControlById(CONTROL_GAME_LIST)
+				if(control == None):
+					return
+				selectedGame = control.getSelectedItem()
 		
 				if(selectedGame == None):
 					return
@@ -105,8 +112,11 @@ class UIGameInfoView(xbmcgui.WindowXMLDialog):
 	def showGameList(self):
 		games = Game(self.gdb).getFilteredGames(self.selectedConsoleId, self.selectedGenreId, self.selectedYearId, self.selectedPublisherId)
 		
-		self.getControl(CONTROL_GAME_LIST).setVisible(1)
-		self.getControl(CONTROL_GAME_LIST).reset()
+		control = self.getControlById(CONTROL_GAME_LIST)
+		if(control == None):
+			return
+		control.setVisible(1)
+		control.reset()
 		
 		self.writeMsg("loading games...")
 		
@@ -119,8 +129,8 @@ class UIGameInfoView(xbmcgui.WindowXMLDialog):
 				image = ""
 			items.append(xbmcgui.ListItem(str(game[1]), str(game[0]), image, ''))
 				
-		self.getControl(CONTROL_GAME_LIST).addItems(items)
-		self.getControl(CONTROL_GAME_LIST).selectItem(self.selectedGameIndex)		
+		control.addItems(items)
+		control.selectItem(self.selectedGameIndex)		
 		self.writeMsg("")
 	
 		
@@ -167,7 +177,11 @@ class UIGameInfoView(xbmcgui.WindowXMLDialog):
 		description = gameRow[2]
 		if(description == None):
 			description = ""		
-		self.getControl(CONTROL_LABEL_DESC).setText(description)
+		
+		controlDesc = self.getControlById(CONTROL_LABEL_DESC)
+		if(controlDesc == None):
+			return
+		controlDesc.setText(description)
 				
 		#gameRow[5] = romCollectionId
 		background = os.path.join(RCBHOME, 'resources', 'skins', 'Default', 'media', 'background.png')	
@@ -178,11 +192,10 @@ class UIGameInfoView(xbmcgui.WindowXMLDialog):
 		self.setImage(CONTROL_IMG_GAMEINFO4, 'gameinfoview4', gameRow[0], gameRow[5], None)
 			
 		
-		videos = helper.getFilesByControl(self.gdb, 'gameinfoviewvideowindow', gameRow[0], gameRow[5])
-		print videos
+		videos = helper.getFilesByControl(self.gdb, 'gameinfoviewvideowindow', gameRow[0], gameRow[5])		
 		#ingameVideos = File(self.gdb).getIngameVideosByGameId(self.selectedGameId)
 		if(videos != None and len(videos) != 0):
-			video = videos[0]			
+			video = videos[0]
 						
 			playlist = xbmc.PlayList( xbmc.PLAYLIST_VIDEO)
 			playlist.clear()			
@@ -201,41 +214,73 @@ class UIGameInfoView(xbmcgui.WindowXMLDialog):
 	
 	def setLabel(self, controlId, value):
 		if(value == None):
-			value = ""		
-		self.getControl(controlId).setLabel(str(value))
+			value = ""	
+		
+		control = self.getControlById(controlId)
+		if(control == None):
+			return
+		control.setLabel(str(value))
 		
 		
 	def setImage(self, controlId, controlName, gameId, romCollectionId, defaultImage):
 				
 		images = helper.getFilesByControl(self.gdb, controlName, gameId, romCollectionId)
 		
+		control = self.getControlById(controlId)
+		if(control == None):
+			return
+				
 		#TODO more than one image?
 		if(images != None and len(images) != 0):
 			image = images[0]			
-			self.getControl(controlId).setImage(image)
-			self.getControl(controlId).setVisible(1)
+			control.setImage(image)
+			control.setVisible(1)
 		else:
 			if(defaultImage == None):
-				self.getControl(controlId).setVisible(0)
+				control.setVisible(0)
 			else:						
-				self.getControl(controlId).setImage(defaultImage)
+				control.setImage(defaultImage)
 	
 	
 	def launchEmu(self):
-		selectedGame = self.getControl(CONTROL_GAME_LIST).getSelectedItem()
+		control = self.getControlById(CONTROL_GAME_LIST)
+		if(control == None):
+			return
+			
+		selectedGame = control.getSelectedItem()
+		if(selectedGame == None):
+			return
 		gameId = selectedGame.getLabel2()
 		
 		helper.launchEmu(self.gdb, self, gameId)
 		
 	
-	def saveViewState(self, isOnExit):				
-		selectedGameIndex = self.getControl(CONTROL_GAME_LIST).getSelectedPosition()
+	def saveViewState(self, isOnExit):
+		control = self.getControlById(CONTROL_GAME_LIST)
+		if(control == None):
+			return
+			
+		selectedGameIndex = control.getSelectedPosition()
 		
 		helper.saveViewState(self.gdb, isOnExit, 'gameInfoView', selectedGameIndex, self.selectedConsoleIndex, self.selectedGenreIndex, self.selectedPublisherIndex, 
 			self.selectedYearIndex, self.selectedControlIdMainView, self.selectedControlId)
+			
+			
+	def getControlById(self, controlId):
+		try:
+			control = self.getControl(controlId)
+		except: 
+			print("RCB ERROR: Control with id: %s could not be found. Check WindowXML file." %str(controlId))
+			self.writeMsg("Control with id: %s could not be found. Check WindowXML file." %str(controlId))
+			return None
+		
+		return control
 
 
 	def writeMsg(self, msg):
-		print "writeMsg: " +msg
-		self.getControl(CONTROL_LABEL_MSG).setLabel(msg)
+		control = self.getControlById(CONTROL_LABEL_MSG)
+		if(control == None):
+			return
+			
+		control.setLabel(msg)
 		
