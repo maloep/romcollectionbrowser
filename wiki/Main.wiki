@@ -326,9 +326,9 @@ You may use different paths and file extensions (.zip and .smc for example) for 
 
 Examples:
 
-/home/user/emu/SNES/Collection V3/roms/*.zip
+/home/user/emu/SNES/Collection V3/roms/`*`.zip
 
-/home/user/emu/SNES/Collection V3/roms/*.smc
+/home/user/emu/SNES/Collection V3/roms/`*`.smc
 
 ==== descFilePath ====
 The path to the game description files. These files will be used to obtain additional information like genre, plot, publisher etc. about a game. Depending on the "`DescFilePerGame`"-Parameter this should be the absolute path to one description file or a path using the %GAME%-placeholder. There can only be one descFilePath per `RomCollection`.
