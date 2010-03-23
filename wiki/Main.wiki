@@ -19,17 +19,12 @@ Actually this script relies on file naming. If you have a Game "Mygame" its rom 
 = Installation =
 Note: If you would like to play with the test scenario just skip these steps and go to the next chapter.
 
-1. Download "Rom Collection Browser V0.4.zip (http://romcollectionbrowser.googlecode.com/files/Rom%20Collection%20Browser%20V0.4.zip)
-
-2. Unzip it to your XBMC scripts folder
-
-3. Edit the main configuration file "config.xml" ("XBMC/scripts/Rom Collection Browser/resources/database/config.xml"). Check configuration section for a sample configuration and to learn how to configure RCB
-
-4. Start XBMC and launch RCB
-
-5. Click "Import Settings": The Console list should be filled with all your configured consoles
-
-6. Click "Update DB": Depending on your rom collections size this step can take some time. When it is done all other lists should be filled with the imported data.
+  # Download "Rom Collection Browser V0.4.zip (http://romcollectionbrowser.googlecode.com/files/Rom%20Collection%20Browser%20V0.4.zip)
+  # Unzip it to your XBMC scripts folder
+  # Edit the main configuration file "config.xml" ("XBMC/scripts/Rom Collection Browser/resources/database/config.xml"). Check configuration section for a sample configuration and to learn how to configure RCB
+  # Start XBMC and launch RCB
+  # Click "Import Settings": The Console list should be filled with all your configured consoles
+  # Click "Update DB": Depending on your rom collections size this step can take some time. When it is done all other lists should be filled with the imported data.
 
 
 = Setup test scenario =
