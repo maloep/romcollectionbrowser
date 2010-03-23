@@ -335,7 +335,7 @@
 			<onup>1000</onup>
 			<ondown>1000</ondown>
 			<onleft>1000</onleft>
-			<onright>3100</onright>
+			<onright>8100</onright>
 		</control>
 		<!--<control type="button" id="3100"> 
 			<description>Make Favorite</description>

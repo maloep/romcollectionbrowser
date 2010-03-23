@@ -460,7 +460,7 @@
 			<onup>1500</onup>
 			<ondown>500</ondown>
 			<onleft>3000</onleft>
-			<onright>3200</onright>
+			<onright>2200</onright>
 		</control>
 		<!--<control type="button" id="3200"> 
 			<description>Change View</description>
