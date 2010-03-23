@@ -22,6 +22,9 @@ Note: If you would like to play with the test scenario just skip these steps and
   # Download "Rom Collection Browser V0.4.zip (http://romcollectionbrowser.googlecode.com/files/Rom%20Collection%20Browser%20V0.4.zip)
   # Unzip it to your XBMC scripts folder
   # Edit the main configuration file "config.xml" ("XBMC/scripts/Rom Collection Browser/resources/database/config.xml"). Check configuration section for a sample configuration and to learn how to configure RCB
+  # Linux only: make the file "XBMC/scripts/Rom Collection Browser/applaunch.sh" executable
+  # Check the path to your XBMC installation at the end of the file "XBMC/scripts/Rom Collection Browser/applaunch.bat" or "XBMC/scripts/Rom Collection Browser/applaunch.sh"
+  # Make sure that the user that launches XBMC has write access to XBMCs script directory if you want to use the "solo" mode when launching emulators. RCB tries to create an "autoexec.py" in this directory
   # Start XBMC and launch RCB
   # Click "Import Settings": The Console list should be filled with all your configured consoles
   # Click "Update DB": Depending on your rom collections size this step can take some time. When it is done all other lists should be filled with the imported data.
