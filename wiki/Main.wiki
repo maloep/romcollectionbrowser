@@ -72,7 +72,7 @@ To show you how this script will work and how data should (could) be organized I
 
 
 = Usage =
-"Rom Collection Browser" will scan your rom folders and data folders and will import as much game relevant data as it can get. To get this job done you have to tell it where to search and what to search for. At the moment this is done via xml configuration file. In a later release this could be done via settings page.
+"Rom Collection Browser" will scan your rom folders and data folders and will import all game relevant data. To get this job done you have to tell it where to search and what to search for. At the moment this is done via xml configuration file. In a later release this could be done via settings page.
 
 == Import Settings ==
 To prepare implementation of a settings page I decided to store configuration information in database. So you will have to import settings from your xml config file before you can start scanning rom folders (and every time you make changes to your configuration). Import settings means that information from your configuration file "XBMC/scripts/Rom Collection Browser/resources/database/config.xml" will be written to database "MyGames.db" (same folder). The format of this configuration file is explained in a later section.
