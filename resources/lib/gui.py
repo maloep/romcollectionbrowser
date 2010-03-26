@@ -30,12 +30,12 @@ CONTROL_YEAR = 700
 CONTROL_PUBLISHER = 800
 FILTER_CONTROLS = (500, 600, 700, 800,)
 
-CONTROL_GAMES = 1500
+CONTROL_GAMES_GROUP = 200
 CONTROL_CONSOLE_IMG = 2000
 CONTROL_CONSOLE_DESC = 2100
 CONTROL_BUTTON_SETTINGS = 3000
 CONTROL_BUTTON_UPDATEDB = 3100
-CONTROL_BUTTON_CHANGEVIEW = 3200
+CONTROL_BUTTON_CHANGEVIEW = 3
 
 CONTROL_LABEL_MSG = 4000
 
@@ -109,8 +109,9 @@ class UIGameDB(xbmcgui.WindowXML):
 					self.selectedConsoleIndex = control.getSelectedPosition()
 					#consoleId 0 = Entry "All"
 					if (self.selectedConsoleId == 0):
-						self.getControl(CONTROL_CONSOLE_IMG).setVisible(0)
-						self.getControl(CONTROL_CONSOLE_DESC).setVisible(0)
+						pass
+						#self.getControl(CONTROL_CONSOLE_IMG).setVisible(0)
+						#self.getControl(CONTROL_CONSOLE_DESC).setVisible(0)
 					else:
 						self.showConsoleInfo()
 				elif (self.selectedControlId == CONTROL_GENRE):
@@ -129,13 +130,13 @@ class UIGameDB(xbmcgui.WindowXML):
 			if(control == None):
 				return
 				
-			if(self.selectedControlId == CONTROL_GAMES):
+			if(self.selectedControlId == CONTROL_GAMES_GROUP):
 				self.showGameInfo()
 		elif(action.getId() in ACTION_INFO):
 			control = self.getControlById(self.selectedControlId)
 			if(control == None):
 				return
-			if(self.selectedControlId == CONTROL_GAMES):
+			if(self.selectedControlId == CONTROL_GAMES_GROUP):
 				self.showGameInfoDialog()
 
 
@@ -151,8 +152,8 @@ class UIGameDB(xbmcgui.WindowXML):
 			self.updateDB()
 		elif (controlId == CONTROL_BUTTON_CHANGEVIEW):
 			print "Button Change View"			
-		elif (controlId != CONTROL_GAMES):
-			self.setFocus(self.getControl(CONTROL_GAMES))
+		elif (controlId != CONTROL_GAMES_GROUP):			
+			self.setFocus(self.getControl(CONTROL_GAMES_GROUP))
 			self.showGameInfo()
 		else:
 			self.launchEmu()
@@ -223,33 +224,30 @@ class UIGameDB(xbmcgui.WindowXML):
 		self.selectedPublisherId = self.showFilterControl(Publisher(self.gdb), CONTROL_PUBLISHER, showEntryAllItems)
 
 
-	def showGames(self):
-		#xbmcgui.lock()		
+	def showGames(self):		
 		
 		games = Game(self.gdb).getFilteredGames(self.selectedConsoleId, self.selectedGenreId, self.selectedYearId, self.selectedPublisherId)		
 		
-		control = self.getControlById(CONTROL_GAMES)
-		if(control == None):
-			return
-		
-		control.setVisible(1)
-		control.reset()
-		
 		self.writeMsg("loading games...")
 		
-		items = []
+		xbmcgui.lock()
+		
+		self.clearList()
+				
 		for game in games:
 			images = helper.getFilesByControl(self.gdb, 'gamelist', game[0], game[5])
 			if(images != None and len(images) != 0):
 				image = images[0]
 			else:
 				image = ""			
-			items.append(xbmcgui.ListItem(str(game[1]), str(game[0]), image, ''))
+			item = xbmcgui.ListItem(str(game[1]), str(game[0]), image, '')		
+			self.addItem(item, False)
+		
+		xbmcgui.unlock()
 				
-		control.addItems(items)
 		self.writeMsg("")
 		
-		#xbmcgui.unlock()
+		
 		
 
 	def showConsoleInfo(self):		
@@ -263,31 +261,29 @@ class UIGameDB(xbmcgui.WindowXML):
 		
 		controlImg = self.getControlById(CONTROL_CONSOLE_IMG)
 		controlDesc = self.getControlById(CONTROL_CONSOLE_DESC)
-		
+				
 		if(controlImg != None):
 			controlImg.setVisible(1)
 			controlImg.setImage(image)
 		if(controlDesc != None):
 			controlDesc.setVisible(1)
-			controlDesc.setText(description)
+			controlDesc.setText(description)		
 		
 	
-	def showGameInfo(self):
-		control = self.getControlById(CONTROL_GAMES)
-		if(control == None):
-			return
-			
-		selectedGame = control.getSelectedItem()
-		
+	def showGameInfo(self):		
+				
+		pos = self.getCurrentListPosition()
+		selectedGame = self.getListItem(pos)
 		if(selectedGame == None):
 			return
 			
 		gameId = selectedGame.getLabel2()
 		gameRow = Game(self.gdb).getObjectById(gameId)
+		print "game " +str(gameRow)
 		
 		if(gameRow == None):
 			return
-			
+					
 		images = helper.getFilesByControl(self.gdb, 'mainviewgameinfo', gameRow[0], gameRow[5])
 		if(images != None and len(images) != 0):
 			image = images[0]
@@ -298,6 +294,7 @@ class UIGameDB(xbmcgui.WindowXML):
 		if(description == None):
 			description = ""
 		
+		
 		controlImg = self.getControlById(CONTROL_CONSOLE_IMG)
 		controlDesc = self.getControlById(CONTROL_CONSOLE_DESC)
 		
@@ -307,13 +304,12 @@ class UIGameDB(xbmcgui.WindowXML):
 		if(controlDesc != None):
 			controlDesc.setVisible(1)		
 			controlDesc.setText(description)
+		
 
 
-	def launchEmu(self):
-		control = self.getControlById(CONTROL_GAMES)
-		if(control == None):
-			return
-		selectedGame = control.getSelectedItem()
+	def launchEmu(self):		
+		pos = self.getCurrentListPosition()
+		selectedGame = self.getListItem(pos)
 		
 		if(selectedGame == None):
 			return
@@ -384,11 +380,8 @@ class UIGameDB(xbmcgui.WindowXML):
 		control.setLabel(msg)
 		
 		
-	def saveViewState(self, isOnExit):
-		control = self.getControlById(CONTROL_GAMES)
-		if(control == None):
-			return
-		selectedGameIndex = control.getSelectedPosition()
+	def saveViewState(self, isOnExit):		
+		selectedGameIndex = self.getCurrentListPosition()
 		if(selectedGameIndex == None):
 			return
 		
@@ -415,7 +408,7 @@ class UIGameDB(xbmcgui.WindowXML):
 			self.selectedYearIndex = rcbSetting[5]
 
 		self.showGames()
-		self.setFilterSelection(CONTROL_GAMES, rcbSetting[6])
+		self.setFilterSelection(CONTROL_GAMES_GROUP, rcbSetting[6])
 						
 		#lastFocusedControl
 		if(rcbSetting[17] != None):
@@ -425,7 +418,7 @@ class UIGameDB(xbmcgui.WindowXML):
 			self.setFocus(focusControl)
 			if(rcbSetting[17] == CONTROL_CONSOLES):
 				self.showConsoleInfo()
-			elif(rcbSetting[17] == CONTROL_GAMES):
+			elif(rcbSetting[17] == CONTROL_GAMES_GROUP):
 				self.showGameInfo()
 		else:
 			focusControl = self.getControlById(CONTROL_CONSOLES)
@@ -454,11 +447,9 @@ class UIGameDB(xbmcgui.WindowXML):
 			return 0
 			
 	
-	def showGameInfoDialog(self):
-		control = self.getControlById(CONTROL_GAMES)
-		if(control == None):
-			return
-		selectedGame = control.getSelectedItem()
+	def showGameInfoDialog(self):		
+		pos = self.getCurrentListPosition()
+		selectedGame = self.getListItem(pos)
 		if(selectedGame == None):
 			return
 		gameId = selectedGame.getLabel2()

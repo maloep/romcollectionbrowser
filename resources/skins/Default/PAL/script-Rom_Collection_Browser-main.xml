@@ -1,5 +1,5 @@
-<window>
-	<allowoverlay>no</allowoverlay>
+<window>	
+	<allowoverlays>false</allowoverlays>
 	<defaultcontrol always="false">500</defaultcontrol>
 	<coordinates>
 	        <system>1</system>
@@ -7,411 +7,506 @@
         	<posy>0</posy>
 	</coordinates>
 	<controls>
-		<!--<control type="image">
+		<control type="image">
 		    <description>background image</description>
 		    <posx>0</posx>
 		    <posy>0</posy>
 		    <width>720</width>
 		    <height>580</height>
-		    <texture>background.png</texture>
-		</control>-->
-		
-		<!-- Console filter -->		
-		<control type="label">
-			<description>Consoles</description>
-			<posx>90</posx>
-			<posy>20</posy>
-		    	<textcolor>DDFFFFFF</textcolor>
-		    	<label>Consoles</label>
+		    <texture>background-darkgrey-leinwand.png</texture>		    
 		</control>		
-		<control type="wraplist" id="500">
+		
+		<!-- gamelist groups -->
+		<control type="group" id="200">
+			
+			<!-- gamelist -->
+			<control type="wraplist" id="50">			
+				<posx>25</posx>
+				<posy>300</posy>
+				<width>600</width>
+				<height>250</height>
+				<onleft>500</onleft>
+				<onright>1500</onright>
+				<onup>500</onup>
+				<ondown>3000</ondown>
+				<orientation>horizontal</orientation>
+				<focusposition>1</focusposition>
+				<viewtype label="Info">wrap</viewtype>	
+				<scrolltime>0</scrolltime>
+				<itemlayout width="145">
+					<control type="image">
+						<width>140</width>
+						<height>120</height>
+						<posx>25</posx>
+						<posy>25</posy>
+						<info>ListItem.Icon</info>
+					</control>
+					<!--<control type="label">
+						<posx>100</posx>
+						<posy>150</posy>
+						<width>120</width>
+						<height>20</height>
+						<font>font13</font>
+						<aligny>center</aligny>
+						<textcolor>DDFFFFFF</textcolor>
+						<selectedcolor>FFe2ff43</selectedcolor>
+						<align>center</align>
+						<info>ListItem.Label</info>
+					</control>-->
+				</itemlayout>
+				<focusedlayout width="145">
+					<control type="image">
+						<width>200</width>
+						<height>160</height>
+						<posx>0</posx>
+						<posy>0</posy>
+						<visible>Control.HasFocus(50)</visible>
+					
+						<info>ListItem.Icon</info>
+					</control>
+					<control type="image">
+						<width>140</width>
+						<height>120</height>
+						<posx>25</posx>
+						<posy>25</posy>
+						<visible>!Control.HasFocus(50)</visible>					
+						<info>ListItem.Icon</info>
+					</control>
+					<control type="label">
+						<posx>100</posx>
+						<posy>200</posy>
+						<width>120</width>
+						<height>20</height>
+						<font>font13</font>
+						<aligny>center</aligny>
+						<textcolor>DDFFFFFF</textcolor>
+						<selectedcolor>FFe2ff43</selectedcolor>
+						<align>center</align>
+						<info>ListItem.Label</info>
+					</control>
+				</focusedlayout>
+			</control>
+			
+			<control type="wraplist" id="51">
+				<posx>25</posx>
+				<posy>200</posy>
+				<width>600</width>
+				<height>400</height>
+				<onleft>500</onleft>
+				<onright>1500</onright>
+				<onup>500</onup>
+				<ondown>3000</ondown>
+				<orientation>horizontal</orientation>
+				<focusposition>1</focusposition>
+				<viewtype label="Icons">wrap</viewtype>			
+				<scrolltime>0</scrolltime>
+				<itemlayout width="100">
+					<control type="image">
+						<width>100</width>
+						<height>80</height>
+						<posx>0</posx>
+						<posy>25</posy>
+						<info>ListItem.Icon</info>
+					</control>
+					<!--<control type="label">
+						<posx>100</posx>
+						<posy>150</posy>
+						<width>120</width>
+						<height>20</height>
+						<font>font13</font>
+						<aligny>center</aligny>
+						<textcolor>DDFFFFFF</textcolor>
+						<selectedcolor>FFe2ff43</selectedcolor>
+						<align>center</align>
+						<info>ListItem.Label</info>
+					</control>-->					
+				</itemlayout>
+				<focusedlayout width="100">
+					<control type="image">
+						<width>130</width>
+						<height>100</height>
+						<posx>0</posx>
+						<posy>0</posy>
+						<visible>Control.HasFocus(51)</visible>
+					
+						<info>ListItem.Icon</info>
+					</control>
+					<control type="image">
+						<width>100</width>
+						<height>80</height>
+						<posx>0</posx>
+						<posy>25</posy>
+						<visible>!Control.HasFocus(51)</visible>					
+						<info>ListItem.Icon</info>
+					</control>
+					<control type="label">
+						<posx>225</posx>
+						<posy>250</posy>
+						<width>600</width>
+						<height>30</height>
+						<font>font30caps</font>
+						<align>center</align>
+						<aligny>center</aligny>
+						<textcolor>DDFFFFFF</textcolor>
+						<selectedcolor>FFe2ff43</selectedcolor>						
+						<info>ListItem.Label</info>
+					</control>
+				</focusedlayout>
+			</control>		
+		</control>
+		
+		<control type="group" id="300">
+			<!--<visible allowhiddenfocus="true">!Control.IsVisible(100) + Control.IsVisible(50)</visible>-->
+			<visible allowhiddenfocus="true">Control.IsVisible(50)</visible>
 			<posx>50</posx>
 			<posy>50</posy>
-			<width>125</width>
-			<height>96</height>
-			<onleft>3000</onleft>
-			<onright>600</onright>
-			<onup>500</onup>
-			<ondown>500</ondown>
-			<viewtype label="Console">wrap</viewtype>
-			<focusposition>1</focusposition>
-			<scrolltime>200</scrolltime>
-			<itemlayout height="32">
-				<control type="image">
-					<width>125</width>
-					<height>30</height>
-					<posx>0</posx>
-					<posy>0</posy>
-					<texture border="5">btn.png</texture>
-				</control>
-				<control type="label">
-					<posx>5</posx>
-					<posy>0</posy>
-					<width>120</width>
-					<height>30</height>
-					<font>font13</font>
-					<aligny>center</aligny>
-					<textcolor>DDFFFFFF</textcolor>
-					<selectedcolor>FFe2ff43</selectedcolor>
-					<align>left</align>
-					<info>ListItem.Label</info>
-				</control>
-			</itemlayout>
-			<focusedlayout height="32">
-				<control type="image">
-					<width>125</width>
-					<height>30</height>
-					<posx>0</posx>
-					<posy>0</posy>
-					<visible>Control.HasFocus(500)</visible>
-					<texture border="5">btnFocus.png</texture>
-				</control>
-				<control type="image">
-					<width>125</width>
-					<height>30</height>
-					<posx>0</posx>
-					<posy>0</posy>
-					<visible>!Control.HasFocus(500)</visible>
-					<texture border="5">btn.png</texture>
-				</control>
-				<control type="label">
-					<posx>5</posx>
-					<posy>0</posy>
-					<width>120</width>
-					<height>30</height>
-					<font>font13</font>
-					<aligny>center</aligny>
-					<textcolor>DDFFFFFF</textcolor>
-					<selectedcolor>FFe2ff43</selectedcolor>
-					<align>left</align>
-					<info>ListItem.Label</info>
-				</control>
-			</focusedlayout>
-		</control>	
-		<!-- Genre filter -->	
-		<control type="label">
-			<description>Genre</description>
-			<posx>250</posx>
-			<posy>20</posy>
-		    	<textcolor>DDFFFFFF</textcolor>
-		    	<label>Genre</label>
-		</control>
-		<control type="wraplist" id="600">
-			<posx>200</posx>
-			<posy>50</posy>
-			<width>125</width>
-			<height>96</height>
-			<onleft>500</onleft>
-			<onright>700</onright>
-			<onup>600</onup>
-			<ondown>600</ondown>
-			<viewtype label="Genre">wrap</viewtype>
-			<focusposition>1</focusposition>			
-			<scrolltime>200</scrolltime>
-			<itemlayout height="32">
-				<control type="image">
-					<width>125</width>
-					<height>30</height>
-					<posx>0</posx>
-					<posy>0</posy>
-					<texture border="5">btn.png</texture>
-				</control>
-				<control type="label">
-					<posx>5</posx>
-					<posy>0</posy>
-					<width>120</width>
-					<height>30</height>
-					<font>font13</font>
-					<aligny>center</aligny>
-					<textcolor>DDFFFFFF</textcolor>
-					<selectedcolor>FFe2ff43</selectedcolor>
-					<align>left</align>
-					<info>ListItem.Label</info>
-				</control>
-			</itemlayout>
-			<focusedlayout height="32">
-				<control type="image">
-					<width>125</width>
-					<height>30</height>
-					<posx>0</posx>
-					<posy>0</posy>
-					<visible>Control.HasFocus(600)</visible>
-					<texture border="5">btnFocus.png</texture>
-				</control>
-				<control type="image">
-					<width>125</width>
-					<height>30</height>
-					<posx>0</posx>
-					<posy>0</posy>
-					<visible>!Control.HasFocus(600)</visible>
-					<texture border="5">btn.png</texture>
-				</control>
-				<control type="label">
-					<posx>5</posx>
-					<posy>0</posy>
-					<width>120</width>
-					<height>30</height>
-					<font>font13</font>
-					<aligny>center</aligny>
-					<textcolor>DDFFFFFF</textcolor>
-					<selectedcolor>FFe2ff43</selectedcolor>
-					<align>left</align>
-					<info>ListItem.Label</info>
-				</control>
-			</focusedlayout>
-		</control>
-		<!-- Year filter -->	
-		<control type="label">
-			<description>Year</description>
-			<posx>400</posx>
-			<posy>20</posy>
-		    	<textcolor>DDFFFFFF</textcolor>
-		    	<label>Year</label>
-		</control>		
-		<control type="wraplist" id="700">
-			<posx>350</posx>
-			<posy>50</posy>
-			<width>125</width>
-			<height>96</height>
-			<onleft>600</onleft>
-			<onright>800</onright>
-			<onup>700</onup>
-			<ondown>700</ondown>
-			<viewtype label="Year">wrap</viewtype>
-			<focusposition>1</focusposition>			
-			<scrolltime>200</scrolltime>
-			<itemlayout height="32">
-				<control type="image">
-					<width>125</width>
-					<height>30</height>
-					<posx>0</posx>
-					<posy>0</posy>
-					<texture border="5">btn.png</texture>
-				</control>
-				<control type="label">
-					<posx>5</posx>
-					<posy>0</posy>
-					<width>120</width>
-					<height>30</height>
-					<font>font13</font>
-					<aligny>center</aligny>
-					<textcolor>DDFFFFFF</textcolor>
-					<selectedcolor>FFe2ff43</selectedcolor>
-					<align>left</align>
-					<info>ListItem.Label</info>
-				</control>
-			</itemlayout>
-			<focusedlayout height="32">
-				<control type="image">
-					<width>125</width>
-					<height>30</height>
-					<posx>0</posx>
-					<posy>0</posy>
-					<visible>Control.HasFocus(700)</visible>
-					<texture border="5">btnFocus.png</texture>
-				</control>
-				<control type="image">
-					<width>125</width>
-					<height>30</height>
-					<posx>0</posx>
-					<posy>0</posy>
-					<visible>!Control.HasFocus(700)</visible>
-					<texture border="5">btn.png</texture>
-				</control>
-				<control type="label">
-					<posx>5</posx>
-					<posy>0</posy>
-					<width>120</width>
-					<height>30</height>
-					<font>font13</font>
-					<aligny>center</aligny>
-					<textcolor>DDFFFFFF</textcolor>
-					<selectedcolor>FFe2ff43</selectedcolor>
-					<align>left</align>
-					<info>ListItem.Label</info>
-				</control>
-			</focusedlayout>
-		</control>
-		<!-- Publisher filter -->	
-		<control type="label">
-			<description>Publisher</description>
-			<posx>535</posx>
-			<posy>20</posy>
-		    	<textcolor>DDFFFFFF</textcolor>
-		    	<label>Publisher</label>
-		</control>		
-		<control type="wraplist" id="800">
-			<posx>500</posx>
-			<posy>50</posy>
-			<width>125</width>
-			<height>96</height>
-			<onleft>700</onleft>
-			<onright>500</onright>
-			<onup>800</onup>
-			<ondown>800</ondown>
-			<viewtype label="Year">wrap</viewtype>
-			<focusposition>1</focusposition>			
-			<scrolltime>200</scrolltime>
-			<itemlayout height="32">
-				<control type="image">
-					<width>125</width>
-					<height>30</height>
-					<posx>0</posx>
-					<posy>0</posy>
-					<texture border="5">btn.png</texture>
-				</control>
-				<control type="label">
-					<posx>5</posx>
-					<posy>0</posy>
-					<width>120</width>
-					<height>30</height>
-					<font>font13</font>
-					<aligny>center</aligny>
-					<textcolor>DDFFFFFF</textcolor>
-					<selectedcolor>FFe2ff43</selectedcolor>
-					<align>left</align>
-					<info>ListItem.Label</info>
-				</control>
-			</itemlayout>
-			<focusedlayout height="32">
-				<control type="image">
-					<width>125</width>
-					<height>30</height>
-					<posx>0</posx>
-					<posy>0</posy>
-					<visible>Control.HasFocus(800)</visible>
-					<texture border="5">btnFocus.png</texture>
-				</control>
-				<control type="image">
-					<width>125</width>
-					<height>30</height>
-					<posx>0</posx>
-					<posy>0</posy>
-					<visible>!Control.HasFocus(800)</visible>
-					<texture border="5">btn.png</texture>
-				</control>
-				<control type="label">
-					<posx>5</posx>
-					<posy>0</posy>
-					<width>120</width>
-					<height>30</height>
-					<font>font13</font>
-					<aligny>center</aligny>
-					<textcolor>DDFFFFFF</textcolor>
-					<selectedcolor>FFe2ff43</selectedcolor>
-					<align>left</align>
-					<info>ListItem.Label</info>
-				</control>
-			</focusedlayout>
-		</control>
-		
-		<!-- gamelist -->
-		<control type="wraplist" id="1500">
-			<posx>25</posx>
-			<posy>150</posy>
-			<width>600</width>
-			<height>200</height>
-			<onleft>500</onleft>
-			<onright>1500</onright>
-			<onup>500</onup>
-			<ondown>3000</ondown>
-			<orientation>horizontal</orientation>
-			<focusposition>1</focusposition>
-			<viewtype label="Games">wrap</viewtype>			
-			<scrolltime>0</scrolltime>
-			<itemlayout width="145">
-				<control type="image">
-					<width>140</width>
-					<height>120</height>
+			
+			<!-- mainviewgameinfo (also used for console image) -->
+			<control type="image" id="2000">
+					<description>console image</description>
 					<posx>25</posx>
-					<posy>25</posy>
-					<info>ListItem.Icon</info>
-				</control>
-				<control type="label">
-					<posx>100</posx>
-					<posy>150</posy>
-					<width>120</width>
-					<height>20</height>
-					<font>font13</font>
-					<aligny>center</aligny>
-					<textcolor>DDFFFFFF</textcolor>
-					<selectedcolor>FFe2ff43</selectedcolor>
-					<align>center</align>
-					<info>ListItem.Label</info>
-				</control>
-			</itemlayout>
-			<focusedlayout width="145">
-				<control type="image">
+					<posy>0</posy>
 					<width>200</width>
-					<height>160</height>
-					<posx>0</posx>
-					<posy>0</posy>
-					<visible>Control.HasFocus(1500)</visible>
-				
-					<info>ListItem.Icon</info>
-				</control>
-				<control type="image">
-					<width>140</width>
-					<height>120</height>
-					<posx>25</posx>
-					<posy>25</posy>
-					<visible>!Control.HasFocus(1500)</visible>					
-					<info>ListItem.Icon</info>
-				</control>
-				<control type="label">
-					<posx>100</posx>
-					<posy>150</posy>
-					<width>120</width>
-					<height>20</height>
-					<font>font13</font>
-					<aligny>center</aligny>
-					<textcolor>DDFFFFFF</textcolor>
-					<selectedcolor>FFe2ff43</selectedcolor>
-					<align>center</align>
-					<info>ListItem.Label</info>
-				</control>
-			</focusedlayout>
+					<height>150</height>			
+					<texture></texture>
+			</control>
+			<!-- game / console description -->
+			<control type="textbox" id="2100">
+				<description>Consoles</description>
+				<posx>320</posx>
+				<posy>0</posy>
+				<width>275</width>
+				<height>150</height>			
+				<pagecontrol>2200</pagecontrol>			
+				<textcolor>DDFFFFFF</textcolor>			
+				<autoscroll delay="3000" time="1000" repeat="10000">!Control.HasFocus(2200)</autoscroll>
+			</control>
+			<control type="scrollbar" id="2200">
+				<description>ConsoleDesc Scrollbar</description>
+				<posx>600</posx>
+				<posy>5</posy>
+				<width>5</width>
+				<height>150</height>
+				<visible>Control.IsVisible(2100)</visible>
+				<texturesliderbackground>scrollbar-bg.png</texturesliderbackground>
+				<texturesliderbar>scrollbar-bar.png</texturesliderbar>
+				<texturesliderbarfocus>scrollbar-barFocus.png</texturesliderbarfocus>
+				<textureslidernib>scrollbar-nib.png</textureslidernib>
+				<textureslidernibfocus>scrollbar-nibFocus.png</textureslidernibfocus>
+				<pulseonselect></pulseonselect>
+				<orientation>vertical</orientation>
+				<showonepage>false</showonepage>
+				<onup>2200</onup>
+				<ondown>2200</ondown>
+				<onleft>3200</onleft>
+				<onright>800</onright>
+			</control>
 		</control>
 		
-		<!-- mainviewgameinfo (also used for console image) -->
-		<control type="image" id="2000">
-		    	<description>console image</description>
-		    	<posx>100</posx>
-		    	<posy>340</posy>
-		    	<width>200</width>
-		    	<height>150</height>			
-			<texture></texture>
-		</control>
-		<!-- game / console description -->
-		<control type="textbox" id="2100">
-			<description>Consoles</description>
-			<posx>350</posx>
-			<posy>340</posy>
-			<width>275</width>
-		    <height>150</height>			
-			<pagecontrol>2200</pagecontrol>			
-			<textcolor>DDFFFFFF</textcolor>			
-			<autoscroll delay="3000" time="1000" repeat="10000">!Control.HasFocus(2200)</autoscroll>
-		</control>
-		<control type="scrollbar" id="2200">
-			<description>ConsoleDesc Scrollbar</description>
-			<posx>630</posx>
-			<posy>345</posy>
-			<width>5</width>
-			<height>150</height>
-			<visible>Control.IsVisible(2100)</visible>
-			<texturesliderbackground>scrollbar-bg.png</texturesliderbackground>
-			<texturesliderbar>scrollbar-bar.png</texturesliderbar>
-			<texturesliderbarfocus>scrollbar-barFocus.png</texturesliderbarfocus>
-			<textureslidernib>scrollbar-nib.png</textureslidernib>
-			<textureslidernibfocus>scrollbar-nibFocus.png</textureslidernibfocus>
-			<pulseonselect></pulseonselect>
-			<orientation>vertical</orientation>
-			<showonepage>false</showonepage>
-			<onup>2200</onup>
-			<ondown>2200</ondown>
-			<onleft>3200</onleft>
-			<onright>800</onright>
+		
+		<!-- filter controls -->
+		<control type="group" id="100">			
+			<animation effect="slide" start="0,0" end="0,0" delay="0" time="400" tween="quadratic" easing="out" condition="ControlGroup(100).HasFocus">Conditional</animation>
+			<animation effect="slide" start="0,0" end="0,-200" delay="0"time="400" tween="quadratic" easing="out" condition="!ControlGroup(100).HasFocus">Conditional</animation>
+			<!--<visible allowhiddenfocus="true">Control.HasFocus(500) | Control.HasFocus(600) | Control.HasFocus(700) | Control.HasFocus(800)</visible>-->
+			<control type="image">
+				<animation effect="zoom" start="0,0,700,1" end="0,0,700,180" time="300" tween="quadratic" easing="out" condition="ControlGroup(100).HasFocus">Conditional</animation>
+				<description>filter background image</description>
+				<posx>0</posx>
+				<posy>0</posy>
+				<width>700</width>
+				<height>160</height>
+				<texture>background.png</texture>
+				<colordiffuse>90FFFFFF</colordiffuse>				
+			</control>
+			<!-- Console filter -->
+			<control type="label">
+				<description>Consoles</description>
+				<posx>90</posx>
+				<posy>20</posy>
+				<textcolor>DDFFFFFF</textcolor>
+				<label>Consoles</label>
+			</control>		
+			<control type="wraplist" id="500">
+				<posx>50</posx>
+				<posy>50</posy>
+				<width>125</width>
+				<height>96</height>
+				<onleft>3000</onleft>
+				<onright>600</onright>
+				<onup>500</onup>
+				<ondown>500</ondown>
+				<viewtype label="Console">wrap</viewtype>
+				<focusposition>1</focusposition>
+				<scrolltime>200</scrolltime>
+				<itemlayout height="32">
+					<control type="image">
+						<width>125</width>
+						<height>30</height>
+						<posx>0</posx>
+						<posy>0</posy>
+						<texture border="5">btn.png</texture>
+					</control>
+					<control type="label">
+						<posx>5</posx>
+						<posy>0</posy>
+						<width>120</width>
+						<height>30</height>
+						<font>font13</font>
+						<aligny>center</aligny>
+						<textcolor>DDFFFFFF</textcolor>
+						<selectedcolor>FFe2ff43</selectedcolor>
+						<align>left</align>
+						<info>ListItem.Label</info>
+					</control>
+				</itemlayout>
+				<focusedlayout height="32">
+					<control type="image">
+						<width>125</width>
+						<height>30</height>
+						<posx>0</posx>
+						<posy>0</posy>
+						<visible>Control.HasFocus(500)</visible>
+						<texture border="5">btnFocus.png</texture>
+					</control>
+					<control type="image">
+						<width>125</width>
+						<height>30</height>
+						<posx>0</posx>
+						<posy>0</posy>
+						<visible>!Control.HasFocus(500)</visible>
+						<texture border="5">btn.png</texture>
+					</control>
+					<control type="label">
+						<posx>5</posx>
+						<posy>0</posy>
+						<width>120</width>
+						<height>30</height>
+						<font>font13</font>
+						<aligny>center</aligny>
+						<textcolor>DDFFFFFF</textcolor>
+						<selectedcolor>FFe2ff43</selectedcolor>
+						<align>left</align>
+						<info>ListItem.Label</info>
+					</control>
+				</focusedlayout>
+			</control>	
+			<!-- Genre filter -->	
+			<control type="label">
+				<description>Genre</description>
+				<posx>250</posx>
+				<posy>20</posy>
+					<textcolor>DDFFFFFF</textcolor>
+					<label>Genre</label>
+			</control>
+			<control type="wraplist" id="600">
+				<posx>200</posx>
+				<posy>50</posy>
+				<width>125</width>
+				<height>96</height>
+				<onleft>500</onleft>
+				<onright>700</onright>
+				<onup>600</onup>
+				<ondown>600</ondown>
+				<viewtype label="Genre">wrap</viewtype>
+				<focusposition>1</focusposition>			
+				<scrolltime>200</scrolltime>
+				<itemlayout height="32">
+					<control type="image">
+						<width>125</width>
+						<height>30</height>
+						<posx>0</posx>
+						<posy>0</posy>
+						<texture border="5">btn.png</texture>
+					</control>
+					<control type="label">
+						<posx>5</posx>
+						<posy>0</posy>
+						<width>120</width>
+						<height>30</height>
+						<font>font13</font>
+						<aligny>center</aligny>
+						<textcolor>DDFFFFFF</textcolor>
+						<selectedcolor>FFe2ff43</selectedcolor>
+						<align>left</align>
+						<info>ListItem.Label</info>
+					</control>
+				</itemlayout>
+				<focusedlayout height="32">
+					<control type="image">
+						<width>125</width>
+						<height>30</height>
+						<posx>0</posx>
+						<posy>0</posy>
+						<visible>Control.HasFocus(600)</visible>
+						<texture border="5">btnFocus.png</texture>
+					</control>
+					<control type="image">
+						<width>125</width>
+						<height>30</height>
+						<posx>0</posx>
+						<posy>0</posy>
+						<visible>!Control.HasFocus(600)</visible>
+						<texture border="5">btn.png</texture>
+					</control>
+					<control type="label">
+						<posx>5</posx>
+						<posy>0</posy>
+						<width>120</width>
+						<height>30</height>
+						<font>font13</font>
+						<aligny>center</aligny>
+						<textcolor>DDFFFFFF</textcolor>
+						<selectedcolor>FFe2ff43</selectedcolor>
+						<align>left</align>
+						<info>ListItem.Label</info>
+					</control>
+				</focusedlayout>
+			</control>
+			<!-- Year filter -->	
+			<control type="label">
+				<description>Year</description>
+				<posx>400</posx>
+				<posy>20</posy>
+					<textcolor>DDFFFFFF</textcolor>
+					<label>Year</label>
+			</control>		
+			<control type="wraplist" id="700">
+				<posx>350</posx>
+				<posy>50</posy>
+				<width>125</width>
+				<height>96</height>
+				<onleft>600</onleft>
+				<onright>800</onright>
+				<onup>700</onup>
+				<ondown>700</ondown>
+				<viewtype label="Year">wrap</viewtype>
+				<focusposition>1</focusposition>			
+				<scrolltime>200</scrolltime>
+				<itemlayout height="32">
+					<control type="image">
+						<width>125</width>
+						<height>30</height>
+						<posx>0</posx>
+						<posy>0</posy>
+						<texture border="5">btn.png</texture>
+					</control>
+					<control type="label">
+						<posx>5</posx>
+						<posy>0</posy>
+						<width>120</width>
+						<height>30</height>
+						<font>font13</font>
+						<aligny>center</aligny>
+						<textcolor>DDFFFFFF</textcolor>
+						<selectedcolor>FFe2ff43</selectedcolor>
+						<align>left</align>
+						<info>ListItem.Label</info>
+					</control>
+				</itemlayout>
+				<focusedlayout height="32">
+					<control type="image">
+						<width>125</width>
+						<height>30</height>
+						<posx>0</posx>
+						<posy>0</posy>
+						<visible>Control.HasFocus(700)</visible>
+						<texture border="5">btnFocus.png</texture>
+					</control>
+					<control type="image">
+						<width>125</width>
+						<height>30</height>
+						<posx>0</posx>
+						<posy>0</posy>
+						<visible>!Control.HasFocus(700)</visible>
+						<texture border="5">btn.png</texture>
+					</control>
+					<control type="label">
+						<posx>5</posx>
+						<posy>0</posy>
+						<width>120</width>
+						<height>30</height>
+						<font>font13</font>
+						<aligny>center</aligny>
+						<textcolor>DDFFFFFF</textcolor>
+						<selectedcolor>FFe2ff43</selectedcolor>
+						<align>left</align>
+						<info>ListItem.Label</info>
+					</control>
+				</focusedlayout>
+			</control>
+			<!-- Publisher filter -->	
+			<control type="label">
+				<description>Publisher</description>
+				<posx>535</posx>
+				<posy>20</posy>
+					<textcolor>DDFFFFFF</textcolor>
+					<label>Publisher</label>
+			</control>		
+			<control type="wraplist" id="800">
+				<posx>500</posx>
+				<posy>50</posy>
+				<width>125</width>
+				<height>96</height>
+				<onleft>700</onleft>
+				<onright>500</onright>
+				<onup>800</onup>
+				<ondown>800</ondown>
+				<viewtype label="Year">wrap</viewtype>
+				<focusposition>1</focusposition>			
+				<scrolltime>200</scrolltime>
+				<itemlayout height="32">
+					<control type="image">
+						<width>125</width>
+						<height>30</height>
+						<posx>0</posx>
+						<posy>0</posy>
+						<texture border="5">btn.png</texture>
+					</control>
+					<control type="label">
+						<posx>5</posx>
+						<posy>0</posy>
+						<width>120</width>
+						<height>30</height>
+						<font>font13</font>
+						<aligny>center</aligny>
+						<textcolor>DDFFFFFF</textcolor>
+						<selectedcolor>FFe2ff43</selectedcolor>
+						<align>left</align>
+						<info>ListItem.Label</info>
+					</control>
+				</itemlayout>
+				<focusedlayout height="32">
+					<control type="image">
+						<width>125</width>
+						<height>30</height>
+						<posx>0</posx>
+						<posy>0</posy>
+						<visible>Control.HasFocus(800)</visible>
+						<texture border="5">btnFocus.png</texture>
+					</control>
+					<control type="image">
+						<width>125</width>
+						<height>30</height>
+						<posx>0</posx>
+						<posy>0</posy>
+						<visible>!Control.HasFocus(800)</visible>
+						<texture border="5">btn.png</texture>
+					</control>
+					<control type="label">
+						<posx>5</posx>
+						<posy>0</posy>
+						<width>120</width>
+						<height>30</height>
+						<font>font13</font>
+						<aligny>center</aligny>
+						<textcolor>DDFFFFFF</textcolor>
+						<selectedcolor>FFe2ff43</selectedcolor>
+						<align>left</align>
+						<info>ListItem.Label</info>
+					</control>
+				</focusedlayout>
+			</control>
 		</control>
 		
 		<!-- Buttons -->
@@ -434,7 +529,7 @@
 			<textoffsetx></textoffsetx>
 			<textoffsety></textoffsety>
 			<pulseonselect></pulseonselect>
-			<onup>1500</onup>
+			<onup>50</onup>
 			<ondown>500</ondown>
 			<onleft>500</onleft>
 			<onright>3100</onright>
@@ -460,9 +555,9 @@
 			<onup>1500</onup>
 			<ondown>500</ondown>
 			<onleft>3000</onleft>
-			<onright>2200</onright>
+			<onright>2</onright>
 		</control>
-		<!--<control type="button" id="3200"> 
+		<control type="button" id="2"> 
 			<description>Change View</description>
 			<posx>300</posx>
 			<posy>525</posy>
@@ -484,7 +579,7 @@
 			<ondown>500</ondown>
 			<onleft>3100</onleft>
 			<onright>2200</onright>
-		</control>-->
+		</control>
 		
 		<!-- Messages -->
 		<control type="label" id="4000">
