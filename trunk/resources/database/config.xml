@@ -13,40 +13,40 @@
 		<Console>
 			<name>Amiga</name>
 			<desc>The Amiga 500, also known as the A500 (or its code name Rock Lobster), was the first low-end Commodore Amiga 16/32-bit multimedia home/personal computer. It was announced at the winter Consumer Electronics Show in January 1987, at the same time as the high-end Amiga 2000, and competed directly against the Atari 520ST.</desc>
-			<imgFile>E:\Emulatoren\data\Testdata V0.3_Instance\consoleImages\Amiga.png</imgFile>
+			<imgFile>E:\Emulatoren\data\Testdata V0.4\consoleImages\Amiga.png</imgFile>
 		</Console>
 		<Console>
 			<name>Super Nintendo</name>
 			<desc>The Super Nintendo (SNES) is a 16-bit video game console released in 1990. 32768 (15-bit) colors, 8 channels 16-bit 32 kHz audio channels. 128 kB main RAM, 64 kB Video RAM and 64 kB Audio RAM.</desc>
-			<imgFile>E:\Emulatoren\data\Testdata V0.3_Instance\consoleImages\SNES.png</imgFile>
+			<imgFile>E:\Emulatoren\data\Testdata V0.4\consoleImages\SNES.png</imgFile>
 		</Console>
 	</Consoles>
 	<RomCollections>
 		<RomCollection>			
 			<name>Collection V1</name>
 			<consoleName>Amiga</consoleName>
-			<emulatorCmd>E:\Emulatoren\WINUAE\winuae.exe -f "E:\Emulatoren\WINUAE\Configurations\Host\Amiga 500.uae" {-%I% "%ROM%"}</emulatorCmd>
+			<emulatorCmd>E:\Emulatoren\WINUAE\winuae.exe {-%I% "%ROM%"}</emulatorCmd>
 			<useEmuSolo>True</useEmuSolo>
 			<escapeCommand>True</escapeCommand>
 			<relyOnNaming>True</relyOnNaming>
 			<startWithDescFile>False</startWithDescFile>
 			<descFilePerGame>False</descFilePerGame>
-			<descriptionParserFile>E:\Emulatoren\data\Testdata V0.3_Instance\Collection V1\parserConfig.xml</descriptionParserFile>
+			<descriptionParserFile>E:\Emulatoren\data\Testdata V0.4\Collection V1\parserConfig.xml</descriptionParserFile>
 			<diskPrefix>_Disk</diskPrefix>
 			<typeOfManual>Text</typeOfManual>
 			<allowUpdate>True</allowUpdate>
 			<ignoreOnScan>False</ignoreOnScan>
-			<romPath>E:\Emulatoren\data\Testdata V0.3_Instance\Collection V1\roms\*.adf</romPath>
-			<romPath>E:\Emulatoren\data\Testdata V0.3_Instance\Collection V1\roms\*.ADF</romPath>
-			<descFilePath>E:\Emulatoren\data\Testdata V0.3_Instance\Collection V1\synopsis\synopsis.txt</descFilePath>
+			<romPath>E:\Emulatoren\data\Testdata V0.4\Collection V1\roms\*.adf</romPath>
+			<romPath>E:\Emulatoren\data\Testdata V0.4\Collection V1\roms\*.ADF</romPath>
+			<descFilePath>E:\Emulatoren\data\Testdata V0.4\Collection V1\synopsis\synopsis.txt</descFilePath>
 			<configFilePath></configFilePath>
 			<manualPath></manualPath>
-			<imgPath type="cover">E:\Emulatoren\data\Testdata V0.3_Instance\Collection V1\cover\%GAME%.jpg</imgPath>
-			<imgPath type="cover">E:\Emulatoren\data\Testdata V0.3_Instance\Collection V1\cover\%GAME%.gif</imgPath>
-			<imgPath type="cover">E:\Emulatoren\data\Testdata V0.3_Instance\Collection V1\cover\%GAME%.png</imgPath>
-			<imgPath type="screenshotingame">E:\Emulatoren\data\Testdata V0.3_Instance\Collection V1\screens\%GAME%.jpg</imgPath>
-			<imgPath type="screenshotingame">E:\Emulatoren\data\Testdata V0.3_Instance\Collection V1\screens\%GAME%.gif</imgPath>
-			<imgPath type="screenshotingame">E:\Emulatoren\data\Testdata V0.3_Instance\Collection V1\screens\%GAME%.png</imgPath>				
+			<imgPath type="cover">E:\Emulatoren\data\Testdata V0.4\Collection V1\cover\%GAME%.jpg</imgPath>
+			<imgPath type="cover">E:\Emulatoren\data\Testdata V0.4\Collection V1\cover\%GAME%.gif</imgPath>
+			<imgPath type="cover">E:\Emulatoren\data\Testdata V0.4\Collection V1\cover\%GAME%.png</imgPath>
+			<imgPath type="screenshotingame">E:\Emulatoren\data\Testdata V0.4\Collection V1\screens\%GAME%.jpg</imgPath>
+			<imgPath type="screenshotingame">E:\Emulatoren\data\Testdata V0.4\Collection V1\screens\%GAME%.gif</imgPath>
+			<imgPath type="screenshotingame">E:\Emulatoren\data\Testdata V0.4\Collection V1\screens\%GAME%.png</imgPath>				
 			<fileTypeForGameList>cover</fileTypeForGameList>
 			<fileTypeForMainViewGameInfo>screenshotingame</fileTypeForMainViewGameInfo>			
 			<fileTypeForGameInfoViewBackground>cover</fileTypeForGameInfoViewBackground>
@@ -63,22 +63,22 @@
 			<relyOnNaming>True</relyOnNaming>
 			<startWithDescFile>False</startWithDescFile>
 			<descFilePerGame>True</descFilePerGame>
-			<descriptionParserFile>E:\Emulatoren\data\Testdata V0.3_Instance\Collection V2\parserConfig.xml</descriptionParserFile>
+			<descriptionParserFile>E:\Emulatoren\data\Testdata V0.4\Collection V2\parserConfig.xml</descriptionParserFile>
 			<diskPrefix>_Disk</diskPrefix>
 			<typeOfManual>Text</typeOfManual>
 			<allowUpdate>True</allowUpdate>
 			<ignoreOnScan>False</ignoreOnScan>
-			<romPath>E:\Emulatoren\data\Testdata V0.3_Instance\Collection V2\roms\*.adf</romPath>
-			<romPath>E:\Emulatoren\data\Testdata V0.3_Instance\Collection V2\roms\*.ADF</romPath>
-			<descFilePath>E:\Emulatoren\data\Testdata V0.3_Instance\Collection V2\synopsis\%GAME%\synopsis.txt</descFilePath>
+			<romPath>E:\Emulatoren\data\Testdata V0.4\Collection V2\roms\*.adf</romPath>
+			<romPath>E:\Emulatoren\data\Testdata V0.4\Collection V2\roms\*.ADF</romPath>
+			<descFilePath>E:\Emulatoren\data\Testdata V0.4\Collection V2\synopsis\%GAME%\synopsis.txt</descFilePath>
 			<configFilePath></configFilePath>
 			<manualPath></manualPath>
-			<imgPath type="cover">E:\Emulatoren\data\Testdata V0.3_Instance\Collection V2\cover\%GAME%\*.jpg</imgPath>
-			<imgPath type="cover">E:\Emulatoren\data\Testdata V0.3_Instance\Collection V2\cover\%GAME%\*.gif</imgPath>
-			<imgPath type="cover">E:\Emulatoren\data\Testdata V0.3_Instance\Collection V2\cover\%GAME%\*.png</imgPath>
-			<imgPath type="screenshotingame">E:\Emulatoren\data\Testdata V0.3_Instance\Collection V2\screens\%GAME%\*.jpg</imgPath>
-			<imgPath type="screenshotingame">E:\Emulatoren\data\Testdata V0.3_Instance\Collection V2\screens\%GAME%\*.gif</imgPath>
-			<imgPath type="screenshotingame">E:\Emulatoren\data\Testdata V0.3_Instance\Collection V2\screens\%GAME%\*.png</imgPath>				
+			<imgPath type="cover">E:\Emulatoren\data\Testdata V0.4\Collection V2\cover\%GAME%\*.jpg</imgPath>
+			<imgPath type="cover">E:\Emulatoren\data\Testdata V0.4\Collection V2\cover\%GAME%\*.gif</imgPath>
+			<imgPath type="cover">E:\Emulatoren\data\Testdata V0.4\Collection V2\cover\%GAME%\*.png</imgPath>
+			<imgPath type="screenshotingame">E:\Emulatoren\data\Testdata V0.4\Collection V2\screens\%GAME%\*.jpg</imgPath>
+			<imgPath type="screenshotingame">E:\Emulatoren\data\Testdata V0.4\Collection V2\screens\%GAME%\*.gif</imgPath>
+			<imgPath type="screenshotingame">E:\Emulatoren\data\Testdata V0.4\Collection V2\screens\%GAME%\*.png</imgPath>				
 			<fileTypeForGameList>cover</fileTypeForGameList>
 			<fileTypeForMainViewGameInfo>screenshotingame</fileTypeForMainViewGameInfo>			
 			<fileTypeForGameInfoViewBackground>cover</fileTypeForGameInfoViewBackground>
@@ -95,29 +95,29 @@
 			<relyOnNaming>True</relyOnNaming>
 			<startWithDescFile>False</startWithDescFile>
 			<descFilePerGame>False</descFilePerGame>
-			<descriptionParserFile>E:\Emulatoren\data\Testdata V0.3_Instance\Collection V3\parserConfig.xml</descriptionParserFile>
+			<descriptionParserFile>E:\Emulatoren\data\Testdata V0.4\Collection V3\parserConfig.xml</descriptionParserFile>
 			<diskPrefix>_Disk</diskPrefix>
 			<typeOfManual>Text</typeOfManual>
 			<allowUpdate>True</allowUpdate>
 			<ignoreOnScan>False</ignoreOnScan>
-			<romPath>E:\Emulatoren\data\Testdata V0.3_Instance\Collection V3\roms\*.zip</romPath>
-			<romPath>E:\Emulatoren\data\Testdata V0.3_Instance\Collection V3\roms\*.smc</romPath>
-			<descFilePath>E:\Emulatoren\data\Testdata V0.3_Instance\Collection V3\description\synopsis.txt</descFilePath>
+			<romPath>E:\Emulatoren\data\Testdata V0.4\Collection V3\roms\*.zip</romPath>
+			<romPath>E:\Emulatoren\data\Testdata V0.4\Collection V3\roms\*.smc</romPath>
+			<descFilePath>E:\Emulatoren\data\Testdata V0.4\Collection V3\description\synopsis.txt</descFilePath>
 			<configFilePath></configFilePath>
 			<manualPath></manualPath>
-			<imgPath type="cover">E:\Emulatoren\data\Testdata V0.3_Instance\Collection V3\cover\%GAME%.jpg</imgPath>
-			<imgPath type="cover">E:\Emulatoren\data\Testdata V0.3_Instance\Collection V3\cover\%GAME%.gif</imgPath>
-			<imgPath type="cover">E:\Emulatoren\data\Testdata V0.3_Instance\Collection V3\cover\%GAME%.png</imgPath>
-			<imgPath type="screenshotingame">E:\Emulatoren\data\Testdata V0.3_Instance\Collection V3\screens\%GAME%.jpg</imgPath>
-			<imgPath type="screenshotingame">E:\Emulatoren\data\Testdata V0.3_Instance\Collection V3\screens\%GAME%.gif</imgPath>
-			<imgPath type="screenshotingame">E:\Emulatoren\data\Testdata V0.3_Instance\Collection V3\screens\%GAME%.png</imgPath>
-			<imgPath type="screenshottitle">E:\Emulatoren\data\Testdata V0.3_Instance\Collection V3\titles\%GAME%.jpg</imgPath>
-			<imgPath type="screenshottitle">E:\Emulatoren\data\Testdata V0.3_Instance\Collection V3\titles\%GAME%.gif</imgPath>
-			<imgPath type="screenshottitle">E:\Emulatoren\data\Testdata V0.3_Instance\Collection V3\titles\%GAME%.png</imgPath>
-			<imgPath type="cartridge">E:\Emulatoren\data\Testdata V0.3_Instance\Collection V3\cartridge\%GAME%.png</imgPath>
-			<imgPath type="cartridge">E:\Emulatoren\data\Testdata V0.3_Instance\Collection V3\cartridge\%GAME%.gif</imgPath>
-			<imgPath type="cartridge">E:\Emulatoren\data\Testdata V0.3_Instance\Collection V3\cartridge\%GAME%.jpg</imgPath>			
-			<videoPath type="gameplay">E:\Emulatoren\data\Testdata V0.3_Instance\Collection V3\ingameVids\%GAME%.wmv</videoPath>
+			<imgPath type="cover">E:\Emulatoren\data\Testdata V0.4\Collection V3\cover\%GAME%.jpg</imgPath>
+			<imgPath type="cover">E:\Emulatoren\data\Testdata V0.4\Collection V3\cover\%GAME%.gif</imgPath>
+			<imgPath type="cover">E:\Emulatoren\data\Testdata V0.4\Collection V3\cover\%GAME%.png</imgPath>
+			<imgPath type="screenshotingame">E:\Emulatoren\data\Testdata V0.4\Collection V3\screens\%GAME%.jpg</imgPath>
+			<imgPath type="screenshotingame">E:\Emulatoren\data\Testdata V0.4\Collection V3\screens\%GAME%.gif</imgPath>
+			<imgPath type="screenshotingame">E:\Emulatoren\data\Testdata V0.4\Collection V3\screens\%GAME%.png</imgPath>
+			<imgPath type="screenshottitle">E:\Emulatoren\data\Testdata V0.4\Collection V3\titles\%GAME%.jpg</imgPath>
+			<imgPath type="screenshottitle">E:\Emulatoren\data\Testdata V0.4\Collection V3\titles\%GAME%.gif</imgPath>
+			<imgPath type="screenshottitle">E:\Emulatoren\data\Testdata V0.4\Collection V3\titles\%GAME%.png</imgPath>
+			<imgPath type="cartridge">E:\Emulatoren\data\Testdata V0.4\Collection V3\cartridge\%GAME%.png</imgPath>
+			<imgPath type="cartridge">E:\Emulatoren\data\Testdata V0.4\Collection V3\cartridge\%GAME%.gif</imgPath>
+			<imgPath type="cartridge">E:\Emulatoren\data\Testdata V0.4\Collection V3\cartridge\%GAME%.jpg</imgPath>			
+			<videoPath type="gameplay">E:\Emulatoren\data\Testdata V0.4\Collection V3\ingameVids\%GAME%.wmv</videoPath>
 			<fileTypeForGameList>cover</fileTypeForGameList>
 			<fileTypeForMainViewGameInfo>screenshotingame</fileTypeForMainViewGameInfo>
 			<fileTypeForGameInfoViewBackground>screenshottitle</fileTypeForGameInfoViewBackground>
