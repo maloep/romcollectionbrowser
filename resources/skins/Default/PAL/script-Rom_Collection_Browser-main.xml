@@ -13,78 +13,131 @@
 		    <posy>0</posy>
 		    <width>720</width>
 		    <height>580</height>
-		    <texture>background-darkgrey-leinwand.png</texture>		    
+		    <texture>rcb-background-black.png</texture>			
 		</control>		
 		
 		<!-- gamelist groups -->
-		<control type="group" id="200">
-			
+		<control type="group" id="200">			
 			<!-- gamelist -->
-			<control type="wraplist" id="50">			
-				<posx>25</posx>
-				<posy>300</posy>
-				<width>600</width>
-				<height>250</height>
-				<onleft>500</onleft>
-				<onright>1500</onright>
-				<onup>500</onup>
-				<ondown>3000</ondown>
-				<orientation>horizontal</orientation>
-				<focusposition>1</focusposition>
-				<viewtype label="Info">wrap</viewtype>	
-				<scrolltime>0</scrolltime>
-				<itemlayout width="145">
-					<control type="image">
-						<width>140</width>
-						<height>120</height>
-						<posx>25</posx>
-						<posy>25</posy>
-						<info>ListItem.Icon</info>
-					</control>
-					<!--<control type="label">
-						<posx>100</posx>
-						<posy>150</posy>
-						<width>120</width>
-						<height>20</height>
-						<font>font13</font>
-						<aligny>center</aligny>
-						<textcolor>DDFFFFFF</textcolor>
-						<selectedcolor>FFe2ff43</selectedcolor>
-						<align>center</align>
-						<info>ListItem.Label</info>
-					</control>-->
-				</itemlayout>
-				<focusedlayout width="145">
-					<control type="image">
-						<width>200</width>
-						<height>160</height>
+			<control type="group">
+				<control type="image">				
+					<description>gamelist background image</description>
+					<posx>0</posx>
+					<posy>280</posy>
+					<width>720</width>
+					<height>270</height>
+					<texture>rcb-ContentPanel2.png</texture>
+					<colordiffuse>FFFFFFFF</colordiffuse>
+					<visible>Control.IsVisible(50)</visible>
+				</control>
+				<control type="wraplist" id="50">		
+					<posx>0</posx>
+					<posy>300</posy>
+					<width>720</width>
+					<height>250</height>
+					<onleft>500</onleft>
+					<onright>1500</onright>
+					<onup>500</onup>
+					<ondown>3000</ondown>
+					<orientation>horizontal</orientation>
+					<focusposition>1</focusposition>
+					<viewtype label="Info">wrap</viewtype>	
+					<scrolltime>0</scrolltime>
+					<itemlayout width="145">
+						<control type="image">
+							<width>140</width>
+							<height>120</height>
+							<posx>0</posx>
+							<posy>25</posy>
+							<info>ListItem.Icon</info>
+						</control>						
+					</itemlayout>
+					<focusedlayout width="145">
+						<control type="image">
+							<width>200</width>
+							<height>160</height>
+							<posx>-25</posx>
+							<posy>0</posy>
+							<visible>Control.HasFocus(50)</visible>						
+							<info>ListItem.Icon</info>
+						</control>
+						<control type="image">
+							<width>140</width>
+							<height>120</height>
+							<posx>0</posx>
+							<posy>25</posy>
+							<visible>!Control.HasFocus(50)</visible>					
+							<info>ListItem.Icon</info>
+						</control>
+						<control type="label">
+							<posx>220</posx>
+							<posy>200</posy>
+							<width>720</width>
+							<height>20</height>
+							<font>font30caps</font>
+							<aligny>center</aligny>
+							<textcolor>DDFFFFFF</textcolor>
+							<selectedcolor>FFe2ff43</selectedcolor>
+							<align>center</align>
+							<info>ListItem.Label</info>
+						</control>
+					</focusedlayout>
+				</control>
+				<control type="group" id="300">
+					<!--<visible allowhiddenfocus="true">!Control.IsVisible(100) + Control.IsVisible(50)</visible>-->
+					<visible allowhiddenfocus="true">Control.IsVisible(50)</visible>
+					<posx>50</posx>
+					<posy>50</posy>
+					<control type="image">				
+						<description>gamedesc background image</description>
 						<posx>0</posx>
 						<posy>0</posy>
-						<visible>Control.HasFocus(50)</visible>
-					
-						<info>ListItem.Icon</info>
+						<width>620</width>
+						<height>220</height>
+						<texture>rcb-ContentPanel.png</texture>
+						<colordiffuse>FFFFFFFF</colordiffuse>
 					</control>
-					<control type="image">
-						<width>140</width>
-						<height>120</height>
-						<posx>25</posx>
+					<!-- mainviewgameinfo (also used for console image) -->
+					<control type="image" id="2000">
+							<description>console image</description>
+							<posx>25</posx>
+							<posy>25</posy>
+							<width>200</width>
+							<height>150</height>			
+							<texture></texture>
+					</control>
+					<!-- game / console description -->
+					<control type="textbox" id="2100">
+						<description>Consoles</description>
+						<posx>320</posx>
 						<posy>25</posy>
-						<visible>!Control.HasFocus(50)</visible>					
-						<info>ListItem.Icon</info>
+						<width>275</width>
+						<height>150</height>			
+						<pagecontrol>2200</pagecontrol>			
+						<textcolor>DDFFFFFF</textcolor>			
+						<autoscroll delay="3000" time="1000" repeat="10000">!Control.HasFocus(2200)</autoscroll>
 					</control>
-					<control type="label">
-						<posx>100</posx>
-						<posy>200</posy>
-						<width>120</width>
-						<height>20</height>
-						<font>font13</font>
-						<aligny>center</aligny>
-						<textcolor>DDFFFFFF</textcolor>
-						<selectedcolor>FFe2ff43</selectedcolor>
-						<align>center</align>
-						<info>ListItem.Label</info>
+					<control type="scrollbar" id="2200">
+						<description>ConsoleDesc Scrollbar</description>
+						<posx>600</posx>
+						<posy>30</posy>
+						<width>5</width>
+						<height>150</height>
+						<visible>Control.IsVisible(2100)</visible>
+						<texturesliderbackground>scrollbar-bg.png</texturesliderbackground>
+						<texturesliderbar>scrollbar-bar.png</texturesliderbar>
+						<texturesliderbarfocus>scrollbar-barFocus.png</texturesliderbarfocus>
+						<textureslidernib>scrollbar-nib.png</textureslidernib>
+						<textureslidernibfocus>scrollbar-nibFocus.png</textureslidernibfocus>
+						<pulseonselect></pulseonselect>
+						<orientation>vertical</orientation>
+						<showonepage>false</showonepage>
+						<onup>2200</onup>
+						<ondown>2200</ondown>
+						<onleft>3200</onleft>
+						<onright>800</onright>
 					</control>
-				</focusedlayout>
+				</control>
 			</control>
 			
 			<control type="wraplist" id="51">
@@ -154,70 +207,21 @@
 				</focusedlayout>
 			</control>		
 		</control>
-		
-		<control type="group" id="300">
-			<!--<visible allowhiddenfocus="true">!Control.IsVisible(100) + Control.IsVisible(50)</visible>-->
-			<visible allowhiddenfocus="true">Control.IsVisible(50)</visible>
-			<posx>50</posx>
-			<posy>50</posy>
-			
-			<!-- mainviewgameinfo (also used for console image) -->
-			<control type="image" id="2000">
-					<description>console image</description>
-					<posx>25</posx>
-					<posy>0</posy>
-					<width>200</width>
-					<height>150</height>			
-					<texture></texture>
-			</control>
-			<!-- game / console description -->
-			<control type="textbox" id="2100">
-				<description>Consoles</description>
-				<posx>320</posx>
-				<posy>0</posy>
-				<width>275</width>
-				<height>150</height>			
-				<pagecontrol>2200</pagecontrol>			
-				<textcolor>DDFFFFFF</textcolor>			
-				<autoscroll delay="3000" time="1000" repeat="10000">!Control.HasFocus(2200)</autoscroll>
-			</control>
-			<control type="scrollbar" id="2200">
-				<description>ConsoleDesc Scrollbar</description>
-				<posx>600</posx>
-				<posy>5</posy>
-				<width>5</width>
-				<height>150</height>
-				<visible>Control.IsVisible(2100)</visible>
-				<texturesliderbackground>scrollbar-bg.png</texturesliderbackground>
-				<texturesliderbar>scrollbar-bar.png</texturesliderbar>
-				<texturesliderbarfocus>scrollbar-barFocus.png</texturesliderbarfocus>
-				<textureslidernib>scrollbar-nib.png</textureslidernib>
-				<textureslidernibfocus>scrollbar-nibFocus.png</textureslidernibfocus>
-				<pulseonselect></pulseonselect>
-				<orientation>vertical</orientation>
-				<showonepage>false</showonepage>
-				<onup>2200</onup>
-				<ondown>2200</ondown>
-				<onleft>3200</onleft>
-				<onright>800</onright>
-			</control>
-		</control>
-		
-		
+				
 		<!-- filter controls -->
-		<control type="group" id="100">			
+		<control type="group" id="100">		
 			<animation effect="slide" start="0,0" end="0,0" delay="0" time="400" tween="quadratic" easing="out" condition="ControlGroup(100).HasFocus">Conditional</animation>
 			<animation effect="slide" start="0,0" end="0,-200" delay="0"time="400" tween="quadratic" easing="out" condition="!ControlGroup(100).HasFocus">Conditional</animation>
 			<!--<visible allowhiddenfocus="true">Control.HasFocus(500) | Control.HasFocus(600) | Control.HasFocus(700) | Control.HasFocus(800)</visible>-->
 			<control type="image">
-				<animation effect="zoom" start="0,0,700,1" end="0,0,700,180" time="300" tween="quadratic" easing="out" condition="ControlGroup(100).HasFocus">Conditional</animation>
+				<animation effect="zoom" start="0,0,720,1" end="0,0,720,180" time="300" tween="quadratic" easing="out" condition="ControlGroup(100).HasFocus">Conditional</animation>
 				<description>filter background image</description>
 				<posx>0</posx>
 				<posy>0</posy>
-				<width>700</width>
+				<width>720</width>
 				<height>160</height>
-				<texture>background.png</texture>
-				<colordiffuse>90FFFFFF</colordiffuse>				
+				<texture>rcb-Blade-Upper.png</texture>
+				<colordiffuse>FFFFFFFF</colordiffuse>
 			</control>
 			<!-- Console filter -->
 			<control type="label">
@@ -245,7 +249,7 @@
 						<height>30</height>
 						<posx>0</posx>
 						<posy>0</posy>
-						<texture border="5">btn.png</texture>
+						<texture border="5">rcb-button-nofocus.png</texture>
 					</control>
 					<control type="label">
 						<posx>5</posx>
@@ -267,7 +271,7 @@
 						<posx>0</posx>
 						<posy>0</posy>
 						<visible>Control.HasFocus(500)</visible>
-						<texture border="5">btnFocus.png</texture>
+						<texture border="5">rcb-button-focus.png</texture>
 					</control>
 					<control type="image">
 						<width>125</width>
@@ -275,7 +279,7 @@
 						<posx>0</posx>
 						<posy>0</posy>
 						<visible>!Control.HasFocus(500)</visible>
-						<texture border="5">btn.png</texture>
+						<texture border="5">rcb-button-nofocus.png</texture>
 					</control>
 					<control type="label">
 						<posx>5</posx>
@@ -317,7 +321,7 @@
 						<height>30</height>
 						<posx>0</posx>
 						<posy>0</posy>
-						<texture border="5">btn.png</texture>
+						<texture border="5">rcb-button-nofocus.png</texture>
 					</control>
 					<control type="label">
 						<posx>5</posx>
@@ -339,7 +343,7 @@
 						<posx>0</posx>
 						<posy>0</posy>
 						<visible>Control.HasFocus(600)</visible>
-						<texture border="5">btnFocus.png</texture>
+						<texture border="5">rcb-button-focus.png</texture>
 					</control>
 					<control type="image">
 						<width>125</width>
@@ -347,7 +351,7 @@
 						<posx>0</posx>
 						<posy>0</posy>
 						<visible>!Control.HasFocus(600)</visible>
-						<texture border="5">btn.png</texture>
+						<texture border="5">rcb-button-nofocus.png</texture>
 					</control>
 					<control type="label">
 						<posx>5</posx>
@@ -389,7 +393,7 @@
 						<height>30</height>
 						<posx>0</posx>
 						<posy>0</posy>
-						<texture border="5">btn.png</texture>
+						<texture border="5">rcb-button-nofocus.png</texture>
 					</control>
 					<control type="label">
 						<posx>5</posx>
@@ -411,7 +415,7 @@
 						<posx>0</posx>
 						<posy>0</posy>
 						<visible>Control.HasFocus(700)</visible>
-						<texture border="5">btnFocus.png</texture>
+						<texture border="5">rcb-button-focus.png</texture>
 					</control>
 					<control type="image">
 						<width>125</width>
@@ -419,7 +423,7 @@
 						<posx>0</posx>
 						<posy>0</posy>
 						<visible>!Control.HasFocus(700)</visible>
-						<texture border="5">btn.png</texture>
+						<texture border="5">rcb-button-nofocus.png</texture>
 					</control>
 					<control type="label">
 						<posx>5</posx>
@@ -461,7 +465,7 @@
 						<height>30</height>
 						<posx>0</posx>
 						<posy>0</posy>
-						<texture border="5">btn.png</texture>
+						<texture border="5">rcb-button-nofocus.png</texture>
 					</control>
 					<control type="label">
 						<posx>5</posx>
@@ -483,7 +487,7 @@
 						<posx>0</posx>
 						<posy>0</posy>
 						<visible>Control.HasFocus(800)</visible>
-						<texture border="5">btnFocus.png</texture>
+						<texture border="5">rcb-button-focus.png</texture>
 					</control>
 					<control type="image">
 						<width>125</width>
@@ -491,7 +495,7 @@
 						<posx>0</posx>
 						<posy>0</posy>
 						<visible>!Control.HasFocus(800)</visible>
-						<texture border="5">btn.png</texture>
+						<texture border="5">rcb-button-nofocus.png</texture>
 					</control>
 					<control type="label">
 						<posx>5</posx>
@@ -509,76 +513,89 @@
 			</control>
 		</control>
 		
-		<!-- Buttons -->
-		<control type="button" id="3000"> 
-			<description>Import Settings</description>
-			<posx>50</posx>
-			<posy>525</posy>
-			<width>100</width>
-			<height>30</height>
-			<visible>true</visible>
-			<colordiffuse>DDFFFFFF</colordiffuse>
-			<texturefocus>btnFocus.png</texturefocus>
-			<texturenofocus>btn.png</texturenofocus>
-			<label>Import Settings</label>
-			<!--font12-->
-			<textcolor>DDFFFFFF</textcolor>
-			<disabledcolor>80FFFFFF</disabledcolor>
-			<align>center</align>
-			<aligny>center</aligny>
-			<textoffsetx></textoffsetx>
-			<textoffsety></textoffsety>
-			<pulseonselect></pulseonselect>
-			<onup>50</onup>
-			<ondown>500</ondown>
-			<onleft>500</onleft>
-			<onright>3100</onright>
-		</control>
-		<control type="button" id="3100"> 
-			<description>Update DB</description>
-			<posx>175</posx>
-			<posy>525</posy>
-			<width>100</width>
-			<height>30</height>
-			<visible>true</visible>
-			<colordiffuse>DDFFFFFF</colordiffuse>
-			<texturefocus>btnFocus.png</texturefocus>
-			<texturenofocus>btn.png</texturenofocus>
-			<label>Update DB</label>			
-			<textcolor>DDFFFFFF</textcolor>
-			<disabledcolor>80FFFFFF</disabledcolor>
-			<align>center</align>
-			<aligny>center</aligny>
-			<textoffsetx></textoffsetx>
-			<textoffsety></textoffsety>
-			<pulseonselect></pulseonselect>
-			<onup>1500</onup>
-			<ondown>500</ondown>
-			<onleft>3000</onleft>
-			<onright>2</onright>
-		</control>
-		<control type="button" id="2"> 
-			<description>Change View</description>
-			<posx>300</posx>
-			<posy>525</posy>
-			<width>100</width>
-			<height>30</height>
-			<visible>true</visible>
-			<colordiffuse>DDFFFFFF</colordiffuse>
-			<texturefocus>btnFocus.png</texturefocus>
-			<texturenofocus>btn.png</texturenofocus>
-			<label>Change View</label>			
-			<textcolor>DDFFFFFF</textcolor>
-			<disabledcolor>80FFFFFF</disabledcolor>
-			<align>center</align>
-			<aligny>center</aligny>
-			<textoffsetx></textoffsetx>
-			<textoffsety></textoffsety>
-			<pulseonselect></pulseonselect>
-			<onup>1500</onup>
-			<ondown>500</ondown>
-			<onleft>3100</onleft>
-			<onright>2200</onright>
+		<!-- Button group -->
+		<control type="group" id="400">
+			<animation effect="slide" start="0,500" end="0,500" delay="0" time="400" tween="quadratic" easing="out" condition="ControlGroup(400).HasFocus">Conditional</animation>
+			<animation effect="slide" start="0,0" end="0,800" delay="0"time="400" tween="quadratic" easing="out" condition="!ControlGroup(400).HasFocus">Conditional</animation>
+			<control type="image">
+				<animation effect="zoom" start="0,500,620,1" end="0,500,720,80" time="300" tween="quadratic" easing="out" condition="ControlGroup(400).HasFocus">Conditional</animation>
+				<description>filter background image</description>
+				<posx>0</posx>
+				<posy>0</posy>
+				<width>720</width>
+				<height>80</height>
+				<texture>rcb-Blade-Lower.png</texture>
+				<colordiffuse>90FFFFFF</colordiffuse>				
+			</control>
+			<control type="button" id="3000"> 
+				<description>Import Settings</description>
+				<posx>50</posx>
+				<posy>25</posy>
+				<width>100</width>
+				<height>30</height>
+				<visible>true</visible>
+				<colordiffuse>DDFFFFFF</colordiffuse>
+				<texturefocus>rcb-button-focus.png</texturefocus>
+				<texturenofocus>rcb-button-nofocus.png</texturenofocus>
+				<label>Import Settings</label>				
+				<textcolor>DDFFFFFF</textcolor>
+				<disabledcolor>80FFFFFF</disabledcolor>
+				<align>center</align>
+				<aligny>center</aligny>
+				<textoffsetx></textoffsetx>
+				<textoffsety></textoffsety>
+				<pulseonselect></pulseonselect>
+				<onup>200</onup>
+				<ondown>500</ondown>
+				<onleft>500</onleft>
+				<onright>3100</onright>
+			</control>
+			<control type="button" id="3100"> 
+				<description>Update DB</description>
+				<posx>175</posx>
+				<posy>25</posy>
+				<width>100</width>
+				<height>30</height>
+				<visible>true</visible>
+				<colordiffuse>DDFFFFFF</colordiffuse>
+				<texturefocus>rcb-button-focus.png</texturefocus>
+				<texturenofocus>rcb-button-nofocus.png</texturenofocus>
+				<label>Update DB</label>			
+				<textcolor>DDFFFFFF</textcolor>
+				<disabledcolor>80FFFFFF</disabledcolor>
+				<align>center</align>
+				<aligny>center</aligny>
+				<textoffsetx></textoffsetx>
+				<textoffsety></textoffsety>
+				<pulseonselect></pulseonselect>
+				<onup>200</onup>
+				<ondown>500</ondown>
+				<onleft>3000</onleft>
+				<onright>2</onright>
+			</control>
+			<control type="button" id="2"> 
+				<description>Change View</description>
+				<posx>300</posx>
+				<posy>25</posy>
+				<width>100</width>
+				<height>30</height>
+				<visible>true</visible>
+				<colordiffuse>DDFFFFFF</colordiffuse>
+				<texturefocus>rcb-button-focus.png</texturefocus>
+				<texturenofocus>rcb-button-nofocus.png</texturenofocus>
+				<label>Change View</label>			
+				<textcolor>DDFFFFFF</textcolor>
+				<disabledcolor>80FFFFFF</disabledcolor>
+				<align>center</align>
+				<aligny>center</aligny>
+				<textoffsetx></textoffsetx>
+				<textoffsety></textoffsety>
+				<pulseonselect></pulseonselect>
+				<onup>200</onup>
+				<ondown>500</ondown>
+				<onleft>3100</onleft>
+				<onright>2200</onright>
+			</control>
 		</control>
 		
 		<!-- Messages -->
