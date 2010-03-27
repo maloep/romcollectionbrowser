@@ -48,7 +48,9 @@
 			<imgPath type="screenshotingame">E:\Emulatoren\data\Testdata V0.4\Collection V1\screens\%GAME%.gif</imgPath>
 			<imgPath type="screenshotingame">E:\Emulatoren\data\Testdata V0.4\Collection V1\screens\%GAME%.png</imgPath>				
 			<fileTypeForGameList>cover</fileTypeForGameList>
-			<fileTypeForMainViewGameInfo>screenshotingame</fileTypeForMainViewGameInfo>			
+			<fileTypeForMainViewBackground>screenshottitle</fileTypeForMainViewBackground>
+			<fileTypeForMainViewBackground>cover</fileTypeForMainViewBackground>
+			<fileTypeForMainViewGameInfo>screenshotingame</fileTypeForMainViewGameInfo>
 			<fileTypeForGameInfoViewBackground>cover</fileTypeForGameInfoViewBackground>
 			<fileTypeForGameInfoViewGamelist>cover</fileTypeForGameInfoViewGamelist>			
 			<fileTypeForGameInfoView2>screenshotingame</fileTypeForGameInfoView2>
@@ -80,6 +82,8 @@
 			<imgPath type="screenshotingame">E:\Emulatoren\data\Testdata V0.4\Collection V2\screens\%GAME%\*.gif</imgPath>
 			<imgPath type="screenshotingame">E:\Emulatoren\data\Testdata V0.4\Collection V2\screens\%GAME%\*.png</imgPath>				
 			<fileTypeForGameList>cover</fileTypeForGameList>
+			<fileTypeForMainViewBackground>screenshottitle</fileTypeForMainViewBackground>
+			<fileTypeForMainViewBackground>cover</fileTypeForMainViewBackground>
 			<fileTypeForMainViewGameInfo>screenshotingame</fileTypeForMainViewGameInfo>			
 			<fileTypeForGameInfoViewBackground>cover</fileTypeForGameInfoViewBackground>
 			<fileTypeForGameInfoViewGamelist>cover</fileTypeForGameInfoViewGamelist>			
@@ -119,6 +123,8 @@
 			<imgPath type="cartridge">E:\Emulatoren\data\Testdata V0.4\Collection V3\cartridge\%GAME%.jpg</imgPath>			
 			<videoPath type="gameplay">E:\Emulatoren\data\Testdata V0.4\Collection V3\ingameVids\%GAME%.wmv</videoPath>
 			<fileTypeForGameList>cover</fileTypeForGameList>
+			<fileTypeForMainViewBackground>screenshottitle</fileTypeForMainViewBackground>
+			<fileTypeForMainViewBackground>cover</fileTypeForMainViewBackground>
 			<fileTypeForMainViewGameInfo>screenshotingame</fileTypeForMainViewGameInfo>
 			<fileTypeForGameInfoViewBackground>screenshottitle</fileTypeForGameInfoViewBackground>
 			<fileTypeForGameInfoViewBackground>cover</fileTypeForGameInfoViewBackground>

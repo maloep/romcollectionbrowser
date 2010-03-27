@@ -96,6 +96,7 @@ class SettingsImporter:
 			#TODO videoPath
 			
 			fileTypesForGameList = self.getElementValues(romCollection, 'fileTypeForGameList')
+			fileTypesForMainViewBackground = self.getElementValues(romCollection, 'fileTypeForMainViewBackground')
 			fileTypesForMainViewGameInfo = self.getElementValues(romCollection, 'fileTypeForMainViewGameInfo')
 			fileTypesForGameInfoViewBackground = self.getElementValues(romCollection, 'fileTypeForGameInfoViewBackground')
 			fileTypesForGameInfoViewGamelist = self.getElementValues(romCollection, 'fileTypeForGameInfoViewGamelist')
@@ -108,6 +109,7 @@ class SettingsImporter:
 			
 			
 			self.insertFileTypeForControl(romCollectionId, fileTypesForGameList, 'gamelist')
+			self.insertFileTypeForControl(romCollectionId, fileTypesForMainViewBackground, 'mainviewbackground')
 			self.insertFileTypeForControl(romCollectionId, fileTypesForMainViewGameInfo, 'mainviewgameinfo')
 			self.insertFileTypeForControl(romCollectionId, fileTypesForGameInfoViewBackground, 'gameinfoviewbackground')
 			self.insertFileTypeForControl(romCollectionId, fileTypesForGameInfoViewGamelist, 'gameinfoviewgamelist')

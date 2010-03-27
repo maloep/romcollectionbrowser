@@ -27,42 +27,44 @@
 		</control>
 		
 		<!-- gameinfoviewgamelist -->
-		<control type="wraplist" id="1000">
-			<posx>20</posx>
-			<posy>15</posy>
-			<width>680</width>
-			<height>30</height>
-			<onleft>1000</onleft>
-			<onright>1000</onright>
-			<onup>3000</onup>
-			<ondown>3000</ondown>
-			<orientation>horizontal</orientation>
-			<focusposition>1</focusposition>
-			<viewtype label="Games">wrap</viewtype>			
-			<scrolltime>0</scrolltime>
-			<itemlayout width="50">
-				<control type="image">
-					<width>50</width>
-					<height>30</height>
-					<posx>0</posx>
-					<posy>0</posy>
-					<info>ListItem.Icon</info>
-				</control>				
-			</itemlayout>
-			<focusedlayout width="580">				
-				<control type="label">
-					<posx>290</posx>
-					<posy>0</posy>
-					<width>580</width>
-					<height>30</height>
-					<font>font30caps</font>
-					<align>center</align>
-					<aligny>center</aligny>
-					<textcolor>DDFFFFFF</textcolor>
-					<selectedcolor>FFe2ff43</selectedcolor>					
-					<info>ListItem.Label</info>
-				</control>
-			</focusedlayout>
+		<control type="group" id="1000">
+			<control type="wraplist" id="50">
+				<posx>20</posx>
+				<posy>15</posy>
+				<width>680</width>
+				<height>30</height>
+				<onleft>1000</onleft>
+				<onright>1000</onright>
+				<onup>3000</onup>
+				<ondown>3000</ondown>
+				<orientation>horizontal</orientation>
+				<focusposition>1</focusposition>
+				<viewtype label="Games">wrap</viewtype>			
+				<scrolltime>0</scrolltime>
+				<itemlayout width="50">
+					<control type="image">
+						<width>50</width>
+						<height>30</height>
+						<posx>0</posx>
+						<posy>0</posy>
+						<info>ListItem.Icon</info>
+					</control>				
+				</itemlayout>
+				<focusedlayout width="580">				
+					<control type="label">
+						<posx>290</posx>
+						<posy>0</posy>
+						<width>580</width>
+						<height>30</height>
+						<font>font30caps</font>
+						<align>center</align>
+						<aligny>center</aligny>
+						<textcolor>DDFFFFFF</textcolor>
+						<selectedcolor>FFe2ff43</selectedcolor>					
+						<info>ListItem.Label</info>
+					</control>
+				</focusedlayout>
+			</control>
 		</control>
 		
 		
