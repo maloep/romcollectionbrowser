@@ -245,7 +245,8 @@
 			<width>330</width>
 		    <height>255</height>			
 			<pagecontrol>8100</pagecontrol>			
-			<textcolor>DDFFFFFF</textcolor>			
+			<textcolor>DDFFFFFF</textcolor>
+			<align>justify</align>
 			<!--<autoscroll delay="3000" time="1000" repeat="10000">!Control.HasFocus(8200)</autoscroll>-->
 		</control>
 		<control type="scrollbar" id="8100">
