@@ -16,7 +16,8 @@ ACTION_MOVEMENT = ( 1, 2, 3, 4, )
 
 CONTROL_BUTTON_PLAYGAME = 3000
 
-CONTROL_GAME_LIST = 1000
+CONTROL_GAME_LIST_GROUP = 1000
+CONTROL_GAME_LIST = 50
 CONTROL_IMG_BACK = 2000
 
 CONTROL_LABEL_MSG = 4000
@@ -55,16 +56,16 @@ class UIGameInfoView(xbmcgui.WindowXMLDialog):
 		xbmcgui.WindowXMLDialog.__init__( self, *args, **kwargs )		
 		
 		self.gdb = kwargs[ "gdb" ]
-		self.selectedGameId = kwargs[ "gameId" ]
-		self.selectedConsoleId = kwargs[ "consoleId" ]
-		self.selectedGenreId = kwargs[ "genreId" ]		
+		self.selectedGameId = kwargs[ "gameId" ]		
+		self.selectedConsoleId = kwargs[ "consoleId" ]		
+		self.selectedGenreId = kwargs[ "genreId" ]				
 		self.selectedYearId = kwargs[ "yearId" ]		
 		self.selectedPublisherId = kwargs[ "publisherId" ]
 		self.selectedConsoleIndex = kwargs[ "consoleIndex" ]
 		self.selectedGenreIndex = kwargs[ "genreIndex" ]		
 		self.selectedYearIndex = kwargs[ "yearIndex" ]		
 		self.selectedPublisherIndex = kwargs[ "publisherIndex" ]
-		self.selectedGameIndex = kwargs[ "selectedGameIndex" ]
+		self.selectedGameIndex = kwargs[ "selectedGameIndex" ]		
 		self.selectedControlIdMainView = kwargs["controlIdMainView"]
 		
 		self.doModal()
@@ -74,11 +75,13 @@ class UIGameInfoView(xbmcgui.WindowXMLDialog):
 		self.showGameList()
 		self.showGameInfo()
 		
-		control = self.getControlById(CONTROL_GAME_LIST)
+		control = self.getControlById(CONTROL_GAME_LIST_GROUP)
 		if(control == None):
 			return
+			
 		self.setFocus(control)
-		self.selectedControlId = CONTROL_GAME_LIST
+		self.selectedControlId = CONTROL_GAME_LIST_GROUP
+		self.setCurrentListPosition(self.selectedGameIndex)	
 		
 		
 		
@@ -96,13 +99,14 @@ class UIGameInfoView(xbmcgui.WindowXMLDialog):
 			xbmc.Player().stop()
 			self.close()
 		elif(action.getId() in ACTION_MOVEMENT_LEFT or action.getId() in ACTION_MOVEMENT_RIGHT):
-			if(self.selectedControlId == CONTROL_GAME_LIST):
-				control = self.getControlById(CONTROL_GAME_LIST)
-				if(control == None):
-					return
-				selectedGame = control.getSelectedItem()
-		
+			if(self.selectedControlId == CONTROL_GAME_LIST_GROUP):
+				
+				pos = self.getCurrentListPosition()
+				if(pos == -1):
+					pos = 0
+				selectedGame = self.getListItem(pos)
 				if(selectedGame == None):
+					print "RCB_WARNING: selectedGame == None in showGameInfo"
 					return
 			
 				self.selectedGameId = selectedGame.getLabel2()
@@ -110,27 +114,24 @@ class UIGameInfoView(xbmcgui.WindowXMLDialog):
 	
 	
 	def showGameList(self):
-		games = Game(self.gdb).getFilteredGames(self.selectedConsoleId, self.selectedGenreId, self.selectedYearId, self.selectedPublisherId)
-		
-		control = self.getControlById(CONTROL_GAME_LIST)
-		if(control == None):
-			return
-		control.setVisible(1)
-		control.reset()
-		
+		games = Game(self.gdb).getFilteredGames(self.selectedConsoleId, self.selectedGenreId, self.selectedYearId, self.selectedPublisherId)		
+				
 		self.writeMsg("loading games...")
 		
-		items = []		
+		xbmcgui.lock()
+		
+		self.clearList()
+		
 		for game in games:
 			images = helper.getFilesByControl(self.gdb, 'gameinfoviewgamelist', game[0], game[5])
 			if(images != None and len(images) != 0):
 				image = images[0]
 			else:
 				image = ""
-			items.append(xbmcgui.ListItem(str(game[1]), str(game[0]), image, ''))
+			item = xbmcgui.ListItem(str(game[1]), str(game[0]), image, '')
+			self.addItem(item, False)
 				
-		control.addItems(items)
-		control.selectItem(self.selectedGameIndex)		
+		xbmcgui.unlock()
 		self.writeMsg("")
 	
 		
@@ -184,7 +185,7 @@ class UIGameInfoView(xbmcgui.WindowXMLDialog):
 		controlDesc.setText(description)
 				
 		#gameRow[5] = romCollectionId
-		background = os.path.join(RCBHOME, 'resources', 'skins', 'Default', 'media', 'background.png')	
+		background = os.path.join(RCBHOME, 'resources', 'skins', 'Default', 'media', 'rcb-background-black.png')	
 		self.setImage(CONTROL_IMG_BACK, 'gameinfoviewbackground', gameRow[0], gameRow[5], background)
 		self.setImage(CONTROL_IMG_GAMEINFO1, 'gameinfoview1', gameRow[0], gameRow[5], None)
 		self.setImage(CONTROL_IMG_GAMEINFO2, 'gameinfoview2', gameRow[0], gameRow[5], None)
@@ -243,24 +244,27 @@ class UIGameInfoView(xbmcgui.WindowXMLDialog):
 	
 	
 	def launchEmu(self):
-		control = self.getControlById(CONTROL_GAME_LIST)
-		if(control == None):
+		pos = self.getCurrentListPosition()
+		if(pos == -1):
+			pos = 0
+		selectedGame = self.getListItem(pos)
+		
+		if(selectedGame == None):
+			print "RCB_WARNING: selectedGame == None in launchEmu"
 			return
 			
-		selectedGame = control.getSelectedItem()
-		if(selectedGame == None):
-			return
 		gameId = selectedGame.getLabel2()
 		
 		helper.launchEmu(self.gdb, self, gameId)
 		
 	
 	def saveViewState(self, isOnExit):
-		control = self.getControlById(CONTROL_GAME_LIST)
-		if(control == None):
+		selectedGameIndex = self.getCurrentListPosition()
+		if(selectedGameIndex == -1):
+			selectedGameIndex = 0
+		if(selectedGameIndex == None):
+			print "RCB_WARNING: selectedGameIndex == None in saveViewState"
 			return
-			
-		selectedGameIndex = control.getSelectedPosition()
 		
 		helper.saveViewState(self.gdb, isOnExit, 'gameInfoView', selectedGameIndex, self.selectedConsoleIndex, self.selectedGenreIndex, self.selectedPublisherIndex, 
 			self.selectedYearIndex, self.selectedControlIdMainView, self.selectedControlId)

@@ -29,6 +29,9 @@ CONTROL_GENRE = 600
 CONTROL_YEAR = 700
 CONTROL_PUBLISHER = 800
 FILTER_CONTROLS = (500, 600, 700, 800,)
+GAME_LISTS = (50, 51, 52, 53,)
+
+CONTROL_IMG_BACK = 75
 
 CONTROL_GAMES_GROUP = 200
 CONTROL_CONSOLE_IMG = 2000
@@ -153,10 +156,10 @@ class UIGameDB(xbmcgui.WindowXML):
 			self.importSettings()
 		elif (controlId == CONTROL_BUTTON_UPDATEDB):			
 			self.updateDB()		
-		elif (controlId != CONTROL_GAMES_GROUP):			
+		elif (controlId in FILTER_CONTROLS):
 			self.setFocus(self.getControl(CONTROL_GAMES_GROUP))
 			self.showGameInfo()
-		else:
+		elif (controlId in GAME_LISTS):
 			self.launchEmu()
 
 
@@ -289,7 +292,16 @@ class UIGameDB(xbmcgui.WindowXML):
 		if(gameRow == None):
 			print "RCB_WARNING: gameRow == None in showGameInfo"
 			return
-					
+		
+		bgimages = helper.getFilesByControl(self.gdb, 'mainviewbackground', gameRow[0], gameRow[5])
+		if(bgimages != None and len(bgimages) != 0):
+			bgimage = bgimages[0]
+		else:
+			bgimage = os.path.join(RCBHOME, 'resources', 'skins', 'Default', 'media', 'rcb-background-black.png')
+		controlBg = self.getControlById(CONTROL_IMG_BACK)
+		controlBg.setImage(bgimage)
+		
+		
 		images = helper.getFilesByControl(self.gdb, 'mainviewgameinfo', gameRow[0], gameRow[5])
 		if(images != None and len(images) != 0):
 			image = images[0]
@@ -313,7 +325,9 @@ class UIGameDB(xbmcgui.WindowXML):
 		
 
 
-	def launchEmu(self):		
+	def launchEmu(self):
+		print "launchEmu"
+
 		pos = self.getCurrentListPosition()
 		if(pos == -1):
 			pos = 0
@@ -324,6 +338,7 @@ class UIGameDB(xbmcgui.WindowXML):
 			return
 			
 		gameId = selectedGame.getLabel2()
+		print "gameId: " +str(gameId)
 		
 		helper.launchEmu(self.gdb, self, gameId)
 		
@@ -473,15 +488,15 @@ class UIGameDB(xbmcgui.WindowXML):
 			
 	
 	def showGameInfoDialog(self):		
-		selectedGameIndex = self.getCurrentListPosition()
+		selectedGameIndex = self.getCurrentListPosition()		
 		if(selectedGameIndex == -1):
 			selectedGameIndex = 0
-		selectedGame = self.getListItem(selectedGameIndex)
+		selectedGame = self.getListItem(selectedGameIndex)		
 		if(selectedGame == None):
 			print "RCB_WARNING: selectedGame == None in showGameInfoDialog"
 			return
 		gameId = selectedGame.getLabel2()
-				
+		
 		
 		import gameinfodialog
 		gid = gameinfodialog.UIGameInfoView("script-Rom_Collection_Browser-gameinfo.xml", os.getcwd(), "Default", 1, gdb=self.gdb, gameId=gameId, 
@@ -489,7 +504,9 @@ class UIGameDB(xbmcgui.WindowXML):
 			consoleIndex=self.selectedConsoleIndex, genreIndex=self.selectedGenreIndex, yearIndex=self.selectedYearIndex, publisherIndex=self.selectedPublisherIndex, 
 			controlIdMainView=self.selectedControlId)
 		del gid
+				
 		
+		self.setFocus(self.getControl(CONTROL_GAMES_GROUP))		
 		self.showGames()
 		self.setCurrentListPosition(selectedGameIndex)
 		
