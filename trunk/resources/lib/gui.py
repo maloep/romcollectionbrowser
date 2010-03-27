@@ -34,6 +34,8 @@ GAME_LISTS = (50, 51, 52, 53,)
 CONTROL_IMG_BACK = 75
 
 CONTROL_GAMES_GROUP = 200
+CONTROL_GAMES_GROUP_START = 50
+CONTROL_GAMES_GROUP_END = 59
 CONTROL_CONSOLE_IMG = 2000
 CONTROL_CONSOLE_DESC = 2100
 CONTROL_BUTTON_SETTINGS = 3000
@@ -134,7 +136,7 @@ class UIGameDB(xbmcgui.WindowXML):
 				print "RCB_WARNING: control == None in onAction"
 				return
 				
-			if(self.selectedControlId == CONTROL_GAMES_GROUP):
+			if(CONTROL_GAMES_GROUP_START <= self.selectedControlId <= CONTROL_GAMES_GROUP_END):
 				self.showGameInfo()
 		elif(action.getId() in ACTION_INFO):
 			print "Action Info"
@@ -142,7 +144,7 @@ class UIGameDB(xbmcgui.WindowXML):
 			if(control == None):
 				print "RCB_WARNING: control == None in onAction"
 				return
-			if(self.selectedControlId == CONTROL_GAMES_GROUP):
+			if(CONTROL_GAMES_GROUP_START <= self.selectedControlId <= CONTROL_GAMES_GROUP_END):
 				self.showGameInfoDialog()
 
 
@@ -157,7 +159,7 @@ class UIGameDB(xbmcgui.WindowXML):
 		elif (controlId == CONTROL_BUTTON_UPDATEDB):			
 			self.updateDB()		
 		elif (controlId in FILTER_CONTROLS):
-			self.setFocus(self.getControl(CONTROL_GAMES_GROUP))
+			self.setFocus(self.getControl(CONTROL_GAMES_GROUP_START))
 			self.showGameInfo()
 		elif (controlId in GAME_LISTS):
 			self.launchEmu()
@@ -438,7 +440,7 @@ class UIGameDB(xbmcgui.WindowXML):
 			self.selectedYearIndex = rcbSetting[5]
 
 		self.showGames()
-		self.setFilterSelection(CONTROL_GAMES_GROUP, rcbSetting[6])
+		self.setFilterSelection(CONTROL_GAMES_GROUP_START, rcbSetting[6])
 						
 		#lastFocusedControl
 		if(rcbSetting[17] != None):
@@ -449,7 +451,7 @@ class UIGameDB(xbmcgui.WindowXML):
 			self.setFocus(focusControl)
 			if(rcbSetting[17] == CONTROL_CONSOLES):
 				self.showConsoleInfo()
-			elif(rcbSetting[17] == CONTROL_GAMES_GROUP):
+			elif(CONTROL_GAMES_GROUP_START <= rcbSetting[17] <= CONTROL_GAMES_GROUP_END):
 				self.showGameInfo()
 		else:
 			focusControl = self.getControlById(CONTROL_CONSOLES)
@@ -471,7 +473,7 @@ class UIGameDB(xbmcgui.WindowXML):
 				print "RCB_WARNING: control == None in setFilterSelection"
 				return
 			
-			if(controlId == CONTROL_GAMES_GROUP):
+			if(controlId == CONTROL_GAMES_GROUP_START):
 				self.setCurrentListPosition(selectedIndex)
 				selectedItem = self.getListItem(selectedIndex)
 				
@@ -506,7 +508,7 @@ class UIGameDB(xbmcgui.WindowXML):
 		del gid
 				
 		
-		self.setFocus(self.getControl(CONTROL_GAMES_GROUP))		
+		self.setFocus(self.getControl(CONTROL_GAMES_GROUP_START))
 		self.showGames()
 		self.setCurrentListPosition(selectedGameIndex)
 		

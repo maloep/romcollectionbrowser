@@ -92,8 +92,7 @@
 					<label>$INFO[ListItem.Label]</label>
 					<visible>Control.IsVisible(50)</visible>
 				</control>
-				<control type="group" id="300">
-					<!--<visible allowhiddenfocus="true">!Control.IsVisible(100) + Control.IsVisible(50)</visible>-->
+				<control type="group" id="300">					
 					<visible allowhiddenfocus="true">Control.IsVisible(50)</visible>
 					<posx>20</posx>
 					<posy>5</posy>					
@@ -151,72 +150,79 @@
 				</control>
 			</control>
 			
-			<control type="wraplist" id="51">
-				<posx>25</posx>
-				<posy>200</posy>
-				<width>600</width>
-				<height>400</height>
-				<onleft>500</onleft>
-				<onright>1500</onright>
-				<onup>500</onup>
-				<ondown>3000</ondown>
-				<orientation>horizontal</orientation>
-				<focusposition>1</focusposition>
-				<viewtype label="Icons">wrap</viewtype>			
-				<scrolltime>0</scrolltime>
-				<itemlayout width="100">
-					<control type="image">
-						<width>100</width>
-						<height>80</height>
-						<posx>0</posx>
-						<posy>25</posy>
-						<info>ListItem.Icon</info>
-					</control>
-					<!--<control type="label">
-						<posx>100</posx>
-						<posy>150</posy>
-						<width>120</width>
-						<height>20</height>
-						<font>font13</font>
-						<aligny>center</aligny>
-						<textcolor>DDFFFFFF</textcolor>
-						<selectedcolor>FFe2ff43</selectedcolor>
-						<align>center</align>
-						<info>ListItem.Label</info>
-					</control>-->					
-				</itemlayout>
-				<focusedlayout width="100">
-					<control type="image">
-						<width>130</width>
-						<height>100</height>
-						<posx>0</posx>
-						<posy>0</posy>
-						<visible>Control.HasFocus(51)</visible>
-					
-						<info>ListItem.Icon</info>
-					</control>
-					<control type="image">
-						<width>100</width>
-						<height>80</height>
-						<posx>0</posx>
-						<posy>25</posy>
-						<visible>!Control.HasFocus(51)</visible>					
-						<info>ListItem.Icon</info>
-					</control>
-					<control type="label">
-						<posx>225</posx>
-						<posy>250</posy>
-						<width>600</width>
-						<height>30</height>
-						<font>font30caps</font>
-						<align>center</align>
-						<aligny>center</aligny>
-						<textcolor>DDFFFFFF</textcolor>
-						<selectedcolor>FFe2ff43</selectedcolor>						
-						<info>ListItem.Label</info>
-					</control>
-				</focusedlayout>
-			</control>		
+			<control type="group">
+				<control type="image">				
+					<description>gamelist background image</description>
+					<posx>0</posx>
+					<posy>100</posy>
+					<width>720</width>
+					<height>370</height>
+					<texture>rcb-ContentPanel2.png</texture>
+					<colordiffuse>90FFFFFF</colordiffuse>
+					<visible>Control.IsVisible(51)</visible>
+				</control>
+				<control type="wraplist" id="51">
+					<posx>0</posx>
+					<posy>120</posy>
+					<width>720</width>
+					<height>400</height>
+					<onleft>500</onleft>
+					<onright>1500</onright>
+					<onup>500</onup>
+					<ondown>3000</ondown>
+					<orientation>horizontal</orientation>
+					<focusposition>2</focusposition>
+					<viewtype label="Icons">wrap</viewtype>			
+					<scrolltime>100</scrolltime>
+					<itemlayout width="145">
+						<control type="image">
+							<width>145</width>
+							<height>220</height>
+							<posx>0</posx>
+							<posy>25</posy>							
+							<aspectratio>stretch</aspectratio>							
+							<texture background="true">$INFO[ListItem.ActualIcon]</texture>
+						</control>						
+					</itemlayout>
+					<focusedlayout width="145">
+						<control type="image">
+							<posx>-25</posx>
+							<posy>0</posy>
+							<width>200</width>
+							<height>300</height>
+							<aspectratio>stretch</aspectratio>
+							<bordertexture border="8">rcb-ThumbBorder.png</bordertexture>
+							<bordersize>8</bordersize>
+							<texture background="true">$INFO[ListItem.ActualIcon]</texture>
+							<animation reversible="false" effect="zoom" start="0,0,145,220" end="-25,0,200,300" time="100">focus</animation>
+							<animation reversible="false" effect="zoom" end="0,0,145,220" start="-25,0,200,300" time="100">unfocus</animation>
+						</control>						
+						<control type="image">
+							<posx>-20</posx>
+							<posy>5</posy>
+							<width>100</width>
+							<height>75</height>
+							<aspectratio>stretch</aspectratio>
+							<texture>rcb-GlassOverlay.png</texture>
+							<animation reversible="false" effect="zoom" start="0,0,60,40" end="-20,0,100,75" time="100">focus</animation>
+							<animation reversible="false" effect="zoom" end="0,0,60,40" start="-20,0,100,75" time="100">unfocus</animation>
+						</control>
+					</focusedlayout>
+				</control>
+				<control type="label">
+					<posx>0</posx>
+					<posy>430</posy>
+					<width>720</width>
+					<height>30</height>
+					<font>font30caps</font>
+					<align>center</align>
+					<aligny>center</aligny>
+					<textcolor>DDFFFFFF</textcolor>
+					<selectedcolor>FFe2ff43</selectedcolor>						
+					<label>$INFO[ListItem.Label]</label>
+					<visible>Control.IsVisible(51)</visible>
+				</control>
+			</control>
 		</control>
 				
 		<!-- filter controls -->
@@ -556,7 +562,7 @@
 				<textoffsetx></textoffsetx>
 				<textoffsety></textoffsety>
 				<pulseonselect></pulseonselect>
-				<onup>200</onup>
+				<onup>50</onup>
 				<ondown>500</ondown>
 				<onleft>500</onleft>
 				<onright>3100</onright>
@@ -579,7 +585,7 @@
 				<textoffsetx></textoffsetx>
 				<textoffsety></textoffsety>
 				<pulseonselect></pulseonselect>
-				<onup>200</onup>
+				<onup>50</onup>
 				<ondown>500</ondown>
 				<onleft>3000</onleft>
 				<onright>2</onright>
@@ -602,7 +608,7 @@
 				<textoffsetx></textoffsetx>
 				<textoffsety></textoffsety>
 				<pulseonselect></pulseonselect>
-				<onup>200</onup>
+				<onup>50</onup>
 				<ondown>500</ondown>
 				<onleft>3100</onleft>
 				<onright>2200</onright>
