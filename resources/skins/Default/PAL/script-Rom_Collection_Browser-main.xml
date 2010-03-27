@@ -68,14 +68,14 @@
 							<animation reversible="false" effect="zoom" end="0,0,140,120" start="-25,0,200,160" time="100">unfocus</animation>
 						</control>						
 						<control type="image">
-							<posx>-20</posx>
-							<posy>5</posy>
-							<width>100</width>
-							<height>75</height>
+							<posx>0</posx>
+							<posy>0</posy>
+							<width>60</width>
+							<height>40</height>
 							<aspectratio>stretch</aspectratio>
 							<texture>rcb-GlassOverlay.png</texture>
-							<animation reversible="false" effect="zoom" start="0,0,60,40" end="-20,0,100,75" time="100">focus</animation>
-							<animation reversible="false" effect="zoom" end="0,0,60,40" start="-20,0,100,75" time="100">unfocus</animation>
+							<animation reversible="false" effect="zoom" start="0,0,60,40" end="-20,5,100,75" time="100">focus</animation>
+							<animation reversible="false" effect="zoom" end="3,3,50,25" start="-20,5,100,75" time="100">unfocus</animation>
 						</control>
 					</focusedlayout>
 				</control>
@@ -84,7 +84,7 @@
 					<posy>500</posy>
 					<width>720</width>
 					<height>20</height>
-					<font>font30caps</font>
+					<font>font30caps_title</font>
 					<aligny>center</aligny>
 					<textcolor>DDFFFFFF</textcolor>
 					<selectedcolor>FFe2ff43</selectedcolor>
@@ -112,7 +112,7 @@
 							<posy>15</posy>
 							<width>300</width>
 							<height>220</height>			
-							<texture></texture>
+							<texture>$INFO[ListItem.Property(mainviewgameinfo)]</texture>						
 					</control>
 					<!-- game / console description -->
 					<control type="textbox" id="2100">
@@ -125,6 +125,7 @@
 						<textcolor>DDFFFFFF</textcolor>
 						<align>justify</align>
 						<font>font12</font>
+						<label>$INFO[ListItem.Property(gamedesc)]</label>
 						<autoscroll delay="3000" time="1000" repeat="10000">!Control.HasFocus(2200)</autoscroll>
 					</control>
 					<control type="scrollbar" id="2200">
@@ -172,7 +173,7 @@
 					<ondown>3000</ondown>
 					<orientation>horizontal</orientation>
 					<focusposition>2</focusposition>
-					<viewtype label="Icons">wrap</viewtype>			
+					<viewtype label="Thumbs">wrap</viewtype>			
 					<scrolltime>100</scrolltime>
 					<itemlayout width="145">
 						<control type="image">
@@ -214,7 +215,7 @@
 					<posy>430</posy>
 					<width>720</width>
 					<height>30</height>
-					<font>font30caps</font>
+					<font>font30caps_title</font>
 					<align>center</align>
 					<aligny>center</aligny>
 					<textcolor>DDFFFFFF</textcolor>
@@ -223,7 +224,159 @@
 					<visible>Control.IsVisible(51)</visible>
 				</control>
 			</control>
+			
+			<!-- gamelist -->
+			<control type="group">
+				<control type="image">				
+					<description>gamelist background image</description>
+					<posx>385</posx>
+					<posy>15</posy>
+					<width>320</width>
+					<height>540</height>
+					<texture>rcb-ContentPanel.png</texture>
+					<colordiffuse>DDFFFFFF</colordiffuse>
+					<visible>Control.IsVisible(52)</visible>
+				</control>
+				<control type="list" id="52">		
+					<posx>385</posx>
+					<posy>25</posy>
+					<width>320</width>
+					<height>540</height>
+					<onleft>500</onleft>
+					<onright>1500</onright>
+					<onup>500</onup>
+					<ondown>3000</ondown>
+					<!--<orientation>vertical</orientation>-->
+					<!--<focusposition>2</focusposition>-->
+					<viewtype label="Info 2">list</viewtype>	
+					<scrolltime>100</scrolltime>
+					<itemlayout height="30" width="320">
+						<control type="image">
+							<posx>0</posx>
+							<posy>0</posy>
+							<width>320</width>
+							<height>31</height>
+							<texture border="0,2,0,2">rcb-MenuItemNF.png</texture>
+						</control>
+						<control type="label">
+							<posx>10</posx>
+							<posy>0</posy>
+							<width>320</width>
+							<height>30</height>
+							<font>font13</font>
+							<textcolor>grey2</textcolor>
+							<selectedcolor>selected</selectedcolor>
+							<align>left</align>
+							<aligny>center</aligny>
+							<label>$INFO[ListItem.Label]</label>
+						</control>									
+					</itemlayout>
+					<focusedlayout height="30" width="320">
+						<control type="image">
+							<posx>0</posx>
+							<posy>0</posy>
+							<width>320</width>
+							<height>31</height>
+							<texture border="0,2,0,2">rcb-MenuItemNF.png</texture>
+							<visible>!Control.HasFocus(52)</visible>
+							<include>VisibleFadeEffect</include>
+						</control>
+						<control type="image">
+							<posx>0</posx>
+							<posy>0</posy>
+							<width>320</width>
+							<height>31</height>
+							<texture border="0,2,0,2">MenuItemFO.png</texture>
+							<visible>Control.HasFocus(52)</visible>
+							<include>VisibleFadeEffect</include>
+						</control>
+						<control type="label">
+							<posx>10</posx>
+							<posy>0</posy>
+							<width>320</width>
+							<height>30</height>
+							<font>font13</font>
+							<textcolor>white</textcolor>
+							<selectedcolor>selected</selectedcolor>
+							<align>left</align>
+							<aligny>center</aligny>
+							<label>$INFO[ListItem.Label]</label>
+						</control>						
+					</focusedlayout>
+				</control>
+				
+				<control type="group" id="350">
+					<visible allowhiddenfocus="true">Control.IsVisible(52)</visible>
+					<posx>15</posx>
+					<posy>15</posy>	
+					<control type="image">				
+						<description>gamedesc background image</description>
+						<posx>0</posx>
+						<posy>0</posy>
+						<width>330</width>
+						<height>540</height>
+						<texture>rcb-ContentPanel.png</texture>
+						<colordiffuse>DDFFFFFF</colordiffuse>						
+					</control>
+					<control type="label">
+						<posx>5</posx>
+						<posy>15</posy>
+						<width>320</width>
+						<height>20</height>
+						<font>font16caps</font>
+						<aligny>center</aligny>
+						<textcolor>DDFFFFFF</textcolor>
+						<selectedcolor>FFe2ff43</selectedcolor>
+						<align>center</align>
+						<label>$INFO[ListItem.Label]</label>					
+						<visible>Control.IsVisible(52)</visible>
+					</control>					
+					<control type="image" id="2001">
+						<description>console image</description>
+						<posx>15</posx>
+						<posy>45</posy>
+						<width>300</width>
+						<height>220</height>										
+						<visible>Control.IsVisible(52)</visible>
+						<texture>$INFO[ListItem.Property(mainviewgameinfo)]</texture>
+					</control>					
+					<control type="textbox" id="2101">
+						<description>Consoles</description>
+						<posx>15</posx>
+						<posy>300</posy>
+						<width>280</width>
+						<height>220</height>			
+						<pagecontrol>2201</pagecontrol>			
+						<textcolor>DDFFFFFF</textcolor>
+						<align>justify</align>
+						<font>font12</font>
+						<label>$INFO[ListItem.Property(gamedesc)]</label>
+						<autoscroll delay="3000" time="1000" repeat="10000">!Control.HasFocus(2200)</autoscroll>
+					</control>
+					<control type="scrollbar" id="2201">
+						<description>ConsoleDesc Scrollbar</description>
+						<posx>310</posx>
+						<posy>300</posy>
+						<width>5</width>
+						<height>220</height>
+						<visible>Control.IsVisible(2100)</visible>
+						<texturesliderbackground>scrollbar-bg.png</texturesliderbackground>
+						<texturesliderbar>scrollbar-bar.png</texturesliderbar>
+						<texturesliderbarfocus>scrollbar-barFocus.png</texturesliderbarfocus>
+						<textureslidernib>scrollbar-nib.png</textureslidernib>
+						<textureslidernibfocus>scrollbar-nibFocus.png</textureslidernibfocus>
+						<pulseonselect></pulseonselect>
+						<orientation>vertical</orientation>
+						<showonepage>false</showonepage>
+						<onup>2201</onup>
+						<ondown>2201</ondown>
+						<onleft>3200</onleft>
+						<onright>800</onright>
+					</control>			
+				</control>				
+			</control>		
 		</control>
+		
 				
 		<!-- filter controls -->
 		<control type="group" id="100">		

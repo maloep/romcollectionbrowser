@@ -104,6 +104,9 @@ class UIGameDB(xbmcgui.WindowXML):
 			if(control == None):
 				print "RCB_WARNING: control == None in onAction"
 				return
+				
+			if(CONTROL_GAMES_GROUP_START <= self.selectedControlId <= CONTROL_GAMES_GROUP_END):
+				self.showGameInfo()
 			
 			if(self.selectedControlId in FILTER_CONTROLS):
 				label = str(control.getSelectedItem().getLabel())
@@ -247,7 +250,7 @@ class UIGameDB(xbmcgui.WindowXML):
 				image = images[0]
 			else:
 				image = ""			
-			item = xbmcgui.ListItem(str(game[1]), str(game[0]), image, '')		
+			item = xbmcgui.ListItem(str(game[1]), str(game[0]), image, '')				
 			self.addItem(item, False)
 		
 		xbmcgui.unlock()
@@ -279,7 +282,8 @@ class UIGameDB(xbmcgui.WindowXML):
 		
 	
 	def showGameInfo(self):		
-				
+			
+		print "showGameInfo"
 		pos = self.getCurrentListPosition()
 		if(pos == -1):
 			pos = 0
@@ -294,12 +298,12 @@ class UIGameDB(xbmcgui.WindowXML):
 		if(gameRow == None):
 			print "RCB_WARNING: gameRow == None in showGameInfo"
 			return
-		
+				
 		bgimages = helper.getFilesByControl(self.gdb, 'mainviewbackground', gameRow[0], gameRow[5])
 		if(bgimages != None and len(bgimages) != 0):
 			bgimage = bgimages[0]
 		else:
-			bgimage = os.path.join(RCBHOME, 'resources', 'skins', 'Default', 'media', 'rcb-background-black.png')
+			bgimage = os.path.join(RCBHOME, 'resources', 'skins', 'Default', 'media', 'rcb-background-black.png')		
 		controlBg = self.getControlById(CONTROL_IMG_BACK)
 		controlBg.setImage(bgimage)
 		
@@ -314,16 +318,8 @@ class UIGameDB(xbmcgui.WindowXML):
 		if(description == None):
 			description = ""
 		
-		
-		controlImg = self.getControlById(CONTROL_CONSOLE_IMG)
-		controlDesc = self.getControlById(CONTROL_CONSOLE_DESC)
-		
-		if(controlImg != None):
-			controlImg.setVisible(1)
-			controlImg.setImage(image)
-		if(controlDesc != None):
-			controlDesc.setVisible(1)		
-			controlDesc.setText(description)
+		selectedGame.setProperty('mainviewgameinfo', image)
+		selectedGame.setProperty('gamedesc', description)
 		
 
 
