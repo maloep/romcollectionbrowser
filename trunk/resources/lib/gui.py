@@ -259,7 +259,19 @@ class UIGameDB(xbmcgui.WindowXML):
 		
 		
 
-	def showConsoleInfo(self):		
+	def showConsoleInfo(self):	
+		
+		if(self.getListSize() == 0):
+			return
+		
+		pos = self.getCurrentListPosition()
+		if(pos == -1):
+			pos = 0
+		selectedGame = self.getListItem(pos)
+		if(selectedGame == None):
+			print "RCB_WARNING: selectedGame == None in showGameInfo"
+			return
+		
 		consoleRow = Console(self.gdb).getObjectById(self.selectedConsoleId)
 		
 		if(consoleRow == None):
@@ -267,25 +279,18 @@ class UIGameDB(xbmcgui.WindowXML):
 			return
 			
 		image = consoleRow[3]		
-		description = consoleRow[2]
+		description = consoleRow[2]		
 		
+		""" TODO no console ionfo atm
 		selectedGame.setProperty('mainviewgameinfo', image)
 		selectedGame.setProperty('gamedesc', description)
-		
-		"""
-		controlImg = self.getControlById(CONTROL_CONSOLE_IMG)
-		controlDesc = self.getControlById(CONTROL_CONSOLE_DESC)
-				
-		if(controlImg != None):
-			controlImg.setVisible(1)
-			controlImg.setImage(image)
-		if(controlDesc != None):
-			controlDesc.setVisible(1)
-			controlDesc.setText(description)
 		"""
 		
 	
 	def showGameInfo(self):		
+					
+		if(self.getListSize() == 0):
+			return
 					
 		pos = self.getCurrentListPosition()
 		if(pos == -1):
@@ -327,6 +332,9 @@ class UIGameDB(xbmcgui.WindowXML):
 
 
 	def launchEmu(self):		
+
+		if(self.getListSize() == 0):
+			return
 
 		pos = self.getCurrentListPosition()
 		if(pos == -1):
@@ -405,7 +413,11 @@ class UIGameDB(xbmcgui.WindowXML):
 		control.setLabel(msg)
 		
 		
-	def saveViewState(self, isOnExit):		
+	def saveViewState(self, isOnExit):
+		
+		if(self.getListSize() == 0):
+			return
+		
 		selectedGameIndex = self.getCurrentListPosition()
 		if(selectedGameIndex == -1):
 			selectedGameIndex = 0
@@ -487,6 +499,10 @@ class UIGameDB(xbmcgui.WindowXML):
 			
 	
 	def showGameInfoDialog(self):		
+		
+		if(self.getListSize() == 0):
+			return
+		
 		selectedGameIndex = self.getCurrentListPosition()		
 		if(selectedGameIndex == -1):
 			selectedGameIndex = 0

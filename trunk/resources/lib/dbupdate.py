@@ -133,9 +133,10 @@ class DBUpdate:
 					
 					#get crc value of the rom file
 					prev = 0
-					for eachLine in open(filename,"rb"):
+					for eachLine in open(str(filename),"rb"):
 					    prev = zlib.crc32(eachLine, prev)					
 					filecrc = "%X"%(prev & 0xFFFFFFFF)
+					self.log("crc for current file: " +str(filecrc))
 
 					#romCollectionRow[9] = descFilePerGame
 					if(romCollectionRow[9] == 'False'):
