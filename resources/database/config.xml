@@ -135,5 +135,54 @@
 			<fileTypeForGameInfoView4>cartridge</fileTypeForGameInfoView4>
 			<fileTypeForGameInfoViewVideoWindow>gameplay</fileTypeForGameInfoViewVideoWindow>
 		</RomCollection>
+		<RomCollection>			
+			<name>Collection V4</name>
+			<consoleName>Super Nintendo</consoleName>
+			<emulatorCmd>E:\Emulatoren\zsnes\zsnesw.exe -m "%ROM%"</emulatorCmd>
+			<useEmuSolo>True</useEmuSolo>
+			<escapeCommand>True</escapeCommand>
+			<relyOnNaming>True</relyOnNaming>
+			<startWithDescFile>False</startWithDescFile>
+			<descFilePerGame>False</descFilePerGame>
+			<descriptionParserFile>E:\Emulatoren\data\Testdata V0.4\Collection V4\parserConfig.xml</descriptionParserFile>
+			<diskPrefix>_Disk</diskPrefix>
+			<typeOfManual>Text</typeOfManual>
+			<allowUpdate>False</allowUpdate>
+			<ignoreOnScan>False</ignoreOnScan>
+			<romPath>E:\Emulatoren\data\Testdata V0.4\Collection V4\Roms\*.zip</romPath>
+			<romPath>E:\Emulatoren\data\Testdata V0.4\Collection V4\Roms\*.smc</romPath>
+			<descFilePath>E:\Emulatoren\data\Testdata V0.4\Collection V4\Synopsis\synopsis.txt</descFilePath>
+			<configFilePath></configFilePath>
+			<manualPath></manualPath>
+			<imgPath type="boxfront">E:\Emulatoren\data\Testdata V0.4\Collection V4\Artwork\Box Front\%GAME%.jpg</imgPath>
+			<imgPath type="boxfront">E:\Emulatoren\data\Testdata V0.4\Collection V4\Artwork\Box Front\%GAME%.gif</imgPath>
+			<imgPath type="boxfront">E:\Emulatoren\data\Testdata V0.4\Collection V4\Artwork\Box Front\%GAME%.png</imgPath>
+			<imgPath type="action">E:\Emulatoren\data\Testdata V0.4\Collection V4\Artwork\Action\%GAME%.jpg</imgPath>
+			<imgPath type="action">E:\Emulatoren\data\Testdata V0.4\Collection V4\Artwork\Action\%GAME%.gif</imgPath>
+			<imgPath type="action">E:\Emulatoren\data\Testdata V0.4\Collection V4\Artwork\Action\%GAME%.png</imgPath>
+			<imgPath type="title">E:\Emulatoren\data\Testdata V0.4\Collection V4\Artwork\Title\%GAME%.png</imgPath>
+			<imgPath type="title">E:\Emulatoren\data\Testdata V0.4\Collection V4\Artwork\Title\%GAME%.jpg</imgPath>
+			<imgPath type="title">E:\Emulatoren\data\Testdata V0.4\Collection V4\Artwork\Title\%GAME%.gif</imgPath>
+			<imgPath type="cartridge">E:\Emulatoren\data\Testdata V0.4\Collection V4\Artwork\Cart\%GAME%.gif</imgPath>
+			<imgPath type="cartridge">E:\Emulatoren\data\Testdata V0.4\Collection V4\Artwork\Cart\%GAME%.png</imgPath>
+			<imgPath type="cartridge">E:\Emulatoren\data\Testdata V0.4\Collection V4\Artwork\Cart\%GAME%.jpg</imgPath>
+			<imgPath type="3dbox">E:\Emulatoren\data\Testdata V0.4\Collection V4\Artwork\3D Boxart\%GAME%.gif</imgPath>
+			<imgPath type="3dbox">E:\Emulatoren\data\Testdata V0.4\Collection V4\Artwork\3D Boxart\%GAME%.png</imgPath>
+			<imgPath type="3dbox">E:\Emulatoren\data\Testdata V0.4\Collection V4\Artwork\3D Boxart\%GAME%.jpg</imgPath>
+			<imgPath type="hyperspin">E:\Emulatoren\data\Testdata V0.4\Collection V4\Artwork\HyperSpin 3D Boxart\%GAME%.gif</imgPath>
+			<imgPath type="hyperspin">E:\Emulatoren\data\Testdata V0.4\Collection V4\Artwork\HyperSpin 3D Boxart\%GAME%.png</imgPath>
+			<imgPath type="hyperspin">E:\Emulatoren\data\Testdata V0.4\Collection V4\Artwork\HyperSpin 3D Boxart\%GAME%.jpg</imgPath>
+			<videoPath type="gameplay">E:\Emulatoren\data\Testdata V0.4\Collection V4\Movies\%GAME%.wmv</videoPath>
+			<fileTypeForGameList>hyperspin</fileTypeForGameList>
+			<fileTypeForMainViewBackground>title</fileTypeForMainViewBackground>
+			<fileTypeForMainViewGameInfo>action</fileTypeForMainViewGameInfo>
+			<fileTypeForGameInfoViewBackground>hyperspin</fileTypeForGameInfoViewBackground>			
+			<fileTypeForGameInfoViewGamelist>boxfront</fileTypeForGameInfoViewGamelist>
+			<fileTypeForGameInfoView1>hyperspin</fileTypeForGameInfoView1>
+			<fileTypeForGameInfoView2>action</fileTypeForGameInfoView2>
+			<fileTypeForGameInfoView3>boxfront</fileTypeForGameInfoView3>
+			<fileTypeForGameInfoView4>cartridge</fileTypeForGameInfoView4>
+			<fileTypeForGameInfoViewVideoWindow>gameplay</fileTypeForGameInfoViewVideoWindow>
+		</RomCollection>
 	</RomCollections>
 </config>
