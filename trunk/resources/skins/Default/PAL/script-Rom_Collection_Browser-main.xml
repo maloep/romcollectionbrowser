@@ -19,7 +19,8 @@
 		
 		<!-- gamelist groups -->
 		<control type="group" id="200">			
-			<!-- gamelist -->
+			
+			<!-- gamelist 50 -->
 			<control type="group">
 				<control type="image">				
 					<description>gamelist background image</description>
@@ -151,6 +152,7 @@
 				</control>
 			</control>
 			
+			<!-- gamelist 51 -->
 			<control type="group">
 				<control type="image">				
 					<description>gamelist background image</description>
@@ -225,7 +227,7 @@
 				</control>
 			</control>
 			
-			<!-- gamelist -->
+			<!-- gamelist 52 -->
 			<control type="group">
 				<control type="image">				
 					<description>gamelist background image</description>
@@ -243,11 +245,9 @@
 					<width>320</width>
 					<height>540</height>
 					<onleft>500</onleft>
-					<onright>1500</onright>
-					<onup>500</onup>
-					<ondown>3000</ondown>
-					<!--<orientation>vertical</orientation>-->
-					<!--<focusposition>2</focusposition>-->
+					<onright>3000</onright>
+					<onup>52</onup>
+					<ondown>52</ondown>					
 					<viewtype label="Info 2">list</viewtype>	
 					<scrolltime>100</scrolltime>
 					<itemlayout height="30" width="320">

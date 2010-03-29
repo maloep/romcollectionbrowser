@@ -141,8 +141,7 @@ class UIGameDB(xbmcgui.WindowXML):
 				
 			if(CONTROL_GAMES_GROUP_START <= self.selectedControlId <= CONTROL_GAMES_GROUP_END):
 				self.showGameInfo()
-		elif(action.getId() in ACTION_INFO):
-			print "Action Info"
+		elif(action.getId() in ACTION_INFO):			
 			control = self.getControlById(self.selectedControlId)
 			if(control == None):
 				print "RCB_WARNING: control == None in onAction"
@@ -270,6 +269,10 @@ class UIGameDB(xbmcgui.WindowXML):
 		image = consoleRow[3]		
 		description = consoleRow[2]
 		
+		selectedGame.setProperty('mainviewgameinfo', image)
+		selectedGame.setProperty('gamedesc', description)
+		
+		"""
 		controlImg = self.getControlById(CONTROL_CONSOLE_IMG)
 		controlDesc = self.getControlById(CONTROL_CONSOLE_DESC)
 				
@@ -278,12 +281,12 @@ class UIGameDB(xbmcgui.WindowXML):
 			controlImg.setImage(image)
 		if(controlDesc != None):
 			controlDesc.setVisible(1)
-			controlDesc.setText(description)		
+			controlDesc.setText(description)
+		"""
 		
 	
 	def showGameInfo(self):		
-			
-		print "showGameInfo"
+					
 		pos = self.getCurrentListPosition()
 		if(pos == -1):
 			pos = 0
@@ -323,8 +326,7 @@ class UIGameDB(xbmcgui.WindowXML):
 		
 
 
-	def launchEmu(self):
-		print "launchEmu"
+	def launchEmu(self):		
 
 		pos = self.getCurrentListPosition()
 		if(pos == -1):
@@ -335,8 +337,7 @@ class UIGameDB(xbmcgui.WindowXML):
 			print "RCB_WARNING: selectedGame == None in launchEmu"
 			return
 			
-		gameId = selectedGame.getLabel2()
-		print "gameId: " +str(gameId)
+		gameId = selectedGame.getLabel2()		
 		
 		helper.launchEmu(self.gdb, self, gameId)
 		

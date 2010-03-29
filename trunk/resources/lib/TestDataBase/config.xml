@@ -129,5 +129,54 @@
 			<fileTypeForGameInfoView4>cartridge</fileTypeForGameInfoView4>
 			<fileTypeForGameInfoViewVideoWindow>gameplay</fileTypeForGameInfoViewVideoWindow>
 		</RomCollection>
+		<RomCollection>			
+			<name>Collection V4</name>
+			<consoleName>Super Nintendo</consoleName>
+			<emulatorCmd>E:\Emulatoren\SNES\zsnes.exe -m "%ROM%"</emulatorCmd>
+			<useEmuSolo>True</useEmuSolo>
+			<escapeCommand>True</escapeCommand>
+			<relyOnNaming>True</relyOnNaming>
+			<startWithDescFile>False</startWithDescFile>
+			<descFilePerGame>False</descFilePerGame>
+			<descriptionParserFile>TestDataBase\Collection V4\parserConfig.xml</descriptionParserFile>
+			<diskPrefix>_Disk</diskPrefix>
+			<typeOfManual>Text</typeOfManual>
+			<allowUpdate>False</allowUpdate>
+			<ignoreOnScan>False</ignoreOnScan>
+			<romPath>TestDataBase\Collection V4\Roms\*.zip</romPath>
+			<romPath>TestDataBase\Collection V4\Roms\*.smc</romPath>
+			<descFilePath>TestDataBase\Collection V4\Synopsis\synopsis.txt</descFilePath>
+			<configFilePath></configFilePath>
+			<manualPath></manualPath>
+			<imgPath type="cover">TestDataBase\Collection V4\Artwork\Box Front\%GAME%.jpg</imgPath>
+			<imgPath type="cover">TestDataBase\Collection V4\Artwork\Box Front\%GAME%.gif</imgPath>
+			<imgPath type="cover">TestDataBase\Collection V4\Artwork\Box Front\%GAME%.png</imgPath>
+			<imgPath type="screenshotingame">TestDataBase\Collection V4\Artwork\Action\%GAME%.jpg</imgPath>
+			<imgPath type="screenshotingame">TestDataBase\Collection V4\Artwork\Action\%GAME%.gif</imgPath>
+			<imgPath type="screenshotingame">TestDataBase\Collection V4\Artwork\Action\%GAME%.png</imgPath>
+			<imgPath type="screenshottitle">TestDataBase\Collection V4\Artwork\Title\%GAME%.png</imgPath>
+			<imgPath type="screenshottitle">TestDataBase\Collection V4\Artwork\Title\%GAME%.jpg</imgPath>
+			<imgPath type="screenshottitle">TestDataBase\Collection V4\Artwork\Title\%GAME%.gif</imgPath>
+			<imgPath type="cartridge">TestDataBase\Collection V4\Artwork\Cart\%GAME%.gif</imgPath>
+			<imgPath type="cartridge">TestDataBase\Collection V4\Artwork\Cart\%GAME%.png</imgPath>
+			<imgPath type="cartridge">TestDataBase\Collection V4\Artwork\Cart\%GAME%.jpg</imgPath>
+			<imgPath type="3dbox">TestDataBase\Collection V4\Artwork\3D Boxart\%GAME%.gif</imgPath>
+			<imgPath type="3dbox">TestDataBase\Collection V4\Artwork\3D Boxart\%GAME%.png</imgPath>
+			<imgPath type="3dbox">TestDataBase\Collection V4\Artwork\3D Boxart\%GAME%.jpg</imgPath>
+			<imgPath type="hyperspin">TestDataBase\Collection V4\Artwork\HyperSpin 3D Boxart\%GAME%.gif</imgPath>
+			<imgPath type="hyperspin">TestDataBase\Collection V4\Artwork\HyperSpin 3D Boxart\%GAME%.png</imgPath>
+			<imgPath type="hyperspin">TestDataBase\Collection V4\Artwork\HyperSpin 3D Boxart\%GAME%.jpg</imgPath>
+			<videoPath type="gameplay">TestDataBase\Collection V4\Movies\%GAME%.wmv</videoPath>
+			<fileTypeForGameList>cover</fileTypeForGameList>
+			<fileTypeForMainViewGameInfo>screenshotingame</fileTypeForMainViewGameInfo>
+			<fileTypeForGameInfoViewBackground>title</fileTypeForGameInfoViewBackground>
+			<fileTypeForGameInfoViewBackground>cover</fileTypeForGameInfoViewBackground>
+			<fileTypeForGameInfoViewGamelist>cover</fileTypeForGameInfoViewGamelist>
+			<fileTypeForGameInfoView1>title</fileTypeForGameInfoView1>
+			<fileTypeForGameInfoView2>screenshotingame</fileTypeForGameInfoView2>
+			<fileTypeForGameInfoView3>cover</fileTypeForGameInfoView3>
+			<fileTypeForGameInfoView4>cartridge</fileTypeForGameInfoView4>
+			<fileTypeForGameInfoViewVideoWindow>gameplay</fileTypeForGameInfoViewVideoWindow>
+		</RomCollection>
 	</RomCollections>	
 </config>
