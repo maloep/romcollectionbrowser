@@ -126,8 +126,8 @@ class DescriptionParser:
 
 def main():
 	dp = DescriptionParser()
-	results = dp.parseDescription('E:\\Emulatoren\\data\\Testdata\\parserExamples\\03 - synopsis.txt', 
-		'E:\\Emulatoren\\data\\Testdata\\parserExamples\\03 - parserConfig.xml', '')
+	results = dp.parseDescription('E:\\Emulatoren\\data\\Test synopsis\\xtras.txt', 
+		'E:\\Emulatoren\\data\\Test synopsis\\xtras.xml', '')
 	for result in results:
 		print result.asDict()
 	del dp

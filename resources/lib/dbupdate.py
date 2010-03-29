@@ -7,6 +7,7 @@ from gamedatabase import *
 
 from pyparsing import *
 from descriptionparser import *
+import zlib
 
 DEBUG = True
 
@@ -62,11 +63,10 @@ class DBUpdate:
 				results = self.parseDescriptionFile(str(descriptionPath), str(descParserFile), '')
 				if(results == None):
 					gui.writeMsg("ERROR: There was an error parsing the description file. Please see log file for more information.")
-					self.log("ERROR: There was an error parsing the description file. Please see log file for more information.")
-					self.exit()
-					return
+					self.log("ERROR: There was an error parsing the description file. Please see log file for more information.")					
+					
 				
-				if(DEBUG):
+				if(DEBUG and results != None):
 					for result in results:
 						self.log(str(result.asDict()))
 			
@@ -130,21 +130,45 @@ class DBUpdate:
 					
 
 					gamedescription = Empty()
+					
+					#get crc value of the rom file
+					prev = 0
+					for eachLine in open(filename,"rb"):
+					    prev = zlib.crc32(eachLine, prev)					
+					filecrc = "%X"%(prev & 0xFFFFFFFF)
 
 					#romCollectionRow[9] = descFilePerGame
 					if(romCollectionRow[9] == 'False'):
 						#TODO Hash with gamename?
 						self.log("Searching for game in parsed results:")
-						for result in results:
-							gamedesc = result['Game'][0]
-							self.log("game name in parsed result: " +gamedesc)
-							
-							if (gamedesc.strip() == gamename.strip()):
-								self.log("result found: " +gamedesc)
-								gamedescription = result
-						if(gamedescription == Empty()):
-							self.log("WARNING: game " +gamename +" could not be found in parsed results. Importing game without description.")
-							#continue
+						if(results != None):
+							for result in results:
+								gamedesc = result['Game'][0]								
+								self.log("game name in parsed result: " +gamedesc)								
+								
+								#find by filename
+								if (gamedesc.strip() == gamename.strip()):
+									self.log("result found by filename: " +gamedesc)
+									gamedescription = result
+									continue
+								
+								#find by crc
+								try:
+									resultcrcs = result['crc']
+									for resultcrc in resultcrcs:										
+										if(resultcrc.lower() == filecrc.lower()):
+											self.log("result found by crc: " +gamedesc)
+											gamedescription = result
+											continue
+											
+								except:
+									pass
+								
+								
+							if(gamedescription == Empty()):
+								self.log("WARNING: game " +gamename +" could not be found in parsed results. Importing game without description.")
+						else:
+							self.log("WARNING: game " +gamename +" has no gamedescription. Importing game without description.")
 					else:						
 						results = self.parseDescriptionFile(str(descriptionPath), str(descParserFile), gamename)
 						if(results == None):
@@ -158,20 +182,6 @@ class DBUpdate:
 		gui.writeMsg("Done.")
 		self.exit()
 		
-	
-	def resolvePath(self, paths, gamename):		
-		resolvedFiles = []
-				
-		for path in paths:
-			self.log("resolve path: " +path)
-			pathname = path.replace("%GAME%", gamename)
-			self.log("resolved path: " +pathname)
-			files = glob.glob(pathname)
-			self.log("resolved files: " +str(files))
-			for file in files:
-				if(os.path.exists(file)):
-					resolvedFiles.append(file)		
-		return resolvedFiles
 		
 	
 	def parseDescriptionFile(self, descriptionPath, descParserFile, gamename):
@@ -199,7 +209,7 @@ class DBUpdate:
 			
 			
 	def insertData(self, gamedescription, gamenameFromFile, romCollectionId, romFile, allowUpdate):
-		self.log("Insert data")		
+		self.log("Insert data")	
 				
 		if(gamedescription != Empty()):			
 			yearId = self.insertForeignKeyItem(gamedescription.ReleaseYear, 'Year', Year(self.gdb))
@@ -218,7 +228,7 @@ class DBUpdate:
 			perspective = self.resolveParseResult(gamedescription.Perspective, 'Perspective')		
 		
 			self.log("Result Game (from parser) = " +str(gamedescription.Game))
-			gamename = gamedescription.Game[0].strip()		
+			gamename = gamedescription.Game[0].strip()
 			
 			self.log("Result Game (as string) = " +gamename)
 			gameId = self.insertGame(gamename, gamedescription.Description[0], romCollectionId, publisherId, developerId, reviewerId, yearId, 
@@ -240,7 +250,7 @@ class DBUpdate:
 		allPathRows = Path(self.gdb).getPathsByRomCollectionId(romCollectionId)		
 		for pathRow in allPathRows:
 			self.log("Additional data path: " +str(pathRow))
-			files = self.resolvePath((pathRow[1],), gamename)
+			files = self.resolvePath((pathRow[1],), gamename, gamenameFromFile)
 			self.log("Importing files: " +str(files))
 			fileTypeRow = FileType(self.gdb).getObjectById(pathRow[2])
 			self.log("FileType: " +str(fileTypeRow)) 
@@ -252,13 +262,13 @@ class DBUpdate:
 		
 		manualPaths = Path(self.gdb).getManualPathsByRomCollectionId(romCollectionId)
 		self.log("manual path: " +str(manualPaths))
-		manualFiles = self.resolvePath(manualPaths, gamename)
+		manualFiles = self.resolvePath(manualPaths, gamename, gamenameFromFile)
 		self.log("manual files: " +str(manualFiles))
 		self.insertFiles(manualFiles, gameId, "manual")
 		
 		configurationPaths = Path(self.gdb).getConfigurationPathsByRomCollectionId(romCollectionId)
 		self.log("configuration path: " +str(configurationPaths))
-		configurationFiles = self.resolvePath(configurationPaths, gamename)
+		configurationFiles = self.resolvePath(configurationPaths, gamename, gamenameFromFile)
 		self.log("configuration files: " +str(configurationFiles))
 		self.insertFiles(configurationFiles, gameId, "configuration")
 		
@@ -323,6 +333,27 @@ class DBUpdate:
 				idList.append(itemRow[0])
 				
 		return idList
+		
+		
+	def resolvePath(self, paths, gamename, gamenameFromFile):		
+		resolvedFiles = []
+				
+		for path in paths:
+			self.log("resolve path: " +path)
+			pathnameFromGameName = path.replace("%GAME%", gamename)			
+			self.log("resolved path from game name: " +pathnameFromGameName)
+			files = glob.glob(pathnameFromGameName)
+			
+			if(gamename != gamenameFromFile):
+				pathnameFromFile = path.replace("%GAME%", gamenameFromFile)
+				self.log("resolved path from file name: " +pathnameFromFile)			
+				files = glob.glob(pathnameFromFile)
+			
+			self.log("resolved files: " +str(files))
+			for file in files:
+				if(os.path.exists(file)):
+					resolvedFiles.append(file)		
+		return resolvedFiles
 		
 		
 	def resolveParseResult(self, result, itemName):

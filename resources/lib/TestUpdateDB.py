@@ -64,12 +64,12 @@ class TestUpdateDB(unittest.TestCase):
 		self.assertTrue(len(gameRows) == 4)
 		
 		#NES Nintendo
-		gameRows = Game(self.gdb).getFilteredGames(2, 0, 0, 11)
+		gameRows = Game(self.gdb).getFilteredGames(2, 0, 0, 12)
 		self.assertTrue(gameRows != None)
-		self.assertTrue(len(gameRows) == 3)
+		self.assertEqual(len(gameRows), 3)
 		
 		#NES 1992 Racing Nintendo 
-		gameRows = Game(self.gdb).getFilteredGames(2, 11, 7, 11)
+		gameRows = Game(self.gdb).getFilteredGames(2, 11, 7, 12)
 		self.assertTrue(gameRows != None)
 		self.assertTrue(len(gameRows) == 1)
 		
@@ -105,23 +105,23 @@ class TestUpdateDB(unittest.TestCase):
 		self.gameTest(gameRows[8], 'Hanse - Die Expedition', 'Hanse makes you a trader in the 13th Century.', 
 			None,  None, 2, 7, 7, None, 6, '????', '', '', 'http://www.mobygames.com/game/amiga/hanse-die-expedition', '', '', '', '', 0, 0,
 			3, 1, 1, 0, 0, 0)
-		self.gameTest(gameRows[9], 'Legend of Zelda - A Link to the Past', 'This installment in the Zelda series was my favorite.', 
-			None,  None, 3, 11, 11, None, 7, '1', '', '', '', 'USA', 'Cartridge', '', 'Gamepad', 0, 0,
-			1, 1, 1, 1, 1, 0)
+		self.gameTest(gameRows[9], 'Legend of Zelda: A Link to the Past', 'This installment in the Zelda series was my favorite.', 
+			None,  None, 4, 12, 14, None, 7, '1', '', '', '', 'USA', 'Cartridge', '', 'Gamepad', 0, 0,
+			1, 1, 1, 1, 1, 1)
 		self.gameTest(gameRows[10], 'Madden NFL \'98', 'Madden NFL 98 is a football video game.', 
-			None,  None, 3, 12, 12, None, 10, '', '', '', '', 'USA', 'Cartridge', '', 'Gamepad', 0, 0,
+			None,  None, 3, 11, 11, None, 10, '', '', '', '', 'USA', 'Cartridge', '', 'Gamepad', 0, 0,
 			1, 1, 1, 1, 1, 0)
 		self.gameTest(gameRows[11], 'Ports Of Call', 'Ports of Call gives you the job of a shipowner.', 
 			None,  None, 1, 4, 4, None, 4, '4', '', '', 'http://www.mobygames.com/game/amiga/ports-of-call', 'USA', 'Disk', '', 'Joystick', 0, 0,
 			1, 1, 1, 0, 0, 0)			
 		self.gameTest(gameRows[12], 'Space Invaders', 'Taito and Nintendo have brought back the classic Space Invaders game, with very little modification.', 
-			None,  None, 3, 11, 13, None, 9, '', '', '', '', 'USA', 'Cartridge', '', 'Gamepad', 0, 0,
+			None,  None, 3, 12, 12, None, 9, '', '', '', '', 'USA', 'Cartridge', '', 'Gamepad', 0, 0,
 			1, 1, 1, 1, 1, 0)
 		self.gameTest(gameRows[13], 'Street Fighter II - The World Warrior', 'Eight fighters from across the globe have come together to see which of them has the strength, skill and courage to challenge the mysterious Grand Masters.', 
-			None,  None, 3, 13, 14, None, 7, '1 or 2 VS', '', '', '', 'USA', 'Cartridge', '', 'Gamepad', 0, 0,
+			None,  None, 3, 13, 13, None, 7, '1 or 2 VS', '', '', '', 'USA', 'Cartridge', '', 'Gamepad', 0, 0,
 			1, 1, 1, 1, 1, 0)
 		self.gameTest(gameRows[14], 'Super Mario Kart', 'Hi everybody! Thanks for dropping to by the Super Mario Kart race track.', 
-			None,  None, 3, 11, 11, None, 7, '1 to 4 VS', '', '', '', 'USA', 'Cartridge', '', 'Gamepad', 0, 0,
+			None,  None, 3, 12, 14, None, 7, '1 to 4 VS', '', '', '', 'USA', 'Cartridge', '', 'Gamepad', 0, 0,
 			1, 1, 1, 1, 1, 0)
 		
 		
