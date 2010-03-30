@@ -108,7 +108,7 @@ class DescriptionParser:
 
 		grammar = ParserElement()
 		for grammarItem in grammarList:			
-			grammar += grammarItem
+			grammar += grammarItem.setDebug()
 		
 		gameGrammar = Group(grammar)
 		
@@ -126,8 +126,10 @@ class DescriptionParser:
 
 def main():
 	dp = DescriptionParser()
-	results = dp.parseDescription('E:\\Emulatoren\\data\\Test synopsis\\xtras.txt', 
+	results = dp.parseDescription('E:\\Emulatoren\\data\\Test synopsis\\xtras_complete.txt', 
 		'E:\\Emulatoren\\data\\Test synopsis\\xtras.xml', '')
+		
+	print "len results: " +str(len(results))
 	for result in results:
 		print result.asDict()
 	del dp

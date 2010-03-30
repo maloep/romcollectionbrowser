@@ -112,8 +112,9 @@ class DescriptionParser:
 	def parseDescriptionConfig(self, descFile, descParseInstruction, gamename):
 		print descFile
 		
-		#TODO Entries before game?
-		star = Suppress(Literal('*')) +Suppress(LineEnd())
+		begin = SkipTo(LineEnd() +Literal('*') + LineEnd())
+		
+		star = Suppress(LineEnd() +Literal('*') + LineEnd())
 		star = star.setResultsName('star')
 		#crc = Optional(~LineEnd() +commaSeparatedList).bug() +Suppress(LineEnd())
 		crc = Optional(~LineEnd() +delimitedList(',')) +SkipTo(LineEnd()) +Suppress(LineEnd())
@@ -123,37 +124,44 @@ class DescriptionParser:
 		
 		#game = Suppress(SkipTo(Literal())) +Literal(gamename) +Suppress(LineEnd())
 		game = Optional(~LineEnd() +delimitedList(',')) +SkipTo(LineEnd())
-		game = game.setResultsName('game')		
-		platform = Suppress(Literal('Platform: ')) +(Optional(~LineEnd() +commaSeparatedList))
+		game = game.setResultsName('game')
+		origTitle = Optional(Suppress(Literal('Original Title:')) +(Optional(~LineEnd() +commaSeparatedList)))
+		origTitle = origTitle.setResultsName('origTitle')
+		platform = Suppress(Literal('Platform:')) +(Optional(~LineEnd() +commaSeparatedList))
 		platform = platform.setResultsName('platform')
-		region = Suppress(Literal('Region: ')) +(Optional(~LineEnd() +commaSeparatedList))
+		region = Suppress(Literal('Region:')) +(Optional(~LineEnd() +commaSeparatedList))
 		region = region.setResultsName('region')		
-		media = Suppress(Literal('Media: ')) +(Optional(~LineEnd() +commaSeparatedList))
-		media = media.setResultsName('media').setDebug()		
-		controller = Suppress(Literal('Controller: ')) +(Optional(~LineEnd() +commaSeparatedList))
+		media = Suppress(Literal('Media:')) +(Optional(~LineEnd() +commaSeparatedList))
+		media = media.setResultsName('media')
+		controller = Suppress(Literal('Controller:')) +(Optional(~LineEnd() +commaSeparatedList))
 		controller = controller.setResultsName('controller')
 		#TODO Item Delimiter		
-		genre = Suppress(Literal('Genre: ')) +(Optional(~LineEnd() +commaSeparatedList))
+		genre = Suppress(Literal('Genre:')) +(Optional(~LineEnd() +commaSeparatedList))
 		genre = genre.setResultsName('genre')				
-		year = Suppress(Literal('Release Year: ')) +(Optional(~LineEnd() +commaSeparatedList))
-		year = year.setResultsName('year')				
-		dev = Suppress(Literal('Developer: ')) +(Optional(~LineEnd() +commaSeparatedList))
-		dev = dev.setResultsName('developer')				
-		publisher = Suppress(Literal('Publisher: ')) +(Optional(~LineEnd() +commaSeparatedList))
+		year = Suppress(Literal('Release Year:')) +(Optional(~LineEnd() +commaSeparatedList))
+		year = year.setResultsName('year')
+		translatedBy = Optional(Suppress(Literal('Translated By:')) +(Optional(~LineEnd() +commaSeparatedList)))
+		translatedBy = translatedBy.setResultsName('translatedBy')
+		hackedBy = Optional(Suppress(Literal('Hacked By:')) +(Optional(~LineEnd() +commaSeparatedList)))
+		hackedBy = hackedBy.setResultsName('hackedBy')
+		version = Optional(Suppress(Literal('Version:')) +(Optional(~LineEnd() +commaSeparatedList)))
+		version = version.setResultsName('version')		
+		dev = Optional(Suppress(Literal('Developer:')) +(Optional(~LineEnd() +commaSeparatedList)))
+		dev = dev.setResultsName('developer')
+		publisher = Optional(Suppress(Literal('Publisher:')) +(Optional(~LineEnd() +commaSeparatedList)))
 		publisher = publisher.setResultsName('publisher')
-		players = Suppress(Literal('Players: ')) +(Optional(~LineEnd() +commaSeparatedList))
+		players = Suppress(Literal('Players:')) +(Optional(~LineEnd() +commaSeparatedList))
 		players = players.setResultsName('players')
 		line = Suppress(Combine(OneOrMore(Literal('_'))))
 		line = line.setResultsName('line')
-		#star = Suppress(Literal('*') +LineEnd())
-		#star = star.setResultsName('star')
-		#desc = SkipTo(star)
-		desc = ZeroOrMore(unicode(Word(printables + alphas8bit))) +SkipTo(star)
+		desc = SkipTo(LineEnd() +Literal('*') +LineEnd())
 		desc = desc.setResultsName('description')
 		delimiter = Suppress(SkipTo(LineEnd()))
-		gamegrammar = star +crc +game +platform + region + media + controller + genre \
-			+ year + dev +publisher +players +line + star +desc +delimiter
 		
+		gamegrammar = begin + star +crc +game +origTitle +platform + region + media + controller + genre \
+			+ year +translatedBy +hackedBy +version +dev +publisher +players +line + star +desc +star +delimiter
+		
+		gamegrammar = Group(gamegrammar)
 		filegrammar = OneOrMore(gamegrammar)
 		
 		fh = open(str(descFile), 'r')
@@ -168,9 +176,9 @@ class DescriptionParser:
 
 
 dp = DescriptionParser()
-results = dp.parseDescriptionConfig('E:\\Emulatoren\\data\\Amiga\\Collection V1\\synopsis\\synopsis.txt', '', 'Football Glory')
-print results
-results = dp.parseDescriptionConfig('E:\\Emulatoren\\data\\Amiga\\Collection V1\\synopsis\\synopsis.txt', '', 'Formula One Grand Prix')
-print results.asDict()
-print results['genre']
+results = dp.parseDescriptionConfig('E:\\Emulatoren\\data\\Test synopsis\\xtras_complete.txt', '', 'Football Glory')
+
+print "len results: " +str(len(results))
+for result in results:
+	print result.asDict()
 del dp
