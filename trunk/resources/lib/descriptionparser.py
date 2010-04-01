@@ -66,9 +66,15 @@ class DescriptionParser:
 			else:					
 				nodeGrammar = Empty()
 			
+			lineEndReplaced = False
+			
 			literal = None
-			if (node.hasChildNodes()):				
-				literal = Literal(node.firstChild.nodeValue)
+			if (node.hasChildNodes()):
+				nodeValue = node.firstChild.nodeValue				
+				literal = self.replaceTokens(nodeValue, ('LineStart', 'LineEnd'))
+				if(nodeValue.find('LineEnd') >= 0):
+					lineEndReplaced = True
+				
 							
 			rol = node.attributes.get('restOfLine')
 			if(rol != None and rol.nodeValue == 'true'):
@@ -81,29 +87,49 @@ class DescriptionParser:
 				
 			skipTo = node.attributes.get('skipTo')
 			if(skipTo != None):
-				nodeGrammar += SkipTo(Literal(skipTo.nodeValue))
+				skipToGrammar = self.replaceTokens(skipTo.nodeValue, ('LineStart', 'LineEnd'))
+				if(nodeGrammar == None):
+					nodeGrammar = SkipTo(skipToGrammar)
+				else:
+					nodeGrammar += SkipTo(skipToGrammar)
+				if(skipTo.nodeValue.find('LineEnd') >= 0):
+					print "LineEnd found in: "  +skipTo.nodeValue
+					lineEndReplaced = True
 
-			if(node.nodeName == 'SkippableContent'):				
-				if(literal != None):
-					nodeGrammar += Suppress(literal)			
+			if(node.nodeName == 'SkippableContent'):
+				if(literal != None):	
+					if(nodeGrammar == None):
+						nodeGrammar = Suppress(literal)
+					else:
+						nodeGrammar += Suppress(literal)
 				
 			delimiter = node.attributes.get('delimiter')
-			if(delimiter != None):				
-				nodeGrammar += (Optional(~LineEnd() +commaSeparatedList))
-			elif (isRol):		
-				nodeGrammar += rolGrammar
+			if(delimiter != None):
+				if(nodeGrammar == None):
+					nodeGrammar = (Optional(~LineEnd() +commaSeparatedList))
+				else:
+					nodeGrammar += (Optional(~LineEnd() +commaSeparatedList))
+			elif (isRol):
+				if(nodeGrammar == None):
+					nodeGrammar = rolGrammar
+				else:
+					nodeGrammar += rolGrammar
 				
 			nodeGrammar = nodeGrammar.setResultsName(node.nodeName)
 						
-			if(appendNextNode == False):				
+			if(appendNextNode == False or lineEndReplaced):
 				grammarList.append(nodeGrammar)	
 				
-			if(isRol == True):			
+			#check if we replaced a LineEnd in skipTo or nodeValue
+			if(isRol == True or lineEndReplaced):
 				appendToPreviousNode = False
-				lastNodeGrammar = Empty()
+				lastNodeGrammar = None
 			else:
 				appendToPreviousNode = True
-				lastNodeGrammar += nodeGrammar
+				if(lastNodeGrammar == None):
+					lastNodeGrammar = nodeGrammar
+				else:
+					lastNodeGrammar += nodeGrammar
 				
 
 		grammar = ParserElement()
@@ -113,7 +139,6 @@ class DescriptionParser:
 		gameGrammar = Group(grammar)
 		
 		all = OneOrMore(gameGrammar)		
-		
 		fh = open(str(descFile), 'r')
 		fileAsString = fh.read()		
 		fileAsString = fileAsString.decode('iso-8859-15')		
@@ -121,17 +146,92 @@ class DescriptionParser:
 		results = all.parseString(fileAsString)		
 				
 		return results
-
+		
+		
+		
+	def replaceTokens(self, inputString, tokens):
+		grammar = Empty()
+		tokenFound = False
+		tokenCount = 0
+		# count the occurance of all tokens
+		for token in tokens:
+			tokenCount += inputString.count(token)			
+			if(inputString.find(token) >= 0):				
+				tokenFound = True
+		
+		print "inputString: " +inputString
+		print "tokencount: " +str(tokenCount)
+				
+		if(not tokenFound):
+			print "inputString: " +inputString
+			return Literal(inputString)
+		
+		#loop all found tokens
+		for i in range(0, tokenCount):
+			tokenIndex = -1
+			nextToken = ''
+			#search for the next matching token
+			for token in tokens:
+				print "currentToken: " +token
+				index = inputString.find(token)
+				print "index: " +str(index)
+				print "index: " +str(tokenIndex)
+				if(index != -1 and (index <= tokenIndex or tokenIndex == -1)):
+					tokenIndex = index
+					nextToken = token
+				else:
+					print "token not found"
+					continue
+				
+			print "nextToken: " +nextToken
+			print "currentIndex: " +str(tokenIndex)
+			strsub = inputString[0:tokenIndex]
+			if(strsub != ''):
+				print "adding Literal: " +strsub
+				grammar += Literal(strsub)
+			inputString = inputString.replace(nextToken, '', 1)			
+			
+			#TODO only LineStart and LineEnd implemented
+			if(nextToken == 'LineStart'):
+				print "adding LineStart"
+				grammar += LineStart()
+			elif(nextToken == 'LineEnd'):
+				print "adding LineEnd"
+				grammar += LineEnd()
+				
+			print "sub: " +strsub
+			print "newIn: " +inputString
+			tokenIndex = -1
+		
+		"""
+		tuple = inputString.split(token)
+		for i in range(0, len(tuple)):			
+			if(tuple[i] != ''):
+				if(grammar == None):
+					grammar = Literal(tuple[i])
+				else:
+					grammar += Literal(tuple[i])
+			if(i != len(tuple) -1):
+				if(grammar == None):
+					grammar = LineEnd()
+				else:
+					grammar += LineEnd()
+		"""
+				
+		return grammar
 
 
 def main():
 	dp = DescriptionParser()
-	results = dp.parseDescription('E:\\Emulatoren\\data\\Test synopsis\\xtras_complete.txt', 
-		'E:\\Emulatoren\\data\\Test synopsis\\xtras.xml', '')
+	#results = dp.parseDescription('E:\\Emulatoren\\data\\Test synopsis\\xtras_short.txt', 
+	#	'E:\\Emulatoren\\data\\Test synopsis\\xtras.xml', '')
+	
+	results = dp.parseDescription('E:\\Emulatoren\\data\\Testdata V0.4\\Collection V1\\synopsis\\synopsis.txt', 
+		'E:\\Emulatoren\\data\\Testdata V0.4\\Collection V1\\parserConfig.xml', '')
 		
 	print "len results: " +str(len(results))
 	for result in results:
 		print result.asDict()
 	del dp
 	
-#main()
+main()

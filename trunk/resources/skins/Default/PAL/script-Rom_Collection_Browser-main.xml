@@ -21,8 +21,8 @@
 		<control type="group" id="200">			
 			
 			<!-- gamelist 50 -->
-			<control type="group">
-				<control type="image">				
+			<control type="group">				
+				<control type="image">			
 					<description>gamelist background image</description>
 					<posx>0</posx>
 					<posy>280</posy>
@@ -32,7 +32,8 @@
 					<colordiffuse>DDFFFFFF</colordiffuse>
 					<visible>Control.IsVisible(50)</visible>
 				</control>
-				<control type="wraplist" id="50">		
+				<control type="wraplist" id="50">
+					<!--<visible>Skin.HasSetting(rcb_info_view)</visible>-->
 					<posx>0</posx>
 					<posy>320</posy>
 					<width>720</width>
@@ -153,8 +154,8 @@
 			</control>
 			
 			<!-- gamelist 51 -->
-			<control type="group">
-				<control type="image">				
+			<control type="group">				
+				<control type="image">	
 					<description>gamelist background image</description>
 					<posx>0</posx>
 					<posy>100</posy>
@@ -165,6 +166,7 @@
 					<visible>Control.IsVisible(51)</visible>
 				</control>
 				<control type="wraplist" id="51">
+					<!--<visible>Skin.HasSetting(rcb_thumbs_view)</visible>-->
 					<posx>0</posx>
 					<posy>120</posy>
 					<width>720</width>
@@ -228,7 +230,7 @@
 			</control>
 			
 			<!-- gamelist 52 -->
-			<control type="group">
+			<control type="group">				
 				<control type="image">				
 					<description>gamelist background image</description>
 					<posx>385</posx>
@@ -239,7 +241,8 @@
 					<colordiffuse>DDFFFFFF</colordiffuse>
 					<visible>Control.IsVisible(52)</visible>
 				</control>
-				<control type="list" id="52">		
+				<control type="list" id="52">
+					<!--<visible>Skin.HasSetting(rcb_info2_view)</visible>-->
 					<posx>385</posx>
 					<posy>25</posy>
 					<width>320</width>

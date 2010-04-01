@@ -23,7 +23,7 @@
 		<SkippableContent>URL: </SkippableContent>
 		<URL delimiter="," restOfLine="true"></URL>
 		<SkippableContent restOfLine="true">Description:</SkippableContent>
-		<Description skipTo="*"></Description>
+		<Description skipTo="*LineEnd"></Description>
 		<SkippableContent restOfLine="true"></SkippableContent>		
 	</GameGrammar>
 </parserConfig>

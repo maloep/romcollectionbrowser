@@ -60,6 +60,8 @@ class UIGameDB(xbmcgui.WindowXML):
 	selectedYearIndex = 0
 	selectedPublisherIndex = 0
 	
+	currentView = ''
+	
 	def __init__(self,strXMLname, strFallbackPath, strDefaultName, forceFallback):
 		# Changing the three varibles passed won't change, anything
 		# Doing strXMLname = "bah.xml" will not change anything.
@@ -165,6 +167,31 @@ class UIGameDB(xbmcgui.WindowXML):
 			self.showGameInfo()
 		elif (controlId in GAME_LISTS):
 			self.launchEmu()
+		"""
+		elif (controlId in (2,)):			
+						
+			xbmc.executebuiltin( "Skin.Reset(%s)" %'rcb_thumbs_view')
+			xbmc.executebuiltin( "Skin.Reset(%s)" %'rcb_info_view')
+			xbmc.executebuiltin( "Skin.Reset(%s)" %'rcb_info2_view')
+			
+			if(self.currentView == 'rcb_thumbs_view'):
+				xbmc.executebuiltin( "Skin.SetBool(%s)" %'rcb_info_view')
+				self.currentView = 'rcb_info_view'
+				self.getControlById(50).setVisible(1)
+			elif(self.currentView == 'rcb_info_view'):
+				xbmc.executebuiltin( "Skin.SetBool(%s)" %'rcb_info2_view')
+				self.currentView = 'rcb_info2_view'
+				self.getControlById(52).setVisible(1)
+			elif(self.currentView == 'rcb_info2_view'):
+				xbmc.executebuiltin( "Skin.SetBool(%s)" %'rcb_thumbs_view')
+				self.currentView = 'rcb_thumbs_view'
+				self.getControlById(51).setVisible(1)
+			#self.showGames()
+			#self.showGameInfo()			
+			#self.showGames()
+			#self.setCurrentListPosition(0)
+			"""
+			
 
 
 	def onFocus(self, controlId):		
@@ -434,6 +461,14 @@ class UIGameDB(xbmcgui.WindowXML):
 		if(rcbSetting == None):
 			print "RCB_WARNING: rcbSetting == None in loadViewState"
 			return
+			
+		"""
+		xbmc.executebuiltin( "Skin.Reset(%s)" %'rcb_thumbs_view')
+		xbmc.executebuiltin( "Skin.Reset(%s)" %'rcb_info_view')
+		xbmc.executebuiltin( "Skin.Reset(%s)" %'rcb_info2_view')
+		xbmc.executebuiltin( "Skin.SetBool(%s)" %'rcb_thumbs_view')
+		self.currentView = 'rcb_thumbs_view'
+		"""
 		
 		if(rcbSetting[2] != None):
 			self.selectedConsoleId = int(self.setFilterSelection(CONTROL_CONSOLES, rcbSetting[2]))	
