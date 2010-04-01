@@ -156,7 +156,8 @@ class DBUpdate:
 								#find by crc
 								try:
 									resultcrcs = result['crc']
-									for resultcrc in resultcrcs:										
+									for resultcrc in resultcrcs:
+										self.log("crc in parsed result: " +resultcrc)
 										if(resultcrc.lower() == filecrc.lower()):
 											self.log("result found by crc: " +gamedesc)
 											gamedescription = result

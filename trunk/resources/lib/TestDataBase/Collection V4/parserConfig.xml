@@ -1,29 +1,40 @@
 <parserConfig>
 	<GameGrammar type="multiline">
-		<SkippableContent restOfLine="true"></SkippableContent>
+		<SkippableContent skipTo="LineStart*LineEnd"></SkippableContent>
+		<SkippableContent>LineStart*LineEnd</SkippableContent>
 		<crc restOfLine="true" delimiter=","></crc>
-		<Game restOfLine="true"></Game>		
-		<SkippableContent>Platform: </SkippableContent>
-		<Platform delimiter="," restOfLine="true"></Platform>
-		<SkippableContent>Region: </SkippableContent>
-		<Region delimiter="," restOfLine="true"></Region>
-		<SkippableContent>Media: </SkippableContent>
-		<Media delimiter="," restOfLine="true"></Media>
-		<SkippableContent>Controller: </SkippableContent>
-		<Controller delimiter="," restOfLine="true"></Controller>
-		<SkippableContent>Genre: </SkippableContent>
-		<Genre delimiter="," restOfLine="true"></Genre>
-		<SkippableContent>Release Year: </SkippableContent>
-		<ReleaseYear delimiter="," restOfLine="true"></ReleaseYear>
-		<SkippableContent>Developer: </SkippableContent>
-		<Developer delimiter="," restOfLine="true"></Developer>
-		<SkippableContent>Publisher: </SkippableContent>
-		<Publisher restOfLine="true"></Publisher>
-		<SkippableContent>Players: </SkippableContent>
-		<Players delimiter="," restOfLine="true"></Players>
+		<Game restOfLine="true"></Game>
+		<SkippableContent>Original Title:</SkippableContent>
+		<OriginalTitle optional="true" delimiter="," restOfLine="true"></OriginalTitle>
+		<SkippableContent>Alternate Names:</SkippableContent>
+		<AlternateNames optional="true" delimiter="," restOfLine="true"></AlternateNames>
+		<SkippableContent>Platform:</SkippableContent>
+		<Platform optional="true" delimiter="," restOfLine="true"></Platform>
+		<SkippableContent>Region:</SkippableContent>
+		<Region optional="true" delimiter="," restOfLine="true"></Region>
+		<SkippableContent>Media:</SkippableContent>
+		<Media optional="true" delimiter="," restOfLine="true"></Media>
+		<SkippableContent>Controller:</SkippableContent>
+		<Controller optional="true" delimiter="," restOfLine="true"></Controller>
+		<SkippableContent>Genre:</SkippableContent>
+		<Genre optional="true" delimiter="," restOfLine="true"></Genre>
+		<SkippableContent>Release Year:</SkippableContent>
+		<ReleaseYear optional="true" delimiter="," restOfLine="true"></ReleaseYear>
+		<SkippableContent>Translated By:</SkippableContent>
+		<TranslatedBy optional="true" delimiter="," restOfLine="true"></TranslatedBy>
+		<SkippableContent>Hacked By:</SkippableContent>
+		<HackedBy optional="true" delimiter="," restOfLine="true"></HackedBy>
+		<SkippableContent>Developer:</SkippableContent>
+		<Developer optional="true" delimiter="," restOfLine="true"></Developer>
+		<SkippableContent>Publisher:</SkippableContent>
+		<Publisher optional="true" restOfLine="true"></Publisher>
+		<SkippableContent>Version:</SkippableContent>
+		<Version optional="true" delimiter="," restOfLine="true"></Version>
+		<SkippableContent>Players:</SkippableContent>
+		<Players optional="true" delimiter="," restOfLine="true"></Players>
 		<SkippableContent restOfLine="true"></SkippableContent>
 		<SkippableContent restOfLine="true"></SkippableContent>
-		<Description skipTo="LineStart*LineEnd"></Description>
-		<SkippableContent restOfLine="true"></SkippableContent>		
+		<Description optional="true" skipTo="LineStart*LineEnd"></Description>
+		<SkippableContent>*LineEnd</SkippableContent>		
 	</GameGrammar>
 </parserConfig>
