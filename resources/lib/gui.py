@@ -458,8 +458,10 @@ class UIGameDB(xbmcgui.WindowXML):
 	
 	def loadViewState(self):
 		rcbSetting = helper.getRCBSetting(self.gdb)
-		if(rcbSetting == None):
+		if(rcbSetting == None):			
 			print "RCB_WARNING: rcbSetting == None in loadViewState"
+			focusControl = self.getControlById(CONTROL_BUTTON_SETTINGS)
+			self.setFocus(focusControl)
 			return
 			
 		"""

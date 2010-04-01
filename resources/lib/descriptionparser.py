@@ -17,6 +17,13 @@ from string import lowercase
 from xml.dom.minidom import Document, Node, parseString
 
 
+_mynoncomma = "".join( [ c for c in printables + alphas8bit if c != "," ] )
+_mycommasepitem = Combine(OneOrMore(Word(_mynoncomma) +
+				  Optional( Word(" \t") +
+				  ~Literal(",") + ~LineEnd() ) ) ).streamline().setName("mycommaItem")
+mycommaSeparatedList = delimitedList( Optional( quotedString | _mycommasepitem, default="") ).setName("mycommaSeparatedList")
+
+
 class DescriptionParser:
 	
 	def parseDescription(self, descFile, descParseInstruction, gamename):
@@ -93,7 +100,7 @@ class DescriptionParser:
 				else:
 					nodeGrammar += SkipTo(skipToGrammar)
 				if(skipTo.nodeValue.find('LineEnd') >= 0):
-					print "LineEnd found in: "  +skipTo.nodeValue
+					#print "LineEnd found in: "  +skipTo.nodeValue
 					lineEndReplaced = True
 
 			if(node.nodeName == 'SkippableContent'):
@@ -102,13 +109,13 @@ class DescriptionParser:
 						nodeGrammar = Suppress(literal)
 					else:
 						nodeGrammar += Suppress(literal)
-				
+						
 			delimiter = node.attributes.get('delimiter')
 			if(delimiter != None):
 				if(nodeGrammar == None):
-					nodeGrammar = (Optional(~LineEnd() +commaSeparatedList))
+					nodeGrammar = (Optional(~LineEnd() +mycommaSeparatedList))
 				else:
-					nodeGrammar += (Optional(~LineEnd() +commaSeparatedList))
+					nodeGrammar += (Optional(~LineEnd() +mycommaSeparatedList))
 			elif (isRol):
 				if(nodeGrammar == None):
 					nodeGrammar = rolGrammar
@@ -144,7 +151,7 @@ class DescriptionParser:
 		all = OneOrMore(gameGrammar)		
 		fh = open(str(descFile), 'r')
 		fileAsString = fh.read()		
-		fileAsString = fileAsString.decode('iso-8859-15')		
+		fileAsString = fileAsString.decode('iso-8859-15')
 		
 		results = all.parseString(fileAsString)		
 				
@@ -166,7 +173,7 @@ class DescriptionParser:
 		#print "tokencount: " +str(tokenCount)
 				
 		if(not tokenFound):
-			print "inputString: " +inputString
+			#print "inputString: " +inputString
 			return Literal(inputString)
 			
 		#loop all found tokens
@@ -183,7 +190,7 @@ class DescriptionParser:
 					tokenIndex = index
 					nextToken = token
 				else:
-					print "token not found"
+					#print "token not found"
 					continue
 					
 			#print "nextToken: " +nextToken
@@ -214,12 +221,12 @@ def main():
 	#results = dp.parseDescription('E:\\Emulatoren\\data\\Test synopsis\\xtras_short.txt', 
 	#	'E:\\Emulatoren\\data\\Test synopsis\\xtras.xml', '')
 	
-	results = dp.parseDescription('E:\\Emulatoren\\data\\Testdata V0.4\\Collection V1\\synopsis\\synopsis.txt', 
-		'E:\\Emulatoren\\data\\Testdata V0.4\\Collection V1\\parserConfig.xml', '')
-		
-	print "len results: " +str(len(results))
+	results = dp.parseDescription('E:\\Emulatoren\\data\\Test synopsis\\Synopsis files\\A2600\\synopsis.txt', 
+		'E:\\Emulatoren\\data\\Test synopsis\\Synopsis files\\parserConfig.xml', '')
+			
 	for result in results:
 		print result.asDict()
 	del dp
+	print "len results: " +str(len(results))
 	
 #main()
