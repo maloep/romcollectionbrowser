@@ -110,23 +110,18 @@ class DescriptionParser:
 		
 	
 	def parseDescriptionConfig(self, descFile, descParseInstruction, gamename):
-		print descFile
+		begin = SkipTo(LineStart() +Literal('*') + LineEnd())
 		
-		begin = SkipTo(LineEnd() +Literal('*') + LineEnd())
-		
-		star = Suppress(LineEnd() +Literal('*') + LineEnd())
+		star = Suppress(LineStart() +Literal('*') + LineEnd())
 		star = star.setResultsName('star')
-		#crc = Optional(~LineEnd() +commaSeparatedList).bug() +Suppress(LineEnd())
-		crc = Optional(~LineEnd() +delimitedList(',')) +SkipTo(LineEnd()) +Suppress(LineEnd())
+		crc = Optional((~LineEnd() +commaSeparatedList)) +Optional(Suppress(LineEnd()))
 		crc = crc.setResultsName('crc')
-		
-		#TODO handle different delimiters?
-		
-		#game = Suppress(SkipTo(Literal())) +Literal(gamename) +Suppress(LineEnd())
-		game = Optional(~LineEnd() +delimitedList(',')) +SkipTo(LineEnd())
+		game = SkipTo(LineEnd()) +Suppress(LineEnd())
 		game = game.setResultsName('game')
 		origTitle = Optional(Suppress(Literal('Original Title:')) +(Optional(~LineEnd() +commaSeparatedList)))
 		origTitle = origTitle.setResultsName('origTitle')
+		alternateNames = Optional(Suppress(Literal('Alternate Names:')) +(Optional(~LineEnd() +commaSeparatedList)))
+		alternateNames = alternateNames.setResultsName('alternateNames')
 		platform = Suppress(Literal('Platform:')) +(Optional(~LineEnd() +commaSeparatedList))
 		platform = platform.setResultsName('platform')
 		region = Suppress(Literal('Region:')) +(Optional(~LineEnd() +commaSeparatedList))
@@ -134,8 +129,7 @@ class DescriptionParser:
 		media = Suppress(Literal('Media:')) +(Optional(~LineEnd() +commaSeparatedList))
 		media = media.setResultsName('media')
 		controller = Suppress(Literal('Controller:')) +(Optional(~LineEnd() +commaSeparatedList))
-		controller = controller.setResultsName('controller')
-		#TODO Item Delimiter		
+		controller = controller.setResultsName('controller')		
 		genre = Suppress(Literal('Genre:')) +(Optional(~LineEnd() +commaSeparatedList))
 		genre = genre.setResultsName('genre')				
 		year = Suppress(Literal('Release Year:')) +(Optional(~LineEnd() +commaSeparatedList))
@@ -143,23 +137,23 @@ class DescriptionParser:
 		translatedBy = Optional(Suppress(Literal('Translated By:')) +(Optional(~LineEnd() +commaSeparatedList)))
 		translatedBy = translatedBy.setResultsName('translatedBy')
 		hackedBy = Optional(Suppress(Literal('Hacked By:')) +(Optional(~LineEnd() +commaSeparatedList)))
-		hackedBy = hackedBy.setResultsName('hackedBy')
-		version = Optional(Suppress(Literal('Version:')) +(Optional(~LineEnd() +commaSeparatedList)))
-		version = version.setResultsName('version')		
+		hackedBy = hackedBy.setResultsName('hackedBy')		
 		dev = Optional(Suppress(Literal('Developer:')) +(Optional(~LineEnd() +commaSeparatedList)))
 		dev = dev.setResultsName('developer')
 		publisher = Optional(Suppress(Literal('Publisher:')) +(Optional(~LineEnd() +commaSeparatedList)))
 		publisher = publisher.setResultsName('publisher')
+		version = Optional(Suppress(Literal('Version:')) +(Optional(~LineEnd() +commaSeparatedList)))
+		version = version.setResultsName('version')
 		players = Suppress(Literal('Players:')) +(Optional(~LineEnd() +commaSeparatedList))
 		players = players.setResultsName('players')
-		line = Suppress(Combine(OneOrMore(Literal('_'))))
+		line = Suppress(Combine(OneOrMore(Literal('_'))) +LineEnd())
 		line = line.setResultsName('line')
-		desc = SkipTo(LineEnd() +Literal('*') +LineEnd())
+		desc = SkipTo(LineStart() +Literal('*') +LineEnd())
 		desc = desc.setResultsName('description')
 		delimiter = Optional(Suppress(SkipTo(LineEnd())))
 		
-		gamegrammar = begin + star +crc +game +origTitle +platform + region + media + controller + genre \
-			+ year +translatedBy +hackedBy +version +dev +publisher +players +line + star +desc +star +delimiter
+		gamegrammar = begin.setDebug() + star.setDebug() +crc.setDebug() +game.setDebug() +origTitle +alternateNames +platform.setDebug() + region.setDebug() + media.setDebug() + controller.setDebug() + genre.setDebug() \
+			+ year.setDebug() +translatedBy +hackedBy +dev.setDebug() +publisher.setDebug() +version +players.setDebug() +line.setDebug() + star.setDebug() +desc.setDebug() +star.setDebug() +delimiter.setDebug()
 		
 		gamegrammar = Group(gamegrammar)
 		filegrammar = OneOrMore(gamegrammar)

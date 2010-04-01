@@ -118,6 +118,10 @@ class DescriptionParser:
 			nodeGrammar = nodeGrammar.setResultsName(node.nodeName)
 						
 			if(appendNextNode == False or lineEndReplaced):
+				optional = node.attributes.get('optional')
+				if(optional != None and optional.nodeValue == 'true'):
+					nodeGrammar = Optional(nodeGrammar)
+				
 				grammarList.append(nodeGrammar)	
 				
 			#check if we replaced a LineEnd in skipTo or nodeValue
@@ -202,21 +206,6 @@ class DescriptionParser:
 			print "sub: " +strsub
 			print "newIn: " +inputString
 			tokenIndex = -1
-		
-		"""
-		tuple = inputString.split(token)
-		for i in range(0, len(tuple)):			
-			if(tuple[i] != ''):
-				if(grammar == None):
-					grammar = Literal(tuple[i])
-				else:
-					grammar += Literal(tuple[i])
-			if(i != len(tuple) -1):
-				if(grammar == None):
-					grammar = LineEnd()
-				else:
-					grammar += LineEnd()
-		"""
 				
 		return grammar
 
@@ -234,4 +223,4 @@ def main():
 		print result.asDict()
 	del dp
 	
-main()
+#main()
