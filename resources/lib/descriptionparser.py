@@ -114,7 +114,7 @@ class DescriptionParser:
 					nodeGrammar = rolGrammar
 				else:
 					nodeGrammar += rolGrammar
-				
+					
 			nodeGrammar = nodeGrammar.setResultsName(node.nodeName)
 						
 			if(appendNextNode == False or lineEndReplaced):
@@ -134,11 +134,10 @@ class DescriptionParser:
 					lastNodeGrammar = nodeGrammar
 				else:
 					lastNodeGrammar += nodeGrammar
-				
-
+					
 		grammar = ParserElement()
 		for grammarItem in grammarList:			
-			grammar += grammarItem.setDebug()
+			grammar += grammarItem
 		
 		gameGrammar = Group(grammar)
 		
@@ -162,49 +161,49 @@ class DescriptionParser:
 			tokenCount += inputString.count(token)			
 			if(inputString.find(token) >= 0):				
 				tokenFound = True
-		
-		print "inputString: " +inputString
-		print "tokencount: " +str(tokenCount)
+				
+		#print "inputString: " +inputString
+		#print "tokencount: " +str(tokenCount)
 				
 		if(not tokenFound):
 			print "inputString: " +inputString
 			return Literal(inputString)
-		
+			
 		#loop all found tokens
 		for i in range(0, tokenCount):
 			tokenIndex = -1
 			nextToken = ''
 			#search for the next matching token
 			for token in tokens:
-				print "currentToken: " +token
+				#print "currentToken: " +token
 				index = inputString.find(token)
-				print "index: " +str(index)
-				print "index: " +str(tokenIndex)
+				#print "index: " +str(index)
+				#print "index: " +str(tokenIndex)
 				if(index != -1 and (index <= tokenIndex or tokenIndex == -1)):
 					tokenIndex = index
 					nextToken = token
 				else:
 					print "token not found"
 					continue
-				
-			print "nextToken: " +nextToken
-			print "currentIndex: " +str(tokenIndex)
+					
+			#print "nextToken: " +nextToken
+			#print "currentIndex: " +str(tokenIndex)
 			strsub = inputString[0:tokenIndex]
 			if(strsub != ''):
-				print "adding Literal: " +strsub
+				#print "adding Literal: " +strsub
 				grammar += Literal(strsub)
-			inputString = inputString.replace(nextToken, '', 1)			
+			inputString = inputString.replace(nextToken, '', 1)
 			
 			#TODO only LineStart and LineEnd implemented
-			if(nextToken == 'LineStart'):
-				print "adding LineStart"
+			if(nextToken == 'LineStart'):				
 				grammar += LineStart()
-			elif(nextToken == 'LineEnd'):
-				print "adding LineEnd"
+				#print "adding LineStart"
+			elif(nextToken == 'LineEnd'):				
 				grammar += LineEnd()
+				#print "adding LineEnd"
 				
-			print "sub: " +strsub
-			print "newIn: " +inputString
+			#print "sub: " +strsub
+			#print "newIn: " +inputString
 			tokenIndex = -1
 				
 		return grammar
