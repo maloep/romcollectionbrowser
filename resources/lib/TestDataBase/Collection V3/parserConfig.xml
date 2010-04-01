@@ -23,7 +23,7 @@
 		<Players delimiter="," restOfLine="true"></Players>
 		<SkippableContent restOfLine="true"></SkippableContent>
 		<SkippableContent restOfLine="true"></SkippableContent>
-		<Description skipTo="*"></Description>
+		<Description skipTo="LineStart*LineEnd"></Description>
 		<SkippableContent restOfLine="true"></SkippableContent>		
 	</GameGrammar>
 </parserConfig>

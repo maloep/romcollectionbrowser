@@ -156,7 +156,7 @@ class DescriptionParser:
 		line = line.setResultsName('line')
 		desc = SkipTo(LineEnd() +Literal('*') +LineEnd())
 		desc = desc.setResultsName('description')
-		delimiter = Suppress(SkipTo(LineEnd()))
+		delimiter = Optional(Suppress(SkipTo(LineEnd())))
 		
 		gamegrammar = begin + star +crc +game +origTitle +platform + region + media + controller + genre \
 			+ year +translatedBy +hackedBy +version +dev +publisher +players +line + star +desc +star +delimiter

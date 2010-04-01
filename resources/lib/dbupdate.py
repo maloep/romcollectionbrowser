@@ -229,10 +229,12 @@ class DBUpdate:
 			perspective = self.resolveParseResult(gamedescription.Perspective, 'Perspective')		
 		
 			self.log("Result Game (from parser) = " +str(gamedescription.Game))
-			gamename = gamedescription.Game[0].strip()
+			#gamename = gamedescription.Game[0].strip()
+			gamename = self.resolveParseResult(gamedescription.Game, 'Game')
+			plot = self.resolveParseResult(gamedescription.Description, 'Description')
 			
 			self.log("Result Game (as string) = " +gamename)
-			gameId = self.insertGame(gamename, gamedescription.Description[0], romCollectionId, publisherId, developerId, reviewerId, yearId, 
+			gameId = self.insertGame(gamename, plot, romCollectionId, publisherId, developerId, reviewerId, yearId, 
 				players, rating, votes, url, region, media, perspective, controller, allowUpdate)
 				
 			for genreId in genreIds:
@@ -363,7 +365,7 @@ class DBUpdate:
 			item = result[0].strip()
 		else:
 			item = ""
-		self.log("Result " +itemName +" (as string) = " +item)
+		self.log("Result " +itemName +" (as string) = " +item.encode('iso-8859-15'))
 		return item
 	
 	
