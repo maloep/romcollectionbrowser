@@ -93,7 +93,8 @@ class DBUpdate:
 					
 				self.log("Files read: " +str(files))
 					
-				lastgamename = ""				
+				lastgamenameFromFile = ""
+				lastgamename = ""
 					
 				for filename in files:
 					subrom = False
@@ -115,9 +116,9 @@ class DBUpdate:
 					gui.writeMsg("Importing Game: " +gamename)
 					
 					
-					if(gamename == lastgamename):
+					if(gamename == lastgamenameFromFile):
 						self.log("handling multi rom game: " +lastgamename)
-						gameRow = Game(self.gdb).getOneByName(gamename)
+						gameRow = Game(self.gdb).getOneByName(lastgamename)
 						if(gameRow == None):
 							self.log("WARNING: multi rom game could not be read from database. "\
 								"This usually happens if game name in description file differs from game name in rom file name.")
@@ -126,7 +127,9 @@ class DBUpdate:
 						self.gdb.commit()
 						continue
 						
-					lastgamename = gamename							
+					#lastgamename may be overwritten by parsed gamename
+					lastgamenameFromFile = gamename
+					lastgamename = gamename
 					
 
 					gamedescription = Empty()
@@ -151,17 +154,21 @@ class DBUpdate:
 								if (gamedesc.strip() == gamename.strip()):
 									self.log("result found by filename: " +gamedesc)
 									gamedescription = result
-									continue
+									break
 								
 								#find by crc
 								try:
+									resultFound = False
 									resultcrcs = result['crc']
 									for resultcrc in resultcrcs:
 										self.log("crc in parsed result: " +resultcrc)
 										if(resultcrc.lower() == filecrc.lower()):
 											self.log("result found by crc: " +gamedesc)
 											gamedescription = result
-											continue
+											resultFound = True
+											break
+									if(resultFound):
+										break
 											
 								except:
 									pass
@@ -175,12 +182,15 @@ class DBUpdate:
 						results = self.parseDescriptionFile(str(descriptionPath), str(descParserFile), gamename)
 						if(results == None):
 							self.log("WARNING: game description for game " +gamename +" could not be parsed. Importing game without description.")
-							lastgamename = ""							
+							lastgamenameFromFile = ""							
 							#continue
 						else:
 							gamedescription = results[0]
-					
+							
+					if(gamedescription != Empty()):
+						lastgamename = self.resolveParseResult(gamedescription.Game, 'Game')
 					self.insertData(gamedescription, gamename, romCollectionRow[0], filename, allowUpdate)
+					
 		gui.writeMsg("Done.")
 		self.exit()
 		
@@ -213,7 +223,7 @@ class DBUpdate:
 	def insertData(self, gamedescription, gamenameFromFile, romCollectionId, romFile, allowUpdate):
 		self.log("Insert data")	
 				
-		if(gamedescription != Empty()):			
+		if(gamedescription != Empty()):
 			yearId = self.insertForeignKeyItem(gamedescription.ReleaseYear, 'Year', Year(self.gdb))
 			genreIds = self.insertForeignKeyItemList(gamedescription.Genre, 'Genre', Genre(self.gdb))		
 			publisherId = self.insertForeignKeyItem(gamedescription.Publisher, 'Publisher', Publisher(self.gdb))
@@ -307,10 +317,10 @@ class DBUpdate:
 		#if(result != Empty()):
 		if(len(result) != 0):
 			item = result[0].strip()
-			self.log("Result "  +itemName +" (as string) = " +item)
+			self.log("Result "  +itemName +" (as string) = " +item.encode('iso-8859-15'))
 			itemRow = gdbObject.getOneByName(item)
 			if(itemRow == None):	
-				self.log(itemName +" does not exist in database. Insert: " +item)
+				self.log(itemName +" does not exist in database. Insert: " +item.encode('iso-8859-15'))
 				gdbObject.insert((item,))
 				itemId = self.gdb.cursor.lastrowid
 			else:
@@ -327,10 +337,10 @@ class DBUpdate:
 		
 		for resultItem in resultList:			
 			item = resultItem.strip()
-			self.log("Result " +itemName +" (as string) = " +item)
+			self.log("Result " +itemName +" (as string) = " +item.encode('iso-8859-15'))
 			itemRow = gdbObject.getOneByName(item)
 			if(itemRow == None):
-				self.log(itemName +" does not exist in database. Insert: " +item)
+				self.log(itemName +" does not exist in database. Insert: " +item.encode('iso-8859-15'))
 				gdbObject.insert((item,))
 				idList.append(self.gdb.cursor.lastrowid)
 			else:
@@ -343,17 +353,21 @@ class DBUpdate:
 		resolvedFiles = []
 				
 		for path in paths:
+			files = []
 			self.log("resolve path: " +path)
 			pathnameFromGameName = path.replace("%GAME%", gamename)			
 			self.log("resolved path from game name: " +pathnameFromGameName)
 			files = glob.glob(pathnameFromGameName)
+			self.log("resolved files: " +str(files))
 			
-			if(gamename != gamenameFromFile):
+			if(gamename != gamenameFromFile and len(files) == 0):
 				pathnameFromFile = path.replace("%GAME%", gamenameFromFile)
 				self.log("resolved path from file name: " +pathnameFromFile)			
 				files = glob.glob(pathnameFromFile)
-			
-			self.log("resolved files: " +str(files))
+				self.log("resolved files: " +str(files))
+						
+			if(len(files) == 0):
+				self.log("WARNING: No files found for game %s. Make sure that rom name and file name are matching." %gamename)
 			for file in files:
 				if(os.path.exists(file)):
 					resolvedFiles.append(file)		

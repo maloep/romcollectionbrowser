@@ -1,4 +1,5 @@
 Game: Ports Of Call
+CRC:
 Platform: Amiga
 Region: USA
 Media: Disk
@@ -17,6 +18,7 @@ Ports of Call is a classic German business simulation with some action sequences
 Up to 4 captains can play at one computer.
 ********************************************************************
 Game: Airborne Ranger
+CRC:
 Platform: Amiga
 Region: 
 Media: 
@@ -37,6 +39,7 @@ Missions take place in either an arctic, desert or temperate setting. Using the 
 Airborne Ranger can be played in practice or veteran mode. In practice mode, gameplay is limited to a single mission, while in veteran mode, a series of missions or an entire campaign is played in order to earn medals &amp; promotions. All missions can be played on several difficulty levels.
 ********************************************************************
 Game: Dogfight
+CRC:
 Platform: Amiga
 Region: 
 Media: 
@@ -61,6 +64,7 @@ Control of your plane is imperative. Climbing too fast will put you into a stall
 Written in AMOS, Dogfight will let the players go on as long as they want, so the winner is usually he who first reaches a score set according to a gentlemans agreement.
 ********************************************************************
 Game: Eliminator
+CRC:
 Platform: Amiga
 Region: 
 Media: 
@@ -75,6 +79,7 @@ Description:
 A shoot em up set on a patchwork-quilt coloured road, Eliminator puts you in control of a ship with a basic weapon, flying along at breakneck speed. There are barriers along the way to avoid, often set in quick succession, and lots of bad guys to shoot at or avoid - their shots must be avoided too. Some parts of the track are blocked unless you can shoot through obstacles before reaching them, or hit a jump pad. At some points you can change to travelling along the ceiling as well. Tokens can be collected en route, and used to obtain better weapons, but losing a life costs you the best one you’ve currently got.
 ********************************************************************
 Game: Football Glory
+CRC:
 Platform: Amiga
 Region: 
 Media: 
@@ -90,7 +95,8 @@ From Croatia came this overhead view football game resembling Sensible Soccer. T
 
 Far more moves are possible in this one though, including overhead kicks, backheelers, riding tackles and even some impressive overhead kicks, all of which need practice to be perfected. Passing works in a similar way to Sensible, but requiring a longer tap, and giving more versatility in where the pass is placed. Extra details such as an on-screen referee and a zoom feature on replays are included. Kits can be edited in more detail than most games of the time as well.
 ********************************************************************
-Game: Formula One Grand Prix
+Game: Formula One: Grand Prix
+CRC: E2146BBF
 Platform: Amiga
 Region: 
 Media: 
@@ -109,6 +115,7 @@ There are slight differences between the two modes. For instance, &quot;Arcade&q
 F1 is a 1-2 player game, meaning that if you have another player handy, you can compete against each other.
 ********************************************************************
 Game: Hanse - Die Expedition
+CRC:
 Platform: Amiga
 Region: 
 Media: 

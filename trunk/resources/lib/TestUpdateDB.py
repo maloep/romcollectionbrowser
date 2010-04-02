@@ -101,7 +101,7 @@ class TestUpdateDB(unittest.TestCase):
 		self.gameTest(gameRows[6], 'Football Glory', 'From Croatia came this overhead view football game resembling Sensible Soccer.', 
 			None,  None, 2, 6, 6, None, 6, '1-2 Players', '', '', 'http://www.mobygames.com/game/amiga/football-glory', '', '', '', '', 0, 0,
 			3, 1, 1, 0, 0, 0)
-		self.gameTest(gameRows[7], 'Formula One Grand Prix', 'F1 is an Official Formula One Racing Game.', 
+		self.gameTest(gameRows[7], 'Formula One: Grand Prix', 'F1 is an Official Formula One Racing Game.', 
 			None,  None, 1, 3, 3, None, 3, '????', '', '', 'http://www.mobygames.com/game/amiga/formula-one_', '', '', '', '', 0, 0,
 			4, 1, 1, 0, 0, 0)
 		self.gameTest(gameRows[8], 'Hanse - Die Expedition', 'Hanse makes you a trader in the 13th Century.', 

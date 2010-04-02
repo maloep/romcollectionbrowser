@@ -2,6 +2,8 @@
 	<GameGrammar type="multiline">
 		<SkippableContent>Game: </SkippableContent>		
 		<Game restOfLine="true"></Game>		
+		<SkippableContent>CRC:</SkippableContent>		
+		<crc restOfLine="true"></crc>
 		<SkippableContent>Platform: </SkippableContent>
 		<Platform delimiter="," restOfLine="true"></Platform>
 		<SkippableContent>Region: </SkippableContent>
