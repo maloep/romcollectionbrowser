@@ -221,8 +221,8 @@ def main():
 	#results = dp.parseDescription('E:\\Emulatoren\\data\\Test synopsis\\xtras_short.txt', 
 	#	'E:\\Emulatoren\\data\\Test synopsis\\xtras.xml', '')
 	
-	results = dp.parseDescription('E:\\Emulatoren\\data\\Test synopsis\\Synopsis files\\A2600\\synopsis.txt', 
-		'E:\\Emulatoren\\data\\Test synopsis\\Synopsis files\\parserConfig.xml', '')
+	results = dp.parseDescription('E:\\Emulatoren\\data\\Test synopsis\\SNES_1.01_2.txt', 
+		'E:\\Emulatoren\\data\\Test synopsis\\parserConfig 1.0.1.xml', '')
 			
 	for result in results:
 		print result.asDict()
