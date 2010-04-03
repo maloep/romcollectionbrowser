@@ -236,7 +236,7 @@
 					<posx>385</posx>
 					<posy>15</posy>
 					<width>320</width>
-					<height>540</height>
+					<height>560</height>
 					<texture>rcb-ContentPanel.png</texture>
 					<colordiffuse>DDFFFFFF</colordiffuse>
 					<visible>Control.IsVisible(52)</visible>
@@ -317,7 +317,7 @@
 						<posx>0</posx>
 						<posy>0</posy>
 						<width>330</width>
-						<height>540</height>
+						<height>560</height>
 						<texture>rcb-ContentPanel.png</texture>
 						<colordiffuse>DDFFFFFF</colordiffuse>						
 					</control>
