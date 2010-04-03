@@ -68,8 +68,6 @@ class UIGameInfoView(xbmcgui.WindowXMLDialog):
 		self.selectedGameIndex = kwargs[ "selectedGameIndex" ]		
 		self.selectedControlIdMainView = kwargs["controlIdMainView"]
 		
-		self.doModal()
-		
 		
 	def onInit(self):
 		self.showGameList()

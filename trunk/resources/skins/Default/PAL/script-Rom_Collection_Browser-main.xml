@@ -38,10 +38,10 @@
 					<posy>320</posy>
 					<width>720</width>
 					<height>250</height>
-					<onleft>500</onleft>
-					<onright>1500</onright>
-					<onup>500</onup>
-					<ondown>3000</ondown>
+					<onleft>50</onleft>
+					<onright>50</onright>
+					<onup>2200</onup>
+					<ondown>500</ondown>
 					<orientation>horizontal</orientation>
 					<focusposition>2</focusposition>
 					<viewtype label="Info">wrap</viewtype>	
@@ -109,7 +109,7 @@
 					</control>
 					<!-- mainviewgameinfo (also used for console image) -->
 					<control type="image" id="2000">
-							<description>console image</description>
+							<description>mainviewgameinfo</description>
 							<posx>15</posx>
 							<posy>15</posy>
 							<width>300</width>
@@ -128,7 +128,7 @@
 						<align>justify</align>
 						<font>font12</font>
 						<label>$INFO[ListItem.Property(gamedesc)]</label>
-						<autoscroll delay="3000" time="1000" repeat="10000">!Control.HasFocus(2200)</autoscroll>
+						<!--<autoscroll delay="3000" time="1000" repeat="10000">!Control.HasFocus(2200)</autoscroll>-->
 					</control>
 					<control type="scrollbar" id="2200">
 						<description>ConsoleDesc Scrollbar</description>
@@ -147,8 +147,8 @@
 						<showonepage>false</showonepage>
 						<onup>2200</onup>
 						<ondown>2200</ondown>
-						<onleft>3200</onleft>
-						<onright>800</onright>
+						<onleft>500</onleft>
+						<onright>50</onright>
 					</control>
 				</control>
 			</control>
@@ -171,8 +171,8 @@
 					<posy>120</posy>
 					<width>720</width>
 					<height>400</height>
-					<onleft>500</onleft>
-					<onright>1500</onright>
+					<onleft>51</onleft>
+					<onright>51</onright>
 					<onup>500</onup>
 					<ondown>3000</ondown>
 					<orientation>horizontal</orientation>
@@ -247,8 +247,8 @@
 					<posy>25</posy>
 					<width>320</width>
 					<height>540</height>
-					<onleft>500</onleft>
-					<onright>3000</onright>
+					<onleft>2201</onleft>
+					<onright>500</onright>
 					<onup>52</onup>
 					<ondown>52</ondown>					
 					<viewtype label="Info 2">list</viewtype>	
@@ -354,7 +354,7 @@
 						<align>justify</align>
 						<font>font12</font>
 						<label>$INFO[ListItem.Property(gamedesc)]</label>
-						<autoscroll delay="3000" time="1000" repeat="10000">!Control.HasFocus(2200)</autoscroll>
+						<!--<autoscroll delay="3000" time="1000" repeat="10000">!Control.HasFocus(2201)</autoscroll>-->
 					</control>
 					<control type="scrollbar" id="2201">
 						<description>ConsoleDesc Scrollbar</description>
@@ -362,7 +362,7 @@
 						<posy>300</posy>
 						<width>5</width>
 						<height>220</height>
-						<visible>Control.IsVisible(2100)</visible>
+						<visible>Control.IsVisible(2101)</visible>
 						<texturesliderbackground>scrollbar-bg.png</texturesliderbackground>
 						<texturesliderbar>scrollbar-bar.png</texturesliderbar>
 						<texturesliderbarfocus>scrollbar-barFocus.png</texturesliderbarfocus>
@@ -373,8 +373,8 @@
 						<showonepage>false</showonepage>
 						<onup>2201</onup>
 						<ondown>2201</ondown>
-						<onleft>3200</onleft>
-						<onright>800</onright>
+						<onleft>500</onleft>
+						<onright>52</onright>
 					</control>			
 				</control>				
 			</control>		
@@ -626,7 +626,7 @@
 				<width>125</width>
 				<height>96</height>
 				<onleft>700</onleft>
-				<onright>500</onright>
+				<onright>2</onright>
 				<onup>800</onup>
 				<ondown>800</ondown>
 				<viewtype label="Year">wrap</viewtype>
@@ -767,7 +767,7 @@
 				<onup>50</onup>
 				<ondown>500</ondown>
 				<onleft>3100</onleft>
-				<onright>2200</onright>
+				<onright>800</onright>				
 			</control>
 		</control>
 		

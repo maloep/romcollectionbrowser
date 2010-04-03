@@ -148,7 +148,7 @@
 			<diskPrefix>_Disk</diskPrefix>
 			<typeOfManual>Text</typeOfManual>
 			<allowUpdate>False</allowUpdate>
-			<ignoreOnScan>False</ignoreOnScan>
+			<ignoreOnScan>True</ignoreOnScan>
 			<romPath>E:\Emulatoren\data\Testdata V0.4\Collection V4\Roms\*.zip</romPath>
 			<romPath>E:\Emulatoren\data\Testdata V0.4\Collection V4\Roms\*.smc</romPath>
 			<descFilePath>E:\Emulatoren\data\Testdata V0.4\Collection V4\Synopsis\synopsis.txt</descFilePath>
