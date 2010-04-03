@@ -240,7 +240,6 @@ class DBUpdate:
 			perspective = self.resolveParseResult(gamedescription.Perspective, 'Perspective')		
 		
 			self.log("Result Game (from parser) = " +str(gamedescription.Game))
-			#gamename = gamedescription.Game[0].strip()
 			gamename = self.resolveParseResult(gamedescription.Game, 'Game')
 			plot = self.resolveParseResult(gamedescription.Description, 'Description')
 			

@@ -30,6 +30,7 @@ CONTROL_YEAR = 700
 CONTROL_PUBLISHER = 800
 FILTER_CONTROLS = (500, 600, 700, 800,)
 GAME_LISTS = (50, 51, 52, 53,)
+CONROL_SCROLLBARS = (2200, 2201,)
 
 CONTROL_IMG_BACK = 75
 
@@ -95,6 +96,8 @@ class UIGameDB(xbmcgui.WindowXML):
 		self.showGenre()		
 		self.showYear()
 		self.showPublisher()
+		self.showGames()
+		self.showGameInfo()
 		
 
 	def onAction(self, action):		
@@ -110,13 +113,19 @@ class UIGameDB(xbmcgui.WindowXML):
 			if(CONTROL_GAMES_GROUP_START <= self.selectedControlId <= CONTROL_GAMES_GROUP_END):
 				self.showGameInfo()
 			
-			if(self.selectedControlId in FILTER_CONTROLS):
+			elif(self.selectedControlId in FILTER_CONTROLS):
+				
 				label = str(control.getSelectedItem().getLabel())
 				label2 = str(control.getSelectedItem().getLabel2())
 					
-				if (self.selectedControlId == CONTROL_CONSOLES):				
-					self.selectedConsoleId = int(label2)
-					self.selectedConsoleIndex = control.getSelectedPosition()
+				filterChanged = False
+				
+				if (self.selectedControlId == CONTROL_CONSOLES):
+					if(self.selectedConsoleIndex != control.getSelectedPosition()):
+						self.selectedConsoleId = int(label2)
+						self.selectedConsoleIndex = control.getSelectedPosition()
+						filterChanged = True
+					
 					#consoleId 0 = Entry "All"
 					if (self.selectedConsoleId == 0):
 						pass
@@ -125,16 +134,22 @@ class UIGameDB(xbmcgui.WindowXML):
 					else:
 						self.showConsoleInfo()
 				elif (self.selectedControlId == CONTROL_GENRE):
-					self.selectedGenreId = int(label2)
-					self.selectedGenreIndex = control.getSelectedPosition()
+					if(self.selectedGenreIndex != control.getSelectedPosition()):
+						self.selectedGenreId = int(label2)
+						self.selectedGenreIndex = control.getSelectedPosition()
+						filterChanged = True
 				elif (self.selectedControlId == CONTROL_YEAR):
-					self.selectedYearId = int(label2)
-					self.selectedYearIndex = control.getSelectedPosition()
+					if(self.selectedYearIndex != control.getSelectedPosition()):
+						self.selectedYearId = int(label2)
+						self.selectedYearIndex = control.getSelectedPosition()
+						filterChanged = True
 				elif (self.selectedControlId == CONTROL_PUBLISHER):
-					self.selectedPublisherId = int(label2)
-					self.selectedPublisherIndex = control.getSelectedPosition()
-					
-				self.showGames()
+					if(self.selectedPublisherIndex != control.getSelectedPosition()):
+						self.selectedPublisherId = int(label2)
+						self.selectedPublisherIndex = control.getSelectedPosition()
+						filterChanged = True
+				if(filterChanged):					
+					self.showGames()
 		elif(action.getId() in ACTION_MOVEMENT_LEFT or action.getId() in ACTION_MOVEMENT_RIGHT):
 			control = self.getControlById(self.selectedControlId)
 			if(control == None):
@@ -194,7 +209,7 @@ class UIGameDB(xbmcgui.WindowXML):
 			
 
 
-	def onFocus(self, controlId):		
+	def onFocus(self, controlId):
 		self.selectedControlId = controlId
 	
 	
@@ -260,9 +275,9 @@ class UIGameDB(xbmcgui.WindowXML):
 		self.selectedPublisherId = self.showFilterControl(Publisher(self.gdb), CONTROL_PUBLISHER, showEntryAllItems)
 
 
-	def showGames(self):		
+	def showGames(self):
 		
-		games = Game(self.gdb).getFilteredGames(self.selectedConsoleId, self.selectedGenreId, self.selectedYearId, self.selectedPublisherId)		
+		games = Game(self.gdb).getFilteredGames(self.selectedConsoleId, self.selectedGenreId, self.selectedYearId, self.selectedPublisherId)			
 		
 		self.writeMsg("loading games...")
 		
@@ -281,9 +296,7 @@ class UIGameDB(xbmcgui.WindowXML):
 		
 		xbmcgui.unlock()
 				
-		self.writeMsg("")
-		
-		
+		self.writeMsg("")			
 		
 
 	def showConsoleInfo(self):	
@@ -314,9 +327,10 @@ class UIGameDB(xbmcgui.WindowXML):
 		"""
 		
 	
-	def showGameInfo(self):		
-					
+	def showGameInfo(self):
+		
 		if(self.getListSize() == 0):
+			print "RCB_WARNING: ListSize == 0 in showGameInfo"
 			return
 					
 		pos = self.getCurrentListPosition()
@@ -379,7 +393,7 @@ class UIGameDB(xbmcgui.WindowXML):
 		
 	def updateDB(self):		
 		dbupdate.DBUpdate().updateDB(self.gdb, self)
-		self.updateControls()
+		self.updateControls()		
 		
 	
 	def importSettings(self):
@@ -555,20 +569,25 @@ class UIGameDB(xbmcgui.WindowXML):
 			consoleId=self.selectedConsoleId, genreId=self.selectedGenreId, yearId=self.selectedYearId, publisherId=self.selectedPublisherId, selectedGameIndex=selectedGameIndex,
 			consoleIndex=self.selectedConsoleIndex, genreIndex=self.selectedGenreIndex, yearIndex=self.selectedYearIndex, publisherIndex=self.selectedPublisherIndex, 
 			controlIdMainView=self.selectedControlId)
+		gid.doModal()
 		del gid
 				
 		
 		self.setFocus(self.getControl(CONTROL_GAMES_GROUP_START))
 		self.showGames()
 		self.setCurrentListPosition(selectedGameIndex)
+		self.showGameInfo()
+		
 		
 	
 	def getControlById(self, controlId):
 		try:
 			control = self.getControl(controlId)
 		except: 
-			print("RCB ERROR: Control with id: %s could not be found. Check WindowXML file." %str(controlId))
-			self.writeMsg("Control with id: %s could not be found. Check WindowXML file." %str(controlId))
+			#HACK there seems to be a problem with recognizing the scrollbar controls
+			if(controlId not in (CONROL_SCROLLBARS)):
+				print("RCB ERROR: Control with id: %s could not be found. Check WindowXML file." %str(controlId))
+				self.writeMsg("Control with id: %s could not be found. Check WindowXML file." %str(controlId))
 			return None
 		
 		return control
