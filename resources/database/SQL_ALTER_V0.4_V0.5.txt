@@ -1,0 +1,11 @@
+
+
+ALTER TABLE RomCollection ADD COLUMN [searchGameByCRC] INTEGER;
+ALTER TABLE RomCollection ADD COLUMN [searchGameByCRCIgnoreRomName] INTEGER;
+ALTER TABLE RomCollection ADD COLUMN [ignoreGameWithoutDesc] INTEGER;
+
+UPDATE RomCollection SET searchGameByCRC = 'True';
+UPDATE RomCollection SET searchGameByCRCIgnoreRomName = 'False';
+UPDATE RomCollection SET ignoreGameWithoutDesc = 'True';
+
+UPDATE RCBSetting SET dbVersion = 'V0.5';

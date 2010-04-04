@@ -72,6 +72,9 @@ class SettingsImporter:
 			typeOfManual = self.getElementValue(romCollection, 'typeOfManual')
 			allowUpdate = self.getElementValue(romCollection, 'allowUpdate')
 			ignoreOnScan = self.getElementValue(romCollection, 'ignoreOnScan')
+			searchGameByCRC = self.getElementValue(romCollection, 'searchGameByCRC')
+			searchGameByCRCIgnoreRomName = self.getElementValue(romCollection, 'searchGameByCRCIgnoreRomName')
+			ignoreGameWithoutDesc = self.getElementValue(romCollection, 'ignoreGameWithoutDesc')
 				
 			
 			romPaths = self.getElementValues(romCollection, 'romPath')
@@ -82,7 +85,8 @@ class SettingsImporter:
 			
 			#import romCollection first to obtain the id
 			romCollectionId = self.insertRomCollection(consoleName, romCollName, emuCmd, emuSolo, escapeCmd, relyOnNaming, startWithDescFile, 
-				descFilePerGame, descParserFile, diskPrefix, typeOfManual, allowUpdate, ignoreOnScan)
+				descFilePerGame, descParserFile, diskPrefix, typeOfManual, allowUpdate, ignoreOnScan, searchGameByCRC, 
+				searchGameByCRCIgnoreRomName, ignoreGameWithoutDesc)
 			
 			
 			self.insertPaths(romCollectionId, romPaths, 'rcb_rom')
@@ -220,7 +224,8 @@ class SettingsImporter:
 	
 	
 	def insertRomCollection(self, consoleName, romCollName, emuCmd, emuSolo, escapeCmd, relyOnNaming, startWithDescFile, 
-				descFilePerGame, descParserFile, diskPrefix, typeOfManual, allowUpdate, ignoreOnScan):		
+				descFilePerGame, descParserFile, diskPrefix, typeOfManual, allowUpdate, ignoreOnScan, searchGameByCRC, 
+				searchGameByCRCIgnoreRomName, ignoreGameWithoutDesc):		
 		
 		consoleRow = Console(self.gdb).getOneByName(consoleName)
 		if(consoleRow == None):
@@ -230,12 +235,14 @@ class SettingsImporter:
 		romCollectionRow = RomCollection(self.gdb).getOneByName(romCollName)
 		if(romCollectionRow == None):		
 			RomCollection(self.gdb).insert((romCollName, consoleId, emuCmd, emuSolo, escapeCmd, descParserFile, relyOnNaming, 
-			startWithDescFile, descFilePerGame, diskPrefix, typeOfManual, allowUpdate, ignoreOnScan))
+			startWithDescFile, descFilePerGame, diskPrefix, typeOfManual, allowUpdate, ignoreOnScan, searchGameByCRC, searchGameByCRCIgnoreRomName, 
+			ignoreGameWithoutDesc))
 			romCollectionId = self.gdb.cursor.lastrowid
 		else:
 			RomCollection(self.gdb).update(('name', 'consoleId', 'emuCommandline', 'useEmuSolo', 'escapeEmuCmd', 'descriptionParserFile', 'relyOnFileNaming', 'startWithDescFile',
-								'descFilePerGame', 'diskPrefix', 'typeOfManual', 'allowUpdate', 'ignoreOnScan'),
-								(romCollName, consoleId, emuCmd, emuSolo, escapeCmd, descParserFile, relyOnNaming, startWithDescFile, descFilePerGame, diskPrefix, typeOfManual, allowUpdate, ignoreOnScan),
+								'descFilePerGame', 'diskPrefix', 'typeOfManual', 'allowUpdate', 'ignoreOnScan', 'searchGameByCRC', 'searchGameByCRCIgnoreRomName', 'ignoreGameWithoutDesc'),
+								(romCollName, consoleId, emuCmd, emuSolo, escapeCmd, descParserFile, relyOnNaming, startWithDescFile, descFilePerGame, diskPrefix, typeOfManual, allowUpdate, 
+								ignoreOnScan, searchGameByCRC, searchGameByCRCIgnoreRomName, ignoreGameWithoutDesc),
 								romCollectionRow[0])
 			
 			romCollectionId = romCollectionRow[0]

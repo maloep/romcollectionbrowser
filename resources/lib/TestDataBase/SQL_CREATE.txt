@@ -91,7 +91,10 @@ CREATE TABLE IF NOT EXISTS [RomCollection]
 	[diskPrefix] TEXT,
 	[typeOfManual] TEXT,
 	[allowUpdate] INTEGER,
-	[ignoreOnScan] INTEGER
+	[ignoreOnScan] INTEGER,
+	[searchGameByCRC] INTEGER,
+	[searchGameByCRCIgnoreRomName] INTEGER,
+	[ignoreGameWithoutDesc] INTEGER
 );
 
 CREATE TABLE IF NOT EXISTS [FileTypeForControl]

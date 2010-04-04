@@ -36,6 +36,9 @@
 			<typeOfManual>Text</typeOfManual>
 			<allowUpdate>False</allowUpdate>
 			<ignoreOnScan>False</ignoreOnScan>
+			<searchGameByCRC>True</searchGameByCRC>
+			<searchGameByCRCIgnoreRomName>False</searchGameByCRCIgnoreRomName>
+			<ignoreGameWithoutDesc>True</ignoreGameWithoutDesc>
 			<romPath>TestDataBase\Collection V1\roms\*.adf</romPath>
 			<romPath>TestDataBase\Collection V1\roms\*.ADF</romPath>
 			<descFilePath>TestDataBase\Collection V1\synopsis\synopsis.txt</descFilePath>
@@ -68,6 +71,9 @@
 			<typeOfManual>Text</typeOfManual>
 			<allowUpdate>False</allowUpdate>
 			<ignoreOnScan>False</ignoreOnScan>
+			<searchGameByCRC>True</searchGameByCRC>
+			<searchGameByCRCIgnoreRomName>False</searchGameByCRCIgnoreRomName>
+			<ignoreGameWithoutDesc>False</ignoreGameWithoutDesc>
 			<romPath>TestDataBase\Collection V2\roms\*.adf</romPath>
 			<romPath>TestDataBase\Collection V2\roms\*.ADF</romPath>
 			<descFilePath>TestDataBase\Collection V2\synopsis\%GAME%\synopsis.txt</descFilePath>
@@ -100,6 +106,9 @@
 			<typeOfManual>Text</typeOfManual>
 			<allowUpdate>False</allowUpdate>
 			<ignoreOnScan>False</ignoreOnScan>
+			<searchGameByCRC>True</searchGameByCRC>
+			<searchGameByCRCIgnoreRomName>False</searchGameByCRCIgnoreRomName>
+			<ignoreGameWithoutDesc>False</ignoreGameWithoutDesc>
 			<romPath>TestDataBase\Collection V3\roms\*.zip</romPath>
 			<romPath>TestDataBase\Collection V3\roms\*.smc</romPath>
 			<descFilePath>TestDataBase\Collection V3\description\synopsis.txt</descFilePath>
@@ -143,6 +152,9 @@
 			<typeOfManual>Text</typeOfManual>
 			<allowUpdate>False</allowUpdate>
 			<ignoreOnScan>False</ignoreOnScan>
+			<searchGameByCRC>True</searchGameByCRC>
+			<searchGameByCRCIgnoreRomName>True</searchGameByCRCIgnoreRomName>
+			<ignoreGameWithoutDesc>False</ignoreGameWithoutDesc>
 			<romPath>TestDataBase\Collection V4\Roms\*.zip</romPath>
 			<romPath>TestDataBase\Collection V4\Roms\*.smc</romPath>
 			<descFilePath>TestDataBase\Collection V4\Synopsis\synopsis.txt</descFilePath>
