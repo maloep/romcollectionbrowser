@@ -45,20 +45,33 @@ class DBUpdate:
 						
 			ignoreOnScan = romCollectionRow[13]
 			self.log("ignoreOnScan: " +ignoreOnScan)
+			#TODO: correct handling of boolean values
 			if(ignoreOnScan == 'True'):
 				self.log("current Rom Collection will be ignored.")
 				continue
 			
 			descParserFile = romCollectionRow[6]
 			self.log("using parser file: " +descParserFile)
+			descFilePerGame = romCollectionRow[9]
+			self.log("using one description file per game: " +descFilePerGame)
 			descriptionPath = Path(self.gdb).getDescriptionPathByRomCollectionId(romCollectionRow[0])				
 			self.log("using game descriptions: " +descriptionPath)
 			allowUpdate = romCollectionRow[12]
 			self.log("update is allowed for current rom collection: " +allowUpdate)
+			searchGameByCRC = romCollectionRow[14]
+			self.log("search game by CRC: " +searchGameByCRC)
+			searchGameByCRCIgnoreRomName = romCollectionRow[15]
+			self.log("ignore rom filename when searching game by CRC: " +searchGameByCRCIgnoreRomName)
+			ignoreGameWithoutDesc = romCollectionRow[16]
+			self.log("ignore games without description: " +ignoreGameWithoutDesc)
 			
-			self.log("using one description file per game: " +romCollectionRow[9])
-			#romCollectionRow[9] = descFilePerGame
-			if(romCollectionRow[9] == 'False'):
+			#check if we can find any roms with this configuration
+			if(searchGameByCRCIgnoreRomName == 'True' and searchGameByCRC == 'False' and descFilePerGame == 'False'):
+				self.log("ERROR: Configuration error: descFilePerGame = false, searchGameByCRCIgnoreRomName = true, searchGameByCRC = false." \
+				"You won't find any description with this configuration!")
+				continue
+				
+			if(descFilePerGame == 'False'):
 				self.log("Start parsing description file")
 				results = self.parseDescriptionFile(str(descriptionPath), str(descParserFile), '')
 				if(results == None):
@@ -86,7 +99,7 @@ class DBUpdate:
 					if os.path.isdir(os.path.dirname(romPath[0])):
 						#glob is same as "os.listdir(romPath)" but it can handle wildcards like *.adf
 						allFiles = glob.glob(romPath[0])
-						#did not find appendall or slt
+						#did not find appendall or something like this
 						for file in allFiles:							
 							files.append(file)
 				files.sort()
@@ -116,6 +129,7 @@ class DBUpdate:
 					gui.writeMsg("Importing Game: " +gamename)
 					
 					
+					#check if we are handling one of the additional disks of a multi rom game
 					if(gamename == lastgamenameFromFile):
 						self.log("handling multi rom game: " +lastgamename)
 						gameRow = Game(self.gdb).getOneByName(lastgamename)
@@ -134,16 +148,16 @@ class DBUpdate:
 
 					gamedescription = Empty()
 					
-					#get crc value of the rom file
-					prev = 0
-					for eachLine in open(str(filename),"rb"):
-					    prev = zlib.crc32(eachLine, prev)					
-					filecrc = "%X"%(prev & 0xFFFFFFFF)
-					self.log("crc for current file: " +str(filecrc))
+					#get crc value of the rom file - this can take a long time for large files, so it is configurable
+					if(searchGameByCRC == 'True'):
+						prev = 0
+						for eachLine in open(str(filename),"rb"):
+						    prev = zlib.crc32(eachLine, prev)					
+						filecrc = "%X"%(prev & 0xFFFFFFFF)
+						self.log("crc for current file: " +str(filecrc))
 
 					#romCollectionRow[9] = descFilePerGame
-					if(romCollectionRow[9] == 'False'):
-						#TODO Hash with gamename?
+					if(romCollectionRow[9] == 'False'):						
 						self.log("Searching for game in parsed results:")
 						if(results != None):
 							for result in results:
@@ -151,44 +165,56 @@ class DBUpdate:
 								self.log("game name in parsed result: " +gamedesc)								
 								
 								#find by filename
-								if (gamedesc.strip() == gamename.strip()):
-									self.log("result found by filename: " +gamedesc)
-									gamedescription = result
-									break
+								#there is an option only to search by crc (maybe there are games with the same name but different crcs)
+								if(searchGameByCRCIgnoreRomName == 'False'):
+									if (gamedesc.strip() == gamename.strip()):
+										self.log("result found by filename: " +gamedesc)
+										gamedescription = result
+										break
 								
 								#find by crc
-								try:
-									resultFound = False
-									resultcrcs = result['crc']
-									for resultcrc in resultcrcs:
-										self.log("crc in parsed result: " +resultcrc)
-										if(resultcrc.lower() == filecrc.lower()):
-											self.log("result found by crc: " +gamedesc)
-											gamedescription = result
-											resultFound = True
+								if(searchGameByCRC == 'True'):
+									try:
+										resultFound = False
+										resultcrcs = result['crc']
+										for resultcrc in resultcrcs:
+											self.log("crc in parsed result: " +resultcrc)
+											if(resultcrc.lower() == filecrc.lower()):
+												self.log("result found by crc: " +gamedesc)
+												gamedescription = result
+												resultFound = True
+												break
+										if(resultFound):
 											break
-									if(resultFound):
-										break
-											
-								except:
-									pass
+												
+									except:
+										pass								
 								
-								
-							if(gamedescription == Empty()):
-								self.log("WARNING: game " +gamename +" could not be found in parsed results. Importing game without description.")
-						else:
-							self.log("WARNING: game " +gamename +" has no gamedescription. Importing game without description.")
+							#if(gamedescription == Empty()):
+							#	self.log("WARNING: game " +gamename +" could not be found in parsed results. Importing game without description.")
+						#else:
+						#	self.log("WARNING: game " +gamename +" has no gamedescription. Importing game without description.")
 					else:						
 						results = self.parseDescriptionFile(str(descriptionPath), str(descParserFile), gamename)
 						if(results == None):
-							self.log("WARNING: game description for game " +gamename +" could not be parsed. Importing game without description.")
-							lastgamenameFromFile = ""							
+							gamedescription = Empty()
+							
+							lastgamename = ""
+							#self.log("WARNING: game description for game " +gamename +" could not be parsed. Importing game without description.")							
 							#continue
 						else:
 							gamedescription = results[0]
 							
-					if(gamedescription != Empty()):
+					if(gamedescription == Empty()):
+						lastgamename = ""
+						if(ignoreGameWithoutDesc == 'True'):
+							self.log("WARNING: game " +gamename +" could not be found in parsed results. Game will not be imported.")
+							continue
+						else:
+							self.log("WARNING: game " +gamename +" could not be found in parsed results. Importing game without description.")
+					else:
 						lastgamename = self.resolveParseResult(gamedescription.Game, 'Game')
+					
 					self.insertData(gamedescription, gamename, romCollectionRow[0], filename, allowUpdate)
 					
 		gui.writeMsg("Done.")

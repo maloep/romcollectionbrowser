@@ -75,6 +75,9 @@ class TestImportSettings(unittest.TestCase):
 		self.assertEqual(collV1[11], 'Text')
 		self.assertEqual(collV1[12], 'False')
 		self.assertEqual(collV1[13], 'False')
+		self.assertEqual(collV1[14], 'True')
+		self.assertEqual(collV1[15], 'False')
+		self.assertEqual(collV1[16], 'False')
 		
 		collV2 = romCollectionRows[1]
 		self.assertEqual(collV2[1], 'Collection V2')
@@ -91,6 +94,9 @@ class TestImportSettings(unittest.TestCase):
 		self.assertEqual(collV2[11], 'Text')
 		self.assertEqual(collV2[12], 'False')
 		self.assertEqual(collV2[13], 'False')
+		self.assertEqual(collV1[14], 'True')
+		self.assertEqual(collV1[15], 'False')
+		self.assertEqual(collV1[16], 'False')
 		
 		collV3 = romCollectionRows[2]
 		self.assertEqual(collV3[1], 'Collection V3')
@@ -107,6 +113,9 @@ class TestImportSettings(unittest.TestCase):
 		self.assertEqual(collV3[11], 'Text')
 		self.assertEqual(collV3[12], 'False')
 		self.assertEqual(collV3[13], 'False')
+		self.assertEqual(collV1[14], 'True')
+		self.assertEqual(collV1[15], 'False')
+		self.assertEqual(collV1[16], 'False')
 
 
 		fileTypes = FileType(self.gdb).getAll()

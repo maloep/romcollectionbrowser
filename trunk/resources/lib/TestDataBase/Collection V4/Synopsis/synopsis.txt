@@ -39442,6 +39442,28 @@ No info online for this Pirate game.  ~Rx
 *
 
 *
+47760381,04d55e12,1f8c30e8,6a6c2091,777aac2f
+Legend of Zelda - A Link to the Past
+Platform: Super NES
+Release Year: 1992
+Developer: Nintendo
+Publisher: Nintendo
+Genre: 
+Players: 1
+Original Title: 
+Alternate Title: 
+Region: USA
+Media: Cartridge
+Translated By: 
+Hacked By: 
+Controller: Gamepad
+Version: 
+_________________________
+*
+This is the wrong game and should not be found
+*
+
+*
 47760381,04d55e12,1f8c30e8,6a6c2091,777aac2f,4e883751
 The Legend of Zelda: A Link to the Past
 Platform: Super NES
