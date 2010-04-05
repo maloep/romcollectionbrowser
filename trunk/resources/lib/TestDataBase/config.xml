@@ -21,6 +21,43 @@
 			<imgFile>E:\Emulatoren\data\consoleImages\zsnes.png</imgFile>
 		</Console>
 	</Consoles>
+	<FileTypes>
+		<FileType>
+			<name>cover</name>
+			<type>image</type>
+			<parent>game</parent>
+		</FileType>
+		<FileType>
+			<name>screenshotingame</name>
+			<type>image</type>
+			<parent>game</parent>
+		</FileType>
+		<FileType>
+			<name>screenshottitle</name>
+			<type>image</type>
+			<parent>game</parent>
+		</FileType> 		
+		<FileType>
+			<name>cartridge</name>
+			<type>image</type>
+			<parent>game</parent>
+		</FileType> 
+		<FileType>
+			<name>3dbox</name>
+			<type>image</type>
+			<parent>game</parent>
+		</FileType> 
+		<FileType>
+			<name>hyperspin</name>
+			<type>image</type>
+			<parent>game</parent>
+		</FileType>
+		<FileType>
+			<name>gameplay</name>
+			<type>video</type>
+			<parent>game</parent>
+		</FileType>
+	</FileTypes>
 	<RomCollections>
 		<RomCollection>			
 			<name>Collection V1</name>
@@ -44,12 +81,12 @@
 			<descFilePath>TestDataBase\Collection V1\synopsis\synopsis.txt</descFilePath>
 			<configFilePath></configFilePath>			
 			<manualPath></manualPath>
-			<imgPath type="cover">TestDataBase\Collection V1\cover\%GAME%.jpg</imgPath>
-			<imgPath type="cover">TestDataBase\Collection V1\cover\%GAME%.gif</imgPath>
-			<imgPath type="cover">TestDataBase\Collection V1\cover\%GAME%.png</imgPath>
-			<imgPath type="screenshotingame">TestDataBase\Collection V1\screens\%GAME%.jpg</imgPath>
-			<imgPath type="screenshotingame">TestDataBase\Collection V1\screens\%GAME%.gif</imgPath>
-			<imgPath type="screenshotingame">TestDataBase\Collection V1\screens\%GAME%.png</imgPath>						
+			<mediaPath type="cover">TestDataBase\Collection V1\cover\%GAME%.jpg</mediaPath>
+			<mediaPath type="cover">TestDataBase\Collection V1\cover\%GAME%.gif</mediaPath>
+			<mediaPath type="cover">TestDataBase\Collection V1\cover\%GAME%.png</mediaPath>
+			<mediaPath type="screenshotingame">TestDataBase\Collection V1\screens\%GAME%.jpg</mediaPath>
+			<mediaPath type="screenshotingame">TestDataBase\Collection V1\screens\%GAME%.gif</mediaPath>
+			<mediaPath type="screenshotingame">TestDataBase\Collection V1\screens\%GAME%.png</mediaPath>
 			<fileTypeForGameList>cover</fileTypeForGameList>
 			<fileTypeForMainViewGameInfo>screenshotingame</fileTypeForMainViewGameInfo>			
 			<fileTypeForGameInfoViewBackground>cover</fileTypeForGameInfoViewBackground>
@@ -79,12 +116,12 @@
 			<descFilePath>TestDataBase\Collection V2\synopsis\%GAME%\synopsis.txt</descFilePath>
 			<configFilePath></configFilePath>			
 			<manualPath></manualPath>
-			<imgPath type="cover">TestDataBase\Collection V2\cover\%GAME%\*.jpg</imgPath>
-			<imgPath type="cover">TestDataBase\Collection V2\cover\%GAME%\*.gif</imgPath>
-			<imgPath type="cover">TestDataBase\Collection V2\cover\%GAME%\*.png</imgPath>
-			<imgPath type="screenshotingame">TestDataBase\Collection V2\screens\%GAME%\*.jpg</imgPath>
-			<imgPath type="screenshotingame">TestDataBase\Collection V2\screens\%GAME%\*.gif</imgPath>
-			<imgPath type="screenshotingame">TestDataBase\Collection V2\screens\%GAME%\*.png</imgPath>						
+			<mediaPath type="cover">TestDataBase\Collection V2\cover\%GAME%\*.jpg</mediaPath>
+			<mediaPath type="cover">TestDataBase\Collection V2\cover\%GAME%\*.gif</mediaPath>
+			<mediaPath type="cover">TestDataBase\Collection V2\cover\%GAME%\*.png</mediaPath>
+			<mediaPath type="screenshotingame">TestDataBase\Collection V2\screens\%GAME%\*.jpg</mediaPath>
+			<mediaPath type="screenshotingame">TestDataBase\Collection V2\screens\%GAME%\*.gif</mediaPath>
+			<mediaPath type="screenshotingame">TestDataBase\Collection V2\screens\%GAME%\*.png</mediaPath>						
 			<fileTypeForGameList>cover</fileTypeForGameList>
 			<fileTypeForMainViewGameInfo>screenshotingame</fileTypeForMainViewGameInfo>			
 			<fileTypeForGameInfoViewBackground>cover</fileTypeForGameInfoViewBackground>
@@ -114,19 +151,19 @@
 			<descFilePath>TestDataBase\Collection V3\description\synopsis.txt</descFilePath>
 			<configFilePath></configFilePath>
 			<manualPath></manualPath>
-			<imgPath type="cover">TestDataBase\Collection V3\cover\%GAME%.jpg</imgPath>
-			<imgPath type="cover">TestDataBase\Collection V3\cover\%GAME%.gif</imgPath>
-			<imgPath type="cover">TestDataBase\Collection V3\cover\%GAME%.png</imgPath>
-			<imgPath type="screenshotingame">TestDataBase\Collection V3\screens\%GAME%.jpg</imgPath>
-			<imgPath type="screenshotingame">TestDataBase\Collection V3\screens\%GAME%.gif</imgPath>
-			<imgPath type="screenshotingame">TestDataBase\Collection V3\screens\%GAME%.png</imgPath>
-			<imgPath type="screenshottitle">TestDataBase\Collection V3\titles\%GAME%.png</imgPath>
-			<imgPath type="screenshottitle">TestDataBase\Collection V3\titles\%GAME%.jpg</imgPath>
-			<imgPath type="screenshottitle">TestDataBase\Collection V3\titles\%GAME%.gif</imgPath>
-			<imgPath type="cartridge">TestDataBase\Collection V3\cartridge\%GAME%.gif</imgPath>
-			<imgPath type="cartridge">TestDataBase\Collection V3\cartridge\%GAME%.png</imgPath>
-			<imgPath type="cartridge">TestDataBase\Collection V3\cartridge\%GAME%.jpg</imgPath>
-			<videoPath type="gameplay">TestDataBase\Collection V3\ingameVids\%GAME%.wmv</videoPath>
+			<mediaPath type="cover">TestDataBase\Collection V3\cover\%GAME%.jpg</mediaPath>
+			<mediaPath type="cover">TestDataBase\Collection V3\cover\%GAME%.gif</mediaPath>
+			<mediaPath type="cover">TestDataBase\Collection V3\cover\%GAME%.png</mediaPath>
+			<mediaPath type="screenshotingame">TestDataBase\Collection V3\screens\%GAME%.jpg</mediaPath>
+			<mediaPath type="screenshotingame">TestDataBase\Collection V3\screens\%GAME%.gif</mediaPath>
+			<mediaPath type="screenshotingame">TestDataBase\Collection V3\screens\%GAME%.png</mediaPath>
+			<mediaPath type="screenshottitle">TestDataBase\Collection V3\titles\%GAME%.png</mediaPath>
+			<mediaPath type="screenshottitle">TestDataBase\Collection V3\titles\%GAME%.jpg</mediaPath>
+			<mediaPath type="screenshottitle">TestDataBase\Collection V3\titles\%GAME%.gif</mediaPath>
+			<mediaPath type="cartridge">TestDataBase\Collection V3\cartridge\%GAME%.gif</mediaPath>
+			<mediaPath type="cartridge">TestDataBase\Collection V3\cartridge\%GAME%.png</mediaPath>
+			<mediaPath type="cartridge">TestDataBase\Collection V3\cartridge\%GAME%.jpg</mediaPath>
+			<mediaPath type="gameplay">TestDataBase\Collection V3\ingameVids\%GAME%.wmv</mediaPath>
 			<fileTypeForGameList>cover</fileTypeForGameList>
 			<fileTypeForMainViewGameInfo>screenshotingame</fileTypeForMainViewGameInfo>
 			<fileTypeForGameInfoViewBackground>screenshottitle</fileTypeForGameInfoViewBackground>
@@ -160,25 +197,25 @@
 			<descFilePath>TestDataBase\Collection V4\Synopsis\synopsis.txt</descFilePath>
 			<configFilePath></configFilePath>
 			<manualPath></manualPath>
-			<imgPath type="cover">TestDataBase\Collection V4\Artwork\Box Front\%GAME%.jpg</imgPath>
-			<imgPath type="cover">TestDataBase\Collection V4\Artwork\Box Front\%GAME%.gif</imgPath>
-			<imgPath type="cover">TestDataBase\Collection V4\Artwork\Box Front\%GAME%.png</imgPath>
-			<imgPath type="screenshotingame">TestDataBase\Collection V4\Artwork\Action\%GAME%.jpg</imgPath>
-			<imgPath type="screenshotingame">TestDataBase\Collection V4\Artwork\Action\%GAME%.gif</imgPath>
-			<imgPath type="screenshotingame">TestDataBase\Collection V4\Artwork\Action\%GAME%.png</imgPath>
-			<imgPath type="screenshottitle">TestDataBase\Collection V4\Artwork\Title\%GAME%.png</imgPath>
-			<imgPath type="screenshottitle">TestDataBase\Collection V4\Artwork\Title\%GAME%.jpg</imgPath>
-			<imgPath type="screenshottitle">TestDataBase\Collection V4\Artwork\Title\%GAME%.gif</imgPath>
-			<imgPath type="cartridge">TestDataBase\Collection V4\Artwork\Cart\%GAME%.gif</imgPath>
-			<imgPath type="cartridge">TestDataBase\Collection V4\Artwork\Cart\%GAME%.png</imgPath>
-			<imgPath type="cartridge">TestDataBase\Collection V4\Artwork\Cart\%GAME%.jpg</imgPath>
-			<imgPath type="3dbox">TestDataBase\Collection V4\Artwork\3D Boxart\%GAME%.gif</imgPath>
-			<imgPath type="3dbox">TestDataBase\Collection V4\Artwork\3D Boxart\%GAME%.png</imgPath>
-			<imgPath type="3dbox">TestDataBase\Collection V4\Artwork\3D Boxart\%GAME%.jpg</imgPath>
-			<imgPath type="hyperspin">TestDataBase\Collection V4\Artwork\HyperSpin 3D Boxart\%GAME%.gif</imgPath>
-			<imgPath type="hyperspin">TestDataBase\Collection V4\Artwork\HyperSpin 3D Boxart\%GAME%.png</imgPath>
-			<imgPath type="hyperspin">TestDataBase\Collection V4\Artwork\HyperSpin 3D Boxart\%GAME%.jpg</imgPath>
-			<videoPath type="gameplay">TestDataBase\Collection V4\Movies\%GAME%.wmv</videoPath>
+			<mediaPath type="cover">TestDataBase\Collection V4\Artwork\Box Front\%GAME%.jpg</mediaPath>
+			<mediaPath type="cover">TestDataBase\Collection V4\Artwork\Box Front\%GAME%.gif</mediaPath>
+			<mediaPath type="cover">TestDataBase\Collection V4\Artwork\Box Front\%GAME%.png</mediaPath>
+			<mediaPath type="screenshotingame">TestDataBase\Collection V4\Artwork\Action\%GAME%.jpg</mediaPath>
+			<mediaPath type="screenshotingame">TestDataBase\Collection V4\Artwork\Action\%GAME%.gif</mediaPath>
+			<mediaPath type="screenshotingame">TestDataBase\Collection V4\Artwork\Action\%GAME%.png</mediaPath>
+			<mediaPath type="screenshottitle">TestDataBase\Collection V4\Artwork\Title\%GAME%.png</mediaPath>
+			<mediaPath type="screenshottitle">TestDataBase\Collection V4\Artwork\Title\%GAME%.jpg</mediaPath>
+			<mediaPath type="screenshottitle">TestDataBase\Collection V4\Artwork\Title\%GAME%.gif</mediaPath>
+			<mediaPath type="cartridge">TestDataBase\Collection V4\Artwork\Cart\%GAME%.gif</mediaPath>
+			<mediaPath type="cartridge">TestDataBase\Collection V4\Artwork\Cart\%GAME%.png</mediaPath>
+			<mediaPath type="cartridge">TestDataBase\Collection V4\Artwork\Cart\%GAME%.jpg</mediaPath>
+			<mediaPath type="3dbox">TestDataBase\Collection V4\Artwork\3D Boxart\%GAME%.gif</mediaPath>
+			<mediaPath type="3dbox">TestDataBase\Collection V4\Artwork\3D Boxart\%GAME%.png</mediaPath>
+			<mediaPath type="3dbox">TestDataBase\Collection V4\Artwork\3D Boxart\%GAME%.jpg</mediaPath>
+			<mediaPath type="hyperspin">TestDataBase\Collection V4\Artwork\HyperSpin 3D Boxart\%GAME%.gif</mediaPath>
+			<mediaPath type="hyperspin">TestDataBase\Collection V4\Artwork\HyperSpin 3D Boxart\%GAME%.png</mediaPath>
+			<mediaPath type="hyperspin">TestDataBase\Collection V4\Artwork\HyperSpin 3D Boxart\%GAME%.jpg</mediaPath>
+			<mediaPath type="gameplay">TestDataBase\Collection V4\Movies\%GAME%.wmv</mediaPath>
 			<fileTypeForGameList>cover</fileTypeForGameList>
 			<fileTypeForMainViewGameInfo>screenshotingame</fileTypeForMainViewGameInfo>
 			<fileTypeForGameInfoViewBackground>title</fileTypeForGameInfoViewBackground>

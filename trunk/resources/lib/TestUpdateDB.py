@@ -169,7 +169,7 @@ class TestUpdateDB(unittest.TestCase):
 		self.fileTypeTest('screenshotingame', numIngameScreens, game[0])
 		self.fileTypeTest('screenshottitle', numTitleScreens, game[0])
 		self.fileTypeTest('cartridge', numCartridges, game[0])
-		self.fileTypeTest('video_gameplay', numVideos, game[0])
+		self.fileTypeTest('gameplay', numVideos, game[0])
 				
 		
 	def fileTypeTest(self, typeName, numFilesExpected, gameId):

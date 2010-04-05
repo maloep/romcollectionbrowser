@@ -44,11 +44,22 @@ class SettingsImporter:
 			self.insertConsole(consoleName, consoleDesc, consoleImage)
 		
 		
-		gui.writeMsg("Importing File Types...")
-		self.insertFileType('rcb_rom')
-		self.insertFileType('rcb_manual')
-		self.insertFileType('rcb_description')
-		self.insertFileType('rcb_configuration')
+		gui.writeMsg("Importing File Types...")				
+		
+		#import internal file types
+		self.insertFileType('rcb_rom', 'image', 'game')
+		self.insertFileType('rcb_manual', 'image', 'game')
+		self.insertFileType('rcb_description', 'image', 'game')
+		self.insertFileType('rcb_configuration', 'image', 'game')
+		
+		#import user defined file types
+		fileTypes = xmlDoc.getElementsByTagName('FileType')
+		for fileType in fileTypes:
+			name = self.getElementValue(fileType, 'name')
+			type = self.getElementValue(fileType, 'type')
+			parent = self.getElementValue(fileType, 'parent')
+			
+			self.insertFileType(name, type, parent)
 		
 		
 		gui.writeMsg("Importing Rom Collections...")
@@ -95,9 +106,7 @@ class SettingsImporter:
 			self.insertPaths(romCollectionId, manualPaths, 'rcb_manual')
 			
 			
-			self.handleTypedElements(romCollection, 'imgPath', romCollectionId)
-			self.handleTypedElements(romCollection, 'videoPath', romCollectionId)
-			#TODO videoPath
+			self.handleTypedElements(romCollection, 'mediaPath', romCollectionId)			
 			
 			fileTypesForGameList = self.getElementValues(romCollection, 'fileTypeForGameList')
 			fileTypesForMainViewBackground = self.getElementValues(romCollection, 'fileTypeForMainViewBackground')
@@ -175,13 +184,17 @@ class SettingsImporter:
 				continue
 				
 			fileType = node.getAttribute('type')
+			fileTypeRow = FileType(self.gdb).getOneByName(fileType)
+			if(fileTypeRow == None):				
+				return
 			
+			"""
 			if(elementName == 'videoPath'):
 				fileType = 'video_' +fileType
 			fileTypeId = self.insertFileType(fileType)
-			
-			#TODO videos?
-			self.insertPath(node.firstChild.nodeValue, fileType, fileTypeId, romCollectionId)
+			"""
+						
+			self.insertPath(node.firstChild.nodeValue, fileType, fileTypeRow[0], romCollectionId)
 			
 		
 	
@@ -250,10 +263,10 @@ class SettingsImporter:
 		return romCollectionId
 		
 	
-	def insertFileType(self, fileTypeName):
+	def insertFileType(self, fileTypeName, type, parent):
 		fileTypeRow = FileType(self.gdb).getOneByName(fileTypeName)
 		if(fileTypeRow == None):				
-			FileType(self.gdb).insert((fileTypeName,))
+			FileType(self.gdb).insert((fileTypeName, type, parent))
 			return self.gdb.cursor.lastrowid
 		return fileTypeRow[0]
 		
@@ -265,7 +278,7 @@ class SettingsImporter:
 			return
 			
 		for path in paths:
-			self.insertPath(path, fileType, fileTypeRow[0], romCollectionId)			
+			self.insertPath(path, fileType, fileTypeRow[0], romCollectionId)
 			#pathRow = Path(gdb).getPathByNameAndType(path, fileType)
 			#if(pathRow == None):				
 			#	Path(gdb).insert((path, fileTypeRow[0], romCollectionId))
@@ -279,9 +292,8 @@ class SettingsImporter:
 	
 	def insertFileTypeForControl(self, romCollectionId, fileTypes, control):
 		for i in range(0, len(fileTypes)):
-			fileType = fileTypes[i]			
-			if(control == 'gameinfoviewvideowindow'):
-				fileType = 'video_' +fileType
+			fileType = fileTypes[i]
+				
 			fileTypeRow = FileType(self.gdb).getOneByName(fileType)			
 			if(fileTypeRow == None):				
 				return						
