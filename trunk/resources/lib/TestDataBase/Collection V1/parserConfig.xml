@@ -17,7 +17,7 @@
 		<SkippableContent>Release Year: </SkippableContent>
 		<ReleaseYear delimiter="," restOfLine="true"></ReleaseYear>
 		<SkippableContent>Developer: </SkippableContent>
-		<Developer delimiter="," restOfLine="true"></Developer>
+		<Developer restOfLine="true"></Developer>
 		<SkippableContent>Publisher: </SkippableContent>
 		<Publisher restOfLine="true"></Publisher>
 		<SkippableContent>Players: </SkippableContent>

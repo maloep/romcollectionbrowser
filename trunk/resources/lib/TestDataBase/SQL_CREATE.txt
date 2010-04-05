@@ -162,10 +162,7 @@ CREATE TABLE IF NOT EXISTS [File]
     (
         id
     ),
-    [gameId] INTEGER REFERENCES [Game]
-    (
-        id
-    )
+    [parentId] INTEGER
 );
 
 CREATE TABLE IF NOT EXISTS [Path] 

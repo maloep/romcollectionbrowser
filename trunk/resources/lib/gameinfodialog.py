@@ -121,7 +121,7 @@ class UIGameInfoView(xbmcgui.WindowXMLDialog):
 		self.clearList()
 		
 		for game in games:
-			images = helper.getFilesByControl(self.gdb, 'gameinfoviewgamelist', game[0], game[5])
+			images = helper.getFilesByControl(self.gdb, 'gameinfoviewgamelist', game[0], game[6], game[7], game[5])
 			if(images != None and len(images) != 0):
 				image = images[0]
 			else:
@@ -184,14 +184,14 @@ class UIGameInfoView(xbmcgui.WindowXMLDialog):
 				
 		#gameRow[5] = romCollectionId
 		background = os.path.join(RCBHOME, 'resources', 'skins', 'Default', 'media', 'rcb-background-black.png')	
-		self.setImage(CONTROL_IMG_BACK, 'gameinfoviewbackground', gameRow[0], gameRow[5], background)
-		self.setImage(CONTROL_IMG_GAMEINFO1, 'gameinfoview1', gameRow[0], gameRow[5], None)
-		self.setImage(CONTROL_IMG_GAMEINFO2, 'gameinfoview2', gameRow[0], gameRow[5], None)
-		self.setImage(CONTROL_IMG_GAMEINFO3, 'gameinfoview3', gameRow[0], gameRow[5], None)
-		self.setImage(CONTROL_IMG_GAMEINFO4, 'gameinfoview4', gameRow[0], gameRow[5], None)
+		self.setImage(CONTROL_IMG_BACK, 'gameinfoviewbackground', gameRow[0], gameRow[6], gameRow[7], gameRow[5], background)
+		self.setImage(CONTROL_IMG_GAMEINFO1, 'gameinfoview1', gameRow[0], gameRow[6], gameRow[7], gameRow[5], None)
+		self.setImage(CONTROL_IMG_GAMEINFO2, 'gameinfoview2', gameRow[0], gameRow[6], gameRow[7], gameRow[5], None)
+		self.setImage(CONTROL_IMG_GAMEINFO3, 'gameinfoview3', gameRow[0], gameRow[6], gameRow[7], gameRow[5], None)
+		self.setImage(CONTROL_IMG_GAMEINFO4, 'gameinfoview4', gameRow[0], gameRow[6], gameRow[7], gameRow[5], None)
 			
 		
-		videos = helper.getFilesByControl(self.gdb, 'gameinfoviewvideowindow', gameRow[0], gameRow[5])		
+		videos = helper.getFilesByControl(self.gdb, 'gameinfoviewvideowindow', gameRow[0], gameRow[6], gameRow[7], gameRow[5])
 		#ingameVideos = File(self.gdb).getIngameVideosByGameId(self.selectedGameId)
 		if(videos != None and len(videos) != 0):
 			video = videos[0]
@@ -221,9 +221,9 @@ class UIGameInfoView(xbmcgui.WindowXMLDialog):
 		control.setLabel(str(value))
 		
 		
-	def setImage(self, controlId, controlName, gameId, romCollectionId, defaultImage):
+	def setImage(self, controlId, controlName, gameId, publisherId, developerId, romCollectionId, defaultImage):
 				
-		images = helper.getFilesByControl(self.gdb, controlName, gameId, romCollectionId)
+		images = helper.getFilesByControl(self.gdb, controlName, gameId, publisherId, developerId, romCollectionId)
 		
 		control = self.getControlById(controlId)
 		if(control == None):

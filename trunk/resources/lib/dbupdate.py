@@ -216,12 +216,12 @@ class DBUpdate:
 						lastgamename = self.resolveParseResult(gamedescription.Game, 'Game')
 					
 					#get Console Name to import images via %CONSOLE%
-					consoleId = romCollectionRow[2]
-					consoleRow = Console(self.gdb).getObjectById(consoleId)
+					consoleId = romCollectionRow[2]									
+					consoleRow = Console(self.gdb).getObjectById(consoleId)					
 					if(consoleRow == None):						
-						consoleName = consoleRow[1]
+						consoleName = None						
 					else:
-						consoleName = None
+						consoleName = consoleRow[1]
 					
 					self.insertData(gamedescription, gamename, romCollectionRow[0], filename, allowUpdate, consoleId, consoleName)
 					
@@ -303,7 +303,7 @@ class DBUpdate:
 		self.insertFile(romFile, gameId, "rcb_rom", None, None, None, None)
 		
 		
-		allPathRows = Path(self.gdb).getPathsByRomCollectionId(romCollectionId)		
+		allPathRows = Path(self.gdb).getPathsByRomCollectionId(romCollectionId)
 		for pathRow in allPathRows:
 			self.log("Additional data path: " +str(pathRow))
 			files = self.resolvePath((pathRow[1],), gamename, gamenameFromFile, consoleName, publisher, developer)
@@ -408,6 +408,7 @@ class DBUpdate:
 				files = glob.glob(pathnameFromFile)
 				self.log("resolved files: " +str(files))
 				
+			#TODO could be done only once per RomCollection
 			if(consoleName != None and len(files) == 0):
 				pathnameFromConsole = path.replace("%CONSOLE%", consoleName)
 				self.log("resolved path from console name: " +pathnameFromConsole)
@@ -452,29 +453,35 @@ class DBUpdate:
 		
 	def insertFile(self, fileName, gameId, fileType, consoleId, publisherId, developerId, romCollectionId):
 		self.log("Begin Insert file: " +fileName)
-		fileRow = File(self.gdb).getFileByNameAndType(fileName, fileType)
+				
 		fileTypeRow = FileType(self.gdb).getOneByName(fileType)
 		if(fileTypeRow == None):
-			self.log("WARNING: No filetype found for %s. Please check your config.xml" %fileType)
+			self.log("WARNING: No filetype found for %s. Please check your config.xml" %fileType)				
+			
+		parentId = None
+		
+		#TODO console and romcollection could be done only once per RomCollection			
+		#fileTypeRow[3] = parent
+		if(fileTypeRow[3] == 'game'):
+			self.log("Insert file with parent game")
+			parentId = gameId
+		elif(fileTypeRow[3] == 'console'):
+			self.log("Insert file with parent console")
+			parentId = consoleId
+		elif(fileTypeRow[3] == 'romcollection'):
+			self.log("Insert file with parent rom collection")
+			parentId = romCollectionId
+		elif(fileTypeRow[3] == 'publisher'):
+			self.log("Insert file with parent publisher")
+			parentId = publisherId
+		elif(fileTypeRow[3] == 'developer'):
+			self.log("Insert file with parent developer")
+			parentId = developerId
+			
+		fileRow = File(self.gdb).getFileByNameAndTypeAndParent(fileName, fileType, parentId)
 		if(fileRow == None):
 			self.log("File does not exist in database. Insert file: " +fileName)
-			
-			#fileTypeRow[3] = parent
-			if(fileTypeRow[3] == 'game'):
-				self.log("Insert file with parent game")
-				File(self.gdb).insert((str(fileName), fileTypeRow[0], gameId))
-			elif(fileTypeRow[3] == 'console'):
-				self.log("Insert file with parent console")
-				File(self.gdb).insert((str(fileName), fileTypeRow[0], consoleId))
-			elif(fileTypeRow[3] == 'romcollection'):
-				self.log("Insert file with parent rom collection")
-				File(self.gdb).insert((str(fileName), fileTypeRow[0], romCollectionId))
-			elif(fileTypeRow[3] == 'publisher'):
-				self.log("Insert file with parent publisher")
-				File(self.gdb).insert((str(fileName), fileTypeRow[0], publisherId))
-			elif(fileTypeRow[3] == 'developer'):
-				self.log("Insert file with parent developer")
-				File(self.gdb).insert((str(fileName), fileTypeRow[0], developerId))
+			File(self.gdb).insert((str(fileName), fileTypeRow[0], parentId))
 			
 
 	def log(self, message):

@@ -6,17 +6,42 @@ from gamedatabase import *
 RCBHOME = os.getcwd()
 
 
-def getFilesByControl(gdb, controlName, gameId, romCollectionId):
+def getFilesByControl(gdb, controlName, gameId, publisherId, developerId, romCollectionId):
 		fileTypeForControlRows = FileTypeForControl(gdb).getFileTypesForControlByKey(romCollectionId, controlName)
 		if(fileTypeForControlRows == None):
 			return
 		
-		mediaFiles = []		
-		for fileTypeForControlRow in fileTypeForControlRows:			
-			files = File(gdb).getFilesByGameIdAndTypeId(gameId, fileTypeForControlRow[4])
+		mediaFiles = []
+		for fileTypeForControlRow in fileTypeForControlRows:
+			
+			fileTypeRow = FileType(gdb).getObjectById(fileTypeForControlRow[4])
+			if(fileTypeRow == None):
+				print "RCB WARNING: fileTypeRow == None in getFilesByControl"
+				continue
+				
+			parentId = None
+			
+			#fileTypeRow[3] = parent
+			if(fileTypeRow[3] == 'game'):
+				parentId = gameId
+			elif(fileTypeRow[3] == 'console'):
+				romCollectionRow = RomCollection(gdb).getObjectById(romCollectionId)
+				if(romCollectionRow == None):
+					print "RCB WARNING: romCollectionRow == None in getFilesByControl"
+					continue
+				consoleId = romCollectionRow[2]			
+				parentId = consoleId
+			elif(fileTypeRow[3] == 'publisher'):
+				parentId = publisherId
+			elif(fileTypeRow[3] == 'developer'):
+				parentId = developerId
+			elif(fileTypeRow[3] == 'romcollection'):
+				parentId = romCollectionId
+				
+			files = File(gdb).getFilesByGameIdAndTypeId(parentId, fileTypeForControlRow[4])
 			for file in files:				
 				mediaFiles.append(file[1])
-						
+				
 		return mediaFiles
 		
 

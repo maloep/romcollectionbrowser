@@ -57,6 +57,26 @@
 			<type>video</type>
 			<parent>game</parent>
 		</FileType>
+		<FileType>
+			<name>console</name>
+			<type>image</type>
+			<parent>console</parent>
+		</FileType>
+		<FileType>
+			<name>developer</name>
+			<type>image</type>
+			<parent>developer</parent>
+		</FileType>
+		<FileType>
+			<name>publisher</name>
+			<type>image</type>
+			<parent>publisher</parent>
+		</FileType>
+		<FileType>
+			<name>romcollection</name>
+			<type>image</type>
+			<parent>romcollection</parent>
+		</FileType>
 	</FileTypes>
 	<RomCollections>
 		<RomCollection>			
@@ -87,6 +107,9 @@
 			<mediaPath type="screenshotingame">TestDataBase\Collection V1\screens\%GAME%.jpg</mediaPath>
 			<mediaPath type="screenshotingame">TestDataBase\Collection V1\screens\%GAME%.gif</mediaPath>
 			<mediaPath type="screenshotingame">TestDataBase\Collection V1\screens\%GAME%.png</mediaPath>
+			<mediaPath type="developer">TestDataBase\Collection V1\developer\%DEVELOPER%.jpg</mediaPath>
+			<mediaPath type="publisher">TestDataBase\Collection V1\publisher\%PUBLISHER%.jpg</mediaPath>
+			<mediaPath type="console">TestDataBase\consoleImages\%CONSOLE%.png</mediaPath>
 			<fileTypeForGameList>cover</fileTypeForGameList>
 			<fileTypeForMainViewGameInfo>screenshotingame</fileTypeForMainViewGameInfo>			
 			<fileTypeForGameInfoViewBackground>cover</fileTypeForGameInfoViewBackground>
@@ -121,7 +144,9 @@
 			<mediaPath type="cover">TestDataBase\Collection V2\cover\%GAME%\*.png</mediaPath>
 			<mediaPath type="screenshotingame">TestDataBase\Collection V2\screens\%GAME%\*.jpg</mediaPath>
 			<mediaPath type="screenshotingame">TestDataBase\Collection V2\screens\%GAME%\*.gif</mediaPath>
-			<mediaPath type="screenshotingame">TestDataBase\Collection V2\screens\%GAME%\*.png</mediaPath>						
+			<mediaPath type="screenshotingame">TestDataBase\Collection V2\screens\%GAME%\*.png</mediaPath>
+			<mediaPath type="developer">TestDataBase\Collection V2\developer\%DEVELOPER%.png</mediaPath>
+			<mediaPath type="publisher">TestDataBase\Collection V2\publisher\%PUBLISHER%.png</mediaPath>
 			<fileTypeForGameList>cover</fileTypeForGameList>
 			<fileTypeForMainViewGameInfo>screenshotingame</fileTypeForMainViewGameInfo>			
 			<fileTypeForGameInfoViewBackground>cover</fileTypeForGameInfoViewBackground>
@@ -164,6 +189,7 @@
 			<mediaPath type="cartridge">TestDataBase\Collection V3\cartridge\%GAME%.png</mediaPath>
 			<mediaPath type="cartridge">TestDataBase\Collection V3\cartridge\%GAME%.jpg</mediaPath>
 			<mediaPath type="gameplay">TestDataBase\Collection V3\ingameVids\%GAME%.wmv</mediaPath>
+			<mediaPath type="console">TestDataBase\consoleImages\%CONSOLE%.png</mediaPath>
 			<fileTypeForGameList>cover</fileTypeForGameList>
 			<fileTypeForMainViewGameInfo>screenshotingame</fileTypeForMainViewGameInfo>
 			<fileTypeForGameInfoViewBackground>screenshottitle</fileTypeForGameInfoViewBackground>

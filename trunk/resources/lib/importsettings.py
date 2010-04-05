@@ -278,14 +278,12 @@ class SettingsImporter:
 			return
 			
 		for path in paths:
-			self.insertPath(path, fileType, fileTypeRow[0], romCollectionId)
-			#pathRow = Path(gdb).getPathByNameAndType(path, fileType)
-			#if(pathRow == None):				
-			#	Path(gdb).insert((path, fileTypeRow[0], romCollectionId))
+			self.insertPath(path, fileType, fileTypeRow[0], romCollectionId)			
 				
 	
 	def insertPath(self, path, fileTypeName, fileTypeId, romCollectionId):
-		pathRow = Path(self.gdb).getPathByNameAndType(path, fileTypeName)
+		
+		pathRow = Path(self.gdb).getPathByNameAndTypeAndRomCollectionId(path, fileTypeName, romCollectionId)
 		if(pathRow == None):				
 			Path(self.gdb).insert((path, fileTypeId, romCollectionId))
 				

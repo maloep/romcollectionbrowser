@@ -286,7 +286,8 @@ class UIGameDB(xbmcgui.WindowXML):
 		self.clearList()
 				
 		for game in games:
-			images = helper.getFilesByControl(self.gdb, 'gamelist', game[0], game[5])
+			#consoleId, publisherId, developerId
+			images = helper.getFilesByControl(self.gdb, 'gamelist', game[0], game[6], game[7], game[5])
 			if(images != None and len(images) != 0):
 				image = images[0]
 			else:
@@ -348,7 +349,7 @@ class UIGameDB(xbmcgui.WindowXML):
 			print "RCB_WARNING: gameRow == None in showGameInfo"
 			return
 				
-		bgimages = helper.getFilesByControl(self.gdb, 'mainviewbackground', gameRow[0], gameRow[5])
+		bgimages = helper.getFilesByControl(self.gdb, 'mainviewbackground', gameRow[0], gameRow[6], gameRow[7], gameRow[5])
 		if(bgimages != None and len(bgimages) != 0):
 			bgimage = bgimages[0]
 		else:
@@ -357,7 +358,7 @@ class UIGameDB(xbmcgui.WindowXML):
 		controlBg.setImage(bgimage)
 		
 		
-		images = helper.getFilesByControl(self.gdb, 'mainviewgameinfo', gameRow[0], gameRow[5])
+		images = helper.getFilesByControl(self.gdb, 'mainviewgameinfo', gameRow[0], gameRow[6], gameRow[7], gameRow[5])
 		if(images != None and len(images) != 0):
 			image = images[0]
 		else:
