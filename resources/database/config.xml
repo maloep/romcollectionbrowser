@@ -21,6 +21,63 @@
 			<imgFile>E:\Emulatoren\data\Testdata V0.4\consoleImages\SNES.png</imgFile>
 		</Console>
 	</Consoles>
+	<FileTypes>
+		<FileType>
+			<name>cover</name>
+			<type>image</type>
+			<parent>game</parent>
+		</FileType>
+		<FileType>
+			<name>screenshotingame</name>
+			<type>image</type>
+			<parent>game</parent>
+		</FileType>
+		<FileType>
+			<name>screenshottitle</name>
+			<type>image</type>
+			<parent>game</parent>
+		</FileType> 		
+		<FileType>
+			<name>cartridge</name>
+			<type>image</type>
+			<parent>game</parent>
+		</FileType> 
+		<FileType>
+			<name>3dbox</name>
+			<type>image</type>
+			<parent>game</parent>
+		</FileType> 
+		<FileType>
+			<name>hyperspin</name>
+			<type>image</type>
+			<parent>game</parent>
+		</FileType>
+		<FileType>
+			<name>gameplay</name>
+			<type>video</type>
+			<parent>game</parent>
+		</FileType>
+		<FileType>
+			<name>console</name>
+			<type>image</type>
+			<parent>console</parent>
+		</FileType>
+		<FileType>
+			<name>developer</name>
+			<type>image</type>
+			<parent>developer</parent>
+		</FileType>
+		<FileType>
+			<name>publisher</name>
+			<type>image</type>
+			<parent>publisher</parent>
+		</FileType>
+		<FileType>
+			<name>romcollection</name>
+			<type>image</type>
+			<parent>romcollection</parent>
+		</FileType>
+	</FileTypes>
 	<RomCollections>
 		<RomCollection>			
 			<name>Collection V1</name>
@@ -44,20 +101,29 @@
 			<descFilePath>E:\Emulatoren\data\Testdata V0.4\Collection V1\synopsis\synopsis.txt</descFilePath>
 			<configFilePath></configFilePath>
 			<manualPath></manualPath>
-			<imgPath type="cover">E:\Emulatoren\data\Testdata V0.4\Collection V1\cover\%GAME%.jpg</imgPath>
-			<imgPath type="cover">E:\Emulatoren\data\Testdata V0.4\Collection V1\cover\%GAME%.gif</imgPath>
-			<imgPath type="cover">E:\Emulatoren\data\Testdata V0.4\Collection V1\cover\%GAME%.png</imgPath>
-			<imgPath type="screenshotingame">E:\Emulatoren\data\Testdata V0.4\Collection V1\screens\%GAME%.jpg</imgPath>
-			<imgPath type="screenshotingame">E:\Emulatoren\data\Testdata V0.4\Collection V1\screens\%GAME%.gif</imgPath>
-			<imgPath type="screenshotingame">E:\Emulatoren\data\Testdata V0.4\Collection V1\screens\%GAME%.png</imgPath>				
+			<mediaPath type="cover">E:\Emulatoren\data\Testdata V0.4\Collection V1\cover\%GAME%.jpg</mediaPath>
+			<mediaPath type="cover">E:\Emulatoren\data\Testdata V0.4\Collection V1\cover\%GAME%.gif</mediaPath>
+			<mediaPath type="cover">E:\Emulatoren\data\Testdata V0.4\Collection V1\cover\%GAME%.png</mediaPath>
+			<mediaPath type="screenshotingame">E:\Emulatoren\data\Testdata V0.4\Collection V1\screens\%GAME%.jpg</mediaPath>
+			<mediaPath type="screenshotingame">E:\Emulatoren\data\Testdata V0.4\Collection V1\screens\%GAME%.gif</mediaPath>
+			<mediaPath type="screenshotingame">E:\Emulatoren\data\Testdata V0.4\Collection V1\screens\%GAME%.png</mediaPath>
+			<mediaPath type="console">E:\Emulatoren\data\Testdata V0.4\consoleImages\%CONSOLE%.png</mediaPath>
+			<mediaPath type="developer">E:\Emulatoren\data\Testdata V0.4\developer\%DEVELOPER%.jpg</mediaPath>
+			<mediaPath type="developer">E:\Emulatoren\data\Testdata V0.4\developer\%DEVELOPER%.png</mediaPath>
+			<mediaPath type="publisher">E:\Emulatoren\data\Testdata V0.4\publisher\%PUBLISHER%.jpg</mediaPath>
+			<mediaPath type="publisher">E:\Emulatoren\data\Testdata V0.4\publisher\%PUBLISHER%.png</mediaPath>
+			<mediaPath type="romcollection">E:\Emulatoren\data\Testdata V0.4\default.png</mediaPath>
 			<fileTypeForGameList>cover</fileTypeForGameList>
 			<fileTypeForMainViewBackground>screenshottitle</fileTypeForMainViewBackground>
 			<fileTypeForMainViewBackground>cover</fileTypeForMainViewBackground>
 			<fileTypeForMainViewGameInfo>screenshotingame</fileTypeForMainViewGameInfo>
 			<fileTypeForGameInfoViewBackground>cover</fileTypeForGameInfoViewBackground>
 			<fileTypeForGameInfoViewGamelist>cover</fileTypeForGameInfoViewGamelist>			
+			<fileTypeForGameInfoView1>console</fileTypeForGameInfoView1>
 			<fileTypeForGameInfoView2>screenshotingame</fileTypeForGameInfoView2>
-			<fileTypeForGameInfoView3>cover</fileTypeForGameInfoView3>			
+			<fileTypeForGameInfoView3>cover</fileTypeForGameInfoView3>
+			<fileTypeForGameInfoView4>developer</fileTypeForGameInfoView4>
+			<fileTypeForGameInfoView4>romcollection</fileTypeForGameInfoView4>
 		</RomCollection>
 		<RomCollection>			
 			<name>Collection V2</name>
@@ -81,20 +147,29 @@
 			<descFilePath>E:\Emulatoren\data\Testdata V0.4\Collection V2\synopsis\%GAME%\synopsis.txt</descFilePath>
 			<configFilePath></configFilePath>
 			<manualPath></manualPath>
-			<imgPath type="cover">E:\Emulatoren\data\Testdata V0.4\Collection V2\cover\%GAME%\*.jpg</imgPath>
-			<imgPath type="cover">E:\Emulatoren\data\Testdata V0.4\Collection V2\cover\%GAME%\*.gif</imgPath>
-			<imgPath type="cover">E:\Emulatoren\data\Testdata V0.4\Collection V2\cover\%GAME%\*.png</imgPath>
-			<imgPath type="screenshotingame">E:\Emulatoren\data\Testdata V0.4\Collection V2\screens\%GAME%\*.jpg</imgPath>
-			<imgPath type="screenshotingame">E:\Emulatoren\data\Testdata V0.4\Collection V2\screens\%GAME%\*.gif</imgPath>
-			<imgPath type="screenshotingame">E:\Emulatoren\data\Testdata V0.4\Collection V2\screens\%GAME%\*.png</imgPath>				
+			<mediaPath type="cover">E:\Emulatoren\data\Testdata V0.4\Collection V2\cover\%GAME%\*.jpg</mediaPath>
+			<mediaPath type="cover">E:\Emulatoren\data\Testdata V0.4\Collection V2\cover\%GAME%\*.gif</mediaPath>
+			<mediaPath type="cover">E:\Emulatoren\data\Testdata V0.4\Collection V2\cover\%GAME%\*.png</mediaPath>
+			<mediaPath type="screenshotingame">E:\Emulatoren\data\Testdata V0.4\Collection V2\screens\%GAME%\*.jpg</mediaPath>
+			<mediaPath type="screenshotingame">E:\Emulatoren\data\Testdata V0.4\Collection V2\screens\%GAME%\*.gif</mediaPath>
+			<mediaPath type="screenshotingame">E:\Emulatoren\data\Testdata V0.4\Collection V2\screens\%GAME%\*.png</mediaPath>
+			<mediaPath type="console">E:\Emulatoren\data\Testdata V0.4\consoleImages\%CONSOLE%.png</mediaPath>
+			<mediaPath type="developer">E:\Emulatoren\data\Testdata V0.4\developer\%DEVELOPER%.jpg</mediaPath>
+			<mediaPath type="developer">E:\Emulatoren\data\Testdata V0.4\developer\%DEVELOPER%.png</mediaPath>
+			<mediaPath type="publisher">E:\Emulatoren\data\Testdata V0.4\publisher\%PUBLISHER%.jpg</mediaPath>
+			<mediaPath type="publisher">E:\Emulatoren\data\Testdata V0.4\publisher\%PUBLISHER%.png</mediaPath>
+			<mediaPath type="romcollection">E:\Emulatoren\data\Testdata V0.4\default.png</mediaPath>
 			<fileTypeForGameList>cover</fileTypeForGameList>
 			<fileTypeForMainViewBackground>screenshottitle</fileTypeForMainViewBackground>
 			<fileTypeForMainViewBackground>cover</fileTypeForMainViewBackground>
 			<fileTypeForMainViewGameInfo>screenshotingame</fileTypeForMainViewGameInfo>			
 			<fileTypeForGameInfoViewBackground>cover</fileTypeForGameInfoViewBackground>
 			<fileTypeForGameInfoViewGamelist>cover</fileTypeForGameInfoViewGamelist>			
+			<fileTypeForGameInfoView1>console</fileTypeForGameInfoView1>
 			<fileTypeForGameInfoView2>screenshotingame</fileTypeForGameInfoView2>
-			<fileTypeForGameInfoView3>cover</fileTypeForGameInfoView3>			
+			<fileTypeForGameInfoView3>cover</fileTypeForGameInfoView3>
+			<fileTypeForGameInfoView4>publisher</fileTypeForGameInfoView4>
+			<fileTypeForGameInfoView4>romcollection</fileTypeForGameInfoView4>
 		</RomCollection>		
 		<RomCollection>			
 			<name>Collection V3</name>
@@ -118,19 +193,25 @@
 			<descFilePath>E:\Emulatoren\data\Testdata V0.4\Collection V3\description\synopsis.txt</descFilePath>
 			<configFilePath></configFilePath>
 			<manualPath></manualPath>
-			<imgPath type="cover">E:\Emulatoren\data\Testdata V0.4\Collection V3\cover\%GAME%.jpg</imgPath>
-			<imgPath type="cover">E:\Emulatoren\data\Testdata V0.4\Collection V3\cover\%GAME%.gif</imgPath>
-			<imgPath type="cover">E:\Emulatoren\data\Testdata V0.4\Collection V3\cover\%GAME%.png</imgPath>
-			<imgPath type="screenshotingame">E:\Emulatoren\data\Testdata V0.4\Collection V3\screens\%GAME%.jpg</imgPath>
-			<imgPath type="screenshotingame">E:\Emulatoren\data\Testdata V0.4\Collection V3\screens\%GAME%.gif</imgPath>
-			<imgPath type="screenshotingame">E:\Emulatoren\data\Testdata V0.4\Collection V3\screens\%GAME%.png</imgPath>
-			<imgPath type="screenshottitle">E:\Emulatoren\data\Testdata V0.4\Collection V3\titles\%GAME%.jpg</imgPath>
-			<imgPath type="screenshottitle">E:\Emulatoren\data\Testdata V0.4\Collection V3\titles\%GAME%.gif</imgPath>
-			<imgPath type="screenshottitle">E:\Emulatoren\data\Testdata V0.4\Collection V3\titles\%GAME%.png</imgPath>
-			<imgPath type="cartridge">E:\Emulatoren\data\Testdata V0.4\Collection V3\cartridge\%GAME%.png</imgPath>
-			<imgPath type="cartridge">E:\Emulatoren\data\Testdata V0.4\Collection V3\cartridge\%GAME%.gif</imgPath>
-			<imgPath type="cartridge">E:\Emulatoren\data\Testdata V0.4\Collection V3\cartridge\%GAME%.jpg</imgPath>			
-			<videoPath type="gameplay">E:\Emulatoren\data\Testdata V0.4\Collection V3\ingameVids\%GAME%.wmv</videoPath>
+			<mediaPath type="cover">E:\Emulatoren\data\Testdata V0.4\Collection V3\cover\%GAME%.jpg</mediaPath>
+			<mediaPath type="cover">E:\Emulatoren\data\Testdata V0.4\Collection V3\cover\%GAME%.gif</mediaPath>
+			<mediaPath type="cover">E:\Emulatoren\data\Testdata V0.4\Collection V3\cover\%GAME%.png</mediaPath>
+			<mediaPath type="screenshotingame">E:\Emulatoren\data\Testdata V0.4\Collection V3\screens\%GAME%.jpg</mediaPath>
+			<mediaPath type="screenshotingame">E:\Emulatoren\data\Testdata V0.4\Collection V3\screens\%GAME%.gif</mediaPath>
+			<mediaPath type="screenshotingame">E:\Emulatoren\data\Testdata V0.4\Collection V3\screens\%GAME%.png</mediaPath>
+			<mediaPath type="screenshottitle">E:\Emulatoren\data\Testdata V0.4\Collection V3\titles\%GAME%.jpg</mediaPath>
+			<mediaPath type="screenshottitle">E:\Emulatoren\data\Testdata V0.4\Collection V3\titles\%GAME%.gif</mediaPath>
+			<mediaPath type="screenshottitle">E:\Emulatoren\data\Testdata V0.4\Collection V3\titles\%GAME%.png</mediaPath>
+			<mediaPath type="cartridge">E:\Emulatoren\data\Testdata V0.4\Collection V3\cartridge\%GAME%.png</mediaPath>
+			<mediaPath type="cartridge">E:\Emulatoren\data\Testdata V0.4\Collection V3\cartridge\%GAME%.gif</mediaPath>
+			<mediaPath type="cartridge">E:\Emulatoren\data\Testdata V0.4\Collection V3\cartridge\%GAME%.jpg</mediaPath>			
+			<mediaPath type="gameplay">E:\Emulatoren\data\Testdata V0.4\Collection V3\ingameVids\%GAME%.wmv</mediaPath>
+			<mediaPath type="console">E:\Emulatoren\data\Testdata V0.4\consoleImages\%CONSOLE%.png</mediaPath>
+			<mediaPath type="developer">E:\Emulatoren\data\Testdata V0.4\developer\%DEVELOPER%.jpg</mediaPath>
+			<mediaPath type="developer">E:\Emulatoren\data\Testdata V0.4\developer\%DEVELOPER%.png</mediaPath>
+			<mediaPath type="publisher">E:\Emulatoren\data\Testdata V0.4\publisher\%PUBLISHER%.jpg</mediaPath>
+			<mediaPath type="publisher">E:\Emulatoren\data\Testdata V0.4\publisher\%PUBLISHER%.png</mediaPath>
+			<mediaPath type="romcollection">E:\Emulatoren\data\Testdata V0.4\default.png</mediaPath>
 			<fileTypeForGameList>cover</fileTypeForGameList>
 			<fileTypeForMainViewBackground>screenshottitle</fileTypeForMainViewBackground>
 			<fileTypeForMainViewBackground>cover</fileTypeForMainViewBackground>
@@ -142,6 +223,7 @@
 			<fileTypeForGameInfoView2>screenshotingame</fileTypeForGameInfoView2>
 			<fileTypeForGameInfoView3>cover</fileTypeForGameInfoView3>
 			<fileTypeForGameInfoView4>cartridge</fileTypeForGameInfoView4>
+			<fileTypeForGameInfoView4>romcollection</fileTypeForGameInfoView4>
 			<fileTypeForGameInfoViewVideoWindow>gameplay</fileTypeForGameInfoViewVideoWindow>
 		</RomCollection>
 		<RomCollection>			
@@ -166,25 +248,31 @@
 			<descFilePath>E:\Emulatoren\data\Testdata V0.4\Collection V4\Synopsis\synopsis.txt</descFilePath>
 			<configFilePath></configFilePath>
 			<manualPath></manualPath>
-			<imgPath type="boxfront">E:\Emulatoren\data\Testdata V0.4\Collection V4\Artwork\Box Front\%GAME%.jpg</imgPath>
-			<imgPath type="boxfront">E:\Emulatoren\data\Testdata V0.4\Collection V4\Artwork\Box Front\%GAME%.gif</imgPath>
-			<imgPath type="boxfront">E:\Emulatoren\data\Testdata V0.4\Collection V4\Artwork\Box Front\%GAME%.png</imgPath>
-			<imgPath type="action">E:\Emulatoren\data\Testdata V0.4\Collection V4\Artwork\Action\%GAME%.jpg</imgPath>
-			<imgPath type="action">E:\Emulatoren\data\Testdata V0.4\Collection V4\Artwork\Action\%GAME%.gif</imgPath>
-			<imgPath type="action">E:\Emulatoren\data\Testdata V0.4\Collection V4\Artwork\Action\%GAME%.png</imgPath>
-			<imgPath type="title">E:\Emulatoren\data\Testdata V0.4\Collection V4\Artwork\Title\%GAME%.png</imgPath>
-			<imgPath type="title">E:\Emulatoren\data\Testdata V0.4\Collection V4\Artwork\Title\%GAME%.jpg</imgPath>
-			<imgPath type="title">E:\Emulatoren\data\Testdata V0.4\Collection V4\Artwork\Title\%GAME%.gif</imgPath>
-			<imgPath type="cartridge">E:\Emulatoren\data\Testdata V0.4\Collection V4\Artwork\Cart\%GAME%.gif</imgPath>
-			<imgPath type="cartridge">E:\Emulatoren\data\Testdata V0.4\Collection V4\Artwork\Cart\%GAME%.png</imgPath>
-			<imgPath type="cartridge">E:\Emulatoren\data\Testdata V0.4\Collection V4\Artwork\Cart\%GAME%.jpg</imgPath>
-			<imgPath type="3dbox">E:\Emulatoren\data\Testdata V0.4\Collection V4\Artwork\3D Boxart\%GAME%.gif</imgPath>
-			<imgPath type="3dbox">E:\Emulatoren\data\Testdata V0.4\Collection V4\Artwork\3D Boxart\%GAME%.png</imgPath>
-			<imgPath type="3dbox">E:\Emulatoren\data\Testdata V0.4\Collection V4\Artwork\3D Boxart\%GAME%.jpg</imgPath>
-			<imgPath type="hyperspin">E:\Emulatoren\data\Testdata V0.4\Collection V4\Artwork\HyperSpin 3D Boxart\%GAME%.gif</imgPath>
-			<imgPath type="hyperspin">E:\Emulatoren\data\Testdata V0.4\Collection V4\Artwork\HyperSpin 3D Boxart\%GAME%.png</imgPath>
-			<imgPath type="hyperspin">E:\Emulatoren\data\Testdata V0.4\Collection V4\Artwork\HyperSpin 3D Boxart\%GAME%.jpg</imgPath>
-			<videoPath type="gameplay">E:\Emulatoren\data\Testdata V0.4\Collection V4\Movies\%GAME%.wmv</videoPath>
+			<mediaPath type="boxfront">E:\Emulatoren\data\Testdata V0.4\Collection V4\Artwork\Box Front\%GAME%.jpg</mediaPath>
+			<mediaPath type="boxfront">E:\Emulatoren\data\Testdata V0.4\Collection V4\Artwork\Box Front\%GAME%.gif</mediaPath>
+			<mediaPath type="boxfront">E:\Emulatoren\data\Testdata V0.4\Collection V4\Artwork\Box Front\%GAME%.png</mediaPath>
+			<mediaPath type="action">E:\Emulatoren\data\Testdata V0.4\Collection V4\Artwork\Action\%GAME%.jpg</mediaPath>
+			<mediaPath type="action">E:\Emulatoren\data\Testdata V0.4\Collection V4\Artwork\Action\%GAME%.gif</mediaPath>
+			<mediaPath type="action">E:\Emulatoren\data\Testdata V0.4\Collection V4\Artwork\Action\%GAME%.png</mediaPath>
+			<mediaPath type="title">E:\Emulatoren\data\Testdata V0.4\Collection V4\Artwork\Title\%GAME%.png</mediaPath>
+			<mediaPath type="title">E:\Emulatoren\data\Testdata V0.4\Collection V4\Artwork\Title\%GAME%.jpg</mediaPath>
+			<mediaPath type="title">E:\Emulatoren\data\Testdata V0.4\Collection V4\Artwork\Title\%GAME%.gif</mediaPath>
+			<mediaPath type="cartridge">E:\Emulatoren\data\Testdata V0.4\Collection V4\Artwork\Cart\%GAME%.gif</mediaPath>
+			<mediaPath type="cartridge">E:\Emulatoren\data\Testdata V0.4\Collection V4\Artwork\Cart\%GAME%.png</mediaPath>
+			<mediaPath type="cartridge">E:\Emulatoren\data\Testdata V0.4\Collection V4\Artwork\Cart\%GAME%.jpg</mediaPath>
+			<mediaPath type="3dbox">E:\Emulatoren\data\Testdata V0.4\Collection V4\Artwork\3D Boxart\%GAME%.gif</mediaPath>
+			<mediaPath type="3dbox">E:\Emulatoren\data\Testdata V0.4\Collection V4\Artwork\3D Boxart\%GAME%.png</mediaPath>
+			<mediaPath type="3dbox">E:\Emulatoren\data\Testdata V0.4\Collection V4\Artwork\3D Boxart\%GAME%.jpg</mediaPath>
+			<mediaPath type="hyperspin">E:\Emulatoren\data\Testdata V0.4\Collection V4\Artwork\HyperSpin 3D Boxart\%GAME%.gif</mediaPath>
+			<mediaPath type="hyperspin">E:\Emulatoren\data\Testdata V0.4\Collection V4\Artwork\HyperSpin 3D Boxart\%GAME%.png</mediaPath>
+			<mediaPath type="hyperspin">E:\Emulatoren\data\Testdata V0.4\Collection V4\Artwork\HyperSpin 3D Boxart\%GAME%.jpg</mediaPath>
+			<mediaPath type="gameplay">E:\Emulatoren\data\Testdata V0.4\Collection V4\Movies\%GAME%.wmv</mediaPath>
+			<mediaPath type="console">E:\Emulatoren\data\Testdata V0.4\consoleImages\%CONSOLE%.png</mediaPath>
+			<mediaPath type="developer">E:\Emulatoren\data\Testdata V0.4\developer\%DEVELOPER%.jpg</mediaPath>
+			<mediaPath type="developer">E:\Emulatoren\data\Testdata V0.4\developer\%DEVELOPER%.png</mediaPath>
+			<mediaPath type="publisher">E:\Emulatoren\data\Testdata V0.4\publisher\%PUBLISHER%.jpg</mediaPath>
+			<mediaPath type="publisher">E:\Emulatoren\data\Testdata V0.4\publisher\%PUBLISHER%.png</mediaPath>
+			<mediaPath type="romcollection">E:\Emulatoren\data\Testdata V0.4\default.png</mediaPath>
 			<fileTypeForGameList>hyperspin</fileTypeForGameList>
 			<fileTypeForMainViewBackground>title</fileTypeForMainViewBackground>
 			<fileTypeForMainViewGameInfo>action</fileTypeForMainViewGameInfo>
@@ -194,6 +282,7 @@
 			<fileTypeForGameInfoView2>action</fileTypeForGameInfoView2>
 			<fileTypeForGameInfoView3>boxfront</fileTypeForGameInfoView3>
 			<fileTypeForGameInfoView4>cartridge</fileTypeForGameInfoView4>
+			<fileTypeForGameInfoView4>romcollection</fileTypeForGameInfoView4>
 			<fileTypeForGameInfoViewVideoWindow>gameplay</fileTypeForGameInfoViewVideoWindow>
 		</RomCollection>
 	</RomCollections>

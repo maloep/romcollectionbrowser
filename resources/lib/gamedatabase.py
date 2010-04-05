@@ -272,15 +272,20 @@ class FileTypeForControl(DataBaseObject):
 
 class File(DataBaseObject):	
 	filterQueryByGameIdAndFileType = "Select name from File \
-					where gameId = ? AND \
+					where parentId = ? AND \
 					filetypeid = (select id from filetype where name = ?)"
 					
 	filterQueryByNameAndType = "Select * from File \
 					where name = ? AND \
 					filetypeid = (select id from filetype where name = ?)"
 					
+	filterQueryByNameAndTypeAndParent = "Select * from File \
+					where name = ? AND \
+					filetypeid = (select id from filetype where name = ?) AND \
+					parentId = ?"
+					
 	filterQueryByGameIdAndTypeId = "Select * from File \
-					where gameId = ? AND \
+					where parentId = ? AND \
 					filetypeid = ?"
 	
 	def __init__(self, gdb):		
@@ -289,6 +294,10 @@ class File(DataBaseObject):
 			
 	def getFileByNameAndType(self, name, type):
 		file = self.getObjectByQuery(self.filterQueryByNameAndType, (name, type))
+		return file
+		
+	def getFileByNameAndTypeAndParent(self, name, type, parentId):
+		file = self.getObjectByQuery(self.filterQueryByNameAndTypeAndParent, (name, type, parentId))
 		return file
 		
 	def getFilesByNameAndType(self, name, type):
@@ -316,6 +325,11 @@ class Path(DataBaseObject):
 	filterQueryByNameAndType = "Select name from Path \
 					where name = ? AND \
 					filetypeid = (select id from filetype where name = ?)"
+					
+	filterQueryByNameAndTypeAndRomCollection = "Select name from Path \
+					where name = ? AND \
+					filetypeid = (select id from filetype where name = ?) AND \
+					romCollectionId = ?"
 	
 	def __init__(self, gdb):		
 		self.gdb = gdb
@@ -323,6 +337,10 @@ class Path(DataBaseObject):
 		
 	def getPathByNameAndType(self, name, type):
 		file = self.getObjectByQuery(self.filterQueryByNameAndType, (name, type))
+		return file
+		
+	def getPathByNameAndTypeAndRomCollectionId(self, name, type, romCollectionId):
+		file = self.getObjectByQuery(self.filterQueryByNameAndTypeAndRomCollection, (name, type, romCollectionId))
 		return file
 		
 	def getPathsByRomCollectionId(self, romCollectionId):

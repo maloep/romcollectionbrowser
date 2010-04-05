@@ -75,9 +75,7 @@ class TestUpdateDB(unittest.TestCase):
 		
 		gameRows = Game(self.gdb).getAllOrdered()	
 		self.assertTrue(gameRows != None)
-		self.assertEqual(len(gameRows), 16)
-		
-		print gameRows
+		self.assertEqual(len(gameRows), 16)				
 		
 		
 		self.gameTest(gameRows[0], 'Airborne Ranger', 'In this action/simulation game by Microprose the player takes the role of an U.S. Army airborne ranger.', 
@@ -130,6 +128,12 @@ class TestUpdateDB(unittest.TestCase):
 			1, 1, 1, 1, 1, 1)
 		
 		
+		#test additional file types
+		self.fileTypeTest('developer', 1, gameRows[0][7])
+		self.fileTypeTest('publisher', 1, gameRows[0][6])
+		
+		self.fileTypeTest('developer', 1, gameRows[9][7])
+		self.fileTypeTest('publisher', 1, gameRows[9][6])
 		
 		
 	def gameTest(self, game, name, descStart, gameCmd, alternateGameCmd, romCollectionId, publisherId, developerId, reviewerId,
