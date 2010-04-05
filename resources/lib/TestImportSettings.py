@@ -77,7 +77,7 @@ class TestImportSettings(unittest.TestCase):
 		self.assertEqual(collV1[13], 'False')
 		self.assertEqual(collV1[14], 'True')
 		self.assertEqual(collV1[15], 'False')
-		self.assertEqual(collV1[16], 'False')
+		self.assertEqual(collV1[16], 'True')
 		
 		collV2 = romCollectionRows[1]
 		self.assertEqual(collV2[1], 'Collection V2')
@@ -94,9 +94,9 @@ class TestImportSettings(unittest.TestCase):
 		self.assertEqual(collV2[11], 'Text')
 		self.assertEqual(collV2[12], 'False')
 		self.assertEqual(collV2[13], 'False')
-		self.assertEqual(collV1[14], 'True')
-		self.assertEqual(collV1[15], 'False')
-		self.assertEqual(collV1[16], 'False')
+		self.assertEqual(collV2[14], 'True')
+		self.assertEqual(collV2[15], 'False')
+		self.assertEqual(collV2[16], 'False')
 		
 		collV3 = romCollectionRows[2]
 		self.assertEqual(collV3[1], 'Collection V3')
@@ -113,9 +113,9 @@ class TestImportSettings(unittest.TestCase):
 		self.assertEqual(collV3[11], 'Text')
 		self.assertEqual(collV3[12], 'False')
 		self.assertEqual(collV3[13], 'False')
-		self.assertEqual(collV1[14], 'True')
-		self.assertEqual(collV1[15], 'False')
-		self.assertEqual(collV1[16], 'False')
+		self.assertEqual(collV2[14], 'True')
+		self.assertEqual(collV2[15], 'False')
+		self.assertEqual(collV2[16], 'False')
 
 
 		fileTypes = FileType(self.gdb).getAll()
@@ -125,12 +125,11 @@ class TestImportSettings(unittest.TestCase):
 		self.assertEqual(fileTypes[3][1], 'rcb_configuration')		
 		
 		self.assertEqual(fileTypes[4][1], 'cover')
-		self.assertEqual(fileTypes[5][1], 'screenshotingame')
-		
-		#self.assertEqual(fileTypes[6][1], 'screenshottitle')
-		#self.assertEqual(fileTypes[7][1], 'cartridge')		
-		#self.assertEqual(fileTypes[8][1], 'ingamevideo')
-		#self.assertEqual(fileTypes[9][1], 'trailer')
+		self.assertEqual(fileTypes[5][1], 'screenshotingame')		
+		self.assertEqual(fileTypes[6][1], 'screenshottitle')
+		self.assertEqual(fileTypes[7][1], 'cartridge')		
+		self.assertEqual(fileTypes[8][1], '3dbox')
+		self.assertEqual(fileTypes[9][1], 'hyperspin')
 		
 		
 		paths = Path(self.gdb).getAll()
@@ -151,7 +150,7 @@ class TestImportSettings(unittest.TestCase):
 		self.pathTest(paths[28][1], 'TestDataBase\Collection V3\\titles\%GAME%.jpg', paths[28][2], 'screenshottitle', paths[28][3], 'Collection V3')
 		self.pathTest(paths[30][1], 'TestDataBase\Collection V3\cartridge\%GAME%.gif', paths[30][2], 'cartridge', paths[30][3], 'Collection V3')
 		self.pathTest(paths[32][1], 'TestDataBase\Collection V3\cartridge\%GAME%.jpg', paths[32][2], 'cartridge', paths[32][3], 'Collection V3')
-		self.pathTest(paths[33][1], 'TestDataBase\Collection V3\ingameVids\%GAME%.wmv', paths[33][2], 'video_gameplay', paths[33][3], 'Collection V3')
+		self.pathTest(paths[33][1], 'TestDataBase\Collection V3\ingameVids\%GAME%.wmv', paths[33][2], 'gameplay', paths[33][3], 'Collection V3')
 		
 		
 		fileTypesForControl = FileTypeForControl(self.gdb).getAll()
@@ -168,7 +167,7 @@ class TestImportSettings(unittest.TestCase):
 		self.fileTypeForControlTestTest(fileTypesForControl[16][1], 'gameinfoviewgamelist', fileTypesForControl[16][2], 0, fileTypesForControl[16][4], 'cover', fileTypesForControl[16][3], 'Collection V3')
 		self.fileTypeForControlTestTest(fileTypesForControl[18][1], 'gameinfoview2', fileTypesForControl[18][2], 0, fileTypesForControl[18][4], 'screenshotingame', fileTypesForControl[18][3], 'Collection V3')
 		self.fileTypeForControlTestTest(fileTypesForControl[20][1], 'gameinfoview4', fileTypesForControl[20][2], 0, fileTypesForControl[20][4], 'cartridge', fileTypesForControl[20][3], 'Collection V3')
-		self.fileTypeForControlTestTest(fileTypesForControl[21][1], 'gameinfoviewvideowindow', fileTypesForControl[21][2], 0, fileTypesForControl[21][4], 'video_gameplay', fileTypesForControl[21][3], 'Collection V3')
+		self.fileTypeForControlTestTest(fileTypesForControl[21][1], 'gameinfoviewvideowindow', fileTypesForControl[21][2], 0, fileTypesForControl[21][4], 'gameplay', fileTypesForControl[21][3], 'Collection V3')
 		
 		
 		
