@@ -1,4 +1,4 @@
-<window>	
+<window>		
 	<allowoverlays>false</allowoverlays>
 	<defaultcontrol always="false">500</defaultcontrol>
 	<coordinates>
@@ -33,7 +33,7 @@
 					<visible>Control.IsVisible(50)</visible>
 				</control>
 				<control type="wraplist" id="50">
-					<!--<visible>Skin.HasSetting(rcb_info_view)</visible>-->
+					<visible>Skin.HasSetting(rcb_info_view) | !Skin.HasSetting(rcb_OnLoad)</visible>
 					<posx>0</posx>
 					<posy>320</posy>
 					<width>720</width>
@@ -166,7 +166,7 @@
 					<visible>Control.IsVisible(51)</visible>
 				</control>
 				<control type="wraplist" id="51">
-					<!--<visible>Skin.HasSetting(rcb_thumbs_view)</visible>-->
+					<visible>Skin.HasSetting(rcb_thumbs_view) | !Skin.HasSetting(rcb_OnLoad)</visible>
 					<posx>0</posx>
 					<posy>120</posy>
 					<width>720</width>
@@ -242,7 +242,7 @@
 					<visible>Control.IsVisible(52)</visible>
 				</control>
 				<control type="list" id="52">
-					<!--<visible>Skin.HasSetting(rcb_info2_view)</visible>-->
+					<visible>Skin.HasSetting(rcb_info2_view) | !Skin.HasSetting(rcb_OnLoad)</visible>
 					<posx>385</posx>
 					<posy>25</posy>
 					<width>320</width>
@@ -767,7 +767,13 @@
 				<onup>50</onup>
 				<ondown>500</ondown>
 				<onleft>3100</onleft>
-				<onright>800</onright>				
+				<onright>800</onright>
+				<!--<onclick condition="Skin.HasSetting(rcb_info2_view)">Skin.SetBool(rcb_thumbs_view)</onclick>
+				<onclick condition="Skin.HasSetting(rcb_thumbs_view)">Skin.SetBool(rcb_info_view)</onclick>
+				<onclick condition="Skin.HasSetting(rcb_info_view)">Skin.SetBool(rcb_info2_view)</onclick>-->
+				<!--<include condition="!Skin.HasSetting(rcb_info2_view) + !Skin.HasSetting(rcb_info_view)">rcbsetinfoview</include>
+				<include condition="!Skin.HasSetting(rcb_thumbs_view) + !Skin.HasSetting(rcb_info2_view)">rcbsetinfo2view</include>
+				<include condition="!Skin.HasSetting(rcb_thumbs_view) + !Skin.HasSetting(rcb_info_view)">rcbsetthumbsview</include>-->
 			</control>
 		</control>
 		
