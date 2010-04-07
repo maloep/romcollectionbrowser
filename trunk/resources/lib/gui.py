@@ -346,8 +346,14 @@ class UIGameDB(xbmcgui.WindowXML):
 			if(images != None and len(images) != 0):
 				image = images[0]
 			else:
-				image = ""			
-			item = xbmcgui.ListItem(str(game[1]), str(game[0]), image, '')				
+				image = ""
+				
+			selectedImages = helper.getFilesByControl(self.gdb, 'gamelistselected', game[0], game[6], game[7], game[5])
+			if(selectedImages != None and len(selectedImages) != 0):
+				selectedImage = selectedImages[0]
+			else:
+				selectedImage = ""
+			item = xbmcgui.ListItem(str(game[1]), str(game[0]), image, selectedImage)
 			self.addItem(item, False)
 				
 		xbmcgui.unlock()

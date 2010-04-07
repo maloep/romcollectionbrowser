@@ -106,9 +106,10 @@ class SettingsImporter:
 			self.insertPaths(romCollectionId, manualPaths, 'rcb_manual')
 			
 			
-			self.handleTypedElements(romCollection, 'mediaPath', romCollectionId)			
+			self.handleTypedElements(romCollection, 'mediaPath', romCollectionId)
 			
 			fileTypesForGameList = self.getElementValues(romCollection, 'fileTypeForGameList')
+			fileTypesForGameListSelected = self.getElementValues(romCollection, 'fileTypeForGameListSelected')
 			fileTypesForMainViewBackground = self.getElementValues(romCollection, 'fileTypeForMainViewBackground')
 			fileTypesForMainViewGameInfo = self.getElementValues(romCollection, 'fileTypeForMainViewGameInfo')
 			fileTypesForGameInfoViewBackground = self.getElementValues(romCollection, 'fileTypeForGameInfoViewBackground')
@@ -122,6 +123,7 @@ class SettingsImporter:
 			
 			
 			self.insertFileTypeForControl(romCollectionId, fileTypesForGameList, 'gamelist')
+			self.insertFileTypeForControl(romCollectionId, fileTypesForGameListSelected, 'gamelistselected')
 			self.insertFileTypeForControl(romCollectionId, fileTypesForMainViewBackground, 'mainviewbackground')
 			self.insertFileTypeForControl(romCollectionId, fileTypesForMainViewGameInfo, 'mainviewgameinfo')
 			self.insertFileTypeForControl(romCollectionId, fileTypesForGameInfoViewBackground, 'gameinfoviewbackground')
@@ -170,23 +172,24 @@ class SettingsImporter:
 		
 		
 	def handleTypedElements(self, parentNode, elementName, romCollectionId):
+		
 		nodeList = parentNode.getElementsByTagName(elementName)
 		for node in nodeList:
-			if(node == None):
+			if(node == None):				
 				continue
-			if(node.firstChild == None):
+			if(node.firstChild == None):				
 				continue
 			
 			path = node.firstChild.nodeValue
 			
 			if(not node.hasAttributes()):
-				#TODO raiseException
+				#TODO raiseException				
 				continue
 				
-			fileType = node.getAttribute('type')
-			fileTypeRow = FileType(self.gdb).getOneByName(fileType)
+			fileType = node.getAttribute('type')			
+			fileTypeRow = FileType(self.gdb).getOneByName(fileType)			
 			if(fileTypeRow == None):				
-				return
+				continue
 			
 			"""
 			if(elementName == 'videoPath'):
