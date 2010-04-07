@@ -36,7 +36,7 @@
 		
 		<!-- gameinfoviewgamelist -->
 		<control type="group" id="1000">
-			<control type="wraplist" id="50">
+			<control type="wraplist" id="59">
 				<posx>20</posx>
 				<posy>15</posy>
 				<width>680</width>

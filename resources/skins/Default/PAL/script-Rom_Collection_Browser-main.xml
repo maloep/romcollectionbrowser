@@ -65,7 +65,7 @@
 							<aspectratio>stretch</aspectratio>
 							<bordertexture border="8">rcb-ThumbBorder.png</bordertexture>
 							<bordersize>8</bordersize>
-							<texture background="true">$INFO[ListItem.ActualIcon]</texture>
+							<texture background="true">$INFO[ListItem.Thumb]</texture>
 							<animation reversible="false" effect="zoom" start="0,0,140,120" end="-25,0,200,160" time="100">focus</animation>
 							<animation reversible="false" effect="zoom" end="0,0,140,120" start="-25,0,200,160" time="100">unfocus</animation>
 						</control>						
@@ -198,7 +198,7 @@
 							<aspectratio>stretch</aspectratio>
 							<bordertexture border="8">rcb-ThumbBorder.png</bordertexture>
 							<bordersize>8</bordersize>
-							<texture background="true">$INFO[ListItem.ActualIcon]</texture>
+							<texture background="true">$INFO[ListItem.Thumb]</texture>
 							<animation reversible="false" effect="zoom" start="0,0,145,220" end="-25,0,200,300" time="100">focus</animation>
 							<animation reversible="false" effect="zoom" end="0,0,145,220" start="-25,0,200,300" time="100">unfocus</animation>
 						</control>						

@@ -43,6 +43,11 @@
 			<parent>game</parent>
 		</FileType> 
 		<FileType>
+			<name>boxfront</name>
+			<type>image</type>
+			<parent>game</parent>
+		</FileType>
+		<FileType>
 			<name>3dbox</name>
 			<type>image</type>
 			<parent>game</parent>
@@ -114,6 +119,7 @@
 			<mediaPath type="publisher">E:\Emulatoren\data\Testdata V0.4\publisher\%PUBLISHER%.png</mediaPath>
 			<mediaPath type="romcollection">E:\Emulatoren\data\Testdata V0.4\default.png</mediaPath>
 			<fileTypeForGameList>cover</fileTypeForGameList>
+			<fileTypeForGameListSelected>cover</fileTypeForGameListSelected>
 			<fileTypeForMainViewBackground>screenshottitle</fileTypeForMainViewBackground>
 			<fileTypeForMainViewBackground>cover</fileTypeForMainViewBackground>
 			<fileTypeForMainViewGameInfo>screenshotingame</fileTypeForMainViewGameInfo>
@@ -160,6 +166,7 @@
 			<mediaPath type="publisher">E:\Emulatoren\data\Testdata V0.4\publisher\%PUBLISHER%.png</mediaPath>
 			<mediaPath type="romcollection">E:\Emulatoren\data\Testdata V0.4\default.png</mediaPath>
 			<fileTypeForGameList>cover</fileTypeForGameList>
+			<fileTypeForGameListSelected>cover</fileTypeForGameListSelected>
 			<fileTypeForMainViewBackground>screenshottitle</fileTypeForMainViewBackground>
 			<fileTypeForMainViewBackground>cover</fileTypeForMainViewBackground>
 			<fileTypeForMainViewGameInfo>screenshotingame</fileTypeForMainViewGameInfo>			
@@ -213,6 +220,7 @@
 			<mediaPath type="publisher">E:\Emulatoren\data\Testdata V0.4\publisher\%PUBLISHER%.png</mediaPath>
 			<mediaPath type="romcollection">E:\Emulatoren\data\Testdata V0.4\default.png</mediaPath>
 			<fileTypeForGameList>cover</fileTypeForGameList>
+			<fileTypeForGameListSelected>cover</fileTypeForGameListSelected>
 			<fileTypeForMainViewBackground>screenshottitle</fileTypeForMainViewBackground>
 			<fileTypeForMainViewBackground>cover</fileTypeForMainViewBackground>
 			<fileTypeForMainViewGameInfo>screenshotingame</fileTypeForMainViewGameInfo>
@@ -239,7 +247,7 @@
 			<diskPrefix>_Disk</diskPrefix>
 			<typeOfManual>Text</typeOfManual>
 			<allowUpdate>False</allowUpdate>
-			<ignoreOnScan>True</ignoreOnScan>
+			<ignoreOnScan>False</ignoreOnScan>
 			<searchGameByCRC>True</searchGameByCRC>
 			<searchGameByCRCIgnoreRomName>False</searchGameByCRCIgnoreRomName>
 			<ignoreGameWithoutDesc>False</ignoreGameWithoutDesc>
@@ -273,7 +281,8 @@
 			<mediaPath type="publisher">E:\Emulatoren\data\Testdata V0.4\publisher\%PUBLISHER%.jpg</mediaPath>
 			<mediaPath type="publisher">E:\Emulatoren\data\Testdata V0.4\publisher\%PUBLISHER%.png</mediaPath>
 			<mediaPath type="romcollection">E:\Emulatoren\data\Testdata V0.4\default.png</mediaPath>
-			<fileTypeForGameList>hyperspin</fileTypeForGameList>
+			<fileTypeForGameList>3dbox</fileTypeForGameList>
+			<fileTypeForGameListSelected>hyperspin</fileTypeForGameListSelected>
 			<fileTypeForMainViewBackground>title</fileTypeForMainViewBackground>
 			<fileTypeForMainViewGameInfo>action</fileTypeForMainViewGameInfo>
 			<fileTypeForGameInfoViewBackground>hyperspin</fileTypeForGameInfoViewBackground>			
