@@ -116,6 +116,8 @@ class UIGameDB(xbmcgui.WindowXML):
 			
 			elif(self.selectedControlId in FILTER_CONTROLS):
 				
+				#self.saveViewMode()
+				
 				label = str(control.getSelectedItem().getLabel())
 				label2 = str(control.getSelectedItem().getLabel2())
 					
@@ -127,13 +129,15 @@ class UIGameDB(xbmcgui.WindowXML):
 						self.selectedConsoleIndex = control.getSelectedPosition()
 						filterChanged = True
 					
-					#consoleId 0 = Entry "All"
+					"""
+					#consoleId 0 = Entry "All"					
 					if (self.selectedConsoleId == 0):
 						pass
 						#self.getControl(CONTROL_CONSOLE_IMG).setVisible(0)
 						#self.getControl(CONTROL_CONSOLE_DESC).setVisible(0)
 					else:
 						self.showConsoleInfo()
+					"""
 				elif (self.selectedControlId == CONTROL_GENRE):
 					if(self.selectedGenreIndex != control.getSelectedPosition()):
 						self.selectedGenreId = int(label2)
@@ -151,6 +155,9 @@ class UIGameDB(xbmcgui.WindowXML):
 						filterChanged = True
 				if(filterChanged):					
 					self.showGames()
+					
+				#xbmc.executebuiltin( "Skin.Reset(%s)" %'rcb_OnLoad')
+				
 		elif(action.getId() in ACTION_MOVEMENT_LEFT or action.getId() in ACTION_MOVEMENT_RIGHT):
 			control = self.getControlById(self.selectedControlId)
 			if(control == None):
@@ -185,8 +192,53 @@ class UIGameDB(xbmcgui.WindowXML):
 			self.launchEmu()
 		
 		"""
-		elif (controlId in (2,)):	
+		elif (controlId in (3200,)):
+			changeViewButton = self.getControlById(CONTROL_BUTTON_CHANGE_VIEW)		
+			buttonText = changeViewButton.getLabel()
 			
+			lastView = ''
+			if(buttonText.find('Thumbs') >= 0):
+				lastView = 'rcb_thumbs_view'
+			elif(buttonText.find('Info 2') >= 0):
+				lastView = 'rcb_info2_view'
+			else:
+				lastView = 'rcb_info_view'	
+			
+			xbmc.executebuiltin( "Skin.Reset(%s)" %'rcb_thumbs_view')
+			xbmc.executebuiltin( "Skin.Reset(%s)" %'rcb_info_view')
+			xbmc.executebuiltin( "Skin.Reset(%s)" %'rcb_info2_view')
+			
+			if(lastView == 'rcb_thumbs_view'):
+				xbmc.executebuiltin( "Skin.SetBool(%s)" %'rcb_info_view')
+				#self.currentView = 'rcb_info_view'
+				changeViewButton.setLabel('Info')
+				self.getControlById(50).setVisible(1)
+				self.getControlById(51).setVisible(0)
+				self.getControlById(52).setVisible(0)
+			elif(lastView == 'rcb_info_view'):
+				xbmc.executebuiltin( "Skin.SetBool(%s)" %'rcb_info2_view')
+				#self.currentView = 'rcb_info2_view'
+				changeViewButton.setLabel('Info 2')
+				self.getControlById(52).setVisible(1)
+				self.getControlById(50).setVisible(0)
+				self.getControlById(51).setVisible(0)
+			elif(lastView == 'rcb_info2_view'):
+				xbmc.executebuiltin( "Skin.SetBool(%s)" %'rcb_thumbs_view')
+				#self.currentView = 'rcb_thumbs_view'
+				changeViewButton.setLabel('Thumbs')
+				self.getControlById(51).setVisible(1)
+				self.getControlById(50).setVisible(0)
+				self.getControlById(52).setVisible(0)
+				
+			"""
+				
+			#self.showGames()
+			#self.showGameInfo()			
+			#self.showGames()
+			#self.setCurrentListPosition(0)
+		"""		
+		elif (controlId in (2,)):				
+		
 			xbmc.executebuiltin( "Skin.Reset(%s)" %'rcb_thumbs_view')
 			xbmc.executebuiltin( "Skin.Reset(%s)" %'rcb_info_view')
 			xbmc.executebuiltin( "Skin.Reset(%s)" %'rcb_info2_view')
@@ -280,11 +332,11 @@ class UIGameDB(xbmcgui.WindowXML):
 
 	def showGames(self):
 		
-		games = Game(self.gdb).getFilteredGames(self.selectedConsoleId, self.selectedGenreId, self.selectedYearId, self.selectedPublisherId)			
+		games = Game(self.gdb).getFilteredGames(self.selectedConsoleId, self.selectedGenreId, self.selectedYearId, self.selectedPublisherId)
 		
-		#self.writeMsg("loading games...")
+		self.writeMsg("loading games...")
 		
-		xbmcgui.lock()
+		xbmcgui.lock()		
 		
 		self.clearList()
 				
@@ -297,10 +349,11 @@ class UIGameDB(xbmcgui.WindowXML):
 				image = ""			
 			item = xbmcgui.ListItem(str(game[1]), str(game[0]), image, '')				
 			self.addItem(item, False)
-		
-		xbmcgui.unlock()
 				
-		#self.writeMsg("")			
+		xbmcgui.unlock()
+		
+		
+		self.writeMsg("")	
 		
 
 	def showConsoleInfo(self):	
@@ -373,7 +426,7 @@ class UIGameDB(xbmcgui.WindowXML):
 		
 		selectedGame.setProperty('mainviewgameinfo', image)
 		selectedGame.setProperty('gamedesc', description)
-		
+			
 
 
 	def launchEmu(self):		
@@ -603,8 +656,7 @@ class UIGameDB(xbmcgui.WindowXML):
 		gid = gameinfodialog.UIGameInfoView("script-Rom_Collection_Browser-gameinfo.xml", os.getcwd(), "Default", 1, gdb=self.gdb, gameId=gameId, 
 			consoleId=self.selectedConsoleId, genreId=self.selectedGenreId, yearId=self.selectedYearId, publisherId=self.selectedPublisherId, selectedGameIndex=selectedGameIndex,
 			consoleIndex=self.selectedConsoleIndex, genreIndex=self.selectedGenreIndex, yearIndex=self.selectedYearIndex, publisherIndex=self.selectedPublisherIndex, 
-			controlIdMainView=self.selectedControlId)
-		gid.doModal()
+			controlIdMainView=self.selectedControlId)		
 		del gid
 				
 		

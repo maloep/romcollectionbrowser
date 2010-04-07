@@ -68,6 +68,8 @@ class UIGameInfoView(xbmcgui.WindowXMLDialog):
 		self.selectedGameIndex = kwargs[ "selectedGameIndex" ]		
 		self.selectedControlIdMainView = kwargs["controlIdMainView"]
 		
+		self.doModal()
+		
 		
 	def onInit(self):
 		self.showGameList()
@@ -198,9 +200,7 @@ class UIGameInfoView(xbmcgui.WindowXMLDialog):
 						
 			playlist = xbmc.PlayList( xbmc.PLAYLIST_VIDEO)
 			playlist.clear()			
-			xbmc.Player().play(video)
-		
-			
+			xbmc.Player().play(video)			
 		
 		
 	def getItemName(self, object, itemId):
