@@ -33,7 +33,7 @@
 					<visible>Control.IsVisible(50)</visible>
 				</control>
 				<control type="wraplist" id="50">
-					<visible>Skin.HasSetting(rcb_info_view) | !Skin.HasSetting(rcb_OnLoad)</visible>
+					<!--<visible>Skin.HasSetting(rcb_info_view) | !Skin.HasSetting(rcb_OnLoad)</visible>-->
 					<posx>0</posx>
 					<posy>320</posy>
 					<width>720</width>
@@ -166,7 +166,7 @@
 					<visible>Control.IsVisible(51)</visible>
 				</control>
 				<control type="wraplist" id="51">
-					<visible>Skin.HasSetting(rcb_thumbs_view) | !Skin.HasSetting(rcb_OnLoad)</visible>
+					<!--<visible>Skin.HasSetting(rcb_thumbs_view) | !Skin.HasSetting(rcb_OnLoad)</visible>-->
 					<posx>0</posx>
 					<posy>120</posy>
 					<width>720</width>
@@ -242,7 +242,7 @@
 					<visible>Control.IsVisible(52)</visible>
 				</control>
 				<control type="list" id="52">
-					<visible>Skin.HasSetting(rcb_info2_view) | !Skin.HasSetting(rcb_OnLoad)</visible>
+					<!--<visible>Skin.HasSetting(rcb_info2_view) | !Skin.HasSetting(rcb_OnLoad)</visible>-->
 					<posx>385</posx>
 					<posy>25</posy>
 					<width>320</width>

@@ -75,7 +75,10 @@ class UIGameDB(xbmcgui.WindowXML):
 		#check if we have an actual database
 		#create new one or alter existing one
 		self.gdb.checkDBStructure()		
-		self.gdb.commit()		
+		self.gdb.commit()
+		
+		self.Settings = xbmc.Settings(os.getcwd())
+		#self.Settings = xbmc.Settings('special://home/scripts/RomCollectionBrowser')
 		
 		
 		
@@ -189,79 +192,7 @@ class UIGameDB(xbmcgui.WindowXML):
 			self.setFocus(self.getControl(CONTROL_GAMES_GROUP_START))
 			self.showGameInfo()
 		elif (controlId in GAME_LISTS):
-			self.launchEmu()
-		
-		"""
-		elif (controlId in (3200,)):
-			changeViewButton = self.getControlById(CONTROL_BUTTON_CHANGE_VIEW)		
-			buttonText = changeViewButton.getLabel()
-			
-			lastView = ''
-			if(buttonText.find('Thumbs') >= 0):
-				lastView = 'rcb_thumbs_view'
-			elif(buttonText.find('Info 2') >= 0):
-				lastView = 'rcb_info2_view'
-			else:
-				lastView = 'rcb_info_view'	
-			
-			xbmc.executebuiltin( "Skin.Reset(%s)" %'rcb_thumbs_view')
-			xbmc.executebuiltin( "Skin.Reset(%s)" %'rcb_info_view')
-			xbmc.executebuiltin( "Skin.Reset(%s)" %'rcb_info2_view')
-			
-			if(lastView == 'rcb_thumbs_view'):
-				xbmc.executebuiltin( "Skin.SetBool(%s)" %'rcb_info_view')
-				#self.currentView = 'rcb_info_view'
-				changeViewButton.setLabel('Info')
-				self.getControlById(50).setVisible(1)
-				self.getControlById(51).setVisible(0)
-				self.getControlById(52).setVisible(0)
-			elif(lastView == 'rcb_info_view'):
-				xbmc.executebuiltin( "Skin.SetBool(%s)" %'rcb_info2_view')
-				#self.currentView = 'rcb_info2_view'
-				changeViewButton.setLabel('Info 2')
-				self.getControlById(52).setVisible(1)
-				self.getControlById(50).setVisible(0)
-				self.getControlById(51).setVisible(0)
-			elif(lastView == 'rcb_info2_view'):
-				xbmc.executebuiltin( "Skin.SetBool(%s)" %'rcb_thumbs_view')
-				#self.currentView = 'rcb_thumbs_view'
-				changeViewButton.setLabel('Thumbs')
-				self.getControlById(51).setVisible(1)
-				self.getControlById(50).setVisible(0)
-				self.getControlById(52).setVisible(0)
-				
-			"""
-				
-			#self.showGames()
-			#self.showGameInfo()			
-			#self.showGames()
-			#self.setCurrentListPosition(0)
-		"""		
-		elif (controlId in (2,)):				
-		
-			xbmc.executebuiltin( "Skin.Reset(%s)" %'rcb_thumbs_view')
-			xbmc.executebuiltin( "Skin.Reset(%s)" %'rcb_info_view')
-			xbmc.executebuiltin( "Skin.Reset(%s)" %'rcb_info2_view')
-			
-			if(self.currentView == 'rcb_thumbs_view'):
-				xbmc.executebuiltin( "Skin.SetBool(%s)" %'rcb_info_view')
-				self.currentView = 'rcb_info_view'
-				#self.getControlById(50).setVisible(1)
-			elif(self.currentView == 'rcb_info_view'):
-				xbmc.executebuiltin( "Skin.SetBool(%s)" %'rcb_info2_view')
-				self.currentView = 'rcb_info2_view'
-				#self.getControlById(52).setVisible(1)
-			elif(self.currentView == 'rcb_info2_view'):
-				xbmc.executebuiltin( "Skin.SetBool(%s)" %'rcb_thumbs_view')
-				self.currentView = 'rcb_thumbs_view'
-				#self.getControlById(51).setVisible(1)
-			
-			#print self.getControlById(51).getVisible()
-			#self.showGames()
-			#self.showGameInfo()			
-			#self.showGames()
-			#self.setCurrentListPosition(0)			
-		"""
+			self.launchEmu()		
 
 
 	def onFocus(self, controlId):
@@ -537,25 +468,16 @@ class UIGameDB(xbmcgui.WindowXML):
 			
 	def saveViewMode(self):
 		
-		changeViewButton = self.getControlById(CONTROL_BUTTON_CHANGE_VIEW)		
-		buttonText = changeViewButton.getLabel()
-		
-		lastView = ''
-		if(buttonText.find('Thumbs') >= 0):
-			lastView = 'rcb_thumbs_view'
-		elif(buttonText.find('Info 2') >= 0):
-			lastView = 'rcb_info2_view'
-		elif(buttonText.find('Info') >= 0):
-			lastView = 'rcb_info_view'
-		else:
-			print "RCB WARNING: Button Change View has unknown text"
-			
-		xbmc.executebuiltin( "Skin.Reset(%s)" %'rcb_thumbs_view')
-		xbmc.executebuiltin( "Skin.Reset(%s)" %'rcb_info_view')
-		xbmc.executebuiltin( "Skin.Reset(%s)" %'rcb_info2_view')	
-		
-		xbmc.executebuiltin( "Skin.SetBool(%s)" %lastView)
-		xbmc.executebuiltin( "Skin.SetBool(%s)" %'rcb_OnLoad')
+		view_mode = ""
+		for id in range( CONTROL_GAMES_GROUP_START, CONTROL_GAMES_GROUP_END + 1 ):
+			try:			
+				if xbmc.getCondVisibility( "Control.IsVisible(%i)" % id ):
+					view_mode = repr( id )					
+					break
+			except:
+				pass
+				
+		self.Settings.setSetting( "rcb_view_mode", view_mode)
 
 	
 	def loadViewState(self):
@@ -565,17 +487,9 @@ class UIGameDB(xbmcgui.WindowXML):
 			focusControl = self.getControlById(CONTROL_BUTTON_SETTINGS)
 			self.setFocus(focusControl)
 			return
-		
-		"""
-		xbmc.executebuiltin( "Skin.Reset(%s)" %'rcb_thumbs_view')
-		xbmc.executebuiltin( "Skin.Reset(%s)" %'rcb_info_view')
-		xbmc.executebuiltin( "Skin.Reset(%s)" %'rcb_info2_view')		
-		
-		if(rcbSetting[1] in ('rcb_thumbs_view', 'rcb_info_view', 'rcb_info2_view')):
-			xbmc.executebuiltin( "Skin.SetBool(%s)" %rcbSetting[1])
-		else:
-			xbmc.executebuiltin( "Skin.SetBool(%s)" %'rcb_info2_view')
-		"""
+
+		id = self.Settings.getSetting( "rcb_view_mode")
+		xbmc.executebuiltin( "Container.SetViewMode(%i)" % int(id) )
 		
 		if(rcbSetting[2] != None):
 			self.selectedConsoleId = int(self.setFilterSelection(CONTROL_CONSOLES, rcbSetting[2]))	
@@ -609,9 +523,7 @@ class UIGameDB(xbmcgui.WindowXML):
 			if(focusControl == None):
 				print "RCB_WARNING: focusControl == None (2) in loadViewState"
 				return
-			self.setFocus(focusControl)
-		
-		xbmc.executebuiltin( "Skin.Reset(%s)" %'rcb_OnLoad')
+			self.setFocus(focusControl)		
 		
 		#lastSelectedView
 		if(rcbSetting[1] == 'gameInfoView'):
@@ -670,8 +582,6 @@ class UIGameDB(xbmcgui.WindowXML):
 		self.showGames()
 		self.setCurrentListPosition(selectedGameIndex)
 		self.showGameInfo()
-		
-		xbmc.executebuiltin( "Skin.Reset(%s)" %'rcb_OnLoad')
 		
 		
 	
