@@ -280,7 +280,11 @@ class DBUpdate:
 			rating = self.resolveParseResult(gamedescription.Rating, 'Rating')
 			votes = self.resolveParseResult(gamedescription.Votes, 'Votes')
 			url = self.resolveParseResult(gamedescription.URL, 'URL')
-			perspective = self.resolveParseResult(gamedescription.Perspective, 'Perspective')		
+			perspective = self.resolveParseResult(gamedescription.Perspective, 'Perspective')
+			originalTitle = self.resolveParseResult(gamedescription.OriginalTitle, 'OriginalTitle')
+			alternateTitle = self.resolveParseResult(gamedescription.AlternateTitle, 'AlternateTitle')
+			translatedBy = self.resolveParseResult(gamedescription.TranslatedBy, 'TranslatedBy')
+			version = self.resolveParseResult(gamedescription.Version, 'Version')
 		
 			self.log("Result Game (from parser) = " +str(gamedescription.Game))
 			gamename = self.resolveParseResult(gamedescription.Game, 'Game')
@@ -288,7 +292,7 @@ class DBUpdate:
 			
 			self.log("Result Game (as string) = " +gamename)
 			gameId = self.insertGame(gamename, plot, romCollectionId, publisherId, developerId, reviewerId, yearId, 
-				players, rating, votes, url, region, media, perspective, controller, allowUpdate)
+				players, rating, votes, url, region, media, perspective, controller, originalTitle, alternateTitle, translatedBy, version, allowUpdate, )
 				
 			for genreId in genreIds:
 				genreGame = GenreGame(self.gdb).getGenreGameByGenreIdAndGameId(genreId, gameId)
@@ -297,7 +301,7 @@ class DBUpdate:
 		else:
 			gamename = gamenameFromFile
 			gameId = self.insertGame(gamename, None, romCollectionId, None, None, None, None, 
-					None, None, None, None, None, None, None, None, allowUpdate)			
+					None, None, None, None, None, None, None, None, None, None, None, None, allowUpdate)			
 			
 		
 		self.insertFile(romFile, gameId, "rcb_rom", None, None, None, None)
@@ -334,19 +338,20 @@ class DBUpdate:
 		
 		
 	def insertGame(self, gameName, description, romCollectionId, publisherId, developerId, reviewerId, yearId, 
-				players, rating, votes, url, region, media, perspective, controller, allowUpdate):
+				players, rating, votes, url, region, media, perspective, controller, originalTitle, alternateTitle, translatedBy, version, allowUpdate):
 		gameRow = Game(self.gdb).getOneByName(gameName)
 		if(gameRow == None):
 			self.log("Game does not exist in database. Insert game: " +gameName)
 			Game(self.gdb).insert((gameName, description, None, None, romCollectionId, publisherId, developerId, reviewerId, yearId, 
-				players, rating, votes, url, region, media, perspective, controller, 0, 0))
+				players, rating, votes, url, region, media, perspective, controller, 0, 0, originalTitle, alternateTitle, translatedBy, version))
 			return self.gdb.cursor.lastrowid
 		else:	
 			if(allowUpdate == 'True'):
 				self.log("Game does exist in database. Update game: " +gameName)
 				Game(self.gdb).update(('name', 'description', 'romCollectionId', 'publisherId', 'developerId', 'reviewerId', 'yearId', 'maxPlayers', 'rating', 'numVotes',
-					'url', 'region', 'media', 'perspective', 'controllerType'),
-					(gameName, description, romCollectionId, publisherId, developerId, reviewerId, yearId, players, rating, votes, url, region, media, perspective, controller),
+					'url', 'region', 'media', 'perspective', 'controllerType', 'originalTitle', 'alternateTitle', 'translatedBy', 'version'),
+					(gameName, description, romCollectionId, publisherId, developerId, reviewerId, yearId, players, rating, votes, url, region, media, perspective, controller,
+					originalTitle, alternateTitle, translatedBy, version),
 					gameRow[0])
 			else:
 				self.log("Game does exist in database but update is not allowed for current rom collection. game: " +gameName)
