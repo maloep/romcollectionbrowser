@@ -36,6 +36,10 @@ CONTROL_LABEL_PERSPECTIVE = 7100
 CONTROL_LABEL_REVIEWER = 7200
 CONTROL_LABEL_URL = 7300
 CONTROL_LABEL_LAUNCHCOUNT = 7400
+CONTROL_LABEL_TRANSLATED = 7500
+CONTROL_LABEL_ORIGTITLE= 7600
+CONTROL_LABEL_ALTERNATETITLE = 7700
+CONTROL_LABEL_VERSION = 7800
 
 CONTROL_LABEL_DESC = 8000
 
@@ -171,9 +175,12 @@ class UIGameInfoView(xbmcgui.WindowXMLDialog):
 		self.setLabel(CONTROL_LABEL_PLAYERS, gameRow[10])
 		self.setLabel(CONTROL_LABEL_PERSPECTIVE, gameRow[16])
 		self.setLabel(CONTROL_LABEL_REVIEWER, reviewer)
-		self.setLabel(CONTROL_LABEL_URL, gameRow[13])			
-		
+		self.setLabel(CONTROL_LABEL_URL, gameRow[13])		
 		self.setLabel(CONTROL_LABEL_LAUNCHCOUNT, gameRow[19])
+		self.setLabel(CONTROL_LABEL_ORIGTITLE, gameRow[20])
+		self.setLabel(CONTROL_LABEL_ALTERNATETITLE, gameRow[21])
+		self.setLabel(CONTROL_LABEL_TRANSLATED, gameRow[22])
+		self.setLabel(CONTROL_LABEL_VERSION, gameRow[23])
 		
 		description = gameRow[2]
 		if(description == None):

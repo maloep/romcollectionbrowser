@@ -150,7 +150,11 @@ CREATE TABLE IF NOT EXISTS [Game]
     [perspective] TEXT,
     [controllerType] TEXT,
 	[isFavorite] INTEGER,
-	[launchCount] INTEGER
+	[launchCount] INTEGER,
+	[originalTitle] TEXT,
+	[alternateTitle] TEXT,
+	[translatedBy] TEXT,
+	[version] TEXT
 );
 
 
