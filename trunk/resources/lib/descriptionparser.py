@@ -221,15 +221,15 @@ def main():
 	#results = dp.parseDescription('E:\\Emulatoren\\data\\Test synopsis\\xtras_short.txt', 
 	#	'E:\\Emulatoren\\data\\Test synopsis\\xtras.xml', '')
 	
-	#results = dp.parseDescription('E:\\Emulatoren\\data\\Test synopsis\\Synopsis files\\SNES.txt', 
-	#	'E:\\Emulatoren\\data\\Test synopsis\\Synopsis files\\parserConfig Export.xml', '')
+	results = dp.parseDescription('E:\\Emulatoren\\data\\Test synopsis\\Synopsis files\\A7800.txt', 
+		'E:\\Emulatoren\\data\\Test synopsis\\Synopsis files\\parserConfig Export.xml', '')
 	
-	results = dp.parseDescription('E:\\Emulatoren\\data\\Testdata V0.4\\Collection V4\\Synopsis\\synopsis.txt', 
-		'E:\\Emulatoren\\data\\Testdata V0.4\\Collection V4\\parserConfig.xml', '')
+	#results = dp.parseDescription('E:\\Emulatoren\\data\\Testdata V0.4\\Collection V4\\Synopsis\\synopsis.txt', 
+	#	'E:\\Emulatoren\\data\\Testdata V0.4\\Collection V4\\parserConfig.xml', '')
 			
 	for result in results:
 		print result.asDict()
 	del dp
 	print "len results: " +str(len(results))
 	
-#main()
+main()

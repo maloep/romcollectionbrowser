@@ -486,10 +486,7 @@ class UIGameDB(xbmcgui.WindowXML):
 			print "RCB_WARNING: rcbSetting == None in loadViewState"
 			focusControl = self.getControlById(CONTROL_BUTTON_SETTINGS)
 			self.setFocus(focusControl)
-			return
-
-		id = self.Settings.getSetting( "rcb_view_mode")
-		xbmc.executebuiltin( "Container.SetViewMode(%i)" % int(id) )
+			return		
 		
 		if(rcbSetting[2] != None):
 			self.selectedConsoleId = int(self.setFilterSelection(CONTROL_CONSOLES, rcbSetting[2]))	
@@ -524,6 +521,9 @@ class UIGameDB(xbmcgui.WindowXML):
 				print "RCB_WARNING: focusControl == None (2) in loadViewState"
 				return
 			self.setFocus(focusControl)		
+		
+		id = self.Settings.getSetting( "rcb_view_mode")
+		xbmc.executebuiltin( "Container.SetViewMode(%i)" % int(id) )
 		
 		#lastSelectedView
 		if(rcbSetting[1] == 'gameInfoView'):
