@@ -232,4 +232,4 @@ def main():
 	del dp
 	print "len results: " +str(len(results))
 	
-main()
+#main()
