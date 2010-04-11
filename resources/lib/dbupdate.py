@@ -148,10 +148,10 @@ class DBUpdate:
 					#get crc value of the rom file - this can take a long time for large files, so it is configurable
 					if(searchGameByCRC == 'True'):
 						filecrc = ''
-						if (zipfile.is_zipfile(filename)):
+						if (zipfile.is_zipfile(str(filename))):
 							try:
 								self.log("handling zip file")
-								zip = zipfile.ZipFile(filename, 'r')
+								zip = zipfile.ZipFile(str(filename), 'r')
 								zipInfos = zip.infolist()
 								if(len(zipInfos) > 1):
 									self.log("WARNING: more than one file in zip archive is not supported! Checking CRC of first entry.")								
