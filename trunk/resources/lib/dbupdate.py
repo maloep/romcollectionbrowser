@@ -2,6 +2,7 @@
 import os, sys
 import getpass, string, glob
 import codecs
+import zipfile
 from pysqlite2 import dbapi2 as sqlite
 from gamedatabase import *
 
@@ -95,13 +96,9 @@ class DBUpdate:
 						
 				self.log("Reading rom files")
 				files = []
-				for romPath in romPaths:				
-					if os.path.isdir(os.path.dirname(romPath[0])):
-						#glob is same as "os.listdir(romPath)" but it can handle wildcards like *.adf
-						allFiles = glob.glob(romPath[0])
-						#did not find appendall or something like this
-						for file in allFiles:							
-							files.append(file)
+				for romPath in romPaths:
+					files = self.walkDownPath(files, romPath[0])
+					
 				files.sort()
 					
 				self.log("Files read: " +str(files))
@@ -150,11 +147,24 @@ class DBUpdate:
 					
 					#get crc value of the rom file - this can take a long time for large files, so it is configurable
 					if(searchGameByCRC == 'True'):
-						prev = 0
-						for eachLine in open(str(filename),"rb"):
-						    prev = zlib.crc32(eachLine, prev)					
-						filecrc = "%X"%(prev & 0xFFFFFFFF)
-						self.log("crc for current file: " +str(filecrc))
+						filecrc = ''
+						if (zipfile.is_zipfile(filename)):
+							try:
+								self.log("handling zip file")
+								zip = zipfile.ZipFile(filename, 'r')
+								zipInfos = zip.infolist()
+								if(len(zipInfos) > 1):
+									self.log("WARNING: more than one file in zip archive is not supported! Checking CRC of first entry.")								
+								filecrc = "%X" %(zipInfos[0].CRC & 0xFFFFFFFF)
+								self.log("crc in zipped file: " +filecrc)
+							except:
+								self.log("ERROR: Error while creating crc from zip file!")
+						else:						
+							prev = 0
+							for eachLine in open(str(filename),"rb"):
+							    prev = zlib.crc32(eachLine, prev)					
+							filecrc = "%X"%(prev & 0xFFFFFFFF)
+							self.log("crc for current file: " +str(filecrc))
 
 					#romCollectionRow[9] = descFilePerGame
 					if(romCollectionRow[9] == 'False'):						
@@ -188,20 +198,14 @@ class DBUpdate:
 											break
 												
 									except:
-										pass								
-								
-							#if(gamedescription == Empty()):
-							#	self.log("WARNING: game " +gamename +" could not be found in parsed results. Importing game without description.")
-						#else:
-						#	self.log("WARNING: game " +gamename +" has no gamedescription. Importing game without description.")
+										self.log("ERROR: Error while checking crc results!")
+										
 					else:						
 						results = self.parseDescriptionFile(str(descriptionPath), str(descParserFile), gamename)
 						if(results == None):
 							gamedescription = Empty()
 							
-							lastgamename = ""
-							#self.log("WARNING: game description for game " +gamename +" could not be parsed. Importing game without description.")							
-							#continue
+							lastgamename = ""							
 						else:
 							gamedescription = results[0]
 							
@@ -228,7 +232,47 @@ class DBUpdate:
 		gui.writeMsg("Done.")
 		self.exit()
 		
+	
+	def walkDownPath(self, files, romPath):
 		
+		self.log("walkDownPath romPath: " +romPath)		
+		
+		#TODO add configuration option
+		walkDownRomPath = True
+		
+		dirname = os.path.dirname(romPath)
+		self.log("dirname: " +dirname)
+		basename = os.path.basename(romPath)
+		self.log("basename: " +basename)
+		
+		if(walkDownRomPath):
+			self.log("walkDownRomPath is true: checking sub directories")
+			for walkRoot, walkDirs, walkFiles in os.walk(dirname):				
+				self.log( "root: " +str(walkRoot))	
+				
+				newRomPath = os.path.join(walkRoot, basename)
+				self.log( "newRomPath: " +str(newRomPath))
+				
+				#glob is same as "os.listdir(romPath)" but it can handle wildcards like *.adf
+				allFiles = glob.glob(newRomPath)
+				self.log( "all files in newRomPath: " +str(allFiles))
+			
+				#did not find appendall or something like this
+				for file in allFiles:
+					files.append(file)
+					
+		else:		
+			if os.path.isdir(dirname):
+			
+				#glob is same as "os.listdir(romPath)" but it can handle wildcards like *.adf
+				allFiles = glob.glob(romPath)
+			
+				#did not find appendall or something like this
+				for file in allFiles:
+					files.append(file)
+		
+		return files
+	
 	
 	def parseDescriptionFile(self, descriptionPath, descParserFile, gamename):
 		descriptionfile = descriptionPath.replace("%GAME%", gamename)
