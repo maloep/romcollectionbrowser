@@ -100,7 +100,7 @@
 			<ignoreOnScan>False</ignoreOnScan>
 			<searchGameByCRC>True</searchGameByCRC>
 			<searchGameByCRCIgnoreRomName>False</searchGameByCRCIgnoreRomName>
-			<ignoreGameWithoutDesc>False</ignoreGameWithoutDesc>
+			<ignoreGameWithoutDesc>True</ignoreGameWithoutDesc>
 			<romPath>E:\Emulatoren\data\Testdata V0.4\Collection V1\roms\*.adf</romPath>
 			<romPath>E:\Emulatoren\data\Testdata V0.4\Collection V1\roms\*.ADF</romPath>
 			<descFilePath>E:\Emulatoren\data\Testdata V0.4\Collection V1\synopsis\synopsis.txt</descFilePath>

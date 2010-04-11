@@ -341,7 +341,7 @@ class DBUpdate:
 				players, rating, votes, url, region, media, perspective, controller, originalTitle, alternateTitle, translatedBy, version, allowUpdate):
 		gameRow = Game(self.gdb).getOneByName(gameName)
 		if(gameRow == None):
-			self.log("Game does not exist in database. Insert game: " +gameName)
+			self.log("Game does not exist in database. Insert game: " +gameName.encode('iso-8859-15'))
 			Game(self.gdb).insert((gameName, description, None, None, romCollectionId, publisherId, developerId, reviewerId, yearId, 
 				players, rating, votes, url, region, media, perspective, controller, 0, 0, originalTitle, alternateTitle, translatedBy, version))
 			return self.gdb.cursor.lastrowid
@@ -354,7 +354,7 @@ class DBUpdate:
 					originalTitle, alternateTitle, translatedBy, version),
 					gameRow[0])
 			else:
-				self.log("Game does exist in database but update is not allowed for current rom collection. game: " +gameName)
+				self.log("Game does exist in database but update is not allowed for current rom collection. game: " +gameName.encode('iso-8859-15'))
 			
 			return gameRow[0]
 		
