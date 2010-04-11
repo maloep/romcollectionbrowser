@@ -16,7 +16,7 @@ def getFilesByControl(gdb, controlName, gameId, publisherId, developerId, romCol
 			
 			fileTypeRow = FileType(gdb).getObjectById(fileTypeForControlRow[4])
 			if(fileTypeRow == None):
-				print "RCB WARNING: fileTypeRow == None in getFilesByControl"
+				print "RCB_WARNING: fileTypeRow == None in getFilesByControl"
 				continue
 				
 			parentId = None
@@ -50,7 +50,7 @@ def launchEmu(gdb, gui, gameId):
 		
 		gameRow = Game(gdb).getObjectById(gameId)
 		if(gameRow == None):
-			print("RCB ERROR:Game with id %s could not be found in database" %gameId)
+			print("RCB_ERROR:Game with id %s could not be found in database" %gameId)
 			return
 			
 		gui.writeMsg("Launch Game " +str(gameRow[1]))
@@ -58,7 +58,7 @@ def launchEmu(gdb, gui, gameId):
 		romPaths = Path(gdb).getRomPathsByRomCollectionId(gameRow[5])
 		romCollectionRow = RomCollection(gdb).getObjectById(gameRow[5])
 		if(romCollectionRow == None):
-			print("RCB ERROR: Rom Collection with id %s could not be found in database" %gameRow[5])
+			print("RCB_ERROR: Rom Collection with id %s could not be found in database" %gameRow[5])
 			return
 		cmd = romCollectionRow[3]		
 		
@@ -74,7 +74,7 @@ def launchEmu(gdb, gui, gameId):
 				if(os.path.isfile(rom)):
 					break
 			if(rom == ""):
-				print("RCB ERROR: no rom file found for game: " +str(gameRow[1]))
+				print("RCB_ERROR: no rom file found for game: " +str(gameRow[1]))
 				
 			#cmd could be: uae {-%I% %ROM%}
 			#we have to repeat the part inside the brackets and replace the %I% with the current index
@@ -114,7 +114,7 @@ def launchEmu(gdb, gui, gameId):
 				fh.write("xbmc.executescript('"+ os.path.join(RCBHOME, 'default.py')+"')\n")
 				fh.close()
 			except Exception, (exc):
-				print("RCB ERROR: Cannot write to autoexec.py: " +str(exc))
+				print("RCB_ERROR: Cannot write to autoexec.py: " +str(exc))
 				return
 
 			# Remember selection
@@ -133,7 +133,7 @@ def launchEmu(gdb, gui, gameId):
 		Game(gdb).update(('launchCount',), (launchCount +1,) , gameRow[0])
 		gdb.commit()
 		
-		print "cmd: " +cmd
+		print "RCB_INFO: cmd: " +cmd
 		os.system(cmd)	
 		
 		
