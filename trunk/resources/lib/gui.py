@@ -7,7 +7,7 @@ from pysqlite2 import dbapi2 as sqlite
 
 import dbupdate, importsettings
 from gamedatabase import *
-import helper
+import helper, util
 
 __language__ = xbmc.Language( os.getcwd() ).getLocalizedString
 
@@ -45,13 +45,6 @@ CONTROL_BUTTON_CHANGE_VIEW = 2
 
 CONTROL_LABEL_MSG = 4000
 
-LOG_LEVEL_ERROR = 0
-LOG_LEVEL_WARNING = 1
-LOG_LEVEL_INFO = 2
-LOG_LEVEL_DEBUG = 3
-
-CURRENT_LOG_LEVEL = LOG_LEVEL_INFO
-
 RCBHOME = os.getcwd()
 
 class UIGameDB(xbmcgui.WindowXML):	
@@ -77,7 +70,7 @@ class UIGameDB(xbmcgui.WindowXML):
 		# don't put GUI sensitive stuff here (as the xml hasn't been read yet
 		# Idea to initialize your variables here
 		
-		self.log("Init Rom Collection Browser: " +RCBHOME, LOG_LEVEL_INFO)
+		util.log("Init Rom Collection Browser: " +RCBHOME, util.LOG_LEVEL_INFO)
 		
 		self.isInit = True
 		
@@ -93,7 +86,7 @@ class UIGameDB(xbmcgui.WindowXML):
 		
 	def onInit(self):
 		
-		self.log("Begin onInit", LOG_LEVEL_DEBUG)
+		util.log("Begin onInit", util.LOG_LEVEL_DEBUG)
 		
 		#only init once
 		if(not self.isInit):
@@ -105,12 +98,12 @@ class UIGameDB(xbmcgui.WindowXML):
 		self.loadViewState()
 		self.checkAutoExec()
 
-		self.log("End onInit", LOG_LEVEL_DEBUG)
+		util.log("End onInit", util.LOG_LEVEL_DEBUG)
 		
 
 	def updateControls(self):
 		
-		self.log("Begin updateControls", LOG_LEVEL_DEBUG)
+		util.log("Begin updateControls", util.LOG_LEVEL_DEBUG)
 		
 		#prepare FilterControls	
 		self.showConsoles()		
@@ -120,20 +113,20 @@ class UIGameDB(xbmcgui.WindowXML):
 		self.showGames()
 		self.showGameInfo()
 		
-		self.log("End updateControls", LOG_LEVEL_DEBUG)
+		util.log("End updateControls", util.LOG_LEVEL_DEBUG)
 
 	
 	def onAction(self, action):		
 		if(action.getId() in ACTION_CANCEL_DIALOG):
-			self.log("onAction: ACTION_CANCEL_DIALOG", LOG_LEVEL_DEBUG)
+			util.log("onAction: ACTION_CANCEL_DIALOG", util.LOG_LEVEL_DEBUG)
 			self.exit()
 		elif(action.getId() in ACTION_MOVEMENT_UP or action.getId() in ACTION_MOVEMENT_DOWN):
 			
-			self.log("onAction: ACTION_MOVEMENT_UP / ACTION_MOVEMENT_DOWN", LOG_LEVEL_DEBUG)
+			util.log("onAction: ACTION_MOVEMENT_UP / ACTION_MOVEMENT_DOWN", util.LOG_LEVEL_DEBUG)
 			
 			control = self.getControlById(self.selectedControlId)
 			if(control == None):
-				self.log("control == None in onAction", LOG_LEVEL_WARNING)
+				util.log("control == None in onAction", util.LOG_LEVEL_WARNING)
 				return
 				
 			if(CONTROL_GAMES_GROUP_START <= self.selectedControlId <= CONTROL_GAMES_GROUP_END):				
@@ -180,21 +173,21 @@ class UIGameDB(xbmcgui.WindowXML):
 					self.showGames()								
 				
 		elif(action.getId() in ACTION_MOVEMENT_LEFT or action.getId() in ACTION_MOVEMENT_RIGHT):
-			self.log("onAction: ACTION_MOVEMENT_LEFT / ACTION_MOVEMENT_RIGHT", LOG_LEVEL_DEBUG)
+			util.log("onAction: ACTION_MOVEMENT_LEFT / ACTION_MOVEMENT_RIGHT", util.LOG_LEVEL_DEBUG)
 			
 			control = self.getControlById(self.selectedControlId)
 			if(control == None):
-				self.log("control == None in onAction", LOG_LEVEL_WARNING)
+				util.log("control == None in onAction", util.LOG_LEVEL_WARNING)
 				return
 				
 			if(CONTROL_GAMES_GROUP_START <= self.selectedControlId <= CONTROL_GAMES_GROUP_END):
 				self.showGameInfo()
 		elif(action.getId() in ACTION_INFO):
-			self.log("onAction: ACTION_INFO", LOG_LEVEL_DEBUG)
+			util.log("onAction: ACTION_INFO", util.LOG_LEVEL_DEBUG)
 			
 			control = self.getControlById(self.selectedControlId)
 			if(control == None):
-				self.log("control == None in onAction", LOG_LEVEL_WARNING)
+				util.log("control == None in onAction", util.LOG_LEVEL_WARNING)
 				return
 			if(CONTROL_GAMES_GROUP_START <= self.selectedControlId <= CONTROL_GAMES_GROUP_END):
 				self.showGameInfoDialog()
@@ -203,38 +196,38 @@ class UIGameDB(xbmcgui.WindowXML):
 
 	def onClick(self, controlId):
 		
-		self.log("onClick: " +str(controlId), LOG_LEVEL_DEBUG)
+		util.log("onClick: " +str(controlId), util.LOG_LEVEL_DEBUG)
 		
 		if (controlId == CONTROL_BUTTON_SETTINGS):
-			self.log("onClick: Import Settings", LOG_LEVEL_DEBUG)
+			util.log("onClick: Import Settings", util.LOG_LEVEL_DEBUG)
 			self.importSettings()
 		elif (controlId == CONTROL_BUTTON_UPDATEDB):
-			self.log("onClick: Update DB", LOG_LEVEL_DEBUG)
+			util.log("onClick: Update DB", util.LOG_LEVEL_DEBUG)
 			self.updateDB()		
 		elif (controlId in FILTER_CONTROLS):
-			self.log("onClick: Show Game Info", LOG_LEVEL_DEBUG)
+			util.log("onClick: Show Game Info", util.LOG_LEVEL_DEBUG)
 			self.setFocus(self.getControl(CONTROL_GAMES_GROUP_START))
 			self.showGameInfo()
 		elif (controlId in GAME_LISTS):
-			self.log("onClick: Launch Emu", LOG_LEVEL_DEBUG)
+			util.log("onClick: Launch Emu", util.LOG_LEVEL_DEBUG)
 			self.launchEmu()		
 
 
 	def onFocus(self, controlId):
-		self.log("onFocus: " +str(controlId), LOG_LEVEL_DEBUG)
+		util.log("onFocus: " +str(controlId), util.LOG_LEVEL_DEBUG)
 		self.selectedControlId = controlId
 	
 	
 	def showFilterControl(self, dbo, controlId, showEntryAllItems):
 		
-		self.log("begin showFilterControl: " +str(controlId), LOG_LEVEL_DEBUG)
+		util.log("begin showFilterControl: " +str(controlId), util.LOG_LEVEL_DEBUG)
 		
 		#xbmcgui.lock()
 		rows = dbo.getAllOrdered()
 		
 		control = self.getControlById(controlId)
 		if(control == None):
-			self.log("control == None in showFilterControl", LOG_LEVEL_WARNING)
+			util.log("control == None in showFilterControl", util.LOG_LEVEL_WARNING)
 			return
 		
 		control.setVisible(1)
@@ -245,7 +238,7 @@ class UIGameDB(xbmcgui.WindowXML):
 			items.append(xbmcgui.ListItem("All", "0", "", ""))		
 		
 		for row in rows:
-			items.append(xbmcgui.ListItem(str(row[1]), str(row[0]), "", ""))
+			items.append(xbmcgui.ListItem(str(row[util.ROW_NAME]), str(row[util.ROW_ID]), "", ""))
 			
 		control.addItems(items)
 			
@@ -253,58 +246,58 @@ class UIGameDB(xbmcgui.WindowXML):
 		return int(label2)
 		#xbmcgui.unlock
 		
-		self.log("End showFilterControl", LOG_LEVEL_DEBUG)
+		util.log("End showFilterControl", util.LOG_LEVEL_DEBUG)
 		
 		
 	def showConsoles(self):
-		self.log("Begin showConsoles" , LOG_LEVEL_DEBUG)
+		util.log("Begin showConsoles" , util.LOG_LEVEL_DEBUG)
 		rcbSetting = helper.getRCBSetting(self.gdb)
 		if(rcbSetting == None):
 			showEntryAllItems = 'True'
 		else:
-			showEntryAllItems = rcbSetting[11]
+			showEntryAllItems = rcbSetting[util.RCBSETTING_showEntryAllConsoles]
 		self.selectedConsoleId = self.showFilterControl(Console(self.gdb), CONTROL_CONSOLES, showEntryAllItems)
 		
-		self.log("End showConsoles" , LOG_LEVEL_DEBUG)
+		util.log("End showConsoles" , util.LOG_LEVEL_DEBUG)
 
 
 	def showGenre(self):
-		self.log("Begin showGenre" , LOG_LEVEL_DEBUG)
+		util.log("Begin showGenre" , util.LOG_LEVEL_DEBUG)
 		rcbSetting = helper.getRCBSetting(self.gdb)
 		if(rcbSetting == None):
 			showEntryAllItems = 'True'
 		else:
-			showEntryAllItems = rcbSetting[12]
+			showEntryAllItems = rcbSetting[util.RCBSETTING_showEntryAllGenres]
 		self.selectedGenreId = self.showFilterControl(Genre(self.gdb), CONTROL_GENRE, showEntryAllItems)
 		
-		self.log("End showGenre" , LOG_LEVEL_DEBUG)
+		util.log("End showGenre" , util.LOG_LEVEL_DEBUG)
 		
 	
 	def showYear(self):
-		self.log("Begin showYear" , LOG_LEVEL_DEBUG)
+		util.log("Begin showYear" , util.LOG_LEVEL_DEBUG)
 		rcbSetting = helper.getRCBSetting(self.gdb)
 		if(rcbSetting == None):
 			showEntryAllItems = 'True'
 		else:
-			showEntryAllItems = rcbSetting[13]
+			showEntryAllItems = rcbSetting[util.RCBSETTING_showEntryAllYears]
 		self.selectedYearId = self.showFilterControl(Year(self.gdb), CONTROL_YEAR, showEntryAllItems)
-		self.log("End showYear" , LOG_LEVEL_DEBUG)
+		util.log("End showYear" , util.LOG_LEVEL_DEBUG)
 		
 		
 	def showPublisher(self):
-		self.log("Begin showPublisher" , LOG_LEVEL_DEBUG)
+		util.log("Begin showPublisher" , util.LOG_LEVEL_DEBUG)
 		rcbSetting = helper.getRCBSetting(self.gdb)
 		if(rcbSetting == None):
 			showEntryAllItems = 'True'
 		else:
-			showEntryAllItems = rcbSetting[14]
+			showEntryAllItems = rcbSetting[util.RCBSETTING_showEntryAllPublisher]
 		self.selectedPublisherId = self.showFilterControl(Publisher(self.gdb), CONTROL_PUBLISHER, showEntryAllItems)
 		
-		self.log("End showPublisher" , LOG_LEVEL_DEBUG)
+		util.log("End showPublisher" , util.LOG_LEVEL_DEBUG)
 
 
 	def showGames(self):
-		self.log("Begin showGames" , LOG_LEVEL_DEBUG)
+		util.log("Begin showGames" , util.LOG_LEVEL_DEBUG)
 		
 		games = Game(self.gdb).getFilteredGames(self.selectedConsoleId, self.selectedGenreId, self.selectedYearId, self.selectedPublisherId)
 		
@@ -314,34 +307,33 @@ class UIGameDB(xbmcgui.WindowXML):
 		
 		self.clearList()
 				
-		for game in games:
-			#consoleId, publisherId, developerId
-			images = helper.getFilesByControl(self.gdb, 'gamelist', game[0], game[6], game[7], game[5])
+		for game in games:			
+			images = helper.getFilesByControl(self.gdb, util.IMAGE_CONTROL_MV_GAMELIST, game[util.ROW_ID], game[util.GAME_publisherId], game[util.GAME_developerId], game[util.GAME_romCollectionId])
 			if(images != None and len(images) != 0):
 				image = images[0]
 			else:
 				image = ""
 				
-			selectedImages = helper.getFilesByControl(self.gdb, 'gamelistselected', game[0], game[6], game[7], game[5])
+			selectedImages = helper.getFilesByControl(self.gdb, util.IMAGE_CONTROL_MV_GAMELISTSELECTED, game[util.ROW_ID], game[util.GAME_publisherId], game[util.GAME_developerId], game[util.GAME_romCollectionId])
 			if(selectedImages != None and len(selectedImages) != 0):
 				selectedImage = selectedImages[0]
 			else:
 				selectedImage = ""
-			item = xbmcgui.ListItem(str(game[1]), str(game[0]), image, selectedImage)
+			item = xbmcgui.ListItem(str(game[util.ROW_NAME]), str(game[util.ROW_ID]), image, selectedImage)
 			self.addItem(item, False)
 				
 		xbmcgui.unlock()
 				
 		self.writeMsg("")	
 		
-		self.log("End showGames" , LOG_LEVEL_DEBUG)
+		util.log("End showGames" , util.LOG_LEVEL_DEBUG)
 		
 
 	def showConsoleInfo(self):	
-		self.log("Begin showConsoleInfo" , LOG_LEVEL_DEBUG)
+		util.log("Begin showConsoleInfo" , util.LOG_LEVEL_DEBUG)
 		
 		if(self.getListSize() == 0):
-			self.log("ListSize == 0 in showGameInfo", LOG_LEVEL_WARNING)
+			util.log("ListSize == 0 in showGameInfo", util.LOG_LEVEL_WARNING)
 			return
 		
 		pos = self.getCurrentListPosition()
@@ -349,31 +341,31 @@ class UIGameDB(xbmcgui.WindowXML):
 			pos = 0
 		selectedGame = self.getListItem(pos)
 		if(selectedGame == None):
-			self.log("selectedGame == None in showGameInfo", LOG_LEVEL_WARNING)
+			util.log("selectedGame == None in showGameInfo", util.LOG_LEVEL_WARNING)
 			return
 		
 		consoleRow = Console(self.gdb).getObjectById(self.selectedConsoleId)
 		
 		if(consoleRow == None):
-			self.log("consoleRow == None in showConsoleInfo", LOG_LEVEL_WARNING)
+			util.log("consoleRow == None in showConsoleInfo", util.LOG_LEVEL_WARNING)
 			return
 			
+		""" TODO no console ionfo atm
 		image = consoleRow[3]		
 		description = consoleRow[2]		
-		
-		""" TODO no console ionfo atm
+				
 		selectedGame.setProperty('mainviewgameinfo', image)
 		selectedGame.setProperty('gamedesc', description)
 		"""
 		
-		self.log("End showConsoleInfo" , LOG_LEVEL_DEBUG)
+		util.log("End showConsoleInfo" , util.LOG_LEVEL_DEBUG)
 		
 	
 	def showGameInfo(self):
-		self.log("Begin showGameInfo" , LOG_LEVEL_DEBUG)
+		util.log("Begin showGameInfo" , util.LOG_LEVEL_DEBUG)
 		
 		if(self.getListSize() == 0):
-			self.log("ListSize == 0 in showGameInfo", LOG_LEVEL_WARNING)
+			util.log("ListSize == 0 in showGameInfo", util.LOG_LEVEL_WARNING)
 			return
 					
 		pos = self.getCurrentListPosition()
@@ -381,17 +373,17 @@ class UIGameDB(xbmcgui.WindowXML):
 			pos = 0
 		selectedGame = self.getListItem(pos)
 		if(selectedGame == None):
-			self.log("selectedGame == None in showGameInfo", LOG_LEVEL_WARNING)
+			util.log("selectedGame == None in showGameInfo", util.LOG_LEVEL_WARNING)
 			return
 			
 		gameId = selectedGame.getLabel2()
 		gameRow = Game(self.gdb).getObjectById(gameId)		
 		
 		if(gameRow == None):
-			self.log("gameRow == None in showGameInfo", LOG_LEVEL_WARNING)
+			util.log("gameRow == None in showGameInfo", util.LOG_LEVEL_WARNING)
 			return
 				
-		bgimages = helper.getFilesByControl(self.gdb, 'mainviewbackground', gameRow[0], gameRow[6], gameRow[7], gameRow[5])
+		bgimages = helper.getFilesByControl(self.gdb, util.IMAGE_CONTROL_MV_BACKGROUND, gameRow[util.ROW_ID], gameRow[util.GAME_publisherId], gameRow[util.GAME_developerId], gameRow[util.GAME_romCollectionId])
 		if(bgimages != None and len(bgimages) != 0):
 			bgimage = bgimages[0]
 		else:
@@ -400,28 +392,28 @@ class UIGameDB(xbmcgui.WindowXML):
 		controlBg.setImage(bgimage)
 		
 		
-		images = helper.getFilesByControl(self.gdb, 'mainviewgameinfo', gameRow[0], gameRow[6], gameRow[7], gameRow[5])
+		images = helper.getFilesByControl(self.gdb, util.IMAGE_CONTROL_MV_GAMEINFO, gameRow[util.ROW_ID], gameRow[util.GAME_publisherId], gameRow[util.GAME_developerId], gameRow[util.GAME_romCollectionId])
 		if(images != None and len(images) != 0):
 			image = images[0]
 		else:
 			image = ""
 		
-		description = gameRow[2]
+		description = gameRow[util.GAME_description]
 		if(description == None):
 			description = ""
 		
-		selectedGame.setProperty('mainviewgameinfo', image)
-		selectedGame.setProperty('gamedesc', description)
+		selectedGame.setProperty(util.IMAGE_CONTROL_MV_GAMEINFO, image)
+		selectedGame.setProperty(util.TEXT_CONTROL_MV_GAMEDESC, description)
 		
-		self.log("End showGameInfo" , LOG_LEVEL_DEBUG)
+		util.log("End showGameInfo" , util.LOG_LEVEL_DEBUG)
 
 
 	def launchEmu(self):
 
-		self.log("Begin launchEmu" , LOG_LEVEL_INFO)
+		util.log("Begin launchEmu" , util.LOG_LEVEL_INFO)
 
 		if(self.getListSize() == 0):
-			self.log("ListSize == 0 in launchEmu", LOG_LEVEL_WARNING)
+			util.log("ListSize == 0 in launchEmu", util.LOG_LEVEL_WARNING)
 			return
 
 		pos = self.getCurrentListPosition()
@@ -430,34 +422,34 @@ class UIGameDB(xbmcgui.WindowXML):
 		selectedGame = self.getListItem(pos)
 		
 		if(selectedGame == None):
-			self.log("selectedGame == None in launchEmu", LOG_LEVEL_WARNING)
+			util.log("selectedGame == None in launchEmu", util.LOG_LEVEL_WARNING)
 			return
 			
 		gameId = selectedGame.getLabel2()
-		self.log("launching game with id: " +str(gameId), LOG_LEVEL_INFO)
+		util.log("launching game with id: " +str(gameId), util.LOG_LEVEL_INFO)
 		
 		helper.launchEmu(self.gdb, self, gameId)
-		self.log("End launchEmu" , LOG_LEVEL_INFO)
+		util.log("End launchEmu" , util.LOG_LEVEL_INFO)
 		
 		
 	def updateDB(self):
-		self.log("Begin updateDB" , LOG_LEVEL_INFO)
+		util.log("Begin updateDB" , util.LOG_LEVEL_INFO)
 		
 		dbupdate.DBUpdate().updateDB(self.gdb, self)
 		self.updateControls()
-		self.log("End updateDB" , LOG_LEVEL_INFO)
+		util.log("End updateDB" , util.LOG_LEVEL_INFO)
 		
 	
 	def importSettings(self):
-		self.log("Begin importSettings" , LOG_LEVEL_INFO)
+		util.log("Begin importSettings" , util.LOG_LEVEL_INFO)
 		
 		importsettings.SettingsImporter().importSettings(self.gdb, os.path.join(RCBHOME, 'resources', 'database'), self)
 		self.updateControls()
-		self.log("End importSettings" , LOG_LEVEL_INFO)
+		util.log("End importSettings" , util.LOG_LEVEL_INFO)
 		
 			
 	def checkAutoExec(self):
-		self.log("Begin checkAutoExec" , LOG_LEVEL_INFO)
+		util.log("Begin checkAutoExec" , util.LOG_LEVEL_INFO)
 		
 		autoexec = os.path.join(RCBHOME, '..', 'autoexec.py')		
 		if (os.path.isfile(autoexec)):	
@@ -467,7 +459,7 @@ class UIGameDB(xbmcgui.WindowXML):
 				lines = fh.readlines()
 				fh.close()
 			except Exception, (exc):
-				self.log("Cannot access autoexec.py: " +str(exc), LOG_LEVEL_ERROR)
+				util.log("Cannot access autoexec.py: " +str(exc), util.LOG_LEVEL_ERROR)
 				return
 				
 			if(len(lines) > 0):
@@ -477,7 +469,7 @@ class UIGameDB(xbmcgui.WindowXML):
 					try:
 						os.remove(autoexec)
 					except Exception, (exc):
-						self.log("Cannot remove autoexec.py: " +str(exc), LOG_LEVEL_ERROR)
+						util.log("Cannot remove autoexec.py: " +str(exc), util.LOG_LEVEL_ERROR)
 						return
 				else:
 					return
@@ -495,49 +487,49 @@ class UIGameDB(xbmcgui.WindowXML):
 			try:
 				os.rename(autoExecBackupPath, autoexec)
 			except Exception, (exc):
-				self.log("Cannot rename autoexec.py: " +str(exc), LOG_LEVEL_ERROR)
+				util.log("Cannot rename autoexec.py: " +str(exc), util.LOG_LEVEL_ERROR)
 				return
 			
 		RCBSetting(self.gdb).update(('autoexecBackupPath',), (None,), rcbSetting[0])
 		self.gdb.commit()
 		
-		self.log("End checkAutoExec" , LOG_LEVEL_INFO)
+		util.log("End checkAutoExec" , util.LOG_LEVEL_INFO)
 		
 	
 	def writeMsg(self, msg):
 		control = self.getControlById(CONTROL_LABEL_MSG)
 		if(control == None):
-			self.log("RCB_WARNING: control == None in writeMsg", LOG_LEVEL_WARNING)
+			util.log("RCB_WARNING: control == None in writeMsg", util.LOG_LEVEL_WARNING)
 			return
 		control.setLabel(msg)
 		
 		
 	def saveViewState(self, isOnExit):
 		
-		self.log("Begin saveViewState" , LOG_LEVEL_INFO)
+		util.log("Begin saveViewState" , util.LOG_LEVEL_INFO)
 		
 		if(self.getListSize() == 0):
-			self.log("ListSize == 0 in saveViewState", LOG_LEVEL_WARNING)
+			util.log("ListSize == 0 in saveViewState", util.LOG_LEVEL_WARNING)
 			return
 		
 		selectedGameIndex = self.getCurrentListPosition()
 		if(selectedGameIndex == -1):
 			selectedGameIndex = 0
 		if(selectedGameIndex == None):
-			self.log("selectedGameIndex == None in saveViewState", LOG_LEVEL_WARNING)
+			util.log("selectedGameIndex == None in saveViewState", util.LOG_LEVEL_WARNING)
 			return
 		
 		self.saveViewMode()
 		
-		helper.saveViewState(self.gdb, isOnExit, 'mainView', selectedGameIndex, self.selectedConsoleIndex, self.selectedGenreIndex, self.selectedPublisherIndex, 
+		helper.saveViewState(self.gdb, isOnExit, util.VIEW_MAINVIEW, selectedGameIndex, self.selectedConsoleIndex, self.selectedGenreIndex, self.selectedPublisherIndex, 
 			self.selectedYearIndex, self.selectedControlId, None)
 		
-		self.log("End saveViewState" , LOG_LEVEL_INFO)
+		util.log("End saveViewState" , util.LOG_LEVEL_INFO)
 
 
 	def saveViewMode(self):
 		
-		self.log("Begin saveViewMode" , LOG_LEVEL_INFO)
+		util.log("Begin saveViewMode" , util.LOG_LEVEL_INFO)
 		
 		view_mode = ""
 		for id in range( CONTROL_GAMES_GROUP_START, CONTROL_GAMES_GROUP_END + 1 ):
@@ -548,75 +540,75 @@ class UIGameDB(xbmcgui.WindowXML):
 			except:
 				pass
 				
-		self.Settings.setSetting( "rcb_view_mode", view_mode)
+		self.Settings.setSetting( util.SETTING_RCB_VIEW_MODE, view_mode)
 		
-		self.log("End saveViewMode" , LOG_LEVEL_INFO)
+		util.log("End saveViewMode" , util.LOG_LEVEL_INFO)
 
 	
 	def loadViewState(self):
 		
-		self.log("Begin loadViewState" , LOG_LEVEL_INFO)
+		util.log("Begin loadViewState" , util.LOG_LEVEL_INFO)
 		
 		rcbSetting = helper.getRCBSetting(self.gdb)
 		if(rcbSetting == None):			
-			self.log("rcbSetting == None in loadViewState", LOG_LEVEL_WARNING)
+			util.log("rcbSetting == None in loadViewState", util.LOG_LEVEL_WARNING)
 			focusControl = self.getControlById(CONTROL_BUTTON_SETTINGS)
 			self.setFocus(focusControl)
 			return		
 		
-		if(rcbSetting[2] != None):
-			self.selectedConsoleId = int(self.setFilterSelection(CONTROL_CONSOLES, rcbSetting[2]))	
-			self.selectedConsoleIndex = rcbSetting[2]
-		if(rcbSetting[3] != None):
-			self.selectedGenreId = int(self.setFilterSelection(CONTROL_GENRE, rcbSetting[3]))
-			self.selectedGenreIndex = rcbSetting[3]
-		if(rcbSetting[4] != None):
-			self.selectedPublisherId = int(self.setFilterSelection(CONTROL_PUBLISHER, rcbSetting[4]))
-			self.selectedPublisherIndex = rcbSetting[4]
-		if(rcbSetting[5] != None):
-			self.selectedYearId = int(self.setFilterSelection(CONTROL_YEAR, rcbSetting[5]))
-			self.selectedYearIndex = rcbSetting[5]
+		if(rcbSetting[util.RCBSETTING_lastSelectedConsoleIndex] != None):
+			self.selectedConsoleId = int(self.setFilterSelection(CONTROL_CONSOLES, rcbSetting[util.RCBSETTING_lastSelectedConsoleIndex]))	
+			self.selectedConsoleIndex = rcbSetting[util.RCBSETTING_lastSelectedConsoleIndex]
+		if(rcbSetting[util.RCBSETTING_lastSelectedGenreIndex] != None):
+			self.selectedGenreId = int(self.setFilterSelection(CONTROL_GENRE, rcbSetting[util.RCBSETTING_lastSelectedGenreIndex]))
+			self.selectedGenreIndex = rcbSetting[util.RCBSETTING_lastSelectedGenreIndex]
+		if(rcbSetting[util.RCBSETTING_lastSelectedPublisherIndex] != None):
+			self.selectedPublisherId = int(self.setFilterSelection(CONTROL_PUBLISHER, rcbSetting[util.RCBSETTING_lastSelectedPublisherIndex]))
+			self.selectedPublisherIndex = rcbSetting[util.RCBSETTING_lastSelectedPublisherIndex]
+		if(rcbSetting[util.RCBSETTING_lastSelectedYearIndex] != None):
+			self.selectedYearId = int(self.setFilterSelection(CONTROL_YEAR, rcbSetting[util.RCBSETTING_lastSelectedYearIndex]))
+			self.selectedYearIndex = rcbSetting[util.RCBSETTING_lastSelectedYearIndex]
 
 		self.showGames()
-		self.setFilterSelection(CONTROL_GAMES_GROUP_START, rcbSetting[6])
+		self.setFilterSelection(CONTROL_GAMES_GROUP_START, rcbSetting[util.RCBSETTING_lastSelectedGameIndex])
 						
 		#lastFocusedControl
-		if(rcbSetting[17] != None):
-			focusControl = self.getControlById(rcbSetting[17])
+		if(rcbSetting[util.RCBSETTING_lastFocusedControlMainView] != None):
+			focusControl = self.getControlById(rcbSetting[util.RCBSETTING_lastFocusedControlMainView])
 			if(focusControl == None):
-				self.log("focusControl == None in loadViewState". LOG_LEVEL_WARNING)
+				util.log("focusControl == None in loadViewState". util.LOG_LEVEL_WARNING)
 				return
 			self.setFocus(focusControl)
-			if(rcbSetting[17] == CONTROL_CONSOLES):
+			if(rcbSetting[util.RCBSETTING_lastFocusedControlMainView] == CONTROL_CONSOLES):
 				self.showConsoleInfo()
-			elif(CONTROL_GAMES_GROUP_START <= rcbSetting[17] <= CONTROL_GAMES_GROUP_END):
+			elif(CONTROL_GAMES_GROUP_START <= rcbSetting[util.RCBSETTING_lastFocusedControlMainView] <= CONTROL_GAMES_GROUP_END):
 				self.showGameInfo()
 		else:
 			focusControl = self.getControlById(CONTROL_CONSOLES)
 			if(focusControl == None):
-				self.log("focusControl == None (2) in loadViewState", LOG_LEVEL_WARNING)
+				util.log("focusControl == None (2) in loadViewState", util.LOG_LEVEL_WARNING)
 				return
 			self.setFocus(focusControl)		
 		
-		id = self.Settings.getSetting( "rcb_view_mode")
+		id = self.Settings.getSetting( util.SETTING_RCB_VIEW_MODE)
 		xbmc.executebuiltin( "Container.SetViewMode(%i)" % int(id) )
 		
 		#lastSelectedView
-		if(rcbSetting[1] == 'gameInfoView'):
+		if(rcbSetting[util.RCBSETTING_lastSelectedView] == util.VIEW_GAMEINFOVIEW):
 			self.showGameInfoDialog()
 			
-		self.log("End loadViewState" , LOG_LEVEL_INFO)
+		util.log("End loadViewState" , util.LOG_LEVEL_INFO)
 			
 			
 			
 	def setFilterSelection(self, controlId, selectedIndex):
 		
-		self.log("Begin setFilterSelection" , LOG_LEVEL_DEBUG)
+		util.log("Begin setFilterSelection" , util.LOG_LEVEL_DEBUG)
 		
 		if(selectedIndex != None):
 			control = self.getControlById(controlId)
 			if(control == None):
-				self.log("control == None in setFilterSelection", LOG_LEVEL_WARNING)
+				util.log("control == None in setFilterSelection", util.LOG_LEVEL_WARNING)
 				return
 			
 			if(controlId == CONTROL_GAMES_GROUP_START):
@@ -628,22 +620,22 @@ class UIGameDB(xbmcgui.WindowXML):
 				selectedItem = control.getSelectedItem()
 				
 			if(selectedItem == None):
-				self.log("End setFilterSelection" , LOG_LEVEL_DEBUG)
+				util.log("End setFilterSelection" , util.LOG_LEVEL_DEBUG)
 				return 0
 			label2 = selectedItem.getLabel2()
-			self.log("End setFilterSelection" , LOG_LEVEL_DEBUG)
+			util.log("End setFilterSelection" , util.LOG_LEVEL_DEBUG)
 			return label2
 		else:
-			self.log("End setFilterSelection" , LOG_LEVEL_DEBUG)
+			util.log("End setFilterSelection" , util.LOG_LEVEL_DEBUG)
 			return 0
 			
 	
 	def showGameInfoDialog(self):
 
-		self.log("Begin showGameInfoDialog", LOG_LEVEL_INFO)
+		util.log("Begin showGameInfoDialog", util.LOG_LEVEL_INFO)
 		
 		if(self.getListSize() == 0):
-			self.log("ListSize == 0 in saveViewState", LOG_LEVEL_WARNING)
+			util.log("ListSize == 0 in saveViewState", util.LOG_LEVEL_WARNING)
 			return
 		
 		selectedGameIndex = self.getCurrentListPosition()		
@@ -651,7 +643,7 @@ class UIGameDB(xbmcgui.WindowXML):
 			selectedGameIndex = 0
 		selectedGame = self.getListItem(selectedGameIndex)		
 		if(selectedGame == None):
-			self.log("selectedGame == None in showGameInfoDialog", LOG_LEVEL_WARNING)
+			util.log("selectedGame == None in showGameInfoDialog", util.LOG_LEVEL_WARNING)
 			return
 		gameId = selectedGame.getLabel2()
 		
@@ -670,7 +662,7 @@ class UIGameDB(xbmcgui.WindowXML):
 		self.setCurrentListPosition(selectedGameIndex)
 		self.showGameInfo()
 		
-		self.log("End showGameInfoDialog", LOG_LEVEL_INFO)
+		util.log("End showGameInfoDialog", util.LOG_LEVEL_INFO)
 		
 		
 	
@@ -680,34 +672,16 @@ class UIGameDB(xbmcgui.WindowXML):
 		except: 
 			#HACK there seems to be a problem with recognizing the scrollbar controls
 			if(controlId not in (CONROL_SCROLLBARS)):
-				self.log("Control with id: %s could not be found. Check WindowXML file." %str(controlId), LOG_LEVEL_ERROR)
+				util.log("Control with id: %s could not be found. Check WindowXML file." %str(controlId), util.LOG_LEVEL_ERROR)
 				self.writeMsg("Control with id: %s could not be found. Check WindowXML file." %str(controlId))
 			return None
 		
 		return control
-		
-	
-	def log(self, message, logLevel):
-		
-		if(logLevel > CURRENT_LOG_LEVEL):
-			return
-			
-		prefix = ''
-		if(logLevel == LOG_LEVEL_DEBUG):
-			prefix = 'RCB_DEBUG: '
-		elif(logLevel == LOG_LEVEL_INFO):
-			prefix = 'RCB_INFO: '
-		elif(logLevel == LOG_LEVEL_WARNING):
-			prefix = 'RCB_WARNING: '
-		elif(logLevel == LOG_LEVEL_ERROR):
-			prefix = 'RCB_ERROR: '
-
-		print prefix + message
 	
 	
 	def exit(self):				
 		
-		self.log("exit" , LOG_LEVEL_INFO)
+		util.log("exit" , util.LOG_LEVEL_INFO)
 		
 		self.saveViewState(True)
 		

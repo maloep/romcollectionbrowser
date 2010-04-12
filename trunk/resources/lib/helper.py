@@ -2,13 +2,21 @@
 import os, sys, re
 import dbupdate, importsettings
 from gamedatabase import *
+import util
 
 RCBHOME = os.getcwd()
 
 
 def getFilesByControl(gdb, controlName, gameId, publisherId, developerId, romCollectionId):
+		util.log("getFilesByControl controlName: " +controlName, util.LOG_LEVEL_DEBUG)
+		util.log("getFilesByControl gameId: " +str(gameId), util.LOG_LEVEL_DEBUG)
+		util.log("getFilesByControl publisherId: " +str(publisherId), util.LOG_LEVEL_DEBUG)
+		util.log("getFilesByControl developerId: " +str(developerId), util.LOG_LEVEL_DEBUG)
+		util.log("getFilesByControl romCollectionId: " +str(romCollectionId), util.LOG_LEVEL_DEBUG)
+	
 		fileTypeForControlRows = FileTypeForControl(gdb).getFileTypesForControlByKey(romCollectionId, controlName)
 		if(fileTypeForControlRows == None):
+			util.log("fileTypeForControlRows == None", util.LOG_LEVEL_WARNING)
 			return
 		
 		mediaFiles = []
@@ -16,7 +24,7 @@ def getFilesByControl(gdb, controlName, gameId, publisherId, developerId, romCol
 			
 			fileTypeRow = FileType(gdb).getObjectById(fileTypeForControlRow[4])
 			if(fileTypeRow == None):
-				print "RCB_WARNING: fileTypeRow == None in getFilesByControl"
+				util.log("fileTypeRow == None in getFilesByControl", util.LOG_LEVEL_WARNING)
 				continue
 				
 			parentId = None
@@ -27,7 +35,7 @@ def getFilesByControl(gdb, controlName, gameId, publisherId, developerId, romCol
 			elif(fileTypeRow[3] == 'console'):
 				romCollectionRow = RomCollection(gdb).getObjectById(romCollectionId)
 				if(romCollectionRow == None):
-					print "RCB WARNING: romCollectionRow == None in getFilesByControl"
+					util.log("romCollectionRow == None in getFilesByControl", util.LOG_LEVEL_WARNING)
 					continue
 				consoleId = romCollectionRow[2]			
 				parentId = consoleId
@@ -47,10 +55,11 @@ def getFilesByControl(gdb, controlName, gameId, publisherId, developerId, romCol
 
 
 def launchEmu(gdb, gui, gameId):
+		util.log("Begin helper.launchEmu", util.LOG_LEVEL_INFO)
 		
 		gameRow = Game(gdb).getObjectById(gameId)
 		if(gameRow == None):
-			print("RCB_ERROR:Game with id %s could not be found in database" %gameId)
+			util.log("Game with id %s could not be found in database" %gameId, util.LOG_LEVEL_ERROR)
 			return
 			
 		gui.writeMsg("Launch Game " +str(gameRow[1]))
@@ -58,7 +67,7 @@ def launchEmu(gdb, gui, gameId):
 		romPaths = Path(gdb).getRomPathsByRomCollectionId(gameRow[5])
 		romCollectionRow = RomCollection(gdb).getObjectById(gameRow[5])
 		if(romCollectionRow == None):
-			print("RCB_ERROR: Rom Collection with id %s could not be found in database" %gameRow[5])
+			util.log("Rom Collection with id %s could not be found in database" %gameRow[5], util.LOG_LEVEL_ERROR)
 			return
 		cmd = romCollectionRow[3]		
 		
@@ -74,7 +83,7 @@ def launchEmu(gdb, gui, gameId):
 				if(os.path.isfile(rom)):
 					break
 			if(rom == ""):
-				print("RCB_ERROR: no rom file found for game: " +str(gameRow[1]))
+				util.log("no rom file found for game: " +str(gameRow[1]), util.LOG_LEVEL_ERROR)
 				
 			#cmd could be: uae {-%I% %ROM%}
 			#we have to repeat the part inside the brackets and replace the %I% with the current index
@@ -114,7 +123,7 @@ def launchEmu(gdb, gui, gameId):
 				fh.write("xbmc.executescript('"+ os.path.join(RCBHOME, 'default.py')+"')\n")
 				fh.close()
 			except Exception, (exc):
-				print("RCB_ERROR: Cannot write to autoexec.py: " +str(exc))
+				util.log("Cannot write to autoexec.py: " +str(exc), util.LOG_LEVEL_ERROR)
 				return
 
 			# Remember selection
@@ -133,36 +142,47 @@ def launchEmu(gdb, gui, gameId):
 		Game(gdb).update(('launchCount',), (launchCount +1,) , gameRow[0])
 		gdb.commit()
 		
-		print "RCB_INFO: cmd: " +cmd
-		os.system(cmd)	
+		util.log("cmd: " +cmd, util.LOG_LEVEL_INFO)
+		os.system(cmd)
+		
+		util.log("End helper.launchEmu", util.LOG_LEVEL_INFO)
 		
 		
 def doBackup(gdb, fName):
+		util.log("Begin helper.doBackup", util.LOG_LEVEL_INFO)
+	
 		if os.path.isfile(fName):
 			newFileName = fName+'.bak'
 			
 			if os.path.isfile(newFileName):
-				print("RCB ERROR: Cannot backup autoexec.py: File exists.")
+				util.log("Cannot backup autoexec.py: File exists.", util.LOG_LEVEL_ERROR)
 				return
 			
 			try:
 				os.rename(fName, newFileName)
 			except Exception, (exc):
-				print("RCB ERROR: Cannot rename autoexec.py: " +str(exc))
+				util.log("Cannot rename autoexec.py: " +str(exc), util.LOG_LEVEL_ERROR)
 				return
 			
 			rcbSetting = getRCBSetting()
 			if (rcbSetting == None):
+				util.log("rcbSetting == None in doBackup", util.LOG_LEVEL_WARNING)
 				return
 			
 			RCBSetting(gdb).update(('autoexecBackupPath',), (newFileName,), rcbSetting[0])
 			gdb.commit()
 			
+		util.log("End helper.doBackup", util.LOG_LEVEL_INFO)
+			
 			
 def saveViewState(gdb, isOnExit, selectedView, selectedGameIndex, selectedConsoleIndex, selectedGenreIndex, selectedPublisherIndex, selectedYearIndex, 
 	selectedControlIdMainView, selectedControlIdGameInfoView):
+		
+		util.log("Begin helper.saveViewState", util.LOG_LEVEL_INFO)
+		
 		rcbSetting = getRCBSetting(gdb)
 		if(rcbSetting == None):
+			util.log("rcbSetting == None in helper.saveViewState", util.LOG_LEVEL_WARNING)
 			return
 		
 		if(isOnExit):
@@ -181,6 +201,8 @@ def saveViewState(gdb, isOnExit, selectedView, selectedGameIndex, selectedConsol
 				(None, None, None, None, None, None, None, None), rcbSetting[0])
 				
 		gdb.commit()
+		
+		util.log("End helper.saveViewState", util.LOG_LEVEL_INFO)
 
 
 			
