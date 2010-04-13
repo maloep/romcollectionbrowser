@@ -28,25 +28,24 @@ def getFilesByControl(gdb, controlName, gameId, publisherId, developerId, romCol
 				continue
 				
 			parentId = None
-			
-			#fileTypeRow[3] = parent
-			if(fileTypeRow[3] == 'game'):
+						
+			if(fileTypeRow[util.FILETYPE_parent] == util.FILETYPEPARENT_GAME):
 				parentId = gameId
-			elif(fileTypeRow[3] == 'console'):
+			elif(fileTypeRow[util.FILETYPE_parent] == util.FILETYPEPARENT_CONSOLE):
 				romCollectionRow = RomCollection(gdb).getObjectById(romCollectionId)
 				if(romCollectionRow == None):
 					util.log("romCollectionRow == None in getFilesByControl", util.LOG_LEVEL_WARNING)
 					continue
 				consoleId = romCollectionRow[2]			
 				parentId = consoleId
-			elif(fileTypeRow[3] == 'publisher'):
+			elif(fileTypeRow[util.FILETYPE_parent] == util.FILETYPEPARENT_PUBLISHER):
 				parentId = publisherId
-			elif(fileTypeRow[3] == 'developer'):
+			elif(fileTypeRow[util.FILETYPE_parent] == util.FILETYPEPARENT_DEVELOPER):
 				parentId = developerId
-			elif(fileTypeRow[3] == 'romcollection'):
+			elif(fileTypeRow[util.FILETYPE_parent] == util.FILETYPEPARENT_ROMCOLLECTION):
 				parentId = romCollectionId
 				
-			files = File(gdb).getFilesByGameIdAndTypeId(parentId, fileTypeForControlRow[4])
+			files = File(gdb).getFilesByGameIdAndTypeId(parentId, fileTypeForControlRow[util.FILETYPEFORCONTROL_fileTypeId])
 			for file in files:				
 				mediaFiles.append(file[1])
 				
@@ -62,20 +61,20 @@ def launchEmu(gdb, gui, gameId):
 			util.log("Game with id %s could not be found in database" %gameId, util.LOG_LEVEL_ERROR)
 			return
 			
-		gui.writeMsg("Launch Game " +str(gameRow[1]))
+		gui.writeMsg("Launch Game " +str(gameRow[util.ROW_NAME]))
 		
-		romPaths = Path(gdb).getRomPathsByRomCollectionId(gameRow[5])
-		romCollectionRow = RomCollection(gdb).getObjectById(gameRow[5])
+		romPaths = Path(gdb).getRomPathsByRomCollectionId(gameRow[util.GAME_romCollectionId])
+		romCollectionRow = RomCollection(gdb).getObjectById(gameRow[util.GAME_romCollectionId])
 		if(romCollectionRow == None):
 			util.log("Rom Collection with id %s could not be found in database" %gameRow[5], util.LOG_LEVEL_ERROR)
 			return
-		cmd = romCollectionRow[3]		
+		cmd = romCollectionRow[util.ROMCOLLECTION_emuCommandLine]		
 		
 		#handle multi rom scenario
-		filenameRows = File(gdb).getRomsByGameId(gameRow[0])
+		filenameRows = File(gdb).getRomsByGameId(gameRow[util.ROW_ID])
 		fileindex = int(0)
 		for fileNameRow in filenameRows:
-			fileName = fileNameRow[0]
+			fileName = fileNameRow[util.ROW_ID]
 			rom = ""
 			#we could have multiple rom Paths - search for the correct one
 			for romPath in romPaths:
@@ -93,24 +92,23 @@ def launchEmu(gdb, gui, gameId):
 				replString = cmd[obIndex+1:cbIndex]
 			cmd = cmd.replace("{", "")
 			cmd = cmd.replace("}", "")
-			if fileindex == 0:
-				#romCollectionRow[5] = escapeCmd
-				if (romCollectionRow[5] == 1):				
+			if fileindex == 0:				
+				if (romCollectionRow[util.ROMCOLLECTION_escapeEmuCmd] == 1):				
 					cmd = cmd.replace('%ROM%', re.escape(rom))					
 				else:					
 					cmd = cmd.replace('%ROM%', rom)
 				cmd = cmd.replace('%I%', str(fileindex))
 			else:
 				newrepl = replString
-				if (romCollectionRow[5] == 1):
+				if (romCollectionRow[util.ROMCOLLECTION_escapeEmuCmd] == 1):
 					newrepl = newrepl.replace('%ROM%', re.escape(rom))					
 				else:					
 					newrepl = newrepl.replace('%ROM%', rom)
 				newrepl = newrepl.replace('%I%', str(fileindex))
 				cmd += ' ' +newrepl			
 			fileindex += 1
-		#romCollectionRow[4] = useSolo
-		if (romCollectionRow[4] == 'True'):
+			
+		if (romCollectionRow[util.ROMCOLLECTION_useEmuSolo] == 'True'):
 			# Backup original autoexec.py		
 			autoexec = os.path.join(RCBHOME, '..', 'autoexec.py')
 			doBackup(gdb, autoexec)			
@@ -138,8 +136,8 @@ def launchEmu(gdb, gui, gameId):
 				cmd = os.path.join(re.escape(RCBHOME), 'applaunch.sh ') +cmd
 		
 		#update LaunchCount
-		launchCount = gameRow[19]
-		Game(gdb).update(('launchCount',), (launchCount +1,) , gameRow[0])
+		launchCount = gameRow[util.GAME_launchCount]
+		Game(gdb).update(('launchCount',), (launchCount +1,) , gameRow[util.ROW_ID])
 		gdb.commit()
 		
 		util.log("cmd: " +cmd, util.LOG_LEVEL_INFO)
@@ -169,7 +167,7 @@ def doBackup(gdb, fName):
 				util.log("rcbSetting == None in doBackup", util.LOG_LEVEL_WARNING)
 				return
 			
-			RCBSetting(gdb).update(('autoexecBackupPath',), (newFileName,), rcbSetting[0])
+			RCBSetting(gdb).update(('autoexecBackupPath',), (newFileName,), rcbSetting[util.ROW_ID])
 			gdb.commit()
 			
 		util.log("End helper.doBackup", util.LOG_LEVEL_INFO)
@@ -187,10 +185,10 @@ def saveViewState(gdb, isOnExit, selectedView, selectedGameIndex, selectedConsol
 		
 		if(isOnExit):
 			#saveViewStateOnExit
-			saveViewState = rcbSetting[15]
+			saveViewState = rcbSetting[util.RCBSETTING_saveViewStateOnExit]
 		else:
 			#saveViewStateOnLaunchEmu
-			saveViewState = rcbSetting[16]
+			saveViewState = rcbSetting[util.RCBSETTING_saveViewStateOnLaunchEmu]
 			
 		
 		if(saveViewState == 'True'):
@@ -198,7 +196,7 @@ def saveViewState(gdb, isOnExit, selectedView, selectedGameIndex, selectedConsol
 				(selectedView, selectedConsoleIndex, selectedGenreIndex, selectedPublisherIndex, selectedYearIndex, selectedGameIndex, selectedControlIdMainView, selectedControlIdGameInfoView), rcbSetting[0])
 		else:
 			RCBSetting(gdb).update(('lastSelectedView', 'lastSelectedConsoleIndex', 'lastSelectedGenreIndex', 'lastSelectedPublisherIndex', 'lastSelectedYearIndex', 'lastSelectedGameIndex', 'lastFocusedControlMainView', 'lastFocusedControlGameInfoView'),
-				(None, None, None, None, None, None, None, None), rcbSetting[0])
+				(None, None, None, None, None, None, None, None), rcbSetting[util.ROW_ID])
 				
 		gdb.commit()
 		
@@ -212,4 +210,4 @@ def getRCBSetting(gdb):
 			#TODO raise error
 			return None
 						
-		return rcbSettingRows[0]
+		return rcbSettingRows[util.ROW_ID]

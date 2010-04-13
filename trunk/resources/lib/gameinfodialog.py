@@ -3,7 +3,7 @@ import os, sys
 import xbmc, xbmcgui
 import dbupdate, importsettings
 from gamedatabase import *
-import helper
+import helper, util
 
 
 ACTION_EXIT_SCRIPT = ( 10, )
@@ -59,6 +59,8 @@ class UIGameInfoView(xbmcgui.WindowXMLDialog):
 	def __init__(self, *args, **kwargs):		
 		xbmcgui.WindowXMLDialog.__init__( self, *args, **kwargs )		
 		
+		util.log("Init GameInfoView", util.LOG_LEVEL_INFO)
+		
 		self.gdb = kwargs[ "gdb" ]
 		self.selectedGameId = kwargs[ "gameId" ]		
 		self.selectedConsoleId = kwargs[ "consoleId" ]		
@@ -76,6 +78,9 @@ class UIGameInfoView(xbmcgui.WindowXMLDialog):
 		
 		
 	def onInit(self):
+		
+		util.log("Begin OnInit", util.LOG_LEVEL_DEBUG)
+		
 		self.showGameList()
 		self.showGameInfo()
 		
@@ -87,30 +92,41 @@ class UIGameInfoView(xbmcgui.WindowXMLDialog):
 		self.selectedControlId = CONTROL_GAME_LIST_GROUP
 		self.setCurrentListPosition(self.selectedGameIndex)	
 		
+		util.log("End OnInit", util.LOG_LEVEL_DEBUG)
+		
 		
 		
 	def onClick( self, controlId ):
+		util.log("Begin onClick", util.LOG_LEVEL_DEBUG)
+		
 		if (controlId == CONTROL_BUTTON_PLAYGAME):			
 			self.launchEmu()
 			
+		util.log("End onClick", util.LOG_LEVEL_DEBUG)
+		
 
 	def onFocus( self, controlId ):
+		util.log("onFocus", util.LOG_LEVEL_DEBUG)		
 		self.selectedControlId = controlId
 
 	def onAction( self, action ):		
 		if(action.getId() in ACTION_CANCEL_DIALOG):
+			util.log("onAction exit", util.LOG_LEVEL_DEBUG)
+			
 			#stop Player (if playing)
 			xbmc.Player().stop()
 			self.close()
 		elif(action.getId() in ACTION_MOVEMENT_LEFT or action.getId() in ACTION_MOVEMENT_RIGHT):
 			if(self.selectedControlId == CONTROL_GAME_LIST_GROUP):
 				
+				util.log("onAction Movement up/down", util.LOG_LEVEL_DEBUG)
+				
 				pos = self.getCurrentListPosition()
 				if(pos == -1):
 					pos = 0
 				selectedGame = self.getListItem(pos)
 				if(selectedGame == None):
-					print "RCB_WARNING: selectedGame == None in showGameInfo"
+					util.log("selectedGame == None in showGameInfo", util.LOG_LEVEL_WARNING)
 					return
 			
 				self.selectedGameId = selectedGame.getLabel2()
@@ -118,6 +134,9 @@ class UIGameInfoView(xbmcgui.WindowXMLDialog):
 	
 	
 	def showGameList(self):
+		
+		util.log("Begin showGameList", util.LOG_LEVEL_DEBUG)
+		
 		games = Game(self.gdb).getFilteredGames(self.selectedConsoleId, self.selectedGenreId, self.selectedYearId, self.selectedPublisherId)		
 				
 		self.writeMsg("loading games...")
@@ -127,19 +146,23 @@ class UIGameInfoView(xbmcgui.WindowXMLDialog):
 		self.clearList()
 		
 		for game in games:
-			images = helper.getFilesByControl(self.gdb, 'gameinfoviewgamelist', game[0], game[6], game[7], game[5])
+			images = helper.getFilesByControl(self.gdb, 'gameinfoviewgamelist', game[util.ROW_ID], game[util.GAME_publisherId], game[util.GAME_developerId], game[util.GAME_romCollectionId])
 			if(images != None and len(images) != 0):
 				image = images[0]
 			else:
 				image = ""
-			item = xbmcgui.ListItem(str(game[1]), str(game[0]), image, '')
+			item = xbmcgui.ListItem(str(game[util.ROW_NAME]), str(game[util.ROW_ID]), image, '')
 			self.addItem(item, False)
 				
 		xbmcgui.unlock()
 		self.writeMsg("")
+		
+		util.log("End showGameList", util.LOG_LEVEL_DEBUG)
 	
 		
 	def showGameInfo(self):
+		
+		util.log("Begin showGameInfo", util.LOG_LEVEL_DEBUG)
 		
 		#stop video (if playing)
 		xbmc.Player().stop()
@@ -154,71 +177,80 @@ class UIGameInfoView(xbmcgui.WindowXMLDialog):
 		if (genres != None):
 			for i in range(0, len(genres)):
 				genre = genres[i]
-				genreString += genre[1]
+				genreString += genre[util.ROW_NAME]
 				if(i < len(genres) -1):
 					genreString += ", "
 				
-		year = self.getItemName(Year(self.gdb), gameRow[9])
-		publisher = self.getItemName(Publisher(self.gdb), gameRow[6])
-		developer = self.getItemName(Developer(self.gdb), gameRow[7])
-		reviewer = self.getItemName(Reviewer(self.gdb), gameRow[8])
+		year = self.getItemName(Year(self.gdb), gameRow[util.GAME_yearId])
+		publisher = self.getItemName(Publisher(self.gdb), gameRow[util.GAME_publisherId])
+		developer = self.getItemName(Developer(self.gdb), gameRow[util.GAME_developerId])
+		reviewer = self.getItemName(Reviewer(self.gdb), gameRow[util.GAME_reviewerId])
 				
 		self.setLabel(CONTROL_LABEL_GENRE, genreString)
 		self.setLabel(CONTROL_LABEL_YEAR, year)
 		self.setLabel(CONTROL_LABEL_PUBLISHER, publisher)
 		self.setLabel(CONTROL_LABEL_DEVELOPER, developer)
-		self.setLabel(CONTROL_LABEL_REGION, gameRow[14])
-		self.setLabel(CONTROL_LABEL_MEDIA, gameRow[15])
-		self.setLabel(CONTROL_LABEL_CONTROLLER, gameRow[17])
-		self.setLabel(CONTROL_LABEL_RATING, gameRow[11])
-		self.setLabel(CONTROL_LABEL_VOTES, gameRow[12])
-		self.setLabel(CONTROL_LABEL_PLAYERS, gameRow[10])
-		self.setLabel(CONTROL_LABEL_PERSPECTIVE, gameRow[16])
+		self.setLabel(CONTROL_LABEL_REGION, gameRow[util.GAME_region])
+		self.setLabel(CONTROL_LABEL_MEDIA, gameRow[util.GAME_media])
+		self.setLabel(CONTROL_LABEL_CONTROLLER, gameRow[util.GAME_controllerType])
+		self.setLabel(CONTROL_LABEL_RATING, gameRow[util.GAME_rating])
+		self.setLabel(CONTROL_LABEL_VOTES, gameRow[util.GAME_numVotes])
+		self.setLabel(CONTROL_LABEL_PLAYERS, gameRow[util.GAME_maxPlayers])
+		self.setLabel(CONTROL_LABEL_PERSPECTIVE, gameRow[util.GAME_perspective])
 		self.setLabel(CONTROL_LABEL_REVIEWER, reviewer)
-		self.setLabel(CONTROL_LABEL_URL, gameRow[13])		
-		self.setLabel(CONTROL_LABEL_LAUNCHCOUNT, gameRow[19])
-		self.setLabel(CONTROL_LABEL_ORIGTITLE, gameRow[20])
-		self.setLabel(CONTROL_LABEL_ALTERNATETITLE, gameRow[21])
-		self.setLabel(CONTROL_LABEL_TRANSLATED, gameRow[22])
-		self.setLabel(CONTROL_LABEL_VERSION, gameRow[23])
+		self.setLabel(CONTROL_LABEL_URL, gameRow[util.GAME_url])		
+		self.setLabel(CONTROL_LABEL_LAUNCHCOUNT, gameRow[util.GAME_launchCount])
+		self.setLabel(CONTROL_LABEL_ORIGTITLE, gameRow[util.GAME_originalTitle])
+		self.setLabel(CONTROL_LABEL_ALTERNATETITLE, gameRow[util.GAME_alternateTitle])
+		self.setLabel(CONTROL_LABEL_TRANSLATED, gameRow[util.GAME_translatedBy])
+		self.setLabel(CONTROL_LABEL_VERSION, gameRow[util.GAME_version])
 		
-		description = gameRow[2]
+		description = gameRow[util.GAME_description]
 		if(description == None):
 			description = ""		
 		
 		controlDesc = self.getControlById(CONTROL_LABEL_DESC)
-		if(controlDesc == None):
-			return
-		controlDesc.setText(description)
+		if(controlDesc != None):			
+			controlDesc.setText(description)
 				
 		#gameRow[5] = romCollectionId
 		background = os.path.join(RCBHOME, 'resources', 'skins', 'Default', 'media', 'rcb-background-black.png')	
-		self.setImage(CONTROL_IMG_BACK, 'gameinfoviewbackground', gameRow[0], gameRow[6], gameRow[7], gameRow[5], background)
-		self.setImage(CONTROL_IMG_GAMEINFO1, 'gameinfoview1', gameRow[0], gameRow[6], gameRow[7], gameRow[5], None)
-		self.setImage(CONTROL_IMG_GAMEINFO2, 'gameinfoview2', gameRow[0], gameRow[6], gameRow[7], gameRow[5], None)
-		self.setImage(CONTROL_IMG_GAMEINFO3, 'gameinfoview3', gameRow[0], gameRow[6], gameRow[7], gameRow[5], None)
-		self.setImage(CONTROL_IMG_GAMEINFO4, 'gameinfoview4', gameRow[0], gameRow[6], gameRow[7], gameRow[5], None)
+		self.setImage(CONTROL_IMG_BACK, util.IMAGE_CONTROL_GIV_BACKGROUND, gameRow[util.ROW_ID], gameRow[util.GAME_publisherId], gameRow[util.GAME_developerId], gameRow[util.GAME_romCollectionId], background)
+		self.setImage(CONTROL_IMG_GAMEINFO1, util.IMAGE_CONTROL_GIV_Img1, gameRow[util.ROW_ID], gameRow[util.GAME_publisherId], gameRow[util.GAME_developerId], gameRow[util.GAME_romCollectionId], None)
+		self.setImage(CONTROL_IMG_GAMEINFO2, util.IMAGE_CONTROL_GIV_Img2, gameRow[util.ROW_ID], gameRow[util.GAME_publisherId], gameRow[util.GAME_developerId], gameRow[util.GAME_romCollectionId], None)
+		self.setImage(CONTROL_IMG_GAMEINFO3, util.IMAGE_CONTROL_GIV_Img3, gameRow[util.ROW_ID], gameRow[util.GAME_publisherId], gameRow[util.GAME_developerId], gameRow[util.GAME_romCollectionId], None)
+		self.setImage(CONTROL_IMG_GAMEINFO4, util.IMAGE_CONTROL_GIV_Img4, gameRow[util.ROW_ID], gameRow[util.GAME_publisherId], gameRow[util.GAME_developerId], gameRow[util.GAME_romCollectionId], None)
 			
 		
-		videos = helper.getFilesByControl(self.gdb, 'gameinfoviewvideowindow', gameRow[0], gameRow[6], gameRow[7], gameRow[5])
+		videos = helper.getFilesByControl(self.gdb, util.IMAGE_CONTROL_GIV_VideoWindow, gameRow[util.ROW_ID], gameRow[util.GAME_publisherId], gameRow[util.GAME_developerId], gameRow[util.GAME_romCollectionId])
 		#ingameVideos = File(self.gdb).getIngameVideosByGameId(self.selectedGameId)
 		if(videos != None and len(videos) != 0):
 			video = videos[0]
 						
 			playlist = xbmc.PlayList( xbmc.PLAYLIST_VIDEO)
 			playlist.clear()			
-			xbmc.Player().play(video)			
+			xbmc.Player().play(video)
+		
+		util.log("End showGameInfo", util.LOG_LEVEL_DEBUG)
 		
 		
 	def getItemName(self, object, itemId):
+		
+		util.log("Begin getItemName", util.LOG_LEVEL_DEBUG)
+		
 		itemRow = object.getObjectById(itemId)
 		if(itemRow == None):
+			util.log("End getItemName", util.LOG_LEVEL_DEBUG)
 			return ""
 		else:
+			util.log("End getItemName", util.LOG_LEVEL_DEBUG)
 			return itemRow[1]
 			
 	
 	def setLabel(self, controlId, value):
+		
+		util.log("Begin setLabel", util.LOG_LEVEL_DEBUG)
+		
 		if(value == None):
 			value = ""	
 		
@@ -226,9 +258,12 @@ class UIGameInfoView(xbmcgui.WindowXMLDialog):
 		if(control == None):
 			return
 		control.setLabel(str(value))
+		util.log("End setLabel", util.LOG_LEVEL_DEBUG)
 		
 		
 	def setImage(self, controlId, controlName, gameId, publisherId, developerId, romCollectionId, defaultImage):
+		
+		util.log("Begin setImage", util.LOG_LEVEL_DEBUG)
 				
 		images = helper.getFilesByControl(self.gdb, controlName, gameId, publisherId, developerId, romCollectionId)
 		
@@ -246,40 +281,51 @@ class UIGameInfoView(xbmcgui.WindowXMLDialog):
 				control.setVisible(0)
 			else:						
 				control.setImage(defaultImage)
+				
+		util.log("End setImage", util.LOG_LEVEL_DEBUG)
 	
 	
 	def launchEmu(self):
+		
+		util.log("Begin launchEmu", util.LOG_LEVEL_INFO)
+		
 		pos = self.getCurrentListPosition()
 		if(pos == -1):
 			pos = 0
 		selectedGame = self.getListItem(pos)
 		
 		if(selectedGame == None):
-			print "RCB_WARNING: selectedGame == None in launchEmu"
+			util.log("selectedGame == None in launchEmu", util.LOG_LEVEL_WARNING)
 			return
 			
 		gameId = selectedGame.getLabel2()
 		
 		helper.launchEmu(self.gdb, self, gameId)
+		util.log("End launchEmu", util.LOG_LEVEL_INFO)
 		
 	
 	def saveViewState(self, isOnExit):
+		
+		util.log("Begin saveViewState", util.LOG_LEVEL_INFO)
+		
 		selectedGameIndex = self.getCurrentListPosition()
 		if(selectedGameIndex == -1):
 			selectedGameIndex = 0
 		if(selectedGameIndex == None):
-			print "RCB_WARNING: selectedGameIndex == None in saveViewState"
+			util.log("selectedGameIndex == None in saveViewState", util.LOG_LEVEL_WARNING)
 			return
 		
 		helper.saveViewState(self.gdb, isOnExit, 'gameInfoView', selectedGameIndex, self.selectedConsoleIndex, self.selectedGenreIndex, self.selectedPublisherIndex, 
 			self.selectedYearIndex, self.selectedControlIdMainView, self.selectedControlId)
+			
+		util.log("End saveViewState", util.LOG_LEVEL_INFO)
 			
 			
 	def getControlById(self, controlId):
 		try:
 			control = self.getControl(controlId)
 		except: 
-			print("RCB ERROR: Control with id: %s could not be found. Check WindowXML file." %str(controlId))
+			util.log("Control with id: %s could not be found. Check WindowXML file." %str(controlId), util.LOG_LEVEL_ERROR)
 			self.writeMsg("Control with id: %s could not be found. Check WindowXML file." %str(controlId))
 			return None
 		
