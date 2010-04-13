@@ -3,12 +3,14 @@ import os, sys
 import getpass, string, glob
 import codecs
 import zipfile
+import zlib
 from pysqlite2 import dbapi2 as sqlite
-from gamedatabase import *
 
+from gamedatabase import *
 from pyparsing import *
 from descriptionparser import *
-import zlib
+import util
+
 
 DEBUG = True
 
@@ -29,79 +31,79 @@ class DBUpdate:
 	def updateDB(self, gdb, gui):		
 		self.gdb = gdb
 		
-		self.log("Start Update DB")
+		self.log("Start Update DB", util.LOG_LEVEL_INFO)
 		
-		self.log("Reading Rom Collections from database")
+		self.log("Reading Rom Collections from database", util.LOG_LEVEL_INFO)
 		romCollectionRows = RomCollection(self.gdb).getAll()
 		if(romCollectionRows == None):
-			gui.writeMsg("ERROR: There are no Rom Collections in database. Make sure to import settings first.")
-			self.log("ERROR: There are no Rom Collections in database. Make sure to import settings first.")
+			gui.writeMsg("There are no Rom Collections in database. Make sure to import settings first.")
+			self.log("There are no Rom Collections in database. Make sure to import settings first.", util.LOG_LEVEL_ERROR)
 			self.exit()
 			return
-		self.log(str(len(romCollectionRows)) +" Rom Collections read")		
+		self.log(str(len(romCollectionRows)) +" Rom Collections read", util.LOG_LEVEL_INFO)		
 		
 		for romCollectionRow in romCollectionRows:
 			gui.writeMsg("Importing Rom Collection: " +romCollectionRow[1])
-			self.log("current Rom Collection: " +romCollectionRow[1])
+			self.log("current Rom Collection: " +romCollectionRow[1], util.LOG_LEVEL_INFO)
 						
 			ignoreOnScan = romCollectionRow[13]
-			self.log("ignoreOnScan: " +ignoreOnScan)
+			self.log("ignoreOnScan: " +ignoreOnScan, util.LOG_LEVEL_INFO)
 			#TODO: correct handling of boolean values
 			if(ignoreOnScan == 'True'):
-				self.log("current Rom Collection will be ignored.")
+				self.log("current Rom Collection will be ignored.", util.LOG_LEVEL_INFO)
 				continue
 			
 			descParserFile = romCollectionRow[6]
-			self.log("using parser file: " +descParserFile)
+			self.log("using parser file: " +descParserFile, util.LOG_LEVEL_INFO)
 			descFilePerGame = romCollectionRow[9]
-			self.log("using one description file per game: " +descFilePerGame)
+			self.log("using one description file per game: " +descFilePerGame, util.LOG_LEVEL_INFO)
 			descriptionPath = Path(self.gdb).getDescriptionPathByRomCollectionId(romCollectionRow[0])
-			self.log("using game descriptions: " +descriptionPath)
+			self.log("using game descriptions: " +descriptionPath, util.LOG_LEVEL_INFO)
 			allowUpdate = romCollectionRow[12]
-			self.log("update is allowed for current rom collection: " +allowUpdate)
+			self.log("update is allowed for current rom collection: " +allowUpdate, util.LOG_LEVEL_INFO)
 			searchGameByCRC = romCollectionRow[14]
-			self.log("search game by CRC: " +searchGameByCRC)
+			self.log("search game by CRC: " +searchGameByCRC, util.LOG_LEVEL_INFO)
 			searchGameByCRCIgnoreRomName = romCollectionRow[15]
-			self.log("ignore rom filename when searching game by CRC: " +searchGameByCRCIgnoreRomName)
+			self.log("ignore rom filename when searching game by CRC: " +searchGameByCRCIgnoreRomName, util.LOG_LEVEL_INFO)
 			ignoreGameWithoutDesc = romCollectionRow[16]
-			self.log("ignore games without description: " +ignoreGameWithoutDesc)
+			self.log("ignore games without description: " +ignoreGameWithoutDesc, util.LOG_LEVEL_INFO)
 			
 			#check if we can find any roms with this configuration
 			if(searchGameByCRCIgnoreRomName == 'True' and searchGameByCRC == 'False' and descFilePerGame == 'False'):
-				self.log("ERROR: Configuration error: descFilePerGame = false, searchGameByCRCIgnoreRomName = true, searchGameByCRC = false." \
-				"You won't find any description with this configuration!")
+				self.log("Configuration error: descFilePerGame = false, searchGameByCRCIgnoreRomName = true, searchGameByCRC = false." \
+				"You won't find any description with this configuration!", util.LOG_LEVEL_ERROR)
 				continue
 				
 			if(descFilePerGame == 'False'):
-				self.log("Start parsing description file")
+				self.log("Start parsing description file", util.LOG_LEVEL_INFO)
 				results = self.parseDescriptionFile(str(descriptionPath), str(descParserFile), '')
 				if(results == None):
 					gui.writeMsg("ERROR: There was an error parsing the description file. Please see log file for more information.")
-					self.log("ERROR: There was an error parsing the description file. Please see log file for more information.")					
+					self.log("There was an error parsing the description file. Please see log file for more information.", util.LOG_LEVEL_ERROR)
 					
 				
-				if(DEBUG and results != None):
+				if(results != None and util.CURRENT_LOG_LEVEL == util.LOG_LEVEL_DEBUG):
 					for result in results:
-						self.log(str(result.asDict()))
+						self.log(str(result.asDict()), util.LOG_LEVEL_DEBUG)
 			
 			#romCollectionRow[8] = startWithDescFile
-			self.log("using start with description file: " +romCollectionRow[8])
+			self.log("using start with description file: " +romCollectionRow[8], util.LOG_LEVEL_INFO)
 			if(romCollectionRow[8] == 'True'):
 				exit()
 				return
 			else:		
-				self.log("Reading configured paths from database")
+				self.log("Reading configured paths from database", util.LOG_LEVEL_INFO)
 				romPaths = Path(self.gdb).getRomPathsByRomCollectionId(romCollectionRow[0])
-				self.log("Rom path: " +str(romPaths))							
+				self.log("Rom path: " +str(romPaths), util.LOG_LEVEL_INFO)
 						
-				self.log("Reading rom files")
+				self.log("Reading rom files", util.LOG_LEVEL_INFO)
 				files = []
 				for romPath in romPaths:
 					files = self.walkDownPath(files, romPath[0])
 					
 				files.sort()
 					
-				self.log("Files read: " +str(files))
+				self.log("Files read: " +str(files), util.LOG_LEVEL_INFO)
 					
 				lastgamenameFromFile = ""
 				lastgamename = ""
@@ -109,11 +111,11 @@ class DBUpdate:
 				for filename in files:
 					subrom = False
 					
-					self.log("current rom file: " +str(filename)	)
+					self.log("current rom file: " +str(filename), util.LOG_LEVEL_INFO)
 			
 					#build friendly romname
 					gamename = os.path.basename(filename)
-					self.log("gamename (file): " +gamename)
+					self.log("gamename (file): " +gamename, util.LOG_LEVEL_INFO)
 					
 					#romCollectionRow[10] = DiskPrefix
 					dpIndex = gamename.lower().find(romCollectionRow[10].lower())
@@ -122,17 +124,17 @@ class DBUpdate:
 					else:
 						gamename = os.path.splitext(gamename)[0]					
 					
-					self.log("gamename (friendly): " +gamename)
+					self.log("gamename (friendly): " +gamename, util.LOG_LEVEL_INFO)
 					gui.writeMsg("Importing Game: " +gamename)
 					
 					
 					#check if we are handling one of the additional disks of a multi rom game
 					if(gamename == lastgamenameFromFile):
-						self.log("handling multi rom game: " +lastgamename)
+						self.log("handling multi rom game: " +lastgamename, util.LOG_LEVEL_INFO)
 						gameRow = Game(self.gdb).getOneByName(lastgamename)
 						if(gameRow == None):
-							self.log("WARNING: multi rom game could not be read from database. "\
-								"This usually happens if game name in description file differs from game name in rom file name.")
+							self.log("multi rom game could not be read from database. "\
+								"This usually happens if game name in description file differs from game name in rom file name.", util.LOG_LEVEL_WARNING)
 							continue
 						self.insertFile(str(filename), gameRow[0], "rcb_rom", None, None, None, None)
 						self.gdb.commit()
@@ -150,35 +152,35 @@ class DBUpdate:
 						filecrc = ''
 						if (zipfile.is_zipfile(str(filename))):
 							try:
-								self.log("handling zip file")
+								self.log("handling zip file", util.LOG_LEVEL_INFO)
 								zip = zipfile.ZipFile(str(filename), 'r')
 								zipInfos = zip.infolist()
 								if(len(zipInfos) > 1):
-									self.log("WARNING: more than one file in zip archive is not supported! Checking CRC of first entry.")								
+									self.log("more than one file in zip archive is not supported! Checking CRC of first entry.", util.LOG_LEVEL_WARNING)
 								filecrc = "%X" %(zipInfos[0].CRC & 0xFFFFFFFF)
-								self.log("crc in zipped file: " +filecrc)
+								self.log("crc in zipped file: " +filecrc, util.LOG_LEVEL_INFO)
 							except:
-								self.log("ERROR: Error while creating crc from zip file!")
+								self.log("Error while creating crc from zip file!", util.LOG_LEVEL_ERROR)
 						else:						
 							prev = 0
 							for eachLine in open(str(filename),"rb"):
 							    prev = zlib.crc32(eachLine, prev)					
 							filecrc = "%X"%(prev & 0xFFFFFFFF)
-							self.log("crc for current file: " +str(filecrc))
+							self.log("crc for current file: " +str(filecrc), util.LOG_LEVEL_INFO)
 
 					#romCollectionRow[9] = descFilePerGame
 					if(romCollectionRow[9] == 'False'):						
-						self.log("Searching for game in parsed results:")
+						self.log("Searching for game in parsed results:", util.LOG_LEVEL_INFO)
 						if(results != None):
 							for result in results:
-								gamedesc = result['Game'][0]								
-								self.log("game name in parsed result: " +gamedesc)								
+								gamedesc = result['Game'][0]
+								self.log("game name in parsed result: " +str(gamedesc), util.LOG_LEVEL_DEBUG)
 								
 								#find by filename
 								#there is an option only to search by crc (maybe there are games with the same name but different crcs)
 								if(searchGameByCRCIgnoreRomName == 'False'):
 									if (gamedesc.strip() == gamename.strip()):
-										self.log("result found by filename: " +gamedesc)
+										self.log("result found by filename: " +gamedesc, util.LOG_LEVEL_INFO)
 										gamedescription = result
 										break
 								
@@ -188,17 +190,17 @@ class DBUpdate:
 										resultFound = False
 										resultcrcs = result['crc']
 										for resultcrc in resultcrcs:
-											self.log("crc in parsed result: " +resultcrc)
+											self.log("crc in parsed result: " +resultcrc, util.LOG_LEVEL_DEBUG)
 											if(resultcrc.lower() == filecrc.lower()):
-												self.log("result found by crc: " +gamedesc)
+												self.log("result found by crc: " +gamedesc, util.LOG_LEVEL_INFO)
 												gamedescription = result
 												resultFound = True
 												break
 										if(resultFound):
 											break
 												
-									except:
-										self.log("ERROR: Error while checking crc results!")
+									except Exception, (exc):
+										self.log("Error while checking crc results: " +str(exc), util.LOG_LEVEL_ERROR)
 										
 					else:						
 						results = self.parseDescriptionFile(str(descriptionPath), str(descParserFile), gamename)
@@ -212,10 +214,10 @@ class DBUpdate:
 					if(gamedescription == Empty()):
 						lastgamename = ""
 						if(ignoreGameWithoutDesc == 'True'):
-							self.log("WARNING: game " +gamename +" could not be found in parsed results. Game will not be imported.")
+							self.log("game " +gamename +" could not be found in parsed results. Game will not be imported.", util.LOG_LEVEL_WARNING)
 							continue
 						else:
-							self.log("WARNING: game " +gamename +" could not be found in parsed results. Importing game without description.")
+							self.log("game " +gamename +" could not be found in parsed results. Importing game without description.", util.LOG_LEVEL_WARNING)
 					else:
 						lastgamename = self.resolveParseResult(gamedescription.Game, 'Game')
 					
@@ -235,27 +237,27 @@ class DBUpdate:
 	
 	def walkDownPath(self, files, romPath):
 		
-		self.log("walkDownPath romPath: " +romPath)		
+		self.log("walkDownPath romPath: " +romPath, util.LOG_LEVEL_INFO)		
 		
 		#TODO add configuration option
 		walkDownRomPath = True
 		
 		dirname = os.path.dirname(romPath)
-		self.log("dirname: " +dirname)
+		self.log("dirname: " +dirname, util.LOG_LEVEL_INFO)
 		basename = os.path.basename(romPath)
-		self.log("basename: " +basename)
+		self.log("basename: " +basename, util.LOG_LEVEL_INFO)
 		
 		if(walkDownRomPath):
-			self.log("walkDownRomPath is true: checking sub directories")
-			for walkRoot, walkDirs, walkFiles in os.walk(dirname):				
-				self.log( "root: " +str(walkRoot))	
+			self.log("walkDownRomPath is true: checking sub directories", util.LOG_LEVEL_INFO)
+			for walkRoot, walkDirs, walkFiles in os.walk(dirname):
+				self.log( "root: " +str(walkRoot), util.LOG_LEVEL_DEBUG)	
 				
 				newRomPath = os.path.join(walkRoot, basename)
-				self.log( "newRomPath: " +str(newRomPath))
+				self.log( "newRomPath: " +str(newRomPath), util.LOG_LEVEL_DEBUG)
 				
 				#glob is same as "os.listdir(romPath)" but it can handle wildcards like *.adf
 				allFiles = glob.glob(newRomPath)
-				self.log( "all files in newRomPath: " +str(allFiles))
+				self.log( "all files in newRomPath: " +str(allFiles), util.LOG_LEVEL_DEBUG)
 			
 				#did not find appendall or something like this
 				for file in allFiles:
@@ -278,14 +280,14 @@ class DBUpdate:
 		descriptionfile = descriptionPath.replace("%GAME%", gamename)
 
 		if(os.path.exists(descriptionfile)):
-			self.log("Parsing game description: " +descriptionfile)
+			self.log("Parsing game description: " +descriptionfile, util.LOG_LEVEL_INFO)
 			dp = DescriptionParser()
 			
 			try:
 				results = dp.parseDescription(descriptionfile, descParserFile, gamename)
 			except Exception, (exc):
-				self.log("WARNING: an error occured while parsing game description: " +descriptionfile)
-				self.log("Parser complains about: " +str(exc))
+				self.log("an error occured while parsing game description: " +descriptionfile, util.LOG_LEVEL_WARNING)
+				self.log("Parser complains about: " +str(exc), util.LOG_LEVEL_WARNING)
 				return None
 							
 			del dp
@@ -293,13 +295,13 @@ class DBUpdate:
 			return results
 			
 		else:
-			self.log("WARNING: description file for game " +gamename +" could not be found. "\
-				"Check if this path exists: " +descriptionfile)
+			self.log("description file for game " +gamename +" could not be found. "\
+				"Check if this path exists: " +descriptionfile, util.LOG_LEVEL_WARNING)
 			return None
 			
 			
 	def insertData(self, gamedescription, gamenameFromFile, romCollectionId, romFile, allowUpdate, consoleId, consoleName):
-		self.log("Insert data")	
+		self.log("Insert data", util.LOG_LEVEL_INFO)
 				
 		publisherId = None
 		developerId = None
@@ -330,11 +332,11 @@ class DBUpdate:
 			translatedBy = self.resolveParseResult(gamedescription.TranslatedBy, 'TranslatedBy')
 			version = self.resolveParseResult(gamedescription.Version, 'Version')
 		
-			self.log("Result Game (from parser) = " +str(gamedescription.Game))
+			self.log("Result Game (from parser) = " +str(gamedescription.Game), util.LOG_LEVEL_INFO)
 			gamename = self.resolveParseResult(gamedescription.Game, 'Game')
 			plot = self.resolveParseResult(gamedescription.Description, 'Description')
 			
-			self.log("Result Game (as string) = " +gamename)
+			self.log("Result Game (as string) = " +gamename, util.LOG_LEVEL_INFO)
 			gameId = self.insertGame(gamename, plot, romCollectionId, publisherId, developerId, reviewerId, yearId, 
 				players, rating, votes, url, region, media, perspective, controller, originalTitle, alternateTitle, translatedBy, version, allowUpdate, )
 				
@@ -353,29 +355,29 @@ class DBUpdate:
 		
 		allPathRows = Path(self.gdb).getPathsByRomCollectionId(romCollectionId)
 		for pathRow in allPathRows:
-			self.log("Additional data path: " +str(pathRow))
+			self.log("Additional data path: " +str(pathRow), util.LOG_LEVEL_INFO)
 			files = self.resolvePath((pathRow[1],), gamename, gamenameFromFile, consoleName, publisher, developer)
-			self.log("Importing files: " +str(files))
+			self.log("Importing files: " +str(files), util.LOG_LEVEL_INFO)
 			fileTypeRow = FileType(self.gdb).getObjectById(pathRow[2])
-			self.log("FileType: " +str(fileTypeRow)) 
+			self.log("FileType: " +str(fileTypeRow), util.LOG_LEVEL_INFO)
 			if(fileTypeRow == None):
 				continue
 			self.insertFiles(files, gameId, fileTypeRow[1], consoleId, publisherId, developerId, romCollectionId)
 			
 		
-		
+		"""
 		manualPaths = Path(self.gdb).getManualPathsByRomCollectionId(romCollectionId)
-		self.log("manual path: " +str(manualPaths))
+		self.log("manual path: " +str(manualPaths), util.LOG_LEVEL_INFO)
 		manualFiles = self.resolvePath(manualPaths, gamename, gamenameFromFile, None, None, None)
-		self.log("manual files: " +str(manualFiles))
+		self.log("manual files: " +str(manualFiles), util.LOG_LEVEL_INFO)
 		self.insertFiles(manualFiles, gameId, "rcb_manual", None, None, None, None)
 		
 		configurationPaths = Path(self.gdb).getConfigurationPathsByRomCollectionId(romCollectionId)
-		self.log("configuration path: " +str(configurationPaths))
+		self.log("configuration path: " +str(configurationPaths), util.LOG_LEVEL_INFO)
 		configurationFiles = self.resolvePath(configurationPaths, gamename, gamenameFromFile, None, None, None)
-		self.log("configuration files: " +str(configurationFiles))
+		self.log("configuration files: " +str(configurationFiles), util.LOG_LEVEL_INFO)
 		self.insertFiles(configurationFiles, gameId, "rcb_configuration", None, None, None, None)
-		
+		"""		
 		
 		#TODO Transaction?
 		self.gdb.commit()
@@ -385,33 +387,33 @@ class DBUpdate:
 				players, rating, votes, url, region, media, perspective, controller, originalTitle, alternateTitle, translatedBy, version, allowUpdate):
 		gameRow = Game(self.gdb).getOneByName(gameName)
 		if(gameRow == None):
-			self.log("Game does not exist in database. Insert game: " +gameName.encode('iso-8859-15'))
+			self.log("Game does not exist in database. Insert game: " +gameName.encode('iso-8859-15'), util.LOG_LEVEL_INFO)
 			Game(self.gdb).insert((gameName, description, None, None, romCollectionId, publisherId, developerId, reviewerId, yearId, 
 				players, rating, votes, url, region, media, perspective, controller, 0, 0, originalTitle, alternateTitle, translatedBy, version))
 			return self.gdb.cursor.lastrowid
 		else:	
 			if(allowUpdate == 'True'):
-				self.log("Game does exist in database. Update game: " +gameName)
+				self.log("Game does exist in database. Update game: " +gameName, util.LOG_LEVEL_INFO)
 				Game(self.gdb).update(('name', 'description', 'romCollectionId', 'publisherId', 'developerId', 'reviewerId', 'yearId', 'maxPlayers', 'rating', 'numVotes',
 					'url', 'region', 'media', 'perspective', 'controllerType', 'originalTitle', 'alternateTitle', 'translatedBy', 'version'),
 					(gameName, description, romCollectionId, publisherId, developerId, reviewerId, yearId, players, rating, votes, url, region, media, perspective, controller,
 					originalTitle, alternateTitle, translatedBy, version),
 					gameRow[0])
 			else:
-				self.log("Game does exist in database but update is not allowed for current rom collection. game: " +gameName.encode('iso-8859-15'))
+				self.log("Game does exist in database but update is not allowed for current rom collection. game: " +gameName.encode('iso-8859-15'), util.LOG_LEVEL_INFO)
 			
 			return gameRow[0]
 		
 	
 	def insertForeignKeyItem(self, result, itemName, gdbObject):
-		self.log("Result " +itemName +" (from Parser) = " +str(result))
+		self.log("Result " +itemName +" (from Parser) = " +str(result), util.LOG_LEVEL_INFO)
 		#if(result != Empty()):
 		if(len(result) != 0):
 			item = result[0].strip()
-			self.log("Result "  +itemName +" (as string) = " +item.encode('iso-8859-15'))
+			self.log("Result "  +itemName +" (as string) = " +item.encode('iso-8859-15'), util.LOG_LEVEL_INFO)
 			itemRow = gdbObject.getOneByName(item)
 			if(itemRow == None):	
-				self.log(itemName +" does not exist in database. Insert: " +item.encode('iso-8859-15'))
+				self.log(itemName +" does not exist in database. Insert: " +item.encode('iso-8859-15'), util.LOG_LEVEL_INFO)
 				gdbObject.insert((item,))
 				itemId = self.gdb.cursor.lastrowid
 			else:
@@ -423,15 +425,15 @@ class DBUpdate:
 		
 	
 	def insertForeignKeyItemList(self, resultList, itemName, gdbObject):	
-		self.log("Result " +itemName +" (from Parser) = " +str(resultList))
+		self.log("Result " +itemName +" (from Parser) = " +str(resultList), util.LOG_LEVEL_INFO)
 		idList = []
 		
 		for resultItem in resultList:			
 			item = resultItem.strip()
-			self.log("Result " +itemName +" (as string) = " +item.encode('iso-8859-15'))
+			self.log("Result " +itemName +" (as string) = " +item.encode('iso-8859-15'), util.LOG_LEVEL_INFO)
 			itemRow = gdbObject.getOneByName(item)
 			if(itemRow == None):
-				self.log(itemName +" does not exist in database. Insert: " +item.encode('iso-8859-15'))
+				self.log(itemName +" does not exist in database. Insert: " +item.encode('iso-8859-15'), util.LOG_LEVEL_INFO)
 				gdbObject.insert((item,))
 				idList.append(self.gdb.cursor.lastrowid)
 			else:
@@ -445,40 +447,40 @@ class DBUpdate:
 				
 		for path in paths:
 			files = []
-			self.log("resolve path: " +path)
+			self.log("resolve path: " +path, util.LOG_LEVEL_INFO)
 			pathnameFromGameName = path.replace("%GAME%", gamename)			
-			self.log("resolved path from game name: " +pathnameFromGameName)
+			self.log("resolved path from game name: " +pathnameFromGameName, util.LOG_LEVEL_INFO)
 			files = glob.glob(pathnameFromGameName)
-			self.log("resolved files: " +str(files))
+			self.log("resolved files: " +str(files), util.LOG_LEVEL_INFO)
 			
 			if(gamename != gamenameFromFile and len(files) == 0):
 				pathnameFromFile = path.replace("%GAME%", gamenameFromFile)
-				self.log("resolved path from rom file name: " +pathnameFromFile)			
+				self.log("resolved path from rom file name: " +pathnameFromFile, util.LOG_LEVEL_INFO)
 				files = glob.glob(pathnameFromFile)
-				self.log("resolved files: " +str(files))
+				self.log("resolved files: " +str(files), util.LOG_LEVEL_INFO)
 				
 			#TODO could be done only once per RomCollection
 			if(consoleName != None and len(files) == 0):
 				pathnameFromConsole = path.replace("%CONSOLE%", consoleName)
-				self.log("resolved path from console name: " +pathnameFromConsole)
+				self.log("resolved path from console name: " +pathnameFromConsole, util.LOG_LEVEL_INFO)
 				files = glob.glob(pathnameFromConsole)
-				self.log("resolved files: " +str(files))
+				self.log("resolved files: " +str(files), util.LOG_LEVEL_INFO)
 				
 			if(publisher != None and len(files) == 0):
 				pathnameFromPublisher = path.replace("%PUBLISHER%", publisher)
-				self.log("resolved path from publisher name: " +pathnameFromPublisher)
+				self.log("resolved path from publisher name: " +pathnameFromPublisher, util.LOG_LEVEL_INFO)
 				files = glob.glob(pathnameFromPublisher)
-				self.log("resolved files: " +str(files))
+				self.log("resolved files: " +str(files), util.LOG_LEVEL_INFO)
 				
 			if(developer != None and len(files) == 0):
 				pathnameFromDeveloper = path.replace("%DEVELOPER%", developer)
-				self.log("resolved path from developer name: " +pathnameFromDeveloper)
+				self.log("resolved path from developer name: " +pathnameFromDeveloper, util.LOG_LEVEL_INFO)
 				files = glob.glob(pathnameFromDeveloper)
-				self.log("resolved files: " +str(files))
+				self.log("resolved files: " +str(files), util.LOG_LEVEL_INFO)
 				
 						
 			if(len(files) == 0):
-				self.log("WARNING: No files found for game %s. Make sure that rom name and file name are matching." %gamename)
+				self.log("No files found for game %s. Make sure that rom name and file name are matching." %gamename, util.LOG_LEVEL_WARNING)
 			for file in files:
 				if(os.path.exists(file)):
 					resolvedFiles.append(file)		
@@ -486,12 +488,12 @@ class DBUpdate:
 		
 		
 	def resolveParseResult(self, result, itemName):
-		self.log("Result " +itemName +" (from Parser) = " +str(result))		
+		self.log("Result " +itemName +" (from Parser) = " +str(result), util.LOG_LEVEL_INFO)
 		if(len(result) != 0):
 			item = result[0].strip()
 		else:
 			item = ""
-		self.log("Result " +itemName +" (as string) = " +item.encode('iso-8859-15'))
+		self.log("Result " +itemName +" (as string) = " +item.encode('iso-8859-15'), util.LOG_LEVEL_INFO)
 		return item
 	
 	
@@ -501,45 +503,61 @@ class DBUpdate:
 			
 		
 	def insertFile(self, fileName, gameId, fileType, consoleId, publisherId, developerId, romCollectionId):
-		self.log("Begin Insert file: " +fileName)
+		self.log("Begin Insert file: " +fileName, util.LOG_LEVEL_DEBUG)
 				
 		fileTypeRow = FileType(self.gdb).getOneByName(fileType)
 		if(fileTypeRow == None):
-			self.log("WARNING: No filetype found for %s. Please check your config.xml" %fileType)				
+			self.log("No filetype found for %s. Please check your config.xml" %fileType, util.LOG_LEVEL_WARNING)
 			
 		parentId = None
 		
 		#TODO console and romcollection could be done only once per RomCollection			
 		#fileTypeRow[3] = parent
 		if(fileTypeRow[3] == 'game'):
-			self.log("Insert file with parent game")
+			self.log("Insert file with parent game", util.LOG_LEVEL_INFO)
 			parentId = gameId
 		elif(fileTypeRow[3] == 'console'):
-			self.log("Insert file with parent console")
+			self.log("Insert file with parent console", util.LOG_LEVEL_INFO)
 			parentId = consoleId
 		elif(fileTypeRow[3] == 'romcollection'):
-			self.log("Insert file with parent rom collection")
+			self.log("Insert file with parent rom collection", util.LOG_LEVEL_INFO)
 			parentId = romCollectionId
 		elif(fileTypeRow[3] == 'publisher'):
-			self.log("Insert file with parent publisher")
+			self.log("Insert file with parent publisher", util.LOG_LEVEL_INFO)
 			parentId = publisherId
 		elif(fileTypeRow[3] == 'developer'):
-			self.log("Insert file with parent developer")
+			self.log("Insert file with parent developer", util.LOG_LEVEL_INFO)
 			parentId = developerId
 			
 		fileRow = File(self.gdb).getFileByNameAndTypeAndParent(fileName, fileType, parentId)
 		if(fileRow == None):
-			self.log("File does not exist in database. Insert file: " +fileName)
+			self.log("File does not exist in database. Insert file: " +fileName, util.LOG_LEVEL_INFO)
 			File(self.gdb).insert((str(fileName), fileTypeRow[0], parentId))
 			
 
-	def log(self, message):
-		if(DEBUG and self.logFileWritable):
-			self.logFile.write(message +"\n")			
+	def log(self, message, logLevel):
+		
+		if(not self.logFileWritable):
+			return
+			
+		if(logLevel > util.CURRENT_LOG_LEVEL):
+			return
+			
+		prefix = ''
+		if(logLevel == util.LOG_LEVEL_DEBUG):
+			prefix = 'RCB_DEBUG: '
+		elif(logLevel == util.LOG_LEVEL_INFO):
+			prefix = 'RCB_INFO: '
+		elif(logLevel == util.LOG_LEVEL_WARNING):
+			prefix = 'RCB_WARNING: '
+		elif(logLevel == util.LOG_LEVEL_ERROR):
+			prefix = 'RCB_ERROR: '
+
+		self.logFile.write(prefix + message+"\n")			
 				
 		
 	def exit(self):
-		self.log("Update finished")
+		self.log("Update finished", util.LOG_LEVEL_INFO)
 		self.logFile.close()
 
 
