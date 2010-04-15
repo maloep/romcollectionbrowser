@@ -1,6 +1,7 @@
 
 
 import os, sys
+import xbmcgui
 
 #taken from apple movie trailer script (thanks to Nuka1195 and others)
 # Shared resources
@@ -49,20 +50,20 @@ class GameDataBase:
 		self.executeSQLScript(os.path.join(self.databaseDir, 'SQL_DROP_ALL.txt'))
 
 	
-	def checkDBStructure(self):				
-				
+	def checkDBStructure(self):
+		
 		dbVersion = ""
 		try:
 			rcbSettingRows = RCBSetting(self).getAll()
 			if(rcbSettingRows == None or len(rcbSettingRows) != 1):	
 				self.self.createTables()
-				return
+				return 1
 			rcbSetting = rcbSettingRows[0]
 			dbVersion = rcbSetting[10]
 			
 		except  Exception, (exc): 
 			self.createTables()
-			return
+			return 1
 		
 		#Alter Table
 		if(dbVersion != CURRENT_SCRIPT_VERSION):
@@ -70,8 +71,9 @@ class GameDataBase:
 			alterTableScript = str(os.path.join(self.databaseDir, alterTableScript))
 			print alterTableScript
 			self.executeSQLScript(alterTableScript)
+			return 2
 			
-	
+		return 0
 	
 
 class DataBaseObject:

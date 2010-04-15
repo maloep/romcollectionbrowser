@@ -47,6 +47,28 @@ CONTROL_LABEL_MSG = 4000
 
 RCBHOME = os.getcwd()
 
+
+class ProgressDialogGUI:		
+	
+	def __init__(self):
+		self.itemCount = 0
+		self.dialog = xbmcgui.DialogProgress()		
+			
+	def writeMsg(self, message, count=0):
+		if ( not count ):
+			self.dialog.create(message)
+		elif ( count > 0 ):
+			percent = int( count * ( float( 100 ) / self.itemCount))
+			__line1__ = "%s" % (message, )
+			self.dialog.update( percent, __line1__ )
+			if ( self.dialog.iscanceled() ): 
+				return False
+			else: 
+				return True
+		else:
+			self.dialog.close()
+
+
 class UIGameDB(xbmcgui.WindowXML):	
 
 	gdb = GameDataBase(os.path.join(RCBHOME, 'resources', 'database'))
@@ -60,9 +82,12 @@ class UIGameDB(xbmcgui.WindowXML):
 	selectedConsoleIndex = 0
 	selectedGenreIndex = 0
 	selectedYearIndex = 0
-	selectedPublisherIndex = 0
+	selectedPublisherIndex = 0	
 	
 	currentView = ''
+	
+	#dummy to be compatible with ProgressDialogGUI
+	itemCount = 0
 	
 	def __init__(self,strXMLname, strFallbackPath, strDefaultName, forceFallback):
 		# Changing the three varibles passed won't change, anything
@@ -74,13 +99,36 @@ class UIGameDB(xbmcgui.WindowXML):
 		
 		self.isInit = True
 		
+		self.Settings = xbmc.Settings(RCBHOME)
+		
 		self.gdb.connect()
 		#check if we have an actual database
 		#create new one or alter existing one
-		self.gdb.checkDBStructure()		
+		doImport = self.gdb.checkDBStructure()
 		self.gdb.commit()
-		
-		self.Settings = xbmc.Settings(RCBHOME)		
+
+		#doImport: 0=nothing, 1=import Settings and Games, 2=import Settings only
+		if(doImport in (1,2)):
+			dialog = xbmcgui.Dialog()
+			retSettings = dialog.yesno('Rom Collection Browser', 'You have an empty database.', 'Do you you want to import Settings now?')
+			del dialog
+			if(retSettings == True):
+				progressDialog = ProgressDialogGUI()
+				progressDialog.writeMsg("Import settings...")
+				importsettings.SettingsImporter().importSettings(self.gdb, os.path.join(RCBHOME, 'resources', 'database'), progressDialog)
+				progressDialog.writeMsg("", -1)
+				del progressDialog
+				
+				#TODO check Import result
+				if(doImport == 1):
+					dialog = xbmcgui.Dialog()
+					retGames = dialog.yesno('Rom Collection Browser', 'Import Settings successful', 'Do you you want to import Games now?')
+					if(retGames == True):
+						progressDialog = ProgressDialogGUI()
+						progressDialog.writeMsg("Import games...")
+						dbupdate.DBUpdate().updateDB(self.gdb, progressDialog)
+						progressDialog.writeMsg("", -1)
+						del progressDialog
 		
 		
 		
@@ -493,15 +541,7 @@ class UIGameDB(xbmcgui.WindowXML):
 		RCBSetting(self.gdb).update(('autoexecBackupPath',), (None,), rcbSetting[0])
 		self.gdb.commit()
 		
-		util.log("End checkAutoExec" , util.LOG_LEVEL_INFO)
-		
-	
-	def writeMsg(self, msg):
-		control = self.getControlById(CONTROL_LABEL_MSG)
-		if(control == None):
-			util.log("RCB_WARNING: control == None in writeMsg", util.LOG_LEVEL_WARNING)
-			return
-		control.setLabel(msg)
+		util.log("End checkAutoExec" , util.LOG_LEVEL_INFO)		
 		
 		
 	def saveViewState(self, isOnExit):
@@ -677,6 +717,14 @@ class UIGameDB(xbmcgui.WindowXML):
 			return None
 		
 		return control
+	
+	
+	def writeMsg(self, msg, count=0):
+		control = self.getControlById(CONTROL_LABEL_MSG)
+		if(control == None):
+			util.log("RCB_WARNING: control == None in writeMsg", util.LOG_LEVEL_WARNING)
+			return
+		control.setLabel(msg)
 	
 	
 	def exit(self):				

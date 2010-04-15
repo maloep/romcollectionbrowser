@@ -724,7 +724,7 @@
 				<onright>3100</onright>
 			</control>
 			<control type="button" id="3100"> 
-				<description>Update DB</description>
+				<description>Import Games</description>
 				<posx>175</posx>
 				<posy>25</posy>
 				<width>100</width>
@@ -733,7 +733,7 @@
 				<colordiffuse>DDFFFFFF</colordiffuse>
 				<texturefocus>rcb-button-focus.png</texturefocus>
 				<texturenofocus>rcb-button-nofocus.png</texturenofocus>
-				<label>Update DB</label>			
+				<label>Import Games</label>			
 				<textcolor>DDFFFFFF</textcolor>
 				<disabledcolor>80FFFFFF</disabledcolor>
 				<align>center</align>
