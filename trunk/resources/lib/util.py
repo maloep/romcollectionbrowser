@@ -6,6 +6,8 @@ import os, sys
 # CONSTANTS #
 #
 
+RCBHOME = os.getcwd()
+
 LOG_LEVEL_ERROR = 0
 LOG_LEVEL_WARNING = 1
 LOG_LEVEL_INFO = 2

@@ -14,11 +14,14 @@ class SettingsImporter:
 		xmlDoc = fh.read()
 		fh.close()		
 		xmlDoc = parseString(xmlDoc)
-		
-		gui.writeMsg("Importing Settings...")
+
+		#itemCount is used for percentage in ProgressDialog
+		gui.itemCount = 5
+		gui.writeMsg("Importing Settings...", 1)
 		
 		
 		rcbSettings = xmlDoc.getElementsByTagName('RCBSettings')
+		
 		#TODO only 1 Setting allowed
 		for rcbSetting in rcbSettings:
 			favoriteConsole = self.getElementValue(rcbSetting, 'favoriteConsole')
@@ -33,7 +36,7 @@ class SettingsImporter:
 			self.insertRCBSetting(favoriteConsole, favoriteGenre, showEntryAllConsoles, showEntryAllGenres, showEntryAllYears, showEntryAllPublisher, 
 				saveViewStateOnExit, saveViewStateOnLaunchEmu)
 			
-		gui.writeMsg("Importing Console Info...")
+		gui.writeMsg("Importing Console Info...", 2)
 		
 		consoles = xmlDoc.getElementsByTagName('Console')
 		for console in consoles:			
@@ -44,7 +47,7 @@ class SettingsImporter:
 			self.insertConsole(consoleName, consoleDesc, consoleImage)
 		
 		
-		gui.writeMsg("Importing File Types...")				
+		gui.writeMsg("Importing File Types...", 3)
 		
 		#import internal file types
 		self.insertFileType('rcb_rom', 'image', 'game')
@@ -62,15 +65,14 @@ class SettingsImporter:
 			self.insertFileType(name, type, parent)
 		
 		
-		gui.writeMsg("Importing Rom Collections...")
+		gui.writeMsg("Importing Rom Collections...", 4)
 		
 		#fileTypesForControl must be deleted. There is no useful unique key
 		FileTypeForControl(self.gdb).deleteAll()
 		
 		romCollections = xmlDoc.getElementsByTagName('RomCollection')
 		for romCollection in romCollections:			
-			romCollName = self.getElementValue(romCollection, 'name')
-			gui.writeMsg("Importing Rom Collection: " +romCollName)
+			romCollName = self.getElementValue(romCollection, 'name')			
 			consoleName = self.getElementValue(romCollection, 'consoleName')
 			emuCmd = self.getElementValue(romCollection, 'emulatorCmd')
 			emuSolo = self.getElementValue(romCollection, 'useEmuSolo')
@@ -119,9 +121,8 @@ class SettingsImporter:
 			fileTypesForGameInfoView3 = self.getElementValues(romCollection, 'fileTypeForGameInfoView3')
 			fileTypesForGameInfoView4 = self.getElementValues(romCollection, 'fileTypeForGameInfoView4')
 			fileTypesForGameInfoViewVideoWindow = self.getElementValues(romCollection, 'fileTypeForGameInfoViewVideoWindow')
-			
-			
-			
+
+
 			self.insertFileTypeForControl(romCollectionId, fileTypesForGameList, 'gamelist')
 			self.insertFileTypeForControl(romCollectionId, fileTypesForGameListSelected, 'gamelistselected')
 			self.insertFileTypeForControl(romCollectionId, fileTypesForMainViewBackground, 'mainviewbackground')
@@ -133,12 +134,10 @@ class SettingsImporter:
 			self.insertFileTypeForControl(romCollectionId, fileTypesForGameInfoView3, 'gameinfoview3')
 			self.insertFileTypeForControl(romCollectionId, fileTypesForGameInfoView4, 'gameinfoview4')
 			self.insertFileTypeForControl(romCollectionId, fileTypesForGameInfoViewVideoWindow, 'gameinfoviewvideowindow')
-				
-			
 			
 		#TODO Transaction?
 		gdb.commit()
-		gui.writeMsg("Done.")
+		gui.writeMsg("Done.", 5)
 		
 	
 	

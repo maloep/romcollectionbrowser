@@ -36,14 +36,20 @@ class DBUpdate:
 		self.log("Reading Rom Collections from database", util.LOG_LEVEL_INFO)
 		romCollectionRows = RomCollection(self.gdb).getAll()
 		if(romCollectionRows == None):
-			gui.writeMsg("There are no Rom Collections in database. Make sure to import settings first.")
+			#gui.writeMsg("There are no Rom Collections in database. Make sure to import settings first.")
 			self.log("There are no Rom Collections in database. Make sure to import settings first.", util.LOG_LEVEL_ERROR)
 			self.exit()
 			return
 		self.log(str(len(romCollectionRows)) +" Rom Collections read", util.LOG_LEVEL_INFO)		
 		
-		for romCollectionRow in romCollectionRows:
-			gui.writeMsg("Importing Rom Collection: " +romCollectionRow[1])
+		#itemCount is used fpr percenatge in ProgressDialogGUI
+		gui.itemCount = len(romCollectionRows) +1
+		
+		rccount = 1
+		for romCollectionRow in romCollectionRows:			
+			gui.writeMsg("Importing Rom Collection: " +romCollectionRow[1], rccount)
+			rccount = rccount + 1
+			
 			self.log("current Rom Collection: " +romCollectionRow[1], util.LOG_LEVEL_INFO)
 						
 			ignoreOnScan = romCollectionRow[13]
@@ -78,7 +84,7 @@ class DBUpdate:
 				self.log("Start parsing description file", util.LOG_LEVEL_INFO)
 				results = self.parseDescriptionFile(str(descriptionPath), str(descParserFile), '')
 				if(results == None):
-					gui.writeMsg("ERROR: There was an error parsing the description file. Please see log file for more information.")
+					#gui.writeMsg("ERROR: There was an error parsing the description file. Please see log file for more information.")
 					self.log("There was an error parsing the description file. Please see log file for more information.", util.LOG_LEVEL_ERROR)
 					
 				
@@ -125,7 +131,7 @@ class DBUpdate:
 						gamename = os.path.splitext(gamename)[0]					
 					
 					self.log("gamename (friendly): " +gamename, util.LOG_LEVEL_INFO)
-					gui.writeMsg("Importing Game: " +gamename)
+					gui.writeMsg("Importing Game: " +gamename, rccount)
 					
 					
 					#check if we are handling one of the additional disks of a multi rom game
@@ -231,7 +237,7 @@ class DBUpdate:
 					
 					self.insertData(gamedescription, gamename, romCollectionRow[0], filename, allowUpdate, consoleId, consoleName)
 					
-		gui.writeMsg("Done.")
+		gui.writeMsg("Done.", rccount)
 		self.exit()
 		
 	
