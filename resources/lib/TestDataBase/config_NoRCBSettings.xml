@@ -1,14 +1,4 @@
 <config>	
-	<RCBSettings>
-		<favoriteConsole></favoriteConsole>
-		<favoriteGenre></favoriteGenre>
-		<showEntryAllConsoles>False</showEntryAllConsoles>
-		<showEntryAllGenres>False</showEntryAllGenres>
-		<showEntryAllYears>True</showEntryAllYears>
-		<showEntryAllPublisher>True</showEntryAllPublisher>
-		<saveViewStateOnExit>True</saveViewStateOnExit>
-		<saveViewStateOnLaunchEmu>True</saveViewStateOnLaunchEmu>
-	</RCBSettings>
 	<Consoles>		
 		<Console>
 			<name>Amiga</name>
@@ -84,10 +74,13 @@
 			<consoleName>Amiga</consoleName>
 			<emulatorCmd>E:\Emulatoren\WINUAE\winuae.exe -f "E:\Emulatoren\WINUAE\Configurations\Host\Amiga 500.uae" {-%I% "%ROM%"}</emulatorCmd>
 			<useEmuSolo>True</useEmuSolo>
-			<escapeCommand>True</escapeCommand>			
+			<escapeCommand>True</escapeCommand>
+			<relyOnNaming>True</relyOnNaming>
+			<startWithDescFile>False</startWithDescFile>
 			<descFilePerGame>False</descFilePerGame>
 			<descriptionParserFile>TestDataBase\Collection V1\parserConfig.xml</descriptionParserFile>
-			<diskPrefix>_Disk</diskPrefix>			
+			<diskPrefix>_Disk</diskPrefix>
+			<typeOfManual>Text</typeOfManual>
 			<allowUpdate>False</allowUpdate>
 			<ignoreOnScan>False</ignoreOnScan>
 			<searchGameByCRC>True</searchGameByCRC>
@@ -95,7 +88,9 @@
 			<ignoreGameWithoutDesc>True</ignoreGameWithoutDesc>
 			<romPath>TestDataBase\Collection V1\roms\*.adf</romPath>
 			<romPath>TestDataBase\Collection V1\roms\*.ADF</romPath>
-			<descFilePath>TestDataBase\Collection V1\synopsis\synopsis.txt</descFilePath>			
+			<descFilePath>TestDataBase\Collection V1\synopsis\synopsis.txt</descFilePath>
+			<configFilePath></configFilePath>			
+			<manualPath></manualPath>
 			<mediaPath type="cover">TestDataBase\Collection V1\cover\%GAME%.jpg</mediaPath>
 			<mediaPath type="cover">TestDataBase\Collection V1\cover\%GAME%.gif</mediaPath>
 			<mediaPath type="cover">TestDataBase\Collection V1\cover\%GAME%.png</mediaPath>

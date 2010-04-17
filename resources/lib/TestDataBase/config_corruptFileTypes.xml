@@ -1,7 +1,5 @@
-<config>	
-	<RCBSettings>
-		<favoriteConsole></favoriteConsole>
-		<favoriteGenre></favoriteGenre>
+<config>
+	<RCBSettings>		
 		<showEntryAllConsoles>False</showEntryAllConsoles>
 		<showEntryAllGenres>False</showEntryAllGenres>
 		<showEntryAllYears>True</showEntryAllYears>
@@ -22,61 +20,53 @@
 		</Console>
 	</Consoles>
 	<FileTypes>
-		<FileType>
-			<name>cover</name>
+		<FileType>			
 			<type>image</type>
 			<parent>game</parent>
 		</FileType>
 		<FileType>
-			<name>screenshotingame</name>
-			<type>image</type>
+			<name>screenshotingame</name>			
 			<parent>game</parent>
 		</FileType>
 		<FileType>
 			<name>screenshottitle</name>
-			<type>image</type>
-			<parent>game</parent>
+			<type>image</type>			
 		</FileType> 		
 		<FileType>
 			<name>cartridge</name>
-			<type>image</type>
+			<type>noimage</type>
 			<parent>game</parent>
 		</FileType> 
 		<FileType>
 			<name>3dbox</name>
-			<type>image</type>
+			<type>novideo</type>
 			<parent>game</parent>
 		</FileType> 
 		<FileType>
 			<name>hyperspin</name>
 			<type>image</type>
-			<parent>game</parent>
-		</FileType>
-		<FileType>
-			<name>gameplay</name>
-			<type>video</type>
-			<parent>game</parent>
-		</FileType>
+			<parent>nogame</parent>
+		</FileType>		
 		<FileType>
 			<name>console</name>
 			<type>image</type>
-			<parent>console</parent>
+			<parent>noconsole</parent>
 		</FileType>
 		<FileType>
 			<name>developer</name>
 			<type>image</type>
-			<parent>developer</parent>
+			<parent>nodeveloper</parent>
 		</FileType>
 		<FileType>
 			<name>publisher</name>
 			<type>image</type>
-			<parent>publisher</parent>
+			<parent>nopublisher</parent>
 		</FileType>
 		<FileType>
 			<name>romcollection</name>
 			<type>image</type>
-			<parent>romcollection</parent>
-		</FileType>
+			<parent>noromcollection</parent>
+		</FileType>		
 	</FileTypes>
 	<RomCollections>
 		<RomCollection>			
@@ -84,10 +74,13 @@
 			<consoleName>Amiga</consoleName>
 			<emulatorCmd>E:\Emulatoren\WINUAE\winuae.exe -f "E:\Emulatoren\WINUAE\Configurations\Host\Amiga 500.uae" {-%I% "%ROM%"}</emulatorCmd>
 			<useEmuSolo>True</useEmuSolo>
-			<escapeCommand>True</escapeCommand>			
+			<escapeCommand>True</escapeCommand>
+			<relyOnNaming>True</relyOnNaming>
+			<startWithDescFile>False</startWithDescFile>
 			<descFilePerGame>False</descFilePerGame>
 			<descriptionParserFile>TestDataBase\Collection V1\parserConfig.xml</descriptionParserFile>
-			<diskPrefix>_Disk</diskPrefix>			
+			<diskPrefix>_Disk</diskPrefix>
+			<typeOfManual>Text</typeOfManual>
 			<allowUpdate>False</allowUpdate>
 			<ignoreOnScan>False</ignoreOnScan>
 			<searchGameByCRC>True</searchGameByCRC>
@@ -95,7 +88,9 @@
 			<ignoreGameWithoutDesc>True</ignoreGameWithoutDesc>
 			<romPath>TestDataBase\Collection V1\roms\*.adf</romPath>
 			<romPath>TestDataBase\Collection V1\roms\*.ADF</romPath>
-			<descFilePath>TestDataBase\Collection V1\synopsis\synopsis.txt</descFilePath>			
+			<descFilePath>TestDataBase\Collection V1\synopsis\synopsis.txt</descFilePath>
+			<configFilePath></configFilePath>			
+			<manualPath></manualPath>
 			<mediaPath type="cover">TestDataBase\Collection V1\cover\%GAME%.jpg</mediaPath>
 			<mediaPath type="cover">TestDataBase\Collection V1\cover\%GAME%.gif</mediaPath>
 			<mediaPath type="cover">TestDataBase\Collection V1\cover\%GAME%.png</mediaPath>

@@ -24,10 +24,59 @@ class TestImportSettings(unittest.TestCase):
 		self.gdb.connect()
 		self.gdb.dropTables()
 		self.gdb.createTables()
+		
+			
+	def test_ErrorHandling(self):
+		self.origconfig = os.path.join(self.databasedir, 'config.xml')
+				
+		self.checkErrorHandling('_config.xml', False, 'Error: File config.xml does not exist')
+				
+		self.checkErrorHandling('config_corrupt.xml', True, 'Error: config.xml is no valid XML File')
+		
+		self.checkErrorHandling('config_NoRCBSettings.xml', True, 'Error: Import failed with 1 error(s)')
+		
+		self.checkErrorHandling('config_NoConsoles.xml', True, 'Error: Import failed with 1 error(s)')
+		
+		self.checkErrorHandling('config_NoFileTypes.xml', True, 'Error: Import failed with 1 error(s)')
+		
+		self.checkErrorHandling('config_NoRomCollections.xml', True, 'Error: Import failed with 1 error(s)')
+		
+		self.checkErrorHandling('config_corruptConsoles.xml', True, 'Error: Import failed with 1 error(s)')
+		
+		self.checkErrorHandling('config_corruptFileTypes.xml', True, 'Error: Import failed with 10 error(s)')
+		
+		self.checkErrorHandling('config_corruptRomCollections.xml', True, 'Error: Import failed with 11 error(s)')
+		
+	
+	def checkErrorHandling(self, testFileName, backup, expectedErrorMsg):
+		
+		testFile = os.path.join(self.databasedir, testFileName)
+		
+		if(backup):
+			backupFile = os.path.join(self.databasedir, 'config_backup.xml')
+			os.rename(self.origconfig, backupFile)
+			os.rename(testFile, self.origconfig)
+		else:			
+			os.rename(self.origconfig, testFile)
+		si = importsettings.SettingsImporter()
+		importSuccessFul, errorMsg = si.importSettings(self.gdb, self.databasedir, RCBMock())		
+		
+		#revert changes
+		if(backup):
+			os.rename(self.origconfig, testFile)
+			os.rename(backupFile, self.origconfig)
+		else:
+			os.rename(testFile, self.origconfig)
+			
+		self.assertTrue(not importSuccessFul)
+		self.assertEqual(expectedErrorMsg, errorMsg)
+		
 	
 	def test_ImportSettings(self):		
 		si = importsettings.SettingsImporter()
-		si.importSettings(self.gdb, self.databasedir, RCBMock())
+		importSuccessFul, errorMsg = si.importSettings(self.gdb, self.databasedir, RCBMock())
+		self.assertTrue(importSuccessFul)
+		self.assertEqual('', errorMsg)
 		
 		rcbSettingRows = RCBSetting(self.gdb).getAll()
 		self.assertTrue(rcbSettingRows != None)
@@ -71,8 +120,7 @@ class TestImportSettings(unittest.TestCase):
 		self.assertEqual(collV1[7], 'True')
 		self.assertEqual(collV1[8], 'False')
 		self.assertEqual(collV1[9], 'False')
-		self.assertEqual(collV1[10], '_Disk')
-		self.assertEqual(collV1[11], 'Text')
+		self.assertEqual(collV1[10], '_Disk')		
 		self.assertEqual(collV1[12], 'False')
 		self.assertEqual(collV1[13], 'False')
 		self.assertEqual(collV1[14], 'True')
@@ -213,7 +261,7 @@ class TestImportSettings(unittest.TestCase):
 		
 
 class RCBMock():
-	def writeMsg(self, msg):
+	def writeMsg(self, msg, count=0):
 		pass
 	
 
