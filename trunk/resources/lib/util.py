@@ -7,6 +7,7 @@ import os, sys
 #
 
 RCBHOME = os.getcwd()
+SCRIPTNAME = 'Rom Collection Browser'
 
 LOG_LEVEL_ERROR = 0
 LOG_LEVEL_WARNING = 1

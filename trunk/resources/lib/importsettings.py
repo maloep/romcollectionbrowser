@@ -1,8 +1,10 @@
 
 import os, sys, string, re
 from pysqlite2 import dbapi2 as sqlite
-from gamedatabase import *
 from xml.dom.minidom import Document, parseString
+
+from gamedatabase import *
+import util
 
 class SettingsImporter:
 	
@@ -10,19 +12,36 @@ class SettingsImporter:
 		
 		self.gdb = gdb
 		configFile = os.path.join(databaseDir, 'config.xml')
-		fh=open(configFile,"r")
-		xmlDoc = fh.read()
-		fh.close()		
-		xmlDoc = parseString(xmlDoc)
+		
+		if(os.path.isfile(configFile)):
+			try:
+				fh=open(configFile,"r")
+				xmlDoc = fh.read()
+				fh.close()				
+			except Exception, (exc):
+				util.log('Cannot open file config.xml: ' +str(exc), util.LOG_LEVEL_ERROR)
+				return False, 'Error: Cannot open file config.xml'
+				
+			try:
+				xmlDoc = parseString(xmlDoc)
+			except Exception, (exc):
+				util.log('config.xml is no valid XML File: ' +str(exc), util.LOG_LEVEL_ERROR)
+				return False, 'Error: config.xml is no valid XML File'
+				
+		else:	
+			util.log('File config.xml does not exist', util.LOG_LEVEL_ERROR)
+			return False, 'Error: File config.xml does not exist'
 
-		#itemCount is used for percentage in ProgressDialog
+		#itemCount and stepCount are used to show percentage in ProgressDialog		
 		gui.itemCount = 5
-		gui.writeMsg("Importing Settings...", 1)
-		
-		
+		stepCount = 1
+		gui.writeMsg("Importing Settings...", stepCount)
+				
+		success, errorCount = self.checkFileStructure(xmlDoc)
+		if(not success):
+			return False, 'Error: Import failed with %i error(s)' %errorCount		
 		rcbSettings = xmlDoc.getElementsByTagName('RCBSettings')
-		
-		#TODO only 1 Setting allowed
+				
 		for rcbSetting in rcbSettings:
 			favoriteConsole = self.getElementValue(rcbSetting, 'favoriteConsole')
 			favoriteGenre = self.getElementValue(rcbSetting, 'favoriteGenre')
@@ -36,7 +55,8 @@ class SettingsImporter:
 			self.insertRCBSetting(favoriteConsole, favoriteGenre, showEntryAllConsoles, showEntryAllGenres, showEntryAllYears, showEntryAllPublisher, 
 				saveViewStateOnExit, saveViewStateOnLaunchEmu)
 			
-		gui.writeMsg("Importing Console Info...", 2)
+		stepCount = stepCount +1
+		gui.writeMsg("Importing Console Info...", stepCount)
 		
 		consoles = xmlDoc.getElementsByTagName('Console')
 		for console in consoles:			
@@ -47,7 +67,8 @@ class SettingsImporter:
 			self.insertConsole(consoleName, consoleDesc, consoleImage)
 		
 		
-		gui.writeMsg("Importing File Types...", 3)
+		stepCount = stepCount +1
+		gui.writeMsg("Importing File Types...", stepCount)
 		
 		#import internal file types
 		self.insertFileType('rcb_rom', 'image', 'game')
@@ -65,7 +86,8 @@ class SettingsImporter:
 			self.insertFileType(name, type, parent)
 		
 		
-		gui.writeMsg("Importing Rom Collections...", 4)
+		stepCount = stepCount +1
+		gui.writeMsg("Importing Rom Collections...", stepCount)
 		
 		#fileTypesForControl must be deleted. There is no useful unique key
 		FileTypeForControl(self.gdb).deleteAll()
@@ -137,15 +159,16 @@ class SettingsImporter:
 			
 		#TODO Transaction?
 		gdb.commit()
-		gui.writeMsg("Done.", 5)
-		
+		stepCount = stepCount +1
+		gui.writeMsg("Done.", stepCount)
+		return True, ''				
 	
 	
 	def getElementValue(self, parentNode, elementName):
 		nodeList = parentNode.getElementsByTagName(elementName)
-		if(nodeList == None):
-			return ""
-				
+		if(nodeList == None or len(nodeList) == 0):
+			return ""					
+			
 		node = nodeList[0]
 		if(node == None):
 			return ""
@@ -174,31 +197,31 @@ class SettingsImporter:
 		
 		nodeList = parentNode.getElementsByTagName(elementName)
 		for node in nodeList:
-			if(node == None):				
-				continue
-			if(node.firstChild == None):				
-				continue
 			
-			path = node.firstChild.nodeValue
-			
-			if(not node.hasAttributes()):
-				#TODO raiseException				
+			fileType = self.getAttribute(node, 'type')
+			if(fileType == ''):
 				continue
 				
-			fileType = node.getAttribute('type')			
 			fileTypeRow = FileType(self.gdb).getOneByName(fileType)			
 			if(fileTypeRow == None):				
-				continue
+				continue						
 			
-			"""
-			if(elementName == 'videoPath'):
-				fileType = 'video_' +fileType
-			fileTypeId = self.insertFileType(fileType)
-			"""
-						
 			self.insertPath(node.firstChild.nodeValue, fileType, fileTypeRow[0], romCollectionId)
 			
+	
+	def getAttribute(self, node, attrName):
+		if(node == None):				
+			return ''				
 		
+		if(not node.hasAttributes()):			
+			return ''
+			
+		attr = node.getAttribute(attrName)
+		if(attr == None):
+			return ''
+			
+		return attr
+	
 	
 	def insertRCBSetting(self, favoriteConsole, favoriteGenre, showEntryAllConsoles, showEntryAllGenres, showEntryAllYears, showEntryAllPublisher, saveViewStateOnExit, saveViewStateOnLaunchEmu):
 		
@@ -209,17 +232,17 @@ class SettingsImporter:
 		if(favoriteGenre == ''):
 			favoriteGenre = None
 		if(showEntryAllConsoles == ''):
-			showEntryAllConsoles = None
+			showEntryAllConsoles = 'True'
 		if(showEntryAllGenres == ''):
-			showEntryAllGenres = None
+			showEntryAllGenres = 'True'
 		if(showEntryAllYears == ''):
-			showEntryAllYears = None
+			showEntryAllYears = 'True'
 		if(showEntryAllPublisher == ''):
-			showEntryAllPublisher = None
+			showEntryAllPublisher = 'True'
 		if(saveViewStateOnExit == ''):
-			saveViewStateOnExit = None
+			saveViewStateOnExit = 'False'
 		if(saveViewStateOnLaunchEmu == ''):
-			saveViewStateOnLaunchEmu = None
+			saveViewStateOnLaunchEmu = 'False'
 		
 		if(rcbSettingRows == None or len(rcbSettingRows) == 0):			
 			RCBSetting(self.gdb).insert((None, None, None, None, None, None, favoriteConsole, favoriteGenre, None, CURRENT_SCRIPT_VERSION, 
@@ -242,8 +265,35 @@ class SettingsImporter:
 				descFilePerGame, descParserFile, diskPrefix, typeOfManual, allowUpdate, ignoreOnScan, searchGameByCRC, 
 				searchGameByCRCIgnoreRomName, ignoreGameWithoutDesc):		
 		
+		#set default values
+		if(emuSolo == ''):
+			emuSolo = 'False'
+		if(escapeCmd == ''):
+			escapeCmd = 'True'
+		if(relyOnNaming == ''):
+			relyOnNaming = 'True'
+		if(startWithDescFile == ''):
+			startWithDescFile = 'False'
+		if(descFilePerGame == ''):
+			descFilePerGame = 'False'
+		if(diskPrefix == ''):
+			diskPrefix = '_Disk'
+		if(typeOfManual == ''):
+			typeOfManual = ''
+		if(allowUpdate == ''):
+			allowUpdate = 'True'
+		if(ignoreOnScan == ''):
+			ignoreOnScan = 'False'
+		if(searchGameByCRC == ''):
+			searchGameByCRC = 'True'
+		if(searchGameByCRCIgnoreRomName == ''):
+			searchGameByCRCIgnoreRomName = 'False'
+		if(ignoreGameWithoutDesc == ''):
+			ignoreGameWithoutDesc = 'False'	
+		
 		consoleRow = Console(self.gdb).getOneByName(consoleName)
 		if(consoleRow == None):
+			#TODO error handling
 			return
 		consoleId = consoleRow[0] 
 				
@@ -276,11 +326,12 @@ class SettingsImporter:
 
 	def insertPaths(self, romCollectionId, paths, fileType):
 		fileTypeRow = FileType(self.gdb).getOneByName(fileType)
-		if(fileTypeRow == None):				
+		if(fileTypeRow == None):
+			#TODO error handling
 			return
 			
 		for path in paths:
-			self.insertPath(path, fileType, fileTypeRow[0], romCollectionId)			
+			self.insertPath(path, fileType, fileTypeRow[0], romCollectionId)
 				
 	
 	def insertPath(self, path, fileTypeName, fileTypeId, romCollectionId):
@@ -301,3 +352,150 @@ class SettingsImporter:
 			fileTypeForControlRow = FileTypeForControl(self.gdb).getFileTypeForControlByKey(romCollectionId, fileType, control, str(i))
 			if(fileTypeForControlRow == None):
 				FileTypeForControl(self.gdb).insert((control, str(i), romCollectionId, fileTypeRow[0]))
+
+
+	def checkFileStructure(self, xmlDoc):
+		
+		errorCount = 0
+		
+		#RCBSettings
+		rcbSettings = xmlDoc.getElementsByTagName('RCBSettings')		
+		if(len(rcbSettings) != 1):
+			errorCount = errorCount +1
+			util.log('Import Settings: Error in config.xml. There must be exactly 1 RCBSettings entry!', util.LOG_LEVEL_ERROR)
+			
+		#Consoles
+		consoles = xmlDoc.getElementsByTagName('Console')
+		if(len(consoles) == 0):
+			errorCount = errorCount +1
+			util.log('Import Settings: Error in config.xml. You must have at least 1 Console entry!', util.LOG_LEVEL_ERROR)
+		
+		for console in consoles:			
+			consoleName = self.getElementValue(console, 'name')
+			if(consoleName == ''):
+				errorCount = errorCount +1
+				util.log('Import Settings: Error in config.xml. Console must have a name!', util.LOG_LEVEL_ERROR)
+				
+		#FileTypes
+		fileTypes = xmlDoc.getElementsByTagName('FileType')
+		if(len(fileTypes) == 0):
+			errorCount = errorCount +1
+			util.log('Import Settings: Error in config.xml. You must have at least 1 FileType entry!', util.LOG_LEVEL_ERROR)
+		
+		for fileType in fileTypes:
+			
+			name = self.getElementValue(fileType, 'name')			
+			if(name == ''):
+				errorCount = errorCount +1
+				util.log('Import Settings: Error in config.xml. FileType must have a name!', util.LOG_LEVEL_ERROR)
+			
+			type = self.getElementValue(fileType, 'type')			
+			if(type == ''):
+				errorCount = errorCount +1
+				util.log('Import Settings: Error in config.xml. FileType must have a type!', util.LOG_LEVEL_ERROR)			
+			elif(type not in ('image', 'video')):
+				errorCount = errorCount +1
+				util.log('Import Settings: Error in config.xml. Allowed values for FileType/@type: image, video!', util.LOG_LEVEL_ERROR)
+				
+			parent = self.getElementValue(fileType, 'parent')
+			if(parent == ''):
+				errorCount = errorCount +1
+				util.log('Import Settings: Error in config.xml. FileType must have a parent!', util.LOG_LEVEL_ERROR)
+			elif(parent not in ('game', 'publisher', 'developer', 'console', 'romcollection')):
+				errorCount = errorCount +1
+				util.log('Import Settings: Error in config.xml. Allowed values for FileType/@parent: game, publisher, developer, console, romcollection!', util.LOG_LEVEL_ERROR)
+				
+			
+		#RomCollection
+		romCollections = xmlDoc.getElementsByTagName('RomCollection')
+		if(len(romCollections) == 0):
+			errorCount = errorCount +1
+			util.log('Import Settings: Error in config.xml. You must have at least 1 RomCollection entry!', util.LOG_LEVEL_ERROR)
+			
+		for romCollection in romCollections:			
+			
+			romCollName = self.getElementValue(romCollection, 'name')
+			if(romCollName == ''):
+				errorCount = errorCount +1
+				util.log('Import Settings: Error in config.xml. RomCollection must have a name!', util.LOG_LEVEL_ERROR)
+				
+			consoleName = self.getElementValue(romCollection, 'consoleName')
+			if(consoleName == ''):
+				errorCount = errorCount +1
+				util.log('Import Settings: Error in config.xml. RomCollection %s must have a consoleName!' %romCollName, util.LOG_LEVEL_ERROR)
+				#TODO check if consoleName is configured in Consoles
+			
+			emuCmd = self.getElementValue(romCollection, 'emulatorCmd')
+			if(emuCmd == ''):
+				errorCount = errorCount +1
+				util.log('Import Settings: Error in config.xml. RomCollection %s must have an emulatorCmd!' %romCollName, util.LOG_LEVEL_ERROR)			
+				
+			romPaths = self.getElementValues(romCollection, 'romPath')
+			if(len(romPaths) == 0):
+				errorCount = errorCount +1
+				util.log('Import Settings: Error in config.xml. RomCollection %s must have a romPath!' %romCollName, util.LOG_LEVEL_ERROR)
+				
+			for romPath in romPaths:
+				dirname = os.path.dirname(romPath)
+				if(not os.path.isdir(dirname)):
+					errorCount = errorCount +1
+					util.log('Import Settings: Error in config.xml. Configured romPath %s in RomCollection %s does not exist!' %(dirname, romCollName), util.LOG_LEVEL_ERROR)
+			
+			descFilePaths = self.getElementValues(romCollection, 'descFilePath')
+			"""
+			if(len(descFilePaths) == 0):
+				errorCount = errorCount +1
+				util.log('Import Settings: Error in config.xml. RomCollection %s must have a descFilePath!' %romCollName, util.LOG_LEVEL_ERROR)
+			"""
+			if(len(descFilePaths) > 0):
+				descParserFile = self.getElementValue(romCollection, 'descriptionParserFile')
+				if(descParserFile == ''):
+					errorCount = errorCount +1
+					util.log('Import Settings: Error in config.xml. RomCollection %s must have a descParserFile (if you have configured a descFilePath)!' %romCollName, util.LOG_LEVEL_ERROR)
+			
+			for descFilePath in descFilePaths:							
+				dirname = os.path.dirname(descFilePath)
+				phIndex = dirname.find('%GAME%')
+				if(phIndex >= 0):
+					dirname = dirname[0:phIndex]				
+				if(not os.path.isdir(dirname)):
+					errorCount = errorCount +1
+					util.log('Import Settings: Error in config.xml. Configured descFilePath %s in RomCollection %s does not exist!' %(dirname, romCollName), util.LOG_LEVEL_ERROR)
+			
+			mediaPaths = romCollection.getElementsByTagName('mediaPath')
+			for mediaPath in mediaPaths:				
+				type = self.getAttribute(mediaPath, 'type')
+				if(type == ''):
+					errorCount = errorCount +1
+					util.log('Import Settings: Error in config.xml. MediaPath must have a type!', util.LOG_LEVEL_ERROR)
+					#TODO check if type is configured
+			
+			errorCount = self.checkFileTypeForElements('fileTypeForGameList', romCollection, errorCount)
+			errorCount = self.checkFileTypeForElements('fileTypeForMainViewGameInfo', romCollection, errorCount)
+			errorCount = self.checkFileTypeForElements('fileTypeForGameInfoViewBackground', romCollection, errorCount)
+			errorCount = self.checkFileTypeForElements('fileTypeForGameInfoViewGamelist', romCollection, errorCount)
+			errorCount = self.checkFileTypeForElements('fileTypeForGameInfoView1', romCollection, errorCount)
+			errorCount = self.checkFileTypeForElements('fileTypeForGameInfoView2', romCollection, errorCount)
+			errorCount = self.checkFileTypeForElements('fileTypeForGameInfoView3', romCollection, errorCount)
+			errorCount = self.checkFileTypeForElements('fileTypeForGameInfoView4', romCollection, errorCount)
+			errorCount = self.checkFileTypeForElements('fileTypeForGameInfoViewVideoWindow', romCollection, errorCount)
+		
+		
+		
+		if(errorCount != 0):
+			return False, errorCount
+		else:
+			return True, errorCount
+			
+			
+	def checkFileTypeForElements(self, tagName, romCollection, errorCount):
+		elements = romCollection.getElementsByTagName(tagName)
+		for element in elements:				
+			firstChild = element.firstChild
+			if(firstChild == None or firstChild == ''):																
+				errorCount = errorCount +1
+				util.log('Import Settings: Error in config.xml. FileTypeFor... element must have a value!', util.LOG_LEVEL_ERROR)
+				#TODO check if type is configured
+				
+		return errorCount
+	

@@ -115,12 +115,15 @@ class UIGameDB(xbmcgui.WindowXML):
 			if(retSettings == True):
 				progressDialog = ProgressDialogGUI()
 				progressDialog.writeMsg("Import settings...")
-				importsettings.SettingsImporter().importSettings(self.gdb, os.path.join(RCBHOME, 'resources', 'database'), progressDialog)
+				importSuccessful, errorMsg = importsettings.SettingsImporter().importSettings(self.gdb, os.path.join(RCBHOME, 'resources', 'database'), progressDialog)
 				progressDialog.writeMsg("", -1)
 				del progressDialog
 				
-				#TODO check Import result
-				if(doImport == 1):
+				if (not importSuccessful):
+					xbmcgui.Dialog().ok(util.SCRIPTNAME, errorMsg)
+
+
+				if(importSuccessful and doImport == 1):
 					dialog = xbmcgui.Dialog()
 					retGames = dialog.yesno('Rom Collection Browser', 'Import Settings successful', 'Do you you want to import Games now?')
 					if(retGames == True):

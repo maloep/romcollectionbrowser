@@ -1,7 +1,7 @@
 
 
 import os, sys
-import xbmcgui
+
 
 #taken from apple movie trailer script (thanks to Nuka1195 and others)
 # Shared resources
