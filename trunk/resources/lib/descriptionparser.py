@@ -16,7 +16,7 @@ from string import lowercase
 
 from xml.dom.minidom import Document, Node, parseString
 
-
+#Add support for unicode chars in commaseparated lists
 _mynoncomma = "".join( [ c for c in printables + alphas8bit if c != "," ] )
 _mycommasepitem = Combine(OneOrMore(Word(_mynoncomma) +
 				  Optional( Word(" \t") +
@@ -143,7 +143,7 @@ class DescriptionParser:
 					lastNodeGrammar += nodeGrammar
 					
 		grammar = ParserElement()
-		for grammarItem in grammarList:			
+		for grammarItem in grammarList:
 			grammar += grammarItem
 		
 		gameGrammar = Group(grammar)
@@ -212,7 +212,7 @@ class DescriptionParser:
 			#print "sub: " +strsub
 			#print "newIn: " +inputString
 			tokenIndex = -1
-				
+			
 		return grammar
 
 
@@ -226,7 +226,7 @@ def main():
 	
 	#results = dp.parseDescription('E:\\Emulatoren\\data\\Testdata V0.4\\Collection V4\\Synopsis\\synopsis.txt', 
 	#	'E:\\Emulatoren\\data\\Testdata V0.4\\Collection V4\\parserConfig.xml', '')
-			
+	
 	for result in results:
 		print result.asDict()
 	del dp

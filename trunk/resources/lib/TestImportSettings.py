@@ -35,20 +35,22 @@ class TestImportSettings(unittest.TestCase):
 		
 		self.checkErrorHandling('config_NoRCBSettings.xml', True, 'Error: Import failed with 1 error(s)')
 		
-		self.checkErrorHandling('config_NoConsoles.xml', True, 'Error: Import failed with 1 error(s)')
+		self.checkErrorHandling('config_NoConsoles.xml', True, 'Error: Import failed with 5 error(s)')
 		
-		self.checkErrorHandling('config_NoFileTypes.xml', True, 'Error: Import failed with 1 error(s)')
+		self.checkErrorHandling('config_NoFileTypes.xml', True, 'Error: Import failed with 83 error(s)')
 		
 		self.checkErrorHandling('config_NoRomCollections.xml', True, 'Error: Import failed with 1 error(s)')
 		
-		self.checkErrorHandling('config_corruptConsoles.xml', True, 'Error: Import failed with 1 error(s)')
+		self.checkErrorHandling('config_corruptConsoles.xml', True, 'Error: Import failed with 3 error(s)')
 		
-		self.checkErrorHandling('config_corruptFileTypes.xml', True, 'Error: Import failed with 10 error(s)')
+		self.checkErrorHandling('config_corruptFileTypes.xml', True, 'Error: Import failed with 42 error(s)')
 		
 		self.checkErrorHandling('config_corruptRomCollections.xml', True, 'Error: Import failed with 11 error(s)')
 		
 	
 	def checkErrorHandling(self, testFileName, backup, expectedErrorMsg):
+		
+		print "current File: " +testFileName
 		
 		testFile = os.path.join(self.databasedir, testFileName)
 		
@@ -228,7 +230,7 @@ class TestImportSettings(unittest.TestCase):
 		fileTypesForControl = FileTypeForControl(self.gdb).getAll()
 		self.assertTrue(paths != None)
 		numFileTypes = len(fileTypesForControl)
-		self.assertEqual(numFileTypes, 29)
+		self.assertEqual(numFileTypes, 32)
 		
 		self.fileTypeForControlTestTest(fileTypesForControl[0][1], 'gamelist', fileTypesForControl[0][2], 0, fileTypesForControl[0][4], 'cover', fileTypesForControl[0][3], 'Collection V1')
 		self.fileTypeForControlTestTest(fileTypesForControl[2][1], 'gameinfoviewbackground', fileTypesForControl[2][2], 0, fileTypesForControl[2][4], 'cover', fileTypesForControl[2][3], 'Collection V1')

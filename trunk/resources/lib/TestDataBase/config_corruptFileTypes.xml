@@ -29,6 +29,11 @@
 			<parent>game</parent>
 		</FileType>
 		<FileType>
+			<name>title</name>
+			<type>image</type>
+			<parent>game</parent>
+		</FileType>
+		<FileType>
 			<name>screenshottitle</name>
 			<type>image</type>			
 		</FileType> 		

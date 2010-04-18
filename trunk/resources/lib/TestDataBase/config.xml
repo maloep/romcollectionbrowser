@@ -26,7 +26,7 @@
 			<name>cover</name>
 			<type>image</type>
 			<parent>game</parent>
-		</FileType>
+		</FileType>		
 		<FileType>
 			<name>screenshotingame</name>
 			<type>image</type>
@@ -76,6 +76,11 @@
 			<name>romcollection</name>
 			<type>image</type>
 			<parent>romcollection</parent>
+		</FileType>
+		<FileType>
+			<name>title</name>
+			<type>image</type>
+			<parent>game</parent>
 		</FileType>
 	</FileTypes>
 	<RomCollections>
