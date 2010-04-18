@@ -18,6 +18,11 @@
 			<parent>game</parent>
 		</FileType>
 		<FileType>
+			<name>title</name>
+			<type>image</type>
+			<parent>game</parent>
+		</FileType>
+		<FileType>
 			<name>screenshotingame</name>
 			<type>image</type>
 			<parent>game</parent>

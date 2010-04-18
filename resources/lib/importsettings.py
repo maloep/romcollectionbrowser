@@ -6,6 +6,9 @@ from xml.dom.minidom import Document, parseString
 from gamedatabase import *
 import util
 
+#TODO use elementtree instead of minidom
+from elementtree.ElementTree import *
+
 class SettingsImporter:
 	
 	def importSettings(self, gdb, databaseDir, gui):
@@ -37,7 +40,7 @@ class SettingsImporter:
 		stepCount = 1
 		gui.writeMsg("Importing Settings...", stepCount)
 				
-		success, errorCount = self.checkFileStructure(xmlDoc)
+		success, errorCount = self.checkFileStructure(xmlDoc, configFile)
 		if(not success):
 			return False, 'Error: Import failed with %i error(s)' %errorCount		
 		rcbSettings = xmlDoc.getElementsByTagName('RCBSettings')
@@ -354,7 +357,10 @@ class SettingsImporter:
 				FileTypeForControl(self.gdb).insert((control, str(i), romCollectionId, fileTypeRow[0]))
 
 
-	def checkFileStructure(self, xmlDoc):
+	def checkFileStructure(self, xmlDoc, configFile):
+		
+		#load xmlDoc as elementtree to check with xpaths
+		tree = ElementTree().parse(configFile)
 		
 		errorCount = 0
 		
@@ -423,7 +429,12 @@ class SettingsImporter:
 			if(consoleName == ''):
 				errorCount = errorCount +1
 				util.log('Import Settings: Error in config.xml. RomCollection %s must have a consoleName!' %romCollName, util.LOG_LEVEL_ERROR)
-				#TODO check if consoleName is configured in Consoles
+			else:
+				#check if consoleName is configured in Consoles
+				elementFound = self.checkReferencedElement(tree, 'Consoles/Console/name', consoleName)				
+				if(elementFound == False):
+					errorCount = errorCount +1
+					util.log('Import Settings: Error in config.xml. Console %s in Rom Collection %s does not exist in Consoles!' %(consoleName, romCollName), util.LOG_LEVEL_ERROR)
 			
 			emuCmd = self.getElementValue(romCollection, 'emulatorCmd')
 			if(emuCmd == ''):
@@ -468,17 +479,23 @@ class SettingsImporter:
 				if(type == ''):
 					errorCount = errorCount +1
 					util.log('Import Settings: Error in config.xml. MediaPath must have a type!', util.LOG_LEVEL_ERROR)
-					#TODO check if type is configured
+				else:
+					#check if type is configured
+					elementFound = self.checkReferencedElement(tree, 'FileTypes/FileType/name', type)
+					if(elementFound == False):
+						errorCount = errorCount +1
+						util.log('Import Settings: Error in config.xml. mediaPath type %s in Rom Collection %s does not exist in FileTypes!' %(type, romCollName), util.LOG_LEVEL_ERROR)
 			
-			errorCount = self.checkFileTypeForElements('fileTypeForGameList', romCollection, errorCount)
-			errorCount = self.checkFileTypeForElements('fileTypeForMainViewGameInfo', romCollection, errorCount)
-			errorCount = self.checkFileTypeForElements('fileTypeForGameInfoViewBackground', romCollection, errorCount)
-			errorCount = self.checkFileTypeForElements('fileTypeForGameInfoViewGamelist', romCollection, errorCount)
-			errorCount = self.checkFileTypeForElements('fileTypeForGameInfoView1', romCollection, errorCount)
-			errorCount = self.checkFileTypeForElements('fileTypeForGameInfoView2', romCollection, errorCount)
-			errorCount = self.checkFileTypeForElements('fileTypeForGameInfoView3', romCollection, errorCount)
-			errorCount = self.checkFileTypeForElements('fileTypeForGameInfoView4', romCollection, errorCount)
-			errorCount = self.checkFileTypeForElements('fileTypeForGameInfoViewVideoWindow', romCollection, errorCount)
+
+			errorCount = self.checkFileTypeForElements('fileTypeForGameList', romCollection, errorCount, tree)
+			errorCount = self.checkFileTypeForElements('fileTypeForMainViewGameInfo', romCollection, errorCount, tree)
+			errorCount = self.checkFileTypeForElements('fileTypeForGameInfoViewBackground', romCollection, errorCount, tree)
+			errorCount = self.checkFileTypeForElements('fileTypeForGameInfoViewGamelist', romCollection, errorCount, tree)
+			errorCount = self.checkFileTypeForElements('fileTypeForGameInfoView1', romCollection, errorCount, tree)
+			errorCount = self.checkFileTypeForElements('fileTypeForGameInfoView2', romCollection, errorCount, tree)
+			errorCount = self.checkFileTypeForElements('fileTypeForGameInfoView3', romCollection, errorCount, tree)
+			errorCount = self.checkFileTypeForElements('fileTypeForGameInfoView4', romCollection, errorCount, tree)
+			errorCount = self.checkFileTypeForElements('fileTypeForGameInfoViewVideoWindow', romCollection, errorCount, tree)
 		
 		
 		
@@ -486,16 +503,33 @@ class SettingsImporter:
 			return False, errorCount
 		else:
 			return True, errorCount
+	
+
+	def checkReferencedElement(self, tree, xpath, expectedValue):
+		elements = tree.findall(xpath)
+		elementFound = False
+		for element in elements:
+			if(element.text == expectedValue):
+				elementFound = True
+				break				
+		
+		return elementFound		
+		
 			
-			
-	def checkFileTypeForElements(self, tagName, romCollection, errorCount):
+	def checkFileTypeForElements(self, tagName, romCollection, errorCount, tree):
 		elements = romCollection.getElementsByTagName(tagName)
 		for element in elements:				
 			firstChild = element.firstChild
-			if(firstChild == None or firstChild == ''):																
+			if(firstChild == None or firstChild.nodeValue == ''):																
 				errorCount = errorCount +1
-				util.log('Import Settings: Error in config.xml. FileTypeFor... element must have a value!', util.LOG_LEVEL_ERROR)
-				#TODO check if type is configured
+				util.log('Import Settings: Error in config.xml. FileTypeFor... element must have a value!', util.LOG_LEVEL_ERROR)							
+			else:
+				#check if type is configured
+				elementFound = self.checkReferencedElement(tree, 'FileTypes/FileType/name', firstChild.nodeValue)
+				if(elementFound == False):
+					romCollName = self.getElementValue(romCollection, 'name')					
+					errorCount = errorCount +1
+					util.log('Import Settings: Error in config.xml. FileTypeFor... value %s in Rom Collection %s does not exist in FileTypes!' %(firstChild.nodeValue, romCollName), util.LOG_LEVEL_ERROR)
 				
 		return errorCount
 	
