@@ -110,7 +110,7 @@ class UIGameDB(xbmcgui.WindowXML):
 		#doImport: 0=nothing, 1=import Settings and Games, 2=import Settings only
 		if(doImport in (1,2)):
 			dialog = xbmcgui.Dialog()
-			retSettings = dialog.yesno('Rom Collection Browser', 'You have an empty database.', 'Do you you want to import Settings now?')
+			retSettings = dialog.yesno('Rom Collection Browser', 'Database is empty.', 'Do you you want to import Settings now?')
 			del dialog
 			if(retSettings == True):
 				progressDialog = ProgressDialogGUI()
@@ -120,7 +120,7 @@ class UIGameDB(xbmcgui.WindowXML):
 				del progressDialog
 				
 				if (not importSuccessful):
-					xbmcgui.Dialog().ok(util.SCRIPTNAME, errorMsg)
+					xbmcgui.Dialog().ok(util.SCRIPTNAME, errorMsg, 'See xbmc.log for details.')
 
 
 				if(importSuccessful and doImport == 1):
@@ -371,11 +371,11 @@ class UIGameDB(xbmcgui.WindowXML):
 			else:
 				selectedImage = ""
 			item = xbmcgui.ListItem(str(game[util.ROW_NAME]), str(game[util.ROW_ID]), image, selectedImage)
-			self.addItem(item, False)
-				
+			self.addItem(item, False)						
+		
 		xbmcgui.unlock()
 				
-		self.writeMsg("")	
+		self.writeMsg("")			
 		
 		util.log("End showGames" , util.LOG_LEVEL_DEBUG)
 		
@@ -494,8 +494,11 @@ class UIGameDB(xbmcgui.WindowXML):
 	def importSettings(self):
 		util.log("Begin importSettings" , util.LOG_LEVEL_INFO)
 		
-		importsettings.SettingsImporter().importSettings(self.gdb, os.path.join(RCBHOME, 'resources', 'database'), self)
-		self.updateControls()
+		importSuccessful, errorMsg = importsettings.SettingsImporter().importSettings(self.gdb, os.path.join(RCBHOME, 'resources', 'database'), self)
+		if(not importSuccessful):
+			self.writeMsg(errorMsg +' See xbmc.log for details.')
+		else:
+			self.updateControls()
 		util.log("End importSettings" , util.LOG_LEVEL_INFO)
 		
 			
@@ -706,8 +709,7 @@ class UIGameDB(xbmcgui.WindowXML):
 		self.showGameInfo()
 		
 		util.log("End showGameInfoDialog", util.LOG_LEVEL_INFO)
-		
-		
+	
 	
 	def getControlById(self, controlId):
 		try:

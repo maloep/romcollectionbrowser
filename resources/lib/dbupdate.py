@@ -28,7 +28,7 @@ class DBUpdate:
 			self.logFileWritable = False
 			return
 	
-	def updateDB(self, gdb, gui):		
+	def updateDB(self, gdb, gui):
 		self.gdb = gdb
 		
 		self.log("Start Update DB", util.LOG_LEVEL_INFO)
@@ -39,7 +39,7 @@ class DBUpdate:
 			#gui.writeMsg("There are no Rom Collections in database. Make sure to import settings first.")
 			self.log("There are no Rom Collections in database. Make sure to import settings first.", util.LOG_LEVEL_ERROR)
 			self.exit()
-			return
+			return False, "There are no Rom Collections in database. Make sure to import settings first."
 		self.log(str(len(romCollectionRows)) +" Rom Collections read", util.LOG_LEVEL_INFO)		
 		
 		#itemCount is used fpr percenatge in ProgressDialogGUI
@@ -83,10 +83,8 @@ class DBUpdate:
 			if(descFilePerGame == 'False'):
 				self.log("Start parsing description file", util.LOG_LEVEL_INFO)
 				results = self.parseDescriptionFile(str(descriptionPath), str(descParserFile), '')
-				if(results == None):
-					#gui.writeMsg("ERROR: There was an error parsing the description file. Please see log file for more information.")
-					self.log("There was an error parsing the description file. Please see log file for more information.", util.LOG_LEVEL_ERROR)
-					
+				if(results == None):					
+					self.log("There was an error parsing the description file. Please see log file for more information.", util.LOG_LEVEL_ERROR)					
 				
 				if(results != None and util.CURRENT_LOG_LEVEL == util.LOG_LEVEL_DEBUG):
 					for result in results:
@@ -95,8 +93,8 @@ class DBUpdate:
 			#romCollectionRow[8] = startWithDescFile
 			self.log("using start with description file: " +romCollectionRow[8], util.LOG_LEVEL_INFO)
 			if(romCollectionRow[8] == 'True'):
-				exit()
-				return
+				self.log("startWithDescFile is not implemented!", util.LOG_LEVEL_WARNING)
+				continue
 			else:		
 				self.log("Reading configured paths from database", util.LOG_LEVEL_INFO)
 				romPaths = Path(self.gdb).getRomPathsByRomCollectionId(romCollectionRow[0])
@@ -239,6 +237,7 @@ class DBUpdate:
 					
 		gui.writeMsg("Done.", rccount)
 		self.exit()
+		return True, ''
 		
 	
 	def walkDownPath(self, files, romPath):

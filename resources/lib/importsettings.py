@@ -40,9 +40,12 @@ class SettingsImporter:
 		stepCount = 1
 		gui.writeMsg("Importing Settings...", stepCount)
 				
+		#check config.xml
 		success, errorCount = self.checkFileStructure(xmlDoc, configFile)
 		if(not success):
-			return False, 'Error: Import failed with %i error(s)' %errorCount		
+			return False, 'Error: config.xml has %i error(s)!' %errorCount
+		
+		#start import
 		rcbSettings = xmlDoc.getElementsByTagName('RCBSettings')
 				
 		for rcbSetting in rcbSettings:
