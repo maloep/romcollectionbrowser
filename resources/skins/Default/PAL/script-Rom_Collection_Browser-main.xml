@@ -788,8 +788,7 @@
 			<textcolor>grey2</textcolor>
 			<scroll>false</scroll>
 			<align>right</align>
-			<aligny>center</aligny>
-			<visible></visible>
+			<aligny>center</aligny>			
 			<label>([COLOR=blue]$INFO[Container.NumItems][/COLOR]) Items - Page ([COLOR=blue]$INFO[Container.CurrentPage]/$INFO[Container.NumPages][/COLOR])</label>
 		</control>
 		
