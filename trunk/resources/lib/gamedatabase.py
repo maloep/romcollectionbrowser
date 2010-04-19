@@ -159,7 +159,7 @@ class Game(DataBaseObject):
 					(Id IN (Select GameId From GenreGame Where GenreId = ?) OR (0 = ?)) AND \
 					(YearId = ? OR (0 = ?)) AND \
 					(PublisherId = ? OR (0 = ?)) \
-					ORDER BY name"
+					ORDER BY name DESC"	#TODO Why DESC to have it sorted ASC in XBMC (without using SortMethod)?
 	
 	def __init__(self, gdb):		
 		self.gdb = gdb
