@@ -371,7 +371,7 @@ class UIGameDB(xbmcgui.WindowXML):
 			else:
 				selectedImage = ""
 			item = xbmcgui.ListItem(str(game[util.ROW_NAME]), str(game[util.ROW_ID]), image, selectedImage)
-			self.addItem(item, False)						
+			self.addItem(item, False)				
 		
 		xbmcgui.unlock()
 				
@@ -427,10 +427,11 @@ class UIGameDB(xbmcgui.WindowXML):
 			util.log("selectedGame == None in showGameInfo", util.LOG_LEVEL_WARNING)
 			return
 			
-		gameId = selectedGame.getLabel2()
-		gameRow = Game(self.gdb).getObjectById(gameId)		
+		gameId = selectedGame.getLabel2()				
+		gameRow = Game(self.gdb).getObjectById(gameId)
 		
 		if(gameRow == None):
+			util.log("gameId = %s" %gameId, util.LOG_LEVEL_DEBUG)
 			util.log("gameRow == None in showGameInfo", util.LOG_LEVEL_WARNING)
 			return
 				
@@ -637,7 +638,7 @@ class UIGameDB(xbmcgui.WindowXML):
 			self.setFocus(focusControl)		
 		
 		id = self.Settings.getSetting( util.SETTING_RCB_VIEW_MODE)
-		xbmc.executebuiltin( "Container.SetViewMode(%i)" % int(id) )
+		xbmc.executebuiltin( "Container.SetViewMode(%i)" % int(id) )		
 		
 		#lastSelectedView
 		if(rcbSetting[util.RCBSETTING_lastSelectedView] == util.VIEW_GAMEINFOVIEW):
