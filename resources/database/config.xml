@@ -257,7 +257,7 @@
 			<diskPrefix>_Disk</diskPrefix>
 			<typeOfManual>Text</typeOfManual>
 			<allowUpdate>False</allowUpdate>
-			<ignoreOnScan>False</ignoreOnScan>
+			<ignoreOnScan>True</ignoreOnScan>
 			<searchGameByCRC>True</searchGameByCRC>
 			<searchGameByCRCIgnoreRomName>False</searchGameByCRCIgnoreRomName>
 			<ignoreGameWithoutDesc>False</ignoreGameWithoutDesc>
@@ -303,6 +303,29 @@
 			<fileTypeForGameInfoView4>cartridge</fileTypeForGameInfoView4>
 			<fileTypeForGameInfoView4>romcollection</fileTypeForGameInfoView4>
 			<fileTypeForGameInfoViewVideoWindow>gameplay</fileTypeForGameInfoViewVideoWindow>
+		</RomCollection>
+		<RomCollection>			
+			<name>Collection V5 Amiga Classix</name>
+			<consoleName>Amiga</consoleName>
+			<emulatorCmd>E:\Emulatoren\WINUAE\winuae.exe {-%I% "%ROM%"}</emulatorCmd>
+			<useEmuSolo>True</useEmuSolo>
+			<escapeCommand>True</escapeCommand>			
+			<diskPrefix>_Disk</diskPrefix>			
+			<allowUpdate>True</allowUpdate>
+			<ignoreOnScan>False</ignoreOnScan>
+			<searchGameByCRC>True</searchGameByCRC>
+			<searchGameByCRCIgnoreRomName>False</searchGameByCRCIgnoreRomName>
+			<ignoreGameWithoutDesc>False</ignoreGameWithoutDesc>
+			<romPath>E:\Emulatoren\data\Amiga\Amiga Classix 2\Games\*.adf</romPath>
+			<romPath>E:\Emulatoren\data\Amiga\Amiga Classix 2\Games\*.hdf</romPath>
+			<romPath>E:\Emulatoren\data\Amiga\Amiga Classix 2\Games\*.HDF</romPath>
+			<mediaPath type="cover">E:\Emulatoren\data\Amiga\Amiga Classix 2\Pics\%GAME%.jpg</mediaPath>			
+			<fileTypeForGameList>cover</fileTypeForGameList>
+			<fileTypeForGameListSelected>cover</fileTypeForGameListSelected>
+			<fileTypeForMainViewBackground>cover</fileTypeForMainViewBackground>			
+			<fileTypeForMainViewGameInfo>cover</fileTypeForMainViewGameInfo>
+			<fileTypeForGameInfoViewBackground>cover</fileTypeForGameInfoViewBackground>
+			<fileTypeForGameInfoViewGamelist>cover</fileTypeForGameInfoViewGamelist>			
 		</RomCollection>
 	</RomCollections>
 </config>
