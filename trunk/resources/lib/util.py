@@ -70,9 +70,13 @@ GAME_alternateTitle = 21
 GAME_translatedBy = 22
 GAME_version = 23
 
+FILE_fileTypeId = 2
+FILE_parentId = 3
 
 FILETYPE_parent = 3
 
+FILETYPEFORCONTROL_control = 1
+FILETYPEFORCONTROL_romCollectionId = 3
 FILETYPEFORCONTROL_fileTypeId = 4
 
 #

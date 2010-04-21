@@ -107,39 +107,16 @@ class UIGameDB(xbmcgui.WindowXML):
 		doImport = self.gdb.checkDBStructure()
 		self.gdb.commit()
 
-		#doImport: 0=nothing, 1=import Settings and Games, 2=import Settings only
-		if(doImport in (1,2)):
-			dialog = xbmcgui.Dialog()
-			retSettings = dialog.yesno('Rom Collection Browser', 'Database is empty.', 'Do you you want to import Settings now?')
-			del dialog
-			if(retSettings == True):
-				progressDialog = ProgressDialogGUI()
-				progressDialog.writeMsg("Import settings...")
-				importSuccessful, errorMsg = importsettings.SettingsImporter().importSettings(self.gdb, os.path.join(RCBHOME, 'resources', 'database'), progressDialog)
-				progressDialog.writeMsg("", -1)
-				del progressDialog
-				
-				if (not importSuccessful):
-					xbmcgui.Dialog().ok(util.SCRIPTNAME, errorMsg, 'See xbmc.log for details.')
-
-
-				if(importSuccessful and doImport == 1):
-					dialog = xbmcgui.Dialog()
-					retGames = dialog.yesno('Rom Collection Browser', 'Import Settings successful', 'Do you you want to import Games now?')
-					if(retGames == True):
-						progressDialog = ProgressDialogGUI()
-						progressDialog.writeMsg("Import games...")
-						dbupdate.DBUpdate().updateDB(self.gdb, progressDialog)
-						progressDialog.writeMsg("", -1)
-						del progressDialog
+		self.checkImport(doImport)
 		
+		self.cacheItems()
 		
 		
 	def onInit(self):
 		
 		util.log("Begin onInit", util.LOG_LEVEL_DEBUG)
 		
-		#only init once
+		#init only once
 		if(not self.isInit):
 			return
 			
@@ -149,22 +126,7 @@ class UIGameDB(xbmcgui.WindowXML):
 		self.loadViewState()
 		self.checkAutoExec()
 
-		util.log("End onInit", util.LOG_LEVEL_DEBUG)
-		
-
-	def updateControls(self):
-		
-		util.log("Begin updateControls", util.LOG_LEVEL_DEBUG)
-		
-		#prepare FilterControls	
-		self.showConsoles()		
-		self.showGenre()		
-		self.showYear()
-		self.showPublisher()
-		self.showGames()
-		self.showGameInfo()
-		
-		util.log("End updateControls", util.LOG_LEVEL_DEBUG)
+		util.log("End onInit", util.LOG_LEVEL_DEBUG)			
 
 	
 	def onAction(self, action):		
@@ -267,37 +229,19 @@ class UIGameDB(xbmcgui.WindowXML):
 	def onFocus(self, controlId):
 		util.log("onFocus: " +str(controlId), util.LOG_LEVEL_DEBUG)
 		self.selectedControlId = controlId
-	
-	
-	def showFilterControl(self, dbo, controlId, showEntryAllItems):
 		
-		util.log("begin showFilterControl: " +str(controlId), util.LOG_LEVEL_DEBUG)
 		
-		#xbmcgui.lock()
-		rows = dbo.getAllOrdered()
+	def updateControls(self):
 		
-		control = self.getControlById(controlId)
-		if(control == None):
-			util.log("control == None in showFilterControl", util.LOG_LEVEL_WARNING)
-			return
+		util.log("Begin updateControls", util.LOG_LEVEL_DEBUG)
 		
-		control.setVisible(1)
-		control.reset()
+		#prepare FilterControls	
+		self.showConsoles()		
+		self.showGenre()		
+		self.showYear()
+		self.showPublisher()		
 		
-		items = []
-		if(showEntryAllItems == 'True'):
-			items.append(xbmcgui.ListItem("All", "0", "", ""))		
-		
-		for row in rows:
-			items.append(xbmcgui.ListItem(str(row[util.ROW_NAME]), str(row[util.ROW_ID]), "", ""))
-			
-		control.addItems(items)
-			
-		label2 = str(control.getSelectedItem().getLabel2())
-		return int(label2)
-		#xbmcgui.unlock
-		
-		util.log("End showFilterControl", util.LOG_LEVEL_DEBUG)
+		util.log("End updateControls", util.LOG_LEVEL_DEBUG)
 		
 		
 	def showConsoles(self):
@@ -347,10 +291,82 @@ class UIGameDB(xbmcgui.WindowXML):
 		util.log("End showPublisher" , util.LOG_LEVEL_DEBUG)
 
 
+	def showFilterControl(self, dbo, controlId, showEntryAllItems):
+		
+		util.log("begin showFilterControl: " +str(controlId), util.LOG_LEVEL_DEBUG)
+		
+		#xbmcgui.lock()
+		rows = dbo.getAllOrdered()
+		
+		control = self.getControlById(controlId)
+		if(control == None):
+			util.log("control == None in showFilterControl", util.LOG_LEVEL_WARNING)
+			return
+		
+		control.setVisible(1)
+		control.reset()
+		
+		items = []
+		if(showEntryAllItems == 'True'):
+			items.append(xbmcgui.ListItem("All", "0", "", ""))		
+		
+		for row in rows:
+			items.append(xbmcgui.ListItem(str(row[util.ROW_NAME]), str(row[util.ROW_ID]), "", ""))
+			
+		control.addItems(items)
+			
+		label2 = str(control.getSelectedItem().getLabel2())
+		return int(label2)
+		#xbmcgui.unlock
+		
+		util.log("End showFilterControl", util.LOG_LEVEL_DEBUG)
+		
+
 	def showGames(self):
 		util.log("Begin showGames" , util.LOG_LEVEL_DEBUG)
 		
+		games = Game(self.gdb).getFilteredGames(self.selectedConsoleId, self.selectedGenreId, self.selectedYearId, self.selectedPublisherId)		
+		
+		self.writeMsg("loading games...")
+		
+		xbmcgui.lock()		
+		
+		self.clearList()
+		
+		for game in games:						
+			
+			images = helper.getFilesByControl_Cached(self.gdb, util.IMAGE_CONTROL_MV_GAMELIST, game[util.ROW_ID], game[util.GAME_publisherId], game[util.GAME_developerId], game[util.GAME_romCollectionId],
+				self.fileTypeForControlDict, self.fileTypeDict, self.fileDict)
+			if(images != None and len(images) != 0):
+				image = images[0]
+			else:
+				image = ""
+			
+			
+			selectedImages = helper.getFilesByControl_Cached(self.gdb, util.IMAGE_CONTROL_MV_GAMELISTSELECTED, game[util.ROW_ID], game[util.GAME_publisherId], game[util.GAME_developerId], game[util.GAME_romCollectionId],
+				self.fileTypeForControlDict, self.fileTypeDict, self.fileDict)
+			if(selectedImages != None and len(selectedImages) != 0):
+				selectedImage = selectedImages[0]
+			else:
+				selectedImage = ""			
+			
+			item = xbmcgui.ListItem(str(game[util.ROW_NAME]), str(game[util.ROW_ID]), image, selectedImage)			
+			self.addItem(item, False)
+			
+		xbmcgui.unlock()
+		
+		self.writeMsg("")
+		
+		util.log("End showGames" , util.LOG_LEVEL_DEBUG)
+
+
+	"""
+	def showGames_old(self):
+		util.log("Begin showGames" , util.LOG_LEVEL_DEBUG)
+		
+		util.log("Before getGames" , util.LOG_LEVEL_INFO)
 		games = Game(self.gdb).getFilteredGames(self.selectedConsoleId, self.selectedGenreId, self.selectedYearId, self.selectedPublisherId)
+		util.log("After getGames" , util.LOG_LEVEL_INFO)
 		
 		self.writeMsg("loading games...")
 		
@@ -358,27 +374,39 @@ class UIGameDB(xbmcgui.WindowXML):
 		
 		self.clearList()
 				
-		for game in games:			
+		util.log("Before addGames" , util.LOG_LEVEL_INFO)
+		for game in games:						
+			
 			images = helper.getFilesByControl(self.gdb, util.IMAGE_CONTROL_MV_GAMELIST, game[util.ROW_ID], game[util.GAME_publisherId], game[util.GAME_developerId], game[util.GAME_romCollectionId])
 			if(images != None and len(images) != 0):
 				image = images[0]
 			else:
 				image = ""
-				
+			
+			
 			selectedImages = helper.getFilesByControl(self.gdb, util.IMAGE_CONTROL_MV_GAMELISTSELECTED, game[util.ROW_ID], game[util.GAME_publisherId], game[util.GAME_developerId], game[util.GAME_romCollectionId])
 			if(selectedImages != None and len(selectedImages) != 0):
 				selectedImage = selectedImages[0]
 			else:
 				selectedImage = ""
+			
+			
+			
+			#selectedImage = "E:\\Emulatoren\\data\\Amiga\\Amiga Classix 2\\Pics\\Ace The Space Case.jpg"
+			
 			item = xbmcgui.ListItem(str(game[util.ROW_NAME]), str(game[util.ROW_ID]), image, selectedImage)
+			#item = xbmcgui.ListItem(str(game[util.ROW_NAME]), str(game[util.ROW_ID]), selectedImage, selectedImage)
 			self.addItem(item, False)				
 		
+		util.log("After addGames" , util.LOG_LEVEL_INFO)
 		xbmcgui.unlock()
+		
 				
 		self.writeMsg("")			
 		
 		util.log("End showGames" , util.LOG_LEVEL_DEBUG)
-		
+	"""
+	
 
 	def showConsoleInfo(self):	
 		util.log("Begin showConsoleInfo" , util.LOG_LEVEL_DEBUG)
@@ -435,7 +463,8 @@ class UIGameDB(xbmcgui.WindowXML):
 			util.log("gameRow == None in showGameInfo", util.LOG_LEVEL_WARNING)
 			return
 				
-		bgimages = helper.getFilesByControl(self.gdb, util.IMAGE_CONTROL_MV_BACKGROUND, gameRow[util.ROW_ID], gameRow[util.GAME_publisherId], gameRow[util.GAME_developerId], gameRow[util.GAME_romCollectionId])
+		bgimages = helper.getFilesByControl_Cached(self.gdb, util.IMAGE_CONTROL_MV_BACKGROUND, gameRow[util.ROW_ID], gameRow[util.GAME_publisherId], gameRow[util.GAME_developerId], gameRow[util.GAME_romCollectionId],
+			self.fileTypeForControlDict, self.fileTypeDict, self.fileDict)
 		if(bgimages != None and len(bgimages) != 0):
 			bgimage = bgimages[0]
 		else:
@@ -444,7 +473,8 @@ class UIGameDB(xbmcgui.WindowXML):
 		controlBg.setImage(bgimage)
 		
 		
-		images = helper.getFilesByControl(self.gdb, util.IMAGE_CONTROL_MV_GAMEINFO, gameRow[util.ROW_ID], gameRow[util.GAME_publisherId], gameRow[util.GAME_developerId], gameRow[util.GAME_romCollectionId])
+		images = helper.getFilesByControl_Cached(self.gdb, util.IMAGE_CONTROL_MV_GAMEINFO, gameRow[util.ROW_ID], gameRow[util.GAME_publisherId], gameRow[util.GAME_developerId], gameRow[util.GAME_romCollectionId],
+			self.fileTypeForControlDict, self.fileTypeDict, self.fileDict)
 		if(images != None and len(images) != 0):
 			image = images[0]
 		else:
@@ -502,6 +532,69 @@ class UIGameDB(xbmcgui.WindowXML):
 			self.updateControls()
 		util.log("End importSettings" , util.LOG_LEVEL_INFO)
 		
+		
+	def showGameInfoDialog(self):
+
+		util.log("Begin showGameInfoDialog", util.LOG_LEVEL_INFO)
+		
+		if(self.getListSize() == 0):
+			util.log("ListSize == 0 in saveViewState", util.LOG_LEVEL_WARNING)
+			return
+		
+		selectedGameIndex = self.getCurrentListPosition()		
+		if(selectedGameIndex == -1):
+			selectedGameIndex = 0
+		selectedGame = self.getListItem(selectedGameIndex)		
+		if(selectedGame == None):
+			util.log("selectedGame == None in showGameInfoDialog", util.LOG_LEVEL_WARNING)
+			return
+		gameId = selectedGame.getLabel2()
+		
+		self.saveViewMode()
+		
+		import gameinfodialog
+		gid = gameinfodialog.UIGameInfoView("script-Rom_Collection_Browser-gameinfo.xml", os.getcwd(), "Default", 1, gdb=self.gdb, gameId=gameId, 
+			consoleId=self.selectedConsoleId, genreId=self.selectedGenreId, yearId=self.selectedYearId, publisherId=self.selectedPublisherId, selectedGameIndex=selectedGameIndex,
+			consoleIndex=self.selectedConsoleIndex, genreIndex=self.selectedGenreIndex, yearIndex=self.selectedYearIndex, publisherIndex=self.selectedPublisherIndex, 
+			controlIdMainView=self.selectedControlId, fileTypeForControlDict=self.fileTypeForControlDict, fileTypeDict=self.fileTypeDict, fileDict=self.fileDict)		
+		del gid
+				
+		
+		self.setFocus(self.getControl(CONTROL_GAMES_GROUP_START))
+		self.showGames()
+		self.setCurrentListPosition(selectedGameIndex)
+		self.showGameInfo()
+		
+		util.log("End showGameInfoDialog", util.LOG_LEVEL_INFO)
+	
+	
+	def checkImport(self, doImport):
+		#doImport: 0=nothing, 1=import Settings and Games, 2=import Settings only
+		if(doImport in (1,2)):
+			dialog = xbmcgui.Dialog()
+			retSettings = dialog.yesno('Rom Collection Browser', 'Database is empty.', 'Do you you want to import Settings now?')
+			del dialog
+			if(retSettings == True):
+				progressDialog = ProgressDialogGUI()
+				progressDialog.writeMsg("Import settings...")
+				importSuccessful, errorMsg = importsettings.SettingsImporter().importSettings(self.gdb, os.path.join(RCBHOME, 'resources', 'database'), progressDialog)
+				progressDialog.writeMsg("", -1)
+				del progressDialog
+				
+				#TODO 2nd chance
+				if (not importSuccessful):
+					xbmcgui.Dialog().ok(util.SCRIPTNAME, errorMsg, 'See xbmc.log for details.')
+
+				if(importSuccessful and doImport == 1):
+					dialog = xbmcgui.Dialog()
+					retGames = dialog.yesno('Rom Collection Browser', 'Import Settings successful', 'Do you you want to import Games now?')
+					if(retGames == True):
+						progressDialog = ProgressDialogGUI()
+						progressDialog.writeMsg("Import games...")
+						dbupdate.DBUpdate().updateDB(self.gdb, progressDialog)
+						progressDialog.writeMsg("", -1)
+						del progressDialog
+
 			
 	def checkAutoExec(self):
 		util.log("Begin checkAutoExec" , util.LOG_LEVEL_INFO)
@@ -674,42 +767,81 @@ class UIGameDB(xbmcgui.WindowXML):
 			return label2
 		else:
 			util.log("End setFilterSelection" , util.LOG_LEVEL_DEBUG)
-			return 0
-			
+			return 0					
 	
-	def showGameInfoDialog(self):
-
-		util.log("Begin showGameInfoDialog", util.LOG_LEVEL_INFO)
+	
+	def cacheItems(self):
 		
-		if(self.getListSize() == 0):
-			util.log("ListSize == 0 in saveViewState", util.LOG_LEVEL_WARNING)
+		#cache all needed data		
+		self. fileTypeForControlDict = self.cacheFileTypesForControl()
+		
+		self. fileTypeDict = self.cacheFileTypes()
+		
+		self.fileDict = self.cacheFiles()		
+	
+	
+	def cacheFileTypesForControl(self):
+		
+		fileTypeForControlRows = FileTypeForControl(self.gdb).getAll()		
+		if(fileTypeForControlRows == None):
+			util.log("fileTypeForControlRows == None", util.LOG_LEVEL_WARNING)
+			return None
+		
+		fileTypeForControlDict = {}
+		for fileTypeForControlRow in fileTypeForControlRows:
+			key = '%i;%s' %(fileTypeForControlRow[util.FILETYPEFORCONTROL_romCollectionId] , fileTypeForControlRow[util.FILETYPEFORCONTROL_control])
+			item = None
+			try:
+				item = fileTypeForControlDict[key]
+			except:
+				pass			
+			if(item == None):				
+				fileTypeForControlRowList = []
+				fileTypeForControlRowList.append(fileTypeForControlRow)
+				fileTypeForControlDict[key] = fileTypeForControlRowList
+			else:				
+				fileTypeForControlRowList = fileTypeForControlDict[key]
+				fileTypeForControlRowList.append(fileTypeForControlRow)
+				fileTypeForControlDict[key] = fileTypeForControlRowList
+		return fileTypeForControlDict
+		
+		
+	def cacheFileTypes(self):
+		fileTypeRows = FileType(self.gdb).getAll()
+		if(fileTypeRows == None):
+			util.log("fileTypeRows == None in getFilesByControl", util.LOG_LEVEL_WARNING)
 			return
+		fileTypeDict = {}
+		for fileTypeRow in fileTypeRows:
+			fileTypeDict[fileTypeRow[util.ROW_ID]] = fileTypeRow
+			
+		return fileTypeDict
 		
-		selectedGameIndex = self.getCurrentListPosition()		
-		if(selectedGameIndex == -1):
-			selectedGameIndex = 0
-		selectedGame = self.getListItem(selectedGameIndex)		
-		if(selectedGame == None):
-			util.log("selectedGame == None in showGameInfoDialog", util.LOG_LEVEL_WARNING)
+		
+	def cacheFiles(self):
+		#TODO ignore non-media files
+		fileRows = File(self.gdb).getAll()
+		if(fileRows == None):
+			util.log("fileRows == None in getFilesByControl", util.LOG_LEVEL_WARNING)
 			return
-		gameId = selectedGame.getLabel2()
-		
-		self.saveViewMode()
-		
-		import gameinfodialog
-		gid = gameinfodialog.UIGameInfoView("script-Rom_Collection_Browser-gameinfo.xml", os.getcwd(), "Default", 1, gdb=self.gdb, gameId=gameId, 
-			consoleId=self.selectedConsoleId, genreId=self.selectedGenreId, yearId=self.selectedYearId, publisherId=self.selectedPublisherId, selectedGameIndex=selectedGameIndex,
-			consoleIndex=self.selectedConsoleIndex, genreIndex=self.selectedGenreIndex, yearIndex=self.selectedYearIndex, publisherIndex=self.selectedPublisherIndex, 
-			controlIdMainView=self.selectedControlId)		
-		del gid
+		fileDict = {}
+		for fileRow in fileRows:
+			key = '%i;%i' %(fileRow[util.FILE_parentId] , fileRow[util.FILE_fileTypeId])			
+			item = None
+			try:
+				item = fileDict[key]
+			except:
+				pass			
+			if(item == None):
+				fileRowList = []
+				fileRowList.append(fileRow)
+				fileDict[key] = fileRowList
+			else:				
+				fileRowList = fileDict[key]
+				fileRowList.append(fileRow)
+				fileDict[key] = fileRowList
 				
-		
-		self.setFocus(self.getControl(CONTROL_GAMES_GROUP_START))
-		self.showGames()
-		self.setCurrentListPosition(selectedGameIndex)
-		self.showGameInfo()
-		
-		util.log("End showGameInfoDialog", util.LOG_LEVEL_INFO)
+		return fileDict
 	
 	
 	def getControlById(self, controlId):
