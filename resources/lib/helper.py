@@ -76,6 +76,7 @@ def getFilesByControl_Cached(gdb, controlName, gameId, publisherId, developerId,
 
 
 
+"""
 def getFilesByControl(gdb, controlName, gameId, publisherId, developerId, romCollectionId):
 			
 		util.log("getFilesByControl controlName: " +controlName, util.LOG_LEVEL_DEBUG)
@@ -121,7 +122,7 @@ def getFilesByControl(gdb, controlName, gameId, publisherId, developerId, romCol
 				mediaFiles.append(file[1])								
 		
 		return mediaFiles
-		
+"""
 
 
 def launchEmu(gdb, gui, gameId):
