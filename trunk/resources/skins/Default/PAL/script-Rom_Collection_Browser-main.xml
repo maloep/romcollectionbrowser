@@ -1,4 +1,4 @@
-<window>		
+	<window>		
 	<allowoverlays>false</allowoverlays>
 	<defaultcontrol always="false">500</defaultcontrol>
 	<coordinates>
@@ -109,13 +109,22 @@
 					</control>
 					<!-- mainviewgameinfo (also used for console image) -->
 					<control type="image" id="2000">
-							<description>mainviewgameinfo</description>
-							<posx>15</posx>
-							<posy>15</posy>
-							<width>300</width>
-							<height>220</height>			
-							<texture>$INFO[ListItem.Property(mainviewgameinfo)]</texture>						
+						<description>mainviewgameinfo</description>
+						<posx>15</posx>
+						<posy>15</posy>
+						<width>300</width>
+						<height>220</height>			
+						<texture>$INFO[ListItem.Property(mainviewgameinfo)]</texture>						
 					</control>
+					<!-- mainviewvideowindow -->
+					<!--<control type="videowindow" id="2300">
+						<description>video control</description>
+						<posx>15</posx>
+						<posy>15</posy>
+						<width>300</width>
+						<height>220</height>
+						<visible>true</visible>
+					</control>-->
 					<!-- game / console description -->
 					<control type="textbox" id="2100">
 						<description>Consoles</description>
@@ -236,24 +245,23 @@
 					<posx>385</posx>
 					<posy>15</posy>
 					<width>320</width>
-					<height>560</height>
+					<height>550</height>
 					<texture>rcb-ContentPanel.png</texture>
 					<colordiffuse>DDFFFFFF</colordiffuse>
 					<visible>Control.IsVisible(52)</visible>
 				</control>
-				<control type="list" id="52">
-					<!--<visible>Skin.HasSetting(rcb_info2_view) | !Skin.HasSetting(rcb_OnLoad)</visible>-->
+				<control type="list" id="52">					
 					<posx>385</posx>
 					<posy>25</posy>
 					<width>320</width>
-					<height>540</height>
+					<height>530</height>
 					<onleft>2201</onleft>
 					<onright>500</onright>
 					<onup>52</onup>
 					<ondown>52</ondown>					
 					<viewtype label="Info 2">list</viewtype>	
 					<scrolltime>100</scrolltime>
-					<itemlayout height="30" width="320">
+					<itemlayout height="26" width="320">
 						<control type="image">
 							<posx>0</posx>
 							<posy>0</posy>
@@ -274,7 +282,7 @@
 							<label>$INFO[ListItem.Label]</label>
 						</control>									
 					</itemlayout>
-					<focusedlayout height="30" width="320">
+					<focusedlayout height="26" width="320">
 						<control type="image">
 							<posx>0</posx>
 							<posy>0</posy>
@@ -317,7 +325,7 @@
 						<posx>0</posx>
 						<posy>0</posy>
 						<width>330</width>
-						<height>560</height>
+						<height>550</height>
 						<texture>rcb-ContentPanel.png</texture>
 						<colordiffuse>DDFFFFFF</colordiffuse>						
 					</control>
@@ -333,7 +341,7 @@
 						<align>center</align>
 						<label>$INFO[ListItem.Label]</label>					
 						<visible>Control.IsVisible(52)</visible>
-					</control>					
+					</control>		
 					<control type="image" id="2001">
 						<description>console image</description>
 						<posx>15</posx>
@@ -378,8 +386,7 @@
 					</control>			
 				</control>				
 			</control>		
-		</control>
-		
+		</control>		
 				
 		<!-- filter controls -->
 		<control type="group" id="100">		
@@ -804,6 +811,14 @@
 		    <textcolor>DDFFFFFF</textcolor>
 		    <label></label>
 			<font>font10</font>
+		</control>
+		<control type="videowindow" id="10000">
+			<description>video control</description>
+			<posx>460</posx>
+			<posy>390</posy>
+			<width>240</width>
+			<height>180</height>
+			<visible>true</visible>
 		</control>
 	</controls>
 </window>

@@ -132,6 +132,11 @@ class UIGameDB(xbmcgui.WindowXML):
 	def onAction(self, action):		
 		if(action.getId() in ACTION_CANCEL_DIALOG):
 			util.log("onAction: ACTION_CANCEL_DIALOG", util.LOG_LEVEL_DEBUG)
+			
+			#stop Player (if playing)
+			if(xbmc.Player().isPlayingVideo()):
+				xbmc.Player().stop()
+			
 			self.exit()
 		elif(action.getId() in ACTION_MOVEMENT_UP or action.getId() in ACTION_MOVEMENT_DOWN):
 			
@@ -329,11 +334,11 @@ class UIGameDB(xbmcgui.WindowXML):
 		
 		self.writeMsg("loading games...")
 		
-		xbmcgui.lock()		
+		xbmcgui.lock()				
 		
 		self.clearList()
 		
-		for game in games:						
+		for game in games:			
 			
 			images = helper.getFilesByControl_Cached(self.gdb, util.IMAGE_CONTROL_MV_GAMELIST, game[util.ROW_ID], game[util.GAME_publisherId], game[util.GAME_developerId], game[util.GAME_romCollectionId],
 				self.fileTypeForControlDict, self.fileTypeDict, self.fileDict)
@@ -353,59 +358,11 @@ class UIGameDB(xbmcgui.WindowXML):
 			item = xbmcgui.ListItem(str(game[util.ROW_NAME]), str(game[util.ROW_ID]), image, selectedImage)			
 			self.addItem(item, False)
 			
-		xbmcgui.unlock()
+		xbmcgui.unlock()				
 		
 		self.writeMsg("")
 		
-		util.log("End showGames" , util.LOG_LEVEL_DEBUG)
-
-
-	"""
-	def showGames_old(self):
-		util.log("Begin showGames" , util.LOG_LEVEL_DEBUG)
-		
-		util.log("Before getGames" , util.LOG_LEVEL_INFO)
-		games = Game(self.gdb).getFilteredGames(self.selectedConsoleId, self.selectedGenreId, self.selectedYearId, self.selectedPublisherId)
-		util.log("After getGames" , util.LOG_LEVEL_INFO)
-		
-		self.writeMsg("loading games...")
-		
-		xbmcgui.lock()		
-		
-		self.clearList()
-				
-		util.log("Before addGames" , util.LOG_LEVEL_INFO)
-		for game in games:						
-			
-			images = helper.getFilesByControl(self.gdb, util.IMAGE_CONTROL_MV_GAMELIST, game[util.ROW_ID], game[util.GAME_publisherId], game[util.GAME_developerId], game[util.GAME_romCollectionId])
-			if(images != None and len(images) != 0):
-				image = images[0]
-			else:
-				image = ""
-			
-			
-			selectedImages = helper.getFilesByControl(self.gdb, util.IMAGE_CONTROL_MV_GAMELISTSELECTED, game[util.ROW_ID], game[util.GAME_publisherId], game[util.GAME_developerId], game[util.GAME_romCollectionId])
-			if(selectedImages != None and len(selectedImages) != 0):
-				selectedImage = selectedImages[0]
-			else:
-				selectedImage = ""
-			
-			
-			
-			#selectedImage = "E:\\Emulatoren\\data\\Amiga\\Amiga Classix 2\\Pics\\Ace The Space Case.jpg"
-			
-			item = xbmcgui.ListItem(str(game[util.ROW_NAME]), str(game[util.ROW_ID]), image, selectedImage)
-			#item = xbmcgui.ListItem(str(game[util.ROW_NAME]), str(game[util.ROW_ID]), selectedImage, selectedImage)
-			self.addItem(item, False)				
-		
-		util.log("After addGames" , util.LOG_LEVEL_INFO)
-		xbmcgui.unlock()
-		
-				
-		self.writeMsg("")			
-		
-		util.log("End showGames" , util.LOG_LEVEL_DEBUG)
-	"""
+		util.log("End showGames" , util.LOG_LEVEL_DEBUG)	
 	
 
 	def showConsoleInfo(self):	
@@ -441,11 +398,15 @@ class UIGameDB(xbmcgui.WindowXML):
 		
 	
 	def showGameInfo(self):
-		util.log("Begin showGameInfo" , util.LOG_LEVEL_DEBUG)
+		util.log("Begin showGameInfo" , util.LOG_LEVEL_DEBUG)				
 		
 		if(self.getListSize() == 0):
 			util.log("ListSize == 0 in showGameInfo", util.LOG_LEVEL_WARNING)
 			return
+			
+		#stop video (if playing)
+		if(xbmc.Player().isPlayingVideo()):
+			xbmc.Player().stop()
 					
 		pos = self.getCurrentListPosition()
 		if(pos == -1):
@@ -486,6 +447,18 @@ class UIGameDB(xbmcgui.WindowXML):
 		
 		selectedGame.setProperty(util.IMAGE_CONTROL_MV_GAMEINFO, image)
 		selectedGame.setProperty(util.TEXT_CONTROL_MV_GAMEDESC, description)
+		
+		"""
+		videos = helper.getFilesByControl_Cached(self.gdb, util.IMAGE_CONTROL_GIV_VideoWindow, gameRow[util.ROW_ID], gameRow[util.GAME_publisherId], gameRow[util.GAME_developerId], gameRow[util.GAME_romCollectionId],
+			self.fileTypeForControlDict, self.fileTypeDict, self.fileDict)
+		
+		if(videos != None and len(videos) != 0):			
+			video = videos[0]			
+						
+			playlist = xbmc.PlayList( xbmc.PLAYLIST_VIDEO)
+			playlist.clear()			
+			xbmc.Player().play(video)
+		"""
 		
 		util.log("End showGameInfo" , util.LOG_LEVEL_DEBUG)
 
@@ -772,12 +745,11 @@ class UIGameDB(xbmcgui.WindowXML):
 	
 	def cacheItems(self):
 		
-		#cache all needed data		
 		self. fileTypeForControlDict = self.cacheFileTypesForControl()
-		
+				
 		self. fileTypeDict = self.cacheFileTypes()
-		
-		self.fileDict = self.cacheFiles()		
+				
+		self.fileDict = self.cacheFiles()				
 	
 	
 	def cacheFileTypesForControl(self):

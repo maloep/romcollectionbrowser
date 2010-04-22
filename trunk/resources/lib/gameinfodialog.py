@@ -48,10 +48,6 @@ CONTROL_IMG_GAMEINFO2 = 9100
 CONTROL_IMG_GAMEINFO3 = 9200
 CONTROL_IMG_GAMEINFO4 = 9300
 
-CONTROL_IMG_INGAMEVIDEO = 10000
-
-
-
 RCBHOME = os.getcwd()
 
 
@@ -229,8 +225,8 @@ class UIGameInfoView(xbmcgui.WindowXMLDialog):
 		videos = helper.getFilesByControl_Cached(self.gdb, util.IMAGE_CONTROL_GIV_VideoWindow, gameRow[util.ROW_ID], gameRow[util.GAME_publisherId], gameRow[util.GAME_developerId], gameRow[util.GAME_romCollectionId],
 			self.fileTypeForControlDict, self.fileTypeDict, self.fileDict)
 		#ingameVideos = File(self.gdb).getIngameVideosByGameId(self.selectedGameId)
-		if(videos != None and len(videos) != 0):
-			video = videos[0]
+		if(videos != None and len(videos) != 0):			
+			video = videos[0]			
 						
 			playlist = xbmc.PlayList( xbmc.PLAYLIST_VIDEO)
 			playlist.clear()			
