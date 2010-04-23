@@ -113,7 +113,8 @@ class UIGameInfoView(xbmcgui.WindowXMLDialog):
 			util.log("onAction exit", util.LOG_LEVEL_DEBUG)
 			
 			#stop Player (if playing)
-			xbmc.Player().stop()
+			if(xbmc.Player().isPlayingVideo()):
+				xbmc.Player().stop()
 			self.close()
 		elif(action.getId() in ACTION_MOVEMENT_LEFT or action.getId() in ACTION_MOVEMENT_RIGHT):
 			if(self.selectedControlId == CONTROL_GAME_LIST_GROUP):
@@ -165,7 +166,8 @@ class UIGameInfoView(xbmcgui.WindowXMLDialog):
 		util.log("Begin showGameInfo", util.LOG_LEVEL_DEBUG)
 		
 		#stop video (if playing)
-		xbmc.Player().stop()
+		if(xbmc.Player().isPlayingVideo()):
+			xbmc.Player().stop()
 		
 		gameRow = Game(self.gdb).getObjectById(self.selectedGameId)
 		if(gameRow == None):
@@ -230,7 +232,7 @@ class UIGameInfoView(xbmcgui.WindowXMLDialog):
 						
 			playlist = xbmc.PlayList( xbmc.PLAYLIST_VIDEO)
 			playlist.clear()			
-			xbmc.Player().play(video)
+			xbmc.Player().play(video, xbmcgui.ListItem('Dummy'), True)
 		
 		util.log("End showGameInfo", util.LOG_LEVEL_DEBUG)
 		
