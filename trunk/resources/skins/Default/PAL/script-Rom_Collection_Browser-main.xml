@@ -1,5 +1,5 @@
-	<window>		
-	<allowoverlays>false</allowoverlays>
+<window>		
+	<allowoverlay>yes</allowoverlay>
 	<defaultcontrol always="false">500</defaultcontrol>
 	<coordinates>
 	        <system>1</system>
@@ -32,8 +32,7 @@
 					<colordiffuse>DDFFFFFF</colordiffuse>
 					<visible>Control.IsVisible(50)</visible>
 				</control>
-				<control type="wraplist" id="50">
-					<!--<visible>Skin.HasSetting(rcb_info_view) | !Skin.HasSetting(rcb_OnLoad)</visible>-->
+				<control type="wraplist" id="50">					
 					<posx>0</posx>
 					<posy>320</posy>
 					<width>720</width>
@@ -113,18 +112,19 @@
 						<posx>15</posx>
 						<posy>15</posy>
 						<width>300</width>
-						<height>220</height>			
+						<height>220</height>
+						<visible>!Player.HasVideo</visible>
 						<texture>$INFO[ListItem.Property(mainviewgameinfo)]</texture>						
 					</control>
 					<!-- mainviewvideowindow -->
-					<!--<control type="videowindow" id="2300">
+					<control type="videowindow" id="2300">
 						<description>video control</description>
 						<posx>15</posx>
 						<posy>15</posy>
 						<width>300</width>
 						<height>220</height>
 						<visible>true</visible>
-					</control>-->
+					</control>
 					<!-- game / console description -->
 					<control type="textbox" id="2100">
 						<description>Consoles</description>
@@ -174,8 +174,7 @@
 					<colordiffuse>90FFFFFF</colordiffuse>
 					<visible>Control.IsVisible(51)</visible>
 				</control>
-				<control type="wraplist" id="51">
-					<!--<visible>Skin.HasSetting(rcb_thumbs_view) | !Skin.HasSetting(rcb_OnLoad)</visible>-->
+				<control type="wraplist" id="51">					
 					<posx>0</posx>
 					<posy>120</posy>
 					<width>720</width>
@@ -340,7 +339,7 @@
 						<selectedcolor>FFe2ff43</selectedcolor>
 						<align>center</align>
 						<label>$INFO[ListItem.Label]</label>					
-						<visible>Control.IsVisible(52)</visible>
+						<!--<visible>Control.IsVisible(52)</visible>-->
 					</control>		
 					<control type="image" id="2001">
 						<description>console image</description>
@@ -348,9 +347,17 @@
 						<posy>45</posy>
 						<width>300</width>
 						<height>220</height>										
-						<visible>Control.IsVisible(52)</visible>
+						<visible>!Player.HasVideo</visible>
 						<texture>$INFO[ListItem.Property(mainviewgameinfo)]</texture>
 					</control>					
+					<control type="videowindow" id="2301">
+						<description>video control</description>
+						<posx>15</posx>
+						<posy>45</posy>
+						<width>300</width>
+						<height>220</height>
+						<visible>true</visible>
+					</control>
 					<control type="textbox" id="2101">
 						<description>Consoles</description>
 						<posx>15</posx>
@@ -811,14 +818,6 @@
 		    <textcolor>DDFFFFFF</textcolor>
 		    <label></label>
 			<font>font10</font>
-		</control>
-		<control type="videowindow" id="10000">
-			<description>video control</description>
-			<posx>460</posx>
-			<posy>390</posy>
-			<width>240</width>
-			<height>180</height>
-			<visible>true</visible>
-		</control>
+		</control>		
 	</controls>
 </window>
