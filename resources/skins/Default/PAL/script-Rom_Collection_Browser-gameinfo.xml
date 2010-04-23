@@ -1,5 +1,5 @@
 <window>
-	<allowoverlay>no</allowoverlay>
+	<allowoverlay>yes</allowoverlay>
 	<defaultcontrol always="false">3000</defaultcontrol>
 	<coordinates>
 	        <system>1</system>

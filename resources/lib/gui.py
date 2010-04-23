@@ -37,6 +37,7 @@ CONTROL_IMG_BACK = 75
 CONTROL_GAMES_GROUP = 200
 CONTROL_GAMES_GROUP_START = 50
 CONTROL_GAMES_GROUP_END = 59
+CONTROL_THUMBS_VIEW = 51
 CONTROL_CONSOLE_IMG = 2000
 CONTROL_CONSOLE_DESC = 2100
 CONTROL_BUTTON_SETTINGS = 3000
@@ -132,8 +133,7 @@ class UIGameDB(xbmcgui.WindowXML):
 	def onAction(self, action):		
 		if(action.getId() in ACTION_CANCEL_DIALOG):
 			util.log("onAction: ACTION_CANCEL_DIALOG", util.LOG_LEVEL_DEBUG)
-			
-			#stop Player (if playing)
+						
 			if(xbmc.Player().isPlayingVideo()):
 				xbmc.Player().stop()
 			
@@ -398,7 +398,7 @@ class UIGameDB(xbmcgui.WindowXML):
 		
 	
 	def showGameInfo(self):
-		util.log("Begin showGameInfo" , util.LOG_LEVEL_DEBUG)				
+		util.log("Begin showGameInfo" , util.LOG_LEVEL_DEBUG)
 		
 		if(self.getListSize() == 0):
 			util.log("ListSize == 0 in showGameInfo", util.LOG_LEVEL_WARNING)
@@ -448,17 +448,19 @@ class UIGameDB(xbmcgui.WindowXML):
 		selectedGame.setProperty(util.IMAGE_CONTROL_MV_GAMEINFO, image)
 		selectedGame.setProperty(util.TEXT_CONTROL_MV_GAMEDESC, description)
 		
-		"""
-		videos = helper.getFilesByControl_Cached(self.gdb, util.IMAGE_CONTROL_GIV_VideoWindow, gameRow[util.ROW_ID], gameRow[util.GAME_publisherId], gameRow[util.GAME_developerId], gameRow[util.GAME_romCollectionId],
-			self.fileTypeForControlDict, self.fileTypeDict, self.fileDict)
+		#no video in thumbs view
+		if (not xbmc.getCondVisibility( "Control.IsVisible(%i)" % CONTROL_THUMBS_VIEW )):
 		
-		if(videos != None and len(videos) != 0):			
-			video = videos[0]			
-						
-			playlist = xbmc.PlayList( xbmc.PLAYLIST_VIDEO)
-			playlist.clear()			
-			xbmc.Player().play(video)
-		"""
+			videos = helper.getFilesByControl_Cached(self.gdb, util.IMAGE_CONTROL_GIV_VideoWindow, gameRow[util.ROW_ID], gameRow[util.GAME_publisherId], gameRow[util.GAME_developerId], gameRow[util.GAME_romCollectionId],
+				self.fileTypeForControlDict, self.fileTypeDict, self.fileDict)
+			
+			if(videos != None and len(videos) != 0):	
+				video = videos[0]			
+							
+				playlist = xbmc.PlayList( xbmc.PLAYLIST_VIDEO)
+				playlist.clear()
+				xbmc.Player().play(video, xbmcgui.ListItem('Dummy'), True)
+		
 		
 		util.log("End showGameInfo" , util.LOG_LEVEL_DEBUG)
 
