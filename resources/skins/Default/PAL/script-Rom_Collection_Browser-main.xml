@@ -106,7 +106,7 @@
 						<texture>rcb-ContentPanel.png</texture>
 						<colordiffuse>DDFFFFFF</colordiffuse>
 					</control>
-					<!-- mainviewgameinfo (also used for console image) -->
+					<!-- mainviewgameinfobig -->
 					<control type="image" id="2000">
 						<description>mainviewgameinfo</description>
 						<posx>15</posx>
@@ -114,16 +114,62 @@
 						<width>300</width>
 						<height>220</height>
 						<visible>!Player.HasVideo</visible>
-						<texture>$INFO[ListItem.Property(mainviewgameinfo)]</texture>						
+						<texture>$INFO[ListItem.Property(mainviewgameinfobig)]</texture>						
 					</control>
-					<!-- mainviewvideowindow -->
+					<!-- mainviewvideowindowbig -->
 					<control type="videowindow" id="2300">
 						<description>video control</description>
 						<posx>15</posx>
 						<posy>15</posy>
 						<width>300</width>
-						<height>220</height>
-						<visible>true</visible>
+						<height>220</height>						
+						<visible>!IsEmpty(ListItem.Property(mainviewvideosizebig))</visible>
+					</control>
+					<!-- mainviewgameinfoupperleft -->
+					<control type="image" id="2400">
+						<description>mainviewgameinfoupperleft</description>
+						<posx>15</posx>
+						<posy>15</posy>
+						<width>150</width>
+						<height>110</height>						
+						<texture>$INFO[ListItem.Property(mainviewgameinfoupperleft)]</texture>						
+					</control>
+					<!-- mainviewgameinfoupperright -->
+					<control type="image" id="2500">
+						<description>mainviewgameinfoupperright</description>
+						<posx>165</posx>
+						<posy>15</posy>
+						<width>150</width>
+						<height>110</height>						
+						<texture>$INFO[ListItem.Property(mainviewgameinfoupperright)]</texture>						
+					</control>
+					<!-- mainviewgameinfolowerleft -->
+					<control type="image" id="2600">
+						<description>mainviewgameinfolowerleft</description>
+						<posx>15</posx>
+						<posy>125</posy>
+						<width>150</width>
+						<height>110</height>						
+						<texture>$INFO[ListItem.Property(mainviewgameinfolowerleft)]</texture>						
+					</control>
+					<!-- mainviewgameinfolowerright -->
+					<control type="image" id="2700">
+						<description>mainviewgameinfolowerright</description>
+						<posx>165</posx>
+						<posy>125</posy>
+						<width>150</width>
+						<height>110</height>
+						<visible>!Player.HasVideo</visible>
+						<texture>$INFO[ListItem.Property(mainviewgameinfolowerright)]</texture>						
+					</control>
+					<!-- mainviewvideowindowsmall -->
+					<control type="videowindow" id="2800">
+						<description>video control</description>
+						<posx>165</posx>
+						<posy>125</posy>
+						<width>150</width>
+						<height>110</height>												
+						<visible>!IsEmpty(ListItem.Property(mainviewvideosizesmall))</visible>
 					</control>
 					<!-- game / console description -->
 					<control type="textbox" id="2100">
@@ -338,8 +384,7 @@
 						<textcolor>DDFFFFFF</textcolor>
 						<selectedcolor>FFe2ff43</selectedcolor>
 						<align>center</align>
-						<label>$INFO[ListItem.Label]</label>					
-						<!--<visible>Control.IsVisible(52)</visible>-->
+						<label>$INFO[ListItem.Label]</label>						
 					</control>		
 					<control type="image" id="2001">
 						<description>console image</description>
@@ -348,7 +393,7 @@
 						<width>300</width>
 						<height>220</height>										
 						<visible>!Player.HasVideo</visible>
-						<texture>$INFO[ListItem.Property(mainviewgameinfo)]</texture>
+						<texture>$INFO[ListItem.Property(mainviewgameinfobig)]</texture>
 					</control>					
 					<control type="videowindow" id="2301">
 						<description>video control</description>
@@ -356,8 +401,56 @@
 						<posy>45</posy>
 						<width>300</width>
 						<height>220</height>
-						<visible>true</visible>
+						<visible>!IsEmpty(ListItem.Property(mainviewvideosizebig))</visible>
 					</control>
+					
+					<!-- mainviewgameinfoupperleft -->
+					<control type="image" id="2401">
+						<description>mainviewgameinfoupperleft</description>
+						<posx>15</posx>
+						<posy>45</posy>
+						<width>150</width>
+						<height>110</height>						
+						<texture>$INFO[ListItem.Property(mainviewgameinfoupperleft)]</texture>						
+					</control>
+					<!-- mainviewgameinfoupperright -->
+					<control type="image" id="2501">
+						<description>mainviewgameinfoupperright</description>
+						<posx>165</posx>
+						<posy>45</posy>
+						<width>150</width>
+						<height>110</height>						
+						<texture>$INFO[ListItem.Property(mainviewgameinfoupperright)]</texture>						
+					</control>
+					<!-- mainviewgameinfolowerleft -->
+					<control type="image" id="2601">
+						<description>mainviewgameinfolowerleft</description>
+						<posx>15</posx>
+						<posy>155</posy>
+						<width>150</width>
+						<height>110</height>						
+						<texture>$INFO[ListItem.Property(mainviewgameinfolowerleft)]</texture>						
+					</control>
+					<!-- mainviewgameinfolowerright -->
+					<control type="image" id="2701">
+						<description>mainviewgameinfolowerright</description>
+						<posx>165</posx>
+						<posy>155</posy>
+						<width>150</width>
+						<height>110</height>
+						<visible>!Player.HasVideo</visible>
+						<texture>$INFO[ListItem.Property(mainviewgameinfolowerright)]</texture>						
+					</control>
+					<!-- mainviewvideowindowsmall -->
+					<control type="videowindow" id="2801">
+						<description>video control</description>
+						<posx>165</posx>
+						<posy>155</posy>
+						<width>150</width>
+						<height>110</height>												
+						<visible>!IsEmpty(ListItem.Property(mainviewvideosizesmall))</visible>
+					</control>
+					
 					<control type="textbox" id="2101">
 						<description>Consoles</description>
 						<posx>15</posx>
