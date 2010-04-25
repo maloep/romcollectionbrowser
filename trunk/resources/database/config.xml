@@ -132,7 +132,7 @@
 			<fileTypeForGameListSelected>cover</fileTypeForGameListSelected>
 			<fileTypeForMainViewBackground>screenshottitle</fileTypeForMainViewBackground>
 			<fileTypeForMainViewBackground>cover</fileTypeForMainViewBackground>
-			<fileTypeForMainViewGameInfo>screenshotingame</fileTypeForMainViewGameInfo>
+			<fileTypeForMainViewGameInfoBig>screenshotingame</fileTypeForMainViewGameInfoBig>
 			<fileTypeForGameInfoViewBackground>cover</fileTypeForGameInfoViewBackground>
 			<fileTypeForGameInfoViewGamelist>cover</fileTypeForGameInfoViewGamelist>			
 			<fileTypeForGameInfoView1>console</fileTypeForGameInfoView1>
@@ -179,7 +179,7 @@
 			<fileTypeForGameListSelected>cover</fileTypeForGameListSelected>
 			<fileTypeForMainViewBackground>screenshottitle</fileTypeForMainViewBackground>
 			<fileTypeForMainViewBackground>cover</fileTypeForMainViewBackground>
-			<fileTypeForMainViewGameInfo>screenshotingame</fileTypeForMainViewGameInfo>			
+			<fileTypeForMainViewGameInfoBig>screenshotingame</fileTypeForMainViewGameInfoBig>			
 			<fileTypeForGameInfoViewBackground>cover</fileTypeForGameInfoViewBackground>
 			<fileTypeForGameInfoViewGamelist>cover</fileTypeForGameInfoViewGamelist>			
 			<fileTypeForGameInfoView1>console</fileTypeForGameInfoView1>
@@ -233,7 +233,10 @@
 			<fileTypeForGameListSelected>cover</fileTypeForGameListSelected>
 			<fileTypeForMainViewBackground>screenshottitle</fileTypeForMainViewBackground>
 			<fileTypeForMainViewBackground>cover</fileTypeForMainViewBackground>
-			<fileTypeForMainViewGameInfo>screenshotingame</fileTypeForMainViewGameInfo>
+			<fileTypeForMainViewGameInfoUpperLeft>screenshottitle</fileTypeForMainViewGameInfoUpperLeft>
+			<fileTypeForMainViewGameInfoUpperRight>screenshotingame</fileTypeForMainViewGameInfoUpperRight>
+			<fileTypeForMainViewGameInfoLowerLeft>cover</fileTypeForMainViewGameInfoLowerLeft>
+			<fileTypeForMainViewGameInfoLowerRight>cartridge</fileTypeForMainViewGameInfoLowerRight>
 			<fileTypeForGameInfoViewBackground>screenshottitle</fileTypeForGameInfoViewBackground>
 			<fileTypeForGameInfoViewBackground>cover</fileTypeForGameInfoViewBackground>
 			<fileTypeForGameInfoViewGamelist>cover</fileTypeForGameInfoViewGamelist>
@@ -242,6 +245,7 @@
 			<fileTypeForGameInfoView3>cover</fileTypeForGameInfoView3>
 			<fileTypeForGameInfoView4>cartridge</fileTypeForGameInfoView4>
 			<fileTypeForGameInfoView4>romcollection</fileTypeForGameInfoView4>
+			<fileTypeForMainViewVideoWindowSmall>gameplay</fileTypeForMainViewVideoWindowSmall>
 			<fileTypeForGameInfoViewVideoWindow>gameplay</fileTypeForGameInfoViewVideoWindow>
 		</RomCollection>
 		<RomCollection>			
@@ -294,7 +298,10 @@
 			<fileTypeForGameList>3dbox</fileTypeForGameList>
 			<fileTypeForGameListSelected>hyperspin</fileTypeForGameListSelected>
 			<fileTypeForMainViewBackground>title</fileTypeForMainViewBackground>
-			<fileTypeForMainViewGameInfo>action</fileTypeForMainViewGameInfo>
+			<fileTypeForMainViewGameInfoUpperLeft>title</fileTypeForMainViewGameInfoUpperLeft>
+			<fileTypeForMainViewGameInfoUpperRight>action</fileTypeForMainViewGameInfoUpperRight>
+			<fileTypeForMainViewGameInfoLowerLeft>boxfront</fileTypeForMainViewGameInfoLowerLeft>
+			<fileTypeForMainViewGameInfoLowerRight>cartridge</fileTypeForMainViewGameInfoLowerRight>
 			<fileTypeForGameInfoViewBackground>hyperspin</fileTypeForGameInfoViewBackground>			
 			<fileTypeForGameInfoViewGamelist>boxfront</fileTypeForGameInfoViewGamelist>
 			<fileTypeForGameInfoView1>hyperspin</fileTypeForGameInfoView1>
@@ -323,7 +330,7 @@
 			<fileTypeForGameList>cover</fileTypeForGameList>
 			<fileTypeForGameListSelected>cover</fileTypeForGameListSelected>
 			<fileTypeForMainViewBackground>cover</fileTypeForMainViewBackground>			
-			<fileTypeForMainViewGameInfo>cover</fileTypeForMainViewGameInfo>
+			<fileTypeForMainViewGameInfoBig>cover</fileTypeForMainViewGameInfoBig>
 			<fileTypeForGameInfoViewBackground>cover</fileTypeForGameInfoViewBackground>
 			<fileTypeForGameInfoViewGamelist>cover</fileTypeForGameInfoViewGamelist>			
 		</RomCollection>
