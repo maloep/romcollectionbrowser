@@ -172,9 +172,16 @@ class Game(DataBaseObject):
 
 
 class Console(DataBaseObject):	
+	
+	filterByRomCollectionId = "SELECT * FROM Console WHERE Id IN (SELECT consoleId FROM RomCollection WHERE Id = ?)"
+	
 	def __init__(self, gdb):		
 		self.gdb = gdb
 		self.tableName = "Console"
+		
+	def getConsoleByRomCollectionId(self, romCollectionId):
+		console = self.getObjectByQuery(self.filterByRomCollectionId, (romCollectionId,))
+		return console
 
 
 class RCBSetting(DataBaseObject):	

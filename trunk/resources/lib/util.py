@@ -44,6 +44,7 @@ RCBSETTING_saveViewStateOnLaunchEmu = 16
 RCBSETTING_lastFocusedControlMainView = 17
 RCBSETTING_lastFocusedControlGameInfoView = 18
 
+ROMCOLLECTION_consoleId = 2
 ROMCOLLECTION_emuCommandLine = 3
 ROMCOLLECTION_useEmuSolo = 4
 ROMCOLLECTION_escapeEmuCmd = 5
@@ -94,6 +95,9 @@ IMAGE_CONTROL_MV_GAMEINFO_UPPERLEFT = 'mainviewgameinfoupperleft'
 IMAGE_CONTROL_MV_GAMEINFO_UPPERRIGHT = 'mainviewgameinfoupperright'
 IMAGE_CONTROL_MV_GAMEINFO_LOWERLEFT = 'mainviewgameinfolowerleft'
 IMAGE_CONTROL_MV_GAMEINFO_LOWERRIGHT = 'mainviewgameinfolowerright'
+IMAGE_CONTROL_MV_1 = 'mainview1'
+IMAGE_CONTROL_MV_2 = 'mainview2'
+IMAGE_CONTROL_MV_3 = 'mainview3'
 VIDEO_CONTROL_MV_VideoWindowBig = 'mainviewvideowindowbig'
 VIDEO_CONTROL_MV_VideoWindowSmall = 'mainviewvideowindowsmall'
 
@@ -105,6 +109,9 @@ IMAGE_CONTROL_GIV_Img4 = 'gameinfoview4'
 IMAGE_CONTROL_GIV_VideoWindow = 'gameinfoviewvideowindow'
 
 TEXT_CONTROL_MV_GAMEDESC = 'gamedesc'
+
+GAMEPROPERTY_Console = 'console'
+
 
 FILETYPEPARENT_GAME = 'game'
 FILETYPEPARENT_PUBLISHER = 'publisher'
