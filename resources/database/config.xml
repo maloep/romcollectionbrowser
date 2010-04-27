@@ -130,6 +130,9 @@
 			<mediaPath type="romcollection">E:\Emulatoren\data\Testdata V0.4\default.png</mediaPath>
 			<fileTypeForGameList>cover</fileTypeForGameList>
 			<fileTypeForGameListSelected>cover</fileTypeForGameListSelected>
+			<fileTypeForMainView1>console</fileTypeForMainView1>
+			<fileTypeForMainView2>developer</fileTypeForMainView2>
+			<fileTypeForMainView3>romcollection</fileTypeForMainView3>			
 			<fileTypeForMainViewBackground>screenshottitle</fileTypeForMainViewBackground>
 			<fileTypeForMainViewBackground>cover</fileTypeForMainViewBackground>
 			<fileTypeForMainViewGameInfoBig>screenshotingame</fileTypeForMainViewGameInfoBig>

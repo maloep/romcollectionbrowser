@@ -93,6 +93,49 @@
 					<label>$INFO[ListItem.Label]</label>
 					<visible>Control.IsVisible(50)</visible>
 				</control>
+				<control type="label">
+					<posx>0</posx>
+					<posy>540</posy>
+					<width>720</width>
+					<height>20</height>
+					<font>font16caps</font>
+					<aligny>center</aligny>
+					<textcolor>DDFFFFFF</textcolor>
+					<selectedcolor>FFe2ff43</selectedcolor>
+					<align>center</align>
+					<label>$INFO[ListItem.Property(console)]</label>
+					<visible>IsEmpty(ListItem.Property(mainview2)) + Control.IsVisible(50)</visible>
+				</control>					
+				<!-- mainview1 -->
+				<control type="image">
+					<description>mainview1</description>
+					<posx>230</posx>
+					<posy>530</posy>
+					<width>60</width>
+					<height>40</height>						
+					<texture>$INFO[ListItem.Property(mainview1)]</texture>
+					<visible>Control.IsVisible(50)</visible>					
+				</control>
+				<!-- mainview2 -->
+				<control type="image">
+					<description>mainview2</description>
+					<posx>330</posx>
+					<posy>530</posy>
+					<width>60</width>
+					<height>40</height>						
+					<texture>$INFO[ListItem.Property(mainview2)]</texture>
+					<visible>Control.IsVisible(50)</visible>
+				</control>
+				<!-- mainview3 -->
+				<control type="image">
+					<description>mainview3</description>
+					<posx>430</posx>
+					<posy>530</posy>
+					<width>60</width>
+					<height>40</height>						
+					<texture>$INFO[ListItem.Property(mainview3)]</texture>
+					<visible>Control.IsVisible(50)</visible>
+				</control>
 				<control type="group" id="300">					
 					<visible allowhiddenfocus="true">Control.IsVisible(50)</visible>
 					<posx>20</posx>
@@ -209,16 +252,16 @@
 			</control>
 			
 			<!-- gamelist 51 -->
-			<control type="group">				
+			<control type="group">
+				<visible>Control.IsVisible(51)</visible>
 				<control type="image">	
 					<description>gamelist background image</description>
 					<posx>0</posx>
 					<posy>100</posy>
 					<width>720</width>
-					<height>370</height>
+					<height>450</height>
 					<texture>rcb-ContentPanel2.png</texture>
-					<colordiffuse>90FFFFFF</colordiffuse>
-					<visible>Control.IsVisible(51)</visible>
+					<colordiffuse>90FFFFFF</colordiffuse>					
 				</control>
 				<control type="wraplist" id="51">					
 					<posx>0</posx>
@@ -278,99 +321,183 @@
 					<aligny>center</aligny>
 					<textcolor>DDFFFFFF</textcolor>
 					<selectedcolor>FFe2ff43</selectedcolor>						
-					<label>$INFO[ListItem.Label]</label>
-					<visible>Control.IsVisible(51)</visible>
+					<label>$INFO[ListItem.Label]</label>					
+				</control>
+				<control type="label">
+					<posx>0</posx>
+					<posy>480</posy>
+					<width>720</width>
+					<height>20</height>
+					<font>font16caps</font>
+					<aligny>center</aligny>
+					<textcolor>DDFFFFFF</textcolor>
+					<selectedcolor>FFe2ff43</selectedcolor>
+					<align>center</align>
+					<label>$INFO[ListItem.Property(console)]</label>
+					<visible>IsEmpty(ListItem.Property(mainview2)) + Control.IsVisible(51)</visible>
+				</control>					
+				<!-- mainview1 -->
+				<control type="image">
+					<description>mainview1</description>
+					<posx>230</posx>
+					<posy>480</posy>
+					<width>60</width>
+					<height>40</height>						
+					<texture>$INFO[ListItem.Property(mainview1)]</texture>						
+				</control>
+				<!-- mainview2 -->
+				<control type="image">
+					<description>mainview2</description>
+					<posx>330</posx>
+					<posy>480</posy>
+					<width>60</width>
+					<height>40</height>						
+					<texture>$INFO[ListItem.Property(mainview2)]</texture>						
+				</control>
+				<!-- mainview3 -->
+				<control type="image">
+					<description>mainview3</description>
+					<posx>430</posx>
+					<posy>480</posy>
+					<width>60</width>
+					<height>40</height>						
+					<texture>$INFO[ListItem.Property(mainview3)]</texture>						
 				</control>
 			</control>
 			
 			<!-- gamelist 52 -->
-			<control type="group">				
-				<control type="image">				
-					<description>gamelist background image</description>
+			<control type="group">
+				<control type="group">
 					<posx>385</posx>
-					<posy>15</posy>
-					<width>320</width>
-					<height>550</height>
-					<texture>rcb-ContentPanel.png</texture>
-					<colordiffuse>DDFFFFFF</colordiffuse>
+					<posy>10</posy>
 					<visible>Control.IsVisible(52)</visible>
-				</control>
-				<control type="list" id="52">					
-					<posx>385</posx>
-					<posy>25</posy>
-					<width>320</width>
-					<height>530</height>
-					<onleft>2201</onleft>
-					<onright>500</onright>
-					<onup>52</onup>
-					<ondown>52</ondown>					
-					<viewtype label="Info 2">list</viewtype>	
-					<scrolltime>100</scrolltime>
-					<itemlayout height="26" width="320">
-						<control type="image">
-							<posx>0</posx>
-							<posy>0</posy>
-							<width>320</width>
-							<height>31</height>
-							<texture border="0,2,0,2">rcb-MenuItemNF.png</texture>
-						</control>
-						<control type="label">
-							<posx>10</posx>
-							<posy>0</posy>
-							<width>320</width>
-							<height>30</height>
-							<font>font13</font>
-							<textcolor>grey2</textcolor>
-							<selectedcolor>selected</selectedcolor>
-							<align>left</align>
-							<aligny>center</aligny>
-							<label>$INFO[ListItem.Label]</label>
-						</control>									
-					</itemlayout>
-					<focusedlayout height="26" width="320">
-						<control type="image">
-							<posx>0</posx>
-							<posy>0</posy>
-							<width>320</width>
-							<height>31</height>
-							<texture border="0,2,0,2">rcb-MenuItemNF.png</texture>
-							<visible>!Control.HasFocus(52)</visible>
-							<include>VisibleFadeEffect</include>
-						</control>
-						<control type="image">
-							<posx>0</posx>
-							<posy>0</posy>
-							<width>320</width>
-							<height>31</height>
-							<texture border="0,2,0,2">MenuItemFO.png</texture>
-							<visible>Control.HasFocus(52)</visible>
-							<include>VisibleFadeEffect</include>
-						</control>
-						<control type="label">
-							<posx>10</posx>
-							<posy>0</posy>
-							<width>320</width>
-							<height>30</height>
-							<font>font13</font>
-							<textcolor>white</textcolor>
-							<selectedcolor>selected</selectedcolor>
-							<align>left</align>
-							<aligny>center</aligny>
-							<label>$INFO[ListItem.Label]</label>
-						</control>						
-					</focusedlayout>
+					<control type="image">				
+						<description>gamelist background image</description>
+						<posx>0</posx>
+						<posy>0</posy>
+						<width>320</width>
+						<height>553</height>
+						<texture>rcb-ContentPanel.png</texture>
+						<colordiffuse>DDFFFFFF</colordiffuse>						
+					</control>
+					<control type="label">
+						<posx>5</posx>
+						<posy>15</posy>
+						<width>320</width>
+						<height>20</height>
+						<font>font16caps</font>
+						<aligny>center</aligny>
+						<textcolor>DDFFFFFF</textcolor>
+						<selectedcolor>FFe2ff43</selectedcolor>
+						<align>center</align>
+						<label>$INFO[ListItem.Property(console)]</label>
+						<visible>IsEmpty(ListItem.Property(mainview2)) + Control.IsVisible(52)</visible>
+					</control>					
+					<!-- mainview1 -->
+					<control type="image">
+						<description>mainview1</description>
+						<posx>5</posx>
+						<posy>15</posy>
+						<width>30</width>
+						<height>20</height>						
+						<texture>$INFO[ListItem.Property(mainview1)]</texture>						
+					</control>
+					<!-- mainview2 -->
+					<control type="image">
+						<description>mainview2</description>
+						<posx>160</posx>
+						<posy>15</posy>
+						<width>30</width>
+						<height>20</height>						
+						<texture>$INFO[ListItem.Property(mainview2)]</texture>						
+					</control>
+					<!-- mainview3 -->
+					<control type="image">
+						<description>mainview3</description>
+						<posx>285</posx>
+						<posy>15</posy>
+						<width>30</width>
+						<height>20</height>						
+						<texture>$INFO[ListItem.Property(mainview3)]</texture>						
+					</control>					
+					<control type="list" id="52">					
+						<posx>0</posx>
+						<posy>45</posy>
+						<width>320</width>
+						<height>480</height>
+						<onleft>2201</onleft>
+						<onright>500</onright>
+						<onup>52</onup>
+						<ondown>52</ondown>					
+						<viewtype label="Info 2">list</viewtype>	
+						<scrolltime>100</scrolltime>
+						<itemlayout height="25" width="320">
+							<control type="image">
+								<posx>0</posx>
+								<posy>0</posy>
+								<width>320</width>
+								<height>25</height>
+								<texture border="0,1,0,1">rcb-MenuItemNF.png</texture>
+							</control>
+							<control type="label">
+								<posx>10</posx>
+								<posy>0</posy>
+								<width>320</width>
+								<height>25</height>
+								<font>font13</font>
+								<textcolor>grey2</textcolor>
+								<selectedcolor>selected</selectedcolor>
+								<align>left</align>
+								<aligny>center</aligny>
+								<label>$INFO[ListItem.Label]</label>
+							</control>									
+						</itemlayout>
+						<focusedlayout height="25" width="320">
+							<control type="image">
+								<posx>0</posx>
+								<posy>0</posy>
+								<width>320</width>
+								<height>26</height>
+								<texture border="0,1,0,1">rcb-MenuItemNF.png</texture>
+								<visible>!Control.HasFocus(52)</visible>
+								<include>VisibleFadeEffect</include>
+							</control>
+							<control type="image">
+								<posx>0</posx>
+								<posy>0</posy>
+								<width>320</width>
+								<height>26</height>
+								<texture border="0,1,0,1">rcb-MenuItemFO.png</texture>
+								<visible>Control.HasFocus(52)</visible>
+								<include>VisibleFadeEffect</include>
+							</control>
+							<control type="label">
+								<posx>10</posx>
+								<posy>0</posy>
+								<width>320</width>
+								<height>25</height>
+								<font>font13</font>
+								<textcolor>white</textcolor>
+								<selectedcolor>selected</selectedcolor>
+								<align>left</align>
+								<aligny>center</aligny>
+								<label>$INFO[ListItem.Label]</label>
+							</control>						
+						</focusedlayout>
+					</control>
 				</control>
 				
 				<control type="group" id="350">
 					<visible allowhiddenfocus="true">Control.IsVisible(52)</visible>
 					<posx>15</posx>
-					<posy>15</posy>	
+					<posy>10</posy>
+					<visible>Control.IsVisible(52)</visible>
 					<control type="image">				
 						<description>gamedesc background image</description>
 						<posx>0</posx>
 						<posy>0</posy>
 						<width>330</width>
-						<height>550</height>
+						<height>553</height>
 						<texture>rcb-ContentPanel.png</texture>
 						<colordiffuse>DDFFFFFF</colordiffuse>						
 					</control>
@@ -385,9 +512,10 @@
 						<selectedcolor>FFe2ff43</selectedcolor>
 						<align>center</align>
 						<label>$INFO[ListItem.Label]</label>						
-					</control>		
+					</control>
+					<!-- mainviewgameinfobig -->
 					<control type="image" id="2001">
-						<description>console image</description>
+						<description>mainviewgameinfobig</description>
 						<posx>15</posx>
 						<posy>45</posy>
 						<width>300</width>
@@ -874,13 +1002,7 @@
 				<onup>50</onup>
 				<ondown>500</ondown>
 				<onleft>3100</onleft>
-				<onright>800</onright>
-				<!--<onclick condition="Skin.HasSetting(rcb_info2_view)">Skin.SetBool(rcb_thumbs_view)</onclick>
-				<onclick condition="Skin.HasSetting(rcb_thumbs_view)">Skin.SetBool(rcb_info_view)</onclick>
-				<onclick condition="Skin.HasSetting(rcb_info_view)">Skin.SetBool(rcb_info2_view)</onclick>-->
-				<!--<include condition="!Skin.HasSetting(rcb_info2_view) + !Skin.HasSetting(rcb_info_view)">rcbsetinfoview</include>
-				<include condition="!Skin.HasSetting(rcb_thumbs_view) + !Skin.HasSetting(rcb_info2_view)">rcbsetinfo2view</include>
-				<include condition="!Skin.HasSetting(rcb_thumbs_view) + !Skin.HasSetting(rcb_info_view)">rcbsetthumbsview</include>-->
+				<onright>800</onright>				
 			</control>
 		</control>
 		

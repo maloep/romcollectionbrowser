@@ -1,7 +1,8 @@
 
 import os, sys
 
-import getpass, ntpath, re, string, glob, xbmc, xbmcgui
+import string, glob, xbmc, xbmcgui, time
+import getpass, ntpath, re
 from xml.dom.minidom import Document, parseString
 from pysqlite2 import dbapi2 as sqlite
 
@@ -358,9 +359,10 @@ class UIGameDB(xbmcgui.WindowXML):
 		
 		self.writeMsg("loading games...")
 		
+		#timestamp1 = time.clock()
 		xbmcgui.lock()				
 		
-		self.clearList()				
+		self.clearList()			
 		
 		for game in games:			
 			
@@ -377,9 +379,17 @@ class UIGameDB(xbmcgui.WindowXML):
 			if(selectedImages != None and len(selectedImages) != 0):
 				selectedImage = selectedImages[0]
 			else:
-				selectedImage = ""		
+				selectedImage = ""			
 			
 			item = xbmcgui.ListItem(str(game[util.ROW_NAME]), str(game[util.ROW_ID]), image, selectedImage)
+			
+			#set additional properties
+			try:
+				romCollectionRow = self.romCollectionDict[game[util.GAME_romCollectionId]]
+				consoleRow = self.consoleDict[romCollectionRow[util.ROMCOLLECTION_consoleId]]
+				item.setProperty(util.GAMEPROPERTY_Console, consoleRow[util.ROW_NAME])
+			except:
+				pass
 			
 			self.addItem(item, False)
 			
@@ -387,9 +397,16 @@ class UIGameDB(xbmcgui.WindowXML):
 		
 		self.writeMsg("")
 		
+		#timestamp2 = time.clock()
+		#diff = (timestamp2 - timestamp1) * 1000		
+		#print "load games in %d ms" %diff
+		
+		
 		util.log("End showGames" , util.LOG_LEVEL_INFO)	
 	
 
+	"""
+	#TODO no console info atm
 	def showConsoleInfo(self):	
 		util.log("Begin showConsoleInfo" , util.LOG_LEVEL_DEBUG)
 		
@@ -410,16 +427,15 @@ class UIGameDB(xbmcgui.WindowXML):
 		if(consoleRow == None):
 			util.log("consoleRow == None in showConsoleInfo", util.LOG_LEVEL_WARNING)
 			return
-			
-		""" TODO no console ionfo atm
+					
 		image = consoleRow[3]		
 		description = consoleRow[2]		
 				
 		selectedGame.setProperty('mainviewgameinfo', image)
-		selectedGame.setProperty('gamedesc', description)
-		"""
+		selectedGame.setProperty('gamedesc', description)		
 		
 		util.log("End showConsoleInfo" , util.LOG_LEVEL_DEBUG)
+	"""
 		
 	
 	def showGameInfo(self):
@@ -431,7 +447,7 @@ class UIGameDB(xbmcgui.WindowXML):
 			
 		#stop video (if playing)
 		if(self.player.isPlayingVideo()):
-			self.player.stop()					
+			self.player.stop()
 					
 		pos = self.getCurrentListPosition()
 		if(pos == -1):
@@ -470,16 +486,26 @@ class UIGameDB(xbmcgui.WindowXML):
 			self.fileTypeForControlDict, self.fileTypeDict, self.fileDict)
 		imageGameInfoLowerRight = self.getFileForControl(util.IMAGE_CONTROL_MV_GAMEINFO_LOWERRIGHT, gameRow[util.ROW_ID], gameRow[util.GAME_publisherId], gameRow[util.GAME_developerId], gameRow[util.GAME_romCollectionId],
 			self.fileTypeForControlDict, self.fileTypeDict, self.fileDict)
-		
-		description = gameRow[util.GAME_description]
-		if(description == None):
-			description = ""
+		imageMainView1 = self.getFileForControl(util.IMAGE_CONTROL_MV_1, gameRow[util.ROW_ID], gameRow[util.GAME_publisherId], gameRow[util.GAME_developerId], gameRow[util.GAME_romCollectionId],
+			self.fileTypeForControlDict, self.fileTypeDict, self.fileDict)
+		imageMainView2 = self.getFileForControl(util.IMAGE_CONTROL_MV_2, gameRow[util.ROW_ID], gameRow[util.GAME_publisherId], gameRow[util.GAME_developerId], gameRow[util.GAME_romCollectionId],
+			self.fileTypeForControlDict, self.fileTypeDict, self.fileDict)
+		imageMainView3 = self.getFileForControl(util.IMAGE_CONTROL_MV_3, gameRow[util.ROW_ID], gameRow[util.GAME_publisherId], gameRow[util.GAME_developerId], gameRow[util.GAME_romCollectionId],
+			self.fileTypeForControlDict, self.fileTypeDict, self.fileDict)				
 		
 		selectedGame.setProperty(util.IMAGE_CONTROL_MV_GAMEINFO_BIG, imageGameInfoBig)
 		selectedGame.setProperty(util.IMAGE_CONTROL_MV_GAMEINFO_UPPERLEFT, imageGameInfoUpperLeft)
 		selectedGame.setProperty(util.IMAGE_CONTROL_MV_GAMEINFO_UPPERRIGHT, imageGameInfoUpperRight)
 		selectedGame.setProperty(util.IMAGE_CONTROL_MV_GAMEINFO_LOWERLEFT, imageGameInfoLowerLeft)
-		selectedGame.setProperty(util.IMAGE_CONTROL_MV_GAMEINFO_LOWERRIGHT, imageGameInfoLowerRight)		
+		selectedGame.setProperty(util.IMAGE_CONTROL_MV_GAMEINFO_LOWERRIGHT, imageGameInfoLowerRight)
+		selectedGame.setProperty(util.IMAGE_CONTROL_MV_1, imageMainView1)		
+		selectedGame.setProperty(util.IMAGE_CONTROL_MV_2, imageMainView2)
+		selectedGame.setProperty(util.IMAGE_CONTROL_MV_3, imageMainView3)
+		
+		description = gameRow[util.GAME_description]
+		if(description == None):
+			description = ""
+		
 		selectedGame.setProperty(util.TEXT_CONTROL_MV_GAMEDESC, description)
 				
 		#no video in thumbs view
@@ -745,9 +771,11 @@ class UIGameDB(xbmcgui.WindowXML):
 				util.log("focusControl == None in loadViewState". util.LOG_LEVEL_WARNING)
 				return
 			self.setFocus(focusControl)
+			"""
 			if(rcbSetting[util.RCBSETTING_lastFocusedControlMainView] == CONTROL_CONSOLES):
 				self.showConsoleInfo()
-			elif(CONTROL_GAMES_GROUP_START <= rcbSetting[util.RCBSETTING_lastFocusedControlMainView] <= CONTROL_GAMES_GROUP_END):
+			"""
+			if(CONTROL_GAMES_GROUP_START <= rcbSetting[util.RCBSETTING_lastFocusedControlMainView] <= CONTROL_GAMES_GROUP_END):
 				self.showGameInfo()
 		else:
 			focusControl = self.getControlById(CONTROL_CONSOLES)
@@ -802,7 +830,11 @@ class UIGameDB(xbmcgui.WindowXML):
 				
 		self. fileTypeDict = self.cacheFileTypes()
 				
-		self.fileDict = self.cacheFiles()				
+		self.fileDict = self.cacheFiles()
+		
+		self.consoleDict = self.cacheConsoles()
+		
+		self.romCollectionDict = self.cacheRomCollections()
 	
 	
 	def cacheFileTypesForControl(self):
@@ -847,7 +879,7 @@ class UIGameDB(xbmcgui.WindowXML):
 		#TODO ignore non-media files
 		fileRows = File(self.gdb).getAll()
 		if(fileRows == None):
-			util.log("fileRows == None in getFilesByControl", util.LOG_LEVEL_WARNING)
+			util.log("fileRows == None in cacheFiles", util.LOG_LEVEL_WARNING)
 			return
 		fileDict = {}
 		for fileRow in fileRows:
@@ -867,6 +899,30 @@ class UIGameDB(xbmcgui.WindowXML):
 				fileDict[key] = fileRowList
 				
 		return fileDict
+		
+	
+	def cacheRomCollections(self):
+		romCollectionRows = RomCollection(self.gdb).getAll()
+		if(romCollectionRows == None):
+			util.log("romCollectionRows == None in cacheRomCollections", util.LOG_LEVEL_WARNING)
+			return
+		romCollectionDict = {}
+		for romCollectionRow in romCollectionRows:
+			romCollectionDict[romCollectionRow[util.ROW_ID]] = romCollectionRow
+			
+		return romCollectionDict
+	
+		
+	def cacheConsoles(self):
+		consoleRows = Console(self.gdb).getAll()
+		if(consoleRows == None):
+			util.log("consoleRows == None in cacheConsoles", util.LOG_LEVEL_WARNING)
+			return
+		consoleDict = {}
+		for consoleRow in consoleRows:
+			consoleDict[consoleRow[util.ROW_ID]] = consoleRow
+			
+		return consoleDict
 	
 	
 	def getControlById(self, controlId):
