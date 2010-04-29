@@ -7,7 +7,7 @@ import util
 RCBHOME = os.getcwd()
 
 
-def getFilesByControl_Cached(gdb, controlName, gameId, publisherId, developerId, romCollectionId, fileTypeForControlDict, fileTypeDict, fileDict):
+def getFilesByControl_Cached(gdb, controlName, gameId, publisherId, developerId, romCollectionId, fileTypeForControlDict, fileTypeDict, fileDict, romCollectionDict):
 			
 		util.log("getFilesByControl controlName: " +controlName, util.LOG_LEVEL_DEBUG)
 		util.log("getFilesByControl gameId: " +str(gameId), util.LOG_LEVEL_DEBUG)
@@ -46,7 +46,7 @@ def getFilesByControl_Cached(gdb, controlName, gameId, publisherId, developerId,
 				parentId = gameId
 			elif(fileTypeRow[util.FILETYPE_parent] == util.FILETYPEPARENT_CONSOLE):
 				#TODO cache RomCollections
-				romCollectionRow = RomCollection(gdb).getObjectById(romCollectionId)
+				romCollectionRow = romCollectionDict[romCollectionId]
 				if(romCollectionRow == None):
 					util.log("romCollectionRow == None in getFilesByControl", util.LOG_LEVEL_DEBUG)
 					continue

@@ -72,6 +72,7 @@ class UIGameInfoView(xbmcgui.WindowXMLDialog):
 		self.fileTypeForControlDict = kwargs["fileTypeForControlDict"]
 		self.fileTypeDict = kwargs["fileTypeDict"]
 		self.fileDict = kwargs["fileDict"]
+		self.romCollectionDict = kwargs["romCollectionDict"]
 		
 		self.doModal()
 		
@@ -147,7 +148,7 @@ class UIGameInfoView(xbmcgui.WindowXMLDialog):
 		
 		for game in games:
 			images = helper.getFilesByControl_Cached(self.gdb, 'gameinfoviewgamelist', game[util.ROW_ID], game[util.GAME_publisherId], game[util.GAME_developerId], game[util.GAME_romCollectionId],
-				self.fileTypeForControlDict, self.fileTypeDict, self.fileDict)
+				self.fileTypeForControlDict, self.fileTypeDict, self.fileDict, self.romCollectionDict)
 			if(images != None and len(images) != 0):
 				image = images[0]
 			else:
@@ -225,7 +226,7 @@ class UIGameInfoView(xbmcgui.WindowXMLDialog):
 			
 		
 		videos = helper.getFilesByControl_Cached(self.gdb, util.IMAGE_CONTROL_GIV_VideoWindow, gameRow[util.ROW_ID], gameRow[util.GAME_publisherId], gameRow[util.GAME_developerId], gameRow[util.GAME_romCollectionId],
-			self.fileTypeForControlDict, self.fileTypeDict, self.fileDict)
+			self.fileTypeForControlDict, self.fileTypeDict, self.fileDict, self.romCollectionDict)
 		#ingameVideos = File(self.gdb).getIngameVideosByGameId(self.selectedGameId)
 		if(videos != None and len(videos) != 0):			
 			video = videos[0]			
@@ -268,7 +269,7 @@ class UIGameInfoView(xbmcgui.WindowXMLDialog):
 		
 		util.log("Begin setImage", util.LOG_LEVEL_DEBUG)
 				
-		images = helper.getFilesByControl_Cached(self.gdb, controlName, gameId, publisherId, developerId, romCollectionId, self.fileTypeForControlDict, self.fileTypeDict, self.fileDict)
+		images = helper.getFilesByControl_Cached(self.gdb, controlName, gameId, publisherId, developerId, romCollectionId, self.fileTypeForControlDict, self.fileTypeDict, self.fileDict, self.romCollectionDict)
 		
 		control = self.getControlById(controlId)
 		if(control == None):
