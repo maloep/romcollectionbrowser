@@ -111,7 +111,7 @@
 			<mediaPath type="publisher">TestDataBase\Collection V1\publisher\%PUBLISHER%.jpg</mediaPath>
 			<mediaPath type="console">TestDataBase\consoleImages\%CONSOLE%.png</mediaPath>
 			<fileTypeForGameList>cover</fileTypeForGameList>
-			<fileTypeForMainViewGameInfo>screenshotingame</fileTypeForMainViewGameInfo>			
+			<fileTypeForMainViewGameInfoBig>screenshotingame</fileTypeForMainViewGameInfoBig>
 			<fileTypeForGameInfoViewBackground>cover</fileTypeForGameInfoViewBackground>
 			<fileTypeForGameInfoViewGamelist>cover</fileTypeForGameInfoViewGamelist>			
 			<fileTypeForGameInfoView2>screenshotingame</fileTypeForGameInfoView2>
@@ -148,7 +148,7 @@
 			<mediaPath type="developer">TestDataBase\Collection V2\developer\%DEVELOPER%.png</mediaPath>
 			<mediaPath type="publisher">TestDataBase\Collection V2\publisher\%PUBLISHER%.png</mediaPath>
 			<fileTypeForGameList>cover</fileTypeForGameList>
-			<fileTypeForMainViewGameInfo>screenshotingame</fileTypeForMainViewGameInfo>			
+			<fileTypeForMainViewGameInfoBig>screenshotingame</fileTypeForMainViewGameInfoBig>			
 			<fileTypeForGameInfoViewBackground>cover</fileTypeForGameInfoViewBackground>
 			<fileTypeForGameInfoViewGamelist>cover</fileTypeForGameInfoViewGamelist>			
 			<fileTypeForGameInfoView2>screenshotingame</fileTypeForGameInfoView2>
@@ -191,7 +191,7 @@
 			<mediaPath type="gameplay">TestDataBase\Collection V3\ingameVids\%GAME%.wmv</mediaPath>
 			<mediaPath type="console">TestDataBase\consoleImages\%CONSOLE%.png</mediaPath>
 			<fileTypeForGameList>cover</fileTypeForGameList>
-			<fileTypeForMainViewGameInfo>screenshotingame</fileTypeForMainViewGameInfo>
+			<fileTypeForMainViewGameInfoBig>screenshotingame</fileTypeForMainViewGameInfoBig>
 			<fileTypeForGameInfoViewBackground>screenshottitle</fileTypeForGameInfoViewBackground>
 			<fileTypeForGameInfoViewBackground>cover</fileTypeForGameInfoViewBackground>
 			<fileTypeForGameInfoViewGamelist>cover</fileTypeForGameInfoViewGamelist>
@@ -243,7 +243,7 @@
 			<mediaPath type="hyperspin">TestDataBase\Collection V4\Artwork\HyperSpin 3D Boxart\%GAME%.jpg</mediaPath>
 			<mediaPath type="gameplay">TestDataBase\Collection V4\Movies\%GAME%.wmv</mediaPath>
 			<fileTypeForGameList>cover</fileTypeForGameList>
-			<fileTypeForMainViewGameInfo>screenshotingame</fileTypeForMainViewGameInfo>
+			<fileTypeForMainViewGameInfoBig>screenshotingame</fileTypeForMainViewGameInfoBig>
 			<fileTypeForGameInfoViewBackground>title</fileTypeForGameInfoViewBackground>
 			<fileTypeForGameInfoViewBackground>cover</fileTypeForGameInfoViewBackground>
 			<fileTypeForGameInfoViewGamelist>cover</fileTypeForGameInfoViewGamelist>

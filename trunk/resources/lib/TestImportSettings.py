@@ -33,19 +33,19 @@ class TestImportSettings(unittest.TestCase):
 				
 		self.checkErrorHandling('config_corrupt.xml', True, 'Error: config.xml is no valid XML File')
 		
-		self.checkErrorHandling('config_NoRCBSettings.xml', True, 'Error: Import failed with 1 error(s)')
+		self.checkErrorHandling('config_NoRCBSettings.xml', True, 'Error: config.xml has 1 error(s)!')
 		
-		self.checkErrorHandling('config_NoConsoles.xml', True, 'Error: Import failed with 5 error(s)')
+		self.checkErrorHandling('config_NoConsoles.xml', True, 'Error: config.xml has 5 error(s)!')
 		
-		self.checkErrorHandling('config_NoFileTypes.xml', True, 'Error: Import failed with 83 error(s)')
+		self.checkErrorHandling('config_NoFileTypes.xml', True, 'Error: config.xml has 83 error(s)!')
 		
-		self.checkErrorHandling('config_NoRomCollections.xml', True, 'Error: Import failed with 1 error(s)')
+		self.checkErrorHandling('config_NoRomCollections.xml', True, 'Error: config.xml has 1 error(s)!')
 		
-		self.checkErrorHandling('config_corruptConsoles.xml', True, 'Error: Import failed with 3 error(s)')
+		self.checkErrorHandling('config_corruptConsoles.xml', True, 'Error: config.xml has 3 error(s)!')
 		
-		self.checkErrorHandling('config_corruptFileTypes.xml', True, 'Error: Import failed with 42 error(s)')
+		self.checkErrorHandling('config_corruptFileTypes.xml', True, 'Error: config.xml has 42 error(s)!')
 		
-		self.checkErrorHandling('config_corruptRomCollections.xml', True, 'Error: Import failed with 11 error(s)')
+		self.checkErrorHandling('config_corruptRomCollections.xml', True, 'Error: config.xml has 11 error(s)!')
 		
 	
 	def checkErrorHandling(self, testFileName, backup, expectedErrorMsg):

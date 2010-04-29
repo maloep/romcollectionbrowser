@@ -13,7 +13,7 @@ sys.path.append( os.path.join( BASE_RESOURCE_PATH, "platform_libraries", env ) )
 
 from pysqlite2 import dbapi2 as sqlite
 
-CURRENT_SCRIPT_VERSION = "V0.4"
+CURRENT_SCRIPT_VERSION = "V0.5"
 
 
 class GameDataBase:	
