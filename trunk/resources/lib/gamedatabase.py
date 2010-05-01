@@ -52,28 +52,33 @@ class GameDataBase:
 	
 	def checkDBStructure(self):
 		
+		#returnValues: -1 error, 0=nothing, 1=import Settings and Games, 2=import Settings only
+		
 		dbVersion = ""
 		try:
 			rcbSettingRows = RCBSetting(self).getAll()
 			if(rcbSettingRows == None or len(rcbSettingRows) != 1):	
 				self.self.createTables()
-				return 1
+				return 1, ""
 			rcbSetting = rcbSettingRows[0]
 			dbVersion = rcbSetting[10]
 			
 		except  Exception, (exc): 
 			self.createTables()
-			return 1
+			return 1, ""
 		
 		#Alter Table
 		if(dbVersion != CURRENT_SCRIPT_VERSION):
 			alterTableScript = "SQL_ALTER_%(old)s_%(new)s.txt" %{'old': dbVersion, 'new':CURRENT_SCRIPT_VERSION}
 			alterTableScript = str(os.path.join(self.databaseDir, alterTableScript))
-			print alterTableScript
-			self.executeSQLScript(alterTableScript)
-			return 2
 			
-		return 0
+			if os.path.isfile(alterTableScript):				
+				self.executeSQLScript(alterTableScript)				
+				return 0, ""
+			else:
+				return -1, "Error: No Update from version %s to %s." %(dbVersion, CURRENT_SCRIPT_VERSION)
+			
+		return 0, ""
 	
 
 class DataBaseObject:

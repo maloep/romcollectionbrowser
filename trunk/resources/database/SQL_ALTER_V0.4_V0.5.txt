@@ -17,6 +17,8 @@ UPDATE FileType SET type = 'video' WHERE name LIKE 'video%';
 UPDATE FileType SET parent = 'game';
 UPDATE FileType SET name = 'gameplay' WHERE name = 'video_gameplay';
 
+UPDATE FileTypeForControl SET control = 'mainviewgameinfobig' WHERE control = 'mainviewgameinfo';
+
 ALTER TABLE Game ADD COLUMN [originalTitle] TEXT;
 ALTER TABLE Game ADD COLUMN [alternateTitle] TEXT;
 ALTER TABLE Game ADD COLUMN [translatedBy] TEXT;
@@ -42,5 +44,6 @@ INSERT INTO File(id, name, fileTypeId, parentId)
 SELECT id, name, fileTypeId, gameId
 FROM File_tmp;
 
+DROP TABLE File_tmp;
 
 UPDATE RCBSetting SET dbVersion = 'V0.5';

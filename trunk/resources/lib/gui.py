@@ -120,20 +120,30 @@ class UIGameDB(xbmcgui.WindowXML):
 		self.gdb.connect()
 		#check if we have an actual database
 		#create new one or alter existing one
-		doImport = self.gdb.checkDBStructure()
-		self.gdb.commit()
+		doImport, errorMsg = self.gdb.checkDBStructure()		
+		
+		self.quit = False
+		if(doImport == -1):
+			xbmcgui.Dialog().ok(util.SCRIPTNAME, errorMsg, 'Please start with a clean database.')			
+			self.quit = True
+		else:
+			self.gdb.commit()
 
-		self.checkImport(doImport)
-		
-		self.cacheItems()
-		
-		self.player = MyPlayer()
-		self.player.gui = self
+			self.checkImport(doImport)
+			
+			self.cacheItems()
+			
+			self.player = MyPlayer()
+			self.player.gui = self
 		
 		
 	def onInit(self):
 		
 		util.log("Begin onInit", util.LOG_LEVEL_INFO)
+		
+		if(self.quit):			
+			self.close()
+			return
 		
 		#init only once
 		if(not self.isInit):
@@ -608,7 +618,7 @@ class UIGameDB(xbmcgui.WindowXML):
 		#doImport: 0=nothing, 1=import Settings and Games, 2=import Settings only
 		if(doImport in (1,2)):
 			dialog = xbmcgui.Dialog()
-			retSettings = dialog.yesno('Rom Collection Browser', 'Database is empty.', 'Do you you want to import Settings now?')
+			retSettings = dialog.yesno('Rom Collection Browser', 'Database is empty.', 'Do you want to import Settings now?')
 			del dialog
 			if(retSettings == True):
 				progressDialog = ProgressDialogGUI()
@@ -623,7 +633,7 @@ class UIGameDB(xbmcgui.WindowXML):
 
 				if(importSuccessful and doImport == 1):
 					dialog = xbmcgui.Dialog()
-					retGames = dialog.yesno('Rom Collection Browser', 'Import Settings successful', 'Do you you want to import Games now?')
+					retGames = dialog.yesno('Rom Collection Browser', 'Import Settings successful', 'Do you want to import Games now?')
 					if(retGames == True):
 						progressDialog = ProgressDialogGUI()
 						progressDialog.writeMsg("Import games...")
@@ -752,7 +762,7 @@ class UIGameDB(xbmcgui.WindowXML):
 		if(rcbSetting[util.RCBSETTING_lastFocusedControlMainView] != None):
 			focusControl = self.getControlById(rcbSetting[util.RCBSETTING_lastFocusedControlMainView])
 			if(focusControl == None):
-				util.log("focusControl == None in loadViewState". util.LOG_LEVEL_WARNING)
+				util.log("focusControl == None in loadViewState", util.LOG_LEVEL_WARNING)
 				return
 			self.setFocus(focusControl)
 			"""

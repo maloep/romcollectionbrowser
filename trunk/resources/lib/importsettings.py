@@ -486,6 +486,9 @@ class SettingsImporter:
 				if(descParserFile == ''):
 					errorCount = errorCount +1
 					util.log('Import Settings: Error in config.xml. RomCollection %s must have a descParserFile (if you have configured a descFilePath)!' %romCollName, util.LOG_LEVEL_ERROR)
+				elif(not os.path.isfile(descParserFile)):
+					errorCount = errorCount +1
+					util.log('Import Settings: Error in config.xml. descParserFile %s in RomCollection %s does not exist!' %(descParserFile, romCollName), util.LOG_LEVEL_ERROR)
 			
 			for descFilePath in descFilePaths:							
 				dirname = os.path.dirname(descFilePath)
