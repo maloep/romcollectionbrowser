@@ -526,16 +526,17 @@ If you want to keep your old database and your old config.xml you have to do the
 	</FileTypes>
  }}}
 
- Rename all imgPath- and videoPath-elements:
+ Rename all imgPath- and videoPath-elements to mediaPath:
  {{{
+	old:
 	<imgPath type="cover">PathToTestData/Collection V1/cover/%GAME%.jpg</imgPath>
 	<videoPath type="gameplay">PathToTestData/Collection V3/Movies/%GAME%.wmv</videoPath>
- }}}
- to mediaPath:
- {{{
+	
+	new:
 	<mediaPath type="cover">PathToTestData/Collection V1/cover/%GAME%.jpg</mediaPath>
 	<mediaPath type="gameplay">PathToTestData/Collection V3/Movies/%GAME%.wmv</mediaPath>
  }}}
+ 
  
  Add new configuration options to all `RomCollections`:
  {{{
@@ -544,17 +545,16 @@ If you want to keep your old database and your old config.xml you have to do the
 	<ignoreGameWithoutDesc>False</ignoreGameWithoutDesc>
  }}}
  
- Rename `fileTypeForMainViewGameInfo`
+ Rename `fileTypeForMainViewGameInfo` to `fileTypeForMainViewGameInfoBig`
  {{{
+	old:
 	<fileTypeForMainViewGameInfo>screenshotingame</fileTypeForMainViewGameInfo>
- }}}
- to `fileTypeForMainViewGameInfoBig`:
- {{{
+	
+	new:
 	<fileTypeForMainViewGameInfoBig>screenshotingame</fileTypeForMainViewGameInfoBig>
  }}}
  
- 
- 
+  
  optional:
  
  Add new Image Placing options:
