@@ -102,16 +102,15 @@
 			<descFilePath>E:\Emulatoren\data\Testdata V0.5\Collection V1\synopsis\synopsis.txt</descFilePath>			
 			<mediaPath type="cover">E:\Emulatoren\data\Testdata V0.5\Collection V1\cover\%GAME%.jpg</mediaPath>			
 			<mediaPath type="screenshotingame">E:\Emulatoren\data\Testdata V0.5\Collection V1\screens\%GAME%.jpg</mediaPath>			
-			<mediaPath type="console">E:\Emulatoren\data\Testdata V0.5\consoleImages\%CONSOLE%.png</mediaPath>
-			<mediaPath type="developer">E:\Emulatoren\data\Testdata V0.5\developer\%DEVELOPER%.jpg</mediaPath>
-			<mediaPath type="developer">E:\Emulatoren\data\Testdata V0.5\developer\%DEVELOPER%.png</mediaPath>
-			<mediaPath type="publisher">E:\Emulatoren\data\Testdata V0.5\publisher\%PUBLISHER%.jpg</mediaPath>
-			<mediaPath type="publisher">E:\Emulatoren\data\Testdata V0.5\publisher\%PUBLISHER%.png</mediaPath>
-			<mediaPath type="romcollection">E:\Emulatoren\data\Testdata V0.5\default.png</mediaPath>
+			<mediaPath type="console">E:\Emulatoren\data\Testdata V0.5\pics\console\%CONSOLE%.png</mediaPath>
+			<mediaPath type="developer">E:\Emulatoren\data\Testdata V0.5\pics\developer\%DEVELOPER%.jpg</mediaPath>
+			<mediaPath type="developer">E:\Emulatoren\data\Testdata V0.5\pics\developer\%DEVELOPER%.png</mediaPath>
+			<mediaPath type="publisher">E:\Emulatoren\data\Testdata V0.5\pics\publisher\%PUBLISHER%.jpg</mediaPath>
+			<mediaPath type="publisher">E:\Emulatoren\data\Testdata V0.5\pics\publisher\%PUBLISHER%.png</mediaPath>
+			<mediaPath type="romcollection">E:\Emulatoren\data\Testdata V0.5\pics\romCollection\joystick.png</mediaPath>
 			<fileTypeForGameList>cover</fileTypeForGameList>
-			<fileTypeForGameListSelected>cover</fileTypeForGameListSelected>
+			<fileTypeForGameListSelected>cover</fileTypeForGameListSelected>			
 			<fileTypeForMainView1>console</fileTypeForMainView1>
-			<fileTypeForMainView2>developer</fileTypeForMainView2>
 			<fileTypeForMainView3>romcollection</fileTypeForMainView3>
 			<fileTypeForMainViewBackground>screenshottitle</fileTypeForMainViewBackground>
 			<fileTypeForMainViewBackground>cover</fileTypeForMainViewBackground>
@@ -145,14 +144,15 @@
 			<mediaPath type="cover">E:\Emulatoren\data\Testdata V0.5\Collection V2\cover\%GAME%\*.png</mediaPath>
 			<mediaPath type="screenshotingame">E:\Emulatoren\data\Testdata V0.5\Collection V2\screens\%GAME%\*.jpg</mediaPath>			
 			<mediaPath type="screenshotingame">E:\Emulatoren\data\Testdata V0.5\Collection V2\screens\%GAME%\*.png</mediaPath>
-			<mediaPath type="console">E:\Emulatoren\data\Testdata V0.5\consoleImages\%CONSOLE%.png</mediaPath>
-			<mediaPath type="developer">E:\Emulatoren\data\Testdata V0.5\developer\%DEVELOPER%.jpg</mediaPath>
-			<mediaPath type="developer">E:\Emulatoren\data\Testdata V0.5\developer\%DEVELOPER%.png</mediaPath>
-			<mediaPath type="publisher">E:\Emulatoren\data\Testdata V0.5\publisher\%PUBLISHER%.jpg</mediaPath>
-			<mediaPath type="publisher">E:\Emulatoren\data\Testdata V0.5\publisher\%PUBLISHER%.png</mediaPath>
-			<mediaPath type="romcollection">E:\Emulatoren\data\Testdata V0.5\default.png</mediaPath>
+			<mediaPath type="console">E:\Emulatoren\data\Testdata V0.5\pics\console\%CONSOLE%.png</mediaPath>
+			<mediaPath type="developer">E:\Emulatoren\data\Testdata V0.5\pics\developer\%DEVELOPER%.jpg</mediaPath>
+			<mediaPath type="developer">E:\Emulatoren\data\Testdata V0.5\pics\developer\%DEVELOPER%.png</mediaPath>
+			<mediaPath type="publisher">E:\Emulatoren\data\Testdata V0.5\pics\publisher\%PUBLISHER%.jpg</mediaPath>
+			<mediaPath type="publisher">E:\Emulatoren\data\Testdata V0.5\pics\publisher\%PUBLISHER%.png</mediaPath>
+			<mediaPath type="romcollection">E:\Emulatoren\data\Testdata V0.5\pics\romCollection\joystick.png</mediaPath>
 			<fileTypeForGameList>cover</fileTypeForGameList>
 			<fileTypeForGameListSelected>cover</fileTypeForGameListSelected>
+			<fileTypeForMainView2>console</fileTypeForMainView2>
 			<fileTypeForMainViewBackground>screenshottitle</fileTypeForMainViewBackground>
 			<fileTypeForMainViewBackground>cover</fileTypeForMainViewBackground>
 			<fileTypeForMainViewGameInfoBig>screenshotingame</fileTypeForMainViewGameInfoBig>			
@@ -187,14 +187,16 @@
 			<mediaPath type="cartridge">E:\Emulatoren\data\Testdata V0.5\Collection V3\Artwork\Cart\%GAME%.png</mediaPath>			
 			<mediaPath type="3dbox">E:\Emulatoren\data\Testdata V0.5\Collection V3\Artwork\3D Boxart\%GAME%.png</mediaPath>			
 			<mediaPath type="gameplay">E:\Emulatoren\data\Testdata V0.5\Collection V3\Movies\%GAME%.wmv</mediaPath>
-			<mediaPath type="console">E:\Emulatoren\data\Testdata V0.5\consoleImages\%CONSOLE%.png</mediaPath>
-			<mediaPath type="developer">E:\Emulatoren\data\Testdata V0.5\developer\%DEVELOPER%.jpg</mediaPath>
-			<mediaPath type="developer">E:\Emulatoren\data\Testdata V0.5\developer\%DEVELOPER%.png</mediaPath>
-			<mediaPath type="publisher">E:\Emulatoren\data\Testdata V0.5\publisher\%PUBLISHER%.jpg</mediaPath>
-			<mediaPath type="publisher">E:\Emulatoren\data\Testdata V0.5\publisher\%PUBLISHER%.png</mediaPath>
-			<mediaPath type="romcollection">E:\Emulatoren\data\Testdata V0.5\default.png</mediaPath>
+			<mediaPath type="console">E:\Emulatoren\data\Testdata V0.5\pics\console\%CONSOLE%.png</mediaPath>
+			<mediaPath type="developer">E:\Emulatoren\data\Testdata V0.5\pics\developer\%DEVELOPER%.jpg</mediaPath>
+			<mediaPath type="developer">E:\Emulatoren\data\Testdata V0.5\pics\developer\%DEVELOPER%.png</mediaPath>
+			<mediaPath type="publisher">E:\Emulatoren\data\Testdata V0.5\pics\publisher\%PUBLISHER%.jpg</mediaPath>
+			<mediaPath type="publisher">E:\Emulatoren\data\Testdata V0.5\pics\publisher\%PUBLISHER%.png</mediaPath>
+			<mediaPath type="romcollection">E:\Emulatoren\data\Testdata V0.5\pics\romCollection\gamepad.jpg</mediaPath>
 			<fileTypeForGameList>3dbox</fileTypeForGameList>
 			<fileTypeForGameListSelected>boxfront</fileTypeForGameListSelected>
+			<fileTypeForMainView1>developer</fileTypeForMainView1>			
+			<fileTypeForMainView3>publisher</fileTypeForMainView3>
 			<fileTypeForMainViewBackground>title</fileTypeForMainViewBackground>			
 			<fileTypeForMainViewGameInfoUpperLeft>title</fileTypeForMainViewGameInfoUpperLeft>
 			<fileTypeForMainViewGameInfoUpperRight>action</fileTypeForMainViewGameInfoUpperRight>
