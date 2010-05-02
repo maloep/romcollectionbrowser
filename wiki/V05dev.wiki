@@ -528,11 +528,11 @@ If you want to keep your old database and your old config.xml you have to do the
 
  Rename all imgPath- and videoPath-elements to mediaPath:
  {{{
-	old:
+	# old:
 	<imgPath type="cover">PathToTestData/Collection V1/cover/%GAME%.jpg</imgPath>
 	<videoPath type="gameplay">PathToTestData/Collection V3/Movies/%GAME%.wmv</videoPath>
 	
-	new:
+	# new:
 	<mediaPath type="cover">PathToTestData/Collection V1/cover/%GAME%.jpg</mediaPath>
 	<mediaPath type="gameplay">PathToTestData/Collection V3/Movies/%GAME%.wmv</mediaPath>
  }}}
@@ -547,10 +547,10 @@ If you want to keep your old database and your old config.xml you have to do the
  
  Rename `fileTypeForMainViewGameInfo` to `fileTypeForMainViewGameInfoBig`
  {{{
-	old:
+	# old:
 	<fileTypeForMainViewGameInfo>screenshotingame</fileTypeForMainViewGameInfo>
 	
-	new:
+	# new:
 	<fileTypeForMainViewGameInfoBig>screenshotingame</fileTypeForMainViewGameInfoBig>
  }}}
  
