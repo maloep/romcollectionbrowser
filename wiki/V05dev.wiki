@@ -504,12 +504,12 @@ If you want to keep your old database and your old config.xml you have to do the
   * Backup your database (just copy the file `MyGames.db` from RCB database folder somewhere outside the RCB path)
   * Backup your `config.xml`
   * Delete the folder "Rom Collection Browser"
-  * Download "Rom Collection Browser V0.4.zip (http://romcollectionbrowser.googlecode.com/files/Rom%20Collection%20Browser%20V0.4.zip)
+  * Download "Rom Collection Browser V0.5.zip (http://romcollectionbrowser.googlecode.com/files/Rom%20Collection%20Browser%20V0.5.zip)
   * Unzip it to your XBMC scripts folder
   * Copy `MyGames.db` and `config.xml` back to the database folder of your new RCB
   * Make the following changes to your `config.xml`:
   
- Add FileType-elements:
+ Add `FileType`-elements:
  {{{
 	<FileTypes>
 		<FileType>
@@ -526,29 +526,29 @@ If you want to keep your old database and your old config.xml you have to do the
 	</FileTypes>
  }}}
 
- Rename all imgPath- and videoPath-elements to mediaPath:
+ Rename all imgPath- and videoPath-elements:
  {{{
 	<imgPath type="cover">PathToTestData/Collection V1/cover/%GAME%.jpg</imgPath>
 	<videoPath type="gameplay">PathToTestData/Collection V3/Movies/%GAME%.wmv</videoPath>
  }}}
- 
+ to mediaPath:
  {{{
 	<mediaPath type="cover">PathToTestData/Collection V1/cover/%GAME%.jpg</mediaPath>
 	<mediaPath type="gameplay">PathToTestData/Collection V3/Movies/%GAME%.wmv</mediaPath>
  }}}
  
- Add new configuration options to all RomCollections:
+ Add new configuration options to all `RomCollections`:
  {{{
 	<searchGameByCRC>True</searchGameByCRC>
 	<searchGameByCRCIgnoreRomName>False</searchGameByCRCIgnoreRomName>
 	<ignoreGameWithoutDesc>False</ignoreGameWithoutDesc>
  }}}
  
- Rename fileTypeForMainViewGameInfo to fileTypeForMainViewGameInfoBig:
+ Rename `fileTypeForMainViewGameInfo`
  {{{
 	<fileTypeForMainViewGameInfo>screenshotingame</fileTypeForMainViewGameInfo>
  }}}
- 
+ to `fileTypeForMainViewGameInfoBig`:
  {{{
 	<fileTypeForMainViewGameInfoBig>screenshotingame</fileTypeForMainViewGameInfoBig>
  }}}
@@ -558,16 +558,16 @@ If you want to keep your old database and your old config.xml you have to do the
  optional:
  
  Add new Image Placing options:
- - fileTypeForGameListSelected
- - fileTypeForMainViewBackground
- - fileTypeForMainViewGameInfoUpperLeft
- - fileTypeForMainViewGameInfoUpperRight
- - fileTypeForMainViewGameInfoLowerLeft
- - fileTypeForMainViewGameInfoLowerRight
- - fileTypeForMainViewVideoWindowSmall
- - fileTypeForMainView1
- - fileTypeForMainView2
- - fileTypeForMainView3
+   * fileTypeForGameListSelected
+   * fileTypeForMainViewBackground
+   * fileTypeForMainViewGameInfoUpperLeft
+   * fileTypeForMainViewGameInfoUpperRight
+   * fileTypeForMainViewGameInfoLowerLeft
+   * fileTypeForMainViewGameInfoLowerRight
+   * fileTypeForMainViewVideoWindowSmall
+   * fileTypeForMainView1
+   * fileTypeForMainView2
+   * fileTypeForMainView3
  
 
 === V0.4 ===
