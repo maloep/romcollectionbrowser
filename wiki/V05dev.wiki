@@ -7,22 +7,23 @@ With this XBMC script you can import and browse rom collections. You can point i
 
 You can use RCB in following scenarios:
 
-  * without any additional data, just the rom files - very boring and you should not use RCB if this is your scenario
-	- condition: should always work
+  * without any additional data, just the rom files
 
-  * only with image or video files (without game description) - it will look better but you won't be able to filter your games (only by console) and you won't get any additional information about your games
-	- condition: the filenames of your images or videos must exactly match your rom filenames (without extension)
+  * only with image or video files (without game description)
+	- the filenames of your images or videos must exactly match your rom filenames (without extension)
 
   * with image or video files and additional game description files:
 	- option 1: rom filenames, image filenames and description filenames must match exactly
+
 	- option 2: rom filenames and image filenames must match exactly, the rom filename appears (exactly) as game name inside the description file
+
 	- option 3: rom filenames and image filenames must match exactly, the rom file crc value appears inside the description file
+
 	- option 4: the rom file crc value appears inside the description file, image filenames match exactly the game name inside the description file
 
-note: matching of image or video filenames can also be done with proper named folders.
 
-
-Actually this script relies on file naming. If you have a Game "Mygame" its rom file should be named "Mygame.adf" (adf = amiga games). All screenshots must be named "Mygame.ext" (jpg, png, ...) OR they will have to reside in a folder that is called "Mygame". Then this script will import all image files in this folder and associate it with the game "Mygame". Configuration of screenshot paths can look like this:
+Example:
+If you have a Game "Mygame" its rom file should be named "Mygame.adf" (adf = amiga game). All screenshots must be named "Mygame.ext" (jpg, png, ...) OR they will have to reside in a folder that is called "Mygame". Then this script will import all image files in this folder and associate it with the game "Mygame". Configuration of screenshot paths can look like this:
 
 "/home/user/emu/amiga/screens/%GAME%/`*`.png" (will import all png-files in folder "Mygame")
 
