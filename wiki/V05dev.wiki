@@ -510,6 +510,7 @@ If you want to keep your old database and your old config.xml you have to do the
   * Make the following changes to your `config.xml`:
   
  Add `FileType`-elements:
+ You have to add one `FileType`-element for every different image- or video- type in your old config-file. If you had an <imgPath type="cover"> in your old config you need to add a `FileType` cover in your new config.
  {{{
 	<FileTypes>
 		<FileType>
@@ -635,6 +636,31 @@ Optional: Delete the complete element `<FileTypes>`:
 
 
 = Changelog =
+
+== V0.5 ==
+=== UI ===
+  * new UI design (Confluence-like)
+  * different views of the main window (Info, Info 2, Thumbs)
+  * show video in main window
+  * choose to show 1 big or 4 small images in Info and Info 2 view
+  * configure different images for selected and non-selected items in Info or Thumbs view
+  * better performance while loading game list
+  * game counter
+  * display console name of selected game
+=== Game Import ===
+  * import images for developer, publisher, console or rom collection
+  * find game in description file by crc value
+  * check crc value of files inside a zip archive (1 file per archive only)
+  * import roms in sub folders
+  * more robust game description parser
+  * check config.xml for common errors before importing
+  * different log levels
+ 
+ 
+- more robust game description parser
+- configure images for developer, publisher, console or rom collection
+  
+
 == V0.4 ==
   * new game info view: pressing info button when a game is selected will open a new window with additional game information
   * showing video in game info view
