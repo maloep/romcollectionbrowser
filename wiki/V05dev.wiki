@@ -8,11 +8,12 @@ With this XBMC script you can import and browse rom collections. You can point i
 You can use RCB in following scenarios:
 
   * without any additional data, just the rom files
+	- this should always work but will be very boring
 
-  * only with image or video files (without game description)
+  * only image or video files (without game description)
 	- the filenames of your images or videos must exactly match your rom filenames (without extension)
 
-  * with image or video files and additional game description files:
+  * image or video files and additional game description files:
 	- option 1: rom filenames, image filenames and description filenames must match exactly
 
 	- option 2: rom filenames and image filenames must match exactly, the rom filename appears (exactly) as game name inside the description file
@@ -21,9 +22,11 @@ You can use RCB in following scenarios:
 
 	- option 4: the rom file crc value appears inside the description file, image filenames match exactly the game name inside the description file
 
+<br>
 
 Example:
-If you have a Game "Mygame" its rom file should be named "Mygame.adf" (adf = amiga game). All screenshots must be named "Mygame.ext" (jpg, png, ...) OR they will have to reside in a folder that is called "Mygame". Then this script will import all image files in this folder and associate it with the game "Mygame". Configuration of screenshot paths can look like this:
+
+If you have a Game "Mygame" its rom file should be named "Mygame.adf" (adf = amiga game). All screenshots must be named "Mygame.ext" (jpg, png, ...) OR they have to reside in a folder that is called "Mygame". Then this script will import all image files in this folder and associate it with the game "Mygame". Configuration of image or video paths can look like this:
 
 "/home/user/emu/amiga/screens/%GAME%/`*`.png" (will import all png-files in folder "Mygame")
 
@@ -31,7 +34,8 @@ If you have a Game "Mygame" its rom file should be named "Mygame.adf" (adf = ami
 
 "/home/user/emu/amiga/screens/%GAME%.png" (will import the file "Mygame.png" in folder "screens")
 
-%GAME% will be replaced with the current game name during import. All files that match this file mask will be imported.
+<br>
+
 
 
 RCB also parses simple text files with additional game information like genre, publisher, developer, release year, ... You can use one description file per game and let RCB find this description via file naming ("Mygame.txt" or "Mygame/description.txt"). It is also possible to use one big description file for all games and let RCB find the current game by game name (game name without extension must exactly match the game name in your description file) or by crc value (crc value of your rom file must be available in your description file).
@@ -43,50 +47,59 @@ You can configure the layout of your description files with an xml parser config
 = Installation =
 Note: If you would like to play with the test scenario just skip these steps and go to the next chapter.
 
-  # Download "Rom Collection Browser V0.4.zip (http://romcollectionbrowser.googlecode.com/files/Rom%20Collection%20Browser%20V0.4.zip)
+  # Download "Rom Collection Browser V0.4.zip (http://romcollectionbrowser.googlecode.com/files/Rom%20Collection%20Browser%20V0.5.zip)
   # Unzip it to your XBMC scripts folder
   # Edit the main configuration file "config.xml" ("XBMC/scripts/Rom Collection Browser/resources/database/config.xml"). Check configuration section for a sample configuration and to learn how to configure RCB
   # Linux only: make the file "XBMC/scripts/Rom Collection Browser/applaunch.sh" executable
-  # Check the path to your XBMC installation at the end of the file "XBMC/scripts/Rom Collection Browser/applaunch.bat" or "XBMC/scripts/Rom Collection Browser/applaunch.sh"
+  # Check the path to your XBMC installation at the end of the file "XBMC/scripts/Rom Collection Browser/applaunch.bat" (Windows) or "XBMC/scripts/Rom Collection Browser/applaunch.sh" (Linux)
   # Make sure that the user that launches XBMC has write access to XBMCs script directory if you want to use the "solo" mode when launching emulators. RCB tries to create an "autoexec.py" in this directory
   # Start XBMC and launch RCB
-  # Click "Import Settings": The Console list should be filled with all your configured consoles
-  # Click "Update DB": Depending on your rom collections size this step can take some time. When it is done all other lists should be filled with the imported data.
+  # RCB will notice that there is no database and asks you if you would like to import settings. If you have already edited config.xml click "Yes".
+  # If "Import Settings" was successful RCB will offer you to import games now. Click "Yes" to continue. Depending on your rom collections size this step can take some time.
 
 
 = Setup test scenario =
-To show you how this script will work and how data should (could) be organized I also provide a zip file with testdata. This includes covers, game screenshots, game description files and sample configuration files for 7 Amiga and 8 SNES games. In V0.4 I also added 3 gameplay videos to show how videos will look like in RCB. It only includes placeholder files for the roms (empty text files that show you a sample naming convention). There are examples for three different rom collections (two amiga and one snes). You can download the amiga roms here: http://www.amigaland.de/index.php?option=com_remository&Itemid=27&func=select&id=2. As they say all roms on this page are free to download legally. You will have to rename some of them because I need a special disk indicator to support multiple roms for one game (explained in configuration section). Unfortunately there are not many public domain roms for SNES and I could not find any additional data for one of them. I decided to include screenshots and description files of some commercial roms but can't provide a download link for the related rom files. But this test scenario is not really meant to play the games, it should just show you how to configure this script.
+To show you how this script will work and how data should (could) be organized I also provide a zip file with testdata. This includes covers, game screenshots, game description files and sample configuration files for 7 Amiga and 8 SNES games. I also added 3 gameplay videos to show how videos will look like in RCB. It only includes placeholder files for the roms (empty text files that show you a sample naming convention). This test scenario is not really meant to play the games, it should just show you how to configure this script.
 
 
-  # Download "Rom Collection Browser V0.4.zip (http://romcollectionbrowser.googlecode.com/files/Rom%20Collection%20Browser%20V0.4.zip)
+  # Download "Rom Collection Browser V0.5.zip (http://romcollectionbrowser.googlecode.com/files/Rom%20Collection%20Browser%20V0.5.zip)
   # Unzip it to your XBMC scripts folder
-  # Download "Testdata V0.4.zip" (http://romcollectionbrowser.googlecode.com/files/Testdata%20V0.4.zip)
+  # Download "Testdata V0.5.zip" (http://romcollectionbrowser.googlecode.com/files/Testdata%20V0.5.zip)
   # Unzip it somewhere
   # Go to the new Testdata folder
-  # Edit "config_Windows.xml" or "config_Linux.xml": Replace every occurance of "PathToTestData" with the absolute path to your Testdata folder (e.g. "/home/user/Testdata V0.4" or "D:\Downloads\RCB\Testdata V0.4")
+  # Edit "config_Windows.xml" or "config_Linux.xml": Replace every occurance of "PathToTestData" with the absolute path to your Testdata folder (e.g. "/home/user/Testdata V0.5" or "D:\Downloads\RCB\Testdata V0.5")
   # (Optionally) edit the value of property "emulatorCmd". This command will be invoked when you launch a rom file. %ROM% will be replaced with the name of the rom file to be launched. If you have multiple rom files for one game %I% will be replaced with the (zero-based) index of the current file.
   # Rename "config_Windows.xml" or "config_Linux.xml" to "config.xml"
   # Copy "config.xml" to "XBMC/scripts/Rom Collection Browser/resources/database" (overwrite existing file)
   # Linux only: make the file "XBMC/scripts/Rom Collection Browser/applaunch.sh" executable
-  # Check the path to your XBMC installation at the end of the file "XBMC/scripts/Rom Collection Browser/applaunch.bat" or "XBMC/scripts/Rom Collection Browser/applaunch.sh"
+  # Check the path to your XBMC installation at the end of the file "XBMC/scripts/Rom Collection Browser/applaunch.bat" (Windows) or "XBMC/scripts/Rom Collection Browser/applaunch.sh" (Linux)
   # Make sure that the user that launches XBMC has write access to XBMCs script directory if you want to use the "solo" mode when launching emulators. RCB tries to create an "autoexec.py" in this directory
-  # Start xbmc
-  # Go to "Rom Collection Browser": You should see the initial view with some empty lists and two buttons
-  # Click "Import Settings": After some seconds you should see the entries "Amiga" and "Super Nintendo" in the filter list "Consoles"
-  # Click "Update DB": After some seconds all other filter lists should be filled with data. Now you can move around and get a filtered view of all imported rom files (only 7 amiga games and 8 SNES games in this test scenario).
-  # If you would like to launch and play the rom files go to your Testdata folder and replace the placeholder rom files with real ones (e.g. Testdata V0.4/Collection V1/roms/).
+  # Start xbmc and launch RCB
+  # RCB will notice that there is no database and asks you if you would like to import settings. Click "Yes".
+  # If "Import Settings" was successful RCB will offer you to import games now. Click "Yes" to continue.
+  # If you would like to launch and play the rom files go to your Testdata folder and replace the placeholder rom files with real ones (e.g. Testdata V0.5/Collection V1/roms/).
 
 
 = Usage =
-"Rom Collection Browser" will scan your rom folders and data folders and will import all game relevant data. To get this job done you have to tell it where to search and what to search for. At the moment this is done via xml configuration file. In a later release this could be done via settings page.
+== UI ==
+Navigation should be self explanating. Move around with the arrow keys and see what happens;-). There are some filter controls at the top of the page and three buttons at the bottom that are hidden in the normal view. They will show up if they receive focus and hide if they lose it.
+
+If focus is on filter controls you can jump to the game list with "Enter" (or SELECT-Button on a remote).
+
+In game list you can launch games with "Enter" or go to the deatils page with "I" (or INFO-Button on a remote).
+
+To exit the script or to leave the details page just press "Esc" (or BACK-Button on a remote).
 
 == Import Settings ==
+"Rom Collection Browser" will scan your rom folders and data folders and will import all game relevant data. To get this job done you have to tell it where to search and what to search for. At the moment this is done via xml configuration file. In a later release this could be done via settings page.
+
+
 To prepare implementation of a settings page I decided to store configuration information in database. So you will have to import settings from your xml config file before you can start scanning rom folders (and every time you make changes to your configuration). Import settings means that information from your configuration file "XBMC/scripts/Rom Collection Browser/resources/database/config.xml" will be written to database "MyGames.db" (same folder). The format of this configuration file is explained in a later section.
 
 If you want to make changes to the configuration just edit the xml file an click "Import Settings" again.
 
 
-== Update DB ==
+== Import Games ==
 This will use the settings information you imported in the previous step to scan the configured folders for roms and data. Every imported file will be associated with a game and a filetype (rom, ingame screenshot, title screenshot, cover, ...). Only the path to the file is imported, not the file itself. If you delete or move the file after importing it won't work anymore.
 
 RCB will also try to parse description files for your games during import. At the moment this only works with simple multiline text files. There is a configurable parser that will read parse instructions from an xml configuration file that tells it how to parse the current file format.  The format of this parser configuration is explained in a later section.
