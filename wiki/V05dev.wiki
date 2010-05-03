@@ -2,17 +2,38 @@
 
 
 = Introduction =
-With this XBMC script you can import and browse rom collections. You can point it to your rom folders and additional data (screenshots, description files, ...) that is already stored on your computer and tell it to import all information to its database. Afterwards you can browse all imported games by filter criteria (console, genre, ...), show some extra information and invoke an external emulator to play the selected rom file.
+With this XBMC script you can import and browse rom collections. You can point it to your rom folders and additional data (screenshots, description files, videos, ...) that has to be stored on your computer and tell it to import all information to its database. Afterwards you can browse all imported games by filter criteria (console, genre, ...), show some extra information and invoke an external emulator to play the selected rom file.
 
-Actually this script relies on file naming. If you have a Game "Mygame" its rom file should be named "Mygame.adf" (if it is an amiga game). All screenshots must be named "Mygame.ext" (jpg, png, ...) OR they will have to reside in a folder that is called "Mygame". Then this script will import all image files in this folder and associate it with the game "Mygame". Configuration of screenshot paths can look like this:
+Actually this script relies on file naming. If you have a Game "Mygame" its rom file should be named "Mygame.adf" (adf = amiga games). All screenshots must be named "Mygame.ext" (jpg, png, ...) OR they will have to reside in a folder that is called "Mygame". Then this script will import all image files in this folder and associate it with the game "Mygame". Configuration of screenshot paths can look like this:
 
-"/home/user/emu/amiga/screens/%GAME%/`*`.png"
+"/home/user/emu/amiga/screens/%GAME%/`*`.png" (will import all png-files in folder "Mygame")
 
-"/home/user/emu/amiga/%GAME%/screens/`*`.png"
+"/home/user/emu/amiga/%GAME%/screens/`*`.png" (will import all png-files in folder "Mygame/screens")
 
-"/home/user/emu/amiga/screens/%GAME%.png"
+"/home/user/emu/amiga/screens/%GAME%.png" (will import the file "Mygame.png" in folder "screens")
 
 %GAME% will be replaced with the current game name during import. All files that match this file mask will be imported.
+
+
+RCB also parses simple text files with additional game information like genre, publisher, developer, release year, ... You can use one description file per game and let RCB find this description via file naming ("Mygame.txt" or "Mygame/description.txt"). It is also possible to use one big description file for all games and let RCB find the current game by game name (game name without extension must exactly match the game name in your description file) or by crc value (crc value of your rom file must be available in your description file).
+
+You can configure the layout of your description files with an xml parser configuration. Have a look at the "parserConfig.xml"-section of this wiki for more information. In the Testdata.zip you will also find some sample description files with matching parser configurations.
+
+
+You can use RCB in following scenarios:
+
+  * without any additional data, just the rom files - very boring and you should not use RCB if this is your scenario
+	- condition: should always work
+  * only with image or video files (without game description) - it will look better but you won't be able to filter your games (only by console) and you won't get any additional information about your games
+	- condition: the filenames of your images or videos must exactly match your rom filenames (without extension)
+  * with image or video files and additional game description files:
+	- option 1: rom filenames, image filenames and description filenames must match exactly
+	- option 2: rom filenames and image filenames must match exactly, the rom filename appears (exactly) as game name inside the description file
+	- option 3: rom filenames and image filenames must match exactly, the rom file crc value appears inside the description file
+	- option 4: the rom file crc value appears inside the description file, image filenames match exactly the game name inside the description file
+
+note: matching of image or video filenames can also be done with proper named folders.
+
 
 
 = Installation =
@@ -656,9 +677,6 @@ Optional: Delete the complete element `<FileTypes>`:
   * check config.xml for common errors before importing
   * different log levels
  
- 
-- more robust game description parser
-- configure images for developer, publisher, console or rom collection
   
 
 == V0.4 ==
