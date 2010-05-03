@@ -84,9 +84,9 @@ To show you how this script will work and how data should (could) be organized I
 == UI ==
 Navigation should be self explanating. Move around with the arrow keys and see what happens;-). There are some filter controls at the top of the page and three buttons at the bottom that are hidden in the normal view. They will show up if they receive focus and hide if they lose it.
 
-If focus is on filter controls you can jump to the game list with "Enter" (or SELECT-Button on a remote).
+If the filter controls own the focus you can jump to the game list with "Enter" (or SELECT-Button on a remote).
 
-In game list you can launch games with "Enter" or go to the deatils page with "I" (or INFO-Button on a remote).
+In game list you can launch games with "Enter" or go to the details page with "I" (or INFO-Button on a remote).
 
 To exit the script or to leave the details page just press "Esc" (or BACK-Button on a remote).
 
@@ -94,23 +94,25 @@ To exit the script or to leave the details page just press "Esc" (or BACK-Button
 "Rom Collection Browser" will scan your rom folders and data folders and will import all game relevant data. To get this job done you have to tell it where to search and what to search for. At the moment this is done via xml configuration file. In a later release this could be done via settings page.
 
 
-To prepare implementation of a settings page I decided to store configuration information in database. So you will have to import settings from your xml config file before you can start scanning rom folders (and every time you make changes to your configuration). Import settings means that information from your configuration file "XBMC/scripts/Rom Collection Browser/resources/database/config.xml" will be written to database "MyGames.db" (same folder). The format of this configuration file is explained in a later section.
+Configuration information must be stored in database before you can start scanning rom folders. So you will have to import settings from your xml config file every time you make changes to your configuration. Import settings means that information from your configuration file "XBMC/scripts/Rom Collection Browser/resources/database/config.xml" will be written to database "MyGames.db" (same folder). The format of this configuration file is explained in a later section.
 
 If you want to make changes to the configuration just edit the xml file an click "Import Settings" again.
 
+RCB checks your config file for common errors before it will be imported. If it finds any errors your settings won't be imported. Error messages are written to standard xbmc log file.
+
 
 == Import Games ==
-This will use the settings information you imported in the previous step to scan the configured folders for roms and data. Every imported file will be associated with a game and a filetype (rom, ingame screenshot, title screenshot, cover, ...). Only the path to the file is imported, not the file itself. If you delete or move the file after importing it won't work anymore.
+This will use the settings information you imported in the previous step to scan the configured folders for roms and data. Every imported file will be associated with a game and a filetype (rom, ingame screenshot, title screenshot, cover, ...). Only the path to the file is imported, not the file itself. If you delete or move the file after importing RCB won't find it anymore.
 
-RCB will also try to parse description files for your games during import. At the moment this only works with simple multiline text files. There is a configurable parser that will read parse instructions from an xml configuration file that tells it how to parse the current file format.  The format of this parser configuration is explained in a later section.
+RCB will also try to parse description files for your games during import. At the moment this only works with simple multiline text files. There is a configurable parser that will read parse instructions from an xml configuration file that tells it how to parse the current file format. The format of this parser configuration is explained in a later section.
 
-If you don't have any description files or the parser can't read the file format the game will be imported without description. That means that you won't have any extra information about this game.
+If you don't have any description files or the parser can't read the file format the game will be imported without description.
 
-If you encounter any errors or miss some games after import check the logfile "update.log" in the scripts home directory. Search for any occurance of "ERROR" or "WARNING" to see what went wrong.
+If you encounter any errors or miss some games after import check the logfile "update.log" in RCB's home directory. Search for any occurance of "ERROR" or "WARNING" to see what went wrong.
 
-If you add new data to one of your rom collections you can use "Updata DB" as often as you like. Every run will import new data and updates the data that is already stored in database. You can configure RCB not to import any new game relevant data from description files. In that mode it will only look for new game related files (screenshots for example). You can also mark a rom collection to be ignored completely when scanning for new data. See configuration section for more information about these options.
+If you add new data to one of your rom collections you can use "Import Games" as often as you like. Every run will import new data and updates the data that is already stored in database. You can configure RCB not to import any new game relevant data from description files. In that mode it will only look for new game related files (screenshots for example). You can also configure a rom collection to be ignored completely while scanning for new data. See configuration section for more information about these options.
 
-Depending on your rom collections size this step can take some time. You can see the current import status in the lower right corner.
+Depending on your rom collections size this step can take some time. You can see the current import status in the lower left corner.
 
 
 = Configuration =
@@ -273,15 +275,9 @@ If set to "True" RCB will save the current view state (selected filter criteria 
 ==== saveViewStateOnLaunchEmu ====
 If set to "True" RCB will save the current view state (selected filter criteria and focused control) and restores it when you launch it the next time. This option will be used when launching an emulator in "solo" mode.
 		
-==== favoriteConsole ====
-This option is not implemented yet.
-
-==== favoriteGenre ====
-This option is not implemented yet.
-
 
 === Console ===
-You must add every console you want to emulate here. Configuration properties should be self explanating.
+You must add every console you want to emulate here. Just set a unique name, it will be referenced later.
 
 
 === Rom Collection ===
@@ -317,14 +313,8 @@ When restarting XBMC RCB will try to create a file "autoexec.py" in XBMCs main s
 ==== escapeCommand ====
 This will escape the rom file names passed to the emulatorCmd. I did not have problems with using "True" in Linux and Windows. But maybe you can try to change this if you are running into problems with launching games.
 
-==== relyOnNaming ====
-This must be "True" actually. I thought about implementing other ways of importing rom files where you don't have to take care of your file naming. But as long as that is not done it must be "True".
-
 ==== descFilePerGame ====
 There can be one big description file with descriptions for all games in it. Or you can have one description file per game. In the first case you must be sure that the game name in the description file matches exactly the name of your rom file (without disk prefix and extension). In second case the gamename must be somewhere in the path of the property `descFilePath` (configuration of descFilePath should look like this: "/home/user/emu/Amiga/Collection V1/%GAME%/info.txt").
-
-==== startWithDescFile ====
-This must be "False" actually. There are some rom collections (Amiga classix for example) that don't use proper file naming (rom files are named different than screenshots) but have one big description file where you will be linked to the rom files and the screenshot files. I am thinking about adding support for this scenario but this has a low priority at the moment.
 
 ==== descriptionParserFile ====
 Most rom collections that use game description files will have a different file format. I built a configurable parser that reads parse instructions from an xml file and then tries to parse the game descriptions with these instructions. There can only be one description parser file per `RomCollection` entry. The format of the parser file is explained in a later section.
@@ -334,9 +324,6 @@ If set to "False" RCB won't update your already imported game descriptions. All 
 
 ==== ignoreOnScan ====
 If set to "True" this `RomCollection` will be ignored completely during import. If you have all data for one `RomCollection` in database you can set this to "False" and there won't be any changes to this collection during the next imports.
-
-==== typeOfManual ====
-This option is not implemented yet.
 
 ==== romPath ====
 The path to your rom files. This path should include wildcards and file extension (`*`.adf for example).
@@ -358,10 +345,10 @@ Examples:
 
 "/home/user/emu/Amiga/Collection V1/Info/all.txt"
 
-==== imgPath ====
-The path to your image files. There can be multiple `<imgPath>` elements per `RomCollection`. Each element needs an attribute `type`. With this type you can define your own image types (or image categories). All images that match the given path will be imported and associated with the image type. Types will be used to configure the fileTypeFor...-elements (see next section).
+==== mediaPath ====
+The path to your image or video files. There can be multiple `<mediaPath>` elements per `RomCollection`. Each element needs an attribute `type`. This type references the name of the configured `FileTypes`. All images or videos that match the given path will be imported and associated with the `FileType`. Types will also be used to configure the fileTypeFor...-elements (see next section).
 
-You can use multiple `<imgPath>` entries with the same type to import from different locations or to configure different file extensions.
+You can use multiple `<mediaPath>` entries with the same type to import from different locations or to configure different file extensions.
 
 Examples:
 
@@ -376,22 +363,8 @@ Examples:
 "/home/user/emu/amiga/covers/%GAME%.gif"
 
 
-==== videoPath ====
-The path to your video files. There can be multiple `<videoPath>` elements per `RomCollection`. Each element needs an attribute `type`. With this type you can define your own video types (or video categories). All videos that match the given path will be imported and associated with the video type. Types will be used to configure the fileTypeFor...-elements (see next section).
-
-You can use multiple `<videoPath>` entries with the same type to import from different locations or to configure different file extensions.
-
-Examples:
-
-"/home/user/emu/amiga/gameplayvids/%GAME%/`*`.wmv"
-
-"/home/user/emu/amiga/%GAME%/gameplayvids/`*`.wmv"
-
-"/home/user/emu/amiga/gameplayvids/%GAME%.wmv"
-
-
 ==== fileTypeFor... ====
-The fileTypeFor...-elements are used for dynamic image placing. Actually there are 8 different image controls in RCB. With the fileTypeFor...-elements you can associate each of these controls with a specific image type. If you configure multiple fileTypeFor...-elements of the same type they will be used as fallback: if there is no image of file type 1, it will try to load an image of file type 2. The file types must exactly match the value of `type` attribute that you used for `imgPath` and `videoPath` configuration.
+The fileTypeFor...-elements are used for dynamic image placing. Actually there are 8 different image controls in RCB. With the fileTypeFor...-elements you can associate each of these controls with a specific media type. If you configure multiple fileTypeFor...-elements of the same type they will be used as fallback: if there is no image or video of file type 1, it will try to load an image or video of file type 2. The file types must exactly match the value of `type` attribute that you used for `mediaPath` and `FileType` configuration.
 
 These controls are available in current RCB version:
 
