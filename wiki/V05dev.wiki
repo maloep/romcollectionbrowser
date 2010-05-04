@@ -4,20 +4,9 @@
 = Introduction =
 With this XBMC script you can import and browse locally stored rom collections. Point it to your rom folders and additional data (screenshots, description files, videos, ...) and it will import all information to its database. Afterwards you can browse games by filter criteria (console, genre, release year, publisher), show some extra information and invoke an external emulator to play the selected rom file.
 
-
-You can use RCB in following scenarios:
-
-  * without any additional data, just the rom files - should always work but will be very boring
-
-  * only image or video files (without game description) - browse games by console only, no additional info but view all images and/or videos
-
-  * image or video files and additional game description files - browse games by console, genre, release year and publisher, view additional info and all images and/or videos 
-
-<br>
-
 Example:
 
-If you have a Game "Mygame" its rom file should be named "Mygame.adf" (adf = amiga game). All screenshots must be named "Mygame.ext" (jpg, png, ...) OR they must reside in a folder that is called "Mygame". Then this script will import all image files in this folder and associate it with the game "Mygame". Configuration of image or video paths can look like this:
+If you have a Game "Mygame" its rom file may be named "Mygame.adf" (adf = amiga game). All screenshots must be named "Mygame.ext" (jpg, png, ...) OR they must reside in a folder that is called "Mygame". RCB will import all image files in this folder and associate it with the game "Mygame". Configuration of image or video paths can look like this:
 
 "/home/user/emu/amiga/screens/%GAME%/`*`.png" (will import all png-files in folder "Mygame")
 
