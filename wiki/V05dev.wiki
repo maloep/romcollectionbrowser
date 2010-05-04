@@ -10,16 +10,7 @@ The UI of RCB should be highly configurable, too. There are lots of different ro
 
 It is a good idea to start with the test scenario. It will only take two minutes to set up and you will see how RCB can look like and get a first impression how things can be configured. Most options should be self explanating. If you have any problems or questions check this wiki or ask in the XBMC forum thread.
 
-Example path configuration:
-
-If you have a Game "Mygame" its rom file may be named "Mygame.adf" (adf = amiga game). All screenshots must be named "Mygame.ext" (jpg, png, ...) OR they must reside in a folder that is called "Mygame". RCB will import all image files in this folder and associate it with the game "Mygame". Configuration of image or video paths can look like this:
-
-"/home/user/emu/amiga/screens/%GAME%/`*`.png" (will import all png-files in folder "Mygame")
-
-"/home/user/emu/amiga/%GAME%/screens/`*`.png" (will import all png-files in folder "Mygame/screens")
-
-"/home/user/emu/amiga/screens/%GAME%.png" (will import the file "Mygame.png" in folder "screens")
-
+Before you can launch games with RCB you have to download, install and configure one or more emulators. Find out how to launch your emulator via command line. You will need this information to launch the emulator with RCB. Some examples are shown in section "Emu command lines".
 
 = Installation =
 Note: If you would like to play with the test scenario just skip these steps and go to the next chapter.
@@ -55,7 +46,7 @@ To show you how this script will work and how data should (could) be organized I
   # RCB will notice that there is no database and asks you if you would like to import settings. Click "Yes".
   # If "Import Settings" was successful RCB will offer you to import games now. Click "Yes" to continue.
   # If you would like to launch and play the rom files go to your Testdata folder and replace the placeholder rom files with real ones (e.g. Testdata V0.5/Collection V1/roms/).
-
+  
 
 = Usage =
 == Navigation ==
@@ -77,7 +68,6 @@ If you want to make changes to the configuration just edit the xml file an click
 
 RCB checks your config file for common errors before it will be imported. If it finds any errors your settings won't be imported. Error messages are written to standard xbmc log file.
 
-
 === Import Games ===
 This will use the settings information you imported in the previous step to scan the configured folders for roms and data. Every imported file will be associated with a game and a file type (rom, ingame screenshot, title screenshot, cover, ...). Only the path to the file is imported, not the file itself. If you delete or move the file after importing RCB won't find it anymore.
 
@@ -95,7 +85,17 @@ Depending on your rom collections size this step can take some time. You can see
 = Configuration =
 Configuration is done via xml files. There is one main configuration file "config.xml" that must be placed in the database directory. There may also be some parser configuration files (one for every different file format) that will allow you to control the behaviour of the description file parser. You have to point RCB to these files via "config.xml".
 
-== config.xml ==
+Configuration Example:
+
+If you have a Game "Mygame" its rom file may be named "Mygame.adf" (adf = amiga game). All screenshots must be named "Mygame.ext" (jpg, png, ...) OR they must reside in a folder that is called "Mygame". RCB will import all image files in this folder and associate it with the game "Mygame". Configuration of image or video paths can look like this:
+
+"/home/user/emu/amiga/screens/%GAME%/`*`.png" (will import all png-files in folder "Mygame")
+
+"/home/user/emu/amiga/%GAME%/screens/`*`.png" (will import all png-files in folder "Mygame/screens")
+
+"/home/user/emu/amiga/screens/%GAME%.png" (will import the file "Mygame.png" in folder "screens")
+
+== config.xml Example ==
 This is the main configuration file. You can find it here: "XBMC/scripts/Rom Collection Browser/resources/database/config.xml" (create it, if it is not there).
 
 An example file could look like this (1 Amiga and 1 SNES collection):
@@ -256,6 +256,8 @@ An example file could look like this (1 Amiga and 1 SNES collection):
 </config>
 
 }}}
+
+== config.xml properties ==
 
 === RCBSettings ===
 These are the global settings of RCB.
