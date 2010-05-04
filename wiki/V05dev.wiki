@@ -95,7 +95,7 @@ If you have a Game "Mygame" its rom file may be named "Mygame.adf" (adf = amiga 
 
 "/home/user/emu/amiga/screens/%GAME%.png" (will import the file "Mygame.png" in folder "screens")
 
-== config.xml Example ==
+== config.xml ==
 This is the main configuration file. You can find it here: "XBMC/scripts/Rom Collection Browser/resources/database/config.xml" (create it, if it is not there).
 
 An example file could look like this (1 Amiga and 1 SNES collection):
@@ -405,6 +405,17 @@ These controls are available in current RCB version:
 - fileTypeForGameInfoView4: One of the images that is shown in the game info window
 
 - fileTypeForGameInfoViewVideoWindow: If there is a video of the given type it will be shown in the lower right corner of the game info window (it overlays `GameInfoView4`).
+
+
+== dynamic image placing ==
+With the fileTypeFor...-elements you can define where to show which type of image or video.
+
+http://romcollectionbrowser.googlecode.com/files/screenshot_dip_mv_info_big.jpg
+
+http://romcollectionbrowser.googlecode.com/files/screenshot_dip_mv_info2_small.jpg
+
+http://romcollectionbrowser.googlecode.com/files/screenshot_dip_gd.jpg
+
 
 
 == parserConfig.xml ==
