@@ -425,6 +425,7 @@ http://romcollectionbrowser.googlecode.com/files/screenshot_dip_mv_info_big.jpg
 http://romcollectionbrowser.googlecode.com/files/screenshot_dip_gd.jpg
 
   # fileTypeForGameInfoViewGamelist
+  # fileTypeForGameInfoViewBackground
   # fileTypeForGameInfoView1
   # fileTypeForGameInfoView2
   # fileTypeForGameInfoView3
