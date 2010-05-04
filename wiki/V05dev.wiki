@@ -121,13 +121,11 @@ Configuration is done via xml files. There is one main configuration file "confi
 == config.xml ==
 This is the main configuration file. You can find it here: "XBMC/scripts/Rom Collection Browser/resources/database/config.xml" (create it, if it is not there).
 
-An example file could look like this (taken from test scenario with three rom collections: 2 Amiga (with different folder structures) and 1 SNES):
+An example file could look like this (1 Amiga and 1 SNES collection):
 
 {{{
 <config>
-	<RCBSettings>
-		<favoriteConsole></favoriteConsole>
-		<favoriteGenre></favoriteGenre>
+	<RCBSettings>		
 		<showEntryAllConsoles>True</showEntryAllConsoles>
 		<showEntryAllGenres>True</showEntryAllGenres>
 		<showEntryAllYears>True</showEntryAllYears>
@@ -137,118 +135,146 @@ An example file could look like this (taken from test scenario with three rom co
 	</RCBSettings>
 	<Consoles>		
 		<Console>
-			<name>Amiga</name>
-			<desc>The Amiga 500, also known as the A500 (or its code name Rock Lobster), was the first low-end Commodore Amiga 16/32-bit multimedia home/personal computer. It was announced at the winter Consumer Electronics Show in January 1987, at the same time as the high-end Amiga 2000, and competed directly against the Atari 520ST.</desc>
-			<imgFile>PathToTestData/consoleImages/Amiga.png</imgFile>
+			<name>Amiga</name>			
 		</Console>
 		<Console>
-			<name>Super Nintendo</name>
-			<desc>The Super Nintendo (SNES) is a 16-bit video game console released in 1990. 32768 (15-bit) colors, 8 channels 16-bit 32 kHz audio channels. 128 kB main RAM, 64 kB Video RAM and 64 kB Audio RAM.</desc>
-			<imgFile>PathToTestData/consoleImages/SNES.png</imgFile>
+			<name>Super Nintendo</name>			
 		</Console>
 	</Consoles>
+	<FileTypes>
+		<FileType>
+			<name>cover</name>
+			<type>image</type>
+			<parent>game</parent>
+		</FileType>
+		<FileType>
+			<name>screenshotingame</name>
+			<type>image</type>
+			<parent>game</parent>
+		</FileType>		
+		<FileType>
+			<name>screenshottitle</name>
+			<type>image</type>
+			<parent>game</parent>
+		</FileType> 		
+		<FileType>
+			<name>cartridge</name>
+			<type>image</type>
+			<parent>game</parent>
+		</FileType> 		
+		<FileType>
+			<name>3dbox</name>
+			<type>image</type>
+			<parent>game</parent>
+		</FileType> 		
+		<FileType>
+			<name>gameplay</name>
+			<type>video</type>
+			<parent>game</parent>
+		</FileType>
+		<FileType>
+			<name>console</name>
+			<type>image</type>
+			<parent>console</parent>
+		</FileType>
+		<FileType>
+			<name>developer</name>
+			<type>image</type>
+			<parent>developer</parent>
+		</FileType>
+		<FileType>
+			<name>publisher</name>
+			<type>image</type>
+			<parent>publisher</parent>
+		</FileType>
+		<FileType>
+			<name>romcollection</name>
+			<type>image</type>
+			<parent>romcollection</parent>
+		</FileType>
+	</FileTypes>
 	<RomCollections>
 		<RomCollection>			
 			<name>Collection V1</name>
 			<consoleName>Amiga</consoleName>
 			<emulatorCmd>uae {-%I% "%ROM%"}</emulatorCmd>
 			<useEmuSolo>True</useEmuSolo>
-			<escapeCommand>True</escapeCommand>
-			<relyOnNaming>True</relyOnNaming>
-			<startWithDescFile>False</startWithDescFile>
+			<escapeCommand>True</escapeCommand>						
 			<descFilePerGame>False</descFilePerGame>
 			<descriptionParserFile>PathToTestData/Collection V1/parserConfig.xml</descriptionParserFile>
-			<diskPrefix>_Disk</diskPrefix>
-			<typeOfManual>Text</typeOfManual>
+			<diskPrefix>_Disk</diskPrefix>			
 			<allowUpdate>True</allowUpdate>
 			<ignoreOnScan>False</ignoreOnScan>
+			<searchGameByCRC>True</searchGameByCRC>
+			<searchGameByCRCIgnoreRomName>False</searchGameByCRCIgnoreRomName>
+			<ignoreGameWithoutDesc>True</ignoreGameWithoutDesc>
 			<romPath>PathToTestData/Collection V1/roms/*.adf</romPath>
 			<romPath>PathToTestData/Collection V1/roms/*.ADF</romPath>
 			<descFilePath>PathToTestData/Collection V1/synopsis/synopsis.txt</descFilePath>			
-			<imgPath type="cover">PathToTestData/Collection V1/cover/%GAME%.jpg</imgPath>
-			<imgPath type="cover">PathToTestData/Collection V1/cover/%GAME%.gif</imgPath>
-			<imgPath type="cover">PathToTestData/Collection V1/cover/%GAME%.png</imgPath>
-			<imgPath type="screenshotingame">PathToTestData/Collection V1/screens/%GAME%.jpg</imgPath>
-			<imgPath type="screenshotingame">PathToTestData/Collection V1/screens/%GAME%.gif</imgPath>
-			<imgPath type="screenshotingame">PathToTestData/Collection V1/screens/%GAME%.png</imgPath>				
+			<mediaPath type="cover">PathToTestData/Collection V1/cover/%GAME%.jpg</mediaPath>			
+			<mediaPath type="screenshotingame">PathToTestData/Collection V1/screens/%GAME%.jpg</mediaPath>			
+			<mediaPath type="console">PathToTestData/pics/console/%CONSOLE%.png</mediaPath>			
+			<mediaPath type="developer">PathToTestData/pics/developer/%DEVELOPER%.png</mediaPath>			
+			<mediaPath type="publisher">PathToTestData/pics/publisher/%PUBLISHER%.png</mediaPath>
+			<mediaPath type="romcollection">PathToTestData/pics/romCollection/joystick.png</mediaPath>
 			<fileTypeForGameList>cover</fileTypeForGameList>
-			<fileTypeForMainViewGameInfo>screenshotingame</fileTypeForMainViewGameInfo>			
+			<fileTypeForGameListSelected>cover</fileTypeForGameListSelected>			
+			<fileTypeForMainView1>console</fileTypeForMainView1>
+			<fileTypeForMainView3>romcollection</fileTypeForMainView3>			
+			<fileTypeForMainViewBackground>cover</fileTypeForMainViewBackground>
+			<fileTypeForMainViewGameInfoBig>screenshotingame</fileTypeForMainViewGameInfoBig>
 			<fileTypeForGameInfoViewBackground>cover</fileTypeForGameInfoViewBackground>
 			<fileTypeForGameInfoViewGamelist>cover</fileTypeForGameInfoViewGamelist>			
+			<fileTypeForGameInfoView1>console</fileTypeForGameInfoView1>
 			<fileTypeForGameInfoView2>screenshotingame</fileTypeForGameInfoView2>
-			<fileTypeForGameInfoView3>cover</fileTypeForGameInfoView3>			
-		</RomCollection>
-		<RomCollection>			
-			<name>Collection V2</name>
-			<consoleName>Amiga</consoleName>
-			<emulatorCmd>uae {-%I% "%ROM%"}</emulatorCmd>
-			<useEmuSolo>True</useEmuSolo>
-			<escapeCommand>True</escapeCommand>
-			<relyOnNaming>True</relyOnNaming>
-			<startWithDescFile>False</startWithDescFile>
-			<descFilePerGame>True</descFilePerGame>
-			<descriptionParserFile>PathToTestData/Collection V2/parserConfig.xml</descriptionParserFile>
-			<diskPrefix>_Disk</diskPrefix>
-			<typeOfManual>Text</typeOfManual>
-			<allowUpdate>True</allowUpdate>
-			<ignoreOnScan>False</ignoreOnScan>
-			<romPath>PathToTestData/Collection V2/roms/*.adf</romPath>
-			<romPath>PathToTestData/Collection V2/roms/*.ADF</romPath>
-			<descFilePath>PathToTestData/Collection V2/synopsis/%GAME%/synopsis.txt</descFilePath>			
-			<imgPath type="cover">PathToTestData/Collection V2/cover/%GAME%/*.jpg</imgPath>
-			<imgPath type="cover">PathToTestData/Collection V2/cover/%GAME%/*.gif</imgPath>
-			<imgPath type="cover">PathToTestData/Collection V2/cover/%GAME%/*.png</imgPath>
-			<imgPath type="screenshotingame">PathToTestData/Collection V2/screens/%GAME%/*.jpg</imgPath>
-			<imgPath type="screenshotingame">PathToTestData/Collection V2/screens/%GAME%/*.gif</imgPath>
-			<imgPath type="screenshotingame">PathToTestData/Collection V2/screens/%GAME%/*.png</imgPath>				
-			<fileTypeForGameList>cover</fileTypeForGameList>
-			<fileTypeForMainViewGameInfo>screenshotingame</fileTypeForMainViewGameInfo>			
-			<fileTypeForGameInfoViewBackground>cover</fileTypeForGameInfoViewBackground>
-			<fileTypeForGameInfoViewGamelist>cover</fileTypeForGameInfoViewGamelist>			
-			<fileTypeForGameInfoView2>screenshotingame</fileTypeForGameInfoView2>
-			<fileTypeForGameInfoView3>cover</fileTypeForGameInfoView3>			
-		</RomCollection>		
+			<fileTypeForGameInfoView3>cover</fileTypeForGameInfoView3>
+			<fileTypeForGameInfoView4>developer</fileTypeForGameInfoView4>			
+		</RomCollection>				
 		<RomCollection>			
 			<name>Collection V3</name>
 			<consoleName>Super Nintendo</consoleName>
 			<emulatorCmd>zsnes -m "%ROM%"</emulatorCmd>
 			<useEmuSolo>True</useEmuSolo>
-			<escapeCommand>True</escapeCommand>
-			<relyOnNaming>True</relyOnNaming>
-			<startWithDescFile>False</startWithDescFile>
+			<escapeCommand>True</escapeCommand>			
 			<descFilePerGame>False</descFilePerGame>
 			<descriptionParserFile>PathToTestData/Collection V3/parserConfig.xml</descriptionParserFile>
-			<diskPrefix>_Disk</diskPrefix>
-			<typeOfManual>Text</typeOfManual>
+			<diskPrefix>_Disk</diskPrefix>			
 			<allowUpdate>True</allowUpdate>
 			<ignoreOnScan>False</ignoreOnScan>
-			<romPath>PathToTestData/Collection V3/roms/*.zip</romPath>
-			<romPath>PathToTestData/Collection V3/roms/*.smc</romPath>
-			<descFilePath>PathToTestData/Collection V3/description/synopsis.txt</descFilePath>			
-			<imgPath type="cover">PathToTestData/Collection V3/cover/%GAME%.jpg</imgPath>
-			<imgPath type="cover">PathToTestData/Collection V3/cover/%GAME%.gif</imgPath>
-			<imgPath type="cover">PathToTestData/Collection V3/cover/%GAME%.png</imgPath>
-			<imgPath type="screenshotingame">PathToTestData/Collection V3/screens/%GAME%.jpg</imgPath>
-			<imgPath type="screenshotingame">PathToTestData/Collection V3/screens/%GAME%.gif</imgPath>
-			<imgPath type="screenshotingame">PathToTestData/Collection V3/screens/%GAME%.png</imgPath>
-			<imgPath type="screenshottitle">PathToTestData/Collection V3/titles/%GAME%.jpg</imgPath>
-			<imgPath type="screenshottitle">PathToTestData/Collection V3/titles/%GAME%.gif</imgPath>
-			<imgPath type="screenshottitle">PathToTestData/Collection V3/titles/%GAME%.png</imgPath>
-			<imgPath type="cartridge">PathToTestData/Collection V3/cartridge/%GAME%.png</imgPath>
-			<imgPath type="cartridge">PathToTestData/Collection V3/cartridge/%GAME%.gif</imgPath>
-			<imgPath type="cartridge">PathToTestData/Collection V3/cartridge/%GAME%.jpg</imgPath>			
-			<videoPath type="gameplay">PathToTestData/Collection V3/ingameVids/%GAME%.wmv</videoPath>
-			<fileTypeForGameList>cover</fileTypeForGameList>
-			<fileTypeForMainViewGameInfo>screenshotingame</fileTypeForMainViewGameInfo>
-			<fileTypeForGameInfoViewBackground>screenshottitle</fileTypeForGameInfoViewBackground>
-			<fileTypeForGameInfoViewBackground>cover</fileTypeForGameInfoViewBackground>
+			<searchGameByCRC>True</searchGameByCRC>
+			<searchGameByCRCIgnoreRomName>False</searchGameByCRCIgnoreRomName>
+			<ignoreGameWithoutDesc>False</ignoreGameWithoutDesc>
+			<romPath>PathToTestData/Collection V3/Roms/*.zip</romPath>
+			<romPath>PathToTestData/Collection V3/Roms/*.smc</romPath>
+			<descFilePath>PathToTestData/Collection V3/Synopsis/synopsis.txt</descFilePath>						
+			<mediaPath type="cover">PathToTestData/Collection V3/Artwork/Box Front/%GAME%.png</mediaPath>			
+			<mediaPath type="screenshotingame">PathToTestData/Collection V3/Artwork/Action/%GAME%.png</mediaPath>
+			<mediaPath type="screenshottitle">PathToTestData/Collection V3/Artwork/Title/%GAME%.png</mediaPath>			
+			<mediaPath type="cartridge">PathToTestData/Collection V3/Artwork/Cart/%GAME%.png</mediaPath>			
+			<mediaPath type="3dbox">PathToTestData/Collection V3/Artwork/3D Boxart/%GAME%.png</mediaPath>			
+			<mediaPath type="gameplay">PathToTestData/Collection V3/Movies/%GAME%.wmv</mediaPath>
+			<mediaPath type="console">PathToTestData/pics/console/%CONSOLE%.png</mediaPath>
+			<mediaPath type="developer">PathToTestData/pics/developer/%DEVELOPER%.jpg</mediaPath>			
+			<mediaPath type="publisher">PathToTestData/pics/publisher/%PUBLISHER%.jpg</mediaPath>			
+			<mediaPath type="romcollection">PathToTestData/pics/romCollection/gamepad.jpg</mediaPath>
+			<fileTypeForGameList>3dbox</fileTypeForGameList>
+			<fileTypeForGameListSelected>cover</fileTypeForGameListSelected>
+			<fileTypeForMainView1>developer</fileTypeForMainView1>			
+			<fileTypeForMainView3>publisher</fileTypeForMainView3>
+			<fileTypeForMainViewBackground>screenshottitle</fileTypeForMainViewBackground>			
+			<fileTypeForMainViewGameInfoUpperLeft>screenshottitle</fileTypeForMainViewGameInfoUpperLeft>
+			<fileTypeForMainViewGameInfoUpperRight>screenshotingame</fileTypeForMainViewGameInfoUpperRight>
+			<fileTypeForMainViewGameInfoLowerLeft>cover</fileTypeForMainViewGameInfoLowerLeft>
+			<fileTypeForMainViewGameInfoLowerRight>cartridge</fileTypeForMainViewGameInfoLowerRight>
+			<fileTypeForMainViewVideoWindowSmall>gameplay</fileTypeForMainViewVideoWindowSmall>
+			<fileTypeForGameInfoViewBackground>screenshottitle</fileTypeForGameInfoViewBackground>			
 			<fileTypeForGameInfoViewGamelist>cover</fileTypeForGameInfoViewGamelist>
 			<fileTypeForGameInfoView1>screenshottitle</fileTypeForGameInfoView1>
 			<fileTypeForGameInfoView2>screenshotingame</fileTypeForGameInfoView2>
 			<fileTypeForGameInfoView3>cover</fileTypeForGameInfoView3>
-			<fileTypeForGameInfoView4>cartridge</fileTypeForGameInfoView4>
+			<fileTypeForGameInfoView4>cartridge</fileTypeForGameInfoView4>			
 			<fileTypeForGameInfoViewVideoWindow>gameplay</fileTypeForGameInfoViewVideoWindow>
-		</RomCollection>
+		</RomCollection>		
 	</RomCollections>
 </config>
 
@@ -280,14 +306,26 @@ If set to "True" RCB will save the current view state (selected filter criteria 
 You must add every console you want to emulate here. Just set a unique name, it will be referenced later.
 
 
+=== File Type ===
+With `FileTypes` you can define your own image or video categories. You can create a `FileType` for any new category that you like (e.g. action screenshots, box art, highscore screenshots, gameplay videos, trailers, etc.). All imported images or videos will be associated with this`FileType`. With the `fileTypeFor`...-elements you can configure where RCB should show your different `FileTypes`. See section about "Dynamic image placing" for more information.
+
+==== name ====
+The name be referenced as type in `mediaPath` and fileTypeFor...-elements.
+
+==== type ====
+Must be "image" or "video".
+
+==== parent ====
+The parent that is associated with the image or video. Must be one of the following: game, console, developer, publisher, romcollection.
+
 === Rom Collection ===
-There is a 1:n relation from `RomCollection` to console and emulator: you can configure 1 emulator and 1 console for each `RomCollection` but there could be different rom collections that use the same emulator or console. Usually there will be one `RomCollection` entry for each emulator/console.
+You need a `RomCollection` entry for every different Rom Collection. Different means: a different console, folder structure, description file, ... Everything that can't be done with one configuration entry.
 
 ==== name ====
 This is only used to distinguish rom collections.
 
 ==== consoleName ====
-This will associate all games of the current rom collection to this console. It is important that you use the exactly same name as in console configuration above.
+This will associate all games of the current rom collection with this console. It is important that you use the exact same name as in console configuration above.
 
 ==== emulatorCmd ====
 This command will be invoked when you select a game. You can use the following placeholders in your commands:
@@ -296,7 +334,10 @@ This command will be invoked when you select a game. You can use the following p
 
 %I% will be replaced with the zero-based index of the current rom file
 
-If the emulator supports multiple rom files (like uae) you can use {} for repeating parameters. In a command like "uae {-%I% "%ROM%"}" the part in the {} brackets will be repeated for any disk file of the game. For example if you have an amiga game (`MyGame`) that consists of 2 disk files the uae command at runtime could be: uae -0 "`MyGame_Disk1.adf`" -1 "`MyGame_Disk2.adf`".
+If the emulator supports multiple rom files (like uae) you can use {} for repeating parameters. In a command like "uae {-%I% "%ROM%"}" the part in the {} brackets will be repeated for any disk file of the game. For example if you have an amiga game (`MyGame`) that consists of 2 disk files the uae command at runtime will be: 
+{{{
+uae -0 "`MyGame_Disk1.adf`" -1 "`MyGame_Disk2.adf`".
+}}}
 
 ==== diskPrefix ====
 This is used to detect multi rom games. I don't want to show every rom file in th UI if they all belong to the same game. Second reason to use this property are emulators that support to load more than one file at once (like uae). I can't rely on file numbering because you will also have different releases for one game (Lemmings, Lemmings 2, Lemmings 3).
@@ -314,10 +355,10 @@ When restarting XBMC RCB will try to create a file "autoexec.py" in XBMCs main s
 This will escape the rom file names passed to the emulatorCmd. I did not have problems with using "True" in Linux and Windows. But maybe you can try to change this if you are running into problems with launching games.
 
 ==== descFilePerGame ====
-There can be one big description file with descriptions for all games in it. Or you can have one description file per game. In the first case you must be sure that the game name in the description file matches exactly the name of your rom file (without disk prefix and extension). In second case the gamename must be somewhere in the path of the property `descFilePath` (configuration of descFilePath should look like this: "/home/user/emu/Amiga/Collection V1/%GAME%/info.txt").
+There can be one big description file with descriptions for all games in it. Or you can have one description file per game. In the first case you must be sure that the game name in the description file matches exactly the name of your rom file (without disk prefix and extension) or that the crc value of the rom file matches the crc value inside the description file. In second case the gamename must be somewhere in the path of the property `descFilePath` (configuration of descFilePath should look like this: "/home/user/emu/Amiga/Collection V1/%GAME%/info.txt" or this: "/home/user/emu/Amiga/Collection V1/info/%GAME%.txt").
 
 ==== descriptionParserFile ====
-Most rom collections that use game description files will have a different file format. I built a configurable parser that reads parse instructions from an xml file and then tries to parse the game descriptions with these instructions. There can only be one description parser file per `RomCollection` entry. The format of the parser file is explained in a later section.
+Most rom collections that use game description files will have a different file format. I built a configurable parser that reads parse instructions from an xml file and tries to parse the game descriptions with these instructions. There can only be one description parser file per `RomCollection` entry. The format of the parser file is explained in section "parserConfig.xml".
 
 ==== allowUpdate ====
 If set to "False" RCB won't update your already imported game descriptions. All additional files (e.g. screenshots) will be imported if not already in database.
@@ -337,7 +378,7 @@ Examples:
 /home/user/emu/SNES/Collection V3/roms/`*`.smc
 
 ==== descFilePath ====
-The path to the game description files. These files will be used to obtain additional information  about a game like genre, plot, publisher etc. Depending on the "`DescFilePerGame`"-Parameter this should be the absolute path to one description file or a path using the %GAME%-placeholder. There can only be one descFilePath per `RomCollection`.
+The path to the game description files. These files will be used to obtain additional information  about a game like genre, plot, publisher etc. Depending on the "`descFilePerGame`"-Parameter this should be the absolute path to one description file or a path using the %GAME%-placeholder. There can only be one descFilePath per `RomCollection`.
 
 Examples:
 
