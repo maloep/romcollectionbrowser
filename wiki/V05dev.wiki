@@ -8,11 +8,23 @@ RCB can parse simple text files with additional game information like genre, pub
 
 The UI of RCB should be highly configurable, too. There are lots of different rom collections out there and you should be able to configure the presentation of your own set as good as possible. Some collections come with 1 action screenshot per game, other collections provide several different images and even videos. Thats why I implemented "dynamic image placing" that allows you to configure where to show what type of image.
 
+It is a good idea to start with the test scenario. It will only take two minutes to set up and you will see how RCB can look like and get a first impression how things can be configured. Most options should be self explanating. If you have any problems or questions check this wiki or ask in the XBMC forum thread.
+
+Example path configuration:
+
+If you have a Game "Mygame" its rom file may be named "Mygame.adf" (adf = amiga game). All screenshots must be named "Mygame.ext" (jpg, png, ...) OR they must reside in a folder that is called "Mygame". RCB will import all image files in this folder and associate it with the game "Mygame". Configuration of image or video paths can look like this:
+
+"/home/user/emu/amiga/screens/%GAME%/`*`.png" (will import all png-files in folder "Mygame")
+
+"/home/user/emu/amiga/%GAME%/screens/`*`.png" (will import all png-files in folder "Mygame/screens")
+
+"/home/user/emu/amiga/screens/%GAME%.png" (will import the file "Mygame.png" in folder "screens")
+
 
 = Installation =
 Note: If you would like to play with the test scenario just skip these steps and go to the next chapter.
 
-  # Download "Rom Collection Browser V0.4.zip (http://romcollectionbrowser.googlecode.com/files/Rom%20Collection%20Browser%20V0.5.zip)
+  # Download "Rom Collection Browser V0.5.zip (http://romcollectionbrowser.googlecode.com/files/Rom%20Collection%20Browser%20V0.5.zip)
   # Unzip it to your XBMC scripts folder
   # Edit the main configuration file "config.xml" ("XBMC/scripts/Rom Collection Browser/resources/database/config.xml"). Check configuration section for a sample configuration and to learn how to configure RCB
   # Linux only: make the file "XBMC/scripts/Rom Collection Browser/applaunch.sh" executable
@@ -24,7 +36,7 @@ Note: If you would like to play with the test scenario just skip these steps and
 
 
 = Setup test scenario =
-To show you how this script will work and how data should (could) be organized I also provide a zip file with testdata. This includes covers, game screenshots, game description files and sample configuration files for 7 Amiga and 8 SNES games. I also added 3 gameplay videos to show how videos will look like in RCB. It only includes placeholder files for the roms (empty text files that show you a sample naming convention). This test scenario is not really meant to play the games, it should just show you how to configure this script.
+To show you how this script will work and how data should (could) be organized I also provide a zip file with testdata. This includes covers, game screenshots, game description files and sample configuration files for 7 Amiga and 8 SNES games. I also added 3 gameplay videos to show you how videos will look like in RCB. It only includes placeholder files for the roms (empty text files that show you a sample naming convention). This test scenario is not really meant to play the games, it should just show you how to configure this script.
 
 
   # Download "Rom Collection Browser V0.5.zip (http://romcollectionbrowser.googlecode.com/files/Rom%20Collection%20Browser%20V0.5.zip)
@@ -46,8 +58,8 @@ To show you how this script will work and how data should (could) be organized I
 
 
 = Usage =
-== UI ==
-Navigation should be self explanating. Move around with the arrow keys and see what happens;-). There are some filter controls at the top of the page and three buttons at the bottom that are hidden in the normal view. They will show up if they receive focus and hide if they lose it.
+== Navigation ==
+Navigation should be self explanating. Move around with the arrow keys and see what happens. There are some filter controls at the top and three buttons at the bottom of the page that are hidden in the normal view. They will show up if they receive focus and hide if they lose it.
 
 If the filter controls own the focus you can jump to the game list with "Enter" (or SELECT-Button on a remote).
 
@@ -55,19 +67,19 @@ In game list you can launch games with "Enter" or go to the details page with "I
 
 To exit the script or to leave the details page just press "Esc" (or BACK-Button on a remote).
 
-== Import Settings ==
-"Rom Collection Browser" will scan your rom folders and data folders and will import all game relevant data. To get this job done you have to tell it where to search and what to search for. At the moment this is done via xml configuration file. In a later release this could be done via settings page.
+== Import ==
+RCB will scan your rom folders and data folders and imports all game relevant data. To get this job done you have to tell it where to search and what to search for. At the moment this is done via xml configuration file. In a later release this could be done via settings page.
 
+=== Import Settings ===
+Configuration information must be stored in database before you can start scanning rom folders. Import settings means that information from your configuration file "XBMC/scripts/Rom Collection Browser/resources/database/config.xml" will be written to database "MyGames.db" (same folder). The format of this configuration file is explained in a later section.
 
-Configuration information must be stored in database before you can start scanning rom folders. So you will have to import settings from your xml config file every time you make changes to your configuration. Import settings means that information from your configuration file "XBMC/scripts/Rom Collection Browser/resources/database/config.xml" will be written to database "MyGames.db" (same folder). The format of this configuration file is explained in a later section.
-
-If you want to make changes to the configuration just edit the xml file an click "Import Settings" again.
+If you want to make changes to the configuration just edit the xml file an click "Import Settings" again. You have to import settings every time you make changes to your configuration (this doesn't touch any already imported game data).
 
 RCB checks your config file for common errors before it will be imported. If it finds any errors your settings won't be imported. Error messages are written to standard xbmc log file.
 
 
-== Import Games ==
-This will use the settings information you imported in the previous step to scan the configured folders for roms and data. Every imported file will be associated with a game and a filetype (rom, ingame screenshot, title screenshot, cover, ...). Only the path to the file is imported, not the file itself. If you delete or move the file after importing RCB won't find it anymore.
+=== Import Games ===
+This will use the settings information you imported in the previous step to scan the configured folders for roms and data. Every imported file will be associated with a game and a file type (rom, ingame screenshot, title screenshot, cover, ...). Only the path to the file is imported, not the file itself. If you delete or move the file after importing RCB won't find it anymore.
 
 RCB will also try to parse description files for your games during import. At the moment this only works with simple multiline text files. There is a configurable parser that will read parse instructions from an xml configuration file that tells it how to parse the current file format. The format of this parser configuration is explained in a later section.
 
@@ -78,17 +90,6 @@ If you encounter any errors or miss some games after import check the logfile "u
 If you add new data to one of your rom collections you can use "Import Games" as often as you like. Every run will import new data and updates the data that is already stored in database. You can configure RCB not to import any new game relevant data from description files. In that mode it will only look for new game related files (screenshots for example). You can also configure a rom collection to be ignored completely while scanning for new data. See configuration section for more information about these options.
 
 Depending on your rom collections size this step can take some time. You can see the current import status in the lower left corner.
-
-Example:
-
-If you have a Game "Mygame" its rom file may be named "Mygame.adf" (adf = amiga game). All screenshots must be named "Mygame.ext" (jpg, png, ...) OR they must reside in a folder that is called "Mygame". RCB will import all image files in this folder and associate it with the game "Mygame". Configuration of image or video paths can look like this:
-
-"/home/user/emu/amiga/screens/%GAME%/`*`.png" (will import all png-files in folder "Mygame")
-
-"/home/user/emu/amiga/%GAME%/screens/`*`.png" (will import all png-files in folder "Mygame/screens")
-
-"/home/user/emu/amiga/screens/%GAME%.png" (will import the file "Mygame.png" in folder "screens")
-
 
 
 = Configuration =
