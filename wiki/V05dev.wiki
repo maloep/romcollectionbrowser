@@ -2,17 +2,7 @@
 
 
 = Introduction =
-With this XBMC script you can import and browse locally stored rom collections. Point it to your rom folders and additional data (screenshots, description files, videos, ...) and it will import all information to its database. Afterwards you can browse games by filter criteria (console, genre, release year, publisher), show some extra information and invoke an external emulator to play the selected rom file.
-
-Example:
-
-If you have a Game "Mygame" its rom file may be named "Mygame.adf" (adf = amiga game). All screenshots must be named "Mygame.ext" (jpg, png, ...) OR they must reside in a folder that is called "Mygame". RCB will import all image files in this folder and associate it with the game "Mygame". Configuration of image or video paths can look like this:
-
-"/home/user/emu/amiga/screens/%GAME%/`*`.png" (will import all png-files in folder "Mygame")
-
-"/home/user/emu/amiga/%GAME%/screens/`*`.png" (will import all png-files in folder "Mygame/screens")
-
-"/home/user/emu/amiga/screens/%GAME%.png" (will import the file "Mygame.png" in folder "screens")
+With this XBMC script you can browse and launch your roms. Point it to your rom folders and additional data (locally stored screenshots, description files, videos, ...) and it will import all information to its database. Afterwards you can browse games by filter criteria (console, genre, release year, publisher), show some extra information and invoke an external emulator to play the selected rom file.
 
 RCB can parse simple text files with additional game information like genre, publisher, developer, release year, etc. To support different description file formats you can configure the behaviour of the parser with an xml configuration file. Have a look at the "parserConfig.xml"-section of this wiki for more information. In the Testdata.zip you will also find some sample description files with matching parser configurations.
 
@@ -88,6 +78,17 @@ If you encounter any errors or miss some games after import check the logfile "u
 If you add new data to one of your rom collections you can use "Import Games" as often as you like. Every run will import new data and updates the data that is already stored in database. You can configure RCB not to import any new game relevant data from description files. In that mode it will only look for new game related files (screenshots for example). You can also configure a rom collection to be ignored completely while scanning for new data. See configuration section for more information about these options.
 
 Depending on your rom collections size this step can take some time. You can see the current import status in the lower left corner.
+
+Example:
+
+If you have a Game "Mygame" its rom file may be named "Mygame.adf" (adf = amiga game). All screenshots must be named "Mygame.ext" (jpg, png, ...) OR they must reside in a folder that is called "Mygame". RCB will import all image files in this folder and associate it with the game "Mygame". Configuration of image or video paths can look like this:
+
+"/home/user/emu/amiga/screens/%GAME%/`*`.png" (will import all png-files in folder "Mygame")
+
+"/home/user/emu/amiga/%GAME%/screens/`*`.png" (will import all png-files in folder "Mygame/screens")
+
+"/home/user/emu/amiga/screens/%GAME%.png" (will import the file "Mygame.png" in folder "screens")
+
 
 
 = Configuration =
