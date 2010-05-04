@@ -386,7 +386,12 @@ Examples:
 ==== fileTypeFor... ====
 The fileTypeFor...-elements are used for dynamic image placing. With the fileTypeFor...-elements you can associate each of the available image controls with a specific media type. If you configure multiple fileTypeFor...-elements of the same type they will be used as fallback: if there is no image or video of file type 1, it will try to load an image or video of file type 2. The file types must exactly match the value of `type` attribute that you used for `mediaPath` and `FileType` configuration.
 
-See section "dynamic image placing" for more info.
+In this example RCB will show your title screenshots as a background in the main window:
+{{{
+<fileTypeForMainViewBackground>screenshottitle</fileTypeForMainViewBackground>
+}}}
+
+See section "dynamic image placing" for a list of available image controls.
 
 
 == dynamic image placing ==
@@ -398,7 +403,7 @@ http://romcollectionbrowser.googlecode.com/files/screenshot_dip_mv_info2_small.j
   # fileTypeForMainViewGameInfoUpperLeft - not available in Thumbs view
   # fileTypeForMainViewGameInfoUpperRight - not available in Thumbs view
   # fileTypeForMainViewGameInfoLowerLeft - not available in Thumbs view
-  # fileTypeForMainViewGameInfoLowerRight - also used for fileTypeForMainViewVideoWindowSmall, not available in Thumbs view
+  # fileTypeForMainViewGameInfoLowerRight - shared with fileTypeForMainViewVideoWindowSmall, not available in Thumbs view
   # fileTypeForMainViewGameInfo1
   # fileTypeForMainViewGameInfo2 - if empty, RCB will show the console name
   # fileTypeForMainViewGameInfo3
@@ -407,7 +412,7 @@ http://romcollectionbrowser.googlecode.com/files/screenshot_dip_mv_info2_small.j
 
 http://romcollectionbrowser.googlecode.com/files/screenshot_dip_mv_info_big.jpg
 
-  # fileTypeForMainViewGameInfoBig - also used for fileTypeForMainViewVideoWindowBig, not available in Thumbs view
+  # fileTypeForMainViewGameInfoBig - shared with fileTypeForMainViewVideoWindowBig, not available in Thumbs view
   # fileTypeForGameList - not available in Info 2 view
   # fileTypeForGameListSelected - not available in Info 2 view
   # fileTypeForMainViewGameInfo1
@@ -423,7 +428,7 @@ http://romcollectionbrowser.googlecode.com/files/screenshot_dip_gd.jpg
   # fileTypeForGameInfoView1
   # fileTypeForGameInfoView2
   # fileTypeForGameInfoView3
-  # fileTypeForGameInfoView4 - also used for fileTypeForGameInfoViewVideoWindow
+  # fileTypeForGameInfoView4 - shared with fileTypeForGameInfoViewVideoWindow
   
 
 
