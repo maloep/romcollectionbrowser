@@ -392,34 +392,39 @@ See section "dynamic image placing" for more info.
 == dynamic image placing ==
 With the fileTypeFor...-elements you can define where to show which type of image or video.
 
+=== Main Window ===
 http://romcollectionbrowser.googlecode.com/files/screenshot_dip_mv_info2_small.jpg
 
-  # fileTypeForMainViewGameInfoUpperLeft
-  # fileTypeForMainViewGameInfoUpperRight
-  # fileTypeForMainViewGameInfoLowerLeft
-  # fileTypeForMainViewGameInfoLowerRight - also used for fileTypeForMainViewVideoWindowSmall
+  # fileTypeForMainViewGameInfoUpperLeft - not available in Thumbs view
+  # fileTypeForMainViewGameInfoUpperRight - not available in Thumbs view
+  # fileTypeForMainViewGameInfoLowerLeft - not available in Thumbs view
+  # fileTypeForMainViewGameInfoLowerRight - also used for fileTypeForMainViewVideoWindowSmall, not available in Thumbs view
   # fileTypeForMainViewGameInfo1
   # fileTypeForMainViewGameInfo2 - if empty, RCB will show the console name
   # fileTypeForMainViewGameInfo3
   # fileTypeForMainViewBackground
+  
 
 http://romcollectionbrowser.googlecode.com/files/screenshot_dip_mv_info_big.jpg
 
-  # fileTypeForMainViewGameInfoBig - also used for fileTypeForMainViewVideoWindowBig
-  # fileTypeForGameList
-  # fileTypeForGameListSelected
+  # fileTypeForMainViewGameInfoBig - also used for fileTypeForMainViewVideoWindowBig, not available in Thumbs view
+  # fileTypeForGameList - not available in Info 2 view
+  # fileTypeForGameListSelected - not available in Info 2 view
   # fileTypeForMainViewGameInfo1
   # fileTypeForMainViewGameInfo2 - if empty, RCB will show the console name
   # fileTypeForMainViewGameInfo3
   # fileTypeForMainViewBackground
+  
 
+=== Game Details ===
 http://romcollectionbrowser.googlecode.com/files/screenshot_dip_gd.jpg
 
   # fileTypeForGameInfoViewGamelist
   # fileTypeForGameInfoView1
   # fileTypeForGameInfoView2
   # fileTypeForGameInfoView3
-  # fileTypeForGameInfoView4 - also used for fileTypeForGameInfoViewVideoWindow			
+  # fileTypeForGameInfoView4 - also used for fileTypeForGameInfoViewVideoWindow
+  
 
 
 == parserConfig.xml ==
