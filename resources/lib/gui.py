@@ -624,6 +624,8 @@ class UIGameDB(xbmcgui.WindowXML):
 				progressDialog = ProgressDialogGUI()
 				progressDialog.writeMsg("Import settings...")
 				importSuccessful, errorMsg = importsettings.SettingsImporter().importSettings(self.gdb, os.path.join(RCBHOME, 'resources', 'database'), progressDialog)
+				# XBMC crashes on my Linux system without this line:
+				print('RCB INFO: Import done')
 				progressDialog.writeMsg("", -1)
 				del progressDialog
 				
