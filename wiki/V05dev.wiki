@@ -386,7 +386,7 @@ Examples:
 ==== fileTypeFor... ====
 The fileTypeFor...-elements are used for dynamic image placing. With the fileTypeFor...-elements you can associate each of the available image controls with a specific media type. If you configure multiple fileTypeFor...-elements of the same type they will be used as fallback: if there is no image or video of file type 1, it will try to load an image or video of file type 2. The file types must exactly match the value of `type` attribute that you used for `mediaPath` and `FileType` configuration.
 
-In this example RCB will show your title screenshots as a background in the main window:
+In this example RCB will show your title screenshots as background image in the main window:
 {{{
 <fileTypeForMainViewBackground>screenshottitle</fileTypeForMainViewBackground>
 }}}
@@ -408,7 +408,7 @@ http://romcollectionbrowser.googlecode.com/files/screenshot_dip_mv_info2_small.j
   # fileTypeForMainViewGameInfo2 - if empty, RCB will show the console name
   # fileTypeForMainViewGameInfo3
   # fileTypeForMainViewBackground
-  
+<br>
 
 http://romcollectionbrowser.googlecode.com/files/screenshot_dip_mv_info_big.jpg
 
@@ -419,7 +419,7 @@ http://romcollectionbrowser.googlecode.com/files/screenshot_dip_mv_info_big.jpg
   # fileTypeForMainViewGameInfo2 - if empty, RCB will show the console name
   # fileTypeForMainViewGameInfo3
   # fileTypeForMainViewBackground
-  
+<br>
 
 === Game Details ===
 http://romcollectionbrowser.googlecode.com/files/screenshot_dip_gd.jpg
@@ -429,7 +429,7 @@ http://romcollectionbrowser.googlecode.com/files/screenshot_dip_gd.jpg
   # fileTypeForGameInfoView2
   # fileTypeForGameInfoView3
   # fileTypeForGameInfoView4 - shared with fileTypeForGameInfoViewVideoWindow
-  
+<br>
 
 
 == parserConfig.xml ==
