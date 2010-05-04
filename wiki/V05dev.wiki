@@ -384,38 +384,42 @@ Examples:
 
 
 ==== fileTypeFor... ====
-The fileTypeFor...-elements are used for dynamic image placing. Actually there are 8 different image controls in RCB. With the fileTypeFor...-elements you can associate each of these controls with a specific media type. If you configure multiple fileTypeFor...-elements of the same type they will be used as fallback: if there is no image or video of file type 1, it will try to load an image or video of file type 2. The file types must exactly match the value of `type` attribute that you used for `mediaPath` and `FileType` configuration.
+The fileTypeFor...-elements are used for dynamic image placing. With the fileTypeFor...-elements you can associate each of the available image controls with a specific media type. If you configure multiple fileTypeFor...-elements of the same type they will be used as fallback: if there is no image or video of file type 1, it will try to load an image or video of file type 2. The file types must exactly match the value of `type` attribute that you used for `mediaPath` and `FileType` configuration.
 
-These controls are available in current RCB version:
-
-- fileTypeForGameList:	The list of games that is shown in the main window.
-
-- fileTypeForMainViewGameInfo: Image that is shown when you select a game in the main window.
-
-- fileTypeForGameInfoViewBackground: Background image of the game info window.
-
-- fileTypeForGameInfoViewGamelist: The list of games that is shown in the game info window (very small).
-
-- fileTypeForGameInfoView1: One of the images that is shown in the game info window
-
-- fileTypeForGameInfoView2: One of the images that is shown in the game info window
-
-- fileTypeForGameInfoView3: One of the images that is shown in the game info window
-
-- fileTypeForGameInfoView4: One of the images that is shown in the game info window
-
-- fileTypeForGameInfoViewVideoWindow: If there is a video of the given type it will be shown in the lower right corner of the game info window (it overlays `GameInfoView4`).
+See section "dynamic image placing" for more info.
 
 
 == dynamic image placing ==
 With the fileTypeFor...-elements you can define where to show which type of image or video.
 
+http://romcollectionbrowser.googlecode.com/files/screenshot_dip_mv_info2_small.jpg
+
+  # fileTypeForMainViewGameInfoUpperLeft
+  # fileTypeForMainViewGameInfoUpperRight
+  # fileTypeForMainViewGameInfoLowerLeft
+  # fileTypeForMainViewGameInfoLowerRight - also used for fileTypeForMainViewVideoWindowSmall
+  # fileTypeForMainViewGameInfo1
+  # fileTypeForMainViewGameInfo2 - if empty, RCB will show the console name
+  # fileTypeForMainViewGameInfo3
+  # fileTypeForMainViewBackground
+
 http://romcollectionbrowser.googlecode.com/files/screenshot_dip_mv_info_big.jpg
 
-http://romcollectionbrowser.googlecode.com/files/screenshot_dip_mv_info2_small.jpg
+  # fileTypeForMainViewGameInfoBig - also used for fileTypeForMainViewVideoWindowBig
+  # fileTypeForGameList
+  # fileTypeForGameListSelected
+  # fileTypeForMainViewGameInfo1
+  # fileTypeForMainViewGameInfo2 - if empty, RCB will show the console name
+  # fileTypeForMainViewGameInfo3
+  # fileTypeForMainViewBackground
 
 http://romcollectionbrowser.googlecode.com/files/screenshot_dip_gd.jpg
 
+  # fileTypeForGameInfoViewGamelist
+  # fileTypeForGameInfoView1
+  # fileTypeForGameInfoView2
+  # fileTypeForGameInfoView3
+  # fileTypeForGameInfoView4 - also used for fileTypeForGameInfoViewVideoWindow			
 
 
 == parserConfig.xml ==
