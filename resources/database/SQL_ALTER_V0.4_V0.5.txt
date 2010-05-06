@@ -46,4 +46,57 @@ FROM File_tmp;
 
 DROP TABLE File_tmp;
 
+DROP TABLE IF EXISTS Game_tmp;
+
+ALTER TABLE Game RENAME TO Game_tmp;
+
+CREATE TABLE IF NOT EXISTS [Game] 
+(
+    [id] INTEGER PRIMARY KEY AUTOINCREMENT,
+    [name] TEXT NOT NULL,
+    [description] TEXT,
+	[gameCmd] TEXT,
+	[alternateGameCmd] TEXT,
+    [romCollectionId] INTEGER REFERENCES [RomCollection]
+    (
+        id
+    ),    
+    [publisherId] INTEGER REFERENCES [Publisher]
+    (
+        id
+    ),
+	[developerId] INTEGER REFERENCES [Developer]
+    (
+        id
+    ),
+	[reviewerId] INTEGER REFERENCES [Reviewer]
+    (
+        id
+    ),
+    [yearId] INTEGER REFERENCES [Year]
+    (
+        id
+    ),
+	[maxPlayers] TEXT,
+    [rating] TEXT,
+    [numVotes] INTEGER,
+	[url] TEXT,
+    [region] TEXT,
+	[media] TEXT,
+    [perspective] TEXT,
+    [controllerType] TEXT,
+	[isFavorite] INTEGER,
+	[launchCount] INTEGER,
+	[originalTitle] TEXT,
+	[alternateTitle] TEXT,
+	[translatedBy] TEXT,
+	[version] TEXT
+);
+
+INSERT INTO Game(id, name, description, gameCmd, alternateGameCmd, romCollectionId, publisherId, developerId, reviewerId, yearId, maxPlayers, rating, numVotes, url, region, media, perspective, controllerType, isFavorite, launchCount, originalTitle, alternateTitle, translatedBy, version)
+SELECT id, name, description, gameCmd, alternateGameCmd, romCollectionId, publisherId, developerId, reviewerId, yearId, maxPlayers, rating, numVotes, url, region, media, perspective, controllerType, isFavorite, launchCount, originalTitle, alternateTitle, translatedBy, version
+FROM Game_tmp;
+
+DROP TABLE Game_tmp;
+
 UPDATE RCBSetting SET dbVersion = 'V0.5';

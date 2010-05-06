@@ -117,7 +117,7 @@ CREATE TABLE IF NOT EXISTS [FileTypeForControl]
 CREATE TABLE IF NOT EXISTS [Game] 
 (
     [id] INTEGER PRIMARY KEY AUTOINCREMENT,
-    [name] TEXT NOT NULL UNIQUE,
+    [name] TEXT NOT NULL,
     [description] TEXT,
 	[gameCmd] TEXT,
 	[alternateGameCmd] TEXT,

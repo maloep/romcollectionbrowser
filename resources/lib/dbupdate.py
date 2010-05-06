@@ -383,14 +383,14 @@ class DBUpdate:
 		self.log("configuration files: " +str(configurationFiles), util.LOG_LEVEL_INFO)
 		self.insertFiles(configurationFiles, gameId, "rcb_configuration", None, None, None, None)
 		"""		
-		
-		#TODO Transaction?
+				
 		self.gdb.commit()
 		
 		
 	def insertGame(self, gameName, description, romCollectionId, publisherId, developerId, reviewerId, yearId, 
 				players, rating, votes, url, region, media, perspective, controller, originalTitle, alternateTitle, translatedBy, version, allowUpdate):
-		gameRow = Game(self.gdb).getOneByName(gameName)
+		# TODO unique by name an RC
+		gameRow = Game(self.gdb).getGameByNameAndRomCollectionId(gameName, romCollectionId)
 		if(gameRow == None):
 			self.log("Game does not exist in database. Insert game: " +gameName.encode('iso-8859-15'), util.LOG_LEVEL_INFO)
 			Game(self.gdb).insert((gameName, description, None, None, romCollectionId, publisherId, developerId, reviewerId, yearId, 
