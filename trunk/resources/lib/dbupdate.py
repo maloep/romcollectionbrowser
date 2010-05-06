@@ -448,15 +448,14 @@ class DBUpdate:
 		
 		
 	def resolvePath(self, paths, gamename, gamenameFromFile, consoleName, publisher, developer):		
-		resolvedFiles = []
+		resolvedFiles = []				
 				
 		for path in paths:
 			files = []
 			self.log("resolve path: " +path, util.LOG_LEVEL_INFO)
-			pathnameFromGameName = path.replace("%GAME%", gamename)			
+			pathnameFromGameName = path.replace("%GAME%", gamename)
 			self.log("resolved path from game name: " +pathnameFromGameName, util.LOG_LEVEL_INFO)
-			files = glob.glob(pathnameFromGameName)
-			self.log("resolved files: " +str(files), util.LOG_LEVEL_INFO)
+			files = self.getFilesByWildcard(pathnameFromGameName)			
 			
 			if(gamename != gamenameFromFile and len(files) == 0):
 				pathnameFromFile = path.replace("%GAME%", gamenameFromFile)
@@ -468,28 +467,41 @@ class DBUpdate:
 			if(consoleName != None and len(files) == 0):
 				pathnameFromConsole = path.replace("%CONSOLE%", consoleName)
 				self.log("resolved path from console name: " +pathnameFromConsole, util.LOG_LEVEL_INFO)
-				files = glob.glob(pathnameFromConsole)
-				self.log("resolved files: " +str(files), util.LOG_LEVEL_INFO)
+				files = self.getFilesByWildcard(pathnameFromConsole)				
 				
 			if(publisher != None and len(files) == 0):
 				pathnameFromPublisher = path.replace("%PUBLISHER%", publisher)
 				self.log("resolved path from publisher name: " +pathnameFromPublisher, util.LOG_LEVEL_INFO)
-				files = glob.glob(pathnameFromPublisher)
-				self.log("resolved files: " +str(files), util.LOG_LEVEL_INFO)
+				files = self.getFilesByWildcard(pathnameFromPublisher)				
 				
 			if(developer != None and len(files) == 0):
 				pathnameFromDeveloper = path.replace("%DEVELOPER%", developer)
 				self.log("resolved path from developer name: " +pathnameFromDeveloper, util.LOG_LEVEL_INFO)
-				files = glob.glob(pathnameFromDeveloper)
-				self.log("resolved files: " +str(files), util.LOG_LEVEL_INFO)
-				
+				files = self.getFilesByWildcard(pathnameFromDeveloper)				
 						
 			if(len(files) == 0):
-				self.log("No files found for game %s. Make sure that rom name and file name are matching." %gamename, util.LOG_LEVEL_WARNING)
+				self.log("No files found for game %s. Make sure that file names are matching." %gamename, util.LOG_LEVEL_WARNING)
 			for file in files:
 				if(os.path.exists(file)):
 					resolvedFiles.append(file)		
 		return resolvedFiles
+		
+	
+	def getFilesByWildcard(self, pathName):
+		# try glob with * wildcard
+		files = glob.glob(pathName)
+		
+		# glob can't handle []-characters - try it with listdir
+		if(len(files)  == 0):
+			try:				
+				if(os.path.isfile(pathName)):
+					files.append(pathName)
+				else:
+					files = os.listdir(pathName)					
+			except:
+				pass
+		return files
+		self.log("resolved files: " +str(files), util.LOG_LEVEL_INFO)
 		
 		
 	def resolveParseResult(self, result, itemName):
@@ -564,16 +576,3 @@ class DBUpdate:
 	def exit(self):
 		self.log("Update finished", util.LOG_LEVEL_INFO)
 		self.logFile.close()
-
-
-def main():
-	gdb = GameDataBase(os.path.join(os.getcwd(), '..', 'database'))
-	dbupdate = DBUpdate()
-	gdb.connect()
-	dbupdate.updateDB(gdb)
-	gdb.close()
-	del dbupdate
-	del gdb
-	
-	
-#main()

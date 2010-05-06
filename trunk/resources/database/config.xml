@@ -197,7 +197,8 @@
 			<fileTypeForGameListSelected>boxfront</fileTypeForGameListSelected>
 			<fileTypeForMainView1>developer</fileTypeForMainView1>			
 			<fileTypeForMainView3>publisher</fileTypeForMainView3>
-			<fileTypeForMainViewBackground>title</fileTypeForMainViewBackground>			
+			<fileTypeForMainViewBackground>title</fileTypeForMainViewBackground>
+			<fileTypeForMainViewGameInfoBig>action</fileTypeForMainViewGameInfoBig>
 			<fileTypeForMainViewGameInfoUpperLeft>title</fileTypeForMainViewGameInfoUpperLeft>
 			<fileTypeForMainViewGameInfoUpperRight>action</fileTypeForMainViewGameInfoUpperRight>
 			<fileTypeForMainViewGameInfoLowerLeft>boxfront</fileTypeForMainViewGameInfoLowerLeft>

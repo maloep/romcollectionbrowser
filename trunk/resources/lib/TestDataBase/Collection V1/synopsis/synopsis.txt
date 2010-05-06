@@ -1,4 +1,4 @@
-Game: Ports Of Call
+Game: Ports Of Call [Test]
 CRC:
 Platform: Amiga
 Region: USA

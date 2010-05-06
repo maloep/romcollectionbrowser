@@ -60,7 +60,10 @@ class MyPlayer(xbmc.Player):
 	def onPlayBackEnded(self):		
 		xbmc.sleep(1000)
 		
-		self.gui.loadViewState()		
+		self.gui.loadViewState()
+				
+		#if(gui.currentlyPlayingItem != None and gui.currentlyPlayingVideo != None):
+		#	self.player.play(gui.currentlyPlayingVideo, gui.currentlyPlayingItem, True)										
 
 
 
@@ -101,6 +104,9 @@ class UIGameDB(xbmcgui.WindowXML):
 	selectedPublisherIndex = 0	
 	
 	currentView = ''
+	
+	currentlyPlayingItem = None
+	currentlyPlayingVideo = None
 	
 	#dummy to be compatible with ProgressDialogGUI
 	itemCount = 0
@@ -520,6 +526,11 @@ class UIGameDB(xbmcgui.WindowXML):
 					
 					selectedGame.setProperty('mainviewvideosizesmall', 'small')
 					self.player.play(video, selectedGame, True)
+					
+					self.currentlyPlayingVideo = video
+					self.currentlyPlayingItem = selectedGame
+					
+					
 					
 		
 		util.log("End showGameInfo" , util.LOG_LEVEL_DEBUG)
