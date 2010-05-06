@@ -47,7 +47,6 @@ Now you should be able to browse the games by filter criteria and watch all info
 If you want to launch roms with the test scenario you have to take these additional steps:
   # Go to your Testdata folder and replace the placeholder rom files with real ones (e.g. Testdata V0.5/Collection V1/roms/).
   # Edit the value of property "emulatorCmd". This command will be invoked when you launch a rom file. %ROM% will be replaced with the name of the rom file to be launched. If you have multiple rom files for one game %I% will be replaced with the (zero-based) index of the current file.
-
   # Linux only: make the file "XBMC/scripts/Rom Collection Browser/applaunch.sh" executable
   # Check the path to your XBMC installation at the end of the file "XBMC/scripts/Rom Collection Browser/applaunch.bat" (Windows) or "XBMC/scripts/Rom Collection Browser/applaunch.sh" (Linux)
   # Make sure that the user that launches XBMC has write access to XBMCs script directory. RCB tries to create an "autoexec.py" in this directory
