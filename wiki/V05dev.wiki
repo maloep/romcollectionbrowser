@@ -291,7 +291,7 @@ You must add every console you want to emulate here. Just set a unique name, it 
 
 
 === File Type ===
-With `FileTypes` you can define your own image or video categories. You can create a `FileType` for any new category that you like (e.g. action screenshots, box art, highscore screenshots, gameplay videos, trailers, etc.). All imported images or videos will be associated with this`FileType`. With the `fileTypeFor`...-elements you can configure where RCB should show your different `FileTypes`. See section about "Dynamic image placing" for more information.
+With `FileTypes` you can define your own image or video categories. You can create a `FileType` for any new category that you like (e.g. action screenshots, box art, highscore screenshots, gameplay videos, trailers, etc.). All imported images or videos will be associated with this `FileType`. With the `fileTypeFor`...-elements you can configure where RCB should show your different `FileTypes`. See section about "Dynamic image placing" for more information.
 
 ==== name ====
 The name be referenced as type in `mediaPath` and fileTypeFor...-elements.
