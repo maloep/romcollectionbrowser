@@ -562,7 +562,7 @@ NOTE: Actually only the "," will be recognized as a delimiter.
 If you have multiline values (like description in the above example) you can specify a token that must occur after the multiline value. This token must be unique enough to not occur in your multiline value. The `*` in the above example may be a bad choice as there is a good chance of a star to occur in a game description.
 
 
-= Update =
+= Update an older installation =
 == without preserving configuration changes ==
 If you just played around with the test scenario and did not make any relevant changes to "config.xml" or the parser configuration you can just delete the complete RCB folder and follow the steps in the chapter "Installation" or "Setup test scenario".
 
