@@ -18893,8 +18893,8 @@ http://www.gamefaqs.com/console/snes/review/R56067.html
 *
 
 *
-6b62625a,07fafcd0,caf035f5
-Space Invaders: The Original Game
+6b62625a,07fafcd0,caf035f5,2d221957
+Space Invaders
 Platform: Super NES
 Release Year: 1996
 Developer: Taito

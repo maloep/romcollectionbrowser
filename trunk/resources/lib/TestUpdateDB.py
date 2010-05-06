@@ -66,7 +66,7 @@ class TestUpdateDB(unittest.TestCase):
 		#NES Nintendo
 		gameRows = Game(self.gdb).getFilteredGames(2, 0, 0, 12)
 		self.assertTrue(gameRows != None)
-		self.assertEqual(len(gameRows), 3)
+		self.assertEqual(len(gameRows), 4)
 		
 		#NES 1992 Racing Nintendo 
 		gameRows = Game(self.gdb).getFilteredGames(2, 11, 7, 12)
@@ -75,7 +75,7 @@ class TestUpdateDB(unittest.TestCase):
 		
 		gameRows = Game(self.gdb).getAllOrdered()	
 		self.assertTrue(gameRows != None)
-		self.assertEqual(len(gameRows), 16)				
+		self.assertEqual(len(gameRows), 17)				
 		
 		
 		self.gameTest(gameRows[0], 'Airborne Ranger', 'In this action/simulation game by Microprose the player takes the role of an U.S. Army airborne ranger.', 
@@ -117,13 +117,13 @@ class TestUpdateDB(unittest.TestCase):
 		self.gameTest(gameRows[12], 'Space Invaders', 'Taito and Nintendo have brought back the classic Space Invaders game, with very little modification.', 
 			None,  None, 3, 12, 12, None, 9, '', '', '', '', 'USA', 'Cartridge', '', 'Gamepad', 0, 0,
 			1, 1, 1, 1, 1, 0)
-		self.gameTest(gameRows[13], 'Street Fighter II - The World Warrior', 'Eight fighters from across the globe have come together to see which of them has the strength, skill and courage to challenge the mysterious Grand Masters.', 
+		self.gameTest(gameRows[14], 'Street Fighter II - The World Warrior', 'Eight fighters from across the globe have come together to see which of them has the strength, skill and courage to challenge the mysterious Grand Masters.', 
 			None,  None, 3, 13, 13, None, 7, '1 or 2 VS', '', '', '', 'USA', 'Cartridge', '', 'Gamepad', 0, 0,
 			1, 1, 1, 1, 1, 0)
-		self.gameTest(gameRows[14], 'Super Mario Kart', 'Hi everybody! Thanks for dropping to by the Super Mario Kart race track.', 
+		self.gameTest(gameRows[15], 'Super Mario Kart', 'Hi everybody! Thanks for dropping to by the Super Mario Kart race track.', 
 			None,  None, 3, 12, 14, None, 7, '1 to 4 VS', '', '', '', 'USA', 'Cartridge', '', 'Gamepad', 0, 0,
 			1, 1, 1, 1, 1, 0)
-		self.gameTest(gameRows[15], 'The Legend of Zelda: A Link to the Past', 'This installment in the Zelda series was my favorite.', 
+		self.gameTest(gameRows[16], 'The Legend of Zelda: A Link to the Past', 'This installment in the Zelda series was my favorite.', 
 			None,  None, 4, 12, 14, None, 7, '1', '', '', '', 'USA', 'Cartridge', '', 'Gamepad', 0, 0,
 			1, 1, 1, 1, 1, 1)
 		
