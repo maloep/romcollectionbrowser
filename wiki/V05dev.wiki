@@ -345,6 +345,15 @@ If set to "False" RCB won't update your already imported game descriptions. All 
 ==== ignoreOnScan ====
 If set to "True" this `RomCollection` will be ignored completely during import. If you have all data for one `RomCollection` in database you can set this to "False" and there won't be any changes to this collection during the next imports.
 
+==== searchGameByCRC ====
+Set this option to "True" if you would like to search games in your description file by crc value. It needs some time to compute crc values for large rom files. You should set this option to "False" if you have large rom files (PS1 for example) and you don't use crc values in your description files.
+
+==== searchGameByCRCIgnoreRomName ====
+If you have games with the same rom file name but different crcs (and different game name inside your description file) you should set this option to "False". This will skip checking the rom file name.
+
+==== ignoreGameWithoutDesc ====
+Set this to "True" if you don't want to import games without game description.
+
 ==== romPath ====
 The path to your rom files. This path should include wildcards and file extension (`*`.adf for example).
 
