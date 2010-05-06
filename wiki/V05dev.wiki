@@ -396,6 +396,8 @@ Examples:
 
 "/home/user/emu/amiga/covers/%GAME%.gif"
 
+You can use the following placeholders: %GAME%, %CONSOLE%, %PUBLISHER%, %DEVELOPER%
+
 
 ==== fileTypeFor... ====
 The fileTypeFor...-elements are used for dynamic image placing. With the fileTypeFor...-elements you can associate each of the available image controls with a specific media type. If you configure multiple fileTypeFor...-elements of the same type they will be used as fallback: if there is no image or video of file type 1, it will try to load an image or video of file type 2. The file types must exactly match the value of `type` attribute that you used for `mediaPath` and `FileType` configuration.
