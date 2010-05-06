@@ -111,7 +111,7 @@ class TestUpdateDB(unittest.TestCase):
 		self.gameTest(gameRows[10], 'Madden NFL \'98', 'Madden NFL 98 is a football video game.', 
 			None,  None, 3, 11, 11, None, 10, '', '', '', '', 'USA', 'Cartridge', '', 'Gamepad', 0, 0,
 			1, 1, 1, 1, 1, 0)
-		self.gameTest(gameRows[11], 'Ports Of Call', 'Ports of Call gives you the job of a shipowner.', 
+		self.gameTest(gameRows[11], 'Ports Of Call [Test]', 'Ports of Call gives you the job of a shipowner.', 
 			None,  None, 1, 4, 4, None, 4, '4', '', '', 'http://www.mobygames.com/game/amiga/ports-of-call', 'USA', 'Disk', '', 'Joystick', 0, 0,
 			1, 1, 1, 0, 0, 0)			
 		self.gameTest(gameRows[12], 'Space Invaders', 'Taito and Nintendo have brought back the classic Space Invaders game, with very little modification.', 
