@@ -10,7 +10,7 @@ The UI of RCB should be highly configurable, too. There are lots of different ro
 
 It is a good idea to start with the test scenario. It will only take two minutes to set up and you will see how RCB can look like and get a first impression how things can be configured. Most options should be self explanating. If you have any problems or questions check this wiki or ask in the XBMC forum thread.
 
-Before you can launch games with RCB you have to download, install and configure one or more emulators. Find out how to launch your emulator via command line. You will need this information to launch the emulator with RCB. Some examples are shown in section "Emu command lines".
+Before you can launch games with RCB you have to download, install and configure one or more emulators. Find out how to launch your emulator via command line. You will need this information to launch the emulator with RCB.
 
 = Installation =
 Note: If you would like to play with the test scenario just skip these steps and go to the next chapter.
