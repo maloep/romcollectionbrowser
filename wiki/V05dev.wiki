@@ -566,18 +566,18 @@ If set to "true" the parser will raise no error if it can't find the current tok
 
 === Special values ===
 ==== LineStart ====
-If you use `LineStart` as an element value the parser will search for the given token at the beginning of a line. The following example will search for a line that starts with a "*":
+If you use `LineStart` as an element value the parser will search for the given token at the beginning of a line. The following example will search for a line that starts with a "`*`":
 {{{
 <SkippableContent skipTo="LineStart*"></SkippableContent>
 }}}
 
 ==== LineEnd ====
-If you use `LineEnd` as an element or attribute value the parser will search for the given token at the end of a line. The following example will search for a line that ends with a "*":
+If you use `LineEnd` as an element or attribute value the parser will search for the given token at the end of a line. The following example will search for a line that ends with a "`*`":
 {{{
 <SkippableContent skipTo="*LineEnd"></SkippableContent>
 }}}
 
-You can use `LineStart` and `LineEnd` together. The following example will search for a line that contains only a "*":
+You can use `LineStart` and `LineEnd` together. The following example will search for a line that contains only a "`*`":
 {{{
 <SkippableContent skipTo="LineStart*LineEnd"></SkippableContent>
 }}}
