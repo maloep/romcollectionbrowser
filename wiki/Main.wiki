@@ -565,13 +565,13 @@ If you have multiline values (like description in the above example) you can spe
 If set to "true" the parser will raise no error if it can't find the current token.
 
 === Special values ===
-==== LineStart ====
+==== Line Start ====
 If you use `LineStart` as an element value the parser will search for the given token at the beginning of a line. The following example will search for a line that starts with a "`*`":
 {{{
 <SkippableContent skipTo="LineStart*"></SkippableContent>
 }}}
 
-==== LineEnd ====
+==== Line End ====
 If you use `LineEnd` as an element or attribute value the parser will search for the given token at the end of a line. The following example will search for a line that ends with a "`*`":
 {{{
 <SkippableContent skipTo="*LineEnd"></SkippableContent>
