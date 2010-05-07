@@ -384,19 +384,19 @@ The path to your image or video files. There can be multiple `<mediaPath>` eleme
 
 You can use multiple `<mediaPath>` entries with the same type to import from different locations or to configure different file extensions.
 
+You can use the following placeholders: %GAME%, %CONSOLE%, %PUBLISHER%, %DEVELOPER%
+
 Examples:
 
 "/home/user/emu/amiga/covers/%GAME%/`*`.png"
 
 "/home/user/emu/amiga/%GAME%/covers/`*`.png"
 
-"/home/user/emu/amiga/covers/%GAME%.png"
-
 "/home/user/emu/amiga/covers/%GAME%.jpg"
 
-"/home/user/emu/amiga/covers/%GAME%.gif"
+"/home/user/emu/consoleImgs/%CONSOLE%.jpg"
 
-You can use the following placeholders: %GAME%, %CONSOLE%, %PUBLISHER%, %DEVELOPER%
+"/home/user/emu/publisherImgs/%PUBLISHER%.png"
 
 
 ==== fileTypeFor... ====
