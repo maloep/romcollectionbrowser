@@ -541,7 +541,7 @@ A named element like `<Game restOfLine="true"></Game>` will return a key value p
 
 Supported elements in current version:
 
-Game, Genre, ReleaseYear, Publisher, Description, Reviewer, Region, Media, Controller, Players, Developer, URL, Rating, Votes, Perspective
+Game, crc, Genre, ReleaseYear, Publisher, Description, Reviewer, Region, Media, Controller, Players, Developer, URL, Rating, Votes, Perspective, OriginalTitle, AlternateTitle, TranslatedBy, Version
 
 
 
