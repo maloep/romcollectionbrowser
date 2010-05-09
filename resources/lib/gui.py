@@ -60,7 +60,7 @@ class MyPlayer(xbmc.Player):
 	def onPlayBackEnded(self):
 		xbmc.sleep(1000)
 		
-		self.gui.loadViewState()
+		self.gui.loadViewState()		
 
 
 
@@ -370,28 +370,46 @@ class UIGameDB(xbmcgui.WindowXML):
 		
 		self.clearList()			
 		
-		for game in games:			
+		for gameRow in games:	
 			
-			images = helper.getFilesByControl_Cached(self.gdb, util.IMAGE_CONTROL_MV_GAMELIST, game[util.ROW_ID], game[util.GAME_publisherId], game[util.GAME_developerId], game[util.GAME_romCollectionId],
-				self.fileTypeForControlDict, self.fileTypeDict, self.fileDict, self.romCollectionDict)
-			if(images != None and len(images) != 0):
-				image = images[0]
-			else:
-				image = ""
+			#images for gamelist
+			imageGameList = self.getFileForControl(util.IMAGE_CONTROL_MV_GAMELIST, gameRow[util.ROW_ID], gameRow[util.GAME_publisherId], gameRow[util.GAME_developerId], gameRow[util.GAME_romCollectionId])						
+			imageGameListSelected = self.getFileForControl(util.IMAGE_CONTROL_MV_GAMELISTSELECTED, gameRow[util.ROW_ID], gameRow[util.GAME_publisherId], gameRow[util.GAME_developerId], gameRow[util.GAME_romCollectionId])
 			
+			#create ListItem
+			item = xbmcgui.ListItem(str(gameRow[util.ROW_NAME]), str(gameRow[util.ROW_ID]), imageGameList, imageGameListSelected)
+
+			# all other images in mainwindow
+			imagemainViewBackground = self.getFileForControl(util.IMAGE_CONTROL_MV_BACKGROUND, gameRow[util.ROW_ID], gameRow[util.GAME_publisherId], gameRow[util.GAME_developerId], gameRow[util.GAME_romCollectionId])
+			imageGameInfoBig = self.getFileForControl(util.IMAGE_CONTROL_MV_GAMEINFO_BIG, gameRow[util.ROW_ID], gameRow[util.GAME_publisherId], gameRow[util.GAME_developerId], gameRow[util.GAME_romCollectionId])
+			imageGameInfoUpperLeft = self.getFileForControl(util.IMAGE_CONTROL_MV_GAMEINFO_UPPERLEFT, gameRow[util.ROW_ID], gameRow[util.GAME_publisherId], gameRow[util.GAME_developerId], gameRow[util.GAME_romCollectionId])
+			imageGameInfoUpperRight = self.getFileForControl(util.IMAGE_CONTROL_MV_GAMEINFO_UPPERRIGHT, gameRow[util.ROW_ID], gameRow[util.GAME_publisherId], gameRow[util.GAME_developerId], gameRow[util.GAME_romCollectionId])
+			imageGameInfoLowerLeft = self.getFileForControl(util.IMAGE_CONTROL_MV_GAMEINFO_LOWERLEFT, gameRow[util.ROW_ID], gameRow[util.GAME_publisherId], gameRow[util.GAME_developerId], gameRow[util.GAME_romCollectionId])
+			imageGameInfoLowerRight = self.getFileForControl(util.IMAGE_CONTROL_MV_GAMEINFO_LOWERRIGHT, gameRow[util.ROW_ID], gameRow[util.GAME_publisherId], gameRow[util.GAME_developerId], gameRow[util.GAME_romCollectionId])
+			imageMainView1 = self.getFileForControl(util.IMAGE_CONTROL_MV_1, gameRow[util.ROW_ID], gameRow[util.GAME_publisherId], gameRow[util.GAME_developerId], gameRow[util.GAME_romCollectionId])
+			imageMainView2 = self.getFileForControl(util.IMAGE_CONTROL_MV_2, gameRow[util.ROW_ID], gameRow[util.GAME_publisherId], gameRow[util.GAME_developerId], gameRow[util.GAME_romCollectionId])
+			imageMainView3 = self.getFileForControl(util.IMAGE_CONTROL_MV_3, gameRow[util.ROW_ID], gameRow[util.GAME_publisherId], gameRow[util.GAME_developerId], gameRow[util.GAME_romCollectionId])
 			
-			selectedImages = helper.getFilesByControl_Cached(self.gdb, util.IMAGE_CONTROL_MV_GAMELISTSELECTED, game[util.ROW_ID], game[util.GAME_publisherId], game[util.GAME_developerId], game[util.GAME_romCollectionId],
-				self.fileTypeForControlDict, self.fileTypeDict, self.fileDict, self.romCollectionDict)
-			if(selectedImages != None and len(selectedImages) != 0):
-				selectedImage = selectedImages[0]
-			else:
-				selectedImage = ""			
-			
-			item = xbmcgui.ListItem(str(game[util.ROW_NAME]), str(game[util.ROW_ID]), image, selectedImage)
+			#set images as properties
+			item.setProperty(util.IMAGE_CONTROL_MV_BACKGROUND, imagemainViewBackground)
+			item.setProperty(util.IMAGE_CONTROL_MV_GAMEINFO_BIG, imageGameInfoBig)
+			item.setProperty(util.IMAGE_CONTROL_MV_GAMEINFO_UPPERLEFT, imageGameInfoUpperLeft)
+			item.setProperty(util.IMAGE_CONTROL_MV_GAMEINFO_UPPERRIGHT, imageGameInfoUpperRight)
+			item.setProperty(util.IMAGE_CONTROL_MV_GAMEINFO_LOWERLEFT, imageGameInfoLowerLeft)
+			item.setProperty(util.IMAGE_CONTROL_MV_GAMEINFO_LOWERRIGHT, imageGameInfoLowerRight)
+			item.setProperty(util.IMAGE_CONTROL_MV_1, imageMainView1)		
+			item.setProperty(util.IMAGE_CONTROL_MV_2, imageMainView2)
+			item.setProperty(util.IMAGE_CONTROL_MV_3, imageMainView3)									
 			
 			#set additional properties
+			description = gameRow[util.GAME_description]
+			if(description == None):
+				description = ""
+			
+			item.setProperty(util.TEXT_CONTROL_MV_GAMEDESC, description)
+			
 			try:
-				romCollectionRow = self.romCollectionDict[game[util.GAME_romCollectionId]]
+				romCollectionRow = self.romCollectionDict[gameRow[util.GAME_romCollectionId]]
 				consoleRow = self.consoleDict[romCollectionRow[util.ROMCOLLECTION_consoleId]]
 				item.setProperty(util.GAMEPROPERTY_Console, consoleRow[util.ROW_NAME])
 			except:
@@ -405,43 +423,10 @@ class UIGameDB(xbmcgui.WindowXML):
 		
 		#timestamp2 = time.clock()
 		#diff = (timestamp2 - timestamp1) * 1000		
-		#print "load games in %d ms" %diff
+		#print "load %i games in %d ms" %(self.getListSize(), diff)
 		
 		
-		util.log("End showGames" , util.LOG_LEVEL_INFO)	
-	
-
-	"""
-	#TODO no console info atm
-	def showConsoleInfo(self):	
-		util.log("Begin showConsoleInfo" , util.LOG_LEVEL_DEBUG)
-		
-		if(self.getListSize() == 0):
-			util.log("ListSize == 0 in showGameInfo", util.LOG_LEVEL_WARNING)
-			return
-		
-		pos = self.getCurrentListPosition()
-		if(pos == -1):
-			pos = 0
-		selectedGame = self.getListItem(pos)
-		if(selectedGame == None):
-			util.log("selectedGame == None in showGameInfo", util.LOG_LEVEL_WARNING)
-			return
-		
-		consoleRow = Console(self.gdb).getObjectById(self.selectedConsoleId)
-		
-		if(consoleRow == None):
-			util.log("consoleRow == None in showConsoleInfo", util.LOG_LEVEL_WARNING)
-			return
-					
-		image = consoleRow[3]		
-		description = consoleRow[2]		
-				
-		selectedGame.setProperty('mainviewgameinfo', image)
-		selectedGame.setProperty('gamedesc', description)		
-		
-		util.log("End showConsoleInfo" , util.LOG_LEVEL_DEBUG)
-	"""
+		util.log("End showGames" , util.LOG_LEVEL_INFO)
 		
 	
 	def showGameInfo(self):
@@ -469,40 +454,7 @@ class UIGameDB(xbmcgui.WindowXML):
 		if(gameRow == None):
 			util.log("gameId = %s" %gameId, util.LOG_LEVEL_DEBUG)
 			util.log("gameRow == None in showGameInfo", util.LOG_LEVEL_WARNING)
-			return
-			
-		bgimages = helper.getFilesByControl_Cached(self.gdb, util.IMAGE_CONTROL_MV_BACKGROUND, gameRow[util.ROW_ID], gameRow[util.GAME_publisherId], gameRow[util.GAME_developerId], gameRow[util.GAME_romCollectionId],
-			self.fileTypeForControlDict, self.fileTypeDict, self.fileDict, self.romCollectionDict)
-		if(bgimages != None and len(bgimages) != 0):
-			bgimage = bgimages[0]
-		else:
-			bgimage = os.path.join(RCBHOME, 'resources', 'skins', 'Default', 'media', 'rcb-background-black.png')		
-		controlBg = self.getControlById(CONTROL_IMG_BACK)
-		controlBg.setImage(bgimage)
-
-		imageGameInfoBig = self.getFileForControl(util.IMAGE_CONTROL_MV_GAMEINFO_BIG, gameRow[util.ROW_ID], gameRow[util.GAME_publisherId], gameRow[util.GAME_developerId], gameRow[util.GAME_romCollectionId])
-		imageGameInfoUpperLeft = self.getFileForControl(util.IMAGE_CONTROL_MV_GAMEINFO_UPPERLEFT, gameRow[util.ROW_ID], gameRow[util.GAME_publisherId], gameRow[util.GAME_developerId], gameRow[util.GAME_romCollectionId])
-		imageGameInfoUpperRight = self.getFileForControl(util.IMAGE_CONTROL_MV_GAMEINFO_UPPERRIGHT, gameRow[util.ROW_ID], gameRow[util.GAME_publisherId], gameRow[util.GAME_developerId], gameRow[util.GAME_romCollectionId])
-		imageGameInfoLowerLeft = self.getFileForControl(util.IMAGE_CONTROL_MV_GAMEINFO_LOWERLEFT, gameRow[util.ROW_ID], gameRow[util.GAME_publisherId], gameRow[util.GAME_developerId], gameRow[util.GAME_romCollectionId])
-		imageGameInfoLowerRight = self.getFileForControl(util.IMAGE_CONTROL_MV_GAMEINFO_LOWERRIGHT, gameRow[util.ROW_ID], gameRow[util.GAME_publisherId], gameRow[util.GAME_developerId], gameRow[util.GAME_romCollectionId])
-		imageMainView1 = self.getFileForControl(util.IMAGE_CONTROL_MV_1, gameRow[util.ROW_ID], gameRow[util.GAME_publisherId], gameRow[util.GAME_developerId], gameRow[util.GAME_romCollectionId])
-		imageMainView2 = self.getFileForControl(util.IMAGE_CONTROL_MV_2, gameRow[util.ROW_ID], gameRow[util.GAME_publisherId], gameRow[util.GAME_developerId], gameRow[util.GAME_romCollectionId])
-		imageMainView3 = self.getFileForControl(util.IMAGE_CONTROL_MV_3, gameRow[util.ROW_ID], gameRow[util.GAME_publisherId], gameRow[util.GAME_developerId], gameRow[util.GAME_romCollectionId])
-		
-		selectedGame.setProperty(util.IMAGE_CONTROL_MV_GAMEINFO_BIG, imageGameInfoBig)
-		selectedGame.setProperty(util.IMAGE_CONTROL_MV_GAMEINFO_UPPERLEFT, imageGameInfoUpperLeft)
-		selectedGame.setProperty(util.IMAGE_CONTROL_MV_GAMEINFO_UPPERRIGHT, imageGameInfoUpperRight)
-		selectedGame.setProperty(util.IMAGE_CONTROL_MV_GAMEINFO_LOWERLEFT, imageGameInfoLowerLeft)
-		selectedGame.setProperty(util.IMAGE_CONTROL_MV_GAMEINFO_LOWERRIGHT, imageGameInfoLowerRight)
-		selectedGame.setProperty(util.IMAGE_CONTROL_MV_1, imageMainView1)		
-		selectedGame.setProperty(util.IMAGE_CONTROL_MV_2, imageMainView2)
-		selectedGame.setProperty(util.IMAGE_CONTROL_MV_3, imageMainView3)
-		
-		description = gameRow[util.GAME_description]
-		if(description == None):
-			description = ""
-		
-		selectedGame.setProperty(util.TEXT_CONTROL_MV_GAMEDESC, description)
+			return					
 				
 		#no video in thumbs view
 		if (not xbmc.getCondVisibility( "Control.IsVisible(%i)" % CONTROL_THUMBS_VIEW )):
@@ -514,7 +466,7 @@ class UIGameDB(xbmcgui.WindowXML):
 				video = videosBig[0]
 				
 				selectedGame.setProperty('mainviewvideosizebig', 'big')								
-				
+								
 				self.player.play(video, selectedGame, True)
 			else:
 				videosSmall = helper.getFilesByControl_Cached(self.gdb, util.VIDEO_CONTROL_MV_VideoWindowSmall, gameRow[util.ROW_ID], gameRow[util.GAME_publisherId], gameRow[util.GAME_developerId], gameRow[util.GAME_romCollectionId],
@@ -523,7 +475,7 @@ class UIGameDB(xbmcgui.WindowXML):
 					video = videosSmall[0]
 					
 					selectedGame.setProperty('mainviewvideosizesmall', 'small')										
-					
+										
 					self.player.play(video, selectedGame, True)
 		
 		util.log("End showGameInfo" , util.LOG_LEVEL_DEBUG)

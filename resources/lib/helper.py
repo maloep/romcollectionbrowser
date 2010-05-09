@@ -1,8 +1,9 @@
-
+import xbmc
 import os, sys, re
 import dbupdate, importsettings
 from gamedatabase import *
 import util
+
 
 RCBHOME = os.getcwd()
 
@@ -73,56 +74,6 @@ def getFilesByControl_Cached(gdb, controlName, gameId, publisherId, developerId,
 				mediaFiles.append(file[1])
 		
 		return mediaFiles
-
-
-
-"""
-def getFilesByControl(gdb, controlName, gameId, publisherId, developerId, romCollectionId):
-			
-		util.log("getFilesByControl controlName: " +controlName, util.LOG_LEVEL_DEBUG)
-		util.log("getFilesByControl gameId: " +str(gameId), util.LOG_LEVEL_DEBUG)
-		util.log("getFilesByControl publisherId: " +str(publisherId), util.LOG_LEVEL_DEBUG)
-		util.log("getFilesByControl developerId: " +str(developerId), util.LOG_LEVEL_DEBUG)
-		util.log("getFilesByControl romCollectionId: " +str(romCollectionId), util.LOG_LEVEL_DEBUG)
-		
-	
-		fileTypeForControlRows = FileTypeForControl(gdb).getFileTypesForControlByKey(romCollectionId, controlName)
-		if(fileTypeForControlRows == None):
-			util.log("fileTypeForControlRows == None", util.LOG_LEVEL_WARNING)
-			return				
-		
-		mediaFiles = []
-		for fileTypeForControlRow in fileTypeForControlRows:
-			
-			fileTypeRow = FileType(gdb).getObjectById(fileTypeForControlRow[4])
-			if(fileTypeRow == None):
-				util.log("fileTypeRow == None in getFilesByControl", util.LOG_LEVEL_WARNING)
-				continue
-				
-			parentId = None
-						
-			if(fileTypeRow[util.FILETYPE_parent] == util.FILETYPEPARENT_GAME):
-				parentId = gameId
-			elif(fileTypeRow[util.FILETYPE_parent] == util.FILETYPEPARENT_CONSOLE):
-				romCollectionRow = RomCollection(gdb).getObjectById(romCollectionId)
-				if(romCollectionRow == None):
-					util.log("romCollectionRow == None in getFilesByControl", util.LOG_LEVEL_WARNING)
-					continue
-				consoleId = romCollectionRow[2]			
-				parentId = consoleId
-			elif(fileTypeRow[util.FILETYPE_parent] == util.FILETYPEPARENT_PUBLISHER):
-				parentId = publisherId
-			elif(fileTypeRow[util.FILETYPE_parent] == util.FILETYPEPARENT_DEVELOPER):
-				parentId = developerId
-			elif(fileTypeRow[util.FILETYPE_parent] == util.FILETYPEPARENT_ROMCOLLECTION):
-				parentId = romCollectionId
-				
-			files = File(gdb).getFilesByGameIdAndTypeId(parentId, fileTypeForControlRow[util.FILETYPEFORCONTROL_fileTypeId])
-			for file in files:				
-				mediaFiles.append(file[1])								
-		
-		return mediaFiles
-"""
 
 
 def launchEmu(gdb, gui, gameId):
@@ -213,7 +164,13 @@ def launchEmu(gdb, gui, gameId):
 		gdb.commit()
 		
 		util.log("cmd: " +cmd, util.LOG_LEVEL_INFO)
+		
+		#this minimizes xbmc some apps seems to need it
+		#xbmc.executehttpapi("Action(199)")
 		os.system(cmd)
+		#this brings xbmc back
+		#xbmc.executehttpapi("Action(199)")
+		
 		
 		util.log("End helper.launchEmu", util.LOG_LEVEL_INFO)
 		
