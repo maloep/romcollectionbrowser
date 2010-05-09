@@ -14,8 +14,9 @@
 		    <posy>0</posy>
 		    <width>720</width>
 		    <height>580</height>
-		    <texture>rcb-background-black.png</texture>			
-		</control>		
+		    <!--<texture>rcb-background-black.png</texture>-->
+			<texture>$INFO[ListItem.Property(mainviewbackground)]</texture>
+		</control>
 		
 		<!-- gamelist groups -->
 		<control type="group" id="200">			
