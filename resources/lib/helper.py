@@ -168,6 +168,7 @@ def launchEmu(gdb, gui, gameId):
 		#this minimizes xbmc some apps seems to need it
 		#xbmc.executehttpapi("Action(199)")
 		os.system(cmd)
+		#xbmc.executebuiltin("XBMC.Runxbe(%s)" %cmd)
 		#this brings xbmc back
 		#xbmc.executehttpapi("Action(199)")
 		

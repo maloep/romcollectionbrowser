@@ -104,7 +104,7 @@
 					<textcolor>DDFFFFFF</textcolor>
 					<selectedcolor>FFe2ff43</selectedcolor>
 					<align>center</align>
-					<label>$INFO[ListItem.Property(console)]</label>
+					<label>$INFO[ListItem.Property(console)]</label>					
 					<visible>IsEmpty(ListItem.Property(mainview2)) + Control.IsVisible(50)</visible>
 				</control>					
 				<!-- mainview1 -->
@@ -391,7 +391,7 @@
 						<textcolor>DDFFFFFF</textcolor>
 						<selectedcolor>FFe2ff43</selectedcolor>
 						<align>center</align>
-						<label>$INFO[ListItem.Property(console)]</label>
+						<label>$INFO[ListItem.Property(console)]</label>						
 						<visible>IsEmpty(ListItem.Property(mainview2)) + Control.IsVisible(52)</visible>
 					</control>					
 					<!-- mainview1 -->
