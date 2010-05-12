@@ -226,7 +226,7 @@
 						<textcolor>DDFFFFFF</textcolor>
 						<align>justify</align>
 						<font>font12</font>
-						<label>$INFO[ListItem.Property(gamedesc)]</label>
+						<label>$INFO[ListItem.Property(plot)]</label>
 						<!--<autoscroll delay="3000" time="1000" repeat="10000">!Control.HasFocus(2200)</autoscroll>-->
 					</control>
 					<control type="scrollbar" id="2200">
@@ -391,7 +391,7 @@
 						<textcolor>DDFFFFFF</textcolor>
 						<selectedcolor>FFe2ff43</selectedcolor>
 						<align>center</align>
-						<label>$INFO[ListItem.Property(console)]</label>						
+						<label>$INFO[ListItem.Property(genre)]</label>						
 						<visible>IsEmpty(ListItem.Property(mainview2)) + Control.IsVisible(52)</visible>
 					</control>					
 					<!-- mainview1 -->
@@ -590,7 +590,7 @@
 						<textcolor>DDFFFFFF</textcolor>
 						<align>justify</align>
 						<font>font12</font>
-						<label>$INFO[ListItem.Property(gamedesc)]</label>
+						<label>$INFO[ListItem.Property(plot)]</label>
 						<!--<autoscroll delay="3000" time="1000" repeat="10000">!Control.HasFocus(2201)</autoscroll>-->
 					</control>
 					<control type="scrollbar" id="2201">

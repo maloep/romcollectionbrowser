@@ -429,21 +429,27 @@ class UIGameDB(xbmcgui.WindowXML):
 			item.setProperty('developer', self.getGamePropertyFromCache(gameRow, self.developerDict, util.GAME_developerId, util.ROW_NAME))
 			item.setProperty('reviewer', self.getGamePropertyFromCache(gameRow, self.reviewerDict, util.GAME_reviewerId, util.ROW_NAME))
 			
-			item.setProperty('maxPlayers', self.getGameProperty(gameRow[util.GAME_maxPlayers]))		
+			genre = ""			
+			try:
+				genre = self.genreDict[gameRow[util.ROW_ID]]				
+			except:				
+				pass							
+			item.setProperty('genre', genre)
+			
+			item.setProperty('maxplayers', self.getGameProperty(gameRow[util.GAME_maxPlayers]))		
 			item.setProperty('rating', self.getGameProperty(gameRow[util.GAME_rating]))
-			item.setProperty('numVotes', self.getGameProperty(gameRow[util.GAME_numVotes]))
+			item.setProperty('votes', self.getGameProperty(gameRow[util.GAME_numVotes]))
 			item.setProperty('url', self.getGameProperty(gameRow[util.GAME_url]))	
 			item.setProperty('region', self.getGameProperty(gameRow[util.GAME_region]))
 			item.setProperty('media', self.getGameProperty(gameRow[util.GAME_media]))				
 			item.setProperty('perspective', self.getGameProperty(gameRow[util.GAME_perspective]))
-			item.setProperty('controllerType', self.getGameProperty(gameRow[util.GAME_controllerType]))
-			item.setProperty('isFavorite', self.getGameProperty(gameRow[util.GAME_isFavorite]))
-			item.setProperty('launchCount', self.getGameProperty(gameRow[util.GAME_launchCount]))
-			item.setProperty('originalTitle', self.getGameProperty(gameRow[util.GAME_originalTitle]))
-			item.setProperty('alternateTitle', self.getGameProperty(gameRow[util.GAME_alternateTitle]))
-			item.setProperty('translatedBy', self.getGameProperty(gameRow[util.GAME_translatedBy]))
-			item.setProperty('version', self.getGameProperty(gameRow[util.GAME_version]))	
-			
+			item.setProperty('controllertype', self.getGameProperty(gameRow[util.GAME_controllerType]))
+			item.setProperty('isfavorite', self.getGameProperty(gameRow[util.GAME_isFavorite]))
+			item.setProperty('playcount', self.getGameProperty(gameRow[util.GAME_launchCount]))
+			item.setProperty('originaltitle', self.getGameProperty(gameRow[util.GAME_originalTitle]))
+			item.setProperty('alternatetitle', self.getGameProperty(gameRow[util.GAME_alternateTitle]))
+			item.setProperty('translatedby', self.getGameProperty(gameRow[util.GAME_translatedBy]))
+			item.setProperty('version', self.getGameProperty(gameRow[util.GAME_version]))
 			
 			self.addItem(item, False)
 			
@@ -561,6 +567,10 @@ class UIGameDB(xbmcgui.WindowXML):
 			
 		gameId = selectedGame.getLabel2()
 		util.log("launching game with id: " +str(gameId), util.LOG_LEVEL_INFO)
+		
+		#stop video (if playing)
+		if(self.player.isPlayingVideo()):
+			self.player.stop()
 		
 		helper.launchEmu(self.gdb, self, gameId)
 		util.log("End launchEmu" , util.LOG_LEVEL_INFO)
@@ -849,6 +859,8 @@ class UIGameDB(xbmcgui.WindowXML):
 		
 		self.reviewerDict = self.cacheReviewers()
 		
+		self.genreDict = self.cacheGenres()
+		
 		util.log("End cacheItems" , util.LOG_LEVEL_DEBUG)
 	
 	
@@ -1010,6 +1022,38 @@ class UIGameDB(xbmcgui.WindowXML):
 			
 		util.log("End cacheDevelopers" , util.LOG_LEVEL_DEBUG)
 		return developerDict
+		
+	
+	def cacheGenres(self):
+		
+		util.log("Begin cacheGenres" , util.LOG_LEVEL_DEBUG)
+				
+		genreGameRows = GenreGame(self.gdb).getAll()
+		if(genreGameRows == None):
+			util.log("genreRows == None in cacheGenres", util.LOG_LEVEL_WARNING)
+			return
+		genreDict = {}
+		for genreGameRow in genreGameRows:
+			key = genreGameRow[util.GENREGAME_gameId]
+			item = None
+			try:
+				item = genreDict[key]
+				continue
+			except:
+				pass
+				
+			genreRows = Genre(self.gdb).getGenresByGameId(genreGameRow[util.GENREGAME_gameId])
+			for i in range(0, len(genreRows)):
+				if(i == 0):
+					genres = genreRows[i][util.ROW_NAME]	
+					genreDict[key] = genres
+				else:				
+					genres = genreDict[key]					
+					genres = genres +', ' +genreRows[i][util.ROW_NAME]					
+					genreDict[key] = genres
+				
+		util.log("End cacheGenres" , util.LOG_LEVEL_DEBUG)
+		return genreDict
 	
 	
 	def getControlById(self, controlId):

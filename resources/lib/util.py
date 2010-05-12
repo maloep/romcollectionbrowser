@@ -80,6 +80,9 @@ FILETYPEFORCONTROL_control = 1
 FILETYPEFORCONTROL_romCollectionId = 3
 FILETYPEFORCONTROL_fileTypeId = 4
 
+GENREGAME_genreId = 1
+GENREGAME_gameId = 2
+
 #
 # UI #
 #
@@ -108,7 +111,7 @@ IMAGE_CONTROL_GIV_Img3 = 'gameinfoview3'
 IMAGE_CONTROL_GIV_Img4 = 'gameinfoview4'
 IMAGE_CONTROL_GIV_VideoWindow = 'gameinfoviewvideowindow'
 
-TEXT_CONTROL_MV_GAMEDESC = 'gamedesc'
+TEXT_CONTROL_MV_GAMEDESC = 'plot'
 
 GAMEPROPERTY_Console = 'console'
 
