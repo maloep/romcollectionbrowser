@@ -391,7 +391,7 @@
 						<textcolor>DDFFFFFF</textcolor>
 						<selectedcolor>FFe2ff43</selectedcolor>
 						<align>center</align>
-						<label>$INFO[ListItem.Property(genre)]</label>						
+						<label>$INFO[ListItem.Property(console)]</label>
 						<visible>IsEmpty(ListItem.Property(mainview2)) + Control.IsVisible(52)</visible>
 					</control>					
 					<!-- mainview1 -->
@@ -969,7 +969,7 @@
 				<colordiffuse>DDFFFFFF</colordiffuse>
 				<texturefocus>rcb-button-focus.png</texturefocus>
 				<texturenofocus>rcb-button-nofocus.png</texturenofocus>
-				<label>Import Games</label>			
+				<label>Import Games</label>				
 				<textcolor>DDFFFFFF</textcolor>
 				<disabledcolor>80FFFFFF</disabledcolor>
 				<align>center</align>
