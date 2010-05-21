@@ -94,7 +94,7 @@ class ProgressDialogGUI:
 
 class UIGameDB(xbmcgui.WindowXML):	
 
-	gdb = GameDataBase(os.path.join(RCBHOME, 'resources', 'database'))
+	gdb = GameDataBase(os.path.join(RCBHOME, 'resources', 'database'))		
 	
 	selectedControlId = 0
 	selectedConsoleId = 0
