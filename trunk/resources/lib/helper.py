@@ -3,6 +3,7 @@ import os, sys, re
 import dbupdate, importsettings
 from gamedatabase import *
 import util
+import time
 
 
 RCBHOME = os.getcwd()
@@ -91,13 +92,18 @@ def launchEmu(gdb, gui, gameId):
 		if(romCollectionRow == None):
 			util.log("Rom Collection with id %s could not be found in database" %gameRow[5], util.LOG_LEVEL_ERROR)
 			return
-		cmd = romCollectionRow[util.ROMCOLLECTION_emuCommandLine]		
+		
+		emuCommandLine = romCollectionRow[util.ROMCOLLECTION_emuCommandLine]
+		cmd = ""
+		
+		#get environment OS
+		env = ( os.environ.get( "OS", "win32" ), "win32", )[ os.environ.get( "OS", "win32" ) == "xbox" ]	
 		
 		#handle multi rom scenario
 		filenameRows = File(gdb).getRomsByGameId(gameRow[util.ROW_ID])
 		fileindex = int(0)
 		for fileNameRow in filenameRows:
-			fileName = fileNameRow[util.ROW_ID]
+			fileName = fileNameRow[0]			
 			rom = ""
 			#we could have multiple rom Paths - search for the correct one
 			for romPath in romPaths:
@@ -109,11 +115,11 @@ def launchEmu(gdb, gui, gameId):
 				
 			#cmd could be: uae {-%I% %ROM%}
 			#we have to repeat the part inside the brackets and replace the %I% with the current index
-			obIndex = cmd.find('{')
-			cbIndex = cmd.find('}')			
+			obIndex = emuCommandLine.find('{')
+			cbIndex = emuCommandLine.find('}')			
 			if obIndex > -1 and cbIndex > 1:
-				replString = cmd[obIndex+1:cbIndex]
-			cmd = cmd.replace("{", "")
+				replString = emuCommandLine[obIndex+1:cbIndex]
+			cmd = emuCommandLine.replace("{", "")
 			cmd = cmd.replace("}", "")
 			if fileindex == 0:				
 				if (romCollectionRow[util.ROMCOLLECTION_escapeEmuCmd] == 1):				
@@ -150,8 +156,7 @@ def launchEmu(gdb, gui, gameId):
 			# Remember selection
 			gui.saveViewState(False)
 			
-			#invoke batch file that kills xbmc before launching the emulator
-			env = ( os.environ.get( "OS", "win32" ), "win32", )[ os.environ.get( "OS", "win32" ) == "xbox" ]				
+			#invoke batch file that kills xbmc before launching the emulator			
 			if(env == "win32"):
 				#There is a problem with quotes passed as argument to windows command shell. This only works with "call"
 				cmd = 'call \"' +os.path.join(RCBHOME, 'applaunch.bat') +'\" ' +cmd						
@@ -163,15 +168,49 @@ def launchEmu(gdb, gui, gameId):
 		Game(gdb).update(('launchCount',), (launchCount +1,) , gameRow[util.ROW_ID])
 		gdb.commit()
 		
-		util.log("cmd: " +cmd, util.LOG_LEVEL_INFO)
+		util.log("cmd: " +cmd, util.LOG_LEVEL_INFO)			
 		
-		#this minimizes xbmc some apps seems to need it
-		#xbmc.executehttpapi("Action(199)")
-		os.system(cmd)
-		#xbmc.executebuiltin("XBMC.Runxbe(%s)" %cmd)
-		#this brings xbmc back
-		#xbmc.executehttpapi("Action(199)")
-		
+		try:
+			if (os.environ.get( "OS", "xbox" ) == "xbox"):
+			#if (True):
+				util.log("launchEmu on xbox", util.LOG_LEVEL_INFO)
+				
+				#on xbox emucmd must be the path to an executable or cut file
+				if (not os.path.isfile(cmd)):
+					util.log("Error while launching emu: File %s does not exist!" %cmd, util.LOG_LEVEL_ERROR)
+					gui.writeMsg("Error while launching emu: File %s does not exist!" %cmd)
+					return
+				
+				#TODO: option xboxCreateShortcut
+				if(True):
+					util.log("creating cut file", util.LOG_LEVEL_INFO)
+					
+					cutFile = createXboxCutFile(cmd, filenameRows)
+					if(cutFile == ""):
+						util.log("Error while creating .cut file. Check xbmc.log for details.", util.LOG_LEVEL_ERROR)
+						gui.writeMsg("Error while creating .cut file. Check xbmc.log for details.")
+						return
+						
+					cmd = cutFile
+					util.log("cut file created: " +cmd, util.LOG_LEVEL_INFO)
+					
+				xbmc.executebuiltin("XBMC.Runxbe(%s)" %cmd)
+				time.sleep(1000)
+			else:
+				util.log("launchEmu on non-xbox", util.LOG_LEVEL_INFO)
+				
+				if (romCollectionRow[util.ROMCOLLECTION_useEmuSolo] != 'True'):
+					#this minimizes xbmc some apps seems to need it
+					xbmc.executehttpapi("Action(199)")
+					
+				os.system(cmd)
+				
+				if (romCollectionRow[util.ROMCOLLECTION_useEmuSolo] != 'True'):
+					#this brings xbmc back
+					xbmc.executehttpapi("Action(199)")
+		except Exception, (exc):
+			util.log("Error while launching emu: " +str(exc), util.LOG_LEVEL_ERROR)
+			gui.writeMsg("Error while launching emu: " +str(exc))
 		
 		util.log("End helper.launchEmu", util.LOG_LEVEL_INFO)
 		
@@ -201,8 +240,65 @@ def doBackup(gdb, fName):
 			gdb.commit()
 			
 		util.log("End helper.doBackup", util.LOG_LEVEL_INFO)
+		
+
+def createXboxCutFile(emuCommandLine, filenameRows):
+	util.log("Begin helper.createXboxCutFile", util.LOG_LEVEL_INFO)		
+		
+	cutFile = os.path.join(RCBHOME, 'temp.cut')
+
+	# Write new temp.cut
+	try:
+		fh = open(cutFile,'w') # truncate to 0
+		fh.write("<shortcut>\n")
+		fh.write("<path>%s</path>\n" %emuCommandLine)
+		
+		#TODO option: xboxCreateShortcutAddRomfile
+		if(True):			
+			filename = getRomfilenameForXboxCutfile(filenameRows)
+			if(filename == ""):
+				return ""
 			
-			
+			fh.write("<custom>\n")
+			fh.write("<game>%s</game>\n" %filename)
+			fh.write("</custom>\n")
+		fh.write("</shortcut>\n")
+		fh.write("\n")
+		fh.close()
+	except Exception, (exc):
+		util.log("Cannot write to temp.cut: " +str(exc), util.LOG_LEVEL_ERROR)
+		return ""			
+	
+	util.log("End helper.createXboxCutFile", util.LOG_LEVEL_INFO)
+	return cutFile
+	
+
+def getRomfilenameForXboxCutfile(filenameRows):
+	
+	if(len(filenameRows) != 1):
+		util.log("More than one file available for current game. Xbox version only supports one file per game atm.", util.LOG_LEVEL_ERROR)
+		return ""
+	
+	filenameRow = filenameRows[0]
+	if(filenameRow == None):
+		util.log("filenameRow == None in helper.createXboxCutFile", util.LOG_LEVEL_ERROR)
+		return ""
+		
+	filename = filenameRow[0]
+		
+	if (not os.path.isfile(filename)):
+		util.log("Error while launching emu: File %s does not exist!" %filename, util.LOG_LEVEL_ERROR)		
+		return ""
+	
+	#TODO: xboxCreateShortcutUseShortGamename
+	if(True):
+		return filename
+		
+	basename = os.path.basename(filename)
+	filename = os.path.splitext(basename)[0]
+	return filename
+	
+
 def saveViewState(gdb, isOnExit, selectedView, selectedGameIndex, selectedConsoleIndex, selectedGenreIndex, selectedPublisherIndex, selectedYearIndex, 
 	selectedControlIdMainView, selectedControlIdGameInfoView):
 		
