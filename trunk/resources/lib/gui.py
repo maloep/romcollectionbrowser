@@ -493,11 +493,7 @@ class UIGameDB(xbmcgui.WindowXML):
 		
 		if(self.getListSize() == 0):
 			util.log("ListSize == 0 in showGameInfo", util.LOG_LEVEL_WARNING)
-			return
-			
-		#stop video (if playing)
-		if(self.player.isPlayingVideo()):
-			self.player.stop()
+			return					
 					
 		pos = self.getCurrentListPosition()
 		if(pos == -1):
@@ -518,29 +514,38 @@ class UIGameDB(xbmcgui.WindowXML):
 		#no video in thumbs view
 		if (not xbmc.getCondVisibility( "Control.IsVisible(%i)" % CONTROL_THUMBS_VIEW )):
 		
+			video = ""
+			
 			videosBig = helper.getFilesByControl_Cached(self.gdb, util.VIDEO_CONTROL_MV_VideoWindowBig, gameRow[util.ROW_ID], gameRow[util.GAME_publisherId], gameRow[util.GAME_developerId], gameRow[util.GAME_romCollectionId],
 				self.fileTypeForControlDict, self.fileTypeDict, self.fileDict, self.romCollectionDict)
 			
 			if(videosBig != None and len(videosBig) != 0):
-				video = videosBig[0]
-				
-				selectedGame.setProperty('mainviewvideosizebig', 'big')
-								
-				#xbmc.executebuiltin('XBMC.PlayMedia(%s, 1)' %video)
-				#xbmc.executebuiltin('XBMC.PlayerControl(Repeat)')
-				self.player.play(video, selectedGame, True)
+				video = videosBig[0]				
+				selectedGame.setProperty('mainviewvideosizebig', 'big')												
 				
 			else:
 				videosSmall = helper.getFilesByControl_Cached(self.gdb, util.VIDEO_CONTROL_MV_VideoWindowSmall, gameRow[util.ROW_ID], gameRow[util.GAME_publisherId], gameRow[util.GAME_developerId], gameRow[util.GAME_romCollectionId],
 					self.fileTypeForControlDict, self.fileTypeDict, self.fileDict, self.romCollectionDict)
 				if(videosSmall != None and len(videosSmall) != 0):
-					video = videosSmall[0]
+					video = videosSmall[0]					
+					selectedGame.setProperty('mainviewvideosizesmall', 'small')										
 					
-					selectedGame.setProperty('mainviewvideosizesmall', 'small')
-					
-					#xbmc.executebuiltin('XBMC.PlayMedia(%s, 1)' %video)
-					#xbmc.executebuiltin('XBMC.PlayerControl(Repeat)')
-					self.player.play(video, selectedGame, True)
+			if(video == "" or video == None):
+				if(self.player.isPlayingVideo()):
+					self.player.stop()
+				return
+				
+			#stop video (if playing)
+			if(self.player.isPlayingVideo()):			
+				playingFile =  self.player.getPlayingFile()				
+				if(playingFile != video):
+					self.player.stop()
+				else:
+					return
+		
+			#xbmc.executebuiltin('XBMC.PlayMedia(%s, 1)' %video)
+			#xbmc.executebuiltin('XBMC.PlayerControl(Repeat)')
+			self.player.play(video, selectedGame, True)
 		
 		util.log("End showGameInfo" , util.LOG_LEVEL_DEBUG)
 		
