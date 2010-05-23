@@ -193,22 +193,38 @@ def launchEmu(gdb, gui, gameId):
 					cmd = cutFile
 					util.log("cut file created: " +cmd, util.LOG_LEVEL_INFO)
 					
+				util.log("RunXbe", util.LOG_LEVEL_INFO)
 				xbmc.executebuiltin("XBMC.Runxbe(%s)" %cmd)
+				util.log("RunXbe done", util.LOG_LEVEL_INFO)
 				time.sleep(1000)
 			else:
-				util.log("launchEmu on non-xbox", util.LOG_LEVEL_INFO)
+				util.log("launchEmu on non-xbox", util.LOG_LEVEL_INFO)							
 				
-				if (romCollectionRow[util.ROMCOLLECTION_useEmuSolo] != 'True'):
-					#TODO: Check if XBMC is in Fullscreen
-					#this minimizes xbmc some apps seems to need it
-					xbmc.executehttpapi("Action(199)")
+				toggledScreenMode = False
+				
+				if (romCollectionRow[util.ROMCOLLECTION_useEmuSolo] == 'False'):
+					screenMode = xbmc.executehttpapi("GetSystemInfoByName(system.screenmode)").replace("<li>","")
+					util.log("screenMode: " +screenMode, util.LOG_LEVEL_DEBUG)
+					isFullScreen = screenMode.endswith("Full Screen")
 					
+					if(isFullScreen):
+						util.log("Toggle to Windowed mode", util.LOG_LEVEL_INFO)
+						#this minimizes xbmc some apps seems to need it
+						xbmc.executehttpapi("Action(199)")
+						toggledScreenMode = True
+					
+				util.log("launch emu", util.LOG_LEVEL_INFO)
 				os.system(cmd)
+				util.log("launch emu done", util.LOG_LEVEL_INFO)
 				
-				if (romCollectionRow[util.ROMCOLLECTION_useEmuSolo] != 'True'):
-					#TODO: Check if XBMC is in Fullscreen
+				screenMode = xbmc.executehttpapi("GetSystemInfoByName(system.screenmode)")
+				isFullScreen = screenMode.endswith("Full Screen")
+				
+				if(toggledScreenMode):
+					util.log("Toggle to Full Screen mode", util.LOG_LEVEL_INFO)
 					#this brings xbmc back
 					xbmc.executehttpapi("Action(199)")
+						
 		except Exception, (exc):
 			util.log("Error while launching emu: " +str(exc), util.LOG_LEVEL_ERROR)
 			gui.writeMsg("Error while launching emu: " +str(exc))
