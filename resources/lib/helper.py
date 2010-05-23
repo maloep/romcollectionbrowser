@@ -180,12 +180,11 @@ def launchEmu(gdb, gui, gameId):
 					util.log("Error while launching emu: File %s does not exist!" %cmd, util.LOG_LEVEL_ERROR)
 					gui.writeMsg("Error while launching emu: File %s does not exist!" %cmd)
 					return
-				
-				#TODO: option xboxCreateShortcut
-				if(True):
+								
+				if (romCollectionRow[util.ROMCOLLECTION_xboxCreateShortcut] == 'True'):
 					util.log("creating cut file", util.LOG_LEVEL_INFO)
 					
-					cutFile = createXboxCutFile(cmd, filenameRows)
+					cutFile = createXboxCutFile(cmd, filenameRows, romCollectionRow)
 					if(cutFile == ""):
 						util.log("Error while creating .cut file. Check xbmc.log for details.", util.LOG_LEVEL_ERROR)
 						gui.writeMsg("Error while creating .cut file. Check xbmc.log for details.")
@@ -200,12 +199,14 @@ def launchEmu(gdb, gui, gameId):
 				util.log("launchEmu on non-xbox", util.LOG_LEVEL_INFO)
 				
 				if (romCollectionRow[util.ROMCOLLECTION_useEmuSolo] != 'True'):
+					#TODO: Check if XBMC is in Fullscreen
 					#this minimizes xbmc some apps seems to need it
 					xbmc.executehttpapi("Action(199)")
 					
 				os.system(cmd)
 				
 				if (romCollectionRow[util.ROMCOLLECTION_useEmuSolo] != 'True'):
+					#TODO: Check if XBMC is in Fullscreen
 					#this brings xbmc back
 					xbmc.executehttpapi("Action(199)")
 		except Exception, (exc):
@@ -242,7 +243,7 @@ def doBackup(gdb, fName):
 		util.log("End helper.doBackup", util.LOG_LEVEL_INFO)
 		
 
-def createXboxCutFile(emuCommandLine, filenameRows):
+def createXboxCutFile(emuCommandLine, filenameRows, romCollectionRow):
 	util.log("Begin helper.createXboxCutFile", util.LOG_LEVEL_INFO)		
 		
 	cutFile = os.path.join(RCBHOME, 'temp.cut')
@@ -252,16 +253,15 @@ def createXboxCutFile(emuCommandLine, filenameRows):
 		fh = open(cutFile,'w') # truncate to 0
 		fh.write("<shortcut>\n")
 		fh.write("<path>%s</path>\n" %emuCommandLine)
-		
-		#TODO option: xboxCreateShortcutAddRomfile
-		if(True):			
-			filename = getRomfilenameForXboxCutfile(filenameRows)
+				
+		if (romCollectionRow[util.ROMCOLLECTION_xboxCreateShortcutAddRomfile] == 'True'):	
+			filename = getRomfilenameForXboxCutfile(filenameRows, romCollectionRow)
 			if(filename == ""):
-				return ""
-			
+				return ""			
 			fh.write("<custom>\n")
 			fh.write("<game>%s</game>\n" %filename)
 			fh.write("</custom>\n")
+			
 		fh.write("</shortcut>\n")
 		fh.write("\n")
 		fh.close()
@@ -273,7 +273,7 @@ def createXboxCutFile(emuCommandLine, filenameRows):
 	return cutFile
 	
 
-def getRomfilenameForXboxCutfile(filenameRows):
+def getRomfilenameForXboxCutfile(filenameRows, romCollectionRow):
 	
 	if(len(filenameRows) != 1):
 		util.log("More than one file available for current game. Xbox version only supports one file per game atm.", util.LOG_LEVEL_ERROR)
@@ -288,10 +288,9 @@ def getRomfilenameForXboxCutfile(filenameRows):
 		
 	if (not os.path.isfile(filename)):
 		util.log("Error while launching emu: File %s does not exist!" %filename, util.LOG_LEVEL_ERROR)		
-		return ""
+		return ""	
 	
-	#TODO: xboxCreateShortcutUseShortGamename
-	if(True):
+	if (romCollectionRow[util.ROMCOLLECTION_xboxCreateShortcutUseShortGamename] == 'False'):
 		return filename
 		
 	basename = os.path.basename(filename)

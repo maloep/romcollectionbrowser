@@ -97,7 +97,10 @@ CREATE TABLE IF NOT EXISTS [RomCollection]
 	[ignoreOnScan] INTEGER,
 	[searchGameByCRC] INTEGER,
 	[searchGameByCRCIgnoreRomName] INTEGER,
-	[ignoreGameWithoutDesc] INTEGER
+	[ignoreGameWithoutDesc] INTEGER,
+	[xboxCreateShortcut] INTEGER,
+	[xboxCreateShortcutAddRomfile] INTEGER,
+	[xboxCreateShortcutUseShortGamename] INTEGER
 );
 
 CREATE TABLE IF NOT EXISTS [FileTypeForControl]

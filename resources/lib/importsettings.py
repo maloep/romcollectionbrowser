@@ -116,6 +116,9 @@ class SettingsImporter:
 			searchGameByCRC = self.getElementValue(romCollection, 'searchGameByCRC')
 			searchGameByCRCIgnoreRomName = self.getElementValue(romCollection, 'searchGameByCRCIgnoreRomName')
 			ignoreGameWithoutDesc = self.getElementValue(romCollection, 'ignoreGameWithoutDesc')
+			xboxCreateShortcut = self.getElementValue(romCollection, 'xboxCreateShortcut')
+			xboxCreateShortcutAddRomfile = self.getElementValue(romCollection, 'xboxCreateShortcutAddRomfile')
+			xboxCreateShortcutUseShortGamename = self.getElementValue(romCollection, 'xboxCreateShortcutUseShortGamename')
 				
 			
 			romPaths = self.getElementValues(romCollection, 'romPath')
@@ -127,7 +130,7 @@ class SettingsImporter:
 			#import romCollection first to obtain the id
 			romCollectionId = self.insertRomCollection(consoleName, romCollName, emuCmd, emuSolo, escapeCmd, relyOnNaming, startWithDescFile, 
 				descFilePerGame, descParserFile, diskPrefix, typeOfManual, allowUpdate, ignoreOnScan, searchGameByCRC, 
-				searchGameByCRCIgnoreRomName, ignoreGameWithoutDesc)
+				searchGameByCRCIgnoreRomName, ignoreGameWithoutDesc, xboxCreateShortcut, xboxCreateShortcutAddRomfile, xboxCreateShortcutUseShortGamename)
 			
 			
 			self.insertPaths(romCollectionId, romPaths, 'rcb_rom')
@@ -289,7 +292,8 @@ class SettingsImporter:
 	
 	def insertRomCollection(self, consoleName, romCollName, emuCmd, emuSolo, escapeCmd, relyOnNaming, startWithDescFile, 
 				descFilePerGame, descParserFile, diskPrefix, typeOfManual, allowUpdate, ignoreOnScan, searchGameByCRC, 
-				searchGameByCRCIgnoreRomName, ignoreGameWithoutDesc):		
+				searchGameByCRCIgnoreRomName, ignoreGameWithoutDesc, xboxCreateShortcut, 
+				xboxCreateShortcutAddRomfile, xboxCreateShortcutUseShortGamename):		
 		
 		#set default values
 		if(emuSolo == ''):
@@ -316,6 +320,12 @@ class SettingsImporter:
 			searchGameByCRCIgnoreRomName = 'False'
 		if(ignoreGameWithoutDesc == ''):
 			ignoreGameWithoutDesc = 'False'	
+		if(xboxCreateShortcut == ''):
+			xboxCreateShortcut = 'False'	
+		if(xboxCreateShortcutAddRomfile == ''):
+			xboxCreateShortcutAddRomfile = 'False'	
+		if(xboxCreateShortcutUseShortGamename == ''):
+			xboxCreateShortcutUseShortGamename = 'False'	
 		
 		consoleRow = Console(self.gdb).getOneByName(consoleName)
 		if(consoleRow == None):
@@ -327,13 +337,14 @@ class SettingsImporter:
 		if(romCollectionRow == None):		
 			RomCollection(self.gdb).insert((romCollName, consoleId, emuCmd, emuSolo, escapeCmd, descParserFile, relyOnNaming, 
 			startWithDescFile, descFilePerGame, diskPrefix, typeOfManual, allowUpdate, ignoreOnScan, searchGameByCRC, searchGameByCRCIgnoreRomName, 
-			ignoreGameWithoutDesc))
+			ignoreGameWithoutDesc, xboxCreateShortcut, xboxCreateShortcutAddRomfile, xboxCreateShortcutUseShortGamename))
 			romCollectionId = self.gdb.cursor.lastrowid
 		else:
 			RomCollection(self.gdb).update(('name', 'consoleId', 'emuCommandline', 'useEmuSolo', 'escapeEmuCmd', 'descriptionParserFile', 'relyOnFileNaming', 'startWithDescFile',
-								'descFilePerGame', 'diskPrefix', 'typeOfManual', 'allowUpdate', 'ignoreOnScan', 'searchGameByCRC', 'searchGameByCRCIgnoreRomName', 'ignoreGameWithoutDesc'),
+								'descFilePerGame', 'diskPrefix', 'typeOfManual', 'allowUpdate', 'ignoreOnScan', 'searchGameByCRC', 
+								'searchGameByCRCIgnoreRomName', 'ignoreGameWithoutDesc', 'xboxCreateShortcut', 'xboxCreateShortcutAddRomfile', 'xboxCreateShortcutUseShortGamename'),
 								(romCollName, consoleId, emuCmd, emuSolo, escapeCmd, descParserFile, relyOnNaming, startWithDescFile, descFilePerGame, diskPrefix, typeOfManual, allowUpdate, 
-								ignoreOnScan, searchGameByCRC, searchGameByCRCIgnoreRomName, ignoreGameWithoutDesc),
+								ignoreOnScan, searchGameByCRC, searchGameByCRCIgnoreRomName, ignoreGameWithoutDesc,xboxCreateShortcut, xboxCreateShortcutAddRomfile, xboxCreateShortcutUseShortGamename),
 								romCollectionRow[0])
 			
 			romCollectionId = romCollectionRow[0]

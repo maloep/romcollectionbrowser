@@ -20,6 +20,9 @@
 			<desc>The Super Nintendo (SNES) is a 16-bit video game console released in 1990.</desc>
 			<imgFile>E:\Emulatoren\data\consoleImages\zsnes.png</imgFile>
 		</Console>
+		<Console>
+			<name>Xbox</name>
+		</Console>
 	</Consoles>
 	<FileTypes>
 		<FileType>
@@ -252,6 +255,20 @@
 			<fileTypeForGameInfoView3>cover</fileTypeForGameInfoView3>
 			<fileTypeForGameInfoView4>cartridge</fileTypeForGameInfoView4>
 			<fileTypeForGameInfoViewVideoWindow>gameplay</fileTypeForGameInfoViewVideoWindow>
+		</RomCollection>
+		<RomCollection>			
+			<name>Collection V5</name>
+			<consoleName>Xbox</consoleName>
+			<xboxCreateShortcut>True</xboxCreateShortcut>
+			<xboxCreateShortcutAddRomfile>True</xboxCreateShortcutAddRomfile>
+			<xboxCreateShortcutUseShortGamename>True</xboxCreateShortcutUseShortGamename>
+			<emulatorCmd>E:\Emulatoren\SNES\default.xbe</emulatorCmd>			
+			<romPath>TestDataBase\Collection V4\Roms\*.zip</romPath>						
+			<mediaPath type="cover">TestDataBase\Collection V4\Artwork\Box Front\%GAME%.jpg</mediaPath>			
+			<fileTypeForGameList>cover</fileTypeForGameList>
+			<fileTypeForMainViewGameInfoBig>cover</fileTypeForMainViewGameInfoBig>			
+			<fileTypeForGameInfoViewBackground>cover</fileTypeForGameInfoViewBackground>
+			<fileTypeForGameInfoViewGamelist>cover</fileTypeForGameInfoViewGamelist>			
 		</RomCollection>
 	</RomCollections>	
 </config>
