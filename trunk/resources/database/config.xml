@@ -14,6 +14,9 @@
 		<Console>
 			<name>Super Nintendo</name>			
 		</Console>
+		<Console>
+			<name>Standalone</name>			
+		</Console>
 	</Consoles>
 	<FileTypes>
 		<FileType>
@@ -87,7 +90,7 @@
 			<name>Collection V1</name>
 			<consoleName>Amiga</consoleName>
 			<emulatorCmd>E:\Emulatoren\WINUAE\winuae.exe {-%I% "%ROM%"}</emulatorCmd>
-			<useEmuSolo>True</useEmuSolo>
+			<useEmuSolo>False</useEmuSolo>
 			<escapeCommand>True</escapeCommand>						
 			<descFilePerGame>False</descFilePerGame>
 			<descriptionParserFile>E:\Emulatoren\data\Testdata V0.5\Collection V1\parserConfig.xml</descriptionParserFile>
@@ -127,7 +130,7 @@
 			<name>Collection V2</name>
 			<consoleName>Amiga</consoleName>
 			<emulatorCmd>E:\Emulatoren\WINUAE\winuae.exe {-%I% "%ROM%"}</emulatorCmd>
-			<useEmuSolo>True</useEmuSolo>
+			<useEmuSolo>False</useEmuSolo>
 			<escapeCommand>True</escapeCommand>						
 			<descFilePerGame>True</descFilePerGame>
 			<descriptionParserFile>E:\Emulatoren\data\Testdata V0.5\Collection V2\parserConfig.xml</descriptionParserFile>
@@ -168,7 +171,7 @@
 			<name>Collection V3</name>
 			<consoleName>Super Nintendo</consoleName>
 			<emulatorCmd>E:\Emulatoren\zsnes\zsnesw.exe -m "%ROM%"</emulatorCmd>
-			<useEmuSolo>True</useEmuSolo>
+			<useEmuSolo>False</useEmuSolo>
 			<escapeCommand>True</escapeCommand>			
 			<descFilePerGame>False</descFilePerGame>
 			<descriptionParserFile>E:\Emulatoren\data\Testdata V0.5\Collection V3\parserConfig.xml</descriptionParserFile>
@@ -212,6 +215,12 @@
 			<fileTypeForGameInfoView4>cartridge</fileTypeForGameInfoView4>
 			<fileTypeForGameInfoView4>romcollection</fileTypeForGameInfoView4>
 			<fileTypeForGameInfoViewVideoWindow>gameplay</fileTypeForGameInfoViewVideoWindow>
-		</RomCollection>		
+		</RomCollection>
+		<RomCollection>
+			<name>Collection V4</name>
+			<consoleName>Standalone</consoleName>
+			<emulatorCmd>%ROM%</emulatorCmd>			
+			<romPath>E:\Neverball\neverball.exe</romPath>
+		</RomCollection>
 	</RomCollections>
 </config>

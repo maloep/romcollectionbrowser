@@ -48,6 +48,9 @@ ROMCOLLECTION_consoleId = 2
 ROMCOLLECTION_emuCommandLine = 3
 ROMCOLLECTION_useEmuSolo = 4
 ROMCOLLECTION_escapeEmuCmd = 5
+ROMCOLLECTION_xboxCreateShortcut = 17
+ROMCOLLECTION_xboxCreateShortcutAddRomfile = 18
+ROMCOLLECTION_xboxCreateShortcutUseShortGamename = 19
 
 
 GAME_description = 2

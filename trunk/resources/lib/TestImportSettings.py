@@ -85,7 +85,7 @@ class TestImportSettings(unittest.TestCase):
 		self.assertTrue(len(rcbSettingRows) == 1)
 			
 		rcbSetting = rcbSettingRows[0]
-		self.assertEqual(rcbSetting[10], 'V0.4')
+		self.assertEqual(rcbSetting[10], 'V0.5')
 		self.assertEqual(rcbSetting[11], 'False')
 		self.assertEqual(rcbSetting[12], 'False')
 		self.assertEqual(rcbSetting[13], 'True')
@@ -95,7 +95,7 @@ class TestImportSettings(unittest.TestCase):
 		
 		consoleRows = Console(self.gdb).getAll()
 		self.assertTrue(consoleRows != None)
-		self.assertTrue(len(consoleRows) == 2)
+		self.assertEqual(len(consoleRows), 3)
 		
 		amiga = consoleRows[0]
 		self.assertEqual(amiga[1], 'Amiga')		
@@ -108,8 +108,8 @@ class TestImportSettings(unittest.TestCase):
 		self.assertEqual(superNintendo[3], 'E:\Emulatoren\data\consoleImages\zsnes.png')
 		
 		romCollectionRows = RomCollection(self.gdb).getAll()
-		self.assertTrue(consoleRows != None)
-		self.assertTrue(len(consoleRows) == 2)
+		self.assertTrue(romCollectionRows!= None)
+		self.assertEqual(len(romCollectionRows), 5)
 		
 		collV1 = romCollectionRows[0]
 		self.assertEqual(collV1[1], 'Collection V1')
@@ -128,6 +128,9 @@ class TestImportSettings(unittest.TestCase):
 		self.assertEqual(collV1[14], 'True')
 		self.assertEqual(collV1[15], 'False')
 		self.assertEqual(collV1[16], 'True')
+		self.assertEqual(collV1[17], 'False')
+		self.assertEqual(collV1[18], 'False')
+		self.assertEqual(collV1[19], 'False')
 		
 		collV2 = romCollectionRows[1]
 		self.assertEqual(collV2[1], 'Collection V2')
@@ -147,6 +150,9 @@ class TestImportSettings(unittest.TestCase):
 		self.assertEqual(collV2[14], 'True')
 		self.assertEqual(collV2[15], 'False')
 		self.assertEqual(collV2[16], 'False')
+		self.assertEqual(collV2[17], 'False')
+		self.assertEqual(collV2[18], 'False')
+		self.assertEqual(collV2[19], 'False')
 		
 		collV3 = romCollectionRows[2]
 		self.assertEqual(collV3[1], 'Collection V3')
@@ -163,10 +169,35 @@ class TestImportSettings(unittest.TestCase):
 		self.assertEqual(collV3[11], 'Text')
 		self.assertEqual(collV3[12], 'False')
 		self.assertEqual(collV3[13], 'False')
-		self.assertEqual(collV2[14], 'True')
-		self.assertEqual(collV2[15], 'False')
-		self.assertEqual(collV2[16], 'False')
-
+		self.assertEqual(collV3[14], 'True')
+		self.assertEqual(collV3[15], 'False')
+		self.assertEqual(collV3[16], 'False')
+		self.assertEqual(collV3[17], 'False')
+		self.assertEqual(collV3[18], 'False')
+		self.assertEqual(collV3[19], 'False')
+		
+		
+		collV5 = romCollectionRows[4]
+		self.assertEqual(collV5[1], 'Collection V5')
+		console = Console(self.gdb).getObjectById(collV5[2])
+		self.assertEqual(console[1], 'Xbox')
+		self.assertEqual(collV5[3], 'E:\Emulatoren\SNES\default.xbe')	
+		self.assertEqual(collV5[4], 'False')
+		self.assertEqual(collV5[5], 'True')
+		self.assertEqual(collV5[6], '')
+		self.assertEqual(collV5[7], 'True')
+		self.assertEqual(collV5[8], 'False')
+		self.assertEqual(collV5[9], 'False')
+		self.assertEqual(collV5[10], '_Disk')
+		self.assertEqual(collV5[12], 'True')
+		self.assertEqual(collV5[13], 'False')
+		self.assertEqual(collV5[14], 'True')
+		self.assertEqual(collV5[15], 'False')
+		self.assertEqual(collV5[16], 'False')
+		self.assertEqual(collV5[17], 'True')
+		self.assertEqual(collV5[18], 'True')
+		self.assertEqual(collV5[19], 'True')
+		
 
 		fileTypes = FileType(self.gdb).getAll()
 		self.assertEqual(fileTypes[0][1], 'rcb_rom')
@@ -207,7 +238,7 @@ class TestImportSettings(unittest.TestCase):
 		
 		paths = Path(self.gdb).getAll()
 		self.assertTrue(paths != None)
-		self.assertEqual(len(paths), 62)
+		self.assertEqual(len(paths), 64)
 				
 		
 		self.assertEqual(paths[0][1], 'TestDataBase\Collection V1\\roms\*.adf')		
@@ -230,7 +261,7 @@ class TestImportSettings(unittest.TestCase):
 		fileTypesForControl = FileTypeForControl(self.gdb).getAll()
 		self.assertTrue(paths != None)
 		numFileTypes = len(fileTypesForControl)
-		self.assertEqual(numFileTypes, 32)
+		self.assertEqual(numFileTypes, 36)
 		
 		self.fileTypeForControlTestTest(fileTypesForControl[0][1], 'gamelist', fileTypesForControl[0][2], 0, fileTypesForControl[0][4], 'cover', fileTypesForControl[0][3], 'Collection V1')
 		self.fileTypeForControlTestTest(fileTypesForControl[2][1], 'gameinfoviewbackground', fileTypesForControl[2][2], 0, fileTypesForControl[2][4], 'cover', fileTypesForControl[2][3], 'Collection V1')
