@@ -219,7 +219,7 @@
 		<RomCollection>
 			<name>Collection V4</name>
 			<consoleName>Standalone</consoleName>
-			<emulatorCmd>%ROM%</emulatorCmd>			
+			<emulatorCmd>%ROM%</emulatorCmd>
 			<romPath>E:\Neverball\neverball.exe</romPath>
 		</RomCollection>
 	</RomCollections>

@@ -54,13 +54,15 @@ class MyPlayer(xbmc.Player):
 	
 	gui = None	
 	
-	def onPlayBackStarted(self):		
+	def onPlayBackStarted(self):	
 		self.gui.saveViewState(True)
+		#pass
 	
 	def onPlayBackEnded(self):
 		xbmc.sleep(1000)
 		
-		self.gui.loadViewState()		
+		self.gui.loadViewState()
+		#pass
 		
 	"""
 	def onPlayBackStopped(self):
@@ -147,7 +149,7 @@ class UIGameDB(xbmcgui.WindowXML):
 			self.player.gui = self
 		
 		
-	def onInit(self):
+	def onInit(self):						
 		
 		util.log("Begin onInit", util.LOG_LEVEL_INFO)
 		
@@ -522,17 +524,22 @@ class UIGameDB(xbmcgui.WindowXML):
 			if(videosBig != None and len(videosBig) != 0):
 				video = videosBig[0]
 				
-				selectedGame.setProperty('mainviewvideosizebig', 'big')								
+				selectedGame.setProperty('mainviewvideosizebig', 'big')
 								
+				#xbmc.executebuiltin('XBMC.PlayMedia(%s, 1)' %video)
+				#xbmc.executebuiltin('XBMC.PlayerControl(Repeat)')
 				self.player.play(video, selectedGame, True)
+				
 			else:
 				videosSmall = helper.getFilesByControl_Cached(self.gdb, util.VIDEO_CONTROL_MV_VideoWindowSmall, gameRow[util.ROW_ID], gameRow[util.GAME_publisherId], gameRow[util.GAME_developerId], gameRow[util.GAME_romCollectionId],
 					self.fileTypeForControlDict, self.fileTypeDict, self.fileDict, self.romCollectionDict)
 				if(videosSmall != None and len(videosSmall) != 0):
 					video = videosSmall[0]
 					
-					selectedGame.setProperty('mainviewvideosizesmall', 'small')										
-										
+					selectedGame.setProperty('mainviewvideosizesmall', 'small')
+					
+					#xbmc.executebuiltin('XBMC.PlayMedia(%s, 1)' %video)
+					#xbmc.executebuiltin('XBMC.PlayerControl(Repeat)')
 					self.player.play(video, selectedGame, True)
 		
 		util.log("End showGameInfo" , util.LOG_LEVEL_DEBUG)
