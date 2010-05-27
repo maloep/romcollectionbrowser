@@ -68,8 +68,9 @@ class MyPlayer(xbmc.Player):
 	def onPlayBackStopped(self):
 		xbmc.sleep(1000)
 		
-		self.gui.loadViewState()
+		#self.gui.loadViewState()
 	"""
+	
 
 
 
@@ -339,8 +340,7 @@ class UIGameDB(xbmcgui.WindowXML):
 	def showFilterControl(self, dbo, controlId, showEntryAllItems):
 		
 		util.log("begin showFilterControl: " +str(controlId), util.LOG_LEVEL_DEBUG)
-		
-		#xbmcgui.lock()
+				
 		rows = dbo.getAllOrdered()
 		
 		control = self.getControlById(controlId)
@@ -361,8 +361,7 @@ class UIGameDB(xbmcgui.WindowXML):
 		control.addItems(items)
 			
 		label2 = str(control.getSelectedItem().getLabel2())
-		return int(label2)
-		#xbmcgui.unlock
+		return int(label2)		
 		
 		util.log("End showFilterControl", util.LOG_LEVEL_DEBUG)
 		
@@ -375,7 +374,7 @@ class UIGameDB(xbmcgui.WindowXML):
 		self.writeMsg("loading games...")
 		
 		#timestamp1 = time.clock()
-		xbmcgui.lock()				
+		xbmcgui.lock()
 		
 		self.clearList()			
 		
@@ -539,9 +538,16 @@ class UIGameDB(xbmcgui.WindowXML):
 			if(self.player.isPlayingVideo()):			
 				playingFile =  self.player.getPlayingFile()				
 				if(playingFile != video):
-					self.player.stop()
+					self.player.stop()					
 				else:
-					return
+					return		
+
+			"""
+			#wait until player is stopped
+			while(self.player.isPlayingVideo()):
+				print "waiting for closing video"
+				pass
+			"""
 		
 			#xbmc.executebuiltin('XBMC.PlayMedia(%s, 1)' %video)
 			#xbmc.executebuiltin('XBMC.PlayerControl(Repeat)')
