@@ -39,8 +39,7 @@ def getFilesByControl_Cached(gdb, controlName, gameId, publisherId, developerId,
 			
 			if(fileTypeRow == None):
 				util.log("fileTypeRow == None in getFilesByControl", util.LOG_LEVEL_DEBUG)
-				continue
-							
+				continue							
 			
 			parentId = None
 						
@@ -61,10 +60,15 @@ def getFilesByControl_Cached(gdb, controlName, gameId, publisherId, developerId,
 			elif(fileTypeRow[util.FILETYPE_parent] == util.FILETYPEPARENT_ROMCOLLECTION):
 				parentId = romCollectionId
 				
-			key = '%i;%i' %(parentId, fileTypeForControlRow[4])
-			try:								
-				files = fileDict[key]				
-			except:
+			util.log("parentId: " +str(parentId), util.LOG_LEVEL_DEBUG)
+				
+			if(parentId != None):
+				key = '%i;%i' %(parentId, fileTypeForControlRow[4])
+				try:								
+					files = fileDict[key]				
+				except:
+					files = None
+			else:
 				files = None
 			
 			if(files == None):
