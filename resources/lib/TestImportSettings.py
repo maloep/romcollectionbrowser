@@ -31,9 +31,7 @@ class TestImportSettings(unittest.TestCase):
 				
 		self.checkErrorHandling('_config.xml', False, 'Error: File config.xml does not exist')
 				
-		self.checkErrorHandling('config_corrupt.xml', True, 'Error: config.xml is no valid XML File')
-		
-		self.checkErrorHandling('config_NoRCBSettings.xml', True, 'Error: config.xml has 1 error(s)!')
+		self.checkErrorHandling('config_corrupt.xml', True, 'Error: config.xml is no valid XML File')				
 		
 		self.checkErrorHandling('config_NoConsoles.xml', True, 'Error: config.xml has 5 error(s)!')
 		
@@ -98,14 +96,10 @@ class TestImportSettings(unittest.TestCase):
 		self.assertEqual(len(consoleRows), 3)
 		
 		amiga = consoleRows[0]
-		self.assertEqual(amiga[1], 'Amiga')		
-		self.assertEqual(amiga[2], 'The Amiga 500 is also known as the A500 (or its code name Rock Lobster).')
-		self.assertEqual(amiga[3], 'E:\Emulatoren\data\consoleImages\uae.png')
+		self.assertEqual(amiga[1], 'Amiga')				
 		
 		superNintendo = consoleRows[1]
-		self.assertEqual(superNintendo[1], 'Super Nintendo')
-		self.assertEqual(superNintendo[2], 'The Super Nintendo (SNES) is a 16-bit video game console released in 1990.')
-		self.assertEqual(superNintendo[3], 'E:\Emulatoren\data\consoleImages\zsnes.png')
+		self.assertEqual(superNintendo[1], 'Super Nintendo')		
 		
 		romCollectionRows = RomCollection(self.gdb).getAll()
 		self.assertTrue(romCollectionRows!= None)
