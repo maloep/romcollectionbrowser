@@ -166,7 +166,7 @@
 						<posx>15</posx>
 						<posy>15</posy>
 						<width>300</width>
-						<height>220</height>						
+						<height>220</height>												
 						<visible>!IsEmpty(ListItem.Property(mainviewvideosizebig))</visible>
 					</control>
 					<!-- mainviewgameinfoupperleft -->
@@ -213,7 +213,7 @@
 						<posy>125</posy>
 						<width>150</width>
 						<height>110</height>												
-						<visible>!IsEmpty(ListItem.Property(mainviewvideosizesmall))</visible>
+						<visible>!IsEmpty(ListItem.Property(mainviewvideosizesmall))</visible>						
 					</control>
 					<!-- game / console description -->
 					<control type="textbox" id="2100">
