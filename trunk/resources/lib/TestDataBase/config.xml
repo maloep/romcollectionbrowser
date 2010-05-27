@@ -1,4 +1,4 @@
-<config>	
+<config>
 	<RCBSettings>
 		<favoriteConsole></favoriteConsole>
 		<favoriteGenre></favoriteGenre>
@@ -11,14 +11,10 @@
 	</RCBSettings>
 	<Consoles>		
 		<Console>
-			<name>Amiga</name>
-			<desc>The Amiga 500 is also known as the A500 (or its code name Rock Lobster).</desc>
-			<imgFile>E:\Emulatoren\data\consoleImages\uae.png</imgFile>
+			<name>Amiga</name>			
 		</Console>
 		<Console>
-			<name>Super Nintendo</name>
-			<desc>The Super Nintendo (SNES) is a 16-bit video game console released in 1990.</desc>
-			<imgFile>E:\Emulatoren\data\consoleImages\zsnes.png</imgFile>
+			<name>Super Nintendo</name>			
 		</Console>
 		<Console>
 			<name>Xbox</name>
