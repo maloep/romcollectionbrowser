@@ -161,7 +161,7 @@ class DBUpdate:
 								zipInfos = zip.infolist()
 								if(len(zipInfos) > 1):
 									self.log("more than one file in zip archive is not supported! Checking CRC of first entry.", util.LOG_LEVEL_WARNING)
-								filecrc = "%X" %(zipInfos[0].CRC & 0xFFFFFFFF)
+								filecrc = "%0.8X" %(zipInfos[0].CRC & 0xFFFFFFFF)
 								self.log("crc in zipped file: " +filecrc, util.LOG_LEVEL_INFO)
 							except:
 								self.log("Error while creating crc from zip file!", util.LOG_LEVEL_ERROR)
@@ -169,7 +169,7 @@ class DBUpdate:
 							prev = 0
 							for eachLine in open(str(filename),"rb"):
 							    prev = zlib.crc32(eachLine, prev)					
-							filecrc = "%X"%(prev & 0xFFFFFFFF)
+							filecrc = "%0.8X"%(prev & 0xFFFFFFFF)
 							self.log("crc for current file: " +str(filecrc), util.LOG_LEVEL_INFO)
 
 					#romCollectionRow[9] = descFilePerGame
@@ -460,7 +460,10 @@ class DBUpdate:
 			if(gamename != gamenameFromFile and len(files) == 0):
 				pathnameFromFile = path.replace("%GAME%", gamenameFromFile)
 				self.log("resolved path from rom file name: " +pathnameFromFile, util.LOG_LEVEL_INFO)
-				files = glob.glob(pathnameFromFile)
+				try:
+					files = glob.glob(pathnameFromFile)
+				except Exception, (exc):
+					self.log("Error using glob function in resolvePath " +str(exc), util.LOG_LEVEL_WARNING)
 				self.log("resolved files: " +str(files), util.LOG_LEVEL_INFO)
 				
 			#TODO could be done only once per RomCollection
@@ -480,7 +483,7 @@ class DBUpdate:
 				files = self.getFilesByWildcard(pathnameFromDeveloper)				
 						
 			if(len(files) == 0):
-				self.log("No files found for game %s. Make sure that file names are matching." %gamename, util.LOG_LEVEL_WARNING)
+				self.log("No files found for game %s at path %s. Make sure that file names are matching." %(gamename, path), util.LOG_LEVEL_WARNING)
 			for file in files:
 				if(os.path.exists(file)):
 					resolvedFiles.append(file)		
@@ -488,8 +491,14 @@ class DBUpdate:
 		
 	
 	def getFilesByWildcard(self, pathName):
-		# try glob with * wildcard
-		files = glob.glob(pathName)
+		
+		files = []
+		
+		try:
+			# try glob with * wildcard
+			files = glob.glob(pathName)
+		except Exception, (exc):
+			self.log("Error using glob function in resolvePath " +str(exc), util.LOG_LEVEL_WARNING)
 		
 		# glob can't handle []-characters - try it with listdir
 		if(len(files)  == 0):
