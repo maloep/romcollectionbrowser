@@ -47,19 +47,22 @@ class SettingsImporter:
 		
 		#start import
 		rcbSettings = xmlDoc.getElementsByTagName('RCBSettings')
+		
+		if(len(rcbSettings) == 0):
+			self.insertRCBSetting(None, None, '', '', '', '', '', '')
+		else:		
+			for rcbSetting in rcbSettings:
+				favoriteConsole = self.getElementValue(rcbSetting, 'favoriteConsole')
+				favoriteGenre = self.getElementValue(rcbSetting, 'favoriteGenre')
+				showEntryAllConsoles = self.getElementValue(rcbSetting, 'showEntryAllConsoles')
+				showEntryAllGenres = self.getElementValue(rcbSetting, 'showEntryAllGenres')
+				showEntryAllYears = self.getElementValue(rcbSetting, 'showEntryAllYears')
+				showEntryAllPublisher = self.getElementValue(rcbSetting, 'showEntryAllPublisher')
+				saveViewStateOnExit = self.getElementValue(rcbSetting, 'saveViewStateOnExit')
+				saveViewStateOnLaunchEmu = self.getElementValue(rcbSetting, 'saveViewStateOnLaunchEmu')
 				
-		for rcbSetting in rcbSettings:
-			favoriteConsole = self.getElementValue(rcbSetting, 'favoriteConsole')
-			favoriteGenre = self.getElementValue(rcbSetting, 'favoriteGenre')
-			showEntryAllConsoles = self.getElementValue(rcbSetting, 'showEntryAllConsoles')
-			showEntryAllGenres = self.getElementValue(rcbSetting, 'showEntryAllGenres')
-			showEntryAllYears = self.getElementValue(rcbSetting, 'showEntryAllYears')
-			showEntryAllPublisher = self.getElementValue(rcbSetting, 'showEntryAllPublisher')
-			saveViewStateOnExit = self.getElementValue(rcbSetting, 'saveViewStateOnExit')
-			saveViewStateOnLaunchEmu = self.getElementValue(rcbSetting, 'saveViewStateOnLaunchEmu')
-			
-			self.insertRCBSetting(favoriteConsole, favoriteGenre, showEntryAllConsoles, showEntryAllGenres, showEntryAllYears, showEntryAllPublisher, 
-				saveViewStateOnExit, saveViewStateOnLaunchEmu)
+				self.insertRCBSetting(favoriteConsole, favoriteGenre, showEntryAllConsoles, showEntryAllGenres, showEntryAllYears, showEntryAllPublisher, 
+					saveViewStateOnExit, saveViewStateOnLaunchEmu)
 			
 		stepCount = stepCount +1
 		gui.writeMsg("Importing Console Info...", stepCount)
@@ -400,9 +403,9 @@ class SettingsImporter:
 		
 		#RCBSettings
 		rcbSettings = xmlDoc.getElementsByTagName('RCBSettings')		
-		if(len(rcbSettings) != 1):
+		if(len(rcbSettings) > 1):
 			errorCount = errorCount +1
-			util.log('Import Settings: Error in config.xml. There must be exactly 1 RCBSettings entry!', util.LOG_LEVEL_ERROR)
+			util.log('Import Settings: Error in config.xml. There is more than 1 RCBSettings entry!', util.LOG_LEVEL_ERROR)
 			
 		#Consoles
 		consoles = xmlDoc.getElementsByTagName('Console')
