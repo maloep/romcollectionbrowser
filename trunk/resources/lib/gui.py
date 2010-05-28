@@ -10,6 +10,9 @@ import dbupdate, importsettings
 from gamedatabase import *
 import helper, util
 
+from Queue import Queue
+from threading import Thread
+
 __language__ = xbmc.Language( os.getcwd() ).getLocalizedString
 
 #Action Codes
@@ -113,7 +116,10 @@ class UIGameDB(xbmcgui.WindowXML):
 	currentView = ''
 	
 	currentlyPlayingItem = None
-	currentlyPlayingVideo = None
+	currentlyPlayingVideo = None		
+	
+	playVideoThread = None
+	playVideoThreadStopped = False
 	
 	#dummy to be compatible with ProgressDialogGUI
 	itemCount = 0
@@ -239,7 +245,7 @@ class UIGameDB(xbmcgui.WindowXML):
 				util.log("control == None in onAction", util.LOG_LEVEL_WARNING)
 				return
 				
-			if(CONTROL_GAMES_GROUP_START <= self.selectedControlId <= CONTROL_GAMES_GROUP_END):
+			if(CONTROL_GAMES_GROUP_START <= self.selectedControlId <= CONTROL_GAMES_GROUP_END):				
 				self.showGameInfo()
 		elif(action.getId() in ACTION_INFO):
 			util.log("onAction: ACTION_INFO", util.LOG_LEVEL_DEBUG)
@@ -488,7 +494,10 @@ class UIGameDB(xbmcgui.WindowXML):
 	
 	
 	def showGameInfo(self):
-		util.log("Begin showGameInfo" , util.LOG_LEVEL_DEBUG)
+		util.log("Begin showGameInfo" , util.LOG_LEVEL_INFO)				
+		
+		if(self.playVideoThread != None and self.playVideoThread.isAlive()):			
+			self.playVideoThreadStopped = True
 		
 		if(self.getListSize() == 0):
 			util.log("ListSize == 0 in showGameInfo", util.LOG_LEVEL_WARNING)
@@ -500,7 +509,7 @@ class UIGameDB(xbmcgui.WindowXML):
 		selectedGame = self.getListItem(pos)
 		if(selectedGame == None):
 			util.log("selectedGame == None in showGameInfo", util.LOG_LEVEL_WARNING)
-			return
+			return					
 			
 		gameId = selectedGame.getLabel2()				
 		gameRow = Game(self.gdb).getObjectById(gameId)
@@ -540,20 +549,33 @@ class UIGameDB(xbmcgui.WindowXML):
 				if(playingFile != video):
 					self.player.stop()					
 				else:
-					return		
-
-			"""
-			#wait until player is stopped
-			while(self.player.isPlayingVideo()):
-				print "waiting for closing video"
-				pass
-			"""
+					return
+					
+			#start a new thread to playback video
+			self.playVideoThread = Thread(target=self.playVideo, args=(video, selectedGame))
+			self.playVideoThread.start()
 		
-			#xbmc.executebuiltin('XBMC.PlayMedia(%s, 1)' %video)
-			#xbmc.executebuiltin('XBMC.PlayerControl(Repeat)')
-			self.player.play(video, selectedGame, True)
+		util.log("End showGameInfo" , util.LOG_LEVEL_INFO)
+			
 		
-		util.log("End showGameInfo" , util.LOG_LEVEL_DEBUG)
+	def playVideo(self, video, selectedGame):
+		
+		timestamp1 = time.clock()		
+		while True:
+			timestamp2 = time.clock()
+			diff = (timestamp2 - timestamp1) * 1000
+			if(diff > 1000):				
+				break
+				
+			if(self.playVideoThreadStopped):
+				self.playVideoThreadStopped = False
+				return
+				
+		#tests for xbox support
+		#xbmc.executebuiltin('XBMC.PlayMedia(%s, 1)' %video)
+		#xbmc.executebuiltin('XBMC.PlayerControl(Repeat)')
+			
+		self.player.play(video, selectedGame, True)
 		
 		
 	def getFileForControl(self, controlName, gameId, publisherId, developerId, romCollectionId):
