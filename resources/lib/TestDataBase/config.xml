@@ -258,10 +258,14 @@
 			<xboxCreateShortcut>True</xboxCreateShortcut>
 			<xboxCreateShortcutAddRomfile>True</xboxCreateShortcutAddRomfile>
 			<xboxCreateShortcutUseShortGamename>True</xboxCreateShortcutUseShortGamename>
-			<emulatorCmd>E:\Emulatoren\SNES\default.xbe</emulatorCmd>			
-			<romPath>TestDataBase\Collection V4\Roms\*.zip</romPath>						
-			<mediaPath type="cover">TestDataBase\Collection V4\Artwork\Box Front\%GAME%.jpg</mediaPath>			
+			<descriptionParserFile>TestDataBase\Collection V5\parserConfig.xml</descriptionParserFile>
+			<descFilePath>TestDataBase\Collection V5\synopsis.txt</descFilePath>
+			<emulatorCmd>%ROM%</emulatorCmd>
+			<romPath>TestDataBase\Collection V5\Roms\default.xbe</romPath>						
+			<mediaPath type="cover">TestDataBase\Collection V5\Artwork\Box Front\%GAME%.png</mediaPath>
+			<mediaPath type="3dbox">TestDataBase\Collection V5\Artwork\3d Box\%GAME%.png</mediaPath>
 			<fileTypeForGameList>cover</fileTypeForGameList>
+			<fileTypeForGameListSelected>3dbox</fileTypeForGameListSelected>
 			<fileTypeForMainViewGameInfoBig>cover</fileTypeForMainViewGameInfoBig>			
 			<fileTypeForGameInfoViewBackground>cover</fileTypeForGameInfoViewBackground>
 			<fileTypeForGameInfoViewGamelist>cover</fileTypeForGameInfoViewGamelist>			

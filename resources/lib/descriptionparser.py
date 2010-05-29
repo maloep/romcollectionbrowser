@@ -224,11 +224,11 @@ def main():
 	#results = dp.parseDescription('E:\\Emulatoren\\data\\Test synopsis\\Synopsis files\\A7800.txt', 
 	#	'E:\\Emulatoren\\data\\Test synopsis\\Synopsis files\\parserConfig Export.xml', '')
 	
-	results = dp.parseDescription('E:\\Emulatoren\\data\\Parser Tests\\desc.txt', 
-		'E:\\Emulatoren\\data\\Parser Tests\\parser.xml', '')
+	#results = dp.parseDescription('E:\\Emulatoren\\data\\Parser Tests\\desc.txt', 
+	#	'E:\\Emulatoren\\data\\Parser Tests\\parser.xml', '')
 	
-	#results = dp.parseDescription('C:\\Dokumente und Einstellungen\\lom\\Anwendungsdaten\\XBMC\\scripts\\RomCollectionBrowser\\resources\\lib\\TestDataBase\\Collection V1\\synopsis\\synopsis.txt', 
-	#	'C:\\Dokumente und Einstellungen\\lom\\Anwendungsdaten\\XBMC\\scripts\\RomCollectionBrowser\\resources\\lib\\TestDataBase\\Collection V1\\parserConfig.xml', '')
+	results = dp.parseDescription('C:\\Dokumente und Einstellungen\\lom\\Anwendungsdaten\\XBMC\\scripts\\RomCollectionBrowser\\resources\\lib\\TestDataBase\\Collection V5\\synopsis.txt', 
+		'C:\\Dokumente und Einstellungen\\lom\\Anwendungsdaten\\XBMC\\scripts\\RomCollectionBrowser\\resources\\lib\\TestDataBase\\Collection V5\\parserConfig.xml', '')
 	
 	for result in results:
 		print result.asDict()
