@@ -75,10 +75,13 @@ class TestUpdateDB(unittest.TestCase):
 		
 		gameRows = Game(self.gdb).getAllOrdered()	
 		self.assertTrue(gameRows != None)
-		self.assertEqual(len(gameRows), 17)				
+		self.assertEqual(len(gameRows), 21)				
 		
 		
-		self.gameTest(gameRows[0], 'Airborne Ranger', 'In this action/simulation game by Microprose the player takes the role of an U.S. Army airborne ranger.', 
+		self.gameTest(gameRows[0], '007: Agent Under Fire', 'Get ready for the next generation of 007, as Her Majestys greatest secret agent embarks upon an all-new, action-packed adventure.', 
+			None,  None, 5, 14, 11, None, 11, '1-4', '', '', '', '', 'DVD', '', 'Xbox Controller', 0, 0,
+			1, 1, 0, 0, 0, 0)
+		self.gameTest(gameRows[1], 'Airborne Ranger', 'In this action/simulation game by Microprose the player takes the role of an U.S. Army airborne ranger.', 
 			None,  None, 1, 1, 1, None, 1, '????', '', '', 'http://www.mobygames.com/game/amiga/airborne-ranger', '', '', '', '', 0, 0,
 			1, 1, 1, 0, 0, 0)
 		self.gameTest(gameRows[1], 'California Games II',  '"At least it ends..."', 
