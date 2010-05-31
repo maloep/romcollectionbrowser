@@ -218,8 +218,8 @@ class DescriptionParser:
 
 def main():
 	dp = DescriptionParser()
-	#results = dp.parseDescription('E:\\Emulatoren\\data\\Test synopsis\\xtras_short.txt', 
-	#	'E:\\Emulatoren\\data\\Test synopsis\\xtras.xml', '')
+	results = dp.parseDescription('E:\\Emulatoren\\data\\xtras\\Test synopsis\\Synopsis files\\GENESIS.txt', 
+		'E:\\Emulatoren\\data\\xtras\\Test synopsis\\parserConfig.xml', '')
 	
 	#results = dp.parseDescription('E:\\Emulatoren\\data\\Test synopsis\\Synopsis files\\A7800.txt', 
 	#	'E:\\Emulatoren\\data\\Test synopsis\\Synopsis files\\parserConfig Export.xml', '')
@@ -227,8 +227,8 @@ def main():
 	#results = dp.parseDescription('E:\\Emulatoren\\data\\Parser Tests\\desc.txt', 
 	#	'E:\\Emulatoren\\data\\Parser Tests\\parser.xml', '')
 	
-	results = dp.parseDescription('C:\\Dokumente und Einstellungen\\lom\\Anwendungsdaten\\XBMC\\scripts\\RomCollectionBrowser\\resources\\lib\\TestDataBase\\Collection V5\\synopsis.txt', 
-		'C:\\Dokumente und Einstellungen\\lom\\Anwendungsdaten\\XBMC\\scripts\\RomCollectionBrowser\\resources\\lib\\TestDataBase\\Collection V5\\parserConfig.xml', '')
+	#results = dp.parseDescription('C:\\Dokumente und Einstellungen\\lom\\Anwendungsdaten\\XBMC\\scripts\\RomCollectionBrowser\\resources\\lib\\TestDataBase\\Collection V5\\synopsis.txt', 
+	#	'C:\\Dokumente und Einstellungen\\lom\\Anwendungsdaten\\XBMC\\scripts\\RomCollectionBrowser\\resources\\lib\\TestDataBase\\Collection V5\\parserConfig.xml', '')
 	
 	for result in results:
 		print result.asDict()
