@@ -10,6 +10,7 @@ from gamedatabase import *
 from pyparsing import *
 from descriptionparser import *
 import util
+from util import *
 
 
 DEBUG = True
@@ -70,9 +71,15 @@ class DBUpdate:
 			self.log("update is allowed for current rom collection: " +allowUpdate, util.LOG_LEVEL_INFO)
 			searchGameByCRC = romCollectionRow[14]
 			self.log("search game by CRC: " +searchGameByCRC, util.LOG_LEVEL_INFO)
-			searchGameByCRCIgnoreRomName = romCollectionRow[15]
+			searchGameByCRCIgnoreRomName = romCollectionRow[15]			
 			self.log("ignore rom filename when searching game by CRC: " +searchGameByCRCIgnoreRomName, util.LOG_LEVEL_INFO)
-			ignoreGameWithoutDesc = romCollectionRow[16]
+			
+			useFoldernameAsCRC = romCollectionRow[20]
+			self.log("use foldername as CRC: " +useFoldernameAsCRC, util.LOG_LEVEL_INFO)
+			useFilenameAsCRC = romCollectionRow[21]
+			self.log("use filename as CRC: " +useFilenameAsCRC, util.LOG_LEVEL_INFO)
+			
+			ignoreGameWithoutDesc = romCollectionRow[16]			
 			self.log("ignore games without description: " +ignoreGameWithoutDesc, util.LOG_LEVEL_INFO)
 			
 			#check if we can find any roms with this configuration
@@ -117,10 +124,14 @@ class DBUpdate:
 
 					gamedescription = Empty()
 					
-					filecrc = self.getFileCRC(searchGameByCRC, filename)
+					filecrc = ''
+					if(searchGameByCRC == 'True'):
+						filecrc = self.getFileCRC(filename)
 					
-					#xtras XBOX Hack: Folder name of game is used as crc value in synopsis files
-					foldername = self.getCRCFromFolder(filename)
+					#Folder name of game may be used as crc value in description files
+					foldername = ''
+					if(useFoldernameAsCRC == 'True'):
+						foldername = self.getCRCFromFolder(filename)
 
 					#romCollectionRow[9] = descFilePerGame
 					if(romCollectionRow[9] == 'False'):						
@@ -128,7 +139,7 @@ class DBUpdate:
 						if(results != None):
 							for result in results:								
 								gamedescription = self.findGameDescriptionByParseResult(result, searchGameByCRCIgnoreRomName, 
-									gamename, searchGameByCRC, filecrc, foldername, filename)
+									gamename, searchGameByCRC, filecrc, foldername, filename, useFoldernameAsCRC, useFilenameAsCRC)
 								if(gamedescription != Empty()):
 									break
 					else:						
@@ -260,33 +271,32 @@ class DBUpdate:
 		return False
 		
 		
-	def getFileCRC(self, searchGameByCRC, filename):
+	def getFileCRC(self, filename):
 		#get crc value of the rom file - this can take a long time for large files, so it is configurable
-		filecrc = ''
-		if(searchGameByCRC == 'True'):			
-			if (zipfile.is_zipfile(str(filename))):
-				try:
-					self.log("handling zip file", util.LOG_LEVEL_INFO)
-					zip = zipfile.ZipFile(str(filename), 'r')
-					zipInfos = zip.infolist()
-					if(len(zipInfos) > 1):
-						self.log("more than one file in zip archive is not supported! Checking CRC of first entry.", util.LOG_LEVEL_WARNING)
-					filecrc = "%0.8X" %(zipInfos[0].CRC & 0xFFFFFFFF)
-					self.log("crc in zipped file: " +filecrc, util.LOG_LEVEL_INFO)
-				except:
-					self.log("Error while creating crc from zip file!", util.LOG_LEVEL_ERROR)
-			else:						
-				prev = 0
-				for eachLine in open(str(filename),"rb"):
-				    prev = zlib.crc32(eachLine, prev)					
-				filecrc = "%0.8X"%(prev & 0xFFFFFFFF)
-				self.log("crc for current file: " +str(filecrc), util.LOG_LEVEL_INFO)
+		filecrc = ''		
+		if (zipfile.is_zipfile(str(filename))):
+			try:
+				self.log("handling zip file", util.LOG_LEVEL_INFO)
+				zip = zipfile.ZipFile(str(filename), 'r')
+				zipInfos = zip.infolist()
+				if(len(zipInfos) > 1):
+					self.log("more than one file in zip archive is not supported! Checking CRC of first entry.", util.LOG_LEVEL_WARNING)
+				filecrc = "%0.8X" %(zipInfos[0].CRC & 0xFFFFFFFF)
+				self.log("crc in zipped file: " +filecrc, util.LOG_LEVEL_INFO)
+			except:
+				self.log("Error while creating crc from zip file!", util.LOG_LEVEL_ERROR)
+		else:						
+			prev = 0
+			for eachLine in open(str(filename),"rb"):
+			    prev = zlib.crc32(eachLine, prev)					
+			filecrc = "%0.8X"%(prev & 0xFFFFFFFF)
+			self.log("crc for current file: " +str(filecrc), util.LOG_LEVEL_INFO)
 				
 		return filecrc
 		
 		
 	def getCRCFromFolder(self, filename):
-		crcFromFolder = ""
+		crcFromFolder = ''
 		dirname = os.path.dirname(filename)		
 		if(dirname != None):
 			pathTuple = os.path.split(dirname)			
@@ -296,7 +306,8 @@ class DBUpdate:
 		return crcFromFolder
 
 
-	def findGameDescriptionByParseResult(self, result, searchGameByCRCIgnoreRomName, gamename, searchGameByCRC, filecrc, foldername, filename):
+	def findGameDescriptionByParseResult(self, result, searchGameByCRCIgnoreRomName, gamename, searchGameByCRC, filecrc, foldername, filename, 
+			useFoldernameAsCRC, useFilenameAsCRC):
 		gamedesc = result['Game'][0]
 		self.log("game name in parsed result: " +str(gamedesc), util.LOG_LEVEL_DEBUG)
 		
@@ -308,7 +319,7 @@ class DBUpdate:
 				return result
 		
 		#find by crc
-		if(searchGameByCRC == 'True'):
+		if(searchGameByCRC == 'True' or useFoldernameAsCRC == 'True' or useFilenameAsCRC == 'true'):
 			try:
 				resultFound = False
 				resultcrcs = result['crc']
@@ -656,22 +667,27 @@ class DBUpdate:
 		if(not self.logFileWritable):
 			return
 			
-		if(logLevel > util.CURRENT_LOG_LEVEL):
+		if(Logutil.currentLogLevel == None):
+			print "RCB: init log level"
+			Logutil.currentLogLevel = Logutil.getCurrentLogLevel()
+			print "RCB: current log level: " +str(Logutil.currentLogLevel)
+		
+		if(logLevel > Logutil.currentLogLevel):			
 			return
 			
 		prefix = ''
-		if(logLevel == util.LOG_LEVEL_DEBUG):
+		if(logLevel == LOG_LEVEL_DEBUG):
 			prefix = 'RCB_DEBUG: '
-		elif(logLevel == util.LOG_LEVEL_INFO):
+		elif(logLevel == LOG_LEVEL_INFO):
 			prefix = 'RCB_INFO: '
-		elif(logLevel == util.LOG_LEVEL_WARNING):
+		elif(logLevel == LOG_LEVEL_WARNING):
 			prefix = 'RCB_WARNING: '
-		elif(logLevel == util.LOG_LEVEL_ERROR):
+		elif(logLevel == LOG_LEVEL_ERROR):
 			prefix = 'RCB_ERROR: '
 
-		self.logFile.write(prefix + message+"\n")			
-				
+		print prefix + message
 		
+
 	def exit(self):
 		self.log("Update finished", util.LOG_LEVEL_INFO)
 		self.logFile.close()

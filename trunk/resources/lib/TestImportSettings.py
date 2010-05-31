@@ -175,10 +175,10 @@ class TestImportSettings(unittest.TestCase):
 		self.assertEqual(collV5[1], 'Collection V5')
 		console = Console(self.gdb).getObjectById(collV5[2])
 		self.assertEqual(console[1], 'Xbox')
-		self.assertEqual(collV5[3], 'E:\Emulatoren\SNES\default.xbe')	
+		self.assertEqual(collV5[3], '%ROM%')
 		self.assertEqual(collV5[4], 'False')
 		self.assertEqual(collV5[5], 'True')
-		self.assertEqual(collV5[6], '')
+		self.assertEqual(collV5[6], 'TestDataBase\Collection V5\parserConfig.xml')
 		self.assertEqual(collV5[7], 'True')
 		self.assertEqual(collV5[8], 'False')
 		self.assertEqual(collV5[9], 'False')
@@ -232,7 +232,7 @@ class TestImportSettings(unittest.TestCase):
 		
 		paths = Path(self.gdb).getAll()
 		self.assertTrue(paths != None)
-		self.assertEqual(len(paths), 64)
+		self.assertEqual(len(paths), 66)
 				
 		
 		self.assertEqual(paths[0][1], 'TestDataBase\Collection V1\\roms\*.adf')		
@@ -255,7 +255,7 @@ class TestImportSettings(unittest.TestCase):
 		fileTypesForControl = FileTypeForControl(self.gdb).getAll()
 		self.assertTrue(paths != None)
 		numFileTypes = len(fileTypesForControl)
-		self.assertEqual(numFileTypes, 36)
+		self.assertEqual(numFileTypes, 37)
 		
 		self.fileTypeForControlTestTest(fileTypesForControl[0][1], 'gamelist', fileTypesForControl[0][2], 0, fileTypesForControl[0][4], 'cover', fileTypesForControl[0][3], 'Collection V1')
 		self.fileTypeForControlTestTest(fileTypesForControl[2][1], 'gameinfoviewbackground', fileTypesForControl[2][2], 0, fileTypesForControl[2][4], 'cover', fileTypesForControl[2][3], 'Collection V1')

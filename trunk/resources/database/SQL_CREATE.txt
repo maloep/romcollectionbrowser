@@ -72,7 +72,8 @@ CREATE TABLE IF NOT EXISTS [RCBSetting]
 	[saveViewStateOnExit] INTEGER,
 	[saveViewStateOnLaunchEmu] INTEGER,
 	[lastFocusedControlMainView] INTEGER,
-	[lastFocusedControlGameInfoView] INTEGER
+	[lastFocusedControlGameInfoView] INTEGER,
+	[logLevel] INTEGER
 );
 
 
@@ -100,7 +101,9 @@ CREATE TABLE IF NOT EXISTS [RomCollection]
 	[ignoreGameWithoutDesc] INTEGER,
 	[xboxCreateShortcut] INTEGER,
 	[xboxCreateShortcutAddRomfile] INTEGER,
-	[xboxCreateShortcutUseShortGamename] INTEGER
+	[xboxCreateShortcutUseShortGamename] INTEGER,
+	[useFoldernameAsCRC] INTEGER,
+	[useFilenameAsCRC] INTEGER
 );
 
 CREATE TABLE IF NOT EXISTS [FileTypeForControl]

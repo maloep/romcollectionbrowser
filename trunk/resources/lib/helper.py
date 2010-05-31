@@ -3,6 +3,7 @@ import os, sys, re
 import dbupdate, importsettings
 from gamedatabase import *
 import util
+from util import *
 import time
 
 
@@ -11,11 +12,11 @@ RCBHOME = os.getcwd()
 
 def getFilesByControl_Cached(gdb, controlName, gameId, publisherId, developerId, romCollectionId, fileTypeForControlDict, fileTypeDict, fileDict, romCollectionDict):
 			
-		util.log("getFilesByControl controlName: " +controlName, util.LOG_LEVEL_DEBUG)
-		util.log("getFilesByControl gameId: " +str(gameId), util.LOG_LEVEL_DEBUG)
-		util.log("getFilesByControl publisherId: " +str(publisherId), util.LOG_LEVEL_DEBUG)
-		util.log("getFilesByControl developerId: " +str(developerId), util.LOG_LEVEL_DEBUG)
-		util.log("getFilesByControl romCollectionId: " +str(romCollectionId), util.LOG_LEVEL_DEBUG)
+		Logutil.log("getFilesByControl controlName: " +controlName, util.LOG_LEVEL_DEBUG)
+		Logutil.log("getFilesByControl gameId: " +str(gameId), util.LOG_LEVEL_DEBUG)
+		Logutil.log("getFilesByControl publisherId: " +str(publisherId), util.LOG_LEVEL_DEBUG)
+		Logutil.log("getFilesByControl developerId: " +str(developerId), util.LOG_LEVEL_DEBUG)
+		Logutil.log("getFilesByControl romCollectionId: " +str(romCollectionId), util.LOG_LEVEL_DEBUG)
 		
 	
 		#fileTypeForControlRows = FileTypeForControl(gdb).getFileTypesForControlByKey(romCollectionId, controlName)
@@ -25,12 +26,12 @@ def getFilesByControl_Cached(gdb, controlName, gameId, publisherId, developerId,
 		except:
 			fileTypeForControlRows = None
 		if(fileTypeForControlRows == None):
-			util.log("fileTypeForControlRows == None", util.LOG_LEVEL_DEBUG)
+			Logutil.log("fileTypeForControlRows == None", util.LOG_LEVEL_DEBUG)
 			return
 		
 		mediaFiles = []
 		for fileTypeForControlRow in fileTypeForControlRows:						
-			util.log("fileTypeForControlRow: " +str(fileTypeForControlRow), util.LOG_LEVEL_DEBUG)
+			Logutil.log("fileTypeForControlRow: " +str(fileTypeForControlRow), util.LOG_LEVEL_DEBUG)
 			
 			try:
 				fileTypeRow = fileTypeDict[fileTypeForControlRow[4]]
@@ -38,7 +39,7 @@ def getFilesByControl_Cached(gdb, controlName, gameId, publisherId, developerId,
 				fileTypeRow = None
 			
 			if(fileTypeRow == None):
-				util.log("fileTypeRow == None in getFilesByControl", util.LOG_LEVEL_DEBUG)
+				Logutil.log("fileTypeRow == None in getFilesByControl", util.LOG_LEVEL_DEBUG)
 				continue							
 			
 			parentId = None
@@ -49,7 +50,7 @@ def getFilesByControl_Cached(gdb, controlName, gameId, publisherId, developerId,
 				#TODO cache RomCollections
 				romCollectionRow = romCollectionDict[romCollectionId]
 				if(romCollectionRow == None):
-					util.log("romCollectionRow == None in getFilesByControl", util.LOG_LEVEL_DEBUG)
+					Logutil.log("romCollectionRow == None in getFilesByControl", util.LOG_LEVEL_DEBUG)
 					continue
 				consoleId = romCollectionRow[2]			
 				parentId = consoleId
@@ -60,7 +61,7 @@ def getFilesByControl_Cached(gdb, controlName, gameId, publisherId, developerId,
 			elif(fileTypeRow[util.FILETYPE_parent] == util.FILETYPEPARENT_ROMCOLLECTION):
 				parentId = romCollectionId
 				
-			util.log("parentId: " +str(parentId), util.LOG_LEVEL_DEBUG)
+			Logutil.log("parentId: " +str(parentId), util.LOG_LEVEL_DEBUG)
 				
 			if(parentId != None):
 				key = '%i;%i' %(parentId, fileTypeForControlRow[4])
@@ -72,7 +73,7 @@ def getFilesByControl_Cached(gdb, controlName, gameId, publisherId, developerId,
 				files = None
 			
 			if(files == None):
-				util.log("files == None in getFilesByControl", util.LOG_LEVEL_DEBUG)
+				Logutil.log("files == None in getFilesByControl", util.LOG_LEVEL_DEBUG)
 				continue
 				
 			for file in files:
@@ -82,11 +83,11 @@ def getFilesByControl_Cached(gdb, controlName, gameId, publisherId, developerId,
 
 
 def launchEmu(gdb, gui, gameId):
-		util.log("Begin helper.launchEmu", util.LOG_LEVEL_INFO)
+		Logutil.log("Begin helper.launchEmu", util.LOG_LEVEL_INFO)
 		
 		gameRow = Game(gdb).getObjectById(gameId)
 		if(gameRow == None):
-			util.log("Game with id %s could not be found in database" %gameId, util.LOG_LEVEL_ERROR)
+			Logutil.log("Game with id %s could not be found in database" %gameId, util.LOG_LEVEL_ERROR)
 			return
 			
 		gui.writeMsg("Launch Game " +str(gameRow[util.ROW_NAME]))
@@ -94,7 +95,7 @@ def launchEmu(gdb, gui, gameId):
 		romPaths = Path(gdb).getRomPathsByRomCollectionId(gameRow[util.GAME_romCollectionId])
 		romCollectionRow = RomCollection(gdb).getObjectById(gameRow[util.GAME_romCollectionId])
 		if(romCollectionRow == None):
-			util.log("Rom Collection with id %s could not be found in database" %gameRow[5], util.LOG_LEVEL_ERROR)
+			Logutil.log("Rom Collection with id %s could not be found in database" %gameRow[5], util.LOG_LEVEL_ERROR)
 			return
 		
 		emuCommandLine = romCollectionRow[util.ROMCOLLECTION_emuCommandLine]
@@ -115,7 +116,7 @@ def launchEmu(gdb, gui, gameId):
 				if(os.path.isfile(rom)):
 					break
 			if(rom == ""):
-				util.log("no rom file found for game: " +str(gameRow[1]), util.LOG_LEVEL_ERROR)
+				Logutil.log("no rom file found for game: " +str(gameRow[1]), util.LOG_LEVEL_ERROR)
 				
 			#cmd could be: uae {-%I% %ROM%}
 			#we have to repeat the part inside the brackets and replace the %I% with the current index
@@ -154,7 +155,7 @@ def launchEmu(gdb, gui, gameId):
 				fh.write("xbmc.executescript('"+ os.path.join(RCBHOME, 'default.py')+"')\n")
 				fh.close()
 			except Exception, (exc):
-				util.log("Cannot write to autoexec.py: " +str(exc), util.LOG_LEVEL_ERROR)
+				Logutil.log("Cannot write to autoexec.py: " +str(exc), util.LOG_LEVEL_ERROR)
 				return
 
 			# Remember selection
@@ -172,99 +173,99 @@ def launchEmu(gdb, gui, gameId):
 		Game(gdb).update(('launchCount',), (launchCount +1,) , gameRow[util.ROW_ID])
 		gdb.commit()
 		
-		util.log("cmd: " +cmd, util.LOG_LEVEL_INFO)			
+		Logutil.log("cmd: " +cmd, util.LOG_LEVEL_INFO)			
 		
 		try:
 			if (os.environ.get( "OS", "xbox" ) == "xbox"):
 			#if (True):
-				util.log("launchEmu on xbox", util.LOG_LEVEL_INFO)
+				Logutil.log("launchEmu on xbox", util.LOG_LEVEL_INFO)
 				
 				#on xbox emucmd must be the path to an executable or cut file
 				if (not os.path.isfile(cmd)):
-					util.log("Error while launching emu: File %s does not exist!" %cmd, util.LOG_LEVEL_ERROR)
+					Logutil.log("Error while launching emu: File %s does not exist!" %cmd, util.LOG_LEVEL_ERROR)
 					gui.writeMsg("Error while launching emu: File %s does not exist!" %cmd)
 					return
 								
 				if (romCollectionRow[util.ROMCOLLECTION_xboxCreateShortcut] == 'True'):
-					util.log("creating cut file", util.LOG_LEVEL_INFO)
+					Logutil.log("creating cut file", util.LOG_LEVEL_INFO)
 					
 					cutFile = createXboxCutFile(cmd, filenameRows, romCollectionRow)
 					if(cutFile == ""):
-						util.log("Error while creating .cut file. Check xbmc.log for details.", util.LOG_LEVEL_ERROR)
+						Logutil.log("Error while creating .cut file. Check xbmc.log for details.", util.LOG_LEVEL_ERROR)
 						gui.writeMsg("Error while creating .cut file. Check xbmc.log for details.")
 						return
 						
 					cmd = cutFile
-					util.log("cut file created: " +cmd, util.LOG_LEVEL_INFO)
+					Logutil.log("cut file created: " +cmd, util.LOG_LEVEL_INFO)
 					
-				util.log("RunXbe", util.LOG_LEVEL_INFO)
+				Logutil.log("RunXbe", util.LOG_LEVEL_INFO)
 				xbmc.executebuiltin("XBMC.Runxbe(%s)" %cmd)
-				util.log("RunXbe done", util.LOG_LEVEL_INFO)
+				Logutil.log("RunXbe done", util.LOG_LEVEL_INFO)
 				time.sleep(1000)
 			else:
-				util.log("launchEmu on non-xbox", util.LOG_LEVEL_INFO)							
+				Logutil.log("launchEmu on non-xbox", util.LOG_LEVEL_INFO)							
 				
 				toggledScreenMode = False
 				
 				if (romCollectionRow[util.ROMCOLLECTION_useEmuSolo] == 'False'):
 					screenMode = xbmc.executehttpapi("GetSystemInfoByName(system.screenmode)").replace("<li>","")
-					util.log("screenMode: " +screenMode, util.LOG_LEVEL_DEBUG)
+					Logutil.log("screenMode: " +screenMode, util.LOG_LEVEL_DEBUG)
 					isFullScreen = screenMode.endswith("Full Screen")
 					
 					if(isFullScreen):
-						util.log("Toggle to Windowed mode", util.LOG_LEVEL_INFO)
+						Logutil.log("Toggle to Windowed mode", util.LOG_LEVEL_INFO)
 						#this minimizes xbmc some apps seems to need it
 						xbmc.executehttpapi("Action(199)")
 						toggledScreenMode = True
 					
-				util.log("launch emu", util.LOG_LEVEL_INFO)
+				Logutil.log("launch emu", util.LOG_LEVEL_INFO)
 				os.system(cmd)
-				util.log("launch emu done", util.LOG_LEVEL_INFO)
+				Logutil.log("launch emu done", util.LOG_LEVEL_INFO)
 				
 				screenMode = xbmc.executehttpapi("GetSystemInfoByName(system.screenmode)")
 				isFullScreen = screenMode.endswith("Full Screen")
 				
 				if(toggledScreenMode):
-					util.log("Toggle to Full Screen mode", util.LOG_LEVEL_INFO)
+					Logutil.log("Toggle to Full Screen mode", util.LOG_LEVEL_INFO)
 					#this brings xbmc back
 					xbmc.executehttpapi("Action(199)")
 						
 		except Exception, (exc):
-			util.log("Error while launching emu: " +str(exc), util.LOG_LEVEL_ERROR)
+			Logutil.log("Error while launching emu: " +str(exc), util.LOG_LEVEL_ERROR)
 			gui.writeMsg("Error while launching emu: " +str(exc))
 		
-		util.log("End helper.launchEmu", util.LOG_LEVEL_INFO)
+		Logutil.log("End helper.launchEmu", util.LOG_LEVEL_INFO)
 		
 		
 def doBackup(gdb, fName):
-		util.log("Begin helper.doBackup", util.LOG_LEVEL_INFO)
+		Logutil.log("Begin helper.doBackup", util.LOG_LEVEL_INFO)
 	
 		if os.path.isfile(fName):
 			newFileName = fName+'.bak'
 			
 			if os.path.isfile(newFileName):
-				util.log("Cannot backup autoexec.py: File exists.", util.LOG_LEVEL_ERROR)
+				Logutil.log("Cannot backup autoexec.py: File exists.", util.LOG_LEVEL_ERROR)
 				return
 			
 			try:
 				os.rename(fName, newFileName)
 			except Exception, (exc):
-				util.log("Cannot rename autoexec.py: " +str(exc), util.LOG_LEVEL_ERROR)
+				Logutil.log("Cannot rename autoexec.py: " +str(exc), util.LOG_LEVEL_ERROR)
 				return
 			
 			rcbSetting = getRCBSetting()
 			if (rcbSetting == None):
-				util.log("rcbSetting == None in doBackup", util.LOG_LEVEL_WARNING)
+				Logutil.log("rcbSetting == None in doBackup", util.LOG_LEVEL_WARNING)
 				return
 			
 			RCBSetting(gdb).update(('autoexecBackupPath',), (newFileName,), rcbSetting[util.ROW_ID])
 			gdb.commit()
 			
-		util.log("End helper.doBackup", util.LOG_LEVEL_INFO)
+		Logutil.log("End helper.doBackup", util.LOG_LEVEL_INFO)
 		
 
 def createXboxCutFile(emuCommandLine, filenameRows, romCollectionRow):
-	util.log("Begin helper.createXboxCutFile", util.LOG_LEVEL_INFO)		
+	Logutil.log("Begin helper.createXboxCutFile", util.LOG_LEVEL_INFO)		
 		
 	cutFile = os.path.join(RCBHOME, 'temp.cut')
 
@@ -286,28 +287,28 @@ def createXboxCutFile(emuCommandLine, filenameRows, romCollectionRow):
 		fh.write("\n")
 		fh.close()
 	except Exception, (exc):
-		util.log("Cannot write to temp.cut: " +str(exc), util.LOG_LEVEL_ERROR)
+		Logutil.log("Cannot write to temp.cut: " +str(exc), util.LOG_LEVEL_ERROR)
 		return ""			
 	
-	util.log("End helper.createXboxCutFile", util.LOG_LEVEL_INFO)
+	Logutil.log("End helper.createXboxCutFile", util.LOG_LEVEL_INFO)
 	return cutFile
 	
 
 def getRomfilenameForXboxCutfile(filenameRows, romCollectionRow):
 	
 	if(len(filenameRows) != 1):
-		util.log("More than one file available for current game. Xbox version only supports one file per game atm.", util.LOG_LEVEL_ERROR)
+		Logutil.log("More than one file available for current game. Xbox version only supports one file per game atm.", util.LOG_LEVEL_ERROR)
 		return ""
 	
 	filenameRow = filenameRows[0]
 	if(filenameRow == None):
-		util.log("filenameRow == None in helper.createXboxCutFile", util.LOG_LEVEL_ERROR)
+		Logutil.log("filenameRow == None in helper.createXboxCutFile", util.LOG_LEVEL_ERROR)
 		return ""
 		
 	filename = filenameRow[0]
 		
 	if (not os.path.isfile(filename)):
-		util.log("Error while launching emu: File %s does not exist!" %filename, util.LOG_LEVEL_ERROR)		
+		Logutil.log("Error while launching emu: File %s does not exist!" %filename, util.LOG_LEVEL_ERROR)		
 		return ""	
 	
 	if (romCollectionRow[util.ROMCOLLECTION_xboxCreateShortcutUseShortGamename] == 'False'):
@@ -321,11 +322,11 @@ def getRomfilenameForXboxCutfile(filenameRows, romCollectionRow):
 def saveViewState(gdb, isOnExit, selectedView, selectedGameIndex, selectedConsoleIndex, selectedGenreIndex, selectedPublisherIndex, selectedYearIndex, 
 	selectedControlIdMainView, selectedControlIdGameInfoView):
 		
-		util.log("Begin helper.saveViewState", util.LOG_LEVEL_INFO)
+		Logutil.log("Begin helper.saveViewState", util.LOG_LEVEL_INFO)
 		
 		rcbSetting = getRCBSetting(gdb)
 		if(rcbSetting == None):
-			util.log("rcbSetting == None in helper.saveViewState", util.LOG_LEVEL_WARNING)
+			Logutil.log("rcbSetting == None in helper.saveViewState", util.LOG_LEVEL_WARNING)
 			return
 		
 		if(isOnExit):
@@ -345,7 +346,7 @@ def saveViewState(gdb, isOnExit, selectedView, selectedGameIndex, selectedConsol
 				
 		gdb.commit()
 		
-		util.log("End helper.saveViewState", util.LOG_LEVEL_INFO)
+		Logutil.log("End helper.saveViewState", util.LOG_LEVEL_INFO)
 
 
 			

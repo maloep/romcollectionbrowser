@@ -126,14 +126,25 @@ FILETYPEPARENT_CONSOLE = 'console'
 FILETYPEPARENT_ROMCOLLECTION = 'romcollection'
 
 
-
 #
 # METHODS #
 #
 
-def log(message, logLevel):
+from pysqlite2 import dbapi2 as sqlite
+
+class Logutil:
+	
+	currentLogLevel = None
+
+	@staticmethod
+	def log(message, logLevel):
+			
+		if(Logutil.currentLogLevel == None):
+			print "RCB: init log level"
+			Logutil.currentLogLevel = Logutil.getCurrentLogLevel()
+			print "RCB: current log level: " +str(Logutil.currentLogLevel)
 		
-		if(logLevel > CURRENT_LOG_LEVEL):
+		if(logLevel > Logutil.currentLogLevel):			
 			return
 			
 		prefix = ''
@@ -147,3 +158,20 @@ def log(message, logLevel):
 			prefix = 'RCB_ERROR: '
 
 		print prefix + message
+		
+	
+	@staticmethod
+	def getCurrentLogLevel():	
+		logLevel = 1
+		try:
+			dataBasePath = os.path.join(os.getcwd(), 'resources', 'database', 'MyGames.db')
+			connection = sqlite.connect(dataBasePath)
+			cursor = connection.cursor()
+			cursor.execute("SELECT * FROM RCBSetting")
+			rcbSettings = cursor.fetchall()
+			
+			rcbSetting = rcbSettings[0]
+			logLevel = rcbSetting[19]
+		except:
+			logLevel = 1
+		return logLevel
