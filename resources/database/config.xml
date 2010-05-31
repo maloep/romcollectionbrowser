@@ -6,6 +6,7 @@
 		<showEntryAllPublisher>True</showEntryAllPublisher>
 		<saveViewStateOnExit>True</saveViewStateOnExit>
 		<saveViewStateOnLaunchEmu>True</saveViewStateOnLaunchEmu>
+		<logLevel>INFO</logLevel>
 	</RCBSettings>
 	<Consoles>		
 		<Console>

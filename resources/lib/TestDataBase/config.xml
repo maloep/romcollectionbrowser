@@ -258,6 +258,8 @@
 			<xboxCreateShortcut>True</xboxCreateShortcut>
 			<xboxCreateShortcutAddRomfile>True</xboxCreateShortcutAddRomfile>
 			<xboxCreateShortcutUseShortGamename>True</xboxCreateShortcutUseShortGamename>
+			<searchGameByCRC>False</searchGameByCRC>
+			<useFoldernameAsCRC>True</useFoldernameAsCRC>
 			<descriptionParserFile>TestDataBase\Collection V5\parserConfig.xml</descriptionParserFile>
 			<descFilePath>TestDataBase\Collection V5\synopsis.txt</descFilePath>
 			<emulatorCmd>%ROM%</emulatorCmd>
