@@ -262,8 +262,8 @@ class DBUpdate:
 		
 	def getFileCRC(self, searchGameByCRC, filename):
 		#get crc value of the rom file - this can take a long time for large files, so it is configurable
-		if(searchGameByCRC == 'True'):
-			filecrc = ''
+		filecrc = ''
+		if(searchGameByCRC == 'True'):			
 			if (zipfile.is_zipfile(str(filename))):
 				try:
 					self.log("handling zip file", util.LOG_LEVEL_INFO)
@@ -323,7 +323,12 @@ class DBUpdate:
 						self.log("using foldername as crc value: " +foldername, util.LOG_LEVEL_DEBUG)
 						if(resultcrc.lower() == foldername.lower()):
 							self.log("result found by foldername crc: " +gamedesc, util.LOG_LEVEL_INFO)
-							return result				
+							return result
+							
+					self.log("using filename as crc value: " +gamename, util.LOG_LEVEL_DEBUG)
+					if(resultcrc.lower() == gamename.lower()):
+						self.log("result found by filename crc: " +gamedesc, util.LOG_LEVEL_INFO)
+						return result
 						
 			except Exception, (exc):
 				self.log("Error while checking crc results: " +str(exc), util.LOG_LEVEL_ERROR)
@@ -503,51 +508,55 @@ class DBUpdate:
 		for path in paths:
 			files = []
 			self.log("resolve path: " +path, util.LOG_LEVEL_INFO)
-			pathnameFromGameName = path.replace("%GAME%", gamename)
-			self.log("resolved path from game name: " +pathnameFromGameName, util.LOG_LEVEL_INFO)
-			files = self.getFilesByWildcard(pathnameFromGameName)			
 			
-			if(gamename != gamenameFromFile and len(files) == 0):
+			if(path.find("%GAME%") > -1):
+				pathnameFromGameName = path.replace("%GAME%", gamename)
+				self.log("resolved path from game name: " +pathnameFromGameName, util.LOG_LEVEL_INFO)				
+				files = self.getFilesByWildcard(pathnameFromGameName)
+				
 				pathnameFromFile = path.replace("%GAME%", gamenameFromFile)
-				self.log("resolved path from rom file name: " +pathnameFromFile, util.LOG_LEVEL_INFO)
-				try:
-					files = glob.glob(pathnameFromFile)
-				except Exception, (exc):
-					self.log("Error using glob function in resolvePath " +str(exc), util.LOG_LEVEL_WARNING)
-				self.log("resolved files: " +str(files), util.LOG_LEVEL_INFO)
-				
-			if(gamename != foldername and len(files) == 0):
+				if(gamename != gamenameFromFile and len(files) == 0):					
+					self.log("resolved path from rom file name: " +pathnameFromFile, util.LOG_LEVEL_INFO)					
+					files = self.getFilesByWildcard(pathnameFromFile)
+					
 				pathnameFromFolder = path.replace("%GAME%", foldername)
-				self.log("resolved path from rom folder name: " +pathnameFromFolder, util.LOG_LEVEL_INFO)
-				try:
-					files = glob.glob(pathnameFromFolder)
-				except Exception, (exc):
-					self.log("Error using glob function in resolvePath " +str(exc), util.LOG_LEVEL_WARNING)
-				self.log("resolved files: " +str(files), util.LOG_LEVEL_INFO)
+				if(gamename != foldername and len(files) == 0):					
+					self.log("resolved path from rom folder name: " +pathnameFromFolder, util.LOG_LEVEL_INFO)					
+					files = self.getFilesByWildcard(pathnameFromFolder)								
 				
-			#TODO could be done only once per RomCollection
-			if(consoleName != None and len(files) == 0):
+				#one last try with case insensitive search (on Linux we don't get files with case mismatches)
+				if(len(files) == 0):
+					files = self.getFilesByGameNameIgnoreCase(pathnameFromGameName)
+				if(len(files) == 0):
+					files = self.getFilesByGameNameIgnoreCase(pathnameFromFile)
+				if(len(files) == 0):
+					files = self.getFilesByGameNameIgnoreCase(pathnameFromFolder)
+				
+				
+			#TODO could be done only once per RomCollection			
+			if(path.find("%CONSOLE%") > -1 and consoleName != None and len(files) == 0):
 				pathnameFromConsole = path.replace("%CONSOLE%", consoleName)
 				self.log("resolved path from console name: " +pathnameFromConsole, util.LOG_LEVEL_INFO)
 				files = self.getFilesByWildcard(pathnameFromConsole)				
 				
-			if(publisher != None and len(files) == 0):
+			if(path.find("%PUBLISHER%") > -1 and publisher != None and len(files) == 0):
 				pathnameFromPublisher = path.replace("%PUBLISHER%", publisher)
 				self.log("resolved path from publisher name: " +pathnameFromPublisher, util.LOG_LEVEL_INFO)
 				files = self.getFilesByWildcard(pathnameFromPublisher)				
 				
-			if(developer != None and len(files) == 0):
+			if(path.find("%DEVELOPER%") > -1 and developer != None and len(files) == 0):
 				pathnameFromDeveloper = path.replace("%DEVELOPER%", developer)
 				self.log("resolved path from developer name: " +pathnameFromDeveloper, util.LOG_LEVEL_INFO)
-				files = self.getFilesByWildcard(pathnameFromDeveloper)				
-						
+				files = self.getFilesByWildcard(pathnameFromDeveloper)													
+				
 			if(len(files) == 0):
 				self.log("No files found for game %s at path %s. Make sure that file names are matching." %(gamename, path), util.LOG_LEVEL_WARNING)
 			for file in files:
 				if(os.path.exists(file)):
-					resolvedFiles.append(file)		
+					resolvedFiles.append(file)
+					
 		return resolvedFiles
-		
+	
 	
 	def getFilesByWildcard(self, pathName):
 		
@@ -570,6 +579,28 @@ class DBUpdate:
 				pass
 		return files
 		self.log("resolved files: " +str(files), util.LOG_LEVEL_INFO)
+		
+		
+	def getFilesByGameNameIgnoreCase(self, pathname):
+		
+		files = []
+		
+		dirname = os.path.dirname(pathname)
+		basename = os.path.basename(pathname)
+		
+		#search all Files that start with the first character of game name
+		newpath = os.path.join(dirname, basename[0].upper() +'*')
+		filesUpper = glob.glob(newpath)
+		newpath = os.path.join(dirname, basename[0].lower() +'*')
+		filesLower = glob.glob(newpath)
+		
+		allFiles = filesUpper + filesLower
+		for file in allFiles:
+			if(pathname.lower() == file.lower()):
+				self.log("Found path %s by search with ignore case." %pathname, util.LOG_LEVEL_WARNING)
+				files.append(file)
+				
+		return files
 		
 		
 	def resolveParseResult(self, result, itemName):
