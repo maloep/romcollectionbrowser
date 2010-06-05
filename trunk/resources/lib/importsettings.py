@@ -280,9 +280,9 @@ class SettingsImporter:
 		if(showEntryAllPublisher == ''):
 			showEntryAllPublisher = 'True'
 		if(saveViewStateOnExit == ''):
-			saveViewStateOnExit = 'False'
+			saveViewStateOnExit = 'True'
 		if(saveViewStateOnLaunchEmu == ''):
-			saveViewStateOnLaunchEmu = 'False'
+			saveViewStateOnLaunchEmu = 'True'
 		if(showEntryAllChars == ''):
 			showEntryAllChars = 'True'
 		if(preventUnfilteredSearch == ''):
