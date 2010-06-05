@@ -237,6 +237,26 @@ def launchEmu(gdb, gui, gameId):
 		Logutil.log("End helper.launchEmu", util.LOG_LEVEL_INFO)
 		
 		
+def buildLikeStatement(selectedCharacter):
+	Logutil.log("helper.buildLikeStatement", util.LOG_LEVEL_INFO)
+	
+	if (selectedCharacter == 'All'):		
+		return "0 = 0"
+	elif (selectedCharacter == '0-9'):
+		
+		likeStatement = '('
+		for i in range (0, 10):				
+			likeStatement += "name LIKE '%s'" %(str(i) +'%')
+			if(i != 9):
+				likeStatement += ' or '
+		
+		likeStatement += ')'
+				
+		return likeStatement
+	else:		
+		return "name LIKE '%s'" %(selectedCharacter +'%')
+		
+		
 def doBackup(gdb, fName):
 		Logutil.log("Begin helper.doBackup", util.LOG_LEVEL_INFO)
 	
@@ -319,7 +339,7 @@ def getRomfilenameForXboxCutfile(filenameRows, romCollectionRow):
 	return filename
 	
 
-def saveViewState(gdb, isOnExit, selectedView, selectedGameIndex, selectedConsoleIndex, selectedGenreIndex, selectedPublisherIndex, selectedYearIndex, 
+def saveViewState(gdb, isOnExit, selectedView, selectedGameIndex, selectedConsoleIndex, selectedGenreIndex, selectedPublisherIndex, selectedYearIndex, selectedCharacterIndex,
 	selectedControlIdMainView, selectedControlIdGameInfoView):
 		
 		Logutil.log("Begin helper.saveViewState", util.LOG_LEVEL_INFO)
@@ -338,11 +358,11 @@ def saveViewState(gdb, isOnExit, selectedView, selectedGameIndex, selectedConsol
 			
 		
 		if(saveViewState == 'True'):
-			RCBSetting(gdb).update(('lastSelectedView', 'lastSelectedConsoleIndex', 'lastSelectedGenreIndex', 'lastSelectedPublisherIndex', 'lastSelectedYearIndex', 'lastSelectedGameIndex', 'lastFocusedControlMainView', 'lastFocusedControlGameInfoView'),
-				(selectedView, selectedConsoleIndex, selectedGenreIndex, selectedPublisherIndex, selectedYearIndex, selectedGameIndex, selectedControlIdMainView, selectedControlIdGameInfoView), rcbSetting[0])
+			RCBSetting(gdb).update(('lastSelectedView', 'lastSelectedConsoleIndex', 'lastSelectedGenreIndex', 'lastSelectedPublisherIndex', 'lastSelectedYearIndex', 'lastSelectedGameIndex', 'lastFocusedControlMainView', 'lastFocusedControlGameInfoView', 'lastSelectedCharacterIndex'),
+				(selectedView, selectedConsoleIndex, selectedGenreIndex, selectedPublisherIndex, selectedYearIndex, selectedGameIndex, selectedControlIdMainView, selectedControlIdGameInfoView, selectedCharacterIndex), rcbSetting[0])
 		else:
-			RCBSetting(gdb).update(('lastSelectedView', 'lastSelectedConsoleIndex', 'lastSelectedGenreIndex', 'lastSelectedPublisherIndex', 'lastSelectedYearIndex', 'lastSelectedGameIndex', 'lastFocusedControlMainView', 'lastFocusedControlGameInfoView'),
-				(None, None, None, None, None, None, None, None), rcbSetting[util.ROW_ID])
+			RCBSetting(gdb).update(('lastSelectedView', 'lastSelectedConsoleIndex', 'lastSelectedGenreIndex', 'lastSelectedPublisherIndex', 'lastSelectedYearIndex', 'lastSelectedGameIndex', 'lastFocusedControlMainView', 'lastFocusedControlGameInfoView', 'lastSelectedCharacterIndex'),
+				(None, None, None, None, None, None, None, None, None), rcbSetting[util.ROW_ID])
 				
 		gdb.commit()
 		

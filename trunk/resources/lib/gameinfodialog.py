@@ -4,6 +4,7 @@ import xbmc, xbmcgui
 import dbupdate, importsettings
 from gamedatabase import *
 import helper, util
+from util import *
 
 
 ACTION_EXIT_SCRIPT = ( 10, )
@@ -55,7 +56,7 @@ class UIGameInfoView(xbmcgui.WindowXMLDialog):
 	def __init__(self, *args, **kwargs):		
 		xbmcgui.WindowXMLDialog.__init__( self, *args, **kwargs )		
 		
-		util.log("Init GameInfoView", util.LOG_LEVEL_INFO)
+		Logutil.log("Init GameInfoView", util.LOG_LEVEL_INFO)
 		
 		self.gdb = kwargs[ "gdb" ]
 		self.selectedGameId = kwargs[ "gameId" ]		
@@ -67,6 +68,8 @@ class UIGameInfoView(xbmcgui.WindowXMLDialog):
 		self.selectedGenreIndex = kwargs[ "genreIndex" ]		
 		self.selectedYearIndex = kwargs[ "yearIndex" ]		
 		self.selectedPublisherIndex = kwargs[ "publisherIndex" ]
+		self.selectedCharacter = kwargs[ "selectedCharacter" ]
+		self.selectedCharacterIndex = kwargs[ "selectedCharacterIndex" ]
 		self.selectedGameIndex = kwargs[ "selectedGameIndex" ]		
 		self.selectedControlIdMainView = kwargs["controlIdMainView"]
 		self.fileTypeForControlDict = kwargs["fileTypeForControlDict"]
@@ -79,7 +82,7 @@ class UIGameInfoView(xbmcgui.WindowXMLDialog):
 		
 	def onInit(self):
 		
-		util.log("Begin OnInit", util.LOG_LEVEL_DEBUG)
+		Logutil.log("Begin OnInit", util.LOG_LEVEL_DEBUG)
 		
 		self.showGameList()
 		self.showGameInfo()
@@ -92,26 +95,26 @@ class UIGameInfoView(xbmcgui.WindowXMLDialog):
 		self.selectedControlId = CONTROL_GAME_LIST_GROUP
 		self.setCurrentListPosition(self.selectedGameIndex)	
 		
-		util.log("End OnInit", util.LOG_LEVEL_DEBUG)
+		Logutil.log("End OnInit", util.LOG_LEVEL_DEBUG)
 		
 		
 		
 	def onClick( self, controlId ):
-		util.log("Begin onClick", util.LOG_LEVEL_DEBUG)
+		Logutil.log("Begin onClick", util.LOG_LEVEL_DEBUG)
 		
 		if (controlId == CONTROL_BUTTON_PLAYGAME):			
 			self.launchEmu()
 			
-		util.log("End onClick", util.LOG_LEVEL_DEBUG)
+		Logutil.log("End onClick", util.LOG_LEVEL_DEBUG)
 		
 
 	def onFocus( self, controlId ):
-		util.log("onFocus", util.LOG_LEVEL_DEBUG)		
+		Logutil.log("onFocus", util.LOG_LEVEL_DEBUG)		
 		self.selectedControlId = controlId
 
 	def onAction( self, action ):		
 		if(action.getId() in ACTION_CANCEL_DIALOG):
-			util.log("onAction exit", util.LOG_LEVEL_DEBUG)
+			Logutil.log("onAction exit", util.LOG_LEVEL_DEBUG)
 			
 			#stop Player (if playing)
 			if(xbmc.Player().isPlayingVideo()):
@@ -120,14 +123,14 @@ class UIGameInfoView(xbmcgui.WindowXMLDialog):
 		elif(action.getId() in ACTION_MOVEMENT_LEFT or action.getId() in ACTION_MOVEMENT_RIGHT):
 			if(self.selectedControlId == CONTROL_GAME_LIST_GROUP):
 				
-				util.log("onAction Movement up/down", util.LOG_LEVEL_DEBUG)
+				Logutil.log("onAction Movement up/down", util.LOG_LEVEL_DEBUG)
 				
 				pos = self.getCurrentListPosition()
 				if(pos == -1):
 					pos = 0
 				selectedGame = self.getListItem(pos)
 				if(selectedGame == None):
-					util.log("selectedGame == None in showGameInfo", util.LOG_LEVEL_WARNING)
+					Logutil.log("selectedGame == None in showGameInfo", util.LOG_LEVEL_WARNING)
 					return
 			
 				self.selectedGameId = selectedGame.getLabel2()
@@ -136,9 +139,10 @@ class UIGameInfoView(xbmcgui.WindowXMLDialog):
 	
 	def showGameList(self):
 		
-		util.log("Begin showGameList", util.LOG_LEVEL_DEBUG)
+		Logutil.log("Begin showGameList", util.LOG_LEVEL_DEBUG)
 		
-		games = Game(self.gdb).getFilteredGames(self.selectedConsoleId, self.selectedGenreId, self.selectedYearId, self.selectedPublisherId)
+		likeStatement = helper.buildLikeStatement(self.selectedCharacter)
+		games = Game(self.gdb).getFilteredGames(self.selectedConsoleId, self.selectedGenreId, self.selectedYearId, self.selectedPublisherId, likeStatement)
 				
 		self.writeMsg("loading games...")
 		
@@ -159,12 +163,12 @@ class UIGameInfoView(xbmcgui.WindowXMLDialog):
 		xbmcgui.unlock()
 		self.writeMsg("")
 		
-		util.log("End showGameList", util.LOG_LEVEL_DEBUG)
+		Logutil.log("End showGameList", util.LOG_LEVEL_DEBUG)
 	
 		
 	def showGameInfo(self):
 		
-		util.log("Begin showGameInfo", util.LOG_LEVEL_DEBUG)
+		Logutil.log("Begin showGameInfo", util.LOG_LEVEL_DEBUG)
 		
 		#stop video (if playing)
 		if(xbmc.Player().isPlayingVideo()):
@@ -235,25 +239,25 @@ class UIGameInfoView(xbmcgui.WindowXMLDialog):
 			playlist.clear()			
 			xbmc.Player().play(video, xbmcgui.ListItem('Dummy'), True)
 		
-		util.log("End showGameInfo", util.LOG_LEVEL_DEBUG)
+		Logutil.log("End showGameInfo", util.LOG_LEVEL_DEBUG)
 		
 		
 	def getItemName(self, object, itemId):
 		
-		util.log("Begin getItemName", util.LOG_LEVEL_DEBUG)
+		Logutil.log("Begin getItemName", util.LOG_LEVEL_DEBUG)
 		
 		itemRow = object.getObjectById(itemId)
 		if(itemRow == None):
-			util.log("End getItemName", util.LOG_LEVEL_DEBUG)
+			Logutil.log("End getItemName", util.LOG_LEVEL_DEBUG)
 			return ""
 		else:
-			util.log("End getItemName", util.LOG_LEVEL_DEBUG)
+			Logutil.log("End getItemName", util.LOG_LEVEL_DEBUG)
 			return itemRow[1]
 			
 	
 	def setLabel(self, controlId, value):
 		
-		util.log("Begin setLabel", util.LOG_LEVEL_DEBUG)
+		Logutil.log("Begin setLabel", util.LOG_LEVEL_DEBUG)
 		
 		if(value == None):
 			value = ""	
@@ -262,12 +266,12 @@ class UIGameInfoView(xbmcgui.WindowXMLDialog):
 		if(control == None):
 			return
 		control.setLabel(str(value))
-		util.log("End setLabel", util.LOG_LEVEL_DEBUG)
+		Logutil.log("End setLabel", util.LOG_LEVEL_DEBUG)
 		
 		
 	def setImage(self, controlId, controlName, gameId, publisherId, developerId, romCollectionId, defaultImage):
 		
-		util.log("Begin setImage", util.LOG_LEVEL_DEBUG)
+		Logutil.log("Begin setImage", util.LOG_LEVEL_DEBUG)
 				
 		images = helper.getFilesByControl_Cached(self.gdb, controlName, gameId, publisherId, developerId, romCollectionId, self.fileTypeForControlDict, self.fileTypeDict, self.fileDict, self.romCollectionDict)
 		
@@ -286,12 +290,12 @@ class UIGameInfoView(xbmcgui.WindowXMLDialog):
 			else:						
 				control.setImage(defaultImage)
 				
-		util.log("End setImage", util.LOG_LEVEL_DEBUG)
+		Logutil.log("End setImage", util.LOG_LEVEL_DEBUG)
 	
 	
 	def launchEmu(self):
 		
-		util.log("Begin launchEmu", util.LOG_LEVEL_INFO)
+		Logutil.log("Begin launchEmu", util.LOG_LEVEL_INFO)
 		
 		pos = self.getCurrentListPosition()
 		if(pos == -1):
@@ -299,37 +303,37 @@ class UIGameInfoView(xbmcgui.WindowXMLDialog):
 		selectedGame = self.getListItem(pos)
 		
 		if(selectedGame == None):
-			util.log("selectedGame == None in launchEmu", util.LOG_LEVEL_WARNING)
+			Logutil.log("selectedGame == None in launchEmu", util.LOG_LEVEL_WARNING)
 			return
 			
 		gameId = selectedGame.getLabel2()
 		
 		helper.launchEmu(self.gdb, self, gameId)
-		util.log("End launchEmu", util.LOG_LEVEL_INFO)
+		Logutil.log("End launchEmu", util.LOG_LEVEL_INFO)
 		
 	
 	def saveViewState(self, isOnExit):
 		
-		util.log("Begin saveViewState", util.LOG_LEVEL_INFO)
+		Logutil.log("Begin saveViewState", util.LOG_LEVEL_INFO)
 		
 		selectedGameIndex = self.getCurrentListPosition()
 		if(selectedGameIndex == -1):
 			selectedGameIndex = 0
 		if(selectedGameIndex == None):
-			util.log("selectedGameIndex == None in saveViewState", util.LOG_LEVEL_WARNING)
+			Logutil.log("selectedGameIndex == None in saveViewState", util.LOG_LEVEL_WARNING)
 			return
 		
 		helper.saveViewState(self.gdb, isOnExit, 'gameInfoView', selectedGameIndex, self.selectedConsoleIndex, self.selectedGenreIndex, self.selectedPublisherIndex, 
-			self.selectedYearIndex, self.selectedControlIdMainView, self.selectedControlId)
+			self.selectedYearIndex, self.selectedCharacterIndex, self.selectedControlIdMainView, self.selectedControlId)
 			
-		util.log("End saveViewState", util.LOG_LEVEL_INFO)
+		Logutil.log("End saveViewState", util.LOG_LEVEL_INFO)
 			
 			
 	def getControlById(self, controlId):
 		try:
 			control = self.getControl(controlId)
 		except: 
-			util.log("Control with id: %s could not be found. Check WindowXML file." %str(controlId), util.LOG_LEVEL_ERROR)
+			Logutil.log("Control with id: %s could not be found. Check WindowXML file." %str(controlId), util.LOG_LEVEL_ERROR)
 			self.writeMsg("Control with id: %s could not be found. Check WindowXML file." %str(controlId))
 			return None
 		

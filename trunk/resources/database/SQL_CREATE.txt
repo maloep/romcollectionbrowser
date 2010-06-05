@@ -73,7 +73,10 @@ CREATE TABLE IF NOT EXISTS [RCBSetting]
 	[saveViewStateOnLaunchEmu] INTEGER,
 	[lastFocusedControlMainView] INTEGER,
 	[lastFocusedControlGameInfoView] INTEGER,
-	[logLevel] INTEGER
+	[logLevel] INTEGER,
+	[showEntryAllChars] INTEGER,
+	[lastSelectedCharacterIndex] INTEGER,
+	[preventUnfilteredSearch] INTEGER
 );
 
 

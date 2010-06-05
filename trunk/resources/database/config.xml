@@ -4,6 +4,8 @@
 		<showEntryAllGenres>True</showEntryAllGenres>
 		<showEntryAllYears>True</showEntryAllYears>
 		<showEntryAllPublisher>True</showEntryAllPublisher>
+		<showEntryAllChars>True</showEntryAllChars>
+		<preventUnfilteredSearch>True</preventUnfilteredSearch>
 		<saveViewStateOnExit>True</saveViewStateOnExit>
 		<saveViewStateOnLaunchEmu>True</saveViewStateOnLaunchEmu>
 		<logLevel>INFO</logLevel>
@@ -91,7 +93,7 @@
 			<name>Collection V1</name>
 			<consoleName>Amiga</consoleName>
 			<emulatorCmd>E:\Emulatoren\WINUAE\winuae.exe {-%I% "%ROM%"}</emulatorCmd>
-			<useEmuSolo>False</useEmuSolo>
+			<useEmuSolo>True</useEmuSolo>
 			<escapeCommand>True</escapeCommand>						
 			<descFilePerGame>False</descFilePerGame>
 			<descriptionParserFile>E:\Emulatoren\data\Testdata V0.5\Collection V1\parserConfig.xml</descriptionParserFile>
@@ -102,7 +104,6 @@
 			<searchGameByCRCIgnoreRomName>False</searchGameByCRCIgnoreRomName>
 			<ignoreGameWithoutDesc>True</ignoreGameWithoutDesc>
 			<romPath>E:\Emulatoren\data\Testdata V0.5\Collection V1\roms\*.adf</romPath>
-			<romPath>E:\Emulatoren\data\Testdata V0.5\Collection V1\roms\*.ADF</romPath>
 			<descFilePath>E:\Emulatoren\data\Testdata V0.5\Collection V1\synopsis\synopsis.txt</descFilePath>			
 			<mediaPath type="cover">E:\Emulatoren\data\Testdata V0.5\Collection V1\cover\%GAME%.jpg</mediaPath>			
 			<mediaPath type="screenshotingame">E:\Emulatoren\data\Testdata V0.5\Collection V1\screens\%GAME%.jpg</mediaPath>			

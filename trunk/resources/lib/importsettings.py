@@ -62,9 +62,11 @@ class SettingsImporter:
 				saveViewStateOnExit = self.getElementValue(rcbSetting, 'saveViewStateOnExit')
 				saveViewStateOnLaunchEmu = self.getElementValue(rcbSetting, 'saveViewStateOnLaunchEmu')
 				logLevel = self.getElementValue(rcbSetting, 'logLevel')
+				showEntryAllChars = self.getElementValue(rcbSetting, 'showEntryAllChars')				
+				preventUnfilteredSearch = self.getElementValue(rcbSetting, 'preventUnfilteredSearch')
 				
 				self.insertRCBSetting(favoriteConsole, favoriteGenre, showEntryAllConsoles, showEntryAllGenres, showEntryAllYears, showEntryAllPublisher, 
-					saveViewStateOnExit, saveViewStateOnLaunchEmu, logLevel)
+					saveViewStateOnExit, saveViewStateOnLaunchEmu, logLevel, showEntryAllChars, preventUnfilteredSearch)
 			
 		stepCount = stepCount +1
 		gui.writeMsg("Importing Console Info...", stepCount)
@@ -261,7 +263,7 @@ class SettingsImporter:
 	
 	
 	def insertRCBSetting(self, favoriteConsole, favoriteGenre, showEntryAllConsoles, showEntryAllGenres, showEntryAllYears, showEntryAllPublisher, saveViewStateOnExit, 
-			saveViewStateOnLaunchEmu, logLevel):
+			saveViewStateOnLaunchEmu, logLevel, showEntryAllChars, preventUnfilteredSearch):
 		
 		rcbSettingRows = RCBSetting(self.gdb).getAll()
 		
@@ -281,6 +283,11 @@ class SettingsImporter:
 			saveViewStateOnExit = 'False'
 		if(saveViewStateOnLaunchEmu == ''):
 			saveViewStateOnLaunchEmu = 'False'
+		if(showEntryAllChars == ''):
+			showEntryAllChars = 'True'
+		if(preventUnfilteredSearch == ''):
+			preventUnfilteredSearch = 'False'
+		
 		if(logLevel == ''):
 			logLevel = 1
 		elif(logLevel == 'ERROR'):
@@ -292,13 +299,15 @@ class SettingsImporter:
 		elif(logLevel == 'DEBUG'):
 			logLevel = 3
 		
+		
 		if(rcbSettingRows == None or len(rcbSettingRows) == 0):			
 			RCBSetting(self.gdb).insert((None, None, None, None, None, None, favoriteConsole, favoriteGenre, None, CURRENT_SCRIPT_VERSION, 
-				showEntryAllConsoles, showEntryAllGenres, showEntryAllYears, showEntryAllPublisher, saveViewStateOnExit, saveViewStateOnLaunchEmu, None, None, logLevel))
+				showEntryAllConsoles, showEntryAllGenres, showEntryAllYears, showEntryAllPublisher, saveViewStateOnExit, saveViewStateOnLaunchEmu, None, None, logLevel,
+				showEntryAllChars, None, preventUnfilteredSearch))
 		else:
 			rcbSetting = rcbSettingRows[0]
-			RCBSetting(self.gdb).update(('dbVersion', 'favoriteConsoleId', 'favoriteGenreId', 'showEntryAllConsoles', 'showEntryAllGenres', 'showEntryAllYears', 'showEntryAllPublisher', 'saveViewStateOnExit', 'saveViewStateOnLaunchEmu', 'logLevel'),
-				(CURRENT_SCRIPT_VERSION, favoriteConsole, favoriteGenre, showEntryAllConsoles, showEntryAllGenres, showEntryAllYears, showEntryAllPublisher, saveViewStateOnExit, saveViewStateOnLaunchEmu, logLevel), rcbSetting[0])
+			RCBSetting(self.gdb).update(('dbVersion', 'favoriteConsoleId', 'favoriteGenreId', 'showEntryAllConsoles', 'showEntryAllGenres', 'showEntryAllYears', 'showEntryAllPublisher', 'saveViewStateOnExit', 'saveViewStateOnLaunchEmu', 'logLevel', 'showEntryAllChars', 'preventUnfilteredSearch'),
+				(CURRENT_SCRIPT_VERSION, favoriteConsole, favoriteGenre, showEntryAllConsoles, showEntryAllGenres, showEntryAllYears, showEntryAllPublisher, saveViewStateOnExit, saveViewStateOnLaunchEmu, logLevel, showEntryAllChars, preventUnfilteredSearch), rcbSetting[0])
 	
 	
 	def insertConsole(self, consoleName, consoleDesc, consoleImage):
