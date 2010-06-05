@@ -164,6 +164,7 @@ class Game(DataBaseObject):
 					(Id IN (Select GameId From GenreGame Where GenreId = ?) OR (0 = ?)) AND \
 					(YearId = ? OR (0 = ?)) AND \
 					(PublisherId = ? OR (0 = ?)) \
+					AND %s \
 					ORDER BY name DESC"	#TODO Why DESC to have it sorted ASC in XBMC (without using SortMethod)?
 					
 	filterByNameAndRomCollectionId = "SELECT * FROM Game WHERE name = ? and romCollectionId = ?"
@@ -172,9 +173,10 @@ class Game(DataBaseObject):
 		self.gdb = gdb
 		self.tableName = "Game"
 		
-	def getFilteredGames(self, consoleId, genreId, yearId, publisherId):
+	def getFilteredGames(self, consoleId, genreId, yearId, publisherId, likeStatement):
 		args = (consoleId, genreId, yearId, publisherId)
-		games = self.getObjectsByWildcardQuery(self.filterQuery, args)
+		filterQuery = self.filterQuery %likeStatement		
+		games = self.getObjectsByWildcardQuery(filterQuery, args)		
 		return games
 		
 	def getGameByNameAndRomCollectionId(self, name, romCollectionId):

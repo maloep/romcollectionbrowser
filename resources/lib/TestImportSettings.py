@@ -185,7 +185,7 @@ class TestImportSettings(unittest.TestCase):
 		self.assertEqual(collV5[10], '_Disk')
 		self.assertEqual(collV5[12], 'True')
 		self.assertEqual(collV5[13], 'False')
-		self.assertEqual(collV5[14], 'True')
+		self.assertEqual(collV5[14], 'False')
 		self.assertEqual(collV5[15], 'False')
 		self.assertEqual(collV5[16], 'False')
 		self.assertEqual(collV5[17], 'True')

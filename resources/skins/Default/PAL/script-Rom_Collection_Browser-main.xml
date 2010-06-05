@@ -427,7 +427,7 @@
 						<width>320</width>
 						<height>480</height>
 						<onleft>2201</onleft>
-						<onright>500</onright>
+						<onright>900</onright>
 						<onup>52</onup>
 						<ondown>52</ondown>					
 						<viewtype label="Info 2">list</viewtype>	
@@ -446,7 +446,7 @@
 								<width>320</width>
 								<height>25</height>
 								<font>font13</font>
-								<textcolor>grey2</textcolor>
+								<textcolor>grey</textcolor>
 								<selectedcolor>selected</selectedcolor>
 								<align>left</align>
 								<aligny>center</aligny>
@@ -485,8 +485,8 @@
 								<label>$INFO[ListItem.Label]</label>
 							</control>						
 						</focusedlayout>
-					</control>
-				</control>
+					</control>												
+				</control>								
 				
 				<control type="group" id="350">
 					<visible allowhiddenfocus="true">Control.IsVisible(52)</visible>
@@ -862,7 +862,7 @@
 				<width>125</width>
 				<height>96</height>
 				<onleft>700</onleft>
-				<onright>2</onright>
+				<onright>900</onright>
 				<onup>800</onup>
 				<ondown>800</ondown>
 				<viewtype label="Year">wrap</viewtype>
@@ -920,6 +920,80 @@
 					</control>
 				</focusedlayout>
 			</control>
+			<!-- Character filter -->	
+			<control type="label">
+				<description>Character</description>
+				<posx>655</posx>
+				<posy>20</posy>
+				<textcolor>DDFFFFFF</textcolor>
+				<label>A-Z</label>
+			</control>		
+			<control type="wraplist" id="900">
+				<posx>650</posx>
+				<posy>50</posy>
+				<width>30</width>
+				<height>96</height>
+				<onleft>800</onleft>
+				<onright>2</onright>
+				<onup>900</onup>
+				<ondown>900</ondown>
+				<viewtype label="Character">wrap</viewtype>
+				<!--<visible allowhiddenfocus="true">Control.HasFocus(5200)</visible>-->
+				<focusposition>1</focusposition>
+				<scrolltime>200</scrolltime>
+				<itemlayout height="32">
+					<control type="image">
+						<width>30</width>
+						<height>30</height>
+						<posx>0</posx>
+						<posy>0</posy>
+						<texture border="5">rcb-button-nofocus.png</texture>
+					</control>
+					<control type="label">
+						<posx>5</posx>
+						<posy>0</posy>
+						<width>30</width>
+						<height>30</height>
+						<font>font13</font>
+						<aligny>center</aligny>
+						<textcolor>DDFFFFFF</textcolor>
+						<selectedcolor>FFe2ff43</selectedcolor>
+						<align>left</align>
+						<info>ListItem.Label</info>
+					</control>
+				</itemlayout>
+				<focusedlayout height="32">
+					<control type="image">
+						<width>30</width>
+						<height>30</height>
+						<posx>0</posx>
+						<posy>0</posy>
+						<visible>Control.HasFocus(900)</visible>
+						<texture border="5">rcb-button-focus.png</texture>
+					</control>
+					<control type="image">
+						<width>30</width>
+						<height>30</height>
+						<posx>0</posx>
+						<posy>0</posy>
+						<visible>!Control.HasFocus(900)</visible>
+						<texture border="5">rcb-button-nofocus.png</texture>
+					</control>
+					<control type="label">
+						<posx>5</posx>
+						<posy>0</posy>
+						<width>30</width>
+						<height>30</height>
+						<font>font13</font>
+						<aligny>center</aligny>
+						<textcolor>DDFFFFFF</textcolor>
+						<selectedcolor>FFe2ff43</selectedcolor>
+						<align>left</align>
+						<info>ListItem.Label</info>
+					</control>
+				</focusedlayout>
+			</control>	
+			
 		</control>
 		
 		<!-- Button group -->
@@ -1002,10 +1076,10 @@
 				<pulseonselect></pulseonselect>
 				<onup>50</onup>
 				<ondown>500</ondown>
-				<onleft>3100</onleft>
-				<onright>800</onright>				
-			</control>
-		</control>
+				<onleft>3000</onleft>
+				<onright>900</onright>				
+			</control>			
+		</control>			
 		
 		<!-- Counter -->		
 		<control type="label">

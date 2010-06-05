@@ -43,6 +43,10 @@ RCBSETTING_saveViewStateOnExit = 15
 RCBSETTING_saveViewStateOnLaunchEmu = 16
 RCBSETTING_lastFocusedControlMainView = 17
 RCBSETTING_lastFocusedControlGameInfoView = 18
+RCBSETTING_logLevel = 19
+RCBSETTING_showEntryAllChars = 20
+RCBSETTING_lastSelectedCharacterIndex = 21
+RCBSETTING_preventUnfilteredSearch = 22
 
 ROMCOLLECTION_consoleId = 2
 ROMCOLLECTION_emuCommandLine = 3
@@ -104,6 +108,7 @@ IMAGE_CONTROL_MV_GAMEINFO_LOWERRIGHT = 'mainviewgameinfolowerright'
 IMAGE_CONTROL_MV_1 = 'mainview1'
 IMAGE_CONTROL_MV_2 = 'mainview2'
 IMAGE_CONTROL_MV_3 = 'mainview3'
+VIDEO_CONTROL_MV_VideoWindow = 'mainviewvideowindow'
 VIDEO_CONTROL_MV_VideoWindowBig = 'mainviewvideowindowbig'
 VIDEO_CONTROL_MV_VideoWindowSmall = 'mainviewvideowindowsmall'
 
