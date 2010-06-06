@@ -219,7 +219,7 @@ class DescriptionParser:
 def main():
 	dp = DescriptionParser()
 	results = dp.parseDescription('E:\\Emulatoren\\data\\xtras\\Test synopsis\\Synopsis files\\Test Paybac.txt', 
-		'E:\\Emulatoren\\data\\xtras\\Test synopsis\\parserConfig_Chip8.xml', '')
+		'E:\\Emulatoren\\data\\xtras\\Test synopsis\\parserConfig.xml', '')
 	
 	#results = dp.parseDescription('E:\\Emulatoren\\data\\Parser Tests\\desc.txt', 
 	#	'E:\\Emulatoren\\data\\Parser Tests\\parser.xml', '')
