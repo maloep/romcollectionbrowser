@@ -105,58 +105,13 @@ def launchEmu(gdb, gui, gameId):
 		env = ( os.environ.get( "OS", "win32" ), "win32", )[ os.environ.get( "OS", "win32" ) == "xbox" ]	
 		
 		#handle multi rom scenario
-		filenameRows = File(gdb).getRomsByGameId(gameRow[util.ROW_ID])
-		fileindex = int(0)
-		for fileNameRow in filenameRows:
-			fileName = fileNameRow[0]			
-			rom = ""
-			#we could have multiple rom Paths - search for the correct one
-			for romPath in romPaths:
-				rom = os.path.join(romPath, fileName)
-				if(os.path.isfile(rom)):
-					break
-			if(rom == ""):
-				Logutil.log("no rom file found for game: " +str(gameRow[1]), util.LOG_LEVEL_ERROR)
-				
-			#cmd could be: uae {-%I% %ROM%}
-			#we have to repeat the part inside the brackets and replace the %I% with the current index
-			obIndex = emuCommandLine.find('{')
-			cbIndex = emuCommandLine.find('}')			
-			if obIndex > -1 and cbIndex > 1:
-				replString = emuCommandLine[obIndex+1:cbIndex]
-			cmd = emuCommandLine.replace("{", "")
-			cmd = cmd.replace("}", "")
-			if fileindex == 0:				
-				if (romCollectionRow[util.ROMCOLLECTION_escapeEmuCmd] == 1):				
-					cmd = cmd.replace('%ROM%', re.escape(rom))					
-				else:					
-					cmd = cmd.replace('%ROM%', rom)
-				cmd = cmd.replace('%I%', str(fileindex))
-			else:
-				newrepl = replString
-				if (romCollectionRow[util.ROMCOLLECTION_escapeEmuCmd] == 1):
-					newrepl = newrepl.replace('%ROM%', re.escape(rom))					
-				else:					
-					newrepl = newrepl.replace('%ROM%', rom)
-				newrepl = newrepl.replace('%I%', str(fileindex))
-				cmd += ' ' +newrepl			
-			fileindex += 1
+		filenameRows = File(gdb).getRomsByGameId(gameRow[util.ROW_ID])		
+		
+		cmd = buildCmd(filenameRows, romPaths, emuCommandLine, romCollectionRow)
 			
 		if (romCollectionRow[util.ROMCOLLECTION_useEmuSolo] == 'True'):
-			# Backup original autoexec.py		
-			autoexec = os.path.join(RCBHOME, '..', 'autoexec.py')
-			doBackup(gdb, autoexec)			
-
-			# Write new autoexec.py
-			try:
-				fh = open(autoexec,'w') # truncate to 0
-				fh.write("#Rom Collection Browser autoexec\n")
-				fh.write("import xbmc\n")
-				fh.write("xbmc.executescript('"+ os.path.join(RCBHOME, 'default.py')+"')\n")
-				fh.close()
-			except Exception, (exc):
-				Logutil.log("Cannot write to autoexec.py: " +str(exc), util.LOG_LEVEL_ERROR)
-				return
+			
+			writeAutoexec(gdb)
 
 			# Remember selection
 			gui.saveViewState(False)
@@ -176,59 +131,10 @@ def launchEmu(gdb, gui, gameId):
 		Logutil.log("cmd: " +cmd, util.LOG_LEVEL_INFO)			
 		
 		try:
-			if (os.environ.get( "OS", "xbox" ) == "xbox"):
-			#if (True):
-				Logutil.log("launchEmu on xbox", util.LOG_LEVEL_INFO)
-				
-				#on xbox emucmd must be the path to an executable or cut file
-				if (not os.path.isfile(cmd)):
-					Logutil.log("Error while launching emu: File %s does not exist!" %cmd, util.LOG_LEVEL_ERROR)
-					gui.writeMsg("Error while launching emu: File %s does not exist!" %cmd)
-					return
-								
-				if (romCollectionRow[util.ROMCOLLECTION_xboxCreateShortcut] == 'True'):
-					Logutil.log("creating cut file", util.LOG_LEVEL_INFO)
-					
-					cutFile = createXboxCutFile(cmd, filenameRows, romCollectionRow)
-					if(cutFile == ""):
-						Logutil.log("Error while creating .cut file. Check xbmc.log for details.", util.LOG_LEVEL_ERROR)
-						gui.writeMsg("Error while creating .cut file. Check xbmc.log for details.")
-						return
-						
-					cmd = cutFile
-					Logutil.log("cut file created: " +cmd, util.LOG_LEVEL_INFO)
-					
-				Logutil.log("RunXbe", util.LOG_LEVEL_INFO)
-				xbmc.executebuiltin("XBMC.Runxbe(%s)" %cmd)
-				Logutil.log("RunXbe done", util.LOG_LEVEL_INFO)
-				time.sleep(1000)
+			if (os.environ.get( "OS", "xbox" ) == "xbox"):			
+				launchXbox(gui, gdb, cmd, romCollectionRow, filenameRows)
 			else:
-				Logutil.log("launchEmu on non-xbox", util.LOG_LEVEL_INFO)							
-				
-				toggledScreenMode = False
-				
-				if (romCollectionRow[util.ROMCOLLECTION_useEmuSolo] == 'False'):
-					screenMode = xbmc.executehttpapi("GetSystemInfoByName(system.screenmode)").replace("<li>","")
-					Logutil.log("screenMode: " +screenMode, util.LOG_LEVEL_DEBUG)
-					isFullScreen = screenMode.endswith("Full Screen")
-					
-					if(isFullScreen):
-						Logutil.log("Toggle to Windowed mode", util.LOG_LEVEL_INFO)
-						#this minimizes xbmc some apps seems to need it
-						xbmc.executehttpapi("Action(199)")
-						toggledScreenMode = True
-					
-				Logutil.log("launch emu", util.LOG_LEVEL_INFO)
-				os.system(cmd)
-				Logutil.log("launch emu done", util.LOG_LEVEL_INFO)
-				
-				screenMode = xbmc.executehttpapi("GetSystemInfoByName(system.screenmode)")
-				isFullScreen = screenMode.endswith("Full Screen")
-				
-				if(toggledScreenMode):
-					Logutil.log("Toggle to Full Screen mode", util.LOG_LEVEL_INFO)
-					#this brings xbmc back
-					xbmc.executehttpapi("Action(199)")
+				launchNonXbox(romCollectionRow, cmd)
 						
 		except Exception, (exc):
 			Logutil.log("Error while launching emu: " +str(exc), util.LOG_LEVEL_ERROR)
@@ -256,6 +162,66 @@ def buildLikeStatement(selectedCharacter):
 	else:		
 		return "name LIKE '%s'" %(selectedCharacter +'%')
 		
+
+		
+def buildCmd(filenameRows, romPaths, emuCommandLine, romCollectionRow):
+	fileindex = int(0)
+	
+	for fileNameRow in filenameRows:
+		fileName = fileNameRow[0]			
+		rom = ""
+		#we could have multiple rom Paths - search for the correct one
+		for romPath in romPaths:
+			rom = os.path.join(romPath, fileName)
+			if(os.path.isfile(rom)):
+				break
+		if(rom == ""):
+			Logutil.log("no rom file found for game: " +str(gameRow[1]), util.LOG_LEVEL_ERROR)
+			return ""
+			
+		#cmd could be: uae {-%I% %ROM%}
+		#we have to repeat the part inside the brackets and replace the %I% with the current index
+		obIndex = emuCommandLine.find('{')
+		cbIndex = emuCommandLine.find('}')			
+		if obIndex > -1 and cbIndex > 1:
+			replString = emuCommandLine[obIndex+1:cbIndex]
+		cmd = emuCommandLine.replace("{", "")
+		cmd = cmd.replace("}", "")
+		if fileindex == 0:				
+			if (romCollectionRow[util.ROMCOLLECTION_escapeEmuCmd] == 1):				
+				cmd = cmd.replace('%ROM%', re.escape(rom))					
+			else:					
+				cmd = cmd.replace('%ROM%', rom)
+			cmd = cmd.replace('%I%', str(fileindex))
+		else:
+			newrepl = replString
+			if (romCollectionRow[util.ROMCOLLECTION_escapeEmuCmd] == 1):
+				newrepl = newrepl.replace('%ROM%', re.escape(rom))					
+			else:					
+				newrepl = newrepl.replace('%ROM%', rom)
+			newrepl = newrepl.replace('%I%', str(fileindex))
+			cmd += ' ' +newrepl			
+	fileindex += 1
+	
+	return cmd
+	
+	
+def writeAutoexec(gdb):
+	# Backup original autoexec.py		
+	autoexec = os.path.join(RCBHOME, '..', 'autoexec.py')
+	doBackup(gdb, autoexec)			
+
+	# Write new autoexec.py
+	try:
+		fh = open(autoexec,'w') # truncate to 0
+		fh.write("#Rom Collection Browser autoexec\n")
+		fh.write("import xbmc\n")
+		fh.write("xbmc.executescript('"+ os.path.join(RCBHOME, 'default.py')+"')\n")
+		fh.close()
+	except Exception, (exc):
+		Logutil.log("Cannot write to autoexec.py: " +str(exc), util.LOG_LEVEL_ERROR)
+		return
+		
 		
 def doBackup(gdb, fName):
 		Logutil.log("Begin helper.doBackup", util.LOG_LEVEL_INFO)
@@ -282,6 +248,39 @@ def doBackup(gdb, fName):
 			gdb.commit()
 			
 		Logutil.log("End helper.doBackup", util.LOG_LEVEL_INFO)
+		
+
+def launchXbox(gui, gdb, cmd, romCollectionRow, filenameRows):
+	Logutil.log("launchEmu on xbox", util.LOG_LEVEL_INFO)
+	
+	#on xbox emucmd must be the path to an executable or cut file
+	if (not os.path.isfile(cmd)):
+		Logutil.log("Error while launching emu: File %s does not exist!" %cmd, util.LOG_LEVEL_ERROR)
+		gui.writeMsg("Error while launching emu: File %s does not exist!" %cmd)
+		return
+					
+	if (romCollectionRow[util.ROMCOLLECTION_xboxCreateShortcut] == 'True'):
+		Logutil.log("creating cut file", util.LOG_LEVEL_INFO)
+		
+		cutFile = createXboxCutFile(cmd, filenameRows, romCollectionRow)
+		if(cutFile == ""):
+			Logutil.log("Error while creating .cut file. Check xbmc.log for details.", util.LOG_LEVEL_ERROR)
+			gui.writeMsg("Error while creating .cut file. Check xbmc.log for details.")
+			return
+			
+		cmd = cutFile
+		Logutil.log("cut file created: " +cmd, util.LOG_LEVEL_INFO)
+		
+	
+	#RunXbe always terminates XBMC. So we have to saveviewstate here
+	writeAutoexec(gdb)
+	# Remember selection
+	gui.saveViewState(False)
+		
+	Logutil.log("RunXbe", util.LOG_LEVEL_INFO)
+	xbmc.executebuiltin("XBMC.Runxbe(%s)" %cmd)
+	Logutil.log("RunXbe done", util.LOG_LEVEL_INFO)
+	time.sleep(1000)
 		
 
 def createXboxCutFile(emuCommandLine, filenameRows, romCollectionRow):
@@ -337,6 +336,32 @@ def getRomfilenameForXboxCutfile(filenameRows, romCollectionRow):
 	basename = os.path.basename(filename)
 	filename = os.path.splitext(basename)[0]
 	return filename
+	
+	
+def launchNonXbox(romCollectionRow, cmd):
+	Logutil.log("launchEmu on non-xbox", util.LOG_LEVEL_INFO)							
+				
+	toggledScreenMode = False
+	
+	if (romCollectionRow[util.ROMCOLLECTION_useEmuSolo] == 'False'):
+		screenMode = xbmc.executehttpapi("GetSystemInfoByName(system.screenmode)").replace("<li>","")
+		Logutil.log("screenMode: " +screenMode, util.LOG_LEVEL_DEBUG)
+		isFullScreen = screenMode.endswith("Full Screen")
+		
+		if(isFullScreen):
+			Logutil.log("Toggle to Windowed mode", util.LOG_LEVEL_INFO)
+			#this minimizes xbmc some apps seems to need it
+			xbmc.executehttpapi("Action(199)")
+			toggledScreenMode = True
+		
+	Logutil.log("launch emu", util.LOG_LEVEL_INFO)
+	os.system(cmd)
+	Logutil.log("launch emu done", util.LOG_LEVEL_INFO)		
+	
+	if(toggledScreenMode):
+		Logutil.log("Toggle to Full Screen mode", util.LOG_LEVEL_INFO)
+		#this brings xbmc back
+		xbmc.executehttpapi("Action(199)")
 	
 
 def saveViewState(gdb, isOnExit, selectedView, selectedGameIndex, selectedConsoleIndex, selectedGenreIndex, selectedPublisherIndex, selectedYearIndex, selectedCharacterIndex,
