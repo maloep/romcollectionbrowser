@@ -685,7 +685,7 @@ class DBUpdate:
 		elif(logLevel == LOG_LEVEL_ERROR):
 			prefix = 'RCB_ERROR: '
 
-		print prefix + message
+		self.logFile.write(prefix +message +"\n")
 		
 
 	def exit(self):
