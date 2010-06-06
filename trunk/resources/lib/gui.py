@@ -766,7 +766,9 @@ class UIGameDB(xbmcgui.WindowXML):
 	def checkAutoExec(self):
 		Logutil.log("Begin checkAutoExec" , util.LOG_LEVEL_INFO)
 		
-		autoexec = os.path.join(RCBHOME, '..', 'autoexec.py')		
+		autoexec = os.path.join(RCBHOME, '..', 'autoexec.py')
+		autoexec = os.path.normpath(autoexec)
+		Logutil.log("Checking path: "  +autoexec, util.LOG_LEVEL_INFO)
 		if (os.path.isfile(autoexec)):	
 			lines = ""
 			try:
@@ -788,6 +790,8 @@ class UIGameDB(xbmcgui.WindowXML):
 						return
 				else:
 					return
+		else:
+			Logutil.log("No autoexec.py found at given path.", util.LOG_LEVEL_INFO)
 		
 		rcbSetting = helper.getRCBSetting(self.gdb)
 		if (rcbSetting == None):
