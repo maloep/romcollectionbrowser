@@ -52,8 +52,49 @@ class DescriptionParser:
 		return results
 		
 		
+	def getGameGrammar(self, descParseInstruction, gamename):
+		
+		#configFile = os.path.join(databaseDir, 'parserConfig.xml')
+		fh=open(descParseInstruction,"r")
+		xmlDoc = fh.read()
+		fh.close()
+		
+		xmlDoc = parseString(xmlDoc)
+		
+		gameGrammar = xmlDoc.getElementsByTagName('GameGrammar')
+		if(gameGrammar == None):
+			return "";
+			
+		grammarNode = gameGrammar[0]
+		attributes = grammarNode.attributes
+		attrNode = attributes.get('type')
+		if(attrNode == None):
+			return "";
+			
+		parserType = attrNode.nodeValue
+		if(parserType == 'multiline'):
+			results = self.buildGameGrammar(grammarNode, gamename)
+			
+		return results
+		
 		
 	def parseMultiline(self, descFile, grammarNode, gamename):
+		
+		grammar = self.buildGameGrammar(grammarNode, gamename)
+				
+		gameGrammar = Group(grammar)		
+		
+		all = OneOrMore(gameGrammar)		
+		fh = open(str(descFile), 'r')
+		fileAsString = fh.read()		
+		fileAsString = fileAsString.decode('iso-8859-15')
+		
+		results = all.parseString(fileAsString)
+		
+		return results		
+		
+		
+	def buildGameGrammar(self, grammarNode, gamename):
 		
 		grammarList = []
 		rolGrammar = SkipTo(LineEnd()) +Suppress(LineEnd())
@@ -63,10 +104,8 @@ class DescriptionParser:
 		lastNodeGrammar = Empty()
 		
 		for node in grammarNode.childNodes:			
-			
 			if (node.nodeType != Node.ELEMENT_NODE):
-				continue
-			
+				continue			
 			#appendToPreviousNode was set at the end of the last loop
 			if(appendToPreviousNode):				
 				nodeGrammar = lastNodeGrammar
@@ -146,17 +185,7 @@ class DescriptionParser:
 		for grammarItem in grammarList:
 			grammar += grammarItem
 		
-		gameGrammar = Group(grammar)
-		
-		all = OneOrMore(gameGrammar)		
-		fh = open(str(descFile), 'r')
-		fileAsString = fh.read()		
-		fileAsString = fileAsString.decode('iso-8859-15')
-		
-		results = all.parseString(fileAsString)		
-				
-		return results
-		
+		return grammar		
 		
 		
 	def replaceTokens(self, inputString, tokens):
@@ -218,7 +247,7 @@ class DescriptionParser:
 
 def main():
 	dp = DescriptionParser()
-	results = dp.parseDescription('E:\\Emulatoren\\data\\xtras\\Test synopsis\\Synopsis files\\Test Paybac.txt', 
+	results = dp.parseDescription('E:\\Emulatoren\\data\\xtras\\Test synopsis\\Synopsis files\\synopsis_NES.txt', 
 		'E:\\Emulatoren\\data\\xtras\\Test synopsis\\parserConfig.xml', '')
 	
 	#results = dp.parseDescription('E:\\Emulatoren\\data\\Parser Tests\\desc.txt', 
@@ -228,7 +257,8 @@ def main():
 	#	'C:\\Dokumente und Einstellungen\\lom\\Anwendungsdaten\\XBMC\\scripts\\RomCollectionBrowser\\resources\\lib\\TestDataBase\\Collection V5\\parserConfig.xml', '')
 	
 	for result in results:
-		print result.asDict()
+		#print result.asDict()
+		print result
 	del dp
 	print "len results: " +str(len(results))
 	

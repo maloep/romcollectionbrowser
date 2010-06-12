@@ -33,43 +33,45 @@ class TestUpdateDB(unittest.TestCase):
 		
 		#test some filters
 		
+		likeStmnt = '0 = 0'
+		
 		#Amiga Action
-		gameRows = Game(self.gdb).getFilteredGames(1, 1, 0, 0)
+		gameRows = Game(self.gdb).getFilteredGames(1, 1, 0, 0, likeStmnt)
 		self.assertTrue(gameRows != None)
 		self.assertEqual(len(gameRows) , 3)
 		
 		#Amiga 1994
-		gameRows = Game(self.gdb).getFilteredGames(1, 0, 6, 0)		
+		gameRows = Game(self.gdb).getFilteredGames(1, 0, 6, 0, likeStmnt)		
 		self.assertTrue(gameRows != None)
 		self.assertEqual(len(gameRows), 2)
 		
 		#Amiga Black Legend Ltd.
-		gameRows = Game(self.gdb).getFilteredGames(1, 0, 0, 6)
+		gameRows = Game(self.gdb).getFilteredGames(1, 0, 0, 6, likeStmnt)
 		self.assertTrue(gameRows != None)
 		self.assertEqual(len(gameRows), 1)		
 		
 		#Amiga Sports, 1994, Black Legend Ltd.
-		gameRows = Game(self.gdb).getFilteredGames(1, 4, 6, 6)
+		gameRows = Game(self.gdb).getFilteredGames(1, 4, 6, 6, likeStmnt)
 		self.assertTrue(gameRows != None)
 		self.assertEqual(len(gameRows), 1)
 		
 		#NES 1st person shooter
-		gameRows = Game(self.gdb).getFilteredGames(2, 8, 0, 0)
+		gameRows = Game(self.gdb).getFilteredGames(2, 8, 0, 0, likeStmnt)
 		self.assertTrue(gameRows != None)		
 		self.assertEqual(len(gameRows), 1)
 		
 		#NES 1992
-		gameRows = Game(self.gdb).getFilteredGames(2, 0, 7, 0)
+		gameRows = Game(self.gdb).getFilteredGames(2, 0, 7, 0, likeStmnt)
 		self.assertTrue(gameRows != None)
 		self.assertEqual(len(gameRows), 4)
 		
 		#NES Nintendo
-		gameRows = Game(self.gdb).getFilteredGames(2, 0, 0, 12)
+		gameRows = Game(self.gdb).getFilteredGames(2, 0, 0, 12, likeStmnt)
 		self.assertTrue(gameRows != None)
 		self.assertEqual(len(gameRows), 4)
 		
 		#NES 1992 Racing Nintendo 
-		gameRows = Game(self.gdb).getFilteredGames(2, 11, 7, 12)
+		gameRows = Game(self.gdb).getFilteredGames(2, 11, 7, 12, likeStmnt)
 		self.assertTrue(gameRows != None)
 		self.assertEqual(len(gameRows), 1)
 		
@@ -144,11 +146,11 @@ class TestUpdateDB(unittest.TestCase):
 		
 		
 		#test additional file types
-		self.fileTypeTest('developer', 1, gameRows[0][7])
-		self.fileTypeTest('publisher', 1, gameRows[0][6])
+		self.fileTypeTest('developer', 1, gameRows[2][7])
+		self.fileTypeTest('publisher', 1, gameRows[2][6])
 		
-		self.fileTypeTest('developer', 1, gameRows[9][7])
-		self.fileTypeTest('publisher', 1, gameRows[9][6])
+		self.fileTypeTest('developer', 1, gameRows[13][7])
+		self.fileTypeTest('publisher', 1, gameRows[13][6])
 		
 		
 	def gameTest(self, game, name, descStart, gameCmd, alternateGameCmd, romCollectionId, publisherId, developerId, reviewerId,
@@ -192,7 +194,7 @@ class TestUpdateDB(unittest.TestCase):
 				
 		
 	def fileTypeTest(self, typeName, numFilesExpected, gameId):
-		fileTypeRow = FileType(self.gdb).getOneByName(typeName)
+		fileTypeRow = FileType(self.gdb).getOneByName(typeName)		
 		files = File(self.gdb).getFilesByGameIdAndTypeId(gameId, fileTypeRow[0])		
 		self.assertTrue(files != None)
 		numfiles = len(files)
