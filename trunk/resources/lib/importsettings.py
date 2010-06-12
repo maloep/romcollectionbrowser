@@ -442,9 +442,9 @@ class SettingsImporter:
 		rcbSetting = rcbSettings[0]
 		logLevel = self.getElementValue(rcbSetting, 'logLevel')
 		if(logLevel != ''):
-			if(logLevel not in ('INFO', 'WARNING', 'ERROR')):
+			if(logLevel not in ('DEBUG', 'INFO', 'WARNING', 'ERROR')):
 				errorCount = errorCount +1
-				Logutil.log('Import Settings: Error in config.xml. logLevel must be INFO, WARNING OR ERROR!', util.LOG_LEVEL_ERROR)
+				Logutil.log('Import Settings: Error in config.xml. logLevel must be DEBUG, INFO, WARNING OR ERROR!', util.LOG_LEVEL_ERROR)
 		
 			
 		#Consoles

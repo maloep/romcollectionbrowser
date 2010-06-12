@@ -144,7 +144,7 @@ class UIGameDB(xbmcgui.WindowXML):
 		self.gdb.connect()
 		#check if we have an actual database
 		#create new one or alter existing one
-		doImport, errorMsg = self.gdb.checkDBStructure()		
+		doImport, errorMsg = self.gdb.checkDBStructure()
 		
 		self.quit = False
 		if(doImport == -1):
@@ -152,7 +152,7 @@ class UIGameDB(xbmcgui.WindowXML):
 			self.quit = True
 		else:
 			self.gdb.commit()
-
+						
 			self.checkImport(doImport)
 			
 			self.cacheItems()
@@ -439,7 +439,7 @@ class UIGameDB(xbmcgui.WindowXML):
 		#timestamp1 = time.clock()
 		xbmcgui.lock()
 		
-		self.clearList()			
+		self.clearList()
 		
 		for gameRow in games:				
 		
@@ -678,22 +678,30 @@ class UIGameDB(xbmcgui.WindowXML):
 		
 		
 	def updateDB(self):
-		Logutil.log("Begin updateDB" , util.LOG_LEVEL_INFO)
+		Logutil.log("Begin updateDB" , util.LOG_LEVEL_INFO)				
 		
-		dbupdate.DBUpdate().updateDB(self.gdb, self)
+		#dbupdate.DBUpdate().updateDB(self.gdb, self)
+		#self.updateControls()				
+		
+		self.clearList()
+		self.clearCache()
+		self.checkImport(3)
+		self.cacheItems()
 		self.updateControls()
+		
 		Logutil.log("End updateDB" , util.LOG_LEVEL_INFO)
 		
 	
 	def importSettings(self):
-		Logutil.log("Begin importSettings" , util.LOG_LEVEL_INFO)
+		Logutil.log("Begin importSettings" , util.LOG_LEVEL_INFO)				
 		
 		importSuccessful, errorMsg = importsettings.SettingsImporter().importSettings(self.gdb, os.path.join(RCBHOME, 'resources', 'database'), self)
 		if(not importSuccessful):
 			self.writeMsg(errorMsg +' See xbmc.log for details.')
 		else:
 			self.cacheItems()
-			self.updateControls()
+			self.updateControls()				
+		
 		Logutil.log("End importSettings" , util.LOG_LEVEL_INFO)
 		
 		
@@ -734,7 +742,7 @@ class UIGameDB(xbmcgui.WindowXML):
 	
 	
 	def checkImport(self, doImport):
-		#doImport: 0=nothing, 1=import Settings and Games, 2=import Settings only
+		#doImport: 0=nothing, 1=import Settings and Games, 2=import Settings only, 3=import games only
 		if(doImport in (1,2)):
 			dialog = xbmcgui.Dialog()
 			retSettings = dialog.yesno('Rom Collection Browser', 'Database is empty.', 'Do you want to import Settings now?')
@@ -761,6 +769,16 @@ class UIGameDB(xbmcgui.WindowXML):
 						dbupdate.DBUpdate().updateDB(self.gdb, progressDialog)
 						progressDialog.writeMsg("", -1)
 						del progressDialog
+						
+		if(doImport == 3):
+			dialog = xbmcgui.Dialog()
+			retGames = dialog.yesno('Rom Collection Browser', 'Import Games', 'Do you want to import Games now?')
+			if(retGames == True):
+				progressDialog = ProgressDialogGUI()
+				progressDialog.writeMsg("Import games...")
+				dbupdate.DBUpdate().updateDB(self.gdb, progressDialog)
+				progressDialog.writeMsg("", -1)
+				del progressDialog
 
 			
 	def checkAutoExec(self):
@@ -946,12 +964,12 @@ class UIGameDB(xbmcgui.WindowXML):
 			return label2
 		else:
 			Logutil.log("End setFilterSelection" , util.LOG_LEVEL_DEBUG)
-			return 0					
-	
+			return 0								
+		
 	
 	def cacheItems(self):
 		
-		Logutil.log("Begin cacheItems" , util.LOG_LEVEL_DEBUG)
+		Logutil.log("Begin cacheItems" , util.LOG_LEVEL_INFO)
 		
 		self. fileTypeForControlDict = self.cacheFileTypesForControl()
 				
@@ -973,7 +991,24 @@ class UIGameDB(xbmcgui.WindowXML):
 		
 		self.genreDict = self.cacheGenres()
 		
-		Logutil.log("End cacheItems" , util.LOG_LEVEL_DEBUG)
+		Logutil.log("End cacheItems" , util.LOG_LEVEL_INFO)
+		
+		
+	def clearCache(self):
+		Logutil.log("Begin clearCache" , util.LOG_LEVEL_INFO)
+		
+		self. fileTypeForControlDict = None				
+		self. fileTypeDict = None				
+		self.fileDict = None		
+		self.consoleDict = None		
+		self.romCollectionDict = None		
+		self.yearDict = None		
+		self.publisherDict = None		
+		self.developerDict = None		
+		self.reviewerDict = None		
+		self.genreDict = None
+		
+		Logutil.log("End clearCache" , util.LOG_LEVEL_INFO)
 	
 	
 	def cacheFileTypesForControl(self):

@@ -8,6 +8,7 @@
 		<showEntryAllPublisher>True</showEntryAllPublisher>
 		<saveViewStateOnExit>True</saveViewStateOnExit>
 		<saveViewStateOnLaunchEmu>True</saveViewStateOnLaunchEmu>
+		<logLevel>DEBUG</logLevel>
 	</RCBSettings>
 	<Consoles>		
 		<Console>
@@ -259,6 +260,7 @@
 			<xboxCreateShortcutAddRomfile>True</xboxCreateShortcutAddRomfile>
 			<xboxCreateShortcutUseShortGamename>True</xboxCreateShortcutUseShortGamename>
 			<searchGameByCRC>False</searchGameByCRC>
+			<ignoreOnScan>False</ignoreOnScan>
 			<useFoldernameAsCRC>True</useFoldernameAsCRC>
 			<descriptionParserFile>TestDataBase\Collection V5\parserConfig.xml</descriptionParserFile>
 			<descFilePath>TestDataBase\Collection V5\synopsis.txt</descFilePath>

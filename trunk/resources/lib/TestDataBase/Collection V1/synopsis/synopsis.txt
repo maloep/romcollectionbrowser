@@ -1,22 +1,3 @@
-Game: Ports Of Call [Test]
-CRC:
-Platform: Amiga
-Region: USA
-Media: Disk
-Controller: Joystick
-Genre: Simulation
-Release Year: 1987
-Developer: Aegis International
-Publisher: Aegis International
-Players: 4
-URL: http://www.mobygames.com/game/amiga/ports-of-call
-Description:
-Ports of Call gives you the job of a shipowner. First you have to choose your hometown and after that you have to buy your first used ship. Then you have to charter freight and bring it to its destination. With this profit you can buy new ships and so on and on. You also have to repair your ships regularly. If you do not your ships will sink to the oceans.
-
-Ports of Call is a classic German business simulation with some action sequences. In this sequences you must steer your ship into the port or have to rescue some shipwrecked people.
-
-Up to 4 captains can play at one computer.
-********************************************************************
 Game: Airborne Ranger
 CRC:
 Platform: Amiga
@@ -130,4 +111,23 @@ Description:
 Hanse makes you a trader in the 13th Century. Your hometown is Lübeck – a well known German seaport. With a ship and some money you want to become mayor of Lübeck. For this you must open stores in other cities – for example Riga, Malmö or Nowgorod. Every town has a special good (wool, furs or honey). After returning to Lübeck you sell these goods for a variable price. In Lübeck is a dockyard. There you can buy new ships. In Lübeck is also a bank for taking a credit. After marrying a woman and becoming childs you have to buy a teacher for your kids. You can send your childs on a expedition to find new cities. But after your death one kid should be in Lübeck. Then this child take possession of your store. Sometimes you were attacked by pirates or another countries. Then you have to place your cannons on a small strategic map for a automatically fight.
 
 The game ends after 250 years or when you become mayor of Lübeck or no child can take possession of your store.
+********************************************************************
+Game: Ports Of Call [Test]
+CRC:
+Platform: Amiga
+Region: USA
+Media: Disk
+Controller: Joystick
+Genre: Simulation
+Release Year: 1987
+Developer: Aegis International
+Publisher: Aegis International
+Players: 4
+URL: http://www.mobygames.com/game/amiga/ports-of-call
+Description:
+Ports of Call gives you the job of a shipowner. First you have to choose your hometown and after that you have to buy your first used ship. Then you have to charter freight and bring it to its destination. With this profit you can buy new ships and so on and on. You also have to repair your ships regularly. If you do not your ships will sink to the oceans.
+
+Ports of Call is a classic German business simulation with some action sequences. In this sequences you must steer your ship into the port or have to rescue some shipwrecked people.
+
+Up to 4 captains can play at one computer.
 ********************************************************************
