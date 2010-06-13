@@ -39,7 +39,7 @@ class SettingsImporter:
 		#itemCount and stepCount are used to show percentage in ProgressDialog		
 		gui.itemCount = 5
 		stepCount = 1
-		gui.writeMsg("Importing Settings...", stepCount)
+		gui.writeMsg("Importing Settings...", "", "", stepCount)
 				
 		#check config.xml
 		success, errorCount = self.checkFileStructure(xmlDoc, configFile)
@@ -69,7 +69,7 @@ class SettingsImporter:
 					saveViewStateOnExit, saveViewStateOnLaunchEmu, logLevel, showEntryAllChars, preventUnfilteredSearch)
 			
 		stepCount = stepCount +1
-		gui.writeMsg("Importing Console Info...", stepCount)
+		gui.writeMsg("Importing Console Info...", "", "", stepCount)
 		
 		consoles = xmlDoc.getElementsByTagName('Console')
 		for console in consoles:			
@@ -81,7 +81,7 @@ class SettingsImporter:
 		
 		
 		stepCount = stepCount +1
-		gui.writeMsg("Importing File Types...", stepCount)
+		gui.writeMsg("Importing File Types...", "", "", stepCount)
 		
 		#import internal file types
 		self.insertFileType('rcb_rom', 'image', 'game')
@@ -100,7 +100,7 @@ class SettingsImporter:
 		
 		
 		stepCount = stepCount +1
-		gui.writeMsg("Importing Rom Collections...", stepCount)
+		gui.writeMsg("Importing Rom Collections...", "", "", stepCount)
 		
 		#fileTypesForControl must be deleted. There is no useful unique key
 		FileTypeForControl(self.gdb).deleteAll()
@@ -199,7 +199,7 @@ class SettingsImporter:
 		#TODO Transaction?
 		gdb.commit()
 		stepCount = stepCount +1
-		gui.writeMsg("Done.", stepCount)
+		gui.writeMsg("Done.", "", "", stepCount)
 		return True, ''				
 	
 	
