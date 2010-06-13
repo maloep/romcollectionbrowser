@@ -41,14 +41,12 @@ class DBUpdate:
 			self.log("There are no Rom Collections in database. Make sure to import settings first.", util.LOG_LEVEL_ERROR)
 			self.exit()
 			return False, "There are no Rom Collections in database. Make sure to import settings first."
-		self.log(str(len(romCollectionRows)) +" Rom Collections read", util.LOG_LEVEL_INFO)		
-		
-		#itemCount is used fpr percenatge in ProgressDialogGUI
-		gui.itemCount = len(romCollectionRows) +1
+		self.log(str(len(romCollectionRows)) +" Rom Collections read", util.LOG_LEVEL_INFO)				
 		
 		rccount = 1
-		for romCollectionRow in romCollectionRows:			
-			gui.writeMsg("Importing Rom Collection: " +romCollectionRow[1], rccount)
+		for romCollectionRow in romCollectionRows:
+			#prepare Header for ProgressDialog
+			progDialogRCHeader = "Importing Rom Collection (%i / %i): %s" %(rccount, len(romCollectionRows), romCollectionRow[1])			
 			rccount = rccount + 1
 			
 			self.log("current Rom Collection: " +romCollectionRow[1], util.LOG_LEVEL_INFO)
@@ -87,19 +85,7 @@ class DBUpdate:
 			if(searchGameByCRCIgnoreRomName == 'True' and searchGameByCRC == 'False' and descFilePerGame == 'False'):
 				self.log("Configuration error: descFilePerGame = false, searchGameByCRCIgnoreRomName = true, searchGameByCRC = false." \
 				"You won't find any description with this configuration!", util.LOG_LEVEL_ERROR)
-				continue
-				
-			"""
-			if(descFilePerGame == 'False'):
-				self.log("Start parsing description file", util.LOG_LEVEL_INFO)
-				results = self.parseDescriptionFile(str(descriptionPath), str(descParserFile), '')
-				if(results == None):					
-					self.log("There was an error parsing the description file. Please see log file for more information.", util.LOG_LEVEL_ERROR)					
-				
-				if(results != None and util.CURRENT_LOG_LEVEL == util.LOG_LEVEL_DEBUG):
-					for result in results:
-						self.log(str(result.asDict()), util.LOG_LEVEL_DEBUG)
-			"""
+				continue			
 			
 			#romCollectionRow[8] = startWithDescFile
 			self.log("using start with description file: " +romCollectionRow[8], util.LOG_LEVEL_INFO)
@@ -108,8 +94,7 @@ class DBUpdate:
 				continue
 			else:		
 				files = self.getRomFilesByRomCollection(romCollectionRow)				
-					
-				#TODO handle multi rom games
+									
 				lastgamenameFromFile = ""
 				lastgamename = ""
 				foldername = ''
@@ -118,9 +103,13 @@ class DBUpdate:
 				fileGamenameDict = {}
 				fileFoldernameDict = {}								
 				
+				#itemCount is used for percentage in ProgressDialogGUI
+				gui.itemCount = len(files) +1
+				fileCount = 1
 				for filename in files:
 					gamename = self.getGamenameFromFilename(filename, romCollectionRow)
-					#gui.writeMsg("Importing Game: " +gamename, rccount)										
+					gui.writeMsg(progDialogRCHeader, "Checking file crcs...", "", fileCount)
+					fileCount = fileCount +1
 					
 					#check if we are handling one of the additional disks of a multi rom game
 					isMultiRomGame = self.checkRomfileIsMultirom(gamename, lastgamename, lastgamenameFromFile, filename)
@@ -132,56 +121,27 @@ class DBUpdate:
 					gamename = gamename.strip()
 					gamename = gamename.lower()
 					
-					try:											
-						if(not isMultiRomGame):
-							filenamelist = []
-							filenamelist.append(filename)
-							fileGamenameDict[gamename] = filenamelist
-						else:
-							filenamelist = fileGamenameDict[gamename]
-							filenamelist.append(filename)
-							fileGamenameDict[gamename] = filenamelist							
-					except:
-						pass
+					#build dictionaries (key=gamename, filecrc or foldername; value=filenames) for later game search
+					fileGamenameDict = self.buildFilenameDict(fileGamenameDict, isMultiRomGame, filename, gamename, fileGamenameDict, gamename, True)					
 						
 					if(searchGameByCRC == 'True'):
 						filecrc = self.getFileCRC(filename)
 						filecrc = filecrc.strip()
 						filecrc = filecrc.lower()
-						try:
-							if(not isMultiRomGame):
-								filenamelist = []
-								filenamelist.append(filename)
-								filecrcDict[filecrc] = filenamelist
-							else:
-								#multi rom games only match per gamename (crc only matches first file)
-								filenamelist = fileGamenameDict[gamename]
-								filecrcDict[filecrc] = filenamelist
-						except:
-							pass						
+						filecrcDict = self.buildFilenameDict(filecrcDict, isMultiRomGame, filename, filecrc, fileGamenameDict, gamename, False)
 					
 					#Folder name of game may be used as crc value in description files					
 					if(useFoldernameAsCRC == 'True'):
 						foldername = self.getCRCFromFolder(filename)
 						foldername = foldername.strip()
 						foldername = foldername.lower()
-						
-						try:
-							if(not isMultiRomGame):
-								filenamelist = []
-								filenamelist.append(filename)
-								fileFoldernameDict[foldername] = filenamelist
-							else:
-								#multi rom games only match per gamename (crc only matches first file)
-								filenamelist = fileGamenameDict[gamename]
-								fileFoldernameDict[foldername] = filenamelist
-						except:
-							pass
+						fileFoldernameDict = self.buildFilenameDict(fileFoldernameDict, isMultiRomGame, filename, foldername, fileGamenameDict, gamename, False)
 						
 				if(descFilePerGame == 'False'):
 					self.log("Searching for game in parsed results:", util.LOG_LEVEL_INFO)
 					
 					try:
+						#prepare game description parser
 						dp = DescriptionParser()
 						gameGrammar = dp.getGameGrammar(str(descParserFile), '')
 						
@@ -189,13 +149,18 @@ class DBUpdate:
 						fileAsString = fh.read()		
 						fileAsString = fileAsString.decode('iso-8859-15')
 						
+						fileCount = 1
+						
+						#parse description
 						for result,start,end in gameGrammar.scanString(fileAsString):														
 							
-							filenamelist = self.findGameDescriptionByParseResult(result, searchGameByCRCIgnoreRomName, searchGameByCRC, 
+							filenamelist = self.findFilesByGameDescription(result, searchGameByCRCIgnoreRomName, searchGameByCRC, 
 								filecrcDict, fileFoldernameDict, fileGamenameDict, useFoldernameAsCRC, useFilenameAsCRC)
 
 							if(filenamelist != None and len(filenamelist) > 0):								
 								gamename = self.getGamenameFromFilename(filenamelist[0], romCollectionRow)
+								gui.writeMsg(progDialogRCHeader, "Import game: " +gamename, "", fileCount)
+								fileCount = fileCount +1
 							else:
 								gamename = ''
 							self.insertGameFromDesc(result, lastgamename, ignoreGameWithoutDesc, gamename, romCollectionRow, filenamelist, foldername, allowUpdate)
@@ -204,9 +169,14 @@ class DBUpdate:
 						self.log("an error occured while parsing game description: " +descriptionPath, util.LOG_LEVEL_WARNING)
 						self.log("Parser complains about: " +str(exc), util.LOG_LEVEL_WARNING)
 						return None
-				else:						
+				else:	
+					fileCount = 1
 					for filename in files:
 						gamename = self.getGamenameFromFilename(filename, romCollectionRow)						
+						
+						gui.writeMsg(progDialogRCHeader, "Import game: " +gamename, "", fileCount)
+						fileCount = fileCount +1
+						
 						results = self.parseDescriptionFile(str(descriptionPath), str(descParserFile), gamename)						
 						#print results
 						if(results == None):
@@ -219,87 +189,12 @@ class DBUpdate:
 						filenamelist = []
 						filenamelist.append(filename)
 							
-						self.insertGameFromDesc(gamedescription, lastgamename, ignoreGameWithoutDesc, gamename, romCollectionRow, filenamelist, foldername, allowUpdate)
-				
+						self.insertGameFromDesc(gamedescription, lastgamename, ignoreGameWithoutDesc, gamename, romCollectionRow, filenamelist, foldername, allowUpdate)													
 					
-				"""
-				for filename in files:
-					gamename = self.getGamenameFromFilename(filename, romCollectionRow)
-					gui.writeMsg("Importing Game: " +gamename, rccount)
-					
-					#check if we are handling one of the additional disks of a multi rom game
-					isMultiRomGame = self.checkRomfileIsMultirom(gamename, lastgamename, lastgamenameFromFile, filename)
-					if(isMultiRomGame):
-						continue
-						
-					#lastgamename may be overwritten by parsed gamename
-					lastgamenameFromFile = gamename
-					lastgamename = gamename					
-
-					gamedescription = Empty()
-					
-					filecrc = ''
-					if(searchGameByCRC == 'True'):
-						filecrc = self.getFileCRC(filename)
-					
-					#Folder name of game may be used as crc value in description files
-					foldername = ''
-					if(useFoldernameAsCRC == 'True'):
-						foldername = self.getCRCFromFolder(filename)
-					
-					if(descFilePerGame == 'False'):
-						self.log("Searching for game in parsed results:", util.LOG_LEVEL_INFO)
-						
-						try:
-							dp = DescriptionParser()
-							gameGrammar = dp.getGameGrammar(str(descParserFile), '')
-							
-							fh = open(str(descriptionPath), 'r')
-							fileAsString = fh.read()		
-							fileAsString = fileAsString.decode('iso-8859-15')
-							
-							for result,start,end in gameGrammar.scanString(fileAsString):
-								gamedescription = self.findGameDescriptionByParseResult(result, searchGameByCRCIgnoreRomName, 
-									gamename, searchGameByCRC, filecrc, foldername, filename, useFoldernameAsCRC, useFilenameAsCRC)
-								if(gamedescription != Empty()):
-									break
-						except Exception, (exc):
-							self.log("an error occured while parsing game description: " +descriptionPath, util.LOG_LEVEL_WARNING)
-							self.log("Parser complains about: " +str(exc), util.LOG_LEVEL_WARNING)
-							return None
-					else:						
-						results = self.parseDescriptionFile(str(descriptionPath), str(descParserFile), gamename)
-						if(results == None):
-							gamedescription = Empty()
-							
-							lastgamename = ""							
-						else:
-							gamedescription = results[0]
-							
-					if(gamedescription == Empty()):
-						lastgamename = ""
-						if(ignoreGameWithoutDesc == 'True'):
-							self.log("game " +gamename +" could not be found in parsed results. Game will not be imported.", util.LOG_LEVEL_WARNING)
-							continue
-						else:
-							self.log("game " +gamename +" could not be found in parsed results. Importing game without description.", util.LOG_LEVEL_WARNING)
-					else:
-						lastgamename = self.resolveParseResult(gamedescription.Game, 'Game')
-					
-					#get Console Name to import images via %CONSOLE%
-					consoleId = romCollectionRow[2]									
-					consoleRow = Console(self.gdb).getObjectById(consoleId)					
-					if(consoleRow == None):						
-						consoleName = None						
-					else:
-						consoleName = consoleRow[1]
-					
-					self.insertData(gamedescription, gamename, romCollectionRow[0], filename, foldername, allowUpdate, consoleId, consoleName)
-				"""
-					
-		gui.writeMsg("Done.", rccount)
+		gui.writeMsg("Done.", "", "", gui.itemCount)
 		self.exit()
 		return True, ''
+					
 		
 	
 	def getRomFilesByRomCollection(self, romCollectionRow):
@@ -385,16 +280,26 @@ class DBUpdate:
 	
 		#XBOX Hack: rom files will always be named default.xbe: always detected as multi rom without this hack
 		if(gamename == lastgamenameFromFile and lastgamenameFromFile.lower() != 'default'):		
-			self.log("handling multi rom game: " +lastgamename, util.LOG_LEVEL_INFO)
-			#gameRow = Game(self.gdb).getOneByName(lastgamename)
-			#if(gameRow == None):
-			#	self.log("multi rom game could not be read from database. "\
-			#		"This usually happens if game name in description file differs from game name in rom file name.", util.LOG_LEVEL_WARNING)
-			#	return True
-			#self.insertFile(str(filename), gameRow[0], "rcb_rom", None, None, None, None)
-			#self.gdb.commit()
+			self.log("handling multi rom game: " +lastgamename, util.LOG_LEVEL_INFO)			
 			return True
 		return False
+		
+		
+	def buildFilenameDict(self, dict, isMultiRomGame, filename, key, fileGamenameDict, gamename, isGamenameDict):		
+		try:											
+			if(not isMultiRomGame):
+				filenamelist = []
+				filenamelist.append(filename)
+				dict[key] = filenamelist
+			else:
+				filenamelist = fileGamenameDict[gamename]
+				if(isGamenameDict):
+					filenamelist.append(filename)
+				dict[key] = filenamelist							
+		except:
+			pass
+			
+		return dict
 		
 		
 	def getFileCRC(self, filename):
@@ -432,7 +337,7 @@ class DBUpdate:
 		return crcFromFolder
 
 
-	def findGameDescriptionByParseResult(self, result, searchGameByCRCIgnoreRomName, searchGameByCRC, filecrcDict, fileFoldernameDict, fileGamenameDict, 
+	def findFilesByGameDescription(self, result, searchGameByCRCIgnoreRomName, searchGameByCRC, filecrcDict, fileFoldernameDict, fileGamenameDict, 
 			useFoldernameAsCRC, useFilenameAsCRC):
 		gamedesc = result['Game'][0]
 		self.log("game name in parsed result: " +str(gamedesc), util.LOG_LEVEL_DEBUG)				

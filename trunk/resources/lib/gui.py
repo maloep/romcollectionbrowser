@@ -83,15 +83,14 @@ class ProgressDialogGUI:
 	
 	def __init__(self):
 		self.itemCount = 0
-		self.dialog = xbmcgui.DialogProgress()		
+		self.dialog = xbmcgui.DialogProgress()				
 			
-	def writeMsg(self, message, count=0):
+	def writeMsg(self, line1, line2, line3, count=0):
 		if ( not count ):
-			self.dialog.create(message)
+			self.dialog.create(line1)
 		elif ( count > 0 ):
-			percent = int( count * ( float( 100 ) / self.itemCount))
-			__line1__ = "%s" % (message, )
-			self.dialog.update( percent, __line1__ )
+			percent = int( count * ( float( 100 ) / self.itemCount))			
+			self.dialog.update( percent, line1, line2, line3)
 			if ( self.dialog.iscanceled() ): 
 				return False
 			else: 
@@ -400,10 +399,10 @@ class UIGameDB(xbmcgui.WindowXML):
 		else:
 			showEntryAllItems = rcbSetting[util.RCBSETTING_showEntryAllChars]
 		
-		items = []
-		items.append(xbmcgui.ListItem("0-9", "0-9", "", ""))
+		items = []		
 		if(showEntryAllItems == 'True'):
 			items.append(xbmcgui.ListItem("All", "All", "", ""))
+		items.append(xbmcgui.ListItem("0-9", "0-9", "", ""))
 		
 		for i in range(0, 26):
 			char = chr(ord('A') + i)
@@ -695,12 +694,16 @@ class UIGameDB(xbmcgui.WindowXML):
 	def importSettings(self):
 		Logutil.log("Begin importSettings" , util.LOG_LEVEL_INFO)				
 		
+		self.checkImport(2)
+		
+		"""
 		importSuccessful, errorMsg = importsettings.SettingsImporter().importSettings(self.gdb, os.path.join(RCBHOME, 'resources', 'database'), self)
 		if(not importSuccessful):
 			self.writeMsg(errorMsg +' See xbmc.log for details.')
 		else:
 			self.cacheItems()
 			self.updateControls()				
+		"""
 		
 		Logutil.log("End importSettings" , util.LOG_LEVEL_INFO)
 		
@@ -749,11 +752,11 @@ class UIGameDB(xbmcgui.WindowXML):
 			del dialog
 			if(retSettings == True):
 				progressDialog = ProgressDialogGUI()
-				progressDialog.writeMsg("Import settings...")
+				progressDialog.writeMsg("Import settings...", "", "")
 				importSuccessful, errorMsg = importsettings.SettingsImporter().importSettings(self.gdb, os.path.join(RCBHOME, 'resources', 'database'), progressDialog)
 				# XBMC crashes on my Linux system without this line:
 				print('RCB INFO: Import done')
-				progressDialog.writeMsg("", -1)
+				progressDialog.writeMsg("", "", "", -1)
 				del progressDialog
 				
 				#TODO 2nd chance
@@ -765,9 +768,9 @@ class UIGameDB(xbmcgui.WindowXML):
 					retGames = dialog.yesno('Rom Collection Browser', 'Import Settings successful', 'Do you want to import Games now?')
 					if(retGames == True):
 						progressDialog = ProgressDialogGUI()
-						progressDialog.writeMsg("Import games...")
+						progressDialog.writeMsg("Import games...", "", "")
 						dbupdate.DBUpdate().updateDB(self.gdb, progressDialog)
-						progressDialog.writeMsg("", -1)
+						progressDialog.writeMsg("", "", "", -1)
 						del progressDialog
 						
 		if(doImport == 3):
@@ -775,9 +778,9 @@ class UIGameDB(xbmcgui.WindowXML):
 			retGames = dialog.yesno('Rom Collection Browser', 'Import Games', 'Do you want to import Games now?')
 			if(retGames == True):
 				progressDialog = ProgressDialogGUI()
-				progressDialog.writeMsg("Import games...")
+				progressDialog.writeMsg("Import games...", "", "")
 				dbupdate.DBUpdate().updateDB(self.gdb, progressDialog)
-				progressDialog.writeMsg("", -1)
+				progressDialog.writeMsg("", "", "", -1)
 				del progressDialog
 
 			
@@ -1221,7 +1224,7 @@ class UIGameDB(xbmcgui.WindowXML):
 		if(control == None):
 			Logutil.log("RCB_WARNING: control == None in writeMsg", util.LOG_LEVEL_WARNING)
 			return
-		control.setLabel(msg)
+		control.setLabel(msg)					
 	
 	
 	def exit(self):				
