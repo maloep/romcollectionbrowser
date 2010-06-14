@@ -353,9 +353,7 @@ class SettingsImporter:
 		if(xboxCreateShortcutAddRomfile == ''):
 			xboxCreateShortcutAddRomfile = 'False'	
 		if(xboxCreateShortcutUseShortGamename == ''):
-			xboxCreateShortcutUseShortGamename = 'False'
-		if(xboxCreateShortcutUseShortGamename == ''):
-			xboxCreateShortcutUseShortGamename = 'False'
+			xboxCreateShortcutUseShortGamename = 'False'		
 		if(useFoldernameAsCRC == ''):
 			useFoldernameAsCRC = 'False'
 		if(useFilenameAsCRC == ''):
