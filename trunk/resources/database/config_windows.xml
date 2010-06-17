@@ -132,7 +132,7 @@ See http://code.google.com/p/romcollectionbrowser for latest version and full do
 			<searchGameByCRCIgnoreRomName>False</searchGameByCRCIgnoreRomName>
 			<!-- useFoldernameAsCRC: Compare the crc in the description file with the foldername of the current rom file. default value: False -->
 			<useFoldernameAsCRC>False</useFoldernameAsCRC>
-			<!-- useFilenameAsCRC: Compare the crc in the description file with the filename of the current rom file. default value: False -->
+			<!-- useFilenameAsCRC: Compare the crc in the description file with the filename (without extension) of the current rom file. default value: False -->
 			<useFilenameAsCRC>False</useFilenameAsCRC>
 			<!-- ignoreGameWithoutDesc: Don't import games if no description was found. default value: False -->
 			<ignoreGameWithoutDesc>False</ignoreGameWithoutDesc>	
