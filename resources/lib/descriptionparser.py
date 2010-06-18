@@ -246,9 +246,7 @@ class DescriptionParser:
 
 
 def main():
-	dp = DescriptionParser()
-	results = dp.parseDescription('E:\\Emulatoren\\data\\xtras\\Test synopsis\\Synopsis files\\synopsis_NES.txt', 
-		'E:\\Emulatoren\\data\\xtras\\Test synopsis\\parserConfig.xml', '')
+	dp = DescriptionParser()	
 	
 	#results = dp.parseDescription('E:\\Emulatoren\\data\\Parser Tests\\desc.txt', 
 	#	'E:\\Emulatoren\\data\\Parser Tests\\parser.xml', '')
@@ -257,8 +255,8 @@ def main():
 	#	'C:\\Dokumente und Einstellungen\\lom\\Anwendungsdaten\\XBMC\\scripts\\RomCollectionBrowser\\resources\\lib\\TestDataBase\\Collection V5\\parserConfig.xml', '')
 	
 	for result in results:
-		#print result.asDict()
-		print result
+		print result.asDict()
+		#print result
 	del dp
 	print "len results: " +str(len(results))
 	
