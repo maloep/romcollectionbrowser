@@ -580,6 +580,30 @@
 						<visible>!IsEmpty(ListItem.Property(mainviewvideosizesmall))</visible>
 					</control>
 					
+					<control type="button" id="2901"> 
+						<description>Video Browser</description>
+						<posx>50</posx>
+						<posy>270</posy>
+						<width>100</width>
+						<height>20</height>
+						<visible>true</visible>
+						<colordiffuse>DDFFFFFF</colordiffuse>
+						<texturefocus>rcb-button-focus.png</texturefocus>
+						<texturenofocus>rcb-button-nofocus.png</texturenofocus>
+						<label>Video Browser</label>				
+						<textcolor>DDFFFFFF</textcolor>
+						<disabledcolor>80FFFFFF</disabledcolor>
+						<align>center</align>
+						<aligny>center</aligny>
+						<textoffsetx></textoffsetx>
+						<textoffsety></textoffsety>
+						<pulseonselect></pulseonselect>
+						<onup>500</onup>
+						<ondown>3000</ondown>
+						<onleft>500</onleft>
+						<onright>2201</onright>
+					</control>
+					
 					<control type="textbox" id="2101">
 						<description>Consoles</description>
 						<posx>15</posx>
@@ -610,7 +634,7 @@
 						<showonepage>false</showonepage>
 						<onup>2201</onup>
 						<ondown>2201</ondown>
-						<onleft>500</onleft>
+						<onleft>2901</onleft>
 						<onright>52</onright>
 					</control>			
 				</control>				

@@ -165,7 +165,7 @@ class Game(DataBaseObject):
 					(YearId = ? OR (0 = ?)) AND \
 					(PublisherId = ? OR (0 = ?)) \
 					AND %s \
-					ORDER BY name DESC"	#TODO Why DESC to have it sorted ASC in XBMC (without using SortMethod)?
+					ORDER BY name"
 					
 	filterByNameAndRomCollectionId = "SELECT * FROM Game WHERE name = ? and romCollectionId = ?"
 	

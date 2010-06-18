@@ -49,6 +49,7 @@ CONTROL_CONSOLE_DESC = 2100
 CONTROL_BUTTON_SETTINGS = 3000
 CONTROL_BUTTON_UPDATEDB = 3100
 CONTROL_BUTTON_CHANGE_VIEW = 2
+CONTROL_BUTTON_VIDEOFULLSCREEN = (2901,)
 
 CONTROL_LABEL_MSG = 4000
 
@@ -123,9 +124,11 @@ class UIGameDB(xbmcgui.WindowXML):
 	
 	playVideoThread = None
 	playVideoThreadStopped = False
+	rcb_playList = xbmc.PlayList(xbmc.PLAYLIST_VIDEO)
+	
 	
 	#dummy to be compatible with ProgressDialogGUI
-	itemCount = 0
+	itemCount = 0	
 
 	
 	def __init__(self,strXMLname, strFallbackPath, strDefaultName, forceFallback):
@@ -176,12 +179,15 @@ class UIGameDB(xbmcgui.WindowXML):
 		
 		self.updateControls()
 		self.loadViewState()
-		self.checkAutoExec()
+		self.checkAutoExec()		
 
 		Logutil.log("End onInit", util.LOG_LEVEL_INFO)			
 
 	
-	def onAction(self, action):		
+	def onAction(self, action):	
+		
+		#print "action: " +str(action.getId())
+
 		if(action.getId() in ACTION_CANCEL_DIALOG):
 			Logutil.log("onAction: ACTION_CANCEL_DIALOG", util.LOG_LEVEL_DEBUG)
 						
@@ -213,16 +219,7 @@ class UIGameDB(xbmcgui.WindowXML):
 						self.selectedConsoleId = int(label2)
 						self.selectedConsoleIndex = control.getSelectedPosition()
 						filterChanged = True
-					
-					"""
-					#consoleId 0 = Entry "All"					
-					if (self.selectedConsoleId == 0):
-						pass
-						#self.getControl(CONTROL_CONSOLE_IMG).setVisible(0)
-						#self.getControl(CONTROL_CONSOLE_DESC).setVisible(0)
-					else:
-						self.showConsoleInfo()
-					"""
+						
 				elif (self.selectedControlId == CONTROL_GENRE):
 					if(self.selectedGenreIndex != control.getSelectedPosition()):
 						self.selectedGenreId = int(label2)
@@ -284,7 +281,14 @@ class UIGameDB(xbmcgui.WindowXML):
 			self.showGameInfo()
 		elif (controlId in GAME_LISTS):
 			Logutil.log("onClick: Launch Emu", util.LOG_LEVEL_DEBUG)
-			self.launchEmu()		
+			self.launchEmu()
+		elif (controlId in CONTROL_BUTTON_VIDEOFULLSCREEN):
+			Logutil.log("onClick: Video fullscreen", util.LOG_LEVEL_DEBUG)
+			
+			pos = self.getCurrentListPosition()			
+			self.player.play(self.rcb_playList)
+			xbmc.executebuiltin('Playlist.PlayOffset(%i)' %pos)
+			xbmc.executebuiltin('XBMC.PlayerControl(RepeatAll)')
 
 
 	def onFocus(self, controlId):
@@ -439,6 +443,7 @@ class UIGameDB(xbmcgui.WindowXML):
 		xbmcgui.lock()
 		
 		self.clearList()
+		self.rcb_playList.clear()
 		
 		for gameRow in games:				
 		
@@ -448,6 +453,7 @@ class UIGameDB(xbmcgui.WindowXML):
 			
 			#create ListItem
 			item = xbmcgui.ListItem(str(gameRow[util.ROW_NAME]), str(gameRow[util.ROW_ID]), imageGameList, imageGameListSelected)
+			item.setProperty('gameId', str(gameRow[util.ROW_ID]))
 
 			# all other images in mainwindow
 			imagemainViewBackground = self.getFileForControl(util.IMAGE_CONTROL_MV_BACKGROUND, gameRow[util.ROW_ID], gameRow[util.GAME_publisherId], gameRow[util.GAME_developerId], gameRow[util.GAME_romCollectionId])
@@ -458,7 +464,8 @@ class UIGameDB(xbmcgui.WindowXML):
 			imageGameInfoLowerRight = self.getFileForControl(util.IMAGE_CONTROL_MV_GAMEINFO_LOWERRIGHT, gameRow[util.ROW_ID], gameRow[util.GAME_publisherId], gameRow[util.GAME_developerId], gameRow[util.GAME_romCollectionId])
 			imageMainView1 = self.getFileForControl(util.IMAGE_CONTROL_MV_1, gameRow[util.ROW_ID], gameRow[util.GAME_publisherId], gameRow[util.GAME_developerId], gameRow[util.GAME_romCollectionId])
 			imageMainView2 = self.getFileForControl(util.IMAGE_CONTROL_MV_2, gameRow[util.ROW_ID], gameRow[util.GAME_publisherId], gameRow[util.GAME_developerId], gameRow[util.GAME_romCollectionId])
-			imageMainView3 = self.getFileForControl(util.IMAGE_CONTROL_MV_3, gameRow[util.ROW_ID], gameRow[util.GAME_publisherId], gameRow[util.GAME_developerId], gameRow[util.GAME_romCollectionId])
+			imageMainView3 = self.getFileForControl(util.IMAGE_CONTROL_MV_3, gameRow[util.ROW_ID], gameRow[util.GAME_publisherId], gameRow[util.GAME_developerId], gameRow[util.GAME_romCollectionId])						
+			
 			
 			#set images as properties
 			item.setProperty(util.IMAGE_CONTROL_MV_BACKGROUND, imagemainViewBackground)
@@ -484,10 +491,9 @@ class UIGameDB(xbmcgui.WindowXML):
 				item.setProperty(util.GAMEPROPERTY_Console, consoleRow[util.ROW_NAME])
 				
 			except:
-				pass
+				pass									
 			
-			
-			item.setProperty('year', self.getGamePropertyFromCache(gameRow, self.yearDict, util.GAME_yearId, util.ROW_NAME))							
+			item.setProperty('year', self.getGamePropertyFromCache(gameRow, self.yearDict, util.GAME_yearId, util.ROW_NAME))
 			item.setProperty('publisher', self.getGamePropertyFromCache(gameRow, self.publisherDict, util.GAME_publisherId, util.ROW_NAME))
 			item.setProperty('developer', self.getGamePropertyFromCache(gameRow, self.developerDict, util.GAME_developerId, util.ROW_NAME))
 			item.setProperty('reviewer', self.getGamePropertyFromCache(gameRow, self.reviewerDict, util.GAME_reviewerId, util.ROW_NAME))
@@ -499,7 +505,7 @@ class UIGameDB(xbmcgui.WindowXML):
 				pass							
 			item.setProperty('genre', genre)
 			
-			item.setProperty('maxplayers', self.getGameProperty(gameRow[util.GAME_maxPlayers]))		
+			item.setProperty('maxplayers', self.getGameProperty(gameRow[util.GAME_maxPlayers]))
 			item.setProperty('rating', self.getGameProperty(gameRow[util.GAME_rating]))
 			item.setProperty('votes', self.getGameProperty(gameRow[util.GAME_numVotes]))
 			item.setProperty('url', self.getGameProperty(gameRow[util.GAME_url]))	
@@ -516,6 +522,18 @@ class UIGameDB(xbmcgui.WindowXML):
 			
 			self.addItem(item, False)
 			
+			#TODO Video Files for all controls
+			videosSmall = helper.getFilesByControl_Cached(self.gdb, util.VIDEO_CONTROL_MV_VideoWindowSmall, gameRow[util.ROW_ID], gameRow[util.GAME_publisherId], gameRow[util.GAME_developerId], gameRow[util.GAME_romCollectionId],
+				self.fileTypeForControlDict, self.fileTypeDict, self.fileDict, self.romCollectionDict)
+			
+			#create dummy ListItem for playlist
+			dummyItem = xbmcgui.ListItem(str(gameRow[util.ROW_NAME]), str(gameRow[util.ROW_ID]), imageGameList, imageGameListSelected)			
+			
+			if(videosSmall != None and len(videosSmall) != 0):
+				video = videosSmall[0]				
+				self.rcb_playList.add(video, dummyItem)			
+			
+		xbmc.executebuiltin("Container.SortDirection()")
 		xbmcgui.unlock()				
 		
 		self.writeMsg("")
@@ -526,26 +544,6 @@ class UIGameDB(xbmcgui.WindowXML):
 		
 		Logutil.log("End showGames" , util.LOG_LEVEL_INFO)
 		
-	
-	def getGamePropertyFromCache(self, gameRow, dict, key, index):
-		
-		result = ""
-		try:
-			itemRow = dict[gameRow[key]]			
-			result = itemRow[index]
-		except:
-			pass
-			
-		return result
-		
-		
-	def getGameProperty(self, property):
-		
-		result = ""
-		if(property != None):
-			result = str(property)
-			
-		return result			
 	
 	
 	def showGameInfo(self):
@@ -566,35 +564,38 @@ class UIGameDB(xbmcgui.WindowXML):
 			Logutil.log("selectedGame == None in showGameInfo", util.LOG_LEVEL_WARNING)
 			return					
 			
-		gameId = selectedGame.getLabel2()				
+		print selectedGame.getLabel()
+		print selectedGame.getLabel2()
+		
+		gameId = selectedGame.getProperty('gameId')
 		gameRow = Game(self.gdb).getObjectById(gameId)
 		
-		if(gameRow == None):
-			Logutil.log("gameId = %s" %gameId, util.LOG_LEVEL_DEBUG)
+		if(gameRow == None):			
+			Logutil.log("gameId = %s" %gameId, util.LOG_LEVEL_WARNING)
 			Logutil.log("gameRow == None in showGameInfo", util.LOG_LEVEL_WARNING)
 			return					
 				
 		#no video in thumbs view
 		if (not xbmc.getCondVisibility( "Control.IsVisible(%i)" % CONTROL_THUMBS_VIEW )):
 		
-			video = ""
+			video = ""			
 			
 			videosBig = helper.getFilesByControl_Cached(self.gdb, util.VIDEO_CONTROL_MV_VideoWindowBig, gameRow[util.ROW_ID], gameRow[util.GAME_publisherId], gameRow[util.GAME_developerId], gameRow[util.GAME_romCollectionId],
 				self.fileTypeForControlDict, self.fileTypeDict, self.fileDict, self.romCollectionDict)
 			
 			if(videosBig != None and len(videosBig) != 0):
 				video = videosBig[0]				
-				selectedGame.setProperty('mainviewvideosizebig', 'big')												
+				selectedGame.setProperty('mainviewvideosizebig', 'big')
 				
 			else:
 				videosSmall = helper.getFilesByControl_Cached(self.gdb, util.VIDEO_CONTROL_MV_VideoWindowSmall, gameRow[util.ROW_ID], gameRow[util.GAME_publisherId], gameRow[util.GAME_developerId], gameRow[util.GAME_romCollectionId],
 					self.fileTypeForControlDict, self.fileTypeDict, self.fileDict, self.romCollectionDict)
 				if(videosSmall != None and len(videosSmall) != 0):
 					video = videosSmall[0]					
-					selectedGame.setProperty('mainviewvideosizesmall', 'small')										
+					selectedGame.setProperty('mainviewvideosizesmall', 'small')						
 					
-			if(video == "" or video == None):
-				if(self.player.isPlayingVideo()):
+			if(video == "" or video == None):				
+				if(self.player.isPlayingVideo()):					
 					self.player.stop()
 				return
 				
@@ -604,12 +605,7 @@ class UIGameDB(xbmcgui.WindowXML):
 				if(playingFile != video):
 					self.player.stop()					
 				else:
-					return
-					
-			#Xbox test
-			#if (os.environ.get( "OS", "xbox" ) == "xbox"):
-			#	selectedGame.setProperty(util.VIDEO_CONTROL_MV_VideoWindow,  video)
-			#	return
+					return								
 			
 			#start a new thread to playback video
 			self.playVideoThread = Thread(target=self.playVideo, args=(video, selectedGame))
@@ -631,11 +627,31 @@ class UIGameDB(xbmcgui.WindowXML):
 				self.playVideoThreadStopped = False
 				return
 				
-		#tests for xbox support
-		#xbmc.executebuiltin('XBMC.PlayMedia(%s, 1)' %video)
+		#test looping video		
 		#xbmc.executebuiltin('XBMC.PlayerControl(Repeat)')
+		
+		self.player.play(video, selectedGame, True)		
+		
+		
+	def getGamePropertyFromCache(self, gameRow, dict, key, index):
+		
+		result = ""
+		try:
+			itemRow = dict[gameRow[key]]			
+			result = itemRow[index]
+		except:
+			pass
 			
-		self.player.play(video, selectedGame, True)
+		return result
+		
+		
+	def getGameProperty(self, property):
+		
+		result = ""
+		if(property != None):
+			result = str(property)
+			
+		return result
 		
 		
 	def getFileForControl(self, controlName, gameId, publisherId, developerId, romCollectionId):		
