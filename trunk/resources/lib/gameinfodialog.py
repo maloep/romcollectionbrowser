@@ -59,7 +59,7 @@ class UIGameInfoView(xbmcgui.WindowXMLDialog):
 		Logutil.log("Init GameInfoView", util.LOG_LEVEL_INFO)
 		
 		self.gdb = kwargs[ "gdb" ]
-		self.selectedGameId = kwargs[ "gameId" ]		
+		self.selectedGameId = kwargs[ "gameId" ]
 		self.selectedConsoleId = kwargs[ "consoleId" ]		
 		self.selectedGenreId = kwargs[ "genreId" ]				
 		self.selectedYearId = kwargs[ "yearId" ]		
@@ -133,7 +133,7 @@ class UIGameInfoView(xbmcgui.WindowXMLDialog):
 					Logutil.log("selectedGame == None in showGameInfo", util.LOG_LEVEL_WARNING)
 					return
 			
-				self.selectedGameId = selectedGame.getLabel2()
+				self.selectedGameId = selectedGame.getProperty('gameId')
 				self.showGameInfo()
 	
 	
@@ -158,8 +158,10 @@ class UIGameInfoView(xbmcgui.WindowXMLDialog):
 			else:
 				image = ""
 			item = xbmcgui.ListItem(str(game[util.ROW_NAME]), str(game[util.ROW_ID]), image, '')
+			item.setProperty('gameId', str(game[util.ROW_ID]))
 			self.addItem(item, False)
 				
+		xbmc.executebuiltin("Container.SortDirection")
 		xbmcgui.unlock()
 		self.writeMsg("")
 		
@@ -295,20 +297,9 @@ class UIGameInfoView(xbmcgui.WindowXMLDialog):
 	
 	def launchEmu(self):
 		
-		Logutil.log("Begin launchEmu", util.LOG_LEVEL_INFO)
+		Logutil.log("Begin launchEmu", util.LOG_LEVEL_INFO)				
 		
-		pos = self.getCurrentListPosition()
-		if(pos == -1):
-			pos = 0
-		selectedGame = self.getListItem(pos)
-		
-		if(selectedGame == None):
-			Logutil.log("selectedGame == None in launchEmu", util.LOG_LEVEL_WARNING)
-			return
-			
-		gameId = selectedGame.getLabel2()
-		
-		helper.launchEmu(self.gdb, self, gameId)
+		helper.launchEmu(self.gdb, self, self.selectedGameId)
 		Logutil.log("End launchEmu", util.LOG_LEVEL_INFO)
 		
 	
