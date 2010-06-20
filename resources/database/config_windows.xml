@@ -174,7 +174,10 @@ See http://code.google.com/p/romcollectionbrowser for latest version and full do
 			<!-- fileTypeForMainViewGameInfoBig: Use one big image instead of 4 small images in Info and Info 2 view (alternative to UpperLeft, LowerRight, ...) -->
 			<fileTypeForMainViewGameInfoBig>action</fileTypeForMainViewGameInfoBig>
 			<!-- fileTypeForMainViewVideoWindowBig: same place as GameInfoBig in Info and Info 2 view. Will hide image control if a video is present. -->
-			<fileTypeForMainViewVideoWindowBig>gameplay</fileTypeForMainViewVideoWindowBig>			
+			<fileTypeForMainViewVideoWindowBig>gameplay</fileTypeForMainViewVideoWindowBig>
+
+			<!-- fileTypeForMainViewFullscreenVideo: use this filetype to show fullscreen video -->
+			<fileTypeForMainViewFullscreenVideo>gameplay</fileTypeForMainViewFullscreenVideo>
 						
 			<!-- fileTypeForMainView1: small icon to show some extra info (all views) -->
 			<fileTypeForMainView1>cover</fileTypeForMainView1>
