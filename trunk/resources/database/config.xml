@@ -203,12 +203,14 @@
 			<fileTypeForMainView1>developer</fileTypeForMainView1>			
 			<fileTypeForMainView3>publisher</fileTypeForMainView3>
 			<fileTypeForMainViewBackground>title</fileTypeForMainViewBackground>
-			<fileTypeForMainViewGameInfoBig>action</fileTypeForMainViewGameInfoBig>
+			<!--<fileTypeForMainViewGameInfoBig>action</fileTypeForMainViewGameInfoBig>-->
+			<!--<fileTypeForMainViewVideoWindowBig>gameplay</fileTypeForMainViewVideoWindowBig>-->			
 			<fileTypeForMainViewGameInfoUpperLeft>title</fileTypeForMainViewGameInfoUpperLeft>
 			<fileTypeForMainViewGameInfoUpperRight>action</fileTypeForMainViewGameInfoUpperRight>
 			<fileTypeForMainViewGameInfoLowerLeft>boxfront</fileTypeForMainViewGameInfoLowerLeft>
 			<fileTypeForMainViewGameInfoLowerRight>cartridge</fileTypeForMainViewGameInfoLowerRight>
 			<fileTypeForMainViewVideoWindowSmall>gameplay</fileTypeForMainViewVideoWindowSmall>
+			<fileTypeForMainViewFullscreenVideo>gameplay</fileTypeForMainViewFullscreenVideo>
 			<fileTypeForGameInfoViewBackground>title</fileTypeForGameInfoViewBackground>			
 			<fileTypeForGameInfoViewGamelist>boxfront</fileTypeForGameInfoViewGamelist>
 			<fileTypeForGameInfoView1>title</fileTypeForGameInfoView1>

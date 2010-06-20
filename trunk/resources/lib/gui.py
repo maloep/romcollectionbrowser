@@ -533,19 +533,12 @@ class UIGameDB(xbmcgui.WindowXML):
 			#create dummy ListItem for playlist
 			dummyItem = xbmcgui.ListItem(str(gameRow[util.ROW_NAME]), str(gameRow[util.ROW_ID]), imageGameList, imageGameListSelected)
 			
-			videosBig = helper.getFilesByControl_Cached(self.gdb, util.VIDEO_CONTROL_MV_VideoWindowBig, gameRow[util.ROW_ID], gameRow[util.GAME_publisherId], gameRow[util.GAME_developerId], gameRow[util.GAME_romCollectionId],
+			videosFullscreen = helper.getFilesByControl_Cached(self.gdb, util.VIDEO_CONTROL_MV_VideoFullscreen, gameRow[util.ROW_ID], gameRow[util.GAME_publisherId], gameRow[util.GAME_developerId], gameRow[util.GAME_romCollectionId],
 				self.fileTypeForControlDict, self.fileTypeDict, self.fileDict, self.romCollectionDict)
 			
-			if(videosBig != None and len(videosBig) != 0):
-				video = videosBig[0]
+			if(videosFullscreen != None and len(videosFullscreen) != 0):
+				video = videosFullscreen[0]
 				self.rcb_playList.add(video, dummyItem)
-			else:						
-				videosSmall = helper.getFilesByControl_Cached(self.gdb, util.VIDEO_CONTROL_MV_VideoWindowSmall, gameRow[util.ROW_ID], gameRow[util.GAME_publisherId], gameRow[util.GAME_developerId], gameRow[util.GAME_romCollectionId],
-					self.fileTypeForControlDict, self.fileTypeDict, self.fileDict, self.romCollectionDict)								
-				
-				if(videosSmall != None and len(videosSmall) != 0):
-					video = videosSmall[0]				
-					self.rcb_playList.add(video, dummyItem)
 			
 		xbmc.executebuiltin("Container.SortDirection")
 		xbmcgui.unlock()				
@@ -597,19 +590,31 @@ class UIGameDB(xbmcgui.WindowXML):
 			if(videosBig != None and len(videosBig) != 0):
 				video = videosBig[0]				
 				selectedGame.setProperty('mainviewvideosizebig', 'big')
+				selectedGame.setProperty('mainviewvideofullscreen', 'fullscreen')
 				
 			else:
 				videosSmall = helper.getFilesByControl_Cached(self.gdb, util.VIDEO_CONTROL_MV_VideoWindowSmall, gameRow[util.ROW_ID], gameRow[util.GAME_publisherId], gameRow[util.GAME_developerId], gameRow[util.GAME_romCollectionId],
 					self.fileTypeForControlDict, self.fileTypeDict, self.fileDict, self.romCollectionDict)
 				if(videosSmall != None and len(videosSmall) != 0):
 					video = videosSmall[0]					
-					selectedGame.setProperty('mainviewvideosizesmall', 'small')						
+					selectedGame.setProperty('mainviewvideosizesmall', 'small')
+					selectedGame.setProperty('mainviewvideofullscreen', 'fullscreen')					
 					
-			if(video == "" or video == None):				
+			if(video == "" or video == None):
+				print "video == ''"
+				
+				#check if fullscreen video is configured
+				videosFullscreen = helper.getFilesByControl_Cached(self.gdb, util.VIDEO_CONTROL_MV_VideoFullscreen, gameRow[util.ROW_ID], gameRow[util.GAME_publisherId], gameRow[util.GAME_developerId], gameRow[util.GAME_romCollectionId],
+					self.fileTypeForControlDict, self.fileTypeDict, self.fileDict, self.romCollectionDict)
+				print videosFullscreen
+				if(videosFullscreen != None and len(videosFullscreen) != 0):				
+					selectedGame.setProperty('mainviewvideofullscreen', 'fullscreen')
+				
 				if(self.player.isPlayingVideo()):
 					self.player.stoppedByRCB = True
 					self.player.stop()
-				return
+				return							
+				
 				
 			#stop video (if playing)
 			if(self.player.isPlayingVideo()):			

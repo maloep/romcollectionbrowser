@@ -244,6 +244,7 @@
 			<mediaPath type="gameplay">TestDataBase\Collection V4\Movies\%GAME%.wmv</mediaPath>
 			<fileTypeForGameList>cover</fileTypeForGameList>
 			<fileTypeForMainViewGameInfoBig>screenshotingame</fileTypeForMainViewGameInfoBig>
+			<fileTypeForMainViewFullscreenVideo>gameplay</fileTypeForMainViewFullscreenVideo>
 			<fileTypeForGameInfoViewBackground>title</fileTypeForGameInfoViewBackground>
 			<fileTypeForGameInfoViewBackground>cover</fileTypeForGameInfoViewBackground>
 			<fileTypeForGameInfoViewGamelist>cover</fileTypeForGameInfoViewGamelist>
