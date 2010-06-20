@@ -106,6 +106,8 @@ class DBUpdate:
 				#itemCount is used for percentage in ProgressDialogGUI
 				gui.itemCount = len(files) +1
 				fileCount = 1
+				
+				self.log("Start building file crcs", util.LOG_LEVEL_INFO)
 				for filename in files:
 					gamename = self.getGamenameFromFilename(filename, romCollectionRow)
 					gui.writeMsg(progDialogRCHeader, "Checking file crcs...", "", fileCount)
@@ -122,7 +124,7 @@ class DBUpdate:
 					gamename = gamename.lower()
 					
 					#build dictionaries (key=gamename, filecrc or foldername; value=filenames) for later game search
-					fileGamenameDict = self.buildFilenameDict(fileGamenameDict, isMultiRomGame, filename, gamename, fileGamenameDict, gamename, True)					
+					fileGamenameDict = self.buildFilenameDict(fileGamenameDict, isMultiRomGame, filename, gamename, fileGamenameDict, gamename, True)
 						
 					if(searchGameByCRC == 'True'):
 						filecrc = self.getFileCRC(filename)
@@ -136,7 +138,9 @@ class DBUpdate:
 						foldername = foldername.strip()
 						foldername = foldername.lower()
 						fileFoldernameDict = self.buildFilenameDict(fileFoldernameDict, isMultiRomGame, filename, foldername, fileGamenameDict, gamename, False)
-						
+
+				self.log("Building file crcs done", util.LOG_LEVEL_INFO)
+				
 				if(descFilePerGame == 'False'):
 					self.log("Searching for game in parsed results:", util.LOG_LEVEL_INFO)
 					
@@ -216,7 +220,7 @@ class DBUpdate:
 		
 	def walkDownPath(self, files, romPath):
 		
-		self.log("walkDownPath romPath: " +romPath, util.LOG_LEVEL_INFO)		
+		self.log("walkDownPath romPath: " +romPath, util.LOG_LEVEL_INFO)
 		
 		#TODO add configuration option
 		walkDownRomPath = True
@@ -285,17 +289,20 @@ class DBUpdate:
 		return False
 		
 		
-	def buildFilenameDict(self, dict, isMultiRomGame, filename, key, fileGamenameDict, gamename, isGamenameDict):		
+	def buildFilenameDict(self, dict, isMultiRomGame, filename, key, fileGamenameDict, gamename, isGamenameDict):				
+		
 		try:											
 			if(not isMultiRomGame):
 				filenamelist = []
 				filenamelist.append(filename)
 				dict[key] = filenamelist
+				self.log("Add filename %s with key %s" %(filename, key), util.LOG_LEVEL_DEBUG)
 			else:
 				filenamelist = fileGamenameDict[gamename]
 				if(isGamenameDict):
 					filenamelist.append(filename)
-				dict[key] = filenamelist							
+				dict[key] = filenamelist
+				self.log("Add filename %s with key %s" %(filename, key), util.LOG_LEVEL_DEBUG)
 		except:
 			pass
 			
@@ -412,7 +419,8 @@ class DBUpdate:
 				self.log("game " +game +" could not be found in parsed results. Game will not be imported.", util.LOG_LEVEL_WARNING)
 				return
 			else:
-				self.log("game " +game +" could not be found in parsed results. Importing game without description.", util.LOG_LEVEL_WARNING)
+				#TODO game without description?
+				self.log("game " +game +" could not be found in parsed results. Game will not be imported.", util.LOG_LEVEL_WARNING)
 				return
 		else:
 			lastgamename = game
