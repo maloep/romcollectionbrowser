@@ -243,21 +243,3 @@ class DescriptionParser:
 			tokenIndex = -1
 			
 		return grammar
-
-
-def main():
-	dp = DescriptionParser()	
-	
-	#results = dp.parseDescription('E:\\Emulatoren\\data\\Parser Tests\\desc.txt', 
-	#	'E:\\Emulatoren\\data\\Parser Tests\\parser.xml', '')
-	
-	#results = dp.parseDescription('C:\\Dokumente und Einstellungen\\lom\\Anwendungsdaten\\XBMC\\scripts\\RomCollectionBrowser\\resources\\lib\\TestDataBase\\Collection V5\\synopsis.txt', 
-	#	'C:\\Dokumente und Einstellungen\\lom\\Anwendungsdaten\\XBMC\\scripts\\RomCollectionBrowser\\resources\\lib\\TestDataBase\\Collection V5\\parserConfig.xml', '')
-	
-	for result in results:
-		print result.asDict()
-		#print result
-	del dp
-	print "len results: " +str(len(results))
-	
-#main()
