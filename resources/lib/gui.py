@@ -49,7 +49,7 @@ CONTROL_CONSOLE_DESC = 2100
 CONTROL_BUTTON_SETTINGS = 3000
 CONTROL_BUTTON_UPDATEDB = 3100
 CONTROL_BUTTON_CHANGE_VIEW = 2
-CONTROL_BUTTON_VIDEOFULLSCREEN = (2901,)
+CONTROL_BUTTON_VIDEOFULLSCREEN = (2900, 2901,)
 
 CONTROL_LABEL_MSG = 4000
 
@@ -58,7 +58,9 @@ RCBHOME = os.getcwd()
 
 class MyPlayer(xbmc.Player):
 	
-	gui = None	
+	gui = None
+	
+	stoppedByRCB = False
 	
 	def onPlayBackStarted(self):	
 		self.gui.saveViewState(True)
@@ -70,14 +72,14 @@ class MyPlayer(xbmc.Player):
 		self.gui.loadViewState()
 		#pass
 		
-	"""
+	
 	def onPlayBackStopped(self):
 		xbmc.sleep(1000)
 		
-		#self.gui.loadViewState()
-	"""
-	
-
+		if(not self.stoppedByRCB):
+			self.stoppedByRCB = False
+			self.gui.loadViewState()
+		
 
 
 class ProgressDialogGUI:		
@@ -172,8 +174,8 @@ class UIGameDB(xbmcgui.WindowXML):
 			return
 		
 		#init only once
-		if(not self.isInit):
-			return
+		#if(not self.isInit):
+			#return
 			
 		self.isInit = False
 		
@@ -192,6 +194,7 @@ class UIGameDB(xbmcgui.WindowXML):
 			Logutil.log("onAction: ACTION_CANCEL_DIALOG", util.LOG_LEVEL_DEBUG)
 						
 			if(self.player.isPlayingVideo()):
+				self.player.stoppedByRCB = True
 				self.player.stop()
 			
 			self.exit()
@@ -285,10 +288,12 @@ class UIGameDB(xbmcgui.WindowXML):
 		elif (controlId in CONTROL_BUTTON_VIDEOFULLSCREEN):
 			Logutil.log("onClick: Video fullscreen", util.LOG_LEVEL_DEBUG)
 			
+			self.setFocus(self.getControl(CONTROL_GAMES_GROUP_START))
+			
 			pos = self.getCurrentListPosition()			
 			self.player.play(self.rcb_playList)
 			xbmc.executebuiltin('Playlist.PlayOffset(%i)' %pos)
-			xbmc.executebuiltin('XBMC.PlayerControl(RepeatAll)')
+			xbmc.executebuiltin('XBMC.PlayerControl(RepeatAll)')			
 
 
 	def onFocus(self, controlId):
@@ -467,7 +472,7 @@ class UIGameDB(xbmcgui.WindowXML):
 			imageMainView3 = self.getFileForControl(util.IMAGE_CONTROL_MV_3, gameRow[util.ROW_ID], gameRow[util.GAME_publisherId], gameRow[util.GAME_developerId], gameRow[util.GAME_romCollectionId])						
 			
 			
-			#set images as properties
+			#set images as properties for use in the skin
 			item.setProperty(util.IMAGE_CONTROL_MV_BACKGROUND, imagemainViewBackground)
 			item.setProperty(util.IMAGE_CONTROL_MV_GAMEINFO_BIG, imageGameInfoBig)
 			item.setProperty(util.IMAGE_CONTROL_MV_GAMEINFO_UPPERLEFT, imageGameInfoUpperLeft)
@@ -522,18 +527,27 @@ class UIGameDB(xbmcgui.WindowXML):
 			
 			self.addItem(item, False)
 			
-			#TODO Video Files for all controls
-			videosSmall = helper.getFilesByControl_Cached(self.gdb, util.VIDEO_CONTROL_MV_VideoWindowSmall, gameRow[util.ROW_ID], gameRow[util.GAME_publisherId], gameRow[util.GAME_developerId], gameRow[util.GAME_romCollectionId],
-				self.fileTypeForControlDict, self.fileTypeDict, self.fileDict, self.romCollectionDict)
+			
+			# add video to playlist for fullscreen support
 			
 			#create dummy ListItem for playlist
-			dummyItem = xbmcgui.ListItem(str(gameRow[util.ROW_NAME]), str(gameRow[util.ROW_ID]), imageGameList, imageGameListSelected)			
+			dummyItem = xbmcgui.ListItem(str(gameRow[util.ROW_NAME]), str(gameRow[util.ROW_ID]), imageGameList, imageGameListSelected)
 			
-			if(videosSmall != None and len(videosSmall) != 0):
-				video = videosSmall[0]				
-				self.rcb_playList.add(video, dummyItem)			
+			videosBig = helper.getFilesByControl_Cached(self.gdb, util.VIDEO_CONTROL_MV_VideoWindowBig, gameRow[util.ROW_ID], gameRow[util.GAME_publisherId], gameRow[util.GAME_developerId], gameRow[util.GAME_romCollectionId],
+				self.fileTypeForControlDict, self.fileTypeDict, self.fileDict, self.romCollectionDict)
 			
-		xbmc.executebuiltin("Container.SortDirection()")
+			if(videosBig != None and len(videosBig) != 0):
+				video = videosBig[0]
+				self.rcb_playList.add(video, dummyItem)
+			else:						
+				videosSmall = helper.getFilesByControl_Cached(self.gdb, util.VIDEO_CONTROL_MV_VideoWindowSmall, gameRow[util.ROW_ID], gameRow[util.GAME_publisherId], gameRow[util.GAME_developerId], gameRow[util.GAME_romCollectionId],
+					self.fileTypeForControlDict, self.fileTypeDict, self.fileDict, self.romCollectionDict)								
+				
+				if(videosSmall != None and len(videosSmall) != 0):
+					video = videosSmall[0]				
+					self.rcb_playList.add(video, dummyItem)
+			
+		xbmc.executebuiltin("Container.SortDirection")
 		xbmcgui.unlock()				
 		
 		self.writeMsg("")
@@ -563,9 +577,6 @@ class UIGameDB(xbmcgui.WindowXML):
 		if(selectedGame == None):
 			Logutil.log("selectedGame == None in showGameInfo", util.LOG_LEVEL_WARNING)
 			return					
-			
-		print selectedGame.getLabel()
-		print selectedGame.getLabel2()
 		
 		gameId = selectedGame.getProperty('gameId')
 		gameRow = Game(self.gdb).getObjectById(gameId)
@@ -595,7 +606,8 @@ class UIGameDB(xbmcgui.WindowXML):
 					selectedGame.setProperty('mainviewvideosizesmall', 'small')						
 					
 			if(video == "" or video == None):				
-				if(self.player.isPlayingVideo()):					
+				if(self.player.isPlayingVideo()):
+					self.player.stoppedByRCB = True
 					self.player.stop()
 				return
 				
@@ -603,7 +615,8 @@ class UIGameDB(xbmcgui.WindowXML):
 			if(self.player.isPlayingVideo()):			
 				playingFile =  self.player.getPlayingFile()				
 				if(playingFile != video):
-					self.player.stop()					
+					self.player.stoppedByRCB = True
+					self.player.stop()
 				else:
 					return								
 			
@@ -681,11 +694,12 @@ class UIGameDB(xbmcgui.WindowXML):
 			Logutil.log("selectedGame == None in launchEmu", util.LOG_LEVEL_WARNING)
 			return
 			
-		gameId = selectedGame.getLabel2()
+		gameId = selectedGame.getProperty('gameId')
 		Logutil.log("launching game with id: " +str(gameId), util.LOG_LEVEL_INFO)
 		
 		#stop video (if playing)
 		if(self.player.isPlayingVideo()):
+			self.player.stoppedByRCB = True
 			self.player.stop()
 		
 		helper.launchEmu(self.gdb, self, gameId)
@@ -739,7 +753,8 @@ class UIGameDB(xbmcgui.WindowXML):
 		if(selectedGame == None):
 			Logutil.log("selectedGame == None in showGameInfoDialog", util.LOG_LEVEL_WARNING)
 			return
-		gameId = selectedGame.getLabel2()
+		
+		gameId = selectedGame.getProperty('gameId')
 		
 		self.saveViewMode()
 		
@@ -764,7 +779,10 @@ class UIGameDB(xbmcgui.WindowXML):
 		#doImport: 0=nothing, 1=import Settings and Games, 2=import Settings only, 3=import games only
 		if(doImport in (1,2)):
 			dialog = xbmcgui.Dialog()
-			retSettings = dialog.yesno('Rom Collection Browser', 'Database is empty.', 'Do you want to import Settings now?')
+			if(doImport == 1):
+				retSettings = dialog.yesno('Rom Collection Browser', 'Database is empty.', 'Do you want to import Settings now?')
+			else:
+				retSettings = dialog.yesno('Rom Collection Browser', '', 'Do you want to import Settings now?')
 			del dialog
 			if(retSettings == True):
 				progressDialog = ProgressDialogGUI()
@@ -778,6 +796,7 @@ class UIGameDB(xbmcgui.WindowXML):
 				#TODO 2nd chance
 				if (not importSuccessful):
 					xbmcgui.Dialog().ok(util.SCRIPTNAME, errorMsg, 'See xbmc.log for details.')
+					return
 
 				if(importSuccessful and doImport == 1):
 					dialog = xbmcgui.Dialog()
