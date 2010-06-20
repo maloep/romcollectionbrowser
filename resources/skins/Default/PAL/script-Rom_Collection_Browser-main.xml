@@ -19,7 +19,7 @@
 		</control>
 		
 		<!-- gamelist groups -->
-		<control type="group" id="200">			
+		<control type="group" id="200">
 			
 			<!-- gamelist 50 -->
 			<control type="group">				
@@ -169,6 +169,39 @@
 						<height>220</height>												
 						<visible>!IsEmpty(ListItem.Property(mainviewvideosizebig))</visible>
 					</control>
+					<control type="button">
+						<description>click absorber</description>
+						<posx>15</posx>
+						<posy>15</posy>
+						<width>300</width>
+						<height>220</height>
+						<texturefocus></texturefocus>
+						<texturenofocus></texturenofocus>
+						<visible>!IsEmpty(ListItem.Property(mainviewvideosizebig))</visible>
+					</control>					
+					<control type="button" id="2900"> 
+						<description>Play Fullscreen</description>
+						<posx>90</posx>
+						<posy>235</posy>
+						<width>150</width>
+						<height>20</height>
+						<visible>!IsEmpty(ListItem.Property(mainviewvideofullscreen))</visible>
+						<colordiffuse>DDFFFFFF</colordiffuse>
+						<texturefocus>rcb-button-focus.png</texturefocus>
+						<texturenofocus>rcb-button-nofocus.png</texturenofocus>
+						<label>Play Video Fullscreen</label>
+						<font>font12</font>						
+						<textcolor>DDFFFFFF</textcolor>
+						<disabledcolor>80FFFFFF</disabledcolor>
+						<align>center</align>
+						<aligny>center</aligny>						
+						<onup>500</onup>
+						<ondown>3000</ondown>
+						<onleft>500</onleft>
+						<onright>2200</onright>
+					</control>
+					
+					
 					<!-- mainviewgameinfoupperleft -->
 					<control type="image" id="2400">
 						<description>mainviewgameinfoupperleft</description>
@@ -215,6 +248,18 @@
 						<height>110</height>												
 						<visible>!IsEmpty(ListItem.Property(mainviewvideosizesmall))</visible>						
 					</control>
+					
+					<control type="button">
+						<description>click absorber</description>
+						<posx>165</posx>
+						<posy>125</posy>
+						<width>150</width>
+						<height>110</height>
+						<texturefocus></texturefocus>
+						<texturenofocus></texturenofocus>
+						<visible>!IsEmpty(ListItem.Property(mainviewvideosizesmall))</visible>
+					</control>					
+					
 					<!-- game / console description -->
 					<control type="textbox" id="2100">
 						<description>Consoles</description>
@@ -246,7 +291,7 @@
 						<showonepage>false</showonepage>
 						<onup>2200</onup>
 						<ondown>2200</ondown>
-						<onleft>500</onleft>
+						<onleft>2900</onleft>
 						<onright>50</onright>
 					</control>
 				</control>
@@ -533,6 +578,38 @@
 						<visible>!IsEmpty(ListItem.Property(mainviewvideosizebig))</visible>
 					</control>
 					
+					<control type="button">
+						<description>click absorber</description>
+						<posx>15</posx>
+						<posy>45</posy>
+						<width>300</width>
+						<height>220</height>
+						<texturefocus></texturefocus>
+						<texturenofocus></texturenofocus>
+						<visible>!IsEmpty(ListItem.Property(mainviewvideosizebig))</visible>
+					</control>					
+					<control type="button" id="2901"> 
+						<description>Play Fullscreen</description>
+						<posx>90</posx>
+						<posy>270</posy>
+						<width>150</width>
+						<height>20</height>
+						<visible>!IsEmpty(ListItem.Property(mainviewvideofullscreen))</visible>
+						<colordiffuse>DDFFFFFF</colordiffuse>
+						<texturefocus>rcb-button-focus.png</texturefocus>
+						<texturenofocus>rcb-button-nofocus.png</texturenofocus>
+						<label>Play Video Fullscreen</label>
+						<font>font12</font>						
+						<textcolor>DDFFFFFF</textcolor>
+						<disabledcolor>80FFFFFF</disabledcolor>
+						<align>center</align>
+						<aligny>center</aligny>						
+						<onup>500</onup>
+						<ondown>3000</ondown>
+						<onleft>500</onleft>
+						<onright>2200</onright>
+					</control>
+					
 					<!-- mainviewgameinfoupperleft -->
 					<control type="image" id="2401">
 						<description>mainviewgameinfoupperleft</description>
@@ -579,30 +656,16 @@
 						<height>110</height>												
 						<visible>!IsEmpty(ListItem.Property(mainviewvideosizesmall))</visible>
 					</control>
-					
-					<control type="button" id="2901"> 
-						<description>Video Browser</description>
-						<posx>50</posx>
-						<posy>270</posy>
-						<width>100</width>
-						<height>20</height>
-						<visible>true</visible>
-						<colordiffuse>DDFFFFFF</colordiffuse>
-						<texturefocus>rcb-button-focus.png</texturefocus>
-						<texturenofocus>rcb-button-nofocus.png</texturenofocus>
-						<label>Video Browser</label>				
-						<textcolor>DDFFFFFF</textcolor>
-						<disabledcolor>80FFFFFF</disabledcolor>
-						<align>center</align>
-						<aligny>center</aligny>
-						<textoffsetx></textoffsetx>
-						<textoffsety></textoffsety>
-						<pulseonselect></pulseonselect>
-						<onup>500</onup>
-						<ondown>3000</ondown>
-						<onleft>500</onleft>
-						<onright>2201</onright>
-					</control>
+					<control type="button">
+						<description>video absorber</description>
+						<posx>165</posx>
+						<posy>155</posy>
+						<width>150</width>
+						<height>110</height>
+						<texturefocus></texturefocus>
+						<texturenofocus></texturenofocus>
+						<visible>!IsEmpty(ListItem.Property(mainviewvideosizesmall))</visible>
+					</control>										
 					
 					<control type="textbox" id="2101">
 						<description>Consoles</description>

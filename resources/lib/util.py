@@ -111,6 +111,7 @@ IMAGE_CONTROL_MV_3 = 'mainview3'
 VIDEO_CONTROL_MV_VideoWindow = 'mainviewvideowindow'
 VIDEO_CONTROL_MV_VideoWindowBig = 'mainviewvideowindowbig'
 VIDEO_CONTROL_MV_VideoWindowSmall = 'mainviewvideowindowsmall'
+VIDEO_CONTROL_MV_VideoFullscreen = 'mainviewvideofullscreen'
 
 IMAGE_CONTROL_GIV_BACKGROUND = 'gameinfoviewbackground'
 IMAGE_CONTROL_GIV_Img1 = 'gameinfoview1'

@@ -164,6 +164,7 @@ class SettingsImporter:
 			fileTypesForMainViewGameInfoLowerRight = self.getElementValues(romCollection, 'fileTypeForMainViewGameInfoLowerRight')
 			fileTypesForMainViewVideoWindowBig = self.getElementValues(romCollection, 'fileTypeForMainViewVideoWindowBig')
 			fileTypesForMainViewVideoWindowSmall = self.getElementValues(romCollection, 'fileTypeForMainViewVideoWindowSmall')
+			fileTypesForMainViewVideoFullscreen = self.getElementValues(romCollection, 'fileTypeForMainViewFullscreenVideo')
 			
 			fileTypesForGameInfoViewBackground = self.getElementValues(romCollection, 'fileTypeForGameInfoViewBackground')
 			fileTypesForGameInfoViewGamelist = self.getElementValues(romCollection, 'fileTypeForGameInfoViewGamelist')
@@ -186,7 +187,8 @@ class SettingsImporter:
 			self.insertFileTypeForControl(romCollectionId, fileTypesForMainViewGameInfoLowerLeft, 'mainviewgameinfolowerleft')
 			self.insertFileTypeForControl(romCollectionId, fileTypesForMainViewGameInfoLowerRight, 'mainviewgameinfolowerright')
 			self.insertFileTypeForControl(romCollectionId, fileTypesForMainViewVideoWindowBig, 'mainviewvideowindowbig')
-			self.insertFileTypeForControl(romCollectionId, fileTypesForMainViewVideoWindowSmall, 'mainviewvideowindowsmall')			
+			self.insertFileTypeForControl(romCollectionId, fileTypesForMainViewVideoWindowSmall, 'mainviewvideowindowsmall')
+			self.insertFileTypeForControl(romCollectionId, fileTypesForMainViewVideoFullscreen, 'mainviewvideofullscreen')
 			
 			self.insertFileTypeForControl(romCollectionId, fileTypesForGameInfoViewBackground, 'gameinfoviewbackground')
 			self.insertFileTypeForControl(romCollectionId, fileTypesForGameInfoViewGamelist, 'gameinfoviewgamelist')
