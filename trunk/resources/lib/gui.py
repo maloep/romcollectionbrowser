@@ -61,20 +61,23 @@ class MyPlayer(xbmc.Player):
 	gui = None
 	
 	stoppedByRCB = False
+	startedInPlayListMode = False
 	
 	def onPlayBackStarted(self):	
-		self.gui.saveViewState(True)
-		#pass
+		self.gui.saveViewState(True)		
 	
 	def onPlayBackEnded(self):
+		#in PlayListMode we will move to the next item
+		if(self.startedInPlayListMode):			
+			return
+		
 		xbmc.sleep(1000)
 		
 		self.gui.loadViewState()
-		#pass
 		
 	
 	def onPlayBackStopped(self):
-		xbmc.sleep(1000)
+		xbmc.sleep(1000)				
 		
 		if(not self.stoppedByRCB):
 			self.stoppedByRCB = False
@@ -290,10 +293,11 @@ class UIGameDB(xbmcgui.WindowXML):
 			
 			self.setFocus(self.getControl(CONTROL_GAMES_GROUP_START))
 			
-			pos = self.getCurrentListPosition()			
+			pos = self.getCurrentListPosition()
+			self.player.startedInPlayListMode = True
 			self.player.play(self.rcb_playList)
 			xbmc.executebuiltin('Playlist.PlayOffset(%i)' %pos)
-			xbmc.executebuiltin('XBMC.PlayerControl(RepeatAll)')			
+			xbmc.executebuiltin('XBMC.PlayerControl(RepeatAll)')
 
 
 	def onFocus(self, controlId):
@@ -648,6 +652,7 @@ class UIGameDB(xbmcgui.WindowXML):
 		#test looping video		
 		#xbmc.executebuiltin('XBMC.PlayerControl(Repeat)')
 		
+		self.player.startedInPlayListMode = False
 		self.player.play(video, selectedGame, True)		
 		
 		
