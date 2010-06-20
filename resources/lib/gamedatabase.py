@@ -52,7 +52,7 @@ class GameDataBase:
 	
 	def checkDBStructure(self):
 		
-		#returnValues: -1 error, 0=nothing, 1=import Settings and Games, 2=import Settings only
+		#returnValues: -1 error, 0=nothing, 1=import Settings and Games
 		
 		dbVersion = ""
 		try:
