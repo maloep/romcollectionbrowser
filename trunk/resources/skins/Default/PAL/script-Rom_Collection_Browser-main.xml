@@ -40,7 +40,7 @@
 					<height>250</height>
 					<onleft>50</onleft>
 					<onright>50</onright>
-					<onup>2200</onup>
+					<onup>2200</onup>					
 					<ondown>500</ondown>
 					<orientation>horizontal</orientation>
 					<focusposition>2</focusposition>
@@ -280,7 +280,7 @@
 						<posy>20</posy>
 						<width>5</width>
 						<height>220</height>
-						<visible>Control.IsVisible(2100)</visible>
+						<visible allowhiddenfocus="true">Control.IsVisible(2100)</visible>
 						<texturesliderbackground>scrollbar-bg.png</texturesliderbackground>
 						<texturesliderbar>scrollbar-bar.png</texturesliderbar>
 						<texturesliderbarfocus>scrollbar-barFocus.png</texturesliderbarfocus>
