@@ -391,7 +391,7 @@ class DBUpdate:
 							self.log("result found by foldername crc: " +gamedesc, util.LOG_LEVEL_INFO)							
 							return filename
 							
-					self.log("using filename as crc value: " +gamedesc, util.LOG_LEVEL_DEBUG)										
+					self.log("using filename as crc value", util.LOG_LEVEL_DEBUG)										
 					try:
 						filename = fileGamenameDict[resultcrc]
 					except:
