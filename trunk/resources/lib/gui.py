@@ -130,6 +130,7 @@ class UIGameDB(xbmcgui.WindowXML):
 	playVideoThread = None
 	playVideoThreadStopped = False
 	rcb_playList = xbmc.PlayList(xbmc.PLAYLIST_VIDEO)
+	playlistOffsets = {}
 	
 	
 	#dummy to be compatible with ProgressDialogGUI
@@ -290,14 +291,7 @@ class UIGameDB(xbmcgui.WindowXML):
 			self.launchEmu()
 		elif (controlId in CONTROL_BUTTON_VIDEOFULLSCREEN):
 			Logutil.log("onClick: Video fullscreen", util.LOG_LEVEL_DEBUG)
-			
-			self.setFocus(self.getControl(CONTROL_GAMES_GROUP_START))
-			
-			pos = self.getCurrentListPosition()
-			self.player.startedInPlayListMode = True
-			self.player.play(self.rcb_playList)
-			xbmc.executebuiltin('Playlist.PlayOffset(%i)' %pos)
-			xbmc.executebuiltin('XBMC.PlayerControl(RepeatAll)')
+			self.startFullscreenVideo()						
 
 
 	def onFocus(self, controlId):
@@ -454,7 +448,8 @@ class UIGameDB(xbmcgui.WindowXML):
 		self.clearList()
 		self.rcb_playList.clear()
 		
-		for gameRow in games:				
+		count = 0
+		for gameRow in games:			
 		
 			#images for gamelist
 			imageGameList = self.getFileForControl(util.IMAGE_CONTROL_MV_GAMELIST, gameRow[util.ROW_ID], gameRow[util.GAME_publisherId], gameRow[util.GAME_developerId], gameRow[util.GAME_romCollectionId])						
@@ -531,18 +526,11 @@ class UIGameDB(xbmcgui.WindowXML):
 			
 			self.addItem(item, False)
 			
-			
 			# add video to playlist for fullscreen support
-			
-			#create dummy ListItem for playlist
-			dummyItem = xbmcgui.ListItem(str(gameRow[util.ROW_NAME]), str(gameRow[util.ROW_ID]), imageGameList, imageGameListSelected)
-			
-			videosFullscreen = helper.getFilesByControl_Cached(self.gdb, util.VIDEO_CONTROL_MV_VideoFullscreen, gameRow[util.ROW_ID], gameRow[util.GAME_publisherId], gameRow[util.GAME_developerId], gameRow[util.GAME_romCollectionId],
-				self.fileTypeForControlDict, self.fileTypeDict, self.fileDict, self.romCollectionDict)
-			
-			if(videosFullscreen != None and len(videosFullscreen) != 0):
-				video = videosFullscreen[0]
-				self.rcb_playList.add(video, dummyItem)
+			self.addFullscreenVideo(gameRow, imageGameList, imageGameListSelected, count)
+				
+			count = count +1
+				
 			
 		xbmc.executebuiltin("Container.SortDirection")
 		xbmcgui.unlock()				
@@ -656,6 +644,33 @@ class UIGameDB(xbmcgui.WindowXML):
 		self.player.play(video, selectedGame, True)		
 		
 		
+	def addFullscreenVideo(self, gameRow, imageGameList, imageGameListSelected, count):
+		#create dummy ListItem for playlist
+		dummyItem = xbmcgui.ListItem(str(gameRow[util.ROW_NAME]), str(gameRow[util.ROW_ID]), imageGameList, imageGameListSelected)
+		
+		videosFullscreen = helper.getFilesByControl_Cached(self.gdb, util.VIDEO_CONTROL_MV_VideoFullscreen, gameRow[util.ROW_ID], gameRow[util.GAME_publisherId], gameRow[util.GAME_developerId], gameRow[util.GAME_romCollectionId],
+			self.fileTypeForControlDict, self.fileTypeDict, self.fileDict, self.romCollectionDict)
+		
+		if(videosFullscreen != None and len(videosFullscreen) != 0):
+			video = videosFullscreen[0]
+			self.rcb_playList.add(video, dummyItem)								
+			
+			try:
+				if(len(self.playlistOffsets) == 0 or count == 0):
+					self.playlistOffsets[count] = 0
+				else:
+					offset = self.playlistOffsets[count-1]
+					self.playlistOffsets[count] = offset + 1
+			except:
+				Logutil.log("Error while creating playlist offset", util.LOG_LEVEL_WARNING)
+		else:
+			if(len(self.playlistOffsets) == 0 or count == 0):
+				self.playlistOffsets[count] = 0
+			else:
+				offset = self.playlistOffsets[count-1]
+				self.playlistOffsets[count] = offset
+		
+		
 	def getGamePropertyFromCache(self, gameRow, dict, key, index):
 		
 		result = ""
@@ -716,11 +731,27 @@ class UIGameDB(xbmcgui.WindowXML):
 		Logutil.log("End launchEmu" , util.LOG_LEVEL_INFO)
 		
 		
-	def updateDB(self):
-		Logutil.log("Begin updateDB" , util.LOG_LEVEL_INFO)				
+	def startFullscreenVideo(self):
+		self.setFocus(self.getControl(CONTROL_GAMES_GROUP_START))
+			
+		pos = self.getCurrentListPosition()		
+				
+		#missing videos may lead to a wrong offset. We have to take care with our own hash
+		if(len(self.playlistOffsets) != 0):
+			try:
+				pos = self.playlistOffsets[pos] - 1
+			except:
+				Logutil.log("Error while reading playlist offset", util.LOG_LEVEL_WARNING)
+			self.playlistOffsets = {}
 		
-		#dbupdate.DBUpdate().updateDB(self.gdb, self)
-		#self.updateControls()				
+		self.player.startedInPlayListMode = True
+		self.player.play(self.rcb_playList)
+		xbmc.executebuiltin('Playlist.PlayOffset(%i)' %pos)
+		xbmc.executebuiltin('XBMC.PlayerControl(RepeatAll)')
+		
+		
+	def updateDB(self):
+		Logutil.log("Begin updateDB" , util.LOG_LEVEL_INFO)
 		
 		self.clearList()
 		self.clearCache()
@@ -734,16 +765,11 @@ class UIGameDB(xbmcgui.WindowXML):
 	def importSettings(self):
 		Logutil.log("Begin importSettings" , util.LOG_LEVEL_INFO)				
 		
+		self.clearList()
+		self.clearCache()
 		self.checkImport(2)
-		
-		"""
-		importSuccessful, errorMsg = importsettings.SettingsImporter().importSettings(self.gdb, os.path.join(RCBHOME, 'resources', 'database'), self)
-		if(not importSuccessful):
-			self.writeMsg(errorMsg +' See xbmc.log for details.')
-		else:
-			self.cacheItems()
-			self.updateControls()				
-		"""
+		self.cacheItems()
+		self.updateControls()			
 		
 		Logutil.log("End importSettings" , util.LOG_LEVEL_INFO)
 		
