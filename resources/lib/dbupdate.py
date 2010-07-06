@@ -158,16 +158,17 @@ class DBUpdate:
 						#parse description
 						for result,start,end in gameGrammar.scanString(fileAsString):														
 							
-							filenamelist = self.findFilesByGameDescription(result, searchGameByCRCIgnoreRomName, searchGameByCRC, 
+							filenamelist, foldername = self.findFilesByGameDescription(result, searchGameByCRCIgnoreRomName, searchGameByCRC, 
 								filecrcDict, fileFoldernameDict, fileGamenameDict, useFoldernameAsCRC, useFilenameAsCRC)
 
 							if(filenamelist != None and len(filenamelist) > 0):								
-								gamename = self.getGamenameFromFilename(filenamelist[0], romCollectionRow)
-								gui.writeMsg(progDialogRCHeader, "Import game: " +gamename, "", fileCount)
+								gamenameFromFile = self.getGamenameFromFilename(filenamelist[0], romCollectionRow)
+								gamenameFromDesc = result['Game'][0]
+								gui.writeMsg(progDialogRCHeader, "Import game: " +str(gamenameFromDesc), "", fileCount)
 								fileCount = fileCount +1
 							else:
 								gamename = ''
-							self.insertGameFromDesc(result, lastgamename, ignoreGameWithoutDesc, gamename, romCollectionRow, filenamelist, foldername, allowUpdate)
+							self.insertGameFromDesc(result, lastgamename, ignoreGameWithoutDesc, gamenameFromFile, romCollectionRow, filenamelist, foldername, allowUpdate)
 								
 					except Exception, (exc):
 						self.log("an error occured while parsing game description: " +descriptionPath, util.LOG_LEVEL_WARNING)
@@ -231,7 +232,7 @@ class DBUpdate:
 		self.log("basename: " +basename, util.LOG_LEVEL_INFO)
 		
 		if(walkDownRomPath):
-			self.log("walkDownRomPath is true: checking sub directories", util.LOG_LEVEL_INFO)
+			self.log("checking sub directories", util.LOG_LEVEL_INFO)
 			for walkRoot, walkDirs, walkFiles in os.walk(dirname):
 				self.log( "root: " +str(walkRoot), util.LOG_LEVEL_DEBUG)	
 				
@@ -349,6 +350,8 @@ class DBUpdate:
 		gamedesc = result['Game'][0]
 		self.log("game name in parsed result: " +str(gamedesc), util.LOG_LEVEL_DEBUG)				
 		
+		foldername = ''
+		
 		#find by filename
 		#there is an option only to search by crc (maybe there are games with the same name but different crcs)
 		if(searchGameByCRCIgnoreRomName == 'False'):
@@ -361,7 +364,7 @@ class DBUpdate:
 				
 			if (filename != None):
 				self.log("result found by filename: " +gamedesc, util.LOG_LEVEL_INFO)				
-				return filename
+				return filename, foldername
 		
 		#find by crc
 		if(searchGameByCRC == 'True' or useFoldernameAsCRC == 'True' or useFilenameAsCRC == 'true'):
@@ -378,18 +381,19 @@ class DBUpdate:
 						filename = None
 					if(filename != None):
 						self.log("result found by crc: " +gamedesc, util.LOG_LEVEL_INFO)						
-						return filename
+						return filename, foldername
 						
 					#TODO search for folder as option?
 					if(useFoldernameAsCRC == 'True'):
 						self.log("using foldername as crc value", util.LOG_LEVEL_DEBUG)						
 						try:
 							filename = fileFoldernameDict[resultcrc]
+							foldername = resultcrc
 						except:
 							filename = None
 						if(filename != None):
 							self.log("result found by foldername crc: " +gamedesc, util.LOG_LEVEL_INFO)							
-							return filename
+							return filename, foldername
 							
 					self.log("using filename as crc value", util.LOG_LEVEL_DEBUG)										
 					try:
@@ -398,12 +402,12 @@ class DBUpdate:
 						filename = None
 					if(filename != None):
 						self.log("result found by filename crc: " +gamedesc, util.LOG_LEVEL_INFO)						
-						return filename
+						return filename, foldername
 						
 			except Exception, (exc):
 				self.log("Error while checking crc results: " +str(exc), util.LOG_LEVEL_ERROR)
 		
-		return None
+		return None, foldername
 		
 		
 	def insertGameFromDesc(self, gamedescription, lastgamename, ignoreGameWithoutDesc, gamename, romCollectionRow, filenamelist, foldername, allowUpdate):
