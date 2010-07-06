@@ -10,6 +10,55 @@ import time
 RCBHOME = os.getcwd()
 
 
+def getFilesByControl(gdb, controlName, gameId, publisherId, developerId, romCollectionId):	
+	
+	Logutil.log("getFilesByControl controlName: " +controlName, util.LOG_LEVEL_DEBUG)
+	Logutil.log("getFilesByControl gameId: " +str(gameId), util.LOG_LEVEL_DEBUG)
+	Logutil.log("getFilesByControl publisherId: " +str(publisherId), util.LOG_LEVEL_DEBUG)
+	Logutil.log("getFilesByControl developerId: " +str(developerId), util.LOG_LEVEL_DEBUG)
+	Logutil.log("getFilesByControl romCollectionId: " +str(romCollectionId), util.LOG_LEVEL_DEBUG)
+	
+
+	fileTypeForControlRows = FileTypeForControl(gdb).getFileTypesForControlByKey(romCollectionId, controlName)
+	if(fileTypeForControlRows == None):
+		Logutil.log("fileTypeForControlRows == None", util.LOG_LEVEL_WARNING)
+		return	
+	
+	mediaFiles = []
+	for fileTypeForControlRow in fileTypeForControlRows:
+		
+		fileTypeRow = FileType(gdb).getObjectById(fileTypeForControlRow[4])
+		if(fileTypeRow == None):
+			Logutil.log("fileTypeRow == None in getFilesByControl", util.LOG_LEVEL_WARNING)
+			continue					
+			
+		parentId = None
+					
+		if(fileTypeRow[util.FILETYPE_parent] == util.FILETYPEPARENT_GAME):
+			parentId = gameId
+		elif(fileTypeRow[util.FILETYPE_parent] == util.FILETYPEPARENT_CONSOLE):
+			romCollectionRow = RomCollection(gdb).getObjectById(romCollectionId)
+			if(romCollectionRow == None):
+				Logutil.log("romCollectionRow == None in getFilesByControl", util.LOG_LEVEL_WARNING)
+				continue
+			consoleId = romCollectionRow[2]                 
+			parentId = consoleId
+		elif(fileTypeRow[util.FILETYPE_parent] == util.FILETYPEPARENT_PUBLISHER):
+			parentId = publisherId
+		elif(fileTypeRow[util.FILETYPE_parent] == util.FILETYPEPARENT_DEVELOPER):
+			parentId = developerId
+		elif(fileTypeRow[util.FILETYPE_parent] == util.FILETYPEPARENT_ROMCOLLECTION):
+			parentId = romCollectionId
+
+		if(parentId != None):
+			files = File(gdb).getFilesByGameIdAndTypeId(parentId, fileTypeForControlRow[util.FILETYPEFORCONTROL_fileTypeId])
+			for file in files:
+				mediaFiles.append(file[1])
+				
+		return mediaFiles
+
+
+
 def getFilesByControl_Cached(gdb, controlName, gameId, publisherId, developerId, romCollectionId, fileTypeForControlDict, fileTypeDict, fileDict, romCollectionDict):
 			
 		Logutil.log("getFilesByControl controlName: " +controlName, util.LOG_LEVEL_DEBUG)
@@ -30,7 +79,7 @@ def getFilesByControl_Cached(gdb, controlName, gameId, publisherId, developerId,
 			return
 		
 		mediaFiles = []
-		for fileTypeForControlRow in fileTypeForControlRows:						
+		for fileTypeForControlRow in fileTypeForControlRows:
 			Logutil.log("fileTypeForControlRow: " +str(fileTypeForControlRow), util.LOG_LEVEL_DEBUG)
 			
 			try:
@@ -46,13 +95,12 @@ def getFilesByControl_Cached(gdb, controlName, gameId, publisherId, developerId,
 						
 			if(fileTypeRow[util.FILETYPE_parent] == util.FILETYPEPARENT_GAME):
 				parentId = gameId
-			elif(fileTypeRow[util.FILETYPE_parent] == util.FILETYPEPARENT_CONSOLE):
-				#TODO cache RomCollections
+			elif(fileTypeRow[util.FILETYPE_parent] == util.FILETYPEPARENT_CONSOLE):				
 				romCollectionRow = romCollectionDict[romCollectionId]
 				if(romCollectionRow == None):
 					Logutil.log("romCollectionRow == None in getFilesByControl", util.LOG_LEVEL_DEBUG)
 					continue
-				consoleId = romCollectionRow[2]			
+				consoleId = romCollectionRow[2]
 				parentId = consoleId
 			elif(fileTypeRow[util.FILETYPE_parent] == util.FILETYPEPARENT_PUBLISHER):
 				parentId = publisherId
@@ -80,6 +128,7 @@ def getFilesByControl_Cached(gdb, controlName, gameId, publisherId, developerId,
 				mediaFiles.append(file[1])
 		
 		return mediaFiles
+
 
 
 def launchEmu(gdb, gui, gameId):
