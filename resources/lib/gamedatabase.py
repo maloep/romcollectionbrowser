@@ -151,6 +151,11 @@ class DataBaseObject:
 		self.gdb.cursor.execute(query, args)
 		allObjects = self.gdb.cursor.fetchall()		
 		return allObjects
+		
+	def getObjectsByQueryNoArgs(self, query):
+		self.gdb.cursor.execute(query)
+		allObjects = self.gdb.cursor.fetchall()		
+		return allObjects
 
 	def getObjectByQuery(self, query, args):		
 		self.gdb.cursor.execute(query, args)
@@ -277,7 +282,7 @@ class FileTypeForControl(DataBaseObject):
 	filterQueryByKeyNoPrio = "Select * from FileTypeForControl \
 					where romCollectionId = ? AND \
 					control = ? \
-					ORDER BY priority"
+					ORDER BY priority"							
 	
 	def __init__(self, gdb):		
 		self.gdb = gdb
@@ -289,7 +294,7 @@ class FileTypeForControl(DataBaseObject):
 		
 	def getFileTypesForControlByKey(self, romCollectionId, control):
 		fileTypes = self.getObjectsByQuery(self.filterQueryByKeyNoPrio, (romCollectionId, control))
-		return fileTypes
+		return fileTypes			
 
 
 class File(DataBaseObject):	
@@ -309,6 +314,12 @@ class File(DataBaseObject):
 	filterQueryByGameIdAndTypeId = "Select * from File \
 					where parentId = ? AND \
 					filetypeid = ?"
+					
+	filterFilesForGameList = "Select * from File Where FileTypeId in (Select distinct filetypeid from filetypeforcontrol \
+					where control = 'gamelist' OR control = 'gamelistselected' OR control = 'mainviewvideofullscreen')"
+					
+	filterQueryByParentIds = "Select * from File \
+					where parentId in (?, ?, ?, ?, ?)"
 	
 	def __init__(self, gdb):		
 		self.gdb = gdb
@@ -332,6 +343,14 @@ class File(DataBaseObject):
 		
 	def getRomsByGameId(self, gameId):
 		files = self.getObjectsByQuery(self.filterQueryByGameIdAndFileType, (gameId, 'rcb_rom'))
+		return files
+		
+	def getFilesForGamelist(self):
+		files = self.getObjectsByQueryNoArgs(self.filterFilesForGameList)
+		return files
+		
+	def getFilesByParentIds(self, gameId, romCollectionId, consoleId, publisherId, developerId):
+		files = self.getObjectsByQuery(self.filterQueryByParentIds, (gameId, romCollectionId, consoleId, publisherId, developerId))
 		return files
 		
 
