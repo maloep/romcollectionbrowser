@@ -122,8 +122,8 @@ class DataBaseObject:
 		return allObjects
 		
 		
-	def getAllOrdered(self):
-		self.gdb.cursor.execute("SELECT * FROM '%s' ORDER BY name" % self.tableName)
+	def getAllOrdered(self):		
+		self.gdb.cursor.execute("SELECT * FROM '%s' ORDER BY name COLLATE NOCASE" % self.tableName)
 		allObjects = self.gdb.cursor.fetchall()
 		return allObjects
 		
@@ -170,7 +170,7 @@ class Game(DataBaseObject):
 					(YearId = ? OR (0 = ?)) AND \
 					(PublisherId = ? OR (0 = ?)) \
 					AND %s \
-					ORDER BY name"
+					ORDER BY name COLLATE NOCASE"
 					
 	filterByNameAndRomCollectionId = "SELECT * FROM Game WHERE name = ? and romCollectionId = ?"
 	
