@@ -233,8 +233,10 @@ class DBUpdate:
 		
 		if(walkDownRomPath):
 			self.log("checking sub directories", util.LOG_LEVEL_INFO)
-			for walkRoot, walkDirs, walkFiles in os.walk(dirname):
-				self.log( "root: " +str(walkRoot), util.LOG_LEVEL_DEBUG)	
+			for walkRoot, walkDirs, walkFiles in os.walk(dirname.encode('utf-8')):
+				self.log( "root: " +str(walkRoot), util.LOG_LEVEL_DEBUG)
+				self.log( "walkDirs: " +str(walkDirs), util.LOG_LEVEL_DEBUG)
+				self.log( "walkFiles: " +str(walkFiles), util.LOG_LEVEL_DEBUG)
 				
 				newRomPath = os.path.join(walkRoot, basename)
 				self.log( "newRomPath: " +str(newRomPath), util.LOG_LEVEL_DEBUG)
