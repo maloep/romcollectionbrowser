@@ -8,6 +8,7 @@
 		<preventUnfilteredSearch>False</preventUnfilteredSearch>
 		<saveViewStateOnExit>True</saveViewStateOnExit>
 		<saveViewStateOnLaunchEmu>True</saveViewStateOnLaunchEmu>
+		<cachingOption>CACHEITEMANDNEXT</cachingOption>
 		<logLevel>INFO</logLevel>
 	</RCBSettings>
 	<Consoles>		

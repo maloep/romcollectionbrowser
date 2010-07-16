@@ -202,7 +202,7 @@ class TestUpdateDB(unittest.TestCase):
 		
 		
 
-class RCBMock():
+class RCBMock:
 	def writeMsg(self, msg1, msg2, msg3, count=0):
 		pass
 	

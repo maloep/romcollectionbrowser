@@ -75,7 +75,8 @@ CREATE TABLE IF NOT EXISTS [RCBSetting]
 	[logLevel] INTEGER,
 	[showEntryAllChars] INTEGER,
 	[lastSelectedCharacterIndex] INTEGER,
-	[preventUnfilteredSearch] INTEGER
+	[preventUnfilteredSearch] INTEGER,
+	[cachingOption] INTEGER
 );
 
 

@@ -6,8 +6,11 @@ import os, sys
 # Shared resources
 BASE_RESOURCE_PATH = os.path.join( os.getcwd(), ".." )
 sys.path.append( os.path.join( BASE_RESOURCE_PATH, "lib" ) )
+
 # append the proper platforms folder to our path, xbox is the same as win32
 env = ( os.environ.get( "OS", "win32" ), "win32", )[ os.environ.get( "OS", "win32" ) == "xbox" ]
+if env == 'Windows_NT':
+	env = 'win32'
 sys.path.append( os.path.join( BASE_RESOURCE_PATH, "platform_libraries", env ) )
 
 import re, string
@@ -255,7 +258,7 @@ class TestImportSettings(unittest.TestCase):
 		fileTypesForControl = FileTypeForControl(self.gdb).getAll()
 		self.assertTrue(paths != None)
 		numFileTypes = len(fileTypesForControl)
-		self.assertEqual(numFileTypes, 37)
+		self.assertEqual(numFileTypes, 38)
 		
 		self.fileTypeForControlTestTest(fileTypesForControl[0][1], 'gamelist', fileTypesForControl[0][2], 0, fileTypesForControl[0][4], 'cover', fileTypesForControl[0][3], 'Collection V1')
 		self.fileTypeForControlTestTest(fileTypesForControl[2][1], 'gameinfoviewbackground', fileTypesForControl[2][2], 0, fileTypesForControl[2][4], 'cover', fileTypesForControl[2][3], 'Collection V1')
@@ -286,9 +289,9 @@ class TestImportSettings(unittest.TestCase):
 		romCollection = RomCollection(self.gdb).getObjectById(romCollId)
 		self.assertEqual(romCollection[1], romCollExpected)
 		
-
-class RCBMock():
-	def writeMsg(self, msg, count=0):
+		
+class RCBMock:
+	def writeMsg(self, msg1, msg2, msg3, count=0):
 		pass
 	
 
