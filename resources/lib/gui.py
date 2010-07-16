@@ -24,7 +24,7 @@ ACTION_MOVEMENT_LEFT = (1,)
 ACTION_MOVEMENT_RIGHT = (2,)
 ACTION_MOVEMENT_UP = (3,)
 ACTION_MOVEMENT_DOWN = (4,)
-ACTION_MOVEMENT = (1, 2, 3, 4,)
+ACTION_MOVEMENT = (1, 2, 3, 4, 5, 6, 159, 160)
 ACTION_INFO = (11,)
 
 
@@ -195,6 +195,10 @@ class UIGameDB(xbmcgui.WindowXML):
 			self.close()
 			return
 		
+		self.clearList()
+		self.rcb_playList.clear()
+		self.loadedGames = array.array('I')
+		
 		#init only once
 		#if(not self.isInit):
 			#return
@@ -220,8 +224,8 @@ class UIGameDB(xbmcgui.WindowXML):
 				self.player.stop()
 			
 			self.exit()
-		elif(action.getId() in ACTION_MOVEMENT_UP or action.getId() in ACTION_MOVEMENT_DOWN):
-			
+		elif(action.getId() in ACTION_MOVEMENT):
+									
 			Logutil.log("onAction: ACTION_MOVEMENT_UP / ACTION_MOVEMENT_DOWN", util.LOG_LEVEL_DEBUG)
 			
 			control = self.getControlById(self.selectedControlId)
@@ -238,59 +242,62 @@ class UIGameDB(xbmcgui.WindowXML):
 					
 				#self.waitForGameLoading()				
 			
-			elif(self.selectedControlId in FILTER_CONTROLS):								
-				
-				label = str(control.getSelectedItem().getLabel())
-				label2 = str(control.getSelectedItem().getLabel2())
+			if(action.getId() in ACTION_MOVEMENT_UP or action.getId() in ACTION_MOVEMENT_DOWN):	
+				if(self.selectedControlId in FILTER_CONTROLS):								
 					
-				filterChanged = False
-				
-				if (self.selectedControlId == CONTROL_CONSOLES):
-					if(self.selectedConsoleIndex != control.getSelectedPosition()):
-						self.selectedConsoleId = int(label2)
-						self.selectedConsoleIndex = control.getSelectedPosition()
-						filterChanged = True
+					label = str(control.getSelectedItem().getLabel())
+					label2 = str(control.getSelectedItem().getLabel2())
 						
-				elif (self.selectedControlId == CONTROL_GENRE):
-					if(self.selectedGenreIndex != control.getSelectedPosition()):
-						self.selectedGenreId = int(label2)
-						self.selectedGenreIndex = control.getSelectedPosition()
-						filterChanged = True
-				elif (self.selectedControlId == CONTROL_YEAR):
-					if(self.selectedYearIndex != control.getSelectedPosition()):
-						self.selectedYearId = int(label2)
-						self.selectedYearIndex = control.getSelectedPosition()
-						filterChanged = True
-				elif (self.selectedControlId == CONTROL_PUBLISHER):
-					if(self.selectedPublisherIndex != control.getSelectedPosition()):
-						self.selectedPublisherId = int(label2)
-						self.selectedPublisherIndex = control.getSelectedPosition()
-						filterChanged = True
-				elif (self.selectedControlId == CONTROL_CHARACTER):
-					if(self.selectedCharacterIndex != control.getSelectedPosition()):
-						self.selectedCharacter = label
-						self.selectedCharacterIndex = control.getSelectedPosition()
-						filterChanged = True
-				if(filterChanged):					
-					self.showGames()								
-				
-		elif(action.getId() in ACTION_MOVEMENT_LEFT or action.getId() in ACTION_MOVEMENT_RIGHT):
-			Logutil.log("onAction: ACTION_MOVEMENT_LEFT / ACTION_MOVEMENT_RIGHT", util.LOG_LEVEL_DEBUG)
-			
-			control = self.getControlById(self.selectedControlId)
-			if(control == None):
-				Logutil.log("control == None in onAction", util.LOG_LEVEL_WARNING)
-				return
-				
-			if(CONTROL_GAMES_GROUP_START <= self.selectedControlId <= CONTROL_GAMES_GROUP_END):								
-				
-				if(not self.fullScreenVideoStarted and not self.loadingGameInfo):
-					self.loadingGameInfo = True
-					self.showGameInfo()
-					self.loadingGameInfo = False
+					filterChanged = False
 					
-				#self.waitForGameLoading()
+					if (self.selectedControlId == CONTROL_CONSOLES):
+						if(self.selectedConsoleIndex != control.getSelectedPosition()):
+							self.selectedConsoleId = int(label2)
+							self.selectedConsoleIndex = control.getSelectedPosition()
+							filterChanged = True
+							
+					elif (self.selectedControlId == CONTROL_GENRE):
+						if(self.selectedGenreIndex != control.getSelectedPosition()):
+							self.selectedGenreId = int(label2)
+							self.selectedGenreIndex = control.getSelectedPosition()
+							filterChanged = True
+					elif (self.selectedControlId == CONTROL_YEAR):
+						if(self.selectedYearIndex != control.getSelectedPosition()):
+							self.selectedYearId = int(label2)
+							self.selectedYearIndex = control.getSelectedPosition()
+							filterChanged = True
+					elif (self.selectedControlId == CONTROL_PUBLISHER):
+						if(self.selectedPublisherIndex != control.getSelectedPosition()):
+							self.selectedPublisherId = int(label2)
+							self.selectedPublisherIndex = control.getSelectedPosition()
+							filterChanged = True
+					elif (self.selectedControlId == CONTROL_CHARACTER):
+						if(self.selectedCharacterIndex != control.getSelectedPosition()):
+							self.selectedCharacter = label
+							self.selectedCharacterIndex = control.getSelectedPosition()
+							filterChanged = True
+					if(filterChanged):					
+						self.showGames()								
+					
+			"""
+			elif(action.getId() in ACTION_MOVEMENT_LEFT or action.getId() in ACTION_MOVEMENT_RIGHT):
+				Logutil.log("onAction: ACTION_MOVEMENT_LEFT / ACTION_MOVEMENT_RIGHT", util.LOG_LEVEL_DEBUG)
 				
+				control = self.getControlById(self.selectedControlId)
+				if(control == None):
+					Logutil.log("control == None in onAction", util.LOG_LEVEL_WARNING)
+					return
+					
+				if(CONTROL_GAMES_GROUP_START <= self.selectedControlId <= CONTROL_GAMES_GROUP_END):								
+					
+					if(not self.fullScreenVideoStarted and not self.loadingGameInfo):
+						self.loadingGameInfo = True
+						self.showGameInfo()
+						self.loadingGameInfo = False
+						
+					#self.waitForGameLoading()
+			"""
+			
 		elif(action.getId() in ACTION_INFO):
 			Logutil.log("onAction: ACTION_INFO", util.LOG_LEVEL_DEBUG)
 			
@@ -487,10 +494,10 @@ class UIGameDB(xbmcgui.WindowXML):
 		
 			#images for gamelist
 			imageGameList = self.getFileForControl(util.IMAGE_CONTROL_MV_GAMELIST, gameRow[util.ROW_ID], gameRow[util.GAME_publisherId], gameRow[util.GAME_developerId], gameRow[util.GAME_romCollectionId], fileDict)
-			imageGameListSelected = self.getFileForControl(util.IMAGE_CONTROL_MV_GAMELISTSELECTED, gameRow[util.ROW_ID], gameRow[util.GAME_publisherId], gameRow[util.GAME_developerId], gameRow[util.GAME_romCollectionId], fileDict)
+			imageGameListSelected = self.getFileForControl(util.IMAGE_CONTROL_MV_GAMELISTSELECTED, gameRow[util.ROW_ID], gameRow[util.GAME_publisherId], gameRow[util.GAME_developerId], gameRow[util.GAME_romCollectionId], fileDict)												
 			
 			#create ListItem
-			item = xbmcgui.ListItem(str(gameRow[util.ROW_NAME]), str(gameRow[util.ROW_ID]), imageGameList, imageGameListSelected)
+			item = xbmcgui.ListItem(str(gameRow[util.ROW_NAME]), str(gameRow[util.ROW_ID]), imageGameList, imageGameListSelected)			
 			item.setProperty('gameId', str(gameRow[util.ROW_ID]))
 						
 			#0 = cacheAll
@@ -527,23 +534,28 @@ class UIGameDB(xbmcgui.WindowXML):
 		if(videosFullscreen != None and len(videosFullscreen) != 0):			
 			video = videosFullscreen[0]						
 			self.rcb_playList.add(video, dummyItem)								
-			
+			#print video
 			try:
 				if(len(self.playlistOffsets) == 0 or count == 0):
 					self.playlistOffsets[count] = 0
+					#print "insert offset % i at pos % i" %(0, count)
 				else:
-					offset = self.playlistOffsets[count - 1]
+					offset = self.playlistOffsets[count - 1]					
 					self.playlistOffsets[count] = offset + 1
+					#print "insert offset % i at pos % i" %(offset+1, count)
 			except:
 				Logutil.log("Error while creating playlist offset", util.LOG_LEVEL_WARNING)
 		else:
 			if(len(self.playlistOffsets) == 0 or count == 0):
 				self.playlistOffsets[count] = 0
+				#print "insert offset % i at pos % i" %(0, count)
 			else:
 				offset = self.playlistOffsets[count - 1]
-				self.playlistOffsets[count] = offset					
+				self.playlistOffsets[count] = offset
+				#print "insert offset % i at pos % i" %(offset, count)				
 	
 	
+	"""
 	def waitForGameLoading(self):
 		
 		if(self.loadingGamesTimerThread != None and self.loadingGamesTimerThread.isAlive()):
@@ -568,6 +580,7 @@ class UIGameDB(xbmcgui.WindowXML):
 				return
 				
 		self.showGameInfo()
+	"""
 	
 	
 	def showGameInfo(self):
@@ -581,7 +594,7 @@ class UIGameDB(xbmcgui.WindowXML):
 			return
 					
 		pos = self.getCurrentListPosition()
-		print "pos = " +str(pos)
+		#print "pos = " +str(pos)
 		if(pos == -1):
 			pos = 0
 			
@@ -590,8 +603,10 @@ class UIGameDB(xbmcgui.WindowXML):
 		#self.lastPosInShowGameInfo = pos
 			
 		#create an new connection
-		gdb = GameDataBase(os.path.join(RCBHOME, 'resources', 'database'))
-		gdb.connect()					
+		#gdb = GameDataBase(os.path.join(RCBHOME, 'resources', 'database'))
+		#gdb.connect()
+		
+		gdb = self.gdb				
 		
 		selectedGame, gameRow = self.getGameByPosition(gdb, pos)
 		if(selectedGame == None or gameRow == None):
@@ -619,6 +634,9 @@ class UIGameDB(xbmcgui.WindowXML):
 		
 		gameId = selectedGame.getProperty('gameId')
 		gameRow = Game(gdb).getObjectById(gameId)
+		
+		#print "gameId: " +str(gameId)
+		#print "gameRow: " +str(gameRow)
 
 		if(gameRow == None):			
 			Logutil.log("gameId = %s" % gameId, util.LOG_LEVEL_WARNING)
@@ -638,6 +656,14 @@ class UIGameDB(xbmcgui.WindowXML):
 			else:
 				fileDict = self.getFileDictByGameRow(gdb, gameRow)
 		
+		
+			#check if fullscreen video is configured
+			videosFullscreen = helper.getFilesByControl_Cached(self.gdb, util.VIDEO_CONTROL_MV_VideoFullscreen, gameRow[util.ROW_ID], gameRow[util.GAME_publisherId], gameRow[util.GAME_developerId], gameRow[util.GAME_romCollectionId],
+				self.fileTypeForControlDict, self.fileTypeDict, fileDict, self.romCollectionDict)				
+			if(videosFullscreen != None and len(videosFullscreen) != 0):				
+				selectedGame.setProperty('mainviewvideofullscreen', 'fullscreen')
+				
+		
 			video = ""			
 			
 			videosBig = helper.getFilesByControl_Cached(self.gdb, util.VIDEO_CONTROL_MV_VideoWindowBig, gameRow[util.ROW_ID], gameRow[util.GAME_publisherId], gameRow[util.GAME_developerId], gameRow[util.GAME_romCollectionId],
@@ -645,8 +671,7 @@ class UIGameDB(xbmcgui.WindowXML):
 			
 			if(videosBig != None and len(videosBig) != 0):
 				video = videosBig[0]				
-				selectedGame.setProperty('mainviewvideosizebig', 'big')
-				selectedGame.setProperty('mainviewvideofullscreen', 'fullscreen')
+				selectedGame.setProperty('mainviewvideosizebig', 'big')				
 				
 			else:
 				videosSmall = helper.getFilesByControl_Cached(self.gdb, util.VIDEO_CONTROL_MV_VideoWindowSmall, gameRow[util.ROW_ID], gameRow[util.GAME_publisherId], gameRow[util.GAME_developerId], gameRow[util.GAME_romCollectionId],
@@ -654,16 +679,10 @@ class UIGameDB(xbmcgui.WindowXML):
 				if(videosSmall != None and len(videosSmall) != 0):
 					video = videosSmall[0]					
 					selectedGame.setProperty('mainviewvideosizesmall', 'small')
-					selectedGame.setProperty('mainviewvideofullscreen', 'fullscreen')					
+												
 					
 			if(video == "" or video == None):
-				Logutil.log("video == None in loadVideoFiles", util.LOG_LEVEL_DEBUG)
-				
-				#check if fullscreen video is configured
-				videosFullscreen = helper.getFilesByControl_Cached(self.gdb, util.VIDEO_CONTROL_MV_VideoFullscreen, gameRow[util.ROW_ID], gameRow[util.GAME_publisherId], gameRow[util.GAME_developerId], gameRow[util.GAME_romCollectionId],
-					self.fileTypeForControlDict, self.fileTypeDict, fileDict, self.romCollectionDict)				
-				if(videosFullscreen != None and len(videosFullscreen) != 0):				
-					selectedGame.setProperty('mainviewvideofullscreen', 'fullscreen')
+				Logutil.log("video == None in loadVideoFiles", util.LOG_LEVEL_DEBUG)				
 				
 				if(self.player.isPlayingVideo()):
 					self.player.stoppedByRCB = True
@@ -714,9 +733,13 @@ class UIGameDB(xbmcgui.WindowXML):
 		# > 1: cacheItem, cacheItemAndNext 
 		if(self.cachingOption > 1):
 			try:
+				#print "load pos " +str(pos)
 				self.loadedGames.index(pos)			
 			except:
 				fileDict = self.getFileDictByGameRow(gdb, gameRow)
+				print str(fileDict)
+				print str(selectedGame)
+				print str(gameRow)
 				self.setAllItemData(selectedGame, gameRow, fileDict)
 				self.loadedGames.append(pos)
 
@@ -768,6 +791,7 @@ class UIGameDB(xbmcgui.WindowXML):
 		
 	def setAllItemData(self, item, gameRow, fileDict):				
 		
+		#print "setAllitemdata: " +str(gameRow)
 		# all other images in mainwindow
 		imagemainViewBackground = self.getFileForControl(util.IMAGE_CONTROL_MV_BACKGROUND, gameRow[util.ROW_ID], gameRow[util.GAME_publisherId], gameRow[util.GAME_developerId], gameRow[util.GAME_romCollectionId], fileDict)
 		imageGameInfoBig = self.getFileForControl(util.IMAGE_CONTROL_MV_GAMEINFO_BIG, gameRow[util.ROW_ID], gameRow[util.GAME_publisherId], gameRow[util.GAME_developerId], gameRow[util.GAME_romCollectionId], fileDict)
