@@ -142,12 +142,6 @@ class UIGameDB(xbmcgui.WindowXML):
 		
 	#dummy to be compatible with ProgressDialogGUI
 	itemCount = 0	
-
-	#0 = cacheAll
-	#1 = cacheSelection
-	#2 = cacheItem
-	#3 = cacheItemAndNext
-	cachingOption = 3
 	
 	lastPosInShowGameInfo = -1
 	fullScreenVideoStarted = False
@@ -155,6 +149,9 @@ class UIGameDB(xbmcgui.WindowXML):
 	loadingGameInfo = False
 	loadingGamesTimerThread = None
 	loadingGamesTimerThreadStopped = False
+		
+	#cachingOption will be overwritten by db-config. Don't change it here.
+	cachingOption = 3
 	
 	
 	def __init__(self, strXMLname, strFallbackPath, strDefaultName, forceFallback):
@@ -181,6 +178,13 @@ class UIGameDB(xbmcgui.WindowXML):
 		else:
 			self.gdb.commit()
 			self.checkImport(doImport)
+			
+			rcbSetting = helper.getRCBSetting(self.gdb)
+			print rcbSetting
+			if(rcbSetting != None):				
+				print "set cachingOption"
+				self.cachingOption = rcbSetting[util.RCBSETTING_cachingOption]
+				print "cachingOption = " +str(self.cachingOption)
 			
 			self.cacheItems()
 			

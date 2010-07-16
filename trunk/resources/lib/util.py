@@ -47,6 +47,7 @@ RCBSETTING_logLevel = 19
 RCBSETTING_showEntryAllChars = 20
 RCBSETTING_lastSelectedCharacterIndex = 21
 RCBSETTING_preventUnfilteredSearch = 22
+RCBSETTING_cachingOption = 23
 
 ROMCOLLECTION_consoleId = 2
 ROMCOLLECTION_emuCommandLine = 3
