@@ -458,6 +458,12 @@ class SettingsImporter:
 				errorCount = errorCount +1
 				Logutil.log('Import Settings: Error in config.xml. logLevel must be DEBUG, INFO, WARNING OR ERROR!', util.LOG_LEVEL_ERROR)
 		
+		cachingOption = self.getElementValue(rcbSetting, 'cachingOption')
+		if(cachingOption != ''):
+			if(cachingOption not in ('CACHEALL', 'CACHEITEM', 'CACHEITEMANDNEXT')):
+				errorCount = errorCount +1
+				Logutil.log('Import Settings: Error in config.xml. cachingOption must be one of CACHEALL, CACHEITEM, CACHEITEMANDNEXT!', util.LOG_LEVEL_ERROR)	
+		
 			
 		#Consoles
 		consoles = xmlDoc.getElementsByTagName('Console')
