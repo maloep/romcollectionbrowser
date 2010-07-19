@@ -179,12 +179,9 @@ class UIGameDB(xbmcgui.WindowXML):
 			self.gdb.commit()
 			self.checkImport(doImport)
 			
-			rcbSetting = helper.getRCBSetting(self.gdb)
-			print rcbSetting
+			rcbSetting = helper.getRCBSetting(self.gdb)			
 			if(rcbSetting != None):				
-				print "set cachingOption"
-				self.cachingOption = rcbSetting[util.RCBSETTING_cachingOption]
-				print "cachingOption = " +str(self.cachingOption)
+				self.cachingOption = rcbSetting[util.RCBSETTING_cachingOption]				
 			
 			self.cacheItems()
 			
@@ -600,28 +597,18 @@ class UIGameDB(xbmcgui.WindowXML):
 		pos = self.getCurrentListPosition()
 		#print "pos = " +str(pos)
 		if(pos == -1):
-			pos = 0
-			
-		#if(pos == self.lastPosInShowGameInfo or self.fullScreenVideoStarted):
-		#	return			
-		#self.lastPosInShowGameInfo = pos
-			
-		#create an new connection
-		#gdb = GameDataBase(os.path.join(RCBHOME, 'resources', 'database'))
-		#gdb.connect()
+			pos = 0						
 		
-		gdb = self.gdb				
-		
-		selectedGame, gameRow = self.getGameByPosition(gdb, pos)
+		selectedGame, gameRow = self.getGameByPosition(self.gdb, pos)
 		if(selectedGame == None or gameRow == None):
 			Logutil.log("game == None in showGameInfo", util.LOG_LEVEL_WARNING)			
 			return
 			
-		self.loadVideoFiles(gdb, gameRow, selectedGame)
+		self.loadVideoFiles(self.gdb, gameRow, selectedGame)
 		
 		#gameinfo is already loaded with cacheAll
 		if(self.cachingOption > 0):
-			self.loadGameInfos(gdb, gameRow, selectedGame, pos)
+			self.loadGameInfos(self.gdb, gameRow, selectedGame, pos)
 				
 		Logutil.log("End showGameInfo" , util.LOG_LEVEL_INFO)					
 		
@@ -736,6 +723,7 @@ class UIGameDB(xbmcgui.WindowXML):
 		
 		# > 1: cacheItem, cacheItemAndNext 
 		if(self.cachingOption > 1):
+			"""
 			try:
 				#print "load pos " +str(pos)
 				self.loadedGames.index(pos)			
@@ -746,6 +734,9 @@ class UIGameDB(xbmcgui.WindowXML):
 				print str(gameRow)
 				self.setAllItemData(selectedGame, gameRow, fileDict)
 				self.loadedGames.append(pos)
+			"""			
+			fileDict = self.getFileDictByGameRow(gdb, gameRow)
+			self.setAllItemData(selectedGame, gameRow, fileDict)
 
 		# > 2: cacheItemAndNext 
 		if(self.cachingOption > 2):
@@ -754,6 +745,7 @@ class UIGameDB(xbmcgui.WindowXML):
 			if(posBefore < 0):
 				posBefore = self.getListSize() - 1
 				
+			"""
 			try:
 				self.loadedGames.index(posBefore)			
 			except:
@@ -763,11 +755,18 @@ class UIGameDB(xbmcgui.WindowXML):
 				fileDict = self.getFileDictByGameRow(gdb, gameRow)
 				self.setAllItemData(selectedGame, gameRow, fileDict)
 				self.loadedGames.append(posBefore)
+			"""
+			selectedGame, gameRow = self.getGameByPosition(gdb, posBefore)
+			if(selectedGame == None or gameRow == None):
+				return
+			fileDict = self.getFileDictByGameRow(gdb, gameRow)
+			self.setAllItemData(selectedGame, gameRow, fileDict)
 			
 			posAfter = pos + 1
 			if(posAfter >= self.getListSize()):
 				posAfter = 0
 				
+			"""
 			try:
 				self.loadedGames.index(posAfter)
 			except:
@@ -777,6 +776,12 @@ class UIGameDB(xbmcgui.WindowXML):
 				fileDict = self.getFileDictByGameRow(gdb, gameRow)
 				self.setAllItemData(selectedGame, gameRow, fileDict)
 				self.loadedGames.append(posAfter)
+			"""
+			selectedGame, gameRow = self.getGameByPosition(gdb, posAfter)
+			if(selectedGame == None or gameRow == None):
+				return
+			fileDict = self.getFileDictByGameRow(gdb, gameRow)
+			self.setAllItemData(selectedGame, gameRow, fileDict)
 
 	
 	def getFileDictByGameRow(self, gdb, gameRow):
@@ -971,6 +976,8 @@ class UIGameDB(xbmcgui.WindowXML):
 		
 		gameId = selectedGame.getProperty('gameId')
 		
+		fileDict = self.getFileDictForGamelist()
+		
 		self.saveViewMode()
 		
 		import gameinfodialog
@@ -978,7 +985,7 @@ class UIGameDB(xbmcgui.WindowXML):
 			consoleId=self.selectedConsoleId, genreId=self.selectedGenreId, yearId=self.selectedYearId, publisherId=self.selectedPublisherId, selectedGameIndex=selectedGameIndex,
 			consoleIndex=self.selectedConsoleIndex, genreIndex=self.selectedGenreIndex, yearIndex=self.selectedYearIndex, publisherIndex=self.selectedPublisherIndex,
 			selectedCharacter=self.selectedCharacter, selectedCharacterIndex=self.selectedCharacterIndex, controlIdMainView=self.selectedControlId, fileTypeForControlDict=self.fileTypeForControlDict, fileTypeDict=self.fileTypeDict,
-			fileDict=self.fileDict, romCollectionDict=self.romCollectionDict)
+			fileDict=fileDict, romCollectionDict=self.romCollectionDict)
 		del gid
 				
 		
@@ -1206,8 +1213,7 @@ class UIGameDB(xbmcgui.WindowXML):
 		
 		
 	def getFileForControl(self, controlName, gameId, publisherId, developerId, romCollectionId, fileDict):
-		files = helper.getFilesByControl_Cached(self.gdb, controlName, gameId, publisherId, developerId, romCollectionId, self.fileTypeForControlDict, self.fileTypeDict, fileDict, self.romCollectionDict)
-		#files = helper.getFilesByControl(self.gdb, controlName, gameId, publisherId, developerId, romCollectionId)
+		files = helper.getFilesByControl_Cached(self.gdb, controlName, gameId, publisherId, developerId, romCollectionId, self.fileTypeForControlDict, self.fileTypeDict, fileDict, self.romCollectionDict)		
 		if(files != None and len(files) != 0):
 			file = files[0]
 		else:
