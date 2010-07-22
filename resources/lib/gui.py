@@ -3,7 +3,6 @@ import os, sys
 
 import string, glob, xbmc, xbmcgui, time, array
 import getpass, ntpath, re
-from xml.dom.minidom import Document, parseString
 from pysqlite2 import dbapi2 as sqlite
 
 import dbupdate, importsettings
