@@ -82,10 +82,9 @@ class UIGameInfoView(xbmcgui.WindowXMLDialog):
 		
 	def onInit(self):
 		
-		Logutil.log("Begin OnInit", util.LOG_LEVEL_DEBUG)
+		Logutil.log("Begin OnInit", util.LOG_LEVEL_DEBUG)				
 		
 		self.showGameList()
-		self.showGameInfo()
 		
 		control = self.getControlById(CONTROL_GAME_LIST_GROUP)
 		if(control == None):
@@ -93,7 +92,9 @@ class UIGameInfoView(xbmcgui.WindowXMLDialog):
 			
 		self.setFocus(control)
 		self.selectedControlId = CONTROL_GAME_LIST_GROUP
-		self.setCurrentListPosition(self.selectedGameIndex)	
+		self.setCurrentListPosition(self.selectedGameIndex)
+				
+		self.showGameInfo()	
 		
 		Logutil.log("End OnInit", util.LOG_LEVEL_DEBUG)
 		
@@ -157,6 +158,7 @@ class UIGameInfoView(xbmcgui.WindowXMLDialog):
 				image = images[0]
 			else:
 				image = ""
+			print "image = " +image 
 			item = xbmcgui.ListItem(str(game[util.ROW_NAME]), str(game[util.ROW_ID]), image, '')
 			item.setProperty('gameId', str(game[util.ROW_ID]))
 			self.addItem(item, False)
@@ -175,6 +177,16 @@ class UIGameInfoView(xbmcgui.WindowXMLDialog):
 		#stop video (if playing)
 		if(xbmc.Player().isPlayingVideo()):
 			xbmc.Player().stop()
+			
+		pos = self.getCurrentListPosition()		
+		if(pos == -1):
+			pos = 0	
+		
+		selectedGame = self.getListItem(pos)
+
+		if(selectedGame == None):
+			Logutil.log("selectedGame == None in showGameInfo", util.LOG_LEVEL_WARNING)
+			return
 		
 		gameRow = Game(self.gdb).getObjectById(self.selectedGameId)
 		if(gameRow == None):
@@ -194,52 +206,47 @@ class UIGameInfoView(xbmcgui.WindowXMLDialog):
 		publisher = self.getItemName(Publisher(self.gdb), gameRow[util.GAME_publisherId])
 		developer = self.getItemName(Developer(self.gdb), gameRow[util.GAME_developerId])
 		reviewer = self.getItemName(Reviewer(self.gdb), gameRow[util.GAME_reviewerId])
-				
-		self.setLabel(CONTROL_LABEL_GENRE, genreString)
-		self.setLabel(CONTROL_LABEL_YEAR, year)
-		self.setLabel(CONTROL_LABEL_PUBLISHER, publisher)
-		self.setLabel(CONTROL_LABEL_DEVELOPER, developer)
-		self.setLabel(CONTROL_LABEL_REGION, gameRow[util.GAME_region])
-		self.setLabel(CONTROL_LABEL_MEDIA, gameRow[util.GAME_media])
-		self.setLabel(CONTROL_LABEL_CONTROLLER, gameRow[util.GAME_controllerType])
-		self.setLabel(CONTROL_LABEL_RATING, gameRow[util.GAME_rating])
-		self.setLabel(CONTROL_LABEL_VOTES, gameRow[util.GAME_numVotes])
-		self.setLabel(CONTROL_LABEL_PLAYERS, gameRow[util.GAME_maxPlayers])
-		self.setLabel(CONTROL_LABEL_PERSPECTIVE, gameRow[util.GAME_perspective])
-		self.setLabel(CONTROL_LABEL_REVIEWER, reviewer)
-		self.setLabel(CONTROL_LABEL_URL, gameRow[util.GAME_url])		
-		self.setLabel(CONTROL_LABEL_LAUNCHCOUNT, gameRow[util.GAME_launchCount])
-		self.setLabel(CONTROL_LABEL_ORIGTITLE, gameRow[util.GAME_originalTitle])
-		self.setLabel(CONTROL_LABEL_ALTERNATETITLE, gameRow[util.GAME_alternateTitle])
-		self.setLabel(CONTROL_LABEL_TRANSLATED, gameRow[util.GAME_translatedBy])
-		self.setLabel(CONTROL_LABEL_VERSION, gameRow[util.GAME_version])
-		
-		description = gameRow[util.GAME_description]
-		if(description == None):
-			description = ""		
-		
-		controlDesc = self.getControlById(CONTROL_LABEL_DESC)
-		if(controlDesc != None):			
-			controlDesc.setText(description)
-				
-		#gameRow[5] = romCollectionId
-		background = os.path.join(RCBHOME, 'resources', 'skins', 'Default', 'media', 'rcb-background-black.png')	
-		self.setImage(CONTROL_IMG_BACK, util.IMAGE_CONTROL_GIV_BACKGROUND, gameRow[util.ROW_ID], gameRow[util.GAME_publisherId], gameRow[util.GAME_developerId], gameRow[util.GAME_romCollectionId], background)
-		self.setImage(CONTROL_IMG_GAMEINFO1, util.IMAGE_CONTROL_GIV_Img1, gameRow[util.ROW_ID], gameRow[util.GAME_publisherId], gameRow[util.GAME_developerId], gameRow[util.GAME_romCollectionId], '')
-		self.setImage(CONTROL_IMG_GAMEINFO2, util.IMAGE_CONTROL_GIV_Img2, gameRow[util.ROW_ID], gameRow[util.GAME_publisherId], gameRow[util.GAME_developerId], gameRow[util.GAME_romCollectionId], None)
-		self.setImage(CONTROL_IMG_GAMEINFO3, util.IMAGE_CONTROL_GIV_Img3, gameRow[util.ROW_ID], gameRow[util.GAME_publisherId], gameRow[util.GAME_developerId], gameRow[util.GAME_romCollectionId], None)
-		self.setImage(CONTROL_IMG_GAMEINFO4, util.IMAGE_CONTROL_GIV_Img4, gameRow[util.ROW_ID], gameRow[util.GAME_publisherId], gameRow[util.GAME_developerId], gameRow[util.GAME_romCollectionId], None)
-			
-		
-		videos = helper.getFilesByControl_Cached(self.gdb, util.IMAGE_CONTROL_GIV_VideoWindow, gameRow[util.ROW_ID], gameRow[util.GAME_publisherId], gameRow[util.GAME_developerId], gameRow[util.GAME_romCollectionId],
-			self.fileTypeForControlDict, self.fileTypeDict, self.fileDict, self.romCollectionDict)
-		#ingameVideos = File(self.gdb).getIngameVideosByGameId(self.selectedGameId)
-		if(videos != None and len(videos) != 0):			
-			video = videos[0]			
 						
-			playlist = xbmc.PlayList( xbmc.PLAYLIST_VIDEO)
-			playlist.clear()			
-			xbmc.Player().play(video, xbmcgui.ListItem('Dummy'), True)
+		selectedGame.setProperty('year', year)
+		selectedGame.setProperty('publisher', publisher)
+		selectedGame.setProperty('developer', developer)
+		selectedGame.setProperty('reviewer', reviewer)		
+		selectedGame.setProperty('genre', genreString)
+		selectedGame.setProperty('maxplayers', self.getGameProperty(gameRow[util.GAME_maxPlayers]))				
+		selectedGame.setProperty('rating', self.getGameProperty(gameRow[util.GAME_rating]))
+		selectedGame.setProperty('votes', self.getGameProperty(gameRow[util.GAME_numVotes]))
+		selectedGame.setProperty('url', self.getGameProperty(gameRow[util.GAME_url]))
+		selectedGame.setProperty('region', self.getGameProperty(gameRow[util.GAME_region]))
+		selectedGame.setProperty('media', self.getGameProperty(gameRow[util.GAME_media]))			
+		selectedGame.setProperty('perspective', self.getGameProperty(gameRow[util.GAME_perspective]))
+		selectedGame.setProperty('controllertype', self.getGameProperty(gameRow[util.GAME_controllerType]))
+		selectedGame.setProperty('isfavorite', self.getGameProperty(gameRow[util.GAME_isFavorite]))
+		selectedGame.setProperty('playcount', self.getGameProperty(gameRow[util.GAME_launchCount]))
+		selectedGame.setProperty('originaltitle', self.getGameProperty(gameRow[util.GAME_originalTitle]))
+		selectedGame.setProperty('alternatetitle', self.getGameProperty(gameRow[util.GAME_alternateTitle]))
+		selectedGame.setProperty('translatedby', self.getGameProperty(gameRow[util.GAME_translatedBy]))
+		selectedGame.setProperty('version', self.getGameProperty(gameRow[util.GAME_version]))
+		selectedGame.setProperty('plot', self.getGameProperty(gameRow[util.GAME_description]))						
+		
+		fileDict = self.getFileDictByGameRow(self.gdb, gameRow)
+		
+										
+		#gameRow[5] = romCollectionId
+		background = os.path.join(RCBHOME, 'resources', 'skins', 'Default', 'media', 'rcb-background-black.png')					
+		
+		self.setImage(util.IMAGE_CONTROL_GIV_BACKGROUND, gameRow[util.ROW_ID], gameRow[util.GAME_publisherId], gameRow[util.GAME_developerId], gameRow[util.GAME_romCollectionId], background, selectedGame, fileDict)
+		self.setImage(util.IMAGE_CONTROL_GIV_Img1, gameRow[util.ROW_ID], gameRow[util.GAME_publisherId], gameRow[util.GAME_developerId], gameRow[util.GAME_romCollectionId], '', selectedGame, fileDict)
+		self.setImage(util.IMAGE_CONTROL_GIV_Img2, gameRow[util.ROW_ID], gameRow[util.GAME_publisherId], gameRow[util.GAME_developerId], gameRow[util.GAME_romCollectionId], None, selectedGame, fileDict)
+		self.setImage(util.IMAGE_CONTROL_GIV_Img3, gameRow[util.ROW_ID], gameRow[util.GAME_publisherId], gameRow[util.GAME_developerId], gameRow[util.GAME_romCollectionId], None, selectedGame, fileDict)
+		self.setImage(util.IMAGE_CONTROL_GIV_Img4, gameRow[util.ROW_ID], gameRow[util.GAME_publisherId], gameRow[util.GAME_developerId], gameRow[util.GAME_romCollectionId], None, selectedGame, fileDict)
+					
+		videos = helper.getFilesByControl_Cached(self.gdb, util.IMAGE_CONTROL_GIV_VideoWindow, gameRow[util.ROW_ID], gameRow[util.GAME_publisherId], gameRow[util.GAME_developerId], gameRow[util.GAME_romCollectionId],
+			self.fileTypeForControlDict, self.fileTypeDict, fileDict, self.romCollectionDict)
+					
+		if(videos != None and len(videos) != 0):			
+			video = videos[0]						
+			
+			xbmc.Player().play(video, selectedGame, True)
 		
 		Logutil.log("End showGameInfo", util.LOG_LEVEL_DEBUG)
 		
@@ -257,42 +264,87 @@ class UIGameInfoView(xbmcgui.WindowXMLDialog):
 			return itemRow[1]
 			
 	
-	def setLabel(self, controlId, value):
+	def getGameProperty(self, property):
 		
-		Logutil.log("Begin setLabel", util.LOG_LEVEL_DEBUG)
+		result = ""
+		if(property != None):
+			result = str(property)
+			
+		return result
 		
-		if(value == None):
-			value = ""	
-		
-		control = self.getControlById(controlId)
-		if(control == None):
+	
+	def getFileDictByGameRow(self, gdb, gameRow):
+		romCollectionRow = self.romCollectionDict[gameRow[util.GAME_romCollectionId]]
+		if(romCollectionRow == None):
+			Logutil.log("romCollectionRow == None in getFilesByControl", util.LOG_LEVEL_DEBUG)
 			return
-		control.setLabel(str(value))
-		Logutil.log("End setLabel", util.LOG_LEVEL_DEBUG)
+		consoleId = romCollectionRow[2]
 		
-		
-	def setImage(self, controlId, controlName, gameId, publisherId, developerId, romCollectionId, defaultImage):
-		
-		Logutil.log("Begin setImage", util.LOG_LEVEL_DEBUG)
+		files = File(gdb).getFilesByParentIds(gameRow[util.ROW_ID], gameRow[util.GAME_romCollectionId], consoleId, gameRow[util.GAME_publisherId], gameRow[util.GAME_developerId])
 				
-		images = helper.getFilesByControl_Cached(self.gdb, controlName, gameId, publisherId, developerId, romCollectionId, self.fileTypeForControlDict, self.fileTypeDict, self.fileDict, self.romCollectionDict)
+		fileDict = self.cacheFiles(files)
 		
-		control = self.getControlById(controlId)
-		if(control == None):
-			return
+		return fileDict
+	
+	
+	def cacheFiles(self, fileRows):
+		
+		Logutil.log("Begin cacheFiles" , util.LOG_LEVEL_DEBUG)
+		
+		fileDict = {}
+		for fileRow in fileRows:
+			key = '%i;%i' % (fileRow[util.FILE_parentId] , fileRow[util.FILE_fileTypeId])
+			item = None
+			try:
+				item = fileDict[key]
+			except:
+				pass
+			if(item == None):
+				fileRowList = []
+				fileRowList.append(fileRow)
+				fileDict[key] = fileRowList
+			else:				
+				fileRowList = fileDict[key]
+				fileRowList.append(fileRow)
+				fileDict[key] = fileRowList
 				
+		Logutil.log("End cacheFiles" , util.LOG_LEVEL_DEBUG)
+		return fileDict
+	
+	
+	def getFileForControl(self, controlName, gameId, publisherId, developerId, romCollectionId, fileDict):
+		files = helper.getFilesByControl_Cached(self.gdb, controlName, gameId, publisherId, developerId, romCollectionId, self.fileTypeForControlDict, self.fileTypeDict, fileDict, self.romCollectionDict)		
+		if(files != None and len(files) != 0):
+			file = files[0]
+		else:
+			file = ""
+			
+		return file
+	
+	
+	
+	def setImage(self, controlName, gameId, publisherId, developerId, romCollectionId, defaultImage, selectedGame, fileDict):
+		
+		Logutil.log("Begin setImage", util.LOG_LEVEL_DEBUG)						
+				
+		images = helper.getFilesByControl_Cached(self.gdb, controlName, gameId, publisherId, developerId, romCollectionId, self.fileTypeForControlDict, self.fileTypeDict, fileDict, self.romCollectionDict)
+								
 		#TODO more than one image?
+		image = ''
 		if(images != None and len(images) != 0):
-			image = images[0]			
-			control.setImage(image)
-			control.setVisible(1)
+			image = images[0]						
+			#control.setVisible(1)
 		else:
 			if(defaultImage == None):
-				control.setVisible(0)
+				pass
+				#control.setVisible(0)
 			else:						
-				control.setImage(defaultImage)
+				image = defaultImage
+				
+		selectedGame.setProperty(controlName, image)
 				
 		Logutil.log("End setImage", util.LOG_LEVEL_DEBUG)
+	
 	
 	
 	def launchEmu(self):
