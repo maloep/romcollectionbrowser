@@ -19,13 +19,22 @@
 
 import os
 import sys
+import re
 
 # Shared resources
 BASE_RESOURCE_PATH = os.path.join( os.getcwd(), "resources" )
 sys.path.append( os.path.join( BASE_RESOURCE_PATH, "lib" ) )
 # append the proper platforms folder to our path, xbox is the same as win32
 env = ( os.environ.get( "OS", "win32" ), "win32", )[ os.environ.get( "OS", "win32" ) == "xbox" ]
+
+# Check to see if using a 64bit version of Linux
+import platform
+env2 = platform.machine()
+if re.match("Linux", env) and env2 == "x86_64" :
+   env = "Linux64"
+
 sys.path.append( os.path.join( BASE_RESOURCE_PATH, "platform_libraries", env ) )
+
 
 #import xbmc
 # create our language object

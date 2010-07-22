@@ -1,7 +1,7 @@
 
 import os, sys, string, re
 from pysqlite2 import dbapi2 as sqlite
-from xml.dom.minidom import Document, parseString
+from xml.dom.minidom import parseString
 
 from gamedatabase import *
 import util

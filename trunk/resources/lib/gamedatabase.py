@@ -2,15 +2,6 @@
 
 import os, sys
 
-
-#taken from apple movie trailer script (thanks to Nuka1195 and others)
-# Shared resources
-BASE_RESOURCE_PATH = os.path.join( os.getcwd(), "resources" )
-sys.path.append( os.path.join( BASE_RESOURCE_PATH, "lib" ) )
-# append the proper platforms folder to our path, xbox is the same as win32
-env = ( os.environ.get( "OS", "win32" ), "win32", )[ os.environ.get( "OS", "win32" ) == "xbox" ]
-sys.path.append( os.path.join( BASE_RESOURCE_PATH, "platform_libraries", env ) )
-
 from pysqlite2 import dbapi2 as sqlite
 
 CURRENT_SCRIPT_VERSION = "V0.5"
