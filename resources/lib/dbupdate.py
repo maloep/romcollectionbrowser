@@ -168,6 +168,7 @@ class DBUpdate:
 								fileCount = fileCount +1
 							else:
 								gamename = ''
+								gamenameFromFile = ''
 							self.insertGameFromDesc(result, lastgamename, ignoreGameWithoutDesc, gamenameFromFile, romCollectionRow, filenamelist, foldername, allowUpdate)
 								
 					except Exception, (exc):

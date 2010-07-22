@@ -316,7 +316,8 @@
 			<fileTypeForGameInfoView1>boxfront</fileTypeForGameInfoView1>
 			<fileTypeForGameInfoView2>action</fileTypeForGameInfoView2>
 			<fileTypeForGameInfoView3>boxfront</fileTypeForGameInfoView3>
-			<fileTypeForGameInfoView4>cartridge</fileTypeForGameInfoView4>			
+			<fileTypeForGameInfoView4>cartridge</fileTypeForGameInfoView4>
+			<fileTypeForGameInfoViewVideoWindow>gameplay</fileTypeForGameInfoViewVideoWindow>
 		</RomCollection>
 	</RomCollections>
 </config>

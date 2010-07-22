@@ -73,6 +73,9 @@ class MyPlayer(xbmc.Player):
 			self.gui.fullScreenVideoStarted = False
 			return
 		
+		if(self.gui.gameinfoDialogOpen):
+			return
+		
 		xbmc.sleep(1000)
 		
 		if (os.environ.get("OS", "xbox") != "xbox"):
@@ -83,6 +86,9 @@ class MyPlayer(xbmc.Player):
 		xbmc.sleep(1000)				
 		
 		self.gui.fullScreenVideoStarted = False
+		
+		if(self.gui.gameinfoDialogOpen):
+			return
 		
 		if (os.environ.get("OS", "xbox") != "xbox"):
 			if(not self.stoppedByRCB):
@@ -126,30 +132,23 @@ class UIGameDB(xbmcgui.WindowXML):
 	selectedGenreIndex = 0
 	selectedYearIndex = 0
 	selectedPublisherIndex = 0	
-	selectedCharacterIndex = 0
-	
-	currentView = ''
-	
-	currentlyPlayingItem = None
-	currentlyPlayingVideo = None		
+	selectedCharacterIndex = 0				
 	
 	playVideoThread = None
 	playVideoThreadStopped = False
 	rcb_playList = xbmc.PlayList(xbmc.PLAYLIST_VIDEO)
-	playlistOffsets = {}
-	
-	loadedGames = array.array('I')
+	playlistOffsets = {}		
 		
 	#dummy to be compatible with ProgressDialogGUI
 	itemCount = 0	
-	
-	lastPosInShowGameInfo = -1
+		
+	# set flag if we are watching fullscreen video
 	fullScreenVideoStarted = False
-		
-	loadingGameInfo = False
-	loadingGamesTimerThread = None
-	loadingGamesTimerThreadStopped = False
-		
+	# set flag if we are opened GID
+	gameinfoDialogOpen = False
+	# set flag if we are currently loading gameinfos (avoid loading during fast scrolling)
+	loadingGameInfo = False			
+			
 	#cachingOption will be overwritten by db-config. Don't change it here.
 	cachingOption = 3
 	
@@ -160,9 +159,7 @@ class UIGameDB(xbmcgui.WindowXML):
 		# don't put GUI sensitive stuff here (as the xml hasn't been read yet
 		# Idea to initialize your variables here
 		
-		Logutil.log("Init Rom Collection Browser: " + RCBHOME, util.LOG_LEVEL_INFO)
-		
-		self.isInit = True
+		Logutil.log("Init Rom Collection Browser: " + RCBHOME, util.LOG_LEVEL_INFO)				
 		
 		self.Settings = xbmc.Settings(RCBHOME)
 		
@@ -188,6 +185,7 @@ class UIGameDB(xbmcgui.WindowXML):
 			self.player = MyPlayer()
 			self.player.gui = self
 		
+		
 	def onInit(self):
 		
 		Logutil.log("Begin onInit", util.LOG_LEVEL_INFO)
@@ -197,14 +195,7 @@ class UIGameDB(xbmcgui.WindowXML):
 			return
 		
 		self.clearList()
-		self.rcb_playList.clear()
-		self.loadedGames = array.array('I')
-		
-		#init only once
-		#if(not self.isInit):
-			#return
-			
-		self.isInit = False
+		self.rcb_playList.clear()						
 		
 		self.updateControls()
 		self.loadViewState()
@@ -279,25 +270,6 @@ class UIGameDB(xbmcgui.WindowXML):
 							filterChanged = True
 					if(filterChanged):					
 						self.showGames()								
-					
-			"""
-			elif(action.getId() in ACTION_MOVEMENT_LEFT or action.getId() in ACTION_MOVEMENT_RIGHT):
-				Logutil.log("onAction: ACTION_MOVEMENT_LEFT / ACTION_MOVEMENT_RIGHT", util.LOG_LEVEL_DEBUG)
-				
-				control = self.getControlById(self.selectedControlId)
-				if(control == None):
-					Logutil.log("control == None in onAction", util.LOG_LEVEL_WARNING)
-					return
-					
-				if(CONTROL_GAMES_GROUP_START <= self.selectedControlId <= CONTROL_GAMES_GROUP_END):								
-					
-					if(not self.fullScreenVideoStarted and not self.loadingGameInfo):
-						self.loadingGameInfo = True
-						self.showGameInfo()
-						self.loadingGameInfo = False
-						
-					#self.waitForGameLoading()
-			"""
 			
 		elif(action.getId() in ACTION_INFO):
 			Logutil.log("onAction: ACTION_INFO", util.LOG_LEVEL_DEBUG)
@@ -472,6 +444,7 @@ class UIGameDB(xbmcgui.WindowXML):
 				Logutil.log("preventing unfiltered search", util.LOG_LEVEL_WARNING)
 				return
 		
+		# build statement for character search (where name LIKE 'A%')
 		likeStatement = helper.buildLikeStatement(self.selectedCharacter)
 		games = Game(self.gdb).getFilteredGames(self.selectedConsoleId, self.selectedGenreId, self.selectedYearId, self.selectedPublisherId, likeStatement)
 		
@@ -483,12 +456,11 @@ class UIGameDB(xbmcgui.WindowXML):
 
 		self.writeMsg("loading games...")
 		
-		timestamp1 = time.clock()
+		#timestamp1 = time.clock()
 		xbmcgui.lock()
 		
 		self.clearList()
-		self.rcb_playList.clear()
-		self.loadedGames = array.array('I')
+		self.rcb_playList.clear()		
 		
 		count = 0
 		for gameRow in games:			
@@ -501,7 +473,7 @@ class UIGameDB(xbmcgui.WindowXML):
 			item = xbmcgui.ListItem(str(gameRow[util.ROW_NAME]), str(gameRow[util.ROW_ID]), imageGameList, imageGameListSelected)			
 			item.setProperty('gameId', str(gameRow[util.ROW_ID]))
 						
-			#0 = cacheAll
+			#0 = cacheAll: load all game data at once
 			if(self.cachingOption == 0):
 				self.setAllItemData(item, gameRow, self.fileDict)							
 			
@@ -518,70 +490,11 @@ class UIGameDB(xbmcgui.WindowXML):
 		
 		self.writeMsg("")
 		
-		timestamp2 = time.clock()
-		diff = (timestamp2 - timestamp1) * 1000		
-		print "load %i games in %d ms" % (self.getListSize(), diff)		
+		#timestamp2 = time.clock()
+		#diff = (timestamp2 - timestamp1) * 1000		
+		#print "load %i games in %d ms" % (self.getListSize(), diff)		
 		
-		Logutil.log("End showGames" , util.LOG_LEVEL_INFO)
-		
-		
-	def addFullscreenVideoToPlaylist(self, gameRow, imageGameList, imageGameListSelected, count, fileDict):
-		#create dummy ListItem for playlist
-		dummyItem = xbmcgui.ListItem(str(gameRow[util.ROW_NAME]), str(gameRow[util.ROW_ID]), imageGameList, imageGameListSelected)
-		
-		videosFullscreen = helper.getFilesByControl_Cached(self.gdb, util.VIDEO_CONTROL_MV_VideoFullscreen, gameRow[util.ROW_ID], gameRow[util.GAME_publisherId], gameRow[util.GAME_developerId], gameRow[util.GAME_romCollectionId],
-			self.fileTypeForControlDict, self.fileTypeDict, fileDict, self.romCollectionDict)
-		
-		if(videosFullscreen != None and len(videosFullscreen) != 0):			
-			video = videosFullscreen[0]						
-			self.rcb_playList.add(video, dummyItem)								
-			#print video
-			try:
-				if(len(self.playlistOffsets) == 0 or count == 0):
-					self.playlistOffsets[count] = 0
-					#print "insert offset % i at pos % i" %(0, count)
-				else:
-					offset = self.playlistOffsets[count - 1]					
-					self.playlistOffsets[count] = offset + 1
-					#print "insert offset % i at pos % i" %(offset+1, count)
-			except:
-				Logutil.log("Error while creating playlist offset", util.LOG_LEVEL_WARNING)
-		else:
-			if(len(self.playlistOffsets) == 0 or count == 0):
-				self.playlistOffsets[count] = 0
-				#print "insert offset % i at pos % i" %(0, count)
-			else:
-				offset = self.playlistOffsets[count - 1]
-				self.playlistOffsets[count] = offset
-				#print "insert offset % i at pos % i" %(offset, count)				
-	
-	
-	"""
-	def waitForGameLoading(self):
-		
-		if(self.loadingGamesTimerThread != None and self.loadingGamesTimerThread.isAlive()):
-			self.loadingGamesTimerThreadStopped = True
-		
-		#start a new thread to wait for gameinfo loading
-		self.loadingGamesTimerThread = Thread(target=self.waitForGameLoadingThread, args=())
-		self.loadingGamesTimerThread.start()
-		
-		
-	def waitForGameLoadingThread(self):
-		
-		timestamp1 = time.clock()		
-		while True:
-			timestamp2 = time.clock()
-			diff = (timestamp2 - timestamp1) * 1000
-			if(diff > 100):				
-				break
-				
-			if(self.loadingGamesTimerThreadStopped):
-				self.loadingGamesTimerThreadStopped = False
-				return
-				
-		self.showGameInfo()
-	"""
+		Logutil.log("End showGames" , util.LOG_LEVEL_INFO)		
 	
 	
 	def showGameInfo(self):
@@ -594,8 +507,7 @@ class UIGameDB(xbmcgui.WindowXML):
 			Logutil.log("ListSize == 0 in showGameInfo", util.LOG_LEVEL_WARNING)			
 			return
 					
-		pos = self.getCurrentListPosition()
-		#print "pos = " +str(pos)
+		pos = self.getCurrentListPosition()		
 		if(pos == -1):
 			pos = 0						
 		
@@ -606,11 +518,223 @@ class UIGameDB(xbmcgui.WindowXML):
 			
 		self.loadVideoFiles(self.gdb, gameRow, selectedGame)
 		
-		#gameinfo is already loaded with cacheAll
+		#gameinfos are already loaded with cachingOption 0 (cacheAll)
 		if(self.cachingOption > 0):
 			self.loadGameInfos(self.gdb, gameRow, selectedGame, pos)
 				
-		Logutil.log("End showGameInfo" , util.LOG_LEVEL_INFO)					
+		Logutil.log("End showGameInfo" , util.LOG_LEVEL_INFO)
+		
+		
+	def launchEmu(self):
+
+		Logutil.log("Begin launchEmu" , util.LOG_LEVEL_INFO)
+
+		if(self.getListSize() == 0):
+			Logutil.log("ListSize == 0 in launchEmu", util.LOG_LEVEL_WARNING)
+			return
+
+		pos = self.getCurrentListPosition()
+		if(pos == -1):
+			pos = 0
+		selectedGame = self.getListItem(pos)
+		
+		if(selectedGame == None):
+			Logutil.log("selectedGame == None in launchEmu", util.LOG_LEVEL_WARNING)
+			return
+			
+		gameId = selectedGame.getProperty('gameId')
+		Logutil.log("launching game with id: " + str(gameId), util.LOG_LEVEL_INFO)
+		
+		#stop video (if playing)
+		if(self.player.isPlayingVideo()):
+			self.player.stoppedByRCB = True
+			self.player.stop()
+		
+		helper.launchEmu(self.gdb, self, gameId)
+		Logutil.log("End launchEmu" , util.LOG_LEVEL_INFO)
+		
+		
+	def startFullscreenVideo(self):
+		Logutil.log("startFullscreenVideo" , util.LOG_LEVEL_INFO)
+
+		self.fullScreenVideoStarted = True
+
+		self.setFocus(self.getControl(CONTROL_GAMES_GROUP_START))
+		
+		#Hack: On xbox the list is cleared before starting the player
+		if (os.environ.get("OS", "xbox") == "xbox"):
+			self.saveViewState(True)
+			
+		pos = self.getCurrentListPosition()		
+				
+		#missing videos may lead to a wrong offset. We have to take care with our own hash
+		if(len(self.playlistOffsets) != 0):
+			try:
+				pos = self.playlistOffsets[pos]
+			except:
+				Logutil.log("Error while reading playlist offset", util.LOG_LEVEL_WARNING)
+			self.playlistOffsets = {}				
+		
+		#stop video (if playing)
+		if(self.player.isPlayingVideo()):
+			self.player.stoppedByRCB = True
+			self.player.stop()
+		
+		self.player.startedInPlayListMode = True
+		self.player.play(self.rcb_playList)
+		xbmc.executebuiltin('Playlist.PlayOffset(%i)' % pos)
+		xbmc.executebuiltin('XBMC.PlayerControl(RepeatAll)')
+		
+		self.fullScreenVideoStarted = False
+		
+		
+	def updateDB(self):
+		Logutil.log("Begin updateDB" , util.LOG_LEVEL_INFO)
+		
+		self.clearList()
+		self.clearCache()
+		self.checkImport(3)
+		self.cacheItems()
+		self.updateControls()
+		
+		Logutil.log("End updateDB" , util.LOG_LEVEL_INFO)
+		
+	
+	def importSettings(self):
+		Logutil.log("Begin importSettings" , util.LOG_LEVEL_INFO)				
+		
+		self.clearList()
+		self.clearCache()
+		self.checkImport(2)
+		self.cacheItems()
+		self.updateControls()			
+		
+		Logutil.log("End importSettings" , util.LOG_LEVEL_INFO)
+		
+		
+	def showGameInfoDialog(self):
+
+		Logutil.log("Begin showGameInfoDialog", util.LOG_LEVEL_INFO)
+		
+		if(self.getListSize() == 0):
+			Logutil.log("ListSize == 0 in saveViewState", util.LOG_LEVEL_WARNING)
+			return
+		
+		selectedGameIndex = self.getCurrentListPosition()		
+		if(selectedGameIndex == -1):
+			selectedGameIndex = 0
+		selectedGame = self.getListItem(selectedGameIndex)		
+		if(selectedGame == None):
+			Logutil.log("selectedGame == None in showGameInfoDialog", util.LOG_LEVEL_WARNING)
+			return
+		
+		gameId = selectedGame.getProperty('gameId')
+		
+		fileDict = self.getFileDictForGamelist()
+		
+		self.saveViewMode()
+		
+		self.gameinfoDialogOpen = True
+		
+		import gameinfodialog
+		gid = gameinfodialog.UIGameInfoView("script-Rom_Collection_Browser-gameinfo.xml", os.getcwd(), "Default", 1, gdb=self.gdb, gameId=gameId,
+			consoleId=self.selectedConsoleId, genreId=self.selectedGenreId, yearId=self.selectedYearId, publisherId=self.selectedPublisherId, selectedGameIndex=selectedGameIndex,
+			consoleIndex=self.selectedConsoleIndex, genreIndex=self.selectedGenreIndex, yearIndex=self.selectedYearIndex, publisherIndex=self.selectedPublisherIndex,
+			selectedCharacter=self.selectedCharacter, selectedCharacterIndex=self.selectedCharacterIndex, controlIdMainView=self.selectedControlId, fileTypeForControlDict=self.fileTypeForControlDict, fileTypeDict=self.fileTypeDict,
+			fileDict=fileDict, romCollectionDict=self.romCollectionDict)
+		del gid
+		
+		self.gameinfoDialogOpen = False
+				
+		
+		self.setFocus(self.getControl(CONTROL_GAMES_GROUP_START))
+		self.showGames()
+		self.setCurrentListPosition(selectedGameIndex)
+		self.showGameInfo()
+		
+		Logutil.log("End showGameInfoDialog", util.LOG_LEVEL_INFO)
+		
+		
+		
+		
+	"""
+	******************
+	* HELPER METHODS *
+	******************
+	"""
+	
+	
+	def getFileDictForGamelist(self):
+		# 0 = cacheAll
+		if(self.cachingOption == 0):
+			fileDict = self.fileDict
+		else:
+			fileRows = File(self.gdb).getFilesForGamelist()
+			if(fileRows == None):
+				Logutil.log("fileRows == None in showGames", util.LOG_LEVEL_WARNING)
+				return
+					
+			fileDict = self.cacheFiles(fileRows)
+		
+		return fileDict
+		
+		
+	def getFileForControl(self, controlName, gameId, publisherId, developerId, romCollectionId, fileDict):
+		files = helper.getFilesByControl_Cached(self.gdb, controlName, gameId, publisherId, developerId, romCollectionId, self.fileTypeForControlDict, self.fileTypeDict, fileDict, self.romCollectionDict)		
+		if(files != None and len(files) != 0):
+			file = files[0]
+		else:
+			file = ""
+			
+		return file
+		
+		
+	def getGamePropertyFromCache(self, gameRow, dict, key, index):
+		
+		result = ""
+		try:
+			itemRow = dict[gameRow[key]]			
+			result = itemRow[index]
+		except:
+			pass
+			
+		return result
+		
+		
+	def getGameProperty(self, property):
+		
+		result = ""
+		if(property != None):
+			result = str(property)
+			
+		return result
+	
+		
+	def addFullscreenVideoToPlaylist(self, gameRow, imageGameList, imageGameListSelected, count, fileDict):
+		#create dummy ListItem for playlist
+		dummyItem = xbmcgui.ListItem(str(gameRow[util.ROW_NAME]), str(gameRow[util.ROW_ID]), imageGameList, imageGameListSelected)
+		
+		videosFullscreen = helper.getFilesByControl_Cached(self.gdb, util.VIDEO_CONTROL_MV_VideoFullscreen, gameRow[util.ROW_ID], gameRow[util.GAME_publisherId], gameRow[util.GAME_developerId], gameRow[util.GAME_romCollectionId],
+			self.fileTypeForControlDict, self.fileTypeDict, fileDict, self.romCollectionDict)
+		
+		#add video to playlist and compute playlistOffset (missing videos must be skipped)
+		if(videosFullscreen != None and len(videosFullscreen) != 0):			
+			video = videosFullscreen[0]						
+			self.rcb_playList.add(video, dummyItem)			
+			try:
+				if(len(self.playlistOffsets) == 0 or count == 0):
+					self.playlistOffsets[count] = 0					
+				else:
+					offset = self.playlistOffsets[count - 1]					
+					self.playlistOffsets[count] = offset + 1					
+			except:
+				Logutil.log("Error while creating playlist offset", util.LOG_LEVEL_WARNING)
+		else:
+			if(len(self.playlistOffsets) == 0 or count == 0):
+				self.playlistOffsets[count] = 0				
+			else:
+				offset = self.playlistOffsets[count - 1]
+				self.playlistOffsets[count] = offset								
 		
 	
 	def getGameByPosition(self, gdb, pos):
@@ -722,19 +846,7 @@ class UIGameDB(xbmcgui.WindowXML):
 			return
 		
 		# > 1: cacheItem, cacheItemAndNext 
-		if(self.cachingOption > 1):
-			"""
-			try:
-				#print "load pos " +str(pos)
-				self.loadedGames.index(pos)			
-			except:
-				fileDict = self.getFileDictByGameRow(gdb, gameRow)
-				print str(fileDict)
-				print str(selectedGame)
-				print str(gameRow)
-				self.setAllItemData(selectedGame, gameRow, fileDict)
-				self.loadedGames.append(pos)
-			"""			
+		if(self.cachingOption > 1):				
 			fileDict = self.getFileDictByGameRow(gdb, gameRow)
 			self.setAllItemData(selectedGame, gameRow, fileDict)
 
@@ -744,18 +856,7 @@ class UIGameDB(xbmcgui.WindowXML):
 			posBefore = pos - 1
 			if(posBefore < 0):
 				posBefore = self.getListSize() - 1
-				
-			"""
-			try:
-				self.loadedGames.index(posBefore)			
-			except:
-				selectedGame, gameRow = self.getGameByPosition(gdb, posBefore)
-				if(selectedGame == None or gameRow == None):
-					return
-				fileDict = self.getFileDictByGameRow(gdb, gameRow)
-				self.setAllItemData(selectedGame, gameRow, fileDict)
-				self.loadedGames.append(posBefore)
-			"""
+							
 			selectedGame, gameRow = self.getGameByPosition(gdb, posBefore)
 			if(selectedGame == None or gameRow == None):
 				return
@@ -765,18 +866,7 @@ class UIGameDB(xbmcgui.WindowXML):
 			posAfter = pos + 1
 			if(posAfter >= self.getListSize()):
 				posAfter = 0
-				
-			"""
-			try:
-				self.loadedGames.index(posAfter)
-			except:
-				selectedGame, gameRow = self.getGameByPosition(gdb, posAfter)
-				if(selectedGame == None or gameRow == None):
-					return
-				fileDict = self.getFileDictByGameRow(gdb, gameRow)
-				self.setAllItemData(selectedGame, gameRow, fileDict)
-				self.loadedGames.append(posAfter)
-			"""
+							
 			selectedGame, gameRow = self.getGameByPosition(gdb, posAfter)
 			if(selectedGame == None or gameRow == None):
 				return
@@ -866,135 +956,7 @@ class UIGameDB(xbmcgui.WindowXML):
 		item.setProperty('translatedby', self.getGameProperty(gameRow[util.GAME_translatedBy]))
 		item.setProperty('version', self.getGameProperty(gameRow[util.GAME_version]))
 		
-		return item
-
-
-	def launchEmu(self):
-
-		Logutil.log("Begin launchEmu" , util.LOG_LEVEL_INFO)
-
-		if(self.getListSize() == 0):
-			Logutil.log("ListSize == 0 in launchEmu", util.LOG_LEVEL_WARNING)
-			return
-
-		pos = self.getCurrentListPosition()
-		if(pos == -1):
-			pos = 0
-		selectedGame = self.getListItem(pos)
-		
-		if(selectedGame == None):
-			Logutil.log("selectedGame == None in launchEmu", util.LOG_LEVEL_WARNING)
-			return
-			
-		gameId = selectedGame.getProperty('gameId')
-		Logutil.log("launching game with id: " + str(gameId), util.LOG_LEVEL_INFO)
-		
-		#stop video (if playing)
-		if(self.player.isPlayingVideo()):
-			self.player.stoppedByRCB = True
-			self.player.stop()
-		
-		helper.launchEmu(self.gdb, self, gameId)
-		Logutil.log("End launchEmu" , util.LOG_LEVEL_INFO)
-		
-		
-	def startFullscreenVideo(self):
-		Logutil.log("startFullscreenVideo" , util.LOG_LEVEL_INFO)
-
-		#reset last position
-		self.lastPosInShowGameInfo = -1
-		self.fullScreenVideoStarted = True
-
-		self.setFocus(self.getControl(CONTROL_GAMES_GROUP_START))
-		
-		#Hack: On xbox the list is cleared before starting the player
-		if (os.environ.get("OS", "xbox") == "xbox"):
-			self.saveViewState(True)
-			
-		pos = self.getCurrentListPosition()		
-				
-		#missing videos may lead to a wrong offset. We have to take care with our own hash
-		if(len(self.playlistOffsets) != 0):
-			try:
-				pos = self.playlistOffsets[pos]
-			except:
-				Logutil.log("Error while reading playlist offset", util.LOG_LEVEL_WARNING)
-			self.playlistOffsets = {}				
-		
-		#stop video (if playing)
-		if(self.player.isPlayingVideo()):
-			self.player.stoppedByRCB = True
-			self.player.stop()
-		
-		self.player.startedInPlayListMode = True
-		self.player.play(self.rcb_playList)
-		xbmc.executebuiltin('Playlist.PlayOffset(%i)' % pos)
-		xbmc.executebuiltin('XBMC.PlayerControl(RepeatAll)')
-		
-		self.fullScreenVideoStarted = False
-		
-		
-	def updateDB(self):
-		Logutil.log("Begin updateDB" , util.LOG_LEVEL_INFO)
-		
-		self.clearList()
-		self.clearCache()
-		self.checkImport(3)
-		self.cacheItems()
-		self.updateControls()
-		
-		Logutil.log("End updateDB" , util.LOG_LEVEL_INFO)
-		
-	
-	def importSettings(self):
-		Logutil.log("Begin importSettings" , util.LOG_LEVEL_INFO)				
-		
-		self.clearList()
-		self.clearCache()
-		self.checkImport(2)
-		self.cacheItems()
-		self.updateControls()			
-		
-		Logutil.log("End importSettings" , util.LOG_LEVEL_INFO)
-		
-		
-	def showGameInfoDialog(self):
-
-		Logutil.log("Begin showGameInfoDialog", util.LOG_LEVEL_INFO)
-		
-		if(self.getListSize() == 0):
-			Logutil.log("ListSize == 0 in saveViewState", util.LOG_LEVEL_WARNING)
-			return
-		
-		selectedGameIndex = self.getCurrentListPosition()		
-		if(selectedGameIndex == -1):
-			selectedGameIndex = 0
-		selectedGame = self.getListItem(selectedGameIndex)		
-		if(selectedGame == None):
-			Logutil.log("selectedGame == None in showGameInfoDialog", util.LOG_LEVEL_WARNING)
-			return
-		
-		gameId = selectedGame.getProperty('gameId')
-		
-		fileDict = self.getFileDictForGamelist()
-		
-		self.saveViewMode()
-		
-		import gameinfodialog
-		gid = gameinfodialog.UIGameInfoView("script-Rom_Collection_Browser-gameinfo.xml", os.getcwd(), "Default", 1, gdb=self.gdb, gameId=gameId,
-			consoleId=self.selectedConsoleId, genreId=self.selectedGenreId, yearId=self.selectedYearId, publisherId=self.selectedPublisherId, selectedGameIndex=selectedGameIndex,
-			consoleIndex=self.selectedConsoleIndex, genreIndex=self.selectedGenreIndex, yearIndex=self.selectedYearIndex, publisherIndex=self.selectedPublisherIndex,
-			selectedCharacter=self.selectedCharacter, selectedCharacterIndex=self.selectedCharacterIndex, controlIdMainView=self.selectedControlId, fileTypeForControlDict=self.fileTypeForControlDict, fileTypeDict=self.fileTypeDict,
-			fileDict=fileDict, romCollectionDict=self.romCollectionDict)
-		del gid
-				
-		
-		self.setFocus(self.getControl(CONTROL_GAMES_GROUP_START))
-		self.showGames()
-		self.setCurrentListPosition(selectedGameIndex)
-		self.showGameInfo()
-		
-		Logutil.log("End showGameInfoDialog", util.LOG_LEVEL_INFO)
+		return item	
 	
 	
 	def checkImport(self, doImport):
@@ -1194,53 +1156,7 @@ class UIGameDB(xbmcgui.WindowXML):
 		if(rcbSetting[util.RCBSETTING_lastSelectedView] == util.VIEW_GAMEINFOVIEW):
 			self.showGameInfoDialog()
 			
-		Logutil.log("End loadViewState" , util.LOG_LEVEL_INFO)
-			
-		
-	def getFileDictForGamelist(self):
-		# 0 = cacheAll
-		if(self.cachingOption == 0):
-			fileDict = self.fileDict
-		else:
-			fileRows = File(self.gdb).getFilesForGamelist()
-			if(fileRows == None):
-				Logutil.log("fileRows == None in showGames", util.LOG_LEVEL_WARNING)
-				return
-					
-			fileDict = self.cacheFiles(fileRows)
-		
-		return fileDict
-		
-		
-	def getFileForControl(self, controlName, gameId, publisherId, developerId, romCollectionId, fileDict):
-		files = helper.getFilesByControl_Cached(self.gdb, controlName, gameId, publisherId, developerId, romCollectionId, self.fileTypeForControlDict, self.fileTypeDict, fileDict, self.romCollectionDict)		
-		if(files != None and len(files) != 0):
-			file = files[0]
-		else:
-			file = ""
-			
-		return file
-		
-		
-	def getGamePropertyFromCache(self, gameRow, dict, key, index):
-		
-		result = ""
-		try:
-			itemRow = dict[gameRow[key]]			
-			result = itemRow[index]
-		except:
-			pass
-			
-		return result
-		
-		
-	def getGameProperty(self, property):
-		
-		result = ""
-		if(property != None):
-			result = str(property)
-			
-		return result
+		Logutil.log("End loadViewState" , util.LOG_LEVEL_INFO)					
 
 			
 	def setFilterSelection(self, controlId, selectedIndex):
@@ -1392,39 +1308,7 @@ class UIGameDB(xbmcgui.WindowXML):
 				fileDict[key] = fileRowList
 				
 		Logutil.log("End cacheFiles" , util.LOG_LEVEL_DEBUG)
-		return fileDict
-
-
-	"""
-	def cacheFiles(self):
-		
-		Logutil.log("Begin cacheFiles" , util.LOG_LEVEL_DEBUG)
-		
-		#TODO ignore non-media files
-		fileRows = File(self.gdb).getAll()
-		if(fileRows == None):
-			Logutil.log("fileRows == None in cacheFiles", util.LOG_LEVEL_WARNING)
-			return
-		fileDict = {}
-		for fileRow in fileRows:
-			key = '%i;%i' %(fileRow[util.FILE_parentId] , fileRow[util.FILE_fileTypeId])			
-			item = None
-			try:
-				item = fileDict[key]
-			except:
-				pass			
-			if(item == None):
-				fileRowList = []
-				fileRowList.append(fileRow)
-				fileDict[key] = fileRowList
-			else:				
-				fileRowList = fileDict[key]
-				fileRowList.append(fileRow)
-				fileDict[key] = fileRowList
-				
-		Logutil.log("End cacheFiles" , util.LOG_LEVEL_DEBUG)
-		return fileDict
-	"""
+		return fileDict	
 		
 	
 	def cacheRomCollections(self):
@@ -1577,15 +1461,8 @@ class UIGameDB(xbmcgui.WindowXML):
 		
 
 
-def main():
-    #_progress_dialog( len( modules ) + 1, _( 55 ) )
-    #settings = Settings().get_settings()
-    #force_fallback = settings[ "skin" ] != "Default"
-    #ui = GameDB( "script-%s-main.xml" % ( __scriptname__.replace( " ", "_" ), ), os.getcwd(), settings[ "skin" ], force_fallback )
-    #xmlFile = os.path.join(os.getcwd() + '/resources/skins/Default/720p/script-GameDB-main.xml' )
-    #print xmlFile
-    ui = UIGameDB("script-Rom_Collection_Browser-main.xml", os.getcwd(), "Default", 1)
-    #_progress_dialog( -1 )
+def main():    
+    ui = UIGameDB("script-Rom_Collection_Browser-main.xml", os.getcwd(), "Default", 1)    
     ui.doModal()
     del ui
 
