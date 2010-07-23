@@ -84,13 +84,13 @@ class TestUpdateDB(unittest.TestCase):
 		
 		self.gameTest(gameRows[0], '007: Agent Under Fire', 'Get ready for the next generation of 007, as Her Majestys greatest secret agent embarks upon an all-new, action-packed adventure.', 
 			None,  None, 5, 14, 11, None, 11, '1-4', '', '', '', '', 'DVD', '', 'Xbox Controller', 0, 0,
-			1, 1, 0, 0, 0, 0)
-		self.gameTest(gameRows[1], 'AMF Bowling 2004', 'Experience the excitement of a night at the lanes with AMF Xtreme Bowling 2006.', 
-			None,  None, 5, 15, 15, None, 12, '1-2', '', '', '', '', 'DVD', '', 'Xbox Controller', 0, 0,
-			1, 1, 0, 0, 0, 0)
-		self.gameTest(gameRows[2], 'Airborne Ranger', 'In this action/simulation game by Microprose the player takes the role of an U.S. Army airborne ranger.', 
+			1, 1, 0, 0, 0, 0)		
+		self.gameTest(gameRows[1], 'Airborne Ranger', 'In this action/simulation game by Microprose the player takes the role of an U.S. Army airborne ranger.', 
 			None,  None, 1, 1, 1, None, 1, '????', '', '', 'http://www.mobygames.com/game/amiga/airborne-ranger', '', '', '', '', 0, 0,
 			1, 1, 1, 0, 0, 0)
+		self.gameTest(gameRows[2], 'AMF Bowling 2004', 'Experience the excitement of a night at the lanes with AMF Xtreme Bowling 2006.', 
+			None,  None, 5, 15, 15, None, 12, '1-2', '', '', '', '', 'DVD', '', 'Xbox Controller', 0, 0,
+			1, 1, 0, 0, 0, 0)
 		self.gameTest(gameRows[3], 'Antz Extreme Racing', 'Handling dirt is not a rewarding career', 
 			None,  None, 5, 16, 16, None, 11, '1-4', '', '', '', '', 'DVD', '', 'Xbox Controller', 0, 0,
 			1, 1, 0, 0, 0, 0)
@@ -148,8 +148,8 @@ class TestUpdateDB(unittest.TestCase):
 		
 		
 		#test additional file types
-		self.fileTypeTest('developer', 1, gameRows[2][7])
-		self.fileTypeTest('publisher', 1, gameRows[2][6])
+		self.fileTypeTest('developer', 1, gameRows[1][7])
+		self.fileTypeTest('publisher', 1, gameRows[1][6])
 		
 		self.fileTypeTest('developer', 1, gameRows[13][7])
 		self.fileTypeTest('publisher', 1, gameRows[13][6])

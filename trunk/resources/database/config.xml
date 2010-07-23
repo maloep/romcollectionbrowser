@@ -103,23 +103,23 @@
 			<useEmuSolo>True</useEmuSolo>
 			<escapeCommand>True</escapeCommand>						
 			<descFilePerGame>False</descFilePerGame>
-			<descriptionParserFile>F:\Emulatoren\data\Testdata V0.5\Collection V1\parserConfig.xml</descriptionParserFile>
+			<descriptionParserFile>F:\Emulatoren\data\Testdata Current\Collection V1\parserConfig.xml</descriptionParserFile>
 			<diskPrefix>_Disk</diskPrefix>			
 			<allowUpdate>True</allowUpdate>
 			<ignoreOnScan>True</ignoreOnScan>
 			<searchGameByCRC>True</searchGameByCRC>
 			<searchGameByCRCIgnoreRomName>False</searchGameByCRCIgnoreRomName>
 			<ignoreGameWithoutDesc>True</ignoreGameWithoutDesc>
-			<romPath>F:\Emulatoren\data\Testdata V0.5\Collection V1\roms\*.adf</romPath>
-			<descFilePath>F:\Emulatoren\data\Testdata V0.5\Collection V1\synopsis\synopsis.txt</descFilePath>			
-			<mediaPath type="cover">F:\Emulatoren\data\Testdata V0.5\Collection V1\cover\%GAME%.jpg</mediaPath>			
-			<mediaPath type="screenshotingame">F:\Emulatoren\data\Testdata V0.5\Collection V1\screens\%GAME%.jpg</mediaPath>			
-			<mediaPath type="console">F:\Emulatoren\data\Testdata V0.5\pics\console\%CONSOLE%.png</mediaPath>
-			<mediaPath type="developer">F:\Emulatoren\data\Testdata V0.5\pics\developer\%DEVELOPER%.jpg</mediaPath>
-			<mediaPath type="developer">F:\Emulatoren\data\Testdata V0.5\pics\developer\%DEVELOPER%.png</mediaPath>
-			<mediaPath type="publisher">F:\Emulatoren\data\Testdata V0.5\pics\publisher\%PUBLISHER%.jpg</mediaPath>
-			<mediaPath type="publisher">F:\Emulatoren\data\Testdata V0.5\pics\publisher\%PUBLISHER%.png</mediaPath>
-			<mediaPath type="romcollection">F:\Emulatoren\data\Testdata V0.5\pics\romCollection\joystick.png</mediaPath>
+			<romPath>F:\Emulatoren\data\Testdata Current\Collection V1\roms\*.adf</romPath>
+			<descFilePath>F:\Emulatoren\data\Testdata Current\Collection V1\synopsis\synopsis.txt</descFilePath>			
+			<mediaPath type="cover">F:\Emulatoren\data\Testdata Current\Collection V1\cover\%GAME%.jpg</mediaPath>			
+			<mediaPath type="screenshotingame">F:\Emulatoren\data\Testdata Current\Collection V1\screens\%GAME%.jpg</mediaPath>			
+			<mediaPath type="console">F:\Emulatoren\data\Testdata Current\pics\console\%CONSOLE%.png</mediaPath>
+			<mediaPath type="developer">F:\Emulatoren\data\Testdata Current\pics\developer\%DEVELOPER%.jpg</mediaPath>
+			<mediaPath type="developer">F:\Emulatoren\data\Testdata Current\pics\developer\%DEVELOPER%.png</mediaPath>
+			<mediaPath type="publisher">F:\Emulatoren\data\Testdata Current\pics\publisher\%PUBLISHER%.jpg</mediaPath>
+			<mediaPath type="publisher">F:\Emulatoren\data\Testdata Current\pics\publisher\%PUBLISHER%.png</mediaPath>
+			<mediaPath type="romcollection">F:\Emulatoren\data\Testdata Current\pics\romCollection\joystick.png</mediaPath>
 			<fileTypeForGameList>cover</fileTypeForGameList>
 			<fileTypeForGameListSelected>cover</fileTypeForGameListSelected>			
 			<fileTypeForMainView1>console</fileTypeForMainView1>
@@ -142,26 +142,26 @@
 			<useEmuSolo>False</useEmuSolo>
 			<escapeCommand>True</escapeCommand>						
 			<descFilePerGame>True</descFilePerGame>
-			<descriptionParserFile>F:\Emulatoren\data\Testdata V0.5\Collection V2\parserConfig.xml</descriptionParserFile>
+			<descriptionParserFile>F:\Emulatoren\data\Testdata Current\Collection V2\parserConfig.xml</descriptionParserFile>
 			<diskPrefix>_Disk</diskPrefix>			
 			<allowUpdate>True</allowUpdate>
 			<ignoreOnScan>True</ignoreOnScan>
 			<searchGameByCRC>True</searchGameByCRC>
 			<searchGameByCRCIgnoreRomName>False</searchGameByCRCIgnoreRomName>
 			<ignoreGameWithoutDesc>False</ignoreGameWithoutDesc>
-			<romPath>F:\Emulatoren\data\Testdata V0.5\Collection V2\roms\*.adf</romPath>
-			<romPath>F:\Emulatoren\data\Testdata V0.5\Collection V2\roms\*.ADF</romPath>
-			<descFilePath>F:\Emulatoren\data\Testdata V0.5\Collection V2\synopsis\%GAME%\synopsis.txt</descFilePath>			
-			<mediaPath type="cover">F:\Emulatoren\data\Testdata V0.5\Collection V2\cover\%GAME%\*.jpg</mediaPath>			
-			<mediaPath type="cover">F:\Emulatoren\data\Testdata V0.5\Collection V2\cover\%GAME%\*.png</mediaPath>
-			<mediaPath type="screenshotingame">F:\Emulatoren\data\Testdata V0.5\Collection V2\screens\%GAME%\*.jpg</mediaPath>			
-			<mediaPath type="screenshotingame">F:\Emulatoren\data\Testdata V0.5\Collection V2\screens\%GAME%\*.png</mediaPath>
-			<mediaPath type="console">F:\Emulatoren\data\Testdata V0.5\pics\console\%CONSOLE%.png</mediaPath>
-			<mediaPath type="developer">F:\Emulatoren\data\Testdata V0.5\pics\developer\%DEVELOPER%.jpg</mediaPath>
-			<mediaPath type="developer">F:\Emulatoren\data\Testdata V0.5\pics\developer\%DEVELOPER%.png</mediaPath>
-			<mediaPath type="publisher">F:\Emulatoren\data\Testdata V0.5\pics\publisher\%PUBLISHER%.jpg</mediaPath>
-			<mediaPath type="publisher">F:\Emulatoren\data\Testdata V0.5\pics\publisher\%PUBLISHER%.png</mediaPath>
-			<mediaPath type="romcollection">F:\Emulatoren\data\Testdata V0.5\pics\romCollection\joystick.png</mediaPath>
+			<romPath>F:\Emulatoren\data\Testdata Current\Collection V2\roms\*.adf</romPath>
+			<romPath>F:\Emulatoren\data\Testdata Current\Collection V2\roms\*.ADF</romPath>
+			<descFilePath>F:\Emulatoren\data\Testdata Current\Collection V2\synopsis\%GAME%\synopsis.txt</descFilePath>			
+			<mediaPath type="cover">F:\Emulatoren\data\Testdata Current\Collection V2\cover\%GAME%\*.jpg</mediaPath>			
+			<mediaPath type="cover">F:\Emulatoren\data\Testdata Current\Collection V2\cover\%GAME%\*.png</mediaPath>
+			<mediaPath type="screenshotingame">F:\Emulatoren\data\Testdata Current\Collection V2\screens\%GAME%\*.jpg</mediaPath>			
+			<mediaPath type="screenshotingame">F:\Emulatoren\data\Testdata Current\Collection V2\screens\%GAME%\*.png</mediaPath>
+			<mediaPath type="console">F:\Emulatoren\data\Testdata Current\pics\console\%CONSOLE%.png</mediaPath>
+			<mediaPath type="developer">F:\Emulatoren\data\Testdata Current\pics\developer\%DEVELOPER%.jpg</mediaPath>
+			<mediaPath type="developer">F:\Emulatoren\data\Testdata Current\pics\developer\%DEVELOPER%.png</mediaPath>
+			<mediaPath type="publisher">F:\Emulatoren\data\Testdata Current\pics\publisher\%PUBLISHER%.jpg</mediaPath>
+			<mediaPath type="publisher">F:\Emulatoren\data\Testdata Current\pics\publisher\%PUBLISHER%.png</mediaPath>
+			<mediaPath type="romcollection">F:\Emulatoren\data\Testdata Current\pics\romCollection\joystick.png</mediaPath>
 			<fileTypeForGameList>cover</fileTypeForGameList>
 			<fileTypeForGameListSelected>cover</fileTypeForGameListSelected>
 			<fileTypeForMainView2>console</fileTypeForMainView2>
@@ -183,28 +183,28 @@
 			<useEmuSolo>False</useEmuSolo>
 			<escapeCommand>True</escapeCommand>			
 			<descFilePerGame>False</descFilePerGame>
-			<descriptionParserFile>F:\Emulatoren\data\Testdata V0.5\Collection V3\parserConfig.xml</descriptionParserFile>
+			<descriptionParserFile>F:\Emulatoren\data\Testdata Current\Collection V3\parserConfig.xml</descriptionParserFile>
 			<diskPrefix>_Disk</diskPrefix>			
 			<allowUpdate>True</allowUpdate>
 			<ignoreOnScan>True</ignoreOnScan>
 			<searchGameByCRC>True</searchGameByCRC>
 			<searchGameByCRCIgnoreRomName>False</searchGameByCRCIgnoreRomName>
 			<ignoreGameWithoutDesc>False</ignoreGameWithoutDesc>
-			<romPath>F:\Emulatoren\data\Testdata V0.5\Collection V3\Roms\*.zip</romPath>
-			<romPath>F:\Emulatoren\data\Testdata V0.5\Collection V3\Roms\*.smc</romPath>
-			<descFilePath>F:\Emulatoren\data\Testdata V0.5\Collection V3\Synopsis\synopsis.txt</descFilePath>						
-			<mediaPath type="boxfront">F:\Emulatoren\data\Testdata V0.5\Collection V3\Artwork\Box Front\%GAME%.png</mediaPath>			
-			<mediaPath type="action">F:\Emulatoren\data\Testdata V0.5\Collection V3\Artwork\Action\%GAME%.png</mediaPath>
-			<mediaPath type="title">F:\Emulatoren\data\Testdata V0.5\Collection V3\Artwork\Title\%GAME%.png</mediaPath>			
-			<mediaPath type="cartridge">F:\Emulatoren\data\Testdata V0.5\Collection V3\Artwork\Cart\%GAME%.png</mediaPath>			
-			<mediaPath type="3dbox">F:\Emulatoren\data\Testdata V0.5\Collection V3\Artwork\3D Boxart\%GAME%.png</mediaPath>			
-			<mediaPath type="gameplay">F:\Emulatoren\data\Testdata V0.5\Collection V3\Movies\%GAME%.wmv</mediaPath>
-			<mediaPath type="console">F:\Emulatoren\data\Testdata V0.5\pics\console\%CONSOLE%.png</mediaPath>
-			<mediaPath type="developer">F:\Emulatoren\data\Testdata V0.5\pics\developer\%DEVELOPER%.jpg</mediaPath>
-			<mediaPath type="developer">F:\Emulatoren\data\Testdata V0.5\pics\developer\%DEVELOPER%.png</mediaPath>
-			<mediaPath type="publisher">F:\Emulatoren\data\Testdata V0.5\pics\publisher\%PUBLISHER%.jpg</mediaPath>
-			<mediaPath type="publisher">F:\Emulatoren\data\Testdata V0.5\pics\publisher\%PUBLISHER%.png</mediaPath>
-			<mediaPath type="romcollection">F:\Emulatoren\data\Testdata V0.5\pics\romCollection\gamepad.jpg</mediaPath>
+			<romPath>F:\Emulatoren\data\Testdata Current\Collection V3\Roms\*.zip</romPath>
+			<romPath>F:\Emulatoren\data\Testdata Current\Collection V3\Roms\*.smc</romPath>
+			<descFilePath>F:\Emulatoren\data\Testdata Current\Collection V3\Synopsis\synopsis.txt</descFilePath>						
+			<mediaPath type="boxfront">F:\Emulatoren\data\Testdata Current\Collection V3\Artwork\Box Front\%GAME%.png</mediaPath>			
+			<mediaPath type="action">F:\Emulatoren\data\Testdata Current\Collection V3\Artwork\Action\%GAME%.png</mediaPath>
+			<mediaPath type="title">F:\Emulatoren\data\Testdata Current\Collection V3\Artwork\Title\%GAME%.png</mediaPath>			
+			<mediaPath type="cartridge">F:\Emulatoren\data\Testdata Current\Collection V3\Artwork\Cart\%GAME%.png</mediaPath>			
+			<mediaPath type="3dbox">F:\Emulatoren\data\Testdata Current\Collection V3\Artwork\3D Boxart\%GAME%.png</mediaPath>			
+			<mediaPath type="gameplay">F:\Emulatoren\data\Testdata Current\Collection V3\Movies\%GAME%.wmv</mediaPath>
+			<mediaPath type="console">F:\Emulatoren\data\Testdata Current\pics\console\%CONSOLE%.png</mediaPath>
+			<mediaPath type="developer">F:\Emulatoren\data\Testdata Current\pics\developer\%DEVELOPER%.jpg</mediaPath>
+			<mediaPath type="developer">F:\Emulatoren\data\Testdata Current\pics\developer\%DEVELOPER%.png</mediaPath>
+			<mediaPath type="publisher">F:\Emulatoren\data\Testdata Current\pics\publisher\%PUBLISHER%.jpg</mediaPath>
+			<mediaPath type="publisher">F:\Emulatoren\data\Testdata Current\pics\publisher\%PUBLISHER%.png</mediaPath>
+			<mediaPath type="romcollection">F:\Emulatoren\data\Testdata Current\pics\romCollection\gamepad.jpg</mediaPath>
 			<fileTypeForGameList>3dbox</fileTypeForGameList>
 			<fileTypeForGameListSelected>boxfront</fileTypeForGameListSelected>
 			<fileTypeForMainView1>developer</fileTypeForMainView1>			

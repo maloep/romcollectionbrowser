@@ -4,7 +4,7 @@ import os, sys
 
 from pysqlite2 import dbapi2 as sqlite
 
-CURRENT_SCRIPT_VERSION = "V0.5"
+CURRENT_SCRIPT_VERSION = "V0.6"
 
 
 class GameDataBase:	
