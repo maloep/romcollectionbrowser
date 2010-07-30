@@ -1,5 +1,6 @@
 
-import os, sys
+import os, sys, re
+import xbmc
 
 
 #
@@ -8,6 +9,7 @@ import os, sys
 
 RCBHOME = os.getcwd()
 SCRIPTNAME = 'Rom Collection Browser'
+SCRIPTID = 'script.games.rom.collection.browser'
 
 LOG_LEVEL_ERROR = 0
 LOG_LEVEL_WARNING = 1
@@ -137,6 +139,74 @@ FILETYPEPARENT_ROMCOLLECTION = 'romcollection'
 # METHODS #
 #
 
+
+def getAddonDataPath():
+	
+	path = ''
+	
+	if(isPostCamelot()):		
+		path = xbmc.translatePath('special://profile/addon_data/%s' %SCRIPTID)
+	else:
+		path = xbmc.translatePath('special://profile/script_data/%s' %SCRIPTID)
+		
+	if not os.path.exists(path):
+		try:
+			os.makedirs(path)
+		except:
+			path = ''	
+	return path
+			
+
+
+def getAutoexecPath():
+	if(isPostCamelot()):
+		return xbmc.translatePath('special://profile/autoexec.py')
+	else:
+		autoexec = os.path.join(RCBHOME, '..', 'autoexec.py')
+		autoexec = os.path.normpath(autoexec)
+		return autoexec
+	
+	
+def getSettings():
+    settings = ''
+    if isPostCamelot():
+    	import xbmcaddon
+        settings = xbmcaddon.Addon(id='%s' %SCRIPTID)
+    else:
+        settings = xbmc.Settings(RCBHOME)
+    return settings
+
+ 
+def isPostCamelot():  
+  if os.environ.get('OS') == 'xbox':
+      return False
+  # preliminary test number for now. will bump this to the revision of the stable
+  # xbmc release when it is out
+  elif getRevision() >= 28276:
+      return True
+  else:
+      return False  
+
+     
+def getRevision():
+    rev_re = re.compile('r(\d+)')
+    try: xbmc_version = xbmc.getInfoLabel('System.BuildVersion')
+    except: xbmc_version = 'Unknown'
+
+    try:
+        xbmc_rev = int(rev_re.search(xbmc_version).group(1))
+        print "XBMC Revision: %s" % xbmc_rev
+    except:
+        print "XBMC Revision not available - Version String: %s" % xbmc_version
+        xbmc_rev = 0
+
+    return xbmc_rev
+
+#
+# Logging
+#
+
+
 from pysqlite2 import dbapi2 as sqlite
 
 class Logutil:
@@ -171,7 +241,7 @@ class Logutil:
 	def getCurrentLogLevel():	
 		logLevel = 1
 		try:
-			dataBasePath = os.path.join(os.getcwd(), 'resources', 'database', 'MyGames.db')
+			dataBasePath = os.path.join(getAddonDataPath(), 'MyGames.db')
 			connection = sqlite.connect(dataBasePath)
 			cursor = connection.cursor()
 			cursor.execute("SELECT * FROM RCBSetting")

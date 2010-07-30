@@ -7,9 +7,6 @@ from util import *
 import time
 
 
-RCBHOME = os.getcwd()
-
-
 def getFilesByControl(gdb, controlName, gameId, publisherId, developerId, romCollectionId):	
 	
 	Logutil.log("getFilesByControl controlName: " +controlName, util.LOG_LEVEL_DEBUG)
@@ -66,9 +63,7 @@ def getFilesByControl_Cached(gdb, controlName, gameId, publisherId, developerId,
 		Logutil.log("getFilesByControl publisherId: " +str(publisherId), util.LOG_LEVEL_DEBUG)
 		Logutil.log("getFilesByControl developerId: " +str(developerId), util.LOG_LEVEL_DEBUG)
 		Logutil.log("getFilesByControl romCollectionId: " +str(romCollectionId), util.LOG_LEVEL_DEBUG)
-		
-	
-		#fileTypeForControlRows = FileTypeForControl(gdb).getFileTypesForControlByKey(romCollectionId, controlName)
+					
 		key = '%i;%s' %(romCollectionId, controlName)
 		try:
 			fileTypeForControlRows = fileTypeForControlDict[key]
@@ -152,14 +147,14 @@ def launchEmu(gdb, gui, gameId):
 		
 		#get environment OS
 		env = ( os.environ.get( "OS", "win32" ), "win32", )[ os.environ.get( "OS", "win32" ) == "xbox" ]	
-		
-		#handle multi rom scenario
+				
 		filenameRows = File(gdb).getRomsByGameId(gameRow[util.ROW_ID])		
 		
 		cmd = buildCmd(filenameRows, romPaths, emuCommandLine, romCollectionRow)
 			
 		if (romCollectionRow[util.ROMCOLLECTION_useEmuSolo] == 'True'):
 			
+			#try to create autoexec.py
 			writeAutoexec(gdb)
 
 			# Remember selection
@@ -168,9 +163,9 @@ def launchEmu(gdb, gui, gameId):
 			#invoke batch file that kills xbmc before launching the emulator			
 			if(env == "win32"):
 				#There is a problem with quotes passed as argument to windows command shell. This only works with "call"
-				cmd = 'call \"' +os.path.join(RCBHOME, 'applaunch.bat') +'\" ' +cmd						
+				cmd = 'call \"' +os.path.join(util.RCBHOME, 'applaunch.bat') +'\" ' +cmd						
 			else:
-				cmd = os.path.join(re.escape(RCBHOME), 'applaunch.sh ') +cmd
+				cmd = os.path.join(re.escape(util.RCBHOME), 'applaunch.sh ') +cmd
 		
 		#update LaunchCount
 		launchCount = gameRow[util.GAME_launchCount]
@@ -192,6 +187,47 @@ def launchEmu(gdb, gui, gameId):
 		Logutil.log("End helper.launchEmu", util.LOG_LEVEL_INFO)
 		
 		
+def saveViewState(gdb, isOnExit, selectedView, selectedGameIndex, selectedConsoleIndex, selectedGenreIndex, selectedPublisherIndex, selectedYearIndex, selectedCharacterIndex,
+	selectedControlIdMainView, selectedControlIdGameInfoView):
+		
+		Logutil.log("Begin helper.saveViewState", util.LOG_LEVEL_INFO)
+		
+		rcbSetting = getRCBSetting(gdb)
+		if(rcbSetting == None):
+			Logutil.log("rcbSetting == None in helper.saveViewState", util.LOG_LEVEL_WARNING)
+			return
+		
+		if(isOnExit):
+			#saveViewStateOnExit
+			saveViewState = rcbSetting[util.RCBSETTING_saveViewStateOnExit]
+		else:
+			#saveViewStateOnLaunchEmu
+			saveViewState = rcbSetting[util.RCBSETTING_saveViewStateOnLaunchEmu]
+			
+		
+		if(saveViewState == 'True'):
+			RCBSetting(gdb).update(('lastSelectedView', 'lastSelectedConsoleIndex', 'lastSelectedGenreIndex', 'lastSelectedPublisherIndex', 'lastSelectedYearIndex', 'lastSelectedGameIndex', 'lastFocusedControlMainView', 'lastFocusedControlGameInfoView', 'lastSelectedCharacterIndex'),
+				(selectedView, selectedConsoleIndex, selectedGenreIndex, selectedPublisherIndex, selectedYearIndex, selectedGameIndex, selectedControlIdMainView, selectedControlIdGameInfoView, selectedCharacterIndex), rcbSetting[0])
+		else:
+			RCBSetting(gdb).update(('lastSelectedView', 'lastSelectedConsoleIndex', 'lastSelectedGenreIndex', 'lastSelectedPublisherIndex', 'lastSelectedYearIndex', 'lastSelectedGameIndex', 'lastFocusedControlMainView', 'lastFocusedControlGameInfoView', 'lastSelectedCharacterIndex'),
+				(None, None, None, None, None, None, None, None, None), rcbSetting[util.ROW_ID])
+				
+		gdb.commit()
+		
+		Logutil.log("End helper.saveViewState", util.LOG_LEVEL_INFO)
+
+
+			
+def getRCBSetting(gdb):
+		rcbSettingRows = RCBSetting(gdb).getAll()
+		if(rcbSettingRows == None or len(rcbSettingRows) != 1):
+			#TODO raise error
+			return None
+						
+		return rcbSettingRows[util.ROW_ID]
+		
+		
+
 def buildLikeStatement(selectedCharacter):
 	Logutil.log("helper.buildLikeStatement", util.LOG_LEVEL_INFO)
 	
@@ -210,6 +246,13 @@ def buildLikeStatement(selectedCharacter):
 		return likeStatement
 	else:		
 		return "name LIKE '%s'" %(selectedCharacter +'%')
+	
+	
+##################
+
+# HELPER METHODS #
+
+##################
 		
 
 		
@@ -257,7 +300,7 @@ def buildCmd(filenameRows, romPaths, emuCommandLine, romCollectionRow):
 	
 def writeAutoexec(gdb):
 	# Backup original autoexec.py		
-	autoexec = os.path.join(RCBHOME, '..', 'autoexec.py')
+	autoexec = util.getAutoexecPath()
 	doBackup(gdb, autoexec)			
 
 	# Write new autoexec.py
@@ -265,7 +308,7 @@ def writeAutoexec(gdb):
 		fh = open(autoexec,'w') # truncate to 0
 		fh.write("#Rom Collection Browser autoexec\n")
 		fh.write("import xbmc\n")
-		fh.write("xbmc.executescript('"+ os.path.join(RCBHOME, 'default.py')+"')\n")
+		fh.write("xbmc.executescript('"+ os.path.join(util.RCBHOME, 'default.py')+"')\n")
 		fh.close()
 	except Exception, (exc):
 		Logutil.log("Cannot write to autoexec.py: " +str(exc), util.LOG_LEVEL_ERROR)
@@ -275,8 +318,8 @@ def writeAutoexec(gdb):
 def doBackup(gdb, fName):
 		Logutil.log("Begin helper.doBackup", util.LOG_LEVEL_INFO)
 	
-		if os.path.isfile(fName):
-			newFileName = fName+'.bak'
+		if os.path.isfile(fName):			
+			newFileName = os.path.join(util.getAddonDataPath(), 'autoexec.py.bak') 			
 			
 			if os.path.isfile(newFileName):
 				Logutil.log("Cannot backup autoexec.py: File exists.", util.LOG_LEVEL_ERROR)
@@ -288,7 +331,7 @@ def doBackup(gdb, fName):
 				Logutil.log("Cannot rename autoexec.py: " +str(exc), util.LOG_LEVEL_ERROR)
 				return
 			
-			rcbSetting = getRCBSetting()
+			rcbSetting = getRCBSetting(gdb)
 			if (rcbSetting == None):
 				Logutil.log("rcbSetting == None in doBackup", util.LOG_LEVEL_WARNING)
 				return
@@ -321,9 +364,10 @@ def launchXbox(gui, gdb, cmd, romCollectionRow, filenameRows):
 		Logutil.log("cut file created: " +cmd, util.LOG_LEVEL_INFO)
 		
 	
-	#RunXbe always terminates XBMC. So we have to saveviewstate here
+	
+	#RunXbe always terminates XBMC. So we have to saveviewstate and write autoexec here	
 	writeAutoexec(gdb)
-	# Remember selection
+	# Remember selection	
 	gui.saveViewState(False)
 		
 	Logutil.log("RunXbe", util.LOG_LEVEL_INFO)
@@ -335,7 +379,7 @@ def launchXbox(gui, gdb, cmd, romCollectionRow, filenameRows):
 def createXboxCutFile(emuCommandLine, filenameRows, romCollectionRow):
 	Logutil.log("Begin helper.createXboxCutFile", util.LOG_LEVEL_INFO)		
 		
-	cutFile = os.path.join(RCBHOME, 'temp.cut')
+	cutFile = os.path.join(util.getAddonDataPath(), 'temp.cut')
 
 	# Write new temp.cut
 	try:
@@ -412,42 +456,3 @@ def launchNonXbox(romCollectionRow, cmd):
 		#this brings xbmc back
 		xbmc.executehttpapi("Action(199)")
 	
-
-def saveViewState(gdb, isOnExit, selectedView, selectedGameIndex, selectedConsoleIndex, selectedGenreIndex, selectedPublisherIndex, selectedYearIndex, selectedCharacterIndex,
-	selectedControlIdMainView, selectedControlIdGameInfoView):
-		
-		Logutil.log("Begin helper.saveViewState", util.LOG_LEVEL_INFO)
-		
-		rcbSetting = getRCBSetting(gdb)
-		if(rcbSetting == None):
-			Logutil.log("rcbSetting == None in helper.saveViewState", util.LOG_LEVEL_WARNING)
-			return
-		
-		if(isOnExit):
-			#saveViewStateOnExit
-			saveViewState = rcbSetting[util.RCBSETTING_saveViewStateOnExit]
-		else:
-			#saveViewStateOnLaunchEmu
-			saveViewState = rcbSetting[util.RCBSETTING_saveViewStateOnLaunchEmu]
-			
-		
-		if(saveViewState == 'True'):
-			RCBSetting(gdb).update(('lastSelectedView', 'lastSelectedConsoleIndex', 'lastSelectedGenreIndex', 'lastSelectedPublisherIndex', 'lastSelectedYearIndex', 'lastSelectedGameIndex', 'lastFocusedControlMainView', 'lastFocusedControlGameInfoView', 'lastSelectedCharacterIndex'),
-				(selectedView, selectedConsoleIndex, selectedGenreIndex, selectedPublisherIndex, selectedYearIndex, selectedGameIndex, selectedControlIdMainView, selectedControlIdGameInfoView, selectedCharacterIndex), rcbSetting[0])
-		else:
-			RCBSetting(gdb).update(('lastSelectedView', 'lastSelectedConsoleIndex', 'lastSelectedGenreIndex', 'lastSelectedPublisherIndex', 'lastSelectedYearIndex', 'lastSelectedGameIndex', 'lastFocusedControlMainView', 'lastFocusedControlGameInfoView', 'lastSelectedCharacterIndex'),
-				(None, None, None, None, None, None, None, None, None), rcbSetting[util.ROW_ID])
-				
-		gdb.commit()
-		
-		Logutil.log("End helper.saveViewState", util.LOG_LEVEL_INFO)
-
-
-			
-def getRCBSetting(gdb):
-		rcbSettingRows = RCBSetting(gdb).getAll()
-		if(rcbSettingRows == None or len(rcbSettingRows) != 1):
-			#TODO raise error
-			return None
-						
-		return rcbSettingRows[util.ROW_ID]

@@ -10,10 +10,7 @@ from gamedatabase import *
 import helper, util
 from util import *
 
-from Queue import Queue
 from threading import Thread
-
-__language__ = xbmc.Language(os.getcwd()).getLocalizedString
 
 #Action Codes
 # See guilib/Key.h
@@ -52,7 +49,6 @@ CONTROL_BUTTON_VIDEOFULLSCREEN = (2900, 2901,)
 
 CONTROL_LABEL_MSG = 4000
 
-RCBHOME = os.getcwd()
 
 
 class MyPlayer(xbmc.Player):
@@ -117,8 +113,8 @@ class ProgressDialogGUI:
 
 
 class UIGameDB(xbmcgui.WindowXML):	
-
-	gdb = GameDataBase(os.path.join(RCBHOME, 'resources', 'database'))	
+	
+	gdb = None	
 	
 	selectedControlId = 0
 	selectedConsoleId = 0
@@ -158,11 +154,24 @@ class UIGameDB(xbmcgui.WindowXML):
 		# don't put GUI sensitive stuff here (as the xml hasn't been read yet
 		# Idea to initialize your variables here
 		
-		Logutil.log("Init Rom Collection Browser: " + RCBHOME, util.LOG_LEVEL_INFO)				
+		Logutil.log("Init Rom Collection Browser: " + util.RCBHOME, util.LOG_LEVEL_INFO)				
 		
-		self.Settings = xbmc.Settings(RCBHOME)
+		self.Settings = util.getSettings()
 		
+		self.gdb = GameDataBase(util.getAddonDataPath())
 		self.gdb.connect()
+		
+		"""
+		try:
+			self.gdb = GameDataBase(util.getAddonDataPath())
+			self.gdb.connect()
+		except Exception, (exc):
+			xbmcgui.Dialog().ok(util.SCRIPTNAME, 'Error accessing database', str(exc))
+			print ('Error accessing database: ' +str(exc))
+			self.quit = True
+			return
+		"""
+				
 		#check if we have an actual database
 		#create new one or alter existing one
 		doImport, errorMsg = self.gdb.checkDBStructure()
@@ -747,10 +756,7 @@ class UIGameDB(xbmcgui.WindowXML):
 			return None, None
 		
 		gameId = selectedGame.getProperty('gameId')
-		gameRow = Game(gdb).getObjectById(gameId)
-		
-		#print "gameId: " +str(gameId)
-		#print "gameRow: " +str(gameRow)
+		gameRow = Game(gdb).getObjectById(gameId)				
 
 		if(gameRow == None):			
 			Logutil.log("gameId = %s" % gameId, util.LOG_LEVEL_WARNING)
@@ -763,6 +769,7 @@ class UIGameDB(xbmcgui.WindowXML):
 	def loadVideoFiles(self, gdb, gameRow, selectedGame):				
 		
 		#no video in thumbs view
+		#TODO add more non-video possibilities for skinners
 		if (not xbmc.getCondVisibility("Control.IsVisible(%i)" % CONTROL_THUMBS_VIEW)):
 		
 			if(self.cachingOption == 0):
@@ -970,7 +977,7 @@ class UIGameDB(xbmcgui.WindowXML):
 			if(retSettings == True):
 				progressDialog = ProgressDialogGUI()
 				progressDialog.writeMsg("Import settings...", "", "")
-				importSuccessful, errorMsg = importsettings.SettingsImporter().importSettings(self.gdb, os.path.join(RCBHOME, 'resources', 'database'), progressDialog)
+				importSuccessful, errorMsg = importsettings.SettingsImporter().importSettings(self.gdb, os.path.join(util.RCBHOME, 'resources', 'database'), progressDialog)
 				# XBMC crashes on my Linux system without this line:
 				print('RCB INFO: Import done')
 				progressDialog.writeMsg("", "", "", -1)
@@ -1008,8 +1015,8 @@ class UIGameDB(xbmcgui.WindowXML):
 	def checkAutoExec(self):
 		Logutil.log("Begin checkAutoExec" , util.LOG_LEVEL_INFO)
 		
-		autoexec = os.path.join(RCBHOME, '..', 'autoexec.py')
-		autoexec = os.path.normpath(autoexec)
+		autoexec = util.getAutoexecPath()
+		#autoexec = os.path.normpath(autoexec)
 		Logutil.log("Checking path: " + autoexec, util.LOG_LEVEL_INFO)
 		if (os.path.isfile(autoexec)):	
 			lines = ""
@@ -1047,6 +1054,7 @@ class UIGameDB(xbmcgui.WindowXML):
 		if (os.path.isfile(autoExecBackupPath)):
 			try:
 				os.rename(autoExecBackupPath, autoexec)
+				os.remove(autoExecBackupPath)
 			except Exception, (exc):
 				Logutil.log("Cannot rename autoexec.py: " + str(exc), util.LOG_LEVEL_ERROR)
 				return
@@ -1134,11 +1142,7 @@ class UIGameDB(xbmcgui.WindowXML):
 			if(focusControl == None):
 				Logutil.log("focusControl == None in loadViewState", util.LOG_LEVEL_WARNING)
 				return
-			self.setFocus(focusControl)
-			"""
-			if(rcbSetting[util.RCBSETTING_lastFocusedControlMainView] == CONTROL_CONSOLES):
-				self.showConsoleInfo()
-			"""
+			self.setFocus(focusControl)			
 			if(CONTROL_GAMES_GROUP_START <= rcbSetting[util.RCBSETTING_lastFocusedControlMainView] <= CONTROL_GAMES_GROUP_END):
 				self.showGameInfo()
 		else:
