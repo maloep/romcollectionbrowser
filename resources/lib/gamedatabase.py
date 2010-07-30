@@ -1,19 +1,23 @@
 
 
 import os, sys
-
 from pysqlite2 import dbapi2 as sqlite
+
+import util
+
 
 CURRENT_SCRIPT_VERSION = "V0.6"
 
 
 class GameDataBase:	
 	
-	def __init__(self, databaseDir):
-		self.databaseDir = databaseDir
-		self.dataBasePath = os.path.join(self.databaseDir, 'MyGames.db')		
+	def __init__(self, databaseDir):		
+		self.dataBasePath = os.path.join(databaseDir, 'MyGames.db')
+		#use scripts home for reading SQL files
+		self.sqlDir = os.path.join(util.RCBHOME, 'resources', 'database')		
 		
 	def connect( self ):		
+		print self.dataBasePath
 		self.connection = sqlite.connect(self.dataBasePath)
 		self.cursor = self.connection.cursor()
 		
@@ -34,11 +38,11 @@ class GameDataBase:
 	
 	def createTables(self):
 		print "Create Tables"
-		self.executeSQLScript(os.path.join(self.databaseDir, 'SQL_CREATE.txt'))
+		self.executeSQLScript(os.path.join(self.sqlDir, 'SQL_CREATE.txt'))
 		
 	def dropTables(self):
 		print "Drop Tables"
-		self.executeSQLScript(os.path.join(self.databaseDir, 'SQL_DROP_ALL.txt'))
+		self.executeSQLScript(os.path.join(self.sqlDir, 'SQL_DROP_ALL.txt'))
 
 	
 	def checkDBStructure(self):
@@ -61,7 +65,7 @@ class GameDataBase:
 		#Alter Table
 		if(dbVersion != CURRENT_SCRIPT_VERSION):
 			alterTableScript = "SQL_ALTER_%(old)s_%(new)s.txt" %{'old': dbVersion, 'new':CURRENT_SCRIPT_VERSION}
-			alterTableScript = str(os.path.join(self.databaseDir, alterTableScript))
+			alterTableScript = str(os.path.join(self.sqlDir, alterTableScript))
 			
 			if os.path.isfile(alterTableScript):				
 				self.executeSQLScript(alterTableScript)				
