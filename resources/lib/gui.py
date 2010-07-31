@@ -1,7 +1,7 @@
 
 import os, sys
-
-import string, glob, xbmc, xbmcgui, time, array
+import xbmc, xbmcgui
+import string, glob, time, array
 import getpass, ntpath, re
 from pysqlite2 import dbapi2 as sqlite
 
@@ -31,7 +31,7 @@ CONTROL_YEAR = 700
 CONTROL_PUBLISHER = 800
 CONTROL_CHARACTER = 900
 FILTER_CONTROLS = (500, 600, 700, 800, 900,)
-GAME_LISTS = (50, 51, 52, 53,)
+GAME_LISTS = (50, 51, 52, 53, 54, 55, 56, 57, 58)
 CONROL_SCROLLBARS = (2200, 2201,)
 
 CONTROL_IMG_BACK = 75
@@ -39,7 +39,8 @@ CONTROL_IMG_BACK = 75
 CONTROL_GAMES_GROUP = 200
 CONTROL_GAMES_GROUP_START = 50
 CONTROL_GAMES_GROUP_END = 59
-CONTROL_THUMBS_VIEW = 51
+CONTROL_VIEW_NO_VIDEOS = (55, 56, 57, 58)
+
 CONTROL_CONSOLE_IMG = 2000
 CONTROL_CONSOLE_DESC = 2100
 CONTROL_BUTTON_SETTINGS = 3000
@@ -139,7 +140,7 @@ class UIGameDB(xbmcgui.WindowXML):
 		
 	# set flag if we are watching fullscreen video
 	fullScreenVideoStarted = False
-	# set flag if we are opened GID
+	# set flag if we opened GID
 	gameinfoDialogOpen = False
 	# set flag if we are currently loading gameinfos (avoid loading during fast scrolling)
 	loadingGameInfo = False			
@@ -156,12 +157,9 @@ class UIGameDB(xbmcgui.WindowXML):
 		
 		Logutil.log("Init Rom Collection Browser: " + util.RCBHOME, util.LOG_LEVEL_INFO)				
 		
-		self.Settings = util.getSettings()
+		self.Settings = util.getSettings()				
 		
-		self.gdb = GameDataBase(util.getAddonDataPath())
-		self.gdb.connect()
 		
-		"""
 		try:
 			self.gdb = GameDataBase(util.getAddonDataPath())
 			self.gdb.connect()
@@ -169,8 +167,7 @@ class UIGameDB(xbmcgui.WindowXML):
 			xbmcgui.Dialog().ok(util.SCRIPTNAME, 'Error accessing database', str(exc))
 			print ('Error accessing database: ' +str(exc))
 			self.quit = True
-			return
-		"""
+			return		
 				
 		#check if we have an actual database
 		#create new one or alter existing one
@@ -226,7 +223,7 @@ class UIGameDB(xbmcgui.WindowXML):
 			self.exit()
 		elif(action.getId() in ACTION_MOVEMENT):
 									
-			Logutil.log("onAction: ACTION_MOVEMENT_UP / ACTION_MOVEMENT_DOWN", util.LOG_LEVEL_DEBUG)
+			Logutil.log("onAction: ACTION_MOVEMENT", util.LOG_LEVEL_DEBUG)
 			
 			control = self.getControlById(self.selectedControlId)
 			if(control == None):
@@ -238,9 +235,7 @@ class UIGameDB(xbmcgui.WindowXML):
 				if(not self.fullScreenVideoStarted and not self.loadingGameInfo):
 					self.loadingGameInfo = True
 					self.showGameInfo()
-					self.loadingGameInfo = False
-					
-				#self.waitForGameLoading()				
+					self.loadingGameInfo = False											
 			
 			if(action.getId() in ACTION_MOVEMENT_UP or action.getId() in ACTION_MOVEMENT_DOWN):	
 				if(self.selectedControlId in FILTER_CONTROLS):								
@@ -460,7 +455,7 @@ class UIGameDB(xbmcgui.WindowXML):
 			Logutil.log("len games == 0 in showGames", util.LOG_LEVEL_WARNING)
 			return		
 		
-		fileDict = self.getFileDictForGamelist()						
+		fileDict = self.getFileDictForGamelist()
 
 		self.writeMsg("loading games...")
 		
@@ -768,9 +763,14 @@ class UIGameDB(xbmcgui.WindowXML):
 
 	def loadVideoFiles(self, gdb, gameRow, selectedGame):				
 		
-		#no video in thumbs view
-		#TODO add more non-video possibilities for skinners
-		if (not xbmc.getCondVisibility("Control.IsVisible(%i)" % CONTROL_THUMBS_VIEW)):
+		viewSupportsVideo = True
+		for controlId in CONTROL_VIEW_NO_VIDEOS:
+			if (xbmc.getCondVisibility("Control.IsVisible(%i)" % controlId)):
+				viewSupportsVideo = False
+				break				
+		
+		#not all views should playback video		
+		if (viewSupportsVideo):
 		
 			if(self.cachingOption == 0):
 				fileDict = self.fileDict
@@ -778,7 +778,7 @@ class UIGameDB(xbmcgui.WindowXML):
 				fileDict = self.getFileDictByGameRow(gdb, gameRow)
 		
 		
-			#check if fullscreen video is configured
+			#check if fullscreen video is configured (this will just show the button "Play fullscreen video")
 			videosFullscreen = helper.getFilesByControl_Cached(self.gdb, util.VIDEO_CONTROL_MV_VideoFullscreen, gameRow[util.ROW_ID], gameRow[util.GAME_publisherId], gameRow[util.GAME_developerId], gameRow[util.GAME_romCollectionId],
 				self.fileTypeForControlDict, self.fileTypeDict, fileDict, self.romCollectionDict)				
 			if(videosFullscreen != None and len(videosFullscreen) != 0):				
@@ -827,7 +827,9 @@ class UIGameDB(xbmcgui.WindowXML):
 		
 	def playVideo(self, video, selectedGame):
 		
-		timestamp1 = time.clock()		
+		#we have to use a little wait timer before starting video playback: 
+		#otherwise video could start in fullscreen if we scroll down the list too fast
+		timestamp1 = time.clock()
 		while True:
 			timestamp2 = time.clock()
 			diff = (timestamp2 - timestamp1) * 1000
@@ -836,16 +838,15 @@ class UIGameDB(xbmcgui.WindowXML):
 				
 			if(self.playVideoThreadStopped):
 				self.playVideoThreadStopped = False
-				return
-				
-		#test looping video		
-		#xbmc.executebuiltin('XBMC.PlayerControl(Repeat)')
+				return						
 		
 		self.player.startedInPlayListMode = False
 		self.player.play(video, selectedGame, True)
 		
 		
 	def loadGameInfos(self, gdb, gameRow, selectedGame, pos):
+		Logutil.log("begin loadGameInfos", util.LOG_LEVEL_DEBUG)
+		Logutil.log("gameRow = " +str(gameRow), util.LOG_LEVEL_DEBUG)
 		
 		if(self.getListSize() == 0):
 			Logutil.log("ListSize == 0 in loadGameInfos", util.LOG_LEVEL_WARNING)
@@ -878,6 +879,8 @@ class UIGameDB(xbmcgui.WindowXML):
 				return
 			fileDict = self.getFileDictByGameRow(gdb, gameRow)
 			self.setAllItemData(selectedGame, gameRow, fileDict)
+			
+		Logutil.log("end loadGameInfos", util.LOG_LEVEL_DEBUG)
 
 	
 	def getFileDictByGameRow(self, gdb, gameRow):
@@ -895,8 +898,7 @@ class UIGameDB(xbmcgui.WindowXML):
 		
 		
 	def setAllItemData(self, item, gameRow, fileDict):				
-		
-		#print "setAllitemdata: " +str(gameRow)
+				
 		# all other images in mainwindow
 		imagemainViewBackground = self.getFileForControl(util.IMAGE_CONTROL_MV_BACKGROUND, gameRow[util.ROW_ID], gameRow[util.GAME_publisherId], gameRow[util.GAME_developerId], gameRow[util.GAME_romCollectionId], fileDict)
 		imageGameInfoBig = self.getFileForControl(util.IMAGE_CONTROL_MV_GAMEINFO_BIG, gameRow[util.ROW_ID], gameRow[util.GAME_publisherId], gameRow[util.GAME_developerId], gameRow[util.GAME_romCollectionId], fileDict)
@@ -1015,8 +1017,7 @@ class UIGameDB(xbmcgui.WindowXML):
 	def checkAutoExec(self):
 		Logutil.log("Begin checkAutoExec" , util.LOG_LEVEL_INFO)
 		
-		autoexec = util.getAutoexecPath()
-		#autoexec = os.path.normpath(autoexec)
+		autoexec = util.getAutoexecPath()		
 		Logutil.log("Checking path: " + autoexec, util.LOG_LEVEL_INFO)
 		if (os.path.isfile(autoexec)):	
 			lines = ""
@@ -1047,6 +1048,7 @@ class UIGameDB(xbmcgui.WindowXML):
 			print "RCB_WARNING: rcbSetting == None in checkAutoExec"
 			return
 					
+		#check if we have to restore autoexec backup 
 		autoExecBackupPath = rcbSetting[9]
 		if (autoExecBackupPath == None):
 			return
