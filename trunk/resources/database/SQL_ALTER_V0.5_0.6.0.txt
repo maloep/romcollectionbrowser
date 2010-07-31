@@ -23,4 +23,4 @@ UPDATE RCBSetting SET showEntryAllChars = 'True';
 UPDATE RCBSetting SET preventUnfilteredSearch = 'False';
 UPDATE RCBSetting SET cachingOption = 3;
 
-UPDATE RCBSetting SET dbVersion = 'V0.6';
+UPDATE RCBSetting SET dbVersion = '0.6.0';

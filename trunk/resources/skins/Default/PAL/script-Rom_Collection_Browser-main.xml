@@ -1,5 +1,5 @@
 <window>		
-	<allowoverlay>yes</allowoverlay>
+	<allowoverlay>no</allowoverlay>
 	<defaultcontrol always="false">500</defaultcontrol>
 	<coordinates>
 	        <system>1</system>
@@ -295,121 +295,7 @@
 						<onright>50</onright>
 					</control>
 				</control>
-			</control>
-			
-			<!-- gamelist 51 -->
-			<control type="group">
-				<visible>Control.IsVisible(51)</visible>
-				<control type="image">	
-					<description>gamelist background image</description>
-					<posx>0</posx>
-					<posy>100</posy>
-					<width>720</width>
-					<height>450</height>
-					<texture>rcb-ContentPanel2.png</texture>
-					<colordiffuse>90FFFFFF</colordiffuse>					
-				</control>
-				<control type="wraplist" id="51">					
-					<posx>0</posx>
-					<posy>120</posy>
-					<width>720</width>
-					<height>400</height>
-					<onleft>51</onleft>
-					<onright>51</onright>
-					<onup>500</onup>
-					<ondown>3000</ondown>
-					<orientation>horizontal</orientation>
-					<focusposition>2</focusposition>
-					<viewtype label="Thumbs">wrap</viewtype>			
-					<scrolltime>100</scrolltime>
-					<itemlayout width="145">
-						<control type="image">
-							<width>145</width>
-							<height>220</height>
-							<posx>0</posx>
-							<posy>25</posy>							
-							<aspectratio>stretch</aspectratio>							
-							<texture background="true">$INFO[ListItem.ActualIcon]</texture>
-						</control>						
-					</itemlayout>
-					<focusedlayout width="145">
-						<control type="image">
-							<posx>-25</posx>
-							<posy>0</posy>
-							<width>200</width>
-							<height>300</height>
-							<aspectratio>stretch</aspectratio>
-							<bordertexture border="8">rcb-ThumbBorder.png</bordertexture>
-							<bordersize>8</bordersize>
-							<texture background="true">$INFO[ListItem.Thumb]</texture>
-							<animation reversible="false" effect="zoom" start="0,0,145,220" end="-25,0,200,300" time="100">focus</animation>
-							<animation reversible="false" effect="zoom" end="0,0,145,220" start="-25,0,200,300" time="100">unfocus</animation>
-						</control>						
-						<control type="image">
-							<posx>-20</posx>
-							<posy>5</posy>
-							<width>100</width>
-							<height>75</height>
-							<aspectratio>stretch</aspectratio>
-							<texture>rcb-GlassOverlay.png</texture>
-							<animation reversible="false" effect="zoom" start="0,0,60,40" end="-20,0,100,75" time="100">focus</animation>
-							<animation reversible="false" effect="zoom" end="0,0,60,40" start="-20,0,100,75" time="100">unfocus</animation>
-						</control>
-					</focusedlayout>
-				</control>
-				<control type="label">
-					<posx>0</posx>
-					<posy>430</posy>
-					<width>720</width>
-					<height>30</height>
-					<font>font30caps_title</font>
-					<align>center</align>
-					<aligny>center</aligny>
-					<textcolor>DDFFFFFF</textcolor>
-					<selectedcolor>FFe2ff43</selectedcolor>						
-					<label>$INFO[ListItem.Label]</label>					
-				</control>
-				<control type="label">
-					<posx>0</posx>
-					<posy>490</posy>
-					<width>720</width>
-					<height>20</height>
-					<font>font16caps</font>
-					<aligny>center</aligny>
-					<textcolor>DDFFFFFF</textcolor>
-					<selectedcolor>FFe2ff43</selectedcolor>
-					<align>center</align>
-					<label>$INFO[ListItem.Property(console)]</label>
-					<visible>IsEmpty(ListItem.Property(mainview2)) + Control.IsVisible(51)</visible>
-				</control>					
-				<!-- mainview1 -->
-				<control type="image">
-					<description>mainview1</description>
-					<posx>180</posx>
-					<posy>480</posy>
-					<width>60</width>
-					<height>40</height>						
-					<texture>$INFO[ListItem.Property(mainview1)]</texture>						
-				</control>
-				<!-- mainview2 -->
-				<control type="image">
-					<description>mainview2</description>
-					<posx>330</posx>
-					<posy>480</posy>
-					<width>60</width>
-					<height>40</height>						
-					<texture>$INFO[ListItem.Property(mainview2)]</texture>						
-				</control>
-				<!-- mainview3 -->
-				<control type="image">
-					<description>mainview3</description>
-					<posx>480</posx>
-					<posy>480</posy>
-					<width>60</width>
-					<height>40</height>						
-					<texture>$INFO[ListItem.Property(mainview3)]</texture>						
-				</control>
-			</control>
+			</control>						
 			
 			<!-- gamelist 52 -->
 			<control type="group">
@@ -701,8 +587,127 @@
 						<onright>52</onright>
 					</control>			
 				</control>				
-			</control>		
-		</control>		
+			</control>
+			
+			<!-- gamelists without video support go from id 55-58--> 			
+			
+			<!-- gamelist 58 -->
+			<control type="group">
+				<visible>Control.IsVisible(58)</visible>
+				<control type="image">	
+					<description>gamelist background image</description>
+					<posx>0</posx>
+					<posy>100</posy>
+					<width>720</width>
+					<height>450</height>
+					<texture>rcb-ContentPanel2.png</texture>
+					<colordiffuse>90FFFFFF</colordiffuse>					
+				</control>
+				<control type="wraplist" id="58">
+					<posx>0</posx>
+					<posy>120</posy>
+					<width>720</width>
+					<height>400</height>
+					<onleft>58</onleft>
+					<onright>58</onright>
+					<onup>500</onup>
+					<ondown>3000</ondown>
+					<orientation>horizontal</orientation>
+					<focusposition>2</focusposition>
+					<viewtype label="Thumbs">wrap</viewtype>			
+					<scrolltime>100</scrolltime>
+					<itemlayout width="145">
+						<control type="image">
+							<width>145</width>
+							<height>220</height>
+							<posx>0</posx>
+							<posy>25</posy>							
+							<aspectratio>stretch</aspectratio>							
+							<texture background="true">$INFO[ListItem.ActualIcon]</texture>
+						</control>						
+					</itemlayout>
+					<focusedlayout width="145">
+						<control type="image">
+							<posx>-25</posx>
+							<posy>0</posy>
+							<width>200</width>
+							<height>300</height>
+							<aspectratio>stretch</aspectratio>
+							<bordertexture border="8">rcb-ThumbBorder.png</bordertexture>
+							<bordersize>8</bordersize>
+							<texture background="true">$INFO[ListItem.Thumb]</texture>
+							<animation reversible="false" effect="zoom" start="0,0,145,220" end="-25,0,200,300" time="100">focus</animation>
+							<animation reversible="false" effect="zoom" end="0,0,145,220" start="-25,0,200,300" time="100">unfocus</animation>
+						</control>						
+						<control type="image">
+							<posx>-20</posx>
+							<posy>5</posy>
+							<width>100</width>
+							<height>75</height>
+							<aspectratio>stretch</aspectratio>
+							<texture>rcb-GlassOverlay.png</texture>
+							<animation reversible="false" effect="zoom" start="0,0,60,40" end="-20,0,100,75" time="100">focus</animation>
+							<animation reversible="false" effect="zoom" end="0,0,60,40" start="-20,0,100,75" time="100">unfocus</animation>
+						</control>
+					</focusedlayout>
+				</control>
+				<control type="label">
+					<posx>0</posx>
+					<posy>430</posy>
+					<width>720</width>
+					<height>30</height>
+					<font>font30caps_title</font>
+					<align>center</align>
+					<aligny>center</aligny>
+					<textcolor>DDFFFFFF</textcolor>
+					<selectedcolor>FFe2ff43</selectedcolor>						
+					<label>$INFO[ListItem.Label]</label>					
+				</control>
+				<control type="label">
+					<posx>0</posx>
+					<posy>490</posy>
+					<width>720</width>
+					<height>20</height>
+					<font>font16caps</font>
+					<aligny>center</aligny>
+					<textcolor>DDFFFFFF</textcolor>
+					<selectedcolor>FFe2ff43</selectedcolor>
+					<align>center</align>
+					<label>$INFO[ListItem.Property(console)]</label>
+					<visible>IsEmpty(ListItem.Property(mainview2)) + Control.IsVisible(58)</visible>
+				</control>					
+				<!-- mainview1 -->
+				<control type="image">
+					<description>mainview1</description>
+					<posx>180</posx>
+					<posy>480</posy>
+					<width>60</width>
+					<height>40</height>						
+					<texture>$INFO[ListItem.Property(mainview1)]</texture>						
+				</control>
+				<!-- mainview2 -->
+				<control type="image">
+					<description>mainview2</description>
+					<posx>330</posx>
+					<posy>480</posy>
+					<width>60</width>
+					<height>40</height>						
+					<texture>$INFO[ListItem.Property(mainview2)]</texture>						
+				</control>
+				<!-- mainview3 -->
+				<control type="image">
+					<description>mainview3</description>
+					<posx>480</posx>
+					<posy>480</posy>
+					<width>60</width>
+					<height>40</height>						
+					<texture>$INFO[ListItem.Property(mainview3)]</texture>						
+				</control>
+			</control>
+		</control>
+
+
+		
 				
 		<!-- filter controls -->
 		<control type="group" id="100">		
