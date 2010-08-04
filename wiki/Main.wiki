@@ -14,25 +14,35 @@ It is a good idea to start with the test scenario. It will only take two minutes
 Before you can launch games with RCB you have to download, install and configure one or more emulators. Find out how to launch your emulator via command line. You will need this information to launch the emulator with RCB.
 
 = Installation =
-Note: If you would like to play with the test scenario just skip these steps and go to the next chapter.
-
+== Camelot ==
   # Download "Rom Collection Browser V0.5.zip (http://romcollectionbrowser.googlecode.com/files/Rom%20Collection%20Browser%20V0.5.zip)
   # Unzip it to your XBMC scripts folder
-  # Edit the main configuration file "config.xml" ("XBMC/scripts/Rom Collection Browser/resources/database/config.xml"). Check configuration section for a sample configuration and to learn how to configure RCB
-  # Linux only: make the file "XBMC/scripts/Rom Collection Browser/applaunch.sh" executable
-  # Check the path to your XBMC installation at the end of the file "XBMC/scripts/Rom Collection Browser/applaunch.bat" (Windows) or "XBMC/scripts/Rom Collection Browser/applaunch.sh" (Linux)
-  # Make sure that the user that launches XBMC has write access to XBMCs script directory if you want to use the "solo" mode when launching emulators. RCB tries to create an "autoexec.py" in this directory
+
+== Dharma ==
+  # Go to XBMCs Addon Browser (System -> Add-ons -> Get Add-ons -> XBMC.org Add-ons -> Program Add-ons --> Rom Collection Browser)
+  # Choose Install
+  
+Note: Directory changes in Dharma.
+Database file `"MyGames.db"` is not stored in RCBs database folder anymore. It can be found in your userdata folder in "addon_data/script.games.rom.collection.browser".
+
+= First use =  
+  # Edit the main configuration file "config.xml" ("XBMC/scripts/Rom Collection Browser/resources/database/config.xml"). Check configuration section for a sample configuration and to learn how to configure RCB or download Testdata.zip for a full running example
   # Start XBMC and launch RCB
   # RCB will notice that there is no database and asks you if you would like to import settings. If you have already edited config.xml click "Yes".
   # If "Import Settings" was successful RCB will offer you to import games now. Click "Yes" to continue. Depending on your rom collections size this step can take some time.
+  
+  
+= Setup RCB to use solo mode (shutdown XBMC before launching the emulator) =
+  # Linux only: make the file "XBMC/scripts/Rom Collection Browser/applaunch.sh" executable
+  # Check the path to your XBMC installation at the end of the file "XBMC/scripts/Rom Collection Browser/applaunch.bat" (Windows) or "XBMC/scripts/Rom Collection Browser/applaunch.sh" (Linux)
+  # Make sure that the user that launches XBMC has write access to XBMCs script directory. RCB tries to create an "autoexec.py" in this directory. Note: this is only needed in Camelot. The Dharma version writes this file to the userdata directory.
 
 
 = Setup test scenario =
 To show you how this script will work and how data should (could) be organized I also provide a zip file with testdata. This includes covers, game screenshots, game description files and sample configuration files for 7 Amiga and 8 SNES games. I also added 3 gameplay videos to show you how videos will look like in RCB. It only includes placeholder files for the roms (empty text files that show you a sample naming convention). This test scenario is not really meant to play the games, it should just show you how to configure this script.
 
 
-  # Download "Rom Collection Browser V0.5.zip (http://romcollectionbrowser.googlecode.com/files/Rom%20Collection%20Browser%20V0.5.zip)
-  # Unzip it to your XBMC scripts folder
+  # Install RCB like described in chapter Installation
   # Download "Testdata V0.5.zip" (http://romcollectionbrowser.googlecode.com/files/Testdata%20V0.5.zip)
   # Unzip it somewhere
   # Go to the new Testdata folder
@@ -727,9 +737,12 @@ Optional: Delete the complete element `<FileTypes>`:
   * Click `Import Settings`: Now you should see your images again.
 
 
-
-
 = Changelog =
+
+== 0.5.3 ==
+  * Dharma compatibility (installable via addon browser, slight code modifications with no impact to the end user)
+  * changed the versioning scheme from Vx.y to x.y.z (this was needed to get this script submitted to the repo - and it is the better versioning scheme:))
+  * no more writing to the scripts directory: all files will be written to userdata/addon_data/script.games.rom.collection.browser. The file config.xml is still read from RCBs database directory. It will be backed up to the userdata directory after every "Import Settings" because XBMC will delete the complete RCB addon directory in case of an update.
 
 == V0.5 ==
 === UI ===
