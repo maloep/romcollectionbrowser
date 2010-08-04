@@ -16,12 +16,12 @@ Before you can launch games with RCB you have to download, install and configure
 = Installation =
 You will find the "XBMC" folder in your user environment. If you installed XBMC in portable mode, "XBMC" will be your installation directory.
 
-== Camelot ==
+== Camelot (RCB V0.5) ==
   * Download "Rom Collection Browser V0.5.zip (http://romcollectionbrowser.googlecode.com/files/Rom%20Collection%20Browser%20V0.5.zip)
   * Unzip it to your XBMC scripts folder
   * RCBs home directory is "XBMC/scripts/Rom Collection Browser/"
 
-== Dharma ==
+== Dharma RCB (0.5.3) ==
   * Go to XBMCs Addon Browser (System -> Add-ons -> Get Add-ons -> XBMC.org Add-ons -> Program Add-ons --> Rom Collection Browser)
   * Choose Install
   * RCBs home directory is "XBMC/addons/Rom Collection Browser/"
