@@ -2,7 +2,7 @@
 
 
 = Introduction =
-With this XBMC script you can browse and launch your roms. Point it to your rom folders and locally stored data (screenshots, description files, videos, ...) and it will import all information to its database. Afterwards you can browse games by filter criteria (console, genre, release year, publisher), show some extra information and invoke an external emulator to play the selected rom file.
+With this XBMC script you can browse and launch emulator roms and standalone games. Point it to your rom folders and locally stored data (screenshots, description files, videos, ...) and it will import all information to its database. Afterwards you can browse games by filter criteria (console, genre, release year, publisher), show some extra information and invoke an external emulator to play the selected rom file.
 
 RCB can parse simple text files with additional game information like genre, publisher, developer, release year, etc. To support different description file formats you can configure the behaviour of the parser with an xml configuration file. Have a look at the "parserConfig.xml"-section of this wiki for more information. In the Testdata.zip you will also find some sample description files with matching parser configurations.
 
@@ -13,9 +13,9 @@ It is a good idea to start with the test scenario. It will only take two minutes
 Before you can launch games with RCB you have to download, install and configure one or more emulators. Find out how to launch your emulator via command line. You will need this information to launch the emulator with RCB.
 
 = Installation =
-You will find the "XBMC" folder in your user environment. If you installed XBMC in portable mode, "XBMC" will be your installation directory.
+RCB will be installed to your XBMC folder. You should find this folder in special://home (default) or special://xbmc (if you installed in portable mode). OS dependent mappings of this directories can be found here: http://wiki.xbmc.org/index.php?title=Special_protocol#Platform_Specific_Default_Mappings
 
-== Camelot ==
+== Camelot / Xbox ==
   * Download "Rom Collection Browser V0.5.zip (http://romcollectionbrowser.googlecode.com/files/Rom%20Collection%20Browser%20V0.5.zip)
   * Unzip it to your XBMC scripts folder
   * RCBs home directory is "XBMC/scripts/Rom Collection Browser/"
@@ -25,8 +25,8 @@ You will find the "XBMC" folder in your user environment. If you installed XBMC 
   * Choose Install
   * RCBs home directory is "XBMC/addons/Rom Collection Browser/"
   
-Note: Directory changes in Dharma.
-Database file `"MyGames.db"` is not stored in RCBs database folder anymore. It can be found in your userdata folder in "addon_data/script.games.rom.collection.browser".
+Note: Directory changes since version 0.5.3.
+Database file `"MyGames.db"` is not stored in RCBs database folder anymore. It can be found in your userdata folder in "addon_data/script.games.rom.collection.browser" (Dharma) or "script_data/script.games.rom.collection.browser" (Camelot and Xbox).
 
 = First use =
   * Edit the main configuration file "config.xml" (Rom Collection Browser/resources/database/). Check configuration section for a sample configuration and to learn how to configure RCB or download Testdata.zip for a full running example
@@ -39,6 +39,8 @@ Database file `"MyGames.db"` is not stored in RCBs database folder anymore. It c
   * Linux only: make the file "Rom Collection Browser/applaunch.sh" executable
   * Check the path to your XBMC installation at the end of the file "Rom Collection Browser/applaunch.bat" (Windows) or "Rom Collection Browser/applaunch.sh" (Linux)
   * Make sure that the user that launches XBMC has write access to XBMCs script directory. RCB tries to create an "autoexec.py" in this directory. Note: this is only needed in Camelot. The Dharma version writes this file to the userdata directory.
+  
+Note: Launching games in solo mode does not work with XBMC Live if you don't install a separate Window Manager.
 
 
 = Setup test scenario =
@@ -758,7 +760,7 @@ Optional: Delete the complete element `<FileTypes>`:
 
 === Import ===
   * restructuring of import methods: scan large description files per game (previous version scanned the complete file at once causing out of memory errors on xbox)
-  * changed behavior of progress dialog when importing settings and games: progress update per game and not per rom collection
+  * changed behavior of progress dialog when importing games: progress update per game and not per rom collection
   * use default values for all settings: may keep config.xml more simple
   * new option: using foldername as crc value (useFoldernameAsCRC)
   * new option: using filename as crc value (useFilenameAsCRC)
