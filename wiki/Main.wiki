@@ -15,12 +15,12 @@ Before you can launch games with RCB you have to download, install and configure
 
 = Installation =
 == Camelot ==
-  # Download "Rom Collection Browser V0.5.zip (http://romcollectionbrowser.googlecode.com/files/Rom%20Collection%20Browser%20V0.5.zip)
-  # Unzip it to your XBMC scripts folder
+  * Download "Rom Collection Browser V0.5.zip (http://romcollectionbrowser.googlecode.com/files/Rom%20Collection%20Browser%20V0.5.zip)
+  * Unzip it to your XBMC scripts folder
 
 == Dharma ==
-  # Go to XBMCs Addon Browser (System -> Add-ons -> Get Add-ons -> XBMC.org Add-ons -> Program Add-ons --> Rom Collection Browser)
-  # Choose Install
+  * Go to XBMCs Addon Browser (System -> Add-ons -> Get Add-ons -> XBMC.org Add-ons -> Program Add-ons --> Rom Collection Browser)
+  * Choose Install
   
 Note: Directory changes in Dharma.
 Database file `"MyGames.db"` is not stored in RCBs database folder anymore. It can be found in your userdata folder in "addon_data/script.games.rom.collection.browser".
@@ -29,18 +29,20 @@ Database file `"MyGames.db"` is not stored in RCBs database folder anymore. It c
 You will find the "XBMC" folder in your user environment. If you installed XBMC in portable mode, "XBMC" will be your installation directory.
 
 == Camelot ==
-  # Edit the main configuration file "config.xml" ("XBMC/scripts/Rom Collection Browser/resources/database/config.xml"). Check configuration section for a sample configuration and to learn how to configure RCB or download Testdata.zip for a full running example
+  * Edit the main configuration file "config.xml" ("XBMC/scripts/Rom Collection Browser/resources/database/config.xml"). Check configuration section for a sample configuration and to learn how to configure RCB or download Testdata.zip for a full running example
 == Dharma ==
-  # Edit the main configuration file "config.xml" ("XBMC/addons/Rom Collection Browser/resources/database/config.xml"). Check configuration section for a sample configuration and to learn how to configure RCB or download Testdata.zip for a full running example
-  # Start XBMC and launch RCB
-  # RCB will notice that there is no database and asks you if you would like to import settings. If you have already edited config.xml click "Yes".
-  # If "Import Settings" was successful RCB will offer you to import games now. Click "Yes" to continue. Depending on your rom collections size this step can take some time.
+  * Edit the main configuration file "config.xml" ("XBMC/addons/Rom Collection Browser/resources/database/config.xml"). Check configuration section for a sample configuration and to learn how to configure RCB or download Testdata.zip for a full running example
+
+
+  * Start XBMC and launch RCB
+  * RCB will notice that there is no database and asks you if you would like to import settings. If you have already edited config.xml click "Yes".
+  * If "Import Settings" was successful RCB will offer you to import games now. Click "Yes" to continue. Depending on your rom collections size this step can take some time.
   
   
 = Setup RCB to use solo mode (shutdown XBMC before launching the emulator) =
-  # Linux only: make the file "XBMC/scripts/Rom Collection Browser/applaunch.sh" executable
-  # Check the path to your XBMC installation at the end of the file "XBMC/scripts/Rom Collection Browser/applaunch.bat" (Windows) or "XBMC/scripts/Rom Collection Browser/applaunch.sh" (Linux)
-  # Make sure that the user that launches XBMC has write access to XBMCs script directory. RCB tries to create an "autoexec.py" in this directory. Note: this is only needed in Camelot. The Dharma version writes this file to the userdata directory.
+  * Linux only: make the file "XBMC/scripts/Rom Collection Browser/applaunch.sh" executable
+  * Check the path to your XBMC installation at the end of the file "XBMC/scripts/Rom Collection Browser/applaunch.bat" (Windows) or "XBMC/scripts/Rom Collection Browser/applaunch.sh" (Linux)
+  * Make sure that the user that launches XBMC has write access to XBMCs script directory. RCB tries to create an "autoexec.py" in this directory. Note: this is only needed in Camelot. The Dharma version writes this file to the userdata directory.
 
 
 = Setup test scenario =
