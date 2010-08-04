@@ -28,12 +28,7 @@ Database file `"MyGames.db"` is not stored in RCBs database folder anymore. It c
 = First use =
 You will find the "XBMC" folder in your user environment. If you installed XBMC in portable mode, "XBMC" will be your installation directory.
 
-Camelot
-  * Edit the main configuration file "config.xml" ("XBMC/scripts/Rom Collection Browser/resources/database/config.xml"). Check configuration section for a sample configuration and to learn how to configure RCB or download Testdata.zip for a full running example
-Dharma
-  * Edit the main configuration file "config.xml" ("XBMC/addons/Rom Collection Browser/resources/database/config.xml"). Check configuration section for a sample configuration and to learn how to configure RCB or download Testdata.zip for a full running example
-
-Both
+  * Edit the main configuration file "config.xml". Camelot: "XBMC/scripts/Rom Collection Browser/resources/database/config.xml", Dharma: "XBMC/addons/Rom Collection Browser/resources/database/config.xml". Check configuration section for a sample configuration and to learn how to configure RCB or download Testdata.zip for a full running example
   * Start XBMC and launch RCB
   * RCB will notice that there is no database and asks you if you would like to import settings. If you have already edited config.xml click "Yes".
   * If "Import Settings" was successful RCB will offer you to import games now. Click "Yes" to continue. Depending on your rom collections size this step can take some time.
