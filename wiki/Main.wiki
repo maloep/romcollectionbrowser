@@ -24,10 +24,17 @@ You will find the "XBMC" folder in your user environment. If you installed XBMC 
 == Dharma RCB (0.5.3) ==
   * Go to XBMCs Addon Browser (System -> Add-ons -> Get Add-ons -> XBMC.org Add-ons -> Program Add-ons --> Rom Collection Browser)
   * Choose Install
-  * RCBs home directory is "XBMC/addons/Rom Collection Browser/"
+  * RCBs home directory is "XBMC/addons/script.games.rom.collection.browser/"
   
 Note: Directory changes in Dharma.
 Database file `"MyGames.db"` is not stored in RCBs database folder anymore. It can be found in your userdata folder in "addon_data/script.games.rom.collection.browser".
+
+Known issues (0.5.3 on some linux distributions):
+#. The program doesn't load on “No module named pysqlite2”
+Some linux distributions does not ship with prebuild pysqlite libraries. You have to get them on your own and copy them to: /usr/lib/xbmc/addons/script.module.pysqlite. You could download the Camelot RCB version for example. It includes the correct libraries (resources/platform_libraries/Linux).
+
+#. You get a "TypeError: XML File for Window is missing"
+Go to RCB home/resources/skins/Default/ and make a copy or symlink to the folder PAL and rename it to "720p".
 
 = First use =
   * Edit the main configuration file "config.xml" (Rom Collection Browser/resources/database/). Check configuration section for a sample configuration and to learn how to configure RCB or download Testdata.zip for a full running example
