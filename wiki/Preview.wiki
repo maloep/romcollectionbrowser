@@ -308,39 +308,39 @@ The parent that is associated with the image or video. Must be one of the follow
 ==== Rom Collection ====
 You need a `RomCollection` entry for every different Rom Collection. Different means: a different console, folder structure, description file, ... Everything that can't be done with one configuration entry.
 
-==== name ====
+===== name =====
 This is only used to distinguish rom collections.
 
-==== consoleName ====
+===== consoleName =====
 This will associate all games of the current rom collection with this console. It is important that you use the exact same name as in console configuration above.
 
-==== diskPrefix ====
+===== diskPrefix =====
 This is used to detect multi rom games. I don't want to show every rom file in th UI if they all belong to the same game. Second reason to use this property are emulators that support to load more than one file at once (like uae). I can't rely on file numbering because you will also have different releases for one game (Lemmings, Lemmings 2, Lemmings 3).
 
 If you use "`_Disk`" as diskPrefix and you have some rom files named "`Mygame.adf`", "`Mygame 2_Disk1.adf`" and "`Mygame 2_Disk2.adf`" this will be detected as two games "`Mygame`" and "`Mygame 2`" where "`Mygame 2`" consists of two rom files. In the UI you will see the "friendly" gamename "`Mygame 2`". If you have your emulatorCmd configured to support multiple rom files you can load both files at once (see explanation of parameter "emulatorCmd").
 
-==== descFilePerGame ====
+===== descFilePerGame =====
 There can be one big description file with descriptions for all games in it. Or you can have one description file per game. In the first case you must be sure that the game name in the description file matches exactly the name of your rom file (without disk prefix and extension) or that the crc value of the rom file matches the crc value inside the description file. In second case the gamename must be somewhere in the path of the property `descFilePath` (configuration of descFilePath should look like this: "/home/user/emu/Amiga/Collection V1/%GAME%/info.txt" or this: "/home/user/emu/Amiga/Collection V1/info/%GAME%.txt").
 
-==== descriptionParserFile ====
+===== descriptionParserFile =====
 Most rom collections that use game description files will have a different file format. I built a configurable parser that reads parse instructions from an xml file and tries to parse the game descriptions with these instructions. There can only be one description parser file per `RomCollection` entry. The format of the parser file is explained in section "parserConfig.xml".
 
-==== allowUpdate ====
+===== allowUpdate =====
 If set to "False" RCB won't update your already imported game descriptions. All additional files (e.g. screenshots) will be imported if not already in database.
 
-==== ignoreOnScan ====
+===== ignoreOnScan =====
 If set to "True" this `RomCollection` will be ignored completely during import. If you have all data for one `RomCollection` in database you can set this to "False" and there won't be any changes to this collection during the next imports.
 
-==== searchGameByCRC ====
+===== searchGameByCRC =====
 Set this option to "True" if you would like to search games in your description file by crc value. It needs some time to compute crc values for large rom files. You should set this option to "False" if you have large rom files (PS1 for example) and you don't use crc values in your description files.
 
-==== searchGameByCRCIgnoreRomName ====
+===== searchGameByCRCIgnoreRomName =====
 If you have games with the same rom file name but different crcs (and different game name inside your description file) you should set this option to "False". This will skip checking the rom file name.
 
-==== ignoreGameWithoutDesc ====
+===== ignoreGameWithoutDesc =====
 Set this to "True" if you don't want to import games without game description.
 
-==== romPath ====
+===== romPath =====
 The path to your rom files. This path should include wildcards and file extension (`*`.adf for example).
 
 You may use different paths and file extensions (.zip and .smc for example) for one collection.
@@ -351,7 +351,7 @@ Examples:
 
 /home/user/emu/SNES/Collection V3/roms/`*`.smc
 
-==== descFilePath ====
+===== descFilePath =====
 The path to the game description files. These files will be used to obtain additional information  about a game like genre, plot, publisher etc. Depending on the "`descFilePerGame`"-Parameter this should be the absolute path to one description file or a path using the %GAME%-placeholder. There can only be one descFilePath per `RomCollection`.
 
 Examples:
@@ -360,7 +360,7 @@ Examples:
 
 "/home/user/emu/Amiga/Collection V1/Info/all.txt"
 
-==== mediaPath ====
+===== mediaPath =====
 The path to your image or video files. There can be multiple `<mediaPath>` elements per `RomCollection`. Each element needs an attribute `type`. This type references the name of the configured `FileTypes`. All images or videos that match the given path will be imported and associated with the `FileType`. Types will also be used to configure the fileTypeFor...-elements (see next section).
 
 You can use multiple `<mediaPath>` entries with the same type to import from different locations or to configure different file extensions.
@@ -380,7 +380,7 @@ Examples:
 "/home/user/emu/publisherImgs/%PUBLISHER%.png"
 
 
-==== fileTypeFor... ====
+===== fileTypeFor... =====
 The fileTypeFor...-elements are used for dynamic image placing. With the fileTypeFor...-elements you can associate each of the available image controls with a specific media type. If you configure multiple fileTypeFor...-elements of the same type they will be used as fallback: if there is no image or video of file type 1, it will try to load an image or video of file type 2. The file types must exactly match the value of `type` attribute that you used for `mediaPath` and `FileType` configuration.
 
 In this example RCB will show your title screenshots as background image in the main window:
@@ -389,9 +389,6 @@ In this example RCB will show your title screenshots as background image in the 
 }}}
 
 See section "dynamic image placing" for a list of available image controls.
-
-
-
 
 
 === Stage Browsing and Displaying Games ===
@@ -415,6 +412,34 @@ If set to "True" RCB will save the current view state (selected filter criteria 
 
 ===== saveViewStateOnLaunchEmu =====
 If set to "True" RCB will save the current view state (selected filter criteria and focused control) and restores it when you launch it the next time. This option will be used when launching an emulator in "solo" mode.
+
+
+=== Stage Launching Games ===
+
+==== Rom Collection ====
+
+===== emulatorCmd =====
+This command will be invoked when you select a game. You can use the following placeholders in your commands:
+
+%ROM% will be replaced with the current file name
+
+%I% will be replaced with the zero-based index of the current rom file
+
+If the emulator supports multiple rom files (like uae) you can use {} for repeating parameters. In a command like "uae {-%I% "%ROM%"}" the part in the {} brackets will be repeated for any disk file of the game. For example if you have an amiga game (`MyGame`) that consists of 2 disk files the uae command at runtime will be: 
+{{{
+uae -0 "`MyGame_Disk1.adf`" -1 "`MyGame_Disk2.adf`".
+}}}
+
+===== useEmuSolo =====
+If set to "True" RCB will try to kill XBMC before starting the emulator. After exiting the emulator you will return to XBMC. If "False" the emulator will be launched while XBMC is running in the background.
+
+This mechanism invokes a batch (Windows) or bash (Linux) file. If you have problems with launching the emulator or returning to XBMC please check the commands in the file "applaunch.bat" (Windows) or "applaunch.sh" (Linux). You must be able to execute the command that is used to launch XBMC.
+
+When restarting XBMC RCB will try to create a file "autoexec.py" in XBMCs main script directory. This will be used by XBMC to launch RCB automatically after restarting. If you already use an "autoexec.py" RCB will try to backup your original file and restores it after restarting. Make sure that the user that runs XBMC has write access to XBMCs main script directory.
+
+===== escapeCommand =====
+This will escape the rom file names passed to the emulatorCmd. I did not have problems with using "True" in Linux and Windows. But maybe you can try to change this if you are running into problems with launching games.
+
 
 == dynamic image placing ==
 With the fileTypeFor...-elements you can define where to show which type of image or video.
@@ -453,39 +478,6 @@ http://romcollectionbrowser.googlecode.com/files/screenshot_dip_gd.jpg
   # fileTypeForGameInfoView3
   # fileTypeForGameInfoView4 - shared with fileTypeForGameInfoViewVideoWindow
 <br>
-
-
-
-
-=== Stage Launching Games ===
-
-=== Rom Collection ===
-You need a `RomCollection` entry for every different Rom Collection. Different means: a different console, folder structure, description file, ... Everything that can't be done with one configuration entry.
-
-
-
-==== emulatorCmd ====
-This command will be invoked when you select a game. You can use the following placeholders in your commands:
-
-%ROM% will be replaced with the current file name
-
-%I% will be replaced with the zero-based index of the current rom file
-
-If the emulator supports multiple rom files (like uae) you can use {} for repeating parameters. In a command like "uae {-%I% "%ROM%"}" the part in the {} brackets will be repeated for any disk file of the game. For example if you have an amiga game (`MyGame`) that consists of 2 disk files the uae command at runtime will be: 
-{{{
-uae -0 "`MyGame_Disk1.adf`" -1 "`MyGame_Disk2.adf`".
-}}}
-
-==== useEmuSolo ====
-If set to "True" RCB will try to kill XBMC before starting the emulator. After exiting the emulator you will return to XBMC. If "False" the emulator will be launched while XBMC is running in the background.
-
-This mechanism invokes a batch (Windows) or bash (Linux) file. If you have problems with launching the emulator or returning to XBMC please check the commands in the file "applaunch.bat" (Windows) or "applaunch.sh" (Linux). You must be able to execute the command that is used to launch XBMC.
-
-When restarting XBMC RCB will try to create a file "autoexec.py" in XBMCs main script directory. This will be used by XBMC to launch RCB automatically after restarting. If you already use an "autoexec.py" RCB will try to backup your original file and restores it after restarting. Make sure that the user that runs XBMC has write access to XBMCs main script directory.
-
-==== escapeCommand ====
-This will escape the rom file names passed to the emulatorCmd. I did not have problems with using "True" in Linux and Windows. But maybe you can try to change this if you are running into problems with launching games.
-
 
 
 == parserConfig.xml ==
