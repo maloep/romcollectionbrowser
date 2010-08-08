@@ -1,5 +1,5 @@
 
-import os, sys
+import os, sys, shutil
 import xbmc, xbmcgui
 import string, glob, time, array
 import getpass, ntpath, re
@@ -979,7 +979,8 @@ class UIGameDB(xbmcgui.WindowXML):
 			if(retSettings == True):
 				progressDialog = ProgressDialogGUI()
 				progressDialog.writeMsg("Import settings...", "", "")
-				importSuccessful, errorMsg = importsettings.SettingsImporter().importSettings(self.gdb, os.path.join(util.RCBHOME, 'resources', 'database'), progressDialog)
+				databaseDir = os.path.join(util.RCBHOME, 'resources', 'database')
+				importSuccessful, errorMsg = importsettings.SettingsImporter().importSettings(self.gdb, databaseDir, progressDialog)
 				# XBMC crashes on my Linux system without this line:
 				print('RCB INFO: Import done')
 				progressDialog.writeMsg("", "", "", -1)
@@ -989,6 +990,8 @@ class UIGameDB(xbmcgui.WindowXML):
 				if (not importSuccessful):
 					xbmcgui.Dialog().ok(util.SCRIPTNAME, errorMsg, 'See xbmc.log for details.')
 					return
+								
+				self.backupConfigXml(databaseDir)
 				
 				#reset log level
 				Logutil.currentLogLevel = None
@@ -1065,6 +1068,25 @@ class UIGameDB(xbmcgui.WindowXML):
 		self.gdb.commit()
 		
 		Logutil.log("End checkAutoExec" , util.LOG_LEVEL_INFO)		
+		
+		
+	def backupConfigXml(self, databaseDir):
+		#backup config.xml for later use (will be overwritten in case of an addon update)
+		configXml = os.path.join(databaseDir, 'config.xml')
+		configXmlBackup = os.path.join(util.getAddonDataPath(), 'config.xml.backup')
+		
+		if os.path.isfile(configXmlBackup):
+			try:
+				os.remove(configXmlBackup)
+			except Exception, (exc):
+				Logutil.log("Cannot remove config.xml backup: " +str(exc), util.LOG_LEVEL_ERROR)
+				return
+		
+		try:
+			shutil.copy(configXml, configXmlBackup)
+		except Exception, (exc):
+			Logutil.log("Cannot backup config.xml: " +str(exc), util.LOG_LEVEL_ERROR)
+			return
 		
 		
 	def saveViewState(self, isOnExit):
