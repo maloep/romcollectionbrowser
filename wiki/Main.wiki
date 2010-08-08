@@ -36,15 +36,15 @@ Some linux distributions don't ship with prebuild pysqlite libraries. You have t
 Go to RCB home/resources/skins/Default/ and make a copy or symlink to the folder PAL and rename it to "720p".
 
 = First use =
-  * Edit the main configuration file "config.xml" (Rom Collection Browser/resources/database/). Check configuration section for a sample configuration and to learn how to configure RCB or download Testdata.zip for a full running example
+  * Edit the main configuration file "config.xml" (RCB home/resources/database/). Check configuration section for a sample configuration and to learn how to configure RCB or download Testdata.zip for a full running example
   * Start XBMC and launch RCB
   * RCB will notice that there is no database and asks you if you would like to import settings. If you have already edited config.xml click "Yes".
   * If "Import Settings" was successful RCB will offer you to import games now. Click "Yes" to continue. Depending on your rom collections size this step can take some time.
   
   
 = Setup RCB to use solo mode (shutdown XBMC before launching the emulator) =
-  * Linux only: make the file "Rom Collection Browser/applaunch.sh" executable
-  * Check the path to your XBMC installation at the end of the file "Rom Collection Browser/applaunch.bat" (Windows) or "Rom Collection Browser/applaunch.sh" (Linux)
+  * Linux only: make the file "RCB home/applaunch.sh" executable
+  * Check the path to your XBMC installation at the end of the file "RCB home/applaunch.bat" (Windows) or "RCB home/applaunch.sh" (Linux)
   * Make sure that the user that launches XBMC has write access to XBMCs script directory. RCB tries to create an "autoexec.py" in this directory. Note: this is only needed in Camelot. The Dharma version writes this file to the userdata directory.
 
 
@@ -58,7 +58,7 @@ To show you how this script will work and how data should (could) be organized I
   # Go to the new Testdata folder
   # Edit "config_Windows.xml" or "config_Linux.xml": Replace every occurance of "PathToTestData" with the absolute path to your Testdata folder (e.g. "/home/user/Testdata V0.5" or "D:\Downloads\RCB\Testdata V0.5")
   # Rename "config_Windows.xml" or "config_Linux.xml" to "config.xml"
-  # Copy "config.xml" to "Rom Collection Browser/resources/database" (overwrite existing file)
+  # Copy "config.xml" to "RCB home/resources/database" (overwrite existing file)
   # Start xbmc and launch RCB
   # RCB will notice that there is no database and asks you if you would like to import settings. Click "Yes".
   # If "Import Settings" was successful RCB will offer you to import games now. Click "Yes" to continue.
@@ -68,8 +68,8 @@ Now you should be able to browse the games by filter criteria and watch all info
 If you want to launch roms with the test scenario you have to take these additional steps:
   # Go to your Testdata folder and replace the placeholder rom files with real ones (e.g. Testdata V0.5/Collection V1/roms/).
   # Edit the value of property "emulatorCmd". This command will be invoked when you launch a rom file. %ROM% will be replaced with the name of the rom file to be launched. If you have multiple rom files for one game %I% will be replaced with the (zero-based) index of the current file.
-  # Linux only: make the file "Rom Collection Browser/applaunch.sh" executable
-  # Check the path to your XBMC installation at the end of the file "Rom Collection Browser/applaunch.bat" (Windows) or "Rom Collection Browser/applaunch.sh" (Linux)
+  # Linux only: make the file "RCB home/applaunch.sh" executable
+  # Check the path to your XBMC installation at the end of the file "RCB home/applaunch.bat" (Windows) or "RCB home/applaunch.sh" (Linux)
   # Make sure that the user that launches XBMC has write access to XBMCs script directory. RCB tries to create an "autoexec.py" in this directory
 
   
@@ -88,7 +88,7 @@ To exit the script or to leave the details page just press "Esc" (or BACK-Button
 RCB will scan your rom folders and data folders and imports all game relevant data. To get this job done you have to tell it where to search and what to search for. At the moment this is done via xml configuration file. In a later release this could be done via settings page.
 
 === Import Settings ===
-Configuration information must be stored in database before you can start scanning rom folders. Import settings means that information from your configuration file "Rom Collection Browser/resources/database/config.xml" will be written to database "MyGames.db". The format of this configuration file is explained in a later section.
+Configuration information must be stored in database before you can start scanning rom folders. Import settings means that information from your configuration file "RCB home/resources/database/config.xml" will be written to database "MyGames.db". The format of this configuration file is explained in a later section.
 
 If you want to make changes to the configuration just edit the xml file an click "Import Settings" again. You have to import settings every time you make changes to your configuration (this doesn't touch any already imported game data).
 
@@ -122,7 +122,7 @@ If you have a Game "Mygame" its rom file may be named "Mygame.adf" (adf = amiga 
 "/home/user/emu/amiga/screens/%GAME%.png" (will import the file "Mygame.png" in folder "screens")
 
 == config.xml ==
-This is the main configuration file. You can find it here: "Rom Collection Browser/resources/database/config.xml" (create it, if it is not there).
+This is the main configuration file. You can find it here: "RCB home/resources/database/config.xml" (create it, if it is not there).
 
 An example file could look like this (1 Amiga and 1 SNES collection):
 
