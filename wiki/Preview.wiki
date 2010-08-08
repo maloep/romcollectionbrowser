@@ -2,50 +2,45 @@
 
 
 = Introduction =
-With this XBMC script you can browse and launch your roms. Point it to your rom folders and locally stored data (screenshots, description files, videos, ...) and it will import all information to its database. Afterwards you can browse games by filter criteria (console, genre, release year, publisher), show some extra information and invoke an external emulator to play the selected rom file.
+With this XBMC script you can browse and launch emulator roms and standalone games (Windows, Linux and Xbox). Configure the paths to your rom folders and additional data (screenshots, description files, videos, ...) and it will import all information to its database. Afterwards you can browse games and extra information by filter criteria (console, genre, release year, publisher) and invoke an external emulator to play the selected rom file.
 
-RCB can parse simple text files with additional game information like genre, publisher, developer, release year, etc. To support different description file formats you can configure the behaviour of the parser with an xml configuration file. Have a look at the "parserConfig.xml"-section of this wiki for more information. In the Testdata.zip you will also find some sample description files with matching parser configurations.
-
-The UI of RCB should be highly configurable, too. There are lots of different rom collections out there and you should be able to configure the presentation of your own set as good as possible. Some collections come with 1 action screenshot per game, other collections provide several different images and even videos. Thats why I implemented "dynamic image placing" that allows you to configure where to show what type of image.
+RCB will parse simple text files with additional game information like genre, publisher, developer, release year, etc. To support different description file formats you can configure the behaviour of the parser with an xml configuration file. Have a look at the "parserConfig.xml"-section of this wiki for more information. In the Testdata.zip you will also find some sample description files with matching parser configurations.
 
 It is a good idea to start with the test scenario. It will only take two minutes to set up and you will see how RCB can look like and get a first impression how things can be configured. Most options should be self explanating. If you have any problems or questions check this wiki or ask in the XBMC forum thread.
 
 Before you can launch games with RCB you have to download, install and configure one or more emulators. Find out how to launch your emulator via command line. You will need this information to launch the emulator with RCB.
 
 = Installation =
-You will find the "XBMC" folder in your user environment. If you installed XBMC in portable mode, "XBMC" will be your installation directory.
+Note: You will find the "XBMC" folder in your user environment. If you installed XBMC in portable mode, "XBMC" will be your installation directory.
 
 == Camelot (RCB V0.5) ==
   * Download "Rom Collection Browser V0.5.zip (http://romcollectionbrowser.googlecode.com/files/Rom%20Collection%20Browser%20V0.5.zip)
   * Unzip it to your XBMC scripts folder
-  * RCBs home directory is "XBMC/scripts/Rom Collection Browser/"
+  * RCBs home directory is "XBMC/scripts/Rom Collection Browser/" (called "RCB home" in the rest of the wiki)
 
 == Dharma RCB (0.5.3) ==
   * Go to XBMCs Addon Browser (System -> Add-ons -> Get Add-ons -> XBMC.org Add-ons -> Program Add-ons --> Rom Collection Browser)
   * Choose Install
-  * RCBs home directory is "XBMC/addons/script.games.rom.collection.browser/"
+  * RCBs home directory is "XBMC/addons/script.games.rom.collection.browser/" (called "RCB home" in the rest of the wiki)
   
 Note: Directory changes in Dharma.
 Database file `"MyGames.db"` is not stored in RCBs database folder anymore. It can be found in your userdata folder in "addon_data/script.games.rom.collection.browser".
 
 
-Known issues (0.5.3 on some linux distributions):
-  *. The program doesn't load on “No module named pysqlite2”
+Known issues (Linux only):
+  * The program doesn't load on “No module named pysqlite2”
 Some linux distributions does not ship with prebuild pysqlite libraries. You have to get them on your own and copy them to: /usr/lib/xbmc/addons/script.module.pysqlite. You could download the Camelot RCB version for example. It includes the correct libraries (resources/platform_libraries/Linux).
 
-  *. You get a "TypeError: XML File for Window is missing"
-Go to RCB home/resources/skins/Default/ and make a copy or symlink to the folder PAL and rename it to "720p".
-
 = First use =
-  * Edit the main configuration file "config.xml" (Rom Collection Browser/resources/database/). Check configuration section for a sample configuration and to learn how to configure RCB or download Testdata.zip for a full running example
+  * Edit the main configuration file "config.xml" (RCB home/resources/database/). Check configuration section for a sample configuration and to learn how to configure RCB. Or download Testdata.zip for a full running example
   * Start XBMC and launch RCB
   * RCB will notice that there is no database and asks you if you would like to import settings. If you have already edited config.xml click "Yes".
   * If "Import Settings" was successful RCB will offer you to import games now. Click "Yes" to continue. Depending on your rom collections size this step can take some time.
   
   
 = Setup RCB to use solo mode (shutdown XBMC before launching the emulator) =
-  * Linux only: make the file "Rom Collection Browser/applaunch.sh" executable
-  * Check the path to your XBMC installation at the end of the file "Rom Collection Browser/applaunch.bat" (Windows) or "Rom Collection Browser/applaunch.sh" (Linux)
+  * Linux only: make the file "RCB home/applaunch.sh" executable
+  * Check the path to your XBMC installation at the end of the file "RCB home/applaunch.bat" (Windows) or "RCB home/applaunch.sh" (Linux)
   * Make sure that the user that launches XBMC has write access to XBMCs script directory. RCB tries to create an "autoexec.py" in this directory. Note: this is only needed in Camelot. The Dharma version writes this file to the userdata directory.
 
 
@@ -59,7 +54,7 @@ To show you how this script will work and how data should (could) be organized I
   # Go to the new Testdata folder
   # Edit "config_Windows.xml" or "config_Linux.xml": Replace every occurance of "PathToTestData" with the absolute path to your Testdata folder (e.g. "/home/user/Testdata V0.5" or "D:\Downloads\RCB\Testdata V0.5")
   # Rename "config_Windows.xml" or "config_Linux.xml" to "config.xml"
-  # Copy "config.xml" to "Rom Collection Browser/resources/database" (overwrite existing file)
+  # Copy "config.xml" to "RCB home/resources/database" (overwrite existing file)
   # Start xbmc and launch RCB
   # RCB will notice that there is no database and asks you if you would like to import settings. Click "Yes".
   # If "Import Settings" was successful RCB will offer you to import games now. Click "Yes" to continue.
@@ -69,8 +64,8 @@ Now you should be able to browse the games by filter criteria and watch all info
 If you want to launch roms with the test scenario you have to take these additional steps:
   # Go to your Testdata folder and replace the placeholder rom files with real ones (e.g. Testdata V0.5/Collection V1/roms/).
   # Edit the value of property "emulatorCmd". This command will be invoked when you launch a rom file. %ROM% will be replaced with the name of the rom file to be launched. If you have multiple rom files for one game %I% will be replaced with the (zero-based) index of the current file.
-  # Linux only: make the file "Rom Collection Browser/applaunch.sh" executable
-  # Check the path to your XBMC installation at the end of the file "Rom Collection Browser/applaunch.bat" (Windows) or "Rom Collection Browser/applaunch.sh" (Linux)
+  # Linux only: make the file "RCB home/applaunch.sh" executable
+  # Check the path to your XBMC installation at the end of the file "RCB home/applaunch.bat" (Windows) or "RCB home/applaunch.sh" (Linux)
   # Make sure that the user that launches XBMC has write access to XBMCs script directory. RCB tries to create an "autoexec.py" in this directory
 
   
@@ -89,7 +84,7 @@ To exit the script or to leave the details page just press "Esc" (or BACK-Button
 RCB will scan your rom folders and data folders and imports all game relevant data. To get this job done you have to tell it where to search and what to search for. At the moment this is done via xml configuration file. In a later release this could be done via settings page.
 
 === Import Settings ===
-Configuration information must be stored in database before you can start scanning rom folders. Import settings means that information from your configuration file "Rom Collection Browser/resources/database/config.xml" will be written to database "MyGames.db". The format of this configuration file is explained in a later section.
+Configuration information must be stored in database before you can start scanning rom folders. Import settings means that information from your configuration file "RCB home/resources/database/config.xml" will be written to database "MyGames.db". The format of this configuration file is explained in a later section.
 
 If you want to make changes to the configuration just edit the xml file an click "Import Settings" again. You have to import settings every time you make changes to your configuration (this doesn't touch any already imported game data).
 
@@ -122,163 +117,300 @@ If you have a Game "Mygame" its rom file may be named "Mygame.adf" (adf = amiga 
 "/home/user/emu/amiga/screens/%GAME%.png" (will import the file "Mygame.png" in folder "screens")
 
 == config.xml ==
-This is the main configuration file. You can find it here: "Rom Collection Browser/resources/database/config.xml" (create it, if it is not there).
+This is the main configuration file. You can find it here: "RCB home/resources/database/config.xml" (create it, if it is not there).
 
 An example file could look like this (1 Amiga and 1 SNES collection):
 
 {{{
+
+<!--
+Rom Collection Browser V0.6	
+13.06.2010
+	
+This is a commented version of RCB's config file. The first Rom Collection in this file is just an example collection that will be ignored during import (if you don't change the value of ignoreOnScan).
+
+If you make changes to this file you need to "Import Settings". Some settings also require to "Import Games" again.
+
+There are three stages where RCB reads its settings: Importing Games, Browsing and Displaying Games, Launching Games. You only need to "Import Games" again if you make changes to settings that address the "Importing Games" stage.
+
+Most settings have a default value. If you delete a setting, the default value will be used.
+
+See http://code.google.com/p/romcollectionbrowser for latest version and full documentation
+-->
+
 <config>
-	<RCBSettings>		
+	<RCBSettings>
+		
+		<!-- 
+			Stage: Browsing and Displaying Games (no need to Import Games after changing these values) 
+		-->
+		
+		<!-- showEntryAllConsoles: You can set this property to "False" to remove the entry "All" from the Console filter list. default value: True -->
 		<showEntryAllConsoles>True</showEntryAllConsoles>
+		<!-- showEntryAllGenres: You can set this property to "False" to remove the entry "All" from the Genre filter list. default value: True -->
 		<showEntryAllGenres>True</showEntryAllGenres>
+		<!-- showEntryAllYears: You can set this property to "False" to remove the entry "All" from the Year filter list. default value: True -->
 		<showEntryAllYears>True</showEntryAllYears>
+		<!-- showEntryAllPublisher: You can set this property to "False" to remove the entry "All" from the Publisher filter list. default value: True -->
 		<showEntryAllPublisher>True</showEntryAllPublisher>
+		<!-- showEntryAllChars: You can set this property to "False" to remove the entry "All" from the A-Z filter list. default value: True -->
+		<showEntryAllChars>True</showEntryAllChars>
+		<!-- saveViewStateOnExit: save and restore current view state (selected filter criteria, focused control, ...) when exiting RCB. default value: True -->
 		<saveViewStateOnExit>True</saveViewStateOnExit>
+		<!-- saveViewStateOnLaunchEmu: save and restore current view state when launching a game. default value: True -->
 		<saveViewStateOnLaunchEmu>True</saveViewStateOnLaunchEmu>
+		<!-- preventUnfilteredSearch: This will prevent RCB from showing ALL your roms without any filter criteria. default value: False -->
+		<preventUnfilteredSearch>False</preventUnfilteredSearch>
+		<!-- logLevel: Set log level to ERROR, WARNING, INFO or DEBUG. default value: WARNING -->
+		<logLevel>WARNING</logLevel>
+		<!-- cachingOption: controls RCBs caching behaviour. Allowed values: CACHEALL, CACHEITEM, CACHEITEMANDNEXT. default value: CACHEITEMANDNEXT -->
+		<!-- CACHEALL: loads and caches all media files at startup. best for large rom collections on fast PCs with enough RAM. Scrolling down the game list may be a bit slower. -->
+		<!-- CACHEITEM: loads only the media files shown in the game list when the game list is built. All extra info will be loaded when a game is selected.
+						best for slow PCs with little RAM or xbox. Fast list scrolling is possible -->
+		<!-- CACHEITEMANDNEXT: sames as CACHEITEM. This will also load the media files and description for the item before and after the selected one. 
+								This will reduce flickering while browsing the game list. -->
+		<cachingOption>CACHEITEMANDNEXT</cachingOption>
 	</RCBSettings>
-	<Consoles>		
+	
+	<!-- 
+		Stage: Importing Games (You need to Import Games after changing these values) 
+	-->
+	
+	<!-- You must add every console you want to emulate here. Just set a unique name, it will be referenced later. No default values here. -->
+	<Consoles>				
 		<Console>
 			<name>Amiga</name>			
 		</Console>
 		<Console>
 			<name>Super Nintendo</name>			
 		</Console>
+		<Console>
+			<name>Xbox</name>
+		</Console>
 	</Consoles>
-	<FileTypes>
+	
+	<!-- 
+		Stage: Importing Games (You need to Import Games after changing these values)
+		FileTypes will also be used in Stage "Browsing and Displaying Games"
+	-->
+	
+	<!-- With FileTypes you can define your own image or video categories. All imported images or videos will be associated with this FileType. -->
+	<FileTypes>			
 		<FileType>
+			<!-- name: The name is referenced as type in mediaPath and fileTypeFor...-elements. No default value -->
 			<name>cover</name>
+			<!-- type: Must be "image" or "video" -->
+			<type>image</type>
+			<!-- parent: The parent that is associated with the imported file. Allowed values: game, console, developer, publisher, romcollection. -->
+			<parent>game</parent>
+		</FileType>				
+		<FileType>
+			<name>title</name>
 			<type>image</type>
 			<parent>game</parent>
 		</FileType>
 		<FileType>
-			<name>screenshotingame</name>
+			<name>action</name>
 			<type>image</type>
 			<parent>game</parent>
-		</FileType>		
-		<FileType>
-			<name>screenshottitle</name>
-			<type>image</type>
-			<parent>game</parent>
-		</FileType> 		
+		</FileType>
 		<FileType>
 			<name>cartridge</name>
 			<type>image</type>
-			<parent>game</parent>
-		</FileType> 		
-		<FileType>
-			<name>3dbox</name>
-			<type>image</type>
-			<parent>game</parent>
-		</FileType> 		
-		<FileType>
-			<name>gameplay</name>
-			<type>video</type>
 			<parent>game</parent>
 		</FileType>
 		<FileType>
 			<name>console</name>
 			<type>image</type>
-			<parent>console</parent>
+			<parent>game</parent>
 		</FileType>
 		<FileType>
-			<name>developer</name>
-			<type>image</type>
-			<parent>developer</parent>
-		</FileType>
-		<FileType>
-			<name>publisher</name>
-			<type>image</type>
-			<parent>publisher</parent>
-		</FileType>
-		<FileType>
-			<name>romcollection</name>
-			<type>image</type>
-			<parent>romcollection</parent>
-		</FileType>
+			<name>gameplay</name>
+			<type>video</type>
+			<parent>game</parent>
+		</FileType>		
 	</FileTypes>
-	<RomCollections>
-		<RomCollection>			
+	
+	<!-- RomCollection configuration is used in all three stages.  -->
+	<RomCollections>			
+		<RomCollection>
+			
+			<!-- 
+				Stage: Importing Games (You need to Import Games after changing these values) 
+			-->
+			
+			<!-- name: only used to distinguish rom collections.  -->
 			<name>Collection V1</name>
+			<!-- consoleName: will associate all games of the rom collection with this console. Use the exact same name as in console configuration above. -->
 			<consoleName>Amiga</consoleName>
-			<emulatorCmd>uae {-%I% "%ROM%"}</emulatorCmd>
-			<useEmuSolo>True</useEmuSolo>
-			<escapeCommand>True</escapeCommand>						
+			<!-- romPath: The path where RCB will search your roms. You can use this property several times. RCB will also search in all sub directories -->
+			<romPath>TestDataBase\Collection V1\roms\*.adf</romPath>
+			<!-- descFilePerGame: True: Use one description file per game, False: use one big file with descriptions for all games. default value: False -->
 			<descFilePerGame>False</descFilePerGame>
-			<descriptionParserFile>PathToTestData/Collection V1/parserConfig.xml</descriptionParserFile>
-			<diskPrefix>_Disk</diskPrefix>			
+			<!-- descriptionParserFile: path to your xml file that tells RCB how to parse your game descriptions -->
+			<descriptionParserFile>TestDataBase\Collection V1\parserConfig.xml</descriptionParserFile>
+			<!-- descFilePath: path to your description file. May contain %GAME% as placeholder if you have one desc file per game. -->
+			<descFilePath>TestDataBase\Collection V1\synopsis\synopsis.txt</descFilePath>			
+			<!-- diskPrefix: Disk prefix will be removed when detecting the game name: "MyGame_Disk2.adf" will be "MyGame". default value: "_Disk" -->
+			<diskPrefix>_Disk</diskPrefix>
+			<!-- allowUpdate: If set to "False" RCB won't update already imported game descriptions but will add additional media files. default value: True -->
 			<allowUpdate>True</allowUpdate>
-			<ignoreOnScan>False</ignoreOnScan>
+			<!-- ignoreOnScan: If set to "True" this RomCollection will be ignored completely during import. default value: False -->
+			<ignoreOnScan>True</ignoreOnScan>
+			<!-- searchGameByCRC: Compute a crc value for each rom file and search for this value in the description file. default value: True -->
 			<searchGameByCRC>True</searchGameByCRC>
+			<!-- searchGameByCRCIgnoreRomName: If set to "True" RCB won't try to find game via rom filename. default value: False -->
 			<searchGameByCRCIgnoreRomName>False</searchGameByCRCIgnoreRomName>
-			<ignoreGameWithoutDesc>True</ignoreGameWithoutDesc>
-			<romPath>PathToTestData/Collection V1/roms/*.adf</romPath>
-			<romPath>PathToTestData/Collection V1/roms/*.ADF</romPath>
-			<descFilePath>PathToTestData/Collection V1/synopsis/synopsis.txt</descFilePath>			
-			<mediaPath type="cover">PathToTestData/Collection V1/cover/%GAME%.jpg</mediaPath>			
-			<mediaPath type="screenshotingame">PathToTestData/Collection V1/screens/%GAME%.jpg</mediaPath>			
-			<mediaPath type="console">PathToTestData/pics/console/%CONSOLE%.png</mediaPath>			
-			<mediaPath type="developer">PathToTestData/pics/developer/%DEVELOPER%.png</mediaPath>			
-			<mediaPath type="publisher">PathToTestData/pics/publisher/%PUBLISHER%.png</mediaPath>
-			<mediaPath type="romcollection">PathToTestData/pics/romCollection/joystick.png</mediaPath>
+			<!-- useFoldernameAsCRC: Compare the crc in the description file with the foldername of the current rom file. default value: False -->
+			<useFoldernameAsCRC>False</useFoldernameAsCRC>
+			<!-- useFilenameAsCRC: Compare the crc in the description file with the filename (without extension) of the current rom file. default value: False -->
+			<useFilenameAsCRC>False</useFilenameAsCRC>
+			<!-- ignoreGameWithoutDesc: Don't import games if no description was found. default value: False -->
+			<ignoreGameWithoutDesc>False</ignoreGameWithoutDesc>	
+			
+			<!-- mediaPath: The path to your image or video files. Attribute "type" references the name of the configured FileTypes. -->
+			<!-- You can use placeholders in the value: %GAME%, %CONSOLE%, %PUBLISHER%, %DEVELOPER%  -->			
+			<mediaPath type="cover">TestDataBase\Collection V1\cover\%GAME%.jpg</mediaPath>			
+			<mediaPath type="title">TestDataBase\Collection V1\titles\%GAME%.jpg</mediaPath>
+			<mediaPath type="action">TestDataBase\Collection V1\action\%GAME%.jpg</mediaPath>
+			<mediaPath type="gameplay">TestDataBase\Collection V1\movies\%GAME%.wmv</mediaPath>
+			
+			<!-- 
+				Stage: Browsing and Displaying Games (no need to Import Games after changing these values) 
+			-->
+			
+			<!-- fileTypeFor...-elements: used for dynamic image placing. Associates configured FileTypes with available image controls. -->
+			<!-- See http://code.google.com/p/romcollectionbrowser/wiki/Main#dynamic_image_placing for screenshots and complete documentation-->
+			
+			<!-- Main view -->
+			<!-- fileTypeForGameList: The gamelist in Info and Thumbs view (non-selected items) -->
 			<fileTypeForGameList>cover</fileTypeForGameList>
-			<fileTypeForGameListSelected>cover</fileTypeForGameListSelected>			
-			<fileTypeForMainView1>console</fileTypeForMainView1>
-			<fileTypeForMainView3>romcollection</fileTypeForMainView3>			
-			<fileTypeForMainViewBackground>cover</fileTypeForMainViewBackground>
-			<fileTypeForMainViewGameInfoBig>screenshotingame</fileTypeForMainViewGameInfoBig>
+			<!-- fileTypeForGameListSelected: The gamelist in Info and Thumbs view (selected items) -->
+			<fileTypeForGameListSelected>title</fileTypeForGameListSelected>
+			<!-- fileTypeForGameInfoViewBackground: background image (all views) -->
+			<fileTypeForGameInfoViewBackground>title</fileTypeForGameInfoViewBackground>
+			<!-- You can use more than one entry of the same type. This will be used as fallback if the first image is not available -->
+			<fileTypeForGameInfoViewBackground>cover</fileTypeForGameInfoViewBackground>
+			<!-- fileTypeForMainViewGameInfoUpperLeft: upper left image in Info and Info 2 view -->
+			<fileTypeForMainViewGameInfoUpperLeft>title</fileTypeForMainViewGameInfoUpperLeft>
+			<!-- fileTypeForMainViewGameInfoUpperRight: upper right image in Info and Info 2 view -->
+			<fileTypeForMainViewGameInfoUpperRight>action</fileTypeForMainViewGameInfoUpperRight>
+			<!-- fileTypeForMainViewGameInfoLowerLeft: lower left image in Info and Info 2 view -->
+			<fileTypeForMainViewGameInfoLowerLeft>cover</fileTypeForMainViewGameInfoLowerLeft>
+			<!-- fileTypeForMainViewGameInfoLowerRight: lower right image in Info and Info 2 view (may be hidden by fileTypeForMainViewVideoWindowSmall) -->
+			<fileTypeForMainViewGameInfoLowerRight>cartridge</fileTypeForMainViewGameInfoLowerRight>
+			<!-- fileTypeForMainViewVideoWindowSmall: same place as lower right image in Info and Info 2 view. Will hide image control if a video is present. -->
+			<fileTypeForMainViewVideoWindowSmall>gameplay</fileTypeForMainViewVideoWindowSmall>
+			
+			<!-- fileTypeForMainViewGameInfoBig: Use one big image instead of 4 small images in Info and Info 2 view (alternative to UpperLeft, LowerRight, ...) -->
+			<fileTypeForMainViewGameInfoBig>action</fileTypeForMainViewGameInfoBig>
+			<!-- fileTypeForMainViewVideoWindowBig: same place as GameInfoBig in Info and Info 2 view. Will hide image control if a video is present. -->
+			<fileTypeForMainViewVideoWindowBig>gameplay</fileTypeForMainViewVideoWindowBig>
+
+			<!-- fileTypeForMainViewFullscreenVideo: use this filetype to show fullscreen video -->
+			<fileTypeForMainViewFullscreenVideo>gameplay</fileTypeForMainViewFullscreenVideo>
+						
+			<!-- fileTypeForMainView1: small icon to show some extra info (all views) -->
+			<fileTypeForMainView1>cover</fileTypeForMainView1>
+			<!-- fileTypeForMainView2: small icon to show some extra info (all views). If empty, RCB will show the console name at this place -->
+			<fileTypeForMainView2>cover</fileTypeForMainView2>
+			<!-- fileTypeForMainView3: small icon to show some extra info (all views) -->
+			<fileTypeForMainView3>cover</fileTypeForMainView3>
+						
+			<!-- Game details page (accessable via Info button) -->
+			<!-- fileTypeForGameInfoViewBackground: background image -->
+			<fileTypeForGameInfoViewBackground>title</fileTypeForGameInfoViewBackground>			
+			<!-- fileTypeForGameInfoViewGamelist: small images in the upper left and right corner -->
+			<fileTypeForGameInfoViewGamelist>boxfront</fileTypeForGameInfoViewGamelist>
+			<!-- fileTypeForGameInfoView1: four images in a row -->
+			<fileTypeForGameInfoView1>title</fileTypeForGameInfoView1>
+			<!-- fileTypeForGameInfoView2: four images in a row -->
+			<fileTypeForGameInfoView2>action</fileTypeForGameInfoView2>
+			<!-- fileTypeForGameInfoView3: four images in a row -->
+			<fileTypeForGameInfoView3>boxfront</fileTypeForGameInfoView3>
+			<!-- fileTypeForGameInfoView4: four images in a row. May be hidden by fileTypeForGameInfoViewVideoWindow -->
+			<fileTypeForGameInfoView4>cartridge</fileTypeForGameInfoView4>
+			<!-- fileTypeForGameInfoViewVideoWindow: same place as GameInfoView4. Will hide image control if a video is present. -->
+			<fileTypeForGameInfoViewVideoWindow>gameplay</fileTypeForGameInfoViewVideoWindow>
+			
+			
+			<!-- 
+				Stage: Launching Games (no need to Import Games after changing these values)
+			-->
+			
+			<!-- emulatorCmd: the command that is used to launch your emulator. -->
+			<!-- %ROM% will be replaced with the current file name. %I% will be replaced with the zero-based index of the current rom file  -->
+			<emulatorCmd>E:\Emulatoren\WINUAE\winuae.exe {-%I% "%ROM%"}</emulatorCmd>
+			<!-- useEmuSolo: If set to "True" RCB will try to shutdown XBMC before starting the emulator. Otherwise XBMC will be minimized. -->
+			<useEmuSolo>True</useEmuSolo>
+			<!-- escapeCommand: will escape the rom file names passed to the emulatorCmd -->
+			<escapeCommand>True</escapeCommand>	
+			<!-- xboxCreateShortcut: used on xbox only. You can ignore it on other systems -->
+			<xboxCreateShortcut>True</xboxCreateShortcut>
+			<!-- xboxCreateShortcutAddRomfile: used on xbox only. You can ignore it on other systems -->
+			<xboxCreateShortcutAddRomfile>True</xboxCreateShortcutAddRomfile>
+			<!-- xboxCreateShortcutUseShortGamename: used on xbox only. You can ignore it on other systems -->
+			<xboxCreateShortcutUseShortGamename>True</xboxCreateShortcutUseShortGamename>
+		</RomCollection>
+		
+		<!-- example Amiga configuration: 2 images, description files per game, no video--> 
+		<RomCollection>			
+			<name>Amiga</name>
+			<consoleName>Amiga</consoleName>
+			<emulatorCmd>E:\Emulatoren\WINUAE\winuae.exe {-%I% "%ROM%"}</emulatorCmd>
+			<useEmuSolo>True</useEmuSolo>			
+			<descFilePerGame>True</descFilePerGame>
+			<descriptionParserFile>PathToData\Amiga\parserConfig.xml</descriptionParserFile>						
+			<searchGameByCRC>False</searchGameByCRC>			
+			<ignoreGameWithoutDesc>False</ignoreGameWithoutDesc>
+			<romPath>PathToData\Amiga\roms\*.adf</romPath>			
+			<descFilePath>PathToData\Amiga\synopsis\%GAME%\synopsis.txt</descFilePath>			
+			<mediaPath type="cover">PathToData\Amiga\cover\%GAME%\*.jpg</mediaPath>			
+			<mediaPath type="action">PathToData\Amiga\screens\%GAME%\*.jpg</mediaPath>			
+			<fileTypeForGameList>cover</fileTypeForGameList>
+			<fileTypeForGameListSelected>cover</fileTypeForGameListSelected>
+			<fileTypeForMainViewGameInfoBig>action</fileTypeForMainViewGameInfoBig>		
 			<fileTypeForGameInfoViewBackground>cover</fileTypeForGameInfoViewBackground>
 			<fileTypeForGameInfoViewGamelist>cover</fileTypeForGameInfoViewGamelist>			
-			<fileTypeForGameInfoView1>console</fileTypeForGameInfoView1>
-			<fileTypeForGameInfoView2>screenshotingame</fileTypeForGameInfoView2>
-			<fileTypeForGameInfoView3>cover</fileTypeForGameInfoView3>
-			<fileTypeForGameInfoView4>developer</fileTypeForGameInfoView4>			
-		</RomCollection>				
+			<fileTypeForGameInfoView2>action</fileTypeForGameInfoView2>
+			<fileTypeForGameInfoView3>cover</fileTypeForGameInfoView3>			
+		</RomCollection>
+
+		<!-- example Super Nintendo configuration: 4 images, one description file for all games, 1 video, 1 console image -->
 		<RomCollection>			
-			<name>Collection V3</name>
+			<name>SNES</name>
 			<consoleName>Super Nintendo</consoleName>
-			<emulatorCmd>zsnes -m "%ROM%"</emulatorCmd>
-			<useEmuSolo>True</useEmuSolo>
-			<escapeCommand>True</escapeCommand>			
+			<emulatorCmd>E:\Emulatoren\SNES\zsnes.exe -m "%ROM%"</emulatorCmd>
+			<useEmuSolo>True</useEmuSolo>						
 			<descFilePerGame>False</descFilePerGame>
-			<descriptionParserFile>PathToTestData/Collection V3/parserConfig.xml</descriptionParserFile>
-			<diskPrefix>_Disk</diskPrefix>			
-			<allowUpdate>True</allowUpdate>
-			<ignoreOnScan>False</ignoreOnScan>
+			<descriptionParserFile>PathToData\SNES\parserConfig.xml</descriptionParserFile>			
 			<searchGameByCRC>True</searchGameByCRC>
-			<searchGameByCRCIgnoreRomName>False</searchGameByCRCIgnoreRomName>
-			<ignoreGameWithoutDesc>False</ignoreGameWithoutDesc>
-			<romPath>PathToTestData/Collection V3/Roms/*.zip</romPath>
-			<romPath>PathToTestData/Collection V3/Roms/*.smc</romPath>
-			<descFilePath>PathToTestData/Collection V3/Synopsis/synopsis.txt</descFilePath>						
-			<mediaPath type="cover">PathToTestData/Collection V3/Artwork/Box Front/%GAME%.png</mediaPath>			
-			<mediaPath type="screenshotingame">PathToTestData/Collection V3/Artwork/Action/%GAME%.png</mediaPath>
-			<mediaPath type="screenshottitle">PathToTestData/Collection V3/Artwork/Title/%GAME%.png</mediaPath>			
-			<mediaPath type="cartridge">PathToTestData/Collection V3/Artwork/Cart/%GAME%.png</mediaPath>			
-			<mediaPath type="3dbox">PathToTestData/Collection V3/Artwork/3D Boxart/%GAME%.png</mediaPath>			
-			<mediaPath type="gameplay">PathToTestData/Collection V3/Movies/%GAME%.wmv</mediaPath>
-			<mediaPath type="console">PathToTestData/pics/console/%CONSOLE%.png</mediaPath>
-			<mediaPath type="developer">PathToTestData/pics/developer/%DEVELOPER%.jpg</mediaPath>			
-			<mediaPath type="publisher">PathToTestData/pics/publisher/%PUBLISHER%.jpg</mediaPath>			
-			<mediaPath type="romcollection">PathToTestData/pics/romCollection/gamepad.jpg</mediaPath>
-			<fileTypeForGameList>3dbox</fileTypeForGameList>
-			<fileTypeForGameListSelected>cover</fileTypeForGameListSelected>
-			<fileTypeForMainView1>developer</fileTypeForMainView1>			
-			<fileTypeForMainView3>publisher</fileTypeForMainView3>
-			<fileTypeForMainViewBackground>screenshottitle</fileTypeForMainViewBackground>			
-			<fileTypeForMainViewGameInfoUpperLeft>screenshottitle</fileTypeForMainViewGameInfoUpperLeft>
-			<fileTypeForMainViewGameInfoUpperRight>screenshotingame</fileTypeForMainViewGameInfoUpperRight>
+			<searchGameByCRCIgnoreRomName>True</searchGameByCRCIgnoreRomName>			
+			<romPath>PathToData\SNES\roms\*.zip</romPath>			
+			<descFilePath>PathToData\SNES\description\synopsis.txt</descFilePath>			
+			<mediaPath type="cover">PathToData\SNES\cover\%GAME%.jpg</mediaPath>			
+			<mediaPath type="action">PathToData\SNES\screens\%GAME%.jpg</mediaPath>						
+			<mediaPath type="title">PathToData\SNES\titles\%GAME%.jpg</mediaPath>						
+			<mediaPath type="cartridge">PathToData\SNES\cartridge\%GAME%.jpg</mediaPath>
+			<mediaPath type="gameplay">PathToData\SNES\ingameVids\%GAME%.wmv</mediaPath>
+			<mediaPath type="console">PathToData\consoleImages\%CONSOLE%.png</mediaPath>
+			<fileTypeForGameList>cover</fileTypeForGameList>
+			<fileTypeForGameListSelected>title</fileTypeForGameListSelected>			
+			<fileTypeForGameInfoViewBackground>title</fileTypeForGameInfoViewBackground>
+			<fileTypeForMainView1>console</fileTypeForMainView1>
+			<fileTypeForMainViewGameInfoUpperLeft>title</fileTypeForMainViewGameInfoUpperLeft>
+			<fileTypeForMainViewGameInfoUpperRight>action</fileTypeForMainViewGameInfoUpperRight>
 			<fileTypeForMainViewGameInfoLowerLeft>cover</fileTypeForMainViewGameInfoLowerLeft>
 			<fileTypeForMainViewGameInfoLowerRight>cartridge</fileTypeForMainViewGameInfoLowerRight>
-			<fileTypeForMainViewVideoWindowSmall>gameplay</fileTypeForMainViewVideoWindowSmall>
-			<fileTypeForGameInfoViewBackground>screenshottitle</fileTypeForGameInfoViewBackground>			
+			<fileTypeForMainViewVideoWindowSmall>gameplay</fileTypeForMainViewVideoWindowSmall>			
 			<fileTypeForGameInfoViewGamelist>cover</fileTypeForGameInfoViewGamelist>
-			<fileTypeForGameInfoView1>screenshottitle</fileTypeForGameInfoView1>
-			<fileTypeForGameInfoView2>screenshotingame</fileTypeForGameInfoView2>
+			<fileTypeForGameInfoView1>title</fileTypeForGameInfoView1>
+			<fileTypeForGameInfoView2>action</fileTypeForGameInfoView2>
 			<fileTypeForGameInfoView3>cover</fileTypeForGameInfoView3>
-			<fileTypeForGameInfoView4>cartridge</fileTypeForGameInfoView4>			
+			<fileTypeForGameInfoView4>cartridge</fileTypeForGameInfoView4>
 			<fileTypeForGameInfoViewVideoWindow>gameplay</fileTypeForGameInfoViewVideoWindow>
-		</RomCollection>		
-	</RomCollections>
+		</RomCollection>			
+	</RomCollections>	
 </config>
 
 }}}
