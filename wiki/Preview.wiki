@@ -311,10 +311,10 @@ Set this option to "True" if you would like to search games in your description 
 ===== searchGameByCRCIgnoreRomName =====
 If you have games with the same rom file name but different crcs (and different game name inside your description file) you should set this option to "False". This will skip checking the rom file name.
 
-===== new in 0.6.0: useFoldernameAsCRC =====
+===== useFoldernameAsCRC (new in 0.6.0) =====
 Compare the crc in the description file with the foldername of the current rom file.
 
-===== new in 0.6.0: useFilenameAsCRC =====
+===== useFilenameAsCRC (new in 0.6.0) =====
 Compare the crc in the description file with the filename (without extension) of the current rom file.
 
 
@@ -334,7 +334,7 @@ If you use "`_Disk`" as diskPrefix and you have some rom files named "`Mygame.ad
 
 == Browsing and displaying games ==
 
-=== Place your images ===
+=== dynamic image placing ===
 ==== Rom Collection ====
 ===== fileTypeFor... =====
 The fileTypeFor...-elements are used for dynamic image placing. With the fileTypeFor...-elements you can associate each of the available image controls in RCBs UI with a specific media type. If you configure multiple fileTypeFor...-elements of the same type they will be used as fallback: if there is no image or video of file type 1, it will try to load an image or video of file type 2. The file types must exactly match the value of `type` attribute that you used for `mediaPath` and `FileType` configuration.
@@ -344,7 +344,43 @@ In this example RCB will show your cover screenshots as background image in the 
 <fileTypeForMainViewBackground>cover</fileTypeForMainViewBackground>
 }}}
 
-See section "dynamic image placing" for a list of all available image controls.
+All available image placing options:
+
+==== Main Window ====
+http://romcollectionbrowser.googlecode.com/files/screenshot_dip_mv_info2_small.jpg
+
+  # fileTypeForMainViewGameInfoUpperLeft - not available in Thumbs view
+  # fileTypeForMainViewGameInfoUpperRight - not available in Thumbs view
+  # fileTypeForMainViewGameInfoLowerLeft - not available in Thumbs view
+  # fileTypeForMainViewGameInfoLowerRight - shared with fileTypeForMainViewVideoWindowSmall, not available in Thumbs view
+  # fileTypeForMainViewGameInfo1
+  # fileTypeForMainViewGameInfo2 - if empty, RCB will show the console name
+  # fileTypeForMainViewGameInfo3
+  # fileTypeForMainViewBackground
+<br>
+
+http://romcollectionbrowser.googlecode.com/files/screenshot_dip_mv_info_big.jpg
+
+  # fileTypeForMainViewGameInfoBig - shared with fileTypeForMainViewVideoWindowBig, not available in Thumbs view
+  # fileTypeForGameList - not available in Info 2 view
+  # fileTypeForGameListSelected - not available in Info 2 view
+  # fileTypeForMainViewGameInfo1
+  # fileTypeForMainViewGameInfo2 - if empty, RCB will show the console name
+  # fileTypeForMainViewGameInfo3
+  # fileTypeForMainViewBackground
+<br>
+
+==== Game Details ====
+http://romcollectionbrowser.googlecode.com/files/screenshot_dip_gd.jpg
+
+  # fileTypeForGameInfoViewGamelist
+  # fileTypeForGameInfoViewBackground
+  # fileTypeForGameInfoView1
+  # fileTypeForGameInfoView2
+  # fileTypeForGameInfoView3
+  # fileTypeForGameInfoView4 - shared with fileTypeForGameInfoViewVideoWindow
+<br>
+
 
 === Performance options (large collections or slow CPU/little RAM) ===
 ==== RCBSettings ====
@@ -362,8 +398,15 @@ You can set this property to "False" to remove the entry "All" from the Year fil
 ===== showEntryAllPublisher =====
 You can set this property to "False" to remove the entry "All" from the Publisher filter list.
 
-===== cachingOption =====
+===== showEntryAllChars (new in 0.6.0) =====
+You can set this property to "False" to remove the entry "All" from the A-Z filter list
 
+===== cachingOption (new in 0.6.0) =====
+Controls RCBs caching behaviour. Allowed values: CACHEALL, CACHEITEM, CACHEITEMANDNEXT.
+CACHEALL: loads and caches all media files at startup. Best for large rom collections on fast PCs with enough RAM. Scrolling down the game list may be a bit slower because XBMC renders all images that it passes by.
+CACHEITEM: loads only the media files shown in the game list when the game list is built. All extra info will be loaded when a game is selected.
+Best for slow PCs with little RAM or xbox. Fast list scrolling is possible because XBMC does not render all images. Game list flickers while browsing because every game info has to be loaded when a game is selected.
+CACHEITEMANDNEXT: same as CACHEITEM. This will also load the media files and description for the item before and after the selected one. This will reduce flickering while browsing the game list (if not browsing too fast).
 
 === Save viewstate ===
 ==== RCBSettings ====
@@ -398,45 +441,6 @@ When restarting XBMC RCB will try to create a file "autoexec.py" in XBMCs main s
 
 ==== escapeCommand ====
 This will escape the rom file names passed to the emulatorCmd. I did not have problems with using "True" in Linux and Windows. But maybe you can try to change this if you are running into problems with launching games.
-
-== dynamic image placing ==
-With the fileTypeFor...-elements you can define where to show which type of image or video.
-
-=== Main Window ===
-http://romcollectionbrowser.googlecode.com/files/screenshot_dip_mv_info2_small.jpg
-
-  # fileTypeForMainViewGameInfoUpperLeft - not available in Thumbs view
-  # fileTypeForMainViewGameInfoUpperRight - not available in Thumbs view
-  # fileTypeForMainViewGameInfoLowerLeft - not available in Thumbs view
-  # fileTypeForMainViewGameInfoLowerRight - shared with fileTypeForMainViewVideoWindowSmall, not available in Thumbs view
-  # fileTypeForMainViewGameInfo1
-  # fileTypeForMainViewGameInfo2 - if empty, RCB will show the console name
-  # fileTypeForMainViewGameInfo3
-  # fileTypeForMainViewBackground
-<br>
-
-http://romcollectionbrowser.googlecode.com/files/screenshot_dip_mv_info_big.jpg
-
-  # fileTypeForMainViewGameInfoBig - shared with fileTypeForMainViewVideoWindowBig, not available in Thumbs view
-  # fileTypeForGameList - not available in Info 2 view
-  # fileTypeForGameListSelected - not available in Info 2 view
-  # fileTypeForMainViewGameInfo1
-  # fileTypeForMainViewGameInfo2 - if empty, RCB will show the console name
-  # fileTypeForMainViewGameInfo3
-  # fileTypeForMainViewBackground
-<br>
-
-=== Game Details ===
-http://romcollectionbrowser.googlecode.com/files/screenshot_dip_gd.jpg
-
-  # fileTypeForGameInfoViewGamelist
-  # fileTypeForGameInfoViewBackground
-  # fileTypeForGameInfoView1
-  # fileTypeForGameInfoView2
-  # fileTypeForGameInfoView3
-  # fileTypeForGameInfoView4 - shared with fileTypeForGameInfoViewVideoWindow
-<br>
-
 
 
 == config.xml reference ==
