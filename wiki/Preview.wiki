@@ -142,6 +142,7 @@ The basic structure of RCBs config file looks like this:
 Most settings have a default value. If you don't use a setting in config.xml, RCB will work with a default value. See a list of all settings and default values in section "config.xml reference" (or in your commented config.xml in RCBs database directory).
 
 == Import games and media ==
+Note: All changes to settings in this stage require to "Import Games" again.
 
 === Basic configuration ===
 
@@ -193,21 +194,11 @@ Examples:
 /home/user/emu/SNES/Collection V3/roms/`*`.smc
 
 ===== emulatorCmd =====
-This command will be invoked when you select a game. You can use the following placeholders in your commands:
-
-%ROM% will be replaced with the current file name
-
-%I% will be replaced with the zero-based index of the current rom file
-
-If the emulator supports multiple rom files (like uae) you can use {} for repeating parameters. In a command like "uae {-%I% "%ROM%"}" the part in the {} brackets will be repeated for any disk file of the game. For example if you have an amiga game (`MyGame`) that consists of 2 disk files the uae command at runtime will be: 
-{{{
-uae -0 "`MyGame_Disk1.adf`" -1 "`MyGame_Disk2.adf`".
-}}}
-
+emulatorCmd belongs to the stage "Launching games" and will be discussed later. You also don't have to "Import Games" again if you change this setting.
 
 === Add images ===
 
-To add images to your rom collection you have to define FileTypes, add a media path and tell RCB where to show your image via fileTypeFor...-elements. The above minimal config will look like this if you add one image (type):
+To add images to your rom collection you have to define FileTypes, add a media path and tell RCB where to show your images via fileTypeFor...-elements. The above minimal config will look like this if you add one image (type):
 
 {{{
 <config>
@@ -269,15 +260,8 @@ If you have a Game "Mygame" its rom file may be named "Mygame.adf" (adf = amiga 
 
 
 ===== fileTypeFor... =====
-The fileTypeFor...-elements are used for dynamic image placing. With the fileTypeFor...-elements you can associate each of the available image controls in RCBs UI with a specific media type. If you configure multiple fileTypeFor...-elements of the same type they will be used as fallback: if there is no image or video of file type 1, it will try to load an image or video of file type 2. The file types must exactly match the value of `type` attribute that you used for `mediaPath` and `FileType` configuration.
-
-In this example RCB will show your cover screenshots as background image in the main window:
-{{{
-<fileTypeForMainViewBackground>cover</fileTypeForMainViewBackground>
-}}}
-
-See section "dynamic image placing" for a list of all available image controls.
-
+fileTypeFor...-elements belong to stage "Browsing and displaying games" and will be discussed later. You also don't have to "Import Games" again if you change this setting.
+ 
 
 === Add game description ===
 
@@ -347,7 +331,7 @@ This is used to detect multi rom games. I don't want to show every rom file in t
 If you use "`_Disk`" as diskPrefix and you have some rom files named "`Mygame.adf`", "`Mygame 2_Disk1.adf`" and "`Mygame 2_Disk2.adf`" this will be detected as two games "`Mygame`" and "`Mygame 2`" where "`Mygame 2`" consists of two rom files. In the UI you will see the "friendly" gamename "`Mygame 2`". If you have your emulatorCmd configured to support multiple rom files you can load both files at once (see explanation of parameter "emulatorCmd").
 
 
-== Browsing and Displaying Games ==
+== Browsing and displaying games ==
 ==== RCBSettings ====
 These are the global settings of RCB.
 	
@@ -369,19 +353,40 @@ If set to "True" RCB will save the current view state (selected filter criteria 
 ===== saveViewStateOnLaunchEmu =====
 If set to "True" RCB will save the current view state (selected filter criteria and focused control) and restores it when you launch it the next time. This option will be used when launching an emulator in "solo" mode.
 
+===== fileTypeFor... =====
+The fileTypeFor...-elements are used for dynamic image placing. With the fileTypeFor...-elements you can associate each of the available image controls in RCBs UI with a specific media type. If you configure multiple fileTypeFor...-elements of the same type they will be used as fallback: if there is no image or video of file type 1, it will try to load an image or video of file type 2. The file types must exactly match the value of `type` attribute that you used for `mediaPath` and `FileType` configuration.
+
+In this example RCB will show your cover screenshots as background image in the main window:
+{{{
+<fileTypeForMainViewBackground>cover</fileTypeForMainViewBackground>
+}}}
+
+See section "dynamic image placing" for a list of all available image controls.
 
 
 == Launching Games ==
 
-==== Rom Collection ====
-===== useEmuSolo =====
+=== Rom Collection ===
+==== emulatorCmd ====
+The command that you specify as emulatorCmd will be invoked when you select a game. You can use the following placeholders in your commands:
+
+%ROM% will be replaced with the current file name
+
+%I% will be replaced with the zero-based index of the current rom file
+
+If the emulator supports multiple rom files (like uae) you can use {} for repeating parameters. In a command like "uae {-%I% "%ROM%"}" the part in the {} brackets will be repeated for any disk file of the game. For example if you have an amiga game (`MyGame`) that consists of 2 disk files the uae command at runtime will be: 
+{{{
+uae -0 "`MyGame_Disk1.adf`" -1 "`MyGame_Disk2.adf`".
+}}}
+
+==== useEmuSolo ====
 If set to "True" RCB will try to kill XBMC before starting the emulator. After exiting the emulator you will return to XBMC. If "False" the emulator will be launched while XBMC is running in the background.
 
 This mechanism invokes a batch (Windows) or bash (Linux) file. If you have problems with launching the emulator or returning to XBMC please check the commands in the file "applaunch.bat" (Windows) or "applaunch.sh" (Linux). You must be able to execute the command that is used to launch XBMC.
 
 When restarting XBMC RCB will try to create a file "autoexec.py" in XBMCs main script directory. This will be used by XBMC to launch RCB automatically after restarting. If you already use an "autoexec.py" RCB will try to backup your original file and restores it after restarting. Make sure that the user that runs XBMC has write access to XBMCs main script directory.
 
-===== escapeCommand =====
+==== escapeCommand ====
 This will escape the rom file names passed to the emulatorCmd. I did not have problems with using "True" in Linux and Windows. But maybe you can try to change this if you are running into problems with launching games.
 
 
