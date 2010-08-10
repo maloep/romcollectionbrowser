@@ -220,6 +220,8 @@ To add images to your rom collection you have to define FileTypes, add a media p
 </config>
 }}}
 
+This configuration tells RCB to import png-files from "/home/user/media/cover/" and display them in the game list. Once imported you can use these cover files in as many fileTypeFor...-elements as you like. E.g. show the same file in the game list, as background and as additional info image.
+
 ==== File Type ====
 With `FileTypes` you can define your own image or video categories. You can create a `FileType` for any new category that you like (e.g. action screenshots, box art, highscore screenshots, gameplay videos, trailers, etc.). All imported images or videos will be associated with this `FileType`.
 
@@ -235,7 +237,7 @@ The parent that is associated with the image or video. Must be one of the follow
 
 ==== Rom Collection ====
 ===== mediaPath =====
-The path to your image or video files. There can be multiple `<mediaPath>` elements per `RomCollection`. Each element needs an attribute `type`. This type references the name of the configured `FileTypes`. All images or videos that match the given path will be imported and associated with the `FileType`. Types will also be used to configure the fileTypeFor...-elements (see next section).
+The path to your image or video files. There can be multiple `<mediaPath>` elements per `RomCollection`. Each element needs an attribute `type`. This type references the name of the configured `FileTypes`. All images or videos that match the given path will be imported and associated with the `FileType`. Types will also be used to configure the fileTypeFor...-elements (see section fileTypeFor...).
 
 You can use multiple `<mediaPath>` entries with the same type to import from different locations or to configure different file extensions.
 
@@ -308,6 +310,12 @@ Set this option to "True" if you would like to search games in your description 
 
 ===== searchGameByCRCIgnoreRomName =====
 If you have games with the same rom file name but different crcs (and different game name inside your description file) you should set this option to "False". This will skip checking the rom file name.
+
+===== new in 0.6.0: useFoldernameAsCRC =====
+Compare the crc in the description file with the foldername of the current rom file.
+
+===== new in 0.6.0: useFilenameAsCRC =====
+Compare the crc in the description file with the filename (without extension) of the current rom file.
 
 
 === global import properties ===
