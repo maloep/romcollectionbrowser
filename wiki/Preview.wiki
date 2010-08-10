@@ -61,14 +61,7 @@ If you want to launch roms with the test scenario you have to take these additio
   # Linux only: make the file "RCB home/applaunch.sh" executable
   # Check the path to your XBMC installation at the end of the file "RCB home/applaunch.bat" (Windows) or "RCB home/applaunch.sh" (Linux)
   # Make sure that the user that launches XBMC has write access to XBMCs script directory. RCB tries to create an "autoexec.py" in this directory
-  
-
-  
-= Setup RCB to use solo mode (shutdown XBMC before launching the emulator) =
-  * Linux only: make the file "RCB home/applaunch.sh" executable
-  * Check the path to your XBMC installation at the end of the file "RCB home/applaunch.bat" (Windows) or "RCB home/applaunch.sh" (Linux)
-  * Make sure that the user that launches XBMC has write access to XBMCs script directory. RCB tries to create an "autoexec.py" in this directory. Note: this is only needed in Camelot. The Dharma version writes this file to the userdata directory.
-  
+   
 
 = Usage =
 == Navigation ==
@@ -332,28 +325,28 @@ If you use "`_Disk`" as diskPrefix and you have some rom files named "`Mygame.ad
 
 
 == Browsing and displaying games ==
-==== RCBSettings ====
+=== RCBSettings ===
 These are the global settings of RCB.
 	
-===== showEntryAllConsoles =====
+==== showEntryAllConsoles ====
 Actually there are four filter lists to browse your rom files. Every list has an entry "All" per default. If you have a large rom collection and you try to load all your roms unfiltered this can take some time. You can set this property to "False" to remove the entry "All" from the Console filter list.
 
-===== showEntryAllGenres =====
+==== showEntryAllGenres ====
 You can set this property to "False" to remove the entry "All" from the Genre filter list.
 
-===== showEntryAllYears =====
+==== showEntryAllYears ====
 You can set this property to "False" to remove the entry "All" from the Year filter list.
 
-===== showEntryAllPublisher =====
+==== showEntryAllPublisher ====
 You can set this property to "False" to remove the entry "All" from the Publisher filter list.
 		
-===== saveViewStateOnExit =====
+==== saveViewStateOnExit ====
 If set to "True" RCB will save the current view state (selected filter criteria and focused control) and restores it when you launch it the next time. This option will be used when exiting RCB.
 
-===== saveViewStateOnLaunchEmu =====
+==== saveViewStateOnLaunchEmu ====
 If set to "True" RCB will save the current view state (selected filter criteria and focused control) and restores it when you launch it the next time. This option will be used when launching an emulator in "solo" mode.
 
-===== fileTypeFor... =====
+==== fileTypeFor... ====
 The fileTypeFor...-elements are used for dynamic image placing. With the fileTypeFor...-elements you can associate each of the available image controls in RCBs UI with a specific media type. If you configure multiple fileTypeFor...-elements of the same type they will be used as fallback: if there is no image or video of file type 1, it will try to load an image or video of file type 2. The file types must exactly match the value of `type` attribute that you used for `mediaPath` and `FileType` configuration.
 
 In this example RCB will show your cover screenshots as background image in the main window:
@@ -382,14 +375,12 @@ uae -0 "`MyGame_Disk1.adf`" -1 "`MyGame_Disk2.adf`".
 ==== useEmuSolo ====
 If set to "True" RCB will try to kill XBMC before starting the emulator. After exiting the emulator you will return to XBMC. If "False" the emulator will be launched while XBMC is running in the background.
 
-This mechanism invokes a batch (Windows) or bash (Linux) file. If you have problems with launching the emulator or returning to XBMC please check the commands in the file "applaunch.bat" (Windows) or "applaunch.sh" (Linux). You must be able to execute the command that is used to launch XBMC.
+This mechanism invokes a batch (Windows) or bash (Linux) file. Linux only: make sure the file "RCB home/applaunch.sh" is executable. If you have problems with launching the emulator or returning to XBMC please check the commands in the file "applaunch.bat" (Windows) or "applaunch.sh" (Linux). You must be able to execute the command that is used to launch XBMC.
 
-When restarting XBMC RCB will try to create a file "autoexec.py" in XBMCs main script directory. This will be used by XBMC to launch RCB automatically after restarting. If you already use an "autoexec.py" RCB will try to backup your original file and restores it after restarting. Make sure that the user that runs XBMC has write access to XBMCs main script directory.
+When restarting XBMC RCB will try to create a file "autoexec.py" in XBMCs main script directory (Camelot) or in your userdata folder (Dharma). This will be used by XBMC to launch RCB automatically after restarting. If you already use an "autoexec.py" RCB will try to backup your original file and restores it after restarting. Make sure that the user that runs XBMC has write access to XBMCs main script directory (Camelot only).
 
 ==== escapeCommand ====
 This will escape the rom file names passed to the emulatorCmd. I did not have problems with using "True" in Linux and Windows. But maybe you can try to change this if you are running into problems with launching games.
-
-
 
 == dynamic image placing ==
 With the fileTypeFor...-elements you can define where to show which type of image or video.
