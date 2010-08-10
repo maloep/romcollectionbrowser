@@ -466,8 +466,8 @@ This will use a short game name instead of complete file name (required for some
 
 = Advanced topics =
 
-== Enable fullscreen browser ==
-Add this line to every RomCollection in your config.xml and import Settings:
+== Enable fullscreen browser (new with 0.6.0) ==
+Add this line to every RomCollection in your config.xml and "Import Settings":
 {{{
 <fileTypeForMainViewFullscreenVideo>gameplay</fileTypeForMainViewFullscreenVideo>
 }}}
@@ -514,6 +514,81 @@ Xbox keymap.xml
 
 
 == Skinning RCB ==
+Most things in RCBs skin files should be self explanating to a skinner. There are two skin xml files: "script-Rom_Collection_Browser-main.xml" and "script-Rom_Collection_Browser-gameinfo.xml".
+
+One thing that could be special in this script is the "dynamic image placing". As this script does not scrape information from web sites but uses locally stored media files (atm) I can't rely on a defined set of media files. The user may have small collections with only one image per game or others may have complete sets with 6 or more images and maybe video files per game. I want the user to decide where to show which type of image. The skinner should decide how it is presented. I am afraid this approach is not really XBMCish...
+
+Thats why you find several code lines like this in the skin xml:
+{{{
+<texture>$INFO[ListItem.Property(mainviewbackground)]</texture>
+}}}
+
+The user decides per config what image he wants to use as background image. The skinner can get this file with the above code.
+
+Here is a list of all available media controls:
+
+images
+{{{
+mainviewbackground
+gamelist
+gamelistselected
+mainviewgameinfobig
+mainviewgameinfoupperleft
+mainviewgameinfoupperright
+mainviewgameinfolowerleft
+mainviewgameinfolowerright
+mainview1
+mainview2
+mainview3
+}}}
+
+videos
+{{{
+mainviewvideowindowbig
+mainviewvideowindowsmall
+}}}
+
+Here you can see how this is done in the current skin: [url]http://code.google.com/p/romcollectionbrowser/wiki/Main#dynamic_image_placing[/url]
+
+
+It should also be possible to access all text properties in the skin.
+
+The title of a game is available as ListItem.Label:
+{{{
+<label>$INFO[ListItem.Label]</label>
+}}}
+
+All other properties can be accessed like this:
+{{{
+<label>$INFO[ListItem.Property(console)]</label>
+}}}
+
+All available tags:
+{{{
+romcollection
+console
+year
+plot
+publisher
+developer
+reviewer
+genre
+maxplayers
+rating
+votes
+url
+region
+media
+perspective
+controllertype
+isfavorite
+playcount
+originaltitle
+alternatetitle
+translatedby
+version
+}}}
+
 
 == parserConfig.xml ==
 The description file parser is very simple. It will read the parserConfig file that you specify in config.xml (you can have different parserConfigs for every `RomCollection`). This parserConfig xml file will be read element by element and transferred into parser grammar (using pyparsing). That means you have to take care of the elements order. Afterwards pyparsing reads the text file and tries to apply its given grammar. It always moves forward and looks for a match to the actual grammar token. If it does not match it will raise an exception. You will find this exception message in the log file "update.log" (RCB home directory).
