@@ -325,28 +325,10 @@ If you use "`_Disk`" as diskPrefix and you have some rom files named "`Mygame.ad
 
 
 == Browsing and displaying games ==
-=== RCBSettings ===
-These are the global settings of RCB.
-	
-==== showEntryAllConsoles ====
-Actually there are four filter lists to browse your rom files. Every list has an entry "All" per default. If you have a large rom collection and you try to load all your roms unfiltered this can take some time. You can set this property to "False" to remove the entry "All" from the Console filter list.
 
-==== showEntryAllGenres ====
-You can set this property to "False" to remove the entry "All" from the Genre filter list.
-
-==== showEntryAllYears ====
-You can set this property to "False" to remove the entry "All" from the Year filter list.
-
-==== showEntryAllPublisher ====
-You can set this property to "False" to remove the entry "All" from the Publisher filter list.
-		
-==== saveViewStateOnExit ====
-If set to "True" RCB will save the current view state (selected filter criteria and focused control) and restores it when you launch it the next time. This option will be used when exiting RCB.
-
-==== saveViewStateOnLaunchEmu ====
-If set to "True" RCB will save the current view state (selected filter criteria and focused control) and restores it when you launch it the next time. This option will be used when launching an emulator in "solo" mode.
-
-==== fileTypeFor... ====
+=== Place your images ===
+==== Rom Collection ====
+===== fileTypeFor... =====
 The fileTypeFor...-elements are used for dynamic image placing. With the fileTypeFor...-elements you can associate each of the available image controls in RCBs UI with a specific media type. If you configure multiple fileTypeFor...-elements of the same type they will be used as fallback: if there is no image or video of file type 1, it will try to load an image or video of file type 2. The file types must exactly match the value of `type` attribute that you used for `mediaPath` and `FileType` configuration.
 
 In this example RCB will show your cover screenshots as background image in the main window:
@@ -355,6 +337,33 @@ In this example RCB will show your cover screenshots as background image in the 
 }}}
 
 See section "dynamic image placing" for a list of all available image controls.
+
+=== Performance options (large collections or slow CPU/little RAM) ===
+==== RCBSettings ====
+These are the global settings of RCB.
+	
+===== showEntryAllConsoles =====
+Actually there are four filter lists to browse your rom files. Every list has an entry "All" per default. If you have a large rom collection and you try to load all your roms unfiltered this can take some time. You can set this property to "False" to remove the entry "All" from the Console filter list.
+
+===== showEntryAllGenres =====
+You can set this property to "False" to remove the entry "All" from the Genre filter list.
+
+===== showEntryAllYears =====
+You can set this property to "False" to remove the entry "All" from the Year filter list.
+
+===== showEntryAllPublisher =====
+You can set this property to "False" to remove the entry "All" from the Publisher filter list.
+
+===== cachingOption =====
+
+
+=== Save viewstate ===
+==== RCBSettings ====
+===== saveViewStateOnExit =====
+If set to "True" RCB will save the current view state (selected filter criteria and focused control) and restores it when you launch it the next time. This option will be used when exiting RCB.
+
+===== saveViewStateOnLaunchEmu =====
+If set to "True" RCB will save the current view state (selected filter criteria and focused control) and restores it when you launch it the next time. This option will be used when launching an emulator in "solo" mode.
 
 
 == Launching Games ==
