@@ -376,12 +376,13 @@ In this example RCB will show your cover screenshots as background image in the 
 <fileTypeForMainViewBackground>cover</fileTypeForMainViewBackground>
 }}}
 
-There are only two (alternating) controls in the main window (fileTypeForMainViewVideoWindowBig and fileTypeForMainViewVideoWindowSmall) and one control in the game details page (fileTypeForGameInfoViewVideoWindow) that are able to display video. If you use these fileTypeFor...-elements and have video is available for the selected game, the video playback is started automatically.
+There are only two (alternating) controls in the main window (fileTypeForMainViewVideoWindowBig and fileTypeForMainViewVideoWindowSmall) and one control in the game details page (fileTypeForGameInfoViewVideoWindow) that are able to display video. If you use these fileTypeFor...-elements and a video is available for the selected game, the video playback is started automatically.
 
 
 All available image placing options:
 
 Main Window
+
 http://romcollectionbrowser.googlecode.com/files/screenshot_dip_mv_info2_small.jpg
 
   # fileTypeForMainViewGameInfoUpperLeft - not available in Thumbs view
@@ -406,6 +407,7 @@ http://romcollectionbrowser.googlecode.com/files/screenshot_dip_mv_info_big.jpg
 <br>
 
 Game Details
+
 http://romcollectionbrowser.googlecode.com/files/screenshot_dip_gd.jpg
 
   # fileTypeForGameInfoViewGamelist
@@ -422,7 +424,7 @@ http://romcollectionbrowser.googlecode.com/files/screenshot_dip_gd.jpg
 These are the global settings of RCB.
 	
 ===== showEntryAllConsoles =====
-Actually there are four filter lists to browse your rom files. Every list has an entry "All" per default. If you have a large rom collection and you try to load all your roms unfiltered this can take some time. You can set this property to "False" to remove the entry "All" from the Console filter list.
+Actually there are five filter lists to browse your rom files. Every list has an entry "All" per default. If you have a large rom collection and you try to load all your roms unfiltered this can take some time. You can set this property to "False" to remove the entry "All" from the Console filter list.
 
 default value: True
 
@@ -529,9 +531,7 @@ default value: False
 == Enable fullscreen browser (new with 0.6.0) ==
 With version 0.6.0 there is a new option to play videos in fullscreen mode. RCB creates a video playlist with every game in your current filter selection and starts playback in fullscreen. You can zap through the videos of this playlist and use the builtin Info Overlay with title, thumbnail and duration. RCB uses standard XBMC playlist and fullscreen player so there are not more options to interact with the playback from RCB.
 
-To enable fullscreen video you have to do the following:
-
-Add this line to every RomCollection in your config.xml:
+To enable fullscreen video you have to add this line to every RomCollection in your config.xml:
 {{{
 <fileTypeForMainViewFullscreenVideo>gameplay</fileTypeForMainViewFullscreenVideo>
 }}}
