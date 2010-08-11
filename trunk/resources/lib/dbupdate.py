@@ -130,9 +130,9 @@ class DBUpdate:
 						foldername = foldername.lower()
 						fileFoldernameDict = self.buildFilenameDict(fileFoldernameDict, isMultiRomGame, filename, foldername, fileGamenameDict, gamename, False)
 
-				Logutil.log("Building file crcs done", util.LOG_LEVEL_INFO)
-				
-				if(descFilePerGame == 'False'):
+				Logutil.log("Building file crcs done", util.LOG_LEVEL_INFO)								
+									
+				if(descFilePerGame == 'False' and descParserFile != '' and descriptionPath != ''):
 					Logutil.log("Searching for game in parsed results:", util.LOG_LEVEL_INFO)
 					
 					try:
