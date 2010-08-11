@@ -972,15 +972,15 @@ If you want to keep your old database and your old config.xml you have to do the
   * Check if you need one of the following new properties in your `config.xml` (RCB will run without them):
 
     * RomCollection
-      * [Preview#xboxCreateShortcut xboxCreateShortcut]
-      * xboxCreateShortcutAddRomfile
-      * xboxCreateShortcutUseShortGamename
-      * useFoldernameAsCRC
-      * useFilenameAsCRC
+      * [Preview#xboxCreateShortcut_(new_in_0.6.0) xboxCreateShortcut]	  	  
+      * [Preview#xboxCreateShortcutAddRomfile_(new_in_0.6.0) xboxCreateShortcutAddRomfile]
+      * [Preview#xboxCreateShortcutUseShortGamename_(new_in_0.6.0) xboxCreateShortcutUseShortGamename]
+      * [Preview#useFoldernameAsCRC_(new_in_0.6.0) useFoldernameAsCRC]
+      * [Preview#useFilenameAsCRC_(new_in_0.6.0) useFilenameAsCRC]
     * RCBSetting
-      * logLevel
-      * showEntryAllChars
-      * preventUnfilteredSearch
+      * [Preview#logLevel_(new_in_0.6.0) logLevel]
+      * [Preview#showEntryAllChars_(new_in_0.6.0) showEntryAllChars]
+      * [Preview#preventUnfilteredSearch_(new_in_0.6.0) preventUnfilteredSearch]
 
 		
 
