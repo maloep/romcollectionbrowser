@@ -973,7 +973,7 @@ If you want to keep your old database and your old config.xml you have to do the
 
 {{{
   * RomCollection
-    * xboxCreateShortcut
+    * [Preview#xboxCreateShortcut xboxCreateShortcut]
     * xboxCreateShortcutAddRomfile
     * xboxCreateShortcutUseShortGamename
     * useFoldernameAsCRC
