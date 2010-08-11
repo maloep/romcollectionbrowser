@@ -21,7 +21,7 @@ Database file `"MyGames.db"` is not stored in RCBs database folder anymore. It c
   * Unzip it to your XBMC scripts folder
   * RCBs home directory is "XBMC/scripts/script.games.rom.collection.browser/" (called "RCB home" in the rest of the wiki)
 
-== Dharma RCB (0.5.3 and higher) ==
+== Dharma (RCB 0.5.3 and higher) ==
   * Go to XBMCs Addon Browser (System -> Add-ons -> Get Add-ons -> XBMC.org Add-ons -> Program Add-ons --> Rom Collection Browser)
   * Choose Install
   * RCBs home directory is "XBMC/addons/script.games.rom.collection.browser/" (called "RCB home" in the rest of the wiki)
@@ -531,7 +531,7 @@ default value: False
 == Enable fullscreen browser (new with 0.6.0) ==
 With version 0.6.0 there is a new option to play videos in fullscreen mode. RCB creates a video playlist with every game in your current filter selection and starts playback in fullscreen. You can zap through the videos of this playlist and use the builtin Info Overlay with title, thumbnail and duration. RCB uses standard XBMC playlist and fullscreen player so there are not more options to interact with the playback from RCB.
 
-To enable fullscreen video you have to add this line to every RomCollection in your config.xml:
+To enable fullscreen video you have to add this line to every RomCollection in your config.xml (replace gameplay with your own video file type):
 {{{
 <fileTypeForMainViewFullscreenVideo>gameplay</fileTypeForMainViewFullscreenVideo>
 }}}
@@ -655,33 +655,45 @@ version
 }}}
 
 === Special control ids ===
-Some control ids are referenced inside the python code so you should not change them unless you what you are doing.
+Some control ids are referenced inside the python code so you should not change them unless you know what you are doing.
 
 ==== Game lists ====
 Lists always have ids 50-59 in XBMC. These lists are available as "view" in the UI. In RCB you also have to take care which views support video playback and one id is reserved for the game info dialog.
 
 50-54:	views that support video
+
 55-58:	views that don't support video
+
 59:		game info dialog
+
 
 ==== Controls ====
 Some controls that are available in all views should not be changed also.
 
 ===== Filter controls =====
 Console:	500
+
 Genre:		600
+
 Year:		700
+
 Publisher:	800
+
 A-Z:		900
+
 
 ===== Scrollbars =====
 For some reason I had trouble with handling scrollbars because they are sometimes present and sometimes not (depending on the length of text). If you use scrollbars in your view make sure they have ids 2200 or 2201. If you need more scrollbars just have a look at the beginning of the file gui.py. There is a list with scrollbar ids (CONROL_SCROLLBARS = (2200, 2201,)). You can add your id here and tell me that I should add it to the next RCB version.
 
 ===== Buttons =====
 Import Settings:		3000
+
 Import Games:			3100
+
 Change View:			2
+
 Play Video Fullscreen:	2900, 2901
+
 
 If you add more than two view hat support fullscreen video you have to add the new ids to the python code: Go to gui.py and look for this line: CONTROL_BUTTON_VIDEOFULLSCREEN = (2900, 2901,)
 
