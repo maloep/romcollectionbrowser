@@ -438,7 +438,7 @@ def launchNonXbox(romCollectionRow, cmd):
 	
 	if (romCollectionRow[util.ROMCOLLECTION_useEmuSolo] == 'False'):
 		screenMode = xbmc.executehttpapi("GetSystemInfoByName(system.screenmode)").replace("<li>","")
-		Logutil.log("screenMode: " +screenMode, util.LOG_LEVEL_DEBUG)
+		Logutil.log("screenMode: " +screenMode, util.LOG_LEVEL_INFO)
 		isFullScreen = screenMode.endswith("Full Screen")
 		
 		if(isFullScreen):
