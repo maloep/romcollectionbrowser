@@ -50,7 +50,7 @@ class SettingsImporter:
 		rcbSettings = xmlDoc.getElementsByTagName('RCBSettings')
 		
 		if(len(rcbSettings) == 0):
-			self.insertRCBSetting(None, None, '', '', '', '', '', '')
+			self.insertRCBSetting(None, None, '', '', '', '', '', '', '', '', '', '')
 		else:		
 			for rcbSetting in rcbSettings:
 				favoriteConsole = self.getElementValue(rcbSetting, 'favoriteConsole')
@@ -451,18 +451,19 @@ class SettingsImporter:
 		if(len(rcbSettings) > 1):
 			errorCount = errorCount +1
 			Logutil.log('Import Settings: Error in config.xml. There is more than 1 RCBSettings entry!', util.LOG_LEVEL_ERROR)
-		rcbSetting = rcbSettings[0]
-		logLevel = self.getElementValue(rcbSetting, 'logLevel')
-		if(logLevel != ''):
-			if(logLevel not in ('DEBUG', 'INFO', 'WARNING', 'ERROR')):
-				errorCount = errorCount +1
-				Logutil.log('Import Settings: Error in config.xml. logLevel must be DEBUG, INFO, WARNING OR ERROR!', util.LOG_LEVEL_ERROR)
+		elif(len(rcbSettings) == 1):
+			rcbSetting = rcbSettings[0]
+			logLevel = self.getElementValue(rcbSetting, 'logLevel')
+			if(logLevel != ''):
+				if(logLevel not in ('DEBUG', 'INFO', 'WARNING', 'ERROR')):
+					errorCount = errorCount +1
+					Logutil.log('Import Settings: Error in config.xml. logLevel must be DEBUG, INFO, WARNING OR ERROR!', util.LOG_LEVEL_ERROR)
 		
-		cachingOption = self.getElementValue(rcbSetting, 'cachingOption')
-		if(cachingOption != ''):
-			if(cachingOption not in ('CACHEALL', 'CACHEITEM', 'CACHEITEMANDNEXT')):
-				errorCount = errorCount +1
-				Logutil.log('Import Settings: Error in config.xml. cachingOption must be one of CACHEALL, CACHEITEM, CACHEITEMANDNEXT!', util.LOG_LEVEL_ERROR)	
+			cachingOption = self.getElementValue(rcbSetting, 'cachingOption')
+			if(cachingOption != ''):
+				if(cachingOption not in ('CACHEALL', 'CACHEITEM', 'CACHEITEMANDNEXT')):
+					errorCount = errorCount +1
+					Logutil.log('Import Settings: Error in config.xml. cachingOption must be one of CACHEALL, CACHEITEM, CACHEITEMANDNEXT!', util.LOG_LEVEL_ERROR)	
 		
 			
 		#Consoles
@@ -478,11 +479,7 @@ class SettingsImporter:
 				Logutil.log('Import Settings: Error in config.xml. Console must have a name!', util.LOG_LEVEL_ERROR)
 				
 		#FileTypes
-		fileTypes = xmlDoc.getElementsByTagName('FileType')
-		if(len(fileTypes) == 0):
-			errorCount = errorCount +1
-			Logutil.log('Import Settings: Error in config.xml. You must have at least 1 FileType entry!', util.LOG_LEVEL_ERROR)
-		
+		fileTypes = xmlDoc.getElementsByTagName('FileType')		
 		for fileType in fileTypes:
 			
 			name = self.getElementValue(fileType, 'name')
