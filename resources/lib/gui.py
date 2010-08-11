@@ -34,15 +34,10 @@ FILTER_CONTROLS = (500, 600, 700, 800, 900,)
 GAME_LISTS = (50, 51, 52, 53, 54, 55, 56, 57, 58)
 CONROL_SCROLLBARS = (2200, 2201,)
 
-CONTROL_IMG_BACK = 75
-
-CONTROL_GAMES_GROUP = 200
 CONTROL_GAMES_GROUP_START = 50
 CONTROL_GAMES_GROUP_END = 59
 CONTROL_VIEW_NO_VIDEOS = (55, 56, 57, 58)
 
-CONTROL_CONSOLE_IMG = 2000
-CONTROL_CONSOLE_DESC = 2100
 CONTROL_BUTTON_SETTINGS = 3000
 CONTROL_BUTTON_UPDATEDB = 3100
 CONTROL_BUTTON_CHANGE_VIEW = 2
@@ -639,8 +634,12 @@ class UIGameDB(xbmcgui.WindowXML):
 		
 		self.gameinfoDialogOpen = True
 		
+		constructorParam = 1
+		if(util.isPostCamelot()):
+			constructorParam = "PAL"		
+		
 		import gameinfodialog
-		gid = gameinfodialog.UIGameInfoView("script-Rom_Collection_Browser-gameinfo.xml", os.getcwd(), "Default", 1, gdb=self.gdb, gameId=gameId,
+		gid = gameinfodialog.UIGameInfoView("script-Rom_Collection_Browser-gameinfo.xml", os.getcwd(), "Default", constructorParam, gdb=self.gdb, gameId=gameId,
 			consoleId=self.selectedConsoleId, genreId=self.selectedGenreId, yearId=self.selectedYearId, publisherId=self.selectedPublisherId, selectedGameIndex=selectedGameIndex,
 			consoleIndex=self.selectedConsoleIndex, genreIndex=self.selectedGenreIndex, yearIndex=self.selectedYearIndex, publisherIndex=self.selectedPublisherIndex,
 			selectedCharacter=self.selectedCharacter, selectedCharacterIndex=self.selectedCharacterIndex, controlIdMainView=self.selectedControlId, fileTypeForControlDict=self.fileTypeForControlDict, fileTypeDict=self.fileTypeDict,
@@ -1488,9 +1487,12 @@ class UIGameDB(xbmcgui.WindowXML):
 		
 
 
-def main():    
-    ui = UIGameDB("script-Rom_Collection_Browser-main.xml", os.getcwd(), "Default", 1)    
-    ui.doModal()
-    del ui
+def main():
+	if(util.isPostCamelot()):
+		ui = UIGameDB("script-Rom_Collection_Browser-main.xml", os.getcwd(), "Default", "PAL")
+	else:
+		ui = UIGameDB("script-Rom_Collection_Browser-main.xml", os.getcwd(), "Default", 1)
+	ui.doModal()
+	del ui
 
 main()
