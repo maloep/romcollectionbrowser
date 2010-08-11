@@ -516,6 +516,7 @@ Xbox keymap.xml
 == Skinning RCB (new with 0.6.0) ==
 Most things in RCBs skin files should be self explanating to a skinner. There are two skin xml files: "script-Rom_Collection_Browser-main.xml" and "script-Rom_Collection_Browser-gameinfo.xml". They are made for a PAL resolution with Confluence in mind. If you have improvements to my Confluence skin or want to migrate RCB to other skins please feel fee to contribute.
 
+=== Accessing RCBs images and videos ===
 One thing that could be special in this script is the "dynamic image placing". As this script does not scrape information from web sites but uses locally stored media files (atm) I can't rely on a defined set of media files. The user may have small collections with only one image per game or others may have complete sets with 6 or more images and maybe video files per game. I want the user to decide where to show which type of image. The skinner should decide how it is presented. I am afraid this approach is not really XBMCish...
 
 Thats why you find several code lines like this in the skin xml:
@@ -550,7 +551,7 @@ mainviewvideowindowsmall
 
 Here you can see how this is done in the current skin: [Preview#dynamic_image_placing]
 
-
+=== Accessing RCBs text properties ===
 It should also be possible to access all text properties in the skin.
 
 The title of a game is available as ListItem.Label:
@@ -588,6 +589,40 @@ alternatetitle
 translatedby
 version
 }}}
+
+=== Special control ids ===
+Some control ids are referenced inside the python code so you should not change them unless you what you are doing.
+
+==== Game lists ====
+Lists always have ids 50-59 in XBMC. These lists are available as "view" in the UI. In RCB you also have to take care which views support video playback and one id is reserved for the game info dialog.
+
+50-54:	views that support video
+55-58:	views that don't support video
+59:		game info dialog
+
+==== Controls ====
+Some controls that are available in all views should not be changed also.
+
+===== Filter controls =====
+Console:	500
+Genre:		600
+Year:		700
+Publisher:	800
+A-Z:		900
+
+===== Scrollbars =====
+For some reason I had trouble with handling scrollbars because they are sometimes present and sometimes not (depending on the length of text). If you use scrollbars in your view make sure they have ids 2200 or 2201. If you need more scrollbars just have a look at the beginning of the file gui.py. There is a list with scrollbar ids (CONROL_SCROLLBARS = (2200, 2201,)). You can add your id here and tell me that I should add it to the next RCB version.
+
+===== Buttons =====
+Import Settings:		3000
+Import Games:			3100
+Change View:			2
+Play Video Fullscreen:	2900, 2901
+
+If you add more than two view hat support fullscreen video you have to add the new ids to the python code: Go to gui.py and look for this line: CONTROL_BUTTON_VIDEOFULLSCREEN = (2900, 2901,)
+
+===== Labels =====
+Message label:	4000
 
 
 == parserConfig.xml ==
