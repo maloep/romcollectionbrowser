@@ -513,8 +513,8 @@ Xbox keymap.xml
 }}}
 
 
-== Skinning RCB ==
-Most things in RCBs skin files should be self explanating to a skinner. There are two skin xml files: "script-Rom_Collection_Browser-main.xml" and "script-Rom_Collection_Browser-gameinfo.xml".
+== Skinning RCB (new with 0.6.0) ==
+Most things in RCBs skin files should be self explanating to a skinner. There are two skin xml files: "script-Rom_Collection_Browser-main.xml" and "script-Rom_Collection_Browser-gameinfo.xml". They are made for a PAL resolution with Confluence in mind. If you have improvements to my Confluence skin or want to migrate RCB to other skins please feel fee to contribute.
 
 One thing that could be special in this script is the "dynamic image placing". As this script does not scrape information from web sites but uses locally stored media files (atm) I can't rely on a defined set of media files. The user may have small collections with only one image per game or others may have complete sets with 6 or more images and maybe video files per game. I want the user to decide where to show which type of image. The skinner should decide how it is presented. I am afraid this approach is not really XBMCish...
 
@@ -548,7 +548,7 @@ mainviewvideowindowbig
 mainviewvideowindowsmall
 }}}
 
-Here you can see how this is done in the current skin: [url]http://code.google.com/p/romcollectionbrowser/wiki/Main#dynamic_image_placing[/url]
+Here you can see how this is done in the current skin: [Preview#dynamic_image_placing]
 
 
 It should also be possible to access all text properties in the skin.
