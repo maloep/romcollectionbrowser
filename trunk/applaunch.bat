@@ -15,6 +15,6 @@ REM sleep 1
 
 
 REM Done? Restart XBMC
-"D:\Player\XBMC\XBMC.exe"
+"C:\Program Files\XBMC\XBMC.exe"
 
 
