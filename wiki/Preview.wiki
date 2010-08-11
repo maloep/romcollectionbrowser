@@ -971,6 +971,7 @@ If you want to keep your old database and your old config.xml you have to do the
   * Copy `MyGames.db` to your userdata folder (Dharma: addon_data, Camelot: script_data) and `config.xml` back to the database folder of your new RCB installation
   * Check if you need one of the following new properties in your `config.xml` (RCB will run without them):
 
+{{{
   * RomCollection
     * xboxCreateShortcut
     * xboxCreateShortcutAddRomfile
@@ -981,6 +982,7 @@ If you want to keep your old database and your old config.xml you have to do the
     * logLevel
     * showEntryAllChars
     * preventUnfilteredSearch
+}}}
 		
 
 === V0.4 -> V0.5 ===
