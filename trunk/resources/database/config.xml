@@ -145,7 +145,7 @@
 			<descriptionParserFile>F:\Emulatoren\data\Testdata Current\Collection V2\parserConfig.xml</descriptionParserFile>
 			<diskPrefix>_Disk</diskPrefix>			
 			<allowUpdate>True</allowUpdate>
-			<ignoreOnScan>True</ignoreOnScan>
+			<ignoreOnScan>False</ignoreOnScan>
 			<searchGameByCRC>True</searchGameByCRC>
 			<searchGameByCRCIgnoreRomName>False</searchGameByCRCIgnoreRomName>
 			<ignoreGameWithoutDesc>False</ignoreGameWithoutDesc>
@@ -289,7 +289,7 @@
 			<consoleName>Xbox</consoleName>
 			<xboxCreateShortcut>True</xboxCreateShortcut>
 			<searchGameByCRC>False</searchGameByCRC>
-			<ignoreOnScan>False</ignoreOnScan>
+			<ignoreOnScan>True</ignoreOnScan>
 			<useFoldernameAsCRC>True</useFoldernameAsCRC>
 			<descriptionParserFile>F:\Emulatoren\data\XBOX\parserConfig_Xbox.xml</descriptionParserFile>
 			<descFilePath>F:\Emulatoren\data\XBOX\synopsis.txt</descFilePath>

@@ -221,11 +221,11 @@ See http://code.google.com/p/romcollectionbrowser for latest version and full do
 			<useEmuSolo>True</useEmuSolo>
 			<!-- escapeCommand: will escape the rom file names passed to the emulatorCmd -->
 			<escapeCommand>True</escapeCommand>	
-			<!-- xboxCreateShortcut: used on xbox only. You can ignore it on other systems -->
+			<!-- xboxCreateShortcut: creates a temp.cut file with the path to the emulator or the xbox game to be launched. default value: False -->
 			<xboxCreateShortcut>True</xboxCreateShortcut>
-			<!-- xboxCreateShortcutAddRomfile: used on xbox only. You can ignore it on other systems -->
+			<!-- xboxCreateShortcutAddRomfile: adds the rom filename as additional parameter to the cut file (not all emulators support this). default value: False -->
 			<xboxCreateShortcutAddRomfile>True</xboxCreateShortcutAddRomfile>
-			<!-- xboxCreateShortcutUseShortGamename: used on xbox only. You can ignore it on other systems -->
+			<!-- xboxCreateShortcutUseShortGamename: this will use a short game name instead of complete file name (required for some exotic emulators). default value: False -->
 			<xboxCreateShortcutUseShortGamename>True</xboxCreateShortcutUseShortGamename>
 		</RomCollection>
 		
