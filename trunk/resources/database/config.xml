@@ -145,7 +145,7 @@
 			<descriptionParserFile>F:\Emulatoren\data\Testdata Current\Collection V2\parserConfig.xml</descriptionParserFile>
 			<diskPrefix>_Disk</diskPrefix>			
 			<allowUpdate>True</allowUpdate>
-			<ignoreOnScan>False</ignoreOnScan>
+			<ignoreOnScan>True</ignoreOnScan>
 			<searchGameByCRC>True</searchGameByCRC>
 			<searchGameByCRCIgnoreRomName>False</searchGameByCRCIgnoreRomName>
 			<ignoreGameWithoutDesc>False</ignoreGameWithoutDesc>
@@ -242,7 +242,7 @@
 			<escapeCommand>True</escapeCommand>			
 			<descFilePerGame>True</descFilePerGame>
 			<allowUpdate>True</allowUpdate>
-			<ignoreOnScan>True</ignoreOnScan>
+			<ignoreOnScan>False</ignoreOnScan>
 			<searchGameByCRC>False</searchGameByCRC>
 			<searchGameByCRCIgnoreRomName>False</searchGameByCRCIgnoreRomName>
 			<ignoreGameWithoutDesc>False</ignoreGameWithoutDesc>
@@ -293,7 +293,7 @@
 			<useFoldernameAsCRC>True</useFoldernameAsCRC>
 			<descriptionParserFile>F:\Emulatoren\data\XBOX\parserConfig_Xbox.xml</descriptionParserFile>
 			<descFilePath>F:\Emulatoren\data\XBOX\synopsis.txt</descFilePath>
-			<emulatorCmd>%ROM%</emulatorCmd>
+			<emulatorCmd>"%ROM%"</emulatorCmd>
 			<romPath>F:\Emulatoren\data\XBOX\Roms\default.xbe</romPath>						
 			<mediaPath type="boxfront">F:\Emulatoren\data\XBOX\Artwork\Box Front\%GAME%.png</mediaPath>			
 			<mediaPath type="3dbox">F:\Emulatoren\data\XBOX\Artwork\3d Boxart\%GAME%.png</mediaPath>

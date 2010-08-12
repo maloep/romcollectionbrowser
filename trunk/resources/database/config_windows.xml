@@ -197,13 +197,13 @@ See http://code.google.com/p/romcollectionbrowser for latest version and full do
 			<!-- fileTypeForGameInfoViewBackground: background image -->
 			<fileTypeForGameInfoViewBackground>title</fileTypeForGameInfoViewBackground>			
 			<!-- fileTypeForGameInfoViewGamelist: small images in the upper left and right corner -->
-			<fileTypeForGameInfoViewGamelist>boxfront</fileTypeForGameInfoViewGamelist>
+			<fileTypeForGameInfoViewGamelist>cover</fileTypeForGameInfoViewGamelist>
 			<!-- fileTypeForGameInfoView1: four images in a row -->
 			<fileTypeForGameInfoView1>title</fileTypeForGameInfoView1>
 			<!-- fileTypeForGameInfoView2: four images in a row -->
 			<fileTypeForGameInfoView2>action</fileTypeForGameInfoView2>
 			<!-- fileTypeForGameInfoView3: four images in a row -->
-			<fileTypeForGameInfoView3>boxfront</fileTypeForGameInfoView3>
+			<fileTypeForGameInfoView3>cover</fileTypeForGameInfoView3>
 			<!-- fileTypeForGameInfoView4: four images in a row. May be hidden by fileTypeForGameInfoViewVideoWindow -->
 			<fileTypeForGameInfoView4>cartridge</fileTypeForGameInfoView4>
 			<!-- fileTypeForGameInfoViewVideoWindow: same place as GameInfoView4. Will hide image control if a video is present. -->
