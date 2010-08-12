@@ -60,15 +60,15 @@ class GameDataBase:
 			return 1, ""
 		
 		#Alter Table
-		if(dbVersion != util.CURRENT_SCRIPT_VERSION):
-			alterTableScript = "SQL_ALTER_%(old)s_%(new)s.txt" %{'old': dbVersion, 'new':util.CURRENT_SCRIPT_VERSION}
+		if(dbVersion != util.CURRENT_DB_VERSION):
+			alterTableScript = "SQL_ALTER_%(old)s_%(new)s.txt" %{'old': dbVersion, 'new':util.CURRENT_DB_VERSION}
 			alterTableScript = str(os.path.join(self.sqlDir, alterTableScript))
 			
 			if os.path.isfile(alterTableScript):				
 				self.executeSQLScript(alterTableScript)				
 				return 0, ""
 			else:
-				return -1, "Error: No Update from version %s to %s." %(dbVersion, util.CURRENT_SCRIPT_VERSION)
+				return -1, "Error: No Update from version %s to %s." %(dbVersion, util.CURRENT_DB_VERSION)
 			
 		return 0, ""
 	
