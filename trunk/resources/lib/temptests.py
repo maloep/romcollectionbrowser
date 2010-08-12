@@ -1,36 +1,18 @@
 
 import os, sys
+from datetime import * 
 
-sys.path.append( os.path.join( os.path.join( os.getcwd(), ".." ), "platform_libraries", "win32") )
+#from dateutil import parser
+
+nowdt = datetime.now()
+print nowdt
+
+#nowstring = '2010-08-12 21:07:10.158000'
+#dt = parser.parse(nowstring)
+
+fname = "C:\\Users\\malte\\AppData\\Roaming\\XBMC\\scripts\\Rom Collection Browser\\resources\\database\\config.xml"
+dt = os.path.getmtime(fname)
+
+print dt
 
 
-from elementtree.ElementTree import *
-
-databasedir = os.path.join( os.getcwd(), 'TestDataBase')
-configFile = os.path.join(databasedir, 'config.xml')	
-
-if(os.path.isfile(configFile)):					
-	tree = ElementTree().parse(configFile)
-	
-	value = tree.findtext('*/RomCollection/name')
-	print str(value)
-	
-	elements = tree.findall('*/RomCollection/name')
-	for element in elements:
-		print element.text
-		
-	value = tree.findtext('Consoles/Console/name')
-	print str(value)
-	
-	#this does not work
-	#value = tree.find('Consoles/Console[./name=\'Super Nintendo\']')
-	#print str(value)
-		
-	value = tree.findtext('*/RomCollection/mediaPath[@type]')
-	print str(value)
-	
-	value = tree.findtext('*/RomCollection/mediaPath[@type=\'cover\']')
-	print str(value)
-	
-
-	

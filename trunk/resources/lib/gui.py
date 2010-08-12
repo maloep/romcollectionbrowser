@@ -967,8 +967,32 @@ class UIGameDB(xbmcgui.WindowXML):
 	
 	
 	def checkImport(self, doImport):
+		
+		databaseDir = os.path.join(util.RCBHOME, 'resources', 'database')
+		
+		if(doImport == 0):
+			#check file modification time of config.xml
+			configFile = os.path.join(databaseDir, "config.xml")
+			modifyTime = os.path.getmtime(configFile)
+			rcbSetting = helper.getRCBSetting(self.gdb)
+			if (rcbSetting == None):
+				print "RCB_WARNING: rcbSetting == None in checkImport"
+				return
+			lastConfigChange = rcbSetting[24]
+			if (modifyTime > lastConfigChange):
+				dialog = xbmcgui.Dialog()
+				retSettings = dialog.yesno('Rom Collection Browser', 'config.xml has changed since last import.', 'Do you want to import Settings now?')
+				if(retSettings == True):
+					progressDialog = ProgressDialogGUI()
+					progressDialog.writeMsg("Import settings...", "", "")				
+					importSuccessful, errorMsg = importsettings.SettingsImporter().importSettings(self.gdb, databaseDir, progressDialog)
+					# XBMC crashes on my Linux system without this line:
+					print('RCB INFO: Import done')
+					progressDialog.writeMsg("", "", "", -1)
+					del progressDialog
+		
 		#doImport: 0=nothing, 1=import Settings and Games, 2=import Settings only, 3=import games only
-		if(doImport in (1, 2)):
+		elif(doImport in (1, 2)):
 			dialog = xbmcgui.Dialog()
 			if(doImport == 1):
 				retSettings = dialog.yesno('Rom Collection Browser', 'Database is empty.', 'Do you want to import Settings now?')
@@ -977,8 +1001,7 @@ class UIGameDB(xbmcgui.WindowXML):
 			del dialog
 			if(retSettings == True):
 				progressDialog = ProgressDialogGUI()
-				progressDialog.writeMsg("Import settings...", "", "")
-				databaseDir = os.path.join(util.RCBHOME, 'resources', 'database')
+				progressDialog.writeMsg("Import settings...", "", "")				
 				importSuccessful, errorMsg = importsettings.SettingsImporter().importSettings(self.gdb, databaseDir, progressDialog)
 				# XBMC crashes on my Linux system without this line:
 				print('RCB INFO: Import done')
@@ -1005,7 +1028,7 @@ class UIGameDB(xbmcgui.WindowXML):
 						progressDialog.writeMsg("", "", "", -1)
 						del progressDialog
 						
-		if(doImport == 3):
+		elif(doImport == 3):
 			dialog = xbmcgui.Dialog()
 			retGames = dialog.yesno('Rom Collection Browser', 'Import Games', 'Do you want to import Games now?')
 			if(retGames == True):
