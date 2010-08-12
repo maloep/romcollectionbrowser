@@ -2,36 +2,36 @@
 0.6.1 (08/2010)
 ~~~~~~~~~~~~~
 UI and general behaviour
-	* fullscreen video browser
-	* implemented different caching options: CACHEALL, CACHEITEM, CACHEITEMANDNEXT
-	* added character filter: select games by first character
-	* skinning support: all game properties are available in the skin xml now
-	* delay videoplayback for one second: better behaviour when browsing the game list
-	* added log level as parameter to config.xml
-	* new option: preventUnfilteredSearch (unfiltered searches may cause problems with large rom collections)
-	* changed ordering in game list to case insensitive
-	* support for pgup, pgdn, home, end
-	* bugfix: don't restart video if we are playing the same file (while moving around but not changing selected game)
+    * fullscreen video browser
+    * implemented different caching options: CACHEALL, CACHEITEM, CACHEITEMANDNEXT
+    * added character filter: select games by first character
+    * skinning support: all game properties are available in the skin xml now
+    * delay videoplayback for one second: better behaviour when browsing the game list
+    * added log level as parameter to config.xml
+    * new option: preventUnfilteredSearch
+    * changed ordering in game list to case insensitive
+    * support for pgup, pgdn, home, end
+    * bugfix: don't restart video if we are already playing the current file
 
 Import
-	* restructuring import methods: scan large description files per game and not at once (previous version was causing out of memory errors on xbox)
-	* changed behavior of progress dialog when importing games: progress update per game and not per rom collection
-	* use default values for all settings: may keep config.xml more simple
-	* new option: using foldername as crc value (useFoldernameAsCRC)
-	* new option: using filename as crc value (useFilenameAsCRC)
-	* ignore case when searching for media files (works also on linux)
-	* bugfix: non-ascii chars in filenames during import
-	* bugfix: unique constraint on game (name, romcollection)
-	* bugfix: handle crc with leading zero
-	* bugfix: handle game names with brackets []
+    * restructuring import methods: scan large description files game by game
+    * importing games: progress update per game and not per rom collection
+    * use default values for all settings: may keep config.xml more simple
+    * new option: using foldername as crc value (useFoldernameAsCRC)
+    * new option: using filename as crc value (useFilenameAsCRC)
+    * ignore case when searching for media files (works also on linux)
+    * bugfix: non-ascii chars in filenames during import
+    * bugfix: unique constraint on game (name, romcollection)
+    * bugfix: handle crc with leading zero
+    * bugfix: handle game names with brackets []
 
 Launching Games
-	* xbox support: launch emulators and xbox games
-	* xbox support: create cut files for xbox on the fly (new settings: xboxCreateShortcut, xboxCreateShortcutAddRomfile, xboxCreateShortcutUseShortGamename)
+    * xbox support: launch emulators and xbox games
+    * xbox support: create cut files for xbox on the fly
 
 0.5.4 (08/2010)
 ~~~~~~~~~~~~~
-	* minimize XBMC before launching emulator
+    * minimize XBMC before launching emulator
     * maximize XBMC after exiting emulator
     * using PAL as default resolution (addon could not find window xml file on 720p)
     * new icon (thanks to freezy)
@@ -40,7 +40,7 @@ Launching Games
 0.5.3 (08/2010)
 ~~~~~~~~~~~~~
     * initial Dharma version    
-	* same feature set as V0.5 - just Dharma compatible
+    * same feature set as V0.5 - just Dharma compatible
 
 V0.5 (05/2010)
 ~~~~~~~~~~~~~
