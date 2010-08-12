@@ -50,7 +50,7 @@ class SettingsImporter:
 		rcbSettings = xmlDoc.getElementsByTagName('RCBSettings')
 		
 		if(len(rcbSettings) == 0):
-			self.insertRCBSetting(None, None, '', '', '', '', '', '', '', '', '', '')
+			self.insertRCBSetting(None, None, '', '', '', '', '', '', '', '', '', '', 0)
 		else:		
 			for rcbSetting in rcbSettings:
 				favoriteConsole = self.getElementValue(rcbSetting, 'favoriteConsole')
@@ -66,8 +66,11 @@ class SettingsImporter:
 				preventUnfilteredSearch = self.getElementValue(rcbSetting, 'preventUnfilteredSearch')
 				cachingOption = self.getElementValue(rcbSetting, 'cachingOption')
 				
+				#save last edit time of config.xml 
+				modifyTime = os.path.getmtime(configFile)
+				
 				self.insertRCBSetting(favoriteConsole, favoriteGenre, showEntryAllConsoles, showEntryAllGenres, showEntryAllYears, showEntryAllPublisher, 
-					saveViewStateOnExit, saveViewStateOnLaunchEmu, logLevel, showEntryAllChars, preventUnfilteredSearch, cachingOption)
+					saveViewStateOnExit, saveViewStateOnLaunchEmu, logLevel, showEntryAllChars, preventUnfilteredSearch, cachingOption, modifyTime)
 			
 		stepCount = stepCount +1
 		gui.writeMsg("Importing Console Info...", "", "", stepCount)
@@ -129,6 +132,7 @@ class SettingsImporter:
 			xboxCreateShortcutUseShortGamename = self.getElementValue(romCollection, 'xboxCreateShortcutUseShortGamename')
 			useFoldernameAsCRC = self.getElementValue(romCollection, 'useFoldernameAsCRC')
 			useFilenameAsCRC = self.getElementValue(romCollection, 'useFilenameAsCRC')
+			maxFolderDepth = self.getElementValue(romCollection, 'maxFolderDepth')
 				
 			
 			romPaths = self.getElementValues(romCollection, 'romPath')
@@ -141,7 +145,7 @@ class SettingsImporter:
 			romCollectionId = self.insertRomCollection(consoleName, romCollName, emuCmd, emuSolo, escapeCmd, relyOnNaming, startWithDescFile, 
 				descFilePerGame, descParserFile, diskPrefix, typeOfManual, allowUpdate, ignoreOnScan, searchGameByCRC, 
 				searchGameByCRCIgnoreRomName, ignoreGameWithoutDesc, xboxCreateShortcut, xboxCreateShortcutAddRomfile, xboxCreateShortcutUseShortGamename,
-				useFoldernameAsCRC, useFilenameAsCRC)
+				useFoldernameAsCRC, useFilenameAsCRC, maxFolderDepth)
 			
 			
 			self.insertPaths(romCollectionId, romPaths, 'rcb_rom')
@@ -266,7 +270,7 @@ class SettingsImporter:
 	
 	
 	def insertRCBSetting(self, favoriteConsole, favoriteGenre, showEntryAllConsoles, showEntryAllGenres, showEntryAllYears, showEntryAllPublisher, saveViewStateOnExit, 
-			saveViewStateOnLaunchEmu, logLevel, showEntryAllChars, preventUnfilteredSearch, cachingOption):
+			saveViewStateOnLaunchEmu, logLevel, showEntryAllChars, preventUnfilteredSearch, cachingOption, modifyTime):
 		
 		rcbSettingRows = RCBSetting(self.gdb).getAll()
 		
@@ -311,17 +315,17 @@ class SettingsImporter:
 		elif(cachingOption == 'CACHEITEM'):
 			cachingOption = 2
 		elif(cachingOption == 'CACHEITEMANDNEXT'):
-			cachingOption = 3
+			cachingOption = 3					
 		
 		
 		if(rcbSettingRows == None or len(rcbSettingRows) == 0):			
-			RCBSetting(self.gdb).insert((None, None, None, None, None, None, favoriteConsole, favoriteGenre, None, CURRENT_SCRIPT_VERSION, 
+			RCBSetting(self.gdb).insert((None, None, None, None, None, None, favoriteConsole, favoriteGenre, None, CURRENT_DB_VERSION, 
 				showEntryAllConsoles, showEntryAllGenres, showEntryAllYears, showEntryAllPublisher, saveViewStateOnExit, saveViewStateOnLaunchEmu, None, None, logLevel,
-				showEntryAllChars, None, preventUnfilteredSearch, cachingOption))
+				showEntryAllChars, None, preventUnfilteredSearch, cachingOption, modifyTime))
 		else:
 			rcbSetting = rcbSettingRows[0]
-			RCBSetting(self.gdb).update(('dbVersion', 'favoriteConsoleId', 'favoriteGenreId', 'showEntryAllConsoles', 'showEntryAllGenres', 'showEntryAllYears', 'showEntryAllPublisher', 'saveViewStateOnExit', 'saveViewStateOnLaunchEmu', 'logLevel', 'showEntryAllChars', 'preventUnfilteredSearch', 'cachingOption'),
-				(CURRENT_SCRIPT_VERSION, favoriteConsole, favoriteGenre, showEntryAllConsoles, showEntryAllGenres, showEntryAllYears, showEntryAllPublisher, saveViewStateOnExit, saveViewStateOnLaunchEmu, logLevel, showEntryAllChars, preventUnfilteredSearch, cachingOption), rcbSetting[0])
+			RCBSetting(self.gdb).update(('dbVersion', 'favoriteConsoleId', 'favoriteGenreId', 'showEntryAllConsoles', 'showEntryAllGenres', 'showEntryAllYears', 'showEntryAllPublisher', 'saveViewStateOnExit', 'saveViewStateOnLaunchEmu', 'logLevel', 'showEntryAllChars', 'preventUnfilteredSearch', 'cachingOption', 'lastConfigChange'),
+				(CURRENT_DB_VERSION, favoriteConsole, favoriteGenre, showEntryAllConsoles, showEntryAllGenres, showEntryAllYears, showEntryAllPublisher, saveViewStateOnExit, saveViewStateOnLaunchEmu, logLevel, showEntryAllChars, preventUnfilteredSearch, cachingOption, modifyTime), rcbSetting[0])
 	
 	
 	def insertConsole(self, consoleName, consoleDesc, consoleImage):
@@ -335,7 +339,7 @@ class SettingsImporter:
 	def insertRomCollection(self, consoleName, romCollName, emuCmd, emuSolo, escapeCmd, relyOnNaming, startWithDescFile, 
 				descFilePerGame, descParserFile, diskPrefix, typeOfManual, allowUpdate, ignoreOnScan, searchGameByCRC, 
 				searchGameByCRCIgnoreRomName, ignoreGameWithoutDesc, xboxCreateShortcut, 
-				xboxCreateShortcutAddRomfile, xboxCreateShortcutUseShortGamename, useFoldernameAsCRC, useFilenameAsCRC):		
+				xboxCreateShortcutAddRomfile, xboxCreateShortcutUseShortGamename, useFoldernameAsCRC, useFilenameAsCRC, maxFolderDepth):		
 		
 		#set default values
 		if(emuSolo == ''):
@@ -372,6 +376,8 @@ class SettingsImporter:
 			useFoldernameAsCRC = 'False'
 		if(useFilenameAsCRC == ''):
 			useFilenameAsCRC = 'False'
+		if(maxFolderDepth == ''):
+			maxFolderDepth = 0			
 		
 		consoleRow = Console(self.gdb).getOneByName(consoleName)
 		if(consoleRow == None):
@@ -382,17 +388,17 @@ class SettingsImporter:
 		romCollectionRow = RomCollection(self.gdb).getOneByName(romCollName)
 		if(romCollectionRow == None):		
 			RomCollection(self.gdb).insert((romCollName, consoleId, emuCmd, emuSolo, escapeCmd, descParserFile, relyOnNaming, 
-			startWithDescFile, descFilePerGame, diskPrefix, typeOfManual, allowUpdate, ignoreOnScan, searchGameByCRC, searchGameByCRCIgnoreRomName, 
-			ignoreGameWithoutDesc, xboxCreateShortcut, xboxCreateShortcutAddRomfile, xboxCreateShortcutUseShortGamename, useFoldernameAsCRC, useFilenameAsCRC))
+				startWithDescFile, descFilePerGame, diskPrefix, typeOfManual, allowUpdate, ignoreOnScan, searchGameByCRC, searchGameByCRCIgnoreRomName, 
+				ignoreGameWithoutDesc, xboxCreateShortcut, xboxCreateShortcutAddRomfile, xboxCreateShortcutUseShortGamename, useFoldernameAsCRC, useFilenameAsCRC, maxFolderDepth))
 			romCollectionId = self.gdb.cursor.lastrowid
 		else:
 			RomCollection(self.gdb).update(('name', 'consoleId', 'emuCommandline', 'useEmuSolo', 'escapeEmuCmd', 'descriptionParserFile', 'relyOnFileNaming', 'startWithDescFile',
 								'descFilePerGame', 'diskPrefix', 'typeOfManual', 'allowUpdate', 'ignoreOnScan', 'searchGameByCRC', 
 								'searchGameByCRCIgnoreRomName', 'ignoreGameWithoutDesc', 'xboxCreateShortcut', 'xboxCreateShortcutAddRomfile', 
-								'xboxCreateShortcutUseShortGamename', 'useFoldernameAsCRC', 'useFilenameAsCRC'),
+								'xboxCreateShortcutUseShortGamename', 'useFoldernameAsCRC', 'useFilenameAsCRC', 'maxFolderDepth'),
 								(romCollName, consoleId, emuCmd, emuSolo, escapeCmd, descParserFile, relyOnNaming, startWithDescFile, descFilePerGame, diskPrefix, typeOfManual, allowUpdate, 
 								ignoreOnScan, searchGameByCRC, searchGameByCRCIgnoreRomName, ignoreGameWithoutDesc,xboxCreateShortcut, xboxCreateShortcutAddRomfile, 
-								xboxCreateShortcutUseShortGamename, useFoldernameAsCRC, useFilenameAsCRC),
+								xboxCreateShortcutUseShortGamename, useFoldernameAsCRC, useFilenameAsCRC, maxFolderDepth),
 								romCollectionRow[0])
 			
 			romCollectionId = romCollectionRow[0]
