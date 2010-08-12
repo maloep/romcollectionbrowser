@@ -10,7 +10,8 @@ import xbmc
 RCBHOME = os.getcwd()
 SCRIPTNAME = 'Rom Collection Browser'
 SCRIPTID = 'script.games.rom.collection.browser'
-CURRENT_SCRIPT_VERSION = "0.6.0"
+CURRENT_SCRIPT_VERSION = "0.6.1"
+CURRENT_DB_VERSION = "0.6.0"
 
 LOG_LEVEL_ERROR = 0
 LOG_LEVEL_WARNING = 1
@@ -146,9 +147,11 @@ def getAddonDataPath():
 	path = ''
 	
 	if(isPostCamelot()):		
-		path = xbmc.translatePath('special://profile/addon_data/%s - %s' %(SCRIPTID, CURRENT_SCRIPT_VERSION))
+		path = xbmc.translatePath('special://profile/addon_data/%s' %(SCRIPTID))
+		#path = xbmc.translatePath('special://profile/addon_data/%s-%s' %(SCRIPTID, CURRENT_SCRIPT_VERSION))
 	else:
-		path = xbmc.translatePath('special://profile/script_data/%s - %s' %(SCRIPTID, CURRENT_SCRIPT_VERSION))
+		path = xbmc.translatePath('special://profile/script_data/%s' %(SCRIPTID))
+		#path = xbmc.translatePath('special://profile/script_data/%s-%s' %(SCRIPTID, CURRENT_SCRIPT_VERSION))
 		
 	if not os.path.exists(path):
 		try:
