@@ -26,10 +26,9 @@ Database file `"MyGames.db"` is not stored in RCBs database folder anymore. It c
   * Choose Install
   * RCBs home directory is "XBMC/addons/script.games.rom.collection.browser/" (called "RCB home" in the rest of the wiki)
   
-Known issue (Linux only):
+Known issues (0.5.3 on some linux distributions):
   * The program doesn't load on “No module named pysqlite2”
-Some linux distributions don't ship with prebuild pysqlite libraries. You have to get them on your own and copy them to: /usr/lib/xbmc/addons/script.module.pysqlite. You could download the Camelot RCB version for example. It includes the correct libraries (resources/platform_libraries/Linux).
-
+Some linux distributions don't ship with prebuild pysqlite libraries. You have to get them on your own and copy them to your xbmc lib folder (e.g. /usr/lib/xbmc/addons/script.module.pysqlite). I have made an extra package with these libraries if you don't want to build them yourself: http://romcollectionbrowser.googlecode.com/files/platform_libraries.zip.
 
 = First use =
   * Edit the main configuration file "config.xml" (RCB home/resources/database/). Check configuration section for a sample configuration and to learn how to configure RCB. Or download Testdata.zip for a full running example.
