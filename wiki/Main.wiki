@@ -30,7 +30,8 @@ Database file `"MyGames.db"` is not stored in RCBs database folder anymore. It c
 
 Known issues (0.5.3 on some linux distributions):
   *. The program doesn't load on “No module named pysqlite2”
-Some linux distributions don't ship with prebuild pysqlite libraries. You have to get them on your own and copy them to: /usr/lib/xbmc/addons/script.module.pysqlite (or similar). You could download the Camelot RCB version for example. It includes the correct libraries (resources/platform_libraries/Linux).
+Some linux distributions don't ship with prebuild pysqlite libraries. You have to get them on your own and copy them to your xbmc lib folder (e.g. /usr/lib/xbmc/addons/script.module.pysqlite). 
+You can get them here for example: http://packages.ubuntu.com/intrepid/python-pysqlite2.
 
 
 = First use =
