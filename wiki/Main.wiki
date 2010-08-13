@@ -19,7 +19,7 @@ You will find the "XBMC" folder in your user environment. If you installed XBMC 
   * Unzip it to your XBMC scripts folder
   * RCBs home directory is "XBMC/scripts/Rom Collection Browser/"
 
-== Dharma (RCB 0.5.3) ==
+== Dharma (RCB 0.5.4) ==
   * Go to XBMCs Addon Browser (System -> Add-ons -> Get Add-ons -> XBMC.org Add-ons -> Program Add-ons --> Rom Collection Browser)
   * Choose Install
   * RCBs home directory is "XBMC/addons/script.games.rom.collection.browser/"
@@ -28,7 +28,7 @@ Note: Directory changes in Dharma.
 Database file `"MyGames.db"` is not stored in RCBs database folder anymore. It can be found in your userdata folder in "addon_data/script.games.rom.collection.browser".
 
 
-=== Known issues (0.5.3 on some linux distributions) ===
+=== Known issues (0.5.4 on some linux distributions) ===
 ==== The program doesn't load on “No module named pysqlite2" ====
 Some linux distributions don't ship with prebuild pysqlite libraries. You have to get them on your own and copy them to your xbmc lib folder (e.g. /usr/lib/xbmc/addons/script.module.pysqlite). I have made an extra package with these libraries if you don't want to build them yourself: http://romcollectionbrowser.googlecode.com/files/platform_libraries.zip.
 
