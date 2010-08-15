@@ -12,7 +12,7 @@ UPDATE RomCollection SET xboxCreateShortcutAddRomfile = 'False';
 UPDATE RomCollection SET xboxCreateShortcutUseShortGamename = 'False';
 UPDATE RomCollection SET useFoldernameAsCRC = 'False';
 UPDATE RomCollection SET useFilenameAsCRC = 'False';
-UPDATE RomCollection SET maxFolderDepth = 0;
+UPDATE RomCollection SET maxFolderDepth = 999;
 
 ALTER TABLE RCBSetting ADD COLUMN [logLevel] INTEGER;
 ALTER TABLE RCBSetting ADD COLUMN [showEntryAllChars] INTEGER;

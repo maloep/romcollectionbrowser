@@ -242,7 +242,7 @@
 			<escapeCommand>True</escapeCommand>			
 			<descFilePerGame>True</descFilePerGame>
 			<allowUpdate>True</allowUpdate>
-			<ignoreOnScan>False</ignoreOnScan>
+			<ignoreOnScan>True</ignoreOnScan>
 			<searchGameByCRC>False</searchGameByCRC>
 			<searchGameByCRCIgnoreRomName>False</searchGameByCRCIgnoreRomName>
 			<ignoreGameWithoutDesc>False</ignoreGameWithoutDesc>
@@ -289,8 +289,9 @@
 			<consoleName>Xbox</consoleName>
 			<xboxCreateShortcut>True</xboxCreateShortcut>
 			<searchGameByCRC>False</searchGameByCRC>
-			<ignoreOnScan>True</ignoreOnScan>
+			<ignoreOnScan>False</ignoreOnScan>
 			<useFoldernameAsCRC>True</useFoldernameAsCRC>
+			<maxFolderDepth>1</maxFolderDepth>
 			<descriptionParserFile>F:\Emulatoren\data\XBOX\parserConfig_Xbox.xml</descriptionParserFile>
 			<descFilePath>F:\Emulatoren\data\XBOX\synopsis.txt</descFilePath>
 			<emulatorCmd>"%ROM%"</emulatorCmd>
