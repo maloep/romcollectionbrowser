@@ -141,6 +141,8 @@ See http://code.google.com/p/romcollectionbrowser for latest version and full do
 			<useFoldernameAsCRC>False</useFoldernameAsCRC>
 			<!-- useFilenameAsCRC: Compare the crc in the description file with the filename (without extension) of the current rom file. default value: False -->
 			<useFilenameAsCRC>False</useFilenameAsCRC>
+			<!-- maxFolderDepth: limit the number of subfolders RCB scans while searching for rom files. Default value: 999 -->
+			<maxFolderDepth>999</maxFolderDepth>
 			<!-- ignoreGameWithoutDesc: Don't import games if no description was found. default value: False -->
 			<ignoreGameWithoutDesc>False</ignoreGameWithoutDesc>	
 			
