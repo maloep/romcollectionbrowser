@@ -10,7 +10,8 @@ from gamedatabase import *
 import helper, util
 from util import *
 
-from threading import Thread
+from threading import *
+
 
 #Action Codes
 # See guilib/Key.h
@@ -137,8 +138,9 @@ class UIGameDB(xbmcgui.WindowXML):
 	fullScreenVideoStarted = False
 	# set flag if we opened GID
 	gameinfoDialogOpen = False
-	# set flag if we are currently loading gameinfos (avoid loading during fast scrolling)
-	loadingGameInfo = False			
+	
+	# set flag if we are currently running onAction
+	onActionReturned = True	
 			
 	#cachingOption will be overwritten by db-config. Don't change it here.
 	cachingOption = 3
@@ -204,10 +206,13 @@ class UIGameDB(xbmcgui.WindowXML):
 		Logutil.log("End onInit", util.LOG_LEVEL_INFO)			
 
 	
-	def onAction(self, action):	
+	def onAction(self, action):
 		
+		if not self.onActionReturned:
+			return
+		self.onActionReturned = False
+							
 		#print "action: " +str(action.getId())
-
 		if(action.getId() in ACTION_CANCEL_DIALOG):
 			Logutil.log("onAction: ACTION_CANCEL_DIALOG", util.LOG_LEVEL_DEBUG)
 						
@@ -225,12 +230,9 @@ class UIGameDB(xbmcgui.WindowXML):
 				Logutil.log("control == None in onAction", util.LOG_LEVEL_WARNING)
 				return
 				
-			if(CONTROL_GAMES_GROUP_START <= self.selectedControlId <= CONTROL_GAMES_GROUP_END):								
-				
-				if(not self.fullScreenVideoStarted and not self.loadingGameInfo):
-					self.loadingGameInfo = True
+			if(CONTROL_GAMES_GROUP_START <= self.selectedControlId <= CONTROL_GAMES_GROUP_END):
+				if(not self.fullScreenVideoStarted):
 					self.showGameInfo()
-					self.loadingGameInfo = False											
 			
 			if(action.getId() in ACTION_MOVEMENT_UP or action.getId() in ACTION_MOVEMENT_DOWN):	
 				if(self.selectedControlId in FILTER_CONTROLS):								
@@ -278,7 +280,8 @@ class UIGameDB(xbmcgui.WindowXML):
 				return
 			if(CONTROL_GAMES_GROUP_START <= self.selectedControlId <= CONTROL_GAMES_GROUP_END):
 				self.showGameInfoDialog()
-
+				
+		self.onActionReturned = True
 
 
 	def onClick(self, controlId):
@@ -979,7 +982,7 @@ class UIGameDB(xbmcgui.WindowXML):
 				print "RCB_WARNING: rcbSetting == None in checkImport"
 				return
 			lastConfigChange = rcbSetting[24]
-			if (modifyTime > lastConfigChange):
+			if (modifyTime != lastConfigChange):
 				dialog = xbmcgui.Dialog()
 				retSettings = dialog.yesno('Rom Collection Browser', 'config.xml has changed since last import.', 'Do you want to import Settings now?')
 				if(retSettings == True):
