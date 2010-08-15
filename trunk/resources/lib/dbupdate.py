@@ -72,6 +72,9 @@ class DBUpdate:
 			ignoreGameWithoutDesc = romCollectionRow[16]			
 			Logutil.log("ignore games without description: " +ignoreGameWithoutDesc, util.LOG_LEVEL_INFO)
 			
+			maxFolderDepth = romCollectionRow[22]
+			Logutil.log("max folder depth: " +str(maxFolderDepth), util.LOG_LEVEL_INFO)
+			
 			#check if we can find any roms with this configuration
 			if(searchGameByCRCIgnoreRomName == 'True' and searchGameByCRC == 'False' and descFilePerGame == 'False'):
 				Logutil.log("Configuration error: descFilePerGame = false, searchGameByCRCIgnoreRomName = true, searchGameByCRC = false." \
@@ -84,7 +87,7 @@ class DBUpdate:
 				Logutil.log("startWithDescFile == True is not implemented!", util.LOG_LEVEL_WARNING)
 				continue
 			else:		
-				files = self.getRomFilesByRomCollection(romCollectionRow)				
+				files = self.getRomFilesByRomCollection(romCollectionRow, maxFolderDepth)				
 									
 				lastgamenameFromFile = ""
 				lastgamename = ""
@@ -194,7 +197,7 @@ class DBUpdate:
 					
 		
 	
-	def getRomFilesByRomCollection(self, romCollectionRow):
+	def getRomFilesByRomCollection(self, romCollectionRow, maxFolderDepth):
 		Logutil.log("Reading configured paths from database", util.LOG_LEVEL_INFO)
 		romPaths = Path(self.gdb).getRomPathsByRomCollectionId(romCollectionRow[0])
 		Logutil.log("Rom path: " +str(romPaths), util.LOG_LEVEL_INFO)
@@ -202,7 +205,7 @@ class DBUpdate:
 		Logutil.log("Reading rom files", util.LOG_LEVEL_INFO)
 		files = []
 		for romPath in romPaths:
-			files = self.walkDownPath(files, romPath[0])
+			files = self.walkDownPath(files, romPath[0], maxFolderDepth)
 			
 		files.sort()
 			
@@ -211,47 +214,44 @@ class DBUpdate:
 		return files
 		
 		
-	def walkDownPath(self, files, romPath):
+	def walkDownPath(self, files, romPath, maxFolderDepth):
 		
-		Logutil.log("walkDownPath romPath: " +romPath, util.LOG_LEVEL_INFO)
-		
-		#TODO add configuration option
-		walkDownRomPath = True
+		Logutil.log("walkDownPath romPath: " +romPath, util.LOG_LEVEL_INFO)						
 		
 		dirname = os.path.dirname(romPath)
 		Logutil.log("dirname: " +dirname, util.LOG_LEVEL_INFO)
 		basename = os.path.basename(romPath)
-		Logutil.log("basename: " +basename, util.LOG_LEVEL_INFO)
+		Logutil.log("basename: " +basename, util.LOG_LEVEL_INFO)						
+				
+		Logutil.log("checking sub directories", util.LOG_LEVEL_INFO)
+		for walkRoot, walkDirs, walkFiles in self.walklevel(dirname.encode('utf-8'), maxFolderDepth):
+			Logutil.log( "root: " +str(walkRoot), util.LOG_LEVEL_DEBUG)
+			Logutil.log( "walkDirs: " +str(walkDirs), util.LOG_LEVEL_DEBUG)
+			Logutil.log( "walkFiles: " +str(walkFiles), util.LOG_LEVEL_DEBUG)
+									
+			newRomPath = os.path.join(walkRoot, basename)
+			Logutil.log( "newRomPath: " +str(newRomPath), util.LOG_LEVEL_DEBUG)
+			
+			#glob is same as "os.listdir(romPath)" but it can handle wildcards like *.adf
+			allFiles = glob.glob(newRomPath)
+			Logutil.log( "all files in newRomPath: " +str(allFiles), util.LOG_LEVEL_DEBUG)
 		
-		if(walkDownRomPath):
-			Logutil.log("checking sub directories", util.LOG_LEVEL_INFO)
-			for walkRoot, walkDirs, walkFiles in os.walk(dirname.encode('utf-8')):
-				Logutil.log( "root: " +str(walkRoot), util.LOG_LEVEL_DEBUG)
-				Logutil.log( "walkDirs: " +str(walkDirs), util.LOG_LEVEL_DEBUG)
-				Logutil.log( "walkFiles: " +str(walkFiles), util.LOG_LEVEL_DEBUG)
-				
-				newRomPath = os.path.join(walkRoot, basename)
-				Logutil.log( "newRomPath: " +str(newRomPath), util.LOG_LEVEL_DEBUG)
-				
-				#glob is same as "os.listdir(romPath)" but it can handle wildcards like *.adf
-				allFiles = glob.glob(newRomPath)
-				Logutil.log( "all files in newRomPath: " +str(allFiles), util.LOG_LEVEL_DEBUG)
-			
-				#did not find appendall or something like this
-				for file in allFiles:
-					files.append(file)
-					
-		else:		
-			if os.path.isdir(dirname):
-			
-				#glob is same as "os.listdir(romPath)" but it can handle wildcards like *.adf
-				allFiles = glob.glob(romPath)
-			
-				#did not find appendall or something like this
-				for file in allFiles:
-					files.append(file)
+			#did not find appendall or something like this
+			for file in allFiles:
+				files.append(file)							
 		
 		return files
+	
+	
+	def walklevel(self, some_dir, level=1):
+	    some_dir = some_dir.rstrip(os.path.sep)
+	    assert os.path.isdir(some_dir)
+	    num_sep = len([x for x in some_dir if x == os.path.sep])
+	    for root, dirs, files in os.walk(some_dir):
+	        yield root, dirs, files
+	        num_sep_this = len([x for x in root if x == os.path.sep])
+	        if num_sep + level <= num_sep_this:
+	            del dirs[:]
 		
 		
 	def getGamenameFromFilename(self, filename, romCollectionRow):
