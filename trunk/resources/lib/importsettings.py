@@ -377,7 +377,7 @@ class SettingsImporter:
 		if(useFilenameAsCRC == ''):
 			useFilenameAsCRC = 'False'
 		if(maxFolderDepth == ''):
-			maxFolderDepth = 0			
+			maxFolderDepth = 999			
 		
 		consoleRow = Console(self.gdb).getOneByName(consoleName)
 		if(consoleRow == None):
