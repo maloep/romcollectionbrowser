@@ -15,7 +15,7 @@ class GameDataBase:
 		
 	def connect( self ):		
 		print self.dataBasePath
-		self.connection = sqlite.connect(self.dataBasePath)
+		self.connection = sqlite.connect(self.dataBasePath, check_same_thread = False)
 		self.cursor = self.connection.cursor()
 		
 	def commit( self ):		
