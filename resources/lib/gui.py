@@ -212,77 +212,80 @@ class UIGameDB(xbmcgui.WindowXML):
 			return
 		self.onActionReturned = False
 							
-		#print "action: " +str(action.getId())
-		if(action.getId() in ACTION_CANCEL_DIALOG):
-			Logutil.log("onAction: ACTION_CANCEL_DIALOG", util.LOG_LEVEL_DEBUG)
-						
-			if(self.player.isPlayingVideo()):
-				self.player.stoppedByRCB = True
-				self.player.stop()
-			
-			self.exit()
-		elif(action.getId() in ACTION_MOVEMENT):
-									
-			Logutil.log("onAction: ACTION_MOVEMENT", util.LOG_LEVEL_DEBUG)
-			
-			control = self.getControlById(self.selectedControlId)
-			if(control == None):
-				Logutil.log("control == None in onAction", util.LOG_LEVEL_WARNING)
-				return
-				
-			if(CONTROL_GAMES_GROUP_START <= self.selectedControlId <= CONTROL_GAMES_GROUP_END):
-				if(not self.fullScreenVideoStarted):
-					self.showGameInfo()
-			
-			if(action.getId() in ACTION_MOVEMENT_UP or action.getId() in ACTION_MOVEMENT_DOWN):	
-				if(self.selectedControlId in FILTER_CONTROLS):								
-					
-					label = str(control.getSelectedItem().getLabel())
-					label2 = str(control.getSelectedItem().getLabel2())
-						
-					filterChanged = False
-					
-					if (self.selectedControlId == CONTROL_CONSOLES):
-						if(self.selectedConsoleIndex != control.getSelectedPosition()):
-							self.selectedConsoleId = int(label2)
-							self.selectedConsoleIndex = control.getSelectedPosition()
-							filterChanged = True
+		try:
+			#print "action: " +str(action.getId())
+			if(action.getId() in ACTION_CANCEL_DIALOG):
+				Logutil.log("onAction: ACTION_CANCEL_DIALOG", util.LOG_LEVEL_DEBUG)
 							
-					elif (self.selectedControlId == CONTROL_GENRE):
-						if(self.selectedGenreIndex != control.getSelectedPosition()):
-							self.selectedGenreId = int(label2)
-							self.selectedGenreIndex = control.getSelectedPosition()
-							filterChanged = True
-					elif (self.selectedControlId == CONTROL_YEAR):
-						if(self.selectedYearIndex != control.getSelectedPosition()):
-							self.selectedYearId = int(label2)
-							self.selectedYearIndex = control.getSelectedPosition()
-							filterChanged = True
-					elif (self.selectedControlId == CONTROL_PUBLISHER):
-						if(self.selectedPublisherIndex != control.getSelectedPosition()):
-							self.selectedPublisherId = int(label2)
-							self.selectedPublisherIndex = control.getSelectedPosition()
-							filterChanged = True
-					elif (self.selectedControlId == CONTROL_CHARACTER):
-						if(self.selectedCharacterIndex != control.getSelectedPosition()):
-							self.selectedCharacter = label
-							self.selectedCharacterIndex = control.getSelectedPosition()
-							filterChanged = True
-					if(filterChanged):					
-						self.showGames()								
-			
-		elif(action.getId() in ACTION_INFO):
-			Logutil.log("onAction: ACTION_INFO", util.LOG_LEVEL_DEBUG)
-			
-			control = self.getControlById(self.selectedControlId)
-			if(control == None):
-				Logutil.log("control == None in onAction", util.LOG_LEVEL_WARNING)
-				return
-			if(CONTROL_GAMES_GROUP_START <= self.selectedControlId <= CONTROL_GAMES_GROUP_END):
-				self.showGameInfoDialog()
+				if(self.player.isPlayingVideo()):
+					self.player.stoppedByRCB = True
+					self.player.stop()
 				
-		self.onActionReturned = True
-
+				self.exit()
+			elif(action.getId() in ACTION_MOVEMENT):
+										
+				Logutil.log("onAction: ACTION_MOVEMENT", util.LOG_LEVEL_DEBUG)
+				
+				control = self.getControlById(self.selectedControlId)
+				if(control == None):
+					Logutil.log("control == None in onAction", util.LOG_LEVEL_WARNING)
+					return
+					
+				if(CONTROL_GAMES_GROUP_START <= self.selectedControlId <= CONTROL_GAMES_GROUP_END):
+					if(not self.fullScreenVideoStarted):
+						self.showGameInfo()
+				
+				if(action.getId() in ACTION_MOVEMENT_UP or action.getId() in ACTION_MOVEMENT_DOWN):	
+					if(self.selectedControlId in FILTER_CONTROLS):								
+						
+						label = str(control.getSelectedItem().getLabel())
+						label2 = str(control.getSelectedItem().getLabel2())
+							
+						filterChanged = False
+						
+						if (self.selectedControlId == CONTROL_CONSOLES):
+							if(self.selectedConsoleIndex != control.getSelectedPosition()):
+								self.selectedConsoleId = int(label2)
+								self.selectedConsoleIndex = control.getSelectedPosition()
+								filterChanged = True
+								
+						elif (self.selectedControlId == CONTROL_GENRE):
+							if(self.selectedGenreIndex != control.getSelectedPosition()):
+								self.selectedGenreId = int(label2)
+								self.selectedGenreIndex = control.getSelectedPosition()
+								filterChanged = True
+						elif (self.selectedControlId == CONTROL_YEAR):
+							if(self.selectedYearIndex != control.getSelectedPosition()):
+								self.selectedYearId = int(label2)
+								self.selectedYearIndex = control.getSelectedPosition()
+								filterChanged = True
+						elif (self.selectedControlId == CONTROL_PUBLISHER):
+							if(self.selectedPublisherIndex != control.getSelectedPosition()):
+								self.selectedPublisherId = int(label2)
+								self.selectedPublisherIndex = control.getSelectedPosition()
+								filterChanged = True
+						elif (self.selectedControlId == CONTROL_CHARACTER):
+							if(self.selectedCharacterIndex != control.getSelectedPosition()):
+								self.selectedCharacter = label
+								self.selectedCharacterIndex = control.getSelectedPosition()
+								filterChanged = True
+						if(filterChanged):					
+							self.showGames()								
+				
+			elif(action.getId() in ACTION_INFO):
+				Logutil.log("onAction: ACTION_INFO", util.LOG_LEVEL_DEBUG)
+				
+				control = self.getControlById(self.selectedControlId)
+				if(control == None):
+					Logutil.log("control == None in onAction", util.LOG_LEVEL_WARNING)
+					return
+				if(CONTROL_GAMES_GROUP_START <= self.selectedControlId <= CONTROL_GAMES_GROUP_END):
+					self.showGameInfoDialog()
+				
+			self.onActionReturned = True
+		except:
+			print "RCB_ERROR: unhandled Error in onAction"
+			self.onActionReturned = True
 
 	def onClick(self, controlId):
 		
@@ -1202,7 +1205,8 @@ class UIGameDB(xbmcgui.WindowXML):
 			self.setFocus(focusControl)		
 		
 		id = self.Settings.getSetting(util.SETTING_RCB_VIEW_MODE)
-		xbmc.executebuiltin("Container.SetViewMode(%i)" % int(id))		
+		if(id != None and id != ''):
+			xbmc.executebuiltin("Container.SetViewMode(%i)" % int(id))		
 		
 		#lastSelectedView
 		if(rcbSetting[util.RCBSETTING_lastSelectedView] == util.VIEW_GAMEINFOVIEW):
