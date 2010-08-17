@@ -697,10 +697,6 @@ Xbox keymap.xml
 </FullscreenVideo>
 }}}
 
-=== Limitations on Xbox ===
-On the Xbox it does not seem to be possible to use fullscreen video together with automatic playback in the main window (if you click on "Play Video Fullscreen" nothing happens). You have to remove or comment the fileTypeFor...-elements that control automatic video playback (fileTypeForMainViewVideoWindowBig or fileTypeForMainViewVideoWindowSmall) if you want to use fullscreen video instead of automatic playback in video window.
-
-
 == Skinning RCB (new with 0.6.0) ==
 Most things in RCBs skin files should be self explanating to a skinner. There are two skin xml files: "script-Rom_Collection_Browser-main.xml" and "script-Rom_Collection_Browser-gameinfo.xml". They are made for a PAL resolution with Confluence in mind. If you have improvements to my Confluence skin or want to migrate RCB to other skins please feel free to contribute.
 
