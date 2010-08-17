@@ -27,8 +27,8 @@ Config file "config.xml" is not read from RCBs database folder anymore. It must 
   * Go to XBMCs Addon Browser (System -> Add-ons -> Get Add-ons -> XBMC.org Add-ons -> Program Add-ons --> Rom Collection Browser)
   * Choose Install
   
-Known issues (0.5.3 and higher):
-  * The program doesn't load on “No module named pysqlite2”
+=== Known issues (0.5.3 and higher) ===
+==== The program doesn't load on “No module named pysqlite2” ====
 Some distributions don't ship with prebuild pysqlite libraries. You have to get them on your own and copy them to your xbmc lib folder (e.g. /usr/lib/xbmc/addons/script.module.pysqlite). I made an extra package with these libraries if you don't want to build them yourself: http://romcollectionbrowser.googlecode.com/files/platform_libraries.zip.
 
 = First use =
