@@ -170,41 +170,58 @@ def getAutoexecPath():
 		autoexec = os.path.normpath(autoexec)
 		return autoexec
 	
+
+def getConfigXmlPath():
+	addonDataPath = getAddonDataPath() 
+	configFile = os.path.join(addonDataPath, "config.xml")
+	
+	return configFile
+
+
+def getConfigXmlModifyTime():
+	configFile = getConfigXmlPath()		
+	if(os.path.isfile(configFile)):
+		modifyTime = os.path.getmtime(configFile)
+	else:
+		modifyTime = 0
+	
+	return modifyTime
+	
 	
 def getSettings():
-    settings = ''
-    if isPostCamelot():
-    	import xbmcaddon
-        settings = xbmcaddon.Addon(id='%s' %SCRIPTID)
-    else:
-        settings = xbmc.Settings(RCBHOME)
-    return settings
+	settings = ''
+	if isPostCamelot():
+		import xbmcaddon
+		settings = xbmcaddon.Addon(id='%s' %SCRIPTID)
+	else:
+		settings = xbmc.Settings(RCBHOME)
+	return settings
 
- 
+
 def isPostCamelot():  
-  if os.environ.get('OS') == 'xbox':
-      return False
-  # preliminary test number for now. will bump this to the revision of the stable
-  # xbmc release when it is out
-  elif getRevision() >= 28276:
-      return True
-  else:
-      return False  
+	if os.environ.get('OS') == 'xbox':
+		return False
+	# preliminary test number for now. will bump this to the revision of the stable
+	# xbmc release when it is out
+	elif getRevision() >= 28276:
+		return True
+	else:
+		return False  
 
-     
+
 def getRevision():
-    rev_re = re.compile('r(\d+)')
-    try: xbmc_version = xbmc.getInfoLabel('System.BuildVersion')
-    except: xbmc_version = 'Unknown'
+	rev_re = re.compile('r(\d+)')
+	try: xbmc_version = xbmc.getInfoLabel('System.BuildVersion')
+	except: xbmc_version = 'Unknown'
 
-    try:
-        xbmc_rev = int(rev_re.search(xbmc_version).group(1))
-        print "XBMC Revision: %s" % xbmc_rev
-    except:
-        print "XBMC Revision not available - Version String: %s" % xbmc_version
-        xbmc_rev = 0
+	try:
+		xbmc_rev = int(rev_re.search(xbmc_version).group(1))
+		print "XBMC Revision: %s" % xbmc_rev
+	except:
+		print "XBMC Revision not available - Version String: %s" % xbmc_version
+		xbmc_rev = 0
 
-    return xbmc_rev
+	return xbmc_rev
 
 #
 # Logging

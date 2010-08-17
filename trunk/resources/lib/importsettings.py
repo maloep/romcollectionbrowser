@@ -12,10 +12,10 @@ from elementtree.ElementTree import *
 
 class SettingsImporter:
 	
-	def importSettings(self, gdb, databaseDir, gui):
+	def importSettings(self, gdb, gui):
 		
 		self.gdb = gdb
-		configFile = os.path.join(databaseDir, 'config.xml')
+		configFile = util.getConfigXmlPath()
 		
 		if(os.path.isfile(configFile)):
 			try:
@@ -33,7 +33,7 @@ class SettingsImporter:
 				return False, 'Error: config.xml is no valid XML File'
 				
 		else:	
-			Logutil.log('File config.xml does not exist', util.LOG_LEVEL_ERROR)
+			Logutil.log('File config.xml does not exist. Place a valid config file here: ' +str(configFile), util.LOG_LEVEL_ERROR)
 			return False, 'Error: File config.xml does not exist'
 
 		#itemCount and stepCount are used to show percentage in ProgressDialog		
@@ -67,7 +67,7 @@ class SettingsImporter:
 				cachingOption = self.getElementValue(rcbSetting, 'cachingOption')
 				
 				#save last edit time of config.xml 
-				modifyTime = os.path.getmtime(configFile)
+				modifyTime = util.getConfigXmlModifyTime()
 				
 				self.insertRCBSetting(favoriteConsole, favoriteGenre, showEntryAllConsoles, showEntryAllGenres, showEntryAllYears, showEntryAllPublisher, 
 					saveViewStateOnExit, saveViewStateOnLaunchEmu, logLevel, showEntryAllChars, preventUnfilteredSearch, cachingOption, modifyTime)
