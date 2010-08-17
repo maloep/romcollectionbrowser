@@ -358,7 +358,7 @@ If you use "`_Disk`" as diskPrefix and you have some rom files named "`Mygame.ad
 
 default value: _Disk
 
-===== maxFolderDepth =====
+===== maxFolderDepth (new_in_0.6.0) =====
 Limit the number of subfolders RCB scans while searching for rom files. 
 
 Default value: 999
@@ -982,6 +982,7 @@ If you want to keep your old database and your old config.xml you have to do the
       * [Preview#xboxCreateShortcutUseShortGamename_(new_in_0.6.0) xboxCreateShortcutUseShortGamename]
       * [Preview#useFoldernameAsCRC_(new_in_0.6.0) useFoldernameAsCRC]
       * [Preview#useFilenameAsCRC_(new_in_0.6.0) useFilenameAsCRC]
+      * [Preview#maxFolderDepth_(new_in_0.6.0) maxFolderDepth]
     * RCBSetting
       * [Preview#logLevel_(new_in_0.6.0) logLevel]
       * [Preview#showEntryAllChars_(new_in_0.6.0) showEntryAllChars]
