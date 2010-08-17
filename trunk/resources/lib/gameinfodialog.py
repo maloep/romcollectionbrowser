@@ -157,8 +157,7 @@ class UIGameInfoView(xbmcgui.WindowXMLDialog):
 			if(images != None and len(images) != 0):
 				image = images[0]
 			else:
-				image = ""
-			print "image = " +image 
+				image = ""			
 			item = xbmcgui.ListItem(str(game[util.ROW_NAME]), str(game[util.ROW_ID]), image, '')
 			item.setProperty('gameId', str(game[util.ROW_ID]))
 			self.addItem(item, False)
@@ -264,11 +263,11 @@ class UIGameInfoView(xbmcgui.WindowXMLDialog):
 			return itemRow[1]
 			
 	
-	def getGameProperty(self, property):
-		
-		result = ""
-		if(property != None):
+	def getGameProperty(self, property):						
+		try:
 			result = str(property)
+		except:
+			result = ""
 			
 		return result
 		
