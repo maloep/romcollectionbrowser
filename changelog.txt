@@ -17,9 +17,11 @@ Import
     * restructuring import methods: scan large description files game by game
     * importing games: progress update per game and not per rom collection
     * use default values for all settings: may keep config.xml more simple
+    * check config.xml modification time at startup
     * new option: using foldername as crc value (useFoldernameAsCRC)
     * new option: using filename as crc value (useFilenameAsCRC)
     * ignore case when searching for media files (works also on linux)
+    * limit number of subdirs when importing roms
     * bugfix: non-ascii chars in filenames during import
     * bugfix: unique constraint on game (name, romcollection)
     * bugfix: handle crc with leading zero
