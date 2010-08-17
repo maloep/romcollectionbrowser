@@ -11,6 +11,7 @@ import helper, util
 from util import *
 
 from threading import *
+from email.Message import Message
 
 
 #Action Codes
@@ -55,13 +56,21 @@ class MyPlayer(xbmc.Player):
 	stoppedByRCB = False
 	startedInPlayListMode = False
 	
-	def onPlayBackStarted(self):	
+	def onPlayBackStarted(self):
+		if(self.gui == None):
+			print "RCB_WARNING: gui == None in MyPlayer"
+			return
+		
 		if (os.environ.get("OS", "xbox") != "xbox"):
-			self.gui.saveViewState(True)					
+			self.gui.saveViewState(True)
 	
 	def onPlayBackEnded(self):
+		if(self.gui == None):
+			print "RCB_WARNING: gui == None in MyPlayer"
+			return
+		
 		#in PlayListMode we will move to the next item
-		if(self.startedInPlayListMode):
+		if(self.startedInPlayListMode):			
 			self.gui.fullScreenVideoStarted = False
 			return
 		
@@ -72,9 +81,12 @@ class MyPlayer(xbmc.Player):
 		
 		if (os.environ.get("OS", "xbox") != "xbox"):
 			self.gui.loadViewState()
-		
-	
+			
 	def onPlayBackStopped(self):
+		if(self.gui == None):
+			print "RCB_WARNING: gui == None in MyPlayer"
+			return
+		
 		xbmc.sleep(1000)				
 		
 		self.gui.fullScreenVideoStarted = False
@@ -209,6 +221,7 @@ class UIGameDB(xbmcgui.WindowXML):
 	def onAction(self, action):
 		
 		if not self.onActionReturned:
+			Logutil.log("onAction: onActionReturned == False. Do nothing.", util.LOG_LEVEL_DEBUG)
 			return
 		self.onActionReturned = False
 							
@@ -229,6 +242,7 @@ class UIGameDB(xbmcgui.WindowXML):
 				control = self.getControlById(self.selectedControlId)
 				if(control == None):
 					Logutil.log("control == None in onAction", util.LOG_LEVEL_WARNING)
+					self.onActionReturned = True
 					return
 					
 				if(CONTROL_GAMES_GROUP_START <= self.selectedControlId <= CONTROL_GAMES_GROUP_END):
@@ -278,14 +292,16 @@ class UIGameDB(xbmcgui.WindowXML):
 				control = self.getControlById(self.selectedControlId)
 				if(control == None):
 					Logutil.log("control == None in onAction", util.LOG_LEVEL_WARNING)
+					self.onActionReturned = True
 					return
 				if(CONTROL_GAMES_GROUP_START <= self.selectedControlId <= CONTROL_GAMES_GROUP_END):
-					self.showGameInfoDialog()
-				
-			self.onActionReturned = True
+					self.showGameInfoDialog()							
 		except:
 			print "RCB_ERROR: unhandled Error in onAction"
 			self.onActionReturned = True
+			
+		self.onActionReturned = True
+			
 
 	def onClick(self, controlId):
 		
@@ -453,7 +469,7 @@ class UIGameDB(xbmcgui.WindowXML):
 		games = Game(self.gdb).getFilteredGames(self.selectedConsoleId, self.selectedGenreId, self.selectedYearId, self.selectedPublisherId, likeStatement)
 		
 		if(games == None):
-			Logutil.log("len games == 0 in showGames", util.LOG_LEVEL_WARNING)
+			Logutil.log("games == None in showGames", util.LOG_LEVEL_WARNING)
 			return		
 		
 		fileDict = self.getFileDictForGamelist()
@@ -511,7 +527,7 @@ class UIGameDB(xbmcgui.WindowXML):
 			Logutil.log("ListSize == 0 in showGameInfo", util.LOG_LEVEL_WARNING)			
 			return
 					
-		pos = self.getCurrentListPosition()		
+		pos = self.getCurrentListPosition()
 		if(pos == -1):
 			pos = 0						
 		
@@ -640,6 +656,7 @@ class UIGameDB(xbmcgui.WindowXML):
 		
 		self.gameinfoDialogOpen = True
 		
+		#HACK: Dharma has a new parameter in Window-Constructor for default resolution
 		constructorParam = 1
 		if(util.isPostCamelot()):
 			constructorParam = "PAL"		
@@ -710,10 +727,11 @@ class UIGameDB(xbmcgui.WindowXML):
 		
 		
 	def getGameProperty(self, property):
-		
-		result = ""
-		if(property != None):
+						
+		try:
 			result = str(property)
+		except:
+			result = ""
 			
 		return result
 	
@@ -977,62 +995,34 @@ class UIGameDB(xbmcgui.WindowXML):
 		databaseDir = os.path.join(util.RCBHOME, 'resources', 'database')
 		
 		if(doImport == 0):
-			#check file modification time of config.xml
-			configFile = os.path.join(databaseDir, "config.xml")
-			modifyTime = os.path.getmtime(configFile)
+			#check file modification time of config.xml			
+			modifyTime = util.getConfigXmlModifyTime()
 			rcbSetting = helper.getRCBSetting(self.gdb)
 			if (rcbSetting == None):
 				print "RCB_WARNING: rcbSetting == None in checkImport"
 				return
 			lastConfigChange = rcbSetting[24]
 			if (modifyTime != lastConfigChange):
-				dialog = xbmcgui.Dialog()
-				retSettings = dialog.yesno('Rom Collection Browser', 'config.xml has changed since last import.', 'Do you want to import Settings now?')
-				if(retSettings == True):
-					progressDialog = ProgressDialogGUI()
-					progressDialog.writeMsg("Import settings...", "", "")				
-					importSuccessful, errorMsg = importsettings.SettingsImporter().importSettings(self.gdb, databaseDir, progressDialog)
-					# XBMC crashes on my Linux system without this line:
-					print('RCB INFO: Import done')
-					progressDialog.writeMsg("", "", "", -1)
-					del progressDialog
+				importSuccessful = self.doImportSettings('config.xml has changed since last import.')
+				if(not importSuccessful):
+					return
 		
 		#doImport: 0=nothing, 1=import Settings and Games, 2=import Settings only, 3=import games only
-		elif(doImport in (1, 2)):
-			dialog = xbmcgui.Dialog()
+		elif(doImport in (1, 2)):			
 			if(doImport == 1):
-				retSettings = dialog.yesno('Rom Collection Browser', 'Database is empty.', 'Do you want to import Settings now?')
+				importSuccessful = self.doImportSettings('Database is empty.')
 			else:
-				retSettings = dialog.yesno('Rom Collection Browser', '', 'Do you want to import Settings now?')
-			del dialog
-			if(retSettings == True):
-				progressDialog = ProgressDialogGUI()
-				progressDialog.writeMsg("Import settings...", "", "")				
-				importSuccessful, errorMsg = importsettings.SettingsImporter().importSettings(self.gdb, databaseDir, progressDialog)
-				# XBMC crashes on my Linux system without this line:
-				print('RCB INFO: Import done')
-				progressDialog.writeMsg("", "", "", -1)
-				del progressDialog
-                
-				#TODO 2nd chance
-				if (not importSuccessful):
-					xbmcgui.Dialog().ok(util.SCRIPTNAME, errorMsg, 'See xbmc.log for details.')
-					return
-								
-				self.backupConfigXml(databaseDir)
-				
-				#reset log level
-				Logutil.currentLogLevel = None
+				importSuccessful = self.doImportSettings('')								
 
-				if(importSuccessful and doImport == 1):
-					dialog = xbmcgui.Dialog()
-					retGames = dialog.yesno('Rom Collection Browser', 'Import Settings successful', 'Do you want to import Games now?')
-					if(retGames == True):
-						progressDialog = ProgressDialogGUI()
-						progressDialog.writeMsg("Import games...", "", "")
-						dbupdate.DBUpdate().updateDB(self.gdb, progressDialog)
-						progressDialog.writeMsg("", "", "", -1)
-						del progressDialog
+			if(importSuccessful and doImport == 1):
+				dialog = xbmcgui.Dialog()
+				retGames = dialog.yesno('Rom Collection Browser', 'Import Settings successful', 'Do you want to import Games now?')
+				if(retGames == True):
+					progressDialog = ProgressDialogGUI()
+					progressDialog.writeMsg("Import games...", "", "")
+					dbupdate.DBUpdate().updateDB(self.gdb, progressDialog)
+					progressDialog.writeMsg("", "", "", -1)
+					del progressDialog
 						
 		elif(doImport == 3):
 			dialog = xbmcgui.Dialog()
@@ -1043,6 +1033,28 @@ class UIGameDB(xbmcgui.WindowXML):
 				dbupdate.DBUpdate().updateDB(self.gdb, progressDialog)
 				progressDialog.writeMsg("", "", "", -1)
 				del progressDialog
+				
+				
+	def doImportSettings(self, message):
+		dialog = xbmcgui.Dialog()
+		retSettings = dialog.yesno('Rom Collection Browser', message, 'Do you want to import Settings now?')
+		if(retSettings == True):
+			progressDialog = ProgressDialogGUI()
+			progressDialog.writeMsg("Import settings...", "", "")				
+			importSuccessful, errorMsg = importsettings.SettingsImporter().importSettings(self.gdb, progressDialog)
+			# XBMC crashes on my Linux system without this line:
+			print('RCB INFO: Import done')
+			progressDialog.writeMsg("", "", "", -1)
+			del progressDialog
+			
+			if (not importSuccessful):
+				xbmcgui.Dialog().ok(util.SCRIPTNAME, errorMsg, 'See xbmc.log for details.')
+				return False
+			self.backupConfigXml()
+			
+			#reset log level
+			Logutil.currentLogLevel = None
+			return True
 
 			
 	def checkAutoExec(self):
@@ -1098,9 +1110,9 @@ class UIGameDB(xbmcgui.WindowXML):
 		Logutil.log("End checkAutoExec" , util.LOG_LEVEL_INFO)		
 		
 		
-	def backupConfigXml(self, databaseDir):
+	def backupConfigXml(self):
 		#backup config.xml for later use (will be overwritten in case of an addon update)
-		configXml = os.path.join(databaseDir, 'config.xml')
+		configXml = util.getConfigXmlPath()
 		configXmlBackup = os.path.join(util.getAddonDataPath(), 'config.xml.backup')
 		
 		if os.path.isfile(configXmlBackup):
