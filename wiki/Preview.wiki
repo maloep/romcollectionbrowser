@@ -16,22 +16,23 @@ Note: You will find the "XBMC" folder in your user environment. If you installed
 Note: Directory changes in 0.5.3 and higher:
 Database file `"MyGames.db"` is not stored in RCBs database folder anymore. It can be found in your userdata folder in "script_data/script.games.rom.collection.browser" (Camelot) or "addon_data/script.games.rom.collection.browser" (Dharma).
 
+Note: Directory changes in 0.6.1 and higher:
+Config file "config.xml" is not read from RCBs database folder anymore. It must be placed in your userdata folder in "script_data/script.games.rom.collection.browser" (Camelot) or "addon_data/script.games.rom.collection.browser" (Dharma).
+
 == Camelot ==
-  * Download "script.games.rom.collection.browser-0.6.0.zip (http://romcollectionbrowser.googlecode.com/files/script.games.rom.collection.browser-0.6.0.zip)
+  * Download "script.games.rom.collection.browser-0.6.1.zip (http://romcollectionbrowser.googlecode.com/files/script.games.rom.collection.browser-0.6.1.zip)
   * Unzip it to your XBMC scripts folder
-  * RCBs home directory is "XBMC/scripts/script.games.rom.collection.browser/" (called "RCB home" in the rest of the wiki)
 
 == Dharma (RCB 0.5.3 and higher) ==
   * Go to XBMCs Addon Browser (System -> Add-ons -> Get Add-ons -> XBMC.org Add-ons -> Program Add-ons --> Rom Collection Browser)
   * Choose Install
-  * RCBs home directory is "XBMC/addons/script.games.rom.collection.browser/" (called "RCB home" in the rest of the wiki)
   
-Known issues (0.5.3 on some linux distributions):
+Known issues (0.5.3 and higher):
   * The program doesn't load on “No module named pysqlite2”
-Some linux distributions don't ship with prebuild pysqlite libraries. You have to get them on your own and copy them to your xbmc lib folder (e.g. /usr/lib/xbmc/addons/script.module.pysqlite). I have made an extra package with these libraries if you don't want to build them yourself: http://romcollectionbrowser.googlecode.com/files/platform_libraries.zip.
+Some distributions don't ship with prebuild pysqlite libraries. You have to get them on your own and copy them to your xbmc lib folder (e.g. /usr/lib/xbmc/addons/script.module.pysqlite). I made an extra package with these libraries if you don't want to build them yourself: http://romcollectionbrowser.googlecode.com/files/platform_libraries.zip.
 
 = First use =
-  * Edit the main configuration file "config.xml" (RCB home/resources/database/). Check configuration section for a sample configuration and to learn how to configure RCB. Or download Testdata.zip for a full running example.
+  * Edit the main configuration file "config.xml" and copy it to your userdata folder ("script_data/script.games.rom.collection.browser" (Camelot) or "addon_data/script.games.rom.collection.browser" (Dharma)). Check configuration section for a sample configuration and to learn how to configure RCB. Or download Testdata.zip for a full running example.
   * Start XBMC and launch RCB
   * RCB will notice that there is no database and asks you if you would like to import settings. If you have already edited config.xml click "Yes".
   * If "Import Settings" was successful RCB will offer you to import games now. Click "Yes" to continue. Depending on your rom collections size this step can take some time.
@@ -54,7 +55,7 @@ To show you how this script will work and how data should (could) be organized I
   # Go to the new Testdata folder
   # Edit "config_Windows.xml" or "config_Linux.xml": Replace every occurance of "PathToTestData" with the absolute path to your Testdata folder (e.g. "/home/user/Testdata V0.5" or "D:\Downloads\RCB\Testdata V0.5")
   # Rename "config_Windows.xml" or "config_Linux.xml" to "config.xml"
-  # Copy "config.xml" to "RCB home/resources/database" (overwrite existing file)
+  # Copy "config.xml" to your userdata folder ("script_data/script.games.rom.collection.browser" (Camelot) or "addon_data/script.games.rom.collection.browser" (Dharma))
   # Start xbmc and launch RCB
   # RCB will notice that there is no database and asks you if you would like to import settings. Click "Yes".
   # If "Import Settings" was successful RCB will offer you to import games now. Click "Yes" to continue.
@@ -80,14 +81,16 @@ To exit the script or to leave the details page just press "Esc" (or BACK-Button
 RCB will scan your rom folders and data folders and imports all game relevant data. To get this job done you have to tell it where to search and what to search for. At the moment this is done via xml configuration file. In a later release this could be done via settings page.
 
 === Import Settings ===
-Configuration information must be stored in database before you can start scanning rom folders. Import settings means that information from your configuration file "RCB home/resources/database/config.xml" will be written to database "MyGames.db". The format of this configuration file is explained in Configuration section: [Preview#Configuration_File_Format_(config.xml) Configuration File Format (config.xml)].
+Configuration information must be stored in database before you can start scanning rom folders. Import settings means that information from your configuration file "config.xml" will be written to database "MyGames.db". The format of this configuration file is explained in Configuration section: [Preview#Configuration_File_Format_(config.xml) Configuration File Format (config.xml)].
 
-If you want to make changes to the configuration just edit the xml file an click "Import Settings" again. You have to import settings every time you make changes to your configuration (this doesn't touch any already imported game data).
+If you want to make changes to the configuration just edit the xml file an click "Import Settings" again. You have to import settings every time you make changes to your configuration (this doesn't touch any already imported game data). RCB will check the last modification date of "config.xml" at startup and offers you to import settings automatically if there are changes since last import.
 
 RCB checks your config file for common errors before it will be imported. If it finds any errors your settings won't be imported. Error messages are written to standard xbmc log file.
 
+After every successful import, RCB will backup your "config.xml" as "config.xml.backup" in the same directory. An existing backup file will be overwritten.
+
 === Import Games ===
-This will use the settings information you imported in the previous step to scan the configured folders for roms and data. Every imported file will be associated with a game and a file type (rom, ingame screenshot, title screenshot, cover, ...). Only the path to the file is imported, not the file itself. If you delete or move the file after importing RCB won't find it anymore.
+This will use the settings information you imported in the previous step to scan the configured folders for roms and data. Every imported file will be associated with a game and a file type (ingame screenshot, cover, gameplay video, ...). Only the path to the file is imported, not the file itself. If you delete or move the file after importing, RCB won't find it anymore.
 
 RCB will also try to parse description files for your games during import. At the moment this only works with simple multiline text files. There is a configurable parser that will read parse instructions from an xml configuration file that tells it how to parse the current file format. The format of this parser configuration is explained in section [Preview#parserConfig.xml parserConfig.xml].
 
@@ -100,20 +103,19 @@ If you add new data to one of your rom collections you can use "Import Games" as
 Depending on your rom collections size importing games can take some time.
 
 
-
 = Configuration =
-Configuration is done via xml files. There is one main configuration file "config.xml" that must be placed in RCBs database directory. There may also be some parser configuration files (one for every different file format) that will allow you to control the behaviour of the description file parser.
+Configuration is done via xml files. There is one main configuration file "config.xml" that must be placed in your userdata folder ("script_data/script.games.rom.collection.browser" (Camelot) or "addon_data/script.games.rom.collection.browser" (Dharma)). There may also be some parser configuration files (one for every different file format) that will allow you to control the behaviour of the description file parser.
 
-Newer versions (from 0.5.3 up) of RCB contain a commented config-file. You will find all available settings with a short description and a default value in this file.
+Newer versions (from 0.5.3 up) of RCB contain a commented config-file (RCB install dir/resources/database). You will find all available settings with a short description and a default value in this file.
 
-There are three stages where RCB reads its settings: Importing Games, Browsing and Displaying Games, Launching Games. After very configuration change you have to "Import Settings" again. You only need to "Import Games" if you make changes to settings that address the "Importing Games" stage.
+There are three stages where RCB reads its settings: [Preview#Import_games_and_media Importing Games], [Preview#Browsing_and_displaying_games Browsing and Displaying Games] and [Preview#Launching_games Launching Games]. After very configuration change you have to "Import Settings" again. You only need to "Import Games" if you make changes to settings that address the "Importing Games" stage.
 
 == Configuration File Format (config.xml) ==
 
 The basic structure of RCBs config file looks like this:
 
 {{{
-<config>	
+<config>
 	<RCBSettings>
 		<!-- elements -->
 	</RCBSettings>
@@ -125,12 +127,12 @@ The basic structure of RCBs config file looks like this:
 	<Consoles>
 		<Console>
 			<!-- elements -->
-		</Console>		
-	</Consoles>	
+		</Console>
+	</Consoles>
 	<RomCollections>
-		<RomCollection>			
+		<RomCollection>
 			<!-- elements -->
-		</RomCollection>		
+		</RomCollection>
 	</RomCollections>
 </config>
 }}}
@@ -147,19 +149,19 @@ You must configure at least Consoles and RomCollections to get RCB working. RCBS
 A minimal working configuration could look like this:
 
 {{{
-<config>	
-	<Consoles>		
+<config>
+	<Consoles>
 		<Console>
-			<name>Amiga</name>			
-		</Console>		
+			<name>Amiga</name>
+		</Console>
 	</Consoles>	
 	<RomCollections>
-		<RomCollection>			
+		<RomCollection>
 			<name>Amiga</name>
 			<consoleName>Amiga</consoleName>
-			<emulatorCmd>uae {-%I% "%ROM%"}</emulatorCmd>			
-			<romPath>/home/user/roms/*.adf</romPath>						
-		</RomCollection>		
+			<emulatorCmd>uae {-%I% "%ROM%"}</emulatorCmd>
+			<romPath>/home/user/roms/*.adf</romPath>
+		</RomCollection>
 	</RomCollections>
 </config>
 }}}
@@ -205,20 +207,20 @@ To add images to your rom collection you have to define FileTypes, add a media p
 			<parent>game</parent>
 		</FileType>
 	</FileTypes>
-	<Consoles>		
+	<Consoles>
 		<Console>
-			<name>Amiga</name>			
-		</Console>		
-	</Consoles>	
+			<name>Amiga</name>
+		</Console>
+	</Consoles>
 	<RomCollections>
-		<RomCollection>			
+		<RomCollection>
 			<name>Amiga</name>
 			<consoleName>Amiga</consoleName>
-			<emulatorCmd>uae {-%I% "%ROM%"}</emulatorCmd>			
+			<emulatorCmd>uae {-%I% "%ROM%"}</emulatorCmd>
 			<romPath>/home/user/roms/*.adf</romPath>
 			<mediaPath type="cover">/home/user/media/cover/%GAME%.png</mediaPath>
 			<fileTypeForGameList>cover</fileTypeForGameList>
-		</RomCollection>		
+		</RomCollection>
 	</RomCollections>
 </config>
 }}}
@@ -273,11 +275,11 @@ Our above config has to be extended with (at least) these properties:
 <config>
 	...
 	<RomCollections>
-		<RomCollection>			
+		<RomCollection>
 			...
-			<descFilePath>/home/user/roms/description.txt</descFilePath>			
+			<descFilePath>/home/user/roms/description.txt</descFilePath>
 			<descriptionParserFile>/home/user/roms/parserConfig.xml</descriptionParserFile>
-		</RomCollection>		
+		</RomCollection>
 	</RomCollections>
 </config>
 }}}
@@ -356,6 +358,11 @@ If you use "`_Disk`" as diskPrefix and you have some rom files named "`Mygame.ad
 
 default value: _Disk
 
+===== maxFolderDepth =====
+Limit the number of subfolders RCB scans while searching for rom files. 
+
+Default value: 999
+
 ==== RCBSettings ====
 ===== logLevel (new in 0.6.0) =====
 Set RCBs log level. Allowed values: ERROR, WARNING, INFO or DEBUG
@@ -421,7 +428,7 @@ http://romcollectionbrowser.googlecode.com/files/screenshot_dip_gd.jpg
 === Performance options (large collections or slow CPU/little RAM) ===
 ==== RCBSettings ====
 These are the global settings of RCB.
-	
+
 ===== showEntryAllConsoles =====
 Actually there are five filter lists to browse your rom files. Every list has an entry "All" per default. If you have a large rom collection and you try to load all your roms unfiltered this can take some time. You can set this property to "False" to remove the entry "All" from the Console filter list.
 
@@ -477,7 +484,7 @@ If set to "True" RCB will save the current view state (selected filter criteria 
 default value: True
 
 
-== Launching Games ==
+== Launching games ==
 === All systems ===
 ==== Rom Collection ====
 ===== emulatorCmd =====
@@ -523,6 +530,119 @@ This will use a short game name instead of complete file name (required for some
 
 default value: False
 
+
+== config.xml reference ==
+
+A full example config.xml file could look like this (removed all entries that are using default values):
+
+{{{
+
+<config>
+	<RCBSettings>
+		<showEntryAllConsoles>False</showEntryAllConsoles>
+		<logLevel>INFO</logLevel>
+		<cachingOption>CACHEALL</cachingOption>
+	</RCBSettings>
+	<Consoles>
+		<Console>
+			<name>Amiga</name>
+		</Console>
+		<Console>
+			<name>Super Nintendo</name>
+		</Console>
+	</Consoles>
+	<FileTypes>
+		<FileType>
+			<name>cover</name>
+			<type>image</type>
+			<parent>game</parent>
+		</FileType>
+		<FileType>
+			<name>action</name>
+			<type>image</type>
+			<parent>game</parent>
+		</FileType>
+		<FileType>
+			<name>title</name>
+			<type>image</type>
+			<parent>game</parent>
+		</FileType>
+		<FileType>
+			<name>cartridge</name>
+			<type>image</type>
+			<parent>game</parent>
+		</FileType>
+		<FileType>
+			<name>console</name>
+			<type>image</type>
+			<parent>game</parent>
+		</FileType>
+		<FileType>
+			<name>gameplay</name>
+			<type>video</type>
+			<parent>game</parent>
+		</FileType>
+	</FileTypes>
+	<RomCollections>
+		<!-- example Amiga configuration: 2 images, description files per game, no video--> 
+		<RomCollection>
+			<name>Amiga</name>
+			<consoleName>Amiga</consoleName>
+			<romPath>PathToData\Amiga\roms\*.adf</romPath>
+			<emulatorCmd>E:\Emulatoren\WINUAE\winuae.exe {-%I% "%ROM%"}</emulatorCmd>
+			<useEmuSolo>True</useEmuSolo>
+			<descFilePath>PathToData\Amiga\synopsis\%GAME%\synopsis.txt</descFilePath>
+			<descriptionParserFile>PathToData\Amiga\parserConfig.xml</descriptionParserFile>
+			<descFilePerGame>True</descFilePerGame>
+			<searchGameByCRC>False</searchGameByCRC>
+			<mediaPath type="cover">PathToData\Amiga\cover\%GAME%\*.jpg</mediaPath>
+			<mediaPath type="action">PathToData\Amiga\screens\%GAME%\*.jpg</mediaPath>
+			<fileTypeForGameList>cover</fileTypeForGameList>
+			<fileTypeForGameListSelected>cover</fileTypeForGameListSelected>
+			<fileTypeForMainViewGameInfoBig>action</fileTypeForMainViewGameInfoBig>
+			<fileTypeForGameInfoViewBackground>cover</fileTypeForGameInfoViewBackground>
+			<fileTypeForGameInfoViewGamelist>cover</fileTypeForGameInfoViewGamelist>
+			<fileTypeForGameInfoView2>action</fileTypeForGameInfoView2>
+			<fileTypeForGameInfoView3>cover</fileTypeForGameInfoView3>
+		</RomCollection>
+
+		<!-- example Super Nintendo configuration: 4 images, one description file for all games, 1 video, 1 console image -->
+		<RomCollection>
+			<name>SNES</name>
+			<consoleName>Super Nintendo</consoleName>
+			<romPath>PathToData\SNES\roms\*.zip</romPath>
+			<emulatorCmd>E:\Emulatoren\SNES\zsnes.exe -m "%ROM%"</emulatorCmd>
+			<descFilePath>PathToData\SNES\description\synopsis.txt</descFilePath>
+			<descriptionParserFile>PathToData\SNES\parserConfig.xml</descriptionParserFile>
+			<searchGameByCRC>True</searchGameByCRC>
+			<searchGameByCRCIgnoreRomName>True</searchGameByCRCIgnoreRomName>
+			<mediaPath type="cover">PathToData\SNES\cover\%GAME%.jpg</mediaPath>
+			<mediaPath type="action">PathToData\SNES\screens\%GAME%.jpg</mediaPath>
+			<mediaPath type="title">PathToData\SNES\titles\%GAME%.jpg</mediaPath>
+			<mediaPath type="cartridge">PathToData\SNES\cartridge\%GAME%.jpg</mediaPath>
+			<mediaPath type="gameplay">PathToData\SNES\ingameVids\%GAME%.wmv</mediaPath>
+			<mediaPath type="console">PathToData\consoleImages\%CONSOLE%.png</mediaPath>
+			<fileTypeForGameList>cover</fileTypeForGameList>
+			<fileTypeForGameListSelected>title</fileTypeForGameListSelected>
+			<fileTypeForGameInfoViewBackground>title</fileTypeForGameInfoViewBackground>
+			<fileTypeForMainView1>console</fileTypeForMainView1>
+			<fileTypeForMainViewGameInfoUpperLeft>title</fileTypeForMainViewGameInfoUpperLeft>
+			<fileTypeForMainViewGameInfoUpperRight>action</fileTypeForMainViewGameInfoUpperRight>
+			<fileTypeForMainViewGameInfoLowerLeft>cover</fileTypeForMainViewGameInfoLowerLeft>
+			<fileTypeForMainViewGameInfoLowerRight>cartridge</fileTypeForMainViewGameInfoLowerRight>
+			<fileTypeForMainViewVideoWindowSmall>gameplay</fileTypeForMainViewVideoWindowSmall>
+			<fileTypeForMainViewFullscreenVideo>gameplay</fileTypeForMainViewFullscreenVideo>
+			<fileTypeForGameInfoViewGamelist>cover</fileTypeForGameInfoViewGamelist>
+			<fileTypeForGameInfoView1>title</fileTypeForGameInfoView1>
+			<fileTypeForGameInfoView2>action</fileTypeForGameInfoView2>
+			<fileTypeForGameInfoView3>cover</fileTypeForGameInfoView3>
+			<fileTypeForGameInfoView4>cartridge</fileTypeForGameInfoView4>
+			<fileTypeForGameInfoViewVideoWindow>gameplay</fileTypeForGameInfoViewVideoWindow>
+		</RomCollection>
+	</RomCollections>
+</config>
+
+}}}
 
 
 = Advanced topics =
@@ -838,119 +958,6 @@ You can use `LineStart` and `LineEnd` together. The following example will searc
 <SkippableContent skipTo="LineStart*LineEnd"></SkippableContent>
 }}}
 
-== config.xml reference ==
-
-A full example config.xml file could look like this (removed all entries that are using default values):
-
-{{{
-
-<config>
-	<RCBSettings>
-		<showEntryAllConsoles>False</showEntryAllConsoles>
-		<logLevel>INFO</logLevel>
-		<cachingOption>CACHEALL</cachingOption>
-	</RCBSettings>				
-	<Consoles>				
-		<Console>
-			<name>Amiga</name>			
-		</Console>
-		<Console>
-			<name>Super Nintendo</name>			
-		</Console>		
-	</Consoles>		
-	<FileTypes>			
-		<FileType>			
-			<name>cover</name>			
-			<type>image</type>			
-			<parent>game</parent>
-		</FileType>
-		<FileType>
-			<name>action</name>
-			<type>image</type>
-			<parent>game</parent>
-		</FileType>		
-		<FileType>
-			<name>title</name>
-			<type>image</type>
-			<parent>game</parent>
-		</FileType>		
-		<FileType>
-			<name>cartridge</name>
-			<type>image</type>
-			<parent>game</parent>
-		</FileType>
-		<FileType>
-			<name>console</name>
-			<type>image</type>
-			<parent>game</parent>
-		</FileType>
-		<FileType>
-			<name>gameplay</name>
-			<type>video</type>
-			<parent>game</parent>
-		</FileType>		
-	</FileTypes>
-	<RomCollections>
-		<!-- example Amiga configuration: 2 images, description files per game, no video--> 
-		<RomCollection>		
-			<name>Amiga</name>
-			<consoleName>Amiga</consoleName>
-			<romPath>PathToData\Amiga\roms\*.adf</romPath>
-			<emulatorCmd>E:\Emulatoren\WINUAE\winuae.exe {-%I% "%ROM%"}</emulatorCmd>
-			<useEmuSolo>True</useEmuSolo>			
-			<descFilePath>PathToData\Amiga\synopsis\%GAME%\synopsis.txt</descFilePath>						
-			<descriptionParserFile>PathToData\Amiga\parserConfig.xml</descriptionParserFile>
-			<descFilePerGame>True</descFilePerGame>
-			<searchGameByCRC>False</searchGameByCRC>									
-			<mediaPath type="cover">PathToData\Amiga\cover\%GAME%\*.jpg</mediaPath>			
-			<mediaPath type="action">PathToData\Amiga\screens\%GAME%\*.jpg</mediaPath>			
-			<fileTypeForGameList>cover</fileTypeForGameList>
-			<fileTypeForGameListSelected>cover</fileTypeForGameListSelected>
-			<fileTypeForMainViewGameInfoBig>action</fileTypeForMainViewGameInfoBig>		
-			<fileTypeForGameInfoViewBackground>cover</fileTypeForGameInfoViewBackground>
-			<fileTypeForGameInfoViewGamelist>cover</fileTypeForGameInfoViewGamelist>			
-			<fileTypeForGameInfoView2>action</fileTypeForGameInfoView2>
-			<fileTypeForGameInfoView3>cover</fileTypeForGameInfoView3>			
-		</RomCollection>
-
-		<!-- example Super Nintendo configuration: 4 images, one description file for all games, 1 video, 1 console image -->
-		<RomCollection>			
-			<name>SNES</name>
-			<consoleName>Super Nintendo</consoleName>
-			<romPath>PathToData\SNES\roms\*.zip</romPath>
-			<emulatorCmd>E:\Emulatoren\SNES\zsnes.exe -m "%ROM%"</emulatorCmd>			
-			<descFilePath>PathToData\SNES\description\synopsis.txt</descFilePath>			
-			<descriptionParserFile>PathToData\SNES\parserConfig.xml</descriptionParserFile>
-			<searchGameByCRC>True</searchGameByCRC>
-			<searchGameByCRCIgnoreRomName>True</searchGameByCRCIgnoreRomName>						
-			<mediaPath type="cover">PathToData\SNES\cover\%GAME%.jpg</mediaPath>			
-			<mediaPath type="action">PathToData\SNES\screens\%GAME%.jpg</mediaPath>						
-			<mediaPath type="title">PathToData\SNES\titles\%GAME%.jpg</mediaPath>						
-			<mediaPath type="cartridge">PathToData\SNES\cartridge\%GAME%.jpg</mediaPath>
-			<mediaPath type="gameplay">PathToData\SNES\ingameVids\%GAME%.wmv</mediaPath>
-			<mediaPath type="console">PathToData\consoleImages\%CONSOLE%.png</mediaPath>
-			<fileTypeForGameList>cover</fileTypeForGameList>
-			<fileTypeForGameListSelected>title</fileTypeForGameListSelected>			
-			<fileTypeForGameInfoViewBackground>title</fileTypeForGameInfoViewBackground>
-			<fileTypeForMainView1>console</fileTypeForMainView1>
-			<fileTypeForMainViewGameInfoUpperLeft>title</fileTypeForMainViewGameInfoUpperLeft>
-			<fileTypeForMainViewGameInfoUpperRight>action</fileTypeForMainViewGameInfoUpperRight>
-			<fileTypeForMainViewGameInfoLowerLeft>cover</fileTypeForMainViewGameInfoLowerLeft>
-			<fileTypeForMainViewGameInfoLowerRight>cartridge</fileTypeForMainViewGameInfoLowerRight>
-			<fileTypeForMainViewVideoWindowSmall>gameplay</fileTypeForMainViewVideoWindowSmall>			
-			<fileTypeForGameInfoViewGamelist>cover</fileTypeForGameInfoViewGamelist>
-			<fileTypeForGameInfoView1>title</fileTypeForGameInfoView1>
-			<fileTypeForGameInfoView2>action</fileTypeForGameInfoView2>
-			<fileTypeForGameInfoView3>cover</fileTypeForGameInfoView3>
-			<fileTypeForGameInfoView4>cartridge</fileTypeForGameInfoView4>
-			<fileTypeForGameInfoViewVideoWindow>gameplay</fileTypeForGameInfoViewVideoWindow>
-		</RomCollection>			
-	</RomCollections>	
-</config>
-
-}}}
-
-
 
 = Update an older installation =
 == without preserving configuration changes ==
@@ -967,7 +974,7 @@ If you want to keep your old database and your old config.xml you have to do the
   * Backup your `config.xml`
   * Delete the folder "Rom Collection Browser" (V0.5) or "script.games.rom.collection.browser" (0.5.x)
   * Follow the steps in chapter "Installation"
-  * Copy `MyGames.db` to your userdata folder (Dharma: addon_data, Camelot: script_data) and `config.xml` back to the database folder of your new RCB installation
+  * Copy `MyGames.db` and `config.xml` to your userdata folder (Dharma: addon_data, Camelot: script_data) to "script.games.rom.collection.browser"
   * Check if you need one of the following new properties in your `config.xml` (RCB will run without them):
     * RomCollection
       * [Preview#xboxCreateShortcut_(new_in_0.6.0) xboxCreateShortcut]	  	  
@@ -979,8 +986,9 @@ If you want to keep your old database and your old config.xml you have to do the
       * [Preview#logLevel_(new_in_0.6.0) logLevel]
       * [Preview#showEntryAllChars_(new_in_0.6.0) showEntryAllChars]
       * [Preview#preventUnfilteredSearch_(new_in_0.6.0) preventUnfilteredSearch]
+  * When you start RCB it will ask you to import settings: Say "yes".
 
-		
+
 
 === V0.4 -> V0.5 ===
 If you want to keep your old database and your old config.xml you have to do the following steps:
@@ -1137,9 +1145,11 @@ Optional: Delete the complete element `<FileTypes>`:
   * restructuring of import methods: scan large description files per game (previous version scanned the complete file at once causing out of memory errors on xbox)
   * changed behavior of progress dialog when importing games: progress update per game and not per rom collection
   * use default values for all settings: may keep config.xml more simple
+  * check config.xml modification time at startup
   * new option: using foldername as crc value (useFoldernameAsCRC)
   * new option: using filename as crc value (useFilenameAsCRC)
   * ignore case when searching for media files (works also on linux)
+  * limit number of subdirs when importing roms
   * bugfix: non-ascii chars in filenames during import
   * bugfix: unique constraint on game (name, romcollection)
   * bugfix: handle crc with leading zero
