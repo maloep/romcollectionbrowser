@@ -77,7 +77,7 @@ class MyPlayer(xbmc.Player):
 		if(self.gui.gameinfoDialogOpen):
 			return
 				
-		xbmc.sleep(1000)
+		xbmc.sleep(util.WAITTIME_PLAYERSTOP)
 				
 		if (os.environ.get("OS", "xbox") != "xbox"):
 			self.gui.loadViewState()
@@ -85,14 +85,14 @@ class MyPlayer(xbmc.Player):
 	def onPlayBackStopped(self):
 		if(self.gui == None):
 			print "RCB_WARNING: gui == None in MyPlayer"
-			return
-				
-		xbmc.sleep(1000)				
+			return						
 		
 		self.gui.fullScreenVideoStarted = False
 		
 		if(self.gui.gameinfoDialogOpen):
 			return
+		
+		xbmc.sleep(util.WAITTIME_PLAYERSTOP)
 				
 		if (os.environ.get("OS", "xbox") != "xbox"):
 			if(not self.stoppedByRCB):
@@ -152,7 +152,7 @@ class UIGameDB(xbmcgui.WindowXML):
 	gameinfoDialogOpen = False
 	
 	# set flag if we are currently running onAction
-	onActionReturned = True	
+	onActionLastRun = 0	
 			
 	#cachingOption will be overwritten by db-config. Don't change it here.
 	cachingOption = 3
@@ -209,21 +209,37 @@ class UIGameDB(xbmcgui.WindowXML):
 			return
 		
 		self.clearList()
-		self.rcb_playList.clear()						
+		self.rcb_playList.clear()
+		xbmc.sleep(util.WAITTIME_UPDATECONTROLS)						
 		
 		self.updateControls()
 		self.loadViewState()
 		self.checkAutoExec()		
 
-		Logutil.log("End onInit", util.LOG_LEVEL_INFO)			
+		Logutil.log("End onInit", util.LOG_LEVEL_INFO)
 
 	
 	def onAction(self, action):
 		
-		if not self.onActionReturned:
-			Logutil.log("onAction: onActionReturned == False. Do nothing.", util.LOG_LEVEL_DEBUG)
+		#Hack: prevent being invoked twice
+		onActionCurrentRun = time.clock()
+		
+		Logutil.log("onActionCurrentRun: %d ms" % (onActionCurrentRun * 1000), util.LOG_LEVEL_DEBUG)
+		Logutil.log("onActionLastRun: %d ms" % (self.onActionLastRun * 1000), util.LOG_LEVEL_DEBUG)
+		
+		diff = (onActionCurrentRun - self.onActionLastRun) * 1000
+		Logutil.log("diff: %d ms" % (diff), util.LOG_LEVEL_DEBUG)
+		
+		waitTime = util.WAITTIME_ONACTION
+		if (os.environ.get("OS", "xbox") == "xbox"):
+			waitTime = util.WAITTIME_ONACTION_XBOX
+		
+		if(int(diff) <= waitTime):
+			Logutil.log("Last run still active. Do nothing.", util.LOG_LEVEL_DEBUG)
+			self.onActionLastRun = time.clock()
 			return
-		self.onActionReturned = False
+		
+		self.onActionLastRun = time.clock()
 							
 		try:
 			#print "action: " +str(action.getId())
@@ -233,8 +249,9 @@ class UIGameDB(xbmcgui.WindowXML):
 				if(self.player.isPlayingVideo()):
 					self.player.stoppedByRCB = True
 					self.player.stop()
+					xbmc.sleep(util.WAITTIME_PLAYERSTOP)
 				
-				xbmc.sleep(1000)
+				self.onActionLastRun = time.clock()
 				self.exit()
 			elif(action.getId() in ACTION_MOVEMENT):
 										
@@ -243,7 +260,7 @@ class UIGameDB(xbmcgui.WindowXML):
 				control = self.getControlById(self.selectedControlId)
 				if(control == None):
 					Logutil.log("control == None in onAction", util.LOG_LEVEL_WARNING)
-					self.onActionReturned = True
+					self.onActionLastRun = time.clock()										
 					return
 					
 				if(CONTROL_GAMES_GROUP_START <= self.selectedControlId <= CONTROL_GAMES_GROUP_END):
@@ -293,15 +310,15 @@ class UIGameDB(xbmcgui.WindowXML):
 				control = self.getControlById(self.selectedControlId)
 				if(control == None):
 					Logutil.log("control == None in onAction", util.LOG_LEVEL_WARNING)
-					self.onActionReturned = True
+					self.onActionLastRun = time.clock()					
 					return
 				if(CONTROL_GAMES_GROUP_START <= self.selectedControlId <= CONTROL_GAMES_GROUP_END):
 					self.showGameInfoDialog()							
 		except Exception, (exc):
 			print "RCB_ERROR: unhandled Error in onAction: " +str(exc)
-			self.onActionReturned = True
-			
-		self.onActionReturned = True
+			self.onActionLastRun = time.clock()
+		
+		self.onActionLastRun = time.clock()
 			
 
 	def onClick(self, controlId):
@@ -676,6 +693,7 @@ class UIGameDB(xbmcgui.WindowXML):
 		self.setFocus(self.getControl(CONTROL_GAMES_GROUP_START))
 		self.showGames()
 		self.setCurrentListPosition(selectedGameIndex)
+		xbmc.sleep(util.WAITTIME_UPDATECONTROLS)
 		self.showGameInfo()
 		
 		Logutil.log("End showGameInfoDialog", util.LOG_LEVEL_INFO)
@@ -857,12 +875,12 @@ class UIGameDB(xbmcgui.WindowXML):
 		while True:
 			timestamp2 = time.clock()
 			diff = (timestamp2 - timestamp1) * 1000
-			if(diff > 1000):				
+			if(diff > util.WAITTIME_PLAYERSTART):				
 				break
 				
 			if(self.playVideoThreadStopped):
 				self.playVideoThreadStopped = False
-				return						
+				return				
 		
 		self.player.startedInPlayListMode = False
 		self.player.play(video, selectedGame, True)
@@ -968,7 +986,17 @@ class UIGameDB(xbmcgui.WindowXML):
 		
 		genre = ""			
 		try:
-			genre = self.genreDict[gameRow[util.ROW_ID]]				
+			#0 = cacheAll: load all game data at once
+			if(self.cachingOption == 0):
+				genre = self.genreDict[gameRow[util.ROW_ID]]
+			else:				
+				genres = Genre(self.gdb).getGenresByGameId(gameRow[util.ROW_ID])
+				if (genres != None):
+					for i in range(0, len(genres)):
+						genreRow = genres[i]
+						genre += genreRow[util.ROW_NAME]
+						if(i < len(genres) -1):
+							genre += ", "			
 		except:				
 			pass							
 		item.setProperty('genre', genre)
@@ -1245,13 +1273,13 @@ class UIGameDB(xbmcgui.WindowXML):
 					return 0
 				self.setCurrentListPosition(selectedIndex)
 				#HACK: selectItem takes some time and we can't read selectedItem immediately
-				xbmc.sleep(50)
+				xbmc.sleep(util.WAITTIME_UPDATECONTROLS)
 				selectedItem = self.getListItem(selectedIndex)
 				
 			else:
 				control.selectItem(selectedIndex)
 				#HACK: selectItem takes some time and we can't read selectedItem immediately 
-				xbmc.sleep(50)
+				xbmc.sleep(util.WAITTIME_UPDATECONTROLS)
 				selectedItem = control.getSelectedItem()
 				
 			if(selectedItem == None):
@@ -1292,7 +1320,11 @@ class UIGameDB(xbmcgui.WindowXML):
 		
 		self.reviewerDict = self.cacheReviewers()
 		
-		self.genreDict = self.cacheGenres()		
+		#0 = cacheAll: load all game data at once
+		if(self.cachingOption == 0):
+			self.genreDict = self.cacheGenres()
+		else:
+			self.genreDict = None
 		
 		Logutil.log("End cacheItems" , util.LOG_LEVEL_INFO)
 		
