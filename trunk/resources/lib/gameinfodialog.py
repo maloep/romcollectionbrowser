@@ -94,6 +94,7 @@ class UIGameInfoView(xbmcgui.WindowXMLDialog):
 		self.selectedControlId = CONTROL_GAME_LIST_GROUP
 		self.setCurrentListPosition(self.selectedGameIndex)
 				
+		xbmc.sleep(util.WAITTIME_UPDATECONTROLS)
 		self.showGameInfo()	
 		
 		Logutil.log("End OnInit", util.LOG_LEVEL_DEBUG)
