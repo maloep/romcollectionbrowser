@@ -13,6 +13,18 @@ SCRIPTID = 'script.games.rom.collection.browser'
 CURRENT_SCRIPT_VERSION = "0.6.1"
 CURRENT_DB_VERSION = "0.6.0"
 
+#time to wait before automatic playback starts
+WAITTIME_PLAYERSTART = 500
+#time that xbmc needs to close the player (before we can load the list again)
+WAITTIME_PLAYERSTOP = 500
+#time that xbmc needs to update controls (before we can rely on position)
+WAITTIME_UPDATECONTROLS = 100
+#don't call onAction if last call was not more than x ms before
+WAITTIME_ONACTION = 50
+#don't call onAction if last call was not more than x ms before (we need higher values on xbox)
+WAITTIME_ONACTION_XBOX = 600
+
+
 LOG_LEVEL_ERROR = 0
 LOG_LEVEL_WARNING = 1
 LOG_LEVEL_INFO = 2
