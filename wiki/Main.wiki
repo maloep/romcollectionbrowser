@@ -447,9 +447,9 @@ http://romcollectionbrowser.googlecode.com/files/screenshot_dip_mv_info2_small.j
   # fileTypeForMainViewGameInfoUpperRight - not available in Thumbs view
   # fileTypeForMainViewGameInfoLowerLeft - not available in Thumbs view
   # fileTypeForMainViewGameInfoLowerRight - shared with fileTypeForMainViewVideoWindowSmall, not available in Thumbs view
-  # fileTypeForMainViewGameInfo1
-  # fileTypeForMainViewGameInfo2 - if empty, RCB will show the console name
-  # fileTypeForMainViewGameInfo3
+  # fileTypeForMainView1
+  # fileTypeForMainView2 - if empty, RCB will show the console name
+  # fileTypeForMainView3
   # fileTypeForMainViewBackground
 <br>
 
@@ -458,9 +458,9 @@ http://romcollectionbrowser.googlecode.com/files/screenshot_dip_mv_info_big.jpg
   # fileTypeForMainViewGameInfoBig - shared with fileTypeForMainViewVideoWindowBig, not available in Thumbs view
   # fileTypeForGameList - not available in Info 2 view
   # fileTypeForGameListSelected - not available in Info 2 view
-  # fileTypeForMainViewGameInfo1
-  # fileTypeForMainViewGameInfo2 - if empty, RCB will show the console name
-  # fileTypeForMainViewGameInfo3
+  # fileTypeForMainView1
+  # fileTypeForMainView2 - if empty, RCB will show the console name
+  # fileTypeForMainView3
   # fileTypeForMainViewBackground
 <br>
 
