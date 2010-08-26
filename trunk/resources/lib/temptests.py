@@ -1,18 +1,29 @@
 
 import os, sys
-from datetime import * 
+import time
 
-#from dateutil import parser
+file = "C:\\Users\\malte\\AppData\\Roaming\\XBMC\\userdata\\addon_data\\script.games.rom.collection.browser\\config.xml"
+modifyTime = os.path.getmtime(file)
 
-nowdt = datetime.now()
-print nowdt
+print modifyTime
 
-#nowstring = '2010-08-12 21:07:10.158000'
-#dt = parser.parse(nowstring)
+print time.ctime(0)
 
-fname = "C:\\Users\\malte\\AppData\\Roaming\\XBMC\\scripts\\Rom Collection Browser\\resources\\database\\config.xml"
-dt = os.path.getmtime(fname)
+"""
+print "start parsing"
 
-print dt
+BASE_RESOURCE_PATH = os.path.join( os.getcwd())
+sys.path.append( os.path.join( BASE_RESOURCE_PATH, "pyparsing" ) )
 
+from descriptionparser import *
+descParser = DescriptionParser()
 
+descFile = "F:\\Emulatoren\\data\\Synopsis\\SMSGG - 697.txt"
+parseInstruction = "F:\\Emulatoren\\data\\Synopsis\\parserConfig.xml"
+results = descParser.parseDescription(descFile, parseInstruction, '')
+
+for result in results:
+	print result.asDict()
+
+print len(results)
+"""
