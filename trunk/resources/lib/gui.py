@@ -1029,6 +1029,8 @@ class UIGameDB(xbmcgui.WindowXML):
 				print "RCB_WARNING: rcbSetting == None in checkImport"
 				return
 			lastConfigChange = rcbSetting[24]
+			Logutil.log("lastConfigChange from DB (as int): " +str(lastConfigChange), util.LOG_LEVEL_INFO)
+			Logutil.log("lastConfigChange from DB (as time): " +str(time.ctime(lastConfigChange)), util.LOG_LEVEL_INFO)
 			if (modifyTime != lastConfigChange):
 				importSuccessful = self.doImportSettings('config.xml has changed since last import.')
 				if(not importSuccessful):
