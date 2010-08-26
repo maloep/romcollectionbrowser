@@ -30,6 +30,7 @@ Import
 Launching Games
     * xbox support: launch emulators and xbox games
     * xbox support: create cut files for xbox on the fly
+    * applaunch.sh supports MacOSX (thanks to ryosaeba87)
 
 0.5.4 (08/2010)
 ~~~~~~~~~~~~~
