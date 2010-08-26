@@ -1,6 +1,6 @@
 
 import os, sys, re
-import xbmc
+import xbmc, time
 
 
 #
@@ -197,6 +197,8 @@ def getConfigXmlModifyTime():
 	else:
 		modifyTime = 0
 	
+	Logutil.log("modifyTime from file (as int): " +str(modifyTime), LOG_LEVEL_INFO)
+	Logutil.log("modifyTime from file (as time): " +str(time.ctime(modifyTime)), LOG_LEVEL_INFO)
 	return modifyTime
 	
 	
