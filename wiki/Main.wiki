@@ -44,7 +44,7 @@ Some distributions don't ship with prebuild pysqlite libraries. You have to get 
   * If "Import Settings" was successful RCB will offer you to import games now. Click "Yes" to continue. Depending on your rom collections size this step can take some time.
   
 == XBMC Live users ==
-If you use XBMC Live without an additional window manager you can use RCB only in non-solo mode (useEmuSolo=False). See [Preview#useEmuSolo useEmuSolo] for mor details.
+If you use XBMC Live without an additional window manager you can use RCB only in non-solo mode (useEmuSolo=False). See [Preview#useEmuSolo useEmuSolo] for more details.
 
 == Xbox users ==
 Launching games on Xbox differs from launching games on a PC. You can launch .xbe-files directly from RCB if you set "%ROM%" as emulatorCmd. If you want to launch an emulator and pass the rom file as an argument to the emu you have to use .cut-files. RCB can create this .cut-files on-the-fly for you. With using .cut-files you also have to set emulatorCmd to "%ROM%".
