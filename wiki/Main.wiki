@@ -48,7 +48,7 @@ See [Preview#Launching_games Launching games] for details.
 
 
 = Setup test scenario =
-To show you how this script will work and how data should (could) be organized I also provide a zip file with testdata. This includes covers, game screenshots, game description files and sample configuration files for 7 Amiga and 8 SNES games. I also added 3 gameplay videos to show you how videos will look like in RCB. It only includes placeholder files for the roms (empty text files that show you a sample naming convention). This test scenario is not really meant to play the games, it should just show you how to configure this script.
+To show you how this script will work and how data should (could) be organized I also provide a zip file with testdata. This includes covers, game screenshots, game description files and sample configuration files for 7 Amiga and 8 SNES games. I also added 3 gameplay videos to show you how videos will look like in RCB. It only includes placeholder files for the roms (empty text files). This test scenario is not really meant to play the games, it should just show you how to configure this script.
 
   # Install RCB like described in chapter Installation
   # Download "Testdata 0.6.x.zip" (http://romcollectionbrowser.googlecode.com/files/Testdata%200.6.x.zip)
