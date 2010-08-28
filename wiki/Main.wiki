@@ -25,8 +25,13 @@ Config file "config.xml" is not read from RCBs database folder anymore. It must 
   * Unzip it to your XBMC scripts folder
 
 == Dharma (RCB 0.5.3 and higher) ==
+=== via Repo Browser (current version 0.5.4) ===
   * Go to XBMCs Addon Browser (System -> Add-ons -> Get Add-ons -> XBMC.org Add-ons -> Program Add-ons --> Rom Collection Browser)
   * Choose Install
+=== via zip file (current version 0.6.1) ===
+  * Download "script.games.rom.collection.browser-0.6.1.zip (http://romcollectionbrowser.googlecode.com/files/script.games.rom.collection.browser-0.6.1.zip)
+  * Go to XBMCs Addon Browser (System -> Add-ons -> Install from zip file
+
   
 === Known issues (0.5.3 and higher) ===
 ==== The program doesn't load on “No module named pysqlite2” ====
