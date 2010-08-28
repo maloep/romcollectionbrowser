@@ -51,10 +51,10 @@ See [Preview#Launching_games Launching games] for details.
 To show you how this script will work and how data should (could) be organized I also provide a zip file with testdata. This includes covers, game screenshots, game description files and sample configuration files for 7 Amiga and 8 SNES games. I also added 3 gameplay videos to show you how videos will look like in RCB. It only includes placeholder files for the roms (empty text files that show you a sample naming convention). This test scenario is not really meant to play the games, it should just show you how to configure this script.
 
   # Install RCB like described in chapter Installation
-  # Download "Testdata V0.5.zip" (http://romcollectionbrowser.googlecode.com/files/Testdata%20V0.5.zip)
+  # Download "Testdata 0.6.x.zip" (http://romcollectionbrowser.googlecode.com/files/Testdata%200.6.x.zip)
   # Unzip it somewhere
   # Go to the new Testdata folder
-  # Edit "config_Windows.xml" or "config_Linux.xml": Replace every occurance of "PathToTestData" with the absolute path to your Testdata folder (e.g. "/home/user/Testdata V0.5" or "D:\Downloads\RCB\Testdata V0.5")
+  # Edit "config_Windows.xml" or "config_Linux.xml": Replace every occurance of "PathToTestData" with the absolute path to your Testdata folder (e.g. "/home/user/Testdata 0.6.x" or "D:\Downloads\RCB\Testdata 0.6.x")
   # Rename "config_Windows.xml" or "config_Linux.xml" to "config.xml"
   # Copy "config.xml" to your userdata folder ("script_data/script.games.rom.collection.browser" (Camelot) or "addon_data/script.games.rom.collection.browser" (Dharma))
   # Start xbmc and launch RCB
