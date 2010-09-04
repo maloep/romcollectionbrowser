@@ -1,0 +1,24 @@
+Game: Dogfight
+Platform: Amiga
+Region: 
+Media: 
+Controller: 
+Genre: Action
+Release Year: 1990
+Developer: ????
+Publisher: ????
+Players: 2 Players
+URL: http://www.mobygames.com/game/amiga/dogfight
+Description:
+Dogfight is a two-player game with roots in the same primordial soup as Ataris Combat and other basic dogfighting games.
+
+The two players take sides in an split-screen air battle above France in 1916. Player one starts off as an English pilot on the left side, and player two flies his red Luftwaffe plane from the strip on the right screen. At the end of each strip is a tree, so lift-off requires precision; too early and you will stall to the ground; too late, and you will crash into a tree.
+
+As the two players fly towards each other, the split screen is joint as they reach visual contact, and likewise split off again if they fly away from each other. If a player is shot down, he must take off again from his base, and the winner gains a point. In the time it takes for the other player to lift off, you are at liberty to fly to his base and bomb both him and his hangar. Beware, though, for there is an AA emplacement at the base. The anti air artillery alternates between slow-moving shots and explosive flak, the latter being much more difficult to avoid. If you manage to bomb the artillery, the opposing player is more or less at your mercy – at least until the artillery is regenerated or if he manages to avoid your bombs and shots to shoot you down.
+
+To spice things up, both sides have zeppelins which enter the game from time to time. The zeppelins are big targets but fire at you with great accuracy. In the middle of the playfield is a lake, where German and English U-boats take turns. They can be bombed, but have the same firepower as the AA batteries.
+
+Control of your plane is imperative. Climbing too fast will put you into a stall, while steep dives will speed up your plane. Flying too high will also result in a stall, though this option can be turned off. If you manage to fly straight at the very top of the screen, you can take a shortcut above the mountain at the back of each air field. This will wrap you around to the opposing end of the screen.
+
+Written in AMOS, Dogfight will let the players go on as long as they want, so the winner is usually he who first reaches a score set according to a gentlemans agreement.
+********************************************************************
