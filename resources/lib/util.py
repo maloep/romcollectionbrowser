@@ -12,6 +12,7 @@ SCRIPTNAME = 'Rom Collection Browser'
 SCRIPTID = 'script.games.rom.collection.browser'
 CURRENT_SCRIPT_VERSION = "0.6.1"
 CURRENT_DB_VERSION = "0.6.0"
+ISTESTRUN = False
 
 #time to wait before automatic playback starts
 WAITTIME_PLAYERSTART = 500
@@ -184,8 +185,11 @@ def getAutoexecPath():
 	
 
 def getConfigXmlPath():
-	addonDataPath = getAddonDataPath() 
-	configFile = os.path.join(addonDataPath, "config.xml")
+	if(not ISTESTRUN):
+		addonDataPath = getAddonDataPath() 
+		configFile = os.path.join(addonDataPath, "config.xml")
+	else:
+		configFile = os.path.join(os.getcwd(), "TestDataBase", "config.xml")
 	
 	return configFile
 

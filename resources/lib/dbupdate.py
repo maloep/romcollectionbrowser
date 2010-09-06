@@ -138,19 +138,18 @@ class DBUpdate:
 				if(descFilePerGame == 'False' and descParserFile != '' and descriptionPath != ''):
 					Logutil.log("Searching for game in parsed results:", util.LOG_LEVEL_INFO)
 					
-					try:
-						#prepare game description parser
-						dp = DescriptionParser()
-						gameGrammar = dp.getGameGrammar(str(descParserFile), '')
-						
+					try:						
 						fh = open(str(descriptionPath), 'r')
 						fileAsString = fh.read()		
 						fileAsString = fileAsString.decode('iso-8859-15')
 						
 						fileCount = 1
+												
+						parser = DescriptionParserFactory.getParser(descParserFile) 
+						parser.prepareScan(fileAsString, descParserFile)										
 						
 						#parse description
-						for result,start,end in gameGrammar.scanString(fileAsString):														
+						for result in parser.scanDescription(fileAsString, descParserFile):							
 							
 							filenamelist, foldername = self.findFilesByGameDescription(result, searchGameByCRCIgnoreRomName, searchGameByCRC, 
 								filecrcDict, fileFoldernameDict, fileGamenameDict, useFoldernameAsCRC, useFilenameAsCRC)
@@ -439,16 +438,14 @@ class DBUpdate:
 
 		if(os.path.exists(descriptionfile)):
 			Logutil.log("Parsing game description: " +descriptionfile, util.LOG_LEVEL_INFO)
-			dp = DescriptionParser()
+			parser = DescriptionParserFactory.getParser(descParserFile)
 			
 			try:
-				results = dp.parseDescription(descriptionfile, descParserFile, gamename)
+				results = parser.parseDescription(descriptionfile)
 			except Exception, (exc):
 				Logutil.log("an error occured while parsing game description: " +descriptionfile, util.LOG_LEVEL_WARNING)
 				Logutil.log("Parser complains about: " +str(exc), util.LOG_LEVEL_WARNING)
-				return None
-							
-			del dp
+				return None			
 			
 			return results
 			

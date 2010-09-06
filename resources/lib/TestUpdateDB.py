@@ -15,6 +15,11 @@ from pysqlite2 import dbapi2 as sqlite
 from gamedatabase import *
 import dbupdate, importsettings
 
+#adjust settings for tests
+util.RCBHOME = os.path.join(os.getcwd(), '..', '..')
+util.ISTESTRUN = True
+
+
 
 class TestUpdateDB(unittest.TestCase):
 	
@@ -26,7 +31,7 @@ class TestUpdateDB(unittest.TestCase):
 		self.gdb.createTables()	
 		
 		si = importsettings.SettingsImporter()
-		si.importSettings(self.gdb, self.databasedir, RCBMock())
+		si.importSettings(self.gdb, RCBMock())
 		
 		
 	def test_UpdateDB(self):		
@@ -205,6 +210,9 @@ class TestUpdateDB(unittest.TestCase):
 		
 
 class RCBMock:
+	
+	itemCount = 0
+	
 	def writeMsg(self, msg1, msg2, msg3, count=0):
 		pass
 	
