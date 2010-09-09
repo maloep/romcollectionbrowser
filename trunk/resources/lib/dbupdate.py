@@ -9,7 +9,7 @@ from pysqlite2 import dbapi2 as sqlite
 
 from gamedatabase import *
 from pyparsing import *
-from descriptionparser import *
+from descriptionparserfactory import *
 import util
 from util import *
 
@@ -153,7 +153,7 @@ class DBUpdate:
 							
 							filenamelist, foldername = self.findFilesByGameDescription(result, searchGameByCRCIgnoreRomName, searchGameByCRC, 
 								filecrcDict, fileFoldernameDict, fileGamenameDict, useFoldernameAsCRC, useFilenameAsCRC)
-
+	
 							if(filenamelist != None and len(filenamelist) > 0):								
 								gamenameFromFile = self.getGamenameFromFilename(filenamelist[0], romCollectionRow)
 								gamenameFromDesc = result['Game'][0]
@@ -179,11 +179,10 @@ class DBUpdate:
 						results = self.parseDescriptionFile(str(descriptionPath), str(descParserFile), gamename)						
 						#print results
 						if(results == None):
-							gamedescription = Empty()
-							
-							lastgamename = ""							
+							lastgamename = ""
+							gamedescription = None			
 						else:
-							gamedescription = results[0]
+							gamedescription = results
 							
 						filenamelist = []
 						filenamelist.append(filename)
@@ -405,20 +404,17 @@ class DBUpdate:
 		
 	def insertGameFromDesc(self, gamedescription, lastgamename, ignoreGameWithoutDesc, gamename, romCollectionRow, filenamelist, foldername, allowUpdate):
 		
-		if(gamedescription != Empty()):
-			game = self.resolveParseResult(gamedescription.Game, 'Game')
+		print gamedescription
+		
+		if(gamedescription != None):
+			game = self.resolveParseResult(gamedescription, 'Game')
 		else:
 			game = ''
 				
 		if(filenamelist == None or len(filenamelist) == 0):
-			lastgamename = ""
-			if(ignoreGameWithoutDesc == 'True'):
-				Logutil.log("game " +game +" could not be found in parsed results. Game will not be imported.", util.LOG_LEVEL_WARNING)
-				return
-			else:
-				#TODO game without description?
-				Logutil.log("game " +game +" could not be found in parsed results. Game will not be imported.", util.LOG_LEVEL_WARNING)
-				return
+			lastgamename = ""			
+			Logutil.log("game " +game +" was found in parsed results but not in your rom collection.", util.LOG_LEVEL_WARNING)
+			return
 		else:
 			lastgamename = game
 		
@@ -440,12 +436,12 @@ class DBUpdate:
 			Logutil.log("Parsing game description: " +descriptionfile, util.LOG_LEVEL_INFO)
 			parser = DescriptionParserFactory.getParser(descParserFile)
 			
-			try:
-				results = parser.parseDescription(descriptionfile)
-			except Exception, (exc):
-				Logutil.log("an error occured while parsing game description: " +descriptionfile, util.LOG_LEVEL_WARNING)
-				Logutil.log("Parser complains about: " +str(exc), util.LOG_LEVEL_WARNING)
-				return None			
+			#try:
+			results = parser.parseDescription(descriptionfile)
+			#except Exception, (exc):
+			#	Logutil.log("an error occured while parsing game description: " +descriptionfile, util.LOG_LEVEL_WARNING)
+			#	Logutil.log("Parser complains about: " +str(exc), util.LOG_LEVEL_WARNING)
+			#	return None			
 			
 			return results
 			
@@ -463,35 +459,33 @@ class DBUpdate:
 		publisher = None
 		developer = None
 				
-		if(gamedescription != Empty()):
+		if(gamedescription != None):
 			
-			publisher = self.resolveParseResult(gamedescription.Publisher, 'Publisher')
-			developer = self.resolveParseResult(gamedescription.Developer, 'Developer')
+			publisher = self.resolveParseResult(gamedescription, 'Publisher')
+			developer = self.resolveParseResult(gamedescription, 'Developer')
 			
-			yearId = self.insertForeignKeyItem(gamedescription.ReleaseYear, 'Year', Year(self.gdb))
-			genreIds = self.insertForeignKeyItemList(gamedescription.Genre, 'Genre', Genre(self.gdb))		
-			publisherId = self.insertForeignKeyItem(gamedescription.Publisher, 'Publisher', Publisher(self.gdb))
-			developerId = self.insertForeignKeyItem(gamedescription.Developer, 'Developer', Developer(self.gdb))
-			reviewerId = self.insertForeignKeyItem(gamedescription.Reviewer, 'Reviewer', Reviewer(self.gdb))	
+			yearId = self.insertForeignKeyItem(gamedescription, 'ReleaseYear', Year(self.gdb))
+			genreIds = self.insertForeignKeyItemList(gamedescription, 'Genre', Genre(self.gdb))		
+			publisherId = self.insertForeignKeyItem(gamedescription, 'Publisher', Publisher(self.gdb))
+			developerId = self.insertForeignKeyItem(gamedescription, 'Developer', Developer(self.gdb))
+			reviewerId = self.insertForeignKeyItem(gamedescription, 'Reviewer', Reviewer(self.gdb))	
 			
-			region = self.resolveParseResult(gamedescription.Region, 'Region')		
-			media = self.resolveParseResult(gamedescription.Media, 'Media')
-			controller = self.resolveParseResult(gamedescription.Controller, 'Controller')
-			players = self.resolveParseResult(gamedescription.Players, 'Players')		
-			rating = self.resolveParseResult(gamedescription.Rating, 'Rating')
-			votes = self.resolveParseResult(gamedescription.Votes, 'Votes')
-			url = self.resolveParseResult(gamedescription.URL, 'URL')
-			perspective = self.resolveParseResult(gamedescription.Perspective, 'Perspective')
-			originalTitle = self.resolveParseResult(gamedescription.OriginalTitle, 'OriginalTitle')
-			alternateTitle = self.resolveParseResult(gamedescription.AlternateTitle, 'AlternateTitle')
-			translatedBy = self.resolveParseResult(gamedescription.TranslatedBy, 'TranslatedBy')
-			version = self.resolveParseResult(gamedescription.Version, 'Version')
-		
-			Logutil.log("Result Game (from parser) = " +str(gamedescription.Game), util.LOG_LEVEL_INFO)
-			gamename = self.resolveParseResult(gamedescription.Game, 'Game')
-			plot = self.resolveParseResult(gamedescription.Description, 'Description')
-			
-			Logutil.log("Result Game (as string) = " +gamename, util.LOG_LEVEL_INFO)
+			region = self.resolveParseResult(gamedescription, 'Region')		
+			media = self.resolveParseResult(gamedescription, 'Media')
+			controller = self.resolveParseResult(gamedescription, 'Controller')
+			players = self.resolveParseResult(gamedescription, 'Players')		
+			rating = self.resolveParseResult(gamedescription, 'Rating')
+			votes = self.resolveParseResult(gamedescription, 'Votes')
+			url = self.resolveParseResult(gamedescription, 'URL')
+			perspective = self.resolveParseResult(gamedescription, 'Perspective')
+			originalTitle = self.resolveParseResult(gamedescription, 'OriginalTitle')
+			alternateTitle = self.resolveParseResult(gamedescription, 'AlternateTitle')
+			translatedBy = self.resolveParseResult(gamedescription, 'TranslatedBy')
+			version = self.resolveParseResult(gamedescription, 'Version')
+					
+			gamename = self.resolveParseResult(gamedescription, 'Game')
+			plot = self.resolveParseResult(gamedescription, 'Description')
+						
 			gameId = self.insertGame(gamename, plot, romCollectionId, publisherId, developerId, reviewerId, yearId, 
 				players, rating, votes, url, region, media, perspective, controller, originalTitle, alternateTitle, translatedBy, version, allowUpdate, )
 				
@@ -561,11 +555,10 @@ class DBUpdate:
 		
 	
 	def insertForeignKeyItem(self, result, itemName, gdbObject):
-		Logutil.log("Result " +itemName +" (from Parser) = " +str(result), util.LOG_LEVEL_INFO)
-		#if(result != Empty()):
-		if(len(result) != 0):
-			item = result[0].strip()
-			Logutil.log("Result "  +itemName +" (as string) = " +item.encode('iso-8859-15'), util.LOG_LEVEL_INFO)
+		
+		item = self.resolveParseResult(result, itemName)
+						
+		if(item != ""):			
 			itemRow = gdbObject.getOneByName(item)
 			if(itemRow == None):	
 				Logutil.log(itemName +" does not exist in database. Insert: " +item.encode('iso-8859-15'), util.LOG_LEVEL_INFO)
@@ -579,13 +572,17 @@ class DBUpdate:
 		return itemId
 		
 	
-	def insertForeignKeyItemList(self, resultList, itemName, gdbObject):	
-		Logutil.log("Result " +itemName +" (from Parser) = " +str(resultList), util.LOG_LEVEL_INFO)
-		idList = []
+	def insertForeignKeyItemList(self, result, itemName, gdbObject):
+		idList = []				
+				
+		try:
+			itemList = result[itemName]
+			Logutil.log("Result " +itemName +" = " +str(itemList), util.LOG_LEVEL_INFO)
+		except:
+			Logutil.log("Error while resolving item: " +itemName, util.LOG_LEVEL_WARNING)
+			return idList				
 		
-		for resultItem in resultList:			
-			item = resultItem.strip()
-			Logutil.log("Result " +itemName +" (as string) = " +item.encode('iso-8859-15'), util.LOG_LEVEL_INFO)
+		for item in itemList:				
 			itemRow = gdbObject.getOneByName(item)
 			if(itemRow == None):
 				Logutil.log(itemName +" does not exist in database. Insert: " +item.encode('iso-8859-15'), util.LOG_LEVEL_INFO)
@@ -699,13 +696,18 @@ class DBUpdate:
 		
 		
 	def resolveParseResult(self, result, itemName):
-		Logutil.log("Result " +itemName +" (from Parser) = " +str(result), util.LOG_LEVEL_INFO)
-		if(len(result) != 0):
-			item = result[0].strip()
-		else:
-			item = ""
-		Logutil.log("Result " +itemName +" (as string) = " +item.encode('iso-8859-15'), util.LOG_LEVEL_INFO)
-		return item
+				
+		try:			
+			resultValue = result[itemName][0]
+			resultValue = resultValue.encode("utf-8")		
+			resultValue = resultValue.strip()		
+		except Exception, (exc):
+			Logutil.log("Error while resolving item: " +itemName +" : " +str(exc), util.LOG_LEVEL_WARNING)
+			resultValue = ""
+						
+		Logutil.log("Result " +itemName +" = " +resultValue, util.LOG_LEVEL_INFO)
+				
+		return resultValue
 	
 	
 	def insertFiles(self, fileNames, gameId, fileType, consoleId, publisherId, developerId, romCollectionId):
