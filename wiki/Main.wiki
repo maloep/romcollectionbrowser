@@ -12,7 +12,7 @@ It is a good idea to start with the test scenario. It will only take two minutes
 Before you can launch games with RCB you have to download, install and configure one or more emulators. Find out how to launch your emulator via command line. You will need this information to launch the emulator with RCB.
 
 = Installation =
-Note: You will find the "XBMC" folder in your user environment. If you installed XBMC in portable mode, "XBMC" will be your installation directory.
+Note: You will find the "XBMC" folder in your user environment (http://wiki.xbmc.org/index.php?title=Special_protocol#Platform_Specific_Default_Mappings). If you installed XBMC in portable mode, "XBMC" will be your installation directory.
 
 Note: Directory changes in 0.5.3 and higher:
 Database file `"MyGames.db"` is not stored in RCBs database folder anymore. It can be found in your userdata folder in "script_data/script.games.rom.collection.browser" (Camelot) or "addon_data/script.games.rom.collection.browser" (Dharma).
