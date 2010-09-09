@@ -31,7 +31,15 @@ class DescriptionParserFlatFile:
 		
 		results = all.parseString(fileAsString)
 		
-		return results
+		if(len(results) > 1):
+			print "Parser Error: parseDescription returned more than 1 result. Please use scanDescription instead."
+			return None
+		
+		if(len(results) == 0 or results == Empty()):
+			print "Parser Error: parseDescription returned 0 results. Check your parseInstruction"
+			return None
+						
+		return results[0].asDict()
 	
 	
 	def prepareScan(self, descFile, descParseInstruction):
@@ -41,7 +49,7 @@ class DescriptionParserFlatFile:
 	
 	def scanDescription(self, descFile, descParseInstruction):		
 		for result,start,end in self.gameGrammar.scanString(descFile):
-			yield result
+			yield result.asDict()
 
 	
 	def getGameGrammar(self, descParseInstruction):

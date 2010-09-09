@@ -34,7 +34,7 @@ class TestUpdateDB(unittest.TestCase):
 		si.importSettings(self.gdb, RCBMock())
 		
 		
-	def test_UpdateDB(self):		
+	def test_UpdateDB(self):
 
 		dbupdate.DBUpdate().updateDB(self.gdb, RCBMock())
 		
