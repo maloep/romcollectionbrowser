@@ -434,14 +434,14 @@ class DBUpdate:
 
 		if(os.path.exists(descriptionfile)):
 			Logutil.log("Parsing game description: " +descriptionfile, util.LOG_LEVEL_INFO)
-			parser = DescriptionParserFactory.getParser(descParserFile)
+			parser = DescriptionParserFactory.getParser(str(descParserFile))
 			
-			#try:
-			results = parser.parseDescription(descriptionfile)
-			#except Exception, (exc):
-			#	Logutil.log("an error occured while parsing game description: " +descriptionfile, util.LOG_LEVEL_WARNING)
-			#	Logutil.log("Parser complains about: " +str(exc), util.LOG_LEVEL_WARNING)
-			#	return None			
+			try:
+				results = parser.parseDescription(str(descriptionfile))
+			except Exception, (exc):
+				Logutil.log("an error occured while parsing game description: " +descriptionfile, util.LOG_LEVEL_WARNING)
+				Logutil.log("Parser complains about: " +str(exc), util.LOG_LEVEL_WARNING)
+				return None			
 			
 			return results
 			

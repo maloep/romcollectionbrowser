@@ -1,6 +1,6 @@
 # -*- coding: iso-8859-15 -*-
 
-from xml.dom.minidom import parseString, Node, Document
+from elementtree.ElementTree import Element
 from descriptionparserflatfile import *
 from descriptionparserxml import *
 
@@ -8,34 +8,28 @@ from descriptionparserxml import *
 class DescriptionParserFactory:
 
 	@classmethod
-	def getParser(self, descParseInstruction):
-		
-		
-		
-		
-		#configFile = os.path.join(databaseDir, 'parserConfig.xml')
+	def getParser(self, descParseInstruction):		
+				
 		fh=open(descParseInstruction,"r")		
 		xmlDoc = fh.read()		
 		fh.close()
 		
-		xmlDoc = parseString(xmlDoc)
+		tree = ElementTree().parse(descParseInstruction)		
 		
-		gameGrammar = xmlDoc.getElementsByTagName('GameGrammar')
-		if(gameGrammar == None):
+		grammarNode = tree.find('GameGrammar')
+		if(grammarNode == None):
 			return "";
-			
-		grammarNode = gameGrammar[0]
-		attributes = grammarNode.attributes
+					
+		attributes = grammarNode.attrib
 		
-		attrNode = attributes.get('type')
-		if(attrNode == None):
-			return "";
-			
-		parserType = attrNode.nodeValue
+		parserType = attributes.get('type')					
 		if(parserType == 'multiline'):
 			return DescriptionParserFlatFile(grammarNode)			
 		elif(parserType == 'xml'):
-			return DescriptionParserXml(grammarNode)		
+			return DescriptionParserXml(grammarNode)
+		else:
+			print "Unknown parser: " +parserType
+			return None		
 		
 		
 	
