@@ -1,6 +1,6 @@
 
-from xml.dom.minidom import parseString, Node, Document
 from elementtree.ElementTree import *
+from compiler.ast import Node
 
 class DescriptionParserXml:
 	
@@ -9,30 +9,48 @@ class DescriptionParserXml:
 	
 	def parseDescription(self, descFile):
 		
-		print "load xml"
+		#results as list
+		results = []		
 		
 		#load xmlDoc as elementtree to check with xpaths
-		tree = ElementTree().parse(descFile)		
+		tree = ElementTree().parse(descFile)
 		
-		for node in self.grammarNode.childNodes:
-			if (node.nodeType != Node.ELEMENT_NODE):
-				continue
+		rootElementXPath = self.grammarNode.attrib.get('root')
+		rootElement = tree.find(rootElementXPath)
+		
+		result = self.parseElement(rootElement)
+		
+		return result
+	
+	
+	def parseElement(self, tree):
+		#single result as dictionary
+		result = {}					
+		
+		for node in self.grammarNode:
 			
-			if (node.hasChildNodes()):
-				nodeValue = node.firstChild.nodeValue
-				print nodeValue
-				print node.nodeName
+			resultKey = node.tag
+			nodeValue = node.text				
+			print "Looking for: " +str(resultKey)
+			print "using xpath: " +str(nodeValue)
 				
-				elements = tree.findall(nodeValue)						
-				for element in elements:
-					print element.text										
-					
-				"""
-				def asDict( self ):        		
-          			return dict( self.items() )
-          		"""
-		
-		return None
+			if(nodeValue == None):
+				continue
+				
+			elements = tree.findall(nodeValue)
+			resultValues = []
+			for element in elements:
+				resultValues.append(element.text)					
+				print "found result: " +element.text
+				
+			try:
+				resultEntry = result[resultKey]
+				resultEntry.append(resultValues)
+				result[resultKey] = resultEntry
+			except:
+				result[resultKey] = resultValues
+									
+		return result
 	
 	
 	def prepareScan(self, descFile, descParseInstruction):
@@ -40,4 +58,20 @@ class DescriptionParserXml:
 	
 	
 	def scanDescription(self, descFile, descParseInstruction):		
-		pass
+		#load xmlDoc as elementtree to check with xpaths
+		tree = ElementTree().parse(descFile)
+		
+		#single result as dictionary
+		result = {}
+					
+		rootElement = self.grammarNode.attrib.get('root')		
+		
+		#TODO get game node xpath from config
+		for node in tree.findall(rootElement):
+			
+			result = self.parseElement(node)
+						
+			yield result
+		
+		
+		
