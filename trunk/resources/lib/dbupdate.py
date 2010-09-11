@@ -145,11 +145,11 @@ class DBUpdate:
 						
 						fileCount = 1
 												
-						parser = DescriptionParserFactory.getParser(descParserFile) 
-						parser.prepareScan(fileAsString, descParserFile)										
+						parser = DescriptionParserFactory.getParser(str(descParserFile)) 
+						parser.prepareScan(fileAsString, str(descParserFile))						
 						
 						#parse description
-						for result in parser.scanDescription(fileAsString, descParserFile):							
+						for result in parser.scanDescription(fileAsString, str(descParserFile)):							
 							
 							filenamelist, foldername = self.findFilesByGameDescription(result, searchGameByCRCIgnoreRomName, searchGameByCRC, 
 								filecrcDict, fileFoldernameDict, fileGamenameDict, useFoldernameAsCRC, useFilenameAsCRC)
@@ -165,8 +165,8 @@ class DBUpdate:
 							self.insertGameFromDesc(result, lastgamename, ignoreGameWithoutDesc, gamenameFromFile, romCollectionRow, filenamelist, foldername, allowUpdate)
 								
 					except Exception, (exc):
-						Logutil.log("an error occured while parsing game description: " +descriptionPath, util.LOG_LEVEL_WARNING)
-						Logutil.log("Parser complains about: " +str(exc), util.LOG_LEVEL_WARNING)
+						Logutil.log("an error occured while adding game " +gamename.encode('iso-8859-15'), util.LOG_LEVEL_WARNING)
+						Logutil.log("Error: " +str(exc), util.LOG_LEVEL_WARNING)
 						return None
 				else:	
 					fileCount = 1
@@ -582,7 +582,7 @@ class DBUpdate:
 			Logutil.log("Error while resolving item: " +itemName, util.LOG_LEVEL_WARNING)
 			return idList				
 		
-		for item in itemList:				
+		for item in itemList:
 			itemRow = gdbObject.getOneByName(item)
 			if(itemRow == None):
 				Logutil.log(itemName +" does not exist in database. Insert: " +item.encode('iso-8859-15'), util.LOG_LEVEL_INFO)
@@ -698,14 +698,13 @@ class DBUpdate:
 	def resolveParseResult(self, result, itemName):
 				
 		try:			
-			resultValue = result[itemName][0]
-			resultValue = resultValue.encode("utf-8")		
-			resultValue = resultValue.strip()		
+			resultValue = result[itemName][0]			
+			resultValue = resultValue.strip()						
 		except Exception, (exc):
 			Logutil.log("Error while resolving item: " +itemName +" : " +str(exc), util.LOG_LEVEL_WARNING)
 			resultValue = ""
 						
-		Logutil.log("Result " +itemName +" = " +resultValue, util.LOG_LEVEL_INFO)
+		Logutil.log("Result " +itemName +" = " +resultValue.encode('iso-8859-15'), util.LOG_LEVEL_INFO)
 				
 		return resultValue
 	

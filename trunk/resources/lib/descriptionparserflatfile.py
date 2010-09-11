@@ -1,5 +1,4 @@
 
-
 from pyparsing import *
 from xml.dom.minidom import parseString, Node, Document
 
