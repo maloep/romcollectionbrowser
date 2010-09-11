@@ -10,9 +10,12 @@ class DescriptionParserFactory:
 	@classmethod
 	def getParser(self, descParseInstruction):
 		
+		
+		
+		
 		#configFile = os.path.join(databaseDir, 'parserConfig.xml')
-		fh=open(descParseInstruction,"r")
-		xmlDoc = fh.read()
+		fh=open(descParseInstruction,"r")		
+		xmlDoc = fh.read()		
 		fh.close()
 		
 		xmlDoc = parseString(xmlDoc)

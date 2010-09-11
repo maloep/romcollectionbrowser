@@ -10,6 +10,7 @@ if env == 'Windows_NT':
 	env = 'win32'
 sys.path.append( os.path.join( BASE_RESOURCE_PATH, "platform_libraries", env ) )
 
+
 import re, string
 from pysqlite2 import dbapi2 as sqlite
 from gamedatabase import *
@@ -31,7 +32,7 @@ class TestUpdateDB(unittest.TestCase):
 		self.gdb.createTables()	
 		
 		si = importsettings.SettingsImporter()
-		si.importSettings(self.gdb, RCBMock())
+		si.importSettings(self.gdb, RCBMock())				
 		
 		
 	def test_UpdateDB(self):
