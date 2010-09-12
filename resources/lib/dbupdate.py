@@ -139,17 +139,13 @@ class DBUpdate:
 					Logutil.log("Searching for game in parsed results:", util.LOG_LEVEL_INFO)
 					
 					try:						
-						fh = open(str(descriptionPath), 'r')
-						fileAsString = fh.read()		
-						fileAsString = fileAsString.decode('iso-8859-15')
-						
 						fileCount = 1
 												
 						parser = DescriptionParserFactory.getParser(str(descParserFile)) 
-						parser.prepareScan(fileAsString, str(descParserFile))						
+						parser.prepareScan(descriptionPath, str(descParserFile))						
 						
 						#parse description
-						for result in parser.scanDescription(fileAsString, str(descParserFile)):							
+						for result in parser.scanDescription(descriptionPath, str(descParserFile)):							
 							
 							filenamelist, foldername = self.findFilesByGameDescription(result, searchGameByCRCIgnoreRomName, searchGameByCRC, 
 								filecrcDict, fileFoldernameDict, fileGamenameDict, useFoldernameAsCRC, useFilenameAsCRC)

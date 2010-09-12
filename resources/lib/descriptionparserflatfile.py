@@ -1,6 +1,7 @@
 
 from pyparsing import *
-from xml.dom.minidom import parseString, Node, Document
+from elementtree.ElementTree import *
+#from xml.dom.minidom import parseString, Node, Document
 
 
 #Add support for unicode chars in commaseparated lists
@@ -43,36 +44,29 @@ class DescriptionParserFlatFile:
 	
 	def prepareScan(self, descFile, descParseInstruction):
 		#prepare game description parser		
-		self.gameGrammar = self.getGameGrammar(str(descParseInstruction))				
+		self.gameGrammar = self.getGameGrammar(str(descParseInstruction))
 		
 	
-	def scanDescription(self, descFile, descParseInstruction):		
-		for result,start,end in self.gameGrammar.scanString(descFile):
+	def scanDescription(self, descFile, descParseInstruction):
+		
+		fh = open(str(descFile), 'r')
+		fileAsString = fh.read()
+		fileAsString = fileAsString.decode('iso-8859-15')
+				
+		for result,start,end in self.gameGrammar.scanString(fileAsString):
 			yield result.asDict()
 
 	
-	def getGameGrammar(self, descParseInstruction):
+	def getGameGrammar(self, descParseInstruction):				
 		
-		#configFile = os.path.join(databaseDir, 'parserConfig.xml')
-		fh=open(descParseInstruction,"r")
-		xmlDoc = fh.read()
-		fh.close()
+		#load xmlDoc as elementtree to check with xpaths
+		tree = ElementTree().parse(descParseInstruction)
 		
-		xmlDoc = parseString(xmlDoc)
-		
-		gameGrammar = xmlDoc.getElementsByTagName('GameGrammar')
-		if(gameGrammar == None):
+		grammarNode = tree.find('GameGrammar')
+		if(grammarNode == None):
 			return "";
-			
-		grammarNode = gameGrammar[0]
-		attributes = grammarNode.attributes
-		attrNode = attributes.get('type')
-		if(attrNode == None):
-			return "";
-			
-		parserType = attrNode.nodeValue
-		if(parserType == 'multiline'):
-			results = self.buildGameGrammar(grammarNode)
+					
+		results = self.buildGameGrammar(grammarNode)
 			
 		return results
 		
@@ -86,9 +80,7 @@ class DescriptionParserFlatFile:
 		appendToPreviousNode = False
 		lastNodeGrammar = Empty()
 		
-		for node in grammarNode.childNodes:
-			if (node.nodeType != Node.ELEMENT_NODE):
-				continue
+		for node in grammarNode:			
 			#appendToPreviousNode was set at the end of the last loop
 			if(appendToPreviousNode):				
 				nodeGrammar = lastNodeGrammar
@@ -97,14 +89,15 @@ class DescriptionParserFlatFile:
 			
 			lineEndReplaced = False
 			
-			literal = None
-			if (node.hasChildNodes()):
-				nodeValue = node.firstChild.nodeValue				
+			literal = None			
+			nodeValue = node.text
+			if(nodeValue != None):				
 				literal = self.replaceTokens(nodeValue, ('LineStart', 'LineEnd'))
 				if(nodeValue.find('LineEnd') >= 0):
 					lineEndReplaced = True			
-			rol = node.attributes.get('restOfLine')
-			if(rol != None and rol.nodeValue == 'true'):
+			
+			rol = node.attrib.get('restOfLine')
+			if(rol != None and rol == 'true'):
 				isRol = True
 				#appendNextNode is used in the current loop
 				appendNextNode = False
@@ -112,25 +105,25 @@ class DescriptionParserFlatFile:
 				isRol = False
 				appendNextNode = True						
 				
-			skipTo = node.attributes.get('skipTo')
+			skipTo = node.attrib.get('skipTo')
 			if(skipTo != None):
-				skipToGrammar = self.replaceTokens(skipTo.nodeValue, ('LineStart', 'LineEnd'))
+				skipToGrammar = self.replaceTokens(skipTo, ('LineStart', 'LineEnd'))
 				if(nodeGrammar == None):
 					nodeGrammar = SkipTo(skipToGrammar)
 				else:
 					nodeGrammar += SkipTo(skipToGrammar)
-				if(skipTo.nodeValue.find('LineEnd') >= 0):
+				if(skipTo.find('LineEnd') >= 0):
 					#print "LineEnd found in: "  +skipTo.nodeValue
 					lineEndReplaced = True
 
-			if(node.nodeName == 'SkippableContent'):
+			if(node.tag == 'SkippableContent'):
 				if(literal != None):	
 					if(nodeGrammar == None):
 						nodeGrammar = Suppress(literal)
 					else:
 						nodeGrammar += Suppress(literal)
 						
-			delimiter = node.attributes.get('delimiter')
+			delimiter = node.attrib.get('delimiter')
 			if(delimiter != None):
 				if(nodeGrammar == None):
 					nodeGrammar = (Optional(~LineEnd() +mycommaSeparatedList))				
@@ -142,11 +135,11 @@ class DescriptionParserFlatFile:
 				else:
 					nodeGrammar += rolGrammar
 					
-			nodeGrammar = nodeGrammar.setResultsName(node.nodeName)
+			nodeGrammar = nodeGrammar.setResultsName(node.tag)
 						
 			if(appendNextNode == False or lineEndReplaced):
-				optional = node.attributes.get('optional')
-				if(optional != None and optional.nodeValue == 'true'):
+				optional = node.attrib.get('optional')
+				if(optional != None and optional == 'true'):
 					nodeGrammar = Optional(nodeGrammar)
 				
 				grammarList.append(nodeGrammar)	
