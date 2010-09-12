@@ -1,6 +1,5 @@
 
 from elementtree.ElementTree import *
-from compiler.ast import Node
 
 class DescriptionParserXml:
 	
@@ -10,7 +9,7 @@ class DescriptionParserXml:
 	def parseDescription(self, descFile):
 		
 		#results as list
-		results = []		
+		results = []
 		
 		#load xmlDoc as elementtree to check with xpaths
 		tree = ElementTree().parse(descFile)

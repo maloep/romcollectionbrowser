@@ -8,7 +8,7 @@ from descriptionparserxml import *
 class DescriptionParserFactory:
 
 	@classmethod
-	def getParser(self, descParseInstruction):		
+	def getParser(self, descParseInstruction):
 				
 		fh=open(descParseInstruction,"r")		
 		xmlDoc = fh.read()		
