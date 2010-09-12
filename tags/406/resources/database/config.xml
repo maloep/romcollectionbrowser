@@ -1,7 +1,7 @@
 
 <!--
-Rom Collection Browser 0.6.2
-13.06.2010
+Rom Collection Browser 0.6.1
+08.2010
 	
 This is a commented version of RCB's config file. The first Rom Collection in this file is just an example collection that will be ignored during import (if you don't change the value of ignoreOnScan).
 
