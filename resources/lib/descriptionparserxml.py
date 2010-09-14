@@ -5,6 +5,11 @@ class DescriptionParserXml:
 	
 	def __init__(self, grammarNode):
 		self.grammarNode = grammarNode
+		
+	
+	def prepareScan(self, descFile, descParseInstruction):
+		pass
+	
 	
 	def parseDescription(self, descFile):
 		
@@ -19,41 +24,7 @@ class DescriptionParserXml:
 		
 		result = self.parseElement(rootElement)
 		
-		return result
-	
-	
-	def parseElement(self, tree):
-		#single result as dictionary
-		result = {}					
-		
-		for node in self.grammarNode:
-			
-			resultKey = node.tag
-			nodeValue = node.text				
-			#print "Looking for: " +str(resultKey)
-			#print "using xpath: " +str(nodeValue)
-				
-			if(nodeValue == None):
-				continue
-				
-			elements = tree.findall(nodeValue)
-			resultValues = []
-			for element in elements:
-				resultValues.append(element.text)					
-				#print "found result: " +element.text
-				
-			try:
-				resultEntry = result[resultKey]
-				resultEntry.append(resultValues)
-				result[resultKey] = resultEntry
-			except:
-				result[resultKey] = resultValues
-									
-		return result
-	
-	
-	def prepareScan(self, descFile, descParseInstruction):
-		pass
+		return result		
 	
 	
 	def scanDescription(self, descFile, descParseInstruction):		
@@ -71,6 +42,49 @@ class DescriptionParserXml:
 			result = self.parseElement(node)
 						
 			yield result
+			
+
+			
+	def parseElement(self, tree):
+		#single result as dictionary
+		result = {}					
+		
+		for node in self.grammarNode:
+			
+			resultKey = node.tag
+			nodeValue = node.text				
+			#print "Looking for: " +str(resultKey)
+			#print "using xpath: " +str(nodeValue)
+				
+			if(nodeValue == None):
+				continue
+			
+			#check if xpath targets an attribute 
+			parts = nodeValue.split('/@')
+			if(len(parts) > 2):
+				print("Usage error: wrong xpath! Only 1 attribute allowed")
+							
+			elements = tree.findall(parts[0])					
+			
+			resultValues = []
+			for element in elements:
+				#if search for attribute
+				if(len(parts) > 1):
+					attribute = element.attrib.get(parts[1])
+					resultValues.append(attribute)
+					#print "found attribute: " +attribute
+				else:
+					resultValues.append(element.text)					
+					#print "found result: " +element.text
+				
+			try:
+				resultEntry = result[resultKey]
+				resultEntry.append(resultValues)
+				result[resultKey] = resultEntry
+			except:
+				result[resultKey] = resultValues
+									
+		return result
 		
 		
 		
