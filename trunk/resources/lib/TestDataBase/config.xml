@@ -20,6 +20,9 @@
 		<Console>
 			<name>Xbox</name>
 		</Console>
+		<Console>
+			<name>Sega 32</name>
+		</Console>
 	</Consoles>
 	<FileTypes>
 		<FileType>
@@ -269,6 +272,43 @@
 			<romPath>TestDataBase\Collection V5\Roms\default.xbe</romPath>						
 			<mediaPath type="cover">TestDataBase\Collection V5\Artwork\Box Front\%GAME%.png</mediaPath>
 			<mediaPath type="3dbox">TestDataBase\Collection V5\Artwork\3d Box\%GAME%.png</mediaPath>
+			<fileTypeForGameList>cover</fileTypeForGameList>
+			<fileTypeForGameListSelected>3dbox</fileTypeForGameListSelected>
+			<fileTypeForMainViewGameInfoBig>cover</fileTypeForMainViewGameInfoBig>			
+			<fileTypeForGameInfoViewBackground>cover</fileTypeForGameInfoViewBackground>
+			<fileTypeForGameInfoViewGamelist>cover</fileTypeForGameInfoViewGamelist>			
+		</RomCollection>
+		<RomCollection>			
+			<name>Collection V6</name>
+			<consoleName>Sega 32</consoleName>			
+			<searchGameByCRC>False</searchGameByCRC>
+			<descFilePerGame>True</descFilePerGame>
+			<ignoreOnScan>False</ignoreOnScan>			
+			<descriptionParserFile>TestDataBase\Collection V6\parserConfig.xml</descriptionParserFile>
+			<descFilePath>TestDataBase\Collection V6\Synopsis\%GAME%.xml</descFilePath>
+			<emulatorCmd>%ROM%</emulatorCmd>
+			<romPath>TestDataBase\Collection V6\Roms\*.zip</romPath>
+			<mediaPath type="cover">TestDataBase\Collection V6\Artwork\Box Front\%GAME%.png</mediaPath>
+			<mediaPath type="3dbox">TestDataBase\Collection V6\Artwork\3d Box\%GAME%.png</mediaPath>
+			<fileTypeForGameList>cover</fileTypeForGameList>
+			<fileTypeForGameListSelected>3dbox</fileTypeForGameListSelected>
+			<fileTypeForMainViewGameInfoBig>cover</fileTypeForMainViewGameInfoBig>			
+			<fileTypeForGameInfoViewBackground>cover</fileTypeForGameInfoViewBackground>
+			<fileTypeForGameInfoViewGamelist>cover</fileTypeForGameInfoViewGamelist>			
+		</RomCollection>
+		<RomCollection>			
+			<name>Collection V7</name>
+			<consoleName>Sega 32</consoleName>			
+			<searchGameByCRC>True</searchGameByCRC>
+			<useFilenameAsCRC>True</useFilenameAsCRC>
+			<descFilePerGame>False</descFilePerGame>
+			<ignoreOnScan>False</ignoreOnScan>			
+			<descriptionParserFile>TestDataBase\Collection V7\parserConfig.xml</descriptionParserFile>
+			<descFilePath>TestDataBase\Collection V7\synopsis.xml</descFilePath>
+			<emulatorCmd>%ROM%</emulatorCmd>
+			<romPath>TestDataBase\Collection V7\Roms\*.zip</romPath>
+			<mediaPath type="cover">TestDataBase\Collection V7\Artwork\Box Front\%GAME%.png</mediaPath>
+			<mediaPath type="3dbox">TestDataBase\Collection V7\Artwork\3d Box\%GAME%.png</mediaPath>
 			<fileTypeForGameList>cover</fileTypeForGameList>
 			<fileTypeForGameListSelected>3dbox</fileTypeForGameListSelected>
 			<fileTypeForMainViewGameInfoBig>cover</fileTypeForMainViewGameInfoBig>			

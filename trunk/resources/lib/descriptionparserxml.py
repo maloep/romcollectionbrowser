@@ -30,8 +30,8 @@ class DescriptionParserXml:
 			
 			resultKey = node.tag
 			nodeValue = node.text				
-			print "Looking for: " +str(resultKey)
-			print "using xpath: " +str(nodeValue)
+			#print "Looking for: " +str(resultKey)
+			#print "using xpath: " +str(nodeValue)
 				
 			if(nodeValue == None):
 				continue
@@ -40,7 +40,7 @@ class DescriptionParserXml:
 			resultValues = []
 			for element in elements:
 				resultValues.append(element.text)					
-				print "found result: " +element.text
+				#print "found result: " +element.text
 				
 			try:
 				resultEntry = result[resultKey]
