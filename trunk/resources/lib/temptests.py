@@ -13,10 +13,13 @@ sys.path.append( os.path.join( BASE_RESOURCE_PATH, "pyparsing" ) )
 #parseInstruction = "F:\\Emulatoren\\data\\Synopsis\\gamedesc\\_parserConfig.xml"
 
 #descFile = "F:\\Emulatoren\\data\\Synopsis\\Sega 32 - After Burner.xml"
-#parseInstruction = "F:\\Emulatoren\\data\\Synopsis\\xmlParserConfig.xml"
+#parseInstruction = "F:\\Emulatoren\\data\\Synopsis\\VideoGameDB - parserConfig.xml"
 
-descFile = "F:\\Emulatoren\\data\\Synopsis\\SEGA 32 - complete.xml"
-parseInstruction = "F:\\Emulatoren\\data\\Synopsis\\Access - parserConfig.xml"
+#descFile = "F:\\Emulatoren\\data\\Synopsis\\SEGA 32 - complete.xml"
+#parseInstruction = "F:\\Emulatoren\\data\\Synopsis\\Access - parserConfig.xml"
+
+descFile = "F:\\Emulatoren\\data\\Synopsis\\MAME v0.138.dat"
+parseInstruction = "F:\\Emulatoren\\data\\Synopsis\\MameDat - parserConfig.xml"
 
 from descriptionparserfactory import *
 descParser = DescriptionParserFactory.getParser(parseInstruction)
