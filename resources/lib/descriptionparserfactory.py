@@ -18,7 +18,8 @@ class DescriptionParserFactory:
 		
 		grammarNode = tree.find('GameGrammar')
 		if(grammarNode == None):
-			return "";
+			print "no valid parserConfig"
+			return None;
 					
 		attributes = grammarNode.attrib
 		

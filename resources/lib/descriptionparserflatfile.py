@@ -1,6 +1,7 @@
 
 from pyparsing import *
 from elementtree.ElementTree import *
+import urllib
 #from xml.dom.minidom import parseString, Node, Document
 
 
@@ -25,9 +26,8 @@ class DescriptionParserFlatFile:
 		gameGrammar = Group(grammar)		
 		
 		all = OneOrMore(gameGrammar)
-		fh = open(str(descFile), 'r')
-		fileAsString = fh.read()		
-		fileAsString = fileAsString.decode('iso-8859-15')
+		
+		fileAsString = self.openDescFile(descFile)
 		
 		results = all.parseString(fileAsString)
 		
@@ -49,13 +49,27 @@ class DescriptionParserFlatFile:
 	
 	def scanDescription(self, descFile, descParseInstruction):
 		
-		fh = open(str(descFile), 'r')
-		fileAsString = fh.read()
-		fileAsString = fileAsString.decode('iso-8859-15')
+		fileAsString = self.openDescFile(descFile)
 				
 		for result,start,end in self.gameGrammar.scanString(fileAsString):
 			yield result.asDict()
-
+			
+	
+	def openDescFile(self, descFile):
+		
+		fileAsString = ''
+		
+		if(descFile.startswith('http://')):
+			usock = urllib.urlopen(descFile)
+			fileAsString = usock.read()
+			usock.close()
+		else:
+			fh = open(str(descFile), 'r')
+			fileAsString = fh.read()
+			fileAsString = fileAsString.decode('iso-8859-15')
+			
+		return fileAsString
+	
 	
 	def getGameGrammar(self, descParseInstruction):				
 		

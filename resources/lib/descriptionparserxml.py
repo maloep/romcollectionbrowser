@@ -1,5 +1,7 @@
 
 from elementtree.ElementTree import *
+import urllib
+
 
 class DescriptionParserXml:
 	
@@ -12,6 +14,9 @@ class DescriptionParserXml:
 	
 	
 	def parseDescription(self, descFile):
+		
+		if(descFile.startswith('http://')):
+			descFile = urllib.urlopen(descFile)
 		
 		#results as list
 		results = []
@@ -28,6 +33,10 @@ class DescriptionParserXml:
 	
 	
 	def scanDescription(self, descFile, descParseInstruction):		
+		
+		if(descFile.startswith('http://')):
+			descFile = urllib.urlopen(descFile)
+		
 		#load xmlDoc as elementtree to check with xpaths
 		tree = ElementTree().parse(descFile)
 		
@@ -64,6 +73,7 @@ class DescriptionParserXml:
 			if(len(parts) > 2):
 				print("Usage error: wrong xpath! Only 1 attribute allowed")
 							
+			#check only the first part without attribute (elementtree does not support attributes as target)
 			elements = tree.findall(parts[0])					
 			
 			resultValues = []
