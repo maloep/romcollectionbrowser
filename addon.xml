@@ -20,7 +20,7 @@
     * view different images and videos per game
     * view game plot and additional game properties
     
-Note: This script needs some configuration. Please have a look at the commented config.xml in RCBs database directory or check http://code.google.com/p/romcollectionbrowser for complete documentation.</description>
+Note: This script needs configuration via xml file (Configuration screen does not work atm). Please have a look at the commented config.xml in RCBs database directory or check http://code.google.com/p/romcollectionbrowser for complete documentation.</description>
 
     <description lang="hu">Jelenlegi funkciók:
     * játékok szűrése konzoltípus, műfaj, év és kiadó alapján

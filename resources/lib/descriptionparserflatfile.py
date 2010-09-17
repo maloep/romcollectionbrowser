@@ -18,8 +18,8 @@ class DescriptionParserFlatFile:
 	def __init__(self, grammarNode):
 		self.grammarNode = grammarNode
 		
-	#TODO: no grammarNode
-	def parseDescription(self, descFile):
+	
+	def parseDescription(self, descFiles, replaceTokens, replaceValues):
 		
 		grammar = self.buildGameGrammar(self.grammarNode)
 				
@@ -27,17 +27,21 @@ class DescriptionParserFlatFile:
 		
 		all = OneOrMore(gameGrammar)
 		
-		fileAsString = self.openDescFile(descFile)
-		
-		results = all.parseString(fileAsString)
-		
-		if(len(results) > 1):
-			print "Parser Error: parseDescription returned more than 1 result. Please use scanDescription instead."
-			return None
-		
-		if(len(results) == 0 or results == Empty()):
-			print "Parser Error: parseDescription returned 0 results. Check your parseInstruction"
-			return None
+		for descFile in descFiles:
+			for i in range(0, len(replaceTokens)):
+				descFile = descFile.replace(replaceTokens[i], replaceValues[i])
+			
+			fileAsString = self.openDescFile(descFile)
+			
+			results = all.parseString(fileAsString)
+			
+			if(len(results) > 1):
+				print "Parser Error: parseDescription returned more than 1 result. Please use scanDescription instead."
+				return None
+			
+			if(len(results) == 0 or results == Empty()):
+				print "Parser Error: parseDescription returned 0 results. Check your parseInstruction"
+				return None
 						
 		return results[0].asDict()
 	

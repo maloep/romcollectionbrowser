@@ -121,9 +121,7 @@ class DBUpdate:
 					fileGamenameDict = self.buildFilenameDict(fileGamenameDict, isMultiRomGame, filename, gamename, fileGamenameDict, gamename, True)
 						
 					if(searchGameByCRC == 'True'):
-						filecrc = self.getFileCRC(filename)
-						filecrc = filecrc.strip()
-						filecrc = filecrc.lower()
+						filecrc = self.getFileCRC(filename)						
 						filecrcDict = self.buildFilenameDict(filecrcDict, isMultiRomGame, filename, filecrc, fileGamenameDict, gamename, False)
 					
 					#Folder name of game may be used as crc value in description files					
@@ -167,23 +165,25 @@ class DBUpdate:
 				else:	
 					fileCount = 1
 					for filename in files:
-						gamename = self.getGamenameFromFilename(filename, romCollectionRow)						
+						gamenameFromFile = self.getGamenameFromFilename(filename, romCollectionRow)						
 						
-						gui.writeMsg(progDialogRCHeader, "Import game: " +gamename, "", fileCount)
+						gui.writeMsg(progDialogRCHeader, "Import game: " +gamenameFromFile, "", fileCount)
 						fileCount = fileCount +1
 						
-						results = self.parseDescriptionFile(str(descriptionPath), str(descParserFile), gamename)						
+						foldername = os.path.dirname(filename)
+						filecrc = self.getFileCRC(filename)						
+						results = self.parseDescriptionFile(str(descriptionPath), str(descParserFile), gamenameFromFile, foldername, filecrc)						
 						#print results
 						if(results == None):
 							lastgamename = ""
-							gamedescription = None			
+							gamedescription = None
 						else:
 							gamedescription = results
 							
 						filenamelist = []
 						filenamelist.append(filename)
 							
-						self.insertGameFromDesc(gamedescription, lastgamename, ignoreGameWithoutDesc, gamename, romCollectionRow, filenamelist, foldername, allowUpdate)													
+						self.insertGameFromDesc(gamedescription, lastgamename, ignoreGameWithoutDesc, gamenameFromFile, romCollectionRow, filenamelist, foldername, allowUpdate)													
 					
 		gui.writeMsg("Done.", "", "", gui.itemCount)
 		self.exit()
@@ -319,6 +319,8 @@ class DBUpdate:
 			filecrc = "%0.8X"%(prev & 0xFFFFFFFF)
 			Logutil.log("crc for current file: " +str(filecrc), util.LOG_LEVEL_INFO)
 				
+		filecrc = filecrc.strip()
+		filecrc = filecrc.lower()
 		return filecrc
 		
 		
@@ -425,15 +427,23 @@ class DBUpdate:
 		self.insertData(gamedescription, gamename, romCollectionRow[0], filenamelist, foldername, allowUpdate, consoleId, consoleName)
 	
 	
-	def parseDescriptionFile(self, descriptionPath, descParserFile, gamename):
-		descriptionfile = descriptionPath.replace("%GAME%", gamename)
+	def parseDescriptionFile(self, descriptionPath, descParserFile, gamenameFromFile, foldername, crc):
+		descriptionfile = descriptionPath.replace("%GAME%", gamenameFromFile)
 
-		if(os.path.exists(descriptionfile)):
+		if(descriptionfile.startswith('http://') or os.path.exists(descriptionfile)):
 			Logutil.log("Parsing game description: " +descriptionfile, util.LOG_LEVEL_INFO)
 			parser = DescriptionParserFactory.getParser(str(descParserFile))
 			
 			try:
-				results = parser.parseDescription(str(descriptionfile))
+				replaceTokens = ['%FILENAME%', '%FOLDERNAME%', '%CRC%']
+				for key in util.API_KEYS.keys():
+					replaceTokens.append(key)
+					
+				replaceValues = [gamenameFromFile, foldername, crc]
+				for value in util.API_KEYS.values():
+					replaceValues.append(value)
+					
+				results = parser.parseDescription((str(descriptionfile),), replaceTokens, replaceValues)
 			except Exception, (exc):
 				Logutil.log("an error occured while parsing game description: " +descriptionfile, util.LOG_LEVEL_WARNING)
 				Logutil.log("Parser complains about: " +str(exc), util.LOG_LEVEL_WARNING)
@@ -442,7 +452,7 @@ class DBUpdate:
 			return results
 			
 		else:
-			Logutil.log("description file for game " +gamename +" could not be found. "\
+			Logutil.log("description file for game " +gamenameFromFile +" could not be found. "\
 				"Check if this path exists: " +descriptionfile, util.LOG_LEVEL_WARNING)
 			return None
 			

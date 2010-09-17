@@ -13,23 +13,37 @@ class DescriptionParserXml:
 		pass
 	
 	
-	def parseDescription(self, descFile):
+	def parseDescription(self, descFiles, replaceTokens, replaceValues):
 		
-		if(descFile.startswith('http://')):
-			descFile = urllib.urlopen(descFile)
+		results = None
+		for descFile in descFiles:
+			
+			for i in range(0, len(replaceTokens)):
+				descFile = descFile.replace(replaceTokens[i], replaceValues[i])							
+				
+			print "descFile: " +str(descFile)
+							
+			if(descFile.startswith('http://')):
+				print "urlopen"
+				descFile = descFile.replace(" ", "%20")
+				descFile = urllib.urlopen(descFile)
+				print "urlopen done"					
+			
+			#load xmlDoc as elementtree to check with xpaths
+			tree = ElementTree().parse(descFile)			
+			if(tree == None):
+				continue
+			
+			rootElementXPath = self.grammarNode.attrib.get('root')
+			rootElement = tree.find(rootElementXPath)
+			if(rootElement == None):
+				continue
+			
+			tempResults = self.parseElement(rootElement)
+			if tempResults != None:
+				results = tempResults
 		
-		#results as list
-		results = []
-		
-		#load xmlDoc as elementtree to check with xpaths
-		tree = ElementTree().parse(descFile)
-		
-		rootElementXPath = self.grammarNode.attrib.get('root')
-		rootElement = tree.find(rootElementXPath)
-		
-		result = self.parseElement(rootElement)
-		
-		return result		
+		return results	
 	
 	
 	def scanDescription(self, descFile, descParseInstruction):		
@@ -73,7 +87,7 @@ class DescriptionParserXml:
 			if(len(parts) > 2):
 				print("Usage error: wrong xpath! Only 1 attribute allowed")
 							
-			#check only the first part without attribute (elementtree does not support attributes as target)
+			#check only the first part without attribute (elementtree does not support attributes as target)			
 			elements = tree.findall(parts[0])					
 			
 			resultValues = []
