@@ -570,7 +570,7 @@ class SettingsImporter:
 				phIndex = dirname.find('%GAME%')
 				if(phIndex >= 0):
 					dirname = dirname[0:phIndex]				
-				if(not os.path.isdir(dirname)):
+				if(not dirname.startswith('http://') and not os.path.isdir(dirname)):
 					errorCount = errorCount +1
 					Logutil.log('Import Settings: Error in config.xml. Configured descFilePath %s in RomCollection %s does not exist!' %(dirname, romCollName), util.LOG_LEVEL_ERROR)
 			
