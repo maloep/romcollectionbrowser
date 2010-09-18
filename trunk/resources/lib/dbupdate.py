@@ -131,13 +131,13 @@ class DBUpdate:
 						foldername = foldername.lower()
 						fileFoldernameDict = self.buildFilenameDict(fileFoldernameDict, isMultiRomGame, filename, foldername, fileGamenameDict, gamename, False)
 
-				Logutil.log("Building file crcs done", util.LOG_LEVEL_INFO)								
-									
+				Logutil.log("Building file crcs done", util.LOG_LEVEL_INFO)																													
+				
 				if(descFilePerGame == 'False' and descParserFile != '' and descriptionPath != ''):
 					Logutil.log("Searching for game in parsed results:", util.LOG_LEVEL_INFO)
 					
 					try:						
-						fileCount = 1
+						fileCount = 1																		
 												
 						parser = DescriptionParserFactory.getParser(str(descParserFile)) 
 						parser.prepareScan(descriptionPath, str(descParserFile))						
@@ -171,7 +171,8 @@ class DBUpdate:
 						fileCount = fileCount +1
 						
 						foldername = os.path.dirname(filename)
-						filecrc = self.getFileCRC(filename)						
+						filecrc = self.getFileCRC(filename)																		
+						
 						results = self.parseDescriptionFile(str(descriptionPath), str(descParserFile), gamenameFromFile, foldername, filecrc)						
 						#print results
 						if(results == None):
@@ -443,7 +444,11 @@ class DBUpdate:
 				for value in util.API_KEYS.values():
 					replaceValues.append(value)
 					
-				results = parser.parseDescription((str(descriptionfile),), replaceTokens, replaceValues)
+				for i in range(0, len(replaceTokens)):
+					descriptionfile = descriptionfile.replace(replaceTokens[i], replaceValues[i])
+					
+				Logutil.log("description file (tokens replaced): " +descriptionfile, util.LOG_LEVEL_INFO)
+				results = parser.parseDescription((str(descriptionfile),))
 			except Exception, (exc):
 				Logutil.log("an error occured while parsing game description: " +descriptionfile, util.LOG_LEVEL_WARNING)
 				Logutil.log("Parser complains about: " +str(exc), util.LOG_LEVEL_WARNING)
@@ -510,13 +515,20 @@ class DBUpdate:
 		
 		allPathRows = Path(self.gdb).getPathsByRomCollectionId(romCollectionId)
 		for pathRow in allPathRows:
-			Logutil.log("Additional data path: " +str(pathRow), util.LOG_LEVEL_INFO)
-			files = self.resolvePath((pathRow[1],), gamename, gamenameFromFile, foldername, consoleName, publisher, developer)
-			Logutil.log("Importing files: " +str(files), util.LOG_LEVEL_INFO)
+			
 			fileTypeRow = FileType(self.gdb).getObjectById(pathRow[2])
 			Logutil.log("FileType: " +str(fileTypeRow), util.LOG_LEVEL_INFO)
 			if(fileTypeRow == None):
-				continue
+				continue			
+			
+			#TODO replace %CONSOLE%, %PUBLISHER%, ... 
+			fileName = pathRow[1].replace("%GAME%", gamename)
+			self.getThumbFromOnlineSource(gamedescription, fileTypeRow[1], fileName)
+			
+			Logutil.log("Additional data path: " +str(pathRow), util.LOG_LEVEL_INFO)
+			files = self.resolvePath((pathRow[1],), gamename, gamenameFromFile, foldername, consoleName, publisher, developer)
+			Logutil.log("Importing files: " +str(files), util.LOG_LEVEL_INFO)					
+			
 			self.insertFiles(files, gameId, fileTypeRow[1], consoleId, publisherId, developerId, romCollectionId)
 			
 		
@@ -535,6 +547,7 @@ class DBUpdate:
 		"""		
 				
 		self.gdb.commit()
+				
 		
 		
 	def insertGame(self, gameName, description, romCollectionId, publisherId, developerId, reviewerId, yearId, 
@@ -631,7 +644,7 @@ class DBUpdate:
 					files = self.getFilesByGameNameIgnoreCase(pathnameFromFolder)
 				
 				
-			#TODO could be done only once per RomCollection			
+			#TODO could be done only once per RomCollection
 			if(path.find("%CONSOLE%") > -1 and consoleName != None and len(files) == 0):
 				pathnameFromConsole = path.replace("%CONSOLE%", consoleName)
 				Logutil.log("resolved path from console name: " +pathnameFromConsole, util.LOG_LEVEL_INFO)
@@ -725,8 +738,8 @@ class DBUpdate:
 				
 		fileTypeRow = FileType(self.gdb).getOneByName(fileType)
 		if(fileTypeRow == None):
-			Logutil.log("No filetype found for %s. Please check your config.xml" %fileType, util.LOG_LEVEL_WARNING)
-			
+			Logutil.log("No filetype found for %s. Please check your config.xml" %fileType, util.LOG_LEVEL_WARNING)					
+		
 		parentId = None
 		
 		#TODO console and romcollection could be done only once per RomCollection			
@@ -752,6 +765,25 @@ class DBUpdate:
 			Logutil.log("File does not exist in database. Insert file: " +fileName, util.LOG_LEVEL_INFO)
 			File(self.gdb).insert((str(fileName), fileTypeRow[0], parentId))
 				
+
+	def getThumbFromOnlineSource(self, gamedescription, fileType, fileName):
+		Logutil.log("Get thumb from online source", util.LOG_LEVEL_INFO)
+		try:			
+			#maybe we got a thumb url from desc parser
+			thumbKey = 'Media' +fileType
+			Logutil.log("using key: " +thumbKey, util.LOG_LEVEL_INFO)
+			thumbUrl = self.resolveParseResult(gamedescription, thumbKey)
+			Logutil.log("Get thumb from url: " +str(thumbUrl), util.LOG_LEVEL_INFO)
+			if (not os.path.isfile(fileName)):
+				Logutil.log("File does not exist. Starting download.", util.LOG_LEVEL_INFO)
+				# fetch thumbnail and save to filepath
+				urllib.urlretrieve( thumbUrl, str(fileName))
+				# cleanup any remaining urllib cache
+				urllib.urlcleanup()
+				Logutil.log("Download finished.", util.LOG_LEVEL_INFO)
+		except Exception, (exc):
+			Logutil.log("Error in getThumbFromOnlineSource: " +str(exc), util.LOG_LEVEL_WARNING)						
+		
 		
 
 	def exit(self):

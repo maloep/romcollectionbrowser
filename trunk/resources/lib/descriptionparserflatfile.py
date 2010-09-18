@@ -28,9 +28,7 @@ class DescriptionParserFlatFile:
 		all = OneOrMore(gameGrammar)
 		
 		for descFile in descFiles:
-			for i in range(0, len(replaceTokens)):
-				descFile = descFile.replace(replaceTokens[i], replaceValues[i])
-			
+						
 			fileAsString = self.openDescFile(descFile)
 			
 			results = all.parseString(fileAsString)

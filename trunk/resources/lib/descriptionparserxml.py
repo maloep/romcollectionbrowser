@@ -13,13 +13,10 @@ class DescriptionParserXml:
 		pass
 	
 	
-	def parseDescription(self, descFiles, replaceTokens, replaceValues):
+	def parseDescription(self, descFiles):
 		
 		results = None
-		for descFile in descFiles:
-			
-			for i in range(0, len(replaceTokens)):
-				descFile = descFile.replace(replaceTokens[i], replaceValues[i])							
+		for descFile in descFiles:												
 				
 			print "descFile: " +str(descFile)
 							
