@@ -354,7 +354,7 @@ If set to "False" RCB won't update your already imported game descriptions. All 
 default value: True
 
 ===== ignoreOnScan =====
-If set to "True" this `RomCollection` will be ignored completely during import. If you have all data for one `RomCollection` in database you can set this to "False" and there won't be any changes to this collection during the next imports.
+If set to "True" this `RomCollection` will be ignored completely during import. If you have all data for one `RomCollection` in database you can set this to "True" and there won't be any changes to this collection during the next imports.
 
 default value: False
 
