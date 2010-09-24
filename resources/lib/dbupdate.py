@@ -163,8 +163,9 @@ class DBUpdate:
 						Logutil.log("Error: " +str(exc), util.LOG_LEVEL_WARNING)
 						return None
 				else:	
-					fileCount = 1
-					for filename in files:
+					fileCount = 1										
+					
+					for filename in files:						
 						gamenameFromFile = self.getGamenameFromFilename(filename, romCollectionRow)						
 						
 						gui.writeMsg(progDialogRCHeader, "Import game: " +gamenameFromFile, "", fileCount)
@@ -183,7 +184,7 @@ class DBUpdate:
 							
 						filenamelist = []
 						filenamelist.append(filename)
-							
+													
 						self.insertGameFromDesc(gamedescription, lastgamename, ignoreGameWithoutDesc, gamenameFromFile, romCollectionRow, filenamelist, foldername, allowUpdate)													
 					
 		gui.writeMsg("Done.", "", "", gui.itemCount)
@@ -401,15 +402,13 @@ class DBUpdate:
 		return None, foldername
 		
 		
-	def insertGameFromDesc(self, gamedescription, lastgamename, ignoreGameWithoutDesc, gamename, romCollectionRow, filenamelist, foldername, allowUpdate):
-		
-		print gamedescription
+	def insertGameFromDesc(self, gamedescription, lastgamename, ignoreGameWithoutDesc, gamename, romCollectionRow, filenamelist, foldername, allowUpdate):				
 		
 		if(gamedescription != None):
 			game = self.resolveParseResult(gamedescription, 'Game')
 		else:
 			game = ''
-				
+						
 		if(filenamelist == None or len(filenamelist) == 0):
 			lastgamename = ""			
 			Logutil.log("game " +game +" was found in parsed results but not in your rom collection.", util.LOG_LEVEL_WARNING)
@@ -432,8 +431,7 @@ class DBUpdate:
 		descriptionfile = descriptionPath.replace("%GAME%", gamenameFromFile)
 
 		if(descriptionfile.startswith('http://') or os.path.exists(descriptionfile)):
-			Logutil.log("Parsing game description: " +descriptionfile, util.LOG_LEVEL_INFO)
-			parser = DescriptionParserFactory.getParser(str(descParserFile))
+			Logutil.log("Parsing game description: " +descriptionfile, util.LOG_LEVEL_INFO)			
 			
 			try:
 				replaceTokens = ['%FILENAME%', '%FOLDERNAME%', '%CRC%']
@@ -447,14 +445,18 @@ class DBUpdate:
 				for i in range(0, len(replaceTokens)):
 					descriptionfile = descriptionfile.replace(replaceTokens[i], replaceValues[i])
 					
+				parser = DescriptionParserFactory.getParser(str(descParserFile))
 				Logutil.log("description file (tokens replaced): " +descriptionfile, util.LOG_LEVEL_INFO)
-				results = parser.parseDescription((str(descriptionfile),))
+				results = parser.parseDescription(str(descriptionfile))
 			except Exception, (exc):
 				Logutil.log("an error occured while parsing game description: " +descriptionfile, util.LOG_LEVEL_WARNING)
 				Logutil.log("Parser complains about: " +str(exc), util.LOG_LEVEL_WARNING)
 				return None			
 			
-			return results
+			if (results != None and len(results) > 0):
+				return results[0]
+			else:
+				return None
 			
 		else:
 			Logutil.log("description file for game " +gamenameFromFile +" could not be found. "\

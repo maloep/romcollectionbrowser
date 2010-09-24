@@ -257,7 +257,18 @@ def buildLikeStatement(selectedCharacter):
 
 		
 def buildCmd(filenameRows, romPaths, emuCommandLine, romCollectionRow):
+	
 	fileindex = int(0)
+	
+	#cmd could be: uae {-%I% %ROM%}
+	#we have to repeat the part inside the brackets and replace the %I% with the current index
+	obIndex = emuCommandLine.find('{')
+	cbIndex = emuCommandLine.find('}')			
+	replString = ''
+	if obIndex > -1 and cbIndex > 1:
+		replString = emuCommandLine[obIndex+1:cbIndex]
+	cmd = emuCommandLine.replace("{", "")
+	cmd = cmd.replace("}", "")
 	
 	for fileNameRow in filenameRows:
 		fileName = fileNameRow[0]			
@@ -268,20 +279,12 @@ def buildCmd(filenameRows, romPaths, emuCommandLine, romCollectionRow):
 			if(os.path.isfile(rom)):
 				break
 		if(rom == ""):
-			Logutil.log("no rom file found for game: " +str(gameRow[1]), util.LOG_LEVEL_ERROR)
+			Logutil.log("no rom file found for game: " +str(fileName), util.LOG_LEVEL_ERROR)
 			return ""
-			
-		#cmd could be: uae {-%I% %ROM%}
-		#we have to repeat the part inside the brackets and replace the %I% with the current index
-		obIndex = emuCommandLine.find('{')
-		cbIndex = emuCommandLine.find('}')			
-		if obIndex > -1 and cbIndex > 1:
-			replString = emuCommandLine[obIndex+1:cbIndex]
-		cmd = emuCommandLine.replace("{", "")
-		cmd = cmd.replace("}", "")
+					
 		if fileindex == 0:				
 			if (romCollectionRow[util.ROMCOLLECTION_escapeEmuCmd] == 1):				
-				cmd = cmd.replace('%ROM%', re.escape(rom))					
+				cmd = cmd.replace('%ROM%', re.escape(rom))
 			else:					
 				cmd = cmd.replace('%ROM%', rom)
 			cmd = cmd.replace('%I%', str(fileindex))
@@ -293,7 +296,7 @@ def buildCmd(filenameRows, romPaths, emuCommandLine, romCollectionRow):
 				newrepl = newrepl.replace('%ROM%', rom)
 			newrepl = newrepl.replace('%I%', str(fileindex))
 			cmd += ' ' +newrepl			
-	fileindex += 1
+		fileindex += 1
 	
 	return cmd
 	
