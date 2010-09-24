@@ -13,34 +13,35 @@ class DescriptionParserXml:
 		pass
 	
 	
-	def parseDescription(self, descFiles):
+	def parseDescription(self, descFile):
 		
-		results = None
-		for descFile in descFiles:												
-				
-			print "descFile: " +str(descFile)
-							
-			if(descFile.startswith('http://')):
-				print "urlopen"
-				descFile = descFile.replace(" ", "%20")
-				descFile = urllib.urlopen(descFile)
-				print "urlopen done"					
-			
-			#load xmlDoc as elementtree to check with xpaths
-			tree = ElementTree().parse(descFile)			
-			if(tree == None):
-				continue
-			
-			rootElementXPath = self.grammarNode.attrib.get('root')
-			rootElement = tree.find(rootElementXPath)
-			if(rootElement == None):
-				continue
-			
+		results = None						
+						
+		if(descFile.startswith('http://')):
+			print "urlopen"
+			descFile = descFile.replace(" ", "%20")
+			descFile = urllib.urlopen(descFile)
+			print "urlopen done"					
+		
+		#load xmlDoc as elementtree to check with xpaths
+		tree = ElementTree().parse(descFile)			
+		if(tree == None):
+			return None				
+		
+		rootElementXPath = self.grammarNode.attrib.get('root')
+		rootElements = tree.findall(rootElementXPath)
+		if(rootElements == None):
+			return None
+		
+		resultList = []
+		
+		for rootElement in rootElements:		
 			tempResults = self.parseElement(rootElement)
 			if tempResults != None:
 				results = tempResults
+				resultList.append(results)				
 		
-		return results	
+		return resultList
 	
 	
 	def scanDescription(self, descFile, descParseInstruction):		

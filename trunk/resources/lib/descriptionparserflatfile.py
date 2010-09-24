@@ -19,29 +19,27 @@ class DescriptionParserFlatFile:
 		self.grammarNode = grammarNode
 		
 	
-	def parseDescription(self, descFiles, replaceTokens, replaceValues):
+	def parseDescription(self, descFile):
 		
 		grammar = self.buildGameGrammar(self.grammarNode)
 				
 		gameGrammar = Group(grammar)		
 		
-		all = OneOrMore(gameGrammar)
+		all = OneOrMore(gameGrammar)				
+						
+		fileAsString = self.openDescFile(descFile)
 		
-		for descFile in descFiles:
+		results = all.parseString(fileAsString)		
+		
+		if(len(results) == 0 or results == Empty()):
+			print "Parser Error: parseDescription returned 0 results. Check your parseInstruction"
+			return None
 						
-			fileAsString = self.openDescFile(descFile)
-			
-			results = all.parseString(fileAsString)
-			
-			if(len(results) > 1):
-				print "Parser Error: parseDescription returned more than 1 result. Please use scanDescription instead."
-				return None
-			
-			if(len(results) == 0 or results == Empty()):
-				print "Parser Error: parseDescription returned 0 results. Check your parseInstruction"
-				return None
-						
-		return results[0].asDict()
+		resultList = []
+		for result in results:
+			if (result != Empty() and result != None):
+				resultList.append(result.asDict())
+		return resultList
 	
 	
 	def prepareScan(self, descFile, descParseInstruction):
@@ -92,11 +90,11 @@ class DescriptionParserFlatFile:
 		grammarList = []
 		rolGrammar = SkipTo(LineEnd()) +Suppress(LineEnd())
 	
-		appendNextNode = False
+		#appendNextNode = False
 		appendToPreviousNode = False
 		lastNodeGrammar = Empty()
 		
-		for node in grammarNode:			
+		for node in grammarNode:
 			#appendToPreviousNode was set at the end of the last loop
 			if(appendToPreviousNode):				
 				nodeGrammar = lastNodeGrammar
@@ -110,16 +108,23 @@ class DescriptionParserFlatFile:
 			if(nodeValue != None):				
 				literal = self.replaceTokens(nodeValue, ('LineStart', 'LineEnd'))
 				if(nodeValue.find('LineEnd') >= 0):
-					lineEndReplaced = True			
+					lineEndReplaced = True
+					
+			if(node.tag == 'SkippableContent'):
+				if(literal != None):	
+					if(nodeGrammar == None):
+						nodeGrammar = Suppress(literal)
+					else:
+						nodeGrammar += Suppress(literal)		
 			
 			rol = node.attrib.get('restOfLine')
 			if(rol != None and rol == 'true'):
 				isRol = True
 				#appendNextNode is used in the current loop
-				appendNextNode = False
+				#appendNextNode = False
 			else:
 				isRol = False
-				appendNextNode = True						
+				#appendNextNode = True						
 				
 			skipTo = node.attrib.get('skipTo')
 			if(skipTo != None):
@@ -130,14 +135,7 @@ class DescriptionParserFlatFile:
 					nodeGrammar += SkipTo(skipToGrammar)
 				if(skipTo.find('LineEnd') >= 0):
 					#print "LineEnd found in: "  +skipTo.nodeValue
-					lineEndReplaced = True
-
-			if(node.tag == 'SkippableContent'):
-				if(literal != None):	
-					if(nodeGrammar == None):
-						nodeGrammar = Suppress(literal)
-					else:
-						nodeGrammar += Suppress(literal)
+					lineEndReplaced = True			
 						
 			delimiter = node.attrib.get('delimiter')
 			if(delimiter != None):
@@ -153,27 +151,36 @@ class DescriptionParserFlatFile:
 					
 			nodeGrammar = nodeGrammar.setResultsName(node.tag)
 						
-			if(appendNextNode == False or lineEndReplaced):
-				optional = node.attrib.get('optional')
-				if(optional != None and optional == 'true'):
-					nodeGrammar = Optional(nodeGrammar)
+			#if(appendNextNode == False or lineEndReplaced):
+			optional = node.attrib.get('optional')
+			if(optional != None and optional == 'true'):
+				nodeGrammar = Optional(nodeGrammar)			
 				
-				grammarList.append(nodeGrammar)	
-				
+			
+			closeStmnt = node.attrib.get('closeStmnt')
+			if(closeStmnt != None and closeStmnt == 'true'):
+				isRol = True									
+			
 			#check if we replaced a LineEnd in skipTo or nodeValue
 			if(isRol == True or lineEndReplaced):
 				appendToPreviousNode = False
 				lastNodeGrammar = None
+				grammarList.append(nodeGrammar)				
 			else:
 				appendToPreviousNode = True
 				if(lastNodeGrammar == None):
 					lastNodeGrammar = nodeGrammar
 				else:
-					lastNodeGrammar += nodeGrammar
-					
+					lastNodeGrammar += nodeGrammar												
+		
 		grammar = ParserElement()
+		if(len(grammarList)) == 0:
+			return None
+		
 		for grammarItem in grammarList:
-			grammar += grammarItem
+			print "entering" 
+			print grammarItem
+			grammar += grammarItem				
 		
 		return grammar		
 		
