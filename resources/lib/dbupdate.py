@@ -524,7 +524,7 @@ class DBUpdate:
 				continue			
 			
 			#TODO replace %CONSOLE%, %PUBLISHER%, ... 
-			fileName = pathRow[1].replace("%GAME%", gamename)
+			fileName = pathRow[1].replace("%GAME%", gamenameFromFile)
 			self.getThumbFromOnlineSource(gamedescription, fileTypeRow[1], fileName)
 			
 			Logutil.log("Additional data path: " +str(pathRow), util.LOG_LEVEL_INFO)
