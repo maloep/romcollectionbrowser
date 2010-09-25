@@ -42,21 +42,6 @@ parseInstruction = "F:\\Emulatoren\\data\\Synopsis\\Access - parserConfig.xml"
 #"http://www.mobygames.com/game/snes/actraiser-2"
 
 
-"""
-from pyparsing import *
-fh = open(str(descFile), 'r')
-fileAsString = fh.read()
-fileAsString = fileAsString.decode('iso-8859-15')
-
-grammar = SkipTo("img alt=\"SNES Front Cover\" border=\"0\" src=\"").setDebug()
-grammar += Suppress("img alt=\"SNES Front Cover\" border=\"0\" src=\"").setDebug()
-grammar += SkipTo("\"").setDebug()
-results = grammar.parseString(fileAsString)
-
-print results
-"""
-
-
 from descriptionparserfactory import *
 descParser = DescriptionParserFactory.getParser(parseInstruction)
 
