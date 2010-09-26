@@ -94,7 +94,7 @@
 			<useEmuSolo>True</useEmuSolo>
 			<escapeCommand>True</escapeCommand>			
 			<descFilePerGame>False</descFilePerGame>
-			<descriptionParserFile>TestDataBase\Collection V1\parserConfig.xml</descriptionParserFile>
+			<scraper parseInstruction="TestDataBase\Collection V1\parserConfig.xml" source="TestDataBase\Collection V1\synopsis\synopsis.txt" useSearchEngine="False"/>			
 			<diskPrefix>_Disk</diskPrefix>			
 			<allowUpdate>False</allowUpdate>
 			<ignoreOnScan>False</ignoreOnScan>
@@ -102,8 +102,7 @@
 			<searchGameByCRCIgnoreRomName>False</searchGameByCRCIgnoreRomName>
 			<ignoreGameWithoutDesc>True</ignoreGameWithoutDesc>
 			<romPath>TestDataBase\Collection V1\roms\*.adf</romPath>
-			<romPath>TestDataBase\Collection V1\roms\*.ADF</romPath>
-			<descFilePath>TestDataBase\Collection V1\synopsis\synopsis.txt</descFilePath>			
+			<romPath>TestDataBase\Collection V1\roms\*.ADF</romPath>			
 			<mediaPath type="cover">TestDataBase\Collection V1\cover\%GAME%.jpg</mediaPath>
 			<mediaPath type="cover">TestDataBase\Collection V1\cover\%GAME%.gif</mediaPath>
 			<mediaPath type="cover">TestDataBase\Collection V1\cover\%GAME%.png</mediaPath>
@@ -129,7 +128,7 @@
 			<relyOnNaming>True</relyOnNaming>
 			<startWithDescFile>False</startWithDescFile>
 			<descFilePerGame>True</descFilePerGame>
-			<descriptionParserFile>TestDataBase\Collection V2\parserConfig.xml</descriptionParserFile>
+			<scraper parseInstruction="TestDataBase\Collection V2\parserConfig.xml" source="TestDataBase\Collection V2\synopsis\%GAME%\synopsis.txt" useSearchEngine="False"/>			
 			<diskPrefix>_Disk</diskPrefix>
 			<typeOfManual>Text</typeOfManual>
 			<allowUpdate>False</allowUpdate>
@@ -138,8 +137,7 @@
 			<searchGameByCRCIgnoreRomName>False</searchGameByCRCIgnoreRomName>
 			<ignoreGameWithoutDesc>False</ignoreGameWithoutDesc>
 			<romPath>TestDataBase\Collection V2\roms\*.adf</romPath>
-			<romPath>TestDataBase\Collection V2\roms\*.ADF</romPath>
-			<descFilePath>TestDataBase\Collection V2\synopsis\%GAME%\synopsis.txt</descFilePath>
+			<romPath>TestDataBase\Collection V2\roms\*.ADF</romPath>			
 			<configFilePath></configFilePath>			
 			<manualPath></manualPath>
 			<mediaPath type="cover">TestDataBase\Collection V2\cover\%GAME%\*.jpg</mediaPath>
@@ -166,7 +164,7 @@
 			<relyOnNaming>True</relyOnNaming>
 			<startWithDescFile>False</startWithDescFile>
 			<descFilePerGame>False</descFilePerGame>
-			<descriptionParserFile>TestDataBase\Collection V3\parserConfig.xml</descriptionParserFile>
+			<scraper parseInstruction="TestDataBase\Collection V3\parserConfig.xml" source="TestDataBase\Collection V3\description\synopsis.txt" useSearchEngine="False"/>			
 			<diskPrefix>_Disk</diskPrefix>
 			<typeOfManual>Text</typeOfManual>
 			<allowUpdate>False</allowUpdate>
@@ -175,8 +173,7 @@
 			<searchGameByCRCIgnoreRomName>False</searchGameByCRCIgnoreRomName>
 			<ignoreGameWithoutDesc>False</ignoreGameWithoutDesc>
 			<romPath>TestDataBase\Collection V3\roms\*.zip</romPath>
-			<romPath>TestDataBase\Collection V3\roms\*.smc</romPath>
-			<descFilePath>TestDataBase\Collection V3\description\synopsis.txt</descFilePath>
+			<romPath>TestDataBase\Collection V3\roms\*.smc</romPath>			
 			<configFilePath></configFilePath>
 			<manualPath></manualPath>
 			<mediaPath type="cover">TestDataBase\Collection V3\cover\%GAME%.jpg</mediaPath>
@@ -213,7 +210,7 @@
 			<relyOnNaming>True</relyOnNaming>
 			<startWithDescFile>False</startWithDescFile>
 			<descFilePerGame>False</descFilePerGame>
-			<descriptionParserFile>TestDataBase\Collection V4\parserConfig.xml</descriptionParserFile>
+			<scraper parseInstruction="TestDataBase\Collection V4\parserConfig.xml" source="TestDataBase\Collection V4\Synopsis\synopsis.txt" useSearchEngine="False"/>			
 			<diskPrefix>_Disk</diskPrefix>
 			<typeOfManual>Text</typeOfManual>
 			<allowUpdate>False</allowUpdate>
@@ -222,8 +219,7 @@
 			<searchGameByCRCIgnoreRomName>True</searchGameByCRCIgnoreRomName>
 			<ignoreGameWithoutDesc>False</ignoreGameWithoutDesc>
 			<romPath>TestDataBase\Collection V4\Roms\*.zip</romPath>
-			<romPath>TestDataBase\Collection V4\Roms\*.smc</romPath>
-			<descFilePath>TestDataBase\Collection V4\Synopsis\synopsis.txt</descFilePath>
+			<romPath>TestDataBase\Collection V4\Roms\*.smc</romPath>			
 			<configFilePath></configFilePath>
 			<manualPath></manualPath>
 			<mediaPath type="cover">TestDataBase\Collection V4\Artwork\Box Front\%GAME%.jpg</mediaPath>
@@ -266,8 +262,7 @@
 			<searchGameByCRC>False</searchGameByCRC>
 			<ignoreOnScan>False</ignoreOnScan>
 			<useFoldernameAsCRC>True</useFoldernameAsCRC>
-			<descriptionParserFile>TestDataBase\Collection V5\parserConfig.xml</descriptionParserFile>
-			<descFilePath>TestDataBase\Collection V5\synopsis.txt</descFilePath>
+			<scraper parseInstruction="TestDataBase\Collection V5\parserConfig.xml" source="TestDataBase\Collection V5\synopsis.txt" useSearchEngine="False"/>			
 			<emulatorCmd>%ROM%</emulatorCmd>
 			<romPath>TestDataBase\Collection V5\Roms\default.xbe</romPath>						
 			<mediaPath type="cover">TestDataBase\Collection V5\Artwork\Box Front\%GAME%.png</mediaPath>
@@ -283,9 +278,8 @@
 			<consoleName>Sega 32</consoleName>			
 			<searchGameByCRC>False</searchGameByCRC>
 			<descFilePerGame>True</descFilePerGame>
-			<ignoreOnScan>False</ignoreOnScan>			
-			<descriptionParserFile>TestDataBase\Collection V6\parserConfig.xml</descriptionParserFile>
-			<descFilePath>TestDataBase\Collection V6\Synopsis\%GAME%.xml</descFilePath>
+			<ignoreOnScan>False</ignoreOnScan>
+			<scraper parseInstruction="TestDataBase\Collection V6\parserConfig.xml" source="TestDataBase\Collection V6\Synopsis\%GAME%.xml" useSearchEngine="False"/>
 			<emulatorCmd>%ROM%</emulatorCmd>
 			<romPath>TestDataBase\Collection V6\Roms\*.zip</romPath>
 			<mediaPath type="cover">TestDataBase\Collection V6\Artwork\Box Front\%GAME%.png</mediaPath>
@@ -302,9 +296,8 @@
 			<searchGameByCRC>True</searchGameByCRC>
 			<useFilenameAsCRC>True</useFilenameAsCRC>
 			<descFilePerGame>False</descFilePerGame>
-			<ignoreOnScan>False</ignoreOnScan>			
-			<descriptionParserFile>TestDataBase\Collection V7\parserConfig.xml</descriptionParserFile>
-			<descFilePath>TestDataBase\Collection V7\synopsis.xml</descFilePath>
+			<ignoreOnScan>False</ignoreOnScan>
+			<scraper parseInstruction="TestDataBase\Collection V7\parserConfig.xml" source="TestDataBase\Collection V7\synopsis.xml" useSearchEngine="False"/>
 			<emulatorCmd>%ROM%</emulatorCmd>
 			<romPath>TestDataBase\Collection V7\Roms\*.zip</romPath>
 			<mediaPath type="cover">TestDataBase\Collection V7\Artwork\Box Front\%GAME%.png</mediaPath>

@@ -109,7 +109,7 @@ CREATE TABLE IF NOT EXISTS [RomCollection]
 	[xboxCreateShortcutUseShortGamename] INTEGER,
 	[useFoldernameAsCRC] INTEGER,
 	[useFilenameAsCRC] INTEGER,
-	[maxFolderDepth] INTEGER
+	[maxFolderDepth] INTEGER	
 );
 
 CREATE TABLE IF NOT EXISTS [FileTypeForControl]
@@ -172,6 +172,19 @@ CREATE TABLE IF NOT EXISTS [Game]
 );
 
 
+CREATE TABLE IF NOT EXISTS [Scraper] 
+(
+    [id] INTEGER PRIMARY KEY AUTOINCREMENT,
+	[romCollectionId] INTEGER REFERENCES [RomCollection]
+    (
+        id
+    ),
+    [parseInstruction] TEXT,
+	[source] TEXT,
+	[useSearchEngine] INTEGER
+);
+
+
 CREATE TABLE IF NOT EXISTS [File] 
 (
     [id] INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -210,5 +223,4 @@ CREATE TABLE IF NOT EXISTS [GenreGame]
         id
     )
 );
-
 

@@ -34,7 +34,7 @@ class GameDataBase:
 		self.connection.executescript(sqlCreateString)		
 	
 	def createTables(self):
-		print "Create Tables"
+		print "Create Tables"		
 		self.executeSQLScript(os.path.join(self.sqlDir, 'SQL_CREATE.txt'))
 		
 	def dropTables(self):
@@ -398,3 +398,26 @@ class Path(DataBaseObject):
 	def getConfigurationPathsByRomCollectionId(self, romCollectionId):
 		path = self.getObjectsByQuery(self.filterQueryByRomCollectionIdAndFileType, (romCollectionId, 'configuration'))
 		return path
+	
+	
+class Scraper(DataBaseObject):
+		
+	filterQueryBySourceAndRomCollectionId = "SELECT * FROM Scraper \
+					WHERE source = ? AND \
+					romCollectionId = ?"										
+					
+	filterQueryByRomCollectionId = "SELECT * FROM Scraper \
+					WHERE romCollectionId = ?"
+	
+	def __init__(self, gdb):		
+		self.gdb = gdb
+		self.tableName = "Scraper"
+
+	def getScraperBySourceAndRomCollectionId(self, source, romCollectionId):
+		scraper = self.getObjectByQuery(self.filterQueryBySourceAndRomCollectionId, (source, romCollectionId))
+		return scraper
+	
+	def getScrapersByRomCollectionId(self, romCollectionId):
+		scrapers = self.getObjectsByQuery(self.filterQueryByRomCollectionId, (romCollectionId,))
+		return scrapers
+	

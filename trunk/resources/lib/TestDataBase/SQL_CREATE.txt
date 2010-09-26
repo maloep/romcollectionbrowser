@@ -16,6 +16,7 @@ CREATE TABLE IF NOT EXISTS [FileType]
     [name] TEXT NOT NULL UNIQUE,
 	[type] TEXT,
 	[parent] TEXT
+	
 );
 
 CREATE TABLE IF NOT EXISTS [Genre] 
@@ -76,7 +77,8 @@ CREATE TABLE IF NOT EXISTS [RCBSetting]
 	[showEntryAllChars] INTEGER,
 	[lastSelectedCharacterIndex] INTEGER,
 	[preventUnfilteredSearch] INTEGER,
-	[cachingOption] INTEGER
+	[cachingOption] INTEGER,
+	[lastConfigChange] INTEGER
 );
 
 
@@ -106,7 +108,8 @@ CREATE TABLE IF NOT EXISTS [RomCollection]
 	[xboxCreateShortcutAddRomfile] INTEGER,
 	[xboxCreateShortcutUseShortGamename] INTEGER,
 	[useFoldernameAsCRC] INTEGER,
-	[useFilenameAsCRC] INTEGER
+	[useFilenameAsCRC] INTEGER,
+	[maxFolderDepth] INTEGER	
 );
 
 CREATE TABLE IF NOT EXISTS [FileTypeForControl]
@@ -164,7 +167,21 @@ CREATE TABLE IF NOT EXISTS [Game]
 	[originalTitle] TEXT,
 	[alternateTitle] TEXT,
 	[translatedBy] TEXT,
-	[version] TEXT
+	[version] TEXT,
+	UNIQUE (name, romCollectionId)
+);
+
+
+CREATE TABLE IF NOT EXISTS [Scraper] 
+(
+    [id] INTEGER PRIMARY KEY AUTOINCREMENT,
+	[romCollectionId] INTEGER REFERENCES [RomCollection]
+    (
+        id
+    ),
+    [parseInstruction] TEXT,
+	[source] TEXT,
+	[useSearchEngine] INTEGER
 );
 
 
@@ -206,5 +223,4 @@ CREATE TABLE IF NOT EXISTS [GenreGame]
         id
     )
 );
-
 
