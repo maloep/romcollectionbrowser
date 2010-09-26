@@ -50,13 +50,9 @@ class DBUpdate:
 			if(ignoreOnScan == 'True'):
 				Logutil.log("current Rom Collection will be ignored.", util.LOG_LEVEL_INFO)
 				continue
-			
-			descParserFile = romCollectionRow[6]
-			Logutil.log("using parser file: " +descParserFile, util.LOG_LEVEL_INFO)
+						
 			descFilePerGame = romCollectionRow[9]
-			Logutil.log("using one description file per game: " +descFilePerGame, util.LOG_LEVEL_INFO)
-			descriptionPath = Path(self.gdb).getDescriptionPathByRomCollectionId(romCollectionRow[0])
-			Logutil.log("using game descriptions: " +descriptionPath, util.LOG_LEVEL_INFO)
+			Logutil.log("using one description file per game: " +descFilePerGame, util.LOG_LEVEL_INFO)			
 			allowUpdate = romCollectionRow[12]
 			Logutil.log("update is allowed for current rom collection: " +allowUpdate, util.LOG_LEVEL_INFO)
 			searchGameByCRC = romCollectionRow[14]
@@ -131,19 +127,33 @@ class DBUpdate:
 						foldername = foldername.lower()
 						fileFoldernameDict = self.buildFilenameDict(fileFoldernameDict, isMultiRomGame, filename, foldername, fileGamenameDict, gamename, False)
 
-				Logutil.log("Building file crcs done", util.LOG_LEVEL_INFO)																													
+				Logutil.log("Building file crcs done", util.LOG_LEVEL_INFO)																																					
 				
-				if(descFilePerGame == 'False' and descParserFile != '' and descriptionPath != ''):
+				scraperRows = Scraper(self.gdb).getScrapersByRomCollectionId(romCollectionRow[util.ROW_ID])
+				print "scraper: " +str(scraperRows)
+				
+				if(descFilePerGame == 'False' and len(scraperRows) > 0):
 					Logutil.log("Searching for game in parsed results:", util.LOG_LEVEL_INFO)
 					
 					try:						
-						fileCount = 1																		
+						fileCount = 1
+						
+						if(len(scraperRows) > 1):
+							Logutil.log('Using more than one scraper and descFilePerGame = False is not supported. All additional scrapers will be ignored.', util.LOG_LEVEL_WARNING)
+						
+						scraperRow = scraperRows[0]
+						parseInstruction = scraperRow[util.SCRAPER_PARSEINSTRUCTION]
+						Logutil.log("using parser file: " +parseInstruction, util.LOG_LEVEL_INFO)
+						scraperSource = scraperRow[util.SCRAPER_SOURCE]
+						Logutil.log("using game descriptions: " +scraperSource, util.LOG_LEVEL_INFO)																	
 												
-						parser = DescriptionParserFactory.getParser(str(descParserFile)) 
-						parser.prepareScan(descriptionPath, str(descParserFile))						
+						parser = DescriptionParserFactory.getParser(str(parseInstruction)) 
+						parser.prepareScan(scraperSource, str(parseInstruction))						
 						
 						#parse description
-						for result in parser.scanDescription(descriptionPath, str(descParserFile)):							
+						for result in parser.scanDescription(scraperSource, str(parseInstruction)):							
+							
+							#TODO add additional scrapers here
 							
 							filenamelist, foldername = self.findFilesByGameDescription(result, searchGameByCRCIgnoreRomName, searchGameByCRC, 
 								filecrcDict, fileFoldernameDict, fileGamenameDict, useFoldernameAsCRC, useFilenameAsCRC)
@@ -174,9 +184,33 @@ class DBUpdate:
 						foldername = os.path.dirname(filename)
 						filecrc = self.getFileCRC(filename)																		
 						
-						results = self.parseDescriptionFile(str(descriptionPath), str(descParserFile), gamenameFromFile, foldername, filecrc)						
+						results = {}
+						
+						for scraperRow in scraperRows:
+							parseInstruction = scraperRow[util.SCRAPER_PARSEINSTRUCTION]
+							Logutil.log("using parser file: " +parseInstruction, util.LOG_LEVEL_INFO)
+							scraperSource = scraperRow[util.SCRAPER_SOURCE]
+							Logutil.log("using game descriptions: " +scraperSource, util.LOG_LEVEL_INFO)
+							tempResults = self.parseDescriptionFile(str(scraperSource), str(parseInstruction), gamenameFromFile, foldername, filecrc)
+							if(tempResults != None):
+								for resultKey in tempResults.keys():
+									print "resultKey: " +str(resultKey)
+									try:
+										resultValueOld = results[resultKey]																	
+									except Exception, (exc):										
+										resultValueOld = []
+										
+									try:
+										resultValueNew = tempResults[resultKey]																	
+									except Exception, (exc):										
+										resultValueNew = []
+																											
+									if(len(resultValueOld) == 0):
+										results[resultKey] = resultValueNew
+							
+						
 						#print results
-						if(results == None):
+						if(len(results) == 0):
 							lastgamename = ""
 							gamedescription = None
 						else:

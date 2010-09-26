@@ -6,17 +6,22 @@ import os, sys
 # Shared resources
 BASE_RESOURCE_PATH = os.path.join( os.getcwd(), ".." )
 sys.path.append( os.path.join( BASE_RESOURCE_PATH, "lib" ) )
-
 # append the proper platforms folder to our path, xbox is the same as win32
 env = ( os.environ.get( "OS", "win32" ), "win32", )[ os.environ.get( "OS", "win32" ) == "xbox" ]
 if env == 'Windows_NT':
 	env = 'win32'
 sys.path.append( os.path.join( BASE_RESOURCE_PATH, "platform_libraries", env ) )
 
+
 import re, string
 from pysqlite2 import dbapi2 as sqlite
 from gamedatabase import *
 import dbupdate, importsettings
+
+
+#adjust settings for tests
+util.RCBHOME = os.path.join(os.getcwd(), '..', '..')
+util.ISTESTRUN = True
 
 
 class TestImportSettings(unittest.TestCase):
@@ -25,8 +30,8 @@ class TestImportSettings(unittest.TestCase):
 		self.databasedir = os.path.join( os.getcwd(), 'TestDataBase')
 		self.gdb = GameDataBase(self.databasedir)
 		self.gdb.connect()
-		self.gdb.dropTables()
-		self.gdb.createTables()
+		self.gdb.dropTables()		
+		self.gdb.createTables()	
 		
 			
 	def test_ErrorHandling(self):
@@ -38,7 +43,7 @@ class TestImportSettings(unittest.TestCase):
 		
 		self.checkErrorHandling('config_NoConsoles.xml', True, 'Error: config.xml has 5 error(s)!')
 		
-		self.checkErrorHandling('config_NoFileTypes.xml', True, 'Error: config.xml has 83 error(s)!')
+		self.checkErrorHandling('config_NoFileTypes.xml', True, 'Error: config.xml has 82 error(s)!')
 		
 		self.checkErrorHandling('config_NoRomCollections.xml', True, 'Error: config.xml has 1 error(s)!')
 		
@@ -46,7 +51,8 @@ class TestImportSettings(unittest.TestCase):
 		
 		self.checkErrorHandling('config_corruptFileTypes.xml', True, 'Error: config.xml has 42 error(s)!')
 		
-		self.checkErrorHandling('config_corruptRomCollections.xml', True, 'Error: config.xml has 11 error(s)!')
+		self.checkErrorHandling('config_corruptRomCollections.xml', True, 'Error: config.xml has 9 error(s)!')	
+	
 		
 	
 	def checkErrorHandling(self, testFileName, backup, expectedErrorMsg):
@@ -54,6 +60,7 @@ class TestImportSettings(unittest.TestCase):
 		print "current File: " +testFileName
 		
 		testFile = os.path.join(self.databasedir, testFileName)
+		print "testFile: " +str(testFile)
 		
 		if(backup):
 			backupFile = os.path.join(self.databasedir, 'config_backup.xml')
@@ -62,7 +69,7 @@ class TestImportSettings(unittest.TestCase):
 		else:			
 			os.rename(self.origconfig, testFile)
 		si = importsettings.SettingsImporter()
-		importSuccessFul, errorMsg = si.importSettings(self.gdb, self.databasedir, RCBMock())		
+		importSuccessFul, errorMsg = si.importSettings(self.gdb, RCBMock())		
 		
 		#revert changes
 		if(backup):
@@ -77,7 +84,7 @@ class TestImportSettings(unittest.TestCase):
 	
 	def test_ImportSettings(self):		
 		si = importsettings.SettingsImporter()
-		importSuccessFul, errorMsg = si.importSettings(self.gdb, self.databasedir, RCBMock())
+		importSuccessFul, errorMsg = si.importSettings(self.gdb, RCBMock())
 		self.assertTrue(importSuccessFul)
 		self.assertEqual('', errorMsg)
 		
@@ -86,7 +93,7 @@ class TestImportSettings(unittest.TestCase):
 		self.assertTrue(len(rcbSettingRows) == 1)
 			
 		rcbSetting = rcbSettingRows[0]
-		self.assertEqual(rcbSetting[10], 'V0.5')
+		self.assertEqual(rcbSetting[10], '0.7.0')
 		self.assertEqual(rcbSetting[11], 'False')
 		self.assertEqual(rcbSetting[12], 'False')
 		self.assertEqual(rcbSetting[13], 'True')
@@ -96,7 +103,7 @@ class TestImportSettings(unittest.TestCase):
 		
 		consoleRows = Console(self.gdb).getAll()
 		self.assertTrue(consoleRows != None)
-		self.assertEqual(len(consoleRows), 3)
+		self.assertEqual(len(consoleRows), 4)
 		
 		amiga = consoleRows[0]
 		self.assertEqual(amiga[1], 'Amiga')				
@@ -106,7 +113,7 @@ class TestImportSettings(unittest.TestCase):
 		
 		romCollectionRows = RomCollection(self.gdb).getAll()
 		self.assertTrue(romCollectionRows!= None)
-		self.assertEqual(len(romCollectionRows), 5)
+		self.assertEqual(len(romCollectionRows), 7)
 		
 		collV1 = romCollectionRows[0]
 		self.assertEqual(collV1[1], 'Collection V1')
@@ -115,7 +122,7 @@ class TestImportSettings(unittest.TestCase):
 		self.assertEqual(collV1[3], 'E:\Emulatoren\WINUAE\winuae.exe -f "E:\Emulatoren\WINUAE\Configurations\Host\Amiga 500.uae" {-%I% "%ROM%"}')
 		self.assertEqual(collV1[4], 'True')
 		self.assertEqual(collV1[5], 'True')
-		self.assertEqual(collV1[6], 'TestDataBase\Collection V1\parserConfig.xml')
+		#self.assertEqual(collV1[6], 'TestDataBase\Collection V1\parserConfig.xml')
 		self.assertEqual(collV1[7], 'True')
 		self.assertEqual(collV1[8], 'False')
 		self.assertEqual(collV1[9], 'False')
@@ -136,7 +143,7 @@ class TestImportSettings(unittest.TestCase):
 		self.assertEqual(collV2[3], 'E:\Emulatoren\WINUAE\winuae.exe {-%I% "%ROM%"}')
 		self.assertEqual(collV2[4], 'True')
 		self.assertEqual(collV2[5], 'True')
-		self.assertEqual(collV2[6], 'TestDataBase\Collection V2\parserConfig.xml')
+		#self.assertEqual(collV2[6], 'TestDataBase\Collection V2\parserConfig.xml')
 		self.assertEqual(collV2[7], 'True')
 		self.assertEqual(collV2[8], 'False')
 		self.assertEqual(collV2[9], 'True')
@@ -158,7 +165,7 @@ class TestImportSettings(unittest.TestCase):
 		self.assertEqual(collV3[3], 'E:\Emulatoren\SNES\zsnes.exe -m "%ROM%"')	
 		self.assertEqual(collV3[4], 'True')
 		self.assertEqual(collV3[5], 'True')
-		self.assertEqual(collV3[6], 'TestDataBase\Collection V3\parserConfig.xml')
+		#self.assertEqual(collV3[6], 'TestDataBase\Collection V3\parserConfig.xml')
 		self.assertEqual(collV3[7], 'True')
 		self.assertEqual(collV3[8], 'False')
 		self.assertEqual(collV3[9], 'False')
@@ -181,7 +188,7 @@ class TestImportSettings(unittest.TestCase):
 		self.assertEqual(collV5[3], '%ROM%')
 		self.assertEqual(collV5[4], 'False')
 		self.assertEqual(collV5[5], 'True')
-		self.assertEqual(collV5[6], 'TestDataBase\Collection V5\parserConfig.xml')
+		#self.assertEqual(collV5[6], 'TestDataBase\Collection V5\parserConfig.xml')
 		self.assertEqual(collV5[7], 'True')
 		self.assertEqual(collV5[8], 'False')
 		self.assertEqual(collV5[9], 'False')
@@ -235,30 +242,30 @@ class TestImportSettings(unittest.TestCase):
 		
 		paths = Path(self.gdb).getAll()
 		self.assertTrue(paths != None)
-		self.assertEqual(len(paths), 66)
+		self.assertEqual(len(paths), 67)
 				
 		
 		self.assertEqual(paths[0][1], 'TestDataBase\Collection V1\\roms\*.adf')		
 		self.pathTest(paths[1][1], 'TestDataBase\Collection V1\\roms\*.ADF', paths[1][2], 'rcb_rom', paths[1][3], 'Collection V1')
-		self.pathTest(paths[2][1], 'TestDataBase\Collection V1\synopsis\synopsis.txt', paths[2][2], 'rcb_description', paths[1][3], 'Collection V1')
-		self.pathTest(paths[5][1], 'TestDataBase\Collection V1\cover\%GAME%.png', paths[5][2], 'cover', paths[1][3], 'Collection V1')		
-		self.pathTest(paths[9][1], 'TestDataBase\Collection V1\developer\%DEVELOPER%.jpg', paths[9][2], 'developer', paths[9][3], 'Collection V1')		
-		self.pathTest(paths[12][1], 'TestDataBase\Collection V2\\roms\*.adf', paths[12][2], 'rcb_rom', paths[12][3], 'Collection V2')
-		self.pathTest(paths[17][1], 'TestDataBase\Collection V2\cover\%GAME%\*.png', paths[17][2], 'cover', paths[17][3], 'Collection V2')
-		self.pathTest(paths[20][1], 'TestDataBase\Collection V2\screens\%GAME%\*.png', paths[20][2], 'screenshotingame', paths[20][3], 'Collection V2')
-		self.pathTest(paths[26][1], 'TestDataBase\Collection V3\cover\%GAME%.jpg', paths[26][2], 'cover', paths[26][3], 'Collection V3')
-		self.pathTest(paths[29][1], 'TestDataBase\Collection V3\screens\%GAME%.jpg', paths[29][2], 'screenshotingame', paths[29][3], 'Collection V3')
-		self.pathTest(paths[31][1], 'TestDataBase\Collection V3\screens\%GAME%.png', paths[31][2], 'screenshotingame', paths[31][3], 'Collection V3')
-		self.pathTest(paths[33][1], 'TestDataBase\Collection V3\\titles\%GAME%.jpg', paths[33][2], 'screenshottitle', paths[33][3], 'Collection V3')
-		self.pathTest(paths[35][1], 'TestDataBase\Collection V3\cartridge\%GAME%.gif', paths[35][2], 'cartridge', paths[35][3], 'Collection V3')
-		self.pathTest(paths[37][1], 'TestDataBase\Collection V3\cartridge\%GAME%.jpg', paths[37][2], 'cartridge', paths[37][3], 'Collection V3')
-		self.pathTest(paths[38][1], 'TestDataBase\Collection V3\ingameVids\%GAME%.wmv', paths[38][2], 'gameplay', paths[38][3], 'Collection V3')
+		#self.pathTest(paths[2][1], 'TestDataBase\Collection V1\synopsis\synopsis.txt', paths[2][2], 'rcb_description', paths[1][3], 'Collection V1')
+		self.pathTest(paths[4][1], 'TestDataBase\Collection V1\cover\%GAME%.png', paths[4][2], 'cover', paths[4][3], 'Collection V1')		
+		self.pathTest(paths[8][1], 'TestDataBase\Collection V1\developer\%DEVELOPER%.jpg', paths[8][2], 'developer', paths[8][3], 'Collection V1')		
+		self.pathTest(paths[11][1], 'TestDataBase\Collection V2\\roms\*.adf', paths[11][2], 'rcb_rom', paths[11][3], 'Collection V2')
+		self.pathTest(paths[15][1], 'TestDataBase\Collection V2\cover\%GAME%\*.png', paths[15][2], 'cover', paths[15][3], 'Collection V2')
+		self.pathTest(paths[18][1], 'TestDataBase\Collection V2\screens\%GAME%\*.png', paths[18][2], 'screenshotingame', paths[18][3], 'Collection V2')
+		self.pathTest(paths[23][1], 'TestDataBase\Collection V3\cover\%GAME%.jpg', paths[23][2], 'cover', paths[23][3], 'Collection V3')
+		self.pathTest(paths[26][1], 'TestDataBase\Collection V3\screens\%GAME%.jpg', paths[26][2], 'screenshotingame', paths[26][3], 'Collection V3')
+		self.pathTest(paths[28][1], 'TestDataBase\Collection V3\screens\%GAME%.png', paths[28][2], 'screenshotingame', paths[28][3], 'Collection V3')
+		self.pathTest(paths[30][1], 'TestDataBase\Collection V3\\titles\%GAME%.jpg', paths[30][2], 'screenshottitle', paths[30][3], 'Collection V3')
+		self.pathTest(paths[32][1], 'TestDataBase\Collection V3\cartridge\%GAME%.gif', paths[32][2], 'cartridge', paths[32][3], 'Collection V3')
+		self.pathTest(paths[34][1], 'TestDataBase\Collection V3\cartridge\%GAME%.jpg', paths[34][2], 'cartridge', paths[34][3], 'Collection V3')
+		self.pathTest(paths[35][1], 'TestDataBase\Collection V3\ingameVids\%GAME%.wmv', paths[35][2], 'gameplay', paths[35][3], 'Collection V3')
 		
 		
 		fileTypesForControl = FileTypeForControl(self.gdb).getAll()
 		self.assertTrue(paths != None)
 		numFileTypes = len(fileTypesForControl)
-		self.assertEqual(numFileTypes, 38)
+		self.assertEqual(numFileTypes, 48)
 		
 		self.fileTypeForControlTestTest(fileTypesForControl[0][1], 'gamelist', fileTypesForControl[0][2], 0, fileTypesForControl[0][4], 'cover', fileTypesForControl[0][3], 'Collection V1')
 		self.fileTypeForControlTestTest(fileTypesForControl[2][1], 'gameinfoviewbackground', fileTypesForControl[2][2], 0, fileTypesForControl[2][4], 'cover', fileTypesForControl[2][3], 'Collection V1')

@@ -119,7 +119,7 @@ class SettingsImporter:
 			relyOnNaming = self.getElementValue(romCollection, 'relyOnNaming')
 			startWithDescFile = self.getElementValue(romCollection, 'startWithDescFile')
 			descFilePerGame = self.getElementValue(romCollection, 'descFilePerGame')			
-			descParserFile = self.getElementValue(romCollection, 'descriptionParserFile')			
+			#descParserFile = self.getElementValue(romCollection, 'descriptionParserFile')			
 			diskPrefix = self.getElementValue(romCollection, 'diskPrefix')
 			typeOfManual = self.getElementValue(romCollection, 'typeOfManual')
 			allowUpdate = self.getElementValue(romCollection, 'allowUpdate')
@@ -136,23 +136,24 @@ class SettingsImporter:
 				
 			
 			romPaths = self.getElementValues(romCollection, 'romPath')
-			descFilePaths = self.getElementValues(romCollection, 'descFilePath')
+			#descFilePaths = self.getElementValues(romCollection, 'descFilePath')
 			configFilePaths = self.getElementValues(romCollection, 'configFilePath')
 			manualPaths = self.getElementValues(romCollection, 'manualPath')
 			
 			
 			#import romCollection first to obtain the id
 			romCollectionId = self.insertRomCollection(consoleName, romCollName, emuCmd, emuSolo, escapeCmd, relyOnNaming, startWithDescFile, 
-				descFilePerGame, descParserFile, diskPrefix, typeOfManual, allowUpdate, ignoreOnScan, searchGameByCRC, 
+				descFilePerGame, diskPrefix, typeOfManual, allowUpdate, ignoreOnScan, searchGameByCRC, 
 				searchGameByCRCIgnoreRomName, ignoreGameWithoutDesc, xboxCreateShortcut, xboxCreateShortcutAddRomfile, xboxCreateShortcutUseShortGamename,
 				useFoldernameAsCRC, useFilenameAsCRC, maxFolderDepth)
 			
 			
 			self.insertPaths(romCollectionId, romPaths, 'rcb_rom')
-			self.insertPaths(romCollectionId, descFilePaths, 'rcb_description')
+			#self.insertPaths(romCollectionId, descFilePaths, 'rcb_description')
 			self.insertPaths(romCollectionId, configFilePaths, 'rcb_configuration')
 			self.insertPaths(romCollectionId, manualPaths, 'rcb_manual')
 			
+			self.addScrapers(romCollection, romCollectionId)			
 			
 			self.handleTypedElements(romCollection, 'mediaPath', romCollectionId)
 			
@@ -269,6 +270,29 @@ class SettingsImporter:
 		return attr
 	
 	
+	def addScrapers(self, romCollection, romCollectionId):
+		valueList = []
+		nodeList = romCollection.getElementsByTagName('scraper')
+		for node in nodeList:
+			if(node == None):
+				continue
+			
+			parseInstruction = self.getAttribute(node, 'parseInstruction')			
+			source = self.getAttribute(node, 'source')			
+			useSearchEngine = self.getAttribute(node, 'useSearchEngine')
+			if(useSearchEngine == ''):
+				useSearchEngine = 'False'
+			
+			scraperRow = Scraper(self.gdb).getScraperBySourceAndRomCollectionId(source, romCollectionId)
+			if(scraperRow == None or len(scraperRow) == 0):
+				scraperId = Scraper(self.gdb).insert((romCollectionId, parseInstruction, source, useSearchEngine))				
+			else:
+				scraperId = scraperRow[0]
+				Scraper(self.gdb).update(('romCollectionId', 'parseInstruction', 'source', 'useSearchEngine'), 
+										(romCollectionId, parseInstruction, source, useSearchEngine), scraperId)
+											
+	
+	
 	def insertRCBSetting(self, favoriteConsole, favoriteGenre, showEntryAllConsoles, showEntryAllGenres, showEntryAllYears, showEntryAllPublisher, saveViewStateOnExit, 
 			saveViewStateOnLaunchEmu, logLevel, showEntryAllChars, preventUnfilteredSearch, cachingOption, modifyTime):
 		
@@ -337,7 +361,7 @@ class SettingsImporter:
 	
 	
 	def insertRomCollection(self, consoleName, romCollName, emuCmd, emuSolo, escapeCmd, relyOnNaming, startWithDescFile, 
-				descFilePerGame, descParserFile, diskPrefix, typeOfManual, allowUpdate, ignoreOnScan, searchGameByCRC, 
+				descFilePerGame, diskPrefix, typeOfManual, allowUpdate, ignoreOnScan, searchGameByCRC, 
 				searchGameByCRCIgnoreRomName, ignoreGameWithoutDesc, xboxCreateShortcut, 
 				xboxCreateShortcutAddRomfile, xboxCreateShortcutUseShortGamename, useFoldernameAsCRC, useFilenameAsCRC, maxFolderDepth):		
 		
@@ -387,7 +411,7 @@ class SettingsImporter:
 				
 		romCollectionRow = RomCollection(self.gdb).getOneByName(romCollName)
 		if(romCollectionRow == None):		
-			RomCollection(self.gdb).insert((romCollName, consoleId, emuCmd, emuSolo, escapeCmd, descParserFile, relyOnNaming, 
+			RomCollection(self.gdb).insert((romCollName, consoleId, emuCmd, emuSolo, escapeCmd, None, relyOnNaming, 
 				startWithDescFile, descFilePerGame, diskPrefix, typeOfManual, allowUpdate, ignoreOnScan, searchGameByCRC, searchGameByCRCIgnoreRomName, 
 				ignoreGameWithoutDesc, xboxCreateShortcut, xboxCreateShortcutAddRomfile, xboxCreateShortcutUseShortGamename, useFoldernameAsCRC, useFilenameAsCRC, maxFolderDepth))
 			romCollectionId = self.gdb.cursor.lastrowid
@@ -396,7 +420,7 @@ class SettingsImporter:
 								'descFilePerGame', 'diskPrefix', 'typeOfManual', 'allowUpdate', 'ignoreOnScan', 'searchGameByCRC', 
 								'searchGameByCRCIgnoreRomName', 'ignoreGameWithoutDesc', 'xboxCreateShortcut', 'xboxCreateShortcutAddRomfile', 
 								'xboxCreateShortcutUseShortGamename', 'useFoldernameAsCRC', 'useFilenameAsCRC', 'maxFolderDepth'),
-								(romCollName, consoleId, emuCmd, emuSolo, escapeCmd, descParserFile, relyOnNaming, startWithDescFile, descFilePerGame, diskPrefix, typeOfManual, allowUpdate, 
+								(romCollName, consoleId, emuCmd, emuSolo, escapeCmd, relyOnNaming, None, startWithDescFile, descFilePerGame, diskPrefix, typeOfManual, allowUpdate, 
 								ignoreOnScan, searchGameByCRC, searchGameByCRCIgnoreRomName, ignoreGameWithoutDesc,xboxCreateShortcut, xboxCreateShortcutAddRomfile, 
 								xboxCreateShortcutUseShortGamename, useFoldernameAsCRC, useFilenameAsCRC, maxFolderDepth),
 								romCollectionRow[0])
@@ -550,29 +574,25 @@ class SettingsImporter:
 					errorCount = errorCount +1
 					Logutil.log('Import Settings: Error in config.xml. Configured romPath %s in RomCollection %s does not exist!' %(dirname, romCollName), util.LOG_LEVEL_ERROR)
 			
-			descFilePaths = self.getElementValues(romCollection, 'descFilePath')
-			"""
-			if(len(descFilePaths) == 0):
-				errorCount = errorCount +1
-				Logutil.log('Import Settings: Error in config.xml. RomCollection %s must have a descFilePath!' %romCollName, util.LOG_LEVEL_ERROR)
-			"""
-			if(len(descFilePaths) > 0):
-				descParserFile = self.getElementValue(romCollection, 'descriptionParserFile')
-				if(descParserFile == ''):
-					errorCount = errorCount +1
-					Logutil.log('Import Settings: Error in config.xml. RomCollection %s must have a descParserFile (if you have configured a descFilePath)!' %romCollName, util.LOG_LEVEL_ERROR)
-				elif(not os.path.isfile(descParserFile)):
-					errorCount = errorCount +1
-					Logutil.log('Import Settings: Error in config.xml. descParserFile %s in RomCollection %s does not exist!' %(descParserFile, romCollName), util.LOG_LEVEL_ERROR)
 			
-			for descFilePath in descFilePaths:							
-				dirname = os.path.dirname(descFilePath)
+			#TODO: add game scrapers
+			nodeList = romCollection.getElementsByTagName('scraper')
+			for node in nodeList:
+				if(node == None):
+					continue
+				
+				parseInstruction = self.getAttribute(node, 'parseInstruction')
+				if(not parseInstruction.startswith('http://') and not os.path.isfile(parseInstruction)):
+					errorCount = errorCount +1
+					Logutil.log('Import Settings: Error in config.xml. The file in scraper/parseInstruction %s in RomCollection %s does not exist!' %(parseInstruction, romCollName), util.LOG_LEVEL_ERROR)			
+				source = self.getAttribute(node, 'source')
+				dirname = os.path.dirname(source)
 				phIndex = dirname.find('%GAME%')
 				if(phIndex >= 0):
-					dirname = dirname[0:phIndex]				
+					dirname = dirname[0:phIndex]
 				if(not dirname.startswith('http://') and not os.path.isdir(dirname)):
-					errorCount = errorCount +1
-					Logutil.log('Import Settings: Error in config.xml. Configured descFilePath %s in RomCollection %s does not exist!' %(dirname, romCollName), util.LOG_LEVEL_ERROR)
+					errorCount = errorCount +1				
+					Logutil.log('Import Settings: Error in config.xml. The directory in scraper/source %s in RomCollection %s does not exist!' %(dirname, romCollName), util.LOG_LEVEL_ERROR)			
 			
 			mediaPaths = romCollection.getElementsByTagName('mediaPath')
 			for mediaPath in mediaPaths:				
