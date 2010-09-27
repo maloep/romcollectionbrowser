@@ -194,7 +194,7 @@ class DBUpdate:
 							tempResults = self.parseDescriptionFile(str(scraperSource), str(parseInstruction), gamenameFromFile, foldername, filecrc)
 							if(tempResults != None):
 								for resultKey in tempResults.keys():
-									print "resultKey: " +str(resultKey)
+									Logutil.log("resultKey: " +resultKey, util.LOG_LEVEL_INFO)
 									try:
 										resultValueOld = results[resultKey]																	
 									except Exception, (exc):										
@@ -806,12 +806,16 @@ class DBUpdate:
 		Logutil.log("Get thumb from online source", util.LOG_LEVEL_INFO)
 		try:			
 			#maybe we got a thumb url from desc parser
-			thumbKey = 'Media' +fileType
+			thumbKey = 'Filetype' +fileType
 			Logutil.log("using key: " +thumbKey, util.LOG_LEVEL_INFO)
 			thumbUrl = self.resolveParseResult(gamedescription, thumbKey)
 			Logutil.log("Get thumb from url: " +str(thumbUrl), util.LOG_LEVEL_INFO)
+			if(thumbUrl == ''):
+				return
+			
+			Logutil.log("check if file exists: " +str(fileName), util.LOG_LEVEL_INFO)			
 			if (not os.path.isfile(fileName)):
-				Logutil.log("File does not exist. Starting download.", util.LOG_LEVEL_INFO)
+				Logutil.log("File does not exist. Starting download.", util.LOG_LEVEL_INFO)				
 				# fetch thumbnail and save to filepath
 				urllib.urlretrieve( thumbUrl, str(fileName))
 				# cleanup any remaining urllib cache

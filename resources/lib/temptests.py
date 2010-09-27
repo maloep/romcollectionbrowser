@@ -21,8 +21,8 @@ import util
 #descFile = "F:\\Emulatoren\\data\\Synopsis\\Sega 32 - After Burner.xml"
 #parseInstruction = "F:\\Emulatoren\\data\\Synopsis\\VideoGameDB - parserConfig.xml"
 
-descFile = "F:\\Emulatoren\\data\\Synopsis\\SEGA 32 - complete.xml"
-parseInstruction = "F:\\Emulatoren\\data\\Synopsis\\Access - parserConfig.xml"
+#descFile = "F:\\Emulatoren\\data\\Synopsis\\SEGA 32 - complete.xml"
+#parseInstruction = "F:\\Emulatoren\\data\\Synopsis\\Access - parserConfig.xml"
 
 #descFile = "F:\\Emulatoren\\data\\Synopsis\\MAME v0.138.dat"
 #parseInstruction = "F:\\Emulatoren\\data\\Synopsis\\MameDat - parserConfig.xml"
@@ -36,10 +36,11 @@ parseInstruction = "F:\\Emulatoren\\data\\Synopsis\\Access - parserConfig.xml"
 #parseInstruction = "F:\\Emulatoren\\data\\Synopsis\\gamedesc\\_parserConfig.xml"
 
 #descFile = "http://www.mobygames.com/game/gamecube/animal-crossing/cover-art"
-#descFile = "F:\\Emulatoren\\data\\Synopsis\\actraiser-2-cover-art.htm"
-#parseInstruction = "F:\\Emulatoren\\data\\Synopsis\\mobygames - parserConfig.xml"
+descFile = "F:\\Emulatoren\\data\\Synopsis\\actraiser-2-cover-art.htm"
+parseInstruction = "F:\\Emulatoren\\data\\Synopsis\\mobygames - parserConfig.xml"
 
-#"http://www.mobygames.com/game/snes/actraiser-2"
+#descFile = "F:\\Emulatoren\\data\\Synopsis\\spyvsspy\\mame_rom_synopsis_for_xbmc_rcb_addon\\mame_rom_synopsis_for_xbmc_rcb_addon\\MAME.txt"
+#parseInstruction = "F:\\Emulatoren\\data\\Synopsis\\spyvsspy\\mame_rom_synopsis_for_xbmc_rcb_addon\\mame_rom_synopsis_for_xbmc_rcb_addon\\parserConfig.xml"
 
 
 from descriptionparserfactory import *
