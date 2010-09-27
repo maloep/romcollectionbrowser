@@ -10,7 +10,7 @@ import xbmc, time
 RCBHOME = os.getcwd()
 SCRIPTNAME = 'Rom Collection Browser'
 SCRIPTID = 'script.games.rom.collection.browser'
-CURRENT_SCRIPT_VERSION = "0.7.2"
+CURRENT_SCRIPT_VERSION = "0.7.1"
 CURRENT_DB_VERSION = "0.7.0"
 ISTESTRUN = False
 

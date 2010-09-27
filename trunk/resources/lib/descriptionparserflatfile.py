@@ -29,7 +29,7 @@ class DescriptionParserFlatFile:
 						
 		fileAsString = self.openDescFile(descFile)
 		
-		results = all.parseString(fileAsString)		
+		results = all.parseString(fileAsString)
 		
 		if(len(results) == 0 or results == Empty()):
 			print "Parser Error: parseDescription returned 0 results. Check your parseInstruction"
@@ -180,7 +180,7 @@ class DescriptionParserFlatFile:
 		for grammarItem in grammarList:
 			print "entering" 
 			print grammarItem
-			grammar += grammarItem				
+			grammar += grammarItem
 		
 		return grammar		
 		
