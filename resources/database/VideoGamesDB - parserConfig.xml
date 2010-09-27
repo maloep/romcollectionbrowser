@@ -1,0 +1,12 @@
+<parserConfig>
+	<GameGrammar type="xml" root="Results/Game">		
+		<Game>Name</Game>
+		<Platform>Platform/Name</Platform>
+		<Region>Region/Name</Region>		
+		<Genre>Genre/Name</Genre>
+		<ReleaseYear>ReleaseDate</ReleaseYear>
+		<Developer>Developer/Name</Developer>
+		<Publisher>Publisher/Name</Publisher>		
+		<Filetypecover>Boxart/FullURL</Filetypecover>
+	</GameGrammar>
+</parserConfig>
