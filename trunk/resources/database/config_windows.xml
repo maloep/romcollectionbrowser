@@ -1,7 +1,7 @@
 
 <!--
-Rom Collection Browser 0.6.1
-13.06.2010
+Rom Collection Browser 0.7.1
+27.09.2010
 	
 This is a commented version of RCB's config file. The first Rom Collection in this file is just an example collection that will be ignored during import (if you don't change the value of ignoreOnScan).
 
@@ -123,10 +123,10 @@ See http://code.google.com/p/romcollectionbrowser for latest version and full do
 			<romPath>TestDataBase\Collection V1\roms\*.adf</romPath>
 			<!-- descFilePerGame: True: Use one description file per game, False: use one big file with descriptions for all games. default value: False -->
 			<descFilePerGame>False</descFilePerGame>
-			<!-- descriptionParserFile: path to your xml file that tells RCB how to parse your game descriptions -->
-			<descriptionParserFile>TestDataBase\Collection V1\parserConfig.xml</descriptionParserFile>
-			<!-- descFilePath: path to your description file. May contain %GAME% as placeholder if you have one desc file per game. -->
-			<descFilePath>TestDataBase\Collection V1\synopsis\synopsis.txt</descFilePath>			
+			<!-- scraper: add one or more scrapers that parse offline game descriptions or download descriptions and media files from online sources
+				parseInstruction: path to the xml file that tells RCB how to parse your game descriptions
+				descFilePath: path to your description file. May contain %GAME% as placeholder if you have one desc file per game. -->
+			<scraper parseInstruction="TestDataBase\Collection V1\parserConfig.xml" source="TestDataBase\Collection V1\synopsis\synopsis.txt"/>		
 			<!-- diskPrefix: Disk prefix will be removed when detecting the game name: "MyGame_Disk2.adf" will be "MyGame". default value: "_Disk" -->
 			<diskPrefix>_Disk</diskPrefix>
 			<!-- allowUpdate: If set to "False" RCB won't update already imported game descriptions but will add additional media files. default value: True -->
@@ -238,11 +238,10 @@ See http://code.google.com/p/romcollectionbrowser for latest version and full do
 			<emulatorCmd>E:\Emulatoren\WINUAE\winuae.exe {-%I% "%ROM%"}</emulatorCmd>
 			<useEmuSolo>True</useEmuSolo>			
 			<descFilePerGame>True</descFilePerGame>
-			<descriptionParserFile>PathToData\Amiga\parserConfig.xml</descriptionParserFile>						
+			<scraper parseInstruction="PathToData\Amiga\parserConfig.xml" source="PathToData\Amiga\synopsis\%GAME%\synopsis.txt"/>			
 			<searchGameByCRC>False</searchGameByCRC>			
 			<ignoreGameWithoutDesc>False</ignoreGameWithoutDesc>
 			<romPath>PathToData\Amiga\roms\*.adf</romPath>			
-			<descFilePath>PathToData\Amiga\synopsis\%GAME%\synopsis.txt</descFilePath>			
 			<mediaPath type="cover">PathToData\Amiga\cover\%GAME%\*.jpg</mediaPath>			
 			<mediaPath type="action">PathToData\Amiga\screens\%GAME%\*.jpg</mediaPath>			
 			<fileTypeForGameList>cover</fileTypeForGameList>
@@ -261,11 +260,10 @@ See http://code.google.com/p/romcollectionbrowser for latest version and full do
 			<emulatorCmd>E:\Emulatoren\SNES\zsnes.exe -m "%ROM%"</emulatorCmd>
 			<useEmuSolo>True</useEmuSolo>						
 			<descFilePerGame>False</descFilePerGame>
-			<descriptionParserFile>PathToData\SNES\parserConfig.xml</descriptionParserFile>			
+			<scraper parseInstruction="PathToData\SNES\parserConfig.xml" source="PathToData\SNES\description\synopsis.txt"/>			
 			<searchGameByCRC>True</searchGameByCRC>
 			<searchGameByCRCIgnoreRomName>True</searchGameByCRCIgnoreRomName>			
 			<romPath>PathToData\SNES\roms\*.zip</romPath>			
-			<descFilePath>PathToData\SNES\description\synopsis.txt</descFilePath>			
 			<mediaPath type="cover">PathToData\SNES\cover\%GAME%.jpg</mediaPath>			
 			<mediaPath type="action">PathToData\SNES\screens\%GAME%.jpg</mediaPath>						
 			<mediaPath type="title">PathToData\SNES\titles\%GAME%.jpg</mediaPath>						

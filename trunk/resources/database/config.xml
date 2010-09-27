@@ -103,15 +103,14 @@
 			<useEmuSolo>True</useEmuSolo>
 			<escapeCommand>True</escapeCommand>						
 			<descFilePerGame>False</descFilePerGame>
-			<descriptionParserFile>F:\Emulatoren\data\Testdata Current\Collection V1\parserConfig.xml</descriptionParserFile>
+			<scraper parseInstruction="F:\Emulatoren\data\Testdata Current\Collection V1\parserConfig.xml" source="F:\Emulatoren\data\Testdata Current\Collection V1\synopsis\synopsis.txt"/>			
 			<diskPrefix>_Disk</diskPrefix>			
 			<allowUpdate>True</allowUpdate>
 			<ignoreOnScan>True</ignoreOnScan>
 			<searchGameByCRC>True</searchGameByCRC>
 			<searchGameByCRCIgnoreRomName>False</searchGameByCRCIgnoreRomName>
 			<ignoreGameWithoutDesc>True</ignoreGameWithoutDesc>
-			<romPath>F:\Emulatoren\data\Testdata Current\Collection V1\roms\*.adf</romPath>
-			<descFilePath>F:\Emulatoren\data\Testdata Current\Collection V1\synopsis\synopsis.txt</descFilePath>			
+			<romPath>F:\Emulatoren\data\Testdata Current\Collection V1\roms\*.adf</romPath>			
 			<mediaPath type="cover">F:\Emulatoren\data\Testdata Current\Collection V1\cover\%GAME%.jpg</mediaPath>			
 			<mediaPath type="screenshotingame">F:\Emulatoren\data\Testdata Current\Collection V1\screens\%GAME%.jpg</mediaPath>			
 			<mediaPath type="console">F:\Emulatoren\data\Testdata Current\pics\console\%CONSOLE%.png</mediaPath>
@@ -142,7 +141,7 @@
 			<useEmuSolo>False</useEmuSolo>
 			<escapeCommand>True</escapeCommand>						
 			<descFilePerGame>True</descFilePerGame>
-			<descriptionParserFile>F:\Emulatoren\data\Testdata Current\Collection V2\parserConfig.xml</descriptionParserFile>
+			<scraper parseInstruction="F:\Emulatoren\data\Testdata Current\Collection V2\parserConfig.xml" source="F:\Emulatoren\data\Testdata Current\Collection V2\synopsis\%GAME%\synopsis.txt"/>
 			<diskPrefix>_Disk</diskPrefix>			
 			<allowUpdate>True</allowUpdate>
 			<ignoreOnScan>True</ignoreOnScan>
@@ -150,8 +149,7 @@
 			<searchGameByCRCIgnoreRomName>False</searchGameByCRCIgnoreRomName>
 			<ignoreGameWithoutDesc>False</ignoreGameWithoutDesc>
 			<romPath>F:\Emulatoren\data\Testdata Current\Collection V2\roms\*.adf</romPath>
-			<romPath>F:\Emulatoren\data\Testdata Current\Collection V2\roms\*.ADF</romPath>
-			<descFilePath>F:\Emulatoren\data\Testdata Current\Collection V2\synopsis\%GAME%\synopsis.txt</descFilePath>			
+			<romPath>F:\Emulatoren\data\Testdata Current\Collection V2\roms\*.ADF</romPath>			
 			<mediaPath type="cover">F:\Emulatoren\data\Testdata Current\Collection V2\cover\%GAME%\*.jpg</mediaPath>			
 			<mediaPath type="cover">F:\Emulatoren\data\Testdata Current\Collection V2\cover\%GAME%\*.png</mediaPath>
 			<mediaPath type="screenshotingame">F:\Emulatoren\data\Testdata Current\Collection V2\screens\%GAME%\*.jpg</mediaPath>			
@@ -183,7 +181,7 @@
 			<useEmuSolo>False</useEmuSolo>
 			<escapeCommand>True</escapeCommand>			
 			<descFilePerGame>False</descFilePerGame>
-			<descriptionParserFile>F:\Emulatoren\data\Testdata Current\Collection V3\parserConfig.xml</descriptionParserFile>
+			<scraper parseInstruction="F:\Emulatoren\data\Testdata Current\Collection V3\parserConfig.xml" source="F:\Emulatoren\data\Testdata Current\Collection V3\Synopsis\synopsis.txt"/>
 			<diskPrefix>_Disk</diskPrefix>			
 			<allowUpdate>True</allowUpdate>
 			<ignoreOnScan>True</ignoreOnScan>
@@ -191,8 +189,7 @@
 			<searchGameByCRCIgnoreRomName>False</searchGameByCRCIgnoreRomName>
 			<ignoreGameWithoutDesc>False</ignoreGameWithoutDesc>
 			<romPath>F:\Emulatoren\data\Testdata Current\Collection V3\Roms\*.zip</romPath>
-			<romPath>F:\Emulatoren\data\Testdata Current\Collection V3\Roms\*.smc</romPath>
-			<descFilePath>F:\Emulatoren\data\Testdata Current\Collection V3\Synopsis\synopsis.txt</descFilePath>						
+			<romPath>F:\Emulatoren\data\Testdata Current\Collection V3\Roms\*.smc</romPath>			
 			<mediaPath type="boxfront">F:\Emulatoren\data\Testdata Current\Collection V3\Artwork\Box Front\%GAME%.png</mediaPath>			
 			<mediaPath type="action">F:\Emulatoren\data\Testdata Current\Collection V3\Artwork\Action\%GAME%.png</mediaPath>
 			<mediaPath type="title">F:\Emulatoren\data\Testdata Current\Collection V3\Artwork\Title\%GAME%.png</mediaPath>			
@@ -209,9 +206,7 @@
 			<fileTypeForGameListSelected>boxfront</fileTypeForGameListSelected>
 			<fileTypeForMainView1>developer</fileTypeForMainView1>			
 			<fileTypeForMainView3>publisher</fileTypeForMainView3>
-			<fileTypeForMainViewBackground>title</fileTypeForMainViewBackground>
-			<!--<fileTypeForMainViewGameInfoBig>action</fileTypeForMainViewGameInfoBig>-->
-			<!--<fileTypeForMainViewVideoWindowBig>gameplay</fileTypeForMainViewVideoWindowBig>-->			
+			<fileTypeForMainViewBackground>title</fileTypeForMainViewBackground>			
 			<fileTypeForMainViewGameInfoUpperLeft>title</fileTypeForMainViewGameInfoUpperLeft>
 			<fileTypeForMainViewGameInfoUpperRight>action</fileTypeForMainViewGameInfoUpperRight>
 			<fileTypeForMainViewGameInfoLowerLeft>boxfront</fileTypeForMainViewGameInfoLowerLeft>
@@ -226,99 +221,6 @@
 			<fileTypeForGameInfoView4>cartridge</fileTypeForGameInfoView4>
 			<fileTypeForGameInfoView4>romcollection</fileTypeForGameInfoView4>
 			<fileTypeForGameInfoViewVideoWindow>gameplay</fileTypeForGameInfoViewVideoWindow>
-		</RomCollection>
-		<!--<RomCollection>
-			<name>Collection V4</name>
-			<consoleName>Standalone</consoleName>
-			<emulatorCmd>%ROM%</emulatorCmd>
-			<romPath>E:\Neverball\neverball.exe</romPath>
-			<descFilePerGame>True</descFilePerGame>
-		</RomCollection>-->
-		<RomCollection>			
-			<name>Collection V5 Amiga Classix</name>
-			<consoleName>Amiga</consoleName>
-			<emulatorCmd>E:\Emulatoren\zsnes\zsnesw.exe -m "%ROM%"</emulatorCmd>
-			<useEmuSolo>False</useEmuSolo>
-			<escapeCommand>True</escapeCommand>			
-			<descFilePerGame>True</descFilePerGame>
-			<allowUpdate>True</allowUpdate>
-			<ignoreOnScan>True</ignoreOnScan>
-			<searchGameByCRC>False</searchGameByCRC>
-			<searchGameByCRCIgnoreRomName>False</searchGameByCRCIgnoreRomName>
-			<ignoreGameWithoutDesc>False</ignoreGameWithoutDesc>
-			<romPath>F:\Emulatoren\data\Amiga\Amiga Classix 2\Games\*.adf</romPath>
-			<mediaPath type="action">F:\Emulatoren\data\Amiga\Amiga Classix 2\Pics\%GAME%.jpg</mediaPath>			
-			<fileTypeForGameList>action</fileTypeForGameList>
-			<fileTypeForGameListSelected>action</fileTypeForGameListSelected>
-			<fileTypeForMainViewBackground>action</fileTypeForMainViewBackground>
-			<fileTypeForMainViewGameInfoBig>action</fileTypeForMainViewGameInfoBig>
-			<fileTypeForGameInfoViewBackground>action</fileTypeForGameInfoViewBackground>			
-			<fileTypeForGameInfoViewGamelist>action</fileTypeForGameInfoViewGamelist>
-			<fileTypeForGameInfoView1>action</fileTypeForGameInfoView1>
-			<fileTypeForGameInfoView2>action</fileTypeForGameInfoView2>
-			<fileTypeForGameInfoView3>action</fileTypeForGameInfoView3>
-			<fileTypeForGameInfoView4>action</fileTypeForGameInfoView4>
-		</RomCollection>
-		<RomCollection>			
-			<name>Collection V5 Amiga Classix 2</name>
-			<consoleName>Amiga 2</consoleName>
-			<emulatorCmd>E:\Emulatoren\zsnes\zsnesw.exe -m "%ROM%"</emulatorCmd>
-			<useEmuSolo>False</useEmuSolo>
-			<escapeCommand>True</escapeCommand>			
-			<descFilePerGame>True</descFilePerGame>
-			<allowUpdate>True</allowUpdate>
-			<ignoreOnScan>True</ignoreOnScan>
-			<searchGameByCRC>False</searchGameByCRC>
-			<searchGameByCRCIgnoreRomName>False</searchGameByCRCIgnoreRomName>
-			<ignoreGameWithoutDesc>False</ignoreGameWithoutDesc>
-			<romPath>F:\Emulatoren\data\Amiga\Amiga Classix 2\Games\*.adf</romPath>
-			<mediaPath type="action">F:\Emulatoren\data\Amiga\Amiga Classix 2\Pics\%GAME%.jpg</mediaPath>			
-			<fileTypeForGameList>action</fileTypeForGameList>
-			<fileTypeForGameListSelected>action</fileTypeForGameListSelected>
-			<fileTypeForMainViewBackground>action</fileTypeForMainViewBackground>
-			<fileTypeForMainViewGameInfoBig>action</fileTypeForMainViewGameInfoBig>
-			<fileTypeForGameInfoViewBackground>action</fileTypeForGameInfoViewBackground>			
-			<fileTypeForGameInfoViewGamelist>action</fileTypeForGameInfoViewGamelist>
-			<fileTypeForGameInfoView1>action</fileTypeForGameInfoView1>
-			<fileTypeForGameInfoView2>action</fileTypeForGameInfoView2>
-			<fileTypeForGameInfoView3>action</fileTypeForGameInfoView3>
-			<fileTypeForGameInfoView4>action</fileTypeForGameInfoView4>
-		</RomCollection>
-		<RomCollection>			
-			<name>Xbox</name>
-			<consoleName>Xbox</consoleName>
-			<xboxCreateShortcut>True</xboxCreateShortcut>
-			<searchGameByCRC>False</searchGameByCRC>
-			<ignoreOnScan>False</ignoreOnScan>
-			<useFoldernameAsCRC>True</useFoldernameAsCRC>
-			<maxFolderDepth>1</maxFolderDepth>
-			<descriptionParserFile>F:\Emulatoren\data\XBOX\parserConfig_Xbox.xml</descriptionParserFile>
-			<descFilePath>F:\Emulatoren\data\XBOX\synopsis.txt</descFilePath>
-			<emulatorCmd>"%ROM%"</emulatorCmd>
-			<romPath>F:\Emulatoren\data\XBOX\Roms\default.xbe</romPath>						
-			<mediaPath type="boxfront">F:\Emulatoren\data\XBOX\Artwork\Box Front\%GAME%.png</mediaPath>			
-			<mediaPath type="3dbox">F:\Emulatoren\data\XBOX\Artwork\3d Boxart\%GAME%.png</mediaPath>
-			<mediaPath type="action">F:\Emulatoren\data\XBOX\Artwork\Action\%GAME%.png</mediaPath>
-			<mediaPath type="cartridge">F:\Emulatoren\data\XBOX\Artwork\Cart\%GAME%.png</mediaPath>
-			<mediaPath type="gameplay">F:\Emulatoren\data\XBOX\MoviesFLV\%GAME%.flv</mediaPath>
-			<fileTypeForGameList>3dbox</fileTypeForGameList>
-			<fileTypeForGameListSelected>boxfront</fileTypeForGameListSelected>			
-			<fileTypeForMainViewBackground>boxfront</fileTypeForMainViewBackground>
-			<!--<fileTypeForMainViewGameInfoBig>action</fileTypeForMainViewGameInfoBig>-->
-			<!--<fileTypeForMainViewVideoWindowBig>gameplay</fileTypeForMainViewVideoWindowBig>-->			
-			<fileTypeForMainViewGameInfoUpperLeft>action</fileTypeForMainViewGameInfoUpperLeft>
-			<fileTypeForMainViewGameInfoUpperRight>3dbox</fileTypeForMainViewGameInfoUpperRight>
-			<fileTypeForMainViewGameInfoLowerLeft>boxfront</fileTypeForMainViewGameInfoLowerLeft>
-			<fileTypeForMainViewGameInfoLowerRight>cartridge</fileTypeForMainViewGameInfoLowerRight>
-			<fileTypeForMainViewVideoWindowSmall>gameplay</fileTypeForMainViewVideoWindowSmall>
-			<fileTypeForMainViewFullscreenVideo>gameplay</fileTypeForMainViewFullscreenVideo>
-			<fileTypeForGameInfoViewBackground>boxfront</fileTypeForGameInfoViewBackground>			
-			<fileTypeForGameInfoViewGamelist>boxfront</fileTypeForGameInfoViewGamelist>
-			<fileTypeForGameInfoView1>boxfront</fileTypeForGameInfoView1>
-			<fileTypeForGameInfoView2>action</fileTypeForGameInfoView2>
-			<fileTypeForGameInfoView3>boxfront</fileTypeForGameInfoView3>
-			<fileTypeForGameInfoView4>cartridge</fileTypeForGameInfoView4>
-			<fileTypeForGameInfoViewVideoWindow>gameplay</fileTypeForGameInfoViewVideoWindow>
-		</RomCollection>
+		</RomCollection>		
 	</RomCollections>
 </config>
