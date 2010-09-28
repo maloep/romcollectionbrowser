@@ -116,6 +116,20 @@ Newer versions (from 0.5.3 up) of RCB contain a commented config-file (RCB insta
 
 There are three stages where RCB reads its settings: [Main#Import_games_and_media Importing Games], [Main#Browsing_and_displaying_games Browsing and Displaying Games] and [Main#Launching_games Launching Games]. After every configuration change you have to "Import Settings" again. You only need to "Import Games" if you make changes to settings that address the "Importing Games" stage.
 
+== How to read Configuration section ==
+At the beginning of the configuration section I introduce the config.xml file format. In the next chapter there is one minimal configuration example that will do nothing than import your rom files. In the following chapters this minimal configuration will be extended with configuration entries to add game descriptions or images.
+
+There are a lot of configuration entries that are not shown in the example configurations. They can be added as follows: 
+
+The structure of configuration section is 
+- Stage (e.g. Import games)
+-- Task (e.g. Add images)
+--- Configuration item (e.g. `RomCollection`)
+---- Property (e.g. `escapeCommand`)
+
+When you see a description of an 
+
+
 == Configuration File Format (config.xml) ==
 
 The basic structure of RCBs config file looks like this:
