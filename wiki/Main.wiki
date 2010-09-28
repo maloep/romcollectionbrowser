@@ -122,12 +122,17 @@ At the beginning of the configuration section I introduce the config.xml file fo
 There are a lot of configuration entries that are not shown in the example configurations. They can be added as follows: 
 
 The structure of configuration section is 
+
 - Stage (e.g. Import games)
+
 -- Task (e.g. Add images)
+
 --- Configuration item (e.g. `RomCollection`)
+
 ---- Property (e.g. `escapeCommand`)
 
-When you see a description of an 
+
+This means if you read the description of property `escapeCommand` and you see that it belongs to configuration item `RomCollection` you have to add a new xml element `<escapeCommand>False</escapeCommand>` inside the parent element `RomCollection`. If the parent element is missing (should only happen with `RCBSettings`) just add the parent element as shown in the file format chapter or config.xml reference.
 
 
 == Configuration File Format (config.xml) ==
