@@ -294,7 +294,20 @@ See section [Main#dynamic_image_placing dynamic image placing] for more detalis.
 
 If you want to have game descriptions shown with your rom collections you will need descriptions files (containing the description) and a parser configuration (tells RCB how to parse the description file format). The format of the parser configuration is explained in section [Main#parserConfig.xml parserConfig.xml].
 
-You can download some (nearly) complete description files and a working parserConfig here: http://romcollectionbrowser.googlecode.com/files/gamedesc.zip. Actually it covers "NES", "SNES", "SEGA 32", "SEGA CD", "SEGA Genesis", "SEGA Game Gear", "SEGA Master System", "SEGA SG-1000" and "Gameboy".
+You can download some (nearly) complete description files and a working parserConfig here: http://romcollectionbrowser.googlecode.com/files/gamedesc.zip. Actually it covers "NES", "SNES", "SEGA 32", "SEGA CD", "SEGA Genesis", "SEGA Game Gear", "SEGA Master System", "SEGA SG-1000" and "Gameboy". These descriptions all contain crc values, so you should not need to rename your roms to match the descriptions.
+
+User [http://forum.xbmc.org/showpost.php?p=612640&postcount=580 spyvsspy has compiled] some more game descriptions (all included with working parserConfig and all using crc values):
+
+[http://jumbofiles.com/4bo7ue9f000b Mame]
+
+[http://jumbofiles.com/s6i1kve2n18t C64]
+
+[http://jumbofiles.com/kmcvpukjayn2 Amiga small]
+
+[http://jumbofiles.com/1ija5cepffeh Amiga big (may be problematic to parse because of its size)]
+
+[http://jumbofiles.com/ro4bfpiajjp5 ColecoVision]
+
 
 Our above config has to be extended with (at least) these properties:
 
