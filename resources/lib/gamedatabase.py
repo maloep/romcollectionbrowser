@@ -402,8 +402,9 @@ class Path(DataBaseObject):
 	
 class Scraper(DataBaseObject):
 		
-	filterQueryBySourceAndRomCollectionId = "SELECT * FROM Scraper \
+	filterQueryBySourceParserAndRomCollectionId = "SELECT * FROM Scraper \
 					WHERE source = ? AND \
+					parseInstruction = ? AND \
 					romCollectionId = ?"										
 					
 	filterQueryByRomCollectionId = "SELECT * FROM Scraper \
@@ -413,8 +414,8 @@ class Scraper(DataBaseObject):
 		self.gdb = gdb
 		self.tableName = "Scraper"
 
-	def getScraperBySourceAndRomCollectionId(self, source, romCollectionId):
-		scraper = self.getObjectByQuery(self.filterQueryBySourceAndRomCollectionId, (source, romCollectionId))
+	def getScraperBySourceParserAndRomCollectionId(self, source, parseInstruction, romCollectionId):
+		scraper = self.getObjectByQuery(self.filterQueryBySourceParserAndRomCollectionId, (source, parseInstruction, romCollectionId))
 		return scraper
 	
 	def getScrapersByRomCollectionId(self, romCollectionId):

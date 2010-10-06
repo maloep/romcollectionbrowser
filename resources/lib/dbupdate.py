@@ -148,7 +148,7 @@ class DBUpdate:
 						Logutil.log("using game descriptions: " +scraperSource, util.LOG_LEVEL_INFO)																	
 												
 						parser = DescriptionParserFactory.getParser(str(parseInstruction)) 
-						parser.prepareScan(scraperSource, str(parseInstruction))						
+						#parser.prepareScan(scraperSource, str(parseInstruction))						
 						
 						#parse description
 						for result in parser.scanDescription(scraperSource, str(parseInstruction)):							
@@ -186,28 +186,11 @@ class DBUpdate:
 						
 						results = {}
 						
-						for scraperRow in scraperRows:
-							parseInstruction = scraperRow[util.SCRAPER_PARSEINSTRUCTION]
-							Logutil.log("using parser file: " +parseInstruction, util.LOG_LEVEL_INFO)
-							scraperSource = scraperRow[util.SCRAPER_SOURCE]
-							Logutil.log("using game descriptions: " +scraperSource, util.LOG_LEVEL_INFO)
-							tempResults = self.parseDescriptionFile(str(scraperSource), str(parseInstruction), gamenameFromFile, foldername, filecrc)
-							if(tempResults != None):
-								for resultKey in tempResults.keys():
-									Logutil.log("resultKey: " +resultKey, util.LOG_LEVEL_INFO)
-									try:
-										resultValueOld = results[resultKey]																	
-									except Exception, (exc):										
-										resultValueOld = []
-										
-									try:
-										resultValueNew = tempResults[resultKey]																	
-									except Exception, (exc):										
-										resultValueNew = []
-																											
-									if(len(resultValueOld) == 0):
-										results[resultKey] = resultValueNew
-							
+						urlFromPreviousScraper = ""
+						for scraperRow in scraperRows:							
+							results, urlFromPreviousScraper, doContinue = self.scrapeResults(results, scraperRow, urlFromPreviousScraper, gamenameFromFile, foldername, filecrc)
+							if(doContinue):
+								continue							
 						
 						#print results
 						if(len(results) == 0):
@@ -225,7 +208,51 @@ class DBUpdate:
 		self.exit()
 		return True, ''
 					
+	
+	def scrapeResults(self, results, scraperRow, urlFromPreviousScraper, gamenameFromFile, foldername, filecrc):
+		parseInstruction = scraperRow[util.SCRAPER_PARSEINSTRUCTION]
+		Logutil.log("using parser file: " +parseInstruction, util.LOG_LEVEL_INFO)
+		scraperSource = scraperRow[util.SCRAPER_SOURCE]
+		Logutil.log("using game description: " +scraperSource, util.LOG_LEVEL_INFO)
 		
+		#url to scrape may be passed from the previous scraper
+		if(scraperSource == ""):
+			if(urlFromPreviousScraper == ""):
+				Logutil.log("Configuration error: scraper source is empty and there is no previous scraper that returned an url to scrape.", util.LOG_LEVEL_ERROR)
+				return results, urlFromPreviousScraper, True
+			Logutil.log("using url from previous scraper: " +str(urlFromPreviousScraper), util.LOG_LEVEL_INFO)
+			scraperSource = urlFromPreviousScraper						
+														
+		tempResults = self.parseDescriptionFile(str(scraperSource), str(parseInstruction), scraperRow, gamenameFromFile, foldername, filecrc)
+		
+		if(scraperRow[util.SCRAPER_RETURNURL].upper() == "TRUE"):
+			#TODO: fuzzy match (tempResults['key'])
+			try:								
+				urlFromPreviousScraper = self.resolveParseResult(tempResults, 'url')
+				Logutil.log("pass url to next scraper: " +str(urlFromPreviousScraper), util.LOG_LEVEL_INFO)
+				return results, urlFromPreviousScraper, True
+			except:
+				Logutil.log("Should pass url to next scraper, but url is empty.", util.LOG_LEVEL_WARNING)
+				return results, urlFromPreviousScraper, True
+			
+		if(tempResults != None):
+			for resultKey in tempResults.keys():
+				Logutil.log("resultKey: " +resultKey, util.LOG_LEVEL_INFO)
+				try:
+					resultValueOld = results[resultKey]																	
+				except Exception, (exc):										
+					resultValueOld = []
+					
+				try:
+					resultValueNew = tempResults[resultKey]																	
+				except Exception, (exc):										
+					resultValueNew = []
+																						
+				if(len(resultValueOld) == 0):
+					results[resultKey] = resultValueNew
+					
+		return results, urlFromPreviousScraper, False
+	
 	
 	def getRomFilesByRomCollection(self, romCollectionRow, maxFolderDepth):
 		Logutil.log("Reading configured paths from database", util.LOG_LEVEL_INFO)
@@ -461,7 +488,7 @@ class DBUpdate:
 		self.insertData(gamedescription, gamename, romCollectionRow[0], filenamelist, foldername, allowUpdate, consoleId, consoleName)
 	
 	
-	def parseDescriptionFile(self, descriptionPath, descParserFile, gamenameFromFile, foldername, crc):
+	def parseDescriptionFile(self, descriptionPath, descParserFile, scraperRow, gamenameFromFile, foldername, crc):
 		descriptionfile = descriptionPath.replace("%GAME%", gamenameFromFile)
 
 		if(descriptionfile.startswith('http://') or os.path.exists(descriptionfile)):
@@ -478,6 +505,22 @@ class DBUpdate:
 					
 				for i in range(0, len(replaceTokens)):
 					descriptionfile = descriptionfile.replace(replaceTokens[i], replaceValues[i])
+					
+				#replace configurable tokens
+				#TODO move from Scraper to RomCollection?
+				replaceKeyString = scraperRow[util.SCRAPER_REPLACEKEYSTRING]
+				replaceKeys = replaceKeyString.split(',')
+				Logutil.log("replaceKeys: " +str(replaceKeys), util.LOG_LEVEL_INFO)
+				replaceValueString = scraperRow[util.SCRAPER_REPLACEVALUESTRING]		
+				replaceValues = replaceValueString.split(',')
+				Logutil.log("replaceValues: " +str(replaceValues), util.LOG_LEVEL_INFO)
+				
+				if(len(replaceKeys) != len(replaceValues)):
+					Logutil.log("Configuration error: replaceKeyString (%s) and replaceValueString(%s) does not have the same number of ','-separated items." %(replaceKeyString, replaceValueString), util.LOG_LEVEL_ERROR)
+					return None
+				
+				for i in range(0, len(replaceKeys)):
+					descriptionfile = descriptionfile.replace(replaceKeys[i], replaceValues[i])
 					
 				parser = DescriptionParserFactory.getParser(str(descParserFile))
 				Logutil.log("description file (tokens replaced): " +descriptionfile, util.LOG_LEVEL_INFO)
@@ -531,6 +574,8 @@ class DBUpdate:
 			version = self.resolveParseResult(gamedescription, 'Version')
 					
 			gamename = self.resolveParseResult(gamedescription, 'Game')
+			if(gamename == ""):
+				gamename = gamenameFromFile
 			plot = self.resolveParseResult(gamedescription, 'Description')
 						
 			gameId = self.insertGame(gamename, plot, romCollectionId, publisherId, developerId, reviewerId, yearId, 
@@ -753,8 +798,16 @@ class DBUpdate:
 	def resolveParseResult(self, result, itemName):
 				
 		try:			
-			resultValue = result[itemName][0]			
-			resultValue = resultValue.strip()						
+			resultValue = result[itemName][0]
+			resultValue = resultValue.strip()
+			
+			#replace HTML tags
+			#TODO there must be a function available to do this 
+			resultValue = resultValue.replace('&nbsp;', ' ')
+			resultValue = resultValue.replace('&quot;', '"')
+			resultValue = resultValue.replace('&amp;', '&')
+			resultValue = resultValue.replace('&lt;', '<')
+			resultValue = resultValue.replace('&gt;', '>')						
 		except Exception, (exc):
 			Logutil.log("Error while resolving item: " +itemName +" : " +str(exc), util.LOG_LEVEL_WARNING)
 			resultValue = ""

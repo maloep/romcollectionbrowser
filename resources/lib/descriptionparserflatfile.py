@@ -38,18 +38,40 @@ class DescriptionParserFlatFile:
 		resultList = []
 		for result in results:
 			if (result != Empty() and result != None):
-				resultList.append(result.asDict())
-		return resultList
-	
-	
-	def prepareScan(self, descFile, descParseInstruction):
-		#prepare game description parser		
-		self.gameGrammar = self.getGameGrammar(str(descParseInstruction))
+				resultAsDict = result.asDict()
+				resultAsDict = self.replaceResultTokens(resultAsDict)
+				resultList.append(resultAsDict)				
+		return resultList			
 		
+		
+	def replaceResultTokens(self, resultAsDict):
+		for key in resultAsDict.keys():			
+			grammarElement = self.grammarNode.find(key)
+			if(grammarElement != None):
+				attrib = grammarElement.attrib.get('appendResultTo')
+				if(attrib == None or attrib == ""):
+					continue
+				else:
+					itemList = resultAsDict[key]
+					for i in range(0, len(itemList)):
+						try:							
+							item = itemList[i]
+							newValue = attrib +item							
+							itemList[i] = newValue
+						except:
+							print "Error while handling appendResultTo"
+							
+					resultAsDict[key] = itemList
+		
+		return resultAsDict	
+			
+			
 	
 	def scanDescription(self, descFile, descParseInstruction):
 		
+		print "scanDescription..."
 		fileAsString = self.openDescFile(descFile)
+		self.gameGrammar = self.getGameGrammar(str(descParseInstruction))
 				
 		for result,start,end in self.gameGrammar.scanString(fileAsString):
 			yield result.asDict()
@@ -177,9 +199,7 @@ class DescriptionParserFlatFile:
 		if(len(grammarList)) == 0:
 			return None
 		
-		for grammarItem in grammarList:
-			print "entering" 
-			print grammarItem
+		for grammarItem in grammarList:			
 			grammar += grammarItem
 		
 		return grammar		

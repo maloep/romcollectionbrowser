@@ -1,6 +1,7 @@
 
 import os, sys
 import time
+import urllib
 from descriptionparserfactory import DescriptionParserFactory
 
 print "start parsing"
@@ -36,12 +37,19 @@ import util
 #parseInstruction = "F:\\Emulatoren\\data\\Synopsis\\gamedesc\\_parserConfig.xml"
 
 #descFile = "http://www.mobygames.com/game/gamecube/animal-crossing/cover-art"
-descFile = "F:\\Emulatoren\\data\\Synopsis\\actraiser-2-cover-art.htm"
-parseInstruction = "F:\\Emulatoren\\data\\Synopsis\\mobygames - parserConfig.xml"
+#descFile = "F:\\Emulatoren\\data\\Synopsis\\actraiser-2-cover-art.htm"
+#parseInstruction = "F:\\Emulatoren\\data\\Synopsis\\mobygames - parserConfig.xml"
 
-#descFile = "F:\\Emulatoren\\data\\Synopsis\\spyvsspy\\mame_rom_synopsis_for_xbmc_rcb_addon\\mame_rom_synopsis_for_xbmc_rcb_addon\\MAME.txt"
-#parseInstruction = "F:\\Emulatoren\\data\\Synopsis\\spyvsspy\\mame_rom_synopsis_for_xbmc_rcb_addon\\mame_rom_synopsis_for_xbmc_rcb_addon\\parserConfig.xml"
+#descFile = "F:\\Emulatoren\\data\\Synopsis\\spyvsspy\\amiga_rom_synopsis_big_for_xbmc_rcb_addon\\amiga_rom_synopsis_big_for_xbmc_rcb_addon\\AMIGA_big.txt"
+#parseInstruction = "F:\\Emulatoren\\data\\Synopsis\\spyvsspy\\amiga_rom_synopsis_big_for_xbmc_rcb_addon\\amiga_rom_synopsis_big_for_xbmc_rcb_addon\\parserConfig.xml"
 
+
+#descFile = "F:\\Emulatoren\\data\\Synopsis\\mobygames\\mobysearch.htm"
+#parseInstruction = "F:\\Emulatoren\\data\\Synopsis\\mobygames\\mobysearch - parseInstruction.xml"
+
+
+descFile = "F:\\Emulatoren\\data\\Synopsis\\mobygames\\moby gameOverview.htm"
+parseInstruction = "F:\\Emulatoren\\data\\Synopsis\\mobygames\\mobyOverview - link coverart - parseInstruction.xml"
 
 from descriptionparserfactory import *
 descParser = DescriptionParserFactory.getParser(parseInstruction)
@@ -50,10 +58,14 @@ results = descParser.parseDescription(str(descFile))
 for result in results:
 	print result
 
+#timestamp1 = time.clock()
+
 #descParser.prepareScan(descFile, parseInstruction)
 #for result in descParser.scanDescription(descFile, parseInstruction):
 #	print result
 
 
-
+#timestamp2 = time.clock()
+#diff = (timestamp2 - timestamp1) * 1000		
+#print "parsed in %d ms" % (diff)
 
