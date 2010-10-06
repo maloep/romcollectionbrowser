@@ -279,17 +279,19 @@ class SettingsImporter:
 			
 			parseInstruction = self.getAttribute(node, 'parseInstruction')			
 			source = self.getAttribute(node, 'source')			
-			useSearchEngine = self.getAttribute(node, 'useSearchEngine')
-			if(useSearchEngine == ''):
-				useSearchEngine = 'False'
+			returnUrl = self.getAttribute(node, 'returnUrl')
+			if(returnUrl == ''):
+				returnUrl = 'False'
+			replaceKeyString = self.getAttribute(node, 'replaceKeyString')
+			replaceValueString = self.getAttribute(node, 'replaceValueString')
 			
-			scraperRow = Scraper(self.gdb).getScraperBySourceAndRomCollectionId(source, romCollectionId)
+			scraperRow = Scraper(self.gdb).getScraperBySourceParserAndRomCollectionId(source, parseInstruction, romCollectionId)
 			if(scraperRow == None or len(scraperRow) == 0):
-				scraperId = Scraper(self.gdb).insert((romCollectionId, parseInstruction, source, useSearchEngine))				
+				scraperId = Scraper(self.gdb).insert((romCollectionId, parseInstruction, source, returnUrl, replaceKeyString, replaceValueString))				
 			else:
 				scraperId = scraperRow[0]
-				Scraper(self.gdb).update(('romCollectionId', 'parseInstruction', 'source', 'useSearchEngine'), 
-										(romCollectionId, parseInstruction, source, useSearchEngine), scraperId)
+				Scraper(self.gdb).update(('romCollectionId', 'parseInstruction', 'source', 'returnUrl', 'replaceKeyString', 'replaceValueString'), 
+										(romCollectionId, parseInstruction, source, returnUrl, replaceKeyString, replaceValueString), scraperId)
 											
 	
 	
@@ -590,7 +592,7 @@ class SettingsImporter:
 				phIndex = dirname.find('%GAME%')
 				if(phIndex >= 0):
 					dirname = dirname[0:phIndex]
-				if(not dirname.startswith('http://') and not os.path.isdir(dirname)):
+				if(not dirname == "" and not dirname.startswith('http://') and not os.path.isdir(dirname)):
 					errorCount = errorCount +1				
 					Logutil.log('Import Settings: Error in config.xml. The directory in scraper/source %s in RomCollection %s does not exist!' %(dirname, romCollName), util.LOG_LEVEL_ERROR)			
 			
