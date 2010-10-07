@@ -801,20 +801,43 @@ class DBUpdate:
 			resultValue = result[itemName][0]
 			resultValue = resultValue.strip()
 			
-			#replace HTML tags
-			#TODO there must be a function available to do this 
-			resultValue = resultValue.replace('&nbsp;', ' ')
-			resultValue = resultValue.replace('&quot;', '"')
-			resultValue = resultValue.replace('&amp;', '&')
-			resultValue = resultValue.replace('&lt;', '<')
-			resultValue = resultValue.replace('&gt;', '>')						
+			#replace and remove HTML tags
+			resultValue = self.stripHTMLTags(resultValue)
+									
 		except Exception, (exc):
 			Logutil.log("Error while resolving item: " +itemName +" : " +str(exc), util.LOG_LEVEL_WARNING)
 			resultValue = ""
 						
-		Logutil.log("Result " +itemName +" = " +resultValue.encode('iso-8859-15'), util.LOG_LEVEL_INFO)
+		try:
+			Logutil.log("Result " +itemName +" = " +resultValue.encode('iso-8859-15'), util.LOG_LEVEL_INFO)
+		except:
+			pass
 				
 		return resultValue
+	
+	
+	def stripHTMLTags(self, inputString):
+		
+		#TODO there must be a function available to do this 
+		inputString = inputString.replace('&nbsp;', ' ')
+		inputString = inputString.replace('&quot;', '"')
+		inputString = inputString.replace('&amp;', '&')
+		inputString = inputString.replace('&lt;', '<')
+		inputString = inputString.replace('&gt;', '>')
+				
+		intag = [False]
+		
+		def chk(c):
+			if intag[0]:
+				intag[0] = (c != '>')
+				return False
+			elif c == '<':
+				intag[0] = True
+				return False
+			return True
+		
+		return ''.join(c for c in inputString if chk(c))
+
 	
 	
 	def insertFiles(self, fileNames, gameId, fileType, consoleId, publisherId, developerId, romCollectionId):

@@ -42,29 +42,6 @@ class DescriptionParserFlatFile:
 				resultAsDict = self.replaceResultTokens(resultAsDict)
 				resultList.append(resultAsDict)				
 		return resultList			
-		
-		
-	def replaceResultTokens(self, resultAsDict):
-		for key in resultAsDict.keys():			
-			grammarElement = self.grammarNode.find(key)
-			if(grammarElement != None):
-				attrib = grammarElement.attrib.get('appendResultTo')
-				if(attrib == None or attrib == ""):
-					continue
-				else:
-					itemList = resultAsDict[key]
-					for i in range(0, len(itemList)):
-						try:							
-							item = itemList[i]
-							newValue = attrib +item							
-							itemList[i] = newValue
-						except:
-							print "Error while handling appendResultTo"
-							
-					resultAsDict[key] = itemList
-		
-		return resultAsDict	
-			
 			
 	
 	def scanDescription(self, descFile, descParseInstruction):
@@ -74,7 +51,55 @@ class DescriptionParserFlatFile:
 		self.gameGrammar = self.getGameGrammar(str(descParseInstruction))
 				
 		for result,start,end in self.gameGrammar.scanString(fileAsString):
-			yield result.asDict()
+			resultAsDict = result.asDict()
+			resultAsDict = self.replaceResultTokens(resultAsDict)
+			yield resultAsDict
+			
+			
+	def replaceResultTokens(self, resultAsDict):
+		for key in resultAsDict.keys():			
+			grammarElement = self.grammarNode.find(key)
+			if(grammarElement != None):
+				appendResultTo = grammarElement.attrib.get('appendResultTo')
+				replaceKeyString = grammarElement.attrib.get('replaceInResultKey')
+				replaceValueString = grammarElement.attrib.get('replaceInResultValue')
+											
+				if(appendResultTo != None):									
+					itemList = resultAsDict[key]
+					for i in range(0, len(itemList)):
+						try:							
+							item = itemList[i]
+							newValue = appendResultTo +item							
+							itemList[i] = newValue
+						except:
+							print "Error while handling appendResultTo"
+							
+					resultAsDict[key] = itemList
+					
+				if(replaceKeyString != None and replaceValueString != None):												
+					replaceKeys = replaceKeyString.split(',')
+					replaceValues = replaceValueString.split(',')
+					
+					if(len(replaceKeys) != len(replaceValues)):
+						print "Configuration error: replaceKeys must be the same number as replaceValues"
+					
+					itemList = resultAsDict[key]
+					for i in range(0, len(itemList)):
+						try:							
+							item = itemList[i]
+							
+							for j in range(len(replaceKeys)):
+								replaceKey = replaceKeys[j]
+								replaceValue = replaceValues[j]
+															
+								newValue = item.replace(replaceKey, replaceValue)							
+								itemList[i] = newValue
+						except:
+							print "Error while handling appendResultTo"
+							
+					resultAsDict[key] = itemList
+				
+		return resultAsDict	
 			
 	
 	def openDescFile(self, descFile):

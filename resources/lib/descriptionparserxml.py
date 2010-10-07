@@ -35,11 +35,12 @@ class DescriptionParserXml:
 		
 		resultList = []
 		
-		for rootElement in rootElements:		
+		for rootElement in rootElements:
 			tempResults = self.parseElement(rootElement)
 			if tempResults != None:
 				results = tempResults
-				resultList.append(results)				
+				results = self.replaceResultTokens(results)
+				resultList.append(results)
 		
 		return resultList
 	
@@ -56,14 +57,58 @@ class DescriptionParserXml:
 		result = {}
 					
 		rootElement = self.grammarNode.attrib.get('root')		
-		
-		#TODO get game node xpath from config
+				
 		for node in tree.findall(rootElement):
-			
 			result = self.parseElement(node)
-						
+			result = self.replaceResultTokens(result)
 			yield result
-			
+	
+	
+	#TODO: make a base class and make this a base method
+	def replaceResultTokens(self, resultAsDict):
+		for key in resultAsDict.keys():			
+			grammarElement = self.grammarNode.find(key)
+			if(grammarElement != None):
+				appendResultTo = grammarElement.attrib.get('appendResultTo')
+				replaceKeyString = grammarElement.attrib.get('replaceInResultKey')
+				replaceValueString = grammarElement.attrib.get('replaceInResultValue')
+											
+				if(appendResultTo != None):									
+					itemList = resultAsDict[key]
+					for i in range(0, len(itemList)):
+						try:							
+							item = itemList[i]
+							newValue = appendResultTo +item							
+							itemList[i] = newValue
+						except:
+							print "Error while handling appendResultTo"
+							
+					resultAsDict[key] = itemList
+					
+				if(replaceKeyString != None and replaceValueString != None):												
+					replaceKeys = replaceKeyString.split(',')
+					replaceValues = replaceValueString.split(',')
+					
+					if(len(replaceKeys) != len(replaceValues)):
+						print "Configuration error: replaceKeys must be the same number as replaceValues"
+					
+					itemList = resultAsDict[key]
+					for i in range(0, len(itemList)):
+						try:							
+							item = itemList[i]
+							
+							for j in range(len(replaceKeys)):
+								replaceKey = replaceKeys[j]
+								replaceValue = replaceValues[j]
+															
+								newValue = item.replace(replaceKey, replaceValue)							
+								itemList[i] = newValue
+						except:
+							print "Error while handling appendResultTo"
+							
+					resultAsDict[key] = itemList
+				
+		return resultAsDict			
 
 			
 	def parseElement(self, tree):

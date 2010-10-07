@@ -47,9 +47,16 @@ import util
 #descFile = "F:\\Emulatoren\\data\\Synopsis\\mobygames\\mobysearch.htm"
 #parseInstruction = "F:\\Emulatoren\\data\\Synopsis\\mobygames\\mobysearch - parseInstruction.xml"
 
-
 descFile = "F:\\Emulatoren\\data\\Synopsis\\mobygames\\moby gameOverview.htm"
-parseInstruction = "F:\\Emulatoren\\data\\Synopsis\\mobygames\\mobyOverview - link coverart - parseInstruction.xml"
+parseInstruction = "F:\\Emulatoren\\data\\Synopsis\\mobygames\\mobyOverview - parseInstruction.xml"
+
+#descFile = "F:\\Emulatoren\\data\\Synopsis\\mobygames\\moby coverart.htm"
+#parseInstruction = "F:\\Emulatoren\\data\\Synopsis\\mobygames\\mobyCoverart - parserConfig.xml"
+
+
+#descFile = "F:\\Emulatoren\\data\\Synopsis\\thegamesdb - halo.xml"
+#parseInstruction = "F:\\Emulatoren\\data\\Synopsis\\thegamesdb - parserConfig.xml"
+
 
 from descriptionparserfactory import *
 descParser = DescriptionParserFactory.getParser(parseInstruction)
