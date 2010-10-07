@@ -181,7 +181,9 @@ CREATE TABLE IF NOT EXISTS [Scraper]
     ),
     [parseInstruction] TEXT,
 	[source] TEXT,
-	[useSearchEngine] INTEGER
+	[returnUrl] INTEGER,
+	[replaceKeyString] TEXT,
+	[replaceValueString] TEXT
 );
 
 
