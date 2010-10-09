@@ -107,6 +107,7 @@ class DescriptionParserFlatFile:
 		fileAsString = ''
 		
 		if(descFile.startswith('http://')):
+			descFile = descFile.replace(' ', '%20')
 			usock = urllib.urlopen(descFile)
 			fileAsString = usock.read()
 			usock.close()

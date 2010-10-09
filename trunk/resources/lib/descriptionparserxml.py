@@ -17,11 +17,9 @@ class DescriptionParserXml:
 		
 		results = None						
 						
-		if(descFile.startswith('http://')):
-			print "urlopen"
+		if(descFile.startswith('http://')):			
 			descFile = descFile.replace(" ", "%20")
-			descFile = urllib.urlopen(descFile)
-			print "urlopen done"					
+			descFile = urllib.urlopen(descFile)				
 		
 		#load xmlDoc as elementtree to check with xpaths
 		tree = ElementTree().parse(descFile)			
@@ -48,6 +46,7 @@ class DescriptionParserXml:
 	def scanDescription(self, descFile, descParseInstruction):		
 		
 		if(descFile.startswith('http://')):
+			descFile = descFile.replace(' ', '%20')
 			descFile = urllib.urlopen(descFile)
 		
 		#load xmlDoc as elementtree to check with xpaths
