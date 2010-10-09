@@ -44,11 +44,11 @@ import util
 #parseInstruction = "F:\\Emulatoren\\data\\Synopsis\\spyvsspy\\amiga_rom_synopsis_big_for_xbmc_rcb_addon\\amiga_rom_synopsis_big_for_xbmc_rcb_addon\\parserConfig.xml"
 
 
-#descFile = "F:\\Emulatoren\\data\\Synopsis\\mobygames\\mobysearch.htm"
-#parseInstruction = "F:\\Emulatoren\\data\\Synopsis\\mobygames\\mobysearch - parseInstruction.xml"
+#descFile = "http://www.mobygames.com/search/quick?game=3%20Ninjas%20Kick%20Back&p=15"
+#parseInstruction = "F:\\Emulatoren\\data\\Synopsis\\mobygames\\01 - parseinstruction - mobygames - gamesearch.xml"
 
-descFile = "F:\\Emulatoren\\data\\Synopsis\\mobygames\\moby gameOverview.htm"
-parseInstruction = "F:\\Emulatoren\\data\\Synopsis\\mobygames\\mobyOverview - parseInstruction.xml"
+descFile = "F:\\Emulatoren\\data\\Synopsis\\mobygames\\moby gameshot.htm"
+parseInstruction = "F:\\Emulatoren\\data\\Synopsis\\mobygames\\07 - mobygames - screenshots.xml"
 
 #descFile = "F:\\Emulatoren\\data\\Synopsis\\mobygames\\moby coverart.htm"
 #parseInstruction = "F:\\Emulatoren\\data\\Synopsis\\mobygames\\mobyCoverart - parserConfig.xml"
@@ -60,6 +60,7 @@ parseInstruction = "F:\\Emulatoren\\data\\Synopsis\\mobygames\\mobyOverview - pa
 
 from descriptionparserfactory import *
 descParser = DescriptionParserFactory.getParser(parseInstruction)
+
 
 results = descParser.parseDescription(str(descFile))
 for result in results:

@@ -184,13 +184,13 @@ class DBUpdate:
 						foldername = os.path.dirname(filename)
 						filecrc = self.getFileCRC(filename)																		
 						
-						results = {}
+						results = {}										
 						
-						urlFromPreviousScraper = ""
+						urlsFromPreviousScrapers = []
 						for scraperRow in scraperRows:							
-							results, urlFromPreviousScraper, doContinue = self.scrapeResults(results, scraperRow, urlFromPreviousScraper, gamenameFromFile, foldername, filecrc)
+							results, urlsFromPreviousScrapers, doContinue = self.scrapeResults(results, scraperRow, urlsFromPreviousScrapers, gamenameFromFile, foldername, filecrc)
 							if(doContinue):
-								continue							
+								continue						
 						
 						#print results
 						if(len(results) == 0):
@@ -209,31 +209,37 @@ class DBUpdate:
 		return True, ''
 					
 	
-	def scrapeResults(self, results, scraperRow, urlFromPreviousScraper, gamenameFromFile, foldername, filecrc):
+	def scrapeResults(self, results, scraperRow, urlsFromPreviousScrapers, gamenameFromFile, foldername, filecrc):
 		parseInstruction = scraperRow[util.SCRAPER_PARSEINSTRUCTION]
 		Logutil.log("using parser file: " +parseInstruction, util.LOG_LEVEL_INFO)
 		scraperSource = scraperRow[util.SCRAPER_SOURCE]
 		Logutil.log("using game description: " +scraperSource, util.LOG_LEVEL_INFO)
 		
 		#url to scrape may be passed from the previous scraper
-		if(scraperSource == ""):
-			if(urlFromPreviousScraper == ""):
-				Logutil.log("Configuration error: scraper source is empty and there is no previous scraper that returned an url to scrape.", util.LOG_LEVEL_ERROR)
-				return results, urlFromPreviousScraper, True
-			Logutil.log("using url from previous scraper: " +str(urlFromPreviousScraper), util.LOG_LEVEL_INFO)
-			scraperSource = urlFromPreviousScraper						
+		if(scraperSource.isnumeric()):
+			if(len(urlsFromPreviousScrapers) == 0):
+				Logutil.log("Configuration error: scraper source is numeric and there is no previous scraper that returned an url to scrape.", util.LOG_LEVEL_ERROR)
+				return results, urlsFromPreviousScrapers, True			
+			if(len(urlsFromPreviousScrapers) < int(scraperSource)):
+				Logutil.log("Configuration error: no url found at index " +str(scraperSource), util.LOG_LEVEL_ERROR)
+				return results, urlsFromPreviousScrapers, True
+			
+			url = urlsFromPreviousScrapers[int(scraperSource) -1]
+			Logutil.log("using url from previous scraper: " +str(url), util.LOG_LEVEL_INFO)
+			scraperSource = url
 														
 		tempResults = self.parseDescriptionFile(str(scraperSource), str(parseInstruction), scraperRow, gamenameFromFile, foldername, filecrc)
 		
 		if(scraperRow[util.SCRAPER_RETURNURL].upper() == "TRUE"):
 			#TODO: fuzzy match (tempResults['key'])
 			try:								
-				urlFromPreviousScraper = self.resolveParseResult(tempResults, 'url')
-				Logutil.log("pass url to next scraper: " +str(urlFromPreviousScraper), util.LOG_LEVEL_INFO)
-				return results, urlFromPreviousScraper, True
+				tempUrl = self.resolveParseResult(tempResults, 'url')
+				urlsFromPreviousScrapers.append(tempUrl)
+				Logutil.log("pass url to next scraper: " +str(tempUrl), util.LOG_LEVEL_INFO)
+				return results, urlsFromPreviousScrapers, True
 			except:
 				Logutil.log("Should pass url to next scraper, but url is empty.", util.LOG_LEVEL_WARNING)
-				return results, urlFromPreviousScraper, True
+				return results, urlsFromPreviousScrapers, True
 			
 		if(tempResults != None):
 			for resultKey in tempResults.keys():
@@ -251,7 +257,9 @@ class DBUpdate:
 				if(len(resultValueOld) == 0):
 					results[resultKey] = resultValueNew
 					
-		return results, urlFromPreviousScraper, False
+				Logutil.log("resultValue: " +str(results[resultKey]), util.LOG_LEVEL_INFO)
+					
+		return results, urlsFromPreviousScrapers, False
 	
 	
 	def getRomFilesByRomCollection(self, romCollectionRow, maxFolderDepth):
@@ -463,8 +471,7 @@ class DBUpdate:
 		return None, foldername
 		
 		
-	def insertGameFromDesc(self, gamedescription, lastgamename, ignoreGameWithoutDesc, gamename, romCollectionRow, filenamelist, foldername, allowUpdate):				
-		
+	def insertGameFromDesc(self, gamedescription, lastgamename, ignoreGameWithoutDesc, gamename, romCollectionRow, filenamelist, foldername, allowUpdate):								
 		if(gamedescription != None):
 			game = self.resolveParseResult(gamedescription, 'Game')
 		else:
@@ -657,6 +664,10 @@ class DBUpdate:
 	def insertForeignKeyItem(self, result, itemName, gdbObject):
 		
 		item = self.resolveParseResult(result, itemName)
+		#TODO 
+		if(itemName == 'ReleaseYear' and item != None):
+			if(len(item) > 4):
+				item = item[0:4]
 						
 		if(item != ""):			
 			itemRow = gdbObject.getOneByName(item)
@@ -803,6 +814,15 @@ class DBUpdate:
 			
 			#replace and remove HTML tags
 			resultValue = self.stripHTMLTags(resultValue)
+			
+			#TODO: use sqlite.register_adapter?
+			try:
+				resultValue	= resultValue.decode('iso-8859-15')
+			except:
+				try:
+					resultValue	= resultValue.decode('utf-8')
+				except:
+					pass
 									
 		except Exception, (exc):
 			Logutil.log("Error while resolving item: " +itemName +" : " +str(exc), util.LOG_LEVEL_WARNING)

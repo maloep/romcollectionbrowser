@@ -1,4 +1,8 @@
 
+0.7.2 (10/2010)
+~~~~~~~~~~~~~
+    * Scraper support
+
 0.6.1 (08/2010)
 ~~~~~~~~~~~~~
 UI and general behaviour
