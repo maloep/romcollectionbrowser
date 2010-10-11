@@ -96,7 +96,7 @@ class TestUpdateDB(unittest.TestCase):
 			None,  None, 5, 14, 11, None, 11, '1-4', '', '', '', '', 'DVD', '', 'Xbox Controller', 0, 0,
 			1, 1, 0, 0, 0, 0)		
 		self.gameTest(gameRows[1], 'After Burner', '', 
-			None,  None, 6, 17, 18, None, 13, '', '', '', '', 'United States', '', '', '', 0, 0,
+			None,  None, 6, 17, 18, None, 6, '', '', '', '', 'United States', '', '', '', 0, 0,
 			1, 1, 0, 0, 0, 0)
 		self.gameTest(gameRows[2], 'Airborne Ranger', 'In this action/simulation game by Microprose the player takes the role of an U.S. Army airborne ranger.', 
 			None,  None, 1, 1, 1, None, 1, '????', '', '', 'http://www.mobygames.com/game/amiga/airborne-ranger', '', '', '', '', 0, 0,
@@ -111,19 +111,19 @@ class TestUpdateDB(unittest.TestCase):
 			None,  None, 5, None, None, None, None, '', '', '', '', '', 'DVD', '', 'Xbox Controller', 0, 0,
 			1, 1, 0, 0, 0, 0)
 		self.gameTest(gameRows[6], 'BC Racers', '', 
-			None,  None, 6, 18, 19, None, 14, '', '', '', '', 'United States', '', '', '', 0, 0,
+			None,  None, 6, 18, 19, None, 8, '', '', '', '', 'United States', '', '', '', 0, 0,
 			1, 1, 0, 0, 0, 0)
 		self.gameTest(gameRows[7], 'Blackthorne', 'Blackthorne is an action-adventure game that takes place on the planet Tuul.', 
-			None,  None, 7, 19, 20, None, 14, '1 Player', '', '', '', '', '', '', '', 0, 0,
+			None,  None, 7, 19, 20, None, 8, '1 Player', '', '', '', '', '', '', '', 0, 0,
 			1, 1, 0, 0, 0, 0)
 		self.gameTest(gameRows[8], 'Brutal: Above the Claw', 'As with the original Brutal: Paws of Fury, the game involves a martial arts tournament set up by the Dalai Llama.', 
-			None,  None, 7, 20, 21, None, 14, '1-2 Players', '', '', '', '', '', '', '', 0, 0,
+			None,  None, 7, 20, 21, None, 8, '1-2 Players', '', '', '', '', '', '', '', 0, 0,
 			1, 1, 0, 0, 0, 0)		
 		self.gameTest(gameRows[9], 'California Games II',  '"At least it ends..."', 
 			None,  None, 3, 8, 8, None, 7, '', '', '', '', 'USA', 'Cartridge', '', 'Gamepad', 0, 0,
 			1, 1, 1, 1, 1, 1)
 		self.gameTest(gameRows[10], 'Cosmic Carnage', 'Cosmic Carnage is a one-on-one fighting game set in outer space.', 
-			None,  None, 7, 17, 22, None, 13, '1-2 Players', '', '', '', '', '', '', '', 0, 0,
+			None,  None, 7, 17, 22, None, 6, '1-2 Players', '', '', '', '', '', '', '', 0, 0,
 			1, 1, 0, 0, 0, 0)
 		self.gameTest(gameRows[11], 'Demolition Man', 'Demolition Man is a multiplatform, run and gun action game based on the film of the same name.', 
 			None,  None, 3, 9, 9, None, 8, '', '', '', '', 'USA', 'Cartridge', '', 'Gamepad', 0, 0,
@@ -147,7 +147,7 @@ class TestUpdateDB(unittest.TestCase):
 			None,  None, 2, None, None, None, None, None, None, None, None, None, None, None, None, 0, 0,
 			1, 0, 0, 0, 0, 0)
 		self.gameTest(gameRows[18], 'Golf Magazine Presents 36 Great Holes Starring Fred Couples', '', 
-			None,  None, 6, 17, 17, None, 13, '', '', '', '', 'United States', '', '', '', 0, 0,
+			None,  None, 6, 17, 17, None, 6, '', '', '', '', 'United States', '', '', '', 0, 0,
 			1, 1, 0, 0, 0, 0)
 		self.gameTest(gameRows[19], 'Hanse - Die Expedition', 'Hanse makes you a trader in the 13th Century.', 
 			None,  None, 2, 7, 7, None, 6, '????', '', '', 'http://www.mobygames.com/game/amiga/hanse-die-expedition', '', '', '', '', 0, 0,
