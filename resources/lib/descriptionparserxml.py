@@ -1,6 +1,7 @@
 
 from elementtree.ElementTree import *
 import urllib
+import time
 
 
 class DescriptionParserXml:
@@ -71,13 +72,18 @@ class DescriptionParserXml:
 				appendResultTo = grammarElement.attrib.get('appendResultTo')
 				replaceKeyString = grammarElement.attrib.get('replaceInResultKey')
 				replaceValueString = grammarElement.attrib.get('replaceInResultValue')
-											
-				if(appendResultTo != None):									
+				dateFormat = grammarElement.attrib.get('dateFormat')
+														
+				#TODO: avoid multiple loops
+				if(appendResultTo != None or dateFormat != None):									
 					itemList = resultAsDict[key]
 					for i in range(0, len(itemList)):
 						try:							
 							item = itemList[i]
-							newValue = appendResultTo +item							
+							if(appendResultTo != None):								
+								newValue = appendResultTo +item
+							elif(dateFormat != None):
+								newValue = time.strptime(item, dateFormat)
 							itemList[i] = newValue
 						except:
 							print "Error while handling appendResultTo"

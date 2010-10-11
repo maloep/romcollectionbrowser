@@ -694,7 +694,9 @@ class DBUpdate:
 		item = self.resolveParseResult(result, itemName)
 		#TODO 
 		if(itemName == 'ReleaseYear' and item != None):
-			if(len(item) > 4):
+			if(type(item) is time.struct_time):
+				item = str(item[0])
+			elif(len(item) > 4):
 				item = item[0:4]
 						
 		if(item != ""):			
@@ -835,10 +837,11 @@ class DBUpdate:
 		
 		
 	def resolveParseResult(self, result, itemName):
-				
+		
+		resultValue = ""
+		
 		try:			
 			resultValue = result[itemName][0]
-			resultValue = resultValue.strip()
 			
 			#replace and remove HTML tags
 			resultValue = self.stripHTMLTags(resultValue)
@@ -851,10 +854,10 @@ class DBUpdate:
 					resultValue	= resultValue.decode('utf-8')
 				except:
 					pass
+			
 									
 		except Exception, (exc):
 			Logutil.log("Error while resolving item: " +itemName +" : " +str(exc), util.LOG_LEVEL_WARNING)
-			resultValue = ""
 						
 		try:
 			Logutil.log("Result " +itemName +" = " +resultValue.encode('iso-8859-15'), util.LOG_LEVEL_INFO)
@@ -865,6 +868,8 @@ class DBUpdate:
 	
 	
 	def stripHTMLTags(self, inputString):
+		
+		inputString = inputString.strip()
 		
 		#TODO there must be a function available to do this 
 		inputString = inputString.replace('&nbsp;', ' ')
