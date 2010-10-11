@@ -5,6 +5,7 @@ import codecs
 import zipfile
 import zlib
 import time
+import difflib
 from pysqlite2 import dbapi2 as sqlite
 
 from gamedatabase import *
@@ -138,9 +139,10 @@ class DBUpdate:
 					try:						
 						fileCount = 1
 						
-						if(len(scraperRows) > 1):
-							Logutil.log('Using more than one scraper and descFilePerGame = False is not supported. All additional scrapers will be ignored.', util.LOG_LEVEL_WARNING)
+						#if(len(scraperRows) > 1):
+						#	Logutil.log('Using more than one scraper and descFilePerGame = False is not supported. All additional scrapers will be ignored.', util.LOG_LEVEL_WARNING)
 						
+						#first scraper must be the one for multiple games
 						scraperRow = scraperRows[0]
 						parseInstruction = scraperRow[util.SCRAPER_PARSEINSTRUCTION]
 						Logutil.log("using parser file: " +parseInstruction, util.LOG_LEVEL_INFO)
@@ -151,11 +153,9 @@ class DBUpdate:
 						#parser.prepareScan(scraperSource, str(parseInstruction))						
 						
 						#parse description
-						for result in parser.scanDescription(scraperSource, str(parseInstruction)):							
+						for result in parser.scanDescription(scraperSource, str(parseInstruction)):																					
 							
-							#TODO add additional scrapers here
-							
-							filenamelist, foldername = self.findFilesByGameDescription(result, searchGameByCRCIgnoreRomName, searchGameByCRC, 
+							filenamelist, foldername, filecrc = self.findFilesByGameDescription(result, searchGameByCRCIgnoreRomName, searchGameByCRC, 
 								filecrcDict, fileFoldernameDict, fileGamenameDict, useFoldernameAsCRC, useFilenameAsCRC)
 	
 							if(filenamelist != None and len(filenamelist) > 0):								
@@ -163,9 +163,19 @@ class DBUpdate:
 								gamenameFromDesc = result['Game'][0]
 								gui.writeMsg(progDialogRCHeader, "Import game: " +str(gamenameFromDesc), "", fileCount)
 								fileCount = fileCount +1
+								
+								#add additional scrapers
+								if(len(scraperRows) > 1):									
+									urlsFromPreviousScrapers = []
+									for i in range(1, len(scraperRows)):
+										scraperRow = scraperRows[i]
+										results, urlsFromPreviousScrapers, doContinue = self.scrapeResults(result, scraperRow, urlsFromPreviousScrapers, gamenameFromFile, foldername, filecrc)
+										if(doContinue):
+											continue
 							else:
 								gamename = ''
-								gamenameFromFile = ''
+								gamenameFromFile = ''								
+								
 							self.insertGameFromDesc(result, lastgamename, ignoreGameWithoutDesc, gamenameFromFile, romCollectionRow, filenamelist, foldername, allowUpdate)
 								
 					except Exception, (exc):
@@ -412,6 +422,7 @@ class DBUpdate:
 		Logutil.log("game name in parsed result: " +str(gamedesc), util.LOG_LEVEL_DEBUG)				
 		
 		foldername = ''
+		filecrc = ''
 		
 		#find by filename
 		#there is an option only to search by crc (maybe there are games with the same name but different crcs)
@@ -425,7 +436,7 @@ class DBUpdate:
 				
 			if (filename != None):
 				Logutil.log("result found by filename: " +gamedesc, util.LOG_LEVEL_INFO)				
-				return filename, foldername
+				return filename, foldername, filecrc
 		
 		#find by crc
 		if(searchGameByCRC == 'True' or useFoldernameAsCRC == 'True' or useFilenameAsCRC == 'true'):
@@ -438,11 +449,12 @@ class DBUpdate:
 					resultcrc = resultcrc.strip()
 					try:
 						filename = filecrcDict[resultcrc]
+						filecrc = resultcrc
 					except:
 						filename = None
 					if(filename != None):
 						Logutil.log("result found by crc: " +gamedesc, util.LOG_LEVEL_INFO)						
-						return filename, foldername
+						return filename, foldername, filecrc
 						
 					#TODO search for folder as option?
 					if(useFoldernameAsCRC == 'True'):
@@ -454,7 +466,7 @@ class DBUpdate:
 							filename = None
 						if(filename != None):
 							Logutil.log("result found by foldername crc: " +gamedesc, util.LOG_LEVEL_INFO)							
-							return filename, foldername
+							return filename, foldername, filecrc
 							
 					Logutil.log("using filename as crc value", util.LOG_LEVEL_DEBUG)										
 					try:
@@ -463,12 +475,12 @@ class DBUpdate:
 						filename = None
 					if(filename != None):
 						Logutil.log("result found by filename crc: " +gamedesc, util.LOG_LEVEL_INFO)						
-						return filename, foldername
+						return filename, foldername, filecrc
 						
 			except Exception, (exc):
 				Logutil.log("Error while checking crc results: " +str(exc), util.LOG_LEVEL_ERROR)
 		
-		return None, foldername
+		return None, foldername, filecrc
 		
 		
 	def insertGameFromDesc(self, gamedescription, lastgamename, ignoreGameWithoutDesc, gamename, romCollectionRow, filenamelist, foldername, allowUpdate):								
@@ -536,9 +548,25 @@ class DBUpdate:
 				Logutil.log("an error occured while parsing game description: " +descriptionfile, util.LOG_LEVEL_WARNING)
 				Logutil.log("Parser complains about: " +str(exc), util.LOG_LEVEL_WARNING)
 				return None			
-			
-			if (results != None and len(results) > 0):
+						
+			if (results != None and len(results) == 1):
 				return results[0]
+			elif(results != None and len(results) > 1):
+				#find best matching result
+				bestIndex = 0
+				highestRatio = 0
+				for i in range(0, len(results)):
+					result = results[i]
+					try:
+						searchKey = self.resolveParseResult(result, 'SearchKey')
+						#TODO gamenameFromFile is not always correct
+						ratio = difflib.SequenceMatcher(None, gamenameFromFile, searchKey).ratio()
+						if(ratio > highestRatio):
+							highestRatio = ratio
+							bestIndex = i
+					except Exception, (exc):
+						Logutil.log("parseDescription returned more than 1 result. An error occured while matching the best result: " +str(exc), util.LOG_LEVEL_WARNING)
+				return results[bestIndex]
 			else:
 				return None
 			
@@ -909,6 +937,7 @@ class DBUpdate:
 			if(thumbUrl == ''):
 				return
 			
+			#TODO check if folder exists
 			Logutil.log("check if file exists: " +str(fileName), util.LOG_LEVEL_INFO)			
 			if (not os.path.isfile(fileName)):
 				Logutil.log("File does not exist. Starting download.", util.LOG_LEVEL_INFO)				
