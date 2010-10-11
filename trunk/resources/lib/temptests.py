@@ -1,6 +1,6 @@
 
 import os, sys
-import time
+import time, datetime
 import urllib
 import difflib
 from descriptionparserfactory import DescriptionParserFactory
@@ -52,6 +52,7 @@ for result in results:
 	#print lev()	
 
 
+
 #timestamp1 = time.clock()
 
 #descParser.prepareScan(descFile, parseInstruction)
@@ -71,3 +72,8 @@ def lev(a, b):
     return min(lev(a[1:], b[1:])+(a[0] != b[0]), \
     lev(a[1:], b)+1, lev(a, b[1:])+1)
 """
+
+strDate = '06/01/1994'
+asTime = time.strptime(strDate, "%m/%d/%Y")
+print type(asTime) is time.struct_time
+print type(asTime)
