@@ -62,19 +62,23 @@ class DescriptionParserFlatFile:
 			grammarElement = self.grammarNode.find(key)
 			if(grammarElement != None):
 				appendResultTo = grammarElement.attrib.get('appendResultTo')
+				appendResultWith = grammarElement.attrib.get('appendResultWith')
 				replaceKeyString = grammarElement.attrib.get('replaceInResultKey')
 				replaceValueString = grammarElement.attrib.get('replaceInResultValue')
 				dateFormat = grammarElement.attrib.get('dateFormat')
 														
 				#TODO: avoid multiple loops
-				if(appendResultTo != None or dateFormat != None):									
+				if(appendResultTo != None or appendResultWith != None or dateFormat != None):									
 					itemList = resultAsDict[key]
 					for i in range(0, len(itemList)):
-						try:							
+						try:
 							item = itemList[i]
+							newValue = item
 							if(appendResultTo != None):								
 								newValue = appendResultTo +item
-							elif(dateFormat != None):
+							if(appendResultWith != None):
+								newValue = item + appendResultWith
+							if(dateFormat != None):
 								newValue = time.strptime(item, dateFormat)
 							itemList[i] = newValue
 						except:

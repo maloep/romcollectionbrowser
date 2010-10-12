@@ -7,13 +7,13 @@ from descriptionparserfactory import DescriptionParserFactory
 
 print "start parsing"
 
-BASE_RESOURCE_PATH = os.path.join( os.getcwd())
-sys.path.append( os.path.join( BASE_RESOURCE_PATH, "pyparsing" ) )
+BASE_RESOURCE_PATH = os.path.join(os.getcwd())
+sys.path.append(os.path.join(BASE_RESOURCE_PATH, "pyparsing"))
 
-env = ( os.environ.get( "OS", "win32" ), "win32", )[ os.environ.get( "OS", "win32" ) == "xbox" ]
+env = (os.environ.get("OS", "win32"), "win32",)[ os.environ.get("OS", "win32") == "xbox" ]
 if env == 'Windows_NT':
 	env = 'win32'
-sys.path.append( os.path.join( BASE_RESOURCE_PATH, "..", "platform_libraries", env ) )
+sys.path.append(os.path.join(BASE_RESOURCE_PATH, "..", "platform_libraries", env))
 
 import util 
 
@@ -27,8 +27,8 @@ import util
 
 
 #descFile = "http://www.mobygames.com/search/quick?game=Actraiser&p=15"
-descFile = "F:\\Emulatoren\\data\\Synopsis\\mobygames\\mobysearch - Actraiser.htm"
-parseInstruction = "F:\\Emulatoren\\data\\Synopsis\\mobygames\\01 - mobygames - gamesearch.xml"
+#descFile = "F:\\Emulatoren\\data\\Synopsis\\mobygames\\mobysearch - Actraiser.htm"
+#parseInstruction = "F:\\Emulatoren\\data\\Synopsis\\mobygames\\01 - mobygames - gamesearch.xml"
 
 #descFile = "F:\\Emulatoren\\data\\Synopsis\\mobygames\\moby gameshot.htm"
 #parseInstruction = "F:\\Emulatoren\\data\\Synopsis\\mobygames\\07 - mobygames - screenshots.xml"
@@ -38,19 +38,19 @@ parseInstruction = "F:\\Emulatoren\\data\\Synopsis\\mobygames\\01 - mobygames - 
 #parseInstruction = "F:\\Emulatoren\\data\\Synopsis\\thegamesdb\\thegamesdb - parserConfig.xml"
 
 #descFile = "http://api.giantbomb.com/search/?api_key=279442d60999f92c5e5f693b4d23bd3b6fd8e868&query=Actraiser&resources=game&format=xml"
-#descFile = "F:\\Emulatoren\\data\\Synopsis\\giantbomb\\Actraisersearch.xml"
-#parseInstruction = "F:\\Emulatoren\\data\\Synopsis\\giantbomb\\giantbomb - parserConfig.xml"
+descFile = "F:\\Emulatoren\\data\\Synopsis\\giantbomb\\Actraisersearch.xml"
+parseInstruction = "F:\\Emulatoren\\data\\Synopsis\\giantbomb\\giantbomb - parserConfig.xml"
 
 from descriptionparserfactory import *
 descParser = DescriptionParserFactory.getParser(parseInstruction)
 
-
+"""
 results = descParser.parseDescription(str(descFile))
 for result in results:
 	print result
 	print difflib.SequenceMatcher(None, 'ActRaiser', str(result['SearchKey'])).ratio()
 	#print lev()	
-
+"""
 
 
 #timestamp1 = time.clock()
@@ -65,6 +65,17 @@ for result in results:
 #print "parsed in %d ms" % (diff)
 
 
+url = "http://thegamesdb.net/api/icon"
+file = "D:\\Test\\icon"
+rootExtFile = os.path.splitext(file)
+rootExtUrl = os.path.splitext(url)
+
+if(len(rootExtUrl) == 2 and len(rootExtFile) != 0):
+	file = rootExtFile[0] + rootExtUrl[1]
+
+print file
+
+
 """
 def lev(a, b):
     if not a: return len(b)
@@ -73,7 +84,10 @@ def lev(a, b):
     lev(a[1:], b)+1, lev(a, b[1:])+1)
 """
 
+
+"""
 strDate = '06/01/1994'
 asTime = time.strptime(strDate, "%m/%d/%Y")
 print type(asTime) is time.struct_time
 print type(asTime)
+"""

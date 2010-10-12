@@ -699,7 +699,7 @@ class DBUpdate:
 			elif(len(item) > 4):
 				item = item[0:4]
 						
-		if(item != ""):			
+		if(item != "" and item != None):
 			itemRow = gdbObject.getOneByName(item)
 			if(itemRow == None):	
 				Logutil.log(itemName +" does not exist in database. Insert: " +item.encode('iso-8859-15'), util.LOG_LEVEL_INFO)
@@ -869,8 +869,6 @@ class DBUpdate:
 	
 	def stripHTMLTags(self, inputString):
 		
-		inputString = inputString.strip()
-		
 		#TODO there must be a function available to do this 
 		inputString = inputString.replace('&nbsp;', ' ')
 		inputString = inputString.replace('&quot;', '"')
@@ -878,15 +876,22 @@ class DBUpdate:
 		inputString = inputString.replace('&lt;', '<')
 		inputString = inputString.replace('&gt;', '>')
 				
+		#remove html tags and double spaces
 		intag = [False]
-		
+		lastSpace = [False]
 		def chk(c):
 			if intag[0]:
 				intag[0] = (c != '>')
+				lastSpace[0] = (c == ' ')
 				return False
 			elif c == '<':
 				intag[0] = True
+				lastSpace[0] = (c == ' ')
 				return False
+			if(c == ' ' and lastSpace[0]):
+				lastSpace[0] = (c == ' ')
+				return False
+			lastSpace[0] = (c == ' ')
 			return True
 		
 		return ''.join(c for c in inputString if chk(c))
@@ -941,6 +946,12 @@ class DBUpdate:
 			Logutil.log("Get thumb from url: " +str(thumbUrl), util.LOG_LEVEL_INFO)
 			if(thumbUrl == ''):
 				return
+			
+			rootExtFile = os.path.splitext(fileName)
+			rootExtUrl = os.path.splitext(thumbUrl)
+			
+			if(len(rootExtUrl) == 2 and len(rootExtFile) != 0):
+				fileName = rootExtFile[0] + rootExtUrl[1]
 			
 			#TODO check if folder exists
 			Logutil.log("check if file exists: " +str(fileName), util.LOG_LEVEL_INFO)			
