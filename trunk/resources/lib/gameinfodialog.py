@@ -226,7 +226,11 @@ class UIGameInfoView(xbmcgui.WindowXMLDialog):
 		selectedGame.setProperty('alternatetitle', self.getGameProperty(gameRow[util.GAME_alternateTitle]))
 		selectedGame.setProperty('translatedby', self.getGameProperty(gameRow[util.GAME_translatedBy]))
 		selectedGame.setProperty('version', self.getGameProperty(gameRow[util.GAME_version]))
-		selectedGame.setProperty('plot', self.getGameProperty(gameRow[util.GAME_description]))						
+		
+		description = gameRow[util.GAME_description]
+		if(description == None):
+			description = ""
+		selectedGame.setProperty('plot', description)
 		
 		fileDict = self.getFileDictByGameRow(self.gdb, gameRow)
 		
@@ -264,11 +268,15 @@ class UIGameInfoView(xbmcgui.WindowXMLDialog):
 			return itemRow[1]
 			
 	
-	def getGameProperty(self, property):						
-		try:
+	def getGameProperty(self, property):				
+		
+		if(property == None):
+			return ""
+		
+		try:				
 			result = str(property)
 		except:
-			result = ""
+			result = ""		
 			
 		return result
 		
