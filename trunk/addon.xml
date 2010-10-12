@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <addon
   id="script.games.rom.collection.browser"
-  version="0.7.2"
+  version="0.7.3"
   name="Rom Collection Browser"
   provider-name="malte">
   <requires>
@@ -15,6 +15,7 @@
     <description>Current features:
     * filter games by console, genre, year and publisher
     * launch roms with external emulator
+	* scrape art and meta data from online sources
     * configure script via xml file
     * simple but configurable description file parser
     * view different images and videos per game
