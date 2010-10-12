@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<Data>
+<baseImgUrl>http://thegamesdb.net/banners/</baseImgUrl>
+<Game>
+<id>113</id>
+<GameTitle>The Legend of Zelda</GameTitle>
+<Overview>Ganon, the King of Evil, breaks free from the Dark World and captures Hyrule's beloved Princess Zelda. Before she is caught, Zelda manages to shatter the Triforce of Wisdom and scatter its eight pieces throughout Hyrule. Link swears to recover the Triforce pieces and rescue Princess Zelda from Ganon's clutches.</Overview>
+<Images><fanart><original>fanart/original/113-1.jpg</original><vignette>fanart/vignette/113-1.jpg</vignette></fanart><fanart><original>fanart/original/113-2.jpg</original><vignette>fanart/vignette/113-2.jpg</vignette></fanart><boxart>boxart/original/front/113-1.jpg</boxart><boxart>boxart/original/back/113-1.jpg</boxart><fanart><original>fanart/original/113-3.jpg</original><vignette>fanart/vignette/113-3.jpg</vignette></fanart></Images></Game>
+
+<Game>
+<id>109</id>
+<GameTitle>The Legend of Zelda: Twilight Princess</GameTitle>
+<Images><fanart><original>fanart/original/109-1.jpg</original><vignette>fanart/vignette/109-1.jpg</vignette></fanart><fanart><original>fanart/original/109-2.jpg</original><vignette>fanart/vignette/109-2.jpg</vignette></fanart><fanart><original>fanart/original/109-3.jpg</original><vignette>fanart/vignette/109-3.jpg</vignette></fanart><fanart><original>fanart/original/109-4.jpg</original><vignette>fanart/vignette/109-4.jpg</vignette></fanart><banner>graphical/109-g.jpg</banner><fanart><original>fanart/original/109-5.jpg</original><vignette>fanart/vignette/109-5.jpg</vignette></fanart><fanart><original>fanart/original/109-6.jpg</original><vignette>fanart/vignette/109-6.jpg</vignette></fanart></Images></Game>
+
+<Game>
+<id>161</id>
+<GameTitle>The Legend of Zelda: Ocarina of Time</GameTitle>
+<ESRB>E - Everyone</ESRB>
+<Images><fanart><original>fanart/original/161-1.jpg</original><vignette>fanart/vignette/161-1.jpg</vignette></fanart><fanart><original>fanart/original/161-2.jpg</original><vignette>fanart/vignette/161-2.jpg</vignette></fanart><fanart><original>fanart/original/161-3.jpg</original><vignette>fanart/vignette/161-3.jpg</vignette></fanart><fanart><original>fanart/original/161-4.jpg</original><vignette>fanart/vignette/161-4.jpg</vignette></fanart><fanart><original>fanart/original/161-5.jpg</original><vignette>fanart/vignette/161-5.jpg</vignette></fanart><fanart><original>fanart/original/161-6.jpg</original><vignette>fanart/vignette/161-6.jpg</vignette></fanart><banner>graphical/161-g.jpg</banner><boxart>boxart/original/front/161-1.jpg</boxart><boxart>boxart/original/back/161-1.jpg</boxart></Images></Game>
+
+<Game>
+<id>174</id>
+<GameTitle>The Legend Of Zelda: Wind Waker</GameTitle>
+<ESRB>E - Everyone</ESRB>
+<Images></Images></Game>
+<Game>
+<id>175</id>
+<GameTitle>The Legend Of Zelda: Majora's Mask</GameTitle>
+<ESRB>E - Everyone</ESRB>
+<Images><boxart>boxart/original/front/175-1.jpg</boxart></Images></Game>
+
+<Game>
+<id>198</id>
+<GameTitle>Zelda II: The Adventures of Link</GameTitle>
+<Images></Images></Game>
+<Game>
+<id>823</id>
+<GameTitle>The Legend of Mir 3</GameTitle>
+<Images><fanart><original>fanart/original/823-1.jpg</original><vignette>fanart/vignette/823-1.jpg</vignette></fanart><fanart><original>fanart/original/823-2.jpg</original><vignette>fanart/vignette/823-2.jpg</vignette></fanart></Images></Game>
+<Game>
+
+<id>560</id>
+<GameTitle>Legend of Mana</GameTitle>
+<Images><boxart>boxart/original/front/560-1.jpg</boxart></Images></Game>
+<Game>
+<id>846</id>
+<GameTitle>Brütal Legend</GameTitle>
+<Images><fanart><original>fanart/original/846-1.jpg</original><vignette>fanart/vignette/846-1.jpg</vignette></fanart></Images></Game>
+<Game>
+<id>232</id>
+
+<GameTitle>Super Mario RPG: Legend of the Seven Stars</GameTitle>
+<ReleaseDate>May 13, 1996</ReleaseDate>
+<Overview>Set in the Mushroom Kingdom and featuring its cast of well-known characters, this adventure RPG begins with a familiar scenario: Mario must rescue Princess Toadstool from Bowser. However, a mysterious new enemy named Smithy soon appears, and Mario and Bowser are forced to fight as allies for the first time in their long history. In the quest to defeat their powerful new foe, they’ll journey across a wide variety of locations (a town of mining moles, a tropical forest, a thundering waterfall—just to name a few) and tackle a mix of obstacles requiring both expert timing and strategy to overcome. Along the way, they’ll gain experience and grow more powerful, while also meeting new characters whose unique abilities will be needed to take on Smithy and his gang.</Overview>
+<ESRB>E - Everyone</ESRB>
+<Images></Images></Game>
+</Data>

@@ -1,0 +1,8 @@
+<parserConfig>
+	<GameGrammar type="xml" root="Game">		
+		<Game>GameTitle</Game>
+		<SearchKey>GameTitle</SearchKey>
+		<Description>Overview</Description>
+		<Mediafanart appendResultTo="http://thegamesdb.net/banners/">Images/fanart/orginal</Mediafanart>
+	</GameGrammar>
+</parserConfig>
