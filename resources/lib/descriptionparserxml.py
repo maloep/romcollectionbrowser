@@ -14,8 +14,7 @@ class DescriptionParserXml:
 		pass
 	
 	
-	def parseDescription(self, descFile):
-		
+	def parseDescription(self, descFile):		
 		results = None						
 						
 		if(descFile.startswith('http://')):			
@@ -26,21 +25,21 @@ class DescriptionParserXml:
 		tree = ElementTree().parse(descFile)			
 		if(tree == None):
 			return None				
-		
+						
 		rootElementXPath = self.grammarNode.attrib.get('root')
 		rootElements = tree.findall(rootElementXPath)
 		if(rootElements == None):
-			return None
+			return None				
 		
 		resultList = []
 		
-		for rootElement in rootElements:
-			tempResults = self.parseElement(rootElement)
-			if tempResults != None:
+		for rootElement in rootElements:			
+			tempResults = self.parseElement(rootElement)			
+			if tempResults != None:				
 				results = tempResults
 				results = self.replaceResultTokens(results)
 				resultList.append(results)
-		
+		print resultList
 		return resultList
 	
 	
@@ -82,12 +81,13 @@ class DescriptionParserXml:
 						try:
 							item = itemList[i]
 							newValue = item
+							print item
 							if(appendResultTo != None):								
-								newValue = appendResultTo +item
+								newValue = appendResultTo +newValue
 							if(appendResultWith != None):
-								newValue = item + appendResultWith
+								newValue = newValue + appendResultWith
 							if(dateFormat != None):
-								newValue = time.strptime(item, dateFormat)
+								newValue = time.strptime(newValue, dateFormat)
 							itemList[i] = newValue
 						except:
 							print "Error while handling appendResultTo"

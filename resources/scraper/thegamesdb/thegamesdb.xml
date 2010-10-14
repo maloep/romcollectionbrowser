@@ -3,6 +3,8 @@
 		<Game>GameTitle</Game>
 		<SearchKey>GameTitle</SearchKey>
 		<Description>Overview</Description>
-		<Mediafanart appendResultTo="http://thegamesdb.net/banners/">Images/fanart/orginal</Mediafanart>
+		<ReleaseYear dateFormat="%m/%d/%Y">ReleaseDate</ReleaseYear>
+		<Filetypefanart appendResultTo="http://thegamesdb.net/banners/">Images/fanart/original</Filetypefanart>
+		<Filetypeboxfront appendResultTo="http://thegamesdb.net/banners/">Images/boxart</Filetypeboxfront>
 	</GameGrammar>
 </parserConfig>
