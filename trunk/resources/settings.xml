@@ -1,3 +1,16 @@
-<settings>
+<settings>		
+	<setting id="logLevel" value="INFO" type="text"/>
+	<setting id="useEmulatorSolo" value="" type="text"/>
+	<setting id="escapeEmulatorCommand" value="" type="text"/>
+	<setting id="cachingOption" value="" type="text"/>
+	<setting id="showEntryAllConsoles" value="" type="text"/>
+	<setting id="showEntryAllGenres" value="" type="text"/>
+	<setting id="showEntryAllYears" value="" type="text"/>
+	<setting id="showEntryAllPublisher" value="" type="text"/>
+	<setting id="showEntryAllChars" value="" type="text"/>
+	<setting id="preventUnfilteredSearch" value="" type="text"/>
+	<setting id="saveViewStateOnExit" value="" type="text"/>
+	<setting id="saveViewStateOnLaunchEmu" value="" type="text"/>	
+	
 	<setting id="rcb_view_mode" value="" type="text"/>
 </settings>

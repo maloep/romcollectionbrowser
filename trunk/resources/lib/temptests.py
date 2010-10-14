@@ -34,23 +34,21 @@ import util
 #parseInstruction = "F:\\Emulatoren\\data\\Synopsis\\mobygames\\07 - mobygames - screenshots.xml"
 
 #descFile = "http://thegamesdb.net/api/GetGame.php?name=Legend%20of%20zelda"
-#descFile = "F:\\Emulatoren\\data\\Synopsis\\thegamesdb\\thegamesdb - legend of zelda.xml"
-#parseInstruction = "F:\\Emulatoren\\data\\Synopsis\\thegamesdb\\thegamesdb - parserConfig.xml"
+descFile = "C:\\Users\\malte\\AppData\\Roaming\\XBMC\\scripts\\Rom Collection Browser\\resources\\scraper\\thegamesdb\\thegamesdb - legend of zelda.xml"
+parseInstruction = "C:\\Users\\malte\\AppData\\Roaming\\XBMC\\scripts\\Rom Collection Browser\\resources\\scraper\\thegamesdb\\thegamesdb.xml"
 
 #descFile = "http://api.giantbomb.com/search/?api_key=279442d60999f92c5e5f693b4d23bd3b6fd8e868&query=Actraiser&resources=game&format=xml"
-descFile = "F:\\Emulatoren\\data\\Synopsis\\giantbomb\\Actraisersearch.xml"
-parseInstruction = "F:\\Emulatoren\\data\\Synopsis\\giantbomb\\giantbomb - parserConfig.xml"
+#descFile = "F:\\Emulatoren\\data\\Synopsis\\giantbomb\\Actraisersearch.xml"
+#parseInstruction = "F:\\Emulatoren\\data\\Synopsis\\giantbomb\\giantbomb - parserConfig.xml"
 
 from descriptionparserfactory import *
 descParser = DescriptionParserFactory.getParser(parseInstruction)
 
-"""
+
 results = descParser.parseDescription(str(descFile))
 for result in results:
 	print result
-	print difflib.SequenceMatcher(None, 'ActRaiser', str(result['SearchKey'])).ratio()
-	#print lev()	
-"""
+
 
 
 #timestamp1 = time.clock()
@@ -64,16 +62,6 @@ for result in results:
 #diff = (timestamp2 - timestamp1) * 1000		
 #print "parsed in %d ms" % (diff)
 
-
-url = "http://thegamesdb.net/api/icon"
-file = "D:\\Test\\icon"
-rootExtFile = os.path.splitext(file)
-rootExtUrl = os.path.splitext(url)
-
-if(len(rootExtUrl) == 2 and len(rootExtFile) != 0):
-	file = rootExtFile[0] + rootExtUrl[1]
-
-print file
 
 
 """

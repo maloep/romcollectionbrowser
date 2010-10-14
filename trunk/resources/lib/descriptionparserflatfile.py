@@ -75,11 +75,11 @@ class DescriptionParserFlatFile:
 							item = itemList[i]
 							newValue = item
 							if(appendResultTo != None):								
-								newValue = appendResultTo +item
+								newValue = appendResultTo +newValue
 							if(appendResultWith != None):
-								newValue = item + appendResultWith
+								newValue = newValue + appendResultWith
 							if(dateFormat != None):
-								newValue = time.strptime(item, dateFormat)
+								newValue = time.strptime(newValue, dateFormat)
 							itemList[i] = newValue
 						except:
 							print "Error while handling appendResultTo"
