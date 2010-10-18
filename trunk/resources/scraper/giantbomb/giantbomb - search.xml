@@ -1,6 +1,0 @@
-<parserConfig>
-	<GameGrammar type="xml" root="results/game">
-		<SearchKey>name</SearchKey>
-		<url appendResultWith="?api_key=%GIANTBOMBAPIKey%">api_detail_url</url>
-	</GameGrammar>
-</parserConfig>
