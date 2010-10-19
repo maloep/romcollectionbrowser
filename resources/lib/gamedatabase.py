@@ -157,14 +157,14 @@ class DataBaseObject:
 
 class Game(DataBaseObject):	
 	filterQuery = "Select * From Game WHERE \
-					(RomCollectionId IN (Select Id From RomCollection Where ConsoleId = ?) OR (0 = ?)) AND \
+					((consoleId = ?) OR (0 = ?)) AND \
 					(Id IN (Select GameId From GenreGame Where GenreId = ?) OR (0 = ?)) AND \
 					(YearId = ? OR (0 = ?)) AND \
 					(PublisherId = ? OR (0 = ?)) \
 					AND %s \
 					ORDER BY name COLLATE NOCASE"
 					
-	filterByNameAndRomCollectionId = "SELECT * FROM Game WHERE name = ? and romCollectionId = ?"
+	filterByNameAndConsoleId = "SELECT * FROM Game WHERE name = ? and consoleId = ?"
 	
 	def __init__(self, gdb):		
 		self.gdb = gdb
@@ -176,34 +176,15 @@ class Game(DataBaseObject):
 		games = self.getObjectsByWildcardQuery(filterQuery, args)		
 		return games
 		
-	def getGameByNameAndRomCollectionId(self, name, romCollectionId):
-		game = self.getObjectByQuery(self.filterByNameAndRomCollectionId, (name, romCollectionId))
+	def getGameByNameAndConsoleId(self, name, consoleId):
+		game = self.getObjectByQuery(self.filterByNameAndConsoleId, (name, consoleId))
 		return game
-
-
-class Console(DataBaseObject):	
-	
-	filterByRomCollectionId = "SELECT * FROM Console WHERE Id IN (SELECT consoleId FROM RomCollection WHERE Id = ?)"
-	
-	def __init__(self, gdb):		
-		self.gdb = gdb
-		self.tableName = "Console"
-		
-	def getConsoleByRomCollectionId(self, romCollectionId):
-		console = self.getObjectByQuery(self.filterByRomCollectionId, (romCollectionId,))
-		return console
 
 
 class RCBSetting(DataBaseObject):	
 	def __init__(self, gdb):		
 		self.gdb = gdb
 		self.tableName = "RCBSetting"
-
-
-class RomCollection(DataBaseObject):	
-	def __init__(self, gdb):		
-		self.gdb = gdb
-		self.tableName = "RomCollection"
 
 
 class Genre(DataBaseObject):
@@ -258,49 +239,18 @@ class Reviewer(DataBaseObject):
 		self.tableName = "Reviewer"
 
 
-class FileType(DataBaseObject):	
-	def __init__(self, gdb):		
-		self.gdb = gdb
-		self.tableName = "FileType"
-		
-		
-class FileTypeForControl(DataBaseObject):
-	filterQueryByKey = "Select * from FileTypeForControl \
-					where romCollectionId = ? AND \
-					fileTypeId = (select id from filetype where name = ?) AND \
-					control = ? AND \
-					priority = ?"
-					
-	filterQueryByKeyNoPrio = "Select * from FileTypeForControl \
-					where romCollectionId = ? AND \
-					control = ? \
-					ORDER BY priority"							
-	
-	def __init__(self, gdb):		
-		self.gdb = gdb
-		self.tableName = "FileTypeForControl"
-		
-	def getFileTypeForControlByKey(self, romCollectionId, fileType, control, priority):
-		fileType = self.getObjectByQuery(self.filterQueryByKey, (romCollectionId, fileType, control, priority))
-		return fileType
-		
-	def getFileTypesForControlByKey(self, romCollectionId, control):
-		fileTypes = self.getObjectsByQuery(self.filterQueryByKeyNoPrio, (romCollectionId, control))
-		return fileTypes			
-
-
 class File(DataBaseObject):	
 	filterQueryByGameIdAndFileType = "Select name from File \
 					where parentId = ? AND \
-					filetypeid = (select id from filetype where name = ?)"
+					filetypeid = ?"
 					
 	filterQueryByNameAndType = "Select * from File \
 					where name = ? AND \
-					filetypeid = (select id from filetype where name = ?)"
+					filetypeid = ?"
 					
 	filterQueryByNameAndTypeAndParent = "Select * from File \
 					where name = ? AND \
-					filetypeid = (select id from filetype where name = ?) AND \
+					filetypeid = ? AND \
 					parentId = ?"
 					
 	filterQueryByGameIdAndTypeId = "Select * from File \
@@ -334,7 +284,7 @@ class File(DataBaseObject):
 		return files
 		
 	def getRomsByGameId(self, gameId):
-		files = self.getObjectsByQuery(self.filterQueryByGameIdAndFileType, (gameId, 'rcb_rom'))
+		files = self.getObjectsByQuery(self.filterQueryByGameIdAndFileType, (gameId, 0))
 		return files
 		
 	def getFilesForGamelist(self):
@@ -344,81 +294,4 @@ class File(DataBaseObject):
 	def getFilesByParentIds(self, gameId, romCollectionId, consoleId, publisherId, developerId):
 		files = self.getObjectsByQuery(self.filterQueryByParentIds, (gameId, romCollectionId, consoleId, publisherId, developerId))
 		return files
-		
-
-class Path(DataBaseObject):	
-	filterQueryByRomCollectionId = "SELECT * FROM Path \
-					WHERE romCollectionId = ? \
-					AND filetypeId NOT IN (SELECT id FROM filetype WHERE name LIKE 'rcb_%')"
-	
-	filterQueryByRomCollectionIdAndFileType = "Select name from Path \
-					where romCollectionId = ? AND \
-					filetypeid = (select id from filetype where name = ?)"
-					
-	filterQueryByNameAndType = "Select name from Path \
-					where name = ? AND \
-					filetypeid = (select id from filetype where name = ?)"
-					
-	filterQueryByNameAndTypeAndRomCollection = "Select name from Path \
-					where name = ? AND \
-					filetypeid = (select id from filetype where name = ?) AND \
-					romCollectionId = ?"
-	
-	def __init__(self, gdb):		
-		self.gdb = gdb
-		self.tableName = "Path"
-		
-	def getPathByNameAndType(self, name, type):
-		file = self.getObjectByQuery(self.filterQueryByNameAndType, (name, type))
-		return file
-		
-	def getPathByNameAndTypeAndRomCollectionId(self, name, type, romCollectionId):
-		file = self.getObjectByQuery(self.filterQueryByNameAndTypeAndRomCollection, (name, type, romCollectionId))
-		return file
-		
-	def getPathsByRomCollectionId(self, romCollectionId):
-		paths = self.getObjectsByQuery(self.filterQueryByRomCollectionId, (romCollectionId,))
-		return paths
-		
-	def getRomPathsByRomCollectionId(self, romCollectionId):
-		path = self.getObjectsByQuery(self.filterQueryByRomCollectionIdAndFileType, (romCollectionId, 'rcb_rom'))
-		return path
-		
-	def getDescriptionPathByRomCollectionId(self, romCollectionId):
-		path = self.getObjectByQuery(self.filterQueryByRomCollectionIdAndFileType, (romCollectionId, 'rcb_description'))
-		if path == None:
-			return ""	
-		return path[0]
-		
-		
-	def getManualPathsByRomCollectionId(self, romCollectionId):
-		path = self.getObjectsByQuery(self.filterQueryByRomCollectionIdAndFileType, (romCollectionId, 'manual'))
-		return path
-	
-	def getConfigurationPathsByRomCollectionId(self, romCollectionId):
-		path = self.getObjectsByQuery(self.filterQueryByRomCollectionIdAndFileType, (romCollectionId, 'configuration'))
-		return path
-	
-	
-class Scraper(DataBaseObject):
-		
-	filterQueryBySourceParserAndRomCollectionId = "SELECT * FROM Scraper \
-					WHERE source = ? AND \
-					parseInstruction = ? AND \
-					romCollectionId = ?"										
-					
-	filterQueryByRomCollectionId = "SELECT * FROM Scraper \
-					WHERE romCollectionId = ?"
-	
-	def __init__(self, gdb):		
-		self.gdb = gdb
-		self.tableName = "Scraper"
-
-	def getScraperBySourceParserAndRomCollectionId(self, source, parseInstruction, romCollectionId):
-		scraper = self.getObjectByQuery(self.filterQueryBySourceParserAndRomCollectionId, (source, parseInstruction, romCollectionId))
-		return scraper
-	
-	def getScrapersByRomCollectionId(self, romCollectionId):
-		scrapers = self.getObjectsByQuery(self.filterQueryByRomCollectionId, (romCollectionId,))
-		return scrapers
 	

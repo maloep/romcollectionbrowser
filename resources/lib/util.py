@@ -201,6 +201,7 @@ def getConfigXmlPath():
 	else:
 		configFile = os.path.join(os.getcwd(), "TestDataBase", "config.xml")
 	
+	Logutil.log('Reading configuration file: ' +str(configFile), LOG_LEVEL_INFO)
 	return configFile
 
 
