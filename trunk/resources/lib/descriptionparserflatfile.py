@@ -46,8 +46,7 @@ class DescriptionParserFlatFile:
 			
 	
 	def scanDescription(self, descFile, descParseInstruction):
-		
-		print "scanDescription..."
+				
 		fileAsString = self.openDescFile(descFile)
 		self.gameGrammar = self.getGameGrammar(str(descParseInstruction))
 				

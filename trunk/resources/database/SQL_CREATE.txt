@@ -10,14 +10,6 @@ CREATE TABLE IF NOT EXISTS [Reviewer]
     [name] TEXT NOT NULL UNIQUE
 );
 
-CREATE TABLE IF NOT EXISTS [FileType]
-(
-    [id] INTEGER PRIMARY KEY AUTOINCREMENT,
-    [name] TEXT NOT NULL UNIQUE,
-	[type] TEXT,
-	[parent] TEXT
-	
-);
 
 CREATE TABLE IF NOT EXISTS [Genre] 
 (
@@ -37,15 +29,6 @@ CREATE TABLE IF NOT EXISTS [Year]
     [name] TEXT UNIQUE
 );
 
-CREATE TABLE IF NOT EXISTS [Console] 
-(
-    [id] INTEGER PRIMARY KEY AUTOINCREMENT,
-    [name] TEXT NOT NULL UNIQUE,
-    [description] TEXT,
-    [imageFileName] TEXT
-);
-
-
 CREATE TABLE IF NOT EXISTS [RCBSetting]
 (
     [id] INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -55,77 +38,18 @@ CREATE TABLE IF NOT EXISTS [RCBSetting]
 	[lastSelectedPublisherIndex] INTEGER,
     [lastSelectedYearIndex] INTEGER,
 	[lastSelectedGameIndex] INTEGER,
-	[favoriteConsoleId] INTEGER REFERENCES [Console]
-    (
-        id
-    ),
+	[favoriteConsoleId] INTEGER,
 	[favoriteGenreId] INTEGER REFERENCES [Genre]
     (
         id
     ),
 	[autoexecBackupPath] TEXT,
-	[dbVersion] TEXT,
-	[showEntryAllConsoles] INTEGER,
-	[showEntryAllGenres] INTEGER,
-	[showEntryAllYears] INTEGER,
-	[showEntryAllPublisher] INTEGER,
-	[saveViewStateOnExit] INTEGER,
-	[saveViewStateOnLaunchEmu] INTEGER,
+	[dbVersion] TEXT,	
 	[lastFocusedControlMainView] INTEGER,
-	[lastFocusedControlGameInfoView] INTEGER,
-	[logLevel] INTEGER,
-	[showEntryAllChars] INTEGER,
-	[lastSelectedCharacterIndex] INTEGER,
-	[preventUnfilteredSearch] INTEGER,
-	[cachingOption] INTEGER,
-	[lastConfigChange] INTEGER
+	[lastFocusedControlGameInfoView] INTEGER,	
+	[lastSelectedCharacterIndex] INTEGER	
 );
 
-
-CREATE TABLE IF NOT EXISTS [RomCollection]
-(
-    [id] INTEGER PRIMARY KEY AUTOINCREMENT,
-    [name] TEXT NOT NULL UNIQUE,
-    [consoleId] INTEGER REFERENCES [Console]
-    (
-        id
-    ),
-    [emuCommandline] TEXT,
-    [useEmuSolo] INTEGER,
-    [escapeEmuCmd] INTEGER,
-    [descriptionParserFile] TEXT,
-	[relyOnFileNaming] INTEGER,
-	[startWithDescFile] INTEGER,
-	[descFilePerGame] INTEGER,
-	[diskPrefix] TEXT,
-	[typeOfManual] TEXT,
-	[allowUpdate] INTEGER,
-	[ignoreOnScan] INTEGER,
-	[searchGameByCRC] INTEGER,
-	[searchGameByCRCIgnoreRomName] INTEGER,
-	[ignoreGameWithoutDesc] INTEGER,
-	[xboxCreateShortcut] INTEGER,
-	[xboxCreateShortcutAddRomfile] INTEGER,
-	[xboxCreateShortcutUseShortGamename] INTEGER,
-	[useFoldernameAsCRC] INTEGER,
-	[useFilenameAsCRC] INTEGER,
-	[maxFolderDepth] INTEGER	
-);
-
-CREATE TABLE IF NOT EXISTS [FileTypeForControl]
-(
-    [id] INTEGER PRIMARY KEY AUTOINCREMENT,
-	[control] TEXT,
-	[priority] INTEGER,
-    [romCollectionId] INTEGER REFERENCES [RomCollection]
-    (
-        id
-    ),
-	[fileTypeId] INTEGER NOT NULL REFERENCES [FileTypes]
-    (
-        id
-    )
-);
 
 CREATE TABLE IF NOT EXISTS [Game] 
 (
@@ -134,10 +58,7 @@ CREATE TABLE IF NOT EXISTS [Game]
     [description] TEXT,
 	[gameCmd] TEXT,
 	[alternateGameCmd] TEXT,
-    [romCollectionId] INTEGER REFERENCES [RomCollection]
-    (
-        id
-    ),    
+    [consoleId] INTEGER,
     [publisherId] INTEGER REFERENCES [Publisher]
     (
         id
@@ -168,22 +89,7 @@ CREATE TABLE IF NOT EXISTS [Game]
 	[alternateTitle] TEXT,
 	[translatedBy] TEXT,
 	[version] TEXT,
-	UNIQUE (name, romCollectionId)
-);
-
-
-CREATE TABLE IF NOT EXISTS [Scraper] 
-(
-    [id] INTEGER PRIMARY KEY AUTOINCREMENT,
-	[romCollectionId] INTEGER REFERENCES [RomCollection]
-    (
-        id
-    ),
-    [parseInstruction] TEXT,
-	[source] TEXT,
-	[returnUrl] INTEGER,
-	[replaceKeyString] TEXT,
-	[replaceValueString] TEXT
+	UNIQUE (name, consoleId)
 );
 
 
@@ -191,26 +97,10 @@ CREATE TABLE IF NOT EXISTS [File]
 (
     [id] INTEGER PRIMARY KEY AUTOINCREMENT,
     [name] TEXT NOT NULL,
-    [fileTypeId] INTEGER NOT NULL REFERENCES [FileTypes]
-    (
-        id
-    ),
+    [fileTypeId] INTEGER,
     [parentId] INTEGER
 );
 
-CREATE TABLE IF NOT EXISTS [Path] 
-(
-    [id] INTEGER PRIMARY KEY AUTOINCREMENT,
-    [name] TEXT NOT NULL,
-    [fileTypeId] INTEGER NOT NULL REFERENCES [FileTypes]
-    (
-        id
-    ),
-    [romCollectionId] INTEGER REFERENCES [RomCollection]
-    (
-        id
-    )
-);
 
 
 CREATE TABLE IF NOT EXISTS [GenreGame] 

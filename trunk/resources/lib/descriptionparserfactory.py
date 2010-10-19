@@ -8,11 +8,7 @@ from descriptionparserxml import *
 class DescriptionParserFactory:
 
 	@classmethod
-	def getParser(self, descParseInstruction):
-				
-		fh=open(descParseInstruction,"r")		
-		xmlDoc = fh.read()		
-		fh.close()
+	def getParser(self, descParseInstruction):						
 		
 		tree = ElementTree().parse(descParseInstruction)		
 		

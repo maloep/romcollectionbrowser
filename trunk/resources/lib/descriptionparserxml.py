@@ -80,8 +80,7 @@ class DescriptionParserXml:
 					for i in range(0, len(itemList)):
 						try:
 							item = itemList[i]
-							newValue = item
-							print item
+							newValue = item							
 							if(appendResultTo != None):								
 								newValue = appendResultTo +newValue
 							if(appendResultWith != None):

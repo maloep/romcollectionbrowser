@@ -75,7 +75,11 @@ class Config:
 			Logutil.log('Could not read config.xml', util.LOG_LEVEL_ERROR)
 			return False, 'Could not read config.xml.'
 		
-		self.romCollections = self.readRomCollections(tree)
+		romCollections, errorMsg = self.readRomCollections(tree)
+		if(romCollections == None):
+			return False, errorMsg			
+		
+		self.romCollections = romCollections 
 		return True, ''
 		
 		
@@ -124,7 +128,8 @@ class Config:
 				fileType, errorMsg = self.readFileType(mediaPathRow.attrib.get('type'), tree)
 				if(fileType == None):
 					return None, errorMsg
-					
+				mediaPath.fileType = fileType
+				
 				romCollection.mediaPaths.append(mediaPath)
 			
 			#Scraper
@@ -193,7 +198,7 @@ class Config:
 									
 			romCollections.append(romCollection)
 		
-		return romCollections
+		return romCollections, ''
 		
 		
 	def readConsole(self, consoleName, tree):
@@ -292,13 +297,20 @@ class Config:
 		fileType = FileType()	
 		fileType.name = name
 		
+		id = fileTypeRow.attrib.get('id')
+		if(id == ''):
+			Logutil.log('Configuration error. FileType %s must have an id' %name, util.LOG_LEVEL_ERROR)
+			return None, 'Configuration error. See xbmc.log for details'
+			
+		fileType.id = id
+		
 		type = fileTypeRow.find('type')
 		if(type != None):
-			fileType.type = type
+			fileType.type = type.text
 			
 		parent = fileTypeRow.find('parent')
 		if(parent != None):
-			fileType.type = type
+			fileType.parent = parent.text
 			
 		return fileType, ''
 		
