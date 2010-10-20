@@ -144,7 +144,7 @@ class TestUpdateDB(unittest.TestCase):
 			None,  None, 1, 3, 3, None, 3, '????', '', '', 'http://www.mobygames.com/game/amiga/formula-one_', '', '', '', '', 0, 0,
 			4, 1, 1, 0, 0, 0)
 		self.gameTest(gameRows[17], 'Game without Desc', None, 
-			None,  None, None, None, None, None, None, None, None, None, None, None, None, None, None, 0, 0,
+			None,  None, 1, None, None, None, None, None, None, None, None, None, None, None, None, 0, 0,
 			1, 0, 0, 0, 0, 0)
 		self.gameTest(gameRows[18], 'Golf Magazine Presents 36 Great Holes Starring Fred Couples', '', 
 			None,  None, 4, 17, 17, None, 6, '', '', '', '', 'United States', '', '', '', 0, 0,
@@ -173,11 +173,11 @@ class TestUpdateDB(unittest.TestCase):
 		
 		
 		#test additional file types
-		self.fileTypeTest('developer', 1, gameRows[2][7])
-		self.fileTypeTest('publisher', 1, gameRows[2][6])
+		self.fileTypeTest(7, 1, gameRows[2][7])
+		self.fileTypeTest(8, 1, gameRows[2][6])
 		
-		self.fileTypeTest('developer', 1, gameRows[19][7])
-		self.fileTypeTest('publisher', 1, gameRows[19][6])
+		self.fileTypeTest(7, 1, gameRows[19][7])
+		self.fileTypeTest(8, 1, gameRows[19][6])
 		
 		
 	def gameTest(self, game, name, descStart, gameCmd, alternateGameCmd, consoleId, publisherId, developerId, reviewerId,

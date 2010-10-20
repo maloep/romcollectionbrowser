@@ -78,24 +78,28 @@ class DBUpdate:
 			
 			filecrcDict = {}
 			fileGamenameDict = {}
-			fileFoldernameDict = {}								
+			fileFoldernameDict = {}
+			
+			#always remember the crc of the first rom of multi rom games
+			crcOfFirstGame = {}
 			
 			#itemCount is used for percentage in ProgressDialogGUI
 			gui.itemCount = len(files) +1
 			fileCount = 1
 			
 			Logutil.log("Start building file crcs", util.LOG_LEVEL_INFO)
-			for filename in files:
-				gamename = self.getGamenameFromFilename(filename, romCollection)
+			for filename in files:				
 				gui.writeMsg(progDialogRCHeader, "Checking file crcs...", "", fileCount)
 				fileCount = fileCount +1
+				
+				gamename = self.getGamenameFromFilename(filename, romCollection)
 				
 				#check if we are handling one of the additional disks of a multi rom game
 				isMultiRomGame = self.checkRomfileIsMultirom(gamename, lastgamename, lastgamenameFromFile, filename)
 				
 				#lastgamename may be overwritten by parsed gamename
 				lastgamenameFromFile = gamename
-				lastgamename = gamename	
+				lastgamename = gamename				
 				
 				gamename = gamename.strip()
 				gamename = gamename.lower()
@@ -104,7 +108,21 @@ class DBUpdate:
 				fileGamenameDict = self.buildFilenameDict(fileGamenameDict, isMultiRomGame, filename, gamename, fileGamenameDict, gamename, True)
 					
 				if(romCollection.searchGameByCRC):
-					filecrc = self.getFileCRC(filename)						
+					filecrc = self.getFileCRC(filename)
+					#use crc of first rom if it is a multirom game
+					if(not isMultiRomGame):
+						try:
+							crcOfFirstGame[gamename] = filecrc
+							Logutil.log('Adding crc to crcOfFirstGame-dict: %s:%s' %(gamename, filecrc), util.LOG_LEVEL_DEBUG)
+						except:							
+							pass
+					else:
+						try:
+							filecrc = crcOfFirstGame[gamename]
+							Logutil.log('Read crc from crcOfFirstGame-dict: %s:%s' %(gamename, filecrc), util.LOG_LEVEL_DEBUG)
+						except Exception, (exc):							
+							pass
+						
 					filecrcDict = self.buildFilenameDict(filecrcDict, isMultiRomGame, filename, filecrc, fileGamenameDict, gamename, False)
 				
 				#Folder name of game may be used as crc value in description files					
@@ -338,7 +356,7 @@ class DBUpdate:
 		return False
 		
 		
-	def buildFilenameDict(self, dict, isMultiRomGame, filename, key, fileGamenameDict, gamename, isGamenameDict):				
+	def buildFilenameDict(self, dict, isMultiRomGame, filename, key, fileGamenameDict, gamename, appendToGamenameDict):				
 		
 		try:											
 			if(not isMultiRomGame):
@@ -348,10 +366,10 @@ class DBUpdate:
 				Logutil.log("Add filename %s with key %s" %(filename, key), util.LOG_LEVEL_DEBUG)
 			else:
 				filenamelist = fileGamenameDict[gamename]
-				if(isGamenameDict):
+				if(appendToGamenameDict):
 					filenamelist.append(filename)
 				dict[key] = filenamelist
-				Logutil.log("Add filename %s with key %s" %(filename, key), util.LOG_LEVEL_DEBUG)
+				Logutil.log("Add filename %s to multirom game with key %s" %(filename, key), util.LOG_LEVEL_DEBUG)
 		except:
 			pass
 			
@@ -434,7 +452,7 @@ class DBUpdate:
 						Logutil.log("result found by crc: " +gamedesc, util.LOG_LEVEL_INFO)						
 						return filename, foldername, filecrc
 						
-					#TODO search for folder as option?
+					#search for folder
 					if(romCollection.useFoldernameAsCRC):
 						Logutil.log("using foldername as crc value", util.LOG_LEVEL_DEBUG)						
 						try:
