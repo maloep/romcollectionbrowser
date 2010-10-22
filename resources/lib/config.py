@@ -78,6 +78,7 @@ class RomCollection:
 class Config:
 		
 	romCollections = None
+	fileTypeIdsForGamelist = None
 		
 	
 	def readXml(self):
@@ -94,15 +95,18 @@ class Config:
 		
 		romCollections, errorMsg = self.readRomCollections(tree)
 		if(romCollections == None):
-			return False, errorMsg			
+			return False, errorMsg
 		
-		self.romCollections = romCollections 
+		self.romCollections = romCollections
+				
+		self.fileTypeIdsForGamelist = self.getFileTypeIdsForGameList(romCollections)
+		
 		return True, ''
 		
 		
 	def readRomCollections(self, tree):
 		
-		romCollections = []
+		romCollections = {}
 		
 		romCollectionRows = tree.findall('RomCollections/RomCollection')
 				
@@ -226,7 +230,10 @@ class Config:
 			if(xboxCreateShortcutUseShortGamename != None):
 				romCollection.xboxCreateShortcutUseShortGamename = xboxCreateShortcutUseShortGamename.text.upper() == 'TRUE'
 									
-			romCollections.append(romCollection)
+			try:
+				romCollections[id] = romCollection 
+			except:
+				return None, 'Error while adding RomCollection. Make sure that the id is unique'
 		
 		return romCollections, ''
 		
@@ -356,3 +363,20 @@ class Config:
 				
 		return fileTypeList, ''
 		
+	
+	def getFileTypeIdsForGameList(self, romCollections):
+		
+		fileTypeIds = []
+		for romCollection in romCollections.values():
+			for fileType in romCollection.imagePlacing.fileTypesForGameList:				
+				if(fileTypeIds.count(fileType.id) == 0):
+					fileTypeIds.append(fileType.id)
+			for fileType in romCollection.imagePlacing.fileTypesForGameListSelected:
+				if(fileTypeIds.count(fileType.id) == 0):
+					fileTypeIds.append(fileType.id)
+			for fileType in romCollection.imagePlacing.fileTypesForMainViewVideoFullscreen:
+				if(fileTypeIds.count(fileType.id) == 0):
+					fileTypeIds.append(fileType.id)
+
+		return fileTypeIds
+			

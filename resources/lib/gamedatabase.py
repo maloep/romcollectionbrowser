@@ -257,8 +257,7 @@ class File(DataBaseObject):
 					where parentId = ? AND \
 					filetypeid = ?"
 					
-	filterFilesForGameList = "Select * from File Where FileTypeId in (Select distinct filetypeid from filetypeforcontrol \
-					where control = 'gamelist' OR control = 'gamelistselected' OR control = 'mainviewvideofullscreen')"
+	filterFilesForGameList = "Select * from File Where FileTypeId in (%s)"
 					
 	filterQueryByParentIds = "Select * from File \
 					where parentId in (?, ?, ?, ?)"
@@ -287,8 +286,9 @@ class File(DataBaseObject):
 		files = self.getObjectsByQuery(self.filterQueryByGameIdAndFileType, (gameId, 0))
 		return files
 		
-	def getFilesForGamelist(self):
-		files = self.getObjectsByQueryNoArgs(self.filterFilesForGameList)
+	def getFilesForGamelist(self, fileTypeIds):				
+		
+		files = self.getObjectsByQueryNoArgs(self.filterFilesForGameList %(','.join(fileTypeIds)))
 		return files
 		
 	def getFilesByParentIds(self, gameId, romCollectionId, publisherId, developerId):

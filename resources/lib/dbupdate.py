@@ -38,7 +38,7 @@ class DBUpdate:
 		
 		Logutil.log("Iterating Rom Collections", util.LOG_LEVEL_INFO)
 		rccount = 1
-		for romCollection in config.romCollections:
+		for romCollection in config.romCollections.values():
 			
 			#prepare Header for ProgressDialog
 			progDialogRCHeader = "Importing Rom Collection (%i / %i): %s" %(rccount, len(config.romCollections), romCollection.name)

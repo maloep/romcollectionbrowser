@@ -383,8 +383,8 @@ class UIGameDB(xbmcgui.WindowXML):
 		consoles = []
 		for romCollection in self.config.romCollections:
 			consoleRow = []
-			consoleRow.append(romCollection.console.id)
-			consoleRow.append(romCollection.console.name)
+			consoleRow.append(romCollection.id)
+			consoleRow.append(romCollection.name)
 			consoles.append(consoleRow)
 		
 		self.selectedConsoleId = self.showFilterControl(None, CONTROL_CONSOLES, showEntryAllItems, consoles)
@@ -503,7 +503,7 @@ class UIGameDB(xbmcgui.WindowXML):
 		self.rcb_playList.clear()		
 		
 		count = 0
-		for gameRow in games:
+		for gameRow in games:						
 		
 			#images for gamelist
 			imageGameList = self.getFileForControl(util.IMAGE_CONTROL_MV_GAMELIST, gameRow[util.ROW_ID], gameRow[util.GAME_publisherId], gameRow[util.GAME_developerId], gameRow[util.GAME_romCollectionId], fileDict)
@@ -715,7 +715,7 @@ class UIGameDB(xbmcgui.WindowXML):
 		if(self.cachingOption == 0):
 			fileDict = self.fileDict
 		else:
-			fileRows = File(self.gdb).getFilesForGamelist()
+			fileRows = File(self.gdb).getFilesForGamelist(self.config.fileTypeIdsForGamelist)
 			if(fileRows == None):
 				Logutil.log("fileRows == None in showGames", util.LOG_LEVEL_WARNING)
 				return
@@ -725,8 +725,8 @@ class UIGameDB(xbmcgui.WindowXML):
 		return fileDict
 		
 		
-	def getFileForControl(self, controlName, gameId, publisherId, developerId, consoleId, fileDict):
-		files = helper.getFilesByControl_Cached(self.gdb, controlName, gameId, publisherId, developerId, consoleId, fileDict)		
+	def getFileForControl(self, controlName, gameId, publisherId, developerId, romCollectionId, fileDict):
+		files = helper.getFilesByControl_Cached(self.gdb, controlName, gameId, publisherId, developerId, romCollectionId, fileDict, self.config)		
 		if(files != None and len(files) != 0):
 			file = files[0]
 		else:
