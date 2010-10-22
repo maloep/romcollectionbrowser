@@ -6,23 +6,35 @@ from elementtree.ElementTree import *
 
 
 
-class Console:
-	name = ''
-	id = -1
-	emulatorCmd = ''
-	xboxCreateShortcut = ''
-	xboxCreateShortcutAddRomfile = ''
-	xboxCreateShortcutUseShortGamename = ''
-	
 class FileType:
 	name = ''
 	id = -1
 	type = ''
 	parent = ''
 	
-class FileTypeFor:
-	name = ''	
-	fileType = None
+class ImagePlacing:
+	fileTypesForGameList = None
+	fileTypesForGameListSelected = None			
+	fileTypesForMainView1 = None
+	fileTypesForMainView2 = None
+	fileTypesForMainView3 = None						
+	fileTypesForMainViewBackground = None
+	fileTypesForMainViewGameInfoBig = None
+	fileTypesForMainViewGameInfoUpperLeft = None
+	fileTypesForMainViewGameInfoUpperRight = None
+	fileTypesForMainViewGameInfoLowerLeft = None
+	fileTypesForMainViewGameInfoLowerRight = None
+	fileTypesForMainViewVideoWindowBig = None
+	fileTypesForMainViewVideoWindowSmall = None
+	fileTypesForMainViewVideoFullscreen = None
+	
+	fileTypesForGameInfoViewBackground = None
+	fileTypesForGameInfoViewGamelist = None
+	fileTypesForGameInfoView1 = None
+	fileTypesForGameInfoView2 = None
+	fileTypesForGameInfoView3 = None
+	fileTypesForGameInfoView4 = None
+	fileTypesForGameInfoViewVideoWindow = None
 	
 class MediaPath:
 	path = ''
@@ -40,8 +52,10 @@ class Site:
 	scrapers = None
 
 class RomCollection:
-	name = ''	
-	console = None	
+	id = -1
+	name = ''
+	
+	emulatorCmd = ''
 	romPaths = None
 	mediaPaths = None
 	scraperSites = None
@@ -56,6 +70,9 @@ class RomCollection:
 	ignoreGameWithoutDesc = False	
 	descFilePerGame = False
 	diskPrefix = '_Disk'
+	xboxCreateShortcut = False
+	xboxCreateShortcutAddRomfile = False
+	xboxCreateShortcutUseShortGamename = False
 
 
 class Config:
@@ -100,18 +117,15 @@ class Config:
 			
 			romCollection = RomCollection()
 			romCollection.name = romCollectionRow.attrib.get('name')
-			
-			#Console
-			consoleRow = romCollectionRow.find('console')
-			if(consoleRow == None):
-				Logutil.log('Configuration error. RomCollection %s does not contain a console' %romCollection.name, util.LOG_LEVEL_ERROR)
+			if(romCollection.name == None):
+				Logutil.log('Configuration error. RomCollection must have an attribute name', util.LOG_LEVEL_ERROR)
 				return None, 'Configuration error. See xbmc.log for details'
 			
-			console, errorMsg = self.readConsole(consoleRow.text, tree)
-			if(console == None):
-				return None, errorMsg
-			
-			romCollection.console = console
+			id = romCollectionRow.attrib.get('id')
+			if(id == ''):
+				Logutil.log('Configuration error. RomCollection %s must have an id' %romCollection.name, util.LOG_LEVEL_ERROR)
+				return None, 'Configuration error. See xbmc.log for details'
+			romCollection.id = id
 			
 			#romPath
 			romCollection.romPaths = []
@@ -149,13 +163,17 @@ class Config:
 			romCollection.imagePlacing = []
 			imagePlacingRow = romCollectionRow.find('imagePlacing')
 			if(imagePlacingRow != None):
-				fileTypeFor, errorMsg = self.readFileTypeFor(imagePlacingRow.text, tree)
+				fileTypeFor, errorMsg = self.readImagePlacing(imagePlacingRow.text, tree)
 				if(fileTypeFor == None):
 					return None, errorMsg
 				
 				romCollection.imagePlacing = fileTypeFor
 			
 			#all simple RomCollection properties
+			emulatorCmd = romCollectionRow.find('emulatorCmd')
+			if(emulatorCmd != None):
+				romCollection.emulatorCmd = emulatorCmd.text
+			
 			ignoreOnScan = romCollectionRow.find('ignoreOnScan')
 			if(ignoreOnScan != None):
 				romCollection.ignoreOnScan = ignoreOnScan.text.upper() == 'TRUE'
@@ -194,48 +212,23 @@ class Config:
 				
 			diskPrefix = romCollectionRow.find('diskPrefix')
 			if(diskPrefix != None):
-				romCollection.diskPrefix = diskPrefix.text
+				romCollection.diskPrefix = diskPrefix.text							
+				
+			xboxCreateShortcut = romCollectionRow.find('xboxCreateShortcut')
+			if(xboxCreateShortcut != None):
+				romCollection.xboxCreateShortcut = xboxCreateShortcut.text.upper() == 'TRUE'
+				
+			xboxCreateShortcutAddRomfile = romCollectionRow.find('xboxCreateShortcutAddRomfile')
+			if(xboxCreateShortcutAddRomfile != None):
+				romCollection.xboxCreateShortcutAddRomfile = xboxCreateShortcutAddRomfile.text.upper() == 'TRUE'
+				
+			xboxCreateShortcutUseShortGamename = romCollectionRow.find('xboxCreateShortcutUseShortGamename')
+			if(xboxCreateShortcutUseShortGamename != None):
+				romCollection.xboxCreateShortcutUseShortGamename = xboxCreateShortcutUseShortGamename.text.upper() == 'TRUE'
 									
 			romCollections.append(romCollection)
 		
 		return romCollections, ''
-		
-		
-	def readConsole(self, consoleName, tree):
-		
-		consoleRow = tree.find('Consoles/Console[@name="%s"]'%consoleName)
-		if(consoleRow == None):
-			Logutil.log('Configuration error. Console %s does not exist in config.xml' %consoleName, util.LOG_LEVEL_ERROR)
-			return None, 'Configuration error. See xbmc.log for details'
-		
-		console = Console()
-		console.name = consoleName
-		
-		id = consoleRow.attrib.get('id')
-		if(id == ''):
-			Logutil.log('Configuration error. Console %s must have an id' %consoleName, util.LOG_LEVEL_ERROR)
-			return None, 'Configuration error. See xbmc.log for details'
-
-		console.id = id
-		
-		emulatorCmd = consoleRow.find('emulatorCmd')
-		if(emulatorCmd != None):
-			console.emulatorCmd = emulatorCmd.text
-			
-		xboxCreateShortcut = consoleRow.find('xboxCreateShortcut')
-		if(xboxCreateShortcut != None):
-			console.xboxCreateShortcut = xboxCreateShortcut.text.upper() == 'TRUE'
-			
-		xboxCreateShortcutAddRomfile = consoleRow.find('xboxCreateShortcutAddRomfile')
-		if(xboxCreateShortcutAddRomfile != None):
-			console.xboxCreateShortcutAddRomfile = xboxCreateShortcutAddRomfile.text.upper() == 'TRUE'
-			
-		xboxCreateShortcutUseShortGamename = consoleRow.find('xboxCreateShortcutUseShortGamename')
-		if(xboxCreateShortcutUseShortGamename != None):
-			console.xboxCreateShortcutUseShortGamename = xboxCreateShortcutUseShortGamename.text.upper() == 'TRUE'
-		
-		#TODO write console to database
-		return console, ''
 		
 			
 	def readScraper(self, siteName, tree):
@@ -315,22 +308,51 @@ class Config:
 		return fileType, ''
 		
 		
-	def readFileTypeFor(self, imagePlacing, tree):
+	def readImagePlacing(self, imagePlacing, tree):
 		fileTypeForRow = tree.find('ImagePlacing/fileTypeFor[@name="%s"]' %imagePlacing)
 		
 		if(fileTypeForRow == None):
 			Logutil.log('Configuration error. ImagePlacing/fileTypeFor %s does not exist in config.xml' %imagePlacing, util.LOG_LEVEL_ERROR)
 			return None, 'Configuration error. See xbmc.log for details'
 		
-		fileTypeForList = []
-		for element in fileTypeForRow:
-			fileTypeFor = FileTypeFor()
-			fileTypeFor.name = element.tag
-			fileType, errorMsg = self.readFileType(element.text, tree)
+		imagePlacing = ImagePlacing()
+			
+		imagePlacing.fileTypesForGameList, errorMsg = self.readFileTypeForElement(fileTypeForRow, 'fileTypeForGameList', tree)		
+		imagePlacing.fileTypesForGameListSelected, errorMsg = self.readFileTypeForElement(fileTypeForRow, 'fileTypeForGameListSelected', tree)
+		imagePlacing.fileTypesForMainView1, errorMsg = self.readFileTypeForElement(fileTypeForRow, 'fileTypeForMainView1', tree)
+		imagePlacing.fileTypesForMainView2, errorMsg = self.readFileTypeForElement(fileTypeForRow, 'fileTypeForMainView2', tree)
+		imagePlacing.fileTypesForMainView3, errorMsg = self.readFileTypeForElement(fileTypeForRow, 'fileTypeForMainView3', tree)
+		imagePlacing.fileTypesForMainViewBackground, errorMsg = self.readFileTypeForElement(fileTypeForRow, 'fileTypeForMainViewBackground', tree)
+		imagePlacing.fileTypesForMainViewGameInfoBig, errorMsg = self.readFileTypeForElement(fileTypeForRow, 'fileTypeForMainViewGameInfoBig', tree)
+		imagePlacing.fileTypesForMainViewGameInfoUpperLeft, errorMsg = self.readFileTypeForElement(fileTypeForRow, 'fileTypeForMainViewGameInfoUpperLeft', tree)
+		imagePlacing.fileTypesForMainViewGameInfoUpperRight, errorMsg = self.readFileTypeForElement(fileTypeForRow, 'fileTypeForMainViewGameInfoUpperRight', tree)
+		imagePlacing.fileTypesForMainViewGameInfoLowerLeft, errorMsg = self.readFileTypeForElement(fileTypeForRow, 'fileTypeForMainViewGameInfoLowerLeft', tree)
+		imagePlacing.fileTypesForMainViewGameInfoLowerRight, errorMsg = self.readFileTypeForElement(fileTypeForRow, 'fileTypeForMainViewGameInfoLowerRight', tree)
+		imagePlacing.fileTypesForMainViewVideoWindowBig, errorMsg = self.readFileTypeForElement(fileTypeForRow, 'fileTypeForMainViewVideoWindowBig', tree)
+		imagePlacing.fileTypesForMainViewVideoWindowSmall, errorMsg = self.readFileTypeForElement(fileTypeForRow, 'fileTypeForMainViewVideoWindowSmall', tree)
+		imagePlacing.fileTypesForMainViewVideoFullscreen, errorMsg = self.readFileTypeForElement(fileTypeForRow, 'fileTypeForMainViewVideoFullscreen', tree)
+		
+		imagePlacing.fileTypesForGameInfoViewBackground, errorMsg = self.readFileTypeForElement(fileTypeForRow, 'fileTypeForGameInfoViewBackground', tree)
+		imagePlacing.fileTypesForGameInfoViewGamelist, errorMsg = self.readFileTypeForElement(fileTypeForRow, 'fileTypeForGameInfoViewGamelist', tree)
+		imagePlacing.fileTypesForGameInfoView1, errorMsg = self.readFileTypeForElement(fileTypeForRow, 'fileTypeForGameInfoView1', tree)
+		imagePlacing.fileTypesForGameInfoView2, errorMsg = self.readFileTypeForElement(fileTypeForRow, 'fileTypeForGameInfoView2', tree)
+		imagePlacing.fileTypesForGameInfoView3, errorMsg = self.readFileTypeForElement(fileTypeForRow, 'fileTypeForGameInfoView3', tree)
+		imagePlacing.fileTypesForGameInfoView4, errorMsg = self.readFileTypeForElement(fileTypeForRow, 'fileTypeForGameInfoView4', tree)
+		imagePlacing.fileTypesForGameInfoViewVideoWindow, errorMsg = self.readFileTypeForElement(fileTypeForRow, 'fileTypeForGameInfoViewVideoWindow', tree)		
+			
+		return imagePlacing, ''
+	
+	
+	def readFileTypeForElement(self, fileTypeForRow, key, tree):
+		fileTypeList = []
+		fileTypesForControl = fileTypeForRow.findall(key)		
+		for fileTypeForControl in fileTypesForControl:						
+				
+			fileType, errorMsg = self.readFileType(fileTypeForControl.text, tree)
 			if(fileType == None):
 				return None, errorMsg
-			fileTypeFor.fileType = fileType
-			fileTypeForList.append(fileTypeFor)
-			
-		return fileTypeForList, ''
+						
+			fileTypeList.append(fileType)
+				
+		return fileTypeList, ''
 		

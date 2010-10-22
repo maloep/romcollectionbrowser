@@ -9,9 +9,9 @@ import dbupdate, importsettings
 from gamedatabase import *
 import helper, util
 from util import *
+from config import *
 
 from threading import *
-from email.Message import Message
 
 
 #Action Codes
@@ -166,8 +166,14 @@ class UIGameDB(xbmcgui.WindowXML):
 		
 		Logutil.log("Init Rom Collection Browser: " + util.RCBHOME, util.LOG_LEVEL_INFO)				
 		
-		self.Settings = util.getSettings()				
+		self.Settings = util.getSettings()
 		
+		self.config = Config()
+		statusOk, errorMsg = self.config.readXml()
+		if(statusOk == False):
+			xbmcgui.Dialog().ok(util.SCRIPTNAME, 'Error reading config.xml.', errorMsg)
+			self.quit = True
+			return
 		
 		try:
 			self.gdb = GameDataBase(util.getAddonDataPath())
@@ -190,9 +196,16 @@ class UIGameDB(xbmcgui.WindowXML):
 			self.gdb.commit()
 			self.checkImport(doImport)
 			
-			rcbSetting = helper.getRCBSetting(self.gdb)			
-			if(rcbSetting != None):				
-				self.cachingOption = rcbSetting[util.RCBSETTING_cachingOption]				
+			cachingOptionStr = self.Settings.getSetting(util.SETTING_RCB_CACHINGOPTION)
+			if(cachingOptionStr == 'CACHEALL'):
+				self.cachingOption = 0
+			elif(cachingOptionStr == 'CACHESELECTION'):
+				self.cachingOption = 1
+			elif(cachingOptionStr == 'CACHEITEM'):
+				self.cachingOption = 2
+			elif(cachingOptionStr == 'CACHEITEMANDNEXT'):
+				self.cachingOption = 3
+			print "caching option: " +str(self.cachingOption)						
 			
 			self.cacheItems()
 			
@@ -364,56 +377,53 @@ class UIGameDB(xbmcgui.WindowXML):
 		
 	def showConsoles(self):
 		Logutil.log("Begin showConsoles" , util.LOG_LEVEL_DEBUG)
-		rcbSetting = helper.getRCBSetting(self.gdb)
-		if(rcbSetting == None):
-			showEntryAllItems = 'True'
-		else:
-			showEntryAllItems = rcbSetting[util.RCBSETTING_showEntryAllConsoles]
-		self.selectedConsoleId = self.showFilterControl(Console(self.gdb), CONTROL_CONSOLES, showEntryAllItems)
+				
+		showEntryAllItems = self.Settings.getSetting(util.SETTING_RCB_SHOWENTRYALLCONSOLES)
+		
+		consoles = []
+		for romCollection in self.config.romCollections:
+			consoleRow = []
+			consoleRow.append(romCollection.console.id)
+			consoleRow.append(romCollection.console.name)
+			consoles.append(consoleRow)
+		
+		self.selectedConsoleId = self.showFilterControl(None, CONTROL_CONSOLES, showEntryAllItems, consoles)
 		
 		Logutil.log("End showConsoles" , util.LOG_LEVEL_DEBUG)
 
 
 	def showGenre(self):
 		Logutil.log("Begin showGenre" , util.LOG_LEVEL_DEBUG)
-		rcbSetting = helper.getRCBSetting(self.gdb)
-		if(rcbSetting == None):
-			showEntryAllItems = 'True'
-		else:
-			showEntryAllItems = rcbSetting[util.RCBSETTING_showEntryAllGenres]
-		self.selectedGenreId = self.showFilterControl(Genre(self.gdb), CONTROL_GENRE, showEntryAllItems)
+		
+		showEntryAllItems = self.Settings.getSetting(util.SETTING_RCB_SHOWENTRYALLGENRES)
+		self.selectedGenreId = self.showFilterControl(Genre(self.gdb), CONTROL_GENRE, showEntryAllItems, None)
 		
 		Logutil.log("End showGenre" , util.LOG_LEVEL_DEBUG)
 		
 	
 	def showYear(self):
 		Logutil.log("Begin showYear" , util.LOG_LEVEL_DEBUG)
-		rcbSetting = helper.getRCBSetting(self.gdb)
-		if(rcbSetting == None):
-			showEntryAllItems = 'True'
-		else:
-			showEntryAllItems = rcbSetting[util.RCBSETTING_showEntryAllYears]
-		self.selectedYearId = self.showFilterControl(Year(self.gdb), CONTROL_YEAR, showEntryAllItems)
+		
+		showEntryAllItems = self.Settings.getSetting(util.SETTING_RCB_SHOWENTRYALLYEARS)
+		self.selectedYearId = self.showFilterControl(Year(self.gdb), CONTROL_YEAR, showEntryAllItems, None)
 		Logutil.log("End showYear" , util.LOG_LEVEL_DEBUG)
 		
 		
 	def showPublisher(self):
 		Logutil.log("Begin showPublisher" , util.LOG_LEVEL_DEBUG)
-		rcbSetting = helper.getRCBSetting(self.gdb)
-		if(rcbSetting == None):
-			showEntryAllItems = 'True'
-		else:
-			showEntryAllItems = rcbSetting[util.RCBSETTING_showEntryAllPublisher]
-		self.selectedPublisherId = self.showFilterControl(Publisher(self.gdb), CONTROL_PUBLISHER, showEntryAllItems)
+		
+		showEntryAllItems = self.Settings.getSetting(util.SETTING_RCB_SHOWENTRYALLPUBLISHER)
+		self.selectedPublisherId = self.showFilterControl(Publisher(self.gdb), CONTROL_PUBLISHER, showEntryAllItems, None)
 		
 		Logutil.log("End showPublisher" , util.LOG_LEVEL_DEBUG)
 
 
-	def showFilterControl(self, dbo, controlId, showEntryAllItems):
+	def showFilterControl(self, dbo, controlId, showEntryAllItems, rows):
 		
 		Logutil.log("begin showFilterControl: " + str(controlId), util.LOG_LEVEL_DEBUG)
 				
-		rows = dbo.getAllOrdered()
+		if(dbo != None):				
+			rows = dbo.getAllOrdered()
 		
 		control = self.getControlById(controlId)
 		if(control == None):
@@ -424,7 +434,7 @@ class UIGameDB(xbmcgui.WindowXML):
 		control.reset()
 		
 		items = []
-		if(showEntryAllItems == 'True'):
+		if(showEntryAllItems):
 			items.append(xbmcgui.ListItem("All", "0", "", ""))
 		
 		for row in rows:
@@ -449,14 +459,10 @@ class UIGameDB(xbmcgui.WindowXML):
 			
 		control.reset()
 		
-		rcbSetting = helper.getRCBSetting(self.gdb)
-		if(rcbSetting == None):
-			showEntryAllItems = 'True'
-		else:
-			showEntryAllItems = rcbSetting[util.RCBSETTING_showEntryAllChars]
+		showEntryAllItems = self.Settings.getSetting(util.SETTING_RCB_SHOWENTRYALLCHARS)
 		
 		items = []		
-		if(showEntryAllItems == 'True'):
+		if(showEntryAllItems):
 			items.append(xbmcgui.ListItem("All", "All", "", ""))
 		items.append(xbmcgui.ListItem("0-9", "0-9", "", ""))
 		
@@ -471,13 +477,9 @@ class UIGameDB(xbmcgui.WindowXML):
 	def showGames(self):
 		Logutil.log("Begin showGames" , util.LOG_LEVEL_INFO)
 		
-		rcbSetting = helper.getRCBSetting(self.gdb)
-		if(rcbSetting == None):
-			preventUnfilteredSearch = 'False'
-		else:
-			preventUnfilteredSearch = rcbSetting[util.RCBSETTING_preventUnfilteredSearch]
+		preventUnfilteredSearch = self.Settings.getSetting(util.SETTING_RCB_PREVENTUNFILTEREDSEARCH)			
 		
-		if(preventUnfilteredSearch == 'True'):			
+		if(preventUnfilteredSearch):			
 			if(self.selectedCharacter == 'All' and self.selectedConsoleId == 0 and self.selectedGenreId == 0 and self.selectedYearId == 0 and self.selectedPublisherId == 0):
 				Logutil.log("preventing unfiltered search", util.LOG_LEVEL_WARNING)
 				return				
@@ -501,7 +503,7 @@ class UIGameDB(xbmcgui.WindowXML):
 		self.rcb_playList.clear()		
 		
 		count = 0
-		for gameRow in games:			
+		for gameRow in games:
 		
 			#images for gamelist
 			imageGameList = self.getFileForControl(util.IMAGE_CONTROL_MV_GAMELIST, gameRow[util.ROW_ID], gameRow[util.GAME_publisherId], gameRow[util.GAME_developerId], gameRow[util.GAME_romCollectionId], fileDict)
@@ -723,8 +725,8 @@ class UIGameDB(xbmcgui.WindowXML):
 		return fileDict
 		
 		
-	def getFileForControl(self, controlName, gameId, publisherId, developerId, romCollectionId, fileDict):
-		files = helper.getFilesByControl_Cached(self.gdb, controlName, gameId, publisherId, developerId, romCollectionId, self.fileTypeForControlDict, self.fileTypeDict, fileDict, self.romCollectionDict)		
+	def getFileForControl(self, controlName, gameId, publisherId, developerId, consoleId, fileDict):
+		files = helper.getFilesByControl_Cached(self.gdb, controlName, gameId, publisherId, developerId, consoleId, fileDict)		
 		if(files != None and len(files) != 0):
 			file = files[0]
 		else:
@@ -1021,7 +1023,11 @@ class UIGameDB(xbmcgui.WindowXML):
 	
 	def checkImport(self, doImport):				
 		
+		#doImport: 0=nothing, 1=import Settings and Games, 2=import Settings only, 3=import games only
 		if(doImport == 0):
+			return
+		
+			"""
 			#check file modification time of config.xml			
 			modifyTime = util.getConfigXmlModifyTime()
 			rcbSetting = helper.getRCBSetting(self.gdb)
@@ -1034,10 +1040,9 @@ class UIGameDB(xbmcgui.WindowXML):
 			if (modifyTime != lastConfigChange):
 				importSuccessful = self.doImportSettings('config.xml has changed since last import.')
 				if(not importSuccessful):
-					return
-		
-		#doImport: 0=nothing, 1=import Settings and Games, 2=import Settings only, 3=import games only
-		elif(doImport in (1, 2)):			
+					return			
+			
+		elif(doImport in (1, 2, 3)):
 			if(doImport == 1):
 				importSuccessful = self.doImportSettings('Database is empty.')
 			else:
@@ -1052,16 +1057,16 @@ class UIGameDB(xbmcgui.WindowXML):
 					dbupdate.DBUpdate().updateDB(self.gdb, progressDialog)
 					progressDialog.writeMsg("", "", "", -1)
 					del progressDialog
-						
-		elif(doImport == 3):
-			dialog = xbmcgui.Dialog()
-			retGames = dialog.yesno('Rom Collection Browser', 'Import Games', 'Do you want to import Games now?')
-			if(retGames == True):
-				progressDialog = ProgressDialogGUI()
-				progressDialog.writeMsg("Import games...", "", "")
-				dbupdate.DBUpdate().updateDB(self.gdb, progressDialog)
-				progressDialog.writeMsg("", "", "", -1)
-				del progressDialog
+			"""
+								
+		dialog = xbmcgui.Dialog()
+		retGames = dialog.yesno('Rom Collection Browser', 'Import Games', 'Do you want to import Games now?')
+		if(retGames == True):
+			progressDialog = ProgressDialogGUI()
+			progressDialog.writeMsg("Import games...", "", "")
+			dbupdate.DBUpdate().updateDB(self.gdb, progressDialog)
+			progressDialog.writeMsg("", "", "", -1)
+			del progressDialog
 				
 				
 	def doImportSettings(self, message):
@@ -1298,9 +1303,9 @@ class UIGameDB(xbmcgui.WindowXML):
 	def cacheItems(self):		
 		Logutil.log("Begin cacheItems" , util.LOG_LEVEL_INFO)		
 		
-		self. fileTypeForControlDict = self.cacheFileTypesForControl()
+		#self. fileTypeForControlDict = self.cacheFileTypesForControl()
 				
-		self. fileTypeDict = self.cacheFileTypes()
+		#self. fileTypeDict = self.cacheFileTypes()
 		
 		#cacheAll
 		if(self.cachingOption == 0):
@@ -1310,9 +1315,9 @@ class UIGameDB(xbmcgui.WindowXML):
 				return
 			self.fileDict = self.cacheFiles(fileRows)
 		
-		self.consoleDict = self.cacheConsoles()
+		#self.consoleDict = self.cacheConsoles()
 		
-		self.romCollectionDict = self.cacheRomCollections()
+		#self.romCollectionDict = self.cacheRomCollections()
 		
 		self.yearDict = self.cacheYears()
 		
@@ -1347,7 +1352,8 @@ class UIGameDB(xbmcgui.WindowXML):
 		
 		Logutil.log("End clearCache" , util.LOG_LEVEL_INFO)
 	
-	
+		
+	"""
 	def cacheFileTypesForControl(self):
 		
 		Logutil.log("Begin cacheFileTypesForControl" , util.LOG_LEVEL_DEBUG)
@@ -1376,8 +1382,9 @@ class UIGameDB(xbmcgui.WindowXML):
 		
 		Logutil.log("End cacheFileTypesForControl" , util.LOG_LEVEL_DEBUG)
 		return fileTypeForControlDict
-		
-		
+	"""
+				
+	"""	
 	def cacheFileTypes(self):
 		Logutil.log("Begin cacheFileTypes" , util.LOG_LEVEL_DEBUG)
 		fileTypeRows = FileType(self.gdb).getAll()
@@ -1390,6 +1397,7 @@ class UIGameDB(xbmcgui.WindowXML):
 			
 		Logutil.log("End cacheFileTypes" , util.LOG_LEVEL_DEBUG)
 		return fileTypeDict
+	"""
 		
 
 	def cacheFiles(self, fileRows):

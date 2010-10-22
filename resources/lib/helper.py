@@ -56,13 +56,13 @@ def getFilesByControl(gdb, controlName, gameId, publisherId, developerId, romCol
 
 
 
-def getFilesByControl_Cached(gdb, controlName, gameId, publisherId, developerId, romCollectionId, fileTypeForControlDict, fileTypeDict, fileDict, romCollectionDict):
+def getFilesByControl_Cached(gdb, controlName, gameId, publisherId, developerId, consoleId, fileDict, config):
 			
 		Logutil.log("getFilesByControl controlName: " +controlName, util.LOG_LEVEL_DEBUG)
 		Logutil.log("getFilesByControl gameId: " +str(gameId), util.LOG_LEVEL_DEBUG)
 		Logutil.log("getFilesByControl publisherId: " +str(publisherId), util.LOG_LEVEL_DEBUG)
 		Logutil.log("getFilesByControl developerId: " +str(developerId), util.LOG_LEVEL_DEBUG)
-		Logutil.log("getFilesByControl romCollectionId: " +str(romCollectionId), util.LOG_LEVEL_DEBUG)
+		Logutil.log("getFilesByControl consoleId: " +str(consoleId), util.LOG_LEVEL_DEBUG)
 					
 		key = '%i;%s' %(romCollectionId, controlName)
 		try:

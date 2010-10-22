@@ -11,11 +11,11 @@ class DescriptionParserFactory:
 	def getParser(self, descParseInstruction):						
 		
 		tree = ElementTree().parse(descParseInstruction)		
-		
+					
 		grammarNode = tree.find('GameGrammar')
 		if(grammarNode == None):
 			print "no valid parserConfig"
-			return None;
+			return None
 					
 		attributes = grammarNode.attrib
 		
@@ -26,7 +26,7 @@ class DescriptionParserFactory:
 			return DescriptionParserXml(grammarNode)
 		else:
 			print "Unknown parser: " +parserType
-			return None		
+			return None
 		
 		
 	

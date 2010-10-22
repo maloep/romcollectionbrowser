@@ -1,7 +1,10 @@
 <config>	
 	<RomCollections>
-		<RomCollection name="Collection V1">
-			<console>Amiga</console>
+		<RomCollection id="1" name="Amiga V1">
+			<emulatorCmd>E:\Emulatoren\WINUAE\winuae.exe {-%I% "%ROM%"}</emulatorCmd>
+			<xboxCreateShortcut>False</xboxCreateShortcut>
+			<xboxCreateShortcutAddRomfile>False</xboxCreateShortcutAddRomfile>
+			<xboxCreateShortcutUseShortGamename>False</xboxCreateShortcutUseShortGamename>
 			<descFilePerGame>False</descFilePerGame>
 			<diskPrefix>_Disk</diskPrefix>
 			<allowUpdate>True</allowUpdate>
@@ -18,9 +21,11 @@
 			<imagePlacing>gameinfobig</imagePlacing>
 			<scraper name="Amiga V1"/>
 		</RomCollection>
-		<RomCollection name="Collection V2">			
-			<console>Amiga</console>
-			<emulatorCmd>E:\Emulatoren\WINUAE\winuae.exe {-%I% "%ROM%"}</emulatorCmd>			
+		<RomCollection id="2" name="Amiga V2">
+			<emulatorCmd>E:\Emulatoren\WINUAE\winuae.exe {-%I% "%ROM%"}</emulatorCmd>
+			<xboxCreateShortcut>False</xboxCreateShortcut>
+			<xboxCreateShortcutAddRomfile>False</xboxCreateShortcutAddRomfile>
+			<xboxCreateShortcutUseShortGamename>False</xboxCreateShortcutUseShortGamename>
 			<descFilePerGame>True</descFilePerGame>			
 			<diskPrefix>_Disk</diskPrefix>			
 			<allowUpdate>True</allowUpdate>
@@ -37,9 +42,11 @@
 			<imagePlacing>gameinfobig</imagePlacing>
 			<scraper name="Amiga V2"/>
 		</RomCollection>
-		<RomCollection name="Collection V3">
-			<console>Super Nintendo</console>
+		<RomCollection id="3" name="Super Nintendo V1">			
 			<emulatorCmd>E:\Emulatoren\SNES\zsnes.exe -m "%ROM%"</emulatorCmd>
+			<xboxCreateShortcut>False</xboxCreateShortcut>
+			<xboxCreateShortcutAddRomfile>False</xboxCreateShortcutAddRomfile>
+			<xboxCreateShortcutUseShortGamename>False</xboxCreateShortcutUseShortGamename>
 			<descFilePerGame>False</descFilePerGame>					
 			<diskPrefix>_Disk</diskPrefix>			
 			<allowUpdate>False</allowUpdate>
@@ -58,9 +65,11 @@
 			<imagePlacing>gameinfobig</imagePlacing>
 			<scraper name="SNES V3"/>
 		</RomCollection>
-		<RomCollection  name="Collection V4">
-			<console>Super Nintendo</console>
+		<RomCollection id="4"  name="Super Nintendo V2">
 			<emulatorCmd>E:\Emulatoren\SNES\zsnes.exe -m "%ROM%"</emulatorCmd>
+			<xboxCreateShortcut>False</xboxCreateShortcut>
+			<xboxCreateShortcutAddRomfile>False</xboxCreateShortcutAddRomfile>
+			<xboxCreateShortcutUseShortGamename>False</xboxCreateShortcutUseShortGamename>
 			<descFilePerGame>False</descFilePerGame>					
 			<diskPrefix>_Disk</diskPrefix>			
 			<allowUpdate>False</allowUpdate>
@@ -78,8 +87,11 @@
 			<imagePlacing>gameinfobig</imagePlacing>
 			<scraper name="SNES V4"/>
 		</RomCollection>
-		<RomCollection  name="Collection V5">
-			<console>Xbox</console>
+		<RomCollection id="5"  name="Xbox">			
+			<emulatorCmd>%ROM%</emulatorCmd>
+			<xboxCreateShortcut>True</xboxCreateShortcut>
+			<xboxCreateShortcutAddRomfile>True</xboxCreateShortcutAddRomfile>
+			<xboxCreateShortcutUseShortGamename>True</xboxCreateShortcutUseShortGamename>
 			<searchGameByCRC>False</searchGameByCRC>
 			<ignoreOnScan>False</ignoreOnScan>
 			<useFoldernameAsCRC>True</useFoldernameAsCRC>			
@@ -89,8 +101,11 @@
 			<imagePlacing>gameinfobig</imagePlacing>
 			<scraper name="Xbox V5"/>
 		</RomCollection>
-		<RomCollection  name="Collection V6">
-			<console>Sega 32</console>			
+		<RomCollection id="6"  name="Sega 32 V1">
+			<emulatorCmd>%ROM%</emulatorCmd>
+			<xboxCreateShortcut>False</xboxCreateShortcut>
+			<xboxCreateShortcutAddRomfile>False</xboxCreateShortcutAddRomfile>
+			<xboxCreateShortcutUseShortGamename>False</xboxCreateShortcutUseShortGamename>
 			<searchGameByCRC>False</searchGameByCRC>
 			<descFilePerGame>True</descFilePerGame>
 			<ignoreOnScan>False</ignoreOnScan>						
@@ -100,8 +115,11 @@
 			<imagePlacing>gameinfobig</imagePlacing>
 			<scraper name="Sega 32 V6"/>
 		</RomCollection>
-		<RomCollection  name="Collection V7">
-			<console>Sega 32</console>			
+		<RomCollection id="7"  name="Sega 32 V2">
+			<emulatorCmd>%ROM%</emulatorCmd>
+			<xboxCreateShortcut>False</xboxCreateShortcut>
+			<xboxCreateShortcutAddRomfile>False</xboxCreateShortcutAddRomfile>
+			<xboxCreateShortcutUseShortGamename>False</xboxCreateShortcutUseShortGamename>
 			<searchGameByCRC>True</searchGameByCRC>
 			<useFilenameAsCRC>True</useFilenameAsCRC>
 			<descFilePerGame>False</descFilePerGame>
@@ -113,32 +131,6 @@
 			<scraper name="Sega 32 V7"/>
 		</RomCollection>
 	</RomCollections>
-	<Consoles>
-		<Console id="1" name="Amiga">			
-			<emulatorCmd>E:\Emulatoren\WINUAE\winuae.exe {-%I% "%ROM%"}</emulatorCmd>
-			<xboxCreateShortcut>False</xboxCreateShortcut>
-			<xboxCreateShortcutAddRomfile>False</xboxCreateShortcutAddRomfile>
-			<xboxCreateShortcutUseShortGamename>False</xboxCreateShortcutUseShortGamename>
-		</Console>
-		<Console id="2" name="Super Nintendo">			
-			<emulatorCmd>E:\Emulatoren\SNES\zsnes.exe -m "%ROM%"</emulatorCmd>
-			<xboxCreateShortcut>False</xboxCreateShortcut>
-			<xboxCreateShortcutAddRomfile>False</xboxCreateShortcutAddRomfile>
-			<xboxCreateShortcutUseShortGamename>False</xboxCreateShortcutUseShortGamename>
-		</Console>
-		<Console id="3" name="Xbox">			
-			<emulatorCmd>%ROM%</emulatorCmd>
-			<xboxCreateShortcut>True</xboxCreateShortcut>
-			<xboxCreateShortcutAddRomfile>True</xboxCreateShortcutAddRomfile>
-			<xboxCreateShortcutUseShortGamename>True</xboxCreateShortcutUseShortGamename>
-		</Console>
-		<Console id="4" name="Sega 32">
-			<emulatorCmd>%ROM%</emulatorCmd>
-			<xboxCreateShortcut>False</xboxCreateShortcut>
-			<xboxCreateShortcutAddRomfile>False</xboxCreateShortcutAddRomfile>
-			<xboxCreateShortcutUseShortGamename>False</xboxCreateShortcutUseShortGamename>
-		</Console>
-	</Consoles>
 	<FileTypes>
 		<FileType id="1" name="boxfront">
 			<type>image</type>
