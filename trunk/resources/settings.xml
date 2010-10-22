@@ -1,16 +1,16 @@
 <settings>		
-	<setting id="logLevel" value="INFO" type="text"/>
-	<setting id="useEmulatorSolo" value="" type="text"/>
-	<setting id="escapeEmulatorCommand" value="" type="text"/>
-	<setting id="cachingOption" value="" type="text"/>
-	<setting id="showEntryAllConsoles" value="" type="text"/>
-	<setting id="showEntryAllGenres" value="" type="text"/>
-	<setting id="showEntryAllYears" value="" type="text"/>
-	<setting id="showEntryAllPublisher" value="" type="text"/>
-	<setting id="showEntryAllChars" value="" type="text"/>
-	<setting id="preventUnfilteredSearch" value="" type="text"/>
-	<setting id="saveViewStateOnExit" value="" type="text"/>
-	<setting id="saveViewStateOnLaunchEmu" value="" type="text"/>	
+	<setting id="rcb_logLevel" type="labelenum" values="ERROR|WARNING|INFO|DEBUG" default="INFO"/>
+	<setting id="rcb_useEmulatorSolo" value="" type="text"/>
+	<setting id="rcb_escapeEmulatorCommand" value="" type="text"/>
+	<setting id="rcb_cachingOption" type="labelenum" values="CACHEALL|CACHESELECTION|CACHEITEM|CACHEITEMANDNEXT" default="CACHEITEMANDNEXT"/>
+	<setting id="rcb_showEntryAllConsoles" type="bool" default="true"/>
+	<setting id="rcb_showEntryAllGenres" type="bool" default="true"/>
+	<setting id="rcb_showEntryAllYears" type="bool" default="true"/>
+	<setting id="rcb_showEntryAllPublisher" type="bool" default="true"/>
+	<setting id="rcb_showEntryAllChars" type="bool" default="true"/>
+	<setting id="rcb_preventUnfilteredSearch" type="bool" default="true"/>
+	<setting id="rcb_saveViewStateOnExit" type="bool" default="true"/>
+	<setting id="rcb_saveViewStateOnLaunchEmu" type="bool" default="true"/>
 	
 	<setting id="rcb_view_mode" value="" type="text"/>
 </settings>

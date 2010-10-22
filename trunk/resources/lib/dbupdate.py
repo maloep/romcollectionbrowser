@@ -491,8 +491,6 @@ class DBUpdate:
 			return
 		else:
 			lastgamename = game
-		
-		#get Console Name to import images via %CONSOLE%
 		self.insertData(gamedescription, gamename, romCollection, filenamelist, foldername)
 	
 	
@@ -601,7 +599,7 @@ class DBUpdate:
 				gamename = gamenameFromFile
 			plot = self.resolveParseResult(gamedescription, 'Description')
 						
-			gameId = self.insertGame(gamename, plot, romCollection.console.id, publisherId, developerId, reviewerId, yearId, 
+			gameId = self.insertGame(gamename, plot, romCollection.id, publisherId, developerId, reviewerId, yearId, 
 				players, rating, votes, url, region, media, perspective, controller, originalTitle, alternateTitle, translatedBy, version, romCollection.allowUpdate, )
 				
 			for genreId in genreIds:
@@ -610,7 +608,7 @@ class DBUpdate:
 					GenreGame(self.gdb).insert((genreId, gameId))
 		else:
 			gamename = gamenameFromFile
-			gameId = self.insertGame(gamename, None, romCollection.console.id, None, None, None, None, 
+			gameId = self.insertGame(gamename, None, romCollection.id, None, None, None, None, 
 					None, None, None, None, None, None, None, None, None, None, None, None, romCollection.allowUpdate)			
 			
 		for romFile in romFiles:
@@ -625,35 +623,35 @@ class DBUpdate:
 						
 			Logutil.log("FileType: " +str(path.fileType.name), util.LOG_LEVEL_INFO)			
 			
-			#TODO replace %CONSOLE%, %PUBLISHER%, ... 
+			#TODO replace %ROMCOLLECTION%, %PUBLISHER%, ... 
 			fileName = path.path.replace("%GAME%", gamenameFromFile)
 			self.getThumbFromOnlineSource(gamedescription, path.fileType.name, fileName)
 			
 			Logutil.log("Additional data path: " +str(path.path), util.LOG_LEVEL_INFO)
-			files = self.resolvePath((path.path,), gamename, gamenameFromFile, foldername, romCollection.console.name, publisher, developer)
+			files = self.resolvePath((path.path,), gamename, gamenameFromFile, foldername, romCollection.name, publisher, developer)
 			Logutil.log("Importing files: " +str(files), util.LOG_LEVEL_INFO)					
 			
-			self.insertFiles(files, gameId, path.fileType, romCollection.console.id, publisherId, developerId)								
+			self.insertFiles(files, gameId, path.fileType, romCollection.id, publisherId, developerId)								
 				
 		self.gdb.commit()
 				
 		
 		
-	def insertGame(self, gameName, description, consoleId, publisherId, developerId, reviewerId, yearId, 
+	def insertGame(self, gameName, description, romCollectionId, publisherId, developerId, reviewerId, yearId, 
 				players, rating, votes, url, region, media, perspective, controller, originalTitle, alternateTitle, translatedBy, version, allowUpdate):
 		# TODO unique by name an RC
-		gameRow = Game(self.gdb).getGameByNameAndConsoleId(gameName, consoleId)
+		gameRow = Game(self.gdb).getGameByNameAndRomCollectionId(gameName, romCollectionId)
 		if(gameRow == None):
 			Logutil.log("Game does not exist in database. Insert game: " +gameName.encode('iso-8859-15'), util.LOG_LEVEL_INFO)
-			Game(self.gdb).insert((gameName, description, None, None, consoleId, publisherId, developerId, reviewerId, yearId, 
+			Game(self.gdb).insert((gameName, description, None, None, romCollectionId, publisherId, developerId, reviewerId, yearId, 
 				players, rating, votes, url, region, media, perspective, controller, 0, 0, originalTitle, alternateTitle, translatedBy, version))
 			return self.gdb.cursor.lastrowid
 		else:	
 			if(allowUpdate):
 				Logutil.log("Game does exist in database. Update game: " +gameName, util.LOG_LEVEL_INFO)
-				Game(self.gdb).update(('name', 'description', 'consoleId', 'publisherId', 'developerId', 'reviewerId', 'yearId', 'maxPlayers', 'rating', 'numVotes',
+				Game(self.gdb).update(('name', 'description', 'romCollectionId', 'publisherId', 'developerId', 'reviewerId', 'yearId', 'maxPlayers', 'rating', 'numVotes',
 					'url', 'region', 'media', 'perspective', 'controllerType', 'originalTitle', 'alternateTitle', 'translatedBy', 'version'),
-					(gameName, description, consoleId, publisherId, developerId, reviewerId, yearId, players, rating, votes, url, region, media, perspective, controller,
+					(gameName, description, romCollectionId, publisherId, developerId, reviewerId, yearId, players, rating, votes, url, region, media, perspective, controller,
 					originalTitle, alternateTitle, translatedBy, version),
 					gameRow[0])
 			else:
@@ -708,7 +706,7 @@ class DBUpdate:
 		return idList
 		
 		
-	def resolvePath(self, paths, gamename, gamenameFromFile, foldername, consoleName, publisher, developer):		
+	def resolvePath(self, paths, gamename, gamenameFromFile, foldername, romCollectionName, publisher, developer):		
 		resolvedFiles = []				
 				
 		for path in paths:
@@ -740,10 +738,10 @@ class DBUpdate:
 				
 				
 			#TODO could be done only once per RomCollection
-			if(path.find("%CONSOLE%") > -1 and consoleName != None and len(files) == 0):
-				pathnameFromConsole = path.replace("%CONSOLE%", consoleName)
-				Logutil.log("resolved path from console name: " +pathnameFromConsole, util.LOG_LEVEL_INFO)
-				files = self.getFilesByWildcard(pathnameFromConsole)				
+			if(path.find("%ROMCOLLECTION%") > -1 and romCollectionName != None and len(files) == 0):
+				pathnameFromRomCollection = path.replace("%ROMCOLLECTION%", romCollectionName)
+				Logutil.log("resolved path from rom collection name: " +pathnameFromRomCollection, util.LOG_LEVEL_INFO)
+				files = self.getFilesByWildcard(pathnameFromRomCollection)				
 				
 			if(path.find("%PUBLISHER%") > -1 and publisher != None and len(files) == 0):
 				pathnameFromPublisher = path.replace("%PUBLISHER%", publisher)
@@ -871,12 +869,12 @@ class DBUpdate:
 
 	
 	
-	def insertFiles(self, fileNames, gameId, fileType, consoleId, publisherId, developerId):
+	def insertFiles(self, fileNames, gameId, fileType, romCollectionId, publisherId, developerId):
 		for fileName in fileNames:
-			self.insertFile(fileName, gameId, fileType, consoleId, publisherId, developerId)
+			self.insertFile(fileName, gameId, fileType, romCollectionId, publisherId, developerId)
 			
 		
-	def insertFile(self, fileName, gameId, fileType, consoleId, publisherId, developerId):
+	def insertFile(self, fileName, gameId, fileType, romCollectionId, publisherId, developerId):
 		Logutil.log("Begin Insert file: " +fileName, util.LOG_LEVEL_DEBUG)										
 		
 		parentId = None
@@ -886,9 +884,9 @@ class DBUpdate:
 		if(fileType.parent == 'game'):
 			Logutil.log("Insert file with parent game", util.LOG_LEVEL_INFO)
 			parentId = gameId
-		elif(fileType.parent == 'console'):
-			Logutil.log("Insert file with parent console", util.LOG_LEVEL_INFO)
-			parentId = consoleId		
+		elif(fileType.parent == 'romcollection'):
+			Logutil.log("Insert file with parent romcollection", util.LOG_LEVEL_INFO)
+			parentId = romCollectionId		
 		elif(fileType.parent == 'publisher'):
 			Logutil.log("Insert file with parent publisher", util.LOG_LEVEL_INFO)
 			parentId = publisherId

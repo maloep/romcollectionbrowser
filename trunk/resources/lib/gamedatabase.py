@@ -44,7 +44,7 @@ class GameDataBase:
 	
 	def checkDBStructure(self):
 		
-		#returnValues: -1 error, 0=nothing, 1=import Settings and Games
+		#returnValues: -1 error, 0=nothing, 1=import Games
 		
 		dbVersion = ""
 		try:
@@ -157,27 +157,27 @@ class DataBaseObject:
 
 class Game(DataBaseObject):	
 	filterQuery = "Select * From Game WHERE \
-					((consoleId = ?) OR (0 = ?)) AND \
+					((romCollectionId = ?) OR (0 = ?)) AND \
 					(Id IN (Select GameId From GenreGame Where GenreId = ?) OR (0 = ?)) AND \
 					(YearId = ? OR (0 = ?)) AND \
 					(PublisherId = ? OR (0 = ?)) \
 					AND %s \
 					ORDER BY name COLLATE NOCASE"
 					
-	filterByNameAndConsoleId = "SELECT * FROM Game WHERE name = ? and consoleId = ?"
+	filterByNameAndRomCollectionId = "SELECT * FROM Game WHERE name = ? and romCollectionId = ?"
 	
 	def __init__(self, gdb):		
 		self.gdb = gdb
 		self.tableName = "Game"
 		
-	def getFilteredGames(self, consoleId, genreId, yearId, publisherId, likeStatement):
-		args = (consoleId, genreId, yearId, publisherId)
+	def getFilteredGames(self, romCollectionId, genreId, yearId, publisherId, likeStatement):
+		args = (romCollectionId, genreId, yearId, publisherId)
 		filterQuery = self.filterQuery %likeStatement		
 		games = self.getObjectsByWildcardQuery(filterQuery, args)		
 		return games
 		
-	def getGameByNameAndConsoleId(self, name, consoleId):
-		game = self.getObjectByQuery(self.filterByNameAndConsoleId, (name, consoleId))
+	def getGameByNameAndRomCollectionId(self, name, romCollectionId):
+		game = self.getObjectByQuery(self.filterByNameAndRomCollectionId, (name, romCollectionId))
 		return game
 
 
@@ -261,7 +261,7 @@ class File(DataBaseObject):
 					where control = 'gamelist' OR control = 'gamelistselected' OR control = 'mainviewvideofullscreen')"
 					
 	filterQueryByParentIds = "Select * from File \
-					where parentId in (?, ?, ?, ?, ?)"
+					where parentId in (?, ?, ?, ?)"
 	
 	def __init__(self, gdb):		
 		self.gdb = gdb
@@ -291,7 +291,7 @@ class File(DataBaseObject):
 		files = self.getObjectsByQueryNoArgs(self.filterFilesForGameList)
 		return files
 		
-	def getFilesByParentIds(self, gameId, romCollectionId, consoleId, publisherId, developerId):
-		files = self.getObjectsByQuery(self.filterQueryByParentIds, (gameId, romCollectionId, consoleId, publisherId, developerId))
+	def getFilesByParentIds(self, gameId, romCollectionId, publisherId, developerId):
+		files = self.getObjectsByQuery(self.filterQueryByParentIds, (gameId, romCollectionId, publisherId, developerId))
 		return files
 	

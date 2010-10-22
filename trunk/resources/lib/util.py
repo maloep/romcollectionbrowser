@@ -33,10 +33,22 @@ LOG_LEVEL_DEBUG = 3
 
 CURRENT_LOG_LEVEL = LOG_LEVEL_INFO
 
-SETTING_RCB_VIEW_MODE = 'rcb_view_mode'
-
 API_KEYS = {'%VGDBAPIKey%' : 'Zx5m2Y9Ndj6B4XwTf83JyKz7r8WHt3i4',
 			'%GIANTBOMBAPIKey%' : '279442d60999f92c5e5f693b4d23bd3b6fd8e868'}
+
+SETTING_RCB_VIEW_MODE = 'rcb_view_mode'
+SETTING_RCB_CACHINGOPTION = 'rcb_cachingOption'
+SETTING_RCB_LOGLEVEL = 'rcb_logLevel'
+SETTING_RCB_USEEMUSOLO = 'rcb_useEmulatorSolo'
+SETTING_RCB_ESCAPECOMMAND = 'rcb_escapeEmulatorCommand'
+SETTING_RCB_SHOWENTRYALLCONSOLES = 'rcb_showEntryAllConsoles'
+SETTING_RCB_SHOWENTRYALLGENRES = 'rcb_showEntryAllGenres'
+SETTING_RCB_SHOWENTRYALLYEARS = 'rcb_showEntryAllYears'
+SETTING_RCB_SHOWENTRYALLPUBLISHER = 'rcb_showEntryAllPublisher'
+SETTING_RCB_SHOWENTRYALLCHARS = 'rcb_showEntryAllChars'
+SETTING_RCB_PREVENTUNFILTEREDSEARCH = 'rcb_preventUnfilteredSearch'
+SETTING_RCB_SAVEVIEWSTATEONEXIT = 'rcb_saveViewStateOnExit'
+SETTING_RCB_SAVEVIEWSTATEONEXITONLAUNCHEMU = 'rcb_saveViewStateOnLaunchEmu'
 
 
 #
@@ -288,17 +300,19 @@ class Logutil:
 		
 	
 	@staticmethod
-	def getCurrentLogLevel():	
+	def getCurrentLogLevel():
 		logLevel = 1
 		try:
-			dataBasePath = os.path.join(getAddonDataPath(), 'MyGames.db')
-			connection = sqlite.connect(dataBasePath)
-			cursor = connection.cursor()
-			cursor.execute("SELECT * FROM RCBSetting")
-			rcbSettings = cursor.fetchall()
-			
-			rcbSetting = rcbSettings[0]
-			logLevel = rcbSetting[19]
+			settings = getSettings()
+			logLevelStr = settings.getSetting(SETTING_RCB_LOGLEVEL)
+			if(logLevelStr == 'ERROR'):
+				logLevel = LOG_LEVEL_ERROR
+			elif(logLevelStr == 'WARNING'):
+				logLevel = LOG_LEVEL_WARNING
+			elif(logLevelStr == 'INFO'):
+				logLevel = LOG_LEVEL_INFO
+			elif(logLevelStr == 'DEBUG'):
+				logLevel = LOG_LEVEL_DEBUG
 		except:
-			logLevel = 1
+			pass
 		return logLevel

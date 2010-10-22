@@ -40,15 +40,16 @@ parseInstruction = "C:\\Users\\malte\\AppData\\Roaming\\XBMC\\scripts\\Rom Colle
 #descFile = "F:\\Emulatoren\\data\\Synopsis\\giantbomb\\Actraisersearch.xml"
 #parseInstruction = "F:\\Emulatoren\\data\\Synopsis\\giantbomb\\giantbomb - parserConfig.xml"
 
+
+"""
 from descriptionparserfactory import *
-#descParser = DescriptionParserFactory.getParser(parseInstruction)
+descParser = DescriptionParserFactory.getParser(parseInstruction)
 
+results = descParser.parseDescription(str(descFile))
+for result in results:
+	print result
 
-#results = descParser.parseDescription(str(descFile))
-#for result in results:
-#	print result
-
-
+"""
 
 from config import *
 util.ISTESTRUN = True
@@ -72,8 +73,8 @@ for romCollection in config.romCollections:
 		for scraper in scraperSite.scrapers:			
 			print scraper.parseInstruction
 			
-	for fileTypeFor in romCollection.imagePlacing:
-		print fileTypeFor.name
+	for fileType in romCollection.imagePlacing.fileTypesForGameList:
+		print fileType.name
 
 
 
@@ -98,4 +99,5 @@ def lev(a, b):
     return min(lev(a[1:], b[1:])+(a[0] != b[0]), \
     lev(a[1:], b)+1, lev(a, b[1:])+1)
 """
+
 

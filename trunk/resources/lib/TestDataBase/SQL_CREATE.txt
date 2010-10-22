@@ -33,12 +33,12 @@ CREATE TABLE IF NOT EXISTS [RCBSetting]
 (
     [id] INTEGER PRIMARY KEY AUTOINCREMENT,
     [lastSelectedView] TEXT,
-    [lastSelectedConsoleIndex] INTEGER,	
+    [lastSelectedIndex] INTEGER,	
 	[lastSelectedGenreIndex] INTEGER,
 	[lastSelectedPublisherIndex] INTEGER,
     [lastSelectedYearIndex] INTEGER,
 	[lastSelectedGameIndex] INTEGER,
-	[favoriteConsoleId] INTEGER,
+	[favoriteRomCollectionId] INTEGER,
 	[favoriteGenreId] INTEGER REFERENCES [Genre]
     (
         id
@@ -58,7 +58,7 @@ CREATE TABLE IF NOT EXISTS [Game]
     [description] TEXT,
 	[gameCmd] TEXT,
 	[alternateGameCmd] TEXT,
-    [consoleId] INTEGER,
+    [romCollectionId] INTEGER,
     [publisherId] INTEGER REFERENCES [Publisher]
     (
         id
@@ -89,7 +89,7 @@ CREATE TABLE IF NOT EXISTS [Game]
 	[alternateTitle] TEXT,
 	[translatedBy] TEXT,
 	[version] TEXT,
-	UNIQUE (name, consoleId)
+	UNIQUE (name, romCollectionId)
 );
 
 
