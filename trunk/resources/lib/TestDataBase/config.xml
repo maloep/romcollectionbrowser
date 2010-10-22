@@ -172,7 +172,7 @@
 	<ImagePlacing>
 		<fileTypeFor name="gameinfobig">
 			<fileTypeForGameList>boxfront</fileTypeForGameList>
-			<fileTypeForGameListSelected>boxfront</fileTypeForGameListSelected>			
+			<fileTypeForGameListSelected>title</fileTypeForGameListSelected>			
 			<fileTypeForGameInfoViewBackground>boxfront</fileTypeForGameInfoViewBackground>
 			<fileTypeForMainView1>boxfront</fileTypeForMainView1>
 			<fileTypeForMainView2>boxfront</fileTypeForMainView2>

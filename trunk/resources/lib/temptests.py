@@ -56,7 +56,9 @@ util.ISTESTRUN = True
 config = Config()
 config.readXml()
 
-for romCollection in config.romCollections:
+print ','.join(config.fileTypeIdsForGamelist)
+
+for romCollection in config.romCollections.values():
 	print romCollection.name
 	print romCollection.diskPrefix
 	

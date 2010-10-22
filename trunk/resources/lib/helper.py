@@ -56,7 +56,7 @@ def getFilesByControl(gdb, controlName, gameId, publisherId, developerId, romCol
 
 
 
-def getFilesByControl_Cached(gdb, controlName, gameId, publisherId, developerId, consoleId, fileDict, config):
+def getFilesByControl_Cached(gdb, controlName, gameId, publisherId, developerId, romCollectionId, fileDict, config):
 			
 		Logutil.log("getFilesByControl controlName: " +controlName, util.LOG_LEVEL_DEBUG)
 		Logutil.log("getFilesByControl gameId: " +str(gameId), util.LOG_LEVEL_DEBUG)
