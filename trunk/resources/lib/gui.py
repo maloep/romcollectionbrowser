@@ -381,7 +381,7 @@ class UIGameDB(xbmcgui.WindowXML):
 		showEntryAllItems = self.Settings.getSetting(util.SETTING_RCB_SHOWENTRYALLCONSOLES)
 		
 		consoles = []
-		for romCollection in self.config.romCollections:
+		for romCollection in self.config.romCollections.values():
 			consoleRow = []
 			consoleRow.append(romCollection.id)
 			consoleRow.append(romCollection.name)
@@ -504,10 +504,16 @@ class UIGameDB(xbmcgui.WindowXML):
 		
 		count = 0
 		for gameRow in games:						
+			
+			romCollection = None
+			try:
+				romCollection = self.config.romCollections[str(gameRow[util.GAME_romCollectionId])]
+			except:
+				Logutil.log('Cannot get rom collection with id: ' +str(gameRow[util.GAME_romCollectionId]), util.LOG_LEVEL_ERROR)
 		
 			#images for gamelist
-			imageGameList = self.getFileForControl(util.IMAGE_CONTROL_MV_GAMELIST, gameRow[util.ROW_ID], gameRow[util.GAME_publisherId], gameRow[util.GAME_developerId], gameRow[util.GAME_romCollectionId], fileDict)
-			imageGameListSelected = self.getFileForControl(util.IMAGE_CONTROL_MV_GAMELISTSELECTED, gameRow[util.ROW_ID], gameRow[util.GAME_publisherId], gameRow[util.GAME_developerId], gameRow[util.GAME_romCollectionId], fileDict)												
+			imageGameList = self.getFileForControl(romCollection.imagePlacing.fileTypesForGameList, gameRow[util.ROW_ID], gameRow[util.GAME_publisherId], gameRow[util.GAME_developerId], gameRow[util.GAME_romCollectionId], fileDict)
+			imageGameListSelected = self.getFileForControl(romCollection.imagePlacing.fileTypesForGameListSelected, gameRow[util.ROW_ID], gameRow[util.GAME_publisherId], gameRow[util.GAME_developerId], gameRow[util.GAME_romCollectionId], fileDict)												
 			
 			#create ListItem
 			item = xbmcgui.ListItem(str(gameRow[util.ROW_NAME]), str(gameRow[util.ROW_ID]), imageGameList, imageGameListSelected)			
@@ -515,12 +521,12 @@ class UIGameDB(xbmcgui.WindowXML):
 						
 			#0 = cacheAll: load all game data at once
 			if(self.cachingOption == 0):
-				self.setAllItemData(item, gameRow, self.fileDict)							
+				self.setAllItemData(item, gameRow, self.fileDict, romCollection)							
 			
 			self.addItem(item, False)
 			
 			# add video to playlist for fullscreen support
-			self.addFullscreenVideoToPlaylist(gameRow, imageGameList, imageGameListSelected, count, fileDict)
+			self.addFullscreenVideoToPlaylist(gameRow, imageGameList, imageGameListSelected, count, fileDict, romCollection)
 				
 			count = count + 1
 				
@@ -555,12 +561,18 @@ class UIGameDB(xbmcgui.WindowXML):
 		if(selectedGame == None or gameRow == None):
 			Logutil.log("game == None in showGameInfo", util.LOG_LEVEL_WARNING)			
 			return
+		
+		romCollection = None
+		try:
+			romCollection = self.config.romCollections[str(gameRow[util.GAME_romCollectionId])]
+		except:
+			Logutil.log('Cannot get rom collection with id: ' +str(gameRow[util.GAME_romCollectionId]), util.LOG_LEVEL_ERROR)
 			
-		self.loadVideoFiles(self.gdb, gameRow, selectedGame)
+		self.loadVideoFiles(self.gdb, gameRow, selectedGame, romCollection)
 		
 		#gameinfos are already loaded with cachingOption 0 (cacheAll)
 		if(self.cachingOption > 0):
-			self.loadGameInfos(self.gdb, gameRow, selectedGame, pos)
+			self.loadGameInfos(self.gdb, gameRow, selectedGame, pos, romCollection)
 				
 		Logutil.log("End showGameInfo" , util.LOG_LEVEL_INFO)
 		
@@ -685,8 +697,7 @@ class UIGameDB(xbmcgui.WindowXML):
 		gid = gameinfodialog.UIGameInfoView("script-Rom_Collection_Browser-gameinfo.xml", os.getcwd(), "Default", constructorParam, gdb=self.gdb, gameId=gameId,
 			consoleId=self.selectedConsoleId, genreId=self.selectedGenreId, yearId=self.selectedYearId, publisherId=self.selectedPublisherId, selectedGameIndex=selectedGameIndex,
 			consoleIndex=self.selectedConsoleIndex, genreIndex=self.selectedGenreIndex, yearIndex=self.selectedYearIndex, publisherIndex=self.selectedPublisherIndex,
-			selectedCharacter=self.selectedCharacter, selectedCharacterIndex=self.selectedCharacterIndex, controlIdMainView=self.selectedControlId, fileTypeForControlDict=self.fileTypeForControlDict, fileTypeDict=self.fileTypeDict,
-			fileDict=fileDict, romCollectionDict=self.romCollectionDict)
+			selectedCharacter=self.selectedCharacter, selectedCharacterIndex=self.selectedCharacterIndex, controlIdMainView=self.selectedControlId, fileDict=fileDict)
 		del gid
 		
 		self.gameinfoDialogOpen = False
@@ -725,8 +736,8 @@ class UIGameDB(xbmcgui.WindowXML):
 		return fileDict
 		
 		
-	def getFileForControl(self, controlName, gameId, publisherId, developerId, romCollectionId, fileDict):
-		files = helper.getFilesByControl_Cached(self.gdb, controlName, gameId, publisherId, developerId, romCollectionId, fileDict, self.config)		
+	def getFileForControl(self, fileTypes, gameId, publisherId, developerId, romCollectionId, fileDict):
+		files = helper.getFilesByControl_Cached(self.gdb, fileTypes, gameId, publisherId, developerId, romCollectionId, fileDict)		
 		if(files != None and len(files) != 0):
 			file = files[0]
 		else:
@@ -757,12 +768,11 @@ class UIGameDB(xbmcgui.WindowXML):
 		return result
 	
 		
-	def addFullscreenVideoToPlaylist(self, gameRow, imageGameList, imageGameListSelected, count, fileDict):
+	def addFullscreenVideoToPlaylist(self, gameRow, imageGameList, imageGameListSelected, count, fileDict, romCollection):
 		#create dummy ListItem for playlist
 		dummyItem = xbmcgui.ListItem(str(gameRow[util.ROW_NAME]), str(gameRow[util.ROW_ID]), imageGameList, imageGameListSelected)
 		
-		videosFullscreen = helper.getFilesByControl_Cached(self.gdb, util.VIDEO_CONTROL_MV_VideoFullscreen, gameRow[util.ROW_ID], gameRow[util.GAME_publisherId], gameRow[util.GAME_developerId], gameRow[util.GAME_romCollectionId],
-			self.fileTypeForControlDict, self.fileTypeDict, fileDict, self.romCollectionDict)
+		videosFullscreen = helper.getFilesByControl_Cached(self.gdb, romCollection.imagePlacing.fileTypesForMainViewVideoFullscreen, gameRow[util.ROW_ID], gameRow[util.GAME_publisherId], gameRow[util.GAME_developerId], gameRow[util.GAME_romCollectionId], fileDict)
 		
 		#add video to playlist and compute playlistOffset (missing videos must be skipped)
 		if(videosFullscreen != None and len(videosFullscreen) != 0):			
@@ -805,7 +815,7 @@ class UIGameDB(xbmcgui.WindowXML):
 		return selectedGame, gameRow			
 
 
-	def loadVideoFiles(self, gdb, gameRow, selectedGame):				
+	def loadVideoFiles(self, gdb, gameRow, selectedGame, romCollection):				
 		
 		viewSupportsVideo = True
 		for controlId in CONTROL_VIEW_NO_VIDEOS:
@@ -821,26 +831,22 @@ class UIGameDB(xbmcgui.WindowXML):
 			else:
 				fileDict = self.getFileDictByGameRow(gdb, gameRow)
 		
-		
 			#check if fullscreen video is configured (this will just show the button "Play fullscreen video")
-			videosFullscreen = helper.getFilesByControl_Cached(self.gdb, util.VIDEO_CONTROL_MV_VideoFullscreen, gameRow[util.ROW_ID], gameRow[util.GAME_publisherId], gameRow[util.GAME_developerId], gameRow[util.GAME_romCollectionId],
-				self.fileTypeForControlDict, self.fileTypeDict, fileDict, self.romCollectionDict)				
+			videosFullscreen = helper.getFilesByControl_Cached(self.gdb, romCollection.imagePlacing.fileTypesForMainViewVideoFullscreen, gameRow[util.ROW_ID], gameRow[util.GAME_publisherId], gameRow[util.GAME_developerId], gameRow[util.GAME_romCollectionId], fileDict)
 			if(videosFullscreen != None and len(videosFullscreen) != 0):				
 				selectedGame.setProperty('mainviewvideofullscreen', 'fullscreen')
 				
 		
 			video = ""			
 			
-			videosBig = helper.getFilesByControl_Cached(self.gdb, util.VIDEO_CONTROL_MV_VideoWindowBig, gameRow[util.ROW_ID], gameRow[util.GAME_publisherId], gameRow[util.GAME_developerId], gameRow[util.GAME_romCollectionId],
-				self.fileTypeForControlDict, self.fileTypeDict, fileDict, self.romCollectionDict)			
+			videosBig = helper.getFilesByControl_Cached(self.gdb, romCollection.imagePlacing.fileTypesForMainViewVideoWindowBig, gameRow[util.ROW_ID], gameRow[util.GAME_publisherId], gameRow[util.GAME_developerId], gameRow[util.GAME_romCollectionId], fileDict)			
 			
 			if(videosBig != None and len(videosBig) != 0):
 				video = videosBig[0]				
 				selectedGame.setProperty('mainviewvideosizebig', 'big')				
 				
 			else:
-				videosSmall = helper.getFilesByControl_Cached(self.gdb, util.VIDEO_CONTROL_MV_VideoWindowSmall, gameRow[util.ROW_ID], gameRow[util.GAME_publisherId], gameRow[util.GAME_developerId], gameRow[util.GAME_romCollectionId],
-					self.fileTypeForControlDict, self.fileTypeDict, fileDict, self.romCollectionDict)				
+				videosSmall = helper.getFilesByControl_Cached(self.gdb, romCollection.imagePlacing.fileTypesForMainViewVideoWindowSmall, gameRow[util.ROW_ID], gameRow[util.GAME_publisherId], gameRow[util.GAME_developerId], gameRow[util.GAME_romCollectionId], fileDict)
 				if(videosSmall != None and len(videosSmall) != 0):
 					video = videosSmall[0]					
 					selectedGame.setProperty('mainviewvideosizesmall', 'small')
@@ -888,7 +894,7 @@ class UIGameDB(xbmcgui.WindowXML):
 		self.player.play(video, selectedGame, True)
 		
 		
-	def loadGameInfos(self, gdb, gameRow, selectedGame, pos):
+	def loadGameInfos(self, gdb, gameRow, selectedGame, pos, romCollection):
 		Logutil.log("begin loadGameInfos", util.LOG_LEVEL_DEBUG)
 		Logutil.log("gameRow = " +str(gameRow), util.LOG_LEVEL_DEBUG)
 		
@@ -899,7 +905,7 @@ class UIGameDB(xbmcgui.WindowXML):
 		# > 1: cacheItem, cacheItemAndNext 
 		if(self.cachingOption > 1):				
 			fileDict = self.getFileDictByGameRow(gdb, gameRow)
-			self.setAllItemData(selectedGame, gameRow, fileDict)
+			self.setAllItemData(selectedGame, gameRow, fileDict, romCollection)
 
 		# > 2: cacheItemAndNext 
 		if(self.cachingOption > 2):
@@ -912,7 +918,7 @@ class UIGameDB(xbmcgui.WindowXML):
 			if(selectedGame == None or gameRow == None):
 				return
 			fileDict = self.getFileDictByGameRow(gdb, gameRow)
-			self.setAllItemData(selectedGame, gameRow, fileDict)
+			self.setAllItemData(selectedGame, gameRow, fileDict, romCollection)
 			
 			posAfter = pos + 1
 			if(posAfter >= self.getListSize()):
@@ -922,37 +928,32 @@ class UIGameDB(xbmcgui.WindowXML):
 			if(selectedGame == None or gameRow == None):
 				return
 			fileDict = self.getFileDictByGameRow(gdb, gameRow)
-			self.setAllItemData(selectedGame, gameRow, fileDict)
+			self.setAllItemData(selectedGame, gameRow, fileDict, romCollection)
 			
 		Logutil.log("end loadGameInfos", util.LOG_LEVEL_DEBUG)
 
 	
-	def getFileDictByGameRow(self, gdb, gameRow):
-		romCollectionRow = self.romCollectionDict[gameRow[util.GAME_romCollectionId]]
-		if(romCollectionRow == None):
-			Logutil.log("romCollectionRow == None in getFilesByControl", util.LOG_LEVEL_DEBUG)
-			return
-		consoleId = romCollectionRow[2]
+	def getFileDictByGameRow(self, gdb, gameRow):				
 		
-		files = File(gdb).getFilesByParentIds(gameRow[util.ROW_ID], gameRow[util.GAME_romCollectionId], consoleId, gameRow[util.GAME_publisherId], gameRow[util.GAME_developerId])
+		files = File(gdb).getFilesByParentIds(gameRow[util.ROW_ID], gameRow[util.GAME_romCollectionId], gameRow[util.GAME_publisherId], gameRow[util.GAME_developerId])
 				
 		fileDict = self.cacheFiles(files)
 		
 		return fileDict
 		
 		
-	def setAllItemData(self, item, gameRow, fileDict):				
-				
+	def setAllItemData(self, item, gameRow, fileDict, romCollection):				
+		
 		# all other images in mainwindow
-		imagemainViewBackground = self.getFileForControl(util.IMAGE_CONTROL_MV_BACKGROUND, gameRow[util.ROW_ID], gameRow[util.GAME_publisherId], gameRow[util.GAME_developerId], gameRow[util.GAME_romCollectionId], fileDict)
-		imageGameInfoBig = self.getFileForControl(util.IMAGE_CONTROL_MV_GAMEINFO_BIG, gameRow[util.ROW_ID], gameRow[util.GAME_publisherId], gameRow[util.GAME_developerId], gameRow[util.GAME_romCollectionId], fileDict)
-		imageGameInfoUpperLeft = self.getFileForControl(util.IMAGE_CONTROL_MV_GAMEINFO_UPPERLEFT, gameRow[util.ROW_ID], gameRow[util.GAME_publisherId], gameRow[util.GAME_developerId], gameRow[util.GAME_romCollectionId], fileDict)
-		imageGameInfoUpperRight = self.getFileForControl(util.IMAGE_CONTROL_MV_GAMEINFO_UPPERRIGHT, gameRow[util.ROW_ID], gameRow[util.GAME_publisherId], gameRow[util.GAME_developerId], gameRow[util.GAME_romCollectionId], fileDict)
-		imageGameInfoLowerLeft = self.getFileForControl(util.IMAGE_CONTROL_MV_GAMEINFO_LOWERLEFT, gameRow[util.ROW_ID], gameRow[util.GAME_publisherId], gameRow[util.GAME_developerId], gameRow[util.GAME_romCollectionId], fileDict)
-		imageGameInfoLowerRight = self.getFileForControl(util.IMAGE_CONTROL_MV_GAMEINFO_LOWERRIGHT, gameRow[util.ROW_ID], gameRow[util.GAME_publisherId], gameRow[util.GAME_developerId], gameRow[util.GAME_romCollectionId], fileDict)
-		imageMainView1 = self.getFileForControl(util.IMAGE_CONTROL_MV_1, gameRow[util.ROW_ID], gameRow[util.GAME_publisherId], gameRow[util.GAME_developerId], gameRow[util.GAME_romCollectionId], fileDict)
-		imageMainView2 = self.getFileForControl(util.IMAGE_CONTROL_MV_2, gameRow[util.ROW_ID], gameRow[util.GAME_publisherId], gameRow[util.GAME_developerId], gameRow[util.GAME_romCollectionId], fileDict)
-		imageMainView3 = self.getFileForControl(util.IMAGE_CONTROL_MV_3, gameRow[util.ROW_ID], gameRow[util.GAME_publisherId], gameRow[util.GAME_developerId], gameRow[util.GAME_romCollectionId], fileDict)		
+		imagemainViewBackground = self.getFileForControl(romCollection.imagePlacing.fileTypesForMainViewBackground, gameRow[util.ROW_ID], gameRow[util.GAME_publisherId], gameRow[util.GAME_developerId], gameRow[util.GAME_romCollectionId], fileDict)
+		imageGameInfoBig = self.getFileForControl(romCollection.imagePlacing.fileTypesForMainViewGameInfoBig, gameRow[util.ROW_ID], gameRow[util.GAME_publisherId], gameRow[util.GAME_developerId], gameRow[util.GAME_romCollectionId], fileDict)
+		imageGameInfoUpperLeft = self.getFileForControl(romCollection.imagePlacing.fileTypesForMainViewGameInfoUpperLeft, gameRow[util.ROW_ID], gameRow[util.GAME_publisherId], gameRow[util.GAME_developerId], gameRow[util.GAME_romCollectionId], fileDict)
+		imageGameInfoUpperRight = self.getFileForControl(romCollection.imagePlacing.fileTypesForMainViewGameInfoUpperRight, gameRow[util.ROW_ID], gameRow[util.GAME_publisherId], gameRow[util.GAME_developerId], gameRow[util.GAME_romCollectionId], fileDict)
+		imageGameInfoLowerLeft = self.getFileForControl(romCollection.imagePlacing.fileTypesForMainViewGameInfoLowerLeft, gameRow[util.ROW_ID], gameRow[util.GAME_publisherId], gameRow[util.GAME_developerId], gameRow[util.GAME_romCollectionId], fileDict)
+		imageGameInfoLowerRight = self.getFileForControl(romCollection.imagePlacing.fileTypesForMainViewGameInfoLowerRight, gameRow[util.ROW_ID], gameRow[util.GAME_publisherId], gameRow[util.GAME_developerId], gameRow[util.GAME_romCollectionId], fileDict)
+		imageMainView1 = self.getFileForControl(romCollection.imagePlacing.fileTypesForMainView1, gameRow[util.ROW_ID], gameRow[util.GAME_publisherId], gameRow[util.GAME_developerId], gameRow[util.GAME_romCollectionId], fileDict)
+		imageMainView2 = self.getFileForControl(romCollection.imagePlacing.fileTypesForMainView2, gameRow[util.ROW_ID], gameRow[util.GAME_publisherId], gameRow[util.GAME_developerId], gameRow[util.GAME_romCollectionId], fileDict)
+		imageMainView3 = self.getFileForControl(romCollection.imagePlacing.fileTypesForMainView3, gameRow[util.ROW_ID], gameRow[util.GAME_publisherId], gameRow[util.GAME_developerId], gameRow[util.GAME_romCollectionId], fileDict)		
 		
 		#set images as properties for use in the skin
 		item.setProperty(util.IMAGE_CONTROL_MV_BACKGROUND, imagemainViewBackground)
@@ -972,12 +973,8 @@ class UIGameDB(xbmcgui.WindowXML):
 			description = ""			
 		item.setProperty(util.TEXT_CONTROL_MV_GAMEDESC, description)
 		
-		try:
-			romCollectionRow = self.romCollectionDict[gameRow[util.GAME_romCollectionId]]
-			item.setProperty('romcollection', romCollectionRow[util.ROW_NAME])
-			consoleRow = self.consoleDict[romCollectionRow[util.ROMCOLLECTION_consoleId]]
-			item.setProperty(util.GAMEPROPERTY_Console, consoleRow[util.ROW_NAME])
-			
+		try:			
+			item.setProperty('romcollection', romCollection.name)			
 		except:
 			pass									
 		
@@ -1181,7 +1178,7 @@ class UIGameDB(xbmcgui.WindowXML):
 		self.saveViewMode()
 		
 		helper.saveViewState(self.gdb, isOnExit, util.VIEW_MAINVIEW, selectedGameIndex, self.selectedConsoleIndex, self.selectedGenreIndex, self.selectedPublisherIndex,
-			self.selectedYearIndex, self.selectedCharacterIndex, self.selectedControlId, None)
+			self.selectedYearIndex, self.selectedCharacterIndex, self.selectedControlId, None, self.Settings)
 		
 		Logutil.log("End saveViewState" , util.LOG_LEVEL_INFO)
 
@@ -1301,11 +1298,7 @@ class UIGameDB(xbmcgui.WindowXML):
 		
 	
 	def cacheItems(self):		
-		Logutil.log("Begin cacheItems" , util.LOG_LEVEL_INFO)		
-		
-		#self. fileTypeForControlDict = self.cacheFileTypesForControl()
-				
-		#self. fileTypeDict = self.cacheFileTypes()
+		Logutil.log("Begin cacheItems" , util.LOG_LEVEL_INFO)
 		
 		#cacheAll
 		if(self.cachingOption == 0):
@@ -1314,10 +1307,6 @@ class UIGameDB(xbmcgui.WindowXML):
 				Logutil.log("fileRows == None in cacheItems", util.LOG_LEVEL_WARNING)
 				return
 			self.fileDict = self.cacheFiles(fileRows)
-		
-		#self.consoleDict = self.cacheConsoles()
-		
-		#self.romCollectionDict = self.cacheRomCollections()
 		
 		self.yearDict = self.cacheYears()
 		
@@ -1338,66 +1327,16 @@ class UIGameDB(xbmcgui.WindowXML):
 		
 	def clearCache(self):
 		Logutil.log("Begin clearCache" , util.LOG_LEVEL_INFO)
-		
-		self. fileTypeForControlDict = None				
-		self. fileTypeDict = None				
-		self.fileDict = None		
-		self.consoleDict = None		
-		self.romCollectionDict = None		
-		self.yearDict = None		
-		self.publisherDict = None		
-		self.developerDict = None		
-		self.reviewerDict = None		
+				
+		self.fileDict = None
+		self.consoleDict = None
+		self.yearDict = None
+		self.publisherDict = None
+		self.developerDict = None
+		self.reviewerDict = None
 		self.genreDict = None
 		
 		Logutil.log("End clearCache" , util.LOG_LEVEL_INFO)
-	
-		
-	"""
-	def cacheFileTypesForControl(self):
-		
-		Logutil.log("Begin cacheFileTypesForControl" , util.LOG_LEVEL_DEBUG)
-		
-		fileTypeForControlRows = FileTypeForControl(self.gdb).getAll()		
-		if(fileTypeForControlRows == None):
-			Logutil.log("fileTypeForControlRows == None in cacheFileTypesForControl", util.LOG_LEVEL_WARNING)
-			return None
-		
-		fileTypeForControlDict = {}
-		for fileTypeForControlRow in fileTypeForControlRows:
-			key = '%i;%s' % (fileTypeForControlRow[util.FILETYPEFORCONTROL_romCollectionId], fileTypeForControlRow[util.FILETYPEFORCONTROL_control])
-			item = None
-			try:
-				item = fileTypeForControlDict[key]
-			except:
-				pass			
-			if(item == None):				
-				fileTypeForControlRowList = []
-				fileTypeForControlRowList.append(fileTypeForControlRow)
-				fileTypeForControlDict[key] = fileTypeForControlRowList
-			else:				
-				fileTypeForControlRowList = fileTypeForControlDict[key]
-				fileTypeForControlRowList.append(fileTypeForControlRow)
-				fileTypeForControlDict[key] = fileTypeForControlRowList
-		
-		Logutil.log("End cacheFileTypesForControl" , util.LOG_LEVEL_DEBUG)
-		return fileTypeForControlDict
-	"""
-				
-	"""	
-	def cacheFileTypes(self):
-		Logutil.log("Begin cacheFileTypes" , util.LOG_LEVEL_DEBUG)
-		fileTypeRows = FileType(self.gdb).getAll()
-		if(fileTypeRows == None):
-			Logutil.log("fileTypeRows == None in cacheFileTypes", util.LOG_LEVEL_WARNING)
-			return
-		fileTypeDict = {}
-		for fileTypeRow in fileTypeRows:
-			fileTypeDict[fileTypeRow[util.ROW_ID]] = fileTypeRow
-			
-		Logutil.log("End cacheFileTypes" , util.LOG_LEVEL_DEBUG)
-		return fileTypeDict
-	"""
 		
 
 	def cacheFiles(self, fileRows):
@@ -1422,37 +1361,7 @@ class UIGameDB(xbmcgui.WindowXML):
 				fileDict[key] = fileRowList
 				
 		Logutil.log("End cacheFiles" , util.LOG_LEVEL_DEBUG)
-		return fileDict	
-		
-	
-	def cacheRomCollections(self):
-		Logutil.log("Begin cacheRomCollections" , util.LOG_LEVEL_DEBUG)
-		
-		romCollectionRows = RomCollection(self.gdb).getAll()
-		if(romCollectionRows == None):
-			Logutil.log("romCollectionRows == None in cacheRomCollections", util.LOG_LEVEL_WARNING)
-			return
-		romCollectionDict = {}
-		for romCollectionRow in romCollectionRows:
-			romCollectionDict[romCollectionRow[util.ROW_ID]] = romCollectionRow
-			
-		Logutil.log("End cacheRomCollections" , util.LOG_LEVEL_DEBUG)
-		return romCollectionDict
-	
-		
-	def cacheConsoles(self):
-		Logutil.log("Begin cacheConsoles" , util.LOG_LEVEL_DEBUG)
-		
-		consoleRows = Console(self.gdb).getAll()
-		if(consoleRows == None):
-			Logutil.log("consoleRows == None in cacheConsoles", util.LOG_LEVEL_WARNING)
-			return
-		consoleDict = {}
-		for consoleRow in consoleRows:
-			consoleDict[consoleRow[util.ROW_ID]] = consoleRow
-			
-		Logutil.log("End cacheConsoles" , util.LOG_LEVEL_DEBUG)
-		return consoleDict
+		return fileDict
 		
 		
 	def cacheYears(self):
