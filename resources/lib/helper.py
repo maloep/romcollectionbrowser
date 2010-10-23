@@ -7,6 +7,7 @@ from util import *
 import time
 
 
+"""
 def getFilesByControl(gdb, controlName, gameId, publisherId, developerId, romCollectionId):	
 	
 	Logutil.log("getFilesByControl controlName: " +controlName, util.LOG_LEVEL_DEBUG)
@@ -53,61 +54,36 @@ def getFilesByControl(gdb, controlName, gameId, publisherId, developerId, romCol
 				mediaFiles.append(file[1])
 				
 		return mediaFiles
+"""
 
 
 
-def getFilesByControl_Cached(gdb, controlName, gameId, publisherId, developerId, romCollectionId, fileDict, config):
-			
-		Logutil.log("getFilesByControl controlName: " +controlName, util.LOG_LEVEL_DEBUG)
+def getFilesByControl_Cached(gdb, fileTypes, gameId, publisherId, developerId, romCollectionId, fileDict):
+					
 		Logutil.log("getFilesByControl gameId: " +str(gameId), util.LOG_LEVEL_DEBUG)
 		Logutil.log("getFilesByControl publisherId: " +str(publisherId), util.LOG_LEVEL_DEBUG)
 		Logutil.log("getFilesByControl developerId: " +str(developerId), util.LOG_LEVEL_DEBUG)
-		Logutil.log("getFilesByControl consoleId: " +str(consoleId), util.LOG_LEVEL_DEBUG)
-					
-		key = '%i;%s' %(romCollectionId, controlName)
-		try:
-			fileTypeForControlRows = fileTypeForControlDict[key]
-		except:
-			fileTypeForControlRows = None
-		if(fileTypeForControlRows == None):
-			Logutil.log("fileTypeForControlRows == None", util.LOG_LEVEL_DEBUG)
-			return
+		Logutil.log("getFilesByControl romCollectionId: " +str(romCollectionId), util.LOG_LEVEL_DEBUG)
 		
 		mediaFiles = []
-		for fileTypeForControlRow in fileTypeForControlRows:
-			Logutil.log("fileTypeForControlRow: " +str(fileTypeForControlRow), util.LOG_LEVEL_DEBUG)
-			
-			try:
-				fileTypeRow = fileTypeDict[fileTypeForControlRow[4]]
-			except:
-				fileTypeRow = None
-			
-			if(fileTypeRow == None):
-				Logutil.log("fileTypeRow == None in getFilesByControl", util.LOG_LEVEL_DEBUG)
-				continue							
+		for fileType in fileTypes:
+			Logutil.log("fileType: " +str(fileType), util.LOG_LEVEL_DEBUG)
 			
 			parentId = None
 						
-			if(fileTypeRow[util.FILETYPE_parent] == util.FILETYPEPARENT_GAME):
-				parentId = gameId
-			elif(fileTypeRow[util.FILETYPE_parent] == util.FILETYPEPARENT_CONSOLE):				
-				romCollectionRow = romCollectionDict[romCollectionId]
-				if(romCollectionRow == None):
-					Logutil.log("romCollectionRow == None in getFilesByControl", util.LOG_LEVEL_DEBUG)
-					continue
-				consoleId = romCollectionRow[2]
-				parentId = consoleId
-			elif(fileTypeRow[util.FILETYPE_parent] == util.FILETYPEPARENT_PUBLISHER):
+			if(fileType.parent == util.FILETYPEPARENT_GAME):
+				parentId = gameId			
+			elif(fileType.parent == util.FILETYPEPARENT_PUBLISHER):
 				parentId = publisherId
-			elif(fileTypeRow[util.FILETYPE_parent] == util.FILETYPEPARENT_DEVELOPER):
+			elif(fileType.parent == util.FILETYPEPARENT_DEVELOPER):
 				parentId = developerId
-			elif(fileTypeRow[util.FILETYPE_parent] == util.FILETYPEPARENT_ROMCOLLECTION):
+			elif(fileType.parent == util.FILETYPEPARENT_ROMCOLLECTION):
 				parentId = romCollectionId
 				
 			Logutil.log("parentId: " +str(parentId), util.LOG_LEVEL_DEBUG)
 				
 			if(parentId != None):
-				key = '%i;%i' %(parentId, fileTypeForControlRow[4])
+				key = '%i;%i' %(parentId, int(fileType.id))
 				try:								
 					files = fileDict[key]				
 				except:
@@ -188,22 +164,21 @@ def launchEmu(gdb, gui, gameId):
 		
 		
 def saveViewState(gdb, isOnExit, selectedView, selectedGameIndex, selectedConsoleIndex, selectedGenreIndex, selectedPublisherIndex, selectedYearIndex, selectedCharacterIndex,
-	selectedControlIdMainView, selectedControlIdGameInfoView):
+	selectedControlIdMainView, selectedControlIdGameInfoView, settings):
 		
-		Logutil.log("Begin helper.saveViewState", util.LOG_LEVEL_INFO)
+		Logutil.log("Begin helper.saveViewState", util.LOG_LEVEL_INFO)				
 		
+		if(isOnExit):
+			#saveViewStateOnExit
+			saveViewState = settings.getSetting(util.SETTING_RCB_SAVEVIEWSTATEONEXIT)
+		else:
+			#saveViewStateOnLaunchEmu
+			saveViewState = settings.getSetting(util.SETTING_RCB_SAVEVIEWSTATEONLAUNCHEMU)
+			
 		rcbSetting = getRCBSetting(gdb)
 		if(rcbSetting == None):
 			Logutil.log("rcbSetting == None in helper.saveViewState", util.LOG_LEVEL_WARNING)
 			return
-		
-		if(isOnExit):
-			#saveViewStateOnExit
-			saveViewState = rcbSetting[util.RCBSETTING_saveViewStateOnExit]
-		else:
-			#saveViewStateOnLaunchEmu
-			saveViewState = rcbSetting[util.RCBSETTING_saveViewStateOnLaunchEmu]
-			
 		
 		if(saveViewState == 'True'):
 			RCBSetting(gdb).update(('lastSelectedView', 'lastSelectedConsoleIndex', 'lastSelectedGenreIndex', 'lastSelectedPublisherIndex', 'lastSelectedYearIndex', 'lastSelectedGameIndex', 'lastFocusedControlMainView', 'lastFocusedControlGameInfoView', 'lastSelectedCharacterIndex'),

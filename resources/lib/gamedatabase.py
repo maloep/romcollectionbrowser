@@ -36,6 +36,7 @@ class GameDataBase:
 	def createTables(self):
 		print "Create Tables"		
 		self.executeSQLScript(os.path.join(self.sqlDir, 'SQL_CREATE.txt'))
+		RCBSetting(self).insert((None, None, None, None, None, None, None, util.CURRENT_DB_VERSION, None, None, None))
 		
 	def dropTables(self):
 		print "Drop Tables"
@@ -53,7 +54,7 @@ class GameDataBase:
 				self.self.createTables()
 				return 1, ""
 			rcbSetting = rcbSettingRows[0]
-			dbVersion = rcbSetting[10]
+			dbVersion = rcbSetting[util.RCBSETTING_dbVersion]
 			
 		except  Exception, (exc): 
 			self.createTables()
@@ -157,7 +158,7 @@ class DataBaseObject:
 
 class Game(DataBaseObject):	
 	filterQuery = "Select * From Game WHERE \
-					((romCollectionId = ?) OR (0 = ?)) AND \
+					(romCollectionId = ? OR (0 = ?)) AND \
 					(Id IN (Select GameId From GenreGame Where GenreId = ?) OR (0 = ?)) AND \
 					(YearId = ? OR (0 = ?)) AND \
 					(PublisherId = ? OR (0 = ?)) \

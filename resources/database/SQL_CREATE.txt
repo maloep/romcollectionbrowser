@@ -33,16 +33,11 @@ CREATE TABLE IF NOT EXISTS [RCBSetting]
 (
     [id] INTEGER PRIMARY KEY AUTOINCREMENT,
     [lastSelectedView] TEXT,
-    [lastSelectedIndex] INTEGER,	
+    [lastSelectedConsoleIndex] INTEGER,	
 	[lastSelectedGenreIndex] INTEGER,
 	[lastSelectedPublisherIndex] INTEGER,
     [lastSelectedYearIndex] INTEGER,
-	[lastSelectedGameIndex] INTEGER,
-	[favoriteRomCollectionId] INTEGER,
-	[favoriteGenreId] INTEGER REFERENCES [Genre]
-    (
-        id
-    ),
+	[lastSelectedGameIndex] INTEGER,	
 	[autoexecBackupPath] TEXT,
 	[dbVersion] TEXT,	
 	[lastFocusedControlMainView] INTEGER,

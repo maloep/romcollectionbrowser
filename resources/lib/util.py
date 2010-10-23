@@ -10,8 +10,8 @@ import xbmc, time
 RCBHOME = os.getcwd()
 SCRIPTNAME = 'Rom Collection Browser'
 SCRIPTID = 'script.games.rom.collection.browser'
-CURRENT_SCRIPT_VERSION = "0.7.3"
-CURRENT_DB_VERSION = "0.7.0"
+CURRENT_SCRIPT_VERSION = "0.7.4"
+CURRENT_DB_VERSION = "0.7.4"
 ISTESTRUN = False
 
 #time to wait before automatic playback starts
@@ -48,7 +48,7 @@ SETTING_RCB_SHOWENTRYALLPUBLISHER = 'rcb_showEntryAllPublisher'
 SETTING_RCB_SHOWENTRYALLCHARS = 'rcb_showEntryAllChars'
 SETTING_RCB_PREVENTUNFILTEREDSEARCH = 'rcb_preventUnfilteredSearch'
 SETTING_RCB_SAVEVIEWSTATEONEXIT = 'rcb_saveViewStateOnExit'
-SETTING_RCB_SAVEVIEWSTATEONEXITONLAUNCHEMU = 'rcb_saveViewStateOnLaunchEmu'
+SETTING_RCB_SAVEVIEWSTATEONLAUNCHEMU = 'rcb_saveViewStateOnLaunchEmu'
 
 
 #
@@ -64,31 +64,11 @@ RCBSETTING_lastSelectedGenreIndex = 3
 RCBSETTING_lastSelectedPublisherIndex = 4
 RCBSETTING_lastSelectedYearIndex = 5
 RCBSETTING_lastSelectedGameIndex = 6
-RCBSETTING_favoriteConsoleId = 7
-RCBSETTING_favoriteGenreId = 8
-RCBSETTING_autoexecBackupPath = 9
-RCBSETTING_dbVersion = 10
-RCBSETTING_showEntryAllConsoles = 11
-RCBSETTING_showEntryAllGenres = 12
-RCBSETTING_showEntryAllYears = 13
-RCBSETTING_showEntryAllPublisher = 14
-RCBSETTING_saveViewStateOnExit = 15
-RCBSETTING_saveViewStateOnLaunchEmu = 16
-RCBSETTING_lastFocusedControlMainView = 17
-RCBSETTING_lastFocusedControlGameInfoView = 18
-RCBSETTING_logLevel = 19
-RCBSETTING_showEntryAllChars = 20
-RCBSETTING_lastSelectedCharacterIndex = 21
-RCBSETTING_preventUnfilteredSearch = 22
-RCBSETTING_cachingOption = 23
-
-ROMCOLLECTION_consoleId = 2
-ROMCOLLECTION_emuCommandLine = 3
-ROMCOLLECTION_useEmuSolo = 4
-ROMCOLLECTION_escapeEmuCmd = 5
-ROMCOLLECTION_xboxCreateShortcut = 17
-ROMCOLLECTION_xboxCreateShortcutAddRomfile = 18
-ROMCOLLECTION_xboxCreateShortcutUseShortGamename = 19
+RCBSETTING_autoexecBackupPath = 7
+RCBSETTING_dbVersion = 8
+RCBSETTING_lastFocusedControlMainView = 9
+RCBSETTING_lastFocusedControlGameInfoView = 10
+RCBSETTING_lastSelectedCharacterIndex = 11
 
 
 GAME_description = 2
@@ -115,20 +95,8 @@ GAME_version = 23
 FILE_fileTypeId = 2
 FILE_parentId = 3
 
-FILETYPE_parent = 3
-
-FILETYPEFORCONTROL_control = 1
-FILETYPEFORCONTROL_romCollectionId = 3
-FILETYPEFORCONTROL_fileTypeId = 4
-
 GENREGAME_genreId = 1
 GENREGAME_gameId = 2
-
-SCRAPER_PARSEINSTRUCTION = 2
-SCRAPER_SOURCE = 3
-SCRAPER_RETURNURL = 4
-SCRAPER_REPLACEKEYSTRING = 5
-SCRAPER_REPLACEVALUESTRING = 6
 
 #
 # UI #
