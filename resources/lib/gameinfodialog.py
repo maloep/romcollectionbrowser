@@ -71,11 +71,10 @@ class UIGameInfoView(xbmcgui.WindowXMLDialog):
 		self.selectedCharacter = kwargs[ "selectedCharacter" ]
 		self.selectedCharacterIndex = kwargs[ "selectedCharacterIndex" ]
 		self.selectedGameIndex = kwargs[ "selectedGameIndex" ]		
-		self.selectedControlIdMainView = kwargs["controlIdMainView"]
-		self.fileTypeForControlDict = kwargs["fileTypeForControlDict"]
-		self.fileTypeDict = kwargs["fileTypeDict"]
+		self.selectedControlIdMainView = kwargs["controlIdMainView"]		
 		self.fileDict = kwargs["fileDict"]
-		self.romCollectionDict = kwargs["romCollectionDict"]
+		self.config = kwargs["config"]
+		self.settings = kwargs["settings"]
 		
 		self.doModal()
 		
@@ -153,8 +152,14 @@ class UIGameInfoView(xbmcgui.WindowXMLDialog):
 		self.clearList()
 		
 		for game in games:
-			images = helper.getFilesByControl_Cached(self.gdb, 'gameinfoviewgamelist', game[util.ROW_ID], game[util.GAME_publisherId], game[util.GAME_developerId], game[util.GAME_romCollectionId],
-				self.fileTypeForControlDict, self.fileTypeDict, self.fileDict, self.romCollectionDict)
+			
+			romCollection = None
+			try:
+				romCollection = self.config.romCollections[str(game[util.GAME_romCollectionId])]
+			except:
+				Logutil.log('Cannot get rom collection with id: ' +str(game[util.GAME_romCollectionId]), util.LOG_LEVEL_ERROR)
+			
+			images = helper.getFilesByControl_Cached(self.gdb, romCollection.imagePlacing.fileTypesForGameInfoViewGamelist, game[util.ROW_ID], game[util.GAME_publisherId], game[util.GAME_developerId], game[util.GAME_romCollectionId], self.fileDict)
 			if(images != None and len(images) != 0):
 				image = images[0]
 			else:
@@ -234,18 +239,22 @@ class UIGameInfoView(xbmcgui.WindowXMLDialog):
 		
 		fileDict = self.getFileDictByGameRow(self.gdb, gameRow)
 		
+		romCollection = None
+		try:
+			romCollection = self.config.romCollections[str(gameRow[util.GAME_romCollectionId])]
+		except:
+			Logutil.log('Cannot get rom collection with id: ' +str(gameRow[util.GAME_romCollectionId]), util.LOG_LEVEL_ERROR)
 										
 		#gameRow[5] = romCollectionId
 		background = os.path.join(RCBHOME, 'resources', 'skins', 'Default', 'media', 'rcb-background-black.png')					
 		
-		self.setImage(util.IMAGE_CONTROL_GIV_BACKGROUND, gameRow[util.ROW_ID], gameRow[util.GAME_publisherId], gameRow[util.GAME_developerId], gameRow[util.GAME_romCollectionId], background, selectedGame, fileDict)
-		self.setImage(util.IMAGE_CONTROL_GIV_Img1, gameRow[util.ROW_ID], gameRow[util.GAME_publisherId], gameRow[util.GAME_developerId], gameRow[util.GAME_romCollectionId], '', selectedGame, fileDict)
-		self.setImage(util.IMAGE_CONTROL_GIV_Img2, gameRow[util.ROW_ID], gameRow[util.GAME_publisherId], gameRow[util.GAME_developerId], gameRow[util.GAME_romCollectionId], None, selectedGame, fileDict)
-		self.setImage(util.IMAGE_CONTROL_GIV_Img3, gameRow[util.ROW_ID], gameRow[util.GAME_publisherId], gameRow[util.GAME_developerId], gameRow[util.GAME_romCollectionId], None, selectedGame, fileDict)
-		self.setImage(util.IMAGE_CONTROL_GIV_Img4, gameRow[util.ROW_ID], gameRow[util.GAME_publisherId], gameRow[util.GAME_developerId], gameRow[util.GAME_romCollectionId], None, selectedGame, fileDict)
+		self.setImage(util.IMAGE_CONTROL_GIV_BACKGROUND, romCollection.imagePlacing.fileTypesForGameInfoViewBackground, gameRow[util.ROW_ID], gameRow[util.GAME_publisherId], gameRow[util.GAME_developerId], gameRow[util.GAME_romCollectionId], background, selectedGame, fileDict)
+		self.setImage(util.IMAGE_CONTROL_GIV_Img1, romCollection.imagePlacing.fileTypesForGameInfoView1, gameRow[util.ROW_ID], gameRow[util.GAME_publisherId], gameRow[util.GAME_developerId], gameRow[util.GAME_romCollectionId], '', selectedGame, fileDict)
+		self.setImage(util.IMAGE_CONTROL_GIV_Img2, romCollection.imagePlacing.fileTypesForGameInfoView2, gameRow[util.ROW_ID], gameRow[util.GAME_publisherId], gameRow[util.GAME_developerId], gameRow[util.GAME_romCollectionId], None, selectedGame, fileDict)
+		self.setImage(util.IMAGE_CONTROL_GIV_Img3, romCollection.imagePlacing.fileTypesForGameInfoView3, gameRow[util.ROW_ID], gameRow[util.GAME_publisherId], gameRow[util.GAME_developerId], gameRow[util.GAME_romCollectionId], None, selectedGame, fileDict)
+		self.setImage(util.IMAGE_CONTROL_GIV_Img4, romCollection.imagePlacing.fileTypesForGameInfoView4, gameRow[util.ROW_ID], gameRow[util.GAME_publisherId], gameRow[util.GAME_developerId], gameRow[util.GAME_romCollectionId], None, selectedGame, fileDict)
 					
-		videos = helper.getFilesByControl_Cached(self.gdb, util.IMAGE_CONTROL_GIV_VideoWindow, gameRow[util.ROW_ID], gameRow[util.GAME_publisherId], gameRow[util.GAME_developerId], gameRow[util.GAME_romCollectionId],
-			self.fileTypeForControlDict, self.fileTypeDict, fileDict, self.romCollectionDict)
+		videos = helper.getFilesByControl_Cached(self.gdb, romCollection.imagePlacing.fileTypesForGameInfoViewVideoWindow, gameRow[util.ROW_ID], gameRow[util.GAME_publisherId], gameRow[util.GAME_developerId], gameRow[util.GAME_romCollectionId], fileDict)
 					
 		if(videos != None and len(videos) != 0):			
 			video = videos[0]						
@@ -281,14 +290,9 @@ class UIGameInfoView(xbmcgui.WindowXMLDialog):
 		return result
 		
 	
-	def getFileDictByGameRow(self, gdb, gameRow):
-		romCollectionRow = self.romCollectionDict[gameRow[util.GAME_romCollectionId]]
-		if(romCollectionRow == None):
-			Logutil.log("romCollectionRow == None in getFilesByControl", util.LOG_LEVEL_DEBUG)
-			return
-		consoleId = romCollectionRow[2]
+	def getFileDictByGameRow(self, gdb, gameRow):				
 		
-		files = File(gdb).getFilesByParentIds(gameRow[util.ROW_ID], gameRow[util.GAME_romCollectionId], consoleId, gameRow[util.GAME_publisherId], gameRow[util.GAME_developerId])
+		files = File(gdb).getFilesByParentIds(gameRow[util.ROW_ID], gameRow[util.GAME_romCollectionId], gameRow[util.GAME_publisherId], gameRow[util.GAME_developerId])
 				
 		fileDict = self.cacheFiles(files)
 		
@@ -331,11 +335,11 @@ class UIGameInfoView(xbmcgui.WindowXMLDialog):
 	
 	
 	
-	def setImage(self, controlName, gameId, publisherId, developerId, romCollectionId, defaultImage, selectedGame, fileDict):
+	def setImage(self, controlName, fileTypes, gameId, publisherId, developerId, romCollectionId, defaultImage, selectedGame, fileDict):
 		
 		Logutil.log("Begin setImage", util.LOG_LEVEL_DEBUG)						
 				
-		images = helper.getFilesByControl_Cached(self.gdb, controlName, gameId, publisherId, developerId, romCollectionId, self.fileTypeForControlDict, self.fileTypeDict, fileDict, self.romCollectionDict)
+		images = helper.getFilesByControl_Cached(self.gdb, fileTypes, gameId, publisherId, developerId, romCollectionId, fileDict)
 								
 		#TODO more than one image?
 		image = ''

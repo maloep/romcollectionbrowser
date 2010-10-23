@@ -180,7 +180,7 @@ def saveViewState(gdb, isOnExit, selectedView, selectedGameIndex, selectedConsol
 			Logutil.log("rcbSetting == None in helper.saveViewState", util.LOG_LEVEL_WARNING)
 			return
 		
-		if(saveViewState == 'True'):
+		if(saveViewState):
 			RCBSetting(gdb).update(('lastSelectedView', 'lastSelectedConsoleIndex', 'lastSelectedGenreIndex', 'lastSelectedPublisherIndex', 'lastSelectedYearIndex', 'lastSelectedGameIndex', 'lastFocusedControlMainView', 'lastFocusedControlGameInfoView', 'lastSelectedCharacterIndex'),
 				(selectedView, selectedConsoleIndex, selectedGenreIndex, selectedPublisherIndex, selectedYearIndex, selectedGameIndex, selectedControlIdMainView, selectedControlIdGameInfoView, selectedCharacterIndex), rcbSetting[0])
 		else:
