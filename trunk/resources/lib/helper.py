@@ -7,57 +7,6 @@ from util import *
 import time
 
 
-"""
-def getFilesByControl(gdb, controlName, gameId, publisherId, developerId, romCollectionId):	
-	
-	Logutil.log("getFilesByControl controlName: " +controlName, util.LOG_LEVEL_DEBUG)
-	Logutil.log("getFilesByControl gameId: " +str(gameId), util.LOG_LEVEL_DEBUG)
-	Logutil.log("getFilesByControl publisherId: " +str(publisherId), util.LOG_LEVEL_DEBUG)
-	Logutil.log("getFilesByControl developerId: " +str(developerId), util.LOG_LEVEL_DEBUG)
-	Logutil.log("getFilesByControl romCollectionId: " +str(romCollectionId), util.LOG_LEVEL_DEBUG)
-	
-
-	fileTypeForControlRows = FileTypeForControl(gdb).getFileTypesForControlByKey(romCollectionId, controlName)
-	if(fileTypeForControlRows == None):
-		Logutil.log("fileTypeForControlRows == None", util.LOG_LEVEL_WARNING)
-		return	
-	
-	mediaFiles = []
-	for fileTypeForControlRow in fileTypeForControlRows:
-		
-		fileTypeRow = FileType(gdb).getObjectById(fileTypeForControlRow[4])
-		if(fileTypeRow == None):
-			Logutil.log("fileTypeRow == None in getFilesByControl", util.LOG_LEVEL_WARNING)
-			continue					
-			
-		parentId = None
-					
-		if(fileTypeRow[util.FILETYPE_parent] == util.FILETYPEPARENT_GAME):
-			parentId = gameId
-		elif(fileTypeRow[util.FILETYPE_parent] == util.FILETYPEPARENT_CONSOLE):
-			romCollectionRow = RomCollection(gdb).getObjectById(romCollectionId)
-			if(romCollectionRow == None):
-				Logutil.log("romCollectionRow == None in getFilesByControl", util.LOG_LEVEL_WARNING)
-				continue
-			consoleId = romCollectionRow[2]                 
-			parentId = consoleId
-		elif(fileTypeRow[util.FILETYPE_parent] == util.FILETYPEPARENT_PUBLISHER):
-			parentId = publisherId
-		elif(fileTypeRow[util.FILETYPE_parent] == util.FILETYPEPARENT_DEVELOPER):
-			parentId = developerId
-		elif(fileTypeRow[util.FILETYPE_parent] == util.FILETYPEPARENT_ROMCOLLECTION):
-			parentId = romCollectionId
-
-		if(parentId != None):
-			files = File(gdb).getFilesByGameIdAndTypeId(parentId, fileTypeForControlRow[util.FILETYPEFORCONTROL_fileTypeId])
-			for file in files:
-				mediaFiles.append(file[1])
-				
-		return mediaFiles
-"""
-
-
-
 def getFilesByControl_Cached(gdb, fileTypes, gameId, publisherId, developerId, romCollectionId, fileDict):
 					
 		Logutil.log("getFilesByControl gameId: " +str(gameId), util.LOG_LEVEL_DEBUG)
@@ -102,7 +51,7 @@ def getFilesByControl_Cached(gdb, fileTypes, gameId, publisherId, developerId, r
 
 
 
-def launchEmu(gdb, gui, gameId):
+def launchEmu(gdb, gui, gameId, config, settings):
 		Logutil.log("Begin helper.launchEmu", util.LOG_LEVEL_INFO)
 		
 		gameRow = Game(gdb).getObjectById(gameId)
@@ -110,15 +59,13 @@ def launchEmu(gdb, gui, gameId):
 			Logutil.log("Game with id %s could not be found in database" %gameId, util.LOG_LEVEL_ERROR)
 			return
 			
+		romCollection = None
+		try:
+			romCollection = config.romCollections[str(gameRow[util.GAME_romCollectionId])]
+		except:
+			Logutil.log('Cannot get rom collection with id: ' +str(gameRow[util.GAME_romCollectionId]), util.LOG_LEVEL_ERROR)
+			
 		gui.writeMsg("Launch Game " +str(gameRow[util.ROW_NAME]))
-		
-		romPaths = Path(gdb).getRomPathsByRomCollectionId(gameRow[util.GAME_romCollectionId])
-		romCollectionRow = RomCollection(gdb).getObjectById(gameRow[util.GAME_romCollectionId])
-		if(romCollectionRow == None):
-			Logutil.log("Rom Collection with id %s could not be found in database" %gameRow[5], util.LOG_LEVEL_ERROR)
-			return
-		
-		emuCommandLine = romCollectionRow[util.ROMCOLLECTION_emuCommandLine]
 		cmd = ""
 		
 		#get environment OS
@@ -126,9 +73,9 @@ def launchEmu(gdb, gui, gameId):
 				
 		filenameRows = File(gdb).getRomsByGameId(gameRow[util.ROW_ID])		
 		
-		cmd = buildCmd(filenameRows, romPaths, emuCommandLine, romCollectionRow)
+		cmd = buildCmd(filenameRows, romCollection.romPaths, romCollection.emulatorCmd, settings.getSetting(util.SETTING_RCB_ESCAPECOMMAND))
 			
-		if (romCollectionRow[util.ROMCOLLECTION_useEmuSolo] == 'True'):
+		if (settings.getSetting(util.SETTING_RCB_USEEMUSOLO)):
 			
 			#try to create autoexec.py
 			writeAutoexec(gdb)
@@ -152,9 +99,9 @@ def launchEmu(gdb, gui, gameId):
 		
 		try:
 			if (os.environ.get( "OS", "xbox" ) == "xbox"):			
-				launchXbox(gui, gdb, cmd, romCollectionRow, filenameRows)
+				launchXbox(gui, gdb, cmd, romCollection, filenameRows)
 			else:
-				launchNonXbox(romCollectionRow, cmd)
+				launchNonXbox(cmd, settings)
 						
 		except Exception, (exc):
 			Logutil.log("Error while launching emu: " +str(exc), util.LOG_LEVEL_ERROR)
@@ -231,7 +178,7 @@ def buildLikeStatement(selectedCharacter):
 		
 
 		
-def buildCmd(filenameRows, romPaths, emuCommandLine, romCollectionRow):
+def buildCmd(filenameRows, romPaths, emuCommandLine, escapeCmd):
 	
 	fileindex = int(0)
 	
@@ -258,14 +205,14 @@ def buildCmd(filenameRows, romPaths, emuCommandLine, romCollectionRow):
 			return ""
 					
 		if fileindex == 0:				
-			if (romCollectionRow[util.ROMCOLLECTION_escapeEmuCmd] == 1):				
+			if (escapeCmd):				
 				cmd = cmd.replace('%ROM%', re.escape(rom))
 			else:					
 				cmd = cmd.replace('%ROM%', rom)
 			cmd = cmd.replace('%I%', str(fileindex))
 		else:
 			newrepl = replString
-			if (romCollectionRow[util.ROMCOLLECTION_escapeEmuCmd] == 1):
+			if (escapeCmd):
 				newrepl = newrepl.replace('%ROM%', re.escape(rom))					
 			else:					
 				newrepl = newrepl.replace('%ROM%', rom)
@@ -320,7 +267,7 @@ def doBackup(gdb, fName):
 		Logutil.log("End helper.doBackup", util.LOG_LEVEL_INFO)
 		
 
-def launchXbox(gui, gdb, cmd, romCollectionRow, filenameRows):
+def launchXbox(gui, gdb, cmd, romCollection, filenameRows):
 	Logutil.log("launchEmu on xbox", util.LOG_LEVEL_INFO)
 	
 	#on xbox emucmd must be the path to an executable or cut file
@@ -329,19 +276,17 @@ def launchXbox(gui, gdb, cmd, romCollectionRow, filenameRows):
 		gui.writeMsg("Error while launching emu: File %s does not exist!" %cmd)
 		return
 					
-	if (romCollectionRow[util.ROMCOLLECTION_xboxCreateShortcut] == 'True'):
+	if (romCollection.xboxCreateShortcut):
 		Logutil.log("creating cut file", util.LOG_LEVEL_INFO)
 		
-		cutFile = createXboxCutFile(cmd, filenameRows, romCollectionRow)
+		cutFile = createXboxCutFile(cmd, filenameRows, romCollection)
 		if(cutFile == ""):
 			Logutil.log("Error while creating .cut file. Check xbmc.log for details.", util.LOG_LEVEL_ERROR)
 			gui.writeMsg("Error while creating .cut file. Check xbmc.log for details.")
 			return
 			
 		cmd = cutFile
-		Logutil.log("cut file created: " +cmd, util.LOG_LEVEL_INFO)
-		
-	
+		Logutil.log("cut file created: " +cmd, util.LOG_LEVEL_INFO)			
 	
 	#RunXbe always terminates XBMC. So we have to saveviewstate and write autoexec here	
 	writeAutoexec(gdb)
@@ -354,7 +299,7 @@ def launchXbox(gui, gdb, cmd, romCollectionRow, filenameRows):
 	time.sleep(1000)
 		
 
-def createXboxCutFile(emuCommandLine, filenameRows, romCollectionRow):
+def createXboxCutFile(emuCommandLine, filenameRows, romCollection):
 	Logutil.log("Begin helper.createXboxCutFile", util.LOG_LEVEL_INFO)		
 		
 	cutFile = os.path.join(util.getAddonDataPath(), 'temp.cut')
@@ -365,8 +310,8 @@ def createXboxCutFile(emuCommandLine, filenameRows, romCollectionRow):
 		fh.write("<shortcut>\n")
 		fh.write("<path>%s</path>\n" %emuCommandLine)
 				
-		if (romCollectionRow[util.ROMCOLLECTION_xboxCreateShortcutAddRomfile] == 'True'):	
-			filename = getRomfilenameForXboxCutfile(filenameRows, romCollectionRow)
+		if (romCollection.xboxCreateShortcutAddRomfile):	
+			filename = getRomfilenameForXboxCutfile(filenameRows, romCollection)
 			if(filename == ""):
 				return ""			
 			fh.write("<custom>\n")
@@ -384,7 +329,7 @@ def createXboxCutFile(emuCommandLine, filenameRows, romCollectionRow):
 	return cutFile
 	
 
-def getRomfilenameForXboxCutfile(filenameRows, romCollectionRow):
+def getRomfilenameForXboxCutfile(filenameRows, romCollection):
 	
 	if(len(filenameRows) != 1):
 		Logutil.log("More than one file available for current game. Xbox version only supports one file per game atm.", util.LOG_LEVEL_ERROR)
@@ -401,7 +346,7 @@ def getRomfilenameForXboxCutfile(filenameRows, romCollectionRow):
 		Logutil.log("Error while launching emu: File %s does not exist!" %filename, util.LOG_LEVEL_ERROR)		
 		return ""	
 	
-	if (romCollectionRow[util.ROMCOLLECTION_xboxCreateShortcutUseShortGamename] == 'False'):
+	if (romCollection.xboxCreateShortcutUseShortGamename):
 		return filename
 		
 	basename = os.path.basename(filename)
@@ -409,12 +354,12 @@ def getRomfilenameForXboxCutfile(filenameRows, romCollectionRow):
 	return filename
 	
 	
-def launchNonXbox(romCollectionRow, cmd):
+def launchNonXbox(cmd, settings):
 	Logutil.log("launchEmu on non-xbox", util.LOG_LEVEL_INFO)							
 				
 	toggledScreenMode = False
 	
-	if (romCollectionRow[util.ROMCOLLECTION_useEmuSolo] == 'False'):
+	if (settings.getSetting(util.SETTING_RCB_USEEMUSOLO)):
 		screenMode = xbmc.executehttpapi("GetSystemInfoByName(system.screenmode)").replace("<li>","")
 		Logutil.log("screenMode: " +screenMode, util.LOG_LEVEL_INFO)
 		isFullScreen = screenMode.endswith("Full Screen")
