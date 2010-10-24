@@ -1,6 +1,6 @@
 #
 # ElementTree
-# $Id: ElementInclude.py 3265 2007-09-06 20:42:00Z fredrik $
+# $Id: ElementInclude.py 3225 2007-08-27 21:32:08Z fredrik $
 #
 # limited xinclude support for element trees
 #
@@ -45,8 +45,14 @@
 # Limited XInclude support for the ElementTree package.
 ##
 
-import copy
 import ElementTree
+
+def copy(elem):
+    e = ElementTree.Element(elem.tag, elem.attrib)
+    e.text = elem.text
+    e.tail = elem.tail
+    e[:] = elem
+    return e
 
 XINCLUDE = "{http://www.w3.org/2001/XInclude}"
 
@@ -110,7 +116,7 @@ def include(elem, loader=None):
                     raise FatalIncludeError(
                         "cannot load %r as %r" % (href, parse)
                         )
-                node = copy.copy(node)
+                node = copy(node)
                 if e.tail:
                     node.tail = (node.tail or "") + e.tail
                 elem[i] = node
