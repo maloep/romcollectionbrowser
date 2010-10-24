@@ -154,12 +154,12 @@ class UIGameDB(xbmcgui.WindowXML):
 	# set flag if we are currently running onAction
 	onActionLastRun = 0	
 			
-	#cachingOption will be overwritten by db-config. Don't change it here.
+	#cachingOption will be overwritten by config. Don't change it here.
 	cachingOption = 3
 	
 	
 	def __init__(self, strXMLname, strFallbackPath, strDefaultName, forceFallback):
-		# Changing the three varibles passed won't change, anything
+		# Changing the three varibles passed won't change anything
 		# Doing strXMLname = "bah.xml" will not change anything.
 		# don't put GUI sensitive stuff here (as the xml hasn't been read yet
 		# Idea to initialize your variables here
@@ -602,7 +602,7 @@ class UIGameDB(xbmcgui.WindowXML):
 			self.player.stoppedByRCB = True
 			self.player.stop()
 		
-		helper.launchEmu(self.gdb, self, gameId)
+		helper.launchEmu(self.gdb, self, gameId, self.config, self.Settings)
 		Logutil.log("End launchEmu" , util.LOG_LEVEL_INFO)
 		
 		
@@ -1328,8 +1328,7 @@ class UIGameDB(xbmcgui.WindowXML):
 	def clearCache(self):
 		Logutil.log("Begin clearCache" , util.LOG_LEVEL_INFO)
 				
-		self.fileDict = None
-		self.consoleDict = None
+		self.fileDict = None		
 		self.yearDict = None
 		self.publisherDict = None
 		self.developerDict = None
