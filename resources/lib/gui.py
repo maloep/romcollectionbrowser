@@ -378,7 +378,7 @@ class UIGameDB(xbmcgui.WindowXML):
 	def showConsoles(self):
 		Logutil.log("Begin showConsoles" , util.LOG_LEVEL_DEBUG)
 				
-		showEntryAllItems = self.Settings.getSetting(util.SETTING_RCB_SHOWENTRYALLCONSOLES)
+		showEntryAllItems = self.Settings.getSetting(util.SETTING_RCB_SHOWENTRYALLCONSOLES).upper() == 'TRUE'
 		
 		consoles = []
 		for romCollection in self.config.romCollections.values():
@@ -395,7 +395,7 @@ class UIGameDB(xbmcgui.WindowXML):
 	def showGenre(self):
 		Logutil.log("Begin showGenre" , util.LOG_LEVEL_DEBUG)
 		
-		showEntryAllItems = self.Settings.getSetting(util.SETTING_RCB_SHOWENTRYALLGENRES)
+		showEntryAllItems = self.Settings.getSetting(util.SETTING_RCB_SHOWENTRYALLGENRES).upper() == 'TRUE'
 		self.selectedGenreId = self.showFilterControl(Genre(self.gdb), CONTROL_GENRE, showEntryAllItems, None)
 		
 		Logutil.log("End showGenre" , util.LOG_LEVEL_DEBUG)
@@ -404,7 +404,7 @@ class UIGameDB(xbmcgui.WindowXML):
 	def showYear(self):
 		Logutil.log("Begin showYear" , util.LOG_LEVEL_DEBUG)
 		
-		showEntryAllItems = self.Settings.getSetting(util.SETTING_RCB_SHOWENTRYALLYEARS)
+		showEntryAllItems = self.Settings.getSetting(util.SETTING_RCB_SHOWENTRYALLYEARS).upper() == 'TRUE'
 		self.selectedYearId = self.showFilterControl(Year(self.gdb), CONTROL_YEAR, showEntryAllItems, None)
 		Logutil.log("End showYear" , util.LOG_LEVEL_DEBUG)
 		
@@ -412,7 +412,7 @@ class UIGameDB(xbmcgui.WindowXML):
 	def showPublisher(self):
 		Logutil.log("Begin showPublisher" , util.LOG_LEVEL_DEBUG)
 		
-		showEntryAllItems = self.Settings.getSetting(util.SETTING_RCB_SHOWENTRYALLPUBLISHER)
+		showEntryAllItems = self.Settings.getSetting(util.SETTING_RCB_SHOWENTRYALLPUBLISHER).upper() == 'TRUE'
 		self.selectedPublisherId = self.showFilterControl(Publisher(self.gdb), CONTROL_PUBLISHER, showEntryAllItems, None)
 		
 		Logutil.log("End showPublisher" , util.LOG_LEVEL_DEBUG)
@@ -459,7 +459,7 @@ class UIGameDB(xbmcgui.WindowXML):
 			
 		control.reset()
 		
-		showEntryAllItems = self.Settings.getSetting(util.SETTING_RCB_SHOWENTRYALLCHARS)
+		showEntryAllItems = self.Settings.getSetting(util.SETTING_RCB_SHOWENTRYALLCHARS).upper() == 'TRUE'
 		
 		items = []		
 		if(showEntryAllItems):
@@ -477,7 +477,7 @@ class UIGameDB(xbmcgui.WindowXML):
 	def showGames(self):
 		Logutil.log("Begin showGames" , util.LOG_LEVEL_INFO)
 		
-		preventUnfilteredSearch = self.Settings.getSetting(util.SETTING_RCB_PREVENTUNFILTEREDSEARCH)			
+		preventUnfilteredSearch = self.Settings.getSetting(util.SETTING_RCB_PREVENTUNFILTEREDSEARCH).upper() == 'TRUE'			
 		
 		if(preventUnfilteredSearch):			
 			if(self.selectedCharacter == 'All' and self.selectedConsoleId == 0 and self.selectedGenreId == 0 and self.selectedYearId == 0 and self.selectedPublisherId == 0):
