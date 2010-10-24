@@ -73,9 +73,10 @@ def launchEmu(gdb, gui, gameId, config, settings):
 				
 		filenameRows = File(gdb).getRomsByGameId(gameRow[util.ROW_ID])		
 		
-		cmd = buildCmd(filenameRows, romCollection.romPaths, romCollection.emulatorCmd, settings.getSetting(util.SETTING_RCB_ESCAPECOMMAND))
+		escapeCmd = settings.getSetting(util.SETTING_RCB_ESCAPECOMMAND).upper() == 'TRUE'
+		cmd = buildCmd(filenameRows, romCollection.romPaths, romCollection.emulatorCmd, escapeCmd)
 			
-		if (settings.getSetting(util.SETTING_RCB_USEEMUSOLO)):
+		if (settings.getSetting(util.SETTING_RCB_USEEMUSOLO).upper() == 'TRUE'):
 			
 			#try to create autoexec.py
 			writeAutoexec(gdb)
@@ -117,10 +118,10 @@ def saveViewState(gdb, isOnExit, selectedView, selectedGameIndex, selectedConsol
 		
 		if(isOnExit):
 			#saveViewStateOnExit
-			saveViewState = settings.getSetting(util.SETTING_RCB_SAVEVIEWSTATEONEXIT)
+			saveViewState = settings.getSetting(util.SETTING_RCB_SAVEVIEWSTATEONEXIT).upper() == 'TRUE'
 		else:
 			#saveViewStateOnLaunchEmu
-			saveViewState = settings.getSetting(util.SETTING_RCB_SAVEVIEWSTATEONLAUNCHEMU)
+			saveViewState = settings.getSetting(util.SETTING_RCB_SAVEVIEWSTATEONLAUNCHEMU).upper() == 'TRUE'
 			
 		rcbSetting = getRCBSetting(gdb)
 		if(rcbSetting == None):
@@ -359,7 +360,7 @@ def launchNonXbox(cmd, settings):
 				
 	toggledScreenMode = False
 	
-	if (settings.getSetting(util.SETTING_RCB_USEEMUSOLO)):
+	if (settings.getSetting(util.SETTING_RCB_USEEMUSOLO).upper() == 'FALSE'):
 		screenMode = xbmc.executehttpapi("GetSystemInfoByName(system.screenmode)").replace("<li>","")
 		Logutil.log("screenMode: " +screenMode, util.LOG_LEVEL_INFO)
 		isFullScreen = screenMode.endswith("Full Screen")

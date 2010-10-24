@@ -239,7 +239,15 @@ class Config:
 		
 			
 	def readScraper(self, siteName, tree):
-		siteRow = tree.find('Scrapers/Site[@name="%s"]' %siteName)
+		
+		#elementtree version 1.2.7 does not support xpath like this: Scrapers/Site[@name="%s"] 
+		siteRow = None
+		siteRows = tree.findall('Scrapers/Site')
+		for element in siteRows:
+			if(element.attrib.get('name') == siteName):
+				siteRow = element
+				break
+		
 		if(siteRow == None):
 			Logutil.log('Configuration error. Site %s does not exist in config.xml' %siteName, util.LOG_LEVEL_ERROR)
 			return None, 'Configuration error. See xbmc.log for details'
@@ -289,7 +297,13 @@ class Config:
 	
 	
 	def readFileType(self, name, tree):
-		fileTypeRow = tree.find('FileTypes/FileType[@name="%s"]' %name)
+		fileTypeRow = None 
+		fileTypeRows = tree.findall('FileTypes/FileType')
+		for element in fileTypeRows:
+			if(element.attrib.get('name') == name):
+				fileTypeRow = element
+				break
+			
 		if(fileTypeRow == None):
 			Logutil.log('Configuration error. FileType %s does not exist in config.xml' %name, util.LOG_LEVEL_ERROR)
 			return None, 'Configuration error. See xbmc.log for details'
@@ -316,7 +330,13 @@ class Config:
 		
 		
 	def readImagePlacing(self, imagePlacing, tree):
-		fileTypeForRow = tree.find('ImagePlacing/fileTypeFor[@name="%s"]' %imagePlacing)
+		
+		fileTypeForRow = None 
+		fileTypeForRows = tree.findall('ImagePlacing/fileTypeFor')
+		for element in fileTypeForRows:
+			if(element.attrib.get('name') == imagePlacing):
+				fileTypeForRow = element
+				break
 		
 		if(fileTypeForRow == None):
 			Logutil.log('Configuration error. ImagePlacing/fileTypeFor %s does not exist in config.xml' %imagePlacing, util.LOG_LEVEL_ERROR)
