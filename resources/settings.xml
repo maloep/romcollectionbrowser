@@ -1,7 +1,7 @@
 <settings>		
-	<setting id="rcb_logLevel" type="labelenum" values="ERROR|WARNING|INFO|DEBUG" default="INFO"/>
-	<setting id="rcb_useEmulatorSolo" value="" type="text"/>
-	<setting id="rcb_escapeEmulatorCommand" value="" type="text"/>
+	<setting id="rcb_logLevel" label="100001" type="labelenum" values="ERROR|WARNING|INFO|DEBUG" default="INFO"/>
+	<setting id="rcb_useEmulatorSolo" value="false" type="bool" default="false"/>
+	<setting id="rcb_escapeEmulatorCommand" value="false" type="bool" default="false"/>
 	<setting id="rcb_cachingOption" type="labelenum" values="CACHEALL|CACHESELECTION|CACHEITEM|CACHEITEMANDNEXT" default="CACHEITEMANDNEXT"/>
 	<setting id="rcb_showEntryAllConsoles" type="bool" default="true"/>
 	<setting id="rcb_showEntryAllGenres" type="bool" default="true"/>
