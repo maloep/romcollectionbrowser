@@ -56,6 +56,7 @@ class RomCollection:
 	name = ''
 	
 	emulatorCmd = ''
+	emulatorParams = ''
 	romPaths = None
 	mediaPaths = None
 	scraperSites = None
@@ -155,10 +156,22 @@ class Config:
 			scraperRows = romCollectionRow.findall('scraper')
 			for scraperRow in scraperRows:
 				siteName = scraperRow.attrib.get('name')
-				if(siteName == ''):
+				if(siteName == None or siteName == ''):
 					Logutil.log('Configuration error. RomCollection/scraper must have an attribute name', util.LOG_LEVEL_ERROR)
 					return None, 'Configuration error. See xbmc.log for details'
-				scraper, errorMsg = self.readScraper(siteName, tree)
+				
+				#read additional scraper properties
+				platform = scraperRow.attrib.get('platform')
+				if(platform == None):
+					platform = ''
+				replaceKeyString = scraperRow.attrib.get('replaceKeyString')
+				if(replaceKeyString == None):
+					replaceKeyString = ''
+				replaceValueString = scraperRow.attrib.get('replaceValueString')
+				if(replaceValueString == None):
+					replaceValueString = ''
+				
+				scraper, errorMsg = self.readScraper(siteName, platform, replaceKeyString, replaceValueString, tree)
 				if(scraper == None):
 					return None, errorMsg
 				romCollection.scraperSites.append(scraper)
@@ -177,6 +190,10 @@ class Config:
 			emulatorCmd = romCollectionRow.find('emulatorCmd')
 			if(emulatorCmd != None):
 				romCollection.emulatorCmd = emulatorCmd.text
+			
+			emulatorParams = romCollectionRow.find('emulatorParams')
+			if(emulatorParams != None):
+				romCollection.emulatorParams = emulatorParams.text
 			
 			ignoreOnScan = romCollectionRow.find('ignoreOnScan')
 			if(ignoreOnScan != None):
@@ -238,7 +255,7 @@ class Config:
 		return romCollections, ''
 		
 			
-	def readScraper(self, siteName, tree):
+	def readScraper(self, siteName, platform, replaceKeyString, replaceValueString, tree):
 		
 		#elementtree version 1.2.7 does not support xpath like this: Scrapers/Site[@name="%s"] 
 		siteRow = None
@@ -265,7 +282,7 @@ class Config:
 			if(parseInstruction != None and parseInstruction != ''):
 				if(not os.path.isabs(parseInstruction)):
 					#if it is a relative path, search in RCBs home directory
-					parseInstruction = os.path.join(os.getcwd(), '..', 'scraper', parseInstruction)
+					parseInstruction = os.path.join(util.RCBHOME, 'resources', 'scraper', parseInstruction)
 				
 				if(not os.path.isfile(parseInstruction)):
 					Logutil.log('Configuration error. parseInstruction file %s does not exist.' %parseInstruction, util.LOG_LEVEL_ERROR)
@@ -274,8 +291,8 @@ class Config:
 				scraper.parseInstruction = parseInstruction
 				
 			source = scraperRow.attrib.get('source')
-			if(source != None and source != ''):
-				scraper.source = source
+			if(source != None and source != ''):				
+				scraper.source = source.replace('%PLATFORM%', platform)
 				
 			returnUrl = scraperRow.attrib.get('returnUrl')
 			if(returnUrl != None and returnUrl != ''):
@@ -283,11 +300,11 @@ class Config:
 				
 			replaceKeyString = scraperRow.attrib.get('replaceKeyString')
 			if(replaceKeyString != None and replaceKeyString != ''):
-				scraper.replaceKeyString = replaceKeyString
+				scraper.replaceKeyString = replaceKeyString.replace('%REPLACEKEYS%', replaceKeyString)
 				
 			replaceValueString = scraperRow.attrib.get('replaceValueString')
 			if(replaceValueString != None and replaceValueString != ''):
-				scraper.replaceValueString = replaceValueString
+				scraper.replaceValueString = replaceValueString.replace('%REPLACEVALUES%', replaceValueString)
 			
 			scrapers.append(scraper)
 			

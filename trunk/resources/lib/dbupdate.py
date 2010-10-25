@@ -223,6 +223,8 @@ class DBUpdate:
 		Logutil.log("using parser file: " +scraper.parseInstruction, util.LOG_LEVEL_INFO)		
 		Logutil.log("using game description: " +scraper.source, util.LOG_LEVEL_INFO)
 		
+		scraperSource = scraper.source
+		
 		#url to scrape may be passed from the previous scraper
 		if(scraper.source.isdigit()):
 			if(len(urlsFromPreviousScrapers) == 0):
@@ -236,7 +238,7 @@ class DBUpdate:
 			Logutil.log("using url from previous scraper: " +str(url), util.LOG_LEVEL_INFO)
 			scraperSource = url
 														
-		tempResults = self.parseDescriptionFile(scraper, gamenameFromFile, foldername, filecrc)
+		tempResults = self.parseDescriptionFile(scraper, scraperSource, gamenameFromFile, foldername, filecrc)
 		if(tempResults == None):
 			return results, urlsFromPreviousScrapers, True
 		
@@ -494,8 +496,8 @@ class DBUpdate:
 		self.insertData(gamedescription, gamename, romCollection, filenamelist, foldername)
 	
 	
-	def parseDescriptionFile(self, scraper, gamenameFromFile, foldername, crc):
-		descriptionfile = scraper.source.replace("%GAME%", gamenameFromFile)
+	def parseDescriptionFile(self, scraper, scraperSource, gamenameFromFile, foldername, crc):
+		descriptionfile = scraperSource.replace("%GAME%", gamenameFromFile)
 
 		if(not descriptionfile.startswith('http://') and not os.path.exists(descriptionfile)):
 			Logutil.log("description file for game " +gamenameFromFile +" could not be found. "\
