@@ -62,7 +62,8 @@ class RomCollection:
 	scraperSites = None
 	imagePlacing = None	
 	ignoreOnScan = False
-	allowUpdate = True	
+	allowUpdate = True
+	fullReimport = False	
 	searchGameByCRC = True
 	searchGameByCRCIgnoreRomName = False
 	useFoldernameAsCRC = False
@@ -202,6 +203,10 @@ class Config:
 			allowUpdate = romCollectionRow.find('allowUpdate')
 			if(allowUpdate != None):
 				romCollection.allowUpdate = allowUpdate.text.upper() == 'TRUE'
+			
+			fullReimport = romCollectionRow.find('fullReimport')
+			if(fullReimport != None):
+				romCollection.fullReimport = fullReimport.text.upper() == 'TRUE'			
 				
 			searchGameByCRC = romCollectionRow.find('searchGameByCRC')
 			if(searchGameByCRC != None):
