@@ -74,7 +74,7 @@ def launchEmu(gdb, gui, gameId, config, settings):
 		filenameRows = File(gdb).getRomsByGameId(gameRow[util.ROW_ID])		
 		
 		escapeCmd = settings.getSetting(util.SETTING_RCB_ESCAPECOMMAND).upper() == 'TRUE'
-		cmd = buildCmd(filenameRows, romCollection.romPaths, romCollection.emulatorCmd, escapeCmd)
+		cmd = buildCmd(filenameRows, romCollection, escapeCmd)
 			
 		if (settings.getSetting(util.SETTING_RCB_USEEMUSOLO).upper() == 'TRUE'):
 			
@@ -90,6 +90,10 @@ def launchEmu(gdb, gui, gameId, config, settings):
 				cmd = 'call \"' +os.path.join(util.RCBHOME, 'applaunch.bat') +'\" ' +cmd						
 			else:
 				cmd = os.path.join(re.escape(util.RCBHOME), 'applaunch.sh ') +cmd
+		else:
+			#use call to support paths with whitespaces
+			if(env == "win32"):
+				cmd = 'call ' +cmd
 		
 		#update LaunchCount
 		launchCount = gameRow[util.GAME_launchCount]
@@ -179,46 +183,51 @@ def buildLikeStatement(selectedCharacter):
 		
 
 		
-def buildCmd(filenameRows, romPaths, emuCommandLine, escapeCmd):
+def buildCmd(filenameRows, romCollection, escapeCmd):
 	
 	fileindex = int(0)
 	
-	#cmd could be: uae {-%I% %ROM%}
+	emuCommandLine = romCollection.emulatorCmd
+	emuParams = romCollection.emulatorParams
+	
+	#params could be: {-%I% %ROM%}
 	#we have to repeat the part inside the brackets and replace the %I% with the current index
-	obIndex = emuCommandLine.find('{')
-	cbIndex = emuCommandLine.find('}')			
+	obIndex = emuParams.find('{')
+	cbIndex = emuParams.find('}')			
 	replString = ''
 	if obIndex > -1 and cbIndex > 1:
-		replString = emuCommandLine[obIndex+1:cbIndex]
-	cmd = emuCommandLine.replace("{", "")
-	cmd = cmd.replace("}", "")
+		replString = emuParams[obIndex+1:cbIndex]
+	emuParams = emuParams.replace("{", "")
+	emuParams = emuParams.replace("}", "")
 	
 	for fileNameRow in filenameRows:
 		fileName = fileNameRow[0]			
 		rom = ""
 		#we could have multiple rom Paths - search for the correct one
-		for romPath in romPaths:
+		for romPath in romCollection.romPaths:
 			rom = os.path.join(romPath, fileName)
 			if(os.path.isfile(rom)):
 				break
 		if(rom == ""):
 			Logutil.log("no rom file found for game: " +str(fileName), util.LOG_LEVEL_ERROR)
 			return ""
-					
-		if fileindex == 0:				
-			if (escapeCmd):				
-				cmd = cmd.replace('%ROM%', re.escape(rom))
+		
+		if fileindex == 0:
+			if (escapeCmd):
+				emuParams = emuParams.replace('%ROM%', re.escape(rom))
+				emuCommandLine = re.escape(emuCommandLine)
 			else:					
-				cmd = cmd.replace('%ROM%', rom)
-			cmd = cmd.replace('%I%', str(fileindex))
+				emuParams = emuParams.replace('%ROM%', rom)
+			cmd = '\"' +emuCommandLine +'\" ' +emuParams.replace('%I%', str(fileindex))
 		else:
 			newrepl = replString
 			if (escapeCmd):
-				newrepl = newrepl.replace('%ROM%', re.escape(rom))					
+				newrepl = newrepl.replace('%ROM%', re.escape(rom))
+				emuCommandLine = re.escape(emuCommandLine)					
 			else:					
 				newrepl = newrepl.replace('%ROM%', rom)
 			newrepl = newrepl.replace('%I%', str(fileindex))
-			cmd += ' ' +newrepl			
+			cmd += ' ' +newrepl		
 		fileindex += 1
 	
 	return cmd
