@@ -1024,40 +1024,14 @@ class UIGameDB(xbmcgui.WindowXML):
 		if(doImport == 0):
 			return
 		
-			"""
-			#check file modification time of config.xml			
-			modifyTime = util.getConfigXmlModifyTime()
-			rcbSetting = helper.getRCBSetting(self.gdb)
-			if (rcbSetting == None):
-				print "RCB_WARNING: rcbSetting == None in checkImport"
-				return
-			lastConfigChange = rcbSetting[24]
-			Logutil.log("lastConfigChange from DB (as int): " +str(lastConfigChange), util.LOG_LEVEL_INFO)
-			Logutil.log("lastConfigChange from DB (as time): " +str(time.ctime(lastConfigChange)), util.LOG_LEVEL_INFO)
-			if (modifyTime != lastConfigChange):
-				importSuccessful = self.doImportSettings('config.xml has changed since last import.')
-				if(not importSuccessful):
-					return			
-			
-		elif(doImport in (1, 2, 3)):
-			if(doImport == 1):
-				importSuccessful = self.doImportSettings('Database is empty.')
-			else:
-				importSuccessful = self.doImportSettings('')								
-
-			if(importSuccessful and doImport == 1):
-				dialog = xbmcgui.Dialog()
-				retGames = dialog.yesno('Rom Collection Browser', 'Import Settings successful', 'Do you want to import Games now?')
-				if(retGames == True):
-					progressDialog = ProgressDialogGUI()
-					progressDialog.writeMsg("Import games...", "", "")
-					dbupdate.DBUpdate().updateDB(self.gdb, progressDialog)
-					progressDialog.writeMsg("", "", "", -1)
-					del progressDialog
-			"""
-								
+		message = ''	
+		if(doImport == 1):
+			message = 'Database is empty. Do you want to import Games now?'
+		else:
+			message = 'Do you want to import Games now?'
+		
 		dialog = xbmcgui.Dialog()
-		retGames = dialog.yesno('Rom Collection Browser', 'Import Games', 'Do you want to import Games now?')
+		retGames = dialog.yesno('Rom Collection Browser', 'Import Games', message)
 		if(retGames == True):
 			progressDialog = ProgressDialogGUI()
 			progressDialog.writeMsg("Import games...", "", "")
