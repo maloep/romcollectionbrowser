@@ -6,7 +6,7 @@
   provider-name="malte">
   <requires>
     <import addon="xbmc.python" version="1.0"/>
-	<import addon="script.module.elementtree" version="1.2.7"/>
+    <import addon="script.module.elementtree" version="1.2.7"/>
   </requires>
   <extension point="xbmc.python.script" library="default.py"></extension>
   <extension point="xbmc.addon.metadata">
@@ -15,7 +15,7 @@
     <description>Current features:
     * filter games by console, genre, year and publisher
     * launch roms with external emulator
-	* scrape art and meta data from online sources
+    * scrape art and meta data from online sources
     * configure script via xml file
     * simple but configurable description file parser
     * view different images and videos per game
