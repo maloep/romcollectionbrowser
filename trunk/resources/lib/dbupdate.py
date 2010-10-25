@@ -154,9 +154,16 @@ class DBUpdate:
 					#parse description
 					for result in parser.scanDescription(scraper.source, str(scraper.parseInstruction)):
 						
-						filenamelist, foldername, filecrc = self.findFilesByGameDescription(result, romCollection, filecrcDict, fileFoldernameDict, fileGamenameDict)
+						filenamelist, foldername, filecrc = self.findFilesByGameDescription(result, romCollection, filecrcDict, fileFoldernameDict, fileGamenameDict)						
 
-						if(filenamelist != None and len(filenamelist) > 0):								
+						if(filenamelist != None and len(filenamelist) > 0):
+							
+							#check if this file already exists in DB
+							romFile = File(self.gdb).getFileByNameAndType(filenamelist[0], 0)
+							if(romFile != None and not romCollection.fullReimport):
+								Logutil.log('File %s already exists in database. Won\'t scrape it again. Set fullReimport to True to force scraping.' %filenamelist[0], util.LOG_LEVEL_INFO)
+								continue
+							
 							gamenameFromFile = self.getGamenameFromFilename(filenamelist[0], romCollection)
 							gamenameFromDesc = result['Game'][0]
 							gui.writeMsg(progDialogRCHeader, "Import game: " +str(gamenameFromDesc), "", fileCount)
@@ -185,6 +192,13 @@ class DBUpdate:
 				fileCount = 1										
 				
 				for filename in files:						
+					
+					#check if this file already exists in DB
+					romFile = File(self.gdb).getFileByNameAndType(filename, 0)
+					if(romFile != None and not romCollection.fullReimport):
+						Logutil.log('File %s already exists in database. Won\'t scrape it again. Set fullReimport to True to force scraping.' %filename, util.LOG_LEVEL_INFO)
+						continue
+					
 					gamenameFromFile = self.getGamenameFromFilename(filename, romCollection)						
 					
 					gui.writeMsg(progDialogRCHeader, "Import game: " +gamenameFromFile, "", fileCount)
