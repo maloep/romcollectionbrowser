@@ -9,6 +9,6 @@
 		<Developer>Developer/Name</Developer>
 		<Publisher>Publisher/Name</Publisher>		
 		<Description>Languages/Language[@Abbr="en"]/LongDesc</Description>
-		<Mediacover>Boxart/FullURL</Mediacover>
+		<Filetypeboxfront>Boxart/FullURL</Filetypeboxfront>
 	</GameGrammar>
 </parserConfig>
