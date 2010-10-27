@@ -138,6 +138,20 @@ FILETYPEPARENT_PUBLISHER = 'publisher'
 FILETYPEPARENT_DEVELOPER = 'developer'
 FILETYPEPARENT_CONSOLE = 'console'
 FILETYPEPARENT_ROMCOLLECTION = 'romcollection'
+				
+
+html_unescape_table = {
+	    "&amp;" : "&",
+	    "&quot;" : '"' ,
+	    "&apos;" : "'",
+	    "&gt;" : ">",
+	    "&lt;" : "<",
+	    "&nbsp;" : " ",
+	    "&#x26;" : "&",
+	    "&#x27;" : "\'",
+	    "&#xB2;" : "2",
+	    "&#xB3;" : "3",	    
+	    }
 
 
 #

@@ -51,6 +51,7 @@ for result in results:
 
 """
 
+"""
 from config import *
 util.ISTESTRUN = True
 config = Config()
@@ -77,8 +78,17 @@ for romCollection in config.romCollections.values():
 			
 	for fileType in romCollection.imagePlacing.fileTypesForGameList:
 		print fileType.name
+"""
 
 
+def html_unescape(text):
+		
+		for key in util.html_unescape_table.keys():
+			text = text.replace(key, util.html_unescape_table[key])
+			
+		return text
+	
+print html_unescape("ABC&quot;")
 
 
 #timestamp1 = time.clock()
