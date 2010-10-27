@@ -855,13 +855,8 @@ class DBUpdate:
 	
 	
 	def stripHTMLTags(self, inputString):
-		
-		#TODO there must be a function available to do this 
-		inputString = inputString.replace('&nbsp;', ' ')
-		inputString = inputString.replace('&quot;', '"')
-		inputString = inputString.replace('&amp;', '&')
-		inputString = inputString.replace('&lt;', '<')
-		inputString = inputString.replace('&gt;', '>')
+				
+		inputString = self.html_unescape(inputString)
 				
 		#remove html tags and double spaces
 		intag = [False]
@@ -882,6 +877,15 @@ class DBUpdate:
 			return True
 		
 		return ''.join(c for c in inputString if chk(c))
+			
+
+	def html_unescape(self, text):
+		
+		for key in util.html_unescape_table.keys():
+			text = text.replace(key, util.html_unescape_table[key])
+			
+		return text
+
 
 	
 	
