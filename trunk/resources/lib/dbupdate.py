@@ -10,7 +10,6 @@ from pysqlite2 import dbapi2 as sqlite
 
 from config import *
 from gamedatabase import *
-from pyparsing import *
 from descriptionparserfactory import *
 import util
 from util import *
@@ -214,7 +213,7 @@ class DBUpdate:
 						for scraper in scraperSite.scrapers:							
 							results, urlsFromPreviousScrapers, doContinue = self.scrapeResults(results, scraper, urlsFromPreviousScrapers, gamenameFromFile, foldername, filecrc)
 							if(doContinue):
-								continue						
+								continue
 					
 					#print results
 					if(len(results) == 0):
