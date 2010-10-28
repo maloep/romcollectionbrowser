@@ -166,14 +166,7 @@ class UIGameDB(xbmcgui.WindowXML):
 		
 		Logutil.log("Init Rom Collection Browser: " + util.RCBHOME, util.LOG_LEVEL_INFO)				
 		
-		self.Settings = util.getSettings()
-		
-		self.config = Config()
-		statusOk, errorMsg = self.config.readXml()
-		if(statusOk == False):
-			xbmcgui.Dialog().ok(util.SCRIPTNAME, 'Error reading config.xml.', errorMsg)
-			self.quit = True
-			return
+		self.Settings = util.getSettings()				
 		
 		try:
 			self.gdb = GameDataBase(util.getAddonDataPath())
@@ -182,35 +175,49 @@ class UIGameDB(xbmcgui.WindowXML):
 			xbmcgui.Dialog().ok(util.SCRIPTNAME, 'Error accessing database', str(exc))
 			print ('Error accessing database: ' +str(exc))
 			self.quit = True
-			return		
-				
+			return
+		
 		#check if we have an actual database
 		#create new one or alter existing one
 		doImport, errorMsg = self.gdb.checkDBStructure()
+				
 		
 		self.quit = False
 		if(doImport == -1):
 			xbmcgui.Dialog().ok(util.SCRIPTNAME, errorMsg, 'Please start with a clean database.')			
 			self.quit = True
-		else:
-			self.gdb.commit()
-			self.checkImport(doImport)
-			
-			cachingOptionStr = self.Settings.getSetting(util.SETTING_RCB_CACHINGOPTION)
-			if(cachingOptionStr == 'CACHEALL'):
-				self.cachingOption = 0
-			elif(cachingOptionStr == 'CACHESELECTION'):
-				self.cachingOption = 1
-			elif(cachingOptionStr == 'CACHEITEM'):
-				self.cachingOption = 2
-			elif(cachingOptionStr == 'CACHEITEMANDNEXT'):
-				self.cachingOption = 3
-			print "caching option: " +str(self.cachingOption)						
-			
-			self.cacheItems()
-			
-			self.player = MyPlayer()
-			self.player.gui = self
+			return
+		elif(doImport == 2):
+			xbmcgui.Dialog().ok(util.SCRIPTNAME, 'Id lookup file was created', 'Please update config.xml now.')
+			self.quit = True
+			return
+		
+		#read config.xml
+		self.config = Config()
+		statusOk, errorMsg = self.config.readXml()
+		if(statusOk == False):
+			xbmcgui.Dialog().ok(util.SCRIPTNAME, 'Error reading config.xml.', errorMsg)
+			self.quit = True
+			return
+				
+		self.gdb.commit()
+		self.checkImport(doImport)
+		
+		cachingOptionStr = self.Settings.getSetting(util.SETTING_RCB_CACHINGOPTION)
+		if(cachingOptionStr == 'CACHEALL'):
+			self.cachingOption = 0
+		elif(cachingOptionStr == 'CACHESELECTION'):
+			self.cachingOption = 1
+		elif(cachingOptionStr == 'CACHEITEM'):
+			self.cachingOption = 2
+		elif(cachingOptionStr == 'CACHEITEMANDNEXT'):
+			self.cachingOption = 3
+		print "caching option: " +str(self.cachingOption)						
+		
+		self.cacheItems()
+		
+		self.player = MyPlayer()
+		self.player.gui = self
 		
 		
 	def onInit(self):
