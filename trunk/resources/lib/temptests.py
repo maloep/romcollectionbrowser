@@ -81,15 +81,6 @@ for romCollection in config.romCollections.values():
 """
 
 
-def html_unescape(text):
-		
-		for key in util.html_unescape_table.keys():
-			text = text.replace(key, util.html_unescape_table[key])
-			
-		return text
-	
-print html_unescape("ABC&quot;")
-
 
 #timestamp1 = time.clock()
 

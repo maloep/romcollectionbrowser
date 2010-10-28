@@ -4,6 +4,7 @@ import os, sys
 from pysqlite2 import dbapi2 as sqlite
 
 import util
+from configxmlupdater import *
 
 
 class GameDataBase:	
@@ -45,7 +46,7 @@ class GameDataBase:
 	
 	def checkDBStructure(self):
 		
-		#returnValues: -1 error, 0=nothing, 1=import Games
+		#returnValues: -1 error, 0=nothing, 1=import Games, 2=idLookupFile created
 		
 		dbVersion = ""
 		try:
@@ -54,7 +55,11 @@ class GameDataBase:
 				self.self.createTables()
 				return 1, ""
 			rcbSetting = rcbSettingRows[0]
+			
+			#HACK: reflect changes in RCBSetting
 			dbVersion = rcbSetting[util.RCBSETTING_dbVersion]
+			if(dbVersion == None):
+				dbVersion = rcbSetting[10]				
 			
 		except  Exception, (exc): 
 			self.createTables()
@@ -65,13 +70,17 @@ class GameDataBase:
 			alterTableScript = "SQL_ALTER_%(old)s_%(new)s.txt" %{'old': dbVersion, 'new':util.CURRENT_DB_VERSION}
 			alterTableScript = str(os.path.join(self.sqlDir, alterTableScript))
 			
-			if os.path.isfile(alterTableScript):				
-				self.executeSQLScript(alterTableScript)				
-				return 0, ""
+			if os.path.isfile(alterTableScript):
+								
+				returnCode, message = ConfigxmlUpdater().createConfig(self)
+								
+				self.executeSQLScript(alterTableScript)
+				return returnCode, message
 			else:
 				return -1, "Error: No Update from version %s to %s." %(dbVersion, util.CURRENT_DB_VERSION)
 			
 		return 0, ""
+		
 	
 
 class DataBaseObject:
