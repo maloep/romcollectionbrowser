@@ -5,6 +5,7 @@ from pysqlite2 import dbapi2 as sqlite
 from gamedatabase import *
 import util
 from elementtree.ElementTree import *
+from config import ImagePlacing
 
 
 class ConfigxmlUpdater:
@@ -21,8 +22,10 @@ class ConfigxmlUpdater:
 		imagePlacing = SubElement(root, 'ImagePlacing')
 		scrapers = SubElement(root, 'Scrapers')
 		
-		romCollectionRows = gdb.cursor.execute("SELECT * FROM RomCollection")
-		for romCollectionRow in romCollectionRows:				
+		gdb.cursor.execute("SELECT * FROM RomCollection")
+		romCollectionRows = gdb.cursor.fetchall()
+		for romCollectionRow in romCollectionRows:
+			print str(romCollectionRow)
 			romCollection = SubElement(romCollections, 'RomCollection', {'id' : str(romCollectionRow[0]), 'name' : str(romCollectionRow[1])})
 			SubElement(romCollection, 'emulatorCmd').text = str(romCollectionRow[3])
 			SubElement(romCollection, 'emulatorParams').text = 'please move your params here'
@@ -48,14 +51,15 @@ class ConfigxmlUpdater:
 				if(descSourceRow != None):
 					descSource = descSourceRow[1]
 			
-			if((descParserFile != None or descParserFile != '') and (descSource != None or descSource != '')):
+			if((descParserFile != None and descParserFile != '') and (descSource != None and descSource != '')):
 				site = SubElement(scrapers, 'Site', {'name' : romCollectionRow[1]})
 				SubElement(site, 'Scraper', {'parseInstruction' : descParserFile, 'source' : descSource})
+				SubElement(romCollection, 'scraper', {'name' : romCollectionRow[1]})
 			else:
-				#TODO: Scraper from 0.7.3
-				pass
-			
-			SubElement(romCollection, 'scraper', {'name' : romCollectionRow[1]})
+				SubElement(romCollection, 'scraper', {'name' : 'thevideogamedb.com'})
+				SubElement(romCollection, 'scraper', {'name' : 'giantbomb.com'})
+				SubElement(romCollection, 'scraper', {'name' : 'mobygames.com'})
+																										
 			SubElement(romCollection, 'imagePlacing').text = 'default'
 			
 			SubElement(romCollection, 'descFilePerGame').text = str(romCollectionRow[9])
@@ -72,18 +76,34 @@ class ConfigxmlUpdater:
 			SubElement(romCollection, 'useFilenameAsCRC').text = str(romCollectionRow[21])
 			SubElement(romCollection, 'maxFolderDepth').text = str(romCollectionRow[22])
 				
-				
 		fileTypeRows = gdb.cursor.execute("SELECT * FROM FileType where name not in ('rcb_rom', 'rcb_manual', 'rcb_description', 'rcb_configuration')")
 		for fileTypeRow in fileTypeRows:				
 			fileType = SubElement(fileTypes, 'FileType' , {'id' : str(fileTypeRow[0]), 'name' : str(fileTypeRow[1])})
 			SubElement(fileType, 'type').text = str(fileTypeRow[2])
-			SubElement(fileType, 'parent').text = str(fileTypeRow[3])
-
-					
+			SubElement(fileType, 'parent').text = str(fileTypeRow[3])							
+									
+		self.createFileTypeForElements(gdb, imagePlacing)			
+		self.createOnlineScrapers(scrapers)
+		
+		#write file		
+		try:
+			self.indent(root)
+			tree = ElementTree(root)			
+			tree.write(path)
+			
+			return 2, ""
+			
+		except Exception, (exc):
+			print("Error: Cannot write idLookup.txt: " +str(exc))
+			return -1, "Error: Cannot write idLookup.txt: " +str(exc)
+		
+	
+	def createFileTypeForElements(self, gdb, imagePlacing):
+		
+		#use fileTypeForControl from first RomCollection as default
 		romCollectionRows = gdb.cursor.execute("SELECT * FROM RomCollection")
 		romCollectionRow = romCollectionRows.fetchone()
-					
-		#use fileTypeForControl from first RomCollection as default
+		
 		fileTypeFor = SubElement(imagePlacing, 'fileTypeFor', {'name' : 'default'})
 		fileTypeForRows = gdb.cursor.execute("SELECT FileTypeForControl.control, FileType.name FROM FileTypeForControl, FileType \
 				Where romCollectionId = ? AND filetype.id = FileTypeForControl.filetypeid", (romCollectionRow[0], ))
@@ -132,18 +152,29 @@ class ConfigxmlUpdater:
 				property = 'fileTypeForGameInfoViewVideoWindow'
 
 			SubElement(fileTypeFor, property).text = str(fileTypeForRow[1])
+	
+	
+	def createOnlineScrapers(self, scrapers):
+		#thevideogamedb.com
+		site = SubElement(scrapers, 'Site', {'name' : 'thevideogamedb.com'})
+		SubElement(site, 'Scraper', {'parseInstruction' : '01 - thevideogamedb.xml', 'source' : 'http://thevideogamedb.com/API/GameDetail.aspx?apikey=%VGDBAPIKey%&amp;crc=%CRC%'})		
 		
-		#write file		
-		try:
-			self.indent(root)
-			tree = ElementTree(root)			
-			tree.write(path)
-			
-			return 2, ""
-			
-		except Exception, (exc):
-			print("Error: Cannot write idLookup.txt: " +str(exc))
-			return -1, "Error: Cannot write idLookup.txt: " +str(exc)
+		#giantbomb.com
+		site = SubElement(scrapers, 'Site', {'name' : 'giantbomb.com'})
+		SubElement(site, 'Scraper', {'parseInstruction' : '03.01 - giantbomb - search.xml', 'source' : 'http://api.giantbomb.com/search/?api_key=%GIANTBOMBAPIKey%&amp;query=%GAME%&amp;resources=game&amp;format=xml',
+									'returnUrl' : 'true', 'replaceKeyString' : '%REPLACEKEYS%', 'replaceValueString' : '%REPLACEVALUES%'})
+		SubElement(site, 'Scraper', {'parseInstruction' : '03.02 - giantbomb - detail.xml', 'source' : '1'})		
+		
+		#mobygames.com
+		site = SubElement(scrapers, 'Site', {'name' : 'mobygames.com'})
+		SubElement(site, 'Scraper', {'parseInstruction' : '04.01 - mobygames - gamesearch.xml', 'source' : 'http://www.mobygames.com/search/quick?game=%GAME%&amp;p=%PLATFORM%',
+									'returnUrl' : 'true', 'replaceKeyString' : '%REPLACEKEYS%', 'replaceValueString' : '%REPLACEVALUES%'})
+		SubElement(site, 'Scraper', {'parseInstruction' : '04.02 - mobygames - details.xml', 'source' : '1'})				
+		SubElement(site, 'Scraper', {'parseInstruction' : '04.03 - mobygames - coverlink.xml', 'source' : '1', 'returnUrl' : 'true'})
+		SubElement(site, 'Scraper', {'parseInstruction' : '04.04 - mobygames - coverart.xml', 'source' : '2'})
+		SubElement(site, 'Scraper', {'parseInstruction' : '04.05 - mobygames - screenshotlink.xml', 'source' : '1', 'returnUrl' : 'true'})
+		SubElement(site, 'Scraper', {'parseInstruction' : '04.06 - mobygames - screenshotoriginallink.xml', 'source' : '3', 'returnUrl' : 'true'})
+		SubElement(site, 'Scraper', {'parseInstruction' : '04.07 - mobygames - screenshots.xml', 'source' : '4'})						
 		
 		
 	def indent(self, elem, level=0):
