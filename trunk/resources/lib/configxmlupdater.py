@@ -68,6 +68,7 @@ class ConfigxmlUpdater:
 				SubElement(romCollection, 'scraper', {'name' : romCollectionRow[1]})
 			else:
 				SubElement(romCollection, 'scraper', {'name' : 'thevideogamedb.com'})
+				SubElement(romCollection, 'scraper', {'name' : 'thegamesdb.net'})
 				SubElement(romCollection, 'scraper', {'name' : 'giantbomb.com'})
 				SubElement(romCollection, 'scraper', {'name' : 'mobygames.com'})
 																										
@@ -169,6 +170,9 @@ class ConfigxmlUpdater:
 		#thevideogamedb.com
 		site = SubElement(scrapers, 'Site', {'name' : 'thevideogamedb.com'})
 		SubElement(site, 'Scraper', {'parseInstruction' : '01 - thevideogamedb.xml', 'source' : 'http://thevideogamedb.com/API/GameDetail.aspx?apikey=%VGDBAPIKey%&amp;crc=%CRC%'})		
+		
+		site = SubElement(scrapers, 'Site', {'name' : 'thegamesdb.net'})
+		SubElement(site, 'Scraper', {'parseInstruction' : '02 - thegamesdb.xml', 'source' : 'http://thegamesdb.net/api/GetGame.php?name=%GAME%'})
 		
 		#giantbomb.com
 		site = SubElement(scrapers, 'Site', {'name' : 'giantbomb.com'})
