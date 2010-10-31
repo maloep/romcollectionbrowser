@@ -184,13 +184,11 @@ class UIGameDB(xbmcgui.WindowXML):
 		
 		self.quit = False
 		if(doImport == -1):
-			xbmcgui.Dialog().ok(util.SCRIPTNAME, errorMsg, 'Please start with a clean database.')			
+			xbmcgui.Dialog().ok(util.SCRIPTNAME, errorMsg)			
 			self.quit = True
 			return
 		elif(doImport == 2):
-			xbmcgui.Dialog().ok(util.SCRIPTNAME, 'Id lookup file was created', 'Please update config.xml now.')
-			self.quit = True
-			return
+			xbmcgui.Dialog().ok(util.SCRIPTNAME, 'Database and config.xml updated to new version', 'Please check your emulatorCmd to launch games.')			
 		
 		#read config.xml
 		self.config = Config()
@@ -1035,7 +1033,7 @@ class UIGameDB(xbmcgui.WindowXML):
 		if(doImport == 1):
 			message = 'Database is empty. Do you want to import Games now?'
 		else:
-			message = 'Do you want to import Games now?'
+			return
 		
 		dialog = xbmcgui.Dialog()
 		retGames = dialog.yesno('Rom Collection Browser', 'Import Games', message)
@@ -1045,28 +1043,6 @@ class UIGameDB(xbmcgui.WindowXML):
 			dbupdate.DBUpdate().updateDB(self.gdb, progressDialog)
 			progressDialog.writeMsg("", "", "", -1)
 			del progressDialog
-				
-				
-	def doImportSettings(self, message):
-		dialog = xbmcgui.Dialog()
-		retSettings = dialog.yesno('Rom Collection Browser', message, 'Do you want to import Settings now?')
-		if(retSettings == True):
-			progressDialog = ProgressDialogGUI()
-			progressDialog.writeMsg("Import settings...", "", "")				
-			importSuccessful, errorMsg = importsettings.SettingsImporter().importSettings(self.gdb, progressDialog)
-			# XBMC crashes on my Linux system without this line:
-			print('RCB INFO: Import done')
-			progressDialog.writeMsg("", "", "", -1)
-			del progressDialog
-			
-			if (not importSuccessful):
-				xbmcgui.Dialog().ok(util.SCRIPTNAME, errorMsg, 'See xbmc.log for details.')
-				return False
-			self.backupConfigXml()
-			
-			#reset log level
-			Logutil.currentLogLevel = None
-			return True
 
 			
 	def checkAutoExec(self):
