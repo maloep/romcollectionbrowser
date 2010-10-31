@@ -1,6 +1,6 @@
 
 
-import os, sys
+import os, sys, shutil
 from pysqlite2 import dbapi2 as sqlite
 
 import util
@@ -72,7 +72,19 @@ class GameDataBase:
 			
 			if os.path.isfile(alterTableScript):
 								
-				returnCode, message = ConfigxmlUpdater().createConfig(self)
+				returnCode, message = ConfigxmlUpdater().createConfig(self, dbVersion)
+								
+				#backup MyGames.db							
+				newFileName = self.dataBasePath +'.backup ' +dbVersion 
+				
+				if os.path.isfile(newFileName):					
+					return -1, "Error: Cannot backup MyGames.db: Backup File exists."				
+				try:
+					self.close()
+					shutil.copy(str(self.dataBasePath), str(newFileName))
+					self.connect()
+				except Exception, (exc):					
+					return -1, "Error: Cannot backup MyGames.db: " +str(exc)
 								
 				self.executeSQLScript(alterTableScript)
 				return returnCode, message

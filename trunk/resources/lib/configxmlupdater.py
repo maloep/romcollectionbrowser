@@ -10,11 +10,22 @@ from config import ImagePlacing
 
 class ConfigxmlUpdater:
 	
-	def createConfig(self, gdb):
+	def createConfig(self, gdb, dbVersion):
 		
-		path = os.path.join(util.getAddonDataPath(), util.CURRENT_SCRIPT_VERSION +' - config.xml')
-		if os.path.isfile(path):
-			return 0, ""
+		path = os.path.join(util.getConfigXmlPath())
+		
+		#backup config.xml							
+		newFileName = path +'.backup ' +dbVersion
+		
+		if os.path.isfile(newFileName):					
+			return -1, "Error: Cannot backup config.xml: Backup File exists."				
+			try:
+				os.rename(str(path), str(newFileName))
+			except Exception, (exc):					
+				return -1, "Error: Cannot backup config.xml: " +str(exc)
+		else:
+			#no backup needed if file does not exist
+			pass
 				
 		root = Element('config')			
 		romCollections = SubElement(root, 'RomCollections')
@@ -94,8 +105,8 @@ class ConfigxmlUpdater:
 			return 2, ""
 			
 		except Exception, (exc):
-			print("Error: Cannot write idLookup.txt: " +str(exc))
-			return -1, "Error: Cannot write idLookup.txt: " +str(exc)
+			print("Error: Cannot write config.xml: " +str(exc))
+			return -1, "Error: Cannot write config.xml: " +str(exc)
 		
 	
 	def createFileTypeForElements(self, gdb, imagePlacing):
