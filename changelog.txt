@@ -1,4 +1,12 @@
 
+0.7.5 (10/2010)
+~~~~~~~~~~~~~
+    * automatic update of MyGames.db and config.xml (0.6.0 - 0.7.4 -> 0.7.5)
+	* new scraper: thegamesdb.net
+	* navigation between top menu and bottom menu changed from circular to linear
+	* added some more html codes to the unescape table
+	* deactivate boxart download for giantbomb.com and thegamesdb.net (boxart could be for the wrong platform)
+
 0.7.4 (10/2010)
 ~~~~~~~~~~~~~
     * rework configuration
