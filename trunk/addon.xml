@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <addon
   id="script.games.rom.collection.browser"
-  version="0.7.4"
+  version="0.7.5"
   name="Rom Collection Browser"
   provider-name="malte">
   <requires>
@@ -15,13 +15,13 @@
     <description>Current features:
     * filter games by console, genre, year and publisher
     * launch roms with external emulator
-    * scrape art and meta data from online sources
+    * scrape artwork and meta data from online sources
     * configure script via xml file
     * simple but configurable description file parser
     * view different images and videos per game
     * view game plot and additional game properties
     
-Note: This script needs configuration via xml file (Configuration screen does not work atm). Please have a look at the commented config.xml in RCBs database directory or check http://code.google.com/p/romcollectionbrowser for complete documentation.</description>
+Note: This script needs configuration via xml file. Please have a look at the commented config.xml in RCBs database directory or check http://code.google.com/p/romcollectionbrowser for complete documentation.</description>
 
     <description lang="hu">Jelenlegi funkciók:
     * játékok szűrése konzoltípus, műfaj, év és kiadó alapján
