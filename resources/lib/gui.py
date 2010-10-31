@@ -40,7 +40,6 @@ CONTROL_GAMES_GROUP_START = 50
 CONTROL_GAMES_GROUP_END = 59
 CONTROL_VIEW_NO_VIDEOS = (55, 56, 57, 58)
 
-CONTROL_BUTTON_SETTINGS = 3000
 CONTROL_BUTTON_UPDATEDB = 3100
 CONTROL_BUTTON_CHANGE_VIEW = 2
 CONTROL_BUTTON_VIDEOFULLSCREEN = (2900, 2901,)
@@ -342,11 +341,8 @@ class UIGameDB(xbmcgui.WindowXML):
 	def onClick(self, controlId):
 		
 		Logutil.log("onClick: " + str(controlId), util.LOG_LEVEL_DEBUG)
-		
-		if (controlId == CONTROL_BUTTON_SETTINGS):
-			Logutil.log("onClick: Import Settings", util.LOG_LEVEL_DEBUG)
-			self.importSettings()
-		elif (controlId == CONTROL_BUTTON_UPDATEDB):
+				
+		if (controlId == CONTROL_BUTTON_UPDATEDB):
 			Logutil.log("onClick: Update DB", util.LOG_LEVEL_DEBUG)
 			self.updateDB()		
 		elif (controlId in FILTER_CONTROLS):
@@ -1165,7 +1161,7 @@ class UIGameDB(xbmcgui.WindowXML):
 		rcbSetting = helper.getRCBSetting(self.gdb)
 		if(rcbSetting == None):			
 			Logutil.log("rcbSetting == None in loadViewState", util.LOG_LEVEL_WARNING)
-			focusControl = self.getControlById(CONTROL_BUTTON_SETTINGS)
+			focusControl = self.getControlById(CONTROL_BUTTON_UPDATEDB)
 			self.setFocus(focusControl)
 			return		
 		

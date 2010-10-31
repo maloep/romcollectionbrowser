@@ -5,6 +5,6 @@
 		<Description>Overview</Description>
 		<ReleaseYear dateFormat="%m/%d/%Y">ReleaseDate</ReleaseYear>
 		<Filetypefanart appendResultTo="http://thegamesdb.net/banners/">Images/fanart/original</Filetypefanart>
-		<Filetypeboxfront appendResultTo="http://thegamesdb.net/banners/">Images/boxart</Filetypeboxfront>
+		<!--<Filetypeboxfront appendResultTo="http://thegamesdb.net/banners/">Images/boxart</Filetypeboxfront>-->
 	</GameGrammar>
 </parserConfig>
