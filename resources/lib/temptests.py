@@ -3,12 +3,12 @@ import os, sys
 import time, datetime
 import urllib
 import difflib
-from descriptionparserfactory import DescriptionParserFactory
 
 print "start parsing"
 
 BASE_RESOURCE_PATH = os.path.join(os.getcwd())
 sys.path.append(os.path.join(BASE_RESOURCE_PATH, "pyparsing"))
+sys.path.append(os.path.join(BASE_RESOURCE_PATH, "pyscraper"))
 
 env = (os.environ.get("OS", "win32"), "win32",)[ os.environ.get("OS", "win32") == "xbox" ]
 if env == 'Windows_NT':
@@ -16,10 +16,11 @@ if env == 'Windows_NT':
 sys.path.append(os.path.join(BASE_RESOURCE_PATH, "..", "platform_libraries", env))
 
 import util
+from descriptionparserfactory import DescriptionParserFactory
 
 #"http://thevideogamedb.com/API/GameDetail.aspx?apikey=Zx5m2Y9Ndj6B4XwTf83JyKz7r8WHt3i4&name=After%20burner"
 descFile = "http://thevideogamedb.com/API/GameDetail.aspx?apikey=Zx5m2Y9Ndj6B4XwTf83JyKz7r8WHt3i4&name=After%20burner"
-parseInstruction = "C:\\Users\\malte\\AppData\\Roaming\\XBMC\\scripts\\Rom Collection Browser\\resources\\scraper\\thevideogamedb\\thevideogamedb.xml"
+parseInstruction = "C:\\Users\\malte\\AppData\\Roaming\\XBMC\\scripts\\Rom Collection Browser\\resources\\scraper\\01 - thevideogamedb.xml"
 
 #descFile = "http://romcollectionbrowser.googlecode.com/svn/trunk/resources/lib/TestDataBase/Collection%20V3/description/synopsis.txt"
 #parseInstruction = "F:\\Emulatoren\\data\\Synopsis\\gamedesc\\_parserConfig.xml"
@@ -41,7 +42,7 @@ parseInstruction = "C:\\Users\\malte\\AppData\\Roaming\\XBMC\\scripts\\Rom Colle
 #parseInstruction = "F:\\Emulatoren\\data\\Synopsis\\giantbomb\\giantbomb - parserConfig.xml"
 
 
-"""
+
 from descriptionparserfactory import *
 descParser = DescriptionParserFactory.getParser(parseInstruction)
 
@@ -49,7 +50,7 @@ results = descParser.parseDescription(str(descFile))
 for result in results:
 	print result
 
-"""
+
 
 """
 from config import *
@@ -80,7 +81,8 @@ for romCollection in config.romCollections.values():
 		print fileType.name
 """
 
-
+ratio = difflib.SequenceMatcher(None, 'Enslaved: Odyssey to the West', 'An American Tail - Fievel Goes West').ratio()
+print ratio
 
 #timestamp1 = time.clock()
 

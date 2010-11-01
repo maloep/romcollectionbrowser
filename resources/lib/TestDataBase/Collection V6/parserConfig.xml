@@ -2,6 +2,7 @@
 	<GameGrammar type="xml" root="Results/Game">
 		<crc></crc>
 		<Game>Name</Game>
+		<!--<SearchKey>Name</SearchKey>-->
 		<Platform>Platform/Name</Platform>
 		<Region>Region/Name</Region>
 		<Media></Media>

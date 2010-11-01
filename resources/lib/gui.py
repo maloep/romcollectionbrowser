@@ -187,7 +187,7 @@ class UIGameDB(xbmcgui.WindowXML):
 			self.quit = True
 			return
 		elif(doImport == 2):
-			xbmcgui.Dialog().ok(util.SCRIPTNAME, 'Database and config.xml updated to new version', 'Please check your emulatorCmd to launch games.')			
+			xbmcgui.Dialog().ok(util.SCRIPTNAME, 'Database and config.xml updated to new version.', 'Please check your emulatorCmd to launch games.')			
 		
 		#read config.xml
 		self.config = Config()

@@ -17,16 +17,12 @@ class ConfigxmlUpdater:
 		#backup config.xml							
 		newFileName = path +'.backup ' +dbVersion
 		
-		if os.path.isfile(newFileName):					
-			return -1, "Error: Cannot backup config.xml: Backup File exists."				
+		if not os.path.isfile(newFileName):
 			try:
 				os.rename(str(path), str(newFileName))
 			except Exception, (exc):					
 				return -1, "Error: Cannot backup config.xml: " +str(exc)
-		else:
-			#no backup needed if file does not exist
-			pass
-				
+			
 		root = Element('config')			
 		romCollections = SubElement(root, 'RomCollections')
 		fileTypes = SubElement(root, 'FileTypes')
