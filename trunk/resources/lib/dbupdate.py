@@ -532,7 +532,6 @@ class DBUpdate:
 				descriptionfile = descriptionfile.replace(replaceTokens[i], replaceValues[i])
 				
 			#replace configurable tokens
-			#TODO move from Scraper to RomCollection?				
 			replaceKeys = scraper.replaceKeyString.split(',')
 			Logutil.log("replaceKeys: " +str(replaceKeys), util.LOG_LEVEL_INFO)						
 			replaceValues = scraper.replaceValueString.split(',')
@@ -544,6 +543,8 @@ class DBUpdate:
 			
 			for i in range(0, len(replaceKeys)):
 				descriptionfile = descriptionfile.replace(replaceKeys[i], replaceValues[i])
+				#also replace in gamename for later result matching
+				gamenameFromFile = gamenameFromFile.replace(replaceKeys[i], replaceValues[i])
 				
 			parser = DescriptionParserFactory.getParser(str(scraper.parseInstruction))
 			Logutil.log("description file (tokens replaced): " +descriptionfile, util.LOG_LEVEL_INFO)
@@ -553,23 +554,47 @@ class DBUpdate:
 			Logutil.log("Parser complains about: " +str(exc), util.LOG_LEVEL_WARNING)
 			return None			
 					
+		neededMatchingRatio = 0.6
+		
 		if (results != None and len(results) == 1):
+			Logutil.log('Searching for game: ' +gamenameFromFile, util.LOG_LEVEL_INFO)
+			searchKey = self.resolveParseResult(results[0], 'SearchKey')					
+			
+			if(searchKey != ''):
+				#TODO gamenameFromFile is not always correct
+				ratio = difflib.SequenceMatcher(None, gamenameFromFile, searchKey).ratio()
+				if(ratio < neededMatchingRatio):
+					Logutil.log('Only 1 game found: %s, but ratio: %s is below %s. Result will be skipped' %(searchKey, str(ratio), str(neededMatchingRatio)), util.LOG_LEVEL_INFO)
+					return None
+			
 			return results[0]
 		elif(results != None and len(results) > 1):
+			Logutil.log('Searching for game: ' +gamenameFromFile, util.LOG_LEVEL_INFO)
+			Logutil.log('More than 1 result found. Try to find best match.', util.LOG_LEVEL_INFO)			
+			
 			#find best matching result
 			bestIndex = 0
 			highestRatio = 0
 			for i in range(0, len(results)):
 				result = results[i]
 				try:
-					searchKey = self.resolveParseResult(result, 'SearchKey')
+					searchKey = self.resolveParseResult(result, 'SearchKey')					
 					#TODO gamenameFromFile is not always correct
 					ratio = difflib.SequenceMatcher(None, gamenameFromFile, searchKey).ratio()
-					if(ratio > highestRatio):
+					Logutil.log('Comparing with %s, ratio: %s' %(searchKey, str(ratio)), util.LOG_LEVEL_INFO)
+					if(ratio > highestRatio and ratio > neededMatchingRatio):
 						highestRatio = ratio
 						bestIndex = i
+						if(ratio == 1.0):
+							#perfect match
+							break
 				except Exception, (exc):
 					Logutil.log("parseDescription returned more than 1 result. An error occured while matching the best result: " +str(exc), util.LOG_LEVEL_WARNING)
+			
+			if(highestRatio == 0):
+				Logutil.log('No result found with a ratio better than %s. Result will be skipped.' %(str(neededMatchingRatio),), LOG_LEVEL_WARNING)
+				return None			
+			
 			return results[bestIndex]
 		else:
 			return None

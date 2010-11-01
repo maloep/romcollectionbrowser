@@ -126,20 +126,45 @@ class DescriptionParserXml:
 		for node in self.grammarNode:
 			
 			resultKey = node.tag
-			nodeValue = node.text				
+			xpath = node.text
+			root = tree
 			#print "Looking for: " +str(resultKey)
 			#print "using xpath: " +str(nodeValue)
 				
-			if(nodeValue == None):
+			if(xpath == None):
 				continue
 			
+			#check if xpath uses attributes for searching
+			parts = xpath.split('[@')
+			if(len(parts) == 2):
+				elements = root.findall(parts[0])
+				for element in elements:
+					rest = str(parts[1])
+					attribnameIndex = rest.find('="')
+					attribname = rest[0:attribnameIndex]
+					searchedvalue = rest[attribnameIndex +2: rest.find('"', attribnameIndex +2)]					
+					attribute = element.attrib.get(attribname)
+					
+					parts = xpath.split(']/')
+					xpath = parts[1]
+					root = element
+					break
+					"""
+					newelements = element.findall(parts[1])					
+					for newelement in newelements:
+						print newelement.text
+					
+					if(attribute == searchedvalue):
+						print str(element)
+					"""
+			
 			#check if xpath targets an attribute 
-			parts = nodeValue.split('/@')
+			parts = xpath.split('/@')
 			if(len(parts) > 2):
 				print("Usage error: wrong xpath! Only 1 attribute allowed")
 							
 			#check only the first part without attribute (elementtree does not support attributes as target)			
-			elements = tree.findall(parts[0])					
+			elements = root.findall(parts[0])
 			
 			resultValues = []
 			for element in elements:
