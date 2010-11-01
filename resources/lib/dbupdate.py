@@ -268,6 +268,7 @@ class DBUpdate:
 		if(tempResults != None):
 			for resultKey in tempResults.keys():
 				Logutil.log("resultKey: " +resultKey, util.LOG_LEVEL_INFO)
+				resultValue = []
 				try:
 					resultValueOld = results[resultKey]																	
 				except Exception, (exc):										
@@ -278,10 +279,12 @@ class DBUpdate:
 				except Exception, (exc):										
 					resultValueNew = []
 																						
-				if(len(resultValueOld) == 0):
+				if(len(resultValueOld) == 0 and (len(resultValueNew) != 0 and resultValueNew != [None,] and resultValueNew != None and resultValueNew != '')):
 					results[resultKey] = resultValueNew
-					
-				Logutil.log("resultValue: " +str(results[resultKey]), util.LOG_LEVEL_INFO)
+					resultValue = resultValueNew
+				else:
+					resultValue = resultValueOld
+				Logutil.log("resultValue: " +str(resultValue), util.LOG_LEVEL_INFO)
 					
 		return results, urlsFromPreviousScrapers, False
 	

@@ -1027,7 +1027,9 @@ class UIGameDB(xbmcgui.WindowXML):
 		
 		message = ''	
 		if(doImport == 1):
-			message = 'Database is empty. Do you want to import Games now?'
+			message = 'Database is empty. Do you want to import Games now?'		
+		elif(doImport == 3):
+			message = 'Do you want to import Games now?'
 		else:
 			return
 		
