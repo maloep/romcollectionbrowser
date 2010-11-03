@@ -12,15 +12,15 @@ class ConfigxmlUpdater:
 	
 	def createConfig(self, gdb, dbVersion):
 		
-		path = os.path.join(util.getConfigXmlPath())
+		path = util.getConfigXmlPath()
 		
-		#backup config.xml							
+		#backup config.xml
 		newFileName = path +'.backup ' +dbVersion
 		
 		if not os.path.isfile(newFileName):
 			try:
 				os.rename(str(path), str(newFileName))
-			except Exception, (exc):					
+			except Exception, (exc):
 				return -1, "Error: Cannot backup config.xml: " +str(exc)
 			
 		root = Element('config')			
@@ -31,8 +31,7 @@ class ConfigxmlUpdater:
 		
 		gdb.cursor.execute("SELECT * FROM RomCollection")
 		romCollectionRows = gdb.cursor.fetchall()
-		for romCollectionRow in romCollectionRows:
-			print str(romCollectionRow)
+		for romCollectionRow in romCollectionRows:			
 			romCollection = SubElement(romCollections, 'RomCollection', {'id' : str(romCollectionRow[0]), 'name' : str(romCollectionRow[1])})
 			SubElement(romCollection, 'emulatorCmd').text = str(romCollectionRow[3])
 			SubElement(romCollection, 'emulatorParams').text = 'please move your params here'
