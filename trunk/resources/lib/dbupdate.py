@@ -512,28 +512,16 @@ class DBUpdate:
 		self.insertData(gamedescription, gamename, romCollection, filenamelist, foldername)
 	
 	
-	def parseDescriptionFile(self, scraper, scraperSource, gamenameFromFile, foldername, crc):
-		descriptionfile = scraperSource.replace("%GAME%", gamenameFromFile)
+	def parseDescriptionFile(self, scraper, scraperSource, gamenameFromFile, foldername, crc):		
 
-		if(not descriptionfile.startswith('http://') and not os.path.exists(descriptionfile)):
+		if(not scraperSource.startswith('http://') and not os.path.exists(scraperSource)):
 			Logutil.log("description file for game " +gamenameFromFile +" could not be found. "\
-			"Check if this path exists: " +descriptionfile, util.LOG_LEVEL_WARNING)
+			"Check if this path exists: " +scraperSource, util.LOG_LEVEL_WARNING)
 			return None
 		
-		Logutil.log("Parsing game description: " +descriptionfile, util.LOG_LEVEL_INFO)			
+		Logutil.log("Parsing game description: " +scraperSource, util.LOG_LEVEL_INFO)			
 			
-		try:
-			replaceTokens = ['%FILENAME%', '%FOLDERNAME%', '%CRC%']
-			for key in util.API_KEYS.keys():
-				replaceTokens.append(key)
-				
-			replaceValues = [gamenameFromFile, foldername, crc]
-			for value in util.API_KEYS.values():
-				replaceValues.append(value)
-				
-			for i in range(0, len(replaceTokens)):
-				descriptionfile = descriptionfile.replace(replaceTokens[i], replaceValues[i])
-				
+		try:				
 			#replace configurable tokens
 			replaceKeys = scraper.replaceKeyString.split(',')
 			Logutil.log("replaceKeys: " +str(replaceKeys), util.LOG_LEVEL_INFO)						
@@ -545,15 +533,27 @@ class DBUpdate:
 				return None
 			
 			for i in range(0, len(replaceKeys)):
-				descriptionfile = descriptionfile.replace(replaceKeys[i], replaceValues[i])
+				scraperSource = scraperSource.replace(replaceKeys[i], replaceValues[i])
 				#also replace in gamename for later result matching
 				gamenameFromFile = gamenameFromFile.replace(replaceKeys[i], replaceValues[i])
 				
+			scraperSource = scraperSource.replace("%GAME%", gamenameFromFile)
+			replaceTokens = ['%FILENAME%', '%FOLDERNAME%', '%CRC%']
+			for key in util.API_KEYS.keys():
+				replaceTokens.append(key)
+				
+			replaceValues = [gamenameFromFile, foldername, crc]
+			for value in util.API_KEYS.values():
+				replaceValues.append(value)
+				
+			for i in range(0, len(replaceTokens)):
+				scraperSource = scraperSource.replace(replaceTokens[i], replaceValues[i])
+			
 			parser = DescriptionParserFactory.getParser(str(scraper.parseInstruction))
-			Logutil.log("description file (tokens replaced): " +descriptionfile, util.LOG_LEVEL_INFO)
-			results = parser.parseDescription(str(descriptionfile))
+			Logutil.log("description file (tokens replaced): " +scraperSource, util.LOG_LEVEL_INFO)
+			results = parser.parseDescription(str(scraperSource))
 		except Exception, (exc):
-			Logutil.log("an error occured while parsing game description: " +descriptionfile, util.LOG_LEVEL_WARNING)
+			Logutil.log("an error occured while parsing game description: " +scraperSource, util.LOG_LEVEL_WARNING)
 			Logutil.log("Parser complains about: " +str(exc), util.LOG_LEVEL_WARNING)
 			return None			
 					

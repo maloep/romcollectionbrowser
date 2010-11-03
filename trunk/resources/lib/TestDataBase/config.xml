@@ -128,7 +128,7 @@
 			<mediaPath type="boxfront">TestDataBase\Collection V7\Artwork\Box Front\%GAME%.*</mediaPath>
 			<mediaPath type="screenshot">TestDataBase\Collection V7\Artwork\screenshot\%GAME%.*</mediaPath>
 			<imagePlacing>gameinfobig</imagePlacing>
-			<scraper name="Sega 32 V7"/>
+			<scraper name="Sega 32 V7" replaceKeyString=" III, II,32x - " replaceValueString=" 3, 2,"/>
 		</RomCollection>
 	</RomCollections>
 	<FileTypes>
@@ -211,7 +211,7 @@
 			<Scraper parseInstruction="C:\Users\malte\AppData\Roaming\XBMC\scripts\Rom Collection Browser\resources\lib\TestDataBase\Collection V6\parserConfig.xml" source="TestDataBase\Collection V6\Synopsis\%GAME%.xml" />
 		</Site>
 		<Site name="Sega 32 V7">
-			<Scraper parseInstruction="C:\Users\malte\AppData\Roaming\XBMC\scripts\Rom Collection Browser\resources\lib\TestDataBase\Collection V7\parserConfig.xml" source="TestDataBase\Collection V7\synopsis.xml" />
+			<Scraper parseInstruction="C:\Users\malte\AppData\Roaming\XBMC\scripts\Rom Collection Browser\resources\lib\TestDataBase\Collection V7\parserConfig.xml" source="TestDataBase\Collection V7\synopsis.xml" replaceKeyString="%REPLACEKEYS%" replaceValueString="%REPLACEVALUES%"/>
 		</Site>				
 		
 		

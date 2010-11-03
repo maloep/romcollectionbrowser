@@ -5,6 +5,19 @@ from util import *
 from elementtree.ElementTree import *
 
 
+consoleList = ['3DO',
+			'Amiga',
+			'Amiga CD32',
+			'Amstrad CPC',
+			'Apple II',
+			'Atari 2600',
+			'Atari 5200',
+			'Atari 7800',
+			'Atari 8-bit',
+			'Atari ST',
+			'SNES',
+			'Sega 32']
+
 
 class FileType:
 	name = ''
@@ -104,6 +117,104 @@ class Config:
 		self.fileTypeIdsForGamelist = self.getFileTypeIdsForGameList(romCollections)
 		
 		return True, ''
+	
+	
+	def writeXml(self):
+		
+		configFile = util.getConfigXmlPath()
+		
+		root = Element('config')			
+		romCollectionsXml = SubElement(root, 'RomCollections')
+		fileTypesXml = SubElement(root, 'FileTypes')
+		imagePlacingXml = SubElement(root, 'ImagePlacing')
+		scrapersXml = SubElement(root, 'Scrapers')
+		
+		for romCollection in self.romCollections.values():			
+			romCollectionXml = SubElement(romCollectionsXml, 'RomCollection', {'id' : str(romCollection.id), 'name' : romCollection.name})
+			SubElement(romCollectionXml, 'emulatorCmd').text = romCollection.emulatorCmd
+			SubElement(romCollectionXml, 'emulatorParams').text = romCollection.emulatorParams
+			
+			for romPath in romCollection.romPaths:
+				SubElement(romCollectionXml, 'romPath').text = str(romPath)
+				
+			for mediaPath in romCollection.mediaPaths:								
+				SubElement(romCollectionXml, 'mediaPath', {'type' : mediaPath.type.name}).text = mediaPath.path
+				
+			SubElement(romCollectionXml, 'imagePlacing').text = 'gameinfobig'
+			
+			SubElement(romCollectionXml, 'scraper', {'name' : 'thevideogamedb.com'})
+			SubElement(romCollectionXml, 'scraper', {'name' : 'thegamesdb.net', 'replaceKeyString' : ' III, II', 'replaceValueString' : ' 3, 2'})
+			SubElement(romCollectionXml, 'scraper', {'name' : 'giantbomb.com', 'replaceKeyString' : ' III, II', 'replaceValueString' : ' 3, 2'})
+			SubElement(romCollectionXml, 'scraper', {'name' : 'mobygames.com', 'replaceKeyString' : ' III, II', 'replaceValueString' : ' 3, 2', 'platform' : '15'})
+			
+		self.writeFileType(fileTypesXml, '1', 'boxfront')
+		self.writeFileType(fileTypesXml, '2', 'boxback')
+		self.writeFileType(fileTypesXml, '3', 'cartridge')
+		self.writeFileType(fileTypesXml, '4', 'screenshot')
+		self.writeFileType(fileTypesXml, '5', 'fanart')
+			
+		fileTypeFor = SubElement(imagePlacingXml, 'fileTypeFor', {'name' : 'gameinfobig'})
+		SubElement(fileTypeFor, 'fileTypeForGameList').text = 'boxfront'
+		SubElement(fileTypeFor, 'fileTypeForGameList').text = 'screenshot'
+		SubElement(fileTypeFor, 'fileTypeForGameListSelected').text = 'boxfront'
+		SubElement(fileTypeFor, 'fileTypeForGameListSelected').text = 'screenshot'
+		SubElement(fileTypeFor, 'fileTypeForMainViewBackground').text = 'fanart'
+		SubElement(fileTypeFor, 'fileTypeForMainViewBackground').text = 'boxfront'
+		SubElement(fileTypeFor, 'fileTypeForMainViewBackground').text = 'screenshot'
+		SubElement(fileTypeFor, 'fileTypeForMainViewGameInfoBig').text = 'screenshot'
+		SubElement(fileTypeFor, 'fileTypeForMainViewGameInfoBig').text = 'boxfront'
+		SubElement(fileTypeFor, 'fileTypeForGameInfoViewBackground').text = 'fanart'
+		SubElement(fileTypeFor, 'fileTypeForGameInfoViewBackground').text = 'boxfront'
+		SubElement(fileTypeFor, 'fileTypeForGameInfoViewBackground').text = 'screenshot'
+		SubElement(fileTypeFor, 'fileTypeForGameInfoViewGamelist').text = 'boxfront'
+		SubElement(fileTypeFor, 'fileTypeForGameInfoViewGamelist').text = 'screenshot'
+		SubElement(fileTypeFor, 'fileTypeForGameInfoView1').text = 'boxfront'
+		SubElement(fileTypeFor, 'fileTypeForGameInfoView2').text = 'boxback'
+		SubElement(fileTypeFor, 'fileTypeForGameInfoView3').text = 'cartridge'
+		SubElement(fileTypeFor, 'fileTypeForGameInfoView4').text = 'screenshot'
+		
+		#Scrapers
+		#thevideogamedb.com
+		site = SubElement(scrapersXml, 'Site', {'name' : 'thevideogamedb.com'})
+		SubElement(site, 'Scraper', {'parseInstruction' : '01 - thevideogamedb.xml', 'source' : 'http://thevideogamedb.com/API/GameDetail.aspx?apikey=%VGDBAPIKey%&amp;crc=%CRC%'})		
+		
+		site = SubElement(scrapersXml, 'Site', {'name' : 'thegamesdb.net'})
+		SubElement(site, 'Scraper', {'parseInstruction' : '02 - thegamesdb.xml', 'source' : 'http://thegamesdb.net/api/GetGame.php?name=%GAME%'})
+		
+		#giantbomb.com
+		site = SubElement(scrapersXml, 'Site', {'name' : 'giantbomb.com'})
+		SubElement(site, 'Scraper', {'parseInstruction' : '03.01 - giantbomb - search.xml', 'source' : 'http://api.giantbomb.com/search/?api_key=%GIANTBOMBAPIKey%&amp;query=%GAME%&amp;resources=game&amp;format=xml',
+									'returnUrl' : 'true', 'replaceKeyString' : '%REPLACEKEYS%', 'replaceValueString' : '%REPLACEVALUES%'})
+		SubElement(site, 'Scraper', {'parseInstruction' : '03.02 - giantbomb - detail.xml', 'source' : '1'})		
+		
+		#mobygames.com
+		site = SubElement(scrapersXml, 'Site', {'name' : 'mobygames.com'})
+		SubElement(site, 'Scraper', {'parseInstruction' : '04.01 - mobygames - gamesearch.xml', 'source' : 'http://www.mobygames.com/search/quick?game=%GAME%&amp;p=%PLATFORM%',
+									'returnUrl' : 'true', 'replaceKeyString' : '%REPLACEKEYS%', 'replaceValueString' : '%REPLACEVALUES%'})
+		SubElement(site, 'Scraper', {'parseInstruction' : '04.02 - mobygames - details.xml', 'source' : '1'})				
+		SubElement(site, 'Scraper', {'parseInstruction' : '04.03 - mobygames - coverlink.xml', 'source' : '1', 'returnUrl' : 'true'})
+		SubElement(site, 'Scraper', {'parseInstruction' : '04.04 - mobygames - coverart.xml', 'source' : '2'})
+		SubElement(site, 'Scraper', {'parseInstruction' : '04.05 - mobygames - screenshotlink.xml', 'source' : '1', 'returnUrl' : 'true'})
+		SubElement(site, 'Scraper', {'parseInstruction' : '04.06 - mobygames - screenshotoriginallink.xml', 'source' : '3', 'returnUrl' : 'true'})
+		SubElement(site, 'Scraper', {'parseInstruction' : '04.07 - mobygames - screenshots.xml', 'source' : '4'})
+			
+		#write file		
+		try:
+			self.indent(root)
+			tree = ElementTree(root)			
+			tree.write(configFile)
+			
+			return 2, ""
+			
+		except Exception, (exc):
+			print("Error: Cannot write config.xml: " +str(exc))
+			return -1, "Error: Cannot write config.xml: " +str(exc)
+		
+	
+	def writeFileType(self, fileTypesXml, id, name):
+		fileType = SubElement(fileTypesXml, 'FileType' , {'id' : id, 'name' : name})
+		SubElement(fileType, 'type').text = 'image'
+		SubElement(fileType, 'parent').text = 'game'
 		
 		
 	def readRomCollections(self, tree):
@@ -260,7 +371,7 @@ class Config:
 		return romCollections, ''
 		
 			
-	def readScraper(self, siteName, platform, replaceKeyString, replaceValueString, tree):
+	def readScraper(self, siteName, platform, inReplaceKeyString, inReplaceValueString, tree):
 		
 		#elementtree version 1.2.7 does not support xpath like this: Scrapers/Site[@name="%s"] 
 		siteRow = None
@@ -305,11 +416,11 @@ class Config:
 				
 			replaceKeyString = scraperRow.attrib.get('replaceKeyString')
 			if(replaceKeyString != None and replaceKeyString != ''):
-				scraper.replaceKeyString = replaceKeyString.replace('%REPLACEKEYS%', replaceKeyString)
+				scraper.replaceKeyString = replaceKeyString.replace('%REPLACEKEYS%', inReplaceKeyString)
 				
 			replaceValueString = scraperRow.attrib.get('replaceValueString')
 			if(replaceValueString != None and replaceValueString != ''):
-				scraper.replaceValueString = replaceValueString.replace('%REPLACEVALUES%', replaceValueString)
+				scraper.replaceValueString = replaceValueString.replace('%REPLACEVALUES%', inReplaceValueString)
 			
 			scrapers.append(scraper)
 			
@@ -330,7 +441,7 @@ class Config:
 			Logutil.log('Configuration error. FileType %s does not exist in config.xml' %name, util.LOG_LEVEL_ERROR)
 			return None, 'Configuration error. See xbmc.log for details'
 			
-		fileType = FileType()	
+		fileType = FileType()
 		fileType.name = name
 		
 		id = fileTypeRow.attrib.get('id')
@@ -422,3 +533,18 @@ class Config:
 
 		return fileTypeIds
 			
+			
+	def indent(self, elem, level=0):
+		i = "\n" + level*"  "
+		if len(elem):
+			if not elem.text or not elem.text.strip():
+				elem.text = i + "  "
+			if not elem.tail or not elem.tail.strip():
+				elem.tail = i
+			for elem in elem:
+				self.indent(elem, level+1)
+			if not elem.tail or not elem.tail.strip():
+				elem.tail = i
+		else:
+			if level and (not elem.tail or not elem.tail.strip()):
+				elem.tail = i

@@ -7,7 +7,7 @@ from pysqlite2 import dbapi2 as sqlite
 
 import dbupdate, importsettings
 from gamedatabase import *
-import helper, util
+import helper, util, config
 from util import *
 from config import *
 
@@ -188,6 +188,12 @@ class UIGameDB(xbmcgui.WindowXML):
 			return
 		elif(doImport == 2):
 			xbmcgui.Dialog().ok(util.SCRIPTNAME, 'Database and config.xml updated to new version.', 'Please check your emulatorCmd to launch games.')			
+		
+		#check if we have config file 
+		configFile = util.getConfigXmlPath()
+		if(not os.path.isfile(configFile)):
+			statusOk, errorMsg = self.createConfigXml(configFile)
+			
 		
 		#read config.xml
 		self.config = Config()
@@ -1017,6 +1023,80 @@ class UIGameDB(xbmcgui.WindowXML):
 		item.setProperty('version', self.getGameProperty(gameRow[util.GAME_version]))
 		
 		return item	
+	
+	
+	def createConfigXml(self, configFile):
+		
+		dialog = xbmcgui.Dialog()
+		
+		retValue = dialog.yesno('Rom Collection Browser', 'No config file found.', 'Do you want to create one?')
+		if(retValue == False):
+			return
+			
+		newConfig = Config()
+		romCollections = {}
+		
+		romCollection = RomCollection()
+		
+		#console
+		platformIndex = dialog.select('Choose a platform', config.consoleList)
+		if(platformIndex == -1):
+			return False, 'Action canceled.'
+		
+		console = config.consoleList[platformIndex]
+		
+		romCollection.name = console
+		romCollection.id = 1
+		
+		romPath = dialog.browse(0, 'Path to %s Roms' %console, 'files')
+		if(romPath == ''):
+			return False, 'Action canceled.'
+		
+		#filemask
+		keyboard = xbmc.Keyboard()
+		keyboard.setHeading('File mask (comma-separated): e.g. *.zip, *.smc')			
+		keyboard.doModal()
+		if (keyboard.isConfirmed()):
+			fileMaskInput = keyboard.getText()				
+			fileMasks = fileMaskInput.split(',')
+			romCollection.romPaths = []
+			for fileMask in fileMasks:
+				romPathComplete = os.path.join(romPath, fileMask.strip())					
+				romCollection.romPaths.append(romPathComplete)
+		else:
+			return False, 'Action canceled.'
+
+		
+		artworkPath = dialog.browse(0, 'Path to %s Artwork' %console, 'files')
+		if(artworkPath == ''):
+			return False, 'Action canceled.'
+		
+		romCollection.mediaPaths = []
+		romCollection.mediaPaths.append(self.createMediaPath('boxfront', artworkPath))
+		romCollection.mediaPaths.append(self.createMediaPath('boxback', artworkPath))
+		romCollection.mediaPaths.append(self.createMediaPath('cartridge', artworkPath))
+		romCollection.mediaPaths.append(self.createMediaPath('screenshot', artworkPath))
+		romCollection.mediaPaths.append(self.createMediaPath('fanart', artworkPath))
+		
+		romCollections[romCollection.id] = romCollection
+		
+		newConfig.romCollections = romCollections
+		
+		newConfig.writeXml()	
+			
+		return True, ''
+	
+	
+	def createMediaPath(self, type, path):
+		
+		fileType = FileType()	
+		fileType.name = type		
+		
+		mediaPath = MediaPath()	
+		mediaPath.type = fileType
+		mediaPath.path = os.path.join(path, type, '%GAME%.*')
+		
+		return mediaPath
 	
 	
 	def checkImport(self, doImport):				

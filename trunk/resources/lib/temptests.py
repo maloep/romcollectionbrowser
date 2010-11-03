@@ -42,23 +42,22 @@ parseInstruction = "C:\\Users\\malte\\AppData\\Roaming\\XBMC\\scripts\\Rom Colle
 #parseInstruction = "F:\\Emulatoren\\data\\Synopsis\\giantbomb\\giantbomb - parserConfig.xml"
 
 
-
+"""
 from descriptionparserfactory import *
 descParser = DescriptionParserFactory.getParser(parseInstruction)
 
 results = descParser.parseDescription(str(descFile))
 for result in results:
 	print result
-
-
-
 """
+
+
+
 from config import *
 util.ISTESTRUN = True
 config = Config()
 config.readXml()
 
-print ','.join(config.fileTypeIdsForGamelist)
 
 for romCollection in config.romCollections.values():
 	print romCollection.name
@@ -76,13 +75,15 @@ for romCollection in config.romCollections.values():
 	for scraperSite in romCollection.scraperSites:
 		for scraper in scraperSite.scrapers:			
 			print scraper.parseInstruction
+			print scraper.replaceKeyString
+			print scraper.replaceValueString
 			
 	for fileType in romCollection.imagePlacing.fileTypesForGameList:
 		print fileType.name
-"""
 
-ratio = difflib.SequenceMatcher(None, 'Enslaved: Odyssey to the West', 'An American Tail - Fievel Goes West').ratio()
-print ratio
+
+#ratio = difflib.SequenceMatcher(None, 'Enslaved: Odyssey to the West', 'An American Tail - Fievel Goes West').ratio()
+#print ratio
 
 #timestamp1 = time.clock()
 
