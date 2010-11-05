@@ -1031,58 +1031,93 @@ class UIGameDB(xbmcgui.WindowXML):
 		
 		retValue = dialog.yesno('Rom Collection Browser', 'No config file found.', 'Do you want to create one?')
 		if(retValue == False):
-			return
+			return False, 'Action canceled.'
 			
 		newConfig = Config()
 		romCollections = {}
 		
-		romCollection = RomCollection()
+		firstRun = True
+		id = 1
+		consoleList = config.consoleList
 		
-		#console
-		platformIndex = dialog.select('Choose a platform', config.consoleList)
-		if(platformIndex == -1):
-			return False, 'Action canceled.'
+		while True:
 		
-		console = config.consoleList[platformIndex]
+			romCollection = RomCollection()
+			print 'name start: ' +str(romCollection.name)
+			
+			#console
+			platformIndex = dialog.select('Choose a platform', consoleList)
+			if(platformIndex == -1):
+				return False, 'Action canceled.'			
+			
+			console = consoleList[platformIndex]
+			consoleList.remove(console)
+			
+			romCollection.name = console
+			romCollection.id = id
+			id = id +1
+			
+			consolePath = dialog.browse(1, 'Path to %s Emulator' %console, 'files')
+			if(consolePath == ''):
+				return False, 'Action canceled.'
+			romCollection.emulatorCmd = consolePath
+			
+			#filemask
+			keyboard = xbmc.Keyboard()
+			keyboard.setHeading('Emulator params')			
+			keyboard.doModal()
+			if (keyboard.isConfirmed()):
+				emuParams = keyboard.getText()
+			else:
+				return False, 'Action canceled.'
+			romCollection.emulatorParams = emuParams
+			
+			romPath = dialog.browse(0, 'Path to %s Roms' %console, 'files')
+			if(romPath == ''):
+				return False, 'Action canceled.'
+			
+			#filemask
+			keyboard = xbmc.Keyboard()
+			keyboard.setHeading('File mask (comma-separated): e.g. *.zip, *.smc')			
+			keyboard.doModal()
+			if (keyboard.isConfirmed()):
+				fileMaskInput = keyboard.getText()				
+				fileMasks = fileMaskInput.split(',')
+				romCollection.romPaths = []
+				for fileMask in fileMasks:
+					romPathComplete = os.path.join(romPath, fileMask.strip())					
+					romCollection.romPaths.append(romPathComplete)
+			else:
+				return False, 'Action canceled.'
+	
+			if(firstRun):
+				dialog.ok('Choose the path to %s Artwork.' %console, 'RCB will create these sub folders:', 'boxfront, boxback, cartridge, screenshot, fanart')
+				firstRun = False
+			
+			artworkPath = dialog.browse(0, 'Path to %s Artwork' %console, 'files')
+			if(artworkPath == ''):
+				return False, 'Action canceled.'
+			
+			romCollection.mediaPaths = []
+			romCollection.mediaPaths.append(self.createMediaPath('boxfront', artworkPath))
+			romCollection.mediaPaths.append(self.createMediaPath('boxback', artworkPath))
+			romCollection.mediaPaths.append(self.createMediaPath('cartridge', artworkPath))
+			romCollection.mediaPaths.append(self.createMediaPath('screenshot', artworkPath))
+			romCollection.mediaPaths.append(self.createMediaPath('fanart', artworkPath))
+			
+			romCollections[romCollection.id] = romCollection
+			
+			print 'name end ' +str(romCollection.name)
+			print str(romCollections.keys())
+			
+			retValue = dialog.yesno('Rom Collection Browser', 'Do you want to add another Rom Collection?')
+			if(retValue == False):
+				break						
 		
-		romCollection.name = console
-		romCollection.id = 1
+		newConfig.romCollections = romCollections		
+		newConfig.writeXml()
 		
-		romPath = dialog.browse(0, 'Path to %s Roms' %console, 'files')
-		if(romPath == ''):
-			return False, 'Action canceled.'
-		
-		#filemask
-		keyboard = xbmc.Keyboard()
-		keyboard.setHeading('File mask (comma-separated): e.g. *.zip, *.smc')			
-		keyboard.doModal()
-		if (keyboard.isConfirmed()):
-			fileMaskInput = keyboard.getText()				
-			fileMasks = fileMaskInput.split(',')
-			romCollection.romPaths = []
-			for fileMask in fileMasks:
-				romPathComplete = os.path.join(romPath, fileMask.strip())					
-				romCollection.romPaths.append(romPathComplete)
-		else:
-			return False, 'Action canceled.'
-
-		
-		artworkPath = dialog.browse(0, 'Path to %s Artwork' %console, 'files')
-		if(artworkPath == ''):
-			return False, 'Action canceled.'
-		
-		romCollection.mediaPaths = []
-		romCollection.mediaPaths.append(self.createMediaPath('boxfront', artworkPath))
-		romCollection.mediaPaths.append(self.createMediaPath('boxback', artworkPath))
-		romCollection.mediaPaths.append(self.createMediaPath('cartridge', artworkPath))
-		romCollection.mediaPaths.append(self.createMediaPath('screenshot', artworkPath))
-		romCollection.mediaPaths.append(self.createMediaPath('fanart', artworkPath))
-		
-		romCollections[romCollection.id] = romCollection
-		
-		newConfig.romCollections = romCollections
-		
-		newConfig.writeXml()	
+		del dialog	
 			
 		return True, ''
 	
