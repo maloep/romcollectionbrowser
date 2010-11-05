@@ -146,7 +146,7 @@ class DBUpdate:
 						
 					scraper = romCollection.scraperSites[0].scrapers[0]					
 					Logutil.log("using parser file: " +scraper.parseInstruction, util.LOG_LEVEL_INFO)
-					Logutil.log("using game descriptions: " +scraper.source, util.LOG_LEVEL_INFO)
+					Logutil.log("using game description: " +scraper.source, util.LOG_LEVEL_INFO)
 											
 					parser = DescriptionParserFactory.getParser(str(scraper.parseInstruction)) 										
 					

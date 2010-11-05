@@ -19,6 +19,21 @@ consoleList = ['3DO',
 			'Sega 32']
 
 
+#key, mobygames-id
+consoleDict = {'3DO' : '1',
+			'Amiga' : '2',
+			'Amiga CD32' : '3',
+			'Amstrad CPC' : '4',
+			'Apple II' : '5',
+			'Atari 2600' : '6',
+			'Atari 5200' : '7',
+			'Atari 7800' : '8',
+			'Atari 8-bit' : '9',
+			'Atari ST' : '10',
+			'SNES' : '15',
+			'Sega 32' : '21'}
+
+
 class FileType:
 	name = ''
 	id = -1
@@ -129,7 +144,7 @@ class Config:
 		imagePlacingXml = SubElement(root, 'ImagePlacing')
 		scrapersXml = SubElement(root, 'Scrapers')
 		
-		for romCollection in self.romCollections.values():			
+		for romCollection in self.romCollections.values():
 			romCollectionXml = SubElement(romCollectionsXml, 'RomCollection', {'id' : str(romCollection.id), 'name' : romCollection.name})
 			SubElement(romCollectionXml, 'emulatorCmd').text = romCollection.emulatorCmd
 			SubElement(romCollectionXml, 'emulatorParams').text = romCollection.emulatorParams
@@ -140,12 +155,23 @@ class Config:
 			for mediaPath in romCollection.mediaPaths:								
 				SubElement(romCollectionXml, 'mediaPath', {'type' : mediaPath.type.name}).text = mediaPath.path
 				
+			#some default values
+			SubElement(romCollectionXml, 'ignoreOnScan').text = 'False'
+			SubElement(romCollectionXml, 'searchGameByCRC').text = 'True'
+			SubElement(romCollectionXml, 'descFilePerGame').text = 'True'
+				
 			SubElement(romCollectionXml, 'imagePlacing').text = 'gameinfobig'
+			
+			mobyConsoleId = '0'
+			try:
+				mobyConsoleId = consoleDict[romCollection.name]
+			except:
+				pass
 			
 			SubElement(romCollectionXml, 'scraper', {'name' : 'thevideogamedb.com'})
 			SubElement(romCollectionXml, 'scraper', {'name' : 'thegamesdb.net', 'replaceKeyString' : ' III, II', 'replaceValueString' : ' 3, 2'})
 			SubElement(romCollectionXml, 'scraper', {'name' : 'giantbomb.com', 'replaceKeyString' : ' III, II', 'replaceValueString' : ' 3, 2'})
-			SubElement(romCollectionXml, 'scraper', {'name' : 'mobygames.com', 'replaceKeyString' : ' III, II', 'replaceValueString' : ' 3, 2', 'platform' : '15'})
+			SubElement(romCollectionXml, 'scraper', {'name' : 'mobygames.com', 'replaceKeyString' : ' III, II', 'replaceValueString' : ' 3, 2', 'platform' : mobyConsoleId})
 			
 		self.writeFileType(fileTypesXml, '1', 'boxfront')
 		self.writeFileType(fileTypesXml, '2', 'boxback')
