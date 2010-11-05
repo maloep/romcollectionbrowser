@@ -41,6 +41,10 @@ parseInstruction = "C:\\Users\\malte\\AppData\\Roaming\\XBMC\\scripts\\Rom Colle
 #descFile = "F:\\Emulatoren\\data\\Synopsis\\giantbomb\\Actraisersearch.xml"
 #parseInstruction = "F:\\Emulatoren\\data\\Synopsis\\giantbomb\\giantbomb - parserConfig.xml"
 
+filename = "F:\\Emulatoren\\data\\Synopsis\\giantbomb\\giantbomb - parserConfig.xml"
+
+print os.path.basename(filename)
+print os.path.basename(os.path.dirname(filename))
 
 """
 from descriptionparserfactory import *
@@ -52,7 +56,7 @@ for result in results:
 """
 
 
-
+"""
 from config import *
 util.ISTESTRUN = True
 config = Config()
@@ -80,6 +84,9 @@ for romCollection in config.romCollections.values():
 			
 	for fileType in romCollection.imagePlacing.fileTypesForGameList:
 		print fileType.name
+"""
+
+
 
 
 #ratio = difflib.SequenceMatcher(None, 'Enslaved: Odyssey to the West', 'An American Tail - Fievel Goes West').ratio()

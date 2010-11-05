@@ -96,6 +96,7 @@ class RomCollection:
 	searchGameByCRCIgnoreRomName = False
 	useFoldernameAsCRC = False
 	useFilenameAsCRC = False
+	useFoldernameAsGamename = False
 	maxFolderDepth = 99
 	ignoreGameWithoutDesc = False	
 	descFilePerGame = False
@@ -360,7 +361,11 @@ class Config:
 			useFilenameAsCRC = romCollectionRow.find('useFilenameAsCRC')
 			if(useFilenameAsCRC != None):
 				romCollection.useFilenameAsCRC = useFilenameAsCRC.text.upper() == 'TRUE'
-				
+			
+			useFoldernameAsGamename = romCollectionRow.find('useFoldernameAsGamename')
+			if(useFoldernameAsGamename != None):
+				romCollection.useFoldernameAsGamename = useFoldernameAsGamename.text.upper() == 'TRUE'	
+			
 			maxFolderDepth = romCollectionRow.find('maxFolderDepth')
 			if(maxFolderDepth != None):
 				romCollection.maxFolderDepth = int(maxFolderDepth.text)

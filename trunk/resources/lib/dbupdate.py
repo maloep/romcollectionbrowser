@@ -351,7 +351,11 @@ class DBUpdate:
 		Logutil.log("current rom file: " +str(filename), util.LOG_LEVEL_INFO)
 
 		#build friendly romname
-		gamename = os.path.basename(filename)
+		if(not romCollection.useFoldernameAsGamename):
+			gamename = os.path.basename(filename)
+		else:
+			gamename = os.path.basename(os.path.dirname(filename))
+			
 		Logutil.log("gamename (file): " +gamename, util.LOG_LEVEL_INFO)
 				
 		dpIndex = gamename.lower().find(romCollection.diskPrefix.lower())
