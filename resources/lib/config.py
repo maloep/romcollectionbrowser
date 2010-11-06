@@ -91,7 +91,8 @@ class RomCollection:
 	imagePlacing = None	
 	ignoreOnScan = False
 	allowUpdate = True
-	fullReimport = False	
+	fullReimport = False
+	createNfoWhileScraping = True
 	searchGameByCRC = True
 	searchGameByCRCIgnoreRomName = False
 	useFoldernameAsCRC = False
@@ -139,7 +140,7 @@ class Config:
 		
 		configFile = util.getConfigXmlPath()
 		
-		root = Element('config')			
+		root = Element('config')
 		romCollectionsXml = SubElement(root, 'RomCollections')
 		fileTypesXml = SubElement(root, 'FileTypes')
 		imagePlacingXml = SubElement(root, 'ImagePlacing')
@@ -168,7 +169,7 @@ class Config:
 				mobyConsoleId = consoleDict[romCollection.name]
 			except:
 				pass
-			
+						
 			SubElement(romCollectionXml, 'scraper', {'name' : 'thevideogamedb.com'})
 			SubElement(romCollectionXml, 'scraper', {'name' : 'thegamesdb.net', 'replaceKeyString' : ' III, II', 'replaceValueString' : ' 3, 2'})
 			SubElement(romCollectionXml, 'scraper', {'name' : 'giantbomb.com', 'replaceKeyString' : ' III, II', 'replaceValueString' : ' 3, 2'})
@@ -201,22 +202,26 @@ class Config:
 		SubElement(fileTypeFor, 'fileTypeForGameInfoView4').text = 'screenshot'
 		
 		#Scrapers
+		#local nfo
+		site = SubElement(scrapersXml, 'Site', {'name' : 'local nfo'})
+		SubElement(site, 'Scraper', {'parseInstruction' : '00 - local nfo.xml', 'source' : 'nfo'})
+		
 		#thevideogamedb.com
 		site = SubElement(scrapersXml, 'Site', {'name' : 'thevideogamedb.com'})
-		SubElement(site, 'Scraper', {'parseInstruction' : '01 - thevideogamedb.xml', 'source' : 'http://thevideogamedb.com/API/GameDetail.aspx?apikey=%VGDBAPIKey%&amp;crc=%CRC%'})		
+		SubElement(site, 'Scraper', {'parseInstruction' : '01 - thevideogamedb.xml', 'source' : 'http://thevideogamedb.com/API/GameDetail.aspx?apikey=%VGDBAPIKey%&crc=%CRC%'})		
 		
 		site = SubElement(scrapersXml, 'Site', {'name' : 'thegamesdb.net'})
 		SubElement(site, 'Scraper', {'parseInstruction' : '02 - thegamesdb.xml', 'source' : 'http://thegamesdb.net/api/GetGame.php?name=%GAME%'})
 		
 		#giantbomb.com
 		site = SubElement(scrapersXml, 'Site', {'name' : 'giantbomb.com'})
-		SubElement(site, 'Scraper', {'parseInstruction' : '03.01 - giantbomb - search.xml', 'source' : 'http://api.giantbomb.com/search/?api_key=%GIANTBOMBAPIKey%&amp;query=%GAME%&amp;resources=game&amp;format=xml',
+		SubElement(site, 'Scraper', {'parseInstruction' : '03.01 - giantbomb - search.xml', 'source' : 'http://api.giantbomb.com/search/?api_key=%GIANTBOMBAPIKey%&amp;query=%GAME%&resources=game&field_list=api_detail_url,name&format=xml',
 									'returnUrl' : 'true', 'replaceKeyString' : '%REPLACEKEYS%', 'replaceValueString' : '%REPLACEVALUES%'})
 		SubElement(site, 'Scraper', {'parseInstruction' : '03.02 - giantbomb - detail.xml', 'source' : '1'})		
 		
 		#mobygames.com
 		site = SubElement(scrapersXml, 'Site', {'name' : 'mobygames.com'})
-		SubElement(site, 'Scraper', {'parseInstruction' : '04.01 - mobygames - gamesearch.xml', 'source' : 'http://www.mobygames.com/search/quick?game=%GAME%&amp;p=%PLATFORM%',
+		SubElement(site, 'Scraper', {'parseInstruction' : '04.01 - mobygames - gamesearch.xml', 'source' : 'http://www.mobygames.com/search/quick?game=%GAME%&p=%PLATFORM%',
 									'returnUrl' : 'true', 'replaceKeyString' : '%REPLACEKEYS%', 'replaceValueString' : '%REPLACEVALUES%'})
 		SubElement(site, 'Scraper', {'parseInstruction' : '04.02 - mobygames - details.xml', 'source' : '1'})				
 		SubElement(site, 'Scraper', {'parseInstruction' : '04.03 - mobygames - coverlink.xml', 'source' : '1', 'returnUrl' : 'true'})
@@ -227,7 +232,7 @@ class Config:
 			
 		#write file		
 		try:
-			self.indent(root)
+			util.indentXml(root)
 			tree = ElementTree(root)			
 			tree.write(configFile)
 			
@@ -345,6 +350,10 @@ class Config:
 			fullReimport = romCollectionRow.find('fullReimport')
 			if(fullReimport != None):
 				romCollection.fullReimport = fullReimport.text.upper() == 'TRUE'			
+				
+			createNfoWhileScraping = romCollectionRow.find('createNfoWhileScraping')
+			if(createNfoWhileScraping != None):
+				romCollection.createNfoWhileScraping = createNfoWhileScraping.text.upper() == 'TRUE'
 				
 			searchGameByCRC = romCollectionRow.find('searchGameByCRC')
 			if(searchGameByCRC != None):
@@ -563,19 +572,6 @@ class Config:
 					fileTypeIds.append(fileType.id)
 
 		return fileTypeIds
-			
-			
-	def indent(self, elem, level=0):
-		i = "\n" + level*"  "
-		if len(elem):
-			if not elem.text or not elem.text.strip():
-				elem.text = i + "  "
-			if not elem.tail or not elem.tail.strip():
-				elem.tail = i
-			for elem in elem:
-				self.indent(elem, level+1)
-			if not elem.tail or not elem.tail.strip():
-				elem.tail = i
-		else:
-			if level and (not elem.tail or not elem.tail.strip()):
-				elem.tail = i
+	
+	
+	

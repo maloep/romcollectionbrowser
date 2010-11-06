@@ -174,7 +174,7 @@ class DBUpdate:
 									scraperSite = romCollection.scraperSites[i]
 									urlsFromPreviousScrapers = []
 									for scraper in scraperSite.scrapers:
-										results, urlsFromPreviousScrapers, doContinue = self.scrapeResults(result, scraper, urlsFromPreviousScrapers, gamenameFromFile, foldername, filecrc)
+										results, urlsFromPreviousScrapers, doContinue = self.scrapeResults(result, scraper, urlsFromPreviousScrapers, gamenameFromFile, foldername, filecrc, filenamelist[0])
 										if(doContinue):
 											continue
 						else:
@@ -211,7 +211,7 @@ class DBUpdate:
 					for scraperSite in romCollection.scraperSites:
 						urlsFromPreviousScrapers = []
 						for scraper in scraperSite.scrapers:							
-							results, urlsFromPreviousScrapers, doContinue = self.scrapeResults(results, scraper, urlsFromPreviousScrapers, gamenameFromFile, foldername, filecrc)
+							results, urlsFromPreviousScrapers, doContinue = self.scrapeResults(results, scraper, urlsFromPreviousScrapers, gamenameFromFile, foldername, filecrc, filename)
 							if(doContinue):
 								continue
 					
@@ -232,7 +232,7 @@ class DBUpdate:
 		return True, ''
 					
 	
-	def scrapeResults(self, results, scraper, urlsFromPreviousScrapers, gamenameFromFile, foldername, filecrc):		
+	def scrapeResults(self, results, scraper, urlsFromPreviousScrapers, gamenameFromFile, foldername, filecrc, romFile):		
 		Logutil.log("using parser file: " +scraper.parseInstruction, util.LOG_LEVEL_INFO)		
 		Logutil.log("using game description: " +scraper.source, util.LOG_LEVEL_INFO)
 		
@@ -250,6 +250,13 @@ class DBUpdate:
 			url = urlsFromPreviousScrapers[int(scraper.source) -1]
 			Logutil.log("using url from previous scraper: " +str(url), util.LOG_LEVEL_INFO)
 			scraperSource = url
+			
+		if(scraper.source == 'nfo'):
+			romDir = os.path.dirname(romFile)
+			Logutil.log('Romdir: ' +str(romDir), util.LOG_LEVEL_INFO)
+			nfoFile = os.path.join(romDir, gamenameFromFile +'.nfo')
+			Logutil.log('Using nfoFile: ' +str(nfoFile), util.LOG_LEVEL_INFO)
+			scraperSource = nfoFile
 														
 		tempResults = self.parseDescriptionFile(scraper, scraperSource, gamenameFromFile, foldername, filecrc)
 		if(tempResults == None):
@@ -621,6 +628,7 @@ class DBUpdate:
 			
 			publisher = self.resolveParseResult(gamedescription, 'Publisher')
 			developer = self.resolveParseResult(gamedescription, 'Developer')
+			year = self.resolveParseResult(gamedescription, 'ReleaseYear')
 			
 			yearId = self.insertForeignKeyItem(gamedescription, 'ReleaseYear', Year(self.gdb))
 			genreIds = self.insertForeignKeyItemList(gamedescription, 'Genre', Genre(self.gdb))		
@@ -648,11 +656,17 @@ class DBUpdate:
 						
 			gameId = self.insertGame(gamename, plot, romCollection.id, publisherId, developerId, reviewerId, yearId, 
 				players, rating, votes, url, region, media, perspective, controller, originalTitle, alternateTitle, translatedBy, version, romCollection.allowUpdate, )
-				
+							
 			for genreId in genreIds:
 				genreGame = GenreGame(self.gdb).getGenreGameByGenreIdAndGameId(genreId, gameId)
 				if(genreGame == None):
 					GenreGame(self.gdb).insert((genreId, gameId))
+				
+			#create Nfo file with game properties	
+			if(romCollection.createNfoWhileScraping):
+				self.createNfoFromDesc(gamename, gameId, plot, romCollection.name, publisher, developer, year, 
+				players, rating, votes, url, region, media, perspective, controller, originalTitle, alternateTitle, version, gamedescription, romFiles[0], gamenameFromFile)
+				
 		else:
 			gamename = gamenameFromFile
 			gameId = self.insertGame(gamename, None, romCollection.id, None, None, None, None, 
@@ -710,12 +724,6 @@ class DBUpdate:
 	def insertForeignKeyItem(self, result, itemName, gdbObject):
 		
 		item = self.resolveParseResult(result, itemName)
-		#TODO 
-		if(itemName == 'ReleaseYear' and item != None):
-			if(type(item) is time.struct_time):
-				item = str(item[0])
-			elif(len(item) > 4):
-				item = item[0:4]
 						
 		if(item != "" and item != None):
 			itemRow = gdbObject.getOneByName(item)
@@ -742,6 +750,8 @@ class DBUpdate:
 			return idList				
 		
 		for item in itemList:
+			item = self.stripHTMLTags(item)
+			
 			itemRow = gdbObject.getOneByName(item)
 			if(itemRow == None):
 				Logutil.log(itemName +" does not exist in database. Insert: " +item.encode('iso-8859-15'), util.LOG_LEVEL_INFO)
@@ -861,10 +871,25 @@ class DBUpdate:
 		try:			
 			resultValue = result[itemName][0]
 			
+			if(itemName == 'ReleaseYear' and resultValue != None):
+				if(type(resultValue) is time.struct_time):
+					resultValue = str(resultValue[0])
+				elif(len(resultValue) > 4):
+					resultValueOrig = resultValue
+					resultValue = resultValue[0:4]
+					try:
+						#year must be numeric
+						int(resultValue)
+					except:
+						resultValue = resultValueOrig[len(resultValueOrig) -4:]
+						try:
+							int(resultValue)
+						except:
+							resultValue = ''
+							
 			#replace and remove HTML tags
 			resultValue = self.stripHTMLTags(resultValue)
 			
-			#TODO: use sqlite.register_adapter?
 			try:
 				resultValue	= resultValue.decode('iso-8859-15')
 			except:
@@ -918,6 +943,52 @@ class DBUpdate:
 		return text
 
 
+	def createNfoFromDesc(self, gamename, gameId, plot, romCollectionName, publisher, developer, year, players, rating, votes, 
+						url, region, media, perspective, controller, originalTitle, alternateTitle, version, gamedescription, romFile, gameNameFromFile):
+		
+		root = Element('game')
+		SubElement(root, 'title').text = gamename
+		SubElement(root, 'id').text = str(gameId)
+		SubElement(root, 'originalTitle').text = originalTitle
+		SubElement(root, 'alternateTitle').text = alternateTitle
+		SubElement(root, 'platform').text = romCollectionName
+		SubElement(root, 'plot').text = plot
+		SubElement(root, 'publisher').text = publisher
+		SubElement(root, 'developer').text = developer
+		SubElement(root, 'year').text = year
+				
+		try:
+			genreList = gamedescription['Genre']			
+		except:
+			pass				
+		
+		for genre in genreList:
+			SubElement(root, 'genre').text = str(genre)
+		
+		SubElement(root, 'detailUrl').text = url
+		SubElement(root, 'maxPlayer').text = players
+		SubElement(root, 'region').text = region
+		SubElement(root, 'media').text = media
+		SubElement(root, 'perspective').text = perspective
+		SubElement(root, 'controller').text = controller
+		SubElement(root, 'version').text = version
+		SubElement(root, 'rating').text = rating
+		SubElement(root, 'votes').text = votes
+		
+		#write file		
+		try:
+			util.indentXml(root)
+			tree = ElementTree(root)
+			
+			romDir = os.path.dirname(romFile)
+			Logutil.log('Romdir: ' +str(romDir), util.LOG_LEVEL_INFO)
+			nfoFile = os.path.join(romDir, gameNameFromFile +'.nfo')
+			Logutil.log('Writing NfoFile: ' +str(nfoFile), util.LOG_LEVEL_INFO)
+												
+			tree.write(nfoFile)						
+			
+		except Exception, (exc):
+			print("Error: Cannot write game.nfo: " +str(exc))
 	
 	
 	def insertFiles(self, fileNames, gameId, fileType, romCollectionId, publisherId, developerId):
@@ -968,7 +1039,11 @@ class DBUpdate:
 			if(len(rootExtUrl) == 2 and len(rootExtFile) != 0):
 				fileName = rootExtFile[0] + rootExtUrl[1]
 			
-			#TODO check if folder exists
+			#check if folder exists
+			dirname = os.path.dirname(fileName)
+			if(not os.path.isdir(dirname)):
+				os.mkdir(dirname)
+			
 			Logutil.log("check if file exists: " +str(fileName), util.LOG_LEVEL_INFO)			
 			if (not os.path.isfile(fileName)):
 				Logutil.log("File does not exist. Starting download.", util.LOG_LEVEL_INFO)				

@@ -94,7 +94,7 @@ class ConfigxmlUpdater:
 		
 		#write file		
 		try:
-			self.indent(root)
+			util.indentXml(root)
 			tree = ElementTree(root)			
 			tree.write(path)
 			
@@ -162,22 +162,26 @@ class ConfigxmlUpdater:
 	
 	
 	def createOnlineScrapers(self, scrapers):
+		#local nfo
+		site = SubElement(scrapers, 'Site', {'name' : 'local nfo'})
+		SubElement(site, 'Scraper', {'parseInstruction' : '00 - local nfo.xml', 'source' : 'nfo'})
+		
 		#thevideogamedb.com
 		site = SubElement(scrapers, 'Site', {'name' : 'thevideogamedb.com'})
-		SubElement(site, 'Scraper', {'parseInstruction' : '01 - thevideogamedb.xml', 'source' : 'http://thevideogamedb.com/API/GameDetail.aspx?apikey=%VGDBAPIKey%&amp;crc=%CRC%'})		
+		SubElement(site, 'Scraper', {'parseInstruction' : '01 - thevideogamedb.xml', 'source' : 'http://thevideogamedb.com/API/GameDetail.aspx?apikey=%VGDBAPIKey%&crc=%CRC%'})		
 		
 		site = SubElement(scrapers, 'Site', {'name' : 'thegamesdb.net'})
 		SubElement(site, 'Scraper', {'parseInstruction' : '02 - thegamesdb.xml', 'source' : 'http://thegamesdb.net/api/GetGame.php?name=%GAME%'})
 		
 		#giantbomb.com
 		site = SubElement(scrapers, 'Site', {'name' : 'giantbomb.com'})
-		SubElement(site, 'Scraper', {'parseInstruction' : '03.01 - giantbomb - search.xml', 'source' : 'http://api.giantbomb.com/search/?api_key=%GIANTBOMBAPIKey%&amp;query=%GAME%&amp;resources=game&amp;format=xml',
+		SubElement(site, 'Scraper', {'parseInstruction' : '03.01 - giantbomb - search.xml', 'source' : 'http://api.giantbomb.com/search/?api_key=%GIANTBOMBAPIKey%&query=%GAME%&resources=game&field_list=api_detail_url,name&format=xml',
 									'returnUrl' : 'true', 'replaceKeyString' : '%REPLACEKEYS%', 'replaceValueString' : '%REPLACEVALUES%'})
 		SubElement(site, 'Scraper', {'parseInstruction' : '03.02 - giantbomb - detail.xml', 'source' : '1'})		
 		
 		#mobygames.com
 		site = SubElement(scrapers, 'Site', {'name' : 'mobygames.com'})
-		SubElement(site, 'Scraper', {'parseInstruction' : '04.01 - mobygames - gamesearch.xml', 'source' : 'http://www.mobygames.com/search/quick?game=%GAME%&amp;p=%PLATFORM%',
+		SubElement(site, 'Scraper', {'parseInstruction' : '04.01 - mobygames - gamesearch.xml', 'source' : 'http://www.mobygames.com/search/quick?game=%GAME%&p=%PLATFORM%',
 									'returnUrl' : 'true', 'replaceKeyString' : '%REPLACEKEYS%', 'replaceValueString' : '%REPLACEVALUES%'})
 		SubElement(site, 'Scraper', {'parseInstruction' : '04.02 - mobygames - details.xml', 'source' : '1'})				
 		SubElement(site, 'Scraper', {'parseInstruction' : '04.03 - mobygames - coverlink.xml', 'source' : '1', 'returnUrl' : 'true'})
@@ -185,19 +189,4 @@ class ConfigxmlUpdater:
 		SubElement(site, 'Scraper', {'parseInstruction' : '04.05 - mobygames - screenshotlink.xml', 'source' : '1', 'returnUrl' : 'true'})
 		SubElement(site, 'Scraper', {'parseInstruction' : '04.06 - mobygames - screenshotoriginallink.xml', 'source' : '3', 'returnUrl' : 'true'})
 		SubElement(site, 'Scraper', {'parseInstruction' : '04.07 - mobygames - screenshots.xml', 'source' : '4'})						
-		
-		
-	def indent(self, elem, level=0):
-		i = "\n" + level*"  "
-		if len(elem):
-			if not elem.text or not elem.text.strip():
-				elem.text = i + "  "
-			if not elem.tail or not elem.tail.strip():
-				elem.tail = i
-			for elem in elem:
-				self.indent(elem, level+1)
-			if not elem.tail or not elem.tail.strip():
-				elem.tail = i
-		else:
-			if level and (not elem.tail or not elem.tail.strip()):
-				elem.tail = i
+					
