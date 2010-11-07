@@ -24,6 +24,7 @@ class DBUpdate:
 		pass
 	
 	rcbSettings = RCBSettingsXml()
+	Settings = util.getSettings()
 	
 	def updateDB(self, gdb, gui):
 		self.gdb = gdb
@@ -32,6 +33,20 @@ class DBUpdate:
 		statusOk, errorMsg = config.readXml()
 		if(statusOk == False):
 			return False, errorMsg
+				
+		try:
+			missingDescPath = os.path.join(util.getAddonDataPath(), 'missingDesc.txt')
+			self.missingDescFile = open(missingDescPath,'w')		
+		except Exception, (exc):
+			self.missingDescFile = None
+			Logutil.log("Cannot write to missingDesc.txt: " +str(exc), util.LOG_LEVEL_WARNING)
+			
+		try:
+			missingArtworkPath = os.path.join(util.getAddonDataPath(), 'missingArtwork.txt')
+			self.missingArtworkFile = open(missingArtworkPath,'w')		
+		except Exception, (exc):
+			self.missingArtworkFile = None
+			Logutil.log("Cannot write to missingArtwork.txt: " +str(exc), util.LOG_LEVEL_WARNING)
 		
 		Logutil.log("Start Update DB", util.LOG_LEVEL_INFO)
 		
@@ -44,6 +59,9 @@ class DBUpdate:
 			rccount = rccount + 1
 			
 			Logutil.log("current Rom Collection: " +romCollection.name, util.LOG_LEVEL_INFO)
+			
+			self.missingDescFile.write('~~~~~~~~~~~~~~~~~~~~~~~~\n' +romCollection.name +'\n' +'~~~~~~~~~~~~~~~~~~~~~~~~\n')
+			self.missingArtworkFile.write('~~~~~~~~~~~~~~~~~~~~~~~~\n' +romCollection.name +'\n' +'~~~~~~~~~~~~~~~~~~~~~~~~\n')
 
 			#Read settings for current Rom Collection
 			Logutil.log("ignoreOnScan: " +str(romCollection.ignoreOnScan), util.LOG_LEVEL_INFO)
@@ -58,8 +76,7 @@ class DBUpdate:
 						
 			Logutil.log("use foldername as CRC: " +str(romCollection.useFoldernameAsCRC), util.LOG_LEVEL_INFO)			
 			Logutil.log("use filename as CRC: " +str(romCollection.useFilenameAsCRC), util.LOG_LEVEL_INFO)
-								
-			Logutil.log("ignore games without description: " +str(romCollection.ignoreGameWithoutDesc), util.LOG_LEVEL_INFO)						
+																
 			Logutil.log("max folder depth: " +str(romCollection.maxFolderDepth), util.LOG_LEVEL_INFO)
 			
 			#check if we can find any roms with this configuration
@@ -512,6 +529,12 @@ class DBUpdate:
 		if(gamedescription != None):
 			game = self.resolveParseResult(gamedescription, 'Game')
 		else:
+			self.missingDescFile.write('%s\n' %gamename)
+			
+			ignoreGameWithoutDesc = self.Settings.getSetting(util.SETTING_RCB_IGNOREGAMEWITHOUTDESC)
+			if(ignoreGameWithoutDesc):
+				Logutil.log('No description found for game "%s". Game will not be imported.' %gamename, util.LOG_LEVEL_WARNING)
+				return
 			game = ''
 						
 		if(filenamelist == None or len(filenamelist) == 0):
@@ -618,68 +641,46 @@ class DBUpdate:
 			
 	def insertData(self, gamedescription, gamenameFromFile, romCollection, romFiles, foldername):
 		Logutil.log("Insert data", util.LOG_LEVEL_INFO)
-				
-		publisherId = None
-		developerId = None
-		publisher = None
-		developer = None
-				
+		
+		publisher = self.resolveParseResult(gamedescription, 'Publisher')
+		developer = self.resolveParseResult(gamedescription, 'Developer')
+		year = self.resolveParseResult(gamedescription, 'ReleaseYear')
+		
+		yearId = self.insertForeignKeyItem(gamedescription, 'ReleaseYear', Year(self.gdb))
+		genreIds = self.insertForeignKeyItemList(gamedescription, 'Genre', Genre(self.gdb))		
+		publisherId = self.insertForeignKeyItem(gamedescription, 'Publisher', Publisher(self.gdb))
+		developerId = self.insertForeignKeyItem(gamedescription, 'Developer', Developer(self.gdb))
+		reviewerId = self.insertForeignKeyItem(gamedescription, 'Reviewer', Reviewer(self.gdb))	
+		
+		region = self.resolveParseResult(gamedescription, 'Region')		
+		media = self.resolveParseResult(gamedescription, 'Media')
+		controller = self.resolveParseResult(gamedescription, 'Controller')
+		players = self.resolveParseResult(gamedescription, 'Players')		
+		rating = self.resolveParseResult(gamedescription, 'Rating')
+		votes = self.resolveParseResult(gamedescription, 'Votes')
+		url = self.resolveParseResult(gamedescription, 'URL')
+		perspective = self.resolveParseResult(gamedescription, 'Perspective')
+		originalTitle = self.resolveParseResult(gamedescription, 'OriginalTitle')
+		alternateTitle = self.resolveParseResult(gamedescription, 'AlternateTitle')
+		translatedBy = self.resolveParseResult(gamedescription, 'TranslatedBy')
+		version = self.resolveParseResult(gamedescription, 'Version')								
+		plot = self.resolveParseResult(gamedescription, 'Description')
+		
 		if(gamedescription != None):
-			
-			publisher = self.resolveParseResult(gamedescription, 'Publisher')
-			developer = self.resolveParseResult(gamedescription, 'Developer')
-			year = self.resolveParseResult(gamedescription, 'ReleaseYear')
-			
-			yearId = self.insertForeignKeyItem(gamedescription, 'ReleaseYear', Year(self.gdb))
-			genreIds = self.insertForeignKeyItemList(gamedescription, 'Genre', Genre(self.gdb))		
-			publisherId = self.insertForeignKeyItem(gamedescription, 'Publisher', Publisher(self.gdb))
-			developerId = self.insertForeignKeyItem(gamedescription, 'Developer', Developer(self.gdb))
-			reviewerId = self.insertForeignKeyItem(gamedescription, 'Reviewer', Reviewer(self.gdb))	
-			
-			region = self.resolveParseResult(gamedescription, 'Region')		
-			media = self.resolveParseResult(gamedescription, 'Media')
-			controller = self.resolveParseResult(gamedescription, 'Controller')
-			players = self.resolveParseResult(gamedescription, 'Players')		
-			rating = self.resolveParseResult(gamedescription, 'Rating')
-			votes = self.resolveParseResult(gamedescription, 'Votes')
-			url = self.resolveParseResult(gamedescription, 'URL')
-			perspective = self.resolveParseResult(gamedescription, 'Perspective')
-			originalTitle = self.resolveParseResult(gamedescription, 'OriginalTitle')
-			alternateTitle = self.resolveParseResult(gamedescription, 'AlternateTitle')
-			translatedBy = self.resolveParseResult(gamedescription, 'TranslatedBy')
-			version = self.resolveParseResult(gamedescription, 'Version')
-					
 			gamename = self.resolveParseResult(gamedescription, 'Game')
 			if(gamename == ""):
 				gamename = gamenameFromFile
-			plot = self.resolveParseResult(gamedescription, 'Description')
-						
-			gameId = self.insertGame(gamename, plot, romCollection.id, publisherId, developerId, reviewerId, yearId, 
-				players, rating, votes, url, region, media, perspective, controller, originalTitle, alternateTitle, translatedBy, version, romCollection.allowUpdate, )
-							
-			for genreId in genreIds:
-				genreGame = GenreGame(self.gdb).getGenreGameByGenreIdAndGameId(genreId, gameId)
-				if(genreGame == None):
-					GenreGame(self.gdb).insert((genreId, gameId))
-				
-			#create Nfo file with game properties	
-			if(romCollection.createNfoWhileScraping):
-				self.createNfoFromDesc(gamename, gameId, plot, romCollection.name, publisher, developer, year, 
-				players, rating, votes, url, region, media, perspective, controller, originalTitle, alternateTitle, version, gamedescription, romFiles[0], gamenameFromFile)
-				
 		else:
 			gamename = gamenameFromFile
-			gameId = self.insertGame(gamename, None, romCollection.id, None, None, None, None, 
-					None, None, None, None, None, None, None, None, None, None, None, None, romCollection.allowUpdate)			
 			
-		for romFile in romFiles:
-			fileType = FileType()
-			fileType.id = 0
-			fileType.name = "rcb_rom"
-			fileType.parent = "game"
-			self.insertFile(romFile, gameId, fileType, None, None, None)
+		#create Nfo file with game properties
+		createNfoFile = self.Settings.getSetting(util.SETTING_RCB_CREATENFOFILE)	
+		if(createNfoFile):
+			self.createNfoFromDesc(gamename, plot, romCollection.name, publisher, developer, year, 
+			players, rating, votes, url, region, media, perspective, controller, originalTitle, alternateTitle, version, gamedescription, romFiles[0], gamenameFromFile)
 		
-				
+		artWorkFound = False
+		artworkfiles = {}
 		for path in romCollection.mediaPaths:
 						
 			Logutil.log("FileType: " +str(path.fileType.name), util.LOG_LEVEL_INFO)			
@@ -690,12 +691,41 @@ class DBUpdate:
 			
 			Logutil.log("Additional data path: " +str(path.path), util.LOG_LEVEL_INFO)
 			files = self.resolvePath((path.path,), gamename, gamenameFromFile, foldername, romCollection.name, publisher, developer)
-			Logutil.log("Importing files: " +str(files), util.LOG_LEVEL_INFO)					
+			if(len(files) > 0):
+				artWorkFound = True	
+			else:
+				self.missingArtworkFile.write('%s (filename %s) (%s)\n' %(gamename, gamenameFromFile, path.fileType.name))
 			
-			self.insertFiles(files, gameId, path.fileType, romCollection.id, publisherId, developerId)								
+			artworkfiles[path.fileType] = files
 				
-		self.gdb.commit()
+		if(not artWorkFound):
+			ignoreGamesWithoutArtwork = self.Settings.getSetting(util.SETTING_RCB_IGNOREGAMEWITHOUTARTWORK)
+			if(ignoreGamesWithoutArtwork):								
+				Logutil.log('No artwork found for game "%s". Game will not be imported.' %gamenameFromFile, util.LOG_LEVEL_WARNING)
+				self.missingArtworkFile.write('--> No artwork found for game "%s". Game will not be imported.\n' %gamename)
+				return
+						
+		gameId = self.insertGame(gamename, plot, romCollection.id, publisherId, developerId, reviewerId, yearId, 
+			players, rating, votes, url, region, media, perspective, controller, originalTitle, alternateTitle, translatedBy, version, romCollection.allowUpdate, )
+						
+		for genreId in genreIds:
+			genreGame = GenreGame(self.gdb).getGenreGameByGenreIdAndGameId(genreId, gameId)
+			if(genreGame == None):
+				GenreGame(self.gdb).insert((genreId, gameId))
+			
+		for romFile in romFiles:
+			fileType = FileType()
+			fileType.id = 0
+			fileType.name = "rcb_rom"
+			fileType.parent = "game"
+			self.insertFile(romFile, gameId, fileType, None, None, None)				
+		
+		Logutil.log("Importing files: " +str(artworkfiles), util.LOG_LEVEL_INFO)		
+		for fileType in artworkfiles.keys():
+			for fileName in artworkfiles[fileType]:
+				self.insertFile(fileName, gameId, fileType, romCollection.id, publisherId, developerId)		
 				
+		self.gdb.commit()				
 		
 		
 	def insertGame(self, gameName, description, romCollectionId, publisherId, developerId, reviewerId, yearId, 
@@ -943,12 +973,11 @@ class DBUpdate:
 		return text
 
 
-	def createNfoFromDesc(self, gamename, gameId, plot, romCollectionName, publisher, developer, year, players, rating, votes, 
+	def createNfoFromDesc(self, gamename, plot, romCollectionName, publisher, developer, year, players, rating, votes, 
 						url, region, media, perspective, controller, originalTitle, alternateTitle, version, gamedescription, romFile, gameNameFromFile):
 		
 		root = Element('game')
-		SubElement(root, 'title').text = gamename
-		SubElement(root, 'id').text = str(gameId)
+		SubElement(root, 'title').text = gamename		
 		SubElement(root, 'originalTitle').text = originalTitle
 		SubElement(root, 'alternateTitle').text = alternateTitle
 		SubElement(root, 'platform').text = romCollectionName
@@ -960,6 +989,7 @@ class DBUpdate:
 		try:
 			genreList = gamedescription['Genre']			
 		except:
+			genreList = []
 			pass				
 		
 		for genre in genreList:
@@ -988,12 +1018,7 @@ class DBUpdate:
 			tree.write(nfoFile)						
 			
 		except Exception, (exc):
-			print("Error: Cannot write game.nfo: " +str(exc))
-	
-	
-	def insertFiles(self, fileNames, gameId, fileType, romCollectionId, publisherId, developerId):
-		for fileName in fileNames:
-			self.insertFile(fileName, gameId, fileType, romCollectionId, publisherId, developerId)
+			print("Error: Cannot write game.nfo: " +str(exc))		
 			
 		
 	def insertFile(self, fileName, gameId, fileType, romCollectionId, publisherId, developerId):
@@ -1058,4 +1083,11 @@ class DBUpdate:
 		
 
 	def exit(self):
+		
+		try:
+			self.missingArtworkFile.close()
+			self.missingDescFile.close()
+		except:
+			pass
+		
 		Logutil.log("Update finished", util.LOG_LEVEL_INFO)		

@@ -92,14 +92,12 @@ class RomCollection:
 	ignoreOnScan = False
 	allowUpdate = True
 	fullReimport = False
-	createNfoWhileScraping = True
 	searchGameByCRC = True
 	searchGameByCRCIgnoreRomName = False
 	useFoldernameAsCRC = False
 	useFilenameAsCRC = False
 	useFoldernameAsGamename = False
 	maxFolderDepth = 99
-	ignoreGameWithoutDesc = False	
 	descFilePerGame = False
 	diskPrefix = '_Disk'
 	xboxCreateShortcut = False
@@ -349,11 +347,7 @@ class Config:
 			
 			fullReimport = romCollectionRow.find('fullReimport')
 			if(fullReimport != None):
-				romCollection.fullReimport = fullReimport.text.upper() == 'TRUE'			
-				
-			createNfoWhileScraping = romCollectionRow.find('createNfoWhileScraping')
-			if(createNfoWhileScraping != None):
-				romCollection.createNfoWhileScraping = createNfoWhileScraping.text.upper() == 'TRUE'
+				romCollection.fullReimport = fullReimport.text.upper() == 'TRUE'
 				
 			searchGameByCRC = romCollectionRow.find('searchGameByCRC')
 			if(searchGameByCRC != None):
@@ -378,10 +372,6 @@ class Config:
 			maxFolderDepth = romCollectionRow.find('maxFolderDepth')
 			if(maxFolderDepth != None):
 				romCollection.maxFolderDepth = int(maxFolderDepth.text)
-				
-			ignoreGameWithoutDesc = romCollectionRow.find('ignoreGameWithoutDesc')
-			if(ignoreGameWithoutDesc != None):
-				romCollection.ignoreGameWithoutDesc = ignoreGameWithoutDesc.text.upper() == 'TRUE'
 				
 			descFilePerGame = romCollectionRow.find('descFilePerGame')
 			if(descFilePerGame != None):
