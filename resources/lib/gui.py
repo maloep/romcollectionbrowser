@@ -1032,23 +1032,26 @@ class UIGameDB(xbmcgui.WindowXML):
 		retValue = dialog.yesno('Rom Collection Browser', 'No config file found.', 'Do you want to create one?')
 		if(retValue == False):
 			return False, 'Action canceled.'
+		
+		#scraping scenario
+		scenarioIndex = dialog.select('Choose a scenario', ['Scrape game info and artwork online', 'Game info and artwork are available locally'])
+		if(scenarioIndex == -1):
+			return False, 'Action canceled.'
 			
 		newConfig = Config()
 		romCollections = {}
-		
-		firstRun = True
+				
 		id = 1
 		consoleList = config.consoleList
 		
 		while True:
 		
 			romCollection = RomCollection()
-			print 'name start: ' +str(romCollection.name)
 			
 			#console
 			platformIndex = dialog.select('Choose a platform', consoleList)
 			if(platformIndex == -1):
-				return False, 'Action canceled.'			
+				return False, 'Action canceled.'
 			
 			console = consoleList[platformIndex]
 			consoleList.remove(console)
@@ -1057,14 +1060,15 @@ class UIGameDB(xbmcgui.WindowXML):
 			romCollection.id = id
 			id = id +1
 			
+			#emulator
 			consolePath = dialog.browse(1, 'Path to %s Emulator' %console, 'files')
 			if(consolePath == ''):
 				return False, 'Action canceled.'
 			romCollection.emulatorCmd = consolePath
 			
-			#filemask
+			#params
 			keyboard = xbmc.Keyboard()
-			keyboard.setHeading('Emulator params')			
+			keyboard.setHeading('Emulator params (use "%ROM%" for your rom files)')			
 			keyboard.doModal()
 			if (keyboard.isConfirmed()):
 				emuParams = keyboard.getText()
@@ -1090,25 +1094,73 @@ class UIGameDB(xbmcgui.WindowXML):
 			else:
 				return False, 'Action canceled.'
 	
-			if(firstRun):
-				dialog.ok('Choose the path to %s Artwork.' %console, 'RCB will create these sub folders:', 'boxfront, boxback, cartridge, screenshot, fanart')
-				firstRun = False
+			if(scenarioIndex == 0):			
+				artworkPath = dialog.browse(0, 'Path to %s Artwork' %console, 'files')
+				if(artworkPath == ''):
+					return False, 'Action canceled.'
+				
+				romCollection.mediaPaths = []
+				romCollection.mediaPaths.append(self.createMediaPath('boxfront', artworkPath))
+				romCollection.mediaPaths.append(self.createMediaPath('boxback', artworkPath))
+				romCollection.mediaPaths.append(self.createMediaPath('cartridge', artworkPath))
+				romCollection.mediaPaths.append(self.createMediaPath('screenshot', artworkPath))
+				romCollection.mediaPaths.append(self.createMediaPath('fanart', artworkPath))
+				
+				romCollection.descFilePerGame= True
+
+			else:
+				
+				fileTypes = ['boxfront', 'boxback', 'cartridge', 'screenshot', 'fanart', 'action', 'title', '3dbox', 'romcollection', 'developer', 'publisher', 'gameplay (video)']
+				
+				romCollection.mediaPaths = []
+				
+				while True:
+					
+					fileTypeIndex = dialog.select('Choose an artwork type', fileTypes)
+					if(fileTypeIndex == -1):
+						return False, 'Action canceled.'
+					
+					fileType = fileTypes[fileTypeIndex]
+					fileTypes.remove(fileType)
+					
+					artworkPath = dialog.browse(0, '%s Artwork (%s)' %(console, fileType), 'files')
+					if(artworkPath == ''):
+						return False, 'Action canceled.'
+					
+					romCollection.mediaPaths.append(self.createMediaPath(fileType, artworkPath))
+					
+					retValue = dialog.yesno('Rom Collection Browser', 'Do you want to add another Artwork Path?')
+					if(retValue == False):
+						break
+				
+				descIndex = dialog.select('Structure of your game descriptions', ['One description file per game', 'One description file for all games'])
+				if(descIndex == -1):
+					return False, 'Action canceled.'
+				
+				romCollection.descFilePerGame = (descIndex == 0)
+				
+				descPath = dialog.browse(1, 'Path to %s game description' %console, 'files')
+				if(descPath == ''):
+					return False, 'Action canceled.'
+				
+				parserPath = dialog.browse(1, 'Path to %s parse instruction' %console, 'files')
+				if(parserPath == ''):
+					return False, 'Action canceled.'
+				
+				#create scraper
+				site = Site()
+				site.name = console
+				scrapers = []
+				scraper = Scraper()
+				scraper.parseInstruction = parserPath
+				scraper.source = descPath
+				scrapers.append(scraper)
+				site.scrapers = scrapers
+				romCollection.scraperSites = []
+				romCollection.scraperSites.append(site)
+				
 			
-			artworkPath = dialog.browse(0, 'Path to %s Artwork' %console, 'files')
-			if(artworkPath == ''):
-				return False, 'Action canceled.'
-			
-			romCollection.mediaPaths = []
-			romCollection.mediaPaths.append(self.createMediaPath('boxfront', artworkPath))
-			romCollection.mediaPaths.append(self.createMediaPath('boxback', artworkPath))
-			romCollection.mediaPaths.append(self.createMediaPath('cartridge', artworkPath))
-			romCollection.mediaPaths.append(self.createMediaPath('screenshot', artworkPath))
-			romCollection.mediaPaths.append(self.createMediaPath('fanart', artworkPath))
-			
-			romCollections[romCollection.id] = romCollection
-			
-			print 'name end ' +str(romCollection.name)
-			print str(romCollections.keys())
+			romCollections[romCollection.id] = romCollection						
 			
 			retValue = dialog.yesno('Rom Collection Browser', 'Do you want to add another Rom Collection?')
 			if(retValue == False):

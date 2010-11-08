@@ -990,7 +990,6 @@ class DBUpdate:
 			genreList = gamedescription['Genre']			
 		except:
 			genreList = []
-			pass				
 		
 		for genre in genreList:
 			SubElement(root, 'genre').text = str(genre)
