@@ -158,7 +158,7 @@ class Config:
 			#some default values
 			SubElement(romCollectionXml, 'ignoreOnScan').text = 'False'
 			SubElement(romCollectionXml, 'searchGameByCRC').text = 'True'
-			SubElement(romCollectionXml, 'descFilePerGame').text = 'True'
+			SubElement(romCollectionXml, 'descFilePerGame').text = str(romCollection.descFilePerGame)
 				
 			SubElement(romCollectionXml, 'imagePlacing').text = 'gameinfobig'
 			
@@ -168,16 +168,29 @@ class Config:
 			except:
 				pass
 						
-			SubElement(romCollectionXml, 'scraper', {'name' : 'thevideogamedb.com'})
-			SubElement(romCollectionXml, 'scraper', {'name' : 'thegamesdb.net', 'replaceKeyString' : ' III, II', 'replaceValueString' : ' 3, 2'})
-			SubElement(romCollectionXml, 'scraper', {'name' : 'giantbomb.com', 'replaceKeyString' : ' III, II', 'replaceValueString' : ' 3, 2'})
-			SubElement(romCollectionXml, 'scraper', {'name' : 'mobygames.com', 'replaceKeyString' : ' III, II', 'replaceValueString' : ' 3, 2', 'platform' : mobyConsoleId})
+			if(len(romCollection.scraperSites) == 0):
+				SubElement(romCollectionXml, 'scraper', {'name' : 'thevideogamedb.com'})
+				SubElement(romCollectionXml, 'scraper', {'name' : 'thegamesdb.net', 'replaceKeyString' : ' III, II', 'replaceValueString' : ' 3, 2'})
+				SubElement(romCollectionXml, 'scraper', {'name' : 'giantbomb.com', 'replaceKeyString' : ' III, II', 'replaceValueString' : ' 3, 2'})
+				SubElement(romCollectionXml, 'scraper', {'name' : 'mobygames.com', 'replaceKeyString' : ' III, II', 'replaceValueString' : ' 3, 2', 'platform' : mobyConsoleId})
+			else:
+				SubElement(romCollectionXml, 'scraper', {'name' : romCollection.scraperSites[0].name})
+				
+				site = SubElement(scrapersXml, 'Site', {'name' : romCollection.scraperSites[0].name})
+				SubElement(site, 'Scraper', {'parseInstruction' : romCollection.scraperSites[0].scrapers[0].parseInstruction, 'source' : romCollection.scraperSites[0].scrapers[0].source})
 			
 		self.writeFileType(fileTypesXml, '1', 'boxfront')
 		self.writeFileType(fileTypesXml, '2', 'boxback')
 		self.writeFileType(fileTypesXml, '3', 'cartridge')
 		self.writeFileType(fileTypesXml, '4', 'screenshot')
 		self.writeFileType(fileTypesXml, '5', 'fanart')
+		self.writeFileType(fileTypesXml, '6', 'action')
+		self.writeFileType(fileTypesXml, '7', 'title')
+		self.writeFileType(fileTypesXml, '8', '3dbox')
+		self.writeFileType(fileTypesXml, '9', 'romcollection')
+		self.writeFileType(fileTypesXml, '10', 'developer')
+		self.writeFileType(fileTypesXml, '11', 'publisher')
+		self.writeFileType(fileTypesXml, '12', 'gameplay')
 			
 		fileTypeFor = SubElement(imagePlacingXml, 'fileTypeFor', {'name' : 'gameinfobig'})
 		SubElement(fileTypeFor, 'fileTypeForGameList').text = 'boxfront'
@@ -243,8 +256,23 @@ class Config:
 	
 	def writeFileType(self, fileTypesXml, id, name):
 		fileType = SubElement(fileTypesXml, 'FileType' , {'id' : id, 'name' : name})
-		SubElement(fileType, 'type').text = 'image'
-		SubElement(fileType, 'parent').text = 'game'
+		
+		if (fileType == 'romcollection'):
+			SubElement(fileType, 'type').text = 'image'
+			SubElement(fileType, 'parent').text = 'romcollection'
+		elif(fileType == 'developer'):
+			SubElement(fileType, 'type').text = 'image'
+			SubElement(fileType, 'parent').text = 'developer'
+		elif(fileType == 'publisher'):
+			SubElement(fileType, 'type').text = 'image'
+			SubElement(fileType, 'parent').text = 'publisher'
+		elif(fileType == 'gameplay'):
+			SubElement(fileType, 'type').text = 'video'
+			SubElement(fileType, 'parent').text = 'game'
+		else:
+			SubElement(fileType, 'type').text = 'image'
+			SubElement(fileType, 'parent').text = 'game'
+			
 		
 		
 	def readRomCollections(self, tree):
