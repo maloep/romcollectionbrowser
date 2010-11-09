@@ -1051,19 +1051,27 @@ class UIGameDB(xbmcgui.WindowXML):
 			#console
 			platformIndex = dialog.select('Choose a platform', consoleList)
 			if(platformIndex == -1):
-				return False, 'Action canceled.'
-			
-			console = consoleList[platformIndex]
-			consoleList.remove(console)
+				break
+			elif(platformIndex == 0):
+				keyboard = xbmc.Keyboard()
+				keyboard.setHeading('Enter platform name')			
+				keyboard.doModal()
+				if (keyboard.isConfirmed()):
+					console = keyboard.getText()
+				else:
+					break
+			else:
+				console = consoleList[platformIndex]
+				consoleList.remove(console)
 			
 			romCollection.name = console
 			romCollection.id = id
 			id = id +1
 			
 			#emulator
-			consolePath = dialog.browse(1, 'Path to %s Emulator' %console, 'files')
+			consolePath = dialog.browse(1, '%s Emulator' %console, 'files')
 			if(consolePath == ''):
-				return False, 'Action canceled.'
+				break
 			romCollection.emulatorCmd = consolePath
 			
 			#params
@@ -1073,12 +1081,12 @@ class UIGameDB(xbmcgui.WindowXML):
 			if (keyboard.isConfirmed()):
 				emuParams = keyboard.getText()
 			else:
-				return False, 'Action canceled.'
+				break
 			romCollection.emulatorParams = emuParams
 			
-			romPath = dialog.browse(0, 'Path to %s Roms' %console, 'files')
+			romPath = dialog.browse(0, '%s Roms' %console, 'files')
 			if(romPath == ''):
-				return False, 'Action canceled.'
+				break
 			
 			#filemask
 			keyboard = xbmc.Keyboard()
@@ -1092,19 +1100,19 @@ class UIGameDB(xbmcgui.WindowXML):
 					romPathComplete = os.path.join(romPath, fileMask.strip())					
 					romCollection.romPaths.append(romPathComplete)
 			else:
-				return False, 'Action canceled.'
+				break
 	
 			if(scenarioIndex == 0):			
-				artworkPath = dialog.browse(0, 'Path to %s Artwork' %console, 'files')
+				artworkPath = dialog.browse(0, '%s Artwork' %console, 'files')
 				if(artworkPath == ''):
-					return False, 'Action canceled.'
+					break
 				
 				romCollection.mediaPaths = []
-				romCollection.mediaPaths.append(self.createMediaPath('boxfront', artworkPath))
-				romCollection.mediaPaths.append(self.createMediaPath('boxback', artworkPath))
-				romCollection.mediaPaths.append(self.createMediaPath('cartridge', artworkPath))
-				romCollection.mediaPaths.append(self.createMediaPath('screenshot', artworkPath))
-				romCollection.mediaPaths.append(self.createMediaPath('fanart', artworkPath))
+				romCollection.mediaPaths.append(self.createMediaPath('boxfront', artworkPath, scenarioIndex))
+				romCollection.mediaPaths.append(self.createMediaPath('boxback', artworkPath, scenarioIndex))
+				romCollection.mediaPaths.append(self.createMediaPath('cartridge', artworkPath, scenarioIndex))
+				romCollection.mediaPaths.append(self.createMediaPath('screenshot', artworkPath, scenarioIndex))
+				romCollection.mediaPaths.append(self.createMediaPath('fanart', artworkPath, scenarioIndex))
 				
 				romCollection.descFilePerGame= True
 
@@ -1118,16 +1126,16 @@ class UIGameDB(xbmcgui.WindowXML):
 					
 					fileTypeIndex = dialog.select('Choose an artwork type', fileTypes)
 					if(fileTypeIndex == -1):
-						return False, 'Action canceled.'
+						break
 					
 					fileType = fileTypes[fileTypeIndex]
 					fileTypes.remove(fileType)
 					
 					artworkPath = dialog.browse(0, '%s Artwork (%s)' %(console, fileType), 'files')
 					if(artworkPath == ''):
-						return False, 'Action canceled.'
+						break
 					
-					romCollection.mediaPaths.append(self.createMediaPath(fileType, artworkPath))
+					romCollection.mediaPaths.append(self.createMediaPath(fileType, artworkPath, scenarioIndex))
 					
 					retValue = dialog.yesno('Rom Collection Browser', 'Do you want to add another Artwork Path?')
 					if(retValue == False):
@@ -1135,17 +1143,17 @@ class UIGameDB(xbmcgui.WindowXML):
 				
 				descIndex = dialog.select('Structure of your game descriptions', ['One description file per game', 'One description file for all games'])
 				if(descIndex == -1):
-					return False, 'Action canceled.'
+					break
 				
 				romCollection.descFilePerGame = (descIndex == 0)
 				
-				descPath = dialog.browse(1, 'Path to %s game description' %console, 'files')
+				descPath = dialog.browse(1, '%s game description' %console, 'files')
 				if(descPath == ''):
-					return False, 'Action canceled.'
+					break
 				
-				parserPath = dialog.browse(1, 'Path to %s parse instruction' %console, 'files')
+				parserPath = dialog.browse(1, '%s parse instruction' %console, 'files')
 				if(parserPath == ''):
-					return False, 'Action canceled.'
+					break
 				
 				#create scraper
 				site = Site()
@@ -1174,14 +1182,28 @@ class UIGameDB(xbmcgui.WindowXML):
 		return True, ''
 	
 	
-	def createMediaPath(self, type, path):
+	def createMediaPath(self, type, path, scenarioIndex):
 		
-		fileType = FileType()	
-		fileType.name = type		
+		if(type == 'gameplay (video)'):
+			type = 'gameplay'
+			
+		fileMask = '%GAME%.*'
+		if(type == 'romcollection'):
+			fileMask = '%ROMCOLLECTION%.*'
+		if(type == 'developer'):
+			fileMask = '%DEVELOPER%.*'
+		if(type == 'publisher'):
+			fileMask = '%PUBLISHER%.*'
 		
-		mediaPath = MediaPath()	
+		fileType = FileType()
+		fileType.name = type
+		
+		mediaPath = MediaPath()
 		mediaPath.type = fileType
-		mediaPath.path = os.path.join(path, type, '%GAME%.*')
+		if(scenarioIndex == 0):
+			mediaPath.path = os.path.join(path, type, fileMask)
+		else:
+			mediaPath.path = os.path.join(path, fileMask)
 		
 		return mediaPath
 	
