@@ -15,6 +15,7 @@ import util
 from util import *
 from settings import *
 
+import xbmc
 
 
 
@@ -546,12 +547,7 @@ class DBUpdate:
 		self.insertData(gamedescription, gamename, romCollection, filenamelist, foldername)
 	
 	
-	def parseDescriptionFile(self, scraper, scraperSource, gamenameFromFile, foldername, crc):		
-
-		if(not scraperSource.startswith('http://') and not os.path.exists(scraperSource)):
-			Logutil.log("description file for game " +gamenameFromFile +" could not be found. "\
-			"Check if this path exists: " +scraperSource, util.LOG_LEVEL_WARNING)
-			return None
+	def parseDescriptionFile(self, scraper, scraperSource, gamenameFromFile, foldername, crc):				
 		
 		Logutil.log("Parsing game description: " +scraperSource, util.LOG_LEVEL_INFO)			
 			
@@ -582,6 +578,11 @@ class DBUpdate:
 				
 			for i in range(0, len(replaceTokens)):
 				scraperSource = scraperSource.replace(replaceTokens[i], replaceValues[i])
+			
+			if(not scraperSource.startswith('http://') and not os.path.exists(scraperSource)):
+				Logutil.log("description file for game " +gamenameFromFile +" could not be found. "\
+				"Check if this path exists: " +scraperSource, util.LOG_LEVEL_WARNING)
+				return None
 			
 			parser = DescriptionParserFactory.getParser(str(scraper.parseInstruction))
 			Logutil.log("description file (tokens replaced): " +scraperSource, util.LOG_LEVEL_INFO)
@@ -694,7 +695,7 @@ class DBUpdate:
 			if(len(files) > 0):
 				artWorkFound = True	
 			else:
-				self.missingArtworkFile.write('%s (filename %s) (%s)\n' %(gamename, gamenameFromFile, path.fileType.name))
+				self.missingArtworkFile.write('%s (filename: %s) (%s)\n' %(gamename, gamenameFromFile, path.fileType.name))
 			
 			artworkfiles[path.fileType] = files
 				
@@ -919,6 +920,8 @@ class DBUpdate:
 							
 			#replace and remove HTML tags
 			resultValue = self.stripHTMLTags(resultValue)
+			resultValue = resultValue.strip()
+			
 			
 			try:
 				resultValue	= resultValue.decode('iso-8859-15')

@@ -16,8 +16,8 @@ sys.path.append( os.path.join( BASE_RESOURCE_PATH, "platform_libraries", env ) )
 
 from pysqlite2 import dbapi2 as sqlite
 from gamedatabase import *
-import dbupdate, importsettings
-from util import Logutil
+from util import *
+import dbupdate
 
 #adjust settings for tests
 util.RCBHOME = os.path.join(os.getcwd(), '..', '..')
@@ -144,8 +144,8 @@ class TestUpdateDB(unittest.TestCase):
 		self.gameTest(gameRows[16], 'Formula One: Grand Prix', 'F1 is an Official Formula One Racing Game.', 
 			None,  None, 1, 3, 3, None, 3, '????', '', '', 'http://www.mobygames.com/game/amiga/formula-one_', '', '', '', '', 0, 0,
 			4, 1, 1, 0, 0, 0)
-		self.gameTest(gameRows[17], 'Game without Desc', None, 
-			None,  None, 2, None, None, None, None, None, None, None, None, None, None, None, None, 0, 0,
+		self.gameTest(gameRows[17], 'Game without Desc', '', 
+			None,  None, 2, None, None, None, None, '', '', '', '', '', '', '', '', 0, 0,
 			1, 0, 0, 0, 0, 0)
 		self.gameTest(gameRows[18], 'Golf Magazine Presents 36 Great Holes Starring Fred Couples', '', 
 			None,  None, 6, 19, 20, None, 10, '', '', '', '', 'United States', '', '', '', 0, 0,
