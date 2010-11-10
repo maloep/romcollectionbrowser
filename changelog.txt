@@ -16,7 +16,7 @@
     * new scraper: thegamesdb.net
     * navigation between top menu and bottom menu changed from circular to linear
     * added some more html codes to the unescape table
-    * disabled boxart download for giantbomb.com and thegamesdb.net (boxart could be for the wrong platform)
+    * disabled boxart download for giantbomb.com and thegamesdb.net (may download wrong boxart)
 
 0.7.4 (10/2010)
 ~~~~~~~~~~~~~
