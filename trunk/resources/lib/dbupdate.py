@@ -207,7 +207,7 @@ class DBUpdate:
 							gamename = ''
 							gamenameFromFile = ''								
 							
-						self.insertGameFromDesc(result, lastgamename, gamenameFromFile, romCollection, filenamelist, foldername)
+						self.insertGameFromDesc(result, lastgamename, gamenameFromFile, romCollection, filenamelist, foldername, isUpdate, gameId)
 							
 				except Exception, (exc):
 					Logutil.log("an error occured while adding game " +gamename.encode('iso-8859-15'), util.LOG_LEVEL_WARNING)
