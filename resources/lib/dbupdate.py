@@ -149,7 +149,7 @@ class DBUpdate:
 					foldername = foldername.lower()
 					fileFoldernameDict = self.buildFilenameDict(fileFoldernameDict, isMultiRomGame, filename, foldername, fileGamenameDict, gamename, False)
 
-			Logutil.log("Building file crcs done", util.LOG_LEVEL_INFO)																																														
+			Logutil.log("Building file crcs done", util.LOG_LEVEL_INFO)
 			
 			if(not romCollection.descFilePerGame and len(romCollection.scraperSites) > 0):
 				Logutil.log("Searching for game in parsed results:", util.LOG_LEVEL_INFO)
@@ -171,15 +171,23 @@ class DBUpdate:
 					#parse description
 					for result in parser.scanDescription(scraper.source, str(scraper.parseInstruction)):
 						
+						isUpdate = False
+						gameId = None
 						filenamelist, foldername, filecrc = self.findFilesByGameDescription(result, romCollection, filecrcDict, fileFoldernameDict, fileGamenameDict)						
 
 						if(filenamelist != None and len(filenamelist) > 0):
-							
+														
 							#check if this file already exists in DB
 							romFile = File(self.gdb).getFileByNameAndType(filenamelist[0], 0)
-							if(romFile != None and not romCollection.fullReimport):
-								Logutil.log('File %s already exists in database. Won\'t scrape it again. Set fullReimport to True to force scraping.' %filenamelist[0], util.LOG_LEVEL_INFO)
-								continue
+							if(romFile != None):
+								isUpdate = True
+								gameId = romFile[3]
+								Logutil.log('File %s already exists in database.' %filenamelist[0], util.LOG_LEVEL_INFO)
+								enableFullReimport = self.Settings.getSetting(util.SETTING_RCB_ENABLEFULLREIMPORT).upper() == 'TRUE'
+								Logutil.log('Always rescan imported games = ' +str(enableFullReimport), util.LOG_LEVEL_INFO)
+								if(enableFullReimport == False):
+									Logutil.log('Won\'t scrape this game again. Set "Always rescan imported games" to True to force scraping.', util.LOG_LEVEL_INFO)
+									continue
 							
 							gamenameFromFile = self.getGamenameFromFilename(filenamelist[0], romCollection)
 							gamenameFromDesc = result['Game'][0]
@@ -208,13 +216,22 @@ class DBUpdate:
 			else:	
 				fileCount = 1										
 				
-				for filename in files:						
+				for filename in files:
+					
+					isUpdate = False
+					gameId = None
 					
 					#check if this file already exists in DB
 					romFile = File(self.gdb).getFileByNameAndType(filename, 0)
-					if(romFile != None and not romCollection.fullReimport):
-						Logutil.log('File %s already exists in database. Won\'t scrape it again. Set fullReimport to True to force scraping.' %filename, util.LOG_LEVEL_INFO)
-						continue
+					if(romFile != None):
+						isUpdate = True
+						gameId = romFile[3]
+						Logutil.log('File %s already exists in database.' %filename, util.LOG_LEVEL_INFO)						
+						enableFullReimport = self.Settings.getSetting(util.SETTING_RCB_ENABLEFULLREIMPORT).upper() == 'TRUE'
+						Logutil.log('Always rescan imported games = ' +str(enableFullReimport), util.LOG_LEVEL_INFO)
+						if(enableFullReimport == False):
+							Logutil.log('Won\'t scrape this game again. Set "Always rescan imported games" to True to force scraping.', util.LOG_LEVEL_INFO)
+							continue
 					
 					gamenameFromFile = self.getGamenameFromFilename(filename, romCollection)						
 					
@@ -243,7 +260,7 @@ class DBUpdate:
 					filenamelist = []
 					filenamelist.append(filename)
 												
-					self.insertGameFromDesc(gamedescription, lastgamename, gamenameFromFile, romCollection, filenamelist, foldername)													
+					self.insertGameFromDesc(gamedescription, lastgamename, gamenameFromFile, romCollection, filenamelist, foldername, isUpdate, gameId)													
 					
 		gui.writeMsg("Done.", "", "", gui.itemCount)
 		self.exit()
@@ -526,13 +543,13 @@ class DBUpdate:
 		return None, foldername, filecrc
 		
 		
-	def insertGameFromDesc(self, gamedescription, lastgamename, gamename, romCollection, filenamelist, foldername):								
+	def insertGameFromDesc(self, gamedescription, lastgamename, gamename, romCollection, filenamelist, foldername, isUpdate, gameId):								
 		if(gamedescription != None):
 			game = self.resolveParseResult(gamedescription, 'Game')
 		else:
 			self.missingDescFile.write('%s\n' %gamename)
 			
-			ignoreGameWithoutDesc = self.Settings.getSetting(util.SETTING_RCB_IGNOREGAMEWITHOUTDESC)
+			ignoreGameWithoutDesc = self.Settings.getSetting(util.SETTING_RCB_IGNOREGAMEWITHOUTDESC).upper() == 'TRUE'
 			if(ignoreGameWithoutDesc):
 				Logutil.log('No description found for game "%s". Game will not be imported.' %gamename, util.LOG_LEVEL_WARNING)
 				return
@@ -544,7 +561,7 @@ class DBUpdate:
 			return
 		else:
 			lastgamename = game
-		self.insertData(gamedescription, gamename, romCollection, filenamelist, foldername)
+		self.insertData(gamedescription, gamename, romCollection, filenamelist, foldername, isUpdate, gameId)
 	
 	
 	def parseDescriptionFile(self, scraper, scraperSource, gamenameFromFile, foldername, crc):				
@@ -640,7 +657,7 @@ class DBUpdate:
 			
 			
 			
-	def insertData(self, gamedescription, gamenameFromFile, romCollection, romFiles, foldername):
+	def insertData(self, gamedescription, gamenameFromFile, romCollection, romFiles, foldername, isUpdate, gameId):
 		Logutil.log("Insert data", util.LOG_LEVEL_INFO)
 		
 		publisher = self.resolveParseResult(gamedescription, 'Publisher')
@@ -675,7 +692,7 @@ class DBUpdate:
 			gamename = gamenameFromFile
 			
 		#create Nfo file with game properties
-		createNfoFile = self.Settings.getSetting(util.SETTING_RCB_CREATENFOFILE)	
+		createNfoFile = self.Settings.getSetting(util.SETTING_RCB_CREATENFOFILE).upper() == 'TRUE'	
 		if(createNfoFile):
 			self.createNfoFromDesc(gamename, plot, romCollection.name, publisher, developer, year, 
 			players, rating, votes, url, region, media, perspective, controller, originalTitle, alternateTitle, version, gamedescription, romFiles[0], gamenameFromFile)
@@ -700,14 +717,14 @@ class DBUpdate:
 			artworkfiles[path.fileType] = files
 				
 		if(not artWorkFound):
-			ignoreGamesWithoutArtwork = self.Settings.getSetting(util.SETTING_RCB_IGNOREGAMEWITHOUTARTWORK)
+			ignoreGamesWithoutArtwork = self.Settings.getSetting(util.SETTING_RCB_IGNOREGAMEWITHOUTARTWORK).upper() == 'TRUE'
 			if(ignoreGamesWithoutArtwork):								
 				Logutil.log('No artwork found for game "%s". Game will not be imported.' %gamenameFromFile, util.LOG_LEVEL_WARNING)
 				self.missingArtworkFile.write('--> No artwork found for game "%s". Game will not be imported.\n' %gamename)
 				return
 						
 		gameId = self.insertGame(gamename, plot, romCollection.id, publisherId, developerId, reviewerId, yearId, 
-			players, rating, votes, url, region, media, perspective, controller, originalTitle, alternateTitle, translatedBy, version, romCollection.allowUpdate, )
+			players, rating, votes, url, region, media, perspective, controller, originalTitle, alternateTitle, translatedBy, version, isUpdate, gameId, romCollection.allowUpdate, )
 						
 		for genreId in genreIds:
 			genreGame = GenreGame(self.gdb).getGenreGameByGenreIdAndGameId(genreId, gameId)
@@ -730,26 +747,27 @@ class DBUpdate:
 		
 		
 	def insertGame(self, gameName, description, romCollectionId, publisherId, developerId, reviewerId, yearId, 
-				players, rating, votes, url, region, media, perspective, controller, originalTitle, alternateTitle, translatedBy, version, allowUpdate):
-		# TODO unique by name an RC
-		gameRow = Game(self.gdb).getGameByNameAndRomCollectionId(gameName, romCollectionId)
-		if(gameRow == None):
+				players, rating, votes, url, region, media, perspective, controller, originalTitle, alternateTitle, translatedBy, version, isUpdate, gameId, allowUpdate):		
+		
+		if(not isUpdate):
 			Logutil.log("Game does not exist in database. Insert game: " +gameName.encode('iso-8859-15'), util.LOG_LEVEL_INFO)
 			Game(self.gdb).insert((gameName, description, None, None, romCollectionId, publisherId, developerId, reviewerId, yearId, 
 				players, rating, votes, url, region, media, perspective, controller, 0, 0, originalTitle, alternateTitle, translatedBy, version))
 			return self.gdb.cursor.lastrowid
 		else:	
 			if(allowUpdate):
+				#TODO
+				gameRow = None
 				Logutil.log("Game does exist in database. Update game: " +gameName, util.LOG_LEVEL_INFO)
 				Game(self.gdb).update(('name', 'description', 'romCollectionId', 'publisherId', 'developerId', 'reviewerId', 'yearId', 'maxPlayers', 'rating', 'numVotes',
 					'url', 'region', 'media', 'perspective', 'controllerType', 'originalTitle', 'alternateTitle', 'translatedBy', 'version'),
 					(gameName, description, romCollectionId, publisherId, developerId, reviewerId, yearId, players, rating, votes, url, region, media, perspective, controller,
 					originalTitle, alternateTitle, translatedBy, version),
-					gameRow[0])
+					gameId)
 			else:
 				Logutil.log("Game does exist in database but update is not allowed for current rom collection. game: " +gameName.encode('iso-8859-15'), util.LOG_LEVEL_INFO)
 			
-			return gameRow[0]
+			return gameId
 		
 	
 	def insertForeignKeyItem(self, result, itemName, gdbObject):
