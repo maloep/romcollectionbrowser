@@ -982,6 +982,7 @@ class UIGameDB(xbmcgui.WindowXML):
 		
 		try:			
 			item.setProperty('romcollection', romCollection.name)			
+			item.setProperty('console', romCollection.name)
 		except:
 			pass									
 		
