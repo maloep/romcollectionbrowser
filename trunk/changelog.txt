@@ -1,18 +1,29 @@
 
+0.7.6 (11/2010)
+~~~~~~~~~~~~~
+    * config.xml creation wizard (online scraping and local data scenario)
+    * create local nfo files while scraping
+    * new scraper: local nfo (option to add or edit game properties via local nfo files)
+    * create file missingArtwork.txt while scraping
+    * create file missingDesc.txt while scraping
+    * new option: Don't import games without description
+    * new option: Don't import games without artwork    
+    * new option: Always rescan imported games
+
 0.7.5 (10/2010)
 ~~~~~~~~~~~~~
     * automatic update of MyGames.db and config.xml (0.6.0 - 0.7.4 -> 0.7.5)
-	* new scraper: thegamesdb.net
-	* navigation between top menu and bottom menu changed from circular to linear
-	* added some more html codes to the unescape table
-	* deactivate boxart download for giantbomb.com and thegamesdb.net (boxart could be for the wrong platform)
+    * new scraper: thegamesdb.net
+    * navigation between top menu and bottom menu changed from circular to linear
+    * added some more html codes to the unescape table
+    * disabled boxart download for giantbomb.com and thegamesdb.net (boxart could be for the wrong platform)
 
 0.7.4 (10/2010)
 ~~~~~~~~~~~~~
     * rework configuration
         * don't import settings to database: all settings are read at startup from config.xml
         * moved global settings to settings.xml (editable via addons settings ui)
-        * refacturing of config.xml
+        * refactoring of config.xml
     * only scrape information of games that are not in database
     * bugfix: launch emulators with whitespaces in path
 
