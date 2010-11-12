@@ -51,7 +51,7 @@ Some distributions don't ship with prebuild pysqlite libraries. You have to get 
     * Select the path to the parse instruction for the given description file.
   
 == XBMC Live users ==
-If you use XBMC Live without an additional window manager you can use RCB only in non-solo mode (useEmuSolo=False). See [Main#useEmuSolo useEmuSolo] for more details.
+If you use XBMC Live without an additional window manager you can use RCB only in non-solo mode (useEmuSolo=False). See [Preview#useEmuSolo useEmuSolo] for more details.
 
 == Xbox users ==
 Launching games on Xbox differs from launching games on a PC. You can launch .xbe-files directly from RCB if you set "%ROM%" as emulatorCmd and leave emulatorParams empty. If you want to launch an emulator and pass the rom file as an argument to the emu you have to use .cut-files. RCB can create this .cut-files on-the-fly for you. With using .cut-files you also have to set emulatorCmd to "%ROM%".
@@ -59,7 +59,7 @@ Launching games on Xbox differs from launching games on a PC. You can launch .xb
 See [Preview#Launching_games Launching games] for details.
 
 = Addon settings =
-You can access RCBs global settings via the context menu in Addons/scripts list in XBMC (press C on the keyboard).
+You can access RCBs global settings via the context menu in addons / scripts list in XBMC (press C on the keyboard).
 
 == Log Level ==
 Set RCBs log level. Allowed values: ERROR, WARNING, INFO or DEBUG
@@ -75,7 +75,6 @@ When restarting XBMC RCB will try to create a file "autoexec.py" in XBMCs main s
 This will escape the rom file names passed to the emulatorCmd. Try to change this if you are running into problems with launching games.
 
 == Caching Option ==
-===== cachingOption (new in 0.6.0) =====
 Controls RCBs caching behaviour. Allowed values: CACHEALL, CACHEITEM, CACHEITEMANDNEXT.
 
 CACHEALL: loads and caches all media files at startup. Best for large rom collections on fast PCs with enough RAM. Scrolling down the game list may be a bit slower with this setting because XBMC renders all images that it passes by.
@@ -160,7 +159,7 @@ RCB will scan your rom folders and data folders and imports all game relevant da
 
 Every imported file will be associated with a game and a file type (boxfront, screenshot, fanart, gameplay video, ...). Only the path to the file is imported, not the file itself. If you delete or move the file after importing, RCB won't find it anymore.
 
-RCB will also try to parse description files or scrapes web sites for your games during import. There is a configurable parser that will read parse instructions from an xml configuration file that tells it how to parse the current file format. The format of this parser configuration is explained in section [Main#parserConfig.xml parserConfig.xml]. RCB ships with a set of preconfigured online scrapers (e.g. thevideogamedb.com, thegamesdb.net, giantbomb.com or mobygames.com). These scrapers can be invoked all together or combined with local description files. You can define the used scrapers and the ordering of scrapers in config.xml.
+RCB will also try to parse description files or scrapes web sites for your games during import. RCB ships with a set of preconfigured online scrapers (e.g. thevideogamedb.com, thegamesdb.net, giantbomb.com or mobygames.com). These scrapers can be invoked all together or combined with local description files. You can define the used scrapers and the ordering of scrapers in config.xml.
 
 If you encounter any errors or miss some game infos after import, check XBMCs logfile. Search for any occurance of "RCB_ERROR" or "RCB_WARNING" to see what is missing. RCB will also create two text files ("missingDesc.txt" and "missingArtwork.txt") with information about missing data. You will find these files in RCBs userdata directory.
 
@@ -174,26 +173,12 @@ Configuration is done via xml files. There is one main configuration file "confi
 
 Global settings can be changed in the Addons settings (See [Preview#Addon_settings Addon settings] for more information).
 
-There are three stages where RCB reads its settings: [Main#Import_games_and_media Importing Games], [Main#Browsing_and_displaying_games Browsing and Displaying Games] and [Main#Launching_games Launching Games]. You only need to "Import Games" if you make changes to settings that address the "Importing Games" stage.
+There are three stages where RCB reads its settings: [Preview#Import_games_and_media Importing Games], [Preview#Browsing_and_displaying_games Browsing and Displaying Games] and [Preview#Launching_games Launching Games]. You only need to "Import Games" if you make changes to settings that address the "Importing Games" stage.
 
 == How to read the Configuration section ==
-At the beginning of the configuration section I introduce the config.xml file format. In the next chapter there is one minimal configuration example that will do nothing than import your rom files. In the following chapters this minimal configuration will be extended with configuration entries to add game descriptions or images.
+There are a lot of configuration entries that are not shown in the example configurations or that don't occur in your config.xml (RCB will use the default values). All properties that are explained in the configuration section can be added as xml elements to the mentioned parent in your config.xml. 
 
-There are a lot of configuration entries that are not shown in the example configurations. They can be added as follows: 
-
-The structure of configuration section is 
-
-- Stage (e.g. Import games)
-
--- Task (e.g. Add images)
-
---- Configuration item (e.g. `RomCollection`)
-
----- Property (e.g. `escapeCommand`)
-
-
-This means if you read the description of property `escapeCommand` and you see that it belongs to configuration item `RomCollection` you have to add a new xml element `<escapeCommand>False</escapeCommand>` inside the parent element `RomCollection`. If the parent element is missing (should only happen with `RCBSettings`) just add the parent element as shown in the file format chapter or config.xml reference.
-
+This means if you read the description of property `descFilePerGame` and you see that it has the parent `RomCollection` you have to add a new xml element `<descFilePerGame>False</descFilePerGame>` inside the parent element `RomCollection`.
 
 == Configuration File Format (config.xml) ==
 
@@ -201,24 +186,16 @@ The basic structure of RCBs config file looks like this:
 
 {{{
 <config>
-	<RCBSettings>
-		<!-- elements -->
-	</RCBSettings>
-	<FileTypes>
-		<FileType>
-			<!-- elements -->
-		</FileType>
-	</FileTypes>
-	<Consoles>
-		<Console>
-			<!-- elements -->
-		</Console>
-	</Consoles>
 	<RomCollections>
 		<RomCollection>
 			<!-- elements -->
 		</RomCollection>
 	</RomCollections>
+	<FileTypes>
+		<FileType>
+			<!-- elements -->
+		</FileType>
+	</FileTypes>	
 </config>
 }}}
 
@@ -277,7 +254,7 @@ Examples:
 /home/user/emu/SNES/Collection V3/roms/`*`.smc
 
 ===== emulatorCmd =====
-emulatorCmd belongs to the stage "Launching games" and will be discussed later. See [Main#Launching_games Launching games] for details. You also don't have to "Import Games" again if you change this setting.
+emulatorCmd belongs to the stage "Launching games" and will be discussed later. See [Preview#Launching_games Launching games] for details. You also don't have to "Import Games" again if you change this setting.
 
 === Add images ===
 
@@ -327,7 +304,7 @@ The parent that is associated with the image or video. Must be one of the follow
 
 ==== Rom Collection ====
 ===== mediaPath =====
-The path to your image or video files. There can be multiple `<mediaPath>` elements per `RomCollection`. Each element needs an attribute `type`. This type references the name of the configured `FileTypes`. All images or videos that match the given path will be imported and associated with the `FileType`. Types will also be used to configure the fileTypeFor...-elements (see section [Main#dynamic_image_placing dynamic image placing] for more detalis).
+The path to your image or video files. There can be multiple `<mediaPath>` elements per `RomCollection`. Each element needs an attribute `type`. This type references the name of the configured `FileTypes`. All images or videos that match the given path will be imported and associated with the `FileType`. Types will also be used to configure the fileTypeFor...-elements (see section [Preview#dynamic_image_placing dynamic image placing] for more detalis).
 
 You can use multiple `<mediaPath>` entries with the same type to import from different locations or to configure different file extensions.
 
@@ -347,12 +324,12 @@ If you have a Game "Mygame" its rom file may be named "Mygame.adf" (adf = amiga 
 ===== fileTypeFor... =====
 fileTypeFor...-elements belong to stage "Browsing and displaying games" and will be discussed later. You also don't have to "Import Games" again if you change this setting.
 
-See section [Main#dynamic_image_placing dynamic image placing] for more detalis.
+See section [Preview#dynamic_image_placing dynamic image placing] for more detalis.
  
 
 === Add game description ===
 
-If you want to have game descriptions shown with your rom collections you will need descriptions files (containing the description) and a parser configuration (tells RCB how to parse the description file format). The format of the parser configuration is explained in section [Main#parserConfig.xml parserConfig.xml].
+If you want to have game descriptions shown with your rom collections you will need descriptions files (containing the description) and a parser configuration (tells RCB how to parse the description file format). The format of the parser configuration is explained in section [Preview#parserConfig.xml parserConfig.xml].
 
 Our above config has to be extended with (at least) these properties:
 
@@ -387,7 +364,7 @@ Examples:
 "/home/user/roms/all.txt" (one description file for all games)
 
 ===== descriptionParserFile =====
-Most rom collections that use game description files will have a different file format. RCB uses a configurable parser that reads parse instructions from an xml file and tries to parse the game descriptions with these instructions. There can only be one description parser file per `RomCollection` entry. The format of the parser file is explained in section [Main#parserConfig.xml parserConfig.xml].
+Most rom collections that use game description files will have a different file format. RCB uses a configurable parser that reads parse instructions from an xml file and tries to parse the game descriptions with these instructions. There can only be one description parser file per `RomCollection` entry. The format of the parser file is explained in section [Preview#parserConfig.xml parserConfig.xml].
 
 Note: normally you don't have to create the parser config on your own. You can use the available example files and create game descriptions based on these examples.
 
@@ -744,7 +721,7 @@ mainviewvideowindowbig
 mainviewvideowindowsmall
 }}}
 
-Here you can see how this is done in the current skin: [Main#dynamic_image_placing dynamic image placing]
+Here you can see how this is done in the current skin: [Preview#dynamic_image_placing dynamic image placing]
 
 === Accessing RCBs text properties ===
 It should also be possible to access all text properties in the skin.
@@ -993,16 +970,16 @@ If you want to keep your old database and your old config.xml you have to do the
   * Copy `MyGames.db` and `config.xml` to your userdata folder (Dharma: addon_data, Camelot: script_data) to "script.games.rom.collection.browser"
   * Check if you need one of the following new properties in your `config.xml` (RCB will run without them):
     * RomCollection
-      * [Main#xboxCreateShortcut_(new_in_0.6.0) xboxCreateShortcut]	  	  
-      * [Main#xboxCreateShortcutAddRomfile_(new_in_0.6.0) xboxCreateShortcutAddRomfile]
-      * [Main#xboxCreateShortcutUseShortGamename_(new_in_0.6.0) xboxCreateShortcutUseShortGamename]
-      * [Main#useFoldernameAsCRC_(new_in_0.6.0) useFoldernameAsCRC]
-      * [Main#useFilenameAsCRC_(new_in_0.6.0) useFilenameAsCRC]
-      * [Main#maxFolderDepth_(new_in_0.6.0) maxFolderDepth]
+      * [Preview#xboxCreateShortcut_(new_in_0.6.0) xboxCreateShortcut]	  	  
+      * [Preview#xboxCreateShortcutAddRomfile_(new_in_0.6.0) xboxCreateShortcutAddRomfile]
+      * [Preview#xboxCreateShortcutUseShortGamename_(new_in_0.6.0) xboxCreateShortcutUseShortGamename]
+      * [Preview#useFoldernameAsCRC_(new_in_0.6.0) useFoldernameAsCRC]
+      * [Preview#useFilenameAsCRC_(new_in_0.6.0) useFilenameAsCRC]
+      * [Preview#maxFolderDepth_(new_in_0.6.0) maxFolderDepth]
     * RCBSetting
-      * [Main#logLevel_(new_in_0.6.0) logLevel]
-      * [Main#showEntryAllChars_(new_in_0.6.0) showEntryAllChars]
-      * [Main#preventUnfilteredSearch_(new_in_0.6.0) preventUnfilteredSearch]
+      * [Preview#logLevel_(new_in_0.6.0) logLevel]
+      * [Preview#showEntryAllChars_(new_in_0.6.0) showEntryAllChars]
+      * [Preview#preventUnfilteredSearch_(new_in_0.6.0) preventUnfilteredSearch]
   * When you start RCB it will ask you to import settings: Say "yes".
 
 
