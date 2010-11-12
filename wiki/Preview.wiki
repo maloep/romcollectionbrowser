@@ -2,19 +2,17 @@
 
 
 = Introduction =
-With this XBMC script you can browse and launch emulator roms and standalone games (Windows, Linux and Xbox). Configure the paths to your rom folders and additional data (screenshots, description files, videos, ...) and it will import all information to its database. Afterwards you can browse games and extra information by filter criteria (console, genre, release year, publisher) and invoke an external emulator to launch the selected rom file.
-
-RCB will parse simple text files with additional game information like genre, publisher, developer, release year, etc. To support different description file formats you can configure the behaviour of the parser with an xml configuration file. Have a look at the "parserConfig.xml"-section of this wiki for more information. In the Testdata.zip you will also find some sample description files with matching parser configurations.
+With this XBMC script you can browse and launch emulator roms and standalone games (Windows, Linux and Xbox). It will scrape game info and artwork from various online sources or imports local available game descriptions, images and videos. RCB will parse simple text files with additional game information like genre, publisher, developer, release year, etc. To support different description file formats and scrapable web sites you can configure the behaviour of the parser with xml configuration files.
 
 It is a good idea to start with the test scenario. It will only take two minutes to set up and you will see how RCB can look like and get a first impression how things can be configured. Most options should be self explanating. If you have any problems or questions check this wiki or ask in the XBMC forum thread.
 
 Before you can launch games with RCB you have to download, install and configure one or more emulators. Find out how to launch your emulator via command line. You will need this information to launch the emulator with RCB.
 
 = Installation =
-Note: RCBs configuration file "config.xml" will be stored in your XBMC userdata folder. You will find this folder in your user environment ([http://wiki.xbmc.org/index.php?title=Special_protocol#Platform_Specific_Default_Mappings Look for special://home]). If you installed XBMC in portable mode you will find it in the XBMC installation directory. RCBs configuration is stored in "script_data/script.games.rom.collection.browser" (Camelot) or "addon_data/script.games.rom.collection.browser" (Dharma).
+Note: RCBs configuration file "config.xml" will be stored in your XBMC userdata folder. You will find this folder in your user environment ([http://wiki.xbmc.org/index.php?title=Special_protocol#Platform_Specific_Default_Mappings Look here for special://home]). If you installed XBMC in portable mode you will find it in the XBMC installation directory. RCBs configuration is stored in "script_data/script.games.rom.collection.browser" (Camelot) or "addon_data/script.games.rom.collection.browser" (Dharma).
 
 == Camelot ==
-  * Download "script.games.rom.collection.browser-0.7.7.zip (http://romcollectionbrowser.googlecode.com/files/script.games.rom.collection.browser-0.7.7.zip)
+  * Download [http://romcollectionbrowser.googlecode.com/files/script.games.rom.collection.browser-0.7.7.zip script.games.rom.collection.browser-0.7.7.zip]
   * Unzip it to your XBMC scripts folder
 
 == Dharma ==
@@ -22,7 +20,7 @@ Note: RCBs configuration file "config.xml" will be stored in your XBMC userdata 
   * Go to XBMCs Addon Browser: System -> Add-ons -> Get Add-ons -> XBMC.org Add-ons -> Program Add-ons --> Rom Collection Browser
   * Choose Install
 === via zip file ===
-  * Download "script.games.rom.collection.browser-0.7.7.zip (http://romcollectionbrowser.googlecode.com/files/script.games.rom.collection.browser-0.7.7.zip)
+  * Download [http://romcollectionbrowser.googlecode.com/files/script.games.rom.collection.browser-0.7.7.zip script.games.rom.collection.browser-0.7.7.zip]
   * Go to XBMCs Addon Browser: System -> Add-ons -> Install from zip file
 
   
@@ -30,22 +28,24 @@ Note: RCBs configuration file "config.xml" will be stored in your XBMC userdata 
 ==== The program doesn't load on “No module named pysqlite2” ====
 Some distributions don't ship with prebuild pysqlite libraries. You have to get them on your own and copy them to your xbmc lib folder (e.g. /usr/lib/xbmc/addons/script.module.pysqlite). I made an extra package with these libraries if you don't want to build them yourself: http://romcollectionbrowser.googlecode.com/files/platform_libraries.zip.
 
-= First use =  
+= First use =
   * Start XBMC and launch RCB
-  * If there is no file config.xml in your userdata folder, RCB will start a simple config.xml creation wizard. This will help you to create a config file with most common settings.
-  * First you have to choose a scenario: Online scraping or local data. In online scraping scenario RCB will scrape different web sites for game infos and artwork (boxfront, boxback, cartridge, screenshot and fanart). Local data scenario requires local available game descriptions (and a description parser file) and artwork or videos.
-  * Repeat the following steps for every system you want to configure (you can also create just one system with the wizard and do the rest per copy/paste in the file itself)
+  * If there is no file config.xml in your userdata folder, RCB will start a simple creation wizard. This will help you to create a config file with most common settings.  
+  * First you have to choose a scenario: Online scraping or local data. In online scraping scenario RCB will scrape different web sites for game infos and artwork (boxfront, boxback, cartridge, screenshot and fanart). Local data scenario requires local available game descriptions, artwork or videos.
+  * Repeat the following steps for every system you want to configure (you can also create just one system with the wizard and do the rest per copy/paste in the file itself)  
   * Choose a system. If you don't find your system in the list, select "Other" and type the name of your system. Note: Some scrapers won't work properly without a known system.
   * Select the path to the emulator for this system.
   * Enter the parameters for the emulator. Use "%ROM%" as placeholder if you need to pass the rom filename to the emulator.
   * Select the path to your rom files.
   * Enter one or more file masks (comma-separated). RCB will search the rom path and all sub folders for files that match the given filemask.
-  * Online scraping scenario: Select the path where you want to store your artwork (or where your artwork is already stored). Note: RCB scrapes and downloads 5 different artwork types. It needs to store all these files in different folders, so it tries to create sub folders below the given path: boxfront, boxback, cartridge, screenshot and fanart. If the user that runs xbmc does not have permission to create folders in this directory, please create them manually.
-  * Local data scenario: Choose an artwork type.
-  * Local data scenario: Select the path to the artwork of this type.
-  * Local data scenario: Choose the type of description files. There may be large files with descriptions for all of your games or single description files for every game.
-  * Local data scenario: Select the path to your description files.
-  * Local data scenario: Select the path to the parse instruction for the given description file.
+  * Online scraping scenario:
+	* Select the path where you want to store your artwork (or where your artwork is already stored). Note: RCB scrapes and downloads 5 different artwork types. It needs to store all these files in different folders, so it tries to create sub folders below the given path: boxfront, boxback, cartridge, screenshot and fanart. If the user that runs xbmc does not have permission to create folders in this directory, please create them manually.
+  * Local data scenario: 
+	  * Choose an artwork type.
+	  * Select the path to the artwork of this type.
+	  * Choose the type of description files. There may be large files with descriptions for all of your games or single description files for every game.
+	  * Select the path to your description files.
+	  * Select the path to the parse instruction for the given description file.
   
 == XBMC Live users ==
 If you use XBMC Live without an additional window manager you can use RCB only in non-solo mode (useEmuSolo=False). See [Main#useEmuSolo useEmuSolo] for more details.
@@ -999,6 +999,15 @@ If you just played around with the test scenario and did not make any relevant c
 Since V0.4 it should be possible to keep your old database. Changes to data structure will be done automatically. Please backup your database before trying this. I tested a lot but who knows...
 
 
+=== 0.6.1 - 0.7.3 -> 0.7.4 ===
+If you want to keep your old database and your old config.xml you have to do the following steps:
+  
+  * Make sure your old database `MyGames.db` is still available in your RCB userdata folder. RCB needs your old database to perform the update.
+  * Launch RCB: This will automatically update your database and config.xml to the new structure. RCB will make backups of your old files.
+  * After this first launch you should already be able to browse all your games
+  * Before you can launch roms you have to make one change to your config.xml manually: The property "emulatorCmd" has been split up in two properties: "emulatorCmd" and "emulatorParams". Move the params from "emulatorCmd" to "emulatorParams" and you should be done with the update.
+
+
 === V0.5/0.5.x -> 0.6.0 ===
 If you want to keep your old database and your old config.xml you have to do the following steps:
 
@@ -1159,6 +1168,18 @@ Optional: Delete the complete element `<FileTypes>`:
 
 
 = Changelog =
+== 0.7.4 ==
+=== Scraper support ===
+  * scraping various online sources (thevideogamedb.com, thegamesdb.net, giantbomb.com, mobygames.com) for game info and artwork
+  
+=== Configuration ===  
+  * rework configuration
+        * don't import settings to database: all settings are read at startup from config.xml
+        * moved global settings to settings.xml (editable via addons settings ui)
+        * refactoring of config.xml
+	* automatic update of existing database and config.xml to the new structure    
+    * bugfix: launch emulators with whitespaces in path
+
 == 0.6.0 ==
 === UI and general behaviour ===
   * fullscreen video browser
