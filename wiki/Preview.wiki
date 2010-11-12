@@ -39,13 +39,13 @@ Some distributions don't ship with prebuild pysqlite libraries. You have to get 
   * Select the path to your rom files.
   * Enter one or more file masks (comma-separated). RCB will search the rom path and all sub folders for files that match the given filemask.
   * Online scraping scenario:
-	* Select the path where you want to store your artwork (or where your artwork is already stored). Note: RCB scrapes and downloads 5 different artwork types. It needs to store all these files in different folders, so it tries to create sub folders below the given path: boxfront, boxback, cartridge, screenshot and fanart. If the user that runs xbmc does not have permission to create folders in this directory, please create them manually.
+    * Select the path where you want to store your artwork (or where your artwork is already stored). Note: RCB scrapes and downloads 5 different artwork types. It needs to store all these files in different folders, so it tries to create sub folders below the given path: boxfront, boxback, cartridge, screenshot and fanart. If the user that runs xbmc does not have permission to create folders in this directory, please create them manually.
   * Local data scenario: 
-	  * Choose an artwork type.
-	  * Select the path to the artwork of this type.
-	  * Choose the type of description files. There may be large files with descriptions for all of your games or single description files for every game.
-	  * Select the path to your description files.
-	  * Select the path to the parse instruction for the given description file.
+    * Choose an artwork type.
+    * Select the path to the artwork of this type.
+    * Choose the type of description files. There may be large files with descriptions for all of your games or single description files for every game.
+    * Select the path to your description files.
+    * Select the path to the parse instruction for the given description file.
   
 == XBMC Live users ==
 If you use XBMC Live without an additional window manager you can use RCB only in non-solo mode (useEmuSolo=False). See [Main#useEmuSolo useEmuSolo] for more details.
