@@ -195,52 +195,55 @@ The basic structure of RCBs config file looks like this:
 		<FileType>
 			<!-- elements -->
 		</FileType>
-	</FileTypes>	
+	</FileTypes>
+	<ImagePlacing>
+		<!-- elements -->
+	</ImagePlacing>
+	<Scrapers>
+		<!-- elements -->
+	</Scrapers>
 </config>
 }}}
+
+Usually you should only get in contact with the `RomCollection` entries. If you have some special requirements and you know what you are doing you can of course change everything else.
 
 Most settings have a default value. If you don't use a setting in config.xml, RCB will work with the default value.
 
 == Import games and media ==
-Note: All changes to settings in this stage require to "Import Games" again.
-
 === Basic configuration ===
-
-You must configure at least Consoles and RomCollections to get RCB working. RCBSettings and FileTypes are optional (from version 0.6.1 on).
-
-A minimal working configuration could look like this:
-
+A typical `RomCollection` entry (like it could be created in the online scraping scenario) will look like this:
 {{{
 <config>
-	<Consoles>
-		<Console>
-			<name>Amiga</name>
-		</Console>
-	</Consoles>	
-	<RomCollections>
-		<RomCollection>
-			<name>Amiga</name>
-			<consoleName>Amiga</consoleName>
-			<emulatorCmd>uae {-%I% "%ROM%"}</emulatorCmd>
-			<romPath>/home/user/roms/*.adf</romPath>
-		</RomCollection>
-	</RomCollections>
+  <RomCollections>
+    <RomCollection id="1" name="SNES">
+      <emulatorCmd>C:\Program Files\Emulatoren\zsnesw151\zsnesw.exe</emulatorCmd>
+      <emulatorParams>-m "%ROM%"</emulatorParams>
+      <romPath>F:\Emulatoren\data\Roms\SNES\*.zip</romPath>
+      <mediaPath type="boxfront">F:\Emulatoren\data\Artwork\SNES\boxfront\%GAME%.*</mediaPath>
+      <mediaPath type="boxback">F:\Emulatoren\data\Artwork\SNES\boxback\%GAME%.*</mediaPath>
+      <mediaPath type="cartridge">F:\Emulatoren\data\Artwork\SNES\cartridge\%GAME%.*</mediaPath>
+      <mediaPath type="screenshot">F:\Emulatoren\data\Artwork\SNES\screenshot\%GAME%.*</mediaPath>
+      <mediaPath type="fanart">F:\Emulatoren\data\Artwork\SNES\fanart\%GAME%.*</mediaPath>
+      <imagePlacing>gameinfobig</imagePlacing>
+      <scraper name="thevideogamedb.com" />
+      <scraper name="thegamesdb.net" replaceKeyString=" III, II" replaceValueString=" 3, 2" />
+      <scraper name="giantbomb.com" replaceKeyString=" III, II" replaceValueString=" 3, 2" />
+      <scraper name="mobygames.com" platform="15" replaceKeyString=" III, II" replaceValueString=" 3, 2" />
+    </RomCollection>    
+  </RomCollections>
+  ...
 </config>
 }}}
 
-This will import all .adf files in "/home/user/roms/" and you can launch them with uae. There will be no images or game descriptions shown with your games (it will look a bit ugly because RCB is not designed to work like this).
-
-==== Console ====
-You must add every console you want to emulate here. Just set a unique name, it will be referenced later.
 
 ==== Rom Collection ====
 You need a `RomCollection` entry for every different Rom Collection. Different means: a different console, folder structure, description file format, ... Everything that can't be done with one configuration entry.
 
-===== name =====
-This is only used to distinguish rom collections.
+===== id =====
+This id will be created if you use the config creation wizard. If you copy/paste a `RomCollection` make sure that ids are unique. Ids are also referenced in RCBs database `MyGames.db`. Don't change ids after you have done a game import!
 
-===== consoleName =====
-This will associate all games of the current rom collection with this console. It is important that you use the exact same name as in console configuration above.
+===== name =====
+This is only used to distinguish rom collections. Make sure that the name is unique. But you can change the name if you like.
 
 ===== romPath =====
 The path to your rom files. This path should include wildcards and file extension (`*`.adf for example).
@@ -256,55 +259,11 @@ Examples:
 ===== emulatorCmd =====
 emulatorCmd belongs to the stage "Launching games" and will be discussed later. See [Preview#Launching_games Launching games] for details. You also don't have to "Import Games" again if you change this setting.
 
-=== Add images ===
+===== emulatorParams =====
+emulatorParams belongs to the stage "Launching games" and will be discussed later. See [Preview#Launching_games Launching games] for details. You also don't have to "Import Games" again if you change this setting.
 
-To add images to your rom collection you have to define FileTypes, add a media path and tell RCB where to show your images via fileTypeFor...-elements. The above minimal config will look like this if you add one image (type):
-
-{{{
-<config>
-	<FileTypes>
-		<FileType>
-			<name>cover</name>
-			<type>image</type>
-			<parent>game</parent>
-		</FileType>
-	</FileTypes>
-	<Consoles>
-		<Console>
-			<name>Amiga</name>
-		</Console>
-	</Consoles>
-	<RomCollections>
-		<RomCollection>
-			<name>Amiga</name>
-			<consoleName>Amiga</consoleName>
-			<emulatorCmd>uae {-%I% "%ROM%"}</emulatorCmd>
-			<romPath>/home/user/roms/*.adf</romPath>
-			<mediaPath type="cover">/home/user/media/cover/%GAME%.png</mediaPath>
-			<fileTypeForGameList>cover</fileTypeForGameList>
-		</RomCollection>
-	</RomCollections>
-</config>
-}}}
-
-This configuration tells RCB to import png-files from "/home/user/media/cover/" and display them in the game list. Once imported you can use these cover files in as many fileTypeFor...-elements as you like. E.g. show the same file in the game list, as background and as additional info image.
-
-==== File Type ====
-With `FileTypes` you can define your own image or video categories. You can create a `FileType` for any new category that you like (e.g. action screenshots, boxart, highscore screenshots, gameplay videos, trailers, etc.). All imported images or videos will be associated with this `FileType` for later reference.
-
-===== name =====
-The name is referenced as type in `mediaPath` and fileTypeFor...-elements.
-
-===== type =====
-Must be "image" or "video".
-
-===== parent =====
-The parent that is associated with the image or video. Must be one of the following: game, console, developer, publisher, romcollection.
-
-
-==== Rom Collection ====
 ===== mediaPath =====
-The path to your image or video files. There can be multiple `<mediaPath>` elements per `RomCollection`. Each element needs an attribute `type`. This type references the name of the configured `FileTypes`. All images or videos that match the given path will be imported and associated with the `FileType`. Types will also be used to configure the fileTypeFor...-elements (see section [Preview#dynamic_image_placing dynamic image placing] for more detalis).
+The path to your image or video files. RCB will also use these paths to store artwork while scraping from online sources. There can be multiple `<mediaPath>` elements per `RomCollection`. Each element needs an attribute `type`. This type references the name of the configured `FileTypes`. All images or videos that match the given path will be imported and associated with the `FileType`. Types will also be used to configure the fileTypeFor...-elements in `ImagePlacing` (see section [Preview#dynamic_image_placing dynamic image placing] for more detalis).
 
 You can use multiple `<mediaPath>` entries with the same type to import from different locations or to configure different file extensions.
 
@@ -321,10 +280,31 @@ If you have a Game "Mygame" its rom file may be named "Mygame.adf" (adf = amiga 
 "/home/user/emu/amiga/screens/%GAME%.png" (will import the file "Mygame.png" in folder "screens")
 
 
-===== fileTypeFor... =====
-fileTypeFor...-elements belong to stage "Browsing and displaying games" and will be discussed later. You also don't have to "Import Games" again if you change this setting.
+===== scraper =====
+With the scraper-elements in `RomCollection` you can control RCBs scraping behaviour. You can delete or reorder scrapers or add values that should be replaced in game names before scraping.
 
-See section [Preview#dynamic_image_placing dynamic image placing] for more detalis.
+See section [Preview#how_to_improve_scrape_results How to improve scrape results] for more details.
+
+===== imagePlacing =====
+With the `imagePlacing` tag you can select one of the `imagePlacing` options that control which image types are shown in which image controls. You  don't have to "Import Games" again if you change this setting.
+
+See section [Preview#dynamic_image_placing dynamic image placing] for more details.
+
+
+==== File Type ====
+With `FileTypes` you can define your own image or video categories. You can create a `FileType` for any new category that you like (e.g. action screenshots, boxart, highscore screenshots, gameplay videos, trailers, etc.). All imported images or videos will be associated with this `FileType` for later reference. If you create your config.xml with the startup wizard, RCB will create these tags for you.
+
+===== id =====
+Unique identifier. Don't change this after you have imported games!
+
+===== name =====
+The name is referenced as type in `mediaPath` and fileTypeFor...-elements.
+
+===== type =====
+Must be "image" or "video".
+
+===== parent =====
+The parent that is associated with the image or video. Must be one of the following: game, console, developer, publisher, romcollection.
  
 
 === Add game description ===
