@@ -32,26 +32,10 @@ Some distributions don't ship with prebuild pysqlite libraries. You have to get 
   * Start XBMC and launch RCB
   * If there is no file config.xml in your userdata folder, RCB will start a simple creation wizard. This will help you to create a config file with most common settings.
   * In most scenarios the wizard will fit all your needs. More advanced or special settings still must be done in the config file itself.
-  
-== Create a config file (with startup wizard) ==
-  * First you have to choose a scenario: Online scraping or local data. In online scraping scenario RCB will scrape different web sites for game infos and artwork (boxfront, boxback, cartridge, screenshot and fanart). Local data scenario requires local available game descriptions, artwork or videos.
-  * Repeat the following steps for every system you want to configure (you can also create just one system with the wizard and do the rest per copy/paste in the config file itself)
-  * Choose a system. If you don't find your system in the list, select "Other" and type the name of your system. Note: Some scrapers won't work properly without a known system.
-  * Select the path to the emulator for this system.
-  * Enter the parameters for the emulator. Use "%ROM%" as placeholder if you need to pass the rom filename to the emulator.
-  * Select the path to your rom files.
-  * Enter one or more file masks (comma-separated). RCB will search the rom path and all sub folders for files that match the given filemask.
-  * Online scraping scenario:
-    * Select the path where you want to store your artwork (or where your artwork is already stored). Note: RCB scrapes and downloads 5 different artwork types. It needs to store all these files in different folders, so it tries to create sub folders below the given path: boxfront, boxback, cartridge, screenshot and fanart. If the user that runs xbmc does not have permission to create folders in this directory, please create these folders manually.
-  * Local data scenario: 
-    * Choose an artwork type.
-    * Select the path to the artwork of this type.
-    * Choose the type of description files. There may be large files with descriptions for all of your games or single description files for every game.
-    * Select the path to your description files.
-    * Select the path to the parse instruction for the given description file.
+  * See section [Preview#Create_a_config_file_with_startup_wizard Create a config file with startup wizard] for more information.
   
 == XBMC Live users ==
-If you use XBMC Live without an additional window manager you can use RCB only in non-solo mode (useEmuSolo=False). See [Preview#useEmuSolo useEmuSolo] for more details.
+If you use XBMC Live without an additional window manager you can use RCB only in non-solo mode. See section [Preview#Use_Emulator_solo Use Emulator solo] for details.
 
 == Xbox users ==
 Launching games on Xbox differs from launching games on a PC. You can launch .xbe-files directly from RCB if you set "%ROM%" as emulatorCmd and leave emulatorParams empty. If you want to launch an emulator and pass the rom file as an argument to the emu you have to use .cut-files. RCB can create this .cut-files on-the-fly for you. With using .cut-files you also have to set emulatorCmd to "%ROM%".
@@ -141,7 +125,7 @@ Now you should be able to browse the games by filter criteria and watch all info
 
 If you want to launch roms with the test scenario you have to take these additional steps:
   # Go to your Testdata folder and replace the placeholder rom files with real ones (e.g. Testdata 0.6.x/Collection V1/roms/).
-  # Edit the value of property "emulatorCmd". This command will be invoked when you launch a rom file. %ROM% will be replaced with the name of the rom file to be launched. If you have multiple rom files for one game %I% will be replaced with the (zero-based) index of the current file.   
+  # Edit the value of property "emulatorCmd". This command will be invoked when you launch a rom file. %ROM% will be replaced with the name of the rom file to be launched. If you have multiple rom files for one game %I% will be replaced with the (zero-based) index of the current file.
 
   
 = Usage =
@@ -168,15 +152,120 @@ If you add new data to one of your rom collections you can use "Import Games" as
 Depending on your rom collections size and the number of used scrapers importing games can take some time.
 
 
-= Configuration =
-Configuration is done via xml files. There is one main configuration file "config.xml" that must be placed in your userdata folder ("script_data/script.games.rom.collection.browser" (Camelot) or "addon_data/script.games.rom.collection.browser" (Dharma)). If this file is not found at startup, RCB will start a creation wizard that helps you to create a simple config.xml with most common settings (See [Preview#First_use First use] for more information).
+= Configuration basics =
+Configuration is done via xml files. There is one main configuration file "config.xml" that must be placed in your userdata folder ("script_data/script.games.rom.collection.browser" (Camelot) or "addon_data/script.games.rom.collection.browser" (Dharma)). If this file is not found at startup, RCB will start a creation wizard that helps you to create a simple config.xml with most common settings. See next section for more information).
 
 Global settings can be changed in the Addons settings (See [Preview#Addon_settings Addon settings] for more information).
 
 There are three stages where RCB reads its settings: [Preview#Import_games_and_media Importing Games], [Preview#Browsing_and_displaying_games Browsing and Displaying Games] and [Preview#Launching_games Launching Games]. You only need to "Import Games" if you make changes to settings that address the "Importing Games" stage.
 
+== Create a config file with startup wizard ==
+  * First you have to choose a scenario: Online scraping or local data. In online scraping scenario RCB will scrape different web sites for game infos and artwork (boxfront, boxback, cartridge, screenshot and fanart). Local data scenario requires local available game descriptions, artwork or videos.
+  * Repeat the following steps for every system you want to configure (you can also create just one system with the wizard and do the rest per copy/paste in the config file itself)
+  * Choose a system. If you don't find your system in the list, select "Other" and type the name of your system. Note: Some scrapers won't work properly without a known system.
+  * Select the path to the emulator for this system.
+  * Enter the parameters for the emulator. Use "%ROM%" as placeholder if you need to pass the rom filename to the emulator.
+  * Select the path to your rom files.
+  * Enter one or more file masks (comma-separated). RCB will search the rom path and all sub folders for files that match the given filemask.
+  * Online scraping scenario:
+    * Select the path where you want to store your artwork (or where your artwork is already stored). Note: RCB scrapes and downloads 5 different artwork types. It needs to store all these files in different folders, so it tries to create sub folders below the given path: boxfront, boxback, cartridge, screenshot and fanart. If the user that runs xbmc does not have permission to create folders in this directory, please create these folders manually.
+  * Local data scenario: 
+    * Choose an artwork type.
+    * Select the path to the artwork of this type.
+    * Choose the type of description files. There may be large files with descriptions for all of your games or single description files for every game.
+    * Select the path to your description files.
+    * Select the path to the parse instruction for the given description file.
+	
+== Improving scrape results ==
+todo
+
+== Import local nfo files ==
+todo
+
+= Advanced configuration =
+== Define your own offline scrapers ==
+todo
+
+== Mixing online and offline scrapers ==
+todo
+
+== Enable fullscreen browser ==
+RCB creates a video playlist with every game video in your current filter selection and starts playback in fullscreen (if you hit the button "Play Video Fullscreen"). You can zap through the videos of this playlist and use the builtin Info Overlay with title, thumbnail and duration. RCB uses standard XBMC playlist and fullscreen player so there are not more options to interact with the playback from RCB.
+
+If you have created your config.xml with the wizard, it will be enough to use one of the "...Video" imagePlacing-Options.
+
+To add fullscreen support manually you have to add this line to your ImagePlacing-configuration:
+{{{
+<fileTypeForMainViewFullscreenVideo>gameplay</fileTypeForMainViewFullscreenVideo>
+}}}
+
+Now you should see a button "Play Video Fullscreen" below the screenshots in Info and Info2 view.
+
+=== Enable zapping in fullscreen browser ===
+You may have to make some changes to your keymap.xml to get the zapping feature. These changes make sure that you have access to "SkipNext" and "SkipPrevious" in FullscreenVideo and FullscreenInfo:
+
+Windows/Linux keyboard.xml:
+{{{
+<FullscreenVideo>
+	<keyboard>
+	 ...
+	  <!--<period>StepForward</period>
+	  <comma>StepBack</comma>-->
+	  <period>SkipNext</period>
+	  <comma>SkipPrevious</comma>
+	  ...
+	</keyboard>
+</FullscreenVideo>
+<FullscreenInfo>
+    <keyboard>
+      ...
+      <!--<period>StepForward</period>-->
+      ...
+    </keyboard>
+</FullscreenInfo>
+}}}
+
+Xbox keymap.xml
+{{{
+<FullscreenVideo>
+    ...
+    <gamepad>
+      ...
+      <dpadup>SkipNext</dpadup>
+      <dpaddown>SkipPrevious</dpaddown>
+	  ...
+    </gamepad>
+</FullscreenVideo>
+}}}
+
+
+== Add your own FileTypes ==
+With `FileTypes` you can define your own image or video categories. You can create a `FileType` for any new category that you like (e.g. action screenshots, boxart, highscore screenshots, gameplay videos, trailers, etc.). All imported images or videos will be associated with this `FileType` for later reference. If you create your config.xml with the startup wizard, RCB will create a default set of these elements for you.
+
+=== id ===
+Unique identifier. Don't change the id after you have imported games!
+
+=== name ===
+The name is referenced as type in `mediaPath` and fileTypeFor...-elements.
+
+=== type ===
+Must be "image" or "video".
+
+=== parent ===
+The parent that is associated with the image or video. Must be one of the following: game, console, developer, publisher, romcollection.
+
+
+== Customize image placing ==
+RCB does not rely on a defined set of media files. The user may have small collections with only one image per game or others may have complete sets with 6 or more different image types and maybe video files. Some users want to see title screenshots as background, others prefer boxart images. With image placing you have the option to control where RCB will show which type of artwork.
+
+Detailed configuration of every available image control can be done with the `ImagePlacing` elements in config.xml. If you have built your config.xml with the wizard, RCB will have created some default options for you. You can choose which option to use with the `<imagePlacing>` element in `RomCollection`. Just reference the name that is used in the `ImagePlacing/fileTypeFor` element.
+
+In section [Preview#dynamic_image_placing dynamic image placing] is explained how to configure the `ImagePlacing` elements.
+
+= config.xml reference =
+
 == How to read the Configuration section ==
-There are a lot of configuration entries that are not shown in the example configurations or that don't occur in your config.xml (RCB will use the default values). All properties that are explained in the configuration section can be added as xml elements to the mentioned parent in your config.xml. 
+There are a lot of configuration entries that are not shown in the example configurations or that don't occur in your config.xml (RCB will use the default values). All properties that are explained in the configuration section can be added as xml elements to the mentioned parent in your config.xml.
 
 This means if you read the description of property `descFilePerGame` and you see that it has the parent `RomCollection` you have to add a new xml element `<descFilePerGame>False</descFilePerGame>` inside the parent element `RomCollection`.
 
@@ -211,7 +300,7 @@ Most settings have a default value. If you don't use a setting in config.xml, RC
 
 == Import games and media ==
 === Basic configuration ===
-A typical `RomCollection` entry (like it could be created in the online scraping scenario) will look like this:
+A typical `RomCollection` entry (like it could be created with the wizard) will look like this:
 {{{
 <config>
   <RomCollections>
@@ -234,7 +323,6 @@ A typical `RomCollection` entry (like it could be created in the online scraping
   ...
 </config>
 }}}
-
 
 ==== Rom Collection ====
 You need a `RomCollection` entry for every different Rom Collection. Different means: a different console, folder structure, description file format, ... Everything that can't be done with one configuration entry.
@@ -290,22 +378,6 @@ With the `imagePlacing` tag you can select one of the `imagePlacing` options tha
 
 See section [Preview#dynamic_image_placing dynamic image placing] for more details.
 
-
-==== File Type ====
-With `FileTypes` you can define your own image or video categories. You can create a `FileType` for any new category that you like (e.g. action screenshots, boxart, highscore screenshots, gameplay videos, trailers, etc.). All imported images or videos will be associated with this `FileType` for later reference. If you create your config.xml with the startup wizard, RCB will create these tags for you.
-
-===== id =====
-Unique identifier. Don't change the id after you have imported games!
-
-===== name =====
-The name is referenced as type in `mediaPath` and fileTypeFor...-elements.
-
-===== type =====
-Must be "image" or "video".
-
-===== parent =====
-The parent that is associated with the image or video. Must be one of the following: game, console, developer, publisher, romcollection.
- 
 
 === Add game description ===
 In online scraping scenario game description will be added automatically (if available). If you want to use local game descriptions you will need description files (containing the description) and a parser configuration (tells RCB how to parse the description file format). The format of the parser configuration is explained in section [Preview#parserConfig.xml parserConfig.xml].
@@ -593,56 +665,6 @@ A full example config.xml file could look like this (removed all entries that ar
 
 
 = Advanced topics =
-
-== Enable fullscreen browser (new with 0.6.0) ==
-With version 0.6.0 there is a new option to play videos in fullscreen mode. RCB creates a video playlist with every game in your current filter selection and starts playback in fullscreen. You can zap through the videos of this playlist and use the builtin Info Overlay with title, thumbnail and duration. RCB uses standard XBMC playlist and fullscreen player so there are not more options to interact with the playback from RCB.
-
-To enable fullscreen video you have to add this line to every RomCollection in your config.xml (replace gameplay with your own video file type):
-{{{
-<fileTypeForMainViewFullscreenVideo>gameplay</fileTypeForMainViewFullscreenVideo>
-}}}
-
-"Import Settings" after you have done this.
-
-Now you should see a button "Play Video Fullscreen" below the screenshots in Info and Info2 view.
-
-=== Enable zapping in fullscreen browser ===
-
-You may have to make some changes to your keymap.xml to get the zapping feature (make sure that you have access to "SkipNext" and "SkipPrevious" in FullscreenVideo and FullscreenInfo):
-
-Windows/Linux keyboard.xml:
-{{{
-<FullscreenVideo>
-	<keyboard>
-	 ...
-	  <!--<period>StepForward</period>
-	  <comma>StepBack</comma>-->
-	  <period>SkipNext</period>
-	  <comma>SkipPrevious</comma>
-	  ...
-	</keyboard>
-</FullscreenVideo>
-<FullscreenInfo>
-    <keyboard>
-      ...
-      <!--<period>StepForward</period>-->
-      ...
-    </keyboard>
-</FullscreenInfo>
-}}}
-
-Xbox keymap.xml
-{{{
-<FullscreenVideo>
-    ...
-    <gamepad>
-      ...
-      <dpadup>SkipNext</dpadup>
-      <dpaddown>SkipPrevious</dpaddown>
-	  ...
-    </gamepad>
-</FullscreenVideo>
-}}}
 
 == Skinning RCB (new with 0.6.0) ==
 Most things in RCBs skin files should be self explanating to a skinner. There are two skin xml files: "script-Rom_Collection_Browser-main.xml" and "script-Rom_Collection_Browser-gameinfo.xml". They are made for a PAL resolution with Confluence in mind. If you have improvements to my Confluence skin or want to migrate RCB to other skins please feel free to contribute.
