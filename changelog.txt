@@ -1,4 +1,8 @@
 
+0.7.7 (11/2010)
+~~~~~~~~~~~~~
+    * small bug fixes and minor changes
+
 0.7.6 (11/2010)
 ~~~~~~~~~~~~~
     * config.xml creation wizard (online scraping and local data scenario)

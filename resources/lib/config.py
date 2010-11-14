@@ -337,25 +337,7 @@ class Config:
 		self.writeFileType(fileTypesXml, '11', 'publisher')
 		self.writeFileType(fileTypesXml, '12', 'gameplay')
 			
-		fileTypeFor = SubElement(imagePlacingXml, 'fileTypeFor', {'name' : 'gameinfobig'})
-		SubElement(fileTypeFor, 'fileTypeForGameList').text = 'boxfront'
-		SubElement(fileTypeFor, 'fileTypeForGameList').text = 'screenshot'
-		SubElement(fileTypeFor, 'fileTypeForGameListSelected').text = 'boxfront'
-		SubElement(fileTypeFor, 'fileTypeForGameListSelected').text = 'screenshot'
-		SubElement(fileTypeFor, 'fileTypeForMainViewBackground').text = 'fanart'
-		SubElement(fileTypeFor, 'fileTypeForMainViewBackground').text = 'boxfront'
-		SubElement(fileTypeFor, 'fileTypeForMainViewBackground').text = 'screenshot'
-		SubElement(fileTypeFor, 'fileTypeForMainViewGameInfoBig').text = 'screenshot'
-		SubElement(fileTypeFor, 'fileTypeForMainViewGameInfoBig').text = 'boxfront'
-		SubElement(fileTypeFor, 'fileTypeForGameInfoViewBackground').text = 'fanart'
-		SubElement(fileTypeFor, 'fileTypeForGameInfoViewBackground').text = 'boxfront'
-		SubElement(fileTypeFor, 'fileTypeForGameInfoViewBackground').text = 'screenshot'
-		SubElement(fileTypeFor, 'fileTypeForGameInfoViewGamelist').text = 'boxfront'
-		SubElement(fileTypeFor, 'fileTypeForGameInfoViewGamelist').text = 'screenshot'
-		SubElement(fileTypeFor, 'fileTypeForGameInfoView1').text = 'boxfront'
-		SubElement(fileTypeFor, 'fileTypeForGameInfoView2').text = 'boxback'
-		SubElement(fileTypeFor, 'fileTypeForGameInfoView3').text = 'cartridge'
-		SubElement(fileTypeFor, 'fileTypeForGameInfoView4').text = 'screenshot'
+		imagePlacingXml = self.writeImagePlacingOptions(imagePlacingXml)					
 		
 		#Scrapers
 		#local nfo
@@ -371,7 +353,7 @@ class Config:
 		
 		#giantbomb.com
 		site = SubElement(scrapersXml, 'Site', {'name' : 'giantbomb.com'})
-		SubElement(site, 'Scraper', {'parseInstruction' : '03.01 - giantbomb - search.xml', 'source' : 'http://api.giantbomb.com/search/?api_key=%GIANTBOMBAPIKey%&amp;query=%GAME%&resources=game&field_list=api_detail_url,name&format=xml',
+		SubElement(site, 'Scraper', {'parseInstruction' : '03.01 - giantbomb - search.xml', 'source' : 'http://api.giantbomb.com/search/?api_key=%GIANTBOMBAPIKey%&query=%GAME%&resources=game&field_list=api_detail_url,name&format=xml',
 									'returnUrl' : 'true', 'replaceKeyString' : '%REPLACEKEYS%', 'replaceValueString' : '%REPLACEVALUES%'})
 		SubElement(site, 'Scraper', {'parseInstruction' : '03.02 - giantbomb - detail.xml', 'source' : '1'})		
 		
@@ -734,4 +716,94 @@ class Config:
 		return fileTypeIds
 	
 	
+	def writeImagePlacingOptions(self, imagePlacingXml):
+		fileTypeFor = SubElement(imagePlacingXml, 'fileTypeFor', {'name' : 'gameinfobig'})
+		SubElement(fileTypeFor, 'fileTypeForGameList').text = 'boxfront'
+		SubElement(fileTypeFor, 'fileTypeForGameList').text = 'screenshot'
+		SubElement(fileTypeFor, 'fileTypeForGameListSelected').text = 'boxfront'
+		SubElement(fileTypeFor, 'fileTypeForGameListSelected').text = 'screenshot'
+		SubElement(fileTypeFor, 'fileTypeForMainViewBackground').text = 'fanart'
+		SubElement(fileTypeFor, 'fileTypeForMainViewBackground').text = 'boxfront'
+		SubElement(fileTypeFor, 'fileTypeForMainViewBackground').text = 'screenshot'
+		SubElement(fileTypeFor, 'fileTypeForMainViewGameInfoBig').text = 'screenshot'
+		SubElement(fileTypeFor, 'fileTypeForMainViewGameInfoBig').text = 'boxfront'
+		SubElement(fileTypeFor, 'fileTypeForGameInfoViewBackground').text = 'fanart'
+		SubElement(fileTypeFor, 'fileTypeForGameInfoViewBackground').text = 'boxfront'
+		SubElement(fileTypeFor, 'fileTypeForGameInfoViewBackground').text = 'screenshot'
+		SubElement(fileTypeFor, 'fileTypeForGameInfoViewGamelist').text = 'boxfront'
+		SubElement(fileTypeFor, 'fileTypeForGameInfoViewGamelist').text = 'screenshot'
+		SubElement(fileTypeFor, 'fileTypeForGameInfoView1').text = 'boxfront'
+		SubElement(fileTypeFor, 'fileTypeForGameInfoView2').text = 'boxback'
+		SubElement(fileTypeFor, 'fileTypeForGameInfoView3').text = 'cartridge'
+		SubElement(fileTypeFor, 'fileTypeForGameInfoView4').text = 'screenshot'
+		
+		fileTypeFor = SubElement(imagePlacingXml, 'fileTypeFor', {'name' : 'gameinfobigVideo'})
+		SubElement(fileTypeFor, 'fileTypeForGameList').text = 'boxfront'
+		SubElement(fileTypeFor, 'fileTypeForGameList').text = 'screenshot'
+		SubElement(fileTypeFor, 'fileTypeForGameListSelected').text = 'boxfront'
+		SubElement(fileTypeFor, 'fileTypeForGameListSelected').text = 'screenshot'
+		SubElement(fileTypeFor, 'fileTypeForMainViewBackground').text = 'fanart'
+		SubElement(fileTypeFor, 'fileTypeForMainViewBackground').text = 'boxfront'
+		SubElement(fileTypeFor, 'fileTypeForMainViewBackground').text = 'screenshot'
+		SubElement(fileTypeFor, 'fileTypeForMainViewGameInfoBig').text = 'screenshot'
+		SubElement(fileTypeFor, 'fileTypeForMainViewGameInfoBig').text = 'boxfront'	
+		SubElement(fileTypeFor, 'fileTypeForMainViewVideoWindowBig').text = 'gameplay'
+		SubElement(fileTypeFor, 'fileTypeForMainViewVideoFullscreen').text = 'gameplay'		
+		SubElement(fileTypeFor, 'fileTypeForGameInfoViewBackground').text = 'fanart'
+		SubElement(fileTypeFor, 'fileTypeForGameInfoViewBackground').text = 'boxfront'
+		SubElement(fileTypeFor, 'fileTypeForGameInfoViewBackground').text = 'screenshot'
+		SubElement(fileTypeFor, 'fileTypeForGameInfoViewGamelist').text = 'boxfront'
+		SubElement(fileTypeFor, 'fileTypeForGameInfoViewGamelist').text = 'screenshot'
+		SubElement(fileTypeFor, 'fileTypeForGameInfoView1').text = 'boxfront'
+		SubElement(fileTypeFor, 'fileTypeForGameInfoView2').text = 'boxback'
+		SubElement(fileTypeFor, 'fileTypeForGameInfoView3').text = 'cartridge'
+		SubElement(fileTypeFor, 'fileTypeForGameInfoView4').text = 'screenshot'
+				
+		fileTypeFor = SubElement(imagePlacingXml, 'fileTypeFor', {'name' : 'gameinfosmall'})
+		SubElement(fileTypeFor, 'fileTypeForGameList').text = 'boxfront'
+		SubElement(fileTypeFor, 'fileTypeForGameList').text = 'screenshot'
+		SubElement(fileTypeFor, 'fileTypeForGameListSelected').text = 'boxfront'
+		SubElement(fileTypeFor, 'fileTypeForGameListSelected').text = 'screenshot'
+		SubElement(fileTypeFor, 'fileTypeForMainViewBackground').text = 'fanart'
+		SubElement(fileTypeFor, 'fileTypeForMainViewBackground').text = 'boxfront'
+		SubElement(fileTypeFor, 'fileTypeForMainViewBackground').text = 'screenshot'
+		SubElement(fileTypeFor, 'fileTypeForMainViewGameInfoUpperLeft').text = 'screenshot'
+		SubElement(fileTypeFor, 'fileTypeForMainViewGameInfoUpperRight').text = 'boxfront'
+		SubElement(fileTypeFor, 'fileTypeForMainViewGameInfoLowerLeft').text = 'cartridge'
+		SubElement(fileTypeFor, 'fileTypeForMainViewGameInfoLowerRight').text = 'boxback'		
+		SubElement(fileTypeFor, 'fileTypeForGameInfoViewBackground').text = 'fanart'
+		SubElement(fileTypeFor, 'fileTypeForGameInfoViewBackground').text = 'boxfront'
+		SubElement(fileTypeFor, 'fileTypeForGameInfoViewBackground').text = 'screenshot'
+		SubElement(fileTypeFor, 'fileTypeForGameInfoViewGamelist').text = 'boxfront'
+		SubElement(fileTypeFor, 'fileTypeForGameInfoViewGamelist').text = 'screenshot'
+		SubElement(fileTypeFor, 'fileTypeForGameInfoView1').text = 'boxfront'
+		SubElement(fileTypeFor, 'fileTypeForGameInfoView2').text = 'boxback'
+		SubElement(fileTypeFor, 'fileTypeForGameInfoView3').text = 'cartridge'
+		SubElement(fileTypeFor, 'fileTypeForGameInfoView4').text = 'screenshot'
+		
+		fileTypeFor = SubElement(imagePlacingXml, 'fileTypeFor', {'name' : 'gameinfosmallVideo'})
+		SubElement(fileTypeFor, 'fileTypeForGameList').text = 'boxfront'
+		SubElement(fileTypeFor, 'fileTypeForGameList').text = 'screenshot'
+		SubElement(fileTypeFor, 'fileTypeForGameListSelected').text = 'boxfront'
+		SubElement(fileTypeFor, 'fileTypeForGameListSelected').text = 'screenshot'
+		SubElement(fileTypeFor, 'fileTypeForMainViewBackground').text = 'fanart'
+		SubElement(fileTypeFor, 'fileTypeForMainViewBackground').text = 'boxfront'
+		SubElement(fileTypeFor, 'fileTypeForMainViewBackground').text = 'screenshot'
+		SubElement(fileTypeFor, 'fileTypeForMainViewGameInfoUpperLeft').text = 'screenshot'
+		SubElement(fileTypeFor, 'fileTypeForMainViewGameInfoUpperRight').text = 'boxfront'
+		SubElement(fileTypeFor, 'fileTypeForMainViewGameInfoLowerLeft').text = 'cartridge'
+		SubElement(fileTypeFor, 'fileTypeForMainViewGameInfoLowerRight').text = 'boxback'
+		SubElement(fileTypeFor, 'fileTypeForMainViewVideoWindowSmall').text = 'gameplay'
+		SubElement(fileTypeFor, 'fileTypeForMainViewVideoFullscreen').text = 'gameplay'		
+		SubElement(fileTypeFor, 'fileTypeForGameInfoViewBackground').text = 'fanart'
+		SubElement(fileTypeFor, 'fileTypeForGameInfoViewBackground').text = 'boxfront'
+		SubElement(fileTypeFor, 'fileTypeForGameInfoViewBackground').text = 'screenshot'
+		SubElement(fileTypeFor, 'fileTypeForGameInfoViewGamelist').text = 'boxfront'
+		SubElement(fileTypeFor, 'fileTypeForGameInfoViewGamelist').text = 'screenshot'
+		SubElement(fileTypeFor, 'fileTypeForGameInfoView1').text = 'boxfront'
+		SubElement(fileTypeFor, 'fileTypeForGameInfoView2').text = 'boxback'
+		SubElement(fileTypeFor, 'fileTypeForGameInfoView3').text = 'cartridge'
+		SubElement(fileTypeFor, 'fileTypeForGameInfoView4').text = 'screenshot'
+		
+		return imagePlacingXml
 	

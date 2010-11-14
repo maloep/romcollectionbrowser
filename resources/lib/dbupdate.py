@@ -212,7 +212,7 @@ class DBUpdate:
 				except Exception, (exc):
 					Logutil.log("an error occured while adding game " +gamename.encode('iso-8859-15'), util.LOG_LEVEL_WARNING)
 					Logutil.log("Error: " +str(exc), util.LOG_LEVEL_WARNING)
-					return None
+					continue
 			else:	
 				fileCount = 1										
 				
@@ -725,6 +725,9 @@ class DBUpdate:
 						
 		gameId = self.insertGame(gamename, plot, romCollection.id, publisherId, developerId, reviewerId, yearId, 
 			players, rating, votes, url, region, media, perspective, controller, originalTitle, alternateTitle, translatedBy, version, isUpdate, gameId, romCollection.allowUpdate, )
+		
+		if(gameId == None):
+			return
 						
 		for genreId in genreIds:
 			genreGame = GenreGame(self.gdb).getGenreGameByGenreIdAndGameId(genreId, gameId)
@@ -749,25 +752,30 @@ class DBUpdate:
 	def insertGame(self, gameName, description, romCollectionId, publisherId, developerId, reviewerId, yearId, 
 				players, rating, votes, url, region, media, perspective, controller, originalTitle, alternateTitle, translatedBy, version, isUpdate, gameId, allowUpdate):		
 		
-		if(not isUpdate):
-			Logutil.log("Game does not exist in database. Insert game: " +gameName.encode('iso-8859-15'), util.LOG_LEVEL_INFO)
-			Game(self.gdb).insert((gameName, description, None, None, romCollectionId, publisherId, developerId, reviewerId, yearId, 
-				players, rating, votes, url, region, media, perspective, controller, 0, 0, originalTitle, alternateTitle, translatedBy, version))
-			return self.gdb.cursor.lastrowid
-		else:	
-			if(allowUpdate):
-				#TODO
-				gameRow = None
-				Logutil.log("Game does exist in database. Update game: " +gameName, util.LOG_LEVEL_INFO)
-				Game(self.gdb).update(('name', 'description', 'romCollectionId', 'publisherId', 'developerId', 'reviewerId', 'yearId', 'maxPlayers', 'rating', 'numVotes',
-					'url', 'region', 'media', 'perspective', 'controllerType', 'originalTitle', 'alternateTitle', 'translatedBy', 'version'),
-					(gameName, description, romCollectionId, publisherId, developerId, reviewerId, yearId, players, rating, votes, url, region, media, perspective, controller,
-					originalTitle, alternateTitle, translatedBy, version),
-					gameId)
-			else:
-				Logutil.log("Game does exist in database but update is not allowed for current rom collection. game: " +gameName.encode('iso-8859-15'), util.LOG_LEVEL_INFO)
+		try:
+			if(not isUpdate):
+				Logutil.log("Game does not exist in database. Insert game: " +gameName.encode('iso-8859-15'), util.LOG_LEVEL_INFO)
+				Game(self.gdb).insert((gameName, description, None, None, romCollectionId, publisherId, developerId, reviewerId, yearId, 
+					players, rating, votes, url, region, media, perspective, controller, 0, 0, originalTitle, alternateTitle, translatedBy, version))
+				return self.gdb.cursor.lastrowid
+			else:	
+				if(allowUpdate):
+					#TODO
+					gameRow = None
+					Logutil.log("Game does exist in database. Update game: " +gameName, util.LOG_LEVEL_INFO)
+					Game(self.gdb).update(('name', 'description', 'romCollectionId', 'publisherId', 'developerId', 'reviewerId', 'yearId', 'maxPlayers', 'rating', 'numVotes',
+						'url', 'region', 'media', 'perspective', 'controllerType', 'originalTitle', 'alternateTitle', 'translatedBy', 'version'),
+						(gameName, description, romCollectionId, publisherId, developerId, reviewerId, yearId, players, rating, votes, url, region, media, perspective, controller,
+						originalTitle, alternateTitle, translatedBy, version),
+						gameId)
+				else:
+					Logutil.log("Game does exist in database but update is not allowed for current rom collection. game: " +gameName.encode('iso-8859-15'), util.LOG_LEVEL_INFO)
+				
+				return gameId
+		except Exception, (exc):
+			Logutil.log("An error occured while adding game '%s'. Error: %s" %(gameName.encode('iso-8859-15'), str(exc)), util.LOG_LEVEL_INFO)
+			return None
 			
-			return gameId
 		
 	
 	def insertForeignKeyItem(self, result, itemName, gdbObject):
