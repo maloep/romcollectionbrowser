@@ -152,7 +152,7 @@ If you add new data to one of your rom collections you can use "Import Games" as
 Depending on your rom collections size and the number of used scrapers importing games can take some time.
 
 
-= Configuration basics =
+= Basic Configuration =
 Configuration is done via xml files. There is one main configuration file "config.xml" that must be placed in your userdata folder ("script_data/script.games.rom.collection.browser" (Camelot) or "addon_data/script.games.rom.collection.browser" (Dharma)). If this file is not found at startup, RCB will start a creation wizard that helps you to create a simple config.xml with most common settings. See next section for more information).
 
 Global settings can be changed in the Addons settings (See [Preview#Addon_settings Addon settings] for more information).
@@ -183,8 +183,14 @@ todo
 todo
 
 = Advanced configuration =
-== Define your own offline scrapers ==
-todo
+== Use local game descriptions ==
+In online scraping scenario game description will be added automatically (if available). If you want to use local game descriptions you will need description files (containing the description) and a parser configuration (tells RCB how to parse the description file format). The format of the parser configuration is explained in section [Preview#parserConfig.xml parserConfig.xml].
+
+You can download some (nearly) complete description files and a working parserConfig here: http://romcollectionbrowser.googlecode.com/files/gamedesc.zip. Actually it covers "NES", "SNES", "SEGA 32", "SEGA CD", "SEGA Genesis", "SEGA Game Gear", "SEGA Master System", "SEGA SG-1000" and "Gameboy". These descriptions all contain crc values, so you should not need to rename your roms to match the descriptions.
+
+User [http://forum.xbmc.org/showpost.php?p=612640&postcount=580 spyvsspy has compiled] some more game descriptions (all included with working parserConfig and all using crc values): [http://jumbofiles.com/4bo7ue9f000b Mame], [http://jumbofiles.com/s6i1kve2n18t C64], [http://jumbofiles.com/kmcvpukjayn2 Amiga small], [http://jumbofiles.com/1ija5cepffeh Amiga big (may be problematic to parse because of its size)],[http://jumbofiles.com/ro4bfpiajjp5 ColecoVision]
+
+Local game description and parsers are also added as scrapers.
 
 == Mixing online and offline scrapers ==
 todo
@@ -238,23 +244,6 @@ Xbox keymap.xml
 </FullscreenVideo>
 }}}
 
-
-== Add your own FileTypes ==
-With `FileTypes` you can define your own image or video categories. You can create a `FileType` for any new category that you like (e.g. action screenshots, boxart, highscore screenshots, gameplay videos, trailers, etc.). All imported images or videos will be associated with this `FileType` for later reference. If you create your config.xml with the startup wizard, RCB will create a default set of these elements for you.
-
-=== id ===
-Unique identifier. Don't change the id after you have imported games!
-
-=== name ===
-The name is referenced as type in `mediaPath` and fileTypeFor...-elements.
-
-=== type ===
-Must be "image" or "video".
-
-=== parent ===
-The parent that is associated with the image or video. Must be one of the following: game, console, developer, publisher, romcollection.
-
-
 == Customize image placing ==
 RCB does not rely on a defined set of media files. The user may have small collections with only one image per game or others may have complete sets with 6 or more different image types and maybe video files. Some users want to see title screenshots as background, others prefer boxart images. With image placing you have the option to control where RCB will show which type of artwork.
 
@@ -299,7 +288,7 @@ Usually you should only get in contact with the `RomCollection` entries. If you 
 Most settings have a default value. If you don't use a setting in config.xml, RCB will work with the default value.
 
 == Import games and media ==
-=== Basic configuration ===
+=== Import Roms ===
 A typical `RomCollection` entry (like it could be created with the wizard) will look like this:
 {{{
 <config>
@@ -344,12 +333,8 @@ Examples:
 
 /home/user/emu/SNES/Collection V3/roms/`*`.smc
 
-===== emulatorCmd =====
-emulatorCmd belongs to the stage "Launching games" and will be discussed later. See [Preview#Launching_games Launching games] for details. You also don't have to "Import Games" again if you change this setting.
-
-===== emulatorParams =====
-emulatorParams belongs to the stage "Launching games" and will be discussed later. See [Preview#Launching_games Launching games] for details. You also don't have to "Import Games" again if you change this setting.
-
+=== Add images ===
+==== Rom Collection ====
 ===== mediaPath =====
 The path to your image or video files. RCB will also use these paths to store artwork while scraping from online sources. There can be multiple `<mediaPath>` elements per `RomCollection`. Each element needs an attribute `type`. This type references the name of the configured `FileTypes`. All images or videos that match the given path will be imported and associated with the `FileType`. Types will also be used to configure the fileTypeFor...-elements in `ImagePlacing` (see section [Preview#dynamic_image_placing dynamic image placing] for more detalis).
 
@@ -367,31 +352,68 @@ If you have a Game "Mygame" its rom file may be named "Mygame.adf" (adf = amiga 
 
 "/home/user/emu/amiga/screens/%GAME%.png" (will import the file "Mygame.png" in folder "screens")
 
+==== File Types ====
+{{{
+<config>
+  ...
+  <FileTypes>
+    <FileType id="1" name="boxfront">
+      <type>image</type>
+      <parent>game</parent>
+    </FileType>
+  </FileTypes>
+  ...
+</config>
+}}}
 
+With `FileTypes` you can define your own image or video categories. You can create a `FileType` for every new category that you like (e.g. action screenshots, boxart, highscore screenshots, gameplay videos, trailers, etc.). All imported images or videos will be associated with this `FileType` for later reference. If you create your config.xml with the startup wizard, RCB will create a default set of these elements for you.
+
+===== id =====
+Unique identifier. Don't change the id after you have imported games!
+
+===== name =====
+The name is referenced as type in `mediaPath` and fileTypeFor...-elements.
+
+===== type =====
+Must be "image" or "video".
+
+===== parent =====
+The parent that is associated with the image or video. Must be one of the following: game, console, developer, publisher, romcollection.
+
+=== Add game descriptions ===
+==== Rom Collection ====
 ===== scraper =====
 With the scraper-elements in `RomCollection` you can control RCBs scraping behaviour. You can delete or reorder scrapers or add values that should be replaced in game names before scraping.
 
-See section [Preview#how_to_improve_scrape_results How to improve scrape results] for more details.
+See section [Preview#how_to_improve_scrape_results How to improve scrape results] for more information about reordering scrapers.
 
-===== imagePlacing =====
-With the `imagePlacing` tag you can select one of the `imagePlacing` options that control which image types are shown in which image controls.
+See section [Preview#Scraper Scraper] for more information about how to define offline scrapers.
 
-See section [Preview#dynamic_image_placing dynamic image placing] for more details.
+===== descFilePerGame =====
+When using local description files there can be one big description file with descriptions for all games in it. Or you can have one description file per game.
 
+In the first case (descFilePerGame=False) you must be sure that the game name in the description file matches exactly the name of your rom file (without disk prefix and extension) or that the crc value of the rom file matches the crc value inside the description file. See next section "Find game in description file" for more information.
 
-=== Add game description ===
-In online scraping scenario game description will be added automatically (if available). If you want to use local game descriptions you will need description files (containing the description) and a parser configuration (tells RCB how to parse the description file format). The format of the parser configuration is explained in section [Preview#parserConfig.xml parserConfig.xml].
+In second case (descFilePerGame=True) the gamename must be somewhere in the path of the property `Scraper/source` (configuration of descFilePath should look like this: "/home/user/emu/Amiga/Collection V1/%GAME%/info.txt" or this: "/home/user/emu/Amiga/Collection V1/info/%GAME%.txt").
 
-Local game description and parsers are also added as scrapers. See section [Preview#add_offline_scrapers Add offline scrapers] for more details.
-
-You can download some (nearly) complete description files and a working parserConfig here: http://romcollectionbrowser.googlecode.com/files/gamedesc.zip. Actually it covers "NES", "SNES", "SEGA 32", "SEGA CD", "SEGA Genesis", "SEGA Game Gear", "SEGA Master System", "SEGA SG-1000" and "Gameboy". These descriptions all contain crc values, so you should not need to rename your roms to match the descriptions.
-
-User [http://forum.xbmc.org/showpost.php?p=612640&postcount=580 spyvsspy has compiled] some more game descriptions (all included with working parserConfig and all using crc values): [http://jumbofiles.com/4bo7ue9f000b Mame], [http://jumbofiles.com/s6i1kve2n18t C64], [http://jumbofiles.com/kmcvpukjayn2 Amiga small], [http://jumbofiles.com/1ija5cepffeh Amiga big (may be problematic to parse because of its size)],[http://jumbofiles.com/ro4bfpiajjp5 ColecoVision]
-
+default value: False
 
 ==== Scraper ====
-===== descFilePath =====
-The path to the game description files. These files will be used to obtain additional information  about a game like genre, plot, publisher etc. Depending on the "`descFilePerGame`"-Parameter this should be the absolute path to one description file or a path using the %GAME%-placeholder. There can only be one descFilePath per `RomCollection`.
+{{{
+<config>
+  ...
+  <Scrapers>
+    <Site name="local nfo">
+      <Scraper parseInstruction="F:\Emulatoren\gamedesc\parserConfig.xml" source="F:\Emulatoren\gamedesc\SNES.txt"/>
+    </Site>
+  </Scrapers>
+  ...
+</config>
+}}}
+A Scraper in config.xml is the combination of a parse instruction and a description file to parse (with this instruction). Description files (source) can be URLs to online sources or a path to a local file.
+
+===== source =====
+The path to the game description files. These files will be used to obtain additional information  about a game like genre, plot, publisher etc. Depending on the "`descFilePerGame`"-Parameter this should be the absolute path to one description file or a path using the %GAME%-placeholder. It can also be an URL to an online source.
 
 Examples:
 
@@ -399,20 +421,12 @@ Examples:
 
 "/home/user/roms/all.txt" (one description file for all games)
 
-===== descriptionParserFile =====
-Most rom collections that use game description files will have a different file format. RCB uses a configurable parser that reads parse instructions from an xml file and tries to parse the game descriptions with these instructions. There can only be one description parser file per `RomCollection` entry. The format of the parser file is explained in section [Preview#parserConfig.xml parserConfig.xml].
+"http://thegamesdb.net/api/GetGame.php?name=%GAME%" (URL to an online source)
+
+===== parseInstruction =====
+Most rom collections that use game description files will have a different file format. RCB uses a configurable parser that reads parse instructions from an xml file and tries to parse the game descriptions with these instructions. The format of the parser file is explained in section [Preview#parserConfig.xml parserConfig.xml].
 
 Note: normally you don't have to create the parser config on your own. You can use the available example files and create game descriptions based on these examples.
-
-===== descFilePerGame =====
-There can be one big description file with descriptions for all games in it. Or you can have one description file per game. 
-
-In the first case (descFilePerGame=False) you must be sure that the game name in the description file matches exactly the name of your rom file (without disk prefix and extension) or that the crc value of the rom file matches the crc value inside the description file. See next section "Find game in description file" for more information.
-
-In second case (descFilePerGame=True) the gamename must be somewhere in the path of the property `descFilePath` (configuration of descFilePath should look like this: "/home/user/emu/Amiga/Collection V1/%GAME%/info.txt" or this: "/home/user/emu/Amiga/Collection V1/info/%GAME%.txt").
-
-default value: False
-
 
 === Find game in description file ===
 If you use descFilePerGame=False (default) you have to take care that RCB can find the currently imported game in your description file. This can be done via romname = gamename or via crc matching.
@@ -466,6 +480,11 @@ Default value: 999
 == Browsing and displaying games ==
 === dynamic image placing ===
 ==== Rom Collection ====
+==== imagePlacing ====
+With the `imagePlacing` tag you can select one of the `imagePlacing` options that control which image types are shown in which image controls.
+
+See section [Preview#dynamic_image_placing dynamic image placing] for more details.
+
 ===== fileTypeFor... =====
 The fileTypeFor...-elements are used for dynamic image placing. With the fileTypeFor...-elements you can associate each of the available image controls in RCBs UI with a specific media type. If you configure multiple fileTypeFor...-elements of the same type they will be used as fallback: if there is no image or video of file type 1, it will try to load an image or video of file type 2. The file types must exactly match the value of `type` attribute that you used for `mediaPath` and `FileType` configuration.
 
