@@ -387,7 +387,7 @@ With the scraper-elements in `RomCollection` you can control RCBs scraping behav
 
 See section [Preview#how_to_improve_scrape_results How to improve scrape results] for more information about reordering scrapers.
 
-See section [Preview#Scraper Scraper] for more information about how to define offline scrapers.
+See section [Preview#Scraper Scraper] for more information about how to define scrapers for local game descriptions.
 
 ===== descFilePerGame =====
 When using local description files there can be one big description file with descriptions for all games in it. Or you can have one description file per game.
@@ -403,14 +403,14 @@ default value: False
 <config>
   ...
   <Scrapers>
-    <Site name="local nfo">
+    <Site name="SNES">
       <Scraper parseInstruction="F:\Emulatoren\gamedesc\parserConfig.xml" source="F:\Emulatoren\gamedesc\SNES.txt"/>
     </Site>
   </Scrapers>
   ...
 </config>
 }}}
-A Scraper in config.xml is the combination of a parse instruction and a description file to parse (with this instruction). Description files (source) can be URLs to online sources or a path to a local file.
+A Scraper in config.xml is the combination of a parse instruction and a description file (source) to parse with this instruction. Source can be an URL to online sources or a path to a local file.
 
 ===== source =====
 The path to the game description files. These files will be used to obtain additional information  about a game like genre, plot, publisher etc. Depending on the "`descFilePerGame`"-Parameter this should be the absolute path to one description file or a path using the %GAME%-placeholder. It can also be an URL to an online source.
@@ -442,12 +442,12 @@ If you have games with the same rom filename but different crcs (and different g
 
 default value: False
 
-===== useFoldernameAsCRC (new in 0.6.0) =====
+===== useFoldernameAsCRC =====
 Compare the crc in the description file with the foldername of the current rom file.
 
 default value: False
 
-===== useFilenameAsCRC (new in 0.6.0) =====
+===== useFilenameAsCRC =====
 Compare the crc in the description file with the filename (without extension) of the current rom file.
 
 default value: False
@@ -472,7 +472,7 @@ If you use "`_Disk`" as diskPrefix and you have some rom files named "`Mygame.ad
 
 default value: _Disk
 
-===== maxFolderDepth (new_in_0.6.0) =====
+===== maxFolderDepth =====
 Limit the number of subfolders RCB scans while searching for rom files. 
 
 Default value: 999
@@ -480,17 +480,38 @@ Default value: 999
 == Browsing and displaying games ==
 === dynamic image placing ===
 ==== Rom Collection ====
-==== imagePlacing ====
-With the `imagePlacing` tag you can select one of the `imagePlacing` options that control which image types are shown in which image controls.
+===== imagePlacing =====
+With the `imagePlacing` tag you can select one of the `imagePlacing` options that control which image types are shown in which image controls. When running the config.xml creation wizard RCB will create a set of default options for you. If you are not satisfied with these options are have other `FileTypes` that are not covered by the defaults, you can change the existing options or create a new one.
 
-See section [Preview#dynamic_image_placing dynamic image placing] for more details.
+==== ImagePlacing ====
+{{{
+<config>
+  ...
+  <ImagePlacing>
+    <fileTypeFor name="gameinfobig">
+      <fileTypeForGameList>boxfront</fileTypeForGameList>
+      <fileTypeForGameList>screenshot</fileTypeForGameList>
+      <fileTypeForGameListSelected>boxfront</fileTypeForGameListSelected>
+      <fileTypeForGameListSelected>screenshot</fileTypeForGameListSelected>
+      <fileTypeForMainViewBackground>fanart</fileTypeForMainViewBackground>
+	  ...
+	</fileTypeFor>
+  </ImagePlacing>
+  ...
+</config>
+}}}
 
 ===== fileTypeFor... =====
-The fileTypeFor...-elements are used for dynamic image placing. With the fileTypeFor...-elements you can associate each of the available image controls in RCBs UI with a specific media type. If you configure multiple fileTypeFor...-elements of the same type they will be used as fallback: if there is no image or video of file type 1, it will try to load an image or video of file type 2. The file types must exactly match the value of `type` attribute that you used for `mediaPath` and `FileType` configuration.
+With the fileTypeFor...-elements you can associate each of the available image controls in RCBs UI with a specific media type. You  can configure multiple fileTypeFor...-elements of the same type. They will be used as fallback: if there is no image or video of file type 1, it will try to load an image or video of file type 2. The file types must exactly match the value of `type` attribute that you used in `mediaPath` and `FileType` configuration.
 
-In this example RCB will show your cover screenshots as background image in the main window:
+In this example RCB will show your boxfront screenshots as background image in the main window:
 {{{
-<fileTypeForMainViewBackground>cover</fileTypeForMainViewBackground>
+<fileTypeForMainViewBackground>boxfront</fileTypeForMainViewBackground>
+}}}
+
+If you want to see your title screenshots as background, change it to:
+{{{
+<fileTypeForMainViewBackground>title</fileTypeForMainViewBackground>
 }}}
 
 There are only two (alternating) controls in the main window (fileTypeForMainViewVideoWindowBig and fileTypeForMainViewVideoWindowSmall) and one control in the game details page (fileTypeForGameInfoViewVideoWindow) that are able to display video. If you use these fileTypeFor...-elements and a video is available for the selected game, the video playback is started automatically.
