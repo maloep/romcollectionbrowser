@@ -2,7 +2,8 @@
 	<setting id="rcb_logLevel" label="Log Level" type="labelenum" values="ERROR|WARNING|INFO|DEBUG" default="INFO"/>
 	<setting id="rcb_useEmulatorSolo" label="Use Emulator solo" value="false" type="bool" default="false"/>
 	<setting id="rcb_escapeEmulatorCommand" label="Escape Emulator Cmd" value="false" type="bool" default="false"/>
-	<setting id="rcb_cachingOption" label="Caching Option" type="labelenum" values="CACHEALL|CACHESELECTION|CACHEITEM|CACHEITEMANDNEXT" default="CACHEITEMANDNEXT"/>	
+	<setting id="rcb_cachingOption" label="Caching Option" type="labelenum" values="CACHEALL|CACHESELECTION|CACHEITEM|CACHEITEMANDNEXT" default="CACHEITEMANDNEXT"/>
+	<setting id="rcb_fuzzyFactor" label="Game Matching Fuzzy Factor" type="enum" values="0.5|0.6|0.7|0.8|0.9|1.0" default="2"/>
 	<setting id="rcb_createNfoWhileScraping" label="Create local nfo file while scraping" type="bool" default="true"/>
 	<setting id="rcb_ignoreGamesWithoutDesc" label="Don't import games without description" type="bool" default="true"/>
 	<setting id="rcb_ignoreGamesWithoutArtwork" label="Don't import games without artwork" type="bool" default="true"/>
