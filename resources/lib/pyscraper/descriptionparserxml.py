@@ -38,8 +38,7 @@ class DescriptionParserXml:
 			if tempResults != None:				
 				results = tempResults
 				results = self.replaceResultTokens(results)
-				resultList.append(results)
-		print resultList
+				resultList.append(results)		
 		return resultList
 	
 	

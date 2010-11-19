@@ -1,7 +1,12 @@
 
 0.7.7 (11/2010)
 ~~~~~~~~~~~~~
-    * small bug fixes and minor changes
+    * new option: Game Matching Fuzzy Factor
+    * Bugfix: giantbomb scraper was broken
+    * Bugfix: mobygames scraper did not find boxfronts when there have been images for several regions
+    * Bugfix: mobygames scraper did not find screenshots when there have been no boxfronts
+    * Bugfix: catch IntegrityError
+    * Bugfix: fixed bug in handling mutli rom games
 
 0.7.6 (11/2010)
 ~~~~~~~~~~~~~
