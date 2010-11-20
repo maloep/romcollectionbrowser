@@ -2,6 +2,8 @@
 0.7.7 (11/2010)
 ~~~~~~~~~~~~~
     * new option: Game Matching Fuzzy Factor
+    * added sequel handling in game matching
+    * create file scrapeResult_possibleMismatches.txt
     * Bugfix: giantbomb scraper was broken
     * Bugfix: mobygames scraper did not find boxfronts when there have been images for several regions
     * Bugfix: mobygames scraper did not find screenshots when there have been no boxfronts

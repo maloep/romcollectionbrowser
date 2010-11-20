@@ -34,20 +34,10 @@ class DBUpdate:
 		statusOk, errorMsg = config.readXml()
 		if(statusOk == False):
 			return False, errorMsg
-				
-		try:
-			missingDescPath = os.path.join(util.getAddonDataPath(), 'missingDesc.txt')
-			self.missingDescFile = open(missingDescPath,'w')		
-		except Exception, (exc):
-			self.missingDescFile = None
-			Logutil.log("Cannot write to missingDesc.txt: " +str(exc), util.LOG_LEVEL_WARNING)
 			
-		try:
-			missingArtworkPath = os.path.join(util.getAddonDataPath(), 'missingArtwork.txt')
-			self.missingArtworkFile = open(missingArtworkPath,'w')		
-		except Exception, (exc):
-			self.missingArtworkFile = None
-			Logutil.log("Cannot write to missingArtwork.txt: " +str(exc), util.LOG_LEVEL_WARNING)
+		self.missingDescFile = self.openFile(os.path.join(util.getAddonDataPath(), 'scrapeResult_missingDesc.txt'))
+		self.missingArtworkFile = self.openFile(os.path.join(util.getAddonDataPath(), 'scrapeResult_missingArtwork.txt'))
+		self.possibleMismatchFile = self.openFile(os.path.join(util.getAddonDataPath(), 'scrapeResult_possibleMismatches.txt'))		
 		
 		Logutil.log("Start Update DB", util.LOG_LEVEL_INFO)
 		
@@ -63,6 +53,8 @@ class DBUpdate:
 			
 			self.missingDescFile.write('~~~~~~~~~~~~~~~~~~~~~~~~\n' +romCollection.name +'\n' +'~~~~~~~~~~~~~~~~~~~~~~~~\n')
 			self.missingArtworkFile.write('~~~~~~~~~~~~~~~~~~~~~~~~\n' +romCollection.name +'\n' +'~~~~~~~~~~~~~~~~~~~~~~~~\n')
+			self.possibleMismatchFile.write('~~~~~~~~~~~~~~~~~~~~~~~~\n' +romCollection.name +'\n' +'~~~~~~~~~~~~~~~~~~~~~~~~\n')
+			self.possibleMismatchFile.write('gamename, filename\n')
 
 			#Read settings for current Rom Collection
 			Logutil.log("ignoreOnScan: " +str(romCollection.ignoreOnScan), util.LOG_LEVEL_INFO)
@@ -273,8 +265,6 @@ class DBUpdate:
 							results, urlsFromPreviousScrapers, doContinue = self.scrapeResults(results, scraper, urlsFromPreviousScrapers, gamenameFromFile, foldername, filecrc, filename)							
 							if(doContinue):
 								continue
-							print "urls: " +str(urlsFromPreviousScrapers)
-													
 					
 					#print results
 					if(len(results) == 0):
@@ -294,8 +284,8 @@ class DBUpdate:
 					
 	
 	def scrapeResults(self, results, scraper, urlsFromPreviousScrapers, gamenameFromFile, foldername, filecrc, romFile):		
-		Logutil.log("using parser file: " +scraper.parseInstruction, util.LOG_LEVEL_INFO)		
-		Logutil.log("using game description: " +scraper.source, util.LOG_LEVEL_INFO)
+		Logutil.log("using parser file: " +scraper.parseInstruction, util.LOG_LEVEL_DEBUG)		
+		Logutil.log("using game description: " +scraper.source, util.LOG_LEVEL_DEBUG)
 		
 		scraperSource = scraper.source
 		
@@ -595,9 +585,9 @@ class DBUpdate:
 		try:				
 			#replace configurable tokens
 			replaceKeys = scraper.replaceKeyString.split(',')
-			Logutil.log("replaceKeys: " +str(replaceKeys), util.LOG_LEVEL_INFO)						
+			Logutil.log("replaceKeys: " +str(replaceKeys), util.LOG_LEVEL_DEBUG)						
 			replaceValues = scraper.replaceValueString.split(',')
-			Logutil.log("replaceValues: " +str(replaceValues), util.LOG_LEVEL_INFO)
+			Logutil.log("replaceValues: " +str(replaceValues), util.LOG_LEVEL_DEBUG)
 			
 			if(len(replaceKeys) != len(replaceValues)):
 				Logutil.log("Configuration error: replaceKeyString (%s) and replaceValueString(%s) does not have the same number of ','-separated items." %(scraper.replaceKeyString, scraper.replaceValueString), util.LOG_LEVEL_ERROR)
@@ -608,7 +598,12 @@ class DBUpdate:
 				#also replace in gamename for later result matching
 				gamenameFromFile = gamenameFromFile.replace(replaceKeys[i], replaceValues[i])
 				
-			scraperSource = scraperSource.replace("%GAME%", gamenameFromFile)
+			if(scraperSource.startswith('http://')):
+				gamenameToParse = util.html_escape(gamenameFromFile)
+			else:
+				gamenameToParse = gamenameFromFile
+			scraperSource = scraperSource.replace("%GAME%", gamenameToParse)
+			
 			replaceTokens = ['%FILENAME%', '%FOLDERNAME%', '%CRC%']
 			for key in util.API_KEYS.keys():
 				replaceTokens.append(key)
@@ -636,8 +631,7 @@ class DBUpdate:
 		matchingRatioIndex = self.Settings.getSetting(util.SETTING_RCB_FUZZYFACTOR)
 		if (matchingRatioIndex == ''):
 			matchingRatioIndex = 2
-		fuzzyFactor = util.FUZZY_FACTOR_ENUM[int(matchingRatioIndex)]
-		print "fuzzy factor: " +str(fuzzyFactor)
+		fuzzyFactor = util.FUZZY_FACTOR_ENUM[int(matchingRatioIndex)]		
 		
 		if (results != None and len(results) == 1):
 			Logutil.log('Searching for game: ' +gamenameFromFile, util.LOG_LEVEL_INFO)
@@ -653,42 +647,91 @@ class DBUpdate:
 			return results[0]
 		elif(results != None and len(results) > 1):
 			Logutil.log('Searching for game: ' +gamenameFromFile, util.LOG_LEVEL_INFO)
-			Logutil.log('More than 1 result found. Try to find best match.', util.LOG_LEVEL_INFO)			
+			Logutil.log('More than 1 result found. Try to find best match.', util.LOG_LEVEL_INFO)									
 			
-			#find best matching result
+			highestRatio = 0.0
 			bestIndex = 0
-			highestRatio = 0
-			for i in range(0, len(results)):
-				result = results[i]
-				try:
-					searchKey = self.resolveParseResult(result, 'SearchKey')
-					if(searchKey == ''):
-						Logutil.log('No searchKey found. Using first result', util.LOG_LEVEL_INFO)
-						highestRatio = 1.0
-						bestIndex = i 
-						break					
-					#TODO gamenameFromFile is not always correct
-					ratio = difflib.SequenceMatcher(None, gamenameFromFile, searchKey).ratio()
-					Logutil.log('Comparing with %s, ratio: %s' %(searchKey, str(ratio)), util.LOG_LEVEL_INFO)
-					if(ratio > highestRatio and ratio > fuzzyFactor):
-						highestRatio = ratio
-						bestIndex = i
-						if(ratio == 1.0):
-							#perfect match
-							break
-				except Exception, (exc):
-					Logutil.log("parseDescription returned more than 1 result. An error occured while matching the best result: " +str(exc), util.LOG_LEVEL_WARNING)
+			bestIndex, highestRatio = self.findBestGameMatch(results, gamenameFromFile, fuzzyFactor, highestRatio, bestIndex)
 			
-			if(highestRatio == 0):
-				Logutil.log('No result found with a ratio better than %s. Result will be skipped.' %(str(fuzzyFactor),), LOG_LEVEL_WARNING)
-				return None			
-						
+			#TODO: pass bestIndex
+			
+			if(highestRatio != 1.0):
+				digits = [' 10', ' 9', ' 8', ' 7', ' 6', ' 5', ' 4', ' 3', ' 2', ' 1']
+				romes = [' X', ' IX', ' VIII', ' VII', ' VI', ' V', ' IV', ' III', ' II', ' I']
+				lastChar = gamenameFromFile[len(gamenameFromFile) -1:]
+				#special sequel handling
+				if(lastChar.isdigit()):
+					#TODO may lead to errors with games like FIFA 10, Fifa 11
+					Logutil.log('Game may belong to a sequel. Start extra handling.', util.LOG_LEVEL_INFO)
+					replaceKeys = digits					
+					replaceValues = romes
+					gamename = gamenameFromFile
+					for i in range(0, len(replaceKeys)):
+						gamename = gamename.replace(replaceKeys[i], replaceValues[i])						
+					
+					Logutil.log('Searching for game (sequel number replaced): ' +gamename, util.LOG_LEVEL_INFO)
+					bestIndex, highestRatio = self.findBestGameMatch(results, gamename, fuzzyFactor, highestRatio, bestIndex)
+					
+					#Extra Handling for episode 1
+					if(highestRatio != 1.0 and lastChar == '1'):
+						gamename = gamenameFromFile.replace(' 1', '')
+						Logutil.log('Searching for game (sequel number replaced): ' +gamename, util.LOG_LEVEL_INFO)
+						bestIndex, highestRatio = self.findBestGameMatch(results, gamename, fuzzyFactor, highestRatio, bestIndex)											
+					
+				elif(lastChar.upper() in ('I', 'V', 'X')):
+					Logutil.log('Game may belong to a sequel. Start extra handling.', util.LOG_LEVEL_INFO)					
+					replaceKeys = romes
+					replaceValues = digits
+					gamename = gamenameFromFile
+					for i in range(0, len(replaceKeys)):						
+						gamename = gamename.replace(replaceKeys[i], replaceValues[i])
+					
+					Logutil.log('Searching for game (sequel number replaced): ' +gamename, util.LOG_LEVEL_INFO)
+					bestIndex, highestRatio = self.findBestGameMatch(results, gamename, fuzzyFactor, highestRatio, bestIndex)
+					
+					#Extra Handling for episode 1
+					if(highestRatio != 1.0):
+						lastTwoChars = gamenameFromFile[len(gamenameFromFile) -2:]
+						if(lastTwoChars.upper() == ' I'):
+							Logutil.log('Searching for game (sequel number replaced): ' +gamename, util.LOG_LEVEL_INFO)
+							gamename = gamenameFromFile.replace(' I', '')
+							bestIndex, highestRatio = self.findBestGameMatch(results, gamename, fuzzyFactor, highestRatio, bestIndex)					
+			if(bestIndex == -1):
+				return None						
 			return results[bestIndex]
 		else:
+			Logutil.log('No results found with current scraper', util.LOG_LEVEL_INFO)
 			return None
 					
 			
-			
+	def findBestGameMatch(self, results, gamenameFromFile, fuzzyFactor, highestRatio, bestIndex):
+		
+		for i in range(0, len(results)):
+			result = results[i]
+			try:
+				searchKey = self.resolveParseResult(result, 'SearchKey')
+				if(searchKey == ''):
+					Logutil.log('No searchKey found. Using first result', util.LOG_LEVEL_INFO)
+					highestRatio = 1.0
+					bestIndex = i 
+					break					
+				#TODO gamenameFromFile is not always correct
+				ratio = difflib.SequenceMatcher(None, gamenameFromFile, searchKey).ratio()
+				Logutil.log('Comparing with %s, ratio: %s' %(searchKey, str(ratio)), util.LOG_LEVEL_INFO)
+				if(ratio > highestRatio and ratio > fuzzyFactor):
+					highestRatio = ratio
+					bestIndex = i
+					if(ratio == 1.0):
+						#perfect match
+						break
+			except Exception, (exc):
+				Logutil.log("parseDescription returned more than 1 result. An error occured while matching the best result: " +str(exc), util.LOG_LEVEL_WARNING)
+		
+		if(highestRatio == 0):
+			Logutil.log('No result found with a ratio better than %s. Result will be skipped.' %(str(fuzzyFactor),), LOG_LEVEL_WARNING)
+			return -1, -1
+		
+		return bestIndex, highestRatio
 			
 	def insertData(self, gamedescription, gamenameFromFile, romCollection, romFiles, foldername, isUpdate, gameId):
 		Logutil.log("Insert data", util.LOG_LEVEL_INFO)
@@ -719,6 +762,9 @@ class DBUpdate:
 		
 		if(gamedescription != None):
 			gamename = self.resolveParseResult(gamedescription, 'Game')
+			if(gamename != gamenameFromFile):
+				self.possibleMismatchFile.write('%s, %s\n' %(gamename, gamenameFromFile))
+			
 			if(gamename == ""):
 				gamename = gamenameFromFile
 		else:
@@ -740,7 +786,7 @@ class DBUpdate:
 			fileName = path.path.replace("%GAME%", gamenameFromFile)
 			self.getThumbFromOnlineSource(gamedescription, path.fileType.name, fileName)
 			
-			Logutil.log("Additional data path: " +str(path.path), util.LOG_LEVEL_INFO)
+			Logutil.log("Additional data path: " +str(path.path), util.LOG_LEVEL_DEBUG)
 			files = self.resolvePath((path.path,), gamename, gamenameFromFile, foldername, romCollection.name, publisher, developer)
 			if(len(files) > 0):
 				artWorkFound = True	
@@ -1005,7 +1051,7 @@ class DBUpdate:
 	
 	def stripHTMLTags(self, inputString):
 				
-		inputString = self.html_unescape(inputString)
+		inputString = util.html_unescape(inputString)
 				
 		#remove html tags and double spaces
 		intag = [False]
@@ -1026,14 +1072,6 @@ class DBUpdate:
 			return True
 		
 		return ''.join(c for c in inputString if chk(c))
-			
-
-	def html_unescape(self, text):
-		
-		for key in util.html_unescape_table.keys():
-			text = text.replace(key, util.html_unescape_table[key])
-			
-		return text
 
 
 	def createNfoFromDesc(self, gamename, plot, romCollectionName, publisher, developer, year, players, rating, votes, 
@@ -1115,10 +1153,11 @@ class DBUpdate:
 			#maybe we got a thumb url from desc parser
 			thumbKey = 'Filetype' +fileType
 			Logutil.log("using key: " +thumbKey, util.LOG_LEVEL_INFO)
-			thumbUrl = self.resolveParseResult(gamedescription, thumbKey)
-			Logutil.log("Get thumb from url: " +str(thumbUrl), util.LOG_LEVEL_INFO)
+			thumbUrl = self.resolveParseResult(gamedescription, thumbKey)			
 			if(thumbUrl == ''):
 				return
+			
+			Logutil.log("Get thumb from url: " +str(thumbUrl), util.LOG_LEVEL_INFO)
 			
 			rootExtFile = os.path.splitext(fileName)
 			rootExtUrl = os.path.splitext(thumbUrl)
@@ -1131,7 +1170,7 @@ class DBUpdate:
 			if(not os.path.isdir(dirname)):
 				os.mkdir(dirname)
 			
-			Logutil.log("check if file exists: " +str(fileName), util.LOG_LEVEL_INFO)			
+			Logutil.log("Download file to: " +str(fileName), util.LOG_LEVEL_INFO)			
 			if (not os.path.isfile(fileName)):
 				Logutil.log("File does not exist. Starting download.", util.LOG_LEVEL_INFO)				
 				# fetch thumbnail and save to filepath
@@ -1139,9 +1178,20 @@ class DBUpdate:
 				# cleanup any remaining urllib cache
 				urllib.urlcleanup()
 				Logutil.log("Download finished.", util.LOG_LEVEL_INFO)
+			else:
+				Logutil.log("File already exists. Won't download again.", util.LOG_LEVEL_INFO)
 		except Exception, (exc):
 			Logutil.log("Error in getThumbFromOnlineSource: " +str(exc), util.LOG_LEVEL_WARNING)						
+
+
+	def openFile(self, filename):
+		try:			
+			filehandle = open(filename,'w')		
+		except Exception, (exc):			
+			Logutil.log('Cannot write to file "%s". Error: "%s"' %(filename, str(exc)), util.LOG_LEVEL_WARNING)
+			return None
 		
+		return filehandle
 		
 
 	def exit(self):

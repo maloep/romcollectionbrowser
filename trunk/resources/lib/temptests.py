@@ -45,8 +45,13 @@ descFile = "F:\\Emulatoren\\data\\Scraper Tests\\Roms\\Sega32\\32x - Motocross C
 parseInstruction = "C:\\Users\\malte\\AppData\\Roaming\\XBMC\\scripts\\Rom Collection Browser\\resources\\scraper\\00 - local nfo.xml"
 
 
-year = '1-1-1998'
-print year[len(year) -4:]
+gamename = 'Actraiser I'
+lastChar = gamename[len(gamename) -2:]
+
+print lastChar 
+
+print 'isDigit: ' +str(lastChar.isdigit())
+print 'isRome: ' +str(lastChar.upper() in ('I', 'V', 'X'))
 
 
 """

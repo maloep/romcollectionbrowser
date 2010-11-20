@@ -3,6 +3,7 @@ from pyparsing import *
 from elementtree.ElementTree import *
 import urllib
 import time
+import util
 #from xml.dom.minidom import parseString, Node, Document
 
 
@@ -116,7 +117,6 @@ class DescriptionParserFlatFile:
 		fileAsString = ''
 		
 		if(descFile.startswith('http://')):
-			descFile = descFile.replace(' ', '%20')
 			usock = urllib.urlopen(descFile)
 			fileAsString = usock.read()
 			usock.close()
