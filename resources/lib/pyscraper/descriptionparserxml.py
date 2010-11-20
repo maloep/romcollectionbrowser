@@ -3,6 +3,7 @@ from elementtree.ElementTree import *
 import urllib
 import time
 
+import util
 
 class DescriptionParserXml:
 	
@@ -17,8 +18,7 @@ class DescriptionParserXml:
 	def parseDescription(self, descFile):		
 		results = None						
 						
-		if(descFile.startswith('http://')):			
-			descFile = descFile.replace(" ", "%20")
+		if(descFile.startswith('http://')):
 			descFile = urllib.urlopen(descFile)				
 		
 		#load xmlDoc as elementtree to check with xpaths
@@ -45,7 +45,6 @@ class DescriptionParserXml:
 	def scanDescription(self, descFile, descParseInstruction):		
 		
 		if(descFile.startswith('http://')):
-			descFile = descFile.replace(' ', '%20')
 			descFile = urllib.urlopen(descFile)
 		
 		#load xmlDoc as elementtree to check with xpaths
@@ -64,7 +63,7 @@ class DescriptionParserXml:
 	
 	#TODO: make a base class and make this a base method
 	def replaceResultTokens(self, resultAsDict):
-		for key in resultAsDict.keys():			
+		for key in resultAsDict.keys():
 			grammarElement = self.grammarNode.find(key)
 			if(grammarElement != None):
 				appendResultTo = grammarElement.attrib.get('appendResultTo')
@@ -87,8 +86,8 @@ class DescriptionParserXml:
 							if(dateFormat != None):
 								newValue = time.strptime(newValue, dateFormat)
 							itemList[i] = newValue
-						except:
-							print "Error while handling appendResultTo"
+						except Exception, (exc):
+							print "Error while handling appendResultTo: " +str(exc)
 							
 					resultAsDict[key] = itemList
 					
