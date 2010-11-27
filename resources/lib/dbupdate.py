@@ -1,5 +1,5 @@
 
-import os, sys
+import os, sys, re
 import getpass, string, glob
 import codecs
 import zipfile
@@ -602,6 +602,8 @@ class DBUpdate:
 				gamenameToParse = util.html_escape(gamenameFromFile)
 			else:
 				gamenameToParse = gamenameFromFile
+			
+			gamenameFromFile = re.sub('\s\(.*\)|\s\[.*\]|\(.*\)|\[.*\]','',gamenameFromFile)
 			scraperSource = scraperSource.replace("%GAME%", gamenameToParse)
 			
 			replaceTokens = ['%FILENAME%', '%FOLDERNAME%', '%CRC%']
@@ -641,7 +643,7 @@ class DBUpdate:
 				#TODO gamenameFromFile is not always correct
 				ratio = difflib.SequenceMatcher(None, gamenameFromFile, searchKey).ratio()
 				if(ratio < fuzzyFactor):
-					Logutil.log('Only 1 game found: %s, but ratio: %s is below %s. Result will be skipped' %(searchKey, str(ratio), str(fuzzyFactor)), util.LOG_LEVEL_INFO)
+					Logutil.log('Only 1 game found: %s, but ratio: %s is below %s. Result will be skipped' %(searchKey.decode('iso-8859-15'), str(ratio), str(fuzzyFactor)), util.LOG_LEVEL_INFO)
 					return None
 						
 			return results[0]
@@ -652,8 +654,6 @@ class DBUpdate:
 			highestRatio = 0.0
 			bestIndex = 0
 			bestIndex, highestRatio = self.findBestGameMatch(results, gamenameFromFile, fuzzyFactor, highestRatio, bestIndex)
-			
-			#TODO: pass bestIndex
 			
 			if(highestRatio != 1.0):
 				digits = [' 10', ' 9', ' 8', ' 7', ' 6', ' 5', ' 4', ' 3', ' 2', ' 1']

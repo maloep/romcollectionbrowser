@@ -7,10 +7,9 @@ import xbmc, time
 # CONSTANTS #
 #
 
-RCBHOME = os.getcwd()
 SCRIPTNAME = 'Rom Collection Browser'
 SCRIPTID = 'script.games.rom.collection.browser'
-CURRENT_SCRIPT_VERSION = "0.7.7"
+CURRENT_SCRIPT_VERSION = "0.7.8"
 CURRENT_DB_VERSION = "0.7.4"
 ISTESTRUN = False
 
@@ -207,8 +206,20 @@ def getAddonDataPath():
 		except:
 			path = ''	
 	return path
-			
 
+
+def getAddonInstallPath():
+	
+	path = ''
+	
+	if(isPostCamelot()):
+		import xbmcaddon
+		addon = xbmcaddon.Addon(id='%s' %SCRIPTID)
+		path = addon.getAddonInfo('path')
+	else:
+		path = os.getcwd()
+	return path
+			
 
 def getAutoexecPath():
 	if(isPostCamelot()):
@@ -224,7 +235,7 @@ def getConfigXmlPath():
 		addonDataPath = getAddonDataPath() 
 		configFile = os.path.join(addonDataPath, "config.xml")
 	else:
-		configFile = os.path.join(os.getcwd(), "TestDataBase", "config.xml")
+		configFile = os.path.join(getAddonInstallPath(), "TestDataBase", "config.xml")
 	
 	Logutil.log('Reading configuration file: ' +str(configFile), LOG_LEVEL_INFO)
 	return configFile
@@ -292,6 +303,9 @@ def indentXml(elem, level=0):
 	else:
 		if level and (not elem.tail or not elem.tail.strip()):
 			elem.tail = i
+
+
+RCBHOME = getAddonInstallPath()
 
 
 #

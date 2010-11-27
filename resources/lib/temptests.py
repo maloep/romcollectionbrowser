@@ -44,14 +44,12 @@ from descriptionparserfactory import DescriptionParserFactory
 descFile = "F:\\Emulatoren\\data\\Scraper Tests\\Roms\\Sega32\\32x - Motocross Championship.nfo"
 parseInstruction = "C:\\Users\\malte\\AppData\\Roaming\\XBMC\\scripts\\Rom Collection Browser\\resources\\scraper\\00 - local nfo.xml"
 
+import re
 
-gamename = 'Actraiser I'
-lastChar = gamename[len(gamename) -2:]
+gamenameFromFile = '[1.4] ABC'
+gamenameFromFile = re.sub('\s\(.*\)|\s\[.*\]|\(.*\)|\[.*\]','',gamenameFromFile)
 
-print lastChar 
-
-print 'isDigit: ' +str(lastChar.isdigit())
-print 'isRome: ' +str(lastChar.upper() in ('I', 'V', 'X'))
+print gamenameFromFile+'|'
 
 
 """

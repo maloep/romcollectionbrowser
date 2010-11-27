@@ -1,51 +1,19 @@
 
-0.7.7 (11/2010)
+0.7.8 (11/2010)
 ~~~~~~~~~~~~~
-    * new option: Game Matching Fuzzy Factor
-    * added sequel handling in game matching
-    * create file scrapeResult_possibleMismatches.txt
-    * Bugfix: giantbomb scraper was broken
-    * Bugfix: mobygames scraper did not find boxfronts when there have been images for several regions
-    * Bugfix: mobygames scraper did not find screenshots when there have been no boxfronts
-    * Bugfix: catch IntegrityError
-    * Bugfix: fixed bug in handling mutli rom games
-
-0.7.6 (11/2010)
-~~~~~~~~~~~~~
-    * config.xml creation wizard (online scraping and local data scenario)
+Online Scraping
+    * scraping game information and artwork from various online sources
+    * current available scrapers: thevideogamedb.com, thegamesdb.net, giantbomb.com, mobygames.com
+    * scraped artwork types: boxfront, boxback, cartridge, screenshot and fanart
     * create local nfo files while scraping
-    * new scraper: local nfo (option to add or edit game properties via local nfo files)
-    * create file missingArtwork.txt while scraping
-    * create file missingDesc.txt while scraping
-    * new option: Don't import games without description
-    * new option: Don't import games without artwork    
-    * new option: Always rescan imported games
+    * option to reimport local nfo files (possibility to add or edit game properties)
+    * create info files about scrape results (missing artwork, missing description, wrong game name)
 
-0.7.5 (10/2010)
-~~~~~~~~~~~~~
-    * automatic update of MyGames.db and config.xml (0.6.0 - 0.7.4 -> 0.7.5)
-    * new scraper: thegamesdb.net
-    * navigation between top menu and bottom menu changed from circular to linear
-    * added some more html codes to the unescape table
-    * disabled boxart download for giantbomb.com and thegamesdb.net (may download wrong boxart)
-
-0.7.4 (10/2010)
-~~~~~~~~~~~~~
-    * rework configuration
-        * don't import settings to database: all settings are read at startup from config.xml
-        * moved global settings to settings.xml (editable via addons settings ui)
-        * refactoring of config.xml
-    * only scrape information of games that are not in database
-    * bugfix: launch emulators with whitespaces in path
-
-0.7.3 (10/2010)
-~~~~~~~~~~~~~
-    * small fixes to scraping functionality
-    * new scraper: giantbomb.com
-
-0.7.2 (10/2010)
-~~~~~~~~~~~~~
-    * scraper support: thevideogamedb.com, mobygames.com
+Configuration
+    * startup configuration wizard (create config.xml with most common options)
+    * configure global settings via Addon Settings page
+    * refactoring of config.xml structure
+    * config.xml will be read at every start: no need to import settings anymore
 
 0.6.1 (08/2010)
 ~~~~~~~~~~~~~

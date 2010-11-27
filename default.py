@@ -22,6 +22,7 @@ import os
 import sys
 import re
 
+
 # Shared resources
 BASE_RESOURCE_PATH = os.path.join( os.getcwd(), "resources" )
 sys.path.append( os.path.join( BASE_RESOURCE_PATH, "lib" ) )
