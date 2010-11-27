@@ -49,7 +49,7 @@ CONTROL_IMG_GAMEINFO2 = 9100
 CONTROL_IMG_GAMEINFO3 = 9200
 CONTROL_IMG_GAMEINFO4 = 9300
 
-RCBHOME = os.getcwd()
+RCBHOME = util.getAddonInstallPath()
 
 
 class UIGameInfoView(xbmcgui.WindowXMLDialog):
