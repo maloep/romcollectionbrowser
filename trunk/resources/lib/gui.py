@@ -1268,7 +1268,7 @@ class UIGameDB(xbmcgui.WindowXML):
 			return
 					
 		#check if we have to restore autoexec backup 
-		autoExecBackupPath = rcbSetting[9]
+		autoExecBackupPath = rcbSetting[util.RCBSETTING_autoexecBackupPath]
 		if (autoExecBackupPath == None):
 			return
 			
