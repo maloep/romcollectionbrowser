@@ -65,7 +65,7 @@ def launchEmu(gdb, gui, gameId, config, settings):
 		except:
 			Logutil.log('Cannot get rom collection with id: ' +str(gameRow[util.GAME_romCollectionId]), util.LOG_LEVEL_ERROR)
 			
-		gui.writeMsg("Launch Game " +str(gameRow[util.ROW_NAME]))
+		gui.writeMsg("Launch Game " + gameRow[util.ROW_NAME])
 		cmd = ""
 		
 		#get environment OS
@@ -189,6 +189,9 @@ def buildCmd(filenameRows, romCollection, escapeCmd):
 	
 	emuCommandLine = romCollection.emulatorCmd
 	emuParams = romCollection.emulatorParams
+	
+	if type(emuParams).__name__ != 'str':
+		emuParams = ''
 	
 	#params could be: {-%I% %ROM%}
 	#we have to repeat the part inside the brackets and replace the %I% with the current index
@@ -381,7 +384,7 @@ def launchNonXbox(cmd, settings):
 			toggledScreenMode = True
 		
 	Logutil.log("launch emu", util.LOG_LEVEL_INFO)
-	os.system(cmd)
+	os.system(cmd.encode(sys.getfilesystemencoding()))
 	Logutil.log("launch emu done", util.LOG_LEVEL_INFO)		
 	
 	if(toggledScreenMode):

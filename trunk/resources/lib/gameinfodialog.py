@@ -122,9 +122,9 @@ class UIGameInfoView(xbmcgui.WindowXMLDialog):
 				xbmc.Player().stop()
 			self.close()
 		elif(action.getId() in ACTION_MOVEMENT_LEFT or action.getId() in ACTION_MOVEMENT_RIGHT):
-			if(self.selectedControlId == CONTROL_GAME_LIST_GROUP):
+			if(self.selectedControlId == CONTROL_GAME_LIST_GROUP or self.selectedControlId == CONTROL_GAME_LIST):
 				
-				Logutil.log("onAction Movement up/down", util.LOG_LEVEL_DEBUG)
+				Logutil.log("onAction Movement left/right", util.LOG_LEVEL_DEBUG)
 				
 				pos = self.getCurrentListPosition()
 				if(pos == -1):
@@ -164,7 +164,7 @@ class UIGameInfoView(xbmcgui.WindowXMLDialog):
 				image = images[0]
 			else:
 				image = ""			
-			item = xbmcgui.ListItem(str(game[util.ROW_NAME]), str(game[util.ROW_ID]), image, '')
+			item = xbmcgui.ListItem(game[util.ROW_NAME], str(game[util.ROW_ID]), image, '')
 			item.setProperty('gameId', str(game[util.ROW_ID]))
 			self.addItem(item, False)
 				
@@ -196,7 +196,7 @@ class UIGameInfoView(xbmcgui.WindowXMLDialog):
 		gameRow = Game(self.gdb).getObjectById(self.selectedGameId)
 		if(gameRow == None):
 			self.writeMsg('Selected game could not be read from database.')
-			return
+			return				
 		
 		genreString = ""
 		genres = Genre(self.gdb).getGenresByGameId(gameRow[0])

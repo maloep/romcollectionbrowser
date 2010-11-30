@@ -14,8 +14,9 @@ class GameDataBase:
 		#use scripts home for reading SQL files
 		self.sqlDir = os.path.join(util.RCBHOME, 'resources', 'database')		
 		
-	def connect( self ):		
+	def connect( self ):
 		print self.dataBasePath
+		sqlite.register_adapter(str, lambda s:s.decode('utf-8'))
 		self.connection = sqlite.connect(self.dataBasePath, check_same_thread = False)
 		self.cursor = self.connection.cursor()
 		
@@ -133,13 +134,15 @@ class DataBaseObject:
 	def getAll(self):
 		self.gdb.cursor.execute("SELECT * FROM '%s'" % self.tableName)
 		allObjects = self.gdb.cursor.fetchall()
-		return allObjects
+		newList = self.encodeUtf8(allObjects)
+		return newList
 		
 		
 	def getAllOrdered(self):		
 		self.gdb.cursor.execute("SELECT * FROM '%s' ORDER BY name COLLATE NOCASE" % self.tableName)
 		allObjects = self.gdb.cursor.fetchall()
-		return allObjects
+		newList = self.encodeUtf8(allObjects)
+		return newList		
 		
 		
 	def getOneByName(self, name):			
@@ -175,6 +178,19 @@ class DataBaseObject:
 		self.gdb.cursor.execute(query, args)
 		object = self.gdb.cursor.fetchone()		
 		return object
+	
+	
+	def encodeUtf8(self, list):
+		newList = []
+		for item in list:
+			newItem = []
+			for param in item:
+				if type(param).__name__ == 'str':
+					newItem.append(param.encode('utf-8'))
+				else:
+					newItem.append(param)
+			newList.append(newItem)
+		return newList
 
 
 class Game(DataBaseObject):	
@@ -194,9 +210,10 @@ class Game(DataBaseObject):
 		
 	def getFilteredGames(self, romCollectionId, genreId, yearId, publisherId, likeStatement):
 		args = (romCollectionId, genreId, yearId, publisherId)
-		filterQuery = self.filterQuery %likeStatement		
-		games = self.getObjectsByWildcardQuery(filterQuery, args)		
-		return games
+		filterQuery = self.filterQuery %likeStatement			
+		games = self.getObjectsByWildcardQuery(filterQuery, args)
+		newList = self.encodeUtf8(games)
+		return newList
 		
 	def getGameByNameAndRomCollectionId(self, name, romCollectionId):
 		game = self.getObjectByQuery(self.filterByNameAndRomCollectionId, (name, romCollectionId))
