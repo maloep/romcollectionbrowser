@@ -330,16 +330,9 @@ class DBUpdate:
 			for resultKey in tempResults.keys():
 				Logutil.log("resultKey: " +resultKey, util.LOG_LEVEL_INFO)
 				resultValue = []
-				try:
-					resultValueOld = results[resultKey]																	
-				except Exception, (exc):										
-					resultValueOld = []
-					
-				try:
-					resultValueNew = tempResults[resultKey]																	
-				except Exception, (exc):										
-					resultValueNew = []
-																						
+				resultValueOld = results.get(resultKey, [])
+				resultValueNew = tempResults.get(resultKey, [])
+
 				if(len(resultValueOld) == 0 and (len(resultValueNew) != 0 and resultValueNew != [None,] and resultValueNew != None and resultValueNew != '')):
 					results[resultKey] = resultValueNew
 					resultValue = resultValueNew
@@ -385,12 +378,11 @@ class DBUpdate:
 			Logutil.log( "newRomPath: " +str(newRomPath), util.LOG_LEVEL_DEBUG)
 			
 			#glob is same as "os.listdir(romPath)" but it can handle wildcards like *.adf
-			allFiles = glob.glob(newRomPath)
+			allFiles = [f.decode(sys.getfilesystemencoding()).encode('utf-8') for f in glob.glob(newRomPath)]
 			Logutil.log( "all files in newRomPath: " +str(allFiles), util.LOG_LEVEL_DEBUG)
 		
 			#did not find appendall or something like this
-			for file in allFiles:
-				files.append(file)							
+			files.extend(allFiles)
 		
 		return files
 	
@@ -603,7 +595,13 @@ class DBUpdate:
 			else:
 				gamenameToParse = gamenameFromFile
 			
+			#remove (*) and [*]
 			gamenameFromFile = re.sub('\s\(.*\)|\s\[.*\]|\(.*\)|\[.*\]','',gamenameFromFile)
+			
+			#redo sorting
+			if (gamenameFromFile.find(', The') != -1):
+				gamenameFromFile = 'The ' + gamenameFromFile.replace(', The', '')
+				
 			scraperSource = scraperSource.replace("%GAME%", gamenameToParse)
 			
 			replaceTokens = ['%FILENAME%', '%FOLDERNAME%', '%CRC%']
@@ -641,13 +639,14 @@ class DBUpdate:
 			
 			if(searchKey != ''):
 				#TODO gamenameFromFile is not always correct
-				ratio = difflib.SequenceMatcher(None, gamenameFromFile, searchKey).ratio()
+				ratio = difflib.SequenceMatcher(None, gamenameFromFile.upper(), searchKey.upper()).ratio()
 				if(ratio < fuzzyFactor):
-					Logutil.log('Only 1 game found: %s, but ratio: %s is below %s. Result will be skipped' %(searchKey.decode('iso-8859-15'), str(ratio), str(fuzzyFactor)), util.LOG_LEVEL_INFO)
+					Logutil.log('Only 1 game found: %s, but ratio: %s is below %s. Result will be skipped' %(searchKey, str(ratio), str(fuzzyFactor)), util.LOG_LEVEL_INFO)
 					return None
 						
 			return results[0]
 		elif(results != None and len(results) > 1):
+			
 			Logutil.log('Searching for game: ' +gamenameFromFile, util.LOG_LEVEL_INFO)
 			Logutil.log('More than 1 result found. Try to find best match.', util.LOG_LEVEL_INFO)									
 			
@@ -675,7 +674,7 @@ class DBUpdate:
 					#Extra Handling for episode 1
 					if(highestRatio != 1.0 and lastChar == '1'):
 						gamename = gamenameFromFile.replace(' 1', '')
-						Logutil.log('Searching for game (sequel number replaced): ' +gamename, util.LOG_LEVEL_INFO)
+						Logutil.log('Searching for game (sequel number 1 removed): ' +gamename, util.LOG_LEVEL_INFO)
 						bestIndex, highestRatio = self.findBestGameMatch(results, gamename, fuzzyFactor, highestRatio, bestIndex)											
 					
 				elif(lastChar.upper() in ('I', 'V', 'X')):
@@ -692,9 +691,9 @@ class DBUpdate:
 					#Extra Handling for episode 1
 					if(highestRatio != 1.0):
 						lastTwoChars = gamenameFromFile[len(gamenameFromFile) -2:]
-						if(lastTwoChars.upper() == ' I'):
-							Logutil.log('Searching for game (sequel number replaced): ' +gamename, util.LOG_LEVEL_INFO)
+						if(lastTwoChars.upper() == ' I'):							
 							gamename = gamenameFromFile.replace(' I', '')
+							Logutil.log('Searching for game (sequel number I removed): ' +gamename, util.LOG_LEVEL_INFO)
 							bestIndex, highestRatio = self.findBestGameMatch(results, gamename, fuzzyFactor, highestRatio, bestIndex)					
 			if(bestIndex == -1):
 				return None						
@@ -716,7 +715,7 @@ class DBUpdate:
 					bestIndex = i 
 					break					
 				#TODO gamenameFromFile is not always correct
-				ratio = difflib.SequenceMatcher(None, gamenameFromFile, searchKey).ratio()
+				ratio = difflib.SequenceMatcher(None, gamenameFromFile.upper(), searchKey.upper()).ratio()
 				Logutil.log('Comparing with %s, ratio: %s' %(searchKey, str(ratio)), util.LOG_LEVEL_INFO)
 				if(ratio > highestRatio and ratio > fuzzyFactor):
 					highestRatio = ratio
@@ -834,7 +833,7 @@ class DBUpdate:
 		
 		try:
 			if(not isUpdate):
-				Logutil.log("Game does not exist in database. Insert game: " +gameName.encode('iso-8859-15'), util.LOG_LEVEL_INFO)
+				Logutil.log("Game does not exist in database. Insert game: " +gameName, util.LOG_LEVEL_INFO)
 				Game(self.gdb).insert((gameName, description, None, None, romCollectionId, publisherId, developerId, reviewerId, yearId, 
 					players, rating, votes, url, region, media, perspective, controller, 0, 0, originalTitle, alternateTitle, translatedBy, version))
 				return self.gdb.cursor.lastrowid
@@ -849,11 +848,11 @@ class DBUpdate:
 						originalTitle, alternateTitle, translatedBy, version),
 						gameId)
 				else:
-					Logutil.log("Game does exist in database but update is not allowed for current rom collection. game: " +gameName.encode('iso-8859-15'), util.LOG_LEVEL_INFO)
+					Logutil.log("Game does exist in database but update is not allowed for current rom collection. game: " +gameName, util.LOG_LEVEL_INFO)
 				
 				return gameId
 		except Exception, (exc):
-			Logutil.log("An error occured while adding game '%s'. Error: %s" %(gameName.encode('iso-8859-15'), str(exc)), util.LOG_LEVEL_INFO)
+			Logutil.log("An error occured while adding game '%s'. Error: %s" %(gameName, str(exc)), util.LOG_LEVEL_INFO)
 			return None
 			
 		
@@ -865,7 +864,7 @@ class DBUpdate:
 		if(item != "" and item != None):
 			itemRow = gdbObject.getOneByName(item)
 			if(itemRow == None):	
-				Logutil.log(itemName +" does not exist in database. Insert: " +item.encode('iso-8859-15'), util.LOG_LEVEL_INFO)
+				Logutil.log(itemName +" does not exist in database. Insert: " +item, util.LOG_LEVEL_INFO)
 				gdbObject.insert((item,))
 				itemId = self.gdb.cursor.lastrowid
 			else:
@@ -891,7 +890,7 @@ class DBUpdate:
 			
 			itemRow = gdbObject.getOneByName(item)
 			if(itemRow == None):
-				Logutil.log(itemName +" does not exist in database. Insert: " +item.encode('iso-8859-15'), util.LOG_LEVEL_INFO)
+				Logutil.log(itemName +" does not exist in database. Insert: " +item, util.LOG_LEVEL_INFO)
 				gdbObject.insert((item,))
 				idList.append(self.gdb.cursor.lastrowid)
 			else:
@@ -1027,22 +1026,13 @@ class DBUpdate:
 			#replace and remove HTML tags
 			resultValue = self.stripHTMLTags(resultValue)
 			resultValue = resultValue.strip()
-			
-			
-			try:
-				resultValue	= resultValue.decode('iso-8859-15')
-			except:
-				try:
-					resultValue	= resultValue.decode('utf-8')
-				except:
-					pass
-			
+			resultValue = resultValue.encode('utf-8')
 									
 		except Exception, (exc):
 			Logutil.log("Error while resolving item: " +itemName +" : " +str(exc), util.LOG_LEVEL_WARNING)
 						
 		try:
-			Logutil.log("Result " +itemName +" = " +resultValue.encode('iso-8859-15'), util.LOG_LEVEL_DEBUG)
+			Logutil.log("Result " +itemName +" = " +resultValue, util.LOG_LEVEL_DEBUG)
 		except:
 			pass
 				

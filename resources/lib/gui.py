@@ -445,7 +445,7 @@ class UIGameDB(xbmcgui.WindowXML):
 			items.append(xbmcgui.ListItem("All", "0", "", ""))
 		
 		for row in rows:
-			items.append(xbmcgui.ListItem(str(row[util.ROW_NAME]), str(row[util.ROW_ID]), "", ""))
+			items.append(xbmcgui.ListItem(row[util.ROW_NAME], str(row[util.ROW_ID]), "", ""))
 			
 		control.addItems(items)
 			
@@ -510,32 +510,35 @@ class UIGameDB(xbmcgui.WindowXML):
 		self.rcb_playList.clear()		
 		
 		count = 0
-		for gameRow in games:						
-			
+		for gameRow in games:
+						
 			romCollection = None
 			try:
 				romCollection = self.config.romCollections[str(gameRow[util.GAME_romCollectionId])]
 			except:
 				Logutil.log('Cannot get rom collection with id: ' +str(gameRow[util.GAME_romCollectionId]), util.LOG_LEVEL_ERROR)
 		
-			#images for gamelist
-			imageGameList = self.getFileForControl(romCollection.imagePlacing.fileTypesForGameList, gameRow[util.ROW_ID], gameRow[util.GAME_publisherId], gameRow[util.GAME_developerId], gameRow[util.GAME_romCollectionId], fileDict)
-			imageGameListSelected = self.getFileForControl(romCollection.imagePlacing.fileTypesForGameListSelected, gameRow[util.ROW_ID], gameRow[util.GAME_publisherId], gameRow[util.GAME_developerId], gameRow[util.GAME_romCollectionId], fileDict)												
-			
-			#create ListItem
-			item = xbmcgui.ListItem(str(gameRow[util.ROW_NAME]), str(gameRow[util.ROW_ID]), imageGameList, imageGameListSelected)			
-			item.setProperty('gameId', str(gameRow[util.ROW_ID]))
-						
-			#0 = cacheAll: load all game data at once
-			if(self.cachingOption == 0):
-				self.setAllItemData(item, gameRow, self.fileDict, romCollection)							
-			
-			self.addItem(item, False)
-			
-			# add video to playlist for fullscreen support
-			self.addFullscreenVideoToPlaylist(gameRow, imageGameList, imageGameListSelected, count, fileDict, romCollection)
+			try:
+				#images for gamelist
+				imageGameList = self.getFileForControl(romCollection.imagePlacing.fileTypesForGameList, gameRow[util.ROW_ID], gameRow[util.GAME_publisherId], gameRow[util.GAME_developerId], gameRow[util.GAME_romCollectionId], fileDict)
+				imageGameListSelected = self.getFileForControl(romCollection.imagePlacing.fileTypesForGameListSelected, gameRow[util.ROW_ID], gameRow[util.GAME_publisherId], gameRow[util.GAME_developerId], gameRow[util.GAME_romCollectionId], fileDict)												
 				
-			count = count + 1
+				#create ListItem
+				item = xbmcgui.ListItem(gameRow[util.ROW_NAME], str(gameRow[util.ROW_ID]), imageGameList, imageGameListSelected)			
+				item.setProperty('gameId', str(gameRow[util.ROW_ID]))
+							
+				#0 = cacheAll: load all game data at once
+				if(self.cachingOption == 0):
+					self.setAllItemData(item, gameRow, self.fileDict, romCollection)							
+				
+				self.addItem(item, False)
+				
+				# add video to playlist for fullscreen support
+				self.addFullscreenVideoToPlaylist(gameRow, imageGameList, imageGameListSelected, count, fileDict, romCollection)
+					
+				count = count + 1
+			except Exception, (exc):
+				Logutil.log('Error loading game: %s' % str(exc), util.LOG_LEVEL_ERROR)
 				
 			
 		xbmc.executebuiltin("Container.SortDirection")
@@ -777,7 +780,7 @@ class UIGameDB(xbmcgui.WindowXML):
 		
 	def addFullscreenVideoToPlaylist(self, gameRow, imageGameList, imageGameListSelected, count, fileDict, romCollection):
 		#create dummy ListItem for playlist
-		dummyItem = xbmcgui.ListItem(str(gameRow[util.ROW_NAME]), str(gameRow[util.ROW_ID]), imageGameList, imageGameListSelected)
+		dummyItem = xbmcgui.ListItem(gameRow[util.ROW_NAME], str(gameRow[util.ROW_ID]), imageGameList, imageGameListSelected)
 		
 		videosFullscreen = helper.getFilesByControl_Cached(self.gdb, romCollection.imagePlacing.fileTypesForMainViewVideoFullscreen, gameRow[util.ROW_ID], gameRow[util.GAME_publisherId], gameRow[util.GAME_developerId], gameRow[util.GAME_romCollectionId], fileDict)
 		

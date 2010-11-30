@@ -41,15 +41,11 @@ from descriptionparserfactory import DescriptionParserFactory
 #descFile = "F:\\Emulatoren\\data\\Synopsis\\giantbomb\\Actraisersearch.xml"
 #parseInstruction = "F:\\Emulatoren\\data\\Synopsis\\giantbomb\\giantbomb - parserConfig.xml"
 
-descFile = "F:\\Emulatoren\\data\\Scraper Tests\\Roms\\Sega32\\32x - Motocross Championship.nfo"
-parseInstruction = "C:\\Users\\malte\\AppData\\Roaming\\XBMC\\scripts\\Rom Collection Browser\\resources\\scraper\\00 - local nfo.xml"
+#descFile = "F:\\Emulatoren\\data\\Scraper Tests\\Roms\\Sega32\\32x - Motocross Championship.nfo"
+#parseInstruction = "C:\\Users\\malte\\AppData\\Roaming\\XBMC\\scripts\\Rom Collection Browser\\resources\\scraper\\00 - local nfo.xml"
 
-import re
-
-gamenameFromFile = '[1.4] ABC'
-gamenameFromFile = re.sub('\s\(.*\)|\s\[.*\]|\(.*\)|\[.*\]','',gamenameFromFile)
-
-print gamenameFromFile+'|'
+descFile = "http://api.archive.vg/1.0/Game.getInfoByCRC/VT7RJ960FWD4CC71L0Z0K4KQYR4PJNW8/f9394e97"
+parseInstruction = "F:\\Emulatoren\\data\\Synopsis\\Archive - parserConfig.xml"
 
 
 """
