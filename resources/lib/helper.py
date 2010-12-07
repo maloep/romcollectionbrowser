@@ -1,6 +1,6 @@
 import xbmc
 import os, sys, re
-import dbupdate, importsettings
+import dbupdate
 from gamedatabase import *
 import util
 from util import *
