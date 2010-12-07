@@ -181,7 +181,7 @@ class DBUpdate:
 							if(romFile != None):
 								isUpdate = True
 								gameId = romFile[3]
-								Logutil.log('File %s already exists in database.' %filenamelist[0], util.LOG_LEVEL_INFO)
+								Logutil.log('File "%s" already exists in database.' %filenamelist[0], util.LOG_LEVEL_INFO)
 								enableFullReimport = self.Settings.getSetting(util.SETTING_RCB_ENABLEFULLREIMPORT).upper() == 'TRUE'
 								Logutil.log('Always rescan imported games = ' +str(enableFullReimport), util.LOG_LEVEL_INFO)
 								if(enableFullReimport == False):
@@ -246,7 +246,7 @@ class DBUpdate:
 					if(romFile != None):
 						isUpdate = True
 						gameId = romFile[3]
-						Logutil.log('File %s already exists in database.' %filename, util.LOG_LEVEL_INFO)						
+						Logutil.log('File "%s" already exists in database.' %filename, util.LOG_LEVEL_INFO)						
 						enableFullReimport = self.Settings.getSetting(util.SETTING_RCB_ENABLEFULLREIMPORT).upper() == 'TRUE'
 						Logutil.log('Always rescan imported games = ' +str(enableFullReimport), util.LOG_LEVEL_INFO)
 						if(enableFullReimport == False):
@@ -437,13 +437,13 @@ class DBUpdate:
 				filenamelist = []
 				filenamelist.append(filename)
 				dict[key] = filenamelist
-				Logutil.log("Add filename %s with key %s" %(filename, key), util.LOG_LEVEL_DEBUG)
+				Logutil.log('Add filename "%s" with key "%s"' %(filename, key), util.LOG_LEVEL_DEBUG)
 			else:
 				filenamelist = fileGamenameDict[gamename]
 				if(appendToGamenameDict):
 					filenamelist.append(filename)
 				dict[key] = filenamelist
-				Logutil.log("Add filename %s to multirom game with key %s" %(filename, key), util.LOG_LEVEL_DEBUG)
+				Logutil.log('Add filename "%s" to multirom game with key "%s"' %(filename, key), util.LOG_LEVEL_DEBUG)
 		except:
 			pass
 			
@@ -590,17 +590,17 @@ class DBUpdate:
 				#also replace in gamename for later result matching
 				gamenameFromFile = gamenameFromFile.replace(replaceKeys[i], replaceValues[i])
 				
-			if(scraperSource.startswith('http://')):
-				gamenameToParse = util.html_escape(gamenameFromFile)
-			else:
-				gamenameToParse = gamenameFromFile
-			
 			#remove (*) and [*]
 			gamenameFromFile = re.sub('\s\(.*\)|\s\[.*\]|\(.*\)|\[.*\]','',gamenameFromFile)
 			
 			#redo sorting
 			if (gamenameFromFile.find(', The') != -1):
 				gamenameFromFile = 'The ' + gamenameFromFile.replace(', The', '')
+				
+			if(scraperSource.startswith('http://')):
+				gamenameToParse = util.html_escape(gamenameFromFile)
+			else:
+				gamenameToParse = gamenameFromFile					
 				
 			scraperSource = scraperSource.replace("%GAME%", gamenameToParse)
 			
@@ -627,83 +627,169 @@ class DBUpdate:
 			Logutil.log("an error occured while parsing game description: " +scraperSource, util.LOG_LEVEL_WARNING)
 			Logutil.log("Parser complains about: " +str(exc), util.LOG_LEVEL_WARNING)
 			return None			
+
+		results = self.getBestResults(results, gamenameFromFile)
+		return results
 							
+
+	def getBestResults(self, results, gamenameFromFile):
+	
 		matchingRatioIndex = self.Settings.getSetting(util.SETTING_RCB_FUZZYFACTOR)
 		if (matchingRatioIndex == ''):
 			matchingRatioIndex = 2
 		fuzzyFactor = util.FUZZY_FACTOR_ENUM[int(matchingRatioIndex)]		
 		
-		if (results != None and len(results) == 1):
+		digits = [' 10', ' 9', ' 8', ' 7', ' 6', ' 5', ' 4', ' 3', ' 2', ' 1']
+		romes = [' X', ' IX', ' VIII', ' VII', ' VI', ' V', ' IV', ' III', ' II', ' I']
+		lastChar = gamenameFromFile[len(gamenameFromFile) -1:]
+		
+		if (results != None and len(results) >= 1):
 			Logutil.log('Searching for game: ' +gamenameFromFile, util.LOG_LEVEL_INFO)
-			searchKey = self.resolveParseResult(results[0], 'SearchKey')					
-			
-			if(searchKey != ''):
-				#TODO gamenameFromFile is not always correct
-				ratio = difflib.SequenceMatcher(None, gamenameFromFile.upper(), searchKey.upper()).ratio()
-				if(ratio < fuzzyFactor):
-					Logutil.log('Only 1 game found: %s, but ratio: %s is below %s. Result will be skipped' %(searchKey, str(ratio), str(fuzzyFactor)), util.LOG_LEVEL_INFO)
-					return None
-						
-			return results[0]
-		elif(results != None and len(results) > 1):
-			
-			Logutil.log('Searching for game: ' +gamenameFromFile, util.LOG_LEVEL_INFO)
-			Logutil.log('More than 1 result found. Try to find best match.', util.LOG_LEVEL_INFO)									
+			Logutil.log('%s results found. Try to find best match.' %str(len(results)), util.LOG_LEVEL_INFO)
 			
 			highestRatio = 0.0
 			bestIndex = 0
-			bestIndex, highestRatio = self.findBestGameMatch(results, gamenameFromFile, fuzzyFactor, highestRatio, bestIndex)
 			
-			if(highestRatio != 1.0):
-				digits = [' 10', ' 9', ' 8', ' 7', ' 6', ' 5', ' 4', ' 3', ' 2', ' 1']
-				romes = [' X', ' IX', ' VIII', ' VII', ' VI', ' V', ' IV', ' III', ' II', ' I']
-				lastChar = gamenameFromFile[len(gamenameFromFile) -1:]
-				#special sequel handling
-				if(lastChar.isdigit()):
-					#TODO may lead to errors with games like FIFA 10, Fifa 11
-					Logutil.log('Game may belong to a sequel. Start extra handling.', util.LOG_LEVEL_INFO)
-					replaceKeys = digits					
-					replaceValues = romes
-					gamename = gamenameFromFile
-					for i in range(0, len(replaceKeys)):
-						gamename = gamename.replace(replaceKeys[i], replaceValues[i])						
-					
-					Logutil.log('Searching for game (sequel number replaced): ' +gamename, util.LOG_LEVEL_INFO)
-					bestIndex, highestRatio = self.findBestGameMatch(results, gamename, fuzzyFactor, highestRatio, bestIndex)
-					
-					#Extra Handling for episode 1
-					if(highestRatio != 1.0 and lastChar == '1'):
-						gamename = gamenameFromFile.replace(' 1', '')
-						Logutil.log('Searching for game (sequel number 1 removed): ' +gamename, util.LOG_LEVEL_INFO)
-						bestIndex, highestRatio = self.findBestGameMatch(results, gamename, fuzzyFactor, highestRatio, bestIndex)											
-					
-				elif(lastChar.upper() in ('I', 'V', 'X')):
-					Logutil.log('Game may belong to a sequel. Start extra handling.', util.LOG_LEVEL_INFO)					
-					replaceKeys = romes
-					replaceValues = digits
-					gamename = gamenameFromFile
-					for i in range(0, len(replaceKeys)):						
-						gamename = gamename.replace(replaceKeys[i], replaceValues[i])
-					
-					Logutil.log('Searching for game (sequel number replaced): ' +gamename, util.LOG_LEVEL_INFO)
-					bestIndex, highestRatio = self.findBestGameMatch(results, gamename, fuzzyFactor, highestRatio, bestIndex)
-					
-					#Extra Handling for episode 1
-					if(highestRatio != 1.0):
-						lastTwoChars = gamenameFromFile[len(gamenameFromFile) -2:]
-						if(lastTwoChars.upper() == ' I'):							
-							gamename = gamenameFromFile.replace(' I', '')
-							Logutil.log('Searching for game (sequel number I removed): ' +gamename, util.LOG_LEVEL_INFO)
-							bestIndex, highestRatio = self.findBestGameMatch(results, gamename, fuzzyFactor, highestRatio, bestIndex)					
+			#search for best matching game with original title
+			bestIndex, highestRatio = self.findBestGameMatch(results, gamenameFromFile, highestRatio, bestIndex)						
+			
+			bestMatchingGame = self.resolveParseResult(results[bestIndex], 'SearchKey')
+			if(bestMatchingGame != ''):
+				Logutil.log('Best matching game is "%s" with ratio "%s": ' %(bestMatchingGame, str(highestRatio)), util.LOG_LEVEL_INFO)
+			
+			if(highestRatio == 1.0):
+				if(bestMatchingGame != ''):
+					Logutil.log('Perfect match. Using result %s' %bestMatchingGame, util.LOG_LEVEL_INFO)
+				return results[bestIndex]
+			
+			#if gamename ends with digit or rome it may be a sequel
+			if(lastChar.isdigit() or lastChar.upper() in ('I', 'V', 'X')):											
+				bestIndex, highestRatio = self.doSequelChecking(gamenameFromFile, results, lastChar, digits, romes, fuzzyFactor, highestRatio, bestIndex)
+				if(highestRatio == 1.0):
+					bestMatchingGame = self.resolveParseResult(results[bestIndex], 'SearchKey')
+					Logutil.log('Perfect match. Using result %s' %bestMatchingGame, util.LOG_LEVEL_INFO)
+					return results[bestIndex]
+				
+			#alternate titles : whole title must be found in result and result must contain "-" or ":"
+			bestIndex, highestRatio = self.checkForAlternateTitles(gamenameFromFile, results, bestIndex, highestRatio)
+			bestMatchingGame = self.resolveParseResult(results[bestIndex], 'SearchKey')
+				
+			if(highestRatio < fuzzyFactor):
+				Logutil.log('No result found with a ratio better than %s. Result will be skipped.' %(str(fuzzyFactor),), LOG_LEVEL_WARNING)
+				return None
+			
 			if(bestIndex == -1):
-				return None						
+				return None
+			
+			Logutil.log('Using result %s' %bestMatchingGame, util.LOG_LEVEL_INFO)
 			return results[bestIndex]
 		else:
 			Logutil.log('No results found with current scraper', util.LOG_LEVEL_INFO)
 			return None
+
+
+	def doSequelChecking(self, gamenameFromFile, results, lastChar, digits, romes, fuzzyFactor, highestRatio, bestIndex):
+		#special sequel handling
+		if(lastChar.isdigit()):
+			
+			#check if we have a game like NFL 98 instead of a sequel
+			#TODO: this starts to get really weird here
+			numbers = re.findall(r"\d+", gamenameFromFile)
+			number = numbers[len(numbers)-1]
+			if (number > 10):
+				Logutil.log('Number %s seems to be too large for a sequel number. Skip sequel checking.' %str(number), util.LOG_LEVEL_INFO)
+				return bestIndex, highestRatio
+			
+			replaceKeys = digits
+			replaceValues = romes
+			
+		elif(lastChar.upper() in ('I', 'V', 'X')):
+			replaceKeys = romes
+			replaceValues = digits
+		
+		#search again with replaced sequel numbers
+		bestIndex, highestRatio = self.searchWithReplacedSequelNumbers(gamenameFromFile, results, replaceKeys, replaceValues, lastChar, highestRatio, bestIndex)
+		bestMatchingGame = self.resolveParseResult(results[bestIndex], 'SearchKey')
+		Logutil.log('Result game with best match (after sequel handling): ' +bestMatchingGame, util.LOG_LEVEL_INFO)
+		
+		if(highestRatio == 1.0):
+			return bestIndex, highestRatio
+		
+		seqNoIsEqual = self.checkSequelNoIsEqual(gamenameFromFile, bestMatchingGame, digits, romes)
+		if (not seqNoIsEqual):
+			Logutil.log('Comparing "%s" and "%s". Sequel numbers don\'t match. Result will be skipped' %(gamenameFromFile, bestMatchingGame), util.LOG_LEVEL_INFO)
+			return -1, -1
+		
+		return bestIndex, highestRatio
+	
+
+	def searchWithReplacedSequelNumbers(self, gamenameFromFile, results, replaceKeys, replaceValues, lastChar, highestRatio, bestIndex):
+		#TODO may lead to errors with games like FIFA 10, Fifa 11
+		Logutil.log('Game may belong to a sequel. Start extra handling.', util.LOG_LEVEL_INFO)
+		gamename = gamenameFromFile
+		for i in range(0, len(replaceKeys)):
+			gamename = gamename.replace(replaceKeys[i], replaceValues[i])						
+		
+		Logutil.log('Searching for game (sequel number replaced): ' +gamename, util.LOG_LEVEL_INFO)
+		bestIndex, highestRatio = self.findBestGameMatch(results, gamename, highestRatio, bestIndex)
+				
+		#Extra Handling for episode 1
+		if(highestRatio != 1.0):
+			if(lastChar == '1'):
+				gamename = gamenameFromFile.replace(' 1', '')
+				Logutil.log('Searching for game (sequel number 1 removed): ' +gamename, util.LOG_LEVEL_INFO)
+				bestIndex, highestRatio = self.findBestGameMatch(results, gamename, highestRatio, bestIndex)
+			else:
+				#Extra Handling for episode 1				
+				lastTwoChars = gamenameFromFile[len(gamenameFromFile) -2:]
+				if(lastTwoChars.upper() == ' I'):							
+					gamename = gamenameFromFile.replace(' I', '')
+					Logutil.log('Searching for game (sequel number I removed): ' +gamename, util.LOG_LEVEL_INFO)
+					bestIndex, highestRatio = self.findBestGameMatch(results, gamename, highestRatio, bestIndex)
+			
+		return bestIndex, highestRatio
+
+		
+	def checkSequelNoIsEqual(self, gamenameFromFile, searchKey, digits, romes):
+		indexGamename = self.getSequelNoIndex(gamenameFromFile, digits, romes)
+		indexSearchKey = self.getSequelNoIndex(searchKey, digits, romes)
+			
+		if(indexGamename == -1 and indexSearchKey == -1):
+			Logutil.log('"%s" and "%s" both don\'t contain a sequel number. Skip checking sequel number match.' %(gamenameFromFile, searchKey), util.LOG_LEVEL_INFO)
+			return True
+		
+		return indexGamename == indexSearchKey
+		
+		
+	def getSequelNoIndex(self, gamename, digits, romes):		
+		indexGamename = -1
+		
+		for i in range(0, len(digits)):	
+			if(gamename.find(digits[i]) != -1):
+				indexGamename = i
+				break
+			if(gamename.find(romes[i]) != -1):
+				indexGamename = i
+				break
+				
+		return indexGamename
+	
+	
+	def checkForAlternateTitles(self, gamenameFromFile, results, bestIndex, highestRatio):
+		
+		for i in range(0, len(results)):
+			result = results[i]
+			searchKey = self.resolveParseResult(result, 'SearchKey')
+			if(searchKey.find(gamenameFromFile) > -1 and (searchKey.find(':') > -1 or searchKey.find('-') > -1)):
+				Logutil.log('"%s" seems to be an alternate title of "%s". Use it as result.' %(searchKey, gamenameFromFile), util.LOG_LEVEL_INFO)
+				bestIndex = i
+				highestRatio = 1.0
+				break
+				
+		return bestIndex, highestRatio
 					
 			
-	def findBestGameMatch(self, results, gamenameFromFile, fuzzyFactor, highestRatio, bestIndex):
+	def findBestGameMatch(self, results, gamenameFromFile, highestRatio, bestIndex):
 		
 		for i in range(0, len(results)):
 			result = results[i]
@@ -717,20 +803,17 @@ class DBUpdate:
 				#TODO gamenameFromFile is not always correct
 				ratio = difflib.SequenceMatcher(None, gamenameFromFile.upper(), searchKey.upper()).ratio()
 				Logutil.log('Comparing with %s, ratio: %s' %(searchKey, str(ratio)), util.LOG_LEVEL_INFO)
-				if(ratio > highestRatio and ratio > fuzzyFactor):
+				if(ratio > highestRatio):
 					highestRatio = ratio
 					bestIndex = i
 					if(ratio == 1.0):
 						#perfect match
 						break
 			except Exception, (exc):
-				Logutil.log("parseDescription returned more than 1 result. An error occured while matching the best result: " +str(exc), util.LOG_LEVEL_WARNING)
-		
-		if(highestRatio == 0):
-			Logutil.log('No result found with a ratio better than %s. Result will be skipped.' %(str(fuzzyFactor),), LOG_LEVEL_WARNING)
-			return -1, -1
+				Logutil.log("parseDescription returned more than 1 result. An error occured while matching the best result: " +str(exc), util.LOG_LEVEL_WARNING)		
 		
 		return bestIndex, highestRatio
+
 			
 	def insertData(self, gamedescription, gamenameFromFile, romCollection, romFiles, foldername, isUpdate, gameId):
 		Logutil.log("Insert data", util.LOG_LEVEL_INFO)
@@ -947,7 +1030,7 @@ class DBUpdate:
 				files = self.getFilesByWildcard(pathnameFromDeveloper)													
 				
 			if(len(files) == 0):
-				Logutil.log("No files found for game %s at path %s. Make sure that file names are matching." %(gamename, path), util.LOG_LEVEL_WARNING)
+				Logutil.log('No files found for game "%s" at path "%s". Make sure that file names are matching.' %(gamename, path), util.LOG_LEVEL_WARNING)
 			for file in files:
 				if(os.path.exists(file)):
 					resolvedFiles.append(file)
@@ -994,7 +1077,7 @@ class DBUpdate:
 		allFiles = filesUpper + filesLower
 		for file in allFiles:
 			if(pathname.lower() == file.lower()):
-				Logutil.log("Found path %s by search with ignore case." %pathname, util.LOG_LEVEL_WARNING)
+				Logutil.log('Found path "%s" by search with ignore case.' %pathname, util.LOG_LEVEL_WARNING)
 				files.append(file)
 				
 		return files

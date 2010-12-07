@@ -1,5 +1,5 @@
 
-import os, sys
+import os, sys, re
 import time, datetime
 import urllib
 import difflib
@@ -57,6 +57,12 @@ for result in results:
 	print result
 """
 
+
+gamename = "123 NFL '98"
+numbers = re.findall(r"\d+", gamename)
+print str(numbers[len(numbers)-1])
+
+print gamename
 
 """
 from config import *

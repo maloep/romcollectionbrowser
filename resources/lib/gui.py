@@ -1602,10 +1602,10 @@ class UIGameDB(xbmcgui.WindowXML):
 	def getControlById(self, controlId):
 		try:
 			control = self.getControl(controlId)
-		except: 
+		except Exception, (exc):
 			#HACK there seems to be a problem with recognizing the scrollbar controls
 			if(controlId not in (CONROL_SCROLLBARS)):
-				Logutil.log("Control with id: %s could not be found. Check WindowXML file." % str(controlId), util.LOG_LEVEL_ERROR)
+				Logutil.log("Control with id: %s could not be found. Check WindowXML file. Error: %s" % (str(controlId), str(exc)), util.LOG_LEVEL_ERROR)
 				self.writeMsg("Control with id: %s could not be found. Check WindowXML file." % str(controlId))
 			return None
 		
