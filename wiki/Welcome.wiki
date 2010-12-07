@@ -2,4 +2,4 @@
 
 = Introduction =
 
-Check Main page for current stable release and Preview page for current test version.
+Check [Main] page for current stable release and [Preview] page for current test version.
