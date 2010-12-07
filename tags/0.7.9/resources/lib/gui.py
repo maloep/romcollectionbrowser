@@ -5,7 +5,7 @@ import string, glob, time, array
 import getpass, ntpath, re
 from pysqlite2 import dbapi2 as sqlite
 
-import dbupdate, importsettings
+import dbupdate
 from gamedatabase import *
 import helper, util, config
 from util import *
