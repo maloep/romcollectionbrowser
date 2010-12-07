@@ -1,7 +1,7 @@
 
 import os, sys
 import xbmc, xbmcgui
-import dbupdate, importsettings
+import dbupdate
 from gamedatabase import *
 import helper, util
 from util import *
