@@ -1,5 +1,4 @@
-#summary A test welcome page
+#summary Welcome to RCB wiki
 
-= Introduction =
 
 Check [Main] page for current stable release and [Preview] page for current test version.
