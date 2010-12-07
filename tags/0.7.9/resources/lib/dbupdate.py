@@ -13,7 +13,6 @@ from gamedatabase import *
 from descriptionparserfactory import *
 import util
 from util import *
-from settings import *
 
 import xbmc
 
