@@ -57,12 +57,21 @@ for result in results:
 	print result
 """
 
+import glob
 
-gamename = "123 NFL '98"
-numbers = re.findall(r"\d+", gamename)
-print str(numbers[len(numbers)-1])
+pathName = "F:\\Emulatoren\\data\\Artwork\\SNES\\boxfront\\Breath Of Fire I [U](J).*"
+squares = re.findall('\s\[.*\]',pathName)
+print squares
+for square in squares:
+	pathName = pathName.replace(square, '*')
 
-print gamename
+print len(squares)
+
+print pathName
+files = glob.glob(pathName)
+
+print files
+
 
 """
 from config import *

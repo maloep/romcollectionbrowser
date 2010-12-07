@@ -651,7 +651,7 @@ class DBUpdate:
 			bestIndex = 0
 			
 			#search for best matching game with original title
-			bestIndex, highestRatio = self.findBestGameMatch(results, gamenameFromFile, highestRatio, bestIndex)						
+			bestIndex, highestRatio = self.findBestGameMatch(results, gamenameFromFile, bestIndex, highestRatio)						
 			
 			bestMatchingGame = self.resolveParseResult(results[bestIndex], 'SearchKey')
 			if(bestMatchingGame != ''):
@@ -664,14 +664,14 @@ class DBUpdate:
 			
 			#if gamename ends with digit or rome it may be a sequel
 			if(lastChar.isdigit() or lastChar.upper() in ('I', 'V', 'X')):											
-				bestIndex, highestRatio = self.doSequelChecking(gamenameFromFile, results, lastChar, digits, romes, fuzzyFactor, highestRatio, bestIndex)
+				bestIndex, highestRatio = self.doSequelChecking(gamenameFromFile, results, lastChar, digits, romes, fuzzyFactor, bestIndex, highestRatio)
 				if(highestRatio == 1.0):
 					bestMatchingGame = self.resolveParseResult(results[bestIndex], 'SearchKey')
 					Logutil.log('Perfect match. Using result %s' %bestMatchingGame, util.LOG_LEVEL_INFO)
 					return results[bestIndex]
 				
 			#alternate titles : whole title must be found in result and result must contain "-" or ":"
-			bestIndex, highestRatio = self.checkForAlternateTitles(gamenameFromFile, results, bestIndex, highestRatio)
+			bestIndex, highestRatio = self.checkForAlternateTitles(gamenameFromFile, results, lastChar, digits, romes, bestIndex, highestRatio)
 			bestMatchingGame = self.resolveParseResult(results[bestIndex], 'SearchKey')
 				
 			if(highestRatio < fuzzyFactor):
@@ -688,7 +688,7 @@ class DBUpdate:
 			return None
 
 
-	def doSequelChecking(self, gamenameFromFile, results, lastChar, digits, romes, fuzzyFactor, highestRatio, bestIndex):
+	def doSequelChecking(self, gamenameFromFile, results, lastChar, digits, romes, fuzzyFactor, bestIndex, highestRatio):
 		#special sequel handling
 		if(lastChar.isdigit()):
 			
@@ -708,7 +708,7 @@ class DBUpdate:
 			replaceValues = digits
 		
 		#search again with replaced sequel numbers
-		bestIndex, highestRatio = self.searchWithReplacedSequelNumbers(gamenameFromFile, results, replaceKeys, replaceValues, lastChar, highestRatio, bestIndex)
+		bestIndex, highestRatio = self.searchWithReplacedSequelNumbers(gamenameFromFile, results, replaceKeys, replaceValues, lastChar, bestIndex, highestRatio)
 		bestMatchingGame = self.resolveParseResult(results[bestIndex], 'SearchKey')
 		Logutil.log('Result game with best match (after sequel handling): ' +bestMatchingGame, util.LOG_LEVEL_INFO)
 		
@@ -723,7 +723,7 @@ class DBUpdate:
 		return bestIndex, highestRatio
 	
 
-	def searchWithReplacedSequelNumbers(self, gamenameFromFile, results, replaceKeys, replaceValues, lastChar, highestRatio, bestIndex):
+	def searchWithReplacedSequelNumbers(self, gamenameFromFile, results, replaceKeys, replaceValues, lastChar, bestIndex, highestRatio):
 		#TODO may lead to errors with games like FIFA 10, Fifa 11
 		Logutil.log('Game may belong to a sequel. Start extra handling.', util.LOG_LEVEL_INFO)
 		gamename = gamenameFromFile
@@ -731,21 +731,21 @@ class DBUpdate:
 			gamename = gamename.replace(replaceKeys[i], replaceValues[i])						
 		
 		Logutil.log('Searching for game (sequel number replaced): ' +gamename, util.LOG_LEVEL_INFO)
-		bestIndex, highestRatio = self.findBestGameMatch(results, gamename, highestRatio, bestIndex)
+		bestIndex, highestRatio = self.findBestGameMatch(results, gamename, bestIndex, highestRatio)
 				
 		#Extra Handling for episode 1
 		if(highestRatio != 1.0):
 			if(lastChar == '1'):
 				gamename = gamenameFromFile.replace(' 1', '')
 				Logutil.log('Searching for game (sequel number 1 removed): ' +gamename, util.LOG_LEVEL_INFO)
-				bestIndex, highestRatio = self.findBestGameMatch(results, gamename, highestRatio, bestIndex)
+				bestIndex, highestRatio = self.findBestGameMatch(results, gamename, bestIndex, highestRatio)
 			else:
 				#Extra Handling for episode 1				
 				lastTwoChars = gamenameFromFile[len(gamenameFromFile) -2:]
 				if(lastTwoChars.upper() == ' I'):							
 					gamename = gamenameFromFile.replace(' I', '')
 					Logutil.log('Searching for game (sequel number I removed): ' +gamename, util.LOG_LEVEL_INFO)
-					bestIndex, highestRatio = self.findBestGameMatch(results, gamename, highestRatio, bestIndex)
+					bestIndex, highestRatio = self.findBestGameMatch(results, gamename, bestIndex, highestRatio)
 			
 		return bestIndex, highestRatio
 
@@ -775,7 +775,7 @@ class DBUpdate:
 		return indexGamename
 	
 	
-	def checkForAlternateTitles(self, gamenameFromFile, results, bestIndex, highestRatio):
+	def checkForAlternateTitles(self, gamenameFromFile, results, lastChar, digits, romes, bestIndex, highestRatio):
 		
 		for i in range(0, len(results)):
 			result = results[i]
@@ -785,11 +785,31 @@ class DBUpdate:
 				bestIndex = i
 				highestRatio = 1.0
 				break
+			else:				
+				#try again with replaced Sequel Numbers
+				if(lastChar.isdigit()):
+					replaceKeys = digits
+					replaceValues = romes
+				elif(lastChar.upper() in ('I', 'V', 'X')):
+					replaceKeys = romes
+					replaceValues = digits
+				else:
+					continue
+					
+				gamename = gamenameFromFile
+				for j in range(0, len(replaceKeys)):
+					gamename = gamename.replace(replaceKeys[j], replaceValues[j])
+				
+				if(searchKey.find(gamename) > -1 and (searchKey.find(':') > -1 or searchKey.find('-') > -1)):
+					Logutil.log('"%s" seems to be an alternate title of "%s" (sequel number replaced). Use it as result.' %(searchKey, gamename), util.LOG_LEVEL_INFO)
+					bestIndex = i
+					highestRatio = 1.0
+					break
 				
 		return bestIndex, highestRatio
 					
 			
-	def findBestGameMatch(self, results, gamenameFromFile, highestRatio, bestIndex):
+	def findBestGameMatch(self, results, gamenameFromFile, bestIndex, highestRatio):
 		
 		for i in range(0, len(results)):
 			result = results[i]
@@ -1045,6 +1065,17 @@ class DBUpdate:
 		try:
 			# try glob with * wildcard
 			files = glob.glob(pathName)
+			
+			if(len(files) == 0):				
+				squares = re.findall('\s\[.*\]',pathName)				
+				if(squares != None and len(squares) >= 1):
+					Logutil.log('Replacing [...] with *', util.LOG_LEVEL_INFO)
+					for square in squares:						
+						pathName = pathName.replace(square, '*')
+				
+					Logutil.log('new pathname: ' +str(pathName), util.LOG_LEVEL_INFO)
+					files = glob.glob(pathName)
+				
 		except Exception, (exc):
 			Logutil.log("Error using glob function in resolvePath " +str(exc), util.LOG_LEVEL_WARNING)
 		
