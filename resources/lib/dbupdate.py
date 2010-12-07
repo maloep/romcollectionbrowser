@@ -23,7 +23,6 @@ class DBUpdate:
 	def __init__(self):
 		pass
 	
-	rcbSettings = RCBSettingsXml()
 	Settings = util.getSettings()
 	
 	def updateDB(self, gdb, gui):
