@@ -1,5 +1,5 @@
 
-0.7.8 (11/2010)
+0.7.9 (12/2010)
 ~~~~~~~~~~~~~
 Online Scraping
     * scraping game information and artwork from various online sources

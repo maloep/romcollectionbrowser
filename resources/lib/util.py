@@ -9,7 +9,7 @@ import xbmc, time
 
 SCRIPTNAME = 'Rom Collection Browser'
 SCRIPTID = 'script.games.rom.collection.browser'
-CURRENT_SCRIPT_VERSION = "0.7.8"
+CURRENT_SCRIPT_VERSION = "0.7.9"
 CURRENT_DB_VERSION = "0.7.4"
 ISTESTRUN = False
 
