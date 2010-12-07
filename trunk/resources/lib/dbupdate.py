@@ -13,7 +13,6 @@ from gamedatabase import *
 from descriptionparserfactory import *
 import util
 from util import *
-from settings import *
 
 import xbmc
 
@@ -24,7 +23,6 @@ class DBUpdate:
 	def __init__(self):
 		pass
 	
-	rcbSettings = RCBSettingsXml()
 	Settings = util.getSettings()
 	
 	def updateDB(self, gdb, gui):
