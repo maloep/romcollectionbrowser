@@ -1,0 +1,5 @@
+#summary A test welcome page
+
+= Introduction =
+
+Check Main page for current stable release and Preview page for current test version.
