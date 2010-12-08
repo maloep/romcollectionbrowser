@@ -315,9 +315,9 @@ class Config:
 						
 			if(romCollection.scraperSites == None or len(romCollection.scraperSites) == 0):
 				SubElement(romCollectionXml, 'scraper', {'name' : 'thevideogamedb.com'})
-				SubElement(romCollectionXml, 'scraper', {'name' : 'thegamesdb.net', 'replaceKeyString' : ' III, II', 'replaceValueString' : ' 3, 2'})
-				SubElement(romCollectionXml, 'scraper', {'name' : 'giantbomb.com', 'replaceKeyString' : ' III, II', 'replaceValueString' : ' 3, 2'})
-				SubElement(romCollectionXml, 'scraper', {'name' : 'mobygames.com', 'replaceKeyString' : ' III, II', 'replaceValueString' : ' 3, 2', 'platform' : mobyConsoleId})
+				SubElement(romCollectionXml, 'scraper', {'name' : 'thegamesdb.net', 'replaceKeyString' : '', 'replaceValueString' : ''})
+				SubElement(romCollectionXml, 'scraper', {'name' : 'giantbomb.com', 'replaceKeyString' : '', 'replaceValueString' : ''})
+				SubElement(romCollectionXml, 'scraper', {'name' : 'mobygames.com', 'replaceKeyString' : '', 'replaceValueString' : '', 'platform' : mobyConsoleId})
 			else:
 				SubElement(romCollectionXml, 'scraper', {'name' : romCollection.scraperSites[0].name})
 				
