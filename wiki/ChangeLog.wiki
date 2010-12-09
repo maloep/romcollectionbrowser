@@ -1,3 +1,5 @@
+<wiki:toc max_depth="5" />
+
 = Changelog =
 == 0.7.4 ==
 === Scraper support ===

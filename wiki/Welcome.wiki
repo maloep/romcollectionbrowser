@@ -8,7 +8,6 @@ Check out the following pages if you have trouble with setting up the script or 
 	
 
 	[GettingStarted Getting started]
-	~~~~~~~~~~~~~~~
 
 		Installation
 
@@ -24,7 +23,6 @@ Check out the following pages if you have trouble with setting up the script or 
 		
 		
 	[AdvancedConfiguration Advanced configuration]
-	~~~~~~~~~~~~~~~~~~~~~~
 		
 		Use offline game descriptions
 		
@@ -36,13 +34,11 @@ Check out the following pages if you have trouble with setting up the script or 
 		
 		
 	[ConfigXmlReference Complete config.xml Reference]
-	~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 		...
 		
 		
 	[MoreAdvancedTopics More Advanced topics]
-	~~~~~~~~~~~~~~~~~~~~
 
 		Skinning RCB
 		
@@ -50,4 +46,3 @@ Check out the following pages if you have trouble with setting up the script or 
 		
 		
 	[ChangeLog Changelog]
-	~~~~~~~~~
