@@ -122,7 +122,7 @@ If you add more than two views hat support fullscreen video you have to add the 
 Message label:	4000
 
 
-= parserConfig.xml =
+= Creating your own description parser =
 The description file parser can handle simple multiline text files, xml files or html pages. It uses an xml configuration file that defines how to parse the source files. This parserConfig xml file will be read element by element and transferred into parser grammar (using pyparsing for flatfile and html pages or elementtree for xml files). That means you have to take care of the elements order.
 
 This is an example game description text file:
