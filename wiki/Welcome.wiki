@@ -5,44 +5,52 @@ With this XBMC script you can browse and launch emulator roms and standalone gam
 Before you can launch games with RCB you have to download, install and configure one or more emulators. Find out how to launch your emulator via command line. You will need this information to launch the emulator with RCB.
 
 Check out the following pages if you have trouble with setting up the script or want to know how to enable more advanced features.
-	
+
 
 	= [GettingStarted Getting started] =
 
-		== [GettingStarted#Installation Installation] ==
+		=== [GettingStarted#Installation Installation] ===
 
-		== [GettingStarted#First_use First use] ==
+		=== [GettingStarted#First_use First use] ===
 
-		== [GettingStarted#Addon_settings Addon settings] ==
+		=== [GettingStarted#Addon_settings Addon settings] ===
 
-		== [GettingStarted#Setup_test_scenario Setup test scenario] ==
+		=== [GettingStarted#Setup_test_scenario Setup test scenario] ===
 
-		== [GettingStarted#Basic_Usage Basic Usage] ==
+		=== [GettingStarted#Basic_Usage Basic Usage] ===
 
-		== [GettingStarted#Basic_Configuration Basic Configuration] ==
+		=== [GettingStarted#Basic_Configuration Basic Configuration] ===
 		
 		
-	[AdvancedConfiguration Advanced configuration]
+	= [AdvancedConfiguration Advanced configuration] =
 		
-		[AdvancedConfiguration#Use_offline_game_descriptions Use offline game descriptions]
+		=== [AdvancedConfiguration#Use_offline_game_descriptions Use offline game descriptions] ===
 		
-		[AdvancedConfiguration#Mixing_online_and_offline_scrapers Mixing online and offline scrapers]
+		=== [AdvancedConfiguration#Mixing_online_and_offline_scrapers Mixing online and offline scrapers] ===
 		
-		[AdvancedConfiguration#Enable_fullscreen_video_browser Enable fullscreen video browser]
+		=== [AdvancedConfiguration#Enable_fullscreen_video_browser Enable fullscreen video browser] ===
 		
-		[AdvancedConfiguration#Customize_presentation_of_artwork_and_videos Customize presentation of artwork and videos]
+		=== [AdvancedConfiguration#Customize_presentation_of_artwork_and_videos Customize presentation of artwork and videos] ===
 		
 		
-	[ConfigXmlReference Complete config.xml Reference]
+	= [ConfigXmlReference Complete config.xml Reference] =
+	
+		=== [ConfigXmlReference#How_to_read_the_Configuration_section How to read the Configuration section] ===
+		
+		=== [ConfigXmlReference#Configuration_File_Format_(config.xml) Configuration File Format (config.xml)] ===
+		
+		=== [ConfigXmlReference#Import_games_and_media Import games and media] ===
+		
+		=== [ConfigXmlReference#Browsing_and_displaying_games Browsing and displaying games] ===
+		
+		=== [ConfigXmlReference#Launching_games Launching games] ===
+		
+		
+	= [MoreAdvancedTopics More Advanced topics] =
 
-		...
+		=== [MoreAdvancedTopics#Skinning_RCB Skinning RCB] ===
+		
+		=== [MoreAdvancedTopics#Creating_your_own_description_parser Creating your own description parser] ===
 		
 		
-	[MoreAdvancedTopics More Advanced topics]
-
-		[MoreAdvancedTopics#Skinning_RCB Skinning RCB]
-		
-		[MoreAdvancedTopics#Creating_your_own_description_parser Creating your own description parser]
-		
-		
-	[ChangeLog Changelog]
+	= [ChangeLog Changelog] =
