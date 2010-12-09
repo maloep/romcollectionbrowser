@@ -1,20 +1,22 @@
 <wiki:toc max_depth="5" />
 
-= Changelog =
-== 0.7.4 ==
-=== Scraper support ===
-  * scraping various online sources (thevideogamedb.com, thegamesdb.net, giantbomb.com, mobygames.com) for game info and artwork
-  
-=== Configuration ===  
-  * rework configuration
-        * don't import settings to database: all settings are read at startup from config.xml
-        * moved global settings to settings.xml (editable via addons settings ui)
-        * refactoring of config.xml
-	* automatic update of existing database and config.xml to the new structure    
-    * bugfix: launch emulators with whitespaces in path
+= 0.7.9 =
+== Online Scraping ==
+  * scraping game information and artwork from various online sources
+  * current available scrapers: thevideogamedb.com, thegamesdb.net, giantbomb.com, mobygames.com
+  * scraped artwork types: boxfront, boxback, cartridge, screenshot and fanart
+  * create local nfo files while scraping
+  * option to reimport local nfo files (possibility to add or edit game properties)
+  * create info files about scrape results (missing artwork, missing description, wrong game name)
 
-== 0.6.0 ==
-=== UI and general behaviour ===
+== Configuration ==
+  * startup configuration wizard (create config.xml with most common options)
+  * configure global settings via Addon Settings page
+  * refactoring of config.xml structure
+  * config.xml will be read at every start: no need to import settings anymore
+
+= 0.6.1 =
+== UI and general behaviour ==
   * fullscreen video browser
   * implemented different caching options: CACHEALL, CACHEITEM, CACHEITEMANDNEXT
   * added character filter: select games by first character
@@ -28,7 +30,7 @@
   * bugfix: don't restart video if we are playing the same file (while moving around but not changing selected game)
 
 
-=== Import ===
+== Import ==
   * restructuring of import methods: scan large description files per game (previous version scanned the complete file at once causing out of memory errors on xbox)
   * changed behavior of progress dialog when importing games: progress update per game and not per rom collection
   * use default values for all settings: may keep config.xml more simple
@@ -42,20 +44,20 @@
   * bugfix: handle crc with leading zero
   * bugfix: handle game names with brackets []
 
-=== Launching Games ===
+== Launching Games ==
   * xbox support: able to launch emulators and xbox games
   * xbox support: create cut files for xbox on the fly (new settings: xboxCreateShortcut, xboxCreateShortcutAddRomfile, xboxCreateShortcutUseShortGamename)
   * toggle screenmode (fullscreen, minimized) if launching roms in non-solo mode
 
 
 
-== 0.5.3 ==
+= 0.5.3 =
   * Dharma compatibility (installable via addon browser, slight code modifications with no impact to the end user)
   * changed the versioning scheme from Vx.y to x.y.z (this was needed to get this script submitted to the repo - and it is the better versioning scheme:))
   * no more writing to the scripts directory: all files will be written to userdata/addon_data/script.games.rom.collection.browser. The file config.xml is still read from RCBs database directory. It will be backed up to the userdata directory after every "Import Settings" because XBMC will delete the complete RCB addon directory in case of an update.
 
-== V0.5 ==
-=== UI ===
+= V0.5 =
+== UI ==
   * new UI design (Confluence-like)
   * different views of the main window (Info, Info 2, Thumbs)
   * show video in main window
@@ -64,7 +66,7 @@
   * better performance while loading game list
   * game counter
   * display console name of selected game
-=== Game Import ===
+== Game Import ==
   * import images for developer, publisher, console or rom collection
   * find game in description file by crc value
   * check crc value of files inside a zip archive (1 file per archive only)
@@ -75,7 +77,7 @@
  
   
 
-== V0.4 ==
+= V0.4 =
   * new game info view: pressing info button when a game is selected will open a new window with additional game information
   * showing video in game info view
   * dynamic image placing: RCB has 8 different controls to show images. The image type (screenshot, cover, ...) can be configured for every control.
@@ -83,7 +85,7 @@
 
 
 
-== V0.3 ==
+= V0.3 =
   * solved problem with executing batch file in windows
   * using autoexec.py to launch RCB when restarting in solo mode
   * saving and loading view state when relaunching RCB

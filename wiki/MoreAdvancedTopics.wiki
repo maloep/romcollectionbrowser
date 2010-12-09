@@ -1,11 +1,9 @@
 <wiki:toc max_depth="5" />
 
-= Advanced topics =
-
-== Skinning RCB ==
+= Skinning RCB =
 Most things in RCBs skin files should be self explanating to a skinner. There are two skin xml files: "script-Rom_Collection_Browser-main.xml" and "script-Rom_Collection_Browser-gameinfo.xml". They are made for a PAL resolution with Confluence in mind. If you have improvements to my Confluence skin or want to migrate RCB to other skins please feel free to contribute.
 
-=== Accessing RCBs images and videos ===
+== Accessing RCBs images and videos ==
 One thing that could be special in this script is the "dynamic image placing". RCB does not rely on a defined set of media files. The user may have small collections with only one image per game or others may have complete sets with 6 or more images and maybe video files per game. I want the user to decide where to show which type of image. The skinner should decide how it is presented. I am afraid this approach is not really XBMCish...
 
 Thats why you find several code lines like this in the skin xml:
@@ -40,7 +38,7 @@ mainviewvideowindowsmall
 
 Here you can see how this is done in the current skin: [Preview#dynamic_image_placing dynamic image placing]
 
-=== Accessing RCBs text properties ===
+== Accessing RCBs text properties ==
 It should also be possible to access all text properties in the skin.
 
 The title of a game is available as ListItem.Label:
@@ -79,10 +77,10 @@ translatedby
 version
 }}}
 
-=== Special control ids ===
+== Special control ids ==
 Some control ids are referenced inside the python code so you should not change them unless you know what you are doing.
 
-==== Game lists ====
+=== Game lists ===
 Lists always have ids 50-59 in XBMC. These lists are available as "view" in the UI. In RCB you also have to take care which views support video playback and one id is reserved for the game info dialog.
 
 50-54:	views that support video
@@ -92,10 +90,10 @@ Lists always have ids 50-59 in XBMC. These lists are available as "view" in the 
 59:		game info dialog
 
 
-==== Controls ====
+=== Controls ===
 Some controls that are available in all views should not be changed also.
 
-===== Filter controls =====
+==== Filter controls ====
 Console:	500
 
 Genre:		600
@@ -107,10 +105,10 @@ Publisher:	800
 A-Z:		900
 
 
-===== Scrollbars =====
+==== Scrollbars ====
 For some reason I had trouble with handling scrollbars because they are sometimes present and sometimes not (depending on the length of text). If you use scrollbars in your view make sure they have ids 2200 or 2201. If you need more scrollbars just have a look at the beginning of the file gui.py. There is a list with scrollbar ids (CONROL_SCROLLBARS = (2200, 2201,)). You can add your id here and tell me that I should add it to the next RCB version.
 
-===== Buttons =====
+==== Buttons ====
 Import Games:			3100
 
 Change View:			2
@@ -120,11 +118,11 @@ Play Video Fullscreen:	2900, 2901
 
 If you add more than two views hat support fullscreen video you have to add the new ids to the python code: Go to gui.py and look for this line: CONTROL_BUTTON_VIDEOFULLSCREEN = (2900, 2901,)
 
-===== Labels =====
+==== Labels ====
 Message label:	4000
 
 
-== parserConfig.xml ==
+= parserConfig.xml =
 The description file parser can handle simple multiline text files, xml files or html pages. It uses an xml configuration file that defines how to parse the source files. This parserConfig xml file will be read element by element and transferred into parser grammar (using pyparsing for flatfile and html pages or elementtree for xml files). That means you have to take care of the elements order.
 
 This is an example game description text file:
@@ -208,10 +206,10 @@ Lets explain the first two lines of the config file:
 
 There are not many configuration options at the moment. Actually only `GameGrammar type="multiline`" or `GameGrammar type="xml`" is supported.
 
-=== Elements ===
+== Elements ==
 There are only two types of elements in the current version.
 
-==== Named Element ====
+=== Named Element ===
 A named element like `<Game restOfLine="true"></Game>` will return a key value pair where the element name is the key and the parsed content will be the value. All information in your description file that is valuable input to RCB must be declared as a named element in this configuration file.
 
 Supported elements in current version:
@@ -220,33 +218,33 @@ Game, crc, Genre, ReleaseYear, Publisher, Description, Reviewer, Region, Media, 
 
 
 
-==== Skippable Content ====
+=== Skippable Content ===
 As the name says all content that matches the given instruction will be skipped. `SkippableContent` may have an element value. This value must occur exactly at the current position in the description file.
 
 
-=== Attributes ===
-==== restOfLine ====
+== Attributes ==
+=== restOfLine ===
 If "true" all content from current position to the rest of the line will be matched by this expression
 
-==== delimiter ====
+=== delimiter ===
 If you have delimited values this will specify the used delimiter. Every delimited value will be saved to database as a single entry.
 
 NOTE: Actually only the "," will be recognized as a delimiter.
 
-==== skipTo ====
+=== skipTo ===
 If you have multiline values (like description in the above example) you can specify a token that must occur after the multiline value. This token must be unique enough to not occur in your multiline value. The `*` in the above example may be a bad choice as there is a good chance of a star to occur in a game description.
 
-==== optional ====
+=== optional ===
 If set to "true" the parser will raise no error if it can't find the current token.
 
-=== Special values ===
-==== Line Start ====
+== Special values ==
+=== Line Start ===
 If you use `LineStart` as an element value the parser will search for the given token at the beginning of a line. The following example will search for a line that starts with a "`*`":
 {{{
 <SkippableContent skipTo="LineStart*"></SkippableContent>
 }}}
 
-==== Line End ====
+=== Line End ===
 If you use `LineEnd` as an element or attribute value the parser will search for the given token at the end of a line. The following example will search for a line that ends with a "`*`":
 {{{
 <SkippableContent skipTo="*LineEnd"></SkippableContent>
