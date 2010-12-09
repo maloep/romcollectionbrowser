@@ -8,6 +8,8 @@ Check out the following pages if you have trouble with setting up the script or 
 
 
 	= [GettingStarted Getting started] =
+	
+		<br>
 
 		=== [GettingStarted#Installation Installation] ===
 
@@ -21,8 +23,12 @@ Check out the following pages if you have trouble with setting up the script or 
 
 		=== [GettingStarted#Basic_Configuration Basic Configuration] ===
 		
+		<br>
+		
 		
 	= [AdvancedConfiguration Advanced configuration] =
+	
+		<br>
 		
 		=== [AdvancedConfiguration#Use_offline_game_descriptions Use offline game descriptions] ===
 		
@@ -32,8 +38,12 @@ Check out the following pages if you have trouble with setting up the script or 
 		
 		=== [AdvancedConfiguration#Customize_presentation_of_artwork_and_videos Customize presentation of artwork and videos] ===
 		
+		<br>
+		
 		
 	= [ConfigXmlReference Complete config.xml Reference] =
+	
+		<br>
 	
 		=== [ConfigXmlReference#How_to_read_the_Configuration_section How to read the Configuration section] ===
 		
@@ -45,12 +55,20 @@ Check out the following pages if you have trouble with setting up the script or 
 		
 		=== [ConfigXmlReference#Launching_games Launching games] ===
 		
+		<br>
+		
 		
 	= [MoreAdvancedTopics More Advanced topics] =
+	
+		<br>
 
 		=== [MoreAdvancedTopics#Skinning_RCB Skinning RCB] ===
 		
 		=== [MoreAdvancedTopics#Creating_your_own_description_parser Creating your own description parser] ===
 		
+		<br>
+		
 		
 	= [ChangeLog Changelog] =
+	
+		<br>
