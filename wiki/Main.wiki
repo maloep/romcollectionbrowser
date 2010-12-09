@@ -1,4 +1,4 @@
-#labels Featured
+#labels Deprecated
 <wiki:toc max_depth="5" />
 
 
