@@ -1,4 +1,53 @@
-#summary to RCB wiki
+#summary to RCBs wiki
 
+With this XBMC script you can browse and launch emulator roms and standalone games (Windows, Linux and Xbox). It will scrape game info and artwork from various online sources or imports local available game descriptions, images and videos. RCB will parse simple text files with additional game information like genre, publisher, developer, release year, etc. To support different description file formats and scrapable web sites you can configure the behaviour of the parser with xml configuration files.
 
-Check [Main] page for current stable release and [Preview] page for current test version.
+Before you can launch games with RCB you have to download, install and configure one or more emulators. Find out how to launch your emulator via command line. You will need this information to launch the emulator with RCB.
+
+Check out the following pages if you have trouble with setting up the script or want to know how to enable more advanced features.
+	
+
+	[GettingStarted Getting started]
+	~~~~~~~~~~~~~~~
+
+		Installation
+
+		First use
+
+		Addon settings
+
+		Setup test scenario
+
+		Basic Usage
+
+		Basic Configuration
+		
+		
+	[AdvancedConfiguration Advanced configuration]
+	~~~~~~~~~~~~~~~~~~~~~~
+		
+		Use offline game descriptions
+		
+		Mixing online and offline scrapers
+		
+		Enable fullscreen video browser
+		
+		Customize presentation of artwork and videos
+		
+		
+	[ConfigXmlReference Complete config.xml Reference]
+	~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+		...
+		
+		
+	[MoreAdvancedTopics More Advanced topics]
+	~~~~~~~~~~~~~~~~~~~~
+
+		Skinning RCB
+		
+		Creating your own description parser
+		
+		
+	[ChangeLog Changelog]
+	~~~~~~~~~
