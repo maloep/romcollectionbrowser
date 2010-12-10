@@ -36,7 +36,7 @@ mainviewvideowindowbig
 mainviewvideowindowsmall
 }}}
 
-Here you can see how this is done in the current skin: [Preview#dynamic_image_placing dynamic image placing]
+Here you can see how this is done in the current skin: [ConfigXmlReference#dynamic_image_placing dynamic image placing]
 
 == Accessing RCBs text properties ==
 It should also be possible to access all text properties in the skin.
