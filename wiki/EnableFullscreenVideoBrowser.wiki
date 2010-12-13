@@ -1,0 +1,48 @@
+= Enable fullscreen video browser =
+RCB creates a video playlist with every game video in your current filter selection and starts playback in fullscreen (if you hit the button "Play Video Fullscreen"). You can zap through the videos of this playlist and use the builtin Info Overlay with title, thumbnail and duration. RCB uses standard XBMC playlist and fullscreen player so there are not more options to interact with the playback from RCB.
+
+If you have created your config.xml with the wizard, it will be enough to use one of the "...Video" imagePlacing-Options.
+
+To add fullscreen support manually you have to add this line to your ImagePlacing-configuration:
+{{{
+<fileTypeForMainViewFullscreenVideo>gameplay</fileTypeForMainViewFullscreenVideo>
+}}}
+
+Now you should see a button "Play Video Fullscreen" below the screenshots in Info and Info2 view.
+
+== Enable zapping in fullscreen browser ==
+You may have to make some changes to your keymap.xml to get the zapping feature. These changes make sure that you have access to "SkipNext" and "SkipPrevious" in FullscreenVideo and FullscreenInfo:
+
+Windows/Linux keyboard.xml:
+{{{
+<FullscreenVideo>
+	<keyboard>
+	 ...
+	  <!--<period>StepForward</period>
+	  <comma>StepBack</comma>-->
+	  <period>SkipNext</period>
+	  <comma>SkipPrevious</comma>
+	  ...
+	</keyboard>
+</FullscreenVideo>
+<FullscreenInfo>
+    <keyboard>
+      ...
+      <!--<period>StepForward</period>-->
+      ...
+    </keyboard>
+</FullscreenInfo>
+}}}
+
+Xbox keymap.xml
+{{{
+<FullscreenVideo>
+    ...
+    <gamepad>
+      ...
+      <dpadup>SkipNext</dpadup>
+      <dpaddown>SkipPrevious</dpaddown>
+	  ...
+    </gamepad>
+</FullscreenVideo>
+}}}
