@@ -6,4 +6,4 @@ You can download some (nearly) complete description files and a working parserCo
 
 User [http://forum.xbmc.org/showpost.php?p=612640&postcount=580 spyvsspy has compiled] some more game descriptions (all included with working parserConfig and all using crc values): [http://jumbofiles.com/4bo7ue9f000b Mame], [http://jumbofiles.com/s6i1kve2n18t C64], [http://jumbofiles.com/kmcvpukjayn2 Amiga small], [http://jumbofiles.com/1ija5cepffeh Amiga big (may be problematic to parse because of its size)], [http://jumbofiles.com/ro4bfpiajjp5 ColecoVision]
 
-Local game description and parsers are also added as scrapers.
+Local game description and parsers are also added as scrapers. See section [ImportGamesAndMedia#Add_game_descriptions Add game descriptions] for more details.
