@@ -5,7 +5,7 @@
 ==== imagePlacing ====
 With the `imagePlacing` tag you can select one of the `imagePlacing` options that control which image types are shown in which image controls. When running the config.xml creation wizard RCB will create a set of default options for you. If you are not satisfied with these options are have other `FileTypes` that are not covered by the defaults, you can change the existing options or create a new one.
 
-=== ImagePlacing ===
+=== Image Placing ===
 {{{
 <config>
   ...
