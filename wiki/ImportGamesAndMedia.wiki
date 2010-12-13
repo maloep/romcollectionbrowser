@@ -48,7 +48,7 @@ Examples:
 == Add images ==
 === Rom Collection ===
 ==== mediaPath ====
-The path to your image or video files. RCB will also use these paths to store artwork while scraping from online sources. There can be multiple `<mediaPath>` elements per `RomCollection`. Each element needs an attribute `type`. This type references the name of the configured `FileTypes`. All images or videos that match the given path will be imported and associated with the `FileType`. Types will also be used to configure the fileTypeFor...-elements in `ImagePlacing` (see section [ConfigXmlReference#dynamic_image_placing dynamic image placing] for more detalis).
+The path to your image or video files. RCB will also use these paths to store artwork while scraping from online sources. There can be multiple `<mediaPath>` elements per `RomCollection`. Each element needs an attribute `type`. This type references the name of the configured `FileTypes`. All images or videos that match the given path will be imported and associated with the `FileType`. Types will also be used to configure the fileTypeFor...-elements in `ImagePlacing` (see section [BrowsingAndDisplayingGames#dynamic_image_placing dynamic image placing] for more details).
 
 You can use multiple `<mediaPath>` entries with the same type to import from different locations or to configure different file extensions.
 
