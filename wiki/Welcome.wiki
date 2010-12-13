@@ -40,30 +40,33 @@ Check out the following pages if you have trouble with setting up the script or 
 		<br>
 		
 		
-	= [ConfigXmlReference Complete config.xml Reference] =
+	= Complete config.xml Reference =
 	
-		=== [ConfigXmlReference#How_to_read_the_Configuration_section How to read the Configuration section] ===
+		=== [HowToRead How to read the Configuration section] ===
 		
-		=== [ConfigXmlReference#Configuration_File_Format_(config.xml) Configuration File Format (config.xml)] ===
+		=== [ConfigurationFileFormat Configuration File Format (config.xml)] ===
 		
-		=== [ConfigXmlReference#Import_games_and_media Import games and media] ===
+		=== [ImportGamesAndMedia Import games and media] ===
 		
-		=== [ConfigXmlReference#Browsing_and_displaying_games Browsing and displaying games] ===
+		=== [BrowsingAndDisplayingGames Browsing and displaying games] ===
 		
-		=== [ConfigXmlReference#Launching_games Launching games] ===
+		=== [LaunchingGames Launching games] ===
 		
 		<br>
 		
 		
-	= [MoreAdvancedTopics More Advanced topics] =
+	= More Advanced topics =
 
-		=== [MoreAdvancedTopics#Skinning_RCB Skinning RCB] ===
+		=== [SkinningRCB Skinning RCB] ===
 		
-		=== [MoreAdvancedTopics#Creating_your_own_description_parser Creating your own description parser] ===
+		=== [CreatingYourOwnDescriptionParser Creating your own description parser] ===
 		
 		<br>
 		
 		
-	= [ChangeLog Changelog] =
-	
+	= Changelog =
+
+
+		=== [ChangeLog Changelog] ===
+
 		<br>
