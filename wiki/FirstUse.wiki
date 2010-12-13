@@ -6,9 +6,9 @@
   * In most scenarios the wizard will fit all your needs. More advanced or special settings still must be done in the config file itself. See [ConfigXmlReference Complete config.xml Reference] for more information.
   
 == XBMC Live users ==
-If you use XBMC Live without an additional window manager you can use RCB only in non-solo mode. See section [Use_Emulator_solo Use Emulator solo] for details.
+If you use XBMC Live without an additional window manager you can use RCB only in non-solo mode. See section [AddonSettings#Use_Emulator_solo Use Emulator solo] for details.
 
 == Xbox users ==
 Launching games on Xbox differs from launching games on a PC. You can launch .xbe-files directly from RCB if you set "%ROM%" as emulatorCmd and leave emulatorParams empty. If you want to launch an emulator and pass the rom file as an argument to the emu you have to use .cut-files. RCB can create this .cut-files on-the-fly for you. With using .cut-files you also have to set emulatorCmd to "%ROM%".
 
-See [ConfigXmlReference#Launching_games Launching games] for details.
+See [LaunchingGames Launching games] for details.
