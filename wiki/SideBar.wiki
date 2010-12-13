@@ -1,26 +1,26 @@
-* [GettingStarted Getting started]
-  * [Installation]
-  * [First use]
-  * [Addon settings]
-  * [Setup test scenario]
-  * [Basic Usage]
-  * [Basic Configuration]
+* Getting started
+  * [Installation Installation]
+  * [FirstUse First Use]
+  * [AddonSettings Addon settings]
+  * [SetupTestScenario Setup test scenario]
+  * [BasicUsage Basic Usage]
+  * [BasicConfiguration Basic Configuration]
 
-* [AdvancedConfiguration Advanced configuration]
-  * [Use offline game descriptions]
-  * [Mixing online and offline scrapers]
-  * [Enable fullscreen video browser]
-  * [Customize presentation of artwork and videos]
+* Advanced configuration
+  * [UseOfflineGameDescriptions Use offline game descriptions]
+  * [MixingOnlineAndOfflineScrapers Mixing online and offline scrapers]
+  * [EnableFullscreenVideoBrowser Enable fullscreen video browser]
+  * [CustomizePresentationOfArtwork Customize presentation of artwork and videos]
 
-* [ConfigXmlReference Complete config.xml Reference]
+* Complete config.xml Reference
   * [How to read the Configuration section]
   * [Configuration File Format (config.xml)]
   * [Import games and media]
   * [Browsing and displaying games]
   * [Launching games]
 
-* [MoreAdvancedTopics More Advanced topics]
+* More Advanced topics
   * [Skinning RCB]
   * [Creating your own description parser]
 
-* [ChangeLog Changelog]
+* Changelog
