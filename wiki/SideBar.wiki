@@ -13,14 +13,14 @@
   * [CustomizePresentationOfArtwork Customize presentation of artwork and videos]
 
 * Complete config.xml Reference
-  * [How to read the Configuration section]
-  * [Configuration File Format (config.xml)]
-  * [Import games and media]
-  * [Browsing and displaying games]
-  * [Launching games]
+  * [HowToRead How to read the Configuration section]
+  * [ConfigurationFileFormat Configuration File Format (config.xml)]
+  * [ImportGamesAndMedia Import games and media]
+  * [BrowsingAndDisplayingGames Browsing and displaying games]
+  * [LaunchingGames Launching games]
 
 * More Advanced topics
-  * [Skinning RCB]
-  * [Creating your own description parser]
+  * [SkinningRCB Skinning RCB]
+  * [CreatingYourOwnDescriptionParser Creating your own description parser]
 
 * Changelog
