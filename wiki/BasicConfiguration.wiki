@@ -1,13 +1,13 @@
 #sidebar SideBar
 = Basic Configuration =
-Configuration is done via xml files. There is one main configuration file "config.xml" that must be placed in your userdata folder ([http://wiki.xbmc.org/index.php?title=Special_protocol#Platform_Specific_Default_Mappings Look here for special://home]). Inside your userdata folder you will find RCBs config files in  "script_data/script.games.rom.collection.browser" (Camelot) or "addon_data/script.games.rom.collection.browser" (Dharma)).
+Configuration is done via xml files. There is one main configuration file "config.xml" that must be placed in your userdata folder ([http://wiki.xbmc.org/index.php?title=Special_protocol#Platform_Specific_Default_Mappings Look here for special://home]). Inside your userdata folder you will find RCBs config files in  "script_data" (Camelot) or "addon_data" (Dharma) in the sub folder "script.games.rom.collection.browser".
 
-If this file is not found at startup, RCB will start a creation wizard that helps you to create a simple config.xml with most common settings. See next section for more information).
+If the config file is not found at startup, RCB will start a creation wizard that helps you to create a simple config.xml with most common settings. See next section for more information).
 
 
 Global settings can be changed in the Addons settings (See [Addon_settings Addon settings] for more information).
 
-There are three stages where RCB reads its settings: [ConfigXmlReference#Import_games_and_media Importing Games], [ConfigXmlReference#Browsing_and_displaying_games Browsing and Displaying Games] and [ConfigXmlReference#Launching_games Launching Games]. You only need to "Import Games" if you make changes to settings that address the "Importing Games" stage.
+There are three stages where RCB reads its settings: [ImportGamesAndMedia Importing Games], [BrowsingAndDisplayingGames Browsing and Displaying Games] and [LaunchingGames Launching Games]. You only need to "Import Games" if you make changes to settings that address the "Importing Games" stage.
 
 == Create a config file with startup wizard ==
   * First you have to choose a scenario: Online scraping or local data. In online scraping scenario RCB will scrape different web sites for game infos and artwork (boxfront, boxback, cartridge, screenshot and fanart). Local data scenario requires local available game descriptions, artwork or videos.
