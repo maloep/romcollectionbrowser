@@ -28,10 +28,10 @@ Check out the following pages if you have trouble with setting up the script or 
 		
 		
 	= Advanced configuration =
-	
-		=== [HowToRead How to read the Configuration section] ===
-		
+
 		=== [ConfigurationFileFormat Configuration File Format (config.xml)] ===
+		
+		=== [HowToRead How to read the Configuration section] ===
 		
 		=== [UseOfflineGameDescriptions Use offline game descriptions] ===
 		
