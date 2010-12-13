@@ -1,8 +1,9 @@
 #sidebar SideBar
 = Basic Configuration =
-Configuration is done via xml files. There is one main configuration file "config.xml" that must be placed in your userdata folder ("script_data/script.games.rom.collection.browser" (Camelot) or "addon_data/script.games.rom.collection.browser" (Dharma)). If this file is not found at startup, RCB will start a creation wizard that helps you to create a simple config.xml with most common settings. See next section for more information).
+Configuration is done via xml files. There is one main configuration file "config.xml" that must be placed in your userdata folder ([http://wiki.xbmc.org/index.php?title=Special_protocol#Platform_Specific_Default_Mappings Look here for special://home]). Inside your userdata folder you will find RCBs config files in  "script_data/script.games.rom.collection.browser" (Camelot) or "addon_data/script.games.rom.collection.browser" (Dharma)).
 
-Note: RCBs configuration file "config.xml" will be stored in your XBMC userdata folder. You will find this folder in your user environment ([http://wiki.xbmc.org/index.php?title=Special_protocol#Platform_Specific_Default_Mappings Look here for special://home]). If you installed XBMC in portable mode you will find it in the XBMC installation directory. RCBs configuration is stored in "script_data/script.games.rom.collection.browser" (Camelot) or "addon_data/script.games.rom.collection.browser" (Dharma).
+If this file is not found at startup, RCB will start a creation wizard that helps you to create a simple config.xml with most common settings. See next section for more information).
+
 
 Global settings can be changed in the Addons settings (See [Addon_settings Addon settings] for more information).
 
