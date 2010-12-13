@@ -1,3 +1,4 @@
+#sidebar SideBar
 = Basic Usage =
 == Navigation ==
 Navigation should be self explanating. Move around with the arrow keys and see what happens. There are some filter controls at the top and some buttons at the bottom of the page that are hidden in the normal view. They will show up if they receive focus and hide if they lose it.
