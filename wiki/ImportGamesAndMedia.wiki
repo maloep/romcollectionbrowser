@@ -1,0 +1,191 @@
+#sidebar SideBar
+<wiki:toc max_depth="5" />
+= Import games and media =
+== Import Roms ==
+A typical `RomCollection` entry (like it could be created with the wizard) will look like this:
+{{{
+<config>
+  <RomCollections>
+    <RomCollection id="1" name="SNES">
+      <emulatorCmd>C:\Program Files\Emulatoren\zsnesw151\zsnesw.exe</emulatorCmd>
+      <emulatorParams>-m "%ROM%"</emulatorParams>
+      <romPath>F:\Emulatoren\data\Roms\SNES\*.zip</romPath>
+      <mediaPath type="boxfront">F:\Emulatoren\data\Artwork\SNES\boxfront\%GAME%.*</mediaPath>
+      <mediaPath type="boxback">F:\Emulatoren\data\Artwork\SNES\boxback\%GAME%.*</mediaPath>
+      <mediaPath type="cartridge">F:\Emulatoren\data\Artwork\SNES\cartridge\%GAME%.*</mediaPath>
+      <mediaPath type="screenshot">F:\Emulatoren\data\Artwork\SNES\screenshot\%GAME%.*</mediaPath>
+      <mediaPath type="fanart">F:\Emulatoren\data\Artwork\SNES\fanart\%GAME%.*</mediaPath>
+      <imagePlacing>gameinfobig</imagePlacing>
+      <scraper name="thevideogamedb.com" />
+      <scraper name="thegamesdb.net" replaceKeyString=" III, II" replaceValueString=" 3, 2" />
+      <scraper name="giantbomb.com" replaceKeyString=" III, II" replaceValueString=" 3, 2" />
+      <scraper name="mobygames.com" platform="15" replaceKeyString=" III, II" replaceValueString=" 3, 2" />
+    </RomCollection>    
+  </RomCollections>
+  ...
+</config>
+}}}
+
+=== Rom Collection ===
+You need a `RomCollection` entry for every different Rom Collection. Different means: a different console, folder structure, description file format, ... Everything that can't be done with one configuration entry.
+
+==== id ====
+This id will be created if you use the config creation wizard. If you copy/paste a `RomCollection` make sure that ids are unique. Ids are also referenced in RCBs database `MyGames.db`. Don't change ids after you have done a game import!
+
+==== name ====
+This is only used to distinguish rom collections. Make sure that the name is unique. But you can change the name if you like.
+
+==== romPath ====
+The path to your rom files. This path should include wildcards and file extension (`*`.adf for example).
+
+You may use different paths and file extensions (.zip and .smc for example) for one collection.
+
+Examples:
+
+/home/user/emu/SNES/Collection V3/roms/`*`.zip
+
+/home/user/emu/SNES/Collection V3/roms/`*`.smc
+
+== Add images ==
+=== Rom Collection ===
+==== mediaPath ====
+The path to your image or video files. RCB will also use these paths to store artwork while scraping from online sources. There can be multiple `<mediaPath>` elements per `RomCollection`. Each element needs an attribute `type`. This type references the name of the configured `FileTypes`. All images or videos that match the given path will be imported and associated with the `FileType`. Types will also be used to configure the fileTypeFor...-elements in `ImagePlacing` (see section [ConfigXmlReference#dynamic_image_placing dynamic image placing] for more detalis).
+
+You can use multiple `<mediaPath>` entries with the same type to import from different locations or to configure different file extensions.
+
+You can use the following placeholders: %GAME%, %CONSOLE%, %PUBLISHER%, %DEVELOPER% (will be replaced with the according game property)
+
+Configuration Example:
+
+If you have a Game "Mygame" its rom file may be named "Mygame.adf" (adf = amiga game). All screenshots must be named "Mygame.jpg" (or png, gif, ...) OR they must reside in a folder that is called "Mygame". RCB will import all image files in this folder and associate it with the game "Mygame". Configuration of image or video paths can look like this:
+
+"/home/user/emu/amiga/screens/%GAME%/`*`.png" (will import all png-files in folder "Mygame")
+
+"/home/user/emu/amiga/%GAME%/screens/`*`.png" (will import all png-files in folder "Mygame/screens")
+
+"/home/user/emu/amiga/screens/%GAME%.png" (will import the file "Mygame.png" in folder "screens")
+
+=== File Types ===
+{{{
+<config>
+  ...
+  <FileTypes>
+    <FileType id="1" name="boxfront">
+      <type>image</type>
+      <parent>game</parent>
+    </FileType>
+  </FileTypes>
+  ...
+</config>
+}}}
+
+With `FileTypes` you can define your own image or video categories. You can create a `FileType` for every new category that you like (e.g. action screenshots, boxart, highscore screenshots, gameplay videos, trailers, etc.). All imported images or videos will be associated with this `FileType` for later reference. If you create your config.xml with the startup wizard, RCB will create a default set of these elements for you.
+
+==== id ====
+Unique identifier. Don't change the id after you have imported games!
+
+==== name ====
+The name is referenced as type in `mediaPath` and fileTypeFor...-elements.
+
+==== type ====
+Must be "image" or "video".
+
+==== parent ====
+The parent that is associated with the image or video. Must be one of the following: game, console, developer, publisher, romcollection.
+
+== Add game descriptions ==
+=== Rom Collection ===
+==== scraper ====
+With the scraper-elements in `RomCollection` you can control RCBs scraping behaviour. You can delete or reorder scrapers or add values that should be replaced in game names before scraping.
+
+See section [GettingStarted#Improving_scrape_results Improving scrape results] for more information about reordering scrapers.
+
+See section [ConfigXmlReference#Scraper Scraper] for more information about how to define scrapers for local game descriptions.
+
+==== descFilePerGame ====
+When using local description files there can be one big description file with descriptions for all games in it. Or you can have one description file per game.
+
+In the first case (descFilePerGame=False) you must be sure that the game name in the description file matches exactly the name of your rom file (without disk prefix and extension) or that the crc value of the rom file matches the crc value inside the description file. See next section "Find game in description file" for more information.
+
+In second case (descFilePerGame=True) the gamename must be somewhere in the path of the property `Scraper/source` (configuration of descFilePath should look like this: "/home/user/emu/Amiga/Collection V1/%GAME%/info.txt" or this: "/home/user/emu/Amiga/Collection V1/info/%GAME%.txt").
+
+default value: False
+
+=== Scraper ===
+{{{
+<config>
+  ...
+  <Scrapers>
+    <Site name="SNES">
+      <Scraper parseInstruction="F:\Emulatoren\gamedesc\parserConfig.xml" source="F:\Emulatoren\gamedesc\SNES.txt"/>
+    </Site>
+  </Scrapers>
+  ...
+</config>
+}}}
+A Scraper in config.xml is the combination of a parse instruction and a description file (source) to parse with this instruction. Source can be an URL to online sources or a path to a local file.
+
+==== source ====
+The path to the game description files. These files will be used to obtain additional information  about a game like genre, plot, publisher etc. Depending on the "`descFilePerGame`"-Parameter this should be the absolute path to one description file or a path using the %GAME%-placeholder. It can also be an URL to an online source.
+
+Examples:
+
+"/home/user/roms/%GAME%/info.txt" (one description file per game)
+
+"/home/user/roms/all.txt" (one description file for all games)
+
+"http://thegamesdb.net/api/GetGame.php?name=%GAME%" (URL to an online source)
+
+==== parseInstruction ====
+Most rom collections that use game description files will have a different file format. RCB uses a configurable parser that reads parse instructions from an xml file and tries to parse the game descriptions with these instructions. The format of the parser file is explained in section [MoreAdvancedTopics#Creating_your_own_description_parser Creating your own description parser].
+
+Note: normally you don't have to create the parser config on your own. You can use the available example files and create game descriptions based on these examples.
+
+== Find game in description file ==
+If you use descFilePerGame=False (default) you have to take care that RCB can find the currently imported game in your description file. This can be done via romname = gamename or via crc matching.
+
+=== Rom Collection ===
+==== searchGameByCRC ====
+Set this option to "True" if you would like to search games in your description file by crc value. It needs some time to compute crc values for large rom files. You should set this option to "False" if you have large rom files (PS1 for example) and you don't use crc values in your description files.
+
+default value: True
+
+==== searchGameByCRCIgnoreRomName ====
+If you have games with the same rom filename but different crcs (and different gamename inside your description file) you should set this option to "True". This will skip checking the rom file name.
+
+default value: False
+
+==== useFoldernameAsCRC ====
+Compare the crc in the description file with the foldername of the current rom file.
+
+default value: False
+
+==== useFilenameAsCRC ====
+Compare the crc in the description file with the filename (without extension) of the current rom file.
+
+default value: False
+
+== Misc import properties ==
+=== Rom Collection ===
+==== allowUpdate ====
+If set to "False" RCB won't update your already imported game descriptions. All additional files (e.g. screenshots) will be imported if not already in database.
+
+default value: True
+
+==== ignoreOnScan ====
+If set to "True" this `RomCollection` will be ignored completely during import. If you have all data for one `RomCollection` in database you can set this to "True" and there won't be any changes to this collection during the next imports.
+
+default value: False
+
+==== diskPrefix ====
+This is used to detect multi rom games. RCB should not show every rom file in th UI if they all belong to the same game. Second reason to use this property are emulators that support loading more than one file at once (like uae). RCB can't rely on file numbering because you will also have different releases for one game (Lemmings, Lemmings 2, Lemmings 3).
+
+Example:
+If you use "`_Disk`" as diskPrefix and you have some rom files named "`Mygame.adf`", "`Mygame 2_Disk1.adf`" and "`Mygame 2_Disk2.adf`" this will be detected as two games "`Mygame`" and "`Mygame 2`" where "`Mygame 2`" consists of two rom files. In the UI you will see the "friendly" gamename "`Mygame 2`". If you have your emulatorCmd configured to support multiple rom files you can load both files at once.
+
+default value: _Disk
+
+==== maxFolderDepth ====
+Limit the number of subfolders RCB scans while searching for rom files. 
+
+Default value: 999
