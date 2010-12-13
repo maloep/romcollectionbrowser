@@ -136,7 +136,7 @@ Examples:
 "http://thegamesdb.net/api/GetGame.php?name=%GAME%" (URL to an online source)
 
 ==== parseInstruction ====
-Most rom collections that use game description files will have a different file format. RCB uses a configurable parser that reads parse instructions from an xml file and tries to parse the game descriptions with these instructions. The format of the parser file is explained in section [MoreAdvancedTopics#Creating_your_own_description_parser Creating your own description parser].
+Most rom collections that use game description files will have a different file format. RCB uses a configurable parser that reads parse instructions from an xml file and tries to parse the game descriptions with these instructions. The format of the parser file is explained in section [CreatingYourOwnDescriptionParser Creating your own description parser].
 
 Note: normally you don't have to create the parser config on your own. You can use the available example files and create game descriptions based on these examples.
 
