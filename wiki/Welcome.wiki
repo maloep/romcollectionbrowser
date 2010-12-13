@@ -8,19 +8,19 @@ Before you can launch games with RCB you have to download, install and configure
 Check out the following pages if you have trouble with setting up the script or want to know how to enable more advanced features.
 
 
-	= [GettingStarted Getting started] =
+	= Getting started =
 
-		=== [GettingStarted#Installation Installation] ===
+		=== [Installation Installation] ===
 
-		=== [GettingStarted#First_use First use] ===
+		=== [FirstUse First use] ===
 
-		=== [GettingStarted#Addon_settings Addon settings] ===
+		=== [AddonSettings Addon settings] ===
 
-		=== [GettingStarted#Setup_test_scenario Setup test scenario] ===
+		=== [SetupTestScenario Setup test scenario] ===
 
-		=== [GettingStarted#Basic_Usage Basic Usage] ===
+		=== [BasicUsage Basic Usage] ===
 
-		=== [GettingStarted#Basic_Configuration Basic Configuration] ===
+		=== [BasicConfiguration Basic Configuration] ===
 		
 		<br>
 		
