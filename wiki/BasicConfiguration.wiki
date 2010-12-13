@@ -5,7 +5,7 @@ Configuration is done via xml files. There is one main configuration file "confi
 If the config file is not found at startup, RCB will start a creation wizard that helps you to create a simple config.xml with most common settings. See next section for more information).
 
 
-Global settings can be changed in the Addons settings (See [Addon_settings Addon settings] for more information).
+Global settings can be changed in the Addons settings (See [AddonSettings Addon settings] for more information).
 
 There are three stages where RCB reads its settings: [ImportGamesAndMedia Importing Games], [BrowsingAndDisplayingGames Browsing and Displaying Games] and [LaunchingGames Launching Games]. You only need to "Import Games" if you make changes to settings that address the "Importing Games" stage.
 
