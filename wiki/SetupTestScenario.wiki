@@ -29,7 +29,7 @@ If you want to launch roms with the test scenario you have to take these additio
 Note: local data test scenario is not availble atm. I will upload it soon.
 
   # Install RCB like described in chapter Installation
-  # Download "Testdata 0.7.x - local data" (http://romcollectionbrowser.googlecode.com/files/Testdata 0.7.x - local data.zip)
+  # Download "Testdata 0.7.x - local data" (http://romcollectionbrowser.googlecode.com/files/Testdata%200.7.x%20-%20local%20data.zip)
   # Unzip it somewhere
   # You can create a configuration file with the configuration wizard at startup. If you want to use the example config files that are shipped with the test scenario, read on:
   # Go to the new Testdata folder
