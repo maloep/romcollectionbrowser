@@ -12,7 +12,7 @@
   * [Enable fullscreen video browser]
   * [Customize presentation of artwork and videos]
 
-* [CompleteConfigXmlReference Complete config.xml Reference]
+* [ConfigXmlReference Complete config.xml Reference]
   * [How to read the Configuration section]
   * [Configuration File Format (config.xml)]
   * [Import games and media]
