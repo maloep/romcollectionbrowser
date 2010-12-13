@@ -1,0 +1,6 @@
+= Customize presentation of artwork and videos =
+RCB does not rely on a defined set of media files. The user may have small collections with only one image per game or others may have complete sets with 6 or more different image types and maybe video files. Some users want to see title screenshots as background, others prefer boxart images. With image placing you have the option to control where RCB will show which type of artwork.
+
+Detailed configuration of every available image control can be done with the `ImagePlacing` elements in config.xml. If you have built your config.xml with the wizard, RCB will have created some default options for you. You can choose which option to use with the `<imagePlacing>` element in `RomCollection`. Just reference the name that is used in the `ImagePlacing/fileTypeFor` element.
+
+In section [ConfigXmlReference#dynamic_image_placing dynamic image placing] is explained how to configure the `ImagePlacing` elements.
