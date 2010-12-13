@@ -1,3 +1,4 @@
+#sidebar SideBar
 = Enable fullscreen video browser =
 RCB creates a video playlist with every game video in your current filter selection and starts playback in fullscreen (if you hit the button "Play Video Fullscreen"). You can zap through the videos of this playlist and use the builtin Info Overlay with title, thumbnail and duration. RCB uses standard XBMC playlist and fullscreen player so there are not more options to interact with the playback from RCB.
 
