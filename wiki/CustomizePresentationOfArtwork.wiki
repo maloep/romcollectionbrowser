@@ -4,4 +4,4 @@ RCB does not rely on a defined set of media files. The user may have small colle
 
 Detailed configuration of every available image control can be done with the `ImagePlacing` elements in config.xml. If you have built your config.xml with the wizard, RCB will have created some default options for you. You can choose which option to use with the `<imagePlacing>` element in `RomCollection`. Just reference the name that is used in the `ImagePlacing/fileTypeFor` element.
 
-In section [ConfigXmlReference#dynamic_image_placing dynamic image placing] is explained how to configure the `ImagePlacing` elements.
+In section [BrowsingAndDisplayingGames#dynamic_image_placing dynamic image placing] is explained how to configure the `ImagePlacing` elements.
