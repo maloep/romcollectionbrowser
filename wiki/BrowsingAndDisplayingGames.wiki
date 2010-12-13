@@ -1,0 +1,79 @@
+#sidebar SideBar
+= Browsing and displaying games =
+== dynamic image placing ==
+=== Rom Collection ===
+==== imagePlacing ====
+With the `imagePlacing` tag you can select one of the `imagePlacing` options that control which image types are shown in which image controls. When running the config.xml creation wizard RCB will create a set of default options for you. If you are not satisfied with these options are have other `FileTypes` that are not covered by the defaults, you can change the existing options or create a new one.
+
+=== ImagePlacing ===
+{{{
+<config>
+  ...
+  <ImagePlacing>
+    <fileTypeFor name="gameinfobig">
+      <fileTypeForGameList>boxfront</fileTypeForGameList>
+      <fileTypeForGameList>screenshot</fileTypeForGameList>
+      <fileTypeForGameListSelected>boxfront</fileTypeForGameListSelected>
+      <fileTypeForGameListSelected>screenshot</fileTypeForGameListSelected>
+      <fileTypeForMainViewBackground>fanart</fileTypeForMainViewBackground>
+	  ...
+	</fileTypeFor>
+  </ImagePlacing>
+  ...
+</config>
+}}}
+
+==== fileTypeFor... ====
+With the fileTypeFor...-elements you can associate each of the available image controls in RCBs UI with a specific media type. You  can configure multiple fileTypeFor...-elements of the same type. They will be used as fallback: if there is no image or video of file type 1, it will try to load an image or video of file type 2. The file types must exactly match the value of `type` attribute that you used in `mediaPath` and `FileType` configuration.
+
+In this example RCB will show your boxfront screenshots as background image in the main window:
+{{{
+<fileTypeForMainViewBackground>boxfront</fileTypeForMainViewBackground>
+}}}
+
+If you want to see your title screenshots as background, change it to:
+{{{
+<fileTypeForMainViewBackground>title</fileTypeForMainViewBackground>
+}}}
+
+There are only two (alternating) controls in the main window (fileTypeForMainViewVideoWindowBig and fileTypeForMainViewVideoWindowSmall) and one control in the game details page (fileTypeForGameInfoViewVideoWindow) that are able to display video. If you use these fileTypeFor...-elements and a video is available for the selected game, the video playback is started automatically.
+
+
+All available image placing options:
+
+Main Window
+
+http://romcollectionbrowser.googlecode.com/files/screenshot_dip_mv_info2_small.jpg
+
+  # fileTypeForMainViewGameInfoUpperLeft - not available in Thumbs view
+  # fileTypeForMainViewGameInfoUpperRight - not available in Thumbs view
+  # fileTypeForMainViewGameInfoLowerLeft - not available in Thumbs view
+  # fileTypeForMainViewGameInfoLowerRight - shared with fileTypeForMainViewVideoWindowSmall, not available in Thumbs view
+  # fileTypeForMainView1
+  # fileTypeForMainView2 - if empty, RCB will show the console name
+  # fileTypeForMainView3
+  # fileTypeForMainViewBackground
+<br>
+
+http://romcollectionbrowser.googlecode.com/files/screenshot_dip_mv_info_big.jpg
+
+  # fileTypeForMainViewGameInfoBig - shared with fileTypeForMainViewVideoWindowBig, not available in Thumbs view
+  # fileTypeForGameList - not available in Info 2 view
+  # fileTypeForGameListSelected - not available in Info 2 view
+  # fileTypeForMainView1
+  # fileTypeForMainView2 - if empty, RCB will show the console name
+  # fileTypeForMainView3
+  # fileTypeForMainViewBackground
+<br>
+
+Game Details
+
+http://romcollectionbrowser.googlecode.com/files/screenshot_dip_gd.jpg
+
+  # fileTypeForGameInfoViewGamelist
+  # fileTypeForGameInfoViewBackground
+  # fileTypeForGameInfoView1
+  # fileTypeForGameInfoView2
+  # fileTypeForGameInfoView3
+  # fileTypeForGameInfoView4 - shared with fileTypeForGameInfoViewVideoWindow
+<br>
