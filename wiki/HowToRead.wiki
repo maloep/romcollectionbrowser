@@ -1,0 +1,5 @@
+#sidebar SideBar
+= How to read the Configuration section =
+There are a lot of configuration entries that are not shown in the example configurations or that don't occur in your config.xml (RCB will use the default values). All properties that are explained in the configuration section can be added as xml elements to the mentioned parent in your config.xml.
+
+This means if you read the description of property `descFilePerGame` and you see that it has the parent `RomCollection` you have to add a new xml element `<descFilePerGame>False</descFilePerGame>` inside the parent element `RomCollection`.
