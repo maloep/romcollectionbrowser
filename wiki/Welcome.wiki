@@ -28,6 +28,10 @@ Check out the following pages if you have trouble with setting up the script or 
 		
 		
 	= Advanced configuration =
+	
+		=== [HowToRead How to read the Configuration section] ===
+		
+		=== [ConfigurationFileFormat Configuration File Format (config.xml)] ===
 		
 		=== [UseOfflineGameDescriptions Use offline game descriptions] ===
 		
@@ -41,10 +45,6 @@ Check out the following pages if you have trouble with setting up the script or 
 		
 		
 	= Complete config.xml Reference =
-	
-		=== [HowToRead How to read the Configuration section] ===
-		
-		=== [ConfigurationFileFormat Configuration File Format (config.xml)] ===
 		
 		=== [ImportGamesAndMedia Import games and media] ===
 		
