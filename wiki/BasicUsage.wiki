@@ -1,0 +1,22 @@
+= Basic Usage =
+== Navigation ==
+Navigation should be self explanating. Move around with the arrow keys and see what happens. There are some filter controls at the top and some buttons at the bottom of the page that are hidden in the normal view. They will show up if they receive focus and hide if they lose it.
+
+If the filter controls own the focus you can jump to the game list with "Enter" (or SELECT-Button on a remote).
+
+In game list you can launch games with "Enter" or go to the details page with "I" (or INFO-Button on a remote).
+
+To exit the script or to leave the details page just press "Esc" (or BACK-Button on a remote).
+
+== Import Games ==
+RCB will scan your rom folders and data folders and imports all game relevant data. To get this job done you have to tell it where to search and what to search for. Global settings (for all rom collections) can be changed via the Addons settings. Rom collection specific settings are stored in RCBs configuration file config.xml.
+
+Every imported file will be associated with a game and a file type (boxfront, screenshot, fanart, gameplay video, ...). Only the path to the file is imported, not the file itself. If you delete or move the file after importing, RCB won't find it anymore.
+
+RCB will also try to parse description files or scrapes web sites for your games during import. RCB ships with a set of preconfigured online scrapers (e.g. thevideogamedb.com, thegamesdb.net, giantbomb.com or mobygames.com). These scrapers can be invoked all together or combined with local description files. You can define the used scrapers and the ordering of scrapers in config.xml.
+
+If you encounter any errors or miss some game infos after import, check XBMCs logfile. Search for any occurance of "RCB_ERROR" or "RCB_WARNING" to see what is missing. RCB will also create two text files ("missingDesc.txt" and "missingArtwork.txt") with information about missing data. You will find these files in RCBs userdata directory.
+
+If you add new data to one of your rom collections you can use "Import Games" as often as you like. Every run will import new data and updates the data that is already stored in database.
+
+Depending on your rom collections size and the number of used scrapers importing games can take some time.
