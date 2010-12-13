@@ -1,3 +1,4 @@
+#sidebar SideBar
 = Customize presentation of artwork and videos =
 RCB does not rely on a defined set of media files. The user may have small collections with only one image per game or others may have complete sets with 6 or more different image types and maybe video files. Some users want to see title screenshots as background, others prefer boxart images. With image placing you have the option to control where RCB will show which type of artwork.
 
