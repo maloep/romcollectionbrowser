@@ -17,9 +17,6 @@
 Some distributions don't ship with prebuild pysqlite libraries. You have to get them on your own and copy them to your xbmc lib folder (e.g. /usr/lib/xbmc/addons/script.module.pysqlite). I made an extra package with these libraries if you don't want to build them yourself: http://romcollectionbrowser.googlecode.com/files/platform_libraries.zip.
 
 
-Note: RCBs configuration file "config.xml" will be stored in your XBMC userdata folder. You will find this folder in your user environment ([http://wiki.xbmc.org/index.php?title=Special_protocol#Platform_Specific_Default_Mappings Look here for special://home]). If you installed XBMC in portable mode you will find it in the XBMC installation directory. RCBs configuration is stored in "script_data/script.games.rom.collection.browser" (Camelot) or "addon_data/script.games.rom.collection.browser" (Dharma).
-
-
 = Update an older installation =
 == without preserving configuration changes ==
 If you just played around with the test scenario and did not make any relevant changes to "config.xml" or the parser configuration you can just delete the complete RCB folder and follow the steps in the chapter "Installation" or "Setup test scenario".
