@@ -1,3 +1,4 @@
+#sidebar SideBar
 = Addon settings =
 You can access RCBs global settings via the context menu in addons / scripts list in XBMC (press C on the keyboard).
 
