@@ -1,3 +1,4 @@
+<wiki:toc max_depth="5" />
 = Installation =
 Note: RCBs configuration file "config.xml" will be stored in your XBMC userdata folder. You will find this folder in your user environment ([http://wiki.xbmc.org/index.php?title=Special_protocol#Platform_Specific_Default_Mappings Look here for special://home]). If you installed XBMC in portable mode you will find it in the XBMC installation directory. RCBs configuration is stored in "script_data/script.games.rom.collection.browser" (Camelot) or "addon_data/script.games.rom.collection.browser" (Dharma).
 
