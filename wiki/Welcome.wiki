@@ -25,15 +25,15 @@ Check out the following pages if you have trouble with setting up the script or 
 		<br>
 		
 		
-	= [AdvancedConfiguration Advanced configuration] =
+	= Advanced configuration =
 		
-		=== [AdvancedConfiguration#Use_offline_game_descriptions Use offline game descriptions] ===
+		=== [UseOfflineGameDescriptions Use offline game descriptions] ===
 		
-		=== [AdvancedConfiguration#Mixing_online_and_offline_scrapers Mixing online and offline scrapers] ===
+		=== [MixingOnlineAndOfflineScrapers Mixing online and offline scrapers] ===
 		
-		=== [AdvancedConfiguration#Enable_fullscreen_video_browser Enable fullscreen video browser] ===
+		=== [EnableFullscreenVideoBrowser Enable fullscreen video browser] ===
 		
-		=== [AdvancedConfiguration#Customize_presentation_of_artwork_and_videos Customize presentation of artwork and videos] ===
+		=== [CustomizePresentationOfArtwork Customize presentation of artwork and videos] ===
 		
 		<br>
 		
