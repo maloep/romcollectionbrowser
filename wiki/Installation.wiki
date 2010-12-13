@@ -1,8 +1,6 @@
 #sidebar SideBar
 = Installation =
-Note: RCBs configuration file "config.xml" will be stored in your XBMC userdata folder. You will find this folder in your user environment ([http://wiki.xbmc.org/index.php?title=Special_protocol#Platform_Specific_Default_Mappings Look here for special://home]). If you installed XBMC in portable mode you will find it in the XBMC installation directory. RCBs configuration is stored in "script_data/script.games.rom.collection.browser" (Camelot) or "addon_data/script.games.rom.collection.browser" (Dharma).
-
-== Camelot ==
+== Camelot / Xbox ==
   * Download [http://romcollectionbrowser.googlecode.com/files/script.games.rom.collection.browser-0.7.9.zip script.games.rom.collection.browser-0.7.9.zip]
   * Unzip it to your XBMC scripts folder
 
@@ -17,6 +15,9 @@ Note: RCBs configuration file "config.xml" will be stored in your XBMC userdata 
 === Known issues ===
 ==== The program doesn't load on �No module named pysqlite2� ====
 Some distributions don't ship with prebuild pysqlite libraries. You have to get them on your own and copy them to your xbmc lib folder (e.g. /usr/lib/xbmc/addons/script.module.pysqlite). I made an extra package with these libraries if you don't want to build them yourself: http://romcollectionbrowser.googlecode.com/files/platform_libraries.zip.
+
+
+Note: RCBs configuration file "config.xml" will be stored in your XBMC userdata folder. You will find this folder in your user environment ([http://wiki.xbmc.org/index.php?title=Special_protocol#Platform_Specific_Default_Mappings Look here for special://home]). If you installed XBMC in portable mode you will find it in the XBMC installation directory. RCBs configuration is stored in "script_data/script.games.rom.collection.browser" (Camelot) or "addon_data/script.games.rom.collection.browser" (Dharma).
 
 
 = Update an older installation =
