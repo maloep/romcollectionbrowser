@@ -1,5 +1,4 @@
 #sidebar SideBar
-<wiki:toc max_depth="5" />
 = Import games and media =
 == Import Roms ==
 A typical `RomCollection` entry (like it could be created with the wizard) will look like this:
