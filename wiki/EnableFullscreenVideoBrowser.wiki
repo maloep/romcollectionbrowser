@@ -4,7 +4,7 @@ RCB creates a video playlist with every game video in your current filter select
 
 If you have created your config.xml with the wizard, it will be enough to use one of the "...Video" imagePlacing-Options.
 
-To add fullscreen support manually you have to add this line to your ImagePlacing-configuration:
+To add fullscreen support manually you have to add this line to your [BrowsingAndDisplayingGames#ImagePlacing ImagePlacing]-configuration:
 {{{
 <fileTypeForMainViewFullscreenVideo>gameplay</fileTypeForMainViewFullscreenVideo>
 }}}
