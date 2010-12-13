@@ -3,7 +3,7 @@
   * Start XBMC and launch RCB
   * If there is no file config.xml in your userdata folder, RCB will start a simple creation wizard. This will help you to create a config file with most common settings.  
   * See section [Create_a_config_file_with_startup_wizard Create a config file with startup wizard] for more information.
-  * In most scenarios the wizard will fit all your needs. More advanced or special settings still must be done in the config file itself. See [ConfigXmlReference Complete config.xml Reference] for more information.
+  * In most scenarios the wizard will fit all your needs. More advanced or special settings still must be done in the config file itself. See section Complete config.xml Reference for more information.
   
 == XBMC Live users ==
 If you use XBMC Live without an additional window manager you can use RCB only in non-solo mode. See section [AddonSettings#Use_Emulator_solo Use Emulator solo] for details.
