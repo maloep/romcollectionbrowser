@@ -25,15 +25,3 @@ There are three stages where RCB reads its settings: [ImportGamesAndMedia Import
     * Choose the type of description files. There may be large files with descriptions for all of your games or single description files for every game.
     * Select the path to your description files.
     * Select the path to the parse instruction for the given description file.
-	
-== Improving scrape results ==
-todo
-
-== Import local nfo files ==
-todo
-
-== Use RCB to launch standalone games ==
-todo
-
-== Add new Rom Collections (without wizard) ==
-todo
