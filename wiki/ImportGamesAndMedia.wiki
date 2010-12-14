@@ -16,9 +16,9 @@ A typical `RomCollection` entry (like it could be created with the wizard) will 
       <mediaPath type="fanart">F:\Emulatoren\data\Artwork\SNES\fanart\%GAME%.*</mediaPath>
       <imagePlacing>gameinfobig</imagePlacing>
       <scraper name="thevideogamedb.com" />
-      <scraper name="thegamesdb.net" replaceKeyString=" III, II" replaceValueString=" 3, 2" />
-      <scraper name="giantbomb.com" replaceKeyString=" III, II" replaceValueString=" 3, 2" />
-      <scraper name="mobygames.com" platform="15" replaceKeyString=" III, II" replaceValueString=" 3, 2" />
+      <scraper name="thegamesdb.net"/>
+      <scraper name="giantbomb.com"/>
+      <scraper name="mobygames.com" platform="15"/>
     </RomCollection>    
   </RomCollections>
   ...
