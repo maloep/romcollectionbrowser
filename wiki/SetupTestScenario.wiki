@@ -41,5 +41,5 @@ If you want to launch roms with the test scenario you have to take these additio
 Now you should be able to browse the games by filter criteria and watch all information and artwork. 
 
 If you want to launch roms with the test scenario you have to take these additional steps:
-  # Go to your Testdata folder and replace the placeholder rom files with real ones (e.g. Testdata 0.7.x - online scraping/Collection V1/roms/).
+  # Go to your Testdata folder and replace the placeholder rom files with real ones (e.g. Testdata 0.7.x - local data/Collection V1/roms/).
   # Edit the value of property "emulatorCmd" and "emulatorParams". This command will be invoked when you launch a rom file. %ROM% will be replaced with the name of the rom file to be launched. If you have multiple rom files for one game %I% will be replaced with the (zero-based) index of the current file.
