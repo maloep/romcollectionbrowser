@@ -17,7 +17,7 @@ The params that are passed to the emulator. You can use the following placeholde
 
 If the emulator supports multiple rom files (like uae) you can use {} for repeating parameters. In a command like "uae {-%I% "%ROM%"}" the part in the {} brackets will be repeated for any disk file of the game. For example if you have an amiga game (`MyGame`) that consists of 2 disk files the uae command at runtime will be: 
 {{{
-uae -0 "`MyGame_Disk1.adf`" -1 "`MyGame_Disk2.adf`".
+uae -0 "MyGame_Disk1.adf" -1 "MyGame_Disk2.adf".
 }}}
 
 == Xbox only ==
