@@ -48,7 +48,7 @@ If you want to see your title screenshots as background, change it to:
 <fileTypeForMainViewBackground>title</fileTypeForMainViewBackground>
 }}}
 
-There are only two (alternating) controls in the main window (fileTypeForMainViewVideoWindowBig and fileTypeForMainViewVideoWindowSmall) and one control in the game details page (fileTypeForGameInfoViewVideoWindow) that are able to display video. If you use these fileTypeFor...-elements and a video is available for the selected game, the video playback is started automatically.
+There are two controls in the main window (fileTypeForMainViewVideoWindowBig and fileTypeForMainViewVideoWindowSmall) and one control in the game details page (fileTypeForGameInfoViewVideoWindow) that are able to display video. If you use these fileTypeFor...-elements and a video is available for the selected game, the video playback is started automatically.
 
 
 All available image placing options:
