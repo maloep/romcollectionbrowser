@@ -26,4 +26,4 @@ The basic structure of RCBs config file looks like this:
 
 Usually you should only get in contact with the `RomCollection` entries. If you have some special requirements and you know what you are doing you can of course change everything else.
 
-Most settings have a default value. If you don't use a setting in config.xml, RCB will work with the default value.
+Most settings have a default value. If you don't define a setting in config.xml, RCB will work with the default value.
