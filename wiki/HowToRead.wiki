@@ -6,7 +6,7 @@ This means if you read the description of property `descFilePerGame` and it has 
 
 {{{
 <config>
-	<RomCollections>
+	<RomCollections id="1" name="SNES">
 		<RomCollection>
 			...
 			<descFilePerGame>False</descFilePerGame>
