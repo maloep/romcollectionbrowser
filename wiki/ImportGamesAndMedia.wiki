@@ -95,9 +95,7 @@ The parent that is associated with the image or video. Must be one of the follow
 == Add game descriptions ==
 === Rom Collection ===
 ==== scraper ====
-With the scraper-elements in `RomCollection` you can control RCBs scraping behaviour. You can delete or reorder scrapers or add values that should be replaced in game names before scraping.
-
-See section [BasicConfiguration#Improving_scrape_results Improving scrape results] for more information about reordering scrapers.
+The scraper-elements reference the scrapers from the `Scrapers`-section at the end of config.xml. With the scraper-elements in `RomCollection` you can control RCBs scraping behaviour. You can delete or reorder scrapers or add values that should be replaced in game names before scraping.
 
 See section [ImportGamesAndMedia#Scraper Scraper] for more information about how to define scrapers for local game descriptions.
 
