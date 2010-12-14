@@ -17,7 +17,7 @@ With the `imagePlacing` tag you can select one of the `imagePlacing` options tha
       <fileTypeForGameListSelected>screenshot</fileTypeForGameListSelected>
       <fileTypeForMainViewBackground>fanart</fileTypeForMainViewBackground>
 	  ...
-	</fileTypeFor>
+    </fileTypeFor>
   </ImagePlacing>
   ...
 </config>
