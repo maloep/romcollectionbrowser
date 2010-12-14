@@ -38,7 +38,7 @@ With the `imagePlacing` tag you can select one of the `imagePlacing` options tha
 ==== fileTypeFor... ====
 With the fileTypeFor...-elements you can associate each of the available image controls in RCBs UI with a specific media type. You  can configure multiple fileTypeFor...-elements of the same type. They will be used as fallback: if there is no image or video of file type 1, it will try to load an image or video of file type 2. The file types must exactly match the value of `type` attribute that you used in `mediaPath` and `FileType` configuration.
 
-In this example RCB will show your boxfront screenshots as background image in the main window:
+In this example RCB will show your boxfront images as background image in the main window:
 {{{
 <fileTypeForMainViewBackground>boxfront</fileTypeForMainViewBackground>
 }}}
