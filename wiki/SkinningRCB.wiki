@@ -35,7 +35,7 @@ mainviewvideowindowbig
 mainviewvideowindowsmall
 }}}
 
-Here you can see how this is done in the current skin: [BrowsingAndDisplayingGames#dynamic_image_placing dynamic image placing]
+Here you can see how this is done in the current skin: [BrowsingAndDisplayingGames#dynamic_image_placing dynamic image placing] (see the screenshots at the end of the page).
 
 == Accessing RCBs text properties ==
 It should also be possible to access all text properties in the skin.
