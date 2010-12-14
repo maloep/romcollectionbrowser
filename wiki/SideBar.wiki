@@ -10,7 +10,6 @@
   * [ConfigurationFileFormat Configuration File Format (config.xml)]
   * [HowToRead How to read the Configuration section]
   * [UseOfflineGameDescriptions Use offline game descriptions]
-  * [MixingOnlineAndOfflineScrapers Mixing online and offline scrapers]
   * [EnableFullscreenVideoBrowser Enable fullscreen video browser]
   * [CustomizePresentationOfArtwork Customize presentation of artwork and videos]
 
