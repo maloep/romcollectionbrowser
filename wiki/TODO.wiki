@@ -57,7 +57,7 @@ Alien Breed I:
 
 == game browsing / general UI features ==
  * improve progress dialog
-	 * import rom collection 1/1 SNES...  * 93%
+	 * import rom collection 1/1 SNES...
 	 * import game: spiderman
 	 * current scraper: mobygames.com, download artwork, ...
  * use context menu
