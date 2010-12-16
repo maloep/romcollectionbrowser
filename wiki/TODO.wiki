@@ -1,0 +1,125 @@
+
+
+= Features =
+== game import / scraping ==
+=== general ===
+- upper() before game match?
+- handling of sequels and alternate titles
+--> only use Alternate title if ratio < fuzzyFactor
+--> search all alternate titles for best ratio
+error in current version:
+Alien Breed I:
+23:09:23 T:7952 M:971927552  NOTICE: RCB_INFO: Comparing "Alien Breed I" and "Alien Breed II: The Horror Continues". Sequel numbers don't match. Result will be skipped
+23:09:23 T:7952 M:971927552  NOTICE: RCB_INFO: "Alien Breed II: The Horror Continues" seems to be an alternate title of "Alien Breed I". Use it as result.
+
+- check special chars in pathes
+- Giantbomb API: check type of image/platform
+	-> Result contains Releases
+		-> loop releases and check for correct platform
+		-> use release date and image of this release
+- mame support
+- check if import desc file with %GAME% still works in current version
+- add replace options as global option
+- stop searching when all games are found
+- db structure: extra properties for outline und plot (atm only description)
+- easy to use option to rescrape missing games
+- get back more than one URL in 1 Result? (e.g. BackCover, FrontCover, ...)
+- ,-separated list in scraper (e.g. more than genre on mobygames are ignored)
+- foldernamefromCRC (implementation looks strange)
+- new option: build crc from complete zip or first entry
+- backup mygames.db before update
+- new db field %RATING%
+- file browser mode
+- more Disk indicators for multi rom scenario (Disk %I)
+- config file per game
+- delete missing games from db
+
+		
+=== implement new Scrapers (already checked) ===
+- http://api.archive.vg/1.0/Game.getInfoByCRC/APIKEY/f9394e97 
+
+=== sites to check for scraping ===
+- RFGeneration.com
+- http://www.gametrailers.com
+- http://www.thecoverproject.net
+- http://www.eurogamer.net/
+- http://www.gamespot.com
+- http://www.gamerankings.com
+
+- http://maws.mameworld.info/maws/
+- http://maws.mameworld.info/maws/srch...ch_text=dkong3
+- http://maws.mameworld.info/maws/romset/pacman
+- http://maws.mameworld.info/img/ps/snap/pacman.png
+- http://maws.mameworld.info/img/ps/cabinets/pacman.png
+
+- http://www.gamefaqs.com/ (Forbidden in Terms of use) (Request for permission: #101113-000033, no answer) 
+- http://www.allgame.com/ (Forbidden in Terms of use) (mail written, no answer)
+
+
+
+== game browsing / general UI features ==
+- improve progress dialog
+	- import rom collection 1/1 SNES... - 93%
+	- import game: spiderman
+	- current scraper: mobygames.com, download artwork, ...
+- use context menu
+	- Addon settings
+	- Add RomCollection
+	...
+- rework current skins
+- create new skins
+- complete settings dialog (all RomCollection properties)
+- option to edit game properties
+- handle different image sizes
+- mark game as completed
+- default image if there is no video found
+- pause video when importing games
+- more image placing options: upper, lower, left, right
+- favorite view per romcollection
+- gloss covers on/off
+- option: Autoplay video
+- option: Autoscroll description
+- highlight filter selection
+- if game has url: option to launch in browser
+- more than one image per control
+
+
+== game launching ==
+- extract zip and .7z files (integrate quakes fixes)
+- command before launch and after launch(f.e. load virtual cd drive, unload virtual cd drive)
+- check for {} in multi rom scenario (multi rom but no brackets in emuCmd -> error)
+- ignore multi rom scenario (f.e. mame)
+- focus not on gamelist after launchemu (problem only on windows?)
+
+
+= Refactoring / implementation details =
+- move scraper code to separate module
+- move launcher code to separate moule
+- new logLevel: ALWAYS
+- consequent use of constants/enums
+
+
+= Tests =
+- add more real unit test after refactoring
+- DescParser
+	- getFlatFile
+	- getXML
+	- getUnknown
+	- readFileLocal
+	- readFileWeb
+- DescParserFlatFile
+	- parseDescPerGame
+	- parseDescForAllGames
+- gamename with &
+
+= Documentation =
+- video tut for local data test suite
+- Improving scrape results
+- Import local nfo files
+- Use RCB to launch standalone games
+- Add new Rom Collections (without wizard)
+- Mixing online and offline scrapers
+- List of emus with command line parameters and known issues
+- HOWTO: create a useful log file
+- HOWTO: troubleshoot launching problems
+- FAQ
