@@ -1,16 +1,22 @@
 
-
 = Features =
 == game import / scraping ==
 === general ===
  * upper() before game match?
  * handling of sequels and alternate titles
+
 --> only use Alternate title if ratio < fuzzyFactor
+
 --> search all alternate titles for best ratio
+
 error in current version:
+
 Alien Breed I:
+
 23:09:23 T:7952 M:971927552  NOTICE: RCB_INFO: Comparing "Alien Breed I" and "Alien Breed II: The Horror Continues". Sequel numbers don't match. Result will be skipped
+
 23:09:23 T:7952 M:971927552  NOTICE: RCB_INFO: "Alien Breed II: The Horror Continues" seems to be an alternate title of "Alien Breed I". Use it as result.
+
 
  * check special chars in pathes
  * Giantbomb API: check type of image/platform
