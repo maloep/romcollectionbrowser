@@ -24,6 +24,7 @@ Alien Breed I:
  * stop searching when all games are found
  * db structure: extra properties for outline und plot (atm only description)
  * easy to use option to rescrape missing games
+ * manual scraping games (update properties and images)
  * get back more than one URL in 1 Result? (e.g. BackCover, FrontCover, ...)
  * ,-separated list in scraper (e.g. more than genre on mobygames are ignored)
  * foldernamefromCRC (implementation looks strange)
