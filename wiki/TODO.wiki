@@ -1,30 +1,23 @@
 = Features =
 == game import / scraping ==
 === general ===
- * upper() before game match?
- * handling of sequels and alternate titles
 
-{{{
---> only use Alternate title if ratio < fuzzyFactor
---> search all alternate titles for best ratio
-error in current version:
-Alien Breed I:
-23:09:23 T:7952 M:971927552  NOTICE: RCB_INFO: Comparing "Alien Breed I" and "Alien Breed II: The Horror Continues". Sequel numbers don't match. Result will be skipped
-23:09:23 T:7952 M:971927552  NOTICE: RCB_INFO: "Alien Breed II: The Horror Continues" seems to be an alternate title of "Alien Breed I". Use it as result.
-}}}
-
- * check special chars in pathes
- * Giantbomb API: check type of image/platform
+ * easier handling of default images (per romcollection)
+ * manual scraping games (update properties and images)
+ * easy to use option to rescrape missing games
+ * stop searching when all games are found
+ * check if import desc file with %GAME% still works with config wizard
+ * more Disk indicators for multi rom scenario (Disk %I)
+ * delete missing games from db (batch and single)
+ * check special chars (ä, è) in pathes
+ * Giantbomb API: check type of image/platform (current version is not platform safe)
 	-> Result contains Releases
 		-> loop releases and check for correct platform
-		-> use release date and image of this release
- * mame support
- * check if import desc file with %GAME% still works in current version
+		-> use release date and image of this release		
+
+ * add mame support
  * add replace options as global option
- * stop searching when all games are found
  * db structure: extra properties for outline und plot (atm only description)
- * easy to use option to rescrape missing games
- * manual scraping games (update properties and images)
  * get back more than one URL in 1 Result? (e.g. BackCover, FrontCover, ...)
  * ,-separated list in scraper (e.g. more than genre on mobygames are ignored)
  * foldernamefromCRC (implementation looks strange)
@@ -32,9 +25,8 @@ Alien Breed I:
  * backup mygames.db before update
  * new db field %RATING%
  * file browser mode
- * more Disk indicators for multi rom scenario (Disk %I)
  * config file per game
- * delete missing games from db
+ * manual and faq browser
 
 		
 === implement new Scrapers (already checked) ===
@@ -55,21 +47,25 @@ Alien Breed I:
 
 
 == game browsing / general UI features ==
+ * use context menu
+	 * Addon settings
+	 * Add RomCollection
  * improve progress dialog
 	 * import rom collection 1/1 SNES...
 	 * import game: spiderman
 	 * current scraper: mobygames.com, download artwork, ...
- * use context menu
-	 * Addon settings
-	 * Add RomCollection
  * rework current skins
  * create new skins
+ * filter control interaction
+ * search games by textbox
+ * mark game as completed
+ * favorites function
+ * short delay before applying filter selection
+ * pause video when importing games, changing view or filter selection
  * complete settings dialog (all RomCollection properties)
  * option to edit game properties
  * handle different image sizes
- * mark game as completed
  * default image if there is no video found
- * pause video when importing games
  * more image placing options: upper, lower, left, right
  * favorite view per romcollection
  * gloss covers on/off
@@ -78,14 +74,15 @@ Alien Breed I:
  * highlight filter selection
  * if game has url: option to launch in browser
  * more than one image per control
+ * loop videos (stop and start video causes list to refresh)
 
 
 == game launching ==
  * extract zip and .7z files (integrate quakes fixes)
- * command before launch and after launch(f.e. load virtual cd drive, unload virtual cd drive)
  * check for {} in multi rom scenario (multi rom but no brackets in emuCmd -> error)
  * ignore multi rom scenario (f.e. mame)
  * focus not on gamelist after launchemu (problem only on windows?)
+ * command before launch and after launch(f.e. load virtual cd drive, unload virtual cd drive)
 
 
 = Refactoring / implementation details =
