@@ -666,15 +666,24 @@ class DBUpdate:
 				if(highestRatio == 1.0):
 					bestMatchingGame = self.resolveParseResult(results[bestIndex], 'SearchKey')
 					Logutil.log('Perfect match. Using result %s' %bestMatchingGame, util.LOG_LEVEL_INFO)
-					return results[bestIndex]
+					return results[bestIndex]			
 				
-			#alternate titles : whole title must be found in result and result must contain "-" or ":"
-			bestIndex, highestRatio = self.checkForAlternateTitles(gamenameFromFile, results, lastChar, digits, romes, bestIndex, highestRatio)
-			bestMatchingGame = self.resolveParseResult(results[bestIndex], 'SearchKey')
+			if(highestRatio < fuzzyFactor):				
+				#try again with alternate titles
+				#alternate titles : whole title must be found in result and result must contain "-" or ":"
+				bestIndex = self.checkForSubTitles(gamenameFromFile, results, lastChar, digits, romes)				
+				if(bestIndex > -1):
+					bestMatchingGame = self.resolveParseResult(results[bestIndex], 'SearchKey')
+					Logutil.log('Best matching game found by alternate title check: %s' %bestMatchingGame, util.LOG_LEVEL_INFO)
+					
+				seqNoIsEqual = self.checkSequelNoIsEqual(gamenameFromFile, bestMatchingGame, digits, romes)
+				if (not seqNoIsEqual):
+					Logutil.log('Comparing "%s" and "%s". Sequel numbers don\'t match. Result will be skipped.' %(gamenameFromFile, bestMatchingGame), util.LOG_LEVEL_INFO)
+					return None
 				
-			if(highestRatio < fuzzyFactor):
-				Logutil.log('No result found with a ratio better than %s. Result will be skipped.' %(str(fuzzyFactor),), LOG_LEVEL_WARNING)
-				return None
+				if(bestIndex == -1):
+					Logutil.log('No result found with a ratio better than %s. Result will be skipped.' %(str(fuzzyFactor),), LOG_LEVEL_WARNING)
+					return None						
 			
 			if(bestIndex == -1):
 				return None
@@ -726,7 +735,7 @@ class DBUpdate:
 		Logutil.log('Game may belong to a sequel. Start extra handling.', util.LOG_LEVEL_INFO)
 		gamename = gamenameFromFile
 		for i in range(0, len(replaceKeys)):
-			gamename = gamename.replace(replaceKeys[i], replaceValues[i])						
+			gamename = gamename[:len(gamename)-4] + gamename[len(gamename)-4:].replace(replaceKeys[i], replaceValues[i])						
 		
 		Logutil.log('Searching for game (sequel number replaced): ' +gamename, util.LOG_LEVEL_INFO)
 		bestIndex, highestRatio = self.findBestGameMatch(results, gamename, bestIndex, highestRatio)
@@ -734,14 +743,14 @@ class DBUpdate:
 		#Extra Handling for episode 1
 		if(highestRatio != 1.0):
 			if(lastChar == '1'):
-				gamename = gamenameFromFile.replace(' 1', '')
+				gamename = gamenameFromFile[:len(gamenameFromFile)-2]
 				Logutil.log('Searching for game (sequel number 1 removed): ' +gamename, util.LOG_LEVEL_INFO)
 				bestIndex, highestRatio = self.findBestGameMatch(results, gamename, bestIndex, highestRatio)
 			else:
 				#Extra Handling for episode 1				
 				lastTwoChars = gamenameFromFile[len(gamenameFromFile) -2:]
 				if(lastTwoChars.upper() == ' I'):							
-					gamename = gamenameFromFile.replace(' I', '')
+					gamename = gamenameFromFile[:len(gamenameFromFile)-2]
 					Logutil.log('Searching for game (sequel number I removed): ' +gamename, util.LOG_LEVEL_INFO)
 					bestIndex, highestRatio = self.findBestGameMatch(results, gamename, bestIndex, highestRatio)
 			
@@ -754,6 +763,10 @@ class DBUpdate:
 			
 		if(indexGamename == -1 and indexSearchKey == -1):
 			Logutil.log('"%s" and "%s" both don\'t contain a sequel number. Skip checking sequel number match.' %(gamenameFromFile, searchKey), util.LOG_LEVEL_INFO)
+			return True
+		
+		if((indexGamename == -1 or indexSearchKey == -1) and (indexGamename == 9 or indexSearchKey == 9)):
+			Logutil.log('"%s" and "%s" seem to be sequel number 1. Skip checking sequel number match.' %(gamenameFromFile, searchKey), util.LOG_LEVEL_INFO)
 			return True
 		
 		return indexGamename == indexSearchKey
@@ -773,17 +786,23 @@ class DBUpdate:
 		return indexGamename
 	
 	
-	def checkForAlternateTitles(self, gamenameFromFile, results, lastChar, digits, romes, bestIndex, highestRatio):
+	def checkForSubTitles(self, gamenameFromFile, results, lastChar, digits, romes):
+		
+		bestIndex = -1
+		highestRatio = -1
 		
 		for i in range(0, len(results)):
 			result = results[i]
 			searchKey = self.resolveParseResult(result, 'SearchKey')
-			if(searchKey.find(gamenameFromFile) > -1 and (searchKey.find(':') > -1 or searchKey.find('-') > -1)):
-				Logutil.log('"%s" seems to be an alternate title of "%s". Use it as result.' %(searchKey, gamenameFromFile), util.LOG_LEVEL_INFO)
-				bestIndex = i
-				highestRatio = 1.0
-				break
-			else:				
+			Logutil.log('Compare subtitle: %s with result: %s' %(gamenameFromFile, searchKey), util.LOG_LEVEL_INFO)
+			if(searchKey.upper().find(gamenameFromFile.upper()) > -1 and (searchKey.find(':') > -1 or searchKey.find('-') > -1)):
+				Logutil.log('"%s" seems to be an subtitle of "%s".' %(searchKey, gamenameFromFile), util.LOG_LEVEL_INFO)
+				ratio = difflib.SequenceMatcher(None, gamenameFromFile.upper(), searchKey.upper()).ratio()
+				Logutil.log('Ratio for subtitle: %s' %(str(ratio)), util.LOG_LEVEL_INFO)
+				if(ratio > highestRatio):
+					bestIndex = i
+					highestRatio = ratio
+			else:		
 				#try again with replaced Sequel Numbers
 				if(lastChar.isdigit()):
 					replaceKeys = digits
@@ -793,18 +812,21 @@ class DBUpdate:
 					replaceValues = digits
 				else:
 					continue
-					
+								
 				gamename = gamenameFromFile
 				for j in range(0, len(replaceKeys)):
-					gamename = gamename.replace(replaceKeys[j], replaceValues[j])
+					gamename = gamename[:len(gamename)-4] + gamename[len(gamename)-4:].replace(replaceKeys[j], replaceValues[j])					
 				
-				if(searchKey.find(gamename) > -1 and (searchKey.find(':') > -1 or searchKey.find('-') > -1)):
-					Logutil.log('"%s" seems to be an alternate title of "%s" (sequel number replaced). Use it as result.' %(searchKey, gamename), util.LOG_LEVEL_INFO)
-					bestIndex = i
-					highestRatio = 1.0
-					break
-				
-		return bestIndex, highestRatio
+				Logutil.log('Compare subtitle (sequel number replaced): %s with result: %s' %(gamename, searchKey), util.LOG_LEVEL_INFO)
+				if(searchKey.upper().find(gamename.upper()) > -1 and (searchKey.find(':') > -1 or searchKey.find('-') > -1)):
+					Logutil.log('"%s" seems to be an subtitle of "%s" (sequel number replaced). Use it as result.' %(searchKey, gamename), util.LOG_LEVEL_INFO)
+					ratio = difflib.SequenceMatcher(None, gamename.upper(), searchKey.upper()).ratio()
+					Logutil.log('Ratio for subtitle: %s' %(str(ratio)), util.LOG_LEVEL_INFO)
+					if(ratio > highestRatio):
+						bestIndex = i
+						highestRatio = ratio
+					
+		return bestIndex
 					
 			
 	def findBestGameMatch(self, results, gamenameFromFile, bestIndex, highestRatio):
