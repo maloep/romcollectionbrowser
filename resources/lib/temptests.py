@@ -44,33 +44,26 @@ from descriptionparserfactory import DescriptionParserFactory
 #descFile = "F:\\Emulatoren\\data\\Scraper Tests\\Roms\\Sega32\\32x - Motocross Championship.nfo"
 #parseInstruction = "C:\\Users\\malte\\AppData\\Roaming\\XBMC\\scripts\\Rom Collection Browser\\resources\\scraper\\00 - local nfo.xml"
 
-descFile = "http://api.archive.vg/1.0/Game.getInfoByCRC/VT7RJ960FWD4CC71L0Z0K4KQYR4PJNW8/f9394e97"
-parseInstruction = "F:\\Emulatoren\\data\\Synopsis\\Archive - parserConfig.xml"
+descFile = "http://api.archive.vg/1.0/Game.getInfoByCRC/VT7RJ960FWD4CC71L0Z0K4KQYR4PJNW8/b710561b"
+parseInstruction = "F:\\Emulatoren\\data\\Synopsis\\Archive\\Archive - parserConfig.xml"
+
+#http://api.archive.vg/1.0/Archive.search/VT7RJ960FWD4CC71L0Z0K4KQYR4PJNW8/Alien+Brees
+#http://api.archive.vg/1.0/Game.getInfoByID/VT7RJ960FWD4CC71L0Z0K4KQYR4PJNW8/21565
+
+#http://api.archive.vg/1.0/System.getGames/VT7RJ960FWD4CC71L0Z0K4KQYR4PJNW8/SYSTEM
 
 
-"""
 from descriptionparserfactory import *
 descParser = DescriptionParserFactory.getParser(parseInstruction)
 
 results = descParser.parseDescription(str(descFile))
 for result in results:
 	print result
-"""
 
-import glob
 
-pathName = "F:\\Emulatoren\\data\\Artwork\\SNES\\boxfront\\Breath Of Fire I [U](J).*"
-squares = re.findall('\s\[.*\]',pathName)
-print squares
-for square in squares:
-	pathName = pathName.replace(square, '*')
-
-print len(squares)
-
-print pathName
-files = glob.glob(pathName)
-
-print files
+str = "ABC Island II"
+str = str[:len(str)-2] + str[len(str)-2:].replace(' I', ' 2')
+print str
 
 
 """
