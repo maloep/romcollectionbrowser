@@ -52,18 +52,27 @@ parseInstruction = "F:\\Emulatoren\\data\\Synopsis\\Archive\\Archive - parserCon
 
 #http://api.archive.vg/1.0/System.getGames/VT7RJ960FWD4CC71L0Z0K4KQYR4PJNW8/SYSTEM
 
-
+"""
 from descriptionparserfactory import *
 descParser = DescriptionParserFactory.getParser(parseInstruction)
 
 results = descParser.parseDescription(str(descFile))
 for result in results:
 	print result
+"""
 
 
-str = "ABC Island II"
-str = str[:len(str)-2] + str[len(str)-2:].replace(' I', ' 2')
-print str
+gamenameFromFile = "NFL"
+searchKey = "NFL 1998"
+
+numbers = re.findall(r"\d+", gamenameFromFile)
+if(len(numbers) > 0):
+	numberGamename = numbers[len(numbers)-1]
+
+numbers = re.findall(r"\d+", searchKey)
+numberSearchkey = numbers[len(numbers)-1]
+
+
 
 
 """
