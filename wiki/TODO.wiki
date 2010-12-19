@@ -1,21 +1,22 @@
+
 = Features =
 == game import / scraping ==
 === general ===
-
  * easier handling of default images (per romcollection)
+ * support a.k.a. titles from mobygames
+ * slight changes to subtitle matching (e.g. Alien Breed III, Bards Tale I)
  * manual scraping games (update properties and images)
+ * delete missing games from db (batch and single)
+ * add mame support
  * easy to use option to rescrape missing games
  * stop searching when all games are found
  * check if import desc file with %GAME% still works with config wizard
  * more Disk indicators for multi rom scenario (Disk %I)
- * delete missing games from db (batch and single)
  * check special chars (ä, è) in pathes
  * Giantbomb API: check type of image/platform (current version is not platform safe)
 	-> Result contains Releases
 		-> loop releases and check for correct platform
 		-> use release date and image of this release		
-
- * add mame support
  * add replace options as global option
  * db structure: extra properties for outline und plot (atm only description)
  * get back more than one URL in 1 Result? (e.g. BackCover, FrontCover, ...)
@@ -33,7 +34,7 @@
  * http://api.archive.vg/1.0/Game.getInfoByCRC/APIKEY/f9394e97 
 
 === sites to check for scraping ===
- * RFGeneration.com
+ * http://www.RFGeneration.com
  * http://www.gametrailers.com
  * http://www.thecoverproject.net
  * http://www.eurogamer.net/
@@ -43,7 +44,6 @@
 
  * http://www.gamefaqs.com/ (Forbidden in Terms of use) (Request for permission: #101113-000033, no answer) 
  * http://www.allgame.com/ (Forbidden in Terms of use) (mail written, no answer)
-
 
 
 == game browsing / general UI features ==
@@ -56,6 +56,7 @@
 	 * current scraper: mobygames.com, download artwork, ...
  * rework current skins
  * create new skins
+ * handle different image sizes
  * filter control interaction
  * search games by textbox
  * mark game as completed
@@ -64,7 +65,6 @@
  * pause video when importing games, changing view or filter selection
  * complete settings dialog (all RomCollection properties)
  * option to edit game properties
- * handle different image sizes
  * default image if there is no video found
  * more image placing options: upper, lower, left, right
  * favorite view per romcollection
@@ -94,6 +94,7 @@
 
 = Tests =
  * add more real unit test after refactoring
+	* game matching (sequels, subtitles, ...)
  * DescParser
 	 * getFlatFile
 	 * getXML
@@ -105,6 +106,7 @@
 	 * parseDescForAllGames
  * gamename with &
 
+ 
 = Documentation =
  * video tut for local data test suite
  * Improving scrape results
@@ -112,7 +114,7 @@
  * Use RCB to launch standalone games
  * Add new Rom Collections (without wizard)
  * Mixing online and offline scrapers
- * List of emus with command line parameters and known issues
+ * List of emus with command line parameters and known issues (maybe in XBMC wiki?)
  * HOWTO: create a useful log file
  * HOWTO: troubleshoot launching problems
  * FAQ
