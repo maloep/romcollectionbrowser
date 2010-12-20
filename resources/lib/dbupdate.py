@@ -739,6 +739,11 @@ class DBUpdate:
 				pathnameFromDeveloper = path.replace("%DEVELOPER%", developer)
 				Logutil.log("resolved path from developer name: " +pathnameFromDeveloper, util.LOG_LEVEL_INFO)
 				files = self.getFilesByWildcard(pathnameFromDeveloper)													
+			
+			if(path.find("%GAME%") == -1 & path.find("%ROMCOLLECTION%") == -1 & path.find("%PUBLISHER%") == -1 & path.find("%DEVELOPER%") == -1):
+				pathnameFromStaticFile = path
+				Logutil.log("using static defined media file from path: " + pathnameFromStaticFile, util.LOG_LEVEL_INFO)
+				files = self.getFilesByWildcard(pathnameFromStaticFile)			
 				
 			if(len(files) == 0):
 				Logutil.log('No files found for game "%s" at path "%s". Make sure that file names are matching.' %(gamename, path), util.LOG_LEVEL_WARNING)
@@ -959,6 +964,8 @@ class DBUpdate:
 			
 			if(len(rootExtUrl) == 2 and len(rootExtFile) != 0):
 				fileName = rootExtFile[0] + rootExtUrl[1]
+				gameName = rootExtFile[0] + ".*"
+				files = self.getFilesByWildcard(gameName)
 			
 			#check if folder exists
 			dirname = os.path.dirname(fileName)
@@ -966,7 +973,7 @@ class DBUpdate:
 				os.mkdir(dirname)
 			
 			Logutil.log("Download file to: " +str(fileName), util.LOG_LEVEL_INFO)			
-			if (not os.path.isfile(fileName)):
+			if(len(files) == 0):
 				Logutil.log("File does not exist. Starting download.", util.LOG_LEVEL_INFO)				
 				# fetch thumbnail and save to filepath
 				urllib.urlretrieve( thumbUrl, str(fileName))
