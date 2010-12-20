@@ -1,0 +1,312 @@
+*
+db0814c5,5fa9485c,21392b00
+California Games II
+Platform: Super NES
+Region: USA
+Media: Cartridge
+Controller: Gamepad
+Genre: Sports - Competitive Events
+Release Year: 1992
+Developer: Silicon Sorcery
+Publisher: DTMC Inc.
+Players: 
+______________________________
+*
+"At least it ends..."
+
+Wow. This game made me want to smash my face through my SNES system repeatedly. You're this little dude and you do stereotypical California games.
+
+Graphics 2/10
+
+It's nothing special. There's some flat, uninteresting colors that help you tell one thing from another, but for the most part, the graphics aren't anything extraordinary. They don't hurt the game, but a hardcore graphics lover wouldn't be pleased.
+
+Gameplay 1/10
+
+Not fun at all. Like I said, you run around California doing some boring games. You can go hang-gliding, but all you do is fly out, pick up a few things and drift back to land. You could be done within 30 seconds. Then you can Jet-Ski, where you ride around a surprisingly complex track. However, there's no racing, just some obstacles. Then, somehow quickly getting from the ocean to the mountains, you go snowboarding. You ride down the hill and at one point hit a half pipe and do a trick or two while struggling to get out. Then you continue on and you get to a point without snow, which makes no sense to me. Then, you get to go skating in yet another long and winding track. And did I mention the ''commentary'' throughout all the events? Yeah. There's some ''dude'' who never talks, but little words appear above him. He spouts words like ''bogus'' or ''face plant'' if you do poorly. If you do well, he'll say something like ''totally'' or ''awesome''. 
+
+Before every event, he'll say something like ''get ready to carve concrete'' or some other witty line. They all have do to with cutting for some reason, however.
+
+Controls 2/10
+
+Really awkward at some points but better at others. It'd be so much better if you didn't have to share a single controller for multiplayer.
+
+Sound: 1/10
+
+The music drives me nuts. It's a little, repeating ''guitar'' piece and then it keeps going...and going...and going until you turn the game off. You'd be happier with the sound down or off.
+
+Buy or Rent?
+
+If you have to do one of those, rent it. Otherwise stay the ### away from this game. You could pick it up in a bargain bin just for a laugh, but don't spend too much on this game, as you'll be sick of it in a few days.
+
+Overall
+
+I despised this game with all of my heart when I was younger. Now I can pop it in for a quick laugh, but the humor soon fades.
+
+Reviewer's Score: 2/10, Originally Posted: 01/28/04
+
+Reviewer: Geek of Doom
+http://www.gamefaqs.com/console/snes/review/R68081.html
+*
+
+*
+31a1b85a,8afe2f91
+Demolition Man
+Platform: Super NES
+Region: USA
+Media: Cartridge
+Controller: Gamepad
+Genre: Movie Adaptation
+Release Year: 1995
+Developer: Virgin Interactive
+Publisher: Acclaim
+Players: 
+______________________________
+*
+Demolition Man is a multiplatform, run and gun action game based on the film of the same name. The player controls the main character, John Spartan as he attempts to find and defeat his arch-nemesis, Simon Phoenix. Even though he is the final boss of the game, the player has to fight him in teaser battles before defeating him for good at the cryo-prison.
+
+Two different views are used within the game. Some stages are platform game type in side view, and include jumping and climbing, while other stages take an overhead top-down shooter view; in all stages the player character can fire in eight directions. Stages are filled with many enemies, mostly gunmen. Enemy characters and the player character can take a number of hits before dying. Power ups can be found around the stages that increase the characters health or ammunition. The game gives the player limited continues and very few lives. The first stage is set in 1996 and all stages after in 2032, following a simplified plot of the movie. In the two overhead view stages the player must find and rescue hostages in order to unlock further into the level.
+
+Weapons include the basic pistol, the basic rifle, rapid-fire machine gun, grenades, among others. Losing a life can occur through being shot to death, being crushed to death, being thrown off the train, accidentally getting frozen by Simon Phoenix's cryogenic gun, and falling into a pit of lava.
+
+Comparisons Between the Game and the Movie:
+
+This emasculation of the movie eliminates all of the comedic elements and turns the game into a straight action game with minor witty comments that appeared on the Super NES and the Sega Genesis versions of the game. Examples of these minor witty comments included statements like "you look great today" and "avoid fatty foods." Hardcore fans of the movie would eventually find out that the "talking computer" can only utter MDK repeatedly in the game. Even with this limitation in mind, the game can keep track of the player's score and how many people he has killed. Due to the game's Kids-to-Adults rating, there is no adult language as seen in the movie. When players see the machines that gave out fines for "violating the verbal morality stature" in the movie, they are considered to be mere decorations in the video game.
+
+The first level is displayed in side view platform type, the health bar is displayed in the bottom left. John Spartan enters the stage by jumping with a cable from a helicopter, a scene taken from the movie
+
+All references to Taco Bell have been eliminated because the Taco Bell restaurant is part of a side story involving Raymond Cocteau, Lenina Huxley, and John Spartan; it has nothing to do with the main quest of apprehending Simon Phoenix. The gunmen in the game are assumed to belong to Edgar Friendly; the movie mentions about a resistance army in the sewers rebelling against Raymond Cocteau's control of San Angeles. Simon Phoenix does not gather an army of his own until late in the movie and Edgar Friendly is the only one who has the charisma to recruit a mass number of gunmen from the start of the 2032 (future) segment of the film. There is also another stage that was never in the movie; the maglev train level. In this level, John Spartan must navigate through a futuristic train. He must try to avoid either getting killed by the thugs or the devices controlled by the train's central processing unit. The object of that level was to stop the train before it went uncontrollably fast. 
+
+The futuristic parking lot level introduced a robotic villain that was never seen in the film; a renegade car crusher that attacked the player with automobiles.
+
+http://en.wikipedia.org/wiki/Demolition_Man_(video_game)
+*
+
+*
+360243e4,e5d722b2,09e85ea6
+Doom
+Platform: Super NES
+Region: USA
+Media: Cartridge
+Controller: Gamepad
+Genre: 1st Person Shooter
+Release Year: 1996
+Developer: Sculptured Software
+Publisher: Williams Entertainment
+Players: 1
+______________________________
+*
+Doom on the PC was without a doubt my favorite first person shooter "back in the day," I just liked the entire concept of being a nameless marine and saving the Earth from the forces of Hell, which appeared through a portal on Mars. Yeah, it's a convoluted B-movie style plot, but when a game is this fun you tend to forgive the writers for not being H.G. Wells.
+
+Doom makes the transition to the SNES without losing any of its atmosphere or fun in the process. The only thing that really disappointed me about this port was its lack of two-player, adversarial "Deathmatch," but even then, I still enjoy sitting back and tearing my way through the forces of Hell with nothing but a shotgun and my bare hands, and I have a feeling that you will too! The trademark MIDI soundtrack makes its way to the SNES intact, although the bass' volume has been brought up in the mix this time around, which may or may not annoy you (I honestly didn't mind). Like the sound, the graphics are mostly intact, except for being slightly more choppy and blurry due to the SNES' lower processing power, but even then, it's not like you'd notice that unless you've already played the PC version.
+
+For my money, nothing beats Doom on the PC for classic shooting action, but this is still a great port to play if you can't get your hands on a copy, or just want to witness the evolution of one of gaming's most celebrated franchises.
+
+Directions:
+
+Doom is essentially the archetype on which all other first person shooters are built. You go through various levels, killing zombies and monsters, starting with weapons like the pistol and shotgun, and gaining new weapons like the chaingun and plasma gun.
+
+In order to exit the level, you must find the "EXIT" and flip the switch. There might also be doors, which require keycards to open. Keycards are scattered all over, and you must find them to open the desired door(s).
+
+There are many power-ups throughout the game, such as "Berserk," which allows you to become invincible and kill any basic enemy in one or two hits with your fists. There are also various health packs and weapon power-ups strewn across the level, sometimes in out of the way places, that are essential to your survival when you'll face off against the games bosses.
+
+The bosses in Doom are an entirely different beast than the rest of the monsters in the game; you can't just yell "charge" and take them on at full force. Unless of course, you want to be completely and utterly annihilated. These fights are more cerebral, they require you to find a position and hunker down for a while until the monster has diverted his attention to something else (i.e. mindlessly wandering), then at that time you can proceed to blast him with your most powerful weapons. You'll find yourself repeating this process time and time again on some of the more powerful bosses throughout the game. 
+
+Controls:
+
+A Button - Open door, flip switch
+B Button - Run (when moving)
+X Button - Change weapon
+Y Button - Shoot
+L Button - Strafe left
+R Button - Strafe right
+Start Button - Pause/Unpause
+Select Button - View Automap
+
+Hints:
+
+Random Weapons Bug
+Immediately after picking up a chainsaw, switch to a weapon that you have no ammo for and try to fire it. When the empty weapon is used it will turn into another random weapon, which may be one you haven't found yet. As they say in the industry, this is a bug, not a feature, so it doesn't always work the same way. 
+
+http://www.consoleclassix.com/snes/doom.html
+*
+
+*
+47760381,04d55e12,1f8c30e8,6a6c2091,777aac2f
+Legend of Zelda - A Link to the Past
+Platform: Super NES
+Region: USA
+Media: Cartridge
+Controller: Gamepad
+Genre: 
+Release Year: 1992
+Developer: Nintendo
+Publisher: Nintendo
+Players: 1
+______________________________
+*
+This installment in the Zelda series was my favorite. Nintendo took it back to the original overhead view and upped the graphics. The game played a lot like the first one except it was a lot longer and there were a whole bunch of little sub quests you could complete, but that weren't mandatory to beat the game. A Link to the Past really did clear the way for all other Zelda games. If haven't tried this one, get on it right now.
+
+Directions:
+
+Collect all three pendants and all seven crystals to save Hyrule and Princess Zelda from the evil Ganon. 
+
+This was the first Zelda game to have mini games that you could win prizes for. Well, that's if you don't count the money making game from the first one. A lot of the later Zelda games included bow shooting galleries where you could win a bigger quiver or a lot of money. This was also the first time Link had the option to pull something or push, instead of being able to push only. This was also the first one where he could pick random objects up or cut them up in order to find hidden goodies. 
+
+Controls:
+
+A Button - Action
+B Button - Swing Sword
+X Button - View Map
+Y Button - Use Item
+Start Button - Start, Menu
+Select Button - End/Save Game
+
+Hints:
+
+Blind Spot In Tile Trap Rooms
+In rooms with the poltregeist tiles, stand at the edge of the room and face the center of the room. The tiles will bounce harmlessly off the shield. 
+
+Reviewer: Adrian
+http://www.consoleclassix.com/snes/legend_zelda_link_past.html
+*
+
+*
+cf10cc01
+Madden NFL '98
+Platform: Super NES
+Region: USA
+Media: Cartridge
+Controller: Gamepad
+Genre: Sports - Football
+Release Year: 1997
+Developer: Electronic Arts
+Publisher: THQ
+Players: 
+______________________________
+*
+Madden NFL 98 is a football video game. It features John Madden on the cover. It was the last version of the Madden series to be released for the SNES and Sega's Genesis and Saturn platforms.
+
+http://en.wikipedia.org/wiki/Madden_NFL_98
+*
+
+*
+6b62625a,07fafcd0,caf035f5
+Space Invaders
+Platform: Super NES
+Region: USA
+Media: Cartridge
+Controller: Gamepad
+Genre: 
+Release Year: 1996
+Developer: Taito
+Publisher: Nintendo
+Players: 
+______________________________
+*
+Taito and Nintendo have brought back the classic Space Invaders game, with very little modification. An incredibly popular game when it was first released, Space Invaders has inspired many reproductions over the years, although this type of game has been eclipsed by modern graphics-heavy, music-laden games.
+
+In any case, the subtitle, "The Original Game," is pretty much the truth. The graphics are almost identical to the original Atari release. There is almost no animation, things just move back and forth on the screen. There is no background music, also true to the original, but the original sound effects are there, and still amazingly good for such a simple game.
+
+The main difference is that this new edition has a competitive two-player mode. Not only can you take turns and compete for points, but you can face-off in a side-by-side split screen contest, in the tradition of Tetris and Dr. Mario.
+
+If you like a game of survival and high scores, and if you like direct competition outside of the fighting game genre, then give Space Invaders a try. You'll love it!
+
+http://www.consoleclassix.com/snes/space_invaders.html
+*
+
+*
+8b93f566,5556c5c9,bc3dcd9d
+Street Fighter II - The World Warrior
+Platform: Super NES
+Region: USA
+Media: Cartridge
+Controller: Gamepad
+Genre: Fighter VS
+Release Year: 1992
+Developer: Capcom
+Publisher: Capcom
+Players: 1 or 2 VS
+______________________________
+*
+Eight fighters from across the globe have come together to see which of them has the strength, skill and courage to challenge the mysterious Grand Masters. Each fighter has different skills and special moves, but it will take more than brute strength to earn the title of World Warrior.
+--from the SNES Street Fighter II instruction manual
+
+Major Bison is holding a tournament for the greatest fighter in the world. With each character, they all have their own unique story! So whether you're Ryu, Blanka, Ken or whoever, you better be ready for some intense street fighting action!
+
+Directions:
+
+There are 8 fighters to choose from: Blanka, Chun Li, Dhalsim, E. Honda, Guile, Ken, Ryu, and Zangief. Each has their own special move, so use any type of button combo to find them out! And with three different types of punches and kicks, you can't go wrong!
+
+There are two modes of play:
+In "Game Start", you and you alone go around the world, fighting other fighters to win.
+In "V.S. Battle", you and another player face off! 
+
+Controls:
+
+A Button - Mid Kick
+B Button - Low Kick
+X Button - Mid Punch
+Y Button - Low Punch
+L Button - High Punch
+R Button - High Kick
+Start Button - Make selections, pause/unpause
+Select Button - Switch between options at title menu (control pad can also be used)
+
+Hints:
+
+Get Profiles of Characters
+Press and hold L and R on the second controller to see their profiles.
+
+Reviewer: LinkOfHyrule
+http://www.consoleclassix.com/snes/street_fighter_2.html
+*
+
+*
+56410e5e,c8002453,cd80db86,01793FD5
+Super Mario Kart
+Platform: Super NES
+Region: USA
+Media: Cartridge
+Controller: Gamepad
+Genre: Racing
+Release Year: 1992
+Developer: Nintendo
+Publisher: Nintendo
+Players: 1 to 4 VS
+______________________________
+*
+Hi everybody! Thanks for dropping to by the Super Mario Kart race track. My name is Lakitu, I run this track. If you need my help, I'll be around.
+
+We race one seater, metal pipe frame go carts here. There are two engine sizes to choose from: 50cc or 100cc. All of the go carts are more or less the same, it's the individual drivers that make the difference when it comes to winning. Each driver has their strengths and weaknesses. Try using different drivers until you find the best one for you.
+
+--From the SNES Super Mario Kart instruction manual.
+
+Overview:
+
+Become the greatest kart racer in the whole Mushroom Kingdom! All the racers are determined. You better be, too, because the competition will be fierce and the courses are very unpredictable! So keep your wits, and good luck!
+
+Directions:
+
+Like any racing game, get to the finish before any of the other racers.
+
+There are 4 modes of play: The 1 Player Grand Prix, where you race against the computer to win! The 2 Player Grand Prix, where it's basically the same as 1 Player, except you play with another person! The Battle Mode is where you can use weapons against the computer! Finally the Time Trial is where you race to get low times to beat your latest record. 
+
+Controls:
+
+A Button - Use weapon
+B Button - Accelerate
+X Button - Behind View
+Y Button - Brake
+L Button - Hop
+R Button - Hop
+Start Button - Pause/Unpause
+Select Button - Behind View
+
+Hints:
+
+Shortcuts
+Be sure to keep your eyes peeled for shortcuts, the other guys won't take them. 
+
+Reviewer: LinkOfHyrule
+http://www.consoleclassix.com/snes/super_mario_kart.html
+*
