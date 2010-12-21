@@ -582,7 +582,12 @@ class DBUpdate:
 			Logutil.log("Additional data path: " +str(path.path), util.LOG_LEVEL_DEBUG)
 			files = self.resolvePath((path.path,), gamename, gamenameFromFile, foldername, romCollection.name, publisher, developer)
 			if(len(files) > 0):
-				artWorkFound = True	
+				imagePath = str(self.resolvePath((path.path,), gamename, gamenameFromFile, foldername, romCollection.name, publisher, developer))
+				staticImageCheck = imagePath.find(gamenameFromFile)	
+				
+				#make sure that it was no default image that was found here
+				if(staticImageCheck != -1):
+					artWorkFound = True					
 			else:
 				self.missingArtworkFile.write('%s (filename: %s) (%s)\n' %(gamename, gamenameFromFile, path.fileType.name))
 			
