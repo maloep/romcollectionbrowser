@@ -301,9 +301,16 @@ class Config:
 				SubElement(romCollectionXml, 'mediaPath', {'type' : mediaPath.type.name}).text = mediaPath.path
 				
 			#some default values
-			SubElement(romCollectionXml, 'ignoreOnScan').text = 'False'
-			SubElement(romCollectionXml, 'searchGameByCRC').text = 'True'
+			SubElement(romCollectionXml, 'ignoreOnScan').text = 'False'			
 			SubElement(romCollectionXml, 'descFilePerGame').text = str(romCollection.descFilePerGame)
+			SubElement(romCollectionXml, 'useFoldernameAsGamename').text = str(romCollection.useFoldernameAsGamename)
+			SubElement(romCollectionXml, 'searchGameByCRC').text = str(romCollection.searchGameByCRC)
+			SubElement(romCollectionXml, 'maxFolderDepth').text = str(romCollection.maxFolderDepth)
+			
+			if (os.environ.get( "OS", "xbox" ) == "xbox"):
+				SubElement(romCollectionXml, 'xboxCreateShortcut').text = str(romCollection.xboxCreateShortcut)
+				SubElement(romCollectionXml, 'xboxCreateShortcutAddRomfile').text = str(romCollection.xboxCreateShortcutAddRomfile)
+				SubElement(romCollectionXml, 'xboxCreateShortcutUseShortGamename').text = str(romCollection.xboxCreateShortcutUseShortGamename)
 				
 			SubElement(romCollectionXml, 'imagePlacing').text = 'gameinfobig'
 			

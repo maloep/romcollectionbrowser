@@ -9,7 +9,7 @@ import xbmc, time
 
 SCRIPTNAME = 'Rom Collection Browser'
 SCRIPTID = 'script.games.rom.collection.browser'
-CURRENT_SCRIPT_VERSION = "0.7.10"
+CURRENT_SCRIPT_VERSION = "0.7.11"
 CURRENT_DB_VERSION = "0.7.4"
 ISTESTRUN = False
 
@@ -269,10 +269,12 @@ def isPostCamelot():
 		return False
 	# preliminary test number for now. will bump this to the revision of the stable
 	# xbmc release when it is out
-	elif getRevision() >= 28276:
-		return True
 	else:
-		return False  
+		rev = getRevision()
+		if rev >= 28276 or rev == 0:
+			return True
+		else:
+			return False  
 
 
 def getRevision():
