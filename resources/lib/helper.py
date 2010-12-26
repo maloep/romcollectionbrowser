@@ -92,7 +92,7 @@ def launchEmu(gdb, gui, gameId, config, settings):
 				cmd = os.path.join(re.escape(util.RCBHOME), 'applaunch.sh ') +cmd
 		else:
 			#use call to support paths with whitespaces
-			if(env == "win32"):
+			if(env == "win32" and not (os.environ.get( "OS", "xbox" ) == "xbox")):
 				cmd = 'call ' +cmd
 		
 		#update LaunchCount
@@ -221,7 +221,11 @@ def buildCmd(filenameRows, romCollection, escapeCmd):
 				emuCommandLine = re.escape(emuCommandLine)
 			else:					
 				emuParams = emuParams.replace('%ROM%', rom)
-			cmd = '\"' +emuCommandLine +'\" ' +emuParams.replace('%I%', str(fileindex))
+			
+			if (os.environ.get( "OS", "xbox" ) == "xbox"):
+				cmd = emuCommandLine.replace('%ROM%', rom)
+			else:
+				cmd = '\"' +emuCommandLine +'\" ' +emuParams.replace('%I%', str(fileindex))
 		else:
 			newrepl = replString
 			if (escapeCmd):
@@ -359,7 +363,7 @@ def getRomfilenameForXboxCutfile(filenameRows, romCollection):
 		Logutil.log("Error while launching emu: File %s does not exist!" %filename, util.LOG_LEVEL_ERROR)		
 		return ""	
 	
-	if (romCollection.xboxCreateShortcutUseShortGamename):
+	if (not romCollection.xboxCreateShortcutUseShortGamename):
 		return filename
 		
 	basename = os.path.basename(filename)

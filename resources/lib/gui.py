@@ -290,42 +290,42 @@ class UIGameDB(xbmcgui.WindowXML):
 					if(not self.fullScreenVideoStarted):
 						self.showGameInfo()
 				
-				if(action.getId() in ACTION_MOVEMENT_UP or action.getId() in ACTION_MOVEMENT_DOWN):	
-					if(self.selectedControlId in FILTER_CONTROLS):								
+				#if(action.getId() in ACTION_MOVEMENT_UP or action.getId() in ACTION_MOVEMENT_DOWN):	
+				if(self.selectedControlId in FILTER_CONTROLS):
+					
+					label = str(control.getSelectedItem().getLabel())
+					label2 = str(control.getSelectedItem().getLabel2())
 						
-						label = str(control.getSelectedItem().getLabel())
-						label2 = str(control.getSelectedItem().getLabel2())
+					filterChanged = False
+					
+					if (self.selectedControlId == CONTROL_CONSOLES):
+						if(self.selectedConsoleIndex != control.getSelectedPosition()):
+							self.selectedConsoleId = int(label2)
+							self.selectedConsoleIndex = control.getSelectedPosition()
+							filterChanged = True
 							
-						filterChanged = False
-						
-						if (self.selectedControlId == CONTROL_CONSOLES):
-							if(self.selectedConsoleIndex != control.getSelectedPosition()):
-								self.selectedConsoleId = int(label2)
-								self.selectedConsoleIndex = control.getSelectedPosition()
-								filterChanged = True
-								
-						elif (self.selectedControlId == CONTROL_GENRE):
-							if(self.selectedGenreIndex != control.getSelectedPosition()):
-								self.selectedGenreId = int(label2)
-								self.selectedGenreIndex = control.getSelectedPosition()
-								filterChanged = True
-						elif (self.selectedControlId == CONTROL_YEAR):
-							if(self.selectedYearIndex != control.getSelectedPosition()):
-								self.selectedYearId = int(label2)
-								self.selectedYearIndex = control.getSelectedPosition()
-								filterChanged = True
-						elif (self.selectedControlId == CONTROL_PUBLISHER):
-							if(self.selectedPublisherIndex != control.getSelectedPosition()):
-								self.selectedPublisherId = int(label2)
-								self.selectedPublisherIndex = control.getSelectedPosition()
-								filterChanged = True
-						elif (self.selectedControlId == CONTROL_CHARACTER):
-							if(self.selectedCharacterIndex != control.getSelectedPosition()):
-								self.selectedCharacter = label
-								self.selectedCharacterIndex = control.getSelectedPosition()
-								filterChanged = True
-						if(filterChanged):					
-							self.showGames()								
+					elif (self.selectedControlId == CONTROL_GENRE):
+						if(self.selectedGenreIndex != control.getSelectedPosition()):
+							self.selectedGenreId = int(label2)
+							self.selectedGenreIndex = control.getSelectedPosition()
+							filterChanged = True
+					elif (self.selectedControlId == CONTROL_YEAR):
+						if(self.selectedYearIndex != control.getSelectedPosition()):
+							self.selectedYearId = int(label2)
+							self.selectedYearIndex = control.getSelectedPosition()
+							filterChanged = True
+					elif (self.selectedControlId == CONTROL_PUBLISHER):
+						if(self.selectedPublisherIndex != control.getSelectedPosition()):
+							self.selectedPublisherId = int(label2)
+							self.selectedPublisherIndex = control.getSelectedPosition()
+							filterChanged = True
+					elif (self.selectedControlId == CONTROL_CHARACTER):
+						if(self.selectedCharacterIndex != control.getSelectedPosition()):
+							self.selectedCharacter = label
+							self.selectedCharacterIndex = control.getSelectedPosition()
+							filterChanged = True
+					if(filterChanged):					
+						self.showGames()								
 				
 			elif(action.getId() in ACTION_INFO):
 				Logutil.log("onAction: ACTION_INFO", util.LOG_LEVEL_DEBUG)
@@ -1073,39 +1073,67 @@ class UIGameDB(xbmcgui.WindowXML):
 			id = id +1
 			
 			#emulator
-			consolePath = dialog.browse(1, '%s Emulator' %console, 'files')
-			if(consolePath == ''):
-				break
-			romCollection.emulatorCmd = consolePath
+			#xbox games on xbox will be launched directly
+			if (os.environ.get( "OS", "xbox" ) == "xbox" and romCollection.name == 'Xbox'):
+				romCollection.emulatorCmd = '%ROM%'
+			else:
+				consolePath = dialog.browse(1, '%s Emulator' %console, 'files')
+				if(consolePath == ''):
+					break
+				romCollection.emulatorCmd = consolePath
 			
 			#params
-			keyboard = xbmc.Keyboard()
-			keyboard.setHeading('Emulator params (use "%ROM%" for your rom files)')			
-			keyboard.doModal()
-			if (keyboard.isConfirmed()):
-				emuParams = keyboard.getText()
+			#on xbox we will create .cut files without params
+			if (os.environ.get( "OS", "xbox" ) == "xbox"):
+				romCollection.emulatorParams = ''
 			else:
-				break
-			romCollection.emulatorParams = emuParams
+				keyboard = xbmc.Keyboard()
+				keyboard.setHeading('Emulator params (use "%ROM%" for your rom files)')			
+				keyboard.doModal()
+				if (keyboard.isConfirmed()):
+					emuParams = keyboard.getText()
+				else:
+					break
+				romCollection.emulatorParams = emuParams
 			
+			#roms
 			romPath = dialog.browse(0, '%s Roms' %console, 'files')
 			if(romPath == ''):
 				break
 			
+			
 			#filemask
-			keyboard = xbmc.Keyboard()
-			keyboard.setHeading('File mask (comma-separated): e.g. *.zip, *.smc')			
-			keyboard.doModal()
-			if (keyboard.isConfirmed()):
-				fileMaskInput = keyboard.getText()				
-				fileMasks = fileMaskInput.split(',')
+			
+			#xbox games always use default.xbe as executable
+			if (os.environ.get( "OS", "xbox" ) == "xbox" and romCollection.name == 'Xbox'):
+				romPathComplete = os.path.join(romPath, 'default.xbe')					
 				romCollection.romPaths = []
-				for fileMask in fileMasks:
-					romPathComplete = os.path.join(romPath, fileMask.strip())					
-					romCollection.romPaths.append(romPathComplete)
+				romCollection.romPaths.append(romPathComplete)
 			else:
-				break
+				keyboard = xbmc.Keyboard()
+				keyboard.setHeading('File mask (comma-separated): e.g. *.zip, *.smc')			
+				keyboard.doModal()
+				if (keyboard.isConfirmed()):
+					fileMaskInput = keyboard.getText()				
+					fileMasks = fileMaskInput.split(',')
+					romCollection.romPaths = []
+					for fileMask in fileMasks:
+						romPathComplete = os.path.join(romPath, fileMask.strip())					
+						romCollection.romPaths.append(romPathComplete)
+				else:
+					break
 	
+			if (os.environ.get( "OS", "xbox" ) == "xbox"):
+				romCollection.xboxCreateShortcut = True
+				romCollection.xboxCreateShortcutAddRomfile = True
+				romCollection.xboxCreateShortcutUseShortGamename = False
+				
+				#TODO use flags for complete platform list (not only xbox)
+				if(romCollection.name == 'Xbox'):
+					romCollection.useFoldernameAsGamename = True
+					romCollection.searchGameByCRC = False
+					romCollection.maxFolderDepth = 1
+			
 			if(scenarioIndex == 0):			
 				artworkPath = dialog.browse(0, '%s Artwork' %console, 'files')
 				if(artworkPath == ''):
