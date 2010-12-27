@@ -729,7 +729,7 @@ class UIGameDB(xbmcgui.WindowXML):
 		
 		#HACK: Dharma has a new parameter in Window-Constructor for default resolution
 		constructorParam = 1
-		if(util.isPostCamelot()):
+		if(util.hasAddons()):
 			constructorParam = "PAL"		
 		
 		import gameinfodialog
@@ -756,7 +756,7 @@ class UIGameDB(xbmcgui.WindowXML):
 		print "prepare dialog"
 		
 		constructorParam = 1
-		if(util.isPostCamelot()):
+		if(util.hasAddons()):
 			constructorParam = "PAL"
 		cm = ContextMenuDialog("script-Rom_Collection_Browser-contextmenu.xml", util.getAddonInstallPath(), "Default", constructorParam, gui=self)
 		del cm
@@ -1699,7 +1699,7 @@ class UIGameDB(xbmcgui.WindowXML):
 
 
 def main():
-	if(util.isPostCamelot()):
+	if(util.hasAddons()):
 		ui = UIGameDB("script-Rom_Collection_Browser-main.xml", util.getAddonInstallPath(), "Default", "PAL")
 	else:
 		ui = UIGameDB("script-Rom_Collection_Browser-main.xml", util.getAddonInstallPath(), "Default", 1)

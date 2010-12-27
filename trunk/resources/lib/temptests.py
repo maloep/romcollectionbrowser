@@ -61,17 +61,17 @@ for result in results:
 	print result
 """
 
+import py7zlib
 
-gamenameFromFile = "NFL"
-searchKey = "NFL 1998"
+rom = "F:\\downloads\\Emu\\Good\\Accele Brid.7z"
 
-numbers = re.findall(r"\d+", gamenameFromFile)
-if(len(numbers) > 0):
-	numberGamename = numbers[len(numbers)-1]
+f = py7zlib.Archive7z(open(rom, 'rb'))
+			
+members = f.getmembers()
+names = f.getnames()
 
-numbers = re.findall(r"\d+", searchKey)
-numberSearchkey = numbers[len(numbers)-1]
-
+print members
+print names
 
 
 

@@ -194,7 +194,7 @@ def getAddonDataPath():
 	
 	path = ''
 	
-	if(isPostCamelot()):		
+	if(hasAddons()):		
 		path = xbmc.translatePath('special://profile/addon_data/%s' %(SCRIPTID))
 		#path = xbmc.translatePath('special://profile/addon_data/%s-%s' %(SCRIPTID, CURRENT_SCRIPT_VERSION))
 	else:
@@ -213,7 +213,7 @@ def getAddonInstallPath():
 	
 	path = ''
 	
-	if(isPostCamelot()):
+	if(hasAddons()):
 		import xbmcaddon
 		addon = xbmcaddon.Addon(id='%s' %SCRIPTID)
 		path = addon.getAddonInfo('path')
@@ -223,7 +223,7 @@ def getAddonInstallPath():
 			
 
 def getAutoexecPath():
-	if(isPostCamelot()):
+	if(hasAddons()):
 		return xbmc.translatePath('special://profile/autoexec.py')
 	else:
 		autoexec = os.path.join(RCBHOME, '..', 'autoexec.py')
@@ -256,7 +256,7 @@ def getConfigXmlModifyTime():
 	
 def getSettings():
 	settings = ''
-	if isPostCamelot():
+	if hasAddons():
 		import xbmcaddon
 		settings = xbmcaddon.Addon(id='%s' %SCRIPTID)
 	else:
@@ -264,32 +264,16 @@ def getSettings():
 	return settings
 
 
-def isPostCamelot():  
+def hasAddons():  
 	if os.environ.get('OS') == 'xbox':
 		return False
-	# preliminary test number for now. will bump this to the revision of the stable
-	# xbmc release when it is out
-	else:
-		rev = getRevision()
-		if rev >= 28276 or rev == 0:
-			return True
-		else:
-			return False  
-
-
-def getRevision():
-	rev_re = re.compile('r(\d+)')
-	try: xbmc_version = xbmc.getInfoLabel('System.BuildVersion')
-	except: xbmc_version = 'Unknown'
-
+	
 	try:
-		xbmc_rev = int(rev_re.search(xbmc_version).group(1))
-		print "XBMC Revision: %s" % xbmc_rev
+		import xbmcaddon
+		return True
 	except:
-		print "XBMC Revision not available - Version String: %s" % xbmc_version
-		xbmc_rev = 0
+		return False
 
-	return xbmc_rev
 
 
 def indentXml(elem, level=0):
