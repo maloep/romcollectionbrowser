@@ -24,6 +24,7 @@ ACTION_MOVEMENT_UP = (3,)
 ACTION_MOVEMENT_DOWN = (4,)
 ACTION_MOVEMENT = (1, 2, 3, 4, 5, 6, 159, 160)
 ACTION_INFO = (11,)
+ACTION_CONTEXT = (117,)
 
 
 #ControlIds
@@ -118,6 +119,36 @@ class ProgressDialogGUI:
 				return True
 		else:
 			self.dialog.close()
+
+
+class ContextMenuDialog(xbmcgui.WindowXMLDialog):
+	def __init__(self, *args, **kwargs):
+		# Don't put GUI sensitive stuff here (as the xml hasn't been read yet)
+		Logutil.log('init ContextMenu', util.LOG_LEVEL_INFO)
+		
+		self.gui = kwargs[ "gui" ]
+		
+		self.doModal()
+	
+	def onInit(self):
+		Logutil.log('onInit ContextMenu', util.LOG_LEVEL_INFO)		
+	
+	def onAction(self, action):
+		if (action.getId() in ACTION_CANCEL_DIALOG):
+			self.close()
+	
+	def onClick(self, controlID):
+		if (controlID == 5101): # Close window button
+			self.close()
+		elif (controlID == 5110): # Import games
+			self.close()
+			self.gui.updateDB()			
+		elif (controlID == 5111): # add Rom Collection
+			self.gui.addRomCollection()
+			self.close()
+	
+	def onFocus(self, controlID):
+		pass
 
 
 class UIGameDB(xbmcgui.WindowXML):	
@@ -336,7 +367,10 @@ class UIGameDB(xbmcgui.WindowXML):
 					self.onActionLastRun = time.clock()					
 					return
 				if(CONTROL_GAMES_GROUP_START <= self.selectedControlId <= CONTROL_GAMES_GROUP_END):
-					self.showGameInfoDialog()							
+					self.showGameInfoDialog()
+			elif (action.getId() in ACTION_CONTEXT):
+				Logutil.log('onAction: ACTION_CONTEXT', util.LOG_LEVEL_INFO)
+				self.showContextMenu()
 		except Exception, (exc):
 			print "RCB_ERROR: unhandled Error in onAction: " +str(exc)
 			self.onActionLastRun = time.clock()
@@ -662,16 +696,11 @@ class UIGameDB(xbmcgui.WindowXML):
 		Logutil.log("End updateDB" , util.LOG_LEVEL_INFO)
 		
 	
-	def importSettings(self):
-		Logutil.log("Begin importSettings" , util.LOG_LEVEL_INFO)				
+	
+	def addRomCollection(self):
+		Logutil.log("Begin addRomCollection" , util.LOG_LEVEL_INFO)								
 		
-		self.clearList()
-		self.clearCache()
-		self.checkImport(2)
-		self.cacheItems()
-		self.updateControls()			
-		
-		Logutil.log("End importSettings" , util.LOG_LEVEL_INFO)
+		Logutil.log("End addRomCollection" , util.LOG_LEVEL_INFO)
 		
 		
 	def showGameInfoDialog(self):
@@ -721,7 +750,17 @@ class UIGameDB(xbmcgui.WindowXML):
 		
 		Logutil.log("End showGameInfoDialog", util.LOG_LEVEL_INFO)
 		
+	
+	def showContextMenu(self):
 		
+		print "prepare dialog"
+		
+		constructorParam = 1
+		if(util.isPostCamelot()):
+			constructorParam = "PAL"
+		cm = ContextMenuDialog("script-Rom_Collection_Browser-contextmenu.xml", util.getAddonInstallPath(), "Default", constructorParam, gui=self)
+		del cm
+				
 		
 		
 	"""
