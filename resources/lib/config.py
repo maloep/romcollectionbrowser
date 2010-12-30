@@ -254,6 +254,8 @@ class Config:
 		
 	romCollections = None
 	fileTypeIdsForGamelist = None
+	
+	tree = None
 		
 	
 	def readXml(self):
@@ -263,7 +265,8 @@ class Config:
 			Logutil.log('File config.xml does not exist. Place a valid config file here: ' +str(configFile), util.LOG_LEVEL_ERROR)
 			return False, 'Error: File config.xml does not exist'
 		
-		tree = ElementTree().parse(configFile)			
+		tree = ElementTree().parse(configFile)
+		self.tree = tree
 		if(tree == None):
 			Logutil.log('Could not read config.xml', util.LOG_LEVEL_ERROR)
 			return False, 'Could not read config.xml.'
@@ -276,121 +279,8 @@ class Config:
 				
 		self.fileTypeIdsForGamelist = self.getFileTypeIdsForGameList(romCollections)
 		
-		return True, ''
-	
-	
-	def writeXml(self):
-		
-		configFile = util.getConfigXmlPath()
-		
-		root = Element('config')
-		romCollectionsXml = SubElement(root, 'RomCollections')
-		fileTypesXml = SubElement(root, 'FileTypes')
-		imagePlacingXml = SubElement(root, 'ImagePlacing')
-		scrapersXml = SubElement(root, 'Scrapers')
-		
-		for romCollection in self.romCollections.values():
-			romCollectionXml = SubElement(romCollectionsXml, 'RomCollection', {'id' : str(romCollection.id), 'name' : romCollection.name})
-			SubElement(romCollectionXml, 'emulatorCmd').text = romCollection.emulatorCmd
-			SubElement(romCollectionXml, 'emulatorParams').text = romCollection.emulatorParams
-			
-			for romPath in romCollection.romPaths:
-				SubElement(romCollectionXml, 'romPath').text = str(romPath)
-				
-			for mediaPath in romCollection.mediaPaths:								
-				SubElement(romCollectionXml, 'mediaPath', {'type' : mediaPath.type.name}).text = mediaPath.path
-				
-			#some default values
-			SubElement(romCollectionXml, 'ignoreOnScan').text = 'False'			
-			SubElement(romCollectionXml, 'descFilePerGame').text = str(romCollection.descFilePerGame)
-			SubElement(romCollectionXml, 'useFoldernameAsGamename').text = str(romCollection.useFoldernameAsGamename)
-			SubElement(romCollectionXml, 'searchGameByCRC').text = str(romCollection.searchGameByCRC)
-			SubElement(romCollectionXml, 'maxFolderDepth').text = str(romCollection.maxFolderDepth)
-			
-			if (os.environ.get( "OS", "xbox" ) == "xbox"):
-				SubElement(romCollectionXml, 'xboxCreateShortcut').text = str(romCollection.xboxCreateShortcut)
-				SubElement(romCollectionXml, 'xboxCreateShortcutAddRomfile').text = str(romCollection.xboxCreateShortcutAddRomfile)
-				SubElement(romCollectionXml, 'xboxCreateShortcutUseShortGamename').text = str(romCollection.xboxCreateShortcutUseShortGamename)
-				
-			SubElement(romCollectionXml, 'imagePlacing').text = 'gameinfobig'
-			
-			mobyConsoleId = '0'
-			try:
-				mobyConsoleId = consoleDict[romCollection.name]
-			except:
-				pass
-						
-			if(romCollection.scraperSites == None or len(romCollection.scraperSites) == 0):
-				#TODO: enable again when site is more complete and responses are faster
-				#SubElement(romCollectionXml, 'scraper', {'name' : 'thevideogamedb.com'})
-				SubElement(romCollectionXml, 'scraper', {'name' : 'thegamesdb.net', 'replaceKeyString' : '', 'replaceValueString' : ''})
-				SubElement(romCollectionXml, 'scraper', {'name' : 'giantbomb.com', 'replaceKeyString' : '', 'replaceValueString' : ''})
-				SubElement(romCollectionXml, 'scraper', {'name' : 'mobygames.com', 'replaceKeyString' : '', 'replaceValueString' : '', 'platform' : mobyConsoleId})
-			else:
-				SubElement(romCollectionXml, 'scraper', {'name' : romCollection.scraperSites[0].name})
-				
-				site = SubElement(scrapersXml, 'Site', {'name' : romCollection.scraperSites[0].name})
-				SubElement(site, 'Scraper', {'parseInstruction' : romCollection.scraperSites[0].scrapers[0].parseInstruction, 'source' : romCollection.scraperSites[0].scrapers[0].source})
-			
-		self.writeFileType(fileTypesXml, '1', 'boxfront')
-		self.writeFileType(fileTypesXml, '2', 'boxback')
-		self.writeFileType(fileTypesXml, '3', 'cartridge')
-		self.writeFileType(fileTypesXml, '4', 'screenshot')
-		self.writeFileType(fileTypesXml, '5', 'fanart')
-		self.writeFileType(fileTypesXml, '6', 'action')
-		self.writeFileType(fileTypesXml, '7', 'title')
-		self.writeFileType(fileTypesXml, '8', '3dbox')
-		self.writeFileType(fileTypesXml, '9', 'romcollection')
-		self.writeFileType(fileTypesXml, '10', 'developer')
-		self.writeFileType(fileTypesXml, '11', 'publisher')
-		self.writeFileType(fileTypesXml, '12', 'gameplay')
-			
-		imagePlacingXml = self.writeImagePlacingOptions(imagePlacingXml)					
-		
-		#Scrapers
-		#local nfo
-		site = SubElement(scrapersXml, 'Site', {'name' : 'local nfo'})
-		SubElement(site, 'Scraper', {'parseInstruction' : '00 - local nfo.xml', 'source' : 'nfo'})
-		
-		#thevideogamedb.com
-		site = SubElement(scrapersXml, 'Site', {'name' : 'thevideogamedb.com'})
-		SubElement(site, 'Scraper', {'parseInstruction' : '01 - thevideogamedb.xml', 'source' : 'http://thevideogamedb.com/API/GameDetail.aspx?apikey=%VGDBAPIKey%&crc=%CRC%'})		
-		
-		site = SubElement(scrapersXml, 'Site', {'name' : 'thegamesdb.net'})
-		SubElement(site, 'Scraper', {'parseInstruction' : '02 - thegamesdb.xml', 'source' : 'http://thegamesdb.net/api/GetGame.php?name=%GAME%'})
-		
-		#giantbomb.com
-		site = SubElement(scrapersXml, 'Site', {'name' : 'giantbomb.com'})
-		SubElement(site, 'Scraper', {'parseInstruction' : '03.01 - giantbomb - search.xml', 'source' : 'http://api.giantbomb.com/search/?api_key=%GIANTBOMBAPIKey%&query=%GAME%&resources=game&field_list=api_detail_url,name&format=xml',
-									'returnUrl' : 'true', 'replaceKeyString' : '%REPLACEKEYS%', 'replaceValueString' : '%REPLACEVALUES%'})
-		SubElement(site, 'Scraper', {'parseInstruction' : '03.02 - giantbomb - detail.xml', 'source' : '1'})		
-		
-		#mobygames.com
-		site = SubElement(scrapersXml, 'Site', {'name' : 'mobygames.com'})
-		SubElement(site, 'Scraper', {'parseInstruction' : '04.01 - mobygames - gamesearch.xml', 'source' : 'http://www.mobygames.com/search/quick?game=%GAME%&p=%PLATFORM%',
-									'returnUrl' : 'true', 'replaceKeyString' : '%REPLACEKEYS%', 'replaceValueString' : '%REPLACEVALUES%'})
-		SubElement(site, 'Scraper', {'parseInstruction' : '04.02 - mobygames - details.xml', 'source' : '1'})				
-		SubElement(site, 'Scraper', {'parseInstruction' : '04.03 - mobygames - coverlink.xml', 'source' : '1', 'returnUrl' : 'true'})
-		SubElement(site, 'Scraper', {'parseInstruction' : '04.04 - mobygames - coverart.xml', 'source' : '2'})
-		SubElement(site, 'Scraper', {'parseInstruction' : '04.05 - mobygames - screenshotlink.xml', 'source' : '1', 'returnUrl' : 'true'})		
-		#use short name on xbox
-		if (os.environ.get( "OS", "xbox" ) == "xbox"):	
-			SubElement(site, 'Scraper', {'parseInstruction' : '04.06 - mobygames - screenoriglink.xml', 'source' : '3', 'returnUrl' : 'true'})
-		else:
-			SubElement(site, 'Scraper', {'parseInstruction' : '04.06 - mobygames - screenshotoriginallink.xml', 'source' : '3', 'returnUrl' : 'true'})
-		SubElement(site, 'Scraper', {'parseInstruction' : '04.07 - mobygames - screenshots.xml', 'source' : '4'})
-			
-		#write file		
-		try:
-			util.indentXml(root)
-			tree = ElementTree(root)			
-			tree.write(configFile)
-			
-			return 2, ""
-			
-		except Exception, (exc):
-			print("Error: Cannot write config.xml: " +str(exc))
-			return -1, "Error: Cannot write config.xml: " +str(exc)
+		return True, ''	
+
 		
 	
 	def writeFileType(self, fileTypesXml, id, name):
@@ -656,17 +546,17 @@ class Config:
 		return fileType, ''
 		
 		
-	def readImagePlacing(self, imagePlacing, tree):
+	def readImagePlacing(self, imagePlacingName, tree):
 		
 		fileTypeForRow = None 
 		fileTypeForRows = tree.findall('ImagePlacing/fileTypeFor')
 		for element in fileTypeForRows:
-			if(element.attrib.get('name') == imagePlacing):
+			if(element.attrib.get('name') == imagePlacingName):
 				fileTypeForRow = element
 				break
 		
 		if(fileTypeForRow == None):
-			Logutil.log('Configuration error. ImagePlacing/fileTypeFor %s does not exist in config.xml' %imagePlacing, util.LOG_LEVEL_ERROR)
+			Logutil.log('Configuration error. ImagePlacing/fileTypeFor %s does not exist in config.xml' %imagePlacingName, util.LOG_LEVEL_ERROR)
 			return None, 'Configuration error. See xbmc.log for details'
 		
 		imagePlacing = ImagePlacing()

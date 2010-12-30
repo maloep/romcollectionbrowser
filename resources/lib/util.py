@@ -238,7 +238,7 @@ def getConfigXmlPath():
 	else:
 		configFile = os.path.join(getAddonInstallPath(), "TestDataBase", "config.xml")
 	
-	Logutil.log('Reading configuration file: ' +str(configFile), LOG_LEVEL_INFO)
+	Logutil.log('Path to configuration file: ' +str(configFile), LOG_LEVEL_INFO)
 	return configFile
 
 
