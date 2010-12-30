@@ -61,6 +61,20 @@ for result in results:
 	print result
 """
 
+
+configFile = 'C:\\Users\\malte\\AppData\\Roaming\\XBMC\\userdata\\script_data\\script.games.rom.collection.browser\\config.xml'
+
+from elementtree.ElementTree import *
+tree = ElementTree().parse(configFile)
+
+romCollectionsXml = tree.find('RomCollections')
+
+print romCollectionsXml
+print tree
+
+
+
+"""
 import py7zlib
 
 rom = "F:\\downloads\\Emu\\Good\\Accele Brid.7z"
@@ -72,6 +86,7 @@ names = f.getnames()
 
 print members
 print names
+"""
 
 
 

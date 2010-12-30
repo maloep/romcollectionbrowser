@@ -10,6 +10,7 @@ from gamedatabase import *
 import helper, util, config
 from util import *
 from config import *
+from configxmlwriter import *
 
 from threading import *
 
@@ -143,9 +144,9 @@ class ContextMenuDialog(xbmcgui.WindowXMLDialog):
 		elif (controlID == 5110): # Import games
 			self.close()
 			self.gui.updateDB()			
-		elif (controlID == 5111): # add Rom Collection
-			self.gui.addRomCollection()
+		elif (controlID == 5111): # add Rom Collection			
 			self.close()
+			self.gui.addRomCollection()
 	
 	def onFocus(self, controlID):
 		pass
@@ -223,6 +224,14 @@ class UIGameDB(xbmcgui.WindowXML):
 		#check if we have config file 
 		configFile = util.getConfigXmlPath()
 		if(not os.path.isfile(configFile)):
+			
+			dialog = xbmcgui.Dialog()
+		
+			retValue = dialog.yesno('Rom Collection Browser', 'No config file found.', 'Do you want to create one?')
+			if(retValue == False):
+				self.quit = True
+				return
+			
 			statusOk, errorMsg = self.createConfigXml(configFile)
 			
 		
@@ -698,7 +707,41 @@ class UIGameDB(xbmcgui.WindowXML):
 	
 	
 	def addRomCollection(self):
-		Logutil.log("Begin addRomCollection" , util.LOG_LEVEL_INFO)								
+		Logutil.log("Begin addRomCollection" , util.LOG_LEVEL_INFO)
+		
+		consoleList = config.consoleList		
+		id = 1
+		
+		#read existing rom collection ids and names
+		for rcId in self.config.romCollections.keys():						
+			
+			#remove already configured consoles from the list
+			print self.config.romCollections[rcId].name
+			consoleList.remove(self.config.romCollections[rcId].name)
+			#find highest id
+			if(rcId > id):
+				id = rcId
+								
+		id = int(id) +1
+		
+		#build fileTypeList
+		fileTypeList = []
+		fileTypes = self.config.tree.findall('FileTypes/FileType')
+		for fileType in fileTypes:
+			name = fileType.attrib.get('name')
+			if(name != None):
+				fileTypeList.append(name)
+		
+		success, romCollections = self.addRomCollections(id, consoleList, fileTypeList)
+		if(not success):
+			Logutil.log('Action canceled. Config.xml will not be written', util.LOG_LEVEL_INFO)
+			return False, 'Action canceled. Config.xml will not be written'
+				
+		configWriter = ConfigXmlWriter()
+		success, message = configWriter.writeRomCollections(False, romCollections)
+		
+		#TODO: import Games
+		#TODO: update self.config
 		
 		Logutil.log("End addRomCollection" , util.LOG_LEVEL_INFO)
 		
@@ -1069,23 +1112,47 @@ class UIGameDB(xbmcgui.WindowXML):
 	
 	
 	def createConfigXml(self, configFile):
+				
+		id = 1		
+		consoleList = config.consoleList
 		
+		#build fileTypeList
+		fileTypeList = []
+		configFile = os.path.join(util.getAddonInstallPath(), 'resources', 'database', 'config_template.xml')
+
+		if(not os.path.isfile(configFile)):
+			Logutil.log('File config_template.xml does not exist. Place a valid config file here: ' +str(configFile), util.LOG_LEVEL_ERROR)
+			return False, 'Error: File config_template.xml does not exist'
+		
+		tree = ElementTree().parse(configFile)
+		
+		fileTypes = tree.findall('FileTypes/FileType')
+		for fileType in fileTypes:
+			name = fileType.attrib.get('name')
+			if(name != None):
+				fileTypeList.append(name)
+				
+		success, romCollections = self.addRomCollections(id, consoleList, fileTypeList)
+		if(not success):
+			Logutil.log('Action canceled. Config.xml will not be written', util.LOG_LEVEL_INFO)
+			return False, 'Action canceled. Config.xml will not be written'
+				
+		configWriter = ConfigXmlWriter()
+		success, message = configWriter.writeRomCollections(True, romCollections)
+			
+		return success, message		
+	
+	
+	def addRomCollections(self, id, consoleList, fileTypeList):
+		
+		romCollections = {}
 		dialog = xbmcgui.Dialog()
-		
-		retValue = dialog.yesno('Rom Collection Browser', 'No config file found.', 'Do you want to create one?')
-		if(retValue == False):
-			return False, 'Action canceled.'
 		
 		#scraping scenario
 		scenarioIndex = dialog.select('Choose a scenario', ['Scrape game info and artwork online', 'Game info and artwork are available locally'])
 		if(scenarioIndex == -1):
-			return False, 'Action canceled.'
-			
-		newConfig = Config()
-		romCollections = {}
-				
-		id = 1
-		consoleList = config.consoleList
+			del dialog
+			return False, romCollections
 		
 		while True:
 		
@@ -1189,18 +1256,16 @@ class UIGameDB(xbmcgui.WindowXML):
 
 			else:
 				
-				fileTypes = ['boxfront', 'boxback', 'cartridge', 'screenshot', 'fanart', 'action', 'title', '3dbox', 'romcollection', 'developer', 'publisher', 'gameplay (video)']
-				
 				romCollection.mediaPaths = []
 				
 				while True:
 					
-					fileTypeIndex = dialog.select('Choose an artwork type', fileTypes)
+					fileTypeIndex = dialog.select('Choose an artwork type', fileTypeList)
 					if(fileTypeIndex == -1):
 						break
 					
-					fileType = fileTypes[fileTypeIndex]
-					fileTypes.remove(fileType)
+					fileType = fileTypeList[fileTypeIndex]
+					fileTypeList.remove(fileType)
 					
 					artworkPath = dialog.browse(0, '%s Artwork (%s)' %(console, fileType), 'files')
 					if(artworkPath == ''):
@@ -1243,14 +1308,11 @@ class UIGameDB(xbmcgui.WindowXML):
 			
 			retValue = dialog.yesno('Rom Collection Browser', 'Do you want to add another Rom Collection?')
 			if(retValue == False):
-				break						
+				break
 		
-		newConfig.romCollections = romCollections		
-		newConfig.writeXml()
+		del dialog
 		
-		del dialog	
-			
-		return True, ''
+		return True, romCollections
 	
 	
 	def createMediaPath(self, type, path, scenarioIndex):
@@ -1276,6 +1338,8 @@ class UIGameDB(xbmcgui.WindowXML):
 		else:
 			mediaPath.path = os.path.join(path, fileMask)
 		
+		
+		print mediaPath.type
 		return mediaPath
 	
 	
