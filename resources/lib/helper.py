@@ -5,6 +5,10 @@ from gamedatabase import *
 import util
 from util import *
 import time
+import py7zlib
+import zipfile
+import xbmcgui
+import tempfile
 
 
 def getFilesByControl_Cached(gdb, fileTypes, gameId, publisherId, developerId, romCollectionId, fileDict):
@@ -214,7 +218,79 @@ def buildCmd(filenameRows, romCollection, escapeCmd):
 		if(rom == ""):
 			Logutil.log("no rom file found for game: " +str(fileName), util.LOG_LEVEL_ERROR)
 			return ""
-		
+
+		# If it's a .7z file
+		filext = rom.split('.')[-1]
+		if filext == '7z':
+			Logutil.log("Treating file as a .7z archive", util.LOG_LEVEL_INFO)
+			
+			# Open the archive
+			f = py7zlib.Archive7z(open(rom, 'rb'))
+			
+			names = f.getnames()
+			
+			# If there's more than one file inside
+			if (len(names) > 1):
+				Logutil.log("Archive had more than one file", util.LOG_LEVEL_INFO)
+				
+				# Let the user choose between the files
+				chosenROM = xbmcgui.Dialog().select('Choose a ROM', names)
+			elif (len(names) == 1):
+				Logutil.log("Archive only had one file inside; picking that one", util.LOG_LEVEL_INFO)
+				
+				# If there's one file inside, pick that one
+				chosenROM = 0
+			else:
+				Logutil.log("Archive had no files inside!", util.LOG_LEVEL_ERROR)
+				
+				#If there are no files inside, abort
+				return ""
+				
+			# Extract the chosen file to %TMP%
+			newPath = os.path.join(tempfile.gettempdir(), names[chosenROM])
+			
+			Logutil.log("Putting extracted file in %s" % newPath, util.LOG_LEVEL_INFO)
+			
+			member = f.getmember(names[chosenROM])
+			fo = open(newPath, 'wb')
+			fo.write(member.read())
+			fo.close()
+			
+			# Point file name to the newly extracted file and continue
+			# as usual
+			rom = newPath
+			
+			# Zip files
+		elif filext == 'zip':
+			Logutil.log("Treating file as a .zip archive", util.LOG_LEVEL_INFO)
+			
+			# Open the archive
+			zp = zipfile.ZipFile(open(rom, 'rb'))
+			
+			# Get name files
+			names = zp.namelist()
+			
+			# Check the number of files
+			if (len(names) > 1):
+				Logutil.log("Archive had more than one file", util.LOG_LEVEL_INFO)
+				chosenROM = xbmcgui.Dialog().select('Choose a ROM', names)
+				
+			elif (len(names) == 1):
+				Logutil.log("Archive only had one file inside; picking that one", util.LOG_LEVEL_INFO)
+				chosenROM = 0
+				
+			else:
+				Logutil.log("Archive had no files inside!", util.LOG_LEVEL_ERROR)
+				return ""
+						 
+			newPath = os.path.join(tempfile.gettempdir(), names[chosenROM])
+			data = zp.read(names[chosenROM])
+			fo = open(newPath, 'wb')
+			fo.write(data)
+			fo.close()
+			rom = newPath
+
+
 		if fileindex == 0:
 			if (escapeCmd):
 				emuParams = emuParams.replace('%ROM%', re.escape(rom))
