@@ -740,8 +740,15 @@ class UIGameDB(xbmcgui.WindowXML):
 		configWriter = ConfigXmlWriter()
 		success, message = configWriter.writeRomCollections(False, romCollections)
 		
-		#TODO: import Games
-		#TODO: update self.config
+		#update self.config
+		statusOk, errorMsg = self.config.readXml()
+		if(statusOk == False):
+			xbmcgui.Dialog().ok(util.SCRIPTNAME, 'Error reading config.xml.', errorMsg)
+			Logutil.log('Error reading config.xml: ' +errorMsg, util.LOG_LEVEL_INFO)
+			return False, 'Error reading config.xml: ' +errorMsg
+		
+		#import Games
+		self.updateDB()
 		
 		Logutil.log("End addRomCollection" , util.LOG_LEVEL_INFO)
 		
