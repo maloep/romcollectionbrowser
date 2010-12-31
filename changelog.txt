@@ -1,8 +1,18 @@
 
+0.8.0 (01/2011)
+~~~~~~~~~~~~~
+General:
+    * added context menu
+    * option "add rom collection" available via context menu
+    * rework of progress dialog (info about current scraper, ...)
+
+Game Launching:
+    * detect games in zip and 7z archives and ask user which game to load
+
 0.7.11 (12/2010)
 ~~~~~~~~~~~~~
 General:
-    * Prevent download of multiple images: check if file is available with different extension
+    * prevent download of multiple images: check if file is available with different extension
     * bugfix: fallback images did not work in previous versions
 
 Xbox related:
