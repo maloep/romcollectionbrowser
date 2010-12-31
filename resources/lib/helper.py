@@ -190,6 +190,7 @@ def buildLikeStatement(selectedCharacter):
 def buildCmd(filenameRows, romCollection, escapeCmd):
 	
 	fileindex = int(0)
+	compressedExtensions = ['7z', 'zip']
 	
 	emuCommandLine = romCollection.emulatorCmd
 	emuParams = romCollection.emulatorParams
@@ -210,6 +211,7 @@ def buildCmd(filenameRows, romCollection, escapeCmd):
 	for fileNameRow in filenameRows:
 		fileName = fileNameRow[0]			
 		rom = ""
+		roms = []
 		#we could have multiple rom Paths - search for the correct one
 		for romPath in romCollection.romPaths:
 			rom = os.path.join(romPath, fileName)
@@ -221,97 +223,78 @@ def buildCmd(filenameRows, romCollection, escapeCmd):
 
 		# If it's a .7z file
 		filext = rom.split('.')[-1]
-		if filext == '7z':
-			Logutil.log("Treating file as a .7z archive", util.LOG_LEVEL_INFO)
+		
+		
+		if filext in compressedExtensions:
+			Logutil.log('Treating file as a compressed archive', util.LOG_LEVEL_INFO)
+			compressed = True
+		
+			names = getNames(filext, rom)
 			
-			# Open the archive
-			f = py7zlib.Archive7z(open(rom, 'rb'))
+			chosenROM = -1
 			
-			names = f.getnames()
-			
-			# If there's more than one file inside
-			if (len(names) > 1):
-				Logutil.log("Archive had more than one file", util.LOG_LEVEL_INFO)
+			if '%I%' in emuParams:
+				Logutil.log("Loading %d archives" % len(names), util.LOG_LEVEL_INFO)
+				archivos = getArchives(filext, rom, names)
+				for archive in archivos:
+					newPath = os.path.join(tempfile.gettempdir(), archive[0])
+					fp = open(newPath, 'wb')
+					fp.write(archive[1])
+					fp.close()
+					roms.append(newPath)
 				
-				# Let the user choose between the files
+			elif len(names) > 1:
+				Logutil.log("The Archive has %d files" % len(names), util.LOG_LEVEL_INFO)
 				chosenROM = xbmcgui.Dialog().select('Choose a ROM', names)
-			elif (len(names) == 1):
-				Logutil.log("Archive only had one file inside; picking that one", util.LOG_LEVEL_INFO)
-				
-				# If there's one file inside, pick that one
+			elif len(names) == 1:
+				Logutil.log("Archive only has one file inside; picking that one", util.LOG_LEVEL_INFO)
 				chosenROM = 0
 			else:
 				Logutil.log("Archive had no files inside!", util.LOG_LEVEL_ERROR)
-				
-				#If there are no files inside, abort
 				return ""
+		
+			if chosenROM != -1:
+				# Extract the chosen file to %TMP%
+				newPath = os.path.join(tempfile.gettempdir(), names[chosenROM])
 				
-			# Extract the chosen file to %TMP%
-			newPath = os.path.join(tempfile.gettempdir(), names[chosenROM])
-			
-			Logutil.log("Putting extracted file in %s" % newPath, util.LOG_LEVEL_INFO)
-			
-			member = f.getmember(names[chosenROM])
-			fo = open(newPath, 'wb')
-			fo.write(member.read())
-			fo.close()
-			
-			# Point file name to the newly extracted file and continue
-			# as usual
-			rom = newPath
-			
-			# Zip files
-		elif filext == 'zip':
-			Logutil.log("Treating file as a .zip archive", util.LOG_LEVEL_INFO)
-			
-			# Open the archive
-			zp = zipfile.ZipFile(open(rom, 'rb'))
-			
-			# Get name files
-			names = zp.namelist()
-			
-			# Check the number of files
-			if (len(names) > 1):
-				Logutil.log("Archive had more than one file", util.LOG_LEVEL_INFO)
-				chosenROM = xbmcgui.Dialog().select('Choose a ROM', names)
+				Logutil.log("Putting extracted file in %s" % newPath, util.LOG_LEVEL_INFO)
 				
-			elif (len(names) == 1):
-				Logutil.log("Archive only had one file inside; picking that one", util.LOG_LEVEL_INFO)
-				chosenROM = 0
+				data = getArchives(filext, rom, [names[chosenROM]])
+				fo = open(newPath, 'wb')
+				fo.write(data[0][1])
+				fo.close()
 				
+				# Point file name to the newly extracted file and continue
+				# as usual
+				roms = [newPath]
+		
+		if len(roms) == 0:
+			roms = [rom]
+		
+		del rom
+		
+		for rom in roms:
+			if fileindex == 0:
+				if (escapeCmd):
+					emuParams = emuParams.replace('%ROM%', re.escape(rom))
+					emuCommandLine = re.escape(emuCommandLine)
+				else:					
+					emuParams = emuParams.replace('%ROM%', rom)
+				
+				if (os.environ.get( "OS", "xbox" ) == "xbox"):
+					cmd = emuCommandLine.replace('%ROM%', rom)
+				else:
+					cmd = '\"' +emuCommandLine +'\" ' +emuParams.replace('%I%', str(fileindex))
 			else:
-				Logutil.log("Archive had no files inside!", util.LOG_LEVEL_ERROR)
-				return ""
-						 
-			newPath = os.path.join(tempfile.gettempdir(), names[chosenROM])
-			data = zp.read(names[chosenROM])
-			fo = open(newPath, 'wb')
-			fo.write(data)
-			fo.close()
-			rom = newPath
-
-
-		if fileindex == 0:
-			if (escapeCmd):
-				emuParams = emuParams.replace('%ROM%', re.escape(rom))
-				emuCommandLine = re.escape(emuCommandLine)
-			else:					
-				emuParams = emuParams.replace('%ROM%', rom)
-			
-			if (os.environ.get( "OS", "xbox" ) == "xbox"):
-				cmd = emuCommandLine.replace('%ROM%', rom)
-			else:
-				cmd = '\"' +emuCommandLine +'\" ' +emuParams.replace('%I%', str(fileindex))
-		else:
-			newrepl = replString
-			if (escapeCmd):
-				newrepl = newrepl.replace('%ROM%', re.escape(rom))
-				emuCommandLine = re.escape(emuCommandLine)					
-			else:					
-				newrepl = newrepl.replace('%ROM%', rom)
-			newrepl = newrepl.replace('%I%', str(fileindex))
-			cmd += ' ' +newrepl		
-		fileindex += 1
+				newrepl = replString
+				if (escapeCmd):
+					newrepl = newrepl.replace('%ROM%', re.escape(rom))
+					emuCommandLine = re.escape(emuCommandLine)					
+				else:					
+					newrepl = newrepl.replace('%ROM%', rom)
+				newrepl = newrepl.replace('%I%', str(fileindex))
+				cmd += ' ' +newrepl		
+			fileindex += 1
 	
 	return cmd
 	
@@ -472,3 +455,41 @@ def launchNonXbox(cmd, settings):
 		#this brings xbmc back
 		xbmc.executehttpapi("Action(199)")
 	
+	
+# Compressed files functions
+
+def getNames(type, filepath):
+	return {'zip' : getNamesZip,
+			'7z'  : getNames7z}[type](filepath)
+
+def getNames7z(filepath):
+	fp = open(filepath, 'rb')
+	archive = py7zlib.Archive7z(fp)
+	names = archive.getnames()
+	fp.close()
+	return names
+	
+def getNamesZip(filepath):
+	fp = open(filepath, 'rb')
+	archive =  zipfile.ZipFile(fp)
+	names = archive.namelist()
+	fp.close()
+	return names
+	
+def getArchives(type, filepath, archiveList):
+	return {'zip' : getArchivesZip,
+			'7z'  : getArchives7z}[type](filepath, archiveList)
+				
+def getArchives7z(filepath, archiveList):
+	fp = open(filepath, 'rb')
+	archive = py7zlib.Archive7z(fp)
+	archivesDecompressed =  [(name, archive.getmember(name).read())for name in archiveList]
+	fp.close()
+	return archivesDecompressed
+
+def getArchivesZip(filepath, archiveList):
+	fp = open(filepath, 'rb')
+	archive = zipfile.ZipFile(fp)
+	archivesDecompressed = [(name, archive.read(name)) for name in archiveList]
+	fp.close()
+	return archivesDecompressed
