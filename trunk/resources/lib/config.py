@@ -283,6 +283,7 @@ class Config:
 
 		
 	
+	"""
 	def writeFileType(self, fileTypesXml, id, name):
 		
 		fileType = SubElement(fileTypesXml, 'FileType' , {'id' : id, 'name' : name})
@@ -302,7 +303,7 @@ class Config:
 		else:
 			SubElement(fileType, 'type').text = 'image'
 			SubElement(fileType, 'parent').text = 'game'
-			
+	"""	
 		
 		
 	def readRomCollections(self, tree):
@@ -618,6 +619,8 @@ class Config:
 		return fileTypeIds
 	
 	
+	
+	"""
 	def writeImagePlacingOptions(self, imagePlacingXml):
 		fileTypeFor = SubElement(imagePlacingXml, 'fileTypeFor', {'name' : 'gameinfobig'})
 		SubElement(fileTypeFor, 'fileTypeForGameList').text = 'boxfront'
@@ -708,4 +711,5 @@ class Config:
 		SubElement(fileTypeFor, 'fileTypeForGameInfoView4').text = 'screenshot'
 		
 		return imagePlacingXml
+	"""
 	
