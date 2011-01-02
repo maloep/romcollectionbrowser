@@ -235,8 +235,8 @@ def buildCmd(filenameRows, romCollection, escapeCmd):
 			
 			if '%I%' in emuParams:
 				Logutil.log("Loading %d archives" % len(names), util.LOG_LEVEL_INFO)
-				archivos = getArchives(filext, rom, names)
-				for archive in archivos:
+				archives = getArchives(filext, rom, names)
+				for archive in archives:
 					newPath = os.path.join(tempfile.gettempdir(), archive[0])
 					fp = open(newPath, 'wb')
 					fp.write(archive[1])
@@ -260,7 +260,7 @@ def buildCmd(filenameRows, romCollection, escapeCmd):
 				Logutil.log("Putting extracted file in %s" % newPath, util.LOG_LEVEL_INFO)
 				
 				data = getArchives(filext, rom, [names[chosenROM]])
-				fo = open(newPath, 'wb')
+				fo = open(str(newPath), 'wb')
 				fo.write(data[0][1])
 				fo.close()
 				
@@ -463,14 +463,14 @@ def getNames(type, filepath):
 			'7z'  : getNames7z}[type](filepath)
 
 def getNames7z(filepath):
-	fp = open(filepath, 'rb')
+	fp = open(str(filepath), 'rb')
 	archive = py7zlib.Archive7z(fp)
 	names = archive.getnames()
 	fp.close()
 	return names
 	
 def getNamesZip(filepath):
-	fp = open(filepath, 'rb')
+	fp = open(str(filepath), 'rb')
 	archive =  zipfile.ZipFile(fp)
 	names = archive.namelist()
 	fp.close()
@@ -481,14 +481,14 @@ def getArchives(type, filepath, archiveList):
 			'7z'  : getArchives7z}[type](filepath, archiveList)
 				
 def getArchives7z(filepath, archiveList):
-	fp = open(filepath, 'rb')
+	fp = open(str(filepath), 'rb')
 	archive = py7zlib.Archive7z(fp)
 	archivesDecompressed =  [(name, archive.getmember(name).read())for name in archiveList]
 	fp.close()
 	return archivesDecompressed
 
 def getArchivesZip(filepath, archiveList):
-	fp = open(filepath, 'rb')
+	fp = open(str(filepath), 'rb')
 	archive = zipfile.ZipFile(fp)
 	archivesDecompressed = [(name, archive.read(name)) for name in archiveList]
 	fp.close()
