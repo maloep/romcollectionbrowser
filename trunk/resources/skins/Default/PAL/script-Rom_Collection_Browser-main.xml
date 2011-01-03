@@ -29,7 +29,7 @@
 					<description>gamelist background image</description>
 					<posx>0</posx>
 					<posy>280</posy>
-					<width>720</width>
+					<width>820</width>
 					<height>300</height>
 					<texture>rcb-ContentPanel2.png</texture>
 					<colordiffuse>DDFFFFFF</colordiffuse>
@@ -81,12 +81,12 @@
 								<posy>0</posy>
 								<width>120</width>
 								<height>190</height>
-								<aspectratio align="center" aligny="center">keep</aspectratio>
+								<aspectratio align="center" aligny="bottom">keep</aspectratio>
 								<bordertexture border="8">rcb-ThumbBorder.png</bordertexture>
 								<bordersize>8</bordersize>
 								<texture background="true">$INFO[ListItem.Thumb]</texture>
-								<animation reversible="false" effect="zoom" start="0,0,120,190" end="-25,0,150,220" time="100">focus</animation>
-								<animation reversible="false" effect="zoom" end="0,0,120,190" start="-25,0,150,220" time="100">unfocus</animation>
+								<animation reversible="false" effect="zoom" start="0,0,120,180" end="-15,-60,150,210" time="100">focus</animation>
+								<animation reversible="false" effect="zoom" end="0,0,120,180" start="-15,-60,150,210" time="100">unfocus</animation>
 							</control>
 							<!--<control type="image">
 								<posx>0</posx>
@@ -171,7 +171,7 @@
 				</control>
 				<control type="group" id="300">					
 					<visible allowhiddenfocus="true">Control.IsVisible(50)</visible>
-					<posx>20</posx>
+					<posx>40</posx>
 					<posy>5</posy>					
 					<control type="image">				
 						<description>gamedesc background image</description>
