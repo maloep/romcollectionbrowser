@@ -36,7 +36,7 @@ CONTROL_PUBLISHER = 800
 CONTROL_CHARACTER = 900
 FILTER_CONTROLS = (500, 600, 700, 800, 900,)
 GAME_LISTS = (50, 51, 52, 53, 54, 55, 56, 57, 58)
-CONROL_SCROLLBARS = (2200, 2201,)
+CONTROL_SCROLLBARS = (2200, 2201, 60)
 
 CONTROL_GAMES_GROUP_START = 50
 CONTROL_GAMES_GROUP_END = 59
@@ -120,6 +120,9 @@ class ProgressDialogGUI:
 				return True
 		else:
 			self.dialog.close()
+			
+	def onAction(self, action):
+		print "Progress onAction:" +str(action)
 
 
 class ContextMenuDialog(xbmcgui.WindowXMLDialog):
@@ -1742,7 +1745,7 @@ class UIGameDB(xbmcgui.WindowXML):
 			control = self.getControl(controlId)
 		except Exception, (exc):
 			#HACK there seems to be a problem with recognizing the scrollbar controls
-			if(controlId not in (CONROL_SCROLLBARS)):
+			if(controlId not in (CONTROL_SCROLLBARS)):
 				Logutil.log("Control with id: %s could not be found. Check WindowXML file. Error: %s" % (str(controlId), str(exc)), util.LOG_LEVEL_ERROR)
 				self.writeMsg("Control with id: %s could not be found. Check WindowXML file." % str(controlId))
 			return None

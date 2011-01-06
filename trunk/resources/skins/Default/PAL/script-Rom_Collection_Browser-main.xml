@@ -24,15 +24,14 @@
 			<!-- gamelist 50 -->
 			<control type="group">
 				<posx>-20</posx>
-				<posy>0</posy>
-				<control type="image">			
-					<description>gamelist background image</description>
+				<posy>0</posy>				
+				<control type="image">
 					<posx>0</posx>
-					<posy>280</posy>
+					<posy>475</posy>
 					<width>820</width>
-					<height>300</height>
-					<texture>rcb-ContentPanel2.png</texture>
-					<colordiffuse>DDFFFFFF</colordiffuse>
+					<height>180</height>
+					<texture>rcb-floor.png</texture>
+					<!--<include>VisibleFadeEffect</include>-->
 					<visible>Control.IsVisible(50)</visible>
 				</control>
 				<control type="wraplist" id="50">					
@@ -43,11 +42,12 @@
 					<onleft>50</onleft>
 					<onright>50</onright>
 					<onup>2200</onup>					
-					<ondown>500</ondown>
+					<ondown>60</ondown>
 					<orientation>horizontal</orientation>
 					<focusposition>4</focusposition>
 					<viewtype label="Info">wrap</viewtype>
 					<scrolltime>100</scrolltime>
+					<pagecontrol>60</pagecontrol>
 					<!--<preloaditems>2</preloaditems>-->
 					<itemlayout width="90" height="150">
 						<posx>0</posx>
@@ -57,16 +57,21 @@
 								<posx>0</posx>
 								<posy>0</posy>
 								<width>90</width>
-								<height>160</height>
+								<height>160</height>								
 								<aspectratio align="center" aligny="bottom">keep</aspectratio>
-								<texture background="true">$INFO[ListItem.ActualIcon]</texture>
+								<bordertexture border="2">rcb-button-nofocus.png</bordertexture>
+								<bordersize>2</bordersize>
+								<texture background="true">$INFO[ListItem.ActualIcon]</texture>								
 							</control>
+							<!-- mirror-->
 							<control type="image">
 								<posx>0</posx>
 								<posy>160</posy>
 								<width>90</width>
 								<height>160</height>
 								<aspectratio align="center" aligny="top">keep</aspectratio>
+								<bordertexture border="2">rcb-button-nofocus.png</bordertexture>
+								<bordersize>2</bordersize>
 								<animation effect="fade" start="30" end="30" time="0" condition="true">Conditional</animation>
 								<texture background="true" flipy="true">$INFO[ListItem.ActualIcon]</texture>
 							</control>
@@ -99,26 +104,32 @@
 								<texture background="true" flipy="true">$INFO[ListItem.Thumb]</texture>
 								<animation reversible="false" effect="zoom" start="0,0,140,230" end="-25,0,200,300" time="100">focus</animation>
 								<animation reversible="false" effect="zoom" end="0,0,140,230" start="-25,0,200,300" time="100">unfocus</animation>
-							</control>
-							<control type="image">
-								<posx>0</posx>
-								<posy>0</posy>
-								<width>60</width>
-								<height>40</height>
-								<aspectratio>stretch</aspectratio>
-								<texture>rcb-GlassOverlay.png</texture>
-								<animation reversible="false" effect="zoom" start="0,0,60,60" end="-20,5,100,120" time="100">focus</animation>
-								<animation reversible="false" effect="zoom" end="3,3,50,45" start="-20,5,100,120" time="100">unfocus</animation>
-							</control>-->
+							</control>-->						
 						</control>
 					</focusedlayout>
 				</control>
+				<control type="scrollbar" id="60">
+					<posx>195</posx>
+					<posy>545</posy>
+					<width>350</width>
+					<height>25</height>
+					<texturesliderbackground border="14,0,14,0">rcb-ScrollBarH.png</texturesliderbackground>
+					<texturesliderbar border="14,0,14,0">rcb-ScrollBarH_bar.png</texturesliderbar>
+					<texturesliderbarfocus border="14,0,14,0">rcb-ScrollBarH_bar_focus.png</texturesliderbarfocus>
+					<textureslidernib>rcb-ScrollBarNib.png</textureslidernib>
+					<textureslidernibfocus>rcb-ScrollBarNib.png</textureslidernibfocus>
+					<onup>50</onup>
+					<ondown>500</ondown>
+					<showonepage>false</showonepage>
+					<orientation>horizontal</orientation>
+					<visible>Control.IsVisible(50)</visible>
+				</control>				
 				<control type="label">
 					<posx>0</posx>
-					<posy>500</posy>
+					<posy>495</posy>
 					<width>720</width>
 					<height>20</height>
-					<font>font30caps_title</font>
+					<font>font24_title</font>
 					<aligny>center</aligny>
 					<textcolor>DDFFFFFF</textcolor>
 					<selectedcolor>FFe2ff43</selectedcolor>
@@ -128,7 +139,7 @@
 				</control>
 				<control type="label">
 					<posx>0</posx>
-					<posy>540</posy>
+					<posy>525</posy>
 					<width>720</width>
 					<height>20</height>
 					<font>font16caps</font>
@@ -190,7 +201,9 @@
 						<width>300</width>
 						<height>220</height>
 						<visible>!Player.HasVideo</visible>
-						<texture>$INFO[ListItem.Property(mainviewgameinfobig)]</texture>						
+						<texture>$INFO[ListItem.Property(mainviewgameinfobig)]</texture>
+						<bordertexture border="2">rcb-button-nofocus.png</bordertexture>
+						<bordersize>2</bordersize>
 					</control>
 					<!-- mainviewvideowindowbig -->
 					<control type="videowindow" id="2300">
@@ -241,7 +254,9 @@
 						<posy>15</posy>
 						<width>150</width>
 						<height>110</height>						
-						<texture>$INFO[ListItem.Property(mainviewgameinfoupperleft)]</texture>						
+						<texture>$INFO[ListItem.Property(mainviewgameinfoupperleft)]</texture>
+						<bordertexture border="2">rcb-button-nofocus.png</bordertexture>
+						<bordersize>2</bordersize>
 					</control>
 					<!-- mainviewgameinfoupperright -->
 					<control type="image" id="2500">
@@ -250,7 +265,9 @@
 						<posy>15</posy>
 						<width>150</width>
 						<height>110</height>						
-						<texture>$INFO[ListItem.Property(mainviewgameinfoupperright)]</texture>						
+						<texture>$INFO[ListItem.Property(mainviewgameinfoupperright)]</texture>
+						<bordertexture border="2">rcb-button-nofocus.png</bordertexture>
+						<bordersize>2</bordersize>
 					</control>
 					<!-- mainviewgameinfolowerleft -->
 					<control type="image" id="2600">
@@ -259,7 +276,9 @@
 						<posy>125</posy>
 						<width>150</width>
 						<height>110</height>						
-						<texture>$INFO[ListItem.Property(mainviewgameinfolowerleft)]</texture>						
+						<texture>$INFO[ListItem.Property(mainviewgameinfolowerleft)]</texture>
+						<bordertexture border="2">rcb-button-nofocus.png</bordertexture>
+						<bordersize>2</bordersize>
 					</control>
 					<!-- mainviewgameinfolowerright -->
 					<control type="image" id="2700">
@@ -269,7 +288,9 @@
 						<width>150</width>
 						<height>110</height>
 						<visible>!Player.HasVideo</visible>
-						<texture>$INFO[ListItem.Property(mainviewgameinfolowerright)]</texture>						
+						<texture>$INFO[ListItem.Property(mainviewgameinfolowerright)]</texture>
+						<bordertexture border="2">rcb-button-nofocus.png</bordertexture>
+						<bordersize>2</bordersize>
 					</control>
 					<!-- mainviewvideowindowsmall -->
 					<control type="videowindow" id="2800">
@@ -292,13 +313,118 @@
 						<visible>!IsEmpty(ListItem.Property(mainviewvideosizesmall))</visible>
 					</control>					
 					
-					<!-- game / console description -->
-					<control type="textbox" id="2100">
-						<description>Consoles</description>
+					<!-- Year -->
+					<control type="label">
+						<description>Year txt</description>
 						<posx>340</posx>
 						<posy>15</posy>
+						<width>80</width>
+						<height>25</height>
+						<label>Year:</label>
+						<align>left</align>
+						<aligny>center</aligny>
+						<font>font13_title</font>
+						<textcolor>FF0084ff</textcolor>
+					</control>
+					<control type="label">
+						<description>Year Value</description>
+						<posx>430</posx>
+						<posy>15</posy>
+						<width>230</width>
+						<height>25</height>
+						<label fallback="416">$INFO[ListItem.Property(year)]</label>
+						<align>left</align>
+						<aligny>center</aligny>
+						<font>font13</font>
+						<scroll>true</scroll>
+					</control>
+					
+					<!-- Genre -->
+					<control type="label">
+						<description>Genre txt</description>
+						<posx>340</posx>
+						<posy>40</posy>
+						<width>80</width>
+						<height>25</height>
+						<label>Genre:</label>
+						<align>left</align>
+						<aligny>center</aligny>
+						<font>font13_title</font>
+						<textcolor>FF0084ff</textcolor>
+					</control>
+					<control type="label">
+						<description>Genre Value</description>
+						<posx>430</posx>
+						<posy>40</posy>
+						<width>230</width>
+						<height>25</height>
+						<label fallback="416">$INFO[ListItem.Property(genre)]</label>
+						<align>left</align>
+						<aligny>center</aligny>
+						<font>font13</font>
+						<scroll>true</scroll>
+					</control>
+					
+					<!-- Publisher -->
+					<control type="label">
+						<description>Publisher txt</description>
+						<posx>340</posx>
+						<posy>65</posy>
+						<width>80</width>
+						<height>25</height>
+						<label>Publisher:</label>
+						<align>left</align>
+						<aligny>center</aligny>
+						<font>font13_title</font>
+						<textcolor>FF0084ff</textcolor>
+					</control>
+					<control type="label">
+						<description>Publisher Value</description>
+						<posx>430</posx>
+						<posy>65</posy>
+						<width>230</width>
+						<height>25</height>
+						<label fallback="416">$INFO[ListItem.Property(publisher)]</label>
+						<align>left</align>
+						<aligny>center</aligny>
+						<font>font13</font>
+						<scroll>true</scroll>
+					</control>
+					
+					<!-- Developer -->
+					<control type="label">
+						<description>Developer txt</description>
+						<posx>340</posx>
+						<posy>90</posy>
+						<width>80</width>
+						<height>25</height>
+						<label>Developer:</label>
+						<align>left</align>
+						<aligny>center</aligny>
+						<font>font13_title</font>
+						<textcolor>FF0084ff</textcolor>
+					</control>
+					<control type="label">
+						<description>Developer Value</description>
+						<posx>430</posx>
+						<posy>90</posy>
+						<width>230</width>
+						<height>25</height>
+						<label fallback="416">$INFO[ListItem.Property(developer)]</label>
+						<align>left</align>
+						<aligny>center</aligny>
+						<font>font13</font>
+						<scroll>true</scroll>
+					</control>
+					
+					
+					<!-- game / console description -->
+					<control type="textbox" id="2100">
+						<description>Plot</description>
+						<posx>340</posx>
+						<posy>125</posy>
 						<width>320</width>
-						<height>220</height>			
+						<height>110</height>			
 						<pagecontrol>2200</pagecontrol>			
 						<textcolor>DDFFFFFF</textcolor>
 						<align>justify</align>
@@ -308,16 +434,16 @@
 					</control>
 					<control type="scrollbar" id="2200">
 						<description>ConsoleDesc Scrollbar</description>
-						<posx>665</posx>
-						<posy>20</posy>
-						<width>5</width>
-						<height>220</height>
+						<posx>660</posx>
+						<posy>125</posy>
+						<width>15</width>
+						<height>110</height>
 						<visible allowhiddenfocus="true">Control.IsVisible(2100)</visible>
-						<texturesliderbackground>scrollbar-bg.png</texturesliderbackground>
-						<texturesliderbar>scrollbar-bar.png</texturesliderbar>
-						<texturesliderbarfocus>scrollbar-barFocus.png</texturesliderbarfocus>
-						<textureslidernib>scrollbar-nib.png</textureslidernib>
-						<textureslidernibfocus>scrollbar-nibFocus.png</textureslidernibfocus>
+						<texturesliderbackground border="0,14,0,14">rcb-ScrollBarV.png</texturesliderbackground>
+						<texturesliderbar border="0,14,0,14">rcb-ScrollBarV_bar.png</texturesliderbar>
+						<texturesliderbarfocus border="0,14,0,14">rcb-ScrollBarV_bar_focus.png</texturesliderbarfocus>
+						<textureslidernib>rcb-ScrollBarNib.png</textureslidernib>
+						<textureslidernibfocus>rcb-ScrollBarNib.png</textureslidernibfocus>
 						<pulseonselect></pulseonselect>
 						<orientation>vertical</orientation>
 						<showonepage>false</showonepage>
@@ -409,7 +535,7 @@
 								<width>320</width>
 								<height>25</height>
 								<font>font13</font>
-								<textcolor>grey</textcolor>
+								<textcolor>FFb4b4b4</textcolor>
 								<selectedcolor>selected</selectedcolor>
 								<align>left</align>
 								<aligny>center</aligny>
@@ -424,7 +550,7 @@
 								<height>26</height>
 								<texture border="0,1,0,1">rcb-MenuItemNF.png</texture>
 								<visible>!Control.HasFocus(52)</visible>
-								<include>VisibleFadeEffect</include>
+								<!--<include>VisibleFadeEffect</include>-->
 							</control>
 							<control type="image">
 								<posx>0</posx>
@@ -433,7 +559,7 @@
 								<height>26</height>
 								<texture border="0,1,0,1">rcb-MenuItemFO.png</texture>
 								<visible>Control.HasFocus(52)</visible>
-								<include>VisibleFadeEffect</include>
+								<!--<include>VisibleFadeEffect</include>-->
 							</control>
 							<control type="label">
 								<posx>10</posx>
@@ -591,7 +717,7 @@
 						<posy>300</posy>
 						<width>280</width>
 						<height>220</height>			
-						<pagecontrol>2201</pagecontrol>			
+						<pagecontrol>2201</pagecontrol>
 						<textcolor>DDFFFFFF</textcolor>
 						<align>justify</align>
 						<font>font12</font>
@@ -605,11 +731,11 @@
 						<width>5</width>
 						<height>220</height>
 						<visible>Control.IsVisible(2101)</visible>
-						<texturesliderbackground>scrollbar-bg.png</texturesliderbackground>
-						<texturesliderbar>scrollbar-bar.png</texturesliderbar>
-						<texturesliderbarfocus>scrollbar-barFocus.png</texturesliderbarfocus>
-						<textureslidernib>scrollbar-nib.png</textureslidernib>
-						<textureslidernibfocus>scrollbar-nibFocus.png</textureslidernibfocus>
+						<texturesliderbackground>rcb-ScrollBarV.png</texturesliderbackground>
+						<texturesliderbar>rcb-ScrollBarV_bar.png</texturesliderbar>
+						<texturesliderbarfocus>rcb-ScrollBarV_bar_focus.png</texturesliderbarfocus>
+						<textureslidernib>rcb-ScrollBarNib.png</textureslidernib>
+						<textureslidernibfocus>rcb-ScrollBarNib.png</textureslidernibfocus>
 						<pulseonselect></pulseonselect>
 						<orientation>vertical</orientation>
 						<showonepage>false</showonepage>
@@ -1190,11 +1316,11 @@
 			<width>500</width>
 			<height>20</height>
 			<font>font12</font>
-			<textcolor>grey</textcolor>
+			<textcolor>FFb4b4b4</textcolor>
 			<scroll>false</scroll>
 			<align>right</align>
 			<aligny>center</aligny>			
-			<label>([COLOR=blue]$INFO[Container.NumItems][/COLOR]) Items - Page ([COLOR=blue]$INFO[Container.CurrentPage]/$INFO[Container.NumPages][/COLOR])</label>
+			<label>([COLOR=FF0084ff]$INFO[Container.NumItems][/COLOR]) Items - Page ([COLOR=FF0084ff]$INFO[Container.CurrentPage]/$INFO[Container.NumPages][/COLOR])</label>
 		</control>
 		
 		<!-- Messages -->
