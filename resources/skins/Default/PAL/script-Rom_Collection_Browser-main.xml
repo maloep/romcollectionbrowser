@@ -48,7 +48,7 @@
 					<viewtype label="Info">wrap</viewtype>
 					<scrolltime>100</scrolltime>
 					<pagecontrol>60</pagecontrol>
-					<!--<preloaditems>2</preloaditems>-->
+					<preloaditems>2</preloaditems>
 					<itemlayout width="90" height="150">
 						<posx>0</posx>
 						<posy>120</posy>
@@ -70,10 +70,9 @@
 								<width>90</width>
 								<height>160</height>
 								<aspectratio align="center" aligny="top">keep</aspectratio>
-								<bordertexture border="2">rcb-button-nofocus.png</bordertexture>
+								<bordertexture border="2" diffuse="rcb-diffuse_mirror.png"></bordertexture>								
 								<bordersize>2</bordersize>
-								<animation effect="fade" start="30" end="30" time="0" condition="true">Conditional</animation>
-								<texture background="true" flipy="true">$INFO[ListItem.ActualIcon]</texture>
+								<texture background="true" flipy="true" diffuse="rcb-diffuse_mirror.png">$INFO[ListItem.ActualIcon]</texture>
 							</control>
 						</control>
 					</itemlayout>
@@ -93,18 +92,6 @@
 								<animation reversible="false" effect="zoom" start="0,0,120,180" end="-15,-60,150,210" time="100">focus</animation>
 								<animation reversible="false" effect="zoom" end="0,0,120,180" start="-15,-60,150,210" time="100">unfocus</animation>
 							</control>
-							<!--<control type="image">
-								<posx>0</posx>
-								<posy>190</posy>
-								<width>140</width>
-								<height>240</height>
-								<aspectratio align="center" aligny="top">keep</aspectratio>
-								<bordertexture border="8">rcb-ThumbBorder.png</bordertexture>
-								<bordersize>8</bordersize>
-								<texture background="true" flipy="true">$INFO[ListItem.Thumb]</texture>
-								<animation reversible="false" effect="zoom" start="0,0,140,230" end="-25,0,200,300" time="100">focus</animation>
-								<animation reversible="false" effect="zoom" end="0,0,140,230" start="-25,0,200,300" time="100">unfocus</animation>
-							</control>-->						
 						</control>
 					</focusedlayout>
 				</control>
@@ -147,33 +134,24 @@
 					<textcolor>DDFFFFFF</textcolor>
 					<selectedcolor>FFe2ff43</selectedcolor>
 					<align>center</align>
-					<label>$INFO[ListItem.Property(console)]</label>					
-					<visible>IsEmpty(ListItem.Property(mainview2)) + Control.IsVisible(50)</visible>
+					<label>$INFO[ListItem.Property(console)]</label>
+					<visible>Control.IsVisible(50)</visible>
+					<!--<visible>IsEmpty(ListItem.Property(mainview2)) + Control.IsVisible(50)</visible>-->
 				</control>					
 				<!-- mainview1 -->
 				<control type="image">
 					<description>mainview1</description>
-					<posx>180</posx>
+					<posx>25</posx>
 					<posy>530</posy>
 					<width>60</width>
 					<height>40</height>						
 					<texture>$INFO[ListItem.Property(mainview1)]</texture>
 					<visible>Control.IsVisible(50)</visible>					
-				</control>
-				<!-- mainview2 -->
-				<control type="image">
-					<description>mainview2</description>
-					<posx>330</posx>
-					<posy>530</posy>
-					<width>60</width>
-					<height>40</height>						
-					<texture>$INFO[ListItem.Property(mainview2)]</texture>
-					<visible>Control.IsVisible(50)</visible>
-				</control>
+				</control>				
 				<!-- mainview3 -->
 				<control type="image">
 					<description>mainview3</description>
-					<posx>480</posx>
+					<posx>90</posx>
 					<posy>530</posy>
 					<width>60</width>
 					<height>40</height>						
@@ -417,6 +395,16 @@
 						<scroll>true</scroll>
 					</control>
 					
+					<!-- mainview2 -->
+					<control type="image">
+						<description>mainview2</description>
+						<posx>590</posx>
+						<posy>15</posy>
+						<width>80</width>
+						<height>60</height>						
+						<texture>$INFO[ListItem.Property(mainview2)]</texture>
+						<visible>Control.IsVisible(50)</visible>
+					</control>
 					
 					<!-- game / console description -->
 					<control type="textbox" id="2100">
