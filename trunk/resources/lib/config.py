@@ -217,6 +217,7 @@ class MediaPath:
 class Scraper:
 	parseInstruction = ''
 	source = ''
+	encoding = 'utf-8'
 	returnUrl = False
 	replaceKeyString = ''
 	replaceValueString = ''
@@ -494,7 +495,11 @@ class Config:
 			source = scraperRow.attrib.get('source')
 			if(source != None and source != ''):				
 				scraper.source = source.replace('%PLATFORM%', platform)
-				
+			
+			encoding = scraperRow.attrib.get('encoding')
+			if(encoding != None and encoding != 'utf-8'):
+				scraper.encoding = encoding
+			
 			returnUrl = scraperRow.attrib.get('returnUrl')
 			if(returnUrl != None and returnUrl != ''):
 				scraper.returnUrl = returnUrl.upper() == 'TRUE'

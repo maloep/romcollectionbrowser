@@ -15,11 +15,13 @@ class DescriptionParserXml:
 		pass
 	
 	
-	def parseDescription(self, descFile):		
+	def parseDescription(self, descFile, encoding):		
 		results = None						
 						
 		if(descFile.startswith('http://')):
 			descFile = urllib.urlopen(descFile)				
+		
+		descfile.decode(encoding).encode('utf-8')
 		
 		#load xmlDoc as elementtree to check with xpaths
 		tree = ElementTree().parse(descFile)			
@@ -42,10 +44,12 @@ class DescriptionParserXml:
 		return resultList
 	
 	
-	def scanDescription(self, descFile, descParseInstruction):		
+	def scanDescription(self, descFile, descParseInstruction, encoding):		
 		
 		if(descFile.startswith('http://')):
 			descFile = urllib.urlopen(descFile)
+		
+		descFile = descFile.decode(encoding).encode('utf-8')
 		
 		#load xmlDoc as elementtree to check with xpaths
 		tree = ElementTree().parse(descFile)

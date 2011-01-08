@@ -121,7 +121,8 @@ class PyScraper:
 			
 			parser = DescriptionParserFactory.getParser(str(scraper.parseInstruction))
 			Logutil.log("description file (tokens replaced): " +scraperSource, util.LOG_LEVEL_INFO)
-			results = parser.parseDescription(str(scraperSource))
+			Logutil.log("Encoding: %s" % scraper.encoding, util.LOG_LEVEL_WARNING)
+			results = parser.parseDescription(str(scraperSource), scraper.encoding)
 		except Exception, (exc):
 			Logutil.log("an error occured while parsing game description: " +scraperSource, util.LOG_LEVEL_WARNING)
 			Logutil.log("Parser complains about: " +str(exc), util.LOG_LEVEL_WARNING)
@@ -337,7 +338,7 @@ class PyScraper:
 			resultValue = result[itemName][0]
 			resultValue = util.html_unescape(resultValue)
 			resultValue = resultValue.strip()
-			resultValue = resultValue.encode('utf-8')
+			resultValue = resultValue
 									
 		except Exception, (exc):
 			Logutil.log("Error while resolving item: " +itemName +" : " +str(exc), util.LOG_LEVEL_WARNING)

@@ -164,7 +164,7 @@ class DBUpdate:
 					parser = DescriptionParserFactory.getParser(str(scraper.parseInstruction)) 										
 					
 					#parse description
-					for result in parser.scanDescription(scraper.source, str(scraper.parseInstruction)):
+					for result in parser.scanDescription(scraper.source, str(scraper.parseInstruction), scraper.encoding):
 						
 						isUpdate = False
 						gameId = None
@@ -211,7 +211,7 @@ class DBUpdate:
 						self.insertGameFromDesc(result, gamenameFromFile, romCollection, filenamelist, foldername, isUpdate, gameId, gui, dialogDict)
 							
 				except Exception, (exc):
-					Logutil.log("an error occured while adding game " +gamename.encode('iso-8859-15'), util.LOG_LEVEL_WARNING)
+					Logutil.log("an error occured while adding game " +gamename.encode('utf-8'), util.LOG_LEVEL_WARNING)
 					Logutil.log("Error: " +str(exc), util.LOG_LEVEL_WARNING)
 					continue
 			else:	
@@ -863,7 +863,6 @@ class DBUpdate:
 			#replace and remove HTML tags
 			resultValue = self.stripHTMLTags(resultValue)
 			resultValue = resultValue.strip()
-			resultValue = resultValue.encode('utf-8')
 									
 		except Exception, (exc):
 			Logutil.log("Error while resolving item: " +itemName +" : " +str(exc), util.LOG_LEVEL_WARNING)
