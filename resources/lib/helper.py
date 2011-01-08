@@ -70,6 +70,7 @@ def launchEmu(gdb, gui, gameId, config, settings):
 			Logutil.log('Cannot get rom collection with id: ' +str(gameRow[util.GAME_romCollectionId]), util.LOG_LEVEL_ERROR)
 			
 		gui.writeMsg("Launch Game " + gameRow[util.ROW_NAME])
+		
 		cmd = ""
 		
 		#get environment OS

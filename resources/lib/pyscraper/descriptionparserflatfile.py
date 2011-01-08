@@ -21,7 +21,7 @@ class DescriptionParserFlatFile:
 		self.grammarNode = grammarNode
 		
 	
-	def parseDescription(self, descFile):
+	def parseDescription(self, descFile, encoding):
 		
 		grammar = self.buildGameGrammar(self.grammarNode)
 				
@@ -30,6 +30,8 @@ class DescriptionParserFlatFile:
 		all = OneOrMore(gameGrammar)				
 						
 		fileAsString = self.openDescFile(descFile)
+		
+		fileAsString = fileAsString.decode(encoding).encode('utf-8')
 		
 		results = all.parseString(fileAsString)
 		
@@ -46,9 +48,10 @@ class DescriptionParserFlatFile:
 		return resultList			
 			
 	
-	def scanDescription(self, descFile, descParseInstruction):
+	def scanDescription(self, descFile, descParseInstruction, encoding):
 				
 		fileAsString = self.openDescFile(descFile)
+		fileAsString = fileAsString.decode(encoding).encode('utf-8')
 		self.gameGrammar = self.getGameGrammar(str(descParseInstruction))
 				
 		for result,start,end in self.gameGrammar.scanString(fileAsString):
@@ -123,7 +126,6 @@ class DescriptionParserFlatFile:
 		else:
 			fh = open(str(descFile), 'r')
 			fileAsString = fh.read()
-			fileAsString = fileAsString.decode('iso-8859-15')
 			
 		return fileAsString
 	

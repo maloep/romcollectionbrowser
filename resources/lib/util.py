@@ -1,6 +1,7 @@
 
 import os, sys, re
-import xbmc, time
+#import xbmc, time
+import time
 
 
 #
@@ -191,13 +192,14 @@ def html_escape(text):
 
 
 def getAddonDataPath():
-	
 	path = ''
 	
 	if(hasAddons()):		
+		import xbmc
 		path = xbmc.translatePath('special://profile/addon_data/%s' %(SCRIPTID))
 		#path = xbmc.translatePath('special://profile/addon_data/%s-%s' %(SCRIPTID, CURRENT_SCRIPT_VERSION))
-	else:
+	else:		
+		import xbmc
 		path = xbmc.translatePath('special://profile/script_data/%s' %(SCRIPTID))
 		#path = xbmc.translatePath('special://profile/script_data/%s-%s' %(SCRIPTID, CURRENT_SCRIPT_VERSION))
 		
@@ -223,6 +225,7 @@ def getAddonInstallPath():
 			
 
 def getAutoexecPath():
+	import xbmc
 	if(hasAddons()):
 		return xbmc.translatePath('special://profile/autoexec.py')
 	else:
@@ -255,6 +258,7 @@ def getConfigXmlModifyTime():
 	
 	
 def getSettings():
+	import xbmc
 	settings = ''
 	if hasAddons():
 		import xbmcaddon
