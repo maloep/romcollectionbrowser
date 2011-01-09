@@ -193,25 +193,25 @@
 	</ImagePlacing>
 	<Scrapers>
 		<Site name="Amiga V1">
-			<Scraper parseInstruction="C:\Users\malte\AppData\Roaming\XBMC\scripts\Rom Collection Browser\resources\lib\TestDataBase\Collection V1\parserConfig.xml" source="TestDataBase\Collection V1\synopsis\synopsis.txt"/>
+			<Scraper parseInstruction="C:\Users\malte\AppData\Roaming\XBMC\scripts\Rom Collection Browser\resources\lib\TestDataBase\Collection V1\parserConfig.xml" source="TestDataBase\Collection V1\synopsis\synopsis.txt" encoding="iso-8859-1"/>
 		</Site>
 		<Site name="Amiga V2">
-			<Scraper parseInstruction="C:\Users\malte\AppData\Roaming\XBMC\scripts\Rom Collection Browser\resources\lib\TestDataBase\Collection V2\parserConfig.xml" source="TestDataBase\Collection V2\synopsis\%GAME%\synopsis.txt"/>
+			<Scraper parseInstruction="C:\Users\malte\AppData\Roaming\XBMC\scripts\Rom Collection Browser\resources\lib\TestDataBase\Collection V2\parserConfig.xml" source="TestDataBase\Collection V2\synopsis\%GAME%\synopsis.txt" encoding="iso-8859-1"/>
 		</Site>
 		<Site name="SNES V3">
-			<Scraper parseInstruction="C:\Users\malte\AppData\Roaming\XBMC\scripts\Rom Collection Browser\resources\lib\TestDataBase\Collection V3\parserConfig.xml" source="TestDataBase\Collection V3\description\synopsis.txt" />
+			<Scraper parseInstruction="C:\Users\malte\AppData\Roaming\XBMC\scripts\Rom Collection Browser\resources\lib\TestDataBase\Collection V3\parserConfig.xml" source="TestDataBase\Collection V3\description\synopsis.txt" encoding="iso-8859-1" />
 		</Site>
 		<Site name="SNES V4">
-			<Scraper parseInstruction="C:\Users\malte\AppData\Roaming\XBMC\scripts\Rom Collection Browser\resources\lib\TestDataBase\Collection V4\parserConfig.xml" source="TestDataBase\Collection V4\Synopsis\synopsis.txt" />	
+			<Scraper parseInstruction="C:\Users\malte\AppData\Roaming\XBMC\scripts\Rom Collection Browser\resources\lib\TestDataBase\Collection V4\parserConfig.xml" source="TestDataBase\Collection V4\Synopsis\synopsis.txt" encoding="iso-8859-1"/>	
 		</Site>		
 		<Site name="Xbox V5">
-			<Scraper parseInstruction="C:\Users\malte\AppData\Roaming\XBMC\scripts\Rom Collection Browser\resources\lib\TestDataBase\Collection V5\parserConfig.xml" source="TestDataBase\Collection V5\synopsis.txt" />
+			<Scraper parseInstruction="C:\Users\malte\AppData\Roaming\XBMC\scripts\Rom Collection Browser\resources\lib\TestDataBase\Collection V5\parserConfig.xml" source="TestDataBase\Collection V5\synopsis.txt" encoding="iso-8859-1"/>
 		</Site>		
 		<Site name="Sega 32 V6">
-			<Scraper parseInstruction="C:\Users\malte\AppData\Roaming\XBMC\scripts\Rom Collection Browser\resources\lib\TestDataBase\Collection V6\parserConfig.xml" source="TestDataBase\Collection V6\Synopsis\%GAME%.xml" />
+			<Scraper parseInstruction="C:\Users\malte\AppData\Roaming\XBMC\scripts\Rom Collection Browser\resources\lib\TestDataBase\Collection V6\parserConfig.xml" source="TestDataBase\Collection V6\Synopsis\%GAME%.xml" encoding="iso-8859-1"/>
 		</Site>
 		<Site name="Sega 32 V7">
-			<Scraper parseInstruction="C:\Users\malte\AppData\Roaming\XBMC\scripts\Rom Collection Browser\resources\lib\TestDataBase\Collection V7\parserConfig.xml" source="TestDataBase\Collection V7\synopsis.xml" replaceKeyString="%REPLACEKEYS%" replaceValueString="%REPLACEVALUES%"/>
+			<Scraper parseInstruction="C:\Users\malte\AppData\Roaming\XBMC\scripts\Rom Collection Browser\resources\lib\TestDataBase\Collection V7\parserConfig.xml" source="TestDataBase\Collection V7\synopsis.xml" replaceKeyString="%REPLACEKEYS%" replaceValueString="%REPLACEVALUES%" encoding="iso-8859-1"/>
 		</Site>				
 		
 		

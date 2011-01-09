@@ -169,7 +169,7 @@ class DBUpdate:
 						isUpdate = False
 						gameId = None
 						filenamelist, foldername, filecrc = self.findFilesByGameDescription(result, romCollection, filecrcDict, fileFoldernameDict, fileGamenameDict)						
-
+	
 						if(filenamelist != None and len(filenamelist) > 0):
 											
 							gamenameFromFile = self.getGamenameFromFilename(filenamelist[0], romCollection)
