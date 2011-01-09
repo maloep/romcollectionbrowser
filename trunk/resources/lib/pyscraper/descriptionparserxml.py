@@ -21,7 +21,7 @@ class DescriptionParserXml:
 		if(descFile.startswith('http://')):
 			descFile = urllib.urlopen(descFile)				
 		
-		descfile.decode(encoding).encode('utf-8')
+		descFile = descFile.decode(encoding).encode('utf-8')
 		
 		#load xmlDoc as elementtree to check with xpaths
 		tree = ElementTree().parse(descFile)			
