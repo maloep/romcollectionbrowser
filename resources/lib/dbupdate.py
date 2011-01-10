@@ -39,7 +39,16 @@ class DBUpdate:
 		
 		Logutil.log("Iterating Rom Collections", util.LOG_LEVEL_INFO)
 		rccount = 1
+		
+		continueUpdate = True
+		
 		for romCollection in config.romCollections.values():
+			
+			#check if import was canceled
+			if(not continueUpdate):
+				Logutil.log('Game import canceled', util.LOG_LEVEL_INFO)
+				break
+				
 			
 			#prepare Header for ProgressDialog
 			progDialogRCHeader = "Importing Rom Collection (%i / %i): %s" %(rccount, len(config.romCollections), romCollection.name)
@@ -174,7 +183,12 @@ class DBUpdate:
 											
 							gamenameFromFile = self.getGamenameFromFilename(filenamelist[0], romCollection)
 							gamenameFromDesc = result['Game'][0]
-							gui.writeMsg(progDialogRCHeader, "Import game: " +str(gamenameFromDesc), "", fileCount)
+							
+							continueUpdate = gui.writeMsg(progDialogRCHeader, "Import game: " +str(gamenameFromDesc), "", fileCount)
+							if(not continueUpdate):				
+								Logutil.log('Game import canceled', util.LOG_LEVEL_INFO)
+								break
+							
 							fileCount = fileCount +1
 							
 							Logutil.log('Start scraping info for game: ' +str(gamenameFromFile), LOG_LEVEL_INFO)
@@ -243,7 +257,11 @@ class DBUpdate:
 					
 					Logutil.log('Start scraping info for game: ' +str(gamenameFromFile), LOG_LEVEL_INFO)						
 					
-					gui.writeMsg(progDialogRCHeader, "Import game: " +gamenameFromFile, "", fileCount)
+					continueUpdate = gui.writeMsg(progDialogRCHeader, "Import game: " +gamenameFromFile, "", fileCount)
+					if(not continueUpdate):				
+						Logutil.log('Game import canceled', util.LOG_LEVEL_INFO)
+						break
+						
 					
 					#check if this file already exists in DB
 					romFile = File(self.gdb).getFileByNameAndType(filename, 0)
