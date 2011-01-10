@@ -243,7 +243,7 @@ class DBUpdate:
 					
 					Logutil.log('Start scraping info for game: ' +str(gamenameFromFile), LOG_LEVEL_INFO)						
 					
-					#gui.writeMsg(progDialogRCHeader, "Import game: " +gamenameFromFile, "", fileCount)
+					gui.writeMsg(progDialogRCHeader, "Import game: " +gamenameFromFile, "", fileCount)
 					
 					#check if this file already exists in DB
 					romFile = File(self.gdb).getFileByNameAndType(filename, 0)
@@ -261,13 +261,12 @@ class DBUpdate:
 					filecrc = self.getFileCRC(filename)																		
 					
 					results = {}
-					#EDIT LENNY 12.30.2010 (Dialog Download Info)
 					artScrapers = {}					
 					
 					for scraperSite in romCollection.scraperSites:
-						#EDIT LENNY 12.30.2010 (Show Scraper Download Info in Dialog)
+						#Show Scraper Download Info in Dialog
 						Logutil.log('Progress Scraper: ' +scraperSite.name, util.LOG_LEVEL_INFO)
-						gui.writeMsg(progDialogRCHeader, "Import game: " +gamenameFromFile, 'using scraper: ' +scraperSite.name + " - downloading info", fileCount)
+						gui.writeMsg(progDialogRCHeader, "Import game: " +gamenameFromFile, scraperSite.name + " - downloading info", fileCount)
 						
 						Logutil.log('using scraper: ' +scraperSite.name, util.LOG_LEVEL_INFO)
 						urlsFromPreviousScrapers = []						
@@ -277,7 +276,7 @@ class DBUpdate:
 							if(doContinue):
 								continue
 					
-						#EDIT LENNY 12.30.2010 (Find Filetypes and Scrapers for Art Download)					
+						#Find Filetypes and Scrapers for Art Download					
 						if(len(results) > 0):
 							for path in romCollection.mediaPaths:
 								thumbKey = 'Filetype' + path.fileType.name 
@@ -294,12 +293,11 @@ class DBUpdate:
 						
 					filenamelist = []
 					filenamelist.append(filename)
-					#EDIT LENNY 12.30.2010 (Moved fileCount Down)
 					fileCount = fileCount +1
 
-					#EDIT LENNY 12.30.2010 (Variables to process Art Download Info)
+					#Variables to process Art Download Info
 					dialogDict = {'dialogHeaderKey':progDialogRCHeader, 'gameNameKey':gamenameFromFile, 'scraperSiteKey':artScrapers, 'fileCountKey':fileCount}
-					#EDIT LENNY 12.30.2010 (Add 'gui' and 'dialogDict' parameters to function)
+					#Add 'gui' and 'dialogDict' parameters to function
 					lastGameId = self.insertGameFromDesc(gamedescription, gamenameFromFile, romCollection, filenamelist, foldername, isUpdate, gameId, gui, dialogDict)													
 					
 		gui.writeMsg("Done.", "", "", gui.itemCount)
@@ -519,7 +517,7 @@ class DBUpdate:
 		
 		return None, foldername, filecrc
 		
-	#EDIT LENNY 12.30.2010 (Add 'gui' and 'dialogDict' parameters to function)	
+				
 	def insertGameFromDesc(self, gamedescription, gamename, romCollection, filenamelist, foldername, isUpdate, gameId, gui, dialogDict=''):								
 		if(gamedescription != None):
 			game = self.resolveParseResult(gamedescription, 'Game')
@@ -535,17 +533,12 @@ class DBUpdate:
 		if(filenamelist == None or len(filenamelist) == 0):
 			Logutil.log("game " +game +" was found in parsed results but not in your rom collection.", util.LOG_LEVEL_WARNING)
 			return None	
-		#EDIT LENNY 12.30.2010 (Add 'gui' and 'dialogDict' parameters to function)			
+					
 		gameId = self.insertData(gamedescription, gamename, romCollection, filenamelist, foldername, isUpdate, gameId, gui, dialogDict)
 		return gameId
 	
 	
-	
-							
-
-	
-
-	#EDIT LENNY 12.30.2010 (Add 'gui' and 'dialogDict' parameters to function)		
+			
 	def insertData(self, gamedescription, gamenameFromFile, romCollection, romFiles, foldername, isUpdate, gameId, gui, dialogDict=''):
 		Logutil.log("Insert data", util.LOG_LEVEL_INFO)
 		
@@ -597,8 +590,7 @@ class DBUpdate:
 			
 			#TODO replace %ROMCOLLECTION%, %PUBLISHER%, ... 
 			fileName = path.path.replace("%GAME%", gamenameFromFile)
-			
-			#EDIT LENNY 12.30.2010 (Add 'gui' and 'dialogDict' parameters to function)
+						
 			self.getThumbFromOnlineSource(gamedescription, path.fileType.name, fileName, gui, dialogDict)
 			
 			Logutil.log("Additional data path: " +str(path.path), util.LOG_LEVEL_DEBUG)
@@ -972,7 +964,7 @@ class DBUpdate:
 			Logutil.log("File does not exist in database. Insert file: " +fileName, util.LOG_LEVEL_INFO)
 			File(self.gdb).insert((str(fileName), fileType.id, parentId))
 				
-	#EDIT LENNY 12.30.2010 (Add 'gui' and 'dialogDict' parameters to function)
+	
 	def getThumbFromOnlineSource(self, gamedescription, fileType, fileName, gui, dialogDict=''):
 		Logutil.log("Get thumb from online source", util.LOG_LEVEL_INFO)
 		try:			
@@ -1002,13 +994,13 @@ class DBUpdate:
 			if(len(files) == 0):
 				Logutil.log("File does not exist. Starting download.", util.LOG_LEVEL_INFO)
 				
-				#EDIT LENNY 12.30.2010 (Dialog Status Art Download)
+				#Dialog Status Art Download
 				if(dialogDict != ''):
 					progDialogRCHeader = dialogDict["dialogHeaderKey"]
 					gamenameFromFile = dialogDict["gameNameKey"]
 					scraperSiteName = dialogDict["scraperSiteKey"]
 					fileCount = dialogDict["fileCountKey"]
-					gui.writeMsg(progDialogRCHeader, "Import game: " +gamenameFromFile, "ART - Current Scraper: " + str(scraperSiteName[thumbKey]) + " - Downloading Art", fileCount)
+					gui.writeMsg(progDialogRCHeader, "Import game: " +gamenameFromFile, str(scraperSiteName[thumbKey]) + " - downloading art", fileCount)
 
 				# fetch thumbnail and save to filepath
 				urllib.urlretrieve( thumbUrl, str(fileName))
