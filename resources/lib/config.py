@@ -245,6 +245,7 @@ class RomCollection:
 	useFoldernameAsGamename = False
 	maxFolderDepth = 99
 	descFilePerGame = False
+	doNotExtractZipFiles = False
 	diskPrefix = '_Disk'
 	xboxCreateShortcut = False
 	xboxCreateShortcutAddRomfile = False
@@ -432,6 +433,10 @@ class Config:
 			descFilePerGame = romCollectionRow.find('descFilePerGame')
 			if(descFilePerGame != None):
 				romCollection.descFilePerGame = descFilePerGame.text.upper() == 'TRUE'
+				
+			doNotExtractZipFiles = romCollectionRow.find('doNotExtractZipFiles')
+			if(doNotExtractZipFiles != None):
+				romCollection.doNotExtractZipFiles = doNotExtractZipFiles.text.upper() == 'TRUE'		
 				
 			diskPrefix = romCollectionRow.find('diskPrefix')
 			if(diskPrefix != None):

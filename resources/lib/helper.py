@@ -5,7 +5,6 @@ from gamedatabase import *
 import util
 from util import *
 import time
-import py7zlib
 import zipfile
 import xbmcgui
 import tempfile
@@ -226,18 +225,19 @@ def buildCmd(filenameRows, romCollection, escapeCmd):
 		filext = rom.split('.')[-1]
 		
 		
-		if filext in compressedExtensions:
+		if filext in compressedExtensions and not romCollection.doNotExtractZipFiles:
 			Logutil.log('Treating file as a compressed archive', util.LOG_LEVEL_INFO)
-			compressed = True
+			compressed = True						
 		
 			names = getNames(filext, rom)
 			
 			chosenROM = -1
 			
-			if '%I%' in emuParams:
+			#check if we should handle multiple roms
+			if '%I%' in emuParams and romCollection.diskPrefix in str(names):
 				Logutil.log("Loading %d archives" % len(names), util.LOG_LEVEL_INFO)
 				archives = getArchives(filext, rom, names)
-				for archive in archives:
+				for archive in archives:					
 					newPath = os.path.join(tempfile.gettempdir(), archive[0])
 					fp = open(newPath, 'wb')
 					fp.write(archive[1])
@@ -463,12 +463,22 @@ def getNames(type, filepath):
 	return {'zip' : getNamesZip,
 			'7z'  : getNames7z}[type](filepath)
 
+
 def getNames7z(filepath):
+	
+	try:
+		import py7zlib
+	except:
+		xbmcgui.Dialog().ok(util.SCRIPTNAME, 'Error launching .7z file.', 'Please check XBMC.log for details.')
+		Logutil.log("You have tried to launch a .7z file but you are missing required libraries to extract the file. You can download the latest RCB version from RCBs project page. It contains all required libraries.", util.LOG_LEVEL_ERROR)
+		return
+	
 	fp = open(str(filepath), 'rb')
 	archive = py7zlib.Archive7z(fp)
 	names = archive.getnames()
 	fp.close()
 	return names
+
 	
 def getNamesZip(filepath):
 	fp = open(str(filepath), 'rb')
@@ -476,17 +486,28 @@ def getNamesZip(filepath):
 	names = archive.namelist()
 	fp.close()
 	return names
+
 	
 def getArchives(type, filepath, archiveList):
 	return {'zip' : getArchivesZip,
 			'7z'  : getArchives7z}[type](filepath, archiveList)
+			
 				
 def getArchives7z(filepath, archiveList):
+	
+	try:
+		import py7zlib
+	except:
+		xbmcgui.Dialog().ok(util.SCRIPTNAME, 'Error launching .7z file.', 'Please check XBMC.log for details.')
+		Logutil.log("You have tried to launch a .7z file but you are missing required libraries to extract the file. You can download the latest RCB version from RCBs project page. It contains all required libraries.", util.LOG_LEVEL_ERROR)
+		return
+	
 	fp = open(str(filepath), 'rb')
 	archive = py7zlib.Archive7z(fp)
 	archivesDecompressed =  [(name, archive.getmember(name).read())for name in archiveList]
 	fp.close()
 	return archivesDecompressed
+
 
 def getArchivesZip(filepath, archiveList):
 	fp = open(str(filepath), 'rb')
