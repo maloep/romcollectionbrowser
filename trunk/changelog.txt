@@ -3,9 +3,14 @@
 ~~~~~~~~~~~~~
 General:
     * added context menu
-    * option "add rom collection" available via context menu
-    * rework of progress dialog (info about current scraper, ...)
-
+    * option "Add Rom Collection" available via context menu
+    * reworked Confluence views
+	
+Game Import:
+    * new scraper: maws.mameworld.info
+	* rework of progress dialog (info about current scraper and current action)
+    * stop import when action is canceled
+	
 Game Launching:
     * detect games in zip and 7z archives and ask user which game to load
 
