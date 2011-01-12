@@ -269,6 +269,30 @@
 						<bordertexture border="2">rcb-button-nofocus.png</bordertexture>
 						<bordersize>2</bordersize>
 					</control>
+					
+					<!-- mainviewgameinfolower -->
+					<control type="image" id="2710">
+						<description>mainviewgameinfolower</description>
+						<posx>15</posx>
+						<posy>125</posy>
+						<width>300</width>
+						<height>110</height>						
+						<texture>$INFO[ListItem.Property(mainviewgameinfolower)]</texture>
+						<bordertexture border="2">rcb-button-nofocus.png</bordertexture>
+						<bordersize>2</bordersize>
+					</control>
+					<!-- mainviewgameinfoleft -->
+					<control type="image" id="2400">
+						<description>mainviewgameinfoleft</description>
+						<posx>15</posx>
+						<posy>15</posy>
+						<width>150</width>
+						<height>220</height>						
+						<texture>$INFO[ListItem.Property(mainviewgameinfoleft)]</texture>
+						<bordertexture border="2">rcb-button-nofocus.png</bordertexture>
+						<bordersize>2</bordersize>
+					</control>
+					
 					<!-- mainviewvideowindowsmall -->
 					<control type="videowindow" id="2800">
 						<description>video control</description>

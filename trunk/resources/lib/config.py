@@ -197,7 +197,12 @@ class ImagePlacing:
 	fileTypesForMainViewGameInfoUpperLeft = None
 	fileTypesForMainViewGameInfoUpperRight = None
 	fileTypesForMainViewGameInfoLowerLeft = None
-	fileTypesForMainViewGameInfoLowerRight = None
+	fileTypesForMainViewGameInfoLowerRight = None	
+	fileTypesForMainViewGameInfoUpper = None
+	fileTypesForMainViewGameInfoLower = None
+	fileTypesForMainViewGameInfoLeft = None
+	fileTypesForMainViewGameInfoRight = None
+	
 	fileTypesForMainViewVideoWindowBig = None
 	fileTypesForMainViewVideoWindowSmall = None
 	fileTypesForMainViewVideoFullscreen = None
@@ -583,6 +588,12 @@ class Config:
 		imagePlacing.fileTypesForMainViewGameInfoUpperRight, errorMsg = self.readFileTypeForElement(fileTypeForRow, 'fileTypeForMainViewGameInfoUpperRight', tree)
 		imagePlacing.fileTypesForMainViewGameInfoLowerLeft, errorMsg = self.readFileTypeForElement(fileTypeForRow, 'fileTypeForMainViewGameInfoLowerLeft', tree)
 		imagePlacing.fileTypesForMainViewGameInfoLowerRight, errorMsg = self.readFileTypeForElement(fileTypeForRow, 'fileTypeForMainViewGameInfoLowerRight', tree)
+		
+		imagePlacing.fileTypesForMainViewGameInfoLower, errorMsg = self.readFileTypeForElement(fileTypeForRow, 'fileTypeForMainViewGameInfoLower', tree)
+		imagePlacing.fileTypesForMainViewGameInfoUpper, errorMsg = self.readFileTypeForElement(fileTypeForRow, 'fileTypeForMainViewGameInfoUpper', tree)
+		imagePlacing.fileTypesForMainViewGameInfoRight, errorMsg = self.readFileTypeForElement(fileTypeForRow, 'fileTypeForMainViewGameInfoRight', tree)
+		imagePlacing.fileTypesForMainViewGameInfoLeft, errorMsg = self.readFileTypeForElement(fileTypeForRow, 'fileTypeForMainViewGameInfoLeft', tree)
+		
 		imagePlacing.fileTypesForMainViewVideoWindowBig, errorMsg = self.readFileTypeForElement(fileTypeForRow, 'fileTypeForMainViewVideoWindowBig', tree)
 		imagePlacing.fileTypesForMainViewVideoWindowSmall, errorMsg = self.readFileTypeForElement(fileTypeForRow, 'fileTypeForMainViewVideoWindowSmall', tree)
 		imagePlacing.fileTypesForMainViewVideoFullscreen, errorMsg = self.readFileTypeForElement(fileTypeForRow, 'fileTypeForMainViewVideoFullscreen', tree)
