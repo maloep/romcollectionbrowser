@@ -114,15 +114,12 @@ class ProgressDialogGUI:
 		elif (count > 0):
 			percent = int(count * (float(100) / self.itemCount))			
 			self.dialog.update(percent, line1, line2, line3)
-			if (self.dialog.iscanceled()): 
+			if (self.dialog.iscanceled()):
 				return False
 			else: 
 				return True
 		else:
 			self.dialog.close()
-			
-	def onAction(self, action):
-		print "Progress onAction:" +str(action)
 
 
 class ContextMenuDialog(xbmcgui.WindowXMLDialog):
