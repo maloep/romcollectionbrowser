@@ -270,8 +270,19 @@
 						<bordersize>2</bordersize>
 					</control>
 					
-					<!-- mainviewgameinfolower -->
+					<!-- mainviewgameinfoupper -->
 					<control type="image" id="2710">
+						<description>mainviewgameinfoupper</description>
+						<posx>15</posx>
+						<posy>15</posy>
+						<width>300</width>
+						<height>110</height>						
+						<texture>$INFO[ListItem.Property(mainviewgameinfoupper)]</texture>
+						<bordertexture border="2">rcb-button-nofocus.png</bordertexture>
+						<bordersize>2</bordersize>
+					</control>
+					<!-- mainviewgameinfolower -->
+					<control type="image" id="2720">
 						<description>mainviewgameinfolower</description>
 						<posx>15</posx>
 						<posy>125</posy>
@@ -282,13 +293,24 @@
 						<bordersize>2</bordersize>
 					</control>
 					<!-- mainviewgameinfoleft -->
-					<control type="image" id="2400">
+					<control type="image" id="2730">
 						<description>mainviewgameinfoleft</description>
 						<posx>15</posx>
 						<posy>15</posy>
 						<width>150</width>
 						<height>220</height>						
 						<texture>$INFO[ListItem.Property(mainviewgameinfoleft)]</texture>
+						<bordertexture border="2">rcb-button-nofocus.png</bordertexture>
+						<bordersize>2</bordersize>
+					</control>
+					<!-- mainviewgameinforight -->
+					<control type="image" id="2740">
+						<description>mainviewgameinforight</description>
+						<posx>165</posx>
+						<posy>15</posy>
+						<width>150</width>
+						<height>220</height>						
+						<texture>$INFO[ListItem.Property(mainviewgameinforight)]</texture>
 						<bordertexture border="2">rcb-button-nofocus.png</bordertexture>
 						<bordersize>2</bordersize>
 					</control>
@@ -620,16 +642,7 @@
 					<visible allowhiddenfocus="true">Control.IsVisible(52)</visible>
 					<posx>15</posx>
 					<posy>10</posy>
-					<visible>Control.IsVisible(52)</visible>
-					<!--<control type="image">				
-						<description>gamedesc background image</description>
-						<posx>0</posx>
-						<posy>0</posy>
-						<width>330</width>
-						<height>553</height>
-						<texture>rcb-ContentPanel.png</texture>
-						<colordiffuse>DDFFFFFF</colordiffuse>						
-					</control>-->
+					<visible>Control.IsVisible(52)</visible>					
 					<control type="label">
 						<posx>5</posx>
 						<posy>5</posy>
@@ -701,7 +714,7 @@
 						<posx>15</posx>
 						<posy>45</posy>
 						<width>165</width>
-						<height>115</height>						
+						<height>115</height>
 						<texture>$INFO[ListItem.Property(mainviewgameinfoupperleft)]</texture>
 						<bordertexture border="2">rcb-button-nofocus.png</bordertexture>
 						<bordersize>2</bordersize>
@@ -740,6 +753,52 @@
 						<bordertexture border="2">rcb-button-nofocus.png</bordertexture>
 						<bordersize>2</bordersize>
 					</control>
+					
+					<!-- mainviewgameinfoupper -->
+					<control type="image" id="2711">
+						<description>mainviewgameinfoupper</description>
+						<posx>15</posx>
+						<posy>45</posy>
+						<width>330</width>
+						<height>115</height>						
+						<texture>$INFO[ListItem.Property(mainviewgameinfoupper)]</texture>
+						<bordertexture border="2">rcb-button-nofocus.png</bordertexture>
+						<bordersize>2</bordersize>
+					</control>
+					<!-- mainviewgameinfolower -->
+					<control type="image" id="2721">
+						<description>mainviewgameinfolower</description>
+						<posx>15</posx>
+						<posy>160</posy>
+						<width>330</width>
+						<height>115</height>						
+						<texture>$INFO[ListItem.Property(mainviewgameinfolower)]</texture>
+						<bordertexture border="2">rcb-button-nofocus.png</bordertexture>
+						<bordersize>2</bordersize>
+					</control>
+					<!-- mainviewgameinfoleft -->
+					<control type="image" id="2731">
+						<description>mainviewgameinfoleft</description>
+						<posx>15</posx>
+						<posy>45</posy>
+						<width>165</width>
+						<height>230</height>						
+						<texture>$INFO[ListItem.Property(mainviewgameinfoleft)]</texture>
+						<bordertexture border="2">rcb-button-nofocus.png</bordertexture>
+						<bordersize>2</bordersize>
+					</control>
+					<!-- mainviewgameinforight -->
+					<control type="image" id="2741">
+						<description>mainviewgameinforight</description>
+						<posx>180</posx>
+						<posy>45</posy>
+						<width>165</width>
+						<height>330</height>						
+						<texture>$INFO[ListItem.Property(mainviewgameinforight)]</texture>
+						<bordertexture border="2">rcb-button-nofocus.png</bordertexture>
+						<bordersize>2</bordersize>
+					</control>
+					
 					<!-- mainviewvideowindowsmall -->
 					<control type="videowindow" id="2801">
 						<description>video control</description>
