@@ -117,10 +117,17 @@ IMAGE_CONTROL_MV_BACKGROUND = 'mainviewbackground'
 IMAGE_CONTROL_MV_GAMELIST = 'gamelist'
 IMAGE_CONTROL_MV_GAMELISTSELECTED = 'gamelistselected'
 IMAGE_CONTROL_MV_GAMEINFO_BIG = 'mainviewgameinfobig'
+
 IMAGE_CONTROL_MV_GAMEINFO_UPPERLEFT = 'mainviewgameinfoupperleft'
 IMAGE_CONTROL_MV_GAMEINFO_UPPERRIGHT = 'mainviewgameinfoupperright'
 IMAGE_CONTROL_MV_GAMEINFO_LOWERLEFT = 'mainviewgameinfolowerleft'
 IMAGE_CONTROL_MV_GAMEINFO_LOWERRIGHT = 'mainviewgameinfolowerright'
+
+IMAGE_CONTROL_MV_GAMEINFO_UPPER = 'mainviewgameinfoupper'
+IMAGE_CONTROL_MV_GAMEINFO_LOWER = 'mainviewgameinfolower'
+IMAGE_CONTROL_MV_GAMEINFO_LEFT = 'mainviewgameinfoleft'
+IMAGE_CONTROL_MV_GAMEINFO_RIGHT = 'mainviewgameinforight'
+
 IMAGE_CONTROL_MV_1 = 'mainview1'
 IMAGE_CONTROL_MV_2 = 'mainview2'
 IMAGE_CONTROL_MV_3 = 'mainview3'
