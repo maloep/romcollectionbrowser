@@ -51,6 +51,14 @@
       <type>image</type>
       <parent>game</parent>
     </FileType>
+	<FileType id="13" name="cabinet">
+      <type>image</type>
+      <parent>game</parent>
+    </FileType>
+	<FileType id="14" name="marquee">
+      <type>image</type>
+      <parent>game</parent>
+    </FileType>
   </FileTypes>
   <ImagePlacing>
     <fileTypeFor name="gameinfobig">
@@ -141,6 +149,54 @@
       <fileTypeForGameInfoView3>cartridge</fileTypeForGameInfoView3>
       <fileTypeForGameInfoView4>screenshot</fileTypeForGameInfoView4>
     </fileTypeFor>
+	<fileTypeFor name="gameinfomamemarquee">
+      <fileTypeForGameList>marquee</fileTypeForGameList>
+      <fileTypeForGameList>boxfront</fileTypeForGameList>
+	  <fileTypeForGameList>title</fileTypeForGameList>
+	  <fileTypeForGameListSelected>marquee</fileTypeForGameListSelected>
+      <fileTypeForGameListSelected>boxfront</fileTypeForGameListSelected>
+	  <fileTypeForGameListSelected>title</fileTypeForGameListSelected>
+      <fileTypeForMainViewBackground>boxfront</fileTypeForMainViewBackground>
+      <fileTypeForMainViewBackground>title</fileTypeForMainViewBackground>
+      <fileTypeForMainViewBackground>action</fileTypeForMainViewBackground>
+      <fileTypeForMainViewGameInfoLeft>cabinet</fileTypeForMainViewGameInfoLeft>
+      <fileTypeForMainViewGameInfoUpperRight>title</fileTypeForMainViewGameInfoUpperRight>
+      <fileTypeForMainViewGameInfoLowerRight>action</fileTypeForMainViewGameInfoLowerRight>      
+      <fileTypeForGameInfoViewBackground>title</fileTypeForGameInfoViewBackground>
+      <fileTypeForGameInfoViewBackground>boxfront</fileTypeForGameInfoViewBackground>
+      <fileTypeForGameInfoViewBackground>screenshot</fileTypeForGameInfoViewBackground>
+      <fileTypeForGameInfoViewGamelist>boxfront</fileTypeForGameInfoViewGamelist>
+      <fileTypeForGameInfoViewGamelist>title</fileTypeForGameInfoViewGamelist>
+	  <fileTypeForGameInfoViewGamelist>screenshot</fileTypeForGameInfoViewGamelist>
+      <fileTypeForGameInfoView1>boxfront</fileTypeForGameInfoView1>
+      <fileTypeForGameInfoView2>action</fileTypeForGameInfoView2>
+      <fileTypeForGameInfoView3>title</fileTypeForGameInfoView3>
+      <fileTypeForGameInfoView4>cabinet</fileTypeForGameInfoView4>
+    </fileTypeFor>
+	<fileTypeFor name="gameinfomamecabinet">
+      <fileTypeForGameList>cabinet</fileTypeForGameList>
+      <fileTypeForGameList>boxfront</fileTypeForGameList>
+	  <fileTypeForGameList>title</fileTypeForGameList>
+	  <fileTypeForGameListSelected>cabinet</fileTypeForGameListSelected>
+      <fileTypeForGameListSelected>boxfront</fileTypeForGameListSelected>
+	  <fileTypeForGameListSelected>title</fileTypeForGameListSelected>
+      <fileTypeForMainViewBackground>boxfront</fileTypeForMainViewBackground>
+      <fileTypeForMainViewBackground>title</fileTypeForMainViewBackground>
+      <fileTypeForMainViewBackground>action</fileTypeForMainViewBackground>
+      <fileTypeForMainViewGameInfoUpperLeft>title</fileTypeForMainViewGameInfoUpperLeft>
+      <fileTypeForMainViewGameInfoUpperRight>action</fileTypeForMainViewGameInfoUpperRight>
+      <fileTypeForMainViewGameInfoLower>marquee</fileTypeForMainViewGameInfoLower>      
+      <fileTypeForGameInfoViewBackground>title</fileTypeForGameInfoViewBackground>
+      <fileTypeForGameInfoViewBackground>boxfront</fileTypeForGameInfoViewBackground>
+      <fileTypeForGameInfoViewBackground>screenshot</fileTypeForGameInfoViewBackground>
+      <fileTypeForGameInfoViewGamelist>boxfront</fileTypeForGameInfoViewGamelist>
+      <fileTypeForGameInfoViewGamelist>title</fileTypeForGameInfoViewGamelist>
+	  <fileTypeForGameInfoViewGamelist>screenshot</fileTypeForGameInfoViewGamelist>
+      <fileTypeForGameInfoView1>boxfront</fileTypeForGameInfoView1>
+      <fileTypeForGameInfoView2>action</fileTypeForGameInfoView2>
+      <fileTypeForGameInfoView3>title</fileTypeForGameInfoView3>
+      <fileTypeForGameInfoView4>cabinet</fileTypeForGameInfoView4>
+    </fileTypeFor>
   </ImagePlacing>
   <Scrapers>
     <Site name="local nfo">
@@ -165,5 +221,8 @@
       <Scraper parseInstruction="04.06 - mobygames - screenoriglink.xml" returnUrl="true" source="3" />
       <Scraper parseInstruction="04.07 - mobygames - screenshots.xml" source="4" />
     </Site>
+	<Site name="maws.mameworld.info">
+	  <Scraper parseInstruction="06 - maws.xml" source="http://maws.mameworld.info/maws/romset/%GAME%" encoding='iso-8859-1'/>
+	</Site>
   </Scrapers>
 </config>
