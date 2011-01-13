@@ -45,7 +45,7 @@ class DescriptionParserFlatFile:
 				resultAsDict = result.asDict()
 				resultAsDict = self.replaceResultTokens(resultAsDict)
 				resultList.append(resultAsDict)				
-		return resultList			
+		return resultList
 			
 	
 	def scanDescription(self, descFile, descParseInstruction, encoding):
@@ -61,9 +61,12 @@ class DescriptionParserFlatFile:
 			
 			
 	def replaceResultTokens(self, resultAsDict):
-		for key in resultAsDict.keys():			
+		for key in resultAsDict.keys():
+			
 			grammarElement = self.grammarNode.find(key)
+			
 			if(grammarElement != None):
+				
 				appendResultTo = grammarElement.attrib.get('appendResultTo')
 				appendResultWith = grammarElement.attrib.get('appendResultWith')
 				replaceKeyString = grammarElement.attrib.get('replaceInResultKey')
@@ -74,6 +77,7 @@ class DescriptionParserFlatFile:
 				if(appendResultTo != None or appendResultWith != None or dateFormat != None):									
 					itemList = resultAsDict[key]
 					for i in range(0, len(itemList)):
+						
 						try:
 							item = itemList[i]
 							newValue = item
@@ -162,7 +166,7 @@ class DescriptionParserFlatFile:
 			
 			lineEndReplaced = False
 			
-			literal = None			
+			literal = None
 			nodeValue = node.text
 			if(nodeValue != None):				
 				literal = self.replaceTokens(nodeValue, ('LineStart', 'LineEnd'))
@@ -194,7 +198,7 @@ class DescriptionParserFlatFile:
 					nodeGrammar += SkipTo(skipToGrammar)
 				if(skipTo.find('LineEnd') >= 0):
 					#print "LineEnd found in: "  +skipTo.nodeValue
-					lineEndReplaced = True			
+					lineEndReplaced = True
 						
 			delimiter = node.attrib.get('delimiter')
 			if(delimiter != None):
