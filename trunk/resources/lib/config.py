@@ -5,92 +5,6 @@ from util import *
 from elementtree.ElementTree import *
 
 
-consoleList = [
-			'Other',
-			'3DO',
-			'Amiga',
-			'Amiga CD32',
-			'Amstrad CPC',
-			'Apple II',
-			'Atari 2600',
-			'Atari 5200',
-			'Atari 7800',
-			'Atari 8-bit',
-			'Atari ST',			
-			'BBC Micro',
-			'BREW',
-			'CD-i',  
-			'Channel F',  
-			'ColecoVision',  
-			'Commodore 128',  
-			'Commodore 64',  
-			'Commodore PET/CBM',  
-			'DoJa',  
-			'DOS',  
-			'Dragon 32/64',  
-			'Dreamcast',  
-			'Electron',  
-			'ExEn',  
-			'Game Boy',  
-			'Game Boy Advance',  
-			'Game Boy Color',
-			'GameCube',  
-			'Game Gear',  
-			'Genesis',  
-			'Gizmondo',  
-			'Intellivision',
-			'Jaguar',  
-			'Linux',  
-			'Lynx',  
-			'Macintosh',  
-			'Mophun',  
-			'MSX',  
-			'Neo Geo',  
-			'Neo Geo CD',  
-			'Neo Geo Pocket',  
-			'Neo Geo Pocket Color',  
-			'NES',  
-			'N-Gage',
-			'Nintendo 64',  
-			'Nintendo DS',  
-			'Nintendo DSi',  
-			'Odyssey',  
-			'Odyssey 2',
-			'PC-88',  
-			'PC-98',  
-			'PC Booter',  
-			'PC-FX',  
-			'PlayStation',  
-			'PlayStation 2',  
-			'PlayStation 3',  
-			'PSP',  
-			'SEGA 32X',  
-			'SEGA CD',  
-			'SEGA Master System',  
-			'SEGA Saturn',  
-			'SNES',  
-			'Spectravideo',
-			'TI-99/4A',  
-			'TRS-80',  
-			'TRS-80 CoCo',  
-			'TurboGrafx-16',  
-			'TurboGrafx CD',  
-			'Vectrex',  
-			'VIC-20',  
-			'Virtual Boy',  
-			'V.Smile',  
-			'Wii',  
-			'Windows',  
-			'Windows 3.x',
-			'WonderSwan',  
-			'WonderSwan Color',  
-			'Xbox',  
-			'Xbox 360',  
-			'Zeebo',  
-			'Zodiac',  
-			'ZX Spectr']
-
-
 consoleDict = {
 			#name, mobygames-id
 			'Other' : '0',
@@ -129,7 +43,8 @@ consoleDict = {
 			'Jaguar' : '17',  
 			'Linux' : '1',  
 			'Lynx' : '18',  
-			'Macintosh' : '74',  
+			'Macintosh' : '74',
+			'MAME' : '0',  
 			'Mophun' : '71',  
 			'MSX' : '57',  
 			'Neo Geo' : '36',  
@@ -186,7 +101,8 @@ class FileType:
 	type = ''
 	parent = ''
 	
-class ImagePlacing:
+class ImagePlacing:	
+	name = ''	
 	fileTypesForGameList = None
 	fileTypesForGameListSelected = None			
 	fileTypesForMainView1 = None
@@ -240,7 +156,7 @@ class RomCollection:
 	romPaths = None
 	mediaPaths = None
 	scraperSites = None
-	imagePlacing = None	
+	imagePlacing = None
 	ignoreOnScan = False
 	allowUpdate = True	
 	searchGameByCRC = True
