@@ -44,24 +44,27 @@ from descriptionparserfactory import DescriptionParserFactory
 #descFile = "F:\\Emulatoren\\data\\Scraper Tests\\Roms\\Sega32\\32x - Motocross Championship.nfo"
 #parseInstruction = "C:\\Users\\malte\\AppData\\Roaming\\XBMC\\scripts\\Rom Collection Browser\\resources\\scraper\\00 - local nfo.xml"
 
-descFile = "http://api.archive.vg/1.0/Game.getInfoByCRC/VT7RJ960FWD4CC71L0Z0K4KQYR4PJNW8/b710561b"
-parseInstruction = "F:\\Emulatoren\\data\\Synopsis\\Archive\\Archive - parserConfig.xml"
+descFile = "http://maws.mameworld.info/maws/romset/88games"
+parseInstruction = "C:\\Users\\malte\\AppData\\Roaming\\XBMC\\scripts\\Rom Collection Browser\\resources\\scraper\\06 - maws.xml"
+
+#descFile = "http://api.archive.vg/1.0/Game.getInfoByCRC/VT7RJ960FWD4CC71L0Z0K4KQYR4PJNW8/b710561b"
+#parseInstruction = "F:\\Emulatoren\\data\\Synopsis\\Archive\\Archive - parserConfig.xml"
 
 #http://api.archive.vg/1.0/Archive.search/VT7RJ960FWD4CC71L0Z0K4KQYR4PJNW8/Alien+Brees
 #http://api.archive.vg/1.0/Game.getInfoByID/VT7RJ960FWD4CC71L0Z0K4KQYR4PJNW8/21565
 
 #http://api.archive.vg/1.0/System.getGames/VT7RJ960FWD4CC71L0Z0K4KQYR4PJNW8/SYSTEM
 
-"""
+
 from descriptionparserfactory import *
 descParser = DescriptionParserFactory.getParser(parseInstruction)
 
-results = descParser.parseDescription(str(descFile))
+results = descParser.parseDescription(str(descFile), 'iso-8859-15')
 for result in results:
 	print result
+
+
 """
-
-
 configFile = 'C:\\Users\\malte\\AppData\\Roaming\\XBMC\\userdata\\script_data\\script.games.rom.collection.browser\\config.xml'
 
 from elementtree.ElementTree import *
@@ -71,7 +74,7 @@ romCollectionsXml = tree.find('RomCollections')
 
 print romCollectionsXml
 print tree
-
+"""
 
 
 """
