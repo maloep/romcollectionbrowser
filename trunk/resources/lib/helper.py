@@ -7,7 +7,6 @@ from util import *
 import time
 import zipfile
 import xbmcgui
-import tempfile
 
 
 def getFilesByControl_Cached(gdb, fileTypes, gameId, publisherId, developerId, romCollectionId, fileDict):
@@ -115,6 +114,16 @@ def launchEmu(gdb, gui, gameId, config, settings):
 		except Exception, (exc):
 			Logutil.log("Error while launching emu: " +str(exc), util.LOG_LEVEL_ERROR)
 			gui.writeMsg("Error while launching emu: " +str(exc))
+			
+		try:
+			#delete temporary files (from zip or 7z extraction
+			tempDir = getTempDir()
+			files = os.listdir(tempDir)
+			for file in files:
+				os.remove(os.path.join(tempDir, file))
+		except Exception, (exc):
+			Logutil.log("Error deleting files after launch emu: " +str(exc), util.LOG_LEVEL_ERROR)
+			gui.writeMsg("Error deleting files after launch emu: " +str(exc))
 		
 		Logutil.log("End helper.launchEmu", util.LOG_LEVEL_INFO)
 		
@@ -238,7 +247,7 @@ def buildCmd(filenameRows, romCollection, escapeCmd):
 				Logutil.log("Loading %d archives" % len(names), util.LOG_LEVEL_INFO)
 				archives = getArchives(filext, rom, names)
 				for archive in archives:					
-					newPath = os.path.join(tempfile.gettempdir(), archive[0])
+					newPath = os.path.join(getTempDir(), archive[0])
 					fp = open(newPath, 'wb')
 					fp.write(archive[1])
 					fp.close()
@@ -256,7 +265,7 @@ def buildCmd(filenameRows, romCollection, escapeCmd):
 		
 			if chosenROM != -1:
 				# Extract the chosen file to %TMP%
-				newPath = os.path.join(tempfile.gettempdir(), names[chosenROM])
+				newPath = os.path.join(getTempDir(), names[chosenROM])
 				
 				Logutil.log("Putting extracted file in %s" % newPath, util.LOG_LEVEL_INFO)
 				
@@ -515,3 +524,17 @@ def getArchivesZip(filepath, archiveList):
 	archivesDecompressed = [(name, archive.read(name)) for name in archiveList]
 	fp.close()
 	return archivesDecompressed
+
+
+def getTempDir():
+	tempDir = os.path.join(util.getAddonDataPath(), 'tmp')
+	
+	try:
+		#check if folder exists
+		if(not os.path.isdir(tempDir)):
+			os.mkdir(tempDir)
+		return tempDir
+	except Exception, (exc):
+		Logutil.log('Error creating temp dir: ' +str(exc), util.LOG_LEVEL_ERROR)
+		return None
+		

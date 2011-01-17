@@ -56,12 +56,18 @@ parseInstruction = "C:\\Users\\malte\\AppData\\Roaming\\XBMC\\scripts\\Rom Colle
 #http://api.archive.vg/1.0/System.getGames/VT7RJ960FWD4CC71L0Z0K4KQYR4PJNW8/SYSTEM
 
 
+"""
 from descriptionparserfactory import *
 descParser = DescriptionParserFactory.getParser(parseInstruction)
 
 results = descParser.parseDescription(str(descFile), 'iso-8859-15')
 for result in results:
 	print result
+"""
+
+import tempfile
+print tempfile.gettempdir()
+
 
 
 """
