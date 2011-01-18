@@ -2,12 +2,25 @@
 = Features =
 == game import / scraping ==
 === general ===
+ * scraping option: use subtitle search
+ * only search for subtitles with : and - (and maybe only when sequel number)
+ * new option: ask for correct result on mismatch
+ * cancel import
+ * stop import on general error
+ * offer scraping options at startup
+	* Automatic: Accurate
+	* Automatic: Guess names
+	* Interactive
+	* Local nfo ?
+ * scrape results page with option to rescrape missing games
+ * improve config wizard (suggest parameters, pathes, more options)
+	 * Save path to roms / artwork / ... in config wizard
  * easier handling of default images (per romcollection)
  * support a.k.a. titles from mobygames
  * slight changes to subtitle matching (e.g. Alien Breed III, Bards Tale I)
  * manual scraping games (update properties and images)
  * delete missing games from db (batch and single)
- * add mame support
+ * add mame support (use maws scraper)
  * easy to use option to rescrape missing games
  * stop searching when all games are found
  * check if import desc file with %GAME% still works with config wizard
@@ -83,6 +96,7 @@
  * ignore multi rom scenario (f.e. mame)
  * focus not on gamelist after launchemu (problem only on windows?)
  * command before launch and after launch(f.e. load virtual cd drive, unload virtual cd drive)
+ * try to write black background before launch
 
 
 = Refactoring / implementation details =
