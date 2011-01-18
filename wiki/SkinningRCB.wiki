@@ -120,6 +120,8 @@ Change View:			2
 
 Play Video Fullscreen:	2900, 2901
 
+If you add more than two views hat support fullscreen video you have to add the new ids to the python code: Go to gui.py and look for this line: CONTROL_BUTTON_VIDEOFULLSCREEN = (2900, 2901,)
+
 ===== Context Menu =====
 Close Context Menu:		5101
 
@@ -127,8 +129,6 @@ Import Games:			5110
 
 Add Rom Collection:		5111
 
-
-If you add more than two views hat support fullscreen video you have to add the new ids to the python code: Go to gui.py and look for this line: CONTROL_BUTTON_VIDEOFULLSCREEN = (2900, 2901,)
 
 ==== Labels ====
 Message label:	4000
