@@ -234,7 +234,7 @@ class RCBMock:
 	itemCount = 0
 	
 	def writeMsg(self, msg1, msg2, msg3, count=0):
-		pass
+		return True
 	
 
 unittest.main()
