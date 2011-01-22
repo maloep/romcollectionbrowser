@@ -988,63 +988,72 @@
 				<control type="image">	
 					<description>gamelist background image</description>
 					<posx>0</posx>
-					<posy>100</posy>
+					<posy>0</posy>
 					<width>720</width>
-					<height>450</height>
+					<height>580</height>
 					<texture>rcb-ContentPanel2.png</texture>
 					<colordiffuse>90FFFFFF</colordiffuse>					
 				</control>
 				<control type="wraplist" id="58">
-					<posx>0</posx>
-					<posy>120</posy>
-					<width>720</width>
-					<height>400</height>
+					<posx>-30</posx>
+					<posy>80</posy>
+					<width>820</width>
+					<height>440</height>
 					<onleft>58</onleft>
 					<onright>58</onright>
 					<onup>500</onup>
-					<ondown>3100</ondown>
+					<ondown>62</ondown>
 					<orientation>horizontal</orientation>
 					<focusposition>2</focusposition>
+					<preloaditems>2</preloaditems>
 					<viewtype label="Thumbs">wrap</viewtype>			
 					<scrolltime>100</scrolltime>
-					<itemlayout width="145">
+					<pagecontrol>62</pagecontrol>
+					<itemlayout width="145" height="200">
 						<control type="image">
-							<width>145</width>
-							<height>220</height>
 							<posx>0</posx>
-							<posy>25</posy>							
-							<aspectratio>stretch</aspectratio>							
+							<posy>50</posy>
+							<width>145</width>
+							<height>220</height>							
+							<aspectratio align="center" aligny="center">keep</aspectratio>
+							<bordertexture border="2">rcb-button-nofocus.png</bordertexture>
+							<bordersize>2</bordersize>
 							<texture background="true">$INFO[ListItem.ActualIcon]</texture>
 						</control>						
 					</itemlayout>
-					<focusedlayout width="145">
-						<control type="image">
-							<posx>-25</posx>
-							<posy>0</posy>
+					<focusedlayout width="200" height="290" >
+						<control type="image">							
 							<width>200</width>
 							<height>300</height>
-							<aspectratio>stretch</aspectratio>
+							<aspectratio align="center" aligny="center">keep</aspectratio>
 							<bordertexture border="8">rcb-ThumbBorder.png</bordertexture>
 							<bordersize>8</bordersize>
 							<texture background="true">$INFO[ListItem.Thumb]</texture>
-							<animation reversible="false" effect="zoom" start="0,0,145,220" end="-25,0,200,300" time="100">focus</animation>
-							<animation reversible="false" effect="zoom" end="0,0,145,220" start="-25,0,200,300" time="100">unfocus</animation>
-						</control>						
-						<control type="image">
-							<posx>-20</posx>
-							<posy>5</posy>
-							<width>100</width>
-							<height>75</height>
-							<aspectratio>stretch</aspectratio>
-							<texture>rcb-GlassOverlay.png</texture>
-							<animation reversible="false" effect="zoom" start="0,0,60,40" end="-20,0,100,75" time="100">focus</animation>
-							<animation reversible="false" effect="zoom" end="0,0,60,40" start="-20,0,100,75" time="100">unfocus</animation>
+							<animation reversible="false" effect="zoom" start="0,0,145,220" end="0,-20,200,300" time="100">focus</animation>
+							<animation reversible="false" effect="zoom" end="0,0,145,220" start="0,-20,200,300" time="100">unfocus</animation>
 						</control>
 					</focusedlayout>
 				</control>
+				<control type="scrollbar" id="62">
+					<posx>195</posx>
+					<posy>380</posy>
+					<width>350</width>
+					<height>25</height>
+					<texturesliderbackground border="14,0,14,0">rcb-ScrollBarH.png</texturesliderbackground>
+					<texturesliderbar border="14,0,14,0">rcb-ScrollBarH_bar.png</texturesliderbar>
+					<texturesliderbarfocus border="14,0,14,0">rcb-ScrollBarH_bar_focus.png</texturesliderbarfocus>
+					<textureslidernib>rcb-ScrollBarNib.png</textureslidernib>
+					<textureslidernibfocus>rcb-ScrollBarNib.png</textureslidernibfocus>
+					<onup>58</onup>
+					<ondown>3100</ondown>
+					<showonepage>false</showonepage>
+					<orientation>horizontal</orientation>
+					<visible allowhiddenfocus="true">Control.IsVisible(58)</visible>
+				</control>
+				<!-- Title -->
 				<control type="label">
 					<posx>0</posx>
-					<posy>430</posy>
+					<posy>410</posy>
 					<width>720</width>
 					<height>30</height>
 					<font>font24_title</font>
@@ -1054,9 +1063,10 @@
 					<selectedcolor>FFe2ff43</selectedcolor>						
 					<label>$INFO[ListItem.Label]</label>					
 				</control>
+				<!-- Console -->
 				<control type="label">
 					<posx>0</posx>
-					<posy>490</posy>
+					<posy>450</posy>
 					<width>720</width>
 					<height>20</height>
 					<font>font16caps</font>
@@ -1065,13 +1075,40 @@
 					<selectedcolor>FFe2ff43</selectedcolor>
 					<align>center</align>
 					<label>$INFO[ListItem.Property(console)]</label>
-					<visible>IsEmpty(ListItem.Property(mainview2)) + Control.IsVisible(58)</visible>
-				</control>					
+					<visible>Control.IsVisible(58)</visible>
+				</control>
+				<!-- Year -->
+				<control type="label">
+					<description>Year Value</description>
+					<posx>0</posx>
+					<posy>480</posy>
+					<width>720</width>
+					<height>20</height>
+					<label fallback="416">$INFO[ListItem.Property(year)]</label>
+					<align>center</align>
+					<aligny>center</aligny>
+					<font>font13</font>
+					<scroll>true</scroll>
+				</control>				
+				<!-- Genre -->
+				<control type="label">
+					<description>Genre Value</description>
+					<posx>0</posx>
+					<posy>510</posy>
+					<width>720</width>
+					<height>20</height>
+					<label fallback="416">$INFO[ListItem.Property(genre)]</label>
+					<align>center</align>
+					<aligny>center</aligny>
+					<font>font13</font>
+					<scroll>true</scroll>
+				</control>
+				
 				<!-- mainview1 -->
 				<control type="image">
 					<description>mainview1</description>
-					<posx>180</posx>
-					<posy>480</posy>
+					<posx>25</posx>
+					<posy>530</posy>
 					<width>60</width>
 					<height>40</height>						
 					<texture>$INFO[ListItem.Property(mainview1)]</texture>						
@@ -1079,17 +1116,17 @@
 				<!-- mainview2 -->
 				<control type="image">
 					<description>mainview2</description>
-					<posx>330</posx>
+					<posx>100r</posx>
 					<posy>480</posy>
-					<width>60</width>
-					<height>40</height>						
-					<texture>$INFO[ListItem.Property(mainview2)]</texture>						
+					<width>80</width>
+					<height>60</height>
+					<texture>$INFO[ListItem.Property(mainview2)]</texture>
 				</control>
 				<!-- mainview3 -->
 				<control type="image">
 					<description>mainview3</description>
-					<posx>480</posx>
-					<posy>480</posy>
+					<posx>90</posx>
+					<posy>530</posy>
 					<width>60</width>
 					<height>40</height>						
 					<texture>$INFO[ListItem.Property(mainview3)]</texture>						
