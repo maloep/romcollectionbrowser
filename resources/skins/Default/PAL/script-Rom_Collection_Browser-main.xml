@@ -516,7 +516,6 @@
 						<align>center</align>
 						<label>$INFO[ListItem.Property(console)]</label>
 						<visible>Control.IsVisible(52)</visible>
-						<!--<visible>IsEmpty(ListItem.Property(mainview2)) + Control.IsVisible(52)</visible>-->
 					</control>					
 					<!-- mainview1 -->
 					<control type="image">
@@ -631,7 +630,7 @@
 						<textureslidernib>rcb-ScrollBarNib.png</textureslidernib>
 						<textureslidernibfocus>rcb-ScrollBarNib.png</textureslidernibfocus>
 						<onleft>52</onleft>
-						<onright>3000</onright>
+						<onright>3100</onright>
 						<showonepage>false</showonepage>
 						<orientation>vertical</orientation>
 						<visible allowhiddenfocus="true">Control.IsVisible(52)</visible>
@@ -947,7 +946,7 @@
 							<description>Plot</description>
 							<posx>5</posx>
 							<posy>135</posy>
-							<width>310</width>
+							<width>300</width>
 							<height>112</height>			
 							<pagecontrol>2201</pagecontrol>
 							<textcolor>DDFFFFFF</textcolor>
@@ -1537,7 +1536,7 @@
 				<width>720</width>
 				<height>80</height>
 				<texture>rcb-Blade-Lower.png</texture>
-				<colordiffuse>90FFFFFF</colordiffuse>				
+				<colordiffuse>FFFFFFFF</colordiffuse>				
 			</control>
 			<control type="button" id="3100"> 
 				<description>Import Games</description>
