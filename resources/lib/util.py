@@ -10,7 +10,7 @@ import time
 
 SCRIPTNAME = 'Rom Collection Browser'
 SCRIPTID = 'script.games.rom.collection.browser'
-CURRENT_SCRIPT_VERSION = "0.7.11"
+CURRENT_SCRIPT_VERSION = "0.8.1"
 CURRENT_DB_VERSION = "0.7.4"
 ISTESTRUN = False
 
