@@ -1259,7 +1259,7 @@ class UIGameDB(xbmcgui.WindowXML):
 			
 			
 			if(scenarioIndex == 0):
-				artworkPath = dialog.browse(0, '%s Artwork' %console, 'files')
+				artworkPath = dialog.browse(0, '%s Artwork' %console, 'files', '', False, False, romPath)
 				if(artworkPath == ''):
 					break
 				
@@ -1391,23 +1391,22 @@ class UIGameDB(xbmcgui.WindowXML):
 		#doImport: 0=nothing, 1=import Settings and Games, 2=import Settings only, 3=import games only
 		if(doImport == 0):
 			return
+			
+		options = [	'Automatic: Accurate',
+					'Automatic: Guess best matching game',
+					'Interactive: Select best matching game',
+					'Local nfo',
+					'Cancel import']
+		option = xbmcgui.Dialog().select('Choose scraping mode', options)
 		
-		message = ''	
-		if(doImport == 1):
-			message = 'Database is empty. Do you want to import Games now?'		
-		elif(doImport == 3):
-			message = 'Do you want to import Games now?'
-		else:
+		if(option == util.SCRAPING_OPTION_CANCEL):
 			return
 		
-		dialog = xbmcgui.Dialog()
-		retGames = dialog.yesno('Rom Collection Browser', 'Import Games', message)
-		if(retGames == True):
-			progressDialog = ProgressDialogGUI()
-			progressDialog.writeMsg("Import games...", "", "")
-			dbupdate.DBUpdate().updateDB(self.gdb, progressDialog)
-			progressDialog.writeMsg("", "", "", -1)
-			del progressDialog
+		progressDialog = ProgressDialogGUI()
+		progressDialog.writeMsg("Import games...", "", "")
+		dbupdate.DBUpdate().updateDB(self.gdb, progressDialog, option)
+		progressDialog.writeMsg("", "", "", -1)
+		del progressDialog
 
 			
 	def checkAutoExec(self):
