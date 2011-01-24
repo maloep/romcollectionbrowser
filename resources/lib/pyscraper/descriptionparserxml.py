@@ -24,7 +24,8 @@ class DescriptionParserXml:
 		descFile = descFile.decode(encoding).encode('utf-8')
 		
 		#load xmlDoc as elementtree to check with xpaths
-		tree = fromString(descFile)			
+		#tree = fromstring(descFile)
+		tree = ElementTree().parse(descFile)
 		if(tree == None):
 			return None				
 						
