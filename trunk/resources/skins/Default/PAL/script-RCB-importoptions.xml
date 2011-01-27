@@ -1,0 +1,248 @@
+<window id="5200">
+	<defaultcontrol>5210</defaultcontrol>
+	<include>dialogeffect</include>
+	<coordinates>
+		<system>1</system>
+		<posx>100</posx>
+		<posy>100</posy>
+	</coordinates>
+	<controls>
+		<control type="group">
+			<posx>0</posx>
+			<posy>0</posy>
+			<control type="image">
+				<description>background top image</description>
+				<posx>0</posx>
+				<posy>-54</posy>
+				<width>520</width>
+				<height>54</height>
+				<texture border="45,45,45,0">rcb-DialogContextTop.png</texture>
+			</control>
+			<control type="button" id="5101">
+				<description>Close Window button</description>
+				<posx>450</posx>
+				<posy>-20</posy>
+				<width>30</width>
+				<height>20</height>
+				<label>-</label>
+				<font>-</font>
+				<texturefocus>rcb-DialogCloseButton-focus.png</texturefocus>
+				<texturenofocus>rcb-DialogCloseButton.png</texturenofocus>
+				<onleft>5210</onleft>
+				<onright>5210</onright>
+				<onup>5210</onup>
+				<ondown>5210</ondown>
+				<visible>system.getbool(input.enablemouse)</visible>
+			</control>
+			<!--<control type="image">
+				<posx>30</posx>
+				<posy>100</posy>
+				<width>500</width>
+				<height>4</height>
+				<texture>rcb-separator.png</texture>
+			</control>-->
+			<control type="image">
+				<description>background image</description>
+				<posx>0</posx>
+				<posy>0</posy>
+				<width>520</width>
+				<height>320</height>
+				<texture border="45,0,45,0">rcb-DialogContextMiddle.png</texture>				
+			</control>
+			<control type="image">
+				<description>background image</description>
+				<posx>35</posx>
+				<posy>0</posy>
+				<width>445</width>
+				<height>320</height>				
+				<texture border="0,0,0,0">rcb-floor.png</texture>
+			</control>
+			<control type="image">
+				<description>background bottom image</description>
+				<posx>0</posx>
+				<posy>320</posy>
+				<width>520</width>
+				<texture border="45,0,45,49">rcb-DialogContextBottom.png</texture>
+			</control>
+			<control type="radiobutton" id="5210">				
+				<posx>40</posx>
+				<posy>15</posy>
+				<width>440</width>
+				<height>30</height>
+				<font>font13</font>
+				<textcolor>grey2</textcolor>
+				<focusedcolor>white</focusedcolor>
+				<label>Rescrape imported games</label>
+				<texturefocus>rcb-MenuItemFO.png</texturefocus>
+				<texturenofocus>rcb-MenuItemNF.png</texturenofocus>
+				<onup>5101</onup>
+				<ondown>5225</ondown>
+			</control>
+			<control type="radiobutton" id="5225">
+				<description>Default RadioButton</description>
+				<posx>40</posx>
+				<posy>45</posy>
+				<width>440</width>
+				<height>30</height>
+				<font>font13</font>
+				<textcolor>grey2</textcolor>
+				<focusedcolor>white</focusedcolor>
+				<label>Create nfo files while scraping</label>
+				<texturefocus>rcb-MenuItemFO.png</texturefocus>
+				<texturenofocus>rcb-MenuItemNF.png</texturenofocus>
+				<onup>5210</onup>
+				<ondown>5230</ondown>
+			</control>
+			<control type="radiobutton" id="5230">
+				<description>Default RadioButton</description>
+				<posx>40</posx>
+				<posy>75</posy>
+				<width>440</width>
+				<height>30</height>
+				<font>font13</font>
+				<textcolor>grey2</textcolor>
+				<focusedcolor>white</focusedcolor>
+				<label>Ignore games without game info</label>
+				<texturefocus>rcb-MenuItemFO.png</texturefocus>
+				<texturenofocus>rcb-MenuItemNF.png</texturenofocus>
+				<onup>5225</onup>
+				<ondown>5240</ondown>
+			</control>
+			<control type="radiobutton" id="5240">
+				<description>Default RadioButton</description>
+				<posx>40</posx>
+				<posy>105</posy>
+				<width>440</width>
+				<height>30</height>
+				<font>font13</font>
+				<textcolor>grey2</textcolor>
+				<focusedcolor>white</focusedcolor>
+				<label>Ignore games without artwork</label>
+				<texturefocus>rcb-MenuItemFO.png</texturefocus>
+				<texturenofocus>rcb-MenuItemNF.png</texturenofocus>
+				<onup>5230</onup>
+				<ondown>5222</ondown>
+			</control>
+			<!--<control type="image">
+				<posx>10</posx>
+				<posy>140</posy>
+				<width>500</width>
+				<height>8</height>
+				<texture>rcb-separator.png</texture>
+			</control>-->
+			<control type="list" id="5220">
+				<hitrect x="0" y="0" w="0" h="0" />
+				<posx>40</posx>
+				<posy>145</posy>
+				<width>460</width>
+				<height>30</height>
+				<onleft>5210</onleft>
+				<onright>5222</onright>
+				<onup>5220</onup>
+				<ondown>5220</ondown>
+				<pagecontrol>-</pagecontrol>
+				<scrolltime>0</scrolltime>
+				<itemlayout height="1" width="750">
+				</itemlayout>
+				<focusedlayout height="30" width="460">
+					<control type="image">
+						<posx>0</posx>
+						<posy>0</posy>
+						<width>440</width>
+						<height>30</height>
+						<texture>rcb-MenuItemNF.png</texture>
+						<visible>![Control.HasFocus(5222) | Control.HasFocus(5223)]</visible>
+					</control>
+					<control type="image">
+						<posx>0</posx>
+						<posy>0</posy>
+						<width>440</width>
+						<height>30</height>
+						<texture>MenuItemFO.png</texture>
+						<visible>[Control.HasFocus(5222) | Control.HasFocus(5223)]</visible>
+					</control>
+					<control type="label">
+						<posx>7</posx>
+						<posy>5</posy>
+						<width>200</width>
+						<height>20</height>
+						<font>font13</font>
+						<textcolor>grey2</textcolor>
+						<align>left</align>
+						<aligny>center</aligny>
+						<label>Scraping mode</label>
+						<visible>![Control.HasFocus(5222) | Control.HasFocus(5223)]</visible>
+					</control>
+					<control type="label">
+						<posx>7</posx>
+						<posy>5</posy>
+						<width>200</width>
+						<height>20</height>
+						<font>font13</font>
+						<textcolor>white</textcolor>
+						<align>left</align>
+						<aligny>center</aligny>
+						<label>Scraping mode</label>
+						<visible>[Control.HasFocus(5222) | Control.HasFocus(5223)]</visible>
+					</control>
+					<control type="label">
+						<posx>380</posx>
+						<posy>5</posy>
+						<width>280</width>
+						<height>20</height>
+						<font>font13</font>
+						<textcolor>grey2</textcolor>
+						<align>right</align>
+						<aligny>center</aligny>
+						<label>$INFO[ListItem.Label]</label>
+						<visible>![Control.HasFocus(5222) | Control.HasFocus(5223)]</visible>
+					</control>
+					<control type="label">
+						<posx>380</posx>
+						<posy>5</posy>
+						<width>280</width>
+						<height>20</height>
+						<font>font13</font>
+						<textcolor>white</textcolor>
+						<align>right</align>
+						<aligny>center</aligny>
+						<label>$INFO[ListItem.Label]</label>
+						<visible>[Control.HasFocus(5222) | Control.HasFocus(5223)]</visible>
+					</control>
+				</focusedlayout>
+			</control>
+			<control type="button" id="5222">
+				<description>Menu Item Next Button</description>
+				<posx>440</posx>
+				<posy>153</posy>
+				<width>15</width>
+				<height>15</height>
+				<label>-</label>
+				<font>-</font>
+				<texturenofocus>rcb-scroll-down-2.png</texturenofocus>
+				<texturefocus>rcb-scroll-down-focus-2.png</texturefocus>
+				<onclick>Control.Move(5220,1)</onclick>
+				<onleft>5240</onleft>
+				<onright>5223</onright>
+				<onup>5240</onup>
+				<ondown>5260</ondown>
+			</control>
+			<control type="button" id="5223">
+				<description>Menu Item Prev Button</description>
+				<posx>455</posx>
+				<posy>153</posy>
+				<width>15</width>
+				<height>15</height>
+				<label>-</label>
+				<font>-</font>
+				<texturenofocus>rcb-scroll-up-2.png</texturenofocus>
+				<texturefocus>rcb-scroll-up-focus-2.png</texturefocus>
+				<onclick>Control.Move(5220,-1)</onclick>
+				<onleft>5222</onleft>
+				<onright>5230</onright>
+				<onup>5210</onup>
+				<ondown>5230</ondown>
+			</control>
+		</control>
+	</controls>
+</window>
