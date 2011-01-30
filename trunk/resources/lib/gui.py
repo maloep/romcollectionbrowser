@@ -13,6 +13,7 @@ from config import *
 from configxmlwriter import *
 
 from threading import *
+import dialogimportoptions
 
 
 #Action Codes
@@ -150,6 +151,7 @@ class ContextMenuDialog(xbmcgui.WindowXMLDialog):
 	
 	def onFocus(self, controlID):
 		pass
+
 
 
 class UIGameDB(xbmcgui.WindowXML):	
@@ -1386,25 +1388,26 @@ class UIGameDB(xbmcgui.WindowXML):
 		return mediaPath
 	
 	
-	def checkImport(self, doImport):				
+	def checkImport(self, doImport):
 		
 		#doImport: 0=nothing, 1=import Settings and Games, 2=import Settings only, 3=import games only
 		if(doImport == 0):
 			return
-			
-		options = [	'Automatic: Accurate',
-					'Automatic: Guess best matching game',
-					'Interactive: Select best matching game',
-					'Local nfo',
-					'Cancel import']
-		option = xbmcgui.Dialog().select('Choose scraping mode', options)
 		
-		if(option == util.SCRAPING_OPTION_CANCEL):
-			return
+		constructorParam = 1
+		if(util.hasAddons()):
+			constructorParam = "PAL"
+		iod = dialogimportoptions.ImportOptionsDialog("script-RCB-importoptions.xml", util.getAddonInstallPath(), "Default", constructorParam, gui=self)
+		del iod
 		
+		#TODO add config option to show dialog
+		#self.doImport()
+		
+		
+	def doImport(self, scrapingmode, romCollections):
 		progressDialog = ProgressDialogGUI()
 		progressDialog.writeMsg("Import games...", "", "")
-		dbupdate.DBUpdate().updateDB(self.gdb, progressDialog, option)
+		dbupdate.DBUpdate().updateDB(self.gdb, progressDialog, scrapingmode, romCollections)
 		progressDialog.writeMsg("", "", "", -1)
 		del progressDialog
 

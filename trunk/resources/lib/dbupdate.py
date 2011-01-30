@@ -23,13 +23,8 @@ class DBUpdate:
 	
 	Settings = util.getSettings()
 	
-	def updateDB(self, gdb, gui, updateOption):
+	def updateDB(self, gdb, gui, updateOption, romCollections):
 		self.gdb = gdb
-		
-		config = Config()
-		statusOk, errorMsg = config.readXml()
-		if(statusOk == False):
-			return False, errorMsg
 			
 		#self.scrapeResultsFile = self.openFile(os.path.join(util.getAddonDataPath(), 'scrapeResults.txt'))
 		self.missingDescFile = self.openFile(os.path.join(util.getAddonDataPath(), 'scrapeResult_missingDesc.txt'))
@@ -43,7 +38,7 @@ class DBUpdate:
 		
 		continueUpdate = True
 		
-		for romCollection in config.romCollections.values():
+		for romCollection in romCollections.values():
 			
 			#timestamp1 = time.clock()
 			
@@ -54,7 +49,7 @@ class DBUpdate:
 				
 			
 			#prepare Header for ProgressDialog
-			progDialogRCHeader = "Importing Rom Collection (%i / %i): %s" %(rccount, len(config.romCollections), romCollection.name)
+			progDialogRCHeader = "Importing Rom Collection (%i / %i): %s" %(rccount, len(romCollections), romCollection.name)
 			rccount = rccount + 1
 			
 			Logutil.log("current Rom Collection: " +romCollection.name, util.LOG_LEVEL_INFO)
@@ -160,6 +155,7 @@ class DBUpdate:
 				matchingRatioIndex = 2
 			fuzzyFactor = util.FUZZY_FACTOR_ENUM[int(matchingRatioIndex)]
 			
+			"""			
 			#HACK: only use local nfo scraper if chosen in option dialog
 			if(updateOption == util.SCRAPING_OPTION_LOCALNFO):				
 				site = Site()
@@ -176,6 +172,7 @@ class DBUpdate:
 				sites.append(site)
 				
 				romCollection.scraperSites = sites
+			"""
 				
 			
 			if(not romCollection.descFilePerGame and len(romCollection.scraperSites) > 0):
