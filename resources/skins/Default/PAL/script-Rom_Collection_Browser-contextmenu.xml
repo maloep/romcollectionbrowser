@@ -49,7 +49,6 @@
 		<control type="image">
 			<description>background bottom image</description>
 			<posx>0</posx>
-			<!--<posy>384</posy>-->
 			<posy>78</posy>
 			<width>370</width>
 			<texture border="45,0,45,49">rcb-DialogContextBottom.png</texture>
