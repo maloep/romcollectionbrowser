@@ -1394,14 +1394,34 @@ class UIGameDB(xbmcgui.WindowXML):
 		if(doImport == 0):
 			return
 		
-		constructorParam = 1
-		if(util.hasAddons()):
-			constructorParam = "PAL"
-		iod = dialogimportoptions.ImportOptionsDialog("script-RCB-importoptions.xml", util.getAddonInstallPath(), "Default", constructorParam, gui=self)
-		del iod
+		#Show options dialog if user wants to see it
+		#Import is started from dialog
+		showImportOptionsDialog = self.Settings.getSetting(util.SETTING_RCB_SHOWIMPORTOPTIONSDIALOG).upper() == 'TRUE'
+		if(showImportOptionsDialog):
+			constructorParam = 1
+			if(util.hasAddons()):
+				constructorParam = "PAL"
+			iod = dialogimportoptions.ImportOptionsDialog("script-RCB-importoptions.xml", util.getAddonInstallPath(), "Default", constructorParam, gui=self)
+			del iod
+		else:
+						
+			message = 'Do you want to import Games now?'		
 		
-		#TODO add config option to show dialog
-		#self.doImport()
+			dialog = xbmcgui.Dialog()
+			retGames = dialog.yesno('Rom Collection Browser', 'Import Games', message)
+			if(retGames == True):
+				
+				scrapingMode = 0
+				scrapingModeStr = self.Settings.getSetting(util.SETTING_RCB_SCRAPINGMODE)			
+				if(scrapingModeStr == 'Automatic: Accurate'):
+					scrapingMode = 0
+				elif(scrapingModeStr == 'Automatic: Guess Matches'):
+					scrapingMode = 1
+				elif(scrapingModeStr == 'Interactive: Select Matches'):
+					scrapingMode = 2
+					
+				#Import Games
+				self.doImport(scrapingMode, self.config.romCollections)
 		
 		
 	def doImport(self, scrapingmode, romCollections):
