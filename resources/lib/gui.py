@@ -785,7 +785,7 @@ class UIGameDB(xbmcgui.WindowXML):
 			constructorParam = "PAL"		
 		
 		import gameinfodialog
-		gid = gameinfodialog.UIGameInfoView("script-Rom_Collection_Browser-gameinfo.xml", util.getAddonInstallPath(), "Default", constructorParam, gdb=self.gdb, gameId=gameId,
+		gid = gameinfodialog.UIGameInfoView("script-RCB-gameinfo.xml", util.getAddonInstallPath(), "Default", constructorParam, gdb=self.gdb, gameId=gameId,
 			consoleId=self.selectedConsoleId, genreId=self.selectedGenreId, yearId=self.selectedYearId, publisherId=self.selectedPublisherId, selectedGameIndex=selectedGameIndex,
 			consoleIndex=self.selectedConsoleIndex, genreIndex=self.selectedGenreIndex, yearIndex=self.selectedYearIndex, publisherIndex=self.selectedPublisherIndex,
 			selectedCharacter=self.selectedCharacter, selectedCharacterIndex=self.selectedCharacterIndex, controlIdMainView=self.selectedControlId, fileDict=fileDict, config=self.config, settings=self.Settings)
@@ -808,7 +808,7 @@ class UIGameDB(xbmcgui.WindowXML):
 		constructorParam = 1
 		if(util.hasAddons()):
 			constructorParam = "PAL"
-		cm = ContextMenuDialog("script-Rom_Collection_Browser-contextmenu.xml", util.getAddonInstallPath(), "Default", constructorParam, gui=self)
+		cm = ContextMenuDialog("script-RCB-contextmenu.xml", util.getAddonInstallPath(), "Default", constructorParam, gui=self)
 		del cm
 				
 		
@@ -1810,8 +1810,10 @@ class UIGameDB(xbmcgui.WindowXML):
 def main():
 	if(util.hasAddons()):
 		ui = UIGameDB("script-Rom_Collection_Browser-main.xml", util.getAddonInstallPath(), "Default", "PAL")
+		#ui = UIGameDB("script-Rom_Collection_Browser-main.xml", util.getAddonInstallPath(), "Light", "PAL")
 	else:
 		ui = UIGameDB("script-Rom_Collection_Browser-main.xml", util.getAddonInstallPath(), "Default", 1)
+		#ui = UIGameDB("script-Rom_Collection_Browser-main.xml", util.getAddonInstallPath(), "Light", 1)
 	ui.doModal()
 	del ui
 
