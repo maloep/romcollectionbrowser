@@ -18,6 +18,7 @@ from pysqlite2 import dbapi2 as sqlite
 from gamedatabase import *
 from util import *
 import dbupdate
+import config
 
 #adjust settings for tests
 util.RCBHOME = os.path.join(os.getcwd(), '..', '..')
@@ -42,7 +43,12 @@ class TestUpdateDB(unittest.TestCase):
 		
 	def test_UpdateDB(self):
 
-		dbupdate.DBUpdate().updateDB(self.gdb, RCBMock())
+		configFile = config.Config()
+		statusOk, errorMsg = configFile.readXml()
+		if(statusOk == False):
+			self.assertFail('Error reading config.xml')
+
+		dbupdate.DBUpdate().updateDB(self.gdb, RCBMock(), 0, configFile.romCollections)
 		
 		#test some filters
 		

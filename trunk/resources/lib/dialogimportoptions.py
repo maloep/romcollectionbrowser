@@ -92,6 +92,7 @@ class ImportOptionsDialog(xbmcgui.WindowXMLDialog):
 		if (action.getId() in ACTION_CANCEL_DIALOG):
 			self.close()
 	
+	
 	def onClick(self, controlID):
 		if (controlID == CONTROL_BUTTON_EXIT): # Close window button
 			self.close()
@@ -104,6 +105,7 @@ class ImportOptionsDialog(xbmcgui.WindowXMLDialog):
 		#Cancel
 		elif (controlID == CONTROL_BUTTON_CANCEL):
 			self.close()
+			
 			
 	def onFocus(self, controlID):
 		pass
