@@ -37,13 +37,14 @@ class ImportOptionsDialog(xbmcgui.WindowXMLDialog):
 	def onInit(self):
 		Logutil.log('onInit ImportOptions', util.LOG_LEVEL_INFO)
 		
+		#Scraping modes
 		options = ['Automatic: Accurate',
 					'Automatic: Guess Matches',
 					'Interactive: Select Matches']
 		self.addItemsToList(CONTROL_LIST_SCRAPEMODE, options)
 
-		sitesInList = ['None']
-		
+		#Scrapers		
+		sitesInList = ['None']		
 		#get all scrapers
 		scrapers = self.gui.config.tree.findall('Scrapers/Site')
 		for scraper in scrapers:
@@ -56,7 +57,7 @@ class ImportOptionsDialog(xbmcgui.WindowXMLDialog):
 		self.addItemsToList(CONTROL_LIST_SCRAPER3, sitesInList)
 		
 		#set initial scraper values
-		#TODO handle import of certain rc
+		#TODO handle import of certain Rom Collection
 		sitesInRomCollection = []
 		#use scraper config of first non-MAME rom collection
 		for rcId in self.gui.config.romCollections.keys():
@@ -154,7 +155,7 @@ class ImportOptionsDialog(xbmcgui.WindowXMLDialog):
 		
 		romCollections = self.gui.config.romCollections
 		
-		#TODO ignore MAME
+		#TODO ignore MAME and offline scrapers
 		for rcId in romCollections.keys():
 			
 			romCollection = self.gui.config.romCollections[rcId]
