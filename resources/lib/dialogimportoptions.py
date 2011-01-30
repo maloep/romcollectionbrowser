@@ -41,9 +41,6 @@ class ImportOptionsDialog(xbmcgui.WindowXMLDialog):
 					'Automatic: Guess Matches',
 					'Interactive: Select Matches']
 		self.addItemsToList(CONTROL_LIST_SCRAPEMODE, options)
-													
-		options = ['1.0', '0.9', '0.8', '0.7', '0.6', '0.5' ]
-		self.addItemsToList(CONTROL_LIST_FUZZYFACTOR, options)
 
 		sitesInList = ['None']
 		
@@ -57,18 +54,6 @@ class ImportOptionsDialog(xbmcgui.WindowXMLDialog):
 		self.addItemsToList(CONTROL_LIST_SCRAPER1, sitesInList)
 		self.addItemsToList(CONTROL_LIST_SCRAPER2, sitesInList)
 		self.addItemsToList(CONTROL_LIST_SCRAPER3, sitesInList)
-		
-		#set initial control values
-		self.setRadioButtonValue(CONTROL_RBUTTON_RESCRAPE, util.SETTING_RCB_ENABLEFULLREIMPORT)
-		self.setRadioButtonValue(CONTROL_RBUTTON_NFO, util.SETTING_RCB_CREATENFOFILE)
-		self.setRadioButtonValue(CONTROL_RBUTTON_IGNOREINFO, util.SETTING_RCB_IGNOREGAMEWITHOUTDESC)
-		self.setRadioButtonValue(CONTROL_RBUTTON_IGNOREARTWORK, util.SETTING_RCB_IGNOREGAMEWITHOUTARTWORK)
-		
-		fuzzyFactorIndex = self.gui.Settings.getSetting(util.SETTING_RCB_FUZZYFACTOR)
-		if (fuzzyFactorIndex == ''):
-			fuzzyFactorIndex = 2
-		control = self.getControlById(CONTROL_LIST_FUZZYFACTOR)
-		control.selectItem(int(fuzzyFactorIndex))
 		
 		#set initial scraper values
 		#TODO handle import of certain rc
@@ -179,8 +164,6 @@ class ImportOptionsDialog(xbmcgui.WindowXMLDialog):
 			except:
 				platformId = '0'
 			
-			print 'platformId = ' +str(platformId)
-			
 			sites = []
 			site = self.getScraperFromConfig(CONTROL_LIST_SCRAPER1, platformId)
 			if(site != None):
@@ -203,7 +186,6 @@ class ImportOptionsDialog(xbmcgui.WindowXMLDialog):
 		control = self.getControlById(controlId)
 		scraperItem = control.getSelectedItem()
 		scraper = scraperItem.getLabel()
-		print "scraper to use: " +str(scraper)
 		
 		site, errorMsg = self.gui.config.readScraper(scraper, platformId, '', '', self.gui.config.tree)
 		return site
