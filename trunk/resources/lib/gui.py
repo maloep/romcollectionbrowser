@@ -144,7 +144,7 @@ class ContextMenuDialog(xbmcgui.WindowXMLDialog):
 			self.close()
 		elif (controlID == 5110): # Import games
 			self.close()
-			self.gui.updateDB()			
+			self.gui.updateDB()		
 		elif (controlID == 5111): # add Rom Collection			
 			self.close()
 			self.gui.addRomCollection()

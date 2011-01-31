@@ -12,11 +12,7 @@ CONTROL_BUTTON_EXIT = 5101
 CONTROL_BUTTON_OK = 5300
 CONTROL_BUTTON_CANCEL = 5310
 
-CONTROL_RBUTTON_RESCRAPE = 5210
-CONTROL_RBUTTON_NFO = 5225
-CONTROL_RBUTTON_IGNOREINFO = 5230
-CONTROL_RBUTTON_IGNOREARTWORK = 5240
-
+CONTROL_LIST_ROMCOLLECTIONS = 5210
 CONTROL_LIST_SCRAPEMODE = 5220
 CONTROL_LIST_FUZZYFACTOR = 5260
 CONTROL_LIST_SCRAPER1 = 5270
@@ -37,13 +33,20 @@ class ImportOptionsDialog(xbmcgui.WindowXMLDialog):
 	def onInit(self):
 		Logutil.log('onInit ImportOptions', util.LOG_LEVEL_INFO)
 		
+		#Rom Collections
+		romCollectionList = ['All']
+		for rcId in self.gui.config.romCollections.keys():
+			romCollection = self.gui.config.romCollections[rcId]
+			romCollectionList.append(romCollection.name)
+		self.addItemsToList(CONTROL_LIST_ROMCOLLECTIONS, romCollectionList)
+		
 		#Scraping modes
 		options = ['Automatic: Accurate',
 					'Automatic: Guess Matches',
 					'Interactive: Select Matches']
 		self.addItemsToList(CONTROL_LIST_SCRAPEMODE, options)
 
-		#Scrapers		
+		#Scrapers
 		sitesInList = ['None']		
 		#get all scrapers
 		scrapers = self.gui.config.tree.findall('Scrapers/Site')
@@ -117,7 +120,7 @@ class ImportOptionsDialog(xbmcgui.WindowXMLDialog):
 				
 		items = []
 		for option in options:
-			items.append(xbmcgui.ListItem(option, '', "", ""))
+			items.append(xbmcgui.ListItem(option, '', '', ''))
 							
 		control.addItems(items)
 		
@@ -151,9 +154,23 @@ class ImportOptionsDialog(xbmcgui.WindowXMLDialog):
 		self.gui.doImport(scrapingMode, romCollections)
 		
 		
-	def setScrapersInConfig(self, ):
+	def setScrapersInConfig(self):
 		
-		romCollections = self.gui.config.romCollections
+		#read selected Rom Collection
+		control = self.getControlById(CONTROL_LIST_ROMCOLLECTIONS)
+		romCollItem = control.getSelectedItem()
+		selectedRC = romCollItem.getLabel()
+		
+		#TODO add id to list and select rc by id
+		if(selectedRC == 'All'):		
+			romCollections = self.gui.config.romCollections
+		else:
+			romCollections = {}
+			for romCollection in self.gui.config.romCollections.values():
+				if(romCollection.name == selectedRC):
+					romCollections[romCollection.id] = romCollection
+					break
+				
 		
 		#TODO ignore MAME and offline scrapers
 		for rcId in romCollections.keys():
