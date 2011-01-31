@@ -1,5 +1,5 @@
 <window id="5200">
-	<defaultcontrol>5222</defaultcontrol>
+	<defaultcontrol>5211</defaultcontrol>
 	<include>dialogeffect</include>
 	<coordinates>
 		<system>1</system>
@@ -39,10 +39,10 @@
 				<font>-</font>
 				<texturefocus>rcb-DialogCloseButton-focus.png</texturefocus>
 				<texturenofocus>rcb-DialogCloseButton.png</texturenofocus>
-				<onleft>5222</onleft>
-				<onright>5222</onright>
+				<onleft>5210</onleft>
+				<onright>5210</onright>
 				<onup>5300</onup>
-				<ondown>5222</ondown>
+				<ondown>5210</ondown>
 				<visible>system.getbool(input.enablemouse)</visible>
 			</control>
 			<control type="image">
@@ -68,11 +68,126 @@
 				<width>520</width>
 				<texture border="45,0,45,49">rcb-DialogContextBottom.png</texture>
 			</control>
-			<!-- Scraping mode -->			
-			<control type="list" id="5220">
+			
+			<control type="list" id="5210">
 				<hitrect x="0" y="0" w="0" h="0" />
 				<posx>40</posx>
 				<posy>15</posy>
+				<width>460</width>
+				<height>30</height>
+				<onleft>5210</onleft>
+				<onright>5210</onright>
+				<onup>5210</onup>
+				<ondown>5210</ondown>
+				<pagecontrol>-</pagecontrol>
+				<scrolltime>0</scrolltime>
+				<itemlayout height="1" width="750">
+				</itemlayout>
+				<focusedlayout height="30" width="460">
+					<control type="image">
+						<posx>0</posx>
+						<posy>0</posy>
+						<width>440</width>
+						<height>30</height>
+						<texture>rcb-MenuItemNF.png</texture>
+						<visible>![Control.HasFocus(5211) | Control.HasFocus(5212)]</visible>
+					</control>
+					<control type="image">
+						<posx>0</posx>
+						<posy>0</posy>
+						<width>440</width>
+						<height>30</height>
+						<texture>MenuItemFO.png</texture>
+						<visible>[Control.HasFocus(5211) | Control.HasFocus(5212)]</visible>
+					</control>
+					<control type="label">
+						<posx>7</posx>
+						<posy>5</posy>
+						<width>200</width>
+						<height>20</height>
+						<font>font13</font>
+						<textcolor>grey2</textcolor>
+						<align>left</align>
+						<aligny>center</aligny>
+						<label>Rom Collection</label>
+						<visible>![Control.HasFocus(5211) | Control.HasFocus(5212)]</visible>
+					</control>
+					<control type="label">
+						<posx>7</posx>
+						<posy>5</posy>
+						<width>200</width>
+						<height>20</height>
+						<font>font13</font>
+						<textcolor>white</textcolor>
+						<align>left</align>
+						<aligny>center</aligny>
+						<label>Rom Collection</label>
+						<visible>[Control.HasFocus(5211) | Control.HasFocus(5212)]</visible>
+					</control>
+					<control type="label">
+						<posx>380</posx>
+						<posy>5</posy>
+						<width>280</width>
+						<height>20</height>
+						<font>font13</font>
+						<textcolor>grey2</textcolor>
+						<align>right</align>
+						<aligny>center</aligny>
+						<label>$INFO[ListItem.Label]</label>
+						<visible>![Control.HasFocus(5211) | Control.HasFocus(5212)]</visible>
+					</control>
+					<control type="label">
+						<posx>380</posx>
+						<posy>5</posy>
+						<width>280</width>
+						<height>20</height>
+						<font>font13</font>
+						<textcolor>white</textcolor>
+						<align>right</align>
+						<aligny>center</aligny>
+						<label>$INFO[ListItem.Label]</label>
+						<visible>[Control.HasFocus(5211) | Control.HasFocus(5212)]</visible>
+					</control>
+				</focusedlayout>
+			</control>
+			<control type="button" id="5211">
+				<description>Menu Item Next Button</description>
+				<posx>440</posx>
+				<posy>23</posy>
+				<width>15</width>
+				<height>15</height>
+				<label>-</label>
+				<font>-</font>
+				<texturenofocus>rcb-scroll-down-2.png</texturenofocus>
+				<texturefocus>rcb-scroll-down-focus-2.png</texturefocus>
+				<onclick>Control.Move(5210,1)</onclick>
+				<onleft>5300</onleft>
+				<onright>5212</onright>
+				<onup>55101</onup>
+				<ondown>5222</ondown>
+			</control>
+			<control type="button" id="5212">
+				<description>Menu Item Prev Button</description>
+				<posx>455</posx>
+				<posy>23</posy>
+				<width>15</width>
+				<height>15</height>
+				<label>-</label>
+				<font>-</font>
+				<texturenofocus>rcb-scroll-up-2.png</texturenofocus>
+				<texturefocus>rcb-scroll-up-focus-2.png</texturefocus>
+				<onclick>Control.Move(5210,-1)</onclick>
+				<onleft>5211</onleft>
+				<onright>5300</onright>
+				<onup>5101</onup>
+				<ondown>5223</ondown>
+			</control>
+			
+			<!-- Scraping mode -->		
+			<control type="list" id="5220">
+				<hitrect x="0" y="0" w="0" h="0" />
+				<posx>40</posx>
+				<posy>43</posy>
 				<width>460</width>
 				<height>30</height>
 				<onleft>5220</onleft>
@@ -153,7 +268,7 @@
 			<control type="button" id="5222">
 				<description>Menu Item Next Button</description>
 				<posx>440</posx>
-				<posy>23</posy>
+				<posy>51</posy>
 				<width>15</width>
 				<height>15</height>
 				<label>-</label>
@@ -163,13 +278,13 @@
 				<onclick>Control.Move(5220,1)</onclick>
 				<onleft>5300</onleft>
 				<onright>5223</onright>
-				<onup>5101</onup>
+				<onup>5211</onup>
 				<ondown>5271</ondown>
 			</control>
 			<control type="button" id="5223">
 				<description>Menu Item Prev Button</description>
 				<posx>455</posx>
-				<posy>23</posy>
+				<posy>51</posy>
 				<width>15</width>
 				<height>15</height>
 				<label>-</label>
@@ -179,13 +294,13 @@
 				<onclick>Control.Move(5220,-1)</onclick>
 				<onleft>5222</onleft>
 				<onright>5300</onright>
-				<onup>5101</onup>
+				<onup>5212</onup>
 				<ondown>5272</ondown>
 			</control>
 			
 			<control type="group">
 				<posx>40</posx>
-				<posy>60</posy>
+				<posy>90</posy>
 				
 				<!-- Scraper 1 -->
 				<control type="list" id="5270">
