@@ -4,6 +4,9 @@ import xbmc, xbmcgui
 import util, config
 from util import *
 
+ACTION_MOVEMENT_UP = (3,)
+ACTION_MOVEMENT_DOWN = (4,)
+ACTION_MOVEMENT = (3, 4, 5, 6, 159, 160)
 
 ACTION_EXIT_SCRIPT = (10,)
 ACTION_CANCEL_DIALOG = ACTION_EXIT_SCRIPT + (9,)
@@ -21,6 +24,9 @@ CONTROL_LIST_SCRAPER3 = 5290
 
 
 class ImportOptionsDialog(xbmcgui.WindowXMLDialog):
+	
+	selectedControlId = 0
+	
 	def __init__(self, *args, **kwargs):
 		# Don't put GUI sensitive stuff here (as the xml hasn't been read yet)
 		Logutil.log('init ImportOptions', util.LOG_LEVEL_INFO)
@@ -46,21 +52,13 @@ class ImportOptionsDialog(xbmcgui.WindowXMLDialog):
 					'Interactive: Select Matches']
 		self.addItemsToList(CONTROL_LIST_SCRAPEMODE, options)
 
-		#Scrapers
-		sitesInList = ['None']		
-		#get all scrapers
-		scrapers = self.gui.config.tree.findall('Scrapers/Site')
-		for scraper in scrapers:
-			name = scraper.attrib.get('name')
-			if(name != None):
-				sitesInList.append(name)
+		sitesInList = self.getAvailableScrapers()
 		
 		self.addItemsToList(CONTROL_LIST_SCRAPER1, sitesInList)
 		self.addItemsToList(CONTROL_LIST_SCRAPER2, sitesInList)
 		self.addItemsToList(CONTROL_LIST_SCRAPER3, sitesInList)
 		
 		#set initial scraper values
-		#TODO handle import of certain Rom Collection
 		sitesInRomCollection = []
 		#use scraper config of first non-MAME rom collection
 		for rcId in self.gui.config.romCollections.keys():
@@ -68,13 +66,8 @@ class ImportOptionsDialog(xbmcgui.WindowXMLDialog):
 			if romCollection.name != 'MAME':
 				sitesInRomCollection = romCollection.scraperSites
 				break
-				
-		if(len(sitesInRomCollection) >= 1):
-			self.selectScraperInList(sitesInList, sitesInRomCollection[0], CONTROL_LIST_SCRAPER1)
-		if(len(sitesInRomCollection) >= 2):
-			self.selectScraperInList(sitesInList, sitesInRomCollection[1], CONTROL_LIST_SCRAPER2)
-		if(len(sitesInRomCollection) >= 2):
-			self.selectScraperInList(sitesInList, sitesInRomCollection[2], CONTROL_LIST_SCRAPER3)
+			
+		self.selectScrapersInList(sitesInRomCollection, sitesInList)
 			
 	
 	def onAction(self, action):
@@ -94,20 +87,36 @@ class ImportOptionsDialog(xbmcgui.WindowXMLDialog):
 		#Cancel
 		elif (controlID == CONTROL_BUTTON_CANCEL):
 			self.close()
+		#Rom Collection list
+		elif(self.selectedControlId in (5211,5212)):
+			print "RC"						
+			control = self.getControlById(CONTROL_LIST_ROMCOLLECTIONS)
+			selectedRomCollection = str(control.getSelectedItem().getLabel())
+			
+			#set initial scraper values
+			sitesInRomCollection = []
+			#get selected Rom Collection
+			for rcId in self.gui.config.romCollections.keys():
+				romCollection = self.gui.config.romCollections[rcId]
+				if(selectedRomCollection == 'All' and romCollection.name != 'MAME'):
+					sitesInRomCollection = romCollection.scraperSites
+					break
+				elif romCollection.name == selectedRomCollection:
+					sitesInRomCollection = romCollection.scraperSites
+					break
+				
+			sitesInList = self.getAvailableScrapers()
+			self.selectScrapersInList(sitesInRomCollection, sitesInList)
 			
 			
-	def onFocus(self, controlID):
-		pass
+	def onFocus(self, controlId):
+		self.selectedControlId = controlId
 	
 	
 	def getControlById(self, controlId):
 		try:
 			control = self.getControl(controlId)
-		except Exception, (exc):
-			#HACK there seems to be a problem with recognizing the scrollbar controls
-			if(controlId not in (5221,)):
-				Logutil.log("Control with id: %s could not be found. Check WindowXML file. Error: %s" % (str(controlId), str(exc)), util.LOG_LEVEL_ERROR)
-				self.writeMsg("Control with id: %s could not be found. Check WindowXML file." % str(controlId))
+		except:
 			return None
 		
 		return control
@@ -131,10 +140,39 @@ class ImportOptionsDialog(xbmcgui.WindowXMLDialog):
 		control.setSelected(value)
 	
 	
-	def selectScraperInList(self, options, site, controlId):
+	def getAvailableScrapers(self):
+		#Scrapers
+		sitesInList = ['None']		
+		#get all scrapers
+		scrapers = self.gui.config.tree.findall('Scrapers/Site')
+		for scraper in scrapers:
+			name = scraper.attrib.get('name')
+			if(name != None):
+				sitesInList.append(name)
+				
+		return sitesInList
+	
+	
+	def selectScrapersInList(self, sitesInRomCollection, sitesInList):
+		if(len(sitesInRomCollection) >= 1):
+			self.selectScraperInList(sitesInList, sitesInRomCollection[0].name, CONTROL_LIST_SCRAPER1)			
+		else:
+			self.selectScraperInList(sitesInList, 'None', CONTROL_LIST_SCRAPER1)
+		if(len(sitesInRomCollection) >= 2):
+			self.selectScraperInList(sitesInList, sitesInRomCollection[1].name, CONTROL_LIST_SCRAPER2)
+		else:
+			self.selectScraperInList(sitesInList, 'None', CONTROL_LIST_SCRAPER2)
+		if(len(sitesInRomCollection) >= 2):
+			self.selectScraperInList(sitesInList, sitesInRomCollection[2].name, CONTROL_LIST_SCRAPER3)
+		else:
+			self.selectScraperInList(sitesInList, 'None', CONTROL_LIST_SCRAPER3)
+			
+	
+	
+	def selectScraperInList(self, options, siteName, controlId):
 		for i in range(0, len(options)):
 			option = options[i]
-			if(site.name == option):
+			if(siteName == option):
 				control = self.getControlById(controlId)
 				control.selectItem(i)
 				break
