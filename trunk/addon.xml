@@ -27,8 +27,7 @@ Update from previous versions:
     * older versions (0.6.1 and higher) will be updated automatically
 
 First use:
-    * if there is no config file available RCB will start a configuration wizard
-    * select platform, emulator command, path to roms and artwork
+    * in config wizard select platform, emulator command, path to roms and artwork
     * online scraping scenario:
     --> RCB will scrape game info and artwork from online sources
     * data available locally:

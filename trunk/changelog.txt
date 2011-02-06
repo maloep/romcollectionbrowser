@@ -1,11 +1,13 @@
 
-0.8.1 (01/2011)
+0.8.1 (02/2011)
 ~~~~~~~~~~~~~
 General:
     * rework of Confluence Thumbs view
 
 Game Import:
-    * some fixes in MAME scraper
+    * scraping options: automatic: accurate, automatic: guess matches, interactive: select matches    
+    * new import options dialog (select Rom Collection, scraping mode and scrapers)
+    * small fixes in MAME scraper
 
 0.8.0 (01/2011)
 ~~~~~~~~~~~~~
@@ -13,12 +15,12 @@ General:
     * added context menu
     * option "Add Rom Collection" available via context menu
     * reworked Confluence views
-	
+
 Game Import:
     * new scraper: maws.mameworld.info
-	* rework of progress dialog (info about current scraper and current action)
+    * rework of progress dialog (info about current scraper and current action)
     * bugfix: stop import when action is canceled
-	
+
 Game Launching:
     * detect games in zip and 7z archives and ask user which game to load
 
