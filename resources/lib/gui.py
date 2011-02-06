@@ -1346,6 +1346,7 @@ class UIGameDB(xbmcgui.WindowXML):
 				scraper = Scraper()
 				scraper.parseInstruction = parserPath
 				scraper.source = descPath
+				scraper.encoding = 'iso-8859-1'
 				scrapers.append(scraper)
 				site.scrapers = scrapers
 				romCollection.scraperSites = []
