@@ -106,7 +106,7 @@
 						<width>200</width>
 						<height>20</height>
 						<font>font13</font>
-						<textcolor>grey2</textcolor>
+						<textcolor>88FFFFFF</textcolor>
 						<align>left</align>
 						<aligny>center</aligny>
 						<label>Rom Collection</label>
@@ -130,7 +130,7 @@
 						<width>280</width>
 						<height>20</height>
 						<font>font13</font>
-						<textcolor>grey2</textcolor>
+						<textcolor>88FFFFFF</textcolor>
 						<align>right</align>
 						<aligny>center</aligny>
 						<label>$INFO[ListItem.Label]</label>
@@ -221,7 +221,7 @@
 						<width>200</width>
 						<height>20</height>
 						<font>font13</font>
-						<textcolor>grey2</textcolor>
+						<textcolor>88FFFFFF</textcolor>
 						<align>left</align>
 						<aligny>center</aligny>
 						<label>Scraping mode</label>
@@ -245,7 +245,7 @@
 						<width>280</width>
 						<height>20</height>
 						<font>font13</font>
-						<textcolor>grey2</textcolor>
+						<textcolor>88FFFFFF</textcolor>
 						<align>right</align>
 						<aligny>center</aligny>
 						<label>$INFO[ListItem.Label]</label>
@@ -340,7 +340,7 @@
 							<width>200</width>
 							<height>20</height>
 							<font>font13</font>
-							<textcolor>grey2</textcolor>
+							<textcolor>88FFFFFF</textcolor>
 							<align>left</align>
 							<aligny>center</aligny>
 							<label>Scraper 1</label>
@@ -364,7 +364,7 @@
 							<width>280</width>
 							<height>20</height>
 							<font>font13</font>
-							<textcolor>grey2</textcolor>
+							<textcolor>88FFFFFF</textcolor>
 							<align>right</align>
 							<aligny>center</aligny>
 							<label>$INFO[ListItem.Label]</label>
@@ -454,7 +454,7 @@
 							<width>200</width>
 							<height>20</height>
 							<font>font13</font>
-							<textcolor>grey2</textcolor>
+							<textcolor>88FFFFFF</textcolor>
 							<align>left</align>
 							<aligny>center</aligny>
 							<label>Scraper 2</label>
@@ -478,7 +478,7 @@
 							<width>280</width>
 							<height>20</height>
 							<font>font13</font>
-							<textcolor>grey2</textcolor>
+							<textcolor>88FFFFFF</textcolor>
 							<align>right</align>
 							<aligny>center</aligny>
 							<label>$INFO[ListItem.Label]</label>
@@ -568,7 +568,7 @@
 							<width>200</width>
 							<height>20</height>
 							<font>font13</font>
-							<textcolor>grey2</textcolor>
+							<textcolor>88FFFFFF</textcolor>
 							<align>left</align>
 							<aligny>center</aligny>
 							<label>Scraper 3</label>
@@ -592,7 +592,7 @@
 							<width>280</width>
 							<height>20</height>
 							<font>font13</font>
-							<textcolor>grey2</textcolor>
+							<textcolor>88FFFFFF</textcolor>
 							<align>right</align>
 							<aligny>center</aligny>
 							<label>$INFO[ListItem.Label]</label>
