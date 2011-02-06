@@ -22,6 +22,9 @@ CONTROL_LIST_SCRAPER1 = 5270
 CONTROL_LIST_SCRAPER2 = 5280
 CONTROL_LIST_SCRAPER3 = 5290
 
+CONTROL_BUTTON_RC_DOWN = 5211
+CONTROL_BUTTON_RC_UP = 5212
+
 
 class ImportOptionsDialog(xbmcgui.WindowXMLDialog):
 	
@@ -73,7 +76,7 @@ class ImportOptionsDialog(xbmcgui.WindowXMLDialog):
 	def onAction(self, action):
 		if (action.getId() in ACTION_CANCEL_DIALOG):
 			self.close()
-	
+			
 	
 	def onClick(self, controlID):
 		if (controlID == CONTROL_BUTTON_EXIT): # Close window button
@@ -83,15 +86,17 @@ class ImportOptionsDialog(xbmcgui.WindowXMLDialog):
 		elif (controlID == CONTROL_BUTTON_OK):
 			self.close()
 			self.doImport()
-			#self.gui.updateDB()
 		#Cancel
 		elif (controlID == CONTROL_BUTTON_CANCEL):
 			self.close()
 		#Rom Collection list
-		elif(self.selectedControlId in (5211,5212)):
-			print "RC"						
+		elif(self.selectedControlId in (CONTROL_BUTTON_RC_DOWN, CONTROL_BUTTON_RC_UP)):
+						
+			#HACK: add a little wait time as XBMC needs some ms to execute the MoveUp/MoveDown actions from the skin
+			xbmc.sleep(util.WAITTIME_UPDATECONTROLS)
+			
 			control = self.getControlById(CONTROL_LIST_ROMCOLLECTIONS)
-			selectedRomCollection = str(control.getSelectedItem().getLabel())
+			selectedRomCollection = str(control.getSelectedItem().getLabel())			
 			
 			#set initial scraper values
 			sitesInRomCollection = []
@@ -154,6 +159,7 @@ class ImportOptionsDialog(xbmcgui.WindowXMLDialog):
 	
 	
 	def selectScrapersInList(self, sitesInRomCollection, sitesInList):
+		
 		if(len(sitesInRomCollection) >= 1):
 			self.selectScraperInList(sitesInList, sitesInRomCollection[0].name, CONTROL_LIST_SCRAPER1)			
 		else:
@@ -170,6 +176,7 @@ class ImportOptionsDialog(xbmcgui.WindowXMLDialog):
 	
 	
 	def selectScraperInList(self, options, siteName, controlId):
+		
 		for i in range(0, len(options)):
 			option = options[i]
 			if(siteName == option):
@@ -187,9 +194,10 @@ class ImportOptionsDialog(xbmcgui.WindowXMLDialog):
 		Logutil.log('Selected scraping mode: ' +str(scrapingMode), util.LOG_LEVEL_INFO)
 		
 		
-		romCollections = self.setScrapersInConfig()
-								
-		self.gui.doImport(scrapingMode, romCollections)
+		romCollections, statusOk = self.setScrapersInConfig()
+		
+		if(statusOk):
+			self.gui.doImport(scrapingMode, romCollections)
 		
 		
 	def setScrapersInConfig(self):
@@ -210,7 +218,7 @@ class ImportOptionsDialog(xbmcgui.WindowXMLDialog):
 					break
 				
 		
-		#TODO ignore MAME and offline scrapers
+		#TODO ignore offline scrapers
 		for rcId in romCollections.keys():
 			
 			romCollection = self.gui.config.romCollections[rcId]
@@ -221,28 +229,50 @@ class ImportOptionsDialog(xbmcgui.WindowXMLDialog):
 				platformId = '0'
 			
 			sites = []
-			site = self.getScraperFromConfig(CONTROL_LIST_SCRAPER1, platformId)
-			if(site != None):
-				sites.append(site)
-			site = self.getScraperFromConfig(CONTROL_LIST_SCRAPER2, platformId)
-			if(site != None):
-				sites.append(site)
-			site = self.getScraperFromConfig(CONTROL_LIST_SCRAPER2, platformId)
-			if(site != None):
-				sites.append(site)
+			sites, statusOk = self.addScraperToRomCollection(CONTROL_LIST_SCRAPER1, platformId, sites, romCollection)
+			if not statusOk:
+				return None, False 			
+			sites, statusOk = self.addScraperToRomCollection(CONTROL_LIST_SCRAPER2, platformId, sites, romCollection)
+			if not statusOk:
+				return None, False
+			sites, statusOk = self.addScraperToRomCollection(CONTROL_LIST_SCRAPER3, platformId, sites, romCollection)
+			if not statusOk:
+				return None, False
 				
 			romCollection.scraperSites = sites
 			romCollections[rcId] = romCollection
 		
-		return romCollections 
-		
+		return romCollections, True
 	
-	def getScraperFromConfig(self, controlId, platformId):
+	
+	def addScraperToRomCollection(self, controlId, platformId, sites, romCollection):				
 		
 		control = self.getControlById(controlId)
 		scraperItem = control.getSelectedItem()
 		scraper = scraperItem.getLabel()
 		
+		#HACK: don't use other scrapers than MAME and local nfo for MAME collections
+		if(romCollection.name == 'MAME'):
+			if(scraper != 'local nfo'):
+				scraper = 'maws.mameworld.info'		
+		
 		site, errorMsg = self.gui.config.readScraper(scraper, platformId, '', '', self.gui.config.tree)
-		return site
+						
+		if(site != None):
+			#check first scraper if it is an online or offline scraper
+			firstScraper = site.scrapers[0]
+			if(firstScraper.source != 'nfo' and not firstScraper.source.startswith('http') and site.name != romCollection.name):			
+				xbmcgui.Dialog().ok('Configuration Error', 'Scraper %s cannot be used with' %site.name, 'Rom Collection %s' %romCollection.name)
+				return None, False
+			
+			sites.append(site)
+			
+		return sites, True
+		
+		
 				
+				
+	
+		
+		
+		
