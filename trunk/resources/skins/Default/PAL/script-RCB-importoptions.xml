@@ -39,10 +39,10 @@
 				<font>-</font>
 				<texturefocus>rcb-DialogCloseButton-focus.png</texturefocus>
 				<texturenofocus>rcb-DialogCloseButton.png</texturenofocus>
-				<onleft>5210</onleft>
-				<onright>5210</onright>
+				<onleft>5211</onleft>
+				<onright>5211</onright>
 				<onup>5300</onup>
-				<ondown>5210</ondown>
+				<ondown>5211</ondown>
 				<visible>system.getbool(input.enablemouse)</visible>
 			</control>
 			<control type="image">
@@ -163,7 +163,7 @@
 				<onclick>Control.Move(5210,1)</onclick>
 				<onleft>5300</onleft>
 				<onright>5212</onright>
-				<onup>55101</onup>
+				<onup>5101</onup>
 				<ondown>5222</ondown>
 			</control>
 			<control type="button" id="5212">
