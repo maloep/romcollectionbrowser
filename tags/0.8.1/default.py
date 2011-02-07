@@ -1,4 +1,4 @@
-# Copyright (C) 2010 Malte Loepmann (maloep@googlemail.com)
+# Copyright (C) 2011 Malte Loepmann (maloep@googlemail.com)
 #
 # This program is free software; you can redistribute it and/or modify it under the terms 
 # of the GNU General Public License as published by the Free Software Foundation; 
@@ -24,7 +24,10 @@ import re
 
 
 # Shared resources
-BASE_RESOURCE_PATH = os.path.join( os.getcwd(), "resources" )
+import xbmcaddon
+addon = xbmcaddon.Addon(id='script.games.rom.collection.browser')
+BASE_RESOURCE_PATH = os.path.join(addon.getAddonInfo('path'), "resources" )
+
 sys.path.append( os.path.join( BASE_RESOURCE_PATH, "lib" ) )
 sys.path.append( os.path.join( BASE_RESOURCE_PATH, "lib", "pyparsing" ) )
 sys.path.append( os.path.join( BASE_RESOURCE_PATH, "lib", "pyscraper" ) )
