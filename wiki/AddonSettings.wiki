@@ -25,10 +25,15 @@ If set to "True" RCB will save the current view state (selected filter criteria 
 == Import Games ==
 
 === Show import options dialog ===
+If set to "True" the import options dialog will be shown at every game import. If set to "False" RCB will use the default settings from config.xml and global settings.
 
 === Scraping mode ===
+  * Automatic: Accurate - Only imports games that can be matched 100%. Only slight changes to the names while finding the correct match (replace sequel numbers, "&" with "and", etc). Will skip a lot of games but should not lead to any mismatches.
+  * Automatic: Guess Matches - Tries to find all games with subtitle or fuzzy matching. Will scrape most of your games correctly but will for sure have some mismatches.
+  * Interactive: Select Matches - Let the user select the correct game if the game cannot be determined by 100%. Most time consuming option.
 
 === Game matching fuzzy factor ===
+In scraping mode "Automatic: Guess Matches" RCB will try to guess which game on the scraped site fits best to the currently scraped game by comparing the name of the romfile with the name of the scraped site. The comparison of the two names returns a matching ratio value from 0.0 to 1.0 where 1.0 is a perfect match. You can configure which matching ratio RCB will accept when importing games.
 
 === Create local nfo file while scraping ===
 Set this option to "True" if you want RCB to create nfo files while scraping. These nfo files contain all game meta information like name, genre, description, release year, etc. They will be saved next to the scanned rom files with a name romfile.nfo. Make sure that the user who runs xbmc has permission to create files in your rom directory.
