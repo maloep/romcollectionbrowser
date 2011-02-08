@@ -1,22 +1,31 @@
 #sidebar SideBar
 On first run when there is no config file available RCB will ask you to create a config file with the wizard. You can also launch the wizard anytime from context menu to add new Rom Collections.
 
-= Online scraping scenario =
-First you have to choose a scenario: Online scraping or local data. In online scraping scenario RCB will scrape different web sites for game infos and artwork.
+First you have to choose a scenario: Online scraping or local data. In online scraping scenario RCB will scrape different web sites for game infos and artwork. In local data scenario you have to tell RCB where to find artwork, videos and game descriptions on your system.
 
 http://romcollectionbrowser.googlecode.com/files/Wizard%20-%20Online%201%20-%20small.jpg
 
+= Online scraping scenario =
+
 Repeat the following steps for every system you want to configure (you can also create just one system with the wizard and do the rest per copy/paste in the config file itself)
 
-Choose a system. If you don't find your system in the list, select "Other" and type the name of your system. Note: Some scrapers won't work properly without a known system.
+  # Choose a system. If you don't find your system in the list, select "Other" and type the name of your system. Note: Some scrapers won't work properly without a known system.
 
 http://romcollectionbrowser.googlecode.com/files/Wizard%20-%20Online%202%20-%20small.jpg
 
+  # Select the path to the emulator for this system.
 
+http://romcollectionbrowser.googlecode.com/files/Wizard%20-%20Online%203%20-%20small.jpg
 
-  * Select the path to the emulator for this system.
-  * Enter the parameters for the emulator. Use "%ROM%" as placeholder if you need to pass the rom filename to the emulator.
-  * Select the path to your rom files.
+  # Enter the parameters for the emulator. Use "%ROM%" as placeholder if you need to pass the rom filename to the emulator.
+  
+http://romcollectionbrowser.googlecode.com/files/Wizard%20-%20Online%204%20-%20small.jpg
+  
+  # Select the path to your rom files.
+  
+http://romcollectionbrowser.googlecode.com/files/Wizard%20-%20Online%205%20-%20small.jpg
+  
+  
   * Enter one or more file masks (comma-separated). RCB will search the rom path and all sub folders for files that match the given filemask.
   * Online scraping scenario:
     * Select the path where you want to store your artwork (or where your artwork is already stored). Note: RCB scrapes and downloads 5 different artwork types. It needs to store all these files in different folders, so it tries to create sub folders below the given path: boxfront, boxback, cartridge, screenshot and fanart. If the user that runs xbmc does not have permission to create folders in this directory, please create these folders manually.
