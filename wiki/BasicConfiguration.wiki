@@ -9,21 +9,10 @@ http://romcollectionbrowser.googlecode.com/files/Wizard%20-%20Online%201%20-%20s
 
 Repeat the following steps for every system you want to configure (you can also create just one system with the wizard and do the rest per copy/paste in the config file itself)
 
-  # Choose a system. If you don't find your system in the list, select "Other" and type the name of your system. Note: Some scrapers won't work properly without a known system.
-
-http://romcollectionbrowser.googlecode.com/files/Wizard%20-%20Online%202%20-%20small.jpg
-
-  # Select the path to the emulator for this system.
-
-http://romcollectionbrowser.googlecode.com/files/Wizard%20-%20Online%203%20-%20small.jpg
-
-  # Enter the parameters for the emulator. Use "%ROM%" as placeholder if you need to pass the rom filename to the emulator.
-  
-http://romcollectionbrowser.googlecode.com/files/Wizard%20-%20Online%204%20-%20small.jpg
-  
-  # Select the path to your rom files.
-  
-http://romcollectionbrowser.googlecode.com/files/Wizard%20-%20Online%205%20-%20small.jpg
+  # Choose a system. If you don't find your system in the list, select "Other" and type the name of your system. Note: Some scrapers won't work properly without a known system. http://romcollectionbrowser.googlecode.com/files/Wizard%20-%20Online%202%20-%20small.jpg
+  # Select the path to the emulator for this system. http://romcollectionbrowser.googlecode.com/files/Wizard%20-%20Online%203%20-%20small.jpg
+  # Enter the parameters for the emulator. Use "%ROM%" as placeholder if you need to pass the rom filename to the emulator. http://romcollectionbrowser.googlecode.com/files/Wizard%20-%20Online%204%20-%20small.jpg
+  # Select the path to your rom files. http://romcollectionbrowser.googlecode.com/files/Wizard%20-%20Online%205%20-%20small.jpg
   
   
   * Enter one or more file masks (comma-separated). RCB will search the rom path and all sub folders for files that match the given filemask.
