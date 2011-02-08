@@ -3,11 +3,9 @@ On first run when there is no config file available RCB will ask you to create a
 
 First you have to choose a scenario: Online scraping or local data. In online scraping scenario RCB will scrape different web sites for game infos and artwork. In local data scenario you have to tell RCB where to find artwork, videos and game descriptions on your system.
 
-http://romcollectionbrowser.googlecode.com/files/Wizard%20-%20Online%201%20-%20small.jpg
+  http://romcollectionbrowser.googlecode.com/files/Wizard%20-%20Online%201%20-%20small.jpg
 
 = Online scraping scenario =
-
-Repeat the following steps for every system you want to configure (you can also create just one system with the wizard and do the rest per copy/paste in the config file itself)
 
   * Choose a system. If you don't find your system in the list, select "Other" and type the name of your system. Note: Some scrapers won't work properly without a known system.
   
@@ -29,17 +27,38 @@ Repeat the following steps for every system you want to configure (you can also 
   
   http://romcollectionbrowser.googlecode.com/files/Wizard%20-%20Online%206%20-%20small.jpg
   
-  * Select the path where you want to store your artwork (or where your artwork is already stored). Note: RCB scrapes and downloads 5 different artwork types. It needs to store all these files in different folders, so it tries to create sub folders below the given path: boxfront, boxback, cartridge, screenshot and fanart. The user that runs xbmc needs write access to these folders
+  * Select the path where you want to store your artwork (or where your artwork is already stored). Note: RCB scrapes and downloads 5 different artwork types. It needs to store all these files in different folders, so it tries to create sub folders below the given path: boxfront, boxback, cartridge, screenshot and fanart. The user that runs xbmc needs write access to these folders. The downloaded files will be named like the rom file with the extension of the downloaded image file.
   
   http://romcollectionbrowser.googlecode.com/files/Wizard%20-%20Online%207%20-%20small.jpg
   
   
 = Local data scenario =
-    * Choose an artwork type.
-    * Select the path to the artwork of this type.
-    * Choose the type of description files. There may be large files with descriptions for all of your games or single description files for every game.
-    * Select the path to your description files.
-    * Select the path to the parse instruction for the given description file.
+
+The first steps of this wizard are equal to the online scraping scenario. You have to choose a system, path to your emulator and rom files.
+
+  * Choose an artwork type.
+  
+  http://romcollectionbrowser.googlecode.com/files/Wizard%20-%20Offline%201%20-%20small.jpg
+  
+  * Select the path to the artwork of this type. RCB will search for image files with the same names as your rom files.
+  
+  http://romcollectionbrowser.googlecode.com/files/Wizard%20-%20Offline%202%20-%20small.jpg
+  
+  * Repeat these two step for every artwork type you want to import
+  
+  http://romcollectionbrowser.googlecode.com/files/Wizard%20-%20Offline%203%20-%20small.jpg
+  
+  * Choose the type of description files. There may be large files with descriptions for all of your games or single description files that only contain description for one game.
+  
+  http://romcollectionbrowser.googlecode.com/files/Wizard%20-%20Offline%204%20-%20small.jpg
+  
+  * Select the path to your description files.
+  
+  http://romcollectionbrowser.googlecode.com/files/Wizard%20-%20Offline%205%20-%20small.jpg
+  
+  * Select the path to the parse instruction for the given description file.
+  
+  http://romcollectionbrowser.googlecode.com/files/Wizard%20-%20Offline%206%20-%20small.jpg
 	
 = Find your configuration files =
 There is one main configuration file "config.xml" that must be placed in your userdata folder ([http://wiki.xbmc.org/index.php?title=Special_protocol#Platform_Specific_Default_Mappings Look here for special://home]). Inside your userdata folder you will find RCBs config files in  "script_data" (Camelot) or "addon_data" (Dharma) in the sub folder "script.games.rom.collection.browser".
