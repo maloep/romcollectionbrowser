@@ -33,7 +33,7 @@ First you have to choose a scenario: Online scraping or local data. In online sc
   
   * Repeat these steps for every Rom Collection you want to add.
   
-  http://romcollectionbrowser.googlecode.com/files/Wizard%20-%20Online%207%20-%20small.jpg
+  http://romcollectionbrowser.googlecode.com/files/Wizard%20-%20Online%208%20-%20small.jpg
   
   
 = Local data scenario =
