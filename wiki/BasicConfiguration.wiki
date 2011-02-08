@@ -31,6 +31,10 @@ First you have to choose a scenario: Online scraping or local data. In online sc
   
   http://romcollectionbrowser.googlecode.com/files/Wizard%20-%20Online%207%20-%20small.jpg
   
+  * Repeat these steps for every Rom Collection you want to add.
+  
+  http://romcollectionbrowser.googlecode.com/files/Wizard%20-%20Online%207%20-%20small.jpg
+  
   
 = Local data scenario =
 
@@ -44,7 +48,7 @@ The first steps of this wizard are equal to the online scraping scenario. You ha
   
   http://romcollectionbrowser.googlecode.com/files/Wizard%20-%20Offline%202%20-%20small.jpg
   
-  * Repeat these two step for every artwork type you want to import
+  * Repeat the last two steps for every artwork type you want to import
   
   http://romcollectionbrowser.googlecode.com/files/Wizard%20-%20Offline%203%20-%20small.jpg
   
