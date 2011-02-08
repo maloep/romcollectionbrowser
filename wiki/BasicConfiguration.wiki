@@ -1,18 +1,17 @@
 #sidebar SideBar
-= Basic Configuration =
-Configuration is done via xml files. There is one main configuration file "config.xml" that must be placed in your userdata folder ([http://wiki.xbmc.org/index.php?title=Special_protocol#Platform_Specific_Default_Mappings Look here for special://home]). Inside your userdata folder you will find RCBs config files in  "script_data" (Camelot) or "addon_data" (Dharma) in the sub folder "script.games.rom.collection.browser".
+= Create a config file with the wizard =
+On first run when there is no config file available RCB will ask you to create a config file with the wizard. You can also launch the wizard anytime from context menu to add new Rom Collections.
 
-If the config file is not found at startup, RCB will start a creation wizard that helps you to create a simple config.xml with most common settings. See next section for more information).
+== Online scraping scenario ==
+http://romcollectionbrowser.googlecode.com/files/Wizard%20-%20Online%201%20-%20small.jpg
+First you have to choose a scenario: Online scraping or local data. In online scraping scenario RCB will scrape different web sites for game infos and artwork. Local data scenario requires local available game descriptions, artwork or videos.
+
+Repeat the following steps for every system you want to configure (you can also create just one system with the wizard and do the rest per copy/paste in the config file itself)
+
+http://romcollectionbrowser.googlecode.com/files/Wizard%20-%20Online%202%20-%20small.jpg
+Choose a system. If you don't find your system in the list, select "Other" and type the name of your system. Note: Some scrapers won't work properly without a known system.
 
 
-Global settings can be changed in the Addons settings (See [AddonSettings Addon settings] for more information).
-
-There are three stages where RCB reads its settings: [ImportGamesAndMedia Importing Games], [BrowsingAndDisplayingGames Browsing and Displaying Games] and [LaunchingGames Launching Games]. You only need to "Import Games" if you make changes to settings that address the "Importing Games" stage.
-
-== Create a config file with startup wizard ==
-  * First you have to choose a scenario: Online scraping or local data. In online scraping scenario RCB will scrape different web sites for game infos and artwork (boxfront, boxback, cartridge, screenshot and fanart). Local data scenario requires local available game descriptions, artwork or videos.
-  * Repeat the following steps for every system you want to configure (you can also create just one system with the wizard and do the rest per copy/paste in the config file itself)
-  * Choose a system. If you don't find your system in the list, select "Other" and type the name of your system. Note: Some scrapers won't work properly without a known system.
   * Select the path to the emulator for this system.
   * Enter the parameters for the emulator. Use "%ROM%" as placeholder if you need to pass the rom filename to the emulator.
   * Select the path to your rom files.
@@ -25,3 +24,6 @@ There are three stages where RCB reads its settings: [ImportGamesAndMedia Import
     * Choose the type of description files. There may be large files with descriptions for all of your games or single description files for every game.
     * Select the path to your description files.
     * Select the path to the parse instruction for the given description file.
+	
+== Find your configuration files ==
+There is one main configuration file "config.xml" that must be placed in your userdata folder ([http://wiki.xbmc.org/index.php?title=Special_protocol#Platform_Specific_Default_Mappings Look here for special://home]). Inside your userdata folder you will find RCBs config files in  "script_data" (Camelot) or "addon_data" (Dharma) in the sub folder "script.games.rom.collection.browser".
