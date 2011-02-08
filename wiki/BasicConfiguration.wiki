@@ -1,15 +1,16 @@
 #sidebar SideBar
-= Create a config file with the wizard =
 On first run when there is no config file available RCB will ask you to create a config file with the wizard. You can also launch the wizard anytime from context menu to add new Rom Collections.
 
-== Online scraping scenario ==
+= Online scraping scenario =
+First you have to choose a scenario: Online scraping or local data. In online scraping scenario RCB will scrape different web sites for game infos and artwork.
 http://romcollectionbrowser.googlecode.com/files/Wizard%20-%20Online%201%20-%20small.jpg
-First you have to choose a scenario: Online scraping or local data. In online scraping scenario RCB will scrape different web sites for game infos and artwork. Local data scenario requires local available game descriptions, artwork or videos.
+
 
 Repeat the following steps for every system you want to configure (you can also create just one system with the wizard and do the rest per copy/paste in the config file itself)
 
-http://romcollectionbrowser.googlecode.com/files/Wizard%20-%20Online%202%20-%20small.jpg
 Choose a system. If you don't find your system in the list, select "Other" and type the name of your system. Note: Some scrapers won't work properly without a known system.
+http://romcollectionbrowser.googlecode.com/files/Wizard%20-%20Online%202%20-%20small.jpg
+
 
 
   * Select the path to the emulator for this system.
