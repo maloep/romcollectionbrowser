@@ -1,1 +1,31 @@
-todo
+<wiki:toc max_depth="5" />
+= Import Games = 
+On every game import RCB will show an import options dialog that lets you adjust the most important import settings. You can configure in Addon settings if you want to see this dialog or want to use the settings from config.xml.
+
+http://romcollectionbrowser.googlecode.com/files/screen_importoptions%20-%20preview.jpg
+
+== Select Rom Collection ==
+You can select to import games only for one certain Rom Collection or for all Rom Collections. 
+
+If you choose to import all Rom Collections the selected settings will be used for all of your Rom Collections. Note that this will not work for offline scrapers (except local nfo). You will get an error message if you try to use offline scrapers in combination with the option to import all Rom Collections.
+
+== Scraping Mode ==
+  * Automatic: Accurate - Only imports games that can be matched 100%. Only slight changes to the names while finding the correct match (replace sequel numbers, "&" with "and", etc). Will skip a lot of games but should not lead to any mismatches.
+  * Automatic: Guess Matches - Tries to find all games with subtitle or fuzzy matching. Will scrape most of your games correctly but will for sure have some mismatches.
+  * Interactive: Select Matches - Let the user select the correct game if the game cannot be determined by 100%. Most time consuming option.
+  
+If you want to have a most accurate setup it is a good idea to start in "Automatic: Accurate"-mode to let RCB scrape all games that can be matched automatically. In a second run you should select "Interactive: Select Matches" and select all games that could not be imported in the first run.
+
+== Scrapers ==
+The selected scrapers will be executed in the order they are selected in the dialog. The results of the scrapers will be merged together. Merging results is done with "first come, first go"-logic. This means if the first scraper finds a publisher RCB will use the publisher returned by the first scraper. But if the first scraper does not find a plot and this is provided by the second scraper RCB will use the plot from the second one.
+
+== Import ==
+During import RCB will scan your rom folders and data folders and imports all game relevant data. Every imported file will be associated with a game and a file type (boxfront, screenshot, fanart, gameplay video, ...). Only the path to the file is imported, not the file itself. If you delete or move the file after importing, RCB won't find it anymore.
+
+RCB will also try to parse description files or scrapes web sites for your games during import. RCB ships with a set of preconfigured online scrapers (e.g. thevideogamedb.com, thegamesdb.net, giantbomb.com or mobygames.com). These scrapers can be invoked all together or combined with local description files.
+
+If you encounter any errors or miss some game infos after import, check XBMCs logfile. Search for any occurance of "RCB_ERROR" or "RCB_WARNING" to see what is missing. RCB will also create two text files ("missingDesc.txt" and "missingArtwork.txt") with information about missing data. You will find these files in RCBs userdata directory.
+
+If you add new data to one of your rom collections you can use "Import Games" as often as you like. Every run will import new data and updates the data that is already stored in database.
+
+Depending on your rom collections size and the number of used scrapers importing games can take some time.
