@@ -1,12 +1,11 @@
 #sidebar SideBar
-= Addon settings =
 You can access RCBs global settings via the context menu in addons / scripts list in XBMC (press C on the keyboard).
 
-== General ==
-=== Log Level ===
+= General =
+== Log Level ==
 Set RCBs log level. Allowed values: ERROR, WARNING, INFO or DEBUG
 
-=== Caching Option ===
+== Caching Option ==
 Controls RCBs caching behaviour. Allowed values: CACHEALL, CACHEITEM, CACHEITEMANDNEXT.
 
 CACHEALL: loads and caches all media files at startup. Best for large rom collections on fast PCs with enough RAM. Scrolling down the game list may be a bit slower with this setting because XBMC renders all images that it passes by.
@@ -16,70 +15,70 @@ Best for slow PCs with little RAM or xbox. Fast list scrolling is possible becau
 
 CACHEITEMANDNEXT: same as CACHEITEM. This will also load the media files and description for the item before and after the selected one. This will reduce flickering while browsing the game list (if not browsing too fast).
 
-=== Save Viewstate On Exit ===
+== Save Viewstate On Exit ==
 If set to "True" RCB will save the current view state (selected filter criteria and focused control) and restores it when you launch it the next time. This option will be used when exiting RCB.
 
-=== Save Viewstate On Launch Emu ===
+== Save Viewstate On Launch Emu ==
 If set to "True" RCB will save the current view state (selected filter criteria and focused control) and restores it when you launch it the next time. This option will be used when launching an emulator in "solo" mode.
 
-== Import Games ==
+= Import Games =
 
-=== Show import options dialog ===
+== Show import options dialog ==
 If set to "True" the import options dialog will be shown at every game import. If set to "False" RCB will use the default settings from config.xml and global settings.
 
-=== Scraping mode ===
+== Scraping mode ==
   * Automatic: Accurate - Only imports games that can be matched 100%. Only slight changes to the names while finding the correct match (replace sequel numbers, "&" with "and", etc). Will skip a lot of games but should not lead to any mismatches.
   * Automatic: Guess Matches - Tries to find all games with subtitle or fuzzy matching. Will scrape most of your games correctly but will for sure have some mismatches.
   * Interactive: Select Matches - Let the user select the correct game if the game cannot be determined by 100%. Most time consuming option.
 
-=== Game matching fuzzy factor ===
+== Game matching fuzzy factor ==
 In scraping mode "Automatic: Guess Matches" RCB will try to guess which game on the scraped site fits best to the currently scraped game by comparing the name of the romfile with the name of the scraped site. The comparison of the two names returns a matching ratio value from 0.0 to 1.0 where 1.0 is a perfect match. You can configure which matching ratio RCB will accept when importing games.
 
-=== Create local nfo file while scraping ===
+== Create local nfo file while scraping ==
 Set this option to "True" if you want RCB to create nfo files while scraping. These nfo files contain all game meta information like name, genre, description, release year, etc. They will be saved next to the scanned rom files with a name romfile.nfo. Make sure that the user who runs xbmc has permission to create files in your rom directory.
 
 These nfo files can be edited and reimported into RCBs database. This can be used to add or edit game properties or to save time when rebuilding your database.
 
-=== Don't import games without description ===
+== Don't import games without description ==
 Set this to "True" if you want to skip all games that RCB can't find any description for. RCB will create a file "missingDesc.txt" while scraping. This file contains a list of all skipped games.
 
-=== Don't import games without artwork ===
+== Don't import games without artwork ==
 Set this to "True" if you want to skip all games that RCB can't find any artwork for. RCB will create a file "missingArtwork.txt" while scraping. This file contains a list of all missing artwork types.
 
-=== Always rescan imported games ===
+== Always rescan imported games ==
 Before scraping game information, RCB checks if the current rom file is already imported to the database. RCB will skip scraping these games unless you set this option to "True".
 
 
-== Browse Games ==
+= Browse Games =
 
-=== Show Filter All Consoles ===
+== Show Filter All Consoles ==
 Actually there are five filter lists to browse your rom files. Every list has an entry "All" per default. If you have a large rom collection and you try to load all your roms unfiltered this can take some time. You can set this property to "False" to remove the entry "All" from the Console filter list.
 
-=== Show Filter All Genres ===
+== Show Filter All Genres ==
 You can set this property to "False" to remove the entry "All" from the Genre filter list.
 
-=== Show Filter All Years ===
+== Show Filter All Years ==
 You can set this property to "False" to remove the entry "All" from the Year filter list.
 
-=== Show Filter All Publishers ===
+== Show Filter All Publishers ==
 You can set this property to "False" to remove the entry "All" from the Publishers filter list.
 
-=== Show Filter All Chars ===
+== Show Filter All Chars ==
 You can set this property to "False" to remove the entry "All" from the A-Z filter list.
 
-=== Prevent Unfiltered Search ===
+== Prevent Unfiltered Search ==
 This will prevent RCB from showing ALL your roms without any filter criteria. If you play around with yor filter criterias it may happen that you start an unfiltered search letting RCB search for all your roms. With a large rom collection on a slow machine this will take a lot of time. You should set this option to "True" in this case.
 
 
-== Launch Games ==
+= Launch Games =
 
-=== Use Emulator solo ===
+== Use Emulator solo ==
 If set to "True" RCB will try to kill XBMC before starting the emulator. After exiting the emulator you will return to XBMC. If "False" the emulator will be launched while XBMC is running in the background.
 
 This mechanism invokes a batch (Windows) or bash (Linux) file. Linux only: make sure the file "RCB install dir/applaunch.sh" is executable. If you have problems with launching the emulator or returning to XBMC please check the commands in the file "applaunch.bat" (Windows) or "applaunch.sh" (Linux). You must be able to execute the command that is used to launch XBMC.
 
 When restarting XBMC RCB will try to create a file "autoexec.py" in XBMCs main script directory (Camelot) or in your userdata folder (Dharma). This will be used by XBMC to launch RCB automatically after restarting. If you already use an "autoexec.py" RCB will try to backup your original file and restores it after restarting. Make sure that the user that runs XBMC has write access to XBMCs main script directory (Camelot only).
 
-=== Escape Emulator Cmd ===
+== Escape Emulator Cmd ==
 This will escape the rom file names passed to the emulatorCmd. Try to change this if you are running into problems with launching games.
 

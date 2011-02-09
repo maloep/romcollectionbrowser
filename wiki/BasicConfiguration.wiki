@@ -7,11 +7,11 @@ First you have to choose a scenario: Online scraping or local data. In online sc
 
 = Online scraping scenario =
 
-  * Choose a system. If you don't find your system in the list, select "Other" and type the name of your system. Note: Some scrapers won't work properly without a known system.
+  * Choose a platform. If you don't find your platform in the list, select "Other" and type the name of your platform. Note: Some scrapers won't work properly without a known platform.
   
   http://romcollectionbrowser.googlecode.com/files/Wizard%20-%20Online%202%20-%20small.jpg
   
-  * Select the path to the emulator for this system. 
+  * Select the path to the emulator for this platform. 
   
   http://romcollectionbrowser.googlecode.com/files/Wizard%20-%20Online%203%20-%20small.jpg
   
@@ -27,7 +27,7 @@ First you have to choose a scenario: Online scraping or local data. In online sc
   
   http://romcollectionbrowser.googlecode.com/files/Wizard%20-%20Online%206%20-%20small.jpg
   
-  * Select the path where you want to store your artwork (or where your artwork is already stored). Note: RCB scrapes and downloads 5 different artwork types. It needs to store all these files in different folders, so it tries to create sub folders below the given path: boxfront, boxback, cartridge, screenshot and fanart. The user that runs xbmc needs write access to these folders. The downloaded files will be named like the rom file with the extension of the downloaded image file.
+  * Select the path where you want to store your artwork (or where your artwork is already stored). This folder can be empty, RCB will create the needed sub folders on its own. It is a good idea to have platform specific artwork folders as there are a lot of games available on different platforms and that have platform specific artwork files. Note: RCB scrapes and downloads several different artwork types. It needs to store all these files in different folders, so it creates sub folders below the given path: boxfront, boxback, cartridge, screenshot and fanart for all non-MAME systems and boxfront, action, title, cabinet and marquee for MAME-systems. If you want to add your own artwork to RCB in online scraping scenario, make sure that your artwork is placed in the correct sub folders. The user that runs xbmc needs write access to these folders. The downloaded files will be named like the rom file with the extension of the downloaded image file.
   
   http://romcollectionbrowser.googlecode.com/files/Wizard%20-%20Online%207%20-%20small.jpg
   
@@ -38,7 +38,7 @@ First you have to choose a scenario: Online scraping or local data. In online sc
   
 = Local data scenario =
 
-The first steps of this wizard are equal to the online scraping scenario. You have to choose a system, path to your emulator and rom files.
+The first steps of this wizard are equal to the online scraping scenario. You have to choose a system, path to your emulator and rom files. After this is done there will be some local data specific configuration steps.
 
   * Choose an artwork type.
   
