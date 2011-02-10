@@ -3,8 +3,9 @@
   * [FirstUse First Use]
   * [AddonSettings Addon settings]
   * [SetupTestScenario Setup test scenario]
-  * [BasicUsage Basic Usage]
   * [BasicConfiguration Basic Configuration]
+  * [ImportGames Import Games]
+  * [Navigation Navigation]
 
 * Advanced configuration
   * [ConfigurationFileFormat Configuration File Format (config.xml)]
