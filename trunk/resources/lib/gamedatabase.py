@@ -11,12 +11,12 @@ class GameDataBase:
 	
 	def __init__(self, databaseDir):		
 		self.dataBasePath = os.path.join(databaseDir, 'MyGames.db')
+		sqlite.register_adapter(str, lambda s:s.decode('utf-8'))
 		#use scripts home for reading SQL files
 		self.sqlDir = os.path.join(util.RCBHOME, 'resources', 'database')		
 		
 	def connect( self ):
 		print self.dataBasePath
-		sqlite.register_adapter(str, lambda s:s.decode('utf-8'))
 		self.connection = sqlite.connect(self.dataBasePath, check_same_thread = False)
 		self.cursor = self.connection.cursor()
 		
@@ -29,6 +29,34 @@ class GameDataBase:
 	def close( self ):
 		print "close Connection"
 		self.connection.close()
+	
+	def toMem(self):
+		try:
+			memDB = sqlite.connect(':memory:', check_same_thread = False)
+			memDB.execute('attach %s as diskDB' % self.dataBasePath)
+			res = memDB.execute("select name from diskDB.sqlite_master where type='table';")
+			for table in res.fetchall():
+				memDB.execute('create table %s as select * from diskDB.%s' % (table[0], table[0]))
+			memDB.commit()
+			memDB.execute('detach diskDB')
+			self.connection.close()
+			self.connection = memDB
+			self.cursor = memDB.cursor()
+			return True
+		except: return False	
+	
+	def toDisk(self):
+		try:
+			self.connection.commit()
+			self.connection.execute('attach %s as diskDB' % self.dataBasePath)
+			res = self.connection.execute("select name from sqlite_master where type='table';")
+			for table in res.fetchall():
+				memDB.execute('create diskDB.table %s as select * from %s' % (table[0], table[0]))
+			memDB.commit()
+			memDB.close()
+			self.connect()
+			return True
+		except: return False
 	
 	def executeSQLScript(self, scriptName):
 		sqlCreateFile = open(scriptName, 'r')
