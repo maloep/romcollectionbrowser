@@ -1,7 +1,7 @@
 #sidebar SideBar
 = Installation =
 == Camelot / Xbox ==
-  * Download [http://romcollectionbrowser.googlecode.com/files/script.games.rom.collection.browser-0.7.11.zip script.games.rom.collection.browser-0.7.11.zip]
+  * Download [http://romcollectionbrowser.googlecode.com/files/script.games.rom.collection.browser-0.8.1.zip script.games.rom.collection.browser-0.8.1.zip]
   * Unzip it to your XBMC scripts folder
 
 == Dharma ==
@@ -9,7 +9,7 @@
   * Go to XBMCs Addon Browser: System -> Add-ons -> Get Add-ons -> XBMC.org Add-ons -> Program Add-ons --> Rom Collection Browser
   * Choose Install
 === via zip file ===
-  * Download [http://romcollectionbrowser.googlecode.com/files/script.games.rom.collection.browser-0.7.11.zip script.games.rom.collection.browser-0.7.11.zip]
+  * Download [http://romcollectionbrowser.googlecode.com/files/script.games.rom.collection.browser-0.8.1.zip script.games.rom.collection.browser-0.8.1.zip]
   * Go to XBMCs Addon Browser: System -> Add-ons -> Install from zip file
 
 === Known issues ===
@@ -27,7 +27,7 @@ If you just played around with the test scenario and did not make any relevant c
 Since V0.4 it should be possible to keep your old database. Changes to data structure will be done automatically. Please backup your database before trying this. I tested a lot but who knows...
 
 
-=== 0.6.1 - 0.7.3 -> 0.7.4 ===
+=== 0.6.1 - 0.7.3 -> 0.7.4 or higher ===
 If you want to keep your old database and your old config.xml you have to do the following steps:
   
   * Make sure your old database `MyGames.db` is still available in your RCB userdata folder. RCB needs your old database to perform the update.
