@@ -1,18 +1,40 @@
 #sidebar SideBar
-= 0.7.9 =
-== Online Scraping ==
+= 0.8.1 =
+== General ==
+  * added context menu
+  * option "Add Rom Collection" available via context menu
+  * reworked Confluence views
+  * dedicated views for MAME roms (cabinet and marquee)
+
+== Import ==
+  * scraping options: automatic: accurate, automatic: guess matches, interactive: select matches
+  * new import options dialog (select rom collection, scraping mode and scrapers)
+  * new scraper: maws.mameworld.info
+  * rework of progress dialog (info about current scraper and current action)
+  * bugfix: stop import when action is canceled
+  
+== Launching Games ==
+  * detect games in zip and 7z archives and ask user which game to load
+
+= 0.7.11 =
+== Import ==
   * scraping game information and artwork from various online sources
-  * current available scrapers: thevideogamedb.com, thegamesdb.net, giantbomb.com, mobygames.com
+  * current available scrapers: thegamesdb.net, giantbomb.com, mobygames.com
   * scraped artwork types: boxfront, boxback, cartridge, screenshot and fanart
   * create local nfo files while scraping
   * option to reimport local nfo files (possibility to add or edit game properties)
   * create info files about scrape results (missing artwork, missing description, wrong game name)
+  * prevent download of multiple images: check if file is available with different extension
+  * bugfix: fallback images did not work in previous versions
 
 == Configuration ==
   * startup configuration wizard (create config.xml with most common options)
   * configure global settings via Addon Settings page
   * refactoring of config.xml structure
   * config.xml will be read at every start: no need to import settings anymore
+  
+== Launching Games ==
+  * bugfix: Launching games on xbox was broken
 
 = 0.6.1 =
 == UI and general behaviour ==
