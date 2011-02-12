@@ -13,8 +13,11 @@
   * Go to XBMCs Addon Browser: System -> Add-ons -> Install from zip file
 
 === Known issues ===
-==== The program doesn't load on �No module named pysqlite2� ====
+==== The program doesn't load on "No module named pysqlite2" ====
 Some distributions don't ship with prebuild pysqlite libraries. You have to get them on your own and copy them to your xbmc lib folder (e.g. /usr/local/lib/xbmc/addons/script.module.pysqlite/lib/pysqlite2). I made an extra package with these libraries if you don't want to build them yourself: http://romcollectionbrowser.googlecode.com/files/platform_libraries.zip.
+
+==== Error launching .7z file ====
+When launching .7z files RCB just shows a message box with this error message: "Error launching .7z file. Please check XBMC.log for details". This error should only occure if you have installed RCB via the repo browser. Launching .7z files requires certain libraries that are not part of XBMCs python environment. You can download RCBs latest version from the projects home page, this already includes all required libraries.
 
 <br>
 <br>

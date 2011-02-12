@@ -3,8 +3,10 @@
 == Navigation ==
 Navigation should be self explanating. Move around with the arrow keys and see what happens. There are some filter controls at the top and some buttons at the bottom of the page that are hidden in the normal view. They will show up if they receive focus and hide if they lose it.
 
-If the filter controls own the focus you can jump to the game list with "Enter" (or SELECT-Button on a remote).
+If the filter controls own the focus you can jump to the game list with "Enter" (or SELECT-Button on the remote).
 
-In game list you can launch games with "Enter" or go to the details page with "I" (or INFO-Button on a remote).
+In game list you can launch games with "Enter" or go to the details page with "I" (or INFO-Button on the remote).
+
+Pressing "C" or (MENU-button on the remote) will launch the context menu.
 
 To exit the script or to leave the details page just press "Esc" (or BACK-Button on a remote).
