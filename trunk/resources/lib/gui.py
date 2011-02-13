@@ -244,9 +244,6 @@ class UIGameDB(xbmcgui.WindowXML):
 			xbmcgui.Dialog().ok(util.SCRIPTNAME, 'Error reading config.xml.', errorMsg)
 			self.quit = True
 			return
-				
-		self.gdb.commit()
-		self.checkImport(doImport)
 		
 		cachingOptionStr = self.Settings.getSetting(util.SETTING_RCB_CACHINGOPTION)
 		if(cachingOptionStr == 'CACHEALL'):
@@ -257,12 +254,26 @@ class UIGameDB(xbmcgui.WindowXML):
 			self.cachingOption = 2
 		elif(cachingOptionStr == 'CACHEITEMANDNEXT'):
 			self.cachingOption = 3
+		elif (cachingOptionStr == 'CACHEALLDB'):
+			self.cachingOption = 4
+		
+		self.gdb.commit()
+		
+		if self.cachingOption == 4:
+			Logutil.log("Loading DB to Mem", util.LOG_LEVEL_INFO)
+			self.gdb.toMem()
+		
+		self.checkImport(doImport)
 		
 		self.cacheItems()
 		
 		self.player = MyPlayer()
 		self.player.gui = self
-		
+
+	def __del__(self):
+		if self.cachingOption == 4:
+			Logutil.log("Saving DB to disk", util.LOG_LEVEL_INFO)
+			self.gdb.toDisk()
 		
 	def onInit(self):
 		
