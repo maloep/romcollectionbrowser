@@ -51,17 +51,20 @@ class GameDataBase:
 	def toDisk(self):
 		try:
 			self.connection.commit()
+			os.remove(self.dataBasePath)
 			self.connection.execute("attach '%s' as diskDB" % self.dataBasePath)
 			res = self.connection.execute("select name from sqlite_master where type='table';")
 			for table in res.fetchall():
 				if table[0] != 'sqlite_sequence':
-					self.connection.execute('create diskDB.table %s as select * from %s' % (table[0], table[0]))
+					self.connection.execute('create table diskDB.%s as select * from %s' % (table[0], table[0]))
 			self.connection.commit()
 			self.connection.execute('detach diskDB')
 			self.connection.close()
 			self.connect()
 			return True
-		except: return False
+		except Exception, e: 
+			util.Logutil.log("ERROR: %s" % str(e), util.LOG_LEVEL_INFO)
+			return False
 	
 	def executeSQLScript(self, scriptName):
 		sqlCreateFile = open(scriptName, 'r')
