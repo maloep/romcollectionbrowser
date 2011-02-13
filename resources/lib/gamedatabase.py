@@ -54,9 +54,11 @@ class GameDataBase:
 			self.connection.execute("attach '%s' as diskDB" % self.dataBasePath)
 			res = self.connection.execute("select name from sqlite_master where type='table';")
 			for table in res.fetchall():
-				memDB.execute('create diskDB.table %s as select * from %s' % (table[0], table[0]))
-			memDB.commit()
-			memDB.close()
+				if table[0] != 'sqlite_sequence':
+					self.connection.execute('create diskDB.table %s as select * from %s' % (table[0], table[0]))
+			self.connection.commit()
+			self.connection.execute('detach diskDB')
+			self.connection.close()
 			self.connect()
 			return True
 		except: return False
