@@ -261,19 +261,18 @@ class UIGameDB(xbmcgui.WindowXML):
 		
 		if self.cachingOption == 4:
 			Logutil.log("Loading DB to Mem", util.LOG_LEVEL_INFO)
-			self.gdb.toMem()
+			if self.gdb.toMem():
+				Logutil.log("DB loaded to Mem!", util.LOG_LEVEL_INFO)
+			else:
+				Logutil.log("Load DB to Mem failed!", util.LOG_LEVEL_INFO)
+				
 		
 		self.checkImport(doImport)
 		
 		self.cacheItems()
 		
 		self.player = MyPlayer()
-		self.player.gui = self
-
-	def __del__(self):
-		if self.cachingOption == 4:
-			Logutil.log("Saving DB to disk", util.LOG_LEVEL_INFO)
-			self.gdb.toDisk()
+		self.player.gui = self				
 		
 	def onInit(self):
 		
@@ -1831,9 +1830,16 @@ class UIGameDB(xbmcgui.WindowXML):
 	def exit(self):				
 		
 		Logutil.log("exit" , util.LOG_LEVEL_INFO)
-		
+					
 		self.saveViewState(True)
 		
+		if self.cachingOption == 4:
+			Logutil.log("Saving DB to disk", util.LOG_LEVEL_INFO)
+			if self.gdb.toDisk():
+				Logutil.log("Database saved ok!", util.LOG_LEVEL_INFO)
+			else:
+				Logutil.log("Failed to save database!", util.LOG_LEVEL_INFO)
+				
 		self.gdb.close()
 		self.close()
 		
