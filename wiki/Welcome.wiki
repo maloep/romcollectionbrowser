@@ -31,7 +31,7 @@ Check out the following pages if you have trouble with setting up the script or 
 		
 	= Advanced configuration =
 		
-		=== [PerformanceSettings Performance Settings]
+		=== [PerformanceSettings Performance Settings] ===
 		
 		=== [UseOfflineGameDescriptions Use offline game descriptions] ===
 		
