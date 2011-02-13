@@ -33,22 +33,25 @@ class GameDataBase:
 	def toMem(self):
 		try:
 			memDB = sqlite.connect(':memory:', check_same_thread = False)
-			memDB.execute('attach %s as diskDB' % self.dataBasePath)
+			memDB.execute("attach '%s' as diskDB" % self.dataBasePath)
 			res = memDB.execute("select name from diskDB.sqlite_master where type='table';")
 			for table in res.fetchall():
-				memDB.execute('create table %s as select * from diskDB.%s' % (table[0], table[0]))
+				if table[0] != 'sqlite_sequence':
+					memDB.execute("create table %s as select * from diskDB.%s" % (table[0], table[0]))
 			memDB.commit()
 			memDB.execute('detach diskDB')
 			self.connection.close()
 			self.connection = memDB
 			self.cursor = memDB.cursor()
 			return True
-		except: return False	
+		except Exception, e: 
+				util.Logutil.log("ERROR: %s" % str(e), util.LOG_LEVEL_INFO)
+				return False	
 	
 	def toDisk(self):
 		try:
 			self.connection.commit()
-			self.connection.execute('attach %s as diskDB' % self.dataBasePath)
+			self.connection.execute("attach '%s' as diskDB" % self.dataBasePath)
 			res = self.connection.execute("select name from sqlite_master where type='table';")
 			for table in res.fetchall():
 				memDB.execute('create diskDB.table %s as select * from %s' % (table[0], table[0]))
