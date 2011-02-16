@@ -1,5 +1,7 @@
 #sidebar SideBar
 = Import Games = 
+To import games just launch the context menu (pressing "C" on the keyboard or "Menu" on the remote) and select "Import Games".
+
 On every game import RCB will show an import options dialog that lets you adjust the most important import settings. You can configure in Addon settings if you want to see this dialog or want to use the settings from config.xml.
 
 http://romcollectionbrowser.googlecode.com/files/screen_importoptions%20-%20preview.jpg
