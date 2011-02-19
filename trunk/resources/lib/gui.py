@@ -195,9 +195,10 @@ class UIGameDB(xbmcgui.WindowXML):
 		# Changing the three varibles passed won't change anything
 		# Doing strXMLname = "bah.xml" will not change anything.
 		# don't put GUI sensitive stuff here (as the xml hasn't been read yet
-		# Idea to initialize your variables here
+		# Idea to initialize your variables here				
+		Logutil.log("Init Rom Collection Browser: " + util.RCBHOME, util.LOG_LEVEL_INFO)
 		
-		Logutil.log("Init Rom Collection Browser: " + util.RCBHOME, util.LOG_LEVEL_INFO)				
+		timestamp1 = time.clock()				
 		
 		self.Settings = util.getSettings()				
 		
@@ -270,6 +271,10 @@ class UIGameDB(xbmcgui.WindowXML):
 		self.checkImport(doImport)
 		
 		self.cacheItems()
+		
+		timestamp2 = time.clock()
+		diff = (timestamp2 - timestamp1) * 1000		
+		print "RCB startup time: %d ms" % (diff)
 		
 		self.player = MyPlayer()
 		self.player.gui = self				
@@ -546,6 +551,8 @@ class UIGameDB(xbmcgui.WindowXML):
 				Logutil.log("preventing unfiltered search", util.LOG_LEVEL_WARNING)
 				return				
 		
+		timestamp1 = time.clock()
+		
 		# build statement for character search (where name LIKE 'A%')
 		likeStatement = helper.buildLikeStatement(self.selectedCharacter)
 		games = Game(self.gdb).getFilteredGames(self.selectedConsoleId, self.selectedGenreId, self.selectedYearId, self.selectedPublisherId, likeStatement)
@@ -555,10 +562,12 @@ class UIGameDB(xbmcgui.WindowXML):
 			return		
 		
 		fileDict = self.getFileDictForGamelist()
-		
+				
+		timestamp2 = time.clock()
+		diff = (timestamp2 - timestamp1) * 1000
+		print "load games from db in %d ms" % (diff)
+	
 		self.writeMsg("loading games...")
-		
-		#timestamp1 = time.clock()
 		xbmcgui.lock()
 		
 		self.clearList()
@@ -601,9 +610,9 @@ class UIGameDB(xbmcgui.WindowXML):
 		
 		self.writeMsg("")
 		
-		#timestamp2 = time.clock()
-		#diff = (timestamp2 - timestamp1) * 1000		
-		#print "load %i games in %d ms" % (self.getListSize(), diff)		
+		timestamp3 = time.clock()
+		diff = (timestamp3 - timestamp2) * 1000		
+		print "load %i games to list in %d ms" % (self.getListSize(), diff)		
 		
 		Logutil.log("End showGames" , util.LOG_LEVEL_INFO)		
 	
