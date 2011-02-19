@@ -239,6 +239,9 @@ def buildCmd(filenameRows, romCollection, escapeCmd):
 			compressed = True						
 		
 			names = getNames(filext, rom)
+			if(names == None):
+				Logutil.log('Error handling compressed file', util.LOG_LEVEL_WARNING)
+				return ""
 			
 			chosenROM = -1
 			
@@ -246,6 +249,9 @@ def buildCmd(filenameRows, romCollection, escapeCmd):
 			if '%I%' in emuParams and romCollection.diskPrefix in str(names):
 				Logutil.log("Loading %d archives" % len(names), util.LOG_LEVEL_INFO)
 				archives = getArchives(filext, rom, names)
+				if(archives == None):
+					Logutil.log('Error handling compressed file', util.LOG_LEVEL_WARNING)
+					return ""
 				for archive in archives:					
 					newPath = os.path.join(getTempDir(), archive[0])
 					fp = open(newPath, 'wb')
@@ -270,6 +276,9 @@ def buildCmd(filenameRows, romCollection, escapeCmd):
 				Logutil.log("Putting extracted file in %s" % newPath, util.LOG_LEVEL_INFO)
 				
 				data = getArchives(filext, rom, [names[chosenROM]])
+				if(data == None):
+					Logutil.log('Error handling compressed file', util.LOG_LEVEL_WARNING)
+					return ""
 				fo = open(str(newPath), 'wb')
 				fo.write(data[0][1])
 				fo.close()
@@ -480,7 +489,7 @@ def getNames7z(filepath):
 	except:
 		xbmcgui.Dialog().ok(util.SCRIPTNAME, 'Error launching .7z file.', 'Please check XBMC.log for details.')
 		Logutil.log("You have tried to launch a .7z file but you are missing required libraries to extract the file. You can download the latest RCB version from RCBs project page. It contains all required libraries.", util.LOG_LEVEL_ERROR)
-		return
+		return None
 	
 	fp = open(str(filepath), 'rb')
 	archive = py7zlib.Archive7z(fp)
@@ -509,7 +518,7 @@ def getArchives7z(filepath, archiveList):
 	except:
 		xbmcgui.Dialog().ok(util.SCRIPTNAME, 'Error launching .7z file.', 'Please check XBMC.log for details.')
 		Logutil.log("You have tried to launch a .7z file but you are missing required libraries to extract the file. You can download the latest RCB version from RCBs project page. It contains all required libraries.", util.LOG_LEVEL_ERROR)
-		return
+		return None
 	
 	fp = open(str(filepath), 'rb')
 	archive = py7zlib.Archive7z(fp)
