@@ -247,7 +247,7 @@ class UIGameDB(xbmcgui.WindowXML):
 			return
 		
 		cachingOptionStr = self.Settings.getSetting(util.SETTING_RCB_CACHINGOPTION)
-		if(cachingOptionStr == 'CACHEALL'):
+		if(cachingOptionStr == 'CACHEALLDB'):
 			self.cachingOption = 0
 		elif(cachingOptionStr == 'CACHESELECTION'):
 			self.cachingOption = 1
