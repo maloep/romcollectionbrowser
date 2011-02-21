@@ -33,14 +33,13 @@ class GameDataBase:
 	def toMem(self):
 		try:
 			memDB = sqlite.connect(':memory:', check_same_thread = False)
-			memDB.execute("attach '%s' as diskDB" % self.dataBasePath)
-			res = memDB.execute("select name from diskDB.sqlite_master where type='table';")
-			for table in res.fetchall():
-				if table[0] != 'sqlite_sequence':
-					memDB.execute("create table %s as select * from diskDB.%s" % (table[0], table[0]))
-			memDB.commit()
-			memDB.execute('detach diskDB')
+			
+			dump = os.linesep.join([line for line in self.connection.iterdump()])
+			
+			memDB.executescript(dump)
+			
 			self.connection.close()
+			
 			self.connection = memDB
 			self.cursor = memDB.cursor()
 			return True
@@ -52,15 +51,12 @@ class GameDataBase:
 		try:
 			self.connection.commit()
 			os.remove(self.dataBasePath)
-			self.connection.execute("attach '%s' as diskDB" % self.dataBasePath)
-			res = self.connection.execute("select name from sqlite_master where type='table';")
-			for table in res.fetchall():
-				if table[0] != 'sqlite_sequence':
-					self.connection.execute('create table diskDB.%s as select * from %s' % (table[0], table[0]))
-			self.connection.commit()
-			self.connection.execute('detach diskDB')
+			diskDB = sqlite.connect(self.dataBasePath)
+			dump = os.linesep.join([line for line in self.connection.iterdump()])
+			diskDB.executescript(dump)
 			self.connection.close()
-			self.connect()
+			self.connection = diskDB
+			self.cursor = diskDB.cursor()
 			return True
 		except Exception, e: 
 			util.Logutil.log("ERROR: %s" % str(e), util.LOG_LEVEL_INFO)
