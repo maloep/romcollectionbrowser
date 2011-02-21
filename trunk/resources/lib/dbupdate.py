@@ -704,7 +704,10 @@ class DBUpdate:
 		if(item != "" and item != None):
 			itemRow = gdbObject.getOneByName(item)
 			if(itemRow == None):	
-				Logutil.log(itemName +" does not exist in database. Insert: " +item, util.LOG_LEVEL_INFO)
+				try:
+					Logutil.log(itemName +" does not exist in database. Insert: " +item, util.LOG_LEVEL_INFO)
+				except:
+					pass
 				gdbObject.insert((item,))
 				itemId = self.gdb.cursor.lastrowid
 			else:
@@ -730,7 +733,10 @@ class DBUpdate:
 			
 			itemRow = gdbObject.getOneByName(item)
 			if(itemRow == None):
-				Logutil.log(itemName +" does not exist in database. Insert: " +item, util.LOG_LEVEL_INFO)
+				try:
+					Logutil.log(itemName +" does not exist in database. Insert: " +item, util.LOG_LEVEL_INFO)
+				except:
+					pass
 				gdbObject.insert((item,))
 				idList.append(self.gdb.cursor.lastrowid)
 			else:
