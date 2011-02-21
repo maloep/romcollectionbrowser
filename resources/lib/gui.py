@@ -260,7 +260,7 @@ class UIGameDB(xbmcgui.WindowXML):
 		
 		self.gdb.commit()
 		
-		if self.cachingOption == 4:
+		if self.cachingOption == 0:
 			Logutil.log("Loading DB to Mem", util.LOG_LEVEL_INFO)
 			if self.gdb.toMem():
 				Logutil.log("DB loaded to Mem!", util.LOG_LEVEL_INFO)
@@ -1842,7 +1842,7 @@ class UIGameDB(xbmcgui.WindowXML):
 					
 		self.saveViewState(True)
 		
-		if self.cachingOption == 4:
+		if self.cachingOption == 0:
 			Logutil.log("Saving DB to disk", util.LOG_LEVEL_INFO)
 			if self.gdb.toDisk():
 				Logutil.log("Database saved ok!", util.LOG_LEVEL_INFO)
