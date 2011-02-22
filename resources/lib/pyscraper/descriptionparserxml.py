@@ -23,8 +23,11 @@ class DescriptionParserXml:
 		else:
 			fh = open(str(descFile), 'r')
 			descFile = fh.read()
-		
-		descFile = descFile.decode(encoding).encode('utf-8')
+			
+		if encoding != 'utf-8':
+			descFile = descFile.decode(encoding).encode('utf-8')
+		else:
+			descFile = unicode(descFile, 'utf-8')
 				
 		#load xmlDoc as elementtree to check with xpaths
 		tree = fromstring(descFile)
@@ -50,12 +53,19 @@ class DescriptionParserXml:
 	def scanDescription(self, descFile, descParseInstruction, encoding):		
 		
 		if(descFile.startswith('http://')):
-			descFile = urllib.urlopen(descFile)
+			descFile = urllib.urlopen(descFile).read()
+		else:
+			fh = open(str(descFile), 'r')
+			descFile = fh.read()
 		
-		descFile = descFile.decode(encoding).encode('utf-8')
+		if encoding != 'utf-8':
+			descFile = descFile.decode(encoding).encode('utf-8')
+		else:
+			descFile = unicode(descFile, 'utf-8')
 		
 		#load xmlDoc as elementtree to check with xpaths
-		tree = ElementTree().parse(descFile)
+		tree = ElementTree().fromstring(descFile)
+		
 		
 		#single result as dictionary
 		result = {}

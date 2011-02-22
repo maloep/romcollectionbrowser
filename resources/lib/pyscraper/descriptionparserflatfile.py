@@ -30,8 +30,10 @@ class DescriptionParserFlatFile:
 		all = OneOrMore(gameGrammar)				
 						
 		fileAsString = self.openDescFile(descFile)
-		
-		fileAsString = fileAsString.decode(encoding).encode('utf-8')
+		if encoding != 'utf-8':
+			fileAsString = fileAsString.decode(encoding).encode('utf-8')
+		else:
+			fileAsString = unicode(fileAsString, 'utf-8')
 		
 		results = all.parseString(fileAsString)
 		
@@ -51,7 +53,11 @@ class DescriptionParserFlatFile:
 	def scanDescription(self, descFile, descParseInstruction, encoding):
 				
 		fileAsString = self.openDescFile(descFile)
-		fileAsString = fileAsString.decode(encoding).encode('utf-8')
+		if encoding != 'utf-8':
+			fileAsString = fileAsString.decode(encoding).encode('utf-8')
+		else:
+			fileAsString = unicode(fileAsString, 'utf-8')
+			
 		self.gameGrammar = self.getGameGrammar(str(descParseInstruction))
 				
 		for result,start,end in self.gameGrammar.scanString(fileAsString):
