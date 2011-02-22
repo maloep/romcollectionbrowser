@@ -13,7 +13,7 @@ from config import *
 from configxmlwriter import *
 
 from threading import *
-import dialogimportoptions
+import dialogimportoptions, dialogeditrcbasic
 
 
 #Action Codes
@@ -148,6 +148,13 @@ class ContextMenuDialog(xbmcgui.WindowXMLDialog):
 		elif (controlID == 5111): # add Rom Collection			
 			self.close()
 			self.gui.addRomCollection()
+		elif (controlID == 5112): # edit Rom Collection (Basic)			
+			self.close()
+			constructorParam = 1
+			if(util.hasAddons()):
+				constructorParam = "PAL"
+			editRCdialog = dialogeditrcbasic.EditRCBasicDialog("script-RCB-editRCbasic.xml", util.getAddonInstallPath(), "Default", constructorParam, gui=self)
+			del editRCdialog
 	
 	def onFocus(self, controlID):
 		pass
