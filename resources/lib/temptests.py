@@ -30,8 +30,8 @@ from descriptionparserfactory import DescriptionParserFactory
 #descFile = "F:\\Emulatoren\\data\\Synopsis\\mobygames\\mobysearch - Actraiser.htm"
 #parseInstruction = "F:\\Emulatoren\\data\\Synopsis\\mobygames\\01 - mobygames - gamesearch.xml"
 
-#descFile = "http://www.mobygames.com/game/sega-32x/blackthorne"
-#parseInstruction = "C:\\Users\\malte\\AppData\\Roaming\\XBMC\\scripts\\Rom Collection Browser\\resources\\scraper\\04.02 - mobygames - details.xml"
+descFile = "http://www.mobygames.com/game/sega-32x/blackthorne"
+parseInstruction = "C:\\Users\\malte\\AppData\\Roaming\\XBMC\\scripts\\Rom Collection Browser\\resources\\scraper\\04.02 - mobygames - details.xml"
 
 #descFile = "http://thegamesdb.net/api/GetGame.php?name=Legend%20of%20zelda"
 #descFile = "C:\\Users\\malte\\AppData\\Roaming\\XBMC\\scripts\\Rom Collection Browser\\resources\\scraper\\thegamesdb\\thegamesdb - legend of zelda.xml"
@@ -44,8 +44,8 @@ from descriptionparserfactory import DescriptionParserFactory
 #descFile = "F:\\Emulatoren\\data\\Scraper Tests\\Roms\\Sega32\\32x - Motocross Championship.nfo"
 #parseInstruction = "C:\\Users\\malte\\AppData\\Roaming\\XBMC\\scripts\\Rom Collection Browser\\resources\\scraper\\00 - local nfo.xml"
 
-descFile = "http://maws.mameworld.info/maws/romset/88games"
-parseInstruction = "C:\\Users\\malte\\AppData\\Roaming\\XBMC\\scripts\\Rom Collection Browser\\resources\\scraper\\06 - maws.xml"
+#descFile = "http://maws.mameworld.info/maws/romset/88games"
+#parseInstruction = "C:\\Users\\malte\\AppData\\Roaming\\XBMC\\scripts\\Rom Collection Browser\\resources\\scraper\\06 - maws.xml"
 
 #descFile = "http://api.archive.vg/1.0/Game.getInfoByCRC/VT7RJ960FWD4CC71L0Z0K4KQYR4PJNW8/b710561b"
 #parseInstruction = "F:\\Emulatoren\\data\\Synopsis\\Archive\\Archive - parserConfig.xml"
@@ -56,17 +56,18 @@ parseInstruction = "C:\\Users\\malte\\AppData\\Roaming\\XBMC\\scripts\\Rom Colle
 #http://api.archive.vg/1.0/System.getGames/VT7RJ960FWD4CC71L0Z0K4KQYR4PJNW8/SYSTEM
 
 
-"""
+#descFile = "F:\\Emulatoren\\xtras\\MEDIA\\SNES.txt"
+#parseInstruction = "F:\\Emulatoren\\xtras\\MEDIA\\parserConfig.xml"
+
+
 from descriptionparserfactory import *
 descParser = DescriptionParserFactory.getParser(parseInstruction)
 
 results = descParser.parseDescription(str(descFile), 'iso-8859-15')
 for result in results:
 	print result
-"""
 
-import tempfile
-print tempfile.gettempdir()
+
 
 
 
