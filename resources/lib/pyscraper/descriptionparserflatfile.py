@@ -4,6 +4,7 @@ from elementtree.ElementTree import *
 import urllib
 import time
 import util
+from util import Logutil
 #from xml.dom.minidom import parseString, Node, Document
 
 
@@ -30,12 +31,12 @@ class DescriptionParserFlatFile:
 		all = OneOrMore(gameGrammar)				
 						
 		fileAsString = self.openDescFile(descFile)
-		if encoding != 'utf-8':
-			fileAsString = fileAsString.decode(encoding).encode('utf-8')
-		else:
-			fileAsString = unicode(fileAsString, 'utf-8')
+		
+		fileAsString = fileAsString.decode(encoding).encode('utf-8')
+		
 		
 		results = all.parseString(fileAsString)
+		# Logutil.log('parseDescription Results!: %s' % results, util.LOG_LEVEL_INFO)	
 		
 		if(len(results) == 0 or results == Empty()):
 			print "Parser Error: parseDescription returned 0 results. Check your parseInstruction"
@@ -53,11 +54,12 @@ class DescriptionParserFlatFile:
 	def scanDescription(self, descFile, descParseInstruction, encoding):
 				
 		fileAsString = self.openDescFile(descFile)
-		if encoding != 'utf-8':
-			fileAsString = fileAsString.decode(encoding).encode('utf-8')
-		else:
-			fileAsString = unicode(fileAsString, 'utf-8')
-			
+		
+		fileAsString = fileAsString.decode(encoding).encode('utf-8')
+		
+		
+		#Logutil.log('scanDescription: %s' % fileAsString, util.LOG_LEVEL_INFO)	
+		
 		self.gameGrammar = self.getGameGrammar(str(descParseInstruction))
 				
 		for result,start,end in self.gameGrammar.scanString(fileAsString):

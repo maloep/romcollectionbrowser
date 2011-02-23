@@ -227,7 +227,7 @@ class DBUpdate:
 						self.insertGameFromDesc(result, gamenameFromFile, romCollection, filenamelist, foldername, isUpdate, gameId, gui, dialogDict)
 							
 				except Exception, (exc):
-					Logutil.log("an error occured while adding game " +gamename.encode('utf-8'), util.LOG_LEVEL_WARNING)
+					Logutil.log("an error occured while adding game " +gamename, util.LOG_LEVEL_WARNING)
 					Logutil.log("Error: " +str(exc), util.LOG_LEVEL_WARNING)
 					continue
 			else:	
@@ -321,7 +321,7 @@ class DBUpdate:
 						#Add 'gui' and 'dialogDict' parameters to function
 						lastGameId = self.insertGameFromDesc(gamedescription, gamenameFromFile, romCollection, filenamelist, foldername, isUpdate, gameId, gui, dialogDict)													
 					except Exception, (exc):
-						Logutil.log("an error occured while adding game " +gamename.encode('utf-8'), util.LOG_LEVEL_WARNING)
+						Logutil.log("an error occured while adding game " +gamename, util.LOG_LEVEL_WARNING)
 						Logutil.log("Error: " +str(exc), util.LOG_LEVEL_WARNING)
 						continue
 					
