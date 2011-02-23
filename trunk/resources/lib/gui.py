@@ -153,7 +153,7 @@ class ContextMenuDialog(xbmcgui.WindowXMLDialog):
 			constructorParam = 1
 			if(util.hasAddons()):
 				constructorParam = "PAL"
-			editRCdialog = dialogeditrcbasic.EditRCBasicDialog("script-RCB-editRCbasic.xml", util.getAddonInstallPath(), "Default", constructorParam, gui=self)
+			editRCdialog = dialogeditrcbasic.EditRCBasicDialog("script-RCB-editRCbasic.xml", util.getAddonInstallPath(), "Default", constructorParam, gui=self.gui)
 			del editRCdialog
 	
 	def onFocus(self, controlID):
