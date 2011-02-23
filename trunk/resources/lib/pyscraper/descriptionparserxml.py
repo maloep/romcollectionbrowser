@@ -4,6 +4,7 @@ import urllib
 import time
 
 import util
+from util import Logutil
 
 class DescriptionParserXml:
 	
@@ -24,10 +25,9 @@ class DescriptionParserXml:
 			fh = open(str(descFile), 'r')
 			descFile = fh.read()
 			
-		if encoding != 'utf-8':
-			descFile = descFile.decode(encoding).encode('utf-8')
-		else:
-			descFile = unicode(descFile, 'utf-8')
+		descFile = descFile.decode(encoding).encode('utf-8')
+		
+		#Logutil.log('parseDescription: %s' % descFile, util.LOG_LEVEL_INFO)	
 				
 		#load xmlDoc as elementtree to check with xpaths
 		tree = fromstring(descFile)
@@ -47,6 +47,9 @@ class DescriptionParserXml:
 				results = tempResults
 				results = self.replaceResultTokens(results)
 				resultList.append(results)		
+				
+		#Logutil.log('parseDescription: %s' % resultList, util.LOG_LEVEL_INFO)	
+		
 		return resultList
 	
 	
@@ -58,10 +61,8 @@ class DescriptionParserXml:
 			fh = open(str(descFile), 'r')
 			descFile = fh.read()
 		
-		if encoding != 'utf-8':
-			descFile = descFile.decode(encoding).encode('utf-8')
-		else:
-			descFile = unicode(descFile, 'utf-8')
+		descFile = descFile.decode(encoding).encode('utf-8')
+		#Logutil.log('scanDescription: %s' % descFile, util.LOG_LEVEL_INFO)	
 		
 		#load xmlDoc as elementtree to check with xpaths
 		tree = ElementTree().fromstring(descFile)
