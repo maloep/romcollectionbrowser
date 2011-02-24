@@ -1,5 +1,7 @@
 import xbmc, xbmcgui
 
+import os
+
 import util, config
 from util import *
 
@@ -10,6 +12,10 @@ CONTROL_BUTTON_EXIT = 5101
 
 CONTROL_BUTTON_EMUCMD = 5220
 CONTROL_BUTTON_PARAMS = 5230
+CONTROL_BUTTON_ROMPATH = 5240
+CONTROL_BUTTON_FILEMASK = 5250
+CONTROL_BUTTON_MEDIAPATH = 5270
+CONTROL_BUTTON_MEDIAFILEMASK = 5280
 
 CONTROL_LIST_ROMCOLLECTIONS = 5210
 CONTROL_LIST_MEDIATYPES = 5260
@@ -84,18 +90,46 @@ class EditRCBasicDialog(xbmcgui.WindowXMLDialog):
 		control = self.getControlById(CONTROL_BUTTON_PARAMS)
 		control.setLabel(selectedRomCollection.emulatorParams)
 				
-				
-				
+		#HACK: split romPath and fileMask
+		firstRomPath = ''
+		fileMask = ''
+		for romPath in selectedRomCollection.romPaths:
+			
+			pathParts = os.path.split(romPath)			 
+			if(firstRomPath == ''):				
+				firstRomPath = pathParts[0]
+				fileMask = pathParts[1]
+			elif(firstRomPath == pathParts[0]):
+				fileMask = fileMask +',' +pathParts[1]
+								
+		control = self.getControlById(CONTROL_BUTTON_ROMPATH)
+		control.setLabel(firstRomPath)
+		
+		control = self.getControlById(CONTROL_BUTTON_FILEMASK)
+		control.setLabel(fileMask)
 		
 		
 		#Media Types
-		mediaTypeList = ['boxfront', 'boxback']		
-		"""
-		for rcId in self.gui.config.romCollections.keys():
-			romCollection = self.gui.config.romCollections[rcId]
-			romCollectionList.append(romCollection.name)
-		"""		
+		mediaTypeList = []
+		firstMediaPath = ''
+		firstMediaFileMask = ''
+		for mediaPath in selectedRomCollection.mediaPaths:
+			mediaTypeList.append(mediaPath.fileType.name)
+			if(firstMediaPath == ''):
+				pathParts = os.path.split(mediaPath.path)
+				firstMediaPath = pathParts[0]
+				firstMediaFileMask = pathParts[1]
+				
 		self.addItemsToList(CONTROL_LIST_MEDIATYPES, mediaTypeList)
+		
+		control = self.getControlById(CONTROL_BUTTON_MEDIAPATH)
+		control.setLabel(firstMediaPath)
+		
+		control = self.getControlById(CONTROL_BUTTON_MEDIAFILEMASK)
+		control.setLabel(firstMediaFileMask)
+		
+		sitesInList = self.getAvailableScrapers()
+		self.selectScrapersInList(selectedRomCollection.scraperSites, sitesInList)
 	
 	
 	def getControlById(self, controlId):
@@ -130,3 +164,30 @@ class EditRCBasicDialog(xbmcgui.WindowXMLDialog):
 				sitesInList.append(name)
 				
 		return sitesInList
+	
+	
+	def selectScrapersInList(self, sitesInRomCollection, sitesInList):
+		
+		if(len(sitesInRomCollection) >= 1):
+			self.selectScraperInList(sitesInList, sitesInRomCollection[0].name, CONTROL_LIST_SCRAPER1)			
+		else:
+			self.selectScraperInList(sitesInList, 'None', CONTROL_LIST_SCRAPER1)
+		if(len(sitesInRomCollection) >= 2):
+			self.selectScraperInList(sitesInList, sitesInRomCollection[1].name, CONTROL_LIST_SCRAPER2)
+		else:
+			self.selectScraperInList(sitesInList, 'None', CONTROL_LIST_SCRAPER2)
+		if(len(sitesInRomCollection) >= 2):
+			self.selectScraperInList(sitesInList, sitesInRomCollection[2].name, CONTROL_LIST_SCRAPER3)
+		else:
+			self.selectScraperInList(sitesInList, 'None', CONTROL_LIST_SCRAPER3)
+			
+	
+	
+	def selectScraperInList(self, options, siteName, controlId):
+		
+		for i in range(0, len(options)):
+			option = options[i]
+			if(siteName == option):
+				control = self.getControlById(controlId)
+				control.selectItem(i)
+				break
