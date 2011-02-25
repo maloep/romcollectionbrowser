@@ -492,6 +492,8 @@ class Config:
 			return None, 'Configuration error. See xbmc.log for details'
 		
 		imagePlacing = ImagePlacing()
+		
+		imagePlacing.name = imagePlacingName
 			
 		imagePlacing.fileTypesForGameList, errorMsg = self.readFileTypeForElement(fileTypeForRow, 'fileTypeForGameList', tree)		
 		imagePlacing.fileTypesForGameListSelected, errorMsg = self.readFileTypeForElement(fileTypeForRow, 'fileTypeForGameListSelected', tree)
