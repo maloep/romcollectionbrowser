@@ -17,6 +17,8 @@ CONTROL_BUTTON_FILEMASK = 5250
 CONTROL_BUTTON_MEDIAPATH = 5270
 CONTROL_BUTTON_MEDIAFILEMASK = 5280
 
+CONTROL_BUTTON_IGNOREONSCAN = 5330
+
 CONTROL_LIST_ROMCOLLECTIONS = 5210
 CONTROL_LIST_MEDIATYPES = 5260
 CONTROL_LIST_SCRAPER1 = 5290
@@ -45,13 +47,16 @@ class EditRCBasicDialog(xbmcgui.WindowXMLDialog):
 		self.addItemsToList(CONTROL_LIST_ROMCOLLECTIONS, romCollectionList)
 		
 		
-		sitesInList = self.getAvailableScrapers()		
-		self.addItemsToList(CONTROL_LIST_SCRAPER1, sitesInList)
-		self.addItemsToList(CONTROL_LIST_SCRAPER2, sitesInList)
-		self.addItemsToList(CONTROL_LIST_SCRAPER3, sitesInList)
+		self.availableScrapers = self.getAvailableScrapers()		
+		self.addItemsToList(CONTROL_LIST_SCRAPER1, self.availableScrapers)
+		self.addItemsToList(CONTROL_LIST_SCRAPER2, self.availableScrapers)
+		self.addItemsToList(CONTROL_LIST_SCRAPER3, self.availableScrapers)
 		
-		imagePlacingList = ['gameinfobig', 'gameinfosmall']
-		self.addItemsToList(CONTROL_LIST_IMAGEPLACING, imagePlacingList)
+		self.imagePlacingList = []
+		imagePlacingRows = self.gui.config.tree.findall('ImagePlacing/fileTypeFor')
+		for imagePlacing in imagePlacingRows:
+			self.imagePlacingList.append(imagePlacing.attrib.get('name'))
+		self.addItemsToList(CONTROL_LIST_IMAGEPLACING, self.imagePlacingList)
 		
 		self.updateControls()
 		
@@ -127,9 +132,13 @@ class EditRCBasicDialog(xbmcgui.WindowXMLDialog):
 		
 		control = self.getControlById(CONTROL_BUTTON_MEDIAFILEMASK)
 		control.setLabel(firstMediaFileMask)
+						
+		self.selectScrapersInList(selectedRomCollection.scraperSites, self.availableScrapers)
 		
-		sitesInList = self.getAvailableScrapers()
-		self.selectScrapersInList(selectedRomCollection.scraperSites, sitesInList)
+		self.selectItemInList(self.imagePlacingList, selectedRomCollection.imagePlacing.name, CONTROL_LIST_IMAGEPLACING)
+		
+		control = self.getControlById(CONTROL_BUTTON_IGNOREONSCAN)
+		control.setSelected(selectedRomCollection.ignoreOnScan)
 	
 	
 	def getControlById(self, controlId):
@@ -169,25 +178,25 @@ class EditRCBasicDialog(xbmcgui.WindowXMLDialog):
 	def selectScrapersInList(self, sitesInRomCollection, sitesInList):
 		
 		if(len(sitesInRomCollection) >= 1):
-			self.selectScraperInList(sitesInList, sitesInRomCollection[0].name, CONTROL_LIST_SCRAPER1)			
+			self.selectItemInList(sitesInList, sitesInRomCollection[0].name, CONTROL_LIST_SCRAPER1)			
 		else:
-			self.selectScraperInList(sitesInList, 'None', CONTROL_LIST_SCRAPER1)
+			self.selectItemInList(sitesInList, 'None', CONTROL_LIST_SCRAPER1)
 		if(len(sitesInRomCollection) >= 2):
-			self.selectScraperInList(sitesInList, sitesInRomCollection[1].name, CONTROL_LIST_SCRAPER2)
+			self.selectItemInList(sitesInList, sitesInRomCollection[1].name, CONTROL_LIST_SCRAPER2)
 		else:
-			self.selectScraperInList(sitesInList, 'None', CONTROL_LIST_SCRAPER2)
-		if(len(sitesInRomCollection) >= 2):
-			self.selectScraperInList(sitesInList, sitesInRomCollection[2].name, CONTROL_LIST_SCRAPER3)
+			self.selectItemInList(sitesInList, 'None', CONTROL_LIST_SCRAPER2)
+		if(len(sitesInRomCollection) >= 3):
+			self.selectItemInList(sitesInList, sitesInRomCollection[2].name, CONTROL_LIST_SCRAPER3)
 		else:
-			self.selectScraperInList(sitesInList, 'None', CONTROL_LIST_SCRAPER3)
+			self.selectItemInList(sitesInList, 'None', CONTROL_LIST_SCRAPER3)
 			
 	
 	
-	def selectScraperInList(self, options, siteName, controlId):
+	def selectItemInList(self, options, itemName, controlId):				
 		
-		for i in range(0, len(options)):
+		for i in range(0, len(options)):			
 			option = options[i]
-			if(siteName == option):
+			if(itemName == option):
 				control = self.getControlById(controlId)
 				control.selectItem(i)
 				break
