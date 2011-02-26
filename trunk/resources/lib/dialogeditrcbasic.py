@@ -9,6 +9,8 @@ ACTION_EXIT_SCRIPT = (10,)
 ACTION_CANCEL_DIALOG = ACTION_EXIT_SCRIPT + (9,)
 
 CONTROL_BUTTON_EXIT = 5101
+CONTROL_BUTTON_OK = 6000
+CONTROL_BUTTON_CANCEL = 6010
 
 CONTROL_BUTTON_EMUCMD = 5220
 CONTROL_BUTTON_PARAMS = 5230
@@ -20,13 +22,23 @@ CONTROL_BUTTON_MEDIAFILEMASK = 5280
 CONTROL_BUTTON_IGNOREONSCAN = 5330
 
 CONTROL_LIST_ROMCOLLECTIONS = 5210
+CONTROL_BUTTON_RC_DOWN = 5211
+CONTROL_BUTTON_RC_UP = 5212
+
+CONTROL_BUTTON_MEDIA_DOWN = 5261
+CONTROL_BUTTON_MEDIA_UP = 5262
+
 CONTROL_LIST_MEDIATYPES = 5260
 CONTROL_LIST_SCRAPER1 = 5290
 CONTROL_LIST_SCRAPER2 = 5300
 CONTROL_LIST_SCRAPER3 = 5310
 CONTROL_LIST_IMAGEPLACING = 5320
 
+
 class EditRCBasicDialog(xbmcgui.WindowXMLDialog):
+	
+	selectedControlId = 0
+	selectedRomCollection = None
 	
 	def __init__(self, *args, **kwargs):
 		Logutil.log('init Edit RC Basic', util.LOG_LEVEL_INFO)
@@ -65,12 +77,36 @@ class EditRCBasicDialog(xbmcgui.WindowXMLDialog):
 		if (action.getId() in ACTION_CANCEL_DIALOG):
 			self.close()
 		
+	
 	def onClick(self, controlID):
 		if (controlID == CONTROL_BUTTON_EXIT): # Close window button
 			self.close()
+			
+		#OK
+		elif (controlID == CONTROL_BUTTON_OK):
+			pass
+			
+		#Cancel
+		elif (controlID == CONTROL_BUTTON_CANCEL):
+			self.close()
+			
+		#Rom Collection list
+		elif(self.selectedControlId in (CONTROL_BUTTON_RC_DOWN, CONTROL_BUTTON_RC_UP)):
+			#HACK: add a little wait time as XBMC needs some ms to execute the MoveUp/MoveDown actions from the skin
+			xbmc.sleep(util.WAITTIME_UPDATECONTROLS)
+			
+			self.updateControls()
+		
+		#Media Path
+		elif(self.selectedControlId in (CONTROL_BUTTON_MEDIA_DOWN, CONTROL_BUTTON_MEDIA_UP)):
+			#HACK: add a little wait time as XBMC needs some ms to execute the MoveUp/MoveDown actions from the skin
+			xbmc.sleep(util.WAITTIME_UPDATECONTROLS)
+			
+			self.updateMediaPath()
+	
 	
 	def onFocus(self, controlId):
-		pass
+		self.selectedControlId = controlId
 	
 	
 	def updateControls(self):
@@ -78,27 +114,27 @@ class EditRCBasicDialog(xbmcgui.WindowXMLDialog):
 		control = self.getControlById(CONTROL_LIST_ROMCOLLECTIONS)
 		selectedRomCollectionName = str(control.getSelectedItem().getLabel())
 				
-		selectedRomCollection = None
+		self.selectedRomCollection = None
 		
 		for rcId in self.gui.config.romCollections.keys():
 			romCollection = self.gui.config.romCollections[rcId]
 			if romCollection.name == selectedRomCollectionName:
-				selectedRomCollection = romCollection
+				self.selectedRomCollection = romCollection
 				break
 			
-		if(selectedRomCollection == None):
+		if(self.selectedRomCollection == None):
 			return
 		
 		control = self.getControlById(CONTROL_BUTTON_EMUCMD)
-		control.setLabel(selectedRomCollection.emulatorCmd)
+		control.setLabel(self.selectedRomCollection.emulatorCmd)
 		
 		control = self.getControlById(CONTROL_BUTTON_PARAMS)
-		control.setLabel(selectedRomCollection.emulatorParams)
+		control.setLabel(self.selectedRomCollection.emulatorParams)
 				
 		#HACK: split romPath and fileMask
 		firstRomPath = ''
 		fileMask = ''
-		for romPath in selectedRomCollection.romPaths:
+		for romPath in self.selectedRomCollection.romPaths:
 			
 			pathParts = os.path.split(romPath)			 
 			if(firstRomPath == ''):				
@@ -118,7 +154,7 @@ class EditRCBasicDialog(xbmcgui.WindowXMLDialog):
 		mediaTypeList = []
 		firstMediaPath = ''
 		firstMediaFileMask = ''
-		for mediaPath in selectedRomCollection.mediaPaths:
+		for mediaPath in self.selectedRomCollection.mediaPaths:
 			mediaTypeList.append(mediaPath.fileType.name)
 			if(firstMediaPath == ''):
 				pathParts = os.path.split(mediaPath.path)
@@ -133,12 +169,29 @@ class EditRCBasicDialog(xbmcgui.WindowXMLDialog):
 		control = self.getControlById(CONTROL_BUTTON_MEDIAFILEMASK)
 		control.setLabel(firstMediaFileMask)
 						
-		self.selectScrapersInList(selectedRomCollection.scraperSites, self.availableScrapers)
+		self.selectScrapersInList(self.selectedRomCollection.scraperSites, self.availableScrapers)
 		
-		self.selectItemInList(self.imagePlacingList, selectedRomCollection.imagePlacing.name, CONTROL_LIST_IMAGEPLACING)
+		self.selectItemInList(self.imagePlacingList, self.selectedRomCollection.imagePlacing.name, CONTROL_LIST_IMAGEPLACING)
 		
 		control = self.getControlById(CONTROL_BUTTON_IGNOREONSCAN)
-		control.setSelected(selectedRomCollection.ignoreOnScan)
+		control.setSelected(self.selectedRomCollection.ignoreOnScan)
+	
+	
+	def updateMediaPath(self):
+		
+		control = self.getControlById(CONTROL_LIST_MEDIATYPES)
+		selectedMediaType = str(control.getSelectedItem().getLabel())
+		
+		for mediaPath in self.selectedRomCollection.mediaPaths:
+			if mediaPath.fileType.name == selectedMediaType:
+				
+				pathParts = os.path.split(mediaPath.path)
+				control = self.getControlById(CONTROL_BUTTON_MEDIAPATH)
+				control.setLabel(pathParts[0])				
+				control = self.getControlById(CONTROL_BUTTON_MEDIAFILEMASK)
+				control.setLabel(pathParts[1])
+				
+				break
 	
 	
 	def getControlById(self, controlId):
@@ -189,8 +242,7 @@ class EditRCBasicDialog(xbmcgui.WindowXMLDialog):
 			self.selectItemInList(sitesInList, sitesInRomCollection[2].name, CONTROL_LIST_SCRAPER3)
 		else:
 			self.selectItemInList(sitesInList, 'None', CONTROL_LIST_SCRAPER3)
-			
-	
+				
 	
 	def selectItemInList(self, options, itemName, controlId):				
 		
