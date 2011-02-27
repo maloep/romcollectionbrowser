@@ -766,7 +766,7 @@ class UIGameDB(xbmcgui.WindowXML):
 			return False, 'Action canceled. Config.xml will not be written'
 				
 		configWriter = ConfigXmlWriter(False)
-		success, message = configWriter.writeRomCollections(romCollections)
+		success, message = configWriter.writeRomCollections(romCollections, False)
 		
 		#update self.config
 		statusOk, errorMsg = self.config.readXml()
@@ -1181,7 +1181,7 @@ class UIGameDB(xbmcgui.WindowXML):
 			return False, 'Action canceled. Config.xml will not be written'
 				
 		configWriter = ConfigXmlWriter(True)
-		success, message = configWriter.writeRomCollections(romCollections)
+		success, message = configWriter.writeRomCollections(romCollections, False)
 			
 		return success, message		
 	
@@ -1406,7 +1406,7 @@ class UIGameDB(xbmcgui.WindowXML):
 		fileType.name = type
 		
 		mediaPath = MediaPath()
-		mediaPath.type = fileType
+		mediaPath.fileType = fileType
 		if(scenarioIndex == 0):
 			mediaPath.path = os.path.join(path, type, fileMask)
 		else:
