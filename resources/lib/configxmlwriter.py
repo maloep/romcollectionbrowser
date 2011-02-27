@@ -25,11 +25,18 @@ class ConfigXmlWriter:
 		self.tree = ElementTree().parse(configFile)
 	
 	
-	def writeRomCollections(self, romCollections):
+	def writeRomCollections(self, romCollections, isEdit):
 				
 		romCollectionsXml = self.tree.find('RomCollections')
 		
+		if(isEdit):
+			for romCollectionXml in romCollectionsXml.findall('RomCollection'):
+				print 'remove Rom Collection'
+				romCollectionsXml.remove(romCollectionXml)
+				
+		
 		for romCollection in romCollections.values():
+			
 			romCollectionXml = SubElement(romCollectionsXml, 'RomCollection', {'id' : str(romCollection.id), 'name' : romCollection.name})
 			SubElement(romCollectionXml, 'emulatorCmd').text = romCollection.emulatorCmd
 			SubElement(romCollectionXml, 'emulatorParams').text = romCollection.emulatorParams
@@ -38,15 +45,19 @@ class ConfigXmlWriter:
 				SubElement(romCollectionXml, 'romPath').text = str(romPath)
 				
 			for mediaPath in romCollection.mediaPaths:								
-				SubElement(romCollectionXml, 'mediaPath', {'type' : mediaPath.type.name}).text = mediaPath.path
+				SubElement(romCollectionXml, 'mediaPath', {'type' : mediaPath.fileType.name}).text = mediaPath.path
 				
-			#some default values
 			SubElement(romCollectionXml, 'ignoreOnScan').text = str(romCollection.ignoreOnScan)
-			SubElement(romCollectionXml, 'descFilePerGame').text = str(romCollection.descFilePerGame)
-			SubElement(romCollectionXml, 'useFoldernameAsGamename').text = str(romCollection.useFoldernameAsGamename)
+			SubElement(romCollectionXml, 'allowUpdate').text = str(romCollection.allowUpdate)
+			SubElement(romCollectionXml, 'descFilePerGame').text = str(romCollection.descFilePerGame)			
 			SubElement(romCollectionXml, 'searchGameByCRC').text = str(romCollection.searchGameByCRC)
+			SubElement(romCollectionXml, 'searchGameByCRCIgnoreRomName').text = str(romCollection.searchGameByCRCIgnoreRomName)
+			SubElement(romCollectionXml, 'useFoldernameAsGamename').text = str(romCollection.useFoldernameAsGamename)
+			SubElement(romCollectionXml, 'useFoldernameAsCRC').text = str(romCollection.useFoldernameAsCRC)
+			SubElement(romCollectionXml, 'useFilenameAsCRC').text = str(romCollection.useFilenameAsCRC)
 			SubElement(romCollectionXml, 'maxFolderDepth').text = str(romCollection.maxFolderDepth)
 			SubElement(romCollectionXml, 'doNotExtractZipFiles').text = str(romCollection.doNotExtractZipFiles)
+			SubElement(romCollectionXml, 'diskPrefix').text = str(romCollection.diskPrefix)
 			
 			if (os.environ.get( "OS", "xbox" ) == "xbox"):
 				SubElement(romCollectionXml, 'xboxCreateShortcut').text = str(romCollection.xboxCreateShortcut)
