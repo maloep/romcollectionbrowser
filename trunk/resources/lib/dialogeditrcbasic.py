@@ -4,12 +4,13 @@ import os
 
 import util, config
 from util import *
+from configxmlwriter import *
 
 ACTION_EXIT_SCRIPT = (10,)
 ACTION_CANCEL_DIALOG = ACTION_EXIT_SCRIPT + (9,)
 
 CONTROL_BUTTON_EXIT = 5101
-CONTROL_BUTTON_OK = 6000
+CONTROL_BUTTON_SAVE = 6000
 CONTROL_BUTTON_CANCEL = 6010
 
 CONTROL_BUTTON_EMUCMD = 5220
@@ -36,14 +37,16 @@ CONTROL_LIST_IMAGEPLACING = 5320
 
 
 class EditRCBasicDialog(xbmcgui.WindowXMLDialog):
-	
+		
 	selectedControlId = 0
 	selectedRomCollection = None
+	romCollections = None
 	
 	def __init__(self, *args, **kwargs):
 		Logutil.log('init Edit RC Basic', util.LOG_LEVEL_INFO)
 		
 		self.gui = kwargs[ "gui" ]
+		self.romCollections = self.gui.config.romCollections
 		
 		self.doModal()
 	
@@ -53,8 +56,8 @@ class EditRCBasicDialog(xbmcgui.WindowXMLDialog):
 		
 		#Rom Collections
 		romCollectionList = []
-		for rcId in self.gui.config.romCollections.keys():
-			romCollection = self.gui.config.romCollections[rcId]
+		for rcId in self.romCollections.keys():
+			romCollection = self.romCollections[rcId]
 			romCollectionList.append(romCollection.name)
 		self.addItemsToList(CONTROL_LIST_ROMCOLLECTIONS, romCollectionList)
 		
@@ -81,28 +84,82 @@ class EditRCBasicDialog(xbmcgui.WindowXMLDialog):
 	def onClick(self, controlID):
 		if (controlID == CONTROL_BUTTON_EXIT): # Close window button
 			self.close()
-			
 		#OK
-		elif (controlID == CONTROL_BUTTON_OK):
-			pass
+		elif (controlID == CONTROL_BUTTON_SAVE):
+			#store selectedRomCollection
+			if(self.selectedRomCollection != None):
+				self.romCollections[self.selectedRomCollection.id] = self.selectedRomCollection
 			
+			configWriter = ConfigXmlWriter(False)
+			success, message = configWriter.writeRomCollections(self.romCollections, True)
+			
+			self.close()
 		#Cancel
 		elif (controlID == CONTROL_BUTTON_CANCEL):
 			self.close()
-			
 		#Rom Collection list
 		elif(self.selectedControlId in (CONTROL_BUTTON_RC_DOWN, CONTROL_BUTTON_RC_UP)):
+			
+			#store previous selectedRomCollection
+			if(self.selectedRomCollection != None):
+				self.romCollections[self.selectedRomCollection.id] = self.selectedRomCollection
+			
 			#HACK: add a little wait time as XBMC needs some ms to execute the MoveUp/MoveDown actions from the skin
 			xbmc.sleep(util.WAITTIME_UPDATECONTROLS)
-			
 			self.updateControls()
 		
 		#Media Path
 		elif(self.selectedControlId in (CONTROL_BUTTON_MEDIA_DOWN, CONTROL_BUTTON_MEDIA_UP)):
 			#HACK: add a little wait time as XBMC needs some ms to execute the MoveUp/MoveDown actions from the skin
 			xbmc.sleep(util.WAITTIME_UPDATECONTROLS)
-			
 			self.updateMediaPath()
+			
+		elif (controlID == CONTROL_BUTTON_EMUCMD):
+			
+			dialog = xbmcgui.Dialog()
+			
+			emulatorPath = dialog.browse(1, '%s Emulator' %self.selectedRomCollection.name, 'files')
+			if(emulatorPath == ''):
+				return
+						
+			self.selectedRomCollection.emulatorCmd = emulatorPath
+			control = self.getControlById(CONTROL_BUTTON_EMUCMD)
+			control.setLabel(emulatorPath)
+			
+		elif (controlID == CONTROL_BUTTON_PARAMS):
+			
+			emulatorParams = ''
+			
+			keyboard = xbmc.Keyboard()
+			keyboard.setHeading('Enter Emulator Params')			
+			keyboard.doModal()
+			if (keyboard.isConfirmed()):
+				emulatorParams = keyboard.getText()
+						
+			self.selectedRomCollection.emulatorParams = emulatorParams
+			control = self.getControlById(CONTROL_BUTTON_PARAMS)
+			control.setLabel(emulatorParams)
+			
+		elif (controlID == CONTROL_BUTTON_ROMPATH):
+			
+			dialog = xbmcgui.Dialog()
+			
+			romPath = dialog.browse(0, '%s Roms' %self.selectedRomCollection.name, 'files')
+			if(romPath == ''):
+				return
+						
+			control = self.getControlById(CONTROL_BUTTON_FILEMASK)
+			fileMaskInput = control.getLabel()
+			fileMasks = fileMaskInput.split(',')
+			romPaths = []
+			for fileMask in fileMasks:
+				romPathComplete = os.path.join(romPath, fileMask.strip())					
+				romPaths.append(romPathComplete)
+						
+			self.selectedRomCollection.romPaths = romPaths
+			control = self.getControlById(CONTROL_BUTTON_ROMPATH)
+			control.setLabel(romPath)
+			
 	
 	
 	def onFocus(self, controlId):
@@ -116,8 +173,8 @@ class EditRCBasicDialog(xbmcgui.WindowXMLDialog):
 				
 		self.selectedRomCollection = None
 		
-		for rcId in self.gui.config.romCollections.keys():
-			romCollection = self.gui.config.romCollections[rcId]
+		for rcId in self.romCollections.keys():
+			romCollection = self.romCollections[rcId]
 			if romCollection.name == selectedRomCollectionName:
 				self.selectedRomCollection = romCollection
 				break
