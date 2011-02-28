@@ -253,8 +253,20 @@ class UIGameDB(xbmcgui.WindowXML):
 			self.quit = True
 			return
 		
+		self.gdb.commit()
+		
+		memDB = self.Settings.getSetting(util.SETTING_RCB_MEMDB)
+		
+		if memDB:
+			self.memDB = True
+			if self.gdb.toMem():
+				Logutil.log("DB loaded to Mem!", util.LOG_LEVEL_INFO)
+			else:
+				Logutil.log("Load DB to Mem failed!", util.LOG_LEVEL_INFO)
+				self.memDB = False			
+		
 		cachingOptionStr = self.Settings.getSetting(util.SETTING_RCB_CACHINGOPTION)
-		if(cachingOptionStr == 'CACHEALLDB'):
+		if(cachingOptionStr == 'CACHEALL'):
 			self.cachingOption = 0
 		elif(cachingOptionStr == 'CACHESELECTION'):
 			self.cachingOption = 1
@@ -262,18 +274,7 @@ class UIGameDB(xbmcgui.WindowXML):
 			self.cachingOption = 2
 		elif(cachingOptionStr == 'CACHEITEMANDNEXT'):
 			self.cachingOption = 3
-		elif (cachingOptionStr == 'CACHEALLDB'):
-			self.cachingOption = 4
 		
-		self.gdb.commit()
-		
-		if self.cachingOption == 0:
-			Logutil.log("Loading DB to Mem", util.LOG_LEVEL_INFO)
-			if self.gdb.toMem():
-				Logutil.log("DB loaded to Mem!", util.LOG_LEVEL_INFO)
-			else:
-				Logutil.log("Load DB to Mem failed!", util.LOG_LEVEL_INFO)
-				
 		
 		self.checkImport(doImport)
 		
@@ -1849,7 +1850,7 @@ class UIGameDB(xbmcgui.WindowXML):
 					
 		self.saveViewState(True)
 		
-		if self.cachingOption == 0:
+		if self.memDB:
 			Logutil.log("Saving DB to disk", util.LOG_LEVEL_INFO)
 			if self.gdb.toDisk():
 				Logutil.log("Database saved ok!", util.LOG_LEVEL_INFO)

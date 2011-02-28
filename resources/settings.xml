@@ -2,7 +2,8 @@
 	<setting id="rcb_logLevel" label="Log level" type="labelenum" values="ERROR|WARNING|INFO|DEBUG" default="INFO"/>
 	<setting id="rcb_useEmulatorSolo" label="Use emulator solo" value="false" type="bool" default="false"/>
 	<setting id="rcb_escapeEmulatorCommand" label="Escape emulator cmd" value="false" type="bool" default="false"/>
-	<setting id="rcb_cachingOption" label="Caching option" type="labelenum" values="CACHEALL|CACHESELECTION|CACHEITEM|CACHEITEMANDNEXT|CACHEALLDB" default="CACHEITEMANDNEXT"/>
+	<setting id="rcb_cachingOption" label="Caching option" type="labelenum" values="CACHEALL|CACHESELECTION|CACHEITEM|CACHEITEMANDNEXT" default="CACHEITEMANDNEXT"/>
+	<setting id="rcb_memDB" label="Load the DB into memory" value="false" type="bool" default="false"/>
 	<setting id="rcb_showImportOptions" label="Show import options dialog" type="bool" default="true"/>
 	<setting id="rcb_scrapingMode" label="Scraping mode" type="labelenum" values="Automatic: Accurate|Automatic: Guess Matches|Interactive: Select Matches" default="Automatic: Accurate"/>
 	<setting id="rcb_fuzzyFactor" label="Game matching fuzzy factor" type="enum" values="0.5|0.6|0.7|0.8|0.9|1.0" default="2"/>
