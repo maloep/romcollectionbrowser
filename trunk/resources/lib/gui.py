@@ -243,7 +243,8 @@ class UIGameDB(xbmcgui.WindowXML):
 				return
 			
 			statusOk, errorMsg = self.createConfigXml(configFile)
-			
+		
+		self.checkScrapStart()
 		
 		#read config.xml
 		self.config = Config()
@@ -255,15 +256,15 @@ class UIGameDB(xbmcgui.WindowXML):
 		
 		self.gdb.commit()
 		
+		self.memDB = False			
 		memDB = self.Settings.getSetting(util.SETTING_RCB_MEMDB)
 		
-		if memDB:
+		if memDB == 'true':
 			self.memDB = True
 			if self.gdb.toMem():
 				Logutil.log("DB loaded to Mem!", util.LOG_LEVEL_INFO)
 			else:
 				Logutil.log("Load DB to Mem failed!", util.LOG_LEVEL_INFO)
-				self.memDB = False			
 		
 		cachingOptionStr = self.Settings.getSetting(util.SETTING_RCB_CACHINGOPTION)
 		if(cachingOptionStr == 'CACHEALL'):
@@ -1459,7 +1460,50 @@ class UIGameDB(xbmcgui.WindowXML):
 		progressDialog.writeMsg("", "", "", -1)
 		del progressDialog
 
+	# Handle autoexec.py script to add/remove background scraping on startup
+	
+	def checkScrapStart(self):
+		Logutil.log("Begin checkScrapStart" , util.LOG_LEVEL_INFO)
+		
+		autoexecFile = xbmc.translatePath("special://profile/autoexec.py")
+		path = os.path.join(util.RCBHOME, 'dbUpLauncher.py')
+		lauchLine = 'xbmc.executescript("%s")' % path
+		fp = open(autoexecFile, 'r+')
+		xbmcImported = False
+		alreadyCreated = False
+		for line in fp:
+			if line.startswith('import xbmc'):
+				Logutil.log("import xbmc line found!" , util.LOG_LEVEL_INFO)
+				xbmcImported = True
+			if lauchLine in line:
+				Logutil.log("executescript line found!", util.LOG_LEVEL_INFO)
+				alreadyCreated = True
+				
+		if self.Settings.getSetting(util.SETTING_RCB_SCRAPONSTART) == 'true':
 			
+			if not xbmcImported:
+				Logutil.log("adding import xbmc line", util.LOG_LEVEL_INFO)
+				fp.write('\nimport xbmc')
+			if not alreadyCreated:
+				Logutil.log("adding executescript line", util.LOG_LEVEL_INFO)
+				fp.write('\n' + lauchLine)
+				
+			fp.close()
+		elif alreadyCreated:
+			Logutil.log("Deleting executescript line" , util.LOG_LEVEL_INFO)
+			if alreadyCreated:
+				fp.seek(0)
+				lines = fp.readlines()
+				fp.close()
+				os.remove(autoexecFile)
+				fp = open(autoexecFile, 'w')
+				for line in lines:
+					if not path in line:
+						fp.write(line)
+				fp.close()
+		Logutil.log("End checkScrapStart" , util.LOG_LEVEL_INFO)
+				
+				
 	def checkAutoExec(self):
 		Logutil.log("Begin checkAutoExec" , util.LOG_LEVEL_INFO)
 		

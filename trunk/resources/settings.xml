@@ -19,6 +19,7 @@
 	<setting id="rcb_preventUnfilteredSearch" label="Prevent unfiltered search" type="bool" default="false"/>
 	<setting id="rcb_saveViewStateOnExit" label="Save viewstate on exit" type="bool" default="true"/>
 	<setting id="rcb_saveViewStateOnLaunchEmu" label="Save viewstate on launch emu" type="bool" default="true"/>
+	<setting id="rcb_scrapOnStartUP" label="Scrape roms on startup (EXPERIMENTAL)" value="false" type="bool" default="false"/>
 	
 	<setting id="rcb_view_mode" visible="false" value="" type="text"/>
 </settings>
