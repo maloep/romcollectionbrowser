@@ -128,16 +128,17 @@ class EditRCBasicDialog(xbmcgui.WindowXMLDialog):
 			
 		elif (controlID == CONTROL_BUTTON_PARAMS):
 			
-			emulatorParams = ''
+			control = self.getControlById(CONTROL_BUTTON_PARAMS)
+			emulatorParams = control.getLabel()
 			
 			keyboard = xbmc.Keyboard()
 			keyboard.setHeading('Enter Emulator Params')			
+			keyboard.setDefault(emulatorParams)
 			keyboard.doModal()
 			if (keyboard.isConfirmed()):
 				emulatorParams = keyboard.getText()
 						
 			self.selectedRomCollection.emulatorParams = emulatorParams
-			control = self.getControlById(CONTROL_BUTTON_PARAMS)
 			control.setLabel(emulatorParams)
 			
 		elif (controlID == CONTROL_BUTTON_ROMPATH):
@@ -160,7 +161,103 @@ class EditRCBasicDialog(xbmcgui.WindowXMLDialog):
 			control = self.getControlById(CONTROL_BUTTON_ROMPATH)
 			control.setLabel(romPath)
 			
-	
+		elif (controlID == CONTROL_BUTTON_FILEMASK):
+			
+			control = self.getControlById(CONTROL_BUTTON_FILEMASK)
+			romFileMask = control.getLabel()
+			
+			keyboard = xbmc.Keyboard()
+			keyboard.setHeading('Enter Rom File Mask')
+			keyboard.setDefault(romFileMask)			
+			keyboard.doModal()
+			if (keyboard.isConfirmed()):
+				romFileMask = keyboard.getText()
+									
+			#HACK: this only handles 1 base rom path
+			romPath = self.selectedRomCollection.romPaths[0]
+			pathParts = os.path.split(romPath)
+			romPath = pathParts[0]
+			fileMasks = romFileMask.split(',')
+			romPaths = []
+			for fileMask in fileMasks:				
+				romPathComplete = os.path.join(romPath, fileMask.strip())					
+				romPaths.append(romPathComplete)
+			
+			self.selectedRomCollection.romPaths = romPaths
+			control.setLabel(romFileMask)
+			
+		elif (controlID == CONTROL_BUTTON_MEDIAPATH):
+			
+			dialog = xbmcgui.Dialog()
+			
+			#get selected medias type			
+			control = self.getControlById(CONTROL_LIST_MEDIATYPES)
+			selectedMediaType = str(control.getSelectedItem().getLabel())
+			
+			#get current media path
+			currentMediaPath = None
+			currentMediaPathIndex = -1;
+			for i in range(0, len(self.selectedRomCollection.mediaPaths)):
+				mediaPath = self.selectedRomCollection.mediaPaths[i]
+				if(mediaPath.fileType.name == selectedMediaType):
+					currentMediaPath = mediaPath
+					currentMediaPathIndex = i
+					break
+			
+			#get new value
+			mediaPathInput = dialog.browse(0, '%s Path' %currentMediaPath.fileType.name, 'files')
+			if(mediaPathInput == ''):
+				return
+			
+			control = self.getControlById(CONTROL_BUTTON_MEDIAPATH)
+			control.setLabel(mediaPathInput)
+			
+			#write new path to selected Rom Collection
+			#HACK: only 1 media per type is supported with this implementation
+			control = self.getControlById(CONTROL_BUTTON_MEDIAFILEMASK)
+			mediaFileMask = control.getLabel()
+			mediaPathComplete = os.path.join(mediaPathInput, mediaFileMask.strip())
+			currentMediaPath.path = mediaPathComplete
+			self.selectedRomCollection.mediaPaths[currentMediaPathIndex] = currentMediaPath
+		
+		elif (controlID == CONTROL_BUTTON_MEDIAFILEMASK):
+			
+			dialog = xbmcgui.Dialog()
+			
+			#get selected medias type			
+			control = self.getControlById(CONTROL_LIST_MEDIATYPES)
+			selectedMediaType = str(control.getSelectedItem().getLabel())
+			
+			#get current media path
+			currentMediaPath = None
+			currentMediaPathIndex = -1;
+			for i in range(0, len(self.selectedRomCollection.mediaPaths)):
+				mediaPath = self.selectedRomCollection.mediaPaths[i]
+				if(mediaPath.fileType.name == selectedMediaType):
+					currentMediaPath = mediaPath
+					currentMediaPathIndex = i
+					break
+			
+			control = self.getControlById(CONTROL_BUTTON_MEDIAFILEMASK)
+			mediaFileMask = control.getLabel()
+			
+			keyboard = xbmc.Keyboard()
+			keyboard.setHeading('Enter Media File Mask')
+			keyboard.setDefault(mediaFileMask)			
+			keyboard.doModal()
+			if (keyboard.isConfirmed()):
+				mediaFileMask = keyboard.getText()
+							
+			control.setLabel(mediaFileMask)
+			
+			#write new path to selected Rom Collection
+			#HACK: only 1 media per type is supported with this implementation
+			control = self.getControlById(CONTROL_BUTTON_MEDIAPATH)
+			mediaPath = control.getLabel()
+			mediaPathComplete = os.path.join(mediaPath, mediaFileMask.strip())
+			currentMediaPath.path = mediaPathComplete
+			self.selectedRomCollection.mediaPaths[currentMediaPathIndex] = currentMediaPath
+						
 	
 	def onFocus(self, controlId):
 		self.selectedControlId = controlId
