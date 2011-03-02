@@ -83,8 +83,14 @@ class DBUpdate:
 				"You won't find any description with this configuration!", util.LOG_LEVEL_ERROR)
 				continue			
 			
-					
-			files = self.getRomFilesByRomCollection(romCollection.romPaths, romCollection.maxFolderDepth)				
+			enableFullReimport = self.Settings.getSetting(util.SETTING_RCB_ENABLEFULLREIMPORT).upper() == 'TRUE'
+			
+			if enableFullReimport == False:
+				id = romCollection.id
+			else:
+				id = None
+			
+			files = self.getRomFilesByRomCollection(romCollection.romPaths, romCollection.maxFolderDepth, RCId=id)				
 								
 			lastgamenameFromFile = ""
 			lastgamename = ""
@@ -335,7 +341,7 @@ class DBUpdate:
 	
 	
 	
-	def getRomFilesByRomCollection(self, romPaths, maxFolderDepth):
+	def getRomFilesByRomCollection(self, romPaths, maxFolderDepth, RCId = None):
 				
 		Logutil.log("Rom path: " +str(romPaths), util.LOG_LEVEL_INFO)
 				
@@ -344,8 +350,12 @@ class DBUpdate:
 		for romPath in romPaths:
 			files = self.walkDownPath(files, romPath, maxFolderDepth)
 			
+		
+		if RCId != None:
+			inDBFiles = DataBaseObject(self.gdb, '').getFileAllFilesByRCId(RCId)
+			files = [f for f in files if not f in inDBFiles]
+		
 		files.sort()
-			
 		Logutil.log("Files read: " +str(files), util.LOG_LEVEL_INFO)
 		
 		return files
