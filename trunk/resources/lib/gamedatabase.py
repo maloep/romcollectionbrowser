@@ -125,7 +125,6 @@ class GameDataBase:
 				return -1, "Error: No Update from version %s to %s." %(dbVersion, util.CURRENT_DB_VERSION)
 			
 		return 0, ""
-		
 	
 
 class DataBaseObject:
@@ -211,6 +210,11 @@ class DataBaseObject:
 		object = self.gdb.cursor.fetchone()		
 		return object
 	
+	def getFileAllFilesByRCId(self, id):
+		self.gdb.cursor.execute('select File.name from File, Game where Game.romcollectionid=? and File.parentId=Game.id and File.fileTypeId=0', (id,))
+		objects = self.gdb.cursor.fetchall()
+		results = [r[0] for r in objects]
+		return results
 	
 	def encodeUtf8(self, list):
 		newList = []
