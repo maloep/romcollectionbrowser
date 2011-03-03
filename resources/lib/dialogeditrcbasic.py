@@ -371,7 +371,16 @@ class EditRCBasicDialog(xbmcgui.WindowXMLDialog):
 		sites = self.addScraperToRomCollection(CONTROL_LIST_SCRAPER2, platformId, sites)
 		sites = self.addScraperToRomCollection(CONTROL_LIST_SCRAPER3, platformId, sites)
 			
-		self.selectedRomCollection.scraperSites = sites		
+		self.selectedRomCollection.scraperSites = sites
+		
+		
+		#Image Placing
+		control = self.getControlById(CONTROL_LIST_IMAGEPLACING)
+		imgPlacingItem = control.getSelectedItem()
+		imgPlacingName = imgPlacingItem.getLabel()
+		
+		imgPlacing, errorMsg = self.gui.config.readImagePlacing(imgPlacingName, self.gui.config.tree)
+		self.selectedRomCollection.imagePlacing = imgPlacing
 
 	
 	def getControlById(self, controlId):
