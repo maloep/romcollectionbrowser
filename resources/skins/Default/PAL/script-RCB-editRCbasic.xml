@@ -987,7 +987,7 @@
 				<font>-</font>
 				<texturenofocus>rcb-scroll-up-2.png</texturenofocus>
 				<texturefocus>rcb-scroll-up-focus-2.png</texturefocus>
-				<onclick>Control.Move(5290,-1)</onclick>
+				<onclick>Control.Move(5310,-1)</onclick>
 				<onleft>5311</onleft>
 				<onright>6000</onright>
 				<onup>5302</onup>
@@ -1105,7 +1105,7 @@
 				<font>-</font>
 				<texturenofocus>rcb-scroll-up-2.png</texturenofocus>
 				<texturefocus>rcb-scroll-up-focus-2.png</texturefocus>
-				<onclick>Control.Move(5290,-1)</onclick>
+				<onclick>Control.Move(5320,-1)</onclick>
 				<onleft>5321</onleft>
 				<onright>6000</onright>
 				<onup>5312</onup>
