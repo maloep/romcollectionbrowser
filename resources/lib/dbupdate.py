@@ -130,17 +130,11 @@ class DBUpdate:
 					filecrc = self.getFileCRC(filename)
 					#use crc of first rom if it is a multirom game
 					if(not isMultiRomGame):
-						try:
-							crcOfFirstGame[gamename] = filecrc
-							Logutil.log('Adding crc to crcOfFirstGame-dict: %s:%s' %(gamename, filecrc), util.LOG_LEVEL_DEBUG)
-						except:							
-							pass
+						crcOfFirstGame[gamename] = filecrc
+						Logutil.log('Adding crc to crcOfFirstGame-dict: %s:%s' %(gamename, filecrc), util.LOG_LEVEL_DEBUG)
 					else:
-						try:
-							filecrc = crcOfFirstGame[gamename]
-							Logutil.log('Read crc from crcOfFirstGame-dict: %s:%s' %(gamename, filecrc), util.LOG_LEVEL_DEBUG)
-						except Exception, (exc):							
-							pass
+						filecrc = crcOfFirstGame[gamename]
+						Logutil.log('Read crc from crcOfFirstGame-dict: %s:%s' %(gamename, filecrc), util.LOG_LEVEL_DEBUG)
 						
 					filecrcDict = self.buildFilenameDict(filecrcDict, isMultiRomGame, filename, filecrc, fileGamenameDict, gamename, False)
 				
@@ -264,7 +258,7 @@ class DBUpdate:
 							self.insertFile(filename, lastGameId, fileType, None, None, None)
 							continue
 						
-						Logutil.log('Start scraping info for game: ' +str(gamenameFromFile), LOG_LEVEL_INFO)						
+						Logutil.log('Start scraping info for game: ' + gamenameFromFile, LOG_LEVEL_INFO)						
 						
 						continueUpdate = gui.writeMsg(progDialogRCHeader, "Import game: " +gamenameFromFile, "", fileCount)
 						if(not continueUpdate):				
@@ -371,8 +365,9 @@ class DBUpdate:
 		Logutil.log("basename: " +basename, util.LOG_LEVEL_INFO)						
 				
 		Logutil.log("checking sub directories", util.LOG_LEVEL_INFO)
-		for walkRoot, walkDirs, walkFiles in self.walklevel(dirname.encode('utf-8'), maxFolderDepth):
-			Logutil.log( "root: " +str(walkRoot), util.LOG_LEVEL_DEBUG)
+		dirname = dirname.decode(sys.getfilesystemencoding()).encode('utf-8')
+		for walkRoot, walkDirs, walkFiles in self.walklevel(dirname, maxFolderDepth):
+			Logutil.log( "root: " + walkRoot, util.LOG_LEVEL_DEBUG)
 			Logutil.log( "walkDirs: " +str(walkDirs), util.LOG_LEVEL_DEBUG)
 			Logutil.log( "walkFiles: " +str(walkFiles), util.LOG_LEVEL_DEBUG)
 									
@@ -402,7 +397,7 @@ class DBUpdate:
 		
 	def getGamenameFromFilename(self, filename, romCollection):		
 					
-		Logutil.log("current rom file: " +str(filename), util.LOG_LEVEL_INFO)
+		Logutil.log("current rom file: " + filename, util.LOG_LEVEL_INFO)
 
 		#build friendly romname
 		if(not romCollection.useFoldernameAsGamename):
@@ -432,24 +427,24 @@ class DBUpdate:
 		return False
 		
 		
-	def buildFilenameDict(self, dict, isMultiRomGame, filename, key, fileGamenameDict, gamename, appendToGamenameDict):				
+	def buildFilenameDict(self, result, isMultiRomGame, filename, key, fileGamenameDict, gamename, appendToGamenameDict):				
 		
-		try:											
-			if(not isMultiRomGame):
-				filenamelist = []
+#		try:											
+		if(not isMultiRomGame):
+			filenamelist = []
+			filenamelist.append(filename)
+			result[key] = filenamelist
+			Logutil.log('Add filename "%s" with key "%s"' %(filename, key), util.LOG_LEVEL_DEBUG)
+		else:
+			filenamelist = fileGamenameDict[gamename]
+			if(appendToGamenameDict):
 				filenamelist.append(filename)
-				dict[key] = filenamelist
-				Logutil.log('Add filename "%s" with key "%s"' %(filename, key), util.LOG_LEVEL_DEBUG)
-			else:
-				filenamelist = fileGamenameDict[gamename]
-				if(appendToGamenameDict):
-					filenamelist.append(filename)
-				dict[key] = filenamelist
-				Logutil.log('Add filename "%s" to multirom game with key "%s"' %(filename, key), util.LOG_LEVEL_DEBUG)
-		except:
-			pass
+			result[key] = filenamelist
+			Logutil.log('Add filename "%s" to multirom game with key "%s"' %(filename, key), util.LOG_LEVEL_DEBUG)
+#		except:
+#			pass
 			
-		return dict
+		return result
 		
 		
 	def getFileCRC(self, filename):
@@ -913,7 +908,7 @@ class DBUpdate:
 	def stripHTMLTags(self, inputString):
 				
 		inputString = util.html_unescape(inputString)
-				
+		
 		#remove html tags and double spaces
 		intag = [False]
 		lastSpace = [False]

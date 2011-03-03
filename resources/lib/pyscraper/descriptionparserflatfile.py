@@ -145,7 +145,10 @@ class DescriptionParserFlatFile:
 	def getGameGrammar(self, descParseInstruction):				
 		
 		#load xmlDoc as elementtree to check with xpaths
-		tree = ElementTree().parse(descParseInstruction)
+		#tree = ElementTree().parse(descParseInstruction)
+		fp = open(descParseInstruction, 'r')
+		tree = fromstring(fp.read())
+		fp.close()
 		
 		grammarNode = tree.find('GameGrammar')
 		if(grammarNode == None):
