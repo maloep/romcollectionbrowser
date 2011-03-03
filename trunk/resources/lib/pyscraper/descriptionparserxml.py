@@ -25,7 +25,7 @@ class DescriptionParserXml:
 			fh = open(str(descFile), 'r')
 			descFile = fh.read()
 			
-		descFile = descFile.decode(encoding).encode('utf-8')
+		#descFile = descFile.decode(encoding).encode('utf-8')
 		
 		#Logutil.log('parseDescription: %s' % descFile, util.LOG_LEVEL_INFO)	
 				
@@ -61,8 +61,8 @@ class DescriptionParserXml:
 			fh = open(str(descFile), 'r')
 			descFile = fh.read()
 		
-		descFile = descFile.decode(encoding).encode('utf-8')
-		#Logutil.log('scanDescription: %s' % descFile, util.LOG_LEVEL_INFO)	
+		#descFile = descFile.decode(encoding).encode('utf-8')
+		Logutil.log('scanDescription: %s' % descFile, util.LOG_LEVEL_INFO)	
 		
 		#load xmlDoc as elementtree to check with xpaths
 		tree = ElementTree().fromstring(descFile)
