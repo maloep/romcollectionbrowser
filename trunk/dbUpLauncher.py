@@ -1,5 +1,4 @@
-import xbmc
-import xbmcgui
+
 import os
 import sys
 import time
@@ -17,8 +16,9 @@ sys.path.append( os.path.join( BASE_RESOURCE_PATH, "lib", "pyscraper" ) )
 env = ( os.environ.get( "OS", "win32" ), "win32", )[ os.environ.get( "OS", "win32" ) == "xbox" ]
 if env == 'Windows_NT':
     env = 'win32'
-sys.path.append( os.path.join( BASE_RESOURCE_PATH, "platform_libraries", env ) )
-
+sys.path.append( os.path.join( BASE_RESOURCE_PATH, "platform_libraries", 'Linux' ) )
+import xbmc
+import xbmcgui
 
 from pysqlite2 import dbapi2 as sqlite
 from gamedatabase import *
@@ -34,8 +34,8 @@ class ProgressDialogBk:
         self.itemCount = 0         
         self.head = None
         self.label = None
-        self.progress = xbmcgui.ControlProgress(100, 250, 125, 75)
-        self.progress.setVisible(True)
+        #self.progress = xbmcgui.ControlProgress(100, 250, 125, 75)
+        #self.progress.setVisible(True)
         
     def onInit(self): 
         self.head = self.getControl(701)
@@ -44,7 +44,7 @@ class ProgressDialogBk:
     
     def writeMsg(self, line1, line2, line3, count=0):
         percent = int(count * (float(100) / self.itemCount))
-        self.progress.setPercent(percent)
+        #self.progress.setPercent(percent)
         if not self.head:
           return True  
         elif (not count):
