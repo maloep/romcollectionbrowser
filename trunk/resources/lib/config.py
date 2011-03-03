@@ -142,6 +142,7 @@ class Scraper:
 	returnUrl = False
 	replaceKeyString = ''
 	replaceValueString = ''
+	platformId = 0
 	
 class Site:
 	name = ''
@@ -399,6 +400,7 @@ class Config:
 		
 		site = Site()
 		site.name = siteName
+		site.platformId = platform
 		
 		scrapers = []
 		

@@ -88,6 +88,9 @@ class EditRCBasicDialog(xbmcgui.WindowXMLDialog):
 		elif (controlID == CONTROL_BUTTON_SAVE):
 			#store selectedRomCollection
 			if(self.selectedRomCollection != None):
+				
+				self.updateSelectedRomCollection()
+				
 				self.romCollections[self.selectedRomCollection.id] = self.selectedRomCollection
 			
 			configWriter = ConfigXmlWriter(False)
@@ -98,10 +101,13 @@ class EditRCBasicDialog(xbmcgui.WindowXMLDialog):
 		elif (controlID == CONTROL_BUTTON_CANCEL):
 			self.close()
 		#Rom Collection list
-		elif(self.selectedControlId in (CONTROL_BUTTON_RC_DOWN, CONTROL_BUTTON_RC_UP)):
-			
-			#store previous selectedRomCollection
+		elif(self.selectedControlId in (CONTROL_BUTTON_RC_DOWN, CONTROL_BUTTON_RC_UP)):						
+						
 			if(self.selectedRomCollection != None):
+				#save current values to selected Rom Collection
+				self.updateSelectedRomCollection()
+				
+				#store previous selectedRomCollections state
 				self.romCollections[self.selectedRomCollection.id] = self.selectedRomCollection
 			
 			#HACK: add a little wait time as XBMC needs some ms to execute the MoveUp/MoveDown actions from the skin
@@ -348,6 +354,26 @@ class EditRCBasicDialog(xbmcgui.WindowXMLDialog):
 				break
 	
 	
+	def updateSelectedRomCollection(self):
+		
+		#ignore on scan
+		control = self.getControlById(CONTROL_BUTTON_IGNOREONSCAN)
+		self.selectedRomCollection.ignoreOnScan = bool(control.isSelected())
+		
+		#Scraper
+		try:
+			platformId = config.consoleDict[self.selectedRomCollection.name]
+		except:
+			platformId = '0'
+		
+		sites = []
+		sites = self.addScraperToRomCollection(CONTROL_LIST_SCRAPER1, platformId, sites)
+		sites = self.addScraperToRomCollection(CONTROL_LIST_SCRAPER2, platformId, sites)
+		sites = self.addScraperToRomCollection(CONTROL_LIST_SCRAPER3, platformId, sites)
+			
+		self.selectedRomCollection.scraperSites = sites		
+
+	
 	def getControlById(self, controlId):
 		try:
 			control = self.getControl(controlId)
@@ -406,3 +432,18 @@ class EditRCBasicDialog(xbmcgui.WindowXMLDialog):
 				control = self.getControlById(controlId)
 				control.selectItem(i)
 				break
+			
+			
+	def addScraperToRomCollection(self, controlId, platformId, sites):				
+		
+		control = self.getControlById(controlId)
+		scraperItem = control.getSelectedItem()
+		scraper = scraperItem.getLabel()
+		
+		if(scraper != 'mobygames.com'):
+			platformId = '0'
+		
+		site, errorMsg = self.gui.config.readScraper(scraper, platformId, '', '', self.gui.config.tree)
+		sites.append(site)
+			
+		return sites
