@@ -83,25 +83,32 @@ class ConfigXmlWriter:
 				SubElement(romCollectionXml, 'scraper', {'name' : 'giantbomb.com', 'replaceKeyString' : '', 'replaceValueString' : ''})
 				SubElement(romCollectionXml, 'scraper', {'name' : 'mobygames.com', 'replaceKeyString' : '', 'replaceValueString' : '', 'platform' : mobyConsoleId})
 			else:
-				SubElement(romCollectionXml, 'scraper', {'name' : romCollection.scraperSites[0].name})
+				for scraperSite in romCollection.scraperSites:
 				
-				#create Scraper element
-				scrapersXml = self.tree.find('Scrapers')
-				
-				#check if the current scraper already exists
-				siteExists = False
-				sitesXml = scrapersXml.findall('Site')
-				for site in sitesXml:
-					name = site.attrib.get('name')
-					if name == romCollection.scraperSites[0].name:
-						siteExists = True
-						break
+					if(scraperSite == None):
+						continue
 					
-				if not siteExists:
-					site = SubElement(scrapersXml, 'Site', {'name' : romCollection.scraperSites[0].name})
-					SubElement(site, 'Scraper', {'parseInstruction' : romCollection.scraperSites[0].scrapers[0].parseInstruction, 'source' : romCollection.scraperSites[0].scrapers[0].source})
-				
-				#in case of an update we have to create some new options
+					SubElement(romCollectionXml, 'scraper', {'name' : scraperSite.name, 'platform' : scraperSite.platformId})
+					
+					#create Scraper element
+					scrapersXml = self.tree.find('Scrapers')
+					
+					#check if the current scraper already exists
+					siteExists = False
+					sitesXml = scrapersXml.findall('Site')
+					for site in sitesXml:
+						name = site.attrib.get('name')
+						if name == scraperSite.name:
+							siteExists = True
+							break
+						
+					if not siteExists:
+						#HACK: this only covers the first scraper (for offline scrapers)
+						site = SubElement(scrapersXml, 'Site', {'name' : scraperSite.name})
+						SubElement(site, 'Scraper', {'parseInstruction' : scraperSite.scrapers[0].parseInstruction, 'source' : scraperSite.scrapers[0].source})
+			
+			if(not self.createNew):	
+				#in case of an update we have to create new options
 				if(romCollection.name == 'MAME' and not self.createNew):					
 					self.addFileTypesForMame()
 					self.addImagePlacingForMame()
