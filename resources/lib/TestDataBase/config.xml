@@ -12,11 +12,11 @@
 			<searchGameByCRC>True</searchGameByCRC>
 			<searchGameByCRCIgnoreRomName>False</searchGameByCRCIgnoreRomName>
 			<ignoreGameWithoutDesc>True</ignoreGameWithoutDesc>
-			<romPath>TestDataBase\Collection V1\roms\*.adf</romPath>			
-			<mediaPath type="boxfront">TestDataBase\Collection V1\cover\%GAME%.*</mediaPath>
-			<mediaPath type="action">TestDataBase\Collection V1\screens\%GAME%.*</mediaPath>
-			<mediaPath type="developer">TestDataBase\Collection V1\developer\%DEVELOPER%.*</mediaPath>
-			<mediaPath type="publisher">TestDataBase\Collection V1\publisher\%PUBLISHER%.*</mediaPath>
+			<romPath>TestDataBase\V1 - Amiga - ff - descforall\roms\*.adf</romPath>			
+			<mediaPath type="boxfront">TestDataBase\V1 - Amiga - ff - descforall\cover\%GAME%.*</mediaPath>
+			<mediaPath type="action">TestDataBase\V1 - Amiga - ff - descforall\screens\%GAME%.*</mediaPath>
+			<mediaPath type="developer">TestDataBase\V1 - Amiga - ff - descforall\developer\%DEVELOPER%.*</mediaPath>
+			<mediaPath type="publisher">TestDataBase\V1 - Amiga - ff - descforall\publisher\%PUBLISHER%.*</mediaPath>
 			<mediaPath type="console">TestDataBase\consoleImages\%CONSOLE%.*</mediaPath>
 			<imagePlacing>gameinfobig</imagePlacing>
 			<scraper name="Amiga V1"/>
@@ -33,12 +33,12 @@
 			<searchGameByCRC>True</searchGameByCRC>
 			<searchGameByCRCIgnoreRomName>False</searchGameByCRCIgnoreRomName>
 			<ignoreGameWithoutDesc>False</ignoreGameWithoutDesc>
-			<romPath>TestDataBase\Collection V2\roms\*.adf</romPath>
-			<romPath>TestDataBase\Collection V2\roms\*.ADF</romPath>
-			<mediaPath type="boxfront">TestDataBase\Collection V2\cover\%GAME%\*.*</mediaPath>
-			<mediaPath type="action">TestDataBase\Collection V2\screens\%GAME%\*.*</mediaPath>
-			<mediaPath type="developer">TestDataBase\Collection V2\developer\%DEVELOPER%.*</mediaPath>
-			<mediaPath type="publisher">TestDataBase\Collection V2\publisher\%PUBLISHER%.*</mediaPath>
+			<romPath>TestDataBase\V2 - Amiga - ff - descpergame\roms\*.adf</romPath>
+			<romPath>TestDataBase\V2 - Amiga - ff - descpergame\roms\*.ADF</romPath>
+			<mediaPath type="boxfront">TestDataBase\V2 - Amiga - ff - descpergame\cover\%GAME%\*.*</mediaPath>
+			<mediaPath type="action">TestDataBase\V2 - Amiga - ff - descpergame\screens\%GAME%\*.*</mediaPath>
+			<mediaPath type="developer">TestDataBase\V2 - Amiga - ff - descpergame\developer\%DEVELOPER%.*</mediaPath>
+			<mediaPath type="publisher">TestDataBase\V2 - Amiga - ff - descpergame\publisher\%PUBLISHER%.*</mediaPath>
 			<imagePlacing>gameinfobig</imagePlacing>
 			<scraper name="Amiga V2"/>
 		</RomCollection>
@@ -54,13 +54,13 @@
 			<searchGameByCRC>True</searchGameByCRC>
 			<searchGameByCRCIgnoreRomName>False</searchGameByCRCIgnoreRomName>
 			<ignoreGameWithoutDesc>False</ignoreGameWithoutDesc>
-			<romPath>TestDataBase\Collection V3\roms\*.zip</romPath>
-			<romPath>TestDataBase\Collection V3\roms\*.smc</romPath>
-			<mediaPath type="boxfront">TestDataBase\Collection V3\cover\%GAME%.*</mediaPath>			
-			<mediaPath type="action">TestDataBase\Collection V3\screens\%GAME%.*</mediaPath>			
-			<mediaPath type="title">TestDataBase\Collection V3\titles\%GAME%.*</mediaPath>			
-			<mediaPath type="cartridge">TestDataBase\Collection V3\cartridge\%GAME%.*</mediaPath>			
-			<mediaPath type="gameplay">TestDataBase\Collection V3\ingameVids\%GAME%.wmv</mediaPath>
+			<romPath>TestDataBase\V3 - SNES - ff - descforall\roms\*.zip</romPath>
+			<romPath>TestDataBase\V3 - SNES - ff - descforall\roms\*.smc</romPath>
+			<mediaPath type="boxfront">TestDataBase\V3 - SNES - ff - descforall\cover\%GAME%.*</mediaPath>			
+			<mediaPath type="action">TestDataBase\V3 - SNES - ff - descforall\screens\%GAME%.*</mediaPath>			
+			<mediaPath type="title">TestDataBase\V3 - SNES - ff - descforall\titles\%GAME%.*</mediaPath>			
+			<mediaPath type="cartridge">TestDataBase\V3 - SNES - ff - descforall\cartridge\%GAME%.*</mediaPath>			
+			<mediaPath type="gameplay">TestDataBase\V3 - SNES - ff - descforall\ingameVids\%GAME%.wmv</mediaPath>
 			<mediaPath type="console">TestDataBase\consoleImages\%CONSOLE%.*</mediaPath>			
 			<imagePlacing>gameinfobig</imagePlacing>
 			<scraper name="SNES V3"/>
@@ -77,13 +77,13 @@
 			<searchGameByCRC>True</searchGameByCRC>
 			<searchGameByCRCIgnoreRomName>True</searchGameByCRCIgnoreRomName>
 			<ignoreGameWithoutDesc>False</ignoreGameWithoutDesc>
-			<romPath>TestDataBase\Collection V4\Roms\*.zip</romPath>
-			<romPath>TestDataBase\Collection V4\Roms\*.smc</romPath>
-			<mediaPath type="boxfront">TestDataBase\Collection V4\Artwork\Box Front\%GAME%.*</mediaPath>			
-			<mediaPath type="action">TestDataBase\Collection V4\Artwork\Action\%GAME%.*</mediaPath>			
-			<mediaPath type="title">TestDataBase\Collection V4\Artwork\Title\%GAME%.*</mediaPath>			
-			<mediaPath type="cartridge">TestDataBase\Collection V4\Artwork\Cart\%GAME%.*</mediaPath>					
-			<mediaPath type="gameplay">TestDataBase\Collection V4\Movies\%GAME%.wmv</mediaPath>
+			<romPath>TestDataBase\V4 - SNES - ff - descforall - subfolder\Roms\*.zip</romPath>
+			<romPath>TestDataBase\V4 - SNES - ff - descforall - subfolder\Roms\*.smc</romPath>
+			<mediaPath type="boxfront">TestDataBase\V4 - SNES - ff - descforall - subfolder\Artwork\Box Front\%GAME%.*</mediaPath>			
+			<mediaPath type="action">TestDataBase\V4 - SNES - ff - descforall - subfolder\Artwork\Action\%GAME%.*</mediaPath>			
+			<mediaPath type="title">TestDataBase\V4 - SNES - ff - descforall - subfolder\Artwork\Title\%GAME%.*</mediaPath>			
+			<mediaPath type="cartridge">TestDataBase\V4 - SNES - ff - descforall - subfolder\Artwork\Cart\%GAME%.*</mediaPath>					
+			<mediaPath type="gameplay">TestDataBase\V4 - SNES - ff - descforall - subfolder\Movies\%GAME%.wmv</mediaPath>
 			<imagePlacing>gameinfobig</imagePlacing>
 			<scraper name="SNES V4"/>
 		</RomCollection>
@@ -95,9 +95,9 @@
 			<searchGameByCRC>False</searchGameByCRC>
 			<ignoreOnScan>False</ignoreOnScan>
 			<useFoldernameAsCRC>True</useFoldernameAsCRC>			
-			<romPath>TestDataBase\Collection V5\Roms\default.xbe</romPath>						
-			<mediaPath type="boxfront">TestDataBase\Collection V5\Artwork\Box Front\%GAME%.*</mediaPath>
-			<mediaPath type="screenshot">TestDataBase\Collection V5\Artwork\screenshot\%GAME%.*</mediaPath>
+			<romPath>TestDataBase\V5 - Xbox - ff - descforall\Roms\default.xbe</romPath>						
+			<mediaPath type="boxfront">TestDataBase\V5 - Xbox - ff - descforall\Artwork\Box Front\%GAME%.*</mediaPath>
+			<mediaPath type="screenshot">TestDataBase\V5 - Xbox - ff - descforall\Artwork\screenshot\%GAME%.*</mediaPath>
 			<imagePlacing>gameinfobig</imagePlacing>
 			<scraper name="Xbox V5"/>
 		</RomCollection>
@@ -109,9 +109,9 @@
 			<searchGameByCRC>False</searchGameByCRC>
 			<descFilePerGame>True</descFilePerGame>
 			<ignoreOnScan>False</ignoreOnScan>						
-			<romPath>TestDataBase\Collection V6\Roms\*.zip</romPath>
-			<mediaPath type="boxfront">TestDataBase\Collection V6\Artwork\Box Front\%GAME%.*</mediaPath>
-			<mediaPath type="screenshot">TestDataBase\Collection V6\Artwork\screenshot\%GAME%.*</mediaPath>
+			<romPath>TestDataBase\V6 - Sega32 - xml - descpergame\Roms\*.zip</romPath>
+			<mediaPath type="boxfront">TestDataBase\V6 - Sega32 - xml - descpergame\Artwork\Box Front\%GAME%.*</mediaPath>
+			<mediaPath type="screenshot">TestDataBase\V6 - Sega32 - xml - descpergame\Artwork\screenshot\%GAME%.*</mediaPath>
 			<imagePlacing>gameinfobig</imagePlacing>
 			<scraper name="Sega 32 V6"/>
 		</RomCollection>
@@ -124,9 +124,9 @@
 			<useFilenameAsCRC>True</useFilenameAsCRC>
 			<descFilePerGame>False</descFilePerGame>
 			<ignoreOnScan>False</ignoreOnScan>				
-			<romPath>TestDataBase\Collection V7\Roms\*.zip</romPath>
-			<mediaPath type="boxfront">TestDataBase\Collection V7\Artwork\Box Front\%GAME%.*</mediaPath>
-			<mediaPath type="screenshot">TestDataBase\Collection V7\Artwork\screenshot\%GAME%.*</mediaPath>
+			<romPath>TestDataBase\V7 - Sega32 - xml - descforall\Roms\*.zip</romPath>
+			<mediaPath type="boxfront">TestDataBase\V7 - Sega32 - xml - descforall\Artwork\Box Front\%GAME%.*</mediaPath>
+			<mediaPath type="screenshot">TestDataBase\V7 - Sega32 - xml - descforall\Artwork\screenshot\%GAME%.*</mediaPath>
 			<imagePlacing>gameinfobig</imagePlacing>
 			<scraper name="Sega 32 V7" replaceKeyString=" III, II,32x - " replaceValueString=" 3, 2,"/>
 		</RomCollection>
@@ -193,25 +193,25 @@
 	</ImagePlacing>
 	<Scrapers>
 		<Site name="Amiga V1">
-			<Scraper parseInstruction="C:\Users\malte\AppData\Roaming\XBMC\scripts\Rom Collection Browser\resources\lib\TestDataBase\Collection V1\parserConfig.xml" source="TestDataBase\Collection V1\synopsis\synopsis.txt" encoding="iso-8859-1"/>
+			<Scraper parseInstruction="C:\Users\malte\AppData\Roaming\XBMC\addons\script.games.rom.collection.browser.dev\resources\lib\TestDataBase\V1 - Amiga - ff - descforall\parserConfig.xml" source="TestDataBase\V1 - Amiga - ff - descforall\synopsis\synopsis.txt" encoding="iso-8859-1"/>
 		</Site>
 		<Site name="Amiga V2">
-			<Scraper parseInstruction="C:\Users\malte\AppData\Roaming\XBMC\scripts\Rom Collection Browser\resources\lib\TestDataBase\Collection V2\parserConfig.xml" source="TestDataBase\Collection V2\synopsis\%GAME%\synopsis.txt" encoding="iso-8859-1"/>
+			<Scraper parseInstruction="C:\Users\malte\AppData\Roaming\XBMC\addons\script.games.rom.collection.browser.dev\resources\lib\TestDataBase\V2 - Amiga - ff - descpergame\parserConfig.xml" source="TestDataBase\V2 - Amiga - ff - descpergame\synopsis\%GAME%\synopsis.txt" encoding="iso-8859-1"/>
 		</Site>
 		<Site name="SNES V3">
-			<Scraper parseInstruction="C:\Users\malte\AppData\Roaming\XBMC\scripts\Rom Collection Browser\resources\lib\TestDataBase\Collection V3\parserConfig.xml" source="TestDataBase\Collection V3\description\synopsis.txt" encoding="iso-8859-1" />
+			<Scraper parseInstruction="C:\Users\malte\AppData\Roaming\XBMC\addons\script.games.rom.collection.browser.dev\resources\lib\TestDataBase\V3 - SNES - ff - descforall\parserConfig.xml" source="TestDataBase\V3 - SNES - ff - descforall\description\synopsis.txt" encoding="iso-8859-1" />
 		</Site>
 		<Site name="SNES V4">
-			<Scraper parseInstruction="C:\Users\malte\AppData\Roaming\XBMC\scripts\Rom Collection Browser\resources\lib\TestDataBase\Collection V4\parserConfig.xml" source="TestDataBase\Collection V4\Synopsis\synopsis.txt" encoding="iso-8859-1"/>	
+			<Scraper parseInstruction="C:\Users\malte\AppData\Roaming\XBMC\addons\script.games.rom.collection.browser.dev\resources\lib\TestDataBase\V4 - SNES - ff - descforall - subfolder\parserConfig.xml" source="TestDataBase\V4 - SNES - ff - descforall - subfolder\Synopsis\synopsis.txt" encoding="iso-8859-1"/>	
 		</Site>		
 		<Site name="Xbox V5">
-			<Scraper parseInstruction="C:\Users\malte\AppData\Roaming\XBMC\scripts\Rom Collection Browser\resources\lib\TestDataBase\Collection V5\parserConfig.xml" source="TestDataBase\Collection V5\synopsis.txt" encoding="iso-8859-1"/>
+			<Scraper parseInstruction="C:\Users\malte\AppData\Roaming\XBMC\addons\script.games.rom.collection.browser.dev\resources\lib\TestDataBase\V5 - Xbox - ff - descforall\parserConfig.xml" source="TestDataBase\V5 - Xbox - ff - descforall\synopsis.txt" encoding="iso-8859-1"/>
 		</Site>		
 		<Site name="Sega 32 V6">
-			<Scraper parseInstruction="C:\Users\malte\AppData\Roaming\XBMC\scripts\Rom Collection Browser\resources\lib\TestDataBase\Collection V6\parserConfig.xml" source="TestDataBase\Collection V6\Synopsis\%GAME%.xml" encoding="iso-8859-1"/>
+			<Scraper parseInstruction="C:\Users\malte\AppData\Roaming\XBMC\addons\script.games.rom.collection.browser.dev\resources\lib\TestDataBase\V6 - Sega32 - xml - descpergame\parserConfig.xml" source="TestDataBase\V6 - Sega32 - xml - descpergame\Synopsis\%GAME%.xml" encoding="iso-8859-1"/>
 		</Site>
 		<Site name="Sega 32 V7">
-			<Scraper parseInstruction="C:\Users\malte\AppData\Roaming\XBMC\scripts\Rom Collection Browser\resources\lib\TestDataBase\Collection V7\parserConfig.xml" source="TestDataBase\Collection V7\synopsis.xml" replaceKeyString="%REPLACEKEYS%" replaceValueString="%REPLACEVALUES%" encoding="iso-8859-1"/>
+			<Scraper parseInstruction="C:\Users\malte\AppData\Roaming\XBMC\addons\script.games.rom.collection.browser.dev\resources\lib\TestDataBase\V7 - Sega32 - xml - descforall\parserConfig.xml" source="TestDataBase\V7 - Sega32 - xml - descforall\synopsis.xml" replaceKeyString="%REPLACEKEYS%" replaceValueString="%REPLACEVALUES%" encoding="iso-8859-1"/>
 		</Site>				
 		
 		
