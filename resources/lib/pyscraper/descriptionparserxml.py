@@ -190,7 +190,8 @@ class DescriptionParserXml:
 					resultValues.append(attribute)
 					#print "found attribute: " +attribute
 				else:
-					resultValues.append(element.text.encode('utf-8'))					
+					if(element.text != None):
+						resultValues.append(element.text.encode('utf-8'))					
 					#print "found result: " +element.text
 				
 			try:
