@@ -65,7 +65,7 @@ class DescriptionParserXml:
 		Logutil.log('scanDescription: %s' % descFile, util.LOG_LEVEL_INFO)	
 		
 		#load xmlDoc as elementtree to check with xpaths
-		tree = ElementTree().fromstring(descFile)
+		tree = fromstring(descFile)
 		
 		
 		#single result as dictionary
