@@ -130,6 +130,44 @@
 			<imagePlacing>gameinfobig</imagePlacing>
 			<scraper name="Sega 32 V7" replaceKeyString=" III, II,32x - " replaceValueString=" 3, 2,"/>
 		</RomCollection>
+		<RomCollection id="8"  name="Sega Gen - local nfo">
+			<emulatorCmd>%ROM%</emulatorCmd>
+			<xboxCreateShortcut>False</xboxCreateShortcut>
+			<xboxCreateShortcutAddRomfile>False</xboxCreateShortcutAddRomfile>
+			<xboxCreateShortcutUseShortGamename>False</xboxCreateShortcutUseShortGamename>
+			<searchGameByCRC>True</searchGameByCRC>
+			<useFilenameAsCRC>True</useFilenameAsCRC>
+			<descFilePerGame>True</descFilePerGame>
+			<ignoreOnScan>False</ignoreOnScan>				
+			<romPath>TestDataBase\V8 - SNES - xml - local nfo\Roms\*.zip</romPath>
+			<mediaPath type="boxfront">TestDataBase\V8 - SNES - xml - local nfo\Artwork\boxfront\%GAME%.*</mediaPath>
+			<mediaPath type="screenshot">TestDataBase\V8 - SNES - xml - local nfo\Artwork\screenshot\%GAME%.*</mediaPath>
+			<mediaPath type="boxback">TestDataBase\V8 - SNES - xml - local nfo\Artwork\boxback\%GAME%.*</mediaPath>
+			<mediaPath type="cartridge">TestDataBase\V8 - SNES - xml - local nfo\Artwork\cartridge\%GAME%.*</mediaPath>
+			<mediaPath type="fanart">TestDataBase\V8 - SNES - xml - local nfo\Artwork\fanart\%GAME%.*</mediaPath>
+			<imagePlacing>gameinfobig</imagePlacing>
+			<scraper name="local nfo"/>			
+		</RomCollection>
+		<RomCollection id="9"  name="Sega Gen - online">
+			<emulatorCmd>%ROM%</emulatorCmd>
+			<xboxCreateShortcut>False</xboxCreateShortcut>
+			<xboxCreateShortcutAddRomfile>False</xboxCreateShortcutAddRomfile>
+			<xboxCreateShortcutUseShortGamename>False</xboxCreateShortcutUseShortGamename>
+			<searchGameByCRC>True</searchGameByCRC>
+			<useFilenameAsCRC>True</useFilenameAsCRC>
+			<descFilePerGame>True</descFilePerGame>
+			<ignoreOnScan>False</ignoreOnScan>				
+			<romPath>TestDataBase\V9 - SNES - online\Roms\*.zip</romPath>
+			<mediaPath type="boxfront">TestDataBase\V9 - SNES - online\Artwork\boxfront\%GAME%.*</mediaPath>
+			<mediaPath type="screenshot">TestDataBase\V9 - SNES - online\Artwork\screenshot\%GAME%.*</mediaPath>
+			<mediaPath type="boxback">TestDataBase\V9 - SNES - online\Artwork\boxback\%GAME%.*</mediaPath>
+			<mediaPath type="cartridge">TestDataBase\V9 - SNES - online\Artwork\cartridge\%GAME%.*</mediaPath>
+			<mediaPath type="fanart">TestDataBase\V9 - SNES - online\Artwork\fanart\%GAME%.*</mediaPath>
+			<imagePlacing>gameinfobig</imagePlacing>
+			<scraper name="thegamesdb.net"/>
+			<scraper name="mobygames.com" platform="15"/>
+			<scraper name="giantbomb.com"/>
+		</RomCollection>
 	</RomCollections>
 	<FileTypes>
 		<FileType id="1" name="boxfront">
@@ -166,6 +204,14 @@
 		</FileType>
 		<FileType id="9" name="gameplay">
 			<type>video</type>
+			<parent>game</parent>
+		</FileType>
+		<FileType id="10" name="boxback">
+			<type>image</type>
+			<parent>game</parent>
+		</FileType>
+		<FileType id="11" name="fanart">
+			<type>image</type>
 			<parent>game</parent>
 		</FileType>
 	</FileTypes>
@@ -213,31 +259,33 @@
 		<Site name="Sega 32 V7">
 			<Scraper parseInstruction="C:\Users\malte\AppData\Roaming\XBMC\addons\script.games.rom.collection.browser.dev\resources\lib\TestDataBase\V7 - Sega32 - xml - descforall\parserConfig.xml" source="TestDataBase\V7 - Sega32 - xml - descforall\synopsis.xml" replaceKeyString="%REPLACEKEYS%" replaceValueString="%REPLACEVALUES%" encoding="iso-8859-1"/>
 		</Site>				
+
 		
-		
-		<!--
+		<Site name="local nfo">
+		  <Scraper parseInstruction="00 - local nfo.xml" source="nfo" />
+		</Site>
 		<Site name="thevideogamedb.com">
-			<Scraper parseInstruction="01 - thevideogamedb.xml" source="http://thevideogamedb.com/API/GameDetail.aspx?apikey=%VGDBAPIKey%&amp;crc=%CRC%"/>
+		  <Scraper parseInstruction="01 - thevideogamedb.xml" source="http://thevideogamedb.com/API/GameDetail.aspx?apikey=%VGDBAPIKey%&amp;crc=%CRC%" />
 		</Site>
 		<Site name="thegamesdb.net">
-			<Scraper parseInstruction="02 - thegamesdb.xml" source="http://thegamesdb.net/api/GetGame.php?name=%GAME%"/>
+		  <Scraper parseInstruction="02 - thegamesdb.xml" source="http://thegamesdb.net/api/GetGame.php?name=%GAME%" />
 		</Site>
 		<Site name="giantbomb.com">
-			<Scraper parseInstruction="03.01 - giantbomb - search.xml" 
-			source="http://api.giantbomb.com/search/?api_key=%GIANTBOMBAPIKey%&amp;query=%GAME%&amp;resources=game&amp;format=xml" 
-			returnUrl="true" replaceKeyString=" III, II" replaceValueString=" 3, 2"/>
-			<Scraper parseInstruction="03.02 - giantbomb - detail.xml" source="1"/>
-		</Site>		
-		<Site name="mobygames.com">
-			<Scraper parseInstruction="04.01 - mobygames - gamesearch.xml" 
-			source="http://www.mobygames.com/search/quick?game=%GAME%&amp;p=21" returnUrl="True" replaceKeyString=" III, II" replaceValueString=" 3, 2"/>
-			<Scraper parseInstruction="04.02 - mobygames - details.xml" source="1"/>
-			<Scraper parseInstruction="04.03 - mobygames - boxfrontlink.xml" source="1" returnUrl="True"/>
-			<Scraper parseInstruction="04.04 - mobygames - boxfrontart.xml" source="2"/>
-			<Scraper parseInstruction="04.05 - mobygames - screenshotlink.xml" source="1" returnUrl="True"/>
-			<Scraper parseInstruction="04.06 - mobygames - screenshotoriginallink.xml" source="3" returnUrl="True"/>
-			<Scraper parseInstruction="04.07 - mobygames - screenshots.xml" source="4"/>
+		  <Scraper parseInstruction="03.01 - giantbomb - search.xml" replaceKeyString="%REPLACEKEYS%" replaceValueString="%REPLACEVALUES%" returnUrl="true" source="http://api.giantbomb.com/search/?api_key=%GIANTBOMBAPIKey%&amp;query=%GAME%&amp;resources=game&amp;field_list=api_detail_url,name&amp;format=xml" />
+		  <Scraper parseInstruction="03.02 - giantbomb - detail.xml" source="1" />
 		</Site>
-		-->
+		<Site name="mobygames.com">
+		  <Scraper parseInstruction="04.01 - mobygames - gamesearch.xml" replaceKeyString="%REPLACEKEYS%" replaceValueString="%REPLACEVALUES%" returnUrl="true" source="http://www.mobygames.com/search/quick?game=%GAME%&amp;p=%PLATFORM%" />
+		  <Scraper parseInstruction="04.02 - mobygames - details.xml" source="1" />
+		  <Scraper parseInstruction="04.03 - mobygames - coverlink.xml" returnUrl="true" source="1" />
+		  <Scraper parseInstruction="04.04 - mobygames - coverart.xml" source="2" />
+		  <Scraper parseInstruction="04.05 - mobygames - screenshotlink.xml" returnUrl="true" source="1" />
+		  <Scraper parseInstruction="04.06 - mobygames - screenoriglink.xml" returnUrl="true" source="3" />
+		  <Scraper parseInstruction="04.07 - mobygames - screenshots.xml" source="4" />
+		</Site>
+		<Site name="maws.mameworld.info">
+		  <Scraper encoding="iso-8859-1" parseInstruction="06 - maws.xml" source="http://maws.mameworld.info/maws/romset/%GAME%" />
+		</Site>
+
 	</Scrapers>
 </config>

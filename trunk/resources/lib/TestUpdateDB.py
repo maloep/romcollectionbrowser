@@ -37,10 +37,7 @@ class TestUpdateDB(unittest.TestCase):
 		self.gdb = GameDataBase(self.databasedir)
 		self.gdb.connect()
 		self.gdb.dropTables()		
-		self.gdb.createTables()	
-		
-		#si = importsettings.SettingsImporter()
-		#si.importSettings(self.gdb, RCBMock())				
+		self.gdb.createTables()
 		
 		
 	def test_UpdateDB(self):
@@ -98,7 +95,7 @@ class TestUpdateDB(unittest.TestCase):
 		
 		gameRows = Game(self.gdb).getAllOrdered()	
 		self.assertTrue(gameRows != None)
-		self.assertEqual(len(gameRows), 26)				
+		self.assertEqual(len(gameRows), 46)				
 		
 		
 		self.gameTest(gameRows[0], '007: Agent Under Fire', 'Get ready for the next generation of 007, as Her Majestys greatest secret agent embarks upon an all-new, action-packed adventure.', 
@@ -163,20 +160,38 @@ class TestUpdateDB(unittest.TestCase):
 			3, 1, 1, 0, 0, 0)		
 		self.gameTest(gameRows[20], 'Madden NFL \'98', 'Madden NFL 98 is a football video game.', 
 			None,  None, 3, 8, 8, None, 8, '', '', '', '', 'USA', 'Cartridge', '', 'Gamepad', 0, 0,
-			1, 1, 1, 1, 1, 0)
-		self.gameTest(gameRows[21], 'Ports Of Call [Test]', 'Ports of Call gives you the job of a shipowner.', 
+			1, 1, 1, 1, 1, 0)		
+		self.gameTest(gameRows[21], 'NBA Live 98', 'NBA Live 98 offers the player all teams, players and stadiums of the 1998 NBA season.', 
+			None,  None, 9, 21, 23, None, 8, '', '', '', '', '', '', '', '', 0, 0,
+			1, 1, 0, 0, 1, 0)		
+		self.gameTest(gameRows[24], 'NHL 97', "1997 edition of EA's NHL sport simulation series.", 
+			None,  None, 8, 22, 24, None, 7, '', '', '', '', '', '', '', '', 0, 0,
+			1, 1, 0, 0, 1, 0)		
+		self.gameTest(gameRows[28], 'Plok', "At one day, Plok awakes to find out that his flag has been stolen.", 
+			None,  None, 8, 23, 26, None, 3, '', '', '', '', '', '', '', '', 0, 0,
+			1, 1, 0, 0, 1, 0)		
+		self.gameTest(gameRows[29], 'Ports Of Call [Test]', 'Ports of Call gives you the job of a shipowner.', 
 			None,  None, 1, 4, 4, None, 4, '4', '', '', 'http://www.mobygames.com/game/amiga/ports-of-call', 'USA', 'Disk', '', 'Joystick', 0, 0,
-			1, 1, 1, 0, 0, 0)			
-		self.gameTest(gameRows[22], 'Space Invaders', 'Taito and Nintendo have brought back the classic Space Invaders game, with very little modification.', 
+			1, 1, 1, 0, 0, 0)		
+		self.gameTest(gameRows[30], 'Prince of Persia', "The Grand Vizier Jaffar has thrown you into a dark dungeon and plans to marry the girl of your dreams in an hour.", 
+			None,  None, 9, 24, 27, None, 5, '', '', '', '', '', '', '', '', 0, 0,
+			1, 1, 0, 0, 1, 0)
+		
+		#TODO: developerId must be 27 (instead of 33)! Wrong interpretation of xml encoding!
+		self.gameTest(gameRows[31], 'Prince of Persia', "The Grand Vizier Jaffar has thrown you into a dark dungeon and plans to marry the girl of your dreams in an hour.", 
+			None,  None, 8, 24, 33, None, 5, '', '', '', '', '', '', '', '', 0, 0,
+			1, 1, 0, 0, 1, 0)
+					
+		self.gameTest(gameRows[38], 'Space Invaders', 'Taito and Nintendo have brought back the classic Space Invaders game, with very little modification.', 
 			None,  None, 3, 9, 9, None, 7, '', '', '', '', 'USA', 'Cartridge', '', 'Gamepad', 0, 0,
 			1, 1, 1, 1, 1, 0)		
-		self.gameTest(gameRows[23], 'Street Fighter II - The World Warrior', 'Eight fighters from across the globe have come together to see which of them has the strength, skill and courage to challenge the mysterious Grand Masters.', 
+		self.gameTest(gameRows[39], 'Street Fighter II - The World Warrior', 'Eight fighters from across the globe have come together to see which of them has the strength, skill and courage to challenge the mysterious Grand Masters.', 
 			None,  None, 3, 10, 10, None, 5, '1 or 2 VS', '', '', '', 'USA', 'Cartridge', '', 'Gamepad', 0, 0,
 			1, 1, 1, 1, 1, 0)
-		self.gameTest(gameRows[24], 'Super Mario Kart', 'Hi everybody! Thanks for dropping to by the Super Mario Kart race track.', 
+		self.gameTest(gameRows[42], 'Super Mario Kart', 'Hi everybody! Thanks for dropping to by the Super Mario Kart race track.', 
 			None,  None, 3, 9, 11, None, 5, '1 to 4 VS', '', '', '', 'USA', 'Cartridge', '', 'Gamepad', 0, 0,
 			1, 1, 1, 1, 1, 0)
-		self.gameTest(gameRows[25], 'The Legend of Zelda: A Link to the Past', 'This installment in the Zelda series was my favorite.', 
+		self.gameTest(gameRows[45], 'The Legend of Zelda: A Link to the Past', 'This installment in the Zelda series was my favorite.', 
 			None,  None, 4, 9, 11, None, 5, '1', '', '', '', 'USA', 'Cartridge', '', 'Gamepad', 0, 0,
 			1, 1, 1, 1, 1, 1)
 		
@@ -220,6 +235,7 @@ class TestUpdateDB(unittest.TestCase):
 		roms = File(self.gdb).getRomsByGameId(game[0])
 		self.assertTrue(roms != None)
 		numRomsActual = len(roms)
+		print 'comparing num roms'
 		self.assertEqual(numRomsActual, numRoms)
 				
 		self.fileTypeTest(1, numCovers, game[0])
@@ -233,6 +249,7 @@ class TestUpdateDB(unittest.TestCase):
 		files = File(self.gdb).getFilesByGameIdAndTypeId(gameId, fileTypeId)		
 		self.assertTrue(files != None)
 		numfiles = len(files)
+		print 'comparing num files of fileTypeId: ' +str(fileTypeId)
 		self.assertEqual(numfiles, numFilesExpected)
 		
 		
