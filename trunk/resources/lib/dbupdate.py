@@ -561,6 +561,7 @@ class DBUpdate:
 				Logutil.log('No description found for game "%s". Game will not be imported.' %gamename, util.LOG_LEVEL_WARNING)
 				return None
 			game = ''
+			gamedescription = {}
 						
 		if(filenamelist == None or len(filenamelist) == 0):
 			Logutil.log("game " +game +" was found in parsed results but not in your rom collection.", util.LOG_LEVEL_WARNING)
