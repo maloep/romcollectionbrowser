@@ -6,7 +6,7 @@ import time
 
 # Shared resources
 
-BASE_RESOURCE_PATH = os.path.join( os.getcwd(), "resources" )
+BASE_RESOURCE_PATH = os.path.join( '/home/jaime/Desarrollo/romcollectionbrowser/trunk', "resources" )
 
 sys.path.append( os.path.join( BASE_RESOURCE_PATH, "lib" ) )
 sys.path.append( os.path.join( BASE_RESOURCE_PATH, "lib", "pyparsing" ) )
@@ -30,29 +30,48 @@ import config
 
 class ProgressDialogBk:
     
-    def __init__(self, *args, **kwargs):      
-        self.itemCount = 0         
-        self.head = None
-        self.label = None
-        #self.progress = xbmcgui.ControlProgress(100, 250, 125, 75)
-        #self.progress.setVisible(True)
-        
-    def onInit(self): 
-        self.head = self.getControl(701)
-        self.label = self.getControl(702)
-        self.progress = self.getControl(703)
+    itemCount = 1
+    label = None
+    progress = None
+    windowID = None
     
+    def __init__(self):
+        self.paintProgress()
+    
+    def paintProgress(self):
+        self.windowID = xbmcgui.getCurrentWindowId()
+        self.window = xbmcgui.Window(self.windowID)
+        self.image = xbmcgui.ControlImage(880, 630, 400, 60, "InfoMessagePanel.png", colorDiffuse='0xC0C0C0C0')
+        self.window.addControl(self.image)
+        self.image.setVisible(False)
+        animations = [('Conditional', 'effect=slide start=1280,0 time=2000 condition=Control.IsVisible(%d)' % self.image.getId())]
+        self.image.setAnimations(animations)
+        
+        self.label = xbmcgui.ControlLabel(900, 640, 400, 60, 'Scraping RCB', font='font10_title', textColor='0xFFEB9E17')
+        self.window.addControl(self.label)
+        self.label.setVisible(False)
+        self.label.setAnimations(animations)
+
+        self.progress = xbmcgui.ControlProgress(900, 662, 370, 8)
+        self.window.addControl(self.progress)
+        self.progress.setVisible(False)
+        self.progress.setAnimations(animations)
+        
+        self.label.setVisible(True)
+        self.image.setVisible(True)
+        self.progress.setVisible(True)
+            
     def writeMsg(self, line1, line2, line3, count=0):
-        percent = int(count * (float(100) / self.itemCount))
-        #self.progress.setPercent(percent)
-        if not self.head:
+        
+        
+        if self.windowID != xbmcgui.getCurrentWindowId():
+            self.paintProgress()
+        
+        if not self.label:
           return True  
-        elif (not count):
-            self.head.setLabel(line1)
         elif (count > 0):
             percent = int(count * (float(100) / self.itemCount))
-            self.head.setLabel(line1)
-            self.label.setLabel(line2)
+            self.label.setLabel("%d %% - %s" % (percent, line2))
             self.progress.setPercent(percent)
             
         else:
@@ -65,7 +84,7 @@ def runUpdate():
     gdb.connect()
     configFile = config.Config()
     statusOk, errorMsg = configFile.readXml()
-    progress = ProgressDialogBk("script-RCB-scanDialog.xml", util.getAddonInstallPath(), "Default", "PAL")
+    progress = ProgressDialogBk()
     dbupdate.DBUpdate().updateDB(gdb, progress, 0, configFile.romCollections)
     del progress
     
