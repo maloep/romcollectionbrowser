@@ -1,4 +1,5 @@
 
+
 import os, sys, re
 import time, datetime
 import urllib
@@ -30,8 +31,8 @@ from descriptionparserfactory import DescriptionParserFactory
 #descFile = "F:\\Emulatoren\\data\\Synopsis\\mobygames\\mobysearch - Actraiser.htm"
 #parseInstruction = "F:\\Emulatoren\\data\\Synopsis\\mobygames\\01 - mobygames - gamesearch.xml"
 
-descFile = "http://www.mobygames.com/game/sega-32x/blackthorne"
-parseInstruction = "C:\\Users\\malte\\AppData\\Roaming\\XBMC\\scripts\\Rom Collection Browser\\resources\\scraper\\04.02 - mobygames - details.xml"
+#descFile = "http://www.mobygames.com/game/sega-32x/blackthorne"
+#parseInstruction = "C:\\Users\\malte\\AppData\\Roaming\\XBMC\\scripts\\Rom Collection Browser\\resources\\scraper\\04.02 - mobygames - details.xml"
 
 #descFile = "http://thegamesdb.net/api/GetGame.php?name=Legend%20of%20zelda"
 #descFile = "C:\\Users\\malte\\AppData\\Roaming\\XBMC\\scripts\\Rom Collection Browser\\resources\\scraper\\thegamesdb\\thegamesdb - legend of zelda.xml"
@@ -56,17 +57,19 @@ parseInstruction = "C:\\Users\\malte\\AppData\\Roaming\\XBMC\\scripts\\Rom Colle
 #http://api.archive.vg/1.0/System.getGames/VT7RJ960FWD4CC71L0Z0K4KQYR4PJNW8/SYSTEM
 
 
-#descFile = "F:\\Emulatoren\\xtras\\MEDIA\\SNES.txt"
-#parseInstruction = "F:\\Emulatoren\\xtras\\MEDIA\\parserConfig.xml"
+
+descFile = "F:\\Emulatoren\\xtras\\MEDIA\\Amiga.txt"
+parseInstruction = "F:\\Emulatoren\\xtras\\MEDIA\\parserConfig_Amiga.xml"
 
 
+"""
 from descriptionparserfactory import *
 descParser = DescriptionParserFactory.getParser(parseInstruction)
 
 results = descParser.parseDescription(str(descFile), 'iso-8859-15')
 for result in results:
 	print result
-
+"""
 
 
 
@@ -130,8 +133,26 @@ for romCollection in config.romCollections.values():
 		print fileType.name
 """
 
+"""
+from elementtree.ElementTree import *
+try:
+	file =  os.path.join(os.getcwd(), 'Test.xml')
+	
+	root = Element('root')
+	test = SubElement(root, 'test')
+	test.text = 'Brøderbund'	
+	
+	util.indentXml(root)
+	treeToWrite = ElementTree(root)			
+	treeToWrite.write(file)	
+	
+except Exception, (exc):
+	print("Error: Cannot write config.xml: " +str(exc))	
+"""
 
-
+s = 'Brøderbund'
+encoding = 'utf-8'
+print s.encode(encoding)
 
 #ratio = difflib.SequenceMatcher(None, 'Enslaved: Odyssey to the West', 'An American Tail - Fievel Goes West').ratio()
 #print ratio
