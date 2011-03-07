@@ -87,7 +87,7 @@ class ConfigXmlWriter:
 				
 					if(scraperSite == None):
 						continue
-					
+						
 					SubElement(romCollectionXml, 'scraper', {'name' : scraperSite.name, 'platform' : scraperSite.platformId})
 					
 					#create Scraper element
