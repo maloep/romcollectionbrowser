@@ -156,16 +156,32 @@
 			<searchGameByCRC>True</searchGameByCRC>
 			<useFilenameAsCRC>True</useFilenameAsCRC>
 			<descFilePerGame>True</descFilePerGame>
-			<ignoreOnScan>False</ignoreOnScan>				
+			<ignoreOnScan>True</ignoreOnScan>				
 			<romPath>TestDataBase\V9 - SNES - online\Roms\*.zip</romPath>
 			<mediaPath type="boxfront">TestDataBase\V9 - SNES - online\Artwork\boxfront\%GAME%.*</mediaPath>
 			<mediaPath type="screenshot">TestDataBase\V9 - SNES - online\Artwork\screenshot\%GAME%.*</mediaPath>
 			<mediaPath type="boxback">TestDataBase\V9 - SNES - online\Artwork\boxback\%GAME%.*</mediaPath>
 			<mediaPath type="cartridge">TestDataBase\V9 - SNES - online\Artwork\cartridge\%GAME%.*</mediaPath>
 			<mediaPath type="fanart">TestDataBase\V9 - SNES - online\Artwork\fanart\%GAME%.*</mediaPath>
-			<imagePlacing>gameinfobig</imagePlacing>
-			<scraper name="thegamesdb.net"/>
+			<imagePlacing>gameinfobig</imagePlacing>			
 			<scraper name="mobygames.com" platform="15"/>
+		</RomCollection>
+		<RomCollection id="10"  name="N64 - online">
+			<emulatorCmd>%ROM%</emulatorCmd>
+			<xboxCreateShortcut>False</xboxCreateShortcut>
+			<xboxCreateShortcutAddRomfile>False</xboxCreateShortcutAddRomfile>
+			<xboxCreateShortcutUseShortGamename>False</xboxCreateShortcutUseShortGamename>
+			<searchGameByCRC>False</searchGameByCRC>
+			<useFilenameAsCRC>True</useFilenameAsCRC>
+			<descFilePerGame>True</descFilePerGame>
+			<ignoreOnScan>False</ignoreOnScan>				
+			<romPath>TestDataBase\V10 - N64 - online\Roms\*.zip</romPath>
+			<mediaPath type="boxfront">TestDataBase\V10 - N64 - online\Artwork\boxfront\%GAME%.*</mediaPath>
+			<mediaPath type="screenshot">TestDataBase\V10 - N64 - online\Artwork\screenshot\%GAME%.*</mediaPath>
+			<mediaPath type="boxback">TestDataBase\V10 - N64 - online\Artwork\boxback\%GAME%.*</mediaPath>
+			<mediaPath type="cartridge">TestDataBase\V10 - N64 - online\Artwork\cartridge\%GAME%.*</mediaPath>
+			<mediaPath type="fanart">TestDataBase\V10 - N64 - online\Artwork\fanart\%GAME%.*</mediaPath>
+			<imagePlacing>gameinfobig</imagePlacing>			
 			<scraper name="giantbomb.com"/>
 		</RomCollection>
 	</RomCollections>
