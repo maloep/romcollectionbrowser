@@ -698,14 +698,14 @@ class ElementTree:
             file.write("<?xml version='1.0' encoding='%s'?>\n" % encoding)
         self._write(file, self._root, encoding, {})
 
-    def _write(self, file, node, encoding, namespaces):
+    def _write(self, file, node, encoding, namespaces):    	
         # write XML to file
         tag = node.tag
         if tag is Comment:
             file.write("<!-- %s -->" % _escape_cdata(node.text, encoding))
         elif tag is ProcessingInstruction:
             file.write("<?%s?>" % _escape_cdata(node.text, encoding))
-        else:
+        else:        	
             items = node.items()
             xmlns_items = [] # new namespaces in this scope
             try:
@@ -735,7 +735,7 @@ class ElementTree:
                 for k, v in xmlns_items:
                     file.write(" %s=\"%s\"" % (_encode(k, encoding),
                                                _escape_attrib(v, encoding)))
-            if node.text or len(node):
+            if node.text or len(node):            	
                 file.write(">")
                 if node.text:
                     file.write(_escape_cdata(node.text, encoding))
