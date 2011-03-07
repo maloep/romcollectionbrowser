@@ -72,8 +72,10 @@ class ProgressDialogBk:
     def writeMsg(self, line1, line2, line3, count=0):
         
         print "estoy en la ventana: %d" % xbmcgui.getCurrentWindowId()
-        if self.windowID != xbmcgui.getCurrentWindowId() and xbmcgui.getCurrentWindowId() in ALLOWEDWINDOWS:
-            self.paintProgress()
+        if self.windowID != xbmcgui.getCurrentWindowId():
+            self.windowID = xbmcgui.getCurrentWindowId()
+            if xbmcgui.getCurrentWindowId() in ALLOWEDWINDOWS:
+                self.paintProgress()
         
         if not self.label:
           return True  
