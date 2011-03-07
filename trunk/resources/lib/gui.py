@@ -1195,8 +1195,10 @@ class UIGameDB(xbmcgui.WindowXML):
 		
 		#scraping scenario
 		scenarioIndex = dialog.select('Choose a scenario', ['Scrape game info and artwork online', 'Game info and artwork are available locally'])
+		Logutil.log('scenarioIndex: ' +str(scenarioIndex), util.LOG_LEVEL_INFO)
 		if(scenarioIndex == -1):
 			del dialog
+			Logutil.log('No scenario selected. Action canceled.', util.LOG_LEVEL_INFO)
 			return False, romCollections
 		
 		while True:
@@ -1205,19 +1207,24 @@ class UIGameDB(xbmcgui.WindowXML):
 			
 			#console
 			platformIndex = dialog.select('Choose a platform', consoleList)
+			Logutil.log('platformIndex: ' +str(platformIndex), util.LOG_LEVEL_INFO)
 			if(platformIndex == -1):
+				Logutil.log('No Platform selected. Action canceled.', util.LOG_LEVEL_INFO)
 				break
-			elif(platformIndex == 0):
+			elif(platformIndex == 0):				
 				keyboard = xbmc.Keyboard()
 				keyboard.setHeading('Enter platform name')			
 				keyboard.doModal()
 				if (keyboard.isConfirmed()):
 					console = keyboard.getText()
+					Logutil.log('Platform entered manually: ' +console, util.LOG_LEVEL_INFO)
 				else:
+					Logutil.log('No Platform entered. Action canceled.', util.LOG_LEVEL_INFO)
 					break
 			else:
 				console = consoleList[platformIndex]
 				consoleList.remove(console)
+				Logutil.log('selected platform: ' +console, util.LOG_LEVEL_INFO)
 			
 			romCollection.name = console
 			romCollection.id = id
@@ -1227,9 +1234,12 @@ class UIGameDB(xbmcgui.WindowXML):
 			#xbox games on xbox will be launched directly
 			if (os.environ.get( "OS", "xbox" ) == "xbox" and romCollection.name == 'Xbox'):
 				romCollection.emulatorCmd = '%ROM%'
+				Logutil.log('emuCmd set to "%ROM%" on Xbox.', util.LOG_LEVEL_INFO)
 			else:
 				consolePath = dialog.browse(1, '%s Emulator' %console, 'files')
+				Logutil.log('consolePath: ' +str(consolePath), util.LOG_LEVEL_INFO)
 				if(consolePath == ''):
+					Logutil.log('No consolePath selected. Action canceled.', util.LOG_LEVEL_INFO)
 					break
 				romCollection.emulatorCmd = consolePath
 			
@@ -1237,6 +1247,7 @@ class UIGameDB(xbmcgui.WindowXML):
 			#on xbox we will create .cut files without params
 			if (os.environ.get( "OS", "xbox" ) == "xbox"):
 				romCollection.emulatorParams = ''
+				Logutil.log('emuParams set to "" on Xbox.', util.LOG_LEVEL_INFO)
 			else:
 				keyboard = xbmc.Keyboard()
 				#TODO add all rom params here
@@ -1245,13 +1256,16 @@ class UIGameDB(xbmcgui.WindowXML):
 				keyboard.doModal()
 				if (keyboard.isConfirmed()):
 					emuParams = keyboard.getText()
+					Logutil.log('emuParams: ' +str(emuParams), util.LOG_LEVEL_INFO)
 				else:
+					Logutil.log('No emuParams selected. Action canceled.', util.LOG_LEVEL_INFO)
 					break
 				romCollection.emulatorParams = emuParams
 			
 			#roms
 			romPath = dialog.browse(0, '%s Roms' %console, 'files')
 			if(romPath == ''):
+				Logutil.log('No romPath selected. Action canceled.', util.LOG_LEVEL_INFO)
 				break
 			
 			
@@ -1259,6 +1273,7 @@ class UIGameDB(xbmcgui.WindowXML):
 			
 			#xbox games always use default.xbe as executable
 			if (os.environ.get( "OS", "xbox" ) == "xbox" and romCollection.name == 'Xbox'):
+				Logutil.log('filemask "default.xbe" for Xbox games on Xbox.', util.LOG_LEVEL_INFO)
 				romPathComplete = os.path.join(romPath, 'default.xbe')					
 				romCollection.romPaths = []
 				romCollection.romPaths.append(romPathComplete)
@@ -1266,14 +1281,16 @@ class UIGameDB(xbmcgui.WindowXML):
 				keyboard = xbmc.Keyboard()
 				keyboard.setHeading('File mask (comma-separated): e.g. *.zip, *.smc')			
 				keyboard.doModal()
-				if (keyboard.isConfirmed()):
-					fileMaskInput = keyboard.getText()				
+				if (keyboard.isConfirmed()):					
+					fileMaskInput = keyboard.getText()
+					Logutil.log('fileMask: ' +str(fileMaskInput), util.LOG_LEVEL_INFO)
 					fileMasks = fileMaskInput.split(',')
 					romCollection.romPaths = []
 					for fileMask in fileMasks:
 						romPathComplete = os.path.join(romPath, fileMask.strip())					
 						romCollection.romPaths.append(romPathComplete)
 				else:
+					Logutil.log('No fileMask selected. Action canceled.', util.LOG_LEVEL_INFO)
 					break
 	
 			if (os.environ.get( "OS", "xbox" ) == "xbox"):
@@ -1290,7 +1307,9 @@ class UIGameDB(xbmcgui.WindowXML):
 			
 			if(scenarioIndex == 0):
 				artworkPath = dialog.browse(0, '%s Artwork' %console, 'files', '', False, False, romPath)
+				Logutil.log('artworkPath: ' +str(artworkPath), util.LOG_LEVEL_INFO)
 				if(artworkPath == ''):
+					Logutil.log('No artworkPath selected. Action canceled.', util.LOG_LEVEL_INFO)
 					break
 				
 				romCollection.descFilePerGame= True
@@ -1328,6 +1347,7 @@ class UIGameDB(xbmcgui.WindowXML):
 					scraper.source = 'http://maws.mameworld.info/maws/romset/%GAME%'
 					scrapers.append(scraper)
 					site.scrapers = scrapers
+					site.platformId = '0'					
 					romCollection.scraperSites = []
 					romCollection.scraperSites.append(site)
 			else:
@@ -1337,14 +1357,18 @@ class UIGameDB(xbmcgui.WindowXML):
 				while True:
 					
 					fileTypeIndex = dialog.select('Choose an artwork type', fileTypeList)
+					Logutil.log('fileTypeIndex: ' +str(fileTypeIndex), util.LOG_LEVEL_INFO)					
 					if(fileTypeIndex == -1):
+						Logutil.log('No fileTypeIndex selected.', util.LOG_LEVEL_INFO)
 						break
 					
 					fileType = fileTypeList[fileTypeIndex]
 					fileTypeList.remove(fileType)
 					
 					artworkPath = dialog.browse(0, '%s Artwork (%s)' %(console, fileType), 'files')
+					Logutil.log('artworkPath: ' +str(artworkPath), util.LOG_LEVEL_INFO)
 					if(artworkPath == ''):
+						Logutil.log('No artworkPath selected.', util.LOG_LEVEL_INFO)
 						break
 					
 					romCollection.mediaPaths.append(self.createMediaPath(fileType, artworkPath, scenarioIndex))
@@ -1354,17 +1378,23 @@ class UIGameDB(xbmcgui.WindowXML):
 						break
 				
 				descIndex = dialog.select('Structure of your game descriptions', ['One description file per game', 'One description file for all games'])
+				Logutil.log('descIndex: ' +str(descIndex), util.LOG_LEVEL_INFO)
 				if(descIndex == -1):
+					Logutil.log('No descIndex selected. Action canceled.', util.LOG_LEVEL_INFO)
 					break
 				
 				romCollection.descFilePerGame = (descIndex == 0)
 				
 				descPath = dialog.browse(1, '%s game description' %console, 'files')
+				Logutil.log('descPath: ' +str(descPath), util.LOG_LEVEL_INFO)
 				if(descPath == ''):
+					Logutil.log('No descPath selected. Action canceled.', util.LOG_LEVEL_INFO)
 					break
 				
 				parserPath = dialog.browse(1, '%s parse instruction' %console, 'files')
+				Logutil.log('parserPath: ' +str(parserPath), util.LOG_LEVEL_INFO)
 				if(parserPath == ''):
+					Logutil.log('No parserPath selected. Action canceled.', util.LOG_LEVEL_INFO)
 					break
 				
 				#create scraper
@@ -1377,6 +1407,7 @@ class UIGameDB(xbmcgui.WindowXML):
 				scraper.encoding = 'iso-8859-1'
 				scrapers.append(scraper)
 				site.scrapers = scrapers
+				site.platformId = '0'
 				romCollection.scraperSites = []
 				romCollection.scraperSites.append(site)
 			
