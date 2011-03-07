@@ -27,6 +27,7 @@ import dbupdate
 import config
 
 
+ALLOWEDWINDOWS = [10000]
 
 class ProgressDialogBk:
     
@@ -34,6 +35,7 @@ class ProgressDialogBk:
     label = None
     progress = None
     windowID = None
+    
     
     def __init__(self):
         self.paintProgress()
@@ -47,12 +49,17 @@ class ProgressDialogBk:
         animations = [('Conditional', 'effect=slide start=1280,0 time=2000 condition=Control.IsVisible(%d)' % self.image.getId())]
         self.image.setAnimations(animations)
         
-        self.label = xbmcgui.ControlLabel(900, 640, 400, 60, 'Scraping RCB', font='font10_title', textColor='0xFFEB9E17')
+        self.header = xbmcgui.ControlLabel(900, 635, 400, 60, 'Scraping RCB', font='font10_title', textColor='0xFFEB9E17')
+        self.window.addControl(self.header)
+        self.header.setVisible(False)
+        self.header.setAnimations(animations)
+        
+        self.label = xbmcgui.ControlLabel(900, 655, 400, 60, 'Scraping RCB', font='font10')
         self.window.addControl(self.label)
         self.label.setVisible(False)
         self.label.setAnimations(animations)
 
-        self.progress = xbmcgui.ControlProgress(900, 662, 370, 8)
+        self.progress = xbmcgui.ControlProgress(900, 675, 370, 8)
         self.window.addControl(self.progress)
         self.progress.setVisible(False)
         self.progress.setAnimations(animations)
@@ -60,22 +67,27 @@ class ProgressDialogBk:
         self.label.setVisible(True)
         self.image.setVisible(True)
         self.progress.setVisible(True)
+        self.header.setVisible(True)
             
     def writeMsg(self, line1, line2, line3, count=0):
         
-        
-        if self.windowID != xbmcgui.getCurrentWindowId():
+        print "estoy en la ventana: %d" % xbmcgui.getCurrentWindowId()
+        if self.windowID != xbmcgui.getCurrentWindowId() and xbmcgui.getCurrentWindowId() in ALLOWEDWINDOWS:
             self.paintProgress()
         
         if not self.label:
           return True  
         elif (count > 0):
             percent = int(count * (float(100) / self.itemCount))
+            self.header.setLabel(line1)
             self.label.setLabel("%d %% - %s" % (percent, line2))
             self.progress.setPercent(percent)
             
         else:
-            self.close()
+            self.window.remove(self.image)
+            self.window.remove(self.header)
+            self.window.remove(self.label)
+            self.window.remove(self.progress)
             
         return True
 
@@ -86,7 +98,6 @@ def runUpdate():
     statusOk, errorMsg = configFile.readXml()
     progress = ProgressDialogBk()
     dbupdate.DBUpdate().updateDB(gdb, progress, 0, configFile.romCollections)
-    del progress
     
     
 if __name__ == "__main__":
