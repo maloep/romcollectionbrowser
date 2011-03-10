@@ -5,8 +5,7 @@ import time
 
 
 # Shared resources
-
-BASE_RESOURCE_PATH = os.path.join( '/home/jaime/Desarrollo/romcollectionbrowser/trunk', "resources" )
+BASE_RESOURCE_PATH = os.path.join( os.getcwd(), "resources" )
 
 sys.path.append( os.path.join( BASE_RESOURCE_PATH, "lib" ) )
 sys.path.append( os.path.join( BASE_RESOURCE_PATH, "lib", "pyparsing" ) )
@@ -103,7 +102,4 @@ def runUpdate():
     
 if __name__ == "__main__":
     runUpdate()
-
-
-
 
