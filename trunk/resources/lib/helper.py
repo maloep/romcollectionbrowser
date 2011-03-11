@@ -325,10 +325,15 @@ def writeAutoexec(gdb):
 
 	# Write new autoexec.py
 	try:
+		path = os.path.join(util.RCBHOME, 'default.py')
+		if(util.getEnvironment() == 'win32'):
+			#HACK: There is an error with "\a" in autoexec.py on winidows, so we need "\A"
+			path = path.replace('\\addons', '\\Addons')
+			
 		fh = open(autoexec,'w') # truncate to 0
 		fh.write("#Rom Collection Browser autoexec\n")
 		fh.write("import xbmc\n")
-		fh.write("xbmc.executescript('"+ os.path.join(util.RCBHOME, 'default.py')+"')\n")
+		fh.write("xbmc.executescript('"+ path+"')\n")
 		fh.close()
 	except Exception, (exc):
 		Logutil.log("Cannot write to autoexec.py: " +str(exc), util.LOG_LEVEL_ERROR)

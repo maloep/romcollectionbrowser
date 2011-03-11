@@ -1496,9 +1496,12 @@ class UIGameDB(xbmcgui.WindowXML):
 	def checkScrapStart(self):
 		Logutil.log("Begin checkScrapStart" , util.LOG_LEVEL_INFO)
 		
-		autoexecFile = xbmc.translatePath("special://profile/autoexec.py")
+		autoexecFile = util.getAutoexecPath()
 		path = os.path.join(util.RCBHOME, 'dbUpLauncher.py')
-		lauchLine = 'xbmc.executescript("%s")' % path
+		if(util.getEnvironment() == 'win32'):
+			#HACK: There is an error with "\a" in autoexec.py on winidows, so we need "\A"
+			path = path.replace('\\addons', '\\Addons')
+		launchLine = 'xbmc.executescript("%s")' % path
 		fp = open(autoexecFile, 'r+')
 		xbmcImported = False
 		alreadyCreated = False
@@ -1506,7 +1509,7 @@ class UIGameDB(xbmcgui.WindowXML):
 			if line.startswith('import xbmc'):
 				Logutil.log("import xbmc line found!" , util.LOG_LEVEL_INFO)
 				xbmcImported = True
-			if lauchLine in line:
+			if launchLine in line:
 				Logutil.log("executescript line found!", util.LOG_LEVEL_INFO)
 				alreadyCreated = True
 				
@@ -1517,7 +1520,7 @@ class UIGameDB(xbmcgui.WindowXML):
 				fp.write('\nimport xbmc')
 			if not alreadyCreated:
 				Logutil.log("adding executescript line", util.LOG_LEVEL_INFO)
-				fp.write('\n' + lauchLine)
+				fp.write('\n' + launchLine)
 				
 			fp.close()
 		elif alreadyCreated:
