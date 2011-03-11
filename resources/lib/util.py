@@ -205,6 +205,9 @@ def html_escape(text):
 # METHODS #
 #
 
+def getEnvironment():
+	return ( os.environ.get( "OS", "win32" ), "win32", )[ os.environ.get( "OS", "win32" ) == "xbox" ]
+	
 
 def getAddonDataPath():
     path = ''
