@@ -754,15 +754,7 @@ class UIGameDB(xbmcgui.WindowXML):
 								
 		id = int(id) +1
 		
-		#build fileTypeList
-		fileTypeList = []
-		fileTypes = self.config.tree.findall('FileTypes/FileType')
-		for fileType in fileTypes:
-			name = fileType.attrib.get('name')
-			if(name != None):
-				fileTypeList.append(name)
-		
-		success, romCollections = self.addRomCollections(id, consoleList, fileTypeList, True)
+		success, romCollections = self.addRomCollections(id, consoleList, True)
 		if(not success):
 			Logutil.log('Action canceled. Config.xml will not be written', util.LOG_LEVEL_INFO)
 			return False, 'Action canceled. Config.xml will not be written'
@@ -846,6 +838,33 @@ class UIGameDB(xbmcgui.WindowXML):
 	* HELPER METHODS *
 	******************
 	"""
+	
+	
+	def buildMediaTypeList(self, isUpdate):
+		#build fileTypeList
+		fileTypeList = []
+		
+		if(isUpdate):
+			fileTypes = self.config.tree.findall('FileTypes/FileType')
+		else:
+			#build fileTypeList
+			fileTypeList = []
+			configFile = os.path.join(util.getAddonInstallPath(), 'resources', 'database', 'config_template.xml')
+	
+			if(not os.path.isfile(configFile)):
+				Logutil.log('File config_template.xml does not exist. Place a valid config file here: ' +str(configFile), util.LOG_LEVEL_ERROR)
+				return None, 'Error: File config_template.xml does not exist'
+			
+			tree = ElementTree().parse(configFile)			
+			fileTypes = tree.findall('FileTypes/FileType')			
+			
+		for fileType in fileTypes:
+			name = fileType.attrib.get('name')
+			if(name != None):
+				fileTypeList.append(name)
+		
+		return fileTypeList, ''
+	
 	
 	
 	def getFileDictForGamelist(self):
@@ -1160,24 +1179,8 @@ class UIGameDB(xbmcgui.WindowXML):
 				
 		id = 1		
 		consoleList = sorted(config.consoleDict.keys())
-		
-		#build fileTypeList
-		fileTypeList = []
-		configFile = os.path.join(util.getAddonInstallPath(), 'resources', 'database', 'config_template.xml')
-
-		if(not os.path.isfile(configFile)):
-			Logutil.log('File config_template.xml does not exist. Place a valid config file here: ' +str(configFile), util.LOG_LEVEL_ERROR)
-			return False, 'Error: File config_template.xml does not exist'
-		
-		tree = ElementTree().parse(configFile)
-		
-		fileTypes = tree.findall('FileTypes/FileType')
-		for fileType in fileTypes:
-			name = fileType.attrib.get('name')
-			if(name != None):
-				fileTypeList.append(name)
 				
-		success, romCollections = self.addRomCollections(id, consoleList, fileTypeList, False)
+		success, romCollections = self.addRomCollections(id, consoleList, False)
 		if(not success):
 			Logutil.log('Action canceled. Config.xml will not be written', util.LOG_LEVEL_INFO)
 			return False, 'Action canceled. Config.xml will not be written'
@@ -1188,7 +1191,7 @@ class UIGameDB(xbmcgui.WindowXML):
 		return success, message		
 	
 	
-	def addRomCollections(self, id, consoleList, fileTypeList, isUpdate):
+	def addRomCollections(self, id, consoleList, isUpdate):
 		
 		romCollections = {}
 		dialog = xbmcgui.Dialog()
@@ -1202,7 +1205,9 @@ class UIGameDB(xbmcgui.WindowXML):
 			return False, romCollections
 		
 		while True:
-		
+					
+			fileTypeList, errorMsg = self.buildMediaTypeList(isUpdate)
+			print len(fileTypeList)			
 			romCollection = RomCollection()
 			
 			#console
@@ -1382,39 +1387,44 @@ class UIGameDB(xbmcgui.WindowXML):
 					if(retValue == False):
 						break
 				
-				descIndex = dialog.select('Structure of your game descriptions', ['One description file per game', 'One description file for all games'])
+				descIndex = dialog.select('Structure of your game descriptions', ['One description file per game', 'One description file for all games', 'Scrape game info online'])
 				Logutil.log('descIndex: ' +str(descIndex), util.LOG_LEVEL_INFO)
 				if(descIndex == -1):
 					Logutil.log('No descIndex selected. Action canceled.', util.LOG_LEVEL_INFO)
 					break
 				
-				romCollection.descFilePerGame = (descIndex == 0)
+				romCollection.descFilePerGame = (descIndex != 1)
 				
-				descPath = dialog.browse(1, '%s game description' %console, 'files', '', False, False, lastArtworkPath)
-				Logutil.log('descPath: ' +str(descPath), util.LOG_LEVEL_INFO)
-				if(descPath == ''):
-					Logutil.log('No descPath selected. Action canceled.', util.LOG_LEVEL_INFO)
-					break
+				if(descIndex == 2):
+					#leave scraperSites empty - they will be filled in configwriter
+					pass
 				
-				parserPath = dialog.browse(1, '%s parse instruction' %console, 'files', '', False, False, descPath)
-				Logutil.log('parserPath: ' +str(parserPath), util.LOG_LEVEL_INFO)
-				if(parserPath == ''):
-					Logutil.log('No parserPath selected. Action canceled.', util.LOG_LEVEL_INFO)
-					break
-				
-				#create scraper
-				site = Site()
-				site.name = console
-				scrapers = []
-				scraper = Scraper()
-				scraper.parseInstruction = parserPath
-				scraper.source = descPath
-				scraper.encoding = 'iso-8859-1'
-				scrapers.append(scraper)
-				site.scrapers = scrapers
-				site.platformId = '0'
-				romCollection.scraperSites = []
-				romCollection.scraperSites.append(site)
+				else:
+					descPath = dialog.browse(1, '%s game description' %console, 'files', '', False, False, lastArtworkPath)
+					Logutil.log('descPath: ' +str(descPath), util.LOG_LEVEL_INFO)
+					if(descPath == ''):
+						Logutil.log('No descPath selected. Action canceled.', util.LOG_LEVEL_INFO)
+						break
+					
+					parserPath = dialog.browse(1, '%s parse instruction' %console, 'files', '', False, False, descPath)
+					Logutil.log('parserPath: ' +str(parserPath), util.LOG_LEVEL_INFO)
+					if(parserPath == ''):
+						Logutil.log('No parserPath selected. Action canceled.', util.LOG_LEVEL_INFO)
+						break
+					
+					#create scraper
+					site = Site()
+					site.name = console
+					scrapers = []
+					scraper = Scraper()
+					scraper.parseInstruction = parserPath
+					scraper.source = descPath
+					scraper.encoding = 'iso-8859-1'
+					scrapers.append(scraper)
+					site.scrapers = scrapers
+					site.platformId = '0'
+					romCollection.scraperSites = []
+					romCollection.scraperSites.append(site)
 			
 			romCollections[romCollection.id] = romCollection						
 			
