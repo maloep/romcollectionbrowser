@@ -1354,6 +1354,7 @@ class UIGameDB(xbmcgui.WindowXML):
 				
 				romCollection.mediaPaths = []
 				
+				lastArtworkPath = ''
 				while True:
 					
 					fileTypeIndex = dialog.select('Choose an artwork type', fileTypeList)
@@ -1365,7 +1366,11 @@ class UIGameDB(xbmcgui.WindowXML):
 					fileType = fileTypeList[fileTypeIndex]
 					fileTypeList.remove(fileType)
 					
-					artworkPath = dialog.browse(0, '%s Artwork (%s)' %(console, fileType), 'files')
+					if(lastArtworkPath == ''):					
+						artworkPath = dialog.browse(0, '%s Artwork (%s)' %(console, fileType), 'files', '', False, False, romPath)
+					else:
+						artworkPath = dialog.browse(0, '%s Artwork (%s)' %(console, fileType), 'files', '', False, False, lastArtworkPath)
+					lastArtworkPath = artworkPath
 					Logutil.log('artworkPath: ' +str(artworkPath), util.LOG_LEVEL_INFO)
 					if(artworkPath == ''):
 						Logutil.log('No artworkPath selected.', util.LOG_LEVEL_INFO)
@@ -1385,13 +1390,13 @@ class UIGameDB(xbmcgui.WindowXML):
 				
 				romCollection.descFilePerGame = (descIndex == 0)
 				
-				descPath = dialog.browse(1, '%s game description' %console, 'files')
+				descPath = dialog.browse(1, '%s game description' %console, 'files', '', False, False, lastArtworkPath)
 				Logutil.log('descPath: ' +str(descPath), util.LOG_LEVEL_INFO)
 				if(descPath == ''):
 					Logutil.log('No descPath selected. Action canceled.', util.LOG_LEVEL_INFO)
 					break
 				
-				parserPath = dialog.browse(1, '%s parse instruction' %console, 'files')
+				parserPath = dialog.browse(1, '%s parse instruction' %console, 'files', '', False, False, descPath)
 				Logutil.log('parserPath: ' +str(parserPath), util.LOG_LEVEL_INFO)
 				if(parserPath == ''):
 					Logutil.log('No parserPath selected. Action canceled.', util.LOG_LEVEL_INFO)
