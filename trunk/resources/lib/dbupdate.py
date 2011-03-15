@@ -994,7 +994,7 @@ class DBUpdate:
 			Logutil.log("Insert file with parent game", util.LOG_LEVEL_INFO)
 			parentId = gameId
 		elif(fileType.parent == 'romcollection'):
-			Logutil.log("Insert file with parent romcollection", util.LOG_LEVEL_INFO)
+			Logutil.log("Insert file with parent romcollection.", util.LOG_LEVEL_INFO)
 			parentId = romCollectionId		
 		elif(fileType.parent == 'publisher'):
 			Logutil.log("Insert file with parent publisher", util.LOG_LEVEL_INFO)
@@ -1002,6 +1002,8 @@ class DBUpdate:
 		elif(fileType.parent == 'developer'):
 			Logutil.log("Insert file with parent developer", util.LOG_LEVEL_INFO)
 			parentId = developerId
+					
+		Logutil.log("Insert file with parentid: " +str(parentId), util.LOG_LEVEL_INFO)
 			
 		fileRow = File(self.gdb).getFileByNameAndTypeAndParent(fileName, fileType.id, parentId)
 		if(fileRow == None):
