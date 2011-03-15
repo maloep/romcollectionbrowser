@@ -37,15 +37,15 @@
     </FileType>
     <FileType id="9" name="romcollection">
       <type>image</type>
-      <parent>game</parent>
+      <parent>romcollection</parent>
     </FileType>
     <FileType id="10" name="developer">
       <type>image</type>
-      <parent>game</parent>
+      <parent>developer</parent>
     </FileType>
     <FileType id="11" name="publisher">
       <type>image</type>
-      <parent>game</parent>
+      <parent>publisher</parent>
     </FileType>
     <FileType id="12" name="gameplay">
       <type>image</type>
@@ -71,6 +71,9 @@
       <fileTypeForMainViewBackground>screenshot</fileTypeForMainViewBackground>
       <fileTypeForMainViewGameInfoBig>screenshot</fileTypeForMainViewGameInfoBig>
       <fileTypeForMainViewGameInfoBig>boxfront</fileTypeForMainViewGameInfoBig>
+	  <fileTypeForMainView1>publisher</fileTypeForMainView1>
+	  <fileTypeForMainView2>romcollection</fileTypeForMainView2>
+	  <fileTypeForMainView3>developer</fileTypeForMainView3>
       <fileTypeForGameInfoViewBackground>fanart</fileTypeForGameInfoViewBackground>
       <fileTypeForGameInfoViewBackground>boxfront</fileTypeForGameInfoViewBackground>
       <fileTypeForGameInfoViewBackground>screenshot</fileTypeForGameInfoViewBackground>
@@ -92,6 +95,9 @@
       <fileTypeForMainViewGameInfoBig>screenshot</fileTypeForMainViewGameInfoBig>
       <fileTypeForMainViewGameInfoBig>boxfront</fileTypeForMainViewGameInfoBig>
       <fileTypeForMainViewVideoWindowBig>gameplay</fileTypeForMainViewVideoWindowBig>
+	  <fileTypeForMainView1>publisher</fileTypeForMainView1>
+	  <fileTypeForMainView2>romcollection</fileTypeForMainView2>
+	  <fileTypeForMainView3>developer</fileTypeForMainView3>
       <fileTypeForMainViewVideoFullscreen>gameplay</fileTypeForMainViewVideoFullscreen>
       <fileTypeForGameInfoViewBackground>fanart</fileTypeForGameInfoViewBackground>
       <fileTypeForGameInfoViewBackground>boxfront</fileTypeForGameInfoViewBackground>
@@ -115,6 +121,9 @@
       <fileTypeForMainViewGameInfoUpperRight>boxfront</fileTypeForMainViewGameInfoUpperRight>
       <fileTypeForMainViewGameInfoLowerLeft>cartridge</fileTypeForMainViewGameInfoLowerLeft>
       <fileTypeForMainViewGameInfoLowerRight>boxback</fileTypeForMainViewGameInfoLowerRight>
+	  <fileTypeForMainView1>publisher</fileTypeForMainView1>
+	  <fileTypeForMainView2>romcollection</fileTypeForMainView2>
+	  <fileTypeForMainView3>developer</fileTypeForMainView3>
       <fileTypeForGameInfoViewBackground>fanart</fileTypeForGameInfoViewBackground>
       <fileTypeForGameInfoViewBackground>boxfront</fileTypeForGameInfoViewBackground>
       <fileTypeForGameInfoViewBackground>screenshot</fileTypeForGameInfoViewBackground>
@@ -137,6 +146,9 @@
       <fileTypeForMainViewGameInfoUpperRight>boxfront</fileTypeForMainViewGameInfoUpperRight>
       <fileTypeForMainViewGameInfoLowerLeft>cartridge</fileTypeForMainViewGameInfoLowerLeft>
       <fileTypeForMainViewGameInfoLowerRight>boxback</fileTypeForMainViewGameInfoLowerRight>
+	  <fileTypeForMainView1>publisher</fileTypeForMainView1>
+	  <fileTypeForMainView2>romcollection</fileTypeForMainView2>
+	  <fileTypeForMainView3>developer</fileTypeForMainView3>
       <fileTypeForMainViewVideoWindowSmall>gameplay</fileTypeForMainViewVideoWindowSmall>
       <fileTypeForMainViewVideoFullscreen>gameplay</fileTypeForMainViewVideoFullscreen>
       <fileTypeForGameInfoViewBackground>fanart</fileTypeForGameInfoViewBackground>
@@ -161,7 +173,10 @@
       <fileTypeForMainViewBackground>action</fileTypeForMainViewBackground>
       <fileTypeForMainViewGameInfoLeft>cabinet</fileTypeForMainViewGameInfoLeft>
       <fileTypeForMainViewGameInfoUpperRight>title</fileTypeForMainViewGameInfoUpperRight>
-      <fileTypeForMainViewGameInfoLowerRight>action</fileTypeForMainViewGameInfoLowerRight>      
+      <fileTypeForMainViewGameInfoLowerRight>action</fileTypeForMainViewGameInfoLowerRight>
+	  <fileTypeForMainView1>publisher</fileTypeForMainView1>
+	  <fileTypeForMainView2>romcollection</fileTypeForMainView2>
+	  <fileTypeForMainView3>developer</fileTypeForMainView3>
       <fileTypeForGameInfoViewBackground>title</fileTypeForGameInfoViewBackground>
       <fileTypeForGameInfoViewBackground>boxfront</fileTypeForGameInfoViewBackground>
       <fileTypeForGameInfoViewBackground>screenshot</fileTypeForGameInfoViewBackground>
@@ -185,7 +200,10 @@
       <fileTypeForMainViewBackground>action</fileTypeForMainViewBackground>
       <fileTypeForMainViewGameInfoUpperLeft>title</fileTypeForMainViewGameInfoUpperLeft>
       <fileTypeForMainViewGameInfoUpperRight>action</fileTypeForMainViewGameInfoUpperRight>
-      <fileTypeForMainViewGameInfoLower>marquee</fileTypeForMainViewGameInfoLower>      
+      <fileTypeForMainViewGameInfoLower>marquee</fileTypeForMainViewGameInfoLower>
+	  <fileTypeForMainView1>publisher</fileTypeForMainView1>
+	  <fileTypeForMainView2>romcollection</fileTypeForMainView2>
+	  <fileTypeForMainView3>developer</fileTypeForMainView3>
       <fileTypeForGameInfoViewBackground>title</fileTypeForGameInfoViewBackground>
       <fileTypeForGameInfoViewBackground>boxfront</fileTypeForGameInfoViewBackground>
       <fileTypeForGameInfoViewBackground>screenshot</fileTypeForGameInfoViewBackground>
