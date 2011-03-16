@@ -155,6 +155,20 @@ class ContextMenuDialog(xbmcgui.WindowXMLDialog):
 				constructorParam = "PAL"
 			editRCdialog = dialogeditrcbasic.EditRCBasicDialog("script-RCB-editRCbasic.xml", util.getAddonInstallPath(), "Default", constructorParam, gui=self.gui)
 			del editRCdialog
+		elif (controlID == 5113): #Delete Rom			
+			self.close()
+			dialog = xbmcgui.Dialog()
+			if dialog.yesno("Delete Game", "Are you sure you want to delete this game?"):
+				pos = self.gui.getCurrentListPosition()
+				gameID = self.gui.getGameId(self.gui.gdb,pos)
+				self.gui.deleteGame(gameID)
+				self.gui.showGames()
+				if(pos > 0):
+					pos = pos - 1
+					self.gui.setFilterSelection(CONTROL_GAMES_GROUP_START, pos)
+				else:
+					self.gui.setFilterSelection(CONTROL_GAMES_GROUP_START, 0)
+		
 	
 	def onFocus(self, controlID):
 		pass
@@ -734,6 +748,39 @@ class UIGameDB(xbmcgui.WindowXML):
 		
 		Logutil.log("End updateDB" , util.LOG_LEVEL_INFO)
 		
+		
+	def deleteGame(self, gameID):
+		Logutil.log("Begin deleteGame" , util.LOG_LEVEL_INFO)
+		
+		Logutil.log("Delete Year" , util.LOG_LEVEL_INFO)
+		Year(self.gdb).delete(gameID)
+		Logutil.log("Delete Publisher" , util.LOG_LEVEL_INFO)
+		Publisher(self.gdb).delete(gameID)
+		Logutil.log("Delete Developer" , util.LOG_LEVEL_INFO)
+		Developer(self.gdb).delete(gameID)
+		Logutil.log("Delete Genre" , util.LOG_LEVEL_INFO)
+		Genre(self.gdb).delete(gameID)
+		Logutil.log("Delete File" , util.LOG_LEVEL_INFO)
+		File(self.gdb).delete(gameID)
+		Logutil.log("Delete Game" , util.LOG_LEVEL_INFO)
+		Game(self.gdb).delete(gameID)
+		
+		Logutil.log("End deleteGame" , util.LOG_LEVEL_INFO)
+	
+	
+	def cleanDB(self):
+		Logutil.log("Begin deleteGame" , util.LOG_LEVEL_INFO)
+		
+		list = File(self.gdb).getFilesList()
+		if(list != None):
+			for items in list:	
+				if (os.path.exists(items[util.ROW_NAME]) != True):
+					if(items[util.FILE_fileTypeId] == 0):
+						self.gui.deleteGame(items[util.FILE_parentId])
+					else:
+						File(self.gdb).deleteFileById(items[util.ROW_ID])
+						
+		Logutil.log("End deleteGame" , util.LOG_LEVEL_INFO)
 	
 	
 	def addRomCollection(self):
@@ -941,8 +988,8 @@ class UIGameDB(xbmcgui.WindowXML):
 		
 	
 	def getGameByPosition(self, gdb, pos):
-		Logutil.log("size = %i" % self.getListSize(), util.LOG_LEVEL_INFO)
-		Logutil.log("pos = %s" % pos, util.LOG_LEVEL_INFO)
+		Logutil.log("size = %i" % self.getListSize(), util.LOG_LEVEL_DEBUG)
+		Logutil.log("pos = %s" % pos, util.LOG_LEVEL_DEBUG)
 		
 		selectedGame = self.getListItem(pos)
 
@@ -959,6 +1006,26 @@ class UIGameDB(xbmcgui.WindowXML):
 			return None, None
 			
 		return selectedGame, gameRow			
+
+		
+	def getGameId(self, gdb, pos):
+		Logutil.log("pos = %s" % pos, util.LOG_LEVEL_INFO)
+		
+		selectedGame = self.getListItem(pos)
+
+		if(selectedGame == None):
+			Logutil.log("selectedGame == No game selected", util.LOG_LEVEL_WARNING)
+			return None
+		
+		gameId = selectedGame.getProperty('gameId')
+
+		if(gameId == None):			
+			Logutil.log("No Game Id Found", util.LOG_LEVEL_WARNING)
+			return None
+		
+		Logutil.log("gameId = " + gameId, util.LOG_LEVEL_INFO)
+		
+		return gameId
 
 
 	def loadVideoFiles(self, gdb, gameRow, selectedGame, romCollection):				
