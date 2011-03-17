@@ -48,7 +48,7 @@
       <parent>publisher</parent>
     </FileType>
     <FileType id="12" name="gameplay">
-      <type>image</type>
+      <type>video</type>
       <parent>game</parent>
     </FileType>
 	<FileType id="13" name="cabinet">
