@@ -895,7 +895,6 @@ class UIGameDB(xbmcgui.WindowXML):
 			fileTypes = self.config.tree.findall('FileTypes/FileType')
 		else:
 			#build fileTypeList
-			fileTypeList = []
 			configFile = os.path.join(util.getAddonInstallPath(), 'resources', 'database', 'config_template.xml')
 	
 			if(not os.path.isfile(configFile)):
@@ -908,8 +907,11 @@ class UIGameDB(xbmcgui.WindowXML):
 		for fileType in fileTypes:
 			name = fileType.attrib.get('name')
 			if(name != None):
+				type = fileType.find('type')				
+				if(type != None and type.text == 'video'):
+					name = name +' (video)'
 				fileTypeList.append(name)
-		
+				
 		return fileTypeList, ''
 	
 	
@@ -1274,7 +1276,6 @@ class UIGameDB(xbmcgui.WindowXML):
 		while True:
 					
 			fileTypeList, errorMsg = self.buildMediaTypeList(isUpdate)
-			print len(fileTypeList)			
 			romCollection = RomCollection()
 			
 			#console
