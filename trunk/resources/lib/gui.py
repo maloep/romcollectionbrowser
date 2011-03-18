@@ -153,8 +153,12 @@ class ContextMenuDialog(xbmcgui.WindowXMLDialog):
 			constructorParam = 1
 			if(util.hasAddons()):
 				constructorParam = "PAL"
-			editRCdialog = dialogeditrcbasic.EditRCBasicDialog("script-RCB-editRCbasic.xml", util.getAddonInstallPath(), "Default", constructorParam, gui=self.gui)
+			editRCdialog = dialogeditrcbasic.EditRCBasicDialog("script-RCB-editRCbasic.xml", util.getAddonInstallPath(), "Default", constructorParam, gui=self.gui)			
 			del editRCdialog
+			
+			self.config = Config()
+			self.config.readXml()
+			
 		elif (controlID == 5113): #Delete Rom			
 			self.close()
 			dialog = xbmcgui.Dialog()

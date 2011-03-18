@@ -11,6 +11,8 @@ class ConfigXmlWriter:
 	
 	def __init__(self, createNew):
 		
+		Logutil.log('init ConfigXmlWriter', util.LOG_LEVEL_INFO)
+		
 		self.createNew = createNew
 		
 		if(createNew):
@@ -27,15 +29,18 @@ class ConfigXmlWriter:
 	
 	def writeRomCollections(self, romCollections, isEdit):
 				
+		Logutil.log('write Rom Collections', util.LOG_LEVEL_INFO)
+				
 		romCollectionsXml = self.tree.find('RomCollections')
 		
 		if(isEdit):
-			for romCollectionXml in romCollectionsXml.findall('RomCollection'):
-				print 'remove Rom Collection'
+			for romCollectionXml in romCollectionsXml.findall('RomCollection'):				
 				romCollectionsXml.remove(romCollectionXml)
 				
 		
 		for romCollection in romCollections.values():
+			
+			Logutil.log('write Rom Collection: ' +str(romCollection.name), util.LOG_LEVEL_INFO)
 			
 			romCollectionXml = SubElement(romCollectionsXml, 'RomCollection', {'id' : str(romCollection.id), 'name' : romCollection.name})
 			SubElement(romCollectionXml, 'emulatorCmd').text = romCollection.emulatorCmd
