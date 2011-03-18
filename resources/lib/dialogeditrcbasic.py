@@ -55,44 +55,52 @@ class EditRCBasicDialog(xbmcgui.WindowXMLDialog):
 		Logutil.log('onInit Edit RC Basic', util.LOG_LEVEL_INFO)
 		
 		#Rom Collections
+		Logutil.log('build rom collection list', util.LOG_LEVEL_INFO)
 		romCollectionList = []
 		for rcId in self.romCollections.keys():
 			romCollection = self.romCollections[rcId]
 			romCollectionList.append(romCollection.name)
 		self.addItemsToList(CONTROL_LIST_ROMCOLLECTIONS, romCollectionList)
 		
-		
-		self.availableScrapers = self.getAvailableScrapers()		
+		Logutil.log('build scraper list', util.LOG_LEVEL_INFO)
+		self.availableScrapers = self.getAvailableScrapers()
 		self.addItemsToList(CONTROL_LIST_SCRAPER1, self.availableScrapers)
 		self.addItemsToList(CONTROL_LIST_SCRAPER2, self.availableScrapers)
 		self.addItemsToList(CONTROL_LIST_SCRAPER3, self.availableScrapers)
-		
+
+		Logutil.log('build imagePlacing list', util.LOG_LEVEL_INFO)		
 		self.imagePlacingList = []
 		imagePlacingRows = self.gui.config.tree.findall('ImagePlacing/fileTypeFor')
 		for imagePlacing in imagePlacingRows:
+			Logutil.log('add image placing: ' +str(imagePlacing.attrib.get('name')), util.LOG_LEVEL_INFO)
 			self.imagePlacingList.append(imagePlacing.attrib.get('name'))
 		self.addItemsToList(CONTROL_LIST_IMAGEPLACING, self.imagePlacingList)
 		
 		self.updateControls()
 		
 		
-	def onAction(self, action):
+	def onAction(self, action):		
 		if (action.getId() in ACTION_CANCEL_DIALOG):
 			self.close()
 		
 	
 	def onClick(self, controlID):
+		
+		Logutil.log('onClick', util.LOG_LEVEL_INFO)
+		
 		if (controlID == CONTROL_BUTTON_EXIT): # Close window button
+			Logutil.log('close', util.LOG_LEVEL_INFO)
 			self.close()
 		#OK
 		elif (controlID == CONTROL_BUTTON_SAVE):
+			Logutil.log('save', util.LOG_LEVEL_INFO)
 			#store selectedRomCollection
 			if(self.selectedRomCollection != None):
 				
 				self.updateSelectedRomCollection()
 				
 				self.romCollections[self.selectedRomCollection.id] = self.selectedRomCollection
-			
+						
 			configWriter = ConfigXmlWriter(False)
 			success, message = configWriter.writeRomCollections(self.romCollections, True)
 			
@@ -271,8 +279,12 @@ class EditRCBasicDialog(xbmcgui.WindowXMLDialog):
 	
 	def updateControls(self):
 		
+		Logutil.log('updateControls', util.LOG_LEVEL_INFO)
+		
 		control = self.getControlById(CONTROL_LIST_ROMCOLLECTIONS)
 		selectedRomCollectionName = str(control.getSelectedItem().getLabel())
+				
+		Logutil.log('selected rom collection: ' +str(selectedRomCollectionName), util.LOG_LEVEL_INFO)
 				
 		self.selectedRomCollection = None
 		
@@ -333,8 +345,10 @@ class EditRCBasicDialog(xbmcgui.WindowXMLDialog):
 		
 		self.selectItemInList(self.imagePlacingList, self.selectedRomCollection.imagePlacing.name, CONTROL_LIST_IMAGEPLACING)
 		
-		control = self.getControlById(CONTROL_BUTTON_IGNOREONSCAN)
+		control = self.getControlById(CONTROL_BUTTON_IGNOREONSCAN)		
 		control.setSelected(self.selectedRomCollection.ignoreOnScan)
+	
+		print 'ignoreOnScan: ' +str(self.selectedRomCollection.ignoreOnScan)
 	
 	
 	def updateMediaPath(self):
@@ -355,6 +369,8 @@ class EditRCBasicDialog(xbmcgui.WindowXMLDialog):
 	
 	
 	def updateSelectedRomCollection(self):
+		
+		Logutil.log('updateSelectedRomCollection', util.LOG_LEVEL_INFO)
 		
 		#ignore on scan
 		control = self.getControlById(CONTROL_BUTTON_IGNOREONSCAN)
@@ -393,6 +409,8 @@ class EditRCBasicDialog(xbmcgui.WindowXMLDialog):
 	
 	
 	def addItemsToList(self, controlId, options):
+		Logutil.log('addItemsToList', util.LOG_LEVEL_INFO)
+		
 		control = self.getControlById(controlId)
 		control.setVisible(1)
 		control.reset()
@@ -405,19 +423,24 @@ class EditRCBasicDialog(xbmcgui.WindowXMLDialog):
 		
 		
 	def getAvailableScrapers(self):
+		Logutil.log('get available scrapers', util.LOG_LEVEL_INFO)
+		
 		#Scrapers
-		sitesInList = ['None']		
+		sitesInList = ['None']
 		#get all scrapers
 		scrapers = self.gui.config.tree.findall('Scrapers/Site')
 		for scraper in scrapers:
 			name = scraper.attrib.get('name')
 			if(name != None):
+				Logutil.log('add scraper name: ' +str(name), util.LOG_LEVEL_INFO)
 				sitesInList.append(name)
 				
 		return sitesInList
 	
 	
 	def selectScrapersInList(self, sitesInRomCollection, sitesInList):
+		
+		Logutil.log('selectScrapersInList', util.LOG_LEVEL_INFO)
 		
 		if(len(sitesInRomCollection) >= 1):
 			self.selectItemInList(sitesInList, sitesInRomCollection[0].name, CONTROL_LIST_SCRAPER1)			
@@ -435,6 +458,8 @@ class EditRCBasicDialog(xbmcgui.WindowXMLDialog):
 	
 	def selectItemInList(self, options, itemName, controlId):				
 		
+		Logutil.log('selectItemInList', util.LOG_LEVEL_INFO)		
+		
 		for i in range(0, len(options)):			
 			option = options[i]
 			if(itemName == option):
@@ -444,6 +469,8 @@ class EditRCBasicDialog(xbmcgui.WindowXMLDialog):
 			
 			
 	def addScraperToRomCollection(self, controlId, platformId, sites):				
+
+		Logutil.log('addScraperToRomCollection', util.LOG_LEVEL_INFO)
 		
 		control = self.getControlById(controlId)
 		scraperItem = control.getSelectedItem()
@@ -453,6 +480,7 @@ class EditRCBasicDialog(xbmcgui.WindowXMLDialog):
 			platformId = '0'
 		
 		site, errorMsg = self.gui.config.readScraper(scraper, platformId, '', '', self.gui.config.tree)
-		sites.append(site)
+		if(site != None):
+			sites.append(site)
 			
 		return sites
