@@ -225,7 +225,7 @@ class UIGameDB(xbmcgui.WindowXML):
 		
 		timestamp1 = time.clock()				
 		
-		self.Settings = util.getSettings()				
+		self.Settings = util.getSettings()
 		
 		try:
 			self.gdb = GameDataBase(util.getAddonDataPath())
@@ -1558,15 +1558,7 @@ class UIGameDB(xbmcgui.WindowXML):
 			retGames = dialog.yesno('Rom Collection Browser', 'Import Games', message)
 			if(retGames == True):
 				
-				scrapingMode = 0
-				scrapingModeStr = self.Settings.getSetting(util.SETTING_RCB_SCRAPINGMODE)			
-				if(scrapingModeStr == 'Automatic: Accurate'):
-					scrapingMode = 0
-				elif(scrapingModeStr == 'Automatic: Guess Matches'):
-					scrapingMode = 1
-				elif(scrapingModeStr == 'Interactive: Select Matches'):
-					scrapingMode = 2
-					
+				scrapingMode = util.getScrapingMode(self.Settings)
 				#Import Games
 				self.doImport(scrapingMode, self.config.romCollections)
 		
