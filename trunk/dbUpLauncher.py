@@ -40,6 +40,7 @@ class ProgressDialogBk:
         self.paintProgress()
     
     def paintProgress(self):
+    	
         self.windowID = xbmcgui.getCurrentWindowId()
         self.window = xbmcgui.Window(self.windowID)
         self.image = xbmcgui.ControlImage(880, 630, 400, 60, "InfoMessagePanel.png", colorDiffuse='0xC0C0C0C0')
@@ -72,8 +73,8 @@ class ProgressDialogBk:
         
         if self.windowID != xbmcgui.getCurrentWindowId():
             self.windowID = xbmcgui.getCurrentWindowId()
-            if xbmcgui.getCurrentWindowId() in ALLOWEDWINDOWS:
-                self.paintProgress()
+            if xbmcgui.getCurrentWindowId() in ALLOWEDWINDOWS:            
+             self.paintProgress()
         
         if not self.label:
           return True  
@@ -94,10 +95,17 @@ class ProgressDialogBk:
 def runUpdate():
     gdb = GameDataBase(util.getAddonDataPath())
     gdb.connect()
+    #create db if not existent and maybe update to new version
+    gdb.checkDBStructure()
+    
     configFile = config.Config()
     statusOk, errorMsg = configFile.readXml()
+    
+    settings = util.getSettings()
+    scrapingMode = util.getScrapingMode(settings)
+    
     progress = ProgressDialogBk()
-    dbupdate.DBUpdate().updateDB(gdb, progress, 0, configFile.romCollections)
+    dbupdate.DBUpdate().updateDB(gdb, progress, scrapingMode, configFile.romCollections)
     
     
 if __name__ == "__main__":
