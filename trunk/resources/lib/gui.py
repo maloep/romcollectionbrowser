@@ -223,7 +223,11 @@ class UIGameDB(xbmcgui.WindowXML):
 		# Idea to initialize your variables here				
 		Logutil.log("Init Rom Collection Browser: " + util.RCBHOME, util.LOG_LEVEL_INFO)
 		
-		timestamp1 = time.clock()				
+		if self.checkUpdateInProgress():
+			self.quit = True
+			return
+		
+		timestamp1 = time.clock()
 		
 		self.Settings = util.getSettings()
 		
@@ -304,7 +308,8 @@ class UIGameDB(xbmcgui.WindowXML):
 		print "RCB startup time: %d ms" % (diff)
 		
 		self.player = MyPlayer()
-		self.player.gui = self				
+		self.player.gui = self
+						
 		
 	def onInit(self):
 		
@@ -1570,8 +1575,34 @@ class UIGameDB(xbmcgui.WindowXML):
 		progressDialog.writeMsg("", "", "", -1)
 		del progressDialog
 
+
+	def checkUpdateInProgress(self):
+		
+		dbUpStatusFilename = util.getDbupdateStatusFilename()
+		
+		#check status file and cancel update
+		try:
+			dbupstatusFile = open(dbUpStatusFilename,'r')
+			for line in dbupstatusFile:
+				if line.startswith('update'):
+					dialog = xbmcgui.Dialog()
+					retCancel = dialog.yesno('Rom Collection Browser', 'Import in Progress', 'Do you want to cancel currently running import?')
+					if(retCancel == True):
+						dbupstatusFile.close()
+						dbupstatusFile = open(dbUpStatusFilename,'w')
+						dbupstatusFile.write('cancel')
+						dbupstatusFile.close()
+						
+					return True
+						
+		except Exception, (exc):
+			Logutil.log('Cannot read file "%s". Error: "%s"' %(dbUpStatusFilename, str(exc)), util.LOG_LEVEL_WARNING)
+			return False
+		
+		return False
+
+
 	# Handle autoexec.py script to add/remove background scraping on startup
-	
 	def checkScrapStart(self):
 		Logutil.log("Begin checkScrapStart" , util.LOG_LEVEL_INFO)
 		

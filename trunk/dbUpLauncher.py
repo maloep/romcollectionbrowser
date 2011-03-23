@@ -35,6 +35,8 @@ class ProgressDialogBk:
     progress = None
     windowID = None
     
+    dbUpStatusFilename = util.getDbupdateStatusFilename()
+    
     
     def __init__(self):
         self.paintProgress()
@@ -75,6 +77,16 @@ class ProgressDialogBk:
             self.windowID = xbmcgui.getCurrentWindowId()
             if xbmcgui.getCurrentWindowId() in ALLOWEDWINDOWS:            
              self.paintProgress()
+                     
+        #check status file and cancel update if set to cancel
+        try:
+        	dbupstatusFile = open(self.dbUpStatusFilename,'r')
+        	for line in dbupstatusFile:
+        		if line.startswith('cancel'):
+        			self.label.setLabel("%d %% - %s" % (100, 'Update canceled'))
+        			return False
+        except Exception, (exc):
+			Logutil.log('Cannot read file "%s". Error: "%s"' %(self.dbUpStatusFilename, str(exc)), util.LOG_LEVEL_WARNING)
         
         if not self.label:
           return True  
@@ -83,12 +95,11 @@ class ProgressDialogBk:
             self.header.setLabel(line1)
             self.label.setLabel("%d %% - %s" % (percent, line2))
             self.progress.setPercent(percent)
-            
-        else:
-            self.window.remove(self.image)
-            self.window.remove(self.header)
-            self.window.remove(self.label)
-            self.window.remove(self.progress)
+        else:        	
+        	self.window.remove(self.image)
+        	self.window.remove(self.header)
+        	self.window.remove(self.label)
+        	self.window.remove(self.progress)
             
         return True
 
@@ -104,9 +115,24 @@ def runUpdate():
     settings = util.getSettings()
     scrapingMode = util.getScrapingMode(settings)
     
+    filename = util.getDbupdateStatusFilename()
+    try:
+    	dbupstatusFile = open(filename,'w')
+    except Exception, (exc):			
+		Logutil.log('Cannot write to file "%s". Error: "%s"' %(filename, str(exc)), util.LOG_LEVEL_WARNING)
+		return
+ 
+    dbupstatusFile.flush()
+    dbupstatusFile.write('update')
+    dbupstatusFile.close()    
+    
     progress = ProgressDialogBk()
     dbupdate.DBUpdate().updateDB(gdb, progress, scrapingMode, configFile.romCollections)
     
+    dbupstatusFile = open(filename,'w')
+    dbupstatusFile.flush()
+    dbupstatusFile.write('finished')
+    dbupstatusFile.close()
     
 if __name__ == "__main__":
     runUpdate()
