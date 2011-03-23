@@ -295,6 +295,10 @@ def hasAddons():
         return True
     except:
         return False
+       
+       
+def getDbupdateStatusFilename():
+	return os.path.join(getAddonDataPath(), 'dbupdatestatus.txt')
 
 
 def getScrapingMode(settings):
