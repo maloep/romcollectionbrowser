@@ -3,14 +3,15 @@
 	<setting id="rcb_useEmulatorSolo" label="Use emulator solo" value="false" type="bool" default="false"/>
 	<setting id="rcb_escapeEmulatorCommand" label="Escape emulator cmd" value="false" type="bool" default="false"/>
 	<setting id="rcb_cachingOption" label="Caching option" type="labelenum" values="CACHEALL|CACHESELECTION|CACHEITEM|CACHEITEMANDNEXT" default="CACHEITEMANDNEXT"/>
-	<setting id="rcb_memDB" label="Load the DB into memory" value="false" type="bool" default="false"/>
+	<!--<setting id="rcb_memDB" label="Load the DB into memory" value="false" type="bool" default="false"/>-->
+	<setting id="rcb_scrapOnStartUP" label="Import games on XBMC startup" value="false" type="bool" default="false"/>
 	<setting id="rcb_showImportOptions" label="Show import options dialog" type="bool" default="true"/>
 	<setting id="rcb_scrapingMode" label="Scraping mode" type="labelenum" values="Automatic: Accurate|Automatic: Guess Matches|Interactive: Select Matches" default="Automatic: Accurate"/>
 	<setting id="rcb_fuzzyFactor" label="Game matching fuzzy factor" type="enum" values="0.5|0.6|0.7|0.8|0.9|1.0" default="2"/>
 	<setting id="rcb_createNfoWhileScraping" label="Create local nfo files while scraping" type="bool" default="true"/>
 	<setting id="rcb_ignoreGamesWithoutDesc" label="Don't import games without description" type="bool" default="true"/>
 	<setting id="rcb_ignoreGamesWithoutArtwork" label="Don't import games without artwork" type="bool" default="true"/>
-	<setting id="rcb_enableFullReimport" label="Rescan imported games" type="bool" default="false"/>	
+	<setting id="rcb_enableFullReimport" label="Rescan imported games" type="bool" default="false"/>
 	<setting id="rcb_showEntryAllConsoles" label="Show filter All Consoles" type="bool" default="true"/>
 	<setting id="rcb_showEntryAllGenres" label="Show filter All Genres" type="bool" default="true"/>
 	<setting id="rcb_showEntryAllYears" label="Show filter All Years" type="bool" default="true"/>
@@ -18,8 +19,7 @@
 	<setting id="rcb_showEntryAllChars" label="Show filter All Chars" type="bool" default="true"/>
 	<setting id="rcb_preventUnfilteredSearch" label="Prevent unfiltered search" type="bool" default="false"/>
 	<setting id="rcb_saveViewStateOnExit" label="Save viewstate on exit" type="bool" default="true"/>
-	<setting id="rcb_saveViewStateOnLaunchEmu" label="Save viewstate on launch emu" type="bool" default="true"/>
-	<setting id="rcb_scrapOnStartUP" label="Scrape roms on startup (EXPERIMENTAL)" value="false" type="bool" default="false"/>
+	<setting id="rcb_saveViewStateOnLaunchEmu" label="Save viewstate on launch emu" type="bool" default="true"/>	
 	
 	<setting id="rcb_view_mode" visible="false" value="" type="text"/>
 </settings>
