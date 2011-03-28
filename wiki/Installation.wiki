@@ -1,4 +1,5 @@
 #sidebar SideBar
+<wiki:toc max_depth="4" />
 = Installation =
 == Camelot / Xbox ==
   * Download [http://romcollectionbrowser.googlecode.com/files/script.games.rom.collection.browser-0.8.1.zip script.games.rom.collection.browser-0.8.1.zip]
