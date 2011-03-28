@@ -5,25 +5,15 @@ Most things in RCBs skin files should be self explanating to a skinner. The curr
 The following skin xml files are use in RCB:
 
  
-<b>script-Rom_Collection_Browser-main.xml</b>
+<b>script-Rom_Collection_Browser-main.xml</b> (RCBs main window)
 
-RCBs main window
+<b>script-RCB-gameinfo.xml</b> (Game info view)
 
-<b>script-RCB-gameinfo.xml</b>
+<b>script-RCB-contextmenu.xml</b> (Context menu)
 
-Game info view
+<b>script-RCB-importoptions.xml</b> (Import options dialog)
 
-<b>script-RCB-contextmenu.xml</b>
-
-Context menu
-
-<b>script-RCB-importoptions.xml</b>
-
-Import options dialog
-
-<b>script-RCB-editRCbasic.xml</b>
-
-Edit Rom Collection dialog
+<b>script-RCB-editRCbasic.xml</b> (Edit Rom Collection dialog)
 
 == Accessing RCBs images and videos ==
 One thing that could be special in this script is the "dynamic image placing". RCB does not rely on a defined set of media files. The user may have small collections with only one image per game or others may have complete sets with 6 or more images and maybe video files per game. I want the user to decide where to show which type of image. The skinner should decide how it is presented. I am afraid this approach is not really XBMCish...
