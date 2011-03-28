@@ -1,6 +1,23 @@
 #sidebar SideBar
 = Skinning RCB =
-Most things in RCBs skin files should be self explanating to a skinner. There are three skin xml files: "script-Rom_Collection_Browser-main.xml",  "script-Rom_Collection_Browser-gameinfo.xml" and "script-Rom_Collection_Browser-contextmenu.xml". They are made for a PAL resolution with Confluence in mind. If you have improvements to my Confluence skin or want to migrate RCB to other skins please feel free to contribute.
+Most things in RCBs skin files should be self explanating to a skinner. The current skin files are made for a PAL resolution with Confluence in mind. If you have improvements to my Confluence skin or want to migrate RCB to other skins please feel free to contribute.
+
+The following skin xml files are use in RCB:
+ 
+<b>script-Rom_Collection_Browser-main.xml</b>
+RCBs main window
+
+<b>script-RCB-gameinfo.xml</b>
+Game info view
+
+<b>script-RCB-contextmenu.xml</b>
+Context menu
+
+<b>script-RCB-importoptions.xml</b>
+Import options dialog
+
+<b>script-RCB-editRCbasic.xml</b>
+Edit Rom Collection dialog
 
 == Accessing RCBs images and videos ==
 One thing that could be special in this script is the "dynamic image placing". RCB does not rely on a defined set of media files. The user may have small collections with only one image per game or others may have complete sets with 6 or more images and maybe video files per game. I want the user to decide where to show which type of image. The skinner should decide how it is presented. I am afraid this approach is not really XBMCish...
@@ -93,7 +110,7 @@ Lists always have ids 50-59 in XBMC. These lists are available as "view" in the 
 59:		game info dialog
 
 
-=== Controls ===
+=== Main Window ===
 Some controls that are available in all views should not be changed also.
 
 ==== Filter controls ====
@@ -113,7 +130,6 @@ For some reason I had trouble with handling scrollbars because they are sometime
 
 ==== Buttons ====
 
-===== Main window =====
 Import Games:			3100
 
 Change View:			2
@@ -122,13 +138,97 @@ Play Video Fullscreen:	2900, 2901
 
 If you add more than two views hat support fullscreen video you have to add the new ids to the python code: Go to gui.py and look for this line: CONTROL_BUTTON_VIDEOFULLSCREEN = (2900, 2901,)
 
-===== Context Menu =====
+==== Labels ====
+Message label:	4000
+
+
+=== Context Menu ===
+
+==== Buttons ====
+
 Close Context Menu:		5101
 
 Import Games:			5110
 
 Add Rom Collection:		5111
 
+Edit Rom Collection:	5112
 
-==== Labels ====
-Message label:	4000
+Delete Game:			5113
+
+
+=== Import options dialog ===
+
+==== Buttons ====
+
+Close Dialog:			5101
+
+Ok:						5300
+
+Cancel:					5310
+
+Rom Collection Up:		5211
+
+Rom Collection Down:	5212
+
+==== Lists ====
+
+Rom Collections:		5210
+
+Scraping mode:			5220
+
+Fuzzy Factor:			5260
+
+Scraper 1:				5270
+
+Scraper 2:				5280
+
+Scraper 3:				5290
+
+
+=== Edit Rom Collection dialog ===
+
+==== Buttons ====
+
+Close Dialog:			5101
+
+Save:					6000
+
+Cancel:					6010
+
+Emu Cmd:				5220
+
+Emu Params:				5230
+
+Rom Path:				5240
+
+File Mask:				5250
+
+Media Path:				5270
+
+Media File Mask:		5280
+
+Ignore on scan:			5330
+
+Rom Collection Up:		5211
+
+Rom Collection Down:	5212
+
+Media Type Up:			5261
+
+Media Type Down:		5262
+
+
+==== Lists ====
+
+Rom Collections:		5210
+
+Media Types:			5260
+
+Scraper 1:				5290
+
+Scraper 2:				5300
+
+Scraper 3:				5310
+
+Image Placing:			5320

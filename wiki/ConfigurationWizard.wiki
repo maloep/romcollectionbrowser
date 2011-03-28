@@ -3,7 +3,7 @@
 
 On first run when there is no config file available RCB will ask you to create a config file with the wizard. You can also launch the wizard anytime from context menu to add new Rom Collections.
 
-First you have to choose a scenario: Online scraping or local data. In online scraping scenario RCB will scrape different web sites for game infos and artwork. In local data scenario you have to tell RCB where to find artwork, videos and game descriptions on your system.
+First you have to choose a scenario: Online scraping or local data. In online scraping scenario RCB will scrape different web sites for game infos and artwork. In local data scenario you have to tell RCB where to find artwork, videos and game descriptions on your system. You can also mix both scenarios and use your local available artwork but scrape game information online. In this case you should choose the second option.
 
   http://romcollectionbrowser.googlecode.com/files/Wizard%20-%20Online%201%20-%20small.jpg
 
@@ -54,7 +54,7 @@ The first steps of this wizard are equal to the online scraping scenario. You ha
   
   http://romcollectionbrowser.googlecode.com/files/Wizard%20-%20Offline%203%20-%20small.jpg
   
-  * Choose the type of description files. There may be large files with descriptions for all of your games or single description files that only contain description for one game.
+  * Choose the type of description files. There may be large files with descriptions for all of your games or single description files that only contain description for one game. If you just want to use your local artwork and scrape game info online, select "Scrape game info online".
   
   http://romcollectionbrowser.googlecode.com/files/Wizard%20-%20Offline%204%20-%20small.jpg
   
