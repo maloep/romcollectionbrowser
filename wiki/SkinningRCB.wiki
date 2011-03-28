@@ -3,20 +3,26 @@
 Most things in RCBs skin files should be self explanating to a skinner. The current skin files are made for a PAL resolution with Confluence in mind. If you have improvements to my Confluence skin or want to migrate RCB to other skins please feel free to contribute.
 
 The following skin xml files are use in RCB:
+
  
 <b>script-Rom_Collection_Browser-main.xml</b>
+
 RCBs main window
 
 <b>script-RCB-gameinfo.xml</b>
+
 Game info view
 
 <b>script-RCB-contextmenu.xml</b>
+
 Context menu
 
 <b>script-RCB-importoptions.xml</b>
+
 Import options dialog
 
 <b>script-RCB-editRCbasic.xml</b>
+
 Edit Rom Collection dialog
 
 == Accessing RCBs images and videos ==
