@@ -20,7 +20,7 @@ Check out the following pages if you have trouble with setting up the script or 
 
 		=== [SetupTestScenario Setup test scenario] ===
 
-		=== [BasicConfiguration Basic Configuration] ===
+		=== [ConfigurationWizard Configuration Wizard] ===
 		
 		=== [ImportGames Import Games] ===		
 		
