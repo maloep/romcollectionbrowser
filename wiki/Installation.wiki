@@ -23,14 +23,14 @@ When launching .7z files RCB just shows a message box with this error message: "
 <br>
 
 = Update an older installation =
-= without preserving configuration changes =
+== without preserving configuration changes ==
 If you just played around with the test scenario and did not make any relevant changes to "config.xml" or the parser configuration you can just delete the complete RCB folder and follow the steps in the chapter "Installation" or "Setup test scenario".
 
-= preserving configuration changes =
+== preserving configuration changes ==
 Since V0.4 it should be possible to keep your old database. Changes to data structure will be done automatically. Please backup your database before trying this. I tested a lot but who knows...
 
 
-== < 0.7.3 -> 0.7.4 or higher ==
+=== < 0.7.3 -> 0.7.4 or higher ===
 If you want to keep your old database and your old config.xml you have to do the following steps:
   
   * Make sure your old database `MyGames.db` is still available in your RCB userdata folder. RCB needs your old database to perform the update.
