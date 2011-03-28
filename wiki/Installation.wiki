@@ -1,37 +1,36 @@
 #sidebar SideBar
 <wiki:toc max_depth="4" />
-= Installation =
-== Camelot / Xbox ==
+= Camelot / Xbox =
   * Download [http://romcollectionbrowser.googlecode.com/files/script.games.rom.collection.browser-0.8.1.zip script.games.rom.collection.browser-0.8.1.zip]
   * Unzip it to your XBMC scripts folder
 
-== Dharma ==
-=== via Repo Browser ===
+= Dharma =
+== via Repo Browser ==
   * Go to XBMCs Addon Browser: System -> Add-ons -> Get Add-ons -> XBMC.org Add-ons -> Program Add-ons --> Rom Collection Browser
   * Choose Install
-=== via zip file ===
+== via zip file ==
   * Download [http://romcollectionbrowser.googlecode.com/files/script.games.rom.collection.browser-0.8.1.zip script.games.rom.collection.browser-0.8.1.zip]
   * Go to XBMCs Addon Browser: System -> Add-ons -> Install from zip file
 
-=== Known issues ===
-==== The program doesn't load on "No module named pysqlite2" ====
+== Known issues ==
+=== The program doesn't load on "No module named pysqlite2" ===
 Some distributions don't ship with prebuild pysqlite libraries. You have to get them on your own and copy them to your xbmc lib folder (e.g. /usr/local/lib/xbmc/addons/script.module.pysqlite/lib/pysqlite2). I made an extra package with these libraries if you don't want to build them yourself: http://romcollectionbrowser.googlecode.com/files/platform_libraries.zip.
 
-==== Error launching .7z file ====
+=== Error launching .7z file ===
 When launching .7z files RCB just shows a message box with this error message: "Error launching .7z file. Please check XBMC.log for details". This error should only occure if you have installed RCB via the repo browser. Launching .7z files requires certain libraries that are not part of XBMCs python environment. You can download RCBs latest version from the projects home page, this already includes all required libraries.
 
 <br>
 <br>
 
 = Update an older installation =
-== without preserving configuration changes ==
+= without preserving configuration changes =
 If you just played around with the test scenario and did not make any relevant changes to "config.xml" or the parser configuration you can just delete the complete RCB folder and follow the steps in the chapter "Installation" or "Setup test scenario".
 
-== preserving configuration changes ==
+= preserving configuration changes =
 Since V0.4 it should be possible to keep your old database. Changes to data structure will be done automatically. Please backup your database before trying this. I tested a lot but who knows...
 
 
-=== 0.6.1 - 0.7.3 -> 0.7.4 or higher ===
+== < 0.7.3 -> 0.7.4 or higher ==
 If you want to keep your old database and your old config.xml you have to do the following steps:
   
   * Make sure your old database `MyGames.db` is still available in your RCB userdata folder. RCB needs your old database to perform the update.
