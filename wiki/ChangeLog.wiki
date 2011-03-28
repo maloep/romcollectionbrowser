@@ -1,4 +1,18 @@
 #sidebar SideBar
+= 0.8.2 =
+== General ==
+  * new option: Delete Game
+  * bugfix: use uppercase "\Addon"-path in autoexec.py (Windows only)
+
+== Configuration ==
+  * option "Edit Rom Collection" in context menu
+  * config wizard bugfixes and improvements
+
+== Import ==
+  * background scraping: start scraping on XBMC startup
+  * encoding error fixes
+  * better error handling on encoding errors
+
 = 0.8.1 =
 == General ==
   * added context menu

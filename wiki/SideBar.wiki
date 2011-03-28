@@ -3,7 +3,9 @@
   * [FirstUse First Use]
   * [AddonSettings Addon settings]
   * [SetupTestScenario Setup test scenario]
-  * [BasicConfiguration Basic Configuration]
+  * [ConfigurationWizard Configuration Wizard]
+	* [ConfigurationWizard#Online_scraping_scenario Online scraping scenario]
+	* [ConfigurationWizard#Local_data_scenario Local data scenario]
   * [ImportGames Import Games]
   * [Navigation Navigation]
 
