@@ -16,19 +16,19 @@ Check out the following pages if you have trouble with setting up the script or 
 
 		=== [FirstUse First use] ===
 
+		=== [Navigation Navigation] ===
+
 		=== [AddonSettings Addon settings] ===
+
+		=== [ConfigurationWizard Configuration Wizard] ===
+
+		=== [ImportGames Import Games] ===		
 
 		=== [SetupTestScenario Setup test scenario] ===
 
-		=== [ConfigurationWizard Configuration Wizard] ===
-		
-		=== [ImportGames Import Games] ===		
-		
-		=== [Navigation Navigation] ===
-		
 		<br>
-		
-		
+
+
 	= Advanced configuration =
 		
 		=== [PerformanceSettings Performance Settings] ===

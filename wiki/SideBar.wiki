@@ -1,11 +1,12 @@
 * Getting started
   * [Installation Installation]
   * [FirstUse First Use]
+  * [Navigation Navigation]
   * [AddonSettings Addon settings]
-  * [SetupTestScenario Setup test scenario]
   * [ConfigurationWizard Configuration Wizard]
   * [ImportGames Import Games]
-  * [Navigation Navigation]
+  * [SetupTestScenario Setup test scenario]
+
 
 * Advanced configuration
   * [PerformanceSettings Performance Settings]

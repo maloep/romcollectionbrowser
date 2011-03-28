@@ -1,6 +1,5 @@
 #sidebar SideBar
-= Basic Usage =
-== Navigation ==
+
 Navigation should be self explanating. Move around with the arrow keys and see what happens. There are some filter controls at the top and some buttons at the bottom of the page that are hidden in the normal view. They will show up if they receive focus and hide if they lose it.
 
 If the filter controls own the focus you can jump to the game list with "Enter" (or SELECT-Button on the remote).

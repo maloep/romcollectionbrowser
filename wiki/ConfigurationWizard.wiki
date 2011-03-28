@@ -1,4 +1,6 @@
 #sidebar SideBar
+<wiki:toc max_depth="4" />
+
 On first run when there is no config file available RCB will ask you to create a config file with the wizard. You can also launch the wizard anytime from context menu to add new Rom Collections.
 
 First you have to choose a scenario: Online scraping or local data. In online scraping scenario RCB will scrape different web sites for game infos and artwork. In local data scenario you have to tell RCB where to find artwork, videos and game descriptions on your system.
