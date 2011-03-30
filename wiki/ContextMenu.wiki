@@ -1,6 +1,8 @@
 #sidebar SideBar
 <wiki:toc max_depth="4" />
 
+You can launch the context menu with pressing "C" on the keyboard or "Menu" on the remote.
+
 http://romcollectionbrowser.googlecode.com/files/screen_contextmenu.jpg
 
 = Import Games =
