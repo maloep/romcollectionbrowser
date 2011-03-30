@@ -3,12 +3,12 @@
 
 To edit your Rom Collections just launch the context menu (pressing "C" on the keyboard or "Menu" on the remote) and select "Edit Rom Collection".
 
-RCB will launch the Edit dialog and shows you the data of the first available Rom Collection. You can edit all your Rom Collections in this dialog and changes to all Rom Collections will be saved if you select "Save changes".
+RCB will launch the Edit dialog and show you the data of the first available Rom Collection. You can edit all your Rom Collections in this dialog and changes to all Rom Collections will be saved if you select "Save changes".
 
 http://romcollectionbrowser.googlecode.com/files/screen_editromcollection.jpg
 
 = Rom Collection =
-With the Rom Collection selector you can browse through your Rom Collections. All controls in the dialog will be updated with the data of the seletced Rom Collection.
+With the Rom Collection selector you can browse through your Rom Collections. All controls in the dialog will be updated with the data of the selected Rom Collection.
 
 = Emulator Cmd =
 The command that you specify as emulatorCmd will be invoked when you select a game. In this dialog you can directly navigate to the executable.
@@ -32,16 +32,16 @@ The path to your rom files. In this dialog you can directly navigate to the fold
 The file mask should include wildcards and file extension (`*`.adf for example). You can add more than one file mask separated with commas (`*`.adf, `*`.zip).
 
 = Media Type =
-Media types are logical types of your artwork or video files (e.g. boxfront, screenshot, gameplay, ...)
+Media types are logical types of your artwork or video files (e.g. boxfront, screenshot, gameplay, ...). Media types are defined in config.xml as `FileTypes`. If you want to add new `FileTypes` see this [http://code.google.com/p/romcollectionbrowser/wiki/ImportGamesAndMedia#FileTypes section] for more info.
 
 == Media Path ==
-The path to your image or video files of the selected media type. RCB will also use this path to store artwork while scraping from online sources. In this dialog you can directly navigate to the folder.
+The path to your image or video files of the selected media type. RCB will use this path to search for available artwork or to store artwork while scraping from online sources. In this dialog you can directly navigate to the folder.
 
 == Media File Mask ==
-The file mask to select your media files in the specified folder. You can use the following placeholders: %GAME%, %ROMCOLLECTION%, %PUBLISHER%, %DEVELOPER% (will be replaced with the according game property). If you have a Game "Mygame" its rom file may be named "Mygame.zip". All screenshots must be named "Mygame.jpg" (or png, gif, ...)
+The file mask to select your media files in the specified folder. You can use the following placeholders: %GAME%, %ROMCOLLECTION%, %PUBLISHER%, %DEVELOPER% (will be replaced with the according game property). If you have a Game "Mygame" its rom file may be named "Mygame.zip". All screenshots must be named "Mygame.jpg" (or png, gif, ...).
 
 = Scrapers =
-The selected scrapers will be executed in the order they are selected in the dialog. The results of the scrapers will be merged together. Merging results is done with "first come, first go"-logic. This means if the first scraper finds a publisher for example, RCB will use the publisher returned by the first scraper. But if the first scraper does not find a publisher and this is provided by the second scraper, RCB will use the publisher from the second one.
+The selected scrapers will be executed in the order they are selected in this dialog. The results of the scrapers will be merged together. Merging results is done with "first come, first go"-logic. This means if the first scraper finds a publisher for example, RCB will use the publisher returned by the first scraper. But if the first scraper does not find a publisher but it is provided by the second scraper, RCB will use the publisher from the second one.
 
 The scraper settings of the Rom Collection may be overwritten by the selection in the import options dialog.
 
