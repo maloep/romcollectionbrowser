@@ -1,0 +1,16 @@
+#sidebar SideBar
+<wiki:toc max_depth="4" />
+
+http://romcollectionbrowser.googlecode.com/files/screen_contextmenu.jpg
+
+= Import Games =
+Starts the game import. See section [ImportGames Import Games] for more information.
+
+= Add Rom Collection =
+Launches the wizard to add a new Rom Collection. See section [ConfigurationWizard Configuration Wizard] for more information.
+
+= Edit Rom Collection =
+Invokes the Edit Rom Collection dialog. See section [EditRomCollection Edit Rom Collection] for more information.
+
+= Delete Game =
+Deletes the currently selected game. This will only delete the game from RCBs database. The files on your HD keep untouched.

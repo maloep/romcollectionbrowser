@@ -18,11 +18,13 @@ Check out the following pages if you have trouble with setting up the script or 
 
 		=== [Navigation Navigation] ===
 
-		=== [AddonSettings Addon settings] ===
-
 		=== [ConfigurationWizard Configuration Wizard] ===
 
 		=== [ImportGames Import Games] ===
+		
+		=== [AddonSettings Addon settings] ===
+		
+		=== [ContextMenu Context Menu] ===
 
 		=== [EditRomCollection Edit Rom Collection] ===
 
