@@ -52,7 +52,7 @@ The path to your image or video files. RCB will also use these paths to store ar
 
 You can use multiple `<mediaPath>` entries with the same type to import from different locations or to configure different file extensions.
 
-You can use the following placeholders: %GAME%, %CONSOLE%, %PUBLISHER%, %DEVELOPER% (will be replaced with the according game property)
+You can use the following placeholders: %GAME%, %ROMCOLLECTION%, %PUBLISHER%, %DEVELOPER% (will be replaced with the according game property)
 
 Configuration Example:
 

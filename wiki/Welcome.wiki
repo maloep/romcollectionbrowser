@@ -22,7 +22,9 @@ Check out the following pages if you have trouble with setting up the script or 
 
 		=== [ConfigurationWizard Configuration Wizard] ===
 
-		=== [ImportGames Import Games] ===		
+		=== [ImportGames Import Games] ===
+
+		=== [EditRomCollection Edit Rom Collection] ===
 
 		=== [SetupTestScenario Setup test scenario] ===
 

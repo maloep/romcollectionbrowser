@@ -5,6 +5,7 @@
   * [AddonSettings Addon settings]
   * [ConfigurationWizard Configuration Wizard]
   * [ImportGames Import Games]
+  * [EditRomCollection Edit Rom Collection]
   * [SetupTestScenario Setup test scenario]
 
 
