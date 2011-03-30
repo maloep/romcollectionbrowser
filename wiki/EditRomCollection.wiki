@@ -5,7 +5,7 @@ To edit your Rom Collections just launch the context menu (pressing "C" on the k
 
 RCB will launch the Edit dialog and shows you the data of the first available Rom Collection. You can edit all your Rom Collections in this dialog and changes to all Rom Collections will be saved if you select "Save changes".
 
-http://romcollectionbrowser.googlecode.com/files/screen_Edit%20RC%20Basic_preview.jpg
+http://romcollectionbrowser.googlecode.com/files/screen_editromcollection.jpg
 
 = Rom Collection =
 With the Rom Collection selector you can browse through your Rom Collections. All controls in the dialog will be updated with the data of the seletced Rom Collection.
