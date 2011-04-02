@@ -95,7 +95,7 @@ class TestUpdateDB(unittest.TestCase):
 		
 		gameRows = Game(self.gdb).getAllOrdered()	
 		self.assertTrue(gameRows != None)
-		self.assertEqual(len(gameRows), 46)				
+		self.assertEqual(len(gameRows), 48)				
 		
 		
 		self.gameTest(gameRows[0], '007: Agent Under Fire', 'Get ready for the next generation of 007, as Her Majestys greatest secret agent embarks upon an all-new, action-packed adventure.', 
