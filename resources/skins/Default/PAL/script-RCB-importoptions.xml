@@ -650,7 +650,7 @@
 			<control type="button" id="5300"> 
 				<description>Import</description>
 				<posx>150</posx>
-				<posy>180</posy>
+				<posy>185</posy>
 				<width>100</width>
 				<height>25</height>
 				<visible>true</visible>
@@ -673,7 +673,7 @@
 			<control type="button" id="5310"> 
 				<description>Cancel</description>
 				<posx>270</posx>
-				<posy>180</posy>
+				<posy>185</posy>
 				<width>100</width>
 				<height>25</height>
 				<visible>true</visible>
