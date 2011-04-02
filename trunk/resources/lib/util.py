@@ -364,8 +364,11 @@ class Logutil:
             prefix = 'RCB_WARNING: '
         elif(logLevel == LOG_LEVEL_ERROR):
             prefix = 'RCB_ERROR: '
-
-        print prefix + message
+                        
+        try:
+        	print prefix + message
+        except:
+        	pass
         
     
     @staticmethod

@@ -130,7 +130,7 @@
 			<imagePlacing>gameinfobig</imagePlacing>
 			<scraper name="Sega 32 V7" replaceKeyString=" III, II,32x - " replaceValueString=" 3, 2,"/>
 		</RomCollection>
-		<RomCollection id="8"  name="Sega Gen - local nfo">
+		<RomCollection id="8"  name="SNES - local nfo">
 			<emulatorCmd>%ROM%</emulatorCmd>
 			<xboxCreateShortcut>False</xboxCreateShortcut>
 			<xboxCreateShortcutAddRomfile>False</xboxCreateShortcutAddRomfile>
@@ -148,7 +148,7 @@
 			<imagePlacing>gameinfobig</imagePlacing>
 			<scraper name="local nfo"/>			
 		</RomCollection>
-		<RomCollection id="9"  name="Sega Gen - online">
+		<RomCollection id="9"  name="SNES - online">
 			<emulatorCmd>%ROM%</emulatorCmd>
 			<xboxCreateShortcut>False</xboxCreateShortcut>
 			<xboxCreateShortcutAddRomfile>False</xboxCreateShortcutAddRomfile>
@@ -156,7 +156,7 @@
 			<searchGameByCRC>True</searchGameByCRC>
 			<useFilenameAsCRC>True</useFilenameAsCRC>
 			<descFilePerGame>True</descFilePerGame>
-			<ignoreOnScan>True</ignoreOnScan>				
+			<ignoreOnScan>False</ignoreOnScan>				
 			<romPath>TestDataBase\V9 - SNES - online\Roms\*.zip</romPath>
 			<mediaPath type="boxfront">TestDataBase\V9 - SNES - online\Artwork\boxfront\%GAME%.*</mediaPath>
 			<mediaPath type="screenshot">TestDataBase\V9 - SNES - online\Artwork\screenshot\%GAME%.*</mediaPath>

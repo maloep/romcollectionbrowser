@@ -7,6 +7,7 @@ import re, string
 BASE_RESOURCE_PATH = os.path.join( os.getcwd(), ".." )
 sys.path.append( os.path.join( BASE_RESOURCE_PATH, "lib" ) )
 sys.path.append( os.path.join( BASE_RESOURCE_PATH, "lib", "pyscraper" ) )
+sys.path.append( os.path.join( BASE_RESOURCE_PATH, "lib", "pyparsing" ) )
 # append the proper platforms folder to our path, xbox is the same as win32
 env = ( os.environ.get( "OS", "win32" ), "win32", )[ os.environ.get( "OS", "win32" ) == "xbox" ]
 if env == 'Windows_NT':
@@ -43,11 +44,17 @@ gdb.connect()
 gdb.dropTables()		
 gdb.createTables()
 
+util.ISTESTRUN = True
 
 configFile = config.Config()
 statusOk, errorMsg = configFile.readXml()
+
+newRCs = {}
+
+newRCs[1] = configFile.romCollections['10']
+
 if(statusOk == True):
-	dbupdate.DBUpdate().updateDB(gdb, RCBMock(), 0, configFile.romCollections)
+	dbupdate.DBUpdate().updateDB(gdb, RCBMock(), 0, newRCs)
 
 
 

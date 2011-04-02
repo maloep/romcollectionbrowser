@@ -5,7 +5,6 @@ import time, datetime
 import urllib
 import difflib
 
-print "start parsing"
 
 BASE_RESOURCE_PATH = os.path.join(os.getcwd())
 sys.path.append(os.path.join(BASE_RESOURCE_PATH, "pyparsing"))
@@ -150,9 +149,47 @@ except Exception, (exc):
 	print("Error: Cannot write config.xml: " +str(exc))	
 """
 
-s = 'Brøderbund'
-encoding = 'utf-8'
-print s.encode(encoding)
+import glob
+
+def walklevel(some_dir, level=1):
+	some_dir = some_dir.rstrip(os.path.sep)	
+	assert os.path.isdir(some_dir)
+	num_sep = len([x for x in some_dir if x == os.path.sep])
+	for root, dirs, files in os.walk(some_dir):
+		yield root, dirs, files
+		num_sep_this = len([x for x in root if x == os.path.sep])
+		if num_sep + level <= num_sep_this:
+			del dirs[:]
+
+
+romPath = 'F:\\Emulatoren\\data\\Scraper Tests\\Roms\\Genesis\\And*.zip'
+dirname = os.path.dirname(romPath)
+basename = os.path.basename(romPath)
+dirname = dirname#.decode(sys.getfilesystemencoding()).encode('utf-8')
+files = []
+for walkRoot, walkDirs, walkFiles in walklevel(dirname, 1):
+	newRomPath = os.path.join(walkRoot, basename)
+	allFiles = [f.decode(sys.getfilesystemencoding()).encode('utf-8') for f in glob.glob(newRomPath)]
+	#allFiles = [f for f in glob.glob(newRomPath)]
+	files.extend(allFiles)
+
+print files
+
+for file in files:
+	print str(file)
+	print file.decode('utf-8')
+	print file.decode('iso-8859-15')
+	print file.decode('iso-8859-1')
+	
+	file = file.decode('utf-8')
+	print str(file)
+
+#HACK: there may be encoding errors in the filename
+#if(not os.path.isfile(filename)):
+#	Logutil.log("File %s does not exist. Trying to find a new encoding." %filename, util.LOG_LEVEL_INFO)
+#	filename = filename.decode('utf-8')
+#	Logutil.log("new file name: " +str(filename.encode('utf-8')), util.LOG_LEVEL_INFO)
+
 
 #ratio = difflib.SequenceMatcher(None, 'Enslaved: Odyssey to the West', 'An American Tail - Fievel Goes West').ratio()
 #print ratio

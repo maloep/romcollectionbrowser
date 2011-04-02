@@ -71,10 +71,8 @@ class DBUpdate:
 			Logutil.log("update is allowed for current rom collection: " +str(romCollection.allowUpdate), util.LOG_LEVEL_INFO)			
 			Logutil.log("search game by CRC: " +str(romCollection.searchGameByCRC), util.LOG_LEVEL_INFO)			
 			Logutil.log("ignore rom filename when searching game by CRC: " +str(romCollection.searchGameByCRCIgnoreRomName), util.LOG_LEVEL_INFO)
-						
 			Logutil.log("use foldername as CRC: " +str(romCollection.useFoldernameAsCRC), util.LOG_LEVEL_INFO)			
 			Logutil.log("use filename as CRC: " +str(romCollection.useFilenameAsCRC), util.LOG_LEVEL_INFO)
-																
 			Logutil.log("max folder depth: " +str(romCollection.maxFolderDepth), util.LOG_LEVEL_INFO)
 			
 			#check if we can find any roms with this configuration
@@ -241,6 +239,7 @@ class DBUpdate:
 						isUpdate = False
 						gameId = None
 						
+						gamenameFromFile = ''
 						gamenameFromFile = self.getGamenameFromFilename(filename, romCollection)
 						
 						#check if we are handling one of the additional disks of a multi rom game
@@ -321,7 +320,7 @@ class DBUpdate:
 						#Add 'gui' and 'dialogDict' parameters to function
 						lastGameId = self.insertGameFromDesc(gamedescription, gamenameFromFile, romCollection, filenamelist, foldername, isUpdate, gameId, gui, dialogDict)													
 					except Exception, (exc):
-						Logutil.log("an error occured while adding game " +gamename, util.LOG_LEVEL_WARNING)
+						Logutil.log("an error occured while adding game " +gamenameFromFile, util.LOG_LEVEL_WARNING)
 						Logutil.log("Error: " +str(exc), util.LOG_LEVEL_WARNING)
 						continue
 					
@@ -347,7 +346,7 @@ class DBUpdate:
 		
 		if RCId != None:
 			inDBFiles = DataBaseObject(self.gdb, '').getFileAllFilesByRCId(RCId)
-			files = [f for f in files if not f in inDBFiles]
+			files = [f.decode('utf-8') for f in files if not f.decode('utf-8') in inDBFiles]			
 		
 		files.sort()
 		Logutil.log("Files read: " +str(files), util.LOG_LEVEL_INFO)
@@ -448,6 +447,7 @@ class DBUpdate:
 		
 		
 	def getFileCRC(self, filename):
+		
 		#get crc value of the rom file - this can take a long time for large files, so it is configurable
 		filecrc = ''		
 		if (zipfile.is_zipfile(str(filename))):
