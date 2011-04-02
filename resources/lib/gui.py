@@ -737,11 +737,11 @@ class UIGameDB(xbmcgui.WindowXML):
 		if(self.player.isPlayingVideo()):
 			self.player.stoppedByRCB = True
 			self.player.stop()
-		
+				
 		self.player.startedInPlayListMode = True
-		self.player.play(self.rcb_playList)
+		self.player.play(self.rcb_playList)		
 		xbmc.executebuiltin('Playlist.PlayOffset(%i)' % pos)
-		xbmc.executebuiltin('XBMC.PlayerControl(RepeatAll)')
+		xbmc.executebuiltin('XBMC.PlayerControl(RepeatAll)')		
 		
 		self.fullScreenVideoStarted = False
 		
