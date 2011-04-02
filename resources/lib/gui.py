@@ -227,7 +227,7 @@ class UIGameDB(xbmcgui.WindowXML):
 			self.quit = True
 			return
 		
-		timestamp1 = time.clock()
+		#timestamp1 = time.clock()
 		
 		self.Settings = util.getSettings()
 		
@@ -303,9 +303,9 @@ class UIGameDB(xbmcgui.WindowXML):
 		
 		self.cacheItems()
 		
-		timestamp2 = time.clock()
-		diff = (timestamp2 - timestamp1) * 1000		
-		print "RCB startup time: %d ms" % (diff)
+		#timestamp2 = time.clock()
+		#diff = (timestamp2 - timestamp1) * 1000		
+		#print "RCB startup time: %d ms" % (diff)
 		
 		self.player = MyPlayer()
 		self.player.gui = self
