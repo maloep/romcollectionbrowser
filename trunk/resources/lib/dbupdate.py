@@ -448,28 +448,30 @@ class DBUpdate:
 		
 	def getFileCRC(self, filename):
 		
-		#get crc value of the rom file - this can take a long time for large files, so it is configurable
-		filecrc = ''		
-		if (zipfile.is_zipfile(str(filename))):
-			try:
-				Logutil.log("handling zip file", util.LOG_LEVEL_INFO)
-				zip = zipfile.ZipFile(str(filename), 'r')
-				zipInfos = zip.infolist()
-				if(len(zipInfos) > 1):
-					Logutil.log("more than one file in zip archive is not supported! Checking CRC of first entry.", util.LOG_LEVEL_WARNING)
-				filecrc = "%0.8X" %(zipInfos[0].CRC & 0xFFFFFFFF)
-				Logutil.log("crc in zipped file: " +filecrc, util.LOG_LEVEL_INFO)
-			except:
-				Logutil.log("Error while creating crc from zip file!", util.LOG_LEVEL_ERROR)
-		else:						
-			prev = 0
-			for eachLine in open(str(filename),"rb"):
-				prev = zlib.crc32(eachLine, prev)					
-			filecrc = "%0.8X"%(prev & 0xFFFFFFFF)
-			Logutil.log("crc for current file: " +str(filecrc), util.LOG_LEVEL_INFO)
-				
-		filecrc = filecrc.strip()
-		filecrc = filecrc.lower()
+		try:
+			#get crc value of the rom file - this can take a long time for large files, so it is configurable
+			filecrc = ''		
+			if (zipfile.is_zipfile(str(filename))):			
+					Logutil.log("handling zip file", util.LOG_LEVEL_INFO)
+					zip = zipfile.ZipFile(str(filename), 'r')
+					zipInfos = zip.infolist()
+					if(len(zipInfos) > 1):
+						Logutil.log("more than one file in zip archive is not supported! Checking CRC of first entry.", util.LOG_LEVEL_WARNING)
+					filecrc = "%0.8X" %(zipInfos[0].CRC & 0xFFFFFFFF)
+					Logutil.log("crc in zipped file: " +filecrc, util.LOG_LEVEL_INFO)			
+			else:						
+				prev = 0
+				for eachLine in open(str(filename),"rb"):
+					prev = zlib.crc32(eachLine, prev)					
+				filecrc = "%0.8X"%(prev & 0xFFFFFFFF)
+				Logutil.log("crc for current file: " +str(filecrc), util.LOG_LEVEL_INFO)
+			
+			filecrc = filecrc.strip()
+			filecrc = filecrc.lower()
+		except Exception, (exc):
+			Logutil.log("Error while creating crc: " +str(exc), util.LOG_LEVEL_ERROR)
+			return "000000"
+		
 		return filecrc
 		
 		
