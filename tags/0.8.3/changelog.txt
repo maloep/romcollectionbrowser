@@ -1,4 +1,9 @@
 
+0.8.3 (04/2011)
+~~~~~~~~~~~~~
+Game Import:
+    * encoding error workaround (Windows only)
+
 0.8.2 (03/2011)
 ~~~~~~~~~~~~~
 General:
