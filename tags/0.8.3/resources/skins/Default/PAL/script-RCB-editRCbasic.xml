@@ -226,10 +226,11 @@
 				<width>270</width>
 				<height>30</height>
 				<visible>true</visible>
+				<font>font13</font>
 				<colordiffuse>DDFFFFFF</colordiffuse>
 				<texturefocus>rcb-MenuItemFO.png</texturefocus>
 				<texturenofocus>rcb-MenuItemNF.png</texturenofocus>
-				<label></label>				
+				<label>$INFO[ListItem.Label]</label>
 				<textcolor>88FFFFFF</textcolor>
 				<focusedcolor>white</focusedcolor>
 				<disabledcolor>80FFFFFF</disabledcolor>
@@ -283,6 +284,7 @@
 				<width>270</width>
 				<height>30</height>
 				<visible>true</visible>
+				<font>font13</font>
 				<colordiffuse>DDFFFFFF</colordiffuse>
 				<texturefocus>rcb-MenuItemFO.png</texturefocus>
 				<texturenofocus>rcb-MenuItemNF.png</texturenofocus>
@@ -339,6 +341,7 @@
 				<width>270</width>
 				<height>30</height>
 				<visible>true</visible>
+				<font>font13</font>
 				<colordiffuse>DDFFFFFF</colordiffuse>
 				<texturefocus>rcb-MenuItemFO.png</texturefocus>
 				<texturenofocus>rcb-MenuItemNF.png</texturenofocus>
@@ -396,6 +399,7 @@
 				<width>270</width>
 				<height>30</height>
 				<visible>true</visible>
+				<font>font13</font>
 				<colordiffuse>DDFFFFFF</colordiffuse>
 				<texturefocus>rcb-MenuItemFO.png</texturefocus>
 				<texturenofocus>rcb-MenuItemNF.png</texturenofocus>
@@ -572,6 +576,7 @@
 				<width>270</width>
 				<height>30</height>
 				<visible>true</visible>
+				<font>font13</font>
 				<colordiffuse>DDFFFFFF</colordiffuse>
 				<texturefocus>rcb-MenuItemFO.png</texturefocus>
 				<texturenofocus>rcb-MenuItemNF.png</texturenofocus>
@@ -629,6 +634,7 @@
 				<width>270</width>
 				<height>30</height>
 				<visible>true</visible>
+				<font>font13</font>
 				<colordiffuse>DDFFFFFF</colordiffuse>
 				<texturefocus>rcb-MenuItemFO.png</texturefocus>
 				<texturenofocus>rcb-MenuItemNF.png</texturenofocus>
@@ -1138,11 +1144,12 @@
 			<width>100</width>
 			<height>25</height>
 			<visible>true</visible>
+			<font>font13</font>
 			<colordiffuse>DDFFFFFF</colordiffuse>
 			<texturefocus>rcb-button-focus.png</texturefocus>
 			<texturenofocus>rcb-button-nofocus.png</texturenofocus>
 			<label>Save Config</label>				
-			<textcolor>DDFFFFFF</textcolor>
+			<textcolor>88FFFFFF</textcolor>
 			<disabledcolor>80FFFFFF</disabledcolor>
 			<align>center</align>
 			<aligny>center</aligny>
@@ -1161,11 +1168,12 @@
 			<width>100</width>
 			<height>25</height>
 			<visible>true</visible>
+			<font>font13</font>
 			<colordiffuse>DDFFFFFF</colordiffuse>
 			<texturefocus>rcb-button-focus.png</texturefocus>
 			<texturenofocus>rcb-button-nofocus.png</texturenofocus>
 			<label>Cancel</label>				
-			<textcolor>DDFFFFFF</textcolor>
+			<textcolor>88FFFFFF</textcolor>
 			<disabledcolor>80FFFFFF</disabledcolor>
 			<align>center</align>
 			<aligny>center</aligny>

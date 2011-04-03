@@ -654,6 +654,7 @@
 				<width>100</width>
 				<height>25</height>
 				<visible>true</visible>
+				<font>font13</font>
 				<colordiffuse>DDFFFFFF</colordiffuse>
 				<texturefocus>rcb-button-focus.png</texturefocus>
 				<texturenofocus>rcb-button-nofocus.png</texturenofocus>
@@ -677,6 +678,7 @@
 				<width>100</width>
 				<height>25</height>
 				<visible>true</visible>
+				<font>font13</font>
 				<colordiffuse>DDFFFFFF</colordiffuse>
 				<texturefocus>rcb-button-focus.png</texturefocus>
 				<texturenofocus>rcb-button-nofocus.png</texturenofocus>
