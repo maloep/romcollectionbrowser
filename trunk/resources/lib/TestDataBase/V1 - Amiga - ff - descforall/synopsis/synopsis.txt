@@ -76,7 +76,7 @@ From Croatia came this overhead view football game resembling Sensible Soccer. T
 
 Far more moves are possible in this one though, including overhead kicks, backheelers, riding tackles and even some impressive overhead kicks, all of which need practice to be perfected. Passing works in a similar way to Sensible, but requiring a longer tap, and giving more versatility in where the pass is placed. Extra details such as an on-screen referee and a zoom feature on replays are included. Kits can be edited in more detail than most games of the time as well.
 ********************************************************************
-Game: Formula One: Grand Prix
+Game: Formula One Grand Prix
 CRC: E2146BBF
 Platform: Amiga
 Region: 
