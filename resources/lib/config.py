@@ -145,7 +145,13 @@ class Scraper:
 	platformId = 0
 	
 class Site:
-	name = ''
+	name = ''	
+	descFilePerGame = False
+	searchGameByCRC = True
+	searchGameByCRCIgnoreRomName = False
+	useFoldernameAsCRC = False
+	useFilenameAsCRC = False
+	
 	scrapers = None
 
 class RomCollection:
@@ -159,14 +165,9 @@ class RomCollection:
 	scraperSites = None
 	imagePlacing = None
 	ignoreOnScan = False
-	allowUpdate = True	
-	searchGameByCRC = True
-	searchGameByCRCIgnoreRomName = False
-	useFoldernameAsCRC = False
-	useFilenameAsCRC = False
-	useFoldernameAsGamename = False
+	allowUpdate = True
 	maxFolderDepth = 99
-	descFilePerGame = False
+	useFoldernameAsGamename = False
 	doNotExtractZipFiles = False
 	diskPrefix = '_Disk'
 	xboxCreateShortcut = False
@@ -318,22 +319,6 @@ class Config:
 			allowUpdate = romCollectionRow.find('allowUpdate')
 			if(allowUpdate != None):
 				romCollection.allowUpdate = allowUpdate.text.upper() == 'TRUE'
-				
-			searchGameByCRC = romCollectionRow.find('searchGameByCRC')
-			if(searchGameByCRC != None):
-				romCollection.searchGameByCRC = searchGameByCRC.text.upper() == 'TRUE'
-				
-			searchGameByCRCIgnoreRomName = romCollectionRow.find('searchGameByCRCIgnoreRomName')
-			if(searchGameByCRCIgnoreRomName != None):
-				romCollection.searchGameByCRCIgnoreRomName = searchGameByCRCIgnoreRomName.text.upper() == 'TRUE'
-				
-			useFoldernameAsCRC = romCollectionRow.find('useFoldernameAsCRC')
-			if(useFoldernameAsCRC != None):
-				romCollection.useFoldernameAsCRC = useFoldernameAsCRC.text.upper() == 'TRUE'
-				
-			useFilenameAsCRC = romCollectionRow.find('useFilenameAsCRC')
-			if(useFilenameAsCRC != None):
-				romCollection.useFilenameAsCRC = useFilenameAsCRC.text.upper() == 'TRUE'
 			
 			useFoldernameAsGamename = romCollectionRow.find('useFoldernameAsGamename')
 			if(useFoldernameAsGamename != None):
@@ -342,10 +327,6 @@ class Config:
 			maxFolderDepth = romCollectionRow.find('maxFolderDepth')
 			if(maxFolderDepth != None):
 				romCollection.maxFolderDepth = int(maxFolderDepth.text)
-				
-			descFilePerGame = romCollectionRow.find('descFilePerGame')
-			if(descFilePerGame != None):
-				romCollection.descFilePerGame = descFilePerGame.text.upper() == 'TRUE'
 				
 			doNotExtractZipFiles = romCollectionRow.find('doNotExtractZipFiles')
 			if(doNotExtractZipFiles != None):
@@ -391,7 +372,30 @@ class Config:
 		
 		site = Site()
 		site.name = siteName
+		Logutil.log('Scraper Site: ' +str(site.name), util.LOG_LEVEL_INFO)
 		site.platformId = platform
+		Logutil.log('Site platform: ' +platform, util.LOG_LEVEL_INFO)
+		
+		descFilePerGame = siteRow.attrib.get('descFilePerGame')
+		if(descFilePerGame != None and descFilePerGame != ''):
+			site.descFilePerGame = descFilePerGame.upper() == 'TRUE'
+			Logutil.log('Scraper descFilePerGame: ' +str(site.descFilePerGame), util.LOG_LEVEL_INFO)
+		
+		searchGameByCRC = siteRow.attrib.get('searchGameByCRC')
+		if(searchGameByCRC != None and searchGameByCRC != ''):
+			site.searchGameByCRC = searchGameByCRC.upper() == 'TRUE'
+			
+		searchGameByCRCIgnoreRomName = siteRow.attrib.get('searchGameByCRCIgnoreRomName')
+		if(searchGameByCRCIgnoreRomName != None and searchGameByCRCIgnoreRomName != ''):
+			site.searchGameByCRCIgnoreRomName = searchGameByCRCIgnoreRomName.upper() == 'TRUE'
+			
+		useFoldernameAsCRC = siteRow.attrib.get('useFoldernameAsCRC')
+		if(useFoldernameAsCRC != None and useFoldernameAsCRC != ''):
+			site.useFoldernameAsCRC = useFoldernameAsCRC.upper() == 'TRUE'
+			
+		useFilenameAsCRC = siteRow.attrib.get('useFilenameAsCRC')
+		if(useFilenameAsCRC != None and useFilenameAsCRC != ''):
+			site.useFilenameAsCRC = useFilenameAsCRC.upper() == 'TRUE'
 		
 		scrapers = []
 		

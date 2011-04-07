@@ -52,7 +52,8 @@ class TestUpdateDB(unittest.TestCase):
 		#test some filters
 		
 		likeStmnt = '0 = 0'
-				
+			
+		
 		#Amiga Action
 		gameRows = Game(self.gdb).getFilteredGames(1, 1, 0, 0, likeStmnt)
 		self.assertTrue(gameRows != None)
@@ -91,11 +92,11 @@ class TestUpdateDB(unittest.TestCase):
 		#SNES 1992 Racing Nintendo 
 		gameRows = Game(self.gdb).getFilteredGames(3, 10, 5, 9, likeStmnt)
 		self.assertTrue(gameRows != None)
-		self.assertEqual(len(gameRows), 1)
+		self.assertEqual(len(gameRows), 1)		
 		
 		gameRows = Game(self.gdb).getAllOrdered()	
 		self.assertTrue(gameRows != None)
-		self.assertEqual(len(gameRows), 48)				
+		self.assertEqual(len(gameRows), 47)				
 		
 		
 		self.gameTest(gameRows[0], '007: Agent Under Fire', 'Get ready for the next generation of 007, as Her Majestys greatest secret agent embarks upon an all-new, action-packed adventure.', 
@@ -146,7 +147,7 @@ class TestUpdateDB(unittest.TestCase):
 		self.gameTest(gameRows[15], 'Football Glory', 'From Croatia came this overhead view football game resembling Sensible Soccer.', 
 			None,  None, 2, 12, 13, None, 10, '1-2 Players', '', '', 'http://www.mobygames.com/game/amiga/football-glory', '', '', '', '', 0, 0,
 			3, 1, 1, 0, 0, 0)
-		self.gameTest(gameRows[16], 'Formula One: Grand Prix', 'F1 is an Official Formula One Racing Game.', 
+		self.gameTest(gameRows[16], 'Formula One Grand Prix', 'F1 is an Official Formula One Racing Game.', 
 			None,  None, 1, 3, 3, None, 3, '????', '', '', 'http://www.mobygames.com/game/amiga/formula-one_', '', '', '', '', 0, 0,
 			4, 1, 1, 0, 0, 0)
 		self.gameTest(gameRows[17], 'Game without Desc', '', 
@@ -185,13 +186,16 @@ class TestUpdateDB(unittest.TestCase):
 		self.gameTest(gameRows[38], 'Space Invaders', 'Taito and Nintendo have brought back the classic Space Invaders game, with very little modification.', 
 			None,  None, 3, 9, 9, None, 7, '', '', '', '', 'USA', 'Cartridge', '', 'Gamepad', 0, 0,
 			1, 1, 1, 1, 1, 0)		
-		self.gameTest(gameRows[39], 'Street Fighter II - The World Warrior', 'Eight fighters from across the globe have come together to see which of them has the strength, skill and courage to challenge the mysterious Grand Masters.', 
+		self.gameTest(gameRows[39], 'Space Invaders', 'Taito and Nintendo have brought back the classic Space Invaders game, with very little modification.', 
+			None,  None, 4, 9, 9, None, 7, '', '', '', '', 'USA', 'Cartridge', '', 'Gamepad', 0, 0,
+			1, 1, 1, 1, 1, 0)
+		self.gameTest(gameRows[40], 'Street Fighter II - The World Warrior', 'Eight fighters from across the globe have come together to see which of them has the strength, skill and courage to challenge the mysterious Grand Masters.', 
 			None,  None, 3, 10, 10, None, 5, '1 or 2 VS', '', '', '', 'USA', 'Cartridge', '', 'Gamepad', 0, 0,
 			1, 1, 1, 1, 1, 0)
-		self.gameTest(gameRows[42], 'Super Mario Kart', 'Hi everybody! Thanks for dropping to by the Super Mario Kart race track.', 
+		self.gameTest(gameRows[43], 'Super Mario Kart', 'Hi everybody! Thanks for dropping to by the Super Mario Kart race track.', 
 			None,  None, 3, 9, 11, None, 5, '1 to 4 VS', '', '', '', 'USA', 'Cartridge', '', 'Gamepad', 0, 0,
 			1, 1, 1, 1, 1, 0)
-		self.gameTest(gameRows[45], 'The Legend of Zelda: A Link to the Past', 'This installment in the Zelda series was my favorite.', 
+		self.gameTest(gameRows[46], 'The Legend of Zelda: A Link to the Past', 'This installment in the Zelda series was my favorite.', 
 			None,  None, 4, 9, 11, None, 5, '1', '', '', '', 'USA', 'Cartridge', '', 'Gamepad', 0, 0,
 			1, 1, 1, 1, 1, 1)
 		
