@@ -117,41 +117,56 @@ class DBUpdate:
 					#parse description
 					for result in parser.scanDescription(scraper.source, str(scraper.parseInstruction), scraper.encoding):
 						
-						gamenameFromDesc = result['Game'][0]	
-						
-						#find parsed game in Rom Collection
-						filenamelist = self.matchDescriptionWithRomfiles(firstScraper, result, fileDict, gamenameFromDesc)
-	
-						if(filenamelist != None and len(filenamelist) > 0):
-											
-							gamenameFromFile = self.getGamenameFromFilename(filenamelist[0], romCollection)
-							foldername = self.getFoldernameFromRomFilename(filenamelist[0])
+						try:
+							gamenameFromDesc = result['Game'][0]
 							
-							continueUpdate = gui.writeMsg(progDialogRCHeader, "Import game: " +str(gamenameFromDesc), "", fileCount)
-							if(not continueUpdate):				
-								Logutil.log('Game import canceled by user', util.LOG_LEVEL_INFO)
-								break
-							
-							fileCount = fileCount +1
-							
-							Logutil.log('Start scraping info for game: ' +str(gamenameFromFile), LOG_LEVEL_INFO)
-														
-							#check if this file already exists in DB
-							continueUpdate, isUpdate, gameId = self.checkRomfileAlreadyExists(filenamelist[0], enableFullReimport)
-							if(not continueUpdate):
-								continue
-							
-							#use additional scrapers
-							if(len(romCollection.scraperSites) > 1):
-								result = self.useSingleScrapers(result, romCollection, 1, gamenameFromFile, foldername, filenamelist[0], fuzzyFactor, updateOption, gui, progDialogRCHeader, fileCount)
+							#find parsed game in Rom Collection
+							filenamelist = self.matchDescriptionWithRomfiles(firstScraper, result, fileDict, gamenameFromDesc)
+		
+							if(filenamelist != None and len(filenamelist) > 0):
+												
+								gamenameFromFile = self.getGamenameFromFilename(filenamelist[0], romCollection)
+								foldername = self.getFoldernameFromRomFilename(filenamelist[0])
 								
-						else:
-							Logutil.log("game " +gamenameFromDesc +" was found in parsed results but not in your rom collection.", util.LOG_LEVEL_WARNING)
-							self.missingDescFile.write('%s\n' %gamenameFromDesc)
-							continue
+								continueUpdate = gui.writeMsg(progDialogRCHeader, "Import game: " +str(gamenameFromDesc), "", fileCount)
+								if(not continueUpdate):				
+									Logutil.log('Game import canceled by user', util.LOG_LEVEL_INFO)
+									break
+								
+								fileCount = fileCount +1
+								
+								Logutil.log('Start scraping info for game: ' +str(gamenameFromFile), LOG_LEVEL_INFO)
+															
+								#check if this file already exists in DB
+								continueUpdate, isUpdate, gameId = self.checkRomfileAlreadyExists(filenamelist[0], enableFullReimport)
+								if(not continueUpdate):
+									continue
+								
+								#use additional scrapers
+								if(len(romCollection.scraperSites) > 1):
+									result = self.useSingleScrapers(result, romCollection, 1, gamenameFromFile, foldername, filenamelist[0], fuzzyFactor, updateOption, gui, progDialogRCHeader, fileCount)
+								
+							else:
+								Logutil.log("game " +gamenameFromDesc +" was found in parsed results but not in your rom collection.", util.LOG_LEVEL_WARNING)
+								continue						
 							
-						dialogDict = {'dialogHeaderKey':progDialogRCHeader, 'gameNameKey':gamenameFromFile, 'scraperSiteKey':{}, 'fileCountKey':fileCount}
-						self.insertGameFromDesc(result, gamenameFromFile, romCollection, filenamelist, foldername, isUpdate, gameId, gui, dialogDict)
+							dialogDict = {'dialogHeaderKey':progDialogRCHeader, 'gameNameKey':gamenameFromFile, 'scraperSiteKey':{}, 'fileCountKey':fileCount}
+							gameId = self.insertGameFromDesc(result, gamenameFromFile, romCollection, filenamelist, foldername, isUpdate, gameId, gui, dialogDict)
+							
+							#remove found files from file list
+							if(gameId != None):
+								for filename in filenamelist:
+									files.remove(filename)
+						
+						except Exception, (exc):
+							Logutil.log("an error occured while adding game " +gamenameFromDesc, util.LOG_LEVEL_WARNING)
+							Logutil.log("Error: " +str(exc), util.LOG_LEVEL_WARNING)
+							continue
+						
+					#all files still available files-list, are missing entries
+					for filename in files:
+						gamenameFromFile = self.getGamenameFromFilename(filename, romCollection)
+						self.missingDescFile.write('%s\n' %gamenameFromFile)
 							
 				except Exception, (exc):
 					Logutil.log("an error occured while adding game " +gamenameFromDesc, util.LOG_LEVEL_WARNING)
@@ -524,7 +539,6 @@ class DBUpdate:
 	def useSingleScrapers(self, result, romCollection, startIndex, gamenameFromFile, foldername, firstRomfile, fuzzyFactor, updateOption, gui, progDialogRCHeader, fileCount):
 		
 		filecrc = ''
-		results = {}
 		
 		for i in range(startIndex, len(romCollection.scraperSites)):
 			scraperSite = romCollection.scraperSites[i]			
@@ -539,11 +553,11 @@ class DBUpdate:
 			doContinue = False
 			for scraper in scraperSite.scrapers:
 				pyScraper = PyScraper()
-				results, urlsFromPreviousScrapers, doContinue = pyScraper.scrapeResults(result, scraper, urlsFromPreviousScrapers, gamenameFromFile, foldername, filecrc, firstRomfile, fuzzyFactor, updateOption)
+				result, urlsFromPreviousScrapers, doContinue = pyScraper.scrapeResults(result, scraper, urlsFromPreviousScrapers, gamenameFromFile, foldername, filecrc, firstRomfile, fuzzyFactor, updateOption)
 			if(doContinue):
 				continue
 			
-		return results
+		return result
 				
 				
 	def insertGameFromDesc(self, gamedescription, gamename, romCollection, filenamelist, foldername, isUpdate, gameId, gui, dialogDict=''):								
@@ -621,12 +635,17 @@ class DBUpdate:
 			Logutil.log("Additional data path: " +str(path.path), util.LOG_LEVEL_DEBUG)
 			files = self.resolvePath((path.path,), gamename, gamenameFromFile, foldername, romCollection.name, publisher, developer)
 			if(len(files) > 0):
+				artWorkFound = True
+				
+				#HACK: disable static image check as a preparation for new default image handling (this code has problems with [] in rom names)				
+				"""
 				imagePath = str(self.resolvePath((path.path,), gamename, gamenameFromFile, foldername, romCollection.name, publisher, developer))
-				staticImageCheck = imagePath.find(gamenameFromFile)	
+				staticImageCheck = imagePath.upper().find(gamenameFromFile.upper())
 				
 				#make sure that it was no default image that was found here
 				if(staticImageCheck != -1):
-					artWorkFound = True					
+					artWorkFound = True
+				"""					
 			else:
 				self.missingArtworkFile.write('%s (filename: %s) (%s)\n' %(gamename, gamenameFromFile, path.fileType.name))
 			
