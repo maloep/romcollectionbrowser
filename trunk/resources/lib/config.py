@@ -247,14 +247,16 @@ class Config:
 			romPathRows = romCollectionRow.findall('romPath')			
 			for romPathRow in romPathRows:
 				Logutil.log('Rom path: ' +str(romPathRow.text), util.LOG_LEVEL_INFO)
-				romCollection.romPaths.append(romPathRow.text)
+				if(romPathRow.text != None):
+					romCollection.romPaths.append(romPathRow.text)
 				
 			#mediaPath
 			romCollection.mediaPaths = []
 			mediaPathRows = romCollectionRow.findall('mediaPath')
 			for mediaPathRow in mediaPathRows:
 				mediaPath = MediaPath()
-				mediaPath.path = mediaPathRow.text
+				if(mediaPathRow.text != None):
+					mediaPath.path = mediaPathRow.text
 				Logutil.log('Media path: ' +str(mediaPathRow.text), util.LOG_LEVEL_INFO)
 				fileType, errorMsg = self.readFileType(mediaPathRow.attrib.get('type'), tree)
 				if(fileType == None):
@@ -302,51 +304,42 @@ class Config:
 				romCollection.imagePlacing = fileTypeFor
 			
 			#all simple RomCollection properties
-			emulatorCmd = romCollectionRow.find('emulatorCmd')
-			if(emulatorCmd != None):
-				Logutil.log('Emulator cmd: ' +str(emulatorCmd.text), util.LOG_LEVEL_INFO)
-				romCollection.emulatorCmd = emulatorCmd.text
+			romCollection.emulatorCmd = self.readTextElement(romCollectionRow, 'emulatorCmd')
+			romCollection.emulatorParams = self.readTextElement(romCollectionRow, 'emulatorParams')
+						
+			ignoreOnScan = self.readTextElement(romCollectionRow, 'ignoreOnScan')
+			if(ignoreOnScan != ''):
+				romCollection.ignoreOnScan = ignoreOnScan.upper() == 'TRUE'
 			
-			emulatorParams = romCollectionRow.find('emulatorParams')
-			if(emulatorParams != None):
-				Logutil.log('Emulator params: ' +str(emulatorParams.text), util.LOG_LEVEL_INFO)
-				romCollection.emulatorParams = emulatorParams.text
+			allowUpdate = self.readTextElement(romCollectionRow, 'allowUpdate') 			
+			if(allowUpdate != ''):
+				romCollection.allowUpdate = allowUpdate.upper() == 'TRUE'
 			
-			ignoreOnScan = romCollectionRow.find('ignoreOnScan')
-			if(ignoreOnScan != None):
-				romCollection.ignoreOnScan = ignoreOnScan.text.upper() == 'TRUE'
-				
-			allowUpdate = romCollectionRow.find('allowUpdate')
-			if(allowUpdate != None):
-				romCollection.allowUpdate = allowUpdate.text.upper() == 'TRUE'
+			useFoldernameAsGamename = self.readTextElement(romCollectionRow, 'useFoldernameAsGamename')			
+			if(useFoldernameAsGamename != ''):
+				romCollection.useFoldernameAsGamename = useFoldernameAsGamename.upper() == 'TRUE'	
 			
-			useFoldernameAsGamename = romCollectionRow.find('useFoldernameAsGamename')
-			if(useFoldernameAsGamename != None):
-				romCollection.useFoldernameAsGamename = useFoldernameAsGamename.text.upper() == 'TRUE'	
-			
-			maxFolderDepth = romCollectionRow.find('maxFolderDepth')
-			if(maxFolderDepth != None):
-				romCollection.maxFolderDepth = int(maxFolderDepth.text)
+			maxFolderDepth = self.readTextElement(romCollectionRow, 'maxFolderDepth') 
+			if(maxFolderDepth != ''):
+				romCollection.maxFolderDepth = int(maxFolderDepth)
 				
-			doNotExtractZipFiles = romCollectionRow.find('doNotExtractZipFiles')
-			if(doNotExtractZipFiles != None):
-				romCollection.doNotExtractZipFiles = doNotExtractZipFiles.text.upper() == 'TRUE'		
+			doNotExtractZipFiles = self.readTextElement(romCollectionRow, 'doNotExtractZipFiles') 			
+			if(doNotExtractZipFiles != ''):
+				romCollection.doNotExtractZipFiles = doNotExtractZipFiles.upper() == 'TRUE'		
 				
-			diskPrefix = romCollectionRow.find('diskPrefix')
-			if(diskPrefix != None):
-				romCollection.diskPrefix = diskPrefix.text							
+			diskPrefix = self.readTextElement(romCollectionRow, 'diskPrefix')
 				
-			xboxCreateShortcut = romCollectionRow.find('xboxCreateShortcut')
-			if(xboxCreateShortcut != None):
-				romCollection.xboxCreateShortcut = xboxCreateShortcut.text.upper() == 'TRUE'
+			xboxCreateShortcut = self.readTextElement(romCollectionRow, 'xboxCreateShortcut')			
+			if(xboxCreateShortcut != ''):
+				romCollection.xboxCreateShortcut = xboxCreateShortcut.upper() == 'TRUE'
 				
-			xboxCreateShortcutAddRomfile = romCollectionRow.find('xboxCreateShortcutAddRomfile')
-			if(xboxCreateShortcutAddRomfile != None):
-				romCollection.xboxCreateShortcutAddRomfile = xboxCreateShortcutAddRomfile.text.upper() == 'TRUE'
+			xboxCreateShortcutAddRomfile = self.readTextElement(romCollectionRow, 'xboxCreateShortcutAddRomfile') 			
+			if(xboxCreateShortcutAddRomfile != ''):
+				romCollection.xboxCreateShortcutAddRomfile = xboxCreateShortcutAddRomfile.upper() == 'TRUE'
 				
-			xboxCreateShortcutUseShortGamename = romCollectionRow.find('xboxCreateShortcutUseShortGamename')
-			if(xboxCreateShortcutUseShortGamename != None):
-				romCollection.xboxCreateShortcutUseShortGamename = xboxCreateShortcutUseShortGamename.text.upper() == 'TRUE'
+			xboxCreateShortcutUseShortGamename = self.readTextElement(romCollectionRow, 'xboxCreateShortcutUseShortGamename')			
+			if(xboxCreateShortcutUseShortGamename != ''):
+				romCollection.xboxCreateShortcutUseShortGamename = xboxCreateShortcutUseShortGamename.upper() == 'TRUE'
 									
 			try:
 				romCollections[id] = romCollection 
@@ -553,4 +546,14 @@ class Config:
 					fileTypeIds.append(fileType.id)
 
 		return fileTypeIds
+	
+	
+	def readTextElement(self, parent, elementName):
+		element = parent.find(elementName)
+		if(element != None and element.text != None):
+			Logutil.log('%s: %s' %(elementName, element.text), util.LOG_LEVEL_INFO)
+			return element.text
+		else:
+			return ''
+	
 			

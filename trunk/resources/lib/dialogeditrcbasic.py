@@ -297,7 +297,7 @@ class EditRCBasicDialog(xbmcgui.WindowXMLDialog):
 		if(self.selectedRomCollection == None):
 			return
 		
-		control = self.getControlById(CONTROL_BUTTON_EMUCMD)
+		control = self.getControlById(CONTROL_BUTTON_EMUCMD)		
 		control.setLabel(self.selectedRomCollection.emulatorCmd)
 		
 		control = self.getControlById(CONTROL_BUTTON_PARAMS)
