@@ -23,7 +23,7 @@
 			<xboxCreateShortcut>False</xboxCreateShortcut>
 			<xboxCreateShortcutAddRomfile>False</xboxCreateShortcutAddRomfile>
 			<xboxCreateShortcutUseShortGamename>False</xboxCreateShortcutUseShortGamename>
-			<diskPrefix>_Disk</diskPrefix>			
+			<diskPrefix> [(]Disk.*[)]</diskPrefix>
 			<allowUpdate>True</allowUpdate>
 			<ignoreOnScan>False</ignoreOnScan>
 			<ignoreGameWithoutDesc>False</ignoreGameWithoutDesc>
