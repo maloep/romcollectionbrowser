@@ -406,12 +406,18 @@ class DBUpdate:
 			gamename = os.path.basename(os.path.dirname(filename))
 			
 		Logutil.log("gamename (file): " +gamename, util.LOG_LEVEL_INFO)
-						
-		dpIndex = gamename.lower().find(romCollection.diskPrefix.lower())
-		if dpIndex > -1:
-			gamename = gamename[0:dpIndex]
+				
+		#use regular expression to find disk prefix like '(Disk 1)' etc.		
+		match = False
+		if(romCollection.diskPrefix != ''):
+			match = re.search(romCollection.diskPrefix.lower(), gamename.lower())
+		
+		if match:
+			gamename = gamename[0:match.start()]
 		else:
 			gamename = os.path.splitext(gamename)[0]					
+		
+		gamename = gamename.strip()
 		
 		Logutil.log("gamename (friendly): " +gamename, util.LOG_LEVEL_INFO)		
 		
