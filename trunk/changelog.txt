@@ -1,4 +1,11 @@
 
+0.8.4 (04/2011)
+~~~~~~~~~~~~~
+Game Import:
+    * refactoring game import: code cleanup, little bug fixes, better error handling, ...
+    * move scraper related properties from Rom Collection to scraper (descfilePerGame, searchGameByCRC, ...)
+    * support regular expressions in diskPrefix (handling of rom files like "MyGame (Disk 1).zip")
+
 0.8.3 (04/2011)
 ~~~~~~~~~~~~~
 Game Import:
