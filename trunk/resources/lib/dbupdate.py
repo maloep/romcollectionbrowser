@@ -157,6 +157,11 @@ class DBUpdate:
 							if(gameId != None):
 								for filename in filenamelist:
 									files.remove(filename)
+									
+							#stop import if no files are left
+							if(len(files) == 0):
+								Logutil.log("All games are imported", util.LOG_LEVEL_INFO)
+								break
 						
 						except Exception, (exc):
 							Logutil.log("an error occured while adding game " +gamenameFromDesc, util.LOG_LEVEL_WARNING)
