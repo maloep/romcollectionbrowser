@@ -327,7 +327,7 @@ class Config:
 			if(doNotExtractZipFiles != ''):
 				romCollection.doNotExtractZipFiles = doNotExtractZipFiles.upper() == 'TRUE'		
 				
-			diskPrefix = self.readTextElement(romCollectionRow, 'diskPrefix')
+			romCollection.diskPrefix = self.readTextElement(romCollectionRow, 'diskPrefix')
 				
 			xboxCreateShortcut = self.readTextElement(romCollectionRow, 'xboxCreateShortcut')			
 			if(xboxCreateShortcut != ''):
