@@ -246,7 +246,11 @@ def buildCmd(filenameRows, romCollection, escapeCmd):
 			chosenROM = -1
 			
 			#check if we should handle multiple roms
-			if '%I%' in emuParams and romCollection.diskPrefix in str(names):
+			match = False
+			if(romCollection.diskPrefix != ''):
+				match = re.search(romCollection.diskPrefix.lower(), str(names).lower())
+			
+			if '%I%' in emuParams and match:
 				Logutil.log("Loading %d archives" % len(names), util.LOG_LEVEL_INFO)
 				archives = getArchives(filext, rom, names)
 				if(archives == None):
