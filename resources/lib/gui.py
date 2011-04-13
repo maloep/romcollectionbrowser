@@ -173,6 +173,33 @@ class ContextMenuDialog(xbmcgui.WindowXMLDialog):
 				else:
 					self.gui.setFilterSelection(CONTROL_GAMES_GROUP_START, 0)
 		
+		elif (controlID == 5114): #Edit Game Command			
+			self.close()
+			
+			pos = self.gui.getCurrentListPosition()
+			if(pos == -1):
+				xbmcgui.Dialog().ok(util.SCRIPTNAME, 'Edit Game Command Error', "Can't load selected Game")
+				return					
+				
+			selectedGame, gameRow = self.gui.getGameByPosition(self.gui.gdb, pos)
+			if(selectedGame == None or gameRow == None):
+				xbmcgui.Dialog().ok(util.SCRIPTNAME, 'Edit Game Command Error', "Can't load selected Game")
+				return
+
+			command = gameRow[util.GAME_gameCmd]
+			
+			keyboard = xbmc.Keyboard()
+			keyboard.setHeading('Enter Game Command')
+			if(command != None):
+				keyboard.setDefault(command)
+			keyboard.doModal()
+			if (keyboard.isConfirmed()):
+				command = keyboard.getText()
+				
+				Logutil.log("Updating game '%s' with command '%s'" %(str(gameRow[util.ROW_NAME]), command), util.LOG_LEVEL_INFO)
+				Game(self.gui.gdb).update(('gameCmd',), (command,), gameRow[util.ROW_ID])
+				self.gui.gdb.commit()
+		
 	
 	def onFocus(self, controlID):
 		pass
