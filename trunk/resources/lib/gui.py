@@ -650,7 +650,9 @@ class UIGameDB(xbmcgui.WindowXML):
 	
 	
 	def showGameInfo(self):
-		Logutil.log("Begin showGameInfo" , util.LOG_LEVEL_INFO)		
+		Logutil.log("Begin showGameInfo" , util.LOG_LEVEL_INFO)
+		
+		self.writeMsg("")	
 		
 		if(self.playVideoThread != None and self.playVideoThread.isAlive()):			
 			self.playVideoThreadStopped = True
@@ -2025,6 +2027,7 @@ class UIGameDB(xbmcgui.WindowXML):
 	
 	
 	def writeMsg(self, msg, count=0):
+		
 		control = self.getControlById(CONTROL_LABEL_MSG)
 		if(control == None):
 			Logutil.log("RCB_WARNING: control == None in writeMsg", util.LOG_LEVEL_WARNING)

@@ -110,6 +110,8 @@ def launchEmu(gdb, gui, gameId, config, settings):
 				launchXbox(gui, gdb, cmd, romCollection, filenameRows)
 			else:
 				launchNonXbox(cmd, settings)
+		
+			gui.writeMsg("")
 						
 		except Exception, (exc):
 			Logutil.log("Error while launching emu: " +str(exc), util.LOG_LEVEL_ERROR)
