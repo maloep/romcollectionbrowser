@@ -79,7 +79,7 @@ def launchEmu(gdb, gui, gameId, config, settings):
 		escapeCmd = settings.getSetting(util.SETTING_RCB_ESCAPECOMMAND).upper() == 'TRUE'
 		cmd = buildCmd(filenameRows, romCollection, escapeCmd)
 			
-		if (settings.getSetting(util.SETTING_RCB_USEEMUSOLO).upper() == 'TRUE'):
+		if (romCollection.useEmuSolo):
 			
 			#try to create autoexec.py
 			writeAutoexec(gdb)
@@ -109,7 +109,7 @@ def launchEmu(gdb, gui, gameId, config, settings):
 			if (os.environ.get( "OS", "xbox" ) == "xbox"):			
 				launchXbox(gui, gdb, cmd, romCollection, filenameRows)
 			else:
-				launchNonXbox(cmd, settings)
+				launchNonXbox(cmd, romCollection)
 		
 			gui.writeMsg("")
 						
@@ -460,12 +460,12 @@ def getRomfilenameForXboxCutfile(filenameRows, romCollection):
 	return filename
 	
 	
-def launchNonXbox(cmd, settings):
+def launchNonXbox(cmd, romCollection):
 	Logutil.log("launchEmu on non-xbox", util.LOG_LEVEL_INFO)							
 				
 	toggledScreenMode = False
 	
-	if (settings.getSetting(util.SETTING_RCB_USEEMUSOLO).upper() == 'FALSE'):
+	if (not romCollection.useEmuSolo):
 		screenMode = xbmc.executehttpapi("GetSystemInfoByName(system.screenmode)").replace("<li>","")
 		Logutil.log("screenMode: " +screenMode, util.LOG_LEVEL_INFO)
 		isFullScreen = screenMode.endswith("Full Screen")

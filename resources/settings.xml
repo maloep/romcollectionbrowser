@@ -28,7 +28,6 @@
 	</category>
 	
 	<category label="Launch Games">
-		<setting id="rcb_useEmulatorSolo" label="Use emulator solo" value="false" type="bool" default="false"/>
 		<setting id="rcb_escapeEmulatorCommand" label="Escape emulator cmd" value="false" type="bool" default="false"/>
 	</category>
 	
