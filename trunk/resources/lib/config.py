@@ -166,6 +166,7 @@ class RomCollection:
 	imagePlacing = None
 	ignoreOnScan = False
 	allowUpdate = True
+	useEmuSolo = False
 	maxFolderDepth = 99
 	useFoldernameAsGamename = False
 	doNotExtractZipFiles = False
@@ -314,6 +315,10 @@ class Config:
 			allowUpdate = self.readTextElement(romCollectionRow, 'allowUpdate') 			
 			if(allowUpdate != ''):
 				romCollection.allowUpdate = allowUpdate.upper() == 'TRUE'
+				
+			useEmuSolo = self.readTextElement(romCollectionRow, 'useEmuSolo') 			
+			if(useEmuSolo != ''):
+				romCollection.useEmuSolo = useEmuSolo.upper() == 'TRUE'
 			
 			useFoldernameAsGamename = self.readTextElement(romCollectionRow, 'useFoldernameAsGamename')			
 			if(useFoldernameAsGamename != ''):
