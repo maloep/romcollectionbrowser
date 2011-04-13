@@ -77,7 +77,7 @@ def launchEmu(gdb, gui, gameId, config, settings):
 		filenameRows = File(gdb).getRomsByGameId(gameRow[util.ROW_ID])		
 		
 		escapeCmd = settings.getSetting(util.SETTING_RCB_ESCAPECOMMAND).upper() == 'TRUE'
-		cmd = buildCmd(filenameRows, romCollection, escapeCmd)
+		cmd = buildCmd(filenameRows, romCollection, gameRow, escapeCmd)
 			
 		if (romCollection.useEmuSolo):
 			
@@ -198,7 +198,7 @@ def buildLikeStatement(selectedCharacter):
 		
 
 		
-def buildCmd(filenameRows, romCollection, escapeCmd):
+def buildCmd(filenameRows, romCollection, gameRow, escapeCmd):
 	
 	fileindex = int(0)
 	compressedExtensions = ['7z', 'zip']
@@ -218,6 +218,11 @@ def buildCmd(filenameRows, romCollection, escapeCmd):
 		replString = emuParams[obIndex+1:cbIndex]
 	emuParams = emuParams.replace("{", "")
 	emuParams = emuParams.replace("}", "")
+	
+	#insert game specific command
+	if(gameRow[util.GAME_gameCmd] != None):
+		emuParams = emuParams.replace("%GAMECMD%", str(gameRow[util.GAME_gameCmd]))
+	
 	
 	for fileNameRow in filenameRows:
 		fileName = fileNameRow[0]			

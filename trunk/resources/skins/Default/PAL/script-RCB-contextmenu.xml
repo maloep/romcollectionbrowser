@@ -27,7 +27,7 @@
 			<texturenofocus>rcb-DialogCloseButton.png</texturenofocus>
 			<onleft>5110</onleft>
 			<onright>5110</onright>
-			<onup>5110</onup>
+			<onup>5114</onup>
 			<ondown>5110</ondown>
 			<visible>system.getbool(input.enablemouse)</visible>
 		</control>
@@ -36,13 +36,13 @@
 			<posx>0</posx>
 			<posy>0</posy>
 			<width>320</width>
-			<height>146</height>
+			<height>184</height>
 			<texture border="45,0,45,0">rcb-DialogContextMiddle.png</texture>
 		</control>
 		<control type="image">
 			<description>background bottom image</description>
 			<posx>0</posx>
-			<posy>146</posy>
+			<posy>184</posy>
 			<width>320</width>
 			<texture border="45,0,45,49">rcb-DialogContextBottom.png</texture>
 		</control>
@@ -108,6 +108,22 @@
 			<texturenofocus border="5">rcb-button-nofocus.png</texturenofocus>
 			<label>Delete Game</label>
 			<onup>5112</onup>
+			<ondown>5114</ondown>
+		</control>
+		<control type="button" id="5114">
+			<description>button edit command</description>
+			<posx>34</posx>
+			<posy>152</posy>
+			<width>247</width>
+			<height>38</height>
+			<font>fontContextMenu</font>
+			<align>center</align>
+			<textcolor>0x88FFFFFF</textcolor>
+			<focusedcolor>0xFFFFFFFF</focusedcolor>
+			<texturefocus border="5">rcb-button-focus.png</texturefocus>
+			<texturenofocus border="5">rcb-button-nofocus.png</texturenofocus>
+			<label>Edit Game Command</label>
+			<onup>5113</onup>
 			<ondown>5101</ondown>
 		</control>
 	</controls>

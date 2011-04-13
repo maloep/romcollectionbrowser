@@ -145,7 +145,7 @@ class DataBaseObject:
 	def update(self, columns, args, id):
 		
 		if(len(columns) != len(args)):
-			#TODO raise Exception?			
+			util.Logutil.log("len columns != len args in gdb.update()", util.LOG_LEVEL_WARNING)			
 			return
 			
 		updateString = "Update %s SET " %self.tableName
