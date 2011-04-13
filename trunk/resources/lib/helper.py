@@ -220,8 +220,11 @@ def buildCmd(filenameRows, romCollection, gameRow, escapeCmd):
 	emuParams = emuParams.replace("}", "")
 	
 	#insert game specific command
+	gameCmd = ''
 	if(gameRow[util.GAME_gameCmd] != None):
-		emuParams = emuParams.replace("%GAMECMD%", str(gameRow[util.GAME_gameCmd]))
+		gameCmd = str(gameRow[util.GAME_gameCmd])
+	#be case insensitive with (?i)
+	emuParams = re.sub('(?i)%gamecmd%', gameCmd, emuParams)
 	
 	
 	for fileNameRow in filenameRows:
@@ -306,27 +309,65 @@ def buildCmd(filenameRows, romCollection, gameRow, escapeCmd):
 		for rom in roms:
 			if fileindex == 0:
 				if (escapeCmd):
-					emuParams = emuParams.replace('%ROM%', re.escape(rom))
-					emuCommandLine = re.escape(emuCommandLine)
+					emuParams = replaceRomnameInParams(emuParams, re.escape(rom), romCollection)
 				else:					
-					emuParams = emuParams.replace('%ROM%', rom)
+					emuParams = replaceRomnameInParams(emuParams, rom, romCollection)
 				
 				if (os.environ.get( "OS", "xbox" ) == "xbox"):
-					cmd = emuCommandLine.replace('%ROM%', rom)
+					cmd = replaceRomnameInParams(emuCommandLine, rom, romCollection)
 				else:
 					cmd = '\"' +emuCommandLine +'\" ' +emuParams.replace('%I%', str(fileindex))
 			else:
 				newrepl = replString
 				if (escapeCmd):
-					newrepl = newrepl.replace('%ROM%', re.escape(rom))
+					newrepl = replaceRomnameInParams(newrepl, re.escape(rom), romCollection)					
 					emuCommandLine = re.escape(emuCommandLine)					
 				else:					
-					newrepl = newrepl.replace('%ROM%', rom)
+					newrepl = replaceRomnameInParams(newrepl, rom, romCollection)
 				newrepl = newrepl.replace('%I%', str(fileindex))
 				cmd += ' ' +newrepl		
 			fileindex += 1
 	
 	return cmd
+
+
+def replaceRomnameInParams(emuParams, rom, romCollection):		
+		
+	#TODO: Wanted to do this with re.sub:
+	#emuParams = re.sub(r'(?i)%rom%', rom, emuParams)
+	#--> but this also replaces \r \n with linefeed and newline etc.
+	
+	#full rom path ("C:\Roms\rom.zip")	
+	emuParams = emuParams.replace('%rom%', rom) 
+	emuParams = emuParams.replace('%ROM%', rom)
+	emuParams = emuParams.replace('%Rom%', rom)
+	
+	#romfile ("rom.zip")
+	romfile = os.path.basename(rom)
+	emuParams = emuParams.replace('%romfile%', romfile)
+	emuParams = emuParams.replace('%ROMFILE%', romfile)
+	emuParams = emuParams.replace('%Romfile%', romfile)
+	
+	#romname ("rom")
+	romname = os.path.splitext(os.path.basename(rom))[0]
+	emuParams = emuParams.replace('%romname%', romname)
+	emuParams = emuParams.replace('%ROMNAME%', romname)
+	emuParams = emuParams.replace('%Romname%', romname)
+	
+	#gamename = game without diskprefix
+	match = False
+	gamename = romname
+	if(romCollection.diskPrefix != ''):
+		match = re.search(romCollection.diskPrefix.lower(), romname.lower())	
+		if match:
+			gamename = romname[0:match.start()]
+			gamename = gamename.strip()
+		
+	emuParams = emuParams.replace('%game%', gamename)
+	emuParams = emuParams.replace('%GAME%', gamename)
+	emuParams = emuParams.replace('%Game%', gamename)
+		
+	return emuParams
 	
 	
 def writeAutoexec(gdb):
