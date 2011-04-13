@@ -1,19 +1,15 @@
 
-import os, sys, shutil
 import xbmc, xbmcgui
-import string, glob, time, array
-import getpass, ntpath, re
+import string, glob, time, array, os, sys, shutil, re
 from pysqlite2 import dbapi2 as sqlite
+from threading import *
 
-import dbupdate
-from gamedatabase import *
-import helper, util, config
+import dbupdate, helper, launcher, util, config
+import dialogimportoptions, dialogeditrcbasic
 from util import *
 from config import *
 from configxmlwriter import *
-
-from threading import *
-import dialogimportoptions, dialogeditrcbasic
+from gamedatabase import *
 
 
 #Action Codes
@@ -737,7 +733,7 @@ class UIGameDB(xbmcgui.WindowXML):
 			self.player.stoppedByRCB = True
 			self.player.stop()
 		
-		helper.launchEmu(self.gdb, self, gameId, self.config, self.Settings)
+		launcher.launchEmu(self.gdb, self, gameId, self.config, self.Settings)
 		Logutil.log("End launchEmu" , util.LOG_LEVEL_INFO)
 		
 		
