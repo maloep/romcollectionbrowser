@@ -161,6 +161,8 @@ class RomCollection:
 	emulatorCmd = ''
 	emulatorParams = ''
 	romPaths = None
+	saveStatePath = ''
+	saveStateParams = ''
 	mediaPaths = None
 	scraperSites = None
 	imagePlacing = None
@@ -307,6 +309,8 @@ class Config:
 			#all simple RomCollection properties
 			romCollection.emulatorCmd = self.readTextElement(romCollectionRow, 'emulatorCmd')
 			romCollection.emulatorParams = self.readTextElement(romCollectionRow, 'emulatorParams')
+			romCollection.saveStatePath = self.readTextElement(romCollectionRow, 'saveStatePath')
+			romCollection.saveStateParams = self.readTextElement(romCollectionRow, 'saveStateParams')
 						
 			ignoreOnScan = self.readTextElement(romCollectionRow, 'ignoreOnScan')
 			if(ignoreOnScan != ''):

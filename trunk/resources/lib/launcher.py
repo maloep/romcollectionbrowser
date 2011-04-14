@@ -3,7 +3,7 @@ import os, sys, re
 import dbupdate, util, helper
 from gamedatabase import *
 from util import *
-import time, zipfile
+import time, zipfile, glob
 
 
 def launchEmu(gdb, gui, gameId, config, settings):
@@ -29,7 +29,8 @@ def launchEmu(gdb, gui, gameId, config, settings):
 	#get environment OS
 	env = ( os.environ.get( "OS", "win32" ), "win32", )[ os.environ.get( "OS", "win32" ) == "xbox" ]	
 			
-	filenameRows = File(gdb).getRomsByGameId(gameRow[util.ROW_ID])		
+	filenameRows = File(gdb).getRomsByGameId(gameRow[util.ROW_ID])
+	Logutil.log("files for current game: " +str(filenameRows), util.LOG_LEVEL_INFO)
 	
 	escapeCmd = settings.getSetting(util.SETTING_RCB_ESCAPECOMMAND).upper() == 'TRUE'
 	cmd = buildCmd(filenameRows, romCollection, gameRow, escapeCmd)
@@ -93,20 +94,31 @@ def launchEmu(gdb, gui, gameId, config, settings):
 ##################
 		
 		
-def buildCmd(filenameRows, romCollection, gameRow, escapeCmd):
-	
-	fileindex = int(0)
+def buildCmd(filenameRows, romCollection, gameRow, escapeCmd):		
+	Logutil.log('launcher.buildCmd', util.LOG_LEVEL_INFO)
+		
 	compressedExtensions = ['7z', 'zip']
 	
 	emuCommandLine = romCollection.emulatorCmd
-	emuParams = romCollection.emulatorParams
+	Logutil.log('emuCommandLine: ' +emuCommandLine, util.LOG_LEVEL_INFO)
 	
-	if type(emuParams).__name__ != 'str':
-		emuParams = ''
+	
+	#handle savestates	
+	stateFile = checkGameHasSaveStates(romCollection, gameRow, filenameRows, escapeCmd)
+		
+	if(stateFile == ''):
+		emuParams = romCollection.emulatorParams
+	else:		
+		emuParams = romCollection.saveStateParams
+		if(escapeCmd):
+			stateFile = re.escape(stateFile)
+		emuParams = emuParams.replace('%statefile%', stateFile)
+		emuParams = emuParams.replace('%STATEFILE%', stateFile)
+		emuParams = emuParams.replace('%Statefile%', stateFile)
 	
 	#params could be: {-%I% %ROM%}
 	#we have to repeat the part inside the brackets and replace the %I% with the current index
-	emuParams, partToRepeat = prepareMultiRomCommand(emuParams)
+	emuParams, partToRepeat = prepareMultiRomCommand(emuParams)		
 	
 	#insert game specific command
 	gameCmd = ''
@@ -115,22 +127,19 @@ def buildCmd(filenameRows, romCollection, gameRow, escapeCmd):
 	#be case insensitive with (?i)
 	emuParams = re.sub('(?i)%gamecmd%', gameCmd, emuParams)
 	
+	Logutil.log('emuParams: ' +emuParams, util.LOG_LEVEL_INFO)
+	
+	fileindex = int(0)
 	
 	for fileNameRow in filenameRows:
-		fileName = fileNameRow[0]			
-		rom = ""
-		#we could have multiple rom Paths - search for the correct one
-		for romPath in romCollection.romPaths:
-			rom = os.path.join(romPath, fileName)
-			if(os.path.isfile(rom)):
-				break
-		if(rom == ""):
-			Logutil.log("no rom file found for game: " +str(fileName), util.LOG_LEVEL_ERROR)
-			return ""
+		rom = fileNameRow[0]
+		Logutil.log('rom: ' +str(rom), util.LOG_LEVEL_INFO)
 
 		# If it's a .7z file
+		# Don't extract zip files in case of savestate handling
 		filext = rom.split('.')[-1]
-		if filext in compressedExtensions and not romCollection.doNotExtractZipFiles:
+		roms = []
+		if filext in compressedExtensions and not romCollection.doNotExtractZipFiles and stateFile == '':
 			roms = handleCompressedFile(filext, rom, romCollection, emuParams)
 		
 		if len(roms) == 0:
@@ -140,27 +149,58 @@ def buildCmd(filenameRows, romCollection, gameRow, escapeCmd):
 		
 		for rom in roms:
 			if fileindex == 0:
+				emuParams = replacePlaceholdersInParams(emuParams, rom, romCollection, gameRow, escapeCmd)
 				if (escapeCmd):
-					emuParams = replaceRomnameInParams(emuParams, re.escape(rom), romCollection)
-				else:					
-					emuParams = replaceRomnameInParams(emuParams, rom, romCollection)
+					emuCommandLine = re.escape(emuCommandLine)				
 				
 				if (os.environ.get( "OS", "xbox" ) == "xbox"):
-					cmd = replaceRomnameInParams(emuCommandLine, rom, romCollection)
+					cmd = replacePlaceholdersInParams(emuCommandLine, rom, romCollection, gameRow, escapeCmd)
 				else:
 					cmd = '\"' +emuCommandLine +'\" ' +emuParams.replace('%I%', str(fileindex))
 			else:
 				newrepl = partToRepeat
+				newrepl = replacePlaceholdersInParams(newrepl, rom, romCollection, gameRow, escapeCmd)
 				if (escapeCmd):
-					newrepl = replaceRomnameInParams(newrepl, re.escape(rom), romCollection)					
-					emuCommandLine = re.escape(emuCommandLine)					
-				else:					
-					newrepl = replaceRomnameInParams(newrepl, rom, romCollection)
+					emuCommandLine = re.escape(emuCommandLine)
+
 				newrepl = newrepl.replace('%I%', str(fileindex))
 				cmd += ' ' +newrepl		
 			fileindex += 1
 	
 	return cmd
+
+
+def checkGameHasSaveStates(romCollection, gameRow, filenameRows, escapeCmd):
+	
+	if(romCollection.saveStatePath == ''):
+		return ''
+		
+	rom = filenameRows[0][0]
+	saveStatePath = replacePlaceholdersInParams(romCollection.saveStatePath, rom, romCollection, gameRow, escapeCmd)
+		
+	saveStateFiles = glob.glob(saveStatePath)
+	
+	stateFile = ''
+	if(len(saveStateFiles) == 0):
+		return ''
+	elif(len(saveStateFiles) >= 1):
+		Logutil.log('saveStateFiles found: ' +str(saveStateFiles), util.LOG_LEVEL_INFO)
+		
+		#don't select savestatefile if ASKNUM is requested in Params
+		if(re.search('(?i)%ASKNUM%', romCollection.saveStateParams)):
+			return saveStateFiles[0]
+				
+		options = ["Launch game from start"]
+		for file in saveStateFiles:
+			options.append(os.path.basename(file))
+		selectedFile = xbmcgui.Dialog().select('Launch saved state of this game?', options)
+		#If selections is canceled or "Don't launch statefile" option
+		if(selectedFile < 1):
+			return ''
+		else:
+			stateFile = saveStateFiles[selectedFile -1]
+	
+	return stateFile
 
 
 def prepareMultiRomCommand(emuParams):
@@ -238,7 +278,10 @@ def handleCompressedFile(filext, rom, romCollection, emuParams):
 	return roms
 
 
-def replaceRomnameInParams(emuParams, rom, romCollection):
+def replacePlaceholdersInParams(emuParams, rom, romCollection, gameRow, escapeCmd):
+		
+	if(escapeCmd):
+		rom = re.escape(rom)
 		
 	#TODO: Wanted to do this with re.sub:
 	#emuParams = re.sub(r'(?i)%rom%', rom, emuParams)
@@ -261,18 +304,19 @@ def replaceRomnameInParams(emuParams, rom, romCollection):
 	emuParams = emuParams.replace('%ROMNAME%', romname)
 	emuParams = emuParams.replace('%Romname%', romname)
 	
-	#gamename = game without diskprefix
-	match = False
-	gamename = romname
-	if(romCollection.diskPrefix != ''):
-		match = re.search(romCollection.diskPrefix.lower(), romname.lower())	
-		if match:
-			gamename = romname[0:match.start()]
-			gamename = gamename.strip()
-		
+	#gamename	
+	gamename = str(gameRow[util.ROW_NAME])
 	emuParams = emuParams.replace('%game%', gamename)
 	emuParams = emuParams.replace('%GAME%', gamename)
 	emuParams = emuParams.replace('%Game%', gamename)
+	
+	#ask num
+	if(re.search('(?i)%ASKNUM%', emuParams)):
+		options = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9']
+		number = str(xbmcgui.Dialog().select('Select slot of saved game', options))
+		emuParams = emuParams.replace('%asknum%', number)
+		emuParams = emuParams.replace('%ASKNUM%', number)
+		emuParams = emuParams.replace('%Asknum%', number)
 		
 	return emuParams
 
