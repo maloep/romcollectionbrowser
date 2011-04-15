@@ -1,15 +1,19 @@
 
+import os, sys, shutil
 import xbmc, xbmcgui
-import string, glob, time, array, os, sys, shutil, re
+import string, glob, time, array
+import getpass, ntpath, re
 from pysqlite2 import dbapi2 as sqlite
-from threading import *
 
-import dbupdate, helper, launcher, util, config
-import dialogimportoptions, dialogeditrcbasic
+import dbupdate
+from gamedatabase import *
+import helper, util, config
 from util import *
 from config import *
 from configxmlwriter import *
-from gamedatabase import *
+
+from threading import *
+import dialogimportoptions, dialogeditrcbasic
 
 
 #Action Codes
@@ -168,33 +172,6 @@ class ContextMenuDialog(xbmcgui.WindowXMLDialog):
 					self.gui.setFilterSelection(CONTROL_GAMES_GROUP_START, pos)
 				else:
 					self.gui.setFilterSelection(CONTROL_GAMES_GROUP_START, 0)
-		
-		elif (controlID == 5114): #Edit Game Command			
-			self.close()
-			
-			pos = self.gui.getCurrentListPosition()
-			if(pos == -1):
-				xbmcgui.Dialog().ok(util.SCRIPTNAME, 'Edit Game Command Error', "Can't load selected Game")
-				return					
-				
-			selectedGame, gameRow = self.gui.getGameByPosition(self.gui.gdb, pos)
-			if(selectedGame == None or gameRow == None):
-				xbmcgui.Dialog().ok(util.SCRIPTNAME, 'Edit Game Command Error', "Can't load selected Game")
-				return
-
-			command = gameRow[util.GAME_gameCmd]
-			
-			keyboard = xbmc.Keyboard()
-			keyboard.setHeading('Enter Game Command')
-			if(command != None):
-				keyboard.setDefault(command)
-			keyboard.doModal()
-			if (keyboard.isConfirmed()):
-				command = keyboard.getText()
-				
-				Logutil.log("Updating game '%s' with command '%s'" %(str(gameRow[util.ROW_NAME]), command), util.LOG_LEVEL_INFO)
-				Game(self.gui.gdb).update(('gameCmd',), (command,), gameRow[util.ROW_ID])
-				self.gui.gdb.commit()
 		
 	
 	def onFocus(self, controlID):
@@ -673,9 +650,7 @@ class UIGameDB(xbmcgui.WindowXML):
 	
 	
 	def showGameInfo(self):
-		Logutil.log("Begin showGameInfo" , util.LOG_LEVEL_INFO)
-		
-		self.writeMsg("")	
+		Logutil.log("Begin showGameInfo" , util.LOG_LEVEL_INFO)		
 		
 		if(self.playVideoThread != None and self.playVideoThread.isAlive()):			
 			self.playVideoThreadStopped = True
@@ -733,7 +708,7 @@ class UIGameDB(xbmcgui.WindowXML):
 			self.player.stoppedByRCB = True
 			self.player.stop()
 		
-		launcher.launchEmu(self.gdb, self, gameId, self.config, self.Settings)
+		helper.launchEmu(self.gdb, self, gameId, self.config, self.Settings)
 		Logutil.log("End launchEmu" , util.LOG_LEVEL_INFO)
 		
 		
@@ -2050,7 +2025,6 @@ class UIGameDB(xbmcgui.WindowXML):
 	
 	
 	def writeMsg(self, msg, count=0):
-		
 		control = self.getControlById(CONTROL_LABEL_MSG)
 		if(control == None):
 			Logutil.log("RCB_WARNING: control == None in writeMsg", util.LOG_LEVEL_WARNING)

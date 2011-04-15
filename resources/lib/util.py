@@ -44,6 +44,7 @@ SETTING_RCB_CACHINGOPTION = 'rcb_cachingOption'
 SETTING_RCB_MEMDB = 'rcb_memDB'
 SETTING_RCB_FUZZYFACTOR = 'rcb_fuzzyFactor'
 SETTING_RCB_LOGLEVEL = 'rcb_logLevel'
+SETTING_RCB_USEEMUSOLO = 'rcb_useEmulatorSolo'
 SETTING_RCB_ESCAPECOMMAND = 'rcb_escapeEmulatorCommand'
 SETTING_RCB_CREATENFOFILE = 'rcb_createNfoWhileScraping'
 SETTING_RCB_ENABLEFULLREIMPORT = 'rcb_enableFullReimport'
@@ -87,7 +88,6 @@ RCBSETTING_lastSelectedCharacterIndex = 11
 
 
 GAME_description = 2
-GAME_gameCmd = 3
 GAME_romCollectionId = 5
 GAME_publisherId = 6
 GAME_developerId = 7

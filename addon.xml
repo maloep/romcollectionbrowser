@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <addon
   id="script.games.rom.collection.browser"
-  version="0.8.4"
+  version="0.8.3"
   name="Rom Collection Browser"
   provider-name="carabalb, jimyx17, malte">
   <requires>
@@ -22,6 +22,16 @@
     * fullscreen video browser
     * game details page
     * configurable description file parser
+
+Update from previous versions:
+    * older versions (0.6.1 and higher) will be updated automatically
+
+First use:
+    * in config wizard select platform, emulator command, path to roms and artwork
+    * online scraping scenario:
+    --> RCB will scrape game info and artwork from online sources
+    * data available locally:
+    --> tell RCB where to find artwork and game descriptions
 
 Note: if you choose online scraping scenario, RCB will try to create following sub folders below your artwork path: boxfront, boxback, cartridge, screenshot, fanart. Make sure that the user that runs xbmc has write access to this path.
 </description>
