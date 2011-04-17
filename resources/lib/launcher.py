@@ -318,6 +318,21 @@ def replacePlaceholdersInParams(emuParams, rom, romCollection, gameRow, escapeCm
 		emuParams = emuParams.replace('%ASKNUM%', number)
 		emuParams = emuParams.replace('%Asknum%', number)
 		
+	#ask text
+	if(re.search('(?i)%ASKTEXT%', emuParams)):
+		
+		keyboard = xbmc.Keyboard()
+		keyboard.setHeading('Enter Command Text')
+		keyboard.doModal()
+		command = ''
+		if (keyboard.isConfirmed()):
+			command = keyboard.getText()
+		
+		emuParams = emuParams.replace('%asktext%', command)
+		emuParams = emuParams.replace('%ASKTEXT%', command)
+		emuParams = emuParams.replace('%Asktext%', command)
+		
+	
 	return emuParams
 
 
