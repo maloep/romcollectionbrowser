@@ -222,9 +222,14 @@ def handleCompressedFile(filext, rom, romCollection, emuParams):
 	Logutil.log('Treating file as a compressed archive', util.LOG_LEVEL_INFO)
 	compressed = True						
 
-	names = getNames(filext, rom)
+	try:
+		names = getNames(filext, rom)
+	except Exception, (exc):
+		Logutil.log('Error handling compressed file: ' +str(exc), util.LOG_LEVEL_ERROR)
+		return []
+	
 	if(names == None):
-		Logutil.log('Error handling compressed file', util.LOG_LEVEL_WARNING)
+		Logutil.log('Error handling compressed file', util.LOG_LEVEL_ERROR)
 		return []
 	
 	chosenROM = -1
@@ -236,7 +241,13 @@ def handleCompressedFile(filext, rom, romCollection, emuParams):
 	
 	if '%I%' in emuParams and match:
 		Logutil.log("Loading %d archives" % len(names), util.LOG_LEVEL_INFO)
-		archives = getArchives(filext, rom, names)
+		
+		try:
+			archives = getArchives(filext, rom, names)
+		except Exception, (exc):
+			Logutil.log('Error handling compressed file: ' +str(exc), util.LOG_LEVEL_ERROR)
+			return []		
+		
 		if(archives == None):
 			Logutil.log('Error handling compressed file', util.LOG_LEVEL_WARNING)
 			return []
