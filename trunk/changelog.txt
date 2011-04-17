@@ -1,10 +1,31 @@
 
+0.8.5 (04/2011)
+~~~~~~~~~~~~~
+General:
+    * using Dharma settings file as default (Camelot users have to grab the old file without categories)
+
+Game Import:
+    * refactoring of game import: code cleanup, little bug fixes, better error handling, ...
+    * moved properties from Rom Collection to Scraper:
+        -> descfilePerGame, searchGameByCRC, searchGameByCRCIgnoreRomName, useFoldernameAsCRC, useFilenameAsCRC
+    * support regular expressions in diskPrefix (allows handling of rom files like "MyGame (Disk 1).zip")
+    * stop import when all games are imported with multigame scrapers (descfilepergame = false)
+
+Game Launching:
+    * support direct launching of savestates
+        -> specify savestatePath and saveStateParams per Rom Collection
+        -> RCB checks if savestate exists and offers to launch the savestate
+    * new context menu option: Edit Game Command
+        -> save game specific command in database
+        -> replace %GAMECMD% with game specific command when launching the game
+    * moved useEmuSolo from Addon settings to Rom Collection properties (config.xml)
+   `* new placholders in launchEmu: %ROMFILE%, %ROMNAME%, %GAME%, %ASKNUM%, %ASKTEXT%
+    * use regular expression in diskPrefix to check for multi rom games in zip files before launching
+
 0.8.4 (04/2011)
 ~~~~~~~~~~~~~
-Game Import:
-    * refactoring game import: code cleanup, little bug fixes, better error handling, ...
-    * move scraper related properties from Rom Collection to scraper (descfilePerGame, searchGameByCRC, ...)
-    * support regular expressions in diskPrefix (handling of rom files like "MyGame (Disk 1).zip")
+General:
+    * bug fix: adding more than 10 Rom Collections could cause database inconsistencies
 
 0.8.3 (04/2011)
 ~~~~~~~~~~~~~
