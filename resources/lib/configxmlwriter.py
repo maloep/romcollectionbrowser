@@ -49,17 +49,16 @@ class ConfigXmlWriter:
 			for romPath in romCollection.romPaths:
 				SubElement(romCollectionXml, 'romPath').text = str(romPath)
 				
+			SubElement(romCollectionXml, 'saveStatePath').text = romCollection.saveStatePath
+			SubElement(romCollectionXml, 'saveStateParams').text = romCollection.saveStateParams
+				
 			for mediaPath in romCollection.mediaPaths:								
 				SubElement(romCollectionXml, 'mediaPath', {'type' : mediaPath.fileType.name}).text = mediaPath.path
 				
+			SubElement(romCollectionXml, 'useEmuSolo').text = str(romCollection.useEmuSolo)
 			SubElement(romCollectionXml, 'ignoreOnScan').text = str(romCollection.ignoreOnScan)
 			SubElement(romCollectionXml, 'allowUpdate').text = str(romCollection.allowUpdate)
-			#SubElement(romCollectionXml, 'descFilePerGame').text = str(romCollection.descFilePerGame)			
-			#SubElement(romCollectionXml, 'searchGameByCRC').text = str(romCollection.searchGameByCRC)
-			#SubElement(romCollectionXml, 'searchGameByCRCIgnoreRomName').text = str(romCollection.searchGameByCRCIgnoreRomName)
 			SubElement(romCollectionXml, 'useFoldernameAsGamename').text = str(romCollection.useFoldernameAsGamename)
-			#SubElement(romCollectionXml, 'useFoldernameAsCRC').text = str(romCollection.useFoldernameAsCRC)
-			#SubElement(romCollectionXml, 'useFilenameAsCRC').text = str(romCollection.useFilenameAsCRC)
 			SubElement(romCollectionXml, 'maxFolderDepth').text = str(romCollection.maxFolderDepth)
 			SubElement(romCollectionXml, 'doNotExtractZipFiles').text = str(romCollection.doNotExtractZipFiles)
 			SubElement(romCollectionXml, 'diskPrefix').text = str(romCollection.diskPrefix)
