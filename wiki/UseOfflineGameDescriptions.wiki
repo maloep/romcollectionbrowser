@@ -16,22 +16,22 @@ Atari 800			1165
 ADAM		 		 189
 Amiga		 		 328
 Chip8				  49
-GBA					2386
-Intellivision		 157
+GBA				2386
+Intellivision			 157
 Lynx				  87
-MSX					 693
-N64					 180
-NES					1787
-NGP					   9
+MSX				 693
+N64				 180
+NES				1787
+NGP				   9
 NGPC				  76
 Odyssey 2			  91
-PCE					 464
+PCE				 464
 Pokemini			  11
 Sega 32X			  39
-Sega Game Gear		 311
-Sega Genesis		 968
-Sega Master System	 320
-Sega SG-1000		  67
+Sega Game Gear			 311
+Sega Genesis			 968
+Sega Master System		 320
+Sega SG-1000			  67
 Sega VMU			  61
 SNES				1153
 Spectrum			 582
