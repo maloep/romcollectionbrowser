@@ -3,45 +3,45 @@
 	<include>dialogeffect</include>
 	<coordinates>
 		<system>1</system>
-		<posx>50</posx>
+		<posx>90</posx>
 		<posy>50</posy>
 	</coordinates>
+	
 	<controls>
-		
 		<!-- Window -->		
 		<control type="image">
 			<description>background image</description>
 			<posx>0</posx>
 			<posy>0</posy>
-			<width>600</width>
-			<height>500</height>
+			<width>550</width>
+			<height>480</height>
 			<texture border="45">rcb-DialogBack.png</texture>
-		</control>		
+		</control>
 		<control type="image">
 			<description>background image</description>
-			<posx>140</posx>
+			<posx>165</posx>
 			<posy>10</posy>
-			<width>440</width>
-			<height>475</height>				
+			<width>370</width>
+			<height>450</height>				
 			<texture border="0,0,0,0">rcb-floor.png</texture>
 		</control>
 		<control type="label">
-			<posx>320</posx>
+			<posx>170</posx>
 			<posy>25</posy>
-			<width>300</width>
+			<width>380</width>
 			<height>30</height>
-			<font>font30</font>
+			<font>font13caps</font>
 			<textcolor>white</textcolor>
 			<align>left</align>
 			<aligny>center</aligny>
-			<label>RCB - Edit Rom Collection</label>
+			<label>Rom Collection Browser - Configuration</label>
 		</control>
 		<control type="button" id="5101">
 			<description>Close Window button</description>
-			<posx>548</posx>
+			<posx>490</posx>
 			<posy>18</posy>
-			<width>35</width>
-			<height>25</height>
+			<width>30</width>
+			<height>20</height>
 			<label>-</label>
 			<font>-</font>
 			<texturefocus>rcb-DialogCloseButton-focus.png</texturefocus>
@@ -51,14 +51,14 @@
 			<onup>6000</onup>
 			<ondown>5211</ondown>
 			<visible>system.getbool(input.enablemouse)</visible>
-		</control>		
+		</control>
 		
 		<!-- Rom Collection List -->
 		<control type="list" id="5210">
 			<hitrect x="0" y="0" w="0" h="0" />
-			<posx>140</posx>
+			<posx>170</posx>
 			<posy>65</posy>
-			<width>460</width>
+			<width>380</width>
 			<height>30</height>
 			<onleft>5210</onleft>
 			<onright>5210</onright>
@@ -68,11 +68,11 @@
 			<scrolltime>0</scrolltime>
 			<itemlayout height="1" width="750">
 			</itemlayout>
-			<focusedlayout height="30" width="460">
+			<focusedlayout height="30" width="380">
 				<control type="image">
 					<posx>0</posx>
 					<posy>0</posy>
-					<width>440</width>
+					<width>350</width>
 					<height>30</height>
 					<texture>rcb-MenuItemNF.png</texture>
 					<visible>![Control.HasFocus(5211) | Control.HasFocus(5212)]</visible>
@@ -80,7 +80,7 @@
 				<control type="image">
 					<posx>0</posx>
 					<posy>0</posy>
-					<width>440</width>
+					<width>350</width>
 					<height>30</height>
 					<texture>rcb-MenuItemFO.png</texture>
 					<visible>[Control.HasFocus(5211) | Control.HasFocus(5212)]</visible>
@@ -88,7 +88,7 @@
 				<control type="label">
 					<posx>7</posx>
 					<posy>5</posy>
-					<width>200</width>
+					<width>170</width>
 					<height>20</height>
 					<font>font13</font>
 					<textcolor>88FFFFFF</textcolor>
@@ -100,7 +100,7 @@
 				<control type="label">
 					<posx>7</posx>
 					<posy>5</posy>
-					<width>200</width>
+					<width>170</width>
 					<height>20</height>
 					<font>font13</font>
 					<textcolor>white</textcolor>
@@ -110,9 +110,9 @@
 					<visible>[Control.HasFocus(5211) | Control.HasFocus(5212)]</visible>
 				</control>
 				<control type="label">
-					<posx>380</posx>
+					<posx>300</posx>
 					<posy>5</posy>
-					<width>280</width>
+					<width>170</width>
 					<height>20</height>
 					<font>font13</font>
 					<textcolor>88FFFFFF</textcolor>
@@ -122,9 +122,9 @@
 					<visible>![Control.HasFocus(5211) | Control.HasFocus(5212)]</visible>
 				</control>
 				<control type="label">
-					<posx>380</posx>
+					<posx>300</posx>
 					<posy>5</posy>
-					<width>280</width>
+					<width>170</width>
 					<height>20</height>
 					<font>font13</font>
 					<textcolor>white</textcolor>
@@ -137,7 +137,7 @@
 		</control>
 		<control type="button" id="5211">
 			<description>Menu Item Next Button</description>
-			<posx>540</posx>
+			<posx>490</posx>
 			<posy>73</posy>
 			<width>15</width>
 			<height>15</height>
@@ -153,7 +153,7 @@
 		</control>
 		<control type="button" id="5212">
 			<description>Menu Item Prev Button</description>
-			<posx>555</posx>
+			<posx>505</posx>
 			<posy>73</posy>
 			<width>15</width>
 			<height>15</height>
@@ -172,49 +172,49 @@
 		<control type="list" id="7000">
 			<posx>15</posx>
 			<posy>85</posy>
-			<width>120</width>
-			<height>150</height>
+			<width>150</width>
+			<height>180</height>
 			<onleft>7010</onleft>
 			<onright>7010</onright>
 			<onup>7000</onup>
 			<ondown>7000</ondown>
 			<pagecontrol>-</pagecontrol>
 			<scrolltime>300</scrolltime>
-			<itemlayout height="40" width="120">
+			<itemlayout height="40" width="150">
 				<control type="image">
 					<posx>0</posx>
 					<posy>0</posy>
-					<width>120</width>
+					<width>150</width>
 					<height>40</height>
 					<texture border="5">MenuItemNF.png</texture>
 				</control>
 				<control type="label">
-					<posx>110</posx>
+					<posx>140</posx>
 					<posy>5</posy>
-					<width>120</width>
+					<width>150</width>
 					<height>30</height>
-					<font>font24_title</font>
+					<font>font13_title</font>
 					<textcolor>grey3</textcolor>
 					<align>right</align>
 					<aligny>center</aligny>
 					<label>$INFO[ListItem.Label]</label>
 				</control>
 			</itemlayout>
-			<focusedlayout height="40" width="120">
+			<focusedlayout height="40" width="150">
 				<control type="image">
 					<posx>0</posx>
 					<posy>0</posy>
-					<width>120</width>
+					<width>150</width>
 					<height>40</height>
 					<texture border="5">MenuItemFO.png</texture>
 					<animation effect="fade" start="100" end="30" time="100" condition="!Control.HasFocus(7000)">Conditional</animation>
 				</control>
 				<control type="label">
-					<posx>110</posx>
+					<posx>140</posx>
 					<posy>5</posy>
-					<width>120</width>
+					<width>180</width>
 					<height>30</height>
-					<font>font24_title</font>
+					<font>font13_title</font>
 					<textcolor>white</textcolor>
 					<align>right</align>
 					<aligny>center</aligny>
@@ -223,15 +223,19 @@
 			</focusedlayout>
 			<content>
 				<item id="1">
-					<label>Import Games</label>
+					<label>Import games</label>
 					<onclick>-</onclick>
 				</item>
 				<item id="2">
-					<label>Browse games</label>
+					<label>Import game data</label>
 					<onclick>-</onclick>
 				</item>
 				<item id="3">
-					<label>Launch Games</label>
+					<label>Browse games</label>
+					<onclick>-</onclick>
+				</item>
+				<item id="4">
+					<label>Launch games</label>
 					<onclick>-</onclick>
 				</item>
 			</content>
@@ -243,9 +247,9 @@
 			<!-- Game Import -->
 			<control type="group" id="7001">
 				<visible>Container(7000).Hasfocus(1)</visible>
-				<posx>140</posx>
+				<posx>170</posx>
 				<posy>120</posy>
-				<!--<pagecontrol>60</pagecontrol>-->
+				<pagecontrol>60</pagecontrol>
 				<!--<onleft>7000</onleft>
 				<onright>6000</onright>
 				<!--<onup>7001</onup>
@@ -255,7 +259,7 @@
 				<control type="image">
 					<posx>0</posx>
 					<posy>0</posy>
-					<width>200</width>
+					<width>170</width>
 					<height>30</height>
 					<texture>rcb-MenuItemFO.png</texture>
 					<visible>Control.HasFocus(5240)</visible>
@@ -263,39 +267,39 @@
 				<control type="label">
 					<posx>7</posx>
 					<posy>0</posy>
-					<width>200</width>
+					<width>170</width>
 					<height>30</height>
 					<font>font13</font>
 					<textcolor>white</textcolor>
 					<align>left</align>
 					<aligny>center</aligny>
-					<label>Rom Path</label>
+					<label>Rom path</label>
 					<visible>Control.HasFocus(5240)</visible>
 				</control>
 				<control type="label">
 					<posx>7</posx>
 					<posy>0</posy>
-					<width>200</width>
+					<width>170</width>
 					<height>30</height>
 					<font>font13</font>
 					<textcolor>88FFFFFF</textcolor>
 					<align>left</align>
 					<aligny>center</aligny>
-					<label>Rom Path</label>
+					<label>Rom path</label>
 					<visible>!Control.HasFocus(5240)</visible>
 				</control>
 				<control type="button" id="5240"> 
 					<description>Rom Path</description>
-					<posx>180</posx>
+					<posx>130</posx>
 					<posy>0</posy>
-					<width>250</width>
+					<width>220</width>
 					<height>30</height>
 					<visible>true</visible>
 					<font>font13</font>
 					<colordiffuse>DDFFFFFF</colordiffuse>
 					<texturefocus>rcb-MenuItemFO.png</texturefocus>
 					<texturenofocus>rcb-MenuItemNF.png</texturenofocus>
-					<label>Rom Path</label>				
+					<label>Rom path</label>				
 					<textcolor>88FFFFFF</textcolor>
 					<focusedcolor>white</focusedcolor>
 					<disabledcolor>80FFFFFF</disabledcolor>
@@ -309,11 +313,11 @@
 					<onleft>7000</onleft>
 					<onright>6000</onright>
 				</control>
-				<!-- File Mask -->
+				<!-- Rom file mask -->
 				<control type="image">
 					<posx>0</posx>
 					<posy>30</posy>
-					<width>200</width>
+					<width>170</width>
 					<height>30</height>
 					<texture>rcb-MenuItemFO.png</texture>
 					<visible>Control.HasFocus(5250)</visible>
@@ -321,39 +325,39 @@
 				<control type="label">
 					<posx>7</posx>
 					<posy>30</posy>
-					<width>200</width>
+					<width>170</width>
 					<height>30</height>
 					<font>font13</font>
 					<textcolor>white</textcolor>
 					<align>left</align>
 					<aligny>center</aligny>
-					<label>File Mask</label>
+					<label>Rom file mask</label>
 					<visible>Control.HasFocus(5250)</visible>
 				</control>
 				<control type="label">
 					<posx>7</posx>
 					<posy>30</posy>
-					<width>200</width>
+					<width>170</width>
 					<height>30</height>
 					<font>font13</font>
 					<textcolor>88FFFFFF</textcolor>
 					<align>left</align>
 					<aligny>center</aligny>
-					<label>File Mask</label>
+					<label>Rom file mask</label>
 					<visible>!Control.HasFocus(5250)</visible>
 				</control>
 				<control type="button" id="5250"> 
-					<description>File Mask</description>
-					<posx>180</posx>
+					<description>Rom file mask</description>
+					<posx>130</posx>
 					<posy>30</posy>
-					<width>250</width>
+					<width>220</width>
 					<height>30</height>
 					<visible>true</visible>
 					<font>font13</font>
 					<colordiffuse>DDFFFFFF</colordiffuse>
 					<texturefocus>rcb-MenuItemFO.png</texturefocus>
 					<texturenofocus>rcb-MenuItemNF.png</texturenofocus>
-					<label>File Mask</label>				
+					<label>Rom file mask</label>				
 					<textcolor>88FFFFFF</textcolor>
 					<focusedcolor>white</focusedcolor>
 					<disabledcolor>80FFFFFF</disabledcolor>
@@ -367,13 +371,168 @@
 					<onleft>7000</onleft>
 					<onright>6000</onright>
 				</control>
+								
+				<control type="radiobutton" id="5330">
+					<posx>0</posx>
+					<posy>60</posy>
+					<width>360</width>
+					<height>30</height>
+					<font>font13</font>
+					<label>Ignore on scan</label>
+					<textcolor>88FFFFFF</textcolor>
+					<focusedcolor>white</focusedcolor>
+					<texturefocus>rcb-MenuItemFO.png</texturefocus>
+					<texturenofocus>rcb-MenuItemNF.png</texturenofocus>
+					<onleft>7000</onleft>
+					<onright>6000</onright>
+					<onup>5312</onup>
+					<ondown>5400</ondown>
+				</control>
+				<control type="radiobutton" id="5400">
+					<posx>0</posx>
+					<posy>90</posy>
+					<width>360</width>
+					<height>30</height>
+					<font>font13</font>
+					<label>Allow update</label>
+					<textcolor>88FFFFFF</textcolor>
+					<focusedcolor>white</focusedcolor>
+					<texturefocus>rcb-MenuItemFO.png</texturefocus>
+					<texturenofocus>rcb-MenuItemNF.png</texturenofocus>
+					<onleft>7000</onleft>
+					<onright>6000</onright>
+					<onup>5330</onup>
+					<ondown>5410</ondown>
+				</control>
 				
+				<!-- Max folder depth -->
+				<control type="image">
+					<posx>0</posx>
+					<posy>120</posy>
+					<width>170</width>
+					<height>30</height>
+					<texture>rcb-MenuItemFO.png</texture>
+					<visible>Control.HasFocus(5410)</visible>
+				</control>
+				<control type="label">
+					<posx>7</posx>
+					<posy>120</posy>
+					<width>170</width>
+					<height>30</height>
+					<font>font13</font>
+					<textcolor>white</textcolor>
+					<align>left</align>
+					<aligny>center</aligny>
+					<label>Max folder depth</label>
+					<visible>Control.HasFocus(5410)</visible>
+				</control>
+				<control type="label">
+					<posx>7</posx>
+					<posy>120</posy>
+					<width>170</width>
+					<height>30</height>
+					<font>font13</font>
+					<textcolor>88FFFFFF</textcolor>
+					<align>left</align>
+					<aligny>center</aligny>
+					<label>Max folder depth</label>
+					<visible>!Control.HasFocus(5410)</visible>
+				</control>
+				<control type="button" id="5410"> 
+					<description>Max folder depth</description>
+					<posx>130</posx>
+					<posy>120</posy>
+					<width>220</width>
+					<height>30</height>
+					<visible>true</visible>
+					<font>font13</font>
+					<colordiffuse>DDFFFFFF</colordiffuse>
+					<texturefocus>rcb-MenuItemFO.png</texturefocus>
+					<texturenofocus>rcb-MenuItemNF.png</texturenofocus>
+					<textcolor>88FFFFFF</textcolor>
+					<focusedcolor>white</focusedcolor>
+					<disabledcolor>80FFFFFF</disabledcolor>
+					<align>right</align>
+					<aligny>center</aligny>
+					<textoffsetx></textoffsetx>
+					<textoffsety></textoffsety>
+					<pulseonselect></pulseonselect>
+					<onup>5400</onup>
+					<ondown>5420</ondown>
+					<onleft>7000</onleft>
+					<onright>6000</onright>
+				</control>
+				
+				<!-- Disk indicator -->
+				<control type="image">
+					<posx>0</posx>
+					<posy>150</posy>
+					<width>170</width>
+					<height>30</height>
+					<texture>rcb-MenuItemFO.png</texture>
+					<visible>Control.HasFocus(5420)</visible>
+				</control>
+				<control type="label">
+					<posx>7</posx>
+					<posy>150</posy>
+					<width>170</width>
+					<height>30</height>
+					<font>font13</font>
+					<textcolor>white</textcolor>
+					<align>left</align>
+					<aligny>center</aligny>
+					<label>Disk indicator</label>
+					<visible>Control.HasFocus(5420)</visible>
+				</control>
+				<control type="label">
+					<posx>7</posx>
+					<posy>150</posy>
+					<width>170</width>
+					<height>30</height>
+					<font>font13</font>
+					<textcolor>88FFFFFF</textcolor>
+					<align>left</align>
+					<aligny>center</aligny>
+					<label>Disk indicator</label>
+					<visible>!Control.HasFocus(5420)</visible>
+				</control>
+				<control type="button" id="5420"> 
+					<description>Disk indicator</description>
+					<posx>130</posx>
+					<posy>150</posy>
+					<width>220</width>
+					<height>30</height>
+					<visible>true</visible>
+					<font>font13</font>
+					<colordiffuse>DDFFFFFF</colordiffuse>
+					<texturefocus>rcb-MenuItemFO.png</texturefocus>
+					<texturenofocus>rcb-MenuItemNF.png</texturenofocus>
+					<textcolor>88FFFFFF</textcolor>
+					<focusedcolor>white</focusedcolor>
+					<disabledcolor>80FFFFFF</disabledcolor>
+					<align>right</align>
+					<aligny>center</aligny>
+					<textoffsetx></textoffsetx>
+					<textoffsety></textoffsety>
+					<pulseonselect></pulseonselect>
+					<onup>5410</onup>
+					<ondown>6000</ondown>
+					<onleft>7000</onleft>
+					<onright>6000</onright>
+				</control>
+			</control>
+			
+			<!-- Import Game data -->
+			<control type="group" id="7002">
+				<visible>Container(7000).Hasfocus(2)</visible>
+				<posx>170</posx>
+				<posy>120</posy>				
 				<!-- Media Path -->
 				<control type="list" id="5260">
 					<hitrect x="0" y="0" w="0" h="0" />
 					<posx>0</posx>
-					<posy>60</posy>
-					<width>460</width>
+					<posy>0</posy>
+					<width>380</width>
 					<height>30</height>
 					<onleft>7000</onleft>
 					<onright>5210</onright>
@@ -381,13 +540,14 @@
 					<ondown>5210</ondown>
 					<pagecontrol>-</pagecontrol>
 					<scrolltime>0</scrolltime>
+					<enable>false</enable>
 					<itemlayout height="1" width="750">
 					</itemlayout>
-					<focusedlayout height="30" width="460">
+					<focusedlayout height="30" width="380">
 						<control type="image">
 							<posx>0</posx>
 							<posy>0</posy>
-							<width>440</width>
+							<width>340</width>
 							<height>30</height>
 							<texture>rcb-MenuItemNF.png</texture>
 							<visible>![Control.HasFocus(5261) | Control.HasFocus(5262)]</visible>
@@ -395,7 +555,7 @@
 						<control type="image">
 							<posx>0</posx>
 							<posy>0</posy>
-							<width>440</width>
+							<width>340</width>
 							<height>30</height>
 							<texture>rcb-MenuItemFO.png</texture>
 							<visible>[Control.HasFocus(5261) | Control.HasFocus(5262)]</visible>
@@ -403,31 +563,31 @@
 						<control type="label">
 							<posx>7</posx>
 							<posy>5</posy>
-							<width>200</width>
+							<width>170</width>
 							<height>20</height>
 							<font>font13</font>
 							<textcolor>88FFFFFF</textcolor>
 							<align>left</align>
 							<aligny>center</aligny>
-							<label>Media Type</label>
+							<label>Media type</label>
 							<visible>![Control.HasFocus(5261) | Control.HasFocus(5262)]</visible>
 						</control>
 						<control type="label">
 							<posx>7</posx>
 							<posy>5</posy>
-							<width>200</width>
+							<width>170</width>
 							<height>20</height>
 							<font>font13</font>
 							<textcolor>white</textcolor>
 							<align>left</align>
 							<aligny>center</aligny>
-							<label>Media Type</label>
+							<label>Media type</label>
 							<visible>[Control.HasFocus(5261) | Control.HasFocus(5262)]</visible>
 						</control>
 						<control type="label">
-							<posx>380</posx>
+							<posx>300</posx>
 							<posy>5</posy>
-							<width>280</width>
+							<width>220</width>
 							<height>20</height>
 							<font>font13</font>
 							<textcolor>88FFFFFF</textcolor>
@@ -437,9 +597,9 @@
 							<visible>![Control.HasFocus(5261) | Control.HasFocus(5262)]</visible>
 						</control>
 						<control type="label">
-							<posx>380</posx>
+							<posx>300</posx>
 							<posy>5</posy>
-							<width>280</width>
+							<width>220</width>
 							<height>20</height>
 							<font>font13</font>
 							<textcolor>white</textcolor>
@@ -452,8 +612,8 @@
 				</control>
 				<control type="button" id="5261">
 					<description>Menu Item Next Button</description>
-					<posx>400</posx>
-					<posy>68</posy>
+					<posx>320</posx>
+					<posy>8</posy>
 					<width>15</width>
 					<height>15</height>
 					<label>-</label>
@@ -468,8 +628,8 @@
 				</control>
 				<control type="button" id="5262">
 					<description>Menu Item Prev Button</description>
-					<posx>415</posx>
-					<posy>68</posy>
+					<posx>335</posx>
+					<posy>8</posy>
 					<width>15</width>
 					<height>15</height>
 					<label>-</label>
@@ -485,48 +645,48 @@
 				<!-- Media Path -->
 				<control type="image">
 					<posx>22</posx>
-					<posy>90</posy>
-					<width>200</width>
+					<posy>30</posy>
+					<width>170</width>
 					<height>30</height>
 					<texture>rcb-MenuItemFO.png</texture>
 					<visible>Control.HasFocus(5270)</visible>
 				</control>
 				<control type="label">
 					<posx>22</posx>
-					<posy>90</posy>
-					<width>200</width>
+					<posy>30</posy>
+					<width>170</width>
 					<height>30</height>
 					<font>font13</font>
 					<textcolor>white</textcolor>
 					<align>left</align>
 					<aligny>center</aligny>
-					<label>Media Path</label>
+					<label>Media path</label>
 					<visible>Control.HasFocus(5270)</visible>
 				</control>
 				<control type="label">
 					<posx>22</posx>
-					<posy>90</posy>
-					<width>200</width>
+					<posy>30</posy>
+					<width>170</width>
 					<height>30</height>
 					<font>font13</font>
 					<textcolor>88FFFFFF</textcolor>
 					<align>left</align>
 					<aligny>center</aligny>
-					<label>Media Path</label>
+					<label>Media path</label>
 					<visible>!Control.HasFocus(5270)</visible>
 				</control>
 				<control type="button" id="5270"> 
 					<description>Media Path</description>
-					<posx>180</posx>
-					<posy>90</posy>
-					<width>250</width>
+					<posx>130</posx>
+					<posy>30</posy>
+					<width>220</width>
 					<height>30</height>
 					<visible>true</visible>
 					<font>font13</font>
 					<colordiffuse>DDFFFFFF</colordiffuse>
 					<texturefocus>rcb-MenuItemFO.png</texturefocus>
 					<texturenofocus>rcb-MenuItemNF.png</texturenofocus>
-					<label>Media Path</label>				
+					<label>Media path</label>				
 					<textcolor>88FFFFFF</textcolor>
 					<focusedcolor>white</focusedcolor>
 					<disabledcolor>80FFFFFF</disabledcolor>
@@ -543,48 +703,48 @@
 				<!-- File Mask -->
 				<control type="image">
 					<posx>22</posx>
-					<posy>120</posy>
-					<width>200</width>
+					<posy>60</posy>
+					<width>170</width>
 					<height>30</height>
 					<texture>rcb-MenuItemFO.png</texture>
 					<visible>Control.HasFocus(5280)</visible>
 				</control>
 				<control type="label">
 					<posx>22</posx>
-					<posy>120</posy>
-					<width>200</width>
+					<posy>60</posy>
+					<width>170</width>
 					<height>30</height>
 					<font>font13</font>
 					<textcolor>white</textcolor>
 					<align>left</align>
 					<aligny>center</aligny>
-					<label>Media File Mask</label>
+					<label>Media file mask</label>
 					<visible>Control.HasFocus(5280)</visible>
 				</control>
 				<control type="label">
 					<posx>22</posx>
-					<posy>120</posy>
-					<width>200</width>
+					<posy>60</posy>
+					<width>170</width>
 					<height>30</height>
 					<font>font13</font>
 					<textcolor>88FFFFFF</textcolor>
 					<align>left</align>
 					<aligny>center</aligny>
-					<label>Media File Mask</label>
+					<label>Media file mask</label>
 					<visible>!Control.HasFocus(5280)</visible>
 				</control>
 				<control type="button" id="5280"> 
 					<description>Media File Mask</description>
-					<posx>180</posx>
-					<posy>120</posy>
-					<width>250</width>
+					<posx>130</posx>
+					<posy>60</posy>
+					<width>220</width>
 					<height>30</height>
 					<visible>true</visible>
 					<font>font13</font>
 					<colordiffuse>DDFFFFFF</colordiffuse>
 					<texturefocus>rcb-MenuItemFO.png</texturefocus>
 					<texturenofocus>rcb-MenuItemNF.png</texturenofocus>
-					<label>Media File Mask</label>				
+					<label>Media file mask</label>				
 					<textcolor>88FFFFFF</textcolor>
 					<focusedcolor>white</focusedcolor>
 					<disabledcolor>80FFFFFF</disabledcolor>
@@ -603,12 +763,12 @@
 				<!-- Scraper 1 -->
 				<control type="group">
 					<posx>0</posx>
-					<posy>150</posy>
+					<posy>90</posy>
 					<control type="list" id="5290">
 						<hitrect x="0" y="0" w="0" h="0" />
 						<posx>0</posx>
 						<posy>0</posy>
-						<width>460</width>
+						<width>380</width>
 						<height>30</height>
 						<onleft>5280</onleft>
 						<onright>5280</onright>
@@ -616,13 +776,12 @@
 						<ondown>5280</ondown>
 						<pagecontrol>-</pagecontrol>
 						<scrolltime>0</scrolltime>
-						<itemlayout height="1" width="750">
-						</itemlayout>
-						<focusedlayout height="30" width="460">
+						<itemlayout height="1" width="380"></itemlayout>						
+						<focusedlayout height="30" width="380">
 							<control type="image">
 								<posx>0</posx>
 								<posy>0</posy>
-								<width>440</width>
+								<width>340</width>
 								<height>30</height>
 								<texture>rcb-MenuItemNF.png</texture>
 								<visible>![Control.HasFocus(5291) | Control.HasFocus(5292)]</visible>
@@ -630,7 +789,7 @@
 							<control type="image">
 								<posx>0</posx>
 								<posy>0</posy>
-								<width>440</width>
+								<width>340</width>
 								<height>30</height>
 								<texture>rcb-MenuItemFO.png</texture>
 								<visible>[Control.HasFocus(5291) | Control.HasFocus(5292)]</visible>
@@ -638,7 +797,7 @@
 							<control type="label">
 								<posx>7</posx>
 								<posy>5</posy>
-								<width>200</width>
+								<width>170</width>
 								<height>20</height>
 								<font>font13</font>
 								<textcolor>88FFFFFF</textcolor>
@@ -650,7 +809,7 @@
 							<control type="label">
 								<posx>7</posx>
 								<posy>5</posy>
-								<width>200</width>
+								<width>170</width>
 								<height>20</height>
 								<font>font13</font>
 								<textcolor>white</textcolor>
@@ -660,9 +819,9 @@
 								<visible>[Control.HasFocus(5291) | Control.HasFocus(5292)]</visible>
 							</control>
 							<control type="label">
-								<posx>380</posx>
+								<posx>300</posx>
 								<posy>5</posy>
-								<width>280</width>
+								<width>220</width>
 								<height>20</height>
 								<font>font13</font>
 								<textcolor>88FFFFFF</textcolor>
@@ -672,9 +831,9 @@
 								<visible>![Control.HasFocus(5291) | Control.HasFocus(5292)]</visible>
 							</control>
 							<control type="label">
-								<posx>380</posx>
+								<posx>300</posx>
 								<posy>5</posy>
-								<width>280</width>
+								<width>220</width>
 								<height>20</height>
 								<font>font13</font>
 								<textcolor>white</textcolor>
@@ -687,7 +846,7 @@
 					</control>
 					<control type="button" id="5291">
 						<description>Menu Item Next Button</description>
-						<posx>400</posx>
+						<posx>320</posx>
 						<posy>8</posy>
 						<width>15</width>
 						<height>15</height>
@@ -703,7 +862,7 @@
 					</control>
 					<control type="button" id="5292">
 						<description>Menu Item Prev Button</description>
-						<posx>415</posx>
+						<posx>335</posx>
 						<posy>8</posy>
 						<width>15</width>
 						<height>15</height>
@@ -713,7 +872,7 @@
 						<texturefocus>rcb-scroll-up-focus-2.png</texturefocus>
 						<onclick>Control.Move(5290,-1)</onclick>
 						<onleft>5291</onleft>
-						<onright>7000</onright>
+						<onright>6000</onright>
 						<onup>5280</onup>
 						<ondown>5302</ondown>
 					</control>
@@ -722,7 +881,7 @@
 						<hitrect x="0" y="0" w="0" h="0" />
 						<posx>0</posx>
 						<posy>28</posy>
-						<width>460</width>
+						<width>380</width>
 						<height>30</height>
 						<onleft>5290</onleft>
 						<onright>5310</onright>
@@ -730,13 +889,13 @@
 						<ondown>5310</ondown>
 						<pagecontrol>-</pagecontrol>
 						<scrolltime>0</scrolltime>
-						<itemlayout height="1" width="750">
+						<itemlayout height="1" width="380">
 						</itemlayout>
-						<focusedlayout height="30" width="460">
+						<focusedlayout height="30" width="380">
 							<control type="image">
 								<posx>0</posx>
 								<posy>0</posy>
-								<width>440</width>
+								<width>340</width>
 								<height>30</height>
 								<texture>rcb-MenuItemNF.png</texture>
 								<visible>![Control.HasFocus(5301) | Control.HasFocus(5302)]</visible>
@@ -744,7 +903,7 @@
 							<control type="image">
 								<posx>0</posx>
 								<posy>0</posy>
-								<width>440</width>
+								<width>340</width>
 								<height>30</height>
 								<texture>rcb-MenuItemFO.png</texture>
 								<visible>[Control.HasFocus(5301) | Control.HasFocus(5302)]</visible>
@@ -752,7 +911,7 @@
 							<control type="label">
 								<posx>7</posx>
 								<posy>5</posy>
-								<width>200</width>
+								<width>170</width>
 								<height>20</height>
 								<font>font13</font>
 								<textcolor>88FFFFFF</textcolor>
@@ -764,7 +923,7 @@
 							<control type="label">
 								<posx>7</posx>
 								<posy>5</posy>
-								<width>200</width>
+								<width>170</width>
 								<height>20</height>
 								<font>font13</font>
 								<textcolor>white</textcolor>
@@ -774,9 +933,9 @@
 								<visible>[Control.HasFocus(5301) | Control.HasFocus(5302)]</visible>
 							</control>
 							<control type="label">
-								<posx>380</posx>
+								<posx>300</posx>
 								<posy>5</posy>
-								<width>280</width>
+								<width>220</width>
 								<height>20</height>
 								<font>font13</font>
 								<textcolor>88FFFFFF</textcolor>
@@ -786,9 +945,9 @@
 								<visible>![Control.HasFocus(5301) | Control.HasFocus(5302)]</visible>
 							</control>
 							<control type="label">
-								<posx>380</posx>
+								<posx>300</posx>
 								<posy>5</posy>
-								<width>280</width>
+								<width>220</width>
 								<height>20</height>
 								<font>font13</font>
 								<textcolor>white</textcolor>
@@ -801,7 +960,7 @@
 					</control>
 					<control type="button" id="5301">
 						<description>Menu Item Next Button</description>
-						<posx>400</posx>
+						<posx>320</posx>
 						<posy>36</posy>
 						<width>15</width>
 						<height>15</height>
@@ -817,7 +976,7 @@
 					</control>
 					<control type="button" id="5302">
 						<description>Menu Item Prev Button</description>
-						<posx>415</posx>
+						<posx>335</posx>
 						<posy>36</posy>
 						<width>15</width>
 						<height>15</height>
@@ -836,7 +995,7 @@
 						<hitrect x="0" y="0" w="0" h="0" />
 						<posx>0</posx>
 						<posy>56</posy>
-						<width>460</width>
+						<width>380</width>
 						<height>30</height>
 						<onleft>5302</onleft>
 						<onright>5320</onright>
@@ -844,13 +1003,12 @@
 						<ondown>5320</ondown>
 						<pagecontrol>-</pagecontrol>
 						<scrolltime>0</scrolltime>
-						<itemlayout height="1" width="750">
-						</itemlayout>
-						<focusedlayout height="30" width="460">
+						<itemlayout height="1" width="380"></itemlayout>
+						<focusedlayout height="30" width="380">
 							<control type="image">
 								<posx>0</posx>
 								<posy>0</posy>
-								<width>440</width>
+								<width>340</width>
 								<height>30</height>
 								<texture>rcb-MenuItemNF.png</texture>
 								<visible>![Control.HasFocus(5311) | Control.HasFocus(5312)]</visible>
@@ -858,7 +1016,7 @@
 							<control type="image">
 								<posx>0</posx>
 								<posy>0</posy>
-								<width>440</width>
+								<width>340</width>
 								<height>30</height>
 								<texture>rcb-MenuItemFO.png</texture>
 								<visible>[Control.HasFocus(5311) | Control.HasFocus(5312)]</visible>
@@ -866,7 +1024,7 @@
 							<control type="label">
 								<posx>7</posx>
 								<posy>5</posy>
-								<width>200</width>
+								<width>170</width>
 								<height>20</height>
 								<font>font13</font>
 								<textcolor>88FFFFFF</textcolor>
@@ -878,7 +1036,7 @@
 							<control type="label">
 								<posx>7</posx>
 								<posy>5</posy>
-								<width>200</width>
+								<width>170</width>
 								<height>20</height>
 								<font>font13</font>
 								<textcolor>white</textcolor>
@@ -888,9 +1046,9 @@
 								<visible>[Control.HasFocus(5311) | Control.HasFocus(5312)]</visible>
 							</control>
 							<control type="label">
-								<posx>380</posx>
+								<posx>300</posx>
 								<posy>5</posy>
-								<width>280</width>
+								<width>220</width>
 								<height>20</height>
 								<font>font13</font>
 								<textcolor>88FFFFFF</textcolor>
@@ -900,9 +1058,9 @@
 								<visible>![Control.HasFocus(5311) | Control.HasFocus(5312)]</visible>
 							</control>
 							<control type="label">
-								<posx>380</posx>
+								<posx>300</posx>
 								<posy>5</posy>
-								<width>280</width>
+								<width>220</width>
 								<height>20</height>
 								<font>font13</font>
 								<textcolor>white</textcolor>
@@ -915,7 +1073,7 @@
 					</control>
 					<control type="button" id="5311">
 						<description>Menu Item Next Button</description>
-						<posx>400</posx>
+						<posx>320</posx>
 						<posy>62</posy>
 						<width>15</width>
 						<height>15</height>
@@ -931,7 +1089,7 @@
 					</control>
 					<control type="button" id="5312">
 						<description>Menu Item Prev Button</description>
-						<posx>415</posx>
+						<posx>335</posx>
 						<posy>62</posy>
 						<width>15</width>
 						<height>15</height>
@@ -946,40 +1104,20 @@
 						<ondown>5330</ondown>
 					</control>
 				</control>
-				<control type="radiobutton" id="5330">
-					<posx>0</posx>
-					<posy>240</posy>
-					<width>430</width>
-					<height>30</height>
-					<font>font13</font>
-					<label>Ignore on Scan</label>
-					<textcolor>88FFFFFF</textcolor>
-					<focusedcolor>white</focusedcolor>
-					<texturefocus>rcb-MenuItemFO.png</texturefocus>
-					<texturenofocus>rcb-MenuItemNF.png</texturenofocus>
-					<onleft>7000</onleft>
-					<onright>6000</onright>
-					<onup>5312</onup>
-					<ondown>6000</ondown>
-				</control>
-			</control>
-			
+			</control>				
+				
 			<!-- Game Browsing -->
 			<control type="group" id="7002">
-				<visible>Container(7000).Hasfocus(2)</visible>
-				<posx>140</posx>
+				<visible>Container(7000).Hasfocus(3)</visible>
+				<posx>170</posx>
 				<posy>120</posy>
-				<!--<pagecontrol>60</pagecontrol>-->
-				<!--<onleft>7000</onleft>
-				<onright>6000</onright>
-				<onup>7002</onup>
-				<ondown>7002</ondown>-->
+				
 				<control type="list" id="5320">
 					<hitrect x="0" y="0" w="0" h="0" />
 					<enable>false</enable>
 					<posx>0</posx>
 					<posy>0</posy>
-					<width>460</width>
+					<width>380</width>
 					<height>30</height>
 					<onleft>5320</onleft>
 					<onright>5320</onright>
@@ -993,7 +1131,7 @@
 						<control type="image">
 							<posx>0</posx>
 							<posy>0</posy>
-							<width>440</width>
+							<width>340</width>
 							<height>30</height>
 							<texture>rcb-MenuItemNF.png</texture>
 							<visible>![Control.HasFocus(5321) | Control.HasFocus(5322)]</visible>
@@ -1001,7 +1139,7 @@
 						<control type="image">
 							<posx>0</posx>
 							<posy>0</posy>
-							<width>440</width>
+							<width>340</width>
 							<height>30</height>
 							<texture>rcb-MenuItemFO.png</texture>
 							<visible>[Control.HasFocus(5321) | Control.HasFocus(5322)]</visible>
@@ -1009,31 +1147,31 @@
 						<control type="label">
 							<posx>7</posx>
 							<posy>5</posy>
-							<width>200</width>
+							<width>170</width>
 							<height>20</height>
 							<font>font13</font>
 							<textcolor>88FFFFFF</textcolor>
 							<align>left</align>
 							<aligny>center</aligny>
-							<label>Image Placing</label>
+							<label>Image placing</label>
 							<visible>![Control.HasFocus(5321) | Control.HasFocus(5322)]</visible>
 						</control>
 						<control type="label">
 							<posx>7</posx>
 							<posy>5</posy>
-							<width>200</width>
+							<width>170</width>
 							<height>20</height>
 							<font>font13</font>
 							<textcolor>white</textcolor>
 							<align>left</align>
 							<aligny>center</aligny>
-							<label>Image Placing</label>
+							<label>Image placing</label>
 							<visible>[Control.HasFocus(5321) | Control.HasFocus(5322)]</visible>
 						</control>
 						<control type="label">
-							<posx>380</posx>
+							<posx>300</posx>
 							<posy>5</posy>
-							<width>280</width>
+							<width>220</width>
 							<height>20</height>
 							<font>font13</font>
 							<textcolor>88FFFFFF</textcolor>
@@ -1043,9 +1181,9 @@
 							<visible>![Control.HasFocus(5321) | Control.HasFocus(5322)]</visible>
 						</control>
 						<control type="label">
-							<posx>380</posx>
+							<posx>300</posx>
 							<posy>5</posy>
-							<width>280</width>
+							<width>220</width>
 							<height>20</height>
 							<font>font13</font>
 							<textcolor>white</textcolor>
@@ -1058,7 +1196,7 @@
 				</control>
 				<control type="button" id="5321">
 					<description>Menu Item Next Button</description>
-					<posx>400</posx>
+					<posx>320</posx>
 					<posy>8</posy>
 					<width>15</width>
 					<height>15</height>
@@ -1074,7 +1212,7 @@
 				</control>
 				<control type="button" id="5322">
 					<description>Menu Item Prev Button</description>
-					<posx>415</posx>
+					<posx>335</posx>
 					<posy>8</posy>
 					<width>15</width>
 					<height>15</height>
@@ -1092,8 +1230,8 @@
 			
 			<!-- Game Launching -->
 			<control type="group" id="7003">
-				<visible>Container(7000).Hasfocus(3)</visible>
-				<posx>140</posx>
+				<visible>Container(7000).Hasfocus(4)</visible>
+				<posx>170</posx>
 				<posy>120</posy>
 				<!--<pagecontrol>60</pagecontrol>-->
 				<!--<onleft>7000</onleft>
@@ -1104,7 +1242,7 @@
 				<control type="image">
 					<posx>0</posx>
 					<posy>0</posy>
-					<width>200</width>
+					<width>170</width>
 					<height>30</height>
 					<texture>rcb-MenuItemFO.png</texture>
 					<visible>Control.HasFocus(5220)</visible>
@@ -1112,32 +1250,32 @@
 				<control type="label">
 					<posx>7</posx>
 					<posy>0</posy>
-					<width>200</width>
+					<width>170</width>
 					<height>30</height>
 					<font>font13</font>
 					<textcolor>white</textcolor>
 					<align>left</align>
 					<aligny>center</aligny>
-					<label>Emulator Cmd</label>					
+					<label>Emulator cmd</label>					
 					<visible>Control.HasFocus(5220)</visible>
 				</control>
 				<control type="label">
 					<posx>7</posx>
 					<posy>0</posy>
-					<width>200</width>
+					<width>170</width>
 					<height>30</height>
 					<font>font13</font>
 					<textcolor>88FFFFFF</textcolor>
 					<align>left</align>
 					<aligny>center</aligny>
-					<label>Emulator Cmd</label>					
+					<label>Emulator cmd</label>					
 					<visible>!Control.HasFocus(5220)</visible>
 				</control>
 				<control type="button" id="5220"> 
 					<description>EmuCmd</description>
-					<posx>180</posx>
+					<posx>130</posx>
 					<posy>0</posy>
-					<width>250</width>
+					<width>220</width>
 					<height>30</height>
 					<visible>true</visible>
 					<font>font13</font>
@@ -1162,7 +1300,7 @@
 				<control type="image">
 					<posx>0</posx>
 					<posy>30</posy>
-					<width>200</width>
+					<width>170</width>
 					<height>30</height>
 					<texture>rcb-MenuItemFO.png</texture>
 					<visible>Control.HasFocus(5230)</visible>
@@ -1170,32 +1308,32 @@
 				<control type="label">
 					<posx>7</posx>
 					<posy>30</posy>
-					<width>200</width>
+					<width>170</width>
 					<height>30</height>
 					<font>font13</font>
 					<textcolor>white</textcolor>
 					<align>left</align>
 					<aligny>center</aligny>
-					<label>Emulator Params</label>
+					<label>Emulator params</label>
 					<visible>Control.HasFocus(5230)</visible>
 				</control>
 				<control type="label">
 					<posx>7</posx>
 					<posy>30</posy>
-					<width>200</width>
+					<width>170</width>
 					<height>30</height>
 					<font>font13</font>
 					<textcolor>88FFFFFF</textcolor>
 					<align>left</align>
 					<aligny>center</aligny>
-					<label>Emulator Params</label>
+					<label>Emulator params</label>
 					<visible>!Control.HasFocus(5230)</visible>
 				</control>
 				<control type="button" id="5230"> 
 					<description>EmuParams</description>
-					<posx>180</posx>
+					<posx>130</posx>
 					<posy>30</posy>
-					<width>250</width>
+					<width>220</width>
 					<height>30</height>
 					<visible>true</visible>
 					<font>font13</font>
@@ -1220,9 +1358,9 @@
 			
 		<!-- Buttons -->
 		<control type="button" id="6000"> 
-			<description>Import</description>
+			<description>Save</description>
 			<posx>250</posx>
-			<posy>455</posy>
+			<posy>420</posy>
 			<width>100</width>
 			<height>25</height>
 			<visible>true</visible>
@@ -1230,7 +1368,7 @@
 			<colordiffuse>DDFFFFFF</colordiffuse>
 			<texturefocus>rcb-button-focus.png</texturefocus>
 			<texturenofocus>rcb-button-nofocus.png</texturenofocus>
-			<label>Save Config</label>				
+			<label>Save config</label>				
 			<textcolor>88FFFFFF</textcolor>
 			<disabledcolor>80FFFFFF</disabledcolor>
 			<align>center</align>
@@ -1246,7 +1384,7 @@
 		<control type="button" id="6010"> 
 			<description>Cancel</description>
 			<posx>370</posx>
-			<posy>455</posy>
+			<posy>420</posy>
 			<width>100</width>
 			<height>25</height>
 			<visible>true</visible>
