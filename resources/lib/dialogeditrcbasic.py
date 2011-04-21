@@ -34,6 +34,7 @@ CONTROL_LIST_SCRAPER1 = 5290
 CONTROL_LIST_SCRAPER2 = 5300
 CONTROL_LIST_SCRAPER3 = 5310
 CONTROL_LIST_IMAGEPLACING = 5320
+CONTROL_LIST_SCRAPERS = 5600
 
 
 class EditRCBasicDialog(xbmcgui.WindowXMLDialog):
@@ -62,11 +63,15 @@ class EditRCBasicDialog(xbmcgui.WindowXMLDialog):
 			romCollectionList.append(romCollection.name)
 		self.addItemsToList(CONTROL_LIST_ROMCOLLECTIONS, romCollectionList)
 		
-		Logutil.log('build scraper list', util.LOG_LEVEL_INFO)
+		Logutil.log('build scraper lists', util.LOG_LEVEL_INFO)
 		self.availableScrapers = self.getAvailableScrapers()
 		self.addItemsToList(CONTROL_LIST_SCRAPER1, self.availableScrapers)
 		self.addItemsToList(CONTROL_LIST_SCRAPER2, self.availableScrapers)
 		self.addItemsToList(CONTROL_LIST_SCRAPER3, self.availableScrapers)
+		
+		#TODO
+		Logutil.log('build scrapers list', util.LOG_LEVEL_INFO)
+		self.addItemsToList(CONTROL_LIST_SCRAPERS, ['None'])
 
 		Logutil.log('build imagePlacing list', util.LOG_LEVEL_INFO)		
 		self.imagePlacingList = []
