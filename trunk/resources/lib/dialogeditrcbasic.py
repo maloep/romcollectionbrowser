@@ -13,28 +13,59 @@ CONTROL_BUTTON_EXIT = 5101
 CONTROL_BUTTON_SAVE = 6000
 CONTROL_BUTTON_CANCEL = 6010
 
-CONTROL_BUTTON_EMUCMD = 5220
-CONTROL_BUTTON_PARAMS = 5230
-CONTROL_BUTTON_ROMPATH = 5240
-CONTROL_BUTTON_FILEMASK = 5250
-CONTROL_BUTTON_MEDIAPATH = 5270
-CONTROL_BUTTON_MEDIAFILEMASK = 5280
-
-CONTROL_BUTTON_IGNOREONSCAN = 5330
-
 CONTROL_LIST_ROMCOLLECTIONS = 5210
 CONTROL_BUTTON_RC_DOWN = 5211
 CONTROL_BUTTON_RC_UP = 5212
 
-CONTROL_BUTTON_MEDIA_DOWN = 5261
-CONTROL_BUTTON_MEDIA_UP = 5262
+#Import Games
+CONTROL_BUTTON_ROMPATH = 5240
+CONTROL_BUTTON_FILEMASK = 5250
+CONTROL_BUTTON_IGNOREONSCAN = 5330
+CONTROL_BUTTON_ALLOWUPDATE = 5400
+CONTROL_BUTTON_MAXFOLDERDEPTH = 5410
+CONTROL_BUTTON_DISKINDICATOR = 5420
+CONTROL_BUTTON_USEFOLDERASGAMENAME = 5430
 
-CONTROL_LIST_MEDIATYPES = 5260
+#Import Game data
 CONTROL_LIST_SCRAPER1 = 5290
 CONTROL_LIST_SCRAPER2 = 5300
 CONTROL_LIST_SCRAPER3 = 5310
+CONTROL_LIST_MEDIATYPES = 5260
+CONTROL_BUTTON_MEDIA_DOWN = 5261
+CONTROL_BUTTON_MEDIA_UP = 5262
+CONTROL_BUTTON_MEDIAPATH = 5270
+CONTROL_BUTTON_MEDIAFILEMASK = 5280
+CONTROL_BUTTON_REMOVEMEDIAPATH = 5490
+CONTROL_BUTTON_ADDMEDIAPATH = 5500
+
+
+#Browse Games
 CONTROL_LIST_IMAGEPLACING = 5320
+
+#Launch Games
+CONTROL_BUTTON_EMUCMD = 5220
+CONTROL_BUTTON_PARAMS = 5230
+CONTROL_BUTTON_USEEMUSOLO = 5440
+CONTROL_BUTTON_DONTEXTRACTZIP = 5450
+CONTROL_BUTTON_SAVESTATEPATH = 5460
+CONTROL_BUTTON_SAVESTATEMASK = 5470
+CONTROL_BUTTON_SAVESTATEPARAMS = 5480
+
+#Scrapers
 CONTROL_LIST_SCRAPERS = 5600
+CONTROL_BUTTON_SCRAPERS_DOWN = 5601
+CONTROL_BUTTON_SCRAPERS_UP = 5602
+CONTROL_BUTTON_SCRAPERNAME = 5510
+CONTROL_BUTTON_GAMEDESCPATH = 5520
+CONTROL_BUTTON_GAMEDESCMASK = 5530
+CONTROL_BUTTON_PARSEINSTRUCTION = 5540
+CONTROL_BUTTON_DESCPERGAME = 5550
+CONTROL_BUTTON_SEARCHBYCRC = 5560
+CONTROL_BUTTON_USEFOLDERASCRC = 5580
+CONTROL_BUTTON_USEFILEASCRC = 5590
+CONTROL_BUTTON_REMOVESCRAPER = 5610
+CONTROL_BUTTON_ADDSCRAPER = 5620
+
 
 
 class EditRCBasicDialog(xbmcgui.WindowXMLDialog):
@@ -64,14 +95,14 @@ class EditRCBasicDialog(xbmcgui.WindowXMLDialog):
 		self.addItemsToList(CONTROL_LIST_ROMCOLLECTIONS, romCollectionList)
 		
 		Logutil.log('build scraper lists', util.LOG_LEVEL_INFO)
-		self.availableScrapers = self.getAvailableScrapers()
+		self.availableScrapers = self.getAvailableScrapers(False)
 		self.addItemsToList(CONTROL_LIST_SCRAPER1, self.availableScrapers)
 		self.addItemsToList(CONTROL_LIST_SCRAPER2, self.availableScrapers)
 		self.addItemsToList(CONTROL_LIST_SCRAPER3, self.availableScrapers)
-		
-		#TODO
+				
 		Logutil.log('build scrapers list', util.LOG_LEVEL_INFO)
-		self.addItemsToList(CONTROL_LIST_SCRAPERS, ['None'])
+		scrapers = self.getAvailableScrapers(True)
+		self.addItemsToList(CONTROL_LIST_SCRAPERS, scrapers)
 
 		Logutil.log('build imagePlacing list', util.LOG_LEVEL_INFO)		
 		self.imagePlacingList = []
@@ -81,7 +112,9 @@ class EditRCBasicDialog(xbmcgui.WindowXMLDialog):
 			self.imagePlacingList.append(imagePlacing.attrib.get('name'))
 		self.addItemsToList(CONTROL_LIST_IMAGEPLACING, self.imagePlacingList)
 		
-		self.updateControls()
+		self.updateRomCollectionControls()
+		
+		self.updateOfflineScraperControls()
 		
 		
 	def onAction(self, action):		
@@ -125,13 +158,13 @@ class EditRCBasicDialog(xbmcgui.WindowXMLDialog):
 			
 			#HACK: add a little wait time as XBMC needs some ms to execute the MoveUp/MoveDown actions from the skin
 			xbmc.sleep(util.WAITTIME_UPDATECONTROLS)
-			self.updateControls()
+			self.updateRomCollectionControls()
 		
 		#Media Path
 		elif(self.selectedControlId in (CONTROL_BUTTON_MEDIA_DOWN, CONTROL_BUTTON_MEDIA_UP)):
 			#HACK: add a little wait time as XBMC needs some ms to execute the MoveUp/MoveDown actions from the skin
 			xbmc.sleep(util.WAITTIME_UPDATECONTROLS)
-			self.updateMediaPath()
+			self.updateMediaPathControls()
 			
 		elif (controlID == CONTROL_BUTTON_EMUCMD):
 			
@@ -282,9 +315,9 @@ class EditRCBasicDialog(xbmcgui.WindowXMLDialog):
 		self.selectedControlId = controlId
 	
 	
-	def updateControls(self):
+	def updateRomCollectionControls(self):
 		
-		Logutil.log('updateControls', util.LOG_LEVEL_INFO)
+		Logutil.log('updateRomCollectionControls', util.LOG_LEVEL_INFO)
 		
 		control = self.getControlById(CONTROL_LIST_ROMCOLLECTIONS)
 		selectedRomCollectionName = str(control.getSelectedItem().getLabel())
@@ -302,12 +335,8 @@ class EditRCBasicDialog(xbmcgui.WindowXMLDialog):
 		if(self.selectedRomCollection == None):
 			return
 		
-		control = self.getControlById(CONTROL_BUTTON_EMUCMD)		
-		control.setLabel(self.selectedRomCollection.emulatorCmd)
 		
-		control = self.getControlById(CONTROL_BUTTON_PARAMS)
-		control.setLabel(self.selectedRomCollection.emulatorParams)
-				
+		#Import Games
 		#HACK: split romPath and fileMask
 		firstRomPath = ''
 		fileMask = ''
@@ -326,7 +355,22 @@ class EditRCBasicDialog(xbmcgui.WindowXMLDialog):
 		control = self.getControlById(CONTROL_BUTTON_FILEMASK)
 		control.setLabel(fileMask)
 		
+		control = self.getControlById(CONTROL_BUTTON_IGNOREONSCAN)		
+		control.setSelected(self.selectedRomCollection.ignoreOnScan)
 		
+		control = self.getControlById(CONTROL_BUTTON_ALLOWUPDATE)
+		control.setSelected(self.selectedRomCollection.allowUpdate)
+		
+		control = self.getControlById(CONTROL_BUTTON_DISKINDICATOR)
+		control.setLabel(self.selectedRomCollection.diskPrefix)
+		
+		control = self.getControlById(CONTROL_BUTTON_MAXFOLDERDEPTH)
+		control.setLabel(str(self.selectedRomCollection.maxFolderDepth))
+		
+		control = self.getControlById(CONTROL_BUTTON_USEFOLDERASGAMENAME)
+		control.setSelected(self.selectedRomCollection.useFoldernameAsGamename)
+		
+		#Import Game Data
 		#Media Types
 		mediaTypeList = []
 		firstMediaPath = ''
@@ -348,15 +392,93 @@ class EditRCBasicDialog(xbmcgui.WindowXMLDialog):
 						
 		self.selectScrapersInList(self.selectedRomCollection.scraperSites, self.availableScrapers)
 		
+		#Browse Games
 		self.selectItemInList(self.imagePlacingList, self.selectedRomCollection.imagePlacing.name, CONTROL_LIST_IMAGEPLACING)
 		
-		control = self.getControlById(CONTROL_BUTTON_IGNOREONSCAN)		
-		control.setSelected(self.selectedRomCollection.ignoreOnScan)
+		#Launch Games
+		control = self.getControlById(CONTROL_BUTTON_EMUCMD)		
+		control.setLabel(self.selectedRomCollection.emulatorCmd)
+		
+		control = self.getControlById(CONTROL_BUTTON_PARAMS)
+		control.setLabel(self.selectedRomCollection.emulatorParams)
+		
+		control = self.getControlById(CONTROL_BUTTON_USEEMUSOLO)
+		control.setSelected(self.selectedRomCollection.useEmuSolo)
+		
+		pathParts = os.path.split(self.selectedRomCollection.saveStatePath)
+		saveStatePath = pathParts[0]
+		saveStateFileMask = pathParts[1]
+		
+		control = self.getControlById(CONTROL_BUTTON_SAVESTATEPATH)
+		control.setLabel(saveStatePath)
+		
+		control = self.getControlById(CONTROL_BUTTON_SAVESTATEMASK)
+		control.setLabel(saveStateFileMask)
+		
+		control = self.getControlById(CONTROL_BUTTON_SAVESTATEPARAMS)
+		control.setLabel(self.selectedRomCollection.saveStateParams)
+		
+		control = self.getControlById(CONTROL_BUTTON_DONTEXTRACTZIP)
+		control.setSelected(self.selectedRomCollection.doNotExtractZipFiles)
 	
-		print 'ignoreOnScan: ' +str(self.selectedRomCollection.ignoreOnScan)
+	
+	def updateOfflineScraperControls(self):
+		
+		Logutil.log('updateOfflineScraperControls', util.LOG_LEVEL_INFO)
+		
+		control = self.getControlById(CONTROL_LIST_SCRAPERS)
+		selectedScraperName = str(control.getSelectedItem().getLabel())
+		
+		selectedSite = None
+		sites = self.gui.config.scraperSites
+		for site in sites:
+			name = site.name
+			if(name == selectedScraperName):
+				selectedSite = site
+				break
+						
+		if(selectedSite == None):
+			#should not happen
+			return
+		
+		control = self.getControlById(CONTROL_BUTTON_SCRAPERNAME)
+		control.setLabel(selectedSite.name)
+		
+		#HACK: only use source and parser from 1st scraper
+		firstScraper = None
+		if(len(selectedSite.scrapers) >= 1):			
+			firstScraper = selectedSite.scrapers[0]
+		if(firstScraper == None):
+			#should not happen
+			return
+		
+		pathParts = os.path.split(firstScraper.source)
+		scraperSource = pathParts[0]
+		scraperFileMask = pathParts[1]
+		
+		control = self.getControlById(CONTROL_BUTTON_GAMEDESCPATH)
+		control.setLabel(scraperSource)
+		
+		control = self.getControlById(CONTROL_BUTTON_GAMEDESCMASK)
+		control.setLabel(scraperFileMask)
+		
+		control = self.getControlById(CONTROL_BUTTON_PARSEINSTRUCTION)
+		control.setLabel(firstScraper.parseInstruction)
+		
+		control = self.getControlById(CONTROL_BUTTON_DESCPERGAME)
+		control.setSelected(selectedSite.descFilePerGame)
+		
+		control = self.getControlById(CONTROL_BUTTON_SEARCHBYCRC)
+		control.setSelected(selectedSite.searchGameByCRC)
+		
+		control = self.getControlById(CONTROL_BUTTON_USEFILEASCRC)
+		control.setSelected(selectedSite.useFilenameAsCRC)
+		
+		control = self.getControlById(CONTROL_BUTTON_USEFOLDERASCRC)
+		control.setSelected(selectedSite.useFoldernameAsCRC)
 	
 	
-	def updateMediaPath(self):
+	def updateMediaPathControls(self):
 		
 		control = self.getControlById(CONTROL_LIST_MEDIATYPES)
 		selectedMediaType = str(control.getSelectedItem().getLabel())
@@ -388,9 +510,9 @@ class EditRCBasicDialog(xbmcgui.WindowXMLDialog):
 			platformId = '0'
 		
 		sites = []
-		sites = self.addScraperToRomCollection(CONTROL_LIST_SCRAPER1, platformId, sites)
-		sites = self.addScraperToRomCollection(CONTROL_LIST_SCRAPER2, platformId, sites)
-		sites = self.addScraperToRomCollection(CONTROL_LIST_SCRAPER3, platformId, sites)
+		sites = self.addScraperToSiteList(CONTROL_LIST_SCRAPER1, platformId, sites)
+		sites = self.addScraperToSiteList(CONTROL_LIST_SCRAPER2, platformId, sites)
+		sites = self.addScraperToSiteList(CONTROL_LIST_SCRAPER3, platformId, sites)
 			
 		self.selectedRomCollection.scraperSites = sites
 		
@@ -427,15 +549,33 @@ class EditRCBasicDialog(xbmcgui.WindowXMLDialog):
 		control.addItems(items)
 		
 		
-	def getAvailableScrapers(self):
+	def getAvailableScrapers(self, localOnly):
 		Logutil.log('get available scrapers', util.LOG_LEVEL_INFO)
 		
 		#Scrapers
-		sitesInList = ['None']
+		sitesInList = []		
+		if(not localOnly):
+			sitesInList.append('None')
 		#get all scrapers
-		scrapers = self.gui.config.tree.findall('Scrapers/Site')
-		for scraper in scrapers:
-			name = scraper.attrib.get('name')
+		sites = self.gui.config.tree.findall('Scrapers/Site')
+		for site in sites:
+			name = site.attrib.get('name')
+			
+			#only add scrapers without http
+			if(localOnly):
+				#don't use local nfo scraper
+				if(name == 'local nfo'):
+					 continue
+				skipScraper = False
+				scrapers = site.findall('Scraper')
+				for scraper in scrapers:
+					source = scraper.attrib.get('source')
+					if(source.startswith('http')):
+						skipScraper = True
+						break
+				if(skipScraper):
+					continue
+			
 			if(name != None):
 				Logutil.log('add scraper name: ' +str(name), util.LOG_LEVEL_INFO)
 				sitesInList.append(name)
@@ -473,9 +613,9 @@ class EditRCBasicDialog(xbmcgui.WindowXMLDialog):
 				break
 			
 			
-	def addScraperToRomCollection(self, controlId, platformId, sites):				
+	def addScraperToSiteList(self, controlId, platformId, sites):				
 
-		Logutil.log('addScraperToRomCollection', util.LOG_LEVEL_INFO)
+		Logutil.log('addScraperToSiteList', util.LOG_LEVEL_INFO)
 		
 		control = self.getControlById(controlId)
 		scraperItem = control.getSelectedItem()
