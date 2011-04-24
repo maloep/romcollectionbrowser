@@ -181,6 +181,7 @@ class RomCollection:
 class Config:
 		
 	romCollections = None
+	scraperSites = None
 	fileTypeIdsForGamelist = None
 	
 	tree = None
@@ -202,11 +203,17 @@ class Config:
 			Logutil.log('Could not read config.xml', util.LOG_LEVEL_ERROR)
 			return False, 'Could not read config.xml.'
 		
+		#Rom Collections
 		romCollections, errorMsg = self.readRomCollections(tree)
 		if(romCollections == None):
-			return False, errorMsg
-		
+			return False, errorMsg		
 		self.romCollections = romCollections
+		
+		#Scrapers
+		scrapers, errorMsg = self.readScrapers(tree)
+		if(scrapers == None):
+			return False, errorMsg		
+		self.scraperSites = scrapers
 				
 		self.fileTypeIdsForGamelist = self.getFileTypeIdsForGameList(romCollections)
 		
@@ -295,9 +302,20 @@ class Config:
 				replaceValueString = scraperRow.attrib.get('replaceValueString')
 				if(replaceValueString == None):
 					replaceValueString = ''
+								
+				#elementtree version 1.2.7 does not support xpath like this: Scrapers/Site[@name="%s"] 
+				siteRow = None
+				siteRows = tree.findall('Scrapers/Site')
+				for element in siteRows:
+					if(element.attrib.get('name') == siteName):
+						siteRow = element
+						break
 				
-				
-				scraper, errorMsg = self.readScraper(siteName, platform, replaceKeyString, replaceValueString, tree)
+				if(siteRow == None):
+					Logutil.log('Configuration error. Site %s does not exist in config.xml' %siteName, util.LOG_LEVEL_ERROR)
+					return None, 'Configuration error. See xbmc.log for details'
+								
+				scraper, errorMsg = self.readScraper(siteRow, platform, replaceKeyString, replaceValueString, True, tree)
 				if(scraper == None):
 					return None, errorMsg
 				romCollection.scraperSites.append(scraper)
@@ -361,23 +379,26 @@ class Config:
 			
 		return romCollections, ''
 		
-			
-	def readScraper(self, siteName, platform, inReplaceKeyString, inReplaceValueString, tree):
 		
-		#elementtree version 1.2.7 does not support xpath like this: Scrapers/Site[@name="%s"] 
-		siteRow = None
+	def readScrapers(self, tree):
+		
+		sites = []
+				
 		siteRows = tree.findall('Scrapers/Site')
-		for element in siteRows:
-			if(element.attrib.get('name') == siteName):
-				siteRow = element
-				break
+		for siteRow in siteRows:
+			site, errorMsg = self.readScraper(siteRow, '', '', '', False, tree)
+			if(site == None):
+				return None, errorMsg
+			
+			sites.append(site)
+
+		return sites, ''
 		
-		if(siteRow == None):
-			Logutil.log('Configuration error. Site %s does not exist in config.xml' %siteName, util.LOG_LEVEL_ERROR)
-			return None, 'Configuration error. See xbmc.log for details'
+			
+	def readScraper(self, siteRow, platform, inReplaceKeyString, inReplaceValueString, replaceValues, tree):
 		
 		site = Site()
-		site.name = siteName
+		site.name = siteRow.attrib.get('name')
 		Logutil.log('Scraper Site: ' +str(site.name), util.LOG_LEVEL_INFO)
 		site.platformId = platform
 		Logutil.log('Site platform: ' +platform, util.LOG_LEVEL_INFO)
@@ -422,8 +443,10 @@ class Config:
 				scraper.parseInstruction = parseInstruction
 				
 			source = scraperRow.attrib.get('source')
-			if(source != None and source != ''):				
-				scraper.source = source.replace('%PLATFORM%', platform)
+			if(source != None and source != ''):
+				if(replaceValues):
+					source = source.replace('%PLATFORM%', platform)				
+				scraper.source = source
 			
 			encoding = scraperRow.attrib.get('encoding')
 			if(encoding != None and encoding != 'utf-8'):
@@ -435,11 +458,15 @@ class Config:
 				
 			replaceKeyString = scraperRow.attrib.get('replaceKeyString')
 			if(replaceKeyString != None and replaceKeyString != ''):
-				scraper.replaceKeyString = replaceKeyString.replace('%REPLACEKEYS%', inReplaceKeyString)
+				if(replaceValues):
+					replaceKeyString = replaceKeyString.replace('%REPLACEKEYS%', inReplaceKeyString)
+				scraper.replaceKeyString = replaceKeyString 
 				
 			replaceValueString = scraperRow.attrib.get('replaceValueString')
 			if(replaceValueString != None and replaceValueString != ''):
-				scraper.replaceValueString = replaceValueString.replace('%REPLACEVALUES%', inReplaceValueString)
+				if(replaceValues):
+					replaceValueString = replaceValueString.replace('%REPLACEVALUES%', inReplaceValueString)
+				scraper.replaceValueString = replaceValueString
 			
 			scrapers.append(scraper)
 			
