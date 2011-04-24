@@ -374,11 +374,11 @@
 					<textoffsety></textoffsety>
 					<pulseonselect></pulseonselect>
 					<onup>5240</onup>
-					<ondown>5261</ondown>
+					<ondown>5330</ondown>
 					<onleft>7000</onleft>
 					<onright>6000</onright>
 				</control>
-								
+				<!-- Ignore on scan -->
 				<control type="radiobutton" id="5330">
 					<posx>0</posx>
 					<posy>60</posy>
@@ -392,9 +392,10 @@
 					<texturenofocus>rcb-MenuItemNF.png</texturenofocus>
 					<onleft>7000</onleft>
 					<onright>6000</onright>
-					<onup>5312</onup>
+					<onup>5250</onup>
 					<ondown>5400</ondown>
 				</control>
+				<!-- Allow update -->
 				<control type="radiobutton" id="5400">
 					<posx>0</posx>
 					<posy>90</posy>
@@ -1130,7 +1131,7 @@
 					</control>
 					
 					<control type="button" id="5490"> 
-						<description>Remove Media Type</description>
+						<description>Remove Media path</description>
 						<posx>22</posx>
 						<posy>90</posy>
 						<width>220</width>
@@ -1140,7 +1141,7 @@
 						<colordiffuse>DDFFFFFF</colordiffuse>
 						<texturefocus>rcb-MenuItemFO.png</texturefocus>
 						<texturenofocus>rcb-MenuItemNF.png</texturenofocus>
-						<label>Remove media type</label>				
+						<label>Remove media path</label>				
 						<textcolor>88FFFFFF</textcolor>
 						<focusedcolor>white</focusedcolor>
 						<disabledcolor>80FFFFFF</disabledcolor>
@@ -1155,7 +1156,7 @@
 						<onright>6000</onright>
 					</control>
 					<control type="button" id="5500"> 
-						<description>Add Media Type</description>
+						<description>Add Media path</description>
 						<posx>22</posx>
 						<posy>120</posy>
 						<width>220</width>
@@ -1165,7 +1166,7 @@
 						<colordiffuse>DDFFFFFF</colordiffuse>
 						<texturefocus>rcb-MenuItemFO.png</texturefocus>
 						<texturenofocus>rcb-MenuItemNF.png</texturenofocus>
-						<label>Add media type</label>				
+						<label>Add media path</label>				
 						<textcolor>88FFFFFF</textcolor>
 						<focusedcolor>white</focusedcolor>
 						<disabledcolor>80FFFFFF</disabledcolor>
@@ -1425,6 +1426,7 @@
 					<onleft>7000</onleft>
 					<onright>6000</onright>
 				</control>
+				<!-- Use emu solo -->
 				<control type="radiobutton" id="5440">
 					<posx>0</posx>
 					<posy>60</posy>
@@ -1441,6 +1443,7 @@
 					<onup>5230</onup>
 					<ondown>5450</ondown>
 				</control>
+				<!-- Do not extract zip files -->
 				<control type="radiobutton" id="5450">
 					<posx>0</posx>
 					<posy>90</posy>
@@ -1988,7 +1991,8 @@
 					<ondown>5550</ondown>
 					<onleft>7000</onleft>
 					<onright>6000</onright>
-				</control>				
+				</control>
+				<!-- descfile per game -->
 				<control type="radiobutton" id="5550">
 					<posx>0</posx>
 					<posy>150</posy>
@@ -2004,7 +2008,8 @@
 					<onright>6000</onright>
 					<onup>5540</onup>
 					<ondown>5560</ondown>
-				</control>				
+				</control>
+				<!-- Search by crc -->
 				<control type="radiobutton" id="5560">
 					<posx>0</posx>
 					<posy>180</posy>
@@ -2019,27 +2024,12 @@
 					<onleft>7000</onleft>
 					<onright>6000</onright>
 					<onup>5550</onup>
-					<ondown>5570</ondown>
-				</control>				
-				<control type="radiobutton" id="5570">
-					<posx>0</posx>
-					<posy>210</posy>
-					<width>360</width>
-					<height>30</height>
-					<font>font13</font>
-					<label>Use crc - ignore rom name</label>
-					<textcolor>88FFFFFF</textcolor>
-					<focusedcolor>white</focusedcolor>
-					<texturefocus>rcb-MenuItemFO.png</texturefocus>
-					<texturenofocus>rcb-MenuItemNF.png</texturenofocus>
-					<onleft>7000</onleft>
-					<onright>6000</onright>
-					<onup>5560</onup>
 					<ondown>5580</ondown>
-				</control>				
+				</control>
+				<!-- Use foldername as crc -->
 				<control type="radiobutton" id="5580">
 					<posx>0</posx>
-					<posy>240</posy>
+					<posy>210</posy>
 					<width>360</width>
 					<height>30</height>
 					<font>font13</font>
@@ -2052,10 +2042,11 @@
 					<onright>6000</onright>
 					<onup>5570</onup>
 					<ondown>5590</ondown>
-				</control>				
+				</control>
+				<!-- Use filename as crc -->
 				<control type="radiobutton" id="5590">
 					<posx>0</posx>
-					<posy>270</posy>
+					<posy>240</posy>
 					<width>360</width>
 					<height>30</height>
 					<font>font13</font>
@@ -2069,10 +2060,11 @@
 					<onup>5580</onup>
 					<ondown>5610</ondown>
 				</control>
+				<!-- Remoce scraper -->
 				<control type="button" id="5610"> 
 					<description>Remove scraper</description>
 					<posx>10</posx>
-					<posy>300</posy>
+					<posy>270</posy>
 					<width>220</width>
 					<height>30</height>
 					<visible>true</visible>
@@ -2094,10 +2086,11 @@
 					<onleft>7000</onleft>
 					<onright>6000</onright>
 				</control>
+				<!-- Add scraper -->
 				<control type="button" id="5620"> 
 					<description>Add scraper</description>
 					<posx>10</posx>
-					<posy>330</posy>
+					<posy>300</posy>
 					<width>220</width>
 					<height>30</height>
 					<visible>true</visible>
@@ -2119,7 +2112,6 @@
 					<onleft>7000</onleft>
 					<onright>6000</onright>
 				</control>
-				
 			</control>
 		</control>
 			
