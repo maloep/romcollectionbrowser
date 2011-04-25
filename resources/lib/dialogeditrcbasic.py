@@ -72,13 +72,16 @@ class EditRCBasicDialog(xbmcgui.WindowXMLDialog):
 		
 	selectedControlId = 0
 	selectedRomCollection = None
+	selectedOfflineScraper = None
 	romCollections = None
+	scraperSites = None
 	
 	def __init__(self, *args, **kwargs):
 		Logutil.log('init Edit RC Basic', util.LOG_LEVEL_INFO)
 		
 		self.gui = kwargs[ "gui" ]
 		self.romCollections = self.gui.config.romCollections
+		self.scraperSites = self.gui.config.scraperSites
 		
 		self.doModal()
 	
@@ -161,10 +164,25 @@ class EditRCBasicDialog(xbmcgui.WindowXMLDialog):
 			self.updateRomCollectionControls()
 		
 		#Media Path
-		elif(self.selectedControlId in (CONTROL_BUTTON_MEDIA_DOWN, CONTROL_BUTTON_MEDIA_UP)):
+		elif(self.selectedControlId in (CONTROL_BUTTON_MEDIA_DOWN, CONTROL_BUTTON_MEDIA_UP)):						
+						
 			#HACK: add a little wait time as XBMC needs some ms to execute the MoveUp/MoveDown actions from the skin
 			xbmc.sleep(util.WAITTIME_UPDATECONTROLS)
 			self.updateMediaPathControls()
+		
+		#Offline Scraper
+		elif(self.selectedControlId in (CONTROL_BUTTON_SCRAPERS_UP, CONTROL_BUTTON_SCRAPERS_DOWN)):
+			
+			if(self.selectedOfflineScraper != None):
+				#save current values to selected ScraperSite
+				self.updateSelectedOfflineScraper()
+				
+				#store previous selectedRomCollections state
+				self.scraperSites[self.selectedOfflineScraper.name] = self.selectedOfflineScraper
+			
+			#HACK: add a little wait time as XBMC needs some ms to execute the MoveUp/MoveDown actions from the skin
+			xbmc.sleep(util.WAITTIME_UPDATECONTROLS)
+			self.updateOfflineScraperControls()
 			
 		elif (controlID == CONTROL_BUTTON_EMUCMD):
 			
@@ -430,16 +448,13 @@ class EditRCBasicDialog(xbmcgui.WindowXMLDialog):
 		selectedScraperName = str(control.getSelectedItem().getLabel())
 		
 		selectedSite = None
-		sites = self.gui.config.scraperSites
-		for site in sites:
-			name = site.name
-			if(name == selectedScraperName):
-				selectedSite = site
-				break
-						
-		if(selectedSite == None):
+		try:
+			selectedSite = self.scraperSites[selectedScraperName]
+		except:
 			#should not happen
 			return
+		
+		self.selectedOfflineScraper = selectedSite
 		
 		control = self.getControlById(CONTROL_BUTTON_SCRAPERNAME)
 		control.setLabel(selectedSite.name)
@@ -524,6 +539,27 @@ class EditRCBasicDialog(xbmcgui.WindowXMLDialog):
 		
 		imgPlacing, errorMsg = self.gui.config.readImagePlacing(imgPlacingName, self.gui.config.tree)
 		self.selectedRomCollection.imagePlacing = imgPlacing
+		
+		
+	def updateSelectedOfflineScraper(self):
+		Logutil.log('updateSelectedOfflineScraper', util.LOG_LEVEL_INFO)
+		
+		#desc file per game
+		control = self.getControlById(CONTROL_BUTTON_DESCPERGAME)
+		self.selectedOfflineScraper.descFilePerGame = bool(control.isSelected())
+		
+		#search game by crc
+		control = self.getControlById(CONTROL_BUTTON_SEARCHBYCRC)
+		self.selectedOfflineScraper.searchGameByCRC = bool(control.isSelected())
+		
+		#use foldername as crc
+		control = self.getControlById(CONTROL_BUTTON_USEFOLDERASCRC)
+		self.selectedOfflineScraper.useFoldernameAsCRC = bool(control.isSelected())
+		
+		#use filename as crc
+		control = self.getControlById(CONTROL_BUTTON_USEFILEASCRC)
+		self.selectedOfflineScraper.useFilenameAsCRC = bool(control.isSelected())
+		
 
 	
 	def getControlById(self, controlId):
