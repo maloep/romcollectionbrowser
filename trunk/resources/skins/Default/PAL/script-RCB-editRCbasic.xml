@@ -2040,7 +2040,7 @@
 					<texturenofocus>rcb-MenuItemNF.png</texturenofocus>
 					<onleft>7000</onleft>
 					<onright>6000</onright>
-					<onup>5570</onup>
+					<onup>5560</onup>
 					<ondown>5590</ondown>
 				</control>
 				<!-- Use filename as crc -->
