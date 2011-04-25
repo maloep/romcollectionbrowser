@@ -382,7 +382,7 @@ class Config:
 		
 	def readScrapers(self, tree):
 		
-		sites = []
+		sites = {}
 				
 		siteRows = tree.findall('Scrapers/Site')
 		for siteRow in siteRows:
@@ -390,7 +390,8 @@ class Config:
 			if(site == None):
 				return None, errorMsg
 			
-			sites.append(site)
+			name = siteRow.attrib.get('name')
+			sites[name] = site
 
 		return sites, ''
 		
