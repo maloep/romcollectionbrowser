@@ -251,12 +251,26 @@ class ImportOptionsDialog(xbmcgui.WindowXMLDialog):
 		scraperItem = control.getSelectedItem()
 		scraper = scraperItem.getLabel()
 		
+		if(scraper == 'None'):
+			return sites, True
+		
 		#HACK: don't use other scrapers than MAME and local nfo for MAME collections
 		if(romCollection.name == 'MAME'):
 			if(scraper != 'local nfo'):
 				scraper = 'maws.mameworld.info'		
+				
+		siteRow = None
+		siteRows = self.gui.config.tree.findall('Scrapers/Site')
+		for element in siteRows:
+			if(element.attrib.get('name') == scraper):
+				siteRow = element
+				break
 		
-		site, errorMsg = self.gui.config.readScraper(scraper, platformId, '', '', self.gui.config.tree)
+		if(siteRow == None):
+			xbmcgui.Dialog().ok('Configuration Error', 'Site %s does not exist in config.xml' %scraper)
+			return None, False
+				
+		site, errorMsg = self.gui.config.readScraper(siteRow, platformId, '', '', True, self.gui.config.tree)
 						
 		if(site != None):
 			#check first scraper if it is an online or offline scraper
