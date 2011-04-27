@@ -1639,7 +1639,11 @@ class UIGameDB(xbmcgui.WindowXML):
 			#HACK: There is an error with "\a" in autoexec.py on winidows, so we need "\A"
 			path = path.replace('\\addons', '\\Addons')
 		launchLine = 'xbmc.executescript("%s")' % path
-		fp = open(autoexecFile, 'r+')
+		try:
+			fp = open(autoexecFile, 'r+')
+		except:
+			Logutil.log("Error opening autoexec.py" , util.LOG_LEVEL_WARNING)
+			return
 		xbmcImported = False
 		alreadyCreated = False
 		for line in fp:
