@@ -197,19 +197,9 @@ class EditRCBasicDialog(xbmcgui.WindowXMLDialog):
 			control.setLabel(emulatorPath)
 			
 		elif (controlID == CONTROL_BUTTON_PARAMS):
-			
-			control = self.getControlById(CONTROL_BUTTON_PARAMS)
-			emulatorParams = control.getLabel()
-			
-			keyboard = xbmc.Keyboard()
-			keyboard.setHeading('Enter Emulator Params')			
-			keyboard.setDefault(emulatorParams)
-			keyboard.doModal()
-			if (keyboard.isConfirmed()):
-				emulatorParams = keyboard.getText()
-						
-			self.selectedRomCollection.emulatorParams = emulatorParams
-			control.setLabel(emulatorParams)
+												
+			emulatorParams = self.editTextProperty(CONTROL_BUTTON_PARAMS, 'emulator params')
+			self.selectedRomCollection.emulatorParams = emulatorParams 			
 			
 		elif (controlID == CONTROL_BUTTON_ROMPATH):
 			
@@ -258,8 +248,6 @@ class EditRCBasicDialog(xbmcgui.WindowXMLDialog):
 			
 		elif (controlID == CONTROL_BUTTON_MEDIAPATH):
 			
-			dialog = xbmcgui.Dialog()
-			
 			#get selected medias type			
 			control = self.getControlById(CONTROL_LIST_MEDIATYPES)
 			selectedMediaType = str(control.getSelectedItem().getLabel())
@@ -274,26 +262,14 @@ class EditRCBasicDialog(xbmcgui.WindowXMLDialog):
 					currentMediaPathIndex = i
 					break
 			
-			#get new value
-			mediaPathInput = dialog.browse(0, '%s Path' %currentMediaPath.fileType.name, 'files')
-			if(mediaPathInput == ''):
-				return
+			mediaPathComplete = self.editPathWithFileMask(CONTROL_BUTTON_MEDIAPATH, '%s Path' %currentMediaPath.fileType.name, CONTROL_BUTTON_MEDIAFILEMASK)
 			
-			control = self.getControlById(CONTROL_BUTTON_MEDIAPATH)
-			control.setLabel(mediaPathInput)
-			
-			#write new path to selected Rom Collection
-			#HACK: only 1 media per type is supported with this implementation
-			control = self.getControlById(CONTROL_BUTTON_MEDIAFILEMASK)
-			mediaFileMask = control.getLabel()
-			mediaPathComplete = os.path.join(mediaPathInput, mediaFileMask.strip())
-			currentMediaPath.path = mediaPathComplete
-			self.selectedRomCollection.mediaPaths[currentMediaPathIndex] = currentMediaPath
+			if(mediaPathComplete != ''):
+				currentMediaPath.path = mediaPathComplete
+				self.selectedRomCollection.mediaPaths[currentMediaPathIndex] = currentMediaPath
 		
 		elif (controlID == CONTROL_BUTTON_MEDIAFILEMASK):
 			
-			dialog = xbmcgui.Dialog()
-			
 			#get selected medias type			
 			control = self.getControlById(CONTROL_LIST_MEDIATYPES)
 			selectedMediaType = str(control.getSelectedItem().getLabel())
@@ -306,31 +282,131 @@ class EditRCBasicDialog(xbmcgui.WindowXMLDialog):
 				if(mediaPath.fileType.name == selectedMediaType):
 					currentMediaPath = mediaPath
 					currentMediaPathIndex = i
-					break
-			
-			control = self.getControlById(CONTROL_BUTTON_MEDIAFILEMASK)
-			mediaFileMask = control.getLabel()
-			
-			keyboard = xbmc.Keyboard()
-			keyboard.setHeading('Enter Media File Mask')
-			keyboard.setDefault(mediaFileMask)			
-			keyboard.doModal()
-			if (keyboard.isConfirmed()):
-				mediaFileMask = keyboard.getText()
-							
-			control.setLabel(mediaFileMask)
-			
-			#write new path to selected Rom Collection
-			#HACK: only 1 media per type is supported with this implementation
-			control = self.getControlById(CONTROL_BUTTON_MEDIAPATH)
-			mediaPath = control.getLabel()
-			mediaPathComplete = os.path.join(mediaPath, mediaFileMask.strip())
+					break							
+				
+			mediaPathComplete = self.editFilemask(CONTROL_BUTTON_MEDIAFILEMASK, 'media filemask', currentMediaPath.path)
+						
 			currentMediaPath.path = mediaPathComplete
 			self.selectedRomCollection.mediaPaths[currentMediaPathIndex] = currentMediaPath
+			
+		elif (controlID == CONTROL_BUTTON_MAXFOLDERDEPTH):
+			
+			maxFolderDepth = self.editTextProperty(CONTROL_BUTTON_MAXFOLDERDEPTH, 'max folder depth')
+			self.selectedRomCollection.maxFolderDepth = maxFolderDepth
+			
+		elif (controlID == CONTROL_BUTTON_DISKINDICATOR):
+			
+			diskIndicator = self.editTextProperty(CONTROL_BUTTON_DISKINDICATOR, 'disk indicator')
+			self.selectedRomCollection.diskPrefix = diskIndicator
 						
+		elif (controlID == CONTROL_BUTTON_SAVESTATEPATH):
+			
+			saveStatePathComplete = self.editPathWithFileMask(CONTROL_BUTTON_SAVESTATEPATH, '%s savestate path' %self.selectedRomCollection.name, CONTROL_BUTTON_SAVESTATEMASK)
+			if(saveStatePathComplete != ''):
+				self.selectedRomCollection.saveStatePath = saveStatePathComplete
+				
+		elif (controlID == CONTROL_BUTTON_SAVESTATEMASK):
+			
+			self.selectedRomCollection.saveStatePath = self.editFilemask(CONTROL_BUTTON_SAVESTATEMASK, 'savestate filemask', self.selectedRomCollection.saveStatePath)
+			
+			
+		elif (controlID == CONTROL_BUTTON_SAVESTATEPARAMS):
+			
+			saveStateParams = self.editTextProperty(CONTROL_BUTTON_SAVESTATEPARAMS, 'savestate params')
+			self.selectedRomCollection.saveStateParams = saveStateParams
+				
+		elif (controlID == CONTROL_BUTTON_SCRAPERNAME):
+			
+			scraperName = self.editTextProperty(CONTROL_BUTTON_SCRAPERNAME, 'scraper name')			
+			self.selectedOfflineScraper.name = scraperName
+			
+		elif (controlID == CONTROL_BUTTON_GAMEDESCPATH):
+			
+			gamedescPathComplete = self.editPathWithFileMask(CONTROL_BUTTON_GAMEDESCPATH, '%s game desc path' %self.selectedRomCollection.name, CONTROL_BUTTON_GAMEDESCMASK)
+			if(gamedescPathComplete != ''):
+				
+				#HACK: only use source and parser from 1st scraper
+				if(len(self.selectedOfflineScraper.scrapers) >= 1):			
+					self.selectedOfflineScraper.scrapers[0].source = gamedescPathComplete
+		
+		elif (controlID == CONTROL_BUTTON_GAMEDESCMASK):
+			
+			if(len(self.selectedOfflineScraper.scrapers) >= 1):
+				self.selectedOfflineScraper.scrapers[0].source = self.editFilemask(CONTROL_BUTTON_GAMEDESCMASK, 'game desc filemask', self.selectedOfflineScraper.scrapers[0].source)
+			
+		elif (controlID == CONTROL_BUTTON_PARSEINSTRUCTION):
+			
+			dialog = xbmcgui.Dialog()
+			
+			parseInstruction = dialog.browse(1, '%s parse instruction' %self.selectedRomCollection.name, 'files')
+			if(parseInstruction == ''):
+				return
+			
+			control = self.getControlById(CONTROL_BUTTON_PARSEINSTRUCTION)
+			control.setLabel(parseInstruction)		
+			
+			if(len(self.selectedOfflineScraper.scrapers) >= 1):
+				self.selectedOfflineScraper.scrapers[0].parseInstruction = parseInstruction
+			
 	
 	def onFocus(self, controlId):
 		self.selectedControlId = controlId
+	
+	
+	def editTextProperty(self, controlId, name):
+		control = self.getControlById(controlId)
+		textValue = control.getLabel()
+		
+		keyboard = xbmc.Keyboard()
+		keyboard.setHeading('Enter ' +name)			
+		keyboard.setDefault(textValue)
+		keyboard.doModal()
+		if (keyboard.isConfirmed()):
+			textValue = keyboard.getText()
+							
+		control.setLabel(textValue)
+		
+		return textValue
+	
+	
+	def editPathWithFileMask(self, controlId, enterString, controlIdFilemask):
+		
+			dialog = xbmcgui.Dialog()
+			
+			#get new value
+			pathValue = dialog.browse(0, enterString, 'files')
+			if(pathValue == ''):
+				return ''
+			
+			control = self.getControlById(controlId)
+			control.setLabel(pathValue)
+			
+			
+			control = self.getControlById(controlIdFilemask)
+			filemask = control.getLabel()
+			pathComplete = os.path.join(pathValue, filemask.strip())
+			
+			return pathComplete
+		
+		
+	def editFilemask(self, controlId, enterString, pathComplete):
+		control = self.getControlById(controlId)
+		filemask = control.getLabel()
+		
+		keyboard = xbmc.Keyboard()
+		keyboard.setHeading('Enter ' +enterString)
+		keyboard.setDefault(filemask)
+		keyboard.doModal()
+		if (keyboard.isConfirmed()):
+			filemask = keyboard.getText()
+		
+		control.setLabel(filemask)
+												
+		pathParts = os.path.split(pathComplete)
+		path = pathParts[0]
+		pathComplete = os.path.join(path, filemask.strip())
+		
+		return pathComplete
 	
 	
 	def updateRomCollectionControls(self):
