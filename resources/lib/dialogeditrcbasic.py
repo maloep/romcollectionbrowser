@@ -311,11 +311,12 @@ class EditRCBasicDialog(xbmcgui.WindowXMLDialog):
 					if(not isMediaTypeInUse):
 						mediaTypeList.append(name)
 			
-			mediaTypeIndex = xbmcgui.Dialog().select('Choose a media type', mediaTypeList)
+			mediaTypeIndex = xbmcgui.Dialog().select('Choose a media path to add', mediaTypeList)
 			if(mediaTypeIndex == -1):
 				return
 			
 			mediaType = mediaTypeList[mediaTypeIndex]
+			mediaType = mediaType.replace(' (video)', '')
 						
 			mediaPath = MediaPath()
 			fileType = FileType()
@@ -327,6 +328,25 @@ class EditRCBasicDialog(xbmcgui.WindowXMLDialog):
 			self.selectedRomCollection.mediaPaths.append(mediaPath)
 			self.updateRomCollectionControls()
 			
+			#TODO select new media path
+			
+		elif (controlID == CONTROL_BUTTON_REMOVEMEDIAPATH):
+									
+			mediaTypeList = []
+			for mediaPath in self.selectedRomCollection.mediaPaths:
+				mediaTypeList.append(mediaPath.fileType.name)
+			
+			mediaTypeIndex = xbmcgui.Dialog().select('Choose a media path to remove', mediaTypeList)
+			if(mediaTypeIndex == -1):
+				return
+						
+			mediaType = mediaTypeList[mediaTypeIndex]
+			for mediaPath in self.selectedRomCollection.mediaPaths:
+				if(mediaPath.fileType.name == mediaType):
+					self.selectedRomCollection.mediaPaths.remove(mediaPath)
+					break
+				
+			self.updateRomCollectionControls()
 			
 		elif (controlID == CONTROL_BUTTON_MAXFOLDERDEPTH):
 			
