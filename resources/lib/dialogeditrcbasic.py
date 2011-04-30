@@ -288,6 +288,45 @@ class EditRCBasicDialog(xbmcgui.WindowXMLDialog):
 						
 			currentMediaPath.path = mediaPathComplete
 			self.selectedRomCollection.mediaPaths[currentMediaPathIndex] = currentMediaPath
+		
+		elif (controlID == CONTROL_BUTTON_ADDMEDIAPATH):
+			
+			mediaTypes = self.gui.config.tree.findall('FileTypes/FileType')
+			
+			mediaTypeList = []
+			
+			for mediaType in mediaTypes:
+				name = mediaType.attrib.get('name')
+				if(name != None):
+					type = mediaType.find('type')
+					if(type != None and type.text == 'video'):
+						name = name +' (video)'
+					
+					#check if media type is already in use for selected RC
+					isMediaTypeInUse = False
+					for mediaPath in self.selectedRomCollection.mediaPaths:
+						if(mediaPath.fileType.name == name):
+							isMediaTypeInUse = True
+					
+					if(not isMediaTypeInUse):
+						mediaTypeList.append(name)
+			
+			mediaTypeIndex = xbmcgui.Dialog().select('Choose a media type', mediaTypeList)
+			if(mediaTypeIndex == -1):
+				return
+			
+			mediaType = mediaTypeList[mediaTypeIndex]
+						
+			mediaPath = MediaPath()
+			fileType = FileType()
+			fileType.name = mediaType
+			mediaPath.fileType = fileType
+			
+			#TODO: Enter path and mask per wizard? Auto fill mask?
+			
+			self.selectedRomCollection.mediaPaths.append(mediaPath)
+			self.updateRomCollectionControls()
+			
 			
 		elif (controlID == CONTROL_BUTTON_MAXFOLDERDEPTH):
 			
