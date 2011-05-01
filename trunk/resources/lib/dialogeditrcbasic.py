@@ -325,10 +325,16 @@ class EditRCBasicDialog(xbmcgui.WindowXMLDialog):
 			
 			#TODO: Enter path and mask per wizard? Auto fill mask?
 			
-			self.selectedRomCollection.mediaPaths.append(mediaPath)
-			self.updateRomCollectionControls()
+			self.selectedRomCollection.mediaPaths.append(mediaPath)			
 			
-			#TODO select new media path
+			control = self.getControlById(CONTROL_LIST_MEDIATYPES)
+			item = xbmcgui.ListItem(mediaType, '', '', '')
+			control.addItem(item)
+			
+			self.selectItemInList(mediaType, CONTROL_LIST_MEDIATYPES)
+			
+			xbmc.sleep(util.WAITTIME_UPDATECONTROLS)
+			self.updateMediaPathControls()
 			
 		elif (controlID == CONTROL_BUTTON_REMOVEMEDIAPATH):
 									
@@ -406,6 +412,42 @@ class EditRCBasicDialog(xbmcgui.WindowXMLDialog):
 			
 			if(len(self.selectedOfflineScraper.scrapers) >= 1):
 				self.selectedOfflineScraper.scrapers[0].parseInstruction = parseInstruction
+				
+		elif (controlID == CONTROL_BUTTON_ADDSCRAPER):
+			
+			name = ''
+			
+			keyboard = xbmc.Keyboard()
+			keyboard.setHeading('Enter scraper name')
+			keyboard.doModal()
+			if (keyboard.isConfirmed()):
+				name = keyboard.getText()
+			
+			if(name == ''):
+				return
+			
+			site = Site()
+			site.name = name
+			site.scrapers = []
+			self.scraperSites[name] = site
+			
+			control = self.getControlById(CONTROL_LIST_SCRAPERS)
+			item = xbmcgui.ListItem(name, '', '', '')
+			control.addItem(item)
+			
+			self.selectItemInList(name, CONTROL_LIST_SCRAPERS)
+			
+			
+			if(self.selectedOfflineScraper != None):
+				#save current values to selected ScraperSite
+				self.updateSelectedOfflineScraper()
+				
+				#store previous selectedRomCollections state
+				self.scraperSites[self.selectedOfflineScraper.name] = self.selectedOfflineScraper
+			
+			#HACK: add a little wait time as XBMC needs some ms to execute the MoveUp/MoveDown actions from the skin
+			xbmc.sleep(util.WAITTIME_UPDATECONTROLS)
+			self.updateOfflineScraperControls()
 			
 	
 	def onFocus(self, controlId):
@@ -546,7 +588,7 @@ class EditRCBasicDialog(xbmcgui.WindowXMLDialog):
 		self.selectScrapersInList(self.selectedRomCollection.scraperSites, self.availableScrapers)
 		
 		#Browse Games
-		self.selectItemInList(self.imagePlacingList, self.selectedRomCollection.imagePlacing.name, CONTROL_LIST_IMAGEPLACING)
+		self.selectItemInList(self.selectedRomCollection.imagePlacing.name, CONTROL_LIST_IMAGEPLACING)
 		
 		#Launch Games
 		control = self.getControlById(CONTROL_BUTTON_EMUCMD)		
@@ -599,8 +641,7 @@ class EditRCBasicDialog(xbmcgui.WindowXMLDialog):
 		if(len(selectedSite.scrapers) >= 1):			
 			firstScraper = selectedSite.scrapers[0]
 		if(firstScraper == None):
-			#should not happen
-			return
+			firstScraper = Scraper()
 		
 		pathParts = os.path.split(firstScraper.source)
 		scraperSource = pathParts[0]
@@ -759,27 +800,28 @@ class EditRCBasicDialog(xbmcgui.WindowXMLDialog):
 		Logutil.log('selectScrapersInList', util.LOG_LEVEL_INFO)
 		
 		if(len(sitesInRomCollection) >= 1):
-			self.selectItemInList(sitesInList, sitesInRomCollection[0].name, CONTROL_LIST_SCRAPER1)			
+			self.selectItemInList(sitesInRomCollection[0].name, CONTROL_LIST_SCRAPER1)			
 		else:
-			self.selectItemInList(sitesInList, 'None', CONTROL_LIST_SCRAPER1)
+			self.selectItemInList('None', CONTROL_LIST_SCRAPER1)
 		if(len(sitesInRomCollection) >= 2):
-			self.selectItemInList(sitesInList, sitesInRomCollection[1].name, CONTROL_LIST_SCRAPER2)
+			self.selectItemInList(sitesInRomCollection[1].name, CONTROL_LIST_SCRAPER2)
 		else:
-			self.selectItemInList(sitesInList, 'None', CONTROL_LIST_SCRAPER2)
+			self.selectItemInList('None', CONTROL_LIST_SCRAPER2)
 		if(len(sitesInRomCollection) >= 3):
-			self.selectItemInList(sitesInList, sitesInRomCollection[2].name, CONTROL_LIST_SCRAPER3)
+			self.selectItemInList(sitesInRomCollection[2].name, CONTROL_LIST_SCRAPER3)
 		else:
-			self.selectItemInList(sitesInList, 'None', CONTROL_LIST_SCRAPER3)
-				
-	
-	def selectItemInList(self, options, itemName, controlId):				
+			self.selectItemInList('None', CONTROL_LIST_SCRAPER3)
+			
+			
+	def selectItemInList(self, itemName, controlId):				
 		
 		Logutil.log('selectItemInList', util.LOG_LEVEL_INFO)		
 		
-		for i in range(0, len(options)):			
-			option = options[i]
-			if(itemName == option):
-				control = self.getControlById(controlId)
+		control = self.getControlById(controlId)
+		
+		for i in range(0, control.size()):
+			item = control.getListItem(i)
+			if(item.getLabel() == itemName):
 				control.selectItem(i)
 				break
 			
