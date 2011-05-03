@@ -437,7 +437,6 @@ class EditRCBasicDialog(xbmcgui.WindowXMLDialog):
 			
 			self.selectItemInList(name, CONTROL_LIST_SCRAPERS)
 			
-			
 			if(self.selectedOfflineScraper != None):
 				#save current values to selected ScraperSite
 				self.updateSelectedOfflineScraper()
@@ -447,6 +446,40 @@ class EditRCBasicDialog(xbmcgui.WindowXMLDialog):
 			
 			#HACK: add a little wait time as XBMC needs some ms to execute the MoveUp/MoveDown actions from the skin
 			xbmc.sleep(util.WAITTIME_UPDATECONTROLS)
+			self.updateOfflineScraperControls()
+			
+		elif (controlID == CONTROL_BUTTON_REMOVESCRAPER):
+			
+			scraperSites = self.getAvailableScrapers(True)
+			
+			scraperIndex = xbmcgui.Dialog().select('Choose a scraper to remove', scraperSites)
+			if(scraperIndex == -1):
+				return
+			
+			scraperSite = scraperSites[scraperIndex]
+			
+			#check if scraper is in use
+			for rcName in self.romCollections:
+				romCollection = self.romCollections[rcName]
+				for scraper in romCollection.scraperSites:
+					if(scraper.name == scraperSite):
+						xbmcgui.Dialog().ok('Scraper %s is already in use' %scraper.name, 'Please choose another one.')
+						return
+																	
+			scraperSites.remove(scraperSite)
+			del self.scraperSites[scraperSite]
+			
+			if(len(scraperSites) == 0):
+				scraperSites.append('None')
+				site = Site()
+				site.name = 'None'
+				site.scrapers = []
+				self.scraperSites['None'] = site
+				
+			control = self.getControlById(CONTROL_LIST_SCRAPERS)
+			control.reset()
+			self.addItemsToList(CONTROL_LIST_SCRAPERS, scraperSites)
+				
 			self.updateOfflineScraperControls()
 			
 	
@@ -769,28 +802,32 @@ class EditRCBasicDialog(xbmcgui.WindowXMLDialog):
 		if(not localOnly):
 			sitesInList.append('None')
 		#get all scrapers
-		sites = self.gui.config.tree.findall('Scrapers/Site')
-		for site in sites:
-			name = site.attrib.get('name')
+		
+		for siteName in self.scraperSites:
+			
+			site = self.scraperSites[siteName]
 			
 			#only add scrapers without http
 			if(localOnly):
 				#don't use local nfo scraper
-				if(name == 'local nfo'):
+				if(site.name == 'local nfo'):
 					 continue
 				skipScraper = False
-				scrapers = site.findall('Scraper')
-				for scraper in scrapers:
-					source = scraper.attrib.get('source')
+				
+				for scraper in site.scrapers:
+					source = scraper.source
 					if(source.startswith('http')):
 						skipScraper = True
 						break
 				if(skipScraper):
 					continue
 			
-			if(name != None):
-				Logutil.log('add scraper name: ' +str(name), util.LOG_LEVEL_INFO)
-				sitesInList.append(name)
+			
+			Logutil.log('add scraper name: ' +str(site.name), util.LOG_LEVEL_INFO)
+			sitesInList.append(site.name)
+				
+		if(len(sitesInList) == 0):
+			 sitesInList.append('None')
 				
 		return sitesInList
 	
