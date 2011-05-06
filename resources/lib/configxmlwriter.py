@@ -33,6 +33,7 @@ class ConfigXmlWriter:
 				
 		romCollectionsXml = self.tree.find('RomCollections')
 		
+		#HACK: remove all Rom Collections and create new
 		if(isEdit):
 			for romCollectionXml in romCollectionsXml.findall('RomCollection'):				
 				romCollectionsXml.remove(romCollectionXml)
@@ -119,6 +120,52 @@ class ConfigXmlWriter:
 				
 		success, message = self.writeFile()
 		return success, message
+	
+	
+	def writeScrapers(self, scrapers):
+		
+		Logutil.log('write scraper sites', util.LOG_LEVEL_INFO)
+				
+		scraperSitesXml = self.tree.find('Scrapers')
+				
+		#HACK: remove all scrapers and create new
+		for scraperSiteXml in scraperSitesXml.findall('Site'):				
+			scraperSitesXml.remove(scraperSiteXml)
+			
+		for scraperSite in scrapers.values():
+			
+			Logutil.log('write scraper site: ' +str(scraperSite.name), util.LOG_LEVEL_INFO)
+			
+			scraperSiteXml = SubElement(scraperSitesXml, 'Site', 
+					{ 
+					'name' : scraperSite.name,
+					'descFilePerGame' : str(scraperSite.descFilePerGame),
+					'searchGameByCRC' : str(scraperSite.searchGameByCRC),
+					'useFoldernameAsCRC' : str(scraperSite.useFoldernameAsCRC),
+					'useFilenameAsCRC' : str(scraperSite.useFilenameAsCRC)
+					})
+			
+			for scraper in scraperSite.scrapers:
+				
+				#check if we can use a relative path to parseInstructions
+				rcbScraperPath = os.path.join(util.RCBHOME, 'resources', 'scraper')
+				pathParts = os.path.split(scraper.parseInstruction)
+				if(pathParts[0].upper() == rcbScraperPath.upper()):
+					scraper.parseInstruction = pathParts[1]
+				
+				scraperXml = SubElement(scraperSiteXml, 'Scraper', 
+					{ 
+					'parseInstruction' : scraper.parseInstruction,
+					'source' : scraper.source,
+					'encoding' : scraper.encoding,
+					'returnUrl' : str(scraper.returnUrl),
+					'replaceKeyString' : scraper.replaceKeyString,
+					'replaceValueString' : scraper.replaceValueString
+					})
+		
+		success, message = self.writeFile()
+		return success, message
+		
 		
 		
 	def addFileTypesForMame(self):
