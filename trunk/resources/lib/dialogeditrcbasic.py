@@ -137,13 +137,18 @@ class EditRCBasicDialog(xbmcgui.WindowXMLDialog):
 			Logutil.log('save', util.LOG_LEVEL_INFO)
 			#store selectedRomCollection
 			if(self.selectedRomCollection != None):
-				
 				self.updateSelectedRomCollection()
-				
 				self.romCollections[self.selectedRomCollection.id] = self.selectedRomCollection
+				
+			#store selectedOfflineScraper
+			if(self.selectedOfflineScraper != None):
+				self.updateSelectedOfflineScraper()				
+				self.scraperSites[self.selectedOfflineScraper.name] = self.selectedOfflineScraper
 						
 			configWriter = ConfigXmlWriter(False)
 			success, message = configWriter.writeRomCollections(self.romCollections, True)
+			
+			success, message = configWriter.writeScrapers(self.scraperSites)
 			
 			self.close()
 		#Cancel
