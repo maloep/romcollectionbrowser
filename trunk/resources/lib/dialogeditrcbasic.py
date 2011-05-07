@@ -739,9 +739,9 @@ class EditRCBasicDialog(xbmcgui.WindowXMLDialog):
 			platformId = '0'
 		
 		sites = []
-		sites = self.addScraperToSiteList(CONTROL_LIST_SCRAPER1, platformId, sites)
-		sites = self.addScraperToSiteList(CONTROL_LIST_SCRAPER2, platformId, sites)
-		sites = self.addScraperToSiteList(CONTROL_LIST_SCRAPER3, platformId, sites)
+		sites = self.addScraperToSiteList(CONTROL_LIST_SCRAPER1, platformId, sites, self.selectedRomCollection)
+		sites = self.addScraperToSiteList(CONTROL_LIST_SCRAPER2, platformId, sites, self.selectedRomCollection)
+		sites = self.addScraperToSiteList(CONTROL_LIST_SCRAPER3, platformId, sites, self.selectedRomCollection)
 			
 		self.selectedRomCollection.scraperSites = sites
 		
@@ -868,7 +868,7 @@ class EditRCBasicDialog(xbmcgui.WindowXMLDialog):
 				break
 			
 			
-	def addScraperToSiteList(self, controlId, platformId, sites):				
+	def addScraperToSiteList(self, controlId, platformId, sites, romCollection):				
 
 		Logutil.log('addScraperToSiteList', util.LOG_LEVEL_INFO)
 		
@@ -878,6 +878,13 @@ class EditRCBasicDialog(xbmcgui.WindowXMLDialog):
 		
 		if(scraper == 'None'):
 			return sites
+		
+		#check if this site is already available for current RC
+		for site in romCollection.scraperSites:
+			if(site.name == scraper):
+				sites.append(site)
+				return sites
+				
 		
 		if(scraper != 'mobygames.com'):
 			platformId = '0'

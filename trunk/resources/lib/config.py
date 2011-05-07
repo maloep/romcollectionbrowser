@@ -457,17 +457,8 @@ class Config:
 			if(returnUrl != None and returnUrl != ''):
 				scraper.returnUrl = returnUrl.upper() == 'TRUE'
 				
-			replaceKeyString = scraperRow.attrib.get('replaceKeyString')
-			if(replaceKeyString != None and replaceKeyString != ''):
-				if(replaceValues):
-					replaceKeyString = replaceKeyString.replace('%REPLACEKEYS%', inReplaceKeyString)
-				scraper.replaceKeyString = replaceKeyString 
-				
-			replaceValueString = scraperRow.attrib.get('replaceValueString')
-			if(replaceValueString != None and replaceValueString != ''):
-				if(replaceValues):
-					replaceValueString = replaceValueString.replace('%REPLACEVALUES%', inReplaceValueString)
-				scraper.replaceValueString = replaceValueString
+			scraper.replaceKeyString = inReplaceKeyString
+			scraper.replaceValueString = inReplaceValueString
 			
 			scrapers.append(scraper)
 			
