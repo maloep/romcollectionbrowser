@@ -93,7 +93,9 @@ class ConfigXmlWriter:
 					if(scraperSite == None):
 						continue
 						
-					SubElement(romCollectionXml, 'scraper', {'name' : scraperSite.name, 'platform' : scraperSite.platformId})
+					#HACK: use replaceKey and -Value only from first scraper
+					firstScraper = scraperSite.scrapers[0]
+					SubElement(romCollectionXml, 'scraper', {'name' : scraperSite.name, 'platform' : scraperSite.platformId, 'replaceKeyString' : firstScraper.replaceKeyString, 'replaceValueString' : firstScraper.replaceValueString})
 					
 					#create Scraper element
 					scrapersXml = self.tree.find('Scrapers')
@@ -158,9 +160,7 @@ class ConfigXmlWriter:
 					'parseInstruction' : scraper.parseInstruction,
 					'source' : scraper.source,
 					'encoding' : scraper.encoding,
-					'returnUrl' : str(scraper.returnUrl),
-					'replaceKeyString' : scraper.replaceKeyString,
-					'replaceValueString' : scraper.replaceValueString
+					'returnUrl' : str(scraper.returnUrl)
 					})
 		
 		success, message = self.writeFile()
