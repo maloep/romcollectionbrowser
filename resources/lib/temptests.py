@@ -57,21 +57,39 @@ from descriptionparserfactory import DescriptionParserFactory
 
 
 
-descFile = "F:\\Emulatoren\\xtras\\MEDIA\\Amiga.txt"
-parseInstruction = "F:\\Emulatoren\\xtras\\MEDIA\\parserConfig_Amiga.xml"
+descFile = "F:\\Emulatoren\\data\\synopsis\\XTRAS-RCB\\NGPC.txt"
+parseInstruction = "F:\\Emulatoren\\data\\synopsis\\XTRAS-RCB\\_parserConfig.xml"
 
 
-"""
+
 from descriptionparserfactory import *
 descParser = DescriptionParserFactory.getParser(parseInstruction)
 
 results = descParser.parseDescription(str(descFile), 'iso-8859-15')
 for result in results:
 	print result
+	
+print len(results)
+
+
+
+#print bool(re.search('(?i)%ASKNUM%', 'Test %asknum%'))
+
+
+"""
+str = '{-%I% "%rom%"} -s use_gui=no %GAMECMD%'
+regex = '(?i)%rom%'
+replace = 'C:\\temp\\abc.zip'
+
+str = re.sub(regex, replace, str)
+print str
 """
 
-
-
+"""
+path = 'C:\\Temp\\Test.zip'
+print os.path.basename(path)
+print os.path.splitext(os.path.basename(path))[0]
+"""
 
 """
 configFile = 'C:\\Users\\malte\\AppData\\Roaming\\XBMC\\userdata\\script_data\\script.games.rom.collection.browser\\config.xml'
@@ -149,6 +167,7 @@ except Exception, (exc):
 	print("Error: Cannot write config.xml: " +str(exc))	
 """
 
+"""
 import glob
 
 def walklevel(some_dir, level=1):
@@ -183,6 +202,8 @@ for file in files:
 	
 	file = file.decode('utf-8')
 	print str(file)
+	
+"""
 
 #HACK: there may be encoding errors in the filename
 #if(not os.path.isfile(filename)):
