@@ -16,7 +16,7 @@ from pyscraper import *
 
 
 
-class DBUpdate:		
+class DBUpdate:
 	
 	def __init__(self):
 		pass
@@ -123,6 +123,8 @@ class DBUpdate:
 							#find parsed game in Rom Collection
 							filenamelist = self.matchDescriptionWithRomfiles(firstScraper, result, fileDict, gamenameFromDesc)
 		
+							artScrapers = {}
+		
 							if(filenamelist != None and len(filenamelist) > 0):
 												
 								gamenameFromFile = self.getGamenameFromFilename(filenamelist[0], romCollection)
@@ -144,13 +146,13 @@ class DBUpdate:
 								
 								#use additional scrapers
 								if(len(romCollection.scraperSites) > 1):
-									result = self.useSingleScrapers(result, romCollection, 1, gamenameFromFile, foldername, filenamelist[0], fuzzyFactor, updateOption, gui, progDialogRCHeader, fileCount)
+									result, artScrapers = self.useSingleScrapers(result, romCollection, 1, gamenameFromFile, foldername, filenamelist[0], fuzzyFactor, updateOption, gui, progDialogRCHeader, fileCount)
 								
 							else:
 								Logutil.log("game " +gamenameFromDesc +" was found in parsed results but not in your rom collection.", util.LOG_LEVEL_WARNING)
 								continue						
 							
-							dialogDict = {'dialogHeaderKey':progDialogRCHeader, 'gameNameKey':gamenameFromFile, 'scraperSiteKey':{}, 'fileCountKey':fileCount}
+							dialogDict = {'dialogHeaderKey':progDialogRCHeader, 'gameNameKey':gamenameFromFile, 'scraperSiteKey':artScrapers, 'fileCountKey':fileCount}
 							gameId = self.insertGameFromDesc(result, gamenameFromFile, romCollection, filenamelist, foldername, isUpdate, gameId, gui, dialogDict)
 							
 							#remove found files from file list
@@ -218,38 +220,9 @@ class DBUpdate:
 						
 						results = {}
 						foldername = os.path.dirname(filename)
-						artScrapers = {}
 						filecrc = ''
 						
-						results = self.useSingleScrapers(results, romCollection, 0, gamenameFromFile, foldername, filename, fuzzyFactor, updateOption, gui, progDialogRCHeader, fileCount)
-						"""
-						for scraperSite in romCollection.scraperSites:
-							#Show Scraper Download Info in Dialog
-							Logutil.log('Progress Scraper: ' +scraperSite.name, util.LOG_LEVEL_INFO)
-							gui.writeMsg(progDialogRCHeader, "Import game: " +gamenameFromFile, scraperSite.name + " - downloading info", fileCount)
-							
-							if(scraperSite.searchGameByCRC and filecrc == ''):
-								filecrc = self.getFileCRC(filename)
-							
-							Logutil.log('using scraper: ' +scraperSite.name, util.LOG_LEVEL_INFO)
-							urlsFromPreviousScrapers = []
-							for scraper in scraperSite.scrapers:
-								pyScraper = PyScraper()							
-								results, urlsFromPreviousScrapers, doContinue = pyScraper.scrapeResults(results, scraper, urlsFromPreviousScrapers, gamenameFromFile, foldername, filecrc, filename, fuzzyFactor, updateOption)							
-								if(doContinue):
-									continue
-						"""
-						
-						
-						"""
-						#Find Filetypes and Scrapers for Art Download					
-						if(len(results) > 0):
-							for path in romCollection.mediaPaths:
-								thumbKey = 'Filetype' + path.fileType.name 
-								if(len(self.resolveParseResult(results, thumbKey)) > 0):
-									if((thumbKey in artScrapers) == 0):
-										artScrapers[thumbKey] = scraperSite.name
-						"""
+						results, artScrapers = self.useSingleScrapers(results, romCollection, 0, gamenameFromFile, foldername, filename, fuzzyFactor, updateOption, gui, progDialogRCHeader, fileCount)
 						
 						#print results
 						if(len(results) == 0):
@@ -567,8 +540,17 @@ class DBUpdate:
 				result, urlsFromPreviousScrapers, doContinue = pyScraper.scrapeResults(result, scraper, urlsFromPreviousScrapers, gamenameFromFile, foldername, filecrc, firstRomfile, fuzzyFactor, updateOption)
 			if(doContinue):
 				continue
-			
-		return result
+									
+			#Find Filetypes and Scrapers for Art Download					
+			artScrapers = {}
+			if(len(result) > 0):
+				for path in romCollection.mediaPaths:
+					thumbKey = 'Filetype' + path.fileType.name 
+					if(len(self.resolveParseResult(result, thumbKey)) > 0):
+						if((thumbKey in artScrapers) == 0):
+							artScrapers[thumbKey] = scraperSite.name
+						
+		return result, artScrapers
 				
 				
 	def insertGameFromDesc(self, gamedescription, gamename, romCollection, filenamelist, foldername, isUpdate, gameId, gui, dialogDict=''):								
