@@ -138,6 +138,11 @@ class ConfigXmlWriter:
 			
 			Logutil.log('write scraper site: ' +str(scraperSite.name), util.LOG_LEVEL_INFO)
 			
+			#Don't write None-Scraper
+			if(scraperSite.name == 'None'):
+				Logutil.log('None scraper will be skipped', util.LOG_LEVEL_INFO)
+				continue
+			
 			scraperSiteXml = SubElement(scraperSitesXml, 'Site', 
 					{ 
 					'name' : scraperSite.name,
