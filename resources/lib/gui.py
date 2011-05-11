@@ -5,7 +5,7 @@ from pysqlite2 import dbapi2 as sqlite
 from threading import *
 
 import dbupdate, helper, launcher, util, config
-import dialogimportoptions, dialogeditrcbasic
+import dialogimportoptions, dialogeditromcollection, dialogeditscraper
 from util import *
 from config import *
 from configxmlwriter import *
@@ -144,13 +144,24 @@ class ContextMenuDialog(xbmcgui.WindowXMLDialog):
 		elif (controlID == 5111): # add Rom Collection			
 			self.close()
 			self.gui.addRomCollection()
-		elif (controlID == 5112): # edit Rom Collection (Basic)			
+		elif (controlID == 5112): # edit Rom Collection			
 			self.close()
 			constructorParam = 1
 			if(util.hasAddons()):
 				constructorParam = "PAL"
-			editRCdialog = dialogeditrcbasic.EditRCBasicDialog("script-RCB-editRCbasic.xml", util.getAddonInstallPath(), "Default", constructorParam, gui=self.gui)			
+			editRCdialog = dialogeditromcollection.EditRomCollectionDialog("script-RCB-editromcollection.xml", util.getAddonInstallPath(), "Default", constructorParam, gui=self.gui)			
 			del editRCdialog
+			
+			self.config = Config()
+			self.config.readXml()
+			
+		elif (controlID == 5115): # edit scraper			
+			self.close()
+			constructorParam = 1
+			if(util.hasAddons()):
+				constructorParam = "PAL"
+			editscraperdialog = dialogeditscraper.EditOfflineScraper("script-RCB-editscraper.xml", util.getAddonInstallPath(), "Default", constructorParam, gui=self.gui)			
+			del editscraperdialog
 			
 			self.config = Config()
 			self.config.readXml()
