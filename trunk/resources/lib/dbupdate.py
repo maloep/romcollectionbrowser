@@ -97,7 +97,7 @@ class DBUpdate:
 				Logutil.log("Start building file dict", util.LOG_LEVEL_INFO)
 				fileDict = self.buildFileDict(gui, progDialogRCHeader, files, romCollection, firstScraper)
 									
-				try:						
+				try:
 					fileCount = 1
 					gamenameFromDesc = ''
 					
