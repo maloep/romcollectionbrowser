@@ -170,6 +170,14 @@ class EditOfflineScraper(dialogbase.DialogBaseEdit):
 				return
 			
 			scraperSite = scraperSites[scraperIndex]
+			
+			#check if scraper is in use
+			for romCollection in self.gui.config.romCollections.values():				
+				for scraper in romCollection.scraperSites:
+					if(scraper.name == scraperSite):
+						xbmcgui.Dialog().ok('Scraper %s is already in use' %scraper.name, 'Please choose another one.')
+						return
+
 																	
 			scraperSites.remove(scraperSite)
 			del self.scraperSites[scraperSite]
