@@ -30,6 +30,8 @@ class GameDataBase:
 		print "close Connection"
 		self.connection.close()
 	
+	def compact(self):
+		self.cursor.execute("VACUUM")
 	def toMem(self):
 		try:
 			memDB = sqlite.connect(':memory:', check_same_thread = False)
@@ -243,6 +245,7 @@ class Game(DataBaseObject):
 	filterByNameAndRomCollectionId = "SELECT * FROM Game WHERE name = ? and romCollectionId = ?"
 	
 	deleteQuery = "DELETE FROM Game WHERE id = ?"
+	
 	def __init__(self, gdb):		
 		self.gdb = gdb
 		self.tableName = "Game"
@@ -257,7 +260,7 @@ class Game(DataBaseObject):
 	def getGameByNameAndRomCollectionId(self, name, romCollectionId):
 		game = self.getObjectByQuery(self.filterByNameAndRomCollectionId, (name, romCollectionId))
 		return game
-
+		
 	def delete(self, gameId):
 		self.deleteObjectByQuery(self.deleteQuery, (gameId,))
 
