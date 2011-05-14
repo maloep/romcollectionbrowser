@@ -172,6 +172,17 @@ class ConfigXmlWriter:
 		return success, message
 		
 		
+	def removeRomCollection(self, RCName):
+		configFile = util.getConfigXmlPath()
+		self.tree = ElementTree().parse(configFile)
+		romCollectionsXml = self.tree.find('RomCollections')
+		for romCollectionXml in romCollectionsXml.findall('RomCollection'):
+			name = romCollectionXml.attrib.get('name')
+			if(name == RCName):
+				romCollectionsXml.remove(romCollectionXml)	
+				
+		success, message = self.writeFile()
+		return success, message
 		
 	def addFileTypesForMame(self):
 		
