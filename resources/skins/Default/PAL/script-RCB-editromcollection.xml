@@ -31,7 +31,7 @@
 			<width>380</width>
 			<height>30</height>
 			<font>font13caps</font>
-			<textcolor>white</textcolor>
+			<textcolor>FFFFFFFF</textcolor>
 			<align>left</align>
 			<aligny>center</aligny>
 			<label>Rom Collection Browser - Configuration</label>
@@ -104,7 +104,7 @@
 					<width>170</width>
 					<height>20</height>
 					<font>font13</font>
-					<textcolor>white</textcolor>
+					<textcolor>FFFFFFFF</textcolor>
 					<align>left</align>
 					<aligny>center</aligny>
 					<label>Rom Collection</label>
@@ -128,7 +128,7 @@
 					<width>170</width>
 					<height>20</height>
 					<font>font13</font>
-					<textcolor>white</textcolor>
+					<textcolor>FFFFFFFF</textcolor>
 					<align>right</align>
 					<aligny>center</aligny>
 					<label>$INFO[ListItem.Label]</label>
@@ -197,7 +197,7 @@
 					<width>150</width>
 					<height>30</height>
 					<font>font13_title</font>
-					<textcolor>grey3</textcolor>
+					<textcolor>88FFFFFF</textcolor>
 					<align>right</align>
 					<aligny>center</aligny>
 					<label>$INFO[ListItem.Label]</label>
@@ -218,7 +218,7 @@
 					<width>180</width>
 					<height>30</height>
 					<font>font13_title</font>
-					<textcolor>white</textcolor>
+					<textcolor>FFFFFFFF</textcolor>
 					<align>right</align>
 					<aligny>center</aligny>
 					<label>$INFO[ListItem.Label]</label>
@@ -273,7 +273,7 @@
 					<width>170</width>
 					<height>30</height>
 					<font>font13</font>
-					<textcolor>white</textcolor>
+					<textcolor>FFFFFFFF</textcolor>
 					<align>left</align>
 					<aligny>center</aligny>
 					<label>Rom path</label>
@@ -304,7 +304,7 @@
 					<texturenofocus>rcb-MenuItemNF.png</texturenofocus>
 					<label>Rom path</label>				
 					<textcolor>88FFFFFF</textcolor>
-					<focusedcolor>white</focusedcolor>
+					<focusedcolor>FFFFFFFF</focusedcolor>
 					<disabledcolor>80FFFFFF</disabledcolor>
 					<align>right</align>
 					<aligny>center</aligny>
@@ -331,7 +331,7 @@
 					<width>170</width>
 					<height>30</height>
 					<font>font13</font>
-					<textcolor>white</textcolor>
+					<textcolor>FFFFFFFF</textcolor>
 					<align>left</align>
 					<aligny>center</aligny>
 					<label>Rom file mask</label>
@@ -362,7 +362,7 @@
 					<texturenofocus>rcb-MenuItemNF.png</texturenofocus>
 					<label>Rom file mask</label>				
 					<textcolor>88FFFFFF</textcolor>
-					<focusedcolor>white</focusedcolor>
+					<focusedcolor>FFFFFFFF</focusedcolor>
 					<disabledcolor>80FFFFFF</disabledcolor>
 					<align>right</align>
 					<aligny>center</aligny>
@@ -383,7 +383,7 @@
 					<font>font13</font>
 					<label>Ignore on scan</label>
 					<textcolor>88FFFFFF</textcolor>
-					<focusedcolor>white</focusedcolor>
+					<focusedcolor>FFFFFFFF</focusedcolor>
 					<texturefocus>rcb-MenuItemFO.png</texturefocus>
 					<texturenofocus>rcb-MenuItemNF.png</texturenofocus>
 					<onleft>7000</onleft>
@@ -400,7 +400,7 @@
 					<font>font13</font>
 					<label>Allow update</label>
 					<textcolor>88FFFFFF</textcolor>
-					<focusedcolor>white</focusedcolor>
+					<focusedcolor>FFFFFFFF</focusedcolor>
 					<texturefocus>rcb-MenuItemFO.png</texturefocus>
 					<texturenofocus>rcb-MenuItemNF.png</texturenofocus>
 					<onleft>7000</onleft>
@@ -424,7 +424,7 @@
 					<width>170</width>
 					<height>30</height>
 					<font>font13</font>
-					<textcolor>white</textcolor>
+					<textcolor>FFFFFFFF</textcolor>
 					<align>left</align>
 					<aligny>center</aligny>
 					<label>Max folder depth</label>
@@ -454,7 +454,7 @@
 					<texturefocus>rcb-MenuItemFO.png</texturefocus>
 					<texturenofocus>rcb-MenuItemNF.png</texturenofocus>
 					<textcolor>88FFFFFF</textcolor>
-					<focusedcolor>white</focusedcolor>
+					<focusedcolor>FFFFFFFF</focusedcolor>
 					<disabledcolor>80FFFFFF</disabledcolor>
 					<align>right</align>
 					<aligny>center</aligny>
@@ -482,7 +482,7 @@
 					<width>170</width>
 					<height>30</height>
 					<font>font13</font>
-					<textcolor>white</textcolor>
+					<textcolor>FFFFFFFF</textcolor>
 					<align>left</align>
 					<aligny>center</aligny>
 					<label>Disk indicator</label>
@@ -512,7 +512,7 @@
 					<texturefocus>rcb-MenuItemFO.png</texturefocus>
 					<texturenofocus>rcb-MenuItemNF.png</texturenofocus>
 					<textcolor>88FFFFFF</textcolor>
-					<focusedcolor>white</focusedcolor>
+					<focusedcolor>FFFFFFFF</focusedcolor>
 					<disabledcolor>80FFFFFF</disabledcolor>
 					<align>right</align>
 					<aligny>center</aligny>
@@ -532,7 +532,7 @@
 					<font>font13</font>
 					<label>Use foldername as gamename</label>
 					<textcolor>88FFFFFF</textcolor>
-					<focusedcolor>white</focusedcolor>
+					<focusedcolor>FFFFFFFF</focusedcolor>
 					<texturefocus>rcb-MenuItemFO.png</texturefocus>
 					<texturenofocus>rcb-MenuItemNF.png</texturenofocus>
 					<onleft>7000</onleft>
@@ -599,7 +599,7 @@
 							<width>170</width>
 							<height>20</height>
 							<font>font13</font>
-							<textcolor>white</textcolor>
+							<textcolor>FFFFFFFF</textcolor>
 							<align>left</align>
 							<aligny>center</aligny>
 							<label>Scraper 1</label>
@@ -623,7 +623,7 @@
 							<width>220</width>
 							<height>20</height>
 							<font>font13</font>
-							<textcolor>white</textcolor>
+							<textcolor>FFFFFFFF</textcolor>
 							<align>right</align>
 							<aligny>center</aligny>
 							<label>$INFO[ListItem.Label]</label>
@@ -713,7 +713,7 @@
 							<width>170</width>
 							<height>20</height>
 							<font>font13</font>
-							<textcolor>white</textcolor>
+							<textcolor>FFFFFFFF</textcolor>
 							<align>left</align>
 							<aligny>center</aligny>
 							<label>Scraper 2</label>
@@ -737,7 +737,7 @@
 							<width>220</width>
 							<height>20</height>
 							<font>font13</font>
-							<textcolor>white</textcolor>
+							<textcolor>FFFFFFFF</textcolor>
 							<align>right</align>
 							<aligny>center</aligny>
 							<label>$INFO[ListItem.Label]</label>
@@ -826,7 +826,7 @@
 							<width>170</width>
 							<height>20</height>
 							<font>font13</font>
-							<textcolor>white</textcolor>
+							<textcolor>FFFFFFFF</textcolor>
 							<align>left</align>
 							<aligny>center</aligny>
 							<label>Scraper 3</label>
@@ -850,7 +850,7 @@
 							<width>220</width>
 							<height>20</height>
 							<font>font13</font>
-							<textcolor>white</textcolor>
+							<textcolor>FFFFFFFF</textcolor>
 							<align>right</align>
 							<aligny>center</aligny>
 							<label>$INFO[ListItem.Label]</label>
@@ -945,7 +945,7 @@
 								<width>170</width>
 								<height>20</height>
 								<font>font13</font>
-								<textcolor>white</textcolor>
+								<textcolor>FFFFFFFF</textcolor>
 								<align>left</align>
 								<aligny>center</aligny>
 								<label>Media type</label>
@@ -969,7 +969,7 @@
 								<width>220</width>
 								<height>20</height>
 								<font>font13</font>
-								<textcolor>white</textcolor>
+								<textcolor>FFFFFFFF</textcolor>
 								<align>right</align>
 								<aligny>center</aligny>
 								<label>$INFO[ListItem.Label]</label>
@@ -1024,7 +1024,7 @@
 						<width>170</width>
 						<height>30</height>
 						<font>font13</font>
-						<textcolor>white</textcolor>
+						<textcolor>FFFFFFFF</textcolor>
 						<align>left</align>
 						<aligny>center</aligny>
 						<label>Media path</label>
@@ -1055,7 +1055,7 @@
 						<texturenofocus>rcb-MenuItemNF.png</texturenofocus>
 						<label>Media path</label>				
 						<textcolor>88FFFFFF</textcolor>
-						<focusedcolor>white</focusedcolor>
+						<focusedcolor>FFFFFFFF</focusedcolor>
 						<disabledcolor>80FFFFFF</disabledcolor>
 						<align>right</align>
 						<aligny>center</aligny>
@@ -1082,7 +1082,7 @@
 						<width>170</width>
 						<height>30</height>
 						<font>font13</font>
-						<textcolor>white</textcolor>
+						<textcolor>FFFFFFFF</textcolor>
 						<align>left</align>
 						<aligny>center</aligny>
 						<label>Media file mask</label>
@@ -1113,7 +1113,7 @@
 						<texturenofocus>rcb-MenuItemNF.png</texturenofocus>
 						<label>Media file mask</label>				
 						<textcolor>88FFFFFF</textcolor>
-						<focusedcolor>white</focusedcolor>
+						<focusedcolor>FFFFFFFF</focusedcolor>
 						<disabledcolor>80FFFFFF</disabledcolor>
 						<align>right</align>
 						<aligny>center</aligny>
@@ -1139,7 +1139,7 @@
 						<texturenofocus>rcb-MenuItemNF.png</texturenofocus>
 						<label>Remove media path</label>				
 						<textcolor>88FFFFFF</textcolor>
-						<focusedcolor>white</focusedcolor>
+						<focusedcolor>FFFFFFFF</focusedcolor>
 						<disabledcolor>80FFFFFF</disabledcolor>
 						<align>left</align>
 						<aligny>center</aligny>
@@ -1164,7 +1164,7 @@
 						<texturenofocus>rcb-MenuItemNF.png</texturenofocus>
 						<label>Add media path</label>				
 						<textcolor>88FFFFFF</textcolor>
-						<focusedcolor>white</focusedcolor>
+						<focusedcolor>FFFFFFFF</focusedcolor>
 						<disabledcolor>80FFFFFF</disabledcolor>
 						<align>left</align>
 						<aligny>center</aligny>
@@ -1236,7 +1236,7 @@
 							<width>170</width>
 							<height>20</height>
 							<font>font13</font>
-							<textcolor>white</textcolor>
+							<textcolor>FFFFFFFF</textcolor>
 							<align>left</align>
 							<aligny>center</aligny>
 							<label>Image placing</label>
@@ -1260,7 +1260,7 @@
 							<width>220</width>
 							<height>20</height>
 							<font>font13</font>
-							<textcolor>white</textcolor>
+							<textcolor>FFFFFFFF</textcolor>
 							<align>right</align>
 							<aligny>center</aligny>
 							<label>$INFO[ListItem.Label]</label>
@@ -1322,7 +1322,7 @@
 					<width>170</width>
 					<height>30</height>
 					<font>font13</font>
-					<textcolor>white</textcolor>
+					<textcolor>FFFFFFFF</textcolor>
 					<align>left</align>
 					<aligny>center</aligny>
 					<label>Emulator cmd</label>					
@@ -1353,7 +1353,7 @@
 					<texturenofocus>rcb-MenuItemNF.png</texturenofocus>
 					<label>$INFO[ListItem.Label]</label>
 					<textcolor>88FFFFFF</textcolor>
-					<focusedcolor>white</focusedcolor>
+					<focusedcolor>FFFFFFFF</focusedcolor>
 					<disabledcolor>80FFFFFF</disabledcolor>
 					<align>right</align>
 					<aligny>center</aligny>
@@ -1380,7 +1380,7 @@
 					<width>170</width>
 					<height>30</height>
 					<font>font13</font>
-					<textcolor>white</textcolor>
+					<textcolor>FFFFFFFF</textcolor>
 					<align>left</align>
 					<aligny>center</aligny>
 					<label>Emulator params</label>
@@ -1410,7 +1410,7 @@
 					<texturefocus>rcb-MenuItemFO.png</texturefocus>
 					<texturenofocus>rcb-MenuItemNF.png</texturenofocus>
 					<textcolor>88FFFFFF</textcolor>
-					<focusedcolor>white</focusedcolor>
+					<focusedcolor>FFFFFFFF</focusedcolor>
 					<disabledcolor>80FFFFFF</disabledcolor>
 					<align>right</align>
 					<aligny>center</aligny>
@@ -1431,7 +1431,7 @@
 					<font>font13</font>
 					<label>Use emulator in solo mode</label>
 					<textcolor>88FFFFFF</textcolor>
-					<focusedcolor>white</focusedcolor>
+					<focusedcolor>FFFFFFFF</focusedcolor>
 					<texturefocus>rcb-MenuItemFO.png</texturefocus>
 					<texturenofocus>rcb-MenuItemNF.png</texturenofocus>
 					<onleft>7000</onleft>
@@ -1448,7 +1448,7 @@
 					<font>font13</font>
 					<label>Do not extract zip files</label>
 					<textcolor>88FFFFFF</textcolor>
-					<focusedcolor>white</focusedcolor>
+					<focusedcolor>FFFFFFFF</focusedcolor>
 					<texturefocus>rcb-MenuItemFO.png</texturefocus>
 					<texturenofocus>rcb-MenuItemNF.png</texturenofocus>
 					<onleft>7000</onleft>
@@ -1472,7 +1472,7 @@
 					<width>170</width>
 					<height>30</height>
 					<font>font13</font>
-					<textcolor>white</textcolor>
+					<textcolor>FFFFFFFF</textcolor>
 					<align>left</align>
 					<aligny>center</aligny>
 					<label>Savestate path</label>
@@ -1502,7 +1502,7 @@
 					<texturefocus>rcb-MenuItemFO.png</texturefocus>
 					<texturenofocus>rcb-MenuItemNF.png</texturenofocus>
 					<textcolor>88FFFFFF</textcolor>
-					<focusedcolor>white</focusedcolor>
+					<focusedcolor>FFFFFFFF</focusedcolor>
 					<disabledcolor>80FFFFFF</disabledcolor>
 					<align>right</align>
 					<aligny>center</aligny>
@@ -1529,7 +1529,7 @@
 					<width>170</width>
 					<height>30</height>
 					<font>font13</font>
-					<textcolor>white</textcolor>
+					<textcolor>FFFFFFFF</textcolor>
 					<align>left</align>
 					<aligny>center</aligny>
 					<label>Savestate file mask</label>
@@ -1559,7 +1559,7 @@
 					<texturefocus>rcb-MenuItemFO.png</texturefocus>
 					<texturenofocus>rcb-MenuItemNF.png</texturenofocus>
 					<textcolor>88FFFFFF</textcolor>
-					<focusedcolor>white</focusedcolor>
+					<focusedcolor>FFFFFFFF</focusedcolor>
 					<disabledcolor>80FFFFFF</disabledcolor>
 					<align>right</align>
 					<aligny>center</aligny>
@@ -1587,7 +1587,7 @@
 					<width>170</width>
 					<height>30</height>
 					<font>font13</font>
-					<textcolor>white</textcolor>
+					<textcolor>FFFFFFFF</textcolor>
 					<align>left</align>
 					<aligny>center</aligny>
 					<label>Savestate params</label>
@@ -1617,7 +1617,7 @@
 					<texturefocus>rcb-MenuItemFO.png</texturefocus>
 					<texturenofocus>rcb-MenuItemNF.png</texturenofocus>
 					<textcolor>88FFFFFF</textcolor>
-					<focusedcolor>white</focusedcolor>
+					<focusedcolor>FFFFFFFF</focusedcolor>
 					<disabledcolor>80FFFFFF</disabledcolor>
 					<align>right</align>
 					<aligny>center</aligny>
