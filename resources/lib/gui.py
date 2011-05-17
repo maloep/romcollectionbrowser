@@ -185,8 +185,8 @@ class UIGameDB(xbmcgui.WindowXML):
 		#create new one or alter existing one
 		doImport, errorMsg = self.gdb.checkDBStructure()
 		
-		#TODO
-		#returnCode, message = ConfigxmlUpdater().createConfig(self, dbVersion)
+		#check if config.xml is up to date
+		returnCode, message = ConfigxmlUpdater().updateConfig(self)
 				
 		
 		self.quit = False
