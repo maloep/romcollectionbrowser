@@ -16,9 +16,8 @@ class ConfigxmlUpdater:
 	
 	def updateConfig(self, gui):
 		
-		if(not os.path.isfile(self.configFile)):			
-			Logutil.log('File config.xml does not exist. Place a valid config file here: ' +str(configFile), util.LOG_LEVEL_ERROR)
-			return False, 'Error: File config.xml does not exist'
+		if(not os.path.isfile(self.configFile)):
+			return False, 'File config.xml does not exist'
 		
 		
 		tree = ElementTree().parse(self.configFile)
