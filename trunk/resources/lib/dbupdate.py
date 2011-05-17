@@ -523,6 +523,7 @@ class DBUpdate:
 	def useSingleScrapers(self, result, romCollection, startIndex, gamenameFromFile, foldername, firstRomfile, fuzzyFactor, updateOption, gui, progDialogRCHeader, fileCount):
 		
 		filecrc = ''
+		artScrapers = {}
 		
 		for i in range(startIndex, len(romCollection.scraperSites)):
 			scraperSite = romCollection.scraperSites[i]			
@@ -541,8 +542,7 @@ class DBUpdate:
 			if(doContinue):
 				continue
 									
-			#Find Filetypes and Scrapers for Art Download					
-			artScrapers = {}
+			#Find Filetypes and Scrapers for Art Download
 			if(len(result) > 0):
 				for path in romCollection.mediaPaths:
 					thumbKey = 'Filetype' + path.fileType.name 
@@ -1017,7 +1017,7 @@ class DBUpdate:
 	
 	def getThumbFromOnlineSource(self, gamedescription, fileType, fileName, gui, dialogDict=''):
 		Logutil.log("Get thumb from online source", util.LOG_LEVEL_INFO)
-		try:			
+		try:
 			#maybe we got a thumb url from desc parser
 			thumbKey = 'Filetype' +fileType
 			Logutil.log("using key: " +thumbKey, util.LOG_LEVEL_INFO)
@@ -1045,12 +1045,15 @@ class DBUpdate:
 				Logutil.log("File does not exist. Starting download.", util.LOG_LEVEL_INFO)
 				
 				#Dialog Status Art Download
-				if(dialogDict != ''):
-					progDialogRCHeader = dialogDict["dialogHeaderKey"]
-					gamenameFromFile = dialogDict["gameNameKey"]
-					scraperSiteName = dialogDict["scraperSiteKey"]
-					fileCount = dialogDict["fileCountKey"]
-					gui.writeMsg(progDialogRCHeader, "Import game: " +gamenameFromFile, str(scraperSiteName[thumbKey]) + " - downloading art", fileCount)
+				try:
+					if(dialogDict != ''):
+						progDialogRCHeader = dialogDict["dialogHeaderKey"]
+						gamenameFromFile = dialogDict["gameNameKey"]
+						scraperSiteName = dialogDict["scraperSiteKey"]
+						fileCount = dialogDict["fileCountKey"]
+						gui.writeMsg(progDialogRCHeader, "Import game: " +gamenameFromFile, str(scraperSiteName[thumbKey]) + " - downloading art", fileCount)
+				except:
+					pass
 
 				# fetch thumbnail and save to filepath
 				urllib.urlretrieve( thumbUrl, str(fileName))
