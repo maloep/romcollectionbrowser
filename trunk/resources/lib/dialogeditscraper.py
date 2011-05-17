@@ -142,6 +142,9 @@ class EditOfflineScraper(dialogbase.DialogBaseEdit):
 			site = Site()
 			site.name = name
 			site.scrapers = []
+			scraper = Scraper()
+			scraper.encoding = 'iso-8859-1'
+			site.scrapers.append(scraper)
 			self.scraperSites[name] = site
 			
 			control = self.getControlById(CONTROL_LIST_SCRAPERS)
