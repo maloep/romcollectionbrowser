@@ -61,7 +61,7 @@ descFile = "F:\\Emulatoren\\data\\synopsis\\XTRAS-RCB\\NGPC.txt"
 parseInstruction = "F:\\Emulatoren\\data\\synopsis\\XTRAS-RCB\\_parserConfig.xml"
 
 
-
+"""
 from descriptionparserfactory import *
 descParser = DescriptionParserFactory.getParser(parseInstruction)
 
@@ -71,9 +71,11 @@ for result in results:
 	
 print len(results)
 
+"""
+
+print bool(re.search('(?i)mame', 'Mam Test'))
 
 
-#print bool(re.search('(?i)%ASKNUM%', 'Test %asknum%'))
 
 
 """
@@ -83,12 +85,6 @@ replace = 'C:\\temp\\abc.zip'
 
 str = re.sub(regex, replace, str)
 print str
-"""
-
-"""
-path = 'C:\\Temp\\Test.zip'
-print os.path.basename(path)
-print os.path.splitext(os.path.basename(path))[0]
 """
 
 """
@@ -103,137 +99,5 @@ print romCollectionsXml
 print tree
 """
 
-
-"""
-import py7zlib
-
-rom = "F:\\downloads\\Emu\\Good\\Accele Brid.7z"
-
-f = py7zlib.Archive7z(open(rom, 'rb'))
-			
-members = f.getmembers()
-names = f.getnames()
-
-print members
-print names
-"""
-
-
-
-"""
-from config import *
-util.ISTESTRUN = True
-config = Config()
-config.readXml()
-
-
-for romCollection in config.romCollections.values():
-	print romCollection.name
-	print romCollection.diskPrefix
-	
-	for romPath in romCollection.romPaths:
-		print romPath
-		
-	for mediaPath in romCollection.mediaPaths:
-		print mediaPath.path
-		print mediaPath.fileType.name
-		print mediaPath.fileType.id
-		print mediaPath.fileType.parent
-	
-	for scraperSite in romCollection.scraperSites:
-		for scraper in scraperSite.scrapers:			
-			print scraper.parseInstruction
-			print scraper.replaceKeyString
-			print scraper.replaceValueString
-			
-	for fileType in romCollection.imagePlacing.fileTypesForGameList:
-		print fileType.name
-"""
-
-"""
-from elementtree.ElementTree import *
-try:
-	file =  os.path.join(os.getcwd(), 'Test.xml')
-	
-	root = Element('root')
-	test = SubElement(root, 'test')
-	test.text = 'Brøderbund'	
-	
-	util.indentXml(root)
-	treeToWrite = ElementTree(root)			
-	treeToWrite.write(file)	
-	
-except Exception, (exc):
-	print("Error: Cannot write config.xml: " +str(exc))	
-"""
-
-"""
-import glob
-
-def walklevel(some_dir, level=1):
-	some_dir = some_dir.rstrip(os.path.sep)	
-	assert os.path.isdir(some_dir)
-	num_sep = len([x for x in some_dir if x == os.path.sep])
-	for root, dirs, files in os.walk(some_dir):
-		yield root, dirs, files
-		num_sep_this = len([x for x in root if x == os.path.sep])
-		if num_sep + level <= num_sep_this:
-			del dirs[:]
-
-
-romPath = 'F:\\Emulatoren\\data\\Scraper Tests\\Roms\\Genesis\\And*.zip'
-dirname = os.path.dirname(romPath)
-basename = os.path.basename(romPath)
-dirname = dirname#.decode(sys.getfilesystemencoding()).encode('utf-8')
-files = []
-for walkRoot, walkDirs, walkFiles in walklevel(dirname, 1):
-	newRomPath = os.path.join(walkRoot, basename)
-	allFiles = [f.decode(sys.getfilesystemencoding()).encode('utf-8') for f in glob.glob(newRomPath)]
-	#allFiles = [f for f in glob.glob(newRomPath)]
-	files.extend(allFiles)
-
-print files
-
-for file in files:
-	print str(file)
-	print file.decode('utf-8')
-	print file.decode('iso-8859-15')
-	print file.decode('iso-8859-1')
-	
-	file = file.decode('utf-8')
-	print str(file)
-	
-"""
-
-#HACK: there may be encoding errors in the filename
-#if(not os.path.isfile(filename)):
-#	Logutil.log("File %s does not exist. Trying to find a new encoding." %filename, util.LOG_LEVEL_INFO)
-#	filename = filename.decode('utf-8')
-#	Logutil.log("new file name: " +str(filename.encode('utf-8')), util.LOG_LEVEL_INFO)
-
-
-#ratio = difflib.SequenceMatcher(None, 'Enslaved: Odyssey to the West', 'An American Tail - Fievel Goes West').ratio()
-#print ratio
-
-#timestamp1 = time.clock()
-
-#descParser.prepareScan(descFile, parseInstruction)
-#for result in descParser.scanDescription(descFile, parseInstruction):
-#	print result
-
-
-#timestamp2 = time.clock()
-#diff = (timestamp2 - timestamp1) * 1000		
-#print "parsed in %d ms" % (diff)
-
-
-
-"""
-def lev(a, b):
-    if not a: return len(b)
-    if not b: return len(a)
-    return min(lev(a[1:], b[1:])+(a[0] != b[0]), \
-    lev(a[1:], b)+1, lev(a, b[1:])+1)
-"""
 
 
