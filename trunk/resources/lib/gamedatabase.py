@@ -4,7 +4,6 @@ import os, sys, shutil
 from pysqlite2 import dbapi2 as sqlite
 
 import util
-from configxmlupdater import *
 
 
 class GameDataBase:	
@@ -106,10 +105,7 @@ class GameDataBase:
 			alterTableScript = str(os.path.join(self.sqlDir, alterTableScript))
 			
 			if os.path.isfile(alterTableScript):
-								
-				returnCode, message = ConfigxmlUpdater().createConfig(self, dbVersion)
-								
-				#backup MyGames.db							
+				#backup MyGames.db				
 				newFileName = self.dataBasePath +'.backup ' +dbVersion 
 				
 				if os.path.isfile(newFileName):					
