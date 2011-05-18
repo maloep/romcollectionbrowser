@@ -1454,6 +1454,13 @@ class UIGameDB(xbmcgui.WindowXML):
 					romCollection.scraperSites.append(site)
 			else:
 				
+				if(romCollection.name == 'MAME'):
+					romCollection.imagePlacing = ImagePlacing()
+					romCollection.imagePlacing.name = 'gameinfomamecabinet'
+					#MAME zip files contain several files but they must be passed to the emu as zip file
+					romCollection.doNotExtractZipFiles = True
+				
+				
 				romCollection.mediaPaths = []
 				
 				lastArtworkPath = ''
@@ -1512,6 +1519,8 @@ class UIGameDB(xbmcgui.WindowXML):
 					#create scraper
 					site = Site()
 					site.name = console
+					site.descFilePerGame = (descIndex == 0)
+					site.searchGameByCRC = True
 					scrapers = []
 					scraper = Scraper()
 					scraper.parseInstruction = parserPath
