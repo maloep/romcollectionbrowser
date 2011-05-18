@@ -111,8 +111,22 @@ class ConfigXmlWriter:
 						
 					if not siteExists:
 						#HACK: this only covers the first scraper (for offline scrapers)
-						site = SubElement(scrapersXml, 'Site', {'name' : scraperSite.name})
-						SubElement(site, 'Scraper', {'parseInstruction' : scraperSite.scrapers[0].parseInstruction, 'source' : scraperSite.scrapers[0].source})
+						site = SubElement(scrapersXml, 'Site', 
+							{ 
+							'name' : scraperSite.name,
+							'descFilePerGame' : str(scraperSite.descFilePerGame),
+							'searchGameByCRC' : str(scraperSite.searchGameByCRC),
+							'useFoldernameAsCRC' : str(scraperSite.useFoldernameAsCRC),
+							'useFilenameAsCRC' : str(scraperSite.useFilenameAsCRC)
+							})
+																		
+						scraper = scraperSite.scrapers[0]
+						SubElement(site, 'Scraper', 
+							{ 
+							'parseInstruction' : scraper.parseInstruction,
+							'source' : scraper.source,
+							'encoding' : scraper.encoding
+							})
 			
 			if(not self.createNew):	
 				#in case of an update we have to create new options
