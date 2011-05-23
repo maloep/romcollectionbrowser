@@ -8,6 +8,7 @@
   * [SetupTestScenario Setup test scenario]
 
 *Configuration*
+
 * [AddonSettings Addon settings]
 * [EditRomCollection Edit Rom Collection]
   * [EditRomCollection Import games]
