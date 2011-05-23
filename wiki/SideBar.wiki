@@ -7,9 +7,14 @@
   * [ContextMenu Context Menu]
   * [SetupTestScenario Setup test scenario]
 
-* Configuration
-  * [AddonSettings Addon settings]
-  * [EditRomCollection Edit Rom Collection]
+*Configuration*
+* [AddonSettings Addon settings]
+* [EditRomCollection Edit Rom Collection]
+  * [EditRomCollection Import games]
+  * [EditRomCollection Import game data]
+  * [EditRomCollection Import Browse games]
+  * [EditRomCollection Import Launch games]
+* [EditOfflineScrapers Edit Offline Scrapers]
 
 * Advanced configuration
   * [PerformanceSettings Performance Settings]
