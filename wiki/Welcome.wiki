@@ -22,16 +22,19 @@ Check out the following pages if you have trouble with setting up the script or 
 
 		=== [ImportGames Import Games] ===
 		
-		=== [AddonSettings Addon settings] ===
-		
 		=== [ContextMenu Context Menu] ===
-
-		=== [EditRomCollection Edit Rom Collection] ===
 
 		=== [SetupTestScenario Setup test scenario] ===
 
 		<br>
 
+	= Configuration =
+	
+		=== [AddonSettings Addon settings] ===
+		
+		=== [EditRomCollection Edit Rom Collection] ===
+		
+		=== [EditRomCollection Edit Offline Scrapers] ===
 
 	= Advanced configuration =
 		

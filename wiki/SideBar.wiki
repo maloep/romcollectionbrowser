@@ -4,11 +4,14 @@
   * [Navigation Navigation]
   * [ConfigurationWizard Configuration Wizard]
   * [ImportGames Import Games]
-  * [AddonSettings Addon settings]
   * [ContextMenu Context Menu]
-  * [EditRomCollection Edit Rom Collection]
   * [SetupTestScenario Setup test scenario]
 
+* Configuration
+  * [AddonSettings Addon settings]
+  * [EditRomCollection Edit Rom Collection]
+    * [EditRomCollection Import games]
+  * [EditRomCollection Edit Offline Scrapers]
 
 * Advanced configuration
   * [PerformanceSettings Performance Settings]
