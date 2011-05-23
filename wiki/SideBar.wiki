@@ -1,38 +1,32 @@
-*Getting started*
-* [Installation Installation]
-* [FirstUse First Use]
-* [Navigation Navigation]
-* [ConfigurationWizard Configuration Wizard]
-* [ImportGames Import Games]
-* [ContextMenu Context Menu]
-* [SetupTestScenario Setup test scenario]
+* Getting started
+  * [Installation Installation]
+  * [FirstUse First Use]
+  * [Navigation Navigation]
+  * [ConfigurationWizard Configuration Wizard]
+  * [ImportGames Import Games]
+  * [ContextMenu Context Menu]
+  * [SetupTestScenario Setup test scenario]
 
-*Configuration*
-* [AddonSettings Addon settings]
+* Configuration
+  * [AddonSettings Addon settings]
+  * [EditRomCollection Edit Rom Collection]
 
-* [EditRomCollection Edit Rom Collection]
+* Advanced configuration
+  * [PerformanceSettings Performance Settings]
+  * [UseOfflineGameDescriptions Use offline game descriptions]
+  * [EnableFullscreenVideoBrowser Enable fullscreen video browser]
+  * [CustomizePresentationOfArtwork Customize presentation of artwork and videos]
 
-  * [EditRomCollection Import games]
-  
-* [EditRomCollection Edit Offline Scrapers]
+* Complete config.xml Reference
+  * [ConfigurationFileFormat Configuration File Format (config.xml)]
+  * [HowToRead How to read the Configuration section]
+  * [ImportGamesAndMedia Import games and media]
+  * [BrowsingAndDisplayingGames Browsing and displaying games]
+  * [LaunchingGames Launching games]
 
+* More Advanced topics
+  * [SkinningRCB Skinning RCB]
+  * [CreatingYourOwnDescriptionParser Creating your own description parser]
 
-*Advanced configuration*
-* [PerformanceSettings Performance Settings]
-* [UseOfflineGameDescriptions Use offline game descriptions]
-* [EnableFullscreenVideoBrowser Enable fullscreen video browser]
-* [CustomizePresentationOfArtwork Customize presentation of artwork and videos]
-
-*Complete config.xml Reference*
-* [ConfigurationFileFormat Configuration File Format (config.xml)]
-* [HowToRead How to read the Configuration section]
-* [ImportGamesAndMedia Import games and media]
-* [BrowsingAndDisplayingGames Browsing and displaying games]
-* [LaunchingGames Launching games]
-
-*More Advanced topics*
-* [SkinningRCB Skinning RCB]
-* [CreatingYourOwnDescriptionParser Creating your own description parser]
-
-*Changelog*
-* [ChangeLog Changelog]
+* Changelog
+  * [ChangeLog Changelog]
