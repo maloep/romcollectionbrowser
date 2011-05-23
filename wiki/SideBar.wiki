@@ -1,4 +1,4 @@
-* Getting started
+*Getting started*
   * [Installation Installation]
   * [FirstUse First Use]
   * [Navigation Navigation]
@@ -8,31 +8,30 @@
   * [SetupTestScenario Setup test scenario]
 
 *Configuration*
+  * [AddonSettings Addon settings]
+  * [EditRomCollection Edit Rom Collection]
+    * [EditRomCollection Import games]
+    * [EditRomCollection Import game data]
+    * [EditRomCollection Import Browse games]
+    * [EditRomCollection Import Launch games]
+  * [EditOfflineScrapers Edit Offline Scrapers]
 
-* [AddonSettings Addon settings]
-* [EditRomCollection Edit Rom Collection]
-  * [EditRomCollection Import games]
-  * [EditRomCollection Import game data]
-  * [EditRomCollection Import Browse games]
-  * [EditRomCollection Import Launch games]
-* [EditOfflineScrapers Edit Offline Scrapers]
-
-* Advanced configuration
+*Advanced configuration*
   * [PerformanceSettings Performance Settings]
   * [UseOfflineGameDescriptions Use offline game descriptions]
   * [EnableFullscreenVideoBrowser Enable fullscreen video browser]
   * [CustomizePresentationOfArtwork Customize presentation of artwork and videos]
 
-* Complete config.xml Reference
+*Complete config.xml Reference*
   * [ConfigurationFileFormat Configuration File Format (config.xml)]
   * [HowToRead How to read the Configuration section]
   * [ImportGamesAndMedia Import games and media]
   * [BrowsingAndDisplayingGames Browsing and displaying games]
   * [LaunchingGames Launching games]
 
-* More Advanced topics
+*More Advanced topics*
   * [SkinningRCB Skinning RCB]
   * [CreatingYourOwnDescriptionParser Creating your own description parser]
 
-* Changelog
+*Changelog*
   * [ChangeLog Changelog]
