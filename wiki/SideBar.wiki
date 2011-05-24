@@ -9,7 +9,7 @@
   * Configuration
     * [AddonSettings Addon settings]
     * [EditRomCollection Edit Rom Collection]
-      * [EditRomCollection Import games]
+      * [EditRomCollectionImportGames Import games]
   * Advanced configuration
     * [PerformanceSettings Performance Settings]
     * [UseOfflineGameDescriptions Use offline game descriptions]
