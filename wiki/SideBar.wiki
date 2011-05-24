@@ -10,7 +10,7 @@
   * Configuration
     * [AddonSettings Addon settings]
     * [EditRomCollection Edit Rom Collection]
-      * [EditRomCollection Import games]
+      # [EditRomCollection Import games]
 
 *Advanced configuration*
   * [PerformanceSettings Performance Settings]
