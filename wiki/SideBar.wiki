@@ -1,11 +1,11 @@
-  * Getting started
-    * [Installation Installation]
-    * [FirstUse First Use]
-    * [Navigation Navigation]
-    * [ConfigurationWizard Configuration Wizard]
-    * [ImportGames Import Games]
-    * [ContextMenu Context Menu]
-    * [SetupTestScenario Setup test scenario]
+*Getting started*
+  * [Installation Installation]
+  * [FirstUse First Use]
+  * [Navigation Navigation]
+  * [ConfigurationWizard Configuration Wizard]
+  * [ImportGames Import Games]
+  * [ContextMenu Context Menu]
+  * [SetupTestScenario Setup test scenario]
 
 * Configuration
   * [AddonSettings Addon settings]
