@@ -7,7 +7,7 @@
   * [ContextMenu Context Menu]
   * [SetupTestScenario Setup test scenario]
 
-* Configuration *
+* Configuration
   * [AddonSettings Addon settings]
   * [EditRomCollection Edit Rom Collection]
 
