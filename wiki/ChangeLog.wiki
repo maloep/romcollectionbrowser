@@ -1,4 +1,46 @@
 #sidebar SideBar
+= 0.8.6 =
+== General ==
+  * complete "Edit Rom Collection" dialog: access all settings via UI
+  * new dialog: "Edit Offline Scrapers"
+  * new option: "Delete Rom Collection"
+  * new option: "Clean database"
+  * bugfix: fixed "autoexec.py not found" error
+  * bugfix: set correct MAME properties when RC is created in local data mode
+
+== Game Import ==
+  * bugfix: using offline scrapers for MAME did not work
+
+= 0.8.5 =
+== General ==
+  * using Dharma settings file as default
+
+== Game Import ==
+  * refactoring: code cleanup, little bug fixes, better error handling, ...
+  * moved properties from Rom Collection to Scraper:
+    descfilePerGame, searchGameByCRC, useFoldernameAsCRC, useFilenameAsCRC
+  * support regular expressions in diskPrefix
+  * stop import when all games are imported with multigame scrapers
+
+== Game Launching ==
+  * support direct launching of savestates
+    * specify savestatePath and saveStateParams per Rom Collection
+    * RCB checks if savestate exists and offers to launch the savestate
+  * new context menu option: Edit Game Command
+    * save game specific command in database
+    * replace %GAMECMD% with game specific command when launching the game
+  * moved useEmuSolo from Addon settings to Rom Collection properties (config.xml)
+  * new placholders in launchEmu: %ROMFILE%, %ROMNAME%, %GAME%, %ASKNUM%, %ASKTEXT%
+  * check for multi rom games in zip files before launching
+
+= 0.8.4 =
+== General ==
+  * bug fix: adding more than 10 Rom Collections could cause database inconsistencies
+
+= 0.8.3 = 
+== Game Import ==
+  * encoding error workaround (Windows only)
+
 = 0.8.2 =
 == General ==
   * new option: Delete Game
