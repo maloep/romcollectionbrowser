@@ -34,7 +34,7 @@ Check out the following pages if you have trouble with setting up the script or 
 		
 		=== [EditRomCollection Edit Rom Collection] ===
 		
-		=== [EditRomCollection Edit Offline Scrapers] ===
+		=== [EditOfflineScrapers Edit Offline Scrapers] ===
 
 	= Advanced configuration =
 		

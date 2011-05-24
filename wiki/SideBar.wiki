@@ -10,6 +10,10 @@
     * [AddonSettings Addon settings]
     * [EditRomCollection Edit Rom Collection]
       * [EditRomCollectionImportGames Import games]
+      * [EditRomCollectionImportGameData Import game data]
+      * [EditRomCollectionBrowseGames Browse games]
+      * [EditRomCollectionLaunchGames Launch games]
+    * [EditOfflineScrapers Edit Offline Scrapers]
   * Advanced configuration
     * [PerformanceSettings Performance Settings]
     * [UseOfflineGameDescriptions Use offline game descriptions]
