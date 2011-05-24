@@ -18,7 +18,7 @@
 == Game Import ==
   * refactoring: code cleanup, little bug fixes, better error handling, ...
   * moved properties from Rom Collection to Scraper:
-    descfilePerGame, searchGameByCRC, useFoldernameAsCRC, useFilenameAsCRC
+    * descfilePerGame, searchGameByCRC, useFoldernameAsCRC, useFilenameAsCRC
   * support regular expressions in diskPrefix
   * stop import when all games are imported with multigame scrapers
 
