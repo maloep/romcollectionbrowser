@@ -13,6 +13,9 @@ The selected scrapers will be executed in the order they are selected in this di
 
 The scraper settings of the Rom Collection may be overwritten by the selection in the import options dialog.
 
+== local nfo Scraper ==
+One special scraper is the "local nfo" scraper. During a game import, RCB creates a .nfo file for every game with all scraped game information (if you did not disable this in Addon settings). These files can be used to rebuild your database in case of an error or if you want to change game properties.
+
 = Media type =
 Media types are logical types of your artwork or video files (e.g. boxfront, screenshot, gameplay, ...). Media types are defined in config.xml as `FileTypes`. If you want to add new `FileTypes` see this [http://code.google.com/p/romcollectionbrowser/wiki/ImportGamesAndMedia#FileTypes section] for more info.
 

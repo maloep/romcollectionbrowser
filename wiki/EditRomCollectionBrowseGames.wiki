@@ -1,1 +1,31 @@
-#sidebar SideBar<wiki:toc max_depth="4" />http://romcollectionbrowser.googlecode.com/files/screen_Config_03_Browse_games_wiki.jpgnew with 0.8.6TODO
+#sidebar SideBar
+<wiki:toc max_depth="4" />
+
+http://romcollectionbrowser.googlecode.com/files/screen_Config_03_Browse_games_wiki.jpg
+
+new with 0.8.6
+
+= Image placing =
+With the image placing options you can select which image types are shown in which image controls. Note that not all RCB skins fully support image placing. Atm only the default Confluence skin has full image placing support.
+
+You can define your own image placing options or edit the existing ones if they don't fit your needs. Check [CustomizePresentationOfArtwork this page] for more information.
+
+By default there will be 6 different image placing options:
+
+== gameinfobig ==
+Displays one big image (usually in game screenshot)
+
+== gameinfobigVideo ==
+Automatically start video playback if video is available for selected game.
+
+== gameinfosmall ==
+Displays four small images (e.g. in game screenshot, box front, box back, cartridge)
+
+== gameinfosmallVideo ==
+Displays three small images and automatically start video playback if video is available for selected game.
+
+== gameinfomamemarquee ==
+MAME specific: Displays marquee images in the game list and cabinet, action and title in the additional controls.
+
+== gameinfomamecabinet ==
+MAME specific: Displays cabinet images in the game list and marquee, action and title in the additional controls.
