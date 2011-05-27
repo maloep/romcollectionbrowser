@@ -9,7 +9,7 @@ new with 0.8.6
 With the Rom Collection selector you can select which Rom Collection you want to edit. All controls in the dialog will be updated with the data of the selected Rom Collection.
 
 = Emulator Cmd =
-The command that you specify as "Emulator cmd" will be invoked when you select a game. In this dialog you can directly navigate to the executable.
+The command that you specify as "Emulator cmd" will be invoked when you launch a game. In this dialog you can directly navigate to the executable.
 
 = Emulator Params =
 The params that are passed to the emulator. You can use the following placeholders in your commands:
