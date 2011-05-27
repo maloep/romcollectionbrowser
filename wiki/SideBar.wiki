@@ -18,6 +18,7 @@
     * [PerformanceSettings Performance Settings]
     * [UseOfflineGameDescriptions Use offline game descriptions]
     * [EnableFullscreenVideoBrowser Enable fullscreen video browser]
+    * [LaunchingSavestates Launching Savestates]
     * [CustomizePresentationOfArtwork Customize presentation of artwork and videos]
   * Complete config.xml Reference
     * [ConfigurationFileFormat Configuration File Format (config.xml)]
