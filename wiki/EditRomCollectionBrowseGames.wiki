@@ -5,6 +5,9 @@ http://romcollectionbrowser.googlecode.com/files/screen_Config_03_Browse_games_w
 
 new with 0.8.6
 
+= Rom Collection =
+With the Rom Collection selector you can select which Rom Collection you want to edit. All controls in the dialog will be updated with the data of the selected Rom Collection.
+
 = Image placing =
 With the image placing options you can select which image types are shown in which image controls. Note that not all RCB skins fully support image placing. Atm only the default Confluence skin has full image placing support.
 

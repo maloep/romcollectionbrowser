@@ -84,6 +84,8 @@ This will prevent RCB from showing ALL your roms without any filter criteria. If
 = Launch Games =
 
 == Use Emulator solo ==
+Note: This setting was moved to [EditRomCollectionLaunchGames Rom Collection properties] with version 0.8.5.
+
 If set to "True" RCB will try to kill XBMC before starting the emulator. After exiting the emulator you will return to XBMC. If "False" the emulator will be launched while XBMC is running in the background.
 
 This mechanism invokes a batch (Windows) or bash (Linux) file. Linux only: make sure the file "RCB install dir/applaunch.sh" is executable. If you have problems with launching the emulator or returning to XBMC please check the commands in the file "applaunch.bat" (Windows) or "applaunch.sh" (Linux). You must be able to execute the command that is used to launch XBMC.

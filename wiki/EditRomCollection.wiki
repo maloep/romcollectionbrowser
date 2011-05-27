@@ -1,9 +1,9 @@
 #sidebar SideBar
 <wiki:toc max_depth="4" />
 
-To edit your Rom Collections just launch the context menu (pressing "C" on the keyboard or "Menu" on the remote) and select "Edit Rom Collection".
+To edit your Rom Collections just launch the context menu (pressing "C" on the keyboard or "Menu" on the remote) and select "Edit Rom Collection". You can edit all your Rom Collections in this dialog and changes to all Rom Collections will be saved if you select "Save changes".
 
-RCB will launch the Edit dialog and show you the data of the first available Rom Collection. You can edit all your Rom Collections in this dialog and changes to all Rom Collections will be saved if you select "Save changes".
+Note: This wiki page describes the "Edit Rom Collection" dialog in version 0.8.4. If you are already on version 0.8.6 check the new wiki pages that you see on the left below "Edit Rom Collection".
 
 http://romcollectionbrowser.googlecode.com/files/screen_editromcollection.jpg
 
