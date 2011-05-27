@@ -13,19 +13,31 @@ You can define your own image placing options or edit the existing ones if they 
 By default there will be 6 different image placing options:
 
 == gameinfobig ==
-Displays one big image (usually in game screenshot)
+[http://romcollectionbrowser.googlecode.com/files/screen_Info_gameinfobig.jpg http://romcollectionbrowser.googlecode.com/files/screen_Info_gameinfobig_preview.jpg]
+
+Displays one big image (usually in game screenshot) in the game details.
 
 == gameinfobigVideo ==
-Automatically start video playback if video is available for selected game.
+[http://romcollectionbrowser.googlecode.com/files/screen_Info_gameinfobigVideo.jpg http://romcollectionbrowser.googlecode.com/files/screen_Info_gameinfobigVideo_preview.jpg]
+
+Automatically starts video playback if video is available for selected game.
 
 == gameinfosmall ==
+[http://romcollectionbrowser.googlecode.com/files/screen_Info_gameinfosmall.jpg http://romcollectionbrowser.googlecode.com/files/screen_Info_gameinfosmall_preview.jpg]
+
 Displays four small images (e.g. in game screenshot, box front, box back, cartridge)
 
 == gameinfosmallVideo ==
-Displays three small images and automatically start video playback if video is available for selected game.
+[http://romcollectionbrowser.googlecode.com/files/screen_Info_gameinfosmallVideo.jpg http://romcollectionbrowser.googlecode.com/files/screen_Info_gameinfosmallVideo_preview.jpg]
+
+Displays three small images and automatically starts video playback if video is available for selected game.
 
 == gameinfomamemarquee ==
+[http://romcollectionbrowser.googlecode.com/files/screen_info_reworked_MAME_marquee.jpg http://romcollectionbrowser.googlecode.com/files/screen_info_reworked_MAME_marquee%20-%20preview.jpg]
+
 MAME specific: Displays marquee images in the game list and cabinet, action and title in the additional controls.
 
 == gameinfomamecabinet ==
+[http://romcollectionbrowser.googlecode.com/files/screen_info_reworked_MAME_cabinet.jpg http://romcollectionbrowser.googlecode.com/files/screen_info_reworked_MAME_cabinet%20-%20preview.jpg]
+
 MAME specific: Displays cabinet images in the game list and marquee, action and title in the additional controls.
