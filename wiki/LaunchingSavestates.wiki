@@ -11,7 +11,7 @@ General note on savestates: Usually a statefile is just a complete dump of the e
 The following describes how to use savestates with zsnes(w) and (Win)uae. If you know more emulators that support launching savestates from command line please let me know and I will add them here.
 
 == zsnes(w) ==
-Zsnes saves its statefiles at the path that you specify in zsnes configuration ("SRAMPath" in `zsnes*.cfg` or Config->Paths->Saves in the UI). While playing the game you can select a save slot in zsnes with "F3" (there are 10 slots available per game) and save to this slot with "F2". The statefiles are named like the romfile with an extension ".zs*" (zst, zs1, zs2, ...). You can launch a saved state with the command line option "-zs #" (where # is the number of the slot (0-9)).
+Zsnes saves its statefiles at the path that you specify in zsnes configuration ("SRAMPath" in `zsnes*.cfg` or Config->Paths->Saves in the UI). While playing the game you can select a save slot in zsnes with "F3" (there are 10 slots available per game) and save to this slot with "F2". The statefiles are named like the romfile with an extension "`.zs*`" (zst, zs1, zs2, ...). You can launch a saved state with the command line option "-zs #" (where # is the number of the slot (0-9)).
 
 In RCB you need the following configuration:
 
