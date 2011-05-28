@@ -2,7 +2,7 @@
 = How to use offline game descriptions =
 In online scraping scenario game description will be added automatically (if available). If you want to use local (offline) game descriptions you will need description files (containing the description) and a parser configuration (tells RCB how to parse the description file format). The format of the parser configuration is explained in section [CreatingYourOwnDescriptionParser Creating your own description parser].
 
-Local game description and parsers are also added as scrapers. See section [ImportGamesAndMedia#Add_game_descriptions Add game descriptions] for more details.
+Local game description and parsers are added as offline scrapers. You can add and edit offline scrapers with the [EditOfflineScrapers Edit Offline Scrapers] dialog.
 
 = Available descriptions =
 

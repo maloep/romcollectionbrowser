@@ -29,8 +29,6 @@ Check out the following pages if you have trouble with setting up the script or 
 		
 		=== [FAQ] ===
 
-		<br>
-
 	= Configuration =
 	
 		=== [AddonSettings Addon settings] ===
@@ -53,9 +51,6 @@ Check out the following pages if you have trouble with setting up the script or 
 		
 		=== [CustomizePresentationOfArtwork Customize presentation of artwork and videos] ===
 		
-		<br>
-		
-		
 	= Complete config.xml Reference =
 	
 		=== [ConfigurationFileFormat Configuration File Format (config.xml)] ===
@@ -68,20 +63,13 @@ Check out the following pages if you have trouble with setting up the script or 
 		
 		=== [LaunchingGames Launching games] ===
 		
-		<br>
-		
-		
 	= More Advanced topics =
 
 		=== [SkinningRCB Skinning RCB] ===
 		
 		=== [CreatingYourOwnDescriptionParser Creating your own description parser] ===
-		
-		<br>
-		
-		
-	= Changelog =
 
+	= Changelog =
 
 		=== [ChangeLog Changelog] ===
 
