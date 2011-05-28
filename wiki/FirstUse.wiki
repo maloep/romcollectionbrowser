@@ -4,7 +4,7 @@
   * On first launch RCB will start a simple configuration wizard. This will help you to create a config file with most common settings. See section [ConfigurationWizard Configuration Wizard] for more information.
   * After the wizard is completed RCB will ask you to import your games. It shows a simple options dialog to select most basic scraping settings. See section [ImportGames Import Games] for more information.
   
-In most scenarios the config wizard will fit all your needs. More advanced or special settings can be adjusted in the [EditRomCollection Edit Rom Collection] dialog or [AddoSettings Addon settings].
+In most scenarios the config wizard will fit all your needs. More advanced or special settings can be adjusted in the [EditRomCollection Edit Rom Collection] dialog or [AddonSettings Addon settings].
 
 = XBMC Live users =
 If you use XBMC Live without an additional window manager you can use RCB only in non-solo mode. See section [AddonSettings#Use_Emulator_solo Use Emulator solo] for details.

@@ -7,7 +7,7 @@
     * [ImportGames Import Games]
     * [ContextMenu Context Menu]
     * [SetupTestScenario Setup test scenario]
-    * [FAQ]
+    * [FAQ FAQ]
   * Configuration
     * [AddonSettings Addon settings]
     * [EditRomCollection Edit Rom Collection]
