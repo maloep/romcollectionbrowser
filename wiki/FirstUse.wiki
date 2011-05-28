@@ -7,4 +7,4 @@
 In most scenarios the config wizard will fit all your needs. More advanced or special settings can be adjusted in the [EditRomCollection Edit Rom Collection] dialog or [AddonSettings Addon settings].
 
 = XBMC Live users =
-If you use XBMC Live without an additional window manager you can use RCB only in non-solo mode. See section [AddonSettings#Use_Emulator_solo Use Emulator solo] for details.
+If you use XBMC Live without an additional window manager you can use RCB only in non-solo mode. See section [EditRomCollectionLaunchGames#Use_emulator_in_solo_mode Use Emulator solo] for details.
