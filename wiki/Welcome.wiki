@@ -26,6 +26,8 @@ Check out the following pages if you have trouble with setting up the script or 
 		=== [ContextMenu Context Menu] ===
 
 		=== [SetupTestScenario Setup test scenario] ===
+		
+		=== [FAQ] ===
 
 		<br>
 

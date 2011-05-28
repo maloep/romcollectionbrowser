@@ -65,6 +65,3 @@ The first steps of this wizard are equal to the online scraping scenario. You ha
   * Select the path to the parse instruction for the given description file.
   
   http://romcollectionbrowser.googlecode.com/files/Wizard%20-%20Offline%206%20-%20small.jpg
-	
-= Find your configuration files =
-There is one main configuration file "config.xml" that must be placed in your userdata folder ([http://wiki.xbmc.org/index.php?title=Special_protocol#Platform_Specific_Default_Mappings Look here for special://home]). Inside your userdata folder you will find RCBs config files in  "script_data" (Camelot) or "addon_data" (Dharma) in the sub folder "script.games.rom.collection.browser".
