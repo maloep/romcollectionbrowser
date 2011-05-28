@@ -10,6 +10,10 @@
     * [FAQ FAQ]
   * Configuration
     * [AddonSettings Addon settings]
+	  * [AddonSettingsGeneral General]
+	  * [AddonSettingsImportGames Import games]
+      * [AddonSettingsBrowseGames Browse games]
+      * [AddonSettingsLaunchGames Launch games]
     * [EditRomCollection Edit Rom Collection]
       * [EditRomCollectionImportGames Import games]
       * [EditRomCollectionImportGameData Import game data]
