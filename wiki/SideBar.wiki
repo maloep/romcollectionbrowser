@@ -1,3 +1,4 @@
+  * [Welcome]
   * Getting started
     * [Installation Installation]
     * [FirstUse First Use]
