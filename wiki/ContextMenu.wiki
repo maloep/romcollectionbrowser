@@ -14,5 +14,17 @@ Launches the wizard to add a new Rom Collection. See section [ConfigurationWizar
 = Edit Rom Collection =
 Invokes the Edit Rom Collection dialog. See section [EditRomCollection Edit Rom Collection] for more information.
 
+= Edit Offline Scrapers =
+Invokes the Edit Offline Scrapers dialog. See section [EditOfflineScrapers Edit Offline Scrapers] for more information.
+
+= Edit Game Command =
+This will launch the XBMC keyboard to enter a game specific command. The text that you enter will be saved with the selected game in RCBs database. This text will be used to replace the string %GAMECMD% in "Emulator params" or "Savestate params" before you launch the game. E.g. lots of Amiga games need special parameters for joyports etc. and this is a way to launch one game with mouse and keyboard support and another one with support for two joysticks.
+
 = Delete Game =
 Deletes the currently selected game. This will only delete the game from RCBs database. The files on your HD keep untouched.
+
+= Delete Rom Collection =
+Launches a little dialog to select the Rom Collection to delete and and the removal option. "Delete Rom Collection" has two modes: "Delete games and configuration" or "Delete games only". Both modes will delete all game relevant data from RCBs database. First mode will also delete the Rom Collection entry from RCBs configuration file. 
+
+= Clean database =
+Checks if you have deleted a rom file outside of RCB and deletes the game entry in database.

@@ -22,6 +22,8 @@ The params that are passed to the emulator. You can use the following placeholde
 
 %GAME% - will be replaced with the name of the game that you see while browsing games in RCB (e.g. My Game)
 
+%GAMECMD% - will be replaced with the value that you specified as game specific command for the selected game. Replaced with "" if no game specific command is available.
+
 %ASKNUM% - select numbers from 0-9 (specially build for zsnes savestate handling but may be useful in other scenarios - who knows)
 
 %ASKTEXT% - will launch the XBMC keyboard and then replaced with the text that you enter (useful for playing around with special settings like selecting graphic or sound drivers etc. - just edit the game command on every single game launch)

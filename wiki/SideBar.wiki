@@ -31,5 +31,4 @@
   * More Advanced topics
     * [SkinningRCB Skinning RCB]
     * [CreatingYourOwnDescriptionParser Creating your own description parser]
-  * Changelog
-    * [ChangeLog Changelog]
+  * [ChangeLog Changelog]
