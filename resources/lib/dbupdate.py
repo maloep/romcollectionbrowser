@@ -823,19 +823,21 @@ class DBUpdate:
 		try:
 			# try glob with * wildcard
 			files = glob.glob(pathName)
-			
-			if(len(files) == 0):				
-				squares = re.findall('\s\[.*\]',pathName)				
-				if(squares != None and len(squares) >= 1):
-					Logutil.log('Replacing [...] with *', util.LOG_LEVEL_INFO)
-					for square in squares:						
-						pathName = pathName.replace(square, '*')
-				
-					Logutil.log('new pathname: ' +str(pathName), util.LOG_LEVEL_INFO)
-					files = glob.glob(pathName)
-				
 		except Exception, (exc):
 			Logutil.log("Error using glob function in resolvePath " +str(exc), util.LOG_LEVEL_WARNING)
+			
+		if(len(files) == 0):				
+			squares = re.findall('\s\[.*\]',pathName)				
+			if(squares != None and len(squares) >= 1):
+				Logutil.log('Replacing [...] with *', util.LOG_LEVEL_INFO)
+				for square in squares:						
+					pathName = pathName.replace(square, '*')
+			
+				Logutil.log('new pathname: ' +str(pathName), util.LOG_LEVEL_INFO)
+				try:
+					files = glob.glob(pathName)
+				except Exception, (exc):
+					Logutil.log("Error using glob function in resolvePath " +str(exc), util.LOG_LEVEL_WARNING)
 		
 		# glob can't handle []-characters - try it with listdir
 		if(len(files)  == 0):
@@ -846,8 +848,8 @@ class DBUpdate:
 					files = os.listdir(pathName)					
 			except:
 				pass
-		return files
 		Logutil.log("resolved files: " +str(files), util.LOG_LEVEL_INFO)
+		return files		
 		
 		
 	def getFilesByGameNameIgnoreCase(self, pathname):
