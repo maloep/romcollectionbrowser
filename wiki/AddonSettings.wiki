@@ -1,7 +1,7 @@
 #sidebar SideBar
 <wiki:toc max_depth="4" />
 
-You can access RCBs global settings via the context menu in addons / scripts list in XBMC (press C on the keyboard).
+These are RCBs global settings that are valid for all Rom Collections. You can access settings via the context menu in addons / scripts list in XBMC (press C on the keyboard).
 
 See sub sections for more details
   * [AddonSettingsGeneral General]

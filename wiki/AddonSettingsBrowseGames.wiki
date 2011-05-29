@@ -1,6 +1,8 @@
 #sidebar SideBar
 <wiki:toc max_depth="4" />
 
+http://romcollectionbrowser.googlecode.com/files/screen_Settings_03_BrowseGames_small.jpg
+
 You can access RCBs global settings via the context menu in addons / scripts list in XBMC (press C on the keyboard).
 
 = Browse Games =
