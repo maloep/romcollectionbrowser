@@ -73,10 +73,49 @@ print len(results)
 
 """
 
-print bool(re.search('(?i)mame', 'Mam Test'))
+import glob
 
+def getFilesByWildcard(pathName):
+		
+	files = []
+	
+	try:
+		# try glob with * wildcard
+		files = glob.glob(pathName)
+	except Exception, (exc):
+		print("Error using glob function in resolvePath " +str(exc))
+		
+	if(len(files) == 0):				
+		squares = re.findall('\s\[.*\]',pathName)				
+		if(squares != None and len(squares) >= 1):
+			print('Replacing [...] with *')
+			for square in squares:						
+				pathName = pathName.replace(square, '*')
+		
+			print('new pathname: ' +str(pathName))
+			try:
+				files = glob.glob(pathName)
+			except Exception, (exc):
+				print("Error using glob function in resolvePath " +str(exc))
+	
+	# glob can't handle []-characters - try it with listdir
+	if(len(files)  == 0):
+		try:
+			if(os.path.isfile(pathName)):
+				files.append(pathName)
+			else:
+				files = os.listdir(pathName)					
+		except:
+			pass
+	print("resolved files: " +str(files))
+	return files	
 
+pathName = 'F:\\Emulatoren\\data\\Scraper Tests\\Artwork RCB\\Amiga\\screenshot\\Metal Gear Solid [Disc1of2] [U] [SLUS-00594].*'
 
+getFilesByWildcard(pathName)
+
+#print os.path.isfile(pathName)
+#print os.listdir(pathName)
 
 """
 str = '{-%I% "%rom%"} -s use_gui=no %GAMECMD%'
