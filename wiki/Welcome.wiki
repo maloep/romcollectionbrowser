@@ -19,10 +19,6 @@ Check out the following pages if you have trouble with setting up the script or 
 
 		=== [Navigation Navigation] ===
 
-		=== [ConfigurationWizard Configuration Wizard] ===
-
-		=== [ImportGames Import Games] ===
-		
 		=== [ContextMenu Context Menu] ===
 
 		=== [SetupTestScenario Setup test scenario] ===
@@ -30,6 +26,10 @@ Check out the following pages if you have trouble with setting up the script or 
 		=== [FAQ] ===
 
 	= Configuration =
+	
+		=== [ConfigurationWizard Configuration Wizard] ===
+
+		=== [ImportGames Import Games] ===
 	
 		=== [AddonSettings Addon settings] ===
 		

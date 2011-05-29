@@ -5,8 +5,6 @@ http://romcollectionbrowser.googlecode.com/files/screen_Settings_04_LaunchGames_
 
 You can access RCBs global settings via the context menu in addons / scripts list in XBMC (press C on the keyboard).
 
-= Launch Games =
-
-== Escape Emulator Cmd ==
+= Escape Emulator Cmd =
 This will escape the rom file names passed to the emulatorCmd. Try to change this if you are running into problems with launching games.
 
