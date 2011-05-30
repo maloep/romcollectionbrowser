@@ -5,7 +5,10 @@ import time
 
 
 # Shared resources
-BASE_RESOURCE_PATH = os.path.join( os.getcwd(), "resources" )
+import xbmcaddon
+addon = xbmcaddon.Addon(id='script.games.rom.collection.browser')
+BASE_RESOURCE_PATH = os.path.join(addon.getAddonInfo('path'), "resources" )
+
 
 sys.path.append( os.path.join( BASE_RESOURCE_PATH, "lib" ) )
 sys.path.append( os.path.join( BASE_RESOURCE_PATH, "lib", "pyparsing" ) )
