@@ -1,4 +1,12 @@
 
+0.8.7 (05/2011)
+~~~~~~~~~~~~~
+General:
+  * removed option CACHESELECTION from caching options
+  
+Game Import:
+  * bugfix: error with handling [] in rom names
+
 0.8.6 (05/2011)
 ~~~~~~~~~~~~~
 General:

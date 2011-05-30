@@ -81,22 +81,22 @@ def getFilesByWildcard(pathName):
 	
 	try:
 		# try glob with * wildcard
-		files = glob.glob(pathName)
+		files = glob.glob(pathName)	
+		
+		if(len(files) == 0):				
+			squares = re.findall('\s\[.*\]',pathName)				
+			if(squares != None and len(squares) >= 1):
+				print('Replacing [...] with *')
+				for square in squares:						
+					pathName = pathName.replace(square, '*')
+			
+				print('new pathname: ' +str(pathName))
+				try:
+					files = glob.glob(pathName)
+				except Exception, (exc):
+					print("Error using glob function in resolvePath " +str(exc))
 	except Exception, (exc):
 		print("Error using glob function in resolvePath " +str(exc))
-		
-	if(len(files) == 0):				
-		squares = re.findall('\s\[.*\]',pathName)				
-		if(squares != None and len(squares) >= 1):
-			print('Replacing [...] with *')
-			for square in squares:						
-				pathName = pathName.replace(square, '*')
-		
-			print('new pathname: ' +str(pathName))
-			try:
-				files = glob.glob(pathName)
-			except Exception, (exc):
-				print("Error using glob function in resolvePath " +str(exc))
 	
 	# glob can't handle []-characters - try it with listdir
 	if(len(files)  == 0):
@@ -110,7 +110,8 @@ def getFilesByWildcard(pathName):
 	print("resolved files: " +str(files))
 	return files	
 
-pathName = 'F:\\Emulatoren\\data\\Scraper Tests\\Artwork RCB\\Amiga\\screenshot\\Metal Gear Solid [Disc1of2] [U] [SLUS-00594].*'
+pathName = 'F:\\Emulatoren\\data\\Scraper Tests\\Artwork RCB\\Amiga\\screenshot\\Metal Gear Solid [SLUS-00594].*'
+#pathName = 'F:\\Emulatoren\\data\\Scraper Tests\\Artwork RCB\\Amiga\\screenshot\\Metal Gear Solid [!].*'
 
 getFilesByWildcard(pathName)
 
