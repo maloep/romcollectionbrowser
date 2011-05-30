@@ -22,11 +22,8 @@ Game Import:
 
 0.8.5 (04/2011)
 ~~~~~~~~~~~~~
-General:
-  * using Dharma settings file as default
-
 Game Import:
-  * refactoring: code cleanup, little bug fixes, better error handling, ...
+  * code cleanup, little bug fixes, better error handling, ...
   * moved properties from Rom Collection to Scraper:
     descfilePerGame, searchGameByCRC, useFoldernameAsCRC, useFilenameAsCRC
   * support regular expressions in diskPrefix
