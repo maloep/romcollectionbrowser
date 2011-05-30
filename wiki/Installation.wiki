@@ -2,7 +2,7 @@
 <wiki:toc max_depth="4" />
 = Installation =
 == Camelot / Xbox ==
-  * Download [http://romcollectionbrowser.googlecode.com/files/script.games.rom.collection.browser-0.8.4.zip script.games.rom.collection.browser-0.8.4.zip]
+  * Download [http://romcollectionbrowser.googlecode.com/files/script.games.rom.collection.browser-0.8.7.zip script.games.rom.collection.browser-0.8.7.zip]
   * Unzip it to your XBMC scripts folder
 
 == Dharma ==
@@ -10,5 +10,5 @@
   * Go to XBMCs Addon Browser: System -> Add-ons -> Get Add-ons -> XBMC.org Add-ons -> Program Add-ons --> Rom Collection Browser
   * Choose Install
 === via zip file ===
-  * Download [http://romcollectionbrowser.googlecode.com/files/script.games.rom.collection.browser-0.8.4.zip script.games.rom.collection.browser-0.8.4.zip]
+  * Download [http://romcollectionbrowser.googlecode.com/files/script.games.rom.collection.browser-0.8.7.zip script.games.rom.collection.browser-0.8.7.zip]
   * Go to XBMCs Addon Browser: System -> Add-ons -> Install from zip file
