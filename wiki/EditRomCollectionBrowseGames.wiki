@@ -11,7 +11,7 @@ With the Rom Collection selector you can select which Rom Collection you want to
 = Image placing =
 With the image placing options you can select which image types are shown in which image controls. Note that not all RCB skins fully support image placing. Atm only the default Confluence skin has full image placing support.
 
-You can define your own image placing options or edit the existing ones if they don't fit your needs. Check [CustomizePresentationOfArtwork this page] for more information.
+You can define your own image placing options or edit the existing ones if they don't fit your needs. Check [DynamicImagePlacing this page] for more information.
 
 By default there will be 6 different image placing options:
 

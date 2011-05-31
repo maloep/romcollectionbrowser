@@ -49,19 +49,7 @@ Check out the following pages if you have trouble with setting up the script or 
 		
 		=== [LaunchingSavestates Launching Savestates] ===
 		
-		=== [CustomizePresentationOfArtwork Customize presentation of artwork and videos] ===
-		
-	= Complete config.xml Reference =
-	
-		=== [ConfigurationFileFormat Configuration File Format (config.xml)] ===
-		
-		=== [HowToRead How to read the Configuration section] ===
-		
-		=== [ImportGamesAndMedia Import games and media] ===
-		
-		=== [BrowsingAndDisplayingGames Browsing and displaying games] ===
-		
-		=== [LaunchingGames Launching games] ===
+		=== [DynamicImagePlacing Dynamic Image Placing] ===
 		
 	= More Advanced topics =
 
