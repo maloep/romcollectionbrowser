@@ -19,7 +19,6 @@ sys.path.append( os.path.join( BASE_RESOURCE_PATH, "platform_libraries", 'Linux'
 import xbmc
 import xbmcgui
 
-from pysqlite2 import dbapi2 as sqlite
 from gamedatabase import *
 from util import *
 import dbupdate

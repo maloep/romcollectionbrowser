@@ -1,10 +1,10 @@
 
 
 import os, sys, shutil
-from pysqlite2 import dbapi2 as sqlite
-from gamedatabase import *
+
 from util import *
 import util
+from gamedatabase import *
 from elementtree.ElementTree import *
 from config import ImagePlacing
 
