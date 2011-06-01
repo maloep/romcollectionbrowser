@@ -5,13 +5,12 @@ import codecs
 import zipfile
 import zlib
 import time
-from pysqlite2 import dbapi2 as sqlite
 
+import util
+from util import *
 from config import *
 from gamedatabase import *
 from descriptionparserfactory import *
-import util
-from util import *
 from pyscraper import *
 
 

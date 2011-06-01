@@ -1,12 +1,12 @@
 
 import xbmc, xbmcgui
 import string, glob, time, array, os, sys, shutil, re
-from pysqlite2 import dbapi2 as sqlite
 from threading import *
 
-import dbupdate, helper, launcher, util, config
-import dialogimportoptions, dialogcontextmenu
 from util import *
+import util
+import dbupdate, helper, launcher, config
+import dialogimportoptions, dialogcontextmenu
 from config import *
 from configxmlwriter import *
 from configxmlupdater import *

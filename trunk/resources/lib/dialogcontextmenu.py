@@ -83,6 +83,8 @@ class ContextMenuDialog(xbmcgui.WindowXMLDialog):
 				self.gui.gdb.commit()
 			
 		elif (controlID == 5114): #Delete Rom
+			self.close()
+			
 			pos = self.gui.getCurrentListPosition()
 			if(pos == -1):
 				xbmcgui.Dialog().ok(util.SCRIPTNAME, 'Delete Game Error', "Can't delete selected Game")
