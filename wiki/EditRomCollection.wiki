@@ -1,57 +1,14 @@
 #sidebar SideBar
-<wiki:toc max_depth="4" />
 
 To edit your Rom Collections just launch the context menu (pressing "C" on the keyboard or "Menu" on the remote) and select "Edit Rom Collection". You can edit all your Rom Collections in this dialog and changes to all Rom Collections will be saved if you select "Save changes".
 
-Note: This wiki page describes the "Edit Rom Collection" dialog in version 0.8.4. If you are already on version 0.8.6 check the new wiki pages that you see on the left below "Edit Rom Collection".
+All Rom Collection specific configuration is stored in the file "config.xml". You will find this file in your userdata folder in "addon_data/script.games.rom.collection.browser".
 
-http://romcollectionbrowser.googlecode.com/files/screen_editromcollection.jpg
-
-= Rom Collection =
-With the Rom Collection selector you can browse through your Rom Collections. All controls in the dialog will be updated with the data of the selected Rom Collection.
-
-= Emulator Cmd =
-The command that you specify as emulatorCmd will be invoked when you select a game. In this dialog you can directly navigate to the executable.
-
-= Emulator Params =
-The params that are passed to the emulator. You can use the following placeholders in your commands:
-
-%ROM% will be replaced with the current file name
-
-%I% will be replaced with the zero-based index of the current rom file
-
-If the emulator supports multiple rom files (like uae) you can use {} for repeating parameters. In a command like "uae {-%I% "%ROM%"}" the part in the {} brackets will be repeated for any disk file of the game. For example if you have an amiga game (`MyGame`) that consists of 2 disk files the uae command at runtime will be: 
-{{{
-uae -0 "MyGame_Disk1.adf" -1 "MyGame_Disk2.adf".
-}}}
-
-= Rom Path =
-The path to your rom files. In this dialog you can directly navigate to the folder that contains your roms. RCB also supports scanning sub folders, you should just select the top folder of your rom directory structure.
-
-= Rom File Mask =
-The file mask should include wildcards and file extension (`*`.adf for example). You can add more than one file mask separated with commas (`*`.adf, `*`.zip).
-
-= Media Type =
-Media types are logical types of your artwork or video files (e.g. boxfront, screenshot, gameplay, ...). Media types are defined in config.xml as `FileTypes`. If you want to add new `FileTypes` see this [http://code.google.com/p/romcollectionbrowser/wiki/ImportGamesAndMedia#FileTypes section] for more info.
-
-== Media Path ==
-The path to your image or video files of the selected media type. RCB will use this path to search for available artwork or to store artwork while scraping from online sources. In this dialog you can directly navigate to the folder.
-
-== Media File Mask ==
-The file mask to select your media files in the specified folder. You can use the following placeholders: %GAME%, %ROMCOLLECTION%, %PUBLISHER%, %DEVELOPER% (will be replaced with the according game property). If you have a Game "Mygame" its rom file may be named "Mygame.zip". All screenshots must be named "Mygame.jpg" (or png, gif, ...).
-
-= Scrapers =
-The selected scrapers will be executed in the order they are selected in this dialog. The results of the scrapers will be merged together. Merging results is done with "first come, first go"-logic. This means if the first scraper finds a publisher for example, RCB will use the publisher returned by the first scraper. But if the first scraper does not find a publisher but it is provided by the second scraper, RCB will use the publisher from the second one.
-
-The scraper settings of the Rom Collection may be overwritten by the selection in the import options dialog.
-
-= Image Placing =
-In RCBs Confluence skins there are several different image placing options available. With image placing options you can decide if you want to see one big image or video or if you want to have several small images while browsing the list. Details about image placing are explained [http://code.google.com/p/romcollectionbrowser/wiki/CustomizePresentationOfArtwork here].
-
-The image placing options themself are defined in the config.xml file (learned more about this [http://code.google.com/p/romcollectionbrowser/wiki/BrowsingAndDisplayingGames#dynamic_image_placing here]). In this dialog you can decide which of these options you want to use for the currently selected Rom Collection.
-
-= Ignore on Scan =
-If set to "True" this Rom Collection will be ignored completely during import. If you have all data for one of your Rom Collections in database you can set this to "True" and there won't be any changes to this collection during the next imports.
+See sub sections for more details
+  * [EditRomCollectionImportGames Import games]
+  * [EditRomCollectionImportGameData Import game data]
+  * [EditRomCollectionBrowseGames Browse games]
+  * [EditRomCollectionLaunchGames Launch games]
 
 = Save Config =
 Saves all changes to all Rom Collections that you made in this dialog.
