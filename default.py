@@ -11,45 +11,42 @@
 # You should have received a copy of the GNU General Public License along with this program; 
 # if not, see <http://www.gnu.org/licenses/>.
 
-
-# I have built this script from scratch but you will find some lines or ideas that are taken 
-# from other xbmc scripts. Some basic ideas are taken from Redsandros "Arcade Browser" and I often 
-# had a look at Nuka1195's "Apple Movie Trailers" script while implementing this one. Thanks for your work!
-
-
-
 import os
-import sys
-import re
-
-# Shared resources
-addonPath = ''
-try:
-	import xbmcaddon
-	addon = xbmcaddon.Addon(id='script.games.rom.collection.browser')
-	addonPath = addon.getAddonInfo('path')
-except:
-	addonPath = os.getcwd()
-        
-BASE_RESOURCE_PATH = os.path.join(addonPath, "resources" )
-sys.path.append( os.path.join( BASE_RESOURCE_PATH, "lib" ) )
-sys.path.append( os.path.join( BASE_RESOURCE_PATH, "lib", "pyparsing" ) )
-sys.path.append( os.path.join( BASE_RESOURCE_PATH, "lib", "pyscraper" ) )
+import xbmcaddon
 
 
-# append the proper platforms folder to our path, xbox is the same as win32
-env = ( os.environ.get( "OS", "win32" ), "win32", )[ os.environ.get( "OS", "win32" ) == "xbox" ]
+def checkStartupAction():
+	
+	#get access to RCB
+	rcbAddon = None
+	try:
+		rcbAddon = xbmcaddon.Addon(id='script.games.rom.collection.browser')
+	except:
+		print 'RCB Service: Error while accessing "script.games.rom.collection.browser". Make sure the addon is installed.'
+		return
+		
+	launchOnStartup = rcbAddon.getSetting('rcb_launchOnStartup')
+	print 'RCB Service: launch RCB on startup = ' +str(launchOnStartup)
+	
+	if(launchOnStartup.lower() == 'true'):
+		#make sure that we don't launch it again
+		rcbAddon.setSetting('rcb_launchOnStartup', 'false')
+		path = os.path.join(rcbAddon.getAddonInfo('path'), 'default.py')
+		print 'RCB Service: launch RCB ' +str(path)
+		xbmc.executescript("%s" %path)
+		return
+	
+	#check scrape on XBMC startup setting	
+	scrapeOnStart = rcbAddon.getSetting('rcb_scrapOnStartUP')
+	print 'RCB Service: scrape games on startup = ' +str(scrapeOnStart)
+	
+	if(scrapeOnStart.lower() == 'true'):
+		#launch dbUpdate
+		path = os.path.join(rcbAddon.getAddonInfo('path'), 'dbUpLauncher.py')
+		print 'RCB Service: Starting DB Update' +str(path)
+		xbmc.executescript("%s" %path)
+		
 
-# Check to see if using a 64bit version of Linux
-if re.match("Linux", env):
-	import platform
-	env2 = platform.machine()
-	if(env2 == "x86_64"):
-		env = "Linux64"
-
-sys.path.append( os.path.join( BASE_RESOURCE_PATH, "platform_libraries", env ) )
-
-
-# Start the main gui
-if __name__ == "__main__":
-	import gui
+print 'RCB Service: Start'
+checkStartupAction()
+print 'RCB Service: Done'
