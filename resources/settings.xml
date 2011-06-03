@@ -33,5 +33,6 @@
 	
 	<setting id="rcb_view_mode" visible="false" value="" type="text"/>
 	<setting id="rcb_launchOnStartup" visible="false" type="bool" default="false"/>
+	<setting id="rcb_scrapeOnStartupAction" visible="false" type="labelenum" values="update|cancel|nothing" default="nothing"/>
 
 </settings>

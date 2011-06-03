@@ -166,6 +166,7 @@ class UIGameDB(xbmcgui.WindowXML):
 		# Idea to initialize your variables here				
 		Logutil.log("Init Rom Collection Browser: " + util.RCBHOME, util.LOG_LEVEL_INFO)
 		
+		self.Settings = util.getSettings()
 				
 		if(util.hasAddons()):			
 			import xbmcaddon
@@ -186,8 +187,6 @@ class UIGameDB(xbmcgui.WindowXML):
 			return
 		
 		#timestamp1 = time.clock()
-		
-		self.Settings = util.getSettings()
 		
 		try:
 			self.gdb = GameDataBase(util.getAddonDataPath())
@@ -1626,26 +1625,16 @@ class UIGameDB(xbmcgui.WindowXML):
 
 	def checkUpdateInProgress(self):
 		
-		dbUpStatusFilename = util.getDbupdateStatusFilename()
+		scrapeOnStartupAction = self.Settings.getSetting(util.SETTING_RCB_SCRAPEONSTARTUPACTION)
+		if (scrapeOnStartupAction == 'update'):
+			retCancel = xbmcgui.Dialog().yesno('Rom Collection Browser', 'Import in Progress', 'Do you want to cancel current import?')
+			if(retCancel == True):
+				self.Settings.setSetting(util.SETTING_RCB_SCRAPEONSTARTUPACTION, 'cancel')
+			return True
 		
-		#check status file and cancel update
-		try:
-			dbupstatusFile = open(dbUpStatusFilename,'r')
-			for line in dbupstatusFile:
-				if line.startswith('update'):
-					dialog = xbmcgui.Dialog()
-					retCancel = dialog.yesno('Rom Collection Browser', 'Import in Progress', 'Do you want to cancel currently running import?')
-					if(retCancel == True):
-						dbupstatusFile.close()
-						dbupstatusFile = open(dbUpStatusFilename,'w')
-						dbupstatusFile.write('cancel')
-						dbupstatusFile.close()
-						
-					return True
-						
-		except Exception, (exc):
-			Logutil.log('Cannot read file "%s". Error: "%s"' %(dbUpStatusFilename, str(exc)), util.LOG_LEVEL_WARNING)
-			return False
+		elif (scrapeOnStartupAction == 'cancel'):
+			xbmcgui.Dialog().ok('Rom Collection Browser', 'Cancelling in Progress', 'Import is still being cancelled. Please try again later.')
+			return True
 		
 		return False
 
