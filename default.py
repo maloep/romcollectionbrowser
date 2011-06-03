@@ -22,9 +22,16 @@ import os
 import sys
 import re
 
-
 # Shared resources
-BASE_RESOURCE_PATH = os.path.join( os.getcwd(), "resources" )
+addonPath = ''
+try:
+	import xbmcaddon
+	addon = xbmcaddon.Addon(id='script.games.rom.collection.browser')
+	addonPath = addon.getAddonInfo('path')
+except:
+	addonPath = os.getcwd()
+        
+BASE_RESOURCE_PATH = os.path.join(addonPath, "resources" )
 sys.path.append( os.path.join( BASE_RESOURCE_PATH, "lib" ) )
 sys.path.append( os.path.join( BASE_RESOURCE_PATH, "lib", "pyparsing" ) )
 sys.path.append( os.path.join( BASE_RESOURCE_PATH, "lib", "pyscraper" ) )
