@@ -5,7 +5,7 @@
   name="Rom Collection Browser"
   provider-name="carabalb, jimyx17, malte">
   <requires>
-    <import addon="xbmc.python" version="1.0"/>
+    <import addon="xbmc.python" version="2.0"/>
     <import addon="script.module.elementtree" version="1.2.7"/>
   </requires>
   <extension point="xbmc.python.script" library="default.py"></extension>
