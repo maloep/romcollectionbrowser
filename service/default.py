@@ -12,26 +12,42 @@
 # if not, see <http://www.gnu.org/licenses/>.
 
 import os
-
-print 'RCB Service: Initialize'
-
 import xbmcaddon
 
-#get path to RCB
-rcbAddon = xbmcaddon.Addon(id='script.games.rom.collection.browser')
-rcbAddonPath = rcbAddon.getAddonInfo('path')
 
-print 'RCB Service: Path to RCB = ' +str(rcbAddonPath)
-
-#check scrape on XBMC startup setting
-serviceAddon = xbmcaddon.Addon(id='service.rom.collection.browser')
-scrapeOnStart = serviceAddon.getSetting('rcb_scrapOnStartUP')
-print 'RCB Service: scrapeOnStart = ' +str(scrapeOnStart)
-
-if(scrapeOnStart.lower() == 'true'):
-	print 'RCB Service: Starting DB Update'
-	#launch dbUpdate
-	path = os.path.join(rcbAddonPath, 'dbUpLauncher.py')
-	xbmc.executescript("%s" %path)
+def checkStartupAction():
 	
-print 'RCB Service: Done.'
+	#get access to RCB
+	rcbAddon = None
+	try:
+		rcbAddon = xbmcaddon.Addon(id='script.games.rom.collection.browser')
+	except:
+		print 'RCB Service: Error while accessing "script.games.rom.collection.browser". Make sure the addon is installed.'
+		return
+		
+	launchOnStartup = rcbAddon.getSetting('rcb_launchOnStartup')
+	print 'RCB Service: launch RCB on startup = ' +str(launchOnStartup)
+	
+	if(launchOnStartup.lower() == 'true'):
+		#make sure that we don't launch it again
+		rcbAddon.setSetting('rcb_launchOnStartup', 'false')
+		path = os.path.join(rcbAddon.getAddonInfo('path'), 'default.py')
+		print 'RCB Service: launch RCB ' +str(path)
+		xbmc.executescript("%s" %path)
+		return
+	
+	#check scrape on XBMC startup setting
+	serviceAddon = xbmcaddon.Addon(id='service.rom.collection.browser')
+	scrapeOnStart = serviceAddon.getSetting('rcb_scrapOnStartUP')
+	print 'RCB Service: scrape games on startup = ' +str(scrapeOnStart)
+	
+	if(scrapeOnStart.lower() == 'true'):
+		#launch dbUpdate
+		path = os.path.join(rcbAddon.getAddonInfo('path'), 'dbUpLauncher.py')
+		print 'RCB Service: Starting DB Update' +str(path)
+		xbmc.executescript("%s" %path)
+		
+
+print 'RCB Service: Start'
+checkStartupAction()
+print 'RCB Service: Done'
