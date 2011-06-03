@@ -32,5 +32,6 @@
 	</category>
 	
 	<setting id="rcb_view_mode" visible="false" value="" type="text"/>
+	<setting id="rcb_launchOnStartup" visible="false" type="bool" default="false"/>
 
 </settings>
