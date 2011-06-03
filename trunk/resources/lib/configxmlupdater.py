@@ -28,7 +28,7 @@ class ConfigxmlUpdater:
 		self.tree = tree
 	
 		configVersion = tree.attrib.get('version')
-		Logutil.log('Reading version from config.xml: ' +str(configVersion), util.LOG_LEVEL_INFO)
+		Logutil.log('Reading config version from config.xml: ' +str(configVersion), util.LOG_LEVEL_INFO)
 		if(configVersion == None):
 			#set to previous version
 			configVersion = '0.7.4'
