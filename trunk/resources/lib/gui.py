@@ -156,6 +156,8 @@ class UIGameDB(xbmcgui.WindowXML):
 	#cachingOption will be overwritten by config. Don't change it here.
 	cachingOption = 3
 	
+	useRCBService = False
+	
 	
 	def __init__(self, strXMLname, strFallbackPath, strDefaultName, forceFallback):
 		# Changing the three varibles passed won't change anything
@@ -163,6 +165,21 @@ class UIGameDB(xbmcgui.WindowXML):
 		# don't put GUI sensitive stuff here (as the xml hasn't been read yet
 		# Idea to initialize your variables here				
 		Logutil.log("Init Rom Collection Browser: " + util.RCBHOME, util.LOG_LEVEL_INFO)
+		
+				
+		if(util.hasAddons()):			
+			import xbmcaddon
+	        addon = xbmcaddon.Addon(id='%s' %util.SCRIPTID)
+	        Logutil.log("RCB version: " + addon.getAddonInfo('version'), util.LOG_LEVEL_INFO)
+	        
+	        #check if RCB service is available, otherwise we will use autoexec.py
+	        try:
+	        	serviceAddon = xbmcaddon.Addon(id='service.rom.collection.browser')
+	        	Logutil.log("RCB service addon: " + str(serviceAddon), util.LOG_LEVEL_INFO)
+	        	self.useRCBService = True
+	        except:
+	        	Logutil.log("No RCB service addon available. Will use autoexec.py for startup features.", util.LOG_LEVEL_INFO)
+	        
 		
 		if self.checkUpdateInProgress():
 			self.quit = True
@@ -209,8 +226,6 @@ class UIGameDB(xbmcgui.WindowXML):
 				return
 			
 			statusOk, errorMsg = self.createConfigXml(configFile)
-		
-		self.checkScrapStart()
 		
 		#read config.xml
 		self.config = Config()
@@ -269,7 +284,11 @@ class UIGameDB(xbmcgui.WindowXML):
 		
 		self.updateControls()
 		self.loadViewState()
-		self.checkAutoExec()		
+		
+		#check startup tasks done with autoexec.py
+		if(not self.useRCBService):
+			self.checkAutoExec()
+			self.checkScrapStart()
 
 		Logutil.log("End onInit", util.LOG_LEVEL_INFO)
 
