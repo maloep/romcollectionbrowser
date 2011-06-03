@@ -37,8 +37,13 @@ def launchEmu(gdb, gui, gameId, config, settings):
 		
 	if (romCollection.useEmuSolo):
 		
-		#try to create autoexec.py
-		writeAutoexec(gdb)
+		#check if we should use xbmc.service (Eden) or autoexec.py (Dharma)
+		if(not gui.useRCBService):
+			#try to create autoexec.py
+			writeAutoexec(gdb)
+		else:
+			#communicate with service via settings
+			settings.setSetting(util.SETTING_RCB_LAUNCHONSTARTUP, 'true')
 
 		# Remember selection
 		gui.saveViewState(False)
@@ -350,7 +355,7 @@ def replacePlaceholdersInParams(emuParams, rom, romCollection, gameRow, escapeCm
 def writeAutoexec(gdb):
 	# Backup original autoexec.py		
 	autoexec = util.getAutoexecPath()
-	doBackup(gdb, autoexec)			
+	backupAutoexec(gdb, autoexec)
 
 	# Write new autoexec.py
 	try:
@@ -369,8 +374,8 @@ def writeAutoexec(gdb):
 		return
 	
 	
-def doBackup(gdb, fName):
-	Logutil.log("Begin launcher.doBackup", util.LOG_LEVEL_INFO)
+def backupAutoexec(gdb, fName):
+	Logutil.log("Begin launcher.backupAutoexec", util.LOG_LEVEL_INFO)
 
 	if os.path.isfile(fName):			
 		newFileName = os.path.join(util.getAddonDataPath(), 'autoexec.py.bak') 			
@@ -387,13 +392,13 @@ def doBackup(gdb, fName):
 		
 		rcbSetting = helper.getRCBSetting(gdb)
 		if (rcbSetting == None):
-			Logutil.log("rcbSetting == None in doBackup", util.LOG_LEVEL_WARNING)
+			Logutil.log("rcbSetting == None in backupAutoexec", util.LOG_LEVEL_WARNING)
 			return
 		
 		RCBSetting(gdb).update(('autoexecBackupPath',), (newFileName,), rcbSetting[util.ROW_ID])
 		gdb.commit()
 		
-	Logutil.log("End launcher.doBackup", util.LOG_LEVEL_INFO)
+	Logutil.log("End launcher.backupAutoexec", util.LOG_LEVEL_INFO)
 		
 
 def launchXbox(gui, gdb, cmd, romCollection, filenameRows):
