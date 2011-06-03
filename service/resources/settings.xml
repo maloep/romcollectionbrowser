@@ -1,5 +1,0 @@
-<settings>	
-	<category label="Import Games">
-		<setting id="rcb_scrapOnStartUP" label="Import games on XBMC startup" value="false" type="bool" default="false"/>
-	</category>
-</settings>

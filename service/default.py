@@ -36,9 +36,8 @@ def checkStartupAction():
 		xbmc.executescript("%s" %path)
 		return
 	
-	#check scrape on XBMC startup setting
-	serviceAddon = xbmcaddon.Addon(id='service.rom.collection.browser')
-	scrapeOnStart = serviceAddon.getSetting('rcb_scrapOnStartUP')
+	#check scrape on XBMC startup setting	
+	scrapeOnStart = rcbAddon.getSetting('rcb_scrapOnStartUP')
 	print 'RCB Service: scrape games on startup = ' +str(scrapeOnStart)
 	
 	if(scrapeOnStart.lower() == 'true'):
