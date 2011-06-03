@@ -61,6 +61,8 @@ SETTING_RCB_SHOWIMPORTOPTIONSDIALOG = 'rcb_showImportOptions'
 SETTING_RCB_SCRAPINGMODE = 'rcb_scrapingMode'
 SETTING_RCB_SCRAPONSTART = 'rcb_scrapOnStartUP'
 SETTING_RCB_LAUNCHONSTARTUP = 'rcb_launchOnStartup'
+SETTING_RCB_SCRAPEONSTARTUPACTION = 'rcb_scrapeOnStartupAction'
+
 
 SCRAPING_OPTION_AUTO_ACCURATE = 0
 SCRAPING_OPTION_AUTO_GUESS = 1
@@ -294,10 +296,6 @@ def hasAddons():
         return True
     except:
         return False
-       
-       
-def getDbupdateStatusFilename():
-	return os.path.join(getAddonDataPath(), 'dbupdatestatus.txt')
 
 
 def getScrapingMode(settings):
