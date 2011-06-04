@@ -1,6 +1,9 @@
 #sidebar SideBar
 <wiki:toc max_depth="4" />
 
+Note: the config.xml file that is shipped with these test scenarios is not compatible with RCB version > 0.8.6! But you can still use the data and create your config file with the wizard. I am working on current test sets with up-to-date files.
+
+
 To show you how this script will work and how data should (could) be organized I also provide two zip files with testdata. First zip file demonstrates a simple online scraping scenario. It just contains some dummy rom files (empty text files) and an empty artwork folder. You can setup RCB to download descriptions and artwork for all these games.
 The second zip file shows how to use RCB with local available data. It includes covers, game screenshots, game description files and sample configuration files for 7 Amiga and 8 SNES games. I also added 3 gameplay videos to show you how videos will look like in RCB. It also includes placeholder files for the roms (empty text files). The test scenarios are not really meant to play the games, they should just show how to configure this script.
 
