@@ -4,7 +4,7 @@ RCB creates a video playlist with every game video in your current filter select
 
 If you have created your config.xml with the wizard, it will be enough to use one of the "...Video" imagePlacing-Options.
 
-To add fullscreen support manually you have to add this line to your [BrowsingAndDisplayingGames#Image_Placing ImagePlacing]-configuration:
+To add fullscreen support manually you have to add this line to your [DynamicImagePlacing ImagePlacing]-configuration:
 {{{
 <fileTypeForMainViewFullscreenVideo>gameplay</fileTypeForMainViewFullscreenVideo>
 }}}
@@ -12,24 +12,25 @@ To add fullscreen support manually you have to add this line to your [BrowsingAn
 Now you should see a button "Play Video Fullscreen" below the screenshots in Info and Info2 view.
 
 == Enable zapping in fullscreen browser ==
-You may have to make some changes to your keymap.xml to get the zapping feature. These changes make sure that you have access to "SkipNext" and "SkipPrevious" in FullscreenVideo and FullscreenInfo:
+You may have to make some changes to your keymap.xml to enable the zapping feature. These changes make sure that you have access to "SkipNext" and "SkipPrevious" in FullscreenVideo and FullscreenInfo.
+
+See [http://wiki.xbmc.org/index.php?title=Keymap.xml XBMC wiki page] for more info about keymap.xml.
 
 Windows/Linux keyboard.xml:
 {{{
 <FullscreenVideo>
-	<keyboard>
-	 ...
-	  <!--<period>StepForward</period>
-	  <comma>StepBack</comma>-->
-	  <period>SkipNext</period>
-	  <comma>SkipPrevious</comma>
-	  ...
-	</keyboard>
+    <keyboard>
+      ...
+      <period>SkipNext</period>
+      <comma>SkipPrevious</comma>
+      ...
+    </keyboard>
 </FullscreenVideo>
 <FullscreenInfo>
     <keyboard>
       ...
-      <!--<period>StepForward</period>-->
+      <period>SkipNext</period>
+      <comma>SkipPrevious</comma>
       ...
     </keyboard>
 </FullscreenInfo>
@@ -43,7 +44,7 @@ Xbox keymap.xml
       ...
       <dpadup>SkipNext</dpadup>
       <dpaddown>SkipPrevious</dpaddown>
-	  ...
+      ...
     </gamepad>
 </FullscreenVideo>
 }}}
