@@ -7,3 +7,12 @@ Some distributions don't ship with prebuild pysqlite libraries. You have to get 
 
 == Error launching .7z file ==
 When launching .7z files RCB just shows a message box with this error message: "Error launching .7z file. Please check XBMC.log for details". This error should only occure if you have installed RCB via the repo browser. Launching .7z files requires certain libraries that are not part of XBMCs python environment. You can download RCBs latest version from the projects home page, this already includes all required libraries.
+
+== XBMC freezes when trying to start RCB ==
+This may happen if you accidently try to launch RCB twice. Unfortunately I did not find a way to code around this issue until now. So if you run into this issue make sure that you wait 1-2 seconds to see if RCB will start before you try it a second time.
+
+== I only see my DVD drive in the config wizard ==
+Usually this happens if there is still a disc in the drive. Remove it and try again.
+
+== RCB can't access my SMB shares ==
+There seems to be a problem to access SMB shares the standard way ("smb://server/location/..."). You can get around this issue by manually editing the file config.xml. Search for the smb entry and change it to the following syntax: "\\server\location\...".
