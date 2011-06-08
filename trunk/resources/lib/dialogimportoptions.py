@@ -271,7 +271,7 @@ class ImportOptionsDialog(xbmcgui.WindowXMLDialog):
 			xbmcgui.Dialog().ok('Configuration Error', 'Site %s does not exist in config.xml' %scraper)
 			return None, False
 				
-		site, errorMsg = self.gui.config.readScraper(siteRow, platformId, '', '', True, self.gui.config.tree)
+		site, errorMsg = self.gui.config.readScraper(siteRow, romCollection.name, '', '', True, self.gui.config.tree)
 						
 		if(site != None):
 			#check first scraper if it is an online or offline scraper

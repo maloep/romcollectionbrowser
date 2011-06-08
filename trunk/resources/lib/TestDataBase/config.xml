@@ -123,7 +123,7 @@
 			<imagePlacing>gameinfobig</imagePlacing>
 			<scraper name="local nfo"/>			
 		</RomCollection>
-		<RomCollection id="9"  name="SNES - online">
+		<RomCollection id="9"  name="SNES">
 			<emulatorCmd>%ROM%</emulatorCmd>
 			<ignoreOnScan>False</ignoreOnScan>				
 			<romPath>TestDataBase\V9 - SNES - online\Roms\*.zip</romPath>

@@ -1,96 +1,97 @@
 import os
 
 import util
+import urllib
 from util import *
 from elementtree.ElementTree import *
 
 
 consoleDict = {
 			#name, mobygames-id
-			'Other' : '0',
-			'3DO' : '35',
-			'Amiga' : '19',
-			'Amiga CD32' : '56',
-			'Amstrad CPC' : '60',
-			'Apple II' : '31',
-			'Atari 2600' : '28',
-			'Atari 5200' : '33',
-			'Atari 7800' : '34',
-			'Atari 8-bit' : '39',
-			'Atari ST' : '24',			
-			'BBC Micro' : '92',
-			'BREW' : '63',
-			'CD-i' : '73',  
-			'Channel F' : '76',  
-			'ColecoVision' : '29',  
-			'Commodore 128' : '61',  
-			'Commodore 64' : '27',  
-			'Commodore PET/CBM' : '77',  
-			'DoJa' : '72',  
-			'DOS' : '2',  
-			'Dragon 32/64' : '79',  
-			'Dreamcast' : '8',  
-			'Electron' : '93',  
-			'ExEn' : '70',  
-			'Game Boy' : '10',  
-			'Game Boy Advance' : '12',  
-			'Game Boy Color' : '11',
-			'GameCube' : '14',  
-			'Game Gear' : '25',  
-			'Genesis' : '16',  
-			'Gizmondo' : '55',  
-			'Intellivision' : '30',
-			'Jaguar' : '17',  
-			'Linux' : '1',  
-			'Lynx' : '18',  
-			'Macintosh' : '74',
-			'MAME' : '0',  
-			'Mophun' : '71',  
-			'MSX' : '57',  
-			'Neo Geo' : '36',  
-			'Neo Geo CD' : '54',  
-			'Neo Geo Pocket' : '52',  
-			'Neo Geo Pocket Color' : '53',  
-			'NES' : '22',  
-			'N-Gage' : '32',
-			'Nintendo 64' : '9',  
-			'Nintendo DS' : '44',  
-			'Nintendo DSi' : '87',  
-			'Odyssey' : '75',  
-			'Odyssey 2' : '78',
-			'PC-88' : '94',  
-			'PC-98' : '95',  
-			'PC Booter' : '4',  
-			'PC-FX' : '59',  
-			'PlayStation' : '6',  
-			'PlayStation 2' : '7',  
-			'PlayStation 3' : '81',  
-			'PSP' : '46',  
-			'SEGA 32X' : '21',  
-			'SEGA CD' : '20',  
-			'SEGA Master System' : '26',  
-			'SEGA Saturn' : '23',  
-			'SNES' : '15',  
-			'Spectravideo' : '85',
-			'TI-99/4A' : '47',  
-			'TRS-80' : '58',  
-			'TRS-80 CoCo' : '62',  
-			'TurboGrafx-16' : '40',  
-			'TurboGrafx CD' : '45',  
-			'Vectrex' : '37',  
-			'VIC-20' : '43',  
-			'Virtual Boy' : '38',  
-			'V.Smile' : '42',  
-			'Wii' : '82',  
-			'Windows' : '3',  
-			'Windows 3.x' : '5',
-			'WonderSwan' : '48',  
-			'WonderSwan Color' : '49',  
-			'Xbox' : '13',  
-			'Xbox 360' : '69',  
-			'Zeebo' : '88',  
-			'Zodiac' : '68',  
-			'ZX Spectr' : '41'}
+			'Other' : ['0', ''],
+			'3DO' : ['35', ''],
+			'Amiga' : ['19', ''],
+			'Amiga CD32' : ['56', ''],
+			'Amstrad CPC' : ['60', ''],
+			'Apple II' : ['31', ''],
+			'Atari 2600' : ['28', ''],
+			'Atari 5200' : ['33', ''],
+			'Atari 7800' : ['34', ''],
+			'Atari 8-bit' : ['39', ''],
+			'Atari ST' : ['24', ''],
+			'BBC Micro' : ['92', ''],
+			'BREW' : ['63', ''],
+			'CD-i' : ['73', ''], 
+			'Channel F' : ['76', ''],  
+			'ColecoVision' : ['29', ''],
+			'Commodore 128' : ['61', ''],
+			'Commodore 64' : ['27', ''],
+			'Commodore PET/CBM' : ['77', ''],  
+			'DoJa' : ['72', ''],
+			'DOS' : ['2', ''],
+			'Dragon 32/64' : ['79', ''],  
+			'Dreamcast' : ['8', ''],
+			'Electron' : ['93', ''],
+			'ExEn' : ['70', ''],
+			'Game Boy' : ['10', ''],
+			'Game Boy Advance' : ['12', ''],  
+			'Game Boy Color' : ['11', ''],
+			'GameCube' : ['14', ''],
+			'Game Gear' : ['25', ''],
+			'Genesis' : ['16', ''],
+			'Gizmondo' : ['55', ''],
+			'Intellivision' : ['30', ''],
+			'Jaguar' : ['17', ''],
+			'Linux' : ['1', ''],
+			'Lynx' : ['18', ''],
+			'Macintosh' : ['74', ''],
+			'MAME' : ['0', ''],
+			'Mophun' : ['71', ''],
+			'MSX' : ['57', ''],
+			'Neo Geo' : ['36', ''],
+			'Neo Geo CD' : ['54', ''],
+			'Neo Geo Pocket' : ['52', ''],
+			'Neo Geo Pocket Color' : ['53', ''],  
+			'NES' : ['22', ''],
+			'N-Gage' : ['32', ''],
+			'Nintendo 64' : ['9', ''],  
+			'Nintendo DS' : ['44', ''],
+			'Nintendo DSi' : ['87', ''],
+			'Odyssey' : ['75', ''],
+			'Odyssey 2' : ['78', ''],
+			'PC-88' : ['94', ''],
+			'PC-98' : ['95', ''],
+			'PC Booter' : ['4', ''],
+			'PC-FX' : ['59', ''],
+			'PlayStation' : ['6', ''],  
+			'PlayStation 2' : ['7', ''],
+			'PlayStation 3' : ['81', ''],
+			'PSP' : ['46', ''],
+			'SEGA 32X' : ['21', ''],  
+			'SEGA CD' : ['20', ''],
+			'SEGA Master System' : ['26', ''],  
+			'SEGA Saturn' : ['23', ''],
+			'SNES' : ['15', 'Super Nintendo (SNES)'],
+			'Spectravideo' : ['85', ''],
+			'TI-99/4A' : ['47', ''],
+			'TRS-80' : ['58', ''],
+			'TRS-80 CoCo' : ['62', ''],  
+			'TurboGrafx-16' : ['40', ''],
+			'TurboGrafx CD' : ['45', ''],
+			'Vectrex' : ['37', ''],
+			'VIC-20' : ['43', ''],
+			'Virtual Boy' : ['38', ''],  
+			'V.Smile' : ['42', ''],
+			'Wii' : ['82', ''],
+			'Windows' : ['3', ''], 
+			'Windows 3.x' : ['5', ''],
+			'WonderSwan' : ['48', ''],
+			'WonderSwan Color' : ['49', ''],  
+			'Xbox' : ['13', ''],
+			'Xbox 360' : ['69', ''],
+			'Zeebo' : ['88', ''],
+			'Zodiac' : ['68', ''],
+			'ZX Spectr' : ['41', '']}
 			
 			
 
@@ -293,9 +294,6 @@ class Config:
 					return None, 'Configuration error. See xbmc.log for details'
 				
 				#read additional scraper properties
-				platform = scraperRow.attrib.get('platform')
-				if(platform == None):
-					platform = ''
 				replaceKeyString = scraperRow.attrib.get('replaceKeyString')
 				if(replaceKeyString == None):
 					replaceKeyString = ''
@@ -315,7 +313,7 @@ class Config:
 					Logutil.log('Configuration error. Site %s does not exist in config.xml' %siteName, util.LOG_LEVEL_ERROR)
 					return None, 'Configuration error. See xbmc.log for details'
 								
-				scraper, errorMsg = self.readScraper(siteRow, platform, replaceKeyString, replaceValueString, True, tree)
+				scraper, errorMsg = self.readScraper(siteRow, romCollection.name, replaceKeyString, replaceValueString, True, tree)
 				if(scraper == None):
 					return None, errorMsg
 				romCollection.scraperSites.append(scraper)
@@ -396,13 +394,11 @@ class Config:
 		return sites, ''
 		
 			
-	def readScraper(self, siteRow, platform, inReplaceKeyString, inReplaceValueString, replaceValues, tree):
+	def readScraper(self, siteRow, romCollectionName, inReplaceKeyString, inReplaceValueString, replaceValues, tree):
 		
 		site = Site()
 		site.name = siteRow.attrib.get('name')
 		Logutil.log('Scraper Site: ' +str(site.name), util.LOG_LEVEL_INFO)
-		site.platformId = platform
-		Logutil.log('Site platform: ' +platform, util.LOG_LEVEL_INFO)
 		
 		descFilePerGame = siteRow.attrib.get('descFilePerGame')
 		if(descFilePerGame != None and descFilePerGame != ''):
@@ -446,6 +442,19 @@ class Config:
 			source = scraperRow.attrib.get('source')
 			if(source != None and source != ''):
 				if(replaceValues):
+					platform = ''
+					if(source.find('mobygames.com') != -1):
+						try:
+							platform = consoleDict[romCollectionName][0]
+						except:
+							pass
+					elif(source.find('thegamesdb.net') != -1):
+						try:
+							platform = consoleDict[romCollectionName][1]
+						except:
+							pass
+											
+					platform = urllib.quote(platform, safe='')
 					source = source.replace('%PLATFORM%', platform)				
 				scraper.source = source
 			
