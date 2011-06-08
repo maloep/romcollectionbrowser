@@ -33,9 +33,10 @@ from descriptionparserfactory import DescriptionParserFactory
 #descFile = "http://www.mobygames.com/game/sega-32x/blackthorne"
 #parseInstruction = "C:\\Users\\malte\\AppData\\Roaming\\XBMC\\scripts\\Rom Collection Browser\\resources\\scraper\\04.02 - mobygames - details.xml"
 
-#descFile = "http://thegamesdb.net/api/GetGame.php?name=Legend%20of%20zelda"
+#descFile = "http://thegamesdb.net/api/GetGame.php?name=zelda&platform=Nintendo%20DS"
+descFile = "http://thegamesdb.net/api/GetGame.php?name=Rock%20n%27%20Roll%20Racing&platform=Super%20Nintendo%20%28SNES%29"
 #descFile = "C:\\Users\\malte\\AppData\\Roaming\\XBMC\\scripts\\Rom Collection Browser\\resources\\scraper\\thegamesdb\\thegamesdb - legend of zelda.xml"
-#parseInstruction = "C:\\Users\\malte\\AppData\\Roaming\\XBMC\\scripts\\Rom Collection Browser\\resources\\scraper\\thegamesdb\\thegamesdb.xml"
+parseInstruction = "C:\\Users\\malte\\AppData\\Roaming\\XBMC\\addons\\script.games.rom.collection.browser.dev\\resources\\scraper\\02 - thegamesdb.xml"
 
 #descFile = "http://api.giantbomb.com/search/?api_key=279442d60999f92c5e5f693b4d23bd3b6fd8e868&query=Actraiser&resources=game&format=xml"
 #descFile = "F:\\Emulatoren\\data\\Synopsis\\giantbomb\\Actraisersearch.xml"
@@ -57,11 +58,10 @@ from descriptionparserfactory import DescriptionParserFactory
 
 
 
-descFile = "F:\\Emulatoren\\data\\synopsis\\XTRAS-RCB\\NGPC.txt"
-parseInstruction = "F:\\Emulatoren\\data\\synopsis\\XTRAS-RCB\\_parserConfig.xml"
+#descFile = "F:\\Emulatoren\\data\\synopsis\\XTRAS-RCB\\NGPC.txt"
+#parseInstruction = "F:\\Emulatoren\\data\\synopsis\\XTRAS-RCB\\_parserConfig.xml"
 
 
-"""
 from descriptionparserfactory import *
 descParser = DescriptionParserFactory.getParser(parseInstruction)
 
@@ -71,8 +71,8 @@ for result in results:
 	
 print len(results)
 
-"""
 
+"""
 import glob
 
 def getFilesByWildcard(pathName):
@@ -117,6 +117,8 @@ getFilesByWildcard(pathName)
 
 #print os.path.isfile(pathName)
 #print os.listdir(pathName)
+"""
+
 
 """
 str = '{-%I% "%rom%"} -s use_gui=no %GAMECMD%'
