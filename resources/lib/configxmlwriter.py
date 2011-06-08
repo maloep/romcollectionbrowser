@@ -75,18 +75,12 @@ class ConfigXmlWriter:
 			else:
 				SubElement(romCollectionXml, 'imagePlacing').text = 'gameinfobig'
 			
-			mobyConsoleId = '0'
-			try:
-				mobyConsoleId = config.consoleDict[romCollection.name]
-			except:
-				pass
-			
 			if(romCollection.scraperSites == None or len(romCollection.scraperSites) == 0):
 				#TODO: enable again when site is more complete and responses are faster
 				#SubElement(romCollectionXml, 'scraper', {'name' : 'thevideogamedb.com'})
 				SubElement(romCollectionXml, 'scraper', {'name' : 'thegamesdb.net', 'replaceKeyString' : '', 'replaceValueString' : ''})
 				SubElement(romCollectionXml, 'scraper', {'name' : 'giantbomb.com', 'replaceKeyString' : '', 'replaceValueString' : ''})
-				SubElement(romCollectionXml, 'scraper', {'name' : 'mobygames.com', 'replaceKeyString' : '', 'replaceValueString' : '', 'platform' : mobyConsoleId})
+				SubElement(romCollectionXml, 'scraper', {'name' : 'mobygames.com', 'replaceKeyString' : '', 'replaceValueString' : ''})
 			else:
 				for scraperSite in romCollection.scraperSites:
 				

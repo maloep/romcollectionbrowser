@@ -560,10 +560,6 @@ class EditRomCollectionDialog(dialogbase.DialogBaseEdit):
 			if(site.name == scraper):
 				sites.append(site)
 				return sites
-				
-		
-		if(scraper != 'mobygames.com'):
-			platformId = '0'
 		
 		siteRow = None
 		siteRows = self.gui.config.tree.findall('Scrapers/Site')
@@ -576,7 +572,7 @@ class EditRomCollectionDialog(dialogbase.DialogBaseEdit):
 			xbmcgui.Dialog().ok('Configuration Error', 'Site %s does not exist in config.xml' %scraper)
 			return None
 		
-		site, errorMsg = self.gui.config.readScraper(siteRow, platformId, '', '', True, self.gui.config.tree)
+		site, errorMsg = self.gui.config.readScraper(siteRow, romCollection.name, '', '', True, self.gui.config.tree)
 		if(site != None):
 			sites.append(site)
 			
