@@ -42,10 +42,13 @@ env = ( os.environ.get( "OS", "win32" ), "win32", )[ os.environ.get( "OS", "win3
 
 # Check to see if using a 64bit version of Linux
 if re.match("Linux", env):
-	import platform
-	env2 = platform.machine()
-	if(env2 == "x86_64"):
-		env = "Linux64"
+	try:
+		import platform
+		env2 = platform.machine()
+		if(env2 == "x86_64"):
+			env = "Linux64"
+	except:
+		pass
 
 sys.path.append( os.path.join( BASE_RESOURCE_PATH, "platform_libraries", env ) )
 
