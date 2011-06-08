@@ -53,6 +53,13 @@ class ConfigxmlUpdater:
 		
 		if(configVersion == '0.7.4'):
 			success, message = self.update_074_to_086()
+			configVersion = '0.8.6'
+			if(not success):
+				return False, message			
+			
+		if(configVersion == '0.8.6'):
+			success, message = self.update_086_to_0810()
+			configVersion = '0.8.10'
 			if(not success):
 				return False, message
 		
@@ -127,6 +134,19 @@ class ConfigxmlUpdater:
 		
 		return True, ''
 	
+	
+	def update_086_to_0810(self):
+		#reflect changes to thegamesdb.net
+		scraperSitesXml = self.tree.findall('Scrapers/Site')
+		for scraperSiteXml in scraperSitesXml:			
+			siteName = scraperSiteXml.attrib.get('name')
+			if(siteName == 'thegamesdb.net'):
+				scraperXml = scraperSiteXml.find('Scraper')
+				scraperXml.attrib['source'] = "http://thegamesdb.net/api/GetGame.php?name=%GAME%&platform=%PLATFORM%"
+				break
+		
+		return True, '' 
+			
 	
 	#TODO use same as in config
 	def readTextElement(self, parent, elementName):
