@@ -31,7 +31,7 @@
 					<posy>0</posy>
 					<width>1290</width>
 					<height>730</height>
-					<texture>simplicity/background-overlay.png</texture>
+					<texture>background-overlay.png</texture>
 				</control>
 				<control type="image">
 					<posx>0</posx>
@@ -39,7 +39,7 @@
 					<width>1280</width>
 					<height>230</height>
 					<aspect>stretch</aspect>
-					<texture>simplicity/black.png</texture>
+					<texture>black.png</texture>
 					<visible>!Control.IsVisible(52)</visible>
 				</control>
 				<control type="image">
@@ -48,7 +48,7 @@
 					<width>1280</width>
 					<height>2</height>
 					<aspect>stretch</aspect>
-					<texture>simplicity/grey2.png</texture>
+					<texture>88FFFFFF.png</texture>
 					<visible>!Control.IsVisible(52)</visible>
 				</control>
 				<control type="wraplist" id="50">					
@@ -84,7 +84,7 @@
 								<width>141</width>
 								<height>250</height>								
 								<aspectratio align="center" aligny="bottom">keep</aspectratio>
-							<bordertexture border="2">rcb/thumbborder-thin.png</bordertexture>
+							<bordertexture border="2">thumbborder-thin.png</bordertexture>
 							<bordersize>2</bordersize>
 							<colordiffuse>80FFFFFF</colordiffuse>
 								<texture background="true">$INFO[ListItem.ActualIcon]</texture>								
@@ -112,7 +112,7 @@
 								<width>141</width>
 								<height>250</height>		
 								<aspectratio align="center" aligny="bottom">keep</aspectratio>
-							<bordertexture border="4">rcb/thumbborder-thin.png</bordertexture>
+							<bordertexture border="4">thumbborder-thin.png</bordertexture>
 							<bordersize>4</bordersize>
 								<texture background="true">$INFO[ListItem.ActualIcon]</texture>		
 								<animation reversible="false" effect="zoom" end="140" center="auto" time="300">Focus</animation> 
@@ -210,7 +210,7 @@
 						<height>220</height>
 						<visible>!Player.HasVideo</visible>
 						<texture>$INFO[ListItem.Property(mainviewgameinfobig)]</texture>
-						<bordertexture border="2">rcb/thumbborder-thin.png</bordertexture>
+						<bordertexture border="2">thumbborder-thin.png</bordertexture>
 						<bordersize>2</bordersize>
 					<fadetime>400</fadetime>
 					</control>
@@ -489,8 +489,8 @@
 							<font>Simplicity_30</font>
 							<align>left</align>
 							<aligny>center</aligny>
-							<textcolor>white</textcolor>
-							<selectedcolor>white</selectedcolor>
+							<textcolor>FFFFFFFF</textcolor>
+							<selectedcolor>FFFFFFFF</selectedcolor>
 							<label>$INFO[ListItem.Label]</label>
 							<visible>Control.IsVisible(50)</visible>
 						</control>
@@ -502,9 +502,9 @@
 							<font>Simplicity_20</font>
 								<align>left</align>
 								<aligny>center</aligny>
-							<textcolor>white</textcolor>
+							<textcolor>FFFFFFFF</textcolor>
 							<selectedcolor>FFe2ff43</selectedcolor>
-							<label>Console: [COLOR=grey2]$INFO[ListItem.Property(console)][/COLOR]</label>
+							<label>Console: [COLOR=88FFFFFF]$INFO[ListItem.Property(console)][/COLOR]</label>
 							<visible>Control.IsVisible(50)</visible>
 							<!--<visible>IsEmpty(ListItem.Property(mainview2)) + Control.IsVisible(50)</visible>-->
 						</control>	
@@ -517,11 +517,11 @@
 							<posy>80</posy>
 							<width>180</width>
 							<height>25</height>
-							<label>Year: [COLOR=grey2]$INFO[ListItem.Property(year)][/COLOR]</label>
+							<label>Year: [COLOR=88FFFFFF]$INFO[ListItem.Property(year)][/COLOR]</label>
 							<align>left</align>
 							<aligny>center</aligny>
 							<font>Simplicity_20</font>
-							<textcolor>white</textcolor>
+							<textcolor>FFFFFFFF</textcolor>
 						</control>
 						
 						<!-- Genre -->
@@ -531,11 +531,11 @@
 							<posy>110</posy>
 							<width>180</width>
 							<height>25</height>
-							<label>Genre: [COLOR=grey2]$INFO[ListItem.Property(Genre)][/COLOR]</label>
+							<label>Genre: [COLOR=88FFFFFF]$INFO[ListItem.Property(Genre)][/COLOR]</label>
 							<align>left</align>
 							<aligny>center</aligny>
 							<font>Simplicity_20</font>
-							<textcolor>white</textcolor>
+							<textcolor>FFFFFFFF</textcolor>
 						</control>					
 									
 						<!-- mainview2 -->
@@ -557,7 +557,7 @@
 							<width>520</width>
 							<height>89</height>			
 							<pagecontrol>2200</pagecontrol>			
-							<textcolor>white</textcolor>
+							<textcolor>FFFFFFFF</textcolor>
 							<align>justify</align>
 							<font>Simplicity_18</font>
 							<label>$INFO[ListItem.Property(plot)]</label>
@@ -623,8 +623,8 @@
 								<width>500</width>
 								<height>25</height>
 								<font>Simplicity_24</font>
-								<textcolor>grey2</textcolor>
-								<selectedcolor>grey2</selectedcolor>
+								<textcolor>88FFFFFF</textcolor>
+								<selectedcolor>88FFFFFF</selectedcolor>
 								<align>left</align>
 								<aligny>center</aligny>
 								<label>$INFO[ListItem.Label]</label>
@@ -637,8 +637,8 @@
 								<width>500</width>
 								<height>25</height>
 								<font>Simplicity_40</font>
-								<textcolor>white</textcolor>
-								<selectedcolor>white</selectedcolor>
+								<textcolor>FFFFFFFF</textcolor>
+								<selectedcolor>FFFFFFFF</selectedcolor>
 								<align>left</align>
 								<aligny>center</aligny>
 								<label>$INFO[ListItem.Label]</label>
@@ -650,8 +650,8 @@
 								<width>500</width>
 								<height>25</height>
 								<font>Simplicity_40</font>
-								<textcolor>grey2</textcolor>
-								<selectedcolor>white</selectedcolor>
+								<textcolor>88FFFFFF</textcolor>
+								<selectedcolor>FFFFFFFF</selectedcolor>
 								<align>left</align>
 								<aligny>center</aligny>
 								<label>$INFO[ListItem.Label]</label>
@@ -863,7 +863,7 @@
 							<align>left</align>
 							<aligny>center</aligny>
 							<font>Simplicity_20</font>
-							<textcolor>white</textcolor>
+							<textcolor>FFFFFFFF</textcolor>
 						</control>
 						<control type="label">
 							<description>Year Value</description>
@@ -873,7 +873,7 @@
 							<height>25</height>
 							<label fallback="416">$INFO[ListItem.Property(year)]</label>
 							<align>left</align>
-							<textcolor>grey2</textcolor>
+							<textcolor>88FFFFFF</textcolor>
 							<aligny>center</aligny>
 							<font>Simplicity_20</font>
 							<scroll>true</scroll>
@@ -890,7 +890,7 @@
 							<align>left</align>
 							<aligny>center</aligny>
 							<font>Simplicity_20</font>
-							<textcolor>white</textcolor>
+							<textcolor>FFFFFFFF</textcolor>
 						</control>
 						<control type="label">
 							<description>Genre Value</description>
@@ -900,7 +900,7 @@
 							<height>25</height>
 							<label fallback="416">$INFO[ListItem.Property(genre)]</label>
 							<align>left</align>
-							<textcolor>grey2</textcolor>
+							<textcolor>88FFFFFF</textcolor>
 							<aligny>center</aligny>
 							<font>Simplicity_20</font>
 							<scroll>true</scroll>
@@ -927,7 +927,7 @@
 							<width>410</width>
 							<height>100</height>			
 							<pagecontrol>2201</pagecontrol>
-							<textcolor>white</textcolor>
+							<textcolor>FFFFFFFF</textcolor>
 							<align>justify</align>
 							<font>Simplicity_20</font>
 							<label>$INFO[ListItem.Property(plot)]</label>
@@ -948,7 +948,7 @@
 					<posy>0</posy>
 					<width>1290</width>
 					<height>730</height>
-					<texture>rcb/background-overlay.png</texture>
+					<texture>background-overlay.png</texture>
 				</control>
 				<control type="wraplist" id="58">
 					<posx>-184</posx>
@@ -973,7 +973,7 @@
 							<height>289</height>							
 							<aspectratio align="center" aligny="center">keep</aspectratio>
 							<texture background="true">$INFO[ListItem.ActualIcon]</texture>
-							<bordertexture border="2">rcb/thumbborder-thin-black.png</bordertexture>
+							<bordertexture border="2">thumbborder-thin-black.png</bordertexture>
 							<bordersize>2</bordersize>
 							<colordiffuse>80FFFFFF</colordiffuse>
 						</control>						
@@ -985,7 +985,7 @@
 							<width>187</width>
 							<height>289</height>								
 							<aspectratio align="center" aligny="center">keep</aspectratio>
-							<bordertexture border="2">rcb/thumbborder-thin.png</bordertexture>
+							<bordertexture border="2">thumbborder-thin.png</bordertexture>
 							<bordersize>2</bordersize>
 							<texture background="true">$INFO[ListItem.ActualIcon]</texture>
 							<animation reversible="false" effect="zoom" end="140" center="auto" time="300">Focus</animation> 
@@ -1016,8 +1016,8 @@
 					<height>30</height>
 					<align>left</align>
 					<font>Simplicity_40</font>
-					<textcolor>white</textcolor>
-					<shadowcolor>black</shadowcolor>				
+					<textcolor>FFFFFFFF</textcolor>
+					<shadowcolor>FF000000</shadowcolor>				
 					<label>$INFO[ListItem.Label]</label>			
 				</control>
 				<!-- Console -->
@@ -1027,10 +1027,10 @@
 					<width>720</width>
 					<height>20</height>
 					<font>Simplicity_20</font>
-					<textcolor>grey2</textcolor>
+					<textcolor>88FFFFFF</textcolor>
 					<align>left</align>
 					<align>center</align>
-					<label>[COLOR=white]Console:[/COLOR]  $INFO[ListItem.Property(console)]</label>
+					<label>[COLOR=FFFFFFFF]Console:[/COLOR]  $INFO[ListItem.Property(console)]</label>
 					<visible>Control.IsVisible(58)</visible>
 				</control>
 				<!-- Year -->
@@ -1040,9 +1040,9 @@
 					<posy>553</posy>
 					<width>720</width>
 					<height>20</height>
-					<label fallback="416">[COLOR=white]Released:[/COLOR]  $INFO[ListItem.Property(year)]</label>
+					<label fallback="416">[COLOR=FFFFFFFF]Released:[/COLOR]  $INFO[ListItem.Property(year)]</label>
 					<font>Simplicity_20</font>
-					<textcolor>grey2</textcolor>
+					<textcolor>88FFFFFF</textcolor>
 					<align>left</align>
 					<scroll>true</scroll>
 				</control>				
@@ -1053,9 +1053,9 @@
 					<posy>583</posy>
 					<width>720</width>
 					<height>20</height>
-					<label fallback="416">[COLOR=white]Genre:[/COLOR]  $INFO[ListItem.Property(genre)]</label>
+					<label fallback="416">[COLOR=FFFFFFFF]Genre:[/COLOR]  $INFO[ListItem.Property(genre)]</label>
 					<font>Simplicity_20</font>
-					<textcolor>grey2</textcolor>
+					<textcolor>88FFFFFF</textcolor>
 					<align>left</align>
 					<scroll>true</scroll>
 				</control>
@@ -1105,7 +1105,7 @@
 				<posy>0</posy>
 				<width>1280</width>
 				<height>160</height>
-				<texture>rcb/rcb-Blade-Upper.png</texture>
+				<texture>rcb-Blade-Upper.png</texture>
 				<colordiffuse>FFFFFFFF</colordiffuse>
 			</control>
 			<control type="group">		
@@ -1485,7 +1485,7 @@
 				<posy>0</posy>
 				<width>1280</width>
 				<height>260</height>
-				<texture>rcb/rcb-Blade-Lower.png</texture>
+				<texture>rcb-Blade-Lower.png</texture>
 				<colordiffuse>FFFFFFFF</colordiffuse>				
 			</control>			
 			<control type="button" id="2"> 
@@ -1524,9 +1524,9 @@
 			<align>right</align>
 			<aligny>center</aligny>
 			<font>Simplicity_20</font>
-			<textcolor>grey2</textcolor>
-			<shadowcolor>black</shadowcolor>
-			<label>([COLOR=white]$INFO[Container.NumItems][/COLOR]) Items - Page ([COLOR=white]$INFO[Container.CurrentPage]/$INFO[Container.NumPages][/COLOR])</label>
+			<textcolor>88FFFFFF</textcolor>
+			<shadowcolor>FF000000</shadowcolor>
+			<label>([COLOR=FFFFFFFF]$INFO[Container.NumItems][/COLOR]) Items - Page ([COLOR=FFFFFFFF]$INFO[Container.CurrentPage]/$INFO[Container.NumPages][/COLOR])</label>
 		</control>
 		
 		<!-- Messages -->
