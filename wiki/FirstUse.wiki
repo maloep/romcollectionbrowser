@@ -1,5 +1,9 @@
 #sidebar SideBar
-<wiki:toc max_depth="4" />
+
+<wiki:video url="http://www.youtube.com/watch?v=_xvGM8eHWB0"/ height=384" width="512">
+
+Check out this video to get an impression how RCB is set up on first start.
+
 = First use =
   * On first launch RCB will start a simple configuration wizard. This will help you to create a config file with most common settings. See section [ConfigurationWizard Configuration Wizard] for more information.
   * After the wizard is completed RCB will ask you to import your games. It shows a simple options dialog to select most basic scraping settings. See section [ImportGames Import Games] for more information.
