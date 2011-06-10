@@ -30,3 +30,4 @@
     * [SkinningRCB Skinning RCB]
     * [CreatingYourOwnDescriptionParser Creating your own description parser]
   * [ChangeLog Changelog]
+  = [Gallery Screenshot gallery]

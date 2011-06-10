@@ -61,4 +61,7 @@ Check out the following pages if you have trouble with setting up the script or 
 
 		=== [ChangeLog Changelog] ===
 
+	= Screenshot gallery =
+	
+		=== [Gallery Screenshot gallery] ===
 		<br>
