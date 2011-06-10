@@ -1,0 +1,25 @@
+#sidebar SideBar
+<wiki:toc max_depth="4" />
+
+= Screenshot gallery =
+
+== Confluence ==
+[http://romcollectionbrowser.googlecode.com/files/screen_info_reworked_SNES_PubDev.jpg http://romcollectionbrowser.googlecode.com/files/screen_info_reworked_SNES_PubDev%20-%20preview.jpg]
+[http://romcollectionbrowser.googlecode.com/files/screen_info2_reworked_small.jpg http://romcollectionbrowser.googlecode.com/files/screen_info2_reworked_small%20-%20preview.jpg]
+[http://romcollectionbrowser.googlecode.com/files/screen_thumbs_reworked.jpg http://romcollectionbrowser.googlecode.com/files/screen_thumbs_reworked%20-%20preview.jpg]
+[http://romcollectionbrowser.googlecode.com/files/screen_info_reworked_MAME_cabinet.jpg http://romcollectionbrowser.googlecode.com/files/screen_info_reworked_MAME_cabinet%20-%20preview.jpg]
+[http://romcollectionbrowser.googlecode.com/files/screen_info_reworked_MAME_marquee.jpg http://romcollectionbrowser.googlecode.com/files/screen_info_reworked_MAME_marquee%20-%20preview.jpg]
+[http://romcollectionbrowser.googlecode.com/files/screen_fullscreenvideo_800x600.jpg http://romcollectionbrowser.googlecode.com/files/screen_fullscreenvideo_preview.jpg]
+
+== Night ==
+[http://romcollectionbrowser.googlecode.com/files/screen_Night_Showcase.jpg http://romcollectionbrowser.googlecode.com/files/screen_Night_Showcase_preview.jpg]
+[http://romcollectionbrowser.googlecode.com/files/screen_Night_Landscape.jpg http://romcollectionbrowser.googlecode.com/files/screen_Night_Landscape_preview.jpg]
+[http://romcollectionbrowser.googlecode.com/files/screen_Night_Files.jpg http://romcollectionbrowser.googlecode.com/files/screen_Night_Files_preview.jpg]
+
+== Carmichael ==
+[http://romcollectionbrowser.googlecode.com/files/screen_Carmichael_Landscape.jpg http://romcollectionbrowser.googlecode.com/files/screen_Carmichael_Landscape_preview.jpg]
+[http://romcollectionbrowser.googlecode.com/files/screen_Carmichael_Files.jpg http://romcollectionbrowser.googlecode.com/files/screen_Carmichael_Files_preview.jpg]
+
+== Simplicity ==
+[http://romcollectionbrowser.googlecode.com/files/screen_Simplicity_Info.jpg http://romcollectionbrowser.googlecode.com/files/screen_Simplicity_Info_preview.jpg] [http://romcollectionbrowser.googlecode.com/files/screen_Simplicity_Info2.jpg http://romcollectionbrowser.googlecode.com/files/screen_Simplicity_Info2_preview.jpg]
+[http://romcollectionbrowser.googlecode.com/files/screen_Simplicity_Thumbs.jpg http://romcollectionbrowser.googlecode.com/files/screen_Simplicity_Thumbs_preview.jpg]
