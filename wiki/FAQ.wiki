@@ -14,5 +14,7 @@ This may happen if you accidently try to launch RCB twice. Unfortunately I did n
 == I only see my DVD drive in the config wizard ==
 Usually this happens if there is still a disc in the drive. Remove it and try again.
 
+If it is only a virtual drive that you see, disable it and try again.
+
 == RCB can't access my SMB shares ==
 There seems to be a problem to access SMB shares the standard way ("smb://server/location/..."). You can get around this issue by manually editing the file config.xml. Search for the smb entry and change it to the following syntax: "\\server\location\...".
