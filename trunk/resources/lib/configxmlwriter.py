@@ -89,7 +89,7 @@ class ConfigXmlWriter:
 						
 					#HACK: use replaceKey and -Value only from first scraper
 					firstScraper = scraperSite.scrapers[0]
-					SubElement(romCollectionXml, 'scraper', {'name' : scraperSite.name, 'platform' : scraperSite.platformId, 'replaceKeyString' : firstScraper.replaceKeyString, 'replaceValueString' : firstScraper.replaceValueString})
+					SubElement(romCollectionXml, 'scraper', {'name' : scraperSite.name, 'replaceKeyString' : firstScraper.replaceKeyString, 'replaceValueString' : firstScraper.replaceValueString})
 					
 					#create Scraper element
 					scrapersXml = self.tree.find('Scrapers')

@@ -334,16 +334,10 @@ class EditRomCollectionDialog(dialogbase.DialogBaseEdit):
 		control = self.getControlById(CONTROL_BUTTON_USEFOLDERASGAMENAME)
 		self.selectedRomCollection.useFoldernameAsGamename = bool(control.isSelected())
 		
-		#Scraper
-		try:
-			platformId = config.consoleDict[self.selectedRomCollection.name]
-		except:
-			platformId = '0'
-		
 		sites = []
-		sites = self.addScraperToSiteList(CONTROL_LIST_SCRAPER1, platformId, sites, self.selectedRomCollection)
-		sites = self.addScraperToSiteList(CONTROL_LIST_SCRAPER2, platformId, sites, self.selectedRomCollection)
-		sites = self.addScraperToSiteList(CONTROL_LIST_SCRAPER3, platformId, sites, self.selectedRomCollection)
+		sites = self.addScraperToSiteList(CONTROL_LIST_SCRAPER1, sites, self.selectedRomCollection)
+		sites = self.addScraperToSiteList(CONTROL_LIST_SCRAPER2, sites, self.selectedRomCollection)
+		sites = self.addScraperToSiteList(CONTROL_LIST_SCRAPER3, sites, self.selectedRomCollection)
 			
 		self.selectedRomCollection.scraperSites = sites		
 		
@@ -544,7 +538,7 @@ class EditRomCollectionDialog(dialogbase.DialogBaseEdit):
 			self.selectItemInList('None', CONTROL_LIST_SCRAPER3)
 			
 			
-	def addScraperToSiteList(self, controlId, platformId, sites, romCollection):				
+	def addScraperToSiteList(self, controlId, sites, romCollection):				
 
 		Logutil.log('addScraperToSiteList', util.LOG_LEVEL_INFO)
 		
