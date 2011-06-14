@@ -221,21 +221,16 @@ class ImportOptionsDialog(xbmcgui.WindowXMLDialog):
 		#TODO ignore offline scrapers
 		for rcId in romCollections.keys():
 			
-			romCollection = self.gui.config.romCollections[rcId]
-			
-			try:
-				platformId = config.consoleDict[romCollection.name]
-			except:
-				platformId = '0'
+			romCollection = self.gui.config.romCollections[rcId]						
 			
 			sites = []
-			sites, statusOk = self.addScraperToRomCollection(CONTROL_LIST_SCRAPER1, platformId, sites, romCollection)
+			sites, statusOk = self.addScraperToRomCollection(CONTROL_LIST_SCRAPER1, sites, romCollection)
 			if not statusOk:
 				return None, False 			
-			sites, statusOk = self.addScraperToRomCollection(CONTROL_LIST_SCRAPER2, platformId, sites, romCollection)
+			sites, statusOk = self.addScraperToRomCollection(CONTROL_LIST_SCRAPER2, sites, romCollection)
 			if not statusOk:
 				return None, False
-			sites, statusOk = self.addScraperToRomCollection(CONTROL_LIST_SCRAPER3, platformId, sites, romCollection)
+			sites, statusOk = self.addScraperToRomCollection(CONTROL_LIST_SCRAPER3, sites, romCollection)
 			if not statusOk:
 				return None, False
 				
@@ -245,7 +240,7 @@ class ImportOptionsDialog(xbmcgui.WindowXMLDialog):
 		return romCollections, True
 	
 	
-	def addScraperToRomCollection(self, controlId, platformId, sites, romCollection):				
+	def addScraperToRomCollection(self, controlId, sites, romCollection):				
 		
 		control = self.getControlById(controlId)
 		scraperItem = control.getSelectedItem()

@@ -143,7 +143,6 @@ class Scraper:
 	returnUrl = False
 	replaceKeyString = ''
 	replaceValueString = ''
-	platformId = 0
 	
 class Site:
 	name = ''	
@@ -447,15 +446,15 @@ class Config:
 						try:
 							platform = consoleDict[romCollectionName][0]
 						except:
-							pass
+							Logutil.log('Could not find platform name for Rom Collection %s' %romCollectionName, util.LOG_LEVEL_WARNING)
 					elif(source.find('thegamesdb.net') != -1):
 						try:
 							platform = consoleDict[romCollectionName][1]
 						except:
-							pass
+							Logutil.log('Could not find platform name for Rom Collection %s' %romCollectionName, util.LOG_LEVEL_WARNING)
 											
 					platform = urllib.quote(platform, safe='')
-					source = source.replace('%PLATFORM%', platform)				
+					source = source.replace('%PLATFORM%', platform)
 				scraper.source = source
 			
 			encoding = scraperRow.attrib.get('encoding')

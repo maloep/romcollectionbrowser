@@ -1467,7 +1467,6 @@ class UIGameDB(xbmcgui.WindowXML):
 					scraper.source = 'http://maws.mameworld.info/maws/romset/%GAME%'
 					scrapers.append(scraper)
 					site.scrapers = scrapers
-					site.platformId = '0'
 					romCollection.scraperSites = []
 					romCollection.scraperSites.append(site)
 			else:
@@ -1546,7 +1545,6 @@ class UIGameDB(xbmcgui.WindowXML):
 					scraper.encoding = 'iso-8859-1'
 					scrapers.append(scraper)
 					site.scrapers = scrapers
-					site.platformId = '0'
 					romCollection.scraperSites = []
 					romCollection.scraperSites.append(site)
 			
