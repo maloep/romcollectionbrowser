@@ -52,6 +52,7 @@ RCBHOME = util.getAddonInstallPath()
 
 
 class UIGameInfoView(xbmcgui.WindowXMLDialog):
+	
 	def __init__(self, *args, **kwargs):		
 		xbmcgui.WindowXMLDialog.__init__( self, *args, **kwargs )		
 		
@@ -115,10 +116,6 @@ class UIGameInfoView(xbmcgui.WindowXMLDialog):
 	def onAction( self, action ):		
 		if(action.getId() in ACTION_CANCEL_DIALOG):
 			Logutil.log("onAction exit", util.LOG_LEVEL_DEBUG)
-			
-			#stop Player (if playing)
-			if(xbmc.Player().isPlayingVideo()):
-				xbmc.Player().stop()
 			self.close()
 		elif(action.getId() in ACTION_MOVEMENT_LEFT or action.getId() in ACTION_MOVEMENT_RIGHT):
 			if(self.selectedControlId == CONTROL_GAME_LIST_GROUP or self.selectedControlId == CONTROL_GAME_LIST):
@@ -177,11 +174,7 @@ class UIGameInfoView(xbmcgui.WindowXMLDialog):
 	def showGameInfo(self):
 		
 		Logutil.log("Begin showGameInfo", util.LOG_LEVEL_DEBUG)
-		
-		#stop video (if playing)
-		if(xbmc.Player().isPlayingVideo()):
-			xbmc.Player().stop()
-			
+				
 		pos = self.getCurrentListPosition()		
 		if(pos == -1):
 			pos = 0	
@@ -252,13 +245,6 @@ class UIGameInfoView(xbmcgui.WindowXMLDialog):
 		self.setImage(util.IMAGE_CONTROL_GIV_Img2, romCollection.imagePlacing.fileTypesForGameInfoView2, gameRow[util.ROW_ID], gameRow[util.GAME_publisherId], gameRow[util.GAME_developerId], gameRow[util.GAME_romCollectionId], None, selectedGame, fileDict)
 		self.setImage(util.IMAGE_CONTROL_GIV_Img3, romCollection.imagePlacing.fileTypesForGameInfoView3, gameRow[util.ROW_ID], gameRow[util.GAME_publisherId], gameRow[util.GAME_developerId], gameRow[util.GAME_romCollectionId], None, selectedGame, fileDict)
 		self.setImage(util.IMAGE_CONTROL_GIV_Img4, romCollection.imagePlacing.fileTypesForGameInfoView4, gameRow[util.ROW_ID], gameRow[util.GAME_publisherId], gameRow[util.GAME_developerId], gameRow[util.GAME_romCollectionId], None, selectedGame, fileDict)
-					
-		videos = helper.getFilesByControl_Cached(self.gdb, romCollection.imagePlacing.fileTypesForGameInfoViewVideoWindow, gameRow[util.ROW_ID], gameRow[util.GAME_publisherId], gameRow[util.GAME_developerId], gameRow[util.GAME_romCollectionId], fileDict)
-					
-		if(videos != None and len(videos) != 0):			
-			video = videos[0]						
-			
-			xbmc.Player().play(video, selectedGame, True)
 		
 		Logutil.log("End showGameInfo", util.LOG_LEVEL_DEBUG)
 		
