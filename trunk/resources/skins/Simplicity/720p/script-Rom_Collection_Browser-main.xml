@@ -1,5 +1,4 @@
 <window>
-	<include file="includes.xml" />
 	<allowoverlay>no</allowoverlay>
 	<defaultcontrol always="false">500</defaultcontrol>
 	<coordinates>
