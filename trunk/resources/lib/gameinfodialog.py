@@ -18,35 +18,8 @@ CONTROL_BUTTON_PLAYGAME = 3000
 
 CONTROL_GAME_LIST_GROUP = 1000
 CONTROL_GAME_LIST = 59
-CONTROL_IMG_BACK = 2000
 
 CONTROL_LABEL_MSG = 4000
-
-CONTROL_LABEL_GENRE = 6100
-CONTROL_LABEL_YEAR = 6200
-CONTROL_LABEL_PUBLISHER = 6300
-CONTROL_LABEL_DEVELOPER = 6400
-CONTROL_LABEL_REGION = 6500
-CONTROL_LABEL_MEDIA = 6600
-CONTROL_LABEL_CONTROLLER = 6700
-CONTROL_LABEL_RATING = 6800
-CONTROL_LABEL_VOTES = 6900
-CONTROL_LABEL_PLAYERS = 7000
-CONTROL_LABEL_PERSPECTIVE = 7100
-CONTROL_LABEL_REVIEWER = 7200
-CONTROL_LABEL_URL = 7300
-CONTROL_LABEL_LAUNCHCOUNT = 7400
-CONTROL_LABEL_TRANSLATED = 7500
-CONTROL_LABEL_ORIGTITLE= 7600
-CONTROL_LABEL_ALTERNATETITLE = 7700
-CONTROL_LABEL_VERSION = 7800
-
-CONTROL_LABEL_DESC = 8000
-
-CONTROL_IMG_GAMEINFO1 = 9000
-CONTROL_IMG_GAMEINFO2 = 9100
-CONTROL_IMG_GAMEINFO3 = 9200
-CONTROL_IMG_GAMEINFO4 = 9300
 
 RCBHOME = util.getAddonInstallPath()
 
@@ -94,7 +67,7 @@ class UIGameInfoView(xbmcgui.WindowXMLDialog):
 		self.setCurrentListPosition(self.selectedGameIndex)
 				
 		xbmc.sleep(util.WAITTIME_UPDATECONTROLS)
-		self.showGameInfo()	
+		self.showGameInfo()
 		
 		Logutil.log("End OnInit", util.LOG_LEVEL_DEBUG)
 		
@@ -179,7 +152,7 @@ class UIGameInfoView(xbmcgui.WindowXMLDialog):
 		if(pos == -1):
 			pos = 0	
 		
-		selectedGame = self.getListItem(pos)
+		selectedGame = self.getListItem(pos)		
 
 		if(selectedGame == None):
 			Logutil.log("selectedGame == None in showGameInfo", util.LOG_LEVEL_WARNING)
@@ -188,7 +161,7 @@ class UIGameInfoView(xbmcgui.WindowXMLDialog):
 		gameRow = Game(self.gdb).getObjectById(self.selectedGameId)
 		if(gameRow == None):
 			self.writeMsg('Selected game could not be read from database.')
-			return				
+			return
 		
 		genreString = ""
 		genres = Genre(self.gdb).getGenresByGameId(gameRow[0])
