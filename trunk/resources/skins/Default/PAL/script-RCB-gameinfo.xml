@@ -318,7 +318,8 @@
 			<posx>350</posx>
 			<posy>60</posy>
 			<width>330</width>
-		    <height>255</height>			
+		    <height>255</height>
+			<font>font12</font>			
 			<pagecontrol>8100</pagecontrol>			
 			<textcolor>DDFFFFFF</textcolor>
 			<align>justify</align>
