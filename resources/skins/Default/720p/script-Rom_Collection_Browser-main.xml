@@ -26,7 +26,7 @@
 				<posy>0</posy>				
 				<control type="image">
 					<posx>0</posx>
-					<posy>180r</posy>
+					<posy>160r</posy>
 					<width>1280</width>
 					<height>180</height>
 					<texture>rcb-floor.png</texture>
@@ -35,12 +35,12 @@
 				</control>
 				<control type="wraplist" id="50">					
 					<posx>-105</posx>
-					<posy>340</posy>
+					<posy>355</posy>
 					<width>1420</width>
 					<height>500</height>
 					<onleft>50</onleft>
 					<onright>50</onright>
-					<onup>2200</onup>					
+					<onup>500</onup>					
 					<ondown>60</ondown>
 					<orientation>horizontal</orientation>
 					<focusposition>4</focusposition>
@@ -104,7 +104,7 @@
 					<textureslidernib>rcb-ScrollBarNib.png</textureslidernib>
 					<textureslidernibfocus>rcb-ScrollBarNib.png</textureslidernibfocus>
 					<onup>50</onup>
-					<ondown>500</ondown>
+					<ondown>2</ondown>
 					<showonepage>false</showonepage>
 					<orientation>horizontal</orientation>
 					<visible allowhiddenfocus="true">Control.IsVisible(50)</visible>
@@ -174,7 +174,7 @@
 						<description>mainviewgameinfo</description>
 						<posx>25</posx>
 						<posy>25</posy>
-						<width>504</width>
+						<width>540</width>
 						<height>280</height>
 						<visible>!Player.HasVideo</visible>
 						<texture>$INFO[ListItem.Property(mainviewgameinfobig)]</texture>
@@ -186,7 +186,7 @@
 						<description>video control</description>
 						<posx>25</posx>
 						<posy>25</posy>
-						<width>504</width>
+						<width>540</width>
 						<height>280</height>												
 						<visible>!IsEmpty(ListItem.Property(mainviewvideosizebig))</visible>
 					</control>
@@ -194,13 +194,14 @@
 						<description>click absorber</description>
 						<posx>25</posx>
 						<posy>25</posy>
-						<width>504</width>
+						<width>540</width>
 						<height>280</height>
 						<texturefocus></texturefocus>
 						<texturenofocus></texturenofocus>
 						<visible>!IsEmpty(ListItem.Property(mainviewvideosizebig))</visible>
-					</control>					
-					<control type="button" id="2900"> 
+					</control>
+					<!-- TODO: replace with PLAY-button -->
+					<!--<control type="button" id="2900"> 
 						<description>Play Fullscreen</description>
 						<posx>90</posx>
 						<posy>235</posy>
@@ -220,7 +221,7 @@
 						<ondown>3100</ondown>
 						<onleft>500</onleft>
 						<onright>2200</onright>
-					</control>
+					</control>-->
 					
 					
 					<!-- mainviewgameinfoupperleft -->
@@ -338,10 +339,10 @@
 					<!-- Year -->
 					<control type="label">
 						<description>Year txt</description>
-						<posx>580r</posx>
+						<posx>610r</posx>
 						<posy>25</posy>
 						<width>140</width>
-						<height>30</height>
+						<height>25</height>
 						<label>Year:</label>
 						<align>left</align>
 						<aligny>center</aligny>
@@ -350,10 +351,10 @@
 					</control>
 					<control type="label">
 						<description>Year Value</description>
-						<posx>420r</posx>
+						<posx>450r</posx>
 						<posy>25</posy>
 						<width>300</width>
-						<height>30</height>
+						<height>25</height>
 						<label fallback="416">$INFO[ListItem.Property(year)]</label>
 						<align>left</align>
 						<aligny>center</aligny>
@@ -364,10 +365,10 @@
 					<!-- Genre -->
 					<control type="label">
 						<description>Genre txt</description>
-						<posx>580r</posx>
-						<posy>60</posy>
+						<posx>610r</posx>
+						<posy>55</posy>
 						<width>140</width>
-						<height>30</height>
+						<height>25</height>
 						<label>Genre:</label>
 						<align>left</align>
 						<aligny>center</aligny>
@@ -376,10 +377,10 @@
 					</control>
 					<control type="label">
 						<description>Genre Value</description>
-						<posx>420r</posx>
-						<posy>60</posy>
+						<posx>450r</posx>
+						<posy>55</posy>
 						<width>300</width>
-						<height>30</height>
+						<height>25</height>
 						<label fallback="416">$INFO[ListItem.Property(genre)]</label>
 						<align>left</align>
 						<aligny>center</aligny>
@@ -390,10 +391,10 @@
 					<!-- Publisher -->
 					<control type="label">
 						<description>Publisher txt</description>
-						<posx>580r</posx>
-						<posy>95</posy>
+						<posx>610r</posx>
+						<posy>85</posy>
 						<width>140</width>
-						<height>30</height>
+						<height>25</height>
 						<label>Publisher:</label>
 						<align>left</align>
 						<aligny>center</aligny>
@@ -402,10 +403,10 @@
 					</control>
 					<control type="label">
 						<description>Publisher Value</description>
-						<posx>420r</posx>
-						<posy>95</posy>
+						<posx>450r</posx>
+						<posy>85</posy>
 						<width>300</width>
-						<height>30</height>
+						<height>25</height>
 						<label fallback="416">$INFO[ListItem.Property(publisher)]</label>
 						<align>left</align>
 						<aligny>center</aligny>
@@ -416,10 +417,10 @@
 					<!-- Developer -->
 					<control type="label">
 						<description>Developer txt</description>
-						<posx>580r</posx>
-						<posy>130</posy>
+						<posx>610r</posx>
+						<posy>115</posy>
 						<width>140</width>
-						<height>30</height>
+						<height>25</height>
 						<label>Developer:</label>
 						<align>left</align>
 						<aligny>center</aligny>
@@ -428,10 +429,10 @@
 					</control>
 					<control type="label">
 						<description>Developer Value</description>
-						<posx>420r</posx>
-						<posy>130</posy>
+						<posx>450r</posx>
+						<posy>115</posy>
 						<width>300</width>
-						<height>30</height>
+						<height>25</height>
 						<label fallback="416">$INFO[ListItem.Property(developer)]</label>
 						<align>left</align>
 						<aligny>center</aligny>
@@ -453,10 +454,10 @@
 					<!-- game / console description -->
 					<control type="textbox" id="2100">
 						<description>Plot</description>
-						<posx>580r</posx>
-						<posy>170</posy>
-						<width>440</width>
-						<height>140</height>
+						<posx>610r</posx>
+						<posy>148</posy>
+						<width>530</width>
+						<height>158</height>
 						<textcolor>DDFFFFFF</textcolor>
 						<align>justify</align>
 						<font>font12</font>
