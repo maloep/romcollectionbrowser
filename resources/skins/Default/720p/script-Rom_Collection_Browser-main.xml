@@ -458,7 +458,7 @@
 						<label>$INFO[ListItem.Property(plot)]</label>
 					</control>
 				</control>
-			</control>						
+			</control>
 			
 			<!-- gamelist 52 -->
 			<control type="group">
@@ -1109,22 +1109,22 @@
 
 		<!-- SlideBladeLeft -->
 		<control type="image">
-			<posx>-700</posx>
+			<posx>-695</posx>
 			<posy>0</posy>
 			<width>720</width>
-			<height>580</height>
+			<height>720</height>
 			<texture>rcb-HomeBlade.png</texture>
-			<animation effect="slide" start="-26,0" end="0,0" time="300" tween="quadratic" easing="out">WindowOpen</animation>
-			<animation effect="slide" start="0,0" end="-26,0" time="200" delay="200" tween="quadratic" easing="out">WindowClose</animation>
+			<animation effect="slide" start="-36,0" end="0,0" time="300" tween="quadratic" easing="out">WindowOpen</animation>
+			<animation effect="slide" start="0,0" end="-36,0" time="200" delay="200" tween="quadratic" easing="out">WindowClose</animation>
 		</control>
 				
 		<!-- filter controls -->
-		<control type="group" id="100">		
+		<control type="group" id="100">
 			<animation effect="slide" start="0,0" end="0,0" delay="0" time="400" tween="quadratic" easing="out" condition="ControlGroup(100).HasFocus">Conditional</animation>
 			<animation effect="slide" start="0,0" end="0,-200" delay="0"time="400" tween="quadratic" easing="out" condition="!ControlGroup(100).HasFocus">Conditional</animation>
 			<!--<visible allowhiddenfocus="true">Control.HasFocus(500) | Control.HasFocus(600) | Control.HasFocus(700) | Control.HasFocus(800)</visible>-->
 			<control type="image">
-				<animation effect="zoom" start="0,0,720,1" end="0,0,720,180" time="300" tween="quadratic" easing="out" condition="ControlGroup(100).HasFocus">Conditional</animation>
+				<animation effect="zoom" start="0,0,1280,1" end="0,0,1280,180" time="300" tween="quadratic" easing="out" condition="ControlGroup(100).HasFocus">Conditional</animation>
 				<description>filter background image</description>
 				<posx>0</posx>
 				<posy>0</posy>
@@ -1133,381 +1133,386 @@
 				<texture>rcb-Blade-Upper.png</texture>
 				<colordiffuse>FFFFFFFF</colordiffuse>
 			</control>
-			<!-- Console filter -->
-			<control type="label">
-				<description>Consoles</description>
-				<posx>90</posx>
-				<posy>20</posy>
-				<textcolor>DDFFFFFF</textcolor>
-				<label>Consoles</label>
-			</control>		
-			<control type="wraplist" id="500">
-				<posx>50</posx>
-				<posy>50</posy>
-				<width>125</width>
-				<height>96</height>
-				<onleft>2</onleft>
-				<onright>600</onright>
-				<onup>500</onup>
-				<ondown>500</ondown>
-				<viewtype label="Console">wrap</viewtype>
-				<focusposition>1</focusposition>
-				<scrolltime>200</scrolltime>
-				<itemlayout height="32">
-					<control type="image">
-						<width>125</width>
-						<height>30</height>
-						<posx>0</posx>
-						<posy>0</posy>
-						<texture border="5">rcb-button-nofocus.png</texture>
-					</control>
-					<control type="label">
-						<posx>5</posx>
-						<posy>0</posy>
-						<width>120</width>
-						<height>30</height>
-						<font>font13</font>
-						<aligny>center</aligny>
-						<textcolor>DDFFFFFF</textcolor>
-						<selectedcolor>FFe2ff43</selectedcolor>
-						<align>left</align>
-						<info>ListItem.Label</info>
-					</control>
-				</itemlayout>
-				<focusedlayout height="32">
-					<control type="image">
-						<width>125</width>
-						<height>30</height>
-						<posx>0</posx>
-						<posy>0</posy>
-						<visible>Control.HasFocus(500)</visible>
-						<texture border="5">rcb-button-focus.png</texture>
-					</control>
-					<control type="image">
-						<width>125</width>
-						<height>30</height>
-						<posx>0</posx>
-						<posy>0</posy>
-						<visible>!Control.HasFocus(500)</visible>
-						<texture border="5">rcb-button-nofocus.png</texture>
-					</control>
-					<control type="label">
-						<posx>5</posx>
-						<posy>0</posy>
-						<width>120</width>
-						<height>30</height>
-						<font>font13</font>
-						<aligny>center</aligny>
-						<textcolor>DDFFFFFF</textcolor>
-						<selectedcolor>FFe2ff43</selectedcolor>
-						<align>left</align>
-						<info>ListItem.Label</info>
-					</control>
-				</focusedlayout>
-			</control>	
-			<!-- Genre filter -->	
-			<control type="label">
-				<description>Genre</description>
-				<posx>250</posx>
-				<posy>20</posy>
+			
+			<control type="group">
+				<posx>140</posx>
+				<posy>0</posy>
+				
+				<!-- Console filter -->
+				<control type="label">
+					<description>Consoles</description>
+					<posx>90</posx>
+					<posy>20</posy>
+					<textcolor>DDFFFFFF</textcolor>
+					<label>Consoles</label>
+				</control>		
+				<control type="wraplist" id="500">
+					<posx>50</posx>
+					<posy>50</posy>
+					<width>200</width>
+					<height>96</height>
+					<onleft>900</onleft>
+					<onright>600</onright>
+					<onup>500</onup>
+					<ondown>500</ondown>
+					<viewtype label="Console">wrap</viewtype>
+					<focusposition>1</focusposition>
+					<scrolltime>200</scrolltime>
+					<itemlayout height="32">
+						<control type="image">
+							<width>200</width>
+							<height>30</height>
+							<posx>0</posx>
+							<posy>0</posy>
+							<texture border="5">rcb-button-nofocus.png</texture>
+						</control>
+						<control type="label">
+							<posx>5</posx>
+							<posy>0</posy>
+							<width>190</width>
+							<height>30</height>
+							<font>font13</font>
+							<aligny>center</aligny>
+							<textcolor>DDFFFFFF</textcolor>
+							<selectedcolor>FFe2ff43</selectedcolor>
+							<align>left</align>
+							<info>ListItem.Label</info>
+						</control>
+					</itemlayout>
+					<focusedlayout height="32">
+						<control type="image">
+							<width>200</width>
+							<height>30</height>
+							<posx>0</posx>
+							<posy>0</posy>
+							<visible>Control.HasFocus(500)</visible>
+							<texture border="5">rcb-button-focus.png</texture>
+						</control>
+						<control type="image">
+							<width>200</width>
+							<height>30</height>
+							<posx>0</posx>
+							<posy>0</posy>
+							<visible>!Control.HasFocus(500)</visible>
+							<texture border="5">rcb-button-nofocus.png</texture>
+						</control>
+						<control type="label">
+							<posx>5</posx>
+							<posy>0</posy>
+							<width>190</width>
+							<height>30</height>
+							<font>font13</font>
+							<aligny>center</aligny>
+							<textcolor>DDFFFFFF</textcolor>
+							<selectedcolor>FFe2ff43</selectedcolor>
+							<align>left</align>
+							<info>ListItem.Label</info>
+						</control>
+					</focusedlayout>
+				</control>	
+				<!-- Genre filter -->	
+				<control type="label">
+					<description>Genre</description>
+					<posx>300</posx>
+					<posy>20</posy>
 					<textcolor>DDFFFFFF</textcolor>
 					<label>Genre</label>
-			</control>
-			<control type="wraplist" id="600">
-				<posx>200</posx>
-				<posy>50</posy>
-				<width>125</width>
-				<height>96</height>
-				<onleft>500</onleft>
-				<onright>700</onright>
-				<onup>600</onup>
-				<ondown>600</ondown>
-				<viewtype label="Genre">wrap</viewtype>
-				<focusposition>1</focusposition>			
-				<scrolltime>200</scrolltime>
-				<itemlayout height="32">
-					<control type="image">
-						<width>125</width>
-						<height>30</height>
-						<posx>0</posx>
-						<posy>0</posy>
-						<texture border="5">rcb-button-nofocus.png</texture>
-					</control>
-					<control type="label">
-						<posx>5</posx>
-						<posy>0</posy>
-						<width>120</width>
-						<height>30</height>
-						<font>font13</font>
-						<aligny>center</aligny>
-						<textcolor>DDFFFFFF</textcolor>
-						<selectedcolor>FFe2ff43</selectedcolor>
-						<align>left</align>
-						<info>ListItem.Label</info>
-					</control>
-				</itemlayout>
-				<focusedlayout height="32">
-					<control type="image">
-						<width>125</width>
-						<height>30</height>
-						<posx>0</posx>
-						<posy>0</posy>
-						<visible>Control.HasFocus(600)</visible>
-						<texture border="5">rcb-button-focus.png</texture>
-					</control>
-					<control type="image">
-						<width>125</width>
-						<height>30</height>
-						<posx>0</posx>
-						<posy>0</posy>
-						<visible>!Control.HasFocus(600)</visible>
-						<texture border="5">rcb-button-nofocus.png</texture>
-					</control>
-					<control type="label">
-						<posx>5</posx>
-						<posy>0</posy>
-						<width>120</width>
-						<height>30</height>
-						<font>font13</font>
-						<aligny>center</aligny>
-						<textcolor>DDFFFFFF</textcolor>
-						<selectedcolor>FFe2ff43</selectedcolor>
-						<align>left</align>
-						<info>ListItem.Label</info>
-					</control>
-				</focusedlayout>
-			</control>
-			<!-- Year filter -->	
-			<control type="label">
-				<description>Year</description>
-				<posx>400</posx>
-				<posy>20</posy>
+				</control>
+				<control type="wraplist" id="600">
+					<posx>260</posx>
+					<posy>50</posy>
+					<width>200</width>
+					<height>96</height>
+					<onleft>500</onleft>
+					<onright>700</onright>
+					<onup>600</onup>
+					<ondown>600</ondown>
+					<viewtype label="Genre">wrap</viewtype>
+					<focusposition>1</focusposition>			
+					<scrolltime>200</scrolltime>
+					<itemlayout height="32">
+						<control type="image">
+							<width>200</width>
+							<height>30</height>
+							<posx>0</posx>
+							<posy>0</posy>
+							<texture border="5">rcb-button-nofocus.png</texture>
+						</control>
+						<control type="label">
+							<posx>5</posx>
+							<posy>0</posy>
+							<width>190</width>
+							<height>30</height>
+							<font>font13</font>
+							<aligny>center</aligny>
+							<textcolor>DDFFFFFF</textcolor>
+							<selectedcolor>FFe2ff43</selectedcolor>
+							<align>left</align>
+							<info>ListItem.Label</info>
+						</control>
+					</itemlayout>
+					<focusedlayout height="32">
+						<control type="image">
+							<width>200</width>
+							<height>30</height>
+							<posx>0</posx>
+							<posy>0</posy>
+							<visible>Control.HasFocus(600)</visible>
+							<texture border="5">rcb-button-focus.png</texture>
+						</control>
+						<control type="image">
+							<width>200</width>
+							<height>30</height>
+							<posx>0</posx>
+							<posy>0</posy>
+							<visible>!Control.HasFocus(600)</visible>
+							<texture border="5">rcb-button-nofocus.png</texture>
+						</control>
+						<control type="label">
+							<posx>5</posx>
+							<posy>0</posy>
+							<width>190</width>
+							<height>30</height>
+							<font>font13</font>
+							<aligny>center</aligny>
+							<textcolor>DDFFFFFF</textcolor>
+							<selectedcolor>FFe2ff43</selectedcolor>
+							<align>left</align>
+							<info>ListItem.Label</info>
+						</control>
+					</focusedlayout>
+				</control>
+				<!-- Year filter -->	
+				<control type="label">
+					<description>Year</description>
+					<posx>550</posx>
+					<posy>20</posy>
 					<textcolor>DDFFFFFF</textcolor>
 					<label>Year</label>
-			</control>		
-			<control type="wraplist" id="700">
-				<posx>350</posx>
-				<posy>50</posy>
-				<width>125</width>
-				<height>96</height>
-				<onleft>600</onleft>
-				<onright>800</onright>
-				<onup>700</onup>
-				<ondown>700</ondown>
-				<viewtype label="Year">wrap</viewtype>
-				<focusposition>1</focusposition>			
-				<scrolltime>200</scrolltime>
-				<itemlayout height="32">
-					<control type="image">
-						<width>125</width>
-						<height>30</height>
-						<posx>0</posx>
-						<posy>0</posy>
-						<texture border="5">rcb-button-nofocus.png</texture>
-					</control>
-					<control type="label">
-						<posx>5</posx>
-						<posy>0</posy>
-						<width>120</width>
-						<height>30</height>
-						<font>font13</font>
-						<aligny>center</aligny>
-						<textcolor>DDFFFFFF</textcolor>
-						<selectedcolor>FFe2ff43</selectedcolor>
-						<align>left</align>
-						<info>ListItem.Label</info>
-					</control>
-				</itemlayout>
-				<focusedlayout height="32">
-					<control type="image">
-						<width>125</width>
-						<height>30</height>
-						<posx>0</posx>
-						<posy>0</posy>
-						<visible>Control.HasFocus(700)</visible>
-						<texture border="5">rcb-button-focus.png</texture>
-					</control>
-					<control type="image">
-						<width>125</width>
-						<height>30</height>
-						<posx>0</posx>
-						<posy>0</posy>
-						<visible>!Control.HasFocus(700)</visible>
-						<texture border="5">rcb-button-nofocus.png</texture>
-					</control>
-					<control type="label">
-						<posx>5</posx>
-						<posy>0</posy>
-						<width>120</width>
-						<height>30</height>
-						<font>font13</font>
-						<aligny>center</aligny>
-						<textcolor>DDFFFFFF</textcolor>
-						<selectedcolor>FFe2ff43</selectedcolor>
-						<align>left</align>
-						<info>ListItem.Label</info>
-					</control>
-				</focusedlayout>
-			</control>
-			<!-- Publisher filter -->	
-			<control type="label">
-				<description>Publisher</description>
-				<posx>535</posx>
-				<posy>20</posy>
+				</control>		
+				<control type="wraplist" id="700">
+					<posx>470</posx>
+					<posy>50</posy>
+					<width>200</width>
+					<height>96</height>
+					<onleft>600</onleft>
+					<onright>800</onright>
+					<onup>700</onup>
+					<ondown>700</ondown>
+					<viewtype label="Year">wrap</viewtype>
+					<focusposition>1</focusposition>			
+					<scrolltime>200</scrolltime>
+					<itemlayout height="32">
+						<control type="image">
+							<width>200</width>
+							<height>30</height>
+							<posx>0</posx>
+							<posy>0</posy>
+							<texture border="5">rcb-button-nofocus.png</texture>
+						</control>
+						<control type="label">
+							<posx>5</posx>
+							<posy>0</posy>
+							<width>190</width>
+							<height>30</height>
+							<font>font13</font>
+							<aligny>center</aligny>
+							<textcolor>DDFFFFFF</textcolor>
+							<selectedcolor>FFe2ff43</selectedcolor>
+							<align>left</align>
+							<info>ListItem.Label</info>
+						</control>
+					</itemlayout>
+					<focusedlayout height="32">
+						<control type="image">
+							<width>200</width>
+							<height>30</height>
+							<posx>0</posx>
+							<posy>0</posy>
+							<visible>Control.HasFocus(700)</visible>
+							<texture border="5">rcb-button-focus.png</texture>
+						</control>
+						<control type="image">
+							<width>200</width>
+							<height>30</height>
+							<posx>0</posx>
+							<posy>0</posy>
+							<visible>!Control.HasFocus(700)</visible>
+							<texture border="5">rcb-button-nofocus.png</texture>
+						</control>
+						<control type="label">
+							<posx>5</posx>
+							<posy>0</posy>
+							<width>190</width>
+							<height>30</height>
+							<font>font13</font>
+							<aligny>center</aligny>
+							<textcolor>DDFFFFFF</textcolor>
+							<selectedcolor>FFe2ff43</selectedcolor>
+							<align>left</align>
+							<info>ListItem.Label</info>
+						</control>
+					</focusedlayout>
+				</control>
+				<!-- Publisher filter -->	
+				<control type="label">
+					<description>Publisher</description>
+					<posx>720</posx>
+					<posy>20</posy>
 					<textcolor>DDFFFFFF</textcolor>
 					<label>Publisher</label>
-			</control>		
-			<control type="wraplist" id="800">
-				<posx>500</posx>
-				<posy>50</posy>
-				<width>125</width>
-				<height>96</height>
-				<onleft>700</onleft>
-				<onright>900</onright>
-				<onup>800</onup>
-				<ondown>800</ondown>
-				<viewtype label="Year">wrap</viewtype>
-				<focusposition>1</focusposition>			
-				<scrolltime>200</scrolltime>
-				<itemlayout height="32">
-					<control type="image">
-						<width>125</width>
-						<height>30</height>
-						<posx>0</posx>
-						<posy>0</posy>
-						<texture border="5">rcb-button-nofocus.png</texture>
-					</control>
-					<control type="label">
-						<posx>5</posx>
-						<posy>0</posy>
-						<width>120</width>
-						<height>30</height>
-						<font>font13</font>
-						<aligny>center</aligny>
-						<textcolor>DDFFFFFF</textcolor>
-						<selectedcolor>FFe2ff43</selectedcolor>
-						<align>left</align>
-						<info>ListItem.Label</info>
-					</control>
-				</itemlayout>
-				<focusedlayout height="32">
-					<control type="image">
-						<width>125</width>
-						<height>30</height>
-						<posx>0</posx>
-						<posy>0</posy>
-						<visible>Control.HasFocus(800)</visible>
-						<texture border="5">rcb-button-focus.png</texture>
-					</control>
-					<control type="image">
-						<width>125</width>
-						<height>30</height>
-						<posx>0</posx>
-						<posy>0</posy>
-						<visible>!Control.HasFocus(800)</visible>
-						<texture border="5">rcb-button-nofocus.png</texture>
-					</control>
-					<control type="label">
-						<posx>5</posx>
-						<posy>0</posy>
-						<width>120</width>
-						<height>30</height>
-						<font>font13</font>
-						<aligny>center</aligny>
-						<textcolor>DDFFFFFF</textcolor>
-						<selectedcolor>FFe2ff43</selectedcolor>
-						<align>left</align>
-						<info>ListItem.Label</info>
-					</control>
-				</focusedlayout>
+				</control>		
+				<control type="wraplist" id="800">
+					<posx>680</posx>
+					<posy>50</posy>
+					<width>200</width>
+					<height>96</height>
+					<onleft>700</onleft>
+					<onright>900</onright>
+					<onup>800</onup>
+					<ondown>800</ondown>
+					<viewtype label="Year">wrap</viewtype>
+					<focusposition>1</focusposition>			
+					<scrolltime>200</scrolltime>
+					<itemlayout height="32">
+						<control type="image">
+							<width>200</width>
+							<height>30</height>
+							<posx>0</posx>
+							<posy>0</posy>
+							<texture border="5">rcb-button-nofocus.png</texture>
+						</control>
+						<control type="label">
+							<posx>5</posx>
+							<posy>0</posy>
+							<width>190</width>
+							<height>30</height>
+							<font>font13</font>
+							<aligny>center</aligny>
+							<textcolor>DDFFFFFF</textcolor>
+							<selectedcolor>FFe2ff43</selectedcolor>
+							<align>left</align>
+							<info>ListItem.Label</info>
+						</control>
+					</itemlayout>
+					<focusedlayout height="32">
+						<control type="image">
+							<width>200</width>
+							<height>30</height>
+							<posx>0</posx>
+							<posy>0</posy>
+							<visible>Control.HasFocus(800)</visible>
+							<texture border="5">rcb-button-focus.png</texture>
+						</control>
+						<control type="image">
+							<width>200</width>
+							<height>30</height>
+							<posx>0</posx>
+							<posy>0</posy>
+							<visible>!Control.HasFocus(800)</visible>
+							<texture border="5">rcb-button-nofocus.png</texture>
+						</control>
+						<control type="label">
+							<posx>5</posx>
+							<posy>0</posy>
+							<width>190</width>
+							<height>30</height>
+							<font>font13</font>
+							<aligny>center</aligny>
+							<textcolor>DDFFFFFF</textcolor>
+							<selectedcolor>FFe2ff43</selectedcolor>
+							<align>left</align>
+							<info>ListItem.Label</info>
+						</control>
+					</focusedlayout>
+				</control>
+				<!-- Character filter -->	
+				<control type="label">
+					<description>Character</description>
+					<posx>900</posx>
+					<posy>20</posy>
+					<textcolor>DDFFFFFF</textcolor>
+					<label>A-Z</label>
+				</control>		
+				<control type="wraplist" id="900">
+					<posx>890</posx>
+					<posy>50</posy>
+					<width>60</width>
+					<height>96</height>
+					<onleft>800</onleft>
+					<onright>500</onright>
+					<onup>900</onup>
+					<ondown>900</ondown>
+					<viewtype label="Character">wrap</viewtype>
+					<!--<visible allowhiddenfocus="true">Control.HasFocus(5200)</visible>-->
+					<focusposition>1</focusposition>
+					<scrolltime>200</scrolltime>
+					<itemlayout height="32">
+						<control type="image">
+							<width>60</width>
+							<height>30</height>
+							<posx>0</posx>
+							<posy>0</posy>
+							<texture border="5">rcb-button-nofocus.png</texture>
+						</control>
+						<control type="label">
+							<posx>0</posx>
+							<posy>0</posy>
+							<width>50</width>
+							<height>30</height>
+							<font>font13</font>
+							<aligny>center</aligny>
+							<textcolor>DDFFFFFF</textcolor>
+							<selectedcolor>FFe2ff43</selectedcolor>
+							<align>left</align>
+							<info>ListItem.Label</info>
+						</control>
+					</itemlayout>
+					<focusedlayout height="32">
+						<control type="image">
+							<width>60</width>
+							<height>30</height>
+							<posx>0</posx>
+							<posy>0</posy>
+							<visible>Control.HasFocus(900)</visible>
+							<texture border="5">rcb-button-focus.png</texture>
+						</control>
+						<control type="image">
+							<width>60</width>
+							<height>30</height>
+							<posx>0</posx>
+							<posy>0</posy>
+							<visible>!Control.HasFocus(900)</visible>
+							<texture border="5">rcb-button-nofocus.png</texture>
+						</control>
+						<control type="label">
+							<posx>0</posx>
+							<posy>0</posy>
+							<width>50</width>
+							<height>30</height>
+							<font>font13</font>
+							<aligny>center</aligny>
+							<textcolor>DDFFFFFF</textcolor>
+							<selectedcolor>FFe2ff43</selectedcolor>
+							<align>left</align>
+							<info>ListItem.Label</info>
+						</control>
+					</focusedlayout>
+				</control>
 			</control>
-			<!-- Character filter -->	
-			<control type="label">
-				<description>Character</description>
-				<posx>655</posx>
-				<posy>20</posy>
-				<textcolor>DDFFFFFF</textcolor>
-				<label>A-Z</label>
-			</control>		
-			<control type="wraplist" id="900">
-				<posx>650</posx>
-				<posy>50</posy>
-				<width>30</width>
-				<height>96</height>
-				<onleft>800</onleft>
-				<onright>3100</onright>
-				<onup>900</onup>
-				<ondown>900</ondown>
-				<viewtype label="Character">wrap</viewtype>
-				<!--<visible allowhiddenfocus="true">Control.HasFocus(5200)</visible>-->
-				<focusposition>1</focusposition>
-				<scrolltime>200</scrolltime>
-				<itemlayout height="32">
-					<control type="image">
-						<width>30</width>
-						<height>30</height>
-						<posx>0</posx>
-						<posy>0</posy>
-						<texture border="5">rcb-button-nofocus.png</texture>
-					</control>
-					<control type="label">
-						<posx>5</posx>
-						<posy>0</posy>
-						<width>30</width>
-						<height>30</height>
-						<font>font13</font>
-						<aligny>center</aligny>
-						<textcolor>DDFFFFFF</textcolor>
-						<selectedcolor>FFe2ff43</selectedcolor>
-						<align>left</align>
-						<info>ListItem.Label</info>
-					</control>
-				</itemlayout>
-				<focusedlayout height="32">
-					<control type="image">
-						<width>30</width>
-						<height>30</height>
-						<posx>0</posx>
-						<posy>0</posy>
-						<visible>Control.HasFocus(900)</visible>
-						<texture border="5">rcb-button-focus.png</texture>
-					</control>
-					<control type="image">
-						<width>30</width>
-						<height>30</height>
-						<posx>0</posx>
-						<posy>0</posy>
-						<visible>!Control.HasFocus(900)</visible>
-						<texture border="5">rcb-button-nofocus.png</texture>
-					</control>
-					<control type="label">
-						<posx>5</posx>
-						<posy>0</posy>
-						<width>30</width>
-						<height>30</height>
-						<font>font13</font>
-						<aligny>center</aligny>
-						<textcolor>DDFFFFFF</textcolor>
-						<selectedcolor>FFe2ff43</selectedcolor>
-						<align>left</align>
-						<info>ListItem.Label</info>
-					</control>
-				</focusedlayout>
-			</control>	
-			
 		</control>
 		
 		<!-- Button group -->
 		<control type="group" id="400">
-			<animation effect="slide" start="0,500" end="0,500" delay="0" time="400" tween="quadratic" easing="out" condition="ControlGroup(400).HasFocus">Conditional</animation>
-			<animation effect="slide" start="0,0" end="0,800" delay="0"time="400" tween="quadratic" easing="out" condition="!ControlGroup(400).HasFocus">Conditional</animation>
+			<animation effect="slide" start="0,600" end="0,650" delay="0" time="400" tween="quadratic" easing="out" condition="ControlGroup(400).HasFocus">Conditional</animation>
+			<animation effect="slide" start="0,0" end="0,1300" delay="0"time="400" tween="quadratic" easing="out" condition="!ControlGroup(400).HasFocus">Conditional</animation>
 			<control type="image">
-				<animation effect="zoom" start="0,500,620,1" end="0,500,720,80" time="300" tween="quadratic" easing="out" condition="ControlGroup(400).HasFocus">Conditional</animation>
+				<animation effect="zoom" start="0,0,0,0" end="0,0,1280,120" time="400" tween="quadratic" easing="out" condition="ControlGroup(400).HasFocus">Conditional</animation>
 				<description>filter background image</description>
 				<posx>0</posx>
 				<posy>0</posy>
-				<width>720</width>
-				<height>80</height>
+				<width>1280</width>
+				<height>120</height>
 				<texture>rcb-Blade-Lower.png</texture>
 				<colordiffuse>FFFFFFFF</colordiffuse>				
 			</control>			
@@ -1515,7 +1520,7 @@
 				<description>Change View</description>
 				<posx>25</posx>
 				<posy>25</posy>
-				<width>100</width>
+				<width>180</width>
 				<height>30</height>
 				<visible>true</visible>
 				<colordiffuse>DDFFFFFF</colordiffuse>
@@ -1530,11 +1535,50 @@
 				<textoffsety></textoffsety>
 				<pulseonselect></pulseonselect>
 				<onup>50</onup>
-				<ondown>500</ondown>
-				<onleft>3100</onleft>
-				<onright>500</onright>				
-			</control>			
-		</control>			
+				<ondown>50</ondown>
+				<onleft>1100</onleft>
+				<onright>1000</onright>
+			</control>
+			<control type="radiobutton" id="1000">
+				<posx>240</posx>
+				<posy>25</posy>
+				<width>180</width>
+				<height>30</height>
+				<font>font13</font>
+				<label>Favorites</label>
+				<textcolor>DDFFFFFF</textcolor>
+				<focusedcolor>DDFFFFFF</focusedcolor>
+				<texturefocus>rcb-MenuItemFO.png</texturefocus>
+				<texturenofocus>rcb-MenuItemNF.png</texturenofocus>
+				<onleft>2</onleft>
+				<onright>1100</onright>
+				<onup>50</onup>
+				<ondown>50</ondown>
+			</control>
+			<control type="button" id="1100"> 
+				<description>Search</description>
+				<posx>455</posx>
+				<posy>25</posy>
+				<width>180</width>
+				<height>30</height>
+				<visible>true</visible>
+				<colordiffuse>DDFFFFFF</colordiffuse>
+				<texturefocus>rcb-button-focus.png</texturefocus>
+				<texturenofocus>rcb-button-nofocus.png</texturenofocus>
+				<label>Search</label>			
+				<textcolor>DDFFFFFF</textcolor>
+				<disabledcolor>80FFFFFF</disabledcolor>
+				<align>center</align>
+				<aligny>center</aligny>
+				<textoffsetx></textoffsetx>
+				<textoffsety></textoffsety>
+				<pulseonselect></pulseonselect>
+				<onup>50</onup>
+				<ondown>50</ondown>
+				<onleft>1000</onleft>
+				<onright>2</onright>
+			</control>
+		</control>
 		
 		<!-- Counter -->		
 		<control type="label">
