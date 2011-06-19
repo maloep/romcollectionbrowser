@@ -269,7 +269,7 @@
 						<description>mainviewgameinfoupper</description>
 						<posx>25</posx>
 						<posy>25</posy>
-						<width>540</width>
+						<width>537</width>
 						<height>135</height>						
 						<texture>$INFO[ListItem.Property(mainviewgameinfoupper)]</texture>
 						<bordertexture border="2">rcb-button-nofocus.png</bordertexture>
@@ -280,7 +280,7 @@
 						<description>mainviewgameinfolower</description>
 						<posx>25</posx>
 						<posy>170</posy>
-						<width>540</width>
+						<width>537</width>
 						<height>135</height>						
 						<texture>$INFO[ListItem.Property(mainviewgameinfolower)]</texture>
 						<bordertexture border="2">rcb-button-nofocus.png</bordertexture>
@@ -466,21 +466,21 @@
 					<description>gamelist background image</description>
 					<posx>10</posx>
 					<posy>0</posy>
-					<width>720</width>
-					<height>580</height>
+					<width>1280</width>
+					<height>720</height>
 					<texture>rcb-ContentPanel4.png</texture>
 					<colordiffuse>DDFFFFFF</colordiffuse>
 					<visible>Control.IsVisible(52)</visible>
 				</control>
 				<control type="group">
-					<posx>380</posx>
+					<posx>635r</posx>
 					<posy>0</posy>
 					<visible>Control.IsVisible(52)</visible>
 					<control type="label">
 						<posx>5</posx>
 						<posy>15</posy>
-						<width>320</width>
-						<height>20</height>
+						<width>620</width>
+						<height>30</height>
 						<font>font16caps</font>
 						<aligny>center</aligny>
 						<textcolor>DDFFFFFF</textcolor>
@@ -493,25 +493,25 @@
 					<control type="image">
 						<description>mainview1</description>
 						<posx>5</posx>
-						<posy>15</posy>
-						<width>30</width>
-						<height>20</height>						
+						<posy>10</posy>
+						<width>72</width>
+						<height>48</height>						
 						<texture>$INFO[ListItem.Property(mainview1)]</texture>						
 					</control>
 					<!-- mainview3 -->
 					<control type="image">
 						<description>mainview3</description>
-						<posx>285</posx>
-						<posy>15</posy>
-						<width>30</width>
-						<height>20</height>						
+						<posx>120r</posx>
+						<posy>10</posy>
+						<width>72</width>
+						<height>48</height>						
 						<texture>$INFO[ListItem.Property(mainview3)]</texture>						
 					</control>					
 					<control type="list" id="52">					
 						<posx>0</posx>
-						<posy>60</posy>
-						<width>320</width>
-						<height>480</height>
+						<posy>70</posy>
+						<width>600</width>
+						<height>600</height>
 						<onleft>2201</onleft>
 						<onright>61</onright>
 						<onup>52</onup>
@@ -519,19 +519,19 @@
 						<pagecontrol>61</pagecontrol>
 						<viewtype label="Info 2">list</viewtype>	
 						<scrolltime>100</scrolltime>
-						<itemlayout height="25" width="320">
+						<itemlayout height="35" width="585">
 							<control type="image">
 								<posx>0</posx>
 								<posy>0</posy>
-								<width>320</width>
+								<width>585</width>
 								<height>25</height>
 								<texture border="0,2,0,2">rcb-MenuItemNF.png</texture>
 							</control>
 							<control type="label">
 								<posx>10</posx>
 								<posy>0</posy>
-								<width>320</width>
-								<height>25</height>
+								<width>585</width>
+								<height>35</height>
 								<font>font13</font>
 								<textcolor>FFb4b4b4</textcolor>
 								<selectedcolor>selected</selectedcolor>
@@ -540,12 +540,12 @@
 								<label>$INFO[ListItem.Label]</label>
 							</control>									
 						</itemlayout>
-						<focusedlayout height="25" width="320">
+						<focusedlayout height="35" width="585">
 							<control type="image">
 								<posx>0</posx>
 								<posy>0</posy>
-								<width>320</width>
-								<height>26</height>
+								<width>585</width>
+								<height>37</height>
 								<texture border="0,2,0,2">rcb-MenuItemNF.png</texture>
 								<visible>!Control.HasFocus(52)</visible>
 								<!--<include>VisibleFadeEffect</include>-->
@@ -553,8 +553,8 @@
 							<control type="image">
 								<posx>0</posx>
 								<posy>0</posy>
-								<width>320</width>
-								<height>26</height>
+								<width>585</width>
+								<height>37</height>
 								<texture border="0,2,0,2">rcb-MenuItemFO.png</texture>
 								<visible>Control.HasFocus(52)</visible>
 								<!--<include>VisibleFadeEffect</include>-->
@@ -562,8 +562,8 @@
 							<control type="image">
 								<posx>0</posx>
 								<posy>0</posy>
-								<width>320</width>
-								<height>24</height>
+								<width>585</width>
+								<height>35</height>
 								<aligny>center</aligny>
 								<texture border="0,0,14,0" >rcb-MediaItemDetailBG.png</texture>
 								<visible>Control.HasFocus(52)</visible>
@@ -571,29 +571,29 @@
 							<control type="label">
 								<posx>10</posx>
 								<posy>0</posy>
-								<width>320</width>
-								<height>25</height>
+								<width>585</width>
+								<height>35</height>
 								<font>font13</font>
 								<textcolor>white</textcolor>
 								<selectedcolor>selected</selectedcolor>
 								<align>left</align>
 								<aligny>center</aligny>
 								<label>$INFO[ListItem.Label]</label>
-							</control>						
+							</control>
 						</focusedlayout>
 					</control>
 					<control type="scrollbar" id="61">
-						<posx>320</posx>
-						<posy>40</posy>
-						<width>18</width>
-						<height>480</height>
+						<posx>30r</posx>
+						<posy>60</posy>
+						<width>25</width>
+						<height>600</height>
 						<texturesliderbackground border="0,14,0,14">rcb-ScrollBarV.png</texturesliderbackground>
 						<texturesliderbar border="0,14,0,14">rcb-ScrollBarV_bar.png</texturesliderbar>
 						<texturesliderbarfocus border="0,14,0,14">rcb-ScrollBarV_bar_focus.png</texturesliderbarfocus>
 						<textureslidernib>rcb-ScrollBarNib.png</textureslidernib>
 						<textureslidernibfocus>rcb-ScrollBarNib.png</textureslidernibfocus>
 						<onleft>52</onleft>
-						<onright>3100</onright>
+						<onright>2</onright>
 						<showonepage>false</showonepage>
 						<orientation>vertical</orientation>
 						<visible allowhiddenfocus="true">Control.IsVisible(52)</visible>
@@ -602,14 +602,14 @@
 				
 				<control type="group" id="350">
 					<visible allowhiddenfocus="true">Control.IsVisible(52)</visible>
-					<posx>15</posx>
+					<posx>25</posx>
 					<posy>10</posy>
 					<visible>Control.IsVisible(52)</visible>					
 					<control type="label">
 						<posx>5</posx>
 						<posy>5</posy>
-						<width>350</width>
-						<height>20</height>
+						<width>600</width>
+						<height>30</height>
 						<font>font24_title</font>
 						<aligny>center</aligny>
 						<textcolor>DDFFFFFF</textcolor>
@@ -620,10 +620,10 @@
 					<!-- mainviewgameinfobig -->
 					<control type="image" id="2001">
 						<description>mainviewgameinfobig</description>
-						<posx>15</posx>
-						<posy>45</posy>
-						<width>330</width>
-						<height>230</height>										
+						<posx>25</posx>
+						<posy>60</posy>
+						<width>540</width>
+						<height>280</height>
 						<visible>!Player.HasVideo</visible>
 						<texture>$INFO[ListItem.Property(mainviewgameinfobig)]</texture>
 						<bordertexture border="2">rcb-button-nofocus.png</bordertexture>
@@ -632,23 +632,24 @@
 					<control type="videowindow" id="2301">
 						<description>video control</description>
 						<posx>15</posx>
-						<posy>45</posy>
-						<width>330</width>
-						<height>230</height>
+						<posy>60</posy>
+						<width>540</width>
+						<height>280</height>
 						<visible>!IsEmpty(ListItem.Property(mainviewvideosizebig))</visible>
 					</control>
 					
 					<control type="button">
 						<description>click absorber</description>
 						<posx>15</posx>
-						<posy>45</posy>
-						<width>330</width>
-						<height>230</height>
+						<posy>60</posy>
+						<width>540</width>
+						<height>280</height>
 						<texturefocus></texturefocus>
 						<texturenofocus></texturenofocus>
 						<visible>!IsEmpty(ListItem.Property(mainviewvideosizebig))</visible>
 					</control>					
-					<control type="button" id="2901"> 
+					
+					<!--<control type="button" id="2901"> 
 						<description>Play Fullscreen</description>
 						<posx>110</posx>
 						<posy>280</posy>
@@ -668,15 +669,15 @@
 						<ondown>3100</ondown>
 						<onleft>500</onleft>
 						<onright>2200</onright>
-					</control>
+					</control>-->
 					
 					<!-- mainviewgameinfoupperleft -->
 					<control type="image" id="2401">
 						<description>mainviewgameinfoupperleft</description>
-						<posx>15</posx>
-						<posy>45</posy>
-						<width>165</width>
-						<height>115</height>
+						<posx>25</posx>
+						<posy>60</posy>
+						<width>265</width>
+						<height>135</height>
 						<texture>$INFO[ListItem.Property(mainviewgameinfoupperleft)]</texture>
 						<bordertexture border="2">rcb-button-nofocus.png</bordertexture>
 						<bordersize>2</bordersize>
@@ -684,10 +685,10 @@
 					<!-- mainviewgameinfoupperright -->
 					<control type="image" id="2501">
 						<description>mainviewgameinfoupperright</description>
-						<posx>180</posx>
-						<posy>45</posy>
-						<width>165</width>
-						<height>115</height>						
+						<posx>295</posx>
+						<posy>60</posy>
+						<width>265</width>
+						<height>135</height>						
 						<texture>$INFO[ListItem.Property(mainviewgameinfoupperright)]</texture>
 						<bordertexture border="2">rcb-button-nofocus.png</bordertexture>
 						<bordersize>2</bordersize>
@@ -695,10 +696,10 @@
 					<!-- mainviewgameinfolowerleft -->
 					<control type="image" id="2601">
 						<description>mainviewgameinfolowerleft</description>
-						<posx>15</posx>
-						<posy>160</posy>
-						<width>165</width>
-						<height>115</height>						
+						<posx>25</posx>
+						<posy>205</posy>
+						<width>265</width>
+						<height>135</height>
 						<texture>$INFO[ListItem.Property(mainviewgameinfolowerleft)]</texture>
 						<bordertexture border="2">rcb-button-nofocus.png</bordertexture>
 						<bordersize>2</bordersize>
@@ -706,10 +707,10 @@
 					<!-- mainviewgameinfolowerright -->
 					<control type="image" id="2701">
 						<description>mainviewgameinfolowerright</description>
-						<posx>180</posx>
-						<posy>160</posy>
-						<width>165</width>
-						<height>115</height>
+						<posx>295</posx>
+						<posy>205</posy>
+						<width>265</width>
+						<height>135</height>
 						<visible>!Player.HasVideo</visible>
 						<texture>$INFO[ListItem.Property(mainviewgameinfolowerright)]</texture>
 						<bordertexture border="2">rcb-button-nofocus.png</bordertexture>
@@ -719,10 +720,10 @@
 					<!-- mainviewgameinfoupper -->
 					<control type="image" id="2711">
 						<description>mainviewgameinfoupper</description>
-						<posx>15</posx>
-						<posy>45</posy>
-						<width>330</width>
-						<height>115</height>						
+						<posx>25</posx>
+						<posy>60</posy>
+						<width>537</width>
+						<height>135</height>						
 						<texture>$INFO[ListItem.Property(mainviewgameinfoupper)]</texture>
 						<bordertexture border="2">rcb-button-nofocus.png</bordertexture>
 						<bordersize>2</bordersize>
@@ -730,10 +731,10 @@
 					<!-- mainviewgameinfolower -->
 					<control type="image" id="2721">
 						<description>mainviewgameinfolower</description>
-						<posx>15</posx>
-						<posy>160</posy>
-						<width>330</width>
-						<height>115</height>						
+						<posx>25</posx>
+						<posy>205</posy>
+						<width>537</width>
+						<height>135</height>						
 						<texture>$INFO[ListItem.Property(mainviewgameinfolower)]</texture>
 						<bordertexture border="2">rcb-button-nofocus.png</bordertexture>
 						<bordersize>2</bordersize>
@@ -741,10 +742,10 @@
 					<!-- mainviewgameinfoleft -->
 					<control type="image" id="2731">
 						<description>mainviewgameinfoleft</description>
-						<posx>15</posx>
-						<posy>45</posy>
-						<width>165</width>
-						<height>230</height>						
+						<posx>25</posx>
+						<posy>60</posy>
+						<width>265</width>
+						<height>280</height>						
 						<texture>$INFO[ListItem.Property(mainviewgameinfoleft)]</texture>
 						<bordertexture border="2">rcb-button-nofocus.png</bordertexture>
 						<bordersize>2</bordersize>
@@ -752,10 +753,10 @@
 					<!-- mainviewgameinforight -->
 					<control type="image" id="2741">
 						<description>mainviewgameinforight</description>
-						<posx>180</posx>
-						<posy>45</posy>
-						<width>165</width>
-						<height>330</height>						
+						<posx>295</posx>
+						<posy>60</posy>
+						<width>265</width>
+						<height>540</height>						
 						<texture>$INFO[ListItem.Property(mainviewgameinforight)]</texture>
 						<bordertexture border="2">rcb-button-nofocus.png</bordertexture>
 						<bordersize>2</bordersize>
@@ -764,32 +765,32 @@
 					<!-- mainviewvideowindowsmall -->
 					<control type="videowindow" id="2801">
 						<description>video control</description>
-						<posx>180</posx>
-						<posy>160</posy>
-						<width>165</width>
-						<height>115</height>												
+						<posx>295</posx>
+						<posy>205</posy>
+						<width>265</width>
+						<height>135</height>												
 						<visible>!IsEmpty(ListItem.Property(mainviewvideosizesmall))</visible>
 					</control>
 					<control type="button">
 						<description>video absorber</description>
-						<posx>180</posx>
-						<posy>160</posy>
-						<width>165</width>
-						<height>115</height>
+						<posx>295</posx>
+						<posy>205</posy>
+						<width>265</width>
+						<height>135</height>
 						<texturefocus></texturefocus>
 						<texturenofocus></texturenofocus>
 						<visible>!IsEmpty(ListItem.Property(mainviewvideosizesmall))</visible>
 					</control>										
 															
 					<control type="group">
-						<posx>15</posx>
-						<posy>300</posy>
+						<posx>25</posx>
+						<posy>345</posy>
 						
 						<control type="image">
 							<posx>0</posx>
 							<posy>5</posy>
-							<width>330</width>
-							<height>2</height>
+							<width>540</width>
+							<height>3</height>
 							<texture>rcb-separator.png</texture>
 						</control>
 					
@@ -798,7 +799,7 @@
 							<description>Year txt</description>
 							<posx>5</posx>
 							<posy>15</posy>
-							<width>80</width>
+							<width>140</width>
 							<height>25</height>
 							<label>Year:</label>
 							<align>left</align>
@@ -808,9 +809,9 @@
 						</control>
 						<control type="label">
 							<description>Year Value</description>
-							<posx>100</posx>
+							<posx>150</posx>
 							<posy>15</posy>
-							<width>230</width>
+							<width>385</width>
 							<height>25</height>
 							<label fallback="416">$INFO[ListItem.Property(year)]</label>
 							<align>left</align>
@@ -824,7 +825,7 @@
 							<description>Genre txt</description>
 							<posx>5</posx>
 							<posy>40</posy>
-							<width>80</width>
+							<width>140</width>
 							<height>25</height>
 							<label>Genre:</label>
 							<align>left</align>
@@ -834,9 +835,9 @@
 						</control>
 						<control type="label">
 							<description>Genre Value</description>
-							<posx>100</posx>
+							<posx>150</posx>
 							<posy>40</posy>
-							<width>230</width>
+							<width>385</width>
 							<height>25</height>
 							<label fallback="416">$INFO[ListItem.Property(genre)]</label>
 							<align>left</align>
@@ -850,7 +851,7 @@
 							<description>Publisher txt</description>
 							<posx>5</posx>
 							<posy>65</posy>
-							<width>80</width>
+							<width>140</width>
 							<height>25</height>
 							<label>Publisher:</label>
 							<align>left</align>
@@ -860,9 +861,9 @@
 						</control>
 						<control type="label">
 							<description>Publisher Value</description>
-							<posx>100</posx>
+							<posx>150</posx>
 							<posy>65</posy>
-							<width>230</width>
+							<width>385</width>
 							<height>25</height>
 							<label fallback="416">$INFO[ListItem.Property(publisher)]</label>
 							<align>left</align>
@@ -876,7 +877,7 @@
 							<description>Developer txt</description>
 							<posx>5</posx>
 							<posy>90</posy>
-							<width>80</width>
+							<width>140</width>
 							<height>25</height>
 							<label>Developer:</label>
 							<align>left</align>
@@ -886,9 +887,9 @@
 						</control>
 						<control type="label">
 							<description>Developer Value</description>
-							<posx>100</posx>
+							<posx>150</posx>
 							<posy>90</posy>
-							<width>230</width>
+							<width>385</width>
 							<height>25</height>
 							<label fallback="416">$INFO[ListItem.Property(developer)]</label>
 							<align>left</align>
@@ -910,7 +911,7 @@
 						<control type="image">
 							<posx>0</posx>
 							<posy>125</posy>
-							<width>310</width>
+							<width>540</width>
 							<height>1</height>
 							<texture>rcb-separator2.png</texture>
 						</control>
@@ -919,16 +920,16 @@
 							<description>Plot</description>
 							<posx>5</posx>
 							<posy>135</posy>
-							<width>300</width>
-							<height>112</height>			
-							<pagecontrol>2201</pagecontrol>
+							<width>540</width>
+							<height>178</height>			
+							<!--<pagecontrol>2201</pagecontrol>-->
 							<textcolor>DDFFFFFF</textcolor>
 							<align>justify</align>
 							<font>font12</font>
 							<label>$INFO[ListItem.Property(plot)]</label>
 							<!--<autoscroll delay="3000" time="1000" repeat="10000">!Control.HasFocus(2201)</autoscroll>-->
 						</control>
-						<control type="scrollbar" id="2201">
+						<!--<control type="scrollbar" id="2201">
 							<description>ConsoleDesc Scrollbar</description>
 							<posx>315</posx>
 							<posy>133</posy>
@@ -948,6 +949,7 @@
 							<onleft>2901</onleft>
 							<onright>52</onright>
 						</control>
+						-->
 					</control>
 				</control>
 			</control>
