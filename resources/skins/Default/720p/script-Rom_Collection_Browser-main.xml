@@ -90,7 +90,7 @@
 				<control type="scrollbar" id="60">
 					<posx>400</posx>
 					<posy>30r</posy>
-					<width>450</width>
+					<width>480</width>
 					<height>25</height>
 					<texturesliderbackground border="14,0,14,0">rcb-ScrollBarH.png</texturesliderbackground>
 					<texturesliderbar border="14,0,14,0">rcb-ScrollBarH_bar.png</texturesliderbar>
@@ -512,7 +512,7 @@
 						<posy>70</posy>
 						<width>600</width>
 						<height>600</height>
-						<onleft>2201</onleft>
+						<onleft>500</onleft>
 						<onright>61</onright>
 						<onup>52</onup>
 						<ondown>52</ondown>
@@ -963,16 +963,16 @@
 					<description>gamelist background image</description>
 					<posx>0</posx>
 					<posy>0</posy>
-					<width>720</width>
-					<height>580</height>
+					<width>1280</width>
+					<height>720</height>
 					<texture>rcb-ContentPanel2.png</texture>
 					<colordiffuse>90FFFFFF</colordiffuse>					
 				</control>
 				<control type="wraplist" id="58">
-					<posx>-30</posx>
-					<posy>80</posy>
-					<width>820</width>
-					<height>440</height>
+					<posx>-102</posx>
+					<posy>110</posy>
+					<width>1420</width>
+					<height>560</height>
 					<onleft>58</onleft>
 					<onright>58</onright>
 					<onup>500</onup>
@@ -983,35 +983,36 @@
 					<viewtype label="Thumbs">wrap</viewtype>			
 					<scrolltime>100</scrolltime>
 					<pagecontrol>62</pagecontrol>
-					<itemlayout width="145" height="200">
+					<itemlayout width="298">
 						<control type="image">
 							<posx>0</posx>
-							<posy>50</posy>
-							<width>145</width>
-							<height>220</height>							
+							<posy>0</posy>
+							<width>288</width>
+							<height>350</height>
 							<aspectratio align="center" aligny="center">keep</aspectratio>
 							<bordertexture border="2">rcb-button-nofocus.png</bordertexture>
 							<bordersize>2</bordersize>
 							<texture background="true">$INFO[ListItem.ActualIcon]</texture>
 						</control>						
 					</itemlayout>
-					<focusedlayout width="200" height="290" >
+					<focusedlayout width="298" >
 						<control type="image">							
-							<width>200</width>
-							<height>300</height>
+							<width>288</width>
+							<height>350</height>
 							<aspectratio align="center" aligny="center">keep</aspectratio>
 							<bordertexture border="8">rcb-ThumbBorder.png</bordertexture>
 							<bordersize>8</bordersize>
 							<texture background="true">$INFO[ListItem.Thumb]</texture>
-							<animation reversible="false" effect="zoom" start="0,0,145,220" end="0,-20,200,300" time="100">focus</animation>
-							<animation reversible="false" effect="zoom" end="0,0,145,220" start="0,-20,200,300" time="100">unfocus</animation>
+							<animation reversible="false" effect="zoom" end="120" center="auto" time="200">Focus</animation>
+							<!--<animation reversible="false" effect="zoom" start="0,0,145,220" end="0,-20,200,300" time="100">focus</animation>
+							<animation reversible="false" effect="zoom" end="0,0,145,220" start="0,-20,200,300" time="100">unfocus</animation>-->
 						</control>
 					</focusedlayout>
 				</control>
 				<control type="scrollbar" id="62">
-					<posx>195</posx>
-					<posy>380</posy>
-					<width>350</width>
+					<posx>400</posx>
+					<posy>30r</posy>
+					<width>480</width>
 					<height>25</height>
 					<texturesliderbackground border="14,0,14,0">rcb-ScrollBarH.png</texturesliderbackground>
 					<texturesliderbar border="14,0,14,0">rcb-ScrollBarH_bar.png</texturesliderbar>
@@ -1019,7 +1020,7 @@
 					<textureslidernib>rcb-ScrollBarNib.png</textureslidernib>
 					<textureslidernibfocus>rcb-ScrollBarNib.png</textureslidernibfocus>
 					<onup>58</onup>
-					<ondown>3100</ondown>
+					<ondown>2</ondown>
 					<showonepage>false</showonepage>
 					<orientation>horizontal</orientation>
 					<visible allowhiddenfocus="true">Control.IsVisible(58)</visible>
@@ -1027,8 +1028,8 @@
 				<!-- Title -->
 				<control type="label">
 					<posx>0</posx>
-					<posy>410</posy>
-					<width>720</width>
+					<posy>190r</posy>
+					<width>1280</width>
 					<height>30</height>
 					<font>font24_title</font>
 					<align>center</align>
@@ -1040,8 +1041,8 @@
 				<!-- Console -->
 				<control type="label">
 					<posx>0</posx>
-					<posy>450</posy>
-					<width>720</width>
+					<posy>150r</posy>
+					<width>1280</width>
 					<height>20</height>
 					<font>font16caps</font>
 					<aligny>center</aligny>
@@ -1055,8 +1056,8 @@
 				<control type="label">
 					<description>Year Value</description>
 					<posx>0</posx>
-					<posy>480</posy>
-					<width>720</width>
+					<posy>120r</posy>
+					<width>1280</width>
 					<height>20</height>
 					<label fallback="416">$INFO[ListItem.Property(year)]</label>
 					<align>center</align>
@@ -1068,8 +1069,8 @@
 				<control type="label">
 					<description>Genre Value</description>
 					<posx>0</posx>
-					<posy>510</posy>
-					<width>720</width>
+					<posy>90r</posy>
+					<width>1280</width>
 					<height>20</height>
 					<label fallback="416">$INFO[ListItem.Property(genre)]</label>
 					<align>center</align>
@@ -1082,27 +1083,27 @@
 				<control type="image">
 					<description>mainview1</description>
 					<posx>25</posx>
-					<posy>530</posy>
-					<width>60</width>
-					<height>40</height>						
+					<posy>70r</posy>
+					<width>90</width>
+					<height>60</height>						
 					<texture>$INFO[ListItem.Property(mainview1)]</texture>						
 				</control>
 				<!-- mainview2 -->
 				<control type="image">
 					<description>mainview2</description>
 					<posx>100r</posx>
-					<posy>480</posy>
-					<width>80</width>
+					<posy>70r</posy>
+					<width>90</width>
 					<height>60</height>
 					<texture>$INFO[ListItem.Property(mainview2)]</texture>
 				</control>
 				<!-- mainview3 -->
 				<control type="image">
 					<description>mainview3</description>
-					<posx>90</posx>
-					<posy>530</posy>
-					<width>60</width>
-					<height>40</height>						
+					<posx>130</posx>
+					<posy>70r</posy>
+					<width>90</width>
+					<height>60</height>						
 					<texture>$INFO[ListItem.Property(mainview3)]</texture>						
 				</control>
 			</control>
