@@ -215,7 +215,7 @@ def getEnvironment():
 def getAddonDataPath():
     path = ''
     
-    if(hasAddons()):        
+    if(hasAddons()):
         import xbmc
         path = xbmc.translatePath('special://profile/addon_data/%s' %(SCRIPTID))
     else:        
