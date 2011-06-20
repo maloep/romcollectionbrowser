@@ -199,7 +199,7 @@ class DataBaseObject:
 		for arg in args:
 			newArgs.append(arg)
 			newArgs.append(arg)
-			
+					
 		return self.getObjectsByQuery(query, newArgs)		
 		
 	def getObjectsByQuery(self, query, args):
@@ -241,7 +241,8 @@ class Game(DataBaseObject):
 					(romCollectionId = ? OR (0 = ?)) AND \
 					(Id IN (Select GameId From GenreGame Where GenreId = ?) OR (0 = ?)) AND \
 					(YearId = ? OR (0 = ?)) AND \
-					(PublisherId = ? OR (0 = ?)) \
+					(PublisherId = ? OR (0 = ?)) AND \
+					(isFavorite = ? OR (0 = ?)) \
 					AND %s \
 					ORDER BY name COLLATE NOCASE"
 					
@@ -253,9 +254,10 @@ class Game(DataBaseObject):
 		self.gdb = gdb
 		self.tableName = "Game"
 		
-	def getFilteredGames(self, romCollectionId, genreId, yearId, publisherId, likeStatement):
-		args = (romCollectionId, genreId, yearId, publisherId)
-		filterQuery = self.filterQuery %likeStatement			
+	def getFilteredGames(self, romCollectionId, genreId, yearId, publisherId, isFavorite, likeStatement):
+		args = (romCollectionId, genreId, yearId, publisherId, isFavorite)
+		filterQuery = self.filterQuery %likeStatement
+		util.Logutil.log('searching games with query: ' +filterQuery, util.LOG_LEVEL_INFO)
 		games = self.getObjectsByWildcardQuery(filterQuery, args)
 		newList = self.encodeUtf8(games)
 		return newList
