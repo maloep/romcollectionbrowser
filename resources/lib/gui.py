@@ -40,8 +40,9 @@ CONTROL_GAMES_GROUP_START = 50
 CONTROL_GAMES_GROUP_END = 59
 CONTROL_VIEW_NO_VIDEOS = (55, 56, 57, 58)
 
-CONTROL_BUTTON_UPDATEDB = 3100
 CONTROL_BUTTON_CHANGE_VIEW = 2
+CONTROL_BUTTON_FAVORITE = 1000
+CONTROL_BUTTON_SEARCH = 1100
 CONTROL_BUTTON_VIDEOFULLSCREEN = (2900, 2901,)
 
 CONTROL_LABEL_MSG = 4000
@@ -122,7 +123,7 @@ class ProgressDialogGUI:
 
 class UIGameDB(xbmcgui.WindowXML):	
 	
-	gdb = None	
+	gdb = None
 	
 	selectedControlId = 0
 	selectedConsoleId = 0
@@ -140,7 +141,7 @@ class UIGameDB(xbmcgui.WindowXML):
 	playVideoThread = None
 	playVideoThreadStopped = False
 	rcb_playList = xbmc.PlayList(xbmc.PLAYLIST_VIDEO)
-	playlistOffsets = {}		
+	playlistOffsets = {}
 		
 	#dummy to be compatible with ProgressDialogGUI
 	itemCount = 0	
@@ -151,12 +152,13 @@ class UIGameDB(xbmcgui.WindowXML):
 	gameinfoDialogOpen = False
 	
 	# set flag if we are currently running onAction
-	onActionLastRun = 0	
+	onActionLastRun = 0
 			
 	#cachingOption will be overwritten by config. Don't change it here.
 	cachingOption = 3
 	
 	useRCBService = False
+	searchTerm = ''
 	
 	
 	def __init__(self, strXMLname, strFallbackPath, strDefaultName, forceFallback):
@@ -376,7 +378,7 @@ class UIGameDB(xbmcgui.WindowXML):
 							self.selectedCharacterIndex = control.getSelectedPosition()
 							filterChanged = True
 					if(filterChanged):					
-						self.showGames()								
+						self.showGames()
 				
 			elif(action.getId() in ACTION_INFO):
 				Logutil.log("onAction: ACTION_INFO", util.LOG_LEVEL_DEBUG)
@@ -402,10 +404,7 @@ class UIGameDB(xbmcgui.WindowXML):
 		
 		Logutil.log("onClick: " + str(controlId), util.LOG_LEVEL_DEBUG)
 				
-		if (controlId == CONTROL_BUTTON_UPDATEDB):
-			Logutil.log("onClick: Update DB", util.LOG_LEVEL_DEBUG)
-			self.updateDB()		
-		elif (controlId in FILTER_CONTROLS):
+		if (controlId in FILTER_CONTROLS):
 			Logutil.log("onClick: Show Game Info", util.LOG_LEVEL_DEBUG)
 			self.setFocus(self.getControl(CONTROL_GAMES_GROUP_START))
 			self.showGameInfo()
@@ -415,7 +414,25 @@ class UIGameDB(xbmcgui.WindowXML):
 		elif (controlId in CONTROL_BUTTON_VIDEOFULLSCREEN):
 			Logutil.log("onClick: Video fullscreen", util.LOG_LEVEL_DEBUG)
 			self.startFullscreenVideo()
-
+		elif (controlId == CONTROL_BUTTON_FAVORITE):
+			Logutil.log("onClick: Button Favorites", util.LOG_LEVEL_DEBUG)
+			self.showGames()
+		elif (controlId == CONTROL_BUTTON_SEARCH):
+			Logutil.log("onClick: Button Search", util.LOG_LEVEL_DEBUG)
+			
+			searchButton = self.getControlById(CONTROL_BUTTON_SEARCH)
+			
+			keyboard = xbmc.Keyboard()
+			keyboard.setHeading('Enter search term')			
+			keyboard.doModal()
+			if (keyboard.isConfirmed()):
+				self.searchTerm = keyboard.getText()
+				searchButton.setLabel('Search: ' +self.searchTerm)				
+			else:
+				self.searchTerm = ''
+				searchButton.setLabel('Search')
+			
+			self.showGames()
 
 	def onFocus(self, controlId):
 		Logutil.log("onFocus: " + str(controlId), util.LOG_LEVEL_DEBUG)
@@ -562,11 +579,16 @@ class UIGameDB(xbmcgui.WindowXML):
 				Logutil.log("preventing unfiltered search", util.LOG_LEVEL_WARNING)
 				return				
 		
+		isFavorite = 0
+		isFavoriteButton = self.getControlById(CONTROL_BUTTON_FAVORITE)
+		if(bool(isFavoriteButton.isSelected())):
+			isFavorite = 1
+		
 		timestamp1 = time.clock()
 		
 		# build statement for character search (where name LIKE 'A%')
-		likeStatement = helper.buildLikeStatement(self.selectedCharacter)
-		games = Game(self.gdb).getFilteredGames(self.selectedConsoleId, self.selectedGenreId, self.selectedYearId, self.selectedPublisherId, likeStatement)
+		likeStatement = helper.buildLikeStatement(self.selectedCharacter, self.searchTerm)
+		games = Game(self.gdb).getFilteredGames(self.selectedConsoleId, self.selectedGenreId, self.selectedYearId, self.selectedPublisherId, isFavorite, likeStatement)
 		
 		if(games == None):
 			Logutil.log("games == None in showGames", util.LOG_LEVEL_WARNING)
@@ -1807,8 +1829,6 @@ class UIGameDB(xbmcgui.WindowXML):
 		rcbSetting = helper.getRCBSetting(self.gdb)
 		if(rcbSetting == None):			
 			Logutil.log("rcbSetting == None in loadViewState", util.LOG_LEVEL_WARNING)
-			focusControl = self.getControlById(CONTROL_BUTTON_UPDATEDB)
-			self.setFocus(focusControl)
 			return		
 		
 		#reset filter selection
