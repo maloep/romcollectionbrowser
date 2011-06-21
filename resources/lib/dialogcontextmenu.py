@@ -112,6 +112,8 @@ class ContextMenuDialog(xbmcgui.WindowXMLDialog):
 			Game(self.gui.gdb).update(('isFavorite',), (isFavorite,), self.gameRow[util.ROW_ID])
 			self.gui.gdb.commit()
 						
+			if(isFavorite == 0):
+				isFavorite = ''
 			self.selectedGame.setProperty('isfavorite', str(isFavorite))
 			
 		elif (controlID == 5119): #(Un)Mark as Favorite

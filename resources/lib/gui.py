@@ -1825,6 +1825,14 @@ class UIGameDB(xbmcgui.WindowXML):
 				
 		self.Settings.setSetting(util.SETTING_RCB_VIEW_MODE, view_mode)
 		
+		#favorites
+		controlFavorites = self.getControlById(CONTROL_BUTTON_FAVORITE)		
+		self.Settings.setSetting(util.SETTING_RCB_FAVORITESSELECTED, str(controlFavorites.isSelected()))
+		
+		#searchText
+		controlSearchText = self.getControlById(CONTROL_BUTTON_SEARCH)		
+		self.Settings.setSetting(util.SETTING_RCB_SEARCHTEXT, self.searchTerm)
+		
 		Logutil.log("End saveViewMode" , util.LOG_LEVEL_INFO)
 
 	
@@ -1858,6 +1866,17 @@ class UIGameDB(xbmcgui.WindowXML):
 		id = self.Settings.getSetting(util.SETTING_RCB_VIEW_MODE)
 		if(id != None and id != ''):
 			xbmc.executebuiltin("Container.SetViewMode(%i)" % int(id))
+
+		#searchText
+		self.searchTerm = self.Settings.getSetting(util.SETTING_RCB_SEARCHTEXT)
+		searchButton = self.getControlById(CONTROL_BUTTON_SEARCH)
+		if(self.searchTerm != ''):
+			searchButton.setLabel('Search: ' +self.searchTerm)
+
+		#favorites		
+		isFavoriteButton = self.getControlById(CONTROL_BUTTON_FAVORITE)
+		favoritesSelected = self.Settings.getSetting(util.SETTING_RCB_FAVORITESSELECTED)
+		isFavoriteButton.setSelected(favoritesSelected == '1')
 
 		#reset game list
 		self.showGames()
