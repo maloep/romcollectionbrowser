@@ -281,7 +281,7 @@ class UIGameDB(xbmcgui.WindowXML):
 		
 		self.clearList()
 		self.rcb_playList.clear()
-		xbmc.sleep(util.WAITTIME_UPDATECONTROLS)						
+		xbmc.sleep(util.WAITTIME_UPDATECONTROLS)
 		
 		self.updateControls()
 		self.loadViewState()
@@ -301,18 +301,18 @@ class UIGameDB(xbmcgui.WindowXML):
 		#Hack: prevent being invoked twice
 		onActionCurrentRun = time.clock()
 		
-		Logutil.log("onActionCurrentRun: %d ms" % (onActionCurrentRun * 1000), util.LOG_LEVEL_INFO)
-		Logutil.log("onActionLastRun: %d ms" % (self.onActionLastRun * 1000), util.LOG_LEVEL_INFO)
+		Logutil.log("onActionCurrentRun: %d ms" % (onActionCurrentRun * 1000), util.LOG_LEVEL_DEBUG)
+		Logutil.log("onActionLastRun: %d ms" % (self.onActionLastRun * 1000), util.LOG_LEVEL_DEBUG)
 		
 		diff = (onActionCurrentRun - self.onActionLastRun) * 1000
-		Logutil.log("diff: %d ms" % (diff), util.LOG_LEVEL_INFO)
+		Logutil.log("diff: %d ms" % (diff), util.LOG_LEVEL_DEBUG)
 		
 		waitTime = util.WAITTIME_ONACTION
 		if (os.environ.get("OS", "xbox") == "xbox"):
 			waitTime = util.WAITTIME_ONACTION_XBOX
 		
 		if(int(diff) <= waitTime):
-			Logutil.log("Last run still active. Do nothing.", util.LOG_LEVEL_INFO)
+			Logutil.log("Last run still active. Do nothing.", util.LOG_LEVEL_DEBUG)
 			self.onActionLastRun = time.clock()
 			return
 		
@@ -623,7 +623,11 @@ class UIGameDB(xbmcgui.WindowXML):
 				#create ListItem
 				item = xbmcgui.ListItem(gameRow[util.ROW_NAME], str(gameRow[util.ROW_ID]), imageGameList, imageGameListSelected)			
 				item.setProperty('gameId', str(gameRow[util.ROW_ID]))
-							
+				isFavorite = self.getGameProperty(gameRow[util.GAME_isFavorite])
+				if(isFavorite == '1'):
+					item.setProperty('isfavorite', '1')
+				else:
+					item.setProperty('isfavorite', '')
 				#0 = cacheAll: load all game data at once
 				if(self.cachingOption == 0):
 					self.setAllItemData(item, gameRow, self.fileDict, romCollection)							
@@ -1303,7 +1307,6 @@ class UIGameDB(xbmcgui.WindowXML):
 		item.setProperty('media', self.getGameProperty(gameRow[util.GAME_media]))				
 		item.setProperty('perspective', self.getGameProperty(gameRow[util.GAME_perspective]))
 		item.setProperty('controllertype', self.getGameProperty(gameRow[util.GAME_controllerType]))
-		item.setProperty('isfavorite', self.getGameProperty(gameRow[util.GAME_isFavorite]))
 		item.setProperty('playcount', self.getGameProperty(gameRow[util.GAME_launchCount]))
 		item.setProperty('originaltitle', self.getGameProperty(gameRow[util.GAME_originalTitle]))
 		item.setProperty('alternatetitle', self.getGameProperty(gameRow[util.GAME_alternateTitle]))
