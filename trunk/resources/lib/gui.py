@@ -172,17 +172,17 @@ class UIGameDB(xbmcgui.WindowXML):
 				
 		if(util.hasAddons()):			
 			import xbmcaddon
-	        addon = xbmcaddon.Addon(id='%s' %util.SCRIPTID)
-	        Logutil.log("RCB version: " + addon.getAddonInfo('version'), util.LOG_LEVEL_INFO)
-	        
-	        #check if RCB service is available, otherwise we will use autoexec.py
-	        try:
-	        	serviceAddon = xbmcaddon.Addon(id='service.rom.collection.browser')
-	        	Logutil.log("RCB service addon: " + str(serviceAddon), util.LOG_LEVEL_INFO)
-	        	self.useRCBService = True
-	        except:
-	        	Logutil.log("No RCB service addon available. Will use autoexec.py for startup features.", util.LOG_LEVEL_INFO)
-	        
+			addon = xbmcaddon.Addon(id='%s' %util.SCRIPTID)
+			Logutil.log("RCB version: " + addon.getAddonInfo('version'), util.LOG_LEVEL_INFO)
+			
+			#check if RCB service is available, otherwise we will use autoexec.py
+			try:
+				serviceAddon = xbmcaddon.Addon(id='service.rom.collection.browser')
+				Logutil.log("RCB service addon: " + str(serviceAddon), util.LOG_LEVEL_INFO)
+				self.useRCBService = True
+			except:
+				Logutil.log("No RCB service addon available. Will use autoexec.py for startup features.", util.LOG_LEVEL_INFO)
+			
 		
 		if self.checkUpdateInProgress():
 			self.quit = True

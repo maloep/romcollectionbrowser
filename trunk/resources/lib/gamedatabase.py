@@ -6,11 +6,11 @@ from util import *
 import util
 
 try:
-    from sqlite3 import dbapi2 as sqlite
-    Logutil.log("Loading sqlite3 as DB engine", util.LOG_LEVEL_INFO)
+	from sqlite3 import dbapi2 as sqlite
+	Logutil.log("Loading sqlite3 as DB engine", util.LOG_LEVEL_INFO)
 except:
-    from pysqlite2 import dbapi2 as sqlite
-    Logutil.log("Loading pysqlite2 as DB engine", util.LOG_LEVEL_INFO)
+	from pysqlite2 import dbapi2 as sqlite
+	Logutil.log("Loading pysqlite2 as DB engine", util.LOG_LEVEL_INFO)
 
 
 class GameDataBase:	
