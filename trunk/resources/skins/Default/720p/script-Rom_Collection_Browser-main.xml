@@ -33,7 +33,7 @@
 					<!--<include>VisibleFadeEffect</include>-->
 					<visible>Control.IsVisible(50)</visible>
 				</control>
-				<control type="wraplist" id="50">					
+				<control type="wraplist" id="50">
 					<posx>-115</posx>
 					<posy>350</posy>
 					<width>1420</width>
@@ -78,7 +78,6 @@
 								<height>25</height>
 								<texture>rcb-star.png</texture>					
 								<visible>!IsEmpty(ListItem.Property(isfavorite))</visible>
-								<!--<visible>$INFO[ListItem.Property(isfavorite)]</visible>-->
 							</control>
 						</control>
 					</itemlayout>
@@ -99,7 +98,7 @@
 							<posy>250</posy>
 							<width>100</width>
 							<height>25</height>
-							<texture>rcb-star.png</texture>					
+							<texture>rcb-star.png</texture>
 							<visible>!IsEmpty(ListItem.Property(isfavorite))</visible>
 							<animation reversible="false" effect="fade" start="0" end="100" time="400">Focus</animation>
 						</control>
@@ -134,14 +133,6 @@
 					<label>$INFO[ListItem.Label]</label>
 					<visible>Control.IsVisible(50)</visible>
 				</control>
-				<!--<control type="image">
-					<posx>100</posx>
-					<posy>97r</posy>
-					<width>100</width>
-					<height>25</height>
-					<texture>rcb-star.png</texture>					
-					<visible>!IsEmpty(ListItem.Property(isfavorite))</visible>
-				</control>-->
 				<control type="label">
 					<posx>0</posx>
 					<posy>62r</posy>
@@ -154,7 +145,6 @@
 					<align>center</align>
 					<label>$INFO[ListItem.Property(console)]</label>
 					<visible>Control.IsVisible(50)</visible>
-					<!--<visible>IsEmpty(ListItem.Property(mainview2)) + Control.IsVisible(50)</visible>-->
 				</control>					
 				<!-- mainview1 -->
 				<control type="image">

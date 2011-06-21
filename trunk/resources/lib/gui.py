@@ -623,8 +623,11 @@ class UIGameDB(xbmcgui.WindowXML):
 				#create ListItem
 				item = xbmcgui.ListItem(gameRow[util.ROW_NAME], str(gameRow[util.ROW_ID]), imageGameList, imageGameListSelected)			
 				item.setProperty('gameId', str(gameRow[util.ROW_ID]))
+				
+				#favorite handling
+				showFavoriteStars = self.Settings.getSetting(util.SETTING_RCB_SHOWFAVORITESTARS).upper() == 'TRUE'
 				isFavorite = self.getGameProperty(gameRow[util.GAME_isFavorite])
-				if(isFavorite == '1'):
+				if(isFavorite == '1' and showFavoriteStars):
 					item.setProperty('isfavorite', '1')
 				else:
 					item.setProperty('isfavorite', '')
