@@ -3,24 +3,24 @@
 	<include>dialogeffect</include>
 	<coordinates>
 		<system>1</system>
-		<posx>200</posx>
-		<posy>150</posy>
+		<posx>440</posx>
+		<posy>200</posy>
 	</coordinates>
 	<controls>
 		<control type="image">
 			<description>background top image</description>
 			<posx>0</posx>
-			<posy>-54</posy>
-			<width>320</width>
-			<height>54</height>
-			<texture border="45,45,45,0">rcb-DialogContextTop.png</texture>
+			<posy>-65</posy>
+			<width>400</width>
+			<height>65</height>
+			<texture border="60,60,60,0">rcb-DialogContextTop.png</texture>
 		</control>
 		<control type="button" id="5101">
 			<description>Close Window button</description>
-			<posx>250</posx>
-			<posy>-20</posy>
-			<width>30</width>
-			<height>20</height>
+			<posx>320</posx>
+			<posy>-30</posy>
+			<width>40</width>
+			<height>30</height>
 			<label>-</label>
 			<font>-</font>
 			<texturefocus>rcb-DialogCloseButton-focus.png</texturefocus>
@@ -35,22 +35,22 @@
 			<description>background image</description>
 			<posx>0</posx>
 			<posy>0</posy>
-			<width>320</width>
-			<height>288</height>
+			<width>400</width>
+			<height>364</height>
 			<texture border="45,0,45,0">rcb-DialogContextMiddle.png</texture>
 		</control>
 		<control type="image">
 			<description>background bottom image</description>
 			<posx>0</posx>
-			<posy>288</posy>
-			<width>320</width>
+			<posy>364</posy>
+			<width>400</width>
 			<texture border="45,0,45,49">rcb-DialogContextBottom.png</texture>
 		</control>
 		<control type="button" id="5110">
 			<description>button import games</description>
 			<posx>34</posx>
 			<posy>-</posy>
-			<width>247</width>
+			<width>328</width>
 			<height>38</height>
 			<font>fontContextMenu</font>
 			<align>center</align>
@@ -66,7 +66,7 @@
 			<description>button add rom collection</description>
 			<posx>34</posx>
 			<posy>38</posy>
-			<width>247</width>
+			<width>328</width>
 			<height>38</height>
 			<font>fontContextMenu</font>
 			<align>center</align>
@@ -82,7 +82,7 @@
 			<description>button edit rom collection</description>
 			<posx>34</posx>
 			<posy>76</posy>
-			<width>247</width>
+			<width>328</width>
 			<height>38</height>
 			<font>fontContextMenu</font>
 			<align>center</align>
@@ -98,7 +98,7 @@
 			<description>button edit offline scraper</description>
 			<posx>34</posx>
 			<posy>114</posy>
-			<width>247</width>
+			<width>328</width>
 			<height>38</height>
 			<font>fontContextMenu</font>
 			<align>center</align>
@@ -114,7 +114,7 @@
 			<description>button edit command</description>
 			<posx>34</posx>
 			<posy>152</posy>
-			<width>247</width>
+			<width>328</width>
 			<height>38</height>
 			<font>fontContextMenu</font>
 			<align>center</align>
@@ -122,17 +122,49 @@
 			<focusedcolor>0xFFFFFFFF</focusedcolor>
 			<texturefocus border="5">rcb-button-focus.png</texturefocus>
 			<texturenofocus border="5">rcb-button-nofocus.png</texturenofocus>
-
 			<label>Edit Game Command</label>
 			<onup>5117</onup>
-
+			<ondown>5118</ondown>
+		</control>
+		
+		<control type="button" id="5118">
+			<description>button game as favorite</description>
+			<posx>34</posx>
+			<posy>190</posy>
+			<width>328</width>
+			<height>38</height>
+			<font>fontContextMenu</font>
+			<align>center</align>
+			<textcolor>0x88FFFFFF</textcolor>
+			<focusedcolor>0xFFFFFFFF</focusedcolor>
+			<texturefocus border="5">rcb-button-focus.png</texturefocus>
+			<texturenofocus border="5">rcb-button-nofocus.png</texturenofocus>
+			<label>Add Game To Favorites</label>
+			<onup>5113</onup>
+			<ondown>5119</ondown>
+		</control>
+		<control type="button" id="5119">
+			<description>button selection as favorite</description>
+			<posx>34</posx>
+			<posy>228</posy>
+			<width>328</width>
+			<height>38</height>
+			<font>fontContextMenu</font>
+			<align>center</align>
+			<textcolor>0x88FFFFFF</textcolor>
+			<focusedcolor>0xFFFFFFFF</focusedcolor>
+			<texturefocus border="5">rcb-button-focus.png</texturefocus>
+			<texturenofocus border="5">rcb-button-nofocus.png</texturenofocus>
+			<label>Add Selection To Favorites</label>
+			<onup>5118</onup>
 			<ondown>5114</ondown>
 		</control>
+		
 		<control type="button" id="5114">
 			<description>button delete rom</description>
 			<posx>34</posx>
-			<posy>190</posy>
-			<width>247</width>
+			<posy>264</posy>
+			<width>328</width>
 			<height>38</height>
 			<font>fontContextMenu</font>
 			<align>center</align>
@@ -141,16 +173,14 @@
 			<texturefocus border="5">rcb-button-focus.png</texturefocus>
 			<texturenofocus border="5">rcb-button-nofocus.png</texturenofocus>
 			<label>Delete Game</label>
-
-
-			<onup>5113</onup>
+			<onup>5119</onup>
 			<ondown>5115</ondown>
 		</control>
 		<control type="button" id="5115">
 			<description>button delete rom collection</description>
 			<posx>34</posx>
-			<posy>228</posy>
-			<width>247</width>
+			<posy>302</posy>
+			<width>328</width>
 			<height>38</height>
 			<font>fontContextMenu</font>
 			<align>center</align>
@@ -158,8 +188,6 @@
 			<focusedcolor>0xFFFFFFFF</focusedcolor>
 			<texturefocus border="5">rcb-button-focus.png</texturefocus>
 			<texturenofocus border="5">rcb-button-nofocus.png</texturenofocus>
-
-
 			<label>Delete Rom Collection</label>
 			<onup>5114</onup>
 			<ondown>5116</ondown>
@@ -167,8 +195,8 @@
 		<control type="button" id="5116">
 			<description>button clean database</description>
 			<posx>34</posx>
-			<posy>266</posy>
-			<width>247</width>
+			<posy>340</posy>
+			<width>328</width>
 			<height>38</height>
 			<font>fontContextMenu</font>
 			<align>center</align>

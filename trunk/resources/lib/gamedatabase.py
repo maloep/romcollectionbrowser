@@ -257,7 +257,7 @@ class Game(DataBaseObject):
 	def getFilteredGames(self, romCollectionId, genreId, yearId, publisherId, isFavorite, likeStatement):
 		args = (romCollectionId, genreId, yearId, publisherId, isFavorite)
 		filterQuery = self.filterQuery %likeStatement
-		util.Logutil.log('searching games with query: ' +filterQuery, util.LOG_LEVEL_INFO)
+		util.Logutil.log('searching games with query: ' +filterQuery, util.LOG_LEVEL_DEBUG)
 		games = self.getObjectsByWildcardQuery(filterQuery, args)
 		newList = self.encodeUtf8(games)
 		return newList

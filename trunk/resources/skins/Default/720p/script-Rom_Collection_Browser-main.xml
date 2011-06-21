@@ -71,6 +71,15 @@
 								<bordersize>2</bordersize>
 								<texture background="true" flipy="true" diffuse="rcb-diffuse_mirror.png">$INFO[ListItem.ActualIcon]</texture>
 							</control>
+							<control type="image">
+								<posx>-50</posx>
+								<posy>240</posy>
+								<width>100</width>
+								<height>25</height>
+								<texture>rcb-star.png</texture>					
+								<visible>!IsEmpty(ListItem.Property(isfavorite))</visible>
+								<!--<visible>$INFO[ListItem.Property(isfavorite)]</visible>-->
+							</control>
 						</control>
 					</itemlayout>
 					<focusedlayout width="160" height="240">
@@ -84,6 +93,15 @@
 							<bordersize>8</bordersize>
 							<texture background="true">$INFO[ListItem.Thumb]</texture>
 							<animation reversible="false" effect="zoom" end="120" center="auto" time="200">Focus</animation>
+						</control>
+						<control type="image">
+							<posx>-65</posx>
+							<posy>250</posy>
+							<width>100</width>
+							<height>25</height>
+							<texture>rcb-star.png</texture>					
+							<visible>!IsEmpty(ListItem.Property(isfavorite))</visible>
+							<animation reversible="false" effect="fade" start="0" end="100" time="400">Focus</animation>
 						</control>
 					</focusedlayout>
 				</control>
@@ -116,6 +134,14 @@
 					<label>$INFO[ListItem.Label]</label>
 					<visible>Control.IsVisible(50)</visible>
 				</control>
+				<!--<control type="image">
+					<posx>100</posx>
+					<posy>97r</posy>
+					<width>100</width>
+					<height>25</height>
+					<texture>rcb-star.png</texture>					
+					<visible>!IsEmpty(ListItem.Property(isfavorite))</visible>
+				</control>-->
 				<control type="label">
 					<posx>0</posx>
 					<posy>62r</posy>
@@ -527,10 +553,18 @@
 								<height>25</height>
 								<texture border="0,2,0,2">rcb-MenuItemNF.png</texture>
 							</control>
+							<control type="image">
+								<posx>515</posx>
+								<posy>7</posy>
+								<width>100</width>
+								<height>25</height>
+								<texture>rcb-star.png</texture>
+								<visible>$INFO[ListItem.Property(isfavorite)] == 1</visible>
+							</control>
 							<control type="label">
 								<posx>10</posx>
 								<posy>0</posy>
-								<width>585</width>
+								<width>540</width>
 								<height>35</height>
 								<font>font13</font>
 								<textcolor>FFb4b4b4</textcolor>
@@ -568,10 +602,18 @@
 								<texture border="0,0,14,0" >rcb-MediaItemDetailBG.png</texture>
 								<visible>Control.HasFocus(52)</visible>
 							</control>
+							<control type="image">
+								<posx>515</posx>
+								<posy>7</posy>
+								<width>100</width>
+								<height>25</height>
+								<texture>rcb-star.png</texture>
+								<visible>$INFO[ListItem.Property(isfavorite)] == 1</visible>
+							</control>
 							<control type="label">
 								<posx>10</posx>
 								<posy>0</posy>
-								<width>585</width>
+								<width>540</width>
 								<height>35</height>
 								<font>font13</font>
 								<textcolor>white</textcolor>
@@ -615,7 +657,7 @@
 						<textcolor>DDFFFFFF</textcolor>
 						<selectedcolor>FFe2ff43</selectedcolor>
 						<align>center</align>
-						<label>$INFO[ListItem.Label]</label>						
+						<label>$INFO[ListItem.Label]</label>
 					</control>
 					<!-- mainviewgameinfobig -->
 					<control type="image" id="2001">
@@ -959,6 +1001,16 @@
 			<!-- gamelist 58 -->
 			<control type="group">
 				<visible>Control.IsVisible(58)</visible>
+				<control type="image">				
+					<description>gamelist background image</description>
+					<posx>10</posx>
+					<posy>0</posy>
+					<width>1280</width>
+					<height>720</height>
+					<texture>rcb-ContentPanel4.png</texture>
+					<colordiffuse>60DDDDDD</colordiffuse>
+					<visible>Control.IsVisible(58)</visible>
+				</control>
 				<control type="image">	
 					<description>gamelist background image</description>
 					<posx>0</posx>
@@ -989,23 +1041,40 @@
 							<posy>0</posy>
 							<width>288</width>
 							<height>350</height>
-							<aspectratio align="center" aligny="center">keep</aspectratio>
+							<aspectratio align="center" aligny="bottom">keep</aspectratio>
 							<bordertexture border="2">rcb-button-nofocus.png</bordertexture>
 							<bordersize>2</bordersize>
 							<texture background="true">$INFO[ListItem.ActualIcon]</texture>
+						</control>
+						<control type="image">
+							<posx>-45</posx>
+							<posy>335</posy>
+							<width>100</width>
+							<height>25</height>
+							<texture>rcb-star.png</texture>					
+							<visible>!IsEmpty(ListItem.Property(isfavorite))</visible>
 						</control>						
 					</itemlayout>
 					<focusedlayout width="298" >
-						<control type="image">							
+						<control type="image">
+							<posx>0</posx>
+							<posy>-25</posy>
 							<width>288</width>
 							<height>350</height>
-							<aspectratio align="center" aligny="center">keep</aspectratio>
+							<aspectratio align="center" aligny="bottom">keep</aspectratio>
 							<bordertexture border="8">rcb-ThumbBorder.png</bordertexture>
 							<bordersize>8</bordersize>
 							<texture background="true">$INFO[ListItem.Thumb]</texture>
 							<animation reversible="false" effect="zoom" end="120" center="auto" time="200">Focus</animation>
-							<!--<animation reversible="false" effect="zoom" start="0,0,145,220" end="0,-20,200,300" time="100">focus</animation>
-							<animation reversible="false" effect="zoom" end="0,0,145,220" start="0,-20,200,300" time="100">unfocus</animation>-->
+						</control>
+						<control type="image">
+							<posx>-70</posx>
+							<posy>345</posy>
+							<width>100</width>
+							<height>25</height>
+							<texture>rcb-star.png</texture>					
+							<visible>!IsEmpty(ListItem.Property(isfavorite))</visible>
+							<animation reversible="false" effect="fade" start="0" end="100" time="400">Focus</animation>
 						</control>
 					</focusedlayout>
 				</control>
