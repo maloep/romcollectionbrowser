@@ -17,6 +17,7 @@ from gamedatabase import *
 # See guilib/Key.h
 ACTION_EXIT_SCRIPT = (10,)
 ACTION_CANCEL_DIALOG = ACTION_EXIT_SCRIPT + (9,)
+ACTION_PLAYFULLSCREEN = (12,)
 ACTION_MOVEMENT_LEFT = (1,)
 ACTION_MOVEMENT_RIGHT = (2,)
 ACTION_MOVEMENT_UP = (3,)
@@ -393,6 +394,11 @@ class UIGameDB(xbmcgui.WindowXML):
 			elif (action.getId() in ACTION_CONTEXT):
 				Logutil.log('onAction: ACTION_CONTEXT', util.LOG_LEVEL_INFO)
 				self.showContextMenu()
+			elif (action.getId() in ACTION_PLAYFULLSCREEN):
+				#HACK: check if we are in Eden mode
+				if(self.useRCBService):
+					Logutil.log('onAction: ACTION_PLAYFULLSCREEN', util.LOG_LEVEL_INFO)
+					self.startFullscreenVideo()
 		except Exception, (exc):
 			print "RCB_ERROR: unhandled Error in onAction: " +str(exc)
 			self.onActionLastRun = time.clock()
