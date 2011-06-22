@@ -1028,7 +1028,7 @@
 					<itemlayout width="298">
 						<control type="image">
 							<posx>0</posx>
-							<posy>0</posy>
+							<posy>25</posy>
 							<width>288</width>
 							<height>350</height>
 							<aspectratio align="center" aligny="bottom">keep</aspectratio>
@@ -1037,8 +1037,8 @@
 							<texture background="true">$INFO[ListItem.ActualIcon]</texture>
 						</control>
 						<control type="image">
-							<posx>-45</posx>
-							<posy>335</posy>
+							<posx>-42</posx>
+							<posy>358</posy>
 							<width>100</width>
 							<height>25</height>
 							<texture>rcb-star.png</texture>					
@@ -1048,7 +1048,7 @@
 					<focusedlayout width="298" >
 						<control type="image">
 							<posx>0</posx>
-							<posy>-25</posy>
+							<posy>0</posy>
 							<width>288</width>
 							<height>350</height>
 							<aspectratio align="center" aligny="bottom">keep</aspectratio>
@@ -1058,8 +1058,8 @@
 							<animation reversible="false" effect="zoom" end="120" center="auto" time="200">Focus</animation>
 						</control>
 						<control type="image">
-							<posx>-70</posx>
-							<posy>345</posy>
+							<posx>-68</posx>
+							<posy>365</posy>
 							<width>100</width>
 							<height>25</height>
 							<texture>rcb-star.png</texture>					
