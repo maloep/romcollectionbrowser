@@ -3,8 +3,8 @@
 	<include>dialogeffect</include>
 	<coordinates>
 		<system>1</system>
-		<posx>125</posx>
-		<posy>200</posy>
+		<posx>280</posx>
+		<posy>250</posy>
 	</coordinates>
 	<controls>
 		
@@ -12,16 +12,16 @@
 		<control type="image">
 			<description>background top image</description>
 			<posx>0</posx>
-			<posy>-54</posy>
-			<width>470</width>
-			<height>54</height>
+			<posy>-65</posy>
+			<width>720</width>
+			<height>65</height>
 			<texture border="45,45,45,0">rcb-DialogContextTop.png</texture>
 		</control>
 		<control type="label">
 			<posx>0</posx>
-			<posy>-22</posy>
-			<width>470</width>
-			<height>20</height>
+			<posy>-30</posy>
+			<width>720</width>
+			<height>30</height>
 			<font>font24_title</font>
 			<textcolor>white</textcolor>
 			<align>center</align>
@@ -30,10 +30,10 @@
 		</control>
 		<control type="button" id="5101">
 			<description>Close Window button</description>
-			<posx>400</posx>
-			<posy>-20</posy>
-			<width>30</width>
-			<height>20</height>
+			<posx>640</posx>
+			<posy>-30</posy>
+			<width>40</width>
+			<height>25</height>
 			<label>-</label>
 			<font>-</font>
 			<texturefocus>rcb-DialogCloseButton-focus.png</texturefocus>
@@ -48,23 +48,23 @@
 			<description>background image</description>
 			<posx>0</posx>
 			<posy>0</posy>
-			<width>470</width>
-			<height>100</height>
+			<width>720</width>
+			<height>120</height>
 			<texture border="45,0,45,0">rcb-DialogContextMiddle.png</texture>				
 		</control>
 		<control type="image">
 			<description>background image</description>
 			<posx>35</posx>
 			<posy>0</posy>
-			<width>395</width>
-			<height>100</height>				
+			<width>640</width>
+			<height>120</height>				
 			<texture border="0,0,0,0">rcb-floor.png</texture>
 		</control>
 		<control type="image">
 			<description>background bottom image</description>
 			<posx>0</posx>
-			<posy>100</posy>
-			<width>470</width>
+			<posy>120</posy>
+			<width>720</width>
 			<texture border="45,0,45,49">rcb-DialogContextBottom.png</texture>
 		</control>
 		
@@ -72,8 +72,8 @@
 		<control type="list" id="5410">
 			<hitrect x="0" y="0" w="0" h="0" />
 			<posx>40</posx>
-			<posy>8</posy>
-			<width>410</width>
+			<posy>15</posy>
+			<width>630</width>
 			<height>30</height>
 			<onleft>5410</onleft>
 			<onright>5410</onright>
@@ -83,11 +83,11 @@
 			<scrolltime>0</scrolltime>
 			<itemlayout height="1" width="750">
 			</itemlayout>
-			<focusedlayout height="30" width="410">
+			<focusedlayout height="30" width="630">
 				<control type="image">
 					<posx>0</posx>
 					<posy>0</posy>
-					<width>390</width>
+					<width>630</width>
 					<height>30</height>
 					<texture>rcb-MenuItemNF.png</texture>
 					<visible>![Control.HasFocus(5411) | Control.HasFocus(5412)]</visible>
@@ -95,7 +95,7 @@
 				<control type="image">
 					<posx>0</posx>
 					<posy>0</posy>
-					<width>390</width>
+					<width>630</width>
 					<height>30</height>
 					<texture>rcb-MenuItemFO.png</texture>
 					<visible>[Control.HasFocus(5411) | Control.HasFocus(5412)]</visible>
@@ -103,7 +103,7 @@
 				<control type="label">
 					<posx>7</posx>
 					<posy>5</posy>
-					<width>180</width>
+					<width>200</width>
 					<height>20</height>
 					<font>font13</font>
 					<textcolor>88FFFFFF</textcolor>
@@ -115,7 +115,7 @@
 				<control type="label">
 					<posx>7</posx>
 					<posy>5</posy>
-					<width>180</width>
+					<width>200</width>
 					<height>20</height>
 					<font>font13</font>
 					<textcolor>white</textcolor>
@@ -125,9 +125,9 @@
 					<visible>[Control.HasFocus(5411) | Control.HasFocus(5412)]</visible>
 				</control>
 				<control type="label">
-					<posx>330</posx>
+					<posx>570</posx>
 					<posy>5</posy>
-					<width>250</width>
+					<width>330</width>
 					<height>20</height>
 					<font>font13</font>
 					<textcolor>88FFFFFF</textcolor>
@@ -137,9 +137,9 @@
 					<visible>![Control.HasFocus(5411) | Control.HasFocus(5412)]</visible>
 				</control>
 				<control type="label">
-					<posx>330</posx>
+					<posx>570</posx>
 					<posy>5</posy>
-					<width>250</width>
+					<width>330</width>
 					<height>20</height>
 					<font>font13</font>
 					<textcolor>white</textcolor>
@@ -152,10 +152,10 @@
 		</control>
 		<control type="button" id="5411">
 			<description>Menu Item Next Button</description>
-			<posx>390</posx>
-			<posy>16</posy>
-			<width>15</width>
-			<height>15</height>
+			<posx>630</posx>
+			<posy>20</posy>
+			<width>20</width>
+			<height>20</height>
 			<label>-</label>
 			<font>-</font>
 			<texturenofocus>rcb-scroll-down-2.png</texturenofocus>
@@ -168,10 +168,10 @@
 		</control>
 		<control type="button" id="5412">
 			<description>Menu Item Prev Button</description>
-			<posx>405</posx>
-			<posy>16</posy>
-			<width>15</width>
-			<height>15</height>
+			<posx>650</posx>
+			<posy>20</posy>
+			<width>20</width>
+			<height>20</height>
 			<label>-</label>
 			<font>-</font>
 			<texturenofocus>rcb-scroll-up-2.png</texturenofocus>
@@ -187,8 +187,8 @@
 		<control type="list" id="5490">
 			<hitrect x="0" y="0" w="0" h="0" />
 			<posx>40</posx>
-			<posy>40</posy>
-			<width>410</width>
+			<posy>50</posy>
+			<width>630</width>
 			<height>30</height>
 			<onleft>5490</onleft>
 			<onright>5490</onright>
@@ -198,11 +198,11 @@
 			<scrolltime>0</scrolltime>
 			<itemlayout height="1" width="750">
 			</itemlayout>
-			<focusedlayout height="30" width="410">
+			<focusedlayout height="30" width="630">
 				<control type="image">
 					<posx>0</posx>
 					<posy>0</posy>
-					<width>390</width>
+					<width>630</width>
 					<height>30</height>
 					<texture>rcb-MenuItemNF.png</texture>
 					<visible>![Control.HasFocus(5491) | Control.HasFocus(5492)]</visible>
@@ -210,7 +210,7 @@
 				<control type="image">
 					<posx>0</posx>
 					<posy>0</posy>
-					<width>390</width>
+					<width>630</width>
 					<height>30</height>
 					<texture>rcb-MenuItemFO.png</texture>
 					<visible>[Control.HasFocus(5491) | Control.HasFocus(5492)]</visible>
@@ -218,7 +218,7 @@
 				<control type="label">
 					<posx>7</posx>
 					<posy>5</posy>
-					<width>180</width>
+					<width>200</width>
 					<height>20</height>
 					<font>font13</font>
 					<textcolor>88FFFFFF</textcolor>
@@ -230,7 +230,7 @@
 				<control type="label">
 					<posx>7</posx>
 					<posy>5</posy>
-					<width>180</width>
+					<width>200</width>
 					<height>20</height>
 					<font>font13</font>
 					<textcolor>white</textcolor>
@@ -240,9 +240,9 @@
 					<visible>[Control.HasFocus(5491) | Control.HasFocus(5492)]</visible>
 				</control>
 				<control type="label">
-					<posx>330</posx>
+					<posx>570</posx>
 					<posy>5</posy>
-					<width>250</width>
+					<width>330</width>
 					<height>20</height>
 					<font>font13</font>
 					<textcolor>88FFFFFF</textcolor>
@@ -252,9 +252,9 @@
 					<visible>![Control.HasFocus(5491) | Control.HasFocus(5492)]</visible>
 				</control>
 				<control type="label">
-					<posx>330</posx>
+					<posx>570</posx>
 					<posy>5</posy>
-					<width>250</width>
+					<width>330</width>
 					<height>20</height>
 					<font>font13</font>
 					<textcolor>white</textcolor>
@@ -267,10 +267,10 @@
 		</control>
 		<control type="button" id="5491">
 			<description>Menu Item Next Button</description>
-			<posx>390</posx>
-			<posy>48</posy>
-			<width>15</width>
-			<height>15</height>
+			<posx>630</posx>
+			<posy>55</posy>
+			<width>20</width>
+			<height>20</height>
 			<label>-</label>
 			<font>-</font>
 			<texturenofocus>rcb-scroll-down-2.png</texturenofocus>
@@ -283,10 +283,10 @@
 		</control>
 		<control type="button" id="5492">
 			<description>Menu Item Prev Button</description>
-			<posx>405</posx>
-			<posy>48</posy>
-			<width>15</width>
-			<height>15</height>
+			<posx>650</posx>
+			<posy>55</posy>
+			<width>20</width>
+			<height>20</height>
 			<label>-</label>
 			<font>-</font>
 			<texturenofocus>rcb-scroll-up-2.png</texturenofocus>
@@ -302,10 +302,10 @@
 			
 		<control type="button" id="6000"> 
 			<description>Delete</description>
-			<posx>125</posx>
-			<posy>85</posy>
-			<width>100</width>
-			<height>25</height>
+			<posx>150</posx>
+			<posy>100</posy>
+			<width>200</width>
+			<height>30</height>
 			<visible>true</visible>
 			<font>font13</font>
 			<colordiffuse>DDFFFFFF</colordiffuse>
@@ -326,10 +326,10 @@
 		</control>
 		<control type="button" id="6010"> 
 			<description>Cancel</description>
-			<posx>245</posx>
-			<posy>85</posy>
-			<width>100</width>
-			<height>25</height>
+			<posx>370</posx>
+			<posy>100</posy>
+			<width>200</width>
+			<height>30</height>
 			<visible>true</visible>
 			<font>font13</font>
 			<colordiffuse>DDFFFFFF</colordiffuse>
