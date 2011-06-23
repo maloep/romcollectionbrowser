@@ -623,8 +623,8 @@ class UIGameDB(xbmcgui.WindowXML):
 		
 			try:
 				#images for gamelist
-				imageGameList = self.getFileForControl(romCollection.imagePlacing.fileTypesForGameList, gameRow[util.ROW_ID], gameRow[util.GAME_publisherId], gameRow[util.GAME_developerId], gameRow[util.GAME_romCollectionId], fileDict)
-				imageGameListSelected = self.getFileForControl(romCollection.imagePlacing.fileTypesForGameListSelected, gameRow[util.ROW_ID], gameRow[util.GAME_publisherId], gameRow[util.GAME_developerId], gameRow[util.GAME_romCollectionId], fileDict)												
+				imageGameList = self.getFileForControl(romCollection.imagePlacingMain.fileTypesForGameList, gameRow[util.ROW_ID], gameRow[util.GAME_publisherId], gameRow[util.GAME_developerId], gameRow[util.GAME_romCollectionId], fileDict)
+				imageGameListSelected = self.getFileForControl(romCollection.imagePlacingMain.fileTypesForGameListSelected, gameRow[util.ROW_ID], gameRow[util.GAME_publisherId], gameRow[util.GAME_developerId], gameRow[util.GAME_romCollectionId], fileDict)												
 				
 				#create ListItem
 				item = xbmcgui.ListItem(gameRow[util.ROW_NAME], str(gameRow[util.ROW_ID]), imageGameList, imageGameListSelected)			
@@ -1049,7 +1049,7 @@ class UIGameDB(xbmcgui.WindowXML):
 		#create dummy ListItem for playlist
 		dummyItem = xbmcgui.ListItem(gameRow[util.ROW_NAME], str(gameRow[util.ROW_ID]), imageGameList, imageGameListSelected)
 		
-		videosFullscreen = helper.getFilesByControl_Cached(self.gdb, romCollection.imagePlacing.fileTypesForMainViewVideoFullscreen, gameRow[util.ROW_ID], gameRow[util.GAME_publisherId], gameRow[util.GAME_developerId], gameRow[util.GAME_romCollectionId], fileDict)
+		videosFullscreen = helper.getFilesByControl_Cached(self.gdb, romCollection.imagePlacingMain.fileTypesForMainViewVideoFullscreen, gameRow[util.ROW_ID], gameRow[util.GAME_publisherId], gameRow[util.GAME_developerId], gameRow[util.GAME_romCollectionId], fileDict)
 		
 		#add video to playlist and compute playlistOffset (missing videos must be skipped)
 		if(videosFullscreen != None and len(videosFullscreen) != 0):			
@@ -1129,21 +1129,21 @@ class UIGameDB(xbmcgui.WindowXML):
 				fileDict = self.getFileDictByGameRow(gdb, gameRow)
 		
 			#check if fullscreen video is configured (this will just show the button "Play fullscreen video")
-			videosFullscreen = helper.getFilesByControl_Cached(self.gdb, romCollection.imagePlacing.fileTypesForMainViewVideoFullscreen, gameRow[util.ROW_ID], gameRow[util.GAME_publisherId], gameRow[util.GAME_developerId], gameRow[util.GAME_romCollectionId], fileDict)
+			videosFullscreen = helper.getFilesByControl_Cached(self.gdb, romCollection.imagePlacingMain.fileTypesForMainViewVideoFullscreen, gameRow[util.ROW_ID], gameRow[util.GAME_publisherId], gameRow[util.GAME_developerId], gameRow[util.GAME_romCollectionId], fileDict)
 			if(videosFullscreen != None and len(videosFullscreen) != 0):				
 				selectedGame.setProperty('mainviewvideofullscreen', 'fullscreen')
 				
 		
 			video = ""			
 			
-			videosBig = helper.getFilesByControl_Cached(self.gdb, romCollection.imagePlacing.fileTypesForMainViewVideoWindowBig, gameRow[util.ROW_ID], gameRow[util.GAME_publisherId], gameRow[util.GAME_developerId], gameRow[util.GAME_romCollectionId], fileDict)			
+			videosBig = helper.getFilesByControl_Cached(self.gdb, romCollection.imagePlacingMain.fileTypesForMainViewVideoWindowBig, gameRow[util.ROW_ID], gameRow[util.GAME_publisherId], gameRow[util.GAME_developerId], gameRow[util.GAME_romCollectionId], fileDict)			
 			
 			if(videosBig != None and len(videosBig) != 0):
 				video = videosBig[0]				
 				selectedGame.setProperty('mainviewvideosizebig', 'big')				
 				
 			else:
-				videosSmall = helper.getFilesByControl_Cached(self.gdb, romCollection.imagePlacing.fileTypesForMainViewVideoWindowSmall, gameRow[util.ROW_ID], gameRow[util.GAME_publisherId], gameRow[util.GAME_developerId], gameRow[util.GAME_romCollectionId], fileDict)
+				videosSmall = helper.getFilesByControl_Cached(self.gdb, romCollection.imagePlacingMain.fileTypesForMainViewVideoWindowSmall, gameRow[util.ROW_ID], gameRow[util.GAME_publisherId], gameRow[util.GAME_developerId], gameRow[util.GAME_romCollectionId], fileDict)
 				if(videosSmall != None and len(videosSmall) != 0):
 					video = videosSmall[0]					
 					selectedGame.setProperty('mainviewvideosizesmall', 'small')
@@ -1242,21 +1242,21 @@ class UIGameDB(xbmcgui.WindowXML):
 	def setAllItemData(self, item, gameRow, fileDict, romCollection):				
 		
 		# all other images in mainwindow
-		imagemainViewBackground = self.getFileForControl(romCollection.imagePlacing.fileTypesForMainViewBackground, gameRow[util.ROW_ID], gameRow[util.GAME_publisherId], gameRow[util.GAME_developerId], gameRow[util.GAME_romCollectionId], fileDict)
-		imageGameInfoBig = self.getFileForControl(romCollection.imagePlacing.fileTypesForMainViewGameInfoBig, gameRow[util.ROW_ID], gameRow[util.GAME_publisherId], gameRow[util.GAME_developerId], gameRow[util.GAME_romCollectionId], fileDict)
-		imageGameInfoUpperLeft = self.getFileForControl(romCollection.imagePlacing.fileTypesForMainViewGameInfoUpperLeft, gameRow[util.ROW_ID], gameRow[util.GAME_publisherId], gameRow[util.GAME_developerId], gameRow[util.GAME_romCollectionId], fileDict)
-		imageGameInfoUpperRight = self.getFileForControl(romCollection.imagePlacing.fileTypesForMainViewGameInfoUpperRight, gameRow[util.ROW_ID], gameRow[util.GAME_publisherId], gameRow[util.GAME_developerId], gameRow[util.GAME_romCollectionId], fileDict)
-		imageGameInfoLowerLeft = self.getFileForControl(romCollection.imagePlacing.fileTypesForMainViewGameInfoLowerLeft, gameRow[util.ROW_ID], gameRow[util.GAME_publisherId], gameRow[util.GAME_developerId], gameRow[util.GAME_romCollectionId], fileDict)
-		imageGameInfoLowerRight = self.getFileForControl(romCollection.imagePlacing.fileTypesForMainViewGameInfoLowerRight, gameRow[util.ROW_ID], gameRow[util.GAME_publisherId], gameRow[util.GAME_developerId], gameRow[util.GAME_romCollectionId], fileDict)
+		imagemainViewBackground = self.getFileForControl(romCollection.imagePlacingMain.fileTypesForMainViewBackground, gameRow[util.ROW_ID], gameRow[util.GAME_publisherId], gameRow[util.GAME_developerId], gameRow[util.GAME_romCollectionId], fileDict)
+		imageGameInfoBig = self.getFileForControl(romCollection.imagePlacingMain.fileTypesForMainViewGameInfoBig, gameRow[util.ROW_ID], gameRow[util.GAME_publisherId], gameRow[util.GAME_developerId], gameRow[util.GAME_romCollectionId], fileDict)
+		imageGameInfoUpperLeft = self.getFileForControl(romCollection.imagePlacingMain.fileTypesForMainViewGameInfoUpperLeft, gameRow[util.ROW_ID], gameRow[util.GAME_publisherId], gameRow[util.GAME_developerId], gameRow[util.GAME_romCollectionId], fileDict)
+		imageGameInfoUpperRight = self.getFileForControl(romCollection.imagePlacingMain.fileTypesForMainViewGameInfoUpperRight, gameRow[util.ROW_ID], gameRow[util.GAME_publisherId], gameRow[util.GAME_developerId], gameRow[util.GAME_romCollectionId], fileDict)
+		imageGameInfoLowerLeft = self.getFileForControl(romCollection.imagePlacingMain.fileTypesForMainViewGameInfoLowerLeft, gameRow[util.ROW_ID], gameRow[util.GAME_publisherId], gameRow[util.GAME_developerId], gameRow[util.GAME_romCollectionId], fileDict)
+		imageGameInfoLowerRight = self.getFileForControl(romCollection.imagePlacingMain.fileTypesForMainViewGameInfoLowerRight, gameRow[util.ROW_ID], gameRow[util.GAME_publisherId], gameRow[util.GAME_developerId], gameRow[util.GAME_romCollectionId], fileDict)
 		
-		imageGameInfoUpper = self.getFileForControl(romCollection.imagePlacing.fileTypesForMainViewGameInfoUpper, gameRow[util.ROW_ID], gameRow[util.GAME_publisherId], gameRow[util.GAME_developerId], gameRow[util.GAME_romCollectionId], fileDict)
-		imageGameInfoLower = self.getFileForControl(romCollection.imagePlacing.fileTypesForMainViewGameInfoLower, gameRow[util.ROW_ID], gameRow[util.GAME_publisherId], gameRow[util.GAME_developerId], gameRow[util.GAME_romCollectionId], fileDict)
-		imageGameInfoLeft = self.getFileForControl(romCollection.imagePlacing.fileTypesForMainViewGameInfoLeft, gameRow[util.ROW_ID], gameRow[util.GAME_publisherId], gameRow[util.GAME_developerId], gameRow[util.GAME_romCollectionId], fileDict)
-		imageGameInfoRight = self.getFileForControl(romCollection.imagePlacing.fileTypesForMainViewGameInfoRight, gameRow[util.ROW_ID], gameRow[util.GAME_publisherId], gameRow[util.GAME_developerId], gameRow[util.GAME_romCollectionId], fileDict)
+		imageGameInfoUpper = self.getFileForControl(romCollection.imagePlacingMain.fileTypesForMainViewGameInfoUpper, gameRow[util.ROW_ID], gameRow[util.GAME_publisherId], gameRow[util.GAME_developerId], gameRow[util.GAME_romCollectionId], fileDict)
+		imageGameInfoLower = self.getFileForControl(romCollection.imagePlacingMain.fileTypesForMainViewGameInfoLower, gameRow[util.ROW_ID], gameRow[util.GAME_publisherId], gameRow[util.GAME_developerId], gameRow[util.GAME_romCollectionId], fileDict)
+		imageGameInfoLeft = self.getFileForControl(romCollection.imagePlacingMain.fileTypesForMainViewGameInfoLeft, gameRow[util.ROW_ID], gameRow[util.GAME_publisherId], gameRow[util.GAME_developerId], gameRow[util.GAME_romCollectionId], fileDict)
+		imageGameInfoRight = self.getFileForControl(romCollection.imagePlacingMain.fileTypesForMainViewGameInfoRight, gameRow[util.ROW_ID], gameRow[util.GAME_publisherId], gameRow[util.GAME_developerId], gameRow[util.GAME_romCollectionId], fileDict)
 		
-		imageMainView1 = self.getFileForControl(romCollection.imagePlacing.fileTypesForMainView1, gameRow[util.ROW_ID], gameRow[util.GAME_publisherId], gameRow[util.GAME_developerId], gameRow[util.GAME_romCollectionId], fileDict)
-		imageMainView2 = self.getFileForControl(romCollection.imagePlacing.fileTypesForMainView2, gameRow[util.ROW_ID], gameRow[util.GAME_publisherId], gameRow[util.GAME_developerId], gameRow[util.GAME_romCollectionId], fileDict)
-		imageMainView3 = self.getFileForControl(romCollection.imagePlacing.fileTypesForMainView3, gameRow[util.ROW_ID], gameRow[util.GAME_publisherId], gameRow[util.GAME_developerId], gameRow[util.GAME_romCollectionId], fileDict)		
+		imageMainView1 = self.getFileForControl(romCollection.imagePlacingMain.fileTypesForMainView1, gameRow[util.ROW_ID], gameRow[util.GAME_publisherId], gameRow[util.GAME_developerId], gameRow[util.GAME_romCollectionId], fileDict)
+		imageMainView2 = self.getFileForControl(romCollection.imagePlacingMain.fileTypesForMainView2, gameRow[util.ROW_ID], gameRow[util.GAME_publisherId], gameRow[util.GAME_developerId], gameRow[util.GAME_romCollectionId], fileDict)
+		imageMainView3 = self.getFileForControl(romCollection.imagePlacingMain.fileTypesForMainView3, gameRow[util.ROW_ID], gameRow[util.GAME_publisherId], gameRow[util.GAME_developerId], gameRow[util.GAME_romCollectionId], fileDict)		
 		
 		#set images as properties for use in the skin
 		item.setProperty(util.IMAGE_CONTROL_MV_BACKGROUND, imagemainViewBackground)
@@ -1486,8 +1486,8 @@ class UIGameDB(xbmcgui.WindowXML):
 				
 				#other MAME specific properties
 				if(romCollection.name == 'MAME'):
-					romCollection.imagePlacing = ImagePlacing()
-					romCollection.imagePlacing.name = 'gameinfomamecabinet'
+					romCollection.imagePlacingMain = ImagePlacing()
+					romCollection.imagePlacingMain.name = 'gameinfomamecabinet'
 					
 					#MAME zip files contain several files but they must be passed to the emu as zip file
 					romCollection.doNotExtractZipFiles = True
@@ -1506,8 +1506,8 @@ class UIGameDB(xbmcgui.WindowXML):
 			else:
 				
 				if(romCollection.name == 'MAME'):
-					romCollection.imagePlacing = ImagePlacing()
-					romCollection.imagePlacing.name = 'gameinfomamecabinet'
+					romCollection.imagePlacingMain = ImagePlacing()
+					romCollection.imagePlacingMain.name = 'gameinfomamecabinet'
 					#MAME zip files contain several files but they must be passed to the emu as zip file
 					romCollection.doNotExtractZipFiles = True
 				

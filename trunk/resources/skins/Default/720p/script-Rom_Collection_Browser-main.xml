@@ -30,7 +30,6 @@
 					<width>1280</width>
 					<height>180</height>
 					<texture>rcb-floor.png</texture>
-					<!--<include>VisibleFadeEffect</include>-->
 					<visible>Control.IsVisible(50)</visible>
 				</control>
 				<control type="wraplist" id="50">
@@ -210,29 +209,6 @@
 						<texturenofocus></texturenofocus>
 						<visible>!IsEmpty(ListItem.Property(mainviewvideosizebig))</visible>
 					</control>
-					<!-- TODO: replace with PLAY-button -->
-					<!--<control type="button" id="2900"> 
-						<description>Play Fullscreen</description>
-						<posx>90</posx>
-						<posy>235</posy>
-						<width>150</width>
-						<height>20</height>
-						<visible>!IsEmpty(ListItem.Property(mainviewvideofullscreen))</visible>
-						<colordiffuse>DDFFFFFF</colordiffuse>
-						<texturefocus>rcb-button-focus.png</texturefocus>
-						<texturenofocus>rcb-button-nofocus.png</texturenofocus>
-						<label>Play Video Fullscreen</label>
-						<font>font12</font>						
-						<textcolor>DDFFFFFF</textcolor>
-						<disabledcolor>80FFFFFF</disabledcolor>
-						<align>center</align>
-						<aligny>center</aligny>						
-						<onup>500</onup>
-						<ondown>3100</ondown>
-						<onleft>500</onleft>
-						<onright>2200</onright>
-					</control>-->
-					
 					
 					<!-- mainviewgameinfoupperleft -->
 					<control type="image" id="2400">
@@ -572,7 +548,6 @@
 								<height>37</height>
 								<texture border="0,2,0,2">rcb-MenuItemNF.png</texture>
 								<visible>!Control.HasFocus(52)</visible>
-								<!--<include>VisibleFadeEffect</include>-->
 							</control>
 							<control type="image">
 								<posx>0</posx>
@@ -581,7 +556,6 @@
 								<height>37</height>
 								<texture border="0,2,0,2">rcb-MenuItemFO.png</texture>
 								<visible>Control.HasFocus(52)</visible>
-								<!--<include>VisibleFadeEffect</include>-->
 							</control>
 							<control type="image">
 								<posx>0</posx>
@@ -679,29 +653,7 @@
 						<texturefocus></texturefocus>
 						<texturenofocus></texturenofocus>
 						<visible>!IsEmpty(ListItem.Property(mainviewvideosizebig))</visible>
-					</control>					
-					
-					<!--<control type="button" id="2901"> 
-						<description>Play Fullscreen</description>
-						<posx>110</posx>
-						<posy>280</posy>
-						<width>150</width>
-						<height>20</height>
-						<visible>!IsEmpty(ListItem.Property(mainviewvideofullscreen))</visible>
-						<colordiffuse>DDFFFFFF</colordiffuse>
-						<texturefocus>rcb-button-focus.png</texturefocus>
-						<texturenofocus>rcb-button-nofocus.png</texturenofocus>
-						<label>Play Video Fullscreen</label>
-						<font>font12</font>						
-						<textcolor>DDFFFFFF</textcolor>
-						<disabledcolor>80FFFFFF</disabledcolor>
-						<align>center</align>
-						<aligny>center</aligny>						
-						<onup>500</onup>
-						<ondown>3100</ondown>
-						<onleft>500</onleft>
-						<onright>2200</onright>
-					</control>-->
+					</control>
 					
 					<!-- mainviewgameinfoupperleft -->
 					<control type="image" id="2401">
@@ -959,29 +911,7 @@
 							<align>justify</align>
 							<font>font12</font>
 							<label>$INFO[ListItem.Property(plot)]</label>
-							<!--<autoscroll delay="3000" time="1000" repeat="10000">!Control.HasFocus(2201)</autoscroll>-->
 						</control>
-						<!--<control type="scrollbar" id="2201">
-							<description>ConsoleDesc Scrollbar</description>
-							<posx>315</posx>
-							<posy>133</posy>
-							<width>15</width>
-							<height>120</height>
-							<visible allowhiddenfocus="true">Control.IsVisible(2101)</visible>
-							<texturesliderbackground border="0,14,0,14">rcb-ScrollBarV.png</texturesliderbackground>
-							<texturesliderbar border="0,14,0,14">rcb-ScrollBarV_bar.png</texturesliderbar>
-							<texturesliderbarfocus border="0,14,0,14">rcb-ScrollBarV_bar_focus.png</texturesliderbarfocus>
-							<textureslidernib>rcb-ScrollBarNib.png</textureslidernib>
-							<textureslidernibfocus>rcb-ScrollBarNib.png</textureslidernibfocus>
-							<pulseonselect></pulseonselect>
-							<orientation>vertical</orientation>
-							<showonepage>false</showonepage>
-							<onup>2201</onup>
-							<ondown>2201</ondown>
-							<onleft>2901</onleft>
-							<onright>52</onright>
-						</control>
-						-->
 					</control>
 				</control>
 			</control>
@@ -1184,7 +1114,6 @@
 		<control type="group" id="100">
 			<animation effect="slide" start="0,0" end="0,0" delay="0" time="400" tween="quadratic" easing="out" condition="ControlGroup(100).HasFocus">Conditional</animation>
 			<animation effect="slide" start="0,0" end="0,-200" delay="0"time="400" tween="quadratic" easing="out" condition="!ControlGroup(100).HasFocus">Conditional</animation>
-			<!--<visible allowhiddenfocus="true">Control.HasFocus(500) | Control.HasFocus(600) | Control.HasFocus(700) | Control.HasFocus(800)</visible>-->
 			<control type="image">
 				<animation effect="zoom" start="0,0,1280,1" end="0,0,1280,180" time="300" tween="quadratic" easing="out" condition="ControlGroup(100).HasFocus">Conditional</animation>
 				<description>filter background image</description>
@@ -1195,16 +1124,6 @@
 				<texture>rcb-Blade-Upper.png</texture>
 				<colordiffuse>FFFFFFFF</colordiffuse>
 			</control>
-			
-			<!--<control type="label">
-				<description>Advanced</description>
-				<posx>25</posx>
-				<posy>20</posy>
-				<width>200</width>
-				<align>center</align>
-				<textcolor>DDFFFFFF</textcolor>
-				<label>Advanced</label>
-			</control>-->
 			<control type="radiobutton" id="1000">
 				<posx>25</posx>
 				<posy>50</posy>
@@ -1571,7 +1490,6 @@
 					<onup>900</onup>
 					<ondown>900</ondown>
 					<viewtype label="Character">wrap</viewtype>
-					<!--<visible allowhiddenfocus="true">Control.HasFocus(5200)</visible>-->
 					<focusposition>1</focusposition>
 					<scrolltime>200</scrolltime>
 					<itemlayout height="32">
