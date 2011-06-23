@@ -55,42 +55,42 @@ class TestUpdateDB(unittest.TestCase):
 			
 		
 		#Amiga Action
-		gameRows = Game(self.gdb).getFilteredGames(1, 1, 0, 0, likeStmnt)
+		gameRows = Game(self.gdb).getFilteredGames(1, 1, 0, 0, 0, likeStmnt)
 		self.assertTrue(gameRows != None)
 		self.assertEqual(len(gameRows) , 2)
 		
 		#Amiga 1994
-		gameRows = Game(self.gdb).getFilteredGames(2, 0, 10, 0, likeStmnt)		
+		gameRows = Game(self.gdb).getFilteredGames(2, 0, 10, 0, 0, likeStmnt)		
 		self.assertTrue(gameRows != None)
 		self.assertEqual(len(gameRows), 2)
 		
 		#Amiga Black Legend Ltd.
-		gameRows = Game(self.gdb).getFilteredGames(2, 0, 0, 12, likeStmnt)
+		gameRows = Game(self.gdb).getFilteredGames(2, 0, 0, 12, 0, likeStmnt)
 		self.assertTrue(gameRows != None)
 		self.assertEqual(len(gameRows), 1)		
 		
 		#Amiga Sports, 1994, Black Legend Ltd.
-		gameRows = Game(self.gdb).getFilteredGames(2, 4, 10, 12, likeStmnt)
+		gameRows = Game(self.gdb).getFilteredGames(2, 4, 10, 12, 0, likeStmnt)
 		self.assertTrue(gameRows != None)
 		self.assertEqual(len(gameRows), 1)
 		
 		#SNES 1st person shooter
-		gameRows = Game(self.gdb).getFilteredGames(3, 6, 0, 0, likeStmnt)
+		gameRows = Game(self.gdb).getFilteredGames(3, 6, 0, 0, 0, likeStmnt)
 		self.assertTrue(gameRows != None)		
 		self.assertEqual(len(gameRows), 1)
 		
 		#SNES 1992
-		gameRows = Game(self.gdb).getFilteredGames(3, 0, 5, 0, likeStmnt)
+		gameRows = Game(self.gdb).getFilteredGames(3, 0, 5, 0, 0, likeStmnt)
 		self.assertTrue(gameRows != None)
 		self.assertEqual(len(gameRows), 3)
 		
 		#SNES Nintendo
-		gameRows = Game(self.gdb).getFilteredGames(3, 0, 0, 9, likeStmnt)
+		gameRows = Game(self.gdb).getFilteredGames(3, 0, 0, 9, 0, likeStmnt)
 		self.assertTrue(gameRows != None)
 		self.assertEqual(len(gameRows), 2)
 		
 		#SNES 1992 Racing Nintendo 
-		gameRows = Game(self.gdb).getFilteredGames(3, 10, 5, 9, likeStmnt)
+		gameRows = Game(self.gdb).getFilteredGames(3, 10, 5, 9, 0, likeStmnt)
 		self.assertTrue(gameRows != None)
 		self.assertEqual(len(gameRows), 1)		
 		
