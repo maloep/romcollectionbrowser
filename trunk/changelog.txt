@@ -1,3 +1,14 @@
+0.9.0 (06/2011)
+~~~~~~~~~~~~~
+General:
+  * reworked Confluence skin from PAL to 720p
+  * slight usability changes in Confluence skin (navigation etc.)
+  
+Game Browsing
+  * reworked game info window in Confluence skin
+  * favorites function
+  * search function
+
 0.8.12 (06/2011)
 ~~~~~~~~~~~~~
 General:
