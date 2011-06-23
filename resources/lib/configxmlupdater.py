@@ -62,6 +62,12 @@ class ConfigxmlUpdater:
 			configVersion = '0.8.10'
 			if(not success):
 				return False, message
+			
+		if(configVersion == '0.8.10'):
+			success, message = self.update_0810_to_090()
+			configVersion = '0.9.0'
+			if(not success):
+				return False, message
 		
 		#write file
 		success, message = self.writeFile()	
@@ -144,6 +150,22 @@ class ConfigxmlUpdater:
 				scraperXml = scraperSiteXml.find('Scraper')
 				scraperXml.attrib['source'] = "http://thegamesdb.net/api/GetGame.php?name=%GAME%&platform=%PLATFORM%"
 				break
+		
+		return True, ''
+	
+	
+	def update_0810_to_090(self):
+		#change imagePlacing elements
+		romCollectionsXml = self.tree.findall('RomCollections/RomCollection')
+		for romCollectionXml in romCollectionsXml:
+			#read value from old element
+			imagePlacingValue = self.readTextElement(romCollectionXml, 'imagePlacing')
+			#write with new name			
+			SubElement(romCollectionXml, 'imagePlacingMain').text = imagePlacingValue
+			SubElement(romCollectionXml, 'imagePlacingInfo').text = imagePlacingValue
+			
+			#remove old element
+			self.removeElement(romCollectionXml, 'imagePlacing')
 		
 		return True, '' 
 			
