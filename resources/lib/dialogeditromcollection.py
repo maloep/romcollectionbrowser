@@ -40,7 +40,8 @@ CONTROL_BUTTON_ADDMEDIAPATH = 5500
 
 
 #Browse Games
-CONTROL_LIST_IMAGEPLACING = 5320
+CONTROL_LIST_IMAGEPLACING_MAIN = 5320
+CONTROL_LIST_IMAGEPLACING_INFO = 5340
 
 #Launch Games
 CONTROL_BUTTON_EMUCMD = 5220
@@ -92,7 +93,8 @@ class EditRomCollectionDialog(dialogbase.DialogBaseEdit):
 		for imagePlacing in imagePlacingRows:
 			Logutil.log('add image placing: ' +str(imagePlacing.attrib.get('name')), util.LOG_LEVEL_INFO)
 			self.imagePlacingList.append(imagePlacing.attrib.get('name'))
-		self.addItemsToList(CONTROL_LIST_IMAGEPLACING, self.imagePlacingList)
+		self.addItemsToList(CONTROL_LIST_IMAGEPLACING_MAIN, self.imagePlacingList)
+		self.addItemsToList(CONTROL_LIST_IMAGEPLACING_INFO, self.imagePlacingList)
 		
 		self.updateRomCollectionControls()
 		
@@ -277,7 +279,8 @@ class EditRomCollectionDialog(dialogbase.DialogBaseEdit):
 		self.selectScrapersInList(self.selectedRomCollection.scraperSites, self.availableScrapers)
 		
 		#Browse Games
-		self.selectItemInList(self.selectedRomCollection.imagePlacingMain.name, CONTROL_LIST_IMAGEPLACING)
+		self.selectItemInList(self.selectedRomCollection.imagePlacingMain.name, CONTROL_LIST_IMAGEPLACING_MAIN)
+		self.selectItemInList(self.selectedRomCollection.imagePlacingInfo.name, CONTROL_LIST_IMAGEPLACING_INFO)
 		
 		#Launch Games
 		control = self.getControlById(CONTROL_BUTTON_EMUCMD)		
@@ -341,13 +344,21 @@ class EditRomCollectionDialog(dialogbase.DialogBaseEdit):
 			
 		self.selectedRomCollection.scraperSites = sites		
 		
-		#Image Placing
-		control = self.getControlById(CONTROL_LIST_IMAGEPLACING)
+		#Image Placing Main
+		control = self.getControlById(CONTROL_LIST_IMAGEPLACING_MAIN)
 		imgPlacingItem = control.getSelectedItem()
 		imgPlacingName = imgPlacingItem.getLabel()
 		
 		imgPlacing, errorMsg = self.gui.config.readImagePlacing(imgPlacingName, self.gui.config.tree)
-		self.selectedRomCollection.imagePlacing = imgPlacing
+		self.selectedRomCollection.imagePlacingMain = imgPlacing
+		
+		#Image Placing Main
+		control = self.getControlById(CONTROL_LIST_IMAGEPLACING_INFO)
+		imgPlacingItem = control.getSelectedItem()
+		imgPlacingName = imgPlacingItem.getLabel()
+		
+		imgPlacing, errorMsg = self.gui.config.readImagePlacing(imgPlacingName, self.gui.config.tree)
+		self.selectedRomCollection.imagePlacingInfo = imgPlacing
 		
 		control = self.getControlById(CONTROL_BUTTON_USEEMUSOLO)
 		self.selectedRomCollection.useEmuSolo = bool(control.isSelected())

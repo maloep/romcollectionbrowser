@@ -208,7 +208,8 @@ class UIGameInfoView(xbmcgui.WindowXMLDialog):
 		imageGameInfoLower = self.getFileForControl(romCollection.imagePlacingInfo.fileTypesForMainViewGameInfoLower, gameRow[util.ROW_ID], gameRow[util.GAME_publisherId], gameRow[util.GAME_developerId], gameRow[util.GAME_romCollectionId], fileDict)
 		imageGameInfoLeft = self.getFileForControl(romCollection.imagePlacingInfo.fileTypesForMainViewGameInfoLeft, gameRow[util.ROW_ID], gameRow[util.GAME_publisherId], gameRow[util.GAME_developerId], gameRow[util.GAME_romCollectionId], fileDict)
 		imageGameInfoRight = self.getFileForControl(romCollection.imagePlacingInfo.fileTypesForMainViewGameInfoRight, gameRow[util.ROW_ID], gameRow[util.GAME_publisherId], gameRow[util.GAME_developerId], gameRow[util.GAME_romCollectionId], fileDict)
-				
+		
+		print 'imageGameInfoBig: ' +str(imageGameInfoBig)
 		selectedGame.setProperty(util.IMAGE_CONTROL_GAMEINFO_BIG, imageGameInfoBig)
 		selectedGame.setProperty(util.IMAGE_CONTROL_GAMEINFO_UPPERLEFT, imageGameInfoUpperLeft)
 		selectedGame.setProperty(util.IMAGE_CONTROL_GAMEINFO_UPPERRIGHT, imageGameInfoUpperRight)
