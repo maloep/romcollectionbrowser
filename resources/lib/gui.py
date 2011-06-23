@@ -1131,7 +1131,7 @@ class UIGameDB(xbmcgui.WindowXML):
 			#check if fullscreen video is configured (this will just show the button "Play fullscreen video")
 			videosFullscreen = helper.getFilesByControl_Cached(self.gdb, romCollection.imagePlacingMain.fileTypesForMainViewVideoFullscreen, gameRow[util.ROW_ID], gameRow[util.GAME_publisherId], gameRow[util.GAME_developerId], gameRow[util.GAME_romCollectionId], fileDict)
 			if(videosFullscreen != None and len(videosFullscreen) != 0):				
-				selectedGame.setProperty('mainviewvideofullscreen', 'fullscreen')
+				selectedGame.setProperty('videofullscreen', 'fullscreen')
 				
 		
 			video = ""			
@@ -1140,13 +1140,13 @@ class UIGameDB(xbmcgui.WindowXML):
 			
 			if(videosBig != None and len(videosBig) != 0):
 				video = videosBig[0]				
-				selectedGame.setProperty('mainviewvideosizebig', 'big')				
+				selectedGame.setProperty('videosizebig', 'big')				
 				
 			else:
 				videosSmall = helper.getFilesByControl_Cached(self.gdb, romCollection.imagePlacingMain.fileTypesForMainViewVideoWindowSmall, gameRow[util.ROW_ID], gameRow[util.GAME_publisherId], gameRow[util.GAME_developerId], gameRow[util.GAME_romCollectionId], fileDict)
 				if(videosSmall != None and len(videosSmall) != 0):
 					video = videosSmall[0]					
-					selectedGame.setProperty('mainviewvideosizesmall', 'small')
+					selectedGame.setProperty('videosizesmall', 'small')
 												
 					
 			if(video == "" or video == None):
