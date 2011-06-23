@@ -1275,7 +1275,7 @@
 					<onclick>Control.Move(5320,1)</onclick>
 					<onleft>7000</onleft>
 					<onright>5322</onright>
-					<onup>5321</onup>
+					<onup>5211</onup>
 					<ondown>5341</ondown>
 				</control>
 				<control type="button" id="5322">
@@ -1291,7 +1291,7 @@
 					<onclick>Control.Move(5320,-1)</onclick>
 					<onleft>5321</onleft>
 					<onright>6000</onright>
-					<onup>5322</onup>
+					<onup>5212</onup>
 					<ondown>5342</ondown>
 				</control>
 				
@@ -1391,7 +1391,7 @@
 					<onclick>Control.Move(5340,1)</onclick>
 					<onleft>7000</onleft>
 					<onright>5342</onright>
-					<onup>5211</onup>
+					<onup>5321</onup>
 					<ondown>6000</ondown>
 				</control>
 				<control type="button" id="5342">
@@ -1407,7 +1407,7 @@
 					<onclick>Control.Move(5340,-1)</onclick>
 					<onleft>5341</onleft>
 					<onright>6000</onright>
-					<onup>5212</onup>
+					<onup>5322</onup>
 					<ondown>6000</ondown>
 				</control>
 				

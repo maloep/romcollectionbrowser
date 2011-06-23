@@ -15,7 +15,7 @@
 			<mediaPath type="developer">TestDataBase\V1 - Amiga - ff - descforall\developer\%DEVELOPER%.*</mediaPath>
 			<mediaPath type="publisher">TestDataBase\V1 - Amiga - ff - descforall\publisher\%PUBLISHER%.*</mediaPath>
 			<mediaPath type="console">TestDataBase\consoleImages\%CONSOLE%.*</mediaPath>
-			<imagePlacing>gameinfobig</imagePlacing>
+			<imagePlacingMain>gameinfobig</imagePlacingMain>
 			<scraper name="Amiga V1"/>
 		</RomCollection>
 		<RomCollection id="2" name="Amiga V2">
@@ -33,7 +33,7 @@
 			<mediaPath type="action">TestDataBase\V2 - Amiga - ff - descpergame\screens\%GAME%\*.*</mediaPath>
 			<mediaPath type="developer">TestDataBase\V2 - Amiga - ff - descpergame\developer\%DEVELOPER%.*</mediaPath>
 			<mediaPath type="publisher">TestDataBase\V2 - Amiga - ff - descpergame\publisher\%PUBLISHER%.*</mediaPath>
-			<imagePlacing>gameinfobig</imagePlacing>
+			<imagePlacingMain>gameinfobig</imagePlacingMain>
 			<scraper name="Amiga V2"/>
 		</RomCollection>
 		<RomCollection id="3" name="Super Nintendo V1">			
@@ -53,7 +53,7 @@
 			<mediaPath type="cartridge">TestDataBase\V3 - SNES - ff - descforall\cartridge\%GAME%.*</mediaPath>			
 			<mediaPath type="gameplay">TestDataBase\V3 - SNES - ff - descforall\ingameVids\%GAME%.wmv</mediaPath>
 			<mediaPath type="console">TestDataBase\consoleImages\%CONSOLE%.*</mediaPath>			
-			<imagePlacing>gameinfobig</imagePlacing>
+			<imagePlacingMain>gameinfobig</imagePlacingMain>
 			<scraper name="SNES V3"/>
 		</RomCollection>
 		<RomCollection id="4"  name="Super Nintendo V2">
@@ -72,7 +72,7 @@
 			<mediaPath type="title">TestDataBase\V4 - SNES - ff - descforall - subfolder\Artwork\Title\%GAME%.*</mediaPath>			
 			<mediaPath type="cartridge">TestDataBase\V4 - SNES - ff - descforall - subfolder\Artwork\Cart\%GAME%.*</mediaPath>					
 			<mediaPath type="gameplay">TestDataBase\V4 - SNES - ff - descforall - subfolder\Movies\%GAME%.wmv</mediaPath>
-			<imagePlacing>gameinfobig</imagePlacing>
+			<imagePlacingMain>gameinfobig</imagePlacingMain>
 			<scraper name="SNES V4"/>
 		</RomCollection>
 		<RomCollection id="5"  name="Xbox">			
@@ -85,7 +85,7 @@
 			<romPath>TestDataBase\V5 - Xbox - ff - descforall\Roms\default.xbe</romPath>						
 			<mediaPath type="boxfront">TestDataBase\V5 - Xbox - ff - descforall\Artwork\Box Front\%GAME%.*</mediaPath>
 			<mediaPath type="screenshot">TestDataBase\V5 - Xbox - ff - descforall\Artwork\screenshot\%GAME%.*</mediaPath>
-			<imagePlacing>gameinfobig</imagePlacing>
+			<imagePlacingMain>gameinfobig</imagePlacingMain>
 			<scraper name="Xbox V5"/>
 		</RomCollection>
 		<RomCollection id="6"  name="Sega 32 V1">
@@ -99,7 +99,7 @@
 			<romPath>TestDataBase\V6 - Sega32 - xml - descpergame\Roms\*.zip</romPath>
 			<mediaPath type="boxfront">TestDataBase\V6 - Sega32 - xml - descpergame\Artwork\Box Front\%GAME%.*</mediaPath>
 			<mediaPath type="screenshot">TestDataBase\V6 - Sega32 - xml - descpergame\Artwork\screenshot\%GAME%.*</mediaPath>
-			<imagePlacing>gameinfobig</imagePlacing>
+			<imagePlacingMain>gameinfobig</imagePlacingMain>
 			<scraper name="Sega 32 V6"/>
 		</RomCollection>
 		<RomCollection id="7"  name="Sega 32 V2">
@@ -108,7 +108,7 @@
 			<romPath>TestDataBase\V7 - Sega32 - xml - descforall\Roms\*.zip</romPath>
 			<mediaPath type="boxfront">TestDataBase\V7 - Sega32 - xml - descforall\Artwork\Box Front\%GAME%.*</mediaPath>
 			<mediaPath type="screenshot">TestDataBase\V7 - Sega32 - xml - descforall\Artwork\screenshot\%GAME%.*</mediaPath>
-			<imagePlacing>gameinfobig</imagePlacing>
+			<imagePlacingMain>gameinfobig</imagePlacingMain>
 			<scraper name="Sega 32 V7" replaceKeyString=" III, II,32x - " replaceValueString=" 3, 2,"/>
 		</RomCollection>
 		<RomCollection id="8"  name="SNES - local nfo">
@@ -120,7 +120,7 @@
 			<mediaPath type="boxback">TestDataBase\V8 - SNES - xml - local nfo\Artwork\boxback\%GAME%.*</mediaPath>
 			<mediaPath type="cartridge">TestDataBase\V8 - SNES - xml - local nfo\Artwork\cartridge\%GAME%.*</mediaPath>
 			<mediaPath type="fanart">TestDataBase\V8 - SNES - xml - local nfo\Artwork\fanart\%GAME%.*</mediaPath>
-			<imagePlacing>gameinfobig</imagePlacing>
+			<imagePlacingMain>gameinfobig</imagePlacingMain>
 			<scraper name="local nfo"/>			
 		</RomCollection>
 		<RomCollection id="9"  name="SNES">
@@ -132,7 +132,7 @@
 			<mediaPath type="boxback">TestDataBase\V9 - SNES - online\Artwork\boxback\%GAME%.*</mediaPath>
 			<mediaPath type="cartridge">TestDataBase\V9 - SNES - online\Artwork\cartridge\%GAME%.*</mediaPath>
 			<mediaPath type="fanart">TestDataBase\V9 - SNES - online\Artwork\fanart\%GAME%.*</mediaPath>
-			<imagePlacing>gameinfobig</imagePlacing>			
+			<imagePlacingMain>gameinfobig</imagePlacingMain>			
 			<scraper name="mobygames.com" platform="15"/>
 		</RomCollection>
 		<RomCollection id="10"  name="N64 - online">
@@ -150,7 +150,7 @@
 			<mediaPath type="boxback">TestDataBase\V10 - N64 - online\Artwork\boxback\%GAME%.*</mediaPath>
 			<mediaPath type="cartridge">TestDataBase\V10 - N64 - online\Artwork\cartridge\%GAME%.*</mediaPath>
 			<mediaPath type="fanart">TestDataBase\V10 - N64 - online\Artwork\fanart\%GAME%.*</mediaPath>
-			<imagePlacing>gameinfobig</imagePlacing>			
+			<imagePlacingMain>gameinfobig</imagePlacingMain>			
 			<scraper name="giantbomb.com"/>
 		</RomCollection>
 	</RomCollections>
