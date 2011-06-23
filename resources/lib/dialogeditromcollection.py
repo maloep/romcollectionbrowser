@@ -277,7 +277,7 @@ class EditRomCollectionDialog(dialogbase.DialogBaseEdit):
 		self.selectScrapersInList(self.selectedRomCollection.scraperSites, self.availableScrapers)
 		
 		#Browse Games
-		self.selectItemInList(self.selectedRomCollection.imagePlacing.name, CONTROL_LIST_IMAGEPLACING)
+		self.selectItemInList(self.selectedRomCollection.imagePlacingMain.name, CONTROL_LIST_IMAGEPLACING)
 		
 		#Launch Games
 		control = self.getControlById(CONTROL_BUTTON_EMUCMD)		
