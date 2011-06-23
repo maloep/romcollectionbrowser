@@ -263,14 +263,6 @@ class ConfigXmlWriter:
 			SubElement(fileTypeFor, 'fileTypeForMainViewGameInfoUpperLeft').text = 'title'
 			SubElement(fileTypeFor, 'fileTypeForMainViewGameInfoUpperRight').text = 'action'
 			SubElement(fileTypeFor, 'fileTypeForMainViewGameInfoLower').text = 'marquee'
-			SubElement(fileTypeFor, 'fileTypeForGameInfoViewBackground').text = 'boxfront'
-			SubElement(fileTypeFor, 'fileTypeForGameInfoViewBackground').text = 'title'			
-			SubElement(fileTypeFor, 'fileTypeForGameInfoViewBackground').text = 'action'			
-			SubElement(fileTypeFor, 'fileTypeForGameInfoViewGamelist').text = 'boxfront'
-			SubElement(fileTypeFor, 'fileTypeForGameInfoView1').text = 'title'
-			SubElement(fileTypeFor, 'fileTypeForGameInfoView2').text = 'action'
-			SubElement(fileTypeFor, 'fileTypeForGameInfoView3').text = 'cabinet'
-			SubElement(fileTypeFor, 'fileTypeForGameInfoView4').text = 'marquee'
 			
 		if not marqueeExists:
 			fileTypeFor = SubElement(imagePlacingXml, 'fileTypeFor', {'name' : 'gameinfomamemarquee'})
@@ -286,14 +278,6 @@ class ConfigXmlWriter:
 			SubElement(fileTypeFor, 'fileTypeForMainViewGameInfoLeft').text = 'cabinet'
 			SubElement(fileTypeFor, 'fileTypeForMainViewGameInfoUpperRight').text = 'action'
 			SubElement(fileTypeFor, 'fileTypeForMainViewGameInfoLowerRight').text = 'title'
-			SubElement(fileTypeFor, 'fileTypeForGameInfoViewBackground').text = 'boxfront'
-			SubElement(fileTypeFor, 'fileTypeForGameInfoViewBackground').text = 'title'			
-			SubElement(fileTypeFor, 'fileTypeForGameInfoViewBackground').text = 'action'			
-			SubElement(fileTypeFor, 'fileTypeForGameInfoViewGamelist').text = 'boxfront'
-			SubElement(fileTypeFor, 'fileTypeForGameInfoView1').text = 'title'
-			SubElement(fileTypeFor, 'fileTypeForGameInfoView2').text = 'action'
-			SubElement(fileTypeFor, 'fileTypeForGameInfoView3').text = 'cabinet'
-			SubElement(fileTypeFor, 'fileTypeForGameInfoView4').text = 'marquee'
 		
 						
 	def writeFile(self):
