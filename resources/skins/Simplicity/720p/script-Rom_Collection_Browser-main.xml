@@ -7,14 +7,14 @@
         	<posy>0</posy>
 	</coordinates>
 	<controls>		
-		<!-- mainviewbackground -->
+		<!-- background -->
 		<control type="image" id="75">
 		    <description>background image</description>
 		    <posx>0</posx>
 		    <posy>0</posy>
 		    <width>1280</width>
 		    <height>720</height>
-			<texture>$INFO[ListItem.Property(mainviewbackground)]</texture>
+			<texture>$INFO[ListItem.Property(background)]</texture>
 			<fadetime>500</fadetime>
 		</control>
 
@@ -144,14 +144,14 @@
 					<visible allowhiddenfocus="true">Control.IsVisible(50)</visible>
 				</control>				
 			
-				<!-- mainview1 -->
+				<!-- extraImage1 -->
 				<control type="image">
-					<description>mainview1</description>
+					<description>extraImage1</description>
 					<posx>25</posx>
 					<posy>530</posy>
 					<width>60</width>
 					<height>40</height>						
-					<texture>$INFO[ListItem.Property(mainview1)]</texture>
+					<texture>$INFO[ListItem.Property(extraImage1)]</texture>
 					<visible>Control.IsVisible(50)</visible>				
 					<animation type="WindowOpen" reversible="false">
 						<effect type="zoom" start="80" end="100" center="640,360" easing="out" tween="back" time="500" />
@@ -162,7 +162,7 @@
 						<effect type="fade" start="100" end="0" time="500" />
 					</animation>
 				</control>				
-				<!-- mainview3 -->
+				<!-- extraImage3 -->
 				<control type="image">
 					<animation type="WindowOpen" reversible="false">
 						<effect type="zoom" start="80" end="100" center="640,360" easing="out" tween="back" time="500" />
@@ -172,12 +172,12 @@
 						<effect type="zoom" start="100" end="80" center="640,360" easing="in" tween="back" time="500" />
 						<effect type="fade" start="100" end="0" time="500" />
 					</animation>
-					<description>mainview3</description>
+					<description>extraImage3</description>
 					<posx>90</posx>
 					<posy>530</posy>
 					<width>60</width>
 					<height>40</height>						
-					<texture>$INFO[ListItem.Property(mainview3)]</texture>
+					<texture>$INFO[ListItem.Property(extraImage3)]</texture>
 					<visible>Control.IsVisible(50)</visible>
 				</control>
 				<control type="group" id="300">					
@@ -192,7 +192,7 @@
 					<visible allowhiddenfocus="true">Control.IsVisible(50)</visible>
 					<posx>150</posx>
 					<posy>75</posy>					
-					<!-- mainviewgameinfobig -->
+					<!-- gameinfobig -->
 					<control type="image" id="2000">
 						<animation type="WindowOpen" reversible="false">
 							<effect type="zoom" start="80" end="100" center="640,360" easing="out" tween="back" time="500" />
@@ -202,18 +202,18 @@
 							<effect type="zoom" start="100" end="80" center="640,360" easing="in" tween="back" time="500" />
 							<effect type="fade" start="100" end="0" time="500" />
 						</animation>
-						<description>mainviewgameinfo</description>
+						<description>gameinfo</description>
 						<posx>15</posx>
 						<posy>18</posy>
 						<width>380</width>
 						<height>220</height>
 						<visible>!Player.HasVideo</visible>
-						<texture>$INFO[ListItem.Property(mainviewgameinfobig)]</texture>
+						<texture>$INFO[ListItem.Property(gameinfobig)]</texture>
 						<bordertexture border="2">thumbborder-thin.png</bordertexture>
 						<bordersize>2</bordersize>
 					<fadetime>400</fadetime>
 					</control>
-					<!-- mainviewvideowindowbig -->
+					<!-- videowindowbig -->
 					<control type="videowindow" id="2300">
 						<animation type="WindowOpen" reversible="false">
 							<effect type="zoom" start="80" end="100" center="640,360" easing="out" tween="back" time="500" />
@@ -228,7 +228,7 @@
 						<posy>18</posy>
 						<width>380</width>
 						<height>220</height>											
-						<visible>!IsEmpty(ListItem.Property(mainviewvideosizebig))</visible>
+						<visible>!IsEmpty(ListItem.Property(videosizebig))</visible>
 					</control>
 					<control type="button">
 						<animation type="WindowOpen" reversible="false">
@@ -246,7 +246,7 @@
 						<height>220</height>
 						<texturefocus></texturefocus>
 						<texturenofocus></texturenofocus>
-						<visible>!IsEmpty(ListItem.Property(mainviewvideosizebig))</visible>
+						<visible>!IsEmpty(ListItem.Property(videosizebig))</visible>
 					</control>					
 					<control type="button" id="2900"> 
 						<animation type="WindowOpen" reversible="false">
@@ -262,7 +262,7 @@
 						<posy>235</posy>
 						<width>150</width>
 						<height>20</height>
-						<visible>!IsEmpty(ListItem.Property(mainviewvideofullscreen))</visible>
+						<visible>!IsEmpty(ListItem.Property(videofullscreen))</visible>
 						<colordiffuse>DDFFFFFF</colordiffuse>
 						<texturefocus>rcb-button-focus.png</texturefocus>
 						<texturenofocus>rcb-button-nofocus.png</texturenofocus>
@@ -279,7 +279,7 @@
 					</control>
 					
 					
-					<!-- mainviewgameinfoupperleft -->
+					<!-- gameinfoupperleft -->
 					<control type="image" id="2400">
 						<animation type="WindowOpen" reversible="false">
 							<effect type="zoom" start="80" end="100" center="640,360" easing="out" tween="back" time="500" />
@@ -289,16 +289,16 @@
 							<effect type="zoom" start="100" end="80" center="640,360" easing="in" tween="back" time="500" />
 							<effect type="fade" start="100" end="0" time="500" />
 						</animation>
-						<description>mainviewgameinfoupperleft</description>
+						<description>gameinfoupperleft</description>
 						<posx>15</posx>
 						<posy>15</posy>
 						<width>150</width>
 						<height>110</height>						
-						<texture>$INFO[ListItem.Property(mainviewgameinfoupperleft)]</texture>
+						<texture>$INFO[ListItem.Property(gameinfoupperleft)]</texture>
 						<bordertexture border="2">rcb-button-nofocus.png</bordertexture>
 						<bordersize>2</bordersize>
 					</control>
-					<!-- mainviewgameinfoupperright -->
+					<!-- gameinfoupperright -->
 					<control type="image" id="2500">
 						<animation type="WindowOpen" reversible="false">
 							<effect type="zoom" start="80" end="100" center="640,360" easing="out" tween="back" time="500" />
@@ -308,16 +308,16 @@
 							<effect type="zoom" start="100" end="80" center="640,360" easing="in" tween="back" time="500" />
 							<effect type="fade" start="100" end="0" time="500" />
 						</animation>
-						<description>mainviewgameinfoupperright</description>
+						<description>gameinfoupperright</description>
 						<posx>165</posx>
 						<posy>15</posy>
 						<width>150</width>
 						<height>110</height>						
-						<texture>$INFO[ListItem.Property(mainviewgameinfoupperright)]</texture>
+						<texture>$INFO[ListItem.Property(gameinfoupperright)]</texture>
 						<bordertexture border="2">rcb-button-nofocus.png</bordertexture>
 						<bordersize>2</bordersize>
 					</control>
-					<!-- mainviewgameinfolowerleft -->
+					<!-- gameinfolowerleft -->
 					<control type="image" id="2600">
 						<animation type="WindowOpen" reversible="false">
 							<effect type="zoom" start="80" end="100" center="640,360" easing="out" tween="back" time="500" />
@@ -327,16 +327,16 @@
 							<effect type="zoom" start="100" end="80" center="640,360" easing="in" tween="back" time="500" />
 							<effect type="fade" start="100" end="0" time="500" />
 						</animation>
-						<description>mainviewgameinfolowerleft</description>
+						<description>gameinfolowerleft</description>
 						<posx>15</posx>
 						<posy>125</posy>
 						<width>150</width>
 						<height>110</height>						
-						<texture>$INFO[ListItem.Property(mainviewgameinfolowerleft)]</texture>
+						<texture>$INFO[ListItem.Property(gameinfolowerleft)]</texture>
 						<bordertexture border="2">rcb-button-nofocus.png</bordertexture>
 						<bordersize>2</bordersize>
 					</control>
-					<!-- mainviewgameinfolowerright -->
+					<!-- gameinfolowerright -->
 					<control type="image" id="2700">
 						<animation type="WindowOpen" reversible="false">
 							<effect type="zoom" start="80" end="100" center="640,360" easing="out" tween="back" time="500" />
@@ -346,18 +346,18 @@
 							<effect type="zoom" start="100" end="80" center="640,360" easing="in" tween="back" time="500" />
 							<effect type="fade" start="100" end="0" time="500" />
 						</animation>
-						<description>mainviewgameinfolowerright</description>
+						<description>gameinfolowerright</description>
 						<posx>165</posx>
 						<posy>125</posy>
 						<width>150</width>
 						<height>110</height>
 						<visible>!Player.HasVideo</visible>
-						<texture>$INFO[ListItem.Property(mainviewgameinfolowerright)]</texture>
+						<texture>$INFO[ListItem.Property(gameinfolowerright)]</texture>
 						<bordertexture border="2">rcb-button-nofocus.png</bordertexture>
 						<bordersize>2</bordersize>
 					</control>
 					
-					<!-- mainviewgameinfoupper -->
+					<!-- gameinfoupper -->
 					<control type="image" id="2710">
 						<animation type="WindowOpen" reversible="false">
 							<effect type="zoom" start="80" end="100" center="640,360" easing="out" tween="back" time="500" />
@@ -367,16 +367,16 @@
 							<effect type="zoom" start="100" end="80" center="640,360" easing="in" tween="back" time="500" />
 							<effect type="fade" start="100" end="0" time="500" />
 						</animation>
-						<description>mainviewgameinfoupper</description>
+						<description>gameinfoupper</description>
 						<posx>15</posx>
 						<posy>15</posy>
 						<width>300</width>
 						<height>110</height>						
-						<texture>$INFO[ListItem.Property(mainviewgameinfoupper)]</texture>
+						<texture>$INFO[ListItem.Property(gameinfoupper)]</texture>
 						<bordertexture border="2">rcb-button-nofocus.png</bordertexture>
 						<bordersize>2</bordersize>
 					</control>
-					<!-- mainviewgameinfolower -->
+					<!-- gameinfolower -->
 					<control type="image" id="2720">
 						<animation type="WindowOpen" reversible="false">
 							<effect type="zoom" start="80" end="100" center="640,360" easing="out" tween="back" time="500" />
@@ -386,16 +386,16 @@
 							<effect type="zoom" start="100" end="80" center="640,360" easing="in" tween="back" time="500" />
 							<effect type="fade" start="100" end="0" time="500" />
 						</animation>
-						<description>mainviewgameinfolower</description>
+						<description>gameinfolower</description>
 						<posx>15</posx>
 						<posy>125</posy>
 						<width>300</width>
 						<height>110</height>						
-						<texture>$INFO[ListItem.Property(mainviewgameinfolower)]</texture>
+						<texture>$INFO[ListItem.Property(gameinfolower)]</texture>
 						<bordertexture border="2">rcb-button-nofocus.png</bordertexture>
 						<bordersize>2</bordersize>
 					</control>
-					<!-- mainviewgameinfoleft -->
+					<!-- gameinfoleft -->
 					<control type="image" id="2730">
 						<animation type="WindowOpen" reversible="false">
 							<effect type="zoom" start="80" end="100" center="640,360" easing="out" tween="back" time="500" />
@@ -405,16 +405,16 @@
 							<effect type="zoom" start="100" end="80" center="640,360" easing="in" tween="back" time="500" />
 							<effect type="fade" start="100" end="0" time="500" />
 						</animation>
-						<description>mainviewgameinfoleft</description>
+						<description>gameinfoleft</description>
 						<posx>15</posx>
 						<posy>15</posy>
 						<width>150</width>
 						<height>220</height>						
-						<texture>$INFO[ListItem.Property(mainviewgameinfoleft)]</texture>
+						<texture>$INFO[ListItem.Property(gameinfoleft)]</texture>
 						<bordertexture border="2">rcb-button-nofocus.png</bordertexture>
 						<bordersize>2</bordersize>
 					</control>
-					<!-- mainviewgameinforight -->
+					<!-- gameinforight -->
 					<control type="image" id="2740">
 						<animation type="WindowOpen" reversible="false">
 							<effect type="zoom" start="80" end="100" center="640,360" easing="out" tween="back" time="500" />
@@ -424,17 +424,17 @@
 							<effect type="zoom" start="100" end="80" center="640,360" easing="in" tween="back" time="500" />
 							<effect type="fade" start="100" end="0" time="500" />
 						</animation>
-						<description>mainviewgameinforight</description>
+						<description>gameinforight</description>
 						<posx>165</posx>
 						<posy>15</posy>
 						<width>150</width>
 						<height>220</height>						
-						<texture>$INFO[ListItem.Property(mainviewgameinforight)]</texture>
+						<texture>$INFO[ListItem.Property(gameinforight)]</texture>
 						<bordertexture border="2">rcb-button-nofocus.png</bordertexture>
 						<bordersize>2</bordersize>
 					</control>
 					
-					<!-- mainviewvideowindowsmall -->
+					<!-- videowindowsmall -->
 					<control type="videowindow" id="2800">
 						<animation type="WindowOpen" reversible="false">
 							<effect type="zoom" start="80" end="100" center="640,360" easing="out" tween="back" time="500" />
@@ -449,7 +449,7 @@
 						<posy>125</posy>
 						<width>150</width>
 						<height>110</height>												
-						<visible>!IsEmpty(ListItem.Property(mainviewvideosizesmall))</visible>						
+						<visible>!IsEmpty(ListItem.Property(videosizesmall))</visible>						
 					</control>
 					
 					<control type="button">
@@ -468,7 +468,7 @@
 						<height>110</height>
 						<texturefocus></texturefocus>
 						<texturenofocus></texturenofocus>
-						<visible>!IsEmpty(ListItem.Property(mainviewvideosizesmall))</visible>
+						<visible>!IsEmpty(ListItem.Property(videosizesmall))</visible>
 					</control>					
 					
 					<control type="group">
@@ -499,13 +499,12 @@
 							<width>720</width>
 							<height>20</height>
 							<font>Simplicity_20</font>
-								<align>left</align>
-								<aligny>center</aligny>
+							<align>left</align>
+							<aligny>center</aligny>
 							<textcolor>FFFFFFFF</textcolor>
 							<selectedcolor>FFe2ff43</selectedcolor>
 							<label>Console: [COLOR=88FFFFFF]$INFO[ListItem.Property(console)][/COLOR]</label>
 							<visible>Control.IsVisible(50)</visible>
-							<!--<visible>IsEmpty(ListItem.Property(mainview2)) + Control.IsVisible(50)</visible>-->
 						</control>	
 
 
@@ -537,14 +536,14 @@
 							<textcolor>FFFFFFFF</textcolor>
 						</control>					
 									
-						<!-- mainview2 -->
+						<!-- extraImage2 -->
 						<control type="image">
-							<description>mainview2</description>
+							<description>extraImage2</description>
 							<posx>590</posx>
 							<posy>15</posy>
 							<width>80</width>
 							<height>60</height>						
-							<texture>$INFO[ListItem.Property(mainview2)]</texture>
+							<texture>$INFO[ListItem.Property(extraImage2)]</texture>
 							<visible>Control.IsVisible(50)</visible>
 						</control>
 						
@@ -585,23 +584,23 @@
 						<label>$INFO[ListItem.Property(console)]</label>
 						<visible>Control.IsVisible(52)</visible>
 					</control>					
-					<!-- mainview1 -->
+					<!-- extraImage1 -->
 					<control type="image">
-						<description>mainview1</description>
+						<description>extraImage1</description>
 						<posx>5</posx>
 						<posy>15</posy>
 						<width>30</width>
 						<height>20</height>						
-						<texture>$INFO[ListItem.Property(mainview1)]</texture>						
+						<texture>$INFO[ListItem.Property(extraImage1)]</texture>						
 					</control>
-					<!-- mainview3 -->
+					<!-- extraImage3 -->
 					<control type="image">
-						<description>mainview3</description>
+						<description>extraImage3</description>
 						<posx>285</posx>
 						<posy>15</posy>
 						<width>30</width>
 						<height>20</height>						
-						<texture>$INFO[ListItem.Property(mainview3)]</texture>						
+						<texture>$INFO[ListItem.Property(extraImage3)]</texture>						
 					</control>					
 					<control type="list" id="52">					
 						<posx>350</posx>
@@ -681,15 +680,15 @@
 					<posx>130</posx>
 					<posy>100</posy>
 					<visible>Control.IsVisible(52)</visible>					
-					<!-- mainviewgameinfobig -->
+					<!-- gameinfobig -->
 					<control type="image" id="2001">
-						<description>mainviewgameinfobig</description>
+						<description>gameinfobig</description>
 						<posx>15</posx>
 						<posy>5</posy>
 						<width>410</width>
 						<height>290</height>										
 						<visible>!Player.HasVideo</visible>
-						<texture>$INFO[ListItem.Property(mainviewgameinfobig)]</texture>
+						<texture>$INFO[ListItem.Property(gameinfobig)]</texture>
 						<bordertexture border="2">rcb-button-nofocus.png</bordertexture>
 						<bordersize>2</bordersize>
 						<fadetime>400</fadetime>
@@ -700,7 +699,7 @@
 						<posy>5</posy>
 						<width>410</width>
 						<height>290</height>	
-						<visible>!IsEmpty(ListItem.Property(mainviewvideosizebig))</visible>
+						<visible>!IsEmpty(ListItem.Property(videosizebig))</visible>
 					</control>
 					
 					<control type="button">
@@ -711,7 +710,7 @@
 						<height>230</height>
 						<texturefocus></texturefocus>
 						<texturenofocus></texturenofocus>
-						<visible>!IsEmpty(ListItem.Property(mainviewvideosizebig))</visible>
+						<visible>!IsEmpty(ListItem.Property(videosizebig))</visible>
 					</control>					
 					<control type="button" id="2901"> 
 						<description>Play Fullscreen</description>
@@ -719,7 +718,7 @@
 						<posy>280</posy>
 						<width>150</width>
 						<height>20</height>
-						<visible>!IsEmpty(ListItem.Property(mainviewvideofullscreen))</visible>
+						<visible>!IsEmpty(ListItem.Property(videofullscreen))</visible>
 						<colordiffuse>DDFFFFFF</colordiffuse>
 						<texturefocus>rcb-button-focus.png</texturefocus>
 						<texturenofocus>rcb-button-nofocus.png</texturenofocus>
@@ -735,105 +734,105 @@
 						<onright>2200</onright>
 					</control>
 					
-					<!-- mainviewgameinfoupperleft -->
+					<!-- gameinfoupperleft -->
 					<control type="image" id="2401">
-						<description>mainviewgameinfoupperleft</description>
+						<description>gameinfoupperleft</description>
 						<posx>15</posx>
 						<posy>45</posy>
 						<width>165</width>
 						<height>115</height>
-						<texture>$INFO[ListItem.Property(mainviewgameinfoupperleft)]</texture>
+						<texture>$INFO[ListItem.Property(gameinfoupperleft)]</texture>
 						<bordertexture border="2">rcb-button-nofocus.png</bordertexture>
 						<bordersize>2</bordersize>
 					</control>
-					<!-- mainviewgameinfoupperright -->
+					<!-- gameinfoupperright -->
 					<control type="image" id="2501">
-						<description>mainviewgameinfoupperright</description>
+						<description>gameinfoupperright</description>
 						<posx>180</posx>
 						<posy>45</posy>
 						<width>165</width>
 						<height>115</height>						
-						<texture>$INFO[ListItem.Property(mainviewgameinfoupperright)]</texture>
+						<texture>$INFO[ListItem.Property(gameinfoupperright)]</texture>
 						<bordertexture border="2">rcb-button-nofocus.png</bordertexture>
 						<bordersize>2</bordersize>
 					</control>
-					<!-- mainviewgameinfolowerleft -->
+					<!-- gameinfolowerleft -->
 					<control type="image" id="2601">
-						<description>mainviewgameinfolowerleft</description>
+						<description>gameinfolowerleft</description>
 						<posx>15</posx>
 						<posy>160</posy>
 						<width>165</width>
 						<height>115</height>						
-						<texture>$INFO[ListItem.Property(mainviewgameinfolowerleft)]</texture>
+						<texture>$INFO[ListItem.Property(gameinfolowerleft)]</texture>
 						<bordertexture border="2">rcb-button-nofocus.png</bordertexture>
 						<bordersize>2</bordersize>
 					</control>
-					<!-- mainviewgameinfolowerright -->
+					<!-- gameinfolowerright -->
 					<control type="image" id="2701">
-						<description>mainviewgameinfolowerright</description>
+						<description>gameinfolowerright</description>
 						<posx>180</posx>
 						<posy>160</posy>
 						<width>165</width>
 						<height>115</height>
 						<visible>!Player.HasVideo</visible>
-						<texture>$INFO[ListItem.Property(mainviewgameinfolowerright)]</texture>
+						<texture>$INFO[ListItem.Property(gameinfolowerright)]</texture>
 						<bordertexture border="2">rcb-button-nofocus.png</bordertexture>
 						<bordersize>2</bordersize>
 					</control>
 					
-					<!-- mainviewgameinfoupper -->
+					<!-- gameinfoupper -->
 					<control type="image" id="2711">
-						<description>mainviewgameinfoupper</description>
+						<description>gameinfoupper</description>
 						<posx>15</posx>
 						<posy>45</posy>
 						<width>330</width>
 						<height>115</height>						
-						<texture>$INFO[ListItem.Property(mainviewgameinfoupper)]</texture>
+						<texture>$INFO[ListItem.Property(gameinfoupper)]</texture>
 						<bordertexture border="2">rcb-button-nofocus.png</bordertexture>
 						<bordersize>2</bordersize>
 					</control>
-					<!-- mainviewgameinfolower -->
+					<!-- gameinfolower -->
 					<control type="image" id="2721">
-						<description>mainviewgameinfolower</description>
+						<description>gameinfolower</description>
 						<posx>15</posx>
 						<posy>160</posy>
 						<width>330</width>
 						<height>115</height>						
-						<texture>$INFO[ListItem.Property(mainviewgameinfolower)]</texture>
+						<texture>$INFO[ListItem.Property(gameinfolower)]</texture>
 						<bordertexture border="2">rcb-button-nofocus.png</bordertexture>
 						<bordersize>2</bordersize>
 					</control>
-					<!-- mainviewgameinfoleft -->
+					<!-- gameinfoleft -->
 					<control type="image" id="2731">
-						<description>mainviewgameinfoleft</description>
+						<description>gameinfoleft</description>
 						<posx>15</posx>
 						<posy>45</posy>
 						<width>165</width>
 						<height>230</height>						
-						<texture>$INFO[ListItem.Property(mainviewgameinfoleft)]</texture>
+						<texture>$INFO[ListItem.Property(gameinfoleft)]</texture>
 						<bordertexture border="2">rcb-button-nofocus.png</bordertexture>
 						<bordersize>2</bordersize>
 					</control>
-					<!-- mainviewgameinforight -->
+					<!-- gameinforight -->
 					<control type="image" id="2741">
-						<description>mainviewgameinforight</description>
+						<description>gameinforight</description>
 						<posx>180</posx>
 						<posy>45</posy>
 						<width>165</width>
 						<height>330</height>						
-						<texture>$INFO[ListItem.Property(mainviewgameinforight)]</texture>
+						<texture>$INFO[ListItem.Property(gameinforight)]</texture>
 						<bordertexture border="2">rcb-button-nofocus.png</bordertexture>
 						<bordersize>2</bordersize>
 					</control>
 					
-					<!-- mainviewvideowindowsmall -->
+					<!-- videowindowsmall -->
 					<control type="videowindow" id="2801">
 						<description>video control</description>
 						<posx>180</posx>
 						<posy>160</posy>
 						<width>165</width>
 						<height>115</height>												
-						<visible>!IsEmpty(ListItem.Property(mainviewvideosizesmall))</visible>
+						<visible>!IsEmpty(ListItem.Property(videosizesmall))</visible>
 					</control>
 					<control type="button">
 						<description>video absorber</description>
@@ -843,7 +842,7 @@
 						<height>115</height>
 						<texturefocus></texturefocus>
 						<texturenofocus></texturenofocus>
-						<visible>!IsEmpty(ListItem.Property(mainviewvideosizesmall))</visible>
+						<visible>!IsEmpty(ListItem.Property(videosizesmall))</visible>
 					</control>										
 															
 					<control type="group">
@@ -907,14 +906,14 @@
 						
 					
 						
-						<!-- mainview2 -->
+						<!-- extraImage2 -->
 						<!--<control type="image">
-							<description>mainview2</description>
+							<description>extraImage2</description>
 							<posx>240</posx>
 							<posy>15</posy>
 							<width>80</width>
 							<height>60</height>						
-							<texture>$INFO[ListItem.Property(mainview2)]</texture>						
+							<texture>$INFO[ListItem.Property(extraImage2)]</texture>						
 						</control>-->
 						
 
@@ -1059,32 +1058,32 @@
 					<scroll>true</scroll>
 				</control>
 				
-				<!-- mainview1 -->
+				<!-- extraImage1 -->
 				<control type="image">
-					<description>mainview1</description>
+					<description>extraImage1</description>
 					<posx>25</posx>
 					<posy>530</posy>
 					<width>60</width>
 					<height>40</height>						
-					<texture>$INFO[ListItem.Property(mainview1)]</texture>						
+					<texture>$INFO[ListItem.Property(extraImage1)]</texture>						
 				</control>
-				<!-- mainview2 -->
+				<!-- extraImage2 -->
 				<control type="image">
-					<description>mainview2</description>
+					<description>extraImage2</description>
 					<posx>100r</posx>
 					<posy>480</posy>
 					<width>80</width>
 					<height>60</height>
-					<texture>$INFO[ListItem.Property(mainview2)]</texture>
+					<texture>$INFO[ListItem.Property(extraImage2)]</texture>
 				</control>
-				<!-- mainview3 -->
+				<!-- extraImage3 -->
 				<control type="image">
-					<description>mainview3</description>
+					<description>extraImage3</description>
 					<posx>90</posx>
 					<posy>530</posy>
 					<width>60</width>
 					<height>40</height>						
-					<texture>$INFO[ListItem.Property(mainview3)]</texture>						
+					<texture>$INFO[ListItem.Property(extraImage3)]</texture>						
 				</control>
 			</control>
 		</control>

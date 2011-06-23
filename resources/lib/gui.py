@@ -1259,26 +1259,26 @@ class UIGameDB(xbmcgui.WindowXML):
 		imageMainView3 = self.getFileForControl(romCollection.imagePlacingMain.fileTypesForMainView3, gameRow[util.ROW_ID], gameRow[util.GAME_publisherId], gameRow[util.GAME_developerId], gameRow[util.GAME_romCollectionId], fileDict)		
 		
 		#set images as properties for use in the skin
-		item.setProperty(util.IMAGE_CONTROL_MV_BACKGROUND, imagemainViewBackground)
-		item.setProperty(util.IMAGE_CONTROL_MV_GAMEINFO_BIG, imageGameInfoBig)
-		item.setProperty(util.IMAGE_CONTROL_MV_GAMEINFO_UPPERLEFT, imageGameInfoUpperLeft)
-		item.setProperty(util.IMAGE_CONTROL_MV_GAMEINFO_UPPERRIGHT, imageGameInfoUpperRight)
-		item.setProperty(util.IMAGE_CONTROL_MV_GAMEINFO_LOWERLEFT, imageGameInfoLowerLeft)
-		item.setProperty(util.IMAGE_CONTROL_MV_GAMEINFO_LOWERRIGHT, imageGameInfoLowerRight)		
-		item.setProperty(util.IMAGE_CONTROL_MV_GAMEINFO_UPPER, imageGameInfoUpper)
-		item.setProperty(util.IMAGE_CONTROL_MV_GAMEINFO_LOWER, imageGameInfoLower)
-		item.setProperty(util.IMAGE_CONTROL_MV_GAMEINFO_LEFT, imageGameInfoLeft)
-		item.setProperty(util.IMAGE_CONTROL_MV_GAMEINFO_RIGHT, imageGameInfoRight)
-		item.setProperty(util.IMAGE_CONTROL_MV_1, imageMainView1)
-		item.setProperty(util.IMAGE_CONTROL_MV_2, imageMainView2)
-		item.setProperty(util.IMAGE_CONTROL_MV_3, imageMainView3)
+		item.setProperty(util.IMAGE_CONTROL_BACKGROUND, imagemainViewBackground)
+		item.setProperty(util.IMAGE_CONTROL_GAMEINFO_BIG, imageGameInfoBig)
+		item.setProperty(util.IMAGE_CONTROL_GAMEINFO_UPPERLEFT, imageGameInfoUpperLeft)
+		item.setProperty(util.IMAGE_CONTROL_GAMEINFO_UPPERRIGHT, imageGameInfoUpperRight)
+		item.setProperty(util.IMAGE_CONTROL_GAMEINFO_LOWERLEFT, imageGameInfoLowerLeft)
+		item.setProperty(util.IMAGE_CONTROL_GAMEINFO_LOWERRIGHT, imageGameInfoLowerRight)		
+		item.setProperty(util.IMAGE_CONTROL_GAMEINFO_UPPER, imageGameInfoUpper)
+		item.setProperty(util.IMAGE_CONTROL_GAMEINFO_LOWER, imageGameInfoLower)
+		item.setProperty(util.IMAGE_CONTROL_GAMEINFO_LEFT, imageGameInfoLeft)
+		item.setProperty(util.IMAGE_CONTROL_GAMEINFO_RIGHT, imageGameInfoRight)
+		item.setProperty(util.IMAGE_CONTROL_1, imageMainView1)
+		item.setProperty(util.IMAGE_CONTROL_2, imageMainView2)
+		item.setProperty(util.IMAGE_CONTROL_3, imageMainView3)
 		
 		
 		#set additional properties
 		description = gameRow[util.GAME_description]
 		if(description == None):
 			description = ""			
-		item.setProperty(util.TEXT_CONTROL_MV_GAMEDESC, description)
+		item.setProperty('plot', description)
 		
 		try:			
 			item.setProperty('romcollection', romCollection.name)			

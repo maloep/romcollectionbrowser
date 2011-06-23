@@ -275,29 +275,29 @@
 			
 			
 			<!-- image controls -->
-			<!-- mainviewgameinfobig -->
+			<!-- gameinfobig -->
 			<control type="group">
 				<posx>480</posx>
 				<posy>70</posy>
 				<control type="image">
-					<description>mainviewgameinfo</description>
+					<description>gameinfo</description>
 					<posx>25</posx>
 					<posy>25</posy>
 					<width>540</width>
 					<height>280</height>
 					<visible>!Player.HasVideo</visible>
-					<texture>$INFO[ListItem.Property(mainviewgameinfobig)]</texture>
+					<texture>$INFO[ListItem.Property(gameinfobig)]</texture>
 					<bordertexture border="2">rcb-button-nofocus.png</bordertexture>
 					<bordersize>2</bordersize>
 				</control>
-				<!-- mainviewvideowindowbig -->
+				<!-- videowindowbig -->
 				<control type="videowindow">
 					<description>video control</description>
 					<posx>25</posx>
 					<posy>25</posy>
 					<width>540</width>
 					<height>280</height>												
-					<visible>!IsEmpty(ListItem.Property(mainviewvideosizebig))</visible>
+					<visible>!IsEmpty(ListItem.Property(videosizebig))</visible>
 				</control>
 				<control type="button">
 					<description>click absorber</description>
@@ -307,107 +307,107 @@
 					<height>280</height>
 					<texturefocus></texturefocus>
 					<texturenofocus></texturenofocus>
-					<visible>!IsEmpty(ListItem.Property(mainviewvideosizebig))</visible>
+					<visible>!IsEmpty(ListItem.Property(videosizebig))</visible>
 				</control>
-				<!-- mainviewgameinfoupperleft -->
+				<!-- gameinfoupperleft -->
 				<control type="image" id="2400">
-					<description>mainviewgameinfoupperleft</description>
+					<description>gameinfoupperleft</description>
 					<posx>25</posx>
 					<posy>25</posy>
 					<width>265</width>
 					<height>135</height>						
-					<texture>$INFO[ListItem.Property(mainviewgameinfoupperleft)]</texture>
+					<texture>$INFO[ListItem.Property(gameinfoupperleft)]</texture>
 					<bordertexture border="2">rcb-button-nofocus.png</bordertexture>
 					<bordersize>2</bordersize>
 				</control>
-				<!-- mainviewgameinfoupperright -->
+				<!-- gameinfoupperright -->
 				<control type="image" id="2500">
-					<description>mainviewgameinfoupperright</description>
+					<description>gameinfoupperright</description>
 					<posx>295</posx>
 					<posy>25</posy>
 					<width>265</width>
 					<height>135</height>						
-					<texture>$INFO[ListItem.Property(mainviewgameinfoupperright)]</texture>
+					<texture>$INFO[ListItem.Property(gameinfoupperright)]</texture>
 					<bordertexture border="2">rcb-button-nofocus.png</bordertexture>
 					<bordersize>2</bordersize>
 				</control>
-				<!-- mainviewgameinfolowerleft -->
+				<!-- gameinfolowerleft -->
 				<control type="image" id="2600">
-					<description>mainviewgameinfolowerleft</description>
+					<description>gameinfolowerleft</description>
 					<posx>25</posx>
 					<posy>170</posy>
 					<width>265</width>
 					<height>135</height>						
-					<texture>$INFO[ListItem.Property(mainviewgameinfolowerleft)]</texture>
+					<texture>$INFO[ListItem.Property(gameinfolowerleft)]</texture>
 					<bordertexture border="2">rcb-button-nofocus.png</bordertexture>
 					<bordersize>2</bordersize>
 				</control>
-				<!-- mainviewgameinfolowerright -->
+				<!-- gameinfolowerright -->
 				<control type="image" id="2700">
-					<description>mainviewgameinfolowerright</description>
+					<description>gameinfolowerright</description>
 					<posx>295</posx>
 					<posy>170</posy>
 					<width>265</width>
 					<height>135</height>
 					<visible>!Player.HasVideo</visible>
-					<texture>$INFO[ListItem.Property(mainviewgameinfolowerright)]</texture>
+					<texture>$INFO[ListItem.Property(gameinfolowerright)]</texture>
 					<bordertexture border="2">rcb-button-nofocus.png</bordertexture>
 					<bordersize>2</bordersize>
 				</control>
 				
-				<!-- mainviewgameinfoupper -->
+				<!-- gameinfoupper -->
 				<control type="image" id="2710">
-					<description>mainviewgameinfoupper</description>
+					<description>gameinfoupper</description>
 					<posx>25</posx>
 					<posy>25</posy>
 					<width>537</width>
 					<height>135</height>						
-					<texture>$INFO[ListItem.Property(mainviewgameinfoupper)]</texture>
+					<texture>$INFO[ListItem.Property(gameinfoupper)]</texture>
 					<bordertexture border="2">rcb-button-nofocus.png</bordertexture>
 					<bordersize>2</bordersize>
 				</control>
-				<!-- mainviewgameinfolower -->
+				<!-- gameinfolower -->
 				<control type="image" id="2720">
-					<description>mainviewgameinfolower</description>
+					<description>gameinfolower</description>
 					<posx>25</posx>
 					<posy>170</posy>
 					<width>537</width>
 					<height>135</height>						
-					<texture>$INFO[ListItem.Property(mainviewgameinfolower)]</texture>
+					<texture>$INFO[ListItem.Property(gameinfolower)]</texture>
 					<bordertexture border="2">rcb-button-nofocus.png</bordertexture>
 					<bordersize>2</bordersize>
 				</control>
-				<!-- mainviewgameinfoleft -->
+				<!-- gameinfoleft -->
 				<control type="image" id="2730">
-					<description>mainviewgameinfoleft</description>
+					<description>gameinfoleft</description>
 					<posx>25</posx>
 					<posy>25</posy>
 					<width>265</width>
 					<height>280</height>						
-					<texture>$INFO[ListItem.Property(mainviewgameinfoleft)]</texture>
+					<texture>$INFO[ListItem.Property(gameinfoleft)]</texture>
 					<bordertexture border="2">rcb-button-nofocus.png</bordertexture>
 					<bordersize>2</bordersize>
 				</control>
-				<!-- mainviewgameinforight -->
+				<!-- gameinforight -->
 				<control type="image" id="2740">
-					<description>mainviewgameinforight</description>
+					<description>gameinforight</description>
 					<posx>295</posx>
 					<posy>25</posy>
 					<width>265</width>
 					<height>280</height>						
-					<texture>$INFO[ListItem.Property(mainviewgameinforight)]</texture>
+					<texture>$INFO[ListItem.Property(gameinforight)]</texture>
 					<bordertexture border="2">rcb-button-nofocus.png</bordertexture>
 					<bordersize>2</bordersize>
 				</control>
 				
-				<!-- mainviewvideowindowsmall -->
+				<!-- videowindowsmall -->
 				<control type="videowindow" id="2800">
 					<description>video control</description>
 					<posx>295</posx>
 					<posy>170</posy>
 					<width>265</width>
 					<height>135</height>
-					<visible>!IsEmpty(ListItem.Property(mainviewvideosizesmall))</visible>						
+					<visible>!IsEmpty(ListItem.Property(videosizesmall))</visible>						
 				</control>
 				<control type="button">
 					<description>click absorber</description>
@@ -417,7 +417,7 @@
 					<height>135</height>
 					<texturefocus></texturefocus>
 					<texturenofocus></texturenofocus>
-					<visible>!IsEmpty(ListItem.Property(mainviewvideosizesmall))</visible>
+					<visible>!IsEmpty(ListItem.Property(videosizesmall))</visible>
 				</control>
 			</control>
 			
