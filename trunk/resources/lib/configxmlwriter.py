@@ -70,10 +70,10 @@ class ConfigXmlWriter:
 				SubElement(romCollectionXml, 'xboxCreateShortcutUseShortGamename').text = str(romCollection.xboxCreateShortcutUseShortGamename)
 				
 			#image placing
-			if(romCollection.imagePlacing != None and romCollection.imagePlacing.name != ''):
-				SubElement(romCollectionXml, 'imagePlacing').text = romCollection.imagePlacing.name 
+			if(romCollection.imagePlacingMain != None and romCollection.imagePlacingMain.name != ''):
+				SubElement(romCollectionXml, 'imagePlacingMain').text = romCollection.imagePlacingMain.name 
 			else:
-				SubElement(romCollectionXml, 'imagePlacing').text = 'gameinfobig'
+				SubElement(romCollectionXml, 'imagePlacingMain').text = 'gameinfobig'
 			
 			if(romCollection.scraperSites == None or len(romCollection.scraperSites) == 0):
 				#TODO: enable again when site is more complete and responses are faster
