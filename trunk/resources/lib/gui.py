@@ -926,6 +926,10 @@ class UIGameDB(xbmcgui.WindowXML):
 		
 		self.saveViewMode()
 		
+		if(self.player.isPlayingVideo()):
+			self.player.stoppedByRCB = True
+			self.player.stop()
+		
 		self.gameinfoDialogOpen = True
 		
 		#HACK: Dharma has a new parameter in Window-Constructor for default resolution

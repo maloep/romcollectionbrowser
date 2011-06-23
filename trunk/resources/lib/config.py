@@ -319,7 +319,7 @@ class Config:
 				romCollection.scraperSites.append(scraper)
 				
 			#imagePlacing - Main window
-			romCollection.imagePlacingMain = []
+			romCollection.imagePlacingMain = ImagePlacing()
 			imagePlacingRow = romCollectionRow.find('imagePlacingMain')			
 			if(imagePlacingRow != None):
 				Logutil.log('Image Placing name: ' +str(imagePlacingRow.text), util.LOG_LEVEL_INFO)
@@ -330,7 +330,7 @@ class Config:
 				romCollection.imagePlacingMain = fileTypeFor
 				
 			#imagePlacing - Info window
-			romCollection.imagePlacingInfo = []
+			romCollection.imagePlacingInfo = ImagePlacing()
 			imagePlacingRow = romCollectionRow.find('imagePlacingInfo')			
 			if(imagePlacingRow != None):
 				Logutil.log('Image Placing name: ' +str(imagePlacingRow.text), util.LOG_LEVEL_INFO)
