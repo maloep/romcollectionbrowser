@@ -165,7 +165,8 @@ class RomCollection:
 	saveStateParams = ''
 	mediaPaths = None
 	scraperSites = None
-	imagePlacing = None
+	imagePlacingMain = None
+	imagePlacingInfo = None
 	ignoreOnScan = False
 	allowUpdate = True
 	useEmuSolo = False
@@ -317,16 +318,27 @@ class Config:
 					return None, errorMsg
 				romCollection.scraperSites.append(scraper)
 				
-			#imagePlacing
-			romCollection.imagePlacing = []
-			imagePlacingRow = romCollectionRow.find('imagePlacing')			
+			#imagePlacing - Main window
+			romCollection.imagePlacingMain = []
+			imagePlacingRow = romCollectionRow.find('imagePlacingMain')			
 			if(imagePlacingRow != None):
 				Logutil.log('Image Placing name: ' +str(imagePlacingRow.text), util.LOG_LEVEL_INFO)
 				fileTypeFor, errorMsg = self.readImagePlacing(imagePlacingRow.text, tree)
 				if(fileTypeFor == None):
 					return None, errorMsg
 				
-				romCollection.imagePlacing = fileTypeFor
+				romCollection.imagePlacingMain = fileTypeFor
+				
+			#imagePlacing - Info window
+			romCollection.imagePlacingInfo = []
+			imagePlacingRow = romCollectionRow.find('imagePlacingInfo')			
+			if(imagePlacingRow != None):
+				Logutil.log('Image Placing name: ' +str(imagePlacingRow.text), util.LOG_LEVEL_INFO)
+				fileTypeFor, errorMsg = self.readImagePlacing(imagePlacingRow.text, tree)
+				if(fileTypeFor == None):
+					return None, errorMsg
+				
+				romCollection.imagePlacingInfo = fileTypeFor
 			
 			#all simple RomCollection properties
 			romCollection.emulatorCmd = self.readTextElement(romCollectionRow, 'emulatorCmd')
@@ -575,13 +587,13 @@ class Config:
 		
 		fileTypeIds = []
 		for romCollection in romCollections.values():
-			for fileType in romCollection.imagePlacing.fileTypesForGameList:				
+			for fileType in romCollection.imagePlacingMain.fileTypesForGameList:				
 				if(fileTypeIds.count(fileType.id) == 0):
 					fileTypeIds.append(fileType.id)
-			for fileType in romCollection.imagePlacing.fileTypesForGameListSelected:
+			for fileType in romCollection.imagePlacingMain.fileTypesForGameListSelected:
 				if(fileTypeIds.count(fileType.id) == 0):
 					fileTypeIds.append(fileType.id)
-			for fileType in romCollection.imagePlacing.fileTypesForMainViewVideoFullscreen:
+			for fileType in romCollection.imagePlacingMain.fileTypesForMainViewVideoFullscreen:
 				if(fileTypeIds.count(fileType.id) == 0):
 					fileTypeIds.append(fileType.id)
 
