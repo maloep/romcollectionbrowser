@@ -1,134 +1,130 @@
 
-= Features =
-== game import / scraping ==
-=== general ===
- * scraping option: use subtitle search
- * only search for subtitles with : and - (and maybe only when sequel number)
- * new option: ask for correct result on mismatch
- * cancel import
- * stop import on general error
- * offer scraping options at startup
-	* Automatic: Accurate
-	* Automatic: Guess names
-	* Interactive
-	* Local nfo ?
- * scrape results page with option to rescrape missing games
- * improve config wizard (suggest parameters, pathes, more options)
-	 * Save path to roms / artwork / ... in config wizard
- * easier handling of default images (per romcollection)
- * support a.k.a. titles from mobygames
- * slight changes to subtitle matching (e.g. Alien Breed III, Bards Tale I)
- * manual scraping games (update properties and images)
- * delete missing games from db (batch and single)
- * add mame support (use maws scraper)
- * easy to use option to rescrape missing games
- * stop searching when all games are found
- * check if import desc file with %GAME% still works with config wizard
- * more Disk indicators for multi rom scenario (Disk %I)
- * check special chars (ä, è) in pathes
- * Giantbomb API: check type of image/platform (current version is not platform safe)
-	-> Result contains Releases
-		-> loop releases and check for correct platform
-		-> use release date and image of this release		
- * add replace options as global option
- * db structure: extra properties for outline und plot (atm only description)
- * get back more than one URL in 1 Result? (e.g. BackCover, FrontCover, ...)
- * ,-separated list in scraper (e.g. more than genre on mobygames are ignored)
- * foldernamefromCRC (implementation looks strange)
- * new option: build crc from complete zip or first entry
- * backup mygames.db before update
- * new db field %RATING%
- * file browser mode
- * config file per game
- * manual and faq browser
+= 0.9.1 =
+== General ==
+  * edit rom collection dialog	
+    * friendly name for imageplacing options
+    * wizard for new media path
+    * default value for file mask
+    * general layout
 
-		
-=== implement new Scrapers (already checked) ===
- * http://api.archive.vg/1.0/Game.getInfoByCRC/APIKEY/f9394e97 
+== Import Games ==
+  * import options dialog
+    * checkbox: overwrite config.xml (use settings only if chkbox is checked)
 
-=== sites to check for scraping ===
- * http://www.RFGeneration.com
- * http://www.gametrailers.com
- * http://www.thecoverproject.net
- * http://www.eurogamer.net/
- * http://www.gamespot.com
- * http://www.gamerankings.com
- * http://maws.mameworld.info/maws/
+== Browse Games ==
+  * refactor game info window
+    * video in game info window
+    * publisher, developer images
+  * Lines in Info2 view
+  * update Night, Carmichael, Simplicity (new skin structure, favorites, search)
+  * add skin selection in settings.xml
 
- * http://www.gamefaqs.com/ (Forbidden in Terms of use) (Request for permission: #101113-000033, no answer) 
- * http://www.allgame.com/ (Forbidden in Terms of use) (mail written, no answer)
+= 0.9.2 =
+== General ==
+  * start RCB twice: atomic init routine?
+  * update config after editing via edit dialog (only in edit scrapers?)
+  * move encoding from scraper to site
+  * Edit offline scrapers:
+    * directly navigate to file if descfilepergame = False (no use of filemask)
+    * new scraper: default value for parseinstruction (path or game desc) in browse dialog
+    * scraper encoding: move to scraper and add to dialog
+  * Edit Rom Collection / Offline Scrapers: check if config.xml has errors before writing
+  * config wizard: 
+    * create local data config file with wizard: search game by crc (or check to remove this option completely)
+    * support placeholder folder names and game descriptions if descFilePerGame = True  
+    * configuration templates (emumovies, ressurectionxtras, ...) 
+  * replace smb:// when searching for roms and artwork
+  * bug: resolved path from rom folder name: C:\Users\Mic\Downloads\Arcade\Data\MAME\My_Art\boxfront\C:\Users\Mic\Downloads\Arcade\Data\MAME\My_Roms.*
+  * bug: resolved path from rom folder name: smb://terastation/media/Roms/SNES/Boxart/boxfront/smb://terastation/media/Roms/SNES.*
+  * db in memory: id = null?
+
+== Import Games ==
+  * stop import on general error
+  * import options dialog:
+    * online scraping: if only 1 Rom Collection MAME: scraper = None
+    * better error message when using local scraper with "All" option: "offline scrapers can't be used with the ALL option"
+  * support for default images (in Edit dialog and gui.py)
+  * add download url to nfo file
+  
+== Launch Games ==
+  * new placeholders in emuParams: %EMUPATH%, %ROMPATH%
 
 
-== game browsing / general UI features ==
- * use context menu
-	 * Addon settings
-	 * Add RomCollection
- * improve progress dialog
-	 * import rom collection 1/1 SNES...
-	 * import game: spiderman
-	 * current scraper: mobygames.com, download artwork, ...
- * rework current skins
- * create new skins
- * handle different image sizes
- * filter control interaction
- * search games by textbox
- * mark game as completed
- * favorites function
- * short delay before applying filter selection
- * pause video when importing games, changing view or filter selection
- * complete settings dialog (all RomCollection properties)
- * option to edit game properties
- * default image if there is no video found
- * more image placing options: upper, lower, left, right
- * favorite view per romcollection
- * gloss covers on/off
- * option: Autoplay video
- * option: Autoscroll description
- * highlight filter selection
- * if game has url: option to launch in browser
- * more than one image per control
- * loop videos (stop and start video causes list to refresh)
+= 0.9.x =
+==General ==
+  * backup MyGames.db and config.xml before editing or game import
+  * improve config wizard (suggest options, pathes, more options)
+  * mark game as completed
+  * mark game as broken (in db + .broken in filename)
 
+== Import Games ==
+  * refactor dbupdate
+    * no import of images to database. just check the directories at runtime. Performance tests
+    * rom collection base path and all files relative to that
+    * check preconditions before game import
+    * easier handling of default images, publisher, dev and RC images
+    * divide data and artwork scraper
+    * new scraper property: online, local
+    * support for audio files
+    * multi rom, multi iso
+    * region support
+    * test all scraping options (search game by crc, use filename as crc, ...)
+      * no settings needed
+  * scraping option / scraper: local artwork
+    * skip complete scraping, just import local artwork
+    * scrape game info but don't download artwork
+  * error with [] in rom path name
+  * create scrape statistics
+    * time taken
+    * games total
+    * missing info
+    * missing artwork (per type)
+    * option to rescrape missing games
 
-== game launching ==
- * extract zip and .7z files (integrate quakes fixes)
- * check for {} in multi rom scenario (multi rom but no brackets in emuCmd -> error)
- * ignore multi rom scenario (f.e. mame)
- * focus not on gamelist after launchemu (problem only on windows?)
- * command before launch and after launch(f.e. load virtual cd drive, unload virtual cd drive)
- * try to write black background before launch
-
-
-= Refactoring / implementation details =
- * move scraper code to separate module
- * move launcher code to separate moule
- * new logLevel: ALWAYS
- * consequent use of constants/enums
-
-
-= Tests =
- * add more real unit test after refactoring
-	* game matching (sequels, subtitles, ...)
- * DescParser
-	 * getFlatFile
-	 * getXML
-	 * getUnknown
-	 * readFileLocal
-	 * readFileWeb
- * DescParserFlatFile
-	 * parseDescPerGame
-	 * parseDescForAllGames
- * gamename with &
-
+== Browse Games ==
+  * filter control interaction
+  * MAME support	
+    * MAME imagePlacing cabinet view + video?
+  * create new skins (AEON style etc.)
  
-= Documentation =
- * video tut for local data test suite
- * Improving scrape results
- * Import local nfo files
- * Use RCB to launch standalone games
- * Add new Rom Collections (without wizard)
- * Mixing online and offline scrapers
- * List of emus with command line parameters and known issues (maybe in XBMC wiki?)
- * HOWTO: create a useful log file
- * HOWTO: troubleshoot launching problems
- * FAQ
+
+= Future =
+
+== General ==
+  * encoding: Pokémon (only Eden?)
+  * option to rescrape missing games
+  * option to edit game properties
+  
+== Import Games ==
+  * divide outline and plot
+  * Scraper improvements
+    * more than 1 URL in 1 Result (e.g. BackCover, FrontCover, ...) is not supported atm
+    * ,-separated list in scraper
+    * test beautifulsoup as scraper lib
+    * scraping option: use subtitle search
+    * only search for subtitles with : and - (and maybe only when sequel number)
+    * support a.k.a. titles from mobygames
+    * manual scraping games (update properties and images)
+    * easy to use option to rescrape missing games
+  * new option: crc from complete zip or first entry
+  * %RATING%
+  
+== Browse Games ==
+  * Console view / dash board
+  * wall view: http://img848.imageshack.us/i/nintendosnesfanart.jpg/
+  * favorite view per romcollection
+  * option: Autoplay video
+  * short delay before applying filter selection
+  * pause video when importing games, changing view or filter selection
+  * favorite view per romcollection
+  * option: Autoplay video
+  * highlight filter selection
+  * if game has url: option to launch in browser
+  * loop videos (stop and start video causes list to refresh)
+
+== Launch Games ==
+  * before and after launch command
+  * start stop LIRC (Issue 74)
+  * per game config (e.g. Amiga)
+  * command before launch and after launch(f.e. load virtual cd drive, unload virtual cd drive)
+  * try to write black background before launch
