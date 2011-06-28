@@ -797,7 +797,7 @@ class UIGameDB(xbmcgui.WindowXML):
 		Logutil.log("begin Delete Games" , util.LOG_LEVEL_INFO)
 		count = 0
 		
-		rcList = Game(self.gdb).getFilteredGames(rcID, 0, 0, 0, '0 = 0')
+		rcList = Game(self.gdb).getFilteredGames(rcID, 0, 0, 0, 0, '0 = 0')
 		progressDialog = ProgressDialogGUI()
 		progressDialog.itemCount = len(rcList)
 		
@@ -1393,6 +1393,10 @@ class UIGameDB(xbmcgui.WindowXML):
 			if (os.environ.get( "OS", "xbox" ) == "xbox" and romCollection.name == 'Xbox'):
 				romCollection.emulatorCmd = '%ROM%'
 				Logutil.log('emuCmd set to "%ROM%" on Xbox.', util.LOG_LEVEL_INFO)
+			#check for standalone games
+			elif (romCollection.name == 'Linux' or romCollection.name == 'Macintosh' or romCollection.name == 'Windows'):
+				romCollection.emulatorCmd = '"%ROM%"'
+				Logutil.log('emuCmd set to "%ROM%" for standalone games.', util.LOG_LEVEL_INFO)
 			else:
 				consolePath = dialog.browse(1, '%s Emulator' %console, 'files')
 				Logutil.log('consolePath: ' +str(consolePath), util.LOG_LEVEL_INFO)
@@ -1406,6 +1410,9 @@ class UIGameDB(xbmcgui.WindowXML):
 			if (os.environ.get( "OS", "xbox" ) == "xbox"):
 				romCollection.emulatorParams = ''
 				Logutil.log('emuParams set to "" on Xbox.', util.LOG_LEVEL_INFO)
+			elif (romCollection.name == 'Linux' or romCollection.name == 'Macintosh' or romCollection.name == 'Windows'):
+				romCollection.emulatorParams = ''
+				Logutil.log('emuParams set to "" for standalone games.', util.LOG_LEVEL_INFO)
 			else:
 				keyboard = xbmc.Keyboard()
 				#TODO add all rom params here

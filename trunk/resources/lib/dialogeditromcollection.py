@@ -150,12 +150,15 @@ class EditRomCollectionDialog(dialogbase.DialogBaseEdit):
 			self.updateMediaPathControls()
 			
 		elif (controlID == CONTROL_BUTTON_EMUCMD):
-			dialog = xbmcgui.Dialog()
-			
-			emulatorPath = dialog.browse(1, '%s Emulator' %self.selectedRomCollection.name, 'files')
-			if(emulatorPath == ''):
-				return
-						
+			if (self.selectedRomCollection.name == 'Linux' or self.selectedRomCollection.name == 'Macintosh' or self.selectedRomCollection.name == 'Windows'):
+				emulatorPath = self.editTextProperty(CONTROL_BUTTON_EMUCMD, 'emulator command')
+			else:	
+				dialog = xbmcgui.Dialog()
+				
+				emulatorPath = dialog.browse(1, '%s Emulator' %self.selectedRomCollection.name, 'files')
+				if(emulatorPath == ''):
+					return
+							
 			self.selectedRomCollection.emulatorCmd = emulatorPath
 			control = self.getControlById(CONTROL_BUTTON_EMUCMD)
 			control.setLabel(emulatorPath)
