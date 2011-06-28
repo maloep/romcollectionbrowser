@@ -508,14 +508,18 @@ class EditRomCollectionDialog(dialogbase.DialogBaseEdit):
 		
 		mediaType = mediaTypeList[mediaTypeIndex]
 		mediaType = mediaType.replace(' (video)', '')
-					
+				
+		mediaPathComplete = self.editPathWithFileMask(CONTROL_BUTTON_MEDIAPATH, '%s Path' %mediaType, CONTROL_BUTTON_MEDIAFILEMASK)
+		#TODO: use default value in editFilemask
+		control = self.getControlById(CONTROL_BUTTON_MEDIAFILEMASK)
+		control.setLabel('%GAME%.*')
+		mediaPathComplete = self.editFilemask(CONTROL_BUTTON_MEDIAFILEMASK, 'media filemask', mediaPathComplete)
+		
 		mediaPath = MediaPath()
 		fileType = FileType()
 		fileType.name = mediaType
 		mediaPath.fileType = fileType
-		
-		#TODO: Enter path and mask per wizard? Auto fill mask?
-		
+		mediaPath.path = mediaPathComplete
 		self.selectedRomCollection.mediaPaths.append(mediaPath)			
 		
 		control = self.getControlById(CONTROL_LIST_MEDIATYPES)
