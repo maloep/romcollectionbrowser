@@ -93,7 +93,12 @@ consoleDict = {
 			'Zodiac' : ['68', ''],
 			'ZX Spectr' : ['41', '']}
 			
-			
+imagePlacingDict = {'gameinfobig' : 'one big',
+					'gameinfobigVideo' : 'one big or video',
+					'gameinfosmall' : 'four small',
+					'gameinfosmallVideo' : 'three small + video',
+					'gameinfomamemarquee' : 'MAME: marquee in list',
+					'gameinfomamecabinet' : 'MAME: cabinet in list'}			
 
 
 class FileType:
@@ -530,7 +535,7 @@ class Config:
 				break
 		
 		if(fileTypeForRow == None):
-			Logutil.log('Configuration error. ImagePlacing/fileTypeFor %s does not exist in config.xml' %imagePlacingName, util.LOG_LEVEL_ERROR)
+			Logutil.log('Configuration error. ImagePlacing/fileTypeFor %s does not exist in config.xml' %str(imagePlacingName), util.LOG_LEVEL_ERROR)
 			return None, 'Configuration error. See xbmc.log for details'
 		
 		imagePlacing = ImagePlacing()

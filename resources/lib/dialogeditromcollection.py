@@ -92,7 +92,12 @@ class EditRomCollectionDialog(dialogbase.DialogBaseEdit):
 		imagePlacingRows = self.gui.config.tree.findall('ImagePlacing/fileTypeFor')
 		for imagePlacing in imagePlacingRows:
 			Logutil.log('add image placing: ' +str(imagePlacing.attrib.get('name')), util.LOG_LEVEL_INFO)
-			self.imagePlacingList.append(imagePlacing.attrib.get('name'))
+			option = imagePlacing.attrib.get('name')
+			try:
+				option = config.imagePlacingDict[option]
+			except:
+				pass
+			self.imagePlacingList.append(option)
 		self.addItemsToList(CONTROL_LIST_IMAGEPLACING_MAIN, self.imagePlacingList)
 		self.addItemsToList(CONTROL_LIST_IMAGEPLACING_INFO, self.imagePlacingList)
 		
@@ -279,8 +284,19 @@ class EditRomCollectionDialog(dialogbase.DialogBaseEdit):
 		self.selectScrapersInList(self.selectedRomCollection.scraperSites, self.availableScrapers)
 		
 		#Browse Games
-		self.selectItemInList(self.selectedRomCollection.imagePlacingMain.name, CONTROL_LIST_IMAGEPLACING_MAIN)
-		self.selectItemInList(self.selectedRomCollection.imagePlacingInfo.name, CONTROL_LIST_IMAGEPLACING_INFO)
+		optionMain = self.selectedRomCollection.imagePlacingMain.name
+		try:
+			optionMain = config.imagePlacingDict[optionMain]
+		except:
+			pass
+		self.selectItemInList(optionMain, CONTROL_LIST_IMAGEPLACING_MAIN)
+		
+		optionInfo = self.selectedRomCollection.imagePlacingInfo.name
+		try:
+			optionInfo = config.imagePlacingDict[optionInfo]
+		except:			
+			pass		
+		self.selectItemInList(optionInfo, CONTROL_LIST_IMAGEPLACING_INFO)
 		
 		#Launch Games
 		control = self.getControlById(CONTROL_BUTTON_EMUCMD)		
@@ -348,15 +364,21 @@ class EditRomCollectionDialog(dialogbase.DialogBaseEdit):
 		control = self.getControlById(CONTROL_LIST_IMAGEPLACING_MAIN)
 		imgPlacingItem = control.getSelectedItem()
 		imgPlacingName = imgPlacingItem.getLabel()
-		
+		#HACK search key by value
+		for item in config.imagePlacingDict.items():
+			if(item[1] == imgPlacingName):
+				imgPlacingName = item[0]
 		imgPlacing, errorMsg = self.gui.config.readImagePlacing(imgPlacingName, self.gui.config.tree)
 		self.selectedRomCollection.imagePlacingMain = imgPlacing
 		
-		#Image Placing Main
+		#Image Placing Info
 		control = self.getControlById(CONTROL_LIST_IMAGEPLACING_INFO)
 		imgPlacingItem = control.getSelectedItem()
 		imgPlacingName = imgPlacingItem.getLabel()
-		
+		#HACK search key by value
+		for item in config.imagePlacingDict.items():
+			if(item[1] == imgPlacingName):
+				imgPlacingName = item[0]
 		imgPlacing, errorMsg = self.gui.config.readImagePlacing(imgPlacingName, self.gui.config.tree)
 		self.selectedRomCollection.imagePlacingInfo = imgPlacing
 		
