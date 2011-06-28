@@ -160,6 +160,8 @@ def buildCmd(filenameRows, romCollection, gameRow, escapeCmd):
 				
 				if (os.environ.get( "OS", "xbox" ) == "xbox"):
 					cmd = replacePlaceholdersInParams(emuCommandLine, rom, romCollection, gameRow, escapeCmd)
+				elif (romCollection.name == 'Linux' or romCollection.name == 'Macintosh' or romCollection.name == 'Windows'):
+					cmd = replacePlaceholdersInParams(emuCommandLine, rom, romCollection, gameRow, escapeCmd)
 				else:
 					cmd = '\"' +emuCommandLine +'\" ' +emuParams.replace('%I%', str(fileindex))
 			else:
