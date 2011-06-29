@@ -50,7 +50,7 @@
 				<posx>0</posx>
 				<posy>0</posy>
 				<width>720</width>
-				<height>260</height>
+				<height>280</height>
 				<texture border="45,0,45,0">rcb-DialogContextMiddle.png</texture>				
 			</control>
 			<control type="image">
@@ -58,13 +58,13 @@
 				<posx>35</posx>
 				<posy>0</posy>
 				<width>640</width>
-				<height>260</height>				
+				<height>280</height>				
 				<texture border="0,0,0,0">rcb-floor.png</texture>
 			</control>
 			<control type="image">
 				<description>background bottom image</description>
 				<posx>0</posx>
-				<posy>260</posy>
+				<posy>280</posy>
 				<width>720</width>
 				<texture border="45,0,45,49">rcb-DialogContextBottom.png</texture>
 			</control>
@@ -279,7 +279,7 @@
 				<onleft>5300</onleft>
 				<onright>5223</onright>
 				<onup>5211</onup>
-				<ondown>5271</ondown>
+				<ondown>5330</ondown>
 			</control>
 			<control type="button" id="5223">
 				<description>Menu Item Prev Button</description>
@@ -295,12 +295,30 @@
 				<onleft>5222</onleft>
 				<onright>5300</onright>
 				<onup>5212</onup>
+				<ondown>5330</ondown>
+			</control>
+			
+			<control type="radiobutton" id="5330">
+				<posx>40</posx>
+				<posy>110</posy>
+				<width>640</width>
+				<height>30</height>
+				<font>font13</font>
+				<label>Overwrite scraper settings</label>
+				<textcolor>88FFFFFF</textcolor>
+				<focusedcolor>FFFFFFFF</focusedcolor>
+				<texturefocus>rcb-MenuItemFO.png</texturefocus>
+				<texturenofocus>rcb-MenuItemNF.png</texturenofocus>
+				<onleft>5300</onleft>
+				<onright>5300</onright>
+				<onup>5223</onup>
 				<ondown>5272</ondown>
+				<onclick>Skin.ToggleSetting(rcb_overwriteImportOptions)</onclick>
 			</control>
 			
 			<control type="group">
-				<posx>40</posx>
-				<posy>110</posy>
+				<posx>60</posx>
+				<posy>140</posy>
 				
 				<!-- Scraper 1 -->
 				<control type="list" id="5270">
@@ -313,6 +331,7 @@
 					<onright>5270</onright>
 					<onup>5270</onup>
 					<ondown>5270</ondown>
+					<enable>false</enable>
 					<pagecontrol>-</pagecontrol>
 					<scrolltime>0</scrolltime>
 					<itemlayout height="1" width="750">
@@ -345,6 +364,7 @@
 							<aligny>center</aligny>
 							<label>Scraper 1</label>
 							<visible>![Control.HasFocus(5271) | Control.HasFocus(5272)]</visible>
+							<animation reversible="false" effect="fade" end="50" time="0" condition="!Skin.HasSetting(rcb_overwriteImportOptions)">Conditional</animation>
 						</control>
 						<control type="label">
 							<posx>7</posx>
@@ -357,9 +377,10 @@
 							<aligny>center</aligny>
 							<label>Scraper 1</label>
 							<visible>[Control.HasFocus(5271) | Control.HasFocus(5272)]</visible>
+							<animation reversible="false" effect="fade" end="50" time="0" condition="!Skin.HasSetting(rcb_overwriteImportOptions)">Conditional</animation>
 						</control>
 						<control type="label">
-							<posx>570</posx>
+							<posx>550</posx>
 							<posy>5</posy>
 							<width>330</width>
 							<height>20</height>
@@ -369,9 +390,10 @@
 							<aligny>center</aligny>
 							<label>$INFO[ListItem.Label]</label>
 							<visible>![Control.HasFocus(5271) | Control.HasFocus(5272)]</visible>
+							<animation reversible="false" effect="fade" end="50" time="0" condition="!Skin.HasSetting(rcb_overwriteImportOptions)">Conditional</animation>
 						</control>
 						<control type="label">
-							<posx>570</posx>
+							<posx>550</posx>
 							<posy>5</posy>
 							<width>330</width>
 							<height>20</height>
@@ -381,12 +403,13 @@
 							<aligny>center</aligny>
 							<label>$INFO[ListItem.Label]</label>
 							<visible>[Control.HasFocus(5271) | Control.HasFocus(5272)]</visible>
+							<animation reversible="false" effect="fade" end="50" time="0" condition="!Skin.HasSetting(rcb_overwriteImportOptions)">Conditional</animation>
 						</control>
 					</focusedlayout>
 				</control>
 				<control type="button" id="5271">
 					<description>Menu Item Next Button</description>
-					<posx>590</posx>
+					<posx>570</posx>
 					<posy>5</posy>
 					<width>20</width>
 					<height>20</height>
@@ -397,12 +420,13 @@
 					<onclick>Control.Move(5270,1)</onclick>
 					<onleft>5300</onleft>
 					<onright>5272</onright>
-					<onup>5222</onup>
+					<onup>5330</onup>
 					<ondown>5281</ondown>
+					<enable>Skin.HasSetting(rcb_overwriteImportOptions)</enable>
 				</control>
 				<control type="button" id="5272">
 					<description>Menu Item Prev Button</description>
-					<posx>610</posx>
+					<posx>590</posx>
 					<posy>5</posy>
 					<width>20</width>
 					<height>20</height>
@@ -413,8 +437,9 @@
 					<onclick>Control.Move(5270,-1)</onclick>
 					<onleft>5271</onleft>
 					<onright>5300</onright>
-					<onup>5223</onup>
+					<onup>5330</onup>
 					<ondown>5282</ondown>
+					<enable>Skin.HasSetting(rcb_overwriteImportOptions)</enable>
 				</control>
 				<!-- Scraper 2 -->
 				<control type="list" id="5280">
@@ -459,6 +484,7 @@
 							<aligny>center</aligny>
 							<label>Scraper 2</label>
 							<visible>![Control.HasFocus(5281) | Control.HasFocus(5282)]</visible>
+							<animation reversible="false" effect="fade" end="50" time="0" condition="!Skin.HasSetting(rcb_overwriteImportOptions)">Conditional</animation>
 						</control>
 						<control type="label">
 							<posx>7</posx>
@@ -471,9 +497,10 @@
 							<aligny>center</aligny>
 							<label>Scraper 2</label>
 							<visible>[Control.HasFocus(5281) | Control.HasFocus(5282)]</visible>
+							<animation reversible="false" effect="fade" end="50" time="0" condition="!Skin.HasSetting(rcb_overwriteImportOptions)">Conditional</animation>
 						</control>
 						<control type="label">
-							<posx>570</posx>
+							<posx>550</posx>
 							<posy>5</posy>
 							<width>330</width>
 							<height>20</height>
@@ -483,9 +510,10 @@
 							<aligny>center</aligny>
 							<label>$INFO[ListItem.Label]</label>
 							<visible>![Control.HasFocus(5281) | Control.HasFocus(5282)]</visible>
+							<animation reversible="false" effect="fade" end="50" time="0" condition="!Skin.HasSetting(rcb_overwriteImportOptions)">Conditional</animation>
 						</control>
 						<control type="label">
-							<posx>570</posx>
+							<posx>550</posx>
 							<posy>5</posy>
 							<width>330</width>
 							<height>20</height>
@@ -495,12 +523,13 @@
 							<aligny>center</aligny>
 							<label>$INFO[ListItem.Label]</label>
 							<visible>[Control.HasFocus(5281) | Control.HasFocus(5282)]</visible>
+							<animation reversible="false" effect="fade" end="50" time="0" condition="!Skin.HasSetting(rcb_overwriteImportOptions)">Conditional</animation>
 						</control>
 					</focusedlayout>
 				</control>
 				<control type="button" id="5281">
 					<description>Menu Item Next Button</description>
-					<posx>590</posx>
+					<posx>570</posx>
 					<posy>35</posy>
 					<width>20</width>
 					<height>20</height>
@@ -513,10 +542,11 @@
 					<onright>5282</onright>
 					<onup>5271</onup>
 					<ondown>5291</ondown>
+					<enable>Skin.HasSetting(rcb_overwriteImportOptions)</enable>
 				</control>
 				<control type="button" id="5282">
 					<description>Menu Item Prev Button</description>
-					<posx>610</posx>
+					<posx>590</posx>
 					<posy>35</posy>
 					<width>20</width>
 					<height>20</height>
@@ -529,6 +559,7 @@
 					<onright>5300</onright>
 					<onup>5272</onup>
 					<ondown>5292</ondown>
+					<enable>Skin.HasSetting(rcb_overwriteImportOptions)</enable>
 				</control>
 				<!-- Scraper 3 -->
 				<control type="list" id="5290">
@@ -573,6 +604,7 @@
 							<aligny>center</aligny>
 							<label>Scraper 3</label>
 							<visible>![Control.HasFocus(5291) | Control.HasFocus(5292)]</visible>
+							<animation reversible="false" effect="fade" end="50" time="0" condition="!Skin.HasSetting(rcb_overwriteImportOptions)">Conditional</animation>
 						</control>
 						<control type="label">
 							<posx>7</posx>
@@ -585,9 +617,10 @@
 							<aligny>center</aligny>
 							<label>Scraper 3</label>
 							<visible>[Control.HasFocus(5291) | Control.HasFocus(5292)]</visible>
+							<animation reversible="false" effect="fade" end="50" time="0" condition="!Skin.HasSetting(rcb_overwriteImportOptions)">Conditional</animation>
 						</control>
 						<control type="label">
-							<posx>570</posx>
+							<posx>550</posx>
 							<posy>5</posy>
 							<width>330</width>
 							<height>20</height>
@@ -597,9 +630,10 @@
 							<aligny>center</aligny>
 							<label>$INFO[ListItem.Label]</label>
 							<visible>![Control.HasFocus(5291) | Control.HasFocus(5292)]</visible>
+							<animation reversible="false" effect="fade" end="50" time="0" condition="!Skin.HasSetting(rcb_overwriteImportOptions)">Conditional</animation>
 						</control>
 						<control type="label">
-							<posx>570</posx>
+							<posx>550</posx>
 							<posy>5</posy>
 							<width>330</width>
 							<height>20</height>
@@ -609,12 +643,13 @@
 							<aligny>center</aligny>
 							<label>$INFO[ListItem.Label]</label>
 							<visible>[Control.HasFocus(5291) | Control.HasFocus(5292)]</visible>
+							<animation reversible="false" effect="fade" end="50" time="0" condition="!Skin.HasSetting(rcb_overwriteImportOptions)">Conditional</animation>
 						</control>
 					</focusedlayout>
 				</control>
 				<control type="button" id="5291">
 					<description>Menu Item Next Button</description>
-					<posx>590</posx>
+					<posx>570</posx>
 					<posy>65</posy>
 					<width>20</width>
 					<height>20</height>
@@ -627,10 +662,11 @@
 					<onright>5292</onright>
 					<onup>5281</onup>
 					<ondown>5300</ondown>
+					<enable>Skin.HasSetting(rcb_overwriteImportOptions)</enable>
 				</control>
 				<control type="button" id="5292">
 					<description>Menu Item Prev Button</description>
-					<posx>610</posx>
+					<posx>590</posx>
 					<posy>65</posy>
 					<width>20</width>
 					<height>20</height>
@@ -643,6 +679,7 @@
 					<onright>5300</onright>
 					<onup>5282</onup>
 					<ondown>5300</ondown>
+					<enable>Skin.HasSetting(rcb_overwriteImportOptions)</enable>
 				</control>
 			</control>
 			
@@ -650,7 +687,7 @@
 			<control type="button" id="5300"> 
 				<description>Import</description>
 				<posx>150</posx>
-				<posy>220</posy>
+				<posy>250</posy>
 				<width>200</width>
 				<height>30</height>
 				<visible>true</visible>
@@ -674,7 +711,7 @@
 			<control type="button" id="5310"> 
 				<description>Cancel</description>
 				<posx>370</posx>
-				<posy>220</posy>
+				<posy>250</posy>
 				<width>200</width>
 				<height>30</height>
 				<visible>true</visible>

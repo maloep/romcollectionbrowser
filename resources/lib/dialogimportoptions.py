@@ -25,6 +25,8 @@ CONTROL_LIST_SCRAPER3 = 5290
 CONTROL_BUTTON_RC_DOWN = 5211
 CONTROL_BUTTON_RC_UP = 5212
 
+CONTROL_BUTTON_OVERWRITESETTINGS = 5330
+
 
 class ImportOptionsDialog(xbmcgui.WindowXMLDialog):
 	
@@ -71,6 +73,9 @@ class ImportOptionsDialog(xbmcgui.WindowXMLDialog):
 				break
 			
 		self.selectScrapersInList(sitesInRomCollection, sitesInList)
+		
+		#set overwrite flag to false
+		xbmc.executebuiltin('Skin.Reset(%s)' %util.SETTING_RCB_OVERWRITEIMPORTOPTIONS)		
 			
 	
 	def onAction(self, action):
@@ -216,7 +221,11 @@ class ImportOptionsDialog(xbmcgui.WindowXMLDialog):
 				if(romCollection.name == selectedRC):
 					romCollections[romCollection.id] = romCollection
 					break
-				
+		
+		#check if we should use configured scrapers
+		control = self.getControlById(CONTROL_BUTTON_OVERWRITESETTINGS)
+		if(not control.isSelected()):
+			return romCollections, True
 		
 		#TODO ignore offline scrapers
 		for rcId in romCollections.keys():
