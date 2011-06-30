@@ -68,7 +68,7 @@ class ImportOptionsDialog(xbmcgui.WindowXMLDialog):
 		#use scraper config of first non-MAME rom collection
 		for rcId in self.gui.config.romCollections.keys():
 			romCollection = self.gui.config.romCollections[rcId]
-			if romCollection.name != 'MAME':
+			if romCollection.name != 'MAME' or len(self.gui.config.romCollections) == 1:
 				sitesInRomCollection = romCollection.scraperSites
 				break
 			
@@ -108,10 +108,7 @@ class ImportOptionsDialog(xbmcgui.WindowXMLDialog):
 			#get selected Rom Collection
 			for rcId in self.gui.config.romCollections.keys():
 				romCollection = self.gui.config.romCollections[rcId]
-				if(selectedRomCollection == 'All' and romCollection.name != 'MAME'):
-					sitesInRomCollection = romCollection.scraperSites
-					break
-				elif romCollection.name == selectedRomCollection:
+				if((selectedRomCollection == 'All' and romCollection.name != 'MAME')  or len(self.gui.config.romCollections) == 1 or romCollection.name == selectedRomCollection):
 					sitesInRomCollection = romCollection.scraperSites
 					break
 				
@@ -281,7 +278,9 @@ class ImportOptionsDialog(xbmcgui.WindowXMLDialog):
 			#check first scraper if it is an online or offline scraper
 			firstScraper = site.scrapers[0]
 			if(firstScraper.source != 'nfo' and not firstScraper.source.startswith('http') and site.name != romCollection.name):			
-				xbmcgui.Dialog().ok('Configuration Error', 'Scraper %s cannot be used with' %site.name, 'Rom Collection %s' %romCollection.name)
+				xbmcgui.Dialog().ok('Configuration Error', "Trying to scrape %s games with %s scraper." %(site.name, romCollection.name), 
+								"(Options 'All' and 'Overwrite scraper settings'",
+								"can't be used together with offline scrapers.)")
 				return None, False
 			
 			sites.append(site)
