@@ -145,14 +145,31 @@ class EditOfflineScraper(dialogbase.DialogBaseEdit):
 				
 		elif (controlID == CONTROL_BUTTON_ADDSCRAPER):
 			
-			name = ''
+			#get list of all rc names that are not in use
+			names = []
+			for romCollection in self.gui.config.romCollections.values():
+				scraperInUse = False
+				for scraper in self.gui.config.scraperSites:
+					print 'scraper = ' +scraper
+					if(romCollection.name == scraper):
+						scraperInUse = True
+						break
+				
+				if not scraperInUse:
+					names.append(romCollection.name)
 			
-			keyboard = xbmc.Keyboard()
-			keyboard.setHeading('Enter scraper name')
-			keyboard.doModal()
-			if (keyboard.isConfirmed()):
-				name = keyboard.getText()
+			dialog = xbmcgui.Dialog()
 			
+			if(len(names) == 0):
+				dialog.ok(util.SCRIPTNAME, 'There already are scrapers for all Rom Collections', 'Edit or delete an existing scraper')
+				return
+						
+			#select name
+			scraperIndex = dialog.select('Select scraper name', names)
+			if(scraperIndex == -1):
+				return						
+			
+			name = names[scraperIndex]
 			if(name == ''):
 				return
 			
@@ -160,14 +177,31 @@ class EditOfflineScraper(dialogbase.DialogBaseEdit):
 			site.name = name
 			site.scrapers = []
 			scraper = Scraper()
-			scraper.encoding = 'iso-8859-1'
-			site.scrapers.append(scraper)
-			self.scraperSites[name] = site
+			scraper.encoding = 'iso-8859-1'			
+						
+			#select game desc
+			gamedescPath = dialog.browse(1, '%s Game description' %name, 'files')
+			if(gamedescPath == ''):
+				return
 			
+			scraper.source = gamedescPath
+			
+			#select parse instruction
+			parseInstruction = dialog.browse(1, '%s parse instruction' %self.selectedOfflineScraper.name, 'files')
+			if(parseInstruction == ''):
+				return
+			
+			scraper.parseInstruction = parseInstruction
+			
+			
+			site.scrapers.append(scraper)
+			self.scraperSites[name] = site				
+			
+			#add scraper to list
 			control = self.getControlById(CONTROL_LIST_SCRAPERS)
 			item = xbmcgui.ListItem(name, '', '', '')
 			control.addItem(item)
-			
+						
 			self.selectItemInList(name, CONTROL_LIST_SCRAPERS)
 			
 			if(self.selectedOfflineScraper != None):
