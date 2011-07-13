@@ -53,7 +53,12 @@ class ConfigXmlWriter:
 			SubElement(romCollectionXml, 'saveStatePath').text = romCollection.saveStatePath
 			SubElement(romCollectionXml, 'saveStateParams').text = romCollection.saveStateParams
 				
-			for mediaPath in romCollection.mediaPaths:								
+			for mediaPath in romCollection.mediaPaths:
+				
+				success, message = self.searchConfigObjects('FileTypes/FileType', mediaPath.fileType.name, 'FileType')
+				if(not success):
+					return False, message								
+												
 				SubElement(romCollectionXml, 'mediaPath', {'type' : mediaPath.fileType.name}).text = mediaPath.path
 				
 			SubElement(romCollectionXml, 'useEmuSolo').text = str(romCollection.useEmuSolo)
@@ -71,11 +76,17 @@ class ConfigXmlWriter:
 				
 			#image placing
 			if(romCollection.imagePlacingMain != None and romCollection.imagePlacingMain.name != ''):
+				success, message = self.searchConfigObjects('ImagePlacing/fileTypeFor', romCollection.imagePlacingMain.name, 'ImagePlacing')
+				if(not success):
+					return False, message
 				SubElement(romCollectionXml, 'imagePlacingMain').text = romCollection.imagePlacingMain.name 
 			else:
 				SubElement(romCollectionXml, 'imagePlacingMain').text = 'gameinfobig'
 				
 			if(romCollection.imagePlacingInfo != None and romCollection.imagePlacingInfo.name != ''):
+				success, message = self.searchConfigObjects('ImagePlacing/fileTypeFor', romCollection.imagePlacingInfo.name, 'ImagePlacing')
+				if(not success):
+					return False, message
 				SubElement(romCollectionXml, 'imagePlacingInfo').text = romCollection.imagePlacingInfo.name 
 			else:
 				SubElement(romCollectionXml, 'imagePlacingInfo').text = 'gameinfobig'
@@ -183,7 +194,22 @@ class ConfigXmlWriter:
 		
 		success, message = self.writeFile()
 		return success, message
+	
+	
+	def searchConfigObjects(self, xPath, nameToCompare, objectType):		
+		objects = self.tree.findall(xPath)
+		objectFound = False
+		for obj in objects:
+			objectName = obj.attrib.get('name')
+			if(objectName == nameToCompare):
+				objectFound = True
+				break
 		
+		if(not objectFound):
+			return False, '%s %s could not be found in config.xml' %(objectType, nameToCompare)
+		
+		return True, ''
+	
 		
 	def removeRomCollection(self, RCName):
 		configFile = util.getConfigXmlPath()

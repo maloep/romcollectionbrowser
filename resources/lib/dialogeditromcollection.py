@@ -126,6 +126,9 @@ class EditRomCollectionDialog(dialogbase.DialogBaseEdit):
 						
 			configWriter = ConfigXmlWriter(False)
 			success, message = configWriter.writeRomCollections(self.romCollections, True)
+			
+			if not success:
+				xbmcgui.Dialog().ok('Configuration Error', message)
 			self.close()
 			
 		#Cancel
