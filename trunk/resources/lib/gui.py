@@ -1398,7 +1398,7 @@ class UIGameDB(xbmcgui.WindowXML):
 				romCollection.emulatorCmd = '"%ROM%"'
 				Logutil.log('emuCmd set to "%ROM%" for standalone games.', util.LOG_LEVEL_INFO)
 			else:
-				consolePath = dialog.browse(1, '%s Emulator' %console, 'files')
+				consolePath = dialog.browse(1, 'Path to %s Emulator' %console, 'files')
 				Logutil.log('consolePath: ' +str(consolePath), util.LOG_LEVEL_INFO)
 				if(consolePath == ''):
 					Logutil.log('No consolePath selected. Action canceled.', util.LOG_LEVEL_INFO)
@@ -1428,7 +1428,7 @@ class UIGameDB(xbmcgui.WindowXML):
 				romCollection.emulatorParams = emuParams
 			
 			#roms
-			romPath = dialog.browse(0, '%s Roms' %console, 'files')
+			romPath = dialog.browse(0, 'Path to %s Roms' %console, 'files')
 			if(romPath == ''):
 				Logutil.log('No romPath selected. Action canceled.', util.LOG_LEVEL_INFO)
 				break
@@ -1566,7 +1566,26 @@ class UIGameDB(xbmcgui.WindowXML):
 					pass
 				
 				else:
-					descPath = dialog.browse(1, '%s game description' %console, 'files', '', False, False, lastArtworkPath)
+					descPath = ''
+					
+					if(romCollection.descFilePerGame):
+						#get path
+						pathValue = dialog.browse(0, '%s game description' %console, 'files')
+						if(pathValue == ''):
+							break
+						
+						#get file mask
+						keyboard = xbmc.Keyboard()
+						keyboard.setHeading('Enter description file mask')
+						keyboard.setDefault('%GAME%.txt')
+						keyboard.doModal()
+						if (keyboard.isConfirmed()):
+							filemask = keyboard.getText()
+							
+						descPath = os.path.join(pathValue, filemask.strip())
+					else:
+						descPath = dialog.browse(1, '%s game description' %console, 'files', '', False, False, lastArtworkPath)
+					
 					Logutil.log('descPath: ' +str(descPath), util.LOG_LEVEL_INFO)
 					if(descPath == ''):
 						Logutil.log('No descPath selected. Action canceled.', util.LOG_LEVEL_INFO)
