@@ -169,6 +169,8 @@ class UIGameDB(xbmcgui.WindowXML):
 		# Idea to initialize your variables here				
 		Logutil.log("Init Rom Collection Browser: " + util.RCBHOME, util.LOG_LEVEL_INFO)
 		
+		self.initialized = False
+		
 		self.Settings = util.getSettings()
 				
 		if(util.hasAddons()):			
@@ -270,6 +272,8 @@ class UIGameDB(xbmcgui.WindowXML):
 		
 		self.player = MyPlayer()
 		self.player.gui = self
+				
+		self.initialized = True
 						
 		
 	def onInit(self):
@@ -1683,6 +1687,14 @@ class UIGameDB(xbmcgui.WindowXML):
 		dbupdate.DBUpdate().updateDB(self.gdb, progressDialog, scrapingmode, romCollections)
 		progressDialog.writeMsg("", "", "", -1)
 		del progressDialog
+		
+		#only update controls if they are available
+		if(self.initialized):
+			self.showGames()
+			focusControl = self.getControlById(CONTROL_GAMES_GROUP_START)
+			self.setFocus(focusControl)
+			xbmc.sleep(util.WAITTIME_UPDATECONTROLS)
+			self.showGameInfo()
 
 
 	def checkUpdateInProgress(self):
