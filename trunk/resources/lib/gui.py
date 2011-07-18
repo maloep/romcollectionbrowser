@@ -224,7 +224,7 @@ class UIGameDB(xbmcgui.WindowXML):
 			
 			dialog = xbmcgui.Dialog()
 		
-			retValue = dialog.yesno('Rom Collection Browser', 'No config file found.', 'Do you want to create one?')
+			retValue = dialog.yesno(util.SCRIPTNAME, 'No config file found.', 'Do you want to create one?')
 			if(retValue == False):
 				self.quit = True
 				return
