@@ -62,6 +62,7 @@ parseInstruction = "C:\\Users\\malte\\AppData\\Roaming\\XBMC\\addons\\script.gam
 #parseInstruction = "F:\\Emulatoren\\data\\synopsis\\XTRAS-RCB\\_parserConfig.xml"
 
 
+"""
 from descriptionparserfactory import *
 descParser = DescriptionParserFactory.getParser(parseInstruction)
 
@@ -70,9 +71,10 @@ for result in results:
 	print result
 	
 print len(results)
-
-
 """
+
+
+
 import glob
 
 def getFilesByWildcard(pathName):
@@ -84,7 +86,7 @@ def getFilesByWildcard(pathName):
 		files = glob.glob(pathName)	
 		
 		if(len(files) == 0):				
-			squares = re.findall('\s\[.*\]',pathName)				
+			squares = re.findall('\[.*\]',pathName)				
 			if(squares != None and len(squares) >= 1):
 				print('Replacing [...] with *')
 				for square in squares:						
@@ -110,14 +112,17 @@ def getFilesByWildcard(pathName):
 	print("resolved files: " +str(files))
 	return files	
 
-pathName = 'F:\\Emulatoren\\data\\Scraper Tests\\Artwork RCB\\Amiga\\screenshot\\Metal Gear Solid [SLUS-00594].*'
+pathName = 'F:\\Emulatoren\\data\\Scraper Tests\\Artwork RCB\\Sega32\\boxback\\[32x] - Doom.*'
 #pathName = 'F:\\Emulatoren\\data\\Scraper Tests\\Artwork RCB\\Amiga\\screenshot\\Metal Gear Solid [!].*'
+
+squares = re.findall('\[.*\]',pathName)
+print len(squares)
 
 getFilesByWildcard(pathName)
 
 #print os.path.isfile(pathName)
 #print os.listdir(pathName)
-"""
+
 
 
 """
