@@ -304,7 +304,7 @@
 				<width>640</width>
 				<height>30</height>
 				<font>font13</font>
-				<label>Overwrite scraper settings</label>
+				<label>Change scrapers for this run</label>
 				<textcolor>88FFFFFF</textcolor>
 				<focusedcolor>FFFFFFFF</focusedcolor>
 				<texturefocus>rcb-MenuItemFO.png</texturefocus>
