@@ -1,3 +1,28 @@
+0.9.1 (08/2011)
+~~~~~~~~~~~~~
+General:
+  * Edit Rom Collection dialog
+    -> friendly name for imageplacing options
+    -> wizard for new media path
+    -> default value for file mask
+    -> check if config.xml has errors before writing
+  * Edit offline scrapers:
+    -> if descfilepergame = false: select path to game description (no file mask)
+    -> wizard for new scraper
+    -> select box with unused Rom Collection names
+  * config wizard:
+    -> if descfilepergame = false: select path to game description (no file mask)
+    -> better support for standalone games
+Import Games:
+  * Import Options dialog
+    -> checkbox: Change scrapers for this run
+  * stop import on general error
+  * error with [] in rom path name (e.g. import of wrong images)
+    -> changed file check order: 1) rom name 2) game name
+
+== Launch Games ==
+  * support for standalone games: use "%ROM%" in emu Cmd
+
 0.9.0 (06/2011)
 ~~~~~~~~~~~~~
 General:
