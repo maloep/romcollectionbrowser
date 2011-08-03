@@ -781,14 +781,15 @@ class DBUpdate:
 			Logutil.log("resolve path: " +path, util.LOG_LEVEL_INFO)
 			
 			if(path.find("%GAME%") > -1):
-				pathnameFromGameName = path.replace("%GAME%", gamename)
-				Logutil.log("resolved path from game name: " +pathnameFromGameName, util.LOG_LEVEL_INFO)				
-				files = self.getFilesByWildcard(pathnameFromGameName)
 				
-				pathnameFromFile = path.replace("%GAME%", gamenameFromFile)
-				if(gamename != gamenameFromFile and len(files) == 0):					
-					Logutil.log("resolved path from rom file name: " +pathnameFromFile, util.LOG_LEVEL_INFO)					
-					files = self.getFilesByWildcard(pathnameFromFile)
+				pathnameFromFile = path.replace("%GAME%", gamenameFromFile)									
+				Logutil.log("resolved path from rom file name: " +pathnameFromFile, util.LOG_LEVEL_INFO)					
+				files = self.getFilesByWildcard(pathnameFromFile)
+				
+				if(gamename != gamenameFromFile and len(files) == 0):
+					pathnameFromGameName = path.replace("%GAME%", gamename)
+					Logutil.log("resolved path from game name: " +pathnameFromGameName, util.LOG_LEVEL_INFO)				
+					files = self.getFilesByWildcard(pathnameFromGameName)								
 					
 				pathnameFromFolder = path.replace("%GAME%", foldername)
 				if(gamename != foldername and len(files) == 0):					
@@ -845,7 +846,8 @@ class DBUpdate:
 			Logutil.log("Error using glob function in resolvePath " +str(exc), util.LOG_LEVEL_WARNING)
 			
 		if(len(files) == 0):				
-			squares = re.findall('\s\[.*\]',pathName)				
+			#HACK: removed \s from regular expression. previous version was '\s\[.*\]' 
+			squares = re.findall('\[.*\]',pathName)
 			if(squares != None and len(squares) >= 1):
 				Logutil.log('Replacing [...] with *', util.LOG_LEVEL_INFO)
 				for square in squares:						
