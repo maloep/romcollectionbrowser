@@ -785,24 +785,25 @@ class DBUpdate:
 				pathnameFromFile = path.replace("%GAME%", gamenameFromFile)									
 				Logutil.log("resolved path from rom file name: " +pathnameFromFile, util.LOG_LEVEL_INFO)					
 				files = self.getFilesByWildcard(pathnameFromFile)
+				if(len(files) == 0):
+					files = self.getFilesByGameNameIgnoreCase(pathnameFromFile)
 				
 				if(gamename != gamenameFromFile and len(files) == 0):
 					pathnameFromGameName = path.replace("%GAME%", gamename)
 					Logutil.log("resolved path from game name: " +pathnameFromGameName, util.LOG_LEVEL_INFO)				
-					files = self.getFilesByWildcard(pathnameFromGameName)								
-					
-				pathnameFromFolder = path.replace("%GAME%", foldername)
-				if(gamename != foldername and len(files) == 0):					
+					files = self.getFilesByWildcard(pathnameFromGameName)
+					if(len(files) == 0):
+						files = self.getFilesByGameNameIgnoreCase(pathnameFromGameName)								
+									
+				if(gamename != foldername and len(files) == 0):
+					pathnameFromFolder = path.replace("%GAME%", foldername)					
 					Logutil.log("resolved path from rom folder name: " +pathnameFromFolder, util.LOG_LEVEL_INFO)					
-					files = self.getFilesByWildcard(pathnameFromFolder)								
+					files = self.getFilesByWildcard(pathnameFromFolder)
+					if(len(files) == 0):
+						files = self.getFilesByGameNameIgnoreCase(pathnameFromFolder)								
 				
-				#one last try with case insensitive search (on Linux we don't get files with case mismatches)
-				if(len(files) == 0):
-					files = self.getFilesByGameNameIgnoreCase(pathnameFromGameName)
-				if(len(files) == 0):
-					files = self.getFilesByGameNameIgnoreCase(pathnameFromFile)
-				if(len(files) == 0):
-					files = self.getFilesByGameNameIgnoreCase(pathnameFromFolder)
+							
+				
 				
 				
 			#TODO could be done only once per RomCollection
