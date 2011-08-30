@@ -1,9 +1,10 @@
 
 import xbmc, xbmcgui
 import util
-import dialogeditromcollection, dialogeditscraper, dialogdeleteromcollection
+import dialogeditromcollection, dialogeditscraper, dialogdeleteromcollection, config
 from gamedatabase import *
 from util import *
+from config import *
 
 ACTION_EXIT_SCRIPT = (10,)
 ACTION_CANCEL_DIALOG = ACTION_EXIT_SCRIPT + (9,)
