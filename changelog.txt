@@ -17,8 +17,10 @@ Import Games:
   * Import Options dialog
     -> checkbox: Change scrapers for this run
   * stop import on general error
-  * error with [] in rom path name (e.g. import of wrong images)
+  * bugfix: error with [] in rom path name (e.g. import of wrong images)
     -> changed file check order: 1) rom name 2) game name
+  * bugfix: error when using exactly 2 scrapers per rom collection
+  * MAME scraper: removed scraping of flyer images
 
 == Launch Games ==
   * support for standalone games: use "%ROM%" in emu Cmd
