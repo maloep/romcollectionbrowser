@@ -170,7 +170,7 @@ class ImportOptionsDialog(xbmcgui.WindowXMLDialog):
 			self.selectScraperInList(sitesInList, sitesInRomCollection[1].name, CONTROL_LIST_SCRAPER2)
 		else:
 			self.selectScraperInList(sitesInList, 'None', CONTROL_LIST_SCRAPER2)
-		if(len(sitesInRomCollection) >= 2):
+		if(len(sitesInRomCollection) >= 3):
 			self.selectScraperInList(sitesInList, sitesInRomCollection[2].name, CONTROL_LIST_SCRAPER3)
 		else:
 			self.selectScraperInList(sitesInList, 'None', CONTROL_LIST_SCRAPER3)
