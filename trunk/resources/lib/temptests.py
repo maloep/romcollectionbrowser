@@ -75,6 +75,7 @@ print len(results)
 
 
 
+"""
 import glob
 
 def getFilesByWildcard(pathName):
@@ -123,7 +124,7 @@ getFilesByWildcard(pathName)
 #print os.path.isfile(pathName)
 #print os.listdir(pathName)
 
-
+"""
 
 """
 str = '{-%I% "%rom%"} -s use_gui=no %GAMECMD%'
