@@ -1,4 +1,12 @@
 
+= Issues to test =
+  * Media or rom path with special characters (encoding issues)
+  * log file locked in solo mode (Windows only?)
+  * import zlib (not working with some python 2.6 distributions?)
+  * no navigation after launch emu (Win XP)
+  * filetypeformainview2 is missing
+
+
 = 0.9.1 =
 == General ==
   * edit rom collection dialog	
@@ -8,11 +16,11 @@
   * Config wizard: better support for standalone games - Done
   * Edit offline scrapers:
     * directly navigate to file if descfilepergame = False (no use of filemask) - Done
-	* Add scraper: select box with unused Rom Collection names - Done
-	* Add scraper: start wizard (path desc + path parseinstruction) - Done
+    * Add scraper: select box with unused Rom Collection names - Done
+    * Add scraper: start wizard (path desc + path parseinstruction) - Done
   * Edit Rom Collection: check if config.xml has errors before writing
-	* FileType %s does not exist in config.xml - Done
-	* ImagePlacing/fileTypeFor %s does not exist in config.xml - Done
+    * FileType %s does not exist in config.xml - Done
+    * ImagePlacing/fileTypeFor %s does not exist in config.xml - Done
   * config wizard:
     * support placeholder folder names and game descriptions if descFilePerGame = True - Done
 
@@ -21,9 +29,18 @@
     * checkbox: overwrite config.xml (use settings only if chkbox is checked) - Done
     * online scraping: if only 1 Rom Collection MAME: scraper = None - Done
     * better error message when using local scraper with "All" option: "offline scrapers can't be used with the ALL option" - Done
-  * show games after game import (focus on game list?)
-  * stop import on general error
-  * error with [] in rom path name (e.g. import of wrong images)
+  * show games after game import (focus on game list?) - Done
+  * stop import on general error - Done
+  * error with [] in rom path name (e.g. import of wrong images) - Done
+    --> changed file check order: first rom name 2nd game name 
+
+== Launch Games ==
+  * better support for standalone games - Done
+  
+
+= 0.9.2 =
+== Import Games ==
+  * errorCounter in descPerGame = False
 
 == Browse Games ==
   * refactor game info window
@@ -32,13 +49,13 @@
   * Lines in Info2 view
   * update Night, Carmichael, Simplicity (new skin structure, favorites, search)
   * add skin selection in settings.xml
-  
-== Launch Games ==
-  * better support for standalone games - Done
-  * new placeholders in emuParams: %EMUPATH%, %ROMPATH%
-  
 
-= 0.9.2 =
+== Launch Games ==
+  * new placeholders in emuParams: %EMUPATH%, %ROMPATH%
+  * Random game option (Issue 82)
+
+
+= 0.9.3 =
 == General ==
   * start RCB twice: atomic init routine?
   * update config after editing via edit dialog (only in edit scrapers?)
@@ -76,7 +93,7 @@
     * divide data and artwork scraper
     * new scraper property: online, local
     * support for audio files
-    * multi rom, multi iso
+    * multi rom, multi iso (disk selector)
     * region support
     * test all scraping options (search game by crc, use filename as crc, ...)
       * no settings needed
@@ -115,6 +132,8 @@
     * support a.k.a. titles from mobygames
   * new option: crc from complete zip or first entry
   * %RATING%
+  * option to hide progress bar in background mode
+  * support 2 or more developers
   
 == Browse Games ==
   * Console view / dash board
@@ -128,6 +147,14 @@
   * highlight filter selection
   * if game has url: option to launch in browser
   * loop videos (stop and start video causes list to refresh)
+  * Ability to view PDF manual (can be used to scrape the site replacementdocs)
+  * Logo mediainfo style as there is for movies and music showing information such as: Audio channels, resolution, maximum and minimum, studio  developer and publisher, etc ... 
+  * Show links for games in the same series of games on the details page
+ex: The Legend of Zelda: A Link to Past, and you have other Zelda games in rom collector, they are listed on the details page as a link to them fast.
+  * If a game have IPS or has several regions, they also have links to other versions.
+ex: Final Fantasy VII (US) show links for Japanese version, International, European and maybe IPS (s) of other languages ??has not been officially released, be shown a list of links to other versions. 
+  * Is possible to view images fullscreen by pressing enter upon the art.
+  * support for other systems (Arcade) ex: taito type x, x2, examus, MVS etc... I actually think it would be nice telos islands each system with the same name in the list of filters, maybe a new filter containing the type ex: (console, arcade, computer, portable and Pinball).
 
 == Launch Games ==
   * before and after launch command
@@ -135,3 +162,12 @@
   * per game config (e.g. Amiga)
   * command before launch and after launch(f.e. load virtual cd drive, unload virtual cd drive)
   * try to write black background before launch
+
+  
+= Doc =
+  
+== FAQ ==
+- control XBMC in background:
+	-> solo mode
+	-> scripts to disable events
+- where to find the log file
