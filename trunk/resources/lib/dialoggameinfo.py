@@ -90,6 +90,11 @@ class UIGameInfoView(xbmcgui.WindowXMLDialog):
 		
 		if(action.getId() in ACTION_CANCEL_DIALOG):
 			Logutil.log("onAction exit", util.LOG_LEVEL_DEBUG)
+			
+			#stop Player (if playing)
+			if(xbmc.Player().isPlayingVideo()):
+				xbmc.Player().stop()
+			
 			self.close()
 	
 	
@@ -140,6 +145,10 @@ class UIGameInfoView(xbmcgui.WindowXMLDialog):
 	def showGameInfo(self):
 		
 		Logutil.log("Begin showGameInfo", util.LOG_LEVEL_INFO)
+		
+		#stop Player (if playing)
+		if(xbmc.Player().isPlayingVideo()):
+			xbmc.Player().stop()
 		
 		pos = self.getCurrentListPosition()
 		if(pos == -1):
@@ -208,8 +217,7 @@ class UIGameInfoView(xbmcgui.WindowXMLDialog):
 		imageGameInfoLower = self.getFileForControl(romCollection.imagePlacingInfo.fileTypesForMainViewGameInfoLower, gameRow[util.ROW_ID], gameRow[util.GAME_publisherId], gameRow[util.GAME_developerId], gameRow[util.GAME_romCollectionId], fileDict)
 		imageGameInfoLeft = self.getFileForControl(romCollection.imagePlacingInfo.fileTypesForMainViewGameInfoLeft, gameRow[util.ROW_ID], gameRow[util.GAME_publisherId], gameRow[util.GAME_developerId], gameRow[util.GAME_romCollectionId], fileDict)
 		imageGameInfoRight = self.getFileForControl(romCollection.imagePlacingInfo.fileTypesForMainViewGameInfoRight, gameRow[util.ROW_ID], gameRow[util.GAME_publisherId], gameRow[util.GAME_developerId], gameRow[util.GAME_romCollectionId], fileDict)
-		
-		print 'imageGameInfoBig: ' +str(imageGameInfoBig)
+				
 		selectedGame.setProperty(util.IMAGE_CONTROL_GAMEINFO_BIG, imageGameInfoBig)
 		selectedGame.setProperty(util.IMAGE_CONTROL_GAMEINFO_UPPERLEFT, imageGameInfoUpperLeft)
 		selectedGame.setProperty(util.IMAGE_CONTROL_GAMEINFO_UPPERRIGHT, imageGameInfoUpperRight)
@@ -219,6 +227,18 @@ class UIGameInfoView(xbmcgui.WindowXMLDialog):
 		selectedGame.setProperty(util.IMAGE_CONTROL_GAMEINFO_LOWER, imageGameInfoLower)
 		selectedGame.setProperty(util.IMAGE_CONTROL_GAMEINFO_LEFT, imageGameInfoLeft)
 		selectedGame.setProperty(util.IMAGE_CONTROL_GAMEINFO_RIGHT, imageGameInfoRight)
+				
+		videos = helper.getFilesByControl_Cached(self.gdb, romCollection.imagePlacingInfo.fileTypesForMainViewVideoWindowBig, gameRow[util.ROW_ID], gameRow[util.GAME_publisherId], gameRow[util.GAME_developerId], gameRow[util.GAME_romCollectionId], fileDict)		
+		if(videos != None and len(videos) != 0):
+			selectedGame.setProperty('videosizebig', 'big')
+		else:
+			videos = helper.getFilesByControl_Cached(self.gdb, romCollection.imagePlacingInfo.fileTypesForMainViewVideoWindowSmall, gameRow[util.ROW_ID], gameRow[util.GAME_publisherId], gameRow[util.GAME_developerId], gameRow[util.GAME_romCollectionId], fileDict)		
+			if(videos != None and len(videos) != 0):
+				selectedGame.setProperty('videosizesmall', 'small')
+		
+		if(videos != None and len(videos) != 0):
+			video = videos[0]
+			xbmc.Player().play(video, selectedGame, True)
 		
 		Logutil.log("End showGameInfo", util.LOG_LEVEL_INFO)
 		
