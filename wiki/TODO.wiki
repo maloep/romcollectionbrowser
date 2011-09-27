@@ -5,47 +5,17 @@
   * import zlib (not working with some python 2.6 distributions?)
   * no navigation after launch emu (Win XP)
   * filetypeformainview2 is missing
-
-
-= 0.9.1 =
-== General ==
-  * edit rom collection dialog	
-    * friendly name for imageplacing options - Done
-    * wizard for new media path - Done
-    * default value for file mask - Done
-  * Config wizard: better support for standalone games - Done
-  * Edit offline scrapers:
-    * directly navigate to file if descfilepergame = False (no use of filemask) - Done
-    * Add scraper: select box with unused Rom Collection names - Done
-    * Add scraper: start wizard (path desc + path parseinstruction) - Done
-  * Edit Rom Collection: check if config.xml has errors before writing
-    * FileType %s does not exist in config.xml - Done
-    * ImagePlacing/fileTypeFor %s does not exist in config.xml - Done
-  * config wizard:
-    * support placeholder folder names and game descriptions if descFilePerGame = True - Done
-
-== Import Games ==
-  * import options dialog
-    * checkbox: overwrite config.xml (use settings only if chkbox is checked) - Done
-    * online scraping: if only 1 Rom Collection MAME: scraper = None - Done
-    * better error message when using local scraper with "All" option: "offline scrapers can't be used with the ALL option" - Done
-  * show games after game import (focus on game list?) - Done
-  * stop import on general error - Done
-  * error with [] in rom path name (e.g. import of wrong images) - Done
-    --> changed file check order: first rom name 2nd game name 
-
-== Launch Games ==
-  * better support for standalone games - Done
+  * use BeautifulSoup as scraper implementation?
   
 
 = 0.9.2 =
 == Import Games ==
   * errorCounter in descPerGame = False
+  * add download url to nfo file
 
 == Browse Games ==
   * refactor game info window
-    * video in game info window
-    * publisher, developer images
+    * video in game info window - Done
   * Lines in Info2 view
   * update Night, Carmichael, Simplicity (new skin structure, favorites, search)
   * add skin selection in settings.xml
@@ -63,7 +33,7 @@
   * Edit offline scrapers:
     * scraper encoding: move to scraper and add to dialog
   * config wizard:
-    * create local data config file with wizard: search game by crc (or check to remove this option completely)
+    * create local data config file with wizard: search game by crc (or check how to remove this option completely)
     * configuration templates (emumovies, ressurectionxtras, ...)
   * replace smb:// when searching for roms and artwork
   * bug: resolved path from rom folder name: C:\Users\Mic\Downloads\Arcade\Data\MAME\My_Art\boxfront\C:\Users\Mic\Downloads\Arcade\Data\MAME\My_Roms.*
@@ -74,7 +44,6 @@
   * manual scraping games (update properties and images)
   * easy to use option to rescrape missing games
   * enter search text if no game is found
-  * add download url to nfo file
 
 
 = 0.9.x =
@@ -111,6 +80,7 @@
   * filter control interaction
   * MAME support	
     * MAME imagePlacing cabinet view + video?
+  * publisher, developer images in game info view
   * create new skins (AEON style etc.)
  
 
@@ -140,24 +110,21 @@
   * wall view: http://img848.imageshack.us/i/nintendosnesfanart.jpg/
   * favorite view per romcollection
   * option: Autoplay video
-  * short delay before applying filter selection
+  * short delay before applying filter selection, apply filters on key press
   * pause video when importing games, changing view or filter selection
-  * favorite view per romcollection
-  * option: Autoplay video
   * highlight filter selection
   * if game has url: option to launch in browser
   * loop videos (stop and start video causes list to refresh)
-  * Ability to view PDF manual (can be used to scrape the site replacementdocs)
+  * Ability to view PDF manual
   * Logo mediainfo style as there is for movies and music showing information such as: Audio channels, resolution, maximum and minimum, studio  developer and publisher, etc ... 
   * Show links for games in the same series of games on the details page
 ex: The Legend of Zelda: A Link to Past, and you have other Zelda games in rom collector, they are listed on the details page as a link to them fast.
   * If a game have IPS or has several regions, they also have links to other versions.
 ex: Final Fantasy VII (US) show links for Japanese version, International, European and maybe IPS (s) of other languages ??has not been officially released, be shown a list of links to other versions. 
   * Is possible to view images fullscreen by pressing enter upon the art.
-  * support for other systems (Arcade) ex: taito type x, x2, examus, MVS etc... I actually think it would be nice telos islands each system with the same name in the list of filters, maybe a new filter containing the type ex: (console, arcade, computer, portable and Pinball).
+  * option to hide game infos in main view (show up on pressing I or similar)
 
 == Launch Games ==
-  * before and after launch command
   * start stop LIRC (Issue 74)
   * per game config (e.g. Amiga)
   * command before launch and after launch(f.e. load virtual cd drive, unload virtual cd drive)
@@ -171,3 +138,4 @@ ex: Final Fantasy VII (US) show links for Japanese version, International, Europ
 	-> solo mode
 	-> scripts to disable events
 - where to find the log file
+- how to submit bug reports
