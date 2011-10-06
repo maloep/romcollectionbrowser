@@ -12,5 +12,6 @@
 		<Filetypefanart appendResultTo="http://thegamesdb.net/banners/">Images/fanart/original</Filetypefanart>
 		<Filetypeboxfront appendResultTo="http://thegamesdb.net/banners/">Images/boxart[@side="front"]</Filetypeboxfront>
 		<Filetypeboxback appendResultTo="http://thegamesdb.net/banners/">Images/boxart[@side="back"]</Filetypeboxback>
+		<Filetypescreenshot appendResultTo="http://thegamesdb.net/banners/">Images/screenshot/original</Filetypescreenshot>
 	</GameGrammar>
 </parserConfig>
