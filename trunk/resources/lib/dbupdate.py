@@ -623,15 +623,10 @@ class DBUpdate:
 				gamename = gamenameFromFile
 		else:
 			gamename = gamenameFromFile
-			
-		#create Nfo file with game properties
-		createNfoFile = self.Settings.getSetting(util.SETTING_RCB_CREATENFOFILE).upper() == 'TRUE'	
-		if(createNfoFile):
-			self.createNfoFromDesc(gamename, plot, romCollection.name, publisher, developer, year, 
-			players, rating, votes, url, region, media, perspective, controller, originalTitle, alternateTitle, version, gamedescription, romFiles[0], gamenameFromFile)
 		
 		artWorkFound = False
 		artworkfiles = {}
+		artworkurls = {}
 		for path in romCollection.mediaPaths:
 						
 			Logutil.log("FileType: " +str(path.fileType.name), util.LOG_LEVEL_INFO)			
@@ -639,7 +634,7 @@ class DBUpdate:
 			#TODO replace %ROMCOLLECTION%, %PUBLISHER%, ... 
 			fileName = path.path.replace("%GAME%", gamenameFromFile)
 						
-			continueUpdate = self.getThumbFromOnlineSource(gamedescription, path.fileType.name, fileName, gui, dialogDict)
+			continueUpdate, artworkurls = self.getThumbFromOnlineSource(gamedescription, path.fileType.name, fileName, gui, dialogDict, artworkurls)
 			if(not continueUpdate):
 				return None, False
 			
@@ -662,12 +657,21 @@ class DBUpdate:
 			
 			artworkfiles[path.fileType] = files
 				
+				
 		if(not artWorkFound):
 			ignoreGamesWithoutArtwork = self.Settings.getSetting(util.SETTING_RCB_IGNOREGAMEWITHOUTARTWORK).upper() == 'TRUE'
 			if(ignoreGamesWithoutArtwork):								
 				Logutil.log('No artwork found for game "%s". Game will not be imported.' %gamenameFromFile, util.LOG_LEVEL_WARNING)
 				self.missingArtworkFile.write('--> No artwork found for game "%s". Game will not be imported.\n' %gamename)
 				return None, True
+
+			
+		#create Nfo file with game properties
+		createNfoFile = self.Settings.getSetting(util.SETTING_RCB_CREATENFOFILE).upper() == 'TRUE'	
+		if(createNfoFile):
+			self.createNfoFromDesc(gamename, plot, romCollection.name, publisher, developer, year, 
+			players, rating, votes, url, region, media, perspective, controller, originalTitle, alternateTitle, version, gamedescription, romFiles[0], gamenameFromFile, artworkfiles, artworkurls)
+
 						
 		gameId = self.insertGame(gamename, plot, romCollection.id, publisherId, developerId, reviewerId, yearId, 
 			players, rating, votes, url, region, media, perspective, controller, originalTitle, alternateTitle, translatedBy, version, isUpdate, gameId, romCollection.allowUpdate, )
@@ -959,7 +963,7 @@ class DBUpdate:
 
 
 	def createNfoFromDesc(self, gamename, plot, romCollectionName, publisher, developer, year, players, rating, votes, 
-						url, region, media, perspective, controller, originalTitle, alternateTitle, version, gamedescription, romFile, gameNameFromFile):
+						url, region, media, perspective, controller, originalTitle, alternateTitle, version, gamedescription, romFile, gameNameFromFile, artworkfiles, artworkurls):
 		
 		root = Element('game')
 		SubElement(root, 'title').text = gamename		
@@ -988,6 +992,22 @@ class DBUpdate:
 		SubElement(root, 'version').text = version
 		SubElement(root, 'rating').text = rating
 		SubElement(root, 'votes').text = votes
+		
+		for artworktype in artworkfiles.keys():
+			
+			local = ''
+			online = ''
+			try:
+				local = artworkfiles[artworktype][0]
+				online = str(artworkurls[artworktype.name])
+			except:
+				pass
+			
+			try:
+				SubElement(root, 'thumb', {'type' : artworktype.name, 'local' : local}).text = online
+			except Exception, (exc):
+				print 'Error writing artwork url: ' +str(exc)
+				pass
 		
 		#write file		
 		try:
@@ -1038,15 +1058,17 @@ class DBUpdate:
 			File(self.gdb).insert((str(fileName), fileType.id, parentId))
 				
 	
-	def getThumbFromOnlineSource(self, gamedescription, fileType, fileName, gui, dialogDict=''):
+	def getThumbFromOnlineSource(self, gamedescription, fileType, fileName, gui, dialogDict, artworkurls):
 		Logutil.log("Get thumb from online source", util.LOG_LEVEL_INFO)
 		try:
 			#maybe we got a thumb url from desc parser
 			thumbKey = 'Filetype' +fileType
 			Logutil.log("using key: " +thumbKey, util.LOG_LEVEL_INFO)
-			thumbUrl = self.resolveParseResult(gamedescription, thumbKey)			
+			thumbUrl = self.resolveParseResult(gamedescription, thumbKey)
 			if(thumbUrl == ''):
-				return True
+				return True, artworkurls
+			
+			artworkurls[fileType] = thumbUrl
 			
 			Logutil.log("Get thumb from url: " +str(thumbUrl), util.LOG_LEVEL_INFO)
 			
@@ -1066,7 +1088,7 @@ class DBUpdate:
 				except Exception, (exc):
 					xbmcgui.Dialog().ok('Error: Could not create artwork directory.', 'Check xbmc.log for details.')
 					Logutil.log("Could not create directory: '%s'. Error message: '%s'" %(dirname, str(exc)), util.LOG_LEVEL_ERROR)
-					return False
+					return False, artworkurls
 				
 			
 			Logutil.log("Download file to: " +str(fileName), util.LOG_LEVEL_INFO)			
@@ -1090,7 +1112,7 @@ class DBUpdate:
 				except Exception, (exc):
 					xbmcgui.Dialog().ok('Error: Could not create artwork file.', 'Check xbmc.log for details.')
 					Logutil.log("Could not create file: '%s'. Error message: '%s'" %(str(fileName), str(exc)), util.LOG_LEVEL_ERROR)
-					return False
+					return False, artworkurls
 				
 				# cleanup any remaining urllib cache
 				urllib.urlcleanup()
@@ -1100,7 +1122,7 @@ class DBUpdate:
 		except Exception, (exc):
 			Logutil.log("Error in getThumbFromOnlineSource: " +str(exc), util.LOG_LEVEL_WARNING)						
 
-		return True
+		return True, artworkurls
 
 
 	def openFile(self, filename):
