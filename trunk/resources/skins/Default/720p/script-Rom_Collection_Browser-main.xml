@@ -516,7 +516,7 @@
 								<posx>0</posx>
 								<posy>0</posy>
 								<width>585</width>
-								<height>25</height>
+								<height>37</height>
 								<texture border="0,2,0,2">rcb-MenuItemNF.png</texture>
 							</control>
 							<control type="image">
