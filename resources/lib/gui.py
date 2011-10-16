@@ -288,7 +288,7 @@ class UIGameDB(xbmcgui.WindowXML):
 		self.rcb_playList.clear()
 		xbmc.sleep(util.WAITTIME_UPDATECONTROLS)
 		
-		self.updateControls()
+		self.updateControls()		
 		self.loadViewState()
 		
 		#check startup tasks done with autoexec.py
@@ -301,7 +301,11 @@ class UIGameDB(xbmcgui.WindowXML):
 	
 	def onAction(self, action):
 		
-		Logutil.log("onAction: " +str(action.getId()), util.LOG_LEVEL_DEBUG)
+		Logutil.log("onAction: " +str(action.getId()), util.LOG_LEVEL_INFO)
+		
+		if(action.getId() == 0):
+			Logutil.log("actionId == 0. Input ignored", util.LOG_LEVEL_INFO)
+			return
 		
 		#Hack: prevent being invoked twice
 		onActionCurrentRun = time.clock()
@@ -1891,7 +1895,7 @@ class UIGameDB(xbmcgui.WindowXML):
 		rcbSetting = helper.getRCBSetting(self.gdb)
 		if(rcbSetting == None):			
 			Logutil.log("rcbSetting == None in loadViewState", util.LOG_LEVEL_WARNING)
-			return		
+			return
 		
 		#reset filter selection
 		if(rcbSetting[util.RCBSETTING_lastSelectedConsoleIndex] != None):
@@ -1925,7 +1929,7 @@ class UIGameDB(xbmcgui.WindowXML):
 		isFavoriteButton = self.getControlById(CONTROL_BUTTON_FAVORITE)
 		favoritesSelected = self.Settings.getSetting(util.SETTING_RCB_FAVORITESSELECTED)
 		isFavoriteButton.setSelected(favoritesSelected == '1')
-
+		
 		#reset game list
 		self.showGames()
 		self.setFilterSelection(CONTROL_GAMES_GROUP_START, rcbSetting[util.RCBSETTING_lastSelectedGameIndex])
