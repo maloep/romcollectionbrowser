@@ -82,13 +82,12 @@
 				<onup>50</onup>
 				<ondown>50</ondown>
 				<onleft>900</onleft>
-				<onright>900</onright>
+				<onright>2</onright>
 				<scrolltime>0</scrolltime>
-				<viewtype label="$LOCALIZE[744]">list</viewtype>
+				<viewtype label="Files">list</viewtype>
 				<orientation>vertical</orientation>
 				<focusposition>9</focusposition>
 				<movement>9</movement>
-				<pagecontrol>60</pagecontrol>
 				<animation effect="fade" start="100" end="0" time="200" condition="Window.IsActive(movieinformation) | Window.IsActive(addoninformation) | Window.IsActive(songinformation)">Conditional</animation>
 				<animation type="WindowOpen">
 					<effect type="slide" start="-1000,0" end="0,0" time="600" tween="cubic" easing="inout" />
@@ -212,9 +211,8 @@
 					<onleft>51</onleft>
 					<onright>51</onright>
 					<onup>900</onup>
-					<ondown>900</ondown>
-					<pagecontrol>63</pagecontrol>
-					<viewtype label="$LOCALIZE[31053]">list</viewtype>
+					<ondown>2</ondown>
+					<viewtype label="3D Landscape">list</viewtype>
 					<orientation>horizontal</orientation>
 					<focusposition>2</focusposition>
 					<scrolltime>400</scrolltime>
@@ -230,8 +228,8 @@
 					<animation effect="rotatey" center="50" start="12" end="10" time="0" condition="true">Conditional</animation>
 					<itemlayout width="316" height="245">
 						<control type="group">
-						<posx>150</posx>
-						<posy>60</posy>
+							<posx>150</posx>
+							<posy>60</posy>
 							<control type="image">
 								<posx>136</posx>
 								<posy>132</posy>
@@ -280,8 +278,8 @@
 					</itemlayout>
 					<focusedlayout width="360" height="515">
 						<control type="group">
-						<posx>124</posx>
-						<posy>60</posy>
+							<posx>124</posx>
+							<posy>60</posy>
 							<control type="image">
 								<posx>-186</posx>
 								<posy>60</posy>
@@ -465,8 +463,8 @@
 						<onleft>52</onleft>
 						<onright>52</onright>
 						<onup>900</onup>
-						<ondown>900</ondown>
-						<viewtype label="$LOCALIZE[31063]">list</viewtype>
+						<ondown>2</ondown>
+						<viewtype label="Showcase">list</viewtype>
 						<orientation>horizontal</orientation>
 						<focusposition>4</focusposition>
 						<scrolltime>300</scrolltime>
@@ -481,8 +479,8 @@
 						</animation>
 						<itemlayout width="150" height="245">
 						<control type="group">
-						<posx>0</posx>
-						<posy>180</posy>
+							<posx>0</posx>
+							<posy>180</posy>
 							<control type="image">
 								<posx>0</posx>
 								<posy>0</posy>
@@ -511,8 +509,8 @@
 						
 					<focusedlayout width="250" height="500">
 						<control type="group">
-						<posx>0</posx>
-						<posy>160</posy>
+							<posx>0</posx>
+							<posy>160</posy>
 							<control type="image">
 								<posx>0</posx>
 								<posy>0</posy>
@@ -688,7 +686,7 @@
 						<height>24</height>
 						<font>LiberationSans_Regular_22</font>
 						<textcolor>FF15efd9</textcolor>
-						<label>[B]$LOCALIZE[563][/B]</label>
+						<label>[B]Rating[/B]</label>
 					</control>
 					<control type="label"><!--Rating-->
 						<posx>0</posx>
@@ -761,8 +759,8 @@
 				<onleft>55</onleft>
 				<onright>55</onright>
 				<onup>900</onup>
-				<ondown>900</ondown>
-				<viewtype label="$LOCALIZE[31062]">list</viewtype>
+				<ondown>2</ondown>
+				<viewtype label="Poster">list</viewtype>
 				<orientation>horizontal</orientation>
 				<focusposition>3</focusposition>
 				<scrolltime>400</scrolltime>
@@ -781,8 +779,8 @@
 				<animation effect="rotatey" center="50" start="12" end="10" time="0" condition="true">Conditional</animation>
 				<itemlayout width="176" height="245">
 					<control type="group">
-					<posx>150</posx>
-					<posy>0</posy>
+						<posx>150</posx>
+						<posy>0</posy>
 						<control type="image">
 							<posx>-2</posx>
 							<posy>133</posy>
@@ -1001,8 +999,8 @@
 					<onleft>56</onleft>
 					<onright>56</onright>
 					<onup>900</onup>
-					<ondown>900</ondown>
-					<viewtype label="31507">list</viewtype>
+					<ondown>2</ondown>
+					<viewtype label="Slide">list</viewtype>
 					<orientation>horizontal</orientation>
 					<focusposition>2</focusposition>
 					<scrolltime>400</scrolltime>
@@ -1611,23 +1609,21 @@
 		
 		<!-- Button group -->
 		<control type="group" id="400">
-			<posx>0</posx>
-			<posy>150</posy>
-			<animation effect="slide" start="0,500" end="0,500" delay="0" time="400" tween="quadratic" easing="out" condition="ControlGroup(400).HasFocus">Conditional</animation>
-			<animation effect="slide" start="0,0" end="0,800" delay="0" time="400" tween="quadratic" easing="out" condition="!ControlGroup(400).HasFocus">Conditional</animation>
+			<animation effect="slide" start="0,600" end="0,650" delay="0" time="400" tween="quadratic" easing="out" condition="ControlGroup(400).HasFocus">Conditional</animation>
+			<animation effect="slide" start="0,0" end="0,1300" delay="0" time="400" tween="quadratic" easing="out" condition="!ControlGroup(400).HasFocus">Conditional</animation>
 			<control type="image">
 				<posx>0</posx>
 				<posy>0</posy>
 				<width>1280</width>
 				<height>70</height>
-				<texture>test2.png</texture>
+				<texture>InfoMessagePanel2.png</texture>
 				<visible></visible>				
 			</control>
 			<control type="button" id="2"> 
 				<description>Change View</description>
-				<posx>160</posx>
+				<posx>25</posx>
 				<posy>25</posy>
-				<width>300</width>
+				<width>250</width>
 				<height>30</height>
 				<visible>true</visible>
 				<colordiffuse>DDFFFFFF</colordiffuse>
@@ -1642,12 +1638,11 @@
 				<textoffsety></textoffsety>
 				<pulseonselect></pulseonselect>
 				<onup>50</onup>
-				<ondown>500</ondown>
-				<onleft>3000</onleft>
-				<onright>900</onright>				
+				<ondown>50</ondown>
+				<onleft>50</onleft>
+				<onright>50</onright>				
 			</control>			
 		</control>
-		
 		
 		<!-- Messages -->
 		<control type="label" id="4000">
