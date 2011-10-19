@@ -1024,7 +1024,7 @@ class DBUpdate:
 				Logutil.log('NfoFile already exists. Wont overwrite file: ' +str(nfoFile), util.LOG_LEVEL_INFO)
 				return
 												
-			tree.write(nfoFile)					
+			tree.write(nfoFile)
 			
 		except Exception, (exc):
 			print("Error: Cannot write game.nfo: " +str(exc))		
