@@ -884,6 +884,14 @@
 							<colordiffuse>89FFFFFF</colordiffuse>
 							<aspectratio scalediffuse="false">stretch</aspectratio>
 						</control>
+						<control type="image">
+							<posx>-195</posx>
+							<posy>355</posy>
+							<width>100</width>
+							<height>25</height>
+							<texture>rcb-star.png</texture>					
+							<visible>!IsEmpty(ListItem.Property(isfavorite))</visible>
+						</control>
 					</control>
 				</itemlayout>
 				<focusedlayout width="220" height="515">
@@ -976,6 +984,14 @@
 								<effect type="zoom" center="60,238" start="80" end="100" time="600" tween="back" easing="out" />
 								<effect type="fade" start="0" end="70" time="600" />
 							</animation>
+						</control>
+						<control type="image">
+							<posx>-195</posx>
+							<posy>375</posy>
+							<width>100</width>
+							<height>25</height>
+							<texture>rcb-star.png</texture>					
+							<visible>!IsEmpty(ListItem.Property(isfavorite))</visible>
 						</control>
 					</control>	
 				</focusedlayout>
@@ -1082,6 +1098,14 @@
 								<fadetime>200</fadetime>
 								<aspectratio scalediffuse="false">stretch</aspectratio>
 							</control>
+							<control type="image">
+								<posx>-30</posx>
+								<posy>300</posy>
+								<width>100</width>
+								<height>25</height>
+								<texture>rcb-star.png</texture>					
+								<visible>!IsEmpty(ListItem.Property(isfavorite))</visible>
+							</control>
 						</control>
 					</itemlayout>
 					<focusedlayout width="304" height="800">
@@ -1142,6 +1166,14 @@
 						<texture background="true" diffuse="poster_diffuse.png">$INFO[ListItem.Icon]</texture>
 						<fadetime>200</fadetime>
 						<aspectratio scalediffuse="false">stretch</aspectratio>
+					</control>
+					<control type="image">
+						<posx>-10</posx>
+						<posy>460</posy>
+						<width>100</width>
+						<height>25</height>
+						<texture>rcb-star.png</texture>					
+						<visible>!IsEmpty(ListItem.Property(isfavorite))</visible>
 					</control>
 				</control>
 				<control type="group">
