@@ -2191,6 +2191,8 @@ def main():
 	
 	settings = util.getSettings()
 	skin = settings.getSetting(util.SETTING_RCB_SKIN)
+	if(skin == "Confluence"):
+		skin = "Default"
 	
 	if(util.hasAddons()):
 		ui = UIGameDB("script-Rom_Collection_Browser-main.xml", util.getAddonInstallPath(), skin, "PAL")
