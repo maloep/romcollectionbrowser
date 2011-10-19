@@ -40,6 +40,7 @@ API_KEYS = {'%VGDBAPIKey%' : 'Zx5m2Y9Ndj6B4XwTf83JyKz7r8WHt3i4',
 FUZZY_FACTOR_ENUM = [0.5, 0.6, 0.7, 0.8, 0.9, 1.0]
 
 SETTING_RCB_VIEW_MODE = 'rcb_view_mode'
+SETTING_RCB_SKIN = 'rcb_skin'
 SETTING_RCB_CACHINGOPTION = 'rcb_cachingOption'
 SETTING_RCB_MEMDB = 'rcb_memDB'
 SETTING_RCB_FUZZYFACTOR = 'rcb_fuzzyFactor'
