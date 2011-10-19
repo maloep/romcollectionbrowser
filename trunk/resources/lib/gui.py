@@ -2188,11 +2188,15 @@ class UIGameDB(xbmcgui.WindowXML):
 
 
 def main():
+	
+	settings = util.getSettings()
+	skin = settings.getSetting(util.SETTING_RCB_SKIN)
+	
 	if(util.hasAddons()):
-		ui = UIGameDB("script-Rom_Collection_Browser-main.xml", util.getAddonInstallPath(), "Default", "PAL")
+		ui = UIGameDB("script-Rom_Collection_Browser-main.xml", util.getAddonInstallPath(), skin, "PAL")
 		#ui = UIGameDB("script-Rom_Collection_Browser-main.xml", util.getAddonInstallPath(), "Light", "PAL")
 	else:
-		ui = UIGameDB("script-Rom_Collection_Browser-main.xml", util.getAddonInstallPath(), "Default", 1)
+		ui = UIGameDB("script-Rom_Collection_Browser-main.xml", util.getAddonInstallPath(), skin, 1)
 		#ui = UIGameDB("script-Rom_Collection_Browser-main.xml", util.getAddonInstallPath(), "Light", 1)
 	ui.doModal()
 	del ui
