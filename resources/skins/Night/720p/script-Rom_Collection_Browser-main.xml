@@ -115,6 +115,14 @@
 						<aspectratio>stretch</aspectratio>
 						<texture>separator.png</texture>
 					</control>
+					<control type="image">
+						<posx>700</posx>
+						<posy>15</posy>
+						<width>100</width>
+						<height>25</height>
+						<texture>rcb-star.png</texture>					
+						<visible>!IsEmpty(ListItem.Property(isfavorite))</visible>
+					</control>
 				</itemlayout>
 				<focusedlayout width="1210" height="36">
 					<control type="image">
@@ -145,6 +153,14 @@
 						<font>LiberationSans_Regular_24</font>
 						<textcolor>FFFFFFFF</textcolor>
 						<label>$INFO[ListItem.Label]</label>
+					</control>
+					<control type="image">
+						<posx>700</posx>
+						<posy>15</posy>
+						<width>100</width>
+						<height>25</height>
+						<texture>rcb-star.png</texture>					
+						<visible>!IsEmpty(ListItem.Property(isfavorite))</visible>
 					</control>
 				</focusedlayout>
 			</control>
@@ -274,6 +290,14 @@
 								<colordiffuse>89FFFFFF</colordiffuse>
 								<aspectratio scalediffuse="false">stretch</aspectratio>
 							</control>
+							<control type="image">
+								<posx>-200</posx>
+								<posy>285</posy>
+								<width>100</width>
+								<height>25</height>
+								<texture>rcb-star.png</texture>					
+								<visible>!IsEmpty(ListItem.Property(isfavorite))</visible>
+							</control>
 						</control>
 					</itemlayout>
 					<focusedlayout width="360" height="515">
@@ -377,6 +401,14 @@
 								<animation type="Focus" reversible="false">
 									<effect type="zoom" center="60,238" start="80" end="100" time="600" tween="back" easing="out" />
 								</animation>
+							</control>
+							<control type="image">
+								<posx>-190</posx>
+								<posy>298</posy>
+								<width>100</width>
+								<height>25</height>
+								<texture>rcb-star.png</texture>					
+								<visible>!IsEmpty(ListItem.Property(isfavorite))</visible>
 							</control>
 						</control>	
 					</focusedlayout>
