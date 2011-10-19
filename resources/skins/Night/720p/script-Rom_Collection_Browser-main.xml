@@ -536,9 +536,17 @@
 								<animation effect="fade" start="30" end="30" time="0" condition="true">Conditional</animation>
 								<animation effect="fade" start="100" end="0" time="200" condition="Window.IsActive(movieinformation) | Window.IsActive(addoninformation) | Window.IsActive(songinformation)">Conditional</animation>
 							</control>
+							<control type="image">
+								<posx>-45</posx>
+								<posy>250</posy>
+								<width>100</width>
+								<height>25</height>
+								<texture>rcb-star.png</texture>					
+								<visible>!IsEmpty(ListItem.Property(isfavorite))</visible>
+								<animation effect="fade" start="100" end="0" time="200" condition="Window.IsActive(movieinformation) | Window.IsActive(addoninformation) | Window.IsActive(songinformation)">Conditional</animation>
+							</control>
 						</control>
 					</itemlayout>
-						
 					<focusedlayout width="250" height="500">
 						<control type="group">
 							<posx>0</posx>
@@ -570,6 +578,15 @@
 									<effect type="zoom" center="80,238" start="81" end="100" time="400" tween="back" easing="out" />
 								</animation>
 								<animation effect="fade" start="30" end="30" time="0" condition="true">Conditional</animation>
+								<animation effect="fade" start="100" end="0" time="200" condition="Window.IsActive(movieinformation) | Window.IsActive(addoninformation) | Window.IsActive(songinformation)">Conditional</animation>
+							</control>
+							<control type="image">
+								<posx>-45</posx>
+								<posy>290</posy>
+								<width>100</width>
+								<height>25</height>
+								<texture>rcb-star.png</texture>					
+								<visible>!IsEmpty(ListItem.Property(isfavorite))</visible>
 								<animation effect="fade" start="100" end="0" time="200" condition="Window.IsActive(movieinformation) | Window.IsActive(addoninformation) | Window.IsActive(songinformation)">Conditional</animation>
 							</control>
 						</control>
