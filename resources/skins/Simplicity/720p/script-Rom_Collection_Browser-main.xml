@@ -65,7 +65,7 @@
 					<height>400</height>		
 					<onleft>50</onleft>
 					<onright>50</onright>
-					<onup>2900</onup>					
+					<onup>500</onup>					
 					<ondown>60</ondown>
 					<scrolltime>300</scrolltime>
 					<focusposition>4</focusposition>
@@ -138,7 +138,7 @@
 					<textureslidernib>ScrollBarNib.png</textureslidernib>
 					<textureslidernibfocus>ScrollBarNib.png</textureslidernibfocus>
 					<onup>50</onup>
-					<ondown>500</ondown>
+					<ondown>2</ondown>
 					<showonepage>false</showonepage>
 					<orientation>horizontal</orientation>
 					<visible allowhiddenfocus="true">Control.IsVisible(50)</visible>
@@ -248,7 +248,7 @@
 						<texturenofocus></texturenofocus>
 						<visible>!IsEmpty(ListItem.Property(videosizebig))</visible>
 					</control>					
-					<control type="button" id="2900"> 
+					<!--<control type="button" id="2900"> 
 						<animation type="WindowOpen" reversible="false">
 							<effect type="zoom" start="80" end="100" center="640,360" easing="out" tween="back" time="500" />
 							<effect type="fade" start="0" end="100" time="500" />
@@ -276,7 +276,7 @@
 						<ondown>3100</ondown>
 						<onleft>500</onleft>
 						<onright>2200</onright>
-					</control>
+					</control>-->
 					
 					
 					<!-- gameinfoupperleft -->
@@ -607,7 +607,7 @@
 						<posy>100</posy>
 						<width>520</width>
 						<height>490</height>
-						<onleft>2901</onleft>
+						<onleft>500</onleft>
 						<onright>61</onright>
 						<onup>52</onup>
 						<ondown>52</ondown>
@@ -668,7 +668,7 @@
 						<textureslidernib>ScrollBarNib.png</textureslidernib>
 						<textureslidernibfocus>ScrollBarNib.png</textureslidernibfocus>
 						<onleft>52</onleft>
-						<onright>3100</onright>
+						<onright>2</onright>
 						<showonepage>false</showonepage>
 						<orientation>vertical</orientation>
 						<visible allowhiddenfocus="true">Control.IsVisible(52)</visible>
@@ -712,7 +712,7 @@
 						<texturenofocus></texturenofocus>
 						<visible>!IsEmpty(ListItem.Property(videosizebig))</visible>
 					</control>					
-					<control type="button" id="2901"> 
+					<!--<control type="button" id="2901"> 
 						<description>Play Fullscreen</description>
 						<posx>110</posx>
 						<posy>280</posy>
@@ -732,7 +732,7 @@
 						<ondown>3100</ondown>
 						<onleft>500</onleft>
 						<onright>2200</onright>
-					</control>
+					</control>-->
 					
 					<!-- gameinfoupperleft -->
 					<control type="image" id="2401">
@@ -991,17 +991,17 @@
 					</focusedlayout>
 				</control>
 				<control type="scrollbar" id="62">
-				<posx>320</posx>
-				<posy>620</posy>
-				<width>640</width>
-				<height>25</height>
-				<texturesliderbackground border="14,0,14,0">scrollbarh.png</texturesliderbackground>
-				<texturesliderbar border="14,0,14,0">scrollbarh_bar.png</texturesliderbar>
-				<texturesliderbarfocus border="14,0,14,0">scrollbarh_bar_focus.png</texturesliderbarfocus>
-				<textureslidernib>ScrollBarNib.png</textureslidernib>
-				<textureslidernibfocus>ScrollBarNib.png</textureslidernibfocus>
+					<posx>320</posx>
+					<posy>620</posy>
+					<width>640</width>
+					<height>25</height>
+					<texturesliderbackground border="14,0,14,0">scrollbarh.png</texturesliderbackground>
+					<texturesliderbar border="14,0,14,0">scrollbarh_bar.png</texturesliderbar>
+					<texturesliderbarfocus border="14,0,14,0">scrollbarh_bar_focus.png</texturesliderbarfocus>
+					<textureslidernib>ScrollBarNib.png</textureslidernib>
+					<textureslidernibfocus>ScrollBarNib.png</textureslidernibfocus>
 					<onup>58</onup>
-					<ondown>3100</ondown>
+					<ondown>2</ondown>
 					<showonepage>false</showonepage>
 					<orientation>horizontal</orientation>
 					<visible allowhiddenfocus="true">Control.IsVisible(58)</visible>
@@ -1106,22 +1106,73 @@
 				<texture>rcb-Blade-Upper.png</texture>
 				<colordiffuse>FFFFFFFF</colordiffuse>
 			</control>
-			<control type="group">		
+			
+			<control type="radiobutton" id="1000">
+				<posx>25</posx>
+				<posy>50</posy>
+				<width>200</width>
+				<height>30</height>
+				<font>font13</font>
+				<label>Favorites</label>
+				<textcolor>DDFFFFFF</textcolor>
+				<focusedcolor>FFe2ff43</focusedcolor>
+				<texturefocus>rcb-button-focus.png</texturefocus>
+				<texturenofocus>rcb-button-nofocus.png</texturenofocus>
+				<onleft>900</onleft>
+				<onright>500</onright>
+				<onup>50</onup>
+				<ondown>1100</ondown>
+			</control>
+			<control type="button" id="1100"> 
+				<description>Search</description>
+				<posx>25</posx>
+				<posy>82</posy>
+				<width>200</width>
+				<height>30</height>
+				<visible>true</visible>
+				<colordiffuse>DDFFFFFF</colordiffuse>
+				<texturefocus>rcb-button-focus.png</texturefocus>
+				<texturenofocus>rcb-button-nofocus.png</texturenofocus>
+				<label>Search</label>			
+				<textcolor>DDFFFFFF</textcolor>
+				<focusedcolor>FFe2ff43</focusedcolor>
+				<disabledcolor>80FFFFFF</disabledcolor>
+				<align>left</align>
+				<aligny>center</aligny>
+				<textoffsetx>7</textoffsetx>
+				<textoffsety></textoffsety>
+				<pulseonselect></pulseonselect>
+				<onup>1000</onup>
+				<ondown>50</ondown>
+				<onleft>900</onleft>
+				<onright>500</onright>
+			</control>
+			<control type="image">
 				<posx>240</posx>
+				<posy>5</posy>
+				<width>5</width>
+				<height>160</height>
+				<texture>rcb-separator_vertical.png</texture>
+			</control>
+			
+			<control type="group">		
+				<posx>250</posx>
+				<posy>0</posy>
 				<!-- Console filter -->
 				<control type="label">
 					<description>Consoles</description>
-					<posx>70</posx>
+					<posx>0</posx>
 					<posy>20</posy>
+					<width>200</width>
 					<textcolor>DDFFFFFF</textcolor>
 					<label>Consoles</label>
 				</control>		
 				<control type="wraplist" id="500">
-					<posx>50</posx>
+					<posx>0</posx>
 					<posy>50</posy>
-					<width>125</width>
+					<width>200</width>
 					<height>96</height>
-					<onleft>2</onleft>
+					<onleft>1000</onleft>
 					<onright>600</onright>
 					<onup>500</onup>
 					<ondown>500</ondown>
@@ -1130,7 +1181,7 @@
 					<scrolltime>200</scrolltime>
 					<itemlayout height="32">
 						<control type="image">
-							<width>125</width>
+							<width>200</width>
 							<height>30</height>
 							<posx>0</posx>
 							<posy>0</posy>
@@ -1139,7 +1190,7 @@
 						<control type="label">
 							<posx>5</posx>
 							<posy>0</posy>
-							<width>120</width>
+							<width>190</width>
 							<height>30</height>
 							<font>Simplicity_font13</font>
 							<aligny>center</aligny>
@@ -1151,7 +1202,7 @@
 					</itemlayout>
 					<focusedlayout height="32">
 						<control type="image">
-							<width>125</width>
+							<width>200</width>
 							<height>30</height>
 							<posx>0</posx>
 							<posy>0</posy>
@@ -1159,7 +1210,7 @@
 							<texture border="5">rcb-button-focus.png</texture>
 						</control>
 						<control type="image">
-							<width>125</width>
+							<width>200</width>
 							<height>30</height>
 							<posx>0</posx>
 							<posy>0</posy>
@@ -1169,7 +1220,7 @@
 						<control type="label">
 							<posx>5</posx>
 							<posy>0</posy>
-							<width>120</width>
+							<width>190</width>
 							<height>30</height>
 							<font>Simplicity_font13</font>
 							<aligny>center</aligny>
@@ -1183,15 +1234,15 @@
 				<!-- Genre filter -->	
 				<control type="label">
 					<description>Genre</description>
-					<posx>230</posx>
+					<posx>210</posx>
 					<posy>20</posy>
-						<textcolor>DDFFFFFF</textcolor>
-						<label>Genre</label>
+					<textcolor>DDFFFFFF</textcolor>
+					<label>Genre</label>
 				</control>
 				<control type="wraplist" id="600">
-					<posx>200</posx>
+					<posx>210</posx>
 					<posy>50</posy>
-					<width>125</width>
+					<width>200</width>
 					<height>96</height>
 					<onleft>500</onleft>
 					<onright>700</onright>
@@ -1202,7 +1253,7 @@
 					<scrolltime>200</scrolltime>
 					<itemlayout height="32">
 						<control type="image">
-							<width>125</width>
+							<width>200</width>
 							<height>30</height>
 							<posx>0</posx>
 							<posy>0</posy>
@@ -1211,7 +1262,7 @@
 						<control type="label">
 							<posx>5</posx>
 							<posy>0</posy>
-							<width>120</width>
+							<width>190</width>
 							<height>30</height>
 							<font>Simplicity_font13</font>
 							<aligny>center</aligny>
@@ -1223,7 +1274,7 @@
 					</itemlayout>
 					<focusedlayout height="32">
 						<control type="image">
-							<width>125</width>
+							<width>200</width>
 							<height>30</height>
 							<posx>0</posx>
 							<posy>0</posy>
@@ -1231,7 +1282,7 @@
 							<texture border="5">rcb-button-focus.png</texture>
 						</control>
 						<control type="image">
-							<width>125</width>
+							<width>200</width>
 							<height>30</height>
 							<posx>0</posx>
 							<posy>0</posy>
@@ -1241,7 +1292,7 @@
 						<control type="label">
 							<posx>5</posx>
 							<posy>0</posy>
-							<width>120</width>
+							<width>190</width>
 							<height>30</height>
 							<font>Simplicity_font13</font>
 							<aligny>center</aligny>
@@ -1255,15 +1306,15 @@
 				<!-- Year filter -->	
 				<control type="label">
 					<description>Year</description>
-					<posx>390</posx>
+					<posx>420</posx>
 					<posy>20</posy>
 						<textcolor>DDFFFFFF</textcolor>
 						<label>Year</label>
 				</control>		
 				<control type="wraplist" id="700">
-					<posx>350</posx>
+					<posx>420</posx>
 					<posy>50</posy>
-					<width>125</width>
+					<width>200</width>
 					<height>96</height>
 					<onleft>600</onleft>
 					<onright>800</onright>
@@ -1274,7 +1325,7 @@
 					<scrolltime>200</scrolltime>
 					<itemlayout height="32">
 						<control type="image">
-							<width>125</width>
+							<width>200</width>
 							<height>30</height>
 							<posx>0</posx>
 							<posy>0</posy>
@@ -1283,7 +1334,7 @@
 						<control type="label">
 							<posx>5</posx>
 							<posy>0</posy>
-							<width>120</width>
+							<width>190</width>
 							<height>30</height>
 							<font>Simplicity_font13</font>
 							<aligny>center</aligny>
@@ -1295,7 +1346,7 @@
 					</itemlayout>
 					<focusedlayout height="32">
 						<control type="image">
-							<width>125</width>
+							<width>200</width>
 							<height>30</height>
 							<posx>0</posx>
 							<posy>0</posy>
@@ -1303,7 +1354,7 @@
 							<texture border="5">rcb-button-focus.png</texture>
 						</control>
 						<control type="image">
-							<width>125</width>
+							<width>200</width>
 							<height>30</height>
 							<posx>0</posx>
 							<posy>0</posy>
@@ -1313,7 +1364,7 @@
 						<control type="label">
 							<posx>5</posx>
 							<posy>0</posy>
-							<width>120</width>
+							<width>190</width>
 							<height>30</height>
 							<font>Simplicity_font13</font>
 							<aligny>center</aligny>
@@ -1327,15 +1378,15 @@
 				<!-- Publisher filter -->	
 				<control type="label">
 					<description>Publisher</description>
-					<posx>517</posx>
+					<posx>630</posx>
 					<posy>20</posy>
-						<textcolor>DDFFFFFF</textcolor>
-						<label>Publisher</label>
+					<textcolor>DDFFFFFF</textcolor>
+					<label>Publisher</label>
 				</control>		
 				<control type="wraplist" id="800">
-					<posx>500</posx>
+					<posx>630</posx>
 					<posy>50</posy>
-					<width>125</width>
+					<width>200</width>
 					<height>96</height>
 					<onleft>700</onleft>
 					<onright>900</onright>
@@ -1346,7 +1397,7 @@
 					<scrolltime>200</scrolltime>
 					<itemlayout height="32">
 						<control type="image">
-							<width>125</width>
+							<width>200</width>
 							<height>30</height>
 							<posx>0</posx>
 							<posy>0</posy>
@@ -1355,7 +1406,7 @@
 						<control type="label">
 							<posx>5</posx>
 							<posy>0</posy>
-							<width>120</width>
+							<width>190</width>
 							<height>30</height>
 							<font>Simplicity_font13</font>
 							<aligny>center</aligny>
@@ -1367,7 +1418,7 @@
 					</itemlayout>
 					<focusedlayout height="32">
 						<control type="image">
-							<width>125</width>
+							<width>200</width>
 							<height>30</height>
 							<posx>0</posx>
 							<posy>0</posy>
@@ -1375,7 +1426,7 @@
 							<texture border="5">rcb-button-focus.png</texture>
 						</control>
 						<control type="image">
-							<width>125</width>
+							<width>200</width>
 							<height>30</height>
 							<posx>0</posx>
 							<posy>0</posy>
@@ -1385,7 +1436,7 @@
 						<control type="label">
 							<posx>5</posx>
 							<posy>0</posy>
-							<width>120</width>
+							<width>190</width>
 							<height>30</height>
 							<font>Simplicity_font13</font>
 							<aligny>center</aligny>
@@ -1399,18 +1450,18 @@
 				<!-- Character filter -->	
 				<control type="label">
 					<description>Character</description>
-					<posx>653</posx>
+					<posx>840</posx>
 					<posy>20</posy>
 					<textcolor>DDFFFFFF</textcolor>
 					<label>A-Z</label>
 				</control>		
 				<control type="wraplist" id="900">
-					<posx>650</posx>
+					<posx>840</posx>
 					<posy>50</posy>
-					<width>125</width>
+					<width>200</width>
 					<height>96</height>
 					<onleft>800</onleft>
-					<onright>3100</onright>
+					<onright>1000</onright>
 					<onup>900</onup>
 					<ondown>900</ondown>
 					<viewtype label="Character">wrap</viewtype>
@@ -1419,7 +1470,7 @@
 					<scrolltime>200</scrolltime>
 					<itemlayout height="32">
 						<control type="image">
-							<width>40</width>
+							<width>60</width>
 							<height>30</height>
 							<posx>0</posx>
 							<posy>0</posy>
@@ -1428,7 +1479,7 @@
 						<control type="label">
 							<posx>5</posx>
 							<posy>0</posy>
-							<width>40</width>
+							<width>60</width>
 							<height>30</height>
 							<font>Simplicity_font13</font>
 							<aligny>center</aligny>
@@ -1440,7 +1491,7 @@
 					</itemlayout>
 					<focusedlayout height="32">
 						<control type="image">
-							<width>40</width>
+							<width>60</width>
 							<height>30</height>
 							<posx>0</posx>
 							<posy>0</posy>
@@ -1448,7 +1499,7 @@
 							<texture border="5">rcb-button-focus.png</texture>
 						</control>
 						<control type="image">
-							<width>40</width>
+							<width>60</width>
 							<height>30</height>
 							<posx>0</posx>
 							<posy>0</posy>
@@ -1458,7 +1509,7 @@
 						<control type="label">
 							<posx>5</posx>
 							<posy>0</posy>
-							<width>40</width>
+							<width>60</width>
 							<height>30</height>
 							<font>Simplicity_font13</font>
 							<aligny>center</aligny>
@@ -1505,9 +1556,9 @@
 				<textoffsety></textoffsety>
 				<pulseonselect></pulseonselect>
 				<onup>50</onup>
-				<ondown>500</ondown>
-				<onleft>3100</onleft>
-				<onright>500</onright>				
+				<ondown>50</ondown>
+				<onleft>50</onleft>
+				<onright>50</onright>				
 			</control>			
 		</control>			
 		
