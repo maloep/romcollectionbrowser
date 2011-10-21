@@ -34,7 +34,7 @@ from descriptionparserfactory import DescriptionParserFactory
 #parseInstruction = "C:\\Users\\malte\\AppData\\Roaming\\XBMC\\scripts\\Rom Collection Browser\\resources\\scraper\\04.02 - mobygames - details.xml"
 
 #descFile = "http://thegamesdb.net/api/GetGame.php?name=zelda&platform=Nintendo%20DS"
-descFile = "http://thegamesdb.net/api/GetGame.php?name=Rock%20n%27%20Roll%20Racing&platform=Super%20Nintendo%20%28SNES%29"
+descFile = "http://thegamesdb.net/api/GetGame.php?name=new%20super%20mario&platform=Nintendo%20Wii"
 #descFile = "C:\\Users\\malte\\AppData\\Roaming\\XBMC\\scripts\\Rom Collection Browser\\resources\\scraper\\thegamesdb\\thegamesdb - legend of zelda.xml"
 parseInstruction = "C:\\Users\\malte\\AppData\\Roaming\\XBMC\\addons\\script.games.rom.collection.browser.dev\\resources\\scraper\\02 - thegamesdb.xml"
 
@@ -46,7 +46,8 @@ parseInstruction = "C:\\Users\\malte\\AppData\\Roaming\\XBMC\\addons\\script.gam
 #parseInstruction = "C:\\Users\\malte\\AppData\\Roaming\\XBMC\\scripts\\Rom Collection Browser\\resources\\scraper\\00 - local nfo.xml"
 
 #descFile = "http://maws.mameworld.info/maws/romset/88games"
-#parseInstruction = "C:\\Users\\malte\\AppData\\Roaming\\XBMC\\scripts\\Rom Collection Browser\\resources\\scraper\\06 - maws.xml"
+#parseInstruction = "C:\\Users\\malte\\AppData\\Roaming\\XBMC\\addons\script.games.rom.collection.browser.dev\\resources\\scraper\\06 - maws.xml"
+
 
 #descFile = "http://api.archive.vg/1.0/Game.getInfoByCRC/VT7RJ960FWD4CC71L0Z0K4KQYR4PJNW8/b710561b"
 #parseInstruction = "F:\\Emulatoren\\data\\Synopsis\\Archive\\Archive - parserConfig.xml"
@@ -62,7 +63,7 @@ parseInstruction = "C:\\Users\\malte\\AppData\\Roaming\\XBMC\\addons\\script.gam
 #parseInstruction = "F:\\Emulatoren\\data\\synopsis\\XTRAS-RCB\\_parserConfig.xml"
 
 
-"""
+
 from descriptionparserfactory import *
 descParser = DescriptionParserFactory.getParser(parseInstruction)
 
@@ -71,7 +72,7 @@ for result in results:
 	print result
 	
 print len(results)
-"""
+
 
 
 
