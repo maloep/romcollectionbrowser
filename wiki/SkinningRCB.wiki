@@ -1,8 +1,19 @@
 #sidebar SideBar
-= Skinning RCB =
-Most things in RCBs skin files should be self explanating to a skinner. The current skin files are made for a PAL resolution with Confluence in mind. If you have improvements to my Confluence skin or want to migrate RCB to other skins please feel free to contribute.
 
-The following skin xml files are use in RCB:
+Note: This information is valid with version 0.9.2 of the script
+
+= Skinning RCB =
+As a script RCB has full access to XBMCs skinning engine. Every view and dialog can be designed as we want it to look like. But this also means that everything HAS to be designed. Nothing will work out of the box with the views that are already shipped with the users default skin (like it is for a plugin).
+
+Most things in RCBs skin files should be self explanating to a skinner. The current skin files are made for a 720p resolution with Confluence in mind. If you have improvements to my Confluence skin or want to migrate RCB to other skins please feel free to contribute.
+
+Not every view in RCB must be ported to other skins. If XBMC does not find one of the skin xml files for the current skin it will just use the file from RCBs default skin. So I think in most cases it will be enough to have the main window and maybe the additional game info window prepared for other skins. All of the little dialogs from RCB can use the default look and feel (it would also be a lot of work to synchronize all changes to context menus and settings pages between RCB and the avilable skins).
+
+Completed skins can be shipped with RCB or the skin itself. I would like to encourage you to let me ship your RCB skin files with RCB. This will allow users of other skins to use your skin files and vice versa. I could also take "ownership" of your skin files and maintain them to keep them compatible with further RCB changes. You can do this yourself if you like, of course.
+
+
+== XML files used with RCB ==
+The following skin xml files are used with RCB:
 
  
 <b>script-Rom_Collection_Browser-main.xml</b> (RCBs main window)
@@ -13,43 +24,49 @@ The following skin xml files are use in RCB:
 
 <b>script-RCB-importoptions.xml</b> (Import options dialog)
 
-<b>script-RCB-editRCbasic.xml</b> (Edit Rom Collection dialog)
+<b>script-RCB-editromcollection.xml</b> (Edit Rom Collection dialog)
+
+<b>script-RCB-editscraper.xml</b> (Edit Scraper dialog)
+
+<b>script-RCB-removeRC.xml</b> (Remove Rom Collection dialog)
 
 == Accessing RCBs images and videos ==
 One thing that could be special in this script is the "dynamic image placing". RCB does not rely on a defined set of media files. The user may have small collections with only one image per game or others may have complete sets with 6 or more images and maybe video files per game. I want the user to decide where to show which type of image. The skinner should decide how it is presented. I am afraid this approach is not really XBMCish...
 
 Thats why you find several code lines like this in the skin xml:
 {{{
-<texture>$INFO[ListItem.Property(mainviewbackground)]</texture>
+<texture>$INFO[ListItem.Property(background)]</texture>
+or
+<texture>$INFO[ListItem.Property(gameinfobig)]</texture>
 }}}
 
 The user decides per config what image he wants to use as background image. The skin can display this file with the above code.
 
-Here is a list of all available media controls:
+Here is a list of all available media controls (valid for main window and game info window):
 
-images in main view
+Images
 {{{
-mainviewbackground
+background
 gamelist
 gamelistselected
-mainviewgameinfobig
-mainviewgameinfoupperleft
-mainviewgameinfoupperright
-mainviewgameinfolowerleft
-mainviewgameinfolowerright
-mainviewgameinfoupper
-mainviewgameinfolower
-mainviewgameinfoleft
-mainviewgameinforight
-mainview1
-mainview2
-mainview3
+gameinfobig
+gameinfoupperleft
+gameinfoupperright
+gameinfolowerleft
+gameinfolowerright
+gameinfoupper
+gameinfolower
+gameinfoleft
+gameinforight
+extraImage1
+extraImage2
+extraImage3
 }}}
 
-videos in main view
+Videos
 {{{
-mainviewvideowindowbig
-mainviewvideowindowsmall
+videowindowbig
+videowindowsmall
 }}}
 
 Here you can see how this is done in the current skin: [BrowsingAndDisplayingGames#dynamic_image_placing dynamic image placing] (see the screenshots at the end of the page).
@@ -120,19 +137,16 @@ Publisher:	800
 
 A-Z:		900
 
+Favorites:	1000
+
+Search:		1100
+
 
 ==== Scrollbars ====
-For some reason I had trouble with handling scrollbars because they are sometimes present and sometimes not (depending on the length of text). If you use scrollbars in your view make sure they have ids 2200 or 2201. If you need more scrollbars just have a look at the beginning of the file gui.py. There is a list with scrollbar ids (CONROL_SCROLLBARS = (2200, 2201,)). You can add your id here and tell me that I should add it to the next RCB version.
+For some reason I had trouble with handling scrollbars along with textboxes because they are sometimes present and sometimes not (depending on the length of text). If you use scrollbars in your view make sure they have ids 2200 or 2201. If you need more scrollbars just have a look at the beginning of the file gui.py. There is a list with scrollbar ids (CONROL_SCROLLBARS = (2200, 2201,)). You can add your id here and tell me that I should add it to the next RCB version.
 
 ==== Buttons ====
-
-Import Games:			3100
-
-Change View:			2
-
-Play Video Fullscreen:	2900, 2901
-
-If you add more than two views hat support fullscreen video you have to add the new ids to the python code: Go to gui.py and look for this line: CONTROL_BUTTON_VIDEOFULLSCREEN = (2900, 2901,)
+Change View:	2
 
 ==== Labels ====
 Message label:	4000
@@ -142,15 +156,29 @@ Message label:	4000
 
 ==== Buttons ====
 
-Close Context Menu:		5101
+Close Context Menu:				5101
 
-Import Games:			5110
+Import Games:					5110
 
-Add Rom Collection:		5111
+Add Rom Collection:				5111
 
-Edit Rom Collection:	5112
+Edit Rom Collection:			5112
 
-Delete Game:			5113
+Edit Game Command:				5113
+
+Delete Game:					5114
+
+Delete Rom Collection:			5115
+
+Clean database:					5116
+
+Edit Scrapers:					5117
+
+(Un)mark game as favorite:		5118
+
+(Un)mark selection as favorite:	5119
+
+
 
 
 === Import options dialog ===
@@ -166,6 +194,8 @@ Cancel:					5310
 Rom Collection Up:		5211
 
 Rom Collection Down:	5212
+
+Overwrite settings:		5330
 
 ==== Lists ====
 
@@ -196,6 +226,16 @@ Emu Cmd:				5220
 
 Emu Params:				5230
 
+Use emu solo:			5440
+
+Don't extract zip:		5450
+
+Savestate path:			5460
+
+Savestate mask:			5470
+
+Savestate params:		5480
+
 Rom Path:				5240
 
 File Mask:				5250
@@ -204,7 +244,19 @@ Media Path:				5270
 
 Media File Mask:		5280
 
+Remove Media Path:		5490
+
+Add Media Path:			5500
+
 Ignore on scan:			5330
+
+Allow update:			5400
+
+Max folder depth:		5410
+
+Disk indicator:			5420
+
+Use folder as gamename:	5430
 
 Rom Collection Up:		5211
 
@@ -227,4 +279,78 @@ Scraper 2:				5300
 
 Scraper 3:				5310
 
-Image Placing:			5320
+Image Placing Main:		5320
+
+Image Placing Info:		5340
+
+
+=== Edit Rom Collection dialog ===
+
+==== Buttons ====
+
+Close Dialog:			5101
+
+Save:					6000
+
+Cancel:					6010
+
+Emu Cmd:				5220
+
+Emu Params:				5230
+
+Use emu solo:			5440
+
+Don't extract zip:		5450
+
+Savestate path:			5460
+
+Savestate mask:			5470
+
+Savestate params:		5480
+
+Rom Path:				5240
+
+File Mask:				5250
+
+Media Path:				5270
+
+Media File Mask:		5280
+
+Remove Media Path:		5490
+
+Add Media Path:			5500
+
+Ignore on scan:			5330
+
+Allow update:			5400
+
+Max folder depth:		5410
+
+Disk indicator:			5420
+
+Use folder as gamename:	5430
+
+Rom Collection Up:		5211
+
+Rom Collection Down:	5212
+
+Media Type Up:			5261
+
+Media Type Down:		5262
+
+
+==== Lists ====
+
+Rom Collections:		5210
+
+Media Types:			5260
+
+Scraper 1:				5290
+
+Scraper 2:				5300
+
+Scraper 3:				5310
+
+Image Placing Main:		5320
+
+Image Placing Info:		5340
