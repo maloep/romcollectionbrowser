@@ -1,6 +1,5 @@
 import xbmc, xbmcgui
 import os, sys, re
-from subprocess import Popen
 import dbupdate, util, helper
 from gamedatabase import *
 from util import *
@@ -34,7 +33,7 @@ def launchEmu(gdb, gui, gameId, config, settings):
 	Logutil.log("files for current game: " +str(filenameRows), util.LOG_LEVEL_INFO)
 	
 	escapeCmd = settings.getSetting(util.SETTING_RCB_ESCAPECOMMAND).upper() == 'TRUE'
-	cmd, directory = buildCmd(filenameRows, romCollection, gameRow, escapeCmd)
+	cmd = buildCmd(filenameRows, romCollection, gameRow, escapeCmd)
 		
 	if (romCollection.useEmuSolo):
 		
@@ -52,12 +51,13 @@ def launchEmu(gdb, gui, gameId, config, settings):
 		#invoke batch file that kills xbmc before launching the emulator			
 		if(env == "win32"):
 			#There is a problem with quotes passed as argument to windows command shell. This only works with "call"
-			
-			cmd = 'applaunch.bat' +' \"' + directory + '\"\\' + cmd		
-			directory = util.RCBHOME				
+			cmd = 'call \"' +os.path.join(util.RCBHOME, 'applaunch.bat') +'\" ' +cmd						
 		else:
-			cmd =  'applaunch.sh ' +  re.escape(directory)+"\\"+cmd 
-			directory = re.escape(util.RCBHOME)
+			cmd = os.path.join(re.escape(util.RCBHOME), 'applaunch.sh ') +cmd
+	else:
+		#use call to support paths with whitespaces
+		if(env == "win32" and not (os.environ.get( "OS", "xbox" ) == "xbox")):
+			cmd = 'call ' +cmd
 	
 	#update LaunchCount
 	launchCount = gameRow[util.GAME_launchCount]
@@ -68,9 +68,9 @@ def launchEmu(gdb, gui, gameId, config, settings):
 	
 	try:
 		if (os.environ.get( "OS", "xbox" ) == "xbox"):			
-			launchXbox(gui, gdb, cmd, directory, romCollection, filenameRows)
+			launchXbox(gui, gdb, cmd, romCollection, filenameRows)
 		else:
-			launchNonXbox(cmd, directory, romCollection)
+			launchNonXbox(cmd, romCollection)
 	
 		gui.writeMsg("")
 					
@@ -107,12 +107,6 @@ def buildCmd(filenameRows, romCollection, gameRow, escapeCmd):
 	emuCommandLine = romCollection.emulatorCmd
 	Logutil.log('emuCommandLine: ' +emuCommandLine, util.LOG_LEVEL_INFO)
 	
-	if sys.platform == "win32":
-		directory, emuCommandLine = emuCommandLine.rsplit('\\',1)
-	else:
-		directory, emuCommandLine = emuCommandLine.rsplit('/',1)
-	
-	Logutil.log("cmd: %s, directory: %s" % (emuCommandLine, directory), util.LOG_LEVEL_INFO)
 	
 	#handle savestates	
 	stateFile = checkGameHasSaveStates(romCollection, gameRow, filenameRows, escapeCmd)
@@ -141,7 +135,7 @@ def buildCmd(filenameRows, romCollection, gameRow, escapeCmd):
 	Logutil.log('emuParams: ' +emuParams, util.LOG_LEVEL_INFO)
 	
 	fileindex = int(0)
-	Logutil.log("cmd: %s, directory: %s" % (emuCommandLine, directory), util.LOG_LEVEL_INFO)
+	
 	for fileNameRow in filenameRows:
 		rom = fileNameRow[0]
 		Logutil.log('rom: ' +str(rom), util.LOG_LEVEL_INFO)
@@ -162,26 +156,25 @@ def buildCmd(filenameRows, romCollection, gameRow, escapeCmd):
 			if fileindex == 0:
 				emuParams = replacePlaceholdersInParams(emuParams, rom, romCollection, gameRow, escapeCmd)
 				if (escapeCmd):
-					emuCommandLine = re.escape(emuCommandLine)		
-					directory = re.escape(directory)		
+					emuCommandLine = re.escape(emuCommandLine)				
 				
 				if (os.environ.get( "OS", "xbox" ) == "xbox"):
 					cmd = replacePlaceholdersInParams(emuCommandLine, rom, romCollection, gameRow, escapeCmd)
 				elif (romCollection.name == 'Linux' or romCollection.name == 'Macintosh' or romCollection.name == 'Windows'):
 					cmd = replacePlaceholdersInParams(emuCommandLine, rom, romCollection, gameRow, escapeCmd)
 				else:
-					cmd = emuCommandLine+ ' ' +emuParams.replace('%I%', str(fileindex))
+					cmd = '\"' +emuCommandLine +'\" ' +emuParams.replace('%I%', str(fileindex))
 			else:
 				newrepl = partToRepeat
 				newrepl = replacePlaceholdersInParams(newrepl, rom, romCollection, gameRow, escapeCmd)
 				if (escapeCmd):
-					emuCommandLine = re.escape(emuCommandLine)		
-					directory = re.escape(directory)		
+					emuCommandLine = re.escape(emuCommandLine)
 
 				newrepl = newrepl.replace('%I%', str(fileindex))
 				cmd += ' ' +newrepl		
 			fileindex += 1
-	return cmd, directory
+	
+	return cmd
 
 
 def checkGameHasSaveStates(romCollection, gameRow, filenameRows, escapeCmd):
@@ -410,11 +403,11 @@ def backupAutoexec(gdb, fName):
 	Logutil.log("End launcher.backupAutoexec", util.LOG_LEVEL_INFO)
 		
 
-def launchXbox(gui, gdb, cmd, directory, romCollection, filenameRows):
+def launchXbox(gui, gdb, cmd, romCollection, filenameRows):
 	Logutil.log("launchEmu on xbox", util.LOG_LEVEL_INFO)
-	cmd = directory + '\\' + cmd
+	
 	#on xbox emucmd must be the path to an executable or cut file
-	if (not os.path.isfile('"' + directory + '\\' + cmd+ '"')):
+	if (not os.path.isfile(cmd)):
 		Logutil.log("Error while launching emu: File %s does not exist!" %cmd, util.LOG_LEVEL_ERROR)
 		gui.writeMsg("Error while launching emu: File %s does not exist!" %cmd)
 		return
@@ -497,7 +490,7 @@ def getRomfilenameForXboxCutfile(filenameRows, romCollection):
 	return filename
 	
 	
-def launchNonXbox(cmd, directory, romCollection):
+def launchNonXbox(cmd, romCollection):
 	Logutil.log("launchEmu on non-xbox", util.LOG_LEVEL_INFO)							
 				
 	toggledScreenMode = False
@@ -514,17 +507,7 @@ def launchNonXbox(cmd, directory, romCollection):
 			toggledScreenMode = True
 		
 	Logutil.log("launch emu", util.LOG_LEVEL_INFO)
-	cmd = cmd.encode(sys.getfilesystemencoding())
-	directory = directory.encode(sys.getfilesystemencoding())
-	Logutil.log("cmd: %s" % cmd, util.LOG_LEVEL_INFO)
-	Logutil.log("directory: %s" % directory, util.LOG_LEVEL_INFO)	
-	
-	#Change os.system to Popen let us to define the working dir
-	#So we can avoid scape problems in the executable path
-		
-	p = Popen(cmd, shell=True, cwd=directory)
-	sts = os.waitpid(p.pid, 0)[1]
-	
+	os.system(cmd.encode(sys.getfilesystemencoding()))
 	Logutil.log("launch emu done", util.LOG_LEVEL_INFO)		
 	
 	if(toggledScreenMode):
@@ -557,9 +540,10 @@ def getNames7z(filepath):
 	
 	try:
 		import py7zlib
-	except:
+	except Exception, (exc):
 		xbmcgui.Dialog().ok(util.SCRIPTNAME, 'Error launching .7z file.', 'Please check XBMC.log for details.')
 		Logutil.log("You have tried to launch a .7z file but you are missing required libraries to extract the file. You can download the latest RCB version from RCBs project page. It contains all required libraries.", util.LOG_LEVEL_ERROR)
+		Logutil.log("Error: " +str(exc), util.LOG_LEVEL_ERROR)
 		return None
 	
 	fp = open(str(filepath), 'rb')
