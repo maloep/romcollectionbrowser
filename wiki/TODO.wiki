@@ -9,28 +9,34 @@
   * disable screensaver before game launch
   * popen options (suspend, pause, ...)
   * solo mode: use XBMC http api to shutdown xbmc?
-  * action id 0 - Done
   * support home and back buttons to exit the script
-  
+  * option to turn savestate on/off
+
 
 = 0.9.2 =
+== General ==
+  * action id 0 - Done
+
 == Import Games ==
-  * errorCounter in descPerGame = False
   * add download url to nfo file - Done
   * update thegamesdb scraper (screenshots) - Done
+  * MAME scraper: revert change from 0.9.1 - Done
 
 == Browse Games ==
   * refactor game info window
     * video in game info window - Done
-  * Lines in Info2 view
-  * update Night, Carmichael, Simplicity (new skin structure, favorites, search)
-  * add skin selection in settings.xml
+  * Lines in Info2 view - Done
+  * update Night, Simplicity (new skin structure)
+	* search button - Done
+	* favorite button - Done
+	* includes - Done
+	* colors - Done
+	* fonts - Done
+	* favorite stars - Done
+  * add skin selection in settings.xml - Done
+  * move fonts and create readme.txt - Done
+  * add confluence fonts - Done
 
-== Launch Games ==
-  * new placeholders in emuParams: %EMUPATH%, %ROMPATH%
-  * Random game option (Issue 82)
-  * launch game per popen
-	* setting for os.system or popen
 
 
 = 0.9.3 =
@@ -48,11 +54,28 @@
   * bug: resolved path from rom folder name: smb://terastation/media/Roms/SNES/Boxart/boxfront/smb://terastation/media/Roms/SNES.*
   * db in memory: id = null?
   * export nfo files on demand
+  
+== Browse Games ==
+  * Update Carmichael skin files
+  * Night
+	* add video window
+	* add counter
+	* add image placing options
+  * Simplicity
+	* relative position of favorite stars in thumbs view
+  * setting show favorite stars on/off
+  * create skin specific game info view
 
 == Import Games ==
   * manual scraping games (update properties and images)
   * easy to use option to rescrape missing games
   * enter search text if no game is found
+  
+== Launch Games ==
+  * new placeholders in emuParams: %EMUPATH%, %ROMPATH%
+  * Random game option (Issue 82)
+  * launch game per popen
+	* setting for os.system or popen
 
 
 = 0.9.x =
@@ -64,6 +87,7 @@
 
 == Import Games ==
   * refactor dbupdate
+    * errorCounter in descPerGame = False
     * no import of images to database. just check the directories at runtime. Performance tests
     * rom collection base path and all files relative to that
     * check preconditions before game import
