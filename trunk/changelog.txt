@@ -1,3 +1,18 @@
+0.9.2 (10/2011)
+~~~~~~~~~~~~~
+General:
+  * ignore action id 0
+
+Import Games:
+  * add download url to nfo file
+  * update thegamesdb scraper: download screenshot files
+  * MAME scraper: revert change from 0.9.1
+
+Browse Games:
+  * refactor game info window
+    * video in game info window
+  * add skin selection in addon settings: choose between Confluence, Night and Simplicity
+
 0.9.1 (08/2011)
 ~~~~~~~~~~~~~
 General:
