@@ -1,4 +1,90 @@
 #sidebar SideBar
+
+0.9.2 (10/2011)
+~~~~~~~~~~~~~
+General:
+  * ignore action id 0
+
+Import Games:
+  * add download url to nfo file
+  * update thegamesdb scraper: download screenshot files
+  * MAME scraper: revert change from 0.9.1
+
+Browse Games:
+  * refactor game info window
+    * video in game info window
+  * add skin selection in addon settings: choose between Confluence, Night and Simplicity
+
+0.9.1 (08/2011)
+~~~~~~~~~~~~~
+General:
+  * Edit Rom Collection dialog
+    -> friendly name for imageplacing options
+    -> wizard for new media path
+    -> default value for file mask
+    -> check if config.xml has errors before writing
+  * Edit offline scrapers:
+    -> if descfilepergame = false: select path to game description (no file mask)
+    -> wizard for new scraper
+    -> select box with unused Rom Collection names
+  * config wizard:
+    -> if descfilepergame = false: select path to game description (no file mask)
+    -> better support for standalone games
+Import Games:
+  * Import Options dialog
+    -> checkbox: Change scrapers for this run
+  * stop import on general error
+  * bugfix: error with [] in rom path name (e.g. import of wrong images)
+    -> changed file check order: 1) rom name 2) game name
+  * bugfix: error when using exactly 2 scrapers per rom collection
+  * MAME scraper: removed scraping of flyer images
+
+== Launch Games ==
+  * support for standalone games: use "%ROM%" in emu Cmd
+
+0.9.0 (06/2011)
+~~~~~~~~~~~~~
+General:
+  * reworked Confluence skin from PAL to 720p
+  * slight usability changes in Confluence skin (navigation etc.)
+  
+Game Browsing
+  * reworked game info window in Confluence skin
+  * favorites function
+  * search function
+
+0.8.12 (06/2011)
+~~~~~~~~~~~~~
+General:
+  * Fixed whitespace issue on Xbox
+
+0.8.11 (06/2011)
+~~~~~~~~~~~~~
+General:
+  * bugfix: Edit Rom Collection dialog did not save changes in 0.8.10
+
+0.8.10 (06/2011)
+~~~~~~~~~~~~~
+General:
+  * platform.machine() caused errors on some Linux systems 
+
+Game Import:
+  * updated scraper: thegamesdb.net
+
+0.8.9 (06/2011)
+~~~~~~~~~~~~~
+General:
+  * Eden compatibility: use xbmc.service instead of autoexec.py to perform startup tasks
+  * use XBMC settings instead of status file to transfer status
+
+0.8.7 (05/2011)
+~~~~~~~~~~~~~
+General:
+  * removed option CACHESELECTION from caching options
+  
+Game Import:
+  * bugfix: error with handling [] in rom names
+
 = 0.8.6 =
 == General ==
   * complete "Edit Rom Collection" dialog: access all settings via UI
@@ -129,11 +215,13 @@
 
 
 = 0.5.3 =
+Date: 08/2010
   * Dharma compatibility (installable via addon browser, slight code modifications with no impact to the end user)
   * changed the versioning scheme from Vx.y to x.y.z (this was needed to get this script submitted to the repo - and it is the better versioning scheme:))
   * no more writing to the scripts directory: all files will be written to userdata/addon_data/script.games.rom.collection.browser. The file config.xml is still read from RCBs database directory. It will be backed up to the userdata directory after every "Import Settings" because XBMC will delete the complete RCB addon directory in case of an update.
 
 = V0.5 =
+Date: 05/2010
 == UI ==
   * new UI design (Confluence-like)
   * different views of the main window (Info, Info 2, Thumbs)
@@ -155,6 +243,7 @@
   
 
 = V0.4 =
+Date: 03/2010
   * new game info view: pressing info button when a game is selected will open a new window with additional game information
   * showing video in game info view
   * dynamic image placing: RCB has 8 different controls to show images. The image type (screenshot, cover, ...) can be configured for every control.
@@ -163,6 +252,7 @@
 
 
 = V0.3 =
+Date: 03/2010
   * solved problem with executing batch file in windows
   * using autoexec.py to launch RCB when restarting in solo mode
   * saving and loading view state when relaunching RCB
@@ -175,3 +265,11 @@
   * new Rom Collection property "ignoreOnScan": no changes to this collection during import
   * new Game properties (imported via description file): developer, reviewer, maxPlayers, rating, votes, url, region, media, perspective, controller
   * new global settings: showEntryAllConsoles, showEntryAllGenres, showEntryAllYears, showEntryAllPublisher, saveViewStateOnExit, saveViewStateOnLaunchEmu
+  
+= V0.2 =
+Date: 03/2010
+  * parser bug fixes
+  
+= V0.1 =
+Date: 02/2010
+  * initial version
