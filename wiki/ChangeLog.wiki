@@ -13,79 +13,79 @@ Browse Games:
     * video in game info window
   * add skin selection in addon settings: choose between Confluence, Night and Simplicity
 
-0.9.1 (08/2011)
-~~~~~~~~~~~~~
-General:
+= 0.9.1 =
+08/2011
+== General ==
   * Edit Rom Collection dialog
-    -> friendly name for imageplacing options
-    -> wizard for new media path
-    -> default value for file mask
-    -> check if config.xml has errors before writing
+    * friendly name for imageplacing options
+    * wizard for new media path
+    * default value for file mask
+    * check if config.xml has errors before writing
   * Edit offline scrapers:
-    -> if descfilepergame = false: select path to game description (no file mask)
-    -> wizard for new scraper
-    -> select box with unused Rom Collection names
+    * if descfilepergame = false: select path to game description (no file mask)
+    * wizard for new scraper
+    * select box with unused Rom Collection names
   * config wizard:
-    -> if descfilepergame = false: select path to game description (no file mask)
-    -> better support for standalone games
-Import Games:
+    * if descfilepergame = false: select path to game description (no file mask)
+    * better support for standalone games
+== Import Games ==
   * Import Options dialog
-    -> checkbox: Change scrapers for this run
+    * checkbox: Change scrapers for this run
   * stop import on general error
   * bugfix: error with [] in rom path name (e.g. import of wrong images)
-    -> changed file check order: 1) rom name 2) game name
+    * changed file check order: 1) rom name 2) game name
   * bugfix: error when using exactly 2 scrapers per rom collection
   * MAME scraper: removed scraping of flyer images
 
 == Launch Games ==
   * support for standalone games: use "%ROM%" in emu Cmd
 
-0.9.0 (06/2011)
-~~~~~~~~~~~~~
-General:
+= 0.9.0 =
+06/2011
+== General ==
   * reworked Confluence skin from PAL to 720p
   * slight usability changes in Confluence skin (navigation etc.)
   
-Game Browsing
+== Game Browsing ==
   * reworked game info window in Confluence skin
   * favorites function
   * search function
 
-0.8.12 (06/2011)
-~~~~~~~~~~~~~
-General:
+= 0.8.12 =
+06/2011
+== General ==
   * Fixed whitespace issue on Xbox
 
-0.8.11 (06/2011)
-~~~~~~~~~~~~~
-General:
+= 0.8.11 =
+06/2011
+== General ==
   * bugfix: Edit Rom Collection dialog did not save changes in 0.8.10
 
-0.8.10 (06/2011)
-~~~~~~~~~~~~~
-General:
+= 0.8.10 =
+06/2011
+== General ==
   * platform.machine() caused errors on some Linux systems 
 
-Game Import:
+== Game Import ==
   * updated scraper: thegamesdb.net
 
-0.8.9 (06/2011)
-~~~~~~~~~~~~~
-General:
+= 0.8.9 =
+06/2011
+== General ==
   * Eden compatibility: use xbmc.service instead of autoexec.py to perform startup tasks
   * use XBMC settings instead of status file to transfer status
 
-0.8.7 (05/2011)
-~~~~~~~~~~~~~
-General:
+= 0.8.7 =
+05/2011
+== General ==
   * removed option CACHESELECTION from caching options
   
-Game Import:
+== Game Import ==
   * bugfix: error with handling [] in rom names
 
-0.8.6 (05/2011)
-~~~~~~~~~~~~~
-General:
+= 0.8.6 =
+05/2011
+== General ==
   * complete "Edit Rom Collection" dialog: access all settings via UI
   * new dialog: "Edit Offline Scrapers"
   * new option: "Delete Rom Collection"
@@ -93,35 +93,35 @@ General:
   * bugfix: fixed "autoexec.py not found" error
   * bugfix: set correct MAME properties when RC is created in local data mode
 
-Game Import:
+== Game Import ==
   * bugfix: using offline scrapers for MAME did not work
 
-0.8.5
+= 0.8.5 =
 04/2011
-= General =
+== General ==
   * using Dharma settings file as default
 
-= Game Import =
+== Game Import ==
   * refactoring: code cleanup, little bug fixes, better error handling, ...
   * moved properties from Rom Collection to Scraper:
     descfilePerGame, searchGameByCRC, useFoldernameAsCRC, useFilenameAsCRC
   * support regular expressions in diskPrefix
   * stop import when all games are imported with multigame scrapers
 
-= Game Launching =
+== Game Launching ==
   * support direct launching of savestates
-    -> specify savestatePath and saveStateParams per Rom Collection
-    -> RCB checks if savestate exists and offers to launch the savestate
+    * specify savestatePath and saveStateParams per Rom Collection
+    * RCB checks if savestate exists and offers to launch the savestate
   * new context menu option: Edit Game Command
-    -> save game specific command in database
-    -> replace %GAMECMD% with game specific command when launching the game
+    * save game specific command in database
+    * replace %GAMECMD% with game specific command when launching the game
   * moved useEmuSolo from Addon settings to Rom Collection properties (config.xml)
   * new placholders in launchEmu: %ROMFILE%, %ROMNAME%, %GAME%, %ASKNUM%, %ASKTEXT%
   * check for multi rom games in zip files before launching
 
-0.8.4
+= 0.8.4 =
 04/2011
-General:
+== General ==
   * bug fix: adding more than 10 Rom Collections could cause database inconsistencies
 
 = 0.8.3 =
