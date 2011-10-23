@@ -284,7 +284,7 @@ Image Placing Main:		5320
 Image Placing Info:		5340
 
 
-=== Edit Rom Collection dialog ===
+=== Edit Scraper dialog ===
 
 ==== Buttons ====
 
@@ -294,63 +294,29 @@ Save:					6000
 
 Cancel:					6010
 
-Emu Cmd:				5220
+Scraper Up:				5602
 
-Emu Params:				5230
+Scraper Down:			5601
 
-Use emu solo:			5440
+Game desc path:			5520
 
-Don't extract zip:		5450
+Game desc mask:			5530
 
-Savestate path:			5460
+Parse instruction:		5540
 
-Savestate mask:			5470
+Desc per game:			5550
 
-Savestate params:		5480
+Search by crc:			5560
 
-Rom Path:				5240
+Use folder as crc:		5580
 
-File Mask:				5250
+Use file as crc:		5590
 
-Media Path:				5270
+Remove scraper:			5610
 
-Media File Mask:		5280
-
-Remove Media Path:		5490
-
-Add Media Path:			5500
-
-Ignore on scan:			5330
-
-Allow update:			5400
-
-Max folder depth:		5410
-
-Disk indicator:			5420
-
-Use folder as gamename:	5430
-
-Rom Collection Up:		5211
-
-Rom Collection Down:	5212
-
-Media Type Up:			5261
-
-Media Type Down:		5262
+Add scraper:			5620
 
 
 ==== Lists ====
 
-Rom Collections:		5210
-
-Media Types:			5260
-
-Scraper 1:				5290
-
-Scraper 2:				5300
-
-Scraper 3:				5310
-
-Image Placing Main:		5320
-
-Image Placing Info:		5340
+Scrapers:				5600
