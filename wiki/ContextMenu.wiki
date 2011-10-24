@@ -20,10 +20,10 @@ Invokes the Edit Offline Scrapers dialog. See section [EditOfflineScrapers Edit 
 = Edit Game Command =
 This will launch the XBMC keyboard to enter a game specific command. The text that you enter will be saved with the selected game in RCBs database. This text will be used to replace the string %GAMECMD% in "Emulator params" or "Savestate params" before you launch the game. E.g. lots of Amiga games need special parameters for joyports etc. and this is a way to launch one game with mouse and keyboard support and another one with support for two joysticks.
 
-= Add/Remove Game To Favorites =
+= Add/Remove Game To/From Favorites =
 Adds the current selected game to your favorites. If the current game already is a favorite it will be removed from facorites.
 
-= Add/Remove Selection To Favorites =
+= Add/Remove Selection To/From Favorites =
 Adds all games of the current filter selection to your favorites. If one or more of the games in the selection already are favorites they will be removed from favorites. All other games remain unchanged.
 
 = Delete Game =
