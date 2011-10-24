@@ -11,65 +11,23 @@
   * solo mode: use XBMC http api to shutdown xbmc?
   * support home and back buttons to exit the script
   * option to turn savestate on/off
-
-
-= 0.9.2 =
-== General ==
-  * action id 0 - Done
-
-== Import Games ==
-  * add download url to nfo file - Done
-  * update thegamesdb scraper (screenshots) - Done
-  * MAME scraper: revert change from 0.9.1 - Done
-
-== Browse Games ==
-  * refactor game info window
-    * video in game info window - Done
-  * Lines in Info2 view - Done
-  * update Night, Simplicity (new skin structure)
-	* search button - Done
-	* favorite button - Done
-	* includes - Done
-	* colors - Done
-	* fonts - Done
-	* favorite stars - Done
-  * add skin selection in settings.xml - Done
-  * move fonts and create readme.txt - Done
-  * add confluence fonts - Done
-
-
+  * auto repeat video playback in game info view
+  * support for game name artwork
+  
 
 = 0.9.3 =
 == General ==
+  * Eden compatibility
   * start RCB twice: atomic init routine?
-  * update config after editing via edit dialog (only in edit scrapers?)
-  * move encoding from scraper to site
-  * Edit offline scrapers:
-    * scraper encoding: move to scraper and add to dialog
-  * config wizard:
-    * create local data config file with wizard: search game by crc (or check how to remove this option completely)
-    * configuration templates (emumovies, ressurectionxtras, ...)
   * replace smb:// when searching for roms and artwork
   * bug: resolved path from rom folder name: C:\Users\Mic\Downloads\Arcade\Data\MAME\My_Art\boxfront\C:\Users\Mic\Downloads\Arcade\Data\MAME\My_Roms.*
   * bug: resolved path from rom folder name: smb://terastation/media/Roms/SNES/Boxart/boxfront/smb://terastation/media/Roms/SNES.*
-  * db in memory: id = null?
-  * export nfo files on demand
   
 == Browse Games ==
-  * Update Carmichael skin files
-  * Night
-	* add video window
-	* add counter
-	* add image placing options
-  * Simplicity
-	* relative position of favorite stars in thumbs view
-  * setting show favorite stars on/off
-  * create skin specific game info view
+
 
 == Import Games ==
-  * manual scraping games (update properties and images)
-  * easy to use option to rescrape missing games
-  * enter search text if no game is found
+
   
 == Launch Games ==
   * new placeholders in emuParams: %EMUPATH%, %ROMPATH%
@@ -84,8 +42,20 @@
   * improve config wizard (suggest options, pathes, more options)
   * mark game as completed
   * mark game as broken (in db + .broken in filename)
-
+  * update config after editing via edit dialog (only in edit scrapers?)
+  * move encoding from scraper to site
+  * Edit offline scrapers:
+    * scraper encoding: move to scraper and add to dialog
+  * config wizard:
+    * create local data config file with wizard: search game by crc (or check how to remove this option completely)
+    * configuration templates (emumovies, ressurectionxtras, ...)
+  * db in memory: id = null?
+  * export nfo files on demand
+	
 == Import Games ==
+  * manual scraping games (update properties and images)
+  * easy to use option to rescrape missing games
+  * enter search text if no game is found
   * refactor dbupdate
     * errorCounter in descPerGame = False
     * no import of images to database. just check the directories at runtime. Performance tests
@@ -112,6 +82,14 @@
 
 == Browse Games ==
   * filter control interaction
+  * Update Carmichael skin files
+  * Night
+	* add video window
+	* add counter
+	* add image placing options
+  * Simplicity
+	* relative position of favorite stars in thumbs view
+  * create skin specific game info view
   * MAME support	
     * MAME imagePlacing cabinet view + video?
   * publisher, developer images in game info view
@@ -168,8 +146,15 @@ ex: Final Fantasy VII (US) show links for Japanese version, International, Europ
 = Doc =
   
 == FAQ ==
-- control XBMC in background:
-	-> solo mode
-	-> scripts to disable events
-- where to find the log file
-- how to submit bug reports
+* control XBMC in background:
+	* solo mode
+	* scripts to disable events
+* where to find the log file
+* how to submit bug reports
+* how to read the log file
+
+== Performance issues ==
+- Size of collection / selection
+- videos in autoplay mode
+- artwork size
+- drive speed
