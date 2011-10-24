@@ -20,22 +20,22 @@ Select the path to the emulator (executable) for the given platform.
   http://romcollectionbrowser.googlecode.com/files/Wizard%20-%20Online%203%20-%20small.jpg
   
 == Emulator params ==
-Enter the parameters for the emulator. Use "%ROM%" as placeholder if you need to pass the rom filename to the emulator. Check section [EditRomCollectionLaunchGames#Emulator_Params Emulator params] for a complete list of available parameters.
+Enter the parameters for the emulator. Use "%ROM%" as placeholder if you need to pass the rom filename to the emulator. Check section [EditRomCollectionLaunchGames#Emulator_Params Emulator params] for a complete list of available placeholders.
   
   http://romcollectionbrowser.googlecode.com/files/Wizard%20-%20Online%204%20-%20small.jpg
   
 == Path to your rom files ==
-Select the path to your rom files. RCB will also check all sub directories.
+Select the path to your rom files. RCB will also check all sub directories below the given path.
   
   http://romcollectionbrowser.googlecode.com/files/Wizard%20-%20Online%205%20-%20small.jpg
   
 == Rom file mask ==
-Enter one or more file masks (comma-separated). RCB will search the rom path and all sub folders for files that match the given file mask. Make sure that you use the `*` as wildcard.
+Enter one or more file masks (comma-separated). RCB will search the rom path and all sub folders for files that match the given file mask. Make sure that you use the `*` as wildcard. E.g. use "`*`.zip,`*`.smc" to search for all zip and smc files below the given rom path.
   
   http://romcollectionbrowser.googlecode.com/files/Wizard%20-%20Online%206%20-%20small.jpg
   
 == Artwork path ==
-Select the path where you want to store your artwork (or where your artwork is already stored). This folder can be empty, RCB will create the needed sub folders on its own. It is a good idea to have platform specific artwork folders as there are a lot of games available on different platforms and that have platform specific artwork files. Note: RCB scrapes and downloads several different artwork types. It needs to store all these files in different folders, so it creates sub folders below the given path: boxfront, boxback, cartridge, screenshot and fanart for all non-MAME systems and boxfront, action, title, cabinet and marquee for MAME-systems. If you want to add your own artwork to RCB in online scraping scenario, make sure that your artwork is placed in the correct sub folders. The user that runs xbmc needs write access to these folders. The downloaded files will be named like the rom file with the extension of the downloaded image file.
+Select the path where you want to store your artwork (or where your artwork is already stored). This folder can be empty, RCB will create the required sub folders on its own. It is a good idea to have platform specific artwork folders as there are a lot of games available on different platforms and that have platform specific artwork files. Note: RCB scrapes and downloads several different artwork types. It needs to store all these files in different folders, so it creates sub folders below the given path: boxfront, boxback, cartridge, screenshot and fanart for all non-MAME systems and boxfront, action, title, cabinet and marquee for MAME-systems. If you want to add your own artwork to RCB in online scraping scenario, make sure that your artwork is placed in the correct sub folders. The user that runs xbmc needs write access to these folders. The downloaded files will be named like the rom file with the extension of the downloaded image file.
   
   http://romcollectionbrowser.googlecode.com/files/Wizard%20-%20Online%207%20-%20small.jpg
   
@@ -46,7 +46,7 @@ Repeat these steps for every Rom Collection you want to add.
   
 = Local data scenario =
 
-The first steps of this wizard are equal to the online scraping scenario. You have to choose a system, path to your emulator and rom files. After this is done there will be some local data specific configuration steps.
+The first steps of this wizard are equal to the online scraping scenario. You have to choose a platform, the path to your emulator and rom files. After this is done there will be some local data specific configuration steps.
 
 == Local artwork type ==
 Choose an artwork type.
