@@ -288,7 +288,7 @@ class UIGameDB(xbmcgui.WindowXML):
 		self.rcb_playList.clear()
 		xbmc.sleep(util.WAITTIME_UPDATECONTROLS)
 		
-		self.updateControls()		
+		self.updateControls()
 		self.loadViewState()
 		
 		#check startup tasks done with autoexec.py
@@ -607,7 +607,7 @@ class UIGameDB(xbmcgui.WindowXML):
 		if(games == None):
 			Logutil.log("games == None in showGames", util.LOG_LEVEL_WARNING)
 			return		
-		
+				
 		fileDict = self.getFileDictForGamelist()
 				
 		timestamp2 = time.clock()
@@ -648,7 +648,7 @@ class UIGameDB(xbmcgui.WindowXML):
 				#0 = cacheAll: load all game data at once
 				if(self.cachingOption == 0):
 					self.setAllItemData(item, gameRow, self.fileDict, romCollection)							
-				
+								
 				self.addItem(item, False)
 				
 				# add video to playlist for fullscreen support
@@ -657,7 +657,6 @@ class UIGameDB(xbmcgui.WindowXML):
 				count = count + 1
 			except Exception, (exc):
 				Logutil.log('Error loading game: %s' % str(exc), util.LOG_LEVEL_ERROR)
-				
 			
 		xbmc.executebuiltin("Container.SortDirection")
 		xbmcgui.unlock()				
@@ -765,7 +764,7 @@ class UIGameDB(xbmcgui.WindowXML):
 		self.player.startedInPlayListMode = True
 		self.player.play(self.rcb_playList)		
 		xbmc.executebuiltin('Playlist.PlayOffset(%i)' % pos)
-		xbmc.executebuiltin('XBMC.PlayerControl(RepeatAll)')		
+		xbmc.executebuiltin('XBMC.PlayerControl(RepeatAll)')
 		
 		self.fullScreenVideoStarted = False
 		
@@ -1914,6 +1913,10 @@ class UIGameDB(xbmcgui.WindowXML):
 			self.selectedCharacter = self.setFilterSelection(CONTROL_CHARACTER, rcbSetting[util.RCBSETTING_lastSelectedCharacterIndex])
 			self.selectedCharacterIndex = rcbSetting[util.RCBSETTING_lastSelectedCharacterIndex]		
 
+		#HACK: Dummy item because loading an empty list crashes XBMC
+		item = xbmcgui.ListItem('loading list...', '', '', '')
+		self.addItem(item, False)
+
 		#reset view mode
 		id = self.Settings.getSetting(util.SETTING_RCB_VIEW_MODE)
 		if(id != None and id != ''):
@@ -1928,10 +1931,11 @@ class UIGameDB(xbmcgui.WindowXML):
 		#favorites		
 		isFavoriteButton = self.getControlById(CONTROL_BUTTON_FAVORITE)
 		favoritesSelected = self.Settings.getSetting(util.SETTING_RCB_FAVORITESSELECTED)
-		isFavoriteButton.setSelected(favoritesSelected == '1')
+		isFavoriteButton.setSelected(favoritesSelected == '1')				
 		
 		#reset game list
 		self.showGames()
+		
 		self.setFilterSelection(CONTROL_GAMES_GROUP_START, rcbSetting[util.RCBSETTING_lastSelectedGameIndex])
 						
 		#lastFocusedControl
