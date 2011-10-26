@@ -35,7 +35,16 @@ Enter one or more file masks (comma-separated). RCB will search the rom path and
   http://romcollectionbrowser.googlecode.com/files/Wizard%20-%20Online%206%20-%20small.jpg
   
 == Artwork path ==
-Select the path where you want to store your artwork (or where your artwork is already stored). This folder can be empty, RCB will create the required sub folders on its own. It is a good idea to have platform specific artwork folders as there are a lot of games available on different platforms and that have platform specific artwork files. Note: RCB scrapes and downloads several different artwork types. It needs to store all these files in different folders, so it creates sub folders below the given path: boxfront, boxback, cartridge, screenshot and fanart for all non-MAME systems and boxfront, action, title, cabinet and marquee for MAME-systems. If you want to add your own artwork to RCB in online scraping scenario, make sure that your artwork is placed in the correct sub folders. The user that runs xbmc needs write access to these folders. The downloaded files will be named like the rom file with the extension of the downloaded image file.
+Select the path where you want to store your artwork (or where your artwork is already stored). This folder can be empty. You should store your artwork separated per platform (Rom Collection), so there should be one folder SNES artwork, Amiga artwork or whatever.
+
+In online scraping scenario RCB will create the following sub folders (one for every different artwork type):
+
+MAME: boxfront, action, title, cabinet and marquee
+
+all other: boxfront, boxback, cartridge, screenshot and fanart
+
+
+If you want to add your own artwork to RCB in online scraping scenario, make sure that your artwork is placed in the correct sub folders. The user that runs xbmc needs write access to these folders. The downloaded files will be named like the rom file with the extension of the downloaded image file.
   
   http://romcollectionbrowser.googlecode.com/files/Wizard%20-%20Online%207%20-%20small.jpg
   
