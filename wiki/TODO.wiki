@@ -13,6 +13,7 @@
   * option to turn savestate on/off
   * auto repeat video playback in game info view
   * support for game name artwork
+  * remove file extension from game when extracting zip files.
   
 
 = 0.9.3 =
