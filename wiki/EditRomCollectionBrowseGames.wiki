@@ -1,12 +1,18 @@
 #sidebar SideBar
 <wiki:toc max_depth="4" />
 
-http://romcollectionbrowser.googlecode.com/files/screen_Config_03_Browse_games_wiki.jpg
+[http://romcollectionbrowser.googlecode.com/files/screen_Config_03_Browse_games_wiki.jpg]
 
 new with 0.8.6
 
 = Rom Collection =
 With the Rom Collection selector you can select which Rom Collection you want to edit. All controls in the dialog will be updated with the data of the selected Rom Collection.
+
+= Images (Main window) =
+Will adjust the image placing options in the main window.
+
+= Images (Info window) =
+Will adjust the image placing options in the info window (accessable by pressing "I" or "Info" on the remote).
 
 = Image placing =
 With the image placing options you can select which image types are shown in which image controls. Note that not all RCB skins fully support image placing. Atm only the default Confluence skin has full image placing support.
@@ -15,32 +21,32 @@ You can define your own image placing options or edit the existing ones if they 
 
 By default there will be 6 different image placing options:
 
-== gameinfobig ==
+== one big ==
 [http://romcollectionbrowser.googlecode.com/files/screen_Info_gameinfobig.jpg http://romcollectionbrowser.googlecode.com/files/screen_Info_gameinfobig_preview.jpg]
 
 Displays one big image (usually in game screenshot) in the game details.
 
-== gameinfobigVideo ==
+== one big or video ==
 [http://romcollectionbrowser.googlecode.com/files/screen_Info_gameinfobigVideo.jpg http://romcollectionbrowser.googlecode.com/files/screen_Info_gameinfobigVideo_preview.jpg]
 
 Automatically starts video playback if video is available for selected game.
 
-== gameinfosmall ==
+== four small ==
 [http://romcollectionbrowser.googlecode.com/files/screen_Info_gameinfosmall.jpg http://romcollectionbrowser.googlecode.com/files/screen_Info_gameinfosmall_preview.jpg]
 
 Displays four small images (e.g. in game screenshot, box front, box back, cartridge)
 
-== gameinfosmallVideo ==
+== three small + video ==
 [http://romcollectionbrowser.googlecode.com/files/screen_Info_gameinfosmallVideo.jpg http://romcollectionbrowser.googlecode.com/files/screen_Info_gameinfosmallVideo_preview.jpg]
 
 Displays three small images and automatically starts video playback if video is available for selected game.
 
-== gameinfomamemarquee ==
+== MAME: marquee in list ==
 [http://romcollectionbrowser.googlecode.com/files/screen_info_reworked_MAME_marquee.jpg http://romcollectionbrowser.googlecode.com/files/screen_info_reworked_MAME_marquee%20-%20preview.jpg]
 
 MAME specific: Displays marquee images in the game list and cabinet, action and title in the additional controls.
 
-== gameinfomamecabinet ==
+== MAME: cabinet in list ==
 [http://romcollectionbrowser.googlecode.com/files/screen_info_reworked_MAME_cabinet.jpg http://romcollectionbrowser.googlecode.com/files/screen_info_reworked_MAME_cabinet%20-%20preview.jpg]
 
 MAME specific: Displays cabinet images in the game list and marquee, action and title in the additional controls.
