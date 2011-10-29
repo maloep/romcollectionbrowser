@@ -161,6 +161,15 @@ class UIGameDB(xbmcgui.WindowXML):
 	useRCBService = False
 	searchTerm = ''
 	
+	#HACK: just used to determine if we are on Dharma or Eden. Will be replaced by own Eden repo in future
+	xbmcVersionEden = False
+	try:
+		from sqlite3 import dbapi2 as sqlite
+		xbmcVersionEden = True
+		Logutil.log("XBMC version: Assuming we are on Eden", util.LOG_LEVEL_INFO)
+	except:		
+		Logutil.log("XBMC version: Assuming we are on Dharma", util.LOG_LEVEL_INFO)
+	
 	
 	def __init__(self, strXMLname, strFallbackPath, strDefaultName, forceFallback):
 		# Changing the three varibles passed won't change anything
@@ -404,9 +413,12 @@ class UIGameDB(xbmcgui.WindowXML):
 				self.showContextMenu()
 			elif (action.getId() in ACTION_PLAYFULLSCREEN):
 				#HACK: check if we are in Eden mode
-				if(self.useRCBService):
+				if(self.xbmcVersionEden):
 					Logutil.log('onAction: ACTION_PLAYFULLSCREEN', util.LOG_LEVEL_INFO)
 					self.startFullscreenVideo()
+				else:
+					Logutil.log('fullscreen video in Dharma is not supported.', util.LOG_LEVEL_WARNING)
+				
 		except Exception, (exc):
 			print "RCB_ERROR: unhandled Error in onAction: " +str(exc)
 			self.onActionLastRun = time.clock()
@@ -615,7 +627,9 @@ class UIGameDB(xbmcgui.WindowXML):
 		print "load games from db in %d ms" % (diff)
 	
 		self.writeMsg("loading games...")
-		xbmcgui.lock()
+		
+		if(not self.xbmcVersionEden):
+			xbmcgui.lock()
 		
 		self.clearList()
 		self.rcb_playList.clear()		
@@ -659,7 +673,8 @@ class UIGameDB(xbmcgui.WindowXML):
 				Logutil.log('Error loading game: %s' % str(exc), util.LOG_LEVEL_ERROR)
 			
 		xbmc.executebuiltin("Container.SortDirection")
-		xbmcgui.unlock()				
+		if(not self.xbmcVersionEden):
+			xbmcgui.unlock()
 		
 		self.writeMsg("")
 		
@@ -938,27 +953,41 @@ class UIGameDB(xbmcgui.WindowXML):
 			self.player.stop()
 		
 		self.gameinfoDialogOpen = True
+				
+		skin = self.Settings.getSetting(util.SETTING_RCB_SKIN)
+		if(skin == "Confluence"):
+			skin = "Default"
 		
 		#HACK: Dharma has a new parameter in Window-Constructor for default resolution
 		constructorParam = 1
 		if(util.hasAddons()):
-			constructorParam = "PAL"		
+			constructorParam = "720p"		
 		
 		import dialoggameinfo
-		gid = dialoggameinfo.UIGameInfoView("script-RCB-gameinfo.xml", util.getAddonInstallPath(), "Default", constructorParam, gdb=self.gdb, gameId=gameId, listItem=selectedGame,
-			consoleId=self.selectedConsoleId, genreId=self.selectedGenreId, yearId=self.selectedYearId, publisherId=self.selectedPublisherId, selectedGameIndex=selectedGameIndex,
-			consoleIndex=self.selectedConsoleIndex, genreIndex=self.selectedGenreIndex, yearIndex=self.selectedYearIndex, publisherIndex=self.selectedPublisherIndex,
-			selectedCharacter=self.selectedCharacter, selectedCharacterIndex=self.selectedCharacterIndex, controlIdMainView=self.selectedControlId, fileDict=fileDict, config=self.config, settings=self.Settings)
+		try:
+			gid = dialoggameinfo.UIGameInfoView("script-RCB-gameinfo.xml", util.getAddonInstallPath(), skin, constructorParam, gdb=self.gdb, gameId=gameId, listItem=selectedGame,
+				consoleId=self.selectedConsoleId, genreId=self.selectedGenreId, yearId=self.selectedYearId, publisherId=self.selectedPublisherId, selectedGameIndex=selectedGameIndex,
+				consoleIndex=self.selectedConsoleIndex, genreIndex=self.selectedGenreIndex, yearIndex=self.selectedYearIndex, publisherIndex=self.selectedPublisherIndex,
+				selectedCharacter=self.selectedCharacter, selectedCharacterIndex=self.selectedCharacterIndex, controlIdMainView=self.selectedControlId, fileDict=fileDict, config=self.config, settings=self.Settings)
+		except:
+			gid = dialoggameinfo.UIGameInfoView("script-RCB-gameinfo.xml", util.getAddonInstallPath(), "Default", constructorParam, gdb=self.gdb, gameId=gameId, listItem=selectedGame,
+				consoleId=self.selectedConsoleId, genreId=self.selectedGenreId, yearId=self.selectedYearId, publisherId=self.selectedPublisherId, selectedGameIndex=selectedGameIndex,
+				consoleIndex=self.selectedConsoleIndex, genreIndex=self.selectedGenreIndex, yearIndex=self.selectedYearIndex, publisherIndex=self.selectedPublisherIndex,
+				selectedCharacter=self.selectedCharacter, selectedCharacterIndex=self.selectedCharacterIndex, controlIdMainView=self.selectedControlId, fileDict=fileDict, config=self.config, settings=self.Settings)
+		
 		del gid
 		
 		self.gameinfoDialogOpen = False
 				
 		
+		"""
+		#remove reloading code as it seems we don't need it anymore
 		self.setFocus(self.getControl(CONTROL_GAMES_GROUP_START))
 		self.showGames()
 		self.setCurrentListPosition(selectedGameIndex)
 		xbmc.sleep(util.WAITTIME_UPDATECONTROLS)
 		self.showGameInfo()
+		"""
 		
 		Logutil.log("End showGameInfoDialog", util.LOG_LEVEL_INFO)
 		
@@ -2199,7 +2228,7 @@ def main():
 		skin = "Default"
 	
 	if(util.hasAddons()):
-		ui = UIGameDB("script-Rom_Collection_Browser-main.xml", util.getAddonInstallPath(), skin, "PAL")
+		ui = UIGameDB("script-Rom_Collection_Browser-main.xml", util.getAddonInstallPath(), skin, "720p")
 		#ui = UIGameDB("script-Rom_Collection_Browser-main.xml", util.getAddonInstallPath(), "Light", "PAL")
 	else:
 		ui = UIGameDB("script-Rom_Collection_Browser-main.xml", util.getAddonInstallPath(), skin, 1)
