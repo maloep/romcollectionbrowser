@@ -1,0 +1,22 @@
+<parserConfig>
+	<GameGrammar type="xml" root="Results/Game">
+		<crc></crc>
+		<Game>Name</Game>
+		<!--<SearchKey>Name</SearchKey>-->
+		<Platform>Platform/Name</Platform>
+		<Region>Region/Name</Region>
+		<Media></Media>
+		<Controller></Controller>
+		<Genre>Genre/Name</Genre>
+		<ReleaseYear>ReleaseDate</ReleaseYear>
+		<Developer>Developer/Name</Developer>
+		<Publisher>Publisher/Name</Publisher>
+		<Players></Players>
+		<OriginalTitle></OriginalTitle>
+		<AlternateTitle></AlternateTitle>
+		<TranslatedBy></TranslatedBy>
+		<HackedBy></HackedBy>
+		<Version></Version>
+		<Description></Description>
+	</GameGrammar>
+</parserConfig>
