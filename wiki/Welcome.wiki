@@ -6,8 +6,6 @@ With this XBMC addon you can browse and launch emulator roms and standalone game
 
 Before you can launch games with RCB you have to download, install and configure one or more emulators. Find out how to launch your emulator via command line. You will need this information to launch the emulator with RCB.
 
-Have a look at the [http://www.youtube.com/watch?v=_xvGM8eHWB0 Youtube video] to see how RCB is used and looks like.
-
 Check out the following pages if you have trouble with setting up RCB or want to know how to enable more advanced features.
 
 
