@@ -1,27 +1,12 @@
 #sidebar SideBar
 <wiki:toc max_depth="4" />
 
-http://romcollectionbrowser.googlecode.com/files/screen_Settings_01_General_small.jpg
+[http://romcollectionbrowser.googlecode.com/files/screen_Settings_01_General_small.jpg]
 
 You can access RCBs global settings via the context menu in addons / scripts list in XBMC (press C on the keyboard).
 
 = RCB skin =
-Atm there are three different skins available for RCB: Confluence, Night and Simplicity (thanks to mcborzu and igotdvds for the last two). Regardless what skin you are using as default skin in XBMC you can choose to run RCB with any of these three skins. To use these skins you don't have to do anything else on your side than just select the skin in RCB settings. But by default you won't see the skin specific fonts in RCB. XBMC will use the fonts of your default skin if it can't find the specific fonts. If you want to use the skin specific fonts just check the section below.
-
-== Optional steps to enable skin specific fonts ==
-To get the skin specific fonts working in different default skins you have to do the following:
-  * go to "RCB install dir\resources\skins\fonts" and copy the `*`.ttf files to your default skins fonts dir
-  * copy the content of the file "RCB install dir\resources\skins\Font.xml" to the "720p\Font.xml" file of your default skin (details are explained in the file itself)
-  * restart XBMC
-
-Unfortunately, you have to redo these steps every time you update your default skin (if you update it via XBMC addon manager).
-
-Where to find the default skin files:
-
-Confluence: "XBMC install dir/addons/skin.confluence"
-
-All other: "XBMC userdata/addons/skin.xxx"
-
+You can run RCB with different skins if you don't like the look and feel of the default one. Just select the skin you want in Addon settings. See section [ChangeSkins Change skins] for details (e.g. how to enable skin specific fonts).
 
 = Log Level =
 Set RCBs log level. Allowed values: ERROR, WARNING, INFO or DEBUG
