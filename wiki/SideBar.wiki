@@ -22,6 +22,7 @@
      * [ImportGames Import games]
      * [UseOfflineGameDescriptions Use offline game descriptions]
   * Browse games
+    * [ChangeViews Change views]
     * [EnableFullscreenVideoBrowser Enable fullscreen video browser]
     * [DynamicImagePlacing Dynamic Image Placing]
     * [PerformanceSettings Performance Settings]
