@@ -1,11 +1,10 @@
 
-= Issues to test =
+= issues / requests =
   * Media or rom path with special characters (encoding issues)
   * log file locked in solo mode (Windows only?)
   * import zlib (not working with some python 2.6 distributions?)
   * no navigation after launch emu (Win XP)
   * filetypeformainview2 is missing
-  * use BeautifulSoup as scraper implementation?
   * disable screensaver before game launch
   * popen options (suspend, pause, ...)
   * solo mode: use XBMC http api to shutdown xbmc?
@@ -14,9 +13,19 @@
   * auto repeat video playback in game info view
   * support for game name artwork
   * remove file extension from game when extracting zip files.
+  * fullscreen video together with auto video playback
+  * integrate Light skin
   
 
 = 0.9.3 =
+  * wraplist / pagecontrol fix (Eden) - Done
+  * skin selection for Info view - Done
+  * don't reload game list when exiting game info view - Done
+  * Dharma / Eden check: use sqlite version as indicator - Done
+  * don't use xbmc.lock in Eden - Done
+
+  
+= 0.9.4 =
 == General ==
   * Eden compatibility
   * start RCB twice: atomic init routine?
@@ -144,18 +153,22 @@ ex: Final Fantasy VII (US) show links for Japanese version, International, Europ
   * try to write black background before launch
 
   
-= Doc =
-  
+= Wiki =
+== new features ==
+* favorite and search function
+
 == FAQ ==
-* control XBMC in background:
+  * explorer-hack in applaunch.bat
+  * where to find the log file
+  * how to submit bug reports
+  * how to read the log file
+  * link to performance settings
+  * control XBMC in background:
 	* solo mode
 	* scripts to disable events
-* where to find the log file
-* how to submit bug reports
-* how to read the log file
 
 == Performance issues ==
-- Size of collection / selection
-- videos in autoplay mode
-- artwork size
-- drive speed
+  * Size of collection / selection
+  * videos in autoplay mode
+  * artwork size
+  * drive speed

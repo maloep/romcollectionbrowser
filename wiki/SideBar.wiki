@@ -1,14 +1,12 @@
   * [Welcome]
   * Getting started
     * [Installation Installation]
-    * [FirstUse First Use]
+    * [FirstUse First use]
     * [Navigation Navigation]
-    * [ContextMenu Context Menu]
-    * [SetupTestScenario Setup test scenario]
+    * [ContextMenu Context menu]
     * [FAQ FAQ]
   * Configuration
-    * [ConfigurationWizard Configuration Wizard]
-    * [ImportGames Import Games]
+    * [ConfigurationWizard Configuration wizard]
     * [AddonSettings Addon settings]
       * [AddonSettingsGeneral General]
       * [AddonSettingsImportGames Import games]
@@ -20,14 +18,18 @@
       * [EditRomCollectionBrowseGames Browse games]
       * [EditRomCollectionLaunchGames Launch games]
     * [EditOfflineScrapers Edit Offline Scrapers]
-  * Advanced configuration
-    * [PerformanceSettings Performance Settings]
-    * [UseOfflineGameDescriptions Use offline game descriptions]
+  * Import games
+     * [ImportGames Import games]
+     * [UseOfflineGameDescriptions Use offline game descriptions]
+  * Browse games
     * [EnableFullscreenVideoBrowser Enable fullscreen video browser]
-    * [LaunchingSavestates Launching Savestates]
     * [DynamicImagePlacing Dynamic Image Placing]
-  * More Advanced topics
+    * [PerformanceSettings Performance Settings]
+  * Launch games
+    * [LaunchingSavestates Launching Savestates]
+  * Advanced topics
     * [SkinningRCB Skinning RCB]
     * [CreatingYourOwnDescriptionParser Creating your own description parser]
   * [ChangeLog Changelog]
   * [Gallery Screenshot gallery]
+  * [TODO Roadmap]

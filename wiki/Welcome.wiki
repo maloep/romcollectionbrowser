@@ -2,13 +2,13 @@
 #summary to RCBs wiki
 #labels Featured
 
-With this XBMC script you can browse and launch emulator roms and standalone games (Windows, Linux, Mac and Xbox). It will scrape game info and artwork from various online sources or imports local available game descriptions, images and videos. RCB can also parse simple text and xml files with additional game information like genre, publisher, developer, release year, etc.
+With this XBMC addon you can browse and launch emulator roms and standalone games (Windows, Linux, Mac and Xbox). It will scrape game info and artwork from various online sources or imports local available game descriptions, images and videos. RCB can also parse simple text and xml files with additional game information like genre, publisher, developer, release year, etc.
 
 Before you can launch games with RCB you have to download, install and configure one or more emulators. Find out how to launch your emulator via command line. You will need this information to launch the emulator with RCB.
 
 Have a look at the [http://www.youtube.com/watch?v=_xvGM8eHWB0 Youtube video] to see how RCB is used and looks like.
 
-Check out the following pages if you have trouble with setting up the script or want to know how to enable more advanced features.
+Check out the following pages if you have trouble with setting up RCB or want to know how to enable more advanced features.
 
 
 	= Getting started =
@@ -19,17 +19,13 @@ Check out the following pages if you have trouble with setting up the script or 
 
 		=== [Navigation Navigation] ===
 
-		=== [ContextMenu Context Menu] ===
-
-		=== [SetupTestScenario Setup test scenario] ===
+		=== [ContextMenu Context menu] ===
 		
 		=== [FAQ] ===
 
 	= Configuration =
 	
-		=== [ConfigurationWizard Configuration Wizard] ===
-
-		=== [ImportGames Import Games] ===
+		=== [ConfigurationWizard Configuration wizard] ===
 	
 		=== [AddonSettings Addon settings] ===
 		
@@ -37,21 +33,25 @@ Check out the following pages if you have trouble with setting up the script or 
 		
 		=== [EditOfflineScrapers Edit Offline Scrapers] ===
 
-	= Advanced configuration =
-		
-		=== [PerformanceSettings Performance Settings] ===
+	= Import games =
+
+		=== [ImportGames Import games] ===
 		
 		=== [UseOfflineGameDescriptions Use offline game descriptions] ===
 		
-		=== [MixingOnlineAndOfflineScrapers Mixing online and offline scrapers] ===
-		
+	= Browse games =
+	
 		=== [EnableFullscreenVideoBrowser Enable fullscreen video browser] ===
 		
-		=== [LaunchingSavestates Launching Savestates] ===
+		=== [DynamicImagePlacing Dynamic image placing] ===
 		
-		=== [DynamicImagePlacing Dynamic Image Placing] ===
+		=== [PerformanceSettings Performance settings] ===
 		
-	= More Advanced topics =
+	= Launch games =
+	
+		=== [LaunchingSavestates Launching savestates] ===
+			
+	= Advanced topics =
 
 		=== [SkinningRCB Skinning RCB] ===
 		
@@ -64,4 +64,8 @@ Check out the following pages if you have trouble with setting up the script or 
 	= Screenshot gallery =
 	
 		=== [Gallery Screenshot gallery] ===
+		
+	= Roadmap =
+	
+		=== [TODO RCB Roadmap] ===
 		<br>
