@@ -1,4 +1,11 @@
 #sidebar SideBar
+= 0.9.3 =
+10/2011
+== Browse Games ==
+  * support different skins for game info view
+  * don't reload game list when exiting game info view
+  * small changes for better Eden compatibility
+
 = 0.9.2 =
 10/2011
 == General ==
