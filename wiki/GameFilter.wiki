@@ -2,7 +2,7 @@
 <wiki:toc max_depth="4" />
 
 = Game filter =
-You can filter your games by Console, Genre, Year, Publisher and first character. Additionally there is a search function and a favorite function. The filter controls are placed on the top panel that is hidden by default. You can access the panel from horizontal game lists with the UP button, from vertical game lists with the LEFT button.
+You can filter your games by Console, Genre, Year, Publisher and first character. Additionally there is a search function and a favorite function. The filter controls are placed on the top panel that is hidden by default. You can access the panel from horizontal game lists with the UP button, from vertical game lists with the LEFT button. You can jump to the game list again by pressing "Enter" or "OK" on the remote on one of the filter controls.
 
 In the screenshot below you can see the Confluence "Info" view with highlighted top panel.
 
