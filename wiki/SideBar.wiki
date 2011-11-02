@@ -30,7 +30,7 @@
     * [PerformanceSettings Performance Settings]
   * Launch games
     * [LaunchGames Launch games]
-    * [LaunchingSavestates Launch Savestates]
+    * [LaunchingSavestates Launch savestates]
   * Advanced topics
     * [SkinningRCB Skinning RCB]
     * [CreatingYourOwnDescriptionParser Creating your own description parser]
