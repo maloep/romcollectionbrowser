@@ -15,8 +15,7 @@ Import Games:
   * MAME scraper: revert change from 0.9.1
 
 Browse Games:
-  * refactor game info window
-    * video in game info window
+  * re-add video in game info window
   * add skin selection in addon settings: choose between Confluence, Night and Simplicity
 
 0.9.1 (08/2011)
