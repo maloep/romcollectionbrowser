@@ -53,7 +53,9 @@ Check out the following pages if you have trouble with setting up RCB or want to
 		
 	= Launch games =
 	
-		=== [LaunchingSavestates Launching savestates] ===
+		=== [LaunchGames Launch games] ===
+	
+		=== [LaunchingSavestates Launch savestates] ===
 			
 	= Advanced topics =
 

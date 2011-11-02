@@ -33,7 +33,7 @@ The selected scrapers will be executed in the order they are selected in this di
 One special scraper is the "local nfo" scraper. During a game import, RCB creates a .nfo file for every game with all scraped game information (if you did not disable this feature in Addon settings). These files can be used to rebuild your database in case of an error or if you want to change game properties.
 
 = Import =
-This will start the import. If you encounter any errors or miss some game infos after import, check XBMCs logfile. Search for any occurance of "RCB_ERROR" or "RCB_WARNING" to see what is missing. RCB will also create three text files ("scrapeResult_missingArtwork.txt" and "scrapeResult_missingDesc.txt" and "scrapeResult_possibleMismatches.txt") with information about missing or inaccurate data. You will find these files in RCBs userdata directory.
+This will start the import process. If you encounter any errors or miss some game infos after import, check XBMCs logfile. Search for any occurance of "RCB_ERROR" or "RCB_WARNING" to see what is missing. RCB will also create three text files ("scrapeResult_missingArtwork.txt" and "scrapeResult_missingDesc.txt" and "scrapeResult_possibleMismatches.txt") with information about missing or inaccurate data. You will find these files in RCBs userdata directory.
 
 If you add new data to one of your rom collections you can use "Import Games" as often as you like. By default RCB will skip your already imported games and just checks for new games or games that could not be imported during previous scans. You can rescrape all games with changing the setting "Always rescan imported games".
 

@@ -38,9 +38,7 @@ uae -0 "MyGame_Disk1.adf" -1 "MyGame_Disk2.adf".
 = Use emulator in solo mode =
 If set to "True" RCB will try to quit XBMC before starting the emulator. After exiting the emulator you will return to XBMC. If set to "False" the emulator will be launched while XBMC is running in the background.
 
-This mechanism invokes a batch (Windows) or bash (Linux) file. Linux only: make sure the file "RCB install dir/applaunch.sh" is executable. If you have problems with launching the emulator or returning to XBMC please check the commands in the file "applaunch.bat" (Windows) or "applaunch.sh" (Linux). You must be able to execute the command that is used to launch XBMC on a command line.
-
-When restarting XBMC RCB will try to create a file "autoexec.py" in XBMCs main script directory (Camelot) or in your userdata folder (Dharma). This will be used by XBMC to launch RCB automatically after restarting. If you already use an "autoexec.py" RCB will try to backup your original file and restores it after restarting. Make sure that the user that runs XBMC has write access to XBMCs main script directory (Camelot only).
+See [LaunchGames#Launch_games_in_solo_mode Launch_games in solo mode] for details.
 
 = Do not extract zip files =
 If RCB detects zip or 7z-files while launching games, it will by default extract these files and offer a selection of all available roms inside the compressed file. Some emulators support or require to get the compressed file unextracted (like MAME). In this case just set "Do not extract zip files" to "True".

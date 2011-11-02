@@ -21,6 +21,7 @@ This TODO list / roadmap is a working document. It will change quite frequently 
   * auto repeat video playback in game info view
   * fullscreen video together with auto video playback
   * add background and extraImage1, 2, 3 to game info dialog
+  * add console, version, perspective to game info dialog
 
 == Launch Games ==
   * new placeholders in emuParams: %EMUPATH%, %ROMPATH%
@@ -31,6 +32,7 @@ This TODO list / roadmap is a working document. It will change quite frequently 
     * solo mode: use XBMC http api to shutdown xbmc?
   * no navigation after launch emu (Win XP)
   * remove file extension from game when extracting zip files.
+  * when opening a .zip file with multiple roms inside, it is impossible to return to the menu without launching the emulator
 
 
 = 0.9.x =

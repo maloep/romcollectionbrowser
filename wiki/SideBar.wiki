@@ -29,7 +29,8 @@
     * [DynamicImagePlacing Dynamic Image Placing]
     * [PerformanceSettings Performance Settings]
   * Launch games
-    * [LaunchingSavestates Launching Savestates]
+    * [LaunchGames Launch games]
+    * [LaunchingSavestates Launch Savestates]
   * Advanced topics
     * [SkinningRCB Skinning RCB]
     * [CreatingYourOwnDescriptionParser Creating your own description parser]
