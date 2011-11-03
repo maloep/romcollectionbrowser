@@ -2,7 +2,7 @@
 <wiki:toc max_depth="4" />
 
 = Launch games =
-If you select a game in RCB it will try to launch the game with the configured emulator or the standalone game itself. In case of emulator rom files you have to setup and configure the emulator first. Find out how to launch the emulator per command line and try out if this works without XBMC and RCB. In RCB you can configure emulator settings on [EditRomCollectionLaunchGames Edit Rom Collection dialog].
+If you select a game in RCB it will try to launch the game with the configured emulator or the standalone game itself. In case of emulator rom files you have to setup and configure the emulator first. Find out how to launch the emulator per command line and try out if this works without XBMC and RCB. In RCB you can configure emulator settings in [EditRomCollectionLaunchGames Edit Rom Collection dialog].
 
 = Launch games in solo mode =
 Solo mode means that RCB tries to quit XBMC before it launches the emulator. This is useful on small machines where running XBMC and the emulator at the same time may cause performance issues. After you quit the emulator XBMC will be restarted and automatically returns to RCB. You can turn this feature on/off in [EditRomCollectionLaunchGames Edit Rom Collection dialog].
