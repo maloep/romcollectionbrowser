@@ -39,19 +39,19 @@ This TODO list / roadmap is a working document. It will change quite frequently 
 ==General ==
   * backup MyGames.db and config.xml before editing or game import
   * db changes
-	* mark game as completed
-	* mark game as broken (in db + .broken in filename)
-	* lastplayed
-	* lastmodified
-	* link to other games (sequels, translations, ...)
-	* rating (ESRB, PEGI, ...)
+    * mark game as completed
+    * mark game as broken (in db + .broken in filename)
+    * lastplayed
+    * lastmodified
+    * link to other games (sequels, translations, etc.)
+    * rating (ESRB, PEGI, etc.)
   * Edit offline scrapers:
     * move encoding from scraper to site
     * scraper encoding: add to dialog
   * config wizard:
     * create local data config file with wizard: search game by crc (or check how to remove this option completely)
     * configuration templates (emumovies, ressurectionxtras, ...)
-	* improve config wizard (suggest options, pathes, more options)
+    * improve config wizard (suggest options, pathes, more options)
   * db in memory: id = null?
   * update config after editing via edit dialog (only in edit scrapers?)
   * export nfo files on demand
@@ -64,7 +64,7 @@ This TODO list / roadmap is a working document. It will change quite frequently 
     * no import of images to database. just check the directories at runtime. Performance tests
     * rom collection base path and all files relative to that
     * change import logic: always import all games (even if no info / artwork is found), option to hide/show/rescrape missing games
-	* manual scraping games (update properties and images)
+    * manual scraping games (update properties and images)
     * enter search text if no game is found
     * errorCounter in descPerGame = False
     * check preconditions before game import
@@ -74,7 +74,7 @@ This TODO list / roadmap is a working document. It will change quite frequently 
     * support for audio files
     * multi rom, multi iso (disk selector)
     * region support (while scraping)
-	* artwork quality
+    * artwork quality
     * test all scraping options (search game by crc, use filename as crc, ...)
       * no settings needed
   * scraping option / scraper: local artwork
