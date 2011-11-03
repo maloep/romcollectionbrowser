@@ -35,38 +35,46 @@ This TODO list / roadmap is a working document. It will change quite frequently 
   * when opening a .zip file with multiple roms inside, it is impossible to return to the menu without launching the emulator
 
 
-= 0.9.x =
+= Future =
 ==General ==
   * backup MyGames.db and config.xml before editing or game import
-  * improve config wizard (suggest options, pathes, more options)
-  * mark game as completed
-  * mark game as broken (in db + .broken in filename)
-  * update config after editing via edit dialog (only in edit scrapers?)
-  * move encoding from scraper to site
+  * db changes
+	* mark game as completed
+	* mark game as broken (in db + .broken in filename)
+	* lastplayed
+	* lastmodified
+	* link to other games (sequels, translations, ...)
+	* rating (ESRB, PEGI, ...)
   * Edit offline scrapers:
-    * scraper encoding: move to scraper and add to dialog
+    * move encoding from scraper to site
+    * scraper encoding: add to dialog
   * config wizard:
     * create local data config file with wizard: search game by crc (or check how to remove this option completely)
     * configuration templates (emumovies, ressurectionxtras, ...)
+	* improve config wizard (suggest options, pathes, more options)
   * db in memory: id = null?
+  * update config after editing via edit dialog (only in edit scrapers?)
   * export nfo files on demand
+  * encoding: Pokémon (only Eden?)
+  * option to edit game properties
+  * complete Edit Game dialog
 
 == Import Games ==
-  * manual scraping games (update properties and images)
-  * easy to use option to rescrape missing games
-  * enter search text if no game is found
   * refactor dbupdate
-    * errorCounter in descPerGame = False
     * no import of images to database. just check the directories at runtime. Performance tests
     * rom collection base path and all files relative to that
     * change import logic: always import all games (even if no info / artwork is found), option to hide/show/rescrape missing games
+	* manual scraping games (update properties and images)
+    * enter search text if no game is found
+    * errorCounter in descPerGame = False
     * check preconditions before game import
     * easier handling of default images, publisher, dev and RC images
     * divide data and artwork scraper
     * new scraper property: online, local
     * support for audio files
     * multi rom, multi iso (disk selector)
-    * region support
+    * region support (while scraping)
+	* artwork quality
     * test all scraping options (search game by crc, use filename as crc, ...)
       * no settings needed
   * scraping option / scraper: local artwork
@@ -79,6 +87,18 @@ This TODO list / roadmap is a working document. It will change quite frequently 
     * missing artwork (per type)
     * option to rescrape missing games
   * youtube link in thegamesdb scraper
+  * divide outline and plot
+  * Scraper improvements
+    * test beautifulsoup as scraper lib
+    * more than 1 URL in 1 Result (e.g. BackCover, FrontCover, ...) is not supported atm
+    * ,-separated list in scraper
+    * scraping option: use subtitle search
+    * only search for subtitles with : and - (and maybe only when sequel number)
+    * support a.k.a. titles from mobygames
+  * new option: crc from complete zip or first entry
+  * option to hide progress bar in background mode
+  * support 2 or more developers
+  * Media or rom path with special characters (encoding issues)
 
 == Browse Games ==
   * Update Carmichael skin files
@@ -94,62 +114,28 @@ This TODO list / roadmap is a working document. It will change quite frequently 
   * publisher, developer images in game info view
   * create new skins (AEON style etc.)
   * integrate Light skin
+  * Console view / dash board
+  * wall view
+  * favorite view per romcollection
+  * option: autoplay video
+  * short delay before applying filter selection, apply filters on key press
+  * pause video when importing games, changing view or filter selection
+  * if game has url: option to launch in browser
+  * loop videos (stop and start video causes list to refresh)
+  * ability to view PDF manual
+  * Logo mediainfo style as there is for movies and music showing information such as: Audio channels, resolution, maximum and minimum, studio  developer and publisher, etc ...
+  * view images fullscreen by pressing enter upon the art or similar
+  * option to hide game infos in main view (show up on pressing I or similar)
+  * support for game name artwork
 
 == Launch Games ==
   * popen options (suspend, pause, ...)
   * option to turn savestate on/off
- 
-
-= Future =
-
-== General ==
-  * encoding: Pokémon (only Eden?)
-  * option to rescrape missing games
-  * option to edit game properties
-  * complete Edit Game dialog
-  
-== Import Games ==
-  * divide outline and plot
-  * Scraper improvements
-    * more than 1 URL in 1 Result (e.g. BackCover, FrontCover, ...) is not supported atm
-    * ,-separated list in scraper
-    * test beautifulsoup as scraper lib
-    * scraping option: use subtitle search
-    * only search for subtitles with : and - (and maybe only when sequel number)
-    * support a.k.a. titles from mobygames
-  * new option: crc from complete zip or first entry
-  * %RATING%
-  * option to hide progress bar in background mode
-  * support 2 or more developers
-  * Media or rom path with special characters (encoding issues)
-  
-== Browse Games ==
-  * Console view / dash board
-  * wall view: http://img848.imageshack.us/i/nintendosnesfanart.jpg/
-  * favorite view per romcollection
-  * option: Autoplay video
-  * short delay before applying filter selection, apply filters on key press
-  * pause video when importing games, changing view or filter selection
-  * highlight filter selection
-  * if game has url: option to launch in browser
-  * loop videos (stop and start video causes list to refresh)
-  * Ability to view PDF manual
-  * Logo mediainfo style as there is for movies and music showing information such as: Audio channels, resolution, maximum and minimum, studio  developer and publisher, etc ... 
-  * Show links for games in the same series of games on the details page
-ex: The Legend of Zelda: A Link to Past, and you have other Zelda games in rom collector, they are listed on the details page as a link to them fast.
-  * If a game have IPS or has several regions, they also have links to other versions.
-ex: Final Fantasy VII (US) show links for Japanese version, International, European and maybe IPS (s) of other languages ??has not been officially released, be shown a list of links to other versions. 
-  * Is possible to view images fullscreen by pressing enter upon the art
-  * option to hide game infos in main view (show up on pressing I or similar)
-  * support for game name artwork
-  
-== Launch Games ==
   * start stop LIRC (Issue 74)
   * per game config (e.g. Amiga)
   * command before launch and after launch(f.e. load virtual cd drive, unload virtual cd drive)
   * try to write black background before launch
   * disable screensaver before game launch
-
 
   
 = Wiki =
