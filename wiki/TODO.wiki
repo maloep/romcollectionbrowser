@@ -140,11 +140,6 @@ This TODO list / roadmap is a working document. It will change quite frequently 
   
 = Wiki =
 == FAQ ==
-  * explorer-hack in applaunch.bat
-  * where to find the log file
-  * how to submit bug reports
-  * how to read the log file
-  * link to performance settings
   * control XBMC in background:
     * solo mode
     * scripts to disable events

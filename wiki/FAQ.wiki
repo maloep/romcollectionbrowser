@@ -1,6 +1,18 @@
 #sidebar SideBar
 <wiki:toc max_depth="4" />
 
+= Analyzing and reporting problems =
+== Where do I find the log file ==
+XBMC writes a file "xbmc.log" that contains a lot of information what happens during runtime in both: XBMC and RCB. See the [http://wiki.xbmc.org/index.php?title=Log_file XBMC wiki] for more information and the location where you find the file on your system.
+
+== How to report problems ==
+If you encounter any problems and you want to report it in the forum thread or on the issues page, PLEASE ALWAYS add a log file. Unless you really know that you can describe the whole problem without a log file you should always attach one. To attach a log file please do the following things:
+  * Restart XBMC (this will clean the log file and makes it more easy to read).
+  * Leave XBMC and RCB in normal log mode. In 99% of the time this will be enough and the debug mode will produce too much information that makes the log unreadable.
+  * Unless you really know which part of the log file is important for me, please always add the complete log file.
+  * DON'T paste the file (or large parts of it) to the forums or the issues page. Use a pastebin service like [http://pastebin.com/] to paste your log file there and just post the link in the forum.
+  * Please don't use one of these file upload services that let me enter captchas and makes me wait 60 seconds because I don't have a premium account (I don't have a premium account for any of these services, I ALWAYS have to wait).
+
 = Known issues =
 == The program doesn't load on "No module named pysqlite2" ==
 Some distributions don't ship with prebuild pysqlite libraries. You have to get them on your own and copy them to your xbmc lib folder (e.g. /usr/local/lib/xbmc/addons/script.module.pysqlite/lib/pysqlite2). I made an extra package with these libraries if you don't want to build them yourself: http://romcollectionbrowser.googlecode.com/files/platform_libraries.zip.
@@ -18,3 +30,16 @@ On Windows and XBMC Dharma it may happen that you have to add your drives via XB
 
 == RCB can't access my SMB shares ==
 There seems to be a problem to access SMB shares the standard way ("smb://server/location/..."). You can get around this issue by manually editing the file config.xml. Search for the smb entry and change it to the following syntax: "\\server\location\...".
+
+== In solo mode I get this error: CApplication:: create() failed - Check log file and that it is writeable ==
+When you want to use RCB in solo mode on Windows you may receive the above error when trying to restart XBMC. I am still not sure what causes this error but on some systems you could get rid of this error when you edit the file applaunch.bat in RCBs install dir.
+
+Change the line:
+{{{
+"C:\Program Files\XBMC\XBMC.exe"
+}}}
+to:
+{{{
+explorer "C:\Program Files\XBMC\XBMC.exe"
+}}}
+Note: this workaround does not work on all systems. If you don't belong to the lucky ones you have to wait until I (or somebody else) find another solution.
