@@ -1356,11 +1356,13 @@ class UIGameDB(xbmcgui.WindowXML):
 		item.setProperty('media', self.getGameProperty(gameRow[util.GAME_media]))				
 		item.setProperty('perspective', self.getGameProperty(gameRow[util.GAME_perspective]))
 		item.setProperty('controllertype', self.getGameProperty(gameRow[util.GAME_controllerType]))
-		item.setProperty('playcount', self.getGameProperty(gameRow[util.GAME_launchCount]))
 		item.setProperty('originaltitle', self.getGameProperty(gameRow[util.GAME_originalTitle]))
 		item.setProperty('alternatetitle', self.getGameProperty(gameRow[util.GAME_alternateTitle]))
 		item.setProperty('translatedby', self.getGameProperty(gameRow[util.GAME_translatedBy]))
 		item.setProperty('version', self.getGameProperty(gameRow[util.GAME_version]))
+		
+		item.setProperty('playcount', self.getGameProperty(gameRow[util.GAME_launchCount]))
+		item.setProperty('isfavorite', self.getGameProperty(gameRow[util.GAME_isFavorite]))
 		
 		return item	
 	
