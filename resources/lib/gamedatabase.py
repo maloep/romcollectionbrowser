@@ -277,6 +277,20 @@ class RCBSetting(DataBaseObject):
 
 class Genre(DataBaseObject):
 	
+	#obsolete: atm genres are only filtered by console
+	filterQuery = "SELECT * FROM Genre WHERE Id IN (Select GenreId From GenreGame Where GameId IN ( \
+    					Select Id From Game WHERE \
+						(romCollectionId = ? OR (0 = ?)) AND \
+						(YearId = ? OR (0 = ?)) AND \
+						(PublisherId = ? OR (0 = ?)) \
+						AND %s)) \
+						ORDER BY name COLLATE NOCASE"
+						
+	filterGenreByConsole = "SELECT * FROM Genre WHERE Id IN (Select GenreId From GenreGame Where GameId IN ( \
+    					Select Id From Game WHERE \
+						(romCollectionId = ? OR (0 = ?)))) \
+						ORDER BY name COLLATE NOCASE"
+	
 	filteGenreByGameId = "SELECT * FROM Genre WHERE Id IN (Select GenreId From GenreGame Where GameId = ?)"
 	
 	filteGenreIdByGameId = "SELECT GenreId From GenreGame Where GameId = ?"
@@ -291,9 +305,21 @@ class Genre(DataBaseObject):
 	genreDeleteQuery = "DELETE FROM Genre WHERE id = ?"
 	
 	genreGameDeleteQuery = "DELETE FROM GenreGame WHERE gameId = ?"
+	
 	def __init__(self, gdb):		
 		self.gdb = gdb
 		self.tableName = "Genre"
+		
+	def getFilteredGenres(self, romCollectionId, yearId, publisherId, likeStatement):
+		args = (romCollectionId, yearId, publisherId)
+		filterQuery = self.filterQuery %likeStatement
+		util.Logutil.log('searching genres with query: ' +filterQuery, util.LOG_LEVEL_DEBUG)
+		genres = self.getObjectsByWildcardQuery(filterQuery, args)
+		return genres
+	
+	def getFilteredGenresByConsole(self, romCollectionId):
+		genres = self.getObjectsByWildcardQuery(self.filterGenreByConsole, (romCollectionId,))
+		return genres
 		
 	def getGenresByGameId(self, gameId):
 		genres = self.getObjectsByQuery(self.filteGenreByGameId, (gameId,))
@@ -334,6 +360,19 @@ class Year(DataBaseObject):
 	
 	yearIdByGameIdQuery = "SELECT yearId From Game Where Id = ?"
 	
+	#obsolete: atm years are only filtered by console
+	filterQuery = "SELECT * FROM Year WHERE Id IN (Select YearId From Game WHERE \
+					    (romCollectionId = ? OR (0 = ?)) AND \
+					    (PublisherId = ? OR (0 = ?)) \
+					    AND id IN \
+					    (SELECT GameId From GenreGame Where GenreId = ? OR (0 = ?)) \
+					    AND %s) \
+					    ORDER BY name COLLATE NOCASE"
+					    
+	filterYearByConsole = "SELECT * FROM Year WHERE Id IN (Select YearId From Game WHERE \
+					    (romCollectionId = ? OR (0 = ?))) \
+					    ORDER BY name COLLATE NOCASE"
+	
 	yearIdCountQuery = "SELECT count(yearId) 'yearIdCount' \
 					from Game \
 					where yearId = ? \
@@ -345,12 +384,24 @@ class Year(DataBaseObject):
 	def __init__(self, gdb):		
 		self.gdb = gdb
 		self.tableName = "Year"
+		
 	def getYearIdByGameId(self, gameId):
 		yearId = self.getObjectByQuery(self.yearIdByGameIdQuery, (gameId,))
 		if(yearId == None):
 			return None
 		else:
 			return yearId[0]
+	
+	def getFilteredYears(self, romCollectionId, genreId, publisherId, likeStatement):
+		args = (romCollectionId, genreId, publisherId)
+		filterQuery = self.filterQuery %likeStatement
+		util.Logutil.log('searching years with query: ' +filterQuery, util.LOG_LEVEL_DEBUG)		
+		years = self.getObjectsByWildcardQuery(filterQuery, args)
+		return years
+	
+	def getFilteredYearsByConsole(self, romCollectionId):
+		years = self.getObjectsByWildcardQuery(self.filterYearByConsole, (romCollectionId,))
+		return years
 	
 	def delete(self, gameId):
 		yearId = self.getYearIdByGameId(gameId)	
@@ -364,6 +415,18 @@ class Year(DataBaseObject):
 class Publisher(DataBaseObject):	
 
 	publisherIdByGameIdQuery = "SELECT publisherId From Game Where Id = ?"
+	
+	filterQuery = "SELECT * FROM Publisher WHERE Id IN (Select PublisherId From Game WHERE \
+					    (romCollectionId = ? OR (0 = ?)) AND \
+					    (YearId = ? OR (0 = ?)) \
+					    AND id IN \
+					    (SELECT GameId From GenreGame Where GenreId = ? OR (0 = ?)) \
+					    AND %s) \
+					    ORDER BY name COLLATE NOCASE"
+					    
+	filterPublishersByConsole = "SELECT * FROM Publisher WHERE Id IN (Select PublisherId From Game WHERE \
+					    (romCollectionId = ? OR (0 = ?))) \
+					    ORDER BY name COLLATE NOCASE"
 	
 	publisherIdCountQuery = "SELECT count(publisherId) 'publisherIdCount' \
 					from Game \
@@ -383,6 +446,17 @@ class Publisher(DataBaseObject):
 			return None
 		else:
 			return publisherId[0]
+		
+	def getFilteredPublishers(self, romCollectionId, genreId, yearId, likeStatement):
+		args = (romCollectionId, genreId, yearId)
+		filterQuery = self.filterQuery %likeStatement
+		util.Logutil.log('searching publishers with query: ' +filterQuery, util.LOG_LEVEL_DEBUG)		
+		publishers = self.getObjectsByWildcardQuery(filterQuery, args)
+		return publishers
+	
+	def getFilteredPublishersByConsole(self, romCollectionId):
+		publishers = self.getObjectsByWildcardQuery(self.filterPublishersByConsole, (romCollectionId,))
+		return publishers
 	
 	def delete(self, gameId):
 		publisherId = self.getPublisherIdByGameId(gameId)
