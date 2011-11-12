@@ -143,6 +143,10 @@ class UIGameDB(xbmcgui.WindowXML):
 	playVideoThreadStopped = False
 	rcb_playList = xbmc.PlayList(xbmc.PLAYLIST_VIDEO)
 	playlistOffsets = {}
+	
+	applyFilterThread = None
+	applyFilterThreadStopped = False
+	applyFiltersInProgress = False
 		
 	#dummy to be compatible with ProgressDialogGUI
 	itemCount = 0	
@@ -296,8 +300,9 @@ class UIGameDB(xbmcgui.WindowXML):
 		self.clearList()
 		self.rcb_playList.clear()
 		xbmc.sleep(util.WAITTIME_UPDATECONTROLS)
-		
-		self.updateControls()
+				
+		#load filter lists
+		self.updateControls(True)
 		self.loadViewState()
 		
 		#check startup tasks done with autoexec.py
@@ -360,8 +365,7 @@ class UIGameDB(xbmcgui.WindowXML):
 				if(CONTROL_GAMES_GROUP_START <= self.selectedControlId <= CONTROL_GAMES_GROUP_END):
 					if(not self.fullScreenVideoStarted):
 						self.showGameInfo()
-				
-				#if(action.getId() in ACTION_MOVEMENT_UP or action.getId() in ACTION_MOVEMENT_DOWN):	
+									
 				if(self.selectedControlId in FILTER_CONTROLS):
 					
 					label = str(control.getSelectedItem().getLabel())
@@ -369,34 +373,63 @@ class UIGameDB(xbmcgui.WindowXML):
 						
 					filterChanged = False
 					
+					if(self.applyFilterThread != None and self.applyFilterThread.isAlive()):
+						self.applyFilterThreadStopped = True
+					
 					if (self.selectedControlId == CONTROL_CONSOLES):
 						if(self.selectedConsoleIndex != control.getSelectedPosition()):
 							self.selectedConsoleId = int(label2)
 							self.selectedConsoleIndex = control.getSelectedPosition()
 							filterChanged = True
 							
+							#self.showGenre(False, False)
+							#self.showYear(False, False)
+							#self.showPublisher(False, False)
+							
 					elif (self.selectedControlId == CONTROL_GENRE):
 						if(self.selectedGenreIndex != control.getSelectedPosition()):
 							self.selectedGenreId = int(label2)
 							self.selectedGenreIndex = control.getSelectedPosition()
 							filterChanged = True
+							
+							#self.showYear(False, False)
+							#self.showPublisher(False, False)
+							
 					elif (self.selectedControlId == CONTROL_YEAR):
 						if(self.selectedYearIndex != control.getSelectedPosition()):
 							self.selectedYearId = int(label2)
 							self.selectedYearIndex = control.getSelectedPosition()
 							filterChanged = True
+							
+							#self.showGenre(False, False)
+							#self.showPublisher(False, False)
+							
 					elif (self.selectedControlId == CONTROL_PUBLISHER):
 						if(self.selectedPublisherIndex != control.getSelectedPosition()):
 							self.selectedPublisherId = int(label2)
 							self.selectedPublisherIndex = control.getSelectedPosition()
 							filterChanged = True
+							
+							#self.showGenre(False, False)
+							#self.showYear(False, False)
+							
 					elif (self.selectedControlId == CONTROL_CHARACTER):
 						if(self.selectedCharacterIndex != control.getSelectedPosition()):
 							self.selectedCharacter = label
 							self.selectedCharacterIndex = control.getSelectedPosition()
 							filterChanged = True
-					if(filterChanged):					
-						self.showGames()
+							
+							#self.showGenre(False, False)
+							#self.showYear(False, False)
+							#self.showPublisher(False, False)
+							
+					if(filterChanged):
+						#start a new thread to apply filters
+						print "start thread"
+						self.applyFilterThread = Thread(target=self.applyFilters, args=())
+						self.applyFilterThread.start()
+						print "thread started"
+						#self.showGames()
 				
 			elif(action.getId() in ACTION_INFO):
 				Logutil.log("onAction: ACTION_INFO", util.LOG_LEVEL_DEBUG)
@@ -465,16 +498,32 @@ class UIGameDB(xbmcgui.WindowXML):
 		self.selectedControlId = controlId
 		
 		
-	def updateControls(self, rcDelete=False, rDelete=False):
+	def updateControls(self, onInit, rcDelete=False, rDelete=False):
 		
 		Logutil.log("Begin updateControls", util.LOG_LEVEL_DEBUG)
 		
-		#prepare FilterControls	
-		self.showConsoles(rcDelete, rDelete)		
-		self.showGenre(rcDelete, rDelete)		
-		self.showYear(rcDelete, rDelete)
-		self.showPublisher(rcDelete, rDelete)		
-		self.showCharacterFilter()
+		#prepare Filter Controls
+			
+		if (onInit):
+			print "showConsoles"
+			self.showConsoles(rcDelete, rDelete)
+			#xbmc.sleep(util.WAITTIME_UPDATECONTROLS)		
+		if (onInit or self.selectedControlId == CONTROL_CONSOLES):
+			print "showGenre"
+			self.showGenre(rcDelete, rDelete)
+			#xbmc.sleep(util.WAITTIME_UPDATECONTROLS)
+		if (onInit or self.selectedControlId == CONTROL_CONSOLES):
+			print "showYear"
+			self.showYear(rcDelete, rDelete)
+			#xbmc.sleep(util.WAITTIME_UPDATECONTROLS)
+		if (onInit or self.selectedControlId == CONTROL_CONSOLES):
+			print "showPublisher"
+			self.showPublisher(rcDelete, rDelete)
+			#xbmc.sleep(util.WAITTIME_UPDATECONTROLS)
+		if(onInit):
+			print "showChars"
+			self.showCharacterFilter()
+			#xbmc.sleep(util.WAITTIME_UPDATECONTROLS)
 		
 		Logutil.log("End updateControls", util.LOG_LEVEL_DEBUG)
 		
@@ -491,16 +540,21 @@ class UIGameDB(xbmcgui.WindowXML):
 			consoleRow.append(romCollection.name)
 			consoles.append(consoleRow)
 		
-		self.selectedConsoleId = self.showFilterControl(None, CONTROL_CONSOLES, showEntryAllItems, consoles, rcDelete, rDelete, True)
+		self.selectedConsoleId = self.showFilterControl(consoles, CONTROL_CONSOLES, self.selectedConsoleIndex, showEntryAllItems, rcDelete, rDelete, True)
 		
 		Logutil.log("End showConsoles" , util.LOG_LEVEL_DEBUG)
 
 
 	def showGenre(self, rcDelete=False, rDelete=False):
 		Logutil.log("Begin showGenre" , util.LOG_LEVEL_DEBUG)
+			
+		#likeStatement = helper.buildLikeStatement(self.selectedCharacter, self.searchTerm)
 		
-		showEntryAllItems = self.Settings.getSetting(util.SETTING_RCB_SHOWENTRYALLGENRES).upper() == 'TRUE'
-		self.selectedGenreId = self.showFilterControl(Genre(self.gdb), CONTROL_GENRE, showEntryAllItems, None, rcDelete, rDelete)
+		#rows = Genre(self.gdb).getFilteredGenres(self.selectedConsoleId, self.selectedYearId, self.selectedPublisherId, likeStatement)
+		rows = Genre(self.gdb).getFilteredGenresByConsole(self.selectedConsoleId)
+		
+		showEntryAllItems = self.Settings.getSetting(util.SETTING_RCB_SHOWENTRYALLGENRES).upper() == 'TRUE'				
+		self.selectedGenreId = self.showFilterControl(rows, CONTROL_GENRE, self.selectedGenreIndex, showEntryAllItems, rcDelete, rDelete)
 		
 		Logutil.log("End showGenre" , util.LOG_LEVEL_DEBUG)
 		
@@ -508,26 +562,33 @@ class UIGameDB(xbmcgui.WindowXML):
 	def showYear(self, rcDelete=False, rDelete=False):
 		Logutil.log("Begin showYear" , util.LOG_LEVEL_DEBUG)
 		
+		#likeStatement = helper.buildLikeStatement(self.selectedCharacter, self.searchTerm)
+		
+		#rows = Year(self.gdb).getFilteredYears(self.selectedConsoleId, self.selectedGenreId, self.selectedPublisherId, likeStatement)		
+		rows = Year(self.gdb).getFilteredYearsByConsole(self.selectedConsoleId)
+				
 		showEntryAllItems = self.Settings.getSetting(util.SETTING_RCB_SHOWENTRYALLYEARS).upper() == 'TRUE'
-		self.selectedYearId = self.showFilterControl(Year(self.gdb), CONTROL_YEAR, showEntryAllItems, None, rcDelete, rDelete)
+		self.selectedYearId = self.showFilterControl(rows, CONTROL_YEAR, self.selectedYearIndex, showEntryAllItems, rcDelete, rDelete)
 		Logutil.log("End showYear" , util.LOG_LEVEL_DEBUG)
 		
 		
 	def showPublisher(self, rcDelete=False, rDelete=False):
 		Logutil.log("Begin showPublisher" , util.LOG_LEVEL_DEBUG)
 		
+		#likeStatement = helper.buildLikeStatement(self.selectedCharacter, self.searchTerm)
+		
+		#rows = Publisher(self.gdb).getFilteredPublishers(self.selectedConsoleId, self.selectedGenreId, self.selectedYearId, likeStatement)
+		rows = Publisher(self.gdb).getFilteredPublishersByConsole(self.selectedConsoleId)
+		
 		showEntryAllItems = self.Settings.getSetting(util.SETTING_RCB_SHOWENTRYALLPUBLISHER).upper() == 'TRUE'
-		self.selectedPublisherId = self.showFilterControl(Publisher(self.gdb), CONTROL_PUBLISHER, showEntryAllItems, None, rcDelete, rDelete)
+		self.selectedPublisherId = self.showFilterControl(rows, CONTROL_PUBLISHER, self.selectedPublisherIndex, showEntryAllItems, rcDelete, rDelete)
 		
 		Logutil.log("End showPublisher" , util.LOG_LEVEL_DEBUG)
 
 
-	def showFilterControl(self, dbo, controlId, showEntryAllItems, rows, romCollectionDeleted=False, romsDeleted=False, handleConsole=False):
+	def showFilterControl(self, rows, controlId, selectedIndex, showEntryAllItems, romCollectionDeleted=False, romsDeleted=False, handleConsole=False):
 		
 		Logutil.log("begin showFilterControl: " + str(controlId), util.LOG_LEVEL_DEBUG)
-				
-		if(dbo != None):				
-			rows = dbo.getAllOrdered()
 		
 		control = self.getControlById(controlId)
 		if(control == None):
@@ -546,6 +607,8 @@ class UIGameDB(xbmcgui.WindowXML):
 			
 		control.addItems(items)
 				
+		#self.setFilterSelection(controlId, selectedIndex)
+				
 		#return selected id if we are not in "delete rom collection" mode  
 		if((not romsDeleted and not romCollectionDeleted) or not handleConsole):
 			label2 = str(control.getSelectedItem().getLabel2())
@@ -561,7 +624,7 @@ class UIGameDB(xbmcgui.WindowXML):
 				rcSelected = True
 				newSelectedConsoleId = int(romCollection.id)
 			consoleCount += 1
-					
+				
 		if(rcSelected == False):
 			#no RC selected
 			return 0
@@ -593,6 +656,39 @@ class UIGameDB(xbmcgui.WindowXML):
 			
 		control.addItems(items)
 		Logutil.log("End showCharacterFilter" , util.LOG_LEVEL_DEBUG)
+		
+		
+	def applyFilters(self):
+		
+		print "begin applyFilters"
+		
+		#we have to use a little wait timer before applying the filter
+		timestamp1 = time.clock()
+		while True:
+			timestamp2 = time.clock()
+			diff = (timestamp2 - timestamp1) * 1000
+			if(diff > util.WAITTIME_APPLY_FILTERS):
+				print "timer ended"				
+				break
+				
+			if(self.applyFilterThreadStopped):
+				self.applyFilterThreadStopped = False
+				print "applyFilterThreadStopped"
+				return
+		
+		if(self.applyFiltersInProgress):
+			print "applyFiltersInProgress"
+			return
+		
+		self.applyFiltersInProgress = True
+		print "applyFiltersInProgress = True"
+		print "updateControls"
+		self.updateControls(False, False, False)
+		xbmc.sleep(util.WAITTIME_UPDATECONTROLS)
+		print "showGames"
+		self.showGames()
+		self.applyFiltersInProgress = False
+		print "applyFiltersInProgress = False"
 		
 
 	def showGames(self):
@@ -791,7 +887,7 @@ class UIGameDB(xbmcgui.WindowXML):
 		self.clearCache()
 		self.checkImport(3)
 		self.cacheItems()
-		self.updateControls()
+		self.updateControls(False, False, False)
 		
 		Logutil.log("End updateDB" , util.LOG_LEVEL_INFO)
 		
@@ -843,7 +939,7 @@ class UIGameDB(xbmcgui.WindowXML):
 			self.clearList()
 			self.rcb_playList.clear()
 			xbmc.sleep(util.WAITTIME_UPDATECONTROLS)
-			self.updateControls(rcDelete, rDelete)
+			self.updateControls(True, rcDelete, rDelete)
 			if(rDelete):
 				self.selectedConsoleId = self.setFilterSelection(CONTROL_CONSOLES, self.selectedConsoleIndex)
 				self.setFilterSelection(CONTROL_GAMES_GROUP_START, 0)
@@ -978,16 +1074,6 @@ class UIGameDB(xbmcgui.WindowXML):
 		del gid
 		
 		self.gameinfoDialogOpen = False
-				
-		
-		"""
-		#remove reloading code as it seems we don't need it anymore
-		self.setFocus(self.getControl(CONTROL_GAMES_GROUP_START))
-		self.showGames()
-		self.setCurrentListPosition(selectedGameIndex)
-		xbmc.sleep(util.WAITTIME_UPDATECONTROLS)
-		self.showGameInfo()
-		"""
 		
 		Logutil.log("End showGameInfoDialog", util.LOG_LEVEL_INFO)
 		
@@ -1362,7 +1448,6 @@ class UIGameDB(xbmcgui.WindowXML):
 		item.setProperty('version', self.getGameProperty(gameRow[util.GAME_version]))
 		
 		item.setProperty('playcount', self.getGameProperty(gameRow[util.GAME_launchCount]))
-		item.setProperty('isfavorite', self.getGameProperty(gameRow[util.GAME_isFavorite]))
 		
 		return item	
 	
@@ -1942,7 +2027,7 @@ class UIGameDB(xbmcgui.WindowXML):
 			self.selectedYearIndex = rcbSetting[util.RCBSETTING_lastSelectedYearIndex]
 		if(rcbSetting[util.RCBSETTING_lastSelectedCharacterIndex] != None):
 			self.selectedCharacter = self.setFilterSelection(CONTROL_CHARACTER, rcbSetting[util.RCBSETTING_lastSelectedCharacterIndex])
-			self.selectedCharacterIndex = rcbSetting[util.RCBSETTING_lastSelectedCharacterIndex]		
+			self.selectedCharacterIndex = rcbSetting[util.RCBSETTING_lastSelectedCharacterIndex]
 
 		#HACK: Dummy item because loading an empty list crashes XBMC
 		item = xbmcgui.ListItem('loading list...', '', '', '')
