@@ -149,7 +149,7 @@ class UIGameDB(xbmcgui.WindowXML):
 	applyFiltersInProgress = False
 		
 	#dummy to be compatible with ProgressDialogGUI
-	itemCount = 0	
+	itemCount = 0
 		
 	# set flag if we are watching fullscreen video
 	fullScreenVideoStarted = False
@@ -216,34 +216,35 @@ class UIGameDB(xbmcgui.WindowXML):
 			self.quit = True
 			return
 		
-		#check if we have an actual database
+		self.quit = False
+		
+		#check if database is up to date
 		#create new one or alter existing one
 		doImport, errorMsg = self.gdb.checkDBStructure()
 		
-		#check if config.xml is up to date
-		returnCode, message = ConfigxmlUpdater().updateConfig(self)
-				
-		
-		self.quit = False
 		if(doImport == -1):
 			xbmcgui.Dialog().ok(util.SCRIPTNAME, errorMsg)			
 			self.quit = True
-			return
-		elif(doImport == 2):
-			xbmcgui.Dialog().ok(util.SCRIPTNAME, 'Database and config.xml updated to new version.', 'Please check your emulatorCmd to launch games.')			
+			return		
 		
-		#check if we have config file 
+		#check if we have config file
 		configFile = util.getConfigXmlPath()
 		if(not os.path.isfile(configFile)):
-			
 			dialog = xbmcgui.Dialog()
-		
 			retValue = dialog.yesno(util.SCRIPTNAME, 'No config file found.', 'Do you want to create one?')
 			if(retValue == False):
 				self.quit = True
 				return
 			
 			statusOk, errorMsg = self.createConfigXml(configFile)
+		else:
+			#check if config.xml is up to date
+			returnCode, message = ConfigxmlUpdater().updateConfig(self)
+			if(returnCode == False):
+				xbmcgui.Dialog().ok(util.SCRIPTNAME, 'Error while updating config.xml', message)
+				
+		if(doImport == 2):
+			xbmcgui.Dialog().ok(util.SCRIPTNAME, 'Database and config.xml updated to new version.', 'Please read the wiki and changelog if you encounter any problems.')
 		
 		#read config.xml
 		self.config = Config()
@@ -253,9 +254,11 @@ class UIGameDB(xbmcgui.WindowXML):
 			self.quit = True
 			return
 		
-		self.gdb.commit()
+		self.checkImport(doImport)
 		
-		self.memDB = False			
+		#TODO: check why mem db causes errors in some situation
+		"""
+		self.memDB = False		
 		memDB = self.Settings.getSetting(util.SETTING_RCB_MEMDB)
 		
 		if memDB == 'true':
@@ -264,6 +267,7 @@ class UIGameDB(xbmcgui.WindowXML):
 				Logutil.log("DB loaded to Mem!", util.LOG_LEVEL_INFO)
 			else:
 				Logutil.log("Load DB to Mem failed!", util.LOG_LEVEL_INFO)
+		"""
 		
 		cachingOptionStr = self.Settings.getSetting(util.SETTING_RCB_CACHINGOPTION)
 		if(cachingOptionStr == 'CACHEALL'):
@@ -274,9 +278,6 @@ class UIGameDB(xbmcgui.WindowXML):
 			self.cachingOption = 2
 		elif(cachingOptionStr == 'CACHEITEMANDNEXT'):
 			self.cachingOption = 3
-		
-		
-		self.checkImport(doImport)
 		
 		self.cacheItems()
 		
@@ -2274,12 +2275,14 @@ class UIGameDB(xbmcgui.WindowXML):
 					
 		self.saveViewState(True)
 		
+		"""
 		if self.memDB:
 			Logutil.log("Saving DB to disk", util.LOG_LEVEL_INFO)
 			if self.gdb.toDisk():
 				Logutil.log("Database saved ok!", util.LOG_LEVEL_INFO)
 			else:
 				Logutil.log("Failed to save database!", util.LOG_LEVEL_INFO)
+		"""
 				
 		self.gdb.close()
 		self.close()
@@ -2295,10 +2298,8 @@ def main():
 	
 	if(util.hasAddons()):
 		ui = UIGameDB("script-Rom_Collection_Browser-main.xml", util.getAddonInstallPath(), skin, "720p")
-		#ui = UIGameDB("script-Rom_Collection_Browser-main.xml", util.getAddonInstallPath(), "Light", "PAL")
 	else:
 		ui = UIGameDB("script-Rom_Collection_Browser-main.xml", util.getAddonInstallPath(), skin, 1)
-		#ui = UIGameDB("script-Rom_Collection_Browser-main.xml", util.getAddonInstallPath(), "Light", 1)
 	ui.doModal()
 	del ui
 
