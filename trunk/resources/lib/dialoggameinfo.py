@@ -208,9 +208,14 @@ class UIGameInfoView(xbmcgui.WindowXMLDialog):
 		selectedGame.setProperty('alternatetitle', self.getGameProperty(gameRow[util.GAME_alternateTitle]))
 		selectedGame.setProperty('translatedby', self.getGameProperty(gameRow[util.GAME_translatedBy]))
 		selectedGame.setProperty('version', self.getGameProperty(gameRow[util.GAME_version]))
+			
+		selectedGame.setProperty('playcount', self.getGameProperty(gameRow[util.GAME_launchCount]))
 		
-		selectedGame.setProperty('isfavorite', self.getGameProperty(gameRow[util.GAME_isFavorite]))
-		selectedGame.setProperty('playcount', self.getGameProperty(gameRow[util.GAME_launchCount]))		
+		isFavorite = self.getGameProperty(gameRow[util.GAME_isFavorite])
+		if(isFavorite == '1'):
+			selectedGame.setProperty('isfavorite', '1')
+		else:
+			selectedGame.setProperty('isfavorite', '')		
 		
 		description = gameRow[util.GAME_description]
 		if(description == None):
