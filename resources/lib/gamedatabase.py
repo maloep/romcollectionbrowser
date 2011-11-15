@@ -93,7 +93,8 @@ class GameDataBase:
 		try:
 			rcbSettingRows = RCBSetting(self).getAll()
 			if(rcbSettingRows == None or len(rcbSettingRows) != 1):	
-				self.self.createTables()
+				self.createTables()
+				self.commit()
 				return 1, ""
 			rcbSetting = rcbSettingRows[0]
 			
@@ -104,6 +105,7 @@ class GameDataBase:
 			
 		except  Exception, (exc): 
 			self.createTables()
+			self.commit()
 			return 1, ""
 		
 		#Alter Table
@@ -125,6 +127,7 @@ class GameDataBase:
 					return -1, "Error: Cannot backup MyGames.db: " +str(exc)
 								
 				self.executeSQLScript(alterTableScript)
+				self.commit()
 				return returnCode, message
 			else:
 				return -1, "Error: No Update from version %s to %s." %(dbVersion, util.CURRENT_DB_VERSION)
