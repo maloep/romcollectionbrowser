@@ -46,7 +46,7 @@ class ConfigxmlUpdater:
 			try:
 				shutil.copy(str(self.configFile), str(newFileName))
 			except Exception, (exc):
-				return -1, "Error: Cannot backup config.xml: " +str(exc)
+				return False, "Error: Cannot backup config.xml: " +str(exc)
 		
 		#write current version to config
 		self.tree.attrib['version'] = util.CURRENT_CONFIG_VERSION
