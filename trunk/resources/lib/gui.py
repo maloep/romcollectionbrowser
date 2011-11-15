@@ -2022,9 +2022,9 @@ class UIGameDB(xbmcgui.WindowXML):
 		self.addItem(item, False)
 
 		#reset view mode
-		id = self.Settings.getSetting(util.SETTING_RCB_VIEW_MODE)
-		if(id != None and id != ''):
-			xbmc.executebuiltin("Container.SetViewMode(%i)" % int(id))
+		viewModeId = self.Settings.getSetting(util.SETTING_RCB_VIEW_MODE)
+		if(viewModeId != None and viewModeId != ''):
+			xbmc.executebuiltin("Container.SetViewMode(%i)" % int(viewModeId))
 
 		#searchText
 		self.searchTerm = self.Settings.getSetting(util.SETTING_RCB_SEARCHTEXT)
@@ -2041,26 +2041,11 @@ class UIGameDB(xbmcgui.WindowXML):
 		self.showGames()
 		
 		self.setFilterSelection(CONTROL_GAMES_GROUP_START, rcbSetting[util.RCBSETTING_lastSelectedGameIndex])
-						
-		#lastFocusedControl
-		if(rcbSetting[util.RCBSETTING_lastFocusedControlMainView] != None):
-			focusControl = self.getControlById(rcbSetting[util.RCBSETTING_lastFocusedControlMainView])
-			if(focusControl == None):
-				Logutil.log("focusControl == None in loadViewState", util.LOG_LEVEL_WARNING)
-				return
-			self.setFocus(focusControl)			
-			if(CONTROL_GAMES_GROUP_START <= rcbSetting[util.RCBSETTING_lastFocusedControlMainView] <= CONTROL_GAMES_GROUP_END):
-				self.showGameInfo()
-		else:
-			focusControl = self.getControlById(CONTROL_CONSOLES)
-			if(focusControl == None):
-				Logutil.log("focusControl == None (2) in loadViewState", util.LOG_LEVEL_WARNING)
-				return
-			self.setFocus(focusControl)					
 		
-		#lastSelectedView
-		if(rcbSetting[util.RCBSETTING_lastSelectedView] == util.VIEW_GAMEINFOVIEW):
-			self.showGameInfoDialog()
+		#always set focus on game list on start
+		focusControl = self.getControlById(CONTROL_GAMES_GROUP_START)
+		self.setFocus(focusControl)
+		self.showGameInfo()
 			
 		Logutil.log("End loadViewState" , util.LOG_LEVEL_INFO)					
 
@@ -2076,15 +2061,21 @@ class UIGameDB(xbmcgui.WindowXML):
 				return 0
 			
 			if(controlId == CONTROL_GAMES_GROUP_START):
-				if(self.getListSize() == 0):
-					Logutil.log("ListSize == 0 in setFilterSelection", util.LOG_LEVEL_WARNING)
+				listSize = self.getListSize()
+				if(listSize == 0 or selectedIndex > listSize - 1):
+					Logutil.log("ListSize == 0 or index out of range in setFilterSelection", util.LOG_LEVEL_WARNING)
 					return 0
+				
 				self.setCurrentListPosition(selectedIndex)
 				#HACK: selectItem takes some time and we can't read selectedItem immediately
 				xbmc.sleep(util.WAITTIME_UPDATECONTROLS)
 				selectedItem = self.getListItem(selectedIndex)
 				
 			else:
+				if(selectedIndex > control.size() - 1):
+					Logutil.log("Index out of range in setFilterSelection", util.LOG_LEVEL_WARNING)
+					return 0
+				
 				control.selectItem(selectedIndex)
 				#HACK: selectItem takes some time and we can't read selectedItem immediately 
 				xbmc.sleep(util.WAITTIME_UPDATECONTROLS)
