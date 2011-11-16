@@ -3,7 +3,6 @@ import os, sys, re
 import getpass, string, glob
 import codecs
 import zipfile
-import zlib
 import time
 
 import util
@@ -13,6 +12,11 @@ from gamedatabase import *
 from descriptionparserfactory import *
 from pyscraper import *
 
+#HACK: zlib isn't shipped with some linux distributions
+try:
+	import zlib
+except:
+	Logutil.log("Error while loading zlib library. You won't be able to import games using crc values (only used when importing offline game descriptions).", util.LOG_LEVEL_WARNING)
 
 
 class DBUpdate:
