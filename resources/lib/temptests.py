@@ -63,7 +63,7 @@ descFile = "http://api.archive.vg/1.0/Archive.search/VT7RJ960FWD4CC71L0Z0K4KQYR4
 #parseInstruction = "F:\\Emulatoren\\data\\synopsis\\XTRAS-RCB\\_parserConfig.xml"
 
 
-
+"""
 from descriptionparserfactory import *
 descParser = DescriptionParserFactory.getParser(parseInstruction)
 
@@ -72,6 +72,15 @@ for result in results:
 	print result
 	
 print len(results)
+"""
+
+#from datetime import * 
+timeInt = 785656800
+timestamp = time.gmtime(timeInt)
+print timestamp[0]
+
+time.strptime(timeInt, '')
+
 
 
 
