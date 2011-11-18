@@ -10,7 +10,7 @@ consoleDict = {
 			#name, mobygames-id, thegamesdb platform name
 			'Other' : ['0', ''],
 			'3DO' : ['35', '3DO'],
-			'Amiga' : ['19', ''],
+			'Amiga' : ['19', '', 'amiga'],
 			'Amiga CD32' : ['56', ''],
 			'Amstrad CPC' : ['60', ''],
 			'Apple II' : ['31', ''],
@@ -71,7 +71,7 @@ consoleDict = {
 			'SEGA CD' : ['20', 'Sega CD'],
 			'SEGA Master System' : ['26', 'Sega Master System'],  
 			'SEGA Saturn' : ['23', 'Sega Saturn'],
-			'SNES' : ['15', 'Super Nintendo (SNES)'],
+			'SNES' : ['15', 'Super Nintendo (SNES)', 'snes'],
 			'Spectravideo' : ['85', ''],
 			'TI-99/4A' : ['47', ''],
 			'TRS-80' : ['58', ''],
@@ -92,6 +92,28 @@ consoleDict = {
 			'Zeebo' : ['88', ''],
 			'Zodiac' : ['68', ''],
 			'ZX Spectr' : ['41', '']}
+
+
+def getPlatformByRomCollection(source, romCollectionName):
+	platform = ''
+	if(source.find('mobygames.com') != -1):
+		try:
+			platform = consoleDict[romCollectionName][0]
+		except:
+			Logutil.log('Could not find platform name for Rom Collection %s' %romCollectionName, util.LOG_LEVEL_WARNING)
+	elif(source.find('thegamesdb.net') != -1):
+		try:
+			platform = consoleDict[romCollectionName][1]
+		except:
+			Logutil.log('Could not find platform name for Rom Collection %s' %romCollectionName, util.LOG_LEVEL_WARNING)
+	elif(source.find('archive.vg') != -1):
+		try:
+			platform = consoleDict[romCollectionName][2]
+		except:
+			Logutil.log('Could not find platform name for Rom Collection %s' %romCollectionName, util.LOG_LEVEL_WARNING)
+	
+	return platform
+
 			
 imagePlacingDict = {'gameinfobig' : 'one big',
 					'gameinfobigVideo' : 'one big or video',
@@ -450,18 +472,7 @@ class Config:
 			source = scraperRow.attrib.get('source')
 			if(source != None and source != ''):
 				if(replaceValues):
-					platform = ''
-					if(source.find('mobygames.com') != -1):
-						try:
-							platform = consoleDict[romCollectionName][0]
-						except:
-							Logutil.log('Could not find platform name for Rom Collection %s' %romCollectionName, util.LOG_LEVEL_WARNING)
-					elif(source.find('thegamesdb.net') != -1):
-						try:
-							platform = consoleDict[romCollectionName][1]
-						except:
-							Logutil.log('Could not find platform name for Rom Collection %s' %romCollectionName, util.LOG_LEVEL_WARNING)
-											
+					platform = getPlatformByRomCollection(source, romCollectionName)
 					platform = urllib.quote(platform, safe='')
 					source = source.replace('%PLATFORM%', platform)
 				scraper.source = source
