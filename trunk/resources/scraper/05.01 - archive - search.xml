@@ -1,0 +1,15 @@
+<parserConfig>
+	<GameGrammar type="xml" root="games/game">
+		<Game>title</Game>
+		<SearchKey>title</SearchKey>
+		<PlatformSearchKey>system</PlatformSearchKey>
+		<Platform>system</Platform>
+		<Region>releases/release/country</Region>
+		<Genre replaceInResultKey=" &gt;" replaceInResultValue="," >genre</Genre>
+		<ReleaseYear>releases/release/date</ReleaseYear>
+		<Developer>developer</Developer>
+		<Publisher>releases/release/company</Publisher>		
+		<Description>description</Description>
+		<Filetypeboxfront>box_front</Filetypeboxfront>
+	</GameGrammar>
+</parserConfig>
