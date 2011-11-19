@@ -1,3 +1,18 @@
+0.9.4 (11/2011)
+~~~~~~~~~~~~~
+General:
+  * little refactoring of startup code (better timing and more stability)
+  * don't crash when import zlib fails (not available with some python 2.6 distributions)
+
+Import Games:
+  * new scraper: http://archive.vg
+
+Browse Games
+  * filter control interaction: update Genre, Year and Publisher filter when console is changed
+  * short delay before applying filter selection
+  * add background and extraImage1, 2, 3 to game info dialog
+  * add console, version, perspective to game info dialog
+
 0.9.3 (10/2011)
 ~~~~~~~~~~~~~
 Browse Games:
