@@ -89,7 +89,7 @@ class ConfigXmlWriter:
 					return False, message
 				SubElement(romCollectionXml, 'imagePlacingInfo').text = romCollection.imagePlacingInfo.name 
 			else:
-				SubElement(romCollectionXml, 'imagePlacingInfo').text = 'gameinfobig'
+				SubElement(romCollectionXml, 'imagePlacingInfo').text = 'gameinfosmall'
 			
 			if(romCollection.scraperSites == None or len(romCollection.scraperSites) == 0):
 				#TODO: enable again when site is more complete and responses are faster
