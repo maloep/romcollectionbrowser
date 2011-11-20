@@ -2,26 +2,35 @@
 
 This TODO list / roadmap is a working document. It will change quite frequently as I am always adding, removing or reordering issues that I want to work on for the next release. If you made a request or reported an issue that you don't find on the list please remind me because chances are that I just forgot to add it.
   
- 
-= 0.9.4 =
-== General ==
+  
+= 0.9.5 =
+== General ==  
   * Eden compatibility
-    * import zlib (not working with some python 2.6 distributions?)
     * python 2.6 compatible libs of pyzlma (7z support)
+	* crc comparison case sensitive?
   * start RCB twice: atomic init routine?
   * replace smb:// when searching for roms and artwork
   * XBMC frequently locks up on shutdown
   * bug: resolved path from rom folder name: C:\Users\Mic\Downloads\Arcade\Data\MAME\My_Art\boxfront\C:\Users\Mic\Downloads\Arcade\Data\MAME\My_Roms
   * bug: resolved path from rom folder name: smb://terastation/media/Roms/SNES/Boxart/boxfront/smb://terastation/media/Roms/SNES
   
+== Import Games ==
+  * remove thevideogamedb scraper
+  * When I added the games the first time, I didn't add the videos. When I added the videos later on, they wouldn't show up despite being found.
+The only way to get them to show was to delete the romcollection and reimport from scratch; rescanning the games did not work. 
+  
 == Browse Games ==
+  * extract aeon mq3 skin files
+  * update console filter after add rom collection
   * filter control interaction
+    * Consoles -> Genre, Year, Publisher - Done
+	* Genre -> Year, Publisher
+	* Year -> Publisher
   * filetypeformainview2 is missing
   * support home and back buttons to exit the script
   * auto repeat video playback in game info view
   * fullscreen video together with auto video playback
-  * add background and extraImage1, 2, 3 to game info dialog
-  * add console, version, perspective to game info dialog
+  * game name changes after video playback is stopped in game info dialog
 
 == Launch Games ==
   * new placeholders in emuParams: %EMUPATH%, %ROMPATH%
@@ -33,18 +42,11 @@ This TODO list / roadmap is a working document. It will change quite frequently 
   * no navigation after launch emu (Win XP)
   * remove file extension from game when extracting zip files.
   * when opening a .zip file with multiple roms inside, it is impossible to return to the menu without launching the emulator
-
+  
 
 = Future =
-==General ==
+== General ==
   * backup MyGames.db and config.xml before editing or game import
-  * db changes
-    * mark game as completed
-    * mark game as broken (in db + .broken in filename)
-    * lastplayed
-    * lastmodified
-    * link to other games (sequels, translations, etc.)
-    * rating (ESRB, PEGI, etc.)
   * Edit offline scrapers:
     * move encoding from scraper to site
     * scraper encoding: add to dialog
@@ -58,6 +60,24 @@ This TODO list / roadmap is a working document. It will change quite frequently 
   * encoding: Pokémon (only Eden?)
   * option to edit game properties
   * complete Edit Game dialog
+  * SLEEP command no Windows standard
+  
+== Data model ==
+  * support different releases (region, updates, etc.)
+    * store exact release dates (not only release year)
+	* region support
+	  * add region flag per rom collection (also ALL option)
+	  * determine region per game (e.g. [US] or (US) in name)
+	  * store different releases in 1 zip or 7z file (look inside file and mark game as available?)
+  * build game groups (releases and sequels)
+    * collect minimal game data for missing games in game group (even if certain roms are not present)
+  * mark game as completed
+  * mark game as broken (in db + .broken in filename)
+  * lastplayed
+  * added
+  * lastmodified
+  * rating (ESRB, PEGI, etc.)
+  * manual and/or automatic verfication of all collected data (presence, accuracy, ...)
 
 == Import Games ==
   * refactor dbupdate
