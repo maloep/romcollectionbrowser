@@ -198,9 +198,6 @@
     <Site name="local nfo" descFilePerGame="True" searchGameByCRC="False">
       <Scraper parseInstruction="00 - local nfo.xml" source="nfo" />
     </Site>
-    <Site name="thevideogamedb.com" descFilePerGame="True" searchGameByCRC="true">
-      <Scraper parseInstruction="01 - thevideogamedb.xml" source="http://thevideogamedb.com/API/GameDetail.aspx?apikey=%VGDBAPIKey%&amp;crc=%CRC%" />
-    </Site>
     <Site name="thegamesdb.net" descFilePerGame="True" searchGameByCRC="False">
       <Scraper parseInstruction="02 - thegamesdb.xml" source="http://thegamesdb.net/api/GetGame.php?name=%GAME%&amp;platform=%PLATFORM%" />
     </Site>
