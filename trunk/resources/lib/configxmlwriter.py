@@ -92,8 +92,6 @@ class ConfigXmlWriter:
 				SubElement(romCollectionXml, 'imagePlacingInfo').text = 'gameinfosmall'
 			
 			if(romCollection.scraperSites == None or len(romCollection.scraperSites) == 0):
-				#TODO: enable again when site is more complete and responses are faster
-				#SubElement(romCollectionXml, 'scraper', {'name' : 'thevideogamedb.com'})
 				SubElement(romCollectionXml, 'scraper', {'name' : 'thegamesdb.net', 'replaceKeyString' : '', 'replaceValueString' : ''})
 				SubElement(romCollectionXml, 'scraper', {'name' : 'archive.vg', 'replaceKeyString' : '', 'replaceValueString' : ''})
 				SubElement(romCollectionXml, 'scraper', {'name' : 'mobygames.com', 'replaceKeyString' : '', 'replaceValueString' : ''})
