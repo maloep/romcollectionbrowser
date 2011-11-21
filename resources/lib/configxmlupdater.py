@@ -86,10 +86,10 @@ class ConfigxmlUpdater:
 			if(siteName == 'local nfo'):
 				scraperSiteXml.attrib['descFilePerGame'] = 'True'
 				scraperSiteXml.attrib['searchGameByCRC'] = 'False'
-			elif(siteName == 'thevideogamedb.com'):
-				scraperSiteXml.attrib['descFilePerGame'] = 'True'
-				scraperSiteXml.attrib['searchGameByCRC'] = 'True'
 			elif(siteName == 'thegamesdb.net'):
+				scraperSiteXml.attrib['descFilePerGame'] = 'True'
+				scraperSiteXml.attrib['searchGameByCRC'] = 'False'
+			elif(siteName == 'archive.vg'):
 				scraperSiteXml.attrib['descFilePerGame'] = 'True'
 				scraperSiteXml.attrib['searchGameByCRC'] = 'False'
 			elif(siteName == 'giantbomb.com'):
