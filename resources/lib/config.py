@@ -7,7 +7,7 @@ from elementtree.ElementTree import *
 
 
 consoleDict = {
-			#name, mobygames-id, thegamesdb platform name
+			#name, mobygames-id, thegamesdb, archive vg
 			'Other' : ['0', '', ''],
 			'3DO' : ['35', '3DO', '3do'],
 			'Amiga' : ['19', '', 'amiga'],
