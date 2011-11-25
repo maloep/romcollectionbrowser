@@ -57,6 +57,7 @@ class MyPlayer(xbmc.Player):
 	stoppedByRCB = False
 	startedInPlayListMode = False
 	
+	"""
 	def onPlayBackStarted(self):
 		if(self.gui == None):
 			print "RCB_WARNING: gui == None in MyPlayer"
@@ -64,12 +65,20 @@ class MyPlayer(xbmc.Player):
 			
 		if (os.environ.get("OS", "xbox") != "xbox"):
 			self.gui.saveViewState(True)
+	"""
 	
 	def onPlayBackEnded(self):
+		print 'onPlaybackEnded'
+		
 		if(self.gui == None):
 			print "RCB_WARNING: gui == None in MyPlayer"
 			return
 		
+		#xbmc.sleep(util.WAITTIME_PLAYERSTOP)
+		
+		self.gui.setFocus(self.gui.getControl(CONTROL_GAMES_GROUP_START))
+		
+		"""
 		#in PlayListMode we will move to the next item
 		if(self.startedInPlayListMode):			
 			self.gui.fullScreenVideoStarted = False
@@ -82,11 +91,20 @@ class MyPlayer(xbmc.Player):
 				
 		if (os.environ.get("OS", "xbox") != "xbox"):
 			self.gui.loadViewState()
+		"""
 			
+	"""
 	def onPlayBackStopped(self):
+		print 'onPlaybackStopped'
+		
 		if(self.gui == None):
 			print "RCB_WARNING: gui == None in MyPlayer"
-			return						
+			return
+		
+		#xbmc.sleep(util.WAITTIME_PLAYERSTOP)
+		
+		self.gui.setFocus(self.gui.getControl(CONTROL_GAMES_GROUP_START))
+		
 		
 		self.gui.fullScreenVideoStarted = False
 		
@@ -97,9 +115,10 @@ class MyPlayer(xbmc.Player):
 				
 		if (os.environ.get("OS", "xbox") != "xbox"):
 			if(not self.stoppedByRCB):
-				self.stoppedByRCB = False
+				#self.stoppedByRCB = False
 				self.gui.loadViewState()
 		
+	"""
 
 
 class ProgressDialogGUI:		
@@ -138,9 +157,7 @@ class UIGameDB(xbmcgui.WindowXML):
 	selectedYearIndex = 0
 	selectedPublisherIndex = 0	
 	selectedCharacterIndex = 0				
-	
-	playVideoThread = None
-	playVideoThreadStopped = False
+		
 	rcb_playList = xbmc.PlayList(xbmc.PLAYLIST_VIDEO)
 	playlistOffsets = {}
 	
@@ -155,9 +172,6 @@ class UIGameDB(xbmcgui.WindowXML):
 	fullScreenVideoStarted = False
 	# set flag if we opened GID
 	gameinfoDialogOpen = False
-	
-	# set flag if we are currently running onAction
-	onActionLastRun = 0
 			
 	#cachingOption will be overwritten by config. Don't change it here.
 	cachingOption = 3
@@ -321,37 +335,16 @@ class UIGameDB(xbmcgui.WindowXML):
 		if(action.getId() == 0):
 			Logutil.log("actionId == 0. Input ignored", util.LOG_LEVEL_INFO)
 			return
-		
-		#Hack: prevent being invoked twice
-		onActionCurrentRun = time.clock()
-		
-		Logutil.log("onActionCurrentRun: %d ms" % (onActionCurrentRun * 1000), util.LOG_LEVEL_DEBUG)
-		Logutil.log("onActionLastRun: %d ms" % (self.onActionLastRun * 1000), util.LOG_LEVEL_DEBUG)
-		
-		diff = (onActionCurrentRun - self.onActionLastRun) * 1000
-		Logutil.log("diff: %d ms" % (diff), util.LOG_LEVEL_DEBUG)
-		
-		waitTime = util.WAITTIME_ONACTION
-		if (os.environ.get("OS", "xbox") == "xbox"):
-			waitTime = util.WAITTIME_ONACTION_XBOX
-		
-		if(int(diff) <= waitTime):
-			Logutil.log("Last run still active. Do nothing.", util.LOG_LEVEL_DEBUG)
-			self.onActionLastRun = time.clock()
-			return
-		
-		self.onActionLastRun = time.clock()
 							
 		try:
 			if(action.getId() in ACTION_CANCEL_DIALOG):
 				Logutil.log("onAction: ACTION_CANCEL_DIALOG", util.LOG_LEVEL_INFO)
 							
 				if(self.player.isPlayingVideo()):
-					self.player.stoppedByRCB = True
+					#self.player.stoppedByRCB = True
 					self.player.stop()
 					xbmc.sleep(util.WAITTIME_PLAYERSTOP)
-				
-				self.onActionLastRun = time.clock()
+								
 				self.exit()
 			elif(action.getId() in ACTION_MOVEMENT):
 														
@@ -360,7 +353,6 @@ class UIGameDB(xbmcgui.WindowXML):
 				control = self.getControlById(self.selectedControlId)
 				if(control == None):
 					Logutil.log("control == None in onAction", util.LOG_LEVEL_WARNING)
-					self.onActionLastRun = time.clock()
 					return
 					
 				if(CONTROL_GAMES_GROUP_START <= self.selectedControlId <= CONTROL_GAMES_GROUP_END):
@@ -420,7 +412,6 @@ class UIGameDB(xbmcgui.WindowXML):
 				control = self.getControlById(self.selectedControlId)
 				if(control == None):
 					Logutil.log("control == None in onAction", util.LOG_LEVEL_WARNING)
-					self.onActionLastRun = time.clock()					
 					return
 				if(CONTROL_GAMES_GROUP_START <= self.selectedControlId <= CONTROL_GAMES_GROUP_END):
 					self.showGameInfoDialog()
@@ -437,9 +428,6 @@ class UIGameDB(xbmcgui.WindowXML):
 				
 		except Exception, (exc):
 			print "RCB_ERROR: unhandled Error in onAction: " +str(exc)
-			self.onActionLastRun = time.clock()
-				
-		self.onActionLastRun = time.clock()
 			
 
 	def onClick(self, controlId):
@@ -721,7 +709,7 @@ class UIGameDB(xbmcgui.WindowXML):
 			try:
 				#images for gamelist
 				imageGameList = self.getFileForControl(romCollection.imagePlacingMain.fileTypesForGameList, gameRow[util.ROW_ID], gameRow[util.GAME_publisherId], gameRow[util.GAME_developerId], gameRow[util.GAME_romCollectionId], fileDict)
-				imageGameListSelected = self.getFileForControl(romCollection.imagePlacingMain.fileTypesForGameListSelected, gameRow[util.ROW_ID], gameRow[util.GAME_publisherId], gameRow[util.GAME_developerId], gameRow[util.GAME_romCollectionId], fileDict)												
+				imageGameListSelected = self.getFileForControl(romCollection.imagePlacingMain.fileTypesForGameListSelected, gameRow[util.ROW_ID], gameRow[util.GAME_publisherId], gameRow[util.GAME_developerId], gameRow[util.GAME_romCollectionId], fileDict)
 				
 				#create ListItem
 				item = xbmcgui.ListItem(gameRow[util.ROW_NAME], str(gameRow[util.ROW_ID]), imageGameList, imageGameListSelected)			
@@ -763,10 +751,7 @@ class UIGameDB(xbmcgui.WindowXML):
 	def showGameInfo(self):
 		Logutil.log("Begin showGameInfo" , util.LOG_LEVEL_INFO)
 		
-		self.writeMsg("")	
-		
-		if(self.playVideoThread != None and self.playVideoThread.isAlive()):			
-			self.playVideoThreadStopped = True
+		self.writeMsg("")
 		
 		if(self.getListSize() == 0):
 			Logutil.log("ListSize == 0 in showGameInfo", util.LOG_LEVEL_WARNING)			
@@ -818,7 +803,7 @@ class UIGameDB(xbmcgui.WindowXML):
 		
 		#stop video (if playing)
 		if(self.player.isPlayingVideo()):
-			self.player.stoppedByRCB = True
+			#self.player.stoppedByRCB = True
 			self.player.stop()
 		
 		launcher.launchEmu(self.gdb, self, gameId, self.config, self.Settings)
@@ -848,10 +833,10 @@ class UIGameDB(xbmcgui.WindowXML):
 		
 		#stop video (if playing)
 		if(self.player.isPlayingVideo()):
-			self.player.stoppedByRCB = True
+			#self.player.stoppedByRCB = True
 			self.player.stop()
 				
-		self.player.startedInPlayListMode = True
+		#self.player.startedInPlayListMode = True
 		self.player.play(self.rcb_playList)		
 		xbmc.executebuiltin('Playlist.PlayOffset(%i)' % pos)
 		xbmc.executebuiltin('XBMC.PlayerControl(RepeatAll)')
@@ -906,7 +891,6 @@ class UIGameDB(xbmcgui.WindowXML):
 				progDialogRCDelStat	= "Deleting Rom (%i / %i)" %(count, progressDialog.itemCount)	
 				progressDialog.writeMsg("", progDialogRCDelStat, "",count)	
 				self.deleteGame(items[util.ROW_ID])
-					#time.sleep(.001)
 			if(len(rcList)>0):
 				progressDialog.writeMsg("", "Deleting Roms Complete", "",count)
 			else:
@@ -949,7 +933,6 @@ class UIGameDB(xbmcgui.WindowXML):
 					else:
 						File(self.gdb).deleteByFileId(items[util.ROW_ID])
 					removeCount = removeCount + 1
-				#time.sleep(.001)
 			progressDialog2.writeMsg("", "Compressing Database...", "",count)
 			self.gdb.compact()
 			time.sleep(.5)
@@ -1024,7 +1007,7 @@ class UIGameDB(xbmcgui.WindowXML):
 		self.saveViewMode()
 		
 		if(self.player.isPlayingVideo()):
-			self.player.stoppedByRCB = True
+			#self.player.stoppedByRCB = True
 			self.player.stop()
 		
 		self.gameinfoDialogOpen = True
@@ -1187,6 +1170,10 @@ class UIGameDB(xbmcgui.WindowXML):
 			return None, None
 		
 		gameId = selectedGame.getProperty('gameId')
+		if(gameId == ''):
+			Logutil.log("gameId is empty in showGameInfo", util.LOG_LEVEL_WARNING)
+			return None, None
+		
 		gameRow = Game(gdb).getObjectById(gameId)				
 
 		if(gameRow == None):			
@@ -1217,83 +1204,51 @@ class UIGameDB(xbmcgui.WindowXML):
 		return gameId
 
 
-	def loadVideoFiles(self, gdb, gameRow, selectedGame, romCollection):				
+	def loadVideoFiles(self, gdb, gameRow, selectedGame, romCollection):
 		
-		viewSupportsVideo = True
-		for controlId in CONTROL_VIEW_NO_VIDEOS:
-			if (xbmc.getCondVisibility("Control.IsVisible(%i)" % controlId)):
-				viewSupportsVideo = False
-				break				
+		autoplayVideo = self.Settings.getSetting(util.SETTING_RCB_AUTOPLAYVIDEO)
+		if(autoplayVideo == 'true'):
+			selectedGame.setProperty('autoplayvideo', 'true')
+		else:
+			selectedGame.setProperty('autoplayvideo', '')
 		
-		#not all views should playback video		
-		if (viewSupportsVideo):
+		if(self.cachingOption == 0):
+			fileDict = self.fileDict
+		else:
+			fileDict = self.getFileDictByGameRow(gdb, gameRow)
+	
+		video = ""			
 		
-			if(self.cachingOption == 0):
-				fileDict = self.fileDict
+		videosBig = helper.getFilesByControl_Cached(self.gdb, romCollection.imagePlacingMain.fileTypesForMainViewVideoWindowBig, gameRow[util.ROW_ID], gameRow[util.GAME_publisherId], gameRow[util.GAME_developerId], gameRow[util.GAME_romCollectionId], fileDict)			
+		
+		if(videosBig != None and len(videosBig) != 0):
+			video = videosBig[0]				
+			selectedGame.setProperty('videosizebig', 'big')				
+			
+		else:
+			videosSmall = helper.getFilesByControl_Cached(self.gdb, romCollection.imagePlacingMain.fileTypesForMainViewVideoWindowSmall, gameRow[util.ROW_ID], gameRow[util.GAME_publisherId], gameRow[util.GAME_developerId], gameRow[util.GAME_romCollectionId], fileDict)
+			if(videosSmall != None and len(videosSmall) != 0):
+				video = videosSmall[0]					
+				selectedGame.setProperty('videosizesmall', 'small')
+											
+						
+		if(video == "" or video == None):
+			Logutil.log("video == None in loadVideoFiles", util.LOG_LEVEL_DEBUG)
+			if(self.player.isPlayingVideo()):
+				self.player.stop()
+			return							
+			
+			
+		#stop video (if playing)
+		if(self.player.isPlayingVideo()):			
+			playingFile = self.player.getPlayingFile()				
+			if(playingFile != video):
+				self.player.stop()
 			else:
-				fileDict = self.getFileDictByGameRow(gdb, gameRow)
+				return
+				
+		selectedGame.setProperty('gameplay', video)
 		
-			#check if fullscreen video is configured (this will just show the button "Play fullscreen video")
-			videosFullscreen = helper.getFilesByControl_Cached(self.gdb, romCollection.imagePlacingMain.fileTypesForMainViewVideoFullscreen, gameRow[util.ROW_ID], gameRow[util.GAME_publisherId], gameRow[util.GAME_developerId], gameRow[util.GAME_romCollectionId], fileDict)
-			if(videosFullscreen != None and len(videosFullscreen) != 0):				
-				selectedGame.setProperty('videofullscreen', 'fullscreen')
-				
-		
-			video = ""			
-			
-			videosBig = helper.getFilesByControl_Cached(self.gdb, romCollection.imagePlacingMain.fileTypesForMainViewVideoWindowBig, gameRow[util.ROW_ID], gameRow[util.GAME_publisherId], gameRow[util.GAME_developerId], gameRow[util.GAME_romCollectionId], fileDict)			
-			
-			if(videosBig != None and len(videosBig) != 0):
-				video = videosBig[0]				
-				selectedGame.setProperty('videosizebig', 'big')				
-				
-			else:
-				videosSmall = helper.getFilesByControl_Cached(self.gdb, romCollection.imagePlacingMain.fileTypesForMainViewVideoWindowSmall, gameRow[util.ROW_ID], gameRow[util.GAME_publisherId], gameRow[util.GAME_developerId], gameRow[util.GAME_romCollectionId], fileDict)
-				if(videosSmall != None and len(videosSmall) != 0):
-					video = videosSmall[0]					
-					selectedGame.setProperty('videosizesmall', 'small')
-												
-					
-			if(video == "" or video == None):
-				Logutil.log("video == None in loadVideoFiles", util.LOG_LEVEL_DEBUG)				
-				
-				if(self.player.isPlayingVideo()):
-					self.player.stoppedByRCB = True
-					self.player.stop()
-				return							
-				
-				
-			#stop video (if playing)
-			if(self.player.isPlayingVideo()):			
-				playingFile = self.player.getPlayingFile()				
-				if(playingFile != video):
-					self.player.stoppedByRCB = True
-					self.player.stop()
-				else:
-					return								
-			
-			#start a new thread to playback video
-			self.playVideoThread = Thread(target=self.playVideo, args=(video, selectedGame))
-			self.playVideoThread.start()
-			
-		
-	def playVideo(self, video, selectedGame):
-		
-		#we have to use a little wait timer before starting video playback: 
-		#otherwise video could start in fullscreen if we scroll down the list too fast
-		timestamp1 = time.clock()
-		while True:
-			timestamp2 = time.clock()
-			diff = (timestamp2 - timestamp1) * 1000
-			if(diff > util.WAITTIME_PLAYERSTART):				
-				break
-				
-			if(self.playVideoThreadStopped):
-				self.playVideoThreadStopped = False
-				return				
-		
-		self.player.startedInPlayListMode = False
-		self.player.play(video, selectedGame, True)
 		
 		
 	def loadGameInfos(self, gdb, gameRow, selectedGame, pos, romCollection):
