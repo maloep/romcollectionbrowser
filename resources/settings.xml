@@ -21,6 +21,7 @@
 	
 	<category label="Browse Games">
 		<setting id="rcb_showFavoriteStars" label="Show stars for favorites" type="bool" default="true"/>
+		<setting id="rcb_autoplayVideo" label="Autoplay video" type="bool" default="true"/>
 		<setting id="rcb_showEntryAllConsoles" label="Show filter All Consoles" type="bool" default="true"/>
 		<setting id="rcb_showEntryAllGenres" label="Show filter All Genres" type="bool" default="true"/>
 		<setting id="rcb_showEntryAllYears" label="Show filter All Years" type="bool" default="true"/>
