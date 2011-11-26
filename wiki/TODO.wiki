@@ -4,6 +4,30 @@ This TODO list / roadmap is a working document. It will change quite frequently 
   
   
 = 0.9.5 =
+== General ==
+  * new caching option: load list in background (maybe remove cacheitem and next)
+  
+== Import Games ==
+  
+== Browse Games ==
+  * new setting autoplay video - Done
+  * remove all autoplay video code from script - Done
+  * start video from skin xml - Done
+  * start video from skin xml (Info window) - Done
+  * add video support in Night showcase - Done
+  * stop video when changing filters
+  * update console filter after add rom collection
+  * filter control interaction
+    * Consoles -> Genre, Year, Publisher - Done
+	* Genre -> Year, Publisher
+	* Year -> Publisher
+  * fullscreen video together with auto video playback
+  * game name changes after video playback is stopped in game info dialog - Done
+
+== Launch Games ==
+  
+  
+= 0.9.6 =
 == General ==  
   * Eden compatibility
     * python 2.6 compatible libs of pyzlma (7z support)
@@ -15,22 +39,14 @@ This TODO list / roadmap is a working document. It will change quite frequently 
   * bug: resolved path from rom folder name: smb://terastation/media/Roms/SNES/Boxart/boxfront/smb://terastation/media/Roms/SNES
   
 == Import Games ==
-  * remove thevideogamedb scraper
+  * remove thevideogamedb scraper: remove from config.xml on startup
   * When I added the games the first time, I didn't add the videos. When I added the videos later on, they wouldn't show up despite being found.
 The only way to get them to show was to delete the romcollection and reimport from scratch; rescanning the games did not work. 
   
 == Browse Games ==
-  * extract aeon mq3 skin files
-  * update console filter after add rom collection
-  * filter control interaction
-    * Consoles -> Genre, Year, Publisher - Done
-	* Genre -> Year, Publisher
-	* Year -> Publisher
   * filetypeformainview2 is missing
   * support home and back buttons to exit the script
   * auto repeat video playback in game info view
-  * fullscreen video together with auto video playback
-  * game name changes after video playback is stopped in game info dialog
 
 == Launch Games ==
   * new placeholders in emuParams: %EMUPATH%, %ROMPATH%
@@ -61,6 +77,7 @@ The only way to get them to show was to delete the romcollection and reimport fr
   * option to edit game properties
   * complete Edit Game dialog
   * SLEEP command no Windows standard
+  * add more artwork types, use more than 1 screenshot etc.
   
 == Data model ==
   * support different releases (region, updates, etc.)
