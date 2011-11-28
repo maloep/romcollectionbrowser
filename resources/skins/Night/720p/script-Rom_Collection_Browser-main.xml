@@ -475,7 +475,7 @@
 						<posy>0</posy>
 						<width>436</width>
 						<height>244</height>
-						<visible>!Player.HasVideo</visible>
+						<visible>!Player.HasVideo | IsEmpty(ListItem.Property(gameplaymain))</visible>
 						<texture background="true" diffuse="showcase-diffuse.png" fallback="missing.jpg">$INFO[ListItem.Property(gameinfobig)]</texture>
 						<fadetime>400</fadetime>
 						<aspectratio>stretch</aspectratio>
@@ -503,7 +503,7 @@
 						<posy>0</posy>
 						<width>436</width>
 						<height>244</height>											
-						<visible>!IsEmpty(ListItem.Property(videosizebig))</visible>
+						<visible>!IsEmpty(ListItem.Property(videosizebig)) + !IsEmpty(ListItem.Property(gameplaymain))</visible>
 					</control>
 					<control type="button">
 						<description>click absorber</description>
