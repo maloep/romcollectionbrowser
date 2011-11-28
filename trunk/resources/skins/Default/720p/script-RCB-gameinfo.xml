@@ -503,9 +503,9 @@
 				<height>0</height>
 				<texturefocus></texturefocus>
 				<texturenofocus></texturenofocus>
-				<visible>!IsEmpty(ListItem.Property(gameplay))</visible>
-				<animation delay="500" effect="fade" start="100" end="100">WindowOpen</animation>
-				<onfocus>XBMC.PlayMedia($INFO[ListItem.Property(gameplay)],1)</onfocus>
+				<visible>!IsEmpty(ListItem.Property(gameplayinfo))</visible>
+				<animation delay="500" effect="fade" start="100" end="100">Focus</animation>
+				<onfocus>XBMC.PlayMedia($INFO[ListItem.Property(gameplayinfo)],1)</onfocus>
 			</control>
 			
 			<control type="label" id="4000">
