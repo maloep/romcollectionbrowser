@@ -140,9 +140,9 @@
 								<height>0</height>
 								<texturefocus></texturefocus>
 								<texturenofocus></texturenofocus>
-								<visible>!IsEmpty(ListItem.Property(autoplayvideo)) + !IsEmpty(ListItem.Property(gameplay))</visible>
+								<visible>!IsEmpty(ListItem.Property(autoplayvideomain)) + !IsEmpty(ListItem.Property(gameplaymain))</visible>
 								<animation delay="500" effect="fade" start="100" end="100">Focus</animation>
-								<onfocus>XBMC.PlayMedia($INFO[ListItem.Property(gameplay)],1)</onfocus>
+								<onfocus>XBMC.PlayMedia($INFO[ListItem.Property(gameplaymain)],1)</onfocus>
 							</control>
 						</control>						
 					</focusedlayout>
@@ -707,9 +707,9 @@
 								<height>0</height>
 								<texturefocus></texturefocus>
 								<texturenofocus></texturenofocus>
-								<visible>!IsEmpty(ListItem.Property(autoplayvideo)) + !IsEmpty(ListItem.Property(gameplay))</visible>
+								<visible>!IsEmpty(ListItem.Property(autoplayvideomain)) + !IsEmpty(ListItem.Property(gameplaymain))</visible>
 								<animation delay="500" effect="fade" start="100" end="100">Focus</animation>								
-								<onfocus>XBMC.PlayMedia($INFO[ListItem.Property(gameplay)],1)</onfocus>
+								<onfocus>XBMC.PlayMedia($INFO[ListItem.Property(gameplaymain)],1)</onfocus>
 							</control>
 						</focusedlayout>
 					</control>
