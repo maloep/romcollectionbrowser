@@ -773,13 +773,13 @@ class UIGameDB(xbmcgui.WindowXML):
 
 		self.fullScreenVideoStarted = True
 
-		self.setFocus(self.getControl(CONTROL_GAMES_GROUP_START))
+		#self.setFocus(self.getControl(CONTROL_GAMES_GROUP_START))
 		
 		#Hack: On xbox the list is cleared before starting the player
 		if (os.environ.get("OS", "xbox") == "xbox"):
 			self.saveViewState(True)
 			
-		pos = self.getCurrentListPosition()		
+		pos = self.getCurrentListPosition()
 				
 		#missing videos may lead to a wrong offset. We have to take care with our own hash
 		if(len(self.playlistOffsets) != 0):
@@ -793,7 +793,7 @@ class UIGameDB(xbmcgui.WindowXML):
 		if(self.player.isPlayingVideo()):
 			#self.player.stoppedByRCB = True
 			self.player.stop()
-				
+			
 		#self.player.startedInPlayListMode = True
 		self.player.play(self.rcb_playList)		
 		xbmc.executebuiltin('Playlist.PlayOffset(%i)' % pos)
@@ -1099,7 +1099,11 @@ class UIGameDB(xbmcgui.WindowXML):
 		#create dummy ListItem for playlist
 		dummyItem = xbmcgui.ListItem(gameRow[util.ROW_NAME], str(gameRow[util.ROW_ID]), imageGameList, imageGameListSelected)
 		
-		videosFullscreen = helper.getFilesByControl_Cached(self.gdb, romCollection.imagePlacingMain.fileTypesForMainViewVideoFullscreen, gameRow[util.ROW_ID], gameRow[util.GAME_publisherId], gameRow[util.GAME_developerId], gameRow[util.GAME_romCollectionId], fileDict)
+		if (self.fileTypeGameplay == None):
+			Logutil.log("fileTypeGameplay == None in addFullscreenVideoToPlaylist", util.LOG_LEVEL_WARNING)
+			return
+			
+		videosFullscreen = helper.getFilesByControl_Cached(self.gdb, (self.fileTypeGameplay,), gameRow[util.ROW_ID], gameRow[util.GAME_publisherId], gameRow[util.GAME_developerId], gameRow[util.GAME_romCollectionId], fileDict)
 		
 		#add video to playlist and compute playlistOffset (missing videos must be skipped)
 		if(videosFullscreen != None and len(videosFullscreen) != 0):			
