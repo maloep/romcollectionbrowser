@@ -83,30 +83,6 @@
 	  <fileTypeForMainView2>romcollection</fileTypeForMainView2>
 	  <fileTypeForMainView3>developer</fileTypeForMainView3>
     </fileTypeFor>
-    <fileTypeFor name="gameinfobigVideo">
-      <fileTypeForGameList>boxfront</fileTypeForGameList>
-      <fileTypeForGameList>screenshot</fileTypeForGameList>
-	  <fileTypeForGameList>title</fileTypeForGameList>
-	  <fileTypeForGameList>action</fileTypeForGameList>
-      <fileTypeForGameListSelected>boxfront</fileTypeForGameListSelected>
-      <fileTypeForGameListSelected>screenshot</fileTypeForGameListSelected>
-	  <fileTypeForGameListSelected>title</fileTypeForGameListSelected>
-      <fileTypeForGameListSelected>action</fileTypeForGameListSelected>	  
-      <fileTypeForMainViewBackground>fanart</fileTypeForMainViewBackground>
-      <fileTypeForMainViewBackground>boxfront</fileTypeForMainViewBackground>
-      <fileTypeForMainViewBackground>screenshot</fileTypeForMainViewBackground>
-	  <fileTypeForMainViewBackground>title</fileTypeForMainViewBackground>
-	  <fileTypeForMainViewBackground>action</fileTypeForMainViewBackground>	  
-      <fileTypeForMainViewGameInfoBig>screenshot</fileTypeForMainViewGameInfoBig>
-      <fileTypeForMainViewGameInfoBig>boxfront</fileTypeForMainViewGameInfoBig>
-	  <fileTypeForMainViewGameInfoBig>action</fileTypeForMainViewGameInfoBig>
-      <fileTypeForMainViewGameInfoBig>title</fileTypeForMainViewGameInfoBig>
-      <fileTypeForMainViewVideoWindowBig>gameplay</fileTypeForMainViewVideoWindowBig>
-	  <fileTypeForMainView1>publisher</fileTypeForMainView1>
-	  <fileTypeForMainView2>romcollection</fileTypeForMainView2>
-	  <fileTypeForMainView3>developer</fileTypeForMainView3>
-      <fileTypeForMainViewVideoFullscreen>gameplay</fileTypeForMainViewVideoFullscreen>
-    </fileTypeFor>
     <fileTypeFor name="gameinfosmall">
       <fileTypeForGameList>boxfront</fileTypeForGameList>
       <fileTypeForGameList>screenshot</fileTypeForGameList>
@@ -131,33 +107,6 @@
 	  <fileTypeForMainView1>publisher</fileTypeForMainView1>
 	  <fileTypeForMainView2>romcollection</fileTypeForMainView2>
 	  <fileTypeForMainView3>developer</fileTypeForMainView3>
-    </fileTypeFor>
-    <fileTypeFor name="gameinfosmallVideo">
-      <fileTypeForGameList>boxfront</fileTypeForGameList>
-      <fileTypeForGameList>screenshot</fileTypeForGameList>
-	  <fileTypeForGameList>title</fileTypeForGameList>
-	  <fileTypeForGameList>action</fileTypeForGameList>
-      <fileTypeForGameListSelected>boxfront</fileTypeForGameListSelected>
-      <fileTypeForGameListSelected>screenshot</fileTypeForGameListSelected>
-	  <fileTypeForGameListSelected>title</fileTypeForGameListSelected>
-      <fileTypeForGameListSelected>action</fileTypeForGameListSelected>	  
-      <fileTypeForMainViewBackground>fanart</fileTypeForMainViewBackground>
-      <fileTypeForMainViewBackground>boxfront</fileTypeForMainViewBackground>
-      <fileTypeForMainViewBackground>screenshot</fileTypeForMainViewBackground>
-	  <fileTypeForMainViewBackground>title</fileTypeForMainViewBackground>
-	  <fileTypeForMainViewBackground>action</fileTypeForMainViewBackground>	  
-      <fileTypeForMainViewGameInfoUpperLeft>screenshot</fileTypeForMainViewGameInfoUpperLeft>
-	  <fileTypeForMainViewGameInfoUpperLeft>action</fileTypeForMainViewGameInfoUpperLeft>
-	  <fileTypeForMainViewGameInfoUpperLeft>title</fileTypeForMainViewGameInfoUpperLeft>
-      <fileTypeForMainViewGameInfoUpperRight>boxfront</fileTypeForMainViewGameInfoUpperRight>
-      <fileTypeForMainViewGameInfoLowerLeft>cartridge</fileTypeForMainViewGameInfoLowerLeft>
-      <fileTypeForMainViewGameInfoLowerRight>boxback</fileTypeForMainViewGameInfoLowerRight>
-	  <fileTypeForMainViewGameInfoLowerRight>title</fileTypeForMainViewGameInfoLowerRight>
-	  <fileTypeForMainView1>publisher</fileTypeForMainView1>
-	  <fileTypeForMainView2>romcollection</fileTypeForMainView2>
-	  <fileTypeForMainView3>developer</fileTypeForMainView3>
-      <fileTypeForMainViewVideoWindowSmall>gameplay</fileTypeForMainViewVideoWindowSmall>
-      <fileTypeForMainViewVideoFullscreen>gameplay</fileTypeForMainViewVideoFullscreen>
     </fileTypeFor>
 	<fileTypeFor name="gameinfomamemarquee">
       <fileTypeForGameList>marquee</fileTypeForGameList>
