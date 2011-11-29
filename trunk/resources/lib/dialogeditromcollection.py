@@ -93,6 +93,9 @@ class EditRomCollectionDialog(dialogbase.DialogBaseEdit):
 		for imagePlacing in imagePlacingRows:
 			Logutil.log('add image placing: ' +str(imagePlacing.attrib.get('name')), util.LOG_LEVEL_INFO)
 			option = imagePlacing.attrib.get('name')
+			#HACK: remove all video options from config
+			if(option.upper().find('VIDEO') >= 0):
+				continue
 			try:
 				option = config.imagePlacingDict[option]
 			except:
