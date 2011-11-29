@@ -593,9 +593,11 @@ class Config:
 			for fileType in romCollection.imagePlacingMain.fileTypesForGameListSelected:
 				if(fileTypeIds.count(fileType.id) == 0):
 					fileTypeIds.append(fileType.id)
-			for fileType in romCollection.imagePlacingMain.fileTypesForMainViewVideoFullscreen:
-				if(fileTypeIds.count(fileType.id) == 0):
-					fileTypeIds.append(fileType.id)
+			
+			#fullscreen video
+			fileType, errorMsg = self.readFileType('gameplay', self.tree)
+			if(fileType != None):
+				fileTypeIds.append(fileType.id)
 
 		return fileTypeIds
 	
