@@ -90,7 +90,7 @@
 							<bordertexture border="8">rcb-ThumbBorder.png</bordertexture>
 							<bordersize>8</bordersize>
 							<texture background="true">$INFO[ListItem.Thumb]</texture>
-							<animation reversible="false" effect="zoom" end="120" center="auto" time="200">Focus</animation>
+							<animation reversible="false" effect="zoom" end="120" center="auto" time="150">Focus</animation>
 						</control>
 						<control type="image">
 							<posx>-65</posx>
@@ -99,7 +99,7 @@
 							<height>25</height>
 							<texture>rcb-star.png</texture>
 							<visible>!IsEmpty(ListItem.Property(isfavorite))</visible>
-							<animation reversible="false" effect="fade" start="0" end="100" time="400">Focus</animation>
+							<animation reversible="false" effect="fade" start="0" end="100" time="150">Focus</animation>
 						</control>
 						<control type="button">
 							<description>Autoplay video</description>
@@ -110,7 +110,7 @@
 							<texturefocus></texturefocus>
 							<texturenofocus></texturenofocus>
 							<visible>!IsEmpty(ListItem.Property(autoplayvideomain)) + !IsEmpty(ListItem.Property(gameplaymain))</visible>
-							<animation delay="500" effect="fade" start="100" end="100">Focus</animation>
+							<animation delay="300" effect="fade" start="100" end="100">Focus</animation>
 							<onfocus>XBMC.PlayMedia($INFO[ListItem.Property(gameplaymain)],1)</onfocus>
 						</control>
 					</focusedlayout>
@@ -192,7 +192,7 @@
 					</control>
 					<!-- gameinfobig -->
 					<control type="image" id="2000">
-						<animation delay="600" effect="fade" start="0" end="100">Visible</animation>
+						<animation delay="200" effect="fade" start="0" end="100">Visible</animation>
 						<description>gameinfo</description>
 						<posx>25</posx>
 						<posy>25</posy>
@@ -258,7 +258,7 @@
 					</control>
 					<!-- gameinfolowerright -->
 					<control type="image" id="2700">
-						<animation delay="500" effect="fade" start="0" end="100">Visible</animation>
+						<animation delay="200" effect="fade" start="0" end="100">Visible</animation>
 						<description>gameinfolowerright</description>
 						<posx>295</posx>
 						<posy>170</posy>
@@ -609,7 +609,7 @@
 								<texturefocus></texturefocus>
 								<texturenofocus></texturenofocus>
 								<visible>!IsEmpty(ListItem.Property(autoplayvideomain)) + !IsEmpty(ListItem.Property(gameplaymain))</visible>
-								<animation delay="500" effect="fade" start="100" end="100">Focus</animation>
+								<animation delay="300" effect="fade" start="100" end="100">Focus</animation>
 								<onfocus>XBMC.PlayMedia($INFO[ListItem.Property(gameplaymain)],1)</onfocus>
 							</control>
 						</focusedlayout>
@@ -651,7 +651,7 @@
 					</control>
 					<!-- gameinfobig -->
 					<control type="image" id="2001">
-						<animation delay="500" effect="fade" start="0" end="100">Visible</animation>
+						<animation delay="200" effect="fade" start="0" end="100">Visible</animation>
 						<description>gameinfobig</description>
 						<posx>25</posx>
 						<posy>60</posy>
@@ -717,7 +717,7 @@
 					</control>
 					<!-- gameinfolowerright -->
 					<control type="image" id="2701">
-						<animation delay="500" effect="fade" start="0" end="100">Visible</animation>
+						<animation delay="200" effect="fade" start="0" end="100">Visible</animation>
 						<description>gameinfolowerright</description>
 						<posx>295</posx>
 						<posy>205</posy>
