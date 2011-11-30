@@ -591,7 +591,7 @@
 									<animation type="Focus" reversible="false">
 										<effect type="zoom" center="80,238" start="81" end="100" time="400" tween="back" easing="out" />
 									</animation>
-									<animation effect="fade" start="100" end="0" time="200" condition="Window.IsActive(movieinformation) | Window.IsActive(addoninformation) | Window.IsActive(songinformation)">Conditional</animation>
+									<animation effect="fade" start="100" end="0" time="150" condition="Window.IsActive(movieinformation) | Window.IsActive(addoninformation) | Window.IsActive(songinformation)">Conditional</animation>
 								</control>
 								<control type="image">
 									<posx>0</posx>
@@ -606,7 +606,7 @@
 										<effect type="zoom" center="80,238" start="81" end="100" time="400" tween="back" easing="out" />
 									</animation>
 									<animation effect="fade" start="30" end="30" time="0" condition="true">Conditional</animation>
-									<animation effect="fade" start="100" end="0" time="200" condition="Window.IsActive(movieinformation) | Window.IsActive(addoninformation) | Window.IsActive(songinformation)">Conditional</animation>
+									<animation effect="fade" start="100" end="0" time="150" condition="Window.IsActive(movieinformation) | Window.IsActive(addoninformation) | Window.IsActive(songinformation)">Conditional</animation>
 								</control>
 								<control type="image">
 									<posx>-45</posx>
@@ -615,7 +615,7 @@
 									<height>25</height>
 									<texture>rcb-star.png</texture>					
 									<visible>!IsEmpty(ListItem.Property(isfavorite))</visible>
-									<animation effect="fade" start="100" end="0" time="200" condition="Window.IsActive(movieinformation) | Window.IsActive(addoninformation) | Window.IsActive(songinformation)">Conditional</animation>
+									<animation effect="fade" start="100" end="0" time="150" condition="Window.IsActive(movieinformation) | Window.IsActive(addoninformation) | Window.IsActive(songinformation)">Conditional</animation>
 								</control>
 								<control type="button">
 									<description>Autoplay video</description>
@@ -626,7 +626,7 @@
 									<texturefocus></texturefocus>
 									<texturenofocus></texturenofocus>
 									<visible>!IsEmpty(ListItem.Property(autoplayvideomain)) + !IsEmpty(ListItem.Property(gameplaymain))</visible>
-									<animation delay="500" effect="fade" start="100" end="100">Focus</animation>
+									<animation delay="300" effect="fade" start="100" end="100">Focus</animation>
 									<onfocus>XBMC.PlayMedia($INFO[ListItem.Property(gameplaymain)],1)</onfocus>
 								</control>
 							</control>
