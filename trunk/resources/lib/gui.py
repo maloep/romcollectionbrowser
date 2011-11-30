@@ -107,6 +107,8 @@ class UIGameDB(xbmcgui.WindowXML):
 	applyFilterThread = None
 	applyFilterThreadStopped = False
 	applyFiltersInProgress = False
+	
+	lastPosition = -1
 		
 	#dummy to be compatible with ProgressDialogGUI
 	itemCount = 0
@@ -303,12 +305,20 @@ class UIGameDB(xbmcgui.WindowXML):
 				
 				control = self.getControlById(self.selectedControlId)
 				if(control == None):
-					Logutil.log("control == None in onAction", util.LOG_LEVEL_WARNING)
+					Logutil.log("control == None in onAction", util.LOG_LEVEL_WARNING)					
 					return
 					
 				if(CONTROL_GAMES_GROUP_START <= self.selectedControlId <= CONTROL_GAMES_GROUP_END):
 					if(not self.fullScreenVideoStarted):
-						self.showGameInfo()
+						if(self.cachingOption > 0):
+							#HACK: check last position in list (prevent loading game info)
+							pos = self.getCurrentListPosition()
+							Logutil.log('onAction: current position = ' +str(pos), util.LOG_LEVEL_DEBUG)
+							Logutil.log('onAction: last position = ' +str(self.lastPosition), util.LOG_LEVEL_DEBUG)
+							if(pos != self.lastPosition):							
+								self.showGameInfo()
+							
+							self.lastPosition = pos
 									
 				if(self.selectedControlId in FILTER_CONTROLS):
 					
@@ -613,6 +623,8 @@ class UIGameDB(xbmcgui.WindowXML):
 	def showGames(self):
 		Logutil.log("Begin showGames" , util.LOG_LEVEL_INFO)
 		
+		self.lastPosition = -1
+		
 		preventUnfilteredSearch = self.Settings.getSetting(util.SETTING_RCB_PREVENTUNFILTEREDSEARCH).upper() == 'TRUE'			
 		
 		if(preventUnfilteredSearch):			
@@ -682,7 +694,7 @@ class UIGameDB(xbmcgui.WindowXML):
 				self.addItem(item, False)
 				
 				# add video to playlist for fullscreen support
-				self.addFullscreenVideoToPlaylist(gameRow, imageGameList, imageGameListSelected, count, fileDict, romCollection)
+				self.loadVideoFiles(item, gameRow, imageGameList, imageGameListSelected, count, fileDict, romCollection)
 					
 				count = count + 1
 			except Exception, (exc):
@@ -712,7 +724,7 @@ class UIGameDB(xbmcgui.WindowXML):
 					
 		pos = self.getCurrentListPosition()
 		if(pos == -1):
-			pos = 0						
+			pos = 0
 		
 		selectedGame, gameRow = self.getGameByPosition(self.gdb, pos)
 		if(selectedGame == None or gameRow == None):
@@ -729,12 +741,16 @@ class UIGameDB(xbmcgui.WindowXML):
 			fileDict = self.fileDict
 		else:
 			fileDict = self.getFileDictByGameRow(gameRow)
-			
-		self.loadVideoFiles(gameRow, selectedGame, romCollection, fileDict)
 		
 		#gameinfos are already loaded with cachingOption 0 (cacheAll)
 		if(self.cachingOption > 0):
 			self.loadGameInfos(gameRow, selectedGame, pos, romCollection, fileDict)
+		
+		video = selectedGame.getProperty('gameplaymain')
+		print 'showgameinfo: video = ' +str(video)
+		if(video == "" or video == None):
+			if(self.player.isPlayingVideo()):
+				self.player.stop()
 				
 		Logutil.log("End showGameInfo" , util.LOG_LEVEL_INFO)
 		
@@ -1095,20 +1111,41 @@ class UIGameDB(xbmcgui.WindowXML):
 		return result
 	
 		
-	def addFullscreenVideoToPlaylist(self, gameRow, imageGameList, imageGameListSelected, count, fileDict, romCollection):
-		#create dummy ListItem for playlist
-		dummyItem = xbmcgui.ListItem(gameRow[util.ROW_NAME], str(gameRow[util.ROW_ID]), imageGameList, imageGameListSelected)
+	def loadVideoFiles(self, listItem, gameRow, imageGameList, imageGameListSelected, count, fileDict, romCollection):
 		
-		if (self.fileTypeGameplay == None):
-			Logutil.log("fileTypeGameplay == None in addFullscreenVideoToPlaylist", util.LOG_LEVEL_WARNING)
-			return
+		#check if we should use autoplay video
+		if(self.autoplayVideo == 'true'):
+			listItem.setProperty('autoplayvideomain', 'true')
+		else:
+			listItem.setProperty('autoplayvideomain', '')
 			
-		videosFullscreen = helper.getFilesByControl_Cached(self.gdb, (self.fileTypeGameplay,), gameRow[util.ROW_ID], gameRow[util.GAME_publisherId], gameRow[util.GAME_developerId], gameRow[util.GAME_romCollectionId], fileDict)
+		#get video window size
+		if (romCollection.imagePlacingMain.name.startswith('gameinfosmall')):
+			listItem.setProperty('videosizesmall', 'small')
+			listItem.setProperty('videosizebig', '')
+		else:
+			listItem.setProperty('videosizebig', 'big')
+			listItem.setProperty('videosizesmall', '')
 		
-		#add video to playlist and compute playlistOffset (missing videos must be skipped)
-		if(videosFullscreen != None and len(videosFullscreen) != 0):			
-			video = videosFullscreen[0]						
-			self.rcb_playList.add(video, dummyItem)			
+		#get video
+		video = ""
+
+		if(self.fileTypeGameplay == None):
+			Logutil.log("fileType gameplay == None. No video loaded.", util.LOG_LEVEL_INFO)
+		
+		#load gameplay videos
+		#HACK: other video types are not supported
+		videos = helper.getFilesByControl_Cached(self.gdb, (self.fileTypeGameplay,), gameRow[util.ROW_ID], gameRow[util.GAME_publisherId], gameRow[util.GAME_developerId], gameRow[util.GAME_romCollectionId], fileDict)
+		if(videos != None and len(videos) != 0):
+			video = videos[0]
+			#make video accessable via UI
+			listItem.setProperty('gameplaymain', video)
+		
+			#create dummy ListItem for playlist
+			dummyItem = xbmcgui.ListItem(gameRow[util.ROW_NAME], str(gameRow[util.ROW_ID]), imageGameList, imageGameListSelected)
+		
+			#add video to playlist and compute playlistOffset (missing videos must be skipped)
+			self.rcb_playList.add(video, dummyItem)
 			try:
 				if(len(self.playlistOffsets) == 0 or count == 0):
 					self.playlistOffsets[count] = 0					
@@ -1122,7 +1159,7 @@ class UIGameDB(xbmcgui.WindowXML):
 				self.playlistOffsets[count] = 0				
 			else:
 				offset = self.playlistOffsets[count - 1]
-				self.playlistOffsets[count] = offset								
+				self.playlistOffsets[count] = offset
 		
 	
 	def getGameByPosition(self, gdb, pos):
@@ -1170,51 +1207,11 @@ class UIGameDB(xbmcgui.WindowXML):
 		return gameId
 
 
+	"""
 	def loadVideoFiles(self, gameRow, selectedGame, romCollection, fileDict):
 			
-		#check if we should use autoplay video
-		if(self.autoplayVideo == 'true'):
-			selectedGame.setProperty('autoplayvideomain', 'true')
-		else:
-			selectedGame.setProperty('autoplayvideomain', '')
-			
-		#get video window size
-		if (romCollection.imagePlacingMain.name.startswith('gameinfosmall')):
-			selectedGame.setProperty('videosizesmall', 'small')
-			selectedGame.setProperty('videosizebig', '')
-		else:
-			selectedGame.setProperty('videosizebig', 'big')
-			selectedGame.setProperty('videosizesmall', '')
-		
-		#get video
-		video = ""
-
-		if(self.fileTypeGameplay == None):
-			Logutil.log("fileType gameplay == None. No video loaded.", util.LOG_LEVEL_INFO)
-			return
-		
-		videos = helper.getFilesByControl_Cached(self.gdb, (self.fileTypeGameplay,), gameRow[util.ROW_ID], gameRow[util.GAME_publisherId], gameRow[util.GAME_developerId], gameRow[util.GAME_romCollectionId], fileDict)
-		print 'videos = ' +str(videos)
-		if(videos != None and len(videos) != 0):
-			video = videos[0]
-						
-		if(video == "" or video == None):
-			Logutil.log("video == None in loadVideoFiles", util.LOG_LEVEL_DEBUG)
-			if(self.player.isPlayingVideo()):
-				self.player.stop()
-			return							
-			
-			
-		#stop video (if playing)
-		if(self.player.isPlayingVideo()):			
-			playingFile = self.player.getPlayingFile()				
-			if(playingFile != video):
-				self.player.stop()
-			else:
-				return
-				
-		selectedGame.setProperty('gameplaymain', video)
-		
+		pass
+	"""
 		
 		
 	def loadGameInfos(self, gameRow, selectedGame, pos, romCollection, fileDict):
