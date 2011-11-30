@@ -294,7 +294,6 @@ class UIGameDB(xbmcgui.WindowXML):
 				Logutil.log("onAction: ACTION_CANCEL_DIALOG", util.LOG_LEVEL_INFO)
 							
 				if(self.player.isPlayingVideo()):
-					#self.player.stoppedByRCB = True
 					self.player.stop()
 					xbmc.sleep(util.WAITTIME_PLAYERSTOP)
 								
@@ -321,6 +320,10 @@ class UIGameDB(xbmcgui.WindowXML):
 							self.lastPosition = pos
 									
 				if(self.selectedControlId in FILTER_CONTROLS):
+					
+					if(self.player.isPlayingVideo()):
+						self.player.stop()
+						xbmc.sleep(util.WAITTIME_PLAYERSTOP)
 					
 					label = str(control.getSelectedItem().getLabel())
 					label2 = str(control.getSelectedItem().getLabel2())
@@ -377,8 +380,16 @@ class UIGameDB(xbmcgui.WindowXML):
 				if(CONTROL_GAMES_GROUP_START <= self.selectedControlId <= CONTROL_GAMES_GROUP_END):
 					self.showGameInfoDialog()
 			elif (action.getId() in ACTION_CONTEXT):
-				Logutil.log('onAction: ACTION_CONTEXT', util.LOG_LEVEL_INFO)
+				
+				if(self.player.isPlayingVideo()):
+					self.player.stop()
+					xbmc.sleep(util.WAITTIME_PLAYERSTOP)
+				
 				self.showContextMenu()
+				
+				self.setFocus(self.getControl(CONTROL_GAMES_GROUP_START))
+				
+				Logutil.log('onAction: ACTION_CONTEXT', util.LOG_LEVEL_INFO)								
 			elif (action.getId() in ACTION_PLAYFULLSCREEN):
 				#HACK: check if we are in Eden mode
 				if(self.xbmcVersionEden):
@@ -980,9 +991,12 @@ class UIGameDB(xbmcgui.WindowXML):
 		
 		self.saveViewMode()
 		
+		video = ''
 		if(self.player.isPlayingVideo()):
-			#self.player.stoppedByRCB = True
 			self.player.stop()
+			
+			video = selectedGame.getProperty('gameplaymain')
+			selectedGame.setProperty('gameplaymain', '')
 		
 		self.gameinfoDialogOpen = True
 				
@@ -993,9 +1007,7 @@ class UIGameDB(xbmcgui.WindowXML):
 		#HACK: Dharma has a new parameter in Window-Constructor for default resolution
 		constructorParam = 1
 		if(util.hasAddons()):
-			constructorParam = "720p"		
-		
-		selectedGame.setProperty('gameplaymain', '')
+			constructorParam = "720p"
 		
 		import dialoggameinfo
 		try:
@@ -1014,6 +1026,10 @@ class UIGameDB(xbmcgui.WindowXML):
 		del gid
 		
 		self.gameinfoDialogOpen = False
+		
+		#force restart of video if available
+		selectedGame.setProperty('gameplaymain', video)
+		self.setFocus(self.getControl(CONTROL_GAMES_GROUP_START))
 		
 		Logutil.log("End showGameInfoDialog", util.LOG_LEVEL_INFO)
 		
