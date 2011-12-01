@@ -719,9 +719,18 @@ class UIGameDB(xbmcgui.WindowXML):
 		
 		timestamp3 = time.clock()
 		diff = (timestamp3 - timestamp2) * 1000		
-		print "load %i games to list in %d ms" % (self.getListSize(), diff)		
+		print "load %i games to list in %d ms" % (self.getListSize(), diff)
 		
-		Logutil.log("End showGames" , util.LOG_LEVEL_INFO)		
+		self.fillListInBackground()
+		
+		Logutil.log("End showGames" , util.LOG_LEVEL_INFO)
+		
+	
+	def fillListInBackground(self):
+		Logutil.log("Begn fillListInBackground" , util.LOG_LEVEL_INFO)
+		
+		#self.applyFilterThread = Thread(target=self.applyFilters, args=())
+		#self.applyFilterThread.start()
 	
 	
 	def showGameInfo(self):
@@ -836,7 +845,7 @@ class UIGameDB(xbmcgui.WindowXML):
 		self.clearCache()
 		self.checkImport(3)
 		self.cacheItems()
-		self.updateControls(False, False, False)
+		self.updateControls(True)
 		
 		Logutil.log("End updateDB" , util.LOG_LEVEL_INFO)
 		
