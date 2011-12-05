@@ -108,7 +108,15 @@ class UIGameDB(xbmcgui.WindowXML):
 	applyFilterThreadStopped = False
 	applyFiltersInProgress = False
 	
+	#last selected game position (prevent invoke showgameinfo twice)
 	lastPosition = -1
+	#indices of already loaded gameinfos
+	loadedGameInfoIndices = []
+	
+	loadGameInfoThread1 = None
+	loadGameInfoThread1Stopped = False
+	loadGameInfoThread2 = None
+	loadGameInfoThread2Stopped = False
 		
 	#dummy to be compatible with ProgressDialogGUI
 	itemCount = 0
@@ -663,7 +671,7 @@ class UIGameDB(xbmcgui.WindowXML):
 				
 		timestamp2 = time.clock()
 		diff = (timestamp2 - timestamp1) * 1000
-		print "load games from db in %d ms" % (diff)
+		print "showGames: load games from db in %d ms" % (diff)
 	
 		self.writeMsg("loading games...")
 		
@@ -719,18 +727,75 @@ class UIGameDB(xbmcgui.WindowXML):
 		
 		timestamp3 = time.clock()
 		diff = (timestamp3 - timestamp2) * 1000		
-		print "load %i games to list in %d ms" % (self.getListSize(), diff)
+		print "showGames: load %i games to list in %d ms" % (self.getListSize(), diff)
 		
-		self.fillListInBackground()
+		#self.fillListInBackground()
 		
 		Logutil.log("End showGames" , util.LOG_LEVEL_INFO)
 		
 	
 	def fillListInBackground(self):
-		Logutil.log("Begn fillListInBackground" , util.LOG_LEVEL_INFO)
+		Logutil.log("Begin fillListInBackground" , util.LOG_LEVEL_INFO)
 		
-		#self.applyFilterThread = Thread(target=self.applyFilters, args=())
-		#self.applyFilterThread.start()
+		if(self.cachingOption == 0):
+			return
+		
+		#xbmc.sleep(1000)
+		selectedGame = self.getListItem(0)
+		print 'flb: selectedGame = ' +str(selectedGame)
+		
+		self.loadGameInfoThread1 = Thread(target=self.runLoadGameInfo, args=(True,))
+		self.loadGameInfoThread1.start()
+		
+		#self.loadGameInfoThread2 = Thread(target=self.runLoadGameInfo, args=(False))
+		#self.loadGameInfoThread2.start()
+		
+	
+	def runLoadGameInfo(self, moveUp):
+		Logutil.log("Begin runLoadGameInfo", util.LOG_LEVEL_INFO)
+		
+		listSize = self.getListSize()
+		Logutil.log("listSize = " +str(listSize), util.LOG_LEVEL_INFO)		
+		if(listSize == 0):
+			return
+		
+		gdb = GameDataBase(util.getAddonDataPath())
+		gdb.connect()
+		
+		timestamp1 = time.clock()
+		
+		
+		
+		Logutil.log("Start filling game list in background", util.LOG_LEVEL_INFO)
+		for pos in range(0, listSize - 1):
+			#try:
+			Logutil.log("Current list index = " +str(pos), util.LOG_LEVEL_INFO)			
+			currentGame, gameRow = self.getGameByPosition(gdb, pos)
+			print 'currentGame: ' +str(currentGame)
+			print 'gameRow: ' +str(gameRow)
+			if(currentGame == None or gameRow == None):
+				Logutil.log("game == None in runLoadGameInfo", util.LOG_LEVEL_WARNING)			
+				return
+			
+			fileDict = self.getFileDictByGameRow(gameRow)
+			
+			romCollection = None
+			try:
+				romCollection = self.config.romCollections[str(gameRow[util.GAME_romCollectionId])]
+			except:
+				Logutil.log('Cannot get rom collection with id: ' +str(gameRow[util.GAME_romCollectionId]), util.LOG_LEVEL_ERROR)
+				return
+			
+			self.loadGameInfos(gameRow, currentGame, pos, romCollection, fileDict)
+			Logutil.log("item added.", util.LOG_LEVEL_INFO)
+			#except Exception, (exc):
+			#	Logutil.log("Error while loading game info: " +str(exc), util.LOG_LEVEL_WARNING)
+			
+		timestamp2 = time.clock()
+		diff = (timestamp2 - timestamp1) * 1000		
+		print "runLoadGameInfo: load %i games to list in %d ms" % (listSize, diff)
+		
+		Logutil.log("Loading list is done", util.LOG_LEVEL_INFO)
 	
 	
 	def showGameInfo(self):
@@ -767,7 +832,6 @@ class UIGameDB(xbmcgui.WindowXML):
 			self.loadGameInfos(gameRow, selectedGame, pos, romCollection, fileDict)
 		
 		video = selectedGame.getProperty('gameplaymain')
-		print 'showgameinfo: video = ' +str(video)
 		if(video == "" or video == None):
 			if(self.player.isPlayingVideo()):
 				self.player.stop()
@@ -1004,8 +1068,8 @@ class UIGameDB(xbmcgui.WindowXML):
 		if(self.player.isPlayingVideo()):
 			self.player.stop()
 			
-			video = selectedGame.getProperty('gameplaymain')
-			selectedGame.setProperty('gameplaymain', '')
+		video = selectedGame.getProperty('gameplaymain')
+		selectedGame.setProperty('gameplaymain', '')
 		
 		self.gameinfoDialogOpen = True
 				
@@ -1191,22 +1255,26 @@ class UIGameDB(xbmcgui.WindowXML):
 		Logutil.log("size = %i" % self.getListSize(), util.LOG_LEVEL_DEBUG)
 		Logutil.log("pos = %s" % pos, util.LOG_LEVEL_DEBUG)
 		
+		print 'pos = ' +str(pos)
 		selectedGame = self.getListItem(pos)
+		print 'selectedGame = ' +str(selectedGame)
 
 		if(selectedGame == None):
-			Logutil.log("selectedGame == None in showGameInfo", util.LOG_LEVEL_WARNING)
+			Logutil.log("selectedGame == None in getGameByPosition", util.LOG_LEVEL_WARNING)
 			return None, None
 		
 		gameId = selectedGame.getProperty('gameId')
+		print 'gameId = ' +str(gameId)
 		if(gameId == ''):
-			Logutil.log("gameId is empty in showGameInfo", util.LOG_LEVEL_WARNING)
+			Logutil.log("gameId is empty in getGameByPosition", util.LOG_LEVEL_WARNING)
 			return None, None
 		
-		gameRow = Game(gdb).getObjectById(gameId)				
+		gameRow = Game(gdb).getObjectById(gameId)
+		print 'gameRow = ' +str(gameRow)
 
 		if(gameRow == None):			
 			Logutil.log("gameId = %s" % gameId, util.LOG_LEVEL_WARNING)
-			Logutil.log("gameRow == None in showGameInfo", util.LOG_LEVEL_WARNING)
+			Logutil.log("gameRow == None in getGameByPosition", util.LOG_LEVEL_WARNING)
 			return None, None
 			
 		return selectedGame, gameRow			
@@ -1230,13 +1298,6 @@ class UIGameDB(xbmcgui.WindowXML):
 		Logutil.log("gameId = " + gameId, util.LOG_LEVEL_INFO)
 		
 		return gameId
-
-
-	"""
-	def loadVideoFiles(self, gameRow, selectedGame, romCollection, fileDict):
-			
-		pass
-	"""
 		
 		
 	def loadGameInfos(self, gameRow, selectedGame, pos, romCollection, fileDict):
