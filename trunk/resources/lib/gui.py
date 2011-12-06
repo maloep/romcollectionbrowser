@@ -281,6 +281,8 @@ class UIGameDB(xbmcgui.WindowXML):
 		#reset last view		
 		self.loadViewState()
 		
+		#self.fillListInBackground()
+		
 		#check startup tasks done with autoexec.py
 		if(not self.useRCBService):
 			self.checkAutoExec()
@@ -729,20 +731,15 @@ class UIGameDB(xbmcgui.WindowXML):
 		diff = (timestamp3 - timestamp2) * 1000		
 		print "showGames: load %i games to list in %d ms" % (self.getListSize(), diff)
 		
-		#self.fillListInBackground()
-		
 		Logutil.log("End showGames" , util.LOG_LEVEL_INFO)
 		
 	
+	"""
 	def fillListInBackground(self):
 		Logutil.log("Begin fillListInBackground" , util.LOG_LEVEL_INFO)
 		
 		if(self.cachingOption == 0):
 			return
-		
-		#xbmc.sleep(1000)
-		selectedGame = self.getListItem(0)
-		print 'flb: selectedGame = ' +str(selectedGame)
 		
 		self.loadGameInfoThread1 = Thread(target=self.runLoadGameInfo, args=(True,))
 		self.loadGameInfoThread1.start()
@@ -759,18 +756,13 @@ class UIGameDB(xbmcgui.WindowXML):
 		if(listSize == 0):
 			return
 		
-		gdb = GameDataBase(util.getAddonDataPath())
-		gdb.connect()
-		
 		timestamp1 = time.clock()
-		
-		
 		
 		Logutil.log("Start filling game list in background", util.LOG_LEVEL_INFO)
 		for pos in range(0, listSize - 1):
 			#try:
 			Logutil.log("Current list index = " +str(pos), util.LOG_LEVEL_INFO)			
-			currentGame, gameRow = self.getGameByPosition(gdb, pos)
+			currentGame, gameRow = self.getGameByPosition(self.gdb, pos)
 			print 'currentGame: ' +str(currentGame)
 			print 'gameRow: ' +str(gameRow)
 			if(currentGame == None or gameRow == None):
@@ -796,7 +788,7 @@ class UIGameDB(xbmcgui.WindowXML):
 		print "runLoadGameInfo: load %i games to list in %d ms" % (listSize, diff)
 		
 		Logutil.log("Loading list is done", util.LOG_LEVEL_INFO)
-	
+	"""
 	
 	def showGameInfo(self):
 		Logutil.log("Begin showGameInfo" , util.LOG_LEVEL_INFO)
@@ -1254,30 +1246,25 @@ class UIGameDB(xbmcgui.WindowXML):
 	def getGameByPosition(self, gdb, pos):
 		Logutil.log("size = %i" % self.getListSize(), util.LOG_LEVEL_DEBUG)
 		Logutil.log("pos = %s" % pos, util.LOG_LEVEL_DEBUG)
-		
-		print 'pos = ' +str(pos)
+				
 		selectedGame = self.getListItem(pos)
-		print 'selectedGame = ' +str(selectedGame)
-
 		if(selectedGame == None):
 			Logutil.log("selectedGame == None in getGameByPosition", util.LOG_LEVEL_WARNING)
 			return None, None
 		
 		gameId = selectedGame.getProperty('gameId')
-		print 'gameId = ' +str(gameId)
 		if(gameId == ''):
 			Logutil.log("gameId is empty in getGameByPosition", util.LOG_LEVEL_WARNING)
 			return None, None
 		
 		gameRow = Game(gdb).getObjectById(gameId)
-		print 'gameRow = ' +str(gameRow)
 
 		if(gameRow == None):			
 			Logutil.log("gameId = %s" % gameId, util.LOG_LEVEL_WARNING)
 			Logutil.log("gameRow == None in getGameByPosition", util.LOG_LEVEL_WARNING)
 			return None, None
 			
-		return selectedGame, gameRow			
+		return selectedGame, gameRow
 
 		
 	def getGameId(self, gdb, pos):
