@@ -248,9 +248,6 @@ class UIGameDB(xbmcgui.WindowXML):
 		
 		self.cacheItems()
 		
-				
-		self.autoplayVideo = self.Settings.getSetting(util.SETTING_RCB_AUTOPLAYVIDEOMAIN)
-		
 		#load video fileType for later use in showGameInfo
 		self.fileTypeGameplay, errorMsg = self.config.readFileType('gameplay', self.config.tree)		
 		if(self.fileTypeGameplay == None):
@@ -824,7 +821,7 @@ class UIGameDB(xbmcgui.WindowXML):
 			self.loadGameInfos(gameRow, selectedGame, pos, romCollection, fileDict)
 		
 		video = selectedGame.getProperty('gameplaymain')
-		if(video == "" or video == None):
+		if(video == "" or video == None or not romCollection.autoplayVideoMain):
 			if(self.player.isPlayingVideo()):
 				self.player.stop()
 				
@@ -1195,7 +1192,7 @@ class UIGameDB(xbmcgui.WindowXML):
 	def loadVideoFiles(self, listItem, gameRow, imageGameList, imageGameListSelected, count, fileDict, romCollection):
 		
 		#check if we should use autoplay video
-		if(self.autoplayVideo == 'true'):
+		if(romCollection.autoplayVideoMain):
 			listItem.setProperty('autoplayvideomain', 'true')
 		else:
 			listItem.setProperty('autoplayvideomain', '')

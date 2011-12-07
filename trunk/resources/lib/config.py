@@ -186,6 +186,8 @@ class RomCollection:
 	scraperSites = None
 	imagePlacingMain = None
 	imagePlacingInfo = None
+	autoplayVideoMain = True
+	autoplayVideoInfo = True
 	ignoreOnScan = False
 	allowUpdate = True
 	useEmuSolo = False
@@ -376,6 +378,14 @@ class Config:
 			useEmuSolo = self.readTextElement(romCollectionRow, 'useEmuSolo') 			
 			if(useEmuSolo != ''):
 				romCollection.useEmuSolo = useEmuSolo.upper() == 'TRUE'
+				
+			autoplayVideoMain = self.readTextElement(romCollectionRow, 'autoplayVideoMain')
+			if(autoplayVideoMain != ''):
+				romCollection.autoplayVideoMain = autoplayVideoMain.upper() == 'TRUE'
+				
+			autoplayVideoInfo = self.readTextElement(romCollectionRow, 'autoplayVideoInfo')
+			if(autoplayVideoInfo != ''):
+				romCollection.autoplayVideoInfo = autoplayVideoInfo.upper() == 'TRUE'
 			
 			useFoldernameAsGamename = self.readTextElement(romCollectionRow, 'useFoldernameAsGamename')			
 			if(useFoldernameAsGamename != ''):
