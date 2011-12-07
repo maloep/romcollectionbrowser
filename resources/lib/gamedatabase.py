@@ -397,7 +397,7 @@ class Year(DataBaseObject):
 			return yearId[0]
 	
 	def getFilteredYears(self, romCollectionId, genreId, publisherId, likeStatement):
-		args = (romCollectionId, genreId, publisherId)
+		args = (romCollectionId, publisherId, genreId)
 		filterQuery = self.filterQuery %likeStatement
 		util.Logutil.log('searching years with query: ' +filterQuery, util.LOG_LEVEL_DEBUG)		
 		years = self.getObjectsByWildcardQuery(filterQuery, args)
@@ -452,7 +452,7 @@ class Publisher(DataBaseObject):
 			return publisherId[0]
 		
 	def getFilteredPublishers(self, romCollectionId, genreId, yearId, likeStatement):
-		args = (romCollectionId, genreId, yearId)
+		args = (romCollectionId, yearId, genreId)
 		filterQuery = self.filterQuery %likeStatement
 		util.Logutil.log('searching publishers with query: ' +filterQuery, util.LOG_LEVEL_DEBUG)		
 		publishers = self.getObjectsByWildcardQuery(filterQuery, args)

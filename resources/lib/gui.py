@@ -460,9 +460,9 @@ class UIGameDB(xbmcgui.WindowXML):
 			self.showConsoles(rcDelete, rDelete)
 		if (onInit or self.selectedControlId == CONTROL_CONSOLES):
 			self.showGenre(rcDelete, rDelete)
-		if (onInit or self.selectedControlId == CONTROL_CONSOLES):
+		if (onInit or self.selectedControlId == CONTROL_CONSOLES or self.selectedControlId == CONTROL_GENRE):
 			self.showYear(rcDelete, rDelete)
-		if (onInit or self.selectedControlId == CONTROL_CONSOLES):
+		if (onInit or self.selectedControlId == CONTROL_CONSOLES or self.selectedControlId == CONTROL_GENRE or self.selectedControlId == CONTROL_YEAR):
 			self.showPublisher(rcDelete, rDelete)
 		if(onInit):
 			self.showCharacterFilter()
@@ -510,7 +510,7 @@ class UIGameDB(xbmcgui.WindowXML):
 		Logutil.log("Begin showYear" , util.LOG_LEVEL_INFO)
 		Logutil.log("Selected Console: " +str(self.selectedConsoleId), util.LOG_LEVEL_INFO)
 		
-		rows = Year(self.gdb).getFilteredYearsByConsole(self.selectedConsoleId)
+		rows = Year(self.gdb).getFilteredYears(self.selectedConsoleId, self.selectedGenreId, 0, '0 = 0')
 				
 		showEntryAllItems = self.Settings.getSetting(util.SETTING_RCB_SHOWENTRYALLYEARS).upper() == 'TRUE'
 		self.showFilterControl(rows, CONTROL_YEAR, showEntryAllItems, rcDelete, rDelete)
@@ -524,7 +524,7 @@ class UIGameDB(xbmcgui.WindowXML):
 		Logutil.log("Begin showPublisher" , util.LOG_LEVEL_INFO)
 		Logutil.log("Selected Console: " +str(self.selectedConsoleId), util.LOG_LEVEL_INFO)
 
-		rows = Publisher(self.gdb).getFilteredPublishersByConsole(self.selectedConsoleId)
+		rows = Publisher(self.gdb).getFilteredPublishers(self.selectedConsoleId, self.selectedGenreId, self.selectedYearId, '0 = 0')
 		
 		showEntryAllItems = self.Settings.getSetting(util.SETTING_RCB_SHOWENTRYALLPUBLISHER).upper() == 'TRUE'
 		self.showFilterControl(rows, CONTROL_PUBLISHER, showEntryAllItems, rcDelete, rDelete)
@@ -1999,19 +1999,21 @@ class UIGameDB(xbmcgui.WindowXML):
 		
 		#load other filters
 		self.showGenre(False, False)
-		self.showYear(False, False)
-		self.showPublisher(False, False)
-		self.showCharacterFilter()
-		
 		if(rcbSetting[util.RCBSETTING_lastSelectedGenreIndex] != None):
 			self.selectedGenreId = int(self.setFilterSelection(CONTROL_GENRE, rcbSetting[util.RCBSETTING_lastSelectedGenreIndex]))
 			self.selectedGenreIndex = rcbSetting[util.RCBSETTING_lastSelectedGenreIndex]
-		if(rcbSetting[util.RCBSETTING_lastSelectedPublisherIndex] != None):
-			self.selectedPublisherId = int(self.setFilterSelection(CONTROL_PUBLISHER, rcbSetting[util.RCBSETTING_lastSelectedPublisherIndex]))
-			self.selectedPublisherIndex = rcbSetting[util.RCBSETTING_lastSelectedPublisherIndex]
+		
+		self.showYear(False, False)
 		if(rcbSetting[util.RCBSETTING_lastSelectedYearIndex] != None):
 			self.selectedYearId = int(self.setFilterSelection(CONTROL_YEAR, rcbSetting[util.RCBSETTING_lastSelectedYearIndex]))
 			self.selectedYearIndex = rcbSetting[util.RCBSETTING_lastSelectedYearIndex]
+			
+		self.showPublisher(False, False)
+		if(rcbSetting[util.RCBSETTING_lastSelectedPublisherIndex] != None):
+			self.selectedPublisherId = int(self.setFilterSelection(CONTROL_PUBLISHER, rcbSetting[util.RCBSETTING_lastSelectedPublisherIndex]))
+			self.selectedPublisherIndex = rcbSetting[util.RCBSETTING_lastSelectedPublisherIndex]
+		
+		self.showCharacterFilter()
 		if(rcbSetting[util.RCBSETTING_lastSelectedCharacterIndex] != None):
 			self.selectedCharacter = self.setFilterSelection(CONTROL_CHARACTER, rcbSetting[util.RCBSETTING_lastSelectedCharacterIndex])
 			self.selectedCharacterIndex = rcbSetting[util.RCBSETTING_lastSelectedCharacterIndex]
