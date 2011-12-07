@@ -123,10 +123,9 @@ class UIGameInfoView(xbmcgui.WindowXMLDialog):
 		
 		item = xbmcgui.ListItem(gameRow[util.ROW_NAME], str(gameRow[util.ROW_ID]), imageGameList, imageGameListSelected)
 		item.setProperty('gameId', str(gameRow[util.ROW_ID]))
-		
-		autoplayVideo = self.settings.getSetting(util.SETTING_RCB_AUTOPLAYVIDEOINFO)
+				
 		#check if we should use autoplay video
-		if(autoplayVideo == 'true'):
+		if(romCollection.autoplayVideoInfo):
 			item.setProperty('autoplayvideoinfo', 'true')
 		else:
 			item.setProperty('autoplayvideoinfo', '')

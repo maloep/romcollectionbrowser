@@ -42,6 +42,9 @@ CONTROL_BUTTON_ADDMEDIAPATH = 5500
 #Browse Games
 CONTROL_LIST_IMAGEPLACING_MAIN = 5320
 CONTROL_LIST_IMAGEPLACING_INFO = 5340
+CONTROL_BUTTON_AUTOPLAYVIDEO_MAIN = 5350
+CONTROL_BUTTON_AUTOPLAYVIDEO_INFO = 5360
+
 
 #Launch Games
 CONTROL_BUTTON_EMUCMD = 5220
@@ -307,6 +310,12 @@ class EditRomCollectionDialog(dialogbase.DialogBaseEdit):
 			pass		
 		self.selectItemInList(optionInfo, CONTROL_LIST_IMAGEPLACING_INFO)
 		
+		control = self.getControlById(CONTROL_BUTTON_AUTOPLAYVIDEO_MAIN)
+		control.setSelected(self.selectedRomCollection.autoplayVideoMain)
+		
+		control = self.getControlById(CONTROL_BUTTON_AUTOPLAYVIDEO_INFO)
+		control.setSelected(self.selectedRomCollection.autoplayVideoInfo)
+		
 		#Launch Games
 		control = self.getControlById(CONTROL_BUTTON_EMUCMD)		
 		control.setLabel(self.selectedRomCollection.emulatorCmd)
@@ -390,6 +399,11 @@ class EditRomCollectionDialog(dialogbase.DialogBaseEdit):
 				imgPlacingName = item[0]
 		imgPlacing, errorMsg = self.gui.config.readImagePlacing(imgPlacingName, self.gui.config.tree)
 		self.selectedRomCollection.imagePlacingInfo = imgPlacing
+		
+		control = self.getControlById(CONTROL_BUTTON_AUTOPLAYVIDEO_MAIN)
+		self.selectedRomCollection.autoplayVideoMain = bool(control.isSelected())
+		control = self.getControlById(CONTROL_BUTTON_AUTOPLAYVIDEO_INFO)
+		self.selectedRomCollection.autoplayVideoInfo = bool(control.isSelected())
 		
 		control = self.getControlById(CONTROL_BUTTON_USEEMUSOLO)
 		self.selectedRomCollection.useEmuSolo = bool(control.isSelected())

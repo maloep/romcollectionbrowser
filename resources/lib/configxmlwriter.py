@@ -64,6 +64,8 @@ class ConfigXmlWriter:
 			SubElement(romCollectionXml, 'useEmuSolo').text = str(romCollection.useEmuSolo)
 			SubElement(romCollectionXml, 'ignoreOnScan').text = str(romCollection.ignoreOnScan)
 			SubElement(romCollectionXml, 'allowUpdate').text = str(romCollection.allowUpdate)
+			SubElement(romCollectionXml, 'autoplayVideoMain').text = str(romCollection.autoplayVideoMain)
+			SubElement(romCollectionXml, 'autoplayVideoInfo').text = str(romCollection.autoplayVideoInfo)
 			SubElement(romCollectionXml, 'useFoldernameAsGamename').text = str(romCollection.useFoldernameAsGamename)
 			SubElement(romCollectionXml, 'maxFolderDepth').text = str(romCollection.maxFolderDepth)
 			SubElement(romCollectionXml, 'doNotExtractZipFiles').text = str(romCollection.doNotExtractZipFiles)
