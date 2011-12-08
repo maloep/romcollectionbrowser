@@ -1,6 +1,5 @@
 <window>
 	<allowoverlay>no</allowoverlay>
-	<!--<defaultcontrol always="false">3001</defaultcontrol>-->
 	<coordinates>
 	        <system>1</system>
         	<posx>0</posx>
