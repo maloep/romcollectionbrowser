@@ -1,3 +1,20 @@
+0.9.5 (12/2011)
+~~~~~~~~~~~~~
+Import Games:
+  * add archive.vg scraper to config.xml
+
+Browse Games
+  * move autoplay video from script to skin
+    * add new options to "Edit Rom Collection" dialog: autoplay video (Main window and Info window)
+    * remove imageplacing options with video support
+  * improvement of browsing and list loading performance
+  * more filter control interaction: all filter controls will be updated from left to right
+  * add video support to Night showcase view
+  * stop video when changing filters or launch context menu
+  * bugfix: fullscreen video now works auto video playback is turned on
+  * bugfix: game name does not change after video playback is stopped in game info dialog
+  
+
 0.9.4 (11/2011)
 ~~~~~~~~~~~~~
 General:
