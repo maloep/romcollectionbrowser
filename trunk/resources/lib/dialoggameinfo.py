@@ -62,9 +62,13 @@ class UIGameInfoView(xbmcgui.WindowXMLDialog):
 		self.showGameList()
 		
 		control = self.getControlById(CONTROL_BUTTON_PLAYVIDEO)
-		if(control != None):
+		if(control != None and xbmc.getCondVisibility("Control.IsVisible(%i)" %CONTROL_BUTTON_PLAYVIDEO)):
 			xbmc.sleep(util.WAITTIME_UPDATECONTROLS)
 			self.setFocus(control)
+		else:
+			control = self.getControlById(CONTROL_BUTTON_PLAYGAME)
+			if(control != None):
+				self.setFocus(control)
 		
 		xbmc.sleep(util.WAITTIME_UPDATECONTROLS)
 		self.showGameInfo()
