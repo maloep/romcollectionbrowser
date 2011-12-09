@@ -5,27 +5,31 @@ This TODO list / roadmap is a working document. It will change quite frequently 
   
 = 0.9.5 =
 == General ==
-  * new caching option: load list in background (maybe remove cacheitem and next)
-  
-== Import Games ==
+  * load all videos while building the list: merge with addFullscreenToPlaylist - Done
+  * remove control not found error message - Done
+  * add archive.vg scraper to config.xml - Done
   
 == Browse Games ==
-  * new setting autoplay video - Done
-  * remove all autoplay video code from script - Done
-  * start video from skin xml - Done
-  * start video from skin xml (Info window) - Done
+  * move autoplay video from script to skin - Done
+	* new setting autoplay video - Done
+	* remove all autoplay video code from script - Done
+	* start video from skin xml (Main window) - Done
+	* start video from skin xml (Info window) - Done
+	* change name for autoplay and gameplay video on info view - Done
+	* remove imageplacing options gameinfobigvideo + gameinfosmallvideo: check if video is available and if size is big or small - Done	  
+	  * remove from config_template.xml - Done
+	  * ignore in config dialogs - Done
+  * prevent loading game infos multiple times (without timer) - Done
   * add video support in Night showcase - Done
-  * stop video when changing filters
-  * update console filter after add rom collection
-  * filter control interaction
-    * Consoles -> Genre, Year, Publisher - Done
-	* Genre -> Year, Publisher
-	* Year -> Publisher
-  * fullscreen video together with auto video playback
+  * stop video when changing filters or launch Context menu - Done
+  * use autoplay info in default skins - Done
+  * fullscreen video together with auto video playback - Done
   * game name changes after video playback is stopped in game info dialog - Done
+  * update console filter after add rom collection - Done
+  * filter control interaction
+	* Genre -> Year, Publisher - Done
+	* Year -> Publisher - Done
 
-== Launch Games ==
-  
   
 = 0.9.6 =
 == General ==  
@@ -37,6 +41,9 @@ This TODO list / roadmap is a working document. It will change quite frequently 
   * XBMC frequently locks up on shutdown
   * bug: resolved path from rom folder name: C:\Users\Mic\Downloads\Arcade\Data\MAME\My_Art\boxfront\C:\Users\Mic\Downloads\Arcade\Data\MAME\My_Roms
   * bug: resolved path from rom folder name: smb://terastation/media/Roms/SNES/Boxart/boxfront/smb://terastation/media/Roms/SNES
+  * check for errors in scrapeonstartup
+  * new caching option: load list in background (maybe remove cacheitem and next)
+  * add more filetypes (see examples from Domina)
   
 == Import Games ==
   * remove thevideogamedb scraper: remove from config.xml on startup
@@ -44,6 +51,9 @@ This TODO list / roadmap is a working document. It will change quite frequently 
 The only way to get them to show was to delete the romcollection and reimport from scratch; rescanning the games did not work. 
   
 == Browse Games ==
+  * option to stop video on game change
+  * check if browsing options have changed and reload the list
+  * change view for Info to Thumbs -> stop video
   * filetypeformainview2 is missing
   * support home and back buttons to exit the script
   * auto repeat video playback in game info view
@@ -138,9 +148,13 @@ The only way to get them to show was to delete the romcollection and reimport fr
   * Media or rom path with special characters (encoding issues)
 
 == Browse Games ==
+  * remove imageplacing mechanism?
+    * define several views with large and small images
+	* save view per Rom Collection
+	* check for fallback images
   * Update Carmichael skin files
   * Night
-    * add video window
+    * add video window - Done
     * add counter
     * add image placing options
   * Simplicity
@@ -176,7 +190,12 @@ The only way to get them to show was to delete the romcollection and reimport fr
 
   
 = Wiki =
+== General ==
+  * How to add videos
+  * Description of scrapers: what is scraped with which scraper?
+
 == FAQ ==
+  * Error in scrape on startup
   * control XBMC in background:
     * solo mode
     * scripts to disable events
