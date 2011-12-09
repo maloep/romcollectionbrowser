@@ -2,9 +2,6 @@
 <wiki:toc max_depth="4" />
 
 = Analyzing and reporting problems =
-== Where do I find the log file ==
-XBMC writes a file "xbmc.log" that contains a lot of information what happens during runtime in both: XBMC and RCB. See the [http://wiki.xbmc.org/index.php?title=Log_file XBMC wiki] for more information and the location where you find the file on your system.
-
 == How to report problems ==
 If you encounter any problems and you want to report it in the forum thread or on the issues page, PLEASE ALWAYS add a log file. Unless you really know that you can describe the whole problem without a log file you should always attach one. To attach a log file please do the following things:
   * Restart XBMC (this will clean the log file and makes it more easy to read).
@@ -13,9 +10,15 @@ If you encounter any problems and you want to report it in the forum thread or o
   * DON'T paste the file (or large parts of it) to the forums or the issues page. Use a pastebin service like [http://pastebin.com/] to paste your log file there and just post the link in the forum.
   * Please don't use one of these file upload services that let me enter captchas and makes me wait 60 seconds because I don't have a premium account (I don't have a premium account for any of these services, I ALWAYS have to wait).
 
+== Where do I find the log file ==
+XBMC writes a file "xbmc.log" that contains a lot of information what happens during runtime in both: XBMC and RCB. See the [http://wiki.xbmc.org/index.php?title=Log_file XBMC wiki] for more information and the location where you find the file on your system.
+  
 = Known issues =
 == The program doesn't load on "No module named pysqlite2" ==
 Some distributions don't ship with prebuild pysqlite libraries. You have to get them on your own and copy them to your xbmc lib folder (e.g. /usr/local/lib/xbmc/addons/script.module.pysqlite/lib/pysqlite2). I made an extra package with these libraries if you don't want to build them yourself: http://romcollectionbrowser.googlecode.com/files/platform_libraries.zip.
+
+== RCB does not import any games ==
+Mostly this issue is related to configuration errors. Most common mistake is that you forgot to add a proper file mask to your Rom Collection configuration. You need to specifiy a file mask like `*.zip` or `*.smc` to let RCB find your files. See [EditRomCollectionImportGames this section] for more information.
 
 == Error launching .7z file ==
 When launching .7z files RCB just shows a message box with this error message: "Error launching .7z file. Please check XBMC.log for details". This error should only occure if you have installed RCB via the repo browser. Launching .7z files requires certain libraries that are not part of XBMCs python environment. You can download RCBs latest version from the projects home page, this already includes all required libraries.
