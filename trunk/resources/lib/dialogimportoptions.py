@@ -2,6 +2,7 @@
 import xbmc, xbmcgui
 
 import util, config
+from config import *
 from util import *
 
 ACTION_MOVEMENT_UP = (3,)
@@ -149,7 +150,7 @@ class ImportOptionsDialog(xbmcgui.WindowXMLDialog):
 	
 	def getAvailableScrapers(self):
 		#Scrapers
-		sitesInList = ['None']		
+		sitesInList = ['None', 'local artwork']
 		#get all scrapers
 		scrapers = self.gui.config.tree.findall('Scrapers/Site')
 		for scraper in scrapers:
@@ -267,21 +268,26 @@ class ImportOptionsDialog(xbmcgui.WindowXMLDialog):
 			if(element.attrib.get('name') == scraper):
 				siteRow = element
 				break
-		
-		if(siteRow == None):
-			xbmcgui.Dialog().ok('Configuration Error', 'Site %s does not exist in config.xml' %scraper)
-			return None, False
 				
-		site, errorMsg = self.gui.config.readScraper(siteRow, romCollection.name, '', '', True, self.gui.config.tree)
+		if(scraper != 'local artwork'):
+			if(siteRow == None):
+				xbmcgui.Dialog().ok('Configuration Error', 'Site %s does not exist in config.xml' %scraper)
+				return None, False
+			site, errorMsg = self.gui.config.readScraper(siteRow, romCollection.name, '', '', True, self.gui.config.tree)
+		else:
+			site = Site()
+			site.name = scraper
+			site.descFilePerGame = True
 						
 		if(site != None):
-			#check first scraper if it is an online or offline scraper
-			firstScraper = site.scrapers[0]
-			if(firstScraper.source != 'nfo' and not firstScraper.source.startswith('http') and site.name != romCollection.name):			
-				xbmcgui.Dialog().ok('Configuration Error', "Trying to scrape %s games with %s scraper." %(site.name, romCollection.name), 
-								"(Options 'All' and 'Overwrite scraper settings'",
-								"can't be used together with offline scrapers.)")
-				return None, False
+			#check if first scraper is an online or offline scraper
+			if(site.scrapers != None):
+				firstScraper = site.scrapers[0]
+				if(firstScraper.source != 'nfo' and not firstScraper.source.startswith('http') and site.name != romCollection.name):			
+					xbmcgui.Dialog().ok('Configuration Error', "Trying to scrape %s games with %s scraper." %(site.name, romCollection.name), 
+									"(Options 'All' and 'Overwrite scraper settings'",
+									"can't be used together with offline scrapers.)")
+					return None, False
 			
 			sites.append(site)
 			
