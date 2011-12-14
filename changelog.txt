@@ -1,3 +1,12 @@
+0.9.6 (12/2011)
+~~~~~~~~~~~~~
+General:
+  * bugfix: config was not updated after Edit Rom Collection
+
+Import Games:
+  * new scraper: local artwork - don't scrape anything, just check for new artwork
+  
+
 0.9.5 (12/2011)
 ~~~~~~~~~~~~~
 Import Games:
