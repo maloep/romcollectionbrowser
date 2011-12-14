@@ -74,14 +74,6 @@ for result in results:
 print len(results)
 """
 
-#from datetime import * 
-timeInt = 785656800
-timestamp = time.gmtime(timeInt)
-print timestamp[0]
-
-time.strptime(timeInt, '')
-
-
 
 
 """
