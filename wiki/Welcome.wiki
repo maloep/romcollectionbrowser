@@ -29,11 +29,13 @@ Check out the following pages if you have trouble with setting up RCB or want to
 		
 		=== [EditRomCollection Edit Rom Collection] ===
 		
-		=== [EditOfflineScrapers Edit Offline Scrapers] ===
+		=== [HowToAddVideos How to add videos to your Rom Collection] ===
 
 	= Import games =
 
 		=== [ImportGames Import games] ===
+		
+		=== [UseOfflineGameDescriptions Use offline game descriptions] ===
 		
 		=== [UseOfflineGameDescriptions Use offline game descriptions] ===
 		
