@@ -81,7 +81,7 @@
 				<width>1680</width>
 				<onup>50</onup>
 				<ondown>50</ondown>
-				<onleft>900</onleft>
+				<onleft>500</onleft>
 				<onright>2</onright>
 				<scrolltime>0</scrolltime>
 				<viewtype label="Files">list</viewtype>
@@ -226,7 +226,7 @@
 					<width>1500</width>
 					<onleft>51</onleft>
 					<onright>51</onright>
-					<onup>900</onup>
+					<onup>500</onup>
 					<ondown>2</ondown>
 					<viewtype label="3D Landscape">list</viewtype>
 					<orientation>horizontal</orientation>
@@ -522,7 +522,7 @@
 						<width>1380</width>
 						<onleft>52</onleft>
 						<onright>52</onright>
-						<onup>900</onup>
+						<onup>500</onup>
 						<ondown>2</ondown>
 						<viewtype label="Showcase">list</viewtype>
 						<orientation>horizontal</orientation>
@@ -847,7 +847,7 @@
 				<width>1400</width><!-- 1400 -->
 				<onleft>55</onleft>
 				<onright>55</onright>
-				<onup>900</onup>
+				<onup>500</onup>
 				<ondown>2</ondown>
 				<viewtype label="Poster">list</viewtype>
 				<orientation>horizontal</orientation>
@@ -1103,7 +1103,7 @@
 					<width>1400</width><!-- 1400 -->
 					<onleft>56</onleft>
 					<onright>56</onright>
-					<onup>900</onup>
+					<onup>500</onup>
 					<ondown>2</ondown>
 					<viewtype label="Slide">list</viewtype>
 					<orientation>horizontal</orientation>
