@@ -259,7 +259,7 @@ class ImportOptionsDialog(xbmcgui.WindowXMLDialog):
 		#HACK: don't use other scrapers than MAME and local nfo for MAME collections
 		#HACK2: check if scraper name contains mame
 		if(romCollection.name == 'MAME'):
-			if(scraper != 'local nfo' and not bool(re.search('(?i)mame', scraper))):
+			if(scraper != 'local nfo' and scraper != 'local artwork' and not bool(re.search('(?i)mame', scraper))):
 				scraper = 'maws.mameworld.info'
 				
 		siteRow = None
