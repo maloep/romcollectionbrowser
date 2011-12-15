@@ -21,7 +21,7 @@
   * Import games
      * [ImportGames Import games]
      * [UseOfflineGameDescriptions Use offline game descriptions]
-	 * [HowToAddVideos How to add videos to your Rom Collection]
+     * [HowToAddVideos How to add videos to your Rom Collection]
   * Browse games
     * [ChangeViews Change view]
     * [ChangeSkins Change skin]
