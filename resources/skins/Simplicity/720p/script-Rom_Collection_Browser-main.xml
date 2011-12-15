@@ -290,7 +290,8 @@
 						<posx>15</posx>
 						<posy>15</posy>
 						<width>150</width>
-						<height>110</height>						
+						<height>110</height>
+						<visible>(!Player.HasVideo | IsEmpty(ListItem.Property(gameplaymain))) + !SubString(ListItem.Property(console),MAME)</visible>
 						<texture>$INFO[ListItem.Property(gameinfoupperleft)]</texture>
 						<bordertexture border="2">rcb-button-nofocus.png</bordertexture>
 						<bordersize>2</bordersize>
@@ -309,7 +310,8 @@
 						<posx>165</posx>
 						<posy>15</posy>
 						<width>150</width>
-						<height>110</height>						
+						<height>110</height>
+						<visible>(!Player.HasVideo | IsEmpty(ListItem.Property(gameplaymain))) + !SubString(ListItem.Property(console),MAME)</visible>
 						<texture>$INFO[ListItem.Property(gameinfoupperright)]</texture>
 						<bordertexture border="2">rcb-button-nofocus.png</bordertexture>
 						<bordersize>2</bordersize>
@@ -353,7 +355,6 @@
 						<bordertexture border="2">rcb-button-nofocus.png</bordertexture>
 						<bordersize>2</bordersize>
 					</control>
-					
 					<!-- gameinfoupper -->
 					<control type="image" id="2710">
 						<animation type="WindowOpen" reversible="false">
@@ -387,7 +388,8 @@
 						<posx>15</posx>
 						<posy>125</posy>
 						<width>300</width>
-						<height>110</height>						
+						<height>110</height>
+						<visible>(!Player.HasVideo | IsEmpty(ListItem.Property(gameplaymain))) + !SubString(ListItem.Property(console),MAME)</visible>
 						<texture>$INFO[ListItem.Property(gameinfolower)]</texture>
 						<bordertexture border="2">rcb-button-nofocus.png</bordertexture>
 						<bordersize>2</bordersize>
@@ -406,7 +408,8 @@
 						<posx>15</posx>
 						<posy>15</posy>
 						<width>150</width>
-						<height>220</height>						
+						<height>220</height>
+						<visible>(!Player.HasVideo | IsEmpty(ListItem.Property(gameplaymain))) + !SubString(ListItem.Property(console),MAME)</visible>
 						<texture>$INFO[ListItem.Property(gameinfoleft)]</texture>
 						<bordertexture border="2">rcb-button-nofocus.png</bordertexture>
 						<bordersize>2</bordersize>
@@ -736,28 +739,7 @@
 						<texturefocus></texturefocus>
 						<texturenofocus></texturenofocus>
 						<visible>!IsEmpty(ListItem.Property(videosizebig))</visible>
-					</control>					
-					<!--<control type="button" id="2901"> 
-						<description>Play Fullscreen</description>
-						<posx>110</posx>
-						<posy>280</posy>
-						<width>150</width>
-						<height>20</height>
-						<visible>!IsEmpty(ListItem.Property(videofullscreen))</visible>
-						<colordiffuse>DDFFFFFF</colordiffuse>
-						<texturefocus>rcb-button-focus.png</texturefocus>
-						<texturenofocus>rcb-button-nofocus.png</texturenofocus>
-						<label>Play Video Fullscreen</label>
-						<font>Simplicity_font12</font>						
-						<textcolor>DDFFFFFF</textcolor>
-						<disabledcolor>80FFFFFF</disabledcolor>
-						<align>center</align>
-						<aligny>center</aligny>						
-						<onup>500</onup>
-						<ondown>3100</ondown>
-						<onleft>500</onleft>
-						<onright>2200</onright>
-					</control>-->
+					</control>
 					
 					<!-- gameinfoupperleft -->
 					<control type="image" id="2401">
@@ -766,6 +748,7 @@
 						<posy>45</posy>
 						<width>165</width>
 						<height>115</height>
+						<visible>(!Player.HasVideo | IsEmpty(ListItem.Property(gameplaymain))) + !SubString(ListItem.Property(console),MAME)</visible>
 						<texture>$INFO[ListItem.Property(gameinfoupperleft)]</texture>
 						<bordertexture border="2">rcb-button-nofocus.png</bordertexture>
 						<bordersize>2</bordersize>
@@ -776,7 +759,8 @@
 						<posx>180</posx>
 						<posy>45</posy>
 						<width>165</width>
-						<height>115</height>						
+						<height>115</height>
+						<visible>(!Player.HasVideo | IsEmpty(ListItem.Property(gameplaymain))) + !SubString(ListItem.Property(console),MAME)</visible>
 						<texture>$INFO[ListItem.Property(gameinfoupperright)]</texture>
 						<bordertexture border="2">rcb-button-nofocus.png</bordertexture>
 						<bordersize>2</bordersize>
@@ -787,7 +771,7 @@
 						<posx>15</posx>
 						<posy>160</posy>
 						<width>165</width>
-						<height>115</height>						
+						<height>115</height>
 						<texture>$INFO[ListItem.Property(gameinfolowerleft)]</texture>
 						<bordertexture border="2">rcb-button-nofocus.png</bordertexture>
 						<bordersize>2</bordersize>
@@ -822,7 +806,8 @@
 						<posx>15</posx>
 						<posy>160</posy>
 						<width>330</width>
-						<height>115</height>						
+						<height>115</height>
+						<visible>(!Player.HasVideo | IsEmpty(ListItem.Property(gameplaymain))) + !SubString(ListItem.Property(console),MAME)</visible>
 						<texture>$INFO[ListItem.Property(gameinfolower)]</texture>
 						<bordertexture border="2">rcb-button-nofocus.png</bordertexture>
 						<bordersize>2</bordersize>
@@ -833,7 +818,8 @@
 						<posx>15</posx>
 						<posy>45</posy>
 						<width>165</width>
-						<height>230</height>						
+						<height>230</height>
+						<visible>(!Player.HasVideo | IsEmpty(ListItem.Property(gameplaymain))) + !SubString(ListItem.Property(console),MAME)</visible>
 						<texture>$INFO[ListItem.Property(gameinfoleft)]</texture>
 						<bordertexture border="2">rcb-button-nofocus.png</bordertexture>
 						<bordersize>2</bordersize>
