@@ -4,8 +4,11 @@ General:
   * bugfix: config was not updated after Edit Rom Collection
 
 Import Games:
-  * new scraper: local artwork - don't scrape anything, just check for new artwork
-  
+  * new scraper: local artwork - don't scrape anything, just check for local artwork
+
+Browse Games:  
+  * add video support to MAME views
+  * Night skin: set focus on console filter when accessing filter controls
 
 0.9.5 (12/2011)
 ~~~~~~~~~~~~~
@@ -14,7 +17,7 @@ Import Games:
 
 Browse Games
   * move autoplay video from script to skin
-    * add new options to "Edit Rom Collection" dialog: autoplay video (Main window and Info window)
+    * add new options to "Edit Rom Collection" dialog: autoplay video
     * remove imageplacing options with video support
   * improvement of browsing and list loading performance
   * more filter control interaction: all filter controls will be updated from left to right
