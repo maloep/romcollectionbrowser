@@ -32,6 +32,9 @@ The selected scrapers will be executed in the order they are selected in this di
 == local nfo Scraper ==
 One special scraper is the "local nfo" scraper. During a game import, RCB creates a .nfo file for every game with all scraped game information (if you did not disable this feature in Addon settings). These files can be used to rebuild your database in case of an error or if you want to change game properties.
 
+== local artwork Scraper ==
+As the name says this scraper will just check your configured artwork folders for new files. It won't do any online searching or scraping and won't change any other game information. This is useful if you updated your artwork folders outside of RCB.
+
 = Import =
 This will start the import process. If you encounter any errors or miss some game infos after import, check XBMCs logfile. Search for any occurance of "RCB_ERROR" or "RCB_WARNING" to see what is missing. RCB will also create three text files ("scrapeResult_missingArtwork.txt" and "scrapeResult_missingDesc.txt" and "scrapeResult_possibleMismatches.txt") with information about missing or inaccurate data. You will find these files in RCBs userdata directory.
 

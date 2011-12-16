@@ -3,7 +3,7 @@
 
 [http://romcollectionbrowser.googlecode.com/files/screen_Config_03_Browse_games_wiki.jpg]
 
-new with 0.8.6
+To edit your Rom Collections just launch the context menu (pressing "C" on the keyboard or "Menu" on the remote) and select "Edit Rom Collection".
 
 = Rom Collection =
 With the Rom Collection selector you can select which Rom Collection you want to edit. All controls in the dialog will be updated with the data of the selected Rom Collection.
@@ -13,6 +13,12 @@ Will adjust the image placing options in the main window.
 
 = Images (Info window) =
 Will adjust the image placing options in the info window (accessable by pressing "I" or "Info" on the remote).
+
+= Autoplay video (Main window) =
+Automatically starts video playback while browsing the game list if a video is available for the selected game. Read [HowToAddVideos this guide] to learn how to add videos to your Rom Collection.
+
+= Autoplay video (Info window) =
+Automatically starts video playback when launching the info window if a video is available for the selected game. Read [HowToAddVideos this guide] to learn how to add videos to your Rom Collection.
 
 = Image placing =
 With the image placing options you can select which image types are shown in which image controls. Note that not all RCB skins fully support image placing. Atm only the default Confluence skin has full image placing support.
@@ -26,20 +32,10 @@ By default there will be 6 different image placing options:
 
 Displays one big image (usually in game screenshot) in the game details.
 
-== one big or video ==
-[http://romcollectionbrowser.googlecode.com/files/screen_Info_gameinfobigVideo.jpg http://romcollectionbrowser.googlecode.com/files/screen_Info_gameinfobigVideo_preview.jpg]
-
-Automatically starts video playback if video is available for selected game.
-
 == four small ==
 [http://romcollectionbrowser.googlecode.com/files/screen_Info_gameinfosmall.jpg http://romcollectionbrowser.googlecode.com/files/screen_Info_gameinfosmall_preview.jpg]
 
 Displays four small images (e.g. in game screenshot, box front, box back, cartridge)
-
-== three small + video ==
-[http://romcollectionbrowser.googlecode.com/files/screen_Info_gameinfosmallVideo.jpg http://romcollectionbrowser.googlecode.com/files/screen_Info_gameinfosmallVideo_preview.jpg]
-
-Displays three small images and automatically starts video playback if video is available for selected game.
 
 == MAME: marquee in list ==
 [http://romcollectionbrowser.googlecode.com/files/screen_info_reworked_MAME_marquee.jpg http://romcollectionbrowser.googlecode.com/files/screen_info_reworked_MAME_marquee%20-%20preview.jpg]

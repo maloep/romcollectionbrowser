@@ -4,7 +4,7 @@
 
 http://romcollectionbrowser.googlecode.com/files/screen_Config_01_Import_games_wiki.jpg
 
-New with 0.8.6
+To edit your Rom Collections just launch the context menu (pressing "C" on the keyboard or "Menu" on the remote) and select "Edit Rom Collection".
 
 = Rom Collection =
 With the Rom Collection selector you can select which Rom Collection you want to edit. All controls in the dialog will be updated with the data of the selected Rom Collection.

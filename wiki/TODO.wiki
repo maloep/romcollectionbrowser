@@ -151,7 +151,16 @@ This TODO list / roadmap is a working document. It will change quite frequently 
 
   
 = Wiki =
+== new features ==
+  * changelog - Done
+  * new autoplay video options - Done
+  * remove image placing options with video - Done
+  * new scraper: local artwork - Done
+  * screenshots of AEON MQ3
+  * update skinning guide
+
 == General ==
+  * solo mode problems: use JohnnyD2s vbs script
   * startup guide:
     * suggested file structure
 	* install emulators
