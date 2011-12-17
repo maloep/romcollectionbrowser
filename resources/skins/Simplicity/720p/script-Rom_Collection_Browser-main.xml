@@ -291,7 +291,7 @@
 						<posy>15</posy>
 						<width>150</width>
 						<height>110</height>
-						<visible>(!Player.HasVideo | IsEmpty(ListItem.Property(gameplaymain))) + !SubString(ListItem.Property(console),MAME)</visible>
+						<visible>[!Player.HasVideo | IsEmpty(ListItem.Property(gameplaymain))] | !IsEmpty(ListItem.Property(videosizesmall))</visible>
 						<texture>$INFO[ListItem.Property(gameinfoupperleft)]</texture>
 						<bordertexture border="2">rcb-button-nofocus.png</bordertexture>
 						<bordersize>2</bordersize>
@@ -311,7 +311,7 @@
 						<posy>15</posy>
 						<width>150</width>
 						<height>110</height>
-						<visible>(!Player.HasVideo | IsEmpty(ListItem.Property(gameplaymain))) + !SubString(ListItem.Property(console),MAME)</visible>
+						<visible>[!Player.HasVideo | IsEmpty(ListItem.Property(gameplaymain))] | !IsEmpty(ListItem.Property(videosizesmall))</visible>
 						<texture>$INFO[ListItem.Property(gameinfoupperright)]</texture>
 						<bordertexture border="2">rcb-button-nofocus.png</bordertexture>
 						<bordersize>2</bordersize>
@@ -389,7 +389,7 @@
 						<posy>125</posy>
 						<width>300</width>
 						<height>110</height>
-						<visible>(!Player.HasVideo | IsEmpty(ListItem.Property(gameplaymain))) + !SubString(ListItem.Property(console),MAME)</visible>
+						<visible>[!Player.HasVideo | IsEmpty(ListItem.Property(gameplaymain))]</visible>
 						<texture>$INFO[ListItem.Property(gameinfolower)]</texture>
 						<bordertexture border="2">rcb-button-nofocus.png</bordertexture>
 						<bordersize>2</bordersize>
@@ -409,7 +409,7 @@
 						<posy>15</posy>
 						<width>150</width>
 						<height>220</height>
-						<visible>(!Player.HasVideo | IsEmpty(ListItem.Property(gameplaymain))) + !SubString(ListItem.Property(console),MAME)</visible>
+						<visible>[!Player.HasVideo | IsEmpty(ListItem.Property(gameplaymain))]</visible>
 						<texture>$INFO[ListItem.Property(gameinfoleft)]</texture>
 						<bordertexture border="2">rcb-button-nofocus.png</bordertexture>
 						<bordersize>2</bordersize>
@@ -748,7 +748,7 @@
 						<posy>45</posy>
 						<width>165</width>
 						<height>115</height>
-						<visible>(!Player.HasVideo | IsEmpty(ListItem.Property(gameplaymain))) + !SubString(ListItem.Property(console),MAME)</visible>
+						<visible>[!Player.HasVideo | IsEmpty(ListItem.Property(gameplaymain))] | !IsEmpty(ListItem.Property(videosizesmall))</visible>
 						<texture>$INFO[ListItem.Property(gameinfoupperleft)]</texture>
 						<bordertexture border="2">rcb-button-nofocus.png</bordertexture>
 						<bordersize>2</bordersize>
@@ -760,7 +760,7 @@
 						<posy>45</posy>
 						<width>165</width>
 						<height>115</height>
-						<visible>(!Player.HasVideo | IsEmpty(ListItem.Property(gameplaymain))) + !SubString(ListItem.Property(console),MAME)</visible>
+						<visible>[!Player.HasVideo | IsEmpty(ListItem.Property(gameplaymain))] | !IsEmpty(ListItem.Property(videosizesmall))</visible>
 						<texture>$INFO[ListItem.Property(gameinfoupperright)]</texture>
 						<bordertexture border="2">rcb-button-nofocus.png</bordertexture>
 						<bordersize>2</bordersize>
@@ -807,7 +807,7 @@
 						<posy>160</posy>
 						<width>330</width>
 						<height>115</height>
-						<visible>(!Player.HasVideo | IsEmpty(ListItem.Property(gameplaymain))) + !SubString(ListItem.Property(console),MAME)</visible>
+						<visible>[!Player.HasVideo | IsEmpty(ListItem.Property(gameplaymain))]</visible>
 						<texture>$INFO[ListItem.Property(gameinfolower)]</texture>
 						<bordertexture border="2">rcb-button-nofocus.png</bordertexture>
 						<bordersize>2</bordersize>
@@ -819,7 +819,7 @@
 						<posy>45</posy>
 						<width>165</width>
 						<height>230</height>
-						<visible>(!Player.HasVideo | IsEmpty(ListItem.Property(gameplaymain))) + !SubString(ListItem.Property(console),MAME)</visible>
+						<visible>[!Player.HasVideo | IsEmpty(ListItem.Property(gameplaymain))]</visible>
 						<texture>$INFO[ListItem.Property(gameinfoleft)]</texture>
 						<bordertexture border="2">rcb-button-nofocus.png</bordertexture>
 						<bordersize>2</bordersize>
