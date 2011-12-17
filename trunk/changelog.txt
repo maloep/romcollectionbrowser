@@ -1,3 +1,11 @@
+0.9.7 (12/2011)
+~~~~~~~~~~~~~
+General:
+  * bugfix: loading skin files with PAL resolution might have failed
+
+Browse Games:
+  * bugfix: imageplacing option "Four small" did not work in Eden
+
 0.9.6 (12/2011)
 ~~~~~~~~~~~~~
 General:
