@@ -1100,7 +1100,7 @@ class UIGameDB(xbmcgui.WindowXML):
 		
 		constructorParam = 1
 		if(util.hasAddons()):
-			constructorParam = "PAL"
+			constructorParam = "720p"
 		cm = dialogcontextmenu.ContextMenuDialog("script-RCB-contextmenu.xml", util.getAddonInstallPath(), "Default", constructorParam, gui=self)
 		del cm
 				
@@ -1750,7 +1750,7 @@ class UIGameDB(xbmcgui.WindowXML):
 		if(showImportOptionsDialog):
 			constructorParam = 1
 			if(util.hasAddons()):
-				constructorParam = "PAL"
+				constructorParam = "720p"
 			iod = dialogimportoptions.ImportOptionsDialog("script-RCB-importoptions.xml", util.getAddonInstallPath(), "Default", constructorParam, gui=self)
 			del iod
 		else:
