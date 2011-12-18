@@ -1,5 +1,5 @@
 #sidebar SideBar
-
+<wiki:toc max_depth="4" />
 Change the skin in Addon settings:
 
 [http://romcollectionbrowser.googlecode.com/files/screen_Settings_01_General_small.jpg]

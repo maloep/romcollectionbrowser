@@ -161,12 +161,6 @@ This TODO list / roadmap is a working document. It will change quite frequently 
   
 = Wiki =
 == new features ==
-  * changelog - Done
-  * new autoplay video options - Done
-  * remove image placing options with video - Done
-  * new scraper: local artwork - Done
-  * Dynamic image placing
-  * all available skins, difference between Aeon MQ3 and others
   * screenshots of AEON MQ3
   * update skinning guide
 
