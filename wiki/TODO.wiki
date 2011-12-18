@@ -2,8 +2,27 @@
 
 This TODO list / roadmap is a working document. It will change quite frequently as I am always adding, removing or reordering issues that I want to work on for the next release. If you made a request or reported an issue that you don't find on the list please remind me because chances are that I just forgot to add it.
   
- 
 = 0.9.7 =
+== General ==    
+  * bug: remove and add rom collection in one turn causes errors
+  * bug: can't create offline scraper from scratch
+  * add more filetypes (see examples from Domina)
+  * add path to local nfo files as separate option
+  * export nfo files on demand
+  * language support
+  * load Addon settings from context menu
+
+== Browse Games ==
+  * add imageplacing options to Night skin
+  * add counter to Night skin
+  * show previous and next console in Nights console filter
+  * option to keep artwork ratio
+  
+== Launch Games ==
+  * SLEEP command no Windows standard -> integrate JohnnyD2s vbs script
+ 
+ 
+= 0.9.x =
 == General ==  
   * new caching option: load list in background (maybe remove cacheitem and next)
   * Eden compatibility
@@ -14,7 +33,6 @@ This TODO list / roadmap is a working document. It will change quite frequently 
   * bug: resolved path from rom folder name: C:\Users\Mic\Downloads\Arcade\Data\MAME\My_Art\boxfront\C:\Users\Mic\Downloads\Arcade\Data\MAME\My_Roms
   * bug: resolved path from rom folder name: smb://terastation/media/Roms/SNES/Boxart/boxfront/smb://terastation/media/Roms/SNES
   * check for errors in scrapeonstartup
-  * add more filetypes (see examples from Domina)
   
 == Import Games ==
   * remove thevideogamedb scraper: remove from config.xml on startup
@@ -42,7 +60,6 @@ This TODO list / roadmap is a working document. It will change quite frequently 
 = Future =
 == General ==
   * backup MyGames.db and config.xml before editing or game import
-  * load Addon settings from context menu
   * Edit offline scrapers:
     * move encoding from scraper to site
     * scraper encoding: add to dialog
@@ -51,11 +68,9 @@ This TODO list / roadmap is a working document. It will change quite frequently 
     * configuration templates (emumovies, ressurectionxtras, ...)
     * improve config wizard (suggest options, pathes, more options)
   * db in memory: id = null?
-  * export nfo files on demand
   * encoding: Pokémon (only Eden?)
   * option to edit game properties
   * complete Edit Game dialog
-  * SLEEP command no Windows standard -> integrate JohnnyD2s vbs script
   * add more artwork types, use more than 1 screenshot etc.
   
 == Data model ==
@@ -94,8 +109,6 @@ This TODO list / roadmap is a working document. It will change quite frequently 
     * artwork quality
     * test all scraping options (search game by crc, use filename as crc, ...)
       * no settings needed
-  * scraping option / scraper: local artwork
-    * scrape game info but don't download artwork
   * create scrape statistics
     * time taken
     * games total
@@ -118,21 +131,17 @@ This TODO list / roadmap is a working document. It will change quite frequently 
 == Browse Games ==
   * remove imageplacing mechanism?
     * define several views with large and small images
-	* save view per Rom Collection
+	* save view per Rom Collection (favorite view per romcollection)
 	* check for fallback images
   * Update Carmichael skin files
-  * Night
-    * add counter
-    * add image placing options
   * Simplicity
     * relative position of favorite stars in thumbs view
   * create skin specific game info view
   * publisher, developer images in game info view
-  * create new skins (AEON style etc.)
+  * create new skins
   * integrate Light skin
   * Console view / dash board
   * wall view
-  * favorite view per romcollection
   * if game has url: option to launch in browser
   * ability to view PDF manual
   * Logo mediainfo style as there is for movies and music showing information such as: Audio channels, resolution, maximum and minimum, studio  developer and publisher, etc ...
@@ -156,6 +165,8 @@ This TODO list / roadmap is a working document. It will change quite frequently 
   * new autoplay video options - Done
   * remove image placing options with video - Done
   * new scraper: local artwork - Done
+  * Dynamic image placing
+  * all available skins, difference between Aeon MQ3 and others
   * screenshots of AEON MQ3
   * update skinning guide
 
@@ -166,6 +177,7 @@ This TODO list / roadmap is a working document. It will change quite frequently 
 	* install emulators
 	* create empty artwork folders
   * Description of scrapers: what is scraped with which scraper?
+  * In-Depth guide, RCBs inner workings
 
 == FAQ ==
   * Error in scrape on startup
