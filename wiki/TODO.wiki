@@ -161,7 +161,6 @@ This TODO list / roadmap is a working document. It will change quite frequently 
   
 = Wiki =
 == new features ==
-  * screenshots of AEON MQ3
   * update skinning guide
 
 == General ==

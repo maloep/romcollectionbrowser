@@ -1,0 +1,77 @@
+#sidebar SideBar
+<wiki:toc max_depth="1" />
+
+This site collects what is provided by certain scrapers (sometimes there is not more information available on the site, sometimes I just have to update my scrapers to get more info). Please note: all of these sites need help to update and maintain their databases. Think about registering and contributing to (one of) these projects.
+
+= thegamesdb =
+[http://thegamesdb.net/]
+== Info ==
+  * Description
+  * Genre
+  * Developer
+  * Publisher
+  * Players
+  * ReleaseYear
+
+== Artwork ==
+  * fanart
+  * boxfront
+  * boxback
+  * screenshot
+
+= archive.vg =
+[http://archive.vg/]
+== Info ==
+  * Description
+  * Genre
+  * Developer
+  * Publisher
+  * ReleaseYear
+  * Region
+
+== Artwork ==
+  * boxfront
+
+= giantbomb =
+[http://www.giantbomb.com/]
+== Info ==
+  * Description
+  * Genre
+  * Developer
+  * Publisher
+  * ReleaseYear
+
+== Artwork ==
+  * screenshot
+
+= mobygames =
+[http://www.mobygames.com/]
+== Info ==
+  * Description
+  * Genre
+  * Developer
+  * Publisher
+  * ReleaseYear
+
+== Artwork ==
+  * boxfront
+  * boxback
+  * screenshot
+  * cartridge
+  
+= MAWS =
+[http://maws.mameworld.info]
+== Info ==
+  * Description
+  * Genre
+  * Developer
+  * ReleaseYear
+  * Players
+  * Controller
+
+== Artwork ==
+  * boxfront
+  * action
+  * title
+  * marquee
+  * cabinet

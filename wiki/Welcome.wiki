@@ -28,16 +28,16 @@ Check out the following pages if you have trouble with setting up RCB or want to
 		=== [AddonSettings Addon settings] ===
 		
 		=== [EditRomCollection Edit Rom Collection] ===
-		
-		=== [HowToAddVideos How to add videos to your Rom Collection] ===
 
 	= Import games =
 
 		=== [ImportGames Import games] ===
 		
 		=== [UseOfflineGameDescriptions Use offline game descriptions] ===
-		
-		=== [UseOfflineGameDescriptions Use offline game descriptions] ===
+
+		=== [HowToAddVideos How to add videos to your Rom Collection] ===
+
+		=== [ScraperDetails Information provided by scrapers] ===
 		
 	= Browse games =
 
