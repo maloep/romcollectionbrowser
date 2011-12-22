@@ -2,7 +2,7 @@
 
 This TODO list / roadmap is a working document. It will change quite frequently as I am always adding, removing or reordering issues that I want to work on for the next release. If you made a request or reported an issue that you don't find on the list please remind me because chances are that I just forgot to add it.
   
-= 0.9.7 =
+= 0.9.8 =
 == General ==    
   * bug: remove and add rom collection in one turn causes errors
   * bug: can't create offline scraper from scratch
@@ -13,6 +13,7 @@ This TODO list / roadmap is a working document. It will change quite frequently 
   * load Addon settings from context menu
 
 == Browse Games ==
+  * autoplay video in Info window not reliable
   * add imageplacing options to Night skin
   * add counter to Night skin
   * show previous and next console in Nights console filter
@@ -169,8 +170,9 @@ This TODO list / roadmap is a working document. It will change quite frequently 
     * suggested file structure
 	* install emulators
 	* create empty artwork folders
-  * Description of scrapers: what is scraped with which scraper?
   * In-Depth guide, RCBs inner workings
+    * game imprt, scrapers
+	* imageplacing
 
 == FAQ ==
   * Error in scrape on startup
