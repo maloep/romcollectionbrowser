@@ -7,10 +7,12 @@ This TODO list / roadmap is a working document. It will change quite frequently 
   * bug: remove and add rom collection in one turn causes errors
   * bug: can't create offline scraper from scratch
   * add more filetypes (see examples from Domina)
+  * bug: Developer and Publisher not available in nfo files
   * add path to local nfo files as separate option
   * export nfo files on demand
   * language support
   * load Addon settings from context menu
+  * bug: # in rom filename causes errors
 
 == Browse Games ==
   * autoplay video in Info window not reliable
