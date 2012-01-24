@@ -22,6 +22,7 @@
      * [ImportGames Import games]
      * [UseOfflineGameDescriptions Use offline game descriptions]
      * [HowToAddVideos How to add videos to your Rom Collection]
+     * [HowToAddMAMEOffline How to add MAME roms with offline game description]
      * [ScraperDetails Information provided by scrapers]
   * Browse games
     * [ChangeViews Change view]
