@@ -3,16 +3,18 @@
 This TODO list / roadmap is a working document. It will change quite frequently as I am always adding, removing or reordering issues that I want to work on for the next release. If you made a request or reported an issue that you don't find on the list please remind me because chances are that I just forgot to add it.
   
 = 0.9.8 =
-== General ==    
-  * bug: remove and add rom collection in one turn causes errors
-  * bug: can't create offline scraper from scratch
-  * add more filetypes (see examples from Domina)
+== General ==
+  * add backspace to close dialogs - Done
   * bug: Developer and Publisher not available in nfo files
   * add path to local nfo files as separate option
   * export nfo files on demand
-  * language support
+  * bug: remove and add rom collection in one turn causes errors
+  * bug: can't create offline scraper from scratch
   * load Addon settings from context menu
   * bug: # in rom filename causes errors
+  * remove Camelot code
+  * language support
+  * add more filetypes (see examples from Domina)
 
 == Browse Games ==
   * autoplay video in Info window not reliable
@@ -75,6 +77,7 @@ This TODO list / roadmap is a working document. It will change quite frequently 
   * option to edit game properties
   * complete Edit Game dialog
   * add more artwork types, use more than 1 screenshot etc.
+  * Support HOME button
   
 == Data model ==
   * support different releases (region, updates, etc.)
@@ -180,4 +183,7 @@ This TODO list / roadmap is a working document. It will change quite frequently 
   * Error in scrape on startup
   * control XBMC in background:
     * solo mode
-    * scripts to disable events
+    * scripts to disable events (LIRC.stop, LIRC.start)
+		* http://forum.xbmc.org/showpost.php?p=800073&postcount=1273
+		* http://forum.xbmc.org/showpost.php?p=1004261&postcount=1994
+  * Home button crashes RCB
