@@ -617,11 +617,9 @@ class DBUpdate:
 			
 		publisherId = -1
 		developerId = -1
-		publisher = ''
-		developer = ''
 			
 		#read current properties for local artwork scraper
-		if(not isLocalArtwork):					
+		if(not isLocalArtwork):
 			publisherId = self.insertForeignKeyItem(gamedescription, 'Publisher', Publisher(self.gdb))
 			developerId = self.insertForeignKeyItem(gamedescription, 'Developer', Developer(self.gdb))
 		else:
