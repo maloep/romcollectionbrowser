@@ -570,7 +570,7 @@ class DBUpdate:
 			doContinue = False
 			for scraper in scraperSite.scrapers:
 				pyScraper = PyScraper()
-				result, urlsFromPreviousScrapers, doContinue = pyScraper.scrapeResults(result, scraper, urlsFromPreviousScrapers, gamenameFromFile, foldername, filecrc, firstRomfile, fuzzyFactor, updateOption, romCollection)
+				result, urlsFromPreviousScrapers, doContinue = pyScraper.scrapeResults(result, scraper, urlsFromPreviousScrapers, gamenameFromFile, foldername, filecrc, firstRomfile, fuzzyFactor, updateOption, romCollection, self.Settings)
 			if(doContinue):
 				continue
 									
@@ -1005,6 +1005,8 @@ class DBUpdate:
 	def createNfoFromDesc(self, gamename, plot, romCollectionName, publisher, developer, year, players, rating, votes, 
 						url, region, media, perspective, controller, originalTitle, alternateTitle, version, gamedescription, romFile, gameNameFromFile, artworkfiles, artworkurls):
 		
+		Logutil.log("Begin createNfoFromDesc", util.LOG_LEVEL_INFO)
+		
 		root = Element('game')
 		SubElement(root, 'title').text = gamename		
 		SubElement(root, 'originalTitle').text = originalTitle
@@ -1046,7 +1048,7 @@ class DBUpdate:
 			try:
 				SubElement(root, 'thumb', {'type' : artworktype.name, 'local' : local}).text = online
 			except Exception, (exc):
-				print 'Error writing artwork url: ' +str(exc)
+				Logutil.log('Error writing artwork url: ' +str(exc), util.LOG_LEVEL_WARNING)				
 				pass
 		
 		#write file		
@@ -1054,20 +1056,41 @@ class DBUpdate:
 			util.indentXml(root)
 			tree = ElementTree(root)
 			
+			nfoFile = self.getNfoFilePath(romCollectionName, romFile, gameNameFromFile)
+						
+			if(nfoFile != ''):
+				tree.write(nfoFile)
+			
+		except Exception, (exc):
+			Logutil.log("Error: Cannot write file game.nfo: " +str(exc), util.LOG_LEVEL_WARNING)
+			
+			
+	def getNfoFilePath(self, romCollectionName, romFile, gameNameFromFile):
+		nfoFile = ''
+		
+		nfoFolder = self.Settings.getSetting(util.SETTING_RCB_NFOFOLDER)
+		if(nfoFolder != '' and nfoFolder != None):
+			if(not os.path.exists(nfoFolder)):
+				Logutil.log("Path to nfoFolder does not exist: " +nfoFolder, util.LOG_LEVEL_WARNING)
+			else:
+				nfoFolder = os.path.join(nfoFolder, romCollectionName)
+				if(not os.path.exists(nfoFolder)):
+					os.mkdir(nfoFolder)
+					
+				nfoFile = os.path.join(nfoFolder, gameNameFromFile +'.nfo')
+						
+		if(nfoFile == ''):
 			romDir = os.path.dirname(romFile)
 			Logutil.log('Romdir: ' +str(romDir), util.LOG_LEVEL_INFO)
 			nfoFile = os.path.join(romDir, gameNameFromFile +'.nfo')
-			
-			if (not os.path.isfile(nfoFile)):
-				Logutil.log('Writing NfoFile: ' +str(nfoFile), util.LOG_LEVEL_INFO)
-			else:
-				Logutil.log('NfoFile already exists. Wont overwrite file: ' +str(nfoFile), util.LOG_LEVEL_INFO)
-				return
-												
-			tree.write(nfoFile)
-			
-		except Exception, (exc):
-			print("Error: Cannot write game.nfo: " +str(exc))		
+		
+		if (not os.path.isfile(nfoFile)):
+			Logutil.log('Writing NfoFile: ' +str(nfoFile), util.LOG_LEVEL_INFO)
+		else:
+			Logutil.log('NfoFile already exists. Wont overwrite file: ' +str(nfoFile), util.LOG_LEVEL_INFO)
+			nfoFile = ''
+		
+		return nfoFile
 			
 		
 	def insertFile(self, fileName, gameId, fileType, romCollectionId, publisherId, developerId):
