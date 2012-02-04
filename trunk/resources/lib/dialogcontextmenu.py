@@ -2,6 +2,8 @@
 import xbmc, xbmcgui
 import util
 import dialogeditromcollection, dialogeditscraper, dialogdeleteromcollection, config
+import nfowriter
+from nfowriter import *
 from gamedatabase import *
 from util import *
 from config import *
@@ -135,6 +137,10 @@ class ContextMenuDialog(xbmcgui.WindowXMLDialog):
 				Game(self.gui.gdb).update(('isFavorite',), (isFavorite,), gameRow[util.ROW_ID])
 				selectedGame.setProperty('isfavorite', str(isFavorite))
 			self.gui.gdb.commit()
+			
+		elif (controlID == 5120): #Export nfo files			
+			self.close()
+			nfowriter.NfoWriter().exportLibrary(self.gui)
 			
 		elif (controlID == 5114): #Delete Rom
 			self.close()
