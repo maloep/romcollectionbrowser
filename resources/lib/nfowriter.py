@@ -3,6 +3,7 @@ import os
 
 import xbmc, xbmcgui
 
+import dialogprogress
 import util, helper
 from util import *
 from config import *
@@ -24,14 +25,34 @@ class NfoWriter:
 		gdb = gui.gdb
 		romCollections = gui.config.romCollections
 		
+		progressDialog = dialogprogress.ProgressDialogGUI()
+		progressDialog.writeMsg("Export library...", "", "")
+		continueExport = True
+		rccount = 1
+		
 		for romCollection in gui.config.romCollections.values():
+			
+			progDialogRCHeader = "Exporting Rom Collection (%i / %i): %s" %(rccount, len(romCollections), romCollection.name)
+			rccount = rccount + 1			
+			
 			Logutil.log("export Rom Collection: " +romCollection.name, util.LOG_LEVEL_INFO)
+			gameCount = 1
 			
 			#get all games for this Rom Collection
 			games = Game(gdb).getFilteredGames(romCollection.id, 0, 0, 0, False, '0 = 0')
+			progressDialog.itemCount = len(games) +1
+			
 			for gameRow in games:
 				
 				gamename = self.getGameProperty(gameRow[util.ROW_NAME])
+				
+				continueExport = progressDialog.writeMsg(progDialogRCHeader, "Export game: " +str(gamename), "", gameCount)
+				if(not continueExport):				
+					Logutil.log('Game export canceled by user', util.LOG_LEVEL_INFO)
+					break
+				
+				gameCount = gameCount +1
+				
 				plot = self.getGameProperty(gameRow[util.GAME_description])
 								
 				publisher = self.getGamePropertyFromCache(gameRow, gui.publisherDict, util.GAME_publisherId, util.ROW_NAME)
@@ -74,6 +95,9 @@ class NfoWriter:
 				
 				self.createNfoFromDesc(gamename, plot, romCollection.name, publisher, developer, year, 
 									players, rating, votes, url, region, media, perspective, controller, originalTitle, alternateTitle, version, genreList, romFile, gamenameFromFile, artworkfiles, artworkurls)
+		
+		progressDialog.writeMsg("", "", "", -1)
+		del progressDialog
 		
 		
 	def createNfoFromDesc(self, gamename, plot, romCollectionName, publisher, developer, year, players, rating, votes, 

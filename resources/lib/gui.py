@@ -6,7 +6,7 @@ from threading import *
 from util import *
 import util
 import dbupdate, helper, launcher, config
-import dialogimportoptions, dialogcontextmenu
+import dialogimportoptions, dialogcontextmenu, dialogprogress
 from config import *
 from configxmlwriter import *
 from configxmlupdater import *
@@ -61,26 +61,6 @@ class MyPlayer(xbmc.Player):
 			return
 		
 		self.gui.setFocus(self.gui.getControl(CONTROL_GAMES_GROUP_START))
-
-
-class ProgressDialogGUI:		
-	
-	def __init__(self):
-		self.itemCount = 0
-		self.dialog = xbmcgui.DialogProgress()				
-			
-	def writeMsg(self, line1, line2, line3, count=0):
-		if (not count):
-			self.dialog.create(line1)
-		elif (count > 0):
-			percent = int(count * (float(100) / self.itemCount))			
-			self.dialog.update(percent, line1, line2, line3)
-			if (self.dialog.iscanceled()):
-				return False
-			else: 
-				return True
-		else:
-			self.dialog.close()
 
 
 class UIGameDB(xbmcgui.WindowXML):	
@@ -926,7 +906,7 @@ class UIGameDB(xbmcgui.WindowXML):
 		count = 0
 		
 		rcList = Game(self.gdb).getFilteredGames(rcID, 0, 0, 0, 0, '0 = 0')
-		progressDialog = ProgressDialogGUI()
+		progressDialog = dialogprogress.ProgressDialogGUI()
 		progressDialog.itemCount = len(rcList)
 		
 		if(rcList != None):
@@ -964,7 +944,7 @@ class UIGameDB(xbmcgui.WindowXML):
 		count = 0
 		removeCount = 0
 		list = File(self.gdb).getFilesList()
-		progressDialog2 = ProgressDialogGUI()
+		progressDialog2 = dialogprogress.ProgressDialogGUI()
 		progressDialog2.itemCount = len(list)
 		progDialogCleanStat	= "Checking File (%i / %i)" %(count, progressDialog2.itemCount)	
 		progressDialog2.writeMsg("Cleaning Database...", progDialogCleanStat, "")
@@ -1766,7 +1746,7 @@ class UIGameDB(xbmcgui.WindowXML):
 		
 		
 	def doImport(self, scrapingmode, romCollections):
-		progressDialog = ProgressDialogGUI()
+		progressDialog = dialogprogress.ProgressDialogGUI()
 		progressDialog.writeMsg("Import games...", "", "")
 		dbupdate.DBUpdate().updateDB(self.gdb, progressDialog, scrapingmode, romCollections)
 		progressDialog.writeMsg("", "", "", -1)
