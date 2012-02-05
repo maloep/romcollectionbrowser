@@ -5,9 +5,6 @@ This TODO list / roadmap is a working document. It will change quite frequently 
 = 0.9.8 =
 == General ==
   * add backspace to close dialogs - Done
-  * bug: Developer and Publisher not available in nfo files
-  * add path to local nfo files as separate option
-  * export nfo files on demand
   * bug: remove and add rom collection in one turn causes errors
   * bug: can't create offline scraper from scratch
   * load Addon settings from context menu
@@ -15,6 +12,18 @@ This TODO list / roadmap is a working document. It will change quite frequently 
   * remove Camelot code
   * language support
   * add more filetypes (see examples from Domina)
+  
+== Import Games ==
+  * bug: Developer and Publisher not available in nfo files - Done
+  * add path to local nfo files as separate option - Done
+    * import/export from/to new path - Done
+	* option to remove path
+  * export nfo files on demand
+	* export option in general - Done
+	* show progress dialog during export - Done
+	* export launchCount and isFavorite
+	* option to export one big nfo file for all games
+	* option to overwrite existing files
 
 == Browse Games ==
   * autoplay video in Info window not reliable
@@ -41,6 +50,7 @@ This TODO list / roadmap is a working document. It will change quite frequently 
   
 == Import Games ==
   * remove thevideogamedb scraper: remove from config.xml on startup
+  * offer import when database is empty (not only when it is missing)
   
 == Browse Games ==
   * option to stop video on game change
@@ -133,6 +143,7 @@ This TODO list / roadmap is a working document. It will change quite frequently 
   * option to hide progress bar in background mode
   * support 2 or more developers
   * Media or rom path with special characters (encoding issues)
+  * http://www.mobygames.com/game/ps2/ace-combat-5-the-unsung-war/credits
 
 == Browse Games ==
   * remove imageplacing mechanism?
@@ -154,6 +165,7 @@ This TODO list / roadmap is a working document. It will change quite frequently 
   * view images fullscreen by pressing enter upon the art or similar
   * option to hide game infos in main view (show up on pressing I or similar)
   * support for game name artwork
+  * It might work as follows, after to trigger the option "ParentalRating" a box text is displayed for entering the password if the password is entered correctly, all games are displayed on RCB.
 
 == Launch Games ==
   * popen options (suspend, pause, ...)
