@@ -1,7 +1,12 @@
-0.9.8 (01/2012)
+0.9.8 (02/2012)
 ~~~~~~~~~~~~~
 General:
-  * Add new action (backspace) to close dialogs
+  * Add action 92 (backspace) to close dialogs
+  
+Import Games:
+  * bugfix: Developer and Publisher not available in nfo files
+  * set path to nfo folder
+  * export nfo files on demand
 
 0.9.7 (12/2011)
 ~~~~~~~~~~~~~
