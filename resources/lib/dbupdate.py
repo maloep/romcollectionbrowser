@@ -620,6 +620,12 @@ class DBUpdate:
 		translatedBy = self.resolveParseResult(gamedescription, 'TranslatedBy')
 		version = self.resolveParseResult(gamedescription, 'Version')								
 		plot = self.resolveParseResult(gamedescription, 'Description')
+		isFavorite = self.resolveParseResult(gamedescription, 'IsFavorite')
+		if(isFavorite == ''):
+			isFavorite = '0'
+		launchCount = self.resolveParseResult(gamedescription, 'LaunchCount')
+		if(launchCount == ''):
+			launchCount = '0'
 		
 		if(gamedescription != None):
 			gamename = self.resolveParseResult(gamedescription, 'Game')
@@ -650,11 +656,11 @@ class DBUpdate:
 			except:
 				pass
 			nfowriter.NfoWriter().createNfoFromDesc(gamename, plot, romCollection.name, publisher, developer, year, 
-				players, rating, votes, url, region, media, perspective, controller, originalTitle, alternateTitle, version, genreList, romFiles[0], gamenameFromFile, artworkfiles, artworkurls)
+				players, rating, votes, url, region, media, perspective, controller, originalTitle, alternateTitle, version, genreList, isFavorite, launchCount, romFiles[0], gamenameFromFile, artworkfiles, artworkurls)
 						
 		if(not isLocalArtwork):
 			gameId = self.insertGame(gamename, plot, romCollection.id, publisherId, developerId, reviewerId, yearId, 
-				players, rating, votes, url, region, media, perspective, controller, originalTitle, alternateTitle, translatedBy, version, isUpdate, gameId, romCollection.allowUpdate, )
+				players, rating, votes, url, region, media, perspective, controller, originalTitle, alternateTitle, translatedBy, version, isFavorite, launchCount, isUpdate, gameId, romCollection.allowUpdate, )
 		
 			if(gameId == None):
 				return None, True
@@ -719,13 +725,13 @@ class DBUpdate:
 		
 		
 	def insertGame(self, gameName, description, romCollectionId, publisherId, developerId, reviewerId, yearId, 
-				players, rating, votes, url, region, media, perspective, controller, originalTitle, alternateTitle, translatedBy, version, isUpdate, gameId, allowUpdate):		
+				players, rating, votes, url, region, media, perspective, controller, originalTitle, alternateTitle, translatedBy, version, isFavorite, launchCount, isUpdate, gameId, allowUpdate):		
 		
 		try:
 			if(not isUpdate):
 				Logutil.log("Game does not exist in database. Insert game: " +gameName, util.LOG_LEVEL_INFO)
 				Game(self.gdb).insert((gameName, description, None, None, romCollectionId, publisherId, developerId, reviewerId, yearId, 
-					players, rating, votes, url, region, media, perspective, controller, 0, 0, originalTitle, alternateTitle, translatedBy, version))
+					players, rating, votes, url, region, media, perspective, controller, int(isFavorite), int(launchCount), originalTitle, alternateTitle, translatedBy, version))
 				return self.gdb.cursor.lastrowid
 			else:	
 				if(allowUpdate):
@@ -733,9 +739,9 @@ class DBUpdate:
 					gameRow = None
 					Logutil.log("Game does exist in database. Update game: " +gameName, util.LOG_LEVEL_INFO)
 					Game(self.gdb).update(('name', 'description', 'romCollectionId', 'publisherId', 'developerId', 'reviewerId', 'yearId', 'maxPlayers', 'rating', 'numVotes',
-						'url', 'region', 'media', 'perspective', 'controllerType', 'originalTitle', 'alternateTitle', 'translatedBy', 'version'),
+						'url', 'region', 'media', 'perspective', 'controllerType', 'originalTitle', 'alternateTitle', 'translatedBy', 'version', 'isFavorite', 'launchCount'),
 						(gameName, description, romCollectionId, publisherId, developerId, reviewerId, yearId, players, rating, votes, url, region, media, perspective, controller,
-						originalTitle, alternateTitle, translatedBy, version),
+						originalTitle, alternateTitle, translatedBy, version, int(isFavorite), int(launchCount)),
 						gameId)
 				else:
 					Logutil.log("Game does exist in database but update is not allowed for current rom collection. game: " +gameName, util.LOG_LEVEL_INFO)
