@@ -17,7 +17,8 @@
 		<setting id="rcb_ignoreGamesWithoutDesc" label="Don't import games without description" type="bool" default="true"/>
 		<setting id="rcb_ignoreGamesWithoutArtwork" label="Don't import games without artwork" type="bool" default="true"/>
 		<setting id="rcb_enableFullReimport" label="Always rescan imported games" type="bool" default="false"/>
-		<setting id="rcb_nfoFolder" label="Folder for nfo files" type="folder" />
+		<setting id="rcb_useNfoFolder" label="Use extra nfo folder" type="bool" />
+		<setting id="rcb_nfoFolder" label="nfo folder path" type="folder" enable="eq(-1,true)" />
 	</category>
 	
 	<category label="Browse Games">
