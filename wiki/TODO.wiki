@@ -5,6 +5,19 @@ This TODO list / roadmap is a working document. It will change quite frequently 
 = 0.9.8 =
 == General ==
   * add backspace to close dialogs - Done
+  
+== Import Games ==
+  * bug: Developer and Publisher not available in nfo files - Done
+  * add path to local nfo files as separate option - Done
+    * import/export from/to new path - Done
+    * option to remove path - Done
+  * export nfo files on demand
+    * export option in general - Done
+    * show progress dialog during export - Done
+    * export launchCount and isFavorite - Done
+  
+= 0.9.9 =
+== General ==
   * bug: remove and add rom collection in one turn causes errors
   * bug: can't create offline scraper from scratch
   * load Addon settings from context menu
@@ -14,14 +27,7 @@ This TODO list / roadmap is a working document. It will change quite frequently 
   * add more filetypes (see examples from Domina)
   
 == Import Games ==
-  * bug: Developer and Publisher not available in nfo files - Done
-  * add path to local nfo files as separate option - Done
-    * import/export from/to new path - Done
-    * option to remove path
   * export nfo files on demand
-    * export option in general - Done
-    * show progress dialog during export - Done
-    * export launchCount and isFavorite
     * option to export one big nfo file for all games
     * option to overwrite existing files
 
@@ -98,6 +104,7 @@ This TODO list / roadmap is a working document. It will change quite frequently 
       * store different releases in 1 zip or 7z file (look inside file and mark game as available?)
   * build game groups (releases and sequels)
     * collect minimal game data for missing games in game group (even if certain roms are not present)
+  * add staff (e.g. developer, artists, ... from mobygames)
   * mark game as completed
   * mark game as broken (in db + .broken in filename)
   * lastplayed
