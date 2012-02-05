@@ -84,6 +84,10 @@ class NfoWriter:
 				originalTitle = self.getGameProperty(gameRow[util.GAME_originalTitle])
 				alternateTitle = self.getGameProperty(gameRow[util.GAME_alternateTitle])
 				version = self.getGameProperty(gameRow[util.GAME_version])
+				
+				#user settings
+				isFavorite = self.getGameProperty(gameRow[util.GAME_isFavorite])
+				launchCount = self.getGameProperty(gameRow[util.GAME_launchCount])
 																
 				romFiles = File(gdb).getRomsByGameId(gameRow[util.ROW_ID])
 				romFile = ''
@@ -94,14 +98,14 @@ class NfoWriter:
 				artworkurls = []
 				
 				self.createNfoFromDesc(gamename, plot, romCollection.name, publisher, developer, year, 
-									players, rating, votes, url, region, media, perspective, controller, originalTitle, alternateTitle, version, genreList, romFile, gamenameFromFile, artworkfiles, artworkurls)
+									players, rating, votes, url, region, media, perspective, controller, originalTitle, alternateTitle, version, genreList, isFavorite, launchCount, romFile, gamenameFromFile, artworkfiles, artworkurls)
 		
 		progressDialog.writeMsg("", "", "", -1)
 		del progressDialog
 		
 		
 	def createNfoFromDesc(self, gamename, plot, romCollectionName, publisher, developer, year, players, rating, votes, 
-						url, region, media, perspective, controller, originalTitle, alternateTitle, version, genreList, romFile, gameNameFromFile, artworkfiles, artworkurls):
+						url, region, media, perspective, controller, originalTitle, alternateTitle, version, genreList, isFavorite, launchCount, romFile, gameNameFromFile, artworkfiles, artworkurls):
 		
 		Logutil.log("Begin createNfoFromDesc", util.LOG_LEVEL_INFO)
 		
@@ -127,6 +131,9 @@ class NfoWriter:
 		SubElement(root, 'version').text = version
 		SubElement(root, 'rating').text = rating
 		SubElement(root, 'votes').text = votes
+		
+		SubElement(root, 'isFavorite').text = isFavorite
+		SubElement(root, 'launchCount').text = launchCount
 		
 		for artworktype in artworkfiles.keys():
 			
