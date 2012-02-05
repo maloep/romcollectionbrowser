@@ -169,7 +169,11 @@ class NfoWriter:
 	def getNfoFilePath(self, romCollectionName, romFile, gameNameFromFile):
 		nfoFile = ''
 		
-		nfoFolder = self.Settings.getSetting(util.SETTING_RCB_NFOFOLDER)
+		useNfoFolder = self.Settings.getSetting(util.SETTING_RCB_USENFOFOLDER)
+		if(useNfoFolder == 'true'):
+			nfoFolder = self.Settings.getSetting(util.SETTING_RCB_NFOFOLDER)
+		else:
+			nfoFolder = ''
 		if(nfoFolder != '' and nfoFolder != None):
 			if(not os.path.exists(nfoFolder)):
 				Logutil.log("Path to nfoFolder does not exist: " +nfoFolder, util.LOG_LEVEL_WARNING)
