@@ -17,13 +17,13 @@ This TODO list / roadmap is a working document. It will change quite frequently 
   * bug: Developer and Publisher not available in nfo files - Done
   * add path to local nfo files as separate option - Done
     * import/export from/to new path - Done
-	* option to remove path
+    * option to remove path
   * export nfo files on demand
-	* export option in general - Done
-	* show progress dialog during export - Done
-	* export launchCount and isFavorite
-	* option to export one big nfo file for all games
-	* option to overwrite existing files
+    * export option in general - Done
+    * show progress dialog during export - Done
+    * export launchCount and isFavorite
+    * option to export one big nfo file for all games
+    * option to overwrite existing files
 
 == Browse Games ==
   * autoplay video in Info window not reliable
@@ -92,10 +92,10 @@ This TODO list / roadmap is a working document. It will change quite frequently 
 == Data model ==
   * support different releases (region, updates, etc.)
     * store exact release dates (not only release year)
-	* region support
-	  * add region flag per rom collection (also ALL option)
-	  * determine region per game (e.g. [US] or (US) in name)
-	  * store different releases in 1 zip or 7z file (look inside file and mark game as available?)
+    * region support
+      * add region flag per rom collection (also ALL option)
+      * determine region per game (e.g. [US] or (US) in name)
+      * store different releases in 1 zip or 7z file (look inside file and mark game as available?)
   * build game groups (releases and sequels)
     * collect minimal game data for missing games in game group (even if certain roms are not present)
   * mark game as completed
@@ -148,8 +148,8 @@ This TODO list / roadmap is a working document. It will change quite frequently 
 == Browse Games ==
   * remove imageplacing mechanism?
     * define several views with large and small images
-	* save view per Rom Collection (favorite view per romcollection)
-	* check for fallback images
+    * save view per Rom Collection (favorite view per romcollection)
+    * check for fallback images
   * Update Carmichael skin files
   * Simplicity
     * relative position of favorite stars in thumbs view
@@ -185,17 +185,17 @@ This TODO list / roadmap is a working document. It will change quite frequently 
   * solo mode problems: use JohnnyD2s vbs script
   * startup guide:
     * suggested file structure
-	* install emulators
-	* create empty artwork folders
+    * install emulators
+    * create empty artwork folders
   * In-Depth guide, RCBs inner workings
     * game imprt, scrapers
-	* imageplacing
+    * imageplacing
 
 == FAQ ==
   * Error in scrape on startup
   * control XBMC in background:
     * solo mode
     * scripts to disable events (LIRC.stop, LIRC.start)
-		* http://forum.xbmc.org/showpost.php?p=800073&postcount=1273
-		* http://forum.xbmc.org/showpost.php?p=1004261&postcount=1994
+        * http://forum.xbmc.org/showpost.php?p=800073&postcount=1273
+        * http://forum.xbmc.org/showpost.php?p=1004261&postcount=1994
   * Home button crashes RCB
