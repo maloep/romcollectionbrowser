@@ -69,9 +69,7 @@ class ContextMenuDialog(xbmcgui.WindowXMLDialog):
 			
 		elif (controlID == 5112): # edit Rom Collection			
 			self.close()
-			constructorParam = 1
-			if(util.hasAddons()):
-				constructorParam = "720p"
+			constructorParam = "720p"
 			editRCdialog = dialogeditromcollection.EditRomCollectionDialog("script-RCB-editromcollection.xml", util.getAddonInstallPath(), "Default", constructorParam, gui=self.gui)			
 			del editRCdialog
 			
@@ -79,10 +77,8 @@ class ContextMenuDialog(xbmcgui.WindowXMLDialog):
 			self.gui.config.readXml()
 			
 		elif (controlID == 5117): # edit scraper			
-			self.close()
-			constructorParam = 1
-			if(util.hasAddons()):
-				constructorParam = "720p"
+			self.close()			
+			constructorParam = "720p"
 			editscraperdialog = dialogeditscraper.EditOfflineScraper("script-RCB-editscraper.xml", util.getAddonInstallPath(), "Default", constructorParam, gui=self.gui)			
 			del editscraperdialog
 			
@@ -173,10 +169,8 @@ class ContextMenuDialog(xbmcgui.WindowXMLDialog):
 		
 		elif (controlID == 5115): #Remove Rom Collection			
 			self.close()
-			
-			constructorParam = 1
-			if(util.hasAddons()):
-				constructorParam = "720p"
+						
+			constructorParam = "720p"
 			removeRCDialog = dialogdeleteromcollection.RemoveRCDialog("script-RCB-removeRC.xml", util.getAddonInstallPath(), "Default", constructorParam, gui=self.gui)			
 			rDelStat = removeRCDialog.getDeleteStatus()
 			if(rDelStat):
