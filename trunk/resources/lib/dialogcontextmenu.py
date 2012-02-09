@@ -2,7 +2,7 @@
 import xbmc, xbmcgui
 import util
 import dialogeditromcollection, dialogeditscraper, dialogdeleteromcollection, config
-import nfowriter
+import nfowriter, wizardconfigxml
 from nfowriter import *
 from gamedatabase import *
 from util import *
@@ -55,7 +55,18 @@ class ContextMenuDialog(xbmcgui.WindowXMLDialog):
 			self.gui.updateDB()		
 		elif (controlID == 5111): # add Rom Collection			
 			self.close()
-			self.gui.addRomCollection()
+			wizardconfigxml.ConfigXmlWizard().addRomCollection(self.gui.config)
+			
+			#update self.config
+			statusOk, errorMsg = self.gui.config.readXml()
+			if(statusOk == False):
+				xbmcgui.Dialog().ok(util.SCRIPTNAME, 'Error reading config.xml.', errorMsg)
+				Logutil.log('Error reading config.xml: ' +errorMsg, util.LOG_LEVEL_INFO)
+				return False, 'Error reading config.xml: ' +errorMsg
+			
+			#import Games
+			self.gui.updateDB()
+			
 		elif (controlID == 5112): # edit Rom Collection			
 			self.close()
 			constructorParam = 1
@@ -76,7 +87,7 @@ class ContextMenuDialog(xbmcgui.WindowXMLDialog):
 			del editscraperdialog
 			
 			self.gui.config = Config()
-			self.gui.readXml()
+			self.gui.config.readXml()
 		
 		elif (controlID == 5113): #Edit Game Command			
 			self.close()
