@@ -214,13 +214,9 @@ def getEnvironment():
 
 def getAddonDataPath():
 	path = ''
-	
-	if(hasAddons()):
-		import xbmc
-		path = xbmc.translatePath('special://profile/addon_data/%s' %(SCRIPTID))
-	else:		
-		import xbmc
-		path = xbmc.translatePath('special://profile/script_data/%s' %(SCRIPTID))
+		
+	import xbmc
+	path = xbmc.translatePath('special://profile/addon_data/%s' %(SCRIPTID))
 		
 	if not os.path.exists(path):
 		try:
@@ -231,27 +227,19 @@ def getAddonDataPath():
 
 
 def getAddonInstallPath():
-	
 	path = ''
+		
+	import xbmcaddon
+	addon = xbmcaddon.Addon(id='%s' %SCRIPTID)
+	path = addon.getAddonInfo('path')
 	
-	if(hasAddons()):
-		import xbmcaddon
-		addon = xbmcaddon.Addon(id='%s' %SCRIPTID)
-		path = addon.getAddonInfo('path')
-	else:
-		path = os.getcwd()
 	return path
 			
 
 def getAutoexecPath():
 	import xbmc
-	if(hasAddons()):
-		return xbmc.translatePath('special://profile/autoexec.py')
-	else:
-		autoexec = os.path.join(RCBHOME, '..', 'autoexec.py')
-		autoexec = os.path.normpath(autoexec)
-		return autoexec
-	
+	return xbmc.translatePath('special://profile/autoexec.py')
+
 
 def getConfigXmlPath():
 	if(not ISTESTRUN):
@@ -262,40 +250,14 @@ def getConfigXmlPath():
 	
 	Logutil.log('Path to configuration file: ' +str(configFile), LOG_LEVEL_INFO)
 	return configFile
-
-
-def getConfigXmlModifyTime():
-	configFile = getConfigXmlPath()		
-	if(os.path.isfile(configFile)):
-		modifyTime = os.path.getmtime(configFile)
-	else:
-		modifyTime = 0
-	
-	Logutil.log("modifyTime from file (as int): " +str(modifyTime), LOG_LEVEL_INFO)
-	Logutil.log("modifyTime from file (as time): " +str(time.ctime(modifyTime)), LOG_LEVEL_INFO)
-	return modifyTime
 	
 	
 def getSettings():
 	import xbmc
 	settings = ''
-	if hasAddons():
-		import xbmcaddon
-		settings = xbmcaddon.Addon(id='%s' %SCRIPTID)
-	else:
-		settings = xbmc.Settings(RCBHOME)
+	import xbmcaddon
+	settings = xbmcaddon.Addon(id='%s' %SCRIPTID)
 	return settings
-
-
-def hasAddons():  
-	if os.environ.get('OS') == 'xbox':
-		return False
-	
-	try:
-		import xbmcaddon
-		return True
-	except:
-		return False
 
 
 def getScrapingMode(settings):

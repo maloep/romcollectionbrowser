@@ -194,7 +194,7 @@ class UIGameDB(xbmcgui.WindowXML):
 		
 		self.checkImport(doImport)
 		
-		#TODO: check why mem db causes errors in some situation
+		#TODO: check why mem db sometimes causes errors
 		"""
 		self.memDB = False		
 		memDB = self.Settings.getSetting(util.SETTING_RCB_MEMDB)
@@ -939,11 +939,8 @@ class UIGameDB(xbmcgui.WindowXML):
 		skin = self.Settings.getSetting(util.SETTING_RCB_SKIN)
 		if(skin == "Confluence"):
 			skin = "Default"
-		
-		#HACK: Dharma has a new parameter in Window-Constructor for default resolution
-		constructorParam = 1
-		if(util.hasAddons()):
-			constructorParam = "720p"
+						
+		constructorParam = "720p"
 		
 		import dialoggameinfo
 		try:
@@ -972,9 +969,7 @@ class UIGameDB(xbmcgui.WindowXML):
 	
 	def showContextMenu(self):
 		
-		constructorParam = 1
-		if(util.hasAddons()):
-			constructorParam = "720p"
+		constructorParam = "720p"
 		cm = dialogcontextmenu.ContextMenuDialog("script-RCB-contextmenu.xml", util.getAddonInstallPath(), "Default", constructorParam, gui=self)
 		del cm
 				
@@ -1272,13 +1267,10 @@ class UIGameDB(xbmcgui.WindowXML):
 		#Import is started from dialog
 		showImportOptionsDialog = self.Settings.getSetting(util.SETTING_RCB_SHOWIMPORTOPTIONSDIALOG).upper() == 'TRUE'
 		if(showImportOptionsDialog):
-			constructorParam = 1
-			if(util.hasAddons()):
-				constructorParam = "720p"
+			constructorParam = "720p"
 			iod = dialogimportoptions.ImportOptionsDialog("script-RCB-importoptions.xml", util.getAddonInstallPath(), "Default", constructorParam, gui=self)
 			del iod
 		else:
-						
 			message = 'Do you want to import Games now?'		
 		
 			dialog = xbmcgui.Dialog()
@@ -1823,10 +1815,7 @@ def main():
 	if(skin == "Confluence"):
 		skin = "Default"
 	
-	if(util.hasAddons()):
-		ui = UIGameDB("script-Rom_Collection_Browser-main.xml", util.getAddonInstallPath(), skin, "720p")
-	else:
-		ui = UIGameDB("script-Rom_Collection_Browser-main.xml", util.getAddonInstallPath(), skin, 1)
+	ui = UIGameDB("script-Rom_Collection_Browser-main.xml", util.getAddonInstallPath(), skin, "720p")
 	ui.doModal()
 	del ui
 
