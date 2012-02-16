@@ -1,9 +1,9 @@
 0.9.9 (02/2012)
 ~~~~~~~~~~~~~
 General:
-  * refactoring: extract config wizard to separate module
+  * refactoring: move config wizard to separate module
   * refactoring: remove Camelot compatibility code
-  * bugfix: remove and add rom collection in one turn causes errors
+  * bugfix: remove and add Rom Collection in one turn caused errors
   
 Import Games:
   * bugfix: import dialog is empty after "Edit offline scraper"
