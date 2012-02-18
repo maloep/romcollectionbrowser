@@ -3,7 +3,7 @@
 
 You can launch the context menu with pressing "C" on the keyboard or "Menu" on the remote.
 
-http://romcollectionbrowser.googlecode.com/files/screen_contextmenu.jpg
+[http://romcollectionbrowser.googlecode.com/files/screen_contextmenu_1202.jpg]
 
 = Import Games =
 Starts the game import. See section [ImportGames Import Games] for more information.
@@ -25,6 +25,9 @@ Adds the current selected game to your favorites. If the current game already is
 
 = Add/Remove Selection To/From Favorites =
 Adds all games of the current filter selection to your favorites. If one or more of the games in the selection already are favorites they will be removed from favorites. All other games remain unchanged.
+
+= Export game database (nfo files) =
+This option will export your complete database to nfo files. The nfo files will be created next to your roms or in a separate folder that you can (optionally) specify in Addon settings. You can import these nfo files later with "local nfo" scraper.
 
 = Delete Game =
 Deletes the currently selected game. This will only delete the game from RCBs database. The files on your HD keep untouched.
