@@ -1,7 +1,7 @@
 #sidebar SideBar
 <wiki:toc max_depth="4" />
 
-http://romcollectionbrowser.googlecode.com/files/screen_Settings_02_ImportGames_small.jpg
+[http://romcollectionbrowser.googlecode.com/files/screen_Settings_02_ImportGames_small_1202.jpg]
 
 You can access RCBs global settings via the context menu in addons / scripts list in XBMC (press C on the keyboard).
 
@@ -38,3 +38,9 @@ Set this to "True" if you want to skip all games that RCB can't find any artwork
 
 = Always rescan imported games =
 Before scraping game information, RCB checks if the current rom file is already imported to the database. RCB will skip scraping these games unless you set this option to "True".
+
+= Use extra nfo folder =
+If set to "False", RCB will look for your nfo files next to your rom files. If set to "True", you can select a separate path where RCB should store your nfo files.
+
+= nfo folder path =
+Path to your nfo files. Only available if "Use extra nfo folder" is set to "True". You should only specify the base path to your nfo files. RCB will create sub folders per Rom Collection for you.
