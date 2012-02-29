@@ -212,7 +212,7 @@ class EditRomCollectionDialog(dialogbase.DialogBaseEdit):
 		elif (controlID == CONTROL_BUTTON_SAVESTATEPARAMS):
 			saveStateParams = self.editTextProperty(CONTROL_BUTTON_SAVESTATEPARAMS, 'savestate params')
 			self.selectedRomCollection.saveStateParams = saveStateParams
-			
+				
 	
 	def onFocus(self, controlId):
 		self.selectedControlId = controlId
