@@ -1617,6 +1617,29 @@
 				<onup>50</onup>
 				<ondown>50</ondown>
 				<onleft>50</onleft>
+				<onright>4001</onright>
+			</control>
+			<control type="button" id="4001"> 
+				<description>Missing info filter</description>
+				<posx>250</posx>
+				<posy>25</posy>
+				<width>200</width>
+				<height>30</height>
+				<visible>true</visible>
+				<colordiffuse>DDFFFFFF</colordiffuse>
+				<texturefocus>rcb-button-focus.png</texturefocus>
+				<texturenofocus>rcb-button-nofocus.png</texturenofocus>
+				<label>Missing info filter</label>
+				<textcolor>DDFFFFFF</textcolor>
+				<disabledcolor>80FFFFFF</disabledcolor>
+				<align>center</align>
+				<aligny>center</aligny>
+				<textoffsetx></textoffsetx>
+				<textoffsety></textoffsety>
+				<pulseonselect></pulseonselect>
+				<onup>50</onup>
+				<ondown>50</ondown>
+				<onleft>2</onleft>
 				<onright>50</onright>
 			</control>
 		</control>

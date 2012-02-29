@@ -6,7 +6,7 @@ from threading import *
 from util import *
 import util
 import dbupdate, helper, launcher, config
-import dialogimportoptions, dialogcontextmenu, dialogprogress
+import dialogimportoptions, dialogcontextmenu, dialogprogress, dialogmissinginfo
 from config import *
 from configxmlupdater import *
 import wizardconfigxml
@@ -46,7 +46,7 @@ CONTROL_BUTTON_SEARCH = 1100
 CONTROL_BUTTON_VIDEOFULLSCREEN = (2900, 2901,)
 
 CONTROL_LABEL_MSG = 4000
-
+CONTROL_BUTTON_MISSINGINFODIALOG = 4001
 
 
 class MyPlayer(xbmc.Player):
@@ -415,6 +415,10 @@ class UIGameDB(xbmcgui.WindowXML):
 				searchButton.setLabel('Search')
 			
 			self.showGames()
+			
+		elif (controlId == CONTROL_BUTTON_MISSINGINFODIALOG):
+			missingInfoDialog = dialogmissinginfo.MissingInfoDialog("script-RCB-missinginfo.xml", util.getAddonInstallPath(), "Default", "720p", gui=self)
+			del missingInfoDialog
 
 	def onFocus(self, controlId):
 		Logutil.log("onFocus: " + str(controlId), util.LOG_LEVEL_DEBUG)
