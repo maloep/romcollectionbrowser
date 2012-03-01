@@ -253,7 +253,7 @@ class Game(DataBaseObject):
 	
 	deleteQuery = "DELETE FROM Game WHERE id = ?"
 	
-	def __init__(self, gdb):		
+	def __init__(self, gdb):
 		self.gdb = gdb
 		self.tableName = "Game"
 		
@@ -261,7 +261,7 @@ class Game(DataBaseObject):
 		args = (romCollectionId, genreId, yearId, publisherId, isFavorite)
 		filterQuery = self.filterQuery %likeStatement
 		util.Logutil.log('searching games with query: ' +filterQuery, util.LOG_LEVEL_DEBUG)
-		util.Logutil.log('searching games with args: romCollectionId = %s, genreId = %s, yearId = %s, publisherId = %s, isFavorite = %s, characterFilter = %s' %(str(romCollectionId), str(genreId), str(yearId), str(publisherId), str(isFavorite), likeStatement), util.LOG_LEVEL_INFO)
+		util.Logutil.log('searching games with args: romCollectionId = %s, genreId = %s, yearId = %s, publisherId = %s, isFavorite = %s, characterFilter = %s' %(str(romCollectionId), str(genreId), str(yearId), str(publisherId), str(isFavorite), likeStatement), util.LOG_LEVEL_DEBUG)
 		games = self.getObjectsByWildcardQuery(filterQuery, args)
 		newList = self.encodeUtf8(games)
 		return newList
