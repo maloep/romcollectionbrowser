@@ -6,6 +6,13 @@ from util import *
 from elementtree.ElementTree import *
 
 
+#id, db column, friendly name, missing filter statement
+gameproperties = {'maxPlayers' : ['Max. Players', 'maxPlayers', "maxPlayers = ''"],
+				'controllerType' : ['Controller', 'controllerType', "controllerType = ''"],
+				'developer' : ['Developer', 'developerId', "developerId is NULL"],
+				'publisher' : ['Publisher', 'publisherId', "publisherId is NULL"]}
+
+
 consoleDict = {
 			#name, mobygames-id, thegamesdb, archive vg
 			'Other' : ['0', '', ''],
@@ -172,6 +179,11 @@ class Site:
 	useFilenameAsCRC = False
 	
 	scrapers = None
+	
+
+class MissingFilter:
+	andGroup = []
+	orGroup = []
 
 class RomCollection:
 	id = -1
@@ -188,6 +200,9 @@ class RomCollection:
 	imagePlacingInfo = None
 	autoplayVideoMain = True
 	autoplayVideoInfo = True
+	showHideOption = 'ignore'
+	missingFilterInfo = None
+	missingFilterArtwork = None
 	ignoreOnScan = False
 	allowUpdate = True
 	useEmuSolo = False
@@ -361,6 +376,14 @@ class Config:
 				
 				romCollection.imagePlacingInfo = fileTypeFor
 			
+			#Missing filter settings
+			showHideOption = self.readTextElement(romCollectionRow, 'showHideOption')
+			if(showHideOption == ''):
+				romCollection.showHideOption = 'ignore'
+			else:
+				romCollection.showHideOption = showHideOption
+			romCollection.missingFilterInfo = self.readMissingFilter('missingInfoFilter', romCollectionRow)
+			romCollection.missingFilterArtwork = self.readMissingFilter('missingArtworkFilter', romCollectionRow)
 			#all simple RomCollection properties
 			romCollection.emulatorCmd = self.readTextElement(romCollectionRow, 'emulatorCmd')
 			romCollection.emulatorParams = self.readTextElement(romCollectionRow, 'emulatorParams')
@@ -577,7 +600,7 @@ class Config:
 		imagePlacing.fileTypesForMainViewVideoFullscreen, errorMsg = self.readFileTypeForElement(fileTypeForRow, 'fileTypeForMainViewVideoFullscreen', tree)
 			
 		return imagePlacing, ''
-	
+			
 	
 	def readFileTypeForElement(self, fileTypeForRow, key, tree):
 		fileTypeList = []
@@ -591,7 +614,26 @@ class Config:
 			fileTypeList.append(fileType)
 				
 		return fileTypeList, ''
+	
+	
+	def readMissingFilter(self, filterName, romCollectionRow):
+		missingFilter = MissingFilter()
+		missingFilterRow = romCollectionRow.find(filterName)
+		if(missingFilterRow != None):
+			missingFilter.andGroup = self.getMissingFilterItems(missingFilterRow, 'andGroup')
+			missingFilter.orGroup = self.getMissingFilterItems(missingFilterRow, 'orGroup')
 		
+		return missingFilter		
+	
+	def getMissingFilterItems(self, missingFilterRow, groupName):
+		items = []
+		groupRow = missingFilterRow.find(groupName)
+		if(groupRow != None):
+			itemRows = groupRow.findall('item')			
+			for element in itemRows:
+				items.append(element.text)
+		return items
+	
 	
 	def getFileTypeIdsForGameList(self, romCollections):
 		
