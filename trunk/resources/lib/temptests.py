@@ -18,6 +18,9 @@ sys.path.append(os.path.join(BASE_RESOURCE_PATH, "..", "platform_libraries", env
 import util
 from descriptionparserfactory import DescriptionParserFactory
 
+import config
+from config import *
+
 #"http://thevideogamedb.com/API/GameDetail.aspx?apikey=Zx5m2Y9Ndj6B4XwTf83JyKz7r8WHt3i4&name=After%20burner"
 #descFile = "http://thevideogamedb.com/API/GameDetail.aspx?apikey=Zx5m2Y9Ndj6B4XwTf83JyKz7r8WHt3i4&name=After%20burner"
 #parseInstruction = "C:\\Users\\malte\\AppData\\Roaming\\XBMC\\scripts\\Rom Collection Browser\\resources\\scraper\\01 - thevideogamedb.xml"
@@ -64,7 +67,7 @@ parseInstruction = "F:\\Games\\MAME test\\Synopsis\\parserConfig.xml"
 #parseInstruction = "F:\\Emulatoren\\data\\synopsis\\XTRAS-RCB\\_parserConfig.xml"
 
 
-
+"""
 from descriptionparserfactory import *
 descParser = DescriptionParserFactory.getParser(parseInstruction)
 
@@ -73,7 +76,7 @@ for result in results:
 	print result
 	
 print len(results)
-
+"""
 
 
 
@@ -149,5 +152,85 @@ print romCollectionsXml
 print tree
 """
 
+configFile = util.getConfigXmlPath()
+print configFile
+
+config = Config()
+statusOk, errorMsg = config.readXml()
+
+romCollection = config.romCollections['1']
+
+#id, db column, friendly name, missing filter statement
+gameproperties = {'maxPlayers' : ['Max. Players', 'maxPlayers', "maxPlayers = ''"],
+				'controllerType' : ['Controller', 'controllerType', "controllerType = ''"],
+				'developer' : ['Developer', 'developerId', "developerId is NULL"],
+				'publisher' : ['Publisher', 'publisherId', "publisherId is NULL"]}
+
+def buildInfoStatement(group, operator):
+	statement = ''
+	for item in group:
+		if statement == '':
+			statement = '('
+		else:
+			statement = statement + operator
+		statement = statement + gameproperties[item][2]
+	if(statement != ''):
+		statement = statement + ')'
+	
+	return statement
 
 
+def buildArtworkStatement(romCollection, group, operator):
+	statement = ''
+	for item in group:
+		if statement == '':
+			statement = '('
+		else:
+			statement = statement + operator
+			
+		typeId = ''
+		for mediaPath in romCollection.mediaPaths:
+			if(mediaPath.fileType.name == item):
+				typeId = mediaPath.fileType.id
+				break
+		statement = statement + 'Id NOT IN (SELECT ParentId from File Where fileTypeId = %s)' %str(typeId) 
+	
+	if(statement != ''):
+		statement = statement + ')'
+	
+	return statement
+	
+
+def builMissingFilterStatement():
+
+	if(romCollection.showHideOption.lower() == 'ignore'):
+		return ''
+		
+	statement = ''
+	
+	andStatementInfo = buildInfoStatement(romCollection.missingFilterInfo.andGroup, ' AND ')
+	if(andStatementInfo != ''):
+		statement = andStatementInfo + ' OR '
+		
+	orStatementInfo =  buildInfoStatement(romCollection.missingFilterInfo.orGroup, ' OR ')
+	if(orStatementInfo != ''):
+		statement = statement + orStatementInfo + ' OR '
+		
+	andStatementArtwork = buildArtworkStatement(romCollection, romCollection.missingFilterArtwork.andGroup, ' AND ')
+	if(andStatementArtwork != ''):
+		statement = statement + andStatementArtwork + ' OR '
+	
+	orStatementArtwork =  buildArtworkStatement(romCollection, romCollection.missingFilterArtwork.orGroup, ' OR ')
+	if(orStatementArtwork != ''):
+		statement = statement + orStatementArtwork
+	
+	if(statement != ''):
+		statement = '(%s)' %(statement)
+		if(romCollection.showHideOption.lower() == 'hide'):
+			statement = 'NOT ' +statement
+	
+	return statement
+
+
+statement = builMissingFilterStatement()
+print statement
