@@ -257,13 +257,15 @@ class Config:
 		
 		#Missing filter settings
 		missingFilter = tree.find('MissingFilter')
-		showHideOption = self.readTextElement(missingFilter, 'showHideOption')
-		if(showHideOption == ''):
-			self.showHideOption = 'ignore'
-		else:
-			self.showHideOption = showHideOption
-		self.missingFilterInfo = self.readMissingFilter('missingInfoFilter', missingFilter)
-		self.missingFilterArtwork = self.readMissingFilter('missingArtworkFilter', missingFilter)
+		if(missingFilter != None):
+			showHideOption = self.readTextElement(missingFilter, 'showHideOption')
+			if(showHideOption == ''):
+				self.showHideOption = 'ignore'
+			else:
+				self.showHideOption = showHideOption
+			
+			self.missingFilterInfo = self.readMissingFilter('missingInfoFilter', missingFilter)
+			self.missingFilterArtwork = self.readMissingFilter('missingArtworkFilter', missingFilter)
 		
 		return True, ''	
 
