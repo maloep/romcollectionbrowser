@@ -634,7 +634,13 @@ class UIGameDB(xbmcgui.WindowXML):
 		timestamp1 = time.clock()
 		
 		# build statement for character search (where name LIKE 'A%')
-		likeStatement = helper.buildLikeStatement(self.selectedCharacter, self.searchTerm)		
+		likeStatement = helper.buildLikeStatement(self.selectedCharacter, self.searchTerm)
+		
+		#build statement for missing filters
+		missingFilterStatement = helper.builMissingFilterStatement(self.config)
+		if(missingFilterStatement != ''):
+			likeStatement = likeStatement + ' AND ' +missingFilterStatement
+		
 		games = Game(self.gdb).getFilteredGames(self.selectedConsoleId, self.selectedGenreId, self.selectedYearId, self.selectedPublisherId, isFavorite, likeStatement)
 		
 		if(games == None):
