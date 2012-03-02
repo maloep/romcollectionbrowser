@@ -75,7 +75,7 @@ class MissingInfoDialog(dialogbase.DialogBaseEdit):
 			
 		elif (controlID == CONTROL_BUTTON_REMOVE_ARTWORK_ORGROUP):
 			Logutil.log('Remove artwork or', util.LOG_LEVEL_INFO)
-			self.artworkOrList = self.removeFromMissingArtworkList(self.artworkOrList, CONTROL_LABEL_ARTWORK_ORGROUP)
+			self.artworkOrList = self.removeFromMissingList(self.artworkOrList, CONTROL_LABEL_ARTWORK_ORGROUP)
 			
 		elif (controlID == CONTROL_BUTTON_ADD_ARTWORK_ANDGROUP):
 			Logutil.log('Add artwork and', util.LOG_LEVEL_INFO)
@@ -83,7 +83,24 @@ class MissingInfoDialog(dialogbase.DialogBaseEdit):
 
 		elif (controlID == CONTROL_BUTTON_REMOVE_ARTWORK_ANDGROUP):
 			Logutil.log('Remove artwork and', util.LOG_LEVEL_INFO)
-			self.artworkAndList = self.removeFromMissingArtworkList(self.artworkAndList, CONTROL_LABEL_ARTWORK_ANDGROUP)
+			self.artworkAndList = self.removeFromMissingList(self.artworkAndList, CONTROL_LABEL_ARTWORK_ANDGROUP)
+			
+		elif (controlID == CONTROL_BUTTON_ADD_INFO_ORGROUP):
+			Logutil.log('Add info or', util.LOG_LEVEL_INFO)
+			self.infoOrList = self.addItemToMissingInfoList(self.infoOrList, CONTROL_LABEL_INFO_ORGROUP)
+			
+		elif (controlID == CONTROL_BUTTON_REMOVE_INFO_ORGROUP):
+			Logutil.log('Remove info and', util.LOG_LEVEL_INFO)
+			self.infoOrList = self.removeFromMissingList(self.infoOrList, CONTROL_LABEL_INFO_ORGROUP)
+		
+		elif (controlID == CONTROL_BUTTON_ADD_INFO_ANDGROUP):
+			Logutil.log('Add info and', util.LOG_LEVEL_INFO)
+			self.infoAndList = self.addItemToMissingInfoList(self.infoAndList, CONTROL_LABEL_INFO_ANDGROUP)
+			
+		elif (controlID == CONTROL_BUTTON_REMOVE_INFO_ANDGROUP):
+			Logutil.log('Remove info and', util.LOG_LEVEL_INFO)
+			self.infoAndList = self.removeFromMissingList(self.infoAndList, CONTROL_LABEL_INFO_ANDGROUP)
+			
 			
 		#Save
 		elif (controlID == CONTROL_BUTTON_SAVE):			
@@ -119,14 +136,34 @@ class MissingInfoDialog(dialogbase.DialogBaseEdit):
 		
 		return inList
 	
-	
-	def removeFromMissingArtworkList(self, inList, labelId):
+		
+	def addItemToMissingInfoList(self, inList, labelId):
+		
+		tempList = []
+		for item in config.gameproperties.keys():
+			if(not item in tempList and not item in inList):
+				tempList.append(item)
+			
 		dialog = xbmcgui.Dialog()
-		artworkIndex = dialog.select('Remove Artwork type', inList)
+		index = dialog.select('Select property', tempList)
 		del dialog
-		if(artworkIndex == -1):
+		if(index == -1):
 			return inList
-		inList.remove(inList[artworkIndex])
+		
+		inList.append(tempList[index])
+		label = self.getControlById(labelId)
+		label.setLabel(', '.join(inList))
+		
+		return inList
+	
+	
+	def removeFromMissingList(self, inList, labelId):
+		dialog = xbmcgui.Dialog()
+		index = dialog.select('Remove item', inList)
+		del dialog
+		if(index == -1):
+			return inList
+		inList.remove(inList[index])
 		label = self.getControlById(labelId)
 		label.setLabel(', '.join(inList))
 		
