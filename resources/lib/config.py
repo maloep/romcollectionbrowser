@@ -200,9 +200,6 @@ class RomCollection:
 	imagePlacingInfo = None
 	autoplayVideoMain = True
 	autoplayVideoInfo = True
-	showHideOption = 'ignore'
-	missingFilterInfo = None
-	missingFilterArtwork = None
 	ignoreOnScan = False
 	allowUpdate = True
 	useEmuSolo = False
@@ -220,6 +217,10 @@ class Config:
 	romCollections = None
 	scraperSites = None
 	fileTypeIdsForGamelist = None
+	
+	showHideOption = 'ignore'
+	missingFilterInfo = None
+	missingFilterArtwork = None
 	
 	tree = None
 		
@@ -253,6 +254,16 @@ class Config:
 		self.scraperSites = scrapers
 				
 		self.fileTypeIdsForGamelist = self.getFileTypeIdsForGameList(romCollections)
+		
+		#Missing filter settings
+		missingFilter = tree.find('MissingFilter')
+		showHideOption = self.readTextElement(missingFilter, 'showHideOption')
+		if(showHideOption == ''):
+			self.showHideOption = 'ignore'
+		else:
+			self.showHideOption = showHideOption
+		self.missingFilterInfo = self.readMissingFilter('missingInfoFilter', missingFilter)
+		self.missingFilterArtwork = self.readMissingFilter('missingArtworkFilter', missingFilter)
 		
 		return True, ''	
 
@@ -375,15 +386,7 @@ class Config:
 					return None, errorMsg
 				
 				romCollection.imagePlacingInfo = fileTypeFor
-			
-			#Missing filter settings
-			showHideOption = self.readTextElement(romCollectionRow, 'showHideOption')
-			if(showHideOption == ''):
-				romCollection.showHideOption = 'ignore'
-			else:
-				romCollection.showHideOption = showHideOption
-			romCollection.missingFilterInfo = self.readMissingFilter('missingInfoFilter', romCollectionRow)
-			romCollection.missingFilterArtwork = self.readMissingFilter('missingArtworkFilter', romCollectionRow)
+						
 			#all simple RomCollection properties
 			romCollection.emulatorCmd = self.readTextElement(romCollectionRow, 'emulatorCmd')
 			romCollection.emulatorParams = self.readTextElement(romCollectionRow, 'emulatorParams')
@@ -616,9 +619,9 @@ class Config:
 		return fileTypeList, ''
 	
 	
-	def readMissingFilter(self, filterName, romCollectionRow):
+	def readMissingFilter(self, filterName, tree):
 		missingFilter = MissingFilter()
-		missingFilterRow = romCollectionRow.find(filterName)
+		missingFilterRow = tree.find(filterName)
 		if(missingFilterRow != None):
 			missingFilter.andGroup = self.getMissingFilterItems(missingFilterRow, 'andGroup')
 			missingFilter.orGroup = self.getMissingFilterItems(missingFilterRow, 'orGroup')
