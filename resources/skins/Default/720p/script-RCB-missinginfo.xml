@@ -1,5 +1,5 @@
 <window id="5600">
-	<defaultcontrol>5211</defaultcontrol>
+	<defaultcontrol>5201</defaultcontrol>
 	<include>dialogeffect</include>
 	<coordinates>
 		<system>1</system>
@@ -38,10 +38,10 @@
 			<font>-</font>
 			<texturefocus>rcb-DialogCloseButton-focus.png</texturefocus>
 			<texturenofocus>rcb-DialogCloseButton.png</texturenofocus>
-			<onleft>5211</onleft>
-			<onright>5211</onright>
+			<onleft>5201</onleft>
+			<onright>5201</onright>
 			<onup>6000</onup>
-			<ondown>5211</ondown>
+			<ondown>5201</ondown>
 			<visible>system.getbool(input.enablemouse)</visible>
 		</control>
 		<control type="image">
@@ -66,122 +66,7 @@
 			<posy>550</posy>
 			<width>720</width>
 			<texture border="45,0,45,49">rcb-DialogContextBottom.png</texture>
-		</control>
-		
-		<!-- Rom Collection List -->
-		<control type="list" id="5210">
-			<hitrect x="0" y="0" w="0" h="0" />
-			<posx>40</posx>
-			<posy>20</posy>
-			<width>630</width>
-			<height>30</height>
-			<onleft>5210</onleft>
-			<onright>5210</onright>
-			<onup>5210</onup>
-			<ondown>5210</ondown>
-			<pagecontrol>-</pagecontrol>
-			<scrolltime>0</scrolltime>
-			<itemlayout height="1" width="750">
-			</itemlayout>
-			<focusedlayout height="30" width="670">
-				<control type="image">
-					<posx>0</posx>
-					<posy>0</posy>
-					<width>630</width>
-					<height>30</height>
-					<texture>rcb-MenuItemNF.png</texture>
-					<visible>![Control.HasFocus(5211) | Control.HasFocus(5212)]</visible>
-				</control>
-				<control type="image">
-					<posx>0</posx>
-					<posy>0</posy>
-					<width>630</width>
-					<height>30</height>
-					<texture>rcb-MenuItemFO.png</texture>
-					<visible>[Control.HasFocus(5211) | Control.HasFocus(5212)]</visible>
-				</control>
-				<control type="label">
-					<posx>7</posx>
-					<posy>5</posy>
-					<width>200</width>
-					<height>20</height>
-					<font>font13</font>
-					<textcolor>88FFFFFF</textcolor>
-					<align>left</align>
-					<aligny>center</aligny>
-					<label>Rom Collection</label>
-					<visible>![Control.HasFocus(5211) | Control.HasFocus(5212)]</visible>
-				</control>
-				<control type="label">
-					<posx>7</posx>
-					<posy>5</posy>
-					<width>200</width>
-					<height>20</height>
-					<font>font13</font>
-					<textcolor>FFFFFFFF</textcolor>
-					<align>left</align>
-					<aligny>center</aligny>
-					<label>Rom Collection</label>
-					<visible>[Control.HasFocus(5211) | Control.HasFocus(5212)]</visible>
-				</control>
-				<control type="label">
-					<posx>570</posx>
-					<posy>5</posy>
-					<width>370</width>
-					<height>20</height>
-					<font>font13</font>
-					<textcolor>88FFFFFF</textcolor>
-					<align>right</align>
-					<aligny>center</aligny>
-					<label>$INFO[ListItem.Label]</label>
-					<visible>![Control.HasFocus(5211) | Control.HasFocus(5212)]</visible>
-				</control>
-				<control type="label">
-					<posx>570</posx>
-					<posy>5</posy>
-					<width>370</width>
-					<height>20</height>
-					<font>font13</font>
-					<textcolor>FFFFFFFF</textcolor>
-					<align>right</align>
-					<aligny>center</aligny>
-					<label>$INFO[ListItem.Label]</label>
-					<visible>[Control.HasFocus(5211) | Control.HasFocus(5212)]</visible>
-				</control>
-			</focusedlayout>
-		</control>
-		<control type="button" id="5211">
-			<description>Menu Item Next Button</description>
-			<posx>630</posx>
-			<posy>25</posy>
-			<width>20</width>
-			<height>20</height>
-			<label>-</label>
-			<font>-</font>
-			<texturenofocus>rcb-scroll-down-2.png</texturenofocus>
-			<texturefocus>rcb-scroll-down-focus-2.png</texturefocus>
-			<onclick>Control.Move(5210,1)</onclick>
-			<onleft>6000</onleft>
-			<onright>5212</onright>
-			<onup>5101</onup>
-			<ondown>5201</ondown>
-		</control>
-		<control type="button" id="5212">
-			<description>Menu Item Prev Button</description>
-			<posx>650</posx>
-			<posy>25</posy>
-			<width>20</width>
-			<height>20</height>
-			<label>-</label>
-			<font>-</font>
-			<texturenofocus>rcb-scroll-up-2.png</texturenofocus>
-			<texturefocus>rcb-scroll-up-focus-2.png</texturefocus>
-			<onclick>Control.Move(5210,-1)</onclick>
-			<onleft>5211</onleft>
-			<onright>6000</onright>
-			<onup>5101</onup>
-			<ondown>5202</ondown>
-		</control>
+		</control>				
 		
 		<!-- Show/Hide missing info list -->
 		<control type="list" id="5200">
@@ -277,7 +162,7 @@
 			<onclick>Control.Move(5200,1)</onclick>
 			<onleft>6000</onleft>
 			<onright>5202</onright>
-			<onup>5211</onup>
+			<onup>5101</onup>
 			<ondown>5230</ondown>
 		</control>
 		<control type="button" id="5202">
@@ -293,7 +178,7 @@
 			<onclick>Control.Move(5200,-1)</onclick>
 			<onleft>5201</onleft>
 			<onright>6000</onright>
-			<onup>5212</onup>
+			<onup>5101</onup>
 			<ondown>5230</ondown>
 		</control>
 			
