@@ -4,13 +4,8 @@ import dbupdate
 from gamedatabase import *
 import util
 from util import *
+import config
 
-
-"""
-import time
-import zipfile
-import xbmcgui
-"""
 
 def getFilesByControl_Cached(gdb, fileTypes, gameId, publisherId, developerId, romCollectionId, fileDict):
 					
@@ -118,6 +113,75 @@ def buildLikeStatement(selectedCharacter, searchTerm):
 		likeStatement += " AND name LIKE '%s'" %('%' +searchTerm +'%')
 	
 	return likeStatement
+
+
+def builMissingFilterStatement(config):
+
+	if(config.showHideOption.lower() == 'ignore'):
+		return ''
+		
+	statement = ''
+	
+	andStatementInfo = buildInfoStatement(config.missingFilterInfo.andGroup, ' AND ')
+	if(andStatementInfo != ''):
+		statement = andStatementInfo + ' OR '
+		
+	orStatementInfo =  buildInfoStatement(config.missingFilterInfo.orGroup, ' OR ')
+	if(orStatementInfo != ''):
+		statement = statement + orStatementInfo + ' OR '
+		
+	andStatementArtwork = buildArtworkStatement(config, config.missingFilterArtwork.andGroup, ' AND ')
+	if(andStatementArtwork != ''):
+		statement = statement + andStatementArtwork + ' OR '
+	
+	orStatementArtwork =  buildArtworkStatement(config, config.missingFilterArtwork.orGroup, ' OR ')
+	if(orStatementArtwork != ''):
+		statement = statement + orStatementArtwork
+	
+	if(statement != ''):
+		statement = '(%s)' %(statement)
+		if(config.showHideOption.lower() == 'hide'):
+			statement = 'NOT ' +statement
+	
+	return statement
+
+
+def buildInfoStatement(group, operator):
+	statement = ''
+	for item in group:
+		if statement == '':
+			statement = '('
+		else:
+			statement = statement + operator
+		statement = statement + config.gameproperties[item][2]
+	if(statement != ''):
+		statement = statement + ')'
+	
+	return statement
+
+
+def buildArtworkStatement(config, group, operator):
+	statement = ''
+	for item in group:
+		if statement == '':
+			statement = '('
+		else:
+			statement = statement + operator
+			
+		typeId = ''
+						
+		fileTypeRows = config.tree.findall('FileTypes/FileType')
+		for element in fileTypeRows:
+			if(element.attrib.get('name') == item):
+				typeId = element.attrib.get('id')
+				break
+		statement = statement + 'Id NOT IN (SELECT ParentId from File Where fileTypeId = %s)' %str(typeId) 
+	
+	if(statement != ''):
+		statement = statement + ')'
+	
+	return statement
+
 
 
 def getGamenameFromFilename(filename, romCollection):
