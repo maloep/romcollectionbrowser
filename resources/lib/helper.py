@@ -153,7 +153,7 @@ def buildInfoStatement(group, operator):
 			statement = '('
 		else:
 			statement = statement + operator
-		statement = statement + config.gameproperties[item][2]
+		statement = statement + config.gameproperties[item][1]
 	if(statement != ''):
 		statement = statement + ')'
 	
