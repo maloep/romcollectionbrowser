@@ -6,11 +6,11 @@ from util import *
 from elementtree.ElementTree import *
 
 
-#id, db column, friendly name, missing filter statement
-gameproperties = {'maxPlayers' : ['Max. Players', 'maxPlayers', "maxPlayers = ''"],
-				'controllerType' : ['Controller', 'controllerType', "controllerType = ''"],
-				'developer' : ['Developer', 'developerId', "developerId is NULL"],
-				'publisher' : ['Publisher', 'publisherId', "publisherId is NULL"]}
+#friendly name, db column, missing filter statement
+gameproperties = {'Max. Players' : ['maxPlayers', "maxPlayers = ''"],
+				'Controller' : ['controllerType', "controllerType = ''"],
+				'Developer' : ['developerId', "developerId is NULL"],
+				'Publisher' : ['publisherId', "publisherId is NULL"]}
 
 
 consoleDict = {
