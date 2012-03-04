@@ -6,11 +6,27 @@ from util import *
 from elementtree.ElementTree import *
 
 
-#friendly name, db column, missing filter statement
-gameproperties = {'Max. Players' : ['maxPlayers', "maxPlayers = ''"],
-				'Controller' : ['controllerType', "controllerType = ''"],
+#friendly name : db column, missing filter statement
+gameproperties = {'Title' : ['name', "name = ''"],
+				'Description' : ['description', "description = ''"],				
+				'Genre' : ['genre', "Id NOT IN (SELECT GameId From GenreGame)"],
 				'Developer' : ['developerId', "developerId is NULL"],
-				'Publisher' : ['publisherId', "publisherId is NULL"]}
+				'Publisher' : ['publisherId', "publisherId is NULL"],
+				'Reviewer' : ['reviewerId', "reviewerId is NULL"],
+				'Release Year' : ['yearId', "yearId is NULL"],
+				'Rating' : ['rating', "rating = ''"],
+				'Votes' : ['numVotes', "numVotes is NULL"],
+				'Region' : ['region', "region = ''"],
+				'Media' : ['media', "media = ''"],	
+				'Max. Players' : ['maxPlayers', "maxPlayers = ''"],
+				'Controller' : ['controllerType', "controllerType = ''"],
+				'Perspective' : ['perspective', "perspective = ''"],
+				'Original Title' : ['originalTitle', "originalTitle = ''"],
+				'Alternate Title' : ['alternateTitle', "alternateTitle = ''"],
+				'Translated By' : ['translatedBy', "translatedBy = ''"],
+				'Version' : ['version', "version = ''"],
+				'Url' : ['url', "url = ''"]
+				}
 
 
 consoleDict = {
