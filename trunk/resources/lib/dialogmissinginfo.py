@@ -171,7 +171,9 @@ class MissingInfoDialog(dialogbase.DialogBaseEdit):
 	def addItemToMissingInfoList(self, inList, labelId):
 		
 		tempList = []
-		for item in config.gameproperties.keys():
+		keys = config.gameproperties.keys()
+		keys.sort()
+		for item in keys:
 			if(not item in tempList and not item in inList):
 				tempList.append(item)
 			
