@@ -100,6 +100,11 @@ consoleDict = {
 			'Zodiac' : ['68', '', 'zod'],
 			'ZX Spectr' : ['41', '', '']}
 
+missingFilterOptions = {'ignore' : 'Ignore filter',
+					'show' : 'Show only games with missing items',
+					'hide' : 'Hide games with missing items'}
+
+
 
 def getPlatformByRomCollection(source, romCollectionName):
 	platform = ''
