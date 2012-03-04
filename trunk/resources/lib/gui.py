@@ -418,6 +418,10 @@ class UIGameDB(xbmcgui.WindowXML):
 			
 		elif (controlId == CONTROL_BUTTON_MISSINGINFODIALOG):
 			missingInfoDialog = dialogmissinginfo.MissingInfoDialog("script-RCB-missinginfo.xml", util.getAddonInstallPath(), "Default", "720p", gui=self)
+			if(missingInfoDialog.saveConfig):
+				self.config.readXml()
+				self.showGames()
+			
 			del missingInfoDialog
 
 	def onFocus(self, controlId):
