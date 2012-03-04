@@ -4,6 +4,7 @@ import os
 
 import util, config, dialogbase
 from util import *
+from configxmlwriter import *
 
 ACTION_CANCEL_DIALOG = (9,10,51,92,110)
 
@@ -36,6 +37,8 @@ class MissingInfoDialog(dialogbase.DialogBaseEdit):
 	infoAndList = []
 	infoOrList = []
 	
+	saveConfig = False
+	
 	def __init__(self, *args, **kwargs):
 		Logutil.log('init dialog missing info', util.LOG_LEVEL_INFO)
 		
@@ -47,14 +50,31 @@ class MissingInfoDialog(dialogbase.DialogBaseEdit):
 	def onInit(self):
 		Logutil.log('onInit dialog missing info', util.LOG_LEVEL_INFO)
 		
-		self.artworkAndList = []
-		self.artworkOrList = []
-		self.infoAndList = []
-		self.infoOrList = []
+		self.artworkAndList = self.gui.config.missingFilterArtwork.andGroup
+		label = self.getControlById(CONTROL_LABEL_ARTWORK_ANDGROUP)
+		label.setLabel(', '.join(self.artworkAndList))
+		
+		self.artworkOrList = self.gui.config.missingFilterArtwork.orGroup
+		label = self.getControlById(CONTROL_LABEL_ARTWORK_ORGROUP)
+		label.setLabel(', '.join(self.artworkOrList))
+		
+		self.infoAndList = self.gui.config.missingFilterInfo.andGroup
+		label = self.getControlById(CONTROL_LABEL_INFO_ANDGROUP)
+		label.setLabel(', '.join(self.infoAndList))
+		
+		self.infoOrList = self.gui.config.missingFilterInfo.orGroup
+		label = self.getControlById(CONTROL_LABEL_INFO_ORGROUP)
+		label.setLabel(', '.join(self.infoOrList))
 		
 		Logutil.log('add show/hide missing info options', util.LOG_LEVEL_INFO)
-		showHideOptions = ['Ignore filter', 'Show only games with missing items', 'Hide games with missing items']
-		self.addItemsToList(CONTROL_LIST_SHOWHIDEMISSING, showHideOptions)
+		#showHideOptions = ['Ignore filter', 'Show only games with missing items', 'Hide games with missing items']
+		self.addItemsToList(CONTROL_LIST_SHOWHIDEMISSING, config.missingFilterOptions.values())
+		
+		for i in range(0, len(config.missingFilterOptions.keys())):
+			key = config.missingFilterOptions.keys()[i]
+			if(key == self.gui.config.showHideOption):
+				listShowHide = self.getControlById(CONTROL_LIST_SHOWHIDEMISSING)
+				listShowHide.selectItem(i)
 		
 		
 	def onAction(self, action):		
@@ -105,6 +125,17 @@ class MissingInfoDialog(dialogbase.DialogBaseEdit):
 		#Save
 		elif (controlID == CONTROL_BUTTON_SAVE):			
 			Logutil.log('save', util.LOG_LEVEL_INFO)
+						
+			showHideList = self.getControlById(CONTROL_LIST_SHOWHIDEMISSING)
+			index = showHideList.getSelectedPosition()
+			showHideOptions = config.missingFilterOptions.keys()
+			showHideOption = showHideOptions[index]			 
+			
+			configWriter = ConfigXmlWriter(False)
+			success, message = configWriter.writeMissingFilter(showHideOption, self.artworkOrList, self.artworkAndList, self.infoOrList, self.infoAndList)
+			
+			if(success):
+				self.saveConfig = True
 			self.close()
 		
 		#Cancel
