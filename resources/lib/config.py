@@ -257,15 +257,14 @@ class Config:
 		
 		#Missing filter settings
 		missingFilter = tree.find('MissingFilter')
+		
 		if(missingFilter != None):
 			showHideOption = self.readTextElement(missingFilter, 'showHideOption')
-			if(showHideOption == ''):
-				self.showHideOption = 'ignore'
-			else:
+			if(showHideOption != ''):
 				self.showHideOption = showHideOption
 			
-			self.missingFilterInfo = self.readMissingFilter('missingInfoFilter', missingFilter)
-			self.missingFilterArtwork = self.readMissingFilter('missingArtworkFilter', missingFilter)
+		self.missingFilterInfo = self.readMissingFilter('missingInfoFilter', missingFilter)
+		self.missingFilterArtwork = self.readMissingFilter('missingArtworkFilter', missingFilter)
 		
 		return True, ''	
 
@@ -623,10 +622,13 @@ class Config:
 	
 	def readMissingFilter(self, filterName, tree):
 		missingFilter = MissingFilter()
-		missingFilterRow = tree.find(filterName)
-		if(missingFilterRow != None):
-			missingFilter.andGroup = self.getMissingFilterItems(missingFilterRow, 'andGroup')
-			missingFilter.orGroup = self.getMissingFilterItems(missingFilterRow, 'orGroup')
+		missingFilter.andGroup = []
+		missingFilter.orGroup = []
+		if(tree != None):
+			missingFilterRow = tree.find(filterName)
+			if(missingFilterRow != None):
+				missingFilter.andGroup = self.getMissingFilterItems(missingFilterRow, 'andGroup')
+				missingFilter.orGroup = self.getMissingFilterItems(missingFilterRow, 'orGroup')
 		
 		return missingFilter		
 	
