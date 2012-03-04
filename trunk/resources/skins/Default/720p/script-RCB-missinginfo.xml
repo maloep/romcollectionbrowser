@@ -209,12 +209,12 @@
 					<textcolor>88FFFFFF</textcolor>
 					<align>left</align>
 					<aligny>center</aligny>
-					<label>ONE of these items missing</label>
+					<label>ONE of these items missing:</label>
 				</control>
 				<control type="label" id="5220">
 					<posx>605</posx>
 					<posy>0</posy>
-					<width>370</width>
+					<width>300</width>
 					<height>20</height>
 					<font>font13</font>
 					<textcolor>88FFFFFF</textcolor>
@@ -277,12 +277,12 @@
 					<textcolor>88FFFFFF</textcolor>
 					<align>left</align>
 					<aligny>center</aligny>
-					<label>ALL of these items missing</label>
+					<label>ALL of these items missing:</label>
 				</control>
 				<control type="label" id="5250">
 					<posx>605</posx>
 					<posy>0</posy>
-					<width>370</width>
+					<width>300</width>
 					<height>20</height>
 					<font>font13</font>
 					<textcolor>88FFFFFF</textcolor>
@@ -367,7 +367,7 @@
 				<control type="label" id="5280">
 					<posx>605</posx>
 					<posy>0</posy>
-					<width>370</width>
+					<width>300</width>
 					<height>20</height>
 					<font>font13</font>
 					<textcolor>88FFFFFF</textcolor>
@@ -435,7 +435,7 @@
 				<control type="label" id="5310">
 					<posx>605</posx>
 					<posy>0</posy>
-					<width>370</width>
+					<width>300</width>
 					<height>20</height>
 					<font>font13</font>
 					<textcolor>88FFFFFF</textcolor>
