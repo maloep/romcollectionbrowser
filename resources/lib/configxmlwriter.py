@@ -196,6 +196,36 @@ class ConfigXmlWriter:
 		return success, message
 	
 	
+	def writeMissingFilter(self, showHideOption, artworkOrGroup, artworkAndGroup, infoOrGroup, infoAndGroup):
+		missingFilterXml = self.tree.find('MissingFilter')
+		
+		#HACK: remove MissingFilter-element
+		if(missingFilterXml != None):				
+			self.tree.remove(missingFilterXml)
+		
+		missingFilterXml = SubElement(self.tree, 'MissingFilter')
+		SubElement(missingFilterXml, 'showHideOption').text = showHideOption
+		
+		if(len(artworkOrGroup) > 0 or len(artworkAndGroup) > 0):
+			missingArtworkXml = SubElement(missingFilterXml, 'missingArtworkFilter')
+			self.addMissingFilterItems(missingArtworkXml, artworkOrGroup, 'orGroup')
+			self.addMissingFilterItems(missingArtworkXml, artworkAndGroup, 'andGroup')
+		if(len(infoOrGroup) > 0 or len(infoAndGroup) > 0):
+			missingInfoXml = SubElement(missingFilterXml, 'missingInfoFilter')
+			self.addMissingFilterItems(missingInfoXml, infoOrGroup, 'orGroup')
+			self.addMissingFilterItems(missingInfoXml, infoAndGroup, 'andGroup')
+				
+		success, message = self.writeFile()
+		return success, message
+		
+		
+	def addMissingFilterItems(self, missingXml, group, groupName):		
+		if(len(group) > 0):
+			groupXml = SubElement(missingXml, groupName)
+			for item in group:
+				SubElement(groupXml, 'item').text = item
+		
+	
 	def searchConfigObjects(self, xPath, nameToCompare, objectType):		
 		objects = self.tree.findall(xPath)
 		objectFound = False
