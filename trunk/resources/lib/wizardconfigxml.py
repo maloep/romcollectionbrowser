@@ -263,7 +263,7 @@ class ConfigXmlWizard:
 					if(retValue == False):
 						break
 				
-				descIndex = dialog.select('Structure of your game descriptions', ['One description file per game', 'One description file for all games', 'Scrape game info online'])
+				descIndex = dialog.select('Structure of your game descriptions', ['One description file per game', 'One description file for all games', 'Scrape game info online (or use local nfo)'])
 				Logutil.log('descIndex: ' +str(descIndex), util.LOG_LEVEL_INFO)
 				if(descIndex == -1):
 					Logutil.log('No descIndex selected. Action canceled.', util.LOG_LEVEL_INFO)
