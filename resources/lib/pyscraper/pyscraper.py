@@ -36,18 +36,7 @@ class PyScraper:
 			scraperSource = url
 			
 		if(scraper.source == 'nfo'):
-			nfoFile = ''
-			nfoFolder = settings.getSetting(util.SETTING_RCB_NFOFOLDER)
-			if(nfoFolder != '' and nfoFolder != None):
-				nfoFolder = os.path.join(nfoFolder, romCollection.name)
-				nfoFile = os.path.join(nfoFolder, gamenameFromFile +'.nfo')
-					
-			if (not os.path.isfile(nfoFile)):
-				romDir = os.path.dirname(romFile)
-				Logutil.log('Romdir: ' +str(romDir), util.LOG_LEVEL_INFO)
-				nfoFile = os.path.join(romDir, gamenameFromFile +'.nfo')
-				
-			Logutil.log('Using nfoFile: ' +str(nfoFile), util.LOG_LEVEL_INFO)
+			nfoFile = self.getNfoFile(settings, romCollection, gamenameFromFile, romFile)
 			scraperSource = nfoFile
 														
 		tempResults = self.parseDescriptionFile(scraper, scraperSource, gamenameFromFile, foldername, filecrc, fuzzyFactor, updateOption, romCollection)
@@ -83,6 +72,38 @@ class PyScraper:
 					
 		return results, urlsFromPreviousScrapers, False
 	
+	
+	def getNfoFile(self, settings, romCollection, gamenameFromFile, romFile):
+		Logutil.log("Begin getNfoFile", util.LOG_LEVEL_INFO)
+		nfoFile = ''
+		nfoFolder = settings.getSetting(util.SETTING_RCB_NFOFOLDER)
+		splittedname = os.path.splitext(os.path.basename(romFile))
+		Logutil.log("splittedName = " +str(splittedname), util.LOG_LEVEL_INFO)
+		filename = ''
+		if(len(splittedname) == 1):
+			filename = splittedname[0]
+		elif(len(splittedname) == 2):
+			filename = splittedname[1]
+			
+		if(nfoFolder != '' and nfoFolder != None):
+			nfoFolder = os.path.join(nfoFolder, romCollection.name)
+			nfoFile = os.path.join(nfoFolder, gamenameFromFile +'.nfo')
+			
+			#check for exact rom name (no friendly name)	
+			if (not os.path.isfile(nfoFile)):
+				nfoFile = os.path.join(nfoFolder, filename +'.nfo')
+				
+		if (not os.path.isfile(nfoFile)):
+			romDir = os.path.dirname(romFile)
+			Logutil.log('Romdir: ' +str(romDir), util.LOG_LEVEL_INFO)
+			nfoFile = os.path.join(romDir, gamenameFromFile +'.nfo')
+			
+			#check for exact rom name (no friendly name)	
+			if (not os.path.isfile(nfoFile)):
+				nfoFile = os.path.join(romDir, filename +'.nfo')
+			
+		Logutil.log('Using nfoFile: ' +str(nfoFile), util.LOG_LEVEL_INFO)
+		return nfoFile
 	
 	
 	def parseDescriptionFile(self, scraper, scraperSource, gamenameFromFile, foldername, crc, fuzzyFactor, updateOption, romCollection):
