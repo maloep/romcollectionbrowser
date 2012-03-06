@@ -504,7 +504,7 @@
 				<texturenofocus></texturenofocus>
 				<visible>!IsEmpty(ListItem.Property(autoplayvideoinfo)) + !IsEmpty(ListItem.Property(gameplayinfo))</visible>
 				<animation delay="500" effect="fade" start="100" end="100">Focus</animation>
-				<onfocus>XBMC.PlayMedia($INFO[ListItem.Property(gameplayinfo)],1)</onfocus>
+				<onfocus>XBMC.PlayMedia($ESCINFO[ListItem.Property(gameplayinfo)],1)</onfocus>
 			</control>
 			
 			<control type="label" id="4000">
