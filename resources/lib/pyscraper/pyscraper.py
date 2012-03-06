@@ -78,7 +78,6 @@ class PyScraper:
 		nfoFile = ''
 		nfoFolder = settings.getSetting(util.SETTING_RCB_NFOFOLDER)
 		splittedname = os.path.splitext(os.path.basename(romFile))
-		Logutil.log("splittedName = " +str(splittedname), util.LOG_LEVEL_INFO)
 		filename = ''
 		if(len(splittedname) == 1):
 			filename = splittedname[0]
