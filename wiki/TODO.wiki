@@ -1,85 +1,47 @@
 #sidebar SideBar
 
 This TODO list / roadmap is a working document. It will change quite frequently as I am always adding, removing or reordering issues that I want to work on for the next release. If you made a request or reported an issue that you don't find on the list please remind me because chances are that I just forgot to add it.
-  
-= 0.9.8 =
-== General ==
-  * add backspace to close dialogs - Done
-  
-== Import Games ==
-  * bug: Developer and Publisher not available in nfo files - Done
-  * add path to local nfo files as separate option - Done
-    * import/export from/to new path - Done
-    * option to remove path - Done
-  * export nfo files on demand
-    * export option in general - Done
-    * show progress dialog during export - Done
-    * export launchCount and isFavorite - Done
-  
-= 0.9.9 =
-== General ==
-  * bug: remove and add rom collection in one turn causes errors
-  * bug: can't create offline scraper from scratch
-  * load Addon settings from context menu
-  * bug: # in rom filename causes errors
-  * remove Camelot code
-  * language support
-  * add more filetypes (see examples from Domina)
-  
-== Import Games ==
-  * export nfo files on demand
-    * option to export one big nfo file for all games
-    * option to overwrite existing files
 
-== Browse Games ==
-  * autoplay video in Info window not reliable
-  * add imageplacing options to Night skin
-  * add counter to Night skin
-  * show previous and next console in Nights console filter
-  * option to keep artwork ratio
+
+= 1.0.3 =
+== Import Games ==
+  * change default values of "Don't import games without info / artwork"
+  * re-scrape options:
+    * re-scrape single game
+	* change name of scraped game
+	* re-scrape selection
+  * new update option: only missing fields
   
-== Launch Games ==
-  * SLEEP command no Windows standard -> integrate JohnnyD2s vbs script
- 
- 
-= 0.9.x =
-== General ==  
-  * new caching option: load list in background (maybe remove cacheitem and next)
+  
+= Future =
+== Bugs / Issues ==
+=== General ===
+  * bug: # in rom filename causes errors
+  * start RCB twice: atomic init routine?
+  * XBMC frequently locks up on shutdown
+  * resolved path from rom folder name: C:\Users\Mic\Downloads\Arcade\Data\MAME\My_Art\boxfront\C:\Users\Mic\Downloads\Arcade\Data\MAME\My_Roms
+  * resolved path from rom folder name: smb://terastation/media/Roms/SNES/Boxart/boxfront/smb://terastation/media/Roms/SNES
+  * check for errors in scrapeonstartup
+  * db in memory: id = null?
+  * encoding: Pokémon (only Eden?)
+
+=== Browse Games ===
+  * autoplay video in Info window not reliable
+  
+=== Import Games ===
+0:50:28 T:3528 NOTICE: RCB_INFO: current rom file: E:\Games\RomFiles\SegaGenesis\Hyperspin\Atomic Robo-Kid (USA).zip
+20:50:28 T:3528 NOTICE: RCB_WARNING: description file for game Atomic Robo-Kid could not be found. Check if this path exists: E:\Games\Descriptions\Nieuwe map\SegaGenesis\Hyperspin\GameInfo\Atomic Robo-Kid.nfo
+--> check (USA)
+  
+== Features ==
+=== General ===
   * Eden compatibility
     * python 2.6 compatible libs of pyzlma (7z support)
-  * start RCB twice: atomic init routine?
   * replace smb:// when searching for roms and artwork
-  * XBMC frequently locks up on shutdown
-  * bug: resolved path from rom folder name: C:\Users\Mic\Downloads\Arcade\Data\MAME\My_Art\boxfront\C:\Users\Mic\Downloads\Arcade\Data\MAME\My_Roms
-  * bug: resolved path from rom folder name: smb://terastation/media/Roms/SNES/Boxart/boxfront/smb://terastation/media/Roms/SNES
-  * check for errors in scrapeonstartup
-  
-== Import Games ==
-  * remove thevideogamedb scraper: remove from config.xml on startup
-  * offer import when database is empty (not only when it is missing)
-  
-== Browse Games ==
-  * option to stop video on game change
-  * check if browsing options have changed and reload the list
-  * change view for Info to Thumbs -> stop video
-  * filetypeformainview2 is missing
-  * support home and back buttons to exit the script
-  * auto repeat video playback in game info view
-
-== Launch Games ==
-  * new placeholders in emuParams: %EMUPATH%, %ROMPATH%
-  * Random game option (Issue 82)
-  * launch game per popen
-    * setting for os.system or popen
-  * log file locked in solo mode (Windows only?)
-    * solo mode: use XBMC http api to shutdown xbmc?
-  * no navigation after launch emu (Win XP)
-  * remove file extension from game when extracting zip files.
-  * when opening a .zip file with multiple roms inside, it is impossible to return to the menu without launching the emulator
-  
-
-= Future =
-== General ==
+  * load Addon settings from context menu
+  * language support
+  * add more filetypes (see examples from Domina)
+  * new caching option: load list in background (maybe remove cacheitem and next)
   * backup MyGames.db and config.xml before editing or game import
   * Edit offline scrapers:
     * move encoding from scraper to site
@@ -88,14 +50,15 @@ This TODO list / roadmap is a working document. It will change quite frequently 
     * create local data config file with wizard: search game by crc (or check how to remove this option completely)
     * configuration templates (emumovies, ressurectionxtras, ...)
     * improve config wizard (suggest options, pathes, more options)
-  * db in memory: id = null?
-  * encoding: Pokémon (only Eden?)
-  * option to edit game properties
-  * complete Edit Game dialog
-  * add more artwork types, use more than 1 screenshot etc.
+  * Edit Game dialog
   * Support HOME button
+  * export nfo files on demand
+    * option to export one big nfo file for all games
+    * option to overwrite existing files
+    * option to export statisitcal or user specific data (isFavorite, launchCount, ...)
+    * update nfo files (with new info) -> check if needed
   
-== Data model ==
+==== Data model ====
   * support different releases (region, updates, etc.)
     * store exact release dates (not only release year)
     * region support
@@ -104,6 +67,7 @@ This TODO list / roadmap is a working document. It will change quite frequently 
       * store different releases in 1 zip or 7z file (look inside file and mark game as available?)
   * build game groups (releases and sequels)
     * collect minimal game data for missing games in game group (even if certain roms are not present)
+  * game info and artwork quality / quantity (quality matrix?)
   * add staff (e.g. developer, artists, ... from mobygames)
   * mark game as completed
   * mark game as broken (in db + .broken in filename)
@@ -113,14 +77,17 @@ This TODO list / roadmap is a working document. It will change quite frequently 
   * rating (ESRB, PEGI, etc.)
   * manual and/or automatic verfication of all collected data (presence, accuracy, ...)
   * divide outline and plot
-
-== Import Games ==
-  * refactor dbupdate
+  * use more than 1 screenshot
+  
+=== Import Games ===
+  * remove thevideogamedb scraper: remove from config.xml on startup
+  * offer import when database is empty (not only when it is missing)
+  * refactor dbupdate (requires data model changes)
     * no import of images to database. just check the directories at runtime. Performance tests
     * rom collection base path and all files relative to that
-    * change import logic: always import all games (even if no info / artwork is found), option to hide/show/rescrape missing games
+    * change import logic: always import all games (even if no info / artwork is found), option to hide/show/rescrape missing games (quality matrix?)
     * manual scraping games (update properties and images)
-    * enter search text if no game is found
+    * enter search text when scraping for single games
     * errorCounter in descPerGame = False
     * check preconditions before game import
     * easier handling of default images, publisher, dev and RC images
@@ -152,7 +119,18 @@ This TODO list / roadmap is a working document. It will change quite frequently 
   * Media or rom path with special characters (encoding issues)
   * http://www.mobygames.com/game/ps2/ace-combat-5-the-unsung-war/credits
 
-== Browse Games ==
+
+=== Browse Games ===
+  * add imageplacing options to Night skin
+  * add counter to Night skin
+  * show previous and next console in Nights console filter
+  * option to keep artwork ratio
+  * option to stop video on game change
+  * check if browsing options have changed and reload the list
+  * change view for Info to Thumbs -> stop video
+  * filetypeformainview2 is missing
+  * support home and back buttons to exit the script
+  * auto repeat video playback in game info view
   * remove imageplacing mechanism?
     * define several views with large and small images
     * save view per Rom Collection (favorite view per romcollection)
@@ -173,9 +151,20 @@ This TODO list / roadmap is a working document. It will change quite frequently 
   * option to hide game infos in main view (show up on pressing I or similar)
   * support for game name artwork
   * It might work as follows, after to trigger the option "ParentalRating" a box text is displayed for entering the password if the password is entered correctly, all games are displayed on RCB.
-
-== Launch Games ==
-  * popen options (suspend, pause, ...)
+  
+=== Launch Games ===
+  * SLEEP command no Windows standard -> integrate JohnnyD2s vbs script
+  * new placeholders in emuParams: %EMUPATH%, %ROMPATH%
+  * Random game option (Issue 82)
+  * launch game per popen
+    * subprocess.Popen(cmd.encode(sys.getfilesystemencoding()) (Issue 85)
+	* popen options (suspend, pause, ...)
+    * setting for os.system or popen
+  * log file locked in solo mode (Windows only?)
+    * solo mode: use XBMC http api to shutdown xbmc?
+  * no navigation after launch emu (Win XP)
+  * remove file extension from game when extracting zip files.
+  * when opening a .zip file with multiple roms inside, it is impossible to return to the menu without launching the emulator
   * option to turn savestate on/off
   * start stop LIRC (Issue 74)
   * per game config (e.g. Amiga)
