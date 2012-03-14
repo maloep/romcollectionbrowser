@@ -1,3 +1,16 @@
+1.0.2 (03/2012)
+~~~~~~~~~~~~~
+General:
+  * missing info / artwork dialog: select criteria to show or hide games with missing info / artwork
+  * changed text of game description options in config wizard
+
+Import Games:
+  * bugfix: local nfo scraper did not find games with () in name
+  
+Browse Games:
+  * bugfix: videos of games with "," in name did not play
+
+
 0.9.9 (02/2012)
 ~~~~~~~~~~~~~
 General:
