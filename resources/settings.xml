@@ -14,8 +14,8 @@
 		<setting id="rcb_scrapingMode" label="Scraping mode" type="labelenum" values="Automatic: Accurate|Automatic: Guess Matches|Interactive: Select Matches" default="Automatic: Accurate"/>
 		<setting id="rcb_fuzzyFactor" label="Game matching fuzzy factor" type="enum" values="0.5|0.6|0.7|0.8|0.9|1.0" default="2"/>
 		<setting id="rcb_createNfoWhileScraping" label="Create local nfo file while scraping" type="bool" default="true"/>
-		<setting id="rcb_ignoreGamesWithoutDesc" label="Don't import games without description" type="bool" default="true"/>
-		<setting id="rcb_ignoreGamesWithoutArtwork" label="Don't import games without artwork" type="bool" default="true"/>
+		<setting id="rcb_ignoreGamesWithoutDesc" label="Don't import games without description" type="bool" default="false"/>
+		<setting id="rcb_ignoreGamesWithoutArtwork" label="Don't import games without artwork" type="bool" default="false"/>
 		<setting id="rcb_enableFullReimport" label="Always rescan imported games" type="bool" default="false"/>
 		<setting id="rcb_useNfoFolder" label="Use extra nfo folder" type="bool" />
 		<setting id="rcb_nfoFolder" label="nfo folder path" type="folder" enable="eq(-1,true)" />
