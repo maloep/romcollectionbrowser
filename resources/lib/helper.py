@@ -124,18 +124,24 @@ def builMissingFilterStatement(config):
 	
 	andStatementInfo = buildInfoStatement(config.missingFilterInfo.andGroup, ' AND ')
 	if(andStatementInfo != ''):
-		statement = andStatementInfo + ' OR '
+		statement = andStatementInfo
 		
 	orStatementInfo =  buildInfoStatement(config.missingFilterInfo.orGroup, ' OR ')
 	if(orStatementInfo != ''):
-		statement = statement + orStatementInfo + ' OR '
+		if (statement != ''):
+			statement = statement +' OR '
+		statement = statement + orStatementInfo
 		
 	andStatementArtwork = buildArtworkStatement(config, config.missingFilterArtwork.andGroup, ' AND ')
 	if(andStatementArtwork != ''):
-		statement = statement + andStatementArtwork + ' OR '
+		if (statement != ''):
+			statement = statement +' OR '
+		statement = statement + andStatementArtwork
 	
 	orStatementArtwork =  buildArtworkStatement(config, config.missingFilterArtwork.orGroup, ' OR ')
 	if(orStatementArtwork != ''):
+		if (statement != ''):
+			statement = statement +' OR '
 		statement = statement + orStatementArtwork
 	
 	if(statement != ''):
