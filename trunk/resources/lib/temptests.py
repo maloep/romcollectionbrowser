@@ -152,85 +152,10 @@ print romCollectionsXml
 print tree
 """
 
+
+"""
 configFile = util.getConfigXmlPath()
-print configFile
 
-config = Config()
-statusOk, errorMsg = config.readXml()
-
-romCollection = config.romCollections['1']
-
-#id, db column, friendly name, missing filter statement
-gameproperties = {'maxPlayers' : ['Max. Players', 'maxPlayers', "maxPlayers = ''"],
-				'controllerType' : ['Controller', 'controllerType', "controllerType = ''"],
-				'developer' : ['Developer', 'developerId', "developerId is NULL"],
-				'publisher' : ['Publisher', 'publisherId', "publisherId is NULL"]}
-
-def buildInfoStatement(group, operator):
-	statement = ''
-	for item in group:
-		if statement == '':
-			statement = '('
-		else:
-			statement = statement + operator
-		statement = statement + gameproperties[item][2]
-	if(statement != ''):
-		statement = statement + ')'
-	
-	return statement
-
-
-def buildArtworkStatement(romCollection, group, operator):
-	statement = ''
-	for item in group:
-		if statement == '':
-			statement = '('
-		else:
-			statement = statement + operator
-			
-		typeId = ''
-		for mediaPath in romCollection.mediaPaths:
-			if(mediaPath.fileType.name == item):
-				typeId = mediaPath.fileType.id
-				break
-		statement = statement + 'Id NOT IN (SELECT ParentId from File Where fileTypeId = %s)' %str(typeId) 
-	
-	if(statement != ''):
-		statement = statement + ')'
-	
-	return statement
-	
-
-def builMissingFilterStatement():
-
-	if(romCollection.showHideOption.lower() == 'ignore'):
-		return ''
-		
-	statement = ''
-	
-	andStatementInfo = buildInfoStatement(romCollection.missingFilterInfo.andGroup, ' AND ')
-	if(andStatementInfo != ''):
-		statement = andStatementInfo + ' OR '
-		
-	orStatementInfo =  buildInfoStatement(romCollection.missingFilterInfo.orGroup, ' OR ')
-	if(orStatementInfo != ''):
-		statement = statement + orStatementInfo + ' OR '
-		
-	andStatementArtwork = buildArtworkStatement(romCollection, romCollection.missingFilterArtwork.andGroup, ' AND ')
-	if(andStatementArtwork != ''):
-		statement = statement + andStatementArtwork + ' OR '
-	
-	orStatementArtwork =  buildArtworkStatement(romCollection, romCollection.missingFilterArtwork.orGroup, ' OR ')
-	if(orStatementArtwork != ''):
-		statement = statement + orStatementArtwork
-	
-	if(statement != ''):
-		statement = '(%s)' %(statement)
-		if(romCollection.showHideOption.lower() == 'hide'):
-			statement = 'NOT ' +statement
-	
-	return statement
-
-
-statement = builMissingFilterStatement()
-print statement
+myConfig = Config()
+statusOk, errorMsg = myConfig.readXml()
+"""
