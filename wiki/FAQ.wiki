@@ -4,11 +4,13 @@
 = Analyzing and reporting problems =
 == How to report problems ==
 If you encounter any problems and you want to report it in the forum thread or on the issues page, PLEASE ALWAYS add a log file. Unless you really know that you can describe the whole problem without a log file you should always attach one. To attach a log file please do the following things:
+  * Install the addon "XBMC Log Uploader" (you will find it in Programs category)
   * Restart XBMC (this will clean the log file and makes it more easy to read).
   * Leave XBMC and RCB in normal log mode. In 99% of the time this will be enough and the debug mode will produce too much information that makes the log unreadable.
-  * Unless you really know which part of the log file is important for me, please always add the complete log file.
-  * DON'T paste the file (or large parts of it) to the forums or the issues page. Use a pastebin service like [http://pastebin.com/] to paste your log file there and just post the link in the forum.
-  * Please don't use one of these file upload services that let me enter captchas and makes me wait 60 seconds because I don't have a premium account (I don't have a premium account for any of these services, I ALWAYS have to wait).
+  * Reproduce your problem
+  * Launch addon "XBMC Log Uploader"
+  * On first launch it will ask you to enter your email-address. It will send you the URL of the uploaded log to this address. If you don't want to add your mail address you can also check latest logs and find out the URL of your log [http://xbmclogs.com/list.php here].
+  * Just paste the URL to your log file in RCBs thread or the issues page along with your problem.
 
 == Where do I find the log file ==
 XBMC writes a file "xbmc.log" that contains a lot of information what happens during runtime in both: XBMC and RCB. See the [http://wiki.xbmc.org/index.php?title=Log_file XBMC wiki] for more information and the location where you find the file on your system.
