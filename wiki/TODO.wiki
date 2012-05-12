@@ -3,41 +3,61 @@
 This TODO list / roadmap is a working document. It will change quite frequently as I am always adding, removing or reordering issues that I want to work on for the next release. If you made a request or reported an issue that you don't find on the list please remind me because chances are that I just forgot to add it.
 
 
-= 1.0.3 =
+= next release =
 == Import Games ==
-  * change default values of "Don't import games without info / artwork"
+  * bug: error with publisher / developer "987" (showFilterControl) - Done
+  * bug: Import games with () in name with local single file scraper
+	RCB_INFO: current rom file: E:\Games\RomFiles\SegaGenesis\Hyperspin\Atomic Robo-Kid (USA).zip
+	RCB_WARNING: description file for game Atomic Robo-Kid could not be found. Check if this path exists: E:\Games\Descriptions\Nieuwe map\SegaGenesis\Hyperspin\GameInfo\Atomic Robo-Kid.nfo
+  * change default values of "Don't import games without info / artwork" - Done
   * re-scrape options:
     * re-scrape single game
-	* change name of scraped game
+	  * change name of scraped game
 	* re-scrape selection
-  * new update option: only missing fields
+
+== Launch games==
+  * try to replace os.system with subprocess.popen
+
+
+= one of next releases =
+== Import games ==
+  * "First 10 games could not be imported." -> make config option, only show once
+  * update thegamesdb scraper
+    * download publisher and developer artwork from thegamesdb.net
+    * youtube link in thegamesdb scraper
+  * add filename matching (instead of crc) to offline scraper
+
+== Browse games ==
+  * bug: Interface Lockup when rapidly switching consoles
   
-  
-= Future =
-== Bugs / Issues ==
-=== General ===
-  * bug: # in rom filename causes errors
+== Launch games ==
+  * select disk in multi disk scenario
+  * pylzma for python 2.6
+
+
+= Known bugs/issues =
+== General ==
   * start RCB twice: atomic init routine?
   * XBMC frequently locks up on shutdown
-  * resolved path from rom folder name: C:\Users\Mic\Downloads\Arcade\Data\MAME\My_Art\boxfront\C:\Users\Mic\Downloads\Arcade\Data\MAME\My_Roms
-  * resolved path from rom folder name: smb://terastation/media/Roms/SNES/Boxart/boxfront/smb://terastation/media/Roms/SNES
   * check for errors in scrapeonstartup
   * db in memory: id = null?
-  * encoding: Pokémon (only Eden?)
 
-=== Browse Games ===
-  * autoplay video in Info window not reliable
-  
-=== Import Games ===
-0:50:28 T:3528 NOTICE: RCB_INFO: current rom file: E:\Games\RomFiles\SegaGenesis\Hyperspin\Atomic Robo-Kid (USA).zip
-20:50:28 T:3528 NOTICE: RCB_WARNING: description file for game Atomic Robo-Kid could not be found. Check if this path exists: E:\Games\Descriptions\Nieuwe map\SegaGenesis\Hyperspin\GameInfo\Atomic Robo-Kid.nfo
---> check (USA)
-  
-== Features ==
-=== General ===
-  * Eden compatibility
-    * python 2.6 compatible libs of pyzlma (7z support)
+== Import games ==
+  * bug: # in rom filename causes errors
+  * import games with multiple . or - causes errors (like "WCW vs. NWO - world tour") --> "." interpreted as separator
   * replace smb:// when searching for roms and artwork
+  * encoding: Pokémon (only Eden?)
+  * Media or rom path with special characters (encoding issues)
+  * resolved path from rom folder name: C:\Users\Mic\Downloads\Arcade\Data\MAME\My_Art\boxfront\C:\Users\Mic\Downloads\Arcade\Data\MAME\My_Roms
+  * resolved path from rom folder name: smb://terastation/media/Roms/SNES/Boxart/boxfront/smb://terastation/media/Roms/SNES
+  
+== Browse games ==
+  * autoplay video in Info window not reliable
+  * video playback in non-Confluence skins
+
+  
+= Features =
+=== General ===
   * load Addon settings from context menu
   * language support
   * add more filetypes (see examples from Domina)
@@ -67,34 +87,32 @@ This TODO list / roadmap is a working document. It will change quite frequently 
       * store different releases in 1 zip or 7z file (look inside file and mark game as available?)
   * build game groups (releases and sequels)
     * collect minimal game data for missing games in game group (even if certain roms are not present)
-  * game info and artwork quality / quantity (quality matrix?)
   * add staff (e.g. developer, artists, ... from mobygames)
   * mark game as completed
   * mark game as broken (in db + .broken in filename)
   * lastplayed
-  * added
+  * date added
   * lastmodified
   * rating (ESRB, PEGI, etc.)
-  * manual and/or automatic verfication of all collected data (presence, accuracy, ...)
   * divide outline and plot
   * use more than 1 screenshot
   
-=== Import Games ===
+=== Import games ===
   * remove thevideogamedb scraper: remove from config.xml on startup
   * offer import when database is empty (not only when it is missing)
   * refactor dbupdate (requires data model changes)
     * no import of images to database. just check the directories at runtime. Performance tests
     * rom collection base path and all files relative to that
-    * change import logic: always import all games (even if no info / artwork is found), option to hide/show/rescrape missing games (quality matrix?)
-    * manual scraping games (update properties and images)
-    * enter search text when scraping for single games
+    * change import logic: always import all games (even if no info / artwork is found), option to hide/show/rescrape missing games (quality matrix?) - already work in progress since 1.0.2
+    * manual scraping games (update properties and images) - already work in progress since 1.0.2
+    * enter search text when scraping for single games - already work in progress since 1.0.2
     * errorCounter in descPerGame = False
     * check preconditions before game import
     * easier handling of default images, publisher, dev and RC images
     * divide data and artwork scraper
     * new scraper property: online, local
     * support for audio files
-    * multi rom, multi iso (disk selector)
+    * multi rom, multi iso (disk selector) - launch game feature?
     * region support (while scraping)
     * artwork quality
     * test all scraping options (search game by crc, use filename as crc, ...)
@@ -105,7 +123,6 @@ This TODO list / roadmap is a working document. It will change quite frequently 
     * missing info
     * missing artwork (per type)
     * option to rescrape missing games
-  * youtube link in thegamesdb scraper
   * Scraper improvements
     * test beautifulsoup as scraper lib
     * more than 1 URL in 1 Result (e.g. BackCover, FrontCover, ...) is not supported atm
@@ -115,12 +132,24 @@ This TODO list / roadmap is a working document. It will change quite frequently 
     * support a.k.a. titles from mobygames
   * new option: crc from complete zip or first entry
   * option to hide progress bar in background mode
-  * support 2 or more developers
-  * Media or rom path with special characters (encoding issues)
+  * support 2 or more developers  
   * http://www.mobygames.com/game/ps2/ace-combat-5-the-unsung-war/credits
+  * http://www.thecoverproject.net/
+  * game logo or game name logo
+  * ask before cancel 
+  * skip 2nd and 3rd scraper if all info is found with first one
+  * new update option: only missing fields
+  * option to create sub collections: best sports games, ...
+  * option to keep rom name as game name (better support for extra info in rom names (USA), (Beta))
+  * support selection of similar named versions of games (select version to import by user or mask)
+	Final Fantasy III (USA) (Beta).zip
+	Final Fantasy III (USA) (Rev 1).zip
+	Final Fantasy III (USA).zip
+  * option to flatten downloaded artwork files (1 file per different game version)
+  * two-step import: 1. local data, 2. online data
 
 
-=== Browse Games ===
+=== Browse games ===
   * add imageplacing options to Night skin
   * add counter to Night skin
   * show previous and next console in Nights console filter
@@ -150,10 +179,10 @@ This TODO list / roadmap is a working document. It will change quite frequently 
   * view images fullscreen by pressing enter upon the art or similar
   * option to hide game infos in main view (show up on pressing I or similar)
   * support for game name artwork
-  * It might work as follows, after to trigger the option "ParentalRating" a box text is displayed for entering the password if the password is entered correctly, all games are displayed on RCB.
+  * parental support: It might work as follows, after to trigger the option "ParentalRating" a box text is displayed for entering the password if the password is entered correctly, all games are displayed on RCB.
   
-=== Launch Games ===
-  * SLEEP command no Windows standard -> integrate JohnnyD2s vbs script
+=== Launch games ===
+  * SLEEP command no Windows standard -> integrate JohnnyD2s vbs script for solo mode
   * new placeholders in emuParams: %EMUPATH%, %ROMPATH%
   * Random game option (Issue 82)
   * launch game per popen
@@ -162,13 +191,14 @@ This TODO list / roadmap is a working document. It will change quite frequently 
     * setting for os.system or popen
   * log file locked in solo mode (Windows only?)
     * solo mode: use XBMC http api to shutdown xbmc?
+	* also solved with vbs script?
   * no navigation after launch emu (Win XP)
   * remove file extension from game when extracting zip files.
   * when opening a .zip file with multiple roms inside, it is impossible to return to the menu without launching the emulator
   * option to turn savestate on/off
   * start stop LIRC (Issue 74)
   * per game config (e.g. Amiga)
-  * command before launch and after launch(f.e. load virtual cd drive, unload virtual cd drive)
+  * command before launch and after launch(f.e. load virtual cd drive, unload virtual cd drive) --> carabalb
   * try to write black background before launch
   * disable screensaver before game launch
 
@@ -178,7 +208,7 @@ This TODO list / roadmap is a working document. It will change quite frequently 
   * update skinning guide
 
 == General ==
-  * solo mode problems: use JohnnyD2s vbs script
+  * solo mode problems (Log Error): use JohnnyD2s vbs script
   * startup guide:
     * suggested file structure
     * install emulators
@@ -188,6 +218,9 @@ This TODO list / roadmap is a working document. It will change quite frequently 
     * imageplacing
 
 == FAQ ==
+  * how to reset RCB
+  * MAME guide
+  * startup configuration error
   * Error in scrape on startup
   * control XBMC in background:
     * solo mode
@@ -195,3 +228,7 @@ This TODO list / roadmap is a working document. It will change quite frequently 
         * http://forum.xbmc.org/showpost.php?p=800073&postcount=1273
         * http://forum.xbmc.org/showpost.php?p=1004261&postcount=1994
   * Home button crashes RCB
+  * smb pathes: mklink /D foldername \\server\games
+
+  
+= Testsets =
