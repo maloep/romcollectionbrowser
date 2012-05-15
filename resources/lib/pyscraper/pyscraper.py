@@ -105,7 +105,7 @@ class PyScraper:
 		return nfoFile
 	
 	
-	def parseDescriptionFile(self, scraper, scraperSource, gamenameFromFile, foldername, crc, fuzzyFactor, updateOption, romCollection):
+	def parseDescriptionFile(self, scraper, scraperSourceOrig, romFilename, foldername, crc, fuzzyFactor, updateOption, romCollection):
 			
 		try:				
 			#replace configurable tokens
@@ -119,9 +119,9 @@ class PyScraper:
 				return None
 			
 			for i in range(0, len(replaceKeys)):
-				scraperSource = scraperSource.replace(replaceKeys[i], replaceValues[i])
+				scraperSource = scraperSourceOrig.replace(replaceKeys[i], replaceValues[i])
 				#also replace in gamename for later result matching
-				gamenameFromFile = gamenameFromFile.replace(replaceKeys[i], replaceValues[i])
+				gamenameFromFile = romFilename.replace(replaceKeys[i], replaceValues[i])
 							
 			#remove (*) and [*]
 			gamenameFromFile = re.sub('\s\(.*\)|\s\[.*\]|\(.*\)|\[.*\]','',gamenameFromFile)
@@ -145,9 +145,12 @@ class PyScraper:
 				scraperSource = scraperSource.replace(replaceTokens[i], replaceValues[i])
 			
 			if(not scraperSource.startswith('http://') and not os.path.exists(scraperSource)):
-				Logutil.log("description file for game " +gamenameFromFile +" could not be found. "\
-				"Check if this path exists: " +scraperSource, util.LOG_LEVEL_WARNING)
-				return None
+				#try again with original rom filename
+				scraperSource = scraperSourceOrig.replace("%GAME%", romFilename)
+				if not os.path.exists(scraperSource):
+					Logutil.log("description file for game " +gamenameFromFile +" could not be found. "\
+							"Check if this path exists: " +scraperSource, util.LOG_LEVEL_WARNING)
+					return None
 			
 			parser = DescriptionParserFactory.getParser(str(scraper.parseInstruction))
 			Logutil.log("description file (tokens replaced): " +scraperSource, util.LOG_LEVEL_INFO)
