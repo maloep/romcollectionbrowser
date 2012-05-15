@@ -532,7 +532,7 @@ class UIGameDB(xbmcgui.WindowXML):
 			items.append(xbmcgui.ListItem("All", "0", "", ""))
 		
 		for row in rows:
-			items.append(xbmcgui.ListItem(row[util.ROW_NAME], str(row[util.ROW_ID]), "", ""))
+			items.append(xbmcgui.ListItem(str(row[util.ROW_NAME]), str(row[util.ROW_ID]), "", ""))
 			
 		control.addItems(items)
 				
