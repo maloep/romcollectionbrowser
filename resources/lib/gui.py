@@ -192,7 +192,7 @@ class UIGameDB(xbmcgui.WindowXML):
 			self.quit = True
 			return
 		
-		self.checkImport(doImport)
+		self.checkImport(doImport, None)
 		
 		#TODO: check why mem db sometimes causes errors
 		"""
@@ -825,11 +825,23 @@ class UIGameDB(xbmcgui.WindowXML):
 		
 		self.clearList()
 		self.clearCache()
-		self.checkImport(3)
+		self.checkImport(3, None)
 		self.cacheItems()
 		self.updateControls(True)
 		
 		Logutil.log("End updateDB" , util.LOG_LEVEL_INFO)
+		
+	
+	def rescrapeGames(self, romCollections):
+		Logutil.log("Begin rescrapeGames" , util.LOG_LEVEL_INFO)
+		
+		self.clearList()
+		self.clearCache()
+		self.checkImport(3, romCollections)
+		self.cacheItems()
+		self.updateControls(True)
+		
+		Logutil.log("End rescrapeGames" , util.LOG_LEVEL_INFO)
 		
 		
 	def deleteGame(self, gameID):
@@ -1271,7 +1283,7 @@ class UIGameDB(xbmcgui.WindowXML):
 		return item
 	
 	
-	def checkImport(self, doImport):
+	def checkImport(self, doImport, romCollections):
 		
 		#doImport: 0=nothing, 1=import Settings and Games, 2=import Settings only, 3=import games only
 		if(doImport == 0):
@@ -1282,10 +1294,10 @@ class UIGameDB(xbmcgui.WindowXML):
 		showImportOptionsDialog = self.Settings.getSetting(util.SETTING_RCB_SHOWIMPORTOPTIONSDIALOG).upper() == 'TRUE'
 		if(showImportOptionsDialog):
 			constructorParam = "720p"
-			iod = dialogimportoptions.ImportOptionsDialog("script-RCB-importoptions.xml", util.getAddonInstallPath(), "Default", constructorParam, gui=self)
+			iod = dialogimportoptions.ImportOptionsDialog("script-RCB-importoptions.xml", util.getAddonInstallPath(), "Default", constructorParam, gui=self, romCollections=romCollections)
 			del iod
 		else:
-			message = 'Do you want to import Games now?'		
+			message = 'Do you want to import Games now?'
 		
 			dialog = xbmcgui.Dialog()
 			retGames = dialog.yesno('Rom Collection Browser', 'Import Games', message)
@@ -1293,7 +1305,10 @@ class UIGameDB(xbmcgui.WindowXML):
 				
 				scrapingMode = util.getScrapingMode(self.Settings)
 				#Import Games
-				self.doImport(scrapingMode, self.config.romCollections)
+				if(romCollections == None):
+					self.doImport(scrapingMode, self.config.romCollections)
+				else:
+					self.doImport(scrapingMode, romCollections)
 		
 		
 	def doImport(self, scrapingmode, romCollections):
