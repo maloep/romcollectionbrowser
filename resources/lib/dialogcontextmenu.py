@@ -74,9 +74,25 @@ class ContextMenuDialog(xbmcgui.WindowXMLDialog):
 		elif (controlID == 5122): # Rescrape selection
 			self.close()
 			
+			romCollections = {}
 			listSize = self.gui.getListSize()
 			for i in range(0, listSize):
 				selectedGame, gameRow = self.gui.getGameByPosition(self.gui.gdb, i)
+				
+				romCollectionId = gameRow[util.GAME_romCollectionId]
+				
+				try:
+					romCollection = romCollections[str(romCollectionId)]
+				except:				
+					romCollection = self.gui.config.romCollections[str(romCollectionId)]
+					romCollection.romPaths = []
+					
+				files = File(self.gui.gdb).getRomsByGameId(gameRow[util.ROW_ID])
+				filename = files[0][0]
+				romCollection.romPaths.append(filename)
+				romCollections[romCollection.id] = romCollection
+				
+			self.gui.rescrapeGames(romCollections)
 				
 			
 			#self.gui.updateDB()
