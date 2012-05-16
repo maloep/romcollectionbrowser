@@ -52,7 +52,34 @@ class ContextMenuDialog(xbmcgui.WindowXMLDialog):
 			self.close()
 		elif (controlID == 5110): # Import games
 			self.close()
-			self.gui.updateDB()		
+			self.gui.updateDB()
+		elif (controlID == 5121): # Rescrape single games
+			self.close()
+			
+			if(self.selectedGame == None or self.gameRow == None):
+				xbmcgui.Dialog().ok(util.SCRIPTNAME, 'Rescrape game error', "Can't load selected Game")
+				return
+			
+			romCollectionId = self.gameRow[util.GAME_romCollectionId]
+			romCollection = self.gui.config.romCollections[str(romCollectionId)]
+			files = File(self.gui.gdb).getRomsByGameId(self.gameRow[util.ROW_ID])
+			filename = files[0][0]
+			romCollection.romPaths = (filename,)
+						
+			romCollections = {}
+			romCollections[romCollection.id] = romCollection
+			
+			self.gui.rescrapeGames(romCollections)
+			
+		elif (controlID == 5122): # Rescrape selection
+			self.close()
+			
+			listSize = self.gui.getListSize()
+			for i in range(0, listSize):
+				selectedGame, gameRow = self.gui.getGameByPosition(self.gui.gdb, i)
+				
+			
+			#self.gui.updateDB()
 		elif (controlID == 5111): # add Rom Collection			
 			self.close()
 			wizardconfigxml.ConfigXmlWizard().addRomCollection(self.gui.config)
