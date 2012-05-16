@@ -25,6 +25,8 @@ CONTROL_LIST_SCRAPER3 = 5290
 CONTROL_BUTTON_RC_DOWN = 5211
 CONTROL_BUTTON_RC_UP = 5212
 
+CONTROL_BUTTON_SCRAPEMODE_UP = 5222
+
 CONTROL_BUTTON_OVERWRITESETTINGS = 5330
 
 
@@ -37,6 +39,7 @@ class ImportOptionsDialog(xbmcgui.WindowXMLDialog):
 		Logutil.log('init ImportOptions', util.LOG_LEVEL_INFO)
 		
 		self.gui = kwargs[ "gui" ]
+		self.romCollections = kwargs[ "romCollections" ]
 		
 		self.doModal()
 		
@@ -50,6 +53,12 @@ class ImportOptionsDialog(xbmcgui.WindowXMLDialog):
 			romCollection = self.gui.config.romCollections[rcId]
 			romCollectionList.append(romCollection.name)
 		self.addItemsToList(CONTROL_LIST_ROMCOLLECTIONS, romCollectionList)
+		
+		#deactivate Rom Collection list
+		if(self.romCollections != None):
+			#set overwrite flag to false
+			xbmc.executebuiltin('Skin.SetBool(%s)' %util.SETTING_RCB_IMPORTOPTIONS_DISABLEROMCOLLECTIONS)
+			self.setFocus(self.getControl(CONTROL_BUTTON_SCRAPEMODE_UP))
 		
 		#Scraping modes
 		options = ['Automatic: Accurate',
@@ -209,15 +218,18 @@ class ImportOptionsDialog(xbmcgui.WindowXMLDialog):
 		romCollItem = control.getSelectedItem()
 		selectedRC = romCollItem.getLabel()
 		
-		#TODO add id to list and select rc by id
-		if(selectedRC == 'All'):		
-			romCollections = self.gui.config.romCollections
+		if(self.romCollections != None):
+			romCollections = self.romCollections
 		else:
-			romCollections = {}
-			for romCollection in self.gui.config.romCollections.values():
-				if(romCollection.name == selectedRC):
-					romCollections[romCollection.id] = romCollection
-					break
+			#TODO add id to list and select rc by id
+			if(selectedRC == 'All'):
+				romCollections = self.gui.config.romCollections
+			else:
+				romCollections = {}
+				for romCollection in self.gui.config.romCollections.values():
+					if(romCollection.name == selectedRC):
+						romCollections[romCollection.id] = romCollection
+						break
 		
 		#check if we should use configured scrapers
 		control = self.getControlById(CONTROL_BUTTON_OVERWRITESETTINGS)
