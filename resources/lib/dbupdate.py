@@ -24,12 +24,13 @@ except:
 class DBUpdate:
 	
 	def __init__(self):
+		Logutil.log("init DBUpdate", util.LOG_LEVEL_INFO)
 		pass
+		
 	
-	Settings = util.getSettings()
-	
-	def updateDB(self, gdb, gui, updateOption, romCollections):
+	def updateDB(self, gdb, gui, updateOption, romCollections, settings):
 		self.gdb = gdb
+		self.Settings = settings
 			
 		#self.scrapeResultsFile = self.openFile(os.path.join(util.getAddonDataPath(), 'scrapeResults.txt'))
 		self.missingDescFile = self.openFile(os.path.join(util.getAddonDataPath(), 'scrapeResult_missingDesc.txt'))
@@ -45,9 +46,14 @@ class DBUpdate:
 		matchingRatioIndex = self.Settings.getSetting(util.SETTING_RCB_FUZZYFACTOR)
 		if (matchingRatioIndex == ''):
 			matchingRatioIndex = 2
+		matchingRatioIndex = self.Settings.getSetting(util.SETTING_RCB_FUZZYFACTOR)
+		Logutil.log("matchingRatioIndex: " +str(matchingRatioIndex), util.LOG_LEVEL_INFO)
+		
 		fuzzyFactor = util.FUZZY_FACTOR_ENUM[int(matchingRatioIndex)]
+		Logutil.log("fuzzyFactor: " +str(fuzzyFactor), util.LOG_LEVEL_INFO)
 		
 		enableFullReimport = self.Settings.getSetting(util.SETTING_RCB_ENABLEFULLREIMPORT).upper() == 'TRUE'
+		Logutil.log("enableFullReimport: " +str(enableFullReimport), util.LOG_LEVEL_INFO)
 		
 		continueUpdate = True
 		
@@ -738,6 +744,7 @@ class DBUpdate:
 					
 					#check if we are allowed to update with null values
 					allowOverwriteWithNullvalues = self.Settings.getSetting(util.SETTING_RCB_ALLOWOVERWRITEWITHNULLVALUES).upper() == 'TRUE'
+					Logutil.log("allowOverwriteWithNullvalues: " +str(allowOverwriteWithNullvalues), util.LOG_LEVEL_INFO)
 					
 					gameRow = None
 					Logutil.log("Game does exist in database. Update game: " +gameName, util.LOG_LEVEL_INFO)
