@@ -59,6 +59,8 @@ class ImportOptionsDialog(xbmcgui.WindowXMLDialog):
 			#set overwrite flag to false
 			xbmc.executebuiltin('Skin.SetBool(%s)' %util.SETTING_RCB_IMPORTOPTIONS_DISABLEROMCOLLECTIONS)
 			self.setFocus(self.getControl(CONTROL_BUTTON_SCRAPEMODE_UP))
+		else:
+			xbmc.executebuiltin('Skin.Reset(%s)' %util.SETTING_RCB_IMPORTOPTIONS_DISABLEROMCOLLECTIONS)
 		
 		#Scraping modes
 		options = ['Automatic: Accurate',
