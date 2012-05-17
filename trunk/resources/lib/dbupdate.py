@@ -735,14 +735,17 @@ class DBUpdate:
 				return self.gdb.cursor.lastrowid
 			else:	
 				if(allowUpdate):
-					#TODO
+					
+					#check if we are allowed to update with null values
+					allowOverwriteWithNullvalues = self.Settings.getSetting(util.SETTING_RCB_ALLOWOVERWRITEWITHNULLVALUES).upper() == 'TRUE'
+					
 					gameRow = None
 					Logutil.log("Game does exist in database. Update game: " +gameName, util.LOG_LEVEL_INFO)
 					Game(self.gdb).update(('name', 'description', 'romCollectionId', 'publisherId', 'developerId', 'reviewerId', 'yearId', 'maxPlayers', 'rating', 'numVotes',
 						'url', 'region', 'media', 'perspective', 'controllerType', 'originalTitle', 'alternateTitle', 'translatedBy', 'version', 'isFavorite', 'launchCount'),
 						(gameName, description, romCollectionId, publisherId, developerId, reviewerId, yearId, players, rating, votes, url, region, media, perspective, controller,
 						originalTitle, alternateTitle, translatedBy, version, int(isFavorite), int(launchCount)),
-						gameId, False)
+						gameId, allowOverwriteWithNullvalues)
 				else:
 					Logutil.log("Game does exist in database but update is not allowed for current rom collection. game: " +gameName, util.LOG_LEVEL_INFO)
 				
