@@ -1,3 +1,17 @@
+1.0.2 (05/2012)
+~~~~~~~~~~~~~
+General:
+  * open Addon settings from context menu
+
+Import Games:
+  * bug: error with publisher / developer "989"
+  * bug: Import games with () in name with local single file scraper
+  * change default values of "Don't import games without info / artwork"
+  * re-scrape options:
+    * rescrape single game
+    * rescrape selection
+  * new update option: don't overwrite properties with null values
+
 1.0.2 (03/2012)
 ~~~~~~~~~~~~~
 General:
