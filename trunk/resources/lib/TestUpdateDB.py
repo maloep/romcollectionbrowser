@@ -16,7 +16,7 @@ if env == 'Windows_NT':
 sys.path.append( os.path.join( BASE_RESOURCE_PATH, "platform_libraries", env ) )
 
 
-from pysqlite2 import dbapi2 as sqlite
+from sqlite3 import dbapi2 as sqlite
 from gamedatabase import *
 from util import *
 import dbupdate
@@ -47,7 +47,7 @@ class TestUpdateDB(unittest.TestCase):
 		if(statusOk == False):
 			self.assertFail('Error reading config.xml')
 
-		dbupdate.DBUpdate().updateDB(self.gdb, RCBMock(), 0, configFile.romCollections)
+		dbupdate.DBUpdate().updateDB(self.gdb, RCBMock(), 0, configFile.romCollections, util.getSettings())
 		
 		#test some filters
 		

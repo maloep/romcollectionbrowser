@@ -1314,7 +1314,10 @@ class UIGameDB(xbmcgui.WindowXML):
 	def doImport(self, scrapingmode, romCollections):
 		progressDialog = dialogprogress.ProgressDialogGUI()
 		progressDialog.writeMsg("Import games...", "", "")
-		dbupdate.DBUpdate().updateDB(self.gdb, progressDialog, scrapingmode, romCollections)
+		
+		updater = dbupdate.DBUpdate()
+		updater.updateDB(self.gdb, progressDialog, scrapingmode, romCollections, self.Settings)
+		del updater
 		progressDialog.writeMsg("", "", "", -1)
 		del progressDialog
 		
