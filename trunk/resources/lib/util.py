@@ -1,4 +1,6 @@
 
+import xbmc, xbmcaddon
+
 import os, sys, re
 #import xbmc, time
 import time
@@ -216,8 +218,7 @@ def getEnvironment():
 
 def getAddonDataPath():
 	path = ''
-		
-	import xbmc
+			
 	path = xbmc.translatePath('special://profile/addon_data/%s' %(SCRIPTID))
 		
 	if not os.path.exists(path):
@@ -230,16 +231,14 @@ def getAddonDataPath():
 
 def getAddonInstallPath():
 	path = ''
-		
-	import xbmcaddon
+			
 	addon = xbmcaddon.Addon(id='%s' %SCRIPTID)
 	path = addon.getAddonInfo('path')
 	
 	return path
 			
 
-def getAutoexecPath():
-	import xbmc
+def getAutoexecPath():	
 	return xbmc.translatePath('special://profile/autoexec.py')
 
 
@@ -255,9 +254,6 @@ def getConfigXmlPath():
 	
 	
 def getSettings():
-	import xbmc
-	settings = ''
-	import xbmcaddon
 	settings = xbmcaddon.Addon(id='%s' %SCRIPTID)
 	return settings
 
