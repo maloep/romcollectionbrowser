@@ -1,5 +1,5 @@
 
-import xbmc, xbmcgui
+import xbmc, xbmcgui, xbmcaddon
 import util
 import dialogeditromcollection, dialogeditscraper, dialogdeleteromcollection, config
 import nfowriter, wizardconfigxml
@@ -222,10 +222,13 @@ class ContextMenuDialog(xbmcgui.WindowXMLDialog):
 				self.gui.deleteRCGames(selectedRCId, rcDelStat, rDelStat)
 				del removeRCDialog
 				
-		elif (controlID == 5116): #Clean DB			
+		elif (controlID == 5116): #Clean DB
 			self.close()
 			self.gui.cleanDB()
-		
+				
+		elif (controlID == 5223): #Open Settings
+			self.close()			
+			self.gui.Settings.openSettings()
 	
 	def onFocus(self, controlID):
 		pass
