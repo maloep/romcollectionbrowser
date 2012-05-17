@@ -1,3 +1,8 @@
+1.0.4 (05/2012)
+~~~~~~~~~~~~~
+Import Games:
+  * revert: bugfix for publisher / developer "989" caused problems
+
 1.0.3 (05/2012)
 ~~~~~~~~~~~~~
 General:
