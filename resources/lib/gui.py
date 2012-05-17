@@ -1449,7 +1449,7 @@ class UIGameDB(xbmcgui.WindowXML):
 				Logutil.log("Cannot rename autoexec.py: " + str(exc), util.LOG_LEVEL_ERROR)
 				return
 			
-		RCBSetting(self.gdb).update(('autoexecBackupPath',), (None,), rcbSetting[0])
+		RCBSetting(self.gdb).update(('autoexecBackupPath',), (None,), rcbSetting[0], True)
 		self.gdb.commit()
 		
 		Logutil.log("End checkAutoExec" , util.LOG_LEVEL_INFO)		

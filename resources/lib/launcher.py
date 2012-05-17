@@ -64,7 +64,7 @@ def launchEmu(gdb, gui, gameId, config, settings):
 	
 	#update LaunchCount
 	launchCount = gameRow[util.GAME_launchCount]
-	Game(gdb).update(('launchCount',), (launchCount +1,) , gameRow[util.ROW_ID])
+	Game(gdb).update(('launchCount',), (launchCount +1,) , gameRow[util.ROW_ID], True)
 	gdb.commit()
 	
 	Logutil.log("cmd: " +cmd, util.LOG_LEVEL_INFO)			
@@ -399,7 +399,7 @@ def backupAutoexec(gdb, fName):
 			Logutil.log("rcbSetting == None in backupAutoexec", util.LOG_LEVEL_WARNING)
 			return
 		
-		RCBSetting(gdb).update(('autoexecBackupPath',), (newFileName,), rcbSetting[util.ROW_ID])
+		RCBSetting(gdb).update(('autoexecBackupPath',), (newFileName,), rcbSetting[util.ROW_ID], True)
 		gdb.commit()
 		
 	Logutil.log("End launcher.backupAutoexec", util.LOG_LEVEL_INFO)

@@ -150,19 +150,25 @@ class DataBaseObject:
 		#print("Insert INTO %(tablename)s VALUES (%(args)s)" % {'tablename':self.tableName, 'args': ( "?, " * len(args)) })
 		
 	
-	def update(self, columns, args, id):
+	def update(self, columns, argsOrig, id, updateWithNullValues):
 		
-		if(len(columns) != len(args)):
+		if(len(columns) != len(argsOrig)):
 			util.Logutil.log("len columns != len args in gdb.update()", util.LOG_LEVEL_WARNING)			
 			return
 			
+		args = []
 		updateString = "Update %s SET " %self.tableName
 		for i in range(0, len(columns)):
+			#don't update with empty values
+			if(not updateWithNullValues and (argsOrig[i] == '' or argsOrig[i] == None)):
+				continue
+			
+			args.append(argsOrig[i])
 			updateString += columns[i] +  " = ?"
 			if(i < len(columns) -1):
 				updateString += ", "
 				
-		updateString += " WHERE id = " +str(id)		
+		updateString += " WHERE id = " +str(id)
 		self.gdb.cursor.execute(updateString, args)
 		
 	
