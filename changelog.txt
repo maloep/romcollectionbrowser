@@ -1,4 +1,4 @@
-1.0.2 (05/2012)
+1.0.3 (05/2012)
 ~~~~~~~~~~~~~
 General:
   * open Addon settings from context menu
