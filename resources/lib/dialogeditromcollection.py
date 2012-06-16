@@ -53,6 +53,8 @@ CONTROL_BUTTON_DONTEXTRACTZIP = 5450
 CONTROL_BUTTON_SAVESTATEPATH = 5460
 CONTROL_BUTTON_SAVESTATEMASK = 5470
 CONTROL_BUTTON_SAVESTATEPARAMS = 5480
+CONTROL_BUTTON_PRECMD = 5510
+CONTROL_BUTTON_POSTCMD = 5520
 
 
 class EditRomCollectionDialog(dialogbase.DialogBaseEdit):
@@ -173,7 +175,7 @@ class EditRomCollectionDialog(dialogbase.DialogBaseEdit):
 			
 		elif (controlID == CONTROL_BUTTON_PARAMS):
 			emulatorParams = self.editTextProperty(CONTROL_BUTTON_PARAMS, 'emulator params')
-			self.selectedRomCollection.emulatorParams = emulatorParams 			
+			self.selectedRomCollection.emulatorParams = emulatorParams 		
 			
 		elif (controlID == CONTROL_BUTTON_ROMPATH):
 			self.editRomPath()
@@ -212,6 +214,14 @@ class EditRomCollectionDialog(dialogbase.DialogBaseEdit):
 		elif (controlID == CONTROL_BUTTON_SAVESTATEPARAMS):
 			saveStateParams = self.editTextProperty(CONTROL_BUTTON_SAVESTATEPARAMS, 'savestate params')
 			self.selectedRomCollection.saveStateParams = saveStateParams
+		
+		elif (controlID == CONTROL_BUTTON_PRECMD):
+			preCmd = self.editTextProperty(CONTROL_BUTTON_PRECMD, 'preCmd')
+			self.selectedRomCollection.preCmd = preCmd
+			
+		elif (controlID == CONTROL_BUTTON_POSTCMD):
+			postCmd = self.editTextProperty(CONTROL_BUTTON_POSTCMD, 'postCmd')
+			self.selectedRomCollection.postCmd = postCmd
 				
 	
 	def onFocus(self, controlId):
@@ -342,6 +352,12 @@ class EditRomCollectionDialog(dialogbase.DialogBaseEdit):
 		
 		control = self.getControlById(CONTROL_BUTTON_DONTEXTRACTZIP)
 		control.setSelected(self.selectedRomCollection.doNotExtractZipFiles)
+		
+		control = self.getControlById(CONTROL_BUTTON_PRECMD)
+		control.setLabel(self.selectedRomCollection.preCmd)
+		
+		control = self.getControlById(CONTROL_BUTTON_POSTCMD)
+		control.setLabel(self.selectedRomCollection.postCmd)
 	
 	
 	def updateMediaPathControls(self):

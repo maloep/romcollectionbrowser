@@ -1770,6 +1770,121 @@
 					<textoffsety></textoffsety>
 					<pulseonselect></pulseonselect>
 					<onup>5470</onup>
+					<ondown>5510</ondown>
+					<onleft>7000</onleft>
+					<onright>6000</onright>
+				</control>
+				
+				<!-- PreCmd -->
+				<control type="image">
+					<posx>0</posx>
+					<posy>210</posy>
+					<width>270</width>
+					<height>30</height>
+					<texture>rcb-MenuItemFO.png</texture>
+					<visible>Control.HasFocus(5510)</visible>
+				</control>
+				<control type="label">
+					<posx>7</posx>
+					<posy>210</posy>
+					<width>200</width>
+					<height>30</height>
+					<font>font13</font>
+					<textcolor>FFFFFFFF</textcolor>
+					<align>left</align>
+					<aligny>center</aligny>
+					<label>Pre-Launch cmd</label>
+					<visible>Control.HasFocus(5510)</visible>
+				</control>
+				<control type="label">
+					<posx>7</posx>
+					<posy>210</posy>
+					<width>200</width>
+					<height>30</height>
+					<font>font13</font>
+					<textcolor>88FFFFFF</textcolor>
+					<align>left</align>
+					<aligny>center</aligny>
+					<label>Pre-Launch cmd</label>
+					<visible>!Control.HasFocus(5510)</visible>
+				</control>
+				<control type="button" id="5510"> 
+					<description>Pre-Launch Command</description>
+					<posx>240</posx>
+					<posy>210</posy>
+					<width>410</width>
+					<height>30</height>
+					<visible>true</visible>
+					<font>font13</font>
+					<colordiffuse>DDFFFFFF</colordiffuse>
+					<texturefocus>rcb-MenuItemFO.png</texturefocus>
+					<texturenofocus>rcb-MenuItemNF.png</texturenofocus>
+					<textcolor>88FFFFFF</textcolor>
+					<focusedcolor>FFFFFFFF</focusedcolor>
+					<disabledcolor>80FFFFFF</disabledcolor>
+					<align>right</align>
+					<aligny>center</aligny>
+					<textoffsetx></textoffsetx>
+					<textoffsety></textoffsety>
+					<pulseonselect></pulseonselect>
+					<onup>5480</onup>
+					<ondown>5520</ondown>
+					<onleft>7000</onleft>
+					<onright>6000</onright>
+				</control>
+				<!-- PostCmd -->
+				<control type="image">
+					<posx>0</posx>
+					<posy>240</posy>
+					<width>270</width>
+					<height>30</height>
+					<texture>rcb-MenuItemFO.png</texture>
+					<visible>Control.HasFocus(5520)</visible>
+				</control>
+				<control type="label">
+					<posx>7</posx>
+					<posy>240</posy>
+					<width>200</width>
+					<height>30</height>
+					<font>font13</font>
+					<textcolor>FFFFFFFF</textcolor>
+					<align>left</align>
+					<aligny>center</aligny>
+					<label>Post-Launch cmd</label>
+					<visible>Control.HasFocus(5520)</visible>
+				</control>
+				<control type="label">
+					<posx>7</posx>
+					<posy>240</posy>
+					<width>200</width>
+					<height>30</height>
+					<font>font13</font>
+					<textcolor>88FFFFFF</textcolor>
+					<align>left</align>
+					<aligny>center</aligny>
+					<label>Post-Launch cmd</label>
+					<visible>!Control.HasFocus(5520)</visible>
+				</control>
+				<control type="button" id="5520"> 
+					<description>Post-Launch Command</description>
+					<posx>240</posx>
+					<posy>240</posy>
+					<width>410</width>
+					<height>30</height>
+					<visible>true</visible>
+					<font>font13</font>
+					<colordiffuse>DDFFFFFF</colordiffuse>
+					<texturefocus>rcb-MenuItemFO.png</texturefocus>
+					<texturenofocus>rcb-MenuItemNF.png</texturenofocus>
+					<textcolor>88FFFFFF</textcolor>
+					<focusedcolor>FFFFFFFF</focusedcolor>
+					<disabledcolor>80FFFFFF</disabledcolor>
+					<align>right</align>
+					<aligny>center</aligny>
+					<textoffsetx></textoffsetx>
+					<textoffsety></textoffsety>
+					<pulseonselect></pulseonselect>
+					<onup>5510</onup>
 					<ondown>6000</ondown>
 					<onleft>7000</onleft>
 					<onright>6000</onright>

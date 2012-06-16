@@ -211,6 +211,7 @@ class RomCollection:
 	name = ''
 	
 	emulatorCmd = ''
+	preCmd = ''
 	emulatorParams = ''
 	romPaths = None
 	saveStatePath = ''
@@ -411,6 +412,8 @@ class Config:
 						
 			#all simple RomCollection properties
 			romCollection.emulatorCmd = self.readTextElement(romCollectionRow, 'emulatorCmd')
+			romCollection.preCmd = self.readTextElement(romCollectionRow, 'preCmd')
+			romCollection.postCmd = self.readTextElement(romCollectionRow, 'postCmd')
 			romCollection.emulatorParams = self.readTextElement(romCollectionRow, 'emulatorParams')
 			romCollection.saveStatePath = self.readTextElement(romCollectionRow, 'saveStatePath')
 			romCollection.saveStateParams = self.readTextElement(romCollectionRow, 'saveStateParams')
