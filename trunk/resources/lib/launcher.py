@@ -25,6 +25,8 @@ def launchEmu(gdb, gui, gameId, config, settings):
 	gui.writeMsg("Launch Game " + gameRow[util.ROW_NAME])
 	
 	cmd = ""
+	precmd = ""
+	postcmd = ""
 	
 	#get environment OS
 	env = ( os.environ.get( "OS", "win32" ), "win32", )[ os.environ.get( "OS", "win32" ) == "xbox" ]	
@@ -33,10 +35,15 @@ def launchEmu(gdb, gui, gameId, config, settings):
 	Logutil.log("files for current game: " +str(filenameRows), util.LOG_LEVEL_INFO)
 	
 	escapeCmd = settings.getSetting(util.SETTING_RCB_ESCAPECOMMAND).upper() == 'TRUE'
-	cmd = buildCmd(filenameRows, romCollection, gameRow, escapeCmd)
+	cmd, precmd, postcmd = buildCmd(filenameRows, romCollection, gameRow, escapeCmd)
 	if(cmd == ''):
 		Logutil.log('No cmd created. Game will not be launched.', util.LOG_LEVEL_INFO)
 		return
+	if(precmd.strip() == '' or precmd.strip() == 'call'):
+		Logutil.log('No precmd created.', util.LOG_LEVEL_INFO)
+		
+	if(postcmd.strip() == '' or postcmd.strip() == 'call'):
+		Logutil.log('No postcmd created.', util.LOG_LEVEL_INFO)
 		
 	if (romCollection.useEmuSolo):
 		
@@ -67,29 +74,21 @@ def launchEmu(gdb, gui, gameId, config, settings):
 	Game(gdb).update(('launchCount',), (launchCount +1,) , gameRow[util.ROW_ID], True)
 	gdb.commit()
 	
-	Logutil.log("cmd: " +cmd, util.LOG_LEVEL_INFO)			
+	Logutil.log("cmd: " +cmd, util.LOG_LEVEL_INFO)	
+	Logutil.log("precmd: " +precmd, util.LOG_LEVEL_INFO)
+	Logutil.log("postcmd: " +postcmd, util.LOG_LEVEL_INFO)
 	
 	try:
 		if (os.environ.get( "OS", "xbox" ) == "xbox"):			
 			launchXbox(gui, gdb, cmd, romCollection, filenameRows)
 		else:
-			launchNonXbox(cmd, romCollection)
+			launchNonXbox(cmd, romCollection, precmd, postcmd)
 	
 		gui.writeMsg("")
 					
 	except Exception, (exc):
 		Logutil.log("Error while launching emu: " +str(exc), util.LOG_LEVEL_ERROR)
 		gui.writeMsg("Error while launching emu: " +str(exc))
-		
-	try:
-		#delete temporary files (from zip or 7z extraction
-		tempDir = getTempDir()
-		files = os.listdir(tempDir)
-		for file in files:
-			os.remove(os.path.join(tempDir, file))
-	except Exception, (exc):
-		Logutil.log("Error deleting files after launch emu: " +str(exc), util.LOG_LEVEL_ERROR)
-		gui.writeMsg("Error deleting files after launch emu: " +str(exc))
 	
 	Logutil.log("End launcher.launchEmu", util.LOG_LEVEL_INFO)
 		
@@ -109,8 +108,9 @@ def buildCmd(filenameRows, romCollection, gameRow, escapeCmd):
 	
 	emuCommandLine = romCollection.emulatorCmd
 	Logutil.log('emuCommandLine: ' +emuCommandLine, util.LOG_LEVEL_INFO)
-	
-	
+	Logutil.log('preCmdLine: ' +romCollection.preCmd, util.LOG_LEVEL_INFO)
+	Logutil.log('postCmdLine: ' +romCollection.postCmd, util.LOG_LEVEL_INFO)
+
 	#handle savestates	
 	stateFile = checkGameHasSaveStates(romCollection, gameRow, filenameRows, escapeCmd)
 		
@@ -155,6 +155,8 @@ def buildCmd(filenameRows, romCollection, gameRow, escapeCmd):
 		del rom
 		
 		for rom in roms:
+			precmd = ""
+			postcmd = ""
 			if fileindex == 0:
 				emuParams = replacePlaceholdersInParams(emuParams, rom, romCollection, gameRow, escapeCmd)
 				if (escapeCmd):
@@ -173,10 +175,19 @@ def buildCmd(filenameRows, romCollection, gameRow, escapeCmd):
 					emuCommandLine = re.escape(emuCommandLine)
 
 				newrepl = newrepl.replace('%I%', str(fileindex))
-				cmd += ' ' +newrepl		
+				cmd += ' ' +newrepl	
+				
+			cmdprefix = ''
+			env = ( os.environ.get( "OS", "win32" ), "win32", )[ os.environ.get( "OS", "win32" ) == "xbox" ]
+			if(env == "win32"):
+				cmdprefix = 'call '
+				
+			precmd = cmdprefix + replacePlaceholdersInParams(romCollection.preCmd, rom, romCollection, gameRow, escapeCmd)
+			postcmd = cmdprefix + replacePlaceholdersInParams(romCollection.postCmd, rom, romCollection, gameRow, escapeCmd)
+						
 			fileindex += 1
 	
-	return cmd
+	return cmd, precmd, postcmd
 
 
 def checkGameHasSaveStates(romCollection, gameRow, filenameRows, escapeCmd):
@@ -225,6 +236,19 @@ def prepareMultiRomCommand(emuParams):
 
 
 def handleCompressedFile(filext, rom, romCollection, emuParams):
+	
+	#Note: Trying to delete temporary files (from zip or 7z extraction) from last run
+	#Do this before launching a new game. Otherwise game could be deleted before launch
+	try:
+		Logutil.log("Trying to delete temporary rom files", util.LOG_LEVEL_INFO)	
+		tempDir = getTempDir()
+		files = os.listdir(tempDir)
+		for file in files:
+			os.remove(os.path.join(tempDir, file))
+	except Exception, (exc):
+		Logutil.log("Error deleting files after launch emu: " +str(exc), util.LOG_LEVEL_ERROR)
+		gui.writeMsg("Error deleting files after launch emu: " +str(exc))
+		
 	
 	roms = []
 	
@@ -492,7 +516,7 @@ def getRomfilenameForXboxCutfile(filenameRows, romCollection):
 	return filename
 	
 	
-def launchNonXbox(cmd, romCollection):
+def launchNonXbox(cmd, romCollection, precmd='', postcmd=''):
 	Logutil.log("launchEmu on non-xbox", util.LOG_LEVEL_INFO)							
 				
 	toggledScreenMode = False
@@ -509,8 +533,22 @@ def launchNonXbox(cmd, romCollection):
 			toggledScreenMode = True
 		
 	Logutil.log("launch emu", util.LOG_LEVEL_INFO)
+	
+	#pre launch command
+	if(precmd.strip() != '' and precmd.strip() != 'call'):
+		Logutil.log("Got to PRE", util.LOG_LEVEL_INFO)
+		os.system(precmd.encode(sys.getfilesystemencoding()))
+
+	#import subprocess
+	#subprocess.Popen(cmd.encode(sys.getfilesystemencoding()), shell=True)
 	os.system(cmd.encode(sys.getfilesystemencoding()))
+	
 	Logutil.log("launch emu done", util.LOG_LEVEL_INFO)		
+	
+	#post launch command
+	if(postcmd.strip() != '' and postcmd.strip() != 'call'):
+		Logutil.log("Got to POST: " + postcmd.strip(), util.LOG_LEVEL_INFO)
+		os.system(postcmd.encode(sys.getfilesystemencoding()))
 	
 	if(toggledScreenMode):
 		Logutil.log("Toggle to Full Screen mode", util.LOG_LEVEL_INFO)

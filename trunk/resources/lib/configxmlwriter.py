@@ -61,6 +61,8 @@ class ConfigXmlWriter:
 												
 				SubElement(romCollectionXml, 'mediaPath', {'type' : mediaPath.fileType.name}).text = mediaPath.path
 				
+			SubElement(romCollectionXml, 'preCmd').text = romCollection.preCmd
+			SubElement(romCollectionXml, 'postCmd').text = romCollection.postCmd
 			SubElement(romCollectionXml, 'useEmuSolo').text = str(romCollection.useEmuSolo)
 			SubElement(romCollectionXml, 'ignoreOnScan').text = str(romCollection.ignoreOnScan)
 			SubElement(romCollectionXml, 'allowUpdate').text = str(romCollection.allowUpdate)
