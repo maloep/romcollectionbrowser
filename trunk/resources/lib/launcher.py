@@ -127,7 +127,26 @@ def buildCmd(filenameRows, romCollection, gameRow, escapeCmd):
 	#params could be: {-%I% %ROM%}
 	#we have to repeat the part inside the brackets and replace the %I% with the current index
 	emuParams, partToRepeat = prepareMultiRomCommand(emuParams)		
-	
+
+	#ask for disc number if multidisc game
+	diskName = ""
+	if(romCollection.diskPrefix != '' and not '%I%' in emuParams):
+		Logutil.log("Getting Multiple Disc Parameter", util.LOG_LEVEL_INFO)
+		options = []
+		for disk in filenameRows:
+			gamename = os.path.basename(disk[0])
+			match = re.search(romCollection.diskPrefix.lower(), str(gamename).lower())
+			if(match):
+				disk = gamename[match.start():match.end()]
+				options.append(disk)
+		if(len(options) > 1):
+			diskNum = xbmcgui.Dialog().select('Please choose disc:', options)
+			if(diskNum < 0):
+				pass
+			else:
+				diskName = options[diskNum]
+				Logutil.log('Chosen Disc: %s' % diskName, util.LOG_LEVEL_INFO)
+
 	#insert game specific command
 	gameCmd = ''
 	if(gameRow[util.GAME_gameCmd] != None):
@@ -175,7 +194,7 @@ def buildCmd(filenameRows, romCollection, gameRow, escapeCmd):
 					emuCommandLine = re.escape(emuCommandLine)
 
 				newrepl = newrepl.replace('%I%', str(fileindex))
-				cmd += ' ' +newrepl	
+				cmd += ' ' +newrepl
 				
 			cmdprefix = ''
 			env = ( os.environ.get( "OS", "win32" ), "win32", )[ os.environ.get( "OS", "win32" ) == "xbox" ]
@@ -186,7 +205,15 @@ def buildCmd(filenameRows, romCollection, gameRow, escapeCmd):
 			postcmd = cmdprefix + replacePlaceholdersInParams(romCollection.postCmd, rom, romCollection, gameRow, escapeCmd)
 						
 			fileindex += 1
-	
+
+	#A disk was chosen by the user, select it here
+	if (diskName):
+		Logutil.log("Choosing Disk: " +str(diskName),util.LOG_LEVEL_INFO)
+		match = re.search(romCollection.diskPrefix.lower(), cmd.lower())
+		replString = cmd[match.start():match.end()]
+		cmd = cmd.replace(replString, diskName)
+		
+			
 	return cmd, precmd, postcmd
 
 
