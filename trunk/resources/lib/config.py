@@ -212,6 +212,7 @@ class RomCollection:
 	
 	emulatorCmd = ''
 	preCmd = ''
+	postCmd = ''
 	emulatorParams = ''
 	romPaths = None
 	saveStatePath = ''
