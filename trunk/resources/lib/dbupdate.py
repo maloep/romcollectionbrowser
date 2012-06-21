@@ -402,7 +402,9 @@ class DBUpdate:
 				del dirs[:]
 		
 		
-	def checkRomfileIsMultirom(self, gamename, lastgamename):		
+	def checkRomfileIsMultirom(self, gamename, lastgamename):
+	
+		Logutil.log("checkRomfileIsMultirom. gamename = %s, lastgamename = %s" %(gamename, lastgamename), util.LOG_LEVEL_INFO)
 	
 		#XBOX Hack: rom files will always be named default.xbe: always detected as multi rom without this hack
 		if(gamename == lastgamename and lastgamename.lower() != 'default'):		
