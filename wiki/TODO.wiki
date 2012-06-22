@@ -4,35 +4,39 @@ This TODO list / roadmap is a working document. It will change quite frequently 
 
 
 = next release =
-== Import Games ==
-  * bug: error with publisher / developer "987" (showFilterControl) - Done
-  * bug: Import games with () in name with local single file scraper
-	RCB_INFO: current rom file: E:\Games\RomFiles\SegaGenesis\Hyperspin\Atomic Robo-Kid (USA).zip
-	RCB_WARNING: description file for game Atomic Robo-Kid could not be found. Check if this path exists: E:\Games\Descriptions\Nieuwe map\SegaGenesis\Hyperspin\GameInfo\Atomic Robo-Kid.nfo
-  * change default values of "Don't import games without info / artwork" - Done
-  * re-scrape options:
-    * re-scrape single game
-	  * change name of scraped game
-	* re-scrape selection
+== Launch games ==
+  * add before and after launch command (integrate patch from carabalb) - Done
+  * select disk in multi disk scenario (integrate patch from pantherts) - Done
+	* use regular expression to find disk indicator - Done
+	* check for multi rom scenario on Amiga (%I%)
+  * try to replace os.system with subprocess.Popen (optional)
+  * pylzma for python 2.6
+  * add options to use vbscript on windows (Explorer hack issues)
+  * add option to use json api instead of kill command  
+	Linux
+	wget -q -O/dev/null --header='Content-Type: application/json' --post-data='{"jsonrpc": "2.0", "method": "Application.Quit", "id":"1"}' http://localhost/jsonrpc  
+  
+	Windows (http://sourceforge.net/projects/gnuwin32/files/wget/)
+	"%PROGRAMFILES%\GnuWin32\bin\wget.exe" -q --header="Content-Type: application/json" --post-data="{\"jsonrpc\":\"2.0\", \"method\": \"Application.Quit\", \"id\":\"1\"}" http://localhost/jsonrpc
 
-== Launch games==
-  * try to replace os.system with subprocess.popen
+== Import games ==
+  * "First 10 games could not be imported." -> make config option, only show once (integrate patch from pantherts)
 
 
 = one of next releases =
+  
 == Import games ==
-  * "First 10 games could not be imported." -> make config option, only show once
   * update thegamesdb scraper
     * download publisher and developer artwork from thegamesdb.net
     * youtube link in thegamesdb scraper
   * add filename matching (instead of crc) to offline scraper
+  * change name of scraped game
+  * set "Always rescan games" automatically if in Rescrape mode
+  * Could not create file: 'C:\Program Files\ROM project\ROMS\Sega Genesis\Artwork\boxfront\Triple Play 96 (F) [b1].jpg'. Error message: '[Errno socket error] timed out'
+  * Check rescrape single game + interactive mode
 
 == Browse games ==
   * bug: Interface Lockup when rapidly switching consoles
-  
-== Launch games ==
-  * select disk in multi disk scenario
-  * pylzma for python 2.6
 
 
 = Known bugs/issues =
@@ -40,6 +44,7 @@ This TODO list / roadmap is a working document. It will change quite frequently 
   * start RCB twice: atomic init routine?
   * XBMC frequently locks up on shutdown
   * check for errors in scrapeonstartup
+	--> error handling when there are errors in config?
   * db in memory: id = null?
 
 == Import games ==
@@ -54,11 +59,11 @@ This TODO list / roadmap is a working document. It will change quite frequently 
 == Browse games ==
   * autoplay video in Info window not reliable
   * video playback in non-Confluence skins
+  * filters lost after game (2nd?) import
 
   
 = Features =
-=== General ===
-  * load Addon settings from context menu
+=== General ===  
   * language support
   * add more filetypes (see examples from Domina)
   * new caching option: load list in background (maybe remove cacheitem and next)
@@ -77,6 +82,7 @@ This TODO list / roadmap is a working document. It will change quite frequently 
     * option to overwrite existing files
     * option to export statisitcal or user specific data (isFavorite, launchCount, ...)
     * update nfo files (with new info) -> check if needed
+  * better handling of configuration errors (allow to launch RCB and edit configuration)
   
 ==== Data model ====
   * support different releases (region, updates, etc.)
@@ -138,7 +144,6 @@ This TODO list / roadmap is a working document. It will change quite frequently 
   * game logo or game name logo
   * ask before cancel 
   * skip 2nd and 3rd scraper if all info is found with first one
-  * new update option: only missing fields
   * option to create sub collections: best sports games, ...
   * option to keep rom name as game name (better support for extra info in rom names (USA), (Beta))
   * support selection of similar named versions of games (select version to import by user or mask)
@@ -147,6 +152,7 @@ This TODO list / roadmap is a working document. It will change quite frequently 
 	Final Fantasy III (USA).zip
   * option to flatten downloaded artwork files (1 file per different game version)
   * two-step import: 1. local data, 2. online data
+  * Another thing that could be useful in the next versions of RCB its de capacity of search for artwork in subdirectories.
 
 
 === Browse games ===
@@ -180,6 +186,7 @@ This TODO list / roadmap is a working document. It will change quite frequently 
   * option to hide game infos in main view (show up on pressing I or similar)
   * support for game name artwork
   * parental support: It might work as follows, after to trigger the option "ParentalRating" a box text is displayed for entering the password if the password is entered correctly, all games are displayed on RCB.
+  * Would it be possible to load and display only 100 randoms ROM at launch ? Or to wait the selection of a query before loading a list ?
   
 === Launch games ===
   * SLEEP command no Windows standard -> integrate JohnnyD2s vbs script for solo mode
@@ -198,9 +205,9 @@ This TODO list / roadmap is a working document. It will change quite frequently 
   * option to turn savestate on/off
   * start stop LIRC (Issue 74)
   * per game config (e.g. Amiga)
-  * command before launch and after launch(f.e. load virtual cd drive, unload virtual cd drive) --> carabalb
   * try to write black background before launch
   * disable screensaver before game launch
+  * change emulators per game
 
   
 = Wiki =
@@ -229,6 +236,3 @@ This TODO list / roadmap is a working document. It will change quite frequently 
         * http://forum.xbmc.org/showpost.php?p=1004261&postcount=1994
   * Home button crashes RCB
   * smb pathes: mklink /D foldername \\server\games
-
-  
-= Testsets =
