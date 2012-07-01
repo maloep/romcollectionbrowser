@@ -8,23 +8,16 @@ This TODO list / roadmap is a working document. It will change quite frequently 
   * add before and after launch command (integrate patch from carabalb) - Done
   * select disk in multi disk scenario (integrate patch from pantherts) - Done
 	* use regular expression to find disk indicator - Done
-	* check for multi rom scenario on Amiga (%I%)
-  * try to replace os.system with subprocess.Popen (optional)
-  * pylzma for python 2.6
-  * add options to use vbscript on windows (Explorer hack issues)
-  * add option to use json api instead of kill command  
-	Linux
-	wget -q -O/dev/null --header='Content-Type: application/json' --post-data='{"jsonrpc": "2.0", "method": "Application.Quit", "id":"1"}' http://localhost/jsonrpc  
-  
-	Windows (http://sourceforge.net/projects/gnuwin32/files/wget/)
-	"%PROGRAMFILES%\GnuWin32\bin\wget.exe" -q --header="Content-Type: application/json" --post-data="{\"jsonrpc\":\"2.0\", \"method\": \"Application.Quit\", \"id\":\"1\"}" http://localhost/jsonrpc
+	* check for multi rom scenario on Amiga (%I%) - Done
+  * try to replace os.system with subprocess.Popen (optional) - Done
+  * using %PROGRAMFILES% variable in applaunch.bat - Done
 
 == Import games ==
-  * "First 10 games could not be imported." -> make config option, only show once (integrate patch from pantherts)
+  * "First 10 games could not be imported." -> make config option, only show once (integrate patch from pantherts) - Done
 
 
 = one of next releases =
-  
+
 == Import games ==
   * update thegamesdb scraper
     * download publisher and developer artwork from thegamesdb.net
@@ -38,7 +31,17 @@ This TODO list / roadmap is a working document. It will change quite frequently 
 == Browse games ==
   * bug: Interface Lockup when rapidly switching consoles
 
-
+== Launch games ==
+  * pylzma for python 2.6
+  * copy solo mode scripts to userdata folder
+  * add options to use vbscript on windows (Explorer hack issues)
+  * add option to use json api instead of kill command  
+	Linux
+	wget -q -O/dev/null --header='Content-Type: application/json' --post-data='{"jsonrpc": "2.0", "method": "Application.Quit", "id":"1"}' http://localhost/jsonrpc  
+  
+	Windows (http://sourceforge.net/projects/gnuwin32/files/wget/)
+	"%PROGRAMFILES%\GnuWin32\bin\wget.exe" -q --header="Content-Type: application/json" --post-data="{\"jsonrpc\":\"2.0\", \"method\": \"Application.Quit\", \"id\":\"1\"}" http://localhost/jsonrpc
+  
 = Known bugs/issues =
 == General ==
   * start RCB twice: atomic init routine?
@@ -83,6 +86,7 @@ This TODO list / roadmap is a working document. It will change quite frequently 
     * option to export statisitcal or user specific data (isFavorite, launchCount, ...)
     * update nfo files (with new info) -> check if needed
   * better handling of configuration errors (allow to launch RCB and edit configuration)
+  * new option: Delete Selection
   
 ==== Data model ====
   * support different releases (region, updates, etc.)
