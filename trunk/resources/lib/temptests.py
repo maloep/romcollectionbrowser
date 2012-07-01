@@ -159,3 +159,10 @@ configFile = util.getConfigXmlPath()
 myConfig = Config()
 statusOk, errorMsg = myConfig.readXml()
 """
+
+
+diskPrefix = '\(Disc .*\)'
+file = 'E:\\Games\\Testsets\\Import\\multidisc\\PS1\\roms\\Alone in the Dark - The New Nightmare (Disc 2)(Disk 3).img'
+match = re.search(diskPrefix.lower(), file.lower())
+print match.group()
+
