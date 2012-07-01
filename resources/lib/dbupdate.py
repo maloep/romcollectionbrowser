@@ -56,6 +56,8 @@ class DBUpdate:
 		Logutil.log("enableFullReimport: " +str(enableFullReimport), util.LOG_LEVEL_INFO)
 		
 		continueUpdate = True
+		#Added variable to allow user to continue on errors
+		ignoreErrors = False
 		
 		for romCollection in romCollections.values():
 			
@@ -264,14 +266,20 @@ class DBUpdate:
 						
 						if (lastGameId != None):
 							successfulFiles = successfulFiles + 1
-							
-						#check if all first 10 games have errors
-						if (fileCount >= 10 and successfulFiles == 0):
-						 	answer = xbmcgui.Dialog().yesno(util.SCRIPTNAME, 'First 10 games could not be imported.', 'Continue anyway?')
-						 	if(answer == False):
-						 		xbmcgui.Dialog().ok(util.SCRIPTNAME, 'Import canceled.', 'Please check xbmc.log for errors.')
-						 		continueUpdate = False
-						 		break
+
+						#check if all first 10 games have errors - Modified to allow user to continue on errors
+						if (fileCount >= 10 and successfulFiles == 0 and ignoreErrors == False):
+							options = []
+							options.append("Continue")
+							options.append("Continue and Ignore Errors")
+							options.append("Cancel")
+							answer = xbmcgui.Dialog().select('First 10 games could not be imported.',options)
+							if(answer == 1):
+								ignoreErrors = True
+							elif(answer == 2):
+								xbmcgui.Dialog().ok(util.SCRIPTNAME, 'Import canceled.', 'Please check xbmc.log for errors.')
+								continueUpdate = False
+								break
 						
 					except Exception, (exc):
 						Logutil.log("an error occured while adding game " +gamenameFromFile, util.LOG_LEVEL_WARNING)
