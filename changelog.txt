@@ -1,7 +1,7 @@
 1.0.5 (07/2012)
 ~~~~~~~~~~~~~
 Import Games:
-  * "First 10 games could not be imported." -> option to continue and ignroe error (patch submitted by pantherts)
+  * "First 10 games could not be imported." -> option to continue and ignore error (patch submitted by pantherts)
   
 Launch Games:
   * add before and after launch command (patch submitted by carabalb)
