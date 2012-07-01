@@ -49,7 +49,7 @@ fi
 # Is XBMC still running?
 if [ -n $XBMC_PID ]
 then
-        kill -9 $XBMC_PID # Force immediate kill
+    kill -9 $XBMC_PID # Force immediate kill
 	echo "Shutdown hard"	
 fi
 
