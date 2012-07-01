@@ -566,9 +566,11 @@ def launchNonXbox(cmd, romCollection, precmd='', postcmd=''):
 		Logutil.log("Got to PRE", util.LOG_LEVEL_INFO)
 		os.system(precmd.encode(sys.getfilesystemencoding()))
 
-	#import subprocess
-	#subprocess.Popen(cmd.encode(sys.getfilesystemencoding()), shell=True)
-	os.system(cmd.encode(sys.getfilesystemencoding()))
+	if(romCollection.usePopen):
+		import subprocess
+		subprocess.Popen(cmd.encode(sys.getfilesystemencoding()), shell=True)
+	else:
+		os.system(cmd.encode(sys.getfilesystemencoding()))
 	
 	Logutil.log("launch emu done", util.LOG_LEVEL_INFO)		
 	

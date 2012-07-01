@@ -226,6 +226,7 @@ class RomCollection:
 	ignoreOnScan = False
 	allowUpdate = True
 	useEmuSolo = False
+	usePopen = False
 	maxFolderDepth = 99
 	useFoldernameAsGamename = False
 	doNotExtractZipFiles = False
@@ -430,6 +431,10 @@ class Config:
 			useEmuSolo = self.readTextElement(romCollectionRow, 'useEmuSolo') 			
 			if(useEmuSolo != ''):
 				romCollection.useEmuSolo = useEmuSolo.upper() == 'TRUE'
+				
+			usePopen = self.readTextElement(romCollectionRow, 'usePopen') 			
+			if(usePopen != ''):
+				romCollection.usePopen = usePopen.upper() == 'TRUE'
 				
 			autoplayVideoMain = self.readTextElement(romCollectionRow, 'autoplayVideoMain')
 			if(autoplayVideoMain != ''):

@@ -49,6 +49,7 @@ CONTROL_BUTTON_AUTOPLAYVIDEO_INFO = 5360
 CONTROL_BUTTON_EMUCMD = 5220
 CONTROL_BUTTON_PARAMS = 5230
 CONTROL_BUTTON_USEEMUSOLO = 5440
+CONTROL_BUTTON_USEPOPEN = 5530
 CONTROL_BUTTON_DONTEXTRACTZIP = 5450
 CONTROL_BUTTON_SAVESTATEPATH = 5460
 CONTROL_BUTTON_SAVESTATEMASK = 5470
@@ -337,6 +338,9 @@ class EditRomCollectionDialog(dialogbase.DialogBaseEdit):
 		control = self.getControlById(CONTROL_BUTTON_USEEMUSOLO)
 		control.setSelected(self.selectedRomCollection.useEmuSolo)
 		
+		control = self.getControlById(CONTROL_BUTTON_USEPOPEN)
+		control.setSelected(self.selectedRomCollection.usePopen)
+		
 		pathParts = os.path.split(self.selectedRomCollection.saveStatePath)
 		saveStatePath = pathParts[0]
 		saveStateFileMask = pathParts[1]
@@ -426,6 +430,8 @@ class EditRomCollectionDialog(dialogbase.DialogBaseEdit):
 		
 		control = self.getControlById(CONTROL_BUTTON_USEEMUSOLO)
 		self.selectedRomCollection.useEmuSolo = bool(control.isSelected())
+		control = self.getControlById(CONTROL_BUTTON_USEPOPEN)
+		self.selectedRomCollection.usePopen = bool(control.isSelected())
 		control = self.getControlById(CONTROL_BUTTON_DONTEXTRACTZIP)
 		self.selectedRomCollection.doNotExtractZipFiles = bool(control.isSelected())
 	

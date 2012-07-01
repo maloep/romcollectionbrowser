@@ -64,6 +64,7 @@ class ConfigXmlWriter:
 			SubElement(romCollectionXml, 'preCmd').text = romCollection.preCmd
 			SubElement(romCollectionXml, 'postCmd').text = romCollection.postCmd
 			SubElement(romCollectionXml, 'useEmuSolo').text = str(romCollection.useEmuSolo)
+			SubElement(romCollectionXml, 'usePopen').text = str(romCollection.usePopen)
 			SubElement(romCollectionXml, 'ignoreOnScan').text = str(romCollection.ignoreOnScan)
 			SubElement(romCollectionXml, 'allowUpdate').text = str(romCollection.allowUpdate)
 			SubElement(romCollectionXml, 'autoplayVideoMain').text = str(romCollection.autoplayVideoMain)
