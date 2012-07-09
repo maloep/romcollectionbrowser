@@ -841,6 +841,8 @@ class UIGameDB(xbmcgui.WindowXML):
 		self.cacheItems()
 		self.updateControls(True)
 		
+		self.config.readXml() 
+		
 		Logutil.log("End rescrapeGames" , util.LOG_LEVEL_INFO)
 		
 		
