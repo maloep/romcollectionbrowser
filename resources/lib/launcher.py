@@ -142,7 +142,8 @@ def buildCmd(filenameRows, romCollection, gameRow, escapeCmd):
 		if(len(options) > 1):
 			diskNum = xbmcgui.Dialog().select('Please choose disc:', options)
 			if(diskNum < 0):
-				pass
+				#don't launch game
+				return "", "", ""
 			else:
 				diskName = options[diskNum]
 				Logutil.log('Chosen Disc: %s' % diskName, util.LOG_LEVEL_INFO)
@@ -169,7 +170,7 @@ def buildCmd(filenameRows, romCollection, gameRow, escapeCmd):
 		if filext in compressedExtensions and not romCollection.doNotExtractZipFiles and stateFile == '':
 			roms = handleCompressedFile(filext, rom, romCollection, emuParams)
 			if len(roms) == 0:
-				return ""
+				return "", "", ""
 		
 		del rom
 		
