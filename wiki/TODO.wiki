@@ -4,16 +4,20 @@ This TODO list / roadmap is a working document. It will change quite frequently 
 
 
 = next release =
-== Launch games ==
-  * add before and after launch command (integrate patch from carabalb) - Done
-  * select disk in multi disk scenario (integrate patch from pantherts) - Done
-	* use regular expression to find disk indicator - Done
-	* check for multi rom scenario on Amiga (%I%) - Done
-  * try to replace os.system with subprocess.Popen (optional) - Done
-  * using %PROGRAMFILES% variable in applaunch.bat - Done
+
+== General ==
+  * a feature request: some properties for home window so we can add a random/latest ROMs widget to our home screen
 
 == Import games ==
-  * "First 10 games could not be imported." -> make config option, only show once (integrate patch from pantherts) - Done
+  * Update archive.vg scraper in config.xml - Done
+  * bug: "Rom File Mask" changes after rescraping a single game - Done
+  * create artwork parent folder if not present - Done
+  
+== Launch games ==
+  * add option to leave disc selector without launching a game - Done
+  * Disc selector not working with games that have no description - Done
+  * The other problem is, that every disc shows up as _disk in the selector.
+  * use Popen for pre and post launch commands
 
 
 = one of next releases =
@@ -26,15 +30,19 @@ This TODO list / roadmap is a working document. It will change quite frequently 
   * change name of scraped game
   * set "Always rescan games" automatically if in Rescrape mode
   * Could not create file: 'C:\Program Files\ROM project\ROMS\Sega Genesis\Artwork\boxfront\Triple Play 96 (F) [b1].jpg'. Error message: '[Errno socket error] timed out'
-  * Check rescrape single game + interactive mode
+  * NFO files don't update when rescraping games. - Add option to overwrite
+  * Still missing the possibility to define "Rom File Mask" as *.tzx.zip or *.tap.zip
+  * Another thing I noticed was that RCB "forgets" the Consoles filter after import or rescrape some game, thats a bit annoying when we are using large databases and trying to rescrape a few games.
 
 == Browse games ==
   * bug: Interface Lockup when rapidly switching consoles
+  * remap home button
 
 == Launch games ==
-  * pylzma for python 2.6
+  * pylzma for python 2.6 (http://pypi.python.org/pypi/pylzma/)
+  * http://forum.xbmc.org/showthread.php?tid=134913
   * copy solo mode scripts to userdata folder
-  * add options to use vbscript on windows (Explorer hack issues)
+  * add options to use vbscript on windows (Explorer hack issues)  
   * add option to use json api instead of kill command  
 	Linux
 	wget -q -O/dev/null --header='Content-Type: application/json' --post-data='{"jsonrpc": "2.0", "method": "Application.Quit", "id":"1"}' http://localhost/jsonrpc  
