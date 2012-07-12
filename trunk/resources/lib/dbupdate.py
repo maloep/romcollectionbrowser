@@ -248,7 +248,7 @@ class DBUpdate:
 						
 						#print results
 						if(len(results) == 0):
-							lastgamename = ""
+							#lastgamename = ""
 							gamedescription = None
 						else:						
 							gamedescription = results
@@ -1060,6 +1060,17 @@ class DBUpdate:
 			
 			#check if folder exists
 			dirname = os.path.dirname(fileName)
+			#check parent folder
+			parent = os.path.dirname(dirname)
+			if(not os.path.isdir(parent)):
+				try:
+					os.mkdir(parent)
+				except Exception, (exc):
+					xbmcgui.Dialog().ok('Error: Could not create artwork directory.', 'Check xbmc.log for details.')
+					Logutil.log("Could not create directory: '%s'. Error message: '%s'" %(parent, str(exc)), util.LOG_LEVEL_ERROR)
+					return False, artworkurls
+				
+			#check artwork specific folders
 			if(not os.path.isdir(dirname)):
 				try:
 					os.mkdir(dirname)
