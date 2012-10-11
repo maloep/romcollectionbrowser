@@ -160,14 +160,18 @@ myConfig = Config()
 statusOk, errorMsg = myConfig.readXml()
 """
 
-"""
-diskPrefix = '\(Disc .*\)'
-file = 'E:\\Games\\Testsets\\Import\\multidisc\\PS1\\roms\\Alone in the Dark - The New Nightmare (Disc 2)(Disk 3).img'
-match = re.search(diskPrefix.lower(), file.lower())
-print match.group()
-"""
+
+diskPrefix = 'Disk.*'
+file = 'Alone in the Dark - The New Nightmare_Disk1.img'
+
+match = re.search(diskPrefix, str(file))
+print match
+if(match):
+	disk = file[match.start():match.end()]
+	print disk
 
 
+"""
 dirname = os.path.dirname('E:\\Games\\Testsets\\Import\\multidisc\\PS1\\artwork\\boxfront\\test.img')
 print dirname
 
@@ -175,6 +179,4 @@ print dirname
 parent = os.path.dirname(dirname)
 print parent
 
-
-
-
+"""
