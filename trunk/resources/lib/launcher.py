@@ -106,7 +106,8 @@ def buildCmd(filenameRows, romCollection, gameRow, escapeCmd):
 		
 	compressedExtensions = ['7z', 'zip']
 	
-	emuCommandLine = romCollection.emulatorCmd
+	#RedKiller -> Fix for network files issue
+	emuCommandLine = helper.getPathTranslation(romCollection.emulatorCmd)	
 	Logutil.log('emuCommandLine: ' +emuCommandLine, util.LOG_LEVEL_INFO)
 	Logutil.log('preCmdLine: ' +romCollection.preCmd, util.LOG_LEVEL_INFO)
 	Logutil.log('postCmdLine: ' +romCollection.postCmd, util.LOG_LEVEL_INFO)
