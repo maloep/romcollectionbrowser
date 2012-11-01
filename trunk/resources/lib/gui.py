@@ -685,7 +685,7 @@ class UIGameDB(xbmcgui.WindowXML):
 				
 				#favorite handling
 				showFavoriteStars = self.Settings.getSetting(util.SETTING_RCB_SHOWFAVORITESTARS).upper() == 'TRUE'
-				isFavorite = self.getGameProperty(gameRow[util.GAME_isFavorite])
+				isFavorite = helper.saveReadString(gameRow[util.GAME_isFavorite])
 				if(isFavorite == '1' and showFavoriteStars):
 					item.setProperty('isfavorite', '1')
 				else:
@@ -1020,7 +1020,7 @@ class UIGameDB(xbmcgui.WindowXML):
 				Logutil.log("fileRows == None in showGames", util.LOG_LEVEL_WARNING)
 				return
 					
-			fileDict = self.cacheFiles(fileRows)
+			fileDict = helper.cacheFiles(fileRows)
 		
 		return fileDict
 		
@@ -1033,28 +1033,6 @@ class UIGameDB(xbmcgui.WindowXML):
 			file = ""
 			
 		return file
-		
-		
-	def getGamePropertyFromCache(self, gameRow, dict, key, index):
-		
-		result = ""
-		try:
-			itemRow = dict[gameRow[key]]			
-			result = itemRow[index]
-		except:
-			pass
-			
-		return result
-		
-		
-	def getGameProperty(self, property):
-						
-		try:
-			result = str(property)
-		except:
-			result = ""
-			
-		return result
 	
 		
 	def loadVideoFiles(self, listItem, gameRow, imageGameList, imageGameListSelected, count, fileDict, romCollection):
@@ -1194,7 +1172,7 @@ class UIGameDB(xbmcgui.WindowXML):
 		
 		files = File(self.gdb).getFilesByParentIds(gameRow[util.ROW_ID], gameRow[util.GAME_romCollectionId], gameRow[util.GAME_publisherId], gameRow[util.GAME_developerId])
 				
-		fileDict = self.cacheFiles(files)
+		fileDict = helper.cacheFiles(files)
 		
 		return fileDict
 		
@@ -1246,10 +1224,10 @@ class UIGameDB(xbmcgui.WindowXML):
 		except:
 			pass									
 		
-		item.setProperty('year', self.getGamePropertyFromCache(gameRow, self.yearDict, util.GAME_yearId, util.ROW_NAME))
-		item.setProperty('publisher', self.getGamePropertyFromCache(gameRow, self.publisherDict, util.GAME_publisherId, util.ROW_NAME))
-		item.setProperty('developer', self.getGamePropertyFromCache(gameRow, self.developerDict, util.GAME_developerId, util.ROW_NAME))
-		item.setProperty('reviewer', self.getGamePropertyFromCache(gameRow, self.reviewerDict, util.GAME_reviewerId, util.ROW_NAME))
+		item.setProperty('year', helper.getPropertyFromCache(gameRow, self.yearDict, util.GAME_yearId, util.ROW_NAME))
+		item.setProperty('publisher', helper.getPropertyFromCache(gameRow, self.publisherDict, util.GAME_publisherId, util.ROW_NAME))
+		item.setProperty('developer', helper.getPropertyFromCache(gameRow, self.developerDict, util.GAME_developerId, util.ROW_NAME))
+		item.setProperty('reviewer', helper.getPropertyFromCache(gameRow, self.reviewerDict, util.GAME_reviewerId, util.ROW_NAME))
 		
 		genre = ""			
 		try:
@@ -1268,20 +1246,20 @@ class UIGameDB(xbmcgui.WindowXML):
 			pass							
 		item.setProperty('genre', genre)
 		
-		item.setProperty('maxplayers', self.getGameProperty(gameRow[util.GAME_maxPlayers]))
-		item.setProperty('rating', self.getGameProperty(gameRow[util.GAME_rating]))
-		item.setProperty('votes', self.getGameProperty(gameRow[util.GAME_numVotes]))
-		item.setProperty('url', self.getGameProperty(gameRow[util.GAME_url]))	
-		item.setProperty('region', self.getGameProperty(gameRow[util.GAME_region]))
-		item.setProperty('media', self.getGameProperty(gameRow[util.GAME_media]))				
-		item.setProperty('perspective', self.getGameProperty(gameRow[util.GAME_perspective]))
-		item.setProperty('controllertype', self.getGameProperty(gameRow[util.GAME_controllerType]))
-		item.setProperty('originaltitle', self.getGameProperty(gameRow[util.GAME_originalTitle]))
-		item.setProperty('alternatetitle', self.getGameProperty(gameRow[util.GAME_alternateTitle]))
-		item.setProperty('translatedby', self.getGameProperty(gameRow[util.GAME_translatedBy]))
-		item.setProperty('version', self.getGameProperty(gameRow[util.GAME_version]))
+		item.setProperty('maxplayers', helper.saveReadString(gameRow[util.GAME_maxPlayers]))
+		item.setProperty('rating', helper.saveReadString(gameRow[util.GAME_rating]))
+		item.setProperty('votes', helper.saveReadString(gameRow[util.GAME_numVotes]))
+		item.setProperty('url', helper.saveReadString(gameRow[util.GAME_url]))	
+		item.setProperty('region', helper.saveReadString(gameRow[util.GAME_region]))
+		item.setProperty('media', helper.saveReadString(gameRow[util.GAME_media]))				
+		item.setProperty('perspective', helper.saveReadString(gameRow[util.GAME_perspective]))
+		item.setProperty('controllertype', helper.saveReadString(gameRow[util.GAME_controllerType]))
+		item.setProperty('originaltitle', helper.saveReadString(gameRow[util.GAME_originalTitle]))
+		item.setProperty('alternatetitle', helper.saveReadString(gameRow[util.GAME_alternateTitle]))
+		item.setProperty('translatedby', helper.saveReadString(gameRow[util.GAME_translatedBy]))
+		item.setProperty('version', helper.saveReadString(gameRow[util.GAME_version]))
 		
-		item.setProperty('playcount', self.getGameProperty(gameRow[util.GAME_launchCount]))
+		item.setProperty('playcount', helper.saveReadString(gameRow[util.GAME_launchCount]))
 		
 		return item
 	
@@ -1657,19 +1635,19 @@ class UIGameDB(xbmcgui.WindowXML):
 			if(fileRows == None):
 				Logutil.log("fileRows == None in cacheItems", util.LOG_LEVEL_WARNING)
 				return
-			self.fileDict = self.cacheFiles(fileRows)
+			self.fileDict = helper.cacheFiles(fileRows)
 		
-		self.yearDict = self.cacheYears()
+		self.yearDict = helper.cacheYears(self.gdb)
 		
-		self.publisherDict = self.cachePublishers()
+		self.publisherDict = helper.cachePublishers(self.gdb)
 		
-		self.developerDict = self.cacheDevelopers()
+		self.developerDict = helper.cacheDevelopers(self.gdb)
 		
-		self.reviewerDict = self.cacheReviewers()
+		self.reviewerDict = helper.cacheReviewers(self.gdb)
 		
 		#0 = cacheAll: load all game data at once
 		if(self.cachingOption == 0):
-			self.genreDict = self.cacheGenres()
+			self.genreDict = helper.cacheGenres(self.gdb)
 		else:
 			self.genreDict = None
 		
@@ -1688,118 +1666,8 @@ class UIGameDB(xbmcgui.WindowXML):
 		
 		Logutil.log("End clearCache" , util.LOG_LEVEL_INFO)
 		
-
-	def cacheFiles(self, fileRows):
-		
-		Logutil.log("Begin cacheFiles" , util.LOG_LEVEL_DEBUG)
-		
-		fileDict = {}
-		for fileRow in fileRows:
-			key = '%i;%i' % (fileRow[util.FILE_parentId] , fileRow[util.FILE_fileTypeId])
-			item = None
-			try:
-				item = fileDict[key]
-			except:
-				pass
-			if(item == None):
-				fileRowList = []
-				fileRowList.append(fileRow)
-				fileDict[key] = fileRowList
-			else:				
-				fileRowList = fileDict[key]
-				fileRowList.append(fileRow)
-				fileDict[key] = fileRowList
-				
-		Logutil.log("End cacheFiles" , util.LOG_LEVEL_DEBUG)
-		return fileDict
-		
-		
-	def cacheYears(self):
-		Logutil.log("Begin cacheYears" , util.LOG_LEVEL_DEBUG)
-		yearRows = Year(self.gdb).getAll()
-		if(yearRows == None):
-			Logutil.log("yearRows == None in cacheYears", util.LOG_LEVEL_WARNING)
-			return
-		yearDict = {}
-		for yearRow in yearRows:
-			yearDict[yearRow[util.ROW_ID]] = yearRow
-			
-		Logutil.log("End cacheYears" , util.LOG_LEVEL_DEBUG)
-		return yearDict
-		
-		
-	def cacheReviewers(self):
-		Logutil.log("Begin cacheReviewers" , util.LOG_LEVEL_DEBUG)
-		reviewerRows = Reviewer(self.gdb).getAll()
-		if(reviewerRows == None):
-			Logutil.log("reviewerRows == None in cacheReviewers", util.LOG_LEVEL_WARNING)
-			return
-		reviewerDict = {}
-		for reviewerRow in reviewerRows:
-			reviewerDict[reviewerRow[util.ROW_ID]] = reviewerRow
-			
-		Logutil.log("End cacheReviewers" , util.LOG_LEVEL_DEBUG)
-		return reviewerDict
 		
 	
-	def cachePublishers(self):
-		Logutil.log("Begin cachePublishers" , util.LOG_LEVEL_DEBUG)
-		publisherRows = Publisher(self.gdb).getAll()
-		if(publisherRows == None):
-			Logutil.log("publisherRows == None in cachePublishers", util.LOG_LEVEL_WARNING)
-			return
-		publisherDict = {}
-		for publisherRow in publisherRows:
-			publisherDict[publisherRow[util.ROW_ID]] = publisherRow
-			
-		Logutil.log("End cachePublishers" , util.LOG_LEVEL_DEBUG)
-		return publisherDict
-		
-		
-	def cacheDevelopers(self):
-		Logutil.log("Begin cacheDevelopers" , util.LOG_LEVEL_DEBUG)
-		developerRows = Developer(self.gdb).getAll()
-		if(developerRows == None):
-			Logutil.log("developerRows == None in cacheDevelopers", util.LOG_LEVEL_WARNING)
-			return
-		developerDict = {}
-		for developerRow in developerRows:
-			developerDict[developerRow[util.ROW_ID]] = developerRow
-			
-		Logutil.log("End cacheDevelopers" , util.LOG_LEVEL_DEBUG)
-		return developerDict
-		
-	
-	def cacheGenres(self):
-		
-		Logutil.log("Begin cacheGenres" , util.LOG_LEVEL_DEBUG)
-				
-		genreGameRows = GenreGame(self.gdb).getAll()
-		if(genreGameRows == None):
-			Logutil.log("genreRows == None in cacheGenres", util.LOG_LEVEL_WARNING)
-			return
-		genreDict = {}
-		for genreGameRow in genreGameRows:
-			key = genreGameRow[util.GENREGAME_gameId]
-			item = None
-			try:
-				item = genreDict[key]
-				continue
-			except:
-				pass
-				
-			genreRows = Genre(self.gdb).getGenresByGameId(genreGameRow[util.GENREGAME_gameId])
-			for i in range(0, len(genreRows)):
-				if(i == 0):
-					genres = genreRows[i][util.ROW_NAME]	
-					genreDict[key] = genres
-				else:				
-					genres = genreDict[key]					
-					genres = genres + ', ' + genreRows[i][util.ROW_NAME]					
-					genreDict[key] = genres
-				
-		Logutil.log("End cacheGenres" , util.LOG_LEVEL_DEBUG)
-		return genreDict
 	
 	
 	def getControlById(self, controlId):
