@@ -551,14 +551,16 @@ def launchNonXbox(cmd, romCollection, precmd='', postcmd=''):
 	toggledScreenMode = False
 	
 	if (not romCollection.useEmuSolo):
-		screenMode = xbmc.executehttpapi("GetSystemInfoByName(system.screenmode)").replace("<li>","")
+		#screenMode = xbmc.executehttpapi("GetSystemInfoByName(system.screenmode)").replace("<li>","")
+		screenMode = xbmc.getInfoLabel("System.Screenmode")
 		Logutil.log("screenMode: " +screenMode, util.LOG_LEVEL_INFO)
 		isFullScreen = screenMode.endswith("Full Screen")
 		
 		if(isFullScreen):
 			Logutil.log("Toggle to Windowed mode", util.LOG_LEVEL_INFO)
 			#this minimizes xbmc some apps seems to need it
-			xbmc.executehttpapi("Action(199)")
+			#xbmc.executehttpapi("Action(199)")
+			xbmc.executeJSONRPC('{"jsonrpc": "2.0", "method":"Input.ExecuteAction", "params":{"Input.Action":"togglefullscreen"}}')
 			toggledScreenMode = True
 		
 	Logutil.log("launch emu", util.LOG_LEVEL_INFO)
@@ -584,7 +586,8 @@ def launchNonXbox(cmd, romCollection, precmd='', postcmd=''):
 	if(toggledScreenMode):
 		Logutil.log("Toggle to Full Screen mode", util.LOG_LEVEL_INFO)
 		#this brings xbmc back
-		xbmc.executehttpapi("Action(199)")
+		#xbmc.executehttpapi("Action(199)")
+		xbmc.executeJSONRPC('{"jsonrpc": "2.0", "method":"Input.ExecuteAction", "params":{"Input.Action":"togglefullscreen"}}')
 		
 
 def getTempDir():
