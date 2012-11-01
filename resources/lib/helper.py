@@ -226,7 +226,7 @@ def getPathTranslation(xbmcPath):
 	:param xbmcPath: Path given by the system.
 	:return the translated path.
 	
-	"""
+	"""	
 	if ("smb:" in xbmcPath):
 		Logutil.log("SMB Path Detected. \n original : " +xbmcPath +"\n converted:" + xbmcPath.replace("smb:",""), util.LOG_LEVEL_DEBUG)
 		return xbmcPath.replace("smb:","")

@@ -338,11 +338,9 @@ class Config:
 			romCollection.romPaths = []
 			romPathRows = romCollectionRow.findall('romPath')		
 			for romPathRow in romPathRows:
-				#RedKiller -> Fix for network files issue
-				romPathRow.text= helper.getPathTranslation(romPathRow.text)
-				Logutil.log('Rom path: ' +str(romPathRow.text), util.LOG_LEVEL_INFO)
+				Logutil.log('Rom path: ' +romPathRow.text, util.LOG_LEVEL_INFO)
 				if(romPathRow.text != None):
-						romCollection.romPaths.append(romPathRow.text)
+					romCollection.romPaths.append(romPathRow.text)
 				
 			#mediaPath
 			romCollection.mediaPaths = []
@@ -350,10 +348,9 @@ class Config:
 			
 			for mediaPathRow in mediaPathRows:
 				mediaPath = MediaPath()
-				if(mediaPathRow.text != None):
-				#RedKiller -> Fix for network files issue
-					mediaPath.path = helper.getPathTranslation(mediaPathRow.text)
-				Logutil.log('Media path: ' +str(mediaPathRow.text), util.LOG_LEVEL_INFO)
+				if(mediaPathRow.text != None):					
+					mediaPath.path = mediaPathRow.text
+				Logutil.log('Media path: ' +mediaPath.path, util.LOG_LEVEL_INFO)
 				fileType, errorMsg = self.readFileType(mediaPathRow.attrib.get('type'), tree)
 				if(fileType == None):
 					return None, errorMsg
