@@ -248,8 +248,8 @@ class Config:
 	missingFilterInfo = None
 	missingFilterArtwork = None
 	
-    tree = None
-		
+	tree = None
+	
 	
 	def readXml(self):
 		
