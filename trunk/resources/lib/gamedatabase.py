@@ -257,6 +257,8 @@ class Game(DataBaseObject):
 					
 	filterByNameAndRomCollectionId = "SELECT * FROM Game WHERE name = ? and romCollectionId = ?"
 	
+	filterMostPlayedGames = "Select * From Game Where launchCount > 0 Order by launchCount desc Limit "
+	
 	deleteQuery = "DELETE FROM Game WHERE id = ?"
 	
 	def __init__(self, gdb):
@@ -275,6 +277,14 @@ class Game(DataBaseObject):
 	def getGameByNameAndRomCollectionId(self, name, romCollectionId):
 		game = self.getObjectByQuery(self.filterByNameAndRomCollectionId, (name, romCollectionId))
 		return game
+		
+	def getMostPlayedGames(self, count):
+		if(str.isdigit(str(count))):
+			filter = self.filterMostPlayedGames +str(count)
+		else:
+			filter = self.filterMostPlayedGames +str(10)
+		games = self.getObjectsByQuery(filter, [])
+		return games
 		
 	def delete(self, gameId):
 		self.deleteObjectByQuery(self.deleteQuery, (gameId,))
