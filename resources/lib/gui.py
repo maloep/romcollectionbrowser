@@ -694,7 +694,8 @@ class UIGameDB(xbmcgui.WindowXML):
 				if(self.cachingOption == 0):
 					self.setAllItemData(item, gameRow, self.fileDict, romCollection)							
 								
-				self.addItem(item, False)
+				#self.addItem(item, False)
+				self.addItem(item)
 				
 				# add video to playlist for fullscreen support
 				self.loadVideoFiles(item, gameRow, imageGameList, imageGameListSelected, count, fileDict, romCollection)
@@ -1570,7 +1571,8 @@ class UIGameDB(xbmcgui.WindowXML):
 
 		#HACK: Dummy item because loading an empty list crashes XBMC
 		item = xbmcgui.ListItem('loading list...', '', '', '')
-		self.addItem(item, False)
+		#self.addItem(item, False)
+		self.addItem(item)
 
 		#reset view mode
 		viewModeId = self.Settings.getSetting(util.SETTING_RCB_VIEW_MODE)
