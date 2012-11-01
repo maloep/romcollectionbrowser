@@ -7,6 +7,141 @@ from util import *
 import config
 
 
+def cacheFiles(fileRows):
+		
+	Logutil.log("Begin cacheFiles" , util.LOG_LEVEL_DEBUG)
+	
+	fileDict = {}
+	for fileRow in fileRows:
+		key = '%i;%i' % (fileRow[util.FILE_parentId] , fileRow[util.FILE_fileTypeId])
+		item = None
+		try:
+			item = fileDict[key]
+		except:
+			pass
+		if(item == None):
+			fileRowList = []
+			fileRowList.append(fileRow)
+			fileDict[key] = fileRowList
+		else:				
+			fileRowList = fileDict[key]
+			fileRowList.append(fileRow)
+			fileDict[key] = fileRowList
+			
+	Logutil.log("End cacheFiles" , util.LOG_LEVEL_DEBUG)
+	return fileDict
+
+
+def cacheYears(gdb):
+	Logutil.log("Begin cacheYears" , util.LOG_LEVEL_DEBUG)
+	yearRows = Year(gdb).getAll()
+	if(yearRows == None):
+		Logutil.log("yearRows == None in cacheYears", util.LOG_LEVEL_WARNING)
+		return
+	yearDict = {}
+	for yearRow in yearRows:
+		yearDict[yearRow[util.ROW_ID]] = yearRow
+		
+	Logutil.log("End cacheYears" , util.LOG_LEVEL_DEBUG)
+	return yearDict
+	
+	
+def cacheReviewers(gdb):
+	Logutil.log("Begin cacheReviewers" , util.LOG_LEVEL_DEBUG)
+	reviewerRows = Reviewer(gdb).getAll()
+	if(reviewerRows == None):
+		Logutil.log("reviewerRows == None in cacheReviewers", util.LOG_LEVEL_WARNING)
+		return
+	reviewerDict = {}
+	for reviewerRow in reviewerRows:
+		reviewerDict[reviewerRow[util.ROW_ID]] = reviewerRow
+		
+	Logutil.log("End cacheReviewers" , util.LOG_LEVEL_DEBUG)
+	return reviewerDict
+	
+
+def cachePublishers(gdb):
+	Logutil.log("Begin cachePublishers" , util.LOG_LEVEL_DEBUG)
+	publisherRows = Publisher(gdb).getAll()
+	if(publisherRows == None):
+		Logutil.log("publisherRows == None in cachePublishers", util.LOG_LEVEL_WARNING)
+		return
+	publisherDict = {}
+	for publisherRow in publisherRows:
+		publisherDict[publisherRow[util.ROW_ID]] = publisherRow
+		
+	Logutil.log("End cachePublishers" , util.LOG_LEVEL_DEBUG)
+	return publisherDict
+	
+	
+def cacheDevelopers(gdb):
+	Logutil.log("Begin cacheDevelopers" , util.LOG_LEVEL_DEBUG)
+	developerRows = Developer(gdb).getAll()
+	if(developerRows == None):
+		Logutil.log("developerRows == None in cacheDevelopers", util.LOG_LEVEL_WARNING)
+		return
+	developerDict = {}
+	for developerRow in developerRows:
+		developerDict[developerRow[util.ROW_ID]] = developerRow
+		
+	Logutil.log("End cacheDevelopers" , util.LOG_LEVEL_DEBUG)
+	return developerDict
+	
+
+def cacheGenres(gdb):
+	
+	Logutil.log("Begin cacheGenres" , util.LOG_LEVEL_DEBUG)
+			
+	genreGameRows = GenreGame(gdb).getAll()
+	if(genreGameRows == None):
+		Logutil.log("genreRows == None in cacheGenres", util.LOG_LEVEL_WARNING)
+		return
+	genreDict = {}
+	for genreGameRow in genreGameRows:
+		key = genreGameRow[util.GENREGAME_gameId]
+		item = None
+		try:
+			item = genreDict[key]
+			continue
+		except:
+			pass
+			
+		genreRows = Genre(gdb).getGenresByGameId(genreGameRow[util.GENREGAME_gameId])
+		for i in range(0, len(genreRows)):
+			if(i == 0):
+				genres = genreRows[i][util.ROW_NAME]	
+				genreDict[key] = genres
+			else:				
+				genres = genreDict[key]					
+				genres = genres + ', ' + genreRows[i][util.ROW_NAME]					
+				genreDict[key] = genres
+			
+	Logutil.log("End cacheGenres" , util.LOG_LEVEL_DEBUG)
+	return genreDict
+
+
+def saveReadString(property):
+						
+		try:
+			result = str(property)
+		except:
+			result = ""
+			
+		return result
+
+
+def getPropertyFromCache(dataRow, dict, key, index):
+		
+	result = ""
+	try:
+		itemRow = dict[dataRow[key]]
+		result = itemRow[index]
+	except:
+		pass
+		
+	return result
+
+
 def getFilesByControl_Cached(gdb, fileTypes, gameId, publisherId, developerId, romCollectionId, fileDict):
 					
 	Logutil.log("getFilesByControl gameId: " +str(gameId), util.LOG_LEVEL_DEBUG)
