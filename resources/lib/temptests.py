@@ -160,6 +160,7 @@ myConfig = Config()
 statusOk, errorMsg = myConfig.readXml()
 """
 
+"""
 
 diskPrefix = 'Disk.*'
 file = 'Alone in the Dark - The New Nightmare_Disk1.img'
@@ -169,7 +170,7 @@ print match
 if(match):
 	disk = file[match.start():match.end()]
 	print disk
-
+"""
 
 """
 dirname = os.path.dirname('E:\\Games\\Testsets\\Import\\multidisc\\PS1\\artwork\\boxfront\\test.img')
@@ -180,3 +181,8 @@ parent = os.path.dirname(dirname)
 print parent
 
 """
+
+
+count = ""
+
+print str.isdigit(str(count)) 
