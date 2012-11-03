@@ -1,3 +1,21 @@
+1.0.6 (11/2012)
+~~~~~~~~~~~~~
+Import Games:
+  * support for roms and artwork on smb shares
+  * update archive.vg scraper in config.xml
+  * bug: "Rom File Mask" changes after rescraping a single game
+  * create artwork parent folder if not present
+
+Browse Games:
+  * Frodo support: games were not shown in Frodo nightlies (changes in addItem method)
+  * provide properties of most played games for skins to show on home screen
+
+Launch Games:
+  * Frodo support: replace method executehttpapi with executejsonrpc
+  * add option to leave disc selector without launching a game
+  * bug: disc selector not working with games that have no description
+
+
 1.0.5 (07/2012)
 ~~~~~~~~~~~~~
 Import Games:
