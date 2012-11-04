@@ -4,33 +4,19 @@ This TODO list / roadmap is a working document. It will change quite frequently 
 
 
 = next release =
-
-== General ==
-  * a feature request: some properties for home window so we can add a random/latest ROMs widget to our home screen
-	Example:
-	runscript(script.romcollectionbrowser,limit=10)
-
-	script sollte dann die properties
-
-	window(home).LatestROM.1.Title
-	window(home).LatestROM.1.Thumb
-	window(home).LatestROM.1.Platform
-	window(home).LatestROM.1.Genre
-	etc
-	.
-	.
-	window(home).LatestROM.2.Title
-
 == Import games ==
+  * support for roms and artwork on smb shares - Done
   * Update archive.vg scraper in config.xml - Done
   * bug: "Rom File Mask" changes after rescraping a single game - Done
   * create artwork parent folder if not present - Done
+
+== Brows games ==
+  * Frodo support: games were not shown in Frodo nightlies - Done
+  * a feature request: some properties for home window so we can add a random/latest ROMs widget to our home screen - Done
   
 == Launch games ==
   * add option to leave disc selector without launching a game - Done
   * Disc selector not working with games that have no description - Done
-  * The other problem is, that every disc shows up as _disk in the selector.
-  * use Popen for pre and post launch commands
  
   
   
@@ -59,6 +45,8 @@ This TODO list / roadmap is a working document. It will change quite frequently 
   * I noticed a strange thing with the "Export game database (nfo files)" function. Some of the nfo files exported don't have the Plot information even for the games that display it correctly in RCB.
 
 == Launch games ==
+  * The other problem is, that every disc shows up as _disk in the selector.
+  * use Popen for pre and post launch commands
   * pylzma for python 2.6 (http://pypi.python.org/pypi/pylzma/)
   * http://forum.xbmc.org/showthread.php?tid=134913
   * copy solo mode scripts to userdata folder
