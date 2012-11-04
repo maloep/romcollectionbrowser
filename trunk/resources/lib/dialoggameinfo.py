@@ -147,7 +147,7 @@ class UIGameInfoView(xbmcgui.WindowXMLDialog):
 			video = videos[0]
 			item.setProperty('gameplayinfo', video)
 		
-		self.addItem(item, False)
+		self.addItem(item)
 				
 		xbmc.executebuiltin("Container.SortDirection")
 		self.writeMsg("")

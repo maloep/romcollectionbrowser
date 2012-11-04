@@ -423,6 +423,10 @@ class UIGameDB(xbmcgui.WindowXML):
 				self.showGames()
 			
 			del missingInfoDialog
+			
+		elif controlId == CONTROL_BUTTON_CHANGE_VIEW:
+			#need to change viewmode manually since Frodo			
+			xbmc.executebuiltin('Container.NextViewMode')			
 
 	def onFocus(self, controlId):
 		Logutil.log("onFocus: " + str(controlId), util.LOG_LEVEL_DEBUG)
