@@ -35,7 +35,7 @@ def launchEmu(gdb, gui, gameId, config, settings):
 	Logutil.log("files for current game: " +str(filenameRows), util.LOG_LEVEL_INFO)
 	
 	escapeCmd = settings.getSetting(util.SETTING_RCB_ESCAPECOMMAND).upper() == 'TRUE'
-	cmd, precmd, postcmd = buildCmd(filenameRows, romCollection, gameRow, escapeCmd)
+	cmd, precmd, postcmd = buildCmd(filenameRows, romCollection, gameRow, escapeCmd, False)
 	if(cmd == ''):
 		Logutil.log('No cmd created. Game will not be launched.', util.LOG_LEVEL_INFO)
 		return
@@ -101,13 +101,12 @@ def launchEmu(gdb, gui, gameId, config, settings):
 ##################
 		
 		
-def buildCmd(filenameRows, romCollection, gameRow, escapeCmd):		
+def buildCmd(filenameRows, romCollection, gameRow, escapeCmd, calledFromSkin):		
 	Logutil.log('launcher.buildCmd', util.LOG_LEVEL_INFO)
 		
 	compressedExtensions = ['7z', 'zip']
 	
-	#RedKiller -> Fix for network files issue
-	emuCommandLine = helper.getPathTranslation(romCollection.emulatorCmd)	
+	emuCommandLine = romCollection.emulatorCmd
 	Logutil.log('emuCommandLine: ' +emuCommandLine, util.LOG_LEVEL_INFO)
 	Logutil.log('preCmdLine: ' +romCollection.preCmd, util.LOG_LEVEL_INFO)
 	Logutil.log('postCmdLine: ' +romCollection.postCmd, util.LOG_LEVEL_INFO)
@@ -140,7 +139,7 @@ def buildCmd(filenameRows, romCollection, gameRow, escapeCmd):
 			if(match):
 				disk = gamename[match.start():match.end()]
 				options.append(disk)
-		if(len(options) > 1):
+		if(len(options) > 1 and not calledFromSkin):
 			diskNum = xbmcgui.Dialog().select('Please choose disc:', options)
 			if(diskNum < 0):
 				#don't launch game
@@ -165,10 +164,10 @@ def buildCmd(filenameRows, romCollection, gameRow, escapeCmd):
 		Logutil.log('rom: ' +str(rom), util.LOG_LEVEL_INFO)
 
 		# If it's a .7z file
-		# Don't extract zip files in case of savestate handling
+		# Don't extract zip files in case of savestate handling and when called From skin
 		filext = rom.split('.')[-1]
 		roms = [rom]
-		if filext in compressedExtensions and not romCollection.doNotExtractZipFiles and stateFile == '':
+		if filext in compressedExtensions and not romCollection.doNotExtractZipFiles and stateFile == '' and not calledFromSkin:
 			roms = handleCompressedFile(filext, rom, romCollection, emuParams)
 			if len(roms) == 0:
 				return "", "", ""
