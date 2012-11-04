@@ -1,3 +1,12 @@
+1.0.8 (11/2012)
+~~~~~~~~~~~~~
+General:
+  * bugfix: script did not launch from home screen
+
+Browse Games:
+  * Frodo support: info dialog did not work anymore
+  * Frodo support: change viewmode needs to be called manually since Frodo
+
 1.0.7 (11/2012)
 ~~~~~~~~~~~~~
 Browse Games:
@@ -8,7 +17,7 @@ Browse Games:
 Import Games:
   * import of roms and artwork on smb shares (shares with username and password in path are not supported)
   * update archive.vg scraper to v2.0
-  * bug: "Rom File Mask" changes after rescraping a single game
+  * bugfix: "Rom File Mask" changes after rescraping a single game
   * create artwork parent folder if not present
 
 Browse Games:
@@ -18,7 +27,7 @@ Browse Games:
 Launch Games:
   * Frodo support: replace method executehttpapi with executejsonrpc
   * add option to exit disc selector without launching a game
-  * bug: disc selector not working with games that have no description
+  * bugfix: disc selector not working with games that have no description
 
 
 1.0.5 (07/2012)
@@ -43,8 +52,8 @@ General:
   * open Addon settings from context menu
 
 Import Games:
-  * bug: error with publisher / developer "989"
-  * bug: Import games with () in name with local single file scraper
+  * bugfix: error with publisher / developer "989"
+  * bugfix: Import games with () in name with local single file scraper
   * change default values of "Don't import games without info / artwork"
   * re-scrape options:
     * rescrape single game
