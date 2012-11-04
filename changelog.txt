@@ -1,8 +1,13 @@
+1.0.7 (11/2012)
+~~~~~~~~~~~~~
+Browse Games:
+  * add fanart and launchCommand for skins to show on home screen
+
 1.0.6 (11/2012)
 ~~~~~~~~~~~~~
 Import Games:
-  * support for roms and artwork on smb shares
-  * update archive.vg scraper in config.xml
+  * import of roms and artwork on smb shares (shares with username and password in path are not supported)
+  * update archive.vg scraper to v2.0
   * bug: "Rom File Mask" changes after rescraping a single game
   * create artwork parent folder if not present
 
@@ -12,7 +17,7 @@ Browse Games:
 
 Launch Games:
   * Frodo support: replace method executehttpapi with executejsonrpc
-  * add option to leave disc selector without launching a game
+  * add option to exit disc selector without launching a game
   * bug: disc selector not working with games that have no description
 
 
