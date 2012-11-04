@@ -1,4 +1,4 @@
-# Copyright (C) 2011 Malte Loepmann (maloep@googlemail.com)
+# Copyright (C) 2012 Malte Loepmann (maloep@googlemail.com)
 #
 # This program is free software; you can redistribute it and/or modify it under the terms 
 # of the GNU General Public License as published by the Free Software Foundation; 
@@ -84,6 +84,8 @@ for arg in sys.argv:
 		config = Config()
 		statusOk, errorMsg = config.readXml()
 		
+		settings = util.getSettings()
+		
 		import xbmcgui
 		count = 0
 		for gameRow in games:
@@ -97,9 +99,15 @@ for arg in sys.argv:
 				fileDict = helper.cacheFiles(files)
 				files = helper.getFilesByControl_Cached(gdb, romCollection.imagePlacingMain.fileTypesForGameList, gameRow[util.ROW_ID], gameRow[util.GAME_publisherId], gameRow[util.GAME_developerId], gameRow[util.GAME_romCollectionId], fileDict)		
 				if(files != None and len(files) != 0):
-					file = files[0]
+					thumb = files[0]
 				else:
-					file = ""
+					thumb = ""
+					
+				files = helper.getFilesByControl_Cached(gdb, romCollection.imagePlacingMain.fileTypesForMainViewBackground, gameRow[util.ROW_ID], gameRow[util.GAME_publisherId], gameRow[util.GAME_developerId], gameRow[util.GAME_romCollectionId], fileDict)		
+				if(files != None and len(files) != 0):
+					fanart = files[0]
+				else:
+					fanart = ""
 				
 				description = gameRow[util.GAME_description]
 				if(description == None):
@@ -124,9 +132,32 @@ for arg in sys.argv:
 				version = helper.saveReadString(gameRow[util.GAME_version])
 				playcount = helper.saveReadString(gameRow[util.GAME_launchCount])
 				
+				
+				#get launch command
+				filenameRows = File(gdb).getRomsByGameId(gameRow[util.ROW_ID])
+				
+				env = ( os.environ.get( "OS", "win32" ), "win32", )[ os.environ.get( "OS", "win32" ) == "xbox" ]
+				import launcher
+				cmd, precmd, postcmd = launcher.buildCmd(filenameRows, romCollection, gameRow, False, True)
+				
+				if (romCollection.useEmuSolo):
+					settings.setSetting(util.SETTING_RCB_LAUNCHONSTARTUP, 'true')
+					
+					#invoke batch file that kills xbmc before launching the emulator							
+					if(env == "win32"):
+						#There is a problem with quotes passed as argument to windows command shell. This only works with "call"
+						cmd = 'call \"' +os.path.join(util.RCBHOME, 'applaunch.bat') +'\" ' +cmd						
+					else:
+						cmd = os.path.join(re.escape(util.RCBHOME), 'applaunch.sh ') +cmd
+				else:
+					#use call to support paths with whitespaces
+					if(env == "win32" and not (os.environ.get( "OS", "xbox" ) == "xbox")):
+						cmd = 'call ' +cmd
+				
 				xbmcgui.Window(10000).setProperty("MostPlayedROM.%d.Console" %count, romCollection.name)
 				xbmcgui.Window(10000).setProperty("MostPlayedROM.%d.Title" %count, gameRow[util.ROW_NAME])
-				xbmcgui.Window(10000).setProperty("MostPlayedROM.%d.Thumb" %count, file)
+				xbmcgui.Window(10000).setProperty("MostPlayedROM.%d.Thumb" %count, thumb)
+				xbmcgui.Window(10000).setProperty("MostPlayedROM.%d.Fanart" %count, fanart)
 				xbmcgui.Window(10000).setProperty("MostPlayedROM.%d.Plot" %count, description)
 				xbmcgui.Window(10000).setProperty("MostPlayedROM.%d.Year" %count, year)
 				xbmcgui.Window(10000).setProperty("MostPlayedROM.%d.Publisher" %count, publisher)
@@ -146,6 +177,8 @@ for arg in sys.argv:
 				xbmcgui.Window(10000).setProperty("MostPlayedROM.%d.Alternatetitle" %count, alternatetitle)
 				xbmcgui.Window(10000).setProperty("MostPlayedROM.%d.Translatedby" %count, translatedby)
 				xbmcgui.Window(10000).setProperty("MostPlayedROM.%d.Version" %count, version)				
+				
+				xbmcgui.Window(10000).setProperty("MostPlayedROM.%d.LaunchCommand" %count, cmd)
 								
 			except Exception, (exc):
 				print 'RCB: Error while getting most played games: ' +str(exc)
