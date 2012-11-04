@@ -57,7 +57,7 @@ print 'sys.argv = ' +str(sys.argv)
 for arg in sys.argv:
 	param = str(arg)
 	print 'param = ' +param
-	if param == '':
+	if param == '' or param == 'script.games.rom.collection.browser':
 		# Start the main gui
 		if __name__ == "__main__":
 			import gui
