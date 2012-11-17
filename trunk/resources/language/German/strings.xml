@@ -1,6 +1,16 @@
 ﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <strings>
-    <string id="30000">Fehler: Datenbank kann nicht geöffnet werden.</string>
-	<string id="30001">Konfigurationsdatei config.xml ist nicht vorhanden.</string>
-	<string id="30002">Jetzt neu erstellen?</string>
+    <!-- Error messages -->
+	<string id="30000">Fehler: Datenbank kann nicht geöffnet werden.</string>
+	
+	<!-- Hints / questions -->
+	<string id="40000">Konfigurationsdatei config.xml ist nicht vorhanden.</string>
+	<string id="40001">Jetzt neu erstellen?</string>
+	
+	<!-- GUI controls (need to be moved to skins strings.xml file) -->
+	<string id="50000">Jahr:</string>
+	<string id="50001">Genre:</string>
+	<string id="50002">Publisher:</string>
+	<string id="50003">Entwickler:</string>
+	
 </strings>

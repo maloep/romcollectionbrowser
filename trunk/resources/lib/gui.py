@@ -169,7 +169,7 @@ class UIGameDB(xbmcgui.WindowXML):
 		configFile = util.getConfigXmlPath()
 		if(not os.path.isfile(configFile)):
 			dialog = xbmcgui.Dialog()
-			retValue = dialog.yesno(util.SCRIPTNAME, util.localize(30001), util.localize(30002))
+			retValue = dialog.yesno(util.SCRIPTNAME, util.localize(40000), util.localize(40001))
 			if(retValue == False):
 				self.quit = True
 				return
