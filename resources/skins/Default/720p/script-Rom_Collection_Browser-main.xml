@@ -348,7 +348,7 @@
 						<posy>25</posy>
 						<width>140</width>
 						<height>25</height>
-						<label>Year:</label>
+						<label>$LOCALIZE[50000]</label>
 						<align>left</align>
 						<aligny>center</aligny>
 						<font>font13_title</font>
@@ -374,7 +374,7 @@
 						<posy>55</posy>
 						<width>140</width>
 						<height>25</height>
-						<label>Genre:</label>
+						<label>$LOCALIZE[50001]</label>
 						<align>left</align>
 						<aligny>center</aligny>
 						<font>font13_title</font>
@@ -400,7 +400,7 @@
 						<posy>85</posy>
 						<width>140</width>
 						<height>25</height>
-						<label>Publisher:</label>
+						<label>$LOCALIZE[50002]</label>
 						<align>left</align>
 						<aligny>center</aligny>
 						<font>font13_title</font>
@@ -426,7 +426,7 @@
 						<posy>115</posy>
 						<width>140</width>
 						<height>25</height>
-						<label>Developer:</label>
+						<label>$LOCALIZE[50003]</label>
 						<align>left</align>
 						<aligny>center</aligny>
 						<font>font13_title</font>
