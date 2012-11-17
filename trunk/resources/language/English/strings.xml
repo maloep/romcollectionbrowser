@@ -1,4 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <strings>
-    <string id="100000">Game DB</string>	
+	<!-- Error messages -->
+    <string id="30000">Error: Can not access database.</string>
+	<string id="30001">No config file found.</string>
+	<string id="30002">Do you want to create one?</string>
 </strings>
