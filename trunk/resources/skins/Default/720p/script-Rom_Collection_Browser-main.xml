@@ -346,9 +346,9 @@
 						<description>Year txt</description>
 						<posx>610r</posx>
 						<posy>25</posy>
-						<width>140</width>
+						<width>160</width>
 						<height>25</height>
-						<label>$LOCALIZE[50000]</label>
+						<label>$ADDON[script.games.rom.collection.browser 50000]:</label>
 						<align>left</align>
 						<aligny>center</aligny>
 						<font>font13_title</font>
@@ -372,9 +372,9 @@
 						<description>Genre txt</description>
 						<posx>610r</posx>
 						<posy>55</posy>
-						<width>140</width>
+						<width>160</width>
 						<height>25</height>
-						<label>$LOCALIZE[50001]</label>
+						<label>$ADDON[script.games.rom.collection.browser 50001]:</label>
 						<align>left</align>
 						<aligny>center</aligny>
 						<font>font13_title</font>
@@ -386,7 +386,7 @@
 						<posy>55</posy>
 						<width>370</width>
 						<height>25</height>
-						<label fallback="416">$INFO[ListItem.Property(genre)]</label>
+						<label fallback="416">$INFO[ListItem.Property(genre)]:</label>
 						<align>left</align>
 						<aligny>center</aligny>
 						<font>font13</font>
@@ -398,9 +398,9 @@
 						<description>Publisher txt</description>
 						<posx>610r</posx>
 						<posy>85</posy>
-						<width>140</width>
+						<width>160</width>
 						<height>25</height>
-						<label>$LOCALIZE[50002]</label>
+						<label>$ADDON[script.games.rom.collection.browser 50002]:</label>
 						<align>left</align>
 						<aligny>center</aligny>
 						<font>font13_title</font>
@@ -424,9 +424,9 @@
 						<description>Developer txt</description>
 						<posx>610r</posx>
 						<posy>115</posy>
-						<width>140</width>
+						<width>160</width>
 						<height>25</height>
-						<label>$LOCALIZE[50003]</label>
+						<label>$ADDON[script.games.rom.collection.browser 50003]:</label>
 						<align>left</align>
 						<aligny>center</aligny>
 						<font>font13_title</font>
