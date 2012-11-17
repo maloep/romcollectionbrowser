@@ -149,7 +149,7 @@ class UIGameDB(xbmcgui.WindowXML):
 			self.gdb = GameDataBase(util.getAddonDataPath())
 			self.gdb.connect()
 		except Exception, (exc):
-			xbmcgui.Dialog().ok(util.SCRIPTNAME, 'Error accessing database', str(exc))
+			xbmcgui.Dialog().ok(util.SCRIPTNAME, util.localize(30000), str(exc))
 			Logutil.log('Error accessing database: ' +str(exc), util.LOG_LEVEL_ERROR)
 			self.quit = True
 			return
@@ -169,7 +169,7 @@ class UIGameDB(xbmcgui.WindowXML):
 		configFile = util.getConfigXmlPath()
 		if(not os.path.isfile(configFile)):
 			dialog = xbmcgui.Dialog()
-			retValue = dialog.yesno(util.SCRIPTNAME, 'No config file found.', 'Do you want to create one?')
+			retValue = dialog.yesno(util.SCRIPTNAME, util.localize(30001), util.localize(30002))
 			if(retValue == False):
 				self.quit = True
 				return

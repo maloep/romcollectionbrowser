@@ -1,4 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <strings>
-    <string id="100000">Game DB</string>	
+    <string id="30000">Fehler: Datenbank kann nicht geöffnet werden.</string>
+	<string id="30001">Konfigurationsdatei config.xml ist nicht vorhanden.</string>
+	<string id="30002">Jetzt neu erstellen?</string>
 </strings>

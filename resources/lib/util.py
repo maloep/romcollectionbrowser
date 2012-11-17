@@ -7,7 +7,7 @@ import time
 
 
 #
-# CONSTANTS #
+# CONSTANTS AND GLOBALS #
 #
 
 SCRIPTNAME = 'Rom Collection Browser'
@@ -15,6 +15,10 @@ SCRIPTID = 'script.games.rom.collection.browser'
 CURRENT_CONFIG_VERSION = "1.0.6"
 CURRENT_DB_VERSION = "0.7.4"
 ISTESTRUN = False
+
+__addon__ = xbmcaddon.Addon(id='%s' %SCRIPTID)
+__language__ = __addon__.getLocalizedString
+
 
 #time to wait before automatic playback starts
 WAITTIME_PLAYERSTART = 500
@@ -214,7 +218,12 @@ def html_escape(text):
 
 def getEnvironment():
 	return ( os.environ.get( "OS", "win32" ), "win32", )[ os.environ.get( "OS", "win32" ) == "xbox" ]
-	
+
+def localize(id):
+	try:
+		return __language__(id)
+	except:
+		return "Sorry. No translation available for string with id: " +str(id)
 
 def getAddonDataPath():
 	path = ''
@@ -231,9 +240,8 @@ def getAddonDataPath():
 
 def getAddonInstallPath():
 	path = ''
-			
-	addon = xbmcaddon.Addon(id='%s' %SCRIPTID)
-	path = addon.getAddonInfo('path')
+				
+	path = __addon__.getAddonInfo('path')
 	
 	return path
 			
