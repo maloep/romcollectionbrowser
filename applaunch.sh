@@ -1,5 +1,5 @@
 #!/bin/bash
-# App Launch script - Quit XBMC to launch another program
+# App Launch script - Temporarily quit XBMC to launch another program
 # Tx to rodalpho @ # http://xbmc.org/forum/showthread.php?t=34635
 # By Redsandro 	2008-07-07
 # By ryosaeba87	2010-08-24
