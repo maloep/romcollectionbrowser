@@ -2,9 +2,8 @@
 # App Launch script - Quit XBMC to launch another program
 # Thanks to rodalpho @ # http://xbmc.org/forum/showthread.php?t=34635
 # By Redsandro 	2008-07-07
-# By ryosaeba87	2010-08-24
-# Updated:		2010-08-24
-# 	Added support for MacOSX
+# By ryosaeba87	2010-08-24 (Added support for MacOSX)
+# 
 
 
 # Check for agruments
