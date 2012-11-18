@@ -7,10 +7,17 @@
 	<string id="40000">Konfigurationsdatei config.xml ist nicht vorhanden.</string>
 	<string id="40001">Jetzt neu erstellen?</string>
 	
-	<!-- GUI controls (need to be moved to skins strings.xml file) -->
+	<!-- GUI controls -->
 	<string id="50000">Jahr</string>
 	<string id="50001">Genre</string>
 	<string id="50002">Herausgeber</string>
 	<string id="50003">Entwickler</string>
-	
+	<string id="50004">Favoriten</string>
+	<string id="50005">Suche</string>
+	<string id="50006">Konsole</string>
+	<string id="50007">A-Z</string>
+	<string id="50008">Ansicht</string>
+	<string id="50009">Fehlende Infos filtern</string>
+	<string id="50010">Einträge</string>
+	<string id="50011">Seite</string>
 </strings>
