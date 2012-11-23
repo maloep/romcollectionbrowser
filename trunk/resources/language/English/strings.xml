@@ -8,6 +8,7 @@
 	<string id="40001">Do you want to create one?</string>
 	
 	<!-- GUI controls -->
+	<!-- RCB main -->
 	<string id="50000">Year</string>	
 	<string id="50001">Genre</string>
 	<string id="50002">Publisher</string>
@@ -20,4 +21,20 @@
 	<string id="50009">Filter missing infos</string>
 	<string id="50010">Items</string>
 	<string id="50011">Page</string>
+	
+	<!-- RCB context menu-->
+	<string id="51000">Import Games</string>
+	<string id="51001">Rescrape selected Game</string>
+	<string id="51002">Rescrape Selection</string>
+	<string id="51003">Add Rom Collection</string>
+	<string id="51004">Edit Rom Collection</string>
+	<string id="51005">Edit Offline Scrapers</string>
+	<string id="51006">Edit Game Command</string>
+	<string id="51007">Add Game To Favorites</string>
+	<string id="51008">Add Selection To Favorites</string>
+	<string id="51009">Export game database (nfo files)</string>
+	<string id="51010">Delete Game</string>
+	<string id="51011">Delete Rom Collection</string>
+	<string id="51012">Clean Database</string>
+	<string id="51013">Open Addon Settings</string>
 </strings>
