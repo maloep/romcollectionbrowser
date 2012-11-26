@@ -1,5 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <strings>
+	<string id="100000">Rom Collection Browser</string>
+
 	<!-- Error messages -->
     <string id="30000">Error: Can not access database.</string>
 	
@@ -37,4 +39,7 @@
 	<string id="51011">Delete Rom Collection</string>
 	<string id="51012">Clean Database</string>
 	<string id="51013">Open Addon Settings</string>
+	
+	<!-- RCB editromcollection -->
+	<string id="52000">Configuration</string>
 </strings>
