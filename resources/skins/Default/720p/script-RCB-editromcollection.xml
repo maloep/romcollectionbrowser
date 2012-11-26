@@ -34,7 +34,7 @@
 			<textcolor>FFFFFFFF</textcolor>
 			<align>left</align>
 			<aligny>center</aligny>
-			<label>Rom Collection Browser - Configuration</label>
+			<label>$ADDON[script.games.rom.collection.browser 100000] - $ADDON[script.games.rom.collection.browser 52000]</label>
 		</control>
 		<control type="button" id="5101">
 			<description>Close Window button</description>
