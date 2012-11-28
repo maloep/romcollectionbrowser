@@ -42,4 +42,40 @@
 	
 	<!-- RCB editromcollection -->
 	<string id="52000">Configuration</string>
+	<string id="52001">Rom Collection</string>	
+	<string id="52002">Import Games</string>
+	<string id="52003">Import Game Data</string>
+	<string id="52004">Browse Games</string>
+	<string id="52005">Launch Games</string>
+	<string id="52006">Rom Path</string>
+	<string id="52007">Rom File Mask</string>
+	<string id="52008">Ignore On Scan</string>
+	<string id="52009">Allow Update</string>
+	<string id="52010">Max Folder Depth</string>
+	<string id="52011">Disk Indicator</string>
+	<string id="52012">Use Foldername As Gamename</string>
+	<string id="52013">Scraper 1</string>
+	<string id="52014">Scraper 2</string>
+	<string id="52015">Scraper 3</string>
+	<string id="52016">Media Type</string>
+	<string id="52017">Media Path</string>
+	<string id="52018">Media File Mask</string>
+	<string id="52019">Remove Media Path</string>
+	<string id="52020">Add Media Path</string>
+	<string id="52021">Images (Main window)</string>
+	<string id="52022">Images (Info window)</string>
+	<string id="52023">Autoplay Video (Main Window)</string>
+	<string id="52024">Emulator Cmd</string>
+	<string id="52025">Emulator Params</string>
+	<string id="52026">Use Emulator In Solo Mode</string>
+	<string id="52027">Use Popen To Launch Emulator</string>
+	<string id="52028">Do Not Extract Zip Files</string>
+	<string id="52029">Savestate path</string>
+	<string id="52030">Savestate File Mask</string>
+	<string id="52031">Savestate Params</string>
+	<string id="52032">Pre-Launch Cmd</string>
+	<string id="52033">Post-Launch Cmd</string>
+	
+	<string id="52034">Save Config</string>
+	<string id="52035">Cancel</string>
 </strings>
