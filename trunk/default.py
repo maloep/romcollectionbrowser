@@ -54,16 +54,18 @@ sys.path.append( os.path.join( BASE_RESOURCE_PATH, "platform_libraries", env ) )
 
 
 print 'sys.argv = ' +str(sys.argv)
+launchRCB = False
 for arg in sys.argv:
 	param = str(arg)
 	print 'param = ' +param
 	if param == '' or param == 'script.games.rom.collection.browser':
-		# Start the main gui
-		if __name__ == "__main__":
-			import gui
+		print 'setting launchRCB = True'
+		launchRCB = True
 			
 	#provide data that skins can show on home screen
-	elif 'limit=' in param:
+	if 'limit=' in param:
+		print 'setting launchRCB = False'
+		launchRCB = False
 		
 		import util, helper
 		from gamedatabase import *
@@ -140,6 +142,8 @@ for arg in sys.argv:
 				import launcher
 				cmd, precmd, postcmd = launcher.buildCmd(filenameRows, romCollection, gameRow, False, True)
 				
+				#solo mode does not work when invoked from widget
+				"""
 				if (romCollection.useEmuSolo):
 					settings.setSetting(util.SETTING_RCB_LAUNCHONSTARTUP, 'true')
 					
@@ -150,9 +154,10 @@ for arg in sys.argv:
 					else:
 						cmd = os.path.join(re.escape(util.RCBHOME), 'applaunch.sh ') +cmd
 				else:
-					#use call to support paths with whitespaces
-					if(env == "win32" and not (os.environ.get( "OS", "xbox" ) == "xbox")):
-						cmd = 'call ' +cmd
+				"""
+				#use call to support paths with whitespaces
+				if(env == "win32" and not (os.environ.get( "OS", "xbox" ) == "xbox")):
+					cmd = 'call ' +cmd
 				
 				xbmcgui.Window(10000).setProperty("MostPlayedROM.%d.Console" %count, romCollection.name)
 				xbmcgui.Window(10000).setProperty("MostPlayedROM.%d.Title" %count, gameRow[util.ROW_NAME])
@@ -184,6 +189,11 @@ for arg in sys.argv:
 				print 'RCB: Error while getting most played games: ' +str(exc)
 		
 		gdb.close()
-	
+
+
+# Start the main gui
+print 'launchRCB = ' +str(launchRCB)
+if launchRCB:
+	import gui	
 	
 		
