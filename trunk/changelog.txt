@@ -1,3 +1,8 @@
+1.0.9 (11/2012)
+~~~~~~~~~~~~~
+Browse Games:
+  * bugfix: MostPlayedRoms-widget in Aeon Nox caused RCB-loop on startup
+
 1.0.8 (11/2012)
 ~~~~~~~~~~~~~
 General:
