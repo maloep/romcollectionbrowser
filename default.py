@@ -156,8 +156,8 @@ for arg in sys.argv:
 				else:
 				"""
 				#use call to support paths with whitespaces
-				if(env == "win32" and not (os.environ.get( "OS", "xbox" ) == "xbox")):
-					cmd = 'call ' +cmd
+				#if(env == "win32" and not (os.environ.get( "OS", "xbox" ) == "xbox")):
+				#	cmd = 'call ' +cmd
 				
 				xbmcgui.Window(10000).setProperty("MostPlayedROM.%d.Console" %count, romCollection.name)
 				xbmcgui.Window(10000).setProperty("MostPlayedROM.%d.Title" %count, gameRow[util.ROW_NAME])
