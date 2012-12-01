@@ -1,16 +1,16 @@
 ﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <strings>
-	<string id="100000">Rom Collection Browser</string>
+	<string id="30000">Rom Collection Browser</string>
 
 	<!-- Error messages -->
-    <string id="30000">Error: Can not access database.</string>
+    <string id="35000">Error: Can not access database.</string>
 	
 	<!-- Hints / questions -->
 	<string id="40000">No config file found.</string>
 	<string id="40001">Do you want to create one?</string>
 	
 	<!-- GUI controls -->
-	<!-- RCB main -->
+	<!-- main window -->
 	<string id="50000">Year</string>	
 	<string id="50001">Genre</string>
 	<string id="50002">Publisher</string>
@@ -24,7 +24,7 @@
 	<string id="50010">Items</string>
 	<string id="50011">Page</string>
 	
-	<!-- RCB context menu-->
+	<!-- context menu-->
 	<string id="51000">Import Games</string>
 	<string id="51001">Rescrape selected Game</string>
 	<string id="51002">Rescrape Selection</string>
@@ -40,7 +40,7 @@
 	<string id="51012">Clean Database</string>
 	<string id="51013">Open Addon Settings</string>
 	
-	<!-- RCB editromcollection -->
+	<!-- editromcollection -->
 	<string id="52000">Configuration</string>
 	<string id="52001">Rom Collection</string>	
 	<string id="52002">Import Games</string>
@@ -75,7 +75,52 @@
 	<string id="52031">Savestate Params</string>
 	<string id="52032">Pre-Launch Cmd</string>
 	<string id="52033">Post-Launch Cmd</string>
+	<string id="52036">Autoplay Video (Main Window)</string>
 	
 	<string id="52034">Save Config</string>
 	<string id="52035">Cancel</string>
+	
+	<!-- editscraper -->
+	<string id="53000">Offline Scrapers</string>
+	<string id="53001">Scraper</string>	
+	<string id="53002">Use description per game</string>
+	<string id="53003">Path game desc</string>
+	<string id="53004">Game desc file mask</string>
+	<string id="53005">Parse instruction</string>
+	<string id="53006">Search game by crc</string>
+	<string id="53007">Use foldername as crc</string>
+	<string id="53008">Use filename as crc</string>
+	<string id="53009">Remove scraper</string>
+	<string id="53010">Add scraper</string>
+	
+	<!-- info -->
+	<string id="54000">Region</string>
+	<string id="54001">Media</string>
+	<string id="54002">Controller</string>
+	<string id="54003">Rating</string>
+	<string id="54004">Max. Players</string>
+	<string id="54005">Launch count</string>
+	<string id="54006">Play Game</string>
+	
+	<!-- importdialog -->
+	<string id="55000">Import Games</string>
+	<string id="55001">Scraping mode</string>
+	<string id="55002">Change scrapers for this run</string>
+	
+	<!-- Missing info filter -->
+	<string id="56000">RCB - Missing info filter</string>
+	<string id="56001">Filter mode</string>
+	<string id="56002">Filter games with missing artwork</string>
+	<string id="56003">ONE of these items missing</string>
+	<string id="56004">None</string>
+	<string id="56005">Add item</string>
+	<string id="56006">Remove item</string>
+	<string id="56007">ALL of these items missing</string>
+	<string id="56008">Filter games with missing info</string>
+	
+	<!-- Delete Rom Collection -->
+	<string id="57000">RCB - Delete Rom Collection</string>
+	<string id="57001">Removal Option</string>
+	<string id="57002">Delete</string>
+		
 </strings>

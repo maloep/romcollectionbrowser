@@ -1600,7 +1600,7 @@
 				<description>Change View</description>
 				<posx>25</posx>
 				<posy>25</posy>
-				<width>180</width>
+				<width>220</width>
 				<height>30</height>
 				<visible>true</visible>
 				<colordiffuse>DDFFFFFF</colordiffuse>
@@ -1621,9 +1621,9 @@
 			</control>
 			<control type="button" id="4001"> 
 				<description>Missing info filter</description>
-				<posx>250</posx>
+				<posx>275</posx>
 				<posy>25</posy>
-				<width>200</width>
+				<width>220</width>
 				<height>30</height>
 				<visible>true</visible>
 				<colordiffuse>DDFFFFFF</colordiffuse>
