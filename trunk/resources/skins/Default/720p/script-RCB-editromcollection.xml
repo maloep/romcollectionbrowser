@@ -34,7 +34,7 @@
 			<textcolor>FFFFFFFF</textcolor>
 			<align>left</align>
 			<aligny>center</aligny>
-			<label>$ADDON[script.games.rom.collection.browser 100000] - $ADDON[script.games.rom.collection.browser 52000]</label>
+			<label>$ADDON[script.games.rom.collection.browser 30000] - $ADDON[script.games.rom.collection.browser 52000]</label>
 		</control>
 		<control type="button" id="5101">
 			<description>Close Window button</description>
@@ -1434,7 +1434,7 @@
 					<width>660</width>
 					<height>30</height>
 					<font>font13</font>
-					<label>Autoplay video (Info window)</label>
+					<label>$ADDON[script.games.rom.collection.browser 52036]</label>
 					<textcolor>88FFFFFF</textcolor>
 					<focusedcolor>FFFFFFFF</focusedcolor>
 					<texturefocus>rcb-MenuItemFO.png</texturefocus>
