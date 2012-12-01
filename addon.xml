@@ -7,10 +7,11 @@
   <requires>
     <import addon="xbmc.python" version="2.0"/>
     <import addon="script.module.elementtree" version="1.2.7"/>
-	 <import addon="service.rom.collection.browser" version="0.1.0"/>
+    <import addon="service.rom.collection.browser" version="0.1.0"/>
   </requires>
   <extension point="xbmc.python.script" library="default.py"></extension>
   <extension point="xbmc.addon.metadata">
+    <language></language>
     <summary>Browse and launch games in XBMC</summary>
     <summary  lang="hu">Konzol játék ROM-ok böngészése</summary>
     <description>With this Addon you can browse and launch emulator roms and standalone games in XBMC. See the wiki page for more information: http://code.google.com/p/romcollectionbrowser/wiki/Welcome.
