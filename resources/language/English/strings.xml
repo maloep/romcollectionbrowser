@@ -4,10 +4,26 @@
 
 	<!-- Error messages -->
     <string id="35000">Error: Can not access database.</string>
+	<string id="35001">Error while updating config.xml</string>
+	<string id="35002">Error reading config.xml.</string>	
 	
 	<!-- Hints / questions -->
 	<string id="40000">No config file found.</string>
 	<string id="40001">Do you want to create one?</string>
+	<string id="40002">Database and config.xml updated to new version.</string>
+	<string id="40003">Please read the wiki and changelog if you encounter any problems.</string>
+	<string id="40004">Deleting Rom</string>
+	<string id="40005">Deleting Roms...</string>
+	<string id="40006">Deleting Roms Complete</string>
+	<string id="40007">Checking File</string>
+	<string id="40008">Cleaning Database...</string>
+	<string id="40009">Compressing Database...</string>
+	<string id="40010">Database Clean-up Complete</string>
+	<string id="40011">Import Games...</string>
+	
+	
+	
+	
 	
 	<!-- GUI controls -->
 	<!-- main window -->
