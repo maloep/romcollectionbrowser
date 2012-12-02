@@ -20,6 +20,17 @@
 	<string id="40009">Compressing Database...</string>
 	<string id="40010">Database Clean-up Complete</string>
 	<string id="40011">Import Games...</string>
+	<string id="40012">Import in Progress</string>
+	<string id="40013">Do you want to cancel current import?</string>
+	<string id="40014">Cancelling in Progress</string>
+	<string id="40015">Import is still being cancelled. Please try again later.</string>
+	<string id="40016">Enter search term</string>
+	<string id="40017">Search</string>
+	<string id="40018">Do you want to import Games now?</string>
+	<string id="40019">loading list...</string>
+	<string id="40020">All</string>
+	<string id="40021">loading games...</string>
+	
 	
 	
 	
