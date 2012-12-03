@@ -259,13 +259,13 @@ class Config:
 		
 		if(not os.path.isfile(configFile)):			
 			Logutil.log('File config.xml does not exist. Place a valid config file here: ' +str(configFile), util.LOG_LEVEL_ERROR)
-			return False, 'Error: File config.xml does not exist'
+			return False, util.localize(35003)
 		
 		tree = ElementTree().parse(configFile)
 		self.tree = tree
 		if(tree == None):
 			Logutil.log('Could not read config.xml', util.LOG_LEVEL_ERROR)
-			return False, 'Could not read config.xml.'
+			return False, util.localize(35004)
 		
 		#Rom Collections
 		romCollections, errorMsg = self.readRomCollections(tree)
@@ -317,18 +317,18 @@ class Config:
 			romCollection.name = romCollectionRow.attrib.get('name')
 			if(romCollection.name == None):
 				Logutil.log('Configuration error. RomCollection must have an attribute name', util.LOG_LEVEL_ERROR)
-				return None, 'Configuration error. See xbmc.log for details'
+				return None, util.localize(35005)
 			
 			Logutil.log('current Rom Collection: ' +str(romCollection.name), util.LOG_LEVEL_INFO)
 			
 			id = romCollectionRow.attrib.get('id')
 			if(id == ''):
 				Logutil.log('Configuration error. RomCollection %s must have an id' %romCollection.name, util.LOG_LEVEL_ERROR)
-				return None, 'Configuration error. See xbmc.log for details'
+				return None, util.localize(35005)
 			try:
 				rc = romCollections[id]
 				Logutil.log('Error while adding RomCollection. Make sure that the id is unique.', util.LOG_LEVEL_ERROR)
-				return None, 'Rom Collection ids are not unique.'
+				return None, util.localize(35006)
 			except:
 				pass
 			
@@ -365,7 +365,7 @@ class Config:
 				Logutil.log('Scraper site: ' +str(siteName), util.LOG_LEVEL_INFO)
 				if(siteName == None or siteName == ''):
 					Logutil.log('Configuration error. RomCollection/scraper must have an attribute name', util.LOG_LEVEL_ERROR)
-					return None, 'Configuration error. See xbmc.log for details'
+					return None, util.localize(35005)
 				
 				#read additional scraper properties
 				replaceKeyString = scraperRow.attrib.get('replaceKeyString')
@@ -385,7 +385,7 @@ class Config:
 				
 				if(siteRow == None):
 					Logutil.log('Configuration error. Site %s does not exist in config.xml' %siteName, util.LOG_LEVEL_ERROR)
-					return None, 'Configuration error. See xbmc.log for details'
+					return None, util.localize(35005)
 								
 				scraper, errorMsg = self.readScraper(siteRow, romCollection.name, replaceKeyString, replaceValueString, True, tree)
 				if(scraper == None):
@@ -534,7 +534,7 @@ class Config:
 				
 				if(not os.path.isfile(parseInstruction)):
 					Logutil.log('Configuration error. parseInstruction file %s does not exist.' %parseInstruction, util.LOG_LEVEL_ERROR)
-					return None, 'Configuration error. See xbmc.log for details'
+					return None, util.localize(35005)
 				
 				scraper.parseInstruction = parseInstruction
 				
@@ -574,7 +574,7 @@ class Config:
 			
 		if(fileTypeRow == None):
 			Logutil.log('Configuration error. FileType %s does not exist in config.xml' %name, util.LOG_LEVEL_ERROR)
-			return None, 'Configuration error. See xbmc.log for details'
+			return None, util.localize(35005)
 			
 		fileType = FileType()
 		fileType.name = name
@@ -582,7 +582,7 @@ class Config:
 		id = fileTypeRow.attrib.get('id')
 		if(id == ''):
 			Logutil.log('Configuration error. FileType %s must have an id' %name, util.LOG_LEVEL_ERROR)
-			return None, 'Configuration error. See xbmc.log for details'
+			return None, util.localize(35005)
 			
 		fileType.id = id
 		
@@ -608,7 +608,7 @@ class Config:
 		
 		if(fileTypeForRow == None):
 			Logutil.log('Configuration error. ImagePlacing/fileTypeFor %s does not exist in config.xml' %str(imagePlacingName), util.LOG_LEVEL_ERROR)
-			return None, 'Configuration error. See xbmc.log for details'
+			return None, util.localize(35005)
 		
 		imagePlacing = ImagePlacing()
 		

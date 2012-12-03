@@ -37,10 +37,10 @@ class ContextMenuDialog(xbmcgui.WindowXMLDialog):
 			if(self.gameRow[util.GAME_isFavorite] == 1):
 				buttonMarkFavorite = self.getControlById(CONTROL_BUTTON_SETFAVORITE_GAME)
 				if(buttonMarkFavorite != None):
-					buttonMarkFavorite.setLabel('Remove Game From Favorites')
+					buttonMarkFavorite.setLabel(util.localize(40033))
 				buttonMarkFavorite = self.getControlById(CONTROL_BUTTON_SETFAVORITE_SELECTION)
 				if(buttonMarkFavorite != None):
-					buttonMarkFavorite.setLabel('Remove Selection From Favorites')
+					buttonMarkFavorite.setLabel(util.localize(40034))
 			
 	
 	def onAction(self, action):
@@ -57,7 +57,7 @@ class ContextMenuDialog(xbmcgui.WindowXMLDialog):
 			self.close()
 			
 			if(self.selectedGame == None or self.gameRow == None):
-				xbmcgui.Dialog().ok(util.SCRIPTNAME, 'Rescrape game error', "Can't load selected Game")
+				xbmcgui.Dialog().ok(util.SCRIPTNAME, util.localize(35013), util.localize(35014))
 				return
 			
 			romCollectionId = self.gameRow[util.GAME_romCollectionId]
@@ -103,9 +103,9 @@ class ContextMenuDialog(xbmcgui.WindowXMLDialog):
 			#update self.config
 			statusOk, errorMsg = self.gui.config.readXml()
 			if(statusOk == False):
-				xbmcgui.Dialog().ok(util.SCRIPTNAME, 'Error reading config.xml.', errorMsg)
+				xbmcgui.Dialog().ok(util.SCRIPTNAME, util.localize(35002), errorMsg)
 				Logutil.log('Error reading config.xml: ' +errorMsg, util.LOG_LEVEL_INFO)
-				return False, 'Error reading config.xml: ' +errorMsg
+				return False, util.localize(35002) +' ' +errorMsg
 			
 			#import Games
 			self.gui.updateDB()
@@ -132,13 +132,13 @@ class ContextMenuDialog(xbmcgui.WindowXMLDialog):
 			self.close()
 			
 			if(self.selectedGame == None or self.gameRow == None):
-				xbmcgui.Dialog().ok(util.SCRIPTNAME, 'Edit Game Command Error', "Can't load selected Game")
+				xbmcgui.Dialog().ok(util.SCRIPTNAME, util.localize(35015), util.localize(35014))
 				return
 
 			command = self.gameRow[util.GAME_gameCmd]
 			
 			keyboard = xbmc.Keyboard()
-			keyboard.setHeading('Enter Game Command')
+			keyboard.setHeading(util.localize(40035))
 			if(command != None):
 				keyboard.setDefault(command)
 			keyboard.doModal()
@@ -152,7 +152,7 @@ class ContextMenuDialog(xbmcgui.WindowXMLDialog):
 			self.close()
 						
 			if(self.selectedGame == None or self.gameRow == None):
-				xbmcgui.Dialog().ok(util.SCRIPTNAME, 'Add To Favorites Error', "Can't load selected Game")
+				xbmcgui.Dialog().ok(util.SCRIPTNAME, util.localize(35016), util.localize(35014))
 				return
 						
 			isFavorite = 1
@@ -171,7 +171,7 @@ class ContextMenuDialog(xbmcgui.WindowXMLDialog):
 			self.close()
 						
 			if(self.selectedGame == None or self.gameRow == None):
-				xbmcgui.Dialog().ok(util.SCRIPTNAME, 'Add To Favorites Error', "Can't load selected Game")
+				xbmcgui.Dialog().ok(util.SCRIPTNAME, util.localize(35016), util.localize(35014))
 				return
 						
 			isFavorite = 1
@@ -197,10 +197,10 @@ class ContextMenuDialog(xbmcgui.WindowXMLDialog):
 			
 			pos = self.gui.getCurrentListPosition()
 			if(pos == -1):
-				xbmcgui.Dialog().ok(util.SCRIPTNAME, 'Delete Game Error', "Can't delete selected Game")
+				xbmcgui.Dialog().ok(util.SCRIPTNAME, util.localize(35017), util.localize(35018))
 				return					
 			dialog = xbmcgui.Dialog()
-			if dialog.yesno("Delete Game", "Are you sure you want to delete this game?"):
+			if dialog.yesno(util.localize(51010), util.localize(40036)):
 				gameID = self.gui.getGameId(self.gui.gdb,pos)
 				self.gui.deleteGame(gameID)
 				self.gui.showGames()

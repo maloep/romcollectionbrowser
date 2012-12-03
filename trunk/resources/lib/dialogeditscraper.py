@@ -236,11 +236,11 @@ class EditOfflineScraper(dialogbase.DialogBaseEdit):
 			del self.scraperSites[scraperSite]
 			
 			if(len(scraperSites) == 0):
-				scraperSites.append('None')
+				scraperSites.append(util.localize(56004))
 				site = Site()
-				site.name = 'None'
+				site.name = util.localize(56004)
 				site.scrapers = []
-				self.scraperSites['None'] = site
+				self.scraperSites[util.localize(56004)] = site
 				
 			control = self.getControlById(CONTROL_LIST_SCRAPERS)
 			control.reset()
