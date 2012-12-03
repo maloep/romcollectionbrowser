@@ -160,7 +160,7 @@ class ImportOptionsDialog(xbmcgui.WindowXMLDialog):
 	
 	def getAvailableScrapers(self):
 		#Scrapers
-		sitesInList = ['None', 'local artwork']
+		sitesInList = [util.localize(56004), 'local artwork']
 		#get all scrapers
 		scrapers = self.gui.config.tree.findall('Scrapers/Site')
 		for scraper in scrapers:
@@ -176,15 +176,15 @@ class ImportOptionsDialog(xbmcgui.WindowXMLDialog):
 		if(len(sitesInRomCollection) >= 1):
 			self.selectScraperInList(sitesInList, sitesInRomCollection[0].name, CONTROL_LIST_SCRAPER1)			
 		else:
-			self.selectScraperInList(sitesInList, 'None', CONTROL_LIST_SCRAPER1)
+			self.selectScraperInList(sitesInList, util.localize(56004), CONTROL_LIST_SCRAPER1)
 		if(len(sitesInRomCollection) >= 2):
 			self.selectScraperInList(sitesInList, sitesInRomCollection[1].name, CONTROL_LIST_SCRAPER2)
 		else:
-			self.selectScraperInList(sitesInList, 'None', CONTROL_LIST_SCRAPER2)
+			self.selectScraperInList(sitesInList, util.localize(56004), CONTROL_LIST_SCRAPER2)
 		if(len(sitesInRomCollection) >= 3):
 			self.selectScraperInList(sitesInList, sitesInRomCollection[2].name, CONTROL_LIST_SCRAPER3)
 		else:
-			self.selectScraperInList(sitesInList, 'None', CONTROL_LIST_SCRAPER3)
+			self.selectScraperInList(sitesInList, util.localize(56004), CONTROL_LIST_SCRAPER3)
 			
 	
 	
@@ -266,7 +266,7 @@ class ImportOptionsDialog(xbmcgui.WindowXMLDialog):
 		scraperItem = control.getSelectedItem()
 		scraper = scraperItem.getLabel()
 		
-		if(scraper == 'None'):
+		if(scraper == util.localize(56004)):
 			return sites, True
 		
 		#HACK: don't use other scrapers than MAME and local nfo for MAME collections

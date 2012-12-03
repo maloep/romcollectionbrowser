@@ -22,7 +22,7 @@ class ConfigXmlWriter:
 		
 		if(not os.path.isfile(configFile)):
 			Logutil.log('File config.xml does not exist. Place a valid config file here: ' +str(configFile), util.LOG_LEVEL_ERROR)
-			return False, 'Error: File config.xml does not exist'
+			return False, util.localize(35003)
 		
 		self.tree = ElementTree().parse(configFile)
 	
@@ -173,7 +173,7 @@ class ConfigXmlWriter:
 			Logutil.log('write scraper site: ' +str(scraperSite.name), util.LOG_LEVEL_INFO)
 			
 			#Don't write None-Scraper
-			if(scraperSite.name == 'None'):
+			if(scraperSite.name == util.localize(56004)):
 				Logutil.log('None scraper will be skipped', util.LOG_LEVEL_INFO)
 				continue
 			
@@ -250,7 +250,7 @@ class ConfigXmlWriter:
 				break
 		
 		if(not objectFound):
-			return False, '%s %s could not be found in config.xml' %(objectType, nameToCompare)
+			return False, '%s %s ' %(objectType, nameToCompare) +util.localize(35009)
 		
 		return True, ''
 	
@@ -368,4 +368,5 @@ class ConfigXmlWriter:
 			
 		except Exception, (exc):
 			print("Error: Cannot write config.xml: " +str(exc))
-			return False, "Error: Cannot write config.xml: " +str(exc)
+			return False, util.localize(35008) +": " +str(exc)
+		

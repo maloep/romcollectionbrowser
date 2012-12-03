@@ -69,7 +69,7 @@ class DBUpdate:
 				break
 							
 			#prepare Header for ProgressDialog
-			progDialogRCHeader = "Importing Rom Collection (%i / %i): %s" %(rccount, len(romCollections), romCollection.name)
+			progDialogRCHeader = util.localize(40022) +" (%i / %i): %s" %(rccount, len(romCollections), romCollection.name)
 			rccount = rccount + 1
 			
 			Logutil.log("current Rom Collection: " +romCollection.name, util.LOG_LEVEL_INFO)
@@ -143,7 +143,7 @@ class DBUpdate:
 								gamenameFromFile = helper.getGamenameFromFilename(filenamelist[0], romCollection)
 								foldername = self.getFoldernameFromRomFilename(filenamelist[0])
 								
-								continueUpdate = gui.writeMsg(progDialogRCHeader, "Import game: " +str(gamenameFromDesc), "", fileCount)
+								continueUpdate = gui.writeMsg(progDialogRCHeader, util.localize(40023) +": " +str(gamenameFromDesc), "", fileCount)
 								if(not continueUpdate):				
 									Logutil.log('Game import canceled by user', util.LOG_LEVEL_INFO)
 									break
@@ -224,7 +224,7 @@ class DBUpdate:
 						
 						Logutil.log('Start scraping info for game: ' + gamenameFromFile, LOG_LEVEL_INFO)						
 						
-						continueUpdate = gui.writeMsg(progDialogRCHeader, "Import game: " +gamenameFromFile, "", fileCount)
+						continueUpdate = gui.writeMsg(progDialogRCHeader, util.localize(40023) +": " +gamenameFromFile, "", fileCount)
 						if(not continueUpdate):				
 							Logutil.log('Game import canceled by user', util.LOG_LEVEL_INFO)
 							break
@@ -270,14 +270,14 @@ class DBUpdate:
 						#check if all first 10 games have errors - Modified to allow user to continue on errors
 						if (fileCount >= 10 and successfulFiles == 0 and ignoreErrors == False):
 							options = []
-							options.append("Continue")
-							options.append("Continue and Ignore Errors")
-							options.append("Cancel")
-							answer = xbmcgui.Dialog().select('First 10 games could not be imported.',options)
+							options.append(util.localize(40024))
+							options.append(util.localize(40025))
+							options.append(util.localize(40026))
+							answer = xbmcgui.Dialog().select(util.localize(40027),options)
 							if(answer == 1):
 								ignoreErrors = True
 							elif(answer == 2):
-								xbmcgui.Dialog().ok(util.SCRIPTNAME, 'Import canceled.', 'Please check xbmc.log for errors.')
+								xbmcgui.Dialog().ok(util.SCRIPTNAME, util.localize(40028), util.localize(40029))
 								continueUpdate = False
 								break
 						
@@ -306,7 +306,7 @@ class DBUpdate:
 		
 		for filename in files:
 			try:
-				gui.writeMsg(progDialogRCHeader, "Building file list...", "", fileCount)
+				gui.writeMsg(progDialogRCHeader, util.localize(40030), "", fileCount)
 				fileCount = fileCount +1
 				
 				gamename = helper.getGamenameFromFilename(filename, romCollection)
@@ -549,7 +549,7 @@ class DBUpdate:
 		for i in range(startIndex, len(romCollection.scraperSites)):
 			scraperSite = romCollection.scraperSites[i]			
 			
-			gui.writeMsg(progDialogRCHeader, "Import game: " +gamenameFromFile, scraperSite.name + " - downloading info", fileCount)
+			gui.writeMsg(progDialogRCHeader, util.localize(40023) +": " +gamenameFromFile, scraperSite.name + " - " +util.localize(40031), fileCount)
 			Logutil.log('using scraper: ' +scraperSite.name, util.LOG_LEVEL_INFO)
 			
 			if(scraperSite.searchGameByCRC and filecrc == ''):
@@ -1066,7 +1066,7 @@ class DBUpdate:
 				try:
 					os.mkdir(parent)
 				except Exception, (exc):
-					xbmcgui.Dialog().ok('Error: Could not create artwork directory.', 'Check xbmc.log for details.')
+					xbmcgui.Dialog().ok(util.localize(35010), util.localize(35011))
 					Logutil.log("Could not create directory: '%s'. Error message: '%s'" %(parent, str(exc)), util.LOG_LEVEL_ERROR)
 					return False, artworkurls
 				
@@ -1075,7 +1075,7 @@ class DBUpdate:
 				try:
 					os.mkdir(dirname)
 				except Exception, (exc):
-					xbmcgui.Dialog().ok('Error: Could not create artwork directory.', 'Check xbmc.log for details.')
+					xbmcgui.Dialog().ok(util.localize(35010), util.localize(35011))
 					Logutil.log("Could not create directory: '%s'. Error message: '%s'" %(dirname, str(exc)), util.LOG_LEVEL_ERROR)
 					return False, artworkurls
 				
@@ -1091,7 +1091,7 @@ class DBUpdate:
 						gamenameFromFile = dialogDict["gameNameKey"]
 						scraperSiteName = dialogDict["scraperSiteKey"]
 						fileCount = dialogDict["fileCountKey"]
-						gui.writeMsg(progDialogRCHeader, "Import game: " +gamenameFromFile, str(scraperSiteName[thumbKey]) + " - downloading art", fileCount)
+						gui.writeMsg(progDialogRCHeader, util.localize(40023) +": " +gamenameFromFile, str(scraperSiteName[thumbKey]) + " - downloading art", fileCount)
 				except:
 					pass
 
@@ -1099,7 +1099,7 @@ class DBUpdate:
 				try:
 					urllib.urlretrieve( thumbUrl, str(fileName))
 				except Exception, (exc):
-					xbmcgui.Dialog().ok('Error: Could not create artwork file.', 'Check xbmc.log for details.')
+					xbmcgui.Dialog().ok(util.localize(35012), util.localize(35011))
 					Logutil.log("Could not create file: '%s'. Error message: '%s'" %(str(fileName), str(exc)), util.LOG_LEVEL_ERROR)
 					return False, artworkurls
 				

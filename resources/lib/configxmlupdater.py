@@ -17,13 +17,13 @@ class ConfigxmlUpdater:
 	def updateConfig(self, gui):
 		
 		if(not os.path.isfile(self.configFile)):
-			return False, 'File config.xml does not exist'
+			return False, util.localize(35003)
 		
 		
 		tree = ElementTree().parse(self.configFile)
 		if(tree == None):
 			Logutil.log('Could not read config.xml', util.LOG_LEVEL_ERROR)
-			return False, 'Could not read config.xml.'
+			return False, util.localize(35004)
 		
 		self.tree = tree
 	
@@ -46,7 +46,7 @@ class ConfigxmlUpdater:
 			try:
 				shutil.copy(str(self.configFile), str(newFileName))
 			except Exception, (exc):
-				return False, "Error: Cannot backup config.xml: " +str(exc)
+				return False, util.localize(35007) +": " +str(exc)
 		
 		#write current version to config
 		self.tree.attrib['version'] = util.CURRENT_CONFIG_VERSION
@@ -256,4 +256,5 @@ class ConfigxmlUpdater:
 			
 		except Exception, (exc):
 			print("Error: Cannot write config.xml: " +str(exc))
-			return False, "Error: Cannot write config.xml: " +str(exc)
+			return False, util.localize(35008) +": " +str(exc)
+		
