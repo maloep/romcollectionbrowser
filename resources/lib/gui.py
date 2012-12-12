@@ -72,7 +72,7 @@ class UIGameDB(xbmcgui.WindowXML):
 	selectedGenreId = 0
 	selectedYearId = 0
 	selectedPublisherId = 0
-	selectedCharacter = 'All'
+	selectedCharacter = util.localize(40020)
 	
 	selectedConsoleIndex = 0
 	selectedGenreIndex = 0
@@ -629,7 +629,7 @@ class UIGameDB(xbmcgui.WindowXML):
 		preventUnfilteredSearch = self.Settings.getSetting(util.SETTING_RCB_PREVENTUNFILTEREDSEARCH).upper() == 'TRUE'			
 		
 		if(preventUnfilteredSearch):			
-			if(self.selectedCharacter == 'All' and self.selectedConsoleId == 0 and self.selectedGenreId == 0 and self.selectedYearId == 0 and self.selectedPublisherId == 0):
+			if(self.selectedCharacter == util.localize(40020) and self.selectedConsoleId == 0 and self.selectedGenreId == 0 and self.selectedYearId == 0 and self.selectedPublisherId == 0):
 				Logutil.log("preventing unfiltered search", util.LOG_LEVEL_WARNING)
 				return				
 		

@@ -269,11 +269,11 @@ def getSettings():
 def getScrapingMode(settings):
 	scrapingMode = 0
 	scrapingModeStr = settings.getSetting(SETTING_RCB_SCRAPINGMODE)			
-	if(scrapingModeStr == 'Automatic: Accurate'):
+	if(scrapingModeStr == util.localize(40050)):
 		scrapingMode = 0
-	elif(scrapingModeStr == 'Automatic: Guess Matches'):
+	elif(scrapingModeStr == util.localize(40051)):
 		scrapingMode = 1
-	elif(scrapingModeStr == 'Interactive: Select Matches'):
+	elif(scrapingModeStr == util.localize(40052)):
 		scrapingMode = 2
 		
 	return scrapingMode
