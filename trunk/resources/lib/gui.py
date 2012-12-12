@@ -778,7 +778,7 @@ class UIGameDB(xbmcgui.WindowXML):
 		if(selectedGame == None):
 			Logutil.log("selectedGame == None in launchEmu", util.LOG_LEVEL_WARNING)
 			return
-			
+					
 		gameId = selectedGame.getProperty('gameId')
 		Logutil.log("launching game with id: " + str(gameId), util.LOG_LEVEL_INFO)
 		
@@ -788,7 +788,7 @@ class UIGameDB(xbmcgui.WindowXML):
 			self.player.stop()
 		
 		launcher.launchEmu(self.gdb, self, gameId, self.config, self.Settings)
-		Logutil.log("End launchEmu" , util.LOG_LEVEL_INFO)
+		Logutil.log("End launchEmu" , util.LOG_LEVEL_INFO)		
 		
 		
 	def startFullscreenVideo(self):
@@ -818,7 +818,7 @@ class UIGameDB(xbmcgui.WindowXML):
 			self.player.stop()
 			
 		#self.player.startedInPlayListMode = True
-		self.player.play(self.rcb_playList)		
+		self.player.play(self.rcb_playList)
 		xbmc.executebuiltin('Playlist.PlayOffset(%i)' % pos)
 		#xbmc.executebuiltin('XBMC.PlayerControl(RepeatAll)')
 		
