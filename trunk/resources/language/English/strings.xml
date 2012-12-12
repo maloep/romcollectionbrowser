@@ -26,6 +26,13 @@
 	<string id="35020">Error Deleting Rom Collection</string>
 	<string id="35021">Configuration Error</string>
 	<string id="35022">Site does not exist in config.xml</string>
+	<string id="35023">Cannot get rom collection with id</string>
+	<string id="35024">Selected game could not be read from database.</string>
+	<string id="35025">Control with id: %s could not be found. Check WindowXML file.</string>
+	<string id="35026">Site %s does not exist in config.xml</string>
+	<string id="35027">Trying to scrape %s games with %s scraper.</string>
+	<string id="35028">(Options 'All' and 'Overwrite scraper settings</string>
+	<string id="35029">can't be used together with offline scrapers.)</string>
 	
 	
 	
@@ -80,6 +87,12 @@
 	<string id="40047">Choose a scraper to remove</string>
 	<string id="40048">Scraper is already in use</string>
 	<string id="40049">Please choose another one.</string>
+	<string id="40050">Automatic: Accurate</string>
+	<string id="40051">Automatic: Guess Matches</string>
+	<string id="40052">Interactive: Select Matches</string>
+	<string id="40053">local artwork</string>
+	<string id="40054">local nfo</string>
+	
 	
 	
 	

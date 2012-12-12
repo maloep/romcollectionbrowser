@@ -230,7 +230,7 @@ def buildLikeStatement(selectedCharacter, searchTerm):
 	
 	likeStatement = ''
 	
-	if (selectedCharacter == 'All'):
+	if (selectedCharacter == util.localize(40020)):
 		likeStatement = "0 = 0"
 	elif (selectedCharacter == '0-9'):
 		
