@@ -24,7 +24,8 @@
 	<string id="35018">Can't delete selected Game</string>
 	<string id="35019">Error</string>
 	<string id="35020">Error Deleting Rom Collection</string>
-	<string id="35021">Configuration Error</string>	
+	<string id="35021">Configuration Error</string>
+	<string id="35022">Site does not exist in config.xml</string>
 	
 	
 	
@@ -72,13 +73,13 @@
 	<string id="40040">Enter Rom File Mask</string>
 	<string id="40041">Path</string>
 	<string id="40042">Choose a media path to add</string>
-	<string id="40043">Choose a media path to remove</string>	
-	
-	
-	
-	
-	
-	
+	<string id="40043">Choose a media path to remove</string>
+	<string id="40044">There already are scrapers for all Rom Collections</string>	
+	<string id="40045">Edit or delete an existing scraper</string>
+	<string id="40046">Select scraper name</string>
+	<string id="40047">Choose a scraper to remove</string>
+	<string id="40048">Scraper is already in use</string>
+	<string id="40049">Please choose another one.</string>
 	
 	
 	
