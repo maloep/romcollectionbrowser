@@ -111,7 +111,7 @@ class DBUpdate:
 				fileDict = self.buildFileDict(gui, progDialogRCHeader, files, romCollection, firstScraper)
 									
 				try:
-					fileCount = 1
+					fileCount = 0
 					gamenameFromDesc = ''
 					
 					#TODO move to to check preconditions
@@ -143,12 +143,12 @@ class DBUpdate:
 								gamenameFromFile = helper.getGamenameFromFilename(filenamelist[0], romCollection)
 								foldername = self.getFoldernameFromRomFilename(filenamelist[0])
 								
+								fileCount = fileCount +1
+								
 								continueUpdate = gui.writeMsg(progDialogRCHeader, util.localize(40023) +": " +str(gamenameFromDesc), "", fileCount)
 								if(not continueUpdate):				
 									Logutil.log('Game import canceled by user', util.LOG_LEVEL_INFO)
 									break
-								
-								fileCount = fileCount +1
 								
 								Logutil.log('Start scraping info for game: ' +str(gamenameFromFile), LOG_LEVEL_INFO)
 															
@@ -196,7 +196,7 @@ class DBUpdate:
 					self.missingDescFile.write('%s\n' %gamenameFromDesc)
 					continue
 			else:	
-				fileCount = 1
+				fileCount = 0
 				successfulFiles = 0
 				lastgamename = ''
 				lastGameId = None
@@ -224,6 +224,7 @@ class DBUpdate:
 						
 						Logutil.log('Start scraping info for game: ' + gamenameFromFile, LOG_LEVEL_INFO)						
 						
+						fileCount = fileCount +1
 						continueUpdate = gui.writeMsg(progDialogRCHeader, util.localize(40023) +": " +gamenameFromFile, "", fileCount)
 						if(not continueUpdate):				
 							Logutil.log('Game import canceled by user', util.LOG_LEVEL_INFO)
@@ -255,7 +256,6 @@ class DBUpdate:
 							
 						filenamelist = []
 						filenamelist.append(filename)
-						fileCount = fileCount +1
 	
 						#Variables to process Art Download Info
 						dialogDict = {'dialogHeaderKey':progDialogRCHeader, 'gameNameKey':gamenameFromFile, 'scraperSiteKey':artScrapers, 'fileCountKey':fileCount}
@@ -1132,4 +1132,4 @@ class DBUpdate:
 		except:
 			pass
 		
-		Logutil.log("Update finished", util.LOG_LEVEL_INFO)		
+		Logutil.log("Update finished", util.LOG_LEVEL_INFO)
