@@ -252,7 +252,7 @@ def buildLikeStatement(selectedCharacter, searchTerm):
 
 def builMissingFilterStatement(config):
 
-	if(config.showHideOption.lower() == 'ignore'):
+	if(config.showHideOption.lower() == util.localize(40057)):
 		return ''
 		
 	statement = ''
@@ -281,7 +281,7 @@ def builMissingFilterStatement(config):
 	
 	if(statement != ''):
 		statement = '(%s)' %(statement)
-		if(config.showHideOption.lower() == 'hide'):
+		if(config.showHideOption.lower() == util.localize(40061)):
 			statement = 'NOT ' +statement
 	
 	return statement

@@ -156,7 +156,7 @@ class MissingInfoDialog(dialogbase.DialogBaseEdit):
 					tempList.append(mediaPath.fileType.name)
 		
 		dialog = xbmcgui.Dialog()
-		index = dialog.select('Select Artwork type', tempList)
+		index = dialog.select(util.localize(40055), tempList)
 		del dialog
 		if(index == -1):
 			return inList
@@ -178,7 +178,7 @@ class MissingInfoDialog(dialogbase.DialogBaseEdit):
 				tempList.append(item)
 			
 		dialog = xbmcgui.Dialog()
-		index = dialog.select('Select property', tempList)
+		index = dialog.select(util.localize(40056), tempList)
 		del dialog
 		if(index == -1):
 			return inList
@@ -192,7 +192,7 @@ class MissingInfoDialog(dialogbase.DialogBaseEdit):
 	
 	def removeFromMissingList(self, inList, labelId):
 		dialog = xbmcgui.Dialog()
-		index = dialog.select('Remove item', inList)
+		index = dialog.select(util.localize(56006), inList)
 		del dialog
 		if(index == -1):
 			return inList
