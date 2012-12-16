@@ -118,19 +118,19 @@ class GameDataBase:
 				newFileName = self.dataBasePath +'.backup ' +dbVersion 
 				
 				if os.path.isfile(newFileName):					
-					return -1, "Error: Cannot backup MyGames.db: Backup File exists."				
+					return -1, util.localize(35030)				
 				try:
 					self.close()
 					shutil.copy(str(self.dataBasePath), str(newFileName))
 					self.connect()
 				except Exception, (exc):					
-					return -1, "Error: Cannot backup MyGames.db: " +str(exc)
+					return -1, util.localize(35031) +": " +str(exc)
 								
 				self.executeSQLScript(alterTableScript)
 				self.commit()
 				return returnCode, message
 			else:
-				return -1, "Error: No Update from version %s to %s." %(dbVersion, util.CURRENT_DB_VERSION)
+				return -1, util.localize(35032) %(dbVersion, util.CURRENT_DB_VERSION)
 			
 		return 0, ""
 	

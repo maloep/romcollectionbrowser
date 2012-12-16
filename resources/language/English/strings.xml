@@ -33,6 +33,17 @@
 	<string id="35027">Trying to scrape %s games with %s scraper.</string>
 	<string id="35028">(Options 'All' and 'Overwrite scraper settings</string>
 	<string id="35029">can't be used together with offline scrapers.)</string>
+	<string id="35030">Error: Cannot backup MyGames.db: Backup File exists.</string>
+	<string id="35031">Error: Cannot backup MyGames.db</string>
+	<string id="35032">Error: No Update from version %s to %s.</string>
+	<string id="35033">Control with id: %s could not be found. Check WindowXML file.</string>
+	<string id="35034">Error launching game!</string>
+	<string id="35035">Error while launching emulator</string>
+	<string id="35036">Error deleting files after launching emulator</string>
+	<string id="35037">Error while launching emulator: File %s does not exist!</string>
+	<string id="35038">Error while creating .cut file. Check xbmc.log for details.</string>
+	<string id="35039">Error launching .7z file.</string>
+	
 	
 	
 	
@@ -66,7 +77,7 @@
 	<string id="40026">Cancel</string>
 	<string id="40027">First 10 games could not be imported.</string>
 	<string id="40028">Import canceled.</string>
-	<string id="40029">Please check xbmc.log for errors.</string>
+	<string id="40029">Please check xbmc.log for details.</string>
 	<string id="40030">Building file list...</string>
 	<string id="40031">downloading info</string>
 	<string id="40032">Enter</string>
@@ -92,8 +103,20 @@
 	<string id="40052">Interactive: Select Matches</string>
 	<string id="40053">local artwork</string>
 	<string id="40054">local nfo</string>
-	
-	
+	<string id="40055">Select Artwork type</string>
+	<string id="40056">Select property</string>
+	<string id="40057">ignore</string>
+	<string id="40058">Ignore filter</string>
+	<string id="40059">show</string>
+	<string id="40060">Show only games with missing items</string>
+	<string id="40061">hide</string>
+	<string id="40062">Hide games with missing items</string>
+	<string id="40063">Launch Game</string>
+	<string id="40064">Please choose disc</string>
+	<string id="40065">Launch game from start</string>
+	<string id="40066">Launch saved state of this game?</string>
+	<string id="40067">Select slot of saved game</string>
+	<string id="40068">Enter Command Text</string>
 	
 	
 	

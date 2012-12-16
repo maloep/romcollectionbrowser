@@ -118,9 +118,9 @@ consoleDict = {
 			'Zodiac' : ['68', '', 'zod'],
 			'ZX Spectr' : ['41', '', '']}
 
-missingFilterOptions = {'ignore' : 'Ignore filter',
-					'show' : 'Show only games with missing items',
-					'hide' : 'Hide games with missing items'}
+missingFilterOptions = {util.localize(40057) : util.localize(40058),
+					util.localize(40059) : util.localize(40060),
+					util.localize(40061) : util.localize(40062)}
 
 
 

@@ -269,11 +269,11 @@ def getSettings():
 def getScrapingMode(settings):
 	scrapingMode = 0
 	scrapingModeStr = settings.getSetting(SETTING_RCB_SCRAPINGMODE)			
-	if(scrapingModeStr == util.localize(40050)):
+	if(scrapingModeStr == localize(40050)):
 		scrapingMode = 0
-	elif(scrapingModeStr == util.localize(40051)):
+	elif(scrapingModeStr == localize(40051)):
 		scrapingMode = 1
-	elif(scrapingModeStr == util.localize(40052)):
+	elif(scrapingModeStr == localize(40052)):
 		scrapingMode = 2
 		
 	return scrapingMode

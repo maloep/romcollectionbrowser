@@ -128,7 +128,7 @@ class UIGameDB(xbmcgui.WindowXML):
 			
 		#check if RCB service is available, otherwise we will use autoexec.py
 		try:
-			serviceAddon = xbmcaddon.Addon(id='service.rom.collection.browser')
+			serviceAddon = xbmcaddon.Addon(id=util.SCRIPTID)
 			Logutil.log("RCB service addon: " + str(serviceAddon), util.LOG_LEVEL_INFO)
 			self.useRCBService = True
 		except:
@@ -377,7 +377,7 @@ class UIGameDB(xbmcgui.WindowXML):
 					Logutil.log('fullscreen video in Dharma is not supported.', util.LOG_LEVEL_WARNING)
 				
 		except Exception, (exc):
-			print "RCB_ERROR: unhandled Error in onAction: " +str(exc)
+			Logutil.log("RCB_ERROR: unhandled Error in onAction: " +str(exc), util.LOG_LEVEL_ERROR)
 			
 
 	def onClick(self, controlId):
@@ -716,7 +716,7 @@ class UIGameDB(xbmcgui.WindowXML):
 		
 		timestamp3 = time.clock()
 		diff = (timestamp3 - timestamp2) * 1000		
-		print "showGames: load %i games to list in %d ms" % (self.getListSize(), diff)
+		Logutil.log( "showGames: load %i games to list in %d ms" % (self.getListSize(), diff), util.LOG_LEVEL_INFO)
 		
 		Logutil.log("End showGames" , util.LOG_LEVEL_INFO)
 		
@@ -1681,7 +1681,7 @@ class UIGameDB(xbmcgui.WindowXML):
 			#HACK there seems to be a problem with recognizing the scrollbar controls
 			if(controlId not in (CONTROL_SCROLLBARS)):
 				Logutil.log("Control with id: %s could not be found. Check WindowXML file. Error: %s" % (str(controlId), str(exc)), util.LOG_LEVEL_ERROR)
-				#self.writeMsg("Control with id: %s could not be found. Check WindowXML file." % str(controlId))
+				self.writeMsg(util.localize(35033) % str(controlId))
 			return None
 		
 		return control
