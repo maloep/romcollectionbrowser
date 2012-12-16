@@ -43,6 +43,7 @@
 	<string id="35037">Error while launching emulator: File %s does not exist!</string>
 	<string id="35038">Error while creating .cut file. Check xbmc.log for details.</string>
 	<string id="35039">Error launching .7z file.</string>
+	<string id="35040">Error: File config_template.xml does not exist</string>
 	
 	
 	
@@ -131,6 +132,16 @@
 	<string id="40080">Path to %s Roms</string>
 	<string id="40081">File mask (comma-separated): e.g. *.zip, *.smc</string>
 	<string id="40082">%s Artwork</string>
+	<string id="40083">Choose an artwork type</string>
+	<string id="40084">Do you want to add another Artwork Path?</string>
+	<string id="40085">Structure of your game descriptions</string>
+	<string id="40086">One description file per game</string>
+	<string id="40087">One description file for all games</string>
+	<string id="40088">Scrape game info online (or use local nfo)</string>
+	<string id="40089">%s game description</string>
+	<string id="40090">Enter description file mask</string>
+	<string id="40091">%s parse instruction</string>
+	<string id="40092">Do you want to add another Rom Collection?</string>
 	
 	
 	
