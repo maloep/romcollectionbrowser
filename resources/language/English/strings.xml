@@ -117,6 +117,20 @@
 	<string id="40066">Launch saved state of this game?</string>
 	<string id="40067">Select slot of saved game</string>
 	<string id="40068">Enter Command Text</string>
+	<string id="40069">Export library...</string>
+	<string id="40070">Exporting Rom Collection</string>
+	<string id="40071">Export game</string>
+	<string id="40072">Action canceled. Config.xml will not be written.</string>
+	<string id="40073">Choose a scenario</string>
+	<string id="40074">Scrape game info and artwork online</string>
+	<string id="40075">Game info and artwork are available locally</string>
+	<string id="40076">Choose a platform</string>
+	<string id="40077">Enter platform name</string>
+	<string id="40078">Path to %s Emulator</string>
+	<string id="40079">Emulator params ("%ROM%" is used for your rom files)</string>
+	<string id="40080">Path to %s Roms</string>
+	<string id="40081">File mask (comma-separated): e.g. *.zip, *.smc</string>
+	<string id="40082">%s Artwork</string>
 	
 	
 	
