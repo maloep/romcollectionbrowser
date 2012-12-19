@@ -224,25 +224,25 @@
 	</ImagePlacing>
 	<Scrapers>
 		<Site name="Amiga V1" descFilePerGame="false" searchGameByCRC="false">
-			<Scraper parseInstruction="C:\Users\malte\AppData\Roaming\XBMC\addons\script.games.rom.collection.browser.dev\resources\lib\TestDataBase\V1 - Amiga - ff - descforall\parserConfig.xml" source="TestDataBase\V1 - Amiga - ff - descforall\synopsis\synopsis.txt" encoding="iso-8859-1"/>
+			<Scraper parseInstruction="C:\Users\lom\AppData\Roaming\XBMC\addons\script.games.rom.collection.browser.dev\resources\lib\TestDataBase\V1 - Amiga - ff - descforall\parserConfig.xml" source="TestDataBase\V1 - Amiga - ff - descforall\synopsis\synopsis.txt" encoding="iso-8859-1"/>
 		</Site>
 		<Site name="Amiga V2" descFilePerGame="true" searchGameByCRC="false">
-			<Scraper parseInstruction="C:\Users\malte\AppData\Roaming\XBMC\addons\script.games.rom.collection.browser.dev\resources\lib\TestDataBase\V2 - Amiga - ff - descpergame\parserConfig.xml" source="TestDataBase\V2 - Amiga - ff - descpergame\synopsis\%GAME%\synopsis.txt" encoding="iso-8859-1"/>
+			<Scraper parseInstruction="C:\Users\lom\AppData\Roaming\XBMC\addons\script.games.rom.collection.browser.dev\resources\lib\TestDataBase\V2 - Amiga - ff - descpergame\parserConfig.xml" source="TestDataBase\V2 - Amiga - ff - descpergame\synopsis\%GAME%\synopsis.txt" encoding="iso-8859-1"/>
 		</Site>
 		<Site name="SNES V3" descFilePerGame="false" searchGameByCRC="false">
-			<Scraper parseInstruction="C:\Users\malte\AppData\Roaming\XBMC\addons\script.games.rom.collection.browser.dev\resources\lib\TestDataBase\V3 - SNES - ff - descforall\parserConfig.xml" source="TestDataBase\V3 - SNES - ff - descforall\description\synopsis.txt" encoding="iso-8859-1" />
+			<Scraper parseInstruction="C:\Users\lom\AppData\Roaming\XBMC\addons\script.games.rom.collection.browser.dev\resources\lib\TestDataBase\V3 - SNES - ff - descforall\parserConfig.xml" source="TestDataBase\V3 - SNES - ff - descforall\description\synopsis.txt" encoding="iso-8859-1" />
 		</Site>
 		<Site name="SNES V4" descFilePerGame="false" searchGameByCRC="true">
-			<Scraper parseInstruction="C:\Users\malte\AppData\Roaming\XBMC\addons\script.games.rom.collection.browser.dev\resources\lib\TestDataBase\V4 - SNES - ff - descforall - subfolder\parserConfig.xml" source="TestDataBase\V4 - SNES - ff - descforall - subfolder\Synopsis\synopsis.txt" encoding="iso-8859-1"/>	
+			<Scraper parseInstruction="C:\Users\lom\AppData\Roaming\XBMC\addons\script.games.rom.collection.browser.dev\resources\lib\TestDataBase\V4 - SNES - ff - descforall - subfolder\parserConfig.xml" source="TestDataBase\V4 - SNES - ff - descforall - subfolder\Synopsis\synopsis.txt" encoding="iso-8859-1"/>	
 		</Site>		
 		<Site name="Xbox V5" descFilePerGame="false" searchGameByCRC="false" useFoldernameAsCRC="true">
-			<Scraper parseInstruction="C:\Users\malte\AppData\Roaming\XBMC\addons\script.games.rom.collection.browser.dev\resources\lib\TestDataBase\V5 - Xbox - ff - descforall\parserConfig.xml" source="TestDataBase\V5 - Xbox - ff - descforall\synopsis.txt" encoding="iso-8859-1"/>
+			<Scraper parseInstruction="C:\Users\lom\AppData\Roaming\XBMC\addons\script.games.rom.collection.browser.dev\resources\lib\TestDataBase\V5 - Xbox - ff - descforall\parserConfig.xml" source="TestDataBase\V5 - Xbox - ff - descforall\synopsis.txt" encoding="iso-8859-1"/>
 		</Site>		
 		<Site name="Sega 32 V6" descFilePerGame="true" searchGameByCRC="false">
-			<Scraper parseInstruction="C:\Users\malte\AppData\Roaming\XBMC\addons\script.games.rom.collection.browser.dev\resources\lib\TestDataBase\V6 - Sega32 - xml - descpergame\parserConfig.xml" source="TestDataBase\V6 - Sega32 - xml - descpergame\Synopsis\%GAME%.xml" encoding="iso-8859-1"/>
+			<Scraper parseInstruction="C:\Users\lom\AppData\Roaming\XBMC\addons\script.games.rom.collection.browser.dev\resources\lib\TestDataBase\V6 - Sega32 - xml - descpergame\parserConfig.xml" source="TestDataBase\V6 - Sega32 - xml - descpergame\Synopsis\%GAME%.xml" encoding="iso-8859-1"/>
 		</Site>
 		<Site name="Sega 32 V7" descFilePerGame="false" searchGameByCRC="false" useFilenameAsCRC="true">
-			<Scraper parseInstruction="C:\Users\malte\AppData\Roaming\XBMC\addons\script.games.rom.collection.browser.dev\resources\lib\TestDataBase\V7 - Sega32 - xml - descforall\parserConfig.xml" source="TestDataBase\V7 - Sega32 - xml - descforall\synopsis.xml" replaceKeyString="%REPLACEKEYS%" replaceValueString="%REPLACEVALUES%" encoding="iso-8859-1"/>
+			<Scraper parseInstruction="C:\Users\lom\AppData\Roaming\XBMC\addons\script.games.rom.collection.browser.dev\resources\lib\TestDataBase\V7 - Sega32 - xml - descforall\parserConfig.xml" source="TestDataBase\V7 - Sega32 - xml - descforall\synopsis.xml" replaceKeyString="%REPLACEKEYS%" replaceValueString="%REPLACEVALUES%" encoding="iso-8859-1"/>
 		</Site>
 
 		

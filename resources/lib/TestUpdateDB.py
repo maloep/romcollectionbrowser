@@ -45,7 +45,7 @@ class TestUpdateDB(unittest.TestCase):
 		configFile = config.Config()
 		statusOk, errorMsg = configFile.readXml()
 		if(statusOk == False):
-			self.assertFail('Error reading config.xml')
+			self.fail('Error reading config.xml')
 
 		dbupdate.DBUpdate().updateDB(self.gdb, RCBMock(), 0, configFile.romCollections, util.getSettings())
 		
@@ -174,7 +174,7 @@ class TestUpdateDB(unittest.TestCase):
 		self.gameTest(gameRows[29], 'Ports Of Call [Test]', 'Ports of Call gives you the job of a shipowner.', 
 			None,  None, 1, 4, 4, None, 4, '4', '', '', 'http://www.mobygames.com/game/amiga/ports-of-call', 'USA', 'Disk', '', 'Joystick', 0, 0,
 			1, 1, 1, 0, 0, 0)		
-		self.gameTest(gameRows[30], 'Prince of Persia', "The Grand Vizier Jaffar has thrown you into a dark dungeon and plans to marry the girl of your dreams in an hour.", 
+		self.gameTest(gameRows[30], 'Prince of Persia', "While the Sultan of Persia is fighting a war in a foreign country, his Grand Vizier Jaffar orchestrates a coup", 
 			None,  None, 9, 24, 27, None, 5, '', '', '', '', '', '', '', '', 0, 0,
 			1, 1, 0, 0, 1, 0)
 		
@@ -215,6 +215,10 @@ class TestUpdateDB(unittest.TestCase):
 		print name
 		self.assertEqual(game[1], name)
 		description = game[2]
+		try:
+			print description
+		except:
+			pass
 		descStart = descStart
 		if(description != None):
 			self.assertTrue(description.startswith(descStart))
