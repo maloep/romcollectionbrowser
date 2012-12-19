@@ -120,7 +120,7 @@ class UIGameInfoView(xbmcgui.WindowXMLDialog):
 		try:
 			romCollection = self.config.romCollections[str(gameRow[util.GAME_romCollectionId])]
 		except:
-			Logutil.log(util.localize(35023) +': ' +str(gameRow[util.GAME_romCollectionId]), util.LOG_LEVEL_ERROR)
+			Logutil.log(util.localize(35023) %str(gameRow[util.GAME_romCollectionId]), util.LOG_LEVEL_ERROR)
 		
 		imageGameList = self.getFileForControl(romCollection.imagePlacingInfo.fileTypesForGameList, gameRow[util.ROW_ID], gameRow[util.GAME_publisherId], gameRow[util.GAME_developerId], gameRow[util.GAME_romCollectionId], fileDict)
 		imageGameListSelected = self.getFileForControl(romCollection.imagePlacingInfo.fileTypesForGameListSelected, gameRow[util.ROW_ID], gameRow[util.GAME_publisherId], gameRow[util.GAME_developerId], gameRow[util.GAME_romCollectionId], fileDict)

@@ -78,7 +78,7 @@ class DialogBaseEdit(xbmcgui.WindowXMLDialog):
 		textValue = control.getLabel()
 		
 		keyboard = xbmc.Keyboard()
-		keyboard.setHeading(util.localize(40032) +' ' +name)			
+		keyboard.setHeading(util.localize(40032) %name)			
 		keyboard.setDefault(textValue)
 		keyboard.doModal()
 		if (keyboard.isConfirmed()):
@@ -114,7 +114,7 @@ class DialogBaseEdit(xbmcgui.WindowXMLDialog):
 		filemask = control.getLabel()
 		
 		keyboard = xbmc.Keyboard()
-		keyboard.setHeading(util.localize(40032) +' ' +enterString)
+		keyboard.setHeading(util.localize(40032) %enterString)
 		keyboard.setDefault(filemask)
 		keyboard.doModal()
 		if (keyboard.isConfirmed()):

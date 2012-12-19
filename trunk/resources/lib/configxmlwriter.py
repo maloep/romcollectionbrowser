@@ -250,7 +250,7 @@ class ConfigXmlWriter:
 				break
 		
 		if(not objectFound):
-			return False, '%s %s ' %(objectType, nameToCompare) +util.localize(35009)
+			return False,  util.localize(35009) %(objectType, nameToCompare)
 		
 		return True, ''
 	

@@ -284,7 +284,7 @@ class ImportOptionsDialog(xbmcgui.WindowXMLDialog):
 				
 		if(scraper != util.localize(40054)):
 			if(siteRow == None):
-				xbmcgui.Dialog().ok(util.localize(35021), util.localize(35026) %scraper)
+				xbmcgui.Dialog().ok(util.localize(35021), util.localize(35022) %scraper)
 				return None, False
 			site, errorMsg = self.gui.config.readScraper(siteRow, romCollection.name, '', '', True, self.gui.config.tree)
 		else:
