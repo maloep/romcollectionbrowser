@@ -648,7 +648,7 @@ class EditRomCollectionDialog(dialogbase.DialogBaseEdit):
 				break
 		
 		if(siteRow == None):
-			xbmcgui.Dialog().ok(util.localize(35021), util.localize(35022) +': ' +scraper)
+			xbmcgui.Dialog().ok(util.localize(35021), util.localize(35022) %scraper)
 			return None
 		
 		site, errorMsg = self.gui.config.readScraper(siteRow, romCollection.name, '', '', True, self.gui.config.tree)

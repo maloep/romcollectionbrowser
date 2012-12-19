@@ -227,7 +227,7 @@ class EditOfflineScraper(dialogbase.DialogBaseEdit):
 			for romCollection in self.gui.config.romCollections.values():				
 				for scraper in romCollection.scraperSites:
 					if(scraper.name == scraperSite):
-						xbmcgui.Dialog().ok(util.localize(40048) +': ' +scraper.name, util.localize(40049))
+						xbmcgui.Dialog().ok(util.localize(40049) %scraper.name)
 						return
 
 																	
