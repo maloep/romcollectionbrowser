@@ -182,7 +182,3 @@ print parent
 
 """
 
-
-count = ""
-
-print str.isdigit(str(count)) 
