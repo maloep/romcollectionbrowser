@@ -77,8 +77,8 @@ class UIGameDB(xbmcgui.WindowXML):
 	selectedConsoleIndex = 0
 	selectedGenreIndex = 0
 	selectedYearIndex = 0
-	selectedPublisherIndex = 0	
-	selectedCharacterIndex = 0				
+	selectedPublisherIndex = 0
+	selectedCharacterIndex = 0
 		
 	rcb_playList = xbmc.PlayList(xbmc.PLAYLIST_VIDEO)
 	playlistOffsets = {}
@@ -86,6 +86,9 @@ class UIGameDB(xbmcgui.WindowXML):
 	applyFilterThread = None
 	applyFilterThreadStopped = False
 	applyFiltersInProgress = False
+	
+	filterChanged = False
+	
 	
 	#last selected game position (prevent invoke showgameinfo twice)
 	lastPosition = -1
@@ -306,47 +309,51 @@ class UIGameDB(xbmcgui.WindowXML):
 					label = str(control.getSelectedItem().getLabel())
 					label2 = str(control.getSelectedItem().getLabel2())
 						
-					filterChanged = False
+					#filterChanged = False
 					
+					"""
 					#check if filter change is already in process
 					if(self.applyFilterThread != None and self.applyFilterThread.isAlive()):
 						self.applyFilterThreadStopped = True
+					"""
 					
 					if (self.selectedControlId == CONTROL_CONSOLES):
 						if(self.selectedConsoleIndex != control.getSelectedPosition()):
 							self.selectedConsoleId = int(label2)
 							self.selectedConsoleIndex = control.getSelectedPosition()
-							filterChanged = True
+							self.filterChanged = True
 							
 					elif (self.selectedControlId == CONTROL_GENRE):
 						if(self.selectedGenreIndex != control.getSelectedPosition()):
 							self.selectedGenreId = int(label2)
 							self.selectedGenreIndex = control.getSelectedPosition()
-							filterChanged = True
+							self.filterChanged = True
 							
 					elif (self.selectedControlId == CONTROL_YEAR):
 						if(self.selectedYearIndex != control.getSelectedPosition()):
 							self.selectedYearId = int(label2)
 							self.selectedYearIndex = control.getSelectedPosition()
-							filterChanged = True
+							self.filterChanged = True
 							
 					elif (self.selectedControlId == CONTROL_PUBLISHER):
 						if(self.selectedPublisherIndex != control.getSelectedPosition()):
 							self.selectedPublisherId = int(label2)
 							self.selectedPublisherIndex = control.getSelectedPosition()
-							filterChanged = True
+							self.filterChanged = True
 							
 					elif (self.selectedControlId == CONTROL_CHARACTER):
 						if(self.selectedCharacterIndex != control.getSelectedPosition()):
 							self.selectedCharacter = label
 							self.selectedCharacterIndex = control.getSelectedPosition()
-							filterChanged = True
+							self.filterChanged = True
 							
+					"""
 					if(filterChanged):
 						#start a new thread to apply filters
 						Logutil.log("start apply filter thread", util.LOG_LEVEL_INFO)
 						self.applyFilterThread = Thread(target=self.applyFilters, args=())
 						self.applyFilterThread.start()
+					"""
 				
 			elif(action.getId() in ACTION_INFO):
 				Logutil.log("onAction: ACTION_INFO", util.LOG_LEVEL_DEBUG)
@@ -385,9 +392,14 @@ class UIGameDB(xbmcgui.WindowXML):
 		Logutil.log("onClick: " + str(controlId), util.LOG_LEVEL_DEBUG)
 				
 		if (controlId in FILTER_CONTROLS):
-			Logutil.log("onClick: Show Game Info", util.LOG_LEVEL_DEBUG)
-			self.setFocus(self.getControl(CONTROL_GAMES_GROUP_START))
-			self.showGameInfo()
+			if(self.filterChanged):
+				Logutil.log("onClick: apply Filters", util.LOG_LEVEL_DEBUG)
+				self.applyFilters()
+				self.filterChanged = False
+			else:
+				Logutil.log("onClick: Show Game Info", util.LOG_LEVEL_DEBUG)
+				self.setFocus(self.getControl(CONTROL_GAMES_GROUP_START))
+				self.showGameInfo()
 		elif (controlId in GAME_LISTS):
 			Logutil.log("onClick: Launch Emu", util.LOG_LEVEL_DEBUG)
 			self.launchEmu()
@@ -596,6 +608,7 @@ class UIGameDB(xbmcgui.WindowXML):
 		
 		Logutil.log("Begin applyFilters" , util.LOG_LEVEL_INFO)
 		
+		"""
 		#we have to use a little wait timer before applying the filter
 		timestamp1 = time.clock()
 		while True:
@@ -604,7 +617,7 @@ class UIGameDB(xbmcgui.WindowXML):
 			if(diff > util.WAITTIME_APPLY_FILTERS):
 				Logutil.log("Filterthread timer ended" , util.LOG_LEVEL_DEBUG)
 				break
-				
+							
 			if(self.applyFilterThreadStopped):
 				self.applyFilterThreadStopped = False
 				Logutil.log("applyFilterThreadStopped" , util.LOG_LEVEL_DEBUG)
@@ -613,12 +626,13 @@ class UIGameDB(xbmcgui.WindowXML):
 		if(self.applyFiltersInProgress):
 			Logutil.log("applyFiltersInProgress" , util.LOG_LEVEL_DEBUG)
 			return
+		"""
 		
-		self.applyFiltersInProgress = True
+		#self.applyFiltersInProgress = True
 		self.updateControls(False, False, False)
 		xbmc.sleep(util.WAITTIME_UPDATECONTROLS)
 		self.showGames()
-		self.applyFiltersInProgress = False
+		#self.applyFiltersInProgress = False
 		
 
 	def showGames(self):
