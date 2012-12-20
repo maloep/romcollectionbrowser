@@ -143,6 +143,36 @@
 	<string id="40092">Eine weitere Rom Collection anlegen?</string>
 
 	
+	<!-- Settings -->
+	<string id="45000">Allgemein</string>
+	<string id="45001">RCB skin</string>
+	<string id="45002">Log level</string>
+	<string id="45003">Caching Option</string>
+	<string id="45004">Viewstate beim Beenden speichern</string>
+	<string id="45005">Viewstate beim Starten des Spiels speichern</string>
+	<string id="45006">Spiele importieren</string>
+	<string id="45007">Spiele beim Start von XBMC importieren</string>
+	<string id="45008">Optionen-Dialog beim Import anzeigen</string>
+	<string id="45009">Scraping Modus</string>
+	<string id="45010">Fuzzy Faktor um Treffer zu ermitteln</string>
+	<string id="45011">local nfo Datei beim Import erzeugen</string>
+	<string id="45012">Spiele ohne Beschreibung nicht importieren</string>
+	<string id="45013">Spiele ohne Artwork nicht importieren</string>
+	<string id="45014">Importierte Spiele erneut scannen</string>
+	<string id="45015">Überschreiben mit Null-Werten erlauben</string>
+	<string id="45016">local nfo Dateien in separatem Ordner speichern</string>
+	<string id="45017">Pfad zu local nfo Dateien</string>
+	<string id="45018">Spiele durchsuchen</string>
+	<string id="45019">Sterne bei Favoriten anzeigen</string>
+	<string id="45020">Option "Alle" in Konsolen Filter anzeigen</string>
+	<string id="45021">Option "Alle" in Genre Filter anzeigen</string>
+	<string id="45022">Option "Alle" in Jahr Filter anzeigen</string>
+	<string id="45023">Option "Alle" in Herausgeber Filter anzeigen</string>
+	<string id="45024">Option "Alle" in Buchstaben Filter anzeigen</string>
+	<string id="45025">Ungefilterte Suche verhindern</string>
+	<string id="45026">Spiele starten</string>
+	<string id="45027">Emulator Kommando maskieren</string>
+	
 	<!-- GUI controls -->
 	<!-- main window-->
 	<string id="50000">Jahr</string>
