@@ -10,7 +10,8 @@ This TODO list / roadmap is a working document. It will change quite frequently 
 == Import games ==
   * Error in scrape on startup: Message does not vanish
 
- 
+== Browse Games ==
+  * changed logic of applying filters; 1st click applies filter, 2nd click closes filter pane
   
 = one of next releases =
 
@@ -74,6 +75,7 @@ This TODO list / roadmap is a working document. It will change quite frequently 
   * autoplay video in Info window not reliable
   * video playback in non-Confluence skins
   * filters lost after game (2nd?) import
+  * when you have videos selected for games, whilst browsing the video will still play if the next game does not have a video.
 
   
 = Features =
