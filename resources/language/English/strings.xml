@@ -99,9 +99,9 @@
 	<string id="40047">Choose a scraper to remove</string>
 	<string id="40048">Scraper %s is already in use and cannot be deleted.</string>
 	<!--<string id="40049">Please choose another one.</string>-->
-	<string id="40050">Automatic: Accurate</string>
-	<string id="40051">Automatic: Guess Matches</string>
-	<string id="40052">Interactive: Select Matches</string>
+	<!--<string id="40050">Automatic: Accurate</string>-->
+	<!--<string id="40051">Automatic: Guess Matches</string>-->
+	<!--<string id="40052">Interactive: Select Matches</string>-->
 	<string id="40053">local artwork</string>
 	<string id="40054">local nfo</string>
 	<string id="40055">Select Artwork type</string>
@@ -144,6 +144,35 @@
 	<string id="40092">Do you want to add another Rom Collection?</string>
 	
 	
+	<!-- Settings -->
+	<string id="45000">General</string>
+	<string id="45001">RCB skin</string>
+	<string id="45002">Log level</string>
+	<string id="45003">Caching option</string>
+	<string id="45004">Save viewstate on exit</string>
+	<string id="45005">Save viewstate on launch emu</string>
+	<string id="45006">Import Games</string>
+	<string id="45007">Import games on XBMC startup</string>
+	<string id="45008">Show import options dialog</string>
+	<string id="45009">Scraping mode</string>
+	<string id="45010">Game matching fuzzy factor</string>
+	<string id="45011">Create local nfo file while scraping</string>
+	<string id="45012">Don't import games without description</string>
+	<string id="45013">Don't import games without artwork</string>
+	<string id="45014">Rescrape already imported games</string>
+	<string id="45015">Allow overwrite with null values</string>
+	<string id="45016">Use extra nfo folder</string>
+	<string id="45017">nfo folder path</string>
+	<string id="45018">Browse Games</string>
+	<string id="45019">Show stars for favorites</string>
+	<string id="45020">Show filter All Consoles</string>
+	<string id="45021">Show filter All Genres</string>
+	<string id="45022">Show filter All Years</string>
+	<string id="45023">Show filter All Publishers</string>
+	<string id="45024">Show filter All Chars</string>
+	<string id="45025">Prevent unfiltered search</string>
+	<string id="45026">Launch Games</string>
+	<string id="45027">Escape emulator cmd</string>
 	
 	<!-- GUI controls -->
 	<!-- main window -->

@@ -63,9 +63,9 @@ class ImportOptionsDialog(xbmcgui.WindowXMLDialog):
 			xbmc.executebuiltin('Skin.Reset(%s)' %util.SETTING_RCB_IMPORTOPTIONS_DISABLEROMCOLLECTIONS)
 		
 		#Scraping modes
-		options = [util.localize(40050),
-					util.localize(40051),
-					util.localize(40052)]
+		options = ['Automatic: Accurate',
+					'Automatic: Guess Matches',
+					'Interactive: Select Matches']
 		self.addItemsToList(CONTROL_LIST_SCRAPEMODE, options)
 
 		sitesInList = self.getAvailableScrapers()
