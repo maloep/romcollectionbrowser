@@ -297,9 +297,7 @@ class ImportOptionsDialog(xbmcgui.WindowXMLDialog):
 			if(site.scrapers != None):
 				firstScraper = site.scrapers[0]
 				if(firstScraper.source != 'nfo' and not firstScraper.source.startswith('http') and site.name != romCollection.name):			
-					xbmcgui.Dialog().ok(util.localize(35021), util.localize(35027) %(site.name, romCollection.name), 
-									util.localize(35028),
-									util.localize(35029))
+					xbmcgui.Dialog().ok(util.localize(35021), util.localize(35027) %(site.name, romCollection.name))
 					return None, False
 			
 			sites.append(site)

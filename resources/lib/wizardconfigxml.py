@@ -248,9 +248,9 @@ class ConfigXmlWizard:
 					fileTypeList.remove(fileType)
 					
 					if(lastArtworkPath == ''):					
-						artworkPath = dialog.browse(0, util.localize(40082) +' (%s)' %(console, fileType), 'files', '', False, False, romPath)
+						artworkPath = dialog.browse(0, util.localize(40082) %(console, fileType), 'files', '', False, False, romPath)
 					else:
-						artworkPath = dialog.browse(0, util.localize(40082) +' (%s)' %(console, fileType), 'files', '', False, False, lastArtworkPath)
+						artworkPath = dialog.browse(0, util.localize(40082) %(console, fileType), 'files', '', False, False, lastArtworkPath)
 					lastArtworkPath = artworkPath
 					Logutil.log('artworkPath: ' +str(artworkPath), util.LOG_LEVEL_INFO)
 					if(artworkPath == ''):
