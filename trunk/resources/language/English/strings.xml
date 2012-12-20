@@ -30,9 +30,9 @@
 	<string id="35024">Selected game could not be read from database.</string>
 	<string id="35025">Control with id: %s could not be found. Check WindowXML file.</string>
 	<!--<string id="35026">Site %s does not exist in config.xml</string>-->
-	<string id="35027">Cannot scrape %s games with %s scraper.</string>
-	<string id="35028">(Options 'All' and 'Overwrite scraper settings'</string>
-	<string id="35029">can't be used together with offline scrapers.)</string>
+	<string id="35027">Cannot scrape %s games with %s scraper.[CR]Invalid combination of scraper settings.</string>
+	<!--<string id="35028"></string>-->
+	<!--<string id="35029">can't be used together with offline scrapers.)</string>-->
 	<string id="35030">Error: Cannot backup MyGames.db: Backup File exists.</string>
 	<string id="35031">Error: Cannot backup MyGames.db</string>
 	<string id="35032">Error: No Update from version %s to %s.</string>
@@ -131,7 +131,7 @@
 	<string id="40079">Emulator params ("%ROM%" is used for your rom files)</string>
 	<string id="40080">Path to %s Roms</string>
 	<string id="40081">File mask (comma-separated): e.g. *.zip, *.smc</string>
-	<string id="40082">%s Artwork</string>
+	<string id="40082">%s Artwork (%s)</string>
 	<string id="40083">Choose an artwork type</string>
 	<string id="40084">Do you want to add another Artwork Path?</string>
 	<string id="40085">Structure of your game descriptions</string>

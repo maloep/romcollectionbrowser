@@ -31,27 +31,27 @@
 	<string id="35024">Das ausgewählte Spiel kann nicht gelesen werden.</string>
 	<string id="35025">Control mit id: %s konnte nicht gefunden werden. WindowXML Datei überprüfen.</string>
 	<!--<string id="35026">Site-Eintrag %s existiert nicht in config.xml</string>-->
-	<string id="35027">%s Spiele können nicht mit %s Scraper verarbeitet werden.</string>
-	<string id="35028">(Optionen 'Alle' und 'Scraper Einstellungen überschreiben'</string>
-	<string id="35029">können nicht mit Offline Scrapern verwendet werden.)</string>
-	<string id="35030">Fehler: MyGames.db kann nicht gesichert werden: Backup existiert bereits.</string>
+	<string id="35027">%s Spiele können nicht mit mit %s Scraper[CR]verarbeitet werden.</string>
+	<!--<string id="35028"></string>-->
+	<!--<string id="35029"></string>-->
+	<string id="35030">Fehler: MyGames.db kann nicht gesichert werden:[CR]Backup existiert bereits.</string>
 	<string id="35031">Fehler: MyGames.db kann nicht gesichert werden</string>
 	<string id="35032">Fehler: Update von Version %s auf %s nicht möglich.</string>
 	<!--<string id="35033">Control with id: %s could not be found. Check WindowXML file.</string>-->
 	<string id="35034">Fehler beim Starten des Spiels</string>
 	<string id="35035">Fehler beim Starten des Emulators</string>
 	<string id="35036">Fehler beim Löschen der temporären Dateien</string>
-	<string id="35037">Fehler beim Starten des Emulators: Datei %s existiert nicht</string>
-	<string id="35038">Fehler beim Erzeugen der .cut Datei. Siehe xbmc.log für Details.</string>
+	<string id="35037">Fehler beim Starten des Emulators:[CR]Datei %s existiert nicht</string>
+	<string id="35038">Fehler beim Erzeugen der .cut Datei.[CR]Siehe xbmc.log für Details.</string>
 	<string id="35039">Fehler beim Laden der .7z Datei.</string>
 	<string id="35040">Fehler: Datei config_template.xml existiert nicht</string>
 
 	
 	<!-- Hints / questions -->
-	<string id="40000">Konfigurationsdatei config.xml ist nicht vorhanden.</string>
+	<string id="40000">Datei config.xml ist nicht vorhanden.</string>
 	<string id="40001">Jetzt neu erstellen?</string>
 	<string id="40002">Datenbank und config.xml wurden aktualisiert.</string>
-	<string id="40003">Weitere Infos zu den Änderungen stehen im Wiki und im Changelog.</string>
+	<string id="40003">Weitere Infos zu den Änderungen[CR]stehen im Wiki und im Changelog.</string>
 	<string id="40004">Lösche Spiel</string>
 	<string id="40005">Lösche Spiele...</string>
 	<string id="40006">Spiele löschen abgeschlossen</string>
@@ -63,7 +63,7 @@
 	<string id="40012">Import wird ausgeführt</string>
 	<string id="40013">Import abbrechen?</string>
 	<string id="40014">Import wird abgebrochen</string>
-	<string id="40015">Abbruch des Imports ist noch nicht abgeschlossen.</string>
+	<string id="40015">Abbruch ist noch nicht abgeschlossen.</string>
 	<string id="40016">Suchbegriff eingeben</string>
 	<string id="40017">Suche</string>
 	<string id="40018">Spiele jetzt importieren?</string>
@@ -75,7 +75,7 @@
 	<string id="40024">Fortfahren</string>
 	<string id="40025">Fortfahren und Fehler ignorieren</string>
 	<string id="40026">Abbrechen</string>
-	<string id="40027">Die ersten 10 Spiele konnten nicht importiert werden.</string>
+	<string id="40027">Die ersten 10 Spiele konnten nicht[CR]importiert werden.</string>
 	<string id="40028">Import abgebrochen.</string>
 	<string id="40029">Siehe xbmc.log für Details.</string>
 	<string id="40030">Dateiliste wird erstellt...</string>
@@ -92,11 +92,11 @@
 	<string id="40041">Pfad</string>
 	<string id="40042">Media-Pfad hinzufügen</string>
 	<string id="40043">Media-Pfad entfernen</string>
-	<string id="40044">Es sind bereits für alle Rom Collections Scraper vorhanden</string>	
+	<string id="40044">Es sind bereits für alle Rom Collections[CR]Scraper vorhanden</string>	
 	<string id="40045">Scraper entfernen oder bearbeiten</string>
 	<string id="40046">Scraper Name auswählen</string>
 	<string id="40047">Zu löschenden Scraper auswählen</string>
-	<string id="40048">Scraper % wird bereits verwendet und kann nicht gelöscht werden.</string>
+	<string id="40048">Scraper %s wird bereits verwendet und kann[CR]nicht gelöscht werden.</string>
 	<!--<string id="40049">Bitte wähle einen anderen Scraper.</string>-->
 	<string id="40050">Automatisch: Exakt</string>
 	<string id="40051">Automatisch: Treffer raten</string>
@@ -108,9 +108,9 @@
 	<string id="40057">ignorieren</string>
 	<string id="40058">Filter ignorieren</string>
 	<string id="40059">anzeigen</string>
-	<string id="40060">Nur Spiele mit fehlenden Einträgen anzeigen</string>
+	<string id="40060">Nur Spiele mit fehlenden Einträgen</string>
 	<string id="40061">ausblenden</string>
-	<string id="40062">Spiele mit fehlenden Einträgen ausblenden</string>
+	<string id="40062">Keine Spiele mit fehlenden Einträgen</string>
 	<string id="40063">Spiel starten</string>
 	<string id="40064">Disk auswählen</string>
 	<string id="40065">Spiel von Beginn starten</string>
@@ -130,7 +130,7 @@
 	<string id="40079">Emulator Parameter ("%ROM%" für die Rom-Dateien)</string>
 	<string id="40080">Pfad zu den %s Roms</string>
 	<string id="40081">Dateimaske (Komma-separiert): z.B. *.zip, *.smc</string>
-	<string id="40082">%s Artwork</string>
+	<string id="40082">%s Artwork (%s)</string>
 	<string id="40083">Wähle Artwork Typ aus</string>
 	<string id="40084">Einen weiteren Artwork-Pfad anlegen?</string>
 	<string id="40085">Aufbau der Spiel-Infos</string>
