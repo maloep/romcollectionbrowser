@@ -1,3 +1,14 @@
+1.1.0 (12/2012)
+~~~~~~~~~~~~~
+General:
+  * localization
+
+Import Games:
+  * error in scrape on startup: import message did not vanish anymore
+
+Browse Games:
+  * changed logic of applying filters: 1st click applies filter, 2nd click closes filter pane
+
 1.0.9 (11/2012)
 ~~~~~~~~~~~~~
 Browse Games:
