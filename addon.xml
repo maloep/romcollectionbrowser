@@ -47,16 +47,16 @@ Erste Schritte:
   * Drücke dazu "C" auf der Tastatur oder "Menu" auf der Fernbedienung
 
 Features:
-  * Scannt Verzeichnisse rekursiv und import Spiele in die Datenbank
-  * Artwork und Metadaten werden aus verschiedenen Online-Quellen gelesen
-  * Lokal verfügbare Infos, Artwork und Videos können eingelesen werden.
-  * Spiele nach Konsole, Genre, Jahr und Herausgeber filtern.
+  * Scannt Verzeichnisse rekursiv und importiert Spiele in die Datenbank
+  * Liest Artwork und Metadaten aus verschiedenen Online-Quellen
+  * Importiert lokal verfügbare Infos, Artwork und Videos
+  * Filtert Spiele nach Konsole, Genre, Jahr und Herausgeber
   * Favoriten-Funktion
   * Automatisches Abspielen von Videos
   * Fullscreen Video Browser
   * Detailseite mit weiteren Spiele-Infos
   * spezielle MAME Sichten für Cabinets und Banner
-  * Spiele können im Solo-Modus gestartet werden (beendet XBMC)
+  * Startet Spiele im Solo-Modus (beendet XBMC vor dem Start des Spiels)
   * Erkennt Spiele in zip und 7z Archiven
   * Savestates können direkt gestartet werden (Emulator-abhängig)
   * ...
