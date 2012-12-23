@@ -181,7 +181,7 @@ class ConfigXmlWizard:
 			
 			
 			if(scenarioIndex == 0):
-				artworkPath = dialog.browse(0, util.localize(40082) %console, 'files', '', False, False, romPath)
+				artworkPath = dialog.browse(0, util.localize(40093) %console, 'files', '', False, False, romPath)
 				Logutil.log('artworkPath: ' +str(artworkPath), util.LOG_LEVEL_INFO)
 				if(artworkPath == ''):
 					Logutil.log('No artworkPath selected. Action canceled.', util.LOG_LEVEL_INFO)
