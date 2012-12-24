@@ -95,7 +95,7 @@ class ConfigxmlUpdater:
 			siteName = scraperSiteXml.attrib.get('name')
 			
 			#handle online scrapers
-			if(siteName == 'local nfo'):
+			if(siteName == util.localize(40054)):
 				scraperSiteXml.attrib['descFilePerGame'] = 'True'
 				scraperSiteXml.attrib['searchGameByCRC'] = 'False'
 			elif(siteName == 'thegamesdb.net'):
