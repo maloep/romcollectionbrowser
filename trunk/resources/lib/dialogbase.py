@@ -51,7 +51,7 @@ class DialogBaseEdit(xbmcgui.WindowXMLDialog):
 			#only add scrapers without http
 			if(localOnly):
 				#don't use local nfo scraper
-				if(site.name == 'local nfo'):
+				if(site.name == util.localize(40054)):
 					 continue
 				skipScraper = False
 				

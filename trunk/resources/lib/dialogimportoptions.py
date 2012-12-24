@@ -282,7 +282,7 @@ class ImportOptionsDialog(xbmcgui.WindowXMLDialog):
 				siteRow = element
 				break
 				
-		if(scraper != util.localize(40054)):
+		if(scraper != util.localize(40053)):
 			if(siteRow == None):
 				xbmcgui.Dialog().ok(util.localize(35021), util.localize(35022) %scraper)
 				return None, False
