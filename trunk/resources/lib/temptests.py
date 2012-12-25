@@ -182,3 +182,29 @@ print parent
 
 """
 
+def walklevel(some_dir, level=1):
+	some_dir = some_dir.rstrip(os.path.sep)
+	assert os.path.isdir(some_dir)
+	num_sep = len([x for x in some_dir if x == os.path.sep])
+	for root, dirs, files in os.walk(some_dir):
+		yield root, dirs, files
+		num_sep_this = len([x for x in root if x == os.path.sep])
+		if num_sep + level <= num_sep_this:
+			del dirs[:]
+
+import glob
+files = []
+
+dirname = 'E:\Games\collection\PSX\Roms'
+basename = 'Tomb Raider V.img'						
+dirname = dirname.decode(sys.getfilesystemencoding()).encode('utf-8')
+for walkRoot, walkDirs, walkFiles in walklevel(dirname, 99):
+	newRomPath = os.path.join(walkRoot, basename)	
+	#glob is same as "os.listdir(romPath)" but it can handle wildcards like *.adf
+	allFiles = [f.decode(sys.getfilesystemencoding()).encode('utf-8') for f in glob.glob(newRomPath)]
+
+	#did not find appendall or something like this
+	files.extend(allFiles)
+	
+print str(files)
+
