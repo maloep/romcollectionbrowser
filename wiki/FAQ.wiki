@@ -34,7 +34,9 @@ Usually this happens if there is still a disc in the drive. Remove all discs and
 On Windows and XBMC Dharma it may happen that you have to add your drives via XBMC File manager. It depends on the skin where to find the File manager. In Confluence you will find it as a sub menu of System on the Home screen (move to the right when System is highlighted).
 
 == RCB can't access my SMB shares ==
-There seems to be a problem to access SMB shares the standard way ("smb://server/location/..."). You can get around this issue by manually editing the file config.xml. Search for the smb entry and change it to the following syntax: "\\server\location\...".
+With latest RCB versions (1.0.8 and above) you should be able to add smb paths without any issues.
+
+In case you still have problems with smb paths the easiest way to add roms from smb shares will be to use network drives on Windows or links on Linux. 
 
 == I can't import MAME roms using MAWS scraper ==
 MAWS site is down since some weeks and as it seems it will stay down for some more weeks or even forever. In the meantime you can use [http://code.google.com/p/romcollectionbrowser/wiki/HowToAddMAMEOffline this guide] to add your MAME roms to RCB with offline game descriptions.

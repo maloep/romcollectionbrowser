@@ -1,9 +1,9 @@
 #sidebar SideBar
 <wiki:toc max_depth="4" />
 
-[http://romcollectionbrowser.googlecode.com/files/screen_Settings_02_ImportGames_small_1202.jpg]
+[http://romcollectionbrowser.googlecode.com/files/screen_addonsettings_import_1.1.1.jpg]
 
-You can access RCBs global settings via the context menu in addons / scripts list in XBMC (press C on the keyboard).
+You can access RCBs global settings via the context menu in XBMCs addons list or the context menu inside RCB (press C on the keyboard or menu on the remote to access the context menu).
 
 = Show import options dialog =
 If set to "True" the import options dialog will be shown at every game import. If set to "False" RCB will use the default settings from config.xml and global settings.
@@ -36,8 +36,11 @@ Set this to "True" if you want to skip all games that RCB can't find any descrip
 = Don't import games without artwork =
 Set this to "True" if you want to skip all games that RCB can't find any artwork for. RCB will create a file "missingArtwork.txt" while scraping. This file contains a list of all missing artwork types.
 
-= Always rescan imported games =
+= Rescrape already imported games =
 Before scraping game information, RCB checks if the current rom file is already imported to the database. RCB will skip scraping these games unless you set this option to "True".
+
+= Allow overwrite with null values =
+When rescraping a game that is already available in your database it may happen that some information is not present on the scraped site anymore (or you are using a different scraper that does not support this type of information). To prevent RCB from overwriting the available information with null values you should disable this setting.
 
 = Use extra nfo folder =
 If set to "False", RCB will look for your nfo files next to your rom files. If set to "True", you can select a separate path where RCB should store your nfo files.

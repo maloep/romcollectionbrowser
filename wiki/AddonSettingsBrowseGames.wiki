@@ -1,9 +1,9 @@
 #sidebar SideBar
 <wiki:toc max_depth="4" />
 
-[http://romcollectionbrowser.googlecode.com/files/screen_Settings_03_BrowseGames_small.jpg]
+[http://romcollectionbrowser.googlecode.com/files/screen_addonsettings_browse_1.1.1.jpg]
 
-You can access RCBs global settings via the context menu in addons / scripts list in XBMC (press C on the keyboard).
+You can access RCBs global settings via the context menu in XBMCs addons list or the context menu inside RCB (press C on the keyboard or menu on the remote to access the context menu).
 
 = Show stars for favorites =
 If you mark games as favorites RCB may display a little star to visualize the favorite status of this game. You can enable/disable this feature here.

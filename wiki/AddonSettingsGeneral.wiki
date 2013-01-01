@@ -1,9 +1,9 @@
 #sidebar SideBar
 <wiki:toc max_depth="4" />
 
-[http://romcollectionbrowser.googlecode.com/files/screen_Settings_01_General_small.jpg]
+[http://romcollectionbrowser.googlecode.com/files/screen_addonsettings_general_1.1.1.jpg]
 
-You can access RCBs global settings via the context menu in addons / scripts list in XBMC (press C on the keyboard).
+You can access RCBs global settings via the context menu in XBMCs addons list or the context menu inside RCB (press C on the keyboard or menu on the remote to access the context menu).
 
 = RCB skin =
 You can run RCB with different skins if you don't like the look and feel of the default one. Just select the skin you want in Addon settings. See section [ChangeSkins Change skins] for details (e.g. how to enable skin specific fonts).
