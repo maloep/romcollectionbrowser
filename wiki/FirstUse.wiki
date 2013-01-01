@@ -11,5 +11,7 @@ Check out this video to get an impression how RCB is set up on first start.
   
 In most scenarios the config wizard will fit all your needs. More advanced or special settings can be adjusted in the [EditRomCollection Edit Rom Collection] dialog or [AddonSettings Addon settings].
 
+If the wizard does not start or you canceled it before completion you can launch the wizard again via context menu. Just enter RCB and press "C" on the keyboard or "Menu" on the remote. Select "Add Rom Collection" from the context menu to start the configuration wizard again.
+
 = XBMC Live users =
 If you use XBMC Live without an additional window manager you can use RCB only in non-solo mode. See section [EditRomCollectionLaunchGames#Use_emulator_in_solo_mode Use Emulator solo] for details.

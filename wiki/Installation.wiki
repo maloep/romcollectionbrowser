@@ -13,7 +13,7 @@
   * Download [http://romcollectionbrowser.googlecode.com/files/script.games.rom.collection.browser-0.9.7.zip script.games.rom.collection.browser-0.9.7.zip]
   * Go to XBMCs Addon Browser: System -> Add-ons -> Install from zip file
 
-== Eden ==
+== Eden / Frodo ==
 Installation of "Rom Collection Browser" is done the same way like in Dharma. But you will additionally need the "Rom Collection Browser Service" to perform tasks at XBMC startup (replacement of autoexec.py).
 
 You can install the service like any other addon:

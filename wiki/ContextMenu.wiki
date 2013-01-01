@@ -3,10 +3,16 @@
 
 You can launch the context menu with pressing "C" on the keyboard or "Menu" on the remote.
 
-[http://romcollectionbrowser.googlecode.com/files/screen_contextmenu_1202.jpg]
+[http://romcollectionbrowser.googlecode.com/files/screen_context_1.1.1.jpg]
 
 = Import Games =
 Starts the game import. See section [ImportGames Import Games] for more information.
+
+= Rescrape selected Game =
+Starts the game import for the currently selected game. Make sure that addon setting [AddonSettingsImportGames#Always_rescan_imported_games Always rescan imported games] is enabled. See section [ImportGames Import Games] for more information.
+
+= Rescrape Selection =
+Starts the game import for all games that are currently shown in the list. Make sure that addon setting [AddonSettingsImportGames#Always_rescan_imported_games Always rescan imported games] is enabled. See section [ImportGames Import Games] for more information.
 
 = Add Rom Collection =
 Launches the wizard to add a new Rom Collection. See section [ConfigurationWizard Configuration Wizard] for more information.
@@ -37,3 +43,6 @@ Launches a little dialog to select the Rom Collection to delete and and the remo
 
 = Clean database =
 Checks if you have deleted a rom file outside of RCB and deletes the game entry in database.
+
+= Open Addon settings =
+Opens the [AddonSettings Addon Settings].
