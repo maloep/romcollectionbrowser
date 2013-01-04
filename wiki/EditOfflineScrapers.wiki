@@ -1,9 +1,7 @@
 #sidebar SideBar
 <wiki:toc max_depth="4" />
 
-http://romcollectionbrowser.googlecode.com/files/screen_Config_05_Offline_scraper_wiki.jpg
-
-new with 0.8.6
+[http://romcollectionbrowser.googlecode.com/files/screen_editofflinescrapers_1.1.1.jpg]
 
 With this dialog you can edit offline scrapers. Offline scrapers are used to import local available game descriptions. They always consist of one or more game description file(s) and a parser file. The game description file(s) contain the game info that you want to import (name, release year, publisher, ...), the parser file tells RCB how to parse the description file. After adding new scrapers with this dialog you can select the scraper in the [EditRomCollectionImportGameData "Edit Rom Collection" dialog] or [ImportGames "Import games" dialog].
 
@@ -12,20 +10,21 @@ You will find some pre-built sets of game descriptions and parsers [UseOfflineGa
 = Scraper =
 Select the scraper that you want to edit. If there is no scraper available the box will just conatin a "None" entry.
 
+= Use description per game =
+There can be one big description file with descriptions for all games or you can have one description file per game.
+
+In the first case (Use description per game = False) RCB will parse the complete file and tries to find the parsed games in your rom collection. You must be sure that the game name in the description file matches exactly the name of your rom file (without disk prefix and extension) or that the crc value of the rom file matches the crc value inside the description file.
+
+In second case (Use description per game = True) the gamename must occur somewhere in the path to the game description and "Game desc file mask" should contain a %GAME%-placeholder. The complete path to the game description (Path game desc + Game desc file mask) could look like this: "/home/user/emu/Amiga/description/%GAME%/description.txt" or this: "/home/user/emu/Amiga/description/%GAME%.txt" where the part starting with %GAME% always should be the Game desc file mask.
+
 = Path game desc =
 The path to the game description file. With the select dialog you will only navigate to the folder where the description file can be found. You have to specify the file name with the property "Game desc file mask". (This behaviour will be changed in one of the next releases)
 
 = Game desc file mask =
-Usually just the name of the description file. In "one description file per game"-mode the file mask could contain the placeholder %GAME%. This will be replaced by the gamename when searching for description files.
+Usually just the name of the description file. In "Use description per game"-mode the file mask could contain the placeholder %GAME%. This will be replaced by the gamename when searching for description files. This option is ignored when "Use description per game" is set to False.
 
-Also see next topic "Use description file per game" for more information.
-
-= Use description file per game =
-There can be one big description file with descriptions for all games or you can have one description file per game.
-
-In the first case (Use description file per game = False) RCB will parse the complete file and tries to find the parsed games in your rom collection. You must be sure that the game name in the description file matches exactly the name of your rom file (without disk prefix and extension) or that the crc value of the rom file matches the crc value inside the description file.
-
-In second case (Use description file per game = True) the gamename must occur somewhere in the path to the game description and "Game desc file mask" should contain a %GAME%-placeholder. The complete path to the game description (Path game desc + Game desc file mask) could look like this: "/home/user/emu/Amiga/description/%GAME%/description.txt" or this: "/home/user/emu/Amiga/description/%GAME%.txt" where the part starting with %GAME% always should be the Game desc file mask.
+= Parse instruction =
+Path to the file that tells RCB how to parse the description file(s).
 
 = Search game by crc =
 In "One description file for all games"-scenario the description file may contain crc values to perform the matching between your rom files and the game descriptions. RCB can compute the crc values of your roms and uses this to search for the corresponding game description in your description file. Set this option to "True" if your description files support crc values (e.g. most game descriptions listed [UseOfflineGameDescriptions here] support crc values).

@@ -2,7 +2,7 @@
 <wiki:toc max_depth="4" />
 Change the skin in Addon settings:
 
-[http://romcollectionbrowser.googlecode.com/files/screen_Settings_01_General_small.jpg]
+[http://romcollectionbrowser.googlecode.com/files/screen_addonsettings_general_1.1.1.jpg]
 
 = Available RCB skins =
 == Skins available via RCB ==
@@ -11,13 +11,13 @@ Atm these skins are available for RCB:
   * Night (thanks to mcborzu)
   * Simplicity (thanks to igotdvds)
   
-These skins are shipped with RCB and can be used with any other XBMC skin. See chapter "Change skin" for more details.
+These skins are shipped with RCB and can be used with any other XBMC skin. See chapter "Change skin" for more details. If you are using an XBMC skin that already ships RCB skin files (see next chapter "Skins available via XBMC skins") you won't be able to change the RCB skin by default (why should you?). This is because XBMC will always launch the skin files that it finds next to the skin, not the files that are shipped with the script. Anyway, if you want to use another RCB skin than the one that is shipped with your XBMC skin you have to remove or rename the RCB specific files in the XBMC skin directory. Go to XBMCs addon directory and search for the directory of the skin that you are using (XBMC/addons/skin.yourskin). Go to the 720p directory of your skin and remove or rename alle files that start with "script-RCB..." and the file "script-Rom_Collection_Browser-main.xml".
 
 == Skins available with XBMC skins ==
 Atm these XBMC skins ship RCB specific skin files:
   * Aeon MQ3 (thanks to MarcosQui)
-
-If you are using an XBMC skin that already ships RCB skin files (see next chapter "Skins available via XBMC skins") you won't be able to change the RCB skin by default (why should you?). This is because XBMC will always launch the skin files that it finds next to the skin, not the files that are shipped with the script. Anyway, if you want to use another RCB skin than the one that is shipped with your XBMC skin you have to remove or rename the RCB specific files in the XBMC skin directory. Go to XBMCs addon directory and search for the directory of the skin that you are using (XBMC/addons/skin.yourskin). Go to the 720p directory of your skin and remove or rename alle files that start with "script-RCB..." and the file "script-Rom_Collection_Browser-main.xml".
+  * Aeon MQ4 (thanks to MarcosQui)
+  * Aeon Nox (thanks to Phil65 and Big_Noid)
 
 = Change skin =
 In [AddonSettingsGeneral Addon settings] you can choose to run RCB with any of the available RCB skins regardless what skin you are using as default skin in XBMC. To use one of the built-in skins you don't have to do anything else on your side than just select the skin in RCB settings. But by default you won't see the skin specific fonts in RCB. XBMC will use the fonts of your default skin if it can't find the specific fonts. If you want to use the skin specific fonts just check the section below.

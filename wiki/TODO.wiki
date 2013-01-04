@@ -238,26 +238,10 @@ This TODO list / roadmap is a working document. It will change quite frequently 
 === General ===
   * update skinning guide
   * provide properties of most played games for skins to show on home screen
-  * changed text of game description options in config wizard (screenshot updates?)
-  * open Addon settings from context menu
-
-=== Import Games ===
-  * change default values of "Don't import games without info / artwork"
-  * rescrape single game
-  * rescrape selection
-  * new update option: don't overwrite properties with null values
-  * "First 10 games could not be imported." -> option to continue and ignore error (patch submitted by pantherts)
-  * import of roms and artwork on smb shares (shares with username and password in path are not supported)
-  * create artwork parent folder if not present
 
 === Browse Games ===
   * missing info / artwork dialog
 
-=== Launch Games ===
-  * add before and after launch command (patch submitted by carabalb)
-  * select disk in multi disk scenario (patch submitted by pantherts)
-  * new option to use subprocess.Popen to launch emulators
-  * using %PROGRAMFILES% variable in applaunch.bat
   
 
 == General ==
@@ -266,7 +250,7 @@ This TODO list / roadmap is a working document. It will change quite frequently 
     * suggested file structure
     * install emulators
   * In-Depth guide, RCBs inner workings
-    * game imprt, scrapers
+    * game import, scrapers
     * imageplacing
 
 == FAQ ==

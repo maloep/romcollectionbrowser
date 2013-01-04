@@ -51,10 +51,6 @@ Check out the following pages if you have trouble with setting up RCB or want to
 	
 		=== [EnableFullscreenVideoBrowser Enable fullscreen video browser] ===
 		
-		=== [DynamicImagePlacing Dynamic image placing] ===
-		
-		=== [PerformanceSettings Performance settings] ===
-		
 	= Launch games =
 	
 		=== [LaunchGames Launch games] ===
@@ -62,6 +58,10 @@ Check out the following pages if you have trouble with setting up RCB or want to
 		=== [LaunchingSavestates Launch savestates] ===
 			
 	= Advanced topics =
+
+		=== [DynamicImagePlacing Dynamic image placing] ===
+		
+		=== [PerformanceSettings Performance settings] ===
 
 		=== [SkinningRCB Skinning RCB] ===
 		

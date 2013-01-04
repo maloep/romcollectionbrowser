@@ -29,12 +29,12 @@
     * [ChangeSkins Change skin]
     * [GameFilter Game filter]
     * [EnableFullscreenVideoBrowser Enable fullscreen video browser]
-    * [DynamicImagePlacing Dynamic Image Placing]
-    * [PerformanceSettings Performance Settings]
   * Launch games
     * [LaunchGames Launch games]
     * [LaunchingSavestates Launch savestates]
   * Advanced topics
+    * [DynamicImagePlacing Dynamic Image Placing]
+    * [PerformanceSettings Performance Settings]
     * [SkinningRCB Skinning RCB]
     * [CreatingYourOwnDescriptionParser Creating your own description parser]
   * [ChangeLog Changelog]
