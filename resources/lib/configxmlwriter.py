@@ -83,6 +83,12 @@ class ConfigXmlWriter:
 				SubElement(romCollectionXml, 'xboxCreateShortcutUseShortGamename').text = str(romCollection.xboxCreateShortcutUseShortGamename)
 				
 			#image placing
+			if(not self.createNew):
+				#in case of an update we have to create new options
+				if(romCollection.name == 'MAME' and not self.createNew):
+					self.addFileTypesForMame()
+					self.addImagePlacingForMame()
+					
 			if(romCollection.imagePlacingMain != None and romCollection.imagePlacingMain.name != ''):
 				success, message = self.searchConfigObjects('ImagePlacing/fileTypeFor', romCollection.imagePlacingMain.name, 'ImagePlacing')
 				if(not success):
@@ -147,12 +153,6 @@ class ConfigXmlWriter:
 							'source' : sourceTranslated,
 							'encoding' : scraper.encoding
 							})
-			
-			if(not self.createNew):	
-				#in case of an update we have to create new options
-				if(romCollection.name == 'MAME' and not self.createNew):					
-					self.addFileTypesForMame()
-					self.addImagePlacingForMame()
 				
 		success, message = self.writeFile()
 		return success, message
@@ -211,6 +211,9 @@ class ConfigXmlWriter:
 	
 	
 	def writeMissingFilter(self, showHideOption, artworkOrGroup, artworkAndGroup, infoOrGroup, infoAndGroup):
+		
+		Logutil.log('write Missing Info Filter', util.LOG_LEVEL_INFO)
+		
 		missingFilterXml = self.tree.find('MissingFilter')
 		
 		#HACK: remove MissingFilter-element
@@ -256,6 +259,9 @@ class ConfigXmlWriter:
 	
 		
 	def removeRomCollection(self, RCName):
+		
+		Logutil.log('removeRomCollection', util.LOG_LEVEL_INFO)
+		
 		configFile = util.getConfigXmlPath()
 		self.tree = ElementTree().parse(configFile)
 		romCollectionsXml = self.tree.find('RomCollections')
@@ -268,6 +274,7 @@ class ConfigXmlWriter:
 		return success, message
 		
 	def addFileTypesForMame(self):
+		Logutil.log('addFileTypesForMame', util.LOG_LEVEL_INFO)
 		
 		fileTypesXml = self.tree.find('FileTypes')
 				
@@ -286,7 +293,7 @@ class ConfigXmlWriter:
 				marqueeExists = True
 			elif name == 'action':
 				actionExists = True
-			elif name == 'marquee':
+			elif name == 'title':
 				titleExists = True
 			
 			id = fileType.attrib.get('id')
@@ -310,6 +317,7 @@ class ConfigXmlWriter:
 		
 		
 	def addImagePlacingForMame(self):
+		Logutil.log('addImagePlacingForMame', util.LOG_LEVEL_INFO)
 		
 		imagePlacingXml = self.tree.find('ImagePlacing')
 		
@@ -356,7 +364,8 @@ class ConfigXmlWriter:
 		
 						
 	def writeFile(self):
-		#write file		
+		Logutil.log('writeFile', util.LOG_LEVEL_INFO)
+		#write file
 		try:
 			configFile = util.getConfigXmlPath()
 			
