@@ -98,14 +98,18 @@ class ContextMenuDialog(xbmcgui.WindowXMLDialog):
 			#self.gui.updateDB()
 		elif (controlID == 5111): # add Rom Collection			
 			self.close()
-			wizardconfigxml.ConfigXmlWizard().addRomCollection(self.gui.config)
+			statusOk, errorMsg = wizardconfigxml.ConfigXmlWizard().addRomCollection(self.gui.config)
+			if(statusOk == False):
+				xbmcgui.Dialog().ok(util.SCRIPTNAME, util.localize(35001), errorMsg)
+				Logutil.log('Error updating config.xml: ' +errorMsg, util.LOG_LEVEL_INFO)
+				return
 			
 			#update self.config
 			statusOk, errorMsg = self.gui.config.readXml()
 			if(statusOk == False):
 				xbmcgui.Dialog().ok(util.SCRIPTNAME, util.localize(35002), errorMsg)
 				Logutil.log('Error reading config.xml: ' +errorMsg, util.LOG_LEVEL_INFO)
-				return False, util.localize(35002) +' ' +errorMsg
+				return
 			
 			#import Games
 			self.gui.updateDB()
@@ -188,7 +192,7 @@ class ContextMenuDialog(xbmcgui.WindowXMLDialog):
 				selectedGame.setProperty('isfavorite', str(isFavorite))
 			self.gui.gdb.commit()
 			
-		elif (controlID == 5120): #Export nfo files			
+		elif (controlID == 5120): #Export nfo files
 			self.close()
 			nfowriter.NfoWriter().exportLibrary(self.gui)
 			

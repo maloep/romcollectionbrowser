@@ -178,6 +178,10 @@ class UIGameDB(xbmcgui.WindowXML):
 				return
 						
 			statusOk, errorMsg = wizardconfigxml.ConfigXmlWizard().createConfigXml(configFile)
+			if(statusOk == False):
+				xbmcgui.Dialog().ok(util.SCRIPTNAME, util.localize(35001), errorMsg)
+				self.quit = True
+				return
 		else:
 			#check if config.xml is up to date
 			returnCode, message = ConfigxmlUpdater().updateConfig(self)

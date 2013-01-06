@@ -53,6 +53,7 @@ class ConfigXmlWizard:
 		success, message = configWriter.writeRomCollections(romCollections, False)
 		
 		Logutil.log("End addRomCollection" , util.LOG_LEVEL_INFO)
+		return success, message
 	
 	
 	def addRomCollections(self, id, configObj, consoleList, isUpdate):
@@ -79,20 +80,21 @@ class ConfigXmlWizard:
 			if(platformIndex == -1):
 				Logutil.log('No Platform selected. Action canceled.', util.LOG_LEVEL_INFO)
 				break
-			elif(platformIndex == 0):				
-				keyboard = xbmc.Keyboard()
-				keyboard.setHeading(util.localize(40077))			
-				keyboard.doModal()
-				if (keyboard.isConfirmed()):
-					console = keyboard.getText()
-					Logutil.log('Platform entered manually: ' +console, util.LOG_LEVEL_INFO)
-				else:
-					Logutil.log('No Platform entered. Action canceled.', util.LOG_LEVEL_INFO)
-					break
 			else:
 				console = consoleList[platformIndex]
-				consoleList.remove(console)
-				Logutil.log('selected platform: ' +console, util.LOG_LEVEL_INFO)
+				if(console =='Other'):				
+					keyboard = xbmc.Keyboard()
+					keyboard.setHeading(util.localize(40077))			
+					keyboard.doModal()
+					if (keyboard.isConfirmed()):
+						console = keyboard.getText()
+						Logutil.log('Platform entered manually: ' +console, util.LOG_LEVEL_INFO)
+					else:
+						Logutil.log('No Platform entered. Action canceled.', util.LOG_LEVEL_INFO)
+						break
+				else:
+					consoleList.remove(console)
+					Logutil.log('selected platform: ' +console, util.LOG_LEVEL_INFO)
 			
 			romCollection.name = console
 			romCollection.id = id
