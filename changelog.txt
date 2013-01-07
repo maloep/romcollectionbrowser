@@ -1,3 +1,18 @@
+1.1.2 (01/2013)
+~~~~~~~~~~~~~
+General:
+  * bugfix: asking for Platform "Other" did not work in Add Rom Collection wizard
+  * bugfix: no error message was shown after Add Rom Collection wizard
+  * bugfix: old config.xml structure was not updated with MAME imageplacing options
+
+Browse Games:
+  * bugfix: issues with browsing games in Aeon Nox and Frodo RC3
+  
+Launch Games:
+  * bugfix: using correct json command to toggle fullscreen
+  * bugfix: backward compatibility for fullscreen toggle
+  * new settings: pre- and post-launch delay
+
 1.1.1 (12/2012)
 ~~~~~~~~~~~~~
 General:
