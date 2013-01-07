@@ -1711,7 +1711,10 @@ class UIGameDB(xbmcgui.WindowXML):
 		if(control == None):
 			Logutil.log("RCB_WARNING: control == None in writeMsg", util.LOG_LEVEL_WARNING)
 			return
-		control.setLabel(msg)					
+		try:
+			control.setLabel(msg)
+		except:
+			pass
 	
 	
 	def exit(self):				
