@@ -82,7 +82,7 @@ def launchEmu(gdb, gui, gameId, config, settings):
 		if (os.environ.get( "OS", "xbox" ) == "xbox"):			
 			launchXbox(gui, gdb, cmd, romCollection, filenameRows)
 		else:
-			launchNonXbox(cmd, romCollection, precmd, postcmd)
+			launchNonXbox(cmd, romCollection, settings, precmd, postcmd)
 	
 		gui.writeMsg("")
 					
@@ -544,7 +544,7 @@ def getRomfilenameForXboxCutfile(filenameRows, romCollection):
 	return filename
 	
 	
-def launchNonXbox(cmd, romCollection, precmd='', postcmd=''):
+def launchNonXbox(cmd, romCollection, settings, precmd='', postcmd=''):
 	Logutil.log("launchEmu on non-xbox", util.LOG_LEVEL_INFO)							
 				
 	toggledScreenMode = False
@@ -558,8 +558,11 @@ def launchNonXbox(cmd, romCollection, precmd='', postcmd=''):
 		if(isFullScreen):
 			Logutil.log("Toggle to Windowed mode", util.LOG_LEVEL_INFO)
 			#this minimizes xbmc some apps seems to need it
-			#xbmc.executehttpapi("Action(199)")
-			xbmc.executeJSONRPC('{"jsonrpc": "2.0", "method":"Input.ExecuteAction", "params":{"Input.Action":"togglefullscreen"}}')
+			try:
+				xbmc.executehttpapi("Action(199)")
+			except:
+				xbmc.executeJSONRPC('{"jsonrpc":"2.0","method":"Input.ExecuteAction","params":{"action":"togglefullscreen"},"id":"1"}')
+			
 			toggledScreenMode = True
 		
 	Logutil.log("launch emu", util.LOG_LEVEL_INFO)
@@ -568,7 +571,9 @@ def launchNonXbox(cmd, romCollection, precmd='', postcmd=''):
 	if(precmd.strip() != '' and precmd.strip() != 'call'):
 		Logutil.log("Got to PRE", util.LOG_LEVEL_INFO)
 		os.system(precmd.encode(sys.getfilesystemencoding()))
-
+	
+	preDelay = int(float(settings.getSetting(SETTING_RCB_PRELAUNCHDELAY)))
+	xbmc.sleep(preDelay)
 	if(romCollection.usePopen):
 		import subprocess
 		subprocess.Popen(cmd.encode(sys.getfilesystemencoding()), shell=True)
@@ -576,6 +581,9 @@ def launchNonXbox(cmd, romCollection, precmd='', postcmd=''):
 		os.system(cmd.encode(sys.getfilesystemencoding()))
 	
 	Logutil.log("launch emu done", util.LOG_LEVEL_INFO)		
+	
+	postDelay = int(float(settings.getSetting(SETTING_RCB_POSTLAUNCHDELAY)))
+	xbmc.sleep(postDelay)
 	
 	#post launch command
 	if(postcmd.strip() != '' and postcmd.strip() != 'call'):
@@ -585,8 +593,10 @@ def launchNonXbox(cmd, romCollection, precmd='', postcmd=''):
 	if(toggledScreenMode):
 		Logutil.log("Toggle to Full Screen mode", util.LOG_LEVEL_INFO)
 		#this brings xbmc back
-		#xbmc.executehttpapi("Action(199)")
-		xbmc.executeJSONRPC('{"jsonrpc": "2.0", "method":"Input.ExecuteAction", "params":{"Input.Action":"togglefullscreen"}}')
+		try:
+			xbmc.executehttpapi("Action(199)")
+		except:
+			xbmc.executeJSONRPC('{"jsonrpc":"2.0","method":"Input.ExecuteAction","params":{"action":"togglefullscreen"},"id":"1"}')
 		
 
 def getTempDir():

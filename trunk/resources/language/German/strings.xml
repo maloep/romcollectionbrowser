@@ -142,6 +142,8 @@
 	<string id="40091">%s Parse-Anweisung</string>
 	<string id="40092">Eine weitere Rom Collection anlegen?</string>
 	<string id="40093">%s Artwork</string>
+	<string id="40094">Verzögerung davor (ms)</string>
+	<string id="40095">Verzögerung danach (ms)</string>
 
 	
 	<!-- Settings -->

@@ -46,8 +46,6 @@
 	<string id="35040">Error: File config_template.xml does not exist</string>
 	
 	
-	
-	
 	<!-- Hints / questions -->
 	<string id="40000">No config file found.</string>
 	<string id="40001">Do you want to create one?</string>
@@ -143,6 +141,8 @@
 	<string id="40091">%s parse instruction</string>
 	<string id="40092">Do you want to add another Rom Collection?</string>
 	<string id="40093">%s Artwork</string>
+	<string id="40094">Pre-Launch delay (ms)</string>
+	<string id="40095">Post-Launch delay (ms)</string>
 	
 	
 	<!-- Settings -->
