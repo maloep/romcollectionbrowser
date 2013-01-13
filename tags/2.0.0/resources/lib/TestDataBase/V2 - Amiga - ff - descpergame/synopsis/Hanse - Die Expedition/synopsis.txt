@@ -1,0 +1,16 @@
+Game: Hanse - Die Expedition
+Platform: Amiga
+Region: 
+Media: 
+Controller: 
+Genre: Strategy
+Release Year: 1994
+Developer: Ascon GmbH
+Publisher: Ascon GmbH
+Players: ????
+URL: http://www.mobygames.com/game/amiga/hanse-die-expedition
+Description:
+Hanse makes you a trader in the 13th Century. Your hometown is Lübeck – a well known German seaport. With a ship and some money you want to become mayor of Lübeck. For this you must open stores in other cities – for example Riga, Malmö or Nowgorod. Every town has a special good (wool, furs or honey). After returning to Lübeck you sell these goods for a variable price. In Lübeck is a dockyard. There you can buy new ships. In Lübeck is also a bank for taking a credit. After marrying a woman and becoming childs you have to buy a teacher for your kids. You can send your childs on a expedition to find new cities. But after your death one kid should be in Lübeck. Then this child take possession of your store. Sometimes you were attacked by pirates or another countries. Then you have to place your cannons on a small strategic map for a automatically fight.
+
+The game ends after 250 years or when you become mayor of Lübeck or no child can take possession of your store.
+********************************************************************
