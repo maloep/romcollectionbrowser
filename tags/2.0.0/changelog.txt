@@ -1,3 +1,8 @@
+2.0.0 (01/2013)
+~~~~~~~~~~~~~
+General:
+  * version bump for Frodo repo
+
 1.1.2 (01/2013)
 ~~~~~~~~~~~~~
 General:
@@ -65,7 +70,6 @@ Launch Games:
   * add option to exit disc selector without launching a game
   * bugfix: disc selector not working with games that have no description
 
-
 1.0.5 (07/2012)
 ~~~~~~~~~~~~~
 Import Games:
@@ -107,7 +111,6 @@ Import Games:
   
 Browse Games:
   * bugfix: videos of games with "," in name did not play
-
 
 0.9.9 (02/2012)
 ~~~~~~~~~~~~~
@@ -167,7 +170,6 @@ Browse Games
   * stop video when changing filters or launch context menu
   * bugfix: fullscreen video now works auto video playback is turned on
   * bugfix: game name does not change after video playback is stopped in game info dialog
-  
 
 0.9.4 (11/2011)
 ~~~~~~~~~~~~~
@@ -229,7 +231,7 @@ Import Games:
   * bugfix: error when using exactly 2 scrapers per rom collection
   * MAME scraper: removed scraping of flyer images
 
-== Launch Games ==
+Launch Games
   * support for standalone games: use "%ROM%" in emu Cmd
 
 0.9.0 (06/2011)
