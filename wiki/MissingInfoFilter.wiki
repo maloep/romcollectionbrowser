@@ -2,11 +2,18 @@
 
 [http://romcollectionbrowser.googlecode.com/files/screen_missinginfofilter_1.1.1.jpg]
 
-This one is made for completists. Usually when you scrape your game collection online you will end up with several games that have incomplete information. Some games are missing box art, some screenshots, some games won't have developer information or are missing something else. Especially missing artwork can be annoying as you may have visible gaps while browsing through your rom collection. The missing info filter allows you to filter your games by missing information (artwork or game description).
+This one is made for completists. Usually when you scrape your game collection online you will end up with several games that have incomplete information. Some games are missing box art, some screenshots, some games won't have developer information or are missing something else. Especially missing artwork can be annoying as you may have visible gaps while browsing through your rom collection.
+
+The missing info filter allows you to filter your games by missing information (artwork or game description). These filter settings will be added to all other filters that you have specified in the common filter pane (console, genre, ...). The filter is saved permanently and will be used for every game query. You can specify which items should be used to filter your games and what action should take place when the filter matches any games.
 
 = Filter mode =
 The missing info filter supports 3 modes:
 == Ignore filter ==
+Simply ignores everything that you setup on this page.
+
 == Hide games with missing items ==
+Games with missing items will not be shown while browsing the game list. It acts like these games are not part of your rom collection anymore. This is useful if you want to have a clean look on your rom collection. You can still import every game even with incomplete information. But while browsing your rom collection your views won't be messed up with games that are lacking information.
+
 == Show only games with missing items ==
+This is kind of a maintenance mode. It will only show games that are lacking information. This is useful when you want to check the accuracy of your rom collection from time to time and rescrape games with missing information.
 
