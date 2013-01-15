@@ -1,4 +1,5 @@
 #sidebar SideBar
+<wiki:toc max_depth="4" />
 
 [http://romcollectionbrowser.googlecode.com/files/screen_missinginfofilter_1.1.1.jpg]
 
