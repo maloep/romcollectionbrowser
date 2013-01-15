@@ -7,6 +7,8 @@ This one is made for completists. Usually when you scrape your game collection o
 
 The missing info filter allows you to filter your games by missing information (artwork or game description). These filter settings will be added to all other filters that you have specified in the common filter pane (console, genre, ...). The filter is saved permanently and will be used for every game query. You can specify which items should be used to filter your games and what action should take place when the filter matches any games.
 
+In Confluence skin you can access the missing info filter on the bottom pane next to the "Change View" button.
+
 = Filter mode =
 The missing info filter supports 3 modes:
 == Ignore filter ==
@@ -31,7 +33,7 @@ This is used like an AND-statement. A game is only matched by this filter if it 
 Add all game infos that should be used to filter your games.
 
 == ONE of these items missing ==
-This is used like an OR-statement. A game is matched by this filter if it is lacking ONE of the listed artwork types.
+This is used like an OR-statement. A game is matched by this filter if it is lacking ONE of the listed game infos.
 
 == ALL of these items missing ==
 This is used like an AND-statement. A game is only matched by this filter if it is lacking ALL of the listed game infos.
