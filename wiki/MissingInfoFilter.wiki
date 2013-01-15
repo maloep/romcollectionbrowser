@@ -1,0 +1,12 @@
+#sidebar SideBar
+
+[http://romcollectionbrowser.googlecode.com/files/screen_missinginfofilter_1.1.1.jpg]
+
+This one is made for completists. Usually when you scrape your game collection online you will end up with several games that have incomplete information. Some games are missing box art, some screenshots, some games won't have developer information or are missing something else. Especially missing artwork can be annoying as you may have visible gaps while browsing through your rom collection. The missing info filter allows you to filter your games by missing information (artwork or game description).
+
+= Filter mode =
+The missing info filter supports 3 modes:
+== Ignore filter ==
+== Hide games with missing items ==
+== Show only games with missing items ==
+
