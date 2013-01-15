@@ -4,39 +4,50 @@ This TODO list / roadmap is a working document. It will change quite frequently 
 
 
 = next release =
-tbd
+== General ==
+  * Export game database (nfo files) - Some of the nfo files exported don't have the Plot information even for the games that display it correctly in RCB.
+
+== Import games ==
+  * change name of scraped game (rescrape or interactive)
+  * set "Always rescan games" automatically if in Rescrape mode
+  * NFO files don't update when rescraping games. - Add option to overwrite
+  * RCB "forgets" the Consoles filter after import or rescrape some game
+  * bug: # in rom filename causes errors
+  * import games with multiple . or - causes errors (like "WCW vs. NWO - world tour") --> "." interpreted as separator
+  * replace smb:// when searching for roms and artwork
+  * encoding: Pokémon (only Eden?)
+  * Media or rom path with special characters (encoding issues)
+
+== Browse games ==  
+  * save filter settings not always working
+  
+== Launch games ==
+  * move script files to userdata folder
+  * add option if XBMC should go into windowed mode
+  * check windowed mode with popen
+  * add launch settings to addon settings. add option to overwrite settings per rom collection
+  * integrate libretro (xbmc.executebuiltin('PlayMedia(%s)' %roms[0]))
+  * pylzma for python 2.6 (http://pypi.python.org/pypi/pylzma/)
+  * try to use "at" to restart XBMC: http://forum.xbmc.org/showthread.php?tid=134913 (Linux only?)
   
 = one of next releases =
-
 == Import games ==
   * update thegamesdb scraper
     * download publisher and developer artwork from thegamesdb.net
     * youtube link in thegamesdb scraper
   * add filename matching (instead of crc) to offline scraper
-  * change name of scraped game
-  * set "Always rescan games" automatically if in Rescrape mode
   * Could not create file: 'C:\Program Files\ROM project\ROMS\Sega Genesis\Artwork\boxfront\Triple Play 96 (F) [b1].jpg'. Error message: '[Errno socket error] timed out'
-  * NFO files don't update when rescraping games. - Add option to overwrite
   * Still missing the possibility to define "Rom File Mask" as *.tzx.zip or *.tap.zip
-  * Another thing I noticed was that RCB "forgets" the Consoles filter after import or rescrape some game, thats a bit annoying when we are using large databases and trying to rescrape a few games.
   * It sounds like the best would be to have the collection name and the name sent to the scrapper be different settings. That way, I could have a "supermodel3" collection, but scrap the roms as "mame" roms.
 
 == Browse games ==
-  * bug: Interface Lockup when rapidly switching consoles
   * remap home button
-  * save filter settings not always working
   * As speed has been such a large issue for me, I miss a feature to interrupt a collection load. Say I accidentally click on MAME with favourites de-selected for example - that mistake will cost quite a bit of time. 
-  * Another thing that takes some getting used to is if I accidentally choose NES, instead of SNES, then quickly correct my filter it will not interrupt the NES collection load. But, once NES has loaded it won't trigger the selected SNES one automatically either.
-  * I use ALA to browse my comics and there is an option to allow media to keep playing. I would love to have this same option in RCB.
-  * I noticed a strange thing with the "Export game database (nfo files)" function. Some of the nfo files exported don't have the Plot information even for the games that display it correctly in RCB.
+  * add option to allow media to keep playing.
 
 == Launch games ==
-  * integrate libretro	(xbmc.executebuiltin('PlayMedia(%s)' %roms[0]))
   * The other problem is, that every disc shows up as _disk in the selector.
   * use Popen for pre and post launch commands
-  * pylzma for python 2.6 (http://pypi.python.org/pypi/pylzma/)
-  * http://forum.xbmc.org/showthread.php?tid=134913
-  * copy solo mode scripts to userdata folder
   * add options to use vbscript on windows (Explorer hack issues)  
   * add option to use json api instead of kill command  
 	Linux
@@ -56,11 +67,6 @@ tbd
   * db in memory: id = null?
 
 == Import games ==
-  * bug: # in rom filename causes errors
-  * import games with multiple . or - causes errors (like "WCW vs. NWO - world tour") --> "." interpreted as separator
-  * replace smb:// when searching for roms and artwork
-  * encoding: Pokémon (only Eden?)
-  * Media or rom path with special characters (encoding issues)
   * resolved path from rom folder name: C:\Users\Mic\Downloads\Arcade\Data\MAME\My_Art\boxfront\C:\Users\Mic\Downloads\Arcade\Data\MAME\My_Roms
   * resolved path from rom folder name: smb://terastation/media/Roms/SNES/Boxart/boxfront/smb://terastation/media/Roms/SNES
   

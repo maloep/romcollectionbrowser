@@ -28,6 +28,7 @@
     * [ChangeViews Change view]
     * [ChangeSkins Change skin]
     * [GameFilter Game filter]
+    * [MissingInfoFilter Missing info filter]
     * [EnableFullscreenVideoBrowser Enable fullscreen video browser]
   * Launch games
     * [LaunchGames Launch games]
