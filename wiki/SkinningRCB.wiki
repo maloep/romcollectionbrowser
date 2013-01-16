@@ -16,14 +16,14 @@ Completed skins can be shipped with RCB or the skin itself. If you to let me shi
 The following skin xml files are used with RCB:
 
 {{{
-<b>script-Rom_Collection_Browser-main.xml</b> (RCBs main window)
-<b>script-RCB-gameinfo.xml</b> (Game info view)
-<b>script-RCB-contextmenu.xml</b> (Context menu)
-<b>script-RCB-importoptions.xml</b> (Import options dialog)
-<b>script-RCB-editromcollection.xml</b> (Edit Rom Collection dialog)
-<b>script-RCB-editscraper.xml</b> (Edit Scraper dialog)
-<b>script-RCB-removeRC.xml</b> (Remove Rom Collection dialog)
-<b>script-RCB-missinginfo.xml</b> (Missing info dialog)
+script-Rom_Collection_Browser-main.xml (RCBs main window)
+script-RCB-gameinfo.xml (Game info view)
+script-RCB-contextmenu.xml (Context menu)
+script-RCB-importoptions.xml (Import options dialog)
+script-RCB-editromcollection.xml (Edit Rom Collection dialog)
+script-RCB-editscraper.xml (Edit Scraper dialog)
+script-RCB-removeRC.xml (Remove Rom Collection dialog)
+script-RCB-missinginfo.xml (Missing info dialog)
 }}}
 
 == Accessing RCBs images and videos ==
@@ -138,244 +138,173 @@ Search:		1100
 For some reason I had trouble with handling scrollbars along with textboxes because they are sometimes present and sometimes not (depending on the length of text). If you use scrollbars in your view make sure they have ids 2200 or 2201. If you need more scrollbars just have a look at the beginning of the file gui.py. There is a list with scrollbar ids (CONROL_SCROLLBARS = (2200, 2201,)). You can add your id here and tell me that I should add it to the next RCB version.
 
 ==== Buttons ====
+{{{
 Change View:			2
 Missing info filter:	4001
+}}}
 
 ==== Labels ====
+{{{
 Message label:	4000
+}}}
 
 
 === Context Menu ===
 ==== Buttons ====
+{{{
 Close Context Menu:				5101
-
 Import Games:					5110
-
 Rescrape Game:					5121
-
 Rescrape Selection:				5122
-
 Add Rom Collection:				5111
-
 Edit Rom Collection:			5112
-
 Edit Scrapers:					5117
-
 Edit Game Command:				5113
-
 (Un)mark game as favorite:		5118
-
 (Un)mark selection as favorite:	5119
-
 Export nfo files:				5120
-
 Delete Game:					5114
-
 Delete Rom Collection:			5115
-
 Clean database:					5116
-
 Open Addon Settings:			5223
-
+}}}
 
 === Import options dialog ===
 ==== Buttons ====
+{{{
 Close Dialog:			5101
-
 Ok:						5300
-
 Cancel:					5310
-
 Rom Collection Up:		5211
-
 Rom Collection Down:	5212
-
 Scrape Mode Up:			5222
-
 Overwrite settings:		5330
+}}}
 
 ==== Lists ====
+{{{
 Rom Collections:		5210
-
 Scraping mode:			5220
-
 Fuzzy Factor:			5260
-
 Scraper 1:				5270
-
 Scraper 2:				5280
-
 Scraper 3:				5290
-
+}}}
 
 === Edit Rom Collection dialog ===
 ==== Buttons ====
+{{{
 Close Dialog:			5101
-
 Save:					6000
-
 Cancel:					6010
-
 Emu Cmd:				5220
-
 Emu Params:				5230
-
 Use emu solo:			5440
-
 Don't extract zip:		5450
-
 Savestate path:			5460
-
 Savestate mask:			5470
-
 Savestate params:		5480
-
 Pre-Launch cmd:			5510
-
 Post-Launch cmd:		5520
-
 Rom Path:				5240
-
 File Mask:				5250
-
 Media Path:				5270
-
 Media File Mask:		5280
-
 Remove Media Path:		5490
-
 Add Media Path:			5500
-
 Ignore on scan:			5330
-
 Allow update:			5400
-
 Max folder depth:		5410
-
 Disk indicator:			5420
-
 Use folder as gamename:	5430
-
 Rom Collection Up:		5211
-
 Rom Collection Down:	5212
-
 Media Type Up:			5261
-
 Media Type Down:		5262
-
 Autoplay video (main)	5350
-
 Autoplay video (info)	5360
-
+}}}
 
 ==== Lists ====
+{{{
 Rom Collections:		5210
-
 Media Types:			5260
-
 Scraper 1:				5290
-
 Scraper 2:				5300
-
 Scraper 3:				5310
-
 Image Placing Main:		5320
-
 Image Placing Info:		5340
-
+}}}
 
 === Edit Scraper dialog ===
 ==== Buttons ====
+{{{
 Close Dialog:			5101
-
 Save:					6000
-
 Cancel:					6010
-
 Scraper Up:				5602
-
 Scraper Down:			5601
-
 Game desc path:			5520
-
 Game desc mask:			5530
-
 Parse instruction:		5540
-
 Desc per game:			5550
-
 Search by crc:			5560
-
 Use folder as crc:		5580
-
 Use file as crc:		5590
-
 Remove scraper:			5610
-
 Add scraper:			5620
-
+}}}
 
 ==== Lists ====
+{{{
 Scrapers:				5600
-
+}}}
 
 === Remove Rom Collection dialog ===
 ==== Buttons ====
+{{{
 Close Dialog:			5101
-
 Ok:						6000
-
 Cancel:					6010
-
 Rom Collection Up:		5411
-
 Rom Collection Down:	5412
-
 Delete Option Up:		5491
-
 Delete Option Down:		5492
+}}}
 
 ==== Lists ====
+{{{
 Rom Collections:		5410
-
 Delete Options:			5490
+}}}
 
 === Missing info filter dialog ===
 ==== Buttons ====
+{{{
 Close Dialog:			5101
-
 Ok:						6000
-
 Cancel:					6010
-
 Add Artwork (Or)		5230
-
 Remove Artwork (Or)		5240
-
 Add Artwork (And)		5260
-
 Remove Artwork (And)	5270
-
 Add Info (Or)			5290
-
 Remove Info (Or)		5300
-
 Add Info (And)			5320
-
 Remove Info (And)		5330
+}}}
 
 ==== Lists ====
+{{{
 Filter Modes:			5200
+}}}
 
 ==== Labels ====
+{{{
 Artwork Or-Group:		5220
-
 Artwork And-Group:		5250
-
 Info Or-Group:			5280
-
 Info And-Group:			5310
-
+}}}
 
 
