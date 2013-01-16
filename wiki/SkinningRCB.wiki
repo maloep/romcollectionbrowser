@@ -15,22 +15,16 @@ Completed skins can be shipped with RCB or the skin itself. If you to let me shi
 == XML files used with RCB ==
 The following skin xml files are used with RCB:
 
- 
+{{{
 <b>script-Rom_Collection_Browser-main.xml</b> (RCBs main window)
-
 <b>script-RCB-gameinfo.xml</b> (Game info view)
-
 <b>script-RCB-contextmenu.xml</b> (Context menu)
-
 <b>script-RCB-importoptions.xml</b> (Import options dialog)
-
 <b>script-RCB-editromcollection.xml</b> (Edit Rom Collection dialog)
-
 <b>script-RCB-editscraper.xml</b> (Edit Scraper dialog)
-
 <b>script-RCB-removeRC.xml</b> (Remove Rom Collection dialog)
-
 <b>script-RCB-missinginfo.xml</b> (Missing info dialog)
+}}}
 
 == Accessing RCBs images and videos ==
 One thing that could be special in this script is the "dynamic image placing". RCB does not rely on a defined set of media files. The user may have small collections with only one image per game or others may have complete sets with 6 or more images and maybe video files per game. I want the user to decide where to show which type of image. The skinner should decide how it is presented. I am afraid this approach is not really XBMCish...
@@ -129,19 +123,15 @@ Lists always have ids 50-59 in XBMC. These lists are available as "view" in the 
 Some controls that are available in all views should not be changed also.
 
 ==== Filter controls ====
+{{{
 Console:	500
-
 Genre:		600
-
 Year:		700
-
 Publisher:	800
-
 A-Z:		900
-
 Favorites:	1000
-
 Search:		1100
+}}}
 
 
 ==== Scrollbars ====
