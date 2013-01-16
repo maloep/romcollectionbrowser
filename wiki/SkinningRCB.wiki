@@ -1,5 +1,5 @@
 #sidebar SideBar
-<wiki:toc max_depth="4" />
+<wiki:toc max_depth="3" />
 
 Note: This information is valid with version 1.1.2 of the script.
 
