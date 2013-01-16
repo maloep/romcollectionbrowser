@@ -1,4 +1,5 @@
 #sidebar SideBar
+<wiki:toc max_depth="4" />
 
 Note: This information is valid with version 1.1.2 of the script.
 
@@ -307,4 +308,36 @@ Info Or-Group:			5280
 Info And-Group:			5310
 }}}
 
+= Implementing Game widgets on home screen =
+RCB also supports being invoked to gather game data for home screen widgets. Atm only the most played roms are available. Other statistics are planned for future releases.
+
+To get a list of the most played roms you should add a line like this in a startup routine of your skin:
+{{{
+XBMC.RunScript(script.games.rom.collection.browser,limit=10)
+}}}
+
+Later on you have access to these properties (example for the first game):
+{{{
+MostPlayedROM.1.Console
+MostPlayedROM.1.Title
+MostPlayedROM.1.Thumb
+MostPlayedROM.1.Plot
+MostPlayedROM.1.Year
+MostPlayedROM.1.Publisher
+MostPlayedROM.1.Developer
+MostPlayedROM.1.Genre
+MostPlayedROM.1.Maxplayers
+MostPlayedROM.1.Region
+MostPlayedROM.1.Media
+MostPlayedROM.1.Perspective
+MostPlayedROM.1.Controllertype
+MostPlayedROM.1.Playcount
+MostPlayedROM.1.Rating
+MostPlayedROM.1.Votes
+MostPlayedROM.1.Url
+MostPlayedROM.1.Originaltitle
+MostPlayedROM.1.Alternatetitle
+MostPlayedROM.1.LaunchCommand
+MostPlayedROM.1.Fanart
+}}}
 
