@@ -126,7 +126,7 @@ def buildCmd(filenameRows, romCollection, gameRow, escapeCmd, calledFromSkin):
 	
 	#params could be: {-%I% %ROM%}
 	#we have to repeat the part inside the brackets and replace the %I% with the current index
-	emuParams, partToRepeat = prepareMultiRomCommand(emuParams)		
+	emuParams, partToRepeat = prepareMultiRomCommand(emuParams)
 
 	#ask for disc number if multidisc game
 	diskName = ""
