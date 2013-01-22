@@ -21,7 +21,7 @@ def launchEmu(gdb, gui, gameId, config, settings):
 		Logutil.log('Cannot get rom collection with id: ' +str(gameRow[util.GAME_romCollectionId]), util.LOG_LEVEL_ERROR)
 		gui.writeMsg(util.localize(35034))
 		return
-		
+			
 	gui.writeMsg(util.localize(40063)+ " " +gameRow[util.ROW_NAME])
 	
 	cmd = ""
