@@ -805,7 +805,7 @@ class UIGameDB(xbmcgui.WindowXML):
 			self.player.stop()
 		
 		launcher.launchEmu(self.gdb, self, gameId, self.config, self.Settings)
-		Logutil.log("End launchEmu" , util.LOG_LEVEL_INFO)		
+		Logutil.log("End launchEmu" , util.LOG_LEVEL_INFO)
 		
 		
 	def startFullscreenVideo(self):
