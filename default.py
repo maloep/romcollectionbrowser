@@ -18,18 +18,16 @@
 
 
 
-import os
-import sys
-import re
-
+import os, sys, re
 import xbmcaddon
+
 
 # Shared resources
 addonPath = ''
 addon = xbmcaddon.Addon(id='script.games.rom.collection.browser')
 addonPath = addon.getAddonInfo('path')
 
-		
+
 BASE_RESOURCE_PATH = os.path.join(addonPath, "resources" )
 sys.path.append( os.path.join( BASE_RESOURCE_PATH, "lib" ) )
 sys.path.append( os.path.join( BASE_RESOURCE_PATH, "lib", "pyparsing" ) )
@@ -51,115 +49,6 @@ if re.match("Linux", env):
 
 sys.path.append( os.path.join( BASE_RESOURCE_PATH, "platform_libraries", env ) )
 
-from gamedatabase import *
-from config import *
-
-def gatherWidgetData(param):
-	import util, helper
-	gdb = GameDataBase(util.getAddonDataPath())
-	gdb.connect()
-			
-	#cache lookup tables
-	yearDict = helper.cacheYears(gdb)
-	publisherDict = helper.cachePublishers(gdb)
-	developerDict = helper.cacheDevelopers(gdb)
-	reviewerDict = helper.cacheReviewers(gdb)
-	genreDict = helper.cacheGenres(gdb)
-			
-	limit = int(param.replace('limit=', ''))
-	games = Game(gdb).getMostPlayedGames(limit)
-	
-	config = Config()
-	statusOk, errorMsg = config.readXml()
-	
-	settings = util.getSettings()
-	
-	import xbmcgui
-	count = 0
-	for gameRow in games:
-	
-		count += 1
-		try:
-			romCollection = config.romCollections[str(gameRow[util.GAME_romCollectionId])]				
-	
-			#get artwork that is chosen to be shown in gamelist
-			files = File(gdb).getFilesByParentIds(gameRow[util.ROW_ID], gameRow[util.GAME_romCollectionId], gameRow[util.GAME_publisherId], gameRow[util.GAME_developerId])
-			fileDict = helper.cacheFiles(files)
-			files = helper.getFilesByControl_Cached(gdb, romCollection.imagePlacingMain.fileTypesForGameList, gameRow[util.ROW_ID], gameRow[util.GAME_publisherId], gameRow[util.GAME_developerId], gameRow[util.GAME_romCollectionId], fileDict)		
-			if(files != None and len(files) != 0):
-				thumb = files[0]
-			else:
-				thumb = ""
-				
-			files = helper.getFilesByControl_Cached(gdb, romCollection.imagePlacingMain.fileTypesForMainViewBackground, gameRow[util.ROW_ID], gameRow[util.GAME_publisherId], gameRow[util.GAME_developerId], gameRow[util.GAME_romCollectionId], fileDict)		
-			if(files != None and len(files) != 0):
-				fanart = files[0]
-			else:
-				fanart = ""
-			
-			description = gameRow[util.GAME_description]
-			if(description == None):
-				description = ""
-			
-			year = helper.getPropertyFromCache(gameRow, yearDict, util.GAME_yearId, util.ROW_NAME)
-			publisher = helper.getPropertyFromCache(gameRow, publisherDict, util.GAME_publisherId, util.ROW_NAME)
-			developer = helper.getPropertyFromCache(gameRow, developerDict, util.GAME_developerId, util.ROW_NAME)
-			genre = genreDict[gameRow[util.ROW_ID]]
-			
-			maxplayers = helper.saveReadString(gameRow[util.GAME_maxPlayers])
-			rating = helper.saveReadString(gameRow[util.GAME_rating])
-			votes = helper.saveReadString(gameRow[util.GAME_numVotes])
-			url = helper.saveReadString(gameRow[util.GAME_url])
-			region = helper.saveReadString(gameRow[util.GAME_region])
-			media = helper.saveReadString(gameRow[util.GAME_media])				
-			perspective = helper.saveReadString(gameRow[util.GAME_perspective])
-			controllertype = helper.saveReadString(gameRow[util.GAME_controllerType])
-			originaltitle = helper.saveReadString(gameRow[util.GAME_originalTitle])
-			alternatetitle = helper.saveReadString(gameRow[util.GAME_alternateTitle])
-			translatedby = helper.saveReadString(gameRow[util.GAME_translatedBy])
-			version = helper.saveReadString(gameRow[util.GAME_version])
-			playcount = helper.saveReadString(gameRow[util.GAME_launchCount])
-			
-			
-			#get launch command
-			filenameRows = File(gdb).getRomsByGameId(gameRow[util.ROW_ID])
-			
-			env = ( os.environ.get( "OS", "win32" ), "win32", )[ os.environ.get( "OS", "win32" ) == "xbox" ]
-			import launcher
-			cmd, precmd, postcmd = launcher.buildCmd(filenameRows, romCollection, gameRow, False, True)
-			
-			xbmcgui.Window(10000).setProperty("MostPlayedROM.%d.Id" %count, str(gameRow[util.ROW_ID]))
-			xbmcgui.Window(10000).setProperty("MostPlayedROM.%d.Console" %count, romCollection.name)
-			xbmcgui.Window(10000).setProperty("MostPlayedROM.%d.Title" %count, gameRow[util.ROW_NAME])
-			xbmcgui.Window(10000).setProperty("MostPlayedROM.%d.Thumb" %count, thumb)
-			xbmcgui.Window(10000).setProperty("MostPlayedROM.%d.Fanart" %count, fanart)
-			xbmcgui.Window(10000).setProperty("MostPlayedROM.%d.Plot" %count, description)
-			xbmcgui.Window(10000).setProperty("MostPlayedROM.%d.Year" %count, year)
-			xbmcgui.Window(10000).setProperty("MostPlayedROM.%d.Publisher" %count, publisher)
-			xbmcgui.Window(10000).setProperty("MostPlayedROM.%d.Developer" %count, developer)
-			xbmcgui.Window(10000).setProperty("MostPlayedROM.%d.Genre" %count, genre)
-			
-			xbmcgui.Window(10000).setProperty("MostPlayedROM.%d.Maxplayers" %count, maxplayers)
-			xbmcgui.Window(10000).setProperty("MostPlayedROM.%d.Region" %count, region)
-			xbmcgui.Window(10000).setProperty("MostPlayedROM.%d.Media" %count, media)
-			xbmcgui.Window(10000).setProperty("MostPlayedROM.%d.Perspective" %count, perspective)
-			xbmcgui.Window(10000).setProperty("MostPlayedROM.%d.Controllertype" %count, controllertype)
-			xbmcgui.Window(10000).setProperty("MostPlayedROM.%d.Playcount" %count, playcount)				
-			xbmcgui.Window(10000).setProperty("MostPlayedROM.%d.Rating" %count, rating)
-			xbmcgui.Window(10000).setProperty("MostPlayedROM.%d.Votes" %count, votes)
-			xbmcgui.Window(10000).setProperty("MostPlayedROM.%d.Url" %count, url)				
-			xbmcgui.Window(10000).setProperty("MostPlayedROM.%d.Originaltitle" %count, originaltitle)
-			xbmcgui.Window(10000).setProperty("MostPlayedROM.%d.Alternatetitle" %count, alternatetitle)
-			xbmcgui.Window(10000).setProperty("MostPlayedROM.%d.Translatedby" %count, translatedby)
-			xbmcgui.Window(10000).setProperty("MostPlayedROM.%d.Version" %count, version)				
-			
-			xbmcgui.Window(10000).setProperty("MostPlayedROM.%d.LaunchCommand" %count, cmd)
-							
-		except Exception, (exc):
-			print 'RCB: Error while getting most played games: ' +str(exc)
-	
-	gdb.close()
-
 
 class dummyGUI():
 	useRCBService = True
@@ -171,46 +60,164 @@ class dummyGUI():
 		pass
 	
 
-def launchGame(param):
-	import launcher, util
+class Main():
 	
-	gdb = GameDataBase(util.getAddonDataPath())
-	gdb.connect()
-	
-	gameId = int(param.replace('launchid=', ''))
-	
-	config = Config()
-	statusOk, errorMsg = config.readXml()
-	
-	settings = util.getSettings()
-	
-	gui = dummyGUI()
-	
-	launcher.launchEmu(gdb, gui, gameId, config, settings)
-
-
-print 'sys.argv = ' +str(sys.argv)
-launchRCB = False
-for arg in sys.argv:
-	param = str(arg)
-	print 'param = ' +param
-	if param == '' or param == 'script.games.rom.collection.browser':
-		print 'setting launchRCB = True'
-		launchRCB = True
-			
-	#provide data that skins can show on home screen
-	if 'limit=' in param:
-		print 'setting launchRCB = False'
+	def __init__(self):
+		print 'sys.argv = ' +str(sys.argv)
 		launchRCB = False
-		gatherWidgetData(param)
+		for arg in sys.argv:
+			param = str(arg)
+			print 'param = ' +param
+			if param == '' or param == 'script.games.rom.collection.browser':
+				print 'setting launchRCB = True'
+				launchRCB = True
+					
+			#provide data that skins can show on home screen
+			if 'limit=' in param:
+				print 'setting launchRCB = False'
+				launchRCB = False
+				self.gatherWidgetData(param)
+				
+			if 'launchid' in param:
+				launchRCB = False
+				self.launchGame(param)
+				
+		# Start the main gui
+		print 'launchRCB = ' +str(launchRCB)
+		if launchRCB:
+			 import gui
+				
+				
+	def gatherWidgetData(self, param):
+		import util, helper
+		from gamedatabase import Game, GameDataBase, File
+		from config import Config, RomCollection
 		
-	if 'launchid' in param:
-		launchRCB = False
-		launchGame(param)
-
-# Start the main gui
-print 'launchRCB = ' +str(launchRCB)
-if launchRCB:
-	import gui	
+		gdb = GameDataBase(util.getAddonDataPath())
+		gdb.connect()
+				
+		#cache lookup tables
+		yearDict = helper.cacheYears(gdb)
+		publisherDict = helper.cachePublishers(gdb)
+		developerDict = helper.cacheDevelopers(gdb)
+		reviewerDict = helper.cacheReviewers(gdb)
+		genreDict = helper.cacheGenres(gdb)
+				
+		limit = int(param.replace('limit=', ''))
+		games = Game(gdb).getMostPlayedGames(limit)
+		
+		config = Config()
+		statusOk, errorMsg = config.readXml()
+		
+		settings = util.getSettings()
+		
+		import xbmcgui
+		count = 0
+		for gameRow in games:
+		
+			count += 1
+			try:
+				romCollection = config.romCollections[str(gameRow[util.GAME_romCollectionId])]				
+		
+				#get artwork that is chosen to be shown in gamelist
+				files = File(gdb).getFilesByParentIds(gameRow[util.ROW_ID], gameRow[util.GAME_romCollectionId], gameRow[util.GAME_publisherId], gameRow[util.GAME_developerId])
+				fileDict = helper.cacheFiles(files)
+				files = helper.getFilesByControl_Cached(gdb, romCollection.imagePlacingMain.fileTypesForGameList, gameRow[util.ROW_ID], gameRow[util.GAME_publisherId], gameRow[util.GAME_developerId], gameRow[util.GAME_romCollectionId], fileDict)		
+				if(files != None and len(files) != 0):
+					thumb = files[0]
+				else:
+					thumb = ""
+					
+				files = helper.getFilesByControl_Cached(gdb, romCollection.imagePlacingMain.fileTypesForMainViewBackground, gameRow[util.ROW_ID], gameRow[util.GAME_publisherId], gameRow[util.GAME_developerId], gameRow[util.GAME_romCollectionId], fileDict)		
+				if(files != None and len(files) != 0):
+					fanart = files[0]
+				else:
+					fanart = ""
+				
+				description = gameRow[util.GAME_description]
+				if(description == None):
+					description = ""
+				
+				year = helper.getPropertyFromCache(gameRow, yearDict, util.GAME_yearId, util.ROW_NAME)
+				publisher = helper.getPropertyFromCache(gameRow, publisherDict, util.GAME_publisherId, util.ROW_NAME)
+				developer = helper.getPropertyFromCache(gameRow, developerDict, util.GAME_developerId, util.ROW_NAME)
+				genre = genreDict[gameRow[util.ROW_ID]]
+				
+				maxplayers = helper.saveReadString(gameRow[util.GAME_maxPlayers])
+				rating = helper.saveReadString(gameRow[util.GAME_rating])
+				votes = helper.saveReadString(gameRow[util.GAME_numVotes])
+				url = helper.saveReadString(gameRow[util.GAME_url])
+				region = helper.saveReadString(gameRow[util.GAME_region])
+				media = helper.saveReadString(gameRow[util.GAME_media])				
+				perspective = helper.saveReadString(gameRow[util.GAME_perspective])
+				controllertype = helper.saveReadString(gameRow[util.GAME_controllerType])
+				originaltitle = helper.saveReadString(gameRow[util.GAME_originalTitle])
+				alternatetitle = helper.saveReadString(gameRow[util.GAME_alternateTitle])
+				translatedby = helper.saveReadString(gameRow[util.GAME_translatedBy])
+				version = helper.saveReadString(gameRow[util.GAME_version])
+				playcount = helper.saveReadString(gameRow[util.GAME_launchCount])
+				
+				
+				#get launch command
+				filenameRows = File(gdb).getRomsByGameId(gameRow[util.ROW_ID])
+				
+				env = ( os.environ.get( "OS", "win32" ), "win32", )[ os.environ.get( "OS", "win32" ) == "xbox" ]
+				import launcher
+				cmd, precmd, postcmd, roms = launcher.buildCmd(filenameRows, romCollection, gameRow, False, True)
+				
+				xbmcgui.Window(10000).setProperty("MostPlayedROM.%d.Id" %count, str(gameRow[util.ROW_ID]))
+				xbmcgui.Window(10000).setProperty("MostPlayedROM.%d.Console" %count, romCollection.name)
+				xbmcgui.Window(10000).setProperty("MostPlayedROM.%d.Title" %count, gameRow[util.ROW_NAME])
+				xbmcgui.Window(10000).setProperty("MostPlayedROM.%d.Thumb" %count, thumb)
+				xbmcgui.Window(10000).setProperty("MostPlayedROM.%d.Fanart" %count, fanart)
+				xbmcgui.Window(10000).setProperty("MostPlayedROM.%d.Plot" %count, description)
+				xbmcgui.Window(10000).setProperty("MostPlayedROM.%d.Year" %count, year)
+				xbmcgui.Window(10000).setProperty("MostPlayedROM.%d.Publisher" %count, publisher)
+				xbmcgui.Window(10000).setProperty("MostPlayedROM.%d.Developer" %count, developer)
+				xbmcgui.Window(10000).setProperty("MostPlayedROM.%d.Genre" %count, genre)
+				
+				xbmcgui.Window(10000).setProperty("MostPlayedROM.%d.Maxplayers" %count, maxplayers)
+				xbmcgui.Window(10000).setProperty("MostPlayedROM.%d.Region" %count, region)
+				xbmcgui.Window(10000).setProperty("MostPlayedROM.%d.Media" %count, media)
+				xbmcgui.Window(10000).setProperty("MostPlayedROM.%d.Perspective" %count, perspective)
+				xbmcgui.Window(10000).setProperty("MostPlayedROM.%d.Controllertype" %count, controllertype)
+				xbmcgui.Window(10000).setProperty("MostPlayedROM.%d.Playcount" %count, playcount)				
+				xbmcgui.Window(10000).setProperty("MostPlayedROM.%d.Rating" %count, rating)
+				xbmcgui.Window(10000).setProperty("MostPlayedROM.%d.Votes" %count, votes)
+				xbmcgui.Window(10000).setProperty("MostPlayedROM.%d.Url" %count, url)				
+				xbmcgui.Window(10000).setProperty("MostPlayedROM.%d.Originaltitle" %count, originaltitle)
+				xbmcgui.Window(10000).setProperty("MostPlayedROM.%d.Alternatetitle" %count, alternatetitle)
+				xbmcgui.Window(10000).setProperty("MostPlayedROM.%d.Translatedby" %count, translatedby)
+				xbmcgui.Window(10000).setProperty("MostPlayedROM.%d.Version" %count, version)				
+				
+				xbmcgui.Window(10000).setProperty("MostPlayedROM.%d.LaunchCommand" %count, cmd)
+								
+			except Exception, (exc):
+				print 'RCB: Error while getting most played games: ' +str(exc)
+		
+		gdb.close()
 	
+	
+	def launchGame(self, param):
+		import launcher, util
+		from gamedatabase import GameDataBase
+		from config import Config
 		
+		gdb = GameDataBase(util.getAddonDataPath())
+		gdb.connect()
+		
+		gameId = int(param.replace('launchid=', ''))
+		
+		config = Config()
+		statusOk, errorMsg = config.readXml()
+		
+		settings = util.getSettings()
+		
+		gui = dummyGUI()
+		
+		launcher.launchEmu(gdb, gui, gameId, config, settings)
+
+
+if ( __name__ == "__main__" ):
+	print 'RCB started'
+	Main()
