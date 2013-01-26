@@ -212,6 +212,7 @@ class RomCollection:
 	id = -1
 	name = ''
 	
+	useBuiltinEmulator = False
 	emulatorCmd = ''
 	preCmd = ''
 	postCmd = ''
@@ -422,6 +423,10 @@ class Config:
 			romCollection.saveStatePath = self.readTextElement(romCollectionRow, 'saveStatePath')
 			romCollection.saveStateParams = self.readTextElement(romCollectionRow, 'saveStateParams')
 						
+			useBuiltinEmulator = self.readTextElement(romCollectionRow, 'useBuiltinEmulator')
+			if(useBuiltinEmulator != ''):
+				romCollection.useBuiltinEmulator = useBuiltinEmulator.upper() == 'TRUE'
+				
 			ignoreOnScan = self.readTextElement(romCollectionRow, 'ignoreOnScan')
 			if(ignoreOnScan != ''):
 				romCollection.ignoreOnScan = ignoreOnScan.upper() == 'TRUE'
