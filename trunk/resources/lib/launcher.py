@@ -33,41 +33,43 @@ def launchEmu(gdb, gui, gameId, config, settings):
 			
 	filenameRows = File(gdb).getRomsByGameId(gameRow[util.ROW_ID])
 	Logutil.log("files for current game: " +str(filenameRows), util.LOG_LEVEL_INFO)
-	
+		
 	escapeCmd = settings.getSetting(util.SETTING_RCB_ESCAPECOMMAND).upper() == 'TRUE'
-	cmd, precmd, postcmd = buildCmd(filenameRows, romCollection, gameRow, escapeCmd, False)
-	if(cmd == ''):
-		Logutil.log('No cmd created. Game will not be launched.', util.LOG_LEVEL_INFO)
-		return
-	if(precmd.strip() == '' or precmd.strip() == 'call'):
-		Logutil.log('No precmd created.', util.LOG_LEVEL_INFO)
-		
-	if(postcmd.strip() == '' or postcmd.strip() == 'call'):
-		Logutil.log('No postcmd created.', util.LOG_LEVEL_INFO)
-		
-	if (romCollection.useEmuSolo):
-		
-		#check if we should use xbmc.service (Eden) or autoexec.py (Dharma)
-		if(not gui.useRCBService):
-			#try to create autoexec.py
-			writeAutoexec(gdb)
+	cmd, precmd, postcmd, libretroroms = buildCmd(filenameRows, romCollection, gameRow, escapeCmd, False)
+	
+	if (not romCollection.useBuiltinEmulator):
+		if(cmd == ''):
+			Logutil.log('No cmd created. Game will not be launched.', util.LOG_LEVEL_INFO)
+			return
+		if(precmd.strip() == '' or precmd.strip() == 'call'):
+			Logutil.log('No precmd created.', util.LOG_LEVEL_INFO)
+			
+		if(postcmd.strip() == '' or postcmd.strip() == 'call'):
+			Logutil.log('No postcmd created.', util.LOG_LEVEL_INFO)
+			
+		if (romCollection.useEmuSolo):
+			
+			#check if we should use xbmc.service (Eden) or autoexec.py (Dharma)
+			if(not gui.useRCBService):
+				#try to create autoexec.py
+				writeAutoexec(gdb)
+			else:
+				#communicate with service via settings
+				settings.setSetting(util.SETTING_RCB_LAUNCHONSTARTUP, 'true')
+	
+			# Remember selection
+			gui.saveViewState(False)
+			
+			#invoke batch file that kills xbmc before launching the emulator			
+			if(env == "win32"):
+				#There is a problem with quotes passed as argument to windows command shell. This only works with "call"
+				cmd = 'call \"' +os.path.join(util.RCBHOME, 'applaunch.bat') +'\" ' +cmd						
+			else:
+				cmd = os.path.join(re.escape(util.RCBHOME), 'applaunch.sh ') +cmd
 		else:
-			#communicate with service via settings
-			settings.setSetting(util.SETTING_RCB_LAUNCHONSTARTUP, 'true')
-
-		# Remember selection
-		gui.saveViewState(False)
-		
-		#invoke batch file that kills xbmc before launching the emulator			
-		if(env == "win32"):
-			#There is a problem with quotes passed as argument to windows command shell. This only works with "call"
-			cmd = 'call \"' +os.path.join(util.RCBHOME, 'applaunch.bat') +'\" ' +cmd						
-		else:
-			cmd = os.path.join(re.escape(util.RCBHOME), 'applaunch.sh ') +cmd
-	else:
-		#use call to support paths with whitespaces
-		if(env == "win32" and not (os.environ.get( "OS", "xbox" ) == "xbox")):
-			cmd = 'call ' +cmd
+			#use call to support paths with whitespaces
+			if(env == "win32" and not (os.environ.get( "OS", "xbox" ) == "xbox")):
+				cmd = 'call ' +cmd
 	
 	#update LaunchCount
 	launchCount = gameRow[util.GAME_launchCount]
@@ -82,7 +84,7 @@ def launchEmu(gdb, gui, gameId, config, settings):
 		if (os.environ.get( "OS", "xbox" ) == "xbox"):			
 			launchXbox(gui, gdb, cmd, romCollection, filenameRows)
 		else:
-			launchNonXbox(cmd, romCollection, settings, precmd, postcmd)
+			launchNonXbox(cmd, romCollection, settings, precmd, postcmd, libretroroms, gui)
 	
 		gui.writeMsg("")
 					
@@ -105,6 +107,10 @@ def buildCmd(filenameRows, romCollection, gameRow, escapeCmd, calledFromSkin):
 	Logutil.log('launcher.buildCmd', util.LOG_LEVEL_INFO)
 		
 	compressedExtensions = ['7z', 'zip']
+	
+	cmd = ""
+	precmd = ""
+	postcmd = ""
 	
 	emuCommandLine = romCollection.emulatorCmd
 	Logutil.log('emuCommandLine: ' +emuCommandLine, util.LOG_LEVEL_INFO)
@@ -143,7 +149,8 @@ def buildCmd(filenameRows, romCollection, gameRow, escapeCmd, calledFromSkin):
 			diskNum = xbmcgui.Dialog().select(util.localize(40064) +': ', options)
 			if(diskNum < 0):
 				#don't launch game
-				return "", "", ""
+				Logutil.log("No disc was chosen. Won't launch game", util.LOG_LEVEL_INFO)
+				return "", "", "", None
 			else:
 				diskName = options[diskNum]
 				Logutil.log('Chosen Disc: %s' % diskName, util.LOG_LEVEL_INFO)
@@ -158,7 +165,6 @@ def buildCmd(filenameRows, romCollection, gameRow, escapeCmd, calledFromSkin):
 	Logutil.log('emuParams: ' +emuParams, util.LOG_LEVEL_INFO)
 	
 	fileindex = int(0)
-	
 	for fileNameRow in filenameRows:
 		rom = fileNameRow[0]
 		Logutil.log('rom: ' +str(rom), util.LOG_LEVEL_INFO)
@@ -169,11 +175,17 @@ def buildCmd(filenameRows, romCollection, gameRow, escapeCmd, calledFromSkin):
 		roms = [rom]
 		if filext in compressedExtensions and not romCollection.doNotExtractZipFiles and stateFile == '' and not calledFromSkin:
 			roms = handleCompressedFile(filext, rom, romCollection, emuParams)
+			print "roms compressed = " +str(roms)
 			if len(roms) == 0:
-				return "", "", ""
+				return "", "", "", None
+			
+		#no use for complete cmd as we just need the game name
+		if (romCollection.useBuiltinEmulator):
+			print "roms = " +str(roms)
+			return "", "", "", roms
 		
 		del rom
-		
+				
 		for rom in roms:
 			precmd = ""
 			postcmd = ""
@@ -215,7 +227,7 @@ def buildCmd(filenameRows, romCollection, gameRow, escapeCmd, calledFromSkin):
 		cmd = cmd.replace(replString, diskName)
 		
 			
-	return cmd, precmd, postcmd
+	return cmd, precmd, postcmd, None
 
 
 def checkGameHasSaveStates(romCollection, gameRow, filenameRows, escapeCmd):
@@ -544,10 +556,20 @@ def getRomfilenameForXboxCutfile(filenameRows, romCollection):
 	return filename
 	
 	
-def launchNonXbox(cmd, romCollection, settings, precmd='', postcmd=''):
+def launchNonXbox(cmd, romCollection, settings, precmd, postcmd, libretroroms, gui):
 	Logutil.log("launchEmu on non-xbox", util.LOG_LEVEL_INFO)							
 				
 	toggledScreenMode = False
+	
+	#use libretro core to play game
+	if(romCollection.useBuiltinEmulator):
+		Logutil.log("launching game with internal emulator", util.LOG_LEVEL_INFO)
+		# Remember selection
+		gui.saveViewState(False)
+		rom = libretroroms[0]
+		Logutil.log("launching rom: " +rom, util.LOG_LEVEL_INFO)
+		xbmc.executebuiltin('PlayMedia(\"%s\")' %rom)
+		return
 	
 	if (not romCollection.useEmuSolo):
 		#screenMode = xbmc.executehttpapi("GetSystemInfoByName(system.screenmode)").replace("<li>","")
