@@ -1,7 +1,7 @@
 #sidebar SideBar
 <wiki:toc max_depth="3" />
 
-Note: This information is valid with version 1.1.2 of the script.
+Note: This information is valid with version 1.1.3 (Eden) or 2.0.1 (Frodo) of the script.
 
 = Skinning RCB =
 As a script RCB has full access to XBMCs skinning engine. Every view and dialog can be designed as we want it to look like. But this also means that everything HAS to be designed. Nothing will work out of the box with the views that are already shipped with the users default skin (like it is for a plugin).
@@ -311,13 +311,21 @@ Info And-Group:			5310
 = Implementing Game widgets on home screen =
 RCB also supports being invoked to gather game data for home screen widgets. Atm only the most played roms are available. Other statistics are planned for future releases.
 
+== Gathering data ==
 To get a list of the most played roms you should add a line like this in a startup routine of your skin:
 {{{
-XBMC.RunScript(script.games.rom.collection.browser,limit=10)
+RunScript(script.games.rom.collection.browser,limit=10)
 }}}
 
-Later on you have access to these properties (example for the first game):
+== Accessing data ==
+Later on you can access the properties with a command like this:
 {{{
+$INFO[Window(Home).Property(MostPlayedROM.1.Title)]
+}}}
+
+This is a list of all available properties:
+{{{
+MostPlayedROM.1.Id
 MostPlayedROM.1.Console
 MostPlayedROM.1.Title
 MostPlayedROM.1.Thumb
@@ -339,5 +347,15 @@ MostPlayedROM.1.Originaltitle
 MostPlayedROM.1.Alternatetitle
 MostPlayedROM.1.LaunchCommand
 MostPlayedROM.1.Fanart
+MostPlayedROM.2.Id
+MostPlayedROM.2.Console
+...
 }}}
 
+== Launching games ==
+Launching games directly from home screen is done via RCB again. This helps to support more advanced features like solo mode, zip extraction, etc.
+
+You can launch a game via RCB with a command like this:
+{{{
+RunScript(script.games.rom.collection.browser,launchid=1234)
+}}}
