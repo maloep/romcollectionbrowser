@@ -29,13 +29,15 @@ If this option is checked RCB will use the scrapers listed below for this one im
 = Scrapers =
 The selected scrapers will be executed in the order they are selected in this dialog. The results of the scrapers will be merged together. Merging results is done with "first come, first go"-logic. This means if the first scraper finds a publisher for example, RCB will use the publisher returned by the first scraper. If the first scraper does not find a publisher but it is provided by the second scraper, RCB will use the publisher from the second scraper.
 
+All of these scrapers will also check your local artwork folders for new artwork and import the paths of new files into the database.
+
 == local nfo Scraper ==
 One special scraper is the "local nfo" scraper. During a game import, RCB creates a .nfo file for every game with all scraped game information (if you did not disable this feature in Addon settings). These files can be used to rebuild your database in case of an error or if you want to change game properties.
 
 == local artwork Scraper ==
 As the name says this scraper will just check your configured artwork folders for new files. It won't do any online searching or scraping and won't change any other game information. This is useful if you updated your artwork folders outside of RCB.
 
-Note: As this scraper does not add any game information (like title etc.) this scraper can not be used to create new collections. It is designed to work as update scraper only.
+Note: As this scraper does not add any game information (like title etc.) this scraper can not be used to create new collections. It is designed to work as update scraper only. As stated above, all other scrapers check the artwork folders during import, so it is not necessary to use the "local artwork" scraper on initial imports.
 
 = Import =
 This will start the import process. If you encounter any errors or miss some game infos after import, check XBMCs logfile. Search for any occurance of "RCB_ERROR" or "RCB_WARNING" to see what is missing. RCB will also create three text files ("scrapeResult_missingArtwork.txt" and "scrapeResult_missingDesc.txt" and "scrapeResult_possibleMismatches.txt") with information about missing or inaccurate data. You will find these files in RCBs userdata directory.
