@@ -44,6 +44,7 @@ class ConfigXmlWriter:
 			Logutil.log('write Rom Collection: ' +str(romCollection.name), util.LOG_LEVEL_INFO)
 			
 			romCollectionXml = SubElement(romCollectionsXml, 'RomCollection', {'id' : str(romCollection.id), 'name' : romCollection.name})
+			SubElement(romCollectionXml, 'useBuiltinEmulator').text = str(romCollection.useBuiltinEmulator)
 			SubElement(romCollectionXml, 'emulatorCmd').text = romCollection.emulatorCmd
 			SubElement(romCollectionXml, 'emulatorParams').text = romCollection.emulatorParams
 			
