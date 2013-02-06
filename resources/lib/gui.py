@@ -804,7 +804,7 @@ class UIGameDB(xbmcgui.WindowXML):
 			#self.player.stoppedByRCB = True
 			self.player.stop()
 		
-		launcher.launchEmu(self.gdb, self, gameId, self.config, self.Settings)
+		launcher.launchEmu(self.gdb, self, gameId, self.config, self.Settings, selectedGame)
 		Logutil.log("End launchEmu" , util.LOG_LEVEL_INFO)
 		
 		

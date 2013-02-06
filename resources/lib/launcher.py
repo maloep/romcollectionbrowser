@@ -6,7 +6,7 @@ from util import *
 import time, zipfile, glob
 
 
-def launchEmu(gdb, gui, gameId, config, settings):
+def launchEmu(gdb, gui, gameId, config, settings, listitem):
 	Logutil.log("Begin launcher.launchEmu", util.LOG_LEVEL_INFO)
 	
 	gameRow = Game(gdb).getObjectById(gameId)
@@ -84,7 +84,7 @@ def launchEmu(gdb, gui, gameId, config, settings):
 		if (os.environ.get( "OS", "xbox" ) == "xbox"):			
 			launchXbox(gui, gdb, cmd, romCollection, filenameRows)
 		else:
-			launchNonXbox(cmd, romCollection, settings, precmd, postcmd, libretroroms, gui)
+			launchNonXbox(cmd, romCollection, settings, precmd, postcmd, libretroroms, gui, listitem)
 	
 		gui.writeMsg("")
 					
@@ -556,7 +556,7 @@ def getRomfilenameForXboxCutfile(filenameRows, romCollection):
 	return filename
 	
 	
-def launchNonXbox(cmd, romCollection, settings, precmd, postcmd, libretroroms, gui):
+def launchNonXbox(cmd, romCollection, settings, precmd, postcmd, libretroroms, gui, listitem):
 	Logutil.log("launchEmu on non-xbox", util.LOG_LEVEL_INFO)							
 				
 	toggledScreenMode = False
@@ -567,8 +567,10 @@ def launchNonXbox(cmd, romCollection, settings, precmd, postcmd, libretroroms, g
 		# Remember selection
 		gui.saveViewState(False)
 		rom = libretroroms[0]
+		listitem.setInfo( type="games", infoLabels={ "platform": romCollection.name } )
 		Logutil.log("launching rom: " +rom, util.LOG_LEVEL_INFO)
-		xbmc.executebuiltin('PlayMedia(\"%s\")' %rom)
+		gui.player.play(rom, listitem)
+		#xbmc.executebuiltin('PlayMedia(\"%s\")' %rom)
 		return
 	
 	if (not romCollection.useEmuSolo):
