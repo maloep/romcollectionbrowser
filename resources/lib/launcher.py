@@ -567,6 +567,8 @@ def launchNonXbox(cmd, romCollection, settings, precmd, postcmd, libretroroms, g
 		# Remember selection
 		gui.saveViewState(False)
 		rom = libretroroms[0]
+		if(listitem == None):
+			listitem = xbmcgui.ListItem(rom, "0", "", "")
 		listitem.setInfo( type="games", infoLabels={ "platform": romCollection.name } )
 		Logutil.log("launching rom: " +rom, util.LOG_LEVEL_INFO)
 		gui.player.play(rom, listitem)
