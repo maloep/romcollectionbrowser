@@ -52,6 +52,7 @@ sys.path.append( os.path.join( BASE_RESOURCE_PATH, "platform_libraries", env ) )
 
 class dummyGUI():
 	useRCBService = True
+	player = xbmc.Player()
 	
 	def writeMsg(self, message):
 		pass
@@ -117,6 +118,8 @@ class Main():
 		
 			count += 1
 			try:
+				print "Gathering data for rom no %i: %s" %(count, gameRow[util.ROW_NAME])
+				
 				romCollection = config.romCollections[str(gameRow[util.GAME_romCollectionId])]				
 		
 				#get artwork that is chosen to be shown in gamelist
@@ -161,10 +164,6 @@ class Main():
 				#get launch command
 				filenameRows = File(gdb).getRomsByGameId(gameRow[util.ROW_ID])
 				
-				env = ( os.environ.get( "OS", "win32" ), "win32", )[ os.environ.get( "OS", "win32" ) == "xbox" ]
-				import launcher
-				cmd, precmd, postcmd, roms = launcher.buildCmd(filenameRows, romCollection, gameRow, False, True)
-				
 				xbmcgui.Window(10000).setProperty("MostPlayedROM.%d.Id" %count, str(gameRow[util.ROW_ID]))
 				xbmcgui.Window(10000).setProperty("MostPlayedROM.%d.Console" %count, romCollection.name)
 				xbmcgui.Window(10000).setProperty("MostPlayedROM.%d.Title" %count, gameRow[util.ROW_NAME])
@@ -188,9 +187,7 @@ class Main():
 				xbmcgui.Window(10000).setProperty("MostPlayedROM.%d.Originaltitle" %count, originaltitle)
 				xbmcgui.Window(10000).setProperty("MostPlayedROM.%d.Alternatetitle" %count, alternatetitle)
 				xbmcgui.Window(10000).setProperty("MostPlayedROM.%d.Translatedby" %count, translatedby)
-				xbmcgui.Window(10000).setProperty("MostPlayedROM.%d.Version" %count, version)				
-				
-				xbmcgui.Window(10000).setProperty("MostPlayedROM.%d.LaunchCommand" %count, cmd)
+				xbmcgui.Window(10000).setProperty("MostPlayedROM.%d.Version" %count, version)
 								
 			except Exception, (exc):
 				print 'RCB: Error while getting most played games: ' +str(exc)
@@ -215,7 +212,7 @@ class Main():
 		
 		gui = dummyGUI()
 		
-		launcher.launchEmu(gdb, gui, gameId, config, settings)
+		launcher.launchEmu(gdb, gui, gameId, config, settings, None)
 
 
 if ( __name__ == "__main__" ):
