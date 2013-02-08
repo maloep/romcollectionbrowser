@@ -143,6 +143,7 @@
 	<string id="40093">%s Artwork</string>
 	<string id="40094">Pre-Launch delay (ms)</string>
 	<string id="40095">Post-Launch delay (ms)</string>
+	<string id="40096">Solo mode startup delay (ms)</string>
 	
 	
 	<!-- Settings -->

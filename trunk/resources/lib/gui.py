@@ -117,14 +117,8 @@ class UIGameDB(xbmcgui.WindowXML):
 	
 	
 	def __init__(self, strXMLname, strFallbackPath, strDefaultName, forceFallback):
-		# Changing the three varibles passed won't change anything
-		# Doing strXMLname = "bah.xml" will not change anything.
-		# don't put GUI sensitive stuff here (as the xml hasn't been read yet
-		# Idea to initialize your variables here
-		
 		Logutil.log("Init Rom Collection Browser: " + util.RCBHOME, util.LOG_LEVEL_INFO)
-								
-		#this code breaks compatibility with Camelot
+		
 		addon = xbmcaddon.Addon(id='%s' %util.SCRIPTID)
 		Logutil.log("RCB version: " + addon.getAddonInfo('version'), util.LOG_LEVEL_INFO)
 			
@@ -138,6 +132,9 @@ class UIGameDB(xbmcgui.WindowXML):
 			
 		self.initialized = False
 		self.Settings = util.getSettings()
+		
+		#Make sure that we don't start RCB in cycles
+		self.Settings.setSetting('rcb_launchOnStartup', 'false')
 			
 		
 		#check if background game import is running
@@ -244,7 +241,8 @@ class UIGameDB(xbmcgui.WindowXML):
 		
 		Logutil.log("Begin onInit", util.LOG_LEVEL_INFO)
 		
-		if(self.quit):			
+		if(self.quit):
+			Logutil.log("RCB decided not to run. Bye.", util.LOG_LEVEL_INFO)
 			self.close()
 			return
 		

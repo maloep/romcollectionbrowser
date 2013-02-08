@@ -144,6 +144,7 @@
 	<string id="40093">%s Artwork</string>
 	<string id="40094">Verzögerung davor (ms)</string>
 	<string id="40095">Verzögerung danach (ms)</string>
+	<string id="40096">Start-Verzögerung im Solo Modus (ms)</string>
 
 	
 	<!-- Settings -->
