@@ -144,6 +144,7 @@
 	<string id="40094">Pre-Launch delay (ms)</string>
 	<string id="40095">Post-Launch delay (ms)</string>
 	<string id="40096">Solo mode startup delay (ms)</string>
+	<string id="40097">Use VB script in solo mode (Windows only)</string>
 	
 	
 	<!-- Settings -->
