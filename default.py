@@ -77,7 +77,12 @@ class Main():
 			if 'limit=' in param:
 				print 'setting launchRCB = False'
 				launchRCB = False
-				self.gatherWidgetData(param)
+				#check if RCB should be launched at startup (via RCB Service)
+				launchOnStartup = addon.getSetting('rcb_launchOnStartup')
+				if(launchOnStartup.lower() == 'true'):
+					print "RCB will be started via RCB service. Won't gather widget data on this run."					
+				else:
+					self.gatherWidgetData(param)
 				
 			if 'launchid' in param:
 				launchRCB = False
