@@ -145,6 +145,7 @@
 	<string id="40094">Verzögerung davor (ms)</string>
 	<string id="40095">Verzögerung danach (ms)</string>
 	<string id="40096">Start-Verzögerung im Solo Modus (ms)</string>
+	<string id="40097">VB script im Solo Modus (nur Windows)</string>
 
 	
 	<!-- Settings -->

@@ -14,11 +14,12 @@ echo Stopping XBMC...
 echo.
 taskkill /f /IM xbmc.exe>nul 2>nul
 REM Give it a second to quit
-cscript //B //Nologo "%cd%\addons\script.games.rom.collection.browser\Sleep.vbs" 1
+cscript //B //Nologo "%cd%\userdata\addon_data\script.games.rom.collection.browser\scriptfiles\Sleep.vbs" 1
 echo Starting %*...
 echo.
 %*
 
 REM Restart XBMC
 echo Restarting XBMC...
-cscript //B //Nologo "%cd%\addons\script.games.rom.collection.browser\LaunchXBMC.vbs" %XBMCLaunchCmd%
+echo cscript //B //Nologo "%cd%\userdata\addon_data\script.games.rom.collection.browser\scriptfiles\LaunchXBMC.vbs" %XBMCLaunchCmd%
+cscript //B //Nologo "%cd%\userdata\addon_data\script.games.rom.collection.browser\scriptfiles\LaunchXBMC.vbs" %XBMCLaunchCmd%

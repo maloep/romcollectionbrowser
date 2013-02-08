@@ -29,7 +29,7 @@ def launchEmu(gdb, gui, gameId, config, settings, listitem):
 	postcmd = ""
 	
 	#get environment OS
-	env = ( os.environ.get( "OS", "win32" ), "win32", )[ os.environ.get( "OS", "win32" ) == "xbox" ]	
+	env = util.getEnvironment()
 			
 	filenameRows = File(gdb).getRomsByGameId(gameRow[util.ROW_ID])
 	Logutil.log("files for current game: " +str(filenameRows), util.LOG_LEVEL_INFO)
@@ -49,7 +49,7 @@ def launchEmu(gdb, gui, gameId, config, settings, listitem):
 			
 		if (romCollection.useEmuSolo):
 			
-			copyLauncherScriptsToUserdata()
+			copyLauncherScriptsToUserdata(settings)
 			
 			#check if we should use xbmc.service (Eden) or autoexec.py (Dharma)
 			if(not gui.useRCBService):
@@ -65,8 +65,13 @@ def launchEmu(gdb, gui, gameId, config, settings, listitem):
 			#invoke script file that kills xbmc before launching the emulator
 			basePath = os.path.join(util.getAddonDataPath(), 'scriptfiles')			
 			if(env == "win32"):
-				#There is a problem with quotes passed as argument to windows command shell. This only works with "call"
-				cmd = 'call \"' +os.path.join(basePath, 'applaunch.bat') +'\" ' +cmd						
+				if(settings.getSetting(util.SETTING_RCB_USEVBINSOLOMODE).lower() == 'true'):
+					#There is a problem with quotes passed as argument to windows command shell. This only works with "call"
+					#use vb script to restart xbmc
+					cmd = 'call \"' +os.path.join(basePath, 'applaunch-vbs.bat') +'\" ' +cmd
+				else:
+					#There is a problem with quotes passed as argument to windows command shell. This only works with "call"
+					cmd = 'call \"' +os.path.join(basePath, 'applaunch.bat') +'\" ' +cmd						
 			else:
 				cmd = os.path.join(basePath, 'applaunch.sh ') +cmd
 		else:
@@ -423,7 +428,7 @@ def replacePlaceholdersInParams(emuParams, rom, romCollection, gameRow, escapeCm
 	return emuParams
 
 
-def copyLauncherScriptsToUserdata():
+def copyLauncherScriptsToUserdata(settings):
 	
 	Logutil.log('copyLauncherScriptsToUserdata', util.LOG_LEVEL_INFO)
 	
@@ -437,6 +442,24 @@ def copyLauncherScriptsToUserdata():
 		oldPath = os.path.join(oldBasePath, 'applaunch.sh')
 		newPath = os.path.join(newBasePath, 'applaunch.sh')
 		
+	copyFile(oldPath, newPath)
+	
+	#copy VBS files
+	if(util.getEnvironment() == 'win32' and settings.getSetting(util.SETTING_RCB_USEVBINSOLOMODE).lower() == 'true'):
+		oldPath = os.path.join(oldBasePath, 'applaunch-vbs.bat')
+		newPath = os.path.join(newBasePath, 'applaunch-vbs.bat')
+		copyFile(oldPath, newPath)
+		
+		oldPath = os.path.join(oldBasePath, 'LaunchXBMC.vbs')
+		newPath = os.path.join(newBasePath, 'LaunchXBMC.vbs')
+		copyFile(oldPath, newPath)
+		
+		oldPath = os.path.join(oldBasePath, 'Sleep.vbs')
+		newPath = os.path.join(newBasePath, 'Sleep.vbs')
+		copyFile(oldPath, newPath)
+		
+		
+def copyFile(oldPath, newPath):
 	Logutil.log('new path = %s' %newPath, util.LOG_LEVEL_INFO)
 	newDir = os.path.dirname(newPath)
 	if not os.path.isdir(newDir):
@@ -445,6 +468,7 @@ def copyLauncherScriptsToUserdata():
 			os.mkdir(newDir)
 		except Exception, (exc):
 			Logutil.log('Error creating directory: %s' %newDir, util.LOG_LEVEL_ERROR)
+			return
 	
 	if not os.path.isfile(newPath):
 		Logutil.log('copy launch scripts from %s to %s' %(oldPath, newPath), util.LOG_LEVEL_INFO)
