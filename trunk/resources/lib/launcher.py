@@ -3,7 +3,7 @@ import os, sys, re
 import dbupdate, util, helper
 from gamedatabase import *
 from util import *
-import time, zipfile, glob
+import time, zipfile, glob, shutil
 
 
 def launchEmu(gdb, gui, gameId, config, settings, listitem):
@@ -49,6 +49,8 @@ def launchEmu(gdb, gui, gameId, config, settings, listitem):
 			
 		if (romCollection.useEmuSolo):
 			
+			copyLauncherScriptsToUserdata()
+			
 			#check if we should use xbmc.service (Eden) or autoexec.py (Dharma)
 			if(not gui.useRCBService):
 				#try to create autoexec.py
@@ -60,12 +62,13 @@ def launchEmu(gdb, gui, gameId, config, settings, listitem):
 			# Remember selection
 			gui.saveViewState(False)
 			
-			#invoke batch file that kills xbmc before launching the emulator			
+			#invoke script file that kills xbmc before launching the emulator
+			basePath = os.path.join(util.getAddonDataPath(), 'scriptfiles')			
 			if(env == "win32"):
 				#There is a problem with quotes passed as argument to windows command shell. This only works with "call"
-				cmd = 'call \"' +os.path.join(util.RCBHOME, 'applaunch.bat') +'\" ' +cmd						
+				cmd = 'call \"' +os.path.join(basePath, 'applaunch.bat') +'\" ' +cmd						
 			else:
-				cmd = os.path.join(re.escape(util.RCBHOME), 'applaunch.sh ') +cmd
+				cmd = os.path.join(basePath, 'applaunch.sh ') +cmd
 		else:
 			#use call to support paths with whitespaces
 			if(env == "win32" and not (os.environ.get( "OS", "xbox" ) == "xbox")):
@@ -420,6 +423,37 @@ def replacePlaceholdersInParams(emuParams, rom, romCollection, gameRow, escapeCm
 	return emuParams
 
 
+def copyLauncherScriptsToUserdata():
+	
+	Logutil.log('copyLauncherScriptsToUserdata', util.LOG_LEVEL_INFO)
+	
+	oldBasePath = os.path.join(util.getAddonInstallPath(), 'resources', 'scriptfiles')
+	newBasePath = os.path.join(util.getAddonDataPath(), 'scriptfiles')
+	
+	if(util.getEnvironment() == 'win32'):
+		oldPath = os.path.join(oldBasePath, 'applaunch.bat')
+		newPath = os.path.join(newBasePath, 'applaunch.bat')
+	else:
+		oldPath = os.path.join(oldBasePath, 'applaunch.sh')
+		newPath = os.path.join(newBasePath, 'applaunch.sh')
+		
+	Logutil.log('new path = %s' %newPath, util.LOG_LEVEL_INFO)
+	newDir = os.path.dirname(newPath)
+	if not os.path.isdir(newDir):
+		Logutil.log('create directory: %s' %newDir, util.LOG_LEVEL_INFO)
+		try:
+			os.mkdir(newDir)
+		except Exception, (exc):
+			Logutil.log('Error creating directory: %s' %newDir, util.LOG_LEVEL_ERROR)
+	
+	if not os.path.isfile(newPath):
+		Logutil.log('copy launch scripts from %s to %s' %(oldPath, newPath), util.LOG_LEVEL_INFO)
+		try:
+			shutil.copy2(oldPath, newPath)
+		except:
+			Logutil.log('Error copying launch scripts from %s to %s' %(oldPath, newPath), util.LOG_LEVEL_ERROR)
+
+
 def writeAutoexec(gdb):
 	# Backup original autoexec.py		
 	autoexec = util.getAutoexecPath()
@@ -429,7 +463,7 @@ def writeAutoexec(gdb):
 	try:
 		path = os.path.join(util.RCBHOME, 'default.py')
 		if(util.getEnvironment() == 'win32'):
-			#HACK: There is an error with "\a" in autoexec.py on winidows, so we need "\A"
+			#HACK: There is an error with "\a" in autoexec.py on windows, so we need "\A"
 			path = path.replace('\\addons', '\\Addons')
 			
 		fh = open(autoexec,'w') # truncate to 0
