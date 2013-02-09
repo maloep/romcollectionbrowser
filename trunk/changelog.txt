@@ -1,3 +1,17 @@
+2.0.2 (02/2013)
+~~~~~~~~~~~~~
+Launch Games:
+  * bugfix: better handling of skin widget and solo mode
+  * moved applaunch script files to addon_data folder
+  * new option: use VB script in solo mode
+  * added startup delay to RCB service
+
+2.0.1 (01/2013)
+~~~~~~~~~~~~~
+Launch Games:
+  * skin widget can invoke RCB to launch games
+  * experimental: libretro support
+
 2.0.0 (01/2013)
 ~~~~~~~~~~~~~
 General:
