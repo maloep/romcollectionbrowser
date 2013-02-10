@@ -3,85 +3,66 @@
 This TODO list / roadmap is a working document. It will change quite frequently as I am always adding, removing or reordering issues that I want to work on for the next release. If you made a request or reported an issue that you don't find on the list please remind me because chances are that I just forgot to add it.
 
 
-= next release =
-== General ==
-  * Export game database (nfo files) - Some of the nfo files exported don't have the Plot information even for the games that display it correctly in RCB.
-
+= next relase =
 == Import games ==
-  * change name of scraped game (rescrape or interactive)
-  * set "Always rescan games" automatically if in Rescrape mode
-  * NFO files don't update when rescraping games. - Add option to overwrite
   * RCB "forgets" the Consoles filter after import or rescrape some game
-  * bug: # in rom filename causes errors
-  * import games with multiple . or - causes errors (like "WCW vs. NWO - world tour") --> "." interpreted as separator
-  * replace smb:// when searching for roms and artwork
-  * encoding: Pokémon (only Eden?)
+    * restore list after import failed or canceled
+	* filters lost after (2nd?) game import
+  * set "Always rescan games" automatically if in Rescrape mode
+  * fix bug in MAME offline scraper
+  * offer import when database is empty (not only when it is missing)
   * Media or rom path with special characters (encoding issues)
 
 == Browse games ==  
   * save filter settings not always working
   
 == Launch games ==
-  * move script files to userdata folder
-  * add option if XBMC should go into windowed mode
-  * check windowed mode with popen
-  * add launch settings to addon settings. add option to overwrite settings per rom collection
-  * integrate libretro (xbmc.executebuiltin('PlayMedia(%s)' %roms[0]))
   * pylzma for python 2.6 (http://pypi.python.org/pypi/pylzma/)
-  * try to use "at" to restart XBMC: http://forum.xbmc.org/showthread.php?tid=134913 (Linux only?)
-  
-= one of next releases =
-== Import games ==
-  * update thegamesdb scraper
-    * download publisher and developer artwork from thegamesdb.net
-    * youtube link in thegamesdb scraper
-  * add filename matching (instead of crc) to offline scraper
-  * Could not create file: 'C:\Program Files\ROM project\ROMS\Sega Genesis\Artwork\boxfront\Triple Play 96 (F) [b1].jpg'. Error message: '[Errno socket error] timed out'
-  * Still missing the possibility to define "Rom File Mask" as *.tzx.zip or *.tap.zip
-  * It sounds like the best would be to have the collection name and the name sent to the scrapper be different settings. That way, I could have a "supermodel3" collection, but scrap the roms as "mame" roms.
 
-== Browse games ==
-  * remap home button
-  * As speed has been such a large issue for me, I miss a feature to interrupt a collection load. Say I accidentally click on MAME with favourites de-selected for example - that mistake will cost quite a bit of time. 
-  * add option to allow media to keep playing.
 
-== Launch games ==
-  * The other problem is, that every disc shows up as _disk in the selector.
-  * use Popen for pre and post launch commands
-  * add options to use vbscript on windows (Explorer hack issues)  
-  * add option to use json api instead of kill command  
-	Linux
-	wget -q -O/dev/null --header='Content-Type: application/json' --post-data='{"jsonrpc": "2.0", "method": "Application.Quit", "id":"1"}' http://localhost/jsonrpc  
-  
-	Windows (http://sourceforge.net/projects/gnuwin32/files/wget/)
-	"%PROGRAMFILES%\GnuWin32\bin\wget.exe" -q --header="Content-Type: application/json" --post-data="{\"jsonrpc\":\"2.0\", \"method\": \"Application.Quit\", \"id\":\"1\"}" http://localhost/jsonrpc
-  * add option to autostart RCB everytime in RCB service
-  * Is there anyway to point RCB to the rom path instead of the rom file?
-  
-= Known bugs/issues =
+= (one of) next release(s) =
 == General ==
+  * Export game database (nfo files) - Some of the nfo files exported don't have the Plot information even for the games that display it correctly in RCB.
   * start RCB twice: atomic init routine?
   * XBMC frequently locks up on shutdown
   * check for errors in scrapeonstartup
 	--> error handling when there are errors in config?
-  * db in memory: id = null?
+  * check how to refresh XBMC artwork cache
 
 == Import games ==
+  * add new MAME scraper
+  * fix bugs in mobygames scraper
+  * reflect changes from thegamesdb
+    * download publisher and developer artwork from thegamesdb.net
+    * youtube link in thegamesdb scraper
+  * remove MAWS scraper from config.xml
+  * manually enter name of scraped game (rescrape or interactive)
+  * NFO files don't update when rescraping games. - Add option to overwrite
+  * bug: # in rom filename causes errors
+  * import games with multiple . or - causes errors (like "WCW vs. NWO - world tour") --> "." interpreted as separator
+  * replace smb:// when searching for roms and artwork
+    * create local link in userdata folder?
   * resolved path from rom folder name: C:\Users\Mic\Downloads\Arcade\Data\MAME\My_Art\boxfront\C:\Users\Mic\Downloads\Arcade\Data\MAME\My_Roms
   * resolved path from rom folder name: smb://terastation/media/Roms/SNES/Boxart/boxfront/smb://terastation/media/Roms/SNES
   
-== Browse games ==
+== Browse Games ==
+  * improve loading time or add options to load smaller amount of games
+    * new caching option: load list in background (maybe remove cacheitem and next)
   * autoplay video in Info window not reliable
-  * video playback in non-Confluence skins
-  * filters lost after game (2nd?) import
   * when you have videos selected for games, whilst browsing the video will still play if the next game does not have a video.
-
+  * add option to allow media to keep playing. --> test with libretro
+  * enable fullscreen video if video in small window is playing
   
-= Features =
-=== General ===  
-  * language support
+== Launch games ==
+  * add option if XBMC should go into windowed mode
+  * check windowed mode with popen
+  * add launch settings to addon settings. add option to overwrite settings per rom collection
+  * try to use "at" to restart XBMC: http://forum.xbmc.org/showthread.php?tid=134913 (Linux only?)
+  
+
+= Future releases =
+=== General ===
   * add more filetypes (see examples from Domina)
-  * new caching option: load list in background (maybe remove cacheitem and next)
   * backup MyGames.db and config.xml before editing or game import
   * Edit offline scrapers:
     * move encoding from scraper to site
@@ -89,16 +70,14 @@ This TODO list / roadmap is a working document. It will change quite frequently 
   * config wizard:
     * create local data config file with wizard: search game by crc (or check how to remove this option completely)
     * configuration templates (emumovies, ressurectionxtras, ...)
-    * improve config wizard (suggest options, pathes, more options)
-  * Edit Game dialog
-  * Support HOME button
+    * improve config wizard (suggest options, paths, more options)
   * export nfo files on demand
     * option to export one big nfo file for all games
     * option to overwrite existing files
     * option to export statisitcal or user specific data (isFavorite, launchCount, ...)
-    * update nfo files (with new info) -> check if needed
   * better handling of configuration errors (allow to launch RCB and edit configuration)
   * new option: Delete Selection
+  * Edit Game dialog
   
 ==== Data model ====
   * support different releases (region, updates, etc.)
@@ -120,25 +99,23 @@ This TODO list / roadmap is a working document. It will change quite frequently 
   * use more than 1 screenshot
   
 === Import games ===
-  * remove thevideogamedb scraper: remove from config.xml on startup
-  * offer import when database is empty (not only when it is missing)
+  * add filename matching (instead of crc) to offline scraper
+  * Could not create file: 'C:\Program Files\ROM project\ROMS\Sega Genesis\Artwork\boxfront\Triple Play 96 (F) [b1].jpg'. Error message: '[Errno socket error] timed out'
+  * Still missing the possibility to define "Rom File Mask" as *.tzx.zip or *.tap.zip
+  * It sounds like the best would be to have the collection name and the name sent to the scrapper be different settings. That way, I could have a "supermodel3" collection, but scrap the roms as "mame" roms.
+  * apple makes a shadow folder called '.AppleDouble' and makes an identically named file entry in that directory for every file in the real directory.
   * refactor dbupdate (requires data model changes)
     * no import of images to database. just check the directories at runtime. Performance tests
     * rom collection base path and all files relative to that
-    * change import logic: always import all games (even if no info / artwork is found), option to hide/show/rescrape missing games (quality matrix?) - already work in progress since 1.0.2
-    * manual scraping games (update properties and images) - already work in progress since 1.0.2
-    * enter search text when scraping for single games - already work in progress since 1.0.2
-    * errorCounter in descPerGame = False
     * check preconditions before game import
     * easier handling of default images, publisher, dev and RC images
     * divide data and artwork scraper
     * new scraper property: online, local
     * support for audio files
-    * multi rom, multi iso (disk selector) - launch game feature?
     * region support (while scraping)
     * artwork quality
     * test all scraping options (search game by crc, use filename as crc, ...)
-      * no settings needed
+      * no settings needed?
   * create scrape statistics
     * time taken
     * games total
@@ -166,82 +143,58 @@ This TODO list / roadmap is a working document. It will change quite frequently 
 	Final Fantasy III (USA) (Beta).zip
 	Final Fantasy III (USA) (Rev 1).zip
 	Final Fantasy III (USA).zip
-  * option to flatten downloaded artwork files (1 file per different game version)
   * two-step import: 1. local data, 2. online data
-  * Another thing that could be useful in the next versions of RCB its de capacity of search for artwork in subdirectories.
-  * support same games with slightly different names (e.g. region in name)
-  * When using network share, it's saving the path as //SERVER/location and not smb://SERVER/location for artwork ... this causes problems when playing videos. It will load the first video, but none after that. It also is saving the last directory in the path with a backslash '\' instead of a forward slash, but after testing this is only a cosmetic issue and doesn't cause any playback/viewing issues from what i can tell
-
+  
 
 === Browse games ===
+  * Console view / dash board
+  * remap home button
+  * view images fullscreen by pressing enter upon the art or similar
+  * option to hide game infos in main view (show up on pressing I or similar)
+  * add option to play a video only once
+  * video playback in non-Confluence skins
   * add imageplacing options to Night skin
   * add counter to Night skin
   * show previous and next console in Nights console filter
   * option to keep artwork ratio
-  * option to stop video on game change
   * check if browsing options have changed and reload the list
   * change view for Info to Thumbs -> stop video
   * filetypeformainview2 is missing
-  * support home and back buttons to exit the script
-  * auto repeat video playback in game info view
   * remove imageplacing mechanism?
     * define several views with large and small images
     * save view per Rom Collection (favorite view per romcollection)
     * check for fallback images
-  * Update Carmichael skin files
   * Simplicity
     * relative position of favorite stars in thumbs view
   * create skin specific game info view
   * publisher, developer images in game info view
-  * create new skins
-  * integrate Light skin
-  * Console view / dash board
-  * wall view
   * if game has url: option to launch in browser
   * ability to view PDF manual
-  * Logo mediainfo style as there is for movies and music showing information such as: Audio channels, resolution, maximum and minimum, studio  developer and publisher, etc ...
-  * view images fullscreen by pressing enter upon the art or similar
-  * option to hide game infos in main view (show up on pressing I or similar)
-  * support for game name artwork
-  * parental support: It might work as follows, after to trigger the option "ParentalRating" a box text is displayed for entering the password if the password is entered correctly, all games are displayed on RCB.
-  * Would it be possible to load and display only 100 randoms ROM at launch ? Or to wait the selection of a query before loading a list ?
   * Container.NextSortMethod
-  * Add option to play a video only once, when sitting on the selection screen it just keeps looping the videos and it's driving me crazy heh.
-  * 
   
 === Launch games ===
-  * SLEEP command no Windows standard -> integrate JohnnyD2s vbs script for solo mode
+  * Multi disk selector: Every disc shows up as _disk in the selector.
+  * when opening a .zip file with multiple roms inside, it is impossible to return to the menu without launching the emulator
+  * use Popen for pre and post launch commands
+  * rcb does not do a change directly to the executable's folder before being executed
+  * add option to use json api instead of kill command  
+	Linux
+	wget -q -O/dev/null --header='Content-Type: application/json' --post-data='{"jsonrpc": "2.0", "method": "Application.Quit", "id":"1"}' http://localhost/jsonrpc
+	Windows (http://sourceforge.net/projects/gnuwin32/files/wget/)
+	"%PROGRAMFILES%\GnuWin32\bin\wget.exe" -q --header="Content-Type: application/json" --post-data="{\"jsonrpc\":\"2.0\", \"method\": \"Application.Quit\", \"id\":\"1\"}" http://localhost/jsonrpc
+  * add option to autostart RCB everytime in RCB service
   * new placeholders in emuParams: %EMUPATH%, %ROMPATH%
   * Random game option (Issue 82)
   * launch game per popen
-    * subprocess.Popen(cmd.encode(sys.getfilesystemencoding()) (Issue 85)
 	* popen options (suspend, pause, ...)
-    * setting for os.system or popen
-  * log file locked in solo mode (Windows only?)
-    * solo mode: use XBMC http api to shutdown xbmc?
-	* also solved with vbs script?
-  * no navigation after launch emu (Win XP)
-  * remove file extension from game when extracting zip files.
-  * when opening a .zip file with multiple roms inside, it is impossible to return to the menu without launching the emulator
-  * option to turn savestate on/off
-  * start stop LIRC (Issue 74)
   * per game config (e.g. Amiga)
   * try to write black background before launch
   * disable screensaver before game launch
   * change emulators per game
-  * is their a technical reason or a person preference as to why rcb does not do a change directly to the executable's folder before being executed?
 
   
 = Wiki =
 == new features ==
-=== General ===
-  * update skinning guide
-  * provide properties of most played games for skins to show on home screen
-
-=== Browse Games ===
-  * missing info / artwork dialog
-
-  
 
 == General ==
   * solo mode problems (Log Error): use JohnnyD2s vbs script
@@ -253,8 +206,9 @@ This TODO list / roadmap is a working document. It will change quite frequently 
     * imageplacing
 
 == FAQ ==
+  * What to do before posting
   * how to reset RCB
-  * MAME guide
+  * clear image cache
   * startup configuration error
   * Error in scrape on startup
   * control XBMC in background:
