@@ -43,6 +43,7 @@ CONTROL_BUTTON_CHANGE_VIEW = 2
 CONTROL_BUTTON_FAVORITE = 1000
 CONTROL_BUTTON_SEARCH = 1100
 CONTROL_BUTTON_VIDEOFULLSCREEN = (2900, 2901,)
+NON_EXIT_RCB_CONTROLS = (500, 600, 700, 800, 900, 2, 1000, 1100)
 
 CONTROL_LABEL_MSG = 4000
 CONTROL_BUTTON_MISSINGINFODIALOG = 4001
@@ -274,6 +275,11 @@ class UIGameDB(xbmcgui.WindowXML):
 		try:
 			if(action.getId() in ACTION_CANCEL_DIALOG):
 				Logutil.log("onAction: ACTION_CANCEL_DIALOG", util.LOG_LEVEL_INFO)
+					
+				#don't exit RCB here. Just close the filters		
+				if(self.selectedControlId in NON_EXIT_RCB_CONTROLS):
+					self.setFocus(self.getControl(CONTROL_GAMES_GROUP_START))
+					return
 							
 				if(self.player.isPlayingVideo()):
 					self.player.stop()
@@ -309,14 +315,6 @@ class UIGameDB(xbmcgui.WindowXML):
 					
 					label = str(control.getSelectedItem().getLabel())
 					label2 = str(control.getSelectedItem().getLabel2())
-						
-					#filterChanged = False
-					
-					"""
-					#check if filter change is already in process
-					if(self.applyFilterThread != None and self.applyFilterThread.isAlive()):
-						self.applyFilterThreadStopped = True
-					"""
 					
 					if (self.selectedControlId == CONTROL_CONSOLES):
 						if(self.selectedConsoleIndex != control.getSelectedPosition()):
@@ -347,14 +345,6 @@ class UIGameDB(xbmcgui.WindowXML):
 							self.selectedCharacter = label
 							self.selectedCharacterIndex = control.getSelectedPosition()
 							self.filterChanged = True
-							
-					"""
-					if(filterChanged):
-						#start a new thread to apply filters
-						Logutil.log("start apply filter thread", util.LOG_LEVEL_INFO)
-						self.applyFilterThread = Thread(target=self.applyFilters, args=())
-						self.applyFilterThread.start()
-					"""
 				
 			elif(action.getId() in ACTION_INFO):
 				Logutil.log("onAction: ACTION_INFO", util.LOG_LEVEL_DEBUG)
