@@ -64,23 +64,23 @@ class dummyGUI():
 class Main():
 	
 	def __init__(self):
-		print 'sys.argv = ' +str(sys.argv)
+		print 'RCB: sys.argv = ' +str(sys.argv)
 		launchRCB = False
 		for arg in sys.argv:
 			param = str(arg)
-			print 'param = ' +param
+			print 'RCB: param = ' +param
 			if param == '' or param == 'script.games.rom.collection.browser':
-				print 'setting launchRCB = True'
+				print 'RCB: setting launchRCB = True'
 				launchRCB = True
 					
 			#provide data that skins can show on home screen
 			if 'limit=' in param:
-				print 'setting launchRCB = False'
+				print 'RCB: setting launchRCB = False'
 				launchRCB = False
 				#check if RCB should be launched at startup (via RCB Service)
 				launchOnStartup = addon.getSetting('rcb_launchOnStartup')
 				if(launchOnStartup.lower() == 'true'):
-					print "RCB will be started via RCB service. Won't gather widget data on this run."					
+					print "RCB: RCB will be started via RCB service. Won't gather widget data on this run."					
 				else:
 					self.gatherWidgetData(param)
 				
@@ -89,7 +89,7 @@ class Main():
 				self.launchGame(param)
 				
 		# Start the main gui
-		print 'launchRCB = ' +str(launchRCB)
+		print 'RCB: launchRCB = ' +str(launchRCB)
 		if launchRCB:
 			 import gui
 				
@@ -101,6 +101,12 @@ class Main():
 		
 		gdb = GameDataBase(util.getAddonDataPath())
 		gdb.connect()
+		
+		doImport, errorMsg = gdb.checkDBStructure()
+		if(doImport) > 0:
+			print "RCB: No database available. Won't gather any data."
+			gdb.close()
+			return
 				
 		#cache lookup tables
 		yearDict = helper.cacheYears(gdb)
