@@ -625,12 +625,20 @@ def launchNonXbox(cmd, romCollection, settings, precmd, postcmd, libretroroms, g
 		# Remember selection
 		gui.saveViewState(False)
 		rom = libretroroms[0]
+		"""
 		if(listitem == None):
 			listitem = xbmcgui.ListItem(rom, "0", "", "")
-		listitem.setInfo( type="games", infoLabels={ "platform": romCollection.name } )
+		listitem.setInfo( type="game", infoLabels={ "platform": romCollection.name } )
+		"""
 		Logutil.log("launching rom: " +rom, util.LOG_LEVEL_INFO)
-		gui.player.play(rom, listitem)
-		#xbmc.executebuiltin('PlayMedia(\"%s\")' %rom)
+		#preDelay = int(float(settings.getSetting(SETTING_RCB_PRELAUNCHDELAY)))
+		#xbmc.sleep(preDelay)
+		
+		#gui.player.play(rom, listitem)
+		xbmc.executebuiltin('PlayMedia(\"%s\", platform=%s, gameclient=%s)' %(rom, romCollection.name, romCollection.gameclient))
+		
+		#postDelay = int(float(settings.getSetting(SETTING_RCB_POSTLAUNCHDELAY)))
+		#xbmc.sleep(postDelay)
 		return
 	
 	if (not romCollection.useEmuSolo):

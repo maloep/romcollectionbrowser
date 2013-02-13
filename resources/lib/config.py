@@ -213,6 +213,7 @@ class RomCollection:
 	name = ''
 	
 	useBuiltinEmulator = False
+	gameclient = ''
 	emulatorCmd = ''
 	preCmd = ''
 	postCmd = ''
@@ -416,6 +417,7 @@ class Config:
 				romCollection.imagePlacingInfo = fileTypeFor
 						
 			#all simple RomCollection properties
+			romCollection.gameclient = self.readTextElement(romCollectionRow, 'gameclient')
 			romCollection.emulatorCmd = self.readTextElement(romCollectionRow, 'emulatorCmd')
 			romCollection.preCmd = self.readTextElement(romCollectionRow, 'preCmd')
 			romCollection.postCmd = self.readTextElement(romCollectionRow, 'postCmd')
