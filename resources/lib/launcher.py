@@ -92,7 +92,7 @@ def launchEmu(gdb, gui, gameId, config, settings, listitem):
 		if (os.environ.get( "OS", "xbox" ) == "xbox"):			
 			launchXbox(gui, gdb, cmd, romCollection, filenameRows)
 		else:
-			launchNonXbox(cmd, romCollection, settings, precmd, postcmd, libretroroms, gui, listitem)
+			launchNonXbox(cmd, romCollection, gameRow, settings, precmd, postcmd, libretroroms, gui, listitem)
 	
 		gui.writeMsg("")
 					
@@ -614,7 +614,7 @@ def getRomfilenameForXboxCutfile(filenameRows, romCollection):
 	return filename
 	
 	
-def launchNonXbox(cmd, romCollection, settings, precmd, postcmd, libretroroms, gui, listitem):
+def launchNonXbox(cmd, romCollection, gameRow, settings, precmd, postcmd, libretroroms, gui, listitem):
 	Logutil.log("launchEmu on non-xbox", util.LOG_LEVEL_INFO)							
 				
 	toggledScreenMode = False
@@ -625,20 +625,21 @@ def launchNonXbox(cmd, romCollection, settings, precmd, postcmd, libretroroms, g
 		# Remember selection
 		gui.saveViewState(False)
 		rom = libretroroms[0]
-		"""
+		
+
+		gameclient = romCollection.gameclient		
+		#HACK: assume that every gameclient starts with "gameclient"
+		if(gameRow[util.GAME_gameCmd] != None and str(gameRow[util.GAME_gameCmd]).startswith('gameclient')):
+			gameclient = str(gameRow[util.GAME_gameCmd])
+		Logutil.log("Preferred gameclient: " +gameclient, util.LOG_LEVEL_INFO)
+		Logutil.log("Setting platform: " +romCollection.name, util.LOG_LEVEL_INFO)
+		
 		if(listitem == None):
 			listitem = xbmcgui.ListItem(rom, "0", "", "")
-		listitem.setInfo( type="game", infoLabels={ "platform": romCollection.name } )
-		"""
-		Logutil.log("launching rom: " +rom, util.LOG_LEVEL_INFO)
-		#preDelay = int(float(settings.getSetting(SETTING_RCB_PRELAUNCHDELAY)))
-		#xbmc.sleep(preDelay)
-		
-		#gui.player.play(rom, listitem)
-		xbmc.executebuiltin('PlayMedia(\"%s\", platform=%s, gameclient=%s)' %(rom, romCollection.name, romCollection.gameclient))
-		
-		#postDelay = int(float(settings.getSetting(SETTING_RCB_POSTLAUNCHDELAY)))
-		#xbmc.sleep(postDelay)
+		listitem.setInfo( type="game", infoLabels={ "platform": romCollection.name, "gameclient" : gameclient})
+		Logutil.log("launching rom: " +rom, util.LOG_LEVEL_INFO)		
+		gui.player.play(rom, listitem)
+		#xbmc.executebuiltin('PlayMedia(\"%s\", platform=%s, gameclient=%s)' %(rom, romCollection.name, romCollection.gameclient))
 		return
 	
 	if (not romCollection.useEmuSolo):
