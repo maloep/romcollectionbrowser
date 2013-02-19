@@ -1,4 +1,4 @@
-# Copyright (C) 2012 Malte Loepmann (maloep@googlemail.com)
+# Copyright (C) 2009-2013 Malte Loepmann (maloep@googlemail.com)
 #
 # This program is free software; you can redistribute it and/or modify it under the terms 
 # of the GNU General Public License as published by the Free Software Foundation; 
