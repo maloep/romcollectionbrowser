@@ -188,12 +188,18 @@ class DBUpdate:
 					#all files still available files-list, are missing entries
 					for filename in files:
 						gamenameFromFile = helper.getGamenameFromFilename(filename, romCollection)
-						self.missingDescFile.write('%s\n' %gamenameFromFile)
+						try:
+							self.missingDescFile.write('%s\n' %gamenameFromFile)
+						except:
+							self.missingDescFile.write('%s\n' %gamenameFromFile.encode('utf-8'))
 							
 				except Exception, (exc):
 					Logutil.log("an error occured while adding game " +gamenameFromDesc, util.LOG_LEVEL_WARNING)
 					Logutil.log("Error: " +str(exc), util.LOG_LEVEL_WARNING)
-					self.missingDescFile.write('%s\n' %gamenameFromDesc)
+					try:
+						self.missingDescFile.write('%s\n' %gamenameFromDesc)
+					except:
+						self.missingDescFile.write('%s\n' %gamenameFromDesc.encode('utf-8'))
 					continue
 			else:	
 				fileCount = 0
@@ -284,7 +290,10 @@ class DBUpdate:
 					except Exception, (exc):
 						Logutil.log("an error occured while adding game " +gamenameFromFile, util.LOG_LEVEL_WARNING)
 						Logutil.log("Error: " +str(exc), util.LOG_LEVEL_WARNING)
-						self.missingDescFile.write('%s\n' %gamenameFromFile)
+						try:
+							self.missingDescFile.write('%s\n' %gamenameFromFile)
+						except:
+							self.missingDescFile.write('%s\n' %gamenameFromFile.encode('utf-8'))
 						continue
 					
 			#timestamp2 = time.clock()
@@ -579,7 +588,10 @@ class DBUpdate:
 			game = self.resolveParseResult(gamedescription, 'Game')
 		else:
 			if(not isLocalArtwork):
-				self.missingDescFile.write('%s\n' %gamename)
+				try:
+					self.missingDescFile.write('%s\n' %gamename)
+				except:
+					self.missingDescFile.write('%s\n' %gamename.encode('utf-8'))
 			
 				ignoreGameWithoutDesc = self.Settings.getSetting(util.SETTING_RCB_IGNOREGAMEWITHOUTDESC).upper() == 'TRUE'
 				if(ignoreGameWithoutDesc):
@@ -646,8 +658,10 @@ class DBUpdate:
 		if(gamedescription != None):
 			gamename = self.resolveParseResult(gamedescription, 'Game')
 			if(gamename != gamenameFromFile):
-				self.possibleMismatchFile.write('%s, %s\n' %(gamename, gamenameFromFile))
-			
+				try:
+					self.possibleMismatchFile.write('%s, %s\n' %(gamename, gamenameFromFile))
+				except:
+					self.possibleMismatchFile.write('%s, %s\n' %(gamename.encode('utf-8'), gamenameFromFile.encode('utf-8')))
 			if(gamename == ""):
 				gamename = gamenameFromFile
 		else:
@@ -659,7 +673,10 @@ class DBUpdate:
 			ignoreGamesWithoutArtwork = self.Settings.getSetting(util.SETTING_RCB_IGNOREGAMEWITHOUTARTWORK).upper() == 'TRUE'
 			if(ignoreGamesWithoutArtwork):								
 				Logutil.log('No artwork found for game "%s". Game will not be imported.' %gamenameFromFile, util.LOG_LEVEL_WARNING)
-				self.missingArtworkFile.write('--> No artwork found for game "%s". Game will not be imported.\n' %gamename)
+				try:
+					self.missingArtworkFile.write('--> No artwork found for game "%s". Game will not be imported.\n' %gamename)
+				except:
+					self.missingArtworkFile.write('--> No artwork found for game "%s". Game will not be imported.\n' %gamename.encode('utf-8'))
 				return None, True
 
 			
@@ -733,7 +750,10 @@ class DBUpdate:
 					artWorkFound = True
 				"""					
 			else:
-				self.missingArtworkFile.write('%s (filename: %s) (%s)\n' %(gamename, gamenameFromFile, path.fileType.name))
+				try:
+					self.missingArtworkFile.write('%s (filename: %s) (%s)\n' %(gamename, gamenameFromFile, path.fileType.name))
+				except:
+					self.missingArtworkFile.write('%s (filename: %s) (%s)\n' %(gamename.encode('utf-8'), gamenameFromFile.encode('utf-8'), path.fileType.name))
 			
 			artworkfiles[path.fileType] = files
 		
@@ -1129,6 +1149,7 @@ class DBUpdate:
 		try:
 			self.missingArtworkFile.close()
 			self.missingDescFile.close()
+			self.possibleMismatchFile.close()
 		except:
 			pass
 		
