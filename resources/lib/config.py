@@ -252,22 +252,45 @@ class Config:
 	
 	tree = None
 	
-	
-	def readXml(self):
-		
-		Logutil.log('Begin readXml', util.LOG_LEVEL_INFO)
+	def initXml(self):
+		Logutil.log('initXml', util.LOG_LEVEL_INFO)
 		
 		configFile = util.getConfigXmlPath()		
 		
 		if(not os.path.isfile(configFile)):			
 			Logutil.log('File config.xml does not exist. Place a valid config file here: ' +str(configFile), util.LOG_LEVEL_ERROR)
-			return False, util.localize(35003)
+			return None, False, util.localize(35003)
 		
 		tree = ElementTree().parse(configFile)
-		self.tree = tree
 		if(tree == None):
 			Logutil.log('Could not read config.xml', util.LOG_LEVEL_ERROR)
-			return False, util.localize(35004)
+			return None, False, util.localize(35004)
+		
+		self.tree = tree
+		
+		return tree, True, ''
+	
+	
+	def checkRomCollectionsAvailable(self):
+		Logutil.log('checkRomCollectionsAvailable', util.LOG_LEVEL_INFO)
+	
+		tree, success, errorMsg = self.initXml()
+		if(not success):
+			return False, errorMsg
+		
+		romCollectionRows = tree.findall('RomCollections/RomCollection')
+				
+		return len(romCollectionRows) > 0, ''
+				
+		
+		
+	
+	def readXml(self):
+		Logutil.log('readXml', util.LOG_LEVEL_INFO)
+		
+		tree, success, errorMsg = self.initXml()
+		if(not success):
+			return False, errorMsg	
 		
 		#Rom Collections
 		romCollections, errorMsg = self.readRomCollections(tree)
@@ -281,7 +304,7 @@ class Config:
 			return False, errorMsg		
 		self.scraperSites = scrapers
 				
-		self.fileTypeIdsForGamelist = self.getFileTypeIdsForGameList(romCollections)
+		self.fileTypeIdsForGamelist = self.getFileTypeIdsForGameList(tree, romCollections)
 		
 		#Missing filter settings
 		missingFilter = tree.find('MissingFilter')
@@ -305,13 +328,10 @@ class Config:
 		romCollections = {}
 		
 		romCollectionRows = tree.findall('RomCollections/RomCollection')
-				
-		"""	
-		#TODO Find out how to check result of findall. None, len() and list() don't work
-		if (len(list(romCollections)) == 0):
+								
+		if (len(romCollectionRows) == 0):
 			Logutil.log('Configuration error. config.xml does not contain any RomCollections', util.LOG_LEVEL_ERROR)
 			return None, 'Configuration error. See xbmc.log for details'
-		"""
 			
 		for romCollectionRow in romCollectionRows:
 			
@@ -572,6 +592,7 @@ class Config:
 	
 	
 	def readFileType(self, name, tree):
+		
 		fileTypeRow = None 
 		fileTypeRows = tree.findall('FileTypes/FileType')
 		for element in fileTypeRows:
@@ -681,7 +702,7 @@ class Config:
 		return items
 	
 	
-	def getFileTypeIdsForGameList(self, romCollections):
+	def getFileTypeIdsForGameList(self, tree, romCollections):
 		
 		fileTypeIds = []
 		for romCollection in romCollections.values():
@@ -693,7 +714,7 @@ class Config:
 					fileTypeIds.append(fileType.id)
 			
 			#fullscreen video
-			fileType, errorMsg = self.readFileType('gameplay', self.tree)
+			fileType, errorMsg = self.readFileType('gameplay', tree)
 			if(fileType != None):
 				fileTypeIds.append(fileType.id)
 

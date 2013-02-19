@@ -145,71 +145,18 @@ class UIGameDB(xbmcgui.WindowXML):
 		
 		#timestamp1 = time.clock()
 		
-		try:
-			self.gdb = GameDataBase(util.getAddonDataPath())
-			self.gdb.connect()
-		except Exception, (exc):
-			xbmcgui.Dialog().ok(util.SCRIPTNAME, util.localize(35000), str(exc))
-			Logutil.log('Error accessing database: ' +str(exc), util.LOG_LEVEL_ERROR)
-			self.quit = True
-			return
-		
 		self.quit = False
-		
-		#check if database is up to date
-		#create new one or alter existing one
-		doImport, errorMsg = self.gdb.checkDBStructure()
-		
-		if(doImport == -1):
-			xbmcgui.Dialog().ok(util.SCRIPTNAME, errorMsg)			
-			self.quit = True
-			return		
-		
-		#check if we have config file
-		configFile = util.getConfigXmlPath()
-		if(not os.path.isfile(configFile)):
-			dialog = xbmcgui.Dialog()
-			retValue = dialog.yesno(util.SCRIPTNAME, util.localize(40000), util.localize(40001))
-			if(retValue == False):
-				self.quit = True
-				return
-						
-			statusOk, errorMsg = wizardconfigxml.ConfigXmlWizard().createConfigXml(configFile)
-			if(statusOk == False):
-				xbmcgui.Dialog().ok(util.SCRIPTNAME, util.localize(35001), errorMsg)
-				self.quit = True
-				return
-		else:
-			#check if config.xml is up to date
-			returnCode, message = ConfigxmlUpdater().updateConfig(self)
-			if(returnCode == False):
-				xbmcgui.Dialog().ok(util.SCRIPTNAME, util.localize(35001), message)
 				
-		if(doImport == 2):
-			xbmcgui.Dialog().ok(util.SCRIPTNAME, util.localize(40002), util.localize(40003))
-		
-		#read config.xml
-		self.config = Config()
-		statusOk, errorMsg = self.config.readXml()
-		if(statusOk == False):
-			xbmcgui.Dialog().ok(util.SCRIPTNAME, util.localize(35002), errorMsg)
-			self.quit = True
+		self.config, success = self.initializeConfig()
+		if not success:
+	   		self.quit = True
+			return
+	   	
+	   	success = self.initializeDataBase()
+	   	if not success:
+	   		self.quit = True
 			return
 		
-		self.checkImport(doImport, None)
-		
-		#TODO: check why mem db sometimes causes errors
-		"""
-		self.memDB = False		
-		memDB = self.Settings.getSetting(util.SETTING_RCB_MEMDB)
-		
-		if memDB == 'true':
-			self.memDB = True
-			if self.gdb.toMem():
-				Logutil.log("DB loaded to Mem!", util.LOG_LEVEL_INFO)
-			else:
-				Logutil.log("Load DB to Mem failed!", util.LOG_LEVEL_INFO)
-		"""
 		
 		cachingOptionStr = self.Settings.getSetting(util.SETTING_RCB_CACHINGOPTION)
 		if(cachingOptionStr == 'CACHEALL'):
@@ -236,6 +183,72 @@ class UIGameDB(xbmcgui.WindowXML):
 		self.player.gui = self
 				
 		self.initialized = True
+		
+		
+	def initializeConfig(self):		
+		Logutil.log("initializeConfig", util.LOG_LEVEL_INFO)
+		
+		config = Config()
+		createNewConfig = False
+		
+		#check if we have config file
+		configFile = util.getConfigXmlPath()
+		if(not os.path.isfile(configFile)):
+			dialog = xbmcgui.Dialog()
+			createNewConfig = dialog.yesno(util.SCRIPTNAME, util.localize(40000), util.localize(40001))
+			if(not createNewConfig):
+				return config, False
+		else:
+			rcAvailable = config.checkRomCollectionsAvailable()
+			if(not rcAvailable):
+				dialog = xbmcgui.Dialog()
+				createNewConfig = dialog.yesno(util.SCRIPTNAME, util.localize(40000), util.localize(40001))
+				if(not createNewConfig):
+					return config, False
+		
+		if (createNewConfig):
+			statusOk, errorMsg = wizardconfigxml.ConfigXmlWizard().createConfigXml(configFile)
+			if(statusOk == False):
+				xbmcgui.Dialog().ok(util.SCRIPTNAME, util.localize(35001), errorMsg)
+				return config, False
+		else:
+			#check if config.xml is up to date
+			returnCode, message = ConfigxmlUpdater().updateConfig(self)
+			if(returnCode == False):
+				xbmcgui.Dialog().ok(util.SCRIPTNAME, util.localize(35001), message)
+		
+		#read config.xml		
+		statusOk, errorMsg = config.readXml()
+		if(statusOk == False):
+			xbmcgui.Dialog().ok(util.SCRIPTNAME, util.localize(35002), errorMsg)
+			
+		return config, statusOk
+		
+		
+	def initializeDataBase(self):
+		try:
+			self.gdb = GameDataBase(util.getAddonDataPath())
+			self.gdb.connect()
+		except Exception, (exc):
+			xbmcgui.Dialog().ok(util.SCRIPTNAME, util.localize(35000), str(exc))
+			Logutil.log('Error accessing database: ' +str(exc), util.LOG_LEVEL_ERROR)
+			return False
+	   
+	   	#check if database is up to date
+		#create new one or alter existing one
+		doImport, errorMsg = self.gdb.checkDBStructure()
+		
+		if(doImport == -1):
+			xbmcgui.Dialog().ok(util.SCRIPTNAME, errorMsg)
+			return False
+				
+		if(doImport == 2):
+			xbmcgui.Dialog().ok(util.SCRIPTNAME, util.localize(40002), util.localize(40003))
+		
+		self.checkImport(doImport, None)
+		
+		return True
+		
 						
 		
 	def onInit(self):
