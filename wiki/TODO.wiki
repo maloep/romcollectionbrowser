@@ -2,7 +2,6 @@
 
 This TODO list / roadmap is a working document. It will change quite frequently as I am always adding, removing or reordering issues that I want to work on for the next release. If you made a request or reported an issue that you don't find on the list please remind me because chances are that I just forgot to add it.
 
-
 = next relase =
 == Import games ==
   * RCB "forgets" the Consoles filter after import or rescrape some game
@@ -10,14 +9,20 @@ This TODO list / roadmap is a working document. It will change quite frequently 
 	* filters lost after (2nd?) game import
   * set "Always rescan games" automatically if in Rescrape mode
   * fix bug in MAME offline scraper
-  * offer import when database is empty (not only when it is missing)
+  * launch config wizard when there are no rom collections in config.xml - Done
+  * offer import when database is empty (not only when it is missing) - Done
   * Media or rom path with special characters (encoding issues)
+  * bug: # or [] in rom filename of pathname causes errors
+  * adding single games
 
 == Browse games ==  
   * save filter settings not always working
   
 == Launch games ==
+  * choose gameclient per Edit Game Command - Done
+  * provide list of (un)installed gameclients in Edit Game Command
   * pylzma for python 2.6 (http://pypi.python.org/pypi/pylzma/)
+  * change the working directory before starting the emulator
 
 
 = (one of) next release(s) =
@@ -38,7 +43,6 @@ This TODO list / roadmap is a working document. It will change quite frequently 
   * remove MAWS scraper from config.xml
   * manually enter name of scraped game (rescrape or interactive)
   * NFO files don't update when rescraping games. - Add option to overwrite
-  * bug: # in rom filename causes errors
   * import games with multiple . or - causes errors (like "WCW vs. NWO - world tour") --> "." interpreted as separator
   * replace smb:// when searching for roms and artwork
     * create local link in userdata folder?
