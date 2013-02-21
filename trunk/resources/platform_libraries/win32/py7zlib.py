@@ -741,9 +741,6 @@ class Archive7z(Base):
             print '%10d%s%s %s' % (f.size, extra, hex(f.digest)[2:-1], f.filename)
             
 if __name__ == '__main__':
-    f = Archive7z(open('3 Ninjas Kick Back.7z', 'rb'))
-    print f.getmembers()[0].filename;
-    fo = open(f.getmembers()[0].filename, 'wb');
-    fo.write(f.getmembers()[0].read());
+    f = Archive7z(open('test.7z', 'rb'))
     #f = Archive7z(open('pylzma.7z', 'rb'))
-    #f.list()
+    f.list()
