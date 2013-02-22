@@ -246,9 +246,9 @@ class UIGameDB(xbmcgui.WindowXML):
 			xbmcgui.Dialog().ok(util.SCRIPTNAME, util.localize(40002), util.localize(40003))
 		
 		self.checkImport(doImport, None)
+		self.updateGamelist()
 		
 		return True
-		
 						
 		
 	def onInit(self):
@@ -291,6 +291,7 @@ class UIGameDB(xbmcgui.WindowXML):
 					
 				#don't exit RCB here. Just close the filters		
 				if(self.selectedControlId in NON_EXIT_RCB_CONTROLS):
+					Logutil.log("selectedControl in NON_EXIT_RCB_CONTROLS: %s" %self.selectedControlId, util.LOG_LEVEL_INFO)
 					self.setFocus(self.getControl(CONTROL_GAMES_GROUP_START))
 					return
 							
@@ -765,8 +766,6 @@ class UIGameDB(xbmcgui.WindowXML):
 		Logutil.log("startFullscreenVideo" , util.LOG_LEVEL_INFO)
 
 		self.fullScreenVideoStarted = True
-
-		#self.setFocus(self.getControl(CONTROL_GAMES_GROUP_START))
 		
 		#Hack: On xbox the list is cleared before starting the player
 		if (os.environ.get("OS", "xbox") == "xbox"):
@@ -797,28 +796,35 @@ class UIGameDB(xbmcgui.WindowXML):
 		
 	def updateDB(self):
 		Logutil.log("Begin updateDB" , util.LOG_LEVEL_INFO)
-		
-		self.clearList()
-		self.clearCache()
-		self.checkImport(3, None)
-		self.cacheItems()
-		self.updateControls(True)
-		
+		self.importGames(None)
 		Logutil.log("End updateDB" , util.LOG_LEVEL_INFO)
 		
 	
 	def rescrapeGames(self, romCollections):
 		Logutil.log("Begin rescrapeGames" , util.LOG_LEVEL_INFO)
+		self.importGames(romCollections)
+		self.config.readXml()
+		Logutil.log("End rescrapeGames" , util.LOG_LEVEL_INFO)
 		
+		
+	def importGames(self, romCollections):
 		self.clearList()
 		self.clearCache()
 		self.checkImport(3, romCollections)
 		self.cacheItems()
 		self.updateControls(True)
+		self.updateGamelist()
 		
-		self.config.readXml() 
 		
-		Logutil.log("End rescrapeGames" , util.LOG_LEVEL_INFO)
+	def updateGamelist(self):
+		#only update controls if they are available
+		if(self.initialized):
+			self.showGames()
+			focusControl = self.getControlById(CONTROL_GAMES_GROUP_START)
+			if(focusControl != None):
+				self.setFocus(focusControl)
+			xbmc.sleep(util.WAITTIME_UPDATECONTROLS)
+			self.showGameInfo()
 		
 		
 	def deleteGame(self, gameID):
@@ -1275,15 +1281,6 @@ class UIGameDB(xbmcgui.WindowXML):
 		del updater
 		progressDialog.writeMsg("", "", "", -1)
 		del progressDialog
-		
-		#only update controls if they are available
-		if(self.initialized):
-			self.showGames()
-			focusControl = self.getControlById(CONTROL_GAMES_GROUP_START)
-			if(focusControl != None):
-				self.setFocus(focusControl)
-			xbmc.sleep(util.WAITTIME_UPDATECONTROLS)
-			self.showGameInfo()
 
 
 	def checkUpdateInProgress(self):
