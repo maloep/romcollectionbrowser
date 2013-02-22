@@ -552,35 +552,9 @@ class UIGameDB(xbmcgui.WindowXML):
 			items.append(xbmcgui.ListItem(util.localize(40020), "0", "", ""))
 		
 		for row in rows:
-			items.append(xbmcgui.ListItem(row[util.ROW_NAME], str(row[util.ROW_ID]), "", ""))
+			items.append(xbmcgui.ListItem(str(row[util.ROW_NAME]), str(row[util.ROW_ID]), "", ""))
 			
 		control.addItems(items)
-				
-		"""
-		#return selected id if we are not in "delete rom collection" mode  
-		if((not romsDeleted and not romCollectionDeleted) or not handleConsole):
-			label2 = str(control.getSelectedItem().getLabel2())
-			print 'return selected item: ' +label2 
-			return int(label2)
-		
-				
-		rcSelected = False 
-		consoleCount = 0
-		newSelectedConsoleId = 0
-					
-		#get new index of selected rom collection
-		for romCollection in self.config.romCollections.values():
-			if(int(romCollection.id) == int(self.selectedConsoleId)):
-				rcSelected = True
-				newSelectedConsoleId = int(romCollection.id)
-			consoleCount += 1
-				
-		if(rcSelected == False):
-			#no RC selected
-			return 0
-		else:
-			return int(newSelectedConsoleId)
-		"""
 			
 	
 	def showCharacterFilter(self):
@@ -611,32 +585,10 @@ class UIGameDB(xbmcgui.WindowXML):
 	def applyFilters(self):
 		
 		Logutil.log("Begin applyFilters" , util.LOG_LEVEL_INFO)
-		
-		"""
-		#we have to use a little wait timer before applying the filter
-		timestamp1 = time.clock()
-		while True:
-			timestamp2 = time.clock()
-			diff = (timestamp2 - timestamp1) * 1000
-			if(diff > util.WAITTIME_APPLY_FILTERS):
-				Logutil.log("Filterthread timer ended" , util.LOG_LEVEL_DEBUG)
-				break
-							
-			if(self.applyFilterThreadStopped):
-				self.applyFilterThreadStopped = False
-				Logutil.log("applyFilterThreadStopped" , util.LOG_LEVEL_DEBUG)
-				return
-		
-		if(self.applyFiltersInProgress):
-			Logutil.log("applyFiltersInProgress" , util.LOG_LEVEL_DEBUG)
-			return
-		"""
-		
-		#self.applyFiltersInProgress = True
+				
 		self.updateControls(False, False, False)
 		xbmc.sleep(util.WAITTIME_UPDATECONTROLS)
 		self.showGames()
-		#self.applyFiltersInProgress = False
 		
 
 	def showGames(self):
@@ -702,7 +654,7 @@ class UIGameDB(xbmcgui.WindowXML):
 				imageGameListSelected = self.getFileForControl(romCollection.imagePlacingMain.fileTypesForGameListSelected, gameRow[util.ROW_ID], gameRow[util.GAME_publisherId], gameRow[util.GAME_developerId], gameRow[util.GAME_romCollectionId], fileDict)
 				
 				#create ListItem
-				item = xbmcgui.ListItem(gameRow[util.ROW_NAME], str(gameRow[util.ROW_ID]), imageGameList, imageGameListSelected)			
+				item = xbmcgui.ListItem(str(gameRow[util.ROW_NAME]), str(gameRow[util.ROW_ID]), imageGameList, imageGameListSelected)			
 				item.setProperty('gameId', str(gameRow[util.ROW_ID]))
 				
 				#favorite handling
@@ -1088,7 +1040,7 @@ class UIGameDB(xbmcgui.WindowXML):
 			listItem.setProperty('gameplaymain', video)
 		
 			#create dummy ListItem for playlist
-			dummyItem = xbmcgui.ListItem(gameRow[util.ROW_NAME], str(gameRow[util.ROW_ID]), imageGameList, imageGameListSelected)
+			dummyItem = xbmcgui.ListItem(str(gameRow[util.ROW_NAME]), str(gameRow[util.ROW_ID]), imageGameList, imageGameListSelected)
 		
 			#add video to playlist and compute playlistOffset (missing videos must be skipped)
 			self.rcb_playList.add(video, dummyItem)
