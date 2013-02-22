@@ -35,7 +35,7 @@ def launchEmu(gdb, gui, gameId, config, settings, listitem):
 	Logutil.log("files for current game: " +str(filenameRows), util.LOG_LEVEL_INFO)
 		
 	escapeCmd = settings.getSetting(util.SETTING_RCB_ESCAPECOMMAND).upper() == 'TRUE'
-	cmd, precmd, postcmd, libretroroms = buildCmd(filenameRows, romCollection, gameRow, escapeCmd, False)
+	cmd, precmd, postcmd, roms = buildCmd(filenameRows, romCollection, gameRow, escapeCmd, False)
 	
 	if (not romCollection.useBuiltinEmulator):
 		if(cmd == ''):
@@ -92,7 +92,7 @@ def launchEmu(gdb, gui, gameId, config, settings, listitem):
 		if (os.environ.get( "OS", "xbox" ) == "xbox"):			
 			launchXbox(gui, gdb, cmd, romCollection, filenameRows)
 		else:
-			launchNonXbox(cmd, romCollection, gameRow, settings, precmd, postcmd, libretroroms, gui, listitem)
+			launchNonXbox(cmd, romCollection, gameRow, settings, precmd, postcmd, roms, gui, listitem)
 	
 		gui.writeMsg("")
 					
@@ -235,7 +235,7 @@ def buildCmd(filenameRows, romCollection, gameRow, escapeCmd, calledFromSkin):
 		cmd = cmd.replace(replString, diskName)
 		
 			
-	return cmd, precmd, postcmd, None
+	return cmd, precmd, postcmd, roms
 
 
 def checkGameHasSaveStates(romCollection, gameRow, filenameRows, escapeCmd):
@@ -614,7 +614,7 @@ def getRomfilenameForXboxCutfile(filenameRows, romCollection):
 	return filename
 	
 	
-def launchNonXbox(cmd, romCollection, gameRow, settings, precmd, postcmd, libretroroms, gui, listitem):
+def launchNonXbox(cmd, romCollection, gameRow, settings, precmd, postcmd, roms, gui, listitem):
 	Logutil.log("launchEmu on non-xbox", util.LOG_LEVEL_INFO)							
 				
 	toggledScreenMode = False
@@ -624,8 +624,7 @@ def launchNonXbox(cmd, romCollection, gameRow, settings, precmd, postcmd, libret
 		Logutil.log("launching game with internal emulator", util.LOG_LEVEL_INFO)
 		# Remember selection
 		gui.saveViewState(False)
-		rom = libretroroms[0]
-		
+		rom = roms[0]
 
 		gameclient = romCollection.gameclient		
 		#HACK: assume that every gameclient starts with "gameclient"
@@ -667,6 +666,12 @@ def launchNonXbox(cmd, romCollection, gameRow, settings, precmd, postcmd, libret
 	
 	preDelay = int(float(settings.getSetting(SETTING_RCB_PRELAUNCHDELAY)))
 	xbmc.sleep(preDelay)
+	
+	#change working directory	
+	path = os.path.dirname(romCollection.emulatorCmd)
+	if(os.path.isdir(path)):
+		os.chdir(path)
+	
 	if(romCollection.usePopen):
 		import subprocess
 		subprocess.Popen(cmd.encode(sys.getfilesystemencoding()), shell=True)
