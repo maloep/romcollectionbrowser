@@ -207,8 +207,8 @@ class PyScraper:
 					highestRatio = 0.0
 			
 			if(highestRatio < fuzzyFactor):
-				Logutil.log('No result found with a ratio better than %s. Try again with subtitle search.' %(str(fuzzyFactor),), LOG_LEVEL_WARNING)
-				result, highestRatio = self.matchGamename(results, gamenameFromFile, digits, romes, True)
+				Logutil.log('No result found with a ratio better than %s. Try again with subtitle search.' %(str(fuzzyFactor),), LOG_LEVEL_WARNING)				
+				result, highestRatio = self.matchGamename(results, gamenameFromFile, digits, romes, True, scraperSource, romCollection)
 				#check for sequel numbers because it could be misinteroreted as subtitle
 				bestMatchingGame = self.resolveParseResult(result, 'SearchKey')
 				seqNoIsEqual = self.checkSequelNoIsEqual(gamenameFromFile, bestMatchingGame)
