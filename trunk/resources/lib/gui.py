@@ -245,7 +245,7 @@ class UIGameDB(xbmcgui.WindowXML):
 		if(doImport == 2):
 			xbmcgui.Dialog().ok(util.SCRIPTNAME, util.localize(40002), util.localize(40003))
 		
-		self.checkImport(doImport, None)
+		self.checkImport(doImport, None, False)
 		return True
 						
 		
@@ -798,22 +798,22 @@ class UIGameDB(xbmcgui.WindowXML):
 		
 	def updateDB(self):
 		Logutil.log("Begin updateDB" , util.LOG_LEVEL_INFO)
-		self.importGames(None)
+		self.importGames(None, False)
 		Logutil.log("End updateDB" , util.LOG_LEVEL_INFO)
 		
 	
 	def rescrapeGames(self, romCollections):
 		Logutil.log("Begin rescrapeGames" , util.LOG_LEVEL_INFO)
-		self.importGames(romCollections)
+		self.importGames(romCollections, True)
 		self.config.readXml()
 		Logutil.log("End rescrapeGames" , util.LOG_LEVEL_INFO)
 		
 		
-	def importGames(self, romCollections):
+	def importGames(self, romCollections, isRescrape):
 		self.saveViewState(False)
 		self.clearList()
 		self.clearCache()
-		self.checkImport(3, romCollections)
+		self.checkImport(3, romCollections, isRescrape)
 		self.cacheItems()		
 		self.updateControls(True)
 		self.loadViewState()
@@ -1247,7 +1247,7 @@ class UIGameDB(xbmcgui.WindowXML):
 		return item
 	
 	
-	def checkImport(self, doImport, romCollections):
+	def checkImport(self, doImport, romCollections, isRescrape):
 		
 		#doImport: 0=nothing, 1=import Settings and Games, 2=import Settings only, 3=import games only
 		if(doImport == 0):
@@ -1258,7 +1258,7 @@ class UIGameDB(xbmcgui.WindowXML):
 		showImportOptionsDialog = self.Settings.getSetting(util.SETTING_RCB_SHOWIMPORTOPTIONSDIALOG).upper() == 'TRUE'
 		if(showImportOptionsDialog):
 			constructorParam = "720p"
-			iod = dialogimportoptions.ImportOptionsDialog("script-RCB-importoptions.xml", util.getAddonInstallPath(), "Default", constructorParam, gui=self, romCollections=romCollections)
+			iod = dialogimportoptions.ImportOptionsDialog("script-RCB-importoptions.xml", util.getAddonInstallPath(), "Default", constructorParam, gui=self, romCollections=romCollections, isRescrape=isRescrape)
 			del iod
 		else:
 			message = util.localize(40018)
@@ -1270,17 +1270,17 @@ class UIGameDB(xbmcgui.WindowXML):
 				scrapingMode = util.getScrapingMode(self.Settings)
 				#Import Games
 				if(romCollections == None):
-					self.doImport(scrapingMode, self.config.romCollections)
+					self.doImport(scrapingMode, self.config.romCollections, isRescrape)
 				else:
-					self.doImport(scrapingMode, romCollections)
+					self.doImport(scrapingMode, romCollections, isRescrape)
 		
 		
-	def doImport(self, scrapingmode, romCollections):
+	def doImport(self, scrapingmode, romCollections, isRescrape):
 		progressDialog = dialogprogress.ProgressDialogGUI()
 		progressDialog.writeMsg(util.localize(40011), "", "")
 		
 		updater = dbupdate.DBUpdate()
-		updater.updateDB(self.gdb, progressDialog, scrapingmode, romCollections, self.Settings)
+		updater.updateDB(self.gdb, progressDialog, scrapingmode, romCollections, self.Settings, isRescrape)
 		del updater
 		progressDialog.writeMsg("", "", "", -1)
 		del progressDialog
