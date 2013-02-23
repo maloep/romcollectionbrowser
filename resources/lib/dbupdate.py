@@ -91,15 +91,19 @@ class DBUpdate:
 			Logutil.log("update is allowed for current rom collection: " +str(romCollection.allowUpdate), util.LOG_LEVEL_INFO)
 			Logutil.log("max folder depth: " +str(romCollection.maxFolderDepth), util.LOG_LEVEL_INFO)
 			
+			firstScraper = romCollection.scraperSites[0]
+			
+			#check if we are in local artwork mode
+			if(len(romCollection.scraperSites) == 1 and firstScraper.name == util.localize(40053)):
+				Logutil.log("Forcing enableFullReimport because we are in local artwork mode", util.LOG_LEVEL_INFO)
+				enableFullReimport = True
+			
 			files = self.getRomFilesByRomCollection(romCollection, enableFullReimport)
 			
 			#itemCount is used for percentage in ProgressDialogGUI
 			gui.itemCount = len(files) +1
 			
-			#self.scrapeResultsFile.write('%s games total' %(str(len(fileGamenameDict))))
-			
 			#check if first scraper is a multigame scraper
-			firstScraper = romCollection.scraperSites[0]
 			if(not firstScraper.descFilePerGame):
 				
 				#build file hash tables	(key = gamename or crc, value = romfiles)			
@@ -233,7 +237,7 @@ class DBUpdate:
 							break
 						
 						#check if we are in local artwork mode
-						isLocalArtwork = (firstScraper.name == 'local artwork')
+						isLocalArtwork = (firstScraper.name == util.localize(40053))
 						
 						#check if this file already exists in DB
 						continueUpdate, isUpdate, gameId = self.checkRomfileAlreadyExists(filename, enableFullReimport, isLocalArtwork)
