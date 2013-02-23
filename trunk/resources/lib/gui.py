@@ -292,8 +292,12 @@ class UIGameDB(xbmcgui.WindowXML):
 				#don't exit RCB here. Just close the filters		
 				if(self.selectedControlId in NON_EXIT_RCB_CONTROLS):
 					Logutil.log("selectedControl in NON_EXIT_RCB_CONTROLS: %s" %self.selectedControlId, util.LOG_LEVEL_INFO)
-					self.setFocus(self.getControl(CONTROL_GAMES_GROUP_START))
-					return
+					#HACK: when list is empty, focus sits on other controls than game list
+					if(self.getListSize() > 0):
+						self.setFocus(self.getControl(CONTROL_GAMES_GROUP_START))
+						return
+					
+					Logutil.log("ListSize == 0 in onAction. Assume that we have to exit.", util.LOG_LEVEL_WARNING)
 							
 				if(self.player.isPlayingVideo()):
 					self.player.stop()
