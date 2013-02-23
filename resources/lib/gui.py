@@ -246,8 +246,6 @@ class UIGameDB(xbmcgui.WindowXML):
 			xbmcgui.Dialog().ok(util.SCRIPTNAME, util.localize(40002), util.localize(40003))
 		
 		self.checkImport(doImport, None)
-		self.updateGamelist()
-		
 		return True
 						
 		
@@ -812,12 +810,13 @@ class UIGameDB(xbmcgui.WindowXML):
 		
 		
 	def importGames(self, romCollections):
+		self.saveViewState(False)
 		self.clearList()
 		self.clearCache()
 		self.checkImport(3, romCollections)
-		self.cacheItems()
+		self.cacheItems()		
 		self.updateControls(True)
-		self.updateGamelist()
+		self.loadViewState()
 		
 		
 	def updateGamelist(self):
