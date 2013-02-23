@@ -140,7 +140,7 @@ def runUpdate():
 	settings.setSetting(util.SETTING_RCB_SCRAPEONSTARTUPACTION, 'update')
 	
 	progress = ProgressDialogBk()
-	dbupdate.DBUpdate().updateDB(gdb, progress, scrapingMode, configFile.romCollections, util.getSettings())
+	dbupdate.DBUpdate().updateDB(gdb, progress, scrapingMode, configFile.romCollections, util.getSettings(), False)
 	
 	settings.setSetting(util.SETTING_RCB_SCRAPEONSTARTUPACTION, 'nothing')
 	

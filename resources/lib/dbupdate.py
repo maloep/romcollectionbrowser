@@ -28,7 +28,7 @@ class DBUpdate:
 		pass
 		
 	
-	def updateDB(self, gdb, gui, updateOption, romCollections, settings):
+	def updateDB(self, gdb, gui, updateOption, romCollections, settings, isRescrape):
 		self.gdb = gdb
 		self.Settings = settings
 			
@@ -52,7 +52,8 @@ class DBUpdate:
 		fuzzyFactor = util.FUZZY_FACTOR_ENUM[int(matchingRatioIndex)]
 		Logutil.log("fuzzyFactor: " +str(fuzzyFactor), util.LOG_LEVEL_INFO)
 		
-		enableFullReimport = self.Settings.getSetting(util.SETTING_RCB_ENABLEFULLREIMPORT).upper() == 'TRUE'
+		#always do full reimports when in rescrape-mode 
+		enableFullReimport = isRescrape or self.Settings.getSetting(util.SETTING_RCB_ENABLEFULLREIMPORT).upper() == 'TRUE'
 		Logutil.log("enableFullReimport: " +str(enableFullReimport), util.LOG_LEVEL_INFO)
 		
 		continueUpdate = True
@@ -90,12 +91,7 @@ class DBUpdate:
 			Logutil.log("update is allowed for current rom collection: " +str(romCollection.allowUpdate), util.LOG_LEVEL_INFO)
 			Logutil.log("max folder depth: " +str(romCollection.maxFolderDepth), util.LOG_LEVEL_INFO)
 			
-			if enableFullReimport == False:
-				RCId = romCollection.id
-			else:
-				RCId = None
-			
-			files = self.getRomFilesByRomCollection(romCollection.romPaths, romCollection.maxFolderDepth, RCId=RCId)
+			files = self.getRomFilesByRomCollection(romCollection, enableFullReimport)
 			
 			#itemCount is used for percentage in ProgressDialogGUI
 			gui.itemCount = len(files) +1
@@ -359,18 +355,18 @@ class DBUpdate:
 		
 	
 	
-	def getRomFilesByRomCollection(self, romPaths, maxFolderDepth, RCId = None):
+	def getRomFilesByRomCollection(self, romCollection, enableFullReimport):
 				
-		Logutil.log("Rom path: " +str(romPaths), util.LOG_LEVEL_INFO)
+		Logutil.log("Rom path: " +str(romCollection.romPaths), util.LOG_LEVEL_INFO)
 				
 		Logutil.log("Reading rom files", util.LOG_LEVEL_INFO)
 		files = []
-		for romPath in romPaths:
-			files = self.walkDownPath(files, romPath, maxFolderDepth)
-			
+		for romPath in romCollection.romPaths:
+			files = self.walkDownPath(files, romPath, romCollection.maxFolderDepth)
 		
-		if RCId != None:
-			inDBFiles = DataBaseObject(self.gdb, '').getFileAllFilesByRCId(RCId)
+		#only use files that are not already present in database
+		if enableFullReimport == False:
+			inDBFiles = DataBaseObject(self.gdb, '').getFileAllFilesByRCId(romCollection.id)
 			files = [f.decode('utf-8') for f in files if not f.decode('utf-8') in inDBFiles]			
 		
 		files.sort()
