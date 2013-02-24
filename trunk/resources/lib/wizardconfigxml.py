@@ -145,7 +145,11 @@ class ConfigXmlWizard:
 				Logutil.log('No romPath selected. Action canceled.', util.LOG_LEVEL_INFO)
 				break
 			
-			
+			if(not os.path.isdir(romPath)):				
+				Logutil.log("RCB can't acces your Rom Path. Make sure it does not contain any non-ascii characters.", util.LOG_LEVEL_INFO)
+				xbmcgui.Dialog().ok(util.SCRIPTNAME, util.localize(35041), errorMsg)
+				break
+						
 			#filemask
 			
 			#xbox games always use default.xbe as executable
@@ -185,6 +189,11 @@ class ConfigXmlWizard:
 			if(scenarioIndex == 0):
 				artworkPath = dialog.browse(0, util.localize(40093) %console, 'files', '', False, False, romPath)
 				Logutil.log('artworkPath: ' +str(artworkPath), util.LOG_LEVEL_INFO)
+				if(not os.path.isdir(artworkPath)):				
+					Logutil.log("RCB can't acces your artwork path. Make sure it does not contain any non-ascii characters.", util.LOG_LEVEL_INFO)
+					xbmcgui.Dialog().ok(util.SCRIPTNAME, util.localize(35042), errorMsg)
+					break
+				
 				if(artworkPath == ''):
 					Logutil.log('No artworkPath selected. Action canceled.', util.LOG_LEVEL_INFO)
 					break
@@ -253,6 +262,12 @@ class ConfigXmlWizard:
 						artworkPath = dialog.browse(0, util.localize(40082) %(console, fileType), 'files', '', False, False, romPath)
 					else:
 						artworkPath = dialog.browse(0, util.localize(40082) %(console, fileType), 'files', '', False, False, lastArtworkPath)
+					
+					if(not os.path.isdir(artworkPath)):				
+						Logutil.log("RCB can't acces your artwork path. Make sure it does not contain any non-ascii characters.", util.LOG_LEVEL_INFO)
+						xbmcgui.Dialog().ok(util.SCRIPTNAME, util.localize(35042), errorMsg)
+						break
+					
 					lastArtworkPath = artworkPath
 					Logutil.log('artworkPath: ' +str(artworkPath), util.LOG_LEVEL_INFO)
 					if(artworkPath == ''):
