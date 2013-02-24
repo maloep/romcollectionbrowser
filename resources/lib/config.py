@@ -287,8 +287,10 @@ class Config:
 			return False, errorMsg
 		
 		romCollectionRows = tree.findall('RomCollections/RomCollection')
+		numRomCollections = len(romCollectionRows) 
+		Logutil.log("Number of Rom Collections in config.xml: %i" %numRomCollections, util.LOG_LEVEL_INFO)
 				
-		return len(romCollectionRows) > 0, ''
+		return numRomCollections > 0, ''
 				
 	
 	def readXml(self):
