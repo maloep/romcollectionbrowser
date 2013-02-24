@@ -44,6 +44,8 @@
 	<string id="35038">Error while creating .cut file. Check xbmc.log for details.</string>
 	<string id="35039">Error launching .7z file.</string>
 	<string id="35040">Error: File config_template.xml does not exist</string>
+	<string id="35041">RCB can't acces your rom path.[CR]Make sure it does not contain any non-ascii characters.</string>
+	<string id="35042">RCB can't acces your artwork path.[CR]Make sure it does not contain any non-ascii characters.</string>
 	
 	
 	<!-- Hints / questions -->

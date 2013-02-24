@@ -45,6 +45,8 @@
 	<string id="35038">Fehler beim Erzeugen der .cut Datei.[CR]Siehe xbmc.log für Details.</string>
 	<string id="35039">Fehler beim Laden der .7z Datei.</string>
 	<string id="35040">Fehler: Datei config_template.xml existiert nicht</string>
+	<string id="35041">RCB kann nicht auf den Rom Pfad zugreifen.[CR]Stelle sicher, dass im Pfadnamen keine Sonderzeichen enthalten sind.</string>
+	<string id="35042">RCB kann nicht auf den Artwork Pfad zugreifen.[CR]Stelle sicher, dass im Pfadnamen keine Sonderzeichen enthalten sind.</string>
 
 	
 	<!-- Hints / questions -->
