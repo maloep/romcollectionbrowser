@@ -46,7 +46,7 @@ gdb.createTables()
 
 util.ISTESTRUN = True
 
-configFile = config.Config()
+configFile = config.Config(None)
 statusOk, errorMsg = configFile.readXml()
 
 newRCs = {}

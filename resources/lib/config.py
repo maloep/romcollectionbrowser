@@ -251,17 +251,25 @@ class Config:
 	missingFilterArtwork = None
 	
 	tree = None
+	configPath = None
+	
+	
+	def __init__(self, configFile):
+		Logutil.log('Config() set path to %s' %configFile, util.LOG_LEVEL_INFO)
+		self.configFile = configFile
+				
 	
 	def initXml(self):
 		Logutil.log('initXml', util.LOG_LEVEL_INFO)
 		
-		configFile = util.getConfigXmlPath()		
+		if(not self.configFile):
+			self.configFile = util.getConfigXmlPath()
 		
-		if(not os.path.isfile(configFile)):			
-			Logutil.log('File config.xml does not exist. Place a valid config file here: ' +str(configFile), util.LOG_LEVEL_ERROR)
+		if(not os.path.isfile(self.configFile)):			
+			Logutil.log('File config.xml does not exist. Place a valid config file here: %s' %self.configFile, util.LOG_LEVEL_ERROR)
 			return None, False, util.localize(35003)
 		
-		tree = ElementTree().parse(configFile)
+		tree = ElementTree().parse(self.configFile)
 		if(tree == None):
 			Logutil.log('Could not read config.xml', util.LOG_LEVEL_ERROR)
 			return None, False, util.localize(35004)
@@ -282,8 +290,6 @@ class Config:
 				
 		return len(romCollectionRows) > 0, ''
 				
-		
-		
 	
 	def readXml(self):
 		Logutil.log('readXml', util.LOG_LEVEL_INFO)
@@ -358,7 +364,7 @@ class Config:
 			
 			#romPath
 			romCollection.romPaths = []
-			romPathRows = romCollectionRow.findall('romPath')		
+			romPathRows = romCollectionRow.findall('romPath')
 			for romPathRow in romPathRows:
 				Logutil.log('Rom path: ' +romPathRow.text, util.LOG_LEVEL_INFO)
 				if(romPathRow.text != None):

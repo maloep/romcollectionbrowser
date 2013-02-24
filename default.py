@@ -118,7 +118,7 @@ class Main():
 		limit = int(param.replace('limit=', ''))
 		games = Game(gdb).getMostPlayedGames(limit)
 		
-		config = Config()
+		config = Config(None)
 		statusOk, errorMsg = config.readXml()
 		
 		settings = util.getSettings()
@@ -216,7 +216,7 @@ class Main():
 		
 		gameId = int(param.replace('launchid=', ''))
 		
-		config = Config()
+		config = Config(None)
 		statusOk, errorMsg = config.readXml()
 		
 		settings = util.getSettings()

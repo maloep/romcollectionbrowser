@@ -131,7 +131,7 @@ def runUpdate():
 	#create db if not existent and maybe update to new version
 	gdb.checkDBStructure()
 	
-	configFile = config.Config()
+	configFile = config.Config(None)
 	statusOk, errorMsg = configFile.readXml()
 	
 	settings = util.getSettings()
