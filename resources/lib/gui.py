@@ -157,7 +157,6 @@ class UIGameDB(xbmcgui.WindowXML):
 	   		self.quit = True
 			return
 		
-		
 		cachingOptionStr = self.Settings.getSetting(util.SETTING_RCB_CACHINGOPTION)
 		if(cachingOptionStr == 'CACHEALL'):
 			self.cachingOption = 0
@@ -194,13 +193,15 @@ class UIGameDB(xbmcgui.WindowXML):
 		#check if we have config file
 		configFile = util.getConfigXmlPath()
 		if(not os.path.isfile(configFile)):
+			Logutil.log("No config file available. Create new one.", util.LOG_LEVEL_INFO)
 			dialog = xbmcgui.Dialog()
 			createNewConfig = dialog.yesno(util.SCRIPTNAME, util.localize(40000), util.localize(40001))
 			if(not createNewConfig):
 				return config, False
 		else:
-			rcAvailable = config.checkRomCollectionsAvailable()
+			rcAvailable, message = config.checkRomCollectionsAvailable()
 			if(not rcAvailable):
+				Logutil.log("No Rom Collections found in config.xml.", util.LOG_LEVEL_INFO)
 				dialog = xbmcgui.Dialog()
 				createNewConfig = dialog.yesno(util.SCRIPTNAME, util.localize(40000), util.localize(40001))
 				if(not createNewConfig):
