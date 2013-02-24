@@ -188,7 +188,7 @@ class UIGameDB(xbmcgui.WindowXML):
 	def initializeConfig(self):		
 		Logutil.log("initializeConfig", util.LOG_LEVEL_INFO)
 		
-		config = Config()
+		config = Config(None)
 		createNewConfig = False
 		
 		#check if we have config file
@@ -871,7 +871,7 @@ class UIGameDB(xbmcgui.WindowXML):
 				progressDialog.writeMsg(util.localize(40006), "", "",count)
 			time.sleep(1)
 			self.gdb.commit()
-			self.config = Config()
+			self.config = Config(None)
 			self.config.readXml()
 			self.clearList()
 			self.rcb_playList.clear()

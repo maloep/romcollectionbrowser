@@ -121,7 +121,7 @@ class ContextMenuDialog(xbmcgui.WindowXMLDialog):
 			editRCdialog = dialogeditromcollection.EditRomCollectionDialog("script-RCB-editromcollection.xml", util.getAddonInstallPath(), "Default", constructorParam, gui=self.gui)			
 			del editRCdialog
 			
-			self.gui.config = Config()
+			self.gui.config = Config(None)
 			self.gui.config.readXml()
 			
 		elif (controlID == 5117): # edit scraper			
@@ -130,7 +130,7 @@ class ContextMenuDialog(xbmcgui.WindowXMLDialog):
 			editscraperdialog = dialogeditscraper.EditOfflineScraper("script-RCB-editscraper.xml", util.getAddonInstallPath(), "Default", constructorParam, gui=self.gui)			
 			del editscraperdialog
 			
-			self.gui.config = Config()
+			self.gui.config = Config(None)
 			self.gui.config.readXml()
 		
 		elif (controlID == 5113): #Edit Game Command			

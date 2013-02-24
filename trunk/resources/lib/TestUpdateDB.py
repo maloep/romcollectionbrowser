@@ -42,7 +42,7 @@ class TestUpdateDB(unittest.TestCase):
 		
 	def test_UpdateDB(self):
 
-		configFile = config.Config()
+		configFile = config.Config(None)
 		statusOk, errorMsg = configFile.readXml()
 		if(statusOk == False):
 			self.fail('Error reading config.xml')

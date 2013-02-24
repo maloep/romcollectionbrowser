@@ -1,4 +1,4 @@
-
+# coding=utf-8
 
 import os, sys, re
 import time, datetime
@@ -156,7 +156,7 @@ print tree
 """
 configFile = util.getConfigXmlPath()
 
-myConfig = Config()
+myConfig = Config(configFile)
 statusOk, errorMsg = myConfig.readXml()
 """
 
@@ -183,7 +183,7 @@ print parent
 """
 
 def walklevel(some_dir, level=1):
-	some_dir = some_dir.rstrip(os.path.sep)
+	some_dir = some_dir.rstrip(os.path.sep)	
 	assert os.path.isdir(some_dir)
 	num_sep = len([x for x in some_dir if x == os.path.sep])
 	for root, dirs, files in os.walk(some_dir):
@@ -195,9 +195,19 @@ def walklevel(some_dir, level=1):
 import glob
 files = []
 
-dirname = 'E:\Games\collection\PSX\Roms'
-basename = 'Tomb Raider V.img'						
-dirname = dirname.decode(sys.getfilesystemencoding()).encode('utf-8')
+
+myConfig = Config('C:\Users\lom\AppData\Roaming\XBMC\userdata\Addon_data\script.games.rom.collection.browser\config.xml')
+statusOk, errorMsg = myConfig.readXml()
+
+
+#dirname = "E:\\Games\\Testsets\\Scraper Tests\\SNES\\Roms#[]é()'.-_ü"
+#basename = "*.zip"
+
+dirname = os.path.dirname(myConfig.romCollections["1"].romPaths[0])
+basename = os.path.basename(myConfig.romCollections["1"].romPaths[0])
+					
+dirname = dirname.decode('utf-8')
+#dirname = dirname.decode(sys.getfilesystemencoding()).encode('utf-8')
 for walkRoot, walkDirs, walkFiles in walklevel(dirname, 99):
 	newRomPath = os.path.join(walkRoot, basename)	
 	#glob is same as "os.listdir(romPath)" but it can handle wildcards like *.adf
