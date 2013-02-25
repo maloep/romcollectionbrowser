@@ -1,3 +1,28 @@
+2.0.3 (02/2013)
+~~~~~~~~~~~~~
+General:
+  * check if RomCollections are available in config.xml. Launch config wizard if not.
+  * check if games are available in MyGames.db. Launch game import if not.
+  * check if we have access to rom and artwork paths. Cancel creation of config.xml if not.
+
+Import Games:
+  * always do a full reimport when in rescrape-mode
+  * always do a full reimport when in local artwork-mode
+  * better error handling after encoding errors during import
+  * bugfix: checking subtitles during import did not work
+  
+Browse Games:
+  * don't exit RCB when focus is on filter controls
+  * always show game list after import. Also when import was canceled.
+  * bugfix: check if database is available before gathering widget data
+
+Launch Games:
+  * add some more "intelligence" to applaunch.bat (solo mode)
+  * use python 2.6 libraries for 7z handling (Windows only)
+  * change working directory to emulator dir before launching game
+  * libretro: added option to select gameclient manually
+  * libretro: use "Edit game Command" to configure libretro cores per game
+
 2.0.2 (02/2013)
 ~~~~~~~~~~~~~
 Launch Games:
