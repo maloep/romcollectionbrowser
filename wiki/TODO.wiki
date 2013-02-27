@@ -6,8 +6,8 @@ This TODO list / roadmap is a working document. It will change quite frequently 
 == General ==
   * Erroras with smb handling:
     * test if dir is accessable fails
-	* test if file is already in database fails
-	--> create symbolic links to smb locations
+    * test if file is already in database fails
+    --> create symbolic links to smb locations
   * Export game database (nfo files) - Some of the nfo files exported don't have the Plot information even for the games that display it correctly in RCB.
   * NFO files don't update when rescraping games. - Add option to overwrite
   * export nfo files on demand
@@ -23,8 +23,8 @@ This TODO list / roadmap is a working document. It will change quite frequently 
   
 == Launch games ==
   * pylzma for python 2.6 (http://pypi.python.org/pypi/pylzma/)
-	* Linux 32bit
-	* Linux 64bit
+    * Linux 32bit
+    * Linux 64bit
   * after exiting games in Confluence list view the focus goes to the filter pane
 
 
@@ -33,7 +33,7 @@ This TODO list / roadmap is a working document. It will change quite frequently 
   * start RCB twice: atomic init routine?
   * XBMC frequently locks up on shutdown
   * check for errors in scrapeonstartup
-	--> error handling when there are errors in config?
+    --> error handling when there are errors in config?
   * check how to refresh XBMC artwork cache
 
 == Import games ==
@@ -141,9 +141,9 @@ This TODO list / roadmap is a working document. It will change quite frequently 
   * option to create sub collections: best sports games, ...
   * option to keep rom name as game name (better support for extra info in rom names (USA), (Beta))
   * support selection of similar named versions of games (select version to import by user or mask)
-	Final Fantasy III (USA) (Beta).zip
-	Final Fantasy III (USA) (Rev 1).zip
-	Final Fantasy III (USA).zip
+    Final Fantasy III (USA) (Beta).zip
+    Final Fantasy III (USA) (Rev 1).zip
+    Final Fantasy III (USA).zip
   * two-step import: 1. local data, 2. online data
   
 
@@ -179,15 +179,15 @@ This TODO list / roadmap is a working document. It will change quite frequently 
   * use Popen for pre and post launch commands
   * rcb does not do a change directly to the executable's folder before being executed
   * add option to use json api instead of kill command  
-	Linux
-	wget -q -O/dev/null --header='Content-Type: application/json' --post-data='{"jsonrpc": "2.0", "method": "Application.Quit", "id":"1"}' http://localhost/jsonrpc
-	Windows (http://sourceforge.net/projects/gnuwin32/files/wget/)
-	"%PROGRAMFILES%\GnuWin32\bin\wget.exe" -q --header="Content-Type: application/json" --post-data="{\"jsonrpc\":\"2.0\", \"method\": \"Application.Quit\", \"id\":\"1\"}" http://localhost/jsonrpc
+    Linux
+    wget -q -O/dev/null --header='Content-Type: application/json' --post-data='{"jsonrpc": "2.0", "method": "Application.Quit", "id":"1"}' http://localhost/jsonrpc
+    Windows (http://sourceforge.net/projects/gnuwin32/files/wget/)
+    "%PROGRAMFILES%\GnuWin32\bin\wget.exe" -q --header="Content-Type: application/json" --post-data="{\"jsonrpc\":\"2.0\", \"method\": \"Application.Quit\", \"id\":\"1\"}" http://localhost/jsonrpc
   * add option to autostart RCB everytime in RCB service
   * new placeholders in emuParams: %EMUPATH%, %ROMPATH%
   * Random game option (Issue 82)
   * launch game per popen
-	* popen options (suspend, pause, ...)
+    * popen options (suspend, pause, ...)
   * per game config (e.g. Amiga)
   * try to write black background before launch
   * disable screensaver before game launch
