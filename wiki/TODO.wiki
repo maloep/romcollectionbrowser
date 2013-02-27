@@ -3,31 +3,33 @@
 This TODO list / roadmap is a working document. It will change quite frequently as I am always adding, removing or reordering issues that I want to work on for the next release. If you made a request or reported an issue that you don't find on the list please remind me because chances are that I just forgot to add it.
 
 = next relase =
+== General ==
+  * Erroras with smb handling:
+    * test if dir is accessable fails
+	* test if file is already in database fails
+	--> create symbolic links to smb locations
+  * Export game database (nfo files) - Some of the nfo files exported don't have the Plot information even for the games that display it correctly in RCB.
+  * NFO files don't update when rescraping games. - Add option to overwrite
+  * export nfo files on demand
+    * option to export one big nfo file for all games
+    * option to overwrite existing files
+    * option to export statisitcal or user specific data (isFavorite, launchCount, ...)
+
 == Import games ==
-  * RCB "forgets" the Consoles filter after import or rescrape some game
-    * restore list after import failed or canceled
-	* filters lost after (2nd?) game import
-  * set "Always rescan games" automatically if in Rescrape mode
   * fix bug in MAME offline scraper
-  * launch config wizard when there are no rom collections in config.xml - Done
-  * offer import when database is empty (not only when it is missing) - Done
-  * Media or rom path with special characters (encoding issues)
-  * bug: # or [] in rom filename of pathname causes errors
-  * adding single games
+  * remove MAWS scraper from config.xml
 
 == Browse games ==  
-  * save filter settings not always working
   
 == Launch games ==
-  * choose gameclient per Edit Game Command - Done
-  * provide list of (un)installed gameclients in Edit Game Command
   * pylzma for python 2.6 (http://pypi.python.org/pypi/pylzma/)
-  * change the working directory before starting the emulator
+	* Linux 32bit
+	* Linux 64bit
+  * after exiting games in Confluence list view the focus goes to the filter pane
 
 
 = (one of) next release(s) =
 == General ==
-  * Export game database (nfo files) - Some of the nfo files exported don't have the Plot information even for the games that display it correctly in RCB.
   * start RCB twice: atomic init routine?
   * XBMC frequently locks up on shutdown
   * check for errors in scrapeonstartup
@@ -35,17 +37,16 @@ This TODO list / roadmap is a working document. It will change quite frequently 
   * check how to refresh XBMC artwork cache
 
 == Import games ==
+  * replace smb:// when searching for roms and artwork
+    * create local link in userdata folder?
+  * import on startup: adjust for other skins (e.g. Aeon Nox)
   * add new MAME scraper
   * fix bugs in mobygames scraper
   * reflect changes from thegamesdb
     * download publisher and developer artwork from thegamesdb.net
     * youtube link in thegamesdb scraper
-  * remove MAWS scraper from config.xml
   * manually enter name of scraped game (rescrape or interactive)
-  * NFO files don't update when rescraping games. - Add option to overwrite
   * import games with multiple . or - causes errors (like "WCW vs. NWO - world tour") --> "." interpreted as separator
-  * replace smb:// when searching for roms and artwork
-    * create local link in userdata folder?
   * resolved path from rom folder name: C:\Users\Mic\Downloads\Arcade\Data\MAME\My_Art\boxfront\C:\Users\Mic\Downloads\Arcade\Data\MAME\My_Roms
   * resolved path from rom folder name: smb://terastation/media/Roms/SNES/Boxart/boxfront/smb://terastation/media/Roms/SNES
   
@@ -73,12 +74,8 @@ This TODO list / roadmap is a working document. It will change quite frequently 
     * scraper encoding: add to dialog
   * config wizard:
     * create local data config file with wizard: search game by crc (or check how to remove this option completely)
-    * configuration templates (emumovies, ressurectionxtras, ...)
+    * configuration templates (emumovies, emuxtras, ...)
     * improve config wizard (suggest options, paths, more options)
-  * export nfo files on demand
-    * option to export one big nfo file for all games
-    * option to overwrite existing files
-    * option to export statisitcal or user specific data (isFavorite, launchCount, ...)
   * better handling of configuration errors (allow to launch RCB and edit configuration)
   * new option: Delete Selection
   * Edit Game dialog
