@@ -96,7 +96,7 @@ consoleDict = {
 			'SEGA CD' : ['20', 'Sega CD', 'segacd'],
 			'SEGA Master System' : ['26', 'Sega Master System', 'sms'],  
 			'SEGA Saturn' : ['23', 'Sega Saturn', 'saturn'],
-			'SNES' : ['15', 'Super Nintendo (SNES)', 'snes', 'snes'],
+			'SNES' : ['15', 'Super Nintendo (SNES)', 'snes'],
 			'Spectravideo' : ['85', '', ''],
 			'TI-99/4A' : ['47', '', 'ti99'],
 			'TRS-80' : ['58', '', ''],
