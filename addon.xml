@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <addon
-  id="script.games.rom.collection.browser"
+  id="script.games.rom.collection.browser.dev"
   version="2.0.4"
-  name="Rom Collection Browser"
-  provider-name="carabalb|jimyx17|malte|redkiller">
+  name="Rom Collection Browser Dev"
+  provider-name="carabalb, jimyx17, malte, redkiller">
   <requires>
     <import addon="xbmc.python" version="2.1.0"/>
     <import addon="script.module.elementtree" version="1.2.7"/>
@@ -12,7 +12,6 @@
   <extension point="xbmc.python.script" library="default.py">
     <provides>game</provides>
   </extension>
-  <extension point="xbmc.python.script" library="default.py"/>
   <extension point="xbmc.addon.metadata">
     <language></language>
     <summary lang="en">Import, browse and launch games in XBMC</summary>
