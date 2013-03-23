@@ -160,19 +160,19 @@ myConfig = Config(configFile)
 statusOk, errorMsg = myConfig.readXml()
 """
 
+
+#file = 'E:\Games\RCB TestDataBase\Scraping\V12 - A2600 - \Artwork\boxfront\3-D Tic-Tac-Toe Test.jpg'
+file = '3-D Tic-Tac-Toe [Test].jpg'
+
+diskPrefix = "3-D Tic-Tac-Toe [[]Test[]].*"
+
+
+import fnmatch
+print fnmatch.fnmatch(file, diskPrefix)
+
+
 """
 
-diskPrefix = 'Disk.*'
-file = 'Alone in the Dark - The New Nightmare_Disk1.img'
-
-match = re.search(diskPrefix, str(file))
-print match
-if(match):
-	disk = file[match.start():match.end()]
-	print disk
-"""
-
-"""
 dirname = os.path.dirname('E:\\Games\\Testsets\\Import\\multidisc\\PS1\\artwork\\boxfront\\test.img')
 print dirname
 
@@ -182,6 +182,7 @@ print parent
 
 """
 
+"""
 def walklevel(some_dir, level=1):
 	some_dir = some_dir.rstrip(os.path.sep)	
 	assert os.path.isdir(some_dir)
@@ -218,3 +219,4 @@ for walkRoot, walkDirs, walkFiles in walklevel(dirname, 99):
 	
 print str(files)
 
+"""
