@@ -50,11 +50,9 @@ class ConfigXmlWriter:
 			SubElement(romCollectionXml, 'emulatorParams').text = romCollection.emulatorParams
 			
 			for romPath in romCollection.romPaths:
-				romPathTranslated = helper.getPathTranslation(romPath)
-				SubElement(romCollectionXml, 'romPath').text = str(romPathTranslated)
-				
-			saveStatePathTranslated = helper.getPathTranslation(romCollection.saveStatePath)
-			SubElement(romCollectionXml, 'saveStatePath').text = saveStatePathTranslated
+				SubElement(romCollectionXml, 'romPath').text = romPath
+							
+			SubElement(romCollectionXml, 'saveStatePath').text = romCollection.saveStatePath
 			SubElement(romCollectionXml, 'saveStateParams').text = romCollection.saveStateParams
 				
 			for mediaPath in romCollection.mediaPaths:
@@ -62,9 +60,8 @@ class ConfigXmlWriter:
 				success, message = self.searchConfigObjects('FileTypes/FileType', mediaPath.fileType.name, 'FileType')
 				if(not success):
 					return False, message								
-								
-				mediaPathTranslated = helper.getPathTranslation(mediaPath.path)
-				SubElement(romCollectionXml, 'mediaPath', {'type' : mediaPath.fileType.name}).text = mediaPathTranslated
+												
+				SubElement(romCollectionXml, 'mediaPath', {'type' : mediaPath.fileType.name}).text = mediaPath.path
 				
 			SubElement(romCollectionXml, 'preCmd').text = romCollection.preCmd
 			SubElement(romCollectionXml, 'postCmd').text = romCollection.postCmd
@@ -146,13 +143,10 @@ class ConfigXmlWriter:
 																		
 						scraper = scraperSite.scrapers[0]
 						
-						parseInstructionTranslated = helper.getPathTranslation(scraper.parseInstruction)
-						sourceTranslated = helper.getPathTranslation(scraper.source)
-						
 						SubElement(site, 'Scraper', 
 							{ 
-							'parseInstruction' : parseInstructionTranslated,
-							'source' : sourceTranslated,
+							'parseInstruction' : scraper.parseInstruction,
+							'source' : scraper.source,
 							'encoding' : scraper.encoding
 							})
 				
@@ -196,14 +190,10 @@ class ConfigXmlWriter:
 				if(pathParts[0].upper() == rcbScraperPath.upper()):
 					scraper.parseInstruction = pathParts[1]
 				
-				
-				parseInstructionTranslated = helper.getPathTranslation(scraper.parseInstruction)
-				sourceTranslated = helper.getPathTranslation(scraper.source)
-				
 				scraperXml = SubElement(scraperSiteXml, 'Scraper', 
 					{ 
-					'parseInstruction' : parseInstructionTranslated,
-					'source' : sourceTranslated,
+					'parseInstruction' : scraper.parseInstruction,
+					'source' : scraper.source,
 					'encoding' : scraper.encoding,
 					'returnUrl' : str(scraper.returnUrl)
 					})
