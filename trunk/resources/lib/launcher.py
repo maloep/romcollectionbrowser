@@ -289,7 +289,7 @@ def handleCompressedFile(filext, rom, romCollection, emuParams):
 	#Do this before launching a new game. Otherwise game could be deleted before launch
 	try:
 		Logutil.log("Trying to delete temporary rom files", util.LOG_LEVEL_INFO)	
-		tempDir = getTempDir()
+		tempDir = util.getTempDir()
 		files = os.listdir(tempDir)
 		for file in files:
 			os.remove(os.path.join(tempDir, file))
@@ -333,7 +333,7 @@ def handleCompressedFile(filext, rom, romCollection, emuParams):
 			Logutil.log('Error handling compressed file', util.LOG_LEVEL_WARNING)
 			return []
 		for archive in archives:					
-			newPath = os.path.join(getTempDir(), archive[0])
+			newPath = os.path.join(util.getTempDir(), archive[0])
 			fp = open(newPath, 'wb')
 			fp.write(archive[1])
 			fp.close()
@@ -351,7 +351,7 @@ def handleCompressedFile(filext, rom, romCollection, emuParams):
 
 	if chosenROM != -1:
 		# Extract the chosen file to %TMP%
-		newPath = os.path.join(getTempDir(), names[chosenROM])
+		newPath = os.path.join(util.getTempDir(), names[chosenROM])
 		
 		Logutil.log("Putting extracted file in %s" % newPath, util.LOG_LEVEL_INFO)
 		
@@ -695,19 +695,6 @@ def launchNonXbox(cmd, romCollection, gameRow, settings, precmd, postcmd, roms, 
 			xbmc.executehttpapi("Action(199)")
 		except:
 			xbmc.executeJSONRPC('{"jsonrpc":"2.0","method":"Input.ExecuteAction","params":{"action":"togglefullscreen"},"id":"1"}')
-		
-
-def getTempDir():
-	tempDir = os.path.join(util.getAddonDataPath(), 'tmp')
-	
-	try:
-		#check if folder exists
-		if(not os.path.isdir(tempDir)):
-			os.mkdir(tempDir)
-		return tempDir
-	except Exception, (exc):
-		Logutil.log('Error creating temp dir: ' +str(exc), util.LOG_LEVEL_ERROR)
-		return None
 
 	
 # Compressed files functions
