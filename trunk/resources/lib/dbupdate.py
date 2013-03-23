@@ -5,6 +5,9 @@ import codecs
 import zipfile
 import time
 
+import xbmcvfs
+import fnmatch
+
 import util, helper
 from util import *
 from config import *
@@ -245,7 +248,7 @@ class DBUpdate:
 							continue										
 						
 						results = {}
-						foldername = os.path.dirname(filename)
+						foldername = self.getFoldernameFromRomFilename(filename)
 						filecrc = ''
 												
 						artScrapers = {} 
@@ -381,13 +384,15 @@ class DBUpdate:
 		
 	def walkDownPath(self, files, romPath, maxFolderDepth):
 		
-		Logutil.log("walkDownPath romPath: " +romPath, util.LOG_LEVEL_INFO)						
+		Logutil.log("walkDownPath romPath: " +romPath, util.LOG_LEVEL_INFO)
 		
-		dirname = os.path.dirname(romPath)
-		Logutil.log("dirname: " +dirname, util.LOG_LEVEL_INFO)
-		basename = os.path.basename(romPath)
-		Logutil.log("basename: " +basename, util.LOG_LEVEL_INFO)						
+		files = self.walkDown(files, romPath, maxFolderDepth)
+		Logutil.log("files after walkDown = %s" %files, util.LOG_LEVEL_INFO)
+		
+		return files
+		#return []
 				
+		"""
 		Logutil.log("checking sub directories", util.LOG_LEVEL_INFO)
 		dirname = dirname.decode(sys.getfilesystemencoding()).encode('utf-8')
 		for walkRoot, walkDirs, walkFiles in self.walklevel(dirname, maxFolderDepth):
@@ -404,10 +409,42 @@ class DBUpdate:
 		
 			#did not find appendall or something like this
 			files.extend(allFiles)
+		"""
+	
+	
+	def walkDown(self, files, romPath, maxFolderDepth):
+		Logutil.log("Running walkdown on: %s" %romPath, util.LOG_LEVEL_INFO)
+				
+		dirs, newFiles, dirname, filemask = self.getFilesByWildcardExt(romPath)
+		files.extend(newFiles)
 		
+		"""
+		dirname = os.path.dirname(romPath)
+		Logutil.log("dirname: " +dirname, util.LOG_LEVEL_INFO)
+		filemask = os.path.basename(romPath)
+		Logutil.log("filemask: " +filemask, util.LOG_LEVEL_INFO)
+		
+		dirs, filesLocal = xbmcvfs.listdir(dirname)
+		Logutil.log("xbmcvfs dirs: %s" %dirs, util.LOG_LEVEL_INFO)						
+		Logutil.log("xbmcvfs files: %s" %filesLocal, util.LOG_LEVEL_INFO)
+		
+		for file in filesLocal:
+			if(fnmatch.fnmatch(file, filemask)):
+				#allFiles = [f.decode(sys.getfilesystemencoding()).encode('utf-8') for f in glob.glob(newRomPath)]
+				file = util.joinPath(dirname, file)
+				files.append(file)
+		"""
+		
+		for dir in dirs:
+			newRomPath = util.joinPath(dirname, dir, filemask)
+			maxFolderDepth = maxFolderDepth -1
+			if(maxFolderDepth > 0):
+				self.walkDown(files, newRomPath, maxFolderDepth)
+					
 		return files
 	
 	
+	"""
 	def walklevel(self, some_dir, level=1):
 		some_dir = some_dir.rstrip(os.path.sep)
 		assert os.path.isdir(some_dir)
@@ -417,7 +454,7 @@ class DBUpdate:
 			num_sep_this = len([x for x in root if x == os.path.sep])
 			if num_sep + level <= num_sep_this:
 				del dirs[:]
-		
+	"""
 		
 	def checkRomfileIsMultirom(self, gamename, lastgamename):
 	
@@ -479,10 +516,12 @@ class DBUpdate:
 		
 		
 	def getFoldernameFromRomFilename(self, filename):
+		Logutil.log("Begin getFoldernameFromRomFilename: %s" +filename, util.LOG_LEVEL_INFO)		
 		foldername = ''
-		dirname = os.path.dirname(filename)		
+		dirname = os.path.dirname(filename)
+		Logutil.log("dirname: %s" %dirname, util.LOG_LEVEL_INFO)
 		if(dirname != None):
-			pathTuple = os.path.split(dirname)			
+			pathTuple = os.path.split(dirname)
 			if(len(pathTuple) == 2):
 				foldername = pathTuple[1]				
 				
@@ -868,10 +907,7 @@ class DBUpdate:
 					Logutil.log("resolved path from rom folder name: " +pathnameFromFolder, util.LOG_LEVEL_INFO)					
 					files = self.getFilesByWildcard(pathnameFromFolder)
 					if(len(files) == 0):
-						files = self.getFilesByGameNameIgnoreCase(pathnameFromFolder)								
-				
-							
-				
+						files = self.getFilesByGameNameIgnoreCase(pathnameFromFolder)
 				
 				
 			#TODO could be done only once per RomCollection
@@ -898,23 +934,53 @@ class DBUpdate:
 			if(len(files) == 0):
 				Logutil.log('No files found for game "%s" at path "%s". Make sure that file names are matching.' %(gamename, path), util.LOG_LEVEL_WARNING)
 			for file in files:
-				if(os.path.exists(file)):
+				if(xbmcvfs.exists(file)):
 					resolvedFiles.append(file)
 					
 		return resolvedFiles
 	
 	
 	def getFilesByWildcard(self, pathName):
+		dirs, files, dirname, filemask = self.getFilesByWildcardExt(pathName)
+		return files
+	
+	
+	def getFilesByWildcardExt(self, pathName):
 		
+		Logutil.log('Begin getFilesByWildcard. pathName = %s' %pathName, util.LOG_LEVEL_INFO)
 		files = []
 		
+		dirname = os.path.dirname(pathName)
+		Logutil.log("dirname: " +dirname, util.LOG_LEVEL_INFO)
+		filemask = os.path.basename(pathName)
+		#HACK: escape [] for use with fnmatch
+		filemask = filemask.replace('[', '[[]')
+		filemask = filemask.replace(']', '[]]')
+		#This might be stupid but it was late...
+		filemask = filemask.replace('[[[]]', '[[]')
+		Logutil.log("filemask: " +filemask, util.LOG_LEVEL_INFO)
+		
+		dirs, filesLocal = xbmcvfs.listdir(dirname)
+		Logutil.log("xbmcvfs dirs: %s" %dirs, util.LOG_LEVEL_INFO)						
+		Logutil.log("xbmcvfs files: %s" %filesLocal, util.LOG_LEVEL_INFO)
+		
+		for file in filesLocal:
+			if(fnmatch.fnmatch(file, filemask)):
+			#allFiles = [f.decode(sys.getfilesystemencoding()).encode('utf-8') for f in glob.glob(newRomPath)]
+				file = util.joinPath(dirname, file)
+				files.append(file)
+				
+		return dirs, files, dirname, filemask
+		
+		"""
 		try:
 			# try glob with * wildcard
 			files = glob.glob(pathName)
+			Logutil.log('files after glob.glob: %s' %files, util.LOG_LEVEL_INFO)
 		except Exception, (exc):
 			Logutil.log("Error using glob function in resolvePath " +str(exc), util.LOG_LEVEL_WARNING)
 			
-		if(len(files) == 0):				
+		if(len(files) == 0):
 			#HACK: removed \s from regular expression. previous version was '\s\[.*\]' 
 			squares = re.findall('\[.*\]',pathName)
 			if(squares != None and len(squares) >= 1):
@@ -930,15 +996,16 @@ class DBUpdate:
 		
 		# glob can't handle []-characters - try it with listdir
 		if(len(files)  == 0):
-			try:				
-				if(os.path.isfile(pathName)):
+			try:
+				if(xbmcvfs.exists(pathName)):
 					files.append(pathName)
 				else:
-					files = os.listdir(pathName)					
+					files = xbmcvfs.listdir(pathName)					
 			except:
 				pass
 		Logutil.log("resolved files: " +str(files), util.LOG_LEVEL_INFO)
-		return files		
+		return files
+		"""	
 		
 		
 	def getFilesByGameNameIgnoreCase(self, pathname):
@@ -949,9 +1016,9 @@ class DBUpdate:
 		basename = os.path.basename(pathname)
 		
 		#search all Files that start with the first character of game name
-		newpath = os.path.join(dirname, basename[0].upper() +'*')
+		newpath = util.joinPath(dirname, basename[0].upper() +'*')
 		filesUpper = glob.glob(newpath)
-		newpath = os.path.join(dirname, basename[0].lower() +'*')
+		newpath = util.joinPath(dirname, basename[0].lower() +'*')
 		filesLower = glob.glob(newpath)
 		
 		allFiles = filesUpper + filesLower
@@ -1082,18 +1149,18 @@ class DBUpdate:
 			dirname = os.path.dirname(fileName)
 			#check parent folder
 			parent = os.path.dirname(dirname)
-			if(not os.path.isdir(parent)):
+			if(not xbmcvfs.exists(parent)):
 				try:
-					os.mkdir(parent)
+					xbmcvfs.mkdir(parent)
 				except Exception, (exc):
 					xbmcgui.Dialog().ok(util.localize(35010), util.localize(35011))
 					Logutil.log("Could not create directory: '%s'. Error message: '%s'" %(parent, str(exc)), util.LOG_LEVEL_ERROR)
 					return False, artworkurls
 				
 			#check artwork specific folders
-			if(not os.path.isdir(dirname)):
+			if(not xbmcvfs.exists(dirname)):
 				try:
-					os.mkdir(dirname)
+					xbmcvfs.mkdir(dirname)
 				except Exception, (exc):
 					xbmcgui.Dialog().ok(util.localize(35010), util.localize(35011))
 					Logutil.log("Could not create directory: '%s'. Error message: '%s'" %(dirname, str(exc)), util.LOG_LEVEL_ERROR)
@@ -1117,7 +1184,14 @@ class DBUpdate:
 
 				# fetch thumbnail and save to filepath
 				try:
-					urllib.urlretrieve( thumbUrl, str(fileName))
+					#download file to local folder and copy it to smb path with xbmcvfs
+					if(fileName.startswith('smb://')):
+						localFile = util.joinPath(util.getTempDir(), os.path.basename(fileName))
+						urllib.urlretrieve( thumbUrl, localFile)
+						xbmcvfs.copy(localFile, fileName)
+						xbmcvfs.delete(localFile)
+					else:
+						urllib.urlretrieve( thumbUrl, str(fileName))
 				except Exception, (exc):
 					xbmcgui.Dialog().ok(util.localize(35012), util.localize(35011))
 					Logutil.log("Could not create file: '%s'. Error message: '%s'" %(str(fileName), str(exc)), util.LOG_LEVEL_ERROR)

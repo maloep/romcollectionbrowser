@@ -1,6 +1,6 @@
 
 import os
-import xbmc, xbmcgui
+import xbmc, xbmcgui, xbmcvfs
 import config
 from configxmlwriter import *
 
@@ -144,18 +144,18 @@ class ConfigXmlWizard:
 			if(romPath == ''):
 				Logutil.log('No romPath selected. Action canceled.', util.LOG_LEVEL_INFO)
 				break
-			
-			if(not os.path.isdir(romPath)):				
+						
+			if(not xbmcvfs.exists(romPath)):
 				Logutil.log("RCB can't acces your Rom Path. Make sure it does not contain any non-ascii characters.", util.LOG_LEVEL_INFO)
 				xbmcgui.Dialog().ok(util.SCRIPTNAME, util.localize(35041), errorMsg)
 				break
-						
+					
 			#filemask
 			
 			#xbox games always use default.xbe as executable
 			if (os.environ.get( "OS", "xbox" ) == "xbox" and romCollection.name == 'Xbox'):
 				Logutil.log('filemask "default.xbe" for Xbox games on Xbox.', util.LOG_LEVEL_INFO)
-				romPathComplete = os.path.join(romPath, 'default.xbe')					
+				romPathComplete = util.joinPath(romPath, 'default.xbe')					
 				romCollection.romPaths = []
 				romCollection.romPaths.append(romPathComplete)
 			else:
@@ -168,7 +168,7 @@ class ConfigXmlWizard:
 					fileMasks = fileMaskInput.split(',')
 					romCollection.romPaths = []
 					for fileMask in fileMasks:
-						romPathComplete = os.path.join(romPath, fileMask.strip())					
+						romPathComplete = util.joinPath(romPath, fileMask.strip())					
 						romCollection.romPaths.append(romPathComplete)
 				else:
 					Logutil.log('No fileMask selected. Action canceled.', util.LOG_LEVEL_INFO)
@@ -188,8 +188,8 @@ class ConfigXmlWizard:
 			
 			if(scenarioIndex == 0):
 				artworkPath = dialog.browse(0, util.localize(40093) %console, 'files', '', False, False, romPath)
-				Logutil.log('artworkPath: ' +str(artworkPath), util.LOG_LEVEL_INFO)
-				if(not os.path.isdir(artworkPath)):				
+				Logutil.log('artworkPath: ' +str(artworkPath), util.LOG_LEVEL_INFO)				
+				if(not xbmcvfs.exists(artworkPath)):
 					Logutil.log("RCB can't acces your artwork path. Make sure it does not contain any non-ascii characters.", util.LOG_LEVEL_INFO)
 					xbmcgui.Dialog().ok(util.SCRIPTNAME, util.localize(35042), errorMsg)
 					break
@@ -263,7 +263,7 @@ class ConfigXmlWizard:
 					else:
 						artworkPath = dialog.browse(0, util.localize(40082) %(console, fileType), 'files', '', False, False, lastArtworkPath)
 					
-					if(not os.path.isdir(artworkPath)):				
+					if(not xbmcvfs.exists(artworkPath)):				
 						Logutil.log("RCB can't acces your artwork path. Make sure it does not contain any non-ascii characters.", util.LOG_LEVEL_INFO)
 						xbmcgui.Dialog().ok(util.SCRIPTNAME, util.localize(35042), errorMsg)
 						break
@@ -309,7 +309,7 @@ class ConfigXmlWizard:
 						if (keyboard.isConfirmed()):
 							filemask = keyboard.getText()
 							
-						descPath = os.path.join(pathValue, filemask.strip())
+						descPath = util.joinPath(pathValue, filemask.strip())
 					else:
 						descPath = dialog.browse(1, util.localize(40089) %console, 'files', '', False, False, lastArtworkPath)
 					
@@ -359,9 +359,9 @@ class ConfigXmlWizard:
 			fileTypes = configObj.tree.findall('FileTypes/FileType')
 		else:
 			#build fileTypeList
-			configFile = os.path.join(util.getAddonInstallPath(), 'resources', 'database', 'config_template.xml')
+			configFile = util.joinPath(util.getAddonInstallPath(), 'resources', 'database', 'config_template.xml')
 	
-			if(not os.path.isfile(configFile)):
+			if(not xbmcvfs.exists(configFile)):
 				Logutil.log('File config_template.xml does not exist. Place a valid config file here: ' +str(configFile), util.LOG_LEVEL_ERROR)
 				return None, util.localize(35040)
 			
@@ -398,9 +398,9 @@ class ConfigXmlWizard:
 		mediaPath = MediaPath()
 		mediaPath.fileType = fileType
 		if(scenarioIndex == 0):
-			mediaPath.path = os.path.join(path, type, fileMask)
+			mediaPath.path = util.joinPath(path, type, fileMask)
 		else:
-			mediaPath.path = os.path.join(path, fileMask)
+			mediaPath.path = util.joinPath(path, fileMask)
 				
 		return mediaPath
 	
