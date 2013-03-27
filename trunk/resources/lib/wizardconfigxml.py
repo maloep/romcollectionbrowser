@@ -144,8 +144,11 @@ class ConfigXmlWizard:
 			if(romPath == ''):
 				Logutil.log('No romPath selected. Action canceled.', util.LOG_LEVEL_INFO)
 				break
-						
-			if(not xbmcvfs.exists(romPath)):
+									
+			#TODO: find out how to deal with non-ascii characters
+			try:
+				unicode(romPath)
+			except:
 				Logutil.log("RCB can't acces your Rom Path. Make sure it does not contain any non-ascii characters.", util.LOG_LEVEL_INFO)
 				xbmcgui.Dialog().ok(util.SCRIPTNAME, util.localize(35041), errorMsg)
 				break
@@ -189,7 +192,10 @@ class ConfigXmlWizard:
 			if(scenarioIndex == 0):
 				artworkPath = dialog.browse(0, util.localize(40093) %console, 'files', '', False, False, romPath)
 				Logutil.log('artworkPath: ' +str(artworkPath), util.LOG_LEVEL_INFO)				
-				if(not xbmcvfs.exists(artworkPath)):
+				#TODO: find out how to deal with non-ascii characters
+				try:
+					unicode(artworkPath)
+				except:
 					Logutil.log("RCB can't acces your artwork path. Make sure it does not contain any non-ascii characters.", util.LOG_LEVEL_INFO)
 					xbmcgui.Dialog().ok(util.SCRIPTNAME, util.localize(35042), errorMsg)
 					break
@@ -263,7 +269,9 @@ class ConfigXmlWizard:
 					else:
 						artworkPath = dialog.browse(0, util.localize(40082) %(console, fileType), 'files', '', False, False, lastArtworkPath)
 					
-					if(not xbmcvfs.exists(artworkPath)):				
+					try:
+						unicode(artworkPath)
+					except:				
 						Logutil.log("RCB can't acces your artwork path. Make sure it does not contain any non-ascii characters.", util.LOG_LEVEL_INFO)
 						xbmcgui.Dialog().ok(util.SCRIPTNAME, util.localize(35042), errorMsg)
 						break
