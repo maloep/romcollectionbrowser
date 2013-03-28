@@ -4,32 +4,23 @@ This TODO list / roadmap is a working document. It will change quite frequently 
 
 = next relase =
 == General ==
-  * Erroras with smb handling:
-    * test if dir is accessable fails
-    * test if file is already in database fails
-    --> create symbolic links to smb locations
+
+== Import games ==
+
+== Browse games ==
+  
+== Launch games ==
+  * after launching games in solo mode no program addons start
+
+
+= (one of) next release(s) =
+== General ==
   * Export game database (nfo files) - Some of the nfo files exported don't have the Plot information even for the games that display it correctly in RCB.
   * NFO files don't update when rescraping games. - Add option to overwrite
   * export nfo files on demand
     * option to export one big nfo file for all games
     * option to overwrite existing files
     * option to export statisitcal or user specific data (isFavorite, launchCount, ...)
-
-== Import games ==
-  * fix bug in MAME offline scraper
-  * remove MAWS scraper from config.xml
-
-== Browse games ==  
-  
-== Launch games ==
-  * pylzma for python 2.6 (http://pypi.python.org/pypi/pylzma/)
-    * Linux 32bit
-    * Linux 64bit
-  * after exiting games in Confluence list view the focus goes to the filter pane
-
-
-= (one of) next release(s) =
-== General ==
   * start RCB twice: atomic init routine?
   * XBMC frequently locks up on shutdown
   * check for errors in scrapeonstartup
@@ -37,8 +28,8 @@ This TODO list / roadmap is a working document. It will change quite frequently 
   * check how to refresh XBMC artwork cache
 
 == Import games ==
-  * replace smb:// when searching for roms and artwork
-    * create local link in userdata folder?
+  * fix bug in MAME offline scraper
+  * remove MAWS scraper from config.xml
   * import on startup: adjust for other skins (e.g. Aeon Nox)
   * add new MAME scraper
   * fix bugs in mobygames scraper
@@ -57,8 +48,17 @@ This TODO list / roadmap is a working document. It will change quite frequently 
   * when you have videos selected for games, whilst browsing the video will still play if the next game does not have a video.
   * add option to allow media to keep playing. --> test with libretro
   * enable fullscreen video if video in small window is playing
+  * store viewstate on RC basis
+  * add filter MaxPlayers
+  * when deleting games, jump to the next game in the list (not at the beginning)
+  * on startup try to set viewtype before loading the list
   
 == Launch games ==
+  * pylzma for python 2.6 (http://pypi.python.org/pypi/pylzma/)
+    * Linux 32bit
+    * Linux 64bit
+  * after exiting games in Confluence list view the focus goes to the filter pane
+  * show message box before extracting games
   * add option if XBMC should go into windowed mode
   * check windowed mode with popen
   * add launch settings to addon settings. add option to overwrite settings per rom collection
