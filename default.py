@@ -95,6 +95,7 @@ class Main():
 				
 				
 	def gatherWidgetData(self, param):
+		print 'start gatherWidgetData'
 		import util, helper
 		from gamedatabase import Game, GameDataBase, File
 		from config import Config, RomCollection
@@ -117,6 +118,7 @@ class Main():
 				
 		limit = int(param.replace('limit=', ''))
 		games = Game(gdb).getMostPlayedGames(limit)
+		print 'most played games: %s' %games
 		
 		config = Config(None)
 		statusOk, errorMsg = config.readXml()
@@ -170,7 +172,6 @@ class Main():
 				translatedby = helper.saveReadString(gameRow[util.GAME_translatedBy])
 				version = helper.saveReadString(gameRow[util.GAME_version])
 				playcount = helper.saveReadString(gameRow[util.GAME_launchCount])
-				
 				
 				#get launch command
 				filenameRows = File(gdb).getRomsByGameId(gameRow[util.ROW_ID])

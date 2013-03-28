@@ -333,13 +333,16 @@ class DBUpdate:
 									
 				#build dictionaries (key=gamename, filecrc or foldername; value=filenames) for later game search
 				if(firstScraper.useFoldernameAsCRC):
+					Logutil.log('useFoldernameAsCRC = True', util.LOG_LEVEL_INFO)
 					foldername = self.getFoldernameFromRomFilename(filename)
 					foldername = foldername.strip()
 					foldername = foldername.lower()
 					fileDict = self.buildFilenameDict(fileDict, isMultiRomGame, filename, foldername)
 				elif(firstScraper.useFilenameAsCRC):
+					Logutil.log('useFilenameAsCRC = True', util.LOG_LEVEL_INFO)
 					fileDict = self.buildFilenameDict(fileDict, isMultiRomGame, filename, gamename)
 				elif(firstScraper.searchGameByCRC):
+					Logutil.log('searchGameByCRC = True', util.LOG_LEVEL_INFO)
 					filecrc = self.getFileCRC(filename)
 					#use crc of first rom if it is a multirom game
 					if(not isMultiRomGame):
