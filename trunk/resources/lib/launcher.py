@@ -24,6 +24,9 @@ def launchEmu(gdb, gui, gameId, config, settings, listitem):
 			
 	gui.writeMsg(util.localize(40063)+ " " +gameRow[util.ROW_NAME])
 	
+	# Remember viewstate
+	gui.saveViewState(False)
+	
 	cmd = ""
 	precmd = ""
 	postcmd = ""
@@ -47,6 +50,7 @@ def launchEmu(gdb, gui, gameId, config, settings, listitem):
 		if(postcmd.strip() == '' or postcmd.strip() == 'call'):
 			Logutil.log('No postcmd created.', util.LOG_LEVEL_INFO)
 			
+		#solo mode
 		if (romCollection.useEmuSolo):
 			
 			copyLauncherScriptsToUserdata(settings)
@@ -58,9 +62,6 @@ def launchEmu(gdb, gui, gameId, config, settings, listitem):
 			else:
 				#communicate with service via settings
 				settings.setSetting(util.SETTING_RCB_LAUNCHONSTARTUP, 'true')
-	
-			# Remember selection
-			gui.saveViewState(False)
 			
 			#invoke script file that kills xbmc before launching the emulator
 			basePath = os.path.join(util.getAddonDataPath(), 'scriptfiles')			
@@ -548,10 +549,8 @@ def launchXbox(gui, gdb, cmd, romCollection, filenameRows):
 		cmd = cutFile
 		Logutil.log("cut file created: " +cmd, util.LOG_LEVEL_INFO)			
 	
-	#RunXbe always terminates XBMC. So we have to saveviewstate and write autoexec here	
+	#RunXbe always terminates XBMC. So we have to write autoexec here	
 	writeAutoexec(gdb)
-	# Remember selection	
-	gui.saveViewState(False)
 		
 	Logutil.log("RunXbe", util.LOG_LEVEL_INFO)
 	xbmc.executebuiltin("XBMC.Runxbe(%s)" %cmd)
@@ -622,10 +621,7 @@ def launchNonXbox(cmd, romCollection, gameRow, settings, precmd, postcmd, roms, 
 	#use libretro core to play game
 	if(romCollection.useBuiltinEmulator):
 		Logutil.log("launching game with internal emulator", util.LOG_LEVEL_INFO)
-		# Remember selection
-		gui.saveViewState(False)
 		rom = roms[0]
-
 		gameclient = romCollection.gameclient		
 		#HACK: assume that every gameclient starts with "gameclient"
 		if(gameRow[util.GAME_gameCmd] != None and str(gameRow[util.GAME_gameCmd]).startswith('gameclient')):
@@ -667,10 +663,13 @@ def launchNonXbox(cmd, romCollection, gameRow, settings, precmd, postcmd, roms, 
 	preDelay = int(float(settings.getSetting(SETTING_RCB_PRELAUNCHDELAY)))
 	xbmc.sleep(preDelay)
 	
-	#change working directory	
+	#change working directory
 	path = os.path.dirname(romCollection.emulatorCmd)
 	if(os.path.isdir(path)):
-		os.chdir(path)
+		try:
+			os.chdir(path)
+		except:
+			pass
 	
 	if(romCollection.usePopen):
 		import subprocess
