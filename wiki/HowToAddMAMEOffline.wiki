@@ -42,9 +42,11 @@ If it is the first time you start RCB you will be asked to create a config file.
   * Browse to the game description file "MAME.txt" that you downloaded before
   * Browse to the parse instruction file "parserConfig.xml" that you downloaded before
   * Select "No" when you are asked to add more Rom Collections (feel free to add more collections ofc)
-  * Cancel Game Import dialog - you need one more setting that is not offered by the config wizard in the current release
+  * *Cancel Game Import dialog* - you need one more setting that is not offered by the config wizard in the current release
   * Launch RCBs context menu and select "Edit Offline Scrapers"
   * Make sure you have selected "MAME" in the Scraper list
-  * Check the option "Use filename as crc" and "Save config"
+  * Enable the option "Use filename as crc"
+  * Make sure that the option "Use foldername as crc" is NOT enabled
+  * Save config
   * Launch RCBs context menu again and select "Import Games"
   * Import Games (select Rom Collection "MAME" if you only want to import MAME roms)
