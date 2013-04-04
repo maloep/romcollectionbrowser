@@ -660,8 +660,10 @@ def launchNonXbox(cmd, romCollection, gameRow, settings, precmd, postcmd, roms, 
 		Logutil.log("Got to PRE", util.LOG_LEVEL_INFO)
 		os.system(precmd.encode(sys.getfilesystemencoding()))
 	
-	preDelay = int(float(settings.getSetting(SETTING_RCB_PRELAUNCHDELAY)))
-	xbmc.sleep(preDelay)
+	preDelay = settings.getSetting(SETTING_RCB_PRELAUNCHDELAY)
+	if(preDelay != ''):
+		preDelay = int(float(preDelay))
+		xbmc.sleep(preDelay)
 	
 	#change working directory
 	path = os.path.dirname(romCollection.emulatorCmd)
@@ -679,8 +681,10 @@ def launchNonXbox(cmd, romCollection, gameRow, settings, precmd, postcmd, roms, 
 	
 	Logutil.log("launch emu done", util.LOG_LEVEL_INFO)		
 	
-	postDelay = int(float(settings.getSetting(SETTING_RCB_POSTLAUNCHDELAY)))
-	xbmc.sleep(postDelay)
+	postDelay = settings.getSetting(SETTING_RCB_POSTLAUNCHDELAY)
+	if(postDelay != ''):
+		postDelay = int(float(postDelay))
+		xbmc.sleep(postDelay)
 	
 	#post launch command
 	if(postcmd.strip() != '' and postcmd.strip() != 'call'):
