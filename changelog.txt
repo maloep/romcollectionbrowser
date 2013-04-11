@@ -1,3 +1,8 @@
+2.0.6 (04/2013)
+~~~~~~~~~~~~~
+General:
+  * Update language files from Transifex
+
 2.0.5 (03/2013)
 ~~~~~~~~~~~~~
 General:
