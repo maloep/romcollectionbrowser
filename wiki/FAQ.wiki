@@ -49,7 +49,7 @@ Check [http://www.mameworld.info/] to monitor the progress of MAWS coming back o
 
 == Launch Games ==
 === Launching games does not work on system X with emulator Y ===
-Go to your xbmc.log and search for this string: "RCB_INFO: cmd:". This line will show the complete command that RCB uses to launch your emulator. Copy and paste this line (only the part after "cmd:") to a command line window and try to launch your emulator. Usually there are errors in your command line or your emulator is not yet configured correctly. It will not work inside RCB if it does not work from command line.
+Go to your xbmc.log and search for this string: "RCB_INFO: cmd:" (without ""). This line will show the complete command that RCB uses to launch your emulator. Copy and paste this line (only the part after "cmd:") to a command line window and try to launch your emulator. Usually there are errors in your command line or your emulator is not yet configured correctly. It will not work inside RCB if it does not work from command line.
 
 === Error launching .7z file ===
 When launching .7z files RCB just shows a message box with this error message: "Error launching .7z file. Please check XBMC.log for details". This error should only occure if you have installed RCB via the repo browser. Launching .7z files requires certain libraries that are not part of XBMCs python environment. You can download RCBs latest version from the projects home page, this already includes all required libraries.
