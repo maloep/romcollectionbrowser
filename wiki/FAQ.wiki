@@ -23,12 +23,12 @@ Some distributions don't ship with prebuild pysqlite libraries. You have to get 
 === XBMC freezes when trying to start RCB ===
 This may happen if you accidently try to launch RCB twice. Unfortunately I did not find a way to code around this issue until now. So if you run into this issue make sure that you wait 1-2 seconds to see if RCB will start before you try it a second time.
 
-== I only see my DVD drive in the config wizard ==
+=== I only see my DVD drive in the config wizard ===
 Usually this happens if there is still a disc in the drive. Remove all discs and unmount any virtual drives and try again.
 
 It may also happen that you have to add your drives via XBMC File manager. It depends on the skin where to find the File manager. In Confluence you will find it as a sub menu of System on the Home screen (move to the right when System is highlighted).
 
-== I only see location XY (video sources etc.) in the config wizard ==
+=== I only see location XY (video sources etc.) in the config wizard ===
 It may also happen that you have to add your drives via XBMC File manager. It depends on the skin where to find the File manager. In Confluence you will find it as a sub menu of System on the Home screen (move to the right when System is highlighted).
 
 == Import Games ==
@@ -56,5 +56,5 @@ When launching .7z files RCB just shows a message box with this error message: "
 
 If RCB ships the wrong libraries you can always get the latest release [url=https://pypi.python.org/pypi/pylzma]here[/url].
 
-== In solo mode I get this error: CApplication:: create() failed - Check log file and that it is writeable ==
+=== In solo mode I get this error: CApplication:: create() failed - Check log file and that it is writeable ===
 In latest RCB releases there is a new option in Addon settings called "Use VB script in solo mode". This option should finally solve this issue.
