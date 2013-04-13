@@ -1,7 +1,14 @@
 2.0.6 (04/2013)
 ~~~~~~~~~~~~~
 General:
-  * Update language files from Transifex
+  * update language files from Transifex (thanks to all translators!)
+  * fixed typo in Edit Rom Collection dialog
+  
+Import Games:
+  * try to scrape games with original name first (including (*) and [*])
+  
+Launch Games:
+  * bugfix: check if delay parameters are available
 
 2.0.5 (03/2013)
 ~~~~~~~~~~~~~
