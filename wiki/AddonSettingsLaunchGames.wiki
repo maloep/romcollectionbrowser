@@ -1,10 +1,21 @@
 #sidebar SideBar
 <wiki:toc max_depth="4" />
 
-[http://romcollectionbrowser.googlecode.com/files/screen_addonsettings_launch_1.1.1.jpg]
+[http://romcollectionbrowser.googlecode.com/files/screen_addonsettings_launch_2.0.6.jpg]
 
 You can access RCBs global settings via the context menu in addons / scripts list in XBMC (press C on the keyboard).
+
+= Use VB script in solo mode (Windows only) =
+This will use vb scripts instead of batch files to stop and restart XBMC. This can help to get around the "CApplication:: create() failed" error message when restarting XBMC.
+
+= Solo mode startup delay =
+Adds a short delay before RCB is started on first XBMC launch after solo mode. Especially when you are using the RCB widget (currently supported by Aeon Nox and Ace) it might be useful to wait some time before starting RCB when you return to XBMC.
 
 = Escape Emulator Cmd =
 This will escape the rom file names passed to the emulatorCmd. Try to change this if you are running into problems with launching games.
 
+= Pre-Launch delay =
+Adds a short delay before the game is launched. Useful when you notice focus issues when launching games.
+
+= Post-Launch delay =
+Adds a short delay when the game is closed and focus should go back to XBMC. Useful when you notice focus issues when launching games.

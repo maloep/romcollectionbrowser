@@ -10,7 +10,6 @@ This TODO list / roadmap is a working document. It will change quite frequently 
 == Browse games ==
   
 == Launch games ==
-  * after launching games in solo mode no program addons start
 
 
 = (one of) next release(s) =
@@ -18,7 +17,6 @@ This TODO list / roadmap is a working document. It will change quite frequently 
   * Export game database (nfo files) - Some of the nfo files exported don't have the Plot information even for the games that display it correctly in RCB.
   * NFO files don't update when rescraping games. - Add option to overwrite
   * export nfo files on demand
-    * option to export one big nfo file for all games
     * option to overwrite existing files
     * option to export statisitcal or user specific data (isFavorite, launchCount, ...)
   * start RCB twice: atomic init routine?
@@ -28,7 +26,6 @@ This TODO list / roadmap is a working document. It will change quite frequently 
   * check how to refresh XBMC artwork cache
 
 == Import games ==
-  * fix bug in MAME offline scraper
   * remove MAWS scraper from config.xml
   * import on startup: adjust for other skins (e.g. Aeon Nox)
   * add new MAME scraper
@@ -38,8 +35,6 @@ This TODO list / roadmap is a working document. It will change quite frequently 
     * youtube link in thegamesdb scraper
   * manually enter name of scraped game (rescrape or interactive)
   * import games with multiple . or - causes errors (like "WCW vs. NWO - world tour") --> "." interpreted as separator
-  * resolved path from rom folder name: C:\Users\Mic\Downloads\Arcade\Data\MAME\My_Art\boxfront\C:\Users\Mic\Downloads\Arcade\Data\MAME\My_Roms
-  * resolved path from rom folder name: smb://terastation/media/Roms/SNES/Boxart/boxfront/smb://terastation/media/Roms/SNES
   
 == Browse Games ==
   * improve loading time or add options to load smaller amount of games
@@ -196,6 +191,7 @@ This TODO list / roadmap is a working document. It will change quite frequently 
   
 = Wiki =
 == new features ==
+  * new repository
 
 == General ==
   * solo mode problems (Log Error): use JohnnyD2s vbs script
@@ -207,7 +203,6 @@ This TODO list / roadmap is a working document. It will change quite frequently 
     * imageplacing
 
 == FAQ ==
-  * What to do before posting
   * how to reset RCB
   * clear image cache
   * startup configuration error
