@@ -9,9 +9,7 @@
     <import addon="script.module.elementtree" version="1.2.7"/>
     <import addon="service.rom.collection.browser" version="1.0.0"/>
   </requires>
-  <extension point="xbmc.python.script" library="default.py">
-    <provides>game</provides>
-  </extension>
+  <extension point="xbmc.python.script" library="default.py"/>
   <extension point="xbmc.addon.metadata">
     <summary lang="da">Importere, gennemse og starte spil i XBMC</summary>
     <summary lang="de">Importiert, verwaltet und startet Spiele in XBMC</summary>
