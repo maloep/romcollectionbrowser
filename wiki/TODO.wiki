@@ -3,22 +3,37 @@
 This TODO list / roadmap is a working document. It will change quite frequently as I am always adding, removing or reordering issues that I want to work on for the next release. If you made a request or reported an issue that you don't find on the list please remind me because chances are that I just forgot to add it.
 
 = next relase =
+
 == General ==
-
-== Import games ==
-
-== Browse games ==
-  
-== Launch games ==
-
-
-= (one of) next release(s) =
-== General ==
+  * RPi support
+  * Android support
   * Export game database (nfo files) - Some of the nfo files exported don't have the Plot information even for the games that display it correctly in RCB.
   * NFO files don't update when rescraping games. - Add option to overwrite
   * export nfo files on demand
     * option to overwrite existing files
     * option to export statisitcal or user specific data (isFavorite, launchCount, ...)
+
+== Import games ==
+  * import games with multiple . or - causes errors (like "WCW vs. NWO - world tour") --> "." interpreted as separator
+  * Still missing the possibility to define "Rom File Mask" as *.tzx.zip or *.tap.zip
+
+== Browse games ==
+  * when you have videos selected for games, whilst browsing the video will still play if the next game does not have a video.
+  * enable fullscreen video if video in small window is playing
+  * when deleting games, jump to the next game in the list (not at the beginning)
+  * on startup try to set viewtype before loading the list
+  
+== Launch games ==
+  * pylzma for python 2.6 (http://pypi.python.org/pypi/pylzma/)
+    * Linux 32bit
+    * Linux 64bit
+  * after exiting games in Confluence list view the focus goes to the filter pane
+  * add option if XBMC should go into windowed mode
+  * when opening a .zip file with multiple roms inside, it is impossible to return to the menu without launching the emulator
+
+
+= (one of) next release(s) =
+== General ==
   * start RCB twice: atomic init routine?
   * XBMC frequently locks up on shutdown
   * check for errors in scrapeonstartup
@@ -34,30 +49,35 @@ This TODO list / roadmap is a working document. It will change quite frequently 
     * download publisher and developer artwork from thegamesdb.net
     * youtube link in thegamesdb scraper
   * manually enter name of scraped game (rescrape or interactive)
-  * import games with multiple . or - causes errors (like "WCW vs. NWO - world tour") --> "." interpreted as separator
+  * have the collection name and the name sent to the scrapper be different settings. That way, I could have a "supermodel3" collection, but scrap the roms as "mame" roms.
+  * game logo or game name logo
+  * support selection of similar named versions of games (select version to import by user or mask)
+    Final Fantasy III (USA) (Beta).zip
+    Final Fantasy III (USA) (Rev 1).zip
+    Final Fantasy III (USA).zip
   
 == Browse Games ==
   * improve loading time or add options to load smaller amount of games
     * new caching option: load list in background (maybe remove cacheitem and next)
   * autoplay video in Info window not reliable
-  * when you have videos selected for games, whilst browsing the video will still play if the next game does not have a video.
   * add option to allow media to keep playing. --> test with libretro
-  * enable fullscreen video if video in small window is playing
   * store viewstate on RC basis
   * add filter MaxPlayers
-  * when deleting games, jump to the next game in the list (not at the beginning)
-  * on startup try to set viewtype before loading the list
+  * view images fullscreen by pressing enter upon the art or similar
+  * option to hide game infos in main view (show up on pressing I or similar)
+  * add option to play a video only once
+  * change view for Info to Thumbs -> stop video
+  * publisher, developer images in game info view
   
 == Launch games ==
-  * pylzma for python 2.6 (http://pypi.python.org/pypi/pylzma/)
-    * Linux 32bit
-    * Linux 64bit
-  * after exiting games in Confluence list view the focus goes to the filter pane
   * show message box before extracting games
-  * add option if XBMC should go into windowed mode
   * check windowed mode with popen
   * add launch settings to addon settings. add option to overwrite settings per rom collection
   * try to use "at" to restart XBMC: http://forum.xbmc.org/showthread.php?tid=134913 (Linux only?)
+  * new placeholders in emuParams: %EMUPATH%, %ROMPATH%
+  * Random game option (Issue 82)
+  * launch game per popen
+    * popen options (suspend, pause, ...)
   
 
 = Future releases =
@@ -97,8 +117,6 @@ This TODO list / roadmap is a working document. It will change quite frequently 
 === Import games ===
   * add filename matching (instead of crc) to offline scraper
   * Could not create file: 'C:\Program Files\ROM project\ROMS\Sega Genesis\Artwork\boxfront\Triple Play 96 (F) [b1].jpg'. Error message: '[Errno socket error] timed out'
-  * Still missing the possibility to define "Rom File Mask" as *.tzx.zip or *.tap.zip
-  * It sounds like the best would be to have the collection name and the name sent to the scrapper be different settings. That way, I could have a "supermodel3" collection, but scrap the roms as "mame" roms.
   * apple makes a shadow folder called '.AppleDouble' and makes an identically named file entry in that directory for every file in the real directory.
   * refactor dbupdate (requires data model changes)
     * no import of images to database. just check the directories at runtime. Performance tests
@@ -130,31 +148,21 @@ This TODO list / roadmap is a working document. It will change quite frequently 
   * support 2 or more developers  
   * http://www.mobygames.com/game/ps2/ace-combat-5-the-unsung-war/credits
   * http://www.thecoverproject.net/
-  * game logo or game name logo
   * ask before cancel 
   * skip 2nd and 3rd scraper if all info is found with first one
   * option to create sub collections: best sports games, ...
-  * option to keep rom name as game name (better support for extra info in rom names (USA), (Beta))
-  * support selection of similar named versions of games (select version to import by user or mask)
-    Final Fantasy III (USA) (Beta).zip
-    Final Fantasy III (USA) (Rev 1).zip
-    Final Fantasy III (USA).zip
   * two-step import: 1. local data, 2. online data
   
 
 === Browse games ===
   * Console view / dash board
   * remap home button
-  * view images fullscreen by pressing enter upon the art or similar
-  * option to hide game infos in main view (show up on pressing I or similar)
-  * add option to play a video only once
   * video playback in non-Confluence skins
   * add imageplacing options to Night skin
   * add counter to Night skin
   * show previous and next console in Nights console filter
   * option to keep artwork ratio
   * check if browsing options have changed and reload the list
-  * change view for Info to Thumbs -> stop video
   * filetypeformainview2 is missing
   * remove imageplacing mechanism?
     * define several views with large and small images
@@ -163,26 +171,18 @@ This TODO list / roadmap is a working document. It will change quite frequently 
   * Simplicity
     * relative position of favorite stars in thumbs view
   * create skin specific game info view
-  * publisher, developer images in game info view
   * if game has url: option to launch in browser
   * ability to view PDF manual
   * Container.NextSortMethod
   
 === Launch games ===
-  * Multi disk selector: Every disc shows up as _disk in the selector.
-  * when opening a .zip file with multiple roms inside, it is impossible to return to the menu without launching the emulator
   * use Popen for pre and post launch commands
-  * rcb does not do a change directly to the executable's folder before being executed
   * add option to use json api instead of kill command  
     Linux
     wget -q -O/dev/null --header='Content-Type: application/json' --post-data='{"jsonrpc": "2.0", "method": "Application.Quit", "id":"1"}' http://localhost/jsonrpc
     Windows (http://sourceforge.net/projects/gnuwin32/files/wget/)
     "%PROGRAMFILES%\GnuWin32\bin\wget.exe" -q --header="Content-Type: application/json" --post-data="{\"jsonrpc\":\"2.0\", \"method\": \"Application.Quit\", \"id\":\"1\"}" http://localhost/jsonrpc
   * add option to autostart RCB everytime in RCB service
-  * new placeholders in emuParams: %EMUPATH%, %ROMPATH%
-  * Random game option (Issue 82)
-  * launch game per popen
-    * popen options (suspend, pause, ...)
   * per game config (e.g. Amiga)
   * try to write black background before launch
   * disable screensaver before game launch
@@ -194,7 +194,6 @@ This TODO list / roadmap is a working document. It will change quite frequently 
   * new repository
 
 == General ==
-  * solo mode problems (Log Error): use JohnnyD2s vbs script
   * startup guide:
     * suggested file structure
     * install emulators
