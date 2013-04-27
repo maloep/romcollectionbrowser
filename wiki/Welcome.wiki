@@ -38,6 +38,8 @@ Check out the following pages if you have trouble with setting up RCB or want to
 		=== [HowToAddVideos How to add videos to your Rom Collection] ===
 		
 		=== [HowToAddMAMEOffline How to add MAME roms with offline game description] ===
+		
+		=== [HowToAddStandaloneGames How to add standalone PC games] ===
 
 		=== [ScraperDetails Understanding scrapers] ===
 		

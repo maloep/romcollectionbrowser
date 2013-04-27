@@ -1,0 +1,10 @@
+#sidebar SideBar
+
+= How to add standalone PC games =
+Support for standalone games works as follows:
+  * create a folder with shortcuts to your standalone games (e.g. lnk-files)
+  * in RCB start the Add Rom Collection Wizard
+  * use Linux, Macintosh or Windows as System
+  * select the path to your shortcuts as rom path
+  * use *.lnk as file mask (or whatever the extension of your shortcuts may be)
+  * RCB will automatically detect that it should launch PC games and won't ask for emulator configuration
