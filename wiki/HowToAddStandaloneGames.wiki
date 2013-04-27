@@ -6,5 +6,5 @@ Support for standalone games works as follows:
   * in RCB start the Add Rom Collection Wizard
   * use Linux, Macintosh or Windows as System
   * select the path to your shortcuts as rom path
-  * use *.lnk as file mask (or whatever the extension of your shortcuts may be)
+  * use `*.lnk` as file mask (or whatever the extension of your shortcuts may be)
   * RCB will automatically detect that it should launch PC games and won't ask for emulator configuration
