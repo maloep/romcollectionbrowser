@@ -38,8 +38,8 @@ If you don't want to add another Rom Collection, just select No.
 
 == Import games ==
 In this example I just do an import of the new added Windows games.
-screen_standalones_08_import_small.jpg
+  https://romcollectionbrowser.googlecode.com/files/screen_standalones_08_import_small.jpg
 
 == Enjoy ==
 The result may look like this (it may look better if you add more than one game)
-screen_standalones_09_browse_small.jpg
+  https://romcollectionbrowser.googlecode.com/files/screen_standalones_09_browse_small.jpg
