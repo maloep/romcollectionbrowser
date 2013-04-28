@@ -1,10 +1,43 @@
 #sidebar SideBar
+<wiki:toc max_depth="4" />
 
 = How to add standalone PC games =
-Support for standalone games works as follows:
-  * create a folder with shortcuts to your standalone games (e.g. lnk-files)
-  * in RCB start the Add Rom Collection Wizard
-  * use Linux, Macintosh or Windows as System
-  * select the path to your shortcuts as rom path
-  * use `*.lnk` as file mask (or whatever the extension of your shortcuts may be)
-  * RCB will automatically detect that it should launch PC games and won't ask for emulator configuration
+
+== Preparation ==
+To add standalone games in RCB you will need one single folder that contains shortcuts to all of your games. Just create a shortcut like you would do to add a shortcut to your desktop. Copy this shortcut file to a separate foler. In this example it is "E:\Games\Standalone":
+  https://romcollectionbrowser.googlecode.com/files/screen_standalones_01_explorer.jpg
+  
+== Scenario ==
+Usually you will use online scraping scenario to grab game info and artwork online.
+  https://romcollectionbrowser.googlecode.com/files/screen_standalones_02_scenario.jpg
+  
+== Platform ==
+Use Linux, Macintosh or Windows as System. In this example I use Windows.
+  https://romcollectionbrowser.googlecode.com/files/screen_standalones_03_platform_small.jpg
+  
+== Rom path ==
+Select the path to your shortcut folder.
+  https://romcollectionbrowser.googlecode.com/files/screen_standalones_04_roms_small.jpg
+  
+== File mask ==
+On Windows use `*.lnk` as file mask (or whatever the extension of your shortcuts may be).
+  https://romcollectionbrowser.googlecode.com/files/screen_standalones_05_filemask_small.jpg
+
+== Artwork ==
+Select the path where you want to store your artwork (or where your artwork is already stored). This folder can be empty.
+
+In online scraping scenario RCB will create the following sub folders (one for every different artwork type):
+
+boxfront, boxback, cartridge, screenshot and fanart
+  https://romcollectionbrowser.googlecode.com/files/screen_standalones_06_artwork_small.jpg
+  
+If you don't want to add another Rom Collection, just select No.
+  https://romcollectionbrowser.googlecode.com/files/screen_standalones_07_finish_small.jpg
+
+== Import games ==
+In this example I just do an import of the new added Windows games.
+screen_standalones_08_import_small.jpg
+
+== Enjoy ==
+The result may look like this (it may look better if you add more than one game)
+screen_standalones_09_browse_small.jpg
