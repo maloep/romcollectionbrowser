@@ -9,7 +9,7 @@ To add standalone games in RCB you will need one single folder that contains sho
   
 == Scenario ==
 Usually you will use online scraping scenario to grab game info and artwork online.
-  https://romcollectionbrowser.googlecode.com/files/screen_standalones_02_scenario.jpg
+  https://romcollectionbrowser.googlecode.com/files/screen_standalones_02_scenario_small.jpg
   
 == Platform ==
 Use Linux, Macintosh or Windows as System. In this example I use Windows.
