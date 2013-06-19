@@ -160,7 +160,7 @@ myConfig = Config(configFile)
 statusOk, errorMsg = myConfig.readXml()
 """
 
-
+"""
 #file = 'E:\Games\RCB TestDataBase\Scraping\V12 - A2600 - \Artwork\boxfront\3-D Tic-Tac-Toe Test.jpg'
 file = '3-D Tic-Tac-Toe [Test].jpg'
 
@@ -169,7 +169,7 @@ diskPrefix = "3-D Tic-Tac-Toe [[]Test[]].*"
 
 import fnmatch
 print fnmatch.fnmatch(file, diskPrefix)
-
+"""
 
 """
 
@@ -220,3 +220,14 @@ for walkRoot, walkDirs, walkFiles in walklevel(dirname, 99):
 print str(files)
 
 """
+
+diskPrefix = "Disk*."
+#game =  "CHRONOCROSS Disc 1.iso"
+game = "Final Fantasy IX_Disk 12.iso"
+
+match = re.search(diskPrefix, game)
+if(match):
+	disk = game[match.start():match.end()]
+	print disk
+else:
+	print "no match"
