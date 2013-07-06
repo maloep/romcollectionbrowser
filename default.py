@@ -19,7 +19,10 @@
 
 
 import os, sys, re
-import xbmcaddon
+import xbmcaddon, xbmc
+from xbmc import *
+from resources.lib.rcb.utils import util, helper
+from resources.lib.rcb.gamelaunching import launcher
 
 
 # Shared resources
@@ -91,14 +94,14 @@ class Main():
 		# Start the main gui
 		print 'RCB: launchRCB = ' +str(launchRCB)
 		if launchRCB:
-			 import gui
+			import resources.lib.rcb.ui.gui
 				
 				
 	def gatherWidgetData(self, param):
 		print 'start gatherWidgetData'
-		import util, helper
-		from gamedatabase import Game, GameDataBase, File
-		from config import Config, RomCollection
+		import resources.lib.rcb.utils.util, resources.lib.rcb.utils.helper
+		from resources.lib.rcb.datamodel.gamedatabase import Game, GameDataBase, File
+		from resources.lib.rcb.configuration.config import Config, RomCollection
 		
 		gdb = GameDataBase(util.getAddonDataPath())
 		gdb.connect()
@@ -126,6 +129,7 @@ class Main():
 		settings = util.getSettings()
 		
 		import xbmcgui
+		from xbmcgui import Window
 		count = 0
 		for gameRow in games:
 		
@@ -208,9 +212,10 @@ class Main():
 	
 	
 	def launchGame(self, param):
-		import launcher, util
-		from gamedatabase import GameDataBase
-		from config import Config
+		import resources.lib.rcb.gamelaunching.launcher
+		import resources.lib.rcb.utils.util
+		from resources.lib.rcb.datamodel.gamedatabase import GameDataBase
+		from resources.lib.rcb.configuration.config import Config
 		
 		gdb = GameDataBase(util.getAddonDataPath())
 		gdb.connect()

@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <addon
-  id="script.games.rom.collection.browser"
-  version="2.0.7"
-  name="Rom Collection Browser"
+  id="script.games.rom.collection.browser.3.0"
+  version="3.0.0"
+  name="Rom Collection Browser 3.0"
   provider-name="carabalb, jimyx17, malte, redkiller">
   <requires>
     <import addon="xbmc.python" version="2.1.0"/>

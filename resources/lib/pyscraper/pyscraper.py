@@ -1,14 +1,16 @@
 
-import config
-from config import *
-from gamedatabase import *
+import re
+import resources.lib.rcb.configuration.config
+from resources.lib.rcb.configuration.config import *
+from resources.lib.rcb.datamodel.gamedatabase import *
 from descriptionparserfactory import *
-import util
-from util import *
+import resources.lib.rcb.utils.util
+from resources.lib.rcb.utils.util import *
 
 import difflib
 
 import xbmcgui
+
 
 
 class PyScraper:
