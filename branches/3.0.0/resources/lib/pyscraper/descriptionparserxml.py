@@ -1,10 +1,12 @@
 
-from elementtree.ElementTree import *
+from xml.etree.ElementTree import fromstring
 import urllib
 import time
 
-import util
-from util import Logutil
+from resources.lib.rcb.utils import util
+from resources.lib.rcb.utils.util import *
+
+
 
 class DescriptionParserXml:
 	

@@ -1,10 +1,12 @@
 
-from pyparsing import *
-from elementtree.ElementTree import *
+from resources.lib.pyparsing.pyparsing import *
 import urllib
 import time
-import util
-from util import Logutil
+from xml.etree.ElementTree import fromstring
+
+import resources.lib.rcb.utils.util
+from resources.lib.rcb.utils.util import Logutil
+
 #from xml.dom.minidom import parseString, Node, Document
 
 
