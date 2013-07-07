@@ -54,7 +54,7 @@ newRCs = {}
 newRCs[1] = configFile.romCollections['10']
 
 if(statusOk == True):
-	dbupdate.DBUpdate().updateDB(gdb, RCBMock(), 0, newRCs, None)
+	dbupdate.GameImporter().importGames(gdb, RCBMock(), 0, newRCs, None)
 
 
 

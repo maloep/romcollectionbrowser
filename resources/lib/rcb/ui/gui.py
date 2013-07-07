@@ -6,7 +6,7 @@ from threading import *
 import dialogimportoptions, dialogcontextmenu, dialogprogress, dialogmissinginfo
 from resources.lib.rcb.utils import util, helper
 from resources.lib.rcb.configuration import config, wizardconfigxml
-from resources.lib.rcb.gameimport import dbupdate
+from resources.lib.rcb.gameimport.gameimporter import *
 from resources.lib.rcb.gamelaunching import launcher
 
 from resources.lib.rcb.utils.util import *
@@ -800,10 +800,10 @@ class UIGameDB(xbmcgui.WindowXML):
 		self.fullScreenVideoStarted = False
 		
 		
-	def updateDB(self):
-		Logutil.log("Begin updateDB" , util.LOG_LEVEL_INFO)
+	def importGames(self):
+		Logutil.log("Begin importGames" , util.LOG_LEVEL_INFO)
 		self.importGames(None, False)
-		Logutil.log("End updateDB" , util.LOG_LEVEL_INFO)
+		Logutil.log("End importGames" , util.LOG_LEVEL_INFO)
 		
 	
 	def rescrapeGames(self, romCollections):
@@ -1283,9 +1283,9 @@ class UIGameDB(xbmcgui.WindowXML):
 		progressDialog = dialogprogress.ProgressDialogGUI()
 		progressDialog.writeMsg(util.localize(40011), "", "")
 		
-		updater = dbupdate.DBUpdate()
-		updater.updateDB(self.gdb, progressDialog, scrapingmode, romCollections, self.Settings, isRescrape)
-		del updater
+		importer = GameImporter()
+		importer.importGames(self.gdb, progressDialog, scrapingmode, romCollections, self.Settings, isRescrape)
+		del importer
 		progressDialog.writeMsg("", "", "", -1)
 		del progressDialog
 

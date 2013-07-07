@@ -7,6 +7,12 @@ import xbmc
 import xbmcgui
 import xbmcaddon
 
+from resources.lib.rcb.configuration import config
+from resources.lib.rcb.gameimport.gameimporter import *
+from resources.lib.rcb.datamodel.gamedatabase import *
+from resources.lib.rcb.utils.util import *
+
+
 # Shared resources
 addonPath = ''
 addon = xbmcaddon.Addon(id='script.games.rom.collection.browser')
@@ -24,10 +30,6 @@ if env == 'Windows_NT':
 	env = 'win32'
 sys.path.append( os.path.join( BASE_RESOURCE_PATH, "platform_libraries", 'Linux' ) )
 
-from gamedatabase import *
-from util import *
-import dbupdate
-import config
 
 
 ALLOWEDWINDOWS = [10000]
@@ -140,7 +142,7 @@ def runUpdate():
 	settings.setSetting(util.SETTING_RCB_SCRAPEONSTARTUPACTION, 'update')
 	
 	progress = ProgressDialogBk()
-	dbupdate.DBUpdate().updateDB(gdb, progress, scrapingMode, configFile.romCollections, util.getSettings(), False)
+	GameImporter().importGames(gdb, progress, scrapingMode, configFile.romCollections, util.getSettings(), False)
 	
 	settings.setSetting(util.SETTING_RCB_SCRAPEONSTARTUPACTION, 'nothing')
 	

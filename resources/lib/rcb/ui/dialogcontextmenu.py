@@ -57,7 +57,7 @@ class ContextMenuDialog(xbmcgui.WindowXMLDialog):
 			self.close()
 		elif (controlID == 5110): # Import games
 			self.close()
-			self.gui.updateDB()
+			self.gui.importGames()
 		elif (controlID == 5121): # Rescrape single games
 			self.close()
 			
@@ -100,7 +100,7 @@ class ContextMenuDialog(xbmcgui.WindowXMLDialog):
 			self.gui.rescrapeGames(romCollections)
 				
 			
-			#self.gui.updateDB()
+			#self.gui.importGames()
 		elif (controlID == 5111): # add Rom Collection			
 			self.close()
 			statusOk, errorMsg = wizardconfigxml.ConfigXmlWizard().addRomCollection(self.gui.config)
@@ -117,7 +117,7 @@ class ContextMenuDialog(xbmcgui.WindowXMLDialog):
 				return
 			
 			#import Games
-			self.gui.updateDB()
+			self.gui.importGames()
 			
 		elif (controlID == 5112): # edit Rom Collection			
 			self.close()

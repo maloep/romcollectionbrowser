@@ -47,7 +47,7 @@ class TestUpdateDB(unittest.TestCase):
 		if(statusOk == False):
 			self.fail('Error reading config.xml')
 
-		dbupdate.DBUpdate().updateDB(self.gdb, RCBMock(), 0, configFile.romCollections, util.getSettings())
+		dbupdate.GameImporter().importGames(self.gdb, RCBMock(), 0, configFile.romCollections, util.getSettings())
 		
 		#test some filters
 		
