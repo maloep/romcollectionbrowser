@@ -57,7 +57,7 @@ class ContextMenuDialog(xbmcgui.WindowXMLDialog):
 			self.close()
 		elif (controlID == 5110): # Import games
 			self.close()
-			self.gui.importGames()
+			self.gui.importGames(None, False)
 		elif (controlID == 5121): # Rescrape single games
 			self.close()
 			

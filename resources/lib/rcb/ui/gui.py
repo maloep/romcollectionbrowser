@@ -799,12 +799,6 @@ class UIGameDB(xbmcgui.WindowXML):
 		
 		self.fullScreenVideoStarted = False
 		
-		
-	def importGames(self):
-		Logutil.log("Begin importGames" , util.LOG_LEVEL_INFO)
-		self.importGames(None, False)
-		Logutil.log("End importGames" , util.LOG_LEVEL_INFO)
-		
 	
 	def rescrapeGames(self, romCollections):
 		Logutil.log("Begin rescrapeGames" , util.LOG_LEVEL_INFO)
