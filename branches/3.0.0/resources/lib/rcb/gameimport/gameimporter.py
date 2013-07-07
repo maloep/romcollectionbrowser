@@ -2,7 +2,6 @@
 import os, sys, re
 import getpass, string, glob
 import codecs
-import zipfile
 import time
 
 import xbmcvfs, xbmcgui
@@ -11,8 +10,7 @@ import fnmatch
 import filewalker, dbupdater, nfowriter
 import resources.lib.pyscraper.pyscraper
 import resources.lib.rcb.gameimport.nfowriter
-from resources.lib.rcb.utils import util
-from resources.lib.rcb.utils import helper
+from resources.lib.rcb.utils import util, romfileutil, helper
 
 from resources.lib.rcb.utils.util import *
 from resources.lib.rcb.configuration.config import *
@@ -20,13 +18,7 @@ from resources.lib.rcb.datamodel.gamedatabase import *
 from resources.lib.pyscraper.descriptionparserfactory import *
 from resources.lib.pyscraper.pyscraper import *
 from resources.lib.rcb.gameimport.nfowriter import *
-
-
-#HACK: zlib isn't shipped with some linux distributions
-try:
-	import zlib
-except:
-	Logutil.log("Error while loading zlib library. You won't be able to import games using crc values (only used when importing offline game descriptions).", util.LOG_LEVEL_WARNING)
+from resources.lib.rcb.gameimport import multigamescraper
 
 
 class GameImporter:
@@ -116,7 +108,7 @@ class GameImporter:
 				
 				#build file hash tables	(key = gamename or crc, value = romfiles)			
 				Logutil.log("Start building file dict", util.LOG_LEVEL_INFO)
-				fileDict = self.buildFileDict(gui, progDialogRCHeader, files, romCollection, firstScraper)
+				fileDict = multigamescraper.buildFileDict(gui, progDialogRCHeader, files, romCollection, firstScraper)
 									
 				try:
 					fileCount = 0
@@ -142,14 +134,14 @@ class GameImporter:
 							gamenameFromDesc = result['Game'][0]
 							
 							#find parsed game in Rom Collection
-							filenamelist = self.matchDescriptionWithRomfiles(firstScraper, result, fileDict, gamenameFromDesc)
+							filenamelist = multigamescraper.matchDescriptionWithRomfiles(firstScraper, result, fileDict, gamenameFromDesc)
 		
 							artScrapers = {}
 		
 							if(filenamelist != None and len(filenamelist) > 0):
 												
-								gamenameFromFile = helper.getGamenameFromFilename(filenamelist[0], romCollection)
-								foldername = self.getFoldernameFromRomFilename(filenamelist[0])
+								gamenameFromFile = romfileutil.getGamenameFromFilename(filenamelist[0], romCollection)
+								foldername = romfileutil.getFoldernameFromRomFilename(filenamelist[0])
 								
 								fileCount = fileCount + 1
 								
@@ -233,7 +225,7 @@ class GameImporter:
 						
 					#all files still available files-list, are missing entries
 					for filename in files:
-						gamenameFromFile = helper.getGamenameFromFilename(filename, romCollection)
+						gamenameFromFile = romfileutil.getGamenameFromFilename(filename, romCollection)
 						try:
 							self.missingDescFile.write('%s\n' % gamenameFromFile)
 						except:
@@ -257,10 +249,11 @@ class GameImporter:
 					
 					try:
 						gamenameFromFile = ''
-						gamenameFromFile = helper.getGamenameFromFilename(filename, romCollection)
+						gamenameFromFile = romfileutil.getGamenameFromFilename(filename, romCollection)
 						
 						#check if we are handling one of the additional disks of a multi rom game
-						isMultiRomGame = self.checkRomfileIsMultirom(gamenameFromFile, lastgamename)
+						#XBOX Hack: rom files will always be named default.xbe: always detected as multi rom without this hack
+						isMultiRomGame = (gamenameFromFile == lastgamename and lastgamename.lower() != 'default')
 						lastgamename = gamenameFromFile
 						
 						if(isMultiRomGame):
@@ -271,7 +264,7 @@ class GameImporter:
 							fileType.id = 0
 							fileType.name = "rcb_rom"
 							fileType.parent = "game"
-							self.insertFile(filename, lastGameId, fileType, None, None, None)
+							dbupdater.insertFile(self.gdb, filename, lastGameId, fileType, None, None, None)
 							continue
 						
 						Logutil.log('Start scraping info for game: ' + gamenameFromFile, LOG_LEVEL_INFO)						
@@ -291,14 +284,13 @@ class GameImporter:
 							continue										
 						
 						results = {}
-						foldername = self.getFoldernameFromRomFilename(filename)
+						foldername = romfileutil.getFoldernameFromRomFilename(filename)
 						filecrc = ''
 												
 						artScrapers = {} 
 						if(not isLocalArtwork):
 							results, artScrapers = self.useSingleScrapers(results, romCollection, 0, gamenameFromFile, foldername, filename, fuzzyFactor, updateOption, gui, progDialogRCHeader, fileCount)						
-							
-						
+													
 						#print results
 						if(len(results) == 0):
 							#lastgamename = ""
@@ -389,170 +381,6 @@ class GameImporter:
 		return True, ''
 	
 	
-	def buildFileDict(self, gui, progDialogRCHeader, files, romCollection, firstScraper):
-		
-		fileCount = 1
-		lastgamename = ""
-		crcOfFirstGame = {}
-		
-		fileDict = {}
-		
-		for filename in files:
-			try:
-				gui.writeMsg(progDialogRCHeader, util.localize(40030), "", fileCount)
-				fileCount = fileCount + 1
-				
-				gamename = helper.getGamenameFromFilename(filename, romCollection)
-				#check if we are handling one of the additional disks of a multi rom game
-				isMultiRomGame = self.checkRomfileIsMultirom(gamename, lastgamename)
-				#lastgamename may be overwritten by parsed gamename
-				lastgamename = gamename
-				gamename = gamename.strip()
-				gamename = gamename.lower()
-				
-				#Logutil.log('gamename in fileDict: ' +str(gamename), util.LOG_LEVEL_INFO)
-									
-				#build dictionaries (key=gamename, filecrc or foldername; value=filenames) for later game search
-				if(firstScraper.useFoldernameAsCRC):
-					Logutil.log('useFoldernameAsCRC = True', util.LOG_LEVEL_INFO)
-					foldername = self.getFoldernameFromRomFilename(filename)
-					foldername = foldername.strip()
-					foldername = foldername.lower()
-					fileDict = self.buildFilenameDict(fileDict, isMultiRomGame, filename, foldername)
-				elif(firstScraper.useFilenameAsCRC):
-					Logutil.log('useFilenameAsCRC = True', util.LOG_LEVEL_INFO)
-					fileDict = self.buildFilenameDict(fileDict, isMultiRomGame, filename, gamename)
-				elif(firstScraper.searchGameByCRC):
-					Logutil.log('searchGameByCRC = True', util.LOG_LEVEL_INFO)
-					filecrc = self.getFileCRC(filename)
-					#use crc of first rom if it is a multirom game
-					if(not isMultiRomGame):
-						crcOfFirstGame[gamename] = filecrc
-						Logutil.log('Adding crc to crcOfFirstGame-dict: %s: %s' % (gamename, filecrc), util.LOG_LEVEL_INFO)
-					else:
-						filecrc = crcOfFirstGame[gamename]
-						Logutil.log('Read crc from crcOfFirstGame-dict: %s: %s' % (gamename, filecrc), util.LOG_LEVEL_INFO)
-						
-					fileDict = self.buildFilenameDict(fileDict, isMultiRomGame, filename, filecrc)
-				else:						
-					fileDict = self.buildFilenameDict(fileDict, isMultiRomGame, filename, gamename)
-			except Exception, (exc):
-				Logutil.log("an error occured while building file list", util.LOG_LEVEL_WARNING)
-				Logutil.log("Error: " + str(exc), util.LOG_LEVEL_WARNING)
-				continue
-		
-		return fileDict
-							
-		
-	def checkRomfileIsMultirom(self, gamename, lastgamename):
-	
-		Logutil.log("checkRomfileIsMultirom. gamename = %s, lastgamename = %s" % (gamename, lastgamename), util.LOG_LEVEL_INFO)
-	
-		#XBOX Hack: rom files will always be named default.xbe: always detected as multi rom without this hack
-		if(gamename == lastgamename and lastgamename.lower() != 'default'):		
-			Logutil.log("handling multi rom game: " + lastgamename, util.LOG_LEVEL_INFO)			
-			return True
-		return False
-		
-		
-	def buildFilenameDict(self, result, isMultiRomGame, filename, key):
-		
-		try:											
-			if(not isMultiRomGame):
-				filenamelist = []
-				filenamelist.append(filename)
-				result[key] = filenamelist
-				Logutil.log('Add filename "%s" with key "%s"' % (filename, key), util.LOG_LEVEL_DEBUG)
-			else:
-				filenamelist = result[key]
-				filenamelist.append(filename)
-				result[key] = filenamelist
-				Logutil.log('Add filename "%s" to multirom game with key "%s"' % (filename, key), util.LOG_LEVEL_DEBUG)
-		except Exception, (exc):
-			Logutil.log('Error occured in buildFilenameDict: ' + str(exc), util.LOG_LEVEL_WARNING)
-			
-		return result
-		
-		
-	def getFileCRC(self, filename):
-		
-		try:
-			#get crc value of the rom file - this can take a long time for large files, so it is configurable
-			filecrc = ''		
-			if (zipfile.is_zipfile(str(filename))):			
-					Logutil.log("handling zip file", util.LOG_LEVEL_INFO)
-					zip = zipfile.ZipFile(str(filename), 'r')
-					zipInfos = zip.infolist()
-					if(len(zipInfos) > 1):
-						Logutil.log("more than one file in zip archive is not supported! Checking CRC of first entry.", util.LOG_LEVEL_WARNING)
-					filecrc = "%0.8X" % (zipInfos[0].CRC & 0xFFFFFFFF)
-					Logutil.log("crc in zipped file: " + filecrc, util.LOG_LEVEL_INFO)			
-			else:						
-				prev = 0
-				for eachLine in open(str(filename), "rb"):
-					prev = zlib.crc32(eachLine, prev)					
-				filecrc = "%0.8X" % (prev & 0xFFFFFFFF)
-				Logutil.log("crc for current file: " + str(filecrc), util.LOG_LEVEL_INFO)
-			
-			filecrc = filecrc.strip()
-			filecrc = filecrc.lower()
-		except Exception, (exc):
-			Logutil.log("Error while creating crc: " + str(exc), util.LOG_LEVEL_ERROR)
-			return "000000"
-		
-		return filecrc
-		
-		
-	def getFoldernameFromRomFilename(self, filename):
-		Logutil.log("Begin getFoldernameFromRomFilename: %s" + filename, util.LOG_LEVEL_INFO)		
-		foldername = ''
-		dirname = os.path.dirname(filename)
-		Logutil.log("dirname: %s" % dirname, util.LOG_LEVEL_INFO)
-		if(dirname != None):
-			pathTuple = os.path.split(dirname)
-			if(len(pathTuple) == 2):
-				foldername = pathTuple[1]				
-				
-		return foldername
-
-
-	def matchDescriptionWithRomfiles(self, firstScraper, result, fileDict, gamenameFromDesc):
-		
-		filenamelist = []
-		
-		if(firstScraper.searchGameByCRC or firstScraper.useFoldernameAsCRC or firstScraper.useFilenameAsCRC):
-			resultcrcs = result['crc']
-			for resultcrc in resultcrcs:
-				Logutil.log("crc in parsed result: " + resultcrc, util.LOG_LEVEL_DEBUG)
-				resultcrc = resultcrc.lower()
-				resultcrc = resultcrc.strip()
-				filenamelist = self.findFilesByGameDescription(resultcrc, fileDict)
-				if(filenamelist != None):
-					break
-		else:
-			Logutil.log("game name in parsed result: " + gamenameFromDesc, util.LOG_LEVEL_INFO)
-			gamenameFromDesc = gamenameFromDesc.lower()
-			gamenameFromDesc = gamenameFromDesc.strip()
-			filenamelist = self.findFilesByGameDescription(gamenameFromDesc, fileDict)
-			
-		return filenamelist
-
-
-	def findFilesByGameDescription(self, key, fileDict):
-		
-		Logutil.log("searching for Key: " + str(key), util.LOG_LEVEL_INFO)
-			
-		try:
-			filename = fileDict[key]
-		except:
-			filename = None
-			
-		if (filename != None):
-			Logutil.log("result found: " + str(filename), util.LOG_LEVEL_INFO)				
-		
-		return filename
-	
-	
 	def checkRomfileAlreadyExists(self, filename, enableFullReimport, isLocalArtwork):
 		
 		isUpdate = False
@@ -589,7 +417,7 @@ class GameImporter:
 			Logutil.log('using scraper: ' + scraperSite.name, util.LOG_LEVEL_INFO)
 			
 			if(scraperSite.searchGameByCRC and filecrc == ''):
-				filecrc = self.getFileCRC(firstRomfile)
+				filecrc = romfileutil.getFileCRC(firstRomfile)
 			
 			urlsFromPreviousScrapers = []
 			doContinue = False
