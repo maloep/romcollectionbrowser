@@ -624,7 +624,7 @@ class GameImporter:
 			if(not isLocalArtwork):
 				continueUpdate, artworkurls = self.getThumbFromOnlineSource(gamedescription, path.fileType.name, fileName, gui, dialogDict, artworkurls)
 				if(not continueUpdate):
-					return None, False
+					return False, None, None
 			
 			Logutil.log("Additional data path: " +str(path.path), util.LOG_LEVEL_DEBUG)
 			files = self.resolvePath((path.path,), gamename, gamenameFromFile, foldername, romCollection.name, publisher, developer)
@@ -781,7 +781,8 @@ class GameImporter:
 					else:
 						urllib.urlretrieve(thumbUrl, str(fileName))
 				except Exception, (exc):
-					xbmcgui.Dialog().ok(util.localize(35012), util.localize(35011))
+					#Don't show message box when file download fails
+					#xbmcgui.Dialog().ok(util.localize(35012), util.localize(35011))
 					Logutil.log("Could not create file: '%s'. Error message: '%s'" % (str(fileName), str(exc)), util.LOG_LEVEL_ERROR)
 					return False, artworkurls
 				
