@@ -231,7 +231,7 @@ class UIGameDB(xbmcgui.WindowXML):
 		
 	def initializeDataBase(self):
 		try:
-			self.gdb = GameDataBase(util.getAddonDataPath())
+			self.gdb = GameDataBase(util.getAddonDataPath(), 'MyGames.db')
 			self.gdb.connect()
 		except Exception, (exc):
 			xbmcgui.Dialog().ok(util.SCRIPTNAME, util.localize(35000), str(exc))
