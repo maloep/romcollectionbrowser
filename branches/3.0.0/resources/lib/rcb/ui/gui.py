@@ -1598,7 +1598,7 @@ class UIGameDB(xbmcgui.WindowXML):
 			return 0								
 		
 	
-	def cacheItems(self):		
+	def cacheItems(self):
 		Logutil.log("Begin cacheItems" , util.LOG_LEVEL_INFO)
 		
 		#cacheAll
