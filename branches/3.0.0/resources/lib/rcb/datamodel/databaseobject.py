@@ -142,18 +142,46 @@ class DataBaseObject:
         self._gdb.cursor.execute("SELECT * FROM '%s' ORDER BY name COLLATE NOCASE" % self._tableName)
         allObjects = self._gdb.cursor.fetchall()
         newList = self.encodeUtf8(allObjects)
-        return newList        
+        return newList
+    
+
+    def getAllOrderednew(self):
+        self._gdb.cursor.execute("SELECT * FROM '%s' ORDER BY name COLLATE NOCASE" % self._tableName)
+        allObjects = self._gdb.cursor.fetchall()
+        newList = self.encodeUtf8(allObjects)
+        
+        dbObjects = []
+        for dbRow in newList:            
+            dbObjects.append(self.fromDb(dbRow))
+        
+        return dbObjects   
         
         
-    def getOneByName(self, name):            
+    def getOneByName(self, name):
         self._gdb.cursor.execute("SELECT * FROM '%s' WHERE name = ?" % self._tableName, (name,))
         object = self._gdb.cursor.fetchone()
         return object
+    
+    
+    def getOneByNameNew(self, name):
+        self._gdb.cursor.execute("SELECT * FROM '%s' WHERE name = ?" % self._tableName, (name,))
+        dbRow = self._gdb.cursor.fetchone()
+        obj = self.fromDb(dbRow)
+        return obj
+    
         
     def getObjectById(self, id):
         self._gdb.cursor.execute("SELECT * FROM '%s' WHERE id = ?" % self._tableName, (id,))
         object = self._gdb.cursor.fetchone()        
-        return object    
+        return object
+    
+    
+    def getObjectByIdNew(self, id):
+        self._gdb.cursor.execute("SELECT * FROM '%s' WHERE id = ?" % self._tableName, (id,))
+        dbRow = self._gdb.cursor.fetchone()
+        obj = self.fromDb(dbRow)
+        return obj
+    
     
     def getObjectsByWildcardQuery(self, query, args):        
         #double Args for WildCard-Comparison (0 = 0)
@@ -168,22 +196,43 @@ class DataBaseObject:
         self._gdb.cursor.execute(query, args)
         allObjects = self._gdb.cursor.fetchall()        
         return allObjects
+    
+    def getObjectsByQuerynew(self, query, args):
+        self._gdb.cursor.execute(query, args)
+        allObjects = self._gdb.cursor.fetchall()
+        
+        dbObjects = []
+        for dbRow in allObjects:            
+            dbObjects.append(self.fromDb(dbRow))
+                
+        return dbObjects
         
     def getObjectsByQueryNoArgs(self, query):
         self._gdb.cursor.execute(query)
-        allObjects = self._gdb.cursor.fetchall()        
+        allObjects = self._gdb.cursor.fetchall()
         return allObjects
+    
+    
+    def getObjectsByQueryNoArgsnew(self, query):
+        self._gdb.cursor.execute(query)
+        allObjects = self._gdb.cursor.fetchall()
+        dbObjects = []
+        for dbRow in allObjects:            
+            dbObjects.append(self.fromDb(dbRow))
+                
+        return dbObjects
+
 
     def getObjectByQuery(self, query, args):        
         self._gdb.cursor.execute(query, args)
         object = self._gdb.cursor.fetchone()        
         return object
     
-    def getFileAllFilesByRCId(self, id):
-        self._gdb.cursor.execute('select File.name from File, Game where Game.romcollectionid=? and File.parentId=Game.id and File.fileTypeId=0', (id,))
-        objects = self._gdb.cursor.fetchall()
-        results = [r[0] for r in objects]
-        return results
+    def getObjectByQuerynew(self, query, args):        
+        self._gdb.cursor.execute(query, args)
+        dbRow = self._gdb.cursor.fetchone()
+        obj = self.fromDb(dbRow)
+        return obj
     
     def encodeUtf8(self, list):
         newList = []
