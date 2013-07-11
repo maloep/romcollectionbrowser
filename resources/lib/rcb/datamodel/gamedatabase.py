@@ -403,9 +403,22 @@ class File(DataBaseObject):
 	__deleteQuery = "DELETE FROM File WHERE parentId= ?"
 	
 	deleteFileQuery = "DELETE FROM File WHERE Id= ?"
+		
+	
 	def __init__(self, gdb):		
 		self._gdb = gdb
 		self._tableName = "File"
+		
+	def fromDb(self, row):
+		file = File(self._gdb)
+		
+		if(not row):
+			return file
+		
+		file.id = row[util.ROW_ID]
+		file.name = row[util.ROW_NAME]
+		
+		return file
 			
 	def getFileByNameAndType(self, name, type):
 		file = self.getObjectByQuery(self.filterQueryByNameAndType, (name, type))
@@ -447,3 +460,9 @@ class File(DataBaseObject):
 	def getFilesList(self):
 		files = self.getObjectsByQueryNoArgs(self.getFileList)
 		return files
+	
+	def getFileAllFilesByRCId(self, id):
+		self._gdb.cursor.execute('select File.name from File, Game where Game.romcollectionid=? and File.parentId=Game.id and File.fileTypeId=0', (id,))
+		objects = self._gdb.cursor.fetchall()
+		results = [r[0] for r in objects]
+		return results

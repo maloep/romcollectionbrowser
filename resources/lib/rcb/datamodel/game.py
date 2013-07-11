@@ -54,6 +54,9 @@ class Game(DataBaseObject):
         
         game = Game(self._gdb)
         
+        if(not row):
+            return game
+        
         game.id = row[util.ROW_ID]
         game.name = row[util.ROW_NAME]
         game.description = row[util.GAME_description]
