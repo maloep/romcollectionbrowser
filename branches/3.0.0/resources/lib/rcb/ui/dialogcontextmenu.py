@@ -165,10 +165,13 @@ class ContextMenuDialog(xbmcgui.WindowXMLDialog):
 				keyboard.doModal()
 				if (keyboard.isConfirmed()):
 					command = keyboard.getText()
+				else:
+					return
 					
 			if(command != origCommand):
 				Logutil.log("Updating game '%s' with command '%s'" %(str(self.game.name), command), util.LOG_LEVEL_INFO)
-				Game(self.gui.gdb).update(('gameCmd',), (command,), self.game.id, True)
+				self.game.gameCmd = command
+				Game(self.gui.gdb).updateSingleColumns(('gameCmd',), self.game, True)
 				self.gui.gdb.commit()
 				
 		elif (controlID == 5118): #(Un)Mark as Favorite
@@ -183,7 +186,8 @@ class ContextMenuDialog(xbmcgui.WindowXMLDialog):
 				isFavorite = 0
 			
 			Logutil.log("Updating game '%s' set isFavorite = %s" %(str(self.game.name), str(isFavorite)), util.LOG_LEVEL_INFO)
-			Game(self.gui.gdb).update(('isFavorite',), (isFavorite,), self.game.id, True)
+			self.game.isFavorite = isFavorite
+			Game(self.gui.gdb).updateSingleColumns(('isFavorite',), self.game, True)
 			self.gui.gdb.commit()
 						
 			if(isFavorite == 0):
@@ -199,7 +203,7 @@ class ContextMenuDialog(xbmcgui.WindowXMLDialog):
 						
 			isFavorite = 1
 			if(self.game.isFavorite == 1):
-				isFavorite = 0
+				isFavorite = ''
 			
 			listSize = self.gui.getListSize()
 			for i in range(0, listSize):
@@ -207,7 +211,8 @@ class ContextMenuDialog(xbmcgui.WindowXMLDialog):
 				selectedGame, game = self.gui.getGameByPosition(self.gui.gdb, i)
 			
 				Logutil.log("Updating game '%s' set isFavorite = %s" %(str(game.name), str(isFavorite)), util.LOG_LEVEL_INFO)
-				Game(self.gui.gdb).update(('isFavorite',), (isFavorite,), game.id, True)
+				game.isFavorite = isFavorite
+				Game(self.gui.gdb).updateSingleColumns(('isFavorite',), game, True)
 				selectedGame.setProperty('isfavorite', str(isFavorite))
 			self.gui.gdb.commit()
 			
