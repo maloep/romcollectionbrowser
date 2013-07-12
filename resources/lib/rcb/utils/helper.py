@@ -1,18 +1,23 @@
 import xbmc
 import os, sys, re
-from resources.lib.rcb.datamodel.gamedatabase import *
+from resources.lib.rcb.datamodel.gamedatabase import GameDataBase, Reviewer, GenreGame
+from resources.lib.rcb.datamodel.year import Year
+from resources.lib.rcb.datamodel.publisher import Publisher
+from resources.lib.rcb.datamodel.developer import Developer
+from resources.lib.rcb.datamodel.genre import Genre
+from resources.lib.rcb.datamodel.rcbsetting import RCBSetting
 import util
 from util import *
 from resources.lib.rcb.configuration import config
 
 
-def cacheFiles(fileRows):
+def cacheFiles(files):
 		
 	Logutil.log("Begin cacheFiles" , util.LOG_LEVEL_DEBUG)
 	
 	fileDict = {}
-	for fileRow in fileRows:
-		key = '%i;%i' % (fileRow[util.FILE_parentId] , fileRow[util.FILE_fileTypeId])
+	for file in files:
+		key = '%i;%i' % (file.parentId , file.fileTypeId)
 		item = None
 		try:
 			item = fileDict[key]
@@ -20,11 +25,11 @@ def cacheFiles(fileRows):
 			pass
 		if(item == None):
 			fileRowList = []
-			fileRowList.append(fileRow)
+			fileRowList.append(file)
 			fileDict[key] = fileRowList
 		else:				
 			fileRowList = fileDict[key]
-			fileRowList.append(fileRow)
+			fileRowList.append(file)
 			fileDict[key] = fileRowList
 			
 	Logutil.log("End cacheFiles" , util.LOG_LEVEL_DEBUG)
@@ -33,13 +38,13 @@ def cacheFiles(fileRows):
 
 def cacheYears(gdb):
 	Logutil.log("Begin cacheYears" , util.LOG_LEVEL_DEBUG)
-	yearRows = Year(gdb).getAll()
-	if(yearRows == None):
+	years = Year(gdb).getAll()
+	if(years == None):
 		Logutil.log("yearRows == None in cacheYears", util.LOG_LEVEL_WARNING)
 		return
 	yearDict = {}
-	for yearRow in yearRows:
-		yearDict[yearRow[util.ROW_ID]] = yearRow
+	for year in years:
+		yearDict[year.id] = year
 		
 	Logutil.log("End cacheYears" , util.LOG_LEVEL_DEBUG)
 	return yearDict
@@ -47,13 +52,13 @@ def cacheYears(gdb):
 	
 def cacheReviewers(gdb):
 	Logutil.log("Begin cacheReviewers" , util.LOG_LEVEL_DEBUG)
-	reviewerRows = Reviewer(gdb).getAll()
-	if(reviewerRows == None):
+	reviewers = Reviewer(gdb).getAll()
+	if(reviewers == None):
 		Logutil.log("reviewerRows == None in cacheReviewers", util.LOG_LEVEL_WARNING)
 		return
 	reviewerDict = {}
-	for reviewerRow in reviewerRows:
-		reviewerDict[reviewerRow[util.ROW_ID]] = reviewerRow
+	for reviewer in reviewers:
+		reviewerDict[reviewer.id] = reviewer
 		
 	Logutil.log("End cacheReviewers" , util.LOG_LEVEL_DEBUG)
 	return reviewerDict
@@ -61,13 +66,13 @@ def cacheReviewers(gdb):
 
 def cachePublishers(gdb):
 	Logutil.log("Begin cachePublishers" , util.LOG_LEVEL_DEBUG)
-	publisherRows = Publisher(gdb).getAll()
-	if(publisherRows == None):
+	publishers = Publisher(gdb).getAll()
+	if(publishers == None):
 		Logutil.log("publisherRows == None in cachePublishers", util.LOG_LEVEL_WARNING)
 		return
 	publisherDict = {}
-	for publisherRow in publisherRows:
-		publisherDict[publisherRow[util.ROW_ID]] = publisherRow
+	for publisher in publishers:
+		publisherDict[publisher.id] = publisher
 		
 	Logutil.log("End cachePublishers" , util.LOG_LEVEL_DEBUG)
 	return publisherDict
@@ -75,13 +80,13 @@ def cachePublishers(gdb):
 	
 def cacheDevelopers(gdb):
 	Logutil.log("Begin cacheDevelopers" , util.LOG_LEVEL_DEBUG)
-	developerRows = Developer(gdb).getAll()
-	if(developerRows == None):
+	developers = Developer(gdb).getAll()
+	if(developers == None):
 		Logutil.log("developerRows == None in cacheDevelopers", util.LOG_LEVEL_WARNING)
 		return
 	developerDict = {}
-	for developerRow in developerRows:
-		developerDict[developerRow[util.ROW_ID]] = developerRow
+	for developer in developers:
+		developerDict[developer.id] = developer
 		
 	Logutil.log("End cacheDevelopers" , util.LOG_LEVEL_DEBUG)
 	return developerDict
@@ -91,13 +96,13 @@ def cacheGenres(gdb):
 	
 	Logutil.log("Begin cacheGenres" , util.LOG_LEVEL_DEBUG)
 			
-	genreGameRows = GenreGame(gdb).getAll()
-	if(genreGameRows == None):
+	genreGames = GenreGame(gdb).getAll()
+	if(genreGames == None):
 		Logutil.log("genreRows == None in cacheGenres", util.LOG_LEVEL_WARNING)
 		return
 	genreDict = {}
-	for genreGameRow in genreGameRows:
-		key = genreGameRow[util.GENREGAME_gameId]
+	for genreGame in genreGames:
+		key = genreGame.gameId
 		item = None
 		try:
 			item = genreDict[key]
@@ -105,15 +110,15 @@ def cacheGenres(gdb):
 		except:
 			pass
 			
-		genreRows = Genre(gdb).getGenresByGameId(genreGameRow[util.GENREGAME_gameId])
-		for i in range(0, len(genreRows)):
+		genres = Genre(gdb).getGenresByGameId(genreGame.gameId)
+		for i in range(0, len(genres)):
 			if(i == 0):
-				genres = genreRows[i][util.ROW_NAME]	
-				genreDict[key] = genres
+				newgenres = genres[i].name
+				genreDict[key] = newgenres
 			else:				
-				genres = genreDict[key]					
-				genres = genres + ', ' + genreRows[i][util.ROW_NAME]					
-				genreDict[key] = genres
+				newgenres = genreDict[key]					
+				newgenres = newgenres + ', ' + genres[i].name					
+				genreDict[key] = newgenres
 			
 	Logutil.log("End cacheGenres" , util.LOG_LEVEL_DEBUG)
 	return genreDict
@@ -129,11 +134,11 @@ def saveReadString(property):
 		return result
 
 
-def getPropertyFromCache(dataRow, dict, key, index):
+def getPropertyFromCache(key, dict, index):
 		
 	result = ""
 	try:
-		itemRow = dict[dataRow[key]]
+		itemRow = dict[key]
 		result = itemRow[index]
 	except:
 		pass
@@ -179,7 +184,7 @@ def getFilesByControl_Cached(gdb, fileTypes, gameId, publisherId, developerId, r
 			continue
 			
 		for file in files:
-			mediaFiles.append(file[1])
+			mediaFiles.append(file.name)
 	
 	return mediaFiles
 		
@@ -202,11 +207,27 @@ def saveViewState(gdb, isOnExit, selectedView, selectedGameIndex, selectedConsol
 		return
 	
 	if(saveViewState):
-		RCBSetting(gdb).update(('lastSelectedView', 'lastSelectedConsoleIndex', 'lastSelectedGenreIndex', 'lastSelectedPublisherIndex', 'lastSelectedYearIndex', 'lastSelectedGameIndex', 'lastFocusedControlMainView', 'lastFocusedControlGameInfoView', 'lastSelectedCharacterIndex'),
-			(selectedView, selectedConsoleIndex, selectedGenreIndex, selectedPublisherIndex, selectedYearIndex, selectedGameIndex, selectedControlIdMainView, selectedControlIdGameInfoView, selectedCharacterIndex), rcbSetting[0], True)
+		rcbSetting.lastSelectedView = selectedView
+		rcbSetting.lastSelectedConsoleIndex = selectedConsoleIndex 
+		rcbSetting.lastSelectedGenreIndex = selectedGenreIndex
+		rcbSetting.lastSelectedPublisherIndex = selectedPublisherIndex
+		rcbSetting.lastSelectedYearIndex = selectedYearIndex
+		rcbSetting.lastSelectedGameIndex = selectedGameIndex
+		rcbSetting.lastFocusedControlMainView = selectedControlIdMainView
+		rcbSetting.lastFocusedControlGameInfoView = selectedControlIdGameInfoView
+		rcbSetting.lastSelectedCharacterIndex = selectedCharacterIndex
 	else:
-		RCBSetting(gdb).update(('lastSelectedView', 'lastSelectedConsoleIndex', 'lastSelectedGenreIndex', 'lastSelectedPublisherIndex', 'lastSelectedYearIndex', 'lastSelectedGameIndex', 'lastFocusedControlMainView', 'lastFocusedControlGameInfoView', 'lastSelectedCharacterIndex'),
-			(None, None, None, None, None, None, None, None, None), rcbSetting[util.ROW_ID], True)
+		rcbSetting.lastSelectedView = None
+		rcbSetting.lastSelectedConsoleIndex = None 
+		rcbSetting.lastSelectedGenreIndex = None
+		rcbSetting.lastSelectedPublisherIndex = None
+		rcbSetting.lastSelectedYearIndex = None
+		rcbSetting.lastSelectedGameIndex = None
+		rcbSetting.lastFocusedControlMainView = None
+		rcbSetting.lastFocusedControlGameInfoView = None
+		rcbSetting.lastSelectedCharacterIndex = None
+		
+	RCBSetting(gdb).updateAllColumns(rcbSetting, True)
 			
 	gdb.commit()
 	

@@ -100,10 +100,12 @@ class Main():
 	def gatherWidgetData(self, param):
 		print 'start gatherWidgetData'
 		import resources.lib.rcb.utils.util, resources.lib.rcb.utils.helper
-		from resources.lib.rcb.datamodel.gamedatabase import Game, GameDataBase, File
+		from resources.lib.rcb.datamodel.gamedatabase import GameDataBase
+		from resources.lib.rcb.datamodel.game import Game
+		from resources.lib.rcb.datamodel.file import File
 		from resources.lib.rcb.configuration.config import Config, RomCollection
 		
-		gdb = GameDataBase(util.getAddonDataPath())
+		gdb = GameDataBase(util.getAddonDataPath(), 'MyGames.db')
 		gdb.connect()
 		
 		doImport, errorMsg = gdb.checkDBStructure()
@@ -131,58 +133,55 @@ class Main():
 		import xbmcgui
 		from xbmcgui import Window
 		count = 0
-		for gameRow in games:
+		for game in games:
 		
 			count += 1
 			try:
-				print "Gathering data for rom no %i: %s" %(count, gameRow[util.ROW_NAME])
+				print "Gathering data for rom no %i: %s" %(count, game.name)
 				
-				romCollection = config.romCollections[str(gameRow[util.GAME_romCollectionId])]				
+				romCollection = config.romCollections[str(game.romCollectionId)]				
 		
 				#get artwork that is chosen to be shown in gamelist
-				files = File(gdb).getFilesByParentIds(gameRow[util.ROW_ID], gameRow[util.GAME_romCollectionId], gameRow[util.GAME_publisherId], gameRow[util.GAME_developerId])
+				files = File(gdb).getFilesByParentIds(game.id, game.romCollectionId, game.publisherId, game.developerId)
 				fileDict = helper.cacheFiles(files)
-				files = helper.getFilesByControl_Cached(gdb, romCollection.imagePlacingMain.fileTypesForGameList, gameRow[util.ROW_ID], gameRow[util.GAME_publisherId], gameRow[util.GAME_developerId], gameRow[util.GAME_romCollectionId], fileDict)		
+				files = helper.getFilesByControl_Cached(gdb, romCollection.imagePlacingMain.fileTypesForGameList, game.id, game.publisherId, game.developerId, game.romCollectionId, fileDict)		
 				if(files != None and len(files) != 0):
 					thumb = files[0]
 				else:
 					thumb = ""
 					
-				files = helper.getFilesByControl_Cached(gdb, romCollection.imagePlacingMain.fileTypesForMainViewBackground, gameRow[util.ROW_ID], gameRow[util.GAME_publisherId], gameRow[util.GAME_developerId], gameRow[util.GAME_romCollectionId], fileDict)		
+				files = helper.getFilesByControl_Cached(gdb, romCollection.imagePlacingMain.fileTypesForMainViewBackground, game.id, game.publisherId, game.developerId, game.romCollectionId, fileDict)
 				if(files != None and len(files) != 0):
 					fanart = files[0]
 				else:
 					fanart = ""
 				
-				description = gameRow[util.GAME_description]
+				description = game.description
 				if(description == None):
 					description = ""
 				
-				year = helper.getPropertyFromCache(gameRow, yearDict, util.GAME_yearId, util.ROW_NAME)
-				publisher = helper.getPropertyFromCache(gameRow, publisherDict, util.GAME_publisherId, util.ROW_NAME)
-				developer = helper.getPropertyFromCache(gameRow, developerDict, util.GAME_developerId, util.ROW_NAME)
-				genre = genreDict[gameRow[util.ROW_ID]]
+				year = helper.getPropertyFromCache(game.yearId, yearDict, util.ROW_NAME)
+				publisher = helper.getPropertyFromCache(game.publisherId, publisherDict, util.ROW_NAME)
+				developer = helper.getPropertyFromCache(game.developerId, developerDict, util.ROW_NAME)
+				genre = genreDict[game.id]
 				
-				maxplayers = helper.saveReadString(gameRow[util.GAME_maxPlayers])
-				rating = helper.saveReadString(gameRow[util.GAME_rating])
-				votes = helper.saveReadString(gameRow[util.GAME_numVotes])
-				url = helper.saveReadString(gameRow[util.GAME_url])
-				region = helper.saveReadString(gameRow[util.GAME_region])
-				media = helper.saveReadString(gameRow[util.GAME_media])				
-				perspective = helper.saveReadString(gameRow[util.GAME_perspective])
-				controllertype = helper.saveReadString(gameRow[util.GAME_controllerType])
-				originaltitle = helper.saveReadString(gameRow[util.GAME_originalTitle])
-				alternatetitle = helper.saveReadString(gameRow[util.GAME_alternateTitle])
-				translatedby = helper.saveReadString(gameRow[util.GAME_translatedBy])
-				version = helper.saveReadString(gameRow[util.GAME_version])
-				playcount = helper.saveReadString(gameRow[util.GAME_launchCount])
+				maxplayers = helper.saveReadString(game.maxPlayers)
+				rating = helper.saveReadString(game.rating)
+				votes = helper.saveReadString(game.numVotes)
+				url = helper.saveReadString(game.url)
+				region = helper.saveReadString(game.region)
+				media = helper.saveReadString(game.media)				
+				perspective = helper.saveReadString(game.perspective)
+				controllertype = helper.saveReadString(game.controllerType)
+				originaltitle = helper.saveReadString(game.originalTitle)
+				alternatetitle = helper.saveReadString(game.alternateTitle)
+				translatedby = helper.saveReadString(game.translatedBy)
+				version = helper.saveReadString(game.version)
+				playcount = helper.saveReadString(game.launchCount)
 				
-				#get launch command
-				filenameRows = File(gdb).getRomsByGameId(gameRow[util.ROW_ID])
-				
-				xbmcgui.Window(10000).setProperty("MostPlayedROM.%d.Id" %count, str(gameRow[util.ROW_ID]))
+				xbmcgui.Window(10000).setProperty("MostPlayedROM.%d.Id" %count, str(game.id))
 				xbmcgui.Window(10000).setProperty("MostPlayedROM.%d.Console" %count, romCollection.name)
-				xbmcgui.Window(10000).setProperty("MostPlayedROM.%d.Title" %count, gameRow[util.ROW_NAME])
+				xbmcgui.Window(10000).setProperty("MostPlayedROM.%d.Title" %count, game.name)
 				xbmcgui.Window(10000).setProperty("MostPlayedROM.%d.Thumb" %count, thumb)
 				xbmcgui.Window(10000).setProperty("MostPlayedROM.%d.Fanart" %count, fanart)
 				xbmcgui.Window(10000).setProperty("MostPlayedROM.%d.Plot" %count, description)
@@ -217,7 +216,7 @@ class Main():
 		from resources.lib.rcb.datamodel.gamedatabase import GameDataBase
 		from resources.lib.rcb.configuration.config import Config
 		
-		gdb = GameDataBase(util.getAddonDataPath())
+		gdb = GameDataBase(util.getAddonDataPath(), 'MyGames.db')
 		gdb.connect()
 		
 		gameId = int(param.replace('launchid=', ''))

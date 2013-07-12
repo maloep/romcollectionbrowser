@@ -6,8 +6,9 @@ import time
 from resources.lib.rcb.utils import util
 from resources.lib.rcb.utils.util import *
 
-from resources.lib.rcb.datamodel.gamedatabase import GameDataBase, File
+from resources.lib.rcb.datamodel.gamedatabase import GameDataBase
 from resources.lib.rcb.datamodel.databaseobject import DataBaseObject
+from resources.lib.rcb.datamodel.file import File
 from resources.lib.rcb.datamodel.game import Game
 
 class TestDataBaseObject(unittest.TestCase):
@@ -33,7 +34,7 @@ class TestDataBaseObject(unittest.TestCase):
         self._gdb = GameDataBase(self._databasedir, 'MyGames-TestPerformance.db')
         self._gdb.connect()
         
-        results = Game(self._gdb).getAllnew()
+        results = Game(self._gdb).getAll()
         
         print len(results)
         print results[12].maxPlayers
@@ -44,7 +45,7 @@ class TestDataBaseObject(unittest.TestCase):
         self._gdb = GameDataBase(self._databasedir, 'MyGames-TestPerformance.db')
         self._gdb.connect()
         
-        results = Game(self._gdb).getAllOrderednew()
+        results = Game(self._gdb).getAllOrdered()
         
         print len(results)
         print results[12].name
@@ -56,7 +57,7 @@ class TestDataBaseObject(unittest.TestCase):
         self._gdb.connect()
         
         gamename = 'Super Mario Kart'
-        game = Game(self._gdb).getOneByNameNew(gamename)
+        game = Game(self._gdb).getOneByName(gamename)
         
         self.assertEqual(game.name, gamename, 'expected: %s, result: %s' %(gamename, game.name))
 
@@ -67,7 +68,7 @@ class TestDataBaseObject(unittest.TestCase):
         self._gdb.connect()
         
         gameid = 5
-        game = Game(self._gdb).getObjectByIdNew(gameid)
+        game = Game(self._gdb).getObjectById(gameid)
         
         self.assertEqual(game.id, gameid, 'expected: %s, result: %s' %(game.id, gameid))
     
@@ -78,7 +79,7 @@ class TestDataBaseObject(unittest.TestCase):
         self._gdb.connect()
         
         query = "Select * From Game Where launchCount > 0 Order by launchCount desc Limit 10"
-        results = Game(self._gdb).getObjectsByQuerynew(query, [])
+        results = Game(self._gdb).getObjectsByQuery(query, [])
         
         print len(results)
         print results[7].name
@@ -90,7 +91,7 @@ class TestDataBaseObject(unittest.TestCase):
         self._gdb.connect()
         
         query = "SELECT * FROM File WHERE filetypeid = 0"
-        results = File(self._gdb).getObjectsByQueryNoArgsnew(query)
+        results = File(self._gdb).getObjectsByQueryNoArgs(query)
         
         print len(results)
         print results[7].name
@@ -103,7 +104,7 @@ class TestDataBaseObject(unittest.TestCase):
         
         query = "SELECT * FROM Game WHERE name = ? and romCollectionId = ?"
         args = ("Super Mario Kart", 5)
-        game = Game(self._gdb).getObjectByQuerynew(query, args)
+        game = Game(self._gdb).getObjectByQuery(query, args)
         
         gamename =args[0]
         self.assertEqual(gamename, game.name, 'expected: %s, result: %s' %(gamename, game.name))
@@ -120,7 +121,7 @@ class TestDataBaseObject(unittest.TestCase):
     
         game.name = 'testgame'
         game.description = 'test description'
-        game.insertnew(game)
+        game.insert(game)
         self._gdb.commit()
             
     
@@ -135,7 +136,7 @@ class TestDataBaseObject(unittest.TestCase):
         game.name = 'testgame'
         game.description = 'test description'
         
-        game.insertnew(game)
+        game.insert(game)
         self._gdb.commit()
         
         game.id = self._gdb.cursor.lastrowid
@@ -155,7 +156,7 @@ class TestDataBaseObject(unittest.TestCase):
         game.name = 'testgame'
         game.description = 'test description'
         
-        game.insertnew(game)
+        game.insert(game)
         self._gdb.commit()
         
         game.id = self._gdb.cursor.lastrowid

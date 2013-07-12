@@ -21,14 +21,14 @@ class DataBaseObject:
         return dict
                 
     
-    def insert(self, args):
+    def insertold(self, args):
         paramsString = ( "?, " * len(args))
         paramsString = paramsString[0:len(paramsString)-2]
         insertString = "Insert INTO %(tablename)s VALUES (NULL, %(args)s)" % {'tablename':self._tableName, 'args': paramsString }        
         self._gdb.cursor.execute(insertString, args)
     
     
-    def insertnew(self, obj):
+    def insert(self, obj):
         
         dict = obj.toDict()
         
@@ -44,7 +44,7 @@ class DataBaseObject:
         self._gdb.cursor.execute(insertString, dict.values())
     
     
-    def update(self, columns, argsOrig, id, updateWithNullValues):
+    def updateold(self, columns, argsOrig, id, updateWithNullValues):
         
         if(len(columns) != len(argsOrig)):
             util.Logutil.log("len columns != len args in _gdb.update()", util.LOG_LEVEL_WARNING)            
@@ -119,14 +119,14 @@ class DataBaseObject:
         count = self._gdb.cursor.fetchall()
         return count[0][0]
         
-    def getAll(self):
+    def getAllold(self):
         self._gdb.cursor.execute("SELECT * FROM '%s'" % self._tableName)
         allObjects = self._gdb.cursor.fetchall()
         newList = self.encodeUtf8(allObjects)
         return newList
     
     
-    def getAllnew(self):
+    def getAll(self):
         self._gdb.cursor.execute("SELECT * FROM '%s'" % self._tableName)
         allObjects = self._gdb.cursor.fetchall()
         newList = self.encodeUtf8(allObjects)
@@ -138,14 +138,14 @@ class DataBaseObject:
         return dbObjects
         
         
-    def getAllOrdered(self):        
+    def getAllOrderedold(self):        
         self._gdb.cursor.execute("SELECT * FROM '%s' ORDER BY name COLLATE NOCASE" % self._tableName)
         allObjects = self._gdb.cursor.fetchall()
         newList = self.encodeUtf8(allObjects)
         return newList
     
 
-    def getAllOrderednew(self):
+    def getAllOrdered(self):
         self._gdb.cursor.execute("SELECT * FROM '%s' ORDER BY name COLLATE NOCASE" % self._tableName)
         allObjects = self._gdb.cursor.fetchall()
         newList = self.encodeUtf8(allObjects)
@@ -157,26 +157,26 @@ class DataBaseObject:
         return dbObjects   
         
         
-    def getOneByName(self, name):
+    def getOneByNameold(self, name):
         self._gdb.cursor.execute("SELECT * FROM '%s' WHERE name = ?" % self._tableName, (name,))
         object = self._gdb.cursor.fetchone()
         return object
     
     
-    def getOneByNameNew(self, name):
+    def getOneByName(self, name):
         self._gdb.cursor.execute("SELECT * FROM '%s' WHERE name = ?" % self._tableName, (name,))
         dbRow = self._gdb.cursor.fetchone()
         obj = self.fromDb(dbRow)
         return obj
     
         
-    def getObjectById(self, id):
+    def getObjectByIdold(self, id):
         self._gdb.cursor.execute("SELECT * FROM '%s' WHERE id = ?" % self._tableName, (id,))
         object = self._gdb.cursor.fetchone()        
         return object
     
     
-    def getObjectByIdNew(self, id):
+    def getObjectById(self, id):
         self._gdb.cursor.execute("SELECT * FROM '%s' WHERE id = ?" % self._tableName, (id,))
         dbRow = self._gdb.cursor.fetchone()
         obj = self.fromDb(dbRow)
@@ -192,28 +192,29 @@ class DataBaseObject:
                     
         return self.getObjectsByQuery(query, newArgs)        
         
-    def getObjectsByQuery(self, query, args):
+    def getObjectsByQueryold(self, query, args):
         self._gdb.cursor.execute(query, args)
         allObjects = self._gdb.cursor.fetchall()        
         return allObjects
     
-    def getObjectsByQuerynew(self, query, args):
+    def getObjectsByQuery(self, query, args):
         self._gdb.cursor.execute(query, args)
         allObjects = self._gdb.cursor.fetchall()
+        allObjectsUtf8 = self.encodeUtf8(allObjects)
         
         dbObjects = []
-        for dbRow in allObjects:            
+        for dbRow in allObjectsUtf8:            
             dbObjects.append(self.fromDb(dbRow))
                 
         return dbObjects
         
-    def getObjectsByQueryNoArgs(self, query):
+    def getObjectsByQueryNoArgsold(self, query):
         self._gdb.cursor.execute(query)
         allObjects = self._gdb.cursor.fetchall()
         return allObjects
     
     
-    def getObjectsByQueryNoArgsnew(self, query):
+    def getObjectsByQueryNoArgs(self, query):
         self._gdb.cursor.execute(query)
         allObjects = self._gdb.cursor.fetchall()
         dbObjects = []
@@ -223,12 +224,12 @@ class DataBaseObject:
         return dbObjects
 
 
-    def getObjectByQuery(self, query, args):        
+    def getObjectByQueryold(self, query, args):        
         self._gdb.cursor.execute(query, args)
         object = self._gdb.cursor.fetchone()        
         return object
     
-    def getObjectByQuerynew(self, query, args):        
+    def getObjectByQuery(self, query, args):        
         self._gdb.cursor.execute(query, args)
         dbRow = self._gdb.cursor.fetchone()
         obj = self.fromDb(dbRow)
