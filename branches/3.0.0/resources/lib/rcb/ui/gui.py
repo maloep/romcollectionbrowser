@@ -158,10 +158,10 @@ class UIGameDB(xbmcgui.WindowXML):
 		if not success:
 			self.quit = True
 			return
-	
-	   	success = self.initializeDataBase()
-	   	if not success:
-	   		self.quit = True
+		
+		success = self.initializeDataBase()
+		if not success:
+			self.quit = True
 			return
 		
 		cachingOptionStr = self.Settings.getSetting(util.SETTING_RCB_CACHINGOPTION)
@@ -272,8 +272,6 @@ class UIGameDB(xbmcgui.WindowXML):
 				
 		#reset last view		
 		self.loadViewState()
-		
-		#self.fillListInBackground()
 		
 		#check startup tasks done with autoexec.py
 		if(not self.useRCBService):
@@ -633,7 +631,7 @@ class UIGameDB(xbmcgui.WindowXML):
 				
 		timestamp2 = time.clock()
 		diff = (timestamp2 - timestamp1) * 1000
-		Logutil.log("showGames: load games from db in %d ms" % (diff), util.LOG_LEVEL_INFO)		
+		Logutil.log("showGames: load %i games from db in %d ms" % (len(games), diff), util.LOG_LEVEL_INFO)		
 	
 		self.writeMsg(util.localize(40021))
 		
@@ -642,7 +640,7 @@ class UIGameDB(xbmcgui.WindowXML):
 		
 		self.clearList()
 		self.rcb_playList.clear()
-		
+				
 		count = 0
 		for game in games:
 						
@@ -655,7 +653,7 @@ class UIGameDB(xbmcgui.WindowXML):
 			try:
 				#images for gamelist
 				imageGameList = self.getFileForControl(romCollection.imagePlacingMain.fileTypesForGameList, game.id, game.publisherId, game.developerId, game.romCollectionId, fileDict)
-				imageGameListSelected = self.getFileForControl(romCollection.imagePlacingMain.fileTypesForGameListSelected, game.id, game.publisherId, game.developerId, game.romCollectionId, fileDict)
+				imageGameListSelected = self.getFileForControl(romCollection.imagePlacingMain.fileTypesForGameListSelected, game.id, game.publisherId, game.developerId, game.romCollectionId, fileDict)				
 				
 				#create ListItem
 				item = xbmcgui.ListItem(game.name, str(game.id), imageGameList, imageGameListSelected)			
@@ -671,8 +669,7 @@ class UIGameDB(xbmcgui.WindowXML):
 				#0 = cacheAll: load all game data at once
 				if(self.cachingOption == 0):
 					self.setAllItemData(item, game, self.fileDict, romCollection)							
-								
-				#self.addItem(item, False)
+																
 				self.addItem(item)
 				
 				# add video to playlist for fullscreen support
@@ -682,7 +679,8 @@ class UIGameDB(xbmcgui.WindowXML):
 			except Exception, (exc):
 				Logutil.log('Error loading game: %s' % str(exc), util.LOG_LEVEL_ERROR)
 			
-		xbmc.executebuiltin("Container.SortDirection")
+		xbmc.executebuiltin("Container.SortDirection")		
+		
 		if(not self.xbmcVersionEden):
 			xbmcgui.unlock()
 		
@@ -690,7 +688,7 @@ class UIGameDB(xbmcgui.WindowXML):
 		
 		timestamp3 = time.clock()
 		diff = (timestamp3 - timestamp2) * 1000		
-		Logutil.log( "showGames: load %i games to list in %d ms" % (self.getListSize(), diff), util.LOG_LEVEL_INFO)
+		Logutil.log( "showGames: load %i games to list in %d ms" % (len(games), diff), util.LOG_LEVEL_INFO)
 		
 		Logutil.log("End showGames" , util.LOG_LEVEL_INFO)
 		
