@@ -5,9 +5,7 @@ from resources.lib.rcb.utils import util
 from resources.lib.rcb.utils.util import *
 
 
-class Publisher(DataBaseObject):    
-
-    publisherIdByGameIdQuery = "SELECT publisherId From Game Where Id = ?"
+class Publisher(DataBaseObject):
     
     __filterQuery = "SELECT * FROM Publisher WHERE Id IN (Select PublisherId From Game WHERE \
                         (romCollectionId = ? OR (0 = ?)) AND \
@@ -48,12 +46,6 @@ class Publisher(DataBaseObject):
         
         return publisher
         
-    def getPublisherIdByGameId(self, gameId):
-        publisherId = self.getObjectByQuery(self.publisherIdByGameIdQuery, (gameId,))
-        if(publisherId == None):
-            return None
-        else:
-            return publisherId[0]
         
     def getFilteredPublishers(self, romCollectionId, genreId, yearId, likeStatement):
         args = (romCollectionId, yearId, genreId)
@@ -66,10 +58,9 @@ class Publisher(DataBaseObject):
         publishers = self.getObjectsByWildcardQuery(self.filterPublishersByConsole, (romCollectionId,))
         return publishers
     
-    def delete(self, gameId):
-        publisherId = self.getPublisherIdByGameId(gameId)
+    def delete(self, publisherId):
         if(publisherId != None):
-            object = self.getObjectByQuery(self.publisherIdCountQuery, (publisherId,))
+            object = self.getCountByQuery(self.publisherIdCountQuery, (publisherId,))
             if (object[0] < 2):
                 util.Logutil.log("Delete Publisher with id %s" % str(publisherId), util.LOG_LEVEL_INFO)
                 self.deleteObjectByQuery(self.publisherDeleteQuery, (publisherId,))

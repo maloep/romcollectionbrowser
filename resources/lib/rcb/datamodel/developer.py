@@ -6,8 +6,6 @@ from resources.lib.rcb.utils.util import *
 
 
 class Developer(DataBaseObject):
-
-    developerIdByGameIdQuery = "SELECT developerId From Game Where Id = ?"
     
     developerIdCountQuery = "SELECT count(developerId) 'developerIdCount' \
                     from Game \
@@ -36,18 +34,10 @@ class Developer(DataBaseObject):
         
         return developer
     
-
-    def getDeveloperIdByGameId(self, gameId):
-        developerId = self.getObjectByQuery(self.developerIdByGameIdQuery, (gameId,))
-        if(developerId == None):
-            return None
-        else:
-            return developerId[0]
     
-    def delete(self, gameId):
-        developerId = self.getDeveloperIdByGameId(gameId)
+    def delete(self, developerId):
         if(developerId != None):
-            object = self.getObjectByQuery(self.developerIdCountQuery, (developerId,))
+            object = self.getCountByQuery(self.developerIdCountQuery, (developerId,))
             if (object[0] < 2):
                 util.Logutil.log("Delete Developer with id %s" % str(developerId), util.LOG_LEVEL_INFO)
                 self.deleteObjectByQuery(self.developerDeleteQuery, (developerId,))

@@ -7,8 +7,6 @@ from resources.lib.rcb.utils.util import *
 
 class Year(DataBaseObject):
     
-    yearIdByGameIdQuery = "SELECT yearId From Game Where Id = ?"
-    
     #obsolete: atm years are only filtered by console
     __filterQuery = "SELECT * FROM Year WHERE Id IN (Select YearId From Game WHERE \
                         (romCollectionId = ? OR (0 = ?)) AND \
@@ -48,13 +46,7 @@ class Year(DataBaseObject):
         year.name = row[util.ROW_NAME]
         
         return year
-        
-    def getYearIdByGameId(self, gameId):
-        yearId = self.getObjectByQuery(self.yearIdByGameIdQuery, (gameId,))
-        if(yearId == None):
-            return None
-        else:
-            return yearId[0]
+
     
     def getFilteredYears(self, romCollectionId, genreId, publisherId, likeStatement):
         args = (romCollectionId, publisherId, genreId)
@@ -67,10 +59,11 @@ class Year(DataBaseObject):
         years = self.getObjectsByWildcardQuery(self.filterYearByConsole, (romCollectionId,))
         return years
     
-    def delete(self, gameId):
-        yearId = self.getYearIdByGameId(gameId)    
-        if(yearId != None):    
-            object = self.getObjectByQuery(self.yearIdCountQuery, (yearId,))
-            if (object[0] < 2):
+    def delete(self, yearId):
+        
+        if(yearId != None):
+            count = self.getCountByQuery(self.yearIdCountQuery, (yearId,))
+            print count
+            if (count[0] < 2):
                 util.Logutil.log("Delete Year with id %s" % str(yearId), util.LOG_LEVEL_INFO)
                 self.deleteObjectByQuery(self.yearDeleteQuery, (yearId,))

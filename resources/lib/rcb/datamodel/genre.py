@@ -23,7 +23,7 @@ class Genre(DataBaseObject):
     
     filteGenreByGameId = "SELECT * FROM Genre WHERE Id IN (Select GenreId From GenreGame Where GameId = ?)"
     
-    filteGenreIdByGameId = "SELECT GenreId From GenreGame Where GameId = ?"
+    filteGenreIdByGameId = "SELECT * From GenreGame Where GameId = ?"
     
     genreIdCountQuery = "SELECT g.genreid, count(*) 'genreIdCount' \
                     from genregame g \
@@ -72,8 +72,8 @@ class Genre(DataBaseObject):
         return genres
 
     def getGenreIdByGameId(self, gameId):
-        genreId = self.getObjectsByQuery(self.filteGenreIdByGameId, (gameId,))
-        return genreId
+        genre = self.getObjectsByQuery(self.filteGenreIdByGameId, (gameId,))
+        return genre.id
         
     def delete(self, gameId):
         #genreId = self.getGenreIdByGameId(gameId)

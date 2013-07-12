@@ -823,21 +823,21 @@ class UIGameDB(xbmcgui.WindowXML):
 			self.showGameInfo()
 		
 		
-	def deleteGame(self, gameID):
-		Logutil.log("Begin deleteGame" , util.LOG_LEVEL_INFO)
+	def deleteGame(self, game):
+		Logutil.log("Begin deleteGame with id: %i" %game.id , util.LOG_LEVEL_INFO)
 		
 		Logutil.log("Delete Year" , util.LOG_LEVEL_INFO)
-		Year(self.gdb).delete(gameID)
+		Year(self.gdb).delete(game.yearId)
 		Logutil.log("Delete Publisher" , util.LOG_LEVEL_INFO)
-		Publisher(self.gdb).delete(gameID)
+		Publisher(self.gdb).delete(game.publisherId)
 		Logutil.log("Delete Developer" , util.LOG_LEVEL_INFO)
-		Developer(self.gdb).delete(gameID)
+		Developer(self.gdb).delete(game.developerId)
 		Logutil.log("Delete Genre" , util.LOG_LEVEL_INFO)
-		Genre(self.gdb).delete(gameID)
+		Genre(self.gdb).delete(game.id)
 		Logutil.log("Delete File" , util.LOG_LEVEL_INFO)
-		File(self.gdb).delete(gameID)
+		File(self.gdb).delete(game.id)
 		Logutil.log("Delete Game" , util.LOG_LEVEL_INFO)
-		Game(self.gdb).delete(gameID)
+		Game(self.gdb).delete(game.id)
 		
 		Logutil.log("End deleteGame" , util.LOG_LEVEL_INFO)
 	
@@ -857,7 +857,7 @@ class UIGameDB(xbmcgui.WindowXML):
 				count = count + 1
 				progDialogRCDelStat	= util.localize(40004) +" (%i / %i)" %(count, progressDialog.itemCount)	
 				progressDialog.writeMsg("", progDialogRCDelStat, "",count)	
-				self.deleteGame(game.id)
+				self.deleteGame(game)
 			if(len(games)>0):
 				progressDialog.writeMsg("", util.localize(40006), "",count)
 			else:
@@ -896,7 +896,9 @@ class UIGameDB(xbmcgui.WindowXML):
 				progressDialog2.writeMsg("", progDialogCleanStat, "",count)	
 				if (os.path.exists(file.name) != True):
 					if(file.fileTypeId == 0):
-						self.deleteGame(file.parentId)
+						game = Game(self.gdb).getObjectById(file.parentId)
+						if(game):
+							self.deleteGame(game)
 					else:
 						File(self.gdb).deleteByFileId(file.id)
 					removeCount = removeCount + 1
@@ -1077,26 +1079,6 @@ class UIGameDB(xbmcgui.WindowXML):
 			return None, None
 			
 		return selectedGame, game
-
-		
-	def getGameId(self, gdb, pos):
-		Logutil.log("pos = %s" % pos, util.LOG_LEVEL_INFO)
-		
-		selectedGame = self.getListItem(pos)
-
-		if(selectedGame == None):
-			Logutil.log("selectedGame == No game selected", util.LOG_LEVEL_WARNING)
-			return None
-		
-		gameId = selectedGame.getProperty('gameId')
-
-		if(gameId == None):			
-			Logutil.log("No Game Id Found", util.LOG_LEVEL_WARNING)
-			return None
-		
-		Logutil.log("gameId = " + gameId, util.LOG_LEVEL_INFO)
-		
-		return gameId
 		
 		
 	def loadGameInfos(self, game, selectedGame, pos, romCollection, fileDict):
