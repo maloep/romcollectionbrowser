@@ -330,14 +330,6 @@ RCBHOME = getAddonInstallPath()
 # Logging
 #
 
-
-try:
-	from sqlite3 import dbapi2 as sqlite
-	print("RCB_INFO: Loading sqlite3 as DB engine")
-except:
-	from pysqlite2 import dbapi2 as sqlite
-	print("RCB_INFO: Loading pysqlite2 as DB engine")
-
 class Logutil:
 	
 	currentLogLevel = None

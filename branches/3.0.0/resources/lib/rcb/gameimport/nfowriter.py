@@ -10,7 +10,10 @@ from resources.lib.rcb.configuration.config import *
 from resources.lib.rcb.datamodel.gamedatabase import *
 from resources.lib.rcb.utils.util import *
 from resources.lib.rcb.ui import dialogprogress
-from resources.lib.rcb.datamodel.gamedatabase import Game, Genre, File
+from resources.lib.rcb.datamodel.game import Game
+from resources.lib.rcb.datamodel.genre import Genre
+from resources.lib.rcb.datamodel.file import File
+
 
 from xml.etree.ElementTree import SubElement, Element, ElementTree
 
