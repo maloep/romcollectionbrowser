@@ -7,6 +7,7 @@ from resources.lib.rcb.utils import util
 from resources.lib.rcb.configuration import config
 from resources.lib.rcb.configuration import wizardconfigxml
 from resources.lib.rcb.gameimport import nfowriter
+from resources.lib.rcb.datamodel.file import File
 
 from resources.lib.rcb.utils.util import *
 from resources.lib.rcb.datamodel.gamedatabase import *
@@ -20,7 +21,7 @@ CONTROL_BUTTON_SETFAVORITE_SELECTION = 5119
 class ContextMenuDialog(xbmcgui.WindowXMLDialog):
 		
 	selectedGame = None
-	gameRow = None
+	game = None
 		
 	def __init__(self, *args, **kwargs):
 		# Don't put GUI sensitive stuff here (as the xml hasn't been read yet)
@@ -35,11 +36,11 @@ class ContextMenuDialog(xbmcgui.WindowXMLDialog):
 		
 		pos = self.gui.getCurrentListPosition()
 		if(pos != -1):
-			self.selectedGame, self.gameRow = self.gui.getGameByPosition(self.gui.gdb, pos)
+			self.selectedGame, self.game = self.gui.getGameByPosition(self.gui.gdb, pos)
 			
 		#set mark favorite text
-		if(self.gameRow != None):
-			if(self.gameRow[util.GAME_isFavorite] == 1):
+		if(self.game != None):
+			if(self.game.isFavorite == 1):
 				buttonMarkFavorite = self.getControlById(CONTROL_BUTTON_SETFAVORITE_GAME)
 				if(buttonMarkFavorite != None):
 					buttonMarkFavorite.setLabel(util.localize(40033))
@@ -61,13 +62,13 @@ class ContextMenuDialog(xbmcgui.WindowXMLDialog):
 		elif (controlID == 5121): # Rescrape single games
 			self.close()
 			
-			if(self.selectedGame == None or self.gameRow == None):
+			if(self.selectedGame == None or self.game == None):
 				xbmcgui.Dialog().ok(util.SCRIPTNAME, util.localize(35013), util.localize(35014))
 				return
 			
-			romCollectionId = self.gameRow[util.GAME_romCollectionId]
+			romCollectionId = self.game.romCollectionId
 			romCollection = self.gui.config.romCollections[str(romCollectionId)]
-			files = File(self.gui.gdb).getRomsByGameId(self.gameRow[util.ROW_ID])
+			files = File(self.gui.gdb).getRomsByGameId(self.game.id)
 			filename = files[0][0]
 			romCollection.romPaths = (filename,)
 						
@@ -82,9 +83,9 @@ class ContextMenuDialog(xbmcgui.WindowXMLDialog):
 			romCollections = {}
 			listSize = self.gui.getListSize()
 			for i in range(0, listSize):
-				selectedGame, gameRow = self.gui.getGameByPosition(self.gui.gdb, i)
+				selectedGame, game = self.gui.getGameByPosition(self.gui.gdb, i)
 				
-				romCollectionId = gameRow[util.GAME_romCollectionId]
+				romCollectionId = game[util.GAME_romCollectionId]
 				
 				try:
 					romCollection = romCollections[str(romCollectionId)]
@@ -92,7 +93,7 @@ class ContextMenuDialog(xbmcgui.WindowXMLDialog):
 					romCollection = self.gui.config.romCollections[str(romCollectionId)]
 					romCollection.romPaths = []
 					
-				files = File(self.gui.gdb).getRomsByGameId(gameRow[util.ROW_ID])
+				files = File(self.gui.gdb).getRomsByGameId(game.id)
 				filename = files[0][0]
 				romCollection.romPaths.append(filename)
 				romCollections[romCollection.id] = romCollection
@@ -117,7 +118,7 @@ class ContextMenuDialog(xbmcgui.WindowXMLDialog):
 				return
 			
 			#import Games
-			self.gui.importGames()
+			self.gui.importGames(None, False)
 			
 		elif (controlID == 5112): # edit Rom Collection			
 			self.close()
@@ -140,14 +141,14 @@ class ContextMenuDialog(xbmcgui.WindowXMLDialog):
 		elif (controlID == 5113): #Edit Game Command			
 			self.close()
 			
-			if(self.selectedGame == None or self.gameRow == None):
+			if(self.selectedGame == None or self.game == None):
 				xbmcgui.Dialog().ok(util.SCRIPTNAME, util.localize(35015), util.localize(35014))
 				return
 
-			origCommand = self.gameRow[util.GAME_gameCmd]
+			origCommand = self.game.gameCmd
 			command = ''
 			
-			romCollectionId = self.gameRow[util.GAME_romCollectionId]
+			romCollectionId = self.game.romCollectionId
 			romCollection = self.gui.config.romCollections[str(romCollectionId)]
 			if(romCollection.useBuiltinEmulator):
 				success, selectedcore = self.selectlibretrocore(romCollection.name)
@@ -166,23 +167,23 @@ class ContextMenuDialog(xbmcgui.WindowXMLDialog):
 					command = keyboard.getText()
 					
 			if(command != origCommand):
-				Logutil.log("Updating game '%s' with command '%s'" %(str(self.gameRow[util.ROW_NAME]), command), util.LOG_LEVEL_INFO)
-				Game(self.gui.gdb).update(('gameCmd',), (command,), self.gameRow[util.ROW_ID], True)
+				Logutil.log("Updating game '%s' with command '%s'" %(str(self.game.name), command), util.LOG_LEVEL_INFO)
+				Game(self.gui.gdb).update(('gameCmd',), (command,), self.game.id, True)
 				self.gui.gdb.commit()
 				
 		elif (controlID == 5118): #(Un)Mark as Favorite
 			self.close()
 						
-			if(self.selectedGame == None or self.gameRow == None):
+			if(self.selectedGame == None or self.game == None):
 				xbmcgui.Dialog().ok(util.SCRIPTNAME, util.localize(35016), util.localize(35014))
 				return
 						
 			isFavorite = 1
-			if(self.gameRow[util.GAME_isFavorite] == 1):
+			if(self.game.isFavorite == 1):
 				isFavorite = 0
 			
-			Logutil.log("Updating game '%s' set isFavorite = %s" %(str(self.gameRow[util.ROW_NAME]), str(isFavorite)), util.LOG_LEVEL_INFO)
-			Game(self.gui.gdb).update(('isFavorite',), (isFavorite,), self.gameRow[util.ROW_ID], True)
+			Logutil.log("Updating game '%s' set isFavorite = %s" %(str(self.game.name), str(isFavorite)), util.LOG_LEVEL_INFO)
+			Game(self.gui.gdb).update(('isFavorite',), (isFavorite,), self.game.id, True)
 			self.gui.gdb.commit()
 						
 			if(isFavorite == 0):
@@ -192,21 +193,21 @@ class ContextMenuDialog(xbmcgui.WindowXMLDialog):
 		elif (controlID == 5119): #(Un)Mark as Favorite
 			self.close()
 						
-			if(self.selectedGame == None or self.gameRow == None):
+			if(self.selectedGame == None or self.game == None):
 				xbmcgui.Dialog().ok(util.SCRIPTNAME, util.localize(35016), util.localize(35014))
 				return
 						
 			isFavorite = 1
-			if(self.gameRow[util.GAME_isFavorite] == 1):
+			if(self.game.isFavorite == 1):
 				isFavorite = 0
 			
 			listSize = self.gui.getListSize()
 			for i in range(0, listSize):
 				
-				selectedGame, gameRow = self.gui.getGameByPosition(self.gui.gdb, i)
+				selectedGame, game = self.gui.getGameByPosition(self.gui.gdb, i)
 			
-				Logutil.log("Updating game '%s' set isFavorite = %s" %(str(gameRow[util.ROW_NAME]), str(isFavorite)), util.LOG_LEVEL_INFO)
-				Game(self.gui.gdb).update(('isFavorite',), (isFavorite,), gameRow[util.ROW_ID], True)
+				Logutil.log("Updating game '%s' set isFavorite = %s" %(str(game.name), str(isFavorite)), util.LOG_LEVEL_INFO)
+				Game(self.gui.gdb).update(('isFavorite',), (isFavorite,), game.id, True)
 				selectedGame.setProperty('isfavorite', str(isFavorite))
 			self.gui.gdb.commit()
 			
@@ -223,8 +224,8 @@ class ContextMenuDialog(xbmcgui.WindowXMLDialog):
 				return					
 			dialog = xbmcgui.Dialog()
 			if dialog.yesno(util.localize(51010), util.localize(40036)):
-				gameID = self.gui.getGameId(self.gui.gdb,pos)
-				self.gui.deleteGame(gameID)
+				gameItem, game = self.gui.getGameByPosition(self.gui.gdb,pos)
+				self.gui.deleteGame(game)
 				self.gui.showGames()
 				if(pos > 0):
 					pos = pos - 1
