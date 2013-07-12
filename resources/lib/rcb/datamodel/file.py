@@ -6,7 +6,7 @@ from resources.lib.rcb.utils.util import *
 
 
 class File(DataBaseObject):    
-    filterQueryByGameIdAndFileType = "Select name from File \
+    filterQueryByGameIdAndFileType = "Select * from File \
                     where parentId = ? AND \
                     filetypeid = ?"
                     

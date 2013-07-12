@@ -6,28 +6,28 @@ import xbmc, xbmcgui
 
 import resources.lib.rcb.gameimport.dbupdater
 from resources.lib.rcb.utils import util, helper
+from resources.lib.rcb.datamodel.file import File
 from resources.lib.rcb.datamodel.gamedatabase import *
 from resources.lib.rcb.utils.util import *
-
 
 
 def launchEmu(gdb, gui, gameId, config, settings, listitem):
 	Logutil.log("Begin launcher.launchEmu", util.LOG_LEVEL_INFO)
 	
-	gameRow = Game(gdb).getObjectById(gameId)
-	if(gameRow == None):
+	game = Game(gdb).getObjectById(gameId)
+	if(game == None):
 		Logutil.log("Game with id %s could not be found in database" %gameId, util.LOG_LEVEL_ERROR)
 		return
 		
 	romCollection = None
 	try:
-		romCollection = config.romCollections[str(gameRow[util.GAME_romCollectionId])]
+		romCollection = config.romCollections[str(game.romCollectionId)]
 	except:
-		Logutil.log('Cannot get rom collection with id: ' +str(gameRow[util.GAME_romCollectionId]), util.LOG_LEVEL_ERROR)
+		Logutil.log('Cannot get rom collection with id: ' +str(game.romCollectionId), util.LOG_LEVEL_ERROR)
 		gui.writeMsg(util.localize(35034))
 		return
 			
-	gui.writeMsg(util.localize(40063)+ " " +gameRow[util.ROW_NAME])
+	gui.writeMsg(util.localize(40063)+ " " +game.name)
 	
 	# Remember viewstate
 	gui.saveViewState(False)
@@ -39,11 +39,11 @@ def launchEmu(gdb, gui, gameId, config, settings, listitem):
 	#get environment OS
 	env = util.getEnvironment()
 			
-	filenameRows = File(gdb).getRomsByGameId(gameRow[util.ROW_ID])
-	Logutil.log("files for current game: " +str(filenameRows), util.LOG_LEVEL_INFO)
+	files = File(gdb).getRomsByGameId(game.id)
+	Logutil.log("files for current game: " +str(files), util.LOG_LEVEL_INFO)
 		
 	escapeCmd = settings.getSetting(util.SETTING_RCB_ESCAPECOMMAND).upper() == 'TRUE'
-	cmd, precmd, postcmd, roms = buildCmd(filenameRows, romCollection, gameRow, escapeCmd, False)
+	cmd, precmd, postcmd, roms = buildCmd(files, romCollection, game, escapeCmd, False)
 	
 	if (not romCollection.useBuiltinEmulator):
 		if(cmd == ''):
@@ -86,8 +86,8 @@ def launchEmu(gdb, gui, gameId, config, settings, listitem):
 				cmd = 'call ' +cmd
 	
 	#update LaunchCount
-	launchCount = gameRow[util.GAME_launchCount]
-	Game(gdb).update(('launchCount',), (launchCount +1,) , gameRow[util.ROW_ID], True)
+	game.launchCount = game.launchCount + 1
+	Game(gdb).updateSingleColumns(('launchCount',), game, True)
 	gdb.commit()
 	
 	Logutil.log("cmd: " +cmd, util.LOG_LEVEL_INFO)	
@@ -96,9 +96,9 @@ def launchEmu(gdb, gui, gameId, config, settings, listitem):
 	
 	try:
 		if (os.environ.get( "OS", "xbox" ) == "xbox"):			
-			launchXbox(gui, gdb, cmd, romCollection, filenameRows)
+			launchXbox(gui, gdb, cmd, romCollection, files)
 		else:
-			launchNonXbox(cmd, romCollection, gameRow, settings, precmd, postcmd, roms, gui, listitem)
+			launchNonXbox(cmd, romCollection, game, settings, precmd, postcmd, roms, gui, listitem)
 	
 		gui.writeMsg("")
 					
@@ -117,7 +117,7 @@ def launchEmu(gdb, gui, gameId, config, settings, listitem):
 ##################
 		
 		
-def buildCmd(filenameRows, romCollection, gameRow, escapeCmd, calledFromSkin):		
+def buildCmd(files, romCollection, game, escapeCmd, calledFromSkin):		
 	Logutil.log('launcher.buildCmd', util.LOG_LEVEL_INFO)
 		
 	compressedExtensions = ['7z', 'zip']
@@ -132,7 +132,7 @@ def buildCmd(filenameRows, romCollection, gameRow, escapeCmd, calledFromSkin):
 	Logutil.log('postCmdLine: ' +romCollection.postCmd, util.LOG_LEVEL_INFO)
 
 	#handle savestates	
-	stateFile = checkGameHasSaveStates(romCollection, gameRow, filenameRows, escapeCmd)
+	stateFile = checkGameHasSaveStates(romCollection, game, files, escapeCmd)
 		
 	if(stateFile == ''):
 		emuParams = romCollection.emulatorParams
@@ -153,12 +153,12 @@ def buildCmd(filenameRows, romCollection, gameRow, escapeCmd, calledFromSkin):
 	if(romCollection.diskPrefix != '' and not '%I%' in emuParams):
 		Logutil.log("Getting Multiple Disc Parameter", util.LOG_LEVEL_INFO)
 		options = []
-		for disk in filenameRows:
-			gamename = os.path.basename(disk[0])
+		for file in files:
+			gamename = os.path.basename(file.name)
 			match = re.search(romCollection.diskPrefix.lower(), str(gamename).lower())
 			if(match):
-				disk = gamename[match.start():match.end()]
-				options.append(disk)
+				file = gamename[match.start():match.end()]
+				options.append(file)
 		if(len(options) > 1 and not calledFromSkin):
 			diskNum = xbmcgui.Dialog().select(util.localize(40064) +': ', options)
 			if(diskNum < 0):
@@ -171,16 +171,16 @@ def buildCmd(filenameRows, romCollection, gameRow, escapeCmd, calledFromSkin):
 
 	#insert game specific command
 	gameCmd = ''
-	if(gameRow[util.GAME_gameCmd] != None):
-		gameCmd = str(gameRow[util.GAME_gameCmd])
+	if(game.gameCmd != None):
+		gameCmd = str(game.gameCmd)
 	#be case insensitive with (?i)
 	emuParams = re.sub('(?i)%gamecmd%', gameCmd, emuParams)
 	
 	Logutil.log('emuParams: ' +emuParams, util.LOG_LEVEL_INFO)
 	
 	fileindex = int(0)
-	for fileNameRow in filenameRows:
-		rom = fileNameRow[0]
+	for file in files:
+		rom = file.name
 		Logutil.log('rom: ' +str(rom), util.LOG_LEVEL_INFO)
 
 		# If it's a .7z file
@@ -204,19 +204,19 @@ def buildCmd(filenameRows, romCollection, gameRow, escapeCmd, calledFromSkin):
 			precmd = ""
 			postcmd = ""
 			if fileindex == 0:
-				emuParams = replacePlaceholdersInParams(emuParams, rom, romCollection, gameRow, escapeCmd)
+				emuParams = replacePlaceholdersInParams(emuParams, rom, romCollection, game, escapeCmd)
 				if (escapeCmd):
 					emuCommandLine = re.escape(emuCommandLine)				
 				
 				if (os.environ.get( "OS", "xbox" ) == "xbox"):
-					cmd = replacePlaceholdersInParams(emuCommandLine, rom, romCollection, gameRow, escapeCmd)
+					cmd = replacePlaceholdersInParams(emuCommandLine, rom, romCollection, game, escapeCmd)
 				elif (romCollection.name == 'Linux' or romCollection.name == 'Macintosh' or romCollection.name == 'Windows'):
-					cmd = replacePlaceholdersInParams(emuCommandLine, rom, romCollection, gameRow, escapeCmd)
+					cmd = replacePlaceholdersInParams(emuCommandLine, rom, romCollection, game, escapeCmd)
 				else:
 					cmd = '\"' +emuCommandLine +'\" ' +emuParams.replace('%I%', str(fileindex))
 			else:
 				newrepl = partToRepeat
-				newrepl = replacePlaceholdersInParams(newrepl, rom, romCollection, gameRow, escapeCmd)
+				newrepl = replacePlaceholdersInParams(newrepl, rom, romCollection, game, escapeCmd)
 				if (escapeCmd):
 					emuCommandLine = re.escape(emuCommandLine)
 
@@ -228,8 +228,8 @@ def buildCmd(filenameRows, romCollection, gameRow, escapeCmd, calledFromSkin):
 			if(env == "win32"):
 				cmdprefix = 'call '
 				
-			precmd = cmdprefix + replacePlaceholdersInParams(romCollection.preCmd, rom, romCollection, gameRow, escapeCmd)
-			postcmd = cmdprefix + replacePlaceholdersInParams(romCollection.postCmd, rom, romCollection, gameRow, escapeCmd)
+			precmd = cmdprefix + replacePlaceholdersInParams(romCollection.preCmd, rom, romCollection, game, escapeCmd)
+			postcmd = cmdprefix + replacePlaceholdersInParams(romCollection.postCmd, rom, romCollection, game, escapeCmd)
 						
 			fileindex += 1
 
@@ -244,12 +244,12 @@ def buildCmd(filenameRows, romCollection, gameRow, escapeCmd, calledFromSkin):
 	return cmd, precmd, postcmd, roms
 
 
-def checkGameHasSaveStates(romCollection, gameRow, filenameRows, escapeCmd):
+def checkGameHasSaveStates(romCollection, gameRow, files, escapeCmd):
 	
 	if(romCollection.saveStatePath == ''):
 		return ''
 		
-	rom = filenameRows[0][0]
+	rom = files[0].name
 	saveStatePath = replacePlaceholdersInParams(romCollection.saveStatePath, rom, romCollection, gameRow, escapeCmd)
 		
 	saveStateFiles = glob.glob(saveStatePath)
@@ -376,7 +376,7 @@ def handleCompressedFile(filext, rom, romCollection, emuParams):
 	return roms
 
 
-def replacePlaceholdersInParams(emuParams, rom, romCollection, gameRow, escapeCmd):
+def replacePlaceholdersInParams(emuParams, rom, romCollection, game, escapeCmd):
 		
 	if(escapeCmd):
 		rom = re.escape(rom)
@@ -403,7 +403,7 @@ def replacePlaceholdersInParams(emuParams, rom, romCollection, gameRow, escapeCm
 	emuParams = emuParams.replace('%Romname%', romname)
 	
 	#gamename	
-	gamename = str(gameRow[util.ROW_NAME])
+	gamename = str(game.name)
 	emuParams = emuParams.replace('%game%', gamename)
 	emuParams = emuParams.replace('%GAME%', gamename)
 	emuParams = emuParams.replace('%Game%', gamename)
@@ -618,7 +618,7 @@ def getRomfilenameForXboxCutfile(filenameRows, romCollection):
 	return filename
 	
 	
-def launchNonXbox(cmd, romCollection, gameRow, settings, precmd, postcmd, roms, gui, listitem):
+def launchNonXbox(cmd, romCollection, game, settings, precmd, postcmd, roms, gui, listitem):
 	Logutil.log("launchEmu on non-xbox", util.LOG_LEVEL_INFO)							
 				
 	toggledScreenMode = False
@@ -629,8 +629,8 @@ def launchNonXbox(cmd, romCollection, gameRow, settings, precmd, postcmd, roms, 
 		rom = roms[0]
 		gameclient = romCollection.gameclient		
 		#HACK: assume that every gameclient starts with "gameclient"
-		if(gameRow[util.GAME_gameCmd] != None and str(gameRow[util.GAME_gameCmd]).startswith('gameclient')):
-			gameclient = str(gameRow[util.GAME_gameCmd])
+		if(game.gameCmd != None and str(game.gameCmd).startswith('gameclient')):
+			gameclient = str(game.gameCmd)
 		Logutil.log("Preferred gameclient: " +gameclient, util.LOG_LEVEL_INFO)
 		Logutil.log("Setting platform: " +romCollection.name, util.LOG_LEVEL_INFO)
 		
