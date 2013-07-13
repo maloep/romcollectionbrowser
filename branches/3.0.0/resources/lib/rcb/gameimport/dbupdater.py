@@ -14,6 +14,7 @@ from resources.lib.rcb.gameimport import nfowriter
 from resources.lib.rcb.configuration.config import *
 
 
+"""
 def insertGameFromDesc(gdb, gamedescription, gamename, gamenameFromFile, romCollection, romFiles, foldername, isUpdate, gameId, gui, isLocalArtwork, settings, artworkfiles, artworkurls, dialogDict=''):
     Logutil.log("insertGameFromDesc", util.LOG_LEVEL_INFO)
     
@@ -112,6 +113,90 @@ def insertGameFromDesc(gdb, gamedescription, gamename, gamenameFromFile, romColl
             
     gdb.commit()
     return gameId, True
+"""
+
+
+def insertGameFromDesc(gdb, gameFromScraper, gamenameFromFile, gameId, romCollection, romFiles, foldername, isUpdate, gui, isLocalArtwork, settings, artworkfiles, artworkurls):
+    Logutil.log("insertGameFromDesc", util.LOG_LEVEL_INFO)
+
+    
+    yearId = insertForeignKeyItem(gdb, gameFromScraper.yearFromScraper, Year(gdb))
+    genreIds = insertForeignKeyItemList(gdb, gameFromScraper.genreFromScraper, Genre(gdb))
+    reviewerId = insertForeignKeyItem(gdb, gameFromScraper.reviewerFromScraper, Reviewer(gdb))
+    publisherId = insertForeignKeyItem(gdb, gameFromScraper.publisherFromScraper, Publisher(gdb))
+    developerId = insertForeignKeyItem(gdb, gameFromScraper.developerFromScraper, Developer(gdb))    
+                
+    if(isUpdate):
+        game = Game(gdb).getObjectById(gameId)
+    else:
+        game = Game(gdb)    
+    
+    game.name = gameFromScraper.name
+    game.romCollectionId = romCollection.id
+    game.yearId = yearId
+    game.publisherId = publisherId
+    game.developerId = developerId
+    game.reviewerId = reviewerId
+    game.region = gameFromScraper.region       
+    game.media = gameFromScraper.media
+    game.controllerType = gameFromScraper.controllerType
+    game.maxPlayers = gameFromScraper.maxPlayers
+    game.rating = gameFromScraper.rating
+    game.numVotes = gameFromScraper.numVotes
+    game.url = gameFromScraper.url
+    game.perspective = gameFromScraper.perspective
+    game.originalTitle = gameFromScraper.originalTitle
+    game.alternateTitle = gameFromScraper.alternateTitle
+    game.translatedBy = gameFromScraper.translatedBy
+    game.version = gameFromScraper.version
+    game.description = gameFromScraper.description
+    game.isFavorite = gameFromScraper.isFavorite
+    if(game.isFavorite == ''):
+        game.isFavorite = '0'
+    game.launchCount = gameFromScraper.launchCount
+    if(game.launchCount == ''):
+        game.launchCount = '0'
+    
+    #create Nfo file with game properties
+    createNfoFile = settings.getSetting(util.SETTING_RCB_CREATENFOFILE).upper() == 'TRUE'    
+    if(createNfoFile):
+        genreList = []
+        try:
+            genreList = game.genreFromScraper
+        except:
+            pass
+                    
+        nfowriter.NfoWriter().createNfoFromDesc(game.name, game.description, romCollection.name, game.publisherFromScraper, game.developerFromScraper, game.yearFromScraper, 
+            game.maxPlayers, game.rating, game.numVotes, game.url, game.region, game.media, game.perspective, game.controllerType, game.originalTitle, game.alternateTitle, game.version, genreList, game.isFavorite, game.launchCount, romFiles[0], gamenameFromFile, artworkfiles, artworkurls)
+                    
+    if(not isLocalArtwork):
+        gameId = insertGame(gdb, settings, game, isUpdate, romCollection.allowUpdate)
+    
+        if(gameId == None):
+            return None, True
+                    
+        for genreId in genreIds:
+            genreGame = GenreGame(gdb).getGenreGameByGenreIdAndGameId(genreId, gameId)
+            if(genreGame == None):
+                genreGame = GenreGame(gdb)
+                genreGame.genreId = genreId
+                genreGame.gameId = gameId 
+                genreGame.insert(genreGame)
+            
+        for romFile in romFiles:
+            fileType = FileType()
+            fileType.id = 0
+            fileType.name = "rcb_rom"
+            fileType.parent = "game"
+            insertFile(gdb, romFile, gameId, fileType, None, None, None)                
+    
+    Logutil.log("Importing files: " +str(artworkfiles), util.LOG_LEVEL_INFO)        
+    for fileType in artworkfiles.keys():
+        for fileName in artworkfiles[fileType]:
+            insertFile(gdb, fileName, gameId, fileType, romCollection.id, publisherId, developerId)        
+            
+    gdb.commit()
+    return gameId, True
 
     
     
@@ -141,15 +226,13 @@ def insertGame(gdb, settings, game, isUpdate, allowUpdate):
         
     
 
-def insertForeignKeyItem(gdb, result, itemName, gdbObject):
-    
-    item = resolveParseResult(result, itemName)
+def insertForeignKeyItem(gdb, item, gdbObject):
                     
     if(item != "" and item != None):
         obj = gdbObject.getOneByName(item)
         if(obj == None):    
             try:
-                Logutil.log(itemName +" does not exist in database. Insert: " +item, util.LOG_LEVEL_INFO)
+                Logutil.log("%s does not exist in database. Will insert now." %item, util.LOG_LEVEL_INFO)
             except:
                 pass
             gdbObject.name = item
@@ -163,15 +246,9 @@ def insertForeignKeyItem(gdb, result, itemName, gdbObject):
     return itemId
     
 
-def insertForeignKeyItemList(gdb, result, itemName, gdbObject):
-    idList = []                
-            
-    try:
-        itemList = result[itemName]
-        Logutil.log("Result " +itemName +" = " +str(itemList), util.LOG_LEVEL_INFO)
-    except:
-        Logutil.log("Error while resolving item: " +itemName, util.LOG_LEVEL_WARNING)
-        return idList                
+def insertForeignKeyItemList(gdb, itemList, gdbObject):
+    
+    idList = []
     
     for item in itemList:
         item = stripHTMLTags(item)
@@ -179,7 +256,7 @@ def insertForeignKeyItemList(gdb, result, itemName, gdbObject):
         obj = gdbObject.getOneByName(item)
         if(obj == None):
             try:
-                Logutil.log(itemName +" does not exist in database. Insert: " +item, util.LOG_LEVEL_INFO)
+                Logutil.log("%s does not exist in database. Will insert now." %item, util.LOG_LEVEL_INFO)
             except:
                 pass
             gdbObject.name = item

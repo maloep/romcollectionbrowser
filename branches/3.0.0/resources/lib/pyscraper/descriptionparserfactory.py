@@ -24,7 +24,7 @@ class DescriptionParserFactory:
 		
 		parserType = attributes.get('type')					
 		if(parserType == 'multiline'):
-			return DescriptionParserFlatFile(grammarNode)			
+			return DescriptionParserFlatFile(grammarNode)
 		elif(parserType == 'xml'):
 			return DescriptionParserXml(grammarNode)
 		else:
