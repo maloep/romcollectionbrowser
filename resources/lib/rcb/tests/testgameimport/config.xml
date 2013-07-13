@@ -1,0 +1,231 @@
+<config version="1.0.6">
+  <RomCollections>
+    <RomCollection id="1" name="SNES">
+      <useBuiltinEmulator>False</useBuiltinEmulator>
+      <gameclient />
+      <emulatorCmd>C:\Program Files\Emulatoren\retroarch-win32-0.9.8-beta2\retroarch.exe</emulatorCmd>
+      <emulatorParams>"%ROM%"</emulatorParams>
+      <romPath>E:\Games\Testsets\RCB Testset\Testdata - online scraping\Roms\SNES\*.zip</romPath>
+      <saveStatePath />
+      <saveStateParams />
+      <mediaPath type="boxfront">E:\Games\Testsets\RCB Testset\Testdata - online scraping\Artwork\SNES\boxfront\%GAME%.*</mediaPath>
+      <mediaPath type="boxback">E:\Games\Testsets\RCB Testset\Testdata - online scraping\Artwork\SNES\boxback\%GAME%.*</mediaPath>
+      <mediaPath type="cartridge">E:\Games\Testsets\RCB Testset\Testdata - online scraping\Artwork\SNES\cartridge\%GAME%.*</mediaPath>
+      <mediaPath type="screenshot">E:\Games\Testsets\RCB Testset\Testdata - online scraping\Artwork\SNES\screenshot\%GAME%.*</mediaPath>
+      <mediaPath type="fanart">E:\Games\Testsets\RCB Testset\Testdata - online scraping\Artwork\SNES\fanart\%GAME%.*</mediaPath>
+      <preCmd />
+      <postCmd />
+      <useEmuSolo>False</useEmuSolo>
+      <usePopen>False</usePopen>
+      <ignoreOnScan>False</ignoreOnScan>
+      <allowUpdate>True</allowUpdate>
+      <autoplayVideoMain>True</autoplayVideoMain>
+      <autoplayVideoInfo>True</autoplayVideoInfo>
+      <useFoldernameAsGamename>False</useFoldernameAsGamename>
+      <maxFolderDepth>99</maxFolderDepth>
+      <doNotExtractZipFiles>False</doNotExtractZipFiles>
+      <diskPrefix>_Disk</diskPrefix>
+      <imagePlacingMain>gameinfobig</imagePlacingMain>
+      <imagePlacingInfo>gameinfosmall</imagePlacingInfo>
+      <scraper name="thegamesdb.net" replaceKeyString="" replaceValueString="" />
+    </RomCollection>
+    <RomCollection id="2" name="SEGA 32X">
+      <useBuiltinEmulator>False</useBuiltinEmulator>
+      <gameclient />
+      <emulatorCmd>C:\Program Files\Emulatoren\Fusion364\Fusion.exe</emulatorCmd>
+      <emulatorParams>"%ROM%"</emulatorParams>
+      <romPath>E:\Games\Testsets\RCB Testset\Testdata - online scraping\Roms\Sega 32\*.zip</romPath>
+      <saveStatePath />
+      <saveStateParams />
+      <mediaPath type="boxfront">E:\Games\Testsets\RCB Testset\Testdata - online scraping\Artwork\Sega 32\boxfront\%GAME%.*</mediaPath>
+      <mediaPath type="boxback">E:\Games\Testsets\RCB Testset\Testdata - online scraping\Artwork\Sega 32\boxback\%GAME%.*</mediaPath>
+      <mediaPath type="cartridge">E:\Games\Testsets\RCB Testset\Testdata - online scraping\Artwork\Sega 32\cartridge\%GAME%.*</mediaPath>
+      <mediaPath type="screenshot">E:\Games\Testsets\RCB Testset\Testdata - online scraping\Artwork\Sega 32\screenshot\%GAME%.*</mediaPath>
+      <mediaPath type="fanart">E:\Games\Testsets\RCB Testset\Testdata - online scraping\Artwork\Sega 32\fanart\%GAME%.*</mediaPath>
+      <preCmd />
+      <postCmd />
+      <useEmuSolo>False</useEmuSolo>
+      <usePopen>False</usePopen>
+      <ignoreOnScan>False</ignoreOnScan>
+      <allowUpdate>True</allowUpdate>
+      <autoplayVideoMain>True</autoplayVideoMain>
+      <autoplayVideoInfo>True</autoplayVideoInfo>
+      <useFoldernameAsGamename>False</useFoldernameAsGamename>
+      <maxFolderDepth>99</maxFolderDepth>
+      <doNotExtractZipFiles>False</doNotExtractZipFiles>
+      <diskPrefix>_Disk</diskPrefix>
+      <imagePlacingMain>gameinfobig</imagePlacingMain>
+      <imagePlacingInfo>gameinfosmall</imagePlacingInfo>
+      <scraper name="thegamesdb.net" replaceKeyString="" replaceValueString="" />
+    </RomCollection>
+  </RomCollections>
+  <FileTypes>
+    <FileType id="1" name="boxfront">
+      <type>image</type>
+      <parent>game</parent>
+    </FileType>
+    <FileType id="2" name="boxback">
+      <type>image</type>
+      <parent>game</parent>
+    </FileType>
+    <FileType id="3" name="cartridge">
+      <type>image</type>
+      <parent>game</parent>
+    </FileType>
+    <FileType id="4" name="screenshot">
+      <type>image</type>
+      <parent>game</parent>
+    </FileType>
+    <FileType id="5" name="fanart">
+      <type>image</type>
+      <parent>game</parent>
+    </FileType>
+    <FileType id="6" name="action">
+      <type>image</type>
+      <parent>game</parent>
+    </FileType>
+    <FileType id="7" name="title">
+      <type>image</type>
+      <parent>game</parent>
+    </FileType>
+    <FileType id="8" name="3dbox">
+      <type>image</type>
+      <parent>game</parent>
+    </FileType>
+    <FileType id="9" name="romcollection">
+      <type>image</type>
+      <parent>romcollection</parent>
+    </FileType>
+    <FileType id="10" name="developer">
+      <type>image</type>
+      <parent>developer</parent>
+    </FileType>
+    <FileType id="11" name="publisher">
+      <type>image</type>
+      <parent>publisher</parent>
+    </FileType>
+    <FileType id="12" name="gameplay">
+      <type>video</type>
+      <parent>game</parent>
+    </FileType>
+    <FileType id="13" name="cabinet">
+      <type>image</type>
+      <parent>game</parent>
+    </FileType>
+    <FileType id="14" name="marquee">
+      <type>image</type>
+      <parent>game</parent>
+    </FileType>
+  </FileTypes>
+  <ImagePlacing>
+    <fileTypeFor name="gameinfobig">
+      <fileTypeForGameList>boxfront</fileTypeForGameList>
+      <fileTypeForGameList>screenshot</fileTypeForGameList>
+      <fileTypeForGameList>title</fileTypeForGameList>
+      <fileTypeForGameList>action</fileTypeForGameList>
+      <fileTypeForGameListSelected>boxfront</fileTypeForGameListSelected>
+      <fileTypeForGameListSelected>screenshot</fileTypeForGameListSelected>
+      <fileTypeForGameListSelected>title</fileTypeForGameListSelected>
+      <fileTypeForGameListSelected>action</fileTypeForGameListSelected>
+      <fileTypeForMainViewBackground>fanart</fileTypeForMainViewBackground>
+      <fileTypeForMainViewBackground>boxfront</fileTypeForMainViewBackground>
+      <fileTypeForMainViewBackground>screenshot</fileTypeForMainViewBackground>
+      <fileTypeForMainViewBackground>title</fileTypeForMainViewBackground>
+      <fileTypeForMainViewBackground>action</fileTypeForMainViewBackground>
+      <fileTypeForMainViewGameInfoBig>screenshot</fileTypeForMainViewGameInfoBig>
+      <fileTypeForMainViewGameInfoBig>boxfront</fileTypeForMainViewGameInfoBig>
+      <fileTypeForMainViewGameInfoBig>action</fileTypeForMainViewGameInfoBig>
+      <fileTypeForMainViewGameInfoBig>title</fileTypeForMainViewGameInfoBig>
+      <fileTypeForMainView1>publisher</fileTypeForMainView1>
+      <fileTypeForMainView2>romcollection</fileTypeForMainView2>
+      <fileTypeForMainView3>developer</fileTypeForMainView3>
+    </fileTypeFor>
+    <fileTypeFor name="gameinfosmall">
+      <fileTypeForGameList>boxfront</fileTypeForGameList>
+      <fileTypeForGameList>screenshot</fileTypeForGameList>
+      <fileTypeForGameList>title</fileTypeForGameList>
+      <fileTypeForGameList>action</fileTypeForGameList>
+      <fileTypeForGameListSelected>boxfront</fileTypeForGameListSelected>
+      <fileTypeForGameListSelected>screenshot</fileTypeForGameListSelected>
+      <fileTypeForGameListSelected>title</fileTypeForGameListSelected>
+      <fileTypeForGameListSelected>action</fileTypeForGameListSelected>
+      <fileTypeForMainViewBackground>fanart</fileTypeForMainViewBackground>
+      <fileTypeForMainViewBackground>boxfront</fileTypeForMainViewBackground>
+      <fileTypeForMainViewBackground>screenshot</fileTypeForMainViewBackground>
+      <fileTypeForMainViewBackground>title</fileTypeForMainViewBackground>
+      <fileTypeForMainViewBackground>action</fileTypeForMainViewBackground>
+      <fileTypeForMainViewGameInfoUpperLeft>screenshot</fileTypeForMainViewGameInfoUpperLeft>
+      <fileTypeForMainViewGameInfoUpperLeft>action</fileTypeForMainViewGameInfoUpperLeft>
+      <fileTypeForMainViewGameInfoUpperLeft>title</fileTypeForMainViewGameInfoUpperLeft>
+      <fileTypeForMainViewGameInfoUpperRight>boxfront</fileTypeForMainViewGameInfoUpperRight>
+      <fileTypeForMainViewGameInfoLowerLeft>cartridge</fileTypeForMainViewGameInfoLowerLeft>
+      <fileTypeForMainViewGameInfoLowerRight>boxback</fileTypeForMainViewGameInfoLowerRight>
+      <fileTypeForMainViewGameInfoLowerRight>title</fileTypeForMainViewGameInfoLowerRight>
+      <fileTypeForMainView1>publisher</fileTypeForMainView1>
+      <fileTypeForMainView2>romcollection</fileTypeForMainView2>
+      <fileTypeForMainView3>developer</fileTypeForMainView3>
+    </fileTypeFor>
+    <fileTypeFor name="gameinfomamemarquee">
+      <fileTypeForGameList>marquee</fileTypeForGameList>
+      <fileTypeForGameList>boxfront</fileTypeForGameList>
+      <fileTypeForGameList>title</fileTypeForGameList>
+      <fileTypeForGameListSelected>marquee</fileTypeForGameListSelected>
+      <fileTypeForGameListSelected>boxfront</fileTypeForGameListSelected>
+      <fileTypeForGameListSelected>title</fileTypeForGameListSelected>
+      <fileTypeForMainViewBackground>boxfront</fileTypeForMainViewBackground>
+      <fileTypeForMainViewBackground>title</fileTypeForMainViewBackground>
+      <fileTypeForMainViewBackground>action</fileTypeForMainViewBackground>
+      <fileTypeForMainViewGameInfoLeft>cabinet</fileTypeForMainViewGameInfoLeft>
+      <fileTypeForMainViewGameInfoUpperRight>title</fileTypeForMainViewGameInfoUpperRight>
+      <fileTypeForMainViewGameInfoLowerRight>action</fileTypeForMainViewGameInfoLowerRight>
+      <fileTypeForMainView1>publisher</fileTypeForMainView1>
+      <fileTypeForMainView2>romcollection</fileTypeForMainView2>
+      <fileTypeForMainView3>developer</fileTypeForMainView3>
+    </fileTypeFor>
+    <fileTypeFor name="gameinfomamecabinet">
+      <fileTypeForGameList>cabinet</fileTypeForGameList>
+      <fileTypeForGameList>boxfront</fileTypeForGameList>
+      <fileTypeForGameList>title</fileTypeForGameList>
+      <fileTypeForGameListSelected>cabinet</fileTypeForGameListSelected>
+      <fileTypeForGameListSelected>boxfront</fileTypeForGameListSelected>
+      <fileTypeForGameListSelected>title</fileTypeForGameListSelected>
+      <fileTypeForMainViewBackground>boxfront</fileTypeForMainViewBackground>
+      <fileTypeForMainViewBackground>title</fileTypeForMainViewBackground>
+      <fileTypeForMainViewBackground>action</fileTypeForMainViewBackground>
+      <fileTypeForMainViewGameInfoUpperLeft>title</fileTypeForMainViewGameInfoUpperLeft>
+      <fileTypeForMainViewGameInfoUpperRight>action</fileTypeForMainViewGameInfoUpperRight>
+      <fileTypeForMainViewGameInfoLower>marquee</fileTypeForMainViewGameInfoLower>
+      <fileTypeForMainView1>publisher</fileTypeForMainView1>
+      <fileTypeForMainView2>romcollection</fileTypeForMainView2>
+      <fileTypeForMainView3>developer</fileTypeForMainView3>
+    </fileTypeFor>
+  </ImagePlacing>
+  <Scrapers>
+    <Site descFilePerGame="True" name="local nfo" searchGameByCRC="False">
+      <Scraper parseInstruction="00 - local nfo.xml" source="nfo" />
+    </Site>
+    <Site descFilePerGame="True" name="thegamesdb.net" searchGameByCRC="False">
+      <Scraper parseInstruction="02 - thegamesdb.xml" source="http://thegamesdb.net/api/GetGame.php?name=%GAME%&amp;platform=%PLATFORM%" />
+    </Site>
+    <Site descFilePerGame="True" name="giantbomb.com" searchGameByCRC="False">
+      <Scraper parseInstruction="03.01 - giantbomb - search.xml" returnUrl="true" source="http://api.giantbomb.com/search/?api_key=%GIANTBOMBAPIKey%&amp;query=%GAME%&amp;resources=game&amp;field_list=api_detail_url,name&amp;format=xml" />
+      <Scraper parseInstruction="03.02 - giantbomb - detail.xml" source="1" />
+    </Site>
+    <Site descFilePerGame="True" name="mobygames.com" searchGameByCRC="False">
+      <Scraper parseInstruction="04.01 - mobygames - gamesearch.xml" returnUrl="true" source="http://www.mobygames.com/search/quick?game=%GAME%&amp;p=%PLATFORM%" />
+      <Scraper parseInstruction="04.02 - mobygames - details.xml" source="1" />
+      <Scraper parseInstruction="04.03 - mobygames - coverlink.xml" returnUrl="true" source="1" />
+      <Scraper parseInstruction="04.04 - mobygames - coverart.xml" source="2" />
+      <Scraper parseInstruction="04.05 - mobygames - screenshotlink.xml" returnUrl="true" source="1" />
+      <Scraper parseInstruction="04.06 - mobygames - screenoriglink.xml" returnUrl="true" source="3" />
+      <Scraper parseInstruction="04.07 - mobygames - screenshots.xml" source="4" />
+    </Site>
+    <Site descFilePerGame="True" name="archive.vg" searchGameByCRC="False">
+      <Scraper encoding="iso-8859-1" parseInstruction="05.01 - archive - search.xml" returnUrl="true" source="http://api.archive.vg/2.0/Archive.search/%ARCHIVEAPIKEY%/%GAME%" />
+      <Scraper encoding="iso-8859-1" parseInstruction="05.02 - archive - detail.xml" source="1" />
+    </Site>
+    <Site descFilePerGame="True" name="maws.mameworld.info" searchGameByCRC="False">
+      <Scraper encoding="iso-8859-1" parseInstruction="06 - maws.xml" source="http://maws.mameworld.info/maws/romset/%GAME%" />
+    </Site>
+  </Scrapers>
+</config>

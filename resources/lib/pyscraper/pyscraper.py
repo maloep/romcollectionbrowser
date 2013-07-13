@@ -1,6 +1,6 @@
 
 import re
-import resources.lib.rcb.configuration.config
+from resources.lib.rcb.configuration import config
 from resources.lib.rcb.configuration.config import *
 from resources.lib.rcb.datamodel.gamedatabase import *
 from descriptionparserfactory import *

@@ -46,7 +46,6 @@ class GameImporter:
 		matchingRatioIndex = self.Settings.getSetting(util.SETTING_RCB_FUZZYFACTOR)
 		if (matchingRatioIndex == ''):
 			matchingRatioIndex = 2
-		matchingRatioIndex = self.Settings.getSetting(util.SETTING_RCB_FUZZYFACTOR)
 		Logutil.log("matchingRatioIndex: " + str(matchingRatioIndex), util.LOG_LEVEL_INFO)
 		
 		fuzzyFactor = util.FUZZY_FACTOR_ENUM[int(matchingRatioIndex)]
@@ -70,7 +69,7 @@ class GameImporter:
 				break
 							
 			#prepare Header for ProgressDialog
-			progDialogRCHeader = util.localize(40022) + " (%i / %i): %s" % (rccount, len(romCollections), romCollection.name)
+			progDialogHeader = util.localize(40022) + " (%i / %i): %s" % (rccount, len(romCollections), romCollection.name)
 			rccount = rccount + 1
 			
 			Logutil.log("current Rom Collection: " + romCollection.name, util.LOG_LEVEL_INFO)
@@ -108,7 +107,7 @@ class GameImporter:
 				
 				#build file hash tables	(key = gamename or crc, value = romfiles)			
 				Logutil.log("Start building file dict", util.LOG_LEVEL_INFO)
-				fileDict = multigamescraper.buildFileDict(gui, progDialogRCHeader, files, romCollection, firstScraper)
+				fileDict = multigamescraper.buildFileDict(gui, progDialogHeader, files, romCollection, firstScraper)
 									
 				try:
 					fileCount = 0
@@ -145,7 +144,7 @@ class GameImporter:
 								
 								fileCount = fileCount + 1
 								
-								continueUpdate = gui.writeMsg(progDialogRCHeader, util.localize(40023) + ": " + str(gamenameFromDesc), "", fileCount)
+								continueUpdate = gui.writeMsg(progDialogHeader, util.localize(40023) + ": " + str(gamenameFromDesc), "", fileCount)
 								if(not continueUpdate):				
 									Logutil.log('Game import canceled by user', util.LOG_LEVEL_INFO)
 									break
@@ -159,13 +158,13 @@ class GameImporter:
 								
 								#use additional scrapers
 								if(len(romCollection.scraperSites) > 1):
-									result, artScrapers = self.useSingleScrapers(result, romCollection, 1, gamenameFromFile, foldername, filenamelist[0], fuzzyFactor, updateOption, gui, progDialogRCHeader, fileCount)
+									result, artScrapers = self.useSingleScrapers(result, romCollection, 1, gamenameFromFile, foldername, filenamelist[0], fuzzyFactor, updateOption, gui, progDialogHeader, fileCount)
 								
 							else:
 								Logutil.log("game " + gamenameFromDesc + " was found in parsed results but not in your rom collection.", util.LOG_LEVEL_WARNING)
 								continue						
 							
-							dialogDict = {'dialogHeaderKey':progDialogRCHeader, 'gameNameKey':gamenameFromFile, 'scraperSiteKey':artScrapers, 'fileCountKey':fileCount}
+							dialogDict = {'dialogHeaderKey':progDialogHeader, 'gameNameKey':gamenameFromFile, 'scraperSiteKey':artScrapers, 'fileCountKey':fileCount}
 							
 							if(result == None):
 								try:
@@ -270,7 +269,7 @@ class GameImporter:
 					Logutil.log('Start scraping info for game: ' + gamenameFromFile, LOG_LEVEL_INFO)						
 					
 					fileCount = fileCount + 1
-					continueUpdate = gui.writeMsg(progDialogRCHeader, util.localize(40023) + ": " + gamenameFromFile, "", fileCount)
+					continueUpdate = gui.writeMsg(progDialogHeader, util.localize(40023) + ": " + gamenameFromFile, "", fileCount)
 					if(not continueUpdate):				
 						Logutil.log('Game import canceled by user', util.LOG_LEVEL_INFO)
 						break
@@ -289,9 +288,12 @@ class GameImporter:
 											
 					artScrapers = {} 
 					if(not isLocalArtwork):
-						results, artScrapers = self.useSingleScrapers(results, romCollection, 0, gamenameFromFile, foldername, filename, fuzzyFactor, updateOption, gui, progDialogRCHeader, fileCount)						
-												
-					#print results
+						game = self.useSingleScrapersHeimdall(romCollection, gamenameFromFile, updateOption, gui, progDialogHeader, fileCount)
+						#results, artScrapers = self.useSingleScrapers(results, romCollection, 0, gamenameFromFile, foldername, filename, fuzzyFactor, updateOption, gui, progDialogHeader, fileCount)						
+										
+					filenamelist = []
+					filenamelist.append(filename)
+					"""
 					if(len(results) == 0):
 						#lastgamename = ""
 						gamedescription = None
@@ -299,10 +301,10 @@ class GameImporter:
 						gamedescription = results
 						
 					filenamelist = []
-					filenamelist.append(filename)
+					filenamelist.append(filename)					
 
 					#Variables to process Art Download Info
-					dialogDict = {'dialogHeaderKey':progDialogRCHeader, 'gameNameKey':gamenameFromFile, 'scraperSiteKey':artScrapers, 'fileCountKey':fileCount}
+					dialogDict = {'dialogHeaderKey':progDialogHeader, 'gameNameKey':gamenameFromFile, 'scraperSiteKey':artScrapers, 'fileCountKey':fileCount}					
 					
 					if(gamedescription == None):
 						if(not isLocalArtwork):
@@ -327,6 +329,7 @@ class GameImporter:
 						if(gamename == ""):
 							gamename = gamenameFromFile
 					
+					
 					#TODO pub dev and other artwork
 					publisher = ''
 					developer = ''
@@ -340,9 +343,13 @@ class GameImporter:
 								self.missingArtworkFile.write('--> No artwork found for game "%s". Game will not be imported.\n' %gamename)
 							except:
 								self.missingArtworkFile.write('--> No artwork found for game "%s". Game will not be imported.\n' %gamename.encode('utf-8'))
-							return None, True
+							return None, True					
+					"""
 					
-					lastGameId, continueUpdate = dbupdater.insertGameFromDesc(self.gdb, gamedescription, gamename, gamenameFromFile, romCollection, filenamelist, foldername, isUpdate, gameId, gui, isLocalArtwork, self.Settings, artworkfiles, artworkurls, dialogDict)
+					#lastGameId, continueUpdate = dbupdater.insertGameFromDesc(self.gdb, gamedescription, gamename, gamenameFromFile, romCollection, filenamelist, foldername, isUpdate, gameId, gui, isLocalArtwork, self.Settings, artworkfiles, artworkurls, dialogDict)
+					artworkfiles = {}
+					artworkurls = {}
+					lastGameId, continueUpdate = dbupdater.insertGameFromDesc(self.gdb, game, gamenameFromFile, gameId, romCollection, filenamelist, foldername, isUpdate, gui, isLocalArtwork, self.Settings, artworkfiles, artworkurls)
 					if (not continueUpdate):
 						break
 					
@@ -406,16 +413,22 @@ class GameImporter:
 		
 		return True, isUpdate, gameId
 		
-				
-	def useSingleScrapers(self, result, romCollection, startIndex, gamenameFromFile, foldername, firstRomfile, fuzzyFactor, updateOption, gui, progDialogRCHeader, fileCount):
+		
+	def useSingleScrapersHeimdall(self, romCollection, gamenameFromFile, updateOption, gui, progDialogHeader, fileCount):
+		import gamescraper
+		game = gamescraper.scrapeGame(gamenameFromFile, romCollection, self.Settings, updateOption, gui, progDialogHeader, fileCount)
+		return game
+	
+
+	def useSingleScrapers(self, result, romCollection, startIndex, gamenameFromFile, foldername, firstRomfile, fuzzyFactor, updateOption, gui, progDialogHeader, fileCount):
 		
 		filecrc = ''
 		artScrapers = {}
-		
+				
 		for i in range(startIndex, len(romCollection.scraperSites)):
-			scraperSite = romCollection.scraperSites[i]			
+			scraperSite = romCollection.scraperSites[i]
 			
-			gui.writeMsg(progDialogRCHeader, util.localize(40023) + ": " + gamenameFromFile, scraperSite.name + " - " + util.localize(40031), fileCount)
+			gui.writeMsg(progDialogHeader, util.localize(40023) + ": " + gamenameFromFile, scraperSite.name + " - " + util.localize(40031), fileCount)
 			Logutil.log('using scraper: ' + scraperSite.name, util.LOG_LEVEL_INFO)
 			
 			if(scraperSite.searchGameByCRC and filecrc == ''):
@@ -592,11 +605,11 @@ class GameImporter:
 				#Dialog Status Art Download
 				try:
 					if(dialogDict != ''):
-						progDialogRCHeader = dialogDict["dialogHeaderKey"]
+						progDialogHeader = dialogDict["dialogHeaderKey"]
 						gamenameFromFile = dialogDict["gameNameKey"]
 						scraperSiteName = dialogDict["scraperSiteKey"]
 						fileCount = dialogDict["fileCountKey"]
-						gui.writeMsg(progDialogRCHeader, util.localize(40023) + ": " + gamenameFromFile, str(scraperSiteName[thumbKey]) + " - downloading art", fileCount)
+						gui.writeMsg(progDialogHeader, util.localize(40023) + ": " + gamenameFromFile, str(scraperSiteName[thumbKey]) + " - downloading art", fileCount)
 				except:
 					pass
 

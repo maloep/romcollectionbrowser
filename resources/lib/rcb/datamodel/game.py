@@ -28,10 +28,17 @@ class Game(DataBaseObject):
         self.name = ''
         self.description = ''
         self.romCollectionId = None
-        self.publisherId = None
+        self.publisherId = None        
         self.developerId = None
         self.reviewerId = None
         self.yearId = None
+        
+        self.publisherFromScraper = ''
+        self.developerFromScraper = ''
+        self.yearFromScraper = ''
+        self.reviewerFromScraper = ''
+        self.genreFromScraper = ''
+        
         self.gameCmd = ''
         self.alternateGameCmd = ''
         self.maxPlayers = 0

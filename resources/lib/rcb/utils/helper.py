@@ -138,8 +138,8 @@ def getPropertyFromCache(key, dict, index):
 		
 	result = ""
 	try:
-		itemRow = dict[key]
-		result = itemRow[index]
+		item = dict[key]
+		result = item.name
 	except:
 		pass
 		
