@@ -11,12 +11,12 @@ def buildFileDict(gui, progDialogRCHeader, files, romCollection, firstScraper):
     
     fileDict = {}
     
-    for filename in files:
+    for file in files:
         try:
             gui.writeMsg(progDialogRCHeader, util.localize(40030), "", fileCount)
             fileCount = fileCount + 1
             
-            gamename = romfileutil.getGamenameFromFilename(filename, romCollection)
+            gamename = romfileutil.getGamenameFromFilename(file.name, romCollection)
             #check if we are handling one of the additional disks of a multi rom game
             #XBOX Hack: rom files will always be named default.xbe: always detected as multi rom without this hack
             isMultiRomGame = (gamename == lastgamename and lastgamename.lower() != 'default')
@@ -30,16 +30,16 @@ def buildFileDict(gui, progDialogRCHeader, files, romCollection, firstScraper):
             #build dictionaries (key=gamename, filecrc or foldername; value=filenames) for later game search
             if(firstScraper.useFoldernameAsCRC):
                 Logutil.log('useFoldernameAsCRC = True', util.LOG_LEVEL_INFO)
-                foldername = romfileutil.getFoldernameFromRomFilename(filename)
+                foldername = romfileutil.getFoldernameFromRomFilename(file.name)
                 foldername = foldername.strip()
                 foldername = foldername.lower()
-                fileDict = buildFilenameDict(fileDict, isMultiRomGame, filename, foldername)
+                fileDict = buildFilenameDict(fileDict, isMultiRomGame, file.name, foldername)
             elif(firstScraper.useFilenameAsCRC):
                 Logutil.log('useFilenameAsCRC = True', util.LOG_LEVEL_INFO)
-                fileDict = buildFilenameDict(fileDict, isMultiRomGame, filename, gamename)
+                fileDict = buildFilenameDict(fileDict, isMultiRomGame, file.name, gamename)
             elif(firstScraper.searchGameByCRC):
                 Logutil.log('searchGameByCRC = True', util.LOG_LEVEL_INFO)
-                filecrc = romfileutil.getFileCRC(filename)
+                filecrc = romfileutil.getFileCRC(file.name)
                 #use crc of first rom if it is a multirom game
                 if(not isMultiRomGame):
                     crcOfFirstGame[gamename] = filecrc
@@ -48,9 +48,9 @@ def buildFileDict(gui, progDialogRCHeader, files, romCollection, firstScraper):
                     filecrc = crcOfFirstGame[gamename]
                     Logutil.log('Read crc from crcOfFirstGame-dict: %s: %s' % (gamename, filecrc), util.LOG_LEVEL_INFO)
                     
-                fileDict = buildFilenameDict(fileDict, isMultiRomGame, filename, filecrc)
+                fileDict = buildFilenameDict(fileDict, isMultiRomGame, file.name, filecrc)
             else:                        
-                fileDict = buildFilenameDict(fileDict, isMultiRomGame, filename, gamename)
+                fileDict = buildFilenameDict(fileDict, isMultiRomGame, file.name, gamename)
         except Exception, (exc):
             Logutil.log("an error occured while building file list", util.LOG_LEVEL_WARNING)
             Logutil.log("Error: " + str(exc), util.LOG_LEVEL_WARNING)

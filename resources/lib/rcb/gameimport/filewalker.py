@@ -2,6 +2,7 @@ import xbmcvfs
 import fnmatch, glob
 
 from resources.lib.rcb.utils import util
+from resources.lib.rcb.datamodel.file import File
 from resources.lib.rcb.utils.util import *
 from resources.lib.rcb.datamodel.gamedatabase import *
 
@@ -17,7 +18,7 @@ def getRomFilesByRomCollection(gdb, romCollection, enableFullReimport):
     
     #only use files that are not already present in database
     if enableFullReimport == False:
-        inDBFiles = File(gdb, '').getFileAllFilesByRCId(romCollection.id)
+        inDBFiles = File(gdb).getFileAllFilesByRCId(romCollection.id)
         files = [f.decode('utf-8') for f in files if not f.decode('utf-8') in inDBFiles]            
     
     files.sort()

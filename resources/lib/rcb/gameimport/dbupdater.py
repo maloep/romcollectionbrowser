@@ -1,5 +1,13 @@
 
 from resources.lib.rcb.utils import util
+from resources.lib.rcb.datamodel.game import Game
+from resources.lib.rcb.datamodel.year import Year
+from resources.lib.rcb.datamodel.genre import Genre
+from resources.lib.rcb.datamodel.publisher import Publisher
+from resources.lib.rcb.datamodel.developer import Developer
+from resources.lib.rcb.datamodel.file import File
+
+
 from resources.lib.rcb.utils.util import *
 from resources.lib.rcb.datamodel.gamedatabase import *
 from resources.lib.rcb.gameimport import nfowriter
@@ -23,41 +31,46 @@ def insertGameFromDesc(gdb, gamedescription, gamename, gamenameFromFile, romColl
     publisherId = -1
     developerId = -1
         
+    game = Game(gdb)
     #read current properties for local artwork scraper
     if(not isLocalArtwork):
-        publisherId = insertForeignKeyItem(gdb, gamedescription, 'Publisher', Publisher(gdb))
-        developerId = insertForeignKeyItem(gdb, gamedescription, 'Developer', Developer(gdb))
+        game.publisherId = insertForeignKeyItem(gdb, gamedescription, 'Publisher', Publisher(gdb))
+        game.developerId = insertForeignKeyItem(gdb, gamedescription, 'Developer', Developer(gdb))
     else:
-        gameRow = Game(gdb).getObjectById(gameId)
-        if(gameRow != None):
-            publisherId = gameRow[GAME_publisherId]
-            publisherRow = Publisher(gdb).getObjectById(gameId)
-            if(publisherRow != None):
-                publisher = publisherRow[util.ROW_NAME]              
-            developerId = gameRow[GAME_developerId]
-            developerRow = Developer(gdb).getObjectById(gameId)
-            if(developerRow != None):
-                developer = developerRow[util.ROW_NAME]
+        game = Game(gdb).getObjectById(gameId)
+        if(game != None):
+            publisherId = game.publisherId
+            publisher = Publisher(gdb).getObjectById(gameId)
+            if(publisher != None):
+                publisher = publisher.name
+            developerId = game.developerId
+            developer = Developer(gdb).getObjectById(gameId)
+            if(developer != None):
+                developer = developer.name
     
-    region = resolveParseResult(gamedescription, 'Region')        
-    media = resolveParseResult(gamedescription, 'Media')
-    controller = resolveParseResult(gamedescription, 'Controller')
-    players = resolveParseResult(gamedescription, 'Players')        
-    rating = resolveParseResult(gamedescription, 'Rating')
-    votes = resolveParseResult(gamedescription, 'Votes')
-    url = resolveParseResult(gamedescription, 'URL')
-    perspective = resolveParseResult(gamedescription, 'Perspective')
-    originalTitle = resolveParseResult(gamedescription, 'OriginalTitle')
-    alternateTitle = resolveParseResult(gamedescription, 'AlternateTitle')
-    translatedBy = resolveParseResult(gamedescription, 'TranslatedBy')
-    version = resolveParseResult(gamedescription, 'Version')                                
-    plot = resolveParseResult(gamedescription, 'Description')
-    isFavorite = resolveParseResult(gamedescription, 'IsFavorite')
-    if(isFavorite == ''):
-        isFavorite = '0'
-    launchCount = resolveParseResult(gamedescription, 'LaunchCount')
-    if(launchCount == ''):
-        launchCount = '0'
+    game.name = gamename
+    game.romCollectionId = romCollection.id
+    game.yearId = yearId
+    game.reviewerId = reviewerId
+    game.region = resolveParseResult(gamedescription, 'Region')        
+    game.media = resolveParseResult(gamedescription, 'Media')
+    game.controllerType = resolveParseResult(gamedescription, 'Controller')
+    game.maxPlayers = resolveParseResult(gamedescription, 'Players')        
+    game.rating = resolveParseResult(gamedescription, 'Rating')
+    game.numVotes = resolveParseResult(gamedescription, 'Votes')
+    game.url = resolveParseResult(gamedescription, 'URL')
+    game.perspective = resolveParseResult(gamedescription, 'Perspective')
+    game.originalTitle = resolveParseResult(gamedescription, 'OriginalTitle')
+    game.alternateTitle = resolveParseResult(gamedescription, 'AlternateTitle')
+    game.translatedBy = resolveParseResult(gamedescription, 'TranslatedBy')
+    game.version = resolveParseResult(gamedescription, 'Version')                                
+    game.description = resolveParseResult(gamedescription, 'Description')
+    game.isFavorite = resolveParseResult(gamedescription, 'IsFavorite')
+    if(game.isFavorite == ''):
+        game.isFavorite = '0'
+    game.launchCount = resolveParseResult(gamedescription, 'LaunchCount')
+    if(game.launchCount == ''):
+        game.launchCount = '0'
     
     #create Nfo file with game properties
     createNfoFile = settings.getSetting(util.SETTING_RCB_CREATENFOFILE).upper() == 'TRUE'    
@@ -68,12 +81,11 @@ def insertGameFromDesc(gdb, gamedescription, gamename, gamenameFromFile, romColl
         except:
             pass
                     
-        nfowriter.NfoWriter().createNfoFromDesc(gamename, plot, romCollection.name, publisher, developer, year, 
-            players, rating, votes, url, region, media, perspective, controller, originalTitle, alternateTitle, version, genreList, isFavorite, launchCount, romFiles[0], gamenameFromFile, artworkfiles, artworkurls)
+        nfowriter.NfoWriter().createNfoFromDesc(gamename, game.description, romCollection.name, publisher, developer, year, 
+            game.maxPlayers, game.rating, game.numVotes, game.url, game.region, game.media, game.perspective, game.controllerType, game.originalTitle, game.alternateTitle, game.version, genreList, game.isFavorite, game.launchCount, romFiles[0], gamenameFromFile, artworkfiles, artworkurls)
                     
     if(not isLocalArtwork):
-        gameId = insertGame(gdb, settings, gamename, plot, romCollection.id, publisherId, developerId, reviewerId, yearId, 
-            players, rating, votes, url, region, media, perspective, controller, originalTitle, alternateTitle, translatedBy, version, isFavorite, launchCount, isUpdate, gameId, romCollection.allowUpdate, )
+        gameId = insertGame(gdb, settings, game, isUpdate, romCollection.allowUpdate)
     
         if(gameId == None):
             return None, True
@@ -81,7 +93,10 @@ def insertGameFromDesc(gdb, gamedescription, gamename, gamenameFromFile, romColl
         for genreId in genreIds:
             genreGame = GenreGame(gdb).getGenreGameByGenreIdAndGameId(genreId, gameId)
             if(genreGame == None):
-                GenreGame(gdb).insert((genreId, gameId))
+                genreGame = GenreGame(gdb)
+                genreGame.genreId = genreId
+                genreGame.gameId = gameId 
+                genreGame.insert(genreGame)
             
         for romFile in romFiles:
             fileType = FileType()
@@ -100,14 +115,12 @@ def insertGameFromDesc(gdb, gamedescription, gamename, gamenameFromFile, romColl
 
     
     
-def insertGame(gdb, settings, gameName, description, romCollectionId, publisherId, developerId, reviewerId, yearId, 
-            players, rating, votes, url, region, media, perspective, controller, originalTitle, alternateTitle, translatedBy, version, isFavorite, launchCount, isUpdate, gameId, allowUpdate):        
+def insertGame(gdb, settings, game, isUpdate, allowUpdate):        
     
     try:
         if(not isUpdate):
-            Logutil.log("Game does not exist in database. Insert game: " +gameName, util.LOG_LEVEL_INFO)
-            Game(gdb).insert((gameName, description, None, None, romCollectionId, publisherId, developerId, reviewerId, yearId, 
-                players, rating, votes, url, region, media, perspective, controller, int(isFavorite), int(launchCount), originalTitle, alternateTitle, translatedBy, version))
+            Logutil.log("Game does not exist in database. Insert game: " +game.name, util.LOG_LEVEL_INFO)
+            game.insert(game)
             return gdb.cursor.lastrowid
         else:    
             if(allowUpdate):
@@ -115,20 +128,15 @@ def insertGame(gdb, settings, gameName, description, romCollectionId, publisherI
                 #check if we are allowed to update with null values
                 allowOverwriteWithNullvalues = settings.getSetting(util.SETTING_RCB_ALLOWOVERWRITEWITHNULLVALUES).upper() == 'TRUE'
                 Logutil.log("allowOverwriteWithNullvalues: " +str(allowOverwriteWithNullvalues), util.LOG_LEVEL_INFO)
-                
-                gameRow = None
-                Logutil.log("Game does exist in database. Update game: " +gameName, util.LOG_LEVEL_INFO)
-                Game(gdb).update(('name', 'description', 'romCollectionId', 'publisherId', 'developerId', 'reviewerId', 'yearId', 'maxPlayers', 'rating', 'numVotes',
-                    'url', 'region', 'media', 'perspective', 'controllerType', 'originalTitle', 'alternateTitle', 'translatedBy', 'version', 'isFavorite', 'launchCount'),
-                    (gameName, description, romCollectionId, publisherId, developerId, reviewerId, yearId, players, rating, votes, url, region, media, perspective, controller,
-                    originalTitle, alternateTitle, translatedBy, version, int(isFavorite), int(launchCount)),
-                    gameId, allowOverwriteWithNullvalues)
+                                
+                Logutil.log("Game does exist in database. Update game: " +game.name, util.LOG_LEVEL_INFO)
+                game.updateAllColumns(game, allowOverwriteWithNullvalues)
             else:
-                Logutil.log("Game does exist in database but update is not allowed for current rom collection. game: " +gameName, util.LOG_LEVEL_INFO)
+                Logutil.log("Game does exist in database but update is not allowed for current rom collection. game: " +game.name, util.LOG_LEVEL_INFO)
             
-            return gameId
+            return game.id
     except Exception, (exc):
-        Logutil.log("An error occured while adding game '%s'. Error: %s" %(gameName, str(exc)), util.LOG_LEVEL_INFO)
+        Logutil.log("An error occured while adding game '%s'. Error: %s" %(game.name, str(exc)), util.LOG_LEVEL_INFO)
         return None
         
     
@@ -138,16 +146,17 @@ def insertForeignKeyItem(gdb, result, itemName, gdbObject):
     item = resolveParseResult(result, itemName)
                     
     if(item != "" and item != None):
-        itemRow = gdbObject.getOneByName(item)
-        if(itemRow == None):    
+        obj = gdbObject.getOneByName(item)
+        if(obj == None):    
             try:
                 Logutil.log(itemName +" does not exist in database. Insert: " +item, util.LOG_LEVEL_INFO)
             except:
                 pass
-            gdbObject.insert((item,))
+            gdbObject.name = item
+            gdbObject.insert(gdbObject)
             itemId = gdb.cursor.lastrowid
         else:
-            itemId = itemRow[0]
+            itemId = obj.id
     else:
         itemId = None
         
@@ -167,16 +176,17 @@ def insertForeignKeyItemList(gdb, result, itemName, gdbObject):
     for item in itemList:
         item = stripHTMLTags(item)
         
-        itemRow = gdbObject.getOneByName(item)
-        if(itemRow == None):
+        obj = gdbObject.getOneByName(item)
+        if(obj == None):
             try:
                 Logutil.log(itemName +" does not exist in database. Insert: " +item, util.LOG_LEVEL_INFO)
             except:
                 pass
-            gdbObject.insert((item,))
+            gdbObject.name = item
+            gdbObject.insert(gdbObject)
             idList.append(gdb.cursor.lastrowid)
         else:
-            idList.append(itemRow[0])
+            idList.append(obj.id)
             
     return idList
 
@@ -203,10 +213,14 @@ def insertFile(gdb, fileName, gameId, fileType, romCollectionId, publisherId, de
                 
     Logutil.log("Insert file with parentid: " + str(parentId), util.LOG_LEVEL_INFO)
         
-    fileRow = File(gdb).getFileByNameAndTypeAndParent(fileName, fileType.id, parentId)
-    if(fileRow == None):
+    file = File(gdb).getFileByNameAndTypeAndParent(fileName, fileType.id, parentId)
+    if(file == None):
         Logutil.log("File does not exist in database. Insert file: " + fileName, util.LOG_LEVEL_INFO)
-        File(gdb).insert((str(fileName), fileType.id, parentId))
+        file = File(gdb)
+        file.name = fileName
+        file.fileTypeId = fileType.id
+        file.parentId = parentId
+        file.insert(file)
     else:
         Logutil.log("File already exists in database: " + fileName, util.LOG_LEVEL_INFO)
 

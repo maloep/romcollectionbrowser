@@ -52,10 +52,10 @@ class Game(DataBaseObject):
         
     def fromDb(self, row):
         
-        game = Game(self._gdb)
-        
         if(not row):
-            return game
+            return None
+        
+        game = Game(self._gdb)
         
         game.id = row[util.ROW_ID]
         game.name = row[util.ROW_NAME]

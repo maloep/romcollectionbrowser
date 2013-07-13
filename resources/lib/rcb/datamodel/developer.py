@@ -24,10 +24,11 @@ class Developer(DataBaseObject):
         
     
     def fromDb(self, row):
-        developer = Developer(self._gdb)
         
         if(not row):
-            return developer
+            return None
+        
+        developer = Developer(self._gdb)
         
         developer.id = row[util.ROW_ID]
         developer.name = row[util.ROW_NAME]

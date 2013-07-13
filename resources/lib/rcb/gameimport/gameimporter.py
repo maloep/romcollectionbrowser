@@ -247,122 +247,123 @@ class GameImporter:
 				
 				for filename in files:
 					
-					try:
-						gamenameFromFile = ''
-						gamenameFromFile = romfileutil.getGamenameFromFilename(filename, romCollection)
-						
-						#check if we are handling one of the additional disks of a multi rom game
-						#XBOX Hack: rom files will always be named default.xbe: always detected as multi rom without this hack
-						isMultiRomGame = (gamenameFromFile == lastgamename and lastgamename.lower() != 'default')
-						lastgamename = gamenameFromFile
-						
-						if(isMultiRomGame):
-							if(lastGameId == None):
-								Logutil.log('Game detected as multi rom game, but lastGameId is None.', util.LOG_LEVEL_ERROR)
-								continue
-							fileType = FileType()
-							fileType.id = 0
-							fileType.name = "rcb_rom"
-							fileType.parent = "game"
-							dbupdater.insertFile(self.gdb, filename, lastGameId, fileType, None, None, None)
+					#try:
+					gamenameFromFile = ''
+					gamenameFromFile = romfileutil.getGamenameFromFilename(filename, romCollection)
+					
+					#check if we are handling one of the additional disks of a multi rom game
+					#XBOX Hack: rom files will always be named default.xbe: always detected as multi rom without this hack
+					isMultiRomGame = (gamenameFromFile == lastgamename and lastgamename.lower() != 'default')
+					lastgamename = gamenameFromFile
+					
+					if(isMultiRomGame):
+						if(lastGameId == None):
+							Logutil.log('Game detected as multi rom game, but lastGameId is None.', util.LOG_LEVEL_ERROR)
 							continue
-						
-						Logutil.log('Start scraping info for game: ' + gamenameFromFile, LOG_LEVEL_INFO)						
-						
-						fileCount = fileCount + 1
-						continueUpdate = gui.writeMsg(progDialogRCHeader, util.localize(40023) + ": " + gamenameFromFile, "", fileCount)
-						if(not continueUpdate):				
-							Logutil.log('Game import canceled by user', util.LOG_LEVEL_INFO)
-							break
-						
-						#check if we are in local artwork mode
-						isLocalArtwork = (firstScraper.name == util.localize(40053))
-						
-						#check if this file already exists in DB
-						continueUpdate, isUpdate, gameId = self.checkRomfileAlreadyExists(filename, enableFullReimport, isLocalArtwork)
-						if(not continueUpdate):
-							continue										
-						
-						results = {}
-						foldername = romfileutil.getFoldernameFromRomFilename(filename)
-						filecrc = ''
+						fileType = FileType()
+						fileType.id = 0
+						fileType.name = "rcb_rom"
+						fileType.parent = "game"
+						dbupdater.insertFile(self.gdb, filename, lastGameId, fileType, None, None, None)
+						continue
+					
+					Logutil.log('Start scraping info for game: ' + gamenameFromFile, LOG_LEVEL_INFO)						
+					
+					fileCount = fileCount + 1
+					continueUpdate = gui.writeMsg(progDialogRCHeader, util.localize(40023) + ": " + gamenameFromFile, "", fileCount)
+					if(not continueUpdate):				
+						Logutil.log('Game import canceled by user', util.LOG_LEVEL_INFO)
+						break
+					
+					#check if we are in local artwork mode
+					isLocalArtwork = (firstScraper.name == util.localize(40053))
+					
+					#check if this file already exists in DB
+					continueUpdate, isUpdate, gameId = self.checkRomfileAlreadyExists(filename, enableFullReimport, isLocalArtwork)
+					if(not continueUpdate):
+						continue										
+					
+					results = {}
+					foldername = romfileutil.getFoldernameFromRomFilename(filename)
+					filecrc = ''
+											
+					artScrapers = {} 
+					if(not isLocalArtwork):
+						results, artScrapers = self.useSingleScrapers(results, romCollection, 0, gamenameFromFile, foldername, filename, fuzzyFactor, updateOption, gui, progDialogRCHeader, fileCount)						
 												
-						artScrapers = {} 
+					#print results
+					if(len(results) == 0):
+						#lastgamename = ""
+						gamedescription = None
+					else:						
+						gamedescription = results
+						
+					filenamelist = []
+					filenamelist.append(filename)
+
+					#Variables to process Art Download Info
+					dialogDict = {'dialogHeaderKey':progDialogRCHeader, 'gameNameKey':gamenameFromFile, 'scraperSiteKey':artScrapers, 'fileCountKey':fileCount}
+					
+					if(gamedescription == None):
 						if(not isLocalArtwork):
-							results, artScrapers = self.useSingleScrapers(results, romCollection, 0, gamenameFromFile, foldername, filename, fuzzyFactor, updateOption, gui, progDialogRCHeader, fileCount)						
-													
-						#print results
-						if(len(results) == 0):
-							#lastgamename = ""
-							gamedescription = None
-						else:						
-							gamedescription = results
-							
-						filenamelist = []
-						filenamelist.append(filename)
-	
-						#Variables to process Art Download Info
-						dialogDict = {'dialogHeaderKey':progDialogRCHeader, 'gameNameKey':gamenameFromFile, 'scraperSiteKey':artScrapers, 'fileCountKey':fileCount}
+							try:
+								self.missingDescFile.write('%s\n' % gamenameFromFile)
+							except:
+								self.missingDescFile.write('%s\n' % gamenameFromFile.encode('utf-8'))
 						
-						if(gamedescription == None):
-							if(not isLocalArtwork):
-								try:
-									self.missingDescFile.write('%s\n' % gamenameFromFile)
-								except:
-									self.missingDescFile.write('%s\n' % gamenameFromFile.encode('utf-8'))
-							
-							ignoreGameWithoutDesc = self.Settings.getSetting(util.SETTING_RCB_IGNOREGAMEWITHOUTDESC).upper() == 'TRUE'
-							if(ignoreGameWithoutDesc):
-								Logutil.log('No description found for game "%s". Game will not be imported.' % gamenameFromFile, util.LOG_LEVEL_WARNING)
-								break
-							else:
-								gamename = gamenameFromFile
+						ignoreGameWithoutDesc = self.Settings.getSetting(util.SETTING_RCB_IGNOREGAMEWITHOUTDESC).upper() == 'TRUE'
+						if(ignoreGameWithoutDesc):
+							Logutil.log('No description found for game "%s". Game will not be imported.' % gamenameFromFile, util.LOG_LEVEL_WARNING)
+							break
 						else:
-							gamename = dbupdater.resolveParseResult(gamedescription, 'Game')
-							if(gamename != gamenameFromFile):
-								try:
-									self.possibleMismatchFile.write('%s, %s\n' % (gamename, gamenameFromFile))
-								except:
-									self.possibleMismatchFile.write('%s, %s\n' % (gamename.encode('utf-8'), gamenameFromFile.encode('utf-8')))
-							if(gamename == ""):
-								gamename = gamenameFromFile
-						
-						#TODO pub dev and other artwork
-						publisher = ''
-						developer = ''
-						artWorkFound, artworkfiles, artworkurls = self.getArtworkForGame(romCollection, gamename, gamenameFromFile, gamedescription, gui, dialogDict, foldername, publisher, developer, False)
-		
-						if(not artWorkFound):
-							ignoreGamesWithoutArtwork = settings.getSetting(util.SETTING_RCB_IGNOREGAMEWITHOUTARTWORK).upper() == 'TRUE'
-							if(ignoreGamesWithoutArtwork):								
-								Logutil.log('No artwork found for game "%s". Game will not be imported.' %gamenameFromFile, util.LOG_LEVEL_WARNING)
-								try:
-									self.missingArtworkFile.write('--> No artwork found for game "%s". Game will not be imported.\n' %gamename)
-								except:
-									self.missingArtworkFile.write('--> No artwork found for game "%s". Game will not be imported.\n' %gamename.encode('utf-8'))
-								return None, True
-						
-						lastGameId, continueUpdate = dbupdater.insertGameFromDesc(self.gdb, gamedescription, gamename, gamenameFromFile, romCollection, filenamelist, foldername, isUpdate, gameId, gui, isLocalArtwork, self.Settings, artworkfiles, artworkurls, dialogDict)
-						if (not continueUpdate):
+							gamename = gamenameFromFile
+					else:
+						gamename = dbupdater.resolveParseResult(gamedescription, 'Game')
+						if(gamename != gamenameFromFile):
+							try:
+								self.possibleMismatchFile.write('%s, %s\n' % (gamename, gamenameFromFile))
+							except:
+								self.possibleMismatchFile.write('%s, %s\n' % (gamename.encode('utf-8'), gamenameFromFile.encode('utf-8')))
+						if(gamename == ""):
+							gamename = gamenameFromFile
+					
+					#TODO pub dev and other artwork
+					publisher = ''
+					developer = ''
+					artWorkFound, artworkfiles, artworkurls = self.getArtworkForGame(romCollection, gamename, gamenameFromFile, gamedescription, gui, dialogDict, foldername, publisher, developer, False)
+	
+					if(not artWorkFound):
+						ignoreGamesWithoutArtwork = settings.getSetting(util.SETTING_RCB_IGNOREGAMEWITHOUTARTWORK).upper() == 'TRUE'
+						if(ignoreGamesWithoutArtwork):								
+							Logutil.log('No artwork found for game "%s". Game will not be imported.' %gamenameFromFile, util.LOG_LEVEL_WARNING)
+							try:
+								self.missingArtworkFile.write('--> No artwork found for game "%s". Game will not be imported.\n' %gamename)
+							except:
+								self.missingArtworkFile.write('--> No artwork found for game "%s". Game will not be imported.\n' %gamename.encode('utf-8'))
+							return None, True
+					
+					lastGameId, continueUpdate = dbupdater.insertGameFromDesc(self.gdb, gamedescription, gamename, gamenameFromFile, romCollection, filenamelist, foldername, isUpdate, gameId, gui, isLocalArtwork, self.Settings, artworkfiles, artworkurls, dialogDict)
+					if (not continueUpdate):
+						break
+					
+					if (lastGameId != None):
+						successfulFiles = successfulFiles + 1
+
+					#check if all first 10 games have errors - Modified to allow user to continue on errors
+					if (fileCount >= 10 and successfulFiles == 0 and ignoreErrors == False):
+						options = []
+						options.append(util.localize(40024))
+						options.append(util.localize(40025))
+						options.append(util.localize(40026))
+						answer = xbmcgui.Dialog().select(util.localize(40027), options)
+						if(answer == 1):
+							ignoreErrors = True
+						elif(answer == 2):
+							xbmcgui.Dialog().ok(util.SCRIPTNAME, util.localize(40028), util.localize(40029))
+							continueUpdate = False
 							break
 						
-						if (lastGameId != None):
-							successfulFiles = successfulFiles + 1
-
-						#check if all first 10 games have errors - Modified to allow user to continue on errors
-						if (fileCount >= 10 and successfulFiles == 0 and ignoreErrors == False):
-							options = []
-							options.append(util.localize(40024))
-							options.append(util.localize(40025))
-							options.append(util.localize(40026))
-							answer = xbmcgui.Dialog().select(util.localize(40027), options)
-							if(answer == 1):
-								ignoreErrors = True
-							elif(answer == 2):
-								xbmcgui.Dialog().ok(util.SCRIPTNAME, util.localize(40028), util.localize(40029))
-								continueUpdate = False
-								break
-						
+					"""
 					except Exception, (exc):
 						Logutil.log("an error occured while adding game " + gamenameFromFile, util.LOG_LEVEL_WARNING)
 						Logutil.log("Error: " + str(exc), util.LOG_LEVEL_WARNING)
@@ -371,6 +372,7 @@ class GameImporter:
 						except:
 							self.missingDescFile.write('%s\n' % gamenameFromFile.encode('utf-8'))
 						continue
+					"""
 					
 			#timestamp2 = time.clock()
 			#diff = (timestamp2 - timestamp1) * 1000		
