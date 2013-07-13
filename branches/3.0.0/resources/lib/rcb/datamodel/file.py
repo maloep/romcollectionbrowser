@@ -46,10 +46,11 @@ class File(DataBaseObject):
         
         
     def fromDb(self, row):
-        file = File(self._gdb)
         
         if(not row):
-            return file
+            return None
+        
+        file = File(self._gdb)
         
         file.id = row[util.ROW_ID]
         file.name = row[util.ROW_NAME]

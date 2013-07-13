@@ -37,10 +37,11 @@ class Year(DataBaseObject):
         
     
     def fromDb(self, row):
-        year = Year(self._gdb)
         
         if(not row):
-            return year
+            return None
+        
+        year = Year(self._gdb)
         
         year.id = row[util.ROW_ID]
         year.name = row[util.ROW_NAME]

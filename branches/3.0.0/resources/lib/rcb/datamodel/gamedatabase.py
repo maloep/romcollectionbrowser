@@ -79,7 +79,7 @@ class GameDataBase:
 	def createTables(self):
 		print "Create Tables"		
 		self.executeSQLScript(os.path.join(self.sqlDir, 'SQL_CREATE.txt'))
-		rcbsetting = RCBSetting(self).fromDb((None, None, None, None, None, None, None, util.CURRENT_DB_VERSION, None, None, None, None))
+		rcbsetting = RCBSetting(self).fromDb((None, None, None, None, None, None, None, None, util.CURRENT_DB_VERSION, None, None, None, None))
 		RCBSetting(self).insert(rcbsetting)
 		
 	def dropTables(self):
@@ -153,10 +153,11 @@ class GenreGame(DataBaseObject):
 		self.gameId = None
 		
 	def fromDb(self, row):
-		genreGame = GenreGame(self._gdb)
 		
 		if(not row):
-			return genreGame
+			return None
+		
+		genreGame = GenreGame(self._gdb)
 
 		genreGame.id = row[util.ROW_ID]
 		genreGame.genreId = row[util.GENREGAME_genreId]
@@ -179,10 +180,10 @@ class Reviewer(DataBaseObject):
 
 
 	def fromDb(self, row):
-		reviewer = Reviewer(self._gdb)
-
 		if(not row):
-			return reviewer
+			return None
+
+		reviewer = Reviewer(self._gdb)
 
 		reviewer.id = row[util.ROW_ID]
 		reviewer.name = row[util.ROW_NAME]

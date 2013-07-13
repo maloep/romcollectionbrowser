@@ -45,10 +45,11 @@ class Genre(DataBaseObject):
         
     
     def fromDb(self, row):
-        genre = Genre(self._gdb)
         
         if(not row):
-            return genre
+            return None
+        
+        genre = Genre(self._gdb)
         
         genre.id = row[util.ROW_ID]
         genre.name = row[util.ROW_NAME]

@@ -24,10 +24,11 @@ class RCBSetting(DataBaseObject):
         
     
     def fromDb(self, row):
-        rcbsetting = RCBSetting(self._gdb)
         
         if(not row):
-            return rcbsetting
+            return None
+        
+        rcbsetting = RCBSetting(self._gdb)
         
         rcbsetting.id = row[util.ROW_ID]
         rcbsetting.lastSelectedView = row[util.RCBSETTING_lastSelectedView]

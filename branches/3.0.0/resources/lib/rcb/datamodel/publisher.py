@@ -36,10 +36,11 @@ class Publisher(DataBaseObject):
         
     
     def fromDb(self, row):
-        publisher = Publisher(self._gdb)
         
         if(not row):
-            return publisher
+            return None
+        
+        publisher = Publisher(self._gdb)
         
         publisher.id = row[util.ROW_ID]
         publisher.name = row[util.ROW_NAME]

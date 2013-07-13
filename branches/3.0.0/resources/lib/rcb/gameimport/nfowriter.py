@@ -142,21 +142,22 @@ class NfoWriter:
 		SubElement(root, 'isFavorite').text = isFavorite
 		SubElement(root, 'launchCount').text = launchCount
 		
-		for artworktype in artworkfiles.keys():
-			
-			local = ''
-			online = ''
-			try:
-				local = artworkfiles[artworktype][0]
-				online = str(artworkurls[artworktype.name])
-			except:
-				pass
-			
-			try:
-				SubElement(root, 'thumb', {'type' : artworktype.name, 'local' : local}).text = online
-			except Exception, (exc):
-				Logutil.log('Error writing artwork url: ' +str(exc), util.LOG_LEVEL_WARNING)				
-				pass
+		if(artworkfiles):
+			for artworktype in artworkfiles.keys():
+				
+				local = ''
+				online = ''
+				try:
+					local = artworkfiles[artworktype][0]
+					online = str(artworkurls[artworktype.name])
+				except:
+					pass
+				
+				try:
+					SubElement(root, 'thumb', {'type' : artworktype.name, 'local' : local}).text = online
+				except Exception, (exc):
+					Logutil.log('Error writing artwork url: ' +str(exc), util.LOG_LEVEL_WARNING)				
+					pass
 		
 		#write file		
 		try:
