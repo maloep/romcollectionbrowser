@@ -80,7 +80,7 @@
 	<string id="40028">Import canceled.</string>
 	<string id="40029">Please check xbmc.log for details.</string>
 	<string id="40030">Building file list...</string>
-	<string id="40031">downloading info</string>
+	<string id="40031">Downloading info...</string>
 	<string id="40032">Enter %s</string>
 	<string id="40033">Remove Game From Favorites</string>
 	<string id="40034">Remove Selection From Favorites</string>
@@ -147,6 +147,7 @@
 	<string id="40095">Post-Launch delay (ms)</string>
 	<string id="40096">Solo mode startup delay (ms)</string>
 	<string id="40097">Use VB script in solo mode (Windows only)</string>
+	<string id="40098">Downloading info...</string>
 	
 	
 	<!-- Settings -->

@@ -9,7 +9,7 @@ from resources.lib.rcb.configuration.config import *
 from resources.lib.heimdall.src.heimdall.predicates import *
 
 
-class TestDataBaseObject(unittest.TestCase):
+class TestGameScraper(unittest.TestCase):
 
     def setUp(self):
         util.RCBHOME = os.path.join(os.getcwd(), '..', '..', '..', '..', '..')
@@ -19,7 +19,7 @@ class TestDataBaseObject(unittest.TestCase):
         pass
     
     
-    def test_scrapeGame(self):
+    def test_scrapeGame(self):                
         
         myConfig = Config('config.xml')
         statusOk, errorMsg = myConfig.readXml()
