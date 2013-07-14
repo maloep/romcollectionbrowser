@@ -289,24 +289,16 @@ class GameImporter:
 					artScrapers = {} 
 					if(not isLocalArtwork):
 						game = self.useSingleScrapersHeimdall(romCollection, gamenameFromFile, updateOption, gui, progDialogHeader, fileCount)
-						#results, artScrapers = self.useSingleScrapers(results, romCollection, 0, gamenameFromFile, foldername, filename, fuzzyFactor, updateOption, gui, progDialogHeader, fileCount)						
-										
-					filenamelist = []
-					filenamelist.append(filename)
-					"""
-					if(len(results) == 0):
-						#lastgamename = ""
-						gamedescription = None
-					else:						
-						gamedescription = results
+						#results, artScrapers = self.useSingleScrapers(results, romCollection, 0, gamenameFromFile, foldername, filename, fuzzyFactor, updateOption, gui, progDialogHeader, fileCount)
 						
 					filenamelist = []
 					filenamelist.append(filename)					
 
-					#Variables to process Art Download Info
-					dialogDict = {'dialogHeaderKey':progDialogHeader, 'gameNameKey':gamenameFromFile, 'scraperSiteKey':artScrapers, 'fileCountKey':fileCount}					
 					
-					if(gamedescription == None):
+					#Variables to process Art Download Info
+					#dialogDict = {'dialogHeaderKey':progDialogHeader, 'gameNameKey':gamenameFromFile, 'scraperSiteKey':artScrapers, 'fileCountKey':fileCount}					
+										
+					if(game == None):
 						if(not isLocalArtwork):
 							try:
 								self.missingDescFile.write('%s\n' % gamenameFromFile)
@@ -317,20 +309,16 @@ class GameImporter:
 						if(ignoreGameWithoutDesc):
 							Logutil.log('No description found for game "%s". Game will not be imported.' % gamenameFromFile, util.LOG_LEVEL_WARNING)
 							break
-						else:
-							gamename = gamenameFromFile
 					else:
-						gamename = dbupdater.resolveParseResult(gamedescription, 'Game')
-						if(gamename != gamenameFromFile):
+						if(game.name != gamenameFromFile):
 							try:
-								self.possibleMismatchFile.write('%s, %s\n' % (gamename, gamenameFromFile))
+								self.possibleMismatchFile.write('%s, %s\n' % (game.name, gamenameFromFile))
 							except:
-								self.possibleMismatchFile.write('%s, %s\n' % (gamename.encode('utf-8'), gamenameFromFile.encode('utf-8')))
-						if(gamename == ""):
-							gamename = gamenameFromFile
+								self.possibleMismatchFile.write('%s, %s\n' % (game.name.encode('utf-8'), gamenameFromFile.encode('utf-8')))
 					
 					
 					#TODO pub dev and other artwork
+					"""
 					publisher = ''
 					developer = ''
 					artWorkFound, artworkfiles, artworkurls = self.getArtworkForGame(romCollection, gamename, gamenameFromFile, gamedescription, gui, dialogDict, foldername, publisher, developer, False)
@@ -398,7 +386,7 @@ class GameImporter:
 		romFile = File(self.gdb).getFileByNameAndType(filename, 0)
 		if(romFile != None):
 			isUpdate = True
-			gameId = romFile[3]
+			gameId = romFile.parentId
 			Logutil.log('File "%s" already exists in database.' % filename, util.LOG_LEVEL_INFO)
 			Logutil.log('Always rescan imported games = ' + str(enableFullReimport), util.LOG_LEVEL_INFO)
 			Logutil.log('scraper == "local artwork": ' + str(isLocalArtwork), util.LOG_LEVEL_INFO)
