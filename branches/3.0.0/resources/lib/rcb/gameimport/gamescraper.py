@@ -3,11 +3,13 @@ from resources.lib.rcb.utils import util
 from resources.lib.rcb.utils.util import Logutil
 from resources.lib.rcb.datamodel.game import Game
 
+import resultmatcher
+
 from resources.lib.heimdall.src.heimdall.core import Engine, Subject
 from resources.lib.heimdall.src.heimdall.predicates import *
 from resources.lib.heimdall.src.heimdall.threadpools import MainloopThreadPool
 
-from resources.lib.heimdall.src import item, thegamesdb
+from resources.lib.heimdall.src.games import thegamesdb
 
 
 import logging
@@ -16,23 +18,26 @@ logging.getLogger("heimdall").setLevel(logging.CRITICAL)
 
 
 def scrapeGame(gamenameFromFile, romCollection, settings, updateOption, gui, progDialogHeader, fileCount):
-        
-    #get fuzzyFactor before scraping
-    matchingRatioIndex = settings.getSetting(util.SETTING_RCB_FUZZYFACTOR)
-    if (matchingRatioIndex == ''):
-        matchingRatioIndex = 2
-    Logutil.log("matchingRatioIndex: " + str(matchingRatioIndex), util.LOG_LEVEL_INFO)
-    
-    fuzzyFactor = util.FUZZY_FACTOR_ENUM[int(matchingRatioIndex)]
-    Logutil.log("fuzzyFactor: " + str(fuzzyFactor), util.LOG_LEVEL_INFO)
             
     #gui.writeMsg(progDialogHeader, util.localize(40023) + ": " + gamenameFromFile, scraper.name + " - " + util.localize(40031), fileCount)
     
     result = scrapeHeimdall(gamenameFromFile)
-    
-    game = fromHeimdallToRcb(result)
-    
-    return game
+    #check if scraper found a result or if we get a list of game names
+    if(type(result[dc.title]) == str):
+        game = fromHeimdallToRcb(result)
+        return game
+    #check if scraper found a result or if we get a list of game names    
+    if(type(result[dc.title]) == list):
+        Logutil.log('heimdall returned list of game names: %s. Will check for best result.' %result[dc.title], util.LOG_LEVEL_INFO)
+        result = resultmatcher.matchResult(result[dc.title], gamenameFromFile, settings, updateOption)
+        
+        #try again with new gamename
+        if (result):
+            result = scrapeHeimdall(result)
+            game = fromHeimdallToRcb(result)
+            return game
+                
+    return None
     
     
 def scrapeHeimdall(gamenameFromFile):

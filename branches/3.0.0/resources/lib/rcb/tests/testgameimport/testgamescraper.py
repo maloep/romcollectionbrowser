@@ -30,9 +30,9 @@ class TestDataBaseObject(unittest.TestCase):
         
         game = gamescraper.scrapeGame(gamename, romCollection, util.getSettings(), 0, RCBMock(), 'Header', 1)
         
+        print game.name
         print game.yearFromScraper
         print game.genreFromScraper
-        print type(game.genreFromScraper)
         
         
 class RCBMock:

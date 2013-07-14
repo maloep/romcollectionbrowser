@@ -1175,8 +1175,6 @@ class UIGameDB(xbmcgui.WindowXML):
 		except:
 			pass									
 		
-		print 'yearId = %i' %game.yearId  
-		print 'yearDict = %s ' %self.yearDict
 		item.setProperty('year', helper.getPropertyFromCache(game.yearId, self.yearDict, util.ROW_NAME))
 		
 		

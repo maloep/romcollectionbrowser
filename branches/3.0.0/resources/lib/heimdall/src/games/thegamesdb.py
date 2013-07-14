@@ -1,10 +1,11 @@
-import heimdall
-from heimdall import tasks
-from heimdall import resources
-from heimdall import supplies, demands
-from heimdall.predicates import *
+import resources.lib.heimdall.src.heimdall
+from resources.lib.heimdall.src import util
+from resources.lib.heimdall.src.heimdall import tasks
+from resources.lib.heimdall.src.heimdall import resources
+from resources.lib.heimdall.src.heimdall import supplies, demands
+from resources.lib.heimdall.src.heimdall.predicates import *
 
-from game_item import comparePlatforms
+from resources.lib.heimdall.src.game_item import comparePlatforms
 
 import datetime
 import difflib
@@ -12,10 +13,6 @@ import urllib
 import xml.etree.ElementTree as ET
 
 baseImageUrl = "http://thegamesdb.net/banners/"
-
-def readTextElement(parent, elementName):
-    element = parent.find(elementName)
-    return element.text if (element != None and element.text != None) else ''
 
 class GamePredicateObject(tasks.SubjectTask):
     demand = [
@@ -42,43 +39,39 @@ class GamePredicateObject(tasks.SubjectTask):
     def run(self):
         gameRow = ET.fromstring(self.subject["gameElement"])
         
-        gameTitle = readTextElement(gameRow, "GameTitle")
+        gameTitle = util.readTextElement(gameRow, "GameTitle")
         self.subject.replace(dc.title, gameTitle)
         for genre in gameRow.findall("Genres/genre"):
             self.subject.emit(dc.type, genre.text)
-        self.subject.emit(dc.description, readTextElement(gameRow, "Overview"))
+        self.subject.emit(dc.description, util.readTextElement(gameRow, "Overview"))
         try:
             # Deserialize MM/DD/YYYY
-            dateobject = datetime.datetime.strptime(readTextElement(gameRow, "ReleaseDate"), "%m/%d/%Y")
+            dateobject = datetime.datetime.strptime(util.readTextElement(gameRow, "ReleaseDate"), "%m/%d/%Y")
             self.subject.emit(dc.date, dateobject.strftime("%Y-%m-%d"))
         except ValueError:
             # can't be parsed by strptime()
             pass
-        self.subject.emit(media.rating, readTextElement(gameRow, 'ESRB'))
-        self.subject.emit(swo.SWO_0000396, readTextElement(gameRow, 'Developer'))
-        self.subject.emit(swo.SWO_0000397, readTextElement(gameRow, 'Publisher'))
-        self.subject.replace(edamontology.data_3106, readTextElement(gameRow, 'Platform'))
-        self.subject.emit("players", readTextElement(gameRow, 'Players'))
+        self.subject.emit(media.rating, util.readTextElement(gameRow, 'ESRB'))
+        self.subject.emit(swo.SWO_0000396, util.readTextElement(gameRow, 'Developer'))
+        self.subject.emit(swo.SWO_0000397, util.readTextElement(gameRow, 'Publisher'))
+        self.subject.replace(edamontology.data_3106, util.readTextElement(gameRow, 'Platform'))
+        self.subject.emit("players", util.readTextElement(gameRow, 'Players'))
 
         for boxartRow in gameRow.findall('Images/boxart'):
             side = boxartRow.attrib.get('side')
             if side == 'front' and boxartRow.text:
                 self.subject.emit(foaf.thumbnail, baseImageUrl + boxartRow.text)
         for fanartRow in gameRow.findall('Images/fanart'):
-            original = readTextElement(fanartRow, 'original')
+            original = util.readTextElement(fanartRow, 'original')
             if original:
-                thumb = readTextElement(fanartRow, 'thumb')
+                thumb = util.readTextElement(fanartRow, 'thumb')
                 if thumb:
                     self.subject.emit("fanart", {"fanart": baseImageUrl + original, "thumbnail": baseImageUrl + thumb})
                 else:
                     self.subject.emit("fanart", baseImageUrl + original)
         for bannerRow in gameRow.findall('Images/banner'):
             self.subject.emit("banner", baseImageUrl + bannerRow.text)
-        self.subject.emit("trailer", readTextElement(gameRow, 'Youtube'))
-
-    def readTextElement(self, parent, elementName):
-        element = parent.find(elementName)
-        return element.text if (element != None and element.text != None) else ''
+        self.subject.emit("trailer", util.readTextElement(gameRow, 'Youtube'))
 
 
 class SearchGameCollector(tasks.SubjectTask):
@@ -109,16 +102,23 @@ class SearchGameCollector(tasks.SubjectTask):
         gameRows = root.findall("Game")
 
         # TheGamesDB has search ordering problems. Sucks for XML scrapers... not for difflib!
+        """
         possibilities = [readTextElement(gameRow, "GameTitle") for gameRow in gameRows]
         gameTitle = difflib.get_close_matches(self.subject[dc.title], possibilities, 1)
         if gameTitle:
             gameTitle = gameTitle[0]
-            for gameRow in gameRows:
-                if gameTitle == readTextElement(gameRow, "GameTitle"):
-                    gameId = readTextElement(gameRow, "id")
-                    if gameId:
-                        self.subject.emit("gameElement", ET.tostring(gameRow))
-                    break
+        """
+        foundGameTitles = []
+        for gameRow in gameRows:
+            gameTitle = util.readTextElement(gameRow, "GameTitle")
+            if gameTitle == self.subject[dc.title]:                
+                self.subject.emit("gameElement", ET.tostring(gameRow))
+                break
+            foundGameTitles.append(gameTitle)
+            
+        #if we did not find a title return the list of found titles to the client
+        self.subject.replace(dc.title, foundGameTitles)
+        
 
     def translatePlatform(self, platform):
         uri = "http://thegamesdb.net/api/GetPlatformsList.php"
