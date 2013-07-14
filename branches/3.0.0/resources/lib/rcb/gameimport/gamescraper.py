@@ -7,9 +7,11 @@ import resultmatcher
 
 from resources.lib.heimdall.src.heimdall.core import Engine, Subject
 from resources.lib.heimdall.src.heimdall.predicates import *
-from resources.lib.heimdall.src.heimdall.threadpools import MainloopThreadPool
+from resources.lib.heimdall.src.heimdall.threadpools import MainloopThreadPool,\
+    OptimisticThreadPool
 
 from resources.lib.heimdall.src.games import thegamesdb
+from resources.lib.heimdall.src import artwork
 
 
 import logging
@@ -19,23 +21,23 @@ logging.getLogger("heimdall").setLevel(logging.CRITICAL)
 
 def scrapeGame(gamenameFromFile, romCollection, settings, updateOption, gui, progDialogHeader, fileCount):
             
-    #gui.writeMsg(progDialogHeader, util.localize(40023) + ": " + gamenameFromFile, scraper.name + " - " + util.localize(40031), fileCount)
-    
+    gui.writeMsg(progDialogHeader, util.localize(40023) + ": " + gamenameFromFile, util.localize(40031), fileCount)
     result = scrapeHeimdall(gamenameFromFile)
-    #check if scraper found a result or if we get a list of game names
-    if(type(result[dc.title]) == str):
-        game = fromHeimdallToRcb(result)
-        return game
+        
     #check if scraper found a result or if we get a list of game names    
-    if(type(result[dc.title]) == list):
+    if(result != None and type(result[dc.title]) == list):
         Logutil.log('heimdall returned list of game names: %s. Will check for best result.' %result[dc.title], util.LOG_LEVEL_INFO)
         result = resultmatcher.matchResult(result[dc.title], gamenameFromFile, settings, updateOption)
         
         #try again with new gamename
         if (result):
             result = scrapeHeimdall(result)
-            game = fromHeimdallToRcb(result)
-            return game
+    
+    if(result):
+        gui.writeMsg(progDialogHeader, util.localize(40023) + ": " + gamenameFromFile, util.localize(40098), fileCount)
+        downloadArtwork(result, romCollection)
+        game = fromHeimdallToRcb(result)
+        return game
                 
     return None
     
@@ -45,7 +47,6 @@ def scrapeHeimdall(gamenameFromFile):
 
     pool = MainloopThreadPool()
     engine = Engine(pool)
-    #engine.registerModule(item.module)
     engine.registerModule(thegamesdb.module)
 
     def c(error, subject):
@@ -68,8 +69,74 @@ def scrapeHeimdall(gamenameFromFile):
     except KeyboardInterrupt:
         pool.quit()
 
-    return subject 
+    #if there is not title there won't be anything else
+    if(subject[dc.title] == None):
+        subject = None
+        
+    return subject
     
+    
+def downloadArtwork(result, romCollection):
+    
+    pool = MainloopThreadPool()
+    engine = Engine(pool)
+    engine.registerModule(artwork.module)
+
+    artworklist = ["boxfront", "fanart"]
+    nbrBeforeQuit = 0
+    for key in result.metadata.keys():
+        if(key in artworklist):
+            nbrBeforeQuit = nbrBeforeQuit +1
+     
+    if(nbrBeforeQuit == 0):
+        return
+    
+    subjects = []
+
+    def c(error, subject):
+        if error:
+            raise error
+
+        print subject
+        subjects.append(subject)
+
+        if len(subjects) >= nbrBeforeQuit:
+            pool.quit()
+    
+    for mediaPath in romCollection.mediaPaths:
+        #TDOD: get correct downloadPath
+        downloadpath = mediaPath.path.replace("%GAME%.*", "")
+        if(mediaPath.fileType.name == "boxfront"):
+            if(result["boxfront"]):
+                subject = createSubject(result[dc.title], result["boxfront"], downloadpath)
+                engine.get(subject, c)
+        elif(mediaPath.fileType.name == "fanart"):
+            if(result['fanart']):
+                #fanart can be string, dict or list of dicts
+                fanart = result['fanart']
+                if(type(fanart) == list):
+                    fanart = fanart[0]['fanart']
+                elif(type(fanart) == dict):
+                    fanart = fanart['fanart']
+                subject = createSubject(result[dc.title], fanart, downloadpath)
+                engine.get(subject, c)
+        
+    try:
+        pool.join()
+    except KeyboardInterrupt:
+        pool.quit()
+        
+
+def createSubject(title, artworkurl, artworkpath):
+    metadata = dict()
+    metadata[dc.title] = title
+    metadata['artworkurl'] = artworkurl
+    metadata['artworkpath'] = artworkpath
+    subject = Subject("", metadata)
+    subject.extendClass("item.artwork")
+    return subject
+    
+
 
 def fromHeimdallToRcb(result):
     

@@ -292,8 +292,7 @@ class GameImporter:
 						#results, artScrapers = self.useSingleScrapers(results, romCollection, 0, gamenameFromFile, foldername, filename, fuzzyFactor, updateOption, gui, progDialogHeader, fileCount)
 						
 					filenamelist = []
-					filenamelist.append(filename)					
-
+					filenamelist.append(filename)
 					
 					#Variables to process Art Download Info
 					#dialogDict = {'dialogHeaderKey':progDialogHeader, 'gameNameKey':gamenameFromFile, 'scraperSiteKey':artScrapers, 'fileCountKey':fileCount}					
@@ -318,10 +317,7 @@ class GameImporter:
 					
 					
 					#TODO pub dev and other artwork
-					"""
-					publisher = ''
-					developer = ''
-					artWorkFound, artworkfiles, artworkurls = self.getArtworkForGame(romCollection, gamename, gamenameFromFile, gamedescription, gui, dialogDict, foldername, publisher, developer, False)
+					artWorkFound, artworkfiles, artworkurls = self.getArtworkForGame(romCollection, game, gamenameFromFile, gui, foldername, False)
 	
 					if(not artWorkFound):
 						ignoreGamesWithoutArtwork = settings.getSetting(util.SETTING_RCB_IGNOREGAMEWITHOUTARTWORK).upper() == 'TRUE'
@@ -332,11 +328,7 @@ class GameImporter:
 							except:
 								self.missingArtworkFile.write('--> No artwork found for game "%s". Game will not be imported.\n' %gamename.encode('utf-8'))
 							return None, True					
-					"""
-					
-					#lastGameId, continueUpdate = dbupdater.insertGameFromDesc(self.gdb, gamedescription, gamename, gamenameFromFile, romCollection, filenamelist, foldername, isUpdate, gameId, gui, isLocalArtwork, self.Settings, artworkfiles, artworkurls, dialogDict)
-					artworkfiles = {}
-					artworkurls = {}
+														
 					lastGameId, continueUpdate = dbupdater.insertGameFromDesc(self.gdb, game, gamenameFromFile, gameId, romCollection, filenamelist, foldername, isUpdate, gui, isLocalArtwork, self.Settings, artworkfiles, artworkurls)
 					if (not continueUpdate):
 						break
@@ -441,7 +433,7 @@ class GameImporter:
 		return result, artScrapers
 	
 	
-	def getArtworkForGame(self, romCollection, gamename, gamenameFromFile, gamedescription, gui, dialogDict, foldername, publisher, developer, isLocalArtwork):
+	def getArtworkForGame(self, romCollection, game, gamenameFromFile, gui, foldername, isLocalArtwork):
 		artWorkFound = False
 		artworkfiles = {}
 		artworkurls = {}
@@ -452,10 +444,20 @@ class GameImporter:
 			#TODO replace %ROMCOLLECTION%, %PUBLISHER%, ... 
 			fileName = path.path.replace("%GAME%", gamenameFromFile)
 									
+			"""
 			if(not isLocalArtwork):
 				continueUpdate, artworkurls = self.getThumbFromOnlineSource(gamedescription, path.fileType.name, fileName, gui, dialogDict, artworkurls)
 				if(not continueUpdate):
 					return False, None, None
+			"""
+			
+			gamename = ''
+			publisher = ''
+			developer = ''
+			if(game):
+				gamename = game.name
+				publisher = game.publisherFromScraper
+				developer = game.developerFromScraper
 			
 			Logutil.log("Additional data path: " +str(path.path), util.LOG_LEVEL_DEBUG)
 			files = self.resolvePath((path.path,), gamename, gamenameFromFile, foldername, romCollection.name, publisher, developer)

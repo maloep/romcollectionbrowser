@@ -38,7 +38,7 @@ class GamePredicateObject(tasks.SubjectTask):
 
     def run(self):
         gameRow = ET.fromstring(self.subject["gameElement"])
-        
+        self.subject.replace('gameElement', '')        
         gameTitle = util.readTextElement(gameRow, "GameTitle")
         self.subject.replace(dc.title, gameTitle)
         for genre in gameRow.findall("Genres/genre"):
@@ -60,7 +60,7 @@ class GamePredicateObject(tasks.SubjectTask):
         for boxartRow in gameRow.findall('Images/boxart'):
             side = boxartRow.attrib.get('side')
             if side == 'front' and boxartRow.text:
-                self.subject.emit(foaf.thumbnail, baseImageUrl + boxartRow.text)
+                self.subject.emit("boxfront", baseImageUrl + boxartRow.text)
         for fanartRow in gameRow.findall('Images/fanart'):
             original = util.readTextElement(fanartRow, 'original')
             if original:
@@ -100,14 +100,7 @@ class SearchGameCollector(tasks.SubjectTask):
     def run(self, resource):
         root = ET.fromstring(resource)
         gameRows = root.findall("Game")
-
-        # TheGamesDB has search ordering problems. Sucks for XML scrapers... not for difflib!
-        """
-        possibilities = [readTextElement(gameRow, "GameTitle") for gameRow in gameRows]
-        gameTitle = difflib.get_close_matches(self.subject[dc.title], possibilities, 1)
-        if gameTitle:
-            gameTitle = gameTitle[0]
-        """
+        
         foundGameTitles = []
         for gameRow in gameRows:
             gameTitle = util.readTextElement(gameRow, "GameTitle")
