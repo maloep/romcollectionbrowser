@@ -1,17 +1,17 @@
 
+import os
+
+import resultmatcher, filewalker, artworkimporter
+
 from resources.lib.rcb.utils import util
 from resources.lib.rcb.utils.util import Logutil
 from resources.lib.rcb.datamodel.game import Game
 
-import resultmatcher
-
 from resources.lib.heimdall.src.heimdall.core import Engine, Subject
 from resources.lib.heimdall.src.heimdall.predicates import *
-from resources.lib.heimdall.src.heimdall.threadpools import MainloopThreadPool,\
-    OptimisticThreadPool
+from resources.lib.heimdall.src.heimdall.threadpools import MainloopThreadPool
 
 from resources.lib.heimdall.src.games import thegamesdb
-from resources.lib.heimdall.src import artwork
 
 
 import logging
@@ -19,7 +19,7 @@ logging.basicConfig()
 logging.getLogger("heimdall").setLevel(logging.CRITICAL)
 
 
-def scrapeGame(gamenameFromFile, romCollection, settings, updateOption, gui, progDialogHeader, fileCount):
+def scrapeGame(gamenameFromFile, romCollection, settings, foldername, updateOption, gui, progDialogHeader, fileCount):
             
     gui.writeMsg(progDialogHeader, util.localize(40023) + ": " + gamenameFromFile, util.localize(40031), fileCount)
     result = scrapeHeimdall(gamenameFromFile)
@@ -35,11 +35,11 @@ def scrapeGame(gamenameFromFile, romCollection, settings, updateOption, gui, pro
     
     if(result):
         gui.writeMsg(progDialogHeader, util.localize(40023) + ": " + gamenameFromFile, util.localize(40098), fileCount)
-        downloadArtwork(result, romCollection)
+        artWorkFound, artworkfiles, artworkurls = artworkimporter.getArtworkForGame(romCollection, result, gamenameFromFile, gui, foldername, False)
         game = fromHeimdallToRcb(result)
-        return game
+        return game, artWorkFound, artworkfiles, artworkurls
                 
-    return None
+    return None, False, {}, {}
     
     
 def scrapeHeimdall(gamenameFromFile):
@@ -76,18 +76,21 @@ def scrapeHeimdall(gamenameFromFile):
     return subject
     
     
+"""
 def downloadArtwork(result, romCollection):
     
     pool = MainloopThreadPool()
     engine = Engine(pool)
     engine.registerModule(artwork.module)
 
+    #check when we have to quit processing
     artworklist = ["boxfront", "fanart"]
     nbrBeforeQuit = 0
     for key in result.metadata.keys():
         if(key in artworklist):
             nbrBeforeQuit = nbrBeforeQuit +1
      
+    #if there is no artwork, return immediately
     if(nbrBeforeQuit == 0):
         return
     
@@ -102,23 +105,25 @@ def downloadArtwork(result, romCollection):
 
         if len(subjects) >= nbrBeforeQuit:
             pool.quit()
-    
+        
+    #check and download every single artwork type
     for mediaPath in romCollection.mediaPaths:
-        #TDOD: get correct downloadPath
-        downloadpath = mediaPath.path.replace("%GAME%.*", "")
         if(mediaPath.fileType.name == "boxfront"):
             if(result["boxfront"]):
-                subject = createSubject(result[dc.title], result["boxfront"], downloadpath)
+                artworkFilename = getArtworkFilename(mediaPath, result[dc.title], result["boxfront"])
+                continueDownload = checkLocalArtworkfolders(mediaPath, result[dc.title], result["boxfront"])
+                subject = createSubject(result[dc.title], result["boxfront"], artworkFilename)
                 engine.get(subject, c)
         elif(mediaPath.fileType.name == "fanart"):
             if(result['fanart']):
+                artworkFilename = getArtworkFilename(mediaPath, result[dc.title], result["fanart"])
                 #fanart can be string, dict or list of dicts
                 fanart = result['fanart']
                 if(type(fanart) == list):
                     fanart = fanart[0]['fanart']
                 elif(type(fanart) == dict):
                     fanart = fanart['fanart']
-                subject = createSubject(result[dc.title], fanart, downloadpath)
+                subject = createSubject(result[dc.title], fanart, artworkFilename)
                 engine.get(subject, c)
         
     try:
@@ -134,8 +139,39 @@ def createSubject(title, artworkurl, artworkpath):
     metadata['artworkpath'] = artworkpath
     subject = Subject("", metadata)
     subject.extendClass("item.artwork")
-    return subject
+    return subject    
+
+def getArtworkFilename(mediaPath, gamename, artworkurl):
+    #TODO replace %ROMCOLLECTION%, %PUBLISHER%, ... 
+    filename = mediaPath.path.replace("%GAME%", gamename)
     
+    rootExtFile = os.path.splitext(filename)
+    rootExtUrl = os.path.splitext(artworkurl)
+    
+    if(len(rootExtUrl) == 2 and len(rootExtFile) != 0):
+        filename = rootExtFile[0] + rootExtUrl[1]
+    
+    return filename
+
+
+def checkLocalArtworkfolders(mediaPath, gamename, artworkurl):
+    #TODO replace %ROMCOLLECTION%, %PUBLISHER%, ... 
+    filename = mediaPath.path.replace("%GAME%", gamename)
+    
+    rootExtFile = os.path.splitext(filename)
+    rootExtUrl = os.path.splitext(artworkurl)
+    
+    files = []
+    if(len(rootExtUrl) == 2 and len(rootExtFile) != 0):
+        gameName = rootExtFile[0] + ".*"
+        files = filewalker.getFilesByWildcard(gameName)
+        
+    if(len(files > 0)):
+        Logutil.log("File '%s' does already exist. Won't download again." %files[0], util.LOG_LEVEL_INFO)
+        return False
+    
+    return True
+"""
 
 
 def fromHeimdallToRcb(result):

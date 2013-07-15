@@ -19,7 +19,7 @@ class TestGameScraper(unittest.TestCase):
         pass
     
     
-    def test_scrapeGame(self):                
+    def test_scrapeGame(self):
         
         myConfig = Config('config.xml')
         statusOk, errorMsg = myConfig.readXml()
@@ -28,7 +28,7 @@ class TestGameScraper(unittest.TestCase):
         
         gamename = 'Prince of Persia I'
         
-        game = gamescraper.scrapeGame(gamename, romCollection, util.getSettings(), 0, RCBMock(), 'Header', 1)
+        game = gamescraper.scrapeGame(gamename, romCollection, util.getSettings(), '', 0, RCBMock(), 'Header', 1)
         
         print game.name
         print game.yearFromScraper
