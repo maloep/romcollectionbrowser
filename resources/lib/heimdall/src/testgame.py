@@ -6,7 +6,7 @@ from heimdall.threadpools import MainloopThreadPool
 
 import item
 import game_item
-import thegamesdb
+from games import thegamesdb
 
 import urlparse
 import sys
@@ -40,7 +40,7 @@ def main(uri):
 
     metadata = dict()
     metadata[dc.identifier] = uri
-    metadata[edamontology.data_3106] = 'Super Nintendo'
+    metadata[edamontology.data_3106] = 'Super Nintendo (SNES)'
     subject = Subject("", metadata)
 
     engine.get(subject, c)
