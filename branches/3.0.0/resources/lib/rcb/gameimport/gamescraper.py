@@ -16,7 +16,7 @@ from resources.lib.heimdall.src.games import thegamesdb
 
 import logging
 logging.basicConfig()
-logging.getLogger("heimdall").setLevel(logging.CRITICAL)
+logging.getLogger("heimdall").setLevel(logging.DEBUG)
 
 
 def scrapeGame(gamenameFromFile, romCollection, settings, foldername, updateOption, gui, progDialogHeader, fileCount):
@@ -58,6 +58,7 @@ def scrapeHeimdall(gamenameFromFile):
 
     metadata = dict()
     metadata[dc.title] = gamenameFromFile
+    #TODO platform mapping
     metadata[edamontology.data_3106] = 'Super Nintendo (SNES)'
     subject = Subject("", metadata)
     subject.extendClass("item.game")

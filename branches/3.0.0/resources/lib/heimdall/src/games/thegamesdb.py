@@ -83,7 +83,7 @@ class SearchGameCollector(tasks.SubjectTask):
     ]
 
     supply = [
-        supplies.emit(owl.sameAs, "http://thegamesdb.net/game/")
+        supplies.emit("gameElement")
     ]
 
     def require(self):

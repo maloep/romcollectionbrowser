@@ -28,7 +28,7 @@ class TestGameScraper(unittest.TestCase):
         
         gamename = 'Prince of Persia I'
         
-        game = gamescraper.scrapeGame(gamename, romCollection, util.getSettings(), '', 0, RCBMock(), 'Header', 1)
+        game, artWorkFound, artworkfiles, artworkurls = gamescraper.scrapeGame(gamename, romCollection, util.getSettings(), '', 0, RCBMock(), 'Header', 1)
         
         print game.name
         print game.yearFromScraper
