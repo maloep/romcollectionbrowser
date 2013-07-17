@@ -8,10 +8,7 @@ from resources.lib.heimdall.src.heimdall.predicates import *
 
 from resources.lib.heimdall.src.game_item import comparePlatforms
 
-import datetime
-import difflib
-import urllib
-import xml.etree.ElementTree as ET
+import datetime, urllib, json
 
 
 class SearchGameCollector(tasks.SubjectTask):
@@ -28,13 +25,49 @@ class SearchGameCollector(tasks.SubjectTask):
     def require(self):
         title = self.subject[dc.title]
         title = title.encode('utf-8')
-        uri = "http://api.giantbomb.com/search/?api_key=279442d60999f92c5e5f693b4d23bd3b6fd8e868&query=%s&resources=game&field_list=api_detail_url,name&format=json" %title 
+        apiKey = self.subject['apikey']
+        platform = self.subject[edamontology.data_3106]
+        uri = "http://www.giantbomb.com/api/releases/?api_key=%s&filter=name:%s,platform:%s&format=json" %(apiKey, title, platform) 
         
         return resources.SimpleResource(uri)
         
 
     def run(self, resource):
-        #Do some json stuff here
-        print resource
+        
+        jsonResult = json.loads(resource)
+        
+        #status_code 1 = OK
+        if(jsonResult['status_code'] != 1):
+            self.subject.emit("error", jsonResult['error'])
+            return
+              
+        foundGameTitles = []      
+        for result in jsonResult['results']:
+            print result['name']
+                        
+            region = ''
+            if(result['region']):
+                region = result['region']['name']
+                
+            preferredregion = self.subject['preferredregion']
+            if(preferredregion):                
+                if(preferredregion != region):
+                        continue
+            
+            title = result['name']
+            if(title != self.subject[dc.title]):
+                foundGameTitles.append(title)
+                continue
+            
+            self.subject.replace(dc.title, title)
+            self.subject.emit("region", region)
+            break
+        
+        #if we did not find a title return the list of found titles to the client
+        self.subject.replace(dc.title, foundGameTitles)
+                        
+            
+            
         
 module = [ SearchGameCollector ]
+
