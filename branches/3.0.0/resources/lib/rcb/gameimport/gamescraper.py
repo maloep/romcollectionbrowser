@@ -26,7 +26,7 @@ def scrapeGame(gamenameFromFile, romCollection, settings, foldername, updateOpti
     
     results = []
     for scraper in romCollection.scraperSites:
-        result = scrapeHeimdall(gamenameFromFile, scraper.name)
+        result = scrapeHeimdall(gamenameFromFile, romCollection, scraper.name)
             
         #check if scraper found a result or if we get a list of game names    
         if(result != None and type(result[dc.title]) == list):
@@ -35,7 +35,7 @@ def scrapeGame(gamenameFromFile, romCollection, settings, foldername, updateOpti
             
             #try again with new gamename
             if (result):
-                result = scrapeHeimdall(result, scraper.name)
+                result = scrapeHeimdall(result, romCollection, scraper.name)
         #append results from different scrapers
         if(result):
             results.append(result)
@@ -52,7 +52,7 @@ def scrapeGame(gamenameFromFile, romCollection, settings, foldername, updateOpti
     return None, False, {}, {}
     
     
-def scrapeHeimdall(gamenameFromFile, scraper):
+def scrapeHeimdall(gamenameFromFile, romCollection, scraper):
     print "Running Heimdall upon: ", gamenameFromFile.encode('utf-8')
 
     pool = MainloopThreadPool()
@@ -70,12 +70,12 @@ def scrapeHeimdall(gamenameFromFile, scraper):
         
     if(scraper == "thegamesdb.net"):
         #TODO platform mapping
-        metadata[edamontology.data_3106] = 'Super Nintendo (SNES)'
+        metadata[edamontology.data_3106] = config.consoleDict[romCollection.name][config.INDEX_THEGAMESDB]
         engine.registerModule(thegamesdb.module)
     
     elif(scraper == "giantbomb.com"):
         #TODO platform mapping
-        metadata[edamontology.data_3106] = '9'
+        metadata[edamontology.data_3106] = config.consoleDict[romCollection.name][config.INDEX_GIANTBOMB]
         metadata['apikey'] = util.API_KEYS['%GIANTBOMBAPIKey%']
         #TODO region mapping
         metadata['preferredregion'] = 'United States'
