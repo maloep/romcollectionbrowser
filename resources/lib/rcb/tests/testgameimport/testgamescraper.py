@@ -28,11 +28,20 @@ class TestGameScraper(unittest.TestCase):
         
         gamename = 'Prince of Persia I'
         
-        game, artWorkFound, artworkfiles, artworkurls = gamescraper.scrapeGame(gamename, romCollection, util.getSettings(), '', 0, RCBMock(), 'Header', 1)
+        import json
+        jsonResult = json.loads('{"error":"OK","limit":100,"offset":0,"number_of_page_results":2,"number_of_total_results":2,"status_code":1,"results":[{"api_detail_url":"http:\/\/www.giantbomb.com\/api\/game\/3030-19071\/","name":"Super Mario Kart","resource_type":"game"},{"api_detail_url":"http:\/\/www.giantbomb.com\/api\/game\/3030-16769\/","name":"Mario Kart: Super Circuit","resource_type":"game"}],"version":"1.0"}')
+                
+        print jsonResult['error']
+        print jsonResult['status_code']
+        print jsonResult['results']
         
+                
+        """        
+        game, artWorkFound, artworkfiles, artworkurls = gamescraper.scrapeGame(gamename, romCollection, util.getSettings(), '', 0, RCBMock(), 'Header', 1)        
         print game.name
         print game.yearFromScraper
         print game.genreFromScraper
+        """
         
         
 class RCBMock:
