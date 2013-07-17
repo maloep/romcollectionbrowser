@@ -27,12 +27,13 @@ class TestGameScraper(unittest.TestCase):
         romCollection = myConfig.romCollections['1']
         
         gamename = 'Super Mario Kart'
-                        
+                                
         game, artWorkFound, artworkfiles, artworkurls = gamescraper.scrapeGame(gamename, romCollection, util.getSettings(), '', 0, RCBMock(), 'Header', 1)        
         
         print game.name
         print game.yearFromScraper
         print game.genreFromScraper
+        
         
         
         

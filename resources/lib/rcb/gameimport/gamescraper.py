@@ -6,6 +6,7 @@ import resultmatcher, filewalker, artworkimporter
 from resources.lib.rcb.utils import util
 from resources.lib.rcb.utils.util import Logutil
 from resources.lib.rcb.datamodel.game import Game
+from resources.lib.rcb.configuration import config
 
 from resources.lib.heimdall.src.heimdall.core import Engine, Subject
 from resources.lib.heimdall.src.heimdall.predicates import *
@@ -22,16 +23,25 @@ logging.getLogger("heimdall").setLevel(logging.DEBUG)
 def scrapeGame(gamenameFromFile, romCollection, settings, foldername, updateOption, gui, progDialogHeader, fileCount):
             
     gui.writeMsg(progDialogHeader, util.localize(40023) + ": " + gamenameFromFile, util.localize(40031), fileCount)
-    result = scrapeHeimdall(gamenameFromFile)
-        
-    #check if scraper found a result or if we get a list of game names    
-    if(result != None and type(result[dc.title]) == list):
-        Logutil.log('heimdall returned list of game names: %s. Will check for best result.' %result[dc.title], util.LOG_LEVEL_INFO)
-        result = resultmatcher.matchResult(result[dc.title], gamenameFromFile, settings, updateOption)
-        
-        #try again with new gamename
-        if (result):
-            result = scrapeHeimdall(result)
+    
+    results = []
+    for scraper in romCollection.scraperSites:
+        result = scrapeHeimdall(gamenameFromFile, scraper.name)
+            
+        #check if scraper found a result or if we get a list of game names    
+        if(result != None and type(result[dc.title]) == list):
+            Logutil.log('heimdall returned list of game names: %s. Will check for best result.' %result[dc.title], util.LOG_LEVEL_INFO)
+            result = resultmatcher.matchResult(result[dc.title], gamenameFromFile, settings, updateOption)
+            
+            #try again with new gamename
+            if (result):
+                result = scrapeHeimdall(result, scraper.name)
+        #append results from different scrapers
+        if(result):
+            results.append(result)
+            
+    #TODO merge results
+    result = results[1]
     
     if(result):
         gui.writeMsg(progDialogHeader, util.localize(40023) + ": " + gamenameFromFile, util.localize(40098), fileCount)
@@ -42,33 +52,37 @@ def scrapeGame(gamenameFromFile, romCollection, settings, foldername, updateOpti
     return None, False, {}, {}
     
     
-def scrapeHeimdall(gamenameFromFile):
+def scrapeHeimdall(gamenameFromFile, scraper):
     print "Running Heimdall upon: ", gamenameFromFile.encode('utf-8')
 
     pool = MainloopThreadPool()
     engine = Engine(pool)
-    engine.registerModule(giantbomb.module)
-
+    
     def c(error, subject):
         if error:
             pass
             #raise error
         print subject
         pool.quit()
-
+                
     metadata = dict()
     metadata[dc.title] = gamenameFromFile
-    #TODO platform mapping
-    #metadata[edamontology.data_3106] = 'Super Nintendo (SNES)'
-    metadata[edamontology.data_3106] = '9'
-    #TODO get API keys
-    metadata['apikey'] = '279442d60999f92c5e5f693b4d23bd3b6fd8e868'
-    #TODO region mapping
-    metadata['preferredregion'] = 'United States'
+        
+    if(scraper == "thegamesdb.net"):
+        #TODO platform mapping
+        metadata[edamontology.data_3106] = 'Super Nintendo (SNES)'
+        engine.registerModule(thegamesdb.module)
+    
+    elif(scraper == "giantbomb.com"):
+        #TODO platform mapping
+        metadata[edamontology.data_3106] = '9'
+        metadata['apikey'] = util.API_KEYS['%GIANTBOMBAPIKey%']
+        #TODO region mapping
+        metadata['preferredregion'] = 'United States'
+        engine.registerModule(giantbomb.module)
     
     subject = Subject("", metadata)
     subject.extendClass("item.game")
-
     engine.get(subject, c)
 
     try:
@@ -76,7 +90,7 @@ def scrapeHeimdall(gamenameFromFile):
     except KeyboardInterrupt:
         pool.quit()
 
-    #if there is not title there won't be anything else
+    #if there is no title there won't be anything else
     if(subject[dc.title] == None):
         subject = None
         
