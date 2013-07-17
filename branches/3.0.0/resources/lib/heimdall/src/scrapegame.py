@@ -30,7 +30,8 @@ def main(uri):
         pool.quit()
 
     metadata = dict()
-    metadata[dc.title] = 'Super Mario'
+    metadata[dc.title] = 'Super Mario Kart'
+    #metadata[dc.title] = 'Final Fantasy V Advance'
     metadata[edamontology.data_3106] = '9'
     metadata['apikey'] = '279442d60999f92c5e5f693b4d23bd3b6fd8e868'
     metadata['preferredregion'] = 'United States'
