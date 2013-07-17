@@ -11,7 +11,7 @@ from resources.lib.heimdall.src.heimdall.core import Engine, Subject
 from resources.lib.heimdall.src.heimdall.predicates import *
 from resources.lib.heimdall.src.heimdall.threadpools import MainloopThreadPool
 
-from resources.lib.heimdall.src.games import thegamesdb
+from resources.lib.heimdall.src.games import thegamesdb, giantbomb
 
 
 import logging
@@ -47,7 +47,7 @@ def scrapeHeimdall(gamenameFromFile):
 
     pool = MainloopThreadPool()
     engine = Engine(pool)
-    engine.registerModule(thegamesdb.module)
+    engine.registerModule(giantbomb.module)
 
     def c(error, subject):
         if error:
@@ -59,7 +59,13 @@ def scrapeHeimdall(gamenameFromFile):
     metadata = dict()
     metadata[dc.title] = gamenameFromFile
     #TODO platform mapping
-    metadata[edamontology.data_3106] = 'Super Nintendo (SNES)'
+    #metadata[edamontology.data_3106] = 'Super Nintendo (SNES)'
+    metadata[edamontology.data_3106] = '9'
+    #TODO get API keys
+    metadata['apikey'] = '279442d60999f92c5e5f693b4d23bd3b6fd8e868'
+    #TODO region mapping
+    metadata['preferredregion'] = 'United States'
+    
     subject = Subject("", metadata)
     subject.extendClass("item.game")
 
@@ -197,8 +203,25 @@ def fromHeimdallToRcb(result):
         # can't be parsed by strptime()
         pass
     game.rating = result[media.rating]
-    game.developerFromScraper = result[swo.SWO_0000396]
-    game.publisherFromScraper = result[swo.SWO_0000397]
+        
+    #TODO add more than 1 developer
+    developers = result[swo.SWO_0000396]
+    if(type(developers) == str or type(developers) == unicode):
+        game.developerFromScraper = developers
+    elif(type(developers) == list):
+        game.developerFromScraper = developers[0]
+    else:
+        print "Developer type %s is not supported" %type(developers)
+                
+    #TODO add more than 1 publisher
+    publishers = result[swo.SWO_0000397]
+    if(type(publishers) == str or type(publishers) == unicode):
+        game.publisherFromScraper = publishers
+    elif(type(publishers) == list):
+        game.publisherFromScraper = publishers[0]
+    else:
+        print "Publisher type %s is not supported" %type(publishers)
+    
     game.maxPlayers = result["players"]
     
     return game

@@ -29,7 +29,7 @@ class GamePredicateObject(tasks.SubjectTask):
         supplies.emit(swo.SWO_0000397), # Publisher
         supplies.emit(edamontology.data_3106), # Platform
         supplies.emit("players"),
-        supplies.emit(foaf.thumbnail),
+        supplies.emit("boxfront"),
         supplies.emit("fanart"),
         supplies.emit("banner"),
         supplies.emit("trailer"),
@@ -110,7 +110,8 @@ class SearchGameCollector(tasks.SubjectTask):
             foundGameTitles.append(gameTitle)
             
         #if we did not find a title return the list of found titles to the client
-        self.subject.replace(dc.title, foundGameTitles)
+        if(len(foundGameTitles) > 0):
+            self.subject.replace(dc.title, foundGameTitles)
         
 
     def translatePlatform(self, platform):
