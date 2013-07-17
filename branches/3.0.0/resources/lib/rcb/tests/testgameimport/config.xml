@@ -28,6 +28,7 @@
       <imagePlacingMain>gameinfobig</imagePlacingMain>
       <imagePlacingInfo>gameinfosmall</imagePlacingInfo>
       <scraper name="thegamesdb.net" replaceKeyString="" replaceValueString="" />
+	  <scraper name="giantbomb.com" replaceKeyString="" replaceValueString="" />
     </RomCollection>
     <RomCollection id="2" name="SEGA 32X">
       <useBuiltinEmulator>False</useBuiltinEmulator>
@@ -57,6 +58,7 @@
       <imagePlacingMain>gameinfobig</imagePlacingMain>
       <imagePlacingInfo>gameinfosmall</imagePlacingInfo>
       <scraper name="thegamesdb.net" replaceKeyString="" replaceValueString="" />
+	  <scraper name="giantbomb.com" replaceKeyString="" replaceValueString="" />
     </RomCollection>
   </RomCollections>
   <FileTypes>
