@@ -35,6 +35,29 @@ class TestGameScraper(unittest.TestCase):
         print game.genreFromScraper
         
         
+    def test_mergeResults(self):
+        
+        result1 = {'key 1': 'value 1'}
+        result2 = {'key 1': 'value 2',
+                   'key 2': 'value 3'}
+        result3 = {'key 2': 'value 4',
+                   'key 3': 'value 5',
+                   'key 4': 'value 6'}
+        
+        results = []
+        results.append(result1)
+        results.append(result2)
+        results.append(result3)
+        
+        result = gamescraper.mergeResults(results)
+        
+        self.assertEqual(4, len(result.keys()), 'Error len')
+        self.assertEqual('value 1', result['key 1'], 'Error key 1')
+        self.assertEqual('value 3', result['key 2'], 'Error key 2')
+        self.assertEqual('value 5', result['key 3'], 'Error key 3')
+        self.assertEqual('value 6', result['key 4'], 'Error key 4')
+         
+        
         
         
 class RCBMock:
