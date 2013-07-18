@@ -38,11 +38,11 @@ def scrapeGame(gamenameFromFile, romCollection, settings, foldername, updateOpti
                 result = scrapeHeimdall(result, romCollection, scraper.name)
         #append results from different scrapers
         if(result):
-            results.append(result)
-            
-    #TODO merge results
-    result = results[1]
+            results.append(result.metadata)
+                
+    result = mergeResults(results)
     
+    #TODO use game instead of result to grab artwork
     if(result):
         gui.writeMsg(progDialogHeader, util.localize(40023) + ": " + gamenameFromFile, util.localize(40098), fileCount)
         artWorkFound, artworkfiles, artworkurls = artworkimporter.getArtworkForGame(romCollection, result, gamenameFromFile, gui, foldername, False)
@@ -96,112 +96,24 @@ def scrapeHeimdall(gamenameFromFile, romCollection, scraper):
         
     return subject
     
-    
-"""
-def downloadArtwork(result, romCollection):
-    
-    pool = MainloopThreadPool()
-    engine = Engine(pool)
-    engine.registerModule(artwork.module)
 
-    #check when we have to quit processing
-    artworklist = ["boxfront", "fanart"]
-    nbrBeforeQuit = 0
-    for key in result.metadata.keys():
-        if(key in artworklist):
-            nbrBeforeQuit = nbrBeforeQuit +1
-     
-    #if there is no artwork, return immediately
-    if(nbrBeforeQuit == 0):
-        return
+def mergeResults(dicts):
     
-    subjects = []
-
-    def c(error, subject):
-        if error:
-            raise error
-
-        print subject
-        subjects.append(subject)
-
-        if len(subjects) >= nbrBeforeQuit:
-            pool.quit()
-        
-    #check and download every single artwork type
-    for mediaPath in romCollection.mediaPaths:
-        if(mediaPath.fileType.name == "boxfront"):
-            if(result["boxfront"]):
-                artworkFilename = getArtworkFilename(mediaPath, result[dc.title], result["boxfront"])
-                continueDownload = checkLocalArtworkfolders(mediaPath, result[dc.title], result["boxfront"])
-                subject = createSubject(result[dc.title], result["boxfront"], artworkFilename)
-                engine.get(subject, c)
-        elif(mediaPath.fileType.name == "fanart"):
-            if(result['fanart']):
-                artworkFilename = getArtworkFilename(mediaPath, result[dc.title], result["fanart"])
-                #fanart can be string, dict or list of dicts
-                fanart = result['fanart']
-                if(type(fanart) == list):
-                    fanart = fanart[0]['fanart']
-                elif(type(fanart) == dict):
-                    fanart = fanart['fanart']
-                subject = createSubject(result[dc.title], fanart, artworkFilename)
-                engine.get(subject, c)
-        
-    try:
-        pool.join()
-    except KeyboardInterrupt:
-        pool.quit()
-        
-
-def createSubject(title, artworkurl, artworkpath):
-    metadata = dict()
-    metadata[dc.title] = title
-    metadata['artworkurl'] = artworkurl
-    metadata['artworkpath'] = artworkpath
-    subject = Subject("", metadata)
-    subject.extendClass("item.artwork")
-    return subject    
-
-def getArtworkFilename(mediaPath, gamename, artworkurl):
-    #TODO replace %ROMCOLLECTION%, %PUBLISHER%, ... 
-    filename = mediaPath.path.replace("%GAME%", gamename)
-    
-    rootExtFile = os.path.splitext(filename)
-    rootExtUrl = os.path.splitext(artworkurl)
-    
-    if(len(rootExtUrl) == 2 and len(rootExtFile) != 0):
-        filename = rootExtFile[0] + rootExtUrl[1]
-    
-    return filename
-
-
-def checkLocalArtworkfolders(mediaPath, gamename, artworkurl):
-    #TODO replace %ROMCOLLECTION%, %PUBLISHER%, ... 
-    filename = mediaPath.path.replace("%GAME%", gamename)
-    
-    rootExtFile = os.path.splitext(filename)
-    rootExtUrl = os.path.splitext(artworkurl)
-    
-    files = []
-    if(len(rootExtUrl) == 2 and len(rootExtFile) != 0):
-        gameName = rootExtFile[0] + ".*"
-        files = filewalker.getFilesByWildcard(gameName)
-        
-    if(len(files > 0)):
-        Logutil.log("File '%s' does already exist. Won't download again." %files[0], util.LOG_LEVEL_INFO)
-        return False
-    
-    return True
-"""
+    result = {}
+    #reverse dicts to have "first come, first go"-logic
+    dicts.reverse()
+    for dict in dicts:        
+        result.update(dict)
+    return result
 
 
 def fromHeimdallToRcb(result):
     
     game = Game(None)
     
-    game.name = result[dc.title]
+    game.name = result[dc.title][0]
     
-    genres = result[dc.type]
+    genres = result[dc.type][0]
     if(type(genres) == str):
         game.genreFromScraper = [genres,]
     elif(genres):
@@ -209,17 +121,17 @@ def fromHeimdallToRcb(result):
         for genre in genres:
             game.genreFromScraper.append(genre)
     
-    game.description = result[dc.description]
+    game.description = result[dc.description][0]
     try:
         # Deserialize MM/DD/YYYY
-        game.yearFromScraper = result[dc.date][0:4]
+        game.yearFromScraper = result[dc.date][0][0:4]
     except:
         # can't be parsed by strptime()
         pass
-    game.rating = result[media.rating]
+    game.rating = result[media.rating][0]
         
     #TODO add more than 1 developer
-    developers = result[swo.SWO_0000396]
+    developers = result[swo.SWO_0000396][0]
     if(type(developers) == str or type(developers) == unicode):
         game.developerFromScraper = developers
     elif(type(developers) == list):
@@ -228,7 +140,7 @@ def fromHeimdallToRcb(result):
         print "Developer type %s is not supported" %type(developers)
                 
     #TODO add more than 1 publisher
-    publishers = result[swo.SWO_0000397]
+    publishers = result[swo.SWO_0000397][0]
     if(type(publishers) == str or type(publishers) == unicode):
         game.publisherFromScraper = publishers
     elif(type(publishers) == list):
@@ -236,7 +148,7 @@ def fromHeimdallToRcb(result):
     else:
         print "Publisher type %s is not supported" %type(publishers)
     
-    game.maxPlayers = result["players"]
+    game.maxPlayers = result["players"][0]
     
     return game
 

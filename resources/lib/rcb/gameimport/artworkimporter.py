@@ -9,6 +9,7 @@ import filewalker, dbupdater
 import xbmcvfs, xbmcgui
 
 
+#TODO use game instead of result
 def getArtworkForGame(romCollection, result, gamenameFromFile, gui, foldername, isLocalArtwork):
     artWorkFound = False
     artworkfiles = {}
@@ -31,9 +32,9 @@ def getArtworkForGame(romCollection, result, gamenameFromFile, gui, foldername, 
         publisher = ''
         developer = ''
         if(result):
-            gamename = result[dc.title]
-            publisher = result[swo.SWO_0000397]
-            developer = result[swo.SWO_0000396]
+            gamename = result[dc.title][0]
+            publisher = result[swo.SWO_0000397][0]
+            developer = result[swo.SWO_0000396][0]
         
         Logutil.log("Additional data path: " +str(path.path), util.LOG_LEVEL_DEBUG)
         files = resolvePath((path.path,), gamename, gamenameFromFile, foldername, romCollection.name, publisher, developer)
@@ -121,13 +122,13 @@ def getThumbFromOnlineSource(result, fileType, fileName, gui, artworkurls):
         #HACK: translate heimdall artwork types to RCB artwork types
         if(fileType == 'fanart'):
             #fanart can be string, dict or list of dicts
-            thumbUrl = result['fanart']
+            thumbUrl = result['fanart'][0]
             if(type(thumbUrl) == list):
                 thumbUrl = thumbUrl[0]['fanart']
             elif(type(thumbUrl) == dict):
                 thumbUrl = thumbUrl['fanart']
         else:
-            thumbUrl = result[fileType]
+            thumbUrl = result[fileType][0]
             
         if(thumbUrl == '' or thumbUrl == None):
             Logutil.log("No artwork of type %s found." %fileType, util.LOG_LEVEL_INFO)
