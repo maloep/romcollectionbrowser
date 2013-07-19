@@ -33,12 +33,6 @@ class Game(DataBaseObject):
         self.reviewerId = None
         self.yearId = None
         
-        self.publisherFromScraper = ''
-        self.developerFromScraper = ''
-        self.yearFromScraper = ''
-        self.reviewerFromScraper = ''
-        self.genreFromScraper = ''
-        
         self.gameCmd = ''
         self.alternateGameCmd = ''
         self.maxPlayers = 0
@@ -55,6 +49,15 @@ class Game(DataBaseObject):
         self.alternateTitle = ''
         self.translatedBy = ''
         self.version = ''
+        
+        #non-db properties
+        self.publisher_dbignore = ''
+        self.developer_dbignore = ''
+        self.year_dbignore = ''
+        self.reviewer_dbignore = ''
+        self.genre_dbignore = ''
+        
+        self.artworkurls_dbignore = {}
 
         
     def fromDb(self, row):

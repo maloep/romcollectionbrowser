@@ -44,10 +44,10 @@ def scrapeGame(gamenameFromFile, romCollection, settings, foldername, updateOpti
     
     #TODO use game instead of result to grab artwork
     if(result):
-        gui.writeMsg(progDialogHeader, util.localize(40023) + ": " + gamenameFromFile, util.localize(40098), fileCount)
-        artWorkFound, artworkfiles, artworkurls = artworkimporter.getArtworkForGame(romCollection, result, gamenameFromFile, gui, foldername, False)
         game = fromHeimdallToRcb(result)
-        return game, artWorkFound, artworkfiles, artworkurls
+        gui.writeMsg(progDialogHeader, util.localize(40023) + ": " + gamenameFromFile, util.localize(40098), fileCount)
+        artWorkFound, artworkfiles = artworkimporter.getArtworkForGame(romCollection, game, gamenameFromFile, gui, foldername, False)        
+        return game, artWorkFound, artworkfiles, game.artworkurls_dbignore
                 
     return None, False, {}, {}
     
@@ -111,45 +111,70 @@ def fromHeimdallToRcb(result):
     
     game = Game(None)
     
-    game.name = result[dc.title][0]
+    game.name = readHeimdallValue(result, dc.title)
     
-    genres = result[dc.type][0]
+    genres = readHeimdallValue(result, dc.type)
     if(type(genres) == str):
-        game.genreFromScraper = [genres,]
+        game.genre_dbignore = [genres,]
     elif(genres):
-        game.genreFromScraper = []
+        game.genre_dbignore = []
         for genre in genres:
-            game.genreFromScraper.append(genre)
+            game.genre_dbignore.append(genre)
     
-    game.description = result[dc.description][0]
+    game.description = readHeimdallValue(result, dc.description)
     try:
-        # Deserialize MM/DD/YYYY
-        game.yearFromScraper = result[dc.date][0][0:4]
+        date = readHeimdallValue(result, dc.date)
+        game.year_dbignore = date[0:4]
     except:
         # can't be parsed by strptime()
         pass
-    game.rating = result[media.rating][0]
+    game.rating = readHeimdallValue(result, media.rating)
         
     #TODO add more than 1 developer
-    developers = result[swo.SWO_0000396][0]
+    developers = readHeimdallValue(result, swo.SWO_0000396)
     if(type(developers) == str or type(developers) == unicode):
-        game.developerFromScraper = developers
+        game.developer_dbignore = developers
     elif(type(developers) == list):
-        game.developerFromScraper = developers[0]
+        game.developer_dbignore = developers[0]
     else:
         print "Developer type %s is not supported" %type(developers)
                 
     #TODO add more than 1 publisher
-    publishers = result[swo.SWO_0000397][0]
+    publishers = readHeimdallValue(result, swo.SWO_0000397)
     if(type(publishers) == str or type(publishers) == unicode):
-        game.publisherFromScraper = publishers
+        game.publisher_dbignore = publishers
     elif(type(publishers) == list):
-        game.publisherFromScraper = publishers[0]
+        game.publisher_dbignore = publishers[0]
     else:
         print "Publisher type %s is not supported" %type(publishers)
     
-    game.maxPlayers = result["players"][0]
+    game.maxPlayers = readHeimdallValue(result, "players")
+    
+    
+    game.artworkurls_dbignore = {}    
+    #TODO: translate heimdall artwork types to RCB artwork types
+    #fanart from thegamesdb can be string, dict or list of dicts
+    if(readHeimdallValue(result, 'fanart')):
+        artworkurl = readHeimdallValue(result, 'fanart')
+        if(type(artworkurl) == list):
+            artworkurl = artworkurl[0]['fanart']
+        elif(type(artworkurl) == dict):
+            artworkurl = artworkurl['fanart']
+        game.artworkurls_dbignore['fanart'] = artworkurl
+    if(readHeimdallValue(result, 'boxfront')):
+        game.artworkurls_dbignore['boxfront'] = readHeimdallValue(result, 'boxfront')
     
     return game
 
 
+def readHeimdallValue(metadata, key):
+    resultValue = ''
+    try:
+        #heimdalls metadata is storing everything in lists. Just return the first item
+        resultValue = metadata[key][0]
+    except:
+        pass
+    
+    return resultValue
+    
+    

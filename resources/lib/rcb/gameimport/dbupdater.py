@@ -14,7 +14,7 @@ from resources.lib.rcb.gameimport import nfowriter
 from resources.lib.rcb.configuration.config import *
 
 
-def insertGameFromDesc(gdb, gameFromScraper, gamenameFromFile, gameId, romCollection, romFiles, foldername, isUpdate, gui, isLocalArtwork, settings, artworkfiles, artworkurls):
+def insertGameFromDesc(gdb, game_dbignore, gamenameFromFile, gameId, romCollection, romFiles, foldername, isUpdate, gui, isLocalArtwork, settings, artworkfiles, artworkurls):
     Logutil.log("insertGameFromDesc", util.LOG_LEVEL_INFO)
 
     if(isUpdate):
@@ -23,40 +23,40 @@ def insertGameFromDesc(gdb, gameFromScraper, gamenameFromFile, gameId, romCollec
         game = Game(gdb)
         
     
-    if(gameFromScraper == None):
+    if(game_dbignore == None):
         game.name = gamenameFromFile
         game.romCollectionId = romCollection.id
         genreIds = []
     else:
-        yearId = insertForeignKeyItem(gdb, gameFromScraper.yearFromScraper, Year(gdb))
-        genreIds = insertForeignKeyItemList(gdb, gameFromScraper.genreFromScraper, Genre(gdb))
-        reviewerId = insertForeignKeyItem(gdb, gameFromScraper.reviewerFromScraper, Reviewer(gdb))
-        publisherId = insertForeignKeyItem(gdb, gameFromScraper.publisherFromScraper, Publisher(gdb))
-        developerId = insertForeignKeyItem(gdb, gameFromScraper.developerFromScraper, Developer(gdb))                        
+        yearId = insertForeignKeyItem(gdb, game_dbignore.year_dbignore, Year(gdb))
+        genreIds = insertForeignKeyItemList(gdb, game_dbignore.genre_dbignore, Genre(gdb))
+        reviewerId = insertForeignKeyItem(gdb, game_dbignore.reviewer_dbignore, Reviewer(gdb))
+        publisherId = insertForeignKeyItem(gdb, game_dbignore.publisher_dbignore, Publisher(gdb))
+        developerId = insertForeignKeyItem(gdb, game_dbignore.developer_dbignore, Developer(gdb))                        
         
-        game.name = gameFromScraper.name
+        game.name = game_dbignore.name
         game.romCollectionId = romCollection.id
         game.yearId = yearId
         game.publisherId = publisherId
         game.developerId = developerId
         game.reviewerId = reviewerId
-        game.region = gameFromScraper.region       
-        game.media = gameFromScraper.media
-        game.controllerType = gameFromScraper.controllerType
-        game.maxPlayers = gameFromScraper.maxPlayers
-        game.rating = gameFromScraper.rating
-        game.numVotes = gameFromScraper.numVotes
-        game.url = gameFromScraper.url
-        game.perspective = gameFromScraper.perspective
-        game.originalTitle = gameFromScraper.originalTitle
-        game.alternateTitle = gameFromScraper.alternateTitle
-        game.translatedBy = gameFromScraper.translatedBy
-        game.version = gameFromScraper.version
-        game.description = gameFromScraper.description
-        game.isFavorite = gameFromScraper.isFavorite
+        game.region = game_dbignore.region       
+        game.media = game_dbignore.media
+        game.controllerType = game_dbignore.controllerType
+        game.maxPlayers = game_dbignore.maxPlayers
+        game.rating = game_dbignore.rating
+        game.numVotes = game_dbignore.numVotes
+        game.url = game_dbignore.url
+        game.perspective = game_dbignore.perspective
+        game.originalTitle = game_dbignore.originalTitle
+        game.alternateTitle = game_dbignore.alternateTitle
+        game.translatedBy = game_dbignore.translatedBy
+        game.version = game_dbignore.version
+        game.description = game_dbignore.description
+        game.isFavorite = game_dbignore.isFavorite
         if(game.isFavorite == ''):
             game.isFavorite = '0'
-        game.launchCount = gameFromScraper.launchCount
+        game.launchCount = game_dbignore.launchCount
         if(game.launchCount == ''):
             game.launchCount = '0'
         
@@ -65,11 +65,11 @@ def insertGameFromDesc(gdb, gameFromScraper, gamenameFromFile, gameId, romCollec
         if(createNfoFile):
             genreList = []
             try:
-                genreList = game.genreFromScraper
+                genreList = game.genre_dbignore
             except:
                 pass
                         
-            nfowriter.NfoWriter().createNfoFromDesc(game.name, game.description, romCollection.name, game.publisherFromScraper, game.developerFromScraper, game.yearFromScraper, 
+            nfowriter.NfoWriter().createNfoFromDesc(game.name, game.description, romCollection.name, game.publisher_dbignore, game.developer_dbignore, game.year_dbignore, 
                 game.maxPlayers, game.rating, game.numVotes, game.url, game.region, game.media, game.perspective, game.controllerType, game.originalTitle, game.alternateTitle, game.version, genreList, game.isFavorite, game.launchCount, romFiles[0], gamenameFromFile, artworkfiles, artworkurls)
                     
     

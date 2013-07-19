@@ -15,7 +15,8 @@ class DataBaseObject:
     def toDict(self):
         dict = {}
         for property, value in vars(self).iteritems():
-            if(not property.startswith('_') and not property.endswith('FromScraper')):
+            #ignore protected and non-db properties
+            if(not property.startswith('_') and not property.endswith('_dbignore')):
                 dict[property] = value
                 
         return dict
