@@ -10,10 +10,9 @@ import xbmcvfs, xbmcgui
 
 
 #TODO use game instead of result
-def getArtworkForGame(romCollection, result, gamenameFromFile, gui, foldername, isLocalArtwork):
+def getArtworkForGame(romCollection, game, gamenameFromFile, gui, foldername, isLocalArtwork):
     artWorkFound = False
     artworkfiles = {}
-    artworkurls = {}
     for path in romCollection.mediaPaths:
                     
         Logutil.log("FileType: " +str(path.fileType.name), util.LOG_LEVEL_INFO)            
@@ -23,21 +22,12 @@ def getArtworkForGame(romCollection, result, gamenameFromFile, gui, foldername, 
                                 
         
         if(not isLocalArtwork):
-            continueUpdate, artworkurls = getThumbFromOnlineSource(result, path.fileType.name, fileName, gui, artworkurls)
+            continueUpdate = getThumbFromOnlineSource(game, path.fileType.name, fileName, gui)
             if(not continueUpdate):
-                return False, None, None
-        
-        
-        gamename = ''
-        publisher = ''
-        developer = ''
-        if(result):
-            gamename = result[dc.title][0]
-            publisher = result[swo.SWO_0000397][0]
-            developer = result[swo.SWO_0000396][0]
+                return False, None
         
         Logutil.log("Additional data path: " +str(path.path), util.LOG_LEVEL_DEBUG)
-        files = resolvePath((path.path,), gamename, gamenameFromFile, foldername, romCollection.name, publisher, developer)
+        files = resolvePath((path.path,), game.name, gamenameFromFile, foldername, romCollection.name, game.publisher_dbignore, game.developer_dbignore)
         if(len(files) > 0):
             artWorkFound = True
             
@@ -53,7 +43,7 @@ def getArtworkForGame(romCollection, result, gamenameFromFile, gui, foldername, 
         
         artworkfiles[path.fileType] = files
     
-    return artWorkFound, artworkfiles, artworkurls
+    return artWorkFound, artworkfiles
     
     
 def resolvePath(paths, gamename, gamenameFromFile, foldername, romCollectionName, publisher, developer):        
@@ -116,25 +106,14 @@ def resolvePath(paths, gamename, gamenameFromFile, foldername, romCollectionName
     return resolvedFiles
             
 
-def getThumbFromOnlineSource(result, fileType, fileName, gui, artworkurls):
+def getThumbFromOnlineSource(game, fileType, fileName, gui):
     Logutil.log("Get thumb from online source", util.LOG_LEVEL_INFO)
-    try:
-        #HACK: translate heimdall artwork types to RCB artwork types
-        if(fileType == 'fanart'):
-            #fanart can be string, dict or list of dicts
-            thumbUrl = result['fanart'][0]
-            if(type(thumbUrl) == list):
-                thumbUrl = thumbUrl[0]['fanart']
-            elif(type(thumbUrl) == dict):
-                thumbUrl = thumbUrl['fanart']
-        else:
-            thumbUrl = result[fileType][0]
+    try:        
+        thumbUrl = game.artworkurls_dbignore[fileType]
             
         if(thumbUrl == '' or thumbUrl == None):
             Logutil.log("No artwork of type %s found." %fileType, util.LOG_LEVEL_INFO)
-            return True, artworkurls
-        
-        artworkurls[fileType] = thumbUrl
+            return True
         
         Logutil.log("Get thumb from url: " + str(thumbUrl), util.LOG_LEVEL_INFO)
         
@@ -156,7 +135,7 @@ def getThumbFromOnlineSource(result, fileType, fileName, gui, artworkurls):
             except Exception, (exc):
                 xbmcgui.Dialog().ok(util.localize(35010), util.localize(35011))
                 Logutil.log("Could not create directory: '%s'. Error message: '%s'" % (parent, str(exc)), util.LOG_LEVEL_ERROR)
-                return False, artworkurls
+                return False
             
         #check artwork specific folders
         if(not xbmcvfs.exists(dirname)):
@@ -165,7 +144,7 @@ def getThumbFromOnlineSource(result, fileType, fileName, gui, artworkurls):
             except Exception, (exc):
                 xbmcgui.Dialog().ok(util.localize(35010), util.localize(35011))
                 Logutil.log("Could not create directory: '%s'. Error message: '%s'" % (dirname, str(exc)), util.LOG_LEVEL_ERROR)
-                return False, artworkurls
+                return False
             
         
         Logutil.log("Download file to: " + str(fileName), util.LOG_LEVEL_INFO)            
@@ -199,7 +178,7 @@ def getThumbFromOnlineSource(result, fileType, fileName, gui, artworkurls):
                 #Don't show message box when file download fails
                 #xbmcgui.Dialog().ok(util.localize(35012), util.localize(35011))
                 Logutil.log("Could not create file: '%s'. Error message: '%s'" % (str(fileName), str(exc)), util.LOG_LEVEL_ERROR)
-                return False, artworkurls
+                return False
             
             # cleanup any remaining urllib cache
             urllib.urlcleanup()
@@ -209,4 +188,4 @@ def getThumbFromOnlineSource(result, fileType, fileName, gui, artworkurls):
     except Exception, (exc):
         Logutil.log("Error in getThumbFromOnlineSource: " + str(exc), util.LOG_LEVEL_WARNING)                        
 
-    return True, artworkurls
+    return True
