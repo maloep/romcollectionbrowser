@@ -35,13 +35,12 @@ def walkDownRoot(files, romPath, maxFolderDepth):
     Logutil.log("files after walkDown = %s" %files, util.LOG_LEVEL_INFO)
     
     return files
-                
 
 
 def walkDown(files, romPath, maxFolderDepth):
     Logutil.log("Running walkdown on: %s" %romPath, util.LOG_LEVEL_INFO)
             
-    dirs, newFiles, dirname, filemask = getFilesByWildcardExt(romPath)
+    dirs, newFiles, dirname, filemask = getFilesByWildcard(romPath)
     files.extend(newFiles)
     
     for dir in dirs:
@@ -54,11 +53,6 @@ def walkDown(files, romPath, maxFolderDepth):
 
 
 def getFilesByWildcard(pathName):
-    dirs, files, dirname, filemask = getFilesByWildcardExt(pathName)
-    return files
-
-
-def getFilesByWildcardExt(pathName):
     
     Logutil.log('Begin getFilesByWildcard. pathName = %s' %pathName, util.LOG_LEVEL_INFO)
     files = []
@@ -84,25 +78,3 @@ def getFilesByWildcardExt(pathName):
             files.append(file)
             
     return dirs, files, dirname, filemask
-        
-
-def getFilesByGameNameIgnoreCase(pathname):
-        
-    files = []
-    
-    dirname = os.path.dirname(pathname)
-    basename = os.path.basename(pathname)
-    
-    #search all Files that start with the first character of game name
-    newpath = util.joinPath(dirname, basename[0].upper() +'*')
-    filesUpper = glob.glob(newpath)
-    newpath = util.joinPath(dirname, basename[0].lower() +'*')
-    filesLower = glob.glob(newpath)
-    
-    allFiles = filesUpper + filesLower
-    for file in allFiles:
-        if(pathname.lower() == file.lower()):
-            Logutil.log('Found path "%s" by search with ignore case.' %pathname, util.LOG_LEVEL_WARNING)
-            files.append(file)
-            
-    return files

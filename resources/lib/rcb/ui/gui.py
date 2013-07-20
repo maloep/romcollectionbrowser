@@ -1,7 +1,6 @@
 
 import xbmc, xbmcgui, xbmcaddon
 import string, glob, time, array, os, sys, shutil, re
-from threading import *
 
 import dialogimportoptions, dialogcontextmenu, dialogprogress, dialogmissinginfo
 from resources.lib.rcb.utils import util, helper
@@ -89,10 +88,6 @@ class UIGameDB(xbmcgui.WindowXML):
 		
 	rcb_playList = xbmc.PlayList(xbmc.PLAYLIST_VIDEO)
 	playlistOffsets = {}
-	
-	applyFilterThread = None
-	applyFilterThreadStopped = False
-	applyFiltersInProgress = False
 	
 	filterChanged = False
 	

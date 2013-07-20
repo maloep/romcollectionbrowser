@@ -17,7 +17,7 @@ from resources.lib.heimdall.src.games import thegamesdb, giantbomb
 
 import logging
 logging.basicConfig()
-logging.getLogger("heimdall").setLevel(logging.DEBUG)
+logging.getLogger("heimdall").setLevel(logging.CRITICAL)
 
 
 def scrapeGame(gamenameFromFile, romCollection, settings, foldername, updateOption, gui, progDialogHeader, fileCount):
@@ -41,8 +41,7 @@ def scrapeGame(gamenameFromFile, romCollection, settings, foldername, updateOpti
             results.append(result.metadata)
                 
     result = mergeResults(results)
-    
-    #TODO use game instead of result to grab artwork
+        
     if(result):
         game = fromHeimdallToRcb(result)
         gui.writeMsg(progDialogHeader, util.localize(40023) + ": " + gamenameFromFile, util.localize(40098), fileCount)
@@ -69,15 +68,13 @@ def scrapeHeimdall(gamenameFromFile, romCollection, scraper):
     metadata[dc.title] = gamenameFromFile
         
     if(scraper == "thegamesdb.net"):
-        #TODO platform mapping
         metadata[edamontology.data_3106] = config.consoleDict[romCollection.name][config.INDEX_THEGAMESDB]
         engine.registerModule(thegamesdb.module)
     
     elif(scraper == "giantbomb.com"):
-        #TODO platform mapping
         metadata[edamontology.data_3106] = config.consoleDict[romCollection.name][config.INDEX_GIANTBOMB]
         metadata['apikey'] = util.API_KEYS['%GIANTBOMBAPIKey%']
-        #TODO region mapping
+        #TODO: region mapping
         metadata['preferredregion'] = 'United States'
         engine.registerModule(giantbomb.module)
     
@@ -130,7 +127,7 @@ def fromHeimdallToRcb(result):
         pass
     game.rating = readHeimdallValue(result, media.rating)
         
-    #TODO add more than 1 developer
+    #TODO: add more than 1 developer
     developers = readHeimdallValue(result, swo.SWO_0000396)
     if(type(developers) == str or type(developers) == unicode):
         game.developer_dbignore = developers
@@ -139,7 +136,7 @@ def fromHeimdallToRcb(result):
     else:
         print "Developer type %s is not supported" %type(developers)
                 
-    #TODO add more than 1 publisher
+    #TODO: add more than 1 publisher
     publishers = readHeimdallValue(result, swo.SWO_0000397)
     if(type(publishers) == str or type(publishers) == unicode):
         game.publisher_dbignore = publishers

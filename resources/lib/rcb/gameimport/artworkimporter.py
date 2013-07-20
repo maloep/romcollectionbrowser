@@ -9,7 +9,6 @@ import filewalker, dbupdater
 import xbmcvfs, xbmcgui
 
 
-#TODO use game instead of result
 def getArtworkForGame(romCollection, game, gamenameFromFile, gui, foldername, isLocalArtwork):
     artWorkFound = False
     artworkfiles = {}
@@ -17,9 +16,8 @@ def getArtworkForGame(romCollection, game, gamenameFromFile, gui, foldername, is
                     
         Logutil.log("FileType: " +str(path.fileType.name), util.LOG_LEVEL_INFO)            
         
-        #TODO replace %ROMCOLLECTION%, %PUBLISHER%, ... 
+        #TODO: replace %ROMCOLLECTION%, %PUBLISHER%, ... 
         fileName = path.path.replace("%GAME%", gamenameFromFile)
-                                
         
         if(not isLocalArtwork):
             continueUpdate = getThumbFromOnlineSource(game, path.fileType.name, fileName, gui)
@@ -30,17 +28,6 @@ def getArtworkForGame(romCollection, game, gamenameFromFile, gui, foldername, is
         files = resolvePath((path.path,), game.name, gamenameFromFile, foldername, romCollection.name, game.publisher_dbignore, game.developer_dbignore)
         if(len(files) > 0):
             artWorkFound = True
-            
-            #HACK: disable static image check as a preparation for new default image handling (this code has problems with [] in rom names)                
-            """
-            imagePath = str(self.resolvePath((path.path,), gamename, gamenameFromFile, foldername, romCollection.name, publisher, developer))
-            staticImageCheck = imagePath.upper().find(gamenameFromFile.upper())
-            
-            #make sure that it was no default image that was found here
-            if(staticImageCheck != -1):
-                artWorkFound = True
-            """                            
-        
         artworkfiles[path.fileType] = files
     
     return artWorkFound, artworkfiles
@@ -57,45 +44,38 @@ def resolvePath(paths, gamename, gamenameFromFile, foldername, romCollectionName
             
             pathnameFromFile = path.replace("%GAME%", gamenameFromFile)                                    
             Logutil.log("resolved path from rom file name: " + pathnameFromFile, util.LOG_LEVEL_INFO)                    
-            files = filewalker.getFilesByWildcard(pathnameFromFile)
-            if(len(files) == 0):
-                files = filewalker.getFilesByGameNameIgnoreCase(pathnameFromFile)
+            dirs, files, dirname, filemask = filewalker.getFilesByWildcard(pathnameFromFile)
             
             if(gamename != gamenameFromFile and len(files) == 0):
                 pathnameFromGameName = path.replace("%GAME%", gamename)
                 Logutil.log("resolved path from game name: " + pathnameFromGameName, util.LOG_LEVEL_INFO)                
-                files = filewalker.getFilesByWildcard(pathnameFromGameName)
-                if(len(files) == 0):
-                    files = filewalker.getFilesByGameNameIgnoreCase(pathnameFromGameName)                                
+                dirs, files, dirname, filemask = filewalker.getFilesByWildcard(pathnameFromGameName)
                                 
             if(gamename != foldername and len(files) == 0):
                 pathnameFromFolder = path.replace("%GAME%", foldername)                    
                 Logutil.log("resolved path from rom folder name: " + pathnameFromFolder, util.LOG_LEVEL_INFO)                    
-                files = filewalker.getFilesByWildcard(pathnameFromFolder)
-                if(len(files) == 0):
-                    files = filewalker.getFilesByGameNameIgnoreCase(pathnameFromFolder)
+                dirs, files, dirname, filemask = filewalker.getFilesByWildcard(pathnameFromFolder)
             
-            
-        #TODO could be done only once per RomCollection
+        #TODO: could be done only once per RomCollection
         if(path.find("%ROMCOLLECTION%") > -1 and romCollectionName != None and len(files) == 0):
             pathnameFromRomCollection = path.replace("%ROMCOLLECTION%", romCollectionName)
             Logutil.log("resolved path from rom collection name: " + pathnameFromRomCollection, util.LOG_LEVEL_INFO)
-            files = filewalker.getFilesByWildcard(pathnameFromRomCollection)                
+            dirs, files, dirname, filemask = filewalker.getFilesByWildcard(pathnameFromRomCollection)                
             
         if(path.find("%PUBLISHER%") > -1 and publisher != None and len(files) == 0):
             pathnameFromPublisher = path.replace("%PUBLISHER%", publisher)
             Logutil.log("resolved path from publisher name: " + pathnameFromPublisher, util.LOG_LEVEL_INFO)
-            files = filewalker.getFilesByWildcard(pathnameFromPublisher)                
+            dirs, files, dirname, filemask = filewalker.getFilesByWildcard(pathnameFromPublisher)                
             
         if(path.find("%DEVELOPER%") > -1 and developer != None and len(files) == 0):
             pathnameFromDeveloper = path.replace("%DEVELOPER%", developer)
             Logutil.log("resolved path from developer name: " + pathnameFromDeveloper, util.LOG_LEVEL_INFO)
-            files = filewalker.getFilesByWildcard(pathnameFromDeveloper)                                                    
+            dirs, files, dirname, filemask = filewalker.getFilesByWildcard(pathnameFromDeveloper)                                                    
         
         if(path.find("%GAME%") == -1 & path.find("%ROMCOLLECTION%") == -1 & path.find("%PUBLISHER%") == -1 & path.find("%DEVELOPER%") == -1):
             pathnameFromStaticFile = path
             Logutil.log("using static defined media file from path: " + pathnameFromStaticFile, util.LOG_LEVEL_INFO)
-            files = filewalker.getFilesByWildcard(pathnameFromStaticFile)            
+            dirs, files, dirname, filemask = filewalker.getFilesByWildcard(pathnameFromStaticFile)            
             
         if(len(files) == 0):
             Logutil.log('No files found for game "%s" at path "%s". Make sure that file names are matching.' % (gamename, path), util.LOG_LEVEL_WARNING)
@@ -123,7 +103,7 @@ def getThumbFromOnlineSource(game, fileType, fileName, gui):
         if(len(rootExtUrl) == 2 and len(rootExtFile) != 0):
             fileName = rootExtFile[0] + rootExtUrl[1]
             gameName = rootExtFile[0] + ".*"
-            files = filewalker.getFilesByWildcard(gameName)
+            dirs, files, dirname, filemask = filewalker.getFilesByWildcard(gameName)
         
         #check if folder exists
         dirname = os.path.dirname(fileName)
@@ -150,19 +130,6 @@ def getThumbFromOnlineSource(game, fileType, fileName, gui):
         Logutil.log("Download file to: " + str(fileName), util.LOG_LEVEL_INFO)            
         if(len(files) == 0):
             Logutil.log("File does not exist. Starting download.", util.LOG_LEVEL_INFO)
-            
-            """
-            #Dialog Status Art Download
-            try:
-                if(dialogDict != ''):
-                    progDialogHeader = dialogDict["dialogHeaderKey"]
-                    gamenameFromFile = dialogDict["gameNameKey"]
-                    scraperSiteName = dialogDict["scraperSiteKey"]
-                    fileCount = dialogDict["fileCountKey"]
-                    gui.writeMsg(progDialogHeader, util.localize(40023) + ": " + gamenameFromFile, str(scraperSiteName[thumbKey]) + " - downloading art", fileCount)
-            except:
-                pass
-            """
 
             # fetch thumbnail and save to filepath
             try:
@@ -176,7 +143,6 @@ def getThumbFromOnlineSource(game, fileType, fileName, gui):
                     urllib.urlretrieve(thumbUrl, str(fileName))
             except Exception, (exc):
                 #Don't show message box when file download fails
-                #xbmcgui.Dialog().ok(util.localize(35012), util.localize(35011))
                 Logutil.log("Could not create file: '%s'. Error message: '%s'" % (str(fileName), str(exc)), util.LOG_LEVEL_ERROR)
                 return False
             
