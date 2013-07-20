@@ -114,7 +114,7 @@ def fromHeimdallToRcb(result):
     game.name = readHeimdallValue(result, dc.title)
     
     genres = readHeimdallValue(result, dc.type)
-    if(type(genres) == str):
+    if(type(genres) == str or type(genres) == unicode):
         game.genre_dbignore = [genres,]
     elif(genres):
         game.genre_dbignore = []
