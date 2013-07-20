@@ -6,6 +6,7 @@ from resources.lib.heimdall.src.heimdall.threadpools import MainloopThreadPool
 
 from resources.lib.heimdall.src.games import thegamesdb
 from resources.lib.heimdall.src.games import giantbomb
+from resources.lib.heimdall.src.games import mobygames
 
 import json
 import time
@@ -20,7 +21,7 @@ def main(uri):
     
     pool = MainloopThreadPool()
     engine = Engine(pool)
-    engine.registerModule(giantbomb.module)
+    engine.registerModule(mobygames.module)
 
     def c(error, subject):
         if error:
@@ -31,9 +32,7 @@ def main(uri):
 
     metadata = dict()
     metadata[dc.title] = 'Super Mario Kart'
-    #metadata[dc.title] = 'Final Fantasy V Advance'
-    metadata[edamontology.data_3106] = '9'
-    metadata['apikey'] = '279442d60999f92c5e5f693b4d23bd3b6fd8e868'
+    metadata[edamontology.data_3106] = '15'
     metadata['preferredregion'] = 'United States'
     subject = Subject("", metadata)
     subject.extendClass("item.game")
@@ -47,3 +46,4 @@ def main(uri):
 
 if __name__ == "__main__":
     main(sys.argv[1] if len(sys.argv) >= 2 else None)
+

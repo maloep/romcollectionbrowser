@@ -41,7 +41,6 @@ def resolvePath(paths, gamename, gamenameFromFile, foldername, romCollectionName
         Logutil.log("resolve path: " + path, util.LOG_LEVEL_INFO)
         
         if(path.find("%GAME%") > -1):
-            
             pathnameFromFile = path.replace("%GAME%", gamenameFromFile)                                    
             Logutil.log("resolved path from rom file name: " + pathnameFromFile, util.LOG_LEVEL_INFO)                    
             dirs, files, dirname, filemask = filewalker.getFilesByWildcard(pathnameFromFile)

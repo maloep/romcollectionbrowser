@@ -165,7 +165,7 @@ class SearchGameCollector(tasks.SubjectTask):
             self.subject.emit('error', 'SearchGameCollector: %s' %jsonResult['error'])
             return
               
-        foundGameTitles = []      
+        foundGameTitles = []
         for result in jsonResult['results']:
             region = ''
             if(result['region']):
@@ -185,7 +185,7 @@ class SearchGameCollector(tasks.SubjectTask):
                 self.subject.emit('game_detail_url', result['game']['api_detail_url'])
                 if(result['image']):
                     self.subject.emit('boxfront', result['image']['super_url'])
-                break
+                return
             
             foundGameTitles.append(title)
         
