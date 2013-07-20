@@ -106,7 +106,7 @@ class SearchGameCollector(tasks.SubjectTask):
             gameTitle = util.readTextElement(gameRow, "GameTitle")
             if gameTitle == self.subject[dc.title]:                
                 self.subject.emit("gameElement", ET.tostring(gameRow))
-                break
+                return
             foundGameTitles.append(gameTitle)
             
         #if we did not find a title return the list of found titles to the client
