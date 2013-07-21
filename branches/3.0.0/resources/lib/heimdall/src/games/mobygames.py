@@ -5,7 +5,7 @@ from resources.lib.heimdall.src.heimdall import resources
 from resources.lib.heimdall.src.heimdall import supplies, demands
 from resources.lib.heimdall.src.heimdall.predicates import *
 
-from BeautifulSoup import BeautifulSoup
+from BeautifulSoup import BeautifulSoup, Tag, NavigableString
 import urllib
 
 baseUrl = "http://www.mobygames.com"
@@ -23,7 +23,16 @@ class GamePredicateObject(tasks.SubjectTask):
         supplies.emit(dc.date),
         supplies.emit(swo.SWO_0000396), # Developer
         supplies.emit(swo.SWO_0000397), # Publisher
-        supplies.emit("players")
+        supplies.emit("perspecitve"),
+        supplies.emit("mobyRank"),
+        supplies.emit("mobyScore"),
+        supplies.emit("alternateTitle"),
+        supplies.emit("person"),
+        supplies.emit("publisher_detail_url"),
+        supplies.emit("developer_detail_url"),
+        supplies.emit("release_detail_url"),
+        supplies.emit("genre_detail_url"),
+        supplies.emit("perspective_detail_url")
     ]
     
     def require(self):
@@ -45,6 +54,54 @@ class GamePredicateObject(tasks.SubjectTask):
         scoreDiv = soup.find('div', attrs={'class' : 'fr scoreBoxMed scoreHi'})
         self.subject.emit('mobyScore', scoreDiv.string)
         
+        headers = soup.findAll('h2', attrs={'class' : 'm5'})
+        for header in headers:
+            if header.string == "Description":
+                desc = ''
+                element = header.nextSibling
+                elementName = ''
+                while elementName != 'div':
+                    if(type(element) == Tag):
+                        elementName = element.name
+                    elif(type(element) == NavigableString):
+                        desc += element.string
+                    element = element.next
+                        
+                self.subject.emit(dc.description, desc)
+            
+            if header.string == "Alternate Titles":
+                uls = header.findNextSibling('ul')
+                ul = uls.findAll('li')
+                for li in ul:
+                    altTitle = li.text
+                    lindex = altTitle.find('"')
+                    rindex =  altTitle.rfind('"')
+                    if(lindex >= 0 and rindex >= 0):
+                        self.subject.emit("alternateTitle", altTitle[lindex:rindex])
+            
+        #HACK: for some reason findAll also returns <a> tags
+        creditHeaders = soup.findAll(name='h2', text='Credits')
+        creditHeader = None
+        for header in creditHeaders:
+            if(header.parent.name == 'h2'):
+                creditHeader = header
+                
+        creditNameDiv = creditHeader.parent.parent.findNextSibling('div')
+        #create list of dicts with person data
+        personDictList = []
+        for content in creditNameDiv.contents:
+            if(type(content) == NavigableString):
+                role = content.string
+            else:
+                if(content.name == 'div'):
+                    links = content.findAll('a')
+                    for a in links:
+                        personDict = {'role' : role[:len(role) -1]}
+                        personDict['name'] = a.text
+                        personDict['detail_url'] = baseUrl + a['href']
+                        personDictList.append(personDict)
+        
+        self.subject.emit('person', personDictList)
         
                         
     
