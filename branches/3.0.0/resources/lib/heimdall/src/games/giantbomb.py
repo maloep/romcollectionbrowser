@@ -60,19 +60,21 @@ class GamePredicateObject(tasks.SubjectTask):
                     self.subject.emit('publisher_detail_url', publisher['api_detail_url'])
             except KeyError:
                 pass
-            
-        print result
+                    
         self.subject.emit('shortdesc', result['deck'])
         self.subject.emit('description', result['description'])
         
+        #TODO: store name and url in dict
         for genre in result['genres']:
             self.subject.emit(dc.type, genre['name'])
             self.subject.emit('genre_detail_url', genre['api_detail_url'])
-            
+        
+        #TODO: store name and url in dict    
         for person in result['people']:
             self.subject.emit('person', person['name'])
             self.subject.emit('person_detail_url', person['api_detail_url'])
             
+        #TODO: store name and url in dict
         for character in result['characters']:
             self.subject.emit('character', character['name'])
             self.subject.emit('character_detail_url', character['api_detail_url'])
