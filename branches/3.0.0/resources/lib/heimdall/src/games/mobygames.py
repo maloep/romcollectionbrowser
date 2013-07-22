@@ -11,6 +11,92 @@ import urllib
 baseUrl = "http://www.mobygames.com"
 
 
+class GamePredicateObjectArtwork(tasks.SubjectTask):
+    demand = [
+        demands.required("artwork_detail_url"),
+        demands.requiredClass("item.game", True)
+    ]
+
+    supply = [
+        supplies.emit("boxfront"),
+        supplies.emit("boxback"),
+        supplies.emit("cartridge")
+    ]
+    
+    def require(self):
+        uri = self.subject["artwork_detail_url"]
+        return resources.SimpleResource(uri)
+    
+    def run(self, resource):
+        soup = BeautifulSoup(''.join(resource))
+        
+        #search for cover art from preferred region
+        preferredregion = self.subject['preferredregion']
+        thumbDiv = None        
+        if(preferredregion):
+            coverDivs = soup.findAll('div', attrs={'class' : 'coverHeading'})
+            for coverDiv in coverDivs:
+                table = coverDiv.find('table')
+                if(table.text.find(preferredregion) >= 0):
+                    thumbDiv = coverDiv.findNextSibling('div')
+                    break
+        
+        if(preferredregion and thumbDiv == None):
+            return
+        
+        #without preferredregion just use the first artworkContainer
+        if(not thumbDiv):
+            thumbDiv = soup.find('div', attrs={'class' : 'thumbnailContainer'})
+                    
+        for content in thumbDiv.contents:
+            if(type(content) == Tag):
+                
+                img = content.find('img')
+                url = img['src']
+                #HACK: Assume that we can always replace small with large
+                #otherwise we have to follow the link and get the new img url on the next page
+                url = url.replace("/small/", "/large/")                
+                
+                alt = img['alt']
+                if(alt.find('Front Cover') >= 0):
+                    arttype = 'boxfront'
+                elif(alt.find('Back Cover') >= 0):
+                    arttype = 'boxback'
+                elif(alt.find('Media') >= 0):
+                    arttype = 'cartridge'
+                self.subject.emit(arttype, url)
+            
+
+
+class GamePredicateObjectScreenshot(tasks.SubjectTask):
+    demand = [
+        demands.required("screenshot_detail_url"),
+        demands.requiredClass("item.game", True)
+    ]
+
+    supply = [
+        supplies.emit("screenshot")
+    ]
+    
+    def require(self):
+        uri = self.subject["screenshot_detail_url"]
+        return resources.SimpleResource(uri)
+    
+    def run(self, resource):
+        soup = BeautifulSoup(''.join(resource))
+        
+        thumbContainerDiv = soup.find('div', attrs={'class' : 'thumbnailContainer'})
+        
+        for content in thumbContainerDiv.contents:
+            if(type(content) == Tag):
+                img = content.find('img')
+                url = baseUrl +img['src']
+                #HACK: Assume that we can always replace s with l
+                #otherwise we have to follow the link and get the new img url on the next page
+                url = url.replace("/s/", "/l/")                
+                self.subject.emit("screenshot", url)
+
+
 class GamePredicateObject(tasks.SubjectTask):
     demand = [
         demands.required("game_detail_url"),
@@ -49,7 +135,7 @@ class GamePredicateObject(tasks.SubjectTask):
         self.emitLinkProperty(soup, 'Perspective', 'perspecitve', 'perspective_detail_url')
         
         rankDiv = soup.find('div', attrs={'class' : 'fr scoreBoxBig scoreHi'})
-        self.subject.emit('mobyRank', rankDiv.string)        
+        self.subject.emit('mobyRank', rankDiv.string)
         
         scoreDiv = soup.find('div', attrs={'class' : 'fr scoreBoxMed scoreHi'})
         self.subject.emit('mobyScore', scoreDiv.string)
@@ -175,4 +261,4 @@ class SearchGameCollector(tasks.SubjectTask):
             
         
         
-module = [ SearchGameCollector, GamePredicateObject ]
+module = [ SearchGameCollector, GamePredicateObject, GamePredicateObjectScreenshot, GamePredicateObjectArtwork ]
