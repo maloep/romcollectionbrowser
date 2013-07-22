@@ -31,9 +31,12 @@ def main(uri):
         pool.quit()
 
     metadata = dict()
+    
+    
     metadata[dc.title] = 'Super Mario Kart'
     metadata[edamontology.data_3106] = '15'
     metadata['preferredregion'] = 'United States'
+    
     subject = Subject("", metadata)
     subject.extendClass("item.game")
 
