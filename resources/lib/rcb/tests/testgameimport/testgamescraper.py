@@ -24,15 +24,16 @@ class TestGameScraper(unittest.TestCase):
         myConfig = Config('config.xml')
         statusOk, errorMsg = myConfig.readXml()
 
-        romCollection = myConfig.romCollections['1']
+        romCollection = myConfig.romCollections['2']
         
-        gamename = 'Super Mario Kart'
+        gamename = "NBA Jam Tournament Edition"
                                 
         game, artWorkFound, artworkfiles, artworkurls = gamescraper.scrapeGame(gamename, romCollection, util.getSettings(), '', 0, RCBMock(), 'Header', 1)        
         
         print game.name
-        print game.yearFromScraper
-        print game.genreFromScraper
+        print game.year_dbignore
+        print game.genre_dbignore
+        print game.artworkurls_dbignore
         
         
     def test_mergeResults(self):

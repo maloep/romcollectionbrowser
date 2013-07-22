@@ -12,12 +12,12 @@ from resources.lib.heimdall.src.heimdall.core import Engine, Subject
 from resources.lib.heimdall.src.heimdall.predicates import *
 from resources.lib.heimdall.src.heimdall.threadpools import MainloopThreadPool
 
-from resources.lib.heimdall.src.games import thegamesdb, giantbomb
+from resources.lib.heimdall.src.games import thegamesdb, giantbomb, mobygames
 
 
 import logging
 logging.basicConfig()
-logging.getLogger("heimdall").setLevel(logging.CRITICAL)
+logging.getLogger("heimdall").setLevel(logging.DEBUG)
 
 
 def scrapeGame(gamenameFromFile, romCollection, settings, foldername, updateOption, gui, progDialogHeader, fileCount):
@@ -77,6 +77,11 @@ def scrapeHeimdall(gamenameFromFile, romCollection, scraper):
         #TODO: region mapping
         metadata['preferredregion'] = 'United States'
         engine.registerModule(giantbomb.module)
+    elif(scraper == "mobygames.com"):
+        metadata[edamontology.data_3106] = config.consoleDict[romCollection.name][config.INDEX_MOBYGAMES]
+        #TODO: region mapping
+        metadata['preferredregion'] = 'United States'
+        engine.registerModule(mobygames.module)
     
     subject = Subject("", metadata)
     subject.extendClass("item.game")
@@ -150,16 +155,21 @@ def fromHeimdallToRcb(result):
     
     game.artworkurls_dbignore = {}    
     #TODO: translate heimdall artwork types to RCB artwork types
-    #fanart from thegamesdb can be string, dict or list of dicts
-    if(readHeimdallValue(result, 'fanart')):
-        artworkurl = readHeimdallValue(result, 'fanart')
-        if(type(artworkurl) == list):
-            artworkurl = artworkurl[0]['fanart']
-        elif(type(artworkurl) == dict):
-            artworkurl = artworkurl['fanart']
-        game.artworkurls_dbignore['fanart'] = artworkurl
-    if(readHeimdallValue(result, 'boxfront')):
-        game.artworkurls_dbignore['boxfront'] = readHeimdallValue(result, 'boxfront')
+    artworkurl = readartworkurl(result, 'fanart')
+    if(artworkurl):
+        game.artworkurls_dbignore['fanart'] = artworkurl 
+    artworkurl = readartworkurl(result, 'boxfront')
+    if(artworkurl):
+        game.artworkurls_dbignore['boxfront'] = artworkurl
+    artworkurl = readartworkurl(result, 'boxback')
+    if(artworkurl):
+        game.artworkurls_dbignore['boxback'] = artworkurl
+    artworkurl = readartworkurl(result, 'cartridge')
+    if(artworkurl):
+        game.artworkurls_dbignore['cartridge'] = artworkurl
+    artworkurl = readartworkurl(result, 'screenshot')
+    if(artworkurl):
+        game.artworkurls_dbignore['screenshot'] = artworkurl
     
     return game
 
@@ -173,5 +183,22 @@ def readHeimdallValue(metadata, key):
         pass
     
     return resultValue
+
+
+def readartworkurl(result, artworkType):
+    #artwork can be string, dict, list or list of dicts
+    artworkurl = None
+    if(readHeimdallValue(result, artworkType)):
+        artworkurl = readHeimdallValue(result, artworkType)
+        #TODO: use more than one images per type
+        if(type(artworkurl) == list):
+            if(type(artworkurl[0]) == dict):
+                artworkurl = artworkurl[0][artworkType]
+            else:
+                artworkurl = artworkurl[0]
+        elif(type(artworkurl) == dict):
+            artworkurl = artworkurl[artworkType]
+        
+    return artworkurl
     
     

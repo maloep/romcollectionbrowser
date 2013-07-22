@@ -160,6 +160,7 @@ def normalizeName(name):
 
     removeChars = [', A', 'THE', ' ', '&', '-', '_', ':', '!', "'", '"', '.', ',', '#']         
     
+    name = util.html_unescape(name)
     name = name.upper()
     
     for char in removeChars:
