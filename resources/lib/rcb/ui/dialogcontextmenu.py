@@ -69,7 +69,7 @@ class ContextMenuDialog(xbmcgui.WindowXMLDialog):
 			romCollectionId = self.game.romCollectionId
 			romCollection = self.gui.config.romCollections[str(romCollectionId)]
 			files = File(self.gui.gdb).getRomsByGameId(self.game.id)
-			filename = files[0][0]
+			filename = files[0].name
 			romCollection.romPaths = (filename,)
 						
 			romCollections = {}
