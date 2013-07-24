@@ -14,6 +14,70 @@ import xml.etree.ElementTree as ET
 
 baseImageUrl = "http://thegamesdb.net/banners/"
 
+
+class PlatformPredicateObject(tasks.SubjectTask):
+    demand = [
+        demands.requiredClass("item.platform", True),
+        demands.required(edamontology.data_3106) # Platform
+    ]
+
+    supply = [
+        supplies.emit(dc.title),
+        supplies.emit(dc.type),
+        supplies.emit(dc.description),
+        supplies.emit(dc.date)        
+    ]
+    
+    
+    def require(self):
+       
+        platform = self.subject[edamontology.data_3106]
+        uri = 'http://thegamesdb.net/api/GetPlatform.php?id=%s' %platform
+        return resources.SimpleResource(uri)
+            
+
+    def run(self, resource):
+        
+        root = ET.fromstring(resource)
+        platform = root.find('Platform')
+        if(not platform):
+            return
+        
+        self.subject.emit(dc.title, util.readTextElement(platform, 'Platform'))
+        self.subject.emit(dc.description, util.readTextElement(platform, 'overview'))
+        self.subject.emit(swo.SWO_0000396, util.readTextElement(platform, 'developer'))
+        self.subject.emit('manufacturer', util.readTextElement(platform, 'manufacturer'))
+        
+        self.subject.emit('cpu', util.readTextElement(platform, 'cpu'))
+        self.subject.emit('memory', util.readTextElement(platform, 'memory'))
+        self.subject.emit('graphics', util.readTextElement(platform, 'graphics'))
+        self.subject.emit('sound', util.readTextElement(platform, 'sound'))
+        self.subject.emit('display', util.readTextElement(platform, 'display'))
+        self.subject.emit('media', util.readTextElement(platform, 'media'))
+        self.subject.emit('maxcontrollers', util.readTextElement(platform, 'maxcontrollers'))
+        
+        for boxartRow in platform.findall('Images/boxart'):
+            side = boxartRow.attrib.get('side')
+            if side == 'front' and boxartRow.text:
+                self.subject.emit("boxfront", baseImageUrl + boxartRow.text)
+            if side == 'back' and boxartRow.text:
+                self.subject.emit("boxback", baseImageUrl + boxartRow.text)
+        for fanartRow in platform.findall('Images/fanart'):
+            original = util.readTextElement(fanartRow, 'original')
+            if original:
+                thumb = util.readTextElement(fanartRow, 'thumb')
+                if thumb:
+                    self.subject.emit("fanart", {"fanart": baseImageUrl + original, "thumbnail": baseImageUrl + thumb})
+                else:
+                    self.subject.emit("fanart", baseImageUrl + original)
+        for bannerRow in platform.findall('Images/banner'):
+            self.subject.emit("banner", baseImageUrl + bannerRow.text)
+        for consoleRow in platform.findall('Images/consoleart'):
+            self.subject.emit("consoleart", baseImageUrl + consoleRow.text)
+        for controllerRow in platform.findall('Images/controllerart'):
+            self.subject.emit("controllerart", baseImageUrl + controllerRow.text)
+
+
 class GamePredicateObject(tasks.SubjectTask):
     demand = [
         demands.required("gameElement")
@@ -30,6 +94,7 @@ class GamePredicateObject(tasks.SubjectTask):
         supplies.emit(edamontology.data_3106), # Platform
         supplies.emit("players"),
         supplies.emit("boxfront"),
+        supplies.emit("boxback"),
         supplies.emit("fanart"),
         supplies.emit("banner"),
         supplies.emit("trailer"),
@@ -61,6 +126,8 @@ class GamePredicateObject(tasks.SubjectTask):
             side = boxartRow.attrib.get('side')
             if side == 'front' and boxartRow.text:
                 self.subject.emit("boxfront", baseImageUrl + boxartRow.text)
+            if side == 'back' and boxartRow.text:
+                self.subject.emit("boxback", baseImageUrl + boxartRow.text)
         for fanartRow in gameRow.findall('Images/fanart'):
             original = util.readTextElement(fanartRow, 'original')
             if original:
@@ -128,4 +195,4 @@ class SearchGameCollector(tasks.SubjectTask):
                 return nametag.text
         return None
 
-module = [ GamePredicateObject, SearchGameCollector ]
+module = [ GamePredicateObject, SearchGameCollector, PlatformPredicateObject ]

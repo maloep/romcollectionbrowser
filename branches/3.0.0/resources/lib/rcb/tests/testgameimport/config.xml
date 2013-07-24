@@ -27,8 +27,8 @@
       <diskPrefix>_Disk</diskPrefix>
       <imagePlacingMain>gameinfobig</imagePlacingMain>
       <imagePlacingInfo>gameinfosmall</imagePlacingInfo>
-      <!--<scraper name="thegamesdb.net" replaceKeyString="" replaceValueString="" />
-	  <scraper name="giantbomb.com" replaceKeyString="" replaceValueString="" />-->
+      <scraper name="thegamesdb.net" replaceKeyString="" replaceValueString="" />
+	  <scraper name="giantbomb.com" replaceKeyString="" replaceValueString="" />
 	  <scraper name="mobygames.com" replaceKeyString="" replaceValueString="" />
     </RomCollection>
     <RomCollection id="2" name="SEGA 32X">
@@ -58,8 +58,8 @@
       <diskPrefix>_Disk</diskPrefix>
       <imagePlacingMain>gameinfobig</imagePlacingMain>
       <imagePlacingInfo>gameinfosmall</imagePlacingInfo>
-      <!--<scraper name="thegamesdb.net" replaceKeyString="" replaceValueString="" />
-	  <scraper name="giantbomb.com" replaceKeyString="" replaceValueString="" />-->
+      <scraper name="thegamesdb.net" replaceKeyString="" replaceValueString="" />
+	  <scraper name="giantbomb.com" replaceKeyString="" replaceValueString="" />
 	  <scraper name="mobygames.com" replaceKeyString="" replaceValueString="" />
     </RomCollection>
   </RomCollections>
