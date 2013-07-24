@@ -21,7 +21,7 @@ def main(uri):
     
     pool = MainloopThreadPool()
     engine = Engine(pool)
-    engine.registerModule(mobygames.module)
+    engine.registerModule(thegamesdb.module)
 
     def c(error, subject):
         if error:
@@ -32,13 +32,18 @@ def main(uri):
 
     metadata = dict()
     
-    
+    """
     metadata[dc.title] = "NBA Live '98"
     metadata[edamontology.data_3106] = '15'
-    metadata['preferredregion'] = 'United States'
-    
+    metadata['preferredregion'] = 'United States'    
     subject = Subject("", metadata)
     subject.extendClass("item.game")
+    """
+    
+    metadata[edamontology.data_3106] = '6'
+    subject = Subject("", metadata)
+    subject.extendClass("item.platform")
+    
 
     engine.get(subject, c)
 

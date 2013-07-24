@@ -143,7 +143,7 @@ class SearchGameCollector(tasks.SubjectTask):
         supplies.emit(dc.date),        
         supplies.emit('boxfront'),
         supplies.emit('region'),
-        supplies.emit('rating_giantbomb'),
+        supplies.emit(media.rating),
         supplies.emit('release_detail_url'),
         supplies.emit('game_detail_url')
     ]
@@ -181,7 +181,7 @@ class SearchGameCollector(tasks.SubjectTask):
             title = result['name']
             if(title == self.subject[dc.title]):
                 self.subject.emit('region', region)
-                self.subject.emit('rating_giantbomb', result['game_rating'])
+                self.subject.emit(media.rating, result['game_rating'])
                 self.subject.emit(dc.date, result['release_date'])
                 self.subject.emit('release_detail_url', result['api_detail_url'])
                 self.subject.emit('game_detail_url', result['game']['api_detail_url'])
