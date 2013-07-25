@@ -11,6 +11,112 @@ from resources.lib.heimdall.src.game_item import comparePlatforms
 import datetime, urllib, json
 
 
+def getNameDetailListFromJson(result, key):
+    dictList = []
+    try:
+        for item in result[key]:
+            dict = {}
+            dict['name'] = item['name']
+            dict['detail_url'] = item['api_detail_url']
+            dictList.append(dict)
+    except KeyError:
+        pass
+    return dictList
+
+
+
+class PersonPredicateObject(tasks.SubjectTask):
+    demand = [
+        demands.required('person_detail_url'),
+        demands.required('apikey'),
+        demands.requiredClass('item.person', True)
+    ]
+
+    supply = [
+        supplies.emit(dc.title),
+        supplies.emit('birthdate'),
+        supplies.emit('deathdate'),
+        supplies.emit(dc.description),        
+        supplies.emit('country'),
+        supplies.emit('hometown'),
+        supplies.emit('personart')        
+    ]
+
+    def require(self):
+        apiKey = self.subject['apikey']
+        uri = self.subject['person_detail_url']
+        uri = '%s?api_key=%s&format=json' %(uri, apiKey)
+        return resources.SimpleResource(uri)
+        
+
+    def run(self, resource):
+        
+        jsonResult = json.loads(resource)
+        
+        #status_code 1 = OK
+        if(jsonResult['status_code'] != 1):
+            self.subject.emit('error', 'GamePredicateObject: %s' %jsonResult['error'])
+            return
+              
+        result = jsonResult['results']
+        
+        self.subject.emit(dc.title, result['name'])
+        self.subject.emit('birthdate', result['birth_date'])
+        self.subject.emit('deathdate', result['death_date'])
+        self.subject.emit(dc.description, result['deck'])        
+        self.subject.emit('country', result['country'])
+        self.subject.emit('hometown', result['hometown'])
+        self.subject.emit('personart', result['image']['super_url'])
+
+
+class PlatformPredicateObject(tasks.SubjectTask):
+    demand = [
+        demands.required('platform_detail_url'),
+        demands.required('apikey'),
+        demands.requiredClass('item.platform', True)
+    ]
+
+    supply = [
+        supplies.emit(dc.title),
+        supplies.emit(dc.date),
+        supplies.emit('manufacturer'),
+        supplies.emit(dc.description),        
+        supplies.emit('hasonlinefeatures'),
+        supplies.emit('originalprice'),
+        supplies.emit('consoleart')        
+    ]
+
+    def require(self):
+        apiKey = self.subject['apikey']
+        uri = self.subject['platform_detail_url']
+        uri = '%s?api_key=%s&format=json' %(uri, apiKey)
+        return resources.SimpleResource(uri)
+        
+
+    def run(self, resource):
+        
+        jsonResult = json.loads(resource)
+        
+        #status_code 1 = OK
+        if(jsonResult['status_code'] != 1):
+            self.subject.emit('error', 'GamePredicateObject: %s' %jsonResult['error'])
+            return
+              
+        result = jsonResult['results']
+        
+        self.subject.emit(dc.title, result['name'])
+        self.subject.emit('originalprice', result['original_price'])
+        self.subject.emit(dc.description, result['deck'])
+        self.subject.emit(dc.date, result['release_date'])
+        self.subject.emit('hasonlinefeatures', result['online_support'])
+        manufacturerdict = {}
+        manufacturerdict['name'] = result['company']['name']
+        manufacturerdict['detail_url'] = result['company']['api_detail_url']
+        self.subject.emit('manufacturer', manufacturerdict)
+        self.subject.emit('consoleart', result['image']['super_url'])
+                
+
+
 class GamePredicateObject(tasks.SubjectTask):
     demand = [
         demands.required('game_detail_url'),
@@ -21,8 +127,12 @@ class GamePredicateObject(tasks.SubjectTask):
     supply = [
         supplies.emit(swo.SWO_0000396), # Developer
         supplies.emit(swo.SWO_0000397), # Publisher
-        supplies.emit('developer_detail_url'),
-        supplies.emit('publisher_detail_url'),
+        supplies.emit('shortdesc'),
+        supplies.emit(dc.description),
+        supplies.emit(dc.type),
+        supplies.emit('person'),
+        supplies.emit('character')
+        
     ]
 
     def require(self):
@@ -44,40 +154,19 @@ class GamePredicateObject(tasks.SubjectTask):
         result = jsonResult['results']
         
         #Developer information from Release should be more accurate
-        if(not self.subject[swo.SWO_0000396]):
-            try:
-                for developer in result['developers']:
-                    self.subject.emit(swo.SWO_0000396, developer['name'])
-                    self.subject.emit('developer_detail_url', developer['api_detail_url'])
-            except KeyError:
-                pass
+        if(not self.subject[swo.SWO_0000396]):            
+            self.subject.emit(swo.SWO_0000396, getNameDetailListFromJson(result, 'developers'))
         
         #Publisher information from Release should be more accurate
         if(not self.subject[swo.SWO_0000397]):
-            try:
-                for publisher in result['publishers']:
-                    self.subject.emit(swo.SWO_0000397, publisher['name'])
-                    self.subject.emit('publisher_detail_url', publisher['api_detail_url'])
-            except KeyError:
-                pass
+            self.subject.emit(swo.SWO_0000397, getNameDetailListFromJson(result, 'publishers'))
                     
         self.subject.emit('shortdesc', result['deck'])
         self.subject.emit('description', result['description'])
         
-        #TODO: store name and url in dict
-        for genre in result['genres']:
-            self.subject.emit(dc.type, genre['name'])
-            self.subject.emit('genre_detail_url', genre['api_detail_url'])
-        
-        #TODO: store name and url in dict    
-        for person in result['people']:
-            self.subject.emit('person', person['name'])
-            self.subject.emit('person_detail_url', person['api_detail_url'])
-            
-        #TODO: store name and url in dict
-        for character in result['characters']:
-            self.subject.emit('character', character['name'])
-            self.subject.emit('character_detail_url', character['api_detail_url'])
+        self.subject.emit(dc.type, getNameDetailListFromJson(result, 'genres'))
+        self.subject.emit('person', getNameDetailListFromJson(result, 'people'))
+        self.subject.emit('character', getNameDetailListFromJson(result, 'characters'))
         
 
 
@@ -91,8 +180,6 @@ class ReleasePredicateObject(tasks.SubjectTask):
     supply = [
         supplies.emit(swo.SWO_0000396), # Developer
         supplies.emit(swo.SWO_0000397), # Publisher
-        supplies.emit('developer_detail_url'),
-        supplies.emit('publisher_detail_url'),
     ]
 
     def require(self):
@@ -113,20 +200,8 @@ class ReleasePredicateObject(tasks.SubjectTask):
               
         result = jsonResult['results']
         
-        try:
-            for developer in result['developers']:
-                self.subject.emit(swo.SWO_0000396, developer['name'])
-                self.subject.emit('developer_detail_url', developer['api_detail_url'])
-        except KeyError:
-            pass
-        
-        try:
-            for publisher in result['publishers']:
-                self.subject.emit(swo.SWO_0000397, publisher['name'])
-                self.subject.emit('publisher_detail_url', publisher['api_detail_url'])
-        except KeyError:
-            pass
-            
+        self.subject.emit(swo.SWO_0000396, getNameDetailListFromJson(result, 'developers'))
+        self.subject.emit(swo.SWO_0000397, getNameDetailListFromJson(result, 'publishers'))
 
 
 
@@ -198,5 +273,6 @@ class SearchGameCollector(tasks.SubjectTask):
             
             
         
-module = [ SearchGameCollector, ReleasePredicateObject, GamePredicateObject ]
+module = [ SearchGameCollector, ReleasePredicateObject, GamePredicateObject, 
+          PlatformPredicateObject, PersonPredicateObject ]
 
