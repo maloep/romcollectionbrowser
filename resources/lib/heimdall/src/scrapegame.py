@@ -21,7 +21,7 @@ def main(uri):
     
     pool = MainloopThreadPool()
     engine = Engine(pool)
-    engine.registerModule(thegamesdb.module)
+    engine.registerModule(giantbomb.module)
 
     def c(error, subject):
         if error:
@@ -40,9 +40,12 @@ def main(uri):
     subject.extendClass("item.game")
     """
     
-    metadata[edamontology.data_3106] = '6'
+    #metadata[dc.title] = "Super Mario Kart"
+    metadata[edamontology.data_3106] = '9'
+    metadata['person_detail_url'] = 'http://www.giantbomb.com/api/person/3040-615/'
+    metadata['apikey'] = '279442d60999f92c5e5f693b4d23bd3b6fd8e868'
     subject = Subject("", metadata)
-    subject.extendClass("item.platform")
+    subject.extendClass("item.person")
     
 
     engine.get(subject, c)
