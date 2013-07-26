@@ -20,7 +20,7 @@ def getNameDetailListFromJson(result, key):
             dict['detail_url'] = item['api_detail_url']
             dictList.append(dict)
     except KeyError:
-        pass
+        return None
     return dictList
 
 
@@ -60,13 +60,15 @@ class PersonPredicateObject(tasks.SubjectTask):
               
         result = jsonResult['results']
         
-        self.subject.emit(dc.title, result['name'])
-        self.subject.emit('birthdate', result['birth_date'])
-        self.subject.emit('deathdate', result['death_date'])
-        self.subject.emit(dc.description, result['deck'])        
-        self.subject.emit('country', result['country'])
-        self.subject.emit('hometown', result['hometown'])
-        self.subject.emit('personart', result['image']['super_url'])
+        #HACK: use replace instead of emit. Otherwise subject will add information for each other subject
+        self.subject.replace(dc.title, result['name'])
+        self.subject.replace('birthdate', result['birth_date'])
+        self.subject.replace('deathdate', result['death_date'])
+        self.subject.replace(dc.description, result['deck'])        
+        self.subject.replace('country', result['country'])
+        self.subject.replace('hometown', result['hometown'])
+        if(result['image']):
+            self.subject.replace('personart', result['image']['super_url'])
 
 
 class PlatformPredicateObject(tasks.SubjectTask):
@@ -220,7 +222,8 @@ class SearchGameCollector(tasks.SubjectTask):
         supplies.emit('region'),
         supplies.emit(media.rating),
         supplies.emit('release_detail_url'),
-        supplies.emit('game_detail_url')
+        supplies.emit('game_detail_url'),
+        supplies.emit('platform_detail_url')
     ]
 
     def require(self):
@@ -260,6 +263,7 @@ class SearchGameCollector(tasks.SubjectTask):
                 self.subject.emit(dc.date, result['release_date'])
                 self.subject.emit('release_detail_url', result['api_detail_url'])
                 self.subject.emit('game_detail_url', result['game']['api_detail_url'])
+                self.subject.emit('platform_detail_url', result['platform']['api_detail_url'])
                 if(result['image']):
                     self.subject.emit('boxfront', result['image']['super_url'])
                 return

@@ -33,7 +33,7 @@ INDEX_MOBYGAMES = 0
 INDEX_THEGAMESDB = 1
 INDEX_ARCHIVEVG = 2
 INDEX_GIANTBOMB = 3
-INDEX_THEGAMESDB_ID = 1
+INDEX_THEGAMESDB_ID = 4
 consoleDict = {
 			#name, mobygames-id, thegamesdb, archive vg, giantbomb.com, thegamesdb-id
 			'Other' : ['0', '', '', '', ''],

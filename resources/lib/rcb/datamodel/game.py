@@ -55,7 +55,7 @@ class Game(DataBaseObject):
         self.developer_dbignore = ''
         self.year_dbignore = ''
         self.reviewer_dbignore = ''
-        self.genre_dbignore = ''
+        self.genre_dbignore = []
         
         self.artworkurls_dbignore = {}
 
