@@ -24,7 +24,7 @@ class PlatformPredicateObject(tasks.SubjectTask):
     supply = [
         supplies.emit(dc.title),
         supplies.emit(dc.description),
-        supplies.emit(swo.SWO_0000396),
+        supplies.emit(swo.SWO_0000396),#Developer
         supplies.emit('manufacturer'),
         supplies.emit('cpu'),
         supplies.emit('memory'),
