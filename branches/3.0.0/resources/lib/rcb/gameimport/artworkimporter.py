@@ -25,7 +25,7 @@ def getArtworkForGame(romCollection, game, gamenameFromFile, gui, foldername, is
                 return False, None
         
         Logutil.log("Additional data path: " +str(path.path), util.LOG_LEVEL_DEBUG)
-        files = resolvePath((path.path,), game.name, gamenameFromFile, foldername, romCollection.name, game.publisher_dbignore, game.developer_dbignore)
+        files = resolvePath((path.path,), game.name, gamenameFromFile, foldername, romCollection.name, game.publisher, game.developer)
         if(len(files) > 0):
             artWorkFound = True
         artworkfiles[path.fileType] = files
@@ -88,7 +88,7 @@ def resolvePath(paths, gamename, gamenameFromFile, foldername, romCollectionName
 def getThumbFromOnlineSource(game, fileType, fileName, gui):
     Logutil.log("Get thumb from online source", util.LOG_LEVEL_INFO)
     try:        
-        thumbUrl = game.artworkurls_dbignore[fileType]
+        thumbUrl = game.artworkurls[fileType]
             
         if(thumbUrl == '' or thumbUrl == None):
             Logutil.log("No artwork of type %s found." %fileType, util.LOG_LEVEL_INFO)

@@ -29,14 +29,14 @@ class TestGameScraper(unittest.TestCase):
         
         gamename = "Super Mario Kart"
         
-        """                        
+                                
         game, artWorkFound, artworkfiles, artworkurls = gamescraper.scrapeGame(gamename, romCollection, util.getSettings(), '', 0, RCBMock(), 'Header', 1)        
         
         print game.name
-        print game.year_dbignore
-        print game.genre_dbignore
-        print game.artworkurls_dbignore
-        """
+        print game.year
+        print game.genre
+        print game.artworkurls
+        
         
         
     def test_fromHeimdallToRcb(self):
@@ -45,13 +45,13 @@ class TestGameScraper(unittest.TestCase):
         scraperresult = []
         #thegamesdb results
         metadata = dict()
-        metadata[dc.title] = ['Super Mario Kart',]
-        metadata[edamontology.data_3106] = ['Super Nintendo (SNES)',]
+        metadata[dc.title] = ['Super Mario Kart']
+        metadata[edamontology.data_3106] = ['Super Nintendo (SNES)']
         subject = Subject('item.game', metadata)
         scraperresult.append(subject)
         metadata = dict()
-        metadata[dc.title] = ['Super Nintendo (SNES)',]
-        metadata['cpu'] = ['16-bit 65c816 Ricoh 5A22 3.58 MHz',]
+        metadata[dc.title] = ['Super Nintendo (SNES)']
+        metadata['cpu'] = ['16-bit 65c816 Ricoh 5A22 3.58 MHz']
         subject = Subject('item.platform', metadata)
         scraperresult.append(subject)
         scraperresults.append(scraperresult)
@@ -59,23 +59,23 @@ class TestGameScraper(unittest.TestCase):
         #giantbomb
         metadata = dict()
         scraperresult = []
-        metadata[dc.title] = ['Super Mario Kart 2',]
-        metadata[dc.date] = ['1992-09-01 00:00:00',]
+        metadata[dc.title] = ['Super Mario Kart 2']
+        metadata[dc.date] = ['1992-09-01 00:00:00']
         subject = Subject('item.game', metadata)
         scraperresult.append(subject)
         metadata = dict()
-        metadata[dc.title] = ['Super Nintendo Entertainment System',]
-        metadata['originalprice'] = ['199.00',]
+        metadata[dc.title] = ['Super Nintendo Entertainment System']
+        metadata['originalprice'] = ['199.00']
         subject = Subject('item.platform', metadata)
         scraperresult.append(subject)
         metadata = dict()
-        metadata[dc.title] = ['Shigeru Miyamoto',]
-        metadata['birthdate'] = ['1952-11-16',]
+        metadata[dc.title] = ['Shigeru Miyamoto']
+        metadata['birthdate'] = ['1952-11-16']
         subject = Subject('item.person', metadata)
         scraperresult.append(subject)
         metadata = dict()
-        metadata[dc.title] = ['Hiroshi Yamauchi',]
-        metadata['birthdate'] = ['1927-11-07',]
+        metadata[dc.title] = ['Hiroshi Yamauchi']
+        metadata['birthdate'] = ['1927-11-07']
         subject = Subject('item.person', metadata)
         scraperresult.append(subject)
         scraperresults.append(scraperresult)
