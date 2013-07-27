@@ -39,13 +39,14 @@ class PersonPredicateObject(tasks.SubjectTask):
         supplies.emit(dc.description),        
         supplies.emit('country'),
         supplies.emit('hometown'),
+        supplies.emit('gender'),
         supplies.emit('personart')        
     ]
 
     def require(self):
         apiKey = self.subject['apikey']
         uri = self.subject['person_detail_url']
-        uri = '%s?api_key=%s&format=json' %(uri, apiKey)
+        uri = '%s?api_key=%s&format=json&field_list=birth_date,country,death_date,deck,gender,hometown,image,name' %(uri, apiKey)
         return resources.SimpleResource(uri)
         
 
@@ -66,6 +67,7 @@ class PersonPredicateObject(tasks.SubjectTask):
         self.subject.replace('deathdate', result['death_date'])
         self.subject.replace(dc.description, result['deck'])        
         self.subject.replace('country', result['country'])
+        self.subject.replace('gender', result['gender'])
         self.subject.replace('hometown', result['hometown'])
         if(result['image']):
             self.subject.replace('personart', result['image']['super_url'])
