@@ -1,5 +1,6 @@
 
 from databaseobject import DataBaseObject
+from platform import Platform
 
 from resources.lib.rcb.utils import util
 from resources.lib.rcb.utils.util import *
@@ -49,15 +50,15 @@ class Game(DataBaseObject):
         self.alternateTitle = ''
         self.translatedBy = ''
         self.version = ''
+                
+        self.platform = Platform(self._gdb)
         
-        #non-db properties
-        self.publisher_dbignore = ''
-        self.developer_dbignore = ''
-        self.year_dbignore = ''
-        self.reviewer_dbignore = ''
-        self.genre_dbignore = []
-        
-        self.artworkurls_dbignore = {}
+        self.publisher = ''
+        self.developer = ''
+        self.year = ''
+        self.reviewer = ''
+        self.genre = []        
+        self.artworkurls = {}
 
         
     def fromDb(self, row):
@@ -93,6 +94,35 @@ class Game(DataBaseObject):
         game.version = row[util.GAME_version]
         
         return game
+    
+    
+    def toDbDict(self, game):
+        gamedict = {}
+        gamedict['id'] = game.id
+        gamedict['name'] = game.name 
+        gamedict['description'] = game.description
+        gamedict['romCollectionId'] = game.romCollectionId
+        gamedict['publisherId'] = game.publisherId
+        gamedict['developerId'] = game.developerId
+        gamedict['reviewerId'] = game.reviewerId
+        gamedict['yearId'] = game.yearId
+        gamedict['gameCmd'] = game.gameCmd
+        gamedict['alternateGameCmd'] = game.alternateGameCmd
+        gamedict['maxPlayers'] = game.maxPlayers
+        gamedict['rating'] = game.rating
+        gamedict['numVotes'] = game.numVotes
+        gamedict['url'] = game.url
+        gamedict['region'] = game.region
+        gamedict['media'] = game.media
+        gamedict['perspective'] = game.perspective
+        gamedict['controllerType'] = game.controllerType
+        gamedict['isFavorite'] = game.isFavorite
+        gamedict['launchCount'] = game.launchCount
+        gamedict['originalTitle'] = game.originalTitle
+        gamedict['alternateTitle'] = game.alternateTitle
+        gamedict['translatedBy'] = game.translatedBy
+        gamedict['version'] = game.version
+        
             
         
         

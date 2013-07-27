@@ -53,7 +53,7 @@ def scrapeGame(gamenameFromFile, romCollection, settings, foldername, updateOpti
         game = fromHeimdallToRcb(results)
         gui.writeMsg(progDialogHeader, util.localize(40023) + ": " + gamenameFromFile, util.localize(40098), fileCount)
         artWorkFound, artworkfiles = artworkimporter.getArtworkForGame(romCollection, game, gamenameFromFile, gui, foldername, False)        
-        return game, artWorkFound, artworkfiles, game.artworkurls_dbignore
+        return game, artWorkFound, artworkfiles, game.artworkurls
     
                 
     return None, False, {}, {}
@@ -93,7 +93,9 @@ def heimdallScrapeItems(gameresult, romCollection, scraper):
         #TODO: check if items are already stored in database
         #1 for platform scraping
         nbrBeforeQuit = 1
-        nbrBeforeQuit = nbrBeforeQuit + len(gameresult['person'])
+        #nbrBeforeQuit = nbrBeforeQuit + len(gameresult['person'])
+        #TODO: limit to 3 persons for test purposes only
+        nbrBeforeQuit = nbrBeforeQuit + 3
         
         def c(error, subject):
             if error:
@@ -205,85 +207,93 @@ def fromHeimdallToRcb(results):
             
             if(result.Class == 'item.game'):
                 if(game.name == ''):
-                    game.name = readHeimdallValue(result, dc.title)
+                    gamename = readHeimdallValue(result, dc.title, '')
+                    if(len(gamename) > 0):
+                        game.name = gamename[0]
                 
-                genres = readHeimdallValue(result, dc.type)
-                if(type(genres) == str or type(genres) == unicode):
-                    if(not genres in game.genre_dbignore):
-                        game.genre_dbignore = [genres,]
-                elif(type(genres) == list):
-                    for genre in genres:
-                        if(not genre in game.genre_dbignore):
-                            game.genre_dbignore.append(genre)
+                genres = readHeimdallValue(result, dc.type, 'name')
+                for genre in genres:                
+                    if(not genre in game.genre):
+                        game.genre.append(genre)
                 
                 if(game.description == ''):
-                    game.description = readHeimdallValue(result, dc.description)
-                try:
-                    date = readHeimdallValue(result, dc.date)
-                    if(game.year_dbignore == ''):
-                        game.year_dbignore = date[0:4]
-                except:
-                    # can't be parsed by strptime()
-                    pass
+                    description = readHeimdallValue(result, dc.description, '')
+                    if(len(description) > 0):
+                        game.description = description[0]
+                if(game.year == ''):
+                    date = readHeimdallValue(result, dc.date, '')
+                    if(len(date) > 0):
+                        game.year = date[0][0:4]
                 if(game.rating == ''):
-                    game.rating = readHeimdallValue(result, media.rating)
-                    
-                #TODO: add more than 1 developer
-                if(game.developer_dbignore == ''):
-                    developers = readHeimdallValue(result, swo.SWO_0000396)                
-                    if(type(developers) == str or type(developers) == unicode):
-                        game.developer_dbignore = developers
-                    elif(type(developers) == list):
-                        game.developer_dbignore = developers[0]
-                    else:
-                        print "Developer type %s is not supported" %type(developers)
+                    rating = readHeimdallValue(result, media.rating, '')
+                    if(len(rating) > 0):
+                        game.rating = rating[0]
+                
+                if(game.developer == ''):
+                    developers = readHeimdallValue(result, swo.SWO_0000396, '')
+                    if(len(developers) > 0):
+                        game.developer = developers[0]
                             
-                #TODO: add more than 1 publisher
-                if(game.publisher_dbignore == ''):
-                    publishers = readHeimdallValue(result, swo.SWO_0000397)
-                    if(type(publishers) == str or type(publishers) == unicode):
-                        game.publisher_dbignore = publishers
-                    elif(type(publishers) == list):
-                        game.publisher_dbignore = publishers[0]
-                    else:
-                        print "Publisher type %s is not supported" %type(publishers)
+                if(game.publisher == ''):
+                    publishers = readHeimdallValue(result, swo.SWO_0000397, '')
+                    if(len(publishers) > 0):
+                        game.publisher = publishers[0]
                 
                 if(game.maxPlayers == ''):
-                    game.maxPlayers = readHeimdallValue(result, "players")
+                    maxPlayers = readHeimdallValue(result, "players")
+                    if(len(maxPlayers) > 0):
+                        game.maxPlayers = maxPlayers[0]
                 
-                
-                game.artworkurls_dbignore = {}
                 #TODO: translate heimdall artwork types to RCB artwork types
-                artworkurl = readartworkurl(result, 'fanart')
-                if(artworkurl):
-                    game.artworkurls_dbignore['fanart'] = artworkurl 
-                artworkurl = readartworkurl(result, 'boxfront')
-                if(artworkurl):
-                    game.artworkurls_dbignore['boxfront'] = artworkurl
-                artworkurl = readartworkurl(result, 'boxback')
-                if(artworkurl):
-                    game.artworkurls_dbignore['boxback'] = artworkurl
-                artworkurl = readartworkurl(result, 'cartridge')
-                if(artworkurl):
-                    game.artworkurls_dbignore['cartridge'] = artworkurl
-                artworkurl = readartworkurl(result, 'screenshot')
-                if(artworkurl):
-                    game.artworkurls_dbignore['screenshot'] = artworkurl
+                artworkurls = readHeimdallValue(result, 'fanart', 'fanart')
+                if(len(artworkurls) > 0):
+                    game.artworkurls['fanart'] = artworkurls[0]
+                artworkurls = readHeimdallValue(result, 'boxfront', 'boxfront')
+                if(len(artworkurls) > 0):
+                    game.artworkurls['boxfront'] = artworkurls[0]
+                artworkurls = readHeimdallValue(result, 'boxback', 'boxback')
+                if(len(artworkurls) > 0):
+                    game.artworkurls['boxback'] = artworkurls[0]
+                artworkurls = readHeimdallValue(result, 'cartridge', 'cartridge')
+                if(len(artworkurls) > 0):
+                    game.artworkurls['cartridge'] = artworkurls[0]
+                artworkurls = readHeimdallValue(result, 'screenshot', 'screenshot')
+                if(len(artworkurls) > 0):
+                    game.artworkurls['screenshot'] = artworkurls[0]
     
     return game
 
 
-def readHeimdallValue(metadata, key):
+#heimdall results can be string, dict, list or list of dicts
+def readHeimdallValue(indict, key, nestedKey):
+    resultlist = []
+    result = readFromDict(indict, key)
+    if(type(result) == str or type(result) == unicode):
+        resultlist.append(result)
+    elif(type(result) == list):
+        for item in result:
+            if(type(item) == str or type(item) == unicode):
+                itemString = item
+            if(type(item) == dict):
+                itemString = readFromDict(item, nestedKey)
+            resultlist.append(itemString)
+    elif(type(result) == dict):
+        item = readFromDict(result, nestedKey)
+        resultlist.append(item)
+    
+    return resultlist
+
+
+def readFromDict(indict, key):
     resultValue = ''
     try:
-        #heimdalls metadata is storing everything in lists. Just return the first item
-        resultValue = metadata[key][0]
+        resultValue = indict[key]
     except:
         pass
     
     return resultValue
 
-
+"""
 def readartworkurl(result, artworkType):
     #artwork can be string, dict, list or list of dicts
     artworkurl = None
@@ -299,5 +309,4 @@ def readartworkurl(result, artworkType):
             artworkurl = artworkurl[artworkType]
         
     return artworkurl
-    
-    
+"""
