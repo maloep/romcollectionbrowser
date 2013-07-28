@@ -9,7 +9,7 @@ import filewalker, dbupdater
 import xbmcvfs, xbmcgui
 
 
-def getArtworkForGame(romCollection, game, gamenameFromFile, gui, foldername, isLocalArtwork):
+def getArtworkForRelease(romCollection, release, gamenameFromFile, gui, foldername, isLocalArtwork):
     artWorkFound = False
     artworkfiles = {}
     for path in romCollection.mediaPaths:
@@ -20,12 +20,12 @@ def getArtworkForGame(romCollection, game, gamenameFromFile, gui, foldername, is
         fileName = path.path.replace("%GAME%", gamenameFromFile)
         
         if(not isLocalArtwork):
-            continueUpdate = getThumbFromOnlineSource(game, path.fileType.name, fileName, gui)
+            continueUpdate = getThumbFromOnlineSource(release, path.fileType.name, fileName, gui)
             if(not continueUpdate):
                 return False, None
         
         Logutil.log("Additional data path: " +str(path.path), util.LOG_LEVEL_DEBUG)
-        files = resolvePath((path.path,), game.name, gamenameFromFile, foldername, romCollection.name, game.publisher, game.developer)
+        files = resolvePath((path.path,), release.name, gamenameFromFile, foldername, romCollection.name, release.publisher, release.developer)
         if(len(files) > 0):
             artWorkFound = True
         artworkfiles[path.fileType] = files

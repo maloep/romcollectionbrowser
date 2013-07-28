@@ -6,6 +6,9 @@ import resultmatcher, filewalker, artworkimporter
 from resources.lib.rcb.utils import util
 from resources.lib.rcb.utils.util import Logutil
 from resources.lib.rcb.datamodel.game import Game
+from resources.lib.rcb.datamodel.release import Release
+from resources.lib.rcb.datamodel.developer import Developer
+from resources.lib.rcb.datamodel.publisher import Publisher
 from resources.lib.rcb.configuration import config
 
 from resources.lib.heimdall.src.heimdall.core import Engine, Subject
@@ -16,10 +19,17 @@ from resources.lib.heimdall.src.games import thegamesdb, giantbomb, mobygames
 
 
 import logging
+from resources.lib.rcb.datamodel.platform import Platform
+from resources.lib.rcb.datamodel.person import Person
 logging.basicConfig()
 logging.getLogger("heimdall").setLevel(logging.CRITICAL)
 
 
+"""
+Scrape game with all configured scrapers
+Scrape additional items (platform, companies, persons)
+Download artwork
+"""
 def scrapeGame(gamenameFromFile, romCollection, settings, foldername, updateOption, gui, progDialogHeader, fileCount):
             
     gui.writeMsg(progDialogHeader, util.localize(40023) + ": " + gamenameFromFile, util.localize(40031), fileCount)
@@ -52,14 +62,16 @@ def scrapeGame(gamenameFromFile, romCollection, settings, foldername, updateOpti
     if(len(results) > 0):
         game = fromHeimdallToRcb(results)
         gui.writeMsg(progDialogHeader, util.localize(40023) + ": " + gamenameFromFile, util.localize(40098), fileCount)
-        artWorkFound, artworkfiles = artworkimporter.getArtworkForGame(romCollection, game, gamenameFromFile, gui, foldername, False)        
-        return game, artWorkFound, artworkfiles, game.artworkurls
+        artWorkFound, artworkfiles = artworkimporter.getArtworkForRelease(romCollection, game.releases[0], gamenameFromFile, gui, foldername, False)        
+        return game, artWorkFound, artworkfiles, game.releases[0].artworkurls
     
                 
     return None, False, {}, {}
 
 
-
+"""
+Scrape additional items (platform, companies, persons, ...)
+"""
 def heimdallScrapeItems(gameresult, romCollection, scraper):
     #print "Running Heimdall upon: ", gamenameFromFile.encode('utf-8')
     
@@ -141,6 +153,9 @@ def heimdallScrapeItems(gameresult, romCollection, scraper):
     return subjects
     
     
+"""
+Scrape game with given scraper
+"""
 def heimdallScrapeGame(gamenameFromFile, romCollection, scraper):
     print "Running Heimdall upon: ", gamenameFromFile.encode('utf-8')
 
@@ -187,7 +202,7 @@ def heimdallScrapeGame(gamenameFromFile, romCollection, scraper):
         
     return subject
     
-
+"""
 def mergeResults(dicts):
     
     result = {}
@@ -196,76 +211,109 @@ def mergeResults(dicts):
     for dict in dicts:        
         result.update(dict)
     return result
+"""
 
 
+"""
+Translate heimdall result to RCB game structure
+"""
 def fromHeimdallToRcb(results):
     
     game = Game(None)
+    release = Release(None)
     
     for scraperresult in results:
         for result in scraperresult:
             
             if(result.Class == 'item.game'):
+                gamename = readHeimdallValue(result, dc.title, '')
+                #TODO: different names for release and game?
                 if(game.name == ''):
-                    gamename = readHeimdallValue(result, dc.title, '')
-                    if(len(gamename) > 0):
-                        game.name = gamename[0]
+                    game.name = gamename
+                if(release.name == ''):
+                    release.name = gamename
                 
-                genres = readHeimdallValue(result, dc.type, 'name')
+                genres = readHeimdallValueList(result, dc.type, 'name')
                 for genre in genres:                
-                    if(not genre in game.genre):
-                        game.genre.append(genre)
+                    if(not genre in game.genres):
+                        game.genres.append(genre)
                 
-                if(game.description == ''):
-                    description = readHeimdallValue(result, dc.description, '')
-                    if(len(description) > 0):
-                        game.description = description[0]
-                if(game.year == ''):
+                if(release.description == ''):
+                    release.description = readHeimdallValue(result, dc.description, '')
+                
+                if(release.year == ''):
                     date = readHeimdallValue(result, dc.date, '')
-                    if(len(date) > 0):
-                        game.year = date[0][0:4]
-                if(game.rating == ''):
-                    rating = readHeimdallValue(result, media.rating, '')
-                    if(len(rating) > 0):
-                        game.rating = rating[0]
+                    if(len != ''):
+                        release.year = date[0:4]
+                if(release.ESRBrating == ''):
+                    release.ESRBrating = readHeimdallValue(result, media.rating, '')
+                if(release.maxPlayers == ''):
+                    release.maxPlayers = readHeimdallValue(result, "players", '')
                 
-                if(game.developer == ''):
-                    developers = readHeimdallValue(result, swo.SWO_0000396, '')
-                    if(len(developers) > 0):
-                        game.developer = developers[0]
-                            
-                if(game.publisher == ''):
-                    publishers = readHeimdallValue(result, swo.SWO_0000397, '')
-                    if(len(publishers) > 0):
-                        game.publisher = publishers[0]
+                if(release.developer == None):
+                    release.developer = Developer(None)
+                    release.developer.name = readHeimdallValue(result, swo.SWO_0000396, '')
+                if(release.publisher == None):
+                    release.publisher = Publisher(None)
+                    release.publisher.name = readHeimdallValue(result, swo.SWO_0000397, '')
                 
-                if(game.maxPlayers == ''):
-                    maxPlayers = readHeimdallValue(result, "players")
-                    if(len(maxPlayers) > 0):
-                        game.maxPlayers = maxPlayers[0]
-                
-                #TODO: translate heimdall artwork types to RCB artwork types
-                artworkurls = readHeimdallValue(result, 'fanart', 'fanart')
-                if(len(artworkurls) > 0):
-                    game.artworkurls['fanart'] = artworkurls[0]
-                artworkurls = readHeimdallValue(result, 'boxfront', 'boxfront')
-                if(len(artworkurls) > 0):
-                    game.artworkurls['boxfront'] = artworkurls[0]
-                artworkurls = readHeimdallValue(result, 'boxback', 'boxback')
-                if(len(artworkurls) > 0):
-                    game.artworkurls['boxback'] = artworkurls[0]
-                artworkurls = readHeimdallValue(result, 'cartridge', 'cartridge')
-                if(len(artworkurls) > 0):
-                    game.artworkurls['cartridge'] = artworkurls[0]
+                #TODO: translate heimdall artwork types to RCB artwork type
+                #TODO: support more than 1 image per artwork type                
+                artworkurl = readHeimdallValue(result, 'fanart', 'fanart')
+                if(artworkurl != ''):
+                    release.artworkurls['fanart'] = artworkurl
+                artworkurl = readHeimdallValue(result, 'boxfront', 'boxfront')
+                if(artworkurl != ''):
+                    release.artworkurls['boxfront'] = artworkurl
+                artworkurl = readHeimdallValue(result, 'boxback', 'boxback')
+                if(artworkurl != ''):
+                    release.artworkurls['boxback'] = artworkurl
+                artworkurl = readHeimdallValue(result, 'cartridge', 'cartridge')
+                if(artworkurl != ''):
+                    release.artworkurls['cartridge'] = artworkurl
                 artworkurls = readHeimdallValue(result, 'screenshot', 'screenshot')
-                if(len(artworkurls) > 0):
-                    game.artworkurls['screenshot'] = artworkurls[0]
+                if(artworkurl != ''):
+                    release.artworkurls['screenshot'] = artworkurl
+            
+            elif(result.Class == 'item.platform'):
+                if(release.platform == None):
+                    release.platform = Platform(None)
+                if(release.platform.name == ''):
+                    release.platform.name = readHeimdallValue(result, dc.title, '')
+                if(release.platform.description == ''):
+                    release.platform.description = readHeimdallValue(result, dc.description, '')
+                if(release.platform.releasedate == ''):
+                    #TODO: format date
+                    release.platform.releasedate = readHeimdallValue(result, dc.date, '')                    
+            
+            elif(result.Class == 'item.person'):
+                person = None
+                newPerson = True
+                personname = readHeimdallValue(result, dc.title, '')
+                if(len(release.persons) == 0):
+                    person = Person(None)
+                else:
+                    #check if we have to update an existing person
+                    for p in release.persons:
+                        #TODO: name may not be strong enough
+                        if(p.name == personname):
+                            person = p
+                            newPerson = False
+                    if(not person):
+                        person = Person(None)
+                if(person.name == ''):         
+                    person.name = personname
+                if(person.role == ''):
+                    person.role = readHeimdallValue(result, 'role', '')
+                if(newPerson):
+                    release.persons.append(person)
     
+    game.releases.append(release)
     return game
 
 
 #heimdall results can be string, dict, list or list of dicts
-def readHeimdallValue(indict, key, nestedKey):
+def readHeimdallValueList(indict, key, nestedKey):
     resultlist = []
     result = readFromDict(indict, key)
     if(type(result) == str or type(result) == unicode):
@@ -284,6 +332,13 @@ def readHeimdallValue(indict, key, nestedKey):
     return resultlist
 
 
+def readHeimdallValue(indict, key, nestedKey):
+    resultlist = readHeimdallValueList(indict, key, nestedKey)
+    if(len(resultlist) > 0):
+        return resultlist[0]
+    return ''
+
+
 def readFromDict(indict, key):
     resultValue = ''
     try:
@@ -292,21 +347,3 @@ def readFromDict(indict, key):
         pass
     
     return resultValue
-
-"""
-def readartworkurl(result, artworkType):
-    #artwork can be string, dict, list or list of dicts
-    artworkurl = None
-    if(readHeimdallValue(result, artworkType)):
-        artworkurl = readHeimdallValue(result, artworkType)
-        #TODO: use more than one images per type
-        if(type(artworkurl) == list):
-            if(type(artworkurl[0]) == dict):
-                artworkurl = artworkurl[0][artworkType]
-            else:
-                artworkurl = artworkurl[0]
-        elif(type(artworkurl) == dict):
-            artworkurl = artworkurl[artworkType]
-        
-    return artworkurl
-"""
