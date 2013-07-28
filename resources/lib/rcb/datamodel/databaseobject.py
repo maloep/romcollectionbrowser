@@ -2,6 +2,8 @@
 from resources.lib.rcb.utils import util
 from resources.lib.rcb.utils.util import *
 
+DBINDEX_id = 0
+DBINDEX_name = 1
 
 class DataBaseObject:
     

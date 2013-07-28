@@ -1,6 +1,9 @@
 import xbmc
 import os, sys, re
-from resources.lib.rcb.datamodel.gamedatabase import GameDataBase, Reviewer, GenreGame
+
+import resources.lib.rcb.datamodel.databaseobject
+from resources.lib.rcb.datamodel.gamedatabase import GameDataBase
+from resources.lib.rcb.datamodel.links import LinkGenreGame
 from resources.lib.rcb.datamodel.year import Year
 from resources.lib.rcb.datamodel.publisher import Publisher
 from resources.lib.rcb.datamodel.developer import Developer
@@ -9,6 +12,7 @@ from resources.lib.rcb.datamodel.rcbsetting import RCBSetting
 import util
 from util import *
 from resources.lib.rcb.configuration import config
+from resources.lib.rcb.datamodel import databaseobject
 
 
 def cacheFiles(files):
@@ -49,20 +53,6 @@ def cacheYears(gdb):
 	Logutil.log("End cacheYears" , util.LOG_LEVEL_DEBUG)
 	return yearDict
 	
-	
-def cacheReviewers(gdb):
-	Logutil.log("Begin cacheReviewers" , util.LOG_LEVEL_DEBUG)
-	reviewers = Reviewer(gdb).getAll()
-	if(reviewers == None):
-		Logutil.log("reviewerRows == None in cacheReviewers", util.LOG_LEVEL_WARNING)
-		return
-	reviewerDict = {}
-	for reviewer in reviewers:
-		reviewerDict[reviewer.id] = reviewer
-		
-	Logutil.log("End cacheReviewers" , util.LOG_LEVEL_DEBUG)
-	return reviewerDict
-	
 
 def cachePublishers(gdb):
 	Logutil.log("Begin cachePublishers" , util.LOG_LEVEL_DEBUG)
@@ -96,7 +86,7 @@ def cacheGenres(gdb):
 	
 	Logutil.log("Begin cacheGenres" , util.LOG_LEVEL_DEBUG)
 			
-	genreGames = GenreGame(gdb).getAll()
+	genreGames = LinkGenreGame(gdb).getAll()
 	if(genreGames == None):
 		Logutil.log("genreRows == None in cacheGenres", util.LOG_LEVEL_WARNING)
 		return
@@ -241,7 +231,7 @@ def getRCBSetting(gdb):
 		#TODO raise error
 		return None
 					
-	return rcbSettingRows[util.ROW_ID]
+	return rcbSettingRows[databaseobject.DBINDEX_id]
 		
 		
 

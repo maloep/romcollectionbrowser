@@ -1,11 +1,15 @@
-
+import databaseobject
 from databaseobject import DataBaseObject
 
 from resources.lib.rcb.utils import util
 from resources.lib.rcb.utils.util import *
 
 
-class File(DataBaseObject):    
+DBINDEX_fileTypeId = 2
+DBINDEX_parentId = 3
+
+
+class File(DataBaseObject):
     filterQueryByGameIdAndFileType = "Select * from File \
                     where parentId = ? AND \
                     filetypeid = ?"
@@ -52,10 +56,10 @@ class File(DataBaseObject):
         
         file = File(self._gdb)
         
-        file.id = row[util.ROW_ID]
-        file.name = row[util.ROW_NAME]
-        file.fileTypeId = row[util.FILE_fileTypeId]
-        file.parentId = row[util.FILE_parentId]
+        file.id = row[databaseobject.DBINDEX_id]
+        file.name = row[databaseobject.DBINDEX_name]
+        file.fileTypeId = row[DBINDEX_fileTypeId]
+        file.parentId = row[DBINDEX_parentId]
         
         return file
             

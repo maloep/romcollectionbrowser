@@ -19,6 +19,7 @@ class Person(DataBaseObject):
         self.country = ''
         self.hometown = ''
         self.gender = ''
+        self.role = ''
         
         self.artworkurls = {}
         

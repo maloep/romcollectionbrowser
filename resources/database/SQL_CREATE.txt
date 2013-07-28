@@ -1,27 +1,89 @@
-CREATE TABLE IF NOT EXISTS [Developer] 
+CREATE TABLE IF NOT EXISTS [Company]
+(
+    [id] INTEGER PRIMARY KEY AUTOINCREMENT,
+    [name] TEXT NOT NULL UNIQUE,
+    [description] TEXT,
+    [country] TEXT,
+    [city] TEXT
+);
+
+
+CREATE TABLE IF NOT EXISTS [PersonRole]
 (
     [id] INTEGER PRIMARY KEY AUTOINCREMENT,
     [name] TEXT NOT NULL UNIQUE
 );
 
-CREATE TABLE IF NOT EXISTS [Reviewer]
+
+CREATE TABLE IF NOT EXISTS [Person] 
 (
     [id] INTEGER PRIMARY KEY AUTOINCREMENT,
-    [name] TEXT NOT NULL UNIQUE
+    [name] TEXT NOT NULL UNIQUE,
+    [description] TEXT,
+    [country] TEXT
 );
 
 
 CREATE TABLE IF NOT EXISTS [Genre] 
 (
     [id] INTEGER PRIMARY KEY AUTOINCREMENT,
+    [name] TEXT UNIQUE,
+	[description] TEXT
+);
+
+
+CREATE TABLE IF NOT EXISTS [Region] 
+(
+    [id] INTEGER PRIMARY KEY AUTOINCREMENT,
+    [name] TEXT UNIQUE,
+	[description] TEXT
+);
+
+
+CREATE TABLE IF NOT EXISTS [Perspective]
+(
+    [id] INTEGER PRIMARY KEY AUTOINCREMENT,
+    [name] TEXT UNIQUE,
+	[description] TEXT
+);
+
+
+CREATE TABLE IF NOT EXISTS [Controller]
+(
+    [id] INTEGER PRIMARY KEY AUTOINCREMENT,
+    [name] TEXT UNIQUE,
+	[description] TEXT
+);
+
+
+CREATE TABLE IF NOT EXISTS [Media]
+(
+    [id] INTEGER PRIMARY KEY AUTOINCREMENT,
+    [name] TEXT UNIQUE,
+	[description] TEXT
+);
+
+
+CREATE TABLE IF NOT EXISTS [Language]
+(
+    [id] INTEGER PRIMARY KEY AUTOINCREMENT,
     [name] TEXT UNIQUE
 );
 
-CREATE TABLE IF NOT EXISTS [Publisher] 
+
+CREATE TABLE IF NOT EXISTS [ESRBRating]
 (
     [id] INTEGER PRIMARY KEY AUTOINCREMENT,
-    [name] NONE NOT NULL UNIQUE
+    [name] TEXT UNIQUE
 );
+
+
+CREATE TABLE IF NOT EXISTS [MaxPlayers]
+(
+    [id] INTEGER PRIMARY KEY AUTOINCREMENT,
+    [name] TEXT UNIQUE
+);
+
 
 CREATE TABLE IF NOT EXISTS [Year] 
 (
@@ -29,40 +91,71 @@ CREATE TABLE IF NOT EXISTS [Year]
     [name] TEXT UNIQUE
 );
 
-CREATE TABLE IF NOT EXISTS [RCBSetting]
+
+CREATE TABLE IF NOT EXISTS [RomCollection]
 (
     [id] INTEGER PRIMARY KEY AUTOINCREMENT,
-    [lastSelectedView] TEXT,
-    [lastSelectedConsoleIndex] INTEGER,	
-	[lastSelectedGenreIndex] INTEGER,
-	[lastSelectedPublisherIndex] INTEGER,
-    [lastSelectedYearIndex] INTEGER,
-	[lastSelectedGameIndex] INTEGER,	
-	[autoexecBackupPath] TEXT,
-	[dbVersion] TEXT,	
-	[lastFocusedControlMainView] INTEGER,
-	[lastFocusedControlGameInfoView] INTEGER,	
-	[lastSelectedCharacterIndex] INTEGER	
+    [name] TEXT NOT NULL
 );
 
 
-CREATE TABLE IF NOT EXISTS [Game] 
+CREATE TABLE IF NOT EXISTS [Platform] 
 (
     [id] INTEGER PRIMARY KEY AUTOINCREMENT,
     [name] TEXT NOT NULL,
     [description] TEXT,
-	[gameCmd] TEXT,
-	[alternateGameCmd] TEXT,
-    [romCollectionId] INTEGER,
-    [publisherId] INTEGER REFERENCES [Publisher]
+    [releaseYear] TEXT,
+    [developerId] INTEGER REFERENCES [Company]
     (
         id
     ),
-	[developerId] INTEGER REFERENCES [Developer]
+    [manufacturerId] INTEGER REFERENCES [Company]
     (
         id
     ),
-	[reviewerId] INTEGER REFERENCES [Reviewer]
+    [cpu] TEXT,
+    [ram] TEXT,
+    [graphics] TEXT,
+    [sound] TEXT,
+    [display] TEXT,
+    [mediaId] INTEGER REFERENCES [Media]
+    (
+        id
+    ),
+    [maxControllers] INTEGER
+);
+
+
+CREATE TABLE IF NOT EXISTS [Game]
+(
+    [id] INTEGER PRIMARY KEY AUTOINCREMENT,
+    [name] TEXT NOT NULL
+);
+
+
+CREATE TABLE IF NOT EXISTS [Release] 
+(
+    [id] INTEGER PRIMARY KEY AUTOINCREMENT,
+    [gameId] INTEGER REFERENCES [Game]
+    (
+        id
+    ),
+    [description] TEXT,
+    [gameCmd] TEXT,
+    [alternateGameCmd] TEXT,
+    [platformId] INTEGER REFERENCES [Platform]
+    (
+        id
+    ),
+    [romCollectionId] INTEGER REFERENCES [RomCollection]
+    (
+        id
+    ),
+    [developerId] INTEGER REFERENCES [Company]
+    (
+        id
+    ),
+    [publisherId] INTEGER REFERENCES [Company]
     (
         id
     ),
@@ -70,35 +163,91 @@ CREATE TABLE IF NOT EXISTS [Game]
     (
         id
     ),
-	[maxPlayers] TEXT,
-    [rating] TEXT,
-    [numVotes] INTEGER,
-	[url] TEXT,
-    [region] TEXT,
-	[media] TEXT,
-    [perspective] TEXT,
-    [controllerType] TEXT,
-	[isFavorite] INTEGER,
-	[launchCount] INTEGER,
-	[originalTitle] TEXT,
-	[alternateTitle] TEXT,
-	[translatedBy] TEXT,
-	[version] TEXT,
-	UNIQUE (name, romCollectionId)
+    [mobyRank] INTEGER,
+    [mobyScore] INTEGER,
+    [mobyScoreVotes] INTEGER,
+    [thegamesdbScore] INTEGER,
+    [thegamesdbVotes] INTEGER,
+    [ESRBRatingId] INTEGER REFERENCES [ESRBRating]
+    (
+        id
+    ),
+    [regionId] INTEGER REFERENCES [Region]
+    (
+        id
+    ),
+	[laguageId] INTEGER REFERENCES [Language]
+    (
+        id
+    ),
+    [mediaId] INTEGER REFERENCES [Media]
+    (
+        id
+    ),
+	[maxPlayersId] INTEGER REFERENCES [MaxPlayers]
+    (
+        id
+    ),
+	[perspectiveId] INTEGER REFERENCES [Perspective]
+    (
+        id
+    ),
+	[controllerId] INTEGER REFERENCES [Controller]
+    (
+        id
+    ),
+    [isFavorite] INTEGER,
+    [launchCount] INTEGER,
+    [version] TEXT,
+    [completed] INTEGER,
+    [broken] INTEGER,
+    [dateAdded] DATE,
+    [dateModified] DATE,
+    [lastPlayed] DATE
 );
 
 
-CREATE TABLE IF NOT EXISTS [File] 
+CREATE TABLE IF NOT EXISTS [AlternateTitle] 
 (
     [id] INTEGER PRIMARY KEY AUTOINCREMENT,
-    [name] TEXT NOT NULL,
-    [fileTypeId] INTEGER,
-    [parentId] INTEGER
+    [name] TEXT UNIQUE,
+    [releaseId] INTEGER REFERENCES [Release]
+    (
+        id
+    )
 );
 
 
+CREATE TABLE IF NOT EXISTS [DetailUrl] 
+(
+    [id] INTEGER PRIMARY KEY AUTOINCREMENT,
+    [name] TEXT UNIQUE,
+    [releaseId] INTEGER REFERENCES [Release]
+    (
+        id
+    )
+);
 
-CREATE TABLE IF NOT EXISTS [GenreGame] 
+
+CREATE TABLE IF NOT EXISTS [LinkReleasePersonRole]
+(
+    [id] INTEGER PRIMARY KEY AUTOINCREMENT,
+    [releaseId] INTEGER REFERENCES [Release]
+    (
+        id
+    ),
+    [developerId] INTEGER REFERENCES [Person]
+    (
+        id
+    ),
+	[roleId] INTEGER REFERENCES [PersonRole]
+    (
+        id
+    )
+);
+
+
+CREATE TABLE IF NOT EXISTS [LinkGenreGame]
 (
     [id] INTEGER PRIMARY KEY AUTOINCREMENT,
     [genreId] INTEGER REFERENCES [Genre]
@@ -111,3 +260,28 @@ CREATE TABLE IF NOT EXISTS [GenreGame]
     )
 );
 
+
+CREATE TABLE IF NOT EXISTS [File] 
+(
+    [id] INTEGER PRIMARY KEY AUTOINCREMENT,
+    [name] TEXT NOT NULL,
+    [fileTypeId] INTEGER,
+    [parentId] INTEGER
+);
+
+
+CREATE TABLE IF NOT EXISTS [RCBSetting]
+(
+    [id] INTEGER PRIMARY KEY AUTOINCREMENT,
+    [lastSelectedView] TEXT,
+    [lastSelectedPlatformIndex] INTEGER,    
+    [lastSelectedGenreIndex] INTEGER,
+    [lastSelectedPublisherIndex] INTEGER,
+    [lastSelectedYearIndex] INTEGER,
+    [lastSelectedGameIndex] INTEGER,    
+    [autoexecBackupPath] TEXT,
+    [dbVersion] TEXT,    
+    [lastFocusedControlMainView] INTEGER,
+    [lastFocusedControlGameInfoView] INTEGER,    
+    [lastSelectedCharacterIndex] INTEGER    
+);

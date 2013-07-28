@@ -1,7 +1,24 @@
 
+import databaseobject
 from databaseobject import DataBaseObject
 from resources.lib.rcb.utils import util
 from resources.lib.rcb.utils.util import *
+
+
+"""
+DB Index
+"""
+lastSelectedView = 1
+lastSelectedPlatformIndex = 2
+lastSelectedGenreIndex = 3
+lastSelectedPublisherIndex = 4
+lastSelectedYearIndex = 5
+lastSelectedGameIndex = 6
+autoexecBackupPath = 7
+dbVersion = 8
+lastFocusedControlMainView = 9
+lastFocusedControlGameInfoView = 10
+lastSelectedCharacterIndex = 11
 
 
 class RCBSetting(DataBaseObject):    
@@ -11,7 +28,7 @@ class RCBSetting(DataBaseObject):
         
         self.id = None
         self.lastSelectedView = None
-        self.lastSelectedConsoleIndex = None
+        self.lastSelectedPlatformIndex = None
         self.lastSelectedGenreIndex = None
         self.lastSelectedPublisherIndex = None
         self.lastSelectedYearIndex = None
@@ -30,18 +47,18 @@ class RCBSetting(DataBaseObject):
         
         rcbsetting = RCBSetting(self._gdb)
         
-        rcbsetting.id = row[util.ROW_ID]
-        rcbsetting.lastSelectedView = row[util.RCBSETTING_lastSelectedView]
-        rcbsetting.lastSelectedConsoleIndex = row[util.RCBSETTING_lastSelectedConsoleIndex]
-        rcbsetting.lastSelectedGenreIndex = row[util.RCBSETTING_lastSelectedGenreIndex]
-        rcbsetting.lastSelectedPublisherIndex = row[util.RCBSETTING_lastSelectedPublisherIndex]
-        rcbsetting.lastSelectedYearIndex = row[util.RCBSETTING_lastSelectedYearIndex]
-        rcbsetting.lastSelectedGameIndex = row[util.RCBSETTING_lastSelectedGameIndex]
-        rcbsetting.autoexecBackupPath = row[util.RCBSETTING_autoexecBackupPath]
-        rcbsetting.dbVersion = row[util.RCBSETTING_dbVersion]
-        rcbsetting.lastFocusedControlMainView = row[util.RCBSETTING_lastFocusedControlMainView]
-        rcbsetting.lastFocusedControlGameInfoView = row[util.RCBSETTING_lastFocusedControlGameInfoView]
-        rcbsetting.lastSelectedCharacterIndex = row[util.RCBSETTING_lastSelectedCharacterIndex]
+        rcbsetting.id = row[databaseobject.DBINDEX_id]
+        rcbsetting.lastSelectedView = row[lastSelectedView]
+        rcbsetting.lastSelectedPlatformIndex = row[lastSelectedPlatformIndex]
+        rcbsetting.lastSelectedGenreIndex = row[lastSelectedGenreIndex]
+        rcbsetting.lastSelectedPublisherIndex = row[lastSelectedPublisherIndex]
+        rcbsetting.lastSelectedYearIndex = row[lastSelectedYearIndex]
+        rcbsetting.lastSelectedGameIndex = row[lastSelectedGameIndex]
+        rcbsetting.autoexecBackupPath = row[autoexecBackupPath]
+        rcbsetting.dbVersion = row[dbVersion]
+        rcbsetting.lastFocusedControlMainView = row[lastFocusedControlMainView]
+        rcbsetting.lastFocusedControlGameInfoView = row[lastFocusedControlGameInfoView]
+        rcbsetting.lastSelectedCharacterIndex = row[lastSelectedCharacterIndex]
         
         return rcbsetting
     
