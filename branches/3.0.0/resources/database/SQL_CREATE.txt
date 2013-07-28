@@ -15,7 +15,7 @@ CREATE TABLE IF NOT EXISTS [PersonRole]
 );
 
 
-CREATE TABLE IF NOT EXISTS [Person] 
+CREATE TABLE IF NOT EXISTS [Person]
 (
     [id] INTEGER PRIMARY KEY AUTOINCREMENT,
     [name] TEXT NOT NULL UNIQUE,
@@ -24,7 +24,15 @@ CREATE TABLE IF NOT EXISTS [Person]
 );
 
 
-CREATE TABLE IF NOT EXISTS [Genre] 
+CREATE TABLE IF NOT EXISTS [Genre]
+(
+    [id] INTEGER PRIMARY KEY AUTOINCREMENT,
+    [name] TEXT UNIQUE,
+	[description] TEXT
+);
+
+
+CREATE TABLE IF NOT EXISTS [Character]
 (
     [id] INTEGER PRIMARY KEY AUTOINCREMENT,
     [name] TEXT UNIQUE,
@@ -133,7 +141,7 @@ CREATE TABLE IF NOT EXISTS [Game]
 );
 
 
-CREATE TABLE IF NOT EXISTS [Release] 
+CREATE TABLE IF NOT EXISTS [Release]
 (
     [id] INTEGER PRIMARY KEY AUTOINCREMENT,
     [gameId] INTEGER REFERENCES [Game]
@@ -255,6 +263,20 @@ CREATE TABLE IF NOT EXISTS [LinkGenreGame]
         id
     ),
     [gameId] INTEGER REFERENCES [Game]
+    (
+        id
+    )
+);
+
+
+CREATE TABLE IF NOT EXISTS [LinkCharacterRelease]
+(
+    [id] INTEGER PRIMARY KEY AUTOINCREMENT,
+    [characterId] INTEGER REFERENCES [Character]
+    (
+        id
+    ),
+    [releaseId] INTEGER REFERENCES [Release]
     (
         id
     )
