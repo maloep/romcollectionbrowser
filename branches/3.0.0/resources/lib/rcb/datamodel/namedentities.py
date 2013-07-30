@@ -1,4 +1,4 @@
-
+import databaseobject
 from databaseobject import DataBaseObject
 
 from resources.lib.rcb.utils import util
@@ -29,8 +29,8 @@ class Year(DataBaseObject):
 
 
     def __init__(self, gdb):        
-        self._gdb = gdb
-        self._tableName = "Year"
+        self.gdb = gdb
+        self.tableName = "Year"
         
         self.id = None
         self.name = ''
@@ -39,16 +39,13 @@ class Year(DataBaseObject):
     def fromDb(self, row):
         
         if(not row):
-            return None
+            return
         
-        year = Year(self._gdb)
-        
-        year.id = row[util.ROW_ID]
-        year.name = row[util.ROW_NAME]
-        
-        return year
+        self.id = row[databaseobject.DBINDEX_id]
+        self.name = row[databaseobject.DBINDEX_name]
 
     
+    """
     def getFilteredYears(self, romCollectionId, genreId, publisherId, likeStatement):
         args = (romCollectionId, publisherId, genreId)
         filterQuery = self.__filterQuery %likeStatement
@@ -61,10 +58,71 @@ class Year(DataBaseObject):
         return years
     
     def delete(self, yearId):
-        
         if(yearId != None):
             count = self.getCountByQuery(self.yearIdCountQuery, (yearId,))
-            print count
             if (count[0] < 2):
                 util.Logutil.log("Delete Year with id %s" % str(yearId), util.LOG_LEVEL_INFO)
                 self.deleteObjectByQuery(self.yearDeleteQuery, (yearId,))
+    """
+                
+                
+class PersonRole(DataBaseObject):
+    
+    deleteQuery = "DELETE FROM PersonRole WHERE id = ?"
+
+
+    def __init__(self, gdb):        
+        self.gdb = gdb
+        self.tableName = "PersonRole"
+        
+        self.id = None
+        self.name = ''
+        
+    
+    def fromDb(self, row):
+        if(not row):
+            return None
+        
+        self.id = row[databaseobject.DBINDEX_id]
+        self.name = row[databaseobject.DBINDEX_name]
+        
+        
+    def toDbDict(self):
+        dbdict = {}
+        dbdict['id'] = self.id
+        dbdict['name'] = self.name         
+        return dbdict
+    
+    
+    def insert(self, allowUpdate):
+        obj = PersonRole.getPersonRoleByName(self.gdb, self.name)
+        if(obj.id):
+            self.id = obj.id
+            if(allowUpdate):
+                self.updateAllColumns(False)
+        else:
+            self.id = DataBaseObject.insert(self)
+        
+        
+    @staticmethod
+    def getPersonRoleByName(gdb, name):
+        dbRow = DataBaseObject.getOneByName(gdb, 'PersonRole', name)
+        personRole = PersonRole(gdb)
+        personRole.fromDb(dbRow)
+        return personRole
+    
+    
+    @staticmethod
+    def getPersonRoleById(gdb, id):
+        dbRow = DataBaseObject.getObjectById(gdb, 'PersonRole', id)
+        personRole = PersonRole(gdb)
+        personRole.fromDb(dbRow)
+        return personRole
+        
+    
+    def delete(self, id):
+        if(id != None):
+            count = self.getCountByQuery(self.yearIdCountQuery, (id,))
+            if (count[0] < 2):
+                util.Logutil.log("Delete PersonRole with id %s" % str(id), util.LOG_LEVEL_INFO)
+                self.deleteObjectByQuery(PersonRole.deleteQuery, (id,))

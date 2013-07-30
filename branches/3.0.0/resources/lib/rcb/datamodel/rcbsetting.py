@@ -8,23 +8,23 @@ from resources.lib.rcb.utils.util import *
 """
 DB Index
 """
-lastSelectedView = 1
-lastSelectedPlatformIndex = 2
-lastSelectedGenreIndex = 3
-lastSelectedPublisherIndex = 4
-lastSelectedYearIndex = 5
-lastSelectedGameIndex = 6
-autoexecBackupPath = 7
-dbVersion = 8
-lastFocusedControlMainView = 9
-lastFocusedControlGameInfoView = 10
-lastSelectedCharacterIndex = 11
+DBINDEX_lastSelectedView = 1
+DBINDEX_lastSelectedPlatformIndex = 2
+DBINDEX_lastSelectedGenreIndex = 3
+DBINDEX_lastSelectedPublisherIndex = 4
+DBINDEX_lastSelectedYearIndex = 5
+DBINDEX_lastSelectedGameIndex = 6
+DBINDEX_autoexecBackupPath = 7
+DBINDEX_dbVersion = 8
+DBINDEX_lastFocusedControlMainView = 9
+DBINDEX_lastFocusedControlGameInfoView = 10
+DBINDEX_lastSelectedCharacterIndex = 11
 
 
 class RCBSetting(DataBaseObject):    
     def __init__(self, gdb):   
-        self._gdb = gdb
-        self._tableName = "RCBSetting"
+        self.gdb = gdb
+        self.tableName = "RCBSetting"
         
         self.id = None
         self.lastSelectedView = None
@@ -43,23 +43,41 @@ class RCBSetting(DataBaseObject):
     def fromDb(self, row):
         
         if(not row):
-            return None
+            return
         
-        rcbsetting = RCBSetting(self._gdb)
-        
-        rcbsetting.id = row[databaseobject.DBINDEX_id]
-        rcbsetting.lastSelectedView = row[lastSelectedView]
-        rcbsetting.lastSelectedPlatformIndex = row[lastSelectedPlatformIndex]
-        rcbsetting.lastSelectedGenreIndex = row[lastSelectedGenreIndex]
-        rcbsetting.lastSelectedPublisherIndex = row[lastSelectedPublisherIndex]
-        rcbsetting.lastSelectedYearIndex = row[lastSelectedYearIndex]
-        rcbsetting.lastSelectedGameIndex = row[lastSelectedGameIndex]
-        rcbsetting.autoexecBackupPath = row[autoexecBackupPath]
-        rcbsetting.dbVersion = row[dbVersion]
-        rcbsetting.lastFocusedControlMainView = row[lastFocusedControlMainView]
-        rcbsetting.lastFocusedControlGameInfoView = row[lastFocusedControlGameInfoView]
-        rcbsetting.lastSelectedCharacterIndex = row[lastSelectedCharacterIndex]
-        
-        return rcbsetting
+        self.id = row[databaseobject.DBINDEX_id]
+        self.lastSelectedView = row[DBINDEX_lastSelectedView]
+        self.lastSelectedPlatformIndex = row[DBINDEX_lastSelectedPlatformIndex]
+        self.lastSelectedGenreIndex = row[DBINDEX_lastSelectedGenreIndex]
+        self.lastSelectedPublisherIndex = row[DBINDEX_lastSelectedPublisherIndex]
+        self.lastSelectedYearIndex = row[DBINDEX_lastSelectedYearIndex]
+        self.lastSelectedGameIndex = row[DBINDEX_lastSelectedGameIndex]
+        self.autoexecBackupPath = row[DBINDEX_autoexecBackupPath]
+        self.dbVersion = row[DBINDEX_dbVersion]
+        self.lastFocusedControlMainView = row[DBINDEX_lastFocusedControlMainView]
+        self.lastFocusedControlGameInfoView = row[DBINDEX_lastFocusedControlGameInfoView]
+        self.lastSelectedCharacterIndex = row[DBINDEX_lastSelectedCharacterIndex]
     
+    
+    def toDbDict(self):
+        rcbsettingdict = {}
+        rcbsettingdict['id'] = self.id
+        
+        rcbsettingdict['lastSelectedView'] = self.lastSelectedView
+        rcbsettingdict['lastSelectedPlatformIndex'] = self.lastSelectedPlatformIndex
+        rcbsettingdict['lastSelectedGenreIndex'] = self.lastSelectedGenreIndex
+        rcbsettingdict['lastSelectedPublisherIndex'] = self.lastSelectedPublisherIndex
+        rcbsettingdict['lastSelectedYearIndex'] = self.lastSelectedYearIndex
+        rcbsettingdict['lastSelectedGameIndex'] = self.lastSelectedGameIndex
+        rcbsettingdict['autoexecBackupPath'] = self.autoexecBackupPath
+        rcbsettingdict['dbVersion'] = self.dbVersion
+        rcbsettingdict['lastFocusedControlMainView'] = self.lastFocusedControlMainView
+        rcbsettingdict['lastFocusedControlGameInfoView'] = self.lastFocusedControlGameInfoView
+        rcbsettingdict['lastSelectedCharacterIndex'] = self.lastSelectedCharacterIndex
+        
+        return rcbsettingdict
+    
+    
+    def insert(self):
+        DataBaseObject.insert(self)
     
