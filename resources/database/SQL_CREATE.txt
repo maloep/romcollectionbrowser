@@ -27,7 +27,7 @@ CREATE TABLE IF NOT EXISTS [Person]
 CREATE TABLE IF NOT EXISTS [Genre]
 (
     [id] INTEGER PRIMARY KEY AUTOINCREMENT,
-    [name] TEXT UNIQUE,
+    [name] TEXT NOT NULL UNIQUE,
 	[description] TEXT
 );
 
@@ -35,7 +35,7 @@ CREATE TABLE IF NOT EXISTS [Genre]
 CREATE TABLE IF NOT EXISTS [Character]
 (
     [id] INTEGER PRIMARY KEY AUTOINCREMENT,
-    [name] TEXT UNIQUE,
+    [name] TEXT NOT NULL UNIQUE,
 	[description] TEXT
 );
 
@@ -43,7 +43,7 @@ CREATE TABLE IF NOT EXISTS [Character]
 CREATE TABLE IF NOT EXISTS [Region] 
 (
     [id] INTEGER PRIMARY KEY AUTOINCREMENT,
-    [name] TEXT UNIQUE,
+    [name] TEXT NOT NULL UNIQUE,
 	[description] TEXT
 );
 
@@ -51,7 +51,7 @@ CREATE TABLE IF NOT EXISTS [Region]
 CREATE TABLE IF NOT EXISTS [Perspective]
 (
     [id] INTEGER PRIMARY KEY AUTOINCREMENT,
-    [name] TEXT UNIQUE,
+    [name] TEXT NOT NULL UNIQUE,
 	[description] TEXT
 );
 
@@ -59,7 +59,7 @@ CREATE TABLE IF NOT EXISTS [Perspective]
 CREATE TABLE IF NOT EXISTS [Controller]
 (
     [id] INTEGER PRIMARY KEY AUTOINCREMENT,
-    [name] TEXT UNIQUE,
+    [name] TEXT NOT NULL UNIQUE,
 	[description] TEXT
 );
 
@@ -67,7 +67,7 @@ CREATE TABLE IF NOT EXISTS [Controller]
 CREATE TABLE IF NOT EXISTS [Media]
 (
     [id] INTEGER PRIMARY KEY AUTOINCREMENT,
-    [name] TEXT UNIQUE,
+    [name] TEXT NOT NULL UNIQUE,
 	[description] TEXT
 );
 
@@ -75,42 +75,42 @@ CREATE TABLE IF NOT EXISTS [Media]
 CREATE TABLE IF NOT EXISTS [Language]
 (
     [id] INTEGER PRIMARY KEY AUTOINCREMENT,
-    [name] TEXT UNIQUE
+    [name] TEXT NOT NULL UNIQUE
 );
 
 
 CREATE TABLE IF NOT EXISTS [ESRBRating]
 (
     [id] INTEGER PRIMARY KEY AUTOINCREMENT,
-    [name] TEXT UNIQUE
+    [name] TEXT NOT NULL UNIQUE
 );
 
 
 CREATE TABLE IF NOT EXISTS [MaxPlayers]
 (
     [id] INTEGER PRIMARY KEY AUTOINCREMENT,
-    [name] TEXT UNIQUE
+    [name] TEXT NOT NULL UNIQUE
 );
 
 
 CREATE TABLE IF NOT EXISTS [Year] 
 (
     [id] INTEGER PRIMARY KEY AUTOINCREMENT,
-    [name] TEXT UNIQUE
+    [name] TEXT NOT NULL UNIQUE
 );
 
 
 CREATE TABLE IF NOT EXISTS [RomCollection]
 (
     [id] INTEGER PRIMARY KEY AUTOINCREMENT,
-    [name] TEXT NOT NULL
+    [name] TEXT NOT NULL UNIQUE
 );
 
 
 CREATE TABLE IF NOT EXISTS [Platform] 
 (
     [id] INTEGER PRIMARY KEY AUTOINCREMENT,
-    [name] TEXT NOT NULL,
+    [name] TEXT NOT NULL UNIQUE,
     [description] TEXT,
     [releaseYear] TEXT,
     [developerId] INTEGER REFERENCES [Company]
@@ -137,21 +137,35 @@ CREATE TABLE IF NOT EXISTS [Platform]
 CREATE TABLE IF NOT EXISTS [Game]
 (
     [id] INTEGER PRIMARY KEY AUTOINCREMENT,
-    [name] TEXT NOT NULL
+    [name] TEXT NOT NULL UNIQUE
 );
 
 
 CREATE TABLE IF NOT EXISTS [Release]
 (
     [id] INTEGER PRIMARY KEY AUTOINCREMENT,
-    [gameId] INTEGER REFERENCES [Game]
-    (
-        id
-    ),
+	[name] TEXT NOT NULL,
     [description] TEXT,
     [gameCmd] TEXT,
     [alternateGameCmd] TEXT,
-    [platformId] INTEGER REFERENCES [Platform]
+	[mobyRank] INTEGER,
+    [mobyScore] INTEGER,
+    [mobyScoreVotes] INTEGER,
+    [thegamesdbScore] INTEGER,
+    [thegamesdbVotes] INTEGER,
+	[isFavorite] INTEGER,
+    [launchCount] INTEGER,
+    [version] TEXT,
+    [completed] INTEGER,
+    [broken] INTEGER,
+    [dateAdded] DATE,
+    [dateModified] DATE,
+    [lastPlayed] DATE,
+	[gameId] INTEGER NOT NULL REFERENCES [Game]
+    (
+        id
+    ),
+    [platformId] INTEGER NOT NULL REFERENCES [Platform]
     (
         id
     ),
@@ -171,11 +185,6 @@ CREATE TABLE IF NOT EXISTS [Release]
     (
         id
     ),
-    [mobyRank] INTEGER,
-    [mobyScore] INTEGER,
-    [mobyScoreVotes] INTEGER,
-    [thegamesdbScore] INTEGER,
-    [thegamesdbVotes] INTEGER,
     [ESRBRatingId] INTEGER REFERENCES [ESRBRating]
     (
         id
@@ -203,33 +212,14 @@ CREATE TABLE IF NOT EXISTS [Release]
 	[controllerId] INTEGER REFERENCES [Controller]
     (
         id
-    ),
-    [isFavorite] INTEGER,
-    [launchCount] INTEGER,
-    [version] TEXT,
-    [completed] INTEGER,
-    [broken] INTEGER,
-    [dateAdded] DATE,
-    [dateModified] DATE,
-    [lastPlayed] DATE
+    )    
 );
 
 
 CREATE TABLE IF NOT EXISTS [AlternateTitle] 
 (
     [id] INTEGER PRIMARY KEY AUTOINCREMENT,
-    [name] TEXT UNIQUE,
-    [releaseId] INTEGER REFERENCES [Release]
-    (
-        id
-    )
-);
-
-
-CREATE TABLE IF NOT EXISTS [DetailUrl] 
-(
-    [id] INTEGER PRIMARY KEY AUTOINCREMENT,
-    [name] TEXT UNIQUE,
+    [name] TEXT NOT NULL UNIQUE,
     [releaseId] INTEGER REFERENCES [Release]
     (
         id
@@ -244,7 +234,7 @@ CREATE TABLE IF NOT EXISTS [LinkReleasePersonRole]
     (
         id
     ),
-    [developerId] INTEGER REFERENCES [Person]
+    [personId] INTEGER REFERENCES [Person]
     (
         id
     ),
@@ -286,9 +276,19 @@ CREATE TABLE IF NOT EXISTS [LinkCharacterRelease]
 CREATE TABLE IF NOT EXISTS [File] 
 (
     [id] INTEGER PRIMARY KEY AUTOINCREMENT,
-    [name] TEXT NOT NULL,
-    [fileTypeId] INTEGER,
-    [parentId] INTEGER
+    [name] TEXT NOT NULL UNIQUE,
+    [fileType] INTEGER NOT NULL,
+    [parentId] INTEGER NOT NULL
+);
+
+
+CREATE TABLE IF NOT EXISTS [DetailUrl] 
+(
+    [id] INTEGER PRIMARY KEY AUTOINCREMENT,
+    [name] TEXT NOT NULL UNIQUE,
+	[urlType] TEXT NOT NULL,
+	[source] TEXT NOT NULL,
+    [parentId] INTEGER NOT NULL
 );
 
 

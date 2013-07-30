@@ -20,10 +20,11 @@ class Game(DataBaseObject):
     
     __filterMostPlayedGames = "Select * From Game Where launchCount > 0 Order by launchCount desc Limit "    
     
+    #releases = []
     
     def __init__(self, gdb):
-        self._gdb = gdb
-        self._tableName = "Game"
+        self.gdb = gdb
+        self.tableName = "Game"
         
         self.id = None
         self.name = ''
@@ -33,40 +34,94 @@ class Game(DataBaseObject):
         
     def fromDb(self, row):
         if(not row):
-            return None
+            return
         
-        game = Game(self._gdb)
+        self.id = row[databaseobject.DBINDEX_id]
+        self.name = row[databaseobject.DBINDEX_name]
+    
+    
+    def toDbDict(self):
+        gamedict = {}
+        gamedict['id'] = self.id
+        gamedict['name'] = self.name
+        return gamedict
         
-        game.id = row[databaseobject.DBINDEX_id]
-        game.name = row[databaseobject.DBINDEX_name]
+            
+    def insert(self, allowUpdate):
         
+        if(self.id):
+            if(allowUpdate):
+                self.updateAllColumns(False)
+        else:
+            self.id = DataBaseObject.insert(self)
+        
+        for release in self.releases:
+            release.gameId = self.id
+            release.insert(allowUpdate)
+                            
+    
+    @staticmethod
+    def getGameByName(gdb, name):
+        dbRow = DataBaseObject.getOneByName(gdb, 'Game', name)
+        game = Game(gdb)
+        game.fromDb(dbRow)
         return game
     
     
-    def toDbDict(self, game):
-        gamedict = {}
-        gamedict['id'] = game.id
-        gamedict['name'] = game.name
-        
-        
-    def getFilteredGames(self, romCollectionId, genreId, yearId, publisherId, isFavorite, likeStatement):
+    @staticmethod
+    def getGameById(gdb, id):
+        dbRow = DataBaseObject.getObjectById(gdb, 'Game', id)
+        game = Game(gdb)
+        game.fromDb(dbRow)
+        return game
+    
+    
+    @staticmethod
+    def getAllGames(gdb):
+        gamelist = DataBaseObject.getAll(gdb, 'Game')
+        games = []
+        for dbRow in gamelist:
+            game = Game(gdb)
+            game.fromDb(dbRow)
+            games.append(game)
+        return games
+            
+    
+    @staticmethod
+    def getFilteredGames(gdb, romCollectionId, genreId, yearId, publisherId, isFavorite, likeStatement):
         args = (romCollectionId, genreId, yearId, publisherId, isFavorite)
-        filterQuery = self.__filterQuery %likeStatement
+        filterQuery = Game.__filterQuery %likeStatement
         util.Logutil.log('searching games with query: ' +filterQuery, util.LOG_LEVEL_DEBUG)
         util.Logutil.log('searching games with args: romCollectionId = %s, genreId = %s, yearId = %s, publisherId = %s, isFavorite = %s, characterFilter = %s' %(str(romCollectionId), str(genreId), str(yearId), str(publisherId), str(isFavorite), likeStatement), util.LOG_LEVEL_DEBUG)
-        games = self.getObjectsByWildcardQuery(filterQuery, args)        
+        dbRows = DataBaseObject.getObjectsByWildcardQuery(gdb, filterQuery, args)        
+        games = []
+        for dbRow in dbRows:
+            game = Game(gdb)
+            game.fromDb(dbRow)
+            games.append(game)
         return games
         
-    def getGameByNameAndRomCollectionId(self, name, romCollectionId):
-        game = self.getObjectByQuery(self.__filterByNameAndRomCollectionId, (name, romCollectionId))
+    
+    @staticmethod
+    def getGameByNameAndRomCollectionId(gdb, name, romCollectionId):
+        dbRow = DataBaseObject.getObjectByQuery(gdb, Game.__filterByNameAndRomCollectionId, (name, romCollectionId))
+        game = Game(gdb)
+        game.fromDb(dbRow)
         return game
         
-    def getMostPlayedGames(self, count):
+    
+    @staticmethod
+    def getMostPlayedGames(gdb, count):
         if(str.isdigit(str(count))):
-            filter = self.__filterMostPlayedGames +str(count)
+            filter = Game.__filterMostPlayedGames +str(count)
         else:
-            filter = self.__filterMostPlayedGames +str(10)
-        games = self.getObjectsByQuery(filter, [])
+            filter = Game.__filterMostPlayedGames +str(10)
+        dbRows = DataBaseObject.getObjectsByQuery(gdb, filter, [])
+        games = []
+        for dbRow in dbRows:
+            game = Game(gdb)
+            game.fromDb(dbRow)
+            games.append(game)
         return games
         
         

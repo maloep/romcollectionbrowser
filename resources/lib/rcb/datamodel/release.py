@@ -2,6 +2,8 @@
 import databaseobject
 from databaseobject import DataBaseObject
 from platform import Platform
+from developer import Developer
+from publisher import Publisher
 
 from resources.lib.rcb.utils import util
 from resources.lib.rcb.utils.util import *
@@ -12,25 +14,33 @@ DB Index
 """
 DBINDEX_description = 2
 DBINDEX_gameCmd = 3
-DBINDEX_romCollectionId = 5
-DBINDEX_publisherId = 6
-DBINDEX_developerId = 7
-DBINDEX_reviewerId = 8
-DBINDEX_yearId = 9
-DBINDEX_maxPlayers = 10
-DBINDEX_rating = 11
-DBINDEX_numVotes = 12
-DBINDEX_url = 13
-DBINDEX_region = 14
-DBINDEX_media = 15
-DBINDEX_perspective = 16
-DBINDEX_controllerType = 17
-DBINDEX_isFavorite = 18
-DBINDEX_launchCount = 19
-DBINDEX_originalTitle = 20
-DBINDEX_alternateTitle = 21
-DBINDEX_translatedBy = 22
-DBINDEX_version = 23
+DBINDEX_alternateGameCmd = 4
+DBINDEX_mobyRank = 5
+DBINDEX_mobyScore = 6
+DBINDEX_mobyScoreVotes = 7
+DBINDEX_thegamesdbScore = 8
+DBINDEX_thegamesdbVotes = 9
+DBINDEX_isFavorite = 10
+DBINDEX_launchCount = 11
+DBINDEX_version = 12
+DBINDEX_completed = 13
+DBINDEX_broken = 14
+DBINDEX_dateAdded = 15
+DBINDEX_dateModified = 16
+DBINDEX_lastPlayed = 17
+DBINDEX_gameId = 18
+DBINDEX_platformId = 19
+DBINDEX_romCollectionId = 20
+DBINDEX_developerId = 21
+DBINDEX_publisherId = 22
+DBINDEX_yearId = 23
+DBINDEX_ESRBRatingId = 24
+DBINDEX_regionId = 25
+DBINDEX_laguageId = 26
+DBINDEX_mediaId = 27
+DBINDEX_maxPlayersId = 28
+DBINDEX_perspectiveId = 29
+DBINDEX_controllerId = 30
 
 
 class Release(DataBaseObject):
@@ -49,10 +59,11 @@ class Release(DataBaseObject):
     
     
     def __init__(self, gdb):
-        self._gdb = gdb
-        self._tableName = "Release"
+        self.gdb = gdb
+        self.tableName = "Release"
         
         self.id = None
+        self.gameId = None
         self.name = ''
         self.description = ''
         self.gameCmd = ''
@@ -64,7 +75,6 @@ class Release(DataBaseObject):
         self.mobyScoreVotes = ''
         self.thegamesdbScore = ''
         self.thegamesdbVotes = ''
-        self.version = ''
         
         self.isFavorite = 0
         self.launchCount = 0
@@ -80,6 +90,7 @@ class Release(DataBaseObject):
         self.developer = None
         self.region = None
         self.persons = []
+        self.characters = []
         
         #referenced objects - simple
         self.year = ''
@@ -101,48 +112,64 @@ class Release(DataBaseObject):
         if(not row):
             return None
         
-        release = Release(self._gdb)
+        self.id = row[databaseobject.DBINDEX_id]
+        self.name = row[databaseobject.DBINDEX_name]
         
-        release.id = row[databaseobject.DBINDEX_id]
-        release.name = row[databaseobject.DBINDEX_name]
-        release.description = row[DBINDEX_description]
+        self.gameId = row[DBINDEX_gameId]
+        self.description = row[DBINDEX_description]
+        self.gameCmd = row[DBINDEX_gameCmd]
+        self.alternateGameCmd = None
+        self.isFavorite = row[DBINDEX_isFavorite]
+        self.launchCount = row[DBINDEX_launchCount]
+        #release.originalTitle = row[DBINDEX_originalTitle]
+        self.version = row[DBINDEX_version]
+                
+        self.platform = Platform()
+        self.platform.id = row[DBINDEX_platformId]
+                
+        self.publisher = Publisher(self.gdb)
+        self.publisher.id = row[DBINDEX_publisherId]
+        
+        self.developer = Developer(self.gdb)
+        self.developer.id = row[DBINDEX_developerId]
+        
+        
+        """
         release.romCollectionId = row[DBINDEX_romCollectionId]
-        release.publisherId = row[DBINDEX_publisherId]
-        release.developerId = row[DBINDEX_developerId]
-        release.reviewerId = row[DBINDEX_reviewerId]
-        release.yearId = row[DBINDEX_yearId]
-        release.gameCmd = row[DBINDEX_gameCmd]
-        release.alternateGameCmd = None
         release.maxPlayers = row[DBINDEX_maxPlayers]
         release.rating = row[DBINDEX_rating]
-        release.numVotes = row[DBINDEX_numVotes]
         release.url = row[DBINDEX_url]
         release.region = row[DBINDEX_region]
         release.media = row[DBINDEX_media]
         release.perspective = row[DBINDEX_perspective]
-        release.controllerType = row[DBINDEX_controllerType]
-        release.isFavorite = row[DBINDEX_isFavorite]
-        release.launchCount = row[DBINDEX_launchCount]
-        release.originalTitle = row[DBINDEX_originalTitle]
+        release.controller = row[DBINDEX_controllerType]
         release.alternateTitle = row[DBINDEX_alternateTitle]
-        release.translatedBy = row[DBINDEX_translatedBy]
-        release.version = row[DBINDEX_version]
-        
-        return release
+        """
     
     
-    def toDbDict(self, release):
+    def toDbDict(self):
         releasedict = {}
-        releasedict['id'] = release.id
-        releasedict['name'] = release.name 
-        releasedict['description'] = release.description
-        releasedict['romCollectionId'] = release.romCollectionId
-        releasedict['publisherId'] = release.publisherId
-        releasedict['developerId'] = release.developerId
-        releasedict['reviewerId'] = release.reviewerId
-        releasedict['yearId'] = release.yearId
-        releasedict['gameCmd'] = release.gameCmd
-        releasedict['alternateGameCmd'] = release.alternateGameCmd
+        releasedict['id'] = self.id
+        releasedict['name'] = self.name
+        releasedict['gameId'] = self.gameId 
+        releasedict['description'] = self.description
+        if(self.platform):
+            releasedict['platformId'] = self.platform.id
+        if(self.publisher):
+            releasedict['publisherId'] = self.publisher.id
+        if(self.developer):
+            releasedict['developerId'] = self.developer.id
+        if(self.year):
+            releasedict['yearId'] = self.year.id
+        releasedict['gameCmd'] = self.gameCmd
+        releasedict['alternateGameCmd'] = self.alternateGameCmd
+        releasedict['isFavorite'] = self.isFavorite
+        releasedict['launchCount'] = self.launchCount
+        releasedict['version'] = self.version
+        
+        
+        """
+        releasedict['romCollectionId'] = release.romCollection.id
         releasedict['maxPlayers'] = release.maxPlayers
         releasedict['rating'] = release.rating
         releasedict['numVotes'] = release.numVotes
@@ -151,14 +178,47 @@ class Release(DataBaseObject):
         releasedict['media'] = release.media
         releasedict['perspective'] = release.perspective
         releasedict['controllerType'] = release.controllerType
-        releasedict['isFavorite'] = release.isFavorite
-        releasedict['launchCount'] = release.launchCount
-        releasedict['originalTitle'] = release.originalTitle
         releasedict['alternateTitle'] = release.alternateTitle
-        releasedict['translatedBy'] = release.translatedBy
-        releasedict['version'] = release.version
+        """
+        return releasedict
+        
+    
+    def insert(self, allowUpdate):
+        
+        #store parent (is-relation)
+        if(self.platform):
+            self.platform.insert(allowUpdate)
+        
+        #store self
+        if(self.id):
+            if(allowUpdate):
+                self.updateAllColumns(False)
+        else:
+            self.id = DataBaseObject.insert(self)
+            
+        #store children (has-relation)        
+        for person in self.persons:
+            person.releaseId = self.id
+            person.insert(allowUpdate)
         
         
+    @staticmethod
+    def getReleaseByName(gdb, name):
+        dbRow = DataBaseObject.getOneByName(gdb, 'Release', name)
+        release = Release(gdb)
+        release.fromDb(dbRow)
+        return release
+    
+    
+    @staticmethod
+    def getReleaseById(gdb, id):
+        dbRow = DataBaseObject.getObjectById(gdb, 'Release', id)
+        release = Release(gdb)
+        release.fromDb(dbRow)
+        return release
+        
+        
+    """
     def getFilteredGames(self, romCollectionId, genreId, yearId, publisherId, isFavorite, likeStatement):
         args = (romCollectionId, genreId, yearId, publisherId, isFavorite)
         filterQuery = self.__filterQuery %likeStatement
@@ -178,5 +238,5 @@ class Release(DataBaseObject):
             filter = self.__filterMostPlayedGames +str(10)
         games = self.getObjectsByQuery(filter, [])
         return games
-        
+    """
         
