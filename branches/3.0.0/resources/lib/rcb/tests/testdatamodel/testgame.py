@@ -12,8 +12,7 @@ from resources.lib.rcb.datamodel.file import File
 from resources.lib.rcb.datamodel.game import Game
 from resources.lib.rcb.datamodel.release import Release
 from resources.lib.rcb.datamodel.platform import Platform
-from resources.lib.rcb.datamodel.developer import Developer
-from resources.lib.rcb.datamodel.publisher import Publisher
+from resources.lib.rcb.datamodel.company import Company
 from resources.lib.rcb.datamodel.person import Person
 from resources.lib.rcb.datamodel.genre import Genre
 
@@ -47,16 +46,17 @@ class TestGame(unittest.TestCase):
         release = Release(self.gdb)
         release.name = 'testgame release'
         release.description = 'test description'
+        release.year = '1992'
         
         platform = Platform(self.gdb)
         platform.name = 'SNES'
         release.platform = platform
         
-        publisher = Publisher(self.gdb)
+        publisher = Company(self.gdb)
         publisher.name = 'test publisher'
         release.publisher = publisher
         
-        developer = Developer(self.gdb)
+        developer = Company(self.gdb)
         developer.name = 'test developer'
         release.developer = developer
         

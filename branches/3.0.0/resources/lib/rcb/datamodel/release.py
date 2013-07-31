@@ -2,8 +2,8 @@
 import databaseobject
 from databaseobject import DataBaseObject
 from platform import Platform
-from developer import Developer
-from publisher import Publisher
+from company import Company
+from namedentities import Year
 
 from resources.lib.rcb.utils import util
 from resources.lib.rcb.utils.util import *
@@ -94,6 +94,7 @@ class Release(DataBaseObject):
         
         #referenced objects - simple
         self.year = ''
+        self.yearId = None
         self.maxPlayers = ''
         self.ESRBrating = ''
         self.language = ''
@@ -127,10 +128,10 @@ class Release(DataBaseObject):
         self.platform = Platform()
         self.platform.id = row[DBINDEX_platformId]
                 
-        self.publisher = Publisher(self.gdb)
+        self.publisher = Company(self.gdb)
         self.publisher.id = row[DBINDEX_publisherId]
         
-        self.developer = Developer(self.gdb)
+        self.developer = Company(self.gdb)
         self.developer.id = row[DBINDEX_developerId]
         
         
@@ -159,8 +160,8 @@ class Release(DataBaseObject):
             releasedict['publisherId'] = self.publisher.id
         if(self.developer):
             releasedict['developerId'] = self.developer.id
-        if(self.year):
-            releasedict['yearId'] = self.year.id
+        
+        releasedict['yearId'] = self.yearId
         releasedict['gameCmd'] = self.gameCmd
         releasedict['alternateGameCmd'] = self.alternateGameCmd
         releasedict['isFavorite'] = self.isFavorite
@@ -185,9 +186,21 @@ class Release(DataBaseObject):
     
     def insert(self, allowUpdate):
         
-        #store parent (is-relation)
+        #store objects that have to be stored before release because we need the ids
         if(self.platform):
             self.platform.insert(allowUpdate)
+            
+        if(self.developer):
+            self.developer.insert(allowUpdate)
+            
+        if(self.publisher):
+            self.publisher.insert(allowUpdate)
+            
+        if(self.year != ''):
+            year = Year(self.gdb)
+            year.name = self.year
+            year.insert(allowUpdate)
+            self.yearId = year.id
         
         #store self
         if(self.id):
@@ -196,7 +209,7 @@ class Release(DataBaseObject):
         else:
             self.id = DataBaseObject.insert(self)
             
-        #store children (has-relation)        
+        #store children that require releaseId        
         for person in self.persons:
             person.releaseId = self.id
             person.insert(allowUpdate)
@@ -212,7 +225,7 @@ class Release(DataBaseObject):
     
     @staticmethod
     def getReleaseById(gdb, id):
-        dbRow = DataBaseObject.getObjectById(gdb, 'Release', id)
+        dbRow = DataBaseObject.getOneById(gdb, 'Release', id)
         release = Release(gdb)
         release.fromDb(dbRow)
         return release

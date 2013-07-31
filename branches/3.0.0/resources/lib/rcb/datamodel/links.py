@@ -35,7 +35,7 @@ class LinkGenreGame(DataBaseObject):
         
         
     def getGenreGameByGenreIdAndGameId(self, genreId, gameId):
-        genreGame = self.getObjectByQuery(self.filterQueryByGenreIdAndGameId, (genreId, gameId))
+        genreGame = self.getOneByQuery(self.filterQueryByGenreIdAndGameId, (genreId, gameId))
         return genreGame
         
 
@@ -92,7 +92,7 @@ class LinkReleasePersonRole(DataBaseObject):
     
     @staticmethod
     def getReleasePersonRoleByIds(gdb, releaseId, personId, roleId):
-        dbRow = DataBaseObject.getObjectByQuery(gdb, LinkReleasePersonRole.filterQuery, (releaseId, personId, roleId))
+        dbRow = DataBaseObject.getOneByQuery(gdb, LinkReleasePersonRole.filterQuery, (releaseId, personId, roleId))
         obj = LinkReleasePersonRole(gdb)
         obj.fromDb(dbRow)
         return obj

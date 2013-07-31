@@ -70,7 +70,7 @@ class Game(DataBaseObject):
     
     @staticmethod
     def getGameById(gdb, id):
-        dbRow = DataBaseObject.getObjectById(gdb, 'Game', id)
+        dbRow = DataBaseObject.getOneById(gdb, 'Game', id)
         game = Game(gdb)
         game.fromDb(dbRow)
         return game
@@ -93,7 +93,7 @@ class Game(DataBaseObject):
         filterQuery = Game.__filterQuery %likeStatement
         util.Logutil.log('searching games with query: ' +filterQuery, util.LOG_LEVEL_DEBUG)
         util.Logutil.log('searching games with args: romCollectionId = %s, genreId = %s, yearId = %s, publisherId = %s, isFavorite = %s, characterFilter = %s' %(str(romCollectionId), str(genreId), str(yearId), str(publisherId), str(isFavorite), likeStatement), util.LOG_LEVEL_DEBUG)
-        dbRows = DataBaseObject.getObjectsByWildcardQuery(gdb, filterQuery, args)        
+        dbRows = DataBaseObject.getByWildcardQuery(gdb, filterQuery, args)        
         games = []
         for dbRow in dbRows:
             game = Game(gdb)
@@ -104,7 +104,7 @@ class Game(DataBaseObject):
     
     @staticmethod
     def getGameByNameAndRomCollectionId(gdb, name, romCollectionId):
-        dbRow = DataBaseObject.getObjectByQuery(gdb, Game.__filterByNameAndRomCollectionId, (name, romCollectionId))
+        dbRow = DataBaseObject.getOneByQuery(gdb, Game.__filterByNameAndRomCollectionId, (name, romCollectionId))
         game = Game(gdb)
         game.fromDb(dbRow)
         return game
@@ -116,7 +116,7 @@ class Game(DataBaseObject):
             filter = Game.__filterMostPlayedGames +str(count)
         else:
             filter = Game.__filterMostPlayedGames +str(10)
-        dbRows = DataBaseObject.getObjectsByQuery(gdb, filter, [])
+        dbRows = DataBaseObject.getByQuery(gdb, filter, [])
         games = []
         for dbRow in dbRows:
             game = Game(gdb)

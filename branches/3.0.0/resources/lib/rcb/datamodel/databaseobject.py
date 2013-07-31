@@ -15,35 +15,6 @@ class DataBaseObject:
     
     def toDbDict(self):
         pass
-    
-    
-    """
-    def toDict(self):
-        dict = {}
-        for property, value in vars(self).iteritems():
-            #ignore protected and non-db properties
-            if(not property.startswith('_') and not property.endswith('_dbignore')):
-                dict[property] = value
-                
-        return dict
-    """
-    
-    @staticmethod
-    def insert(obj):
-        
-        dbdict = obj.toDbDict()
-        
-        paramsString = ( "?, " * len(dbdict))
-        paramsString = paramsString[0:len(paramsString)-2]
-         
-        keysString = ''
-        for key in dbdict.keys():
-            keysString = keysString + ', ' +key
-        keysString = keysString[2:len(keysString)]
-        insertString = "Insert INTO %(tablename)s (id, %(keys)s) VALUES (NULL, %(paramsString)s)" % {'tablename':obj.tableName, 'keys':keysString, 'paramsString': paramsString }
-                    
-        obj.gdb.cursor.execute(insertString, dbdict.values())
-        return obj.gdb.cursor.lastrowid
         
     
     def updateSingleColumns(self, columns, updateWithNullValues):
@@ -104,6 +75,24 @@ class DataBaseObject:
         count = self._gdb.cursor.fetchone()
         return count
         
+        
+    @staticmethod
+    def insert(obj):
+        
+        dbdict = obj.toDbDict()
+        
+        paramsString = ( "?, " * len(dbdict))
+        paramsString = paramsString[0:len(paramsString)-2]
+         
+        keysString = ''
+        for key in dbdict.keys():
+            keysString = keysString + ', ' +key
+        keysString = keysString[2:len(keysString)]
+        insertString = "Insert INTO %(tablename)s (id, %(keys)s) VALUES (NULL, %(paramsString)s)" % {'tablename':obj.tableName, 'keys':keysString, 'paramsString': paramsString }
+                    
+        obj.gdb.cursor.execute(insertString, dbdict.values())
+        return obj.gdb.cursor.lastrowid
+        
 
     @staticmethod
     def getAll(gdb, tablename):
@@ -126,36 +115,36 @@ class DataBaseObject:
         return dbRow
         
     @staticmethod
-    def getObjectById(gdb, tablename, id):
+    def getOneById(gdb, tablename, id):
         gdb.cursor.execute("SELECT * FROM '%s' WHERE id = ?" % tablename, (id,))
         dbRow = gdb.cursor.fetchone()
         return dbRow
     
     @staticmethod
-    def getObjectsByWildcardQuery(gdb, query, args):
+    def getByWildcardQuery(gdb, query, args):
         #double Args for WildCard-Comparison (0 = 0)
         newArgs = []
         for arg in args:
             newArgs.append(arg)
             newArgs.append(arg)
-        return DataBaseObject.getObjectsByQuery(query, newArgs)
+        return DataBaseObject.getByQuery(query, newArgs)
             
     @staticmethod
-    def getObjectsByQuery(gdb, query, args):
+    def getByQuery(gdb, query, args):
         gdb.cursor.execute(query, args)
         allObjects = gdb.cursor.fetchall()
         allObjectsUtf8 = DataBaseObject.encodeUtf8(allObjects)
         return allObjectsUtf8
           
     @staticmethod
-    def getObjectsByQueryNoArgs(gdb, query):
+    def getByQueryNoArgs(gdb, query):
         gdb.cursor.execute(query)
         allObjects = gdb.cursor.fetchall()
         allObjectsUtf8 = DataBaseObject.encodeUtf8(allObjects)
         return allObjectsUtf8
 
     @staticmethod
-    def getObjectByQuery(gdb, query, args):
+    def getOneByQuery(gdb, query, args):
         gdb.cursor.execute(query, args)
         dbRow = gdb.cursor.fetchone()
         return dbRow
