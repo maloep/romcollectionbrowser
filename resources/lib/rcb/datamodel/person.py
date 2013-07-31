@@ -78,7 +78,7 @@ class Person(DataBaseObject):
     
     @staticmethod
     def getPlatformById(gdb, id):
-        dbRow = DataBaseObject.getObjectById(gdb, 'Person', id)
+        dbRow = DataBaseObject.getOneById(gdb, 'Person', id)
         obj = Person(gdb)
         obj.fromDb(dbRow)
         return obj

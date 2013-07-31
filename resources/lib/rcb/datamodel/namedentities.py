@@ -5,7 +5,32 @@ from resources.lib.rcb.utils import util
 from resources.lib.rcb.utils.util import *
 
 
-class Year(DataBaseObject):
+class NamedEntity(DataBaseObject):
+
+    def __init__(self, gdb):        
+        self.gdb = gdb
+        self.tableName = ""
+        
+        self.id = None
+        self.name = ''
+        
+    
+    def fromDb(self, row):
+        if(not row):
+            return None
+        
+        self.id = row[databaseobject.DBINDEX_id]
+        self.name = row[databaseobject.DBINDEX_name]
+        
+        
+    def toDbDict(self):
+        dbdict = {}
+        dbdict['id'] = self.id
+        dbdict['name'] = self.name         
+        return dbdict
+
+
+class Year(NamedEntity):
     
     #obsolete: atm years are only filtered by console
     __filterQuery = "SELECT * FROM Year WHERE Id IN (Select YearId From Game WHERE \
@@ -28,21 +53,35 @@ class Year(DataBaseObject):
     yearDeleteQuery = "DELETE FROM Year WHERE id = ?"
 
 
-    def __init__(self, gdb):        
-        self.gdb = gdb
+    def __init__(self, gdb):
+        NamedEntity.__init__(self, gdb)
         self.tableName = "Year"
         
-        self.id = None
-        self.name = ''
         
+    def insert(self, allowUpdate):
+        obj = Year.getYearByName(self.gdb, self.name)
+        if(obj.id):
+            self.id = obj.id
+            if(allowUpdate):
+                self.updateAllColumns(False)
+        else:
+            self.id = DataBaseObject.insert(self)
+            
+            
+    @staticmethod
+    def getYearByName(gdb, name):
+        dbRow = DataBaseObject.getOneByName(gdb, 'Year', name)
+        obj = Year(gdb)
+        obj.fromDb(dbRow)
+        return obj
     
-    def fromDb(self, row):
-        
-        if(not row):
-            return
-        
-        self.id = row[databaseobject.DBINDEX_id]
-        self.name = row[databaseobject.DBINDEX_name]
+    
+    @staticmethod
+    def getYearById(gdb, id):
+        dbRow = DataBaseObject.getOneById(gdb, 'Year', id)
+        obj = Year(gdb)
+        obj.fromDb(dbRow)
+        return obj
 
     
     """
@@ -66,33 +105,15 @@ class Year(DataBaseObject):
     """
                 
                 
-class PersonRole(DataBaseObject):
+class PersonRole(NamedEntity):
     
     deleteQuery = "DELETE FROM PersonRole WHERE id = ?"
 
 
-    def __init__(self, gdb):        
-        self.gdb = gdb
+    def __init__(self, gdb):
+        NamedEntity.__init__(self, gdb)
         self.tableName = "PersonRole"
-        
-        self.id = None
-        self.name = ''
-        
-    
-    def fromDb(self, row):
-        if(not row):
-            return None
-        
-        self.id = row[databaseobject.DBINDEX_id]
-        self.name = row[databaseobject.DBINDEX_name]
-        
-        
-    def toDbDict(self):
-        dbdict = {}
-        dbdict['id'] = self.id
-        dbdict['name'] = self.name         
-        return dbdict
-    
+
     
     def insert(self, allowUpdate):
         obj = PersonRole.getPersonRoleByName(self.gdb, self.name)
@@ -114,7 +135,7 @@ class PersonRole(DataBaseObject):
     
     @staticmethod
     def getPersonRoleById(gdb, id):
-        dbRow = DataBaseObject.getObjectById(gdb, 'PersonRole', id)
+        dbRow = DataBaseObject.getOneById(gdb, 'PersonRole', id)
         personRole = PersonRole(gdb)
         personRole.fromDb(dbRow)
         return personRole

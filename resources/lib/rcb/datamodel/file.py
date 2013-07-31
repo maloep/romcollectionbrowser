@@ -64,32 +64,32 @@ class File(DataBaseObject):
         return file
             
     def getFileByNameAndType(self, name, type):
-        file = self.getObjectByQuery(self.filterQueryByNameAndType, (name, type))
+        file = self.getOneByQuery(self.filterQueryByNameAndType, (name, type))
         return file
         
     def getFileByNameAndTypeAndParent(self, name, type, parentId):
-        file = self.getObjectByQuery(self.filterQueryByNameAndTypeAndParent, (name, type, parentId))
+        file = self.getOneByQuery(self.filterQueryByNameAndTypeAndParent, (name, type, parentId))
         return file
         
     def getFilesByNameAndType(self, name, type):
-        files = self.getObjectsByQuery(self.filterQueryByNameAndType, (name, type))
+        files = self.getByQuery(self.filterQueryByNameAndType, (name, type))
         return files
         
     def getFilesByGameIdAndTypeId(self, gameId, fileTypeId):
-        files = self.getObjectsByQuery(self.filterQueryByGameIdAndTypeId, (gameId, fileTypeId))
+        files = self.getByQuery(self.filterQueryByGameIdAndTypeId, (gameId, fileTypeId))
         return files
         
     def getRomsByGameId(self, gameId):
-        files = self.getObjectsByQuery(self.filterQueryByGameIdAndFileType, (gameId, 0))
+        files = self.getByQuery(self.filterQueryByGameIdAndFileType, (gameId, 0))
         return files
         
     def getFilesForGamelist(self, fileTypeIds):                
         
-        files = self.getObjectsByQueryNoArgs(self.filterFilesForGameList %(','.join(fileTypeIds)))
+        files = self.getByQueryNoArgs(self.filterFilesForGameList %(','.join(fileTypeIds)))
         return files
         
     def getFilesByParentIds(self, gameId, romCollectionId, publisherId, developerId):
-        files = self.getObjectsByQuery(self.filterQueryByParentIds, (gameId, romCollectionId, publisherId, developerId))
+        files = self.getByQuery(self.filterQueryByParentIds, (gameId, romCollectionId, publisherId, developerId))
         return files
     
     def delete(self, gameId):
@@ -101,7 +101,7 @@ class File(DataBaseObject):
         self.deleteObjectByQuery(self.deleteFileQuery, (fileId,))
         
     def getFilesList(self):
-        files = self.getObjectsByQueryNoArgs(self.getFileList)
+        files = self.getByQueryNoArgs(self.getFileList)
         return files
     
     def getFileAllFilesByRCId(self, id):

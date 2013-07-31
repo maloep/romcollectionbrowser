@@ -56,7 +56,7 @@ class TestDataBaseObject(unittest.TestCase):
         self._gdb = GameDataBase(self._databasedir, 'MyGames-TestPerformance.db')
         self._gdb.connect()
         gameid = 5
-        result = DataBaseObject.getObjectById(self._gdb, 'Game', gameid)
+        result = DataBaseObject.getOneById(self._gdb, 'Game', gameid)
         self.assertEqual(result[0], gameid, 'expected: %s, result: %s' %(result[0], gameid))
     
     
@@ -64,7 +64,7 @@ class TestDataBaseObject(unittest.TestCase):
         self._gdb = GameDataBase(self._databasedir, 'MyGames-TestPerformance.db')
         self._gdb.connect()
         query = "Select * From Game Where launchCount > 0 Order by launchCount desc Limit 10"
-        results = DataBaseObject.getObjectsByQuery(self._gdb, query, [])
+        results = DataBaseObject.getByQuery(self._gdb, query, [])
         print len(results)
         
     
@@ -72,7 +72,7 @@ class TestDataBaseObject(unittest.TestCase):
         self._gdb = GameDataBase(self._databasedir, 'MyGames-TestPerformance.db')
         self._gdb.connect()
         query = "SELECT * FROM File WHERE filetypeid = 0"
-        results = DataBaseObject.getObjectsByQueryNoArgs(self._gdb, query)
+        results = DataBaseObject.getByQueryNoArgs(self._gdb, query)
         print len(results)
         
         
@@ -81,7 +81,7 @@ class TestDataBaseObject(unittest.TestCase):
         self._gdb.connect()
         query = "SELECT * FROM Game WHERE name = ? and romCollectionId = ?"
         args = ("Super Mario Kart", 5)
-        result = DataBaseObject.getObjectByQuery(self._gdb, query, args)
+        result = DataBaseObject.getOneByQuery(self._gdb, query, args)
         gamename =args[0]
         self.assertEqual(gamename, result[1], 'expected: %s, result: %s' %(gamename, result[1]))
     

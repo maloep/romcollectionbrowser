@@ -80,7 +80,7 @@ class Platform(DataBaseObject):
     
     @staticmethod
     def getPlatformById(gdb, id):
-        dbRow = DataBaseObject.getObjectById(gdb, 'Platform', id)
+        dbRow = DataBaseObject.getOneById(gdb, 'Platform', id)
         platform = Platform(gdb)
         platform.fromDb(dbRow)
         return platform

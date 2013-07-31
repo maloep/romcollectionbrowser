@@ -18,7 +18,7 @@ def insertGameFromDesc(gdb, gameFromScraper, gamenameFromFile, gameId, romCollec
     Logutil.log("insertGameFromDesc", util.LOG_LEVEL_INFO)
 
     if(isUpdate):
-        game = Game(gdb).getObjectById(gameId)
+        game = Game(gdb).getOneById(gameId)
     else:
         game = Game(gdb)
         

@@ -61,19 +61,19 @@ class Genre(DataBaseObject):
         args = (romCollectionId, yearId, publisherId)
         filterQuery = self.__filterQuery %likeStatement
         util.Logutil.log('searching genres with query: ' +filterQuery, util.LOG_LEVEL_DEBUG)
-        genres = self.getObjectsByWildcardQuery(filterQuery, args)
+        genres = self.getByWildcardQuery(filterQuery, args)
         return genres
     
     def getFilteredGenresByConsole(self, romCollectionId):
-        genres = self.getObjectsByWildcardQuery(self.filterGenreByConsole, (romCollectionId,))
+        genres = self.getByWildcardQuery(self.filterGenreByConsole, (romCollectionId,))
         return genres
         
     def getGenresByGameId(self, gameId):
-        genres = self.getObjectsByQuery(self.filteGenreByGameId, (gameId,))
+        genres = self.getByQuery(self.filteGenreByGameId, (gameId,))
         return genres
 
     def getGenreIdByGameId(self, gameId):
-        genre = self.getObjectsByQuery(self.filteGenreIdByGameId, (gameId,))
+        genre = self.getByQuery(self.filteGenreIdByGameId, (gameId,))
         return genre.id
         
     def delete(self, gameId):
