@@ -15,8 +15,7 @@ class Company(DataBaseObject):
     developerDeleteQuery = "DELETE FROM Company WHERE id = ?"
 
 
-    def __init__(self, gdb):        
-        self.gdb = gdb
+    def __init__(self):
         self.tableName = "Company"
         
         self.id = None
@@ -39,20 +38,20 @@ class Company(DataBaseObject):
         return dbdict
     
     
-    def insert(self, allowUpdate):
-        obj = Company.getCompanyByName(self.gdb, self.name)
+    def insert(self, gdb, allowUpdate):
+        obj = Company.getCompanyByName(gdb, self.name)
         if(obj.id):
             self.id = obj.id
             if(allowUpdate):
-                self.updateAllColumns(False)
+                self.updateAllColumns(gdb, False)
         else:
-            self.id = DataBaseObject.insert(self)
+            self.id = DataBaseObject.insert(gdb, self)
             
             
     @staticmethod
     def getCompanyByName(gdb, name):
         dbRow = DataBaseObject.getOneByName(gdb, 'Company', name)
-        obj = Company(gdb)
+        obj = Company()
         obj.fromDb(dbRow)
         return obj
     
@@ -60,7 +59,7 @@ class Company(DataBaseObject):
     @staticmethod
     def getCompanyById(gdb, id):
         dbRow = DataBaseObject.getOneById(gdb, 'Company', id)
-        obj = Company(gdb)
+        obj = Company()
         obj.fromDb(dbRow)
         return obj
     

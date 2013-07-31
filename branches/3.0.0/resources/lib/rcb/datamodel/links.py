@@ -15,8 +15,7 @@ class LinkGenreGame(DataBaseObject):
                     where genreId = ? AND \
                     gameId = ?"
     
-    def __init__(self, gdb):        
-        self.gdb = gdb
+    def __init__(self):
         self.tableName = "LinkGenreGame"
         
         self.id = None
@@ -41,18 +40,18 @@ class LinkGenreGame(DataBaseObject):
         return dbdict
         
         
-    def insert(self, allowUpdate):
-        obj = LinkGenreGame.getGenreGameByGenreIdAndGameId(self.gdb, self.genreId, self.gameId)
+    def insert(self, gdb, allowUpdate):
+        obj = LinkGenreGame.getGenreGameByGenreIdAndGameId(gdb, self.genreId, self.gameId)
         if(obj.id):
             self.id = obj.id
         else:
-            self.id = DataBaseObject.insert(self)
+            self.id = DataBaseObject.insert(gdb, self)
     
         
     @staticmethod    
     def getGenreGameByGenreIdAndGameId(gdb, genreId, gameId):
         dbRow = DataBaseObject.getOneByQuery(gdb, LinkGenreGame.filterQuery, (genreId, gameId))
-        obj = LinkGenreGame(gdb)
+        obj = LinkGenreGame()
         obj.fromDb(dbRow)
         return obj
         
@@ -71,7 +70,7 @@ class LinkReleasePersonRole(DataBaseObject):
                     roleId = ?"
     
     def __init__(self, gdb):        
-        self.gdb = gdb
+        gdb = gdb
         self.tableName = "LinkReleasePersonRole"
         
         self.id = None
@@ -100,18 +99,18 @@ class LinkReleasePersonRole(DataBaseObject):
         self.roleId = row[DBINDEX_RELEASEPERSONROLE_roleId]
         
         
-    def insert(self, allowUpdate):
-        obj = LinkReleasePersonRole.getReleasePersonRoleByIds(self.gdb, self.releaseId, self.personId, self.roleId)
+    def insert(self, gdb, allowUpdate):
+        obj = LinkReleasePersonRole.getReleasePersonRoleByIds(gdb, self.releaseId, self.personId, self.roleId)
         if(obj.id):
             self.id = obj.id
         else:
-            self.id = DataBaseObject.insert(self)
+            self.id = DataBaseObject.insert(gdb, self)
         
     
     @staticmethod
     def getReleasePersonRoleByIds(gdb, releaseId, personId, roleId):
         dbRow = DataBaseObject.getOneByQuery(gdb, LinkReleasePersonRole.filterQuery, (releaseId, personId, roleId))
-        obj = LinkReleasePersonRole(gdb)
+        obj = LinkReleasePersonRole()
         obj.fromDb(dbRow)
         return obj
         

@@ -7,8 +7,7 @@ from resources.lib.rcb.utils.util import *
 
 class NamedEntity(DataBaseObject):
 
-    def __init__(self, gdb):        
-        self.gdb = gdb
+    def __init__(self):
         self.tableName = ""
         
         self.id = None
@@ -53,25 +52,25 @@ class Year(NamedEntity):
     yearDeleteQuery = "DELETE FROM Year WHERE id = ?"
 
 
-    def __init__(self, gdb):
-        NamedEntity.__init__(self, gdb)
+    def __init__(self):
+        NamedEntity.__init__(self)
         self.tableName = "Year"
         
         
-    def insert(self, allowUpdate):
-        obj = Year.getYearByName(self.gdb, self.name)
+    def insert(self, gdb, allowUpdate):
+        obj = Year.getYearByName(gdb, self.name)
         if(obj.id):
             self.id = obj.id
             if(allowUpdate):
-                self.updateAllColumns(False)
+                self.updateAllColumns(gdb, False)
         else:
-            self.id = DataBaseObject.insert(self)
+            self.id = DataBaseObject.insert(gdb, self)
             
             
     @staticmethod
     def getYearByName(gdb, name):
         dbRow = DataBaseObject.getOneByName(gdb, 'Year', name)
-        obj = Year(gdb)
+        obj = Year()
         obj.fromDb(dbRow)
         return obj
     
@@ -79,7 +78,7 @@ class Year(NamedEntity):
     @staticmethod
     def getYearById(gdb, id):
         dbRow = DataBaseObject.getOneById(gdb, 'Year', id)
-        obj = Year(gdb)
+        obj = Year()
         obj.fromDb(dbRow)
         return obj
 
@@ -110,25 +109,25 @@ class PersonRole(NamedEntity):
     deleteQuery = "DELETE FROM PersonRole WHERE id = ?"
 
 
-    def __init__(self, gdb):
-        NamedEntity.__init__(self, gdb)
+    def __init__(self):
+        NamedEntity.__init__(self)
         self.tableName = "PersonRole"
 
     
-    def insert(self, allowUpdate):
-        obj = PersonRole.getPersonRoleByName(self.gdb, self.name)
+    def insert(self, gdb, allowUpdate):
+        obj = PersonRole.getPersonRoleByName(gdb, self.name)
         if(obj.id):
             self.id = obj.id
             if(allowUpdate):
-                self.updateAllColumns(False)
+                self.updateAllColumns(gdb, False)
         else:
-            self.id = DataBaseObject.insert(self)
+            self.id = DataBaseObject.insert(gdb, self)
         
         
     @staticmethod
     def getPersonRoleByName(gdb, name):
         dbRow = DataBaseObject.getOneByName(gdb, 'PersonRole', name)
-        personRole = PersonRole(gdb)
+        personRole = PersonRole()
         personRole.fromDb(dbRow)
         return personRole
     
@@ -136,7 +135,7 @@ class PersonRole(NamedEntity):
     @staticmethod
     def getPersonRoleById(gdb, id):
         dbRow = DataBaseObject.getOneById(gdb, 'PersonRole', id)
-        personRole = PersonRole(gdb)
+        personRole = PersonRole()
         personRole.fromDb(dbRow)
         return personRole
         

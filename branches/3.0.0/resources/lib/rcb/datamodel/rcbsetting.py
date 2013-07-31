@@ -22,8 +22,7 @@ DBINDEX_lastSelectedCharacterIndex = 11
 
 
 class RCBSetting(DataBaseObject):    
-    def __init__(self, gdb):   
-        self.gdb = gdb
+    def __init__(self):
         self.tableName = "RCBSetting"
         
         self.id = None
@@ -78,6 +77,6 @@ class RCBSetting(DataBaseObject):
         return rcbsettingdict
     
     
-    def insert(self):
-        DataBaseObject.insert(self)
+    def insert(self, gdb):
+        DataBaseObject.insert(gdb, self)
     

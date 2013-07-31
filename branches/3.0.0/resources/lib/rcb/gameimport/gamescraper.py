@@ -7,8 +7,8 @@ from resources.lib.rcb.utils import util
 from resources.lib.rcb.utils.util import Logutil
 from resources.lib.rcb.datamodel.game import Game
 from resources.lib.rcb.datamodel.release import Release
-from resources.lib.rcb.datamodel.developer import Developer
-from resources.lib.rcb.datamodel.publisher import Publisher
+from resources.lib.rcb.datamodel.company import Company
+from resources.lib.rcb.datamodel.genre import Genre
 from resources.lib.rcb.configuration import config
 
 from resources.lib.heimdall.src.heimdall.core import Engine, Subject
@@ -201,17 +201,6 @@ def heimdallScrapeGame(gamenameFromFile, romCollection, scraper):
         subject = None
         
     return subject
-    
-"""
-def mergeResults(dicts):
-    
-    result = {}
-    #reverse dicts to have "first come, first go"-logic
-    dicts.reverse()
-    for dict in dicts:        
-        result.update(dict)
-    return result
-"""
 
 
 """
@@ -219,8 +208,8 @@ Translate heimdall result to RCB game structure
 """
 def fromHeimdallToRcb(results):
     
-    game = Game(None)
-    release = Release(None)
+    game = Game()
+    release = Release()
     
     for scraperresult in results:
         for result in scraperresult:
@@ -236,7 +225,9 @@ def fromHeimdallToRcb(results):
                 genres = readHeimdallValueList(result, dc.type, 'name')
                 for genre in genres:                
                     if(not genre in game.genres):
-                        game.genres.append(genre)
+                        genreObj = Genre()
+                        genreObj.name = genre
+                        game.genres.append(genreObj)
                 
                 if(release.description == ''):
                     release.description = readHeimdallValue(result, dc.description, '')
@@ -251,10 +242,10 @@ def fromHeimdallToRcb(results):
                     release.maxPlayers = readHeimdallValue(result, "players", '')
                 
                 if(release.developer == None):
-                    release.developer = Developer(None)
+                    release.developer = Company()
                     release.developer.name = readHeimdallValue(result, swo.SWO_0000396, '')
                 if(release.publisher == None):
-                    release.publisher = Publisher(None)
+                    release.publisher = Company()
                     release.publisher.name = readHeimdallValue(result, swo.SWO_0000397, '')
                 
                 #TODO: translate heimdall artwork types to RCB artwork type
@@ -277,7 +268,7 @@ def fromHeimdallToRcb(results):
             
             elif(result.Class == 'item.platform'):
                 if(release.platform == None):
-                    release.platform = Platform(None)
+                    release.platform = Platform()
                 if(release.platform.name == ''):
                     release.platform.name = readHeimdallValue(result, dc.title, '')
                 if(release.platform.description == ''):
@@ -291,7 +282,7 @@ def fromHeimdallToRcb(results):
                 newPerson = True
                 personname = readHeimdallValue(result, dc.title, '')
                 if(len(release.persons) == 0):
-                    person = Person(None)
+                    person = Person()
                 else:
                     #check if we have to update an existing person
                     for p in release.persons:
@@ -300,7 +291,7 @@ def fromHeimdallToRcb(results):
                             person = p
                             newPerson = False
                     if(not person):
-                        person = Person(None)
+                        person = Person()
                 if(person.name == ''):         
                     person.name = personname
                 if(person.role == ''):
