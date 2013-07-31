@@ -39,9 +39,8 @@ class File(DataBaseObject):
     deleteFileQuery = "DELETE FROM File WHERE Id= ?"
         
     
-    def __init__(self, gdb):        
-        self._gdb = gdb
-        self._tableName = "File"
+    def __init__(self):
+        self.tableName = "File"
         
         self.id = None
         self.name = ''
@@ -54,14 +53,13 @@ class File(DataBaseObject):
         if(not row):
             return None
         
-        file = File(self._gdb)
-        
-        file.id = row[databaseobject.DBINDEX_id]
-        file.name = row[databaseobject.DBINDEX_name]
-        file.fileTypeId = row[DBINDEX_fileTypeId]
-        file.parentId = row[DBINDEX_parentId]
+        self.id = row[databaseobject.DBINDEX_id]
+        self.name = row[databaseobject.DBINDEX_name]
+        self.fileTypeId = row[DBINDEX_fileTypeId]
+        self.parentId = row[DBINDEX_parentId]
         
         return file
+            
             
     def getFileByNameAndType(self, name, type):
         file = self.getOneByQuery(self.filterQueryByNameAndType, (name, type))
@@ -105,7 +103,7 @@ class File(DataBaseObject):
         return files
     
     def getFileAllFilesByRCId(self, id):
-        self._gdb.cursor.execute('select File.name from File, Game where Game.romcollectionid=? and File.parentId=Game.id and File.fileTypeId=0', (id,))
-        objects = self._gdb.cursor.fetchall()
+        gdb.cursor.execute('select File.name from File, Game where Game.romcollectionid=? and File.parentId=Game.id and File.fileTypeId=0', (id,))
+        objects = gdb.cursor.fetchall()
         results = [r[0] for r in objects]
         return results

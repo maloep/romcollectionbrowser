@@ -7,9 +7,6 @@ DBINDEX_name = 1
 
 class DataBaseObject:
     
-    def __init__(self, gdb):
-        self.gdb = gdb
-    
     def fromDb(self, row):
         pass
     
@@ -17,7 +14,7 @@ class DataBaseObject:
         pass
         
     
-    def updateSingleColumns(self, columns, updateWithNullValues):
+    def updateSingleColumns(self, gdb, columns, updateWithNullValues):
         
         updateString = "Update %s SET " %self._tableName
         args = []
@@ -33,10 +30,10 @@ class DataBaseObject:
         
         updateString = updateString[0:len(updateString)-2]
         updateString += " WHERE id = " +str(self.id)
-        self._gdb.cursor.execute(updateString, args)
+        gdb.cursor.execute(updateString, args)
         
         
-    def updateAllColumns(self, updateWithNullValues):
+    def updateAllColumns(self, gdb, updateWithNullValues):
         
         updateString = "Update %s SET " %self._tableName
         args = []
@@ -53,31 +50,31 @@ class DataBaseObject:
         
         updateString = updateString[0:len(updateString)-2]
         updateString += " WHERE id = " +str(self.id)
-        self._gdb.cursor.execute(updateString, args)
+        gdb.cursor.execute(updateString, args)
             
         
-    def delete(self, id):
+    def delete(self, gdb, id):
         self.deleteObjectByQuery("DELETE FROM '%s' WHERE id = ?" % self._tableName, (id,))
     
-    def deleteAll(self):
-        self._gdb.cursor.execute("DELETE FROM '%s'" % self._tableName)
+    def deleteAll(self, gdb):
+        gdb.cursor.execute("DELETE FROM '%s'" % self._tableName)
     
-    def deleteObjectByQuery(self, query, args):
-        self._gdb.cursor.execute(query, args)
+    def deleteObjectByQuery(self, gdb, query, args):
+        gdb.cursor.execute(query, args)
     
-    def getCount(self):
-        self._gdb.cursor.execute("SELECT count(*) From '%s'" % self._tableName)
-        count = self._gdb.cursor.fetchall()
+    def getCount(self, gdb):
+        gdb.cursor.execute("SELECT count(*) From '%s'" % self._tableName)
+        count = gdb.cursor.fetchall()
         return count[0][0]
     
-    def getCountByQuery(self, query, args):
-        self._gdb.cursor.execute(query, args)
-        count = self._gdb.cursor.fetchone()
+    def getCountByQuery(self, gdb, query, args):
+        gdb.cursor.execute(query, args)
+        count = gdb.cursor.fetchone()
         return count
         
         
     @staticmethod
-    def insert(obj):
+    def insert(gdb, obj):
         
         dbdict = obj.toDbDict()
         
@@ -90,8 +87,8 @@ class DataBaseObject:
         keysString = keysString[2:len(keysString)]
         insertString = "Insert INTO %(tablename)s (id, %(keys)s) VALUES (NULL, %(paramsString)s)" % {'tablename':obj.tableName, 'keys':keysString, 'paramsString': paramsString }
                     
-        obj.gdb.cursor.execute(insertString, dbdict.values())
-        return obj.gdb.cursor.lastrowid
+        gdb.cursor.execute(insertString, dbdict.values())
+        return gdb.cursor.lastrowid
         
 
     @staticmethod

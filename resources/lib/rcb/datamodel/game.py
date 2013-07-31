@@ -23,8 +23,7 @@ class Game(DataBaseObject):
     
     #releases = []
     
-    def __init__(self, gdb):
-        self.gdb = gdb
+    def __init__(self):
         self.tableName = "Game"
         
         self.id = None
@@ -48,32 +47,31 @@ class Game(DataBaseObject):
         return gamedict
         
             
-    def insert(self, allowUpdate):
-        
+    def insert(self, gdb, allowUpdate):
         if(self.id):
             if(allowUpdate):
-                self.updateAllColumns(False)
+                self.updateAllColumns(gdb, False)
         else:
-            self.id = DataBaseObject.insert(self)
+            self.id = DataBaseObject.insert(gdb, self)
         
         for release in self.releases:
             release.gameId = self.id
-            release.insert(allowUpdate)
+            release.insert(gdb, allowUpdate)
             
         for genre in self.genres:
             genre.releaseId = self.id
-            genre.insert(allowUpdate)
+            genre.insert(gdb, allowUpdate)
             
-            linkGenreGame = LinkGenreGame(self.gdb)
+            linkGenreGame = LinkGenreGame()
             linkGenreGame.genreId = genre.id
             linkGenreGame.gameId = self.id
-            linkGenreGame.insert(allowUpdate)
+            linkGenreGame.insert(gdb, allowUpdate)
                             
     
     @staticmethod
     def getGameByName(gdb, name):
         dbRow = DataBaseObject.getOneByName(gdb, 'Game', name)
-        game = Game(gdb)
+        game = Game()
         game.fromDb(dbRow)
         return game
     
@@ -81,7 +79,7 @@ class Game(DataBaseObject):
     @staticmethod
     def getGameById(gdb, id):
         dbRow = DataBaseObject.getOneById(gdb, 'Game', id)
-        game = Game(gdb)
+        game = Game()
         game.fromDb(dbRow)
         return game
     
@@ -91,7 +89,7 @@ class Game(DataBaseObject):
         gamelist = DataBaseObject.getAll(gdb, 'Game')
         games = []
         for dbRow in gamelist:
-            game = Game(gdb)
+            game = Game()
             game.fromDb(dbRow)
             games.append(game)
         return games
@@ -106,7 +104,7 @@ class Game(DataBaseObject):
         dbRows = DataBaseObject.getByWildcardQuery(gdb, filterQuery, args)        
         games = []
         for dbRow in dbRows:
-            game = Game(gdb)
+            game = Game()
             game.fromDb(dbRow)
             games.append(game)
         return games
@@ -115,7 +113,7 @@ class Game(DataBaseObject):
     @staticmethod
     def getGameByNameAndRomCollectionId(gdb, name, romCollectionId):
         dbRow = DataBaseObject.getOneByQuery(gdb, Game.__filterByNameAndRomCollectionId, (name, romCollectionId))
-        game = Game(gdb)
+        game = Game()
         game.fromDb(dbRow)
         return game
         
@@ -129,7 +127,7 @@ class Game(DataBaseObject):
         dbRows = DataBaseObject.getByQuery(gdb, filter, [])
         games = []
         for dbRow in dbRows:
-            game = Game(gdb)
+            game = Game()
             game.fromDb(dbRow)
             games.append(game)
         return games

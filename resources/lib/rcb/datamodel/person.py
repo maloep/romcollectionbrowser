@@ -8,8 +8,7 @@ from resources.lib.rcb.datamodel.links import LinkReleasePersonRole
 
 
 class Person(DataBaseObject):
-    def __init__(self, gdb):
-        self.gdb = gdb
+    def __init__(self):
         self.tableName = "Person"
         
         self.id = None
@@ -44,34 +43,35 @@ class Person(DataBaseObject):
         return dbdict
     
     
-    def insert(self, allowUpdate):
+    def insert(self, gdb, allowUpdate):
         #store self
-        person = Person.getPersonByName(self.gdb, self.name)
+        person = Person.getPersonByName(gdb, self.name)
         if(person.id):
             self.id = person.id
             if(allowUpdate):
-                self.updateAllColumns(False)
+                self.updateAllColumns(gdb, False)
         else:
-            self.id = DataBaseObject.insert(self)
+            self.id = DataBaseObject.insert(gdb, self)
             
         #store role
         if(self.role != '' and self.releaseId):
-            personRole = PersonRole(self.gdb)
+            personRole = PersonRole()
             personRole.name = self.role
-            personRole.insert(allowUpdate)
+            personRole.insert(gdb, allowUpdate)
             
+            #TODO: handle persons without role
             #insert link between release, person and role
-            linkReleasePersonRole = LinkReleasePersonRole(self.gdb)
+            linkReleasePersonRole = LinkReleasePersonRole()
             linkReleasePersonRole.releaseId =self.releaseId
             linkReleasePersonRole.personId =self.id
             linkReleasePersonRole.roleId =personRole.id
-            linkReleasePersonRole.insert(allowUpdate)
+            linkReleasePersonRole.insert(gdb, allowUpdate)
             
             
     @staticmethod
     def getPersonByName(gdb, name):
         dbRow = DataBaseObject.getOneByName(gdb, 'Person', name)
-        obj = Person(gdb)
+        obj = Person()
         obj.fromDb(dbRow)
         return obj
     
@@ -79,7 +79,7 @@ class Person(DataBaseObject):
     @staticmethod
     def getPlatformById(gdb, id):
         dbRow = DataBaseObject.getOneById(gdb, 'Person', id)
-        obj = Person(gdb)
+        obj = Person()
         obj.fromDb(dbRow)
         return obj
     

@@ -58,8 +58,7 @@ class Release(DataBaseObject):
     __filterMostPlayedGames = "Select * From Release Where launchCount > 0 Order by launchCount desc Limit "    
     
     
-    def __init__(self, gdb):
-        self.gdb = gdb
+    def __init__(self):
         self.tableName = "Release"
         
         self.id = None
@@ -128,10 +127,10 @@ class Release(DataBaseObject):
         self.platform = Platform()
         self.platform.id = row[DBINDEX_platformId]
                 
-        self.publisher = Company(self.gdb)
+        self.publisher = Company()
         self.publisher.id = row[DBINDEX_publisherId]
         
-        self.developer = Company(self.gdb)
+        self.developer = Company()
         self.developer.id = row[DBINDEX_developerId]
         
         
@@ -184,41 +183,41 @@ class Release(DataBaseObject):
         return releasedict
         
     
-    def insert(self, allowUpdate):
+    def insert(self, gdb, allowUpdate):
         
         #store objects that have to be stored before release because we need the ids
         if(self.platform):
-            self.platform.insert(allowUpdate)
+            self.platform.insert(gdb, allowUpdate)
             
         if(self.developer):
-            self.developer.insert(allowUpdate)
+            self.developer.insert(gdb, allowUpdate)
             
         if(self.publisher):
-            self.publisher.insert(allowUpdate)
+            self.publisher.insert(gdb, allowUpdate)
             
         if(self.year != ''):
-            year = Year(self.gdb)
+            year = Year()
             year.name = self.year
-            year.insert(allowUpdate)
+            year.insert(gdb, allowUpdate)
             self.yearId = year.id
         
         #store self
         if(self.id):
             if(allowUpdate):
-                self.updateAllColumns(False)
+                self.updateAllColumns(gdb, False)
         else:
-            self.id = DataBaseObject.insert(self)
+            self.id = DataBaseObject.insert(gdb, self)
             
         #store children that require releaseId        
         for person in self.persons:
             person.releaseId = self.id
-            person.insert(allowUpdate)
+            person.insert(gdb, allowUpdate)
         
         
     @staticmethod
     def getReleaseByName(gdb, name):
         dbRow = DataBaseObject.getOneByName(gdb, 'Release', name)
-        release = Release(gdb)
+        release = Release()
         release.fromDb(dbRow)
         return release
     
@@ -226,7 +225,7 @@ class Release(DataBaseObject):
     @staticmethod
     def getReleaseById(gdb, id):
         dbRow = DataBaseObject.getOneById(gdb, 'Release', id)
-        release = Release(gdb)
+        release = Release()
         release.fromDb(dbRow)
         return release
         

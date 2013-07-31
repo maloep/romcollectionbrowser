@@ -36,10 +36,8 @@ class Genre(DataBaseObject):
     
     genreGameDeleteQuery = "DELETE FROM GenreGame WHERE gameId = ?"
     
-    def __init__(self, gdb):        
-        self.gdb = gdb
+    def __init__(self):
         self.tableName = "Genre"
-        
         self.id = None
         self.name = ''
         
@@ -59,20 +57,20 @@ class Genre(DataBaseObject):
         return dbdict
     
     
-    def insert(self, allowUpdate):
-        obj = Genre.getGenreByName(self.gdb, self.name)
+    def insert(self, gdb, allowUpdate):
+        obj = Genre.getGenreByName(gdb, self.name)
         if(obj.id):
             self.id = obj.id
             if(allowUpdate):
-                self.updateAllColumns(False)
+                self.updateAllColumns(gdb, False)
         else:
-            self.id = DataBaseObject.insert(self)
+            self.id = DataBaseObject.insert(gdb, self)
             
             
     @staticmethod
     def getGenreByName(gdb, name):
         dbRow = DataBaseObject.getOneByName(gdb, 'Genre', name)
-        obj = Genre(gdb)
+        obj = Genre()
         obj.fromDb(dbRow)
         return obj
     
@@ -80,7 +78,7 @@ class Genre(DataBaseObject):
     @staticmethod
     def getGenreById(gdb, id):
         dbRow = DataBaseObject.getOneById(gdb, 'Genre', id)
-        obj = Genre(gdb)
+        obj = Genre()
         obj.fromDb(dbRow)
         return obj
         
@@ -106,8 +104,8 @@ class Genre(DataBaseObject):
         
     def delete(self, gameId):
         #genreId = self.getGenreIdByGameId(gameId)
-        self.gdb.cursor.execute(self.genreIdCountQuery, (gameId,))    
-        object = self.gdb.cursor.fetchall()
+        gdb.cursor.execute(self.genreIdCountQuery, (gameId,))    
+        object = gdb.cursor.fetchall()
         if(object != None):
             for items in object:    
                 if (items[1] < 2):

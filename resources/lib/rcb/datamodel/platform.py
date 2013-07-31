@@ -19,8 +19,7 @@ DBINDEX_maxControllers = 12
 
 
 class Platform(DataBaseObject):
-    def __init__(self, gdb):
-        self.gdb = gdb
+    def __init__(self):
         self.tableName = "Platform"
         
         self.id = None
@@ -58,22 +57,22 @@ class Platform(DataBaseObject):
         return platformdict
     
     
-    def insert(self, allowUpdate):
+    def insert(self, gdb, allowUpdate):
         
-        platform = Platform.getPlatformByName(self.gdb, self.name)
+        platform = Platform.getPlatformByName(gdb, self.name)
         if(platform.id):
             self.id = platform.id
             if(allowUpdate):
-                self.updateAllColumns(False)
+                self.updateAllColumns(gdb, False)
         else:
-            self.id = DataBaseObject.insert(self)
+            self.id = DataBaseObject.insert(gdb, self)
             
             
     
     @staticmethod
     def getPlatformByName(gdb, name):
         dbRow = DataBaseObject.getOneByName(gdb, 'Platform', name)
-        platform = Platform(gdb)
+        platform = Platform()
         platform.fromDb(dbRow)
         return platform
     
@@ -81,6 +80,6 @@ class Platform(DataBaseObject):
     @staticmethod
     def getPlatformById(gdb, id):
         dbRow = DataBaseObject.getOneById(gdb, 'Platform', id)
-        platform = Platform(gdb)
+        platform = Platform()
         platform.fromDb(dbRow)
         return platform

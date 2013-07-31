@@ -5,7 +5,7 @@ from resources.lib.rcb.utils import util
 from resources.lib.rcb.utils.util import Logutil
 from resources.lib.heimdall.src.heimdall.predicates import *
 
-import filewalker, dbupdater
+import filewalker
 import xbmcvfs, xbmcgui
 
 
