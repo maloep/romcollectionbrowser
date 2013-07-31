@@ -11,13 +11,13 @@ DBINDEX_GENREGAME_gameId = 2
 
 class LinkGenreGame(DataBaseObject):
                     
-    filterQueryByGenreIdAndGameId = "Select * from GenreGame \
+    filterQuery = "Select * from LinkGenreGame \
                     where genreId = ? AND \
                     gameId = ?"
     
     def __init__(self, gdb):        
         self.gdb = gdb
-        self.tableName = "GenreGame"
+        self.tableName = "LinkGenreGame"
         
         self.id = None
         self.genreId = None
@@ -25,7 +25,6 @@ class LinkGenreGame(DataBaseObject):
         
     
     def fromDb(self, row):
-        
         if(not row):
             return
 
@@ -34,9 +33,28 @@ class LinkGenreGame(DataBaseObject):
         self.gameId = row[DBINDEX_GENREGAME_gameId]
         
         
-    def getGenreGameByGenreIdAndGameId(self, genreId, gameId):
-        genreGame = self.getOneByQuery(self.filterQueryByGenreIdAndGameId, (genreId, gameId))
-        return genreGame
+    def toDbDict(self):
+        dbdict = {}
+        dbdict['id'] = self.id
+        dbdict['genreId'] = self.genreId
+        dbdict['gameId'] = self.gameId
+        return dbdict
+        
+        
+    def insert(self, allowUpdate):
+        obj = LinkGenreGame.getGenreGameByGenreIdAndGameId(self.gdb, self.genreId, self.gameId)
+        if(obj.id):
+            self.id = obj.id
+        else:
+            self.id = DataBaseObject.insert(self)
+    
+        
+    @staticmethod    
+    def getGenreGameByGenreIdAndGameId(gdb, genreId, gameId):
+        dbRow = DataBaseObject.getOneByQuery(gdb, LinkGenreGame.filterQuery, (genreId, gameId))
+        obj = LinkGenreGame(gdb)
+        obj.fromDb(dbRow)
+        return obj
         
 
 

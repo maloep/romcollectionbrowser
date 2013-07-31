@@ -5,6 +5,7 @@ from platform import Platform
 
 from resources.lib.rcb.utils import util
 from resources.lib.rcb.utils.util import *
+from resources.lib.rcb.datamodel.links import LinkGenreGame
 
 class Game(DataBaseObject):
     __filterQuery = "Select * From Game WHERE \
@@ -58,6 +59,15 @@ class Game(DataBaseObject):
         for release in self.releases:
             release.gameId = self.id
             release.insert(allowUpdate)
+            
+        for genre in self.genres:
+            genre.releaseId = self.id
+            genre.insert(allowUpdate)
+            
+            linkGenreGame = LinkGenreGame(self.gdb)
+            linkGenreGame.genreId = genre.id
+            linkGenreGame.gameId = self.id
+            linkGenreGame.insert(allowUpdate)
                             
     
     @staticmethod
