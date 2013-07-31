@@ -72,6 +72,14 @@ class TestGame(unittest.TestCase):
         
         game.releases.append(release)
         
+        genre = Genre(self.gdb)
+        genre.name = 'test genre 1'
+        game.genres.append(genre)
+        
+        genre = Genre(self.gdb)
+        genre.name = 'test genre 2'
+        game.genres.append(genre)
+        
         game.insert(False)
         self.gdb.commit()
         
