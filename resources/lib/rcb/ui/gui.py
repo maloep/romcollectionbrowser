@@ -7,9 +7,8 @@ from resources.lib.rcb.utils import util, helper
 from resources.lib.rcb.configuration import config, wizardconfigxml
 from resources.lib.rcb.datamodel.gamedatabase import GameDataBase
 from resources.lib.rcb.datamodel.game import Game
-from resources.lib.rcb.datamodel.year import Year
-from resources.lib.rcb.datamodel.publisher import Publisher
-from resources.lib.rcb.datamodel.developer import Developer
+from resources.lib.rcb.datamodel.namedentities import Year
+from resources.lib.rcb.datamodel.company import Company
 from resources.lib.rcb.gameimport.gameimporter import *
 from resources.lib.rcb.gamelaunching import launcher
 
@@ -520,7 +519,7 @@ class UIGameDB(xbmcgui.WindowXML):
 		Logutil.log("Begin showPublisher" , util.LOG_LEVEL_INFO)
 		Logutil.log("Selected Console: " +str(self.selectedConsoleId), util.LOG_LEVEL_INFO)
 
-		publishers = Publisher(self.gdb).getFilteredPublishers(self.selectedConsoleId, self.selectedGenreId, self.selectedYearId, '0 = 0')
+		publishers = Company().getFilteredPublishers(self.gdb, self.selectedConsoleId, self.selectedGenreId, self.selectedYearId, '0 = 0')
 		
 		showEntryAllItems = self.Settings.getSetting(util.SETTING_RCB_SHOWENTRYALLPUBLISHER).upper() == 'TRUE'
 		self.showFilterControl(publishers, CONTROL_PUBLISHER, showEntryAllItems, rcDelete, rDelete)
@@ -824,9 +823,9 @@ class UIGameDB(xbmcgui.WindowXML):
 		Logutil.log("Delete Year" , util.LOG_LEVEL_INFO)
 		Year(self.gdb).delete(game.yearId)
 		Logutil.log("Delete Publisher" , util.LOG_LEVEL_INFO)
-		Publisher(self.gdb).delete(game.publisherId)
+		Company().delete(game.publisherId)
 		Logutil.log("Delete Developer" , util.LOG_LEVEL_INFO)
-		Developer(self.gdb).delete(game.developerId)
+		Company().delete(game.developerId)
 		Logutil.log("Delete Genre" , util.LOG_LEVEL_INFO)
 		Genre(self.gdb).delete(game.id)
 		Logutil.log("Delete File" , util.LOG_LEVEL_INFO)
@@ -1570,7 +1569,7 @@ class UIGameDB(xbmcgui.WindowXML):
 		
 		#cacheAll
 		if(self.cachingOption == 0):
-			files = File(self.gdb).getAll()
+			files = File.getAllFiles(self.gdb)
 			if(files == None):
 				Logutil.log("fileRows == None in cacheItems", util.LOG_LEVEL_WARNING)
 				return

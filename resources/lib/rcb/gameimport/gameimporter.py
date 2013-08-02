@@ -326,10 +326,15 @@ class GameImporter:
 								self.missingArtworkFile.write('--> No artwork found for game "%s". Game will not be imported.\n' %gamename.encode('utf-8'))
 							return None, True
 								
-														
-					lastGameId, continueUpdate = dbupdater.insertGameFromDesc(self.gdb, game, gamenameFromFile, gameId, romCollection, filenamelist, foldername, isUpdate, gui, isLocalArtwork, self.Settings, artworkfiles, artworkurls)
+					game.insert(self.gdb, False)
+					self.gdb.commit()									
+					#lastGameId, continueUpdate = dbupdater.insertGameFromDesc(self.gdb, game, gamenameFromFile, gameId, romCollection, filenamelist, foldername, isUpdate, gui, isLocalArtwork, self.Settings, artworkfiles, artworkurls)
+					lastGameId = game.id
+					
+					"""
 					if (not continueUpdate):
 						break
+					"""
 					
 					if (lastGameId != None):
 						successfulFiles = successfulFiles + 1
@@ -373,7 +378,7 @@ class GameImporter:
 		isUpdate = False
 		gameId = None
 		
-		romFile = File(self.gdb).getFileByNameAndType(filename, 0)
+		romFile = File.getFileByNameAndType(self.gdb, filename, 0)
 		if(romFile != None):
 			isUpdate = True
 			gameId = romFile.parentId

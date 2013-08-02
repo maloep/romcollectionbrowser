@@ -18,7 +18,7 @@ def getRomFilesByRomCollection(gdb, romCollection, enableFullReimport):
     
     #only use files that are not already present in database
     if enableFullReimport == False:
-        inDBFiles = File(gdb).getFileAllFilesByRCId(romCollection.id)
+        inDBFiles = File().getFileAllFilesByRCId(gdb, romCollection.id)
         files = [f.decode('utf-8') for f in files if not f.decode('utf-8') in inDBFiles]            
     
     files.sort()

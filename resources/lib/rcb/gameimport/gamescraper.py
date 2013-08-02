@@ -22,7 +22,7 @@ import logging
 from resources.lib.rcb.datamodel.platform import Platform
 from resources.lib.rcb.datamodel.person import Person
 logging.basicConfig()
-logging.getLogger("heimdall").setLevel(logging.CRITICAL)
+logging.getLogger("heimdall").setLevel(logging.DEBUG)
 
 
 """
@@ -58,9 +58,9 @@ def scrapeGame(gamenameFromFile, romCollection, settings, foldername, updateOpti
         results.append(scraperresults)
     
         
+    game = fromHeimdallToRcb(results, gamenameFromFile, romCollection)
     
     if(len(results) > 0):
-        game = fromHeimdallToRcb(results)
         gui.writeMsg(progDialogHeader, util.localize(40023) + ": " + gamenameFromFile, util.localize(40098), fileCount)
         artWorkFound, artworkfiles = artworkimporter.getArtworkForRelease(romCollection, game.releases[0], gamenameFromFile, gui, foldername, False)        
         return game, artWorkFound, artworkfiles, game.releases[0].artworkurls
@@ -105,9 +105,10 @@ def heimdallScrapeItems(gameresult, romCollection, scraper):
         #TODO: check if items are already stored in database
         #1 for platform scraping
         nbrBeforeQuit = 1
-        #nbrBeforeQuit = nbrBeforeQuit + len(gameresult['person'])
+        if(gameresult['person']):
+            nbrBeforeQuit = nbrBeforeQuit + len(gameresult['person'])
         #TODO: limit to 3 persons for test purposes only
-        nbrBeforeQuit = nbrBeforeQuit + 3
+        #nbrBeforeQuit = nbrBeforeQuit + 3
         
         def c(error, subject):
             if error:
@@ -127,23 +128,28 @@ def heimdallScrapeItems(gameresult, romCollection, scraper):
         subject.extendClass("item.platform")
         engine.get(subject, c)
                 
-        for person in gameresult['person']:
-            metadata = dict()
-            metadata['person_detail_url'] = person['detail_url']
-            metadata['apikey'] = util.API_KEYS['%GIANTBOMBAPIKey%']
-            engine.registerModule(giantbomb.module)
-            subject = Subject("", metadata)
-            subject.extendClass("item.person")
-            engine.get(subject, c)
+        if(gameresult['person']):
+            for person in gameresult['person']:
+                metadata = dict()
+                metadata['person_detail_url'] = person['detail_url']
+                metadata['apikey'] = util.API_KEYS['%GIANTBOMBAPIKey%']
+                engine.registerModule(giantbomb.module)
+                subject = Subject("", metadata)
+                subject.extendClass("item.person")
+                engine.get(subject, c)
             
         
-    """
+    
     elif(scraper == "mobygames.com"):
+        
+        return subjects
+        
+        """
         metadata[edamontology.data_3106] = config.consoleDict[romCollection.name][config.INDEX_MOBYGAMES]
         #TODO: region mapping
         metadata['preferredregion'] = 'United States'
         engine.registerModule(mobygames.module)
-    """
+        """
 
     try:
         pool.join()
@@ -206,10 +212,17 @@ def heimdallScrapeGame(gamenameFromFile, romCollection, scraper):
 """
 Translate heimdall result to RCB game structure
 """
-def fromHeimdallToRcb(results):
+def fromHeimdallToRcb(results, gamenameFromFile, romCollection):
     
     game = Game()
     release = Release()
+        
+    #start with the minimum information
+    game.name = gamenameFromFile
+    release.name = gamenameFromFile
+    release.platform = Platform()
+    if(release.platform.name == ''):
+        release.platform.name = romCollection.name
     
     for scraperresult in results:
         for result in scraperresult:
@@ -217,9 +230,9 @@ def fromHeimdallToRcb(results):
             if(result.Class == 'item.game'):
                 gamename = readHeimdallValue(result, dc.title, '')
                 #TODO: different names for release and game?
-                if(game.name == ''):
+                if(game.name == gamenameFromFile):
                     game.name = gamename
-                if(release.name == ''):
+                if(release.name == gamenameFromFile):
                     release.name = gamename
                 
                 genres = readHeimdallValueList(result, dc.type, 'name')
@@ -270,7 +283,7 @@ def fromHeimdallToRcb(results):
                 if(release.platform == None):
                     release.platform = Platform()
                 if(release.platform.name == ''):
-                    release.platform.name = readHeimdallValue(result, dc.title, '')
+                    release.platform.name = romCollection.name
                 if(release.platform.description == ''):
                     release.platform.description = readHeimdallValue(result, dc.description, '')
                 if(release.platform.releasedate == ''):

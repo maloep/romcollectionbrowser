@@ -84,6 +84,12 @@ class ConfigxmlUpdater:
 			if(not success):
 				return False, message
 			
+		if(configVersion == '1.0.6'):
+			success, message = self.update_106_to_300()
+			configVersion = '3.0.0'
+			if(not success):
+				return False, message
+			
 		#write file
 		success, message = self.writeFile()	
 				
@@ -229,6 +235,11 @@ class ConfigxmlUpdater:
 				break
 				
 		return True, '' 
+	
+	
+	def update_106_to_300(self):
+		#TODO: update config
+		return True, ''
 			
 	
 	#TODO use same as in config

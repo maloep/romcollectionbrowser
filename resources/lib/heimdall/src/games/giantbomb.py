@@ -14,11 +14,12 @@ import datetime, urllib, json
 def getNameDetailListFromJson(result, key):
     dictList = []
     try:
-        for item in result[key]:
-            dict = {}
-            dict['name'] = item['name']
-            dict['detail_url'] = item['api_detail_url']
-            dictList.append(dict)
+        if(result[key]):
+            for item in result[key]:
+                dict = {}
+                dict['name'] = item['name']
+                dict['detail_url'] = item['api_detail_url']
+                dictList.append(dict)
     except KeyError:
         return None
     return dictList
@@ -220,6 +221,7 @@ class SearchGameCollector(tasks.SubjectTask):
     supply = [
         supplies.emit(dc.title),        
         supplies.emit(dc.date),        
+        supplies.emit(edamontology.data_3106),
         supplies.emit('boxfront'),
         supplies.emit('region'),
         supplies.emit(media.rating),
@@ -266,6 +268,7 @@ class SearchGameCollector(tasks.SubjectTask):
                 self.subject.emit('release_detail_url', result['api_detail_url'])
                 self.subject.emit('game_detail_url', result['game']['api_detail_url'])
                 self.subject.emit('platform_detail_url', result['platform']['api_detail_url'])
+                self.subject.replace(edamontology.data_3106, result['platform']['name'])
                 if(result['image']):
                     self.subject.emit('boxfront', result['image']['super_url'])
                 return

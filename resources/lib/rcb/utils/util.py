@@ -11,10 +11,10 @@ import time
 # CONSTANTS AND GLOBALS #
 #
 
-SCRIPTNAME = 'Rom Collection Browser'
-SCRIPTID = 'script.games.rom.collection.browser'
-CURRENT_CONFIG_VERSION = "1.0.6"
-CURRENT_DB_VERSION = "0.7.4"
+SCRIPTNAME = 'Rom Collection Browser 3.0'
+SCRIPTID = 'script.games.rom.collection.browser.3.0'
+CURRENT_CONFIG_VERSION = "3.0.0"
+CURRENT_DB_VERSION = "3.0.0"
 ISTESTRUN = False
 
 __addon__ = xbmcaddon.Addon(id='%s' %SCRIPTID)
