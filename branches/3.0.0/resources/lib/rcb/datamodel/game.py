@@ -48,7 +48,9 @@ class Game(DataBaseObject):
         
             
     def insert(self, gdb, allowUpdate):
-        if(self.id):
+        obj = Game.getGameByName(gdb, self.name)
+        if(obj.id):
+            self.id = obj.id
             if(allowUpdate):
                 self.updateAllColumns(gdb, False)
         else:

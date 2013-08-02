@@ -126,7 +126,11 @@ class GamePredicateObject(tasks.SubjectTask):
             # Deserialize MM/DD/YYYY
             dateobject = datetime.datetime.strptime(util.readTextElement(gameRow, "ReleaseDate"), "%m/%d/%Y")
             self.subject.emit(dc.date, dateobject.strftime("%Y-%m-%d"))
+        #HACK: not sure where the type error occurs (NoneType not callable)
         except ValueError:
+            # can't be parsed by strptime()
+            pass
+        except TypeError:
             # can't be parsed by strptime()
             pass
         self.subject.emit(media.rating, util.readTextElement(gameRow, 'ESRB'))

@@ -54,17 +54,18 @@ class Person(DataBaseObject):
             self.id = DataBaseObject.insert(gdb, self)
             
         #store role
-        if(self.role != '' and self.releaseId):
+        if(self.releaseId):
             personRole = PersonRole()
-            personRole.name = self.role
-            personRole.insert(gdb, allowUpdate)
+            if(self.role != ''):
+                personRole.name = self.role
+                personRole.insert(gdb, allowUpdate)
             
             #TODO: handle persons without role
             #insert link between release, person and role
             linkReleasePersonRole = LinkReleasePersonRole()
-            linkReleasePersonRole.releaseId =self.releaseId
-            linkReleasePersonRole.personId =self.id
-            linkReleasePersonRole.roleId =personRole.id
+            linkReleasePersonRole.releaseId = self.releaseId
+            linkReleasePersonRole.personId = self.id
+            linkReleasePersonRole.roleId = personRole.id
             linkReleasePersonRole.insert(gdb, allowUpdate)
             
             

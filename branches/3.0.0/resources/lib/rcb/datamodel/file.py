@@ -12,27 +12,27 @@ DBINDEX_parentId = 3
 class File(DataBaseObject):
     filterQueryByGameIdAndFileType = "Select * from File \
                     where parentId = ? AND \
-                    filetypeid = ?"
+                    filetype = ?"
                     
     filterQueryByNameAndType = "Select * from File \
                     where name = ? AND \
-                    filetypeid = ?"
+                    filetype = ?"
                     
     filterQueryByNameAndTypeAndParent = "Select * from File \
                     where name = ? AND \
-                    filetypeid = ? AND \
+                    filetype = ? AND \
                     parentId = ?"
                     
     filterQueryByGameIdAndTypeId = "Select * from File \
                     where parentId = ? AND \
-                    filetypeid = ?"
+                    filetype = ?"
                     
     filterFilesForGameList = "Select * from File Where FileTypeId in (%s)"
                     
     filterQueryByParentIds = "Select * from File \
                     where parentId in (?, ?, ?, ?)"
     
-    getFileList = "SELECT * FROM File WHERE filetypeid = 0"
+    getFileList = "SELECT * FROM File WHERE filetype = 'rom'"
     
     __deleteQuery = "DELETE FROM File WHERE parentId= ?"
     
@@ -49,47 +49,15 @@ class File(DataBaseObject):
         
         
     def fromDb(self, row):
-        
         if(not row):
-            return None
+            return
         
         self.id = row[databaseobject.DBINDEX_id]
         self.name = row[databaseobject.DBINDEX_name]
         self.fileTypeId = row[DBINDEX_fileTypeId]
         self.parentId = row[DBINDEX_parentId]
         
-        return file
-            
-            
-    def getFileByNameAndType(self, name, type):
-        file = self.getOneByQuery(self.filterQueryByNameAndType, (name, type))
-        return file
         
-    def getFileByNameAndTypeAndParent(self, name, type, parentId):
-        file = self.getOneByQuery(self.filterQueryByNameAndTypeAndParent, (name, type, parentId))
-        return file
-        
-    def getFilesByNameAndType(self, name, type):
-        files = self.getByQuery(self.filterQueryByNameAndType, (name, type))
-        return files
-        
-    def getFilesByGameIdAndTypeId(self, gameId, fileTypeId):
-        files = self.getByQuery(self.filterQueryByGameIdAndTypeId, (gameId, fileTypeId))
-        return files
-        
-    def getRomsByGameId(self, gameId):
-        files = self.getByQuery(self.filterQueryByGameIdAndFileType, (gameId, 0))
-        return files
-        
-    def getFilesForGamelist(self, fileTypeIds):                
-        
-        files = self.getByQueryNoArgs(self.filterFilesForGameList %(','.join(fileTypeIds)))
-        return files
-        
-    def getFilesByParentIds(self, gameId, romCollectionId, publisherId, developerId):
-        files = self.getByQuery(self.filterQueryByParentIds, (gameId, romCollectionId, publisherId, developerId))
-        return files
-    
     def delete(self, gameId):
         util.Logutil.log("Delete Files with gameId %s" % str(gameId), util.LOG_LEVEL_INFO)
         self.deleteObjectByQuery(self.__deleteQuery, (gameId,))
@@ -97,13 +65,62 @@ class File(DataBaseObject):
     def deleteByFileId(self, fileId):
         util.Logutil.log("Delete File with id %s" % str(fileId), util.LOG_LEVEL_INFO)
         self.deleteObjectByQuery(self.deleteFileQuery, (fileId,))
+            
+            
+    @staticmethod
+    def getAllFiles(gdb):
+        dblist = DataBaseObject.getAll(gdb, 'File')
+        objs = []
+        for dbRow in dblist:
+            obj = File()
+            obj.fromDb(dbRow)
+            objs.append(obj)
+        return objs
+            
+            
+    @staticmethod
+    def getFileByNameAndType(gdb, name, type):
+        file = DataBaseObject.getOneByQuery(gdb, File.filterQueryByNameAndType, (name, type))
+        return file
         
-    def getFilesList(self):
-        files = self.getByQueryNoArgs(self.getFileList)
+    @staticmethod
+    def getFileByNameAndTypeAndParent(gdb, name, type, parentId):
+        file = DataBaseObject.getOneByQuery(gdb, File.filterQueryByNameAndTypeAndParent, (name, type, parentId))
+        return file
+        
+    @staticmethod
+    def getFilesByNameAndType(gdb, name, type):
+        files = DataBaseObject.getByQuery(gdb, File.filterQueryByNameAndType, (name, type))
+        return files
+        
+    @staticmethod
+    def getFilesByGameIdAndTypeId(gdb, gameId, fileTypeId):
+        files = DataBaseObject.getByQuery(gdb, File.filterQueryByGameIdAndTypeId, (gameId, fileTypeId))
+        return files
+        
+    @staticmethod
+    def getRomsByGameId(gdb, gameId):
+        files = DataBaseObject.getByQuery(gdb, File.filterQueryByGameIdAndFileType, (gameId, 0))
+        return files
+        
+    @staticmethod
+    def getFilesForGamelist(gdb, fileTypeIds):
+        files = DataBaseObject.getByQueryNoArgs(gdb, File.filterFilesForGameList %(','.join(fileTypeIds)))
+        return files
+        
+    @staticmethod
+    def getFilesByParentIds(gdb, gameId, romCollectionId, publisherId, developerId):
+        files = DataBaseObject.getByQuery(gdb, File.filterQueryByParentIds, (gameId, romCollectionId, publisherId, developerId))
+        return files
+        
+    @staticmethod
+    def getFilesList(gdb):
+        files = DataBaseObject.getByQueryNoArgs(gdb, File.getFileList)
         return files
     
-    def getFileAllFilesByRCId(self, id):
-        gdb.cursor.execute('select File.name from File, Game where Game.romcollectionid=? and File.parentId=Game.id and File.fileTypeId=0', (id,))
+    @staticmethod
+    def getFileAllFilesByRCId(gdb, id):
+        gdb.cursor.execute('select File.name from File, Release where Release.platformId=? and File.parentId=Release.id and File.fileType="rom"', (id,))
         objects = gdb.cursor.fetchall()
         results = [r[0] for r in objects]
         return results

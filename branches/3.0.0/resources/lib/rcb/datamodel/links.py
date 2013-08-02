@@ -64,13 +64,12 @@ DBINDEX_RELEASEPERSONROLE_roleId = 3
 
 class LinkReleasePersonRole(DataBaseObject):
                     
+    #don't filter for roleId as it should be overwritten when empty
     filterQuery = "Select * from LinkReleasePersonRole \
                     where releaseId = ? AND \
-                    personId = ? AND \
-                    roleId = ?"
+                    personId = ?"
     
-    def __init__(self, gdb):        
-        gdb = gdb
+    def __init__(self):
         self.tableName = "LinkReleasePersonRole"
         
         self.id = None
@@ -100,16 +99,18 @@ class LinkReleasePersonRole(DataBaseObject):
         
         
     def insert(self, gdb, allowUpdate):
-        obj = LinkReleasePersonRole.getReleasePersonRoleByIds(gdb, self.releaseId, self.personId, self.roleId)
+        obj = LinkReleasePersonRole.getReleasePersonRoleByIds(gdb, self.releaseId, self.personId)
         if(obj.id):
             self.id = obj.id
+            if(allowUpdate):
+                self.updateAllColumns(gdb, False)
         else:
             self.id = DataBaseObject.insert(gdb, self)
         
     
     @staticmethod
-    def getReleasePersonRoleByIds(gdb, releaseId, personId, roleId):
-        dbRow = DataBaseObject.getOneByQuery(gdb, LinkReleasePersonRole.filterQuery, (releaseId, personId, roleId))
+    def getReleasePersonRoleByIds(gdb, releaseId, personId):
+        dbRow = DataBaseObject.getOneByQuery(gdb, LinkReleasePersonRole.filterQuery, (releaseId, personId))
         obj = LinkReleasePersonRole()
         obj.fromDb(dbRow)
         return obj

@@ -4,9 +4,8 @@ import os, sys, re
 import resources.lib.rcb.datamodel.databaseobject
 from resources.lib.rcb.datamodel.gamedatabase import GameDataBase
 from resources.lib.rcb.datamodel.links import LinkGenreGame
-from resources.lib.rcb.datamodel.year import Year
-from resources.lib.rcb.datamodel.publisher import Publisher
-from resources.lib.rcb.datamodel.developer import Developer
+from resources.lib.rcb.datamodel.namedentities import Year
+from resources.lib.rcb.datamodel.company import Company
 from resources.lib.rcb.datamodel.genre import Genre
 from resources.lib.rcb.datamodel.rcbsetting import RCBSetting
 import util
@@ -56,7 +55,7 @@ def cacheYears(gdb):
 
 def cachePublishers(gdb):
 	Logutil.log("Begin cachePublishers" , util.LOG_LEVEL_DEBUG)
-	publishers = Publisher(gdb).getAll()
+	publishers = Company().getAll(gdb)
 	if(publishers == None):
 		Logutil.log("publisherRows == None in cachePublishers", util.LOG_LEVEL_WARNING)
 		return
@@ -70,7 +69,7 @@ def cachePublishers(gdb):
 	
 def cacheDevelopers(gdb):
 	Logutil.log("Begin cacheDevelopers" , util.LOG_LEVEL_DEBUG)
-	developers = Developer(gdb).getAll()
+	developers = Company().getAll(gdb)
 	if(developers == None):
 		Logutil.log("developerRows == None in cacheDevelopers", util.LOG_LEVEL_WARNING)
 		return

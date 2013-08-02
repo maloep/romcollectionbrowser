@@ -38,7 +38,7 @@ class TestGameScraper(unittest.TestCase):
         statusOk, errorMsg = myConfig.readXml()
         romCollection = myConfig.romCollections['1']
         
-        gamename = "Super Mario Kart"
+        gamename = "Plok!"
         game, artWorkFound, artworkfiles, artworkurls = gamescraper.scrapeGame(gamename, romCollection, util.getSettings(), '', 0, RCBMock(), 'Header', 1)
         
         game.insert(self.gdb, False)
