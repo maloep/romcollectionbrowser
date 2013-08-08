@@ -59,6 +59,9 @@ class Platform(DataBaseObject):
     
     def insert(self, gdb, allowUpdate):
         
+        if(self.name == ''):
+            return
+        
         platform = Platform.getPlatformByName(gdb, self.name)
         if(platform.id):
             self.id = platform.id

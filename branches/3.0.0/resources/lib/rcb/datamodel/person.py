@@ -44,6 +44,10 @@ class Person(DataBaseObject):
     
     
     def insert(self, gdb, allowUpdate):
+        
+        if(self.name == ''):
+            return
+        
         #store self
         person = Person.getPersonByName(gdb, self.name)
         if(person.id):

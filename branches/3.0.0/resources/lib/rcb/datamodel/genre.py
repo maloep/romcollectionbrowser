@@ -58,6 +58,10 @@ class Genre(DataBaseObject):
     
     
     def insert(self, gdb, allowUpdate):
+        
+        if(self.name == ''):
+            return
+        
         obj = Genre.getGenreByName(gdb, self.name)
         if(obj.id):
             self.id = obj.id

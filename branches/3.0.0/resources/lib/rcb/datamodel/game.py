@@ -48,6 +48,10 @@ class Game(DataBaseObject):
         
             
     def insert(self, gdb, allowUpdate):
+        
+        if(self.name == ''):
+            return
+        
         obj = Game.getGameByName(gdb, self.name)
         if(obj.id):
             self.id = obj.id

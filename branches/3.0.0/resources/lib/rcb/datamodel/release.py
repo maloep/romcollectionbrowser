@@ -185,6 +185,9 @@ class Release(DataBaseObject):
     
     def insert(self, gdb, allowUpdate):
         
+        if(self.name == ''):
+            return
+        
         #store objects that have to be stored before release because we need the ids
         if(self.platform):
             self.platform.insert(gdb, allowUpdate)
