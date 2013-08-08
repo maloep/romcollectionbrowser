@@ -58,6 +58,10 @@ class Year(NamedEntity):
         
         
     def insert(self, gdb, allowUpdate):
+        
+        if(self.name == ''):
+            return
+        
         obj = Year.getYearByName(gdb, self.name)
         if(obj.id):
             self.id = obj.id
@@ -115,6 +119,10 @@ class PersonRole(NamedEntity):
 
     
     def insert(self, gdb, allowUpdate):
+        
+        if(self.name == ''):
+            return
+        
         obj = PersonRole.getPersonRoleByName(gdb, self.name)
         if(obj.id):
             self.id = obj.id

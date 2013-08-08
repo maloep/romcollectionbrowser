@@ -137,7 +137,6 @@ def heimdallScrapeItems(gameresult, romCollection, scraper):
                 subject = Subject("", metadata)
                 subject.extendClass("item.person")
                 engine.get(subject, c)
-            
         
     
     elif(scraper == "mobygames.com"):
@@ -230,9 +229,9 @@ def fromHeimdallToRcb(results, gamenameFromFile, romCollection):
             if(result.Class == 'item.game'):
                 gamename = readHeimdallValue(result, dc.title, '')
                 #TODO: different names for release and game?
-                if(game.name == gamenameFromFile):
+                if(game.name == gamenameFromFile and gamename != ''):
                     game.name = gamename
-                if(release.name == gamenameFromFile):
+                if(release.name == gamenameFromFile and gamename != ''):
                     release.name = gamename
                 
                 genres = readHeimdallValueList(result, dc.type, 'name')

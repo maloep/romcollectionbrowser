@@ -39,6 +39,10 @@ class Company(DataBaseObject):
     
     
     def insert(self, gdb, allowUpdate):
+        
+        if(self.name == ''):
+            return
+        
         obj = Company.getCompanyByName(gdb, self.name)
         if(obj.id):
             self.id = obj.id
