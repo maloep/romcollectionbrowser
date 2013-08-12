@@ -30,7 +30,7 @@ Scrape game with all configured scrapers
 Scrape additional items (platform, companies, persons)
 Download artwork
 """
-def scrapeGame(gamenameFromFile, romCollection, settings, foldername, updateOption, gui, progDialogHeader, fileCount):
+def scrapeGame(gamenameFromFile, inConfig, romCollection, settings, foldername, updateOption, gui, progDialogHeader, fileCount):
             
     gui.writeMsg(progDialogHeader, util.localize(40023) + ": " + gamenameFromFile, util.localize(40031), fileCount)
     
@@ -45,7 +45,6 @@ def scrapeGame(gamenameFromFile, romCollection, settings, foldername, updateOpti
         if(gameresult != None and type(gameresult[dc.title]) == list):
             Logutil.log('heimdall returned list of game names: %s. Will check for best result.' %gameresult[dc.title], util.LOG_LEVEL_INFO)
             gameresult = resultmatcher.matchResult(gameresult[dc.title], gamenameFromFile, settings, updateOption)
-            
             #try again with new gamename
             if (gameresult):
                 gameresult = heimdallScrapeGame(gameresult, romCollection, scraper.name)
@@ -62,11 +61,10 @@ def scrapeGame(gamenameFromFile, romCollection, settings, foldername, updateOpti
     
     if(len(results) > 0):
         gui.writeMsg(progDialogHeader, util.localize(40023) + ": " + gamenameFromFile, util.localize(40098), fileCount)
-        artWorkFound, artworkfiles = artworkimporter.getArtworkForRelease(romCollection, game.releases[0], gamenameFromFile, gui, foldername, False)        
-        return game, artWorkFound, artworkfiles, game.releases[0].artworkurls
-    
+        artworkfiles = artworkimporter.getArtworkForRelease(inConfig, game.releases[0], gamenameFromFile, gui, foldername, False)        
+        return game, artworkfiles, game.releases[0].artworkurls
                 
-    return None, False, {}, {}
+    return None, {}, {}
 
 
 """
@@ -106,9 +104,10 @@ def heimdallScrapeItems(gameresult, romCollection, scraper):
         #1 for platform scraping
         nbrBeforeQuit = 1
         if(gameresult['person']):
-            nbrBeforeQuit = nbrBeforeQuit + len(gameresult['person'])
-        #TODO: limit to 3 persons for test purposes only
-        #nbrBeforeQuit = nbrBeforeQuit + 3
+            #nbrBeforeQuit = nbrBeforeQuit + len(gameresult['person'])
+            #TODO: limit to 3 persons for test purposes only
+            if(nbrBeforeQuit > 3):
+                nbrBeforeQuit = 4
         
         def c(error, subject):
             if error:
@@ -259,8 +258,7 @@ def fromHeimdallToRcb(results, gamenameFromFile, romCollection):
                 if(release.publisher == None):
                     release.publisher = Company()
                     release.publisher.name = readHeimdallValue(result, swo.SWO_0000397, '')
-                
-                #TODO: translate heimdall artwork types to RCB artwork type
+                                
                 #TODO: support more than 1 image per artwork type                
                 artworkurl = readHeimdallValue(result, 'fanart', 'fanart')
                 if(artworkurl != ''):
@@ -274,7 +272,7 @@ def fromHeimdallToRcb(results, gamenameFromFile, romCollection):
                 artworkurl = readHeimdallValue(result, 'cartridge', 'cartridge')
                 if(artworkurl != ''):
                     release.artworkurls['cartridge'] = artworkurl
-                artworkurls = readHeimdallValue(result, 'screenshot', 'screenshot')
+                artworkurl = readHeimdallValue(result, 'screenshot', 'screenshot')
                 if(artworkurl != ''):
                     release.artworkurls['screenshot'] = artworkurl
             
@@ -287,7 +285,27 @@ def fromHeimdallToRcb(results, gamenameFromFile, romCollection):
                     release.platform.description = readHeimdallValue(result, dc.description, '')
                 if(release.platform.releasedate == ''):
                     #TODO: format date
-                    release.platform.releasedate = readHeimdallValue(result, dc.date, '')                    
+                    release.platform.releasedate = readHeimdallValue(result, dc.date, '')
+                    
+                artworkurl = readHeimdallValue(result, 'platformart', 'platformart')
+                if(artworkurl != ''):
+                    release.artworkurls['platformart'] = artworkurl
+                artworkurl = readHeimdallValue(result, 'platformboxfront', 'platformboxfront')
+                if(artworkurl != ''):
+                    release.artworkurls['platformboxfront'] = artworkurl
+                artworkurl = readHeimdallValue(result, 'platformboxback', 'platformboxback')
+                if(artworkurl != ''):
+                    release.artworkurls['platformboxback'] = artworkurl
+                artworkurl = readHeimdallValue(result, 'platformfanart', 'platformfanart')
+                if(artworkurl != ''):
+                    release.artworkurls['platformfanart'] = artworkurl    
+                artworkurl = readHeimdallValue(result, 'platformbanner', 'platformbanner')
+                if(artworkurl != ''):
+                    release.artworkurls['platformbanner'] = artworkurl
+                artworkurl = readHeimdallValue(result, 'controllerart', 'controllerart')
+                if(artworkurl != ''):
+                    release.artworkurls['controllerart'] = artworkurl
+                
             
             elif(result.Class == 'item.person'):
                 person = None
@@ -310,6 +328,10 @@ def fromHeimdallToRcb(results, gamenameFromFile, romCollection):
                     person.role = readHeimdallValue(result, 'role', '')
                 if(newPerson):
                     release.persons.append(person)
+                    
+                artworkurl = readHeimdallValue(result, 'personart', 'personart')
+                if(artworkurl != ''):
+                    release.artworkurls['personart'] = artworkurl
     
     game.releases.append(release)
     return game

@@ -157,21 +157,23 @@ def getPlatformByRomCollection(source, romCollectionName):
 	return platform
 
 			
+"""
 imagePlacingDict = {'gameinfobig' : 'one big',
 					'gameinfobigVideo' : 'one big or video',
 					'gameinfosmall' : 'four small',
 					'gameinfosmallVideo' : 'three small + video',
 					'gameinfomamemarquee' : 'MAME: marquee in list',
 					'gameinfomamecabinet' : 'MAME: cabinet in list'}			
+"""
 
-
+"""
 class FileType:
 	name = ''
 	id = -1
 	type = ''
 	parent = ''
 	
-class ImagePlacing:	
+class ImagePlacing:
 	name = ''	
 	fileTypesForGameList = None
 	fileTypesForGameListSelected = None			
@@ -192,10 +194,13 @@ class ImagePlacing:
 	fileTypesForMainViewVideoWindowBig = None
 	fileTypesForMainViewVideoWindowSmall = None
 	fileTypesForMainViewVideoFullscreen = None
+"""
 	
 class MediaPath:
 	path = ''
-	fileType = None
+	type = ''
+	parent = ''
+	
 	
 class Scraper:
 	parseInstruction = ''
@@ -233,7 +238,6 @@ class RomCollection:
 	romPaths = None
 	saveStatePath = ''
 	saveStateParams = ''
-	mediaPaths = None
 	scraperSites = None
 	imagePlacingMain = None
 	imagePlacingInfo = None
@@ -255,6 +259,7 @@ class RomCollection:
 class Config:
 		
 	romCollections = None
+	mediaPaths = None
 	scraperSites = None
 	fileTypeIdsForGamelist = None
 	
@@ -312,6 +317,12 @@ class Config:
 		if(not success):
 			return False, errorMsg	
 		
+		#MediaPaths
+		mediaPaths, errorMsg = self.readMediaPaths(tree)
+		if(mediaPaths == None):
+			return False, errorMsg		
+		self.mediaPaths = mediaPaths
+		
 		#Rom Collections
 		romCollections, errorMsg = self.readRomCollections(tree)
 		if(romCollections == None):
@@ -323,8 +334,8 @@ class Config:
 		if(scrapers == None):
 			return False, errorMsg		
 		self.scraperSites = scrapers
-				
-		self.fileTypeIdsForGamelist = self.getFileTypeIdsForGameList(tree, romCollections)
+							
+		#self.fileTypeIdsForGamelist = self.getFileTypeIdsForGameList(tree, romCollections)
 		
 		#Missing filter settings
 		missingFilter = tree.find('MissingFilter')
@@ -339,6 +350,27 @@ class Config:
 		
 		return True, ''	
 
+
+	def readMediaPaths(self, tree):
+		mediaPaths = []
+		mediaPathRows = tree.findall('MediaPaths/mediaPath')
+		
+		for mediaPathRow in mediaPathRows:
+			mediaPath = MediaPath()
+			if(mediaPathRow.text != None):					
+				mediaPath.path = mediaPathRow.text
+			Logutil.log('Media path: ' +mediaPath.path, util.LOG_LEVEL_INFO)
+			
+			mediaPath.type = mediaPathRow.attrib.get('type')
+			mediaPath.parent = mediaPathRow.attrib.get('parent')
+			"""
+			fileType, errorMsg = self.readFileType(mediaPathRow.attrib.get('type'), tree)
+			if(fileType == None):
+				return None, errorMsg
+			mediaPath.fileType = fileType
+			"""
+			mediaPaths.append(mediaPath)
+		return mediaPaths, ''
 	
 		
 	def readRomCollections(self, tree):
@@ -383,21 +415,6 @@ class Config:
 				Logutil.log('Rom path: ' +romPathRow.text, util.LOG_LEVEL_INFO)
 				if(romPathRow.text != None):
 					romCollection.romPaths.append(romPathRow.text)
-				
-			#mediaPath
-			romCollection.mediaPaths = []
-			mediaPathRows = romCollectionRow.findall('mediaPath')
-			
-			for mediaPathRow in mediaPathRows:
-				mediaPath = MediaPath()
-				if(mediaPathRow.text != None):					
-					mediaPath.path = mediaPathRow.text
-				Logutil.log('Media path: ' +mediaPath.path, util.LOG_LEVEL_INFO)
-				fileType, errorMsg = self.readFileType(mediaPathRow.attrib.get('type'), tree)
-				if(fileType == None):
-					return None, errorMsg
-				mediaPath.fileType = fileType
-				romCollection.mediaPaths.append(mediaPath)
 			
 			#Scraper
 			romCollection.scraperSites = []
@@ -435,7 +452,8 @@ class Config:
 				romCollection.scraperSites.append(scraper)
 				
 			#imagePlacing - Main window
-			romCollection.imagePlacingMain = ImagePlacing()
+			"""
+			romCollection.imagePlacingMain = ImagePlacing()			
 			imagePlacingRow = romCollectionRow.find('imagePlacingMain')			
 			if(imagePlacingRow != None):
 				Logutil.log('Image Placing name: ' +str(imagePlacingRow.text), util.LOG_LEVEL_INFO)
@@ -444,9 +462,11 @@ class Config:
 					return None, errorMsg
 				
 				romCollection.imagePlacingMain = fileTypeFor
+			"""
 				
 			#imagePlacing - Info window
-			romCollection.imagePlacingInfo = ImagePlacing()
+			"""
+			romCollection.imagePlacingInfo = ImagePlacing()			
 			imagePlacingRow = romCollectionRow.find('imagePlacingInfo')			
 			if(imagePlacingRow != None):
 				Logutil.log('Image Placing name: ' +str(imagePlacingRow.text), util.LOG_LEVEL_INFO)
@@ -455,6 +475,7 @@ class Config:
 					return None, errorMsg
 				
 				romCollection.imagePlacingInfo = fileTypeFor
+			"""
 						
 			#all simple RomCollection properties
 			romCollection.gameclient = self.readTextElement(romCollectionRow, 'gameclient')
@@ -610,7 +631,7 @@ class Config:
 			
 		return site, ''
 	
-	
+	"""
 	def readFileType(self, name, tree):
 		
 		fileTypeRow = None 
@@ -643,8 +664,10 @@ class Config:
 			fileType.parent = parent.text
 			
 		return fileType, ''
+	"""
 		
 		
+	"""
 	def readImagePlacing(self, imagePlacingName, tree):
 		
 		fileTypeForRow = None 
@@ -684,8 +707,9 @@ class Config:
 		imagePlacing.fileTypesForMainViewVideoFullscreen, errorMsg = self.readFileTypeForElement(fileTypeForRow, 'fileTypeForMainViewVideoFullscreen', tree)
 			
 		return imagePlacing, ''
+	"""
 			
-	
+	"""
 	def readFileTypeForElement(self, fileTypeForRow, key, tree):
 		fileTypeList = []
 		fileTypesForControl = fileTypeForRow.findall(key)		
@@ -698,6 +722,7 @@ class Config:
 			fileTypeList.append(fileType)
 				
 		return fileTypeList, ''
+	"""
 	
 	
 	def readMissingFilter(self, filterName, tree):
@@ -722,6 +747,7 @@ class Config:
 		return items
 	
 	
+	"""
 	def getFileTypeIdsForGameList(self, tree, romCollections):
 		
 		fileTypeIds = []
@@ -739,6 +765,7 @@ class Config:
 				fileTypeIds.append(fileType.id)
 
 		return fileTypeIds
+	"""
 	
 	
 	def readTextElement(self, parent, elementName):

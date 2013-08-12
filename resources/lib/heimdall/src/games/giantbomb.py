@@ -88,7 +88,7 @@ class PlatformPredicateObject(tasks.SubjectTask):
         supplies.emit(dc.description),        
         supplies.emit('hasonlinefeatures'),
         supplies.emit('originalprice'),
-        supplies.emit('consoleart')        
+        supplies.emit('platformart')        
     ]
 
     def require(self):
@@ -118,7 +118,7 @@ class PlatformPredicateObject(tasks.SubjectTask):
         manufacturerdict['name'] = result['company']['name']
         manufacturerdict['detail_url'] = result['company']['api_detail_url']
         self.subject.emit('manufacturer', manufacturerdict)
-        self.subject.emit('consoleart', result['image']['super_url'])
+        self.subject.emit('platformart', result['image']['super_url'])
                 
 
 

@@ -41,7 +41,7 @@ def cacheFiles(files):
 
 def cacheYears(gdb):
 	Logutil.log("Begin cacheYears" , util.LOG_LEVEL_DEBUG)
-	years = Year(gdb).getAll()
+	years = Year.getAll()
 	if(years == None):
 		Logutil.log("yearRows == None in cacheYears", util.LOG_LEVEL_WARNING)
 		return
@@ -55,7 +55,7 @@ def cacheYears(gdb):
 
 def cachePublishers(gdb):
 	Logutil.log("Begin cachePublishers" , util.LOG_LEVEL_DEBUG)
-	publishers = Company().getAll(gdb)
+	publishers = Company.getAll(gdb)
 	if(publishers == None):
 		Logutil.log("publisherRows == None in cachePublishers", util.LOG_LEVEL_WARNING)
 		return
@@ -69,7 +69,7 @@ def cachePublishers(gdb):
 	
 def cacheDevelopers(gdb):
 	Logutil.log("Begin cacheDevelopers" , util.LOG_LEVEL_DEBUG)
-	developers = Company().getAll(gdb)
+	developers = Company.getAll(gdb)
 	if(developers == None):
 		Logutil.log("developerRows == None in cacheDevelopers", util.LOG_LEVEL_WARNING)
 		return
@@ -85,7 +85,7 @@ def cacheGenres(gdb):
 	
 	Logutil.log("Begin cacheGenres" , util.LOG_LEVEL_DEBUG)
 			
-	genreGames = LinkGenreGame(gdb).getAll()
+	genreGames = LinkGenreGame.getAll()
 	if(genreGames == None):
 		Logutil.log("genreRows == None in cacheGenres", util.LOG_LEVEL_WARNING)
 		return
@@ -99,7 +99,7 @@ def cacheGenres(gdb):
 		except:
 			pass
 			
-		genres = Genre(gdb).getGenresByGameId(genreGame.gameId)
+		genres = Genre.getGenresByGameId(genreGame.gameId)
 		for i in range(0, len(genres)):
 			if(i == 0):
 				newgenres = genres[i].name

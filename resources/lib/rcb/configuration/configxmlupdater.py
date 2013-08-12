@@ -6,7 +6,6 @@ from resources.lib.rcb.utils import util
 from resources.lib.rcb.utils.util import *
 
 from resources.lib.rcb.datamodel.gamedatabase import *
-from resources.lib.rcb.configuration.config import ImagePlacing
 
 from xml.etree.ElementTree import ElementTree, SubElement
 
