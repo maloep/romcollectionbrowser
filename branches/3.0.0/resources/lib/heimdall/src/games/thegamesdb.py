@@ -33,11 +33,11 @@ class PlatformPredicateObject(tasks.SubjectTask):
         supplies.emit('display'),
         supplies.emit('media'),
         supplies.emit('maxcontrollers'),
-        supplies.emit('consoleboxfront'),
-        supplies.emit('consoleboxback'),
-        supplies.emit('consolefanart'),
-        supplies.emit('consolebanner'),
-        supplies.emit('consoleart'),
+        supplies.emit('platformboxfront'),
+        supplies.emit('platformboxback'),
+        supplies.emit('platformfanart'),
+        supplies.emit('platformbanner'),
+        supplies.emit('platformart'),
         supplies.emit('controllerart')
     ]
     
@@ -72,21 +72,21 @@ class PlatformPredicateObject(tasks.SubjectTask):
         for boxartRow in platform.findall('Images/boxart'):
             side = boxartRow.attrib.get('side')
             if side == 'front' and boxartRow.text:
-                self.subject.emit("consoleboxfront", baseImageUrl + boxartRow.text)
+                self.subject.emit("platformboxfront", baseImageUrl + boxartRow.text)
             if side == 'back' and boxartRow.text:
-                self.subject.emit("consoleboxback", baseImageUrl + boxartRow.text)
+                self.subject.emit("platformboxback", baseImageUrl + boxartRow.text)
         for fanartRow in platform.findall('Images/fanart'):
             original = util.readTextElement(fanartRow, 'original')
             if original:
                 thumb = util.readTextElement(fanartRow, 'thumb')
                 if thumb:
-                    self.subject.emit("consolefanart", {"fanart": baseImageUrl + original, "thumbnail": baseImageUrl + thumb})
+                    self.subject.emit("platformfanart", {"fanart": baseImageUrl + original, "thumbnail": baseImageUrl + thumb})
                 else:
                     self.subject.emit("fanart", baseImageUrl + original)
         for bannerRow in platform.findall('Images/banner'):
-            self.subject.emit("consolebanner", baseImageUrl + bannerRow.text)
-        for consoleRow in platform.findall('Images/consoleart'):
-            self.subject.emit("consoleart", baseImageUrl + consoleRow.text)
+            self.subject.emit("platformbanner", baseImageUrl + bannerRow.text)
+        for platformRow in platform.findall('Images/consoleart'):
+            self.subject.emit("platformart", baseImageUrl + platformRow.text)
         for controllerRow in platform.findall('Images/controllerart'):
             self.subject.emit("controllerart", baseImageUrl + controllerRow.text)
 

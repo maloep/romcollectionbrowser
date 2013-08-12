@@ -28,7 +28,7 @@ class GameImporter:
 		pass
 		
 	
-	def importGames(self, gdb, gui, updateOption, romCollections, settings, isRescrape):
+	def importGames(self, gdb, gui, updateOption, inConfig, romCollections, settings, isRescrape):
 		self.gdb = gdb
 		self.Settings = settings
 			
@@ -238,7 +238,7 @@ class GameImporter:
 					except:
 						self.missingDescFile.write('%s\n' % gamenameFromDesc.encode('utf-8'))
 					continue
-			else:	
+			else:
 				fileCount = 0
 				successfulFiles = 0
 				lastgamename = ''
@@ -259,11 +259,14 @@ class GameImporter:
 						if(lastGameId == None):
 							Logutil.log('Game detected as multi rom game, but lastGameId is None.', util.LOG_LEVEL_ERROR)
 							continue
+						#TODO: store rom files
+						"""
 						fileType = FileType()
 						fileType.id = 0
 						fileType.name = "rcb_rom"
 						fileType.parent = "game"
 						dbupdater.insertFile(self.gdb, filename, lastGameId, fileType, None, None, None)
+						"""
 						continue
 					
 					Logutil.log('Start scraping info for game: ' + gamenameFromFile, LOG_LEVEL_INFO)						
@@ -289,7 +292,7 @@ class GameImporter:
 					artScrapers = {} 
 					#TODO handle local artwork scraper (including developer, publisher, ...)
 					if(not isLocalArtwork):
-						game, artWorkFound, artworkfiles, artworkurls = self.useSingleScrapersHeimdall(romCollection, gamenameFromFile, foldername, updateOption, gui, progDialogHeader, fileCount)
+						game, artworkfiles, artworkurls = self.useSingleScrapersHeimdall(inConfig, romCollection, gamenameFromFile, foldername, updateOption, gui, progDialogHeader, fileCount)
 						#results, artScrapers = self.useSingleScrapers(results, romCollection, 0, gamenameFromFile, foldername, filename, fuzzyFactor, updateOption, gui, progDialogHeader, fileCount)
 						
 					filenamelist = []
@@ -316,7 +319,7 @@ class GameImporter:
 							except:
 								self.possibleMismatchFile.write('%s, %s\n' % (game.name.encode('utf-8'), gamenameFromFile.encode('utf-8')))
 	
-					if(not artWorkFound):
+					if(len(artworkfiles) == 0):
 						ignoreGamesWithoutArtwork = settings.getSetting(util.SETTING_RCB_IGNOREGAMEWITHOUTARTWORK).upper() == 'TRUE'
 						if(ignoreGamesWithoutArtwork):								
 							Logutil.log('No artwork found for game "%s". Game will not be imported.' %gamenameFromFile, util.LOG_LEVEL_WARNING)
@@ -397,10 +400,10 @@ class GameImporter:
 		return True, isUpdate, gameId
 		
 		
-	def useSingleScrapersHeimdall(self, romCollection, gamenameFromFile, foldername, updateOption, gui, progDialogHeader, fileCount):
+	def useSingleScrapersHeimdall(self, config, romCollection, gamenameFromFile, foldername, updateOption, gui, progDialogHeader, fileCount):
 		import gamescraper
-		game, artWorkFound, artworkfiles, artworkurls = gamescraper.scrapeGame(gamenameFromFile, romCollection, self.Settings, foldername, updateOption, gui, progDialogHeader, fileCount)
-		return game, artWorkFound, artworkfiles, artworkurls
+		game, artworkfiles, artworkurls = gamescraper.scrapeGame(gamenameFromFile, config, romCollection, self.Settings, foldername, updateOption, gui, progDialogHeader, fileCount)
+		return game, artworkfiles, artworkurls
 	
 
 	def useSingleScrapers(self, result, romCollection, startIndex, gamenameFromFile, foldername, firstRomfile, fuzzyFactor, updateOption, gui, progDialogHeader, fileCount):

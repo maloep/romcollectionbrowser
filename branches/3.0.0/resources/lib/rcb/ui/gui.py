@@ -1244,7 +1244,7 @@ class UIGameDB(xbmcgui.WindowXML):
 		progressDialog.writeMsg(util.localize(40011), "", "")
 		
 		importer = GameImporter()
-		importer.importGames(self.gdb, progressDialog, scrapingmode, romCollections, self.Settings, isRescrape)
+		importer.importGames(self.gdb, progressDialog, scrapingmode, self.config, romCollections, self.Settings, isRescrape)
 		del importer
 		progressDialog.writeMsg("", "", "", -1)
 		del progressDialog
