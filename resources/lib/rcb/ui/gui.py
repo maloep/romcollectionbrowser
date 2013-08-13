@@ -73,13 +73,13 @@ class UIGameDB(xbmcgui.WindowXML):
 	gdb = None
 	
 	selectedControlId = 0
-	selectedConsoleId = 0
+	selectedPlatformId = 0
 	selectedGenreId = 0
 	selectedYearId = 0
 	selectedPublisherId = 0
 	selectedCharacter = util.localize(40020)
 	
-	selectedConsoleIndex = 0
+	selectedPlatformIndex = 0
 	selectedGenreIndex = 0
 	selectedYearIndex = 0
 	selectedPublisherIndex = 0
@@ -170,10 +170,12 @@ class UIGameDB(xbmcgui.WindowXML):
 		
 		self.cacheItems()
 		
+		"""
 		#load video fileType for later use in showGameInfo
 		self.fileTypeGameplay, errorMsg = self.config.readFileType('gameplay', self.config.tree)		
 		if(self.fileTypeGameplay == None):
-			Logutil.log("Error while loading fileType gameplay: " +errorMsg, util.LOG_LEVEL_WARNING)			
+			Logutil.log("Error while loading fileType gameplay: " +errorMsg, util.LOG_LEVEL_WARNING)
+		"""			
 		
 		#timestamp2 = time.clock()
 		#diff = (timestamp2 - timestamp1) * 1000		
@@ -333,9 +335,9 @@ class UIGameDB(xbmcgui.WindowXML):
 					label2 = str(control.getSelectedItem().getLabel2())
 					
 					if (self.selectedControlId == CONTROL_CONSOLES):
-						if(self.selectedConsoleIndex != control.getSelectedPosition()):
-							self.selectedConsoleId = int(label2)
-							self.selectedConsoleIndex = control.getSelectedPosition()
+						if(self.selectedPlatformIndex != control.getSelectedPosition()):
+							self.selectedPlatformId = int(label2)
+							self.selectedPlatformIndex = control.getSelectedPosition()
 							self.filterChanged = True
 							
 					elif (self.selectedControlId == CONTROL_GENRE):
@@ -480,17 +482,17 @@ class UIGameDB(xbmcgui.WindowXML):
 		self.showFilterControl(self.config.romCollections.values(), CONTROL_CONSOLES, showEntryAllItems, rcDelete, rDelete, True)
 		
 		#reset selection after loading the list
-		self.selectedConsoleId = 0
-		self.selectedConsoleIndex = 0
+		self.selectedPlatformId = 0
+		self.selectedPlatformIndex = 0
 		
 		Logutil.log("End showConsoles" , util.LOG_LEVEL_INFO)
 
 
 	def showGenre(self, rcDelete=False, rDelete=False):
 		Logutil.log("Begin showGenre" , util.LOG_LEVEL_INFO)
-		Logutil.log("Selected Console: " +str(self.selectedConsoleId), util.LOG_LEVEL_INFO)
+		Logutil.log("Selected Console: " +str(self.selectedPlatformId), util.LOG_LEVEL_INFO)
 					
-		genres = Genre(self.gdb).getFilteredGenresByConsole(self.selectedConsoleId)
+		genres = Genre.getFilteredGenresByPlatform(self.gdb, self.selectedPlatformId)
 		
 		showEntryAllItems = self.Settings.getSetting(util.SETTING_RCB_SHOWENTRYALLGENRES).upper() == 'TRUE'				
 		self.showFilterControl(genres, CONTROL_GENRE, showEntryAllItems, rcDelete, rDelete)
@@ -503,9 +505,9 @@ class UIGameDB(xbmcgui.WindowXML):
 	
 	def showYear(self, rcDelete=False, rDelete=False):
 		Logutil.log("Begin showYear" , util.LOG_LEVEL_INFO)
-		Logutil.log("Selected Console: " +str(self.selectedConsoleId), util.LOG_LEVEL_INFO)
+		Logutil.log("Selected Console: " +str(self.selectedPlatformId), util.LOG_LEVEL_INFO)
 		
-		years = Year(self.gdb).getFilteredYears(self.selectedConsoleId, self.selectedGenreId, 0, '0 = 0')
+		years = Year.getFilteredYears(self.gdb, self.selectedPlatformId, self.selectedGenreId, 0, '0 = 0')
 				
 		showEntryAllItems = self.Settings.getSetting(util.SETTING_RCB_SHOWENTRYALLYEARS).upper() == 'TRUE'
 		self.showFilterControl(years, CONTROL_YEAR, showEntryAllItems, rcDelete, rDelete)
@@ -517,9 +519,9 @@ class UIGameDB(xbmcgui.WindowXML):
 		
 	def showPublisher(self, rcDelete=False, rDelete=False):
 		Logutil.log("Begin showPublisher" , util.LOG_LEVEL_INFO)
-		Logutil.log("Selected Console: " +str(self.selectedConsoleId), util.LOG_LEVEL_INFO)
+		Logutil.log("Selected Console: " +str(self.selectedPlatformId), util.LOG_LEVEL_INFO)
 
-		publishers = Company().getFilteredPublishers(self.gdb, self.selectedConsoleId, self.selectedGenreId, self.selectedYearId, '0 = 0')
+		publishers = Company.getFilteredPublishers(self.gdb, self.selectedPlatformId, self.selectedGenreId, self.selectedYearId, '0 = 0')
 		
 		showEntryAllItems = self.Settings.getSetting(util.SETTING_RCB_SHOWENTRYALLPUBLISHER).upper() == 'TRUE'
 		self.showFilterControl(publishers, CONTROL_PUBLISHER, showEntryAllItems, rcDelete, rDelete)
@@ -595,7 +597,7 @@ class UIGameDB(xbmcgui.WindowXML):
 		preventUnfilteredSearch = self.Settings.getSetting(util.SETTING_RCB_PREVENTUNFILTEREDSEARCH).upper() == 'TRUE'			
 		
 		if(preventUnfilteredSearch):			
-			if(self.selectedCharacter == util.localize(40020) and self.selectedConsoleId == 0 and self.selectedGenreId == 0 and self.selectedYearId == 0 and self.selectedPublisherId == 0):
+			if(self.selectedCharacter == util.localize(40020) and self.selectedPlatformId == 0 and self.selectedGenreId == 0 and self.selectedYearId == 0 and self.selectedPublisherId == 0):
 				Logutil.log("preventing unfiltered search", util.LOG_LEVEL_WARNING)
 				return				
 		
@@ -615,7 +617,7 @@ class UIGameDB(xbmcgui.WindowXML):
 		if(missingFilterStatement != ''):
 			likeStatement = likeStatement + ' AND ' +missingFilterStatement
 		
-		games = Game(self.gdb).getFilteredGames(self.selectedConsoleId, self.selectedGenreId, self.selectedYearId, self.selectedPublisherId, isFavorite, likeStatement)
+		games = Game(self.gdb).getFilteredGames(self.selectedPlatformId, self.selectedGenreId, self.selectedYearId, self.selectedPublisherId, isFavorite, likeStatement)
 		
 		if(games == None):
 			Logutil.log("games == None in showGames", util.LOG_LEVEL_WARNING)
@@ -865,7 +867,7 @@ class UIGameDB(xbmcgui.WindowXML):
 			xbmc.sleep(util.WAITTIME_UPDATECONTROLS)
 			self.updateControls(True, rcDelete, rDelete)
 			if(rDelete):
-				self.selectedConsoleId = self.setFilterSelection(CONTROL_CONSOLES, self.selectedConsoleIndex)
+				self.selectedPlatformId = self.setFilterSelection(CONTROL_CONSOLES, self.selectedPlatformIndex)
 				self.setFilterSelection(CONTROL_GAMES_GROUP_START, 0)
 			self.showGames()
 
@@ -946,14 +948,14 @@ class UIGameDB(xbmcgui.WindowXML):
 		import dialoggameinfo
 		try:
 			gid = dialoggameinfo.UIGameInfoView("script-RCB-gameinfo.xml", util.getAddonInstallPath(), skin, constructorParam, gdb=self.gdb, gameId=gameId, listItem=selectedGame,
-				consoleId=self.selectedConsoleId, genreId=self.selectedGenreId, yearId=self.selectedYearId, publisherId=self.selectedPublisherId, selectedGameIndex=selectedGameIndex,
-				consoleIndex=self.selectedConsoleIndex, genreIndex=self.selectedGenreIndex, yearIndex=self.selectedYearIndex, publisherIndex=self.selectedPublisherIndex,
+				consoleId=self.selectedPlatformId, genreId=self.selectedGenreId, yearId=self.selectedYearId, publisherId=self.selectedPublisherId, selectedGameIndex=selectedGameIndex,
+				consoleIndex=self.selectedPlatformIndex, genreIndex=self.selectedGenreIndex, yearIndex=self.selectedYearIndex, publisherIndex=self.selectedPublisherIndex,
 				selectedCharacter=self.selectedCharacter, selectedCharacterIndex=self.selectedCharacterIndex, controlIdMainView=self.selectedControlId, fileDict=fileDict, config=self.config, settings=self.Settings,
 				fileTypeGameplay=self.fileTypeGameplay)
 		except:
 			gid = dialoggameinfo.UIGameInfoView("script-RCB-gameinfo.xml", util.getAddonInstallPath(), "Default", constructorParam, gdb=self.gdb, gameId=gameId, listItem=selectedGame,
-				consoleId=self.selectedConsoleId, genreId=self.selectedGenreId, yearId=self.selectedYearId, publisherId=self.selectedPublisherId, selectedGameIndex=selectedGameIndex,
-				consoleIndex=self.selectedConsoleIndex, genreIndex=self.selectedGenreIndex, yearIndex=self.selectedYearIndex, publisherIndex=self.selectedPublisherIndex,
+				consoleId=self.selectedPlatformId, genreId=self.selectedGenreId, yearId=self.selectedYearId, publisherId=self.selectedPublisherId, selectedGameIndex=selectedGameIndex,
+				consoleIndex=self.selectedPlatformIndex, genreIndex=self.selectedGenreIndex, yearIndex=self.selectedYearIndex, publisherIndex=self.selectedPublisherIndex,
 				selectedCharacter=self.selectedCharacter, selectedCharacterIndex=self.selectedCharacterIndex, controlIdMainView=self.selectedControlId, fileDict=fileDict, config=self.config, settings=self.Settings,
 				fileTypeGameplay=self.fileTypeGameplay)
 		
@@ -1174,7 +1176,6 @@ class UIGameDB(xbmcgui.WindowXML):
 		
 		item.setProperty('publisher', helper.getPropertyFromCache(game.publisherId, self.publisherDict, util.ROW_NAME))
 		item.setProperty('developer', helper.getPropertyFromCache(game.developerId, self.developerDict, util.ROW_NAME))
-		item.setProperty('reviewer', helper.getPropertyFromCache(game.reviewerId, self.reviewerDict, util.ROW_NAME))
 		
 		genreString = ""
 		try:
@@ -1413,7 +1414,7 @@ class UIGameDB(xbmcgui.WindowXML):
 		
 		self.saveViewMode()
 		
-		helper.saveViewState(self.gdb, isOnExit, util.VIEW_MAINVIEW, selectedGameIndex, self.selectedConsoleIndex, self.selectedGenreIndex, self.selectedPublisherIndex,
+		helper.saveViewState(self.gdb, isOnExit, util.VIEW_MAINVIEW, selectedGameIndex, self.selectedPlatformIndex, self.selectedGenreIndex, self.selectedPublisherIndex,
 			self.selectedYearIndex, self.selectedCharacterIndex, self.selectedControlId, None, self.Settings)
 		
 		Logutil.log("End saveViewState" , util.LOG_LEVEL_INFO)
@@ -1460,9 +1461,9 @@ class UIGameDB(xbmcgui.WindowXML):
 		self.showConsoles(False, False)
 		
 		#set console filter selection
-		if(rcbSetting.lastSelectedConsoleIndex != None):
-			self.selectedConsoleId = int(self.setFilterSelection(CONTROL_CONSOLES, rcbSetting.lastSelectedConsoleIndex))	
-			self.selectedConsoleIndex = rcbSetting.lastSelectedConsoleIndex
+		if(rcbSetting.lastSelectedPlatformIndex != None):
+			self.selectedPlatformId = int(self.setFilterSelection(CONTROL_CONSOLES, rcbSetting.lastSelectedPlatformIndex))	
+			self.selectedPlatformIndex = rcbSetting.lastSelectedPlatformIndex
 		
 		#load other filters
 		self.showGenre(False, False)
@@ -1581,8 +1582,6 @@ class UIGameDB(xbmcgui.WindowXML):
 		
 		self.developerDict = helper.cacheDevelopers(self.gdb)
 		
-		self.reviewerDict = helper.cacheReviewers(self.gdb)
-		
 		#0 = cacheAll: load all game data at once
 		if(self.cachingOption == 0):
 			self.genreDict = helper.cacheGenres(self.gdb)
@@ -1599,7 +1598,6 @@ class UIGameDB(xbmcgui.WindowXML):
 		self.yearDict = None
 		self.publisherDict = None
 		self.developerDict = None
-		self.reviewerDict = None
 		self.genreDict = None
 		
 		Logutil.log("End clearCache" , util.LOG_LEVEL_INFO)

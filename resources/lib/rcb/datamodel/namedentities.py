@@ -31,16 +31,15 @@ class NamedEntity(DataBaseObject):
 
 class Year(NamedEntity):
     
-    #obsolete: atm years are only filtered by console
-    __filterQuery = "SELECT * FROM Year WHERE Id IN (Select YearId From Game WHERE \
-                        (romCollectionId = ? OR (0 = ?)) AND \
-                        (PublisherId = ? OR (0 = ?)) \
-                        AND id IN \
-                        (SELECT GameId From GenreGame Where GenreId = ? OR (0 = ?)) \
-                        AND %s) \
-                        ORDER BY name COLLATE NOCASE"
+    #obsolete: atm years are only filtered by Platform
+    filterQuery = "SELECT * FROM Year WHERE Id IN \
+                    (Select YearId From Release WHERE (platformId = ? OR (0 = ?)) AND \
+                    (PublisherId = ? OR (0 = ?)) \
+                    AND id IN (SELECT GameId From LinkGenreGame Where GenreId = ? OR (0 = ?)) \
+                    AND %s) \
+                    ORDER BY name COLLATE NOCASE"
                         
-    filterYearByConsole = "SELECT * FROM Year WHERE Id IN (Select YearId From Game WHERE \
+    filterYearByPlatform = "SELECT * FROM Year WHERE Id IN (Select YearId From Game WHERE \
                         (romCollectionId = ? OR (0 = ?))) \
                         ORDER BY name COLLATE NOCASE"
     
@@ -72,6 +71,17 @@ class Year(NamedEntity):
             
             
     @staticmethod
+    def getAllYears(gdb):
+        dblist = DataBaseObject.getAll(gdb, 'Year')
+        objs = []
+        for dbRow in dblist:
+            obj = Year()
+            obj.fromDb(dbRow)
+            objs.append(obj)
+        return objs
+            
+            
+    @staticmethod
     def getYearByName(gdb, name):
         dbRow = DataBaseObject.getOneByName(gdb, 'Year', name)
         obj = Year()
@@ -86,17 +96,24 @@ class Year(NamedEntity):
         obj.fromDb(dbRow)
         return obj
 
+    @staticmethod
+    def getFilteredYears(gdb, romCollectionId, genreId, publisherId, likeStatement):
+        args = (romCollectionId, publisherId, genreId)
+        filterQuery = Year.filterQuery %likeStatement
+        util.Logutil.log('searching years with query: ' +filterQuery, util.LOG_LEVEL_DEBUG)        
+        
+        dblist = DataBaseObject.getByWildcardQuery(gdb, filterQuery, args)
+        objs = []
+        for dbRow in dblist:
+            obj = Year()
+            obj.fromDb(dbRow)
+            objs.append(obj)
+        return objs
+        
     
     """
-    def getFilteredYears(self, romCollectionId, genreId, publisherId, likeStatement):
-        args = (romCollectionId, publisherId, genreId)
-        filterQuery = self.__filterQuery %likeStatement
-        util.Logutil.log('searching years with query: ' +filterQuery, util.LOG_LEVEL_DEBUG)        
-        years = self.getObjectsByWildcardQuery(filterQuery, args)
-        return years
-    
-    def getFilteredYearsByConsole(self, romCollectionId):
-        years = self.getObjectsByWildcardQuery(self.filterYearByConsole, (romCollectionId,))
+    def getFilteredYearsByPlatform(self, romCollectionId):
+        years = self.getObjectsByWildcardQuery(self.filterYearByPlatform, (romCollectionId,))
         return years
     
     def delete(self, yearId):

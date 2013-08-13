@@ -81,7 +81,7 @@
 	<string id="40028">Import abgebrochen.</string>
 	<string id="40029">Siehe xbmc.log für Details.</string>
 	<string id="40030">Dateiliste wird erstellt...</string>
-	<string id="40031">Info runterladen</string>
+	<string id="40031">Lade Info</string>
 	<string id="40032">%s eingeben</string>
 	<string id="40033">Spiel aus Favoriten entfernen</string>
 	<string id="40034">Auswahl aus Favoriten entfernen</string>
@@ -148,6 +148,7 @@
 	<string id="40095">Verzögerung danach (ms)</string>
 	<string id="40096">Start-Verzögerung im Solo Modus (ms)</string>
 	<string id="40097">VB script im Solo Modus (nur Windows)</string>
+	<string id="40098">Lade Artwork</string>
 
 	
 	<!-- Settings -->

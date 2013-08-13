@@ -70,6 +70,16 @@ class Platform(DataBaseObject):
         else:
             self.id = DataBaseObject.insert(gdb, self)
             
+                
+    @staticmethod
+    def getAllPlatforms(gdb):
+        dblist = DataBaseObject.getAll(gdb, 'Platform')
+        objs = []
+        for dbRow in dblist:
+            obj = Platform()
+            obj.fromDb(dbRow)
+            objs.append(obj)
+        return objs
             
     
     @staticmethod
