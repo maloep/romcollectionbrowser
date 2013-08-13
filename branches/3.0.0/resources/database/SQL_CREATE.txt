@@ -193,7 +193,7 @@ CREATE TABLE IF NOT EXISTS [Release]
     (
         id
     ),
-	[laguageId] INTEGER REFERENCES [Language]
+	[languageId] INTEGER REFERENCES [Language]
     (
         id
     ),
@@ -307,3 +307,61 @@ CREATE TABLE IF NOT EXISTS [RCBSetting]
     [lastFocusedControlGameInfoView] INTEGER,    
     [lastSelectedCharacterIndex] INTEGER    
 );
+
+
+CREATE VIEW ReleaseView AS
+       SELECT R.id,
+              R.name,
+              R.description,
+              R.gameCmd,
+              R.alternateGameCmd,
+              R.mobyRank,
+              R.mobyScore,
+              R.mobyScoreVotes,
+              R.thegamesdbScore,
+              R.thegamesdbVotes,
+              R.isFavorite,
+              R.launchCount,
+              R.version,
+              R.completed,
+              R.broken,
+              R.dateAdded,
+              R.dateModified,
+              R.lastPlayed,
+              Platform.name AS platform,
+              Developer.name AS developer,
+              Publisher.name AS publisher,
+              RomCollection.name AS romCollection,
+              Year.name AS year,
+              ESRBRating.name AS ESRBRating,
+              Region.name AS region,
+              Language.name AS language,
+              Media.name AS media,
+              MaxPlayers.name AS maxPlayers,
+              Perspective.name AS perspective,
+              Controller.name AS controller
+         FROM [RELEASE] R
+              LEFT OUTER JOIN Platform
+                           ON R.platformId = Platform.id
+              LEFT OUTER JOIN Company Developer
+                           ON R.developerId = Developer.id
+              LEFT OUTER JOIN Company Publisher
+                           ON R.publisherId = Publisher.id
+              LEFT OUTER JOIN RomCollection
+                           ON R.romCollectionId = RomCollection.id
+              LEFT OUTER JOIN Year
+                           ON R.yearId = Year.id
+              LEFT OUTER JOIN ESRBRating
+                           ON R.ESRBRatingId = ESRBRating.id
+              LEFT OUTER JOIN Region
+                           ON R.regionId = Region.id
+              LEFT OUTER JOIN Language
+                           ON R.languageId = Language.id
+              LEFT OUTER JOIN Media
+                           ON R.mediaId = Media.id
+              LEFT OUTER JOIN MaxPlayers
+                           ON R.maxPlayersId = MaxPlayers.id
+              LEFT OUTER JOIN Perspective
+                           ON R.perspectiveId = Perspective.id
+              LEFT OUTER JOIN Controller
+                           ON R.controllerId = Controller.id;
