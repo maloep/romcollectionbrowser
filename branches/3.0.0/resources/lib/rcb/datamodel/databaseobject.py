@@ -16,7 +16,7 @@ class DataBaseObject:
     
     def updateSingleColumns(self, gdb, columns, updateWithNullValues):
         
-        updateString = "Update %s SET " %self._tableName
+        updateString = "Update %s SET " %self.tableName
         args = []
                 
         for column in columns:
@@ -35,7 +35,7 @@ class DataBaseObject:
         
     def updateAllColumns(self, gdb, updateWithNullValues):
         
-        updateString = "Update %s SET " %self._tableName
+        updateString = "Update %s SET " %self.tableName
         args = []
         
         dict = self.toDbDict()
@@ -54,16 +54,16 @@ class DataBaseObject:
             
         
     def delete(self, gdb, id):
-        self.deleteObjectByQuery("DELETE FROM '%s' WHERE id = ?" % self._tableName, (id,))
+        self.deleteObjectByQuery("DELETE FROM '%s' WHERE id = ?" % self.tableName, (id,))
     
     def deleteAll(self, gdb):
-        gdb.cursor.execute("DELETE FROM '%s'" % self._tableName)
+        gdb.cursor.execute("DELETE FROM '%s'" % self.tableName)
     
     def deleteObjectByQuery(self, gdb, query, args):
         gdb.cursor.execute(query, args)
     
     def getCount(self, gdb):
-        gdb.cursor.execute("SELECT count(*) From '%s'" % self._tableName)
+        gdb.cursor.execute("SELECT count(*) From '%s'" % self.tableName)
         count = gdb.cursor.fetchall()
         return count[0][0]
     
@@ -124,7 +124,7 @@ class DataBaseObject:
         for arg in args:
             newArgs.append(arg)
             newArgs.append(arg)
-        return DataBaseObject.getByQuery(query, newArgs)
+        return DataBaseObject.getByQuery(gdb, query, newArgs)
             
     @staticmethod
     def getByQuery(gdb, query, args):

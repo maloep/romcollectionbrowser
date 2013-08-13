@@ -7,7 +7,7 @@ from resources.lib.rcb.utils.util import *
 
 class Genre(DataBaseObject):
     
-    #obsolete: atm genres are only filtered by console
+    #obsolete: atm genres are only filtered by Platform
     __filterQuery = "SELECT * FROM Genre WHERE Id IN (Select GenreId From GenreGame Where GameId IN ( \
                         Select Id From Game WHERE \
                         (romCollectionId = ? OR (0 = ?)) AND \
@@ -16,14 +16,18 @@ class Genre(DataBaseObject):
                         AND %s)) \
                         ORDER BY name COLLATE NOCASE"
                         
-    filterGenreByConsole = "SELECT * FROM Genre WHERE Id IN (Select GenreId From GenreGame Where GameId IN ( \
-                        Select Id From Game WHERE \
-                        (romCollectionId = ? OR (0 = ?)))) \
-                        ORDER BY name COLLATE NOCASE"
+    filterGenreByGameId = "SELECT * FROM Genre WHERE Id IN (Select GenreId From LinkGenreGame Where GameId = ?)"
     
-    filteGenreByGameId = "SELECT * FROM Genre WHERE Id IN (Select GenreId From GenreGame Where GameId = ?)"
+    filterGenreByPlatform = "SELECT * FROM Genre WHERE Id IN \
+                            (Select GenreId From LinkGenreGame Where GameId IN \
+                            (Select Id From Game WHERE Id IN \
+                            (Select GameId From Release Where (platformId = ? OR (0 = ?))))) \
+                            ORDER BY name COLLATE NOCASE"
     
-    filteGenreIdByGameId = "SELECT * From GenreGame Where GameId = ?"
+    
+    
+    
+    filteGenreIdByGameId = "SELECT * From LinkGenreGame Where GameId = ?"
     
     genreIdCountQuery = "SELECT g.genreid, count(*) 'genreIdCount' \
                     from genregame g \
@@ -72,6 +76,17 @@ class Genre(DataBaseObject):
             
             
     @staticmethod
+    def getAllGenres(gdb):
+        dblist = DataBaseObject.getAll(gdb, 'Genre')
+        objs = []
+        for dbRow in dblist:
+            obj = Genre()
+            obj.fromDb(dbRow)
+            objs.append(obj)
+        return objs
+            
+            
+    @staticmethod
     def getGenreByName(gdb, name):
         dbRow = DataBaseObject.getOneByName(gdb, 'Genre', name)
         obj = Genre()
@@ -85,7 +100,31 @@ class Genre(DataBaseObject):
         obj = Genre()
         obj.fromDb(dbRow)
         return obj
+    
+    
+    @staticmethod
+    def getGenresByGameId(gdb, gameId):
+        dblist = DataBaseObject.getByQuery(gdb, Genre.filterGenreByGameId, (gameId,))
+        objs = []
+        for dbRow in dblist:
+            obj = Genre()
+            obj.fromDb(dbRow)
+            objs.append(obj)
+        return objs
         
+    
+    @staticmethod
+    def getFilteredGenresByPlatform(gdb, romCollectionId):
+        dblist = DataBaseObject.getByWildcardQuery(gdb, Genre.filterGenreByPlatform, (romCollectionId,))
+        objs = []
+        for dbRow in dblist:
+            obj = Genre()
+            obj.fromDb(dbRow)
+            objs.append(obj)
+        return objs
+    
+    
+    
     
     def getFilteredGenres(self, romCollectionId, yearId, publisherId, likeStatement):
         args = (romCollectionId, yearId, publisherId)
@@ -94,13 +133,7 @@ class Genre(DataBaseObject):
         genres = self.getByWildcardQuery(filterQuery, args)
         return genres
     
-    def getFilteredGenresByConsole(self, romCollectionId):
-        genres = self.getByWildcardQuery(self.filterGenreByConsole, (romCollectionId,))
-        return genres
-        
-    def getGenresByGameId(self, gameId):
-        genres = self.getByQuery(self.filteGenreByGameId, (gameId,))
-        return genres
+    
 
     def getGenreIdByGameId(self, gameId):
         genre = self.getByQuery(self.filteGenreIdByGameId, (gameId,))

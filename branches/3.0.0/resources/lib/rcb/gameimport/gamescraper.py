@@ -104,7 +104,7 @@ def heimdallScrapeItems(gameresult, romCollection, scraper):
         #1 for platform scraping
         nbrBeforeQuit = 1
         if(gameresult['person']):
-            #nbrBeforeQuit = nbrBeforeQuit + len(gameresult['person'])
+            nbrBeforeQuit = nbrBeforeQuit + len(gameresult['person'])
             #TODO: limit to 3 persons for test purposes only
             if(nbrBeforeQuit > 3):
                 nbrBeforeQuit = 4

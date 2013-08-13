@@ -48,7 +48,18 @@ class LinkGenreGame(DataBaseObject):
             self.id = DataBaseObject.insert(gdb, self)
     
         
-    @staticmethod    
+    @staticmethod
+    def getAllLinkGenreGame(gdb):
+        dblist = DataBaseObject.getAll(gdb, 'LinkGenreGame')
+        objs = []
+        for dbRow in dblist:
+            obj = LinkGenreGame()
+            obj.fromDb(dbRow)
+            objs.append(obj)
+        return objs
+        
+        
+    @staticmethod
     def getGenreGameByGenreIdAndGameId(gdb, genreId, gameId):
         dbRow = DataBaseObject.getOneByQuery(gdb, LinkGenreGame.filterQuery, (genreId, gameId))
         obj = LinkGenreGame()

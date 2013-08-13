@@ -7,6 +7,25 @@ from resources.lib.rcb.utils.util import *
 
 class Company(DataBaseObject):
     
+    
+    filterQueryPublisher = "SELECT * FROM Company WHERE Id IN (Select PublisherId From Release WHERE \
+                        (platformId = ? OR (0 = ?)) AND \
+                        (YearId = ? OR (0 = ?)) \
+                        AND id IN \
+                        (SELECT GameId From LinkGenreGame Where GenreId = ? OR (0 = ?)) \
+                        AND %s) \
+                        ORDER BY name COLLATE NOCASE"
+                        
+    filterQueryDeveloper = "SELECT * FROM Company WHERE Id IN (Select DeveloperId From Release WHERE \
+                        (platformId = ? OR (0 = ?)) AND \
+                        (YearId = ? OR (0 = ?)) \
+                        AND id IN \
+                        (SELECT GameId From LinkGenreGame Where GenreId = ? OR (0 = ?)) \
+                        AND %s) \
+                        ORDER BY name COLLATE NOCASE"                    
+    
+    
+    
     developerIdCountQuery = "SELECT count(developerId) 'developerIdCount' \
                     from Game \
                     where developerId = ? \
@@ -53,6 +72,17 @@ class Company(DataBaseObject):
             
             
     @staticmethod
+    def getAllCompanies(gdb):
+        dblist = DataBaseObject.getAll(gdb, 'Company')
+        objs = []
+        for dbRow in dblist:
+            obj = Company()
+            obj.fromDb(dbRow)
+            objs.append(obj)
+        return objs
+    
+            
+    @staticmethod
     def getCompanyByName(gdb, name):
         dbRow = DataBaseObject.getOneByName(gdb, 'Company', name)
         obj = Company()
@@ -66,6 +96,36 @@ class Company(DataBaseObject):
         obj = Company()
         obj.fromDb(dbRow)
         return obj
+    
+    
+    @staticmethod
+    def getFilteredPublishers(gdb, romCollectionId, genreId, yearId, likeStatement):
+        args = (romCollectionId, yearId, genreId)
+        filterQuery = Company.filterQueryPublisher %likeStatement
+        util.Logutil.log('searching publishers with query: ' +filterQuery, util.LOG_LEVEL_DEBUG)        
+        
+        dblist = DataBaseObject.getByWildcardQuery(gdb, filterQuery, args)
+        objs = []
+        for dbRow in dblist:
+            obj = Company()
+            obj.fromDb(dbRow)
+            objs.append(obj)
+        return objs
+    
+    
+    @staticmethod
+    def getFilteredDevelopers(gdb, romCollectionId, genreId, yearId, likeStatement):
+        args = (romCollectionId, yearId, genreId)
+        filterQuery = Company.filterQueryDeveloper %likeStatement
+        util.Logutil.log('searching developers with query: ' +filterQuery, util.LOG_LEVEL_DEBUG)        
+        
+        dblist = DataBaseObject.getByWildcardQuery(gdb, filterQuery, args)
+        objs = []
+        for dbRow in dblist:
+            obj = Company()
+            obj.fromDb(dbRow)
+            objs.append(obj)
+        return objs
     
     
     def delete(self, developerId):

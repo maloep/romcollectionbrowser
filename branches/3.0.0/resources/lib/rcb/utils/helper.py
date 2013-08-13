@@ -41,7 +41,7 @@ def cacheFiles(files):
 
 def cacheYears(gdb):
 	Logutil.log("Begin cacheYears" , util.LOG_LEVEL_DEBUG)
-	years = Year.getAll()
+	years = Year.getAllYears(gdb)
 	if(years == None):
 		Logutil.log("yearRows == None in cacheYears", util.LOG_LEVEL_WARNING)
 		return
@@ -55,7 +55,7 @@ def cacheYears(gdb):
 
 def cachePublishers(gdb):
 	Logutil.log("Begin cachePublishers" , util.LOG_LEVEL_DEBUG)
-	publishers = Company.getAll(gdb)
+	publishers = Company.getAllCompanies(gdb)
 	if(publishers == None):
 		Logutil.log("publisherRows == None in cachePublishers", util.LOG_LEVEL_WARNING)
 		return
@@ -69,7 +69,7 @@ def cachePublishers(gdb):
 	
 def cacheDevelopers(gdb):
 	Logutil.log("Begin cacheDevelopers" , util.LOG_LEVEL_DEBUG)
-	developers = Company.getAll(gdb)
+	developers = Company.getAllCompanies(gdb)
 	if(developers == None):
 		Logutil.log("developerRows == None in cacheDevelopers", util.LOG_LEVEL_WARNING)
 		return
@@ -85,7 +85,7 @@ def cacheGenres(gdb):
 	
 	Logutil.log("Begin cacheGenres" , util.LOG_LEVEL_DEBUG)
 			
-	genreGames = LinkGenreGame.getAll()
+	genreGames = LinkGenreGame.getAllLinkGenreGame(gdb)
 	if(genreGames == None):
 		Logutil.log("genreRows == None in cacheGenres", util.LOG_LEVEL_WARNING)
 		return
@@ -99,7 +99,7 @@ def cacheGenres(gdb):
 		except:
 			pass
 			
-		genres = Genre.getGenresByGameId(genreGame.gameId)
+		genres = Genre.getGenresByGameId(gdb, genreGame.gameId)
 		for i in range(0, len(genres)):
 			if(i == 0):
 				newgenres = genres[i].name
@@ -197,7 +197,7 @@ def saveViewState(gdb, isOnExit, selectedView, selectedGameIndex, selectedConsol
 	
 	if(saveViewState):
 		rcbSetting.lastSelectedView = selectedView
-		rcbSetting.lastSelectedConsoleIndex = selectedConsoleIndex 
+		rcbSetting.lastSelectedPlatformIndex = selectedConsoleIndex 
 		rcbSetting.lastSelectedGenreIndex = selectedGenreIndex
 		rcbSetting.lastSelectedPublisherIndex = selectedPublisherIndex
 		rcbSetting.lastSelectedYearIndex = selectedYearIndex
@@ -207,7 +207,7 @@ def saveViewState(gdb, isOnExit, selectedView, selectedGameIndex, selectedConsol
 		rcbSetting.lastSelectedCharacterIndex = selectedCharacterIndex
 	else:
 		rcbSetting.lastSelectedView = None
-		rcbSetting.lastSelectedConsoleIndex = None 
+		rcbSetting.lastSelectedPlatformIndex = None 
 		rcbSetting.lastSelectedGenreIndex = None
 		rcbSetting.lastSelectedPublisherIndex = None
 		rcbSetting.lastSelectedYearIndex = None
@@ -215,8 +215,8 @@ def saveViewState(gdb, isOnExit, selectedView, selectedGameIndex, selectedConsol
 		rcbSetting.lastFocusedControlMainView = None
 		rcbSetting.lastFocusedControlGameInfoView = None
 		rcbSetting.lastSelectedCharacterIndex = None
-		
-	RCBSetting(gdb).updateAllColumns(rcbSetting, True)
+			
+	rcbSetting.updateAllColumns(gdb, True)
 			
 	gdb.commit()
 	
@@ -225,12 +225,12 @@ def saveViewState(gdb, isOnExit, selectedView, selectedGameIndex, selectedConsol
 
 			
 def getRCBSetting(gdb):
-	rcbSettingRows = RCBSetting(gdb).getAll()
+	rcbSettingRows = RCBSetting.getAllRCBSetting(gdb)
 	if(rcbSettingRows == None or len(rcbSettingRows) != 1):
 		#TODO raise error
 		return None
 					
-	return rcbSettingRows[databaseobject.DBINDEX_id]
+	return rcbSettingRows[0]
 		
 		
 

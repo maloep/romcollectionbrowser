@@ -68,7 +68,7 @@ class GameDataBase:
 			self.cursor = diskDB.cursor()
 			return True
 		except Exception, e: 
-			util.Logutil.log("ERROR: %s" % str(e), util.LOG_LEVEL_INFO)
+			util.Logutil.log("ERROR: %s" % str(e), util.LOG_LEVEL_ERROR)
 			return False
 	
 	def executeSQLScript(self, scriptName):
@@ -93,8 +93,8 @@ class GameDataBase:
 		
 		dbVersion = ""
 		try:
-			rcbSettings = RCBSetting(self).getAll()
-			if(rcbSettings == None or len(rcbSettings) != 1):	
+			rcbSettings = RCBSetting.getAllRCBSetting(self)
+			if(rcbSettings == None or len(rcbSettings) != 1):
 				self.createTables()
 				self.commit()
 				return 1, ""
@@ -104,6 +104,7 @@ class GameDataBase:
 			dbVersion = rcbSetting.dbVersion
 			
 		except  Exception, (exc):
+			util.Logutil.log("Error reading RCBSetting: %s" % str(exc), util.LOG_LEVEL_ERROR)
 			self.createTables()
 			self.commit()
 			return 1, ""
@@ -131,8 +132,10 @@ class GameDataBase:
 				return 0, ""
 			else:
 				return -1, util.localize(35032) %(dbVersion, util.CURRENT_DB_VERSION)
-					
-		count = Game(self).getCount()
+				
+		game = Game()	
+		count = game.getCount(self)
+		del game
 		if(count == 0):
 			return 1, ""
 		

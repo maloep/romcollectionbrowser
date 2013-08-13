@@ -79,4 +79,15 @@ class RCBSetting(DataBaseObject):
     
     def insert(self, gdb):
         DataBaseObject.insert(gdb, self)
+        
+        
+    @staticmethod
+    def getAllRCBSetting(gdb):
+        dblist = DataBaseObject.getAll(gdb, 'RCBSetting')
+        objs = []
+        for dbRow in dblist:
+            obj = RCBSetting()
+            obj.fromDb(dbRow)
+            objs.append(obj)
+        return objs
     
