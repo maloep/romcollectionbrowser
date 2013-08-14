@@ -44,18 +44,18 @@ DBINDEX_controllerId = 30
 
 
 class Release(DataBaseObject):
-    __filterQuery = "Select * From Release WHERE \
-                    (romCollectionId = ? OR (0 = ?)) AND \
-                    (gameId IN (Select gameId From GenreGame Where genreId = ?) OR (0 = ?)) AND \
+    filterQuery = "Select * From ReleaseView WHERE \
+                    (platformId = ? OR (0 = ?)) AND \
+                    (gameId IN (Select gameId From LinkGenreGame Where genreId = ?) OR (0 = ?)) AND \
                     (YearId = ? OR (0 = ?)) AND \
                     (PublisherId = ? OR (0 = ?)) AND \
                     (isFavorite = ? OR (0 = ?)) \
                     AND %s \
                     ORDER BY name COLLATE NOCASE"
                     
-    __filterByNameAndRomCollectionId = "SELECT * FROM Release WHERE name = ? and romCollectionId = ?"
+    filterByNameAndRomCollectionId = "SELECT * FROM Release WHERE name = ? and romCollectionId = ?"
     
-    __filterMostPlayedGames = "Select * From Release Where launchCount > 0 Order by launchCount desc Limit "    
+    filterMostPlayedGames = "Select * From Release Where launchCount > 0 Order by launchCount desc Limit "    
     
     
     def __init__(self):
@@ -84,16 +84,16 @@ class Release(DataBaseObject):
         self.lastModified = ''        
                 
         #referenced objects - complex
-        self.platform = None        
-        self.publisher = None        
-        self.developer = None
-        self.region = None
+        self.platform = Platform()       
+        self.publisher = Company()    
+        self.developer = Company()
         self.persons = []
         self.characters = []
         
         #referenced objects - simple
         self.year = ''
         self.yearId = None
+        self.region = ''
         self.maxPlayers = ''
         self.ESRBrating = ''
         self.language = ''
@@ -232,6 +232,20 @@ class Release(DataBaseObject):
         release.fromDb(dbRow)
         return release
         
+       
+    @staticmethod
+    def getFilteredReleases(gdb, platformId, genreId, yearId, publisherId, isFavorite, likeStatement):
+        args = (platformId, genreId, yearId, publisherId, isFavorite)
+        filterQuery = Release.filterQuery %likeStatement
+        util.Logutil.log('searching games with query: ' +filterQuery, util.LOG_LEVEL_DEBUG)
+        util.Logutil.log('searching games with args: platformId = %s, genreId = %s, yearId = %s, publisherId = %s, isFavorite = %s, characterFilter = %s' %(str(platformId), str(genreId), str(yearId), str(publisherId), str(isFavorite), likeStatement), util.LOG_LEVEL_DEBUG)
+        dbRows = DataBaseObject.getByWildcardQuery(gdb, filterQuery, args)        
+        objs = []
+        for dbRow in dbRows:
+            obj = Release()
+            obj.fromDb(dbRow)
+            objs.append(obj)
+        return objs
         
     """
     def getFilteredGames(self, romCollectionId, genreId, yearId, publisherId, isFavorite, likeStatement):
