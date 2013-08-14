@@ -28,7 +28,7 @@ CREATE TABLE IF NOT EXISTS [Genre]
 (
     [id] INTEGER PRIMARY KEY AUTOINCREMENT,
     [name] TEXT NOT NULL UNIQUE,
-	[description] TEXT
+    [description] TEXT
 );
 
 
@@ -36,7 +36,7 @@ CREATE TABLE IF NOT EXISTS [Character]
 (
     [id] INTEGER PRIMARY KEY AUTOINCREMENT,
     [name] TEXT NOT NULL UNIQUE,
-	[description] TEXT
+    [description] TEXT
 );
 
 
@@ -44,7 +44,7 @@ CREATE TABLE IF NOT EXISTS [Region]
 (
     [id] INTEGER PRIMARY KEY AUTOINCREMENT,
     [name] TEXT NOT NULL UNIQUE,
-	[description] TEXT
+    [description] TEXT
 );
 
 
@@ -52,7 +52,7 @@ CREATE TABLE IF NOT EXISTS [Perspective]
 (
     [id] INTEGER PRIMARY KEY AUTOINCREMENT,
     [name] TEXT NOT NULL UNIQUE,
-	[description] TEXT
+    [description] TEXT
 );
 
 
@@ -60,7 +60,7 @@ CREATE TABLE IF NOT EXISTS [Controller]
 (
     [id] INTEGER PRIMARY KEY AUTOINCREMENT,
     [name] TEXT NOT NULL UNIQUE,
-	[description] TEXT
+    [description] TEXT
 );
 
 
@@ -68,7 +68,7 @@ CREATE TABLE IF NOT EXISTS [Media]
 (
     [id] INTEGER PRIMARY KEY AUTOINCREMENT,
     [name] TEXT NOT NULL UNIQUE,
-	[description] TEXT
+    [description] TEXT
 );
 
 
@@ -144,16 +144,16 @@ CREATE TABLE IF NOT EXISTS [Game]
 CREATE TABLE IF NOT EXISTS [Release]
 (
     [id] INTEGER PRIMARY KEY AUTOINCREMENT,
-	[name] TEXT NOT NULL,
+    [name] TEXT NOT NULL,
     [description] TEXT,
     [gameCmd] TEXT,
     [alternateGameCmd] TEXT,
-	[mobyRank] INTEGER,
+    [mobyRank] INTEGER,
     [mobyScore] INTEGER,
     [mobyScoreVotes] INTEGER,
     [thegamesdbScore] INTEGER,
     [thegamesdbVotes] INTEGER,
-	[isFavorite] INTEGER,
+    [isFavorite] INTEGER,
     [launchCount] INTEGER,
     [version] TEXT,
     [completed] INTEGER,
@@ -161,7 +161,7 @@ CREATE TABLE IF NOT EXISTS [Release]
     [dateAdded] DATE,
     [dateModified] DATE,
     [lastPlayed] DATE,
-	[gameId] INTEGER NOT NULL REFERENCES [Game]
+    [gameId] INTEGER NOT NULL REFERENCES [Game]
     (
         id
     ),
@@ -193,7 +193,7 @@ CREATE TABLE IF NOT EXISTS [Release]
     (
         id
     ),
-	[languageId] INTEGER REFERENCES [Language]
+    [languageId] INTEGER REFERENCES [Language]
     (
         id
     ),
@@ -201,15 +201,15 @@ CREATE TABLE IF NOT EXISTS [Release]
     (
         id
     ),
-	[maxPlayersId] INTEGER REFERENCES [MaxPlayers]
+    [maxPlayersId] INTEGER REFERENCES [MaxPlayers]
     (
         id
     ),
-	[perspectiveId] INTEGER REFERENCES [Perspective]
+    [perspectiveId] INTEGER REFERENCES [Perspective]
     (
         id
     ),
-	[controllerId] INTEGER REFERENCES [Controller]
+    [controllerId] INTEGER REFERENCES [Controller]
     (
         id
     )    
@@ -238,7 +238,7 @@ CREATE TABLE IF NOT EXISTS [LinkReleasePersonRole]
     (
         id
     ),
-	[roleId] INTEGER REFERENCES [PersonRole]
+    [roleId] INTEGER REFERENCES [PersonRole]
     (
         id
     )
@@ -286,8 +286,8 @@ CREATE TABLE IF NOT EXISTS [DetailUrl]
 (
     [id] INTEGER PRIMARY KEY AUTOINCREMENT,
     [name] TEXT NOT NULL UNIQUE,
-	[urlType] TEXT NOT NULL,
-	[source] TEXT NOT NULL,
+    [urlType] TEXT NOT NULL,
+    [source] TEXT NOT NULL,
     [parentId] INTEGER NOT NULL
 );
 
@@ -328,17 +328,30 @@ CREATE VIEW ReleaseView AS
               R.dateAdded,
               R.dateModified,
               R.lastPlayed,
+              R.gameId,
+              R.platformId,
               Platform.name AS platform,
+              R.developerId,
               Developer.name AS developer,
+              R.publisherId,
               Publisher.name AS publisher,
+              R.romCollectionId,
               RomCollection.name AS romCollection,
+              R.yearId,
               Year.name AS year,
+              R.ESRBRatingId,
               ESRBRating.name AS ESRBRating,
+              R.regionId,
               Region.name AS region,
+              R.languageId,
               Language.name AS language,
+              R.mediaId,
               Media.name AS media,
+              R.maxPlayersId,
               MaxPlayers.name AS maxPlayers,
+              R.perspectiveId,
               Perspective.name AS perspective,
+              R.controllerId,
               Controller.name AS controller
          FROM [RELEASE] R
               LEFT OUTER JOIN Platform
