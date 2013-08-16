@@ -8,6 +8,7 @@ from namedentities import Year
 
 from resources.lib.rcb.utils import util
 from resources.lib.rcb.utils.util import *
+from resources.lib.rcb.gameimport import filewalker
 
 
 """
@@ -127,9 +128,9 @@ class ReleaseView(DataBaseObject):
         self.alternateTitles = []
         self.detailurls = []        
         
-        self.artworkurls = {}
-        self.artworkfiles = {}
-        self.romfiles = []
+        self.artworkurls = None
+        self.mediaFiles = None
+        self.romFiles = []
         
         
     def fromDb(self, row):
@@ -139,6 +140,8 @@ class ReleaseView(DataBaseObject):
         
         self.id = row[databaseobject.DBINDEX_id]
         self.name = row[databaseobject.DBINDEX_name]
+        self.nameFromFile = row[DBINDEX_nameFromFile]
+        self.firstRomFile = row[DBINDEX_firstRomFile]
         
         self.gameId = row[DBINDEX_gameId]
         self.description = self.readSaveString(row, DBINDEX_description)
@@ -177,19 +180,45 @@ class ReleaseView(DataBaseObject):
         """
         
         
-    def resolveMediaPath(self, fileType):
+    def resolveMediaPaths(self, config):
+        Logutil.log("ReleaseView.resolveMediaPaths", util.LOG_LEVEL_INFO)
         
-        fileName = ''
-        try:
-            fileName = self.artworkfiles[fileType]
-            return fileName
-        except KeyError:
-            pass
+        if(self.mediaFiles != None and len(self.mediaFiles) > 0):
+            return
         
-        if(fileType == 'game'):
-            fileName = fileName.replace("%GAME%", self.nameFromFile)
-            fileName = fileName.replace("%PLATFORM%", self.platform.name)
+        self.mediaFiles = {}
+        for path in config.mediaPaths:
+                        
+            Logutil.log("FileType: %s" %str(path.type), util.LOG_LEVEL_INFO)
+            fileName = path.path
+                        
+            if(path.parent == 'game'):
+                fileName = fileName.replace("%GAME%", self.nameFromFile)
+                fileName = fileName.replace("%PLATFORM%", self.platformName)
+    
+                rootExtFile = os.path.splitext(fileName)
+                gameName = rootExtFile[0] + ".*"
+                dirs, files, dirname, filemask = filewalker.getFilesByWildcard(gameName)
+                if(len(files) > 0):
+                    self.mediaFiles[path.type] = files[0]
+                        
+              
+    def getMediaFile(self, config, fileTypes):
+        Logutil.log("ReleaseView.getMediaFile", util.LOG_LEVEL_INFO)
+        if(self.mediaFiles == None or len(self.mediaFiles) == 0):
+            self.resolveMediaPaths(config)
+                    
+        for fileType in fileTypes:
+            try:
+                #return the first found fileType
+                file = self.mediaFiles[fileType]
+                return file
+            except:
+                continue
             
+        return ''
+                    
+               
             
     @staticmethod
     def getReleaseViewByName(gdb, name):

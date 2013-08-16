@@ -262,6 +262,8 @@ def fromHeimdallToRcb(results, gamenameFromFile, firstRomFile, romCollection):
                     release.publisher.name = readHeimdallValue(result, swo.SWO_0000397, '')
                                 
                 #TODO: support more than 1 image per artwork type                
+                if(release.artworkurls == None):
+                    release.artworkurls = {}
                 artworkurl = readHeimdallValue(result, 'fanart', 'fanart')
                 if(artworkurl != ''):
                     release.artworkurls['fanart'] = artworkurl

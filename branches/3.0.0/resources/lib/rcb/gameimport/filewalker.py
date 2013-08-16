@@ -53,7 +53,6 @@ def walkDown(files, romPath, maxFolderDepth):
 
 
 def getFilesByWildcard(pathName):
-    
     Logutil.log('Begin getFilesByWildcard. pathName = %s' %pathName, util.LOG_LEVEL_INFO)
     files = []
     
@@ -72,9 +71,10 @@ def getFilesByWildcard(pathName):
     Logutil.log("xbmcvfs files: %s" %filesLocal, util.LOG_LEVEL_INFO)
     
     for file in filesLocal:
+        Logutil.log("Comparing file '%s' with filemask '%s'" %(file, filemask), util.LOG_LEVEL_DEBUG)
         if(fnmatch.fnmatch(file, filemask)):
-        #allFiles = [f.decode(sys.getfilesystemencoding()).encode('utf-8') for f in glob.glob(newRomPath)]
             file = util.joinPath(dirname, file)
+            Logutil.log("found file: %s" %file, util.LOG_LEVEL_INFO)
             files.append(file)
             
     return dirs, files, dirname, filemask
