@@ -199,7 +199,7 @@
 						<width>540</width>
 						<height>280</height>
 						<visible>!Player.HasVideo | IsEmpty(ListItem.Property(gameplaymain))</visible>
-						<texture>$INFO[ListItem.Property(gameinfobig)]</texture>
+						<texture>$INFO[ListItem.Property(gameinfo)]</texture>
 						<bordertexture border="2">rcb-button-nofocus.png</bordertexture>
 						<bordersize>2</bordersize>
 					</control>

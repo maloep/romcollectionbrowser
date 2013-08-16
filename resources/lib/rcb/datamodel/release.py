@@ -100,8 +100,8 @@ class Release(DataBaseObject):
         self.detailurls = []
         self.romCollection = None
         
-        self.artworkurls = {}
-        self.artworkfiles = {}
+        self.artworkurls = None
+        self.artworkfiles = None
 
         
     def fromDb(self, row):

@@ -618,9 +618,9 @@ class UIGameDB(xbmcgui.WindowXML):
 		if(missingFilterStatement != ''):
 			likeStatement = likeStatement + ' AND ' +missingFilterStatement
 		
-		releases = ReleaseView.getFilteredReleases(self.gdb, self.selectedPlatformId, self.selectedGenreId, self.selectedYearId, self.selectedPublisherId, isFavorite, likeStatement)
+		releaseviews = ReleaseView.getFilteredReleases(self.gdb, self.selectedPlatformId, self.selectedGenreId, self.selectedYearId, self.selectedPublisherId, isFavorite, likeStatement)
 		
-		if(releases == None):
+		if(releaseviews == None):
 			Logutil.log("releases == None in showReleases", util.LOG_LEVEL_WARNING)
 			return		
 				
@@ -628,7 +628,7 @@ class UIGameDB(xbmcgui.WindowXML):
 				
 		timestamp2 = time.clock()
 		diff = (timestamp2 - timestamp1) * 1000
-		Logutil.log("showReleases: load %i games from db in %d ms" % (len(releases), diff), util.LOG_LEVEL_INFO)		
+		Logutil.log("showReleases: load %i games from db in %d ms" % (len(releaseviews), diff), util.LOG_LEVEL_INFO)		
 	
 		self.writeMsg(util.localize(40021))
 		
@@ -639,37 +639,34 @@ class UIGameDB(xbmcgui.WindowXML):
 		self.rcb_playList.clear()
 				
 		count = 0
-		for release in releases:
+		for releaseview in releaseviews:
 						
 			#TODO: replace RomCollection with platform in config
 			romCollection = None
 			try:
-				romCollection = self.config.romCollections[str(release.platformId)]
+				romCollection = self.config.romCollections[str(releaseview.platformId)]
 			except:
-				Logutil.log('Cannot get rom collection with id: ' +str(release.platformId), util.LOG_LEVEL_ERROR)
+				Logutil.log('Cannot get rom collection with id: ' +str(releaseview.platformId), util.LOG_LEVEL_ERROR)
 		
-			try:
-				#images for gamelist
-				#TODO: image handling
-				#imageGameList = self.getFileForControl(romCollection.imagePlacingMain.fileTypesForGameList, game.id, game.publisherId, game.developerId, game.romCollectionId, fileDict)
-				#imageGameListSelected = self.getFileForControl(romCollection.imagePlacingMain.fileTypesForGameListSelected, game.id, game.publisherId, game.developerId, game.romCollectionId, fileDict)				
-				imageGameList = ''
-				imageGameListSelected = ''
+			try:				
+				#TODO: add config option for fallback images
+				imageGameList = releaseview.getMediaFile(self.config, ('boxfront', 'screenshot'))
+				imageGameListSelected = releaseview.getMediaFile(self.config, ('boxfront', 'screenshot'))
 				
 				#create ListItem
-				item = xbmcgui.ListItem(release.name, str(release.id), imageGameList, imageGameListSelected)			
-				item.setProperty('releaseId', str(release.id))
+				item = xbmcgui.ListItem(releaseview.name, str(releaseview.id), imageGameList, imageGameListSelected)			
+				item.setProperty('releaseId', str(releaseview.id))
 				
 				#favorite handling
 				showFavoriteStars = self.Settings.getSetting(util.SETTING_RCB_SHOWFAVORITESTARS).upper() == 'TRUE'
-				isFavorite = helper.saveReadString(release.isFavorite)
+				isFavorite = helper.saveReadString(releaseview.isFavorite)
 				if(isFavorite == '1' and showFavoriteStars):
 					item.setProperty('isfavorite', '1')
 				else:
 					item.setProperty('isfavorite', '')
 				#0 = cacheAll: load all game data at once
 				if(self.cachingOption == 0):
-					self.setAllItemData(item, release, self.fileDict, romCollection)							
+					self.setAllItemData(item, releaseview, self.fileDict, romCollection)							
 																
 				self.addItem(item)
 				
@@ -691,7 +688,7 @@ class UIGameDB(xbmcgui.WindowXML):
 		
 		timestamp3 = time.clock()
 		diff = (timestamp3 - timestamp2) * 1000		
-		Logutil.log( "showReleases: load %i games to list in %d ms" % (len(releases), diff), util.LOG_LEVEL_INFO)
+		Logutil.log( "showReleases: load %i games to list in %d ms" % (len(releaseviews), diff), util.LOG_LEVEL_INFO)
 		
 		Logutil.log("End showReleases" , util.LOG_LEVEL_INFO)
 		
@@ -1134,46 +1131,23 @@ class UIGameDB(xbmcgui.WindowXML):
 		return fileDict
 		
 		
-	def setAllItemData(self, item, release, fileDict, romCollection):				
+	def setAllItemData(self, item, releaseview, fileDict, romCollection):				
 		
 		# all other images in mainwindow
-		#TODO: image handling
-		"""
-		imagemainViewBackground = self.getFileForControl(romCollection.imagePlacingMain.fileTypesForMainViewBackground, release.id, release.publisher.id, release.developer.id, release.romCollectionId, fileDict)
-		imageGameInfoBig = self.getFileForControl(romCollection.imagePlacingMain.fileTypesForMainViewGameInfoBig, release.id, release.publisher.id, release.developer.id, release.romCollectionId, fileDict)
-		imageGameInfoUpperLeft = self.getFileForControl(romCollection.imagePlacingMain.fileTypesForMainViewGameInfoUpperLeft, release.id, release.publisher.id, release.developer.id, release.romCollectionId, fileDict)
-		imageGameInfoUpperRight = self.getFileForControl(romCollection.imagePlacingMain.fileTypesForMainViewGameInfoUpperRight, release.id, release.publisher.id, release.developer.id, release.romCollectionId, fileDict)
-		imageGameInfoLowerLeft = self.getFileForControl(romCollection.imagePlacingMain.fileTypesForMainViewGameInfoLowerLeft, release.id, release.publisher.id, release.developer.id, release.romCollectionId, fileDict)
-		imageGameInfoLowerRight = self.getFileForControl(romCollection.imagePlacingMain.fileTypesForMainViewGameInfoLowerRight, release.id, release.publisher.id, release.developer.id, release.romCollectionId, fileDict)
+		item.setProperty('boxfront', releaseview.getMediaFile(self.config, ('boxfront',)))
+		item.setProperty('boxback', releaseview.getMediaFile(self.config, ('boxback',)))
+		item.setProperty('screenshot', releaseview.getMediaFile(self.config, ('screenshot',)))
+		item.setProperty('fanart', releaseview.getMediaFile(self.config, ('fanart',)))
+		item.setProperty('cartridge', releaseview.getMediaFile(self.config, ('cartridge',)))
 		
-		imageGameInfoUpper = self.getFileForControl(romCollection.imagePlacingMain.fileTypesForMainViewGameInfoUpper, release.id, release.publisher.id, release.developer.id, release.romCollectionId, fileDict)
-		imageGameInfoLower = self.getFileForControl(romCollection.imagePlacingMain.fileTypesForMainViewGameInfoLower, release.id, release.publisher.id, release.developer.id, release.romCollectionId, fileDict)
-		imageGameInfoLeft = self.getFileForControl(romCollection.imagePlacingMain.fileTypesForMainViewGameInfoLeft, release.id, release.publisher.id, release.developer.id, release.romCollectionId, fileDict)
-		imageGameInfoRight = self.getFileForControl(romCollection.imagePlacingMain.fileTypesForMainViewGameInfoRight, release.id, release.publisher.id, release.developer.id, release.romCollectionId, fileDict)
+		#TODO: add config option for fallback images
+		item.setProperty('background', releaseview.getMediaFile(self.config, ('fanart','boxfront','screenshot')))
+		item.setProperty('gameinfo', releaseview.getMediaFile(self.config, ('screenshot','boxfront')))
 		
-		imageMainView1 = self.getFileForControl(romCollection.imagePlacingMain.fileTypesForMainView1, release.id, release.publisher.id, release.developer.id, release.romCollectionId, fileDict)
-		imageMainView2 = self.getFileForControl(romCollection.imagePlacingMain.fileTypesForMainView2, release.id, release.publisher.id, release.developer.id, release.romCollectionId, fileDict)
-		imageMainView3 = self.getFileForControl(romCollection.imagePlacingMain.fileTypesForMainView3, release.id, release.publisher.id, release.developer.id, release.romCollectionId, fileDict)		
-		
-		#set images as properties for use in the skin
-		item.setProperty(util.IMAGE_CONTROL_BACKGROUND, imagemainViewBackground)
-		item.setProperty(util.IMAGE_CONTROL_GAMEINFO_BIG, imageGameInfoBig)
-		item.setProperty(util.IMAGE_CONTROL_GAMEINFO_UPPERLEFT, imageGameInfoUpperLeft)
-		item.setProperty(util.IMAGE_CONTROL_GAMEINFO_UPPERRIGHT, imageGameInfoUpperRight)
-		item.setProperty(util.IMAGE_CONTROL_GAMEINFO_LOWERLEFT, imageGameInfoLowerLeft)
-		item.setProperty(util.IMAGE_CONTROL_GAMEINFO_LOWERRIGHT, imageGameInfoLowerRight)		
-		item.setProperty(util.IMAGE_CONTROL_GAMEINFO_UPPER, imageGameInfoUpper)
-		item.setProperty(util.IMAGE_CONTROL_GAMEINFO_LOWER, imageGameInfoLower)
-		item.setProperty(util.IMAGE_CONTROL_GAMEINFO_LEFT, imageGameInfoLeft)
-		item.setProperty(util.IMAGE_CONTROL_GAMEINFO_RIGHT, imageGameInfoRight)
-		item.setProperty(util.IMAGE_CONTROL_1, imageMainView1)
-		item.setProperty(util.IMAGE_CONTROL_2, imageMainView2)
-		item.setProperty(util.IMAGE_CONTROL_3, imageMainView3)
-		"""
 		
 		
 		#set additional properties
-		description = release.description
+		description = releaseview.description
 		if(description == None):
 			description = ""			
 		item.setProperty('plot', description)
@@ -1184,17 +1158,17 @@ class UIGameDB(xbmcgui.WindowXML):
 		except:
 			pass									
 		
-		item.setProperty('year', release.yearName)
-		item.setProperty('publisher', release.publisherName)
-		item.setProperty('developer', release.developerName)
+		item.setProperty('year', releaseview.yearName)
+		item.setProperty('publisher', releaseview.publisherName)
+		item.setProperty('developer', releaseview.developerName)
 		
 		genreString = ""
 		try:
 			#0 = cacheAll: load all game data at once
 			if(self.cachingOption == 0):
-				genreString = self.genreDict[release.id]
+				genreString = self.genreDict[releaseview.id]
 			else:				
-				genres = Genre(self.gdb).getGenresByGameId(release.id)
+				genres = Genre(self.gdb).getGenresByGameId(releaseview.id)
 				if (genres != None):
 					for i in range(0, len(genres)):
 						genre = genres[i]
@@ -1205,20 +1179,20 @@ class UIGameDB(xbmcgui.WindowXML):
 			pass							
 		item.setProperty('genre', genreString)
 		
-		item.setProperty('maxplayers', helper.saveReadString(release.maxPlayersName))
-		item.setProperty('rating', helper.saveReadString(release.ESRBratingName))
+		item.setProperty('maxplayers', helper.saveReadString(releaseview.maxPlayersName))
+		item.setProperty('rating', helper.saveReadString(releaseview.ESRBratingName))
 		#item.setProperty('votes', helper.saveReadString(release.numVotes))
 		#item.setProperty('url', helper.saveReadString(release.url))	
-		item.setProperty('region', helper.saveReadString(release.regionName))
-		item.setProperty('media', helper.saveReadString(release.mediaName))
-		item.setProperty('perspective', helper.saveReadString(release.perspectiveName))
-		item.setProperty('controllertype', helper.saveReadString(release.controllerName))
+		item.setProperty('region', helper.saveReadString(releaseview.regionName))
+		item.setProperty('media', helper.saveReadString(releaseview.mediaName))
+		item.setProperty('perspective', helper.saveReadString(releaseview.perspectiveName))
+		item.setProperty('controllertype', helper.saveReadString(releaseview.controllerName))
 		#item.setProperty('originaltitle', helper.saveReadString(release.originalTitle))
 		#item.setProperty('alternatetitle', helper.saveReadString(release.alternateTitle))
 		#item.setProperty('translatedby', helper.saveReadString(release.translatedBy))
-		item.setProperty('version', helper.saveReadString(release.version))
+		item.setProperty('version', helper.saveReadString(releaseview.version))
 		
-		item.setProperty('playcount', helper.saveReadString(release.launchCount))
+		item.setProperty('playcount', helper.saveReadString(releaseview.launchCount))
 		
 		return item
 	

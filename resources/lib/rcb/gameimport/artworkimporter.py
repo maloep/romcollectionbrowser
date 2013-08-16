@@ -15,7 +15,7 @@ def getArtworkForRelease(inConfig, release, gamenameFromFile, gui, foldername, i
     for path in inConfig.mediaPaths:
                     
         Logutil.log("FileType: " +str(path.type), util.LOG_LEVEL_INFO)
-        fileName = path.path            
+        fileName = path.path
         
         #TODO: replace %ROMCOLLECTION%, %PUBLISHER%, ...
         if(path.parent == 'game'):
