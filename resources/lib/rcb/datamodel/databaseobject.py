@@ -12,7 +12,19 @@ class DataBaseObject:
     
     def toDbDict(self):
         pass
+    
+    
+    def readSaveString(self, row, index):
+        val = None
+        try:
+            val = row[index]
+        except:
+            pass
         
+        if(val):
+            return val
+        
+        return ''
     
     def updateSingleColumns(self, gdb, columns, updateWithNullValues):
         

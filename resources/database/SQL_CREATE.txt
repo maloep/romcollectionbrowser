@@ -212,7 +212,9 @@ CREATE TABLE IF NOT EXISTS [Release]
     [controllerId] INTEGER REFERENCES [Controller]
     (
         id
-    )    
+    ),
+    [nameFromFile] TEXT,
+    [firstRomFile] TEXT
 );
 
 
@@ -328,6 +330,8 @@ CREATE VIEW ReleaseView AS
               R.dateAdded,
               R.dateModified,
               R.lastPlayed,
+              R.nameFromFile,
+              R.firstRomFile,
               R.gameId,
               R.platformId,
               Platform.name AS platform,

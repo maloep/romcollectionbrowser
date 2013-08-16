@@ -259,7 +259,7 @@ class GameImporter:
 						if(lastGameId == None):
 							Logutil.log('Game detected as multi rom game, but lastGameId is None.', util.LOG_LEVEL_ERROR)
 							continue
-						#TODO: store rom files
+						#TODO: store additional rom files?
 						"""
 						fileType = FileType()
 						fileType.id = 0
@@ -289,14 +289,12 @@ class GameImporter:
 					foldername = romfileutil.getFoldernameFromRomFilename(filename)
 					filecrc = ''
 											
-					artScrapers = {} 
+					artScrapers = {}
+					firstRomFile = os.path.basename(filename) 
 					#TODO handle local artwork scraper (including developer, publisher, ...)
 					if(not isLocalArtwork):
-						game, artworkfiles, artworkurls = self.useSingleScrapersHeimdall(inConfig, romCollection, gamenameFromFile, foldername, updateOption, gui, progDialogHeader, fileCount)
+						game, artworkfiles, artworkurls = self.useSingleScrapersHeimdall(inConfig, romCollection, gamenameFromFile, firstRomFile, foldername, updateOption, gui, progDialogHeader, fileCount)
 						#results, artScrapers = self.useSingleScrapers(results, romCollection, 0, gamenameFromFile, foldername, filename, fuzzyFactor, updateOption, gui, progDialogHeader, fileCount)
-						
-					filenamelist = []
-					filenamelist.append(filename)
 					
 					#Variables to process Art Download Info
 					#dialogDict = {'dialogHeaderKey':progDialogHeader, 'gameNameKey':gamenameFromFile, 'scraperSiteKey':artScrapers, 'fileCountKey':fileCount}					
@@ -400,9 +398,9 @@ class GameImporter:
 		return True, isUpdate, gameId
 		
 		
-	def useSingleScrapersHeimdall(self, config, romCollection, gamenameFromFile, foldername, updateOption, gui, progDialogHeader, fileCount):
+	def useSingleScrapersHeimdall(self, config, romCollection, gamenameFromFile, firstRomFile, foldername, updateOption, gui, progDialogHeader, fileCount):
 		import gamescraper
-		game, artworkfiles, artworkurls = gamescraper.scrapeGame(gamenameFromFile, config, romCollection, self.Settings, foldername, updateOption, gui, progDialogHeader, fileCount)
+		game, artworkfiles, artworkurls = gamescraper.scrapeGame(gamenameFromFile, firstRomFile, config, romCollection, self.Settings, foldername, updateOption, gui, progDialogHeader, fileCount)
 		return game, artworkfiles, artworkurls
 	
 

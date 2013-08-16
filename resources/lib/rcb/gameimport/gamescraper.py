@@ -30,7 +30,7 @@ Scrape game with all configured scrapers
 Scrape additional items (platform, companies, persons)
 Download artwork
 """
-def scrapeGame(gamenameFromFile, inConfig, romCollection, settings, foldername, updateOption, gui, progDialogHeader, fileCount):
+def scrapeGame(gamenameFromFile, firstRomFile, inConfig, romCollection, settings, foldername, updateOption, gui, progDialogHeader, fileCount):
             
     gui.writeMsg(progDialogHeader, util.localize(40023) + ": " + gamenameFromFile, util.localize(40031), fileCount)
     
@@ -57,7 +57,7 @@ def scrapeGame(gamenameFromFile, inConfig, romCollection, settings, foldername, 
         results.append(scraperresults)
     
         
-    game = fromHeimdallToRcb(results, gamenameFromFile, romCollection)
+    game = fromHeimdallToRcb(results, gamenameFromFile, firstRomFile, romCollection)
     
     if(len(results) > 0):
         gui.writeMsg(progDialogHeader, util.localize(40023) + ": " + gamenameFromFile, util.localize(40098), fileCount)
@@ -210,7 +210,7 @@ def heimdallScrapeGame(gamenameFromFile, romCollection, scraper):
 """
 Translate heimdall result to RCB game structure
 """
-def fromHeimdallToRcb(results, gamenameFromFile, romCollection):
+def fromHeimdallToRcb(results, gamenameFromFile, firstRomFile, romCollection):
     
     game = Game()
     release = Release()
@@ -218,10 +218,12 @@ def fromHeimdallToRcb(results, gamenameFromFile, romCollection):
     #start with the minimum information
     game.name = gamenameFromFile
     release.name = gamenameFromFile
+    release.firstRomFile = firstRomFile
+    release.nameFromFile = gamenameFromFile
     release.platform = Platform()
     if(release.platform.name == ''):
         release.platform.name = romCollection.name
-    
+            
     for scraperresult in results:
         for result in scraperresult:
             

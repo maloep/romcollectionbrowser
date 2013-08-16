@@ -7,7 +7,7 @@ from resources.lib.rcb.utils import util, helper
 from resources.lib.rcb.configuration import config, wizardconfigxml
 from resources.lib.rcb.datamodel.gamedatabase import GameDataBase
 from resources.lib.rcb.datamodel.game import Game
-from resources.lib.rcb.datamodel.release import Release
+from resources.lib.rcb.datamodel.releaseview import ReleaseView
 from resources.lib.rcb.datamodel.namedentities import Year
 from resources.lib.rcb.datamodel.company import Company
 from resources.lib.rcb.gameimport.gameimporter import *
@@ -618,7 +618,7 @@ class UIGameDB(xbmcgui.WindowXML):
 		if(missingFilterStatement != ''):
 			likeStatement = likeStatement + ' AND ' +missingFilterStatement
 		
-		releases = Release.getFilteredReleases(self.gdb, self.selectedPlatformId, self.selectedGenreId, self.selectedYearId, self.selectedPublisherId, isFavorite, likeStatement)
+		releases = ReleaseView.getFilteredReleases(self.gdb, self.selectedPlatformId, self.selectedGenreId, self.selectedYearId, self.selectedPublisherId, isFavorite, likeStatement)
 		
 		if(releases == None):
 			Logutil.log("releases == None in showReleases", util.LOG_LEVEL_WARNING)
@@ -644,9 +644,9 @@ class UIGameDB(xbmcgui.WindowXML):
 			#TODO: replace RomCollection with platform in config
 			romCollection = None
 			try:
-				romCollection = self.config.romCollections[str(release.platform.id)]
+				romCollection = self.config.romCollections[str(release.platformId)]
 			except:
-				Logutil.log('Cannot get rom collection with id: ' +str(release.platform.id), util.LOG_LEVEL_ERROR)
+				Logutil.log('Cannot get rom collection with id: ' +str(release.platformId), util.LOG_LEVEL_ERROR)
 		
 			try:
 				#images for gamelist
@@ -658,7 +658,7 @@ class UIGameDB(xbmcgui.WindowXML):
 				
 				#create ListItem
 				item = xbmcgui.ListItem(release.name, str(release.id), imageGameList, imageGameListSelected)			
-				item.setProperty('gameId', str(release.id))
+				item.setProperty('releaseId', str(release.id))
 				
 				#favorite handling
 				showFavoriteStars = self.Settings.getSetting(util.SETTING_RCB_SHOWFAVORITESTARS).upper() == 'TRUE'
@@ -674,11 +674,13 @@ class UIGameDB(xbmcgui.WindowXML):
 				self.addItem(item)
 				
 				# add video to playlist for fullscreen support
-				self.loadVideoFiles(item, release, imageGameList, imageGameListSelected, count, fileDict, romCollection)
+				#TODO: video files
+				#self.loadVideoFiles(item, release, imageGameList, imageGameListSelected, count, fileDict, romCollection)
 					
 				count = count + 1
 			except Exception, (exc):
 				Logutil.log('Error loading game: %s' % str(exc), util.LOG_LEVEL_ERROR)
+			
 			
 		xbmc.executebuiltin("Container.SortDirection")		
 		
@@ -715,9 +717,9 @@ class UIGameDB(xbmcgui.WindowXML):
 		#TODO: replace romCollection with platform in config
 		romCollection = None
 		try:
-			romCollection = self.config.romCollections[str(release.platform.idId)]
+			romCollection = self.config.romCollections[str(release.platformId)]
 		except:
-			Logutil.log('Cannot get rom collection with id: ' +str(release.platform.id), util.LOG_LEVEL_ERROR)
+			Logutil.log('Cannot get rom collection with id: ' +str(release.platformId), util.LOG_LEVEL_ERROR)
 			
 		if(self.cachingOption == 0):
 			fileDict = self.fileDict
@@ -1017,12 +1019,14 @@ class UIGameDB(xbmcgui.WindowXML):
 			listItem.setProperty('autoplayvideomain', '')
 			
 		#get video window size
+		"""
 		if (romCollection.imagePlacingMain.name.startswith('gameinfosmall')):
 			listItem.setProperty('videosizesmall', 'small')
 			listItem.setProperty('videosizebig', '')
 		else:
 			listItem.setProperty('videosizebig', 'big')
 			listItem.setProperty('videosizesmall', '')
+		"""
 		
 		#get video
 		video = ""
@@ -1063,24 +1067,24 @@ class UIGameDB(xbmcgui.WindowXML):
 		Logutil.log("size = %i" % self.getListSize(), util.LOG_LEVEL_DEBUG)
 		Logutil.log("pos = %s" % pos, util.LOG_LEVEL_DEBUG)
 				
-		selectedGame = self.getListItem(pos)
-		if(selectedGame == None):
-			Logutil.log("selectedGame == None in getGameByPosition", util.LOG_LEVEL_WARNING)
+		selectedRelease = self.getListItem(pos)
+		if(selectedRelease == None):
+			Logutil.log("selectedRelease == None in getReleaseByPosition", util.LOG_LEVEL_WARNING)
 			return None, None
 		
-		gameId = selectedGame.getProperty('gameId')
-		if(gameId == ''):
-			Logutil.log("gameId is empty in getGameByPosition", util.LOG_LEVEL_WARNING)
+		releaseId = selectedRelease.getProperty('releaseId')
+		if(releaseId == ''):
+			Logutil.log("gameId is empty in getReleaseByPosition", util.LOG_LEVEL_WARNING)
 			return None, None
 		
-		game = Game(gdb).getObjectById(gameId)
+		release = ReleaseView.getReleaseViewById(gdb, releaseId)
 
-		if(game == None):			
-			Logutil.log("gameId = %s" % gameId, util.LOG_LEVEL_WARNING)
+		if(release == None):			
+			Logutil.log("gameId = %s" % releaseId, util.LOG_LEVEL_WARNING)
 			Logutil.log("gameRow == None in getGameByPosition", util.LOG_LEVEL_WARNING)
 			return None, None
 			
-		return selectedGame, game
+		return selectedRelease, release
 		
 		
 	def loadReleaseInfos(self, game, selectedGame, pos, romCollection, fileDict):
@@ -1180,9 +1184,9 @@ class UIGameDB(xbmcgui.WindowXML):
 		except:
 			pass									
 		
-		item.setProperty('year', release.year)
-		item.setProperty('publisher', release.publisher.name)
-		item.setProperty('developer', release.developer.name)
+		item.setProperty('year', release.yearName)
+		item.setProperty('publisher', release.publisherName)
+		item.setProperty('developer', release.developerName)
 		
 		genreString = ""
 		try:
@@ -1201,14 +1205,14 @@ class UIGameDB(xbmcgui.WindowXML):
 			pass							
 		item.setProperty('genre', genreString)
 		
-		item.setProperty('maxplayers', helper.saveReadString(release.maxPlayers))
-		item.setProperty('rating', helper.saveReadString(release.ESRBrating))
+		item.setProperty('maxplayers', helper.saveReadString(release.maxPlayersName))
+		item.setProperty('rating', helper.saveReadString(release.ESRBratingName))
 		#item.setProperty('votes', helper.saveReadString(release.numVotes))
 		#item.setProperty('url', helper.saveReadString(release.url))	
-		item.setProperty('region', helper.saveReadString(release.region))
-		item.setProperty('media', helper.saveReadString(release.media))		
-		item.setProperty('perspective', helper.saveReadString(release.perspective))
-		item.setProperty('controllertype', helper.saveReadString(release.controller))
+		item.setProperty('region', helper.saveReadString(release.regionName))
+		item.setProperty('media', helper.saveReadString(release.mediaName))
+		item.setProperty('perspective', helper.saveReadString(release.perspectiveName))
+		item.setProperty('controllertype', helper.saveReadString(release.controllerName))
 		#item.setProperty('originaltitle', helper.saveReadString(release.originalTitle))
 		#item.setProperty('alternatetitle', helper.saveReadString(release.alternateTitle))
 		#item.setProperty('translatedby', helper.saveReadString(release.translatedBy))
