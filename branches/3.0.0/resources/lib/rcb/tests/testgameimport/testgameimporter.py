@@ -39,7 +39,7 @@ class TestGameScraper(unittest.TestCase):
         romCollection = myConfig.romCollections['1']
         
         gamename = "Super Mario Kart"
-        game, artworkfiles, artworkurls = gamescraper.scrapeGame(gamename, myConfig, romCollection, util.getSettings(), '', 0, RCBMock(), 'Header', 1)
+        game, artworkfiles, artworkurls = gamescraper.scrapeGame(gamename, '', myConfig, romCollection, util.getSettings(), '', 0, RCBMock(), 'Header', 1)
         
         game.insert(self.gdb, False)
         self.gdb.commit()

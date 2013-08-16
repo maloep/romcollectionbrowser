@@ -10,6 +10,7 @@ from resources.lib.rcb.datamodel.gamedatabase import GameDataBase
 from resources.lib.rcb.datamodel.databaseobject import DataBaseObject
 from resources.lib.rcb.datamodel.file import File
 from resources.lib.rcb.datamodel.game import Game
+from resources.lib.rcb.datamodel.releaseview import ReleaseView
 
 class TestDataBaseObject(unittest.TestCase):
 
@@ -84,7 +85,7 @@ class TestDataBaseObject(unittest.TestCase):
         result = DataBaseObject.getOneByQuery(self._gdb, query, args)
         gamename =args[0]
         self.assertEqual(gamename, result[1], 'expected: %s, result: %s' %(gamename, result[1]))
-    
+        
     
     def test_insert(self):
         self._gdb = GameDataBase(self._databasedir, 'MyGames.db')
@@ -92,7 +93,7 @@ class TestDataBaseObject(unittest.TestCase):
         self._gdb.dropTables()        
         self._gdb.createTables()
         
-        game = Game(self._gdb)
+        game = Game()
     
         game.name = 'testgame'
         game.insert(False)
@@ -106,7 +107,7 @@ class TestDataBaseObject(unittest.TestCase):
         self._gdb.dropTables()        
         self._gdb.createTables()
         
-        game = Game(self._gdb)
+        game = Game()
         game.name = 'testgame'
         game.description = 'test description'
         
@@ -126,7 +127,7 @@ class TestDataBaseObject(unittest.TestCase):
         self._gdb.dropTables()        
         self._gdb.createTables()
         
-        game = Game(self._gdb)
+        game = Game()
         game.name = 'testgame'
         game.description = 'test description'
         
@@ -141,7 +142,7 @@ class TestDataBaseObject(unittest.TestCase):
     
     def test_toDbDict(self):
         
-        game = Game(self._gdb)
+        game = Game()
         
         game.name = 'test game'
         game.description = 'test description'

@@ -41,17 +41,11 @@ DBINDEX_mediaId = 27
 DBINDEX_maxPlayersId = 28
 DBINDEX_perspectiveId = 29
 DBINDEX_controllerId = 30
+DBINDEX_nameFromFile = 31
+DBINDEX_firstRomFile = 32
 
 
 class Release(DataBaseObject):
-    filterQuery = "Select * From ReleaseView WHERE \
-                    (platformId = ? OR (0 = ?)) AND \
-                    (gameId IN (Select gameId From LinkGenreGame Where genreId = ?) OR (0 = ?)) AND \
-                    (YearId = ? OR (0 = ?)) AND \
-                    (PublisherId = ? OR (0 = ?)) AND \
-                    (isFavorite = ? OR (0 = ?)) \
-                    AND %s \
-                    ORDER BY name COLLATE NOCASE"
                     
     filterByNameAndRomCollectionId = "SELECT * FROM Release WHERE name = ? and romCollectionId = ?"
     
@@ -81,12 +75,14 @@ class Release(DataBaseObject):
         self.broken = False
         self.dateAdded = ''
         self.lastPlayed = ''
-        self.lastModified = ''        
+        self.lastModified = ''
+        self.firstRomFile = ''
+        self.nameFromFile = ''
                 
         #referenced objects - complex
-        self.platform = Platform()       
-        self.publisher = Company()    
-        self.developer = Company()
+        self.platform = None       
+        self.publisher = None    
+        self.developer = None
         self.persons = []
         self.characters = []
         
@@ -105,6 +101,7 @@ class Release(DataBaseObject):
         self.romCollection = None
         
         self.artworkurls = {}
+        self.artworkfiles = {}
 
         
     def fromDb(self, row):
@@ -114,6 +111,8 @@ class Release(DataBaseObject):
         
         self.id = row[databaseobject.DBINDEX_id]
         self.name = row[databaseobject.DBINDEX_name]
+        self.nameFromFile = row[DBINDEX_nameFromFile]
+        self.firstRomFile = row[DBINDEX_firstRomFile]
         
         self.gameId = row[DBINDEX_gameId]
         self.description = row[DBINDEX_description]
@@ -151,7 +150,9 @@ class Release(DataBaseObject):
         releasedict = {}
         releasedict['id'] = self.id
         releasedict['name'] = self.name
-        releasedict['gameId'] = self.gameId 
+        releasedict['gameId'] = self.gameId
+        releasedict['nameFromFile'] = self.nameFromFile
+        releasedict['firstRomFile'] = self.firstRomFile
         releasedict['description'] = self.description
         if(self.platform):
             releasedict['platformId'] = self.platform.id
@@ -182,6 +183,7 @@ class Release(DataBaseObject):
         """
         return releasedict
         
+        
     
     def insert(self, gdb, allowUpdate):
         
@@ -211,7 +213,7 @@ class Release(DataBaseObject):
         else:
             self.id = DataBaseObject.insert(gdb, self)
             
-        #store children that require releaseId        
+        #store children that require releaseId
         for person in self.persons:
             person.releaseId = self.id
             person.insert(gdb, allowUpdate)
@@ -232,20 +234,6 @@ class Release(DataBaseObject):
         release.fromDb(dbRow)
         return release
         
-       
-    @staticmethod
-    def getFilteredReleases(gdb, platformId, genreId, yearId, publisherId, isFavorite, likeStatement):
-        args = (platformId, genreId, yearId, publisherId, isFavorite)
-        filterQuery = Release.filterQuery %likeStatement
-        util.Logutil.log('searching games with query: ' +filterQuery, util.LOG_LEVEL_DEBUG)
-        util.Logutil.log('searching games with args: platformId = %s, genreId = %s, yearId = %s, publisherId = %s, isFavorite = %s, characterFilter = %s' %(str(platformId), str(genreId), str(yearId), str(publisherId), str(isFavorite), likeStatement), util.LOG_LEVEL_DEBUG)
-        dbRows = DataBaseObject.getByWildcardQuery(gdb, filterQuery, args)        
-        objs = []
-        for dbRow in dbRows:
-            obj = Release()
-            obj.fromDb(dbRow)
-            objs.append(obj)
-        return objs
         
     """
     def getFilteredGames(self, romCollectionId, genreId, yearId, publisherId, isFavorite, likeStatement):

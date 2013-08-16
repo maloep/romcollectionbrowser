@@ -1,3 +1,4 @@
+DROP VIEW IF EXISTS ReleaseView;
 DROP TABLE IF EXISTS LinkGenreGame;
 DROP TABLE IF EXISTS LinkCharacterRelease;
 DROP TABLE IF EXISTS LinkReleasePersonRole;
