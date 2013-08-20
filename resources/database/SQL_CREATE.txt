@@ -275,11 +275,21 @@ CREATE TABLE IF NOT EXISTS [LinkCharacterRelease]
 );
 
 
+CREATE TABLE IF NOT EXISTS [FileType]
+(
+    [id] INTEGER PRIMARY KEY AUTOINCREMENT,
+    [name] TEXT NOT NULL UNIQUE
+);
+
+
 CREATE TABLE IF NOT EXISTS [File] 
 (
     [id] INTEGER PRIMARY KEY AUTOINCREMENT,
     [name] TEXT NOT NULL UNIQUE,
-    [fileType] INTEGER NOT NULL,
+    [fileTypeId]  INTEGER REFERENCES [FileType]
+    (
+        id
+    ),
     [parentId] INTEGER NOT NULL
 );
 

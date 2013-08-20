@@ -290,10 +290,10 @@ class GameImporter:
 					filecrc = ''
 											
 					artScrapers = {}
-					firstRomFile = os.path.basename(filename) 
+					firstRomFile = os.path.basename(filename)
 					#TODO handle local artwork scraper (including developer, publisher, ...)
 					if(not isLocalArtwork):
-						game, artworkfiles, artworkurls = self.useSingleScrapersHeimdall(inConfig, romCollection, gamenameFromFile, firstRomFile, foldername, updateOption, gui, progDialogHeader, fileCount)
+						game = self.useSingleScrapersHeimdall(inConfig, romCollection, gamenameFromFile, firstRomFile, foldername, updateOption, gui, progDialogHeader, fileCount)
 						#results, artScrapers = self.useSingleScrapers(results, romCollection, 0, gamenameFromFile, foldername, filename, fuzzyFactor, updateOption, gui, progDialogHeader, fileCount)
 					
 					#Variables to process Art Download Info
@@ -316,8 +316,8 @@ class GameImporter:
 								self.possibleMismatchFile.write('%s, %s\n' % (game.name, gamenameFromFile))
 							except:
 								self.possibleMismatchFile.write('%s, %s\n' % (game.name.encode('utf-8'), gamenameFromFile.encode('utf-8')))
-	
-					if(len(artworkfiles) == 0):
+						
+					if(len(game.releases[0].artworkfiles) == 0):
 						ignoreGamesWithoutArtwork = settings.getSetting(util.SETTING_RCB_IGNOREGAMEWITHOUTARTWORK).upper() == 'TRUE'
 						if(ignoreGamesWithoutArtwork):								
 							Logutil.log('No artwork found for game "%s". Game will not be imported.' %gamenameFromFile, util.LOG_LEVEL_WARNING)
@@ -400,8 +400,8 @@ class GameImporter:
 		
 	def useSingleScrapersHeimdall(self, config, romCollection, gamenameFromFile, firstRomFile, foldername, updateOption, gui, progDialogHeader, fileCount):
 		import gamescraper
-		game, artworkfiles, artworkurls = gamescraper.scrapeGame(gamenameFromFile, firstRomFile, config, romCollection, self.Settings, foldername, updateOption, gui, progDialogHeader, fileCount)
-		return game, artworkfiles, artworkurls
+		game = gamescraper.scrapeGame(gamenameFromFile, firstRomFile, config, romCollection, self.Settings, foldername, updateOption, gui, progDialogHeader, fileCount)
+		return game
 	
 
 	def useSingleScrapers(self, result, romCollection, startIndex, gamenameFromFile, foldername, firstRomfile, fuzzyFactor, updateOption, gui, progDialogHeader, fileCount):

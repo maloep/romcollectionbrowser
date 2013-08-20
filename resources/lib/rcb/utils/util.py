@@ -309,7 +309,7 @@ class Logutil:
 			prefix = 'RCB_ERROR: '
 						
 		try:
-			print prefix + message
+			print "%s%s" %(prefix,  message)
 		except:
 			pass
 		

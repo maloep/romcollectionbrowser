@@ -61,10 +61,10 @@ def scrapeGame(gamenameFromFile, firstRomFile, inConfig, romCollection, settings
     
     if(len(results) > 0):
         gui.writeMsg(progDialogHeader, util.localize(40023) + ": " + gamenameFromFile, util.localize(40098), fileCount)
-        artworkfiles = artworkimporter.getArtworkForRelease(inConfig, game.releases[0], gamenameFromFile, gui, foldername, False)        
-        return game, artworkfiles, game.releases[0].artworkurls
+        game.releases[0].mediaFiles = artworkimporter.getArtworkForRelease(inConfig, game.releases[0], gamenameFromFile, gui, foldername, False)
+        return game
                 
-    return None, {}, {}
+    return None
 
 
 """
