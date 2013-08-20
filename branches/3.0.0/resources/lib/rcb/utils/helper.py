@@ -14,31 +14,6 @@ from resources.lib.rcb.configuration import config
 from resources.lib.rcb.datamodel import databaseobject
 
 
-def cacheFiles(files):
-		
-	Logutil.log("Begin cacheFiles" , util.LOG_LEVEL_DEBUG)
-	
-	fileDict = {}
-	for file in files:
-		key = '%i;%i' % (file.parentId , file.fileTypeId)
-		item = None
-		try:
-			item = fileDict[key]
-		except:
-			pass
-		if(item == None):
-			fileRowList = []
-			fileRowList.append(file)
-			fileDict[key] = fileRowList
-		else:				
-			fileRowList = fileDict[key]
-			fileRowList.append(file)
-			fileDict[key] = fileRowList
-			
-	Logutil.log("End cacheFiles" , util.LOG_LEVEL_DEBUG)
-	return fileDict
-
-
 def cacheYears(gdb):
 	Logutil.log("Begin cacheYears" , util.LOG_LEVEL_DEBUG)
 	years = Year.getAllYears(gdb)
@@ -133,49 +108,6 @@ def getPropertyFromCache(key, dict, index):
 		pass
 		
 	return result
-
-
-def getFilesByControl_Cached(gdb, fileTypes, gameId, publisherId, developerId, romCollectionId, fileDict):
-					
-	Logutil.log("getFilesByControl gameId: " +str(gameId), util.LOG_LEVEL_DEBUG)
-	Logutil.log("getFilesByControl publisherId: " +str(publisherId), util.LOG_LEVEL_DEBUG)
-	Logutil.log("getFilesByControl developerId: " +str(developerId), util.LOG_LEVEL_DEBUG)
-	Logutil.log("getFilesByControl romCollectionId: " +str(romCollectionId), util.LOG_LEVEL_DEBUG)
-	
-	mediaFiles = []
-	for fileType in fileTypes:
-		Logutil.log("fileType: " +str(fileType.name), util.LOG_LEVEL_DEBUG)
-		
-		parentId = None
-					
-		if(fileType.parent == util.FILETYPEPARENT_GAME):
-			parentId = gameId			
-		elif(fileType.parent == util.FILETYPEPARENT_PUBLISHER):
-			parentId = publisherId
-		elif(fileType.parent == util.FILETYPEPARENT_DEVELOPER):
-			parentId = developerId
-		elif(fileType.parent == util.FILETYPEPARENT_ROMCOLLECTION):
-			parentId = romCollectionId
-			
-		Logutil.log("parentId: " +str(parentId), util.LOG_LEVEL_DEBUG)
-			
-		if(parentId != None):
-			key = '%i;%i' %(parentId, int(fileType.id))
-			try:								
-				files = fileDict[key]				
-			except:
-				files = None
-		else:
-			files = None
-		
-		if(files == None):
-			Logutil.log("files == None in getFilesByControl", util.LOG_LEVEL_DEBUG)
-			continue
-			
-		for file in files:
-			mediaFiles.append(file.name)
-	
-	return mediaFiles
 		
 		
 def saveViewState(gdb, isOnExit, selectedView, selectedGameIndex, selectedConsoleIndex, selectedGenreIndex, selectedPublisherIndex, selectedYearIndex, selectedCharacterIndex,

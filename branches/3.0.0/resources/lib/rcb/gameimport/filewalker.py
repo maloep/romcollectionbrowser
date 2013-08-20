@@ -53,28 +53,28 @@ def walkDown(files, romPath, maxFolderDepth):
 
 
 def getFilesByWildcard(pathName):
-    Logutil.log('Begin getFilesByWildcard. pathName = %s' %pathName, util.LOG_LEVEL_INFO)
+    Logutil.log('Begin getFilesByWildcard. pathName = %s' %pathName, util.LOG_LEVEL_DEBUG)
     files = []
     
     dirname = os.path.dirname(pathName)
-    Logutil.log("dirname: " +dirname, util.LOG_LEVEL_INFO)
+    Logutil.log("dirname: " +dirname, util.LOG_LEVEL_DEBUG)
     filemask = os.path.basename(pathName)
     #HACK: escape [] for use with fnmatch
     filemask = filemask.replace('[', '[[]')
     filemask = filemask.replace(']', '[]]')
     #This might be stupid but it was late...
     filemask = filemask.replace('[[[]]', '[[]')
-    Logutil.log("filemask: " +filemask, util.LOG_LEVEL_INFO)
+    Logutil.log("filemask: " +filemask, util.LOG_LEVEL_DEBUG)
     
     dirs, filesLocal = xbmcvfs.listdir(dirname)
-    Logutil.log("xbmcvfs dirs: %s" %dirs, util.LOG_LEVEL_INFO)                        
-    Logutil.log("xbmcvfs files: %s" %filesLocal, util.LOG_LEVEL_INFO)
-    
+    Logutil.log("xbmcvfs dirs: %s" %dirs, util.LOG_LEVEL_DEBUG)                        
+    Logutil.log("xbmcvfs files: %s" %filesLocal, util.LOG_LEVEL_DEBUG)
+            
     for file in filesLocal:
         Logutil.log("Comparing file '%s' with filemask '%s'" %(file, filemask), util.LOG_LEVEL_DEBUG)
         if(fnmatch.fnmatch(file, filemask)):
             file = util.joinPath(dirname, file)
-            Logutil.log("found file: %s" %file, util.LOG_LEVEL_INFO)
+            Logutil.log("found file: %s" %file, util.LOG_LEVEL_DEBUG)
             files.append(file)
             
     return dirs, files, dirname, filemask

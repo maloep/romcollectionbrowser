@@ -5,6 +5,7 @@ from release import Release
 from platform import Platform
 from company import Company
 from namedentities import Year
+from file import File 
 
 from resources.lib.rcb.utils import util
 from resources.lib.rcb.utils.util import *
@@ -70,6 +71,17 @@ class ReleaseView(DataBaseObject):
                     (isFavorite = ? OR (0 = ?)) \
                     AND %s \
                     ORDER BY name COLLATE NOCASE"
+                    
+    #HACK: for some reason we need another syntax to get data from releaseview from python unit tests 
+    filterQueryTest = "Select * From ReleaseView WHERE \
+                    ([R.platformId] = ? OR (0 = ?)) AND \
+                    ([R.gameId] IN (Select gameId From LinkGenreGame Where genreId = ?) OR (0 = ?)) AND \
+                    ([R.yearId] = ? OR (0 = ?)) AND \
+                    ([R.publisherId] = ? OR (0 = ?)) AND \
+                    ([R.isFavorite] = ? OR (0 = ?)) \
+                    AND %s \
+                    ORDER BY [R.name] COLLATE NOCASE \
+                    LIMIT 1000"
     
     
     def __init__(self):
@@ -179,17 +191,19 @@ class ReleaseView(DataBaseObject):
         release.alternateTitle = row[DBINDEX_alternateTitle]
         """
         
+    """
+    def resolveMediaPath(self, config, fileType):
+        Logutil.log("ReleaseView.resolveMediaPaths", util.LOG_LEVEL_DEBUG)
         
-    def resolveMediaPaths(self, config):
-        Logutil.log("ReleaseView.resolveMediaPaths", util.LOG_LEVEL_INFO)
-        
-        if(self.mediaFiles != None and len(self.mediaFiles) > 0):
-            return
-        
-        self.mediaFiles = {}
+        if(self.mediaFiles == None):
+            self.mediaFiles = {}
+            
         for path in config.mediaPaths:
+            
+            if(path.type != fileType):
+                continue
                         
-            Logutil.log("FileType: %s" %str(path.type), util.LOG_LEVEL_INFO)
+            Logutil.log("FileType: %s" %str(path.type), util.LOG_LEVEL_DEBUG)
             fileName = path.path
                         
             if(path.parent == 'game'):
@@ -201,22 +215,27 @@ class ReleaseView(DataBaseObject):
                 dirs, files, dirname, filemask = filewalker.getFilesByWildcard(gameName)
                 if(len(files) > 0):
                     self.mediaFiles[path.type] = files[0]
+    """
                         
-              
-    def getMediaFile(self, config, fileTypes):
-        Logutil.log("ReleaseView.getMediaFile", util.LOG_LEVEL_INFO)
-        if(self.mediaFiles == None or len(self.mediaFiles) == 0):
-            self.resolveMediaPaths(config)
-                    
+                  
+    def getMediaFiles(self, gdb, fileTypes, fileDict, config):
+        Logutil.log("ReleaseView.getMediaFile", util.LOG_LEVEL_DEBUG)
+                     
+        mediaFiles = []
         for fileType in fileTypes:
-            try:
-                #return the first found fileType
-                file = self.mediaFiles[fileType]
-                return file
-            except:
-                continue
+            files = File.getCachedFiles(gdb, fileType, self.id, fileDict)
+            if(files != None):
+                for mediaPath in config.mediaPaths:
+                    if(mediaPath.type == fileType):
+                        path = mediaPath.path
+                dir = os.path.dirname(path)
+                dir = dir.replace('%PLATFORM%', self.platformName) 
+                
+                for file in files:
+                    filename = os.path.join(dir, file.name)
+                    mediaFiles.append(filename)
             
-        return ''
+        return mediaFiles
                     
                
             
@@ -240,6 +259,21 @@ class ReleaseView(DataBaseObject):
     def getFilteredReleases(gdb, platformId, genreId, yearId, publisherId, isFavorite, likeStatement):
         args = (platformId, genreId, yearId, publisherId, isFavorite)
         filterQuery = ReleaseView.filterQuery %likeStatement
+        util.Logutil.log('searching games with query: ' +filterQuery, util.LOG_LEVEL_DEBUG)
+        util.Logutil.log('searching games with args: platformId = %s, genreId = %s, yearId = %s, publisherId = %s, isFavorite = %s, characterFilter = %s' %(str(platformId), str(genreId), str(yearId), str(publisherId), str(isFavorite), likeStatement), util.LOG_LEVEL_DEBUG)
+        dbRows = DataBaseObject.getByWildcardQuery(gdb, filterQuery, args)        
+        objs = []
+        for dbRow in dbRows:
+            obj = ReleaseView()
+            obj.fromDb(dbRow)
+            objs.append(obj)
+        return objs
+    
+    
+    @staticmethod
+    def getFilteredReleasesTest(gdb, platformId, genreId, yearId, publisherId, isFavorite, likeStatement):
+        args = (platformId, genreId, yearId, publisherId, isFavorite)
+        filterQuery = ReleaseView.filterQueryTest %likeStatement
         util.Logutil.log('searching games with query: ' +filterQuery, util.LOG_LEVEL_DEBUG)
         util.Logutil.log('searching games with args: platformId = %s, genreId = %s, yearId = %s, publisherId = %s, isFavorite = %s, characterFilter = %s' %(str(platformId), str(genreId), str(yearId), str(publisherId), str(isFavorite), likeStatement), util.LOG_LEVEL_DEBUG)
         dbRows = DataBaseObject.getByWildcardQuery(gdb, filterQuery, args)        

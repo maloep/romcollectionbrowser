@@ -1,0 +1,289 @@
+<config version="3.0.0">
+	<MediaPaths>
+		<mediaPath type="boxfront" parent="game">E:\Games\collection\%PLATFORM%\Artwork\Box Front\%GAME%.*</mediaPath>
+		<mediaPath type="cartridge" parent="game">E:\Games\collection\%PLATFORM%\Artwork\Cart\%GAME%.*</mediaPath>
+		<mediaPath type="action" parent="game">E:\Games\collection\%PLATFORM%\Artwork\Action\%GAME%.*</mediaPath>
+		<mediaPath type="title" parent="game">E:\Games\collection\%PLATFORM%\Artwork\Titles\%GAME%.*</mediaPath>
+		<mediaPath type="gameplayvideo" parent="game">E:\Games\collection\%PLATFORM%\MoviesWMV\%GAME%.*</mediaPath>
+	</MediaPaths>
+	<RomCollections>
+		<RomCollection id="10" name="Nintendo 64">
+			<useBuiltinEmulator>False</useBuiltinEmulator>
+			<gameclient />
+			<emulatorCmd>C:\Program Files\Emulatoren\Project64\Project64.exe</emulatorCmd>
+			<emulatorParams>%ROM%</emulatorParams>
+			<romPath>E:\Games\collection\N64\Roms\*.zip</romPath>
+			<saveStatePath />
+			<saveStateParams />
+			<preCmd />
+			<postCmd />
+			<useEmuSolo>False</useEmuSolo>
+			<usePopen>False</usePopen>
+			<ignoreOnScan>False</ignoreOnScan>
+			<allowUpdate>True</allowUpdate>
+			<autoplayVideoMain>True</autoplayVideoMain>
+			<autoplayVideoInfo>True</autoplayVideoInfo>
+			<useFoldernameAsGamename>False</useFoldernameAsGamename>
+			<maxFolderDepth>99</maxFolderDepth>
+			<doNotExtractZipFiles>True</doNotExtractZipFiles>
+			<diskPrefix>_Disk</diskPrefix>
+			<imagePlacingMain>gameinfobig</imagePlacingMain>
+			<imagePlacingInfo>gameinfosmall</imagePlacingInfo>
+			<scraper name="thegamesdb.net" replaceKeyString="" replaceValueString="" />
+			<scraper name="archive.vg" replaceKeyString="" replaceValueString="" />
+			<scraper name="mobygames.com" replaceKeyString="" replaceValueString="" />
+		</RomCollection>
+		<RomCollection id="3" name="Genesis">
+			<useBuiltinEmulator>True</useBuiltinEmulator>
+			<gameclient />
+			<emulatorCmd>C:\Program Files\Emulatoren\retroarch-win32-0.9.8-beta2\retroarch.exe</emulatorCmd>
+			<emulatorParams>"%ROM%" -c "C:\Program Files\Emulatoren\retroarch-win32-0.9.8-beta2\retroarch.cfg" -f -D -L libretro-git-genplus-x86.dll</emulatorParams>
+			<romPath>E:\Games\collection\Genesis\Roms\(1) Sega Genesis\*.zip</romPath>
+			<saveStatePath />
+			<saveStateParams />
+			<preCmd />
+			<postCmd />
+			<useEmuSolo>False</useEmuSolo>
+			<usePopen>False</usePopen>
+			<ignoreOnScan>False</ignoreOnScan>
+			<allowUpdate>True</allowUpdate>
+			<autoplayVideoMain>True</autoplayVideoMain>
+			<autoplayVideoInfo>True</autoplayVideoInfo>
+			<useFoldernameAsGamename>False</useFoldernameAsGamename>
+			<maxFolderDepth>99</maxFolderDepth>
+			<doNotExtractZipFiles>False</doNotExtractZipFiles>
+			<diskPrefix>_Disk</diskPrefix>
+			<imagePlacingMain>gameinfobig</imagePlacingMain>
+			<imagePlacingInfo>gameinfosmall</imagePlacingInfo>
+			<scraper name="Genesis" replaceKeyString="" replaceValueString="" />
+		</RomCollection>
+		<RomCollection id="2" name="SEGA 32X">
+			<useBuiltinEmulator>True</useBuiltinEmulator>
+			<gameclient />
+			<emulatorCmd>C:\Program Files\Emulatoren\Fusion364\Fusion.exe</emulatorCmd>
+			<emulatorParams>-fullscreen "%ROM%"</emulatorParams>
+			<romPath>E:\Games\collection\Genesis\Roms\(2) Sega 32x\*.zip</romPath>
+			<saveStatePath />
+			<saveStateParams />
+			<preCmd />
+			<postCmd />
+			<useEmuSolo>False</useEmuSolo>
+			<usePopen>False</usePopen>
+			<ignoreOnScan>False</ignoreOnScan>
+			<allowUpdate>True</allowUpdate>
+			<autoplayVideoMain>False</autoplayVideoMain>
+			<autoplayVideoInfo>True</autoplayVideoInfo>
+			<useFoldernameAsGamename>False</useFoldernameAsGamename>
+			<maxFolderDepth>99</maxFolderDepth>
+			<doNotExtractZipFiles>False</doNotExtractZipFiles>
+			<diskPrefix>_Disk</diskPrefix>
+			<imagePlacingMain>gameinfobig</imagePlacingMain>
+			<imagePlacingInfo>gameinfosmall</imagePlacingInfo>
+			<scraper name="SEGA 32X" replaceKeyString="" replaceValueString="" />
+		</RomCollection>
+		<RomCollection id="5" name="SNES">
+			<useBuiltinEmulator>True</useBuiltinEmulator>
+			<gameclient/>
+			<emulatorCmd>C:\Program Files\Emulatoren\retroarch-win32-0.9.8-beta2\retroarch.exe</emulatorCmd>
+			<emulatorParams>"%ROM%" -c "C:\Program Files\Emulatoren\retroarch-win32-0.9.8-beta2\retroarch.cfg" -f -D -L libretro-git-snes9x-x86.dll</emulatorParams>
+			<romPath>E:\Games\collection\SNES\Roms\(1) Licensed\*.zip</romPath>
+			<saveStatePath />
+			<saveStateParams />
+			<preCmd />
+			<postCmd />
+			<useEmuSolo>False</useEmuSolo>
+			<usePopen>False</usePopen>
+			<ignoreOnScan>False</ignoreOnScan>
+			<allowUpdate>True</allowUpdate>
+			<autoplayVideoMain>True</autoplayVideoMain>
+			<autoplayVideoInfo>True</autoplayVideoInfo>
+			<useFoldernameAsGamename>False</useFoldernameAsGamename>
+			<maxFolderDepth>99</maxFolderDepth>
+			<doNotExtractZipFiles>True</doNotExtractZipFiles>
+			<diskPrefix>_Disk</diskPrefix>
+			<imagePlacingMain>gameinfobig</imagePlacingMain>
+			<imagePlacingInfo>gameinfosmall</imagePlacingInfo>
+			<scraper name="SNES" replaceKeyString="" replaceValueString="" />
+		</RomCollection>
+		<RomCollection id="4" name="Amiga">
+			<useBuiltinEmulator>False</useBuiltinEmulator>
+			<gameclient />
+			<emulatorCmd>C:\Program Files\Emulatoren\WinUAE\winuae.exe</emulatorCmd>
+			<emulatorParams>-f "C:\Users\Public\Documents\Amiga Files\WinUAE\Configurations\Default.uae" {-%I% "%ROM%"}</emulatorParams>
+			<romPath>E:\Games\collection\Amiga\Roms\*.zip</romPath>
+			<saveStatePath />
+			<saveStateParams />
+			<preCmd />
+			<postCmd />
+			<useEmuSolo>True</useEmuSolo>
+			<usePopen>False</usePopen>
+			<ignoreOnScan>False</ignoreOnScan>
+			<allowUpdate>True</allowUpdate>
+			<autoplayVideoMain>True</autoplayVideoMain>
+			<autoplayVideoInfo>True</autoplayVideoInfo>
+			<useFoldernameAsGamename>False</useFoldernameAsGamename>
+			<maxFolderDepth>99</maxFolderDepth>
+			<doNotExtractZipFiles>False</doNotExtractZipFiles>
+			<diskPrefix>\(Disk .*\)</diskPrefix>
+			<imagePlacingMain>gameinfobig</imagePlacingMain>
+			<imagePlacingInfo>gameinfosmall</imagePlacingInfo>
+			<scraper name="Amiga" replaceKeyString="" replaceValueString="" />
+		</RomCollection>
+		<RomCollection id="7" name="Atari 7800">
+			<useBuiltinEmulator>False</useBuiltinEmulator>
+			<gameclient />
+			<emulatorCmd>C:\Program Files\Emulatoren\retroarch-win32-0.9.8-beta2\retroarch.exe</emulatorCmd>
+			<emulatorParams>"%ROM%"</emulatorParams>
+			<romPath>E:\Games\collection\A7800\Roms\*.zip</romPath>
+			<saveStatePath />
+			<saveStateParams />
+			<mediaPath type="gameplay">E:\Games\collection\A7800\MoviesWMV\%GAME%.*</mediaPath>
+			<preCmd />
+			<postCmd />
+			<useEmuSolo>False</useEmuSolo>
+			<usePopen>False</usePopen>
+			<ignoreOnScan>False</ignoreOnScan>
+			<allowUpdate>True</allowUpdate>
+			<autoplayVideoMain>True</autoplayVideoMain>
+			<autoplayVideoInfo>True</autoplayVideoInfo>
+			<useFoldernameAsGamename>False</useFoldernameAsGamename>
+			<maxFolderDepth>99</maxFolderDepth>
+			<doNotExtractZipFiles>False</doNotExtractZipFiles>
+			<diskPrefix>_Disk</diskPrefix>
+			<imagePlacingMain>gameinfobig</imagePlacingMain>
+			<imagePlacingInfo>gameinfosmall</imagePlacingInfo>
+			<scraper name="Atari 7800" replaceKeyString="" replaceValueString="" />
+		</RomCollection>
+		<RomCollection id="6" name="Atari 2600">
+			<useBuiltinEmulator>True</useBuiltinEmulator>
+			<gameclient />
+			<emulatorCmd>C:\Program Files\Emulatoren\retroarch-win32-0.9.8-beta2\retroarch.exe</emulatorCmd>
+			<emulatorParams>"%ROM%" -c "C:\Program Files\Emulatoren\retroarch-win32-0.9.8-beta2\retroarch.cfg" -f -D -L libretro-git-stella-x86.dll</emulatorParams>
+			<romPath>E:\Games\collection\A2600\Roms\*.zip</romPath>
+			<saveStatePath />
+			<saveStateParams />
+			<preCmd />
+			<postCmd />
+			<useEmuSolo>False</useEmuSolo>
+			<usePopen>False</usePopen>
+			<ignoreOnScan>False</ignoreOnScan>
+			<allowUpdate>True</allowUpdate>
+			<autoplayVideoMain>True</autoplayVideoMain>
+			<autoplayVideoInfo>True</autoplayVideoInfo>
+			<useFoldernameAsGamename>False</useFoldernameAsGamename>
+			<maxFolderDepth>99</maxFolderDepth>
+			<doNotExtractZipFiles>False</doNotExtractZipFiles>
+			<diskPrefix>_Disk</diskPrefix>
+			<imagePlacingMain>gameinfobig</imagePlacingMain>
+			<imagePlacingInfo>gameinfosmall</imagePlacingInfo>
+			<scraper name="Atari 2600" replaceKeyString="" replaceValueString="" />
+		</RomCollection>
+		<RomCollection id="9" name="NES">
+			<useBuiltinEmulator>True</useBuiltinEmulator>
+			<gameclient />
+			<emulatorCmd>C:\Program Files\Emulatoren\retroarch-win32-0.9.8-beta2\retroarch.exe</emulatorCmd>
+			<emulatorParams>"%ROM%"</emulatorParams>
+			<romPath>E:\Games\collection\NES\Roms\*.zip</romPath>
+			<saveStatePath />
+			<saveStateParams />
+			<preCmd />
+			<postCmd />
+			<useEmuSolo>False</useEmuSolo>
+			<usePopen>False</usePopen>
+			<ignoreOnScan>False</ignoreOnScan>
+			<allowUpdate>True</allowUpdate>
+			<autoplayVideoMain>True</autoplayVideoMain>
+			<autoplayVideoInfo>True</autoplayVideoInfo>
+			<useFoldernameAsGamename>False</useFoldernameAsGamename>
+			<maxFolderDepth>99</maxFolderDepth>
+			<doNotExtractZipFiles>False</doNotExtractZipFiles>
+			<diskPrefix>_Disk</diskPrefix>
+			<imagePlacingMain>gameinfobig</imagePlacingMain>
+			<imagePlacingInfo>gameinfosmall</imagePlacingInfo>
+			<scraper name="NES" replaceKeyString="" replaceValueString="" />
+		</RomCollection>
+		<RomCollection id="8" name="PlayStation">
+			<useBuiltinEmulator>False</useBuiltinEmulator>
+			<gameclient />
+			<emulatorCmd>C:\Program Files\Emulatoren\epsxe170\ePSXe.exe</emulatorCmd>
+			<emulatorParams>-nogui -loadiso "%ROM%"</emulatorParams>
+			<romPath>E:\Games\collection\PSX\Roms\*.img</romPath>
+			<saveStatePath />
+			<saveStateParams />
+			<preCmd />
+			<postCmd />
+			<useEmuSolo>False</useEmuSolo>
+			<usePopen>False</usePopen>
+			<ignoreOnScan>False</ignoreOnScan>
+			<allowUpdate>True</allowUpdate>
+			<autoplayVideoMain>True</autoplayVideoMain>
+			<autoplayVideoInfo>True</autoplayVideoInfo>
+			<useFoldernameAsGamename>False</useFoldernameAsGamename>
+			<maxFolderDepth>99</maxFolderDepth>
+			<doNotExtractZipFiles>False</doNotExtractZipFiles>
+			<diskPrefix>_Disk</diskPrefix>
+			<imagePlacingMain>gameinfobig</imagePlacingMain>
+			<imagePlacingInfo>gameinfosmall</imagePlacingInfo>
+			<scraper name="thegamesdb.net" replaceKeyString="" replaceValueString="" />
+			<scraper name="archive.vg" replaceKeyString="" replaceValueString="" />
+			<scraper name="mobygames.com" replaceKeyString="" replaceValueString="" />
+		</RomCollection>
+	</RomCollections>
+	<Scrapers>
+		<Site descFilePerGame="True" name="local nfo" searchGameByCRC="False">
+			<Scraper parseInstruction="00 - local nfo.xml" source="nfo" />
+		</Site>
+		<Site descFilePerGame="True" name="thegamesdb.net" searchGameByCRC="False">
+			<Scraper parseInstruction="02 - thegamesdb.xml" source="http://thegamesdb.net/api/GetGame.php?name=%GAME%&amp;platform=%PLATFORM%" />
+		</Site>
+		<Site descFilePerGame="True" name="giantbomb.com" searchGameByCRC="False">
+			<Scraper parseInstruction="03.01 - giantbomb - search.xml" returnUrl="true" source="http://api.giantbomb.com/search/?api_key=%GIANTBOMBAPIKey%&amp;query=%GAME%&amp;resources=game&amp;field_list=api_detail_url,name&amp;format=xml" />
+			<Scraper parseInstruction="03.02 - giantbomb - detail.xml" source="1" />
+		</Site>
+		<Site descFilePerGame="True" name="mobygames.com" searchGameByCRC="False">
+			<Scraper parseInstruction="04.01 - mobygames - gamesearch.xml" returnUrl="true" source="http://www.mobygames.com/search/quick?game=%GAME%&amp;p=%PLATFORM%" />
+			<Scraper parseInstruction="04.02 - mobygames - details.xml" source="1" />
+			<Scraper parseInstruction="04.03 - mobygames - coverlink.xml" returnUrl="true" source="1" />
+			<Scraper parseInstruction="04.04 - mobygames - coverart.xml" source="2" />
+			<Scraper parseInstruction="04.05 - mobygames - screenshotlink.xml" returnUrl="true" source="1" />
+			<Scraper parseInstruction="04.06 - mobygames - screenoriglink.xml" returnUrl="true" source="3" />
+			<Scraper parseInstruction="04.07 - mobygames - screenshots.xml" source="4" />
+		</Site>
+		<Site descFilePerGame="True" name="archive.vg" searchGameByCRC="False">
+			<Scraper encoding="iso-8859-1" parseInstruction="05.01 - archive - search.xml" returnUrl="true" source="http://api.archive.vg/2.0/Archive.search/%ARCHIVEAPIKEY%/%GAME%" />
+			<Scraper encoding="iso-8859-1" parseInstruction="05.02 - archive - detail.xml" source="1" />
+		</Site>
+		<Site descFilePerGame="True" name="maws.mameworld.info" searchGameByCRC="False">
+			<Scraper encoding="iso-8859-1" parseInstruction="06 - maws.xml" source="http://maws.mameworld.info/maws/romset/%GAME%" />
+		</Site>
+		<Site descFilePerGame="False" name="SEGA 32X" searchGameByCRC="True" useFilenameAsCRC="False" useFoldernameAsCRC="False">
+			<Scraper encoding="iso-8859-1" parseInstruction="E:\Games\collection\_gamedesc\_parserConfig.xml" source="E:\Games\collection\_gamedesc\Sega 32X.txt" />
+		</Site>
+		<Site descFilePerGame="False" name="Genesis" searchGameByCRC="True" useFilenameAsCRC="False" useFoldernameAsCRC="False">
+			<Scraper encoding="iso-8859-1" parseInstruction="E:\Games\collection\_gamedesc\_parserConfig.xml" source="E:\Games\collection\_gamedesc\Sega Genesis.txt" />
+		</Site>
+		<Site descFilePerGame="False" name="Amiga" searchGameByCRC="True" useFilenameAsCRC="False" useFoldernameAsCRC="False">
+			<Scraper encoding="iso-8859-1" parseInstruction="E:\Games\collection\_gamedesc\_parserConfig_Amiga.xml" source="E:\Games\collection\_gamedesc\Amiga.txt" />
+		</Site>
+		<Site descFilePerGame="False" name="SNES" searchGameByCRC="True" useFilenameAsCRC="False" useFoldernameAsCRC="False">
+			<Scraper encoding="iso-8859-1" parseInstruction="E:\Games\collection\_gamedesc\_parserConfig.xml" source="E:\Games\collection\_gamedesc\SNES.txt" />
+		</Site>
+		<Site descFilePerGame="False" name="Atari 2600" searchGameByCRC="True" useFilenameAsCRC="False" useFoldernameAsCRC="False">
+			<Scraper encoding="iso-8859-1" parseInstruction="E:\Games\collection\_gamedesc\_parserConfig.xml" source="E:\Games\collection\_gamedesc\Atari 2600.txt" />
+		</Site>
+		<Site descFilePerGame="False" name="Atari 7800" searchGameByCRC="True" useFilenameAsCRC="False" useFoldernameAsCRC="False">
+			<Scraper encoding="iso-8859-1" parseInstruction="E:\Games\collection\_gamedesc\_parserConfig.xml" source="E:\Games\collection\_gamedesc\Atari 7800.txt" />
+		</Site>
+		<Site descFilePerGame="False" name="NES" searchGameByCRC="True" useFilenameAsCRC="False" useFoldernameAsCRC="False">
+			<Scraper encoding="iso-8859-1" parseInstruction="E:\Games\collection\_gamedesc\_parserConfig.xml" source="E:\Games\collection\_gamedesc\NES.txt" />
+		</Site>
+	</Scrapers>
+	<MissingFilter>
+		<showHideOption>ignore</showHideOption>
+		<missingArtworkFilter>
+			<orGroup>
+				<item>boxfront</item>
+			</orGroup>
+		</missingArtworkFilter>
+	</MissingFilter>
+</config>

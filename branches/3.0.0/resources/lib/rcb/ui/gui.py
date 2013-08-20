@@ -624,7 +624,7 @@ class UIGameDB(xbmcgui.WindowXML):
 			Logutil.log("releases == None in showReleases", util.LOG_LEVEL_WARNING)
 			return		
 				
-		fileDict = self.getFileDictForGamelist()
+		#fileDict = self.getFileDictForGamelist()
 				
 		timestamp2 = time.clock()
 		diff = (timestamp2 - timestamp1) * 1000
@@ -637,6 +637,8 @@ class UIGameDB(xbmcgui.WindowXML):
 		
 		self.clearList()
 		self.rcb_playList.clear()
+		
+		fileDict = File.getFileDictForGamelist(self.gdb)
 				
 		count = 0
 		for releaseview in releaseviews:
@@ -648,11 +650,18 @@ class UIGameDB(xbmcgui.WindowXML):
 			except:
 				Logutil.log('Cannot get rom collection with id: ' +str(releaseview.platformId), util.LOG_LEVEL_ERROR)
 		
-			try:				
+			try:
+				imageGameList = ''
 				#TODO: add config option for fallback images
-				imageGameList = releaseview.getMediaFile(self.config, ('boxfront', 'screenshot'))
-				imageGameListSelected = releaseview.getMediaFile(self.config, ('boxfront', 'screenshot'))
+				imageGameListFiles = releaseview.getMediaFiles(self.gdb, ('boxfront', 'screenshot'), fileDict, self.config)
+				if(len(imageGameListFiles) > 0):
+					imageGameList = imageGameListFiles[0]
 				
+				imageGameListSelected = ''
+				imageGameListSelectedFiles = releaseview.getMediaFiles(self.gdb, ('boxfront', 'screenshot'), fileDict, self.config)
+				if(len(imageGameListSelectedFiles) > 0):
+					imageGameListSelected = imageGameListSelectedFiles[0]
+								
 				#create ListItem
 				item = xbmcgui.ListItem(releaseview.name, str(releaseview.id), imageGameList, imageGameListSelected)			
 				item.setProperty('releaseId', str(releaseview.id))
@@ -980,21 +989,6 @@ class UIGameDB(xbmcgui.WindowXML):
 		constructorParam = "720p"
 		cm = dialogcontextmenu.ContextMenuDialog("script-RCB-contextmenu.xml", util.getAddonInstallPath(), "Default", constructorParam, gui=self)
 		del cm
-						
-	
-	def getFileDictForGamelist(self):
-		# 0 = cacheAll
-		if(self.cachingOption == 0):
-			fileDict = self.fileDict
-		else:
-			files = File(self.gdb).getFilesForGamelist(self.config.fileTypeIdsForGamelist)
-			if(files == None):
-				Logutil.log("fileRows == None in getFileDictForReleases", util.LOG_LEVEL_WARNING)
-				return
-					
-			fileDict = helper.cacheFiles(files)
-		
-		return fileDict
 		
 		
 	def getFileForControl(self, fileTypes, gameId, publisherId, developerId, romCollectionId, fileDict):

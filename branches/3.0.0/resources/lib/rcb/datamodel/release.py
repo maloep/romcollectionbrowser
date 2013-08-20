@@ -4,6 +4,7 @@ from databaseobject import DataBaseObject
 from platform import Platform
 from company import Company
 from namedentities import Year
+from file import File
 
 from resources.lib.rcb.utils import util
 from resources.lib.rcb.utils.util import *
@@ -101,7 +102,7 @@ class Release(DataBaseObject):
         self.romCollection = None
         
         self.artworkurls = None
-        self.artworkfiles = None
+        self.mediaFiles = None
 
         
     def fromDb(self, row):
@@ -217,6 +218,13 @@ class Release(DataBaseObject):
         for person in self.persons:
             person.releaseId = self.id
             person.insert(gdb, allowUpdate)
+            
+        for fileType in self.mediaFiles.keys():
+            file = File()
+            file.name = self.mediaFiles[fileType]
+            file.parentId = self.id 
+            #TODO: fileTypeId?
+            file.insert(gdb, allowUpdate)
         
         
     @staticmethod

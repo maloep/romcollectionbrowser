@@ -20,22 +20,26 @@ def getArtworkForRelease(inConfig, release, gamenameFromFile, gui, foldername, i
         #TODO: replace %ROMCOLLECTION%, %PUBLISHER%, ...
         if(path.parent == 'game'):
             file = resolveArtwork(fileName, gamenameFromFile, path, release, isLocalArtwork, gui)
-            artworkfiles[path.type] = file
+            if(file):
+                artworkfiles[path.type] = file
             
         elif(path.parent == 'platform'):
             file = resolveArtwork(fileName, gamenameFromFile, path, release, isLocalArtwork, gui)
-            artworkfiles[path.type] = file
+            if(file):
+                artworkfiles[path.type] = file
             
         elif(path.parent == 'person'):
             for person in release.persons:
                 fileName = fileName.replace("%PERSON%", person.name)
                 file = resolveArtwork(fileName, gamenameFromFile, path, release, isLocalArtwork, gui)
-                artworkfiles[path.type] = file
+                if(file):
+                    artworkfiles[path.type] = file
                 
         elif(path.parent == 'company'):
             fileName = path.path.replace("%COMPANY%", release.platform.name)
             file = resolveArtwork(fileName, gamenameFromFile, path, release, isLocalArtwork, gui)
-            artworkfiles[path.type] = file
+            if(file):
+                artworkfiles[path.type] = file
     
     return artworkfiles
 
