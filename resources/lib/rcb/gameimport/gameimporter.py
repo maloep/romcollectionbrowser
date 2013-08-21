@@ -293,8 +293,12 @@ class GameImporter:
 					firstRomFile = os.path.basename(filename)
 					#TODO handle local artwork scraper (including developer, publisher, ...)
 					if(not isLocalArtwork):
-						game = self.useSingleScrapersHeimdall(inConfig, romCollection, gamenameFromFile, firstRomFile, foldername, updateOption, gui, progDialogHeader, fileCount)
+						game, continueUpdate = self.useSingleScrapersHeimdall(inConfig, romCollection, gamenameFromFile, firstRomFile, foldername, updateOption, gui, progDialogHeader, fileCount)
 						#results, artScrapers = self.useSingleScrapers(results, romCollection, 0, gamenameFromFile, foldername, filename, fuzzyFactor, updateOption, gui, progDialogHeader, fileCount)
+					
+					if(not continueUpdate):
+						Logutil.log('Error during scrape game. Game import will be stopped.', util.LOG_LEVEL_WARNING)
+						break
 					
 					#Variables to process Art Download Info
 					#dialogDict = {'dialogHeaderKey':progDialogHeader, 'gameNameKey':gamenameFromFile, 'scraperSiteKey':artScrapers, 'fileCountKey':fileCount}					
@@ -309,7 +313,7 @@ class GameImporter:
 						ignoreGameWithoutDesc = self.Settings.getSetting(util.SETTING_RCB_IGNOREGAMEWITHOUTDESC).upper() == 'TRUE'
 						if(ignoreGameWithoutDesc):
 							Logutil.log('No description found for game "%s". Game will not be imported.' % gamenameFromFile, util.LOG_LEVEL_WARNING)
-							break
+							continue
 					else:
 						if(game.name != gamenameFromFile):
 							try:
@@ -317,7 +321,7 @@ class GameImporter:
 							except:
 								self.possibleMismatchFile.write('%s, %s\n' % (game.name.encode('utf-8'), gamenameFromFile.encode('utf-8')))
 						
-					if(len(game.releases[0].artworkfiles) == 0):
+					if(len(game.releases[0].mediaFiles) == 0):
 						ignoreGamesWithoutArtwork = settings.getSetting(util.SETTING_RCB_IGNOREGAMEWITHOUTARTWORK).upper() == 'TRUE'
 						if(ignoreGamesWithoutArtwork):								
 							Logutil.log('No artwork found for game "%s". Game will not be imported.' %gamenameFromFile, util.LOG_LEVEL_WARNING)
@@ -325,7 +329,7 @@ class GameImporter:
 								self.missingArtworkFile.write('--> No artwork found for game "%s". Game will not be imported.\n' %gamename)
 							except:
 								self.missingArtworkFile.write('--> No artwork found for game "%s". Game will not be imported.\n' %gamename.encode('utf-8'))
-							return None, True
+							continue
 								
 					game.insert(self.gdb, False)
 					self.gdb.commit()									

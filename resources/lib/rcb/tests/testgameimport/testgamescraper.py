@@ -28,9 +28,8 @@ class TestGameScraper(unittest.TestCase):
         romCollection = myConfig.romCollections['1']
         
         gamename = "NBA Live 98"
-        
-        
-        game, artWorkFound, artworkfiles, artworkurls = gamescraper.scrapeGame(gamename, romCollection, util.getSettings(), '', 0, RCBMock(), 'Header', 1)        
+                
+        game = gamescraper.scrapeGame(gamename, '', myConfig, romCollection, util.getSettings(), '', 0, RCBMock(), 'Header', 1)
         
         print game.name
         print game.releases[0].year
@@ -40,6 +39,11 @@ class TestGameScraper(unittest.TestCase):
         
         
     def test_fromHeimdallToRcb(self):
+        
+        myConfig = Config('config.xml')
+        statusOk, errorMsg = myConfig.readXml()
+
+        romCollection = myConfig.romCollections['1']
         
         scraperresults = []
         scraperresult = []
@@ -106,7 +110,7 @@ class TestGameScraper(unittest.TestCase):
         scraperresult.append(subject)
         scraperresults.append(scraperresult)
         
-        game = gamescraper.fromHeimdallToRcb(scraperresults)
+        game = gamescraper.fromHeimdallToRcb(scraperresults, 'Super Mario Kart', '', romCollection)
         print game.name
         print game.releases[0].year
         print game.releases[0].platform.name

@@ -25,8 +25,15 @@ class FileType(DataBaseObject):
         self.id = row[databaseobject.DBINDEX_id]
         self.name = row[databaseobject.DBINDEX_name]
         
+        
+    def toDbDict(self):
+        dbdict = {}
+        dbdict['id'] = self.id
+        dbdict['name'] = self.name
+        return dbdict
+        
     
-    def insert(self, gdb, allowUpdate):
+    def insert(self, gdb):
         
         if(self.name == ''):
             return
@@ -34,8 +41,6 @@ class FileType(DataBaseObject):
         obj = FileType.getFileTypeByName(gdb, self.name)
         if(obj.id):
             self.id = obj.id
-            if(allowUpdate):
-                self.updateAllColumns(gdb, False)
         else:
             self.id = DataBaseObject.insert(gdb, self)
             

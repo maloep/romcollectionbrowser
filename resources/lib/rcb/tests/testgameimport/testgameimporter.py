@@ -10,7 +10,7 @@ from resources.lib.heimdall.src.heimdall.predicates import *
 from resources.lib.heimdall.src.heimdall.core import Subject
 
 
-class TestGameScraper(unittest.TestCase):
+class TestGameImporter(unittest.TestCase):
 
     def setUp(self):
         util.RCBHOME = os.path.join(os.getcwd(), '..', '..', '..', '..', '..')
@@ -39,7 +39,7 @@ class TestGameScraper(unittest.TestCase):
         romCollection = myConfig.romCollections['1']
         
         gamename = "Super Mario Kart"
-        game, artworkfiles, artworkurls = gamescraper.scrapeGame(gamename, '', myConfig, romCollection, util.getSettings(), '', 0, RCBMock(), 'Header', 1)
+        game, continueUpdate = gamescraper.scrapeGame(gamename, '', myConfig, romCollection, util.getSettings(), '', 0, RCBMock(), 'Header', 1)
         
         game.insert(self.gdb, False)
         self.gdb.commit()

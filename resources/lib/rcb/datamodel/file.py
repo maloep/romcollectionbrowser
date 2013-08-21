@@ -13,31 +13,33 @@ DBINDEX_parentId = 3
 class File(DataBaseObject):
         
     fileDict = None
-    fileDictForGameList = None
-    
-    filterQueryByGameIdAndFileType = "Select * from File \
-                    where parentId = ? AND \
-                    filetype = ?"
-                    
-    filterQueryByNameAndType = "Select * from File \
-                    where name = ? AND \
-                    filetype = ?"
+    fileDictForGameList = None        
                     
     filterQueryByNameAndTypeAndParent = "Select * from File \
                     where name = ? AND \
-                    filetype = ? AND \
+                    filetypeId = ? AND \
                     parentId = ?"
+                    
+                    
+    filterQueryByGameIdAndFileType = "Select * from File \
+                    where parentId = ? AND \
+                    filetypeId = ?"
+                    
+    filterQueryByNameAndType = "Select * from File \
+                    where name = ? AND \
+                    filetypeId = ?"
+                    
                     
     filterQueryByGameIdAndTypeId = "Select * from File \
                     where parentId = ? AND \
-                    filetype = ?"
+                    filetypeId = ?"
                     
     filterFilesForGameList = "Select * from File Where FileTypeId in (%s)"
                     
     filterQueryByParentIds = "Select * from File \
                     where parentId in (?, ?, ?, ?)"
     
-    getFileList = "SELECT * FROM File WHERE filetype = 'rom'"
+    getFileList = "SELECT * FROM File WHERE filetypeId = 0"
     
     __deleteQuery = "DELETE FROM File WHERE parentId= ?"
     
@@ -63,16 +65,22 @@ class File(DataBaseObject):
         self.parentId = row[DBINDEX_parentId]
         
     
-    def insert(self, gdb, allowUpdate):
+    def toDbDict(self):
+        dbdict = {}
+        dbdict['id'] = self.id
+        dbdict['name'] = self.name 
+        dbdict['fileTypeId'] = self.fileTypeId
+        dbdict['parentId'] = self.parentId
+        return dbdict
         
+    
+    def insert(self, gdb):
         if(self.name == ''):
             return
         
-        obj = File.getFileByName(gdb, self.name)
+        obj = File.getFileByNameAndTypeAndParent(gdb, self.name, self.fileTypeId, self.parentId)
         if(obj.id):
             self.id = obj.id
-            if(allowUpdate):
-                self.updateAllColumns(gdb, False)
         else:
             self.id = DataBaseObject.insert(gdb, self)
             
@@ -161,7 +169,20 @@ class File(DataBaseObject):
         obj.fromDb(dbRow)
         return obj
         
-        
+    
+    @staticmethod
+    def getFileByNameAndTypeAndParent(gdb, name, typeId, parentId):
+        dbRow = DataBaseObject.getOneByQuery(gdb, File.filterQueryByNameAndTypeAndParent, (name, typeId, parentId))
+        obj = File()
+        obj.fromDb(dbRow)
+        return obj
+    
+    @staticmethod
+    def getFileAllFilesByRCId(gdb, id):
+        gdb.cursor.execute('select File.name from File, Release where Release.platformId=? and File.parentId=Release.id and File.fileTypeId=0', (id,))
+        objects = gdb.cursor.fetchall()
+        results = [r[0] for r in objects]
+        return results
         
         
         
@@ -191,11 +212,6 @@ class File(DataBaseObject):
         return file
         
     @staticmethod
-    def getFileByNameAndTypeAndParent(gdb, name, type, parentId):
-        file = DataBaseObject.getOneByQuery(gdb, File.filterQueryByNameAndTypeAndParent, (name, type, parentId))
-        return file
-        
-    @staticmethod
     def getFilesByNameAndType(gdb, name, type):
         files = DataBaseObject.getByQuery(gdb, File.filterQueryByNameAndType, (name, type))
         return files
@@ -219,10 +235,4 @@ class File(DataBaseObject):
     def getFilesList(gdb):
         files = DataBaseObject.getByQueryNoArgs(gdb, File.getFileList)
         return files
-    
-    @staticmethod
-    def getFileAllFilesByRCId(gdb, id):
-        gdb.cursor.execute('select File.name from File, Release where Release.platformId=? and File.parentId=Release.id and File.fileType="rom"', (id,))
-        objects = gdb.cursor.fetchall()
-        results = [r[0] for r in objects]
-        return results
+        

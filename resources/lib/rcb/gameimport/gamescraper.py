@@ -57,14 +57,17 @@ def scrapeGame(gamenameFromFile, firstRomFile, inConfig, romCollection, settings
         results.append(scraperresults)
     
         
-    game = fromHeimdallToRcb(results, gamenameFromFile, firstRomFile, romCollection)
+    game = fromHeimdallToRcb(results, gamenameFromFile, firstRomFile, inConfig, romCollection)
     
     if(len(results) > 0):
         gui.writeMsg(progDialogHeader, util.localize(40023) + ": " + gamenameFromFile, util.localize(40098), fileCount)
-        game.releases[0].mediaFiles = artworkimporter.getArtworkForRelease(inConfig, game.releases[0], gamenameFromFile, gui, foldername, False)
-        return game
+        continueUpdate = artworkimporter.getArtworkForRelease(inConfig, game.releases[0], gamenameFromFile, gui, foldername, False)                
+        if(not continueUpdate):
+            return game, False
+        
+        return game, True
                 
-    return None
+    return None, True
 
 
 """
@@ -210,7 +213,7 @@ def heimdallScrapeGame(gamenameFromFile, romCollection, scraper):
 """
 Translate heimdall result to RCB game structure
 """
-def fromHeimdallToRcb(results, gamenameFromFile, firstRomFile, romCollection):
+def fromHeimdallToRcb(results, gamenameFromFile, firstRomFile, config, romCollection):
     
     game = Game()
     release = Release()
@@ -293,22 +296,22 @@ def fromHeimdallToRcb(results, gamenameFromFile, firstRomFile, romCollection):
                     
                 artworkurl = readHeimdallValue(result, 'platformart', 'platformart')
                 if(artworkurl != ''):
-                    release.artworkurls['platformart'] = artworkurl
+                    release.platform.artworkurls['platformart'] = artworkurl
                 artworkurl = readHeimdallValue(result, 'platformboxfront', 'platformboxfront')
                 if(artworkurl != ''):
-                    release.artworkurls['platformboxfront'] = artworkurl
+                    release.platform.artworkurls['platformboxfront'] = artworkurl
                 artworkurl = readHeimdallValue(result, 'platformboxback', 'platformboxback')
                 if(artworkurl != ''):
-                    release.artworkurls['platformboxback'] = artworkurl
+                    release.platform.artworkurls['platformboxback'] = artworkurl
                 artworkurl = readHeimdallValue(result, 'platformfanart', 'platformfanart')
                 if(artworkurl != ''):
-                    release.artworkurls['platformfanart'] = artworkurl    
+                    release.platform.artworkurls['platformfanart'] = artworkurl    
                 artworkurl = readHeimdallValue(result, 'platformbanner', 'platformbanner')
                 if(artworkurl != ''):
-                    release.artworkurls['platformbanner'] = artworkurl
+                    release.platform.artworkurls['platformbanner'] = artworkurl
                 artworkurl = readHeimdallValue(result, 'controllerart', 'controllerart')
                 if(artworkurl != ''):
-                    release.artworkurls['controllerart'] = artworkurl
+                    release.platform.artworkurls['controllerart'] = artworkurl
                 
             
             elif(result.Class == 'item.person'):
@@ -330,12 +333,11 @@ def fromHeimdallToRcb(results, gamenameFromFile, firstRomFile, romCollection):
                     person.name = personname
                 if(person.role == ''):
                     person.role = readHeimdallValue(result, 'role', '')
-                if(newPerson):
-                    release.persons.append(person)
-                    
                 artworkurl = readHeimdallValue(result, 'personart', 'personart')
                 if(artworkurl != ''):
-                    release.artworkurls['personart'] = artworkurl
+                    person.artworkurls['personart'] = artworkurl
+                if(newPerson):
+                    release.persons.append(person)
     
     game.releases.append(release)
     return game
@@ -366,6 +368,7 @@ def readHeimdallValue(indict, key, nestedKey):
     if(len(resultlist) > 0):
         return resultlist[0]
     return ''
+                
 
 
 def readFromDict(indict, key):
