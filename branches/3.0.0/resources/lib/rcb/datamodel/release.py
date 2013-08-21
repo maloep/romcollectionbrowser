@@ -5,6 +5,7 @@ from platform import Platform
 from company import Company
 from namedentities import Year
 from file import File
+from filetype import FileType
 
 from resources.lib.rcb.utils import util
 from resources.lib.rcb.utils.util import *
@@ -219,12 +220,16 @@ class Release(DataBaseObject):
             person.releaseId = self.id
             person.insert(gdb, allowUpdate)
             
-        for fileType in self.mediaFiles.keys():
+        for fileTypeName in self.mediaFiles.keys():
+            fileType = FileType()
+            fileType.name = fileTypeName
+            fileType.insert(gdb)
+            
             file = File()
-            file.name = self.mediaFiles[fileType]
-            file.parentId = self.id 
-            #TODO: fileTypeId?
-            file.insert(gdb, allowUpdate)
+            file.name = self.mediaFiles[fileTypeName]
+            file.parentId = self.id
+            file.fileTypeId = fileType.id
+            file.insert(gdb)
         
         
     @staticmethod
