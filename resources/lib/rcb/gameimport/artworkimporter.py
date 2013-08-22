@@ -12,16 +12,13 @@ import xbmcvfs, xbmcgui
 def getArtworkForRelease(inConfig, release, gamenameFromFile, gui, foldername, isLocalArtwork):
     artWorkFound = False
     
-    if(release.mediaFiles == None):
-        release.mediaFiles = {}
-    
     for path in inConfig.mediaPaths:
                     
         Logutil.log("FileType: " +str(path.type), util.LOG_LEVEL_INFO)
-        fileName = path.path
         
         #TODO: replace %ROMCOLLECTION%, %PUBLISHER%, ...
         if(path.parent == 'game'):
+            fileName = path.path
             file, continueUpdate = resolveArtwork(fileName, gamenameFromFile, path, release, isLocalArtwork, gui)
             if(not continueUpdate):
                 return False
@@ -29,28 +26,36 @@ def getArtworkForRelease(inConfig, release, gamenameFromFile, gui, foldername, i
                 release.mediaFiles[path.type] = getRelativeMediaFileName(path.path, release.platform.name, file)
             
         elif(path.parent == 'platform'):
+            fileName = path.path
             file, continueUpdate = resolveArtwork(fileName, gamenameFromFile, path, release, isLocalArtwork, gui)
             if(not continueUpdate):
                 return False
             if(file):
-                release.mediaFiles[path.type] = file
+                release.platform.mediaFiles[path.type] = getRelativeMediaFileName(path.path, release.platform.name, file)
             
         elif(path.parent == 'person'):
             for person in release.persons:
-                fileName = fileName.replace("%PERSON%", person.name)
+                fileName = path.path.replace("%PERSON%", person.name)
                 file, continueUpdate = resolveArtwork(fileName, gamenameFromFile, path, release, isLocalArtwork, gui)
                 if(not continueUpdate):
                     return False
                 if(file):
-                    release.mediaFiles[path.type] = file
+                    person.mediaFiles[path.type] = getRelativeMediaFileName(path.path, release.platform.name, file)
                 
         elif(path.parent == 'company'):
-            fileName = path.path.replace("%COMPANY%", release.platform.name)
+            fileName = path.path.replace("%COMPANY%", release.publisher.name)
             file, continueUpdate = resolveArtwork(fileName, gamenameFromFile, path, release, isLocalArtwork, gui)
             if(not continueUpdate):
                 return False
             if(file):
-                release.mediaFiles[path.type] = file
+                release.publisher.mediaFiles[path.type] = getRelativeMediaFileName(path.path, release.platform.name, file)
+                            
+            fileName = path.path.replace("%COMPANY%", release.developer.name)
+            file, continueUpdate = resolveArtwork(fileName, gamenameFromFile, path, release, isLocalArtwork, gui)
+            if(not continueUpdate):
+                return False
+            if(file):                
+                release.developer.mediaFiles[path.type] = getRelativeMediaFileName(path.path, release.platform.name, file)
     
     return True
 
@@ -131,7 +136,8 @@ def getThumbFromOnlineSource(game, fileType, fileName, gui):
         urllib.urlcleanup()
         Logutil.log("Download finished.", util.LOG_LEVEL_INFO)
     except Exception, (exc):
-        Logutil.log("Error in getThumbFromOnlineSource: " + str(exc), util.LOG_LEVEL_WARNING)                        
+        Logutil.log("Error in getThumbFromOnlineSource: " + str(exc), util.LOG_LEVEL_WARNING)
+        return None, True
 
     return fileName, True
 
