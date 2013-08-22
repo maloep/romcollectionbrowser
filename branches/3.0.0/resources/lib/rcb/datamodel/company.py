@@ -1,5 +1,7 @@
 import databaseobject
 from databaseobject import DataBaseObject
+from file import File
+from filetype import FileType
 
 from resources.lib.rcb.utils import util
 from resources.lib.rcb.utils.util import *
@@ -40,6 +42,8 @@ class Company(DataBaseObject):
         self.id = None
         self.name = ''
         
+        self.mediaFiles = {}
+        
     
     def fromDb(self, row):
         
@@ -70,6 +74,17 @@ class Company(DataBaseObject):
         else:
             self.id = DataBaseObject.insert(gdb, self)
             
+        for fileTypeName in self.mediaFiles.keys():
+            fileType = FileType()
+            fileType.name = fileTypeName
+            fileType.insert(gdb)
+            
+            file = File()
+            file.name = self.mediaFiles[fileTypeName]
+            file.parentId = self.id
+            file.fileTypeId = fileType.id
+            file.insert(gdb)    
+        
             
     @staticmethod
     def getAllCompanies(gdb):

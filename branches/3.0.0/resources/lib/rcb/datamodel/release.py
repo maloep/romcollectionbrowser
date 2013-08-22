@@ -103,7 +103,7 @@ class Release(DataBaseObject):
         self.romCollection = None
         
         self.artworkurls = None
-        self.mediaFiles = None
+        self.mediaFiles = {}
 
         
     def fromDb(self, row):
