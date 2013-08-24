@@ -4,10 +4,10 @@
 = Prio 1 =
 == General ==
   * rework of config.xml
-	* Platform instead of RomCollection?
-	* Add sources like for files in XBMC?
-	* Add region information to source?
-	* Add several launcher configurations to one RC/Platform entry (and store launcher per game in db)?
+    * Platform instead of RomCollection?
+    * Add sources like for files in XBMC?
+    * Add region information to source?
+    * Add several launcher configurations to one RC/Platform entry (and store launcher per game in db)?
 
 == Datamodel ==
   * add all possible properties to dataobjects
@@ -25,9 +25,9 @@
 
 == UI/Browsing ==
   * decide if imageplacing should be completely removed
-	<texture>$INFO[ListItem.Property(gameinfolowerleft)]</texture>
-	vs.
-	<texture>$INFO[ListItem.Property(boxfront)]</texture>
+    <texture>$INFO[ListItem.Property(gameinfolowerleft)]</texture>
+    vs.
+    <texture>$INFO[ListItem.Property(boxfront)]</texture>
   * add minimal support for all scraped game info and extra entities (persons, platform, ...) to check scrape results
 
 
@@ -35,7 +35,7 @@
 == General ==
   * export game database as nfo files
     * add option to overwrite existing files
-	* add option to export statisitcal or user specific data (isFavorite, launchCount, ...)
+    * add option to export statisitcal or user specific data (isFavorite, launchCount, ...)
 
 == Datamodel ==
   * add extra info for arcade machines (separate table or properties in platform?)
