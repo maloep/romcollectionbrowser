@@ -4,10 +4,11 @@
 = Prio 1 =
 == General ==
   * rework of config.xml
+    * separate rom path and file mask
     * Platform instead of RomCollection?
-    * Add sources like for files in XBMC?
-    * Add region information to source?
-    * Add several launcher configurations to one RC/Platform entry (and store launcher per game in db)?
+    * add sources like for files in XBMC?
+    * add region information to source?
+    * add several launcher configurations to one RC/Platform entry (and store launcher per game in db)?
 
 == Datamodel ==
   * add all possible properties to dataobjects
@@ -67,7 +68,8 @@
   * support for audio files
   * add context menu to mark game as completed
   * add context menu to mark game as broken (in db + .broken in filename?)
-
+  * add scripts to migrate 2.0.7 installations to new db layout and config structure
+  
 == Datamodel ==
   * store viewstate on RC basis (favorite view per romcollection)
   * build game groups (releases and sequels)
