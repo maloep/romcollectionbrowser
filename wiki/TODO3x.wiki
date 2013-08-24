@@ -25,9 +25,13 @@
 
 == UI/Browsing ==
   * decide if imageplacing should be completely removed
-    <texture>$INFO[ListItem.Property(gameinfolowerleft)]</texture>
+    {{{
+	<texture>$INFO[ListItem.Property(gameinfolowerleft)]</texture>
+	}}}
     vs.
-    <texture>$INFO[ListItem.Property(boxfront)]</texture>
+    {{{
+	<texture>$INFO[ListItem.Property(boxfront)]</texture>
+	}}}
   * add minimal support for all scraped game info and extra entities (persons, platform, ...) to check scrape results
 
 
