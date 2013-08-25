@@ -4,7 +4,6 @@ import time, zipfile, glob, shutil
 
 import xbmc, xbmcgui
 
-import resources.lib.rcb.gameimport.dbupdater
 from resources.lib.rcb.utils import util, helper
 from resources.lib.rcb.datamodel.file import File
 from resources.lib.rcb.datamodel.gamedatabase import *
