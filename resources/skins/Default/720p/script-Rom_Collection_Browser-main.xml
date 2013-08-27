@@ -190,7 +190,7 @@
 						<texture>rcb-ContentPanel.png</texture>
 						<colordiffuse>DDFFFFFF</colordiffuse>
 					</control>
-					<!-- gameinfobig -->
+					<!-- gameinfo -->
 					<control type="image" id="2000">
 						<animation delay="200" effect="fade" start="0" end="100">Visible</animation>
 						<description>gameinfo</description>
@@ -386,7 +386,7 @@
 						<posy>55</posy>
 						<width>370</width>
 						<height>25</height>
-						<label fallback="416">$INFO[ListItem.Property(genre)]:</label>
+						<label fallback="416">$INFO[ListItem.Property(genre)]</label>
 						<align>left</align>
 						<aligny>center</aligny>
 						<font>font13</font>
@@ -654,16 +654,16 @@
 						<align>center</align>
 						<label>$INFO[ListItem.Label]</label>
 					</control>
-					<!-- gameinfobig -->
+					<!-- gameinfo -->
 					<control type="image" id="2001">
 						<animation delay="200" effect="fade" start="0" end="100">Visible</animation>
-						<description>gameinfobig</description>
+						<description>gameinfo</description>
 						<posx>25</posx>
 						<posy>60</posy>
 						<width>540</width>
 						<height>280</height>
 						<visible>!Player.HasVideo | IsEmpty(ListItem.Property(gameplaymain))</visible>
-						<texture>$INFO[ListItem.Property(gameinfobig)]</texture>
+						<texture>$INFO[ListItem.Property(gameinfo)]</texture>
 						<bordertexture border="2">rcb-button-nofocus.png</bordertexture>
 						<bordersize>2</bordersize>
 					</control>					

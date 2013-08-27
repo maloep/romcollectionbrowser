@@ -57,7 +57,6 @@ def cacheDevelopers(gdb):
 	
 
 def cacheGenres(gdb):
-	
 	Logutil.log("Begin cacheGenres" , util.LOG_LEVEL_DEBUG)
 			
 	genreGames = LinkGenreGame.getAllLinkGenreGame(gdb)
