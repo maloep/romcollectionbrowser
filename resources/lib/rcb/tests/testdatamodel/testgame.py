@@ -40,47 +40,47 @@ class TestGame(unittest.TestCase):
         self.gdb.dropTables()        
         self.gdb.createTables()
         
-        game = Game(self.gdb)        
+        game = Game()        
         game.name = 'testgame'
         
-        release = Release(self.gdb)
+        release = Release()
         release.name = 'testgame release'
         release.description = 'test description'
         release.year = '1992'
         
-        platform = Platform(self.gdb)
+        platform = Platform()
         platform.name = 'SNES'
         release.platform = platform
         
-        publisher = Company(self.gdb)
+        publisher = Company()
         publisher.name = 'test publisher'
         release.publisher = publisher
         
-        developer = Company(self.gdb)
+        developer = Company()
         developer.name = 'test developer'
         release.developer = developer
         
-        person = Person(self.gdb)
+        person = Person()
         person.name = 'test person 1'
         person.role = 'role 1'
         release.persons.append(person)
         
-        person = Person(self.gdb)
+        person = Person()
         person.name = 'test person 2'
         person.role = 'role 2'
         release.persons.append(person)
         
         game.releases.append(release)
         
-        genre = Genre(self.gdb)
+        genre = Genre()
         genre.name = 'test genre 1'
         game.genres.append(genre)
         
-        genre = Genre(self.gdb)
+        genre = Genre()
         genre.name = 'test genre 2'
         game.genres.append(genre)
         
-        game.insert(False)
+        game.insert(self.gdb, False)
         self.gdb.commit()
         
         

@@ -7,6 +7,14 @@ from resources.lib.rcb.utils import util
 from resources.lib.rcb.utils.util import *
 
 
+"""
+DB Index
+"""
+DBINDEX_description = 2
+DBINDEX_country = 3
+DBINDEX_city = 4
+
+
 class Company(DataBaseObject):
     
     
@@ -41,28 +49,35 @@ class Company(DataBaseObject):
         
         self.id = None
         self.name = ''
+        self.description = ''
+        self.country = ''
+        self.city = ''
         
         self.mediaFiles = {}
         
     
     def fromDb(self, row):
-        
         if(not row):
             return
         
         self.id = row[databaseobject.DBINDEX_id]
         self.name = row[databaseobject.DBINDEX_name]
+        self.description = row[DBINDEX_description]
+        self.country = row[DBINDEX_country]
+        self.city = row[DBINDEX_city]
         
         
     def toDbDict(self):
         dbdict = {}
         dbdict['id'] = self.id
-        dbdict['name'] = self.name         
+        dbdict['name'] = self.name
+        dbdict['description'] = self.description
+        dbdict['country'] = self.country
+        dbdict['city'] = self.city
         return dbdict
     
     
     def insert(self, gdb, allowUpdate):
-        
         if(self.name == ''):
             return
         

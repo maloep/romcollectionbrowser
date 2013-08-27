@@ -204,8 +204,20 @@ class File(DataBaseObject):
             obj.fromDb(dbRow)
             objs.append(obj)
         return objs
+    
+    
+    @staticmethod
+    def getFilesByParentIds(gdb, gameId, romCollectionId, publisherId, developerId):
+        dblist = DataBaseObject.getByQuery(gdb, File.filterQueryByParentIds, (gameId, romCollectionId, publisherId, developerId))
+        objs = []
+        for dbRow in dblist:
+            obj = File()
+            obj.fromDb(dbRow)
+            objs.append(obj)
+        return objs
+    
             
-            
+    """        
     @staticmethod
     def getFileByNameAndType(gdb, name, type):
         file = DataBaseObject.getOneByQuery(gdb, File.filterQueryByNameAndType, (name, type))
@@ -224,15 +236,10 @@ class File(DataBaseObject):
     @staticmethod
     def getRomsByGameId(gdb, gameId):
         files = DataBaseObject.getByQuery(gdb, File.filterQueryByGameIdAndFileType, (gameId, 0))
-        return files
-        
-    @staticmethod
-    def getFilesByParentIds(gdb, gameId, romCollectionId, publisherId, developerId):
-        files = DataBaseObject.getByQuery(gdb, File.filterQueryByParentIds, (gameId, romCollectionId, publisherId, developerId))
-        return files
+        return files            
         
     @staticmethod
     def getFilesList(gdb):
         files = DataBaseObject.getByQueryNoArgs(gdb, File.getFileList)
         return files
-        
+    """

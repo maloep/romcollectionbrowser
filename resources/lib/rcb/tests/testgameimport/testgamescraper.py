@@ -29,7 +29,7 @@ class TestGameScraper(unittest.TestCase):
         
         gamename = "NBA Live 98"
                 
-        game = gamescraper.scrapeGame(gamename, '', myConfig, romCollection, util.getSettings(), '', 0, RCBMock(), 'Header', 1)
+        game, continueUpdate = gamescraper.scrapeGame(gamename, '', myConfig, romCollection, util.getSettings(), '', 0, RCBMock(), 'Header', 1)
         
         print game.name
         print game.releases[0].year
@@ -110,7 +110,7 @@ class TestGameScraper(unittest.TestCase):
         scraperresult.append(subject)
         scraperresults.append(scraperresult)
         
-        game = gamescraper.fromHeimdallToRcb(scraperresults, 'Super Mario Kart', '', romCollection)
+        game = gamescraper.fromHeimdallToRcb(scraperresults, 'Super Mario Kart', '', myConfig, romCollection)
         print game.name
         print game.releases[0].year
         print game.releases[0].platform.name
