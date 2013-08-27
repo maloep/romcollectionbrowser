@@ -1159,9 +1159,9 @@ class UIGameDB(xbmcgui.WindowXML):
 		try:
 			#0 = cacheAll: load all game data at once
 			if(self.cachingOption == 0):
-				genreString = self.genreDict[releaseview.id]
+				genreString = self.genreDict[releaseview.gameId]
 			else:				
-				genres = Genre(self.gdb).getGenresByGameId(releaseview.id)
+				genres = Genre(self.gdb).getGenresByGameId(releaseview.gameId)
 				if (genres != None):
 					for i in range(0, len(genres)):
 						genre = genres[i]
@@ -1561,7 +1561,7 @@ class UIGameDB(xbmcgui.WindowXML):
 			if(files == None):
 				Logutil.log("fileRows == None in cacheItems", util.LOG_LEVEL_WARNING)
 				return
-			self.fileDict = helper.cacheFiles(files)
+			self.fileDict = File.cacheFiles(files)
 		
 		self.yearDict = helper.cacheYears(self.gdb)
 		
