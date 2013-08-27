@@ -290,28 +290,28 @@ def fromHeimdallToRcb(results, gamenameFromFile, firstRomFile, config, romCollec
                     release.platform.name = romCollection.name
                 if(release.platform.description == ''):
                     release.platform.description = readHeimdallValue(result, dc.description, '')
-                if(release.platform.releasedate == ''):
+                if(release.platform.releaseyear == ''):
                     #TODO: format date
-                    release.platform.releasedate = readHeimdallValue(result, dc.date, '')
+                    release.platform.releaseyear = readHeimdallValue(result, dc.date, '')
                     
                 artworkurl = readHeimdallValue(result, 'platformart', 'platformart')
                 if(artworkurl != ''):
-                    release.platform.artworkurls['platformart'] = artworkurl
+                    release.artworkurls['platformart'] = artworkurl
                 artworkurl = readHeimdallValue(result, 'platformboxfront', 'platformboxfront')
                 if(artworkurl != ''):
-                    release.platform.artworkurls['platformboxfront'] = artworkurl
+                    release.artworkurls['platformboxfront'] = artworkurl
                 artworkurl = readHeimdallValue(result, 'platformboxback', 'platformboxback')
                 if(artworkurl != ''):
-                    release.platform.artworkurls['platformboxback'] = artworkurl
+                    release.artworkurls['platformboxback'] = artworkurl
                 artworkurl = readHeimdallValue(result, 'platformfanart', 'platformfanart')
                 if(artworkurl != ''):
-                    release.platform.artworkurls['platformfanart'] = artworkurl    
+                    release.artworkurls['platformfanart'] = artworkurl    
                 artworkurl = readHeimdallValue(result, 'platformbanner', 'platformbanner')
                 if(artworkurl != ''):
-                    release.platform.artworkurls['platformbanner'] = artworkurl
+                    release.artworkurls['platformbanner'] = artworkurl
                 artworkurl = readHeimdallValue(result, 'controllerart', 'controllerart')
                 if(artworkurl != ''):
-                    release.platform.artworkurls['controllerart'] = artworkurl
+                    release.artworkurls['controllerart'] = artworkurl
                 
             
             elif(result.Class == 'item.person'):
@@ -333,11 +333,12 @@ def fromHeimdallToRcb(results, gamenameFromFile, firstRomFile, config, romCollec
                     person.name = personname
                 if(person.role == ''):
                     person.role = readHeimdallValue(result, 'role', '')
-                artworkurl = readHeimdallValue(result, 'personart', 'personart')
-                if(artworkurl != ''):
-                    person.artworkurls['personart'] = artworkurl
                 if(newPerson):
                     release.persons.append(person)
+                    
+                artworkurl = readHeimdallValue(result, 'personart', 'personart')
+                if(artworkurl != ''):
+                    release.artworkurls['personart'] = artworkurl
     
     game.releases.append(release)
     return game

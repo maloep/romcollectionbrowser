@@ -27,20 +27,22 @@ class Platform(DataBaseObject):
         self.id = None
         self.name = ''
         self.description = ''
-        self.manufacturer = None
-        self.developer = None
+        self.manufacturerId = None
+        self.developerId = None
+        self.mediaId = None
         self.cpu = ''
-        self.memory = ''
+        self.ram = ''
         self.graphics = ''
         self.sound = ''
         self.display = ''
-        self.media = ''
         self.maxcontrollers = ''
-        self.releasedate = ''
+        self.releaseyear = ''
+        
+        """
         self.hasonlinefeatures = ''
         self.originalprice = ''
-        
-        self.artworkurls = {}
+        """
+                
         self.mediaFiles = {}
         
         
@@ -51,12 +53,34 @@ class Platform(DataBaseObject):
         self.id = row[databaseobject.DBINDEX_id]
         self.name = row[databaseobject.DBINDEX_name]
         
+        self.description = row[DBINDEX_description]
+        self.manufacturerId = row[DBINDEX_manufacturerId]
+        self.developerId = row[DBINDEX_developerId]
+        self.mediaId =row[DBINDEX_mediaId]
+        self.cpu = row[DBINDEX_cpu]
+        self.ram = row[DBINDEX_ram]
+        self.graphics = row[DBINDEX_graphics]
+        self.sound = row[DBINDEX_sound]
+        self.display = row[DBINDEX_display]
+        self.maxcontrollers = row[DBINDEX_maxControllers]
+        self.releaseyear = row[DBINDEX_releaseYear]
+        
         
     def toDbDict(self):
         platformdict = {}
         platformdict['id'] = self.id
         platformdict['name'] = self.name 
         platformdict['description'] = self.description
+        platformdict['manufacturerId'] = self.manufacturerId
+        platformdict['developerId'] = self.developerId
+        platformdict['mediaId'] = self.mediaId
+        platformdict['cpu'] = self.cpu
+        platformdict['ram'] = self.ram
+        platformdict['graphics'] = self.graphics
+        platformdict['sound'] = self.sound
+        platformdict['display'] = self.display
+        platformdict['maxcontrollers'] = self.maxcontrollers
+        platformdict['releaseyear'] = self.releaseyear
         return platformdict
     
     

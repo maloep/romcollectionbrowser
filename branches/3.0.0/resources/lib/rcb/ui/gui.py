@@ -1116,28 +1116,27 @@ class UIGameDB(xbmcgui.WindowXML):
 		Logutil.log("end loadGameInfos", util.LOG_LEVEL_DEBUG)
 
 	
-	def getFileDictByReleaseRow(self, game):				
+	def getFileDictByReleaseRow(self, releaseview):				
 		
-		files = File(self.gdb).getFilesByParentIds(game.id, game.romCollectionId, game.publisherId, game.developerId)
+		files = File.getFilesByParentIds(self.gdb, releaseview.id, releaseview.platformId, releaseview.publisherId, releaseview.developerId)
 				
-		fileDict = helper.cacheFiles(files)
+		fileDict = File.cacheFiles(files)
 		
 		return fileDict
 		
 		
 	def setAllItemData(self, item, releaseview, fileDict, romCollection):				
 		
-		# all other images in mainwindow
-		item.setProperty('boxfront', releaseview.getMediaFile(self.config, ('boxfront',)))
-		item.setProperty('boxback', releaseview.getMediaFile(self.config, ('boxback',)))
-		item.setProperty('screenshot', releaseview.getMediaFile(self.config, ('screenshot',)))
-		item.setProperty('fanart', releaseview.getMediaFile(self.config, ('fanart',)))
-		item.setProperty('cartridge', releaseview.getMediaFile(self.config, ('cartridge',)))
+		# all other images in mainwindow		
+		self.setMediaFileToListitem(item, releaseview, ('boxfront',), 'boxfront', fileDict)
+		self.setMediaFileToListitem(item, releaseview, ('boxback',), 'boxback', fileDict)
+		self.setMediaFileToListitem(item, releaseview, ('screenshot',), 'screenshot', fileDict)
+		self.setMediaFileToListitem(item, releaseview, ('fanart',), 'fanart', fileDict)
+		self.setMediaFileToListitem(item, releaseview, ('cartridge',), 'cartridge', fileDict)
 		
 		#TODO: add config option for fallback images
-		item.setProperty('background', releaseview.getMediaFile(self.config, ('fanart','boxfront','screenshot')))
-		item.setProperty('gameinfo', releaseview.getMediaFile(self.config, ('screenshot','boxfront')))
-		
+		self.setMediaFileToListitem(item, releaseview, ('fanart','boxfront','screenshot'), 'background', fileDict)
+		self.setMediaFileToListitem(item, releaseview, ('screenshot','boxfront'), 'gameinfo', fileDict)
 		
 		
 		#set additional properties
@@ -1189,6 +1188,15 @@ class UIGameDB(xbmcgui.WindowXML):
 		item.setProperty('playcount', helper.saveReadString(releaseview.launchCount))
 		
 		return item
+	
+	
+	def setMediaFileToListitem(self, item, releaseview, artworkTypes, uiArtworkType, fileDict):
+		# all other images in mainwindow
+		imageFiles = releaseview.getMediaFiles(self.gdb, artworkTypes, fileDict, self.config)
+		image = ''
+		if(len(imageFiles) > 0):
+			image = imageFiles[0]
+		item.setProperty(uiArtworkType, image)
 	
 	
 	def checkImport(self, doImport, romCollections, isRescrape):

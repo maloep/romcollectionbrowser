@@ -4,6 +4,11 @@ from databaseobject import DataBaseObject
 from resources.lib.rcb.utils import util
 from resources.lib.rcb.utils.util import *
 
+"""
+DB Index
+"""
+DBINDEX_description = 2
+
 
 class Genre(DataBaseObject):
     
@@ -40,10 +45,12 @@ class Genre(DataBaseObject):
     
     genreGameDeleteQuery = "DELETE FROM GenreGame WHERE gameId = ?"
     
+    
     def __init__(self):
         self.tableName = "Genre"
         self.id = None
         self.name = ''
+        self.description = ''
         
     
     def fromDb(self, row):
@@ -52,17 +59,18 @@ class Genre(DataBaseObject):
         
         self.id = row[databaseobject.DBINDEX_id]
         self.name = row[databaseobject.DBINDEX_name]
+        self.description = row[DBINDEX_description]
         
         
     def toDbDict(self):
         dbdict = {}
         dbdict['id'] = self.id
-        dbdict['name'] = self.name         
+        dbdict['name'] = self.name
+        dbdict['description'] = self.description
         return dbdict
     
     
     def insert(self, gdb, allowUpdate):
-        
         if(self.name == ''):
             return
         
@@ -125,7 +133,7 @@ class Genre(DataBaseObject):
     
     
     
-    
+    """
     def getFilteredGenres(self, romCollectionId, yearId, publisherId, likeStatement):
         args = (romCollectionId, yearId, publisherId)
         filterQuery = self.__filterQuery %likeStatement
@@ -137,7 +145,7 @@ class Genre(DataBaseObject):
 
     def getGenreIdByGameId(self, gameId):
         genre = self.getByQuery(self.filteGenreIdByGameId, (gameId,))
-        return genre.id
+        return genre.id    
         
     def delete(self, gameId):
         #genreId = self.getGenreIdByGameId(gameId)
@@ -150,3 +158,4 @@ class Genre(DataBaseObject):
                     self.deleteObjectByQuery(self.genreDeleteQuery, (items[0],))
         util.Logutil.log("Delete GenreGame with gameId %s" % str(gameId), util.LOG_LEVEL_INFO)
         self.deleteObjectByQuery(self.genreGameDeleteQuery, (gameId,))
+    """

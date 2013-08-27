@@ -57,7 +57,6 @@ class Year(NamedEntity):
         
         
     def insert(self, gdb, allowUpdate):
-        
         if(self.name == ''):
             return
         
@@ -136,7 +135,6 @@ class PersonRole(NamedEntity):
 
     
     def insert(self, gdb, allowUpdate):
-        
         if(self.name == ''):
             return
         
@@ -165,9 +163,191 @@ class PersonRole(NamedEntity):
         return personRole
         
     
+    """
     def delete(self, id):
         if(id != None):
             count = self.getCountByQuery(self.yearIdCountQuery, (id,))
             if (count[0] < 2):
                 util.Logutil.log("Delete PersonRole with id %s" % str(id), util.LOG_LEVEL_INFO)
                 self.deleteObjectByQuery(PersonRole.deleteQuery, (id,))
+    """
+                
+                
+class Language(NamedEntity):
+    
+    deleteQuery = "DELETE FROM Language WHERE id = ?"
+
+
+    def __init__(self):
+        NamedEntity.__init__(self)
+        self.tableName = "Language"
+
+    
+    def insert(self, gdb, allowUpdate):
+        if(self.name == ''):
+            return
+        
+        obj = Language.getLanguageByName(gdb, self.name)
+        if(obj.id):
+            self.id = obj.id
+            if(allowUpdate):
+                self.updateAllColumns(gdb, False)
+        else:
+            self.id = DataBaseObject.insert(gdb, self)
+        
+        
+    @staticmethod
+    def getLanguageByName(gdb, name):
+        dbRow = DataBaseObject.getOneByName(gdb, 'Language', name)
+        obj = Language()
+        obj.fromDb(dbRow)
+        return obj
+    
+    
+    @staticmethod
+    def getLanguageById(gdb, id):
+        dbRow = DataBaseObject.getOneById(gdb, 'Language', id)
+        obj = Language()
+        obj.fromDb(dbRow)
+        return obj
+        
+        
+    @staticmethod
+    def getAllLanguages(gdb):
+        dblist = DataBaseObject.getAll(gdb, 'Language')
+        objs = []
+        for dbRow in dblist:
+            obj = Language()
+            obj.fromDb(dbRow)
+            objs.append(obj)
+        return objs
+    
+    
+    """
+    def delete(self, id):
+        if(id != None):
+            count = self.getCountByQuery(self.yearIdCountQuery, (id,))
+            if (count[0] < 2):
+                util.Logutil.log("Delete Language with id %s" % str(id), util.LOG_LEVEL_INFO)
+                self.deleteObjectByQuery(Language.deleteQuery, (id,))
+    """
+                
+                
+class ESRBRating(NamedEntity):
+    
+    deleteQuery = "DELETE FROM ESRBRating WHERE id = ?"
+
+
+    def __init__(self):
+        NamedEntity.__init__(self)
+        self.tableName = "ESRBRating"
+
+    
+    def insert(self, gdb, allowUpdate):
+        if(self.name == ''):
+            return
+        
+        obj = ESRBRating.getESRBRatingByName(gdb, self.name)
+        if(obj.id):
+            self.id = obj.id
+            if(allowUpdate):
+                self.updateAllColumns(gdb, False)
+        else:
+            self.id = DataBaseObject.insert(gdb, self)
+        
+        
+    @staticmethod
+    def getESRBRatingByName(gdb, name):
+        dbRow = DataBaseObject.getOneByName(gdb, 'ESRBRating', name)
+        obj = Language()
+        obj.fromDb(dbRow)
+        return obj
+    
+    
+    @staticmethod
+    def getESRBRatingById(gdb, id):
+        dbRow = DataBaseObject.getOneById(gdb, 'ESRBRating', id)
+        obj = Language()
+        obj.fromDb(dbRow)
+        return obj
+        
+        
+    @staticmethod
+    def getAllESRBRatings(gdb):
+        dblist = DataBaseObject.getAll(gdb, 'ESRBRating')
+        objs = []
+        for dbRow in dblist:
+            obj = Language()
+            obj.fromDb(dbRow)
+            objs.append(obj)
+        return objs
+    
+    
+    """
+    def delete(self, id):
+        if(id != None):
+            count = self.getCountByQuery(self.yearIdCountQuery, (id,))
+            if (count[0] < 2):
+                util.Logutil.log("Delete ESRBRating with id %s" % str(id), util.LOG_LEVEL_INFO)
+                self.deleteObjectByQuery(ESRBRating.deleteQuery, (id,))
+    """
+    
+    
+class MaxPlayers(NamedEntity):
+    
+    deleteQuery = "DELETE FROM MaxPlayers WHERE id = ?"
+
+
+    def __init__(self):
+        NamedEntity.__init__(self)
+        self.tableName = "MaxPlayers"
+
+    
+    def insert(self, gdb, allowUpdate):
+        if(self.name == ''):
+            return
+        
+        obj = MaxPlayers.getMaxPlayersByName(gdb, self.name)
+        if(obj.id):
+            self.id = obj.id
+            if(allowUpdate):
+                self.updateAllColumns(gdb, False)
+        else:
+            self.id = DataBaseObject.insert(gdb, self)
+        
+        
+    @staticmethod
+    def getMaxPlayersByName(gdb, name):
+        dbRow = DataBaseObject.getOneByName(gdb, 'MaxPlayers', name)
+        obj = MaxPlayers()
+        obj.fromDb(dbRow)
+        return obj
+    
+    
+    @staticmethod
+    def getMaxPlayersById(gdb, id):
+        dbRow = DataBaseObject.getOneById(gdb, 'MaxPlayers', id)
+        obj = MaxPlayers()
+        obj.fromDb(dbRow)
+        return obj
+        
+        
+    @staticmethod
+    def getAllMaxPlayerss(gdb):
+        dblist = DataBaseObject.getAll(gdb, 'MaxPlayers')
+        objs = []
+        for dbRow in dblist:
+            obj = MaxPlayers()
+            obj.fromDb(dbRow)
+            objs.append(obj)
+        return objs
+    
+    
+    """
+    def delete(self, id):
+        if(id != None):
+            count = self.getCountByQuery(self.yearIdCountQuery, (id,))
+            if (count[0] < 2):
+                util.Logutil.log("Delete MaxPlayers with id %s" % str(id), util.LOG_LEVEL_INFO)
+                self.deleteObjectByQuery(MaxPlayers.deleteQuery, (id,))
+    """

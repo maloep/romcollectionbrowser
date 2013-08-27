@@ -20,7 +20,11 @@ CREATE TABLE IF NOT EXISTS [Person]
     [id] INTEGER PRIMARY KEY AUTOINCREMENT,
     [name] TEXT NOT NULL UNIQUE,
     [description] TEXT,
-    [country] TEXT
+    [country] TEXT,
+    [city] TEXT,
+    [gender] TEXT,
+	[birthdate] DATE,
+    [deathdate] DATE
 );
 
 

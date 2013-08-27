@@ -9,6 +9,17 @@ from resources.lib.rcb.utils import util
 from resources.lib.rcb.utils.util import *
 
 
+"""
+DB Index
+"""
+DBINDEX_description = 2
+DBINDEX_country = 3
+DBINDEX_city = 4
+DBINDEX_gender = 5
+DBINDEX_birthdate = 6
+DBINDEX_deathdate = 7
+
+
 class Person(DataBaseObject):
     def __init__(self):
         self.tableName = "Person"
@@ -16,17 +27,16 @@ class Person(DataBaseObject):
         self.id = None
         self.name = ''
         self.description = ''
+        self.country = ''
+        self.city = ''
+        self.birthdate = ''
+        self.deathdate = ''
+        self.gender = ''
+                
         #releaseId is only used for temporary storage
         self.releaseId = None
         
-        self.birthdate = ''
-        self.deathdate = ''
-        self.country = ''
-        self.hometown = ''
-        self.gender = ''
         self.role = ''
-        
-        self.artworkurls = {}
         self.mediaFiles = {}
         
         
@@ -37,17 +47,30 @@ class Person(DataBaseObject):
         self.id = row[databaseobject.DBINDEX_id]
         self.name = row[databaseobject.DBINDEX_name]
         
+        self.description = row[DBINDEX_description]
+        self.country = row[DBINDEX_country]
+        self.city = row[DBINDEX_city]
+        self.birthdate = row[DBINDEX_birthdate]
+        self.deathdate = row[DBINDEX_deathdate]
+        self.gender = row[DBINDEX_gender]
+        
         
     def toDbDict(self):
         dbdict = {}
         dbdict['id'] = self.id
         dbdict['name'] = self.name 
         dbdict['description'] = self.description
+        dbdict['country'] = self.country
+        dbdict['city'] = self.city
+        dbdict['birthdate'] = self.birthdate
+        dbdict['deathdate'] = self.deathdate
+        dbdict['gender'] = self.gender
+        
+        
         return dbdict
     
     
     def insert(self, gdb, allowUpdate):
-        
         if(self.name == ''):
             return
         
@@ -96,7 +119,7 @@ class Person(DataBaseObject):
     
     
     @staticmethod
-    def getPlatformById(gdb, id):
+    def getPersonById(gdb, id):
         dbRow = DataBaseObject.getOneById(gdb, 'Person', id)
         obj = Person()
         obj.fromDb(dbRow)
