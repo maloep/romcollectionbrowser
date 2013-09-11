@@ -252,8 +252,6 @@ def fromHeimdallToRcb(results, gamenameFromFile, firstRomFile, config, romCollec
                     date = readHeimdallValue(result, dc.date, '')
                     if(len != ''):
                         release.year = date[0:4]
-                if(release.ESRBrating == ''):
-                    release.ESRBrating = readHeimdallValue(result, media.rating, '')
                 if(release.maxPlayers == ''):
                     release.maxPlayers = readHeimdallValue(result, "players", '')
                 

@@ -384,7 +384,7 @@ class GameImporter:
 		gameId = None
 		
 		romFile = File.getFileByNameAndType(self.gdb, filename, 0)
-		if(romFile != None):
+		if(romFile.id != None):
 			isUpdate = True
 			gameId = romFile.parentId
 			Logutil.log('File "%s" already exists in database.' % filename, util.LOG_LEVEL_INFO)

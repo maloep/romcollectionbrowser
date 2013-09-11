@@ -3,8 +3,16 @@ CREATE TABLE IF NOT EXISTS [Company]
     [id] INTEGER PRIMARY KEY AUTOINCREMENT,
     [name] TEXT NOT NULL UNIQUE,
     [description] TEXT,
-    [country] TEXT,
-    [city] TEXT
+    [street] TEXT,
+	[city] TEXT,
+	[country] TEXT,
+    [state] TEXT,
+	[phone] TEXT,
+	[webSite] TEXT,
+	[yearId] INTEGER REFERENCES [Year]
+    (
+        id
+    )
 );
 
 
@@ -22,7 +30,7 @@ CREATE TABLE IF NOT EXISTS [Person]
     [description] TEXT,
     [country] TEXT,
     [city] TEXT,
-    [gender] TEXT,
+    [gender] INTEGER,
 	[birthdate] DATE,
     [deathdate] DATE
 );
@@ -40,7 +48,9 @@ CREATE TABLE IF NOT EXISTS [Character]
 (
     [id] INTEGER PRIMARY KEY AUTOINCREMENT,
     [name] TEXT NOT NULL UNIQUE,
-    [description] TEXT
+    [description] TEXT,
+	[gender] INTEGER,
+	[realName] TEXT
 );
 
 
@@ -83,13 +93,6 @@ CREATE TABLE IF NOT EXISTS [Language]
 );
 
 
-CREATE TABLE IF NOT EXISTS [ESRBRating]
-(
-    [id] INTEGER PRIMARY KEY AUTOINCREMENT,
-    [name] TEXT NOT NULL UNIQUE
-);
-
-
 CREATE TABLE IF NOT EXISTS [MaxPlayers]
 (
     [id] INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -111,7 +114,7 @@ CREATE TABLE IF NOT EXISTS [RomCollection]
 );
 
 
-CREATE TABLE IF NOT EXISTS [Platform] 
+CREATE TABLE IF NOT EXISTS [Platform]
 (
     [id] INTEGER PRIMARY KEY AUTOINCREMENT,
     [name] TEXT NOT NULL UNIQUE,
@@ -134,7 +137,10 @@ CREATE TABLE IF NOT EXISTS [Platform]
     (
         id
     ),
-    [maxControllers] INTEGER
+    [maxControllers] INTEGER,
+	[soldUnits] INTEGER,
+	[hasOnlineFeatures] INTEGER,
+	[originalPrice] INTEGER
 );
 
 
@@ -152,11 +158,6 @@ CREATE TABLE IF NOT EXISTS [Release]
     [description] TEXT,
     [gameCmd] TEXT,
     [alternateGameCmd] TEXT,
-    [mobyRank] INTEGER,
-    [mobyScore] INTEGER,
-    [mobyScoreVotes] INTEGER,
-    [thegamesdbScore] INTEGER,
-    [thegamesdbVotes] INTEGER,
     [isFavorite] INTEGER,
     [launchCount] INTEGER,
     [version] TEXT,
@@ -186,10 +187,6 @@ CREATE TABLE IF NOT EXISTS [Release]
         id
     ),
     [yearId] INTEGER REFERENCES [Year]
-    (
-        id
-    ),
-    [ESRBRatingId] INTEGER REFERENCES [ESRBRating]
     (
         id
     ),
@@ -279,6 +276,62 @@ CREATE TABLE IF NOT EXISTS [LinkCharacterRelease]
 );
 
 
+CREATE TABLE IF NOT EXISTS [RatingBoard]
+(
+    [id] INTEGER PRIMARY KEY AUTOINCREMENT,
+    [name] TEXT NOT NULL UNIQUE
+);
+
+
+CREATE TABLE IF NOT EXISTS [AgeRating]
+(
+    [id] INTEGER PRIMARY KEY AUTOINCREMENT,
+    [name] TEXT NOT NULL UNIQUE,
+	[boardId] INTEGER REFERENCES [RatingBoard]
+    (
+        id
+    ),
+	[releaseId] INTEGER REFERENCES [Release]
+    (
+        id
+    )
+);
+
+
+CREATE TABLE IF NOT EXISTS [ScraperSource]
+(
+    [id] INTEGER PRIMARY KEY AUTOINCREMENT,
+    [name] TEXT NOT NULL UNIQUE,
+	[url] TEXT
+);
+
+
+CREATE TABLE IF NOT EXISTS [ScraperRating]
+(
+    [id] INTEGER PRIMARY KEY AUTOINCREMENT,
+    [name] TEXT NOT NULL UNIQUE,
+	[sourceId] INTEGER REFERENCES [ScraperSource]
+    (
+        id
+    ),
+	[ratingMax] INTEGER
+);
+
+
+CREATE TABLE IF NOT EXISTS [UserRating]
+(
+    [id] INTEGER PRIMARY KEY AUTOINCREMENT,
+    [name] TEXT NOT NULL,
+	[numVotes] INTEGER,
+	[ratingId] INTEGER REFERENCES [ScraperRating]
+    (
+        id
+    ),
+	[parentType] TEXT NOT NULL,
+    [parentId] INTEGER NOT NULL
+);
+
+
 CREATE TABLE IF NOT EXISTS [FileType]
 (
     [id] INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -304,6 +357,7 @@ CREATE TABLE IF NOT EXISTS [DetailUrl]
     [name] TEXT NOT NULL UNIQUE,
     [urlType] TEXT NOT NULL,
     [source] TEXT NOT NULL,
+	[parentType] TEXT NOT NULL,
     [parentId] INTEGER NOT NULL
 );
 
@@ -331,11 +385,6 @@ CREATE VIEW ReleaseView AS
               R.description,
               R.gameCmd,
               R.alternateGameCmd,
-              R.mobyRank,
-              R.mobyScore,
-              R.mobyScoreVotes,
-              R.thegamesdbScore,
-              R.thegamesdbVotes,
               R.isFavorite,
               R.launchCount,
               R.version,
@@ -357,8 +406,6 @@ CREATE VIEW ReleaseView AS
               RomCollection.name AS romCollection,
               R.yearId,
               Year.name AS year,
-              R.ESRBRatingId,
-              ESRBRating.name AS ESRBRating,
               R.regionId,
               Region.name AS region,
               R.languageId,
@@ -382,8 +429,6 @@ CREATE VIEW ReleaseView AS
                            ON R.romCollectionId = RomCollection.id
               LEFT OUTER JOIN Year
                            ON R.yearId = Year.id
-              LEFT OUTER JOIN ESRBRating
-                           ON R.ESRBRatingId = ESRBRating.id
               LEFT OUTER JOIN Region
                            ON R.regionId = Region.id
               LEFT OUTER JOIN Language
