@@ -168,6 +168,14 @@ class File(DataBaseObject):
         obj = File()
         obj.fromDb(dbRow)
         return obj
+    
+    
+    @staticmethod
+    def getFileByNameAndType(gdb, name, type):
+        dbRow = DataBaseObject.getOneByQuery(gdb, File.filterQueryByNameAndType, (name, type))
+        obj = File()
+        obj.fromDb(dbRow)
+        return obj
         
     
     @staticmethod
@@ -217,12 +225,7 @@ class File(DataBaseObject):
         return objs
     
             
-    """        
-    @staticmethod
-    def getFileByNameAndType(gdb, name, type):
-        file = DataBaseObject.getOneByQuery(gdb, File.filterQueryByNameAndType, (name, type))
-        return file
-        
+    """
     @staticmethod
     def getFilesByNameAndType(gdb, name, type):
         files = DataBaseObject.getByQuery(gdb, File.filterQueryByNameAndType, (name, type))

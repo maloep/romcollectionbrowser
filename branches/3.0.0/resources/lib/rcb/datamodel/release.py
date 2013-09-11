@@ -17,34 +17,28 @@ DB Index
 DBINDEX_description = 2
 DBINDEX_gameCmd = 3
 DBINDEX_alternateGameCmd = 4
-DBINDEX_mobyRank = 5
-DBINDEX_mobyScore = 6
-DBINDEX_mobyScoreVotes = 7
-DBINDEX_thegamesdbScore = 8
-DBINDEX_thegamesdbVotes = 9
-DBINDEX_isFavorite = 10
-DBINDEX_launchCount = 11
-DBINDEX_version = 12
-DBINDEX_completed = 13
-DBINDEX_broken = 14
-DBINDEX_dateAdded = 15
-DBINDEX_dateModified = 16
-DBINDEX_lastPlayed = 17
-DBINDEX_gameId = 18
-DBINDEX_platformId = 19
-DBINDEX_romCollectionId = 20
-DBINDEX_developerId = 21
-DBINDEX_publisherId = 22
-DBINDEX_yearId = 23
-DBINDEX_ESRBRatingId = 24
-DBINDEX_regionId = 25
-DBINDEX_laguageId = 26
-DBINDEX_mediaId = 27
-DBINDEX_maxPlayersId = 28
-DBINDEX_perspectiveId = 29
-DBINDEX_controllerId = 30
-DBINDEX_nameFromFile = 31
-DBINDEX_firstRomFile = 32
+DBINDEX_isFavorite = 5
+DBINDEX_launchCount = 6
+DBINDEX_version = 7
+DBINDEX_completed = 8
+DBINDEX_broken = 9
+DBINDEX_dateAdded = 10
+DBINDEX_dateModified = 11
+DBINDEX_lastPlayed = 12
+DBINDEX_gameId = 13
+DBINDEX_platformId = 14
+DBINDEX_romCollectionId = 15
+DBINDEX_developerId = 16
+DBINDEX_publisherId = 17
+DBINDEX_yearId = 18
+DBINDEX_regionId = 19
+DBINDEX_laguageId = 20
+DBINDEX_mediaId = 21
+DBINDEX_maxPlayersId = 22
+DBINDEX_perspectiveId = 23
+DBINDEX_controllerId = 24
+DBINDEX_nameFromFile = 25
+DBINDEX_firstRomFile = 26
 
 
 class Release(DataBaseObject):
@@ -65,11 +59,6 @@ class Release(DataBaseObject):
         self.alternateGameCmd = ''
         self.originalTitle = ''
         self.version = ''
-        self.mobyRank = ''
-        self.mobyScore = ''
-        self.mobyScoreVotes = ''
-        self.thegamesdbScore = ''
-        self.thegamesdbVotes = ''
         
         self.isFavorite = 0
         self.launchCount = 0
@@ -93,7 +82,6 @@ class Release(DataBaseObject):
         self.yearId = None
         self.region = ''
         self.maxPlayers = ''
-        self.ESRBrating = ''
         self.language = ''
         self.media = ''
         self.perspective = ''
