@@ -30,8 +30,17 @@ from config import *
 
 
 #descFile = "http://www.mobygames.com/search/quick?game=Actraiser&p=15"
-#descFile = "F:\\Emulatoren\\data\\Synopsis\\mobygames\\mobysearch - Actraiser.htm"
-#parseInstruction = "F:\\Emulatoren\\data\\Synopsis\\mobygames\\01 - mobygames - gamesearch.xml"
+#parseInstruction = "C:\\Users\\lom\\AppData\\Roaming\\XBMC\\addons\\script.games.rom.collection.browser.dev\\resources\\scraper\\04.01 - mobygames - gamesearch.xml"
+
+#descFile = "http://www.mobygames.com/game/snes/actraiser"
+#parseInstruction = "C:\\Users\\lom\\AppData\\Roaming\\XBMC\\addons\\script.games.rom.collection.browser.dev\\resources\\scraper\\04.02 - mobygames - details.xml"
+
+#descFile = "http://www.mobygames.com/game/snes/actraiser/cover-art"
+#parseInstruction = "C:\\Users\\lom\\AppData\\Roaming\\XBMC\\addons\\script.games.rom.collection.browser.dev\\resources\\scraper\\04.03 - mobygames - coverlink front.xml"
+
+descFile = "http://www.mobygames.com/game/snes/actraiser/cover-art/gameCoverId,170208"
+parseInstruction = "C:\\Users\\lom\\AppData\\Roaming\\XBMC\\addons\\script.games.rom.collection.browser.dev\\resources\\scraper\\04.06 - mobygames - coverdetail back.xml"
+
 
 #descFile = "http://www.mobygames.com/game/sega-32x/blackthorne"
 #parseInstruction = "C:\\Users\\malte\\AppData\\Roaming\\XBMC\\scripts\\Rom Collection Browser\\resources\\scraper\\04.02 - mobygames - details.xml"
@@ -60,14 +69,14 @@ from config import *
 
 #http://api.archive.vg/1.0/System.getGames/VT7RJ960FWD4CC71L0Z0K4KQYR4PJNW8/SYSTEM
 
-descFile = "F:\\Games\\MAME test\\Synopsis\\MAME - short.txt"
-parseInstruction = "F:\\Games\\MAME test\\Synopsis\\parserConfig.xml"
+#descFile = "F:\\Games\\MAME test\\Synopsis\\MAME - short.txt"
+#parseInstruction = "F:\\Games\\MAME test\\Synopsis\\parserConfig.xml"
 
 #descFile = "F:\\Emulatoren\\data\\synopsis\\XTRAS-RCB\\NGPC.txt"
 #parseInstruction = "F:\\Emulatoren\\data\\synopsis\\XTRAS-RCB\\_parserConfig.xml"
 
 
-"""
+
 from descriptionparserfactory import *
 descParser = DescriptionParserFactory.getParser(parseInstruction)
 
@@ -76,7 +85,7 @@ for result in results:
 	print result
 	
 print len(results)
-"""
+
 
 
 
@@ -221,6 +230,8 @@ print str(files)
 
 """
 
+
+"""
 diskPrefix = "Disk*."
 #game =  "CHRONOCROSS Disc 1.iso"
 game = "Final Fantasy IX_Disk 12.iso"
@@ -231,3 +242,4 @@ if(match):
 	print disk
 else:
 	print "no match"
+"""

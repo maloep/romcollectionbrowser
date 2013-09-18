@@ -33,6 +33,10 @@ class PyScraper:
 			
 			url = urlsFromPreviousScrapers[int(scraper.source) -1]
 			Logutil.log("using url from previous scraper: " +str(url), util.LOG_LEVEL_INFO)
+			
+			if(scraper.sourceAppend != None and scraper.sourceAppend != ""):
+				url = url + '/' +scraper.sourceAppend
+			
 			scraperSource = url
 			
 		if(scraper.source == 'nfo'):
