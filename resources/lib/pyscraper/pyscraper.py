@@ -36,6 +36,7 @@ class PyScraper:
 			
 			if(scraper.sourceAppend != None and scraper.sourceAppend != ""):
 				url = url + '/' +scraper.sourceAppend
+				Logutil.log("sourceAppend = '%s'. New url = '%s'" %(scraper.sourceAppend, url), util.LOG_LEVEL_INFO)
 			
 			scraperSource = url
 			

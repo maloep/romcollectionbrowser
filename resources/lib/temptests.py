@@ -38,8 +38,14 @@ from config import *
 #descFile = "http://www.mobygames.com/game/snes/actraiser/cover-art"
 #parseInstruction = "C:\\Users\\lom\\AppData\\Roaming\\XBMC\\addons\\script.games.rom.collection.browser.dev\\resources\\scraper\\04.03 - mobygames - coverlink front.xml"
 
-descFile = "http://www.mobygames.com/game/snes/actraiser/cover-art/gameCoverId,170208"
-parseInstruction = "C:\\Users\\lom\\AppData\\Roaming\\XBMC\\addons\\script.games.rom.collection.browser.dev\\resources\\scraper\\04.06 - mobygames - coverdetail back.xml"
+#descFile = "http://www.mobygames.com/game/snes/actraiser/cover-art/gameCoverId,170208"
+#parseInstruction = "C:\\Users\\lom\\AppData\\Roaming\\XBMC\\addons\\script.games.rom.collection.browser.dev\\resources\\scraper\\04.06 - mobygames - coverdetail back.xml"
+
+#descFile = "http://www.mobygames.com/game/snes/actraiser/screenshots"
+#parseInstruction = "C:\\Users\\lom\\AppData\\Roaming\\XBMC\\addons\\script.games.rom.collection.browser.dev\\resources\\scraper\\04.09 - mobygames - screenshotlink.xml"
+
+descFile = "http://www.mobygames.com/game/snes/actraiser/screenshots/gameShotId,27458/"
+parseInstruction = "C:\\Users\\lom\\AppData\\Roaming\\XBMC\\addons\\script.games.rom.collection.browser.dev\\resources\\scraper\\04.10 - mobygames - screenshot.xml"
 
 
 #descFile = "http://www.mobygames.com/game/sega-32x/blackthorne"
