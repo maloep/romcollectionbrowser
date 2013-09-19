@@ -31,7 +31,6 @@ class DescriptionParserFlatFile:
 		all = OneOrMore(gameGrammar)				
 						
 		fileAsString = self.openDescFile(descFile)
-		print fileAsString
 		
 		fileAsString = fileAsString.decode(encoding).encode('utf-8')
 		
