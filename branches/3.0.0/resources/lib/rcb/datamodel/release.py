@@ -33,12 +33,10 @@ DBINDEX_publisherId = 17
 DBINDEX_yearId = 18
 DBINDEX_regionId = 19
 DBINDEX_laguageId = 20
-DBINDEX_mediaId = 21
-DBINDEX_maxPlayersId = 22
-DBINDEX_perspectiveId = 23
-DBINDEX_controllerId = 24
-DBINDEX_nameFromFile = 25
-DBINDEX_firstRomFile = 26
+DBINDEX_maxPlayersId = 21
+DBINDEX_perspectiveId = 22
+DBINDEX_nameFromFile = 23
+DBINDEX_firstRomFile = 24
 
 
 class Release(DataBaseObject):
@@ -83,9 +81,9 @@ class Release(DataBaseObject):
         self.region = ''
         self.maxPlayers = ''
         self.language = ''
-        self.media = ''
         self.perspective = ''
-        self.controller = ''
+        self.media = []
+        self.controllers = []
         self.alternateTitles = []
         self.detailurls = []
         self.romCollection = None
