@@ -45,14 +45,10 @@ DBINDEX_regionId = 26
 DBINDEX_regionName = 27
 DBINDEX_languageId = 28
 DBINDEX_languageName = 29
-DBINDEX_mediaId = 30
-DBINDEX_mediaName = 31
-DBINDEX_maxPlayersId = 32
-DBINDEX_maxPlayersName = 33
-DBINDEX_perspectiveId = 34
-DBINDEX_perspectiveName = 35
-DBINDEX_controllerId = 36
-DBINDEX_controllerName = 37
+DBINDEX_maxPlayersId = 30
+DBINDEX_maxPlayersName = 31
+DBINDEX_perspectiveId = 32
+DBINDEX_perspectiveName = 33
 
 
 class ReleaseView(DataBaseObject):
@@ -113,16 +109,14 @@ class ReleaseView(DataBaseObject):
         self.maxPlayersName = ''
         self.maxPlayersId = None
         self.languageName = ''
-        self.languageId = None
-        self.mediaName = ''
-        self.mediaId = None
+        self.languageId = None        
         self.perspectiveName = ''
         self.perspectiveId = None
-        self.controllerName = ''
-        self.controllerId = None
                 
         self.persons = []
         self.characters = []
+        self.media = []
+        self.controllers = []
         self.alternateTitles = []
         self.detailurls = []        
         
@@ -163,16 +157,14 @@ class ReleaseView(DataBaseObject):
         self.maxPlayersId = row[DBINDEX_maxPlayersId]
         self.regionId = row[DBINDEX_regionId]
         self.regionName = self.readSaveString(row, DBINDEX_regionName)
-        self.mediaId = row[DBINDEX_mediaId]
-        self.mediaName = self.readSaveString(row, DBINDEX_mediaName)
         self.perspectiveId = row[DBINDEX_perspectiveId]
         self.perspectiveName = self.readSaveString(row, DBINDEX_perspectiveName)
-        self.controllerId = row[DBINDEX_controllerId]
-        self.controllerName = self.readSaveString(row, DBINDEX_controllerName)
         
         """
         release.romCollectionId = row[DBINDEX_romCollectionId]
         release.alternateTitle = row[DBINDEX_alternateTitle]
+        self.controllerId = row[DBINDEX_controllerId]
+        self.controllerName = self.readSaveString(row, DBINDEX_controllerName)
         """
         
     """
