@@ -4,12 +4,12 @@ CREATE TABLE IF NOT EXISTS [Company]
     [name] TEXT NOT NULL UNIQUE,
     [description] TEXT,
     [street] TEXT,
-	[city] TEXT,
-	[country] TEXT,
+    [city] TEXT,
+    [country] TEXT,
     [state] TEXT,
-	[phone] TEXT,
-	[webSite] TEXT,
-	[yearId] INTEGER REFERENCES [Year]
+    [phone] TEXT,
+    [webSite] TEXT,
+    [yearId] INTEGER REFERENCES [Year]
     (
         id
     )
@@ -31,7 +31,7 @@ CREATE TABLE IF NOT EXISTS [Person]
     [country] TEXT,
     [city] TEXT,
     [gender] INTEGER,
-	[birthdate] DATE,
+    [birthdate] DATE,
     [deathdate] DATE
 );
 
@@ -49,8 +49,8 @@ CREATE TABLE IF NOT EXISTS [Character]
     [id] INTEGER PRIMARY KEY AUTOINCREMENT,
     [name] TEXT NOT NULL UNIQUE,
     [description] TEXT,
-	[gender] INTEGER,
-	[realName] TEXT
+    [gender] INTEGER,
+    [realName] TEXT
 );
 
 
@@ -133,14 +133,10 @@ CREATE TABLE IF NOT EXISTS [Platform]
     [graphics] TEXT,
     [sound] TEXT,
     [display] TEXT,
-    [mediaId] INTEGER REFERENCES [Media]
-    (
-        id
-    ),
     [maxControllers] INTEGER,
-	[soldUnits] INTEGER,
-	[hasOnlineFeatures] INTEGER,
-	[originalPrice] INTEGER
+    [soldUnits] INTEGER,
+    [hasOnlineFeatures] INTEGER,
+    [originalPrice] INTEGER
 );
 
 
@@ -198,19 +194,11 @@ CREATE TABLE IF NOT EXISTS [Release]
     (
         id
     ),
-    [mediaId] INTEGER REFERENCES [Media]
-    (
-        id
-    ),
     [maxPlayersId] INTEGER REFERENCES [MaxPlayers]
     (
         id
     ),
     [perspectiveId] INTEGER REFERENCES [Perspective]
-    (
-        id
-    ),
-    [controllerId] INTEGER REFERENCES [Controller]
     (
         id
     ),
@@ -276,6 +264,62 @@ CREATE TABLE IF NOT EXISTS [LinkCharacterRelease]
 );
 
 
+CREATE TABLE IF NOT EXISTS [LinkMediaRelease]
+(
+    [id] INTEGER PRIMARY KEY AUTOINCREMENT,
+    [mediaId] INTEGER REFERENCES [Media]
+    (
+        id
+    ),
+    [releaseId] INTEGER REFERENCES [Release]
+    (
+        id
+    )
+);
+
+
+CREATE TABLE IF NOT EXISTS [LinkControllerRelease]
+(
+    [id] INTEGER PRIMARY KEY AUTOINCREMENT,
+    [controllerId] INTEGER REFERENCES [Controller]
+    (
+        id
+    ),
+    [releaseId] INTEGER REFERENCES [Release]
+    (
+        id
+    )
+);
+
+
+CREATE TABLE IF NOT EXISTS [LinkMediaPlatform]
+(
+    [id] INTEGER PRIMARY KEY AUTOINCREMENT,
+    [mediaId] INTEGER REFERENCES [Media]
+    (
+        id
+    ),
+    [platformId] INTEGER REFERENCES [Platform]
+    (
+        id
+    )
+);
+
+
+CREATE TABLE IF NOT EXISTS [LinkControllerPlatform]
+(
+    [id] INTEGER PRIMARY KEY AUTOINCREMENT,
+    [controllerId] INTEGER REFERENCES [Controller]
+    (
+        id
+    ),
+    [platformId] INTEGER REFERENCES [Platform]
+    (
+        id
+    )
+);
+
+
 CREATE TABLE IF NOT EXISTS [RatingBoard]
 (
     [id] INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -287,11 +331,11 @@ CREATE TABLE IF NOT EXISTS [AgeRating]
 (
     [id] INTEGER PRIMARY KEY AUTOINCREMENT,
     [name] TEXT NOT NULL UNIQUE,
-	[boardId] INTEGER REFERENCES [RatingBoard]
+    [boardId] INTEGER REFERENCES [RatingBoard]
     (
         id
     ),
-	[releaseId] INTEGER REFERENCES [Release]
+    [releaseId] INTEGER REFERENCES [Release]
     (
         id
     )
@@ -302,7 +346,7 @@ CREATE TABLE IF NOT EXISTS [ScraperSource]
 (
     [id] INTEGER PRIMARY KEY AUTOINCREMENT,
     [name] TEXT NOT NULL UNIQUE,
-	[url] TEXT
+    [url] TEXT
 );
 
 
@@ -310,11 +354,11 @@ CREATE TABLE IF NOT EXISTS [ScraperRating]
 (
     [id] INTEGER PRIMARY KEY AUTOINCREMENT,
     [name] TEXT NOT NULL UNIQUE,
-	[sourceId] INTEGER REFERENCES [ScraperSource]
+    [sourceId] INTEGER REFERENCES [ScraperSource]
     (
         id
     ),
-	[ratingMax] INTEGER
+    [ratingMax] INTEGER
 );
 
 
@@ -322,12 +366,12 @@ CREATE TABLE IF NOT EXISTS [UserRating]
 (
     [id] INTEGER PRIMARY KEY AUTOINCREMENT,
     [name] TEXT NOT NULL,
-	[numVotes] INTEGER,
-	[ratingId] INTEGER REFERENCES [ScraperRating]
+    [numVotes] INTEGER,
+    [ratingId] INTEGER REFERENCES [ScraperRating]
     (
         id
     ),
-	[parentType] TEXT NOT NULL,
+    [parentType] TEXT NOT NULL,
     [parentId] INTEGER NOT NULL
 );
 
@@ -357,7 +401,7 @@ CREATE TABLE IF NOT EXISTS [DetailUrl]
     [name] TEXT NOT NULL UNIQUE,
     [urlType] TEXT NOT NULL,
     [source] TEXT NOT NULL,
-	[parentType] TEXT NOT NULL,
+    [parentType] TEXT NOT NULL,
     [parentId] INTEGER NOT NULL
 );
 
@@ -410,14 +454,10 @@ CREATE VIEW ReleaseView AS
               Region.name AS region,
               R.languageId,
               Language.name AS language,
-              R.mediaId,
-              Media.name AS media,
               R.maxPlayersId,
               MaxPlayers.name AS maxPlayers,
               R.perspectiveId,
-              Perspective.name AS perspective,
-              R.controllerId,
-              Controller.name AS controller
+              Perspective.name AS perspective
          FROM [RELEASE] R
               LEFT OUTER JOIN Platform
                            ON R.platformId = Platform.id
@@ -433,11 +473,7 @@ CREATE VIEW ReleaseView AS
                            ON R.regionId = Region.id
               LEFT OUTER JOIN Language
                            ON R.languageId = Language.id
-              LEFT OUTER JOIN Media
-                           ON R.mediaId = Media.id
               LEFT OUTER JOIN MaxPlayers
                            ON R.maxPlayersId = MaxPlayers.id
               LEFT OUTER JOIN Perspective
-                           ON R.perspectiveId = Perspective.id
-              LEFT OUTER JOIN Controller
-                           ON R.controllerId = Controller.id;
+                           ON R.perspectiveId = Perspective.id;
