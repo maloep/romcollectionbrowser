@@ -43,19 +43,21 @@ def getArtworkForRelease(inConfig, release, gamenameFromFile, gui, foldername, i
                     person.mediaFiles[path.type] = getRelativeMediaFileName(path.path, release.platform.name, file)
                 
         elif(path.parent == 'company'):
-            fileName = path.path.replace("%COMPANY%", release.publisher.name)
-            file, continueUpdate = resolveArtwork(fileName, gamenameFromFile, path, release, isLocalArtwork, gui)
-            if(not continueUpdate):
-                return False
-            if(file):
-                release.publisher.mediaFiles[path.type] = getRelativeMediaFileName(path.path, release.platform.name, file)
+            if(release.publisher != None):
+                fileName = path.path.replace("%COMPANY%", release.publisher.name)
+                file, continueUpdate = resolveArtwork(fileName, gamenameFromFile, path, release, isLocalArtwork, gui)
+                if(not continueUpdate):
+                    return False
+                if(file):
+                    release.publisher.mediaFiles[path.type] = getRelativeMediaFileName(path.path, release.platform.name, file)
                             
-            fileName = path.path.replace("%COMPANY%", release.developer.name)
-            file, continueUpdate = resolveArtwork(fileName, gamenameFromFile, path, release, isLocalArtwork, gui)
-            if(not continueUpdate):
-                return False
-            if(file):                
-                release.developer.mediaFiles[path.type] = getRelativeMediaFileName(path.path, release.platform.name, file)
+            if(release.developer != None):
+                fileName = path.path.replace("%COMPANY%", release.developer.name)
+                file, continueUpdate = resolveArtwork(fileName, gamenameFromFile, path, release, isLocalArtwork, gui)
+                if(not continueUpdate):
+                    return False
+                if(file):                
+                    release.developer.mediaFiles[path.type] = getRelativeMediaFileName(path.path, release.platform.name, file)
     
     return True
 

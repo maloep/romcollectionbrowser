@@ -16,8 +16,7 @@ DBINDEX_ram = 7
 DBINDEX_graphics = 8
 DBINDEX_sound = 9
 DBINDEX_display = 10
-DBINDEX_mediaId = 11
-DBINDEX_maxControllers = 12
+DBINDEX_maxControllers = 11
 
 
 class Platform(DataBaseObject):
@@ -29,7 +28,6 @@ class Platform(DataBaseObject):
         self.description = ''
         self.manufacturerId = None
         self.developerId = None
-        self.mediaId = None
         self.cpu = ''
         self.ram = ''
         self.graphics = ''
@@ -56,7 +54,6 @@ class Platform(DataBaseObject):
         self.description = row[DBINDEX_description]
         self.manufacturerId = row[DBINDEX_manufacturerId]
         self.developerId = row[DBINDEX_developerId]
-        self.mediaId =row[DBINDEX_mediaId]
         self.cpu = row[DBINDEX_cpu]
         self.ram = row[DBINDEX_ram]
         self.graphics = row[DBINDEX_graphics]
@@ -73,7 +70,6 @@ class Platform(DataBaseObject):
         platformdict['description'] = self.description
         platformdict['manufacturerId'] = self.manufacturerId
         platformdict['developerId'] = self.developerId
-        platformdict['mediaId'] = self.mediaId
         platformdict['cpu'] = self.cpu
         platformdict['ram'] = self.ram
         platformdict['graphics'] = self.graphics
