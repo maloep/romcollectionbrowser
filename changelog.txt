@@ -1,8 +1,13 @@
+2.0.10 (09/2013)
+~~~~~~~~~~~~~
+General:
+  * bugfix: an error occured when creating a new config file
+
 2.0.9 (09/2013)
 ~~~~~~~~~~~~~
 Import Games:
   * fix thegamesdb scraper: requests have been blocked by cloudflare
-
+  
 2.0.8 (09/2013)
 ~~~~~~~~~~~~~
 Import Games:
