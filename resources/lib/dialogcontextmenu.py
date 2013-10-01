@@ -1,9 +1,8 @@
 
 import xbmc, xbmcgui, xbmcaddon
-import json
-import util
+
+import util, nfowriter, wizardconfigxml, helper
 import dialogeditromcollection, dialogeditscraper, dialogdeleteromcollection, config
-import nfowriter, wizardconfigxml
 from nfowriter import *
 from gamedatabase import *
 from util import *
@@ -267,12 +266,12 @@ class ContextMenuDialog(xbmcgui.WindowXMLDialog):
 		
 		addons = ['None']
 		
-		success, installedAddons = self.readLibretroCores("all", True, platform)
+		success, installedAddons = helper.readLibretroCores("all", True, platform)
 		if(not success):
 			return False, ""
 		addons.extend(installedAddons)
 		
-		success, uninstalledAddons = self.readLibretroCores("uninstalled", False, platform)
+		success, uninstalledAddons = helper.readLibretroCores("uninstalled", False, platform)
 		if(not success):
 			return False, ""
 		addons.extend(uninstalledAddons)
@@ -286,23 +285,4 @@ class ContextMenuDialog(xbmcgui.WindowXMLDialog):
 		else:
 			selectedCore = addons[index]
 			return True, selectedCore
-		
-	
-	def readLibretroCores(self, enabledParam, installedOnlyParam, platform):
-		
-		addons = []
-		addonsJson = xbmc.executeJSONRPC('{ "jsonrpc": "2.0", "id": 1, "method": "Addons.GetAddons", "params": { "type": "xbmc.gameclient", "enabled": "%s" } }' %enabledParam)
-		jsonResult = json.loads(addonsJson)
-		if (str(jsonResult.keys()).find('error') >= 0):
-			Logutil.log("Error while reading addons via json.", util.LOG_LEVEL_WARNING)
-			return False, None
-				
-		for addonObj in jsonResult[u'result'][u'addons']:
-			id = addonObj[u'addonid']
-			addon = xbmcaddon.Addon(id, installed=installedOnlyParam)
-			# extensions and platforms are "|" separated, extensions may or may not have a leading "."
-			if(addon.getAddonInfo('platforms') == platform):
-				addons.append(id)
-		Logutil.log("addons: %s" %str(addons), util.LOG_LEVEL_INFO)
-		return True, addons
 		

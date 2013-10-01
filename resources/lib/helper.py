@@ -1,5 +1,8 @@
 import xbmc
 import os, sys, re
+import json
+
+
 import dbupdate
 from gamedatabase import *
 import util
@@ -352,3 +355,27 @@ def getGamenameFromFilename(filename, romCollection):
 	Logutil.log("gamename (friendly): " +gamename, util.LOG_LEVEL_INFO)		
 	
 	return gamename
+
+
+def readLibretroCores(enabledParam, installedParam, platform):
+	
+	Logutil.log("readLibretroCores", util.LOG_LEVEL_INFO)
+		
+	addons = []
+	addonsJson = xbmc.executeJSONRPC('{ "jsonrpc": "2.0", "id": 1, "method": "Addons.GetAddons", "params": { "type": "xbmc.gameclient", "enabled": "%s" } }' %enabledParam)
+	jsonResult = json.loads(addonsJson)	
+	if (str(jsonResult.keys()).find('error') >= 0):
+		Logutil.log("Error while reading gameclient addons via json. Assume that we are not in RetroPlayer branch.", util.LOG_LEVEL_WARNING)
+		return False, None
+			
+	for addonObj in jsonResult[u'result'][u'addons']:
+		id = addonObj[u'addonid']
+		addon = xbmcaddon.Addon(id, installed=installedParam)
+		# extensions and platforms are "|" separated, extensions may or may not have a leading "."
+		addonPlatformStr = addon.getAddonInfo('platforms')
+		addonPlatforms = addonPlatformStr.split("|")
+		for addonPlatform in addonPlatforms:
+			if(addonPlatform == platform):
+				addons.append(id)
+	Logutil.log("addons: %s" %str(addons), util.LOG_LEVEL_INFO)
+	return True, addons

@@ -76,7 +76,7 @@ parseInstruction = "C:\\Users\\lom\\AppData\\Roaming\\XBMC\\addons\\script.games
 #parseInstruction = "F:\\Emulatoren\\data\\synopsis\\XTRAS-RCB\\_parserConfig.xml"
 
 
-
+"""
 from descriptionparserfactory import *
 descParser = DescriptionParserFactory.getParser(parseInstruction)
 
@@ -85,7 +85,11 @@ for result in results:
 	print result
 	
 print len(results)
+"""
 
+str = "Game Boy"
+str = str.split("|")
+print str
 
 
 
