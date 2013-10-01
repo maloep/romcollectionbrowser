@@ -1,7 +1,8 @@
 
 import os
 import xbmc, xbmcgui, xbmcvfs
-import config
+
+import config, helper
 from configxmlwriter import *
 
 
@@ -100,44 +101,62 @@ class ConfigXmlWizard:
 			romCollection.id = id
 			id = id +1
 			
-			#emulator
-			#xbox games on xbox will be launched directly
-			if (os.environ.get( "OS", "xbox" ) == "xbox" and romCollection.name == 'Xbox'):
-				romCollection.emulatorCmd = '%ROM%'
-				Logutil.log('emuCmd set to "%ROM%" on Xbox.', util.LOG_LEVEL_INFO)
-			#check for standalone games
-			elif (romCollection.name == 'Linux' or romCollection.name == 'Macintosh' or romCollection.name == 'Windows'):
-				romCollection.emulatorCmd = '"%ROM%"'
-				Logutil.log('emuCmd set to "%ROM%" for standalone games.', util.LOG_LEVEL_INFO)
-			else:
-				consolePath = dialog.browse(1, util.localize(40078) %console, 'files')
-				Logutil.log('consolePath: ' +str(consolePath), util.LOG_LEVEL_INFO)
-				if(consolePath == ''):
-					Logutil.log('No consolePath selected. Action canceled.', util.LOG_LEVEL_INFO)
-					break
-				romCollection.emulatorCmd = consolePath
 			
-			#params
-			#on xbox we will create .cut files without params
-			if (os.environ.get( "OS", "xbox" ) == "xbox"):
-				romCollection.emulatorParams = ''
-				Logutil.log('emuParams set to "" on Xbox.', util.LOG_LEVEL_INFO)
-			elif (romCollection.name == 'Linux' or romCollection.name == 'Macintosh' or romCollection.name == 'Windows'):
-				romCollection.emulatorParams = ''
-				Logutil.log('emuParams set to "" for standalone games.', util.LOG_LEVEL_INFO)
+			#use builtin emulator (RetroPlayer)
+			supportsRetroPlayer = False
+			success, installedAddons = helper.readLibretroCores("all", True, romCollection.name)
+			if(success and len(installedAddons) > 0):
+				supportsRetroPlayer = True
 			else:
-				keyboard = xbmc.Keyboard()
-				#TODO add all rom params here
-				keyboard.setDefault('"%ROM%"')
-				keyboard.setHeading(util.localize(40079))			
-				keyboard.doModal()
-				if (keyboard.isConfirmed()):
-					emuParams = keyboard.getText()
-					Logutil.log('emuParams: ' +str(emuParams), util.LOG_LEVEL_INFO)
+				success, installedAddons = helper.readLibretroCores("uninstalled", False, romCollection.name)
+				if(success and len(installedAddons) > 0):
+					supportsRetroPlayer = True
+				
+			if(supportsRetroPlayer):
+				retValue = dialog.yesno(util.localize(30000), util.localize(40098))
+				if(retValue == True):
+					romCollection.useBuiltinEmulator = True
+			
+			#only ask for emulator and params if we don't use builtin emulator
+			if(not romCollection.useBuiltinEmulator):
+				#emulator
+				#xbox games on xbox will be launched directly
+				if (os.environ.get( "OS", "xbox" ) == "xbox" and romCollection.name == 'Xbox'):
+					romCollection.emulatorCmd = '%ROM%'
+					Logutil.log('emuCmd set to "%ROM%" on Xbox.', util.LOG_LEVEL_INFO)
+				#check for standalone games
+				elif (romCollection.name == 'Linux' or romCollection.name == 'Macintosh' or romCollection.name == 'Windows'):
+					romCollection.emulatorCmd = '"%ROM%"'
+					Logutil.log('emuCmd set to "%ROM%" for standalone games.', util.LOG_LEVEL_INFO)
 				else:
-					Logutil.log('No emuParams selected. Action canceled.', util.LOG_LEVEL_INFO)
-					break
-				romCollection.emulatorParams = emuParams
+					consolePath = dialog.browse(1, util.localize(40078) %console, 'files')
+					Logutil.log('consolePath: ' +str(consolePath), util.LOG_LEVEL_INFO)
+					if(consolePath == ''):
+						Logutil.log('No consolePath selected. Action canceled.', util.LOG_LEVEL_INFO)
+						break
+					romCollection.emulatorCmd = consolePath
+				
+				#params
+				#on xbox we will create .cut files without params
+				if (os.environ.get( "OS", "xbox" ) == "xbox"):
+					romCollection.emulatorParams = ''
+					Logutil.log('emuParams set to "" on Xbox.', util.LOG_LEVEL_INFO)
+				elif (romCollection.name == 'Linux' or romCollection.name == 'Macintosh' or romCollection.name == 'Windows'):
+					romCollection.emulatorParams = ''
+					Logutil.log('emuParams set to "" for standalone games.', util.LOG_LEVEL_INFO)
+				else:
+					keyboard = xbmc.Keyboard()
+					#TODO add all rom params here
+					keyboard.setDefault('"%ROM%"')
+					keyboard.setHeading(util.localize(40079))			
+					keyboard.doModal()
+					if (keyboard.isConfirmed()):
+						emuParams = keyboard.getText()
+						Logutil.log('emuParams: ' +str(emuParams), util.LOG_LEVEL_INFO)
+					else:
+						Logutil.log('No emuParams selected. Action canceled.', util.LOG_LEVEL_INFO)
+						break
+					romCollection.emulatorParams = emuParams
 			
 			#roms
 			romPath = dialog.browse(0, util.localize(40080) %console, 'files')
