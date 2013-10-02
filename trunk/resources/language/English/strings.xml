@@ -247,6 +247,8 @@
 	<string id="52032">Pre-Launch Cmd</string>
 	<string id="52033">Post-Launch Cmd</string>
 	<string id="52036">Autoplay Video (Info Window)</string>
+	<string id="52037">Use builtin emulator</string>
+	<string id="52038">Gameclient</string>
 	
 	<string id="52034">Save Config</string>
 	<string id="52035">Cancel</string>
