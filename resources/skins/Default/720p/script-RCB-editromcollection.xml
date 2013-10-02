@@ -1451,44 +1451,64 @@
 			<control type="group" id="7003">
 				<visible>Container(7000).Hasfocus(4)</visible>
 				<posx>250</posx>
-				<posy>120</posy>				
-				<!-- Emulator Cmd -->
-				<control type="image">
+				<posy>120</posy>
+				
+				<!-- Use RetroPlayer -->
+				<control type="radiobutton" id="5540">
 					<posx>0</posx>
 					<posy>0</posy>
+					<width>660</width>
+					<height>30</height>
+					<font>font13</font>
+					<label>$ADDON[script.games.rom.collection.browser 52037]</label>
+					<textcolor>88FFFFFF</textcolor>
+					<focusedcolor>FFFFFFFF</focusedcolor>
+					<texturefocus>rcb-MenuItemFO.png</texturefocus>
+					<texturenofocus>rcb-MenuItemNF.png</texturenofocus>
+					<onleft>7000</onleft>
+					<onright>6000</onright>
+					<onup>5212</onup>
+					<ondown>5550</ondown>
+				</control>
+				<!-- Game Client -->
+				<control type="image">
+					<posx>0</posx>
+					<posy>30</posy>
 					<width>270</width>
 					<height>30</height>
 					<texture>rcb-MenuItemFO.png</texture>
-					<visible>Control.HasFocus(5220)</visible>
+					<visible>Control.HasFocus(5550)</visible>
 				</control>				
 				<control type="label">
 					<posx>7</posx>
-					<posy>0</posy>
+					<posy>30</posy>
 					<width>200</width>
 					<height>30</height>
 					<font>font13</font>
 					<textcolor>FFFFFFFF</textcolor>
 					<align>left</align>
 					<aligny>center</aligny>
-					<label>$ADDON[script.games.rom.collection.browser 52024]</label>
-					<visible>Control.HasFocus(5220)</visible>
+					<label>$ADDON[script.games.rom.collection.browser 52038]</label>
+					<visible>Control.HasFocus(5550)</visible>
+					<animation reversible="false" effect="fade" end="20" time="0" condition="!SubString(Control.GetLabel(5540),*)">Conditional</animation>
 				</control>
 				<control type="label">
 					<posx>7</posx>
-					<posy>0</posy>
+					<posy>30</posy>
 					<width>200</width>
 					<height>30</height>
 					<font>font13</font>
 					<textcolor>88FFFFFF</textcolor>
 					<align>left</align>
 					<aligny>center</aligny>
-					<label>$ADDON[script.games.rom.collection.browser 52024]</label>
-					<visible>!Control.HasFocus(5220)</visible>
+					<label>$ADDON[script.games.rom.collection.browser 52038]</label>
+					<visible>!Control.HasFocus(5550)</visible>
+					<animation reversible="false" effect="fade" end="20" time="0" condition="!SubString(Control.GetLabel(5540),*)">Conditional</animation>
 				</control>
-				<control type="button" id="5220"> 
-					<description>EmuCmd</description>
+				<control type="button" id="5550">
+					<description>Game client</description>
 					<posx>240</posx>
-					<posy>0</posy>
+					<posy>30</posy>
 					<width>410</width>
 					<height>30</height>
 					<visible>true</visible>
@@ -1502,18 +1522,83 @@
 					<disabledcolor>80FFFFFF</disabledcolor>
 					<align>right</align>
 					<aligny>center</aligny>
+					<enable>SubString(Control.GetLabel(5540),*)</enable>
 					<textoffsetx></textoffsetx>
 					<textoffsety></textoffsety>
 					<pulseonselect></pulseonselect>
-					<onup>5212</onup>
-					<ondown>5230</ondown>
+					<onup>5540</onup>
+					<ondown>5220</ondown>
 					<onleft>7000</onleft>
 					<onright>6000</onright>
 				</control>
+				
+				<!-- Emulator Cmd -->
+				<control type="image">
+					<posx>0</posx>
+					<posy>60</posy>
+					<width>270</width>
+					<height>30</height>
+					<texture>rcb-MenuItemFO.png</texture>
+					<visible>Control.HasFocus(5220)</visible>
+				</control>				
+				<control type="label">
+					<posx>7</posx>
+					<posy>60</posy>
+					<width>200</width>
+					<height>30</height>
+					<font>font13</font>
+					<textcolor>FFFFFFFF</textcolor>
+					<align>left</align>
+					<aligny>center</aligny>
+					<label>$ADDON[script.games.rom.collection.browser 52024]</label>
+					<visible>Control.HasFocus(5220)</visible>
+					<animation reversible="false" effect="fade" end="20" time="0" condition="SubString(Control.GetLabel(5540),*)">Conditional</animation>
+				</control>
+				<control type="label">
+					<posx>7</posx>
+					<posy>60</posy>
+					<width>200</width>
+					<height>30</height>
+					<font>font13</font>
+					<textcolor>88FFFFFF</textcolor>
+					<align>left</align>
+					<aligny>center</aligny>
+					<label>$ADDON[script.games.rom.collection.browser 52024]</label>
+					<visible>!Control.HasFocus(5220)</visible>
+					<animation reversible="false" effect="fade" end="20" time="0" condition="SubString(Control.GetLabel(5540),*)">Conditional</animation>
+				</control>
+				<control type="button" id="5220"> 
+					<description>EmuCmd</description>
+					<posx>240</posx>
+					<posy>60</posy>
+					<width>410</width>
+					<height>30</height>
+					<visible>true</visible>
+					<font>font13</font>
+					<colordiffuse>DDFFFFFF</colordiffuse>
+					<texturefocus>rcb-MenuItemFO.png</texturefocus>
+					<texturenofocus>rcb-MenuItemNF.png</texturenofocus>
+					<label>$INFO[ListItem.Label]</label>
+					<textcolor>88FFFFFF</textcolor>
+					<focusedcolor>FFFFFFFF</focusedcolor>
+					<disabledcolor>80FFFFFF</disabledcolor>
+					<align>right</align>
+					<aligny>center</aligny>
+					<enable>!SubString(Control.GetLabel(5540),*)</enable>
+					<textoffsetx></textoffsetx>
+					<textoffsety></textoffsety>
+					<pulseonselect></pulseonselect>
+					<onup>5550</onup>
+					<ondown>5230</ondown>
+					<onleft>7000</onleft>
+					<onright>6000</onright>
+					<animation reversible="false" effect="fade" end="20" time="0" condition="SubString(Control.GetLabel(5540),*)">Conditional</animation>
+				</control>
+				
 				<!-- Emulator Params -->
 				<control type="image">
 					<posx>0</posx>
-					<posy>30</posy>
+					<posy>90</posy>
 					<width>270</width>
 					<height>30</height>
 					<texture>rcb-MenuItemFO.png</texture>
@@ -1521,7 +1606,7 @@
 				</control>
 				<control type="label">
 					<posx>7</posx>
-					<posy>30</posy>
+					<posy>90</posy>
 					<width>200</width>
 					<height>30</height>
 					<font>font13</font>
@@ -1530,10 +1615,11 @@
 					<aligny>center</aligny>
 					<label>$ADDON[script.games.rom.collection.browser 52025]</label>
 					<visible>Control.HasFocus(5230)</visible>
+					<animation reversible="false" effect="fade" end="20" time="0" condition="SubString(Control.GetLabel(5540),*)">Conditional</animation>
 				</control>
 				<control type="label">
 					<posx>7</posx>
-					<posy>30</posy>
+					<posy>90</posy>
 					<width>200</width>
 					<height>30</height>
 					<font>font13</font>
@@ -1542,11 +1628,12 @@
 					<aligny>center</aligny>
 					<label>$ADDON[script.games.rom.collection.browser 52025]</label>
 					<visible>!Control.HasFocus(5230)</visible>
+					<animation reversible="false" effect="fade" end="20" time="0" condition="SubString(Control.GetLabel(5540),*)">Conditional</animation>
 				</control>
 				<control type="button" id="5230"> 
 					<description>EmuParams</description>
 					<posx>240</posx>
-					<posy>30</posy>
+					<posy>90</posy>
 					<width>410</width>
 					<height>30</height>
 					<visible>true</visible>
@@ -1559,6 +1646,7 @@
 					<disabledcolor>80FFFFFF</disabledcolor>
 					<align>right</align>
 					<aligny>center</aligny>
+					<enable>!SubString(Control.GetLabel(5540),*)</enable>
 					<textoffsetx></textoffsetx>
 					<textoffsety></textoffsety>
 					<pulseonselect></pulseonselect>
@@ -1566,11 +1654,13 @@
 					<ondown>5440</ondown>
 					<onleft>7000</onleft>
 					<onright>6000</onright>
+					<animation reversible="false" effect="fade" end="20" time="0" condition="SubString(Control.GetLabel(5540),*)">Conditional</animation>
 				</control>
+				
 				<!-- Use emu solo -->
 				<control type="radiobutton" id="5440">
 					<posx>0</posx>
-					<posy>60</posy>
+					<posy>120</posy>
 					<width>660</width>
 					<height>30</height>
 					<font>font13</font>
@@ -1579,16 +1669,18 @@
 					<focusedcolor>FFFFFFFF</focusedcolor>
 					<texturefocus>rcb-MenuItemFO.png</texturefocus>
 					<texturenofocus>rcb-MenuItemNF.png</texturenofocus>
+					<enable>!SubString(Control.GetLabel(5540),*)</enable>
 					<onleft>7000</onleft>
 					<onright>6000</onright>
 					<onup>5230</onup>
 					<ondown>5530</ondown>
+					<animation reversible="false" effect="fade" end="50" time="0" condition="SubString(Control.GetLabel(5540),*)">Conditional</animation>
 				</control>
 				
 				<!-- Use Popen -->
 				<control type="radiobutton" id="5530">
 					<posx>0</posx>
-					<posy>90</posy>
+					<posy>150</posy>
 					<width>660</width>
 					<height>30</height>
 					<font>font13</font>
@@ -1597,17 +1689,326 @@
 					<focusedcolor>FFFFFFFF</focusedcolor>
 					<texturefocus>rcb-MenuItemFO.png</texturefocus>
 					<texturenofocus>rcb-MenuItemNF.png</texturenofocus>
+					<enable>!SubString(Control.GetLabel(5540),*)</enable>
 					<onleft>7000</onleft>
 					<onright>6000</onright>
-					<onup>5240</onup>
-					<ondown>5450</ondown>
+					<onup>5440</onup>
+					<ondown>5460</ondown>
+					<animation reversible="false" effect="fade" end="50" time="0" condition="SubString(Control.GetLabel(5540),*)">Conditional</animation>
 				</control>
 				
+				<!-- Savestate path -->
+				<control type="image">
+					<posx>0</posx>
+					<posy>180</posy>
+					<width>270</width>
+					<height>30</height>
+					<texture>rcb-MenuItemFO.png</texture>
+					<visible>Control.HasFocus(5460)</visible>
+				</control>
+				<control type="label">
+					<posx>7</posx>
+					<posy>180</posy>
+					<width>200</width>
+					<height>30</height>
+					<font>font13</font>
+					<textcolor>FFFFFFFF</textcolor>
+					<align>left</align>
+					<aligny>center</aligny>
+					<label>$ADDON[script.games.rom.collection.browser 52029]</label>
+					<visible>Control.HasFocus(5460)</visible>
+					<animation reversible="false" effect="fade" end="20" time="0" condition="SubString(Control.GetLabel(5540),*)">Conditional</animation>
+				</control>
+				<control type="label">
+					<posx>7</posx>
+					<posy>180</posy>
+					<width>200</width>
+					<height>30</height>
+					<font>font13</font>
+					<textcolor>88FFFFFF</textcolor>
+					<align>left</align>
+					<aligny>center</aligny>
+					<label>$ADDON[script.games.rom.collection.browser 52029]</label>
+					<visible>!Control.HasFocus(5460)</visible>
+					<animation reversible="false" effect="fade" end="20" time="0" condition="SubString(Control.GetLabel(5540),*)">Conditional</animation>
+				</control>
+				<control type="button" id="5460"> 
+					<description>Savestates</description>
+					<posx>240</posx>
+					<posy>180</posy>
+					<width>410</width>
+					<height>30</height>
+					<visible>true</visible>
+					<font>font13</font>
+					<colordiffuse>DDFFFFFF</colordiffuse>
+					<texturefocus>rcb-MenuItemFO.png</texturefocus>
+					<texturenofocus>rcb-MenuItemNF.png</texturenofocus>
+					<textcolor>88FFFFFF</textcolor>
+					<focusedcolor>FFFFFFFF</focusedcolor>
+					<disabledcolor>80FFFFFF</disabledcolor>
+					<align>right</align>
+					<aligny>center</aligny>
+					<enable>!SubString(Control.GetLabel(5540),*)</enable>
+					<textoffsetx></textoffsetx>
+					<textoffsety></textoffsety>
+					<pulseonselect></pulseonselect>
+					<onup>5530</onup>
+					<ondown>5470</ondown>
+					<onleft>7000</onleft>
+					<onright>6000</onright>
+					<animation reversible="false" effect="fade" end="20" time="0" condition="SubString(Control.GetLabel(5540),*)">Conditional</animation>
+				</control>
+				<!-- Savestate file mask -->
+				<control type="image">
+					<posx>0</posx>
+					<posy>210</posy>
+					<width>270</width>
+					<height>30</height>
+					<texture>rcb-MenuItemFO.png</texture>
+					<visible>Control.HasFocus(5470)</visible>
+				</control>
+				<control type="label">
+					<posx>7</posx>
+					<posy>210</posy>
+					<width>200</width>
+					<height>30</height>
+					<font>font13</font>
+					<textcolor>FFFFFFFF</textcolor>
+					<align>left</align>
+					<aligny>center</aligny>
+					<label>$ADDON[script.games.rom.collection.browser 52030]</label>
+					<visible>Control.HasFocus(5470)</visible>
+					<animation reversible="false" effect="fade" end="20" time="0" condition="SubString(Control.GetLabel(5540),*)">Conditional</animation>
+				</control>
+				<control type="label">
+					<posx>7</posx>
+					<posy>210</posy>
+					<width>200</width>
+					<height>30</height>
+					<font>font13</font>
+					<textcolor>88FFFFFF</textcolor>
+					<align>left</align>
+					<aligny>center</aligny>
+					<label>$ADDON[script.games.rom.collection.browser 52030]</label>
+					<visible>!Control.HasFocus(5470)</visible>
+					<animation reversible="false" effect="fade" end="20" time="0" condition="SubString(Control.GetLabel(5540),*)">Conditional</animation>
+				</control>
+				<control type="button" id="5470"> 
+					<description>Savestates</description>
+					<posx>240</posx>
+					<posy>210</posy>
+					<width>410</width>
+					<height>30</height>
+					<visible>true</visible>
+					<font>font13</font>
+					<colordiffuse>DDFFFFFF</colordiffuse>
+					<texturefocus>rcb-MenuItemFO.png</texturefocus>
+					<texturenofocus>rcb-MenuItemNF.png</texturenofocus>
+					<textcolor>88FFFFFF</textcolor>
+					<focusedcolor>FFFFFFFF</focusedcolor>
+					<disabledcolor>80FFFFFF</disabledcolor>
+					<align>right</align>
+					<aligny>center</aligny>
+					<enable>!SubString(Control.GetLabel(5540),*)</enable>
+					<textoffsetx></textoffsetx>
+					<textoffsety></textoffsety>
+					<pulseonselect></pulseonselect>
+					<onup>5460</onup>
+					<ondown>5480</ondown>
+					<onleft>7000</onleft>
+					<onright>6000</onright>
+					<animation reversible="false" effect="fade" end="20" time="0" condition="SubString(Control.GetLabel(5540),*)">Conditional</animation>
+				</control>
+				
+				<!-- Savestate params -->
+				<control type="image">
+					<posx>0</posx>
+					<posy>240</posy>
+					<width>270</width>
+					<height>30</height>
+					<texture>rcb-MenuItemFO.png</texture>
+					<visible>Control.HasFocus(5480)</visible>
+				</control>
+				<control type="label">
+					<posx>7</posx>
+					<posy>240</posy>
+					<width>200</width>
+					<height>30</height>
+					<font>font13</font>
+					<textcolor>FFFFFFFF</textcolor>
+					<align>left</align>
+					<aligny>center</aligny>
+					<label>$ADDON[script.games.rom.collection.browser 52031]</label>
+					<visible>Control.HasFocus(5480)</visible>
+					<animation reversible="false" effect="fade" end="20" time="0" condition="SubString(Control.GetLabel(5540),*)">Conditional</animation>
+				</control>
+				<control type="label">
+					<posx>7</posx>
+					<posy>240</posy>
+					<width>200</width>
+					<height>30</height>
+					<font>font13</font>
+					<textcolor>88FFFFFF</textcolor>
+					<align>left</align>
+					<aligny>center</aligny>
+					<label>$ADDON[script.games.rom.collection.browser 52031]</label>
+					<visible>!Control.HasFocus(5480)</visible>
+					<animation reversible="false" effect="fade" end="20" time="0" condition="SubString(Control.GetLabel(5540),*)">Conditional</animation>
+				</control>
+				<control type="button" id="5480"> 
+					<description>Savestates</description>
+					<posx>240</posx>
+					<posy>240</posy>
+					<width>410</width>
+					<height>30</height>
+					<visible>true</visible>
+					<font>font13</font>
+					<colordiffuse>DDFFFFFF</colordiffuse>
+					<texturefocus>rcb-MenuItemFO.png</texturefocus>
+					<texturenofocus>rcb-MenuItemNF.png</texturenofocus>
+					<textcolor>88FFFFFF</textcolor>
+					<focusedcolor>FFFFFFFF</focusedcolor>
+					<disabledcolor>80FFFFFF</disabledcolor>
+					<align>right</align>
+					<aligny>center</aligny>
+					<enable>!SubString(Control.GetLabel(5540),*)</enable>
+					<textoffsetx></textoffsetx>
+					<textoffsety></textoffsety>
+					<pulseonselect></pulseonselect>
+					<onup>5470</onup>
+					<ondown>5510</ondown>
+					<onleft>7000</onleft>
+					<onright>6000</onright>
+					<animation reversible="false" effect="fade" end="20" time="0" condition="SubString(Control.GetLabel(5540),*)">Conditional</animation>
+				</control>
+				
+				<!-- PreCmd -->
+				<control type="image">
+					<posx>0</posx>
+					<posy>270</posy>
+					<width>270</width>
+					<height>30</height>
+					<texture>rcb-MenuItemFO.png</texture>
+					<visible>Control.HasFocus(5510)</visible>
+				</control>
+				<control type="label">
+					<posx>7</posx>
+					<posy>270</posy>
+					<width>200</width>
+					<height>30</height>
+					<font>font13</font>
+					<textcolor>FFFFFFFF</textcolor>
+					<align>left</align>
+					<aligny>center</aligny>
+					<label>$ADDON[script.games.rom.collection.browser 52032]</label>
+					<visible>Control.HasFocus(5510)</visible>
+					<animation reversible="false" effect="fade" end="20" time="0" condition="SubString(Control.GetLabel(5540),*)">Conditional</animation>
+				</control>
+				<control type="label">
+					<posx>7</posx>
+					<posy>270</posy>
+					<width>200</width>
+					<height>30</height>
+					<font>font13</font>
+					<textcolor>88FFFFFF</textcolor>
+					<align>left</align>
+					<aligny>center</aligny>
+					<label>$ADDON[script.games.rom.collection.browser 52032]</label>
+					<visible>!Control.HasFocus(5510)</visible>
+					<animation reversible="false" effect="fade" end="20" time="0" condition="SubString(Control.GetLabel(5540),*)">Conditional</animation>
+				</control>
+				<control type="button" id="5510"> 
+					<description>Pre-Launch Command</description>
+					<posx>240</posx>
+					<posy>270</posy>
+					<width>410</width>
+					<height>30</height>
+					<visible>true</visible>
+					<font>font13</font>
+					<colordiffuse>DDFFFFFF</colordiffuse>
+					<texturefocus>rcb-MenuItemFO.png</texturefocus>
+					<texturenofocus>rcb-MenuItemNF.png</texturenofocus>
+					<textcolor>88FFFFFF</textcolor>
+					<focusedcolor>FFFFFFFF</focusedcolor>
+					<disabledcolor>80FFFFFF</disabledcolor>
+					<align>right</align>
+					<aligny>center</aligny>
+					<enable>!SubString(Control.GetLabel(5540),*)</enable>
+					<textoffsetx></textoffsetx>
+					<textoffsety></textoffsety>
+					<pulseonselect></pulseonselect>
+					<onup>5480</onup>
+					<ondown>5520</ondown>
+					<onleft>7000</onleft>
+					<onright>6000</onright>
+					<animation reversible="false" effect="fade" end="20" time="0" condition="SubString(Control.GetLabel(5540),*)">Conditional</animation>
+				</control>
+				<!-- PostCmd -->
+				<control type="image">
+					<posx>0</posx>
+					<posy>300</posy>
+					<width>270</width>
+					<height>30</height>
+					<texture>rcb-MenuItemFO.png</texture>
+					<visible>Control.HasFocus(5520)</visible>
+				</control>
+				<control type="label">
+					<posx>7</posx>
+					<posy>300</posy>
+					<width>200</width>
+					<height>30</height>
+					<font>font13</font>
+					<textcolor>FFFFFFFF</textcolor>
+					<align>left</align>
+					<aligny>center</aligny>
+					<label>$ADDON[script.games.rom.collection.browser 52033]</label>
+					<visible>Control.HasFocus(5520)</visible>
+					<animation reversible="false" effect="fade" end="20" time="0" condition="SubString(Control.GetLabel(5540),*)">Conditional</animation>
+				</control>
+				<control type="label">
+					<posx>7</posx>
+					<posy>300</posy>
+					<width>200</width>
+					<height>30</height>
+					<font>font13</font>
+					<textcolor>88FFFFFF</textcolor>
+					<align>left</align>
+					<aligny>center</aligny>
+					<label>$ADDON[script.games.rom.collection.browser 52033]</label>
+					<visible>!Control.HasFocus(5520)</visible>
+					<animation reversible="false" effect="fade" end="20" time="0" condition="SubString(Control.GetLabel(5540),*)">Conditional</animation>
+				</control>
+				<control type="button" id="5520"> 
+					<description>Post-Launch Command</description>
+					<posx>240</posx>
+					<posy>300</posy>
+					<width>410</width>
+					<height>30</height>
+					<visible>true</visible>
+					<font>font13</font>
+					<colordiffuse>DDFFFFFF</colordiffuse>
+					<texturefocus>rcb-MenuItemFO.png</texturefocus>
+					<texturenofocus>rcb-MenuItemNF.png</texturenofocus>
+					<textcolor>88FFFFFF</textcolor>
+					<focusedcolor>FFFFFFFF</focusedcolor>
+					<disabledcolor>80FFFFFF</disabledcolor>
+					<align>right</align>
+					<aligny>center</aligny>
+					<enable>!SubString(Control.GetLabel(5540),*)</enable>
+					<textoffsetx></textoffsetx>
+					<textoffsety></textoffsety>
+					<pulseonselect></pulseonselect>
+					<onup>5510</onup>
+					<ondown>5450</ondown>
+					<onleft>7000</onleft>
+					<onright>6000</onright>
+					<animation reversible="false" effect="fade" end="20" time="0" condition="SubString(Control.GetLabel(5540),*)">Conditional</animation>
+				</control>
 				
 				<!-- Do not extract zip files -->
 				<control type="radiobutton" id="5450">
 					<posx>0</posx>
-					<posy>120</posy>
+					<posy>330</posy>
 					<width>660</width>
 					<height>30</height>
 					<font>font13</font>
@@ -1618,296 +2019,8 @@
 					<texturenofocus>rcb-MenuItemNF.png</texturenofocus>
 					<onleft>7000</onleft>
 					<onright>6000</onright>
-					<onup>5530</onup>
-					<ondown>5460</ondown>
-				</control>
-				
-				<!-- Savestate path -->
-				<control type="image">
-					<posx>0</posx>
-					<posy>150</posy>
-					<width>270</width>
-					<height>30</height>
-					<texture>rcb-MenuItemFO.png</texture>
-					<visible>Control.HasFocus(5460)</visible>
-				</control>
-				<control type="label">
-					<posx>7</posx>
-					<posy>150</posy>
-					<width>200</width>
-					<height>30</height>
-					<font>font13</font>
-					<textcolor>FFFFFFFF</textcolor>
-					<align>left</align>
-					<aligny>center</aligny>
-					<label>$ADDON[script.games.rom.collection.browser 52029]</label>
-					<visible>Control.HasFocus(5460)</visible>
-				</control>
-				<control type="label">
-					<posx>7</posx>
-					<posy>150</posy>
-					<width>200</width>
-					<height>30</height>
-					<font>font13</font>
-					<textcolor>88FFFFFF</textcolor>
-					<align>left</align>
-					<aligny>center</aligny>
-					<label>$ADDON[script.games.rom.collection.browser 52029]</label>
-					<visible>!Control.HasFocus(5460)</visible>
-				</control>
-				<control type="button" id="5460"> 
-					<description>Savestates</description>
-					<posx>240</posx>
-					<posy>150</posy>
-					<width>410</width>
-					<height>30</height>
-					<visible>true</visible>
-					<font>font13</font>
-					<colordiffuse>DDFFFFFF</colordiffuse>
-					<texturefocus>rcb-MenuItemFO.png</texturefocus>
-					<texturenofocus>rcb-MenuItemNF.png</texturenofocus>
-					<textcolor>88FFFFFF</textcolor>
-					<focusedcolor>FFFFFFFF</focusedcolor>
-					<disabledcolor>80FFFFFF</disabledcolor>
-					<align>right</align>
-					<aligny>center</aligny>
-					<textoffsetx></textoffsetx>
-					<textoffsety></textoffsety>
-					<pulseonselect></pulseonselect>
-					<onup>5450</onup>
-					<ondown>5470</ondown>
-					<onleft>7000</onleft>
-					<onright>6000</onright>
-				</control>
-				<!-- Savestate file mask -->
-				<control type="image">
-					<posx>0</posx>
-					<posy>180</posy>
-					<width>270</width>
-					<height>30</height>
-					<texture>rcb-MenuItemFO.png</texture>
-					<visible>Control.HasFocus(5470)</visible>
-				</control>
-				<control type="label">
-					<posx>7</posx>
-					<posy>180</posy>
-					<width>200</width>
-					<height>30</height>
-					<font>font13</font>
-					<textcolor>FFFFFFFF</textcolor>
-					<align>left</align>
-					<aligny>center</aligny>
-					<label>$ADDON[script.games.rom.collection.browser 52030]</label>
-					<visible>Control.HasFocus(5470)</visible>
-				</control>
-				<control type="label">
-					<posx>7</posx>
-					<posy>180</posy>
-					<width>200</width>
-					<height>30</height>
-					<font>font13</font>
-					<textcolor>88FFFFFF</textcolor>
-					<align>left</align>
-					<aligny>center</aligny>
-					<label>$ADDON[script.games.rom.collection.browser 52030]</label>
-					<visible>!Control.HasFocus(5470)</visible>
-				</control>
-				<control type="button" id="5470"> 
-					<description>Savestates</description>
-					<posx>240</posx>
-					<posy>180</posy>
-					<width>410</width>
-					<height>30</height>
-					<visible>true</visible>
-					<font>font13</font>
-					<colordiffuse>DDFFFFFF</colordiffuse>
-					<texturefocus>rcb-MenuItemFO.png</texturefocus>
-					<texturenofocus>rcb-MenuItemNF.png</texturenofocus>
-					<textcolor>88FFFFFF</textcolor>
-					<focusedcolor>FFFFFFFF</focusedcolor>
-					<disabledcolor>80FFFFFF</disabledcolor>
-					<align>right</align>
-					<aligny>center</aligny>
-					<textoffsetx></textoffsetx>
-					<textoffsety></textoffsety>
-					<pulseonselect></pulseonselect>
-					<onup>5460</onup>
-					<ondown>5480</ondown>
-					<onleft>7000</onleft>
-					<onright>6000</onright>
-				</control>
-				
-				<!-- Savestate params -->
-				<control type="image">
-					<posx>0</posx>
-					<posy>210</posy>
-					<width>270</width>
-					<height>30</height>
-					<texture>rcb-MenuItemFO.png</texture>
-					<visible>Control.HasFocus(5480)</visible>
-				</control>
-				<control type="label">
-					<posx>7</posx>
-					<posy>210</posy>
-					<width>200</width>
-					<height>30</height>
-					<font>font13</font>
-					<textcolor>FFFFFFFF</textcolor>
-					<align>left</align>
-					<aligny>center</aligny>
-					<label>$ADDON[script.games.rom.collection.browser 52031]</label>
-					<visible>Control.HasFocus(5480)</visible>
-				</control>
-				<control type="label">
-					<posx>7</posx>
-					<posy>210</posy>
-					<width>200</width>
-					<height>30</height>
-					<font>font13</font>
-					<textcolor>88FFFFFF</textcolor>
-					<align>left</align>
-					<aligny>center</aligny>
-					<label>$ADDON[script.games.rom.collection.browser 52031]</label>
-					<visible>!Control.HasFocus(5480)</visible>
-				</control>
-				<control type="button" id="5480"> 
-					<description>Savestates</description>
-					<posx>240</posx>
-					<posy>210</posy>
-					<width>410</width>
-					<height>30</height>
-					<visible>true</visible>
-					<font>font13</font>
-					<colordiffuse>DDFFFFFF</colordiffuse>
-					<texturefocus>rcb-MenuItemFO.png</texturefocus>
-					<texturenofocus>rcb-MenuItemNF.png</texturenofocus>
-					<textcolor>88FFFFFF</textcolor>
-					<focusedcolor>FFFFFFFF</focusedcolor>
-					<disabledcolor>80FFFFFF</disabledcolor>
-					<align>right</align>
-					<aligny>center</aligny>
-					<textoffsetx></textoffsetx>
-					<textoffsety></textoffsety>
-					<pulseonselect></pulseonselect>
-					<onup>5470</onup>
-					<ondown>5510</ondown>
-					<onleft>7000</onleft>
-					<onright>6000</onright>
-				</control>
-				
-				<!-- PreCmd -->
-				<control type="image">
-					<posx>0</posx>
-					<posy>240</posy>
-					<width>270</width>
-					<height>30</height>
-					<texture>rcb-MenuItemFO.png</texture>
-					<visible>Control.HasFocus(5510)</visible>
-				</control>
-				<control type="label">
-					<posx>7</posx>
-					<posy>240</posy>
-					<width>200</width>
-					<height>30</height>
-					<font>font13</font>
-					<textcolor>FFFFFFFF</textcolor>
-					<align>left</align>
-					<aligny>center</aligny>
-					<label>$ADDON[script.games.rom.collection.browser 52032]</label>
-					<visible>Control.HasFocus(5510)</visible>
-				</control>
-				<control type="label">
-					<posx>7</posx>
-					<posy>240</posy>
-					<width>200</width>
-					<height>30</height>
-					<font>font13</font>
-					<textcolor>88FFFFFF</textcolor>
-					<align>left</align>
-					<aligny>center</aligny>
-					<label>$ADDON[script.games.rom.collection.browser 52032]</label>
-					<visible>!Control.HasFocus(5510)</visible>
-				</control>
-				<control type="button" id="5510"> 
-					<description>Pre-Launch Command</description>
-					<posx>240</posx>
-					<posy>240</posy>
-					<width>410</width>
-					<height>30</height>
-					<visible>true</visible>
-					<font>font13</font>
-					<colordiffuse>DDFFFFFF</colordiffuse>
-					<texturefocus>rcb-MenuItemFO.png</texturefocus>
-					<texturenofocus>rcb-MenuItemNF.png</texturenofocus>
-					<textcolor>88FFFFFF</textcolor>
-					<focusedcolor>FFFFFFFF</focusedcolor>
-					<disabledcolor>80FFFFFF</disabledcolor>
-					<align>right</align>
-					<aligny>center</aligny>
-					<textoffsetx></textoffsetx>
-					<textoffsety></textoffsety>
-					<pulseonselect></pulseonselect>
-					<onup>5480</onup>
-					<ondown>5520</ondown>
-					<onleft>7000</onleft>
-					<onright>6000</onright>
-				</control>
-				<!-- PostCmd -->
-				<control type="image">
-					<posx>0</posx>
-					<posy>270</posy>
-					<width>270</width>
-					<height>30</height>
-					<texture>rcb-MenuItemFO.png</texture>
-					<visible>Control.HasFocus(5520)</visible>
-				</control>
-				<control type="label">
-					<posx>7</posx>
-					<posy>270</posy>
-					<width>200</width>
-					<height>30</height>
-					<font>font13</font>
-					<textcolor>FFFFFFFF</textcolor>
-					<align>left</align>
-					<aligny>center</aligny>
-					<label>$ADDON[script.games.rom.collection.browser 52033]</label>
-					<visible>Control.HasFocus(5520)</visible>
-				</control>
-				<control type="label">
-					<posx>7</posx>
-					<posy>270</posy>
-					<width>200</width>
-					<height>30</height>
-					<font>font13</font>
-					<textcolor>88FFFFFF</textcolor>
-					<align>left</align>
-					<aligny>center</aligny>
-					<label>$ADDON[script.games.rom.collection.browser 52033]</label>
-					<visible>!Control.HasFocus(5520)</visible>
-				</control>
-				<control type="button" id="5520"> 
-					<description>Post-Launch Command</description>
-					<posx>240</posx>
-					<posy>270</posy>
-					<width>410</width>
-					<height>30</height>
-					<visible>true</visible>
-					<font>font13</font>
-					<colordiffuse>DDFFFFFF</colordiffuse>
-					<texturefocus>rcb-MenuItemFO.png</texturefocus>
-					<texturenofocus>rcb-MenuItemNF.png</texturenofocus>
-					<textcolor>88FFFFFF</textcolor>
-					<focusedcolor>FFFFFFFF</focusedcolor>
-					<disabledcolor>80FFFFFF</disabledcolor>
-					<align>right</align>
-					<aligny>center</aligny>
-					<textoffsetx></textoffsetx>
-					<textoffsety></textoffsety>
-					<pulseonselect></pulseonselect>
-					<onup>5510</onup>
+					<onup>5520</onup>
 					<ondown>6000</ondown>
-					<onleft>7000</onleft>
-					<onright>6000</onright>
 				</control>
 			</control>
 			

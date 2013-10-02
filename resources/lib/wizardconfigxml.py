@@ -105,6 +105,7 @@ class ConfigXmlWizard:
 			#use builtin emulator (RetroPlayer)
 			supportsRetroPlayer = False
 			success, installedAddons = helper.readLibretroCores("all", True, romCollection.name)
+			#TODO handle retroplayer pr-branch?
 			if(success and len(installedAddons) > 0):
 				supportsRetroPlayer = True
 			else:

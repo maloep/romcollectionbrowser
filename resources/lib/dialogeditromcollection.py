@@ -46,6 +46,8 @@ CONTROL_BUTTON_AUTOPLAYVIDEO_INFO = 5360
 
 
 #Launch Games
+CONTROL_BUTTON_USEBUILTIN = 5540
+CONTROL_BUTTON_GAMECLIENT = 5550
 CONTROL_BUTTON_EMUCMD = 5220
 CONTROL_BUTTON_PARAMS = 5230
 CONTROL_BUTTON_USEEMUSOLO = 5440
@@ -159,6 +161,11 @@ class EditRomCollectionDialog(dialogbase.DialogBaseEdit):
 			#HACK: add a little wait time as XBMC needs some ms to execute the MoveUp/MoveDown actions from the skin
 			xbmc.sleep(util.WAITTIME_UPDATECONTROLS)
 			self.updateMediaPathControls()
+			
+			
+		elif (controlID == CONTROL_BUTTON_GAMECLIENT):
+			gameclient = ""
+			self.selectedRomCollection.gameclient = gameclient
 			
 		elif (controlID == CONTROL_BUTTON_EMUCMD):
 			if (self.selectedRomCollection.name == 'Linux' or self.selectedRomCollection.name == 'Macintosh' or self.selectedRomCollection.name == 'Windows'):
@@ -329,7 +336,13 @@ class EditRomCollectionDialog(dialogbase.DialogBaseEdit):
 			control.setSelected(self.selectedRomCollection.autoplayVideoInfo)
 		
 		#Launch Games
-		control = self.getControlById(CONTROL_BUTTON_EMUCMD)		
+		control = self.getControlById(CONTROL_BUTTON_USEBUILTIN)
+		control.setSelected(self.selectedRomCollection.useBuiltinEmulator)
+		
+		control = self.getControlById(CONTROL_BUTTON_GAMECLIENT)
+		control.setLabel(self.selectedRomCollection.gameclient)
+		
+		control = self.getControlById(CONTROL_BUTTON_EMUCMD)
 		control.setLabel(self.selectedRomCollection.emulatorCmd)
 		
 		control = self.getControlById(CONTROL_BUTTON_PARAMS)
@@ -428,6 +441,8 @@ class EditRomCollectionDialog(dialogbase.DialogBaseEdit):
 		if(control != None):
 			self.selectedRomCollection.autoplayVideoInfo = bool(control.isSelected())
 		
+		control = self.getControlById(CONTROL_BUTTON_USEBUILTIN)
+		self.selectedRomCollection.useBuiltinEmulator = bool(control.isSelected())
 		control = self.getControlById(CONTROL_BUTTON_USEEMUSOLO)
 		self.selectedRomCollection.useEmuSolo = bool(control.isSelected())
 		control = self.getControlById(CONTROL_BUTTON_USEPOPEN)
