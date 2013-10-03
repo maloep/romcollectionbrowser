@@ -145,7 +145,7 @@ class ContextMenuDialog(xbmcgui.WindowXMLDialog):
 			romCollectionId = self.gameRow[util.GAME_romCollectionId]
 			romCollection = self.gui.config.romCollections[str(romCollectionId)]
 			if(romCollection.useBuiltinEmulator):
-				success, selectedcore = self.selectlibretrocore(romCollection.name)
+				success, selectedcore = helper.selectlibretrocore(romCollection.name)
 				if success:
 					command = selectedcore
 				else:
@@ -259,30 +259,4 @@ class ContextMenuDialog(xbmcgui.WindowXMLDialog):
 		
 		return control
 
-	
-	def selectlibretrocore(self, platform):
-		
-		selectedCore = ''
-		
-		addons = ['None']
-		
-		success, installedAddons = helper.readLibretroCores("all", True, platform)
-		if(not success):
-			return False, ""
-		addons.extend(installedAddons)
-		
-		success, uninstalledAddons = helper.readLibretroCores("uninstalled", False, platform)
-		if(not success):
-			return False, ""
-		addons.extend(uninstalledAddons)
-		
-		dialog = xbmcgui.Dialog()
-		index = dialog.select('Select libretro core', addons)
-		if(index == -1):
-			return False, ""
-		elif(index == 0):
-			return True, ""
-		else:
-			selectedCore = addons[index]
-			return True, selectedCore
 		

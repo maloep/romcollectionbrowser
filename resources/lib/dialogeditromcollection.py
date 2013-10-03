@@ -2,7 +2,7 @@ import xbmc, xbmcgui
 
 import os
 
-import util, config, dialogbase
+import util, helper, config, dialogbase
 from util import *
 from configxmlwriter import *
 
@@ -164,8 +164,15 @@ class EditRomCollectionDialog(dialogbase.DialogBaseEdit):
 			
 			
 		elif (controlID == CONTROL_BUTTON_GAMECLIENT):
-			gameclient = ""
-			self.selectedRomCollection.gameclient = gameclient
+			success, gameclient = helper.selectlibretrocore(self.selectedRomCollection.name)
+			if success:
+				self.selectedRomCollection.gameclient = gameclient
+						
+			control = self.getControlById(CONTROL_BUTTON_GAMECLIENT)
+			if(gameclient == ""):			
+				control.setLabel("None")
+			else:
+				control.setLabel(gameclient)
 			
 		elif (controlID == CONTROL_BUTTON_EMUCMD):
 			if (self.selectedRomCollection.name == 'Linux' or self.selectedRomCollection.name == 'Macintosh' or self.selectedRomCollection.name == 'Windows'):

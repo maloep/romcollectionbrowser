@@ -1,4 +1,4 @@
-import xbmc
+import xbmc, xbmcgui
 import os, sys, re
 import json
 
@@ -357,6 +357,35 @@ def getGamenameFromFilename(filename, romCollection):
 	return gamename
 
 
+def selectlibretrocore(platform):
+		
+	selectedCore = ''
+	
+	addons = ['None']
+	
+	success, installedAddons = readLibretroCores("all", True, platform)
+	if(not success):
+		return False, ""
+	addons.extend(installedAddons)
+	
+	success, uninstalledAddons = readLibretroCores("uninstalled", False, platform)
+	if(not success):
+		return False, ""
+	addons.extend(uninstalledAddons)
+	
+	dialog = xbmcgui.Dialog()
+	index = dialog.select('Select libretro core', addons)
+	print "index = " +str(index)
+	if(index == -1):
+		return False, ""
+	elif(index == 0):
+		print "return success"
+		return True, ""
+	else:
+		selectedCore = addons[index]
+		return True, selectedCore
+
+
 def readLibretroCores(enabledParam, installedParam, platform):
 	
 	Logutil.log("readLibretroCores", util.LOG_LEVEL_INFO)
@@ -368,14 +397,18 @@ def readLibretroCores(enabledParam, installedParam, platform):
 		Logutil.log("Error while reading gameclient addons via json. Assume that we are not in RetroPlayer branch.", util.LOG_LEVEL_WARNING)
 		return False, None
 			
-	for addonObj in jsonResult[u'result'][u'addons']:
-		id = addonObj[u'addonid']
-		addon = xbmcaddon.Addon(id, installed=installedParam)
-		# extensions and platforms are "|" separated, extensions may or may not have a leading "."
-		addonPlatformStr = addon.getAddonInfo('platforms')
-		addonPlatforms = addonPlatformStr.split("|")
-		for addonPlatform in addonPlatforms:
-			if(addonPlatform == platform):
-				addons.append(id)
+	try:
+		for addonObj in jsonResult[u'result'][u'addons']:
+			id = addonObj[u'addonid']
+			addon = xbmcaddon.Addon(id, installed=installedParam)
+			# extensions and platforms are "|" separated, extensions may or may not have a leading "."
+			addonPlatformStr = addon.getAddonInfo('platforms')
+			addonPlatforms = addonPlatformStr.split("|")
+			for addonPlatform in addonPlatforms:
+				if(addonPlatform == platform):
+					addons.append(id)
+	except KeyError:
+		#no addons installed or found
+		return True, addons
 	Logutil.log("addons: %s" %str(addons), util.LOG_LEVEL_INFO)
 	return True, addons
