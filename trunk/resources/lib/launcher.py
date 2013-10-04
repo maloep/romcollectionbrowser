@@ -622,7 +622,7 @@ def launchNonXbox(cmd, romCollection, gameRow, settings, precmd, postcmd, roms, 
 	if(romCollection.useBuiltinEmulator):
 		Logutil.log("launching game with internal emulator", util.LOG_LEVEL_INFO)
 		rom = roms[0]
-		gameclient = romCollection.gameclient		
+		gameclient = romCollection.gameclient
 		#HACK: assume that every gameclient starts with "gameclient"
 		if(gameRow[util.GAME_gameCmd] != None and str(gameRow[util.GAME_gameCmd]).startswith('gameclient')):
 			gameclient = str(gameRow[util.GAME_gameCmd])
@@ -631,7 +631,11 @@ def launchNonXbox(cmd, romCollection, gameRow, settings, precmd, postcmd, roms, 
 		
 		if(listitem == None):
 			listitem = xbmcgui.ListItem(rom, "0", "", "")
-		listitem.setInfo( type="game", infoLabels={ "platform": romCollection.name, "gameclient" : gameclient})
+		
+		parameters = { "platform": romCollection.name }
+		if(gameclient != ""):
+			parameters["gameclient"] = gameclient
+		listitem.setInfo( type="game", infoLabels=parameters)
 		Logutil.log("launching rom: " +rom, util.LOG_LEVEL_INFO)		
 		gui.player.play(rom, listitem)
 		#xbmc.executebuiltin('PlayMedia(\"%s\", platform=%s, gameclient=%s)' %(rom, romCollection.name, romCollection.gameclient))
