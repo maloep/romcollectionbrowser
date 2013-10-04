@@ -102,21 +102,24 @@ class ConfigXmlWizard:
 			id = id +1
 			
 			
-			#use builtin emulator (RetroPlayer)
-			supportsRetroPlayer = False
-			success, installedAddons = helper.readLibretroCores("all", True, romCollection.name)
-			#TODO handle retroplayer pr-branch?
-			if(success and len(installedAddons) > 0):
+			#check if we have general RetroPlayer support
+			if(helper.isRetroPlayerSupported()):
 				supportsRetroPlayer = True
-			else:
-				success, installedAddons = helper.readLibretroCores("uninstalled", False, romCollection.name)
-				if(success and len(installedAddons) > 0):
-					supportsRetroPlayer = True
-				
-			if(supportsRetroPlayer):
-				retValue = dialog.yesno(util.localize(30000), util.localize(40098))
-				if(retValue == True):
-					romCollection.useBuiltinEmulator = True
+				#if we have full python integration we can also check if specific platform supports RetroPlayer
+				if(helper.retroPlayerSupportsPythonIntegration()):
+					supportsRetroPlayer = False
+					success, installedAddons = helper.readLibretroCores("all", True, romCollection.name)
+					if(success and len(installedAddons) > 0):
+						supportsRetroPlayer = True
+					else:
+						success, installedAddons = helper.readLibretroCores("uninstalled", False, romCollection.name)
+						if(success and len(installedAddons) > 0):
+							supportsRetroPlayer = True
+					
+				if(supportsRetroPlayer):
+					retValue = dialog.yesno(util.localize(30000), util.localize(40098))
+					if(retValue == True):
+						romCollection.useBuiltinEmulator = True
 			
 			#only ask for emulator and params if we don't use builtin emulator
 			if(not romCollection.useBuiltinEmulator):
