@@ -46,8 +46,9 @@ CONTROL_BUTTON_AUTOPLAYVIDEO_INFO = 5360
 
 
 #Launch Games
-CONTROL_BUTTON_USEBUILTIN = 5540
+CONTROL_BUTTON_USERETROPLAYER = 5540
 CONTROL_BUTTON_GAMECLIENT = 5550
+
 CONTROL_BUTTON_EMUCMD = 5220
 CONTROL_BUTTON_PARAMS = 5230
 CONTROL_BUTTON_USEEMUSOLO = 5440
@@ -110,6 +111,18 @@ class EditRomCollectionDialog(dialogbase.DialogBaseEdit):
 			self.imagePlacingList.append(option)
 		self.addItemsToList(CONTROL_LIST_IMAGEPLACING_MAIN, self.imagePlacingList)
 		self.addItemsToList(CONTROL_LIST_IMAGEPLACING_INFO, self.imagePlacingList)
+		
+		if(not helper.isRetroPlayerSupported()):
+			control = self.getControlById(CONTROL_BUTTON_USERETROPLAYER)
+			control.setEnabled(False)
+			control.setVisible(False)
+			control = self.getControlById(CONTROL_BUTTON_GAMECLIENT)
+			control.setEnabled(False)
+			control.setVisible(False)
+		elif(not helper.retroPlayerSupportsPythonIntegration()):
+			control = self.getControlById(CONTROL_BUTTON_GAMECLIENT)
+			control.setEnabled(False)
+			control.setVisible(False)
 		
 		self.updateRomCollectionControls()
 		
@@ -343,7 +356,7 @@ class EditRomCollectionDialog(dialogbase.DialogBaseEdit):
 			control.setSelected(self.selectedRomCollection.autoplayVideoInfo)
 		
 		#Launch Games
-		control = self.getControlById(CONTROL_BUTTON_USEBUILTIN)
+		control = self.getControlById(CONTROL_BUTTON_USERETROPLAYER)
 		control.setSelected(self.selectedRomCollection.useBuiltinEmulator)
 		
 		control = self.getControlById(CONTROL_BUTTON_GAMECLIENT)
@@ -448,7 +461,7 @@ class EditRomCollectionDialog(dialogbase.DialogBaseEdit):
 		if(control != None):
 			self.selectedRomCollection.autoplayVideoInfo = bool(control.isSelected())
 		
-		control = self.getControlById(CONTROL_BUTTON_USEBUILTIN)
+		control = self.getControlById(CONTROL_BUTTON_USERETROPLAYER)
 		self.selectedRomCollection.useBuiltinEmulator = bool(control.isSelected())
 		control = self.getControlById(CONTROL_BUTTON_USEEMUSOLO)
 		self.selectedRomCollection.useEmuSolo = bool(control.isSelected())
