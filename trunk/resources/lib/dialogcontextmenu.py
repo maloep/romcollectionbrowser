@@ -144,7 +144,8 @@ class ContextMenuDialog(xbmcgui.WindowXMLDialog):
 			
 			romCollectionId = self.gameRow[util.GAME_romCollectionId]
 			romCollection = self.gui.config.romCollections[str(romCollectionId)]
-			if(romCollection.useBuiltinEmulator):
+			
+			if(helper.retroPlayerSupportsPythonIntegration() and romCollection.useBuiltinEmulator):
 				success, selectedcore = helper.selectlibretrocore(romCollection.name)
 				if success:
 					command = selectedcore

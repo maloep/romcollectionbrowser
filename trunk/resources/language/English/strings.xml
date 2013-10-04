@@ -147,7 +147,7 @@
 	<string id="40095">Post-Launch delay (ms)</string>
 	<string id="40096">Solo mode startup delay (ms)</string>
 	<string id="40097">Use VB script in solo mode (Windows only)</string>
-	<string id="40098">Use builtin emulator (RetroPlayer)?</string>
+	<string id="40098">Use RetroPlayer to launch games?</string>
 	
 	
 	<!-- Settings -->
@@ -247,7 +247,7 @@
 	<string id="52032">Pre-Launch Cmd</string>
 	<string id="52033">Post-Launch Cmd</string>
 	<string id="52036">Autoplay Video (Info Window)</string>
-	<string id="52037">Use builtin emulator</string>
+	<string id="52037">Use RetroPlayer</string>
 	<string id="52038">Gameclient</string>
 	
 	<string id="52034">Save Config</string>

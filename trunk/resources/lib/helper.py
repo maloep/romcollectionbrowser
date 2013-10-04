@@ -357,10 +357,30 @@ def getGamenameFromFilename(filename, romCollection):
 	return gamename
 
 
+def isRetroPlayerSupported():
+	#HACK: if this json call fails, we are not in RetroPlayer branch
+	addonsJson = xbmc.executeJSONRPC('{ "jsonrpc": "2.0", "id": 1, "method": "Addons.GetAddons", "params": { "type": "xbmc.gameclient"} }')
+	jsonResult = json.loads(addonsJson)
+	if (str(jsonResult.keys()).find('error') >= 0):
+		Logutil.log("Error while reading gameclient addons via json. Assume that we are not in RetroPlayer branch.", util.LOG_LEVEL_WARNING)
+		return False
+	return True
+
+
+def retroPlayerSupportsPythonIntegration():
+	#HACK: if this fails, RetroPlayer branch does not support python integration
+	addon = xbmcaddon.Addon(id=util.SCRIPTID)
+	try:
+		platforms = addon.getAddonInfo('platforms')
+	except RuntimeError:
+		Logutil.log("Error while reading platforms from addon. Assume that we are not in RetroPlayer branch.", util.LOG_LEVEL_WARNING)
+		return False
+	return True
+
+
 def selectlibretrocore(platform):
 		
 	selectedCore = ''
-	
 	addons = ['None']
 	
 	success, installedAddons = readLibretroCores("all", True, platform)
