@@ -41,6 +41,12 @@ class ContextMenuDialog(xbmcgui.WindowXMLDialog):
 				buttonMarkFavorite = self.getControlById(CONTROL_BUTTON_SETFAVORITE_SELECTION)
 				if(buttonMarkFavorite != None):
 					buttonMarkFavorite.setLabel(util.localize(40034))
+		
+		#Hide Set Gameclient option
+		if(not helper.retroPlayerSupportsPythonIntegration()):
+			control = self.getControlById(5224)
+			control.setVisible(False)
+			control.setEnabled(False)
 			
 	
 	def onAction(self, action):
@@ -141,25 +147,14 @@ class ContextMenuDialog(xbmcgui.WindowXMLDialog):
 
 			origCommand = self.gameRow[util.GAME_gameCmd]
 			command = ''
-			
-			romCollectionId = self.gameRow[util.GAME_romCollectionId]
-			romCollection = self.gui.config.romCollections[str(romCollectionId)]
-			
-			if(helper.retroPlayerSupportsPythonIntegration() and romCollection.useBuiltinEmulator):
-				success, selectedcore = helper.selectlibretrocore(romCollection.name)
-				if success:
-					command = selectedcore
-				else:
-					Logutil.log("No libretro core was chosen. Won't update game command.", util.LOG_LEVEL_INFO)
-					return
-			else:
-				keyboard = xbmc.Keyboard()
-				keyboard.setHeading(util.localize(40035))
-				if(origCommand != None):
-					keyboard.setDefault(origCommand)
-				keyboard.doModal()
-				if (keyboard.isConfirmed()):
-					command = keyboard.getText()
+									
+			keyboard = xbmc.Keyboard()
+			keyboard.setHeading(util.localize(40035))
+			if(origCommand != None):
+				keyboard.setDefault(origCommand)
+			keyboard.doModal()
+			if (keyboard.isConfirmed()):
+				command = keyboard.getText()
 					
 			if(command != origCommand):
 				Logutil.log("Updating game '%s' with command '%s'" %(str(self.gameRow[util.ROW_NAME]), command), util.LOG_LEVEL_INFO)
@@ -247,6 +242,36 @@ class ContextMenuDialog(xbmcgui.WindowXMLDialog):
 		elif (controlID == 5223): #Open Settings
 			self.close()			
 			self.gui.Settings.openSettings()
+		
+		elif (controlID == 5224): #Set gameclient
+			self.close()
+			
+			if(not helper.retroPlayerSupportsPythonIntegration()):
+				Logutil.log("This RetroPlayer branch does not support selecting gameclients.", util.LOG_LEVEL_INFO)
+				return
+			
+			if(self.selectedGame == None or self.gameRow == None):
+				xbmcgui.Dialog().ok(util.SCRIPTNAME, util.localize(35015), util.localize(35014))
+				return
+
+			#HACK: use alternateGameCmd to store gameclient information
+			origGameClient = self.gameRow[util.GAME_alternateGameCmd]
+			gameclient = ''
+			
+			romCollectionId = self.gameRow[util.GAME_romCollectionId]
+			romCollection = self.gui.config.romCollections[str(romCollectionId)]
+						
+			success, selectedcore = helper.selectlibretrocore(romCollection.name)
+			if success:
+				gameclient = selectedcore
+			else:
+				Logutil.log("No libretro core was chosen. Won't update game command.", util.LOG_LEVEL_INFO)
+				return
+				
+			if(gameclient != origGameClient):
+				Logutil.log("Updating game '%s' with gameclient '%s'" %(str(self.gameRow[util.ROW_NAME]), gameclient), util.LOG_LEVEL_INFO)
+				Game(self.gui.gdb).update(('alternateGameCmd',), (gameclient,), self.gameRow[util.ROW_ID], True)
+				self.gui.gdb.commit()
 	
 	def onFocus(self, controlID):
 		pass
