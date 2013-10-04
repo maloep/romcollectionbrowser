@@ -112,6 +112,7 @@ RCBSETTING_lastSelectedCharacterIndex = 11
 
 GAME_description = 2
 GAME_gameCmd = 3
+GAME_alternateGameCmd = 4
 GAME_romCollectionId = 5
 GAME_publisherId = 6
 GAME_developerId = 7
