@@ -623,9 +623,9 @@ def launchNonXbox(cmd, romCollection, gameRow, settings, precmd, postcmd, roms, 
 		Logutil.log("launching game with internal emulator", util.LOG_LEVEL_INFO)
 		rom = roms[0]
 		gameclient = romCollection.gameclient
-		#HACK: assume that every gameclient starts with "gameclient"
-		if(gameRow[util.GAME_gameCmd] != None and str(gameRow[util.GAME_gameCmd]).startswith('gameclient')):
-			gameclient = str(gameRow[util.GAME_gameCmd])
+		#HACK: use alternateGameCmd as gameclient
+		if(gameRow[util.GAME_alternateGameCmd] != None and gameRow[util.GAME_alternateGameCmd] != ""):
+			gameclient = str(gameRow[util.GAME_alternateGameCmd])
 		Logutil.log("Preferred gameclient: " +gameclient, util.LOG_LEVEL_INFO)
 		Logutil.log("Setting platform: " +romCollection.name, util.LOG_LEVEL_INFO)
 		
