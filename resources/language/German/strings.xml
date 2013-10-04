@@ -148,6 +148,7 @@
 	<string id="40095">Verzögerung danach (ms)</string>
 	<string id="40096">Start-Verzögerung im Solo Modus (ms)</string>
 	<string id="40097">VB script im Solo Modus (nur Windows)</string>
+	<string id="40098">Spiele per RetroPlayer starten?</string>
 
 	
 	<!-- Settings -->
@@ -210,6 +211,7 @@
 	<string id="51011">Rom Collection löschen</string>
 	<string id="51012">Datenbank aufräumen</string>
 	<string id="51013">Addon Settings öffnen</string>
+	<string id="51014">Gameclient festlegen (pro Spiel)</string>
 	
 	<!-- editromcollection -->
 	<string id="52000">Konfiguration</string>
@@ -247,6 +249,8 @@
 	<string id="52032">Kommando davor</string>
 	<string id="52033">Kommando danach</string>
 	<string id="52036">Videos automatisch (Infofenster)</string>
+	<string id="52037">RetroPlayer verwenden</string>
+	<string id="52038">Gameclient</string>
 	
 	<string id="52034">Speichern</string>
 	<string id="52035">Abbrechen</string>
