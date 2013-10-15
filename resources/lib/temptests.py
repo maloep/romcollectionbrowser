@@ -87,10 +87,6 @@ for result in results:
 print len(results)
 """
 
-str = "Game Boy"
-str = str.split("|")
-print str
-
 
 
 """
@@ -235,10 +231,10 @@ print str(files)
 """
 
 
-"""
-diskPrefix = "Disk*."
+
+diskPrefix = "_Disk*."
 #game =  "CHRONOCROSS Disc 1.iso"
-game = "Final Fantasy IX_Disk 12.iso"
+game = "Final Fantasy VII_Disk1.bin"
 
 match = re.search(diskPrefix, game)
 if(match):
@@ -246,4 +242,3 @@ if(match):
 	print disk
 else:
 	print "no match"
-"""
