@@ -148,6 +148,8 @@
 	<string id="40096">Solo mode startup delay (ms)</string>
 	<string id="40097">Use VB script in solo mode (Windows only)</string>
 	<string id="40098">Use RetroPlayer to launch games?</string>
+	<string id="40099">Suspend Audio</string>
+	<string id="40100">Minimize XBMC</string>
 	
 	
 	<!-- Settings -->
