@@ -616,7 +616,7 @@ def getRomfilenameForXboxCutfile(filenameRows, romCollection):
 def launchNonXbox(cmd, romCollection, gameRow, settings, precmd, postcmd, roms, gui, listitem):
 	Logutil.log("launchEmu on non-xbox", util.LOG_LEVEL_INFO)							
 				
-	toggledScreenMode = False
+	screenModeToggled = False
 	
 	#use libretro core to play game
 	if(romCollection.useBuiltinEmulator):
@@ -647,7 +647,9 @@ def launchNonXbox(cmd, romCollection, gameRow, settings, precmd, postcmd, roms, 
 		Logutil.log("screenMode: " +screenMode, util.LOG_LEVEL_INFO)
 		isFullScreen = screenMode.endswith("Full Screen")
 		
-		if(isFullScreen):
+		toggleScreenMode = settings.getSetting(util.SETTING_RCB_TOGGLESCREENMODE).upper() == 'TRUE'
+		
+		if(isFullScreen and toggleScreenMode):
 			Logutil.log("Toggle to Windowed mode", util.LOG_LEVEL_INFO)
 			#this minimizes xbmc some apps seems to need it
 			try:
@@ -655,7 +657,7 @@ def launchNonXbox(cmd, romCollection, gameRow, settings, precmd, postcmd, roms, 
 			except:
 				xbmc.executeJSONRPC('{"jsonrpc":"2.0","method":"Input.ExecuteAction","params":{"action":"togglefullscreen"},"id":"1"}')
 			
-			toggledScreenMode = True
+			screenModeToggled = True
 		
 	Logutil.log("launch emu", util.LOG_LEVEL_INFO)
 	
@@ -677,6 +679,14 @@ def launchNonXbox(cmd, romCollection, gameRow, settings, precmd, postcmd, roms, 
 		except:
 			pass
 	
+		
+	#pause audio
+	suspendAudio = settings.getSetting(util.SETTING_RCB_SUSPENDAUDIO).upper() == 'TRUE'
+	if(suspendAudio):
+		xbmc.executebuiltin("PlayerControl(Stop)")
+		xbmc.enableNavSounds(False)
+		xbmc.audioSuspend()
+	
 	if(romCollection.usePopen):
 		import subprocess
 		subprocess.Popen(cmd.encode(sys.getfilesystemencoding()), shell=True)
@@ -690,12 +700,17 @@ def launchNonXbox(cmd, romCollection, gameRow, settings, precmd, postcmd, roms, 
 		postDelay = int(float(postDelay))
 		xbmc.sleep(postDelay)
 	
+	#resume audio
+	if(suspendAudio):
+		xbmc.audioResume()
+		xbmc.enableNavSounds(True)
+	
 	#post launch command
 	if(postcmd.strip() != '' and postcmd.strip() != 'call'):
 		Logutil.log("Got to POST: " + postcmd.strip(), util.LOG_LEVEL_INFO)
 		os.system(postcmd.encode(sys.getfilesystemencoding()))
 	
-	if(toggledScreenMode):
+	if(screenModeToggled):
 		Logutil.log("Toggle to Full Screen mode", util.LOG_LEVEL_INFO)
 		#this brings xbmc back
 		try:

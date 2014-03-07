@@ -149,6 +149,8 @@
 	<string id="40096">Start-Verzögerung im Solo Modus (ms)</string>
 	<string id="40097">VB script im Solo Modus (nur Windows)</string>
 	<string id="40098">Spiele per RetroPlayer starten?</string>
+	<string id="40099">Audio anhalten</string>
+	<string id="40100">XBMC minimieren</string>
 
 	
 	<!-- Settings -->
