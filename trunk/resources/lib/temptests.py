@@ -23,10 +23,10 @@ from config import *
 
 
 #descFile = "http://www.mobygames.com/search/quick?game=Actraiser&p=15"
-#parseInstruction = "C:\\Users\\lom\\AppData\\Roaming\\XBMC\\addons\\script.games.rom.collection.browser.dev\\resources\\scraper\\04.01 - mobygames - gamesearch.xml"
+#parseInstruction = "C:\\Users\\lom\\AppData\\Roaming\\XBMC\\addons\\script.games.rom.collection.browser.dev\\resources\\scraper\\04.01 - mobygames - gamesearch_old.xml"
 
-descFile = "http://www.mobygames.com/game/snes/actraiser"
-parseInstruction = "C:\\Users\\lom\\AppData\\Roaming\\XBMC\\addons\\script.games.rom.collection.browser.dev\\resources\\scraper\\04.02 - mobygames - details.xml"
+#descFile = "http://www.mobygames.com/game/snes/actraiser"
+#parseInstruction = "C:\\Users\\lom\\AppData\\Roaming\\XBMC\\addons\\script.games.rom.collection.browser.dev\\resources\\scraper\\04.02 - mobygames - details_old.xml"
 
 #descFile = "http://www.mobygames.com/game/sega-32x/metal-head"
 #parseInstruction = "C:\\Users\\lom\\AppData\\Roaming\\XBMC\\addons\\script.games.rom.collection.browser.dev\\resources\\scraper\\04.02 - mobygames - details.xml"
@@ -34,14 +34,26 @@ parseInstruction = "C:\\Users\\lom\\AppData\\Roaming\\XBMC\\addons\\script.games
 #descFile = "http://www.mobygames.com/game/snes/actraiser/cover-art"
 #parseInstruction = "C:\\Users\\lom\\AppData\\Roaming\\XBMC\\addons\\script.games.rom.collection.browser.dev\\resources\\scraper\\04.03 - mobygames - coverlink front.xml"
 
+#descFile = "http://www.mobygames.com/game/snes/actraiser/cover-art/gameCoverId,170207"
+#parseInstruction = "C:\\Users\\lom\\AppData\\Roaming\\XBMC\\addons\\script.games.rom.collection.browser.dev\\resources\\scraper\\04.04 - mobygames - coverdetail front.xml"
+
+#descFile = "http://www.mobygames.com/game/snes/actraiser/cover-art"
+#parseInstruction = "C:\\Users\\lom\\AppData\\Roaming\\XBMC\\addons\\script.games.rom.collection.browser.dev\\resources\\scraper\\04.05 - mobygames - coverlink back.xml"
+
 #descFile = "http://www.mobygames.com/game/snes/actraiser/cover-art/gameCoverId,170208"
 #parseInstruction = "C:\\Users\\lom\\AppData\\Roaming\\XBMC\\addons\\script.games.rom.collection.browser.dev\\resources\\scraper\\04.06 - mobygames - coverdetail back.xml"
+
+#descFile = "http://www.mobygames.com/game/snes/actraiser/cover-art"
+#parseInstruction = "C:\\Users\\lom\\AppData\\Roaming\\XBMC\\addons\\script.games.rom.collection.browser.dev\\resources\\scraper\\04.07 - mobygames - coverlink media.xml"
+
+#descFile = "http://www.mobygames.com/game/snes/actraiser/cover-art/gameCoverId,17623"
+#parseInstruction = "C:\\Users\\lom\\AppData\\Roaming\\XBMC\\addons\\script.games.rom.collection.browser.dev\\resources\\scraper\\04.08 - mobygames - coverdetail media.xml"
 
 #descFile = "http://www.mobygames.com/game/snes/actraiser/screenshots"
 #parseInstruction = "C:\\Users\\lom\\AppData\\Roaming\\XBMC\\addons\\script.games.rom.collection.browser.dev\\resources\\scraper\\04.09 - mobygames - screenshotlink.xml"
 
-#descFile = "http://www.mobygames.com/game/snes/actraiser/screenshots/gameShotId,27458/"
-#parseInstruction = "C:\\Users\\lom\\AppData\\Roaming\\XBMC\\addons\\script.games.rom.collection.browser.dev\\resources\\scraper\\04.10 - mobygames - screenshot.xml"
+descFile = "http://www.mobygames.com/game/snes/actraiser/screenshots/gameShotId,27458/"
+parseInstruction = "C:\\Users\\lom\\AppData\\Roaming\\XBMC\\addons\\script.games.rom.collection.browser.dev\\resources\\scraper\\04.10 - mobygames - screenshot detail.xml"
 
 
 #descFile = "http://www.mobygames.com/game/sega-32x/blackthorne"
@@ -76,7 +88,7 @@ parseInstruction = "C:\\Users\\lom\\AppData\\Roaming\\XBMC\\addons\\script.games
 #parseInstruction = "F:\\Emulatoren\\data\\synopsis\\XTRAS-RCB\\_parserConfig.xml"
 
 
-"""
+
 from descriptionparserfactory import *
 descParser = DescriptionParserFactory.getParser(parseInstruction)
 
@@ -85,7 +97,7 @@ for result in results:
 	print result
 	
 print len(results)
-"""
+
 
 
 
@@ -231,7 +243,7 @@ print str(files)
 """
 
 
-
+"""
 diskPrefix = "_Disk*."
 #game =  "CHRONOCROSS Disc 1.iso"
 game = "Final Fantasy VII_Disk1.bin"
@@ -242,3 +254,4 @@ if(match):
 	print disk
 else:
 	print "no match"
+"""
