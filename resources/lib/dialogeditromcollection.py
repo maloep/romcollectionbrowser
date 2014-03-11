@@ -246,6 +246,8 @@ class EditRomCollectionDialog(dialogbase.DialogBaseEdit):
 		elif (controlID == CONTROL_BUTTON_PRECMD):
 			preCmd = self.editTextProperty(CONTROL_BUTTON_PRECMD, util.localize(52032))
 			self.selectedRomCollection.preCmd = preCmd
+			Logutil.log('OnClick: precmd = ' +self.selectedRomCollection.preCmd, util.LOG_LEVEL_INFO)
+			
 			
 		elif (controlID == CONTROL_BUTTON_POSTCMD):
 			postCmd = self.editTextProperty(CONTROL_BUTTON_POSTCMD, util.localize(52033))
@@ -290,10 +292,10 @@ class EditRomCollectionDialog(dialogbase.DialogBaseEdit):
 				fileMask = fileMask +',' +pathParts[1]
 								
 		control = self.getControlById(CONTROL_BUTTON_ROMPATH)
-		control.setLabel(firstRomPath)
+		util.setLabel(firstRomPath, control)
 		
 		control = self.getControlById(CONTROL_BUTTON_FILEMASK)
-		control.setLabel(fileMask)
+		util.setLabel(fileMask, control)		
 		
 		control = self.getControlById(CONTROL_BUTTON_IGNOREONSCAN)		
 		control.setSelected(self.selectedRomCollection.ignoreOnScan)
@@ -302,10 +304,10 @@ class EditRomCollectionDialog(dialogbase.DialogBaseEdit):
 		control.setSelected(self.selectedRomCollection.allowUpdate)
 		
 		control = self.getControlById(CONTROL_BUTTON_DISKINDICATOR)
-		control.setLabel(self.selectedRomCollection.diskPrefix)
+		util.setLabel(self.selectedRomCollection.diskPrefix, control)
 		
 		control = self.getControlById(CONTROL_BUTTON_MAXFOLDERDEPTH)
-		control.setLabel(str(self.selectedRomCollection.maxFolderDepth))
+		util.setLabel(self.selectedRomCollection.maxFolderDepth, control)
 		
 		control = self.getControlById(CONTROL_BUTTON_USEFOLDERASGAMENAME)
 		control.setSelected(self.selectedRomCollection.useFoldernameAsGamename)
@@ -325,10 +327,10 @@ class EditRomCollectionDialog(dialogbase.DialogBaseEdit):
 		self.addItemsToList(CONTROL_LIST_MEDIATYPES, mediaTypeList)
 		
 		control = self.getControlById(CONTROL_BUTTON_MEDIAPATH)
-		control.setLabel(firstMediaPath)
+		util.setLabel(firstMediaPath, control)
 		
 		control = self.getControlById(CONTROL_BUTTON_MEDIAFILEMASK)
-		control.setLabel(firstMediaFileMask)
+		util.setLabel(firstMediaFileMask, control)		
 						
 		self.selectScrapersInList(self.selectedRomCollection.scraperSites, self.availableScrapers)
 		
@@ -360,13 +362,13 @@ class EditRomCollectionDialog(dialogbase.DialogBaseEdit):
 		control.setSelected(self.selectedRomCollection.useBuiltinEmulator)
 		
 		control = self.getControlById(CONTROL_BUTTON_GAMECLIENT)
-		control.setLabel(self.selectedRomCollection.gameclient)
-		
+		util.setLabel(self.selectedRomCollection.gameclient, control)		
+			
 		control = self.getControlById(CONTROL_BUTTON_EMUCMD)
-		control.setLabel(self.selectedRomCollection.emulatorCmd)
+		util.setLabel(self.selectedRomCollection.emulatorCmd, control)		
 		
 		control = self.getControlById(CONTROL_BUTTON_PARAMS)
-		control.setLabel(self.selectedRomCollection.emulatorParams)
+		util.setLabel(self.selectedRomCollection.emulatorParams, control)		
 		
 		control = self.getControlById(CONTROL_BUTTON_USEEMUSOLO)
 		control.setSelected(self.selectedRomCollection.useEmuSolo)
@@ -379,22 +381,22 @@ class EditRomCollectionDialog(dialogbase.DialogBaseEdit):
 		saveStateFileMask = pathParts[1]
 		
 		control = self.getControlById(CONTROL_BUTTON_SAVESTATEPATH)
-		control.setLabel(saveStatePath)
+		util.setLabel(saveStatePath, control)
 		
 		control = self.getControlById(CONTROL_BUTTON_SAVESTATEMASK)
-		control.setLabel(saveStateFileMask)
+		util.setLabel(saveStateFileMask, control)
 		
-		control = self.getControlById(CONTROL_BUTTON_SAVESTATEPARAMS)
-		control.setLabel(self.selectedRomCollection.saveStateParams)
+		control = self.getControlById(CONTROL_BUTTON_SAVESTATEPARAMS)		
+		util.setLabel(self.selectedRomCollection.saveStateParams, control)
 		
 		control = self.getControlById(CONTROL_BUTTON_DONTEXTRACTZIP)
 		control.setSelected(self.selectedRomCollection.doNotExtractZipFiles)
 		
 		control = self.getControlById(CONTROL_BUTTON_PRECMD)
-		control.setLabel(self.selectedRomCollection.preCmd)
+		util.setLabel(self.selectedRomCollection.preCmd, control)		
 		
 		control = self.getControlById(CONTROL_BUTTON_POSTCMD)
-		control.setLabel(self.selectedRomCollection.postCmd)
+		util.setLabel(self.selectedRomCollection.postCmd, control)
 	
 	
 	def updateMediaPathControls(self):
@@ -469,6 +471,8 @@ class EditRomCollectionDialog(dialogbase.DialogBaseEdit):
 		self.selectedRomCollection.usePopen = bool(control.isSelected())
 		control = self.getControlById(CONTROL_BUTTON_DONTEXTRACTZIP)
 		self.selectedRomCollection.doNotExtractZipFiles = bool(control.isSelected())
+		
+		Logutil.log('updateSelectedRomCollection: precmd = ' +self.selectedRomCollection.preCmd, util.LOG_LEVEL_INFO)
 	
 	
 	def editRomPath(self):
@@ -503,6 +507,8 @@ class EditRomCollectionDialog(dialogbase.DialogBaseEdit):
 		keyboard.doModal()
 		if (keyboard.isConfirmed()):
 			romFileMask = keyboard.getText()
+			if(romFileMask == ''):
+				romFileMask = ' '
 								
 		#HACK: this only handles 1 base rom path
 		romPath = self.selectedRomCollection.romPaths[0]
