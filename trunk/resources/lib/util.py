@@ -296,6 +296,23 @@ def getSettings():
 	return settings
 
 
+#HACK: XBMC does not update labels with empty strings
+def setLabel(label, control):
+	if(label == ''):
+		label = ' '
+		
+	control.setLabel(str(label))
+
+
+#HACK: XBMC does not update labels with empty strings
+def getLabel(control):
+	label = control.getLabel()
+	if(label == ' '):
+		label = ''
+		
+	return label
+
+
 def getScrapingMode(settings):
 	scrapingMode = 0
 	scrapingModeStr = settings.getSetting(SETTING_RCB_SCRAPINGMODE)			
