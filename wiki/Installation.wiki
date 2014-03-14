@@ -1,21 +1,29 @@
 #sidebar SideBar
 <wiki:toc max_depth="4" />
 = Installation =
-== Camelot / Xbox ==
-  * Download [http://romcollectionbrowser.googlecode.com/files/script.games.rom.collection.browser-0.9.7.zip script.games.rom.collection.browser-0.9.7.zip]
-  * Unzip it to your XBMC scripts folder
+== Stable releases ==
+Stable releases of RCB should always be available via XBMCs official addon repository. Features included in these releases are already discussed and tested in RCBs forum thread. If any changes to config files and/or database layout are required, they will be done automatically on first run after installation (RCB will back up all modified files in this case).
 
-== Dharma ==
-=== via Repo Browser ===
+=== via XBMC repository ===
   * Go to XBMCs Addon Browser: System -> Add-ons -> Get Add-ons -> XBMC.org Add-ons -> Program Add-ons --> Rom Collection Browser
   * Choose Install
-=== via zip file ===
-  * Download [http://romcollectionbrowser.googlecode.com/files/script.games.rom.collection.browser-0.9.7.zip script.games.rom.collection.browser-0.9.7.zip]
-  * Go to XBMCs Addon Browser: System -> Add-ons -> Install from zip file
 
-== Eden / Frodo ==
-Installation of "Rom Collection Browser" is done the same way like in Dharma. But you will additionally need the "Rom Collection Browser Service" to perform tasks at XBMC startup (replacement of autoexec.py).
+== Test releases ==
+Test releases are may include fixes and features that are not yet well tested. They may require some manual modification to config files or still include known issues that are discussed in the forum thread. It is a good idea to check out the release posts in the forum thread to get an idea what changes are inluded in a test release. There is always a link to the previous release, so you can navigate back in release history.
+
+=== via zip file ===
+  * Go to [https://code.google.com/p/romcollectionbrowser/source/browse/#svn%2Frelease%2Fscript.games.rom.collection.browser RCB releases page] and download the latest zip file
+  * Go to XBMCs Addon Browser: System -> Add-ons -> Install from zip file
+  
+=== via RCB repository ===
+  * Download [https://romcollectionbrowser.googlecode.com/files/repository.rom.collection.browser-1.0.0.zip RCBs repository]
+  * Install it from zip file via XBMCs Addon Browser: System -> Add-ons -> Install from zip file
+  * Again in XBMCs Addon Browser: Go to System -> Add-ons -> Get Add-ons -> Rom Collection Browser Updates -> Program Add-ons --> Rom Collection Browser
+  
+== RCB Service Addon ==
+You will additionally need the "Rom Collection Browser Service" to perform tasks at XBMC startup. The service should be installed together with RCB automatically.
 
 You can install the service like any other addon:
-  * Download [http://romcollectionbrowser.googlecode.com/files/service.rom.collection.browser-0.1.0.zip service.rom.collection.browser-0.1.0.zip]
+  * Download [https://romcollectionbrowser.googlecode.com/files/service.rom.collection.browser-1.0.0.zip service.rom.collection.browser-1.0.0.zip]
   * Go to XBMCs Addon Browser: System -> Add-ons -> Install from zip file
+  
