@@ -114,15 +114,18 @@ class EditRomCollectionDialog(dialogbase.DialogBaseEdit):
 		
 		if(not helper.isRetroPlayerSupported()):
 			control = self.getControlById(CONTROL_BUTTON_USERETROPLAYER)
-			control.setEnabled(False)
-			control.setVisible(False)
+			if(control):
+				control.setEnabled(False)
+				control.setVisible(False)
 			control = self.getControlById(CONTROL_BUTTON_GAMECLIENT)
-			control.setEnabled(False)
-			control.setVisible(False)
+			if(control):
+				control.setEnabled(False)
+				control.setVisible(False)
 		elif(not helper.retroPlayerSupportsPythonIntegration()):
 			control = self.getControlById(CONTROL_BUTTON_GAMECLIENT)
-			control.setEnabled(False)
-			control.setVisible(False)
+			if(control):
+				control.setEnabled(False)
+				control.setVisible(False)
 		
 		self.updateRomCollectionControls()
 		
@@ -359,10 +362,12 @@ class EditRomCollectionDialog(dialogbase.DialogBaseEdit):
 		
 		#Launch Games
 		control = self.getControlById(CONTROL_BUTTON_USERETROPLAYER)
-		control.setSelected(self.selectedRomCollection.useBuiltinEmulator)
+		if(control):
+			control.setSelected(self.selectedRomCollection.useBuiltinEmulator)
 		
 		control = self.getControlById(CONTROL_BUTTON_GAMECLIENT)
-		util.setLabel(self.selectedRomCollection.gameclient, control)		
+		if(control):
+			util.setLabel(self.selectedRomCollection.gameclient, control)		
 			
 		control = self.getControlById(CONTROL_BUTTON_EMUCMD)
 		util.setLabel(self.selectedRomCollection.emulatorCmd, control)		
@@ -464,7 +469,9 @@ class EditRomCollectionDialog(dialogbase.DialogBaseEdit):
 			self.selectedRomCollection.autoplayVideoInfo = bool(control.isSelected())
 		
 		control = self.getControlById(CONTROL_BUTTON_USERETROPLAYER)
-		self.selectedRomCollection.useBuiltinEmulator = bool(control.isSelected())
+		if(control):
+			self.selectedRomCollection.useBuiltinEmulator = bool(control.isSelected())
+			
 		control = self.getControlById(CONTROL_BUTTON_USEEMUSOLO)
 		self.selectedRomCollection.useEmuSolo = bool(control.isSelected())
 		control = self.getControlById(CONTROL_BUTTON_USEPOPEN)
