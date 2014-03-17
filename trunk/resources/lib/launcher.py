@@ -689,7 +689,8 @@ def launchNonXbox(cmd, romCollection, gameRow, settings, precmd, postcmd, roms, 
 	
 	if(romCollection.usePopen):
 		import subprocess
-		subprocess.Popen(cmd.encode(sys.getfilesystemencoding()), shell=True)
+		process = subprocess.Popen(cmd.encode(sys.getfilesystemencoding()), shell=True)
+		process.wait()
 	else:
 		os.system(cmd.encode(sys.getfilesystemencoding()))
 	
