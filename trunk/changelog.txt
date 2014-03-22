@@ -1,3 +1,8 @@
+2.0.13 (03/2014)
+~~~~~~~~~~~~~
+Launch Games:
+  * Fixed issues with launching games on Android
+
 2.0.12 (03/2014)
 ~~~~~~~~~~~~~
 General:
