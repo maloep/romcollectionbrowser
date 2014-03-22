@@ -617,6 +617,14 @@ def launchNonXbox(cmd, romCollection, gameRow, settings, precmd, postcmd, roms, 
 	Logutil.log("launchEmu on non-xbox", util.LOG_LEVEL_INFO)							
 				
 	screenModeToggled = False
+		
+	encoding = 'utf-8'
+	#HACK: sys.getfilesystemencoding() is not supported on all systems (e.g. Android)
+	try:
+		encoding = sys.getfilesystemencoding()
+	except:
+		pass
+		 
 	
 	#use libretro core to play game
 	if(romCollection.useBuiltinEmulator):
@@ -664,7 +672,7 @@ def launchNonXbox(cmd, romCollection, gameRow, settings, precmd, postcmd, roms, 
 	#pre launch command
 	if(precmd.strip() != '' and precmd.strip() != 'call'):
 		Logutil.log("Got to PRE", util.LOG_LEVEL_INFO)
-		os.system(precmd.encode(sys.getfilesystemencoding()))
+		os.system(precmd.encode(encoding))
 	
 	preDelay = settings.getSetting(SETTING_RCB_PRELAUNCHDELAY)
 	if(preDelay != ''):
@@ -689,10 +697,13 @@ def launchNonXbox(cmd, romCollection, gameRow, settings, precmd, postcmd, roms, 
 	
 	if(romCollection.usePopen):
 		import subprocess
-		process = subprocess.Popen(cmd.encode(sys.getfilesystemencoding()), shell=True)
+		process = subprocess.Popen(cmd.encode(encoding), shell=True)
 		process.wait()
 	else:
-		os.system(cmd.encode(sys.getfilesystemencoding()))
+		try:
+			os.system(cmd.encode(encoding))
+		except:
+			os.system(cmd.encode('utf-8'))
 	
 	Logutil.log("launch emu done", util.LOG_LEVEL_INFO)		
 	
@@ -709,7 +720,7 @@ def launchNonXbox(cmd, romCollection, gameRow, settings, precmd, postcmd, roms, 
 	#post launch command
 	if(postcmd.strip() != '' and postcmd.strip() != 'call'):
 		Logutil.log("Got to POST: " + postcmd.strip(), util.LOG_LEVEL_INFO)
-		os.system(postcmd.encode(sys.getfilesystemencoding()))
+		os.system(postcmd.encode(encoding))
 	
 	if(screenModeToggled):
 		Logutil.log("Toggle to Full Screen mode", util.LOG_LEVEL_INFO)
