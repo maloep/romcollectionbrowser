@@ -25,11 +25,11 @@ from config import *
 #descFile = "http://www.mobygames.com/search/quick?game=Actraiser&p=15"
 #parseInstruction = "C:\\Users\\lom\\AppData\\Roaming\\XBMC\\addons\\script.games.rom.collection.browser.dev\\resources\\scraper\\04.01 - mobygames - gamesearch_old.xml"
 
-#descFile = "http://www.mobygames.com/game/snes/actraiser"
-#parseInstruction = "C:\\Users\\lom\\AppData\\Roaming\\XBMC\\addons\\script.games.rom.collection.browser.dev\\resources\\scraper\\04.02 - mobygames - details_old.xml"
-
 #descFile = "http://www.mobygames.com/game/sega-32x/metal-head"
 #parseInstruction = "C:\\Users\\lom\\AppData\\Roaming\\XBMC\\addons\\script.games.rom.collection.browser.dev\\resources\\scraper\\04.02 - mobygames - details.xml"
+
+descFile = "http://www.mobygames.com/game/atari-5200/gyruss"
+parseInstruction = "C:\\Users\\lom\\AppData\\Roaming\\XBMC\\addons\\script.games.rom.collection.browser.dev\\resources\\scraper\\04.02 - mobygames - details.xml"
 
 #descFile = "http://www.mobygames.com/game/snes/actraiser/cover-art"
 #parseInstruction = "C:\\Users\\lom\\AppData\\Roaming\\XBMC\\addons\\script.games.rom.collection.browser.dev\\resources\\scraper\\04.03 - mobygames - coverlink front.xml"
@@ -52,8 +52,8 @@ from config import *
 #descFile = "http://www.mobygames.com/game/snes/actraiser/screenshots"
 #parseInstruction = "C:\\Users\\lom\\AppData\\Roaming\\XBMC\\addons\\script.games.rom.collection.browser.dev\\resources\\scraper\\04.09 - mobygames - screenshotlink.xml"
 
-descFile = "http://www.mobygames.com/game/snes/actraiser/screenshots/gameShotId,27458/"
-parseInstruction = "C:\\Users\\lom\\AppData\\Roaming\\XBMC\\addons\\script.games.rom.collection.browser.dev\\resources\\scraper\\04.10 - mobygames - screenshot detail.xml"
+#descFile = "http://www.mobygames.com/game/snes/actraiser/screenshots/gameShotId,27458/"
+#parseInstruction = "C:\\Users\\lom\\AppData\\Roaming\\XBMC\\addons\\script.games.rom.collection.browser.dev\\resources\\scraper\\04.10 - mobygames - screenshot detail.xml"
 
 
 #descFile = "http://www.mobygames.com/game/sega-32x/blackthorne"
