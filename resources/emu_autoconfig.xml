@@ -1,0 +1,55 @@
+<emu_autoconfig version="1.0.0">
+  <os name="Android">
+    <detectionMethods>
+      <detectionMethod name="packagename">
+        <command>pm list packages</command>
+      </detectionMethod>
+    </detectionMethods>
+    <platform name="SNES">
+      <alias>Super Nintendo</alias>
+      <alias>Super Nintendo Entertainment System</alias>
+      <emulator name="Snes9x EX+">
+        <detectionMethod name="packagename">
+          <packagename>package:com.explusalpha.Snes9xPlus</packagename>
+        </detectionMethod>
+        <configuration>
+          <emulatorCommand>/system/bin/am</emulatorCommand>
+          <emulatorParams>start -n com.explusalpha.Snes9xPlus/com.imagine.BaseActivity -a android.intent.action.VIEW -eu Uri "file://%rom%"</emulatorParams>
+        </configuration>
+      </emulator>          
+    </platform>
+    <platform name="Genesis">      
+      <emulator name="Gensoid">
+        <detectionMethod name="packagename">
+          <packagename>package:com.androidemu.gens</packagename>
+        </detectionMethod>
+        <configuration>
+          <emulatorCommand>/system/bin/am</emulatorCommand>
+          <emulatorParams>start -n com.androidemu.gens/.EmulatorActivity -a android.intent.action.VIEW -eu Uri "file://%rom%"</emulatorParams>
+        </configuration>
+      </emulator>          
+    </platform>
+  </os>
+  <os name="Windows">
+    <detectionMethods>
+      <detectionMethod name="registry"></detectionMethod>
+      <detectionMethod name="commonFolders"></detectionMethod>
+    </detectionMethods>
+    <commonFolders>
+      <folder></folder>
+    </commonFolders>
+    <platform name="SNES">
+    </platform>
+  </os>
+  <os name="Linux">
+    <detectionMethods>      
+      <detectionMethod name="commonFolders"></detectionMethod>
+      <detectionMethod name="packagename"></detectionMethod>
+    </detectionMethods>
+    <commonFolders>
+      <folder></folder>
+    </commonFolders>
+    <platform name="SNES">
+    </platform>
+  </os>
+</emu_autoconfig>
