@@ -266,7 +266,7 @@ class Config:
 		if(not self.configFile):
 			self.configFile = util.getConfigXmlPath()
 		
-		if(not os.path.isfile(self.configFile)):			
+		if(not os.path.isfile(self.configFile)):
 			Logutil.log('File config.xml does not exist. Place a valid config file here: %s' %self.configFile, util.LOG_LEVEL_ERROR)
 			return None, False, util.localize(35003)
 		
