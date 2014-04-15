@@ -2,9 +2,6 @@
 import os, sys
 import xml.etree.ElementTree as ET
 
-from emulator import Emulator
-
-
 class OperatingSystem:
     name = ''
     platforms = []
@@ -166,7 +163,8 @@ class EmulatorAutoconfig:
     def findEmulators(self, operatingSystemName, platformName, checkInstalledState=False):
         
         #read autoconfig.xml file
-        self.readXml()
+        if(self.tree == None or len(self.operatingSystems) == 0):
+            self.readXml()
         
         osFound = None
         for operatingSystem in self.operatingSystems:
@@ -191,8 +189,9 @@ class EmulatorAutoconfig:
             print 'EmulatorAutoconfig ERROR: Could not find platform %s for os %s in emu_autoconfig.xml' %(platformName, operatingSystemName)
             return None
         
-        if(checkInstalledState == False):
-            return platformFound.emulators
+        if(checkInstalledState):
+            for emulator in platform.emulators:
+                emulator.isInstalled = self.isInstalled(emulator)
         
         return platformFound.emulators
     
@@ -200,11 +199,19 @@ class EmulatorAutoconfig:
     
     def isInstalled(self, emulator):
         
-        if(self.tree == None):
-            print 'EmulatorAutoconfig ERROR: Could not read emu_autoconfig.xml'
-            return None
+        for detectionMethod in emulator.detectionMethods:
+            if(detectionMethod.name == 'packagename'):
+                try:
+                    packages = os.popen(detectionMethod.command).readlines()
+                    for package in packages:
+                        if(package.find(detectionMethod.packagename)):
+                            return True
+                    
+                except Exception, (exc):
+                    print 'EmulatorAutoconfig ERROR: error while reading list of packages: %s' %exc
         
-        print 'check isInstalled'
+        return False
+                
     
     
     def readTextElement(self, parent, elementName):

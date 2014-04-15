@@ -4,6 +4,7 @@ import xbmc, xbmcgui, xbmcvfs
 
 import config, helper
 from configxmlwriter import *
+from emulatorautoconfig.autoconfig import EmulatorAutoconfig
 
 
 class ConfigXmlWizard:
@@ -70,6 +71,8 @@ class ConfigXmlWizard:
 			Logutil.log('No scenario selected. Action canceled.', util.LOG_LEVEL_INFO)
 			return False, romCollections
 		
+		autoconfig = EmulatorAutoconfig(util.getEmuAutoConfigPath())
+		
 		while True:
 					
 			fileTypeList, errorMsg = self.buildMediaTypeList(configObj, isUpdate)
@@ -123,6 +126,10 @@ class ConfigXmlWizard:
 			
 			#only ask for emulator and params if we don't use builtin emulator
 			if(not romCollection.useBuiltinEmulator):
+				
+				#maybe there is autoconfig support
+				preconfiguredEmulator = None
+				
 				#emulator
 				#xbox games on xbox will be launched directly
 				if (os.environ.get( "OS", "xbox" ) == "xbox" and romCollection.name == 'Xbox'):
@@ -133,12 +140,35 @@ class ConfigXmlWizard:
 					romCollection.emulatorCmd = '"%ROM%"'
 					Logutil.log('emuCmd set to "%ROM%" for standalone games.', util.LOG_LEVEL_INFO)
 				else:
-					consolePath = dialog.browse(1, util.localize(40078) %console, 'files')
-					Logutil.log('consolePath: ' +str(consolePath), util.LOG_LEVEL_INFO)
-					if(consolePath == ''):
-						Logutil.log('No consolePath selected. Action canceled.', util.LOG_LEVEL_INFO)
-						break
-					romCollection.emulatorCmd = consolePath
+					#TODO: Windows and Linux support
+					#xbmc.getCondVisibility('System.Platform.Windows')
+					#xbmc.getCondVisibility('System.Platform.Linux')
+					if(xbmc.getCondVisibility('System.Platform.Android')):
+						Logutil.log('Running on Android. Trying to find emulator per autoconfig.', util.LOG_LEVEL_INFO)
+						emulators = autoconfig.findEmulators('Android', romCollection.name, True)
+						emulist = []
+						for emulator in emulators:
+							if(emulator.isInstalled):
+								emulist.append(util.localize(40102) %emulator.name)
+							else:
+								emulist.append(emulator.name)
+						if(len(emulist) > 0):
+							emuIndex = dialog.select(util.localize(40103), emulist)
+							Logutil.log('emuIndex: ' +str(emuIndex), util.LOG_LEVEL_INFO)
+							if(emuIndex == -1):
+								Logutil.log('No Emulator selected.', util.LOG_LEVEL_INFO)
+							else:
+								preconfiguredEmulator = emulators[emuIndex]
+							
+					if(preconfiguredEmulator):
+						romCollection.emulatorCmd = preconfiguredEmulator.emuCmd
+					else:
+						consolePath = dialog.browse(1, util.localize(40078) %console, 'files')
+						Logutil.log('consolePath: ' +str(consolePath), util.LOG_LEVEL_INFO)
+						if(consolePath == ''):
+							Logutil.log('No consolePath selected. Action canceled.', util.LOG_LEVEL_INFO)
+							break
+						romCollection.emulatorCmd = consolePath
 				
 				#params
 				#on xbox we will create .cut files without params
@@ -149,9 +179,12 @@ class ConfigXmlWizard:
 					romCollection.emulatorParams = ''
 					Logutil.log('emuParams set to "" for standalone games.', util.LOG_LEVEL_INFO)
 				else:
+					defaultParams = '"%ROM%"'
+					if(preconfiguredEmulator):
+						defaultParams = preconfiguredEmulator.emuParams
+											
 					keyboard = xbmc.Keyboard()
-					#TODO add all rom params here
-					keyboard.setDefault('"%ROM%"')
+					keyboard.setDefault(defaultParams)
 					keyboard.setHeading(util.localize(40079))			
 					keyboard.doModal()
 					if (keyboard.isConfirmed()):
