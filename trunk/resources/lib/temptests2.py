@@ -54,4 +54,5 @@ if(emulators):
         print emulator.platform
         print emulator.emuCmd
         print emulator.emuParams
+        print emulator.isInstalled
 

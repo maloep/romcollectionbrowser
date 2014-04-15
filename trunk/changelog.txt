@@ -1,3 +1,8 @@
+2.0.14 (04/2014)
+~~~~~~~~~~~~~
+Launch Games:
+  * Add autoconfig support on Android
+
 2.0.13 (03/2014)
 ~~~~~~~~~~~~~
 Launch Games:

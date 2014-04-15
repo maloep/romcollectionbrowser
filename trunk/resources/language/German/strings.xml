@@ -151,6 +151,9 @@
 	<string id="40098">Spiele per RetroPlayer starten?</string>
 	<string id="40099">Audio anhalten</string>
 	<string id="40100">XBMC minimieren</string>
+	<string id="40101">Pfad zu emu_autoconfig.xml</string>
+	<string id="40102">%s (Installiert)</string>
+	<string id="40103">Per autoconfig verfügbare Emulatoren</string>
 
 	
 	<!-- Settings -->

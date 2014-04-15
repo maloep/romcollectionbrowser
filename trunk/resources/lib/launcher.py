@@ -443,40 +443,21 @@ def copyLauncherScriptsToUserdata(settings):
 		oldPath = os.path.join(oldBasePath, 'applaunch.sh')
 		newPath = os.path.join(newBasePath, 'applaunch.sh')
 		
-	copyFile(oldPath, newPath)
+	util.copyFile(oldPath, newPath)
 	
 	#copy VBS files
 	if(util.getEnvironment() == 'win32' and settings.getSetting(util.SETTING_RCB_USEVBINSOLOMODE).lower() == 'true'):
 		oldPath = os.path.join(oldBasePath, 'applaunch-vbs.bat')
 		newPath = os.path.join(newBasePath, 'applaunch-vbs.bat')
-		copyFile(oldPath, newPath)
+		util.copyFile(oldPath, newPath)
 		
 		oldPath = os.path.join(oldBasePath, 'LaunchXBMC.vbs')
 		newPath = os.path.join(newBasePath, 'LaunchXBMC.vbs')
-		copyFile(oldPath, newPath)
+		util.copyFile(oldPath, newPath)
 		
 		oldPath = os.path.join(oldBasePath, 'Sleep.vbs')
 		newPath = os.path.join(newBasePath, 'Sleep.vbs')
-		copyFile(oldPath, newPath)
-		
-		
-def copyFile(oldPath, newPath):
-	Logutil.log('new path = %s' %newPath, util.LOG_LEVEL_INFO)
-	newDir = os.path.dirname(newPath)
-	if not os.path.isdir(newDir):
-		Logutil.log('create directory: %s' %newDir, util.LOG_LEVEL_INFO)
-		try:
-			os.mkdir(newDir)
-		except Exception, (exc):
-			Logutil.log('Error creating directory: %s' %newDir, util.LOG_LEVEL_ERROR)
-			return
-	
-	if not os.path.isfile(newPath):
-		Logutil.log('copy launch scripts from %s to %s' %(oldPath, newPath), util.LOG_LEVEL_INFO)
-		try:
-			shutil.copy2(oldPath, newPath)
-		except:
-			Logutil.log('Error copying launch scripts from %s to %s' %(oldPath, newPath), util.LOG_LEVEL_ERROR)
+		util.copyFile(oldPath, newPath)
 
 
 def writeAutoexec(gdb):

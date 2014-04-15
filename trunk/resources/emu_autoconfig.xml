@@ -16,7 +16,16 @@
           <emulatorCommand>/system/bin/am</emulatorCommand>
           <emulatorParams>start -n com.explusalpha.Snes9xPlus/com.imagine.BaseActivity -a android.intent.action.VIEW -eu Uri "file://%rom%"</emulatorParams>
         </configuration>
-      </emulator>          
+      </emulator>
+	  <emulator name="SNesoid">
+        <detectionMethod name="packagename">
+          <packagename>package:com.androidemu.snes</packagename>
+        </detectionMethod>
+        <configuration>
+          <emulatorCommand>/system/bin/am</emulatorCommand>
+          <emulatorParams>start -n com.androidemu.snes/.EmulatorActivity -a android.intent.action.VIEW -eu Uri "file://%rom%"</emulatorParams>
+        </configuration>
+      </emulator>
     </platform>
     <platform name="Genesis">      
       <emulator name="Gensoid">
