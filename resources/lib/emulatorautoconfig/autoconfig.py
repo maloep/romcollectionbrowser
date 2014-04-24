@@ -162,6 +162,8 @@ class EmulatorAutoconfig:
 
     def findEmulators(self, operatingSystemName, platformName, checkInstalledState=False):
         
+        print 'EmulatorAutoconfig: findEmulators(). os = %s, platform = %s, checkInstalled = %s' %(operatingSystemName, platformName, str(checkInstalledState))
+        
         #read autoconfig.xml file
         if(self.tree == None or len(self.operatingSystems) == 0):
             self.readXml()
@@ -189,8 +191,8 @@ class EmulatorAutoconfig:
             print 'EmulatorAutoconfig ERROR: Could not find platform %s for os %s in emu_autoconfig.xml' %(platformName, operatingSystemName)
             return None
         
-        if(checkInstalledState):
-            for emulator in platform.emulators:
+        if(checkInstalledState):            
+            for emulator in platformFound.emulators:
                 emulator.isInstalled = self.isInstalled(emulator)
         
         return platformFound.emulators
@@ -199,12 +201,19 @@ class EmulatorAutoconfig:
     
     def isInstalled(self, emulator):
         
+        print 'EmulatorAutoconfig: isInstalled(). emulator = %s' %emulator.name
+        
         for detectionMethod in emulator.detectionMethods:
+            print 'EmulatorAutoconfig: detectionMethod.name = ' +detectionMethod.name
             if(detectionMethod.name == 'packagename'):
-                try:
+                try:                    
                     packages = os.popen(detectionMethod.command).readlines()
+                    print 'EmulatorAutoconfig: packages = ' +str(packages)
                     for package in packages:
-                        if(package.find(detectionMethod.packagename)):
+                        print 'EmulatorAutoconfig: package = ' +package
+                        print 'EmulatorAutoconfig: detectionMethod.packagename = ' +detectionMethod.packagename
+                        if(package.strip() == detectionMethod.packagename.strip()):
+                            print 'EmulatorAutoconfig: emulator is installed!'
                             return True
                     
                 except Exception, (exc):
