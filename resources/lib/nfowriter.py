@@ -8,7 +8,7 @@ import util, helper
 from util import *
 from config import *
 from gamedatabase import *
-from elementtree.ElementTree import *
+from xml.etree.ElementTree import *
 
 
 class NfoWriter:

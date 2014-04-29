@@ -2,6 +2,7 @@
 import os
 import xbmc, xbmcgui, xbmcvfs
 
+from xml.etree.ElementTree import *
 import config, helper
 from configxmlwriter import *
 from emulatorautoconfig.autoconfig import EmulatorAutoconfig

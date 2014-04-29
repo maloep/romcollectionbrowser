@@ -1,7 +1,7 @@
 # -*- coding: iso-8859-15 -*-
 
-from elementtree.ElementTree import Element, fromstring
-from descriptionparserflatfile import *
+
+from xml.etree.ElementTree import *
 from descriptionparserxml import *
 
 
