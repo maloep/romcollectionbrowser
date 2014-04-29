@@ -4,7 +4,7 @@ import util
 from util import *
 import config
 from config import *
-from elementtree.ElementTree import *
+from xml.etree.ElementTree import *
 
 
 class ConfigXmlWriter:

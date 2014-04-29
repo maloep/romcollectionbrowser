@@ -5,7 +5,7 @@ import os, sys, shutil
 from util import *
 import util
 from gamedatabase import *
-from elementtree.ElementTree import *
+from xml.etree.ElementTree import *
 from config import ImagePlacing
 
 
