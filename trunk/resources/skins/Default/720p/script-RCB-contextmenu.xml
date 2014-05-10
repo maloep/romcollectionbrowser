@@ -58,7 +58,7 @@
 			<focusedcolor>0xFFFFFFFF</focusedcolor>
 			<texturefocus border="5">rcb-button-focus.png</texturefocus>
 			<texturenofocus border="5">rcb-button-nofocus.png</texturenofocus>
-			<label>$ADDON[script.games.rom.collection.browser 51000]</label>
+			<label>$ADDON[script.games.rom.collection.browser 32500]</label>
 			<onup>5101</onup>
 			<ondown>5121</ondown>
 		</control>
@@ -75,7 +75,7 @@
 			<focusedcolor>0xFFFFFFFF</focusedcolor>
 			<texturefocus border="5">rcb-button-focus.png</texturefocus>
 			<texturenofocus border="5">rcb-button-nofocus.png</texturenofocus>
-			<label>$ADDON[script.games.rom.collection.browser 51001]</label>
+			<label>$ADDON[script.games.rom.collection.browser 32501]</label>
 			<onup>5110</onup>
 			<ondown>5122</ondown>
 		</control>
@@ -91,7 +91,7 @@
 			<focusedcolor>0xFFFFFFFF</focusedcolor>
 			<texturefocus border="5">rcb-button-focus.png</texturefocus>
 			<texturenofocus border="5">rcb-button-nofocus.png</texturenofocus>
-			<label>$ADDON[script.games.rom.collection.browser 51002]</label>
+			<label>$ADDON[script.games.rom.collection.browser 32502]</label>
 			<onup>5121</onup>
 			<ondown>5111</ondown>
 		</control>
@@ -108,7 +108,7 @@
 			<focusedcolor>0xFFFFFFFF</focusedcolor>
 			<texturefocus border="5">rcb-button-focus.png</texturefocus>
 			<texturenofocus border="5">rcb-button-nofocus.png</texturenofocus>
-			<label>$ADDON[script.games.rom.collection.browser 51003]</label>
+			<label>$ADDON[script.games.rom.collection.browser 32503]</label>
 			<onup>5122</onup>
 			<ondown>5112</ondown>
 		</control>
@@ -124,7 +124,7 @@
 			<focusedcolor>0xFFFFFFFF</focusedcolor>
 			<texturefocus border="5">rcb-button-focus.png</texturefocus>
 			<texturenofocus border="5">rcb-button-nofocus.png</texturenofocus>
-			<label>$ADDON[script.games.rom.collection.browser 51004]</label>
+			<label>$ADDON[script.games.rom.collection.browser 32504]</label>
 			<onup>5111</onup>
 			<ondown>5117</ondown>
 		</control>
@@ -140,7 +140,7 @@
 			<focusedcolor>0xFFFFFFFF</focusedcolor>
 			<texturefocus border="5">rcb-button-focus.png</texturefocus>
 			<texturenofocus border="5">rcb-button-nofocus.png</texturenofocus>
-			<label>$ADDON[script.games.rom.collection.browser 51005]</label>
+			<label>$ADDON[script.games.rom.collection.browser 32505]</label>
 			<onup>5112</onup>
 			<ondown>5113</ondown>
 		</control>
@@ -156,7 +156,7 @@
 			<focusedcolor>0xFFFFFFFF</focusedcolor>
 			<texturefocus border="5">rcb-button-focus.png</texturefocus>
 			<texturenofocus border="5">rcb-button-nofocus.png</texturenofocus>
-			<label>$ADDON[script.games.rom.collection.browser 51006]</label>
+			<label>$ADDON[script.games.rom.collection.browser 32506]</label>
 			<onup>5117</onup>
 			<ondown>5118</ondown>
 		</control>
@@ -173,7 +173,7 @@
 			<focusedcolor>0xFFFFFFFF</focusedcolor>
 			<texturefocus border="5">rcb-button-focus.png</texturefocus>
 			<texturenofocus border="5">rcb-button-nofocus.png</texturenofocus>
-			<label>$ADDON[script.games.rom.collection.browser 51007]</label>
+			<label>$ADDON[script.games.rom.collection.browser 32507]</label>
 			<onup>5113</onup>
 			<ondown>5119</ondown>
 		</control>
@@ -189,7 +189,7 @@
 			<focusedcolor>0xFFFFFFFF</focusedcolor>
 			<texturefocus border="5">rcb-button-focus.png</texturefocus>
 			<texturenofocus border="5">rcb-button-nofocus.png</texturenofocus>
-			<label>$ADDON[script.games.rom.collection.browser 51008]</label>
+			<label>$ADDON[script.games.rom.collection.browser 32508]</label>
 			<onup>5118</onup>
 			<ondown>5120</ondown>
 		</control>
@@ -206,7 +206,7 @@
 			<focusedcolor>0xFFFFFFFF</focusedcolor>
 			<texturefocus border="5">rcb-button-focus.png</texturefocus>
 			<texturenofocus border="5">rcb-button-nofocus.png</texturenofocus>
-			<label>$ADDON[script.games.rom.collection.browser 51009]</label>
+			<label>$ADDON[script.games.rom.collection.browser 32509]</label>
 			<onup>5119</onup>
 			<ondown>5114</ondown>
 		</control>
@@ -223,7 +223,7 @@
 			<focusedcolor>0xFFFFFFFF</focusedcolor>
 			<texturefocus border="5">rcb-button-focus.png</texturefocus>
 			<texturenofocus border="5">rcb-button-nofocus.png</texturenofocus>
-			<label>$ADDON[script.games.rom.collection.browser 51010]</label>
+			<label>$ADDON[script.games.rom.collection.browser 32510]</label>
 			<onup>5120</onup>
 			<ondown>5115</ondown>
 		</control>
@@ -239,7 +239,7 @@
 			<focusedcolor>0xFFFFFFFF</focusedcolor>
 			<texturefocus border="5">rcb-button-focus.png</texturefocus>
 			<texturenofocus border="5">rcb-button-nofocus.png</texturenofocus>
-			<label>$ADDON[script.games.rom.collection.browser 51011]</label>
+			<label>$ADDON[script.games.rom.collection.browser 32511]</label>
 			<onup>5114</onup>
 			<ondown>5116</ondown>
 		</control>
@@ -255,7 +255,7 @@
 			<focusedcolor>0xFFFFFFFF</focusedcolor>
 			<texturefocus border="5">rcb-button-focus.png</texturefocus>
 			<texturenofocus border="5">rcb-button-nofocus.png</texturenofocus>
-			<label>$ADDON[script.games.rom.collection.browser 51012]</label>
+			<label>$ADDON[script.games.rom.collection.browser 32512]</label>
 			<onup>5115</onup>
 			<ondown>5223</ondown>
 		</control>
@@ -271,7 +271,7 @@
 			<focusedcolor>0xFFFFFFFF</focusedcolor>
 			<texturefocus border="5">rcb-button-focus.png</texturefocus>
 			<texturenofocus border="5">rcb-button-nofocus.png</texturenofocus>
-			<label>$ADDON[script.games.rom.collection.browser 51013]</label>
+			<label>$ADDON[script.games.rom.collection.browser 32513]</label>
 			<onup>5116</onup>
 			<ondown>5224</ondown>
 		</control>
@@ -287,7 +287,7 @@
 			<focusedcolor>0xFFFFFFFF</focusedcolor>
 			<texturefocus border="5">rcb-button-focus.png</texturefocus>
 			<texturenofocus border="5">rcb-button-nofocus.png</texturenofocus>
-			<label>$ADDON[script.games.rom.collection.browser 51014]</label>
+			<label>$ADDON[script.games.rom.collection.browser 32514]</label>
 			<onup>5223</onup>
 			<ondown>5101</ondown>
 		</control>
