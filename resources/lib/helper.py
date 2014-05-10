@@ -233,7 +233,7 @@ def buildLikeStatement(selectedCharacter, searchTerm):
 	
 	likeStatement = ''
 	
-	if (selectedCharacter == util.localize(40020)):
+	if (selectedCharacter == util.localize(32120)):
 		likeStatement = "0 = 0"
 	elif (selectedCharacter == '0-9'):
 		
@@ -255,7 +255,7 @@ def buildLikeStatement(selectedCharacter, searchTerm):
 
 def builMissingFilterStatement(config):
 
-	if(config.showHideOption.lower() == util.localize(40057)):
+	if(config.showHideOption.lower() == util.localize(32157)):
 		return ''
 		
 	statement = ''
@@ -284,7 +284,7 @@ def builMissingFilterStatement(config):
 	
 	if(statement != ''):
 		statement = '(%s)' %(statement)
-		if(config.showHideOption.lower() == util.localize(40061)):
+		if(config.showHideOption.lower() == util.localize(32161)):
 			statement = 'NOT ' +statement
 	
 	return statement

@@ -19,10 +19,10 @@ def launchEmu(gdb, gui, gameId, config, settings, listitem):
 		romCollection = config.romCollections[str(gameRow[util.GAME_romCollectionId])]
 	except:
 		Logutil.log('Cannot get rom collection with id: ' +str(gameRow[util.GAME_romCollectionId]), util.LOG_LEVEL_ERROR)
-		gui.writeMsg(util.localize(35034))
+		gui.writeMsg(util.localize(32034))
 		return
 			
-	gui.writeMsg(util.localize(40063)+ " " +gameRow[util.ROW_NAME])
+	gui.writeMsg(util.localize(32163)+ " " +gameRow[util.ROW_NAME])
 	
 	# Remember viewstate
 	gui.saveViewState(False)
@@ -99,7 +99,7 @@ def launchEmu(gdb, gui, gameId, config, settings, listitem):
 					
 	except Exception, (exc):
 		Logutil.log("Error while launching emu: " +str(exc), util.LOG_LEVEL_ERROR)
-		gui.writeMsg(util.localize(35035) +": " +str(exc))
+		gui.writeMsg(util.localize(32035) +": " +str(exc))
 	
 	Logutil.log("End launcher.launchEmu", util.LOG_LEVEL_INFO)
 		
@@ -155,7 +155,7 @@ def buildCmd(filenameRows, romCollection, gameRow, escapeCmd, calledFromSkin):
 				disk = gamename[match.start():match.end()]
 				options.append(disk)
 		if(len(options) > 1 and not calledFromSkin):
-			diskNum = xbmcgui.Dialog().select(util.localize(40064) +': ', options)
+			diskNum = xbmcgui.Dialog().select(util.localize(32164) +': ', options)
 			if(diskNum < 0):
 				#don't launch game
 				Logutil.log("No disc was chosen. Won't launch game", util.LOG_LEVEL_INFO)
@@ -259,10 +259,10 @@ def checkGameHasSaveStates(romCollection, gameRow, filenameRows, escapeCmd):
 		if(re.search('(?i)%ASKNUM%', romCollection.saveStateParams)):
 			return saveStateFiles[0]
 				
-		options = [util.localize(40065)]
+		options = [util.localize(32165)]
 		for file in saveStateFiles:
 			options.append(os.path.basename(file))
-		selectedFile = xbmcgui.Dialog().select(util.localize(40066), options)
+		selectedFile = xbmcgui.Dialog().select(util.localize(32166), options)
 		#If selections is canceled or "Don't launch statefile" option
 		if(selectedFile < 1):
 			return ''
@@ -296,7 +296,7 @@ def handleCompressedFile(filext, rom, romCollection, emuParams):
 			os.remove(os.path.join(tempDir, file))
 	except Exception, (exc):
 		Logutil.log("Error deleting files after launch emu: " +str(exc), util.LOG_LEVEL_ERROR)
-		gui.writeMsg(util.localize(35036) +": " +str(exc))
+		gui.writeMsg(util.localize(32036) +": " +str(exc))
 		
 	
 	roms = []
@@ -406,7 +406,7 @@ def replacePlaceholdersInParams(emuParams, rom, romCollection, gameRow, escapeCm
 	#ask num
 	if(re.search('(?i)%ASKNUM%', emuParams)):
 		options = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9']
-		number = str(xbmcgui.Dialog().select(util.localize(40067), options))
+		number = str(xbmcgui.Dialog().select(util.localize(32167), options))
 		emuParams = emuParams.replace('%asknum%', number)
 		emuParams = emuParams.replace('%ASKNUM%', number)
 		emuParams = emuParams.replace('%Asknum%', number)
@@ -415,7 +415,7 @@ def replacePlaceholdersInParams(emuParams, rom, romCollection, gameRow, escapeCm
 	if(re.search('(?i)%ASKTEXT%', emuParams)):
 		
 		keyboard = xbmc.Keyboard()
-		keyboard.setHeading(util.localize(40068))
+		keyboard.setHeading(util.localize(32168))
 		keyboard.doModal()
 		command = ''
 		if (keyboard.isConfirmed()):
@@ -515,7 +515,7 @@ def launchXbox(gui, gdb, cmd, romCollection, filenameRows):
 	#on xbox emucmd must be the path to an executable or cut file
 	if (not os.path.isfile(cmd)):
 		Logutil.log("Error while launching emu: File %s does not exist!" %cmd, util.LOG_LEVEL_ERROR)
-		gui.writeMsg(util.localize(35037) %cmd)
+		gui.writeMsg(util.localize(32037) %cmd)
 		return
 					
 	if (romCollection.xboxCreateShortcut):
@@ -524,7 +524,7 @@ def launchXbox(gui, gdb, cmd, romCollection, filenameRows):
 		cutFile = createXboxCutFile(cmd, filenameRows, romCollection)
 		if(cutFile == ""):
 			Logutil.log("Error while creating .cut file. Check xbmc.log for details.", util.LOG_LEVEL_ERROR)
-			gui.writeMsg(util.localize(35038))
+			gui.writeMsg(util.localize(32038))
 			return
 			
 		cmd = cutFile
@@ -724,7 +724,7 @@ def getNames7z(filepath):
 	try:
 		import py7zlib
 	except Exception, (exc):
-		xbmcgui.Dialog().ok(util.SCRIPTNAME, util.localize(35039), util.localize(40029))
+		xbmcgui.Dialog().ok(util.SCRIPTNAME, util.localize(32039), util.localize(32129))
 		Logutil.log("You have tried to launch a .7z file but you are missing required libraries to extract the file. You can download the latest RCB version from RCBs project page. It contains all required libraries.", util.LOG_LEVEL_ERROR)
 		Logutil.log("Error: " +str(exc), util.LOG_LEVEL_ERROR)
 		return None
@@ -754,7 +754,7 @@ def getArchives7z(filepath, archiveList):
 	try:
 		import py7zlib
 	except:
-		xbmcgui.Dialog().ok(util.SCRIPTNAME, util.localize(35039), util.localize(40029))
+		xbmcgui.Dialog().ok(util.SCRIPTNAME, util.localize(32039), util.localize(32129))
 		Logutil.log("You have tried to launch a .7z file but you are missing required libraries to extract the file. You can download the latest RCB version from RCBs project page. It contains all required libraries.", util.LOG_LEVEL_ERROR)
 		return None
 	

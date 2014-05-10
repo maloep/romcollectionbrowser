@@ -37,10 +37,10 @@ class ContextMenuDialog(xbmcgui.WindowXMLDialog):
 			if(self.gameRow[util.GAME_isFavorite] == 1):
 				buttonMarkFavorite = self.getControlById(CONTROL_BUTTON_SETFAVORITE_GAME)
 				if(buttonMarkFavorite != None):
-					buttonMarkFavorite.setLabel(util.localize(40033))
+					buttonMarkFavorite.setLabel(util.localize(32133))
 				buttonMarkFavorite = self.getControlById(CONTROL_BUTTON_SETFAVORITE_SELECTION)
 				if(buttonMarkFavorite != None):
-					buttonMarkFavorite.setLabel(util.localize(40034))
+					buttonMarkFavorite.setLabel(util.localize(32134))
 		
 		#Hide Set Gameclient option
 		if(not helper.retroPlayerSupportsPythonIntegration()):
@@ -63,7 +63,7 @@ class ContextMenuDialog(xbmcgui.WindowXMLDialog):
 			self.close()
 			
 			if(self.selectedGame == None or self.gameRow == None):
-				xbmcgui.Dialog().ok(util.SCRIPTNAME, util.localize(35013), util.localize(35014))
+				xbmcgui.Dialog().ok(util.SCRIPTNAME, util.localize(32013), util.localize(32014))
 				return
 			
 			romCollectionId = self.gameRow[util.GAME_romCollectionId]
@@ -106,14 +106,14 @@ class ContextMenuDialog(xbmcgui.WindowXMLDialog):
 			self.close()
 			statusOk, errorMsg = wizardconfigxml.ConfigXmlWizard().addRomCollection(self.gui.config)
 			if(statusOk == False):
-				xbmcgui.Dialog().ok(util.SCRIPTNAME, util.localize(35001), errorMsg)
+				xbmcgui.Dialog().ok(util.SCRIPTNAME, util.localize(32001), errorMsg)
 				Logutil.log('Error updating config.xml: ' +errorMsg, util.LOG_LEVEL_INFO)
 				return
 			
 			#update self.config
 			statusOk, errorMsg = self.gui.config.readXml()
 			if(statusOk == False):
-				xbmcgui.Dialog().ok(util.SCRIPTNAME, util.localize(35002), errorMsg)
+				xbmcgui.Dialog().ok(util.SCRIPTNAME, util.localize(32002), errorMsg)
 				Logutil.log('Error reading config.xml: ' +errorMsg, util.LOG_LEVEL_INFO)
 				return
 			
@@ -142,14 +142,14 @@ class ContextMenuDialog(xbmcgui.WindowXMLDialog):
 			self.close()
 			
 			if(self.selectedGame == None or self.gameRow == None):
-				xbmcgui.Dialog().ok(util.SCRIPTNAME, util.localize(35015), util.localize(35014))
+				xbmcgui.Dialog().ok(util.SCRIPTNAME, util.localize(32015), util.localize(32014))
 				return
 
 			origCommand = self.gameRow[util.GAME_gameCmd]
 			command = ''
 									
 			keyboard = xbmc.Keyboard()
-			keyboard.setHeading(util.localize(40035))
+			keyboard.setHeading(util.localize(32135))
 			if(origCommand != None):
 				keyboard.setDefault(origCommand)
 			keyboard.doModal()
@@ -165,7 +165,7 @@ class ContextMenuDialog(xbmcgui.WindowXMLDialog):
 			self.close()
 						
 			if(self.selectedGame == None or self.gameRow == None):
-				xbmcgui.Dialog().ok(util.SCRIPTNAME, util.localize(35016), util.localize(35014))
+				xbmcgui.Dialog().ok(util.SCRIPTNAME, util.localize(32016), util.localize(32014))
 				return
 						
 			isFavorite = 1
@@ -184,7 +184,7 @@ class ContextMenuDialog(xbmcgui.WindowXMLDialog):
 			self.close()
 						
 			if(self.selectedGame == None or self.gameRow == None):
-				xbmcgui.Dialog().ok(util.SCRIPTNAME, util.localize(35016), util.localize(35014))
+				xbmcgui.Dialog().ok(util.SCRIPTNAME, util.localize(32016), util.localize(32014))
 				return
 						
 			isFavorite = 1
@@ -210,10 +210,10 @@ class ContextMenuDialog(xbmcgui.WindowXMLDialog):
 			
 			pos = self.gui.getCurrentListPosition()
 			if(pos == -1):
-				xbmcgui.Dialog().ok(util.SCRIPTNAME, util.localize(35017), util.localize(35018))
+				xbmcgui.Dialog().ok(util.SCRIPTNAME, util.localize(32017), util.localize(32018))
 				return					
 			dialog = xbmcgui.Dialog()
-			if dialog.yesno(util.localize(51010), util.localize(40036)):
+			if dialog.yesno(util.localize(32510), util.localize(32136)):
 				gameID = self.gui.getGameId(self.gui.gdb,pos)
 				self.gui.deleteGame(gameID)
 				self.gui.showGames()
@@ -251,7 +251,7 @@ class ContextMenuDialog(xbmcgui.WindowXMLDialog):
 				return
 			
 			if(self.selectedGame == None or self.gameRow == None):
-				xbmcgui.Dialog().ok(util.SCRIPTNAME, util.localize(35015), util.localize(35014))
+				xbmcgui.Dialog().ok(util.SCRIPTNAME, util.localize(32015), util.localize(32014))
 				return
 
 			#HACK: use alternateGameCmd to store gameclient information
