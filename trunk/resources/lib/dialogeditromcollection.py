@@ -5,6 +5,7 @@ import os
 import util, helper, config, dialogbase
 from util import *
 from configxmlwriter import *
+from emulatorautoconfig.autoconfig import EmulatorAutoconfig
 
 ACTION_CANCEL_DIALOG = (9,10,51,92,110)
 
@@ -191,14 +192,45 @@ class EditRomCollectionDialog(dialogbase.DialogBaseEdit):
 				control.setLabel(gameclient)
 			
 		elif (controlID == CONTROL_BUTTON_EMUCMD):
+			
+			#maybe there is autoconfig support
+			preconfiguredEmulator = None
+			emulatorPath = ''
+			dialog = xbmcgui.Dialog()
+			
 			if (self.selectedRomCollection.name == 'Linux' or self.selectedRomCollection.name == 'Macintosh' or self.selectedRomCollection.name == 'Windows'):
 				emulatorPath = self.editTextProperty(CONTROL_BUTTON_EMUCMD, util.localize(32624))
-			else:	
-				dialog = xbmcgui.Dialog()
-				
-				emulatorPath = dialog.browse(1, '%s ' %self.selectedRomCollection.name +util.localize(32139), 'files')
-				if(emulatorPath == ''):
-					return
+			else:
+				if(xbmc.getCondVisibility('System.Platform.Windows')):
+					
+					autoconfig = EmulatorAutoconfig(util.getEmuAutoConfigPath())
+					
+					Logutil.log('Running on Android. Trying to find emulator per autoconfig.', util.LOG_LEVEL_INFO)
+					emulators = autoconfig.findEmulators('Android', self.selectedRomCollection.name, True)
+					emulist = []
+					if(emulators):
+						for emulator in emulators:
+							if(emulator.isInstalled):
+								emulist.append(util.localize(32202) %emulator.name)
+							else:
+								emulist.append(emulator.name)
+					if(len(emulist) > 0):
+						emuIndex = dialog.select(util.localize(32203), emulist)
+						Logutil.log('emuIndex: ' +str(emuIndex), util.LOG_LEVEL_INFO)
+						if(emuIndex == -1):
+							Logutil.log('No Emulator selected.', util.LOG_LEVEL_INFO)
+						else:
+							preconfiguredEmulator = emulators[emuIndex]
+						
+				if(preconfiguredEmulator):
+					emulatorPath = preconfiguredEmulator.emuCmd					
+					self.selectedRomCollection.emulatorParams = preconfiguredEmulator.emuParams
+					control = self.getControlById(CONTROL_BUTTON_PARAMS)
+					control.setLabel(self.selectedRomCollection.emulatorParams)
+				else:										
+					emulatorPath = dialog.browse(1, '%s ' %self.selectedRomCollection.name +util.localize(32139), 'files')
+					if(emulatorPath == ''):
+						return
 							
 			self.selectedRomCollection.emulatorCmd = emulatorPath
 			control = self.getControlById(CONTROL_BUTTON_EMUCMD)
@@ -206,7 +238,7 @@ class EditRomCollectionDialog(dialogbase.DialogBaseEdit):
 			
 		elif (controlID == CONTROL_BUTTON_PARAMS):
 			emulatorParams = self.editTextProperty(CONTROL_BUTTON_PARAMS, util.localize(32625))
-			self.selectedRomCollection.emulatorParams = emulatorParams 		
+			self.selectedRomCollection.emulatorParams = emulatorParams
 			
 		elif (controlID == CONTROL_BUTTON_ROMPATH):
 			self.editRomPath()
