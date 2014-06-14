@@ -1,3 +1,10 @@
+2.0.15 (05/2014)
+~~~~~~~~~~~~~
+General:
+  * Add autoconfig support to Edit Rom Collection dialog
+  * replace elementtree module with xml.etree
+  * added new string ids with ids from 32000 to 32999
+
 2.0.14 (04/2014)
 ~~~~~~~~~~~~~
 Launch Games:
