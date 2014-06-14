@@ -1,24 +1,25 @@
 2.0.15 (05/2014)
 ~~~~~~~~~~~~~
 General:
-  * Add autoconfig support to Edit Rom Collection dialog
+  * add autoconfig support to Edit Rom Collection dialog
+  * add and update languages
   * replace elementtree module with xml.etree
-  * added new string ids with ids from 32000 to 32999
+  * add new string ids with ids from 32000 to 32999
 
 2.0.14 (04/2014)
 ~~~~~~~~~~~~~
 Launch Games:
-  * Add autoconfig support on Android
+  * add autoconfig support on Android
 
 2.0.13 (03/2014)
 ~~~~~~~~~~~~~
 Launch Games:
-  * Fixed issues with launching games on Android
+  * fixed issues with launching games on Android
 
 2.0.12 (03/2014)
 ~~~~~~~~~~~~~
 General:
-  * Edit Rom Collection: workaround to update button labels with empty strings
+  * workaround to update button labels with empty strings in Edit Rom Collection dialog
 
 Import Games:
   * update moby scraper: reflect changes on page
