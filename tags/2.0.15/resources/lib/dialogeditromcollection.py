@@ -201,7 +201,7 @@ class EditRomCollectionDialog(dialogbase.DialogBaseEdit):
 			if (self.selectedRomCollection.name == 'Linux' or self.selectedRomCollection.name == 'Macintosh' or self.selectedRomCollection.name == 'Windows'):
 				emulatorPath = self.editTextProperty(CONTROL_BUTTON_EMUCMD, util.localize(32624))
 			else:
-				if(xbmc.getCondVisibility('System.Platform.Windows')):
+				if(xbmc.getCondVisibility('System.Platform.Android')):
 					
 					autoconfig = EmulatorAutoconfig(util.getEmuAutoConfigPath())
 					
