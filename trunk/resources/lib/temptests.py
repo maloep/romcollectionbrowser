@@ -66,8 +66,8 @@ parseInstruction = "C:\\Users\\lom\\AppData\\Roaming\\XBMC\\addons\\script.games
 #descFile = "F:\\Emulatoren\\data\\Synopsis\\giantbomb\\Actraisersearch.xml"
 #parseInstruction = "F:\\Emulatoren\\data\\Synopsis\\giantbomb\\giantbomb - parserConfig.xml"
 
-#descFile = "F:\\Emulatoren\\data\\Scraper Tests\\Roms\\Sega32\\32x - Motocross Championship.nfo"
-#parseInstruction = "C:\\Users\\lom\\AppData\\Roaming\\XBMC\\scripts\\Rom Collection Browser\\resources\\scraper\\00 - local nfo.xml"
+descFile = "E:\\Games\\Testsets\\RCB Testset\\Testdata - online scraping\\Roms\\SNES\\Super Mario Kart.nfo"
+parseInstruction = "C:\\Users\\lom\\AppData\\Roaming\\XBMC\\addons\\script.games.rom.collection.browser.dev\\resources\\scraper\\00 - local nfo.xml"
 
 #descFile = "http://maws.mameworld.info/maws/romset/88games"
 #parseInstruction = "C:\\Users\\lom\\AppData\\Roaming\\XBMC\\addons\script.games.rom.collection.browser.dev\\resources\\scraper\\06 - maws.xml"
