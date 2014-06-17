@@ -51,7 +51,7 @@ class RemoveRCDialog(xbmcgui.WindowXMLDialog):
 		
 		#Delete Options
 		rcDeleteOptions = [util.localize(32137),util.localize(32138)]
-		self.addItemsToList(CONTROL_LIST_DELETEOPTIONS, rcDeleteOptions)
+		self.addItemsToList(CONTROL_LIST_DELETEOPTIONS, rcDeleteOptions, properties=['RCollection', 'Roms'])
 		self.updateControls()
 		
 		
@@ -104,11 +104,9 @@ class RemoveRCDialog(xbmcgui.WindowXMLDialog):
 		elif(self.selectedControlId in (CONTROL_BUTTON_DEL_DOWN, CONTROL_BUTTON_DEL_UP)):
 			#Check for Remove Roms or Roms and Rom Collection
 			control = self.getControlById(CONTROL_LIST_DELETEOPTIONS)
-			selectedDeleteOption = str(control.getSelectedItem().getLabel())
-			if(selectedDeleteOption == util.localize(32138)):
-				self.romDelete = 'Roms'
-			else:
-				self.romDelete = 'RCollection'
+			selectedDeleteOption = str(control.getSelectedItem().getLabel2())
+			Logutil.log('selectedDeleteOption = ' +selectedDeleteOption, util.LOG_LEVEL_INFO)
+			self.romDelete = selectedDeleteOption
 		
 						
 	
@@ -148,16 +146,20 @@ class RemoveRCDialog(xbmcgui.WindowXMLDialog):
 		return control
 	
 	
-	def addItemsToList(self, controlId, options):
+	def addItemsToList(self, controlId, options, properties=None):
 		Logutil.log('addItemsToList', util.LOG_LEVEL_INFO)
 		
 		control = self.getControlById(controlId)
 		control.setVisible(1)
 		control.reset()
 				
-		items = []
-		for option in options:
-			items.append(xbmcgui.ListItem(option, '', '', ''))
+		items = []		
+		for i in range(0, len(options)):
+			option = options[i]
+			property = ''
+			if(properties):
+				property = properties[i]
+			items.append(xbmcgui.ListItem(option, property, '', ''))
 							
 		control.addItems(items)
 			
