@@ -1,7 +1,7 @@
 2.0.16 (06/2014)
 ~~~~~~~~~~~~~
 General:
-  * bugfix: Delete Rom Collection dialog works language independent
+  * bugfix: Delete Rom Collection dialog did not work language independent
 
 Import Games:
   * bugfix: nfo import was broken with new version of elementtree
