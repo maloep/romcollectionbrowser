@@ -120,13 +120,11 @@
   * skin widget can invoke RCB to launch games
   * experimental: libretro support
 
-= 2.0.0 =
-01/2013
+= 2.0.0 (01/2013) =
 == General ==
   * Frodo version bump
 
-= 1.1.2 =
-01/2013
+= 1.1.2 (01/2013) =
 == General ==
   * bugfix: asking for Platform "Other" did not work in Add Rom Collection wizard
   * bugfix: no error message was shown after Add Rom Collection wizard
@@ -140,13 +138,11 @@
   * bugfix: backward compatibility for fullscreen toggle
   * new settings: pre- and post-launch delay
 
-= 1.1.1 =
-12/2012
+= 1.1.1 (12/2012) =
 == General ==
   * bugfixes due to localization changes
 
-= 1.1.0 =
-12/2012
+= 1.1.0 (12/2012) =
 == General ==
   * localization
 
@@ -156,13 +152,11 @@
 == Browse Games ==
   * changed logic of applying filters: 1st click applies filter, 2nd click closes filter pane
 
-= 1.0.9 =
-11/2012
+= 1.0.9 (11/2012)=
 == Browse Games ==
   * bugfix: MostPlayedRoms-widget in Aeon Nox caused RCB-loop on startup
 
-= 1.0.8 =
-11/2012
+= 1.0.8 (11/2012) =
 == General ==
   * bugfix: script did not launch from home screen
 
@@ -170,13 +164,11 @@
   * Frodo support: info dialog did not work anymore
   * Frodo support: change viewmode needs to be called manually since Frodo
 
-= 1.0.7 =
-11/2012
+= 1.0.7 (11/2012) =
 == Browse Games ==
   * add fanart and launchCommand for skins to show on home screen
 
-= 1.0.6 =
-11/2012
+= 1.0.6 (11/2012) =
 == Import Games ==
   * import of roms and artwork on smb shares (shares with username and password in path are not supported)
   * update archive.vg scraper to v2.0
@@ -193,8 +185,7 @@
   * bugfix: disc selector not working with games that have no description
 
 
-= 1.0.5 =
-07/2012
+= 1.0.5 (07/2012) =
 == Import Games ==
   * "First 10 games could not be imported." -> option to continue and ignore error (patch submitted by pantherts)
   
@@ -204,13 +195,11 @@
   * new option to use subprocess.Popen to launch emulators
   * using %PROGRAMFILES% variable in applaunch.bat
 
-= 1.0.4 =
-05/2012
+= 1.0.4 (05/2012) =
 == Import Games ==
   * revert: bugfix for publisher / developer "989" caused problems
 
-= 1.0.3 =
-05/2012
+= 1.0.3 (05/2012) =
 == General ==
   * open Addon settings from context menu
 
@@ -223,8 +212,7 @@
     * rescrape selection
   * new update option: don't overwrite properties with null values
 
-= 1.0.2 =
-03/2012
+= 1.0.2 (03/2012) =
 == General ==
   * missing info / artwork dialog: select criteria to show or hide games with missing info / artwork
   * changed text of game description options in config wizard
@@ -235,8 +223,7 @@
 == Browse Games ==
   * bugfix: videos of games with "," in name did not play
 
-= 0.9.9 =
-02/2012
+= 0.9.9 (02/2012) =
 == General ==
   * refactoring: move config wizard to separate module
   * refactoring: remove Camelot compatibility code
@@ -248,8 +235,7 @@
 == Launch Games ==
   * bugfix: don't launch emulator if 7z file could not be extracted
   
-= 0.9.8 =
-02/2012
+= 0.9.8 (02/2012) =
 == General ==
   * Add action 92 (backspace) to close dialogs
   
@@ -258,16 +244,14 @@
   * set path to nfo folder
   * export nfo files on demand
 
-= 0.9.7 =
-12/2011
+= 0.9.7 (12/2011) =
 == General ==
   * bugfix: loading skin files with PAL resolution might have failed
 
 == Browse Games ==
   * bugfix: imageplacing option "Four small" did not work in Eden
   
-= 0.9.6 =
-12/2011
+= 0.9.6 (12/2011) =
 == General ==
   * bugfix: config was not updated after Edit Rom Collection
 
@@ -278,8 +262,7 @@
   * add video support to MAME views
   * Night skin: set focus on console filter when accessing filter controls
 
-= 0.9.5 =
-12/2011
+= 0.9.5 (12/2011) =
 == Import Games ==
   * add archive.vg scraper to config.xml
 
@@ -294,8 +277,7 @@
   * bugfix: fullscreen video now works auto video playback is turned on
   * bugfix: game name does not change after video playback is stopped in game info dialog
 
-= 0.9.4 =
-11/2011
+= 0.9.4 (11/2011) =
 == General ==
   * little refactoring of startup code (better timing and more stability)
   * don't crash when import zlib fails (not available with some python 2.6 distributions)
@@ -309,15 +291,13 @@
   * add background and extraImage1, 2, 3 to game info dialog
   * add console, version, perspective to game info dialog
 
-= 0.9.3 =
-10/2011
+= 0.9.3 (10/2011) =
 == Browse Games ==
   * support different skins for game info view
   * don't reload game list when exiting game info view
   * small changes for better Eden compatibility
 
-= 0.9.2 =
-10/2011
+= 0.9.2 (10/2011) =
 == General ==
   * ignore action id 0
 
@@ -331,8 +311,7 @@
     * video in game info window
   * add skin selection in addon settings: choose between Confluence, Night and Simplicity
 
-= 0.9.1 =
-08/2011
+= 0.9.1 (08/2011) =
 == General ==
   * Edit Rom Collection dialog
     * friendly name for imageplacing options
@@ -358,8 +337,7 @@
 == Game Launching ==
   * support for standalone games: use "%ROM%" in emu Cmd
 
-= 0.9.0 =
-06/2011
+= 0.9.0 (06/2011) =
 == General ==
   * reworked Confluence skin from PAL to 720p
   * slight usability changes in Confluence skin (navigation etc.)
@@ -369,31 +347,25 @@
   * favorites function
   * search function
 
-= 0.8.12 =
-06/2011
+= 0.8.12 (06/2011) =
   * Fixed whitespace issue on Xbox
 
-= 0.8.11 =
-06/2011
+= 0.8.11 (06/2011) =
   * bugfix: Edit Rom Collection dialog did not save changes in 0.8.10
 
-= 0.8.10 =
-06/2011
+= 0.8.10 (06/2011) =
   * platform.machine() caused errors on some Linux systems 
   * updated scraper: thegamesdb.net
 
-= 0.8.9 =
-06/2011
+= 0.8.9 (06/2011) =
   * Eden compatibility: use xbmc.service instead of autoexec.py to perform startup tasks
   * use XBMC settings instead of status file to transfer status
 
-= 0.8.7 =
-05/2011
+= 0.8.7 (05/2011) =
   * removed option CACHESELECTION from caching options
   * bugfix game import: error with handling [] in rom names
 
-= 0.8.6 =
-05/2011
+= 0.8.6 (05/2011) =
 == General ==
   * complete "Edit Rom Collection" dialog: access all settings via UI
   * new dialog: "Edit Offline Scrapers"
@@ -405,8 +377,7 @@
 == Game Import ==
   * bugfix: using offline scrapers for MAME did not work
 
-= 0.8.5 =
-04/2011
+= 0.8.5 (04/2011) =
 == General ==
   * using Dharma settings file as default
 
@@ -428,16 +399,13 @@
   * new placholders in launchEmu: %ROMFILE%, %ROMNAME%, %GAME%, %ASKNUM%, %ASKTEXT%
   * check for multi rom games in zip files before launching
 
-= 0.8.4 =
-04/2011
+= 0.8.4 (04/2011) =
   * bug fix: adding more than 10 Rom Collections could cause database inconsistencies
 
-= 0.8.3 =
-04/2011
+= 0.8.3 (04/2011) =
   * encoding error workaround (Windows only)
 
-= 0.8.2 =
-03/2011
+= 0.8.2 (03/2011) =
 == General ==
   * new option: Delete Game
   * bugfix: use uppercase "\Addon"-path in autoexec.py (Windows only)
@@ -451,8 +419,7 @@
   * encoding error fixes
   * better error handling on encoding errors
 
-= 0.8.1 =
-02/2011
+= 0.8.1 (02/2011) =
 == General ==
   * rework of Confluence Thumbs view
 
@@ -462,8 +429,7 @@
   * small fixes in MAME scraper
   
   
-= 0.8.0 =
-01/2011
+= 0.8.0 (01/2011) =
 == General ==
   * added context menu
   * option "Add Rom Collection" available via context menu
@@ -478,8 +444,7 @@
   * detect games in zip and 7z archives and ask user which game to load
 
   
-= 0.7.11 =
-12/2010
+= 0.7.11 (12/2010) =
 == General ==
   * no download of multiple images: check if file is available with different extension
   * bugfix: fallback images did not work in previous versions
@@ -489,13 +454,11 @@
   * set correct RomCollection-properties on xbox (create shortcuts, ...)
   * complete configuration can be done with the wizard (for roms and Xbox-games)
 
-= 0.7.10 =
-12/2010
+= 0.7.10 (12/2010) =
   * online scraping: improvements to sequel and subtitle handling
   
   
-= 0.7.9 =
-12/2010
+= 0.7.9 (12/2010) =
 == Game Import ==
   * scraping game information and artwork from various online sources
   * current available scrapers: thegamesdb.net, giantbomb.com, mobygames.com
@@ -510,8 +473,7 @@
   * refactoring of config.xml structure
   * config.xml will be read at every start: no need to import settings anymore
   
-= 0.6.1 =
-08/2010
+= 0.6.1 (08/2010) =
 == UI and general behaviour ==
   * fullscreen video browser
   * implemented different caching options: CACHEALL, CACHEITEM, CACHEITEMANDNEXT
@@ -544,22 +506,19 @@
   * xbox support: create cut files for xbox on the fly (new settings: xboxCreateShortcut, xboxCreateShortcutAddRomfile, xboxCreateShortcutUseShortGamename)
   * toggle screenmode (fullscreen, minimized) if launching roms in non-solo mode
 
-= 0.5.4 =
-08/2010
+= 0.5.4 (08/2010) =
   * minimize XBMC before launching emulator
   * maximize XBMC after exiting emulator
   * using PAL as default resolution
   * new icon (thanks to freezy)
   * hungarian translation (thanks to alanwww1)
 
-= 0.5.3 =
-08/2010
+= 0.5.3 (08/2010) =
   * Dharma compatibility (installable via addon browser, slight code modifications with no impact to the end user)
   * changed the versioning scheme from Vx.y to x.y.z (this was needed to get this script submitted to the repo - and it is the better versioning scheme:))
   * no more writing to the scripts directory: all files will be written to userdata/addon_data/script.games.rom.collection.browser. The file config.xml is still read from RCBs database directory. It will be backed up to the userdata directory after every "Import Settings" because XBMC will delete the complete RCB addon directory in case of an update.
 
-= V0.5 =
-05/2010
+= V0.5 (05/2010) =
 == UI ==
   * new UI design (Confluence-like)
   * different views of the main window (Info, Info 2, Thumbs)
@@ -580,8 +539,7 @@
  
   
 
-= V0.4 =
-03/2010
+= V0.4 (03/2010) =
   * new game info view: pressing info button when a game is selected will open a new window with additional game information
   * showing video in game info view
   * dynamic image placing: RCB has 8 different controls to show images. The image type (screenshot, cover, ...) can be configured for every control.
@@ -589,8 +547,7 @@
 
 
 
-= V0.3 =
-03/2010
+= V0.3 (03/2010) =
   * solved problem with executing batch file in windows
   * using autoexec.py to launch RCB when restarting in solo mode
   * saving and loading view state when relaunching RCB
@@ -604,10 +561,8 @@
   * new Game properties (imported via description file): developer, reviewer, maxPlayers, rating, votes, url, region, media, perspective, controller
   * new global settings: showEntryAllConsoles, showEntryAllGenres, showEntryAllYears, showEntryAllPublisher, saveViewStateOnExit, saveViewStateOnLaunchEmu
   
-= V0.2 =
-03/2010
+= V0.2 (03/2010) =
   * parser bug fixes
   
-= V0.1 =
-02/2010
+= V0.1 (02/2010) =
   * initial version
