@@ -28,8 +28,8 @@ from config import *
 #descFile = "http://www.mobygames.com/game/sega-32x/metal-head"
 #parseInstruction = "C:\\Users\\lom\\AppData\\Roaming\\XBMC\\addons\\script.games.rom.collection.browser.dev\\resources\\scraper\\04.02 - mobygames - details.xml"
 
-descFile = "http://www.mobygames.com/game/atari-5200/gyruss"
-parseInstruction = "C:\\Users\\lom\\AppData\\Roaming\\XBMC\\addons\\script.games.rom.collection.browser.dev\\resources\\scraper\\04.02 - mobygames - details.xml"
+#descFile = "http://www.mobygames.com/game/atari-5200/gyruss"
+#parseInstruction = "C:\\Users\\lom\\AppData\\Roaming\\XBMC\\addons\\script.games.rom.collection.browser.dev\\resources\\scraper\\04.02 - mobygames - details.xml"
 
 #descFile = "http://www.mobygames.com/game/snes/actraiser/cover-art"
 #parseInstruction = "C:\\Users\\lom\\AppData\\Roaming\\XBMC\\addons\\script.games.rom.collection.browser.dev\\resources\\scraper\\04.03 - mobygames - coverlink front.xml"
@@ -66,8 +66,8 @@ parseInstruction = "C:\\Users\\lom\\AppData\\Roaming\\XBMC\\addons\\script.games
 #descFile = "F:\\Emulatoren\\data\\Synopsis\\giantbomb\\Actraisersearch.xml"
 #parseInstruction = "F:\\Emulatoren\\data\\Synopsis\\giantbomb\\giantbomb - parserConfig.xml"
 
-descFile = "E:\\Games\\Testsets\\RCB Testset\\Testdata - online scraping\\Roms\\SNES\\Super Mario Kart.nfo"
-parseInstruction = "C:\\Users\\lom\\AppData\\Roaming\\XBMC\\addons\\script.games.rom.collection.browser.dev\\resources\\scraper\\00 - local nfo.xml"
+#descFile = "E:\\Games\\Testsets\\RCB Testset\\Testdata - online scraping\\Roms\\SNES\\Super Mario Kart.nfo"
+#parseInstruction = "C:\\Users\\lom\\AppData\\Roaming\\XBMC\\addons\\script.games.rom.collection.browser.dev\\resources\\scraper\\00 - local nfo.xml"
 
 #descFile = "http://maws.mameworld.info/maws/romset/88games"
 #parseInstruction = "C:\\Users\\lom\\AppData\\Roaming\\XBMC\\addons\script.games.rom.collection.browser.dev\\resources\\scraper\\06 - maws.xml"
@@ -81,8 +81,8 @@ parseInstruction = "C:\\Users\\lom\\AppData\\Roaming\\XBMC\\addons\\script.games
 
 #http://api.archive.vg/1.0/System.getGames/VT7RJ960FWD4CC71L0Z0K4KQYR4PJNW8/SYSTEM
 
-#descFile = "F:\\Games\\MAME test\\Synopsis\\MAME - short.txt"
-#parseInstruction = "F:\\Games\\MAME test\\Synopsis\\parserConfig.xml"
+descFile = "E:\\Games\\RCB TestDataBase\\Scraping\\V2 - Amiga - ff - descpergame\\synopsis\\Dogfight\\synopsis.txt"
+parseInstruction = "E:\\Games\\RCB TestDataBase\\Scraping\\V2 - Amiga - ff - descpergame\\parserConfig.xml"
 
 #descFile = "F:\\Emulatoren\\data\\synopsis\\XTRAS-RCB\\NGPC.txt"
 #parseInstruction = "F:\\Emulatoren\\data\\synopsis\\XTRAS-RCB\\_parserConfig.xml"
@@ -244,9 +244,12 @@ print str(files)
 
 
 """
-diskPrefix = "_Disk*."
-#game =  "CHRONOCROSS Disc 1.iso"
-game = "Final Fantasy VII_Disk1.bin"
+diskPrefix = " \(.*\)"
+game1 = "Metal Gear Solid (Disk 1).bin"
+game2 = "Metal Gear Solid (Disk 2).bin"
+game3 = "Metal Gear Solid (Disk 1 PT-BR).bin"
+
+game = game3
 
 match = re.search(diskPrefix, game)
 if(match):

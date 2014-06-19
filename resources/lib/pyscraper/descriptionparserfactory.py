@@ -3,6 +3,7 @@
 
 from xml.etree.ElementTree import *
 from descriptionparserxml import *
+from descriptionparserflatfile import *
 
 
 class DescriptionParserFactory:
