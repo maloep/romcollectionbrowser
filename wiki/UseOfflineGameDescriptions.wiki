@@ -40,5 +40,9 @@ Virtualboy			  29
 Wonderswan			  33
 }}}
 
+= Descriptions assembled by users =
+[http://forum.xbmc.org/showpost.php?p=612640&postcount=580 spyvsspy]:
+[http://jumbofiles.com/4bo7ue9f000b Mame], [http://jumbofiles.com/s6i1kve2n18t C64], [http://jumbofiles.com/kmcvpukjayn2 Amiga small], [http://jumbofiles.com/1ija5cepffeh Amiga big (may be problematic to parse because of its size)], [http://jumbofiles.com/ro4bfpiajjp5 ColecoVision]
 
-Additionally user [http://forum.xbmc.org/showpost.php?p=612640&postcount=580 spyvsspy has compiled] some more game descriptions (all included with working parserConfig and all using crc values): [http://jumbofiles.com/4bo7ue9f000b Mame], [http://jumbofiles.com/s6i1kve2n18t C64], [http://jumbofiles.com/kmcvpukjayn2 Amiga small], [http://jumbofiles.com/1ija5cepffeh Amiga big (may be problematic to parse because of its size)], [http://jumbofiles.com/ro4bfpiajjp5 ColecoVision]
+[http://forum.xbmc.org/showthread.php?tid=70115&pid=1736829#pid1736829 Maleficium]:
+[http://wikisend.com/download/619858/MAME.txt MAME 0.153], [http://wikisend.com/download/148124/Rom%20Collection%20Browser%20nfo%20Files.zip compilation of 68 systems (28MB)]
