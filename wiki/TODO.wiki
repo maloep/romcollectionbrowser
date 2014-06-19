@@ -3,86 +3,72 @@
 This TODO list / roadmap is a working document. It will change quite frequently as I am always adding, removing or reordering issues that I want to work on for the next release. If you made a request or reported an issue that you don't find on the list please remind me because chances are that I just forgot to add it.
 
 = next relase =
-
-== General ==
-  * RPi support
-  * Android support
-  * Export game database (nfo files) - Some of the nfo files exported don't have the Plot information even for the games that display it correctly in RCB.
-  * NFO files don't update when rescraping games. - Add option to overwrite
-  * export nfo files on demand
-    * option to overwrite existing files
-    * option to export statisitcal or user specific data (isFavorite, launchCount, ...)
-
-== Import games ==
-  * import games with multiple . or - causes errors (like "WCW vs. NWO - world tour") --> "." interpreted as separator
-  * Still missing the possibility to define "Rom File Mask" as *.tzx.zip or *.tap.zip
-
-== Browse games ==
+== bug fixes ==
+  * developer with non-ascii characters in name is crashing the list
+  * memory leak when importing large number of roms
+  * un-favorited games still appear with a star on the list
+  * when opening a .zip file with multiple roms inside, it is impossible to return to the menu without launching the emulator
+  * multiple disk indicator not showing disk number (issue 145)
+  * extract all files inside an archive
+  * reload list after regular (pvr?) refresh
   * when you have videos selected for games, whilst browsing the video will still play if the next game does not have a video.
   * enable fullscreen video if video in small window is playing
   * when deleting games, jump to the next game in the list (not at the beginning)
   * on startup try to set viewtype before loading the list
-  
-== Launch games ==
-  * pylzma for python 2.6 (http://pypi.python.org/pypi/pylzma/)
+  * after exiting games in Confluence list view the focus goes to the filter pane
+  * start RCB twice: atomic init routine
+  * XBMC frequently locks up on shutdown
+  * import games with multiple . or - causes errors (like "WCW vs. NWO - world tour") --> "." interpreted as separator
+  * still missing the possibility to define "Rom File Mask" as *.tzx.zip or *.tap.zip
+  * pylzma for python 2.7 (http://pypi.python.org/pypi/pylzma/)
     * Linux 32bit
     * Linux 64bit
-  * after exiting games in Confluence list view the focus goes to the filter pane
-  * add option if XBMC should go into windowed mode
-  * when opening a .zip file with multiple roms inside, it is impossible to return to the menu without launching the emulator
+  * autoplay video in Info window not reliable
+  * check windowed mode with popen
 
-
-= (one of) next release(s) =
+== features ==
+  * disable screensaver before launching roms
+  * launch RCB with filter settings as arguments
+  
+  
+= "near"-future releases =
 == General ==
-  * start RCB twice: atomic init routine?
-  * XBMC frequently locks up on shutdown
-  * check for errors in scrapeonstartup
-    --> error handling when there are errors in config?
-  * check how to refresh XBMC artwork cache
+  * game sets
+  * home screen with platform selection
 
 == Import games ==
-  * remove MAWS scraper from config.xml
-  * import on startup: adjust for other skins (e.g. Aeon Nox)
-  * add new MAME scraper
-  * fix bugs in mobygames scraper
-  * reflect changes from thegamesdb
-    * download publisher and developer artwork from thegamesdb.net
-    * youtube link in thegamesdb scraper
-  * manually enter name of scraped game (rescrape or interactive)
-  * have the collection name and the name sent to the scrapper be different settings. That way, I could have a "supermodel3" collection, but scrap the roms as "mame" roms.
-  * game logo or game name logo
-  * support selection of similar named versions of games (select version to import by user or mask)
-    Final Fantasy III (USA) (Beta).zip
-    Final Fantasy III (USA) (Rev 1).zip
-    Final Fantasy III (USA).zip
+  * ignore MAME bios files
+  * import games with original game names, allowing several versions of the same game
+  * include new heimdall scrapers
+  * import on startup: adjust for other skins (e.g. Aeon Nox) --> new XBMC feature background progress dialog?
   
 == Browse Games ==
   * improve loading time or add options to load smaller amount of games
     * new caching option: load list in background (maybe remove cacheitem and next)
-  * autoplay video in Info window not reliable
   * add option to allow media to keep playing. --> test with libretro
-  * store viewstate on RC basis
-  * add filter MaxPlayers
   * view images fullscreen by pressing enter upon the art or similar
   * option to hide game infos in main view (show up on pressing I or similar)
   * add option to play a video only once
   * change view for Info to Thumbs -> stop video
-  * publisher, developer images in game info view
   
 == Launch games ==
   * show message box before extracting games
-  * check windowed mode with popen
   * add launch settings to addon settings. add option to overwrite settings per rom collection
   * try to use "at" to restart XBMC: http://forum.xbmc.org/showthread.php?tid=134913 (Linux only?)
   * new placeholders in emuParams: %EMUPATH%, %ROMPATH%
   * Random game option (Issue 82)
   * launch game per popen
     * popen options (suspend, pause, ...)
+  * option to always launch the last savestate
+  * open cmd window minimized
   
 
 = Future releases =
 === General ===
-  * add more filetypes (see examples from Domina)
+  * check for errors in scrapeonstartup
+    --> error handling when there are errors in config?
+  * check how to refresh XBMC artwork cache
+  * RPi support
   * backup MyGames.db and config.xml before editing or game import
   * Edit offline scrapers:
     * move encoding from scraper to site
@@ -94,68 +80,42 @@ This TODO list / roadmap is a working document. It will change quite frequently 
   * better handling of configuration errors (allow to launch RCB and edit configuration)
   * new option: Delete Selection
   * Edit Game dialog
+  * Map button to "Add to Favorites"
+  * new wizards (recently played, recently added)
   
 ==== Data model ====
-  * support different releases (region, updates, etc.)
-    * store exact release dates (not only release year)
-    * region support
-      * add region flag per rom collection (also ALL option)
-      * determine region per game (e.g. [US] or (US) in name)
-      * store different releases in 1 zip or 7z file (look inside file and mark game as available?)
-  * build game groups (releases and sequels)
-    * collect minimal game data for missing games in game group (even if certain roms are not present)
-  * add staff (e.g. developer, artists, ... from mobygames)
-  * mark game as completed
-  * mark game as broken (in db + .broken in filename)
-  * lastplayed
-  * date added
-  * lastmodified
-  * rating (ESRB, PEGI, etc.)
-  * divide outline and plot
-  * use more than 1 screenshot
+  * game completed (bool)
+  * game broken (bool)
+  * game added (datetime)
+  * game updated (datetime)
+  * game played (datetime)
+  * viewstate on RC basis
   
 === Import games ===
   * add filename matching (instead of crc) to offline scraper
-  * Could not create file: 'C:\Program Files\ROM project\ROMS\Sega Genesis\Artwork\boxfront\Triple Play 96 (F) [b1].jpg'. Error message: '[Errno socket error] timed out'
   * apple makes a shadow folder called '.AppleDouble' and makes an identically named file entry in that directory for every file in the real directory.
   * refactor dbupdate (requires data model changes)
-    * no import of images to database. just check the directories at runtime. Performance tests
-    * rom collection base path and all files relative to that
     * check preconditions before game import
-    * easier handling of default images, publisher, dev and RC images
-    * divide data and artwork scraper
-    * new scraper property: online, local
-    * support for audio files
-    * region support (while scraping)
-    * artwork quality
-    * test all scraping options (search game by crc, use filename as crc, ...)
-      * no settings needed?
   * create scrape statistics
     * time taken
     * games total
     * missing info
     * missing artwork (per type)
-    * option to rescrape missing games
   * Scraper improvements
-    * test beautifulsoup as scraper lib
-    * more than 1 URL in 1 Result (e.g. BackCover, FrontCover, ...) is not supported atm
-    * ,-separated list in scraper
     * scraping option: use subtitle search
     * only search for subtitles with : and - (and maybe only when sequel number)
     * support a.k.a. titles from mobygames
   * new option: crc from complete zip or first entry
   * option to hide progress bar in background mode
-  * support 2 or more developers  
   * http://www.mobygames.com/game/ps2/ace-combat-5-the-unsung-war/credits
   * http://www.thecoverproject.net/
   * ask before cancel 
-  * skip 2nd and 3rd scraper if all info is found with first one
-  * option to create sub collections: best sports games, ...
-  * two-step import: 1. local data, 2. online data
-  
+  * skip 2nd and 3rd scraper if all info is found with first one  
+  * manually enter name of scraped game (rescrape or interactive)
+  * select artwork during import
+  * support for default images (if no image was found)
 
 === Browse games ===
-  * Console view / dash board
   * remap home button
   * video playback in non-Confluence skins
   * add imageplacing options to Night skin
@@ -166,7 +126,6 @@ This TODO list / roadmap is a working document. It will change quite frequently 
   * filetypeformainview2 is missing
   * remove imageplacing mechanism?
     * define several views with large and small images
-    * save view per Rom Collection (favorite view per romcollection)
     * check for fallback images
   * Simplicity
     * relative position of favorite stars in thumbs view
@@ -183,11 +142,55 @@ This TODO list / roadmap is a working document. It will change quite frequently 
     Windows (http://sourceforge.net/projects/gnuwin32/files/wget/)
     "%PROGRAMFILES%\GnuWin32\bin\wget.exe" -q --header="Content-Type: application/json" --post-data="{\"jsonrpc\":\"2.0\", \"method\": \"Application.Quit\", \"id\":\"1\"}" http://localhost/jsonrpc
   * add option to autostart RCB everytime in RCB service
-  * per game config (e.g. Amiga)
+  * per game emulator and config (e.g. Amiga)
   * try to write black background before launch
-  * disable screensaver before game launch
-  * change emulators per game
 
+
+= Support topics =
+  * check launching games (after playing a few minutes the window resize does not work anymore)
+	--> XBMC power saving?
+  * provide pysqlite libraries for linux
+  * "Resident Evil (USA) (Disc 1)" --> video playback issues
+  * launch other scripts while RCB is running
+  * howto openelec and xbmcbuntu
+  * http://forum.xbmc.org/showthread.php?tid=70115&pid=1593289#pid1593289
+  * http://forum.xbmc.org/showthread.php?tid=70115&pid=1714015#pid1714015
+
+= Hints / Tipps =
+  * launch games with saturn emulator ssf: http://forum.xbmc.org/showthread.php?tid=70115&pid=1429511#pid1429511
+  * using RCB artwork as screensaver: http://forum.xbmc.org/showthread.php?tid=70115&pid=1431809#pid1431809
+  * closing games with eventghost (and insert coin in MAME): http://forum.xbmc.org/showthread.php?tid=70115&pid=1432755#pid1432755
+	http://forum.xbmc.org/showthread.php?tid=70115&pid=1434934#pid1434934
+	http://forum.xbmc.org/showthread.php?tid=70115&pid=1435200#pid1435200
+	http://forum.xbmc.org/showthread.php?tid=70115&pid=1435476#pid1435476
+  * closing emulator on xbox360 X button: http://forum.xbmc.org/showthread.php?tid=70115&pid=1434773#pid1434773
+  * delete art with no games: http://forum.xbmc.org/showthread.php?tid=70115&pid=1439452#pid1439452
+  * http://forum.xbmc.org/showthread.php?tid=70115&pid=1697983#pid1697983 (offline descs)
+  * http://forum.xbmc.org/showthread.php?tid=70115&pid=1699360#pid1699360 (offline descs)
+
+
+= string id update =  
+	id="350 -> id="320
+	id="400 -> id="321
+	id="401 -> id="322
+	id="450 -> id="323	?
+	id="500 -> id="324	?
+	id="510 -> id="325
+	id="520 -> id="326
+	id="530 -> id="327
+	id="5400 -> id="3275	?
+	id="5500 -> id="3280
+	id="5600 -> id="3285
+	id="5700 -> id="3290
+	id="30000 -> id="32999
+
+
+= new XBMC features to consider =
+  * background progress dialog during import
+  * xbmcvfs.exists
+  * dialog.notification
+  * <label>$LOCALIZE[SCRIPTXXX]</label>  --> <label>$ADDON[<script_id> <string_id>]</label>
+	
   
 = Wiki =
 == new features ==
@@ -203,6 +206,7 @@ This TODO list / roadmap is a working document. It will change quite frequently 
 
 == FAQ ==
   * how to reset RCB
+  * retroarch: http://forum.xbmc.org/showthread.php?tid=165163
   * clear image cache
   * startup configuration error
   * Error in scrape on startup

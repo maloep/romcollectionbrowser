@@ -12,6 +12,7 @@
 
 == Datamodel ==
   * add all possible properties to dataobjects
+  * add rating table with source (thegamesdb, giantbomb, ...)
   * decide if year should be stored as flat property (not as own entity)
   * date format
 
