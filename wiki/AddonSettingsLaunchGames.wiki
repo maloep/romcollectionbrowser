@@ -1,7 +1,7 @@
 #sidebar SideBar
 <wiki:toc max_depth="4" />
 
-[http://romcollectionbrowser.googlecode.com/files/screen_addonsettings_launch_2.0.6.jpg]
+[https://code.google.com/p/romcollectionbrowser/source/browse/wiki/screenshots/screen_addonsettings_launch_2.0.12.jpg]
 
 You can access RCBs global settings via the context menu in addons / scripts list in XBMC (press C on the keyboard).
 
@@ -19,3 +19,12 @@ Adds a short delay before the game is launched. Useful when you notice focus iss
 
 = Post-Launch delay =
 Adds a short delay when the game is closed and focus should go back to XBMC. Useful when you notice focus issues when launching games.
+
+= Suspend Audio =
+With this option enabled RCB will suspend XBMC audio before launching the emulator and resumes it when you quit the emulator. This option may be useful when you face audio issues while playing games.
+
+= Minimize XBMC =
+With this option enabled RCB will minimze XBMC before launching the emulator and restores it when you quit the emulator. This option may be useful when you are experiencing focus issues or similar while launching emulators.
+
+= Path to emu_autoconfig.xml (Android only) =
+With this option you can set the path to your emu_autoconfig file that is used to autoconfigure emulators on Android devices.
