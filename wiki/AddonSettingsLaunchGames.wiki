@@ -1,7 +1,7 @@
 #sidebar SideBar
 <wiki:toc max_depth="4" />
 
-[https://code.google.com/p/romcollectionbrowser/source/browse/wiki/screenshots/screen_addonsettings_launch_2.0.12.jpg]
+[https://romcollectionbrowser.googlecode.com/svn/wiki/screenshots/screen_addonsettings_launch_2.0.12.jpg]
 
 You can access RCBs global settings via the context menu in addons / scripts list in XBMC (press C on the keyboard).
 
