@@ -98,6 +98,6 @@ In the config wizard you only have to select the emulator of your choice (you ca
   https://romcollectionbrowser.googlecode.com/svn/wiki/screenshots/screen_configwizard_autoconfig1.jpg
   
 Afterwards you can edit the parameters of the chosen emulator.
-  https://romcollectionbrowser.googlecode.com/svn/wiki/screenshots/screen_configwizard_autoconfig1.jpg
+  https://romcollectionbrowser.googlecode.com/svn/wiki/screenshots/screen_configwizard_autoconfig2.jpg
   
 The rest of the config wizard is the same as described above.
