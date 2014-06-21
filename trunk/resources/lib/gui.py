@@ -556,7 +556,7 @@ class UIGameDB(xbmcgui.WindowXML):
 			items.append(xbmcgui.ListItem(util.localize(32120), "0", "", ""))
 		
 		for row in rows:
-			items.append(xbmcgui.ListItem(row[util.ROW_NAME], str(row[util.ROW_ID]), "", ""))
+			items.append(xbmcgui.ListItem(helper.saveReadString(row[util.ROW_NAME]), str(row[util.ROW_ID]), "", ""))
 			
 		control.addItems(items)
 			
@@ -659,7 +659,7 @@ class UIGameDB(xbmcgui.WindowXML):
 				
 				#create ListItem
 				item = xbmcgui.ListItem(gameRow[util.ROW_NAME], str(gameRow[util.ROW_ID]), imageGameList, imageGameListSelected)			
-				item.setProperty('gameId', str(gameRow[util.ROW_ID]))
+				item.setProperty('gameId', helper.saveReadString(gameRow[util.ROW_ID]))
 				
 				#favorite handling
 				showFavoriteStars = self.Settings.getSetting(util.SETTING_RCB_SHOWFAVORITESTARS).upper() == 'TRUE'
@@ -1197,7 +1197,7 @@ class UIGameDB(xbmcgui.WindowXML):
 		
 		
 		#set additional properties
-		description = gameRow[util.GAME_description]
+		description = helper.saveReadString(gameRow[util.GAME_description])
 		if(description == None):
 			description = ""			
 		item.setProperty('plot', description)
@@ -1208,10 +1208,10 @@ class UIGameDB(xbmcgui.WindowXML):
 		except:
 			pass									
 		
-		item.setProperty('year', helper.getPropertyFromCache(gameRow, self.yearDict, util.GAME_yearId, util.ROW_NAME))
-		item.setProperty('publisher', helper.getPropertyFromCache(gameRow, self.publisherDict, util.GAME_publisherId, util.ROW_NAME))
-		item.setProperty('developer', helper.getPropertyFromCache(gameRow, self.developerDict, util.GAME_developerId, util.ROW_NAME))
-		item.setProperty('reviewer', helper.getPropertyFromCache(gameRow, self.reviewerDict, util.GAME_reviewerId, util.ROW_NAME))
+		item.setProperty('year', helper.saveReadString(helper.getPropertyFromCache(gameRow, self.yearDict, util.GAME_yearId, util.ROW_NAME)))
+		item.setProperty('publisher', helper.saveReadString(helper.getPropertyFromCache(gameRow, self.publisherDict, util.GAME_publisherId, util.ROW_NAME)))
+		item.setProperty('developer', helper.saveReadString(helper.getPropertyFromCache(gameRow, self.developerDict, util.GAME_developerId, util.ROW_NAME)))
+		item.setProperty('reviewer', helper.saveReadString(helper.getPropertyFromCache(gameRow, self.reviewerDict, util.GAME_reviewerId, util.ROW_NAME)))
 		
 		genre = ""			
 		try:
