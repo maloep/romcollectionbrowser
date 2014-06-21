@@ -89,3 +89,12 @@ Select the path to the parse instruction for the given description file.
 Repeat these steps for every Rom Collection you want to add.
   
   http://romcollectionbrowser.googlecode.com/files/Wizard%20-%20Online%208%20-%20small.jpg
+  
+  
+= Emulator autoconfig (Android only) =
+On Android devices emulator params might become quite long and tricky to enter. Thats why RCB supports emulator auto configuration. There is a file called "emu_autoconfig.xml" where you can add emulator arguments for all emulators and platforms. There is already a big number of emulators covered in this file, so chances are good that the emulator of your choice is already available. By default this file will be copied to RCBs userdata directory (XBMC/userdata/addon_data/script.games.rom.collection.browser) but you can specify a new path via addon settings. RCB also scans your system if the emulators available in autoconfig are installed on your system.
+
+In the config wizard you only have to select the emulator of your choice (you can also choose an emulator that is not yet installed on your device and do this later on).
+  https://romcollectionbrowser.googlecode.com/svn/wiki/screenshots/screen_configwizard_autoconfig1.jpg
+  
+The rest of the config wizard is the same as described above.
