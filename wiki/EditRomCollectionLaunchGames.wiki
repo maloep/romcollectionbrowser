@@ -11,6 +11,11 @@ With the Rom Collection selector you can select which Rom Collection you want to
 = Emulator Cmd =
 The command that you specify as "Emulator cmd" will be invoked when you launch a game. In this dialog you can directly navigate to the executable.
 
+Android only: 
+On Android devices emulator params might become quite long and tricky to enter. Thats why RCB supports emulator auto configuration. There is a file called "emu_autoconfig.xml" where you can add emulator arguments for all emulators and platforms. There is already a big number of emulators covered in this file, so chances are good that the emulator of your choice is already available. By default this file will be copied to RCBs userdata directory (XBMC/userdata/addon_data/script.games.rom.collection.browser) but you can specify a new path via addon settings. RCB also scans your system to check if the emulators available in autoconfig are installed on your system.
+
+When selecting Emulator Cmd on Android devices you will be offered a list of available emulators. Just choose an emulator out of this list and emulator cmd and params will be filled in automatically.
+
 = Emulator Params =
 The params that are passed to the emulator. You can use the following placeholders in your commands:
 
