@@ -235,7 +235,7 @@ class RomCollection:
 	maxFolderDepth = 99
 	useFoldernameAsGamename = False
 	doNotExtractZipFiles = False
-	diskPrefix = '_Disk'
+	diskPrefix = '_Disk.*'
 	xboxCreateShortcut = False
 	xboxCreateShortcutAddRomfile = False
 	xboxCreateShortcutUseShortGamename = False
