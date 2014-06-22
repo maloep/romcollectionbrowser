@@ -351,22 +351,20 @@ def handleCompressedFile(filext, rom, romCollection, emuParams):
 		return []
 
 	if chosenROM != -1:
-		# Extract the chosen file to %TMP%
-		newPath = os.path.join(util.getTempDir(), names[chosenROM])
-		
-		Logutil.log("Putting extracted file in %s" % newPath, util.LOG_LEVEL_INFO)
-		
-		data = getArchives(filext, rom, [names[chosenROM]])
-		if(data == None):
+		# Extract all files to %TMP%
+		archives = getArchives(filext, rom, names)
+		if(archives == None):
 			Logutil.log('Error handling compressed file', util.LOG_LEVEL_WARNING)
 			return []
-		fo = open(str(newPath), 'wb')
-		fo.write(data[0][1])
-		fo.close()
+		for archive in archives:
+			newPath = os.path.join(util.getTempDir(), archive[0])
+			Logutil.log("Putting extracted file in %s" % newPath, util.LOG_LEVEL_INFO)			
+			fo = open(str(newPath), 'wb')
+			fo.write(archive[1])
+			fo.close()
 		
-		# Point file name to the newly extracted file and continue
-		# as usual
-		roms = [newPath]
+		# Point file name to the chosen file and continue as usual
+		roms = [os.path.join(util.getTempDir(), names[chosenROM])]
 		
 	return roms
 
