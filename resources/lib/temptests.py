@@ -88,7 +88,7 @@ parseInstruction = "E:\\Games\\RCB TestDataBase\\Scraping\\V2 - Amiga - ff - des
 #parseInstruction = "F:\\Emulatoren\\data\\synopsis\\XTRAS-RCB\\_parserConfig.xml"
 
 
-
+"""
 from descriptionparserfactory import *
 descParser = DescriptionParserFactory.getParser(parseInstruction)
 
@@ -97,7 +97,7 @@ for result in results:
 	print result
 	
 print len(results)
-
+"""
 
 
 
@@ -243,13 +243,12 @@ print str(files)
 """
 
 
-"""
-diskPrefix = " \(.*\)"
-game1 = "Metal Gear Solid (Disk 1).bin"
-game2 = "Metal Gear Solid (Disk 2).bin"
-game3 = "Metal Gear Solid (Disk 1 PT-BR).bin"
+diskPrefix = "disc.*"
+game1 = "FF7 disc 1.iso"
+game2 = "FF7 disc 2.iso"
+#game3 = "Metal Gear Solid_Disk1 PT-BR.bin"
 
-game = game3
+game = game2
 
 match = re.search(diskPrefix, game)
 if(match):
@@ -257,4 +256,3 @@ if(match):
 	print disk
 else:
 	print "no match"
-"""
