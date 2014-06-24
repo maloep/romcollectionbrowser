@@ -143,7 +143,7 @@
 			<searchGameByCRC>False</searchGameByCRC>
 			<useFilenameAsCRC>True</useFilenameAsCRC>
 			<descFilePerGame>True</descFilePerGame>
-			<ignoreOnScan>True</ignoreOnScan>				
+			<ignoreOnScan>False</ignoreOnScan>				
 			<romPath>TestDataBase\V10 - N64 - online\Roms\*.zip</romPath>
 			<mediaPath type="boxfront">TestDataBase\V10 - N64 - online\Artwork\boxfront\%GAME%.*</mediaPath>
 			<mediaPath type="screenshot">TestDataBase\V10 - N64 - online\Artwork\screenshot\%GAME%.*</mediaPath>
@@ -259,14 +259,17 @@
 		  <Scraper parseInstruction="03.01 - giantbomb - search.xml" replaceKeyString="%REPLACEKEYS%" replaceValueString="%REPLACEVALUES%" returnUrl="true" source="http://api.giantbomb.com/search/?api_key=%GIANTBOMBAPIKey%&amp;query=%GAME%&amp;resources=game&amp;field_list=api_detail_url,name&amp;format=xml" />
 		  <Scraper parseInstruction="03.02 - giantbomb - detail.xml" source="1" />
 		</Site>
-		<Site name="mobygames.com" descFilePerGame="true">
-		  <Scraper parseInstruction="04.01 - mobygames - gamesearch.xml" replaceKeyString="%REPLACEKEYS%" replaceValueString="%REPLACEVALUES%" returnUrl="true" source="http://www.mobygames.com/search/quick?game=%GAME%&amp;p=%PLATFORM%" />
+		<Site descFilePerGame="True" name="mobygames.com" searchGameByCRC="False">
+		  <Scraper parseInstruction="04.01 - mobygames - gamesearch.xml" returnUrl="true" source="http://www.mobygames.com/search/quick?game=%GAME%&amp;amp;p=%PLATFORM%" />
 		  <Scraper parseInstruction="04.02 - mobygames - details.xml" source="1" />
-		  <Scraper parseInstruction="04.03 - mobygames - coverlink.xml" returnUrl="true" source="1" />
-		  <Scraper parseInstruction="04.04 - mobygames - coverart.xml" source="2" />
-		  <Scraper parseInstruction="04.05 - mobygames - screenshotlink.xml" returnUrl="true" source="1" />
-		  <Scraper parseInstruction="04.06 - mobygames - screenoriglink.xml" returnUrl="true" source="3" />
-		  <Scraper parseInstruction="04.07 - mobygames - screenshots.xml" source="4" />
+		  <Scraper parseInstruction="04.03 - mobygames - coverlink front.xml" returnUrl="true" source="1" sourceAppend="cover-art" />
+		  <Scraper parseInstruction="04.04 - mobygames - coverdetail front.xml" source="2" />
+		  <Scraper parseInstruction="04.05 - mobygames - coverlink back.xml" returnUrl="true" source="1" sourceAppend="cover-art" />
+		  <Scraper parseInstruction="04.06 - mobygames - coverdetail back.xml" source="3" />
+		  <Scraper parseInstruction="04.07 - mobygames - coverlink media.xml" returnUrl="true" source="1" sourceAppend="cover-art" />
+		  <Scraper parseInstruction="04.08 - mobygames - coverdetail media.xml" source="4" />
+		  <Scraper parseInstruction="04.09 - mobygames - screenshotlink.xml" returnUrl="true" source="1" sourceAppend="screenshots" />
+		  <Scraper parseInstruction="04.10 - mobygames - screenshot detail.xml" source="5" />
 		</Site>
 		<Site name="maws.mameworld.info" descFilePerGame="true">
 		  <Scraper encoding="iso-8859-1" parseInstruction="06 - maws.xml" source="http://maws.mameworld.info/maws/romset/%GAME%" />

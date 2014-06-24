@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <window>		
 	<allowoverlay>no</allowoverlay>
 	<defaultcontrol always="false">500</defaultcontrol>
@@ -1585,7 +1586,7 @@
 		<!-- Button group -->
 		<control type="group" id="400">
 			<animation effect="slide" start="0,600" end="0,650" delay="0" time="400" tween="quadratic" easing="out" condition="ControlGroup(400).HasFocus">Conditional</animation>
-			<animation effect="slide" start="0,0" end="0,1300" delay="0"time="400" tween="quadratic" easing="out" condition="!ControlGroup(400).HasFocus">Conditional</animation>
+			<animation effect="slide" start="0,0" end="0,1300" delay="0" time="400" tween="quadratic" easing="out" condition="!ControlGroup(400).HasFocus">Conditional</animation>
 			<control type="image">
 				<animation effect="zoom" start="0,0,0,0" end="0,0,1280,120" time="400" tween="quadratic" easing="out" condition="ControlGroup(400).HasFocus">Conditional</animation>
 				<description>filter background image</description>
