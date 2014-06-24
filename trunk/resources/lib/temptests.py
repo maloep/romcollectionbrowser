@@ -242,7 +242,11 @@ print str(files)
 
 """
 
+from guppy import hpy
+h = hpy()
+h.setref()
 
+"""
 diskPrefix = "disc.*"
 game1 = "FF7 disc 1.iso"
 game2 = "FF7 disc 2.iso"
@@ -256,3 +260,6 @@ if(match):
 	print disk
 else:
 	print "no match"
+"""
+
+print h.heap()
