@@ -15,7 +15,13 @@ if env == 'Windows_NT':
 sys.path.append( os.path.join( BASE_RESOURCE_PATH, "platform_libraries", env ) )
 
 
-from pysqlite2 import dbapi2 as sqlite
+try:
+	print "Loading sqlite3 as DB engine"
+	from sqlite3 import dbapi2 as sqlite	
+except:
+	from pysqlite2 import dbapi2 as sqlite
+	print "Loading pysqlite2 as DB engine"
+	
 from gamedatabase import *
 from util import *
 import dbupdate
@@ -51,11 +57,15 @@ statusOk, errorMsg = configFile.readXml()
 
 newRCs = {}
 
-newRCs[1] = configFile.romCollections['10']
+newRCs[1] = configFile.romCollections['7']
+
+"""
+from guppy import hpy
+h = hpy()
+h.setref()
+"""
 
 if(statusOk == True):
-	dbupdate.DBUpdate().updateDB(gdb, RCBMock(), 0, newRCs, None)
+	dbupdate.DBUpdate().updateDB(gdb, RCBMock(), 0, newRCs, util.getSettings(), False)
 
-
-
-
+#print h.heap()

@@ -171,6 +171,7 @@ class DBUpdate:
 							
 							dialogDict = {'dialogHeaderKey':progDialogRCHeader, 'gameNameKey':gamenameFromFile, 'scraperSiteKey':artScrapers, 'fileCountKey':fileCount}
 							gameId, continueUpdate = self.insertGameFromDesc(result, gamenameFromFile, romCollection, filenamelist, foldername, isUpdate, gameId, gui, False, dialogDict)
+							del artScrapers, gamenameFromFile, foldername, dialogDict
 							if(not continueUpdate):
 								break
 							
@@ -178,6 +179,8 @@ class DBUpdate:
 							if(gameId != None):
 								for filename in filenamelist:
 									files.remove(filename)
+									
+							del filenamelist
 									
 							#stop import if no files are left
 							if(len(files) == 0):
@@ -205,7 +208,8 @@ class DBUpdate:
 					except:
 						self.missingDescFile.write('%s\n' %gamenameFromDesc.encode('utf-8'))
 					continue
-			else:	
+			else:
+				
 				fileCount = 0
 				successfulFiles = 0
 				lastgamename = ''
@@ -230,6 +234,7 @@ class DBUpdate:
 							fileType.name = "rcb_rom"
 							fileType.parent = "game"
 							self.insertFile(filename, lastGameId, fileType, None, None, None)
+							del fileType
 							continue
 						
 						Logutil.log('Start scraping info for game: ' + gamenameFromFile, LOG_LEVEL_INFO)						
@@ -250,12 +255,10 @@ class DBUpdate:
 						
 						results = {}
 						foldername = self.getFoldernameFromRomFilename(filename)
-						filecrc = ''
 												
 						artScrapers = {} 
 						if(not isLocalArtwork):
-							results, artScrapers = self.useSingleScrapers(results, romCollection, 0, gamenameFromFile, foldername, filename, fuzzyFactor, updateOption, gui, progDialogRCHeader, fileCount)						
-							
+							results, artScrapers = self.useSingleScrapers(results, romCollection, 0, gamenameFromFile, foldername, filename, fuzzyFactor, updateOption, gui, progDialogRCHeader, fileCount)
 						
 						#print results
 						if(len(results) == 0):
@@ -264,13 +267,18 @@ class DBUpdate:
 						else:						
 							gamedescription = results
 							
+						del results
+						
 						filenamelist = []
 						filenamelist.append(filename)
 	
 						#Variables to process Art Download Info
 						dialogDict = {'dialogHeaderKey':progDialogRCHeader, 'gameNameKey':gamenameFromFile, 'scraperSiteKey':artScrapers, 'fileCountKey':fileCount}
+						del artScrapers
 						#Add 'gui' and 'dialogDict' parameters to function
 						lastGameId, continueUpdate = self.insertGameFromDesc(gamedescription, gamenameFromFile, romCollection, filenamelist, foldername, isUpdate, gameId, gui, isLocalArtwork, dialogDict)
+						del foldername, gamedescription, filenamelist, dialogDict
+						
 						if (not continueUpdate):
 							break
 						
@@ -533,7 +541,7 @@ class DBUpdate:
 
 
 	def matchDescriptionWithRomfiles(self, firstScraper, result, fileDict, gamenameFromDesc):
-		
+			
 		filenamelist = []
 		
 		if(firstScraper.searchGameByCRC or firstScraper.useFoldernameAsCRC or firstScraper.useFilenameAsCRC):
@@ -550,7 +558,7 @@ class DBUpdate:
 			gamenameFromDesc = gamenameFromDesc.lower()
 			gamenameFromDesc = gamenameFromDesc.strip()
 			filenamelist = self.findFilesByGameDescription(gamenameFromDesc, fileDict)
-			
+		
 		return filenamelist
 
 
@@ -627,6 +635,11 @@ class DBUpdate:
 				
 				
 	def insertGameFromDesc(self, gamedescription, gamename, romCollection, filenamelist, foldername, isUpdate, gameId, gui, isLocalArtwork, dialogDict=''):
+		
+		from guppy import hpy
+		h = hpy()
+		h.setref()
+		
 		if(gamedescription != None):
 			game = self.resolveParseResult(gamedescription, 'Game')
 		else:
@@ -644,6 +657,7 @@ class DBUpdate:
 			gamedescription = {}
 					
 		gameId, continueUpdate = self.insertData(gamedescription, gamename, romCollection, filenamelist, foldername, isUpdate, gameId, gui, isLocalArtwork, dialogDict)
+		print h.heap()
 		return gameId, continueUpdate
 	
 	
