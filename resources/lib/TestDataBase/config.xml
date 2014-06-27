@@ -107,7 +107,7 @@
 			<ignoreOnScan>False</ignoreOnScan>				
 			<romPath>TestDataBase\V7 - Sega32 - xml - descforall\Roms\*.zip</romPath>
 			<mediaPath type="boxfront">TestDataBase\V7 - Sega32 - xml - descforall\Artwork\Box Front\%GAME%.*</mediaPath>
-			<mediaPath type="screenshot">TestDataBase\V7 - Sega32 - xml - descforall\Artwork\screenshot\%GAME%.*</mediaPath>
+			<mediaPath type="screenshot">TestDataBase\V7 - Sega32 - xml - descforall\Artwork\3d Box\%GAME%.*</mediaPath>
 			<imagePlacingMain>gameinfobig</imagePlacingMain>
 			<scraper name="Sega 32 V7" replaceKeyString=" III, II,32x - " replaceValueString=" 3, 2,"/>
 		</RomCollection>
