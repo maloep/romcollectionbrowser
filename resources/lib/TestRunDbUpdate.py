@@ -57,7 +57,7 @@ statusOk, errorMsg = configFile.readXml()
 
 newRCs = {}
 
-newRCs[1] = configFile.romCollections['7']
+newRCs[1] = configFile.romCollections['3']
 
 """
 from guppy import hpy
