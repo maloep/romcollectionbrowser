@@ -103,7 +103,7 @@ class DBUpdate:
 				enableFullReimport = True
 			
 			files = self.getRomFilesByRomCollection(romCollection, enableFullReimport)
-			if(len(files == 0)):
+			if(len(files) == 0):
 				continue
 			
 			#itemCount is used for percentage in ProgressDialogGUI
