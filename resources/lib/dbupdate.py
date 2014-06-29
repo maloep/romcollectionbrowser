@@ -286,7 +286,7 @@ class DBUpdate:
 												
 						#Add 'gui' and 'dialogDict' parameters to function
 						lastGameId, continueUpdate = self.insertGameFromDesc(results, gamenameFromFile, romCollection, filenamelist, foldername, isUpdate, gameId, gui, isLocalArtwork, dialogDict)
-						del foldername, filenamelist, dialogDict
+						del results, foldername, filenamelist, dialogDict
 						
 						if (not continueUpdate):
 							break
