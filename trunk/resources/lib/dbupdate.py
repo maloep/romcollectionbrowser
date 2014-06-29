@@ -194,6 +194,17 @@ class DBUpdate:
 							Logutil.log("Error: " +str(exc), util.LOG_LEVEL_WARNING)
 							continue
 						
+						#flush files every x games. Trying to free some memory.
+						if(fileCount % 50 == 0):
+							Logutil.log("Flushing files", util.LOG_LEVEL_INFO)
+							try:
+								self.missingArtworkFile.flush()
+								self.missingDescFile.flush()
+								self.possibleMismatchFile.flush()
+							except Exception, (exc):
+								Logutil.log("Error flushing files: " +str(exc), util.LOG_LEVEL_WARNING)
+								pass
+						
 					#all files still available files-list, are missing entries
 					for filename in files:
 						gamenameFromFile = helper.getGamenameFromFilename(filename, romCollection)
@@ -257,19 +268,14 @@ class DBUpdate:
 						
 						results = {}
 						foldername = self.getFoldernameFromRomFilename(filename)
-												
+																		
 						artScrapers = {} 
 						if(not isLocalArtwork):
 							results, artScrapers = self.useSingleScrapers(results, romCollection, 0, gamenameFromFile, foldername, filename, fuzzyFactor, updateOption, gui, progDialogRCHeader, fileCount)
-						
-						#print results
+												
 						if(len(results) == 0):
 							#lastgamename = ""
-							gamedescription = None
-						else:						
-							gamedescription = results
-							
-						del results
+							results = None
 						
 						filenamelist = []
 						filenamelist.append(filename)
@@ -277,16 +283,17 @@ class DBUpdate:
 						#Variables to process Art Download Info
 						dialogDict = {'dialogHeaderKey':progDialogRCHeader, 'gameNameKey':gamenameFromFile, 'scraperSiteKey':artScrapers, 'fileCountKey':fileCount}
 						del artScrapers
+												
 						#Add 'gui' and 'dialogDict' parameters to function
-						lastGameId, continueUpdate = self.insertGameFromDesc(gamedescription, gamenameFromFile, romCollection, filenamelist, foldername, isUpdate, gameId, gui, isLocalArtwork, dialogDict)
-						del foldername, gamedescription, filenamelist, dialogDict
+						lastGameId, continueUpdate = self.insertGameFromDesc(results, gamenameFromFile, romCollection, filenamelist, foldername, isUpdate, gameId, gui, isLocalArtwork, dialogDict)
+						del foldername, filenamelist, dialogDict
 						
 						if (not continueUpdate):
 							break
 						
 						if (lastGameId != None):
 							successfulFiles = successfulFiles + 1
-
+	
 						#check if all first 10 games have errors - Modified to allow user to continue on errors
 						if (fileCount >= 10 and successfulFiles == 0 and ignoreErrors == False):
 							options = []
@@ -300,7 +307,18 @@ class DBUpdate:
 								xbmcgui.Dialog().ok(util.SCRIPTNAME, util.localize(32128), util.localize(32129))
 								continueUpdate = False
 								break
-						
+													
+						#flush files every x games. Trying to free some memory.
+						if(fileCount % 50 == 0):
+							Logutil.log("Flushing files", util.LOG_LEVEL_INFO)
+							try:
+								self.missingArtworkFile.flush()
+								self.missingDescFile.flush()
+								self.possibleMismatchFile.flush()
+							except Exception, (exc):
+								Logutil.log("Error flushing files: " +str(exc), util.LOG_LEVEL_WARNING)
+								pass
+					
 					except Exception, (exc):
 						Logutil.log("an error occured while adding game " +gamenameFromFile, util.LOG_LEVEL_WARNING)
 						Logutil.log("Error: " +str(exc), util.LOG_LEVEL_WARNING)
@@ -309,6 +327,7 @@ class DBUpdate:
 						except:
 							self.missingDescFile.write('%s\n' %gamenameFromFile.encode('utf-8'))
 						continue
+					
 					
 			#timestamp2 = time.clock()
 			#diff = (timestamp2 - timestamp1) * 1000		
@@ -576,6 +595,7 @@ class DBUpdate:
 			for scraper in scraperSite.scrapers:
 				pyScraper = PyScraper()
 				result, urlsFromPreviousScrapers, doContinue = pyScraper.scrapeResults(result, scraper, urlsFromPreviousScrapers, gamenameFromFile, foldername, filecrc, firstRomfile, fuzzyFactor, updateOption, romCollection, self.Settings)
+				del pyScraper
 			if(doContinue):
 				continue
 									
@@ -585,7 +605,7 @@ class DBUpdate:
 					thumbKey = 'Filetype' + path.fileType.name 
 					if(len(self.resolveParseResult(result, thumbKey)) > 0):
 						if((thumbKey in artScrapers) == 0):
-							artScrapers[thumbKey] = scraperSite.name
+							artScrapers[thumbKey] = scraperSite.name			
 						
 		return result, artScrapers
 				
