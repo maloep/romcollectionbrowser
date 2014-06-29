@@ -16,7 +16,9 @@ class DescriptionParserXml:
 		pass
 	
 	
-	def parseDescription(self, descFile, encoding):		
+	def parseDescription(self, descFile, encoding):
+		Logutil.log('parseDescription: %s' % descFile, util.LOG_LEVEL_INFO)
+		
 		results = None
 						
 		if(descFile.startswith('http://')):
