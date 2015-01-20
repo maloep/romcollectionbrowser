@@ -112,7 +112,7 @@
 					<visible>[Control.HasFocus(5211) | Control.HasFocus(5212)]</visible>
 				</control>
 				<control type="label">
-					<posx>590</posx>
+					<posx>230</posx>
 					<posy>5</posy>
 					<width>370</width>
 					<height>20</height>
@@ -124,7 +124,7 @@
 					<visible>![Control.HasFocus(5211) | Control.HasFocus(5212)]</visible>
 				</control>
 				<control type="label">
-					<posx>590</posx>
+					<posx>230</posx>
 					<posy>5</posy>
 					<width>370</width>
 					<height>20</height>
@@ -193,9 +193,9 @@
 					<texture border="5">rcb-MenuItemNF.png</texture>
 				</control>
 				<control type="label">
-					<posx>220</posx>
+					<posx>0</posx>
 					<posy>5</posy>
-					<width>240</width>
+					<width>200</width>
 					<height>30</height>
 					<font>font13_title</font>
 					<textcolor>88FFFFFF</textcolor>
@@ -214,9 +214,9 @@
 					<animation effect="fade" start="100" end="30" time="100" condition="!Control.HasFocus(7000)">Conditional</animation>
 				</control>
 				<control type="label">
-					<posx>220</posx>
+					<posx>0</posx>
 					<posy>5</posy>
-					<width>220</width>
+					<width>200</width>
 					<height>30</height>
 					<font>font13_title</font>
 					<textcolor>FFFFFFFF</textcolor>
@@ -602,7 +602,7 @@
 							<visible>[Control.HasFocus(5291) | Control.HasFocus(5292)]</visible>
 						</control>
 						<control type="label">
-							<posx>590</posx>
+							<posx>230</posx>
 							<posy>5</posy>
 							<width>370</width>
 							<height>20</height>
@@ -614,7 +614,7 @@
 							<visible>![Control.HasFocus(5291) | Control.HasFocus(5292)]</visible>
 						</control>
 						<control type="label">
-							<posx>590</posx>
+							<posx>230</posx>
 							<posy>5</posy>
 							<width>370</width>
 							<height>20</height>
@@ -716,7 +716,7 @@
 							<visible>[Control.HasFocus(5301) | Control.HasFocus(5302)]</visible>
 						</control>
 						<control type="label">
-							<posx>590</posx>
+							<posx>230</posx>
 							<posy>5</posy>
 							<width>370</width>
 							<height>20</height>
@@ -728,7 +728,7 @@
 							<visible>![Control.HasFocus(5301) | Control.HasFocus(5302)]</visible>
 						</control>
 						<control type="label">
-							<posx>590</posx>
+							<posx>230</posx>
 							<posy>5</posy>
 							<width>370</width>
 							<height>20</height>
@@ -829,7 +829,7 @@
 							<visible>[Control.HasFocus(5311) | Control.HasFocus(5312)]</visible>
 						</control>
 						<control type="label">
-							<posx>590</posx>
+							<posx>230</posx>
 							<posy>5</posy>
 							<width>370</width>
 							<height>20</height>
@@ -841,7 +841,7 @@
 							<visible>![Control.HasFocus(5311) | Control.HasFocus(5312)]</visible>
 						</control>
 						<control type="label">
-							<posx>590</posx>
+							<posx>230</posx>
 							<posy>5</posy>
 							<width>370</width>
 							<height>20</height>
@@ -948,7 +948,7 @@
 								<visible>[Control.HasFocus(5261) | Control.HasFocus(5262)]</visible>
 							</control>
 							<control type="label">
-								<posx>590</posx>
+								<posx>230</posx>
 								<posy>5</posy>
 								<width>370</width>
 								<height>20</height>
@@ -960,7 +960,7 @@
 								<visible>![Control.HasFocus(5261) | Control.HasFocus(5262)]</visible>
 							</control>
 							<control type="label">
-								<posx>590</posx>
+								<posx>230</posx>
 								<posy>5</posy>
 								<width>370</width>
 								<height>20</height>
@@ -1238,7 +1238,7 @@
 							<visible>[Control.HasFocus(5321) | Control.HasFocus(5322)]</visible>
 						</control>
 						<control type="label">
-							<posx>590</posx>
+							<posx>230</posx>
 							<posy>5</posy>
 							<width>370</width>
 							<height>20</height>
@@ -1250,7 +1250,7 @@
 							<visible>![Control.HasFocus(5321) | Control.HasFocus(5322)]</visible>
 						</control>
 						<control type="label">
-							<posx>590</posx>
+							<posx>230</posx>
 							<posy>5</posy>
 							<width>370</width>
 							<height>20</height>
@@ -1354,7 +1354,7 @@
 							<visible>[Control.HasFocus(5341) | Control.HasFocus(5342)]</visible>
 						</control>
 						<control type="label">
-							<posx>590</posx>
+							<posx>230</posx>
 							<posy>5</posy>
 							<width>370</width>
 							<height>20</height>
@@ -1366,7 +1366,7 @@
 							<visible>![Control.HasFocus(5341) | Control.HasFocus(5342)]</visible>
 						</control>
 						<control type="label">
-							<posx>590</posx>
+							<posx>230</posx>
 							<posy>5</posy>
 							<width>370</width>
 							<height>20</height>
