@@ -59,7 +59,7 @@
 				<posx>35</posx>
 				<posy>0</posy>
 				<width>640</width>
-				<height>280</height>				
+				<height>280</height>
 				<texture border="0,0,0,0">rcb-floor.png</texture>
 			</control>
 			<control type="image">
@@ -67,6 +67,7 @@
 				<posx>0</posx>
 				<posy>280</posy>
 				<width>720</width>
+				<height>80</height>
 				<texture border="45,0,45,49">rcb-DialogContextBottom.png</texture>
 			</control>
 			
@@ -128,7 +129,7 @@
 						<animation reversible="false" effect="fade" end="50" time="0" condition="Skin.HasSetting(rcb_disableRomcollections)">Conditional</animation>
 					</control>
 					<control type="label">
-						<posx>570</posx>
+						<posx>230</posx>
 						<posy>5</posy>
 						<width>330</width>
 						<height>20</height>
@@ -141,7 +142,7 @@
 						<animation reversible="false" effect="fade" end="50" time="0" condition="Skin.HasSetting(rcb_disableRomcollections)">Conditional</animation>
 					</control>
 					<control type="label">
-						<posx>570</posx>
+						<posx>230</posx>
 						<posy>5</posy>
 						<width>330</width>
 						<height>20</height>
@@ -247,7 +248,7 @@
 						<visible>[Control.HasFocus(5222) | Control.HasFocus(5223)]</visible>
 					</control>
 					<control type="label">
-						<posx>570</posx>
+						<posx>230</posx>
 						<posy>5</posy>
 						<width>330</width>
 						<height>20</height>
@@ -259,7 +260,7 @@
 						<visible>![Control.HasFocus(5222) | Control.HasFocus(5223)]</visible>
 					</control>
 					<control type="label">
-						<posx>570</posx>
+						<posx>230</posx>
 						<posy>5</posy>
 						<width>330</width>
 						<height>20</height>
@@ -387,7 +388,7 @@
 							<animation reversible="false" effect="fade" end="50" time="0" condition="!Skin.HasSetting(rcb_overwriteImportOptions)">Conditional</animation>
 						</control>
 						<control type="label">
-							<posx>550</posx>
+							<posx>210</posx>
 							<posy>5</posy>
 							<width>330</width>
 							<height>20</height>
@@ -400,7 +401,7 @@
 							<animation reversible="false" effect="fade" end="50" time="0" condition="!Skin.HasSetting(rcb_overwriteImportOptions)">Conditional</animation>
 						</control>
 						<control type="label">
-							<posx>550</posx>
+							<posx>210</posx>
 							<posy>5</posy>
 							<width>330</width>
 							<height>20</height>
@@ -507,7 +508,7 @@
 							<animation reversible="false" effect="fade" end="50" time="0" condition="!Skin.HasSetting(rcb_overwriteImportOptions)">Conditional</animation>
 						</control>
 						<control type="label">
-							<posx>550</posx>
+							<posx>210</posx>
 							<posy>5</posy>
 							<width>330</width>
 							<height>20</height>
@@ -520,7 +521,7 @@
 							<animation reversible="false" effect="fade" end="50" time="0" condition="!Skin.HasSetting(rcb_overwriteImportOptions)">Conditional</animation>
 						</control>
 						<control type="label">
-							<posx>550</posx>
+							<posx>210</posx>
 							<posy>5</posy>
 							<width>330</width>
 							<height>20</height>
@@ -627,7 +628,7 @@
 							<animation reversible="false" effect="fade" end="50" time="0" condition="!Skin.HasSetting(rcb_overwriteImportOptions)">Conditional</animation>
 						</control>
 						<control type="label">
-							<posx>550</posx>
+							<posx>210</posx>
 							<posy>5</posy>
 							<width>330</width>
 							<height>20</height>
@@ -640,7 +641,7 @@
 							<animation reversible="false" effect="fade" end="50" time="0" condition="!Skin.HasSetting(rcb_overwriteImportOptions)">Conditional</animation>
 						</control>
 						<control type="label">
-							<posx>550</posx>
+							<posx>210</posx>
 							<posy>5</posy>
 							<width>330</width>
 							<height>20</height>
