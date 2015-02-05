@@ -64,17 +64,22 @@ def launchEmu(gdb, gui, gameId, config, settings, listitem):
 				settings.setSetting(util.SETTING_RCB_LAUNCHONSTARTUP, 'true')
 			
 			#invoke script file that kills xbmc before launching the emulator
-			basePath = os.path.join(util.getAddonDataPath(), 'scriptfiles')			
+			basePath = os.path.join(util.getAddonDataPath(), 'scriptfiles')
+			#xbmc needs other script files than kodi
+			xbmcFilenameSuffix = "_xbmc"
+			if(int(gui.xbmcversionNo) >= util.XBMC_VERSION_HELIX):
+				xbmcFilenameSuffix = ""
+						
 			if(env == "win32"):
 				if(settings.getSetting(util.SETTING_RCB_USEVBINSOLOMODE).lower() == 'true'):
 					#There is a problem with quotes passed as argument to windows command shell. This only works with "call"
 					#use vb script to restart xbmc
-					cmd = 'call \"' +os.path.join(basePath, 'applaunch-vbs.bat') +'\" ' +cmd
-				else:
+					cmd = 'call \"' +os.path.join(basePath, 'applaunch-vbs%s.bat' %xbmcFilenameSuffix) +'\" ' +cmd
+				else:					
 					#There is a problem with quotes passed as argument to windows command shell. This only works with "call"
-					cmd = 'call \"' +os.path.join(basePath, 'applaunch.bat') +'\" ' +cmd						
+					cmd = 'call \"' +os.path.join(basePath, 'applaunch%s.bat' %xbmcFilenameSuffix) +'\" ' +cmd						
 			else:
-				cmd = os.path.join(basePath, 'applaunch.sh ') +cmd
+				cmd = os.path.join(basePath, 'applaunch%s.sh ' %xbmcFilenameSuffix) +cmd
 		else:
 			#use call to support paths with whitespaces
 			if(env == "win32" and not (os.environ.get( "OS", "xbox" ) == "xbox")):
