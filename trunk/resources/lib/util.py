@@ -20,6 +20,9 @@ __addon__ = xbmcaddon.Addon(id='%s' %SCRIPTID)
 __language__ = __addon__.getLocalizedString
 
 
+#compatibility checks
+XBMC_VERSION_HELIX = 14
+
 #time to wait before automatic playback starts
 WAITTIME_PLAYERSTART = 500
 #time that xbmc needs to close the player (before we can load the list again)

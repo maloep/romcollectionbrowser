@@ -107,15 +107,11 @@ class UIGameDB(xbmcgui.WindowXML):
 	useRCBService = False
 	searchTerm = ''
 	
-	#HACK: just used to determine if we are on Dharma or Eden.
-	xbmcVersionEden = False
-	try:
-		from sqlite3 import dbapi2 as sqlite
-		xbmcVersionEden = True
-		Logutil.log("XBMC version: Assuming we are on Eden", util.LOG_LEVEL_INFO)
-	except:		
-		Logutil.log("XBMC version: Assuming we are on Dharma", util.LOG_LEVEL_INFO)
+	xbmcversion = xbmcaddon.Addon('xbmc.addon').getAddonInfo('version')
+	Logutil.log("XBMC version = " +xbmcversion, util.LOG_LEVEL_INFO)
 	
+	xbmcversionNo = xbmcversion[0:2]
+	Logutil.log("XBMC major version no = " +xbmcversionNo, util.LOG_LEVEL_INFO)
 	
 	def __init__(self, strXMLname, strFallbackPath, strDefaultName, forceFallback):
 		Logutil.log("Init Rom Collection Browser: " + util.RCBHOME, util.LOG_LEVEL_INFO)
@@ -384,13 +380,8 @@ class UIGameDB(xbmcgui.WindowXML):
 				
 				Logutil.log('onAction: ACTION_CONTEXT', util.LOG_LEVEL_INFO)								
 			elif (action.getId() in ACTION_PLAYFULLSCREEN):
-				#HACK: check if we are in Eden mode
-				if(self.xbmcVersionEden):
-					Logutil.log('onAction: ACTION_PLAYFULLSCREEN', util.LOG_LEVEL_INFO)
-					self.startFullscreenVideo()
-				else:
-					Logutil.log('fullscreen video in Dharma is not supported.', util.LOG_LEVEL_WARNING)
-				
+				Logutil.log('onAction: ACTION_PLAYFULLSCREEN', util.LOG_LEVEL_INFO)
+				self.startFullscreenVideo()
 		except Exception, (exc):
 			Logutil.log("RCB_ERROR: unhandled Error in onAction: " +str(exc), util.LOG_LEVEL_ERROR)
 			
@@ -637,9 +628,6 @@ class UIGameDB(xbmcgui.WindowXML):
 	
 		self.writeMsg(util.localize(32121))
 		
-		if(not self.xbmcVersionEden):
-			xbmcgui.lock()
-		
 		self.clearList()
 		self.rcb_playList.clear()		
 		
@@ -683,8 +671,6 @@ class UIGameDB(xbmcgui.WindowXML):
 				Logutil.log('Error loading game: %s' % str(exc), util.LOG_LEVEL_ERROR)
 			
 		xbmc.executebuiltin("Container.SortDirection")
-		if(not self.xbmcVersionEden):
-			xbmcgui.unlock()
 		
 		self.writeMsg("")
 		
