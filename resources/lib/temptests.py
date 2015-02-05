@@ -81,23 +81,25 @@ from config import *
 
 #http://api.archive.vg/1.0/System.getGames/VT7RJ960FWD4CC71L0Z0K4KQYR4PJNW8/SYSTEM
 
-descFile = "E:\\Games\\RCB TestDataBase\\Scraping\\V2 - Amiga - ff - descpergame\\synopsis\\Dogfight\\synopsis.txt"
-parseInstruction = "E:\\Games\\RCB TestDataBase\\Scraping\\V2 - Amiga - ff - descpergame\\parserConfig.xml"
+#descFile = "E:\\Games\\RCB TestDataBase\\Scraping\\V2 - Amiga - ff - descpergame\\synopsis\\Dogfight\\synopsis.txt"
+#parseInstruction = "E:\\Games\\RCB TestDataBase\\Scraping\\V2 - Amiga - ff - descpergame\\parserConfig.xml"
 
 #descFile = "F:\\Emulatoren\\data\\synopsis\\XTRAS-RCB\\NGPC.txt"
 #parseInstruction = "F:\\Emulatoren\\data\\synopsis\\XTRAS-RCB\\_parserConfig.xml"
 
+descFile = "E:\\XBMC\\RCB\\Support\\Tomkun\\info.txt"
+parseInstruction = "E:\\XBMC\\RCB\\Support\\Tomkun\\parserconfig.xml"
 
-"""
+
 from descriptionparserfactory import *
 descParser = DescriptionParserFactory.getParser(parseInstruction)
 
-results = descParser.parseDescription(str(descFile), 'iso-8859-15')
+results = descParser.parseDescription(str(descFile), '	iso-8859-15')
 for result in results:
 	print result
 	
 print len(results)
-"""
+
 
 
 
@@ -242,9 +244,9 @@ print str(files)
 
 """
 
-from guppy import hpy
-h = hpy()
-h.setref()
+#from guppy import hpy
+#h = hpy()
+#h.setref()
 
 """
 diskPrefix = "disc.*"
@@ -262,4 +264,4 @@ else:
 	print "no match"
 """
 
-print h.heap()
+#print h.heap()
