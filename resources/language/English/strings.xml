@@ -184,6 +184,7 @@
 	<string id="45025">Prevent unfiltered search</string>
 	<string id="45026">Launch Games</string>
 	<string id="45027">Escape emulator cmd</string>
+	<string id="45028">Max number of games to display</string>
 	
 	<!-- GUI controls -->
 	<!-- main window -->

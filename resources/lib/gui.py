@@ -591,7 +591,7 @@ class UIGameDB(xbmcgui.WindowXML):
 		
 		self.lastPosition = -1
 		
-		preventUnfilteredSearch = self.Settings.getSetting(util.SETTING_RCB_PREVENTUNFILTEREDSEARCH).upper() == 'TRUE'			
+		preventUnfilteredSearch = self.Settings.getSetting(util.SETTING_RCB_PREVENTUNFILTEREDSEARCH).upper() == 'TRUE'
 		
 		if(preventUnfilteredSearch):			
 			if(self.selectedCharacter == util.localize(32120) and self.selectedConsoleId == 0 and self.selectedGenreId == 0 and self.selectedYearId == 0 and self.selectedPublisherId == 0):
@@ -613,8 +613,11 @@ class UIGameDB(xbmcgui.WindowXML):
 		missingFilterStatement = helper.builMissingFilterStatement(self.config)
 		if(missingFilterStatement != ''):
 			likeStatement = likeStatement + ' AND ' +missingFilterStatement
+		#set a limit of games to show
+		maxNumGamesIndex = self.Settings.getSetting(util.SETTING_RCB_MAXNUMGAMESTODISPLAY)
+		maxNumGames = util.MAXNUMGAMES_ENUM[int(maxNumGamesIndex)]
 		
-		games = Game(self.gdb).getFilteredGames(self.selectedConsoleId, self.selectedGenreId, self.selectedYearId, self.selectedPublisherId, isFavorite, likeStatement)
+		games = Game(self.gdb).getFilteredGames(self.selectedConsoleId, self.selectedGenreId, self.selectedYearId, self.selectedPublisherId, isFavorite, likeStatement, maxNumGames)
 		
 		if(games == None):
 			Logutil.log("games == None in showGames", util.LOG_LEVEL_WARNING)
@@ -629,7 +632,7 @@ class UIGameDB(xbmcgui.WindowXML):
 		self.writeMsg(util.localize(32121))
 		
 		self.clearList()
-		self.rcb_playList.clear()		
+		self.rcb_playList.clear()
 		
 		count = 0
 		for gameRow in games:
@@ -669,7 +672,7 @@ class UIGameDB(xbmcgui.WindowXML):
 				count = count + 1
 			except Exception, (exc):
 				Logutil.log('Error loading game: %s' % str(exc), util.LOG_LEVEL_ERROR)
-			
+		
 		xbmc.executebuiltin("Container.SortDirection")
 		
 		self.writeMsg("")
