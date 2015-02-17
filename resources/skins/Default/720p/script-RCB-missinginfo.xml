@@ -125,7 +125,7 @@
 					<visible>[Control.HasFocus(5201) | Control.HasFocus(5202)]</visible>
 				</control>
 				<control type="label">
-					<posx>570</posx>
+					<posx>210</posx>
 					<posy>5</posy>
 					<width>370</width>
 					<height>20</height>
@@ -137,7 +137,7 @@
 					<visible>![Control.HasFocus(5201) | Control.HasFocus(5202)]</visible>
 				</control>
 				<control type="label">
-					<posx>570</posx>
+					<posx>210</posx>
 					<posy>5</posy>
 					<width>370</width>
 					<height>20</height>
