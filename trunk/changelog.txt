@@ -1,3 +1,14 @@
+2.1.1 (02/2015)
+~~~~~~~~~~~~~
+General:
+  * kodi compatibility: fix label positions in missing info filter dialog
+
+Browse Games:
+  * new option: max number of games to display
+
+Launch Games:  
+  * new option: make local copy (thanks to sklick)
+
 2.1.0 (02/2015)
 ~~~~~~~~~~~~~
 General:
