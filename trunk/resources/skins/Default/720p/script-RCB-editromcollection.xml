@@ -1942,13 +1942,31 @@
 					<onleft>7000</onleft>
 					<onright>6000</onright>
 					<onup>5520</onup>
-					<ondown>5540</ondown>
+					<ondown>5560</ondown>
 				</control>
+				
+				<!-- Make local copy -->
+				<control type="radiobutton" id="5560">
+					<posx>0</posx>
+					<posy>300</posy>
+					<width>660</width>
+					<height>30</height>
+					<font>font13</font>
+					<label>$ADDON[script.games.rom.collection.browser 52039]</label>
+					<textcolor>88FFFFFF</textcolor>
+					<focusedcolor>FFFFFFFF</focusedcolor>
+					<texturefocus>rcb-MenuItemFO.png</texturefocus>
+					<texturenofocus>rcb-MenuItemNF.png</texturenofocus>
+					<onleft>7000</onleft>
+					<onright>6000</onright>
+					<onup>5450</onup>
+                    <ondown>5540</ondown>
+                </control>
 				
 				<!-- Use RetroPlayer -->
 				<control type="radiobutton" id="5540">
 					<posx>0</posx>
-					<posy>300</posy>
+					<posy>330</posy>
 					<width>660</width>
 					<height>30</height>
 					<font>font13</font>
@@ -1965,7 +1983,7 @@
 				<!-- Game Client -->
 				<control type="image">
 					<posx>0</posx>
-					<posy>330</posy>
+					<posy>360</posy>
 					<width>270</width>
 					<height>30</height>
 					<texture>rcb-MenuItemFO.png</texture>
@@ -1973,7 +1991,7 @@
 				</control>				
 				<control type="label">
 					<posx>7</posx>
-					<posy>330</posy>
+					<posy>360</posy>
 					<width>200</width>
 					<height>30</height>
 					<font>font13</font>
@@ -1986,7 +2004,7 @@
 				</control>
 				<control type="label">
 					<posx>7</posx>
-					<posy>330</posy>
+					<posy>360</posy>
 					<width>200</width>
 					<height>30</height>
 					<font>font13</font>
@@ -2000,7 +2018,7 @@
 				<control type="button" id="5550">
 					<description>Game client</description>
 					<posx>240</posx>
-					<posy>330</posy>
+					<posy>360</posy>
 					<width>410</width>
 					<height>30</height>
 					<visible>true</visible>
