@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <addon
   id="script.games.rom.collection.browser"
-  version="2.1.0"
+  version="2.1.1"
   name="Rom Collection Browser"
   provider-name="malte">
   <requires>
