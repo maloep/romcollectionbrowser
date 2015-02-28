@@ -129,6 +129,19 @@
 						<animation reversible="false" effect="fade" end="50" time="0" condition="Skin.HasSetting(rcb_disableRomcollections)">Conditional</animation>
 					</control>
 					<control type="label">
+						<posx>570</posx>
+						<posy>5</posy>
+						<width>330</width>
+						<height>20</height>
+						<font>font13</font>
+						<textcolor>88FFFFFF</textcolor>
+						<align>right</align>
+						<aligny>center</aligny>
+						<label>$INFO[ListItem.Label]</label>
+						<visible>![Control.HasFocus(5211) | Control.HasFocus(5212)] + Skin.HasSetting(rcb_useOldAlignment)</visible>
+						<animation reversible="false" effect="fade" end="50" time="0" condition="Skin.HasSetting(rcb_disableRomcollections)">Conditional</animation>
+					</control>
+					<control type="label">
 						<posx>230</posx>
 						<posy>5</posy>
 						<width>330</width>
@@ -138,7 +151,21 @@
 						<align>right</align>
 						<aligny>center</aligny>
 						<label>$INFO[ListItem.Label]</label>
-						<visible>![Control.HasFocus(5211) | Control.HasFocus(5212)]</visible>
+						<visible>![Control.HasFocus(5211) | Control.HasFocus(5212)] + !Skin.HasSetting(rcb_useOldAlignment)</visible>
+						<animation reversible="false" effect="fade" end="50" time="0" condition="Skin.HasSetting(rcb_disableRomcollections)">Conditional</animation>
+					</control>
+					
+					<control type="label">
+						<posx>570</posx>
+						<posy>5</posy>
+						<width>330</width>
+						<height>20</height>
+						<font>font13</font>
+						<textcolor>white</textcolor>
+						<align>right</align>
+						<aligny>center</aligny>
+						<label>$INFO[ListItem.Label]</label>
+						<visible>[Control.HasFocus(5211) | Control.HasFocus(5212)] + Skin.HasSetting(rcb_useOldAlignment)</visible>
 						<animation reversible="false" effect="fade" end="50" time="0" condition="Skin.HasSetting(rcb_disableRomcollections)">Conditional</animation>
 					</control>
 					<control type="label">
@@ -151,7 +178,7 @@
 						<align>right</align>
 						<aligny>center</aligny>
 						<label>$INFO[ListItem.Label]</label>
-						<visible>[Control.HasFocus(5211) | Control.HasFocus(5212)]</visible>
+						<visible>[Control.HasFocus(5211) | Control.HasFocus(5212)] + !Skin.HasSetting(rcb_useOldAlignment)</visible>
 						<animation reversible="false" effect="fade" end="50" time="0" condition="Skin.HasSetting(rcb_disableRomcollections)">Conditional</animation>
 					</control>
 				</focusedlayout>
@@ -248,6 +275,18 @@
 						<visible>[Control.HasFocus(5222) | Control.HasFocus(5223)]</visible>
 					</control>
 					<control type="label">
+						<posx>570</posx>
+						<posy>5</posy>
+						<width>330</width>
+						<height>20</height>
+						<font>font13</font>
+						<textcolor>88FFFFFF</textcolor>
+						<align>right</align>
+						<aligny>center</aligny>
+						<label>$INFO[ListItem.Label]</label>
+						<visible>![Control.HasFocus(5222) | Control.HasFocus(5223)] + Skin.HasSetting(rcb_useOldAlignment)</visible>
+					</control>
+					<control type="label">
 						<posx>230</posx>
 						<posy>5</posy>
 						<width>330</width>
@@ -257,7 +296,20 @@
 						<align>right</align>
 						<aligny>center</aligny>
 						<label>$INFO[ListItem.Label]</label>
-						<visible>![Control.HasFocus(5222) | Control.HasFocus(5223)]</visible>
+						<visible>![Control.HasFocus(5222) | Control.HasFocus(5223)] + !Skin.HasSetting(rcb_useOldAlignment)</visible>
+					</control>
+					
+					<control type="label">
+						<posx>570</posx>
+						<posy>5</posy>
+						<width>330</width>
+						<height>20</height>
+						<font>font13</font>
+						<textcolor>white</textcolor>
+						<align>right</align>
+						<aligny>center</aligny>
+						<label>$INFO[ListItem.Label]</label>
+						<visible>[Control.HasFocus(5222) | Control.HasFocus(5223)] + Skin.HasSetting(rcb_useOldAlignment)</visible>
 					</control>
 					<control type="label">
 						<posx>230</posx>
@@ -269,7 +321,7 @@
 						<align>right</align>
 						<aligny>center</aligny>
 						<label>$INFO[ListItem.Label]</label>
-						<visible>[Control.HasFocus(5222) | Control.HasFocus(5223)]</visible>
+						<visible>[Control.HasFocus(5222) | Control.HasFocus(5223)] + !Skin.HasSetting(rcb_useOldAlignment)</visible>
 					</control>
 				</focusedlayout>
 			</control>
@@ -388,6 +440,19 @@
 							<animation reversible="false" effect="fade" end="50" time="0" condition="!Skin.HasSetting(rcb_overwriteImportOptions)">Conditional</animation>
 						</control>
 						<control type="label">
+							<posx>550</posx>
+							<posy>5</posy>
+							<width>330</width>
+							<height>20</height>
+							<font>font13</font>
+							<textcolor>88FFFFFF</textcolor>
+							<align>right</align>
+							<aligny>center</aligny>
+							<label>$INFO[ListItem.Label]</label>
+							<visible>![Control.HasFocus(5271) | Control.HasFocus(5272)] + Skin.HasSetting(rcb_useOldAlignment)</visible>
+							<animation reversible="false" effect="fade" end="50" time="0" condition="!Skin.HasSetting(rcb_overwriteImportOptions)">Conditional</animation>
+						</control>
+						<control type="label">
 							<posx>210</posx>
 							<posy>5</posy>
 							<width>330</width>
@@ -397,7 +462,21 @@
 							<align>right</align>
 							<aligny>center</aligny>
 							<label>$INFO[ListItem.Label]</label>
-							<visible>![Control.HasFocus(5271) | Control.HasFocus(5272)]</visible>
+							<visible>![Control.HasFocus(5271) | Control.HasFocus(5272)] + !Skin.HasSetting(rcb_useOldAlignment)</visible>
+							<animation reversible="false" effect="fade" end="50" time="0" condition="!Skin.HasSetting(rcb_overwriteImportOptions)">Conditional</animation>
+						</control>
+						
+						<control type="label">
+							<posx>550</posx>
+							<posy>5</posy>
+							<width>330</width>
+							<height>20</height>
+							<font>font13</font>
+							<textcolor>white</textcolor>
+							<align>right</align>
+							<aligny>center</aligny>
+							<label>$INFO[ListItem.Label]</label>
+							<visible>[Control.HasFocus(5271) | Control.HasFocus(5272)] + Skin.HasSetting(rcb_useOldAlignment)</visible>
 							<animation reversible="false" effect="fade" end="50" time="0" condition="!Skin.HasSetting(rcb_overwriteImportOptions)">Conditional</animation>
 						</control>
 						<control type="label">
@@ -410,7 +489,7 @@
 							<align>right</align>
 							<aligny>center</aligny>
 							<label>$INFO[ListItem.Label]</label>
-							<visible>[Control.HasFocus(5271) | Control.HasFocus(5272)]</visible>
+							<visible>[Control.HasFocus(5271) | Control.HasFocus(5272)] + !Skin.HasSetting(rcb_useOldAlignment)</visible>
 							<animation reversible="false" effect="fade" end="50" time="0" condition="!Skin.HasSetting(rcb_overwriteImportOptions)">Conditional</animation>
 						</control>
 					</focusedlayout>
@@ -508,6 +587,19 @@
 							<animation reversible="false" effect="fade" end="50" time="0" condition="!Skin.HasSetting(rcb_overwriteImportOptions)">Conditional</animation>
 						</control>
 						<control type="label">
+							<posx>550</posx>
+							<posy>5</posy>
+							<width>330</width>
+							<height>20</height>
+							<font>font13</font>
+							<textcolor>88FFFFFF</textcolor>
+							<align>right</align>
+							<aligny>center</aligny>
+							<label>$INFO[ListItem.Label]</label>
+							<visible>![Control.HasFocus(5281) | Control.HasFocus(5282)] + Skin.HasSetting(rcb_useOldAlignment)</visible>
+							<animation reversible="false" effect="fade" end="50" time="0" condition="!Skin.HasSetting(rcb_overwriteImportOptions)">Conditional</animation>
+						</control>
+						<control type="label">
 							<posx>210</posx>
 							<posy>5</posy>
 							<width>330</width>
@@ -517,7 +609,20 @@
 							<align>right</align>
 							<aligny>center</aligny>
 							<label>$INFO[ListItem.Label]</label>
-							<visible>![Control.HasFocus(5281) | Control.HasFocus(5282)]</visible>
+							<visible>![Control.HasFocus(5281) | Control.HasFocus(5282)] + !Skin.HasSetting(rcb_useOldAlignment)</visible>
+							<animation reversible="false" effect="fade" end="50" time="0" condition="!Skin.HasSetting(rcb_overwriteImportOptions)">Conditional</animation>
+						</control>
+						<control type="label">
+							<posx>550</posx>
+							<posy>5</posy>
+							<width>330</width>
+							<height>20</height>
+							<font>font13</font>
+							<textcolor>white</textcolor>
+							<align>right</align>
+							<aligny>center</aligny>
+							<label>$INFO[ListItem.Label]</label>
+							<visible>[Control.HasFocus(5281) | Control.HasFocus(5282)] + Skin.HasSetting(rcb_useOldAlignment)</visible>
 							<animation reversible="false" effect="fade" end="50" time="0" condition="!Skin.HasSetting(rcb_overwriteImportOptions)">Conditional</animation>
 						</control>
 						<control type="label">
@@ -530,7 +635,7 @@
 							<align>right</align>
 							<aligny>center</aligny>
 							<label>$INFO[ListItem.Label]</label>
-							<visible>[Control.HasFocus(5281) | Control.HasFocus(5282)]</visible>
+							<visible>[Control.HasFocus(5281) | Control.HasFocus(5282)] + !Skin.HasSetting(rcb_useOldAlignment)</visible>
 							<animation reversible="false" effect="fade" end="50" time="0" condition="!Skin.HasSetting(rcb_overwriteImportOptions)">Conditional</animation>
 						</control>
 					</focusedlayout>
@@ -628,6 +733,19 @@
 							<animation reversible="false" effect="fade" end="50" time="0" condition="!Skin.HasSetting(rcb_overwriteImportOptions)">Conditional</animation>
 						</control>
 						<control type="label">
+							<posx>550</posx>
+							<posy>5</posy>
+							<width>330</width>
+							<height>20</height>
+							<font>font13</font>
+							<textcolor>88FFFFFF</textcolor>
+							<align>right</align>
+							<aligny>center</aligny>
+							<label>$INFO[ListItem.Label]</label>
+							<visible>![Control.HasFocus(5291) | Control.HasFocus(5292)] + Skin.HasSetting(rcb_useOldAlignment)</visible>
+							<animation reversible="false" effect="fade" end="50" time="0" condition="!Skin.HasSetting(rcb_overwriteImportOptions)">Conditional</animation>
+						</control>
+						<control type="label">
 							<posx>210</posx>
 							<posy>5</posy>
 							<width>330</width>
@@ -637,7 +755,20 @@
 							<align>right</align>
 							<aligny>center</aligny>
 							<label>$INFO[ListItem.Label]</label>
-							<visible>![Control.HasFocus(5291) | Control.HasFocus(5292)]</visible>
+							<visible>![Control.HasFocus(5291) | Control.HasFocus(5292)] + !Skin.HasSetting(rcb_useOldAlignment)</visible>
+							<animation reversible="false" effect="fade" end="50" time="0" condition="!Skin.HasSetting(rcb_overwriteImportOptions)">Conditional</animation>
+						</control>
+						<control type="label">
+							<posx>550</posx>
+							<posy>5</posy>
+							<width>330</width>
+							<height>20</height>
+							<font>font13</font>
+							<textcolor>white</textcolor>
+							<align>right</align>
+							<aligny>center</aligny>
+							<label>$INFO[ListItem.Label]</label>
+							<visible>[Control.HasFocus(5291) | Control.HasFocus(5292)] + Skin.HasSetting(rcb_useOldAlignment)</visible>
 							<animation reversible="false" effect="fade" end="50" time="0" condition="!Skin.HasSetting(rcb_overwriteImportOptions)">Conditional</animation>
 						</control>
 						<control type="label">
@@ -650,7 +781,7 @@
 							<align>right</align>
 							<aligny>center</aligny>
 							<label>$INFO[ListItem.Label]</label>
-							<visible>[Control.HasFocus(5291) | Control.HasFocus(5292)]</visible>
+							<visible>[Control.HasFocus(5291) | Control.HasFocus(5292)] + !Skin.HasSetting(rcb_useOldAlignment)</visible>
 							<animation reversible="false" effect="fade" end="50" time="0" condition="!Skin.HasSetting(rcb_overwriteImportOptions)">Conditional</animation>
 						</control>
 					</focusedlayout>
