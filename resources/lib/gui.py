@@ -113,6 +113,9 @@ class UIGameDB(xbmcgui.WindowXML):
 	xbmcversionNo = xbmcversion[0:2]
 	Logutil.log("XBMC major version no = " +xbmcversionNo, util.LOG_LEVEL_INFO)
 	
+	if(int(xbmcversionNo) < util.XBMC_VERSION_HELIX):
+		xbmc.executebuiltin('Skin.SetBool(rcb_useOldAlignment)')
+	
 	def __init__(self, strXMLname, strFallbackPath, strDefaultName, forceFallback):
 		Logutil.log("Init Rom Collection Browser: " + util.RCBHOME, util.LOG_LEVEL_INFO)
 		
