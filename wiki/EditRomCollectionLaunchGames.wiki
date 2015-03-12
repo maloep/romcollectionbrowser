@@ -1,7 +1,7 @@
 #sidebar SideBar
 <wiki:toc max_depth="4" />
 
-[http://romcollectionbrowser.googlecode.com/files/screen_editromcollection_launchgames_1.1.1_2.jpg]
+[https://romcollectionbrowser.googlecode.com/svn/wiki/screenshots/screen_editromcollection_launchgames_2.1.2.jpg]
 
 To edit your Rom Collections just launch the context menu (pressing "C" on the keyboard or "Menu" on the remote) and select "Edit Rom Collection".
 
@@ -69,3 +69,6 @@ You can enter any command that should be executed before launching the emulator.
 
 = Post-Launch Cmd =
 You can enter any command that should be executed after launching the emulator.
+
+= Make local copy =
+If set to "True" RCB will create a local copy of your rom files at "userdata/addon_data/script.games.rom.collection.browser/tmp". This might be useful if you have issues with launching roms from external sources. The copied files will be deleted on next run.
