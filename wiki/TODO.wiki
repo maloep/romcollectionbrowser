@@ -4,6 +4,7 @@ This TODO list / roadmap is a working document. It will change quite frequently 
 
 = this release=
   X* 'Game Boy Advance' and not 'Game Boy Advanced' in autoconfig
+  * dummyGUI instance has no attribute 'xbmcversionNo'
   * disable screensaver before launching roms
   * escape xml characters before writing files (nfo, ...)
   * I noticed a strange thing with the "Export game database (nfo files)" function. Some of the nfo files exported don't have the Plot information even for the games that display it correctly in RCB.    
@@ -12,6 +13,8 @@ This TODO list / roadmap is a working document. It will change quite frequently 
   * launch RCB with filter settings as arguments
   * include heimdall scrapers
   * non-ascii characters in kodi
+  * it is possible to add in the selection system "Cave" "Capcom Play System 1" "Capcom Play System 2" "Capcom Play System 3" "Sammy Atomiswave" please ?
+  * Feature request - add in the ability to hard set the artwork per ROM/game. We just select the .png, .jpeg/jpg., .bmp and on we go with our lives. Same for boxfront, back. etc.
   
 == reported bugs ==
   * script to fix focus issues: http://forum.kodi.tv/showthread.php?tid=70115&pid=1877457#pid1877457
@@ -39,6 +42,7 @@ This TODO list / roadmap is a working document. It will change quite frequently 
   * Is there a way to trigger the video to adjust to the focused game when the scroll bar is used?
   * ricardo85x: I did "hacked" RCB to run FBA roms using the Virtual Boy config.
 	Could you tell me how can I rename the Virtual boy to Final burn on platform select list?
+  * Home button returns to XBMC main screen. RCB can not be started anymore.
   
 
 == features ==
@@ -219,6 +223,8 @@ This TODO list / roadmap is a working document. It will change quite frequently 
     * imageplacing
 
 == FAQ ==
+  * FAQ update: images are not shown correctly
+  * looking into the db with SQLite Studio
   * how to reset RCB
   * retroarch: http://forum.xbmc.org/showthread.php?tid=165163
   * clear image cache
