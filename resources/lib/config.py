@@ -271,7 +271,10 @@ class Config:
 			Logutil.log('File config.xml does not exist. Place a valid config file here: %s' %self.configFile, util.LOG_LEVEL_ERROR)
 			return None, False, util.localize(32003)
 		
-		tree = ElementTree().parse(self.configFile)
+		# force utf-8
+		tree = ElementTree()
+		parser = XMLParser(encoding='utf-8') 
+		tree.parse(self.configFile, parser)
 		if(tree == None):
 			Logutil.log('Could not read config.xml', util.LOG_LEVEL_ERROR)
 			return None, False, util.localize(32004)

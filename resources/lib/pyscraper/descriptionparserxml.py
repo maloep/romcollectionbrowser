@@ -32,7 +32,9 @@ class DescriptionParserXml:
 			del fh
 				
 		#load xmlDoc as elementtree to check with xpaths
-		tree = fromstring(descFile)
+		# force utf-8
+		parser = XMLParser(encoding='utf-8')
+		tree = fromstring(descFile, parser)
 		del descFile
 		if(tree == None):
 			return None				
