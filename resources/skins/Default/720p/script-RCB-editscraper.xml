@@ -293,6 +293,8 @@
 					<posy>60</posy>
 					<width>660</width>
 					<height>30</height>
+					<radiowidth>24</radiowidth>
+					<radioheight>24</radioheight>
 					<font>font13</font>
 					<label>$ADDON[script.games.rom.collection.browser 32702]</label>
 					<textcolor>88FFFFFF</textcolor>
@@ -491,6 +493,8 @@
 					<posy>180</posy>
 					<width>660</width>
 					<height>30</height>
+					<radiowidth>24</radiowidth>
+					<radioheight>24</radioheight>
 					<font>font13</font>
 					<label>$ADDON[script.games.rom.collection.browser 32706]</label>
 					<textcolor>88FFFFFF</textcolor>
@@ -508,6 +512,8 @@
 					<posy>210</posy>
 					<width>660</width>
 					<height>30</height>
+					<radiowidth>24</radiowidth>
+					<radioheight>24</radioheight>
 					<font>font13</font>
 					<label>$ADDON[script.games.rom.collection.browser 32707]</label>
 					<textcolor>88FFFFFF</textcolor>
@@ -525,6 +531,8 @@
 					<posy>240</posy>
 					<width>660</width>
 					<height>30</height>
+					<radiowidth>24</radiowidth>
+					<radioheight>24</radioheight>
 					<font>font13</font>
 					<label>$ADDON[script.games.rom.collection.browser 32708]</label>
 					<textcolor>88FFFFFF</textcolor>

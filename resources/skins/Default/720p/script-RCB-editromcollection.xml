@@ -427,6 +427,8 @@
 					<posy>60</posy>
 					<width>660</width>
 					<height>30</height>
+					<radiowidth>24</radiowidth>
+					<radioheight>24</radioheight>
 					<font>font13</font>
 					<label>$ADDON[script.games.rom.collection.browser 32608]</label>
 					<textcolor>88FFFFFF</textcolor>
@@ -444,6 +446,8 @@
 					<posy>90</posy>
 					<width>660</width>
 					<height>30</height>
+					<radiowidth>24</radiowidth>
+					<radioheight>24</radioheight>
 					<font>font13</font>
 					<label>$ADDON[script.games.rom.collection.browser 32609]</label>
 					<textcolor>88FFFFFF</textcolor>
@@ -576,6 +580,8 @@
 					<posy>180</posy>
 					<width>660</width>
 					<height>30</height>
+					<radiowidth>24</radiowidth>
+					<radioheight>24</radioheight>
 					<font>font13</font>
 					<label>$ADDON[script.games.rom.collection.browser 32612]</label>
 					<textcolor>88FFFFFF</textcolor>
@@ -1618,6 +1624,8 @@
 					<posy>60</posy>
 					<width>660</width>
 					<height>30</height>
+					<radiowidth>24</radiowidth>
+					<radioheight>24</radioheight>
 					<font>font13</font>
 					<label>$ADDON[script.games.rom.collection.browser 32623]</label>
 					<textcolor>88FFFFFF</textcolor>
@@ -1635,6 +1643,8 @@
 					<posy>90</posy>
 					<width>660</width>
 					<height>30</height>
+					<radiowidth>24</radiowidth>
+					<radioheight>24</radioheight>
 					<font>font13</font>
 					<label>$ADDON[script.games.rom.collection.browser 32636]</label>
 					<textcolor>88FFFFFF</textcolor>
@@ -1786,6 +1796,8 @@
 					<posy>60</posy>
 					<width>660</width>
 					<height>30</height>
+					<radiowidth>24</radiowidth>
+					<radioheight>24</radioheight>
 					<font>font13</font>
 					<label>$ADDON[script.games.rom.collection.browser 32626]</label>
 					<textcolor>88FFFFFF</textcolor>
@@ -1806,6 +1818,8 @@
 					<posy>90</posy>
 					<width>660</width>
 					<height>30</height>
+					<radiowidth>24</radiowidth>
+					<radioheight>24</radioheight>
 					<font>font13</font>
 					<label>$ADDON[script.games.rom.collection.browser 32627]</label>
 					<textcolor>88FFFFFF</textcolor>
@@ -2152,6 +2166,8 @@
 					<posy>300</posy>
 					<width>660</width>
 					<height>30</height>
+					<radiowidth>24</radiowidth>
+					<radioheight>24</radioheight>
 					<font>font13</font>
 					<label>$ADDON[script.games.rom.collection.browser 52039]</label>
 					<textcolor>88FFFFFF</textcolor>
@@ -2161,8 +2177,8 @@
 					<onleft>7000</onleft>
 					<onright>6000</onright>
 					<onup>5450</onup>
-                    <ondown>5540</ondown>
-                </control>
+					<ondown>5540</ondown>
+				</control>
 				
 				<!-- Use RetroPlayer -->
 				<control type="radiobutton" id="5540">
@@ -2170,6 +2186,8 @@
 					<posy>330</posy>
 					<width>660</width>
 					<height>30</height>
+					<radiowidth>24</radiowidth>
+					<radioheight>24</radioheight>
 					<font>font13</font>
 					<label>$ADDON[script.games.rom.collection.browser 32637]</label>
 					<textcolor>88FFFFFF</textcolor>
