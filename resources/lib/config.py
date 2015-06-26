@@ -59,7 +59,7 @@ consoleDict = {
 			'Electron' : ['93', '', ''],
 			'ExEn' : ['70', '', ''],
 			'Game Boy' : ['10', 'Nintendo Gameboy', 'gameboy'],
-			'Game Boy Advance' : ['12', 'Nintendo Gameboy Advance', 'gba'],  
+			'Game Boy Advance' : ['12', 'Nintendo Game Boy Advance', 'gba'],  
 			'Game Boy Color' : ['11', 'Nintendo Game Boy Color', 'gbc'],
 			'GameCube' : ['14', 'Nintendo GameCube', 'gamecube'],
 			'Game Gear' : ['25', 'Sega Game Gear', 'gamegear'],
