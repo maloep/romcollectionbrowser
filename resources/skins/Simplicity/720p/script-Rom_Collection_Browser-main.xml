@@ -1132,6 +1132,8 @@
 				<posy>50</posy>
 				<width>200</width>
 				<height>30</height>
+				<radiowidth>24</radiowidth>
+				<radioheight>24</radioheight>
 				<font>font13</font>
 				<label>$ADDON[script.games.rom.collection.browser 32404]</label>
 				<textcolor>DDFFFFFF</textcolor>
@@ -1184,6 +1186,7 @@
 					<posx>0</posx>
 					<posy>20</posy>
 					<width>200</width>
+					<height>30</height>
 					<textcolor>DDFFFFFF</textcolor>
 					<label>$ADDON[script.games.rom.collection.browser 32406]</label>
 				</control>		
@@ -1256,6 +1259,8 @@
 					<description>Genre</description>
 					<posx>210</posx>
 					<posy>20</posy>
+					<width>200</width>
+					<height>30</height>
 					<textcolor>DDFFFFFF</textcolor>
 					<label>$ADDON[script.games.rom.collection.browser 32401]</label>
 				</control>
@@ -1328,6 +1333,8 @@
 					<description>Year</description>
 					<posx>420</posx>
 					<posy>20</posy>
+					<width>200</width>
+					<height>30</height>
 						<textcolor>DDFFFFFF</textcolor>
 						<label>$ADDON[script.games.rom.collection.browser 32400]</label>
 				</control>		
@@ -1400,6 +1407,8 @@
 					<description>Publisher</description>
 					<posx>630</posx>
 					<posy>20</posy>
+					<width>200</width>
+					<height>30</height>
 					<textcolor>DDFFFFFF</textcolor>
 					<label>$ADDON[script.games.rom.collection.browser 32402]</label>
 				</control>		
@@ -1472,6 +1481,8 @@
 					<description>Character</description>
 					<posx>840</posx>
 					<posy>20</posy>
+					<width>60</width>
+					<height>30</height>
 					<textcolor>DDFFFFFF</textcolor>
 					<label>$ADDON[script.games.rom.collection.browser 32407]</label>
 				</control>		
