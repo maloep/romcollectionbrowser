@@ -2,9 +2,9 @@
 <window>
 	<allowoverlay>no</allowoverlay>
 	<coordinates>
-	        <system>1</system>
-        	<posx>0</posx>
-        	<posy>0</posy>
+		<system>1</system>
+		<posx>0</posx>
+		<posy>0</posy>
 	</coordinates>
 	<controls>
 		<control type="group">
@@ -80,6 +80,7 @@
 					<posx>175</posx>
 					<posy>0</posy>
 					<width>300</width>
+					<height>30</height>
 					<font>font13</font>
 					<textcolor>FFFFFFFF</textcolor>
 					<label>$INFO[ListItem.Property(genre)]</label>
@@ -100,6 +101,7 @@
 					<posx>175</posx>
 					<posy>30</posy>
 					<width>300</width>
+					<height>30</height>
 					<font>font13</font>
 					<textcolor>FFFFFFFF</textcolor>
 					<label>$INFO[ListItem.Property(year)]</label>
@@ -120,6 +122,7 @@
 					<posx>175</posx>
 					<posy>60</posy>
 					<width>300</width>
+					<height>30</height>
 					<font>font13</font>
 					<textcolor>FFFFFFFF</textcolor>
 					<label>$INFO[ListItem.Property(publisher)]</label>
@@ -140,6 +143,7 @@
 					<posx>175</posx>
 					<posy>90</posy>
 					<width>300</width>
+					<height>30</height>
 					<font>font13</font>
 					<textcolor>FFFFFFFF</textcolor>
 					<label>$INFO[ListItem.Property(developer)]</label>
@@ -160,6 +164,7 @@
 					<posx>175</posx>
 					<posy>120</posy>
 					<width>300</width>
+					<height>30</height>
 					<font>font13</font>
 					<textcolor>FFFFFFFF</textcolor>
 					<label>$INFO[ListItem.Property(region)]</label>
@@ -180,6 +185,7 @@
 					<posx>175</posx>
 					<posy>150</posy>
 					<width>300</width>
+					<height>30</height>
 					<font>font13</font>
 					<textcolor>FFFFFFFF</textcolor>
 					<label>$INFO[ListItem.Property(media)]</label>
@@ -200,6 +206,7 @@
 					<posx>175</posx>
 					<posy>180</posy>
 					<width>300</width>
+					<height>30</height>
 					<font>font13</font>
 					<textcolor>FFFFFFFF</textcolor>
 					<label>$INFO[ListItem.Property(controllertype)]</label>
@@ -220,6 +227,7 @@
 					<posx>175</posx>
 					<posy>210</posy>
 					<width>300</width>
+					<height>30</height>
 					<font>font13</font>
 					<textcolor>FFFFFFFF</textcolor>
 					<label>$INFO[ListItem.Property(rating)]</label>
@@ -240,6 +248,7 @@
 					<posx>175</posx>
 					<posy>240</posy>
 					<width>300</width>
+					<height>30</height>
 					<font>font13</font>
 					<textcolor>FFFFFFFF</textcolor>
 					<label>$INFO[ListItem.Property(maxplayers)]</label>
@@ -260,6 +269,7 @@
 					<posx>175</posx>
 					<posy>270</posy>
 					<width>300</width>
+					<height>30</height>
 					<font>font13</font>
 					<textcolor>FFFFFFFF</textcolor>
 					<label>$INFO[ListItem.Property(playcount)]</label>
