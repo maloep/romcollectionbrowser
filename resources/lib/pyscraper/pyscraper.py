@@ -103,16 +103,16 @@ class PyScraper:
 			nfoFile = os.path.join(nfoFolder, gamenameFromFile +'.nfo')
 			
 			#check for exact rom name (no friendly name)	
-			if (not os.path.isfile(nfoFile)):
+			if (not xbmcvfs.exists(nfoFile)):
 				nfoFile = os.path.join(nfoFolder, filename +'.nfo')
 				
-		if (not os.path.isfile(nfoFile)):
+		if (not xbmcvfs.exists(nfoFile)):
 			romDir = os.path.dirname(romFile)
 			Logutil.log('Romdir: ' +str(romDir), util.LOG_LEVEL_INFO)
 			nfoFile = os.path.join(romDir, gamenameFromFile +'.nfo')
 			
 			#check for exact rom name (no friendly name)	
-			if (not os.path.isfile(nfoFile)):
+			if (not xbmcvfs.exists(nfoFile)):
 				nfoFile = os.path.join(romDir, filename +'.nfo')
 			
 		Logutil.log('Using nfoFile: ' +str(nfoFile), util.LOG_LEVEL_INFO)
