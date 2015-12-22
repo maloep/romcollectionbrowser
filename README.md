@@ -8,13 +8,13 @@
 <b>Current test version:</b> n.a.<br>
 <br>
 <br>
-<b>Documentation:</b> <a href='http://code.google.com/p/romcollectionbrowser/wiki/Welcome?tm=6'>http://code.google.com/p/romcollectionbrowser/wiki/Welcome?tm=6</a>
+<b>Documentation:</b> <a href='https://github.com/maloep/romcollectionbrowser/wiki'>https://github.com/maloep/romcollectionbrowser/wiki</a>
 <br>
 <br>
-<b>XBMC Forum thread:</b> <a href='http://forum.xbmc.org/showthread.php?t=70115'>http://forum.xbmc.org/showthread.php?t=70115</a>
+<b>XBMC Forum thread:</b> <a href='http://forum.kodi.tv/showthread.php?tid=70115'>http://forum.kodi.tv/showthread.php?tid=70115</a>
 <br>
 <br>
-<b>XBMCNerds thread (german forum):</b> <a href='http://www.xbmcnerds.com/index.php?page=Thread&threadID=11578'>http://www.xbmcnerds.com/index.php?page=Thread&amp;threadID=11578</a>
+<b>XBMCNerds thread (german forum):</b> <a href='http://www.kodinerds.net/index.php/Thread/11578-Rom-Collection-Browser-XBMC-Spiele-Frontend/'>http://www.kodinerds.net/index.php/Thread/11578-Rom-Collection-Browser-XBMC-Spiele-Frontend/</a>
 <br>
 <br>
 
