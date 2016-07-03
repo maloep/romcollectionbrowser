@@ -21,65 +21,8 @@ from descriptionparserfactory import DescriptionParserFactory
 import config
 from config import *
 
-
-#descFile = "http://www.mobygames.com/search/quick?game=Actraiser&p=15"
-#parseInstruction = "C:\\Users\\lom\\AppData\\Roaming\\XBMC\\addons\\script.games.rom.collection.browser.dev\\resources\\scraper\\04.01 - mobygames - gamesearch_old.xml"
-
-#descFile = "http://www.mobygames.com/game/sega-32x/metal-head"
-#parseInstruction = "C:\\Users\\lom\\AppData\\Roaming\\XBMC\\addons\\script.games.rom.collection.browser.dev\\resources\\scraper\\04.02 - mobygames - details.xml"
-
-#descFile = "http://www.mobygames.com/game/atari-5200/gyruss"
-#parseInstruction = "C:\\Users\\lom\\AppData\\Roaming\\XBMC\\addons\\script.games.rom.collection.browser.dev\\resources\\scraper\\04.02 - mobygames - details.xml"
-
-#descFile = "http://www.mobygames.com/game/snes/actraiser/cover-art"
-#parseInstruction = "C:\\Users\\lom\\AppData\\Roaming\\XBMC\\addons\\script.games.rom.collection.browser.dev\\resources\\scraper\\04.03 - mobygames - coverlink front.xml"
-
-#descFile = "http://www.mobygames.com/game/snes/actraiser/cover-art/gameCoverId,170207"
-#parseInstruction = "C:\\Users\\lom\\AppData\\Roaming\\XBMC\\addons\\script.games.rom.collection.browser.dev\\resources\\scraper\\04.04 - mobygames - coverdetail front.xml"
-
-#descFile = "http://www.mobygames.com/game/snes/actraiser/cover-art"
-#parseInstruction = "C:\\Users\\lom\\AppData\\Roaming\\XBMC\\addons\\script.games.rom.collection.browser.dev\\resources\\scraper\\04.05 - mobygames - coverlink back.xml"
-
-#descFile = "http://www.mobygames.com/game/snes/actraiser/cover-art/gameCoverId,170208"
-#parseInstruction = "C:\\Users\\lom\\AppData\\Roaming\\XBMC\\addons\\script.games.rom.collection.browser.dev\\resources\\scraper\\04.06 - mobygames - coverdetail back.xml"
-
-#descFile = "http://www.mobygames.com/game/snes/actraiser/cover-art"
-#parseInstruction = "C:\\Users\\lom\\AppData\\Roaming\\XBMC\\addons\\script.games.rom.collection.browser.dev\\resources\\scraper\\04.07 - mobygames - coverlink media.xml"
-
-#descFile = "http://www.mobygames.com/game/snes/actraiser/cover-art/gameCoverId,17623"
-#parseInstruction = "C:\\Users\\lom\\AppData\\Roaming\\XBMC\\addons\\script.games.rom.collection.browser.dev\\resources\\scraper\\04.08 - mobygames - coverdetail media.xml"
-
-#descFile = "http://www.mobygames.com/game/snes/actraiser/screenshots"
-#parseInstruction = "C:\\Users\\lom\\AppData\\Roaming\\XBMC\\addons\\script.games.rom.collection.browser.dev\\resources\\scraper\\04.09 - mobygames - screenshotlink.xml"
-
-#descFile = "http://www.mobygames.com/game/snes/actraiser/screenshots/gameShotId,27458/"
-#parseInstruction = "C:\\Users\\lom\\AppData\\Roaming\\XBMC\\addons\\script.games.rom.collection.browser.dev\\resources\\scraper\\04.10 - mobygames - screenshot detail.xml"
-
-
-#descFile = "http://www.mobygames.com/game/sega-32x/blackthorne"
-#parseInstruction = "C:\\Users\\lom\\AppData\\Roaming\\XBMC\\scripts\\Rom Collection Browser\\resources\\scraper\\04.02 - mobygames - details.xml"
-
-#descFile = "http://thegamesdb.net/api/GetGame.php?name=NBA%20Live%20%2798&platform=Super%20Nintendo%20%28SNES%29"
-#parseInstruction = "C:\\Users\\lom\\AppData\\Roaming\\XBMC\\addons\\script.games.rom.collection.browser.dev\\resources\\scraper\\02 - thegamesdb.xml"
-
-#descFile = "http://api.giantbomb.com/search/?api_key=279442d60999f92c5e5f693b4d23bd3b6fd8e868&query=Actraiser&resources=game&format=xml"
 #descFile = "F:\\Emulatoren\\data\\Synopsis\\giantbomb\\Actraisersearch.xml"
 #parseInstruction = "F:\\Emulatoren\\data\\Synopsis\\giantbomb\\giantbomb - parserConfig.xml"
-
-#descFile = "E:\\Games\\Testsets\\RCB Testset\\Testdata - online scraping\\Roms\\SNES\\Super Mario Kart.nfo"
-#parseInstruction = "C:\\Users\\lom\\AppData\\Roaming\\XBMC\\addons\\script.games.rom.collection.browser.dev\\resources\\scraper\\00 - local nfo.xml"
-
-#descFile = "http://maws.mameworld.info/maws/romset/88games"
-#parseInstruction = "C:\\Users\\lom\\AppData\\Roaming\\XBMC\\addons\script.games.rom.collection.browser.dev\\resources\\scraper\\06 - maws.xml"
-
-
-#descFile = "http://api.archive.vg/1.0/Game.getInfoByCRC/VT7RJ960FWD4CC71L0Z0K4KQYR4PJNW8/b710561b"
-#parseInstruction = "C:\\Users\\lom\\AppData\\Roaming\\XBMC\\addons\\script.games.rom.collection.browser.dev\\resources\\scraper\\05.01 - archive - search.xml"
-
-#descFile = "http://api.archive.vg/1.0/Archive.search/VT7RJ960FWD4CC71L0Z0K4KQYR4PJNW8/Alien+Breed"
-#http://api.archive.vg/1.0/Game.getInfoByID/VT7RJ960FWD4CC71L0Z0K4KQYR4PJNW8/19970
-
-#http://api.archive.vg/1.0/System.getGames/VT7RJ960FWD4CC71L0Z0K4KQYR4PJNW8/SYSTEM
 
 #descFile = "E:\\Games\\RCB TestDataBase\\Scraping\\V2 - Amiga - ff - descpergame\\synopsis\\Dogfight\\synopsis.txt"
 #parseInstruction = "E:\\Games\\RCB TestDataBase\\Scraping\\V2 - Amiga - ff - descpergame\\parserConfig.xml"
