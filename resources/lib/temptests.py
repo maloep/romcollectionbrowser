@@ -87,14 +87,15 @@ from config import *
 #descFile = "F:\\Emulatoren\\data\\synopsis\\XTRAS-RCB\\NGPC.txt"
 #parseInstruction = "F:\\Emulatoren\\data\\synopsis\\XTRAS-RCB\\_parserConfig.xml"
 
-descFile = "E:\\XBMC\\RCB\\Support\\Tomkun\\info.txt"
-parseInstruction = "E:\\XBMC\\RCB\\Support\\Tomkun\\parserconfig.xml"
+descFile = "D:\\Games\\collection\\_gamedesc\\SNES.txt"
+parseInstruction = "D:\\Games\\collection\\_gamedesc\\_parserConfig.xml"
 
 
 from descriptionparserfactory import *
 descParser = DescriptionParserFactory.getParser(parseInstruction)
 
-results = descParser.parseDescription(str(descFile), '	iso-8859-15')
+results = descParser.scanDescription(str(descFile), parseInstruction, '	iso-8859-15')
+#results = descParser.parseDescription(str(descFile), '	iso-8859-15')
 for result in results:
 	print result
 	
