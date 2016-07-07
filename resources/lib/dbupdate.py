@@ -145,8 +145,8 @@ class DBUpdate:
 							artScrapers = {}
 		
 							if(filenamelist != None and len(filenamelist) > 0):
-												
-								gamenameFromFile = helper.getGamenameFromFilename(filenamelist[0], romCollection)
+																	
+								gamenameFromFile = helper.getGamenameFromFilename(filenamelist[0], romCollection)								
 								foldername = self.getFoldernameFromRomFilename(filenamelist[0])
 								
 								fileCount = fileCount +1
@@ -168,7 +168,7 @@ class DBUpdate:
 									result, artScrapers = self.useSingleScrapers(result, romCollection, 1, gamenameFromFile, foldername, filenamelist[0], fuzzyFactor, updateOption, gui, progDialogRCHeader, fileCount)
 								
 							else:
-								Logutil.log("game " +gamenameFromDesc +" was found in parsed results but not in your rom collection.", util.LOG_LEVEL_WARNING)
+								Logutil.log("game " +gamenameFromDesc +" was found in parsed results but not in your rom collection.", util.LOG_LEVEL_WARNING)								
 								continue						
 							
 							dialogDict = {'dialogHeaderKey':progDialogRCHeader, 'gameNameKey':gamenameFromFile, 'scraperSiteKey':artScrapers, 'fileCountKey':fileCount}
@@ -204,7 +204,8 @@ class DBUpdate:
 							except Exception, (exc):
 								Logutil.log("Error flushing files: " +str(exc), util.LOG_LEVEL_WARNING)
 								pass
-						
+					
+					
 					#all files still available files-list, are missing entries
 					for filename in files:
 						gamenameFromFile = helper.getGamenameFromFilename(filename, romCollection)
