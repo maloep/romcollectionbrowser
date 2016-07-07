@@ -126,9 +126,9 @@ def cacheGenres(gdb):
 def saveReadString(property):
 						
 		try:
-			result = str(property)
+			result = unicode(property)
 		except:
-			result = ""
+			result = u''
 			
 		return result
 

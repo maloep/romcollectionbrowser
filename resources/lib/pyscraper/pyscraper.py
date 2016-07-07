@@ -9,6 +9,7 @@ from util import *
 import difflib
 
 import xbmcgui
+import HTMLParser
 
 
 class PyScraper:
@@ -20,7 +21,7 @@ class PyScraper:
 		Logutil.log("using parser file: " +scraper.parseInstruction, util.LOG_LEVEL_DEBUG)		
 		Logutil.log("using game description: " +scraper.source, util.LOG_LEVEL_DEBUG)
 		
-		scraperSource = scraper.source
+		scraperSource = scraper.source.decode('utf-8')
 		
 		#url to scrape may be passed from the previous scraper
 		if(scraper.source.isdigit()):
@@ -73,8 +74,16 @@ class PyScraper:
 			for resultKey in tempResults.keys():
 				Logutil.log("resultKey: " +resultKey, util.LOG_LEVEL_INFO)
 				resultValue = []
+				
 				resultValueOld = results.get(resultKey, [])
+				# unescaping ugly html encoding from websites
+				if (len(resultValueOld) > 0):
+					resultValueOld[0] = HTMLParser.HTMLParser().unescape(resultValueOld[0])
+				
 				resultValueNew = tempResults.get(resultKey, [])
+				# unescaping ugly html encoding from websites
+				if (len(resultValueNew) > 0):
+					resultValueNew[0] = HTMLParser.HTMLParser().unescape(resultValueNew[0])
 
 				if(len(resultValueOld) == 0 and (len(resultValueNew) != 0 and resultValueNew != [None,] and resultValueNew != None and resultValueNew != '')):
 					results[resultKey] = resultValueNew
@@ -157,11 +166,11 @@ class PyScraper:
 		if(scraperSource.startswith('http://')):
 			gamenameToParse = urllib.quote(gamenameFromFile, safe='')
 		else:
-			gamenameToParse = gamenameFromFile					
+			gamenameToParse = gamenameFromFile
 			
-		scraperSource = scraperSource.replace("%GAME%", gamenameToParse)
+		scraperSource = scraperSource.replace(u'%GAME%', gamenameToParse)
 		
-		replaceTokens = ['%FILENAME%', '%FOLDERNAME%', '%CRC%']
+		replaceTokens = [u'%FILENAME%', u'%FOLDERNAME%', u'%CRC%']
 		for key in util.API_KEYS.keys():
 			replaceTokens.append(key)
 			
@@ -423,7 +432,8 @@ class PyScraper:
 			resultValue = result[itemName][0]
 			resultValue = util.html_unescape(resultValue)
 			resultValue = resultValue.strip()
-			resultValue = resultValue
+			# unescape ugly html encoding from websites
+			resultValue = HTMLParser.HTMLParser().unescape(resultValue)
 									
 		except Exception, (exc):
 			Logutil.log("Error while resolving item: " +itemName +" : " +str(exc), util.LOG_LEVEL_WARNING)

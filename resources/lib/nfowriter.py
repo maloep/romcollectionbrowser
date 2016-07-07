@@ -120,7 +120,7 @@ class NfoWriter:
 		SubElement(root, 'year').text = year
 		
 		for genre in genreList:
-			SubElement(root, 'genre').text = str(genre)
+			SubElement(root, 'genre').text = genre
 		
 		SubElement(root, 'detailUrl').text = url
 		SubElement(root, 'maxPlayer').text = players
@@ -141,7 +141,7 @@ class NfoWriter:
 			online = ''
 			try:
 				local = artworkfiles[artworktype][0]
-				online = str(artworkurls[artworktype.name])
+				online = artworkurls[artworktype.name]
 			except:
 				pass
 			
@@ -192,13 +192,13 @@ class NfoWriter:
 						
 		if(nfoFile == ''):
 			romDir = os.path.dirname(romFile)
-			Logutil.log('Romdir: ' +str(romDir), util.LOG_LEVEL_INFO)
+			Logutil.log('Romdir: ' +romDir, util.LOG_LEVEL_INFO)
 			nfoFile = os.path.join(romDir, gameNameFromFile +'.nfo')
 		
 		if (not os.path.isfile(nfoFile)):
-			Logutil.log('Writing NfoFile: ' +str(nfoFile), util.LOG_LEVEL_INFO)
+			Logutil.log('Writing NfoFile: ' +nfoFile, util.LOG_LEVEL_INFO)
 		else:
-			Logutil.log('NfoFile already exists. Wont overwrite file: ' +str(nfoFile), util.LOG_LEVEL_INFO)
+			Logutil.log('NfoFile already exists. Wont overwrite file: ' +nfoFile, util.LOG_LEVEL_INFO)
 			nfoFile = ''
 		
 		return nfoFile

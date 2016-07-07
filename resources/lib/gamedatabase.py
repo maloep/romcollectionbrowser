@@ -147,6 +147,10 @@ class DataBaseObject:
 		paramsString = paramsString[0:len(paramsString)-2]
 		insertString = "Insert INTO %(tablename)s VALUES (NULL, %(args)s)" % {'tablename':self.tableName, 'args': paramsString }		
 		self.gdb.cursor.execute(insertString, args)
+		if (self.gdb.cursor.rowcount == 1):
+			util.Logutil.log("inserted values " +str(args) +self.tableName, util.LOG_LEVEL_DEBUG)
+		else:
+			util.Logutil.log("failed to insert values "+str(args) +self.tableName, util.LOG_LEVEL_WARNING)
 		
 		#print("Insert INTO %(tablename)s VALUES (%(args)s)" % {'tablename':self.tableName, 'args': ( "?, " * len(args)) })
 		
