@@ -8,7 +8,7 @@
 		<Description>description</Description>		
 		<Genre>genres/genre/name</Genre>
 		<Developer>developers/company/name</Developer>
-		<Publisher>publishers/company/name</Publisher>
+		<Publisher>publishers/publisher/name</Publisher>
 		<!--<Filetypeboxfront>image/super_url</Filetypeboxfront>-->
 		<Filetypescreenshot>images/image/super_url</Filetypescreenshot>
 	</GameGrammar>
