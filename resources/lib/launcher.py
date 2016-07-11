@@ -419,7 +419,7 @@ def replacePlaceholdersInParams(emuParams, rom, romCollection, gameRow, escapeCm
 	emuParams = emuParams.replace('%Romname%', romname)
 	
 	#gamename	
-	gamename = str(gameRow[util.ROW_NAME])
+	gamename = unicode(gameRow[util.ROW_NAME])
 	emuParams = emuParams.replace('%game%', gamename)
 	emuParams = emuParams.replace('%GAME%', gamename)
 	emuParams = emuParams.replace('%Game%', gamename)
@@ -427,7 +427,7 @@ def replacePlaceholdersInParams(emuParams, rom, romCollection, gameRow, escapeCm
 	#ask num
 	if(re.search('(?i)%ASKNUM%', emuParams)):
 		options = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9']
-		number = str(xbmcgui.Dialog().select(util.localize(32167), options))
+		number = unicode(xbmcgui.Dialog().select(util.localize(32167), options))
 		emuParams = emuParams.replace('%asknum%', number)
 		emuParams = emuParams.replace('%ASKNUM%', number)
 		emuParams = emuParams.replace('%Asknum%', number)

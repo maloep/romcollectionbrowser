@@ -44,9 +44,9 @@ LOG_LEVEL_DEBUG = 3
 
 CURRENT_LOG_LEVEL = LOG_LEVEL_INFO
 
-API_KEYS = {'%VGDBAPIKey%' : 'Zx5m2Y9Ndj6B4XwTf83JyKz7r8WHt3i4',
-			'%GIANTBOMBAPIKey%' : '279442d60999f92c5e5f693b4d23bd3b6fd8e868',
-			'%ARCHIVEAPIKEY%' : 'VT7RJ960FWD4CC71L0Z0K4KQYR4PJNW8'}
+API_KEYS = {u'%VGDBAPIKey%' : u'Zx5m2Y9Ndj6B4XwTf83JyKz7r8WHt3i4',
+			u'%GIANTBOMBAPIKey%' : u'279442d60999f92c5e5f693b4d23bd3b6fd8e868',
+			u'%ARCHIVEAPIKEY%' : u'VT7RJ960FWD4CC71L0Z0K4KQYR4PJNW8'}
 
 FUZZY_FACTOR_ENUM = [0.5, 0.6, 0.7, 0.8, 0.9, 1.0]
 MAXNUMGAMES_ENUM = [0,100,250,500,1000,2500,5000,10000]
@@ -250,9 +250,9 @@ def localize(id):
 
 def getAddonDataPath():
 	
-	path = ''
-	path = xbmc.translatePath('special://profile/addon_data/%s' %(SCRIPTID))
-		
+	path = u''
+	path = xbmc.translatePath('special://profile/addon_data/%s' %(SCRIPTID)).decode('utf-8')
+	
 	if not os.path.exists(path):
 		try:
 			os.makedirs(path)
@@ -262,23 +262,21 @@ def getAddonDataPath():
 
 
 def getAddonInstallPath():
-	path = ''
-				
-	path = __addon__.getAddonInfo('path')
+	
+	path = u''
+	path = __addon__.getAddonInfo('path').decode('utf-8')
 	
 	return path
-			
 
 def getAutoexecPath():	
-	return xbmc.translatePath('special://profile/autoexec.py')
-
+	return xbmc.translatePath('special://profile/autoexec.py').decode('utf-8')
 
 def getEmuAutoConfigPath():	
 	
 	settings = getSettings()
 	path = settings.getSetting(SETTING_RCB_EMUAUTOCONFIGPATH)
 	if(path == ''):
-		path = os.path.join(getAddonDataPath(), 'emu_autoconfig.xml')
+		path = os.path.join(getAddonDataPath(), u'emu_autoconfig.xml')
 		
 	if(not xbmcvfs.exists(path)):
 		oldPath = os.path.join(getAddonInstallPath(), 'resources', 'emu_autoconfig.xml')
@@ -302,7 +300,7 @@ def getTempDir():
 
 def getConfigXmlPath():
 	if(not ISTESTRUN):
-		addonDataPath = getAddonDataPath() 
+		addonDataPath = getAddonDataPath()
 		configFile = os.path.join(addonDataPath, "config.xml")
 	else:
 		configFile = os.path.join(getAddonInstallPath(), "resources", "lib", "TestDataBase", "config.xml")
@@ -380,9 +378,7 @@ def indentXml(elem, level=0):
 		if level and (not elem.tail or not elem.tail.strip()):
 			elem.tail = i
 
-
 RCBHOME = getAddonInstallPath()
-
 
 #
 # Logging
@@ -411,19 +407,21 @@ class Logutil:
 		if(logLevel > Logutil.currentLogLevel):			
 			return
 			
-		prefix = ''
+		prefix = u''
 		if(logLevel == LOG_LEVEL_DEBUG):
-			prefix = 'RCB_DEBUG: '
+			prefix = u'RCB_DEBUG: '
 		elif(logLevel == LOG_LEVEL_INFO):
-			prefix = 'RCB_INFO: '
+			prefix = u'RCB_INFO: '
 		elif(logLevel == LOG_LEVEL_WARNING):
-			prefix = 'RCB_WARNING: '
+			prefix = u'RCB_WARNING: '
 		elif(logLevel == LOG_LEVEL_ERROR):
-			prefix = 'RCB_ERROR: '
+			prefix = u'RCB_ERROR: '
 						
 		try:
-			print prefix + message
-		except:
+			# should be save as prefix is guaranteed to be unicode
+			m = prefix + message
+			print m.encode("utf-8")
+		except Exception, (exc):
 			pass
 		
 	

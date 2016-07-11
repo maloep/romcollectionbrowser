@@ -33,7 +33,8 @@ class DescriptionParserFlatFile:
 						
 		fileAsString = self.openDescFile(descFile)
 		
-		fileAsString = fileAsString.decode(encoding).encode('utf-8')
+		# switch as fast as possible to unicode to prevent all weird encoding problems
+		fileAsString = fileAsString.decode(encoding)
 		
 		
 		results = all.parseString(fileAsString)

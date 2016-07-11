@@ -37,9 +37,9 @@ class DBUpdate:
 		self.Settings = settings
 			
 		#self.scrapeResultsFile = self.openFile(os.path.join(util.getAddonDataPath(), 'scrapeResults.txt'))
-		self.missingDescFile = self.openFile(os.path.join(util.getAddonDataPath(), 'scrapeResult_missingDesc.txt'))
-		self.missingArtworkFile = self.openFile(os.path.join(util.getAddonDataPath(), 'scrapeResult_missingArtwork.txt'))
-		self.possibleMismatchFile = self.openFile(os.path.join(util.getAddonDataPath(), 'scrapeResult_possibleMismatches.txt'))		
+		self.missingDescFile = self.openFile(os.path.join(util.getAddonDataPath(), u'scrapeResult_missingDesc.txt'))
+		self.missingArtworkFile = self.openFile(os.path.join(util.getAddonDataPath(), u'scrapeResult_missingArtwork.txt'))
+		self.possibleMismatchFile = self.openFile(os.path.join(util.getAddonDataPath(), u'scrapeResult_possibleMismatches.txt'))
 		
 		Logutil.log("Start Update DB", util.LOG_LEVEL_INFO)
 		
@@ -118,7 +118,7 @@ class DBUpdate:
 									
 				try:
 					fileCount = 0
-					gamenameFromDesc = ''
+					gamenameFromDesc = u''
 					
 					#TODO move to to check preconditions
 					#first scraper must be the one for multiple games					
@@ -145,8 +145,8 @@ class DBUpdate:
 							artScrapers = {}
 		
 							if(filenamelist != None and len(filenamelist) > 0):
-												
-								gamenameFromFile = helper.getGamenameFromFilename(filenamelist[0], romCollection)
+																	
+								gamenameFromFile = helper.getGamenameFromFilename(filenamelist[0], romCollection)								
 								foldername = self.getFoldernameFromRomFilename(filenamelist[0])
 								
 								fileCount = fileCount +1
@@ -168,7 +168,7 @@ class DBUpdate:
 									result, artScrapers = self.useSingleScrapers(result, romCollection, 1, gamenameFromFile, foldername, filenamelist[0], fuzzyFactor, updateOption, gui, progDialogRCHeader, fileCount)
 								
 							else:
-								Logutil.log("game " +gamenameFromDesc +" was found in parsed results but not in your rom collection.", util.LOG_LEVEL_WARNING)
+								Logutil.log("game " +gamenameFromDesc +" was found in parsed results but not in your rom collection.", util.LOG_LEVEL_WARNING)								
 								continue						
 							
 							dialogDict = {'dialogHeaderKey':progDialogRCHeader, 'gameNameKey':gamenameFromFile, 'scraperSiteKey':artScrapers, 'fileCountKey':fileCount}
@@ -204,7 +204,8 @@ class DBUpdate:
 							except Exception, (exc):
 								Logutil.log("Error flushing files: " +str(exc), util.LOG_LEVEL_WARNING)
 								pass
-						
+					
+					
 					#all files still available files-list, are missing entries
 					for filename in files:
 						gamenameFromFile = helper.getGamenameFromFilename(filename, romCollection)
@@ -402,7 +403,7 @@ class DBUpdate:
 		Logutil.log("Reading rom files", util.LOG_LEVEL_INFO)
 		files = []
 		for romPath in romCollection.romPaths:
-			files = self.walkDownPath(files, romPath, romCollection.maxFolderDepth)
+			files = self.walkDownPath(files, unicode(romPath), romCollection.maxFolderDepth)
 		
 		#only use files that are not already present in database
 		if enableFullReimport == False:
@@ -949,6 +950,7 @@ class DBUpdate:
 		
 		Logutil.log('Begin getFilesByWildcard. pathName = %s' %pathName, util.LOG_LEVEL_INFO)
 		files = []
+		dirs = []
 		
 		dirname = os.path.dirname(pathName)
 		Logutil.log("dirname: " +dirname, util.LOG_LEVEL_INFO)
@@ -960,15 +962,25 @@ class DBUpdate:
 		filemask = filemask.replace('[[[]]', '[[]')
 		Logutil.log("filemask: " +filemask, util.LOG_LEVEL_INFO)
 		
-		dirs, filesLocal = xbmcvfs.listdir(dirname)
-		Logutil.log("xbmcvfs dirs: %s" %dirs, util.LOG_LEVEL_INFO)						
+		dirsLocal, filesLocal = xbmcvfs.listdir(dirname)
+		Logutil.log("xbmcvfs dirs: %s" %dirs, util.LOG_LEVEL_INFO)
 		Logutil.log("xbmcvfs files: %s" %filesLocal, util.LOG_LEVEL_INFO)
 		
+		for dir in dirsLocal:
+			if (type(dir) == str):
+				dirs.append(dir.decode('utf-8'))
+			else:
+				dirs.append(dir)
+			
 		for file in filesLocal:
 			if(fnmatch.fnmatch(file, filemask)):
 			#allFiles = [f.decode(sys.getfilesystemencoding()).encode('utf-8') for f in glob.glob(newRomPath)]
 				file = util.joinPath(dirname, file)
-				files.append(file)
+				# return unicode filenames so relating scraping actions can handle them correctly
+				if (type(file) == str):
+					files.append(file.decode('utf-8'))
+				else:
+					files.append(file)
 				
 		return dirs, files, dirname, filemask
 		
@@ -1032,7 +1044,7 @@ class DBUpdate:
 		
 	def resolveParseResult(self, result, itemName):
 		
-		resultValue = ""
+		resultValue = u''
 		
 		try:			
 			resultValue = result[itemName][0]
@@ -1051,11 +1063,13 @@ class DBUpdate:
 						try:
 							int(resultValue)
 						except:
-							resultValue = ''
+							resultValue = u''
 							
 			#replace and remove HTML tags
 			resultValue = self.stripHTMLTags(resultValue)
 			resultValue = resultValue.strip()
+			if (type(resultValue) == str):
+				resultValue = resultValue.decode('utf-8')
 									
 		except Exception, (exc):
 			Logutil.log("Error while resolving item: " +itemName +" : " +str(exc), util.LOG_LEVEL_WARNING)
@@ -1118,7 +1132,11 @@ class DBUpdate:
 		fileRow = File(self.gdb).getFileByNameAndTypeAndParent(fileName, fileType.id, parentId)
 		if(fileRow == None):
 			Logutil.log("File does not exist in database. Insert file: " +fileName, util.LOG_LEVEL_INFO)
-			File(self.gdb).insert((str(fileName), fileType.id, parentId))
+			f = File(self.gdb)
+			try:
+				f.insert((fileName, fileType.id, parentId))
+			except Exception, (exc):
+				Logutil.log("Error inserting into database: " +fileName, util.LOG_LEVEL_WARNING)
 		else:
 			Logutil.log("File already exists in database: " +fileName, util.LOG_LEVEL_INFO)
 				

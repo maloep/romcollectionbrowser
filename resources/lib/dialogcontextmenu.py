@@ -94,9 +94,12 @@ class ContextMenuDialog(xbmcgui.WindowXMLDialog):
 					romCollection.romPaths = []
 					
 				files = File(self.gui.gdb).getRomsByGameId(gameRow[util.ROW_ID])
-				filename = files[0][0]
-				romCollection.romPaths.append(filename)
-				romCollections[romCollection.id] = romCollection
+				try:
+					filename = files[0][0]
+					romCollection.romPaths.append(filename)
+					romCollections[romCollection.id] = romCollection
+				except:
+					Logutil.log('Error getting filename for romCollectionId: ' +str(romCollectionId), util.LOG_LEVEL_INFO)
 				
 			self.gui.rescrapeGames(romCollections)
 				
