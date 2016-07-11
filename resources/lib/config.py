@@ -3,10 +3,9 @@ import os
 import util
 import urllib
 import helper
+from pprint import pprint
 from util import *
 from xml.etree.ElementTree import *
-
-
 
 #friendly name : db column, missing filter statement
 gameproperties = {'Title' : ['name', "name = ''"],
@@ -153,100 +152,153 @@ imagePlacingDict = {'gameinfobig' : 'one big',
 					'gameinfomamecabinet' : 'MAME: cabinet in list'}			
 
 
-class FileType:
-	name = ''
-	id = -1
-	type = ''
-	parent = ''
+class FileType(object):
+	def __init__(self):
+		self.name = ''
+		''' This is the full path to the file'''
+		self.id = -1
+		''' Internal DB ID (?)'''
+		self.type = ''
+		''' 0 = file, 1 = boxfront, 2 = boxback, 4 = screenshot, 5 = fanart (defined in config_template.xml)'''
+		self.parent = ''
+		''' The ID of the Game/Publisher/Developer/Collection for this file '''
+
+	def __repr__(self):
+		return "FileType: type = {0}, name = {1}, parent = {2}".format (self.type, self.name, self.parent)
 	
-class ImagePlacing:	
-	name = ''	
-	fileTypesForGameList = None
-	fileTypesForGameListSelected = None			
-	fileTypesForMainView1 = None
-	fileTypesForMainView2 = None
-	fileTypesForMainView3 = None						
-	fileTypesForMainViewBackground = None
-	fileTypesForMainViewGameInfoBig = None
-	fileTypesForMainViewGameInfoUpperLeft = None
-	fileTypesForMainViewGameInfoUpperRight = None
-	fileTypesForMainViewGameInfoLowerLeft = None
-	fileTypesForMainViewGameInfoLowerRight = None	
-	fileTypesForMainViewGameInfoUpper = None
-	fileTypesForMainViewGameInfoLower = None
-	fileTypesForMainViewGameInfoLeft = None
-	fileTypesForMainViewGameInfoRight = None
-	
-	fileTypesForMainViewVideoWindowBig = None
-	fileTypesForMainViewVideoWindowSmall = None
-	fileTypesForMainViewVideoFullscreen = None
+class ImagePlacing:
+	def __init__(self):
+		self.name = ''
+
+		# The following are all lists of FileTypes
+		self.fileTypesForGameList = []
+		self.fileTypesForGameListSelected = []
+		self.fileTypesForMainView1 = []
+		self.fileTypesForMainView2 = []
+		self.fileTypesForMainView3 = []
+		self.fileTypesForMainViewBackground = []
+		self.fileTypesForMainViewGameInfoBig = []
+		self.fileTypesForMainViewGameInfoUpperLeft = []
+		self.fileTypesForMainViewGameInfoUpperRight = []
+		self.fileTypesForMainViewGameInfoLowerLeft = []
+		self.fileTypesForMainViewGameInfoLowerRight = []
+		self.fileTypesForMainViewGameInfoUpper = []
+		self.fileTypesForMainViewGameInfoLower = []
+		self.fileTypesForMainViewGameInfoLeft = []
+		self.fileTypesForMainViewGameInfoRight = []
+
+		self.fileTypesForMainViewVideoWindowBig = []
+		self.fileTypesForMainViewVideoWindowSmall = []
+		self.fileTypesForMainViewVideoFullscreen = []
+
+	def __repr__(self):
+		str = "ImagePlacing:\n"
+		for key, value in vars(self).iteritems():
+			str += "\t{0} = {1}\n".format (key, value)
+		return str
 	
 class MediaPath:
-	path = ''
-	fileType = None
+	def __init__(self):
+		self.path = ''
+		self.fileType = None
+
+	def __repr__(self):
+		return "MediaPath: type={0}, path={1}".format (self.fileType, self.path)
 	
 class Scraper:
-	parseInstruction = ''
-	source = ''
-	sourceAppend = ''
-	encoding = 'utf-8'
-	returnUrl = False
-	replaceKeyString = ''
-	replaceValueString = ''
+	def __init__(self):
+		self.parseInstruction = ''
+		''' XML definition file '''
+		self.source = ''
+		''' URL to parse using the parseInstruction '''
+		self.sourceAppend = ''
+		self.encoding = 'utf-8'
+		self.returnUrl = False
+		self.replaceKeyString = ''
+		self.replaceValueString = ''
+
+	def __repr__(self):
+		str = "Scraper\n"
+		for key, value in vars(self).iteritems():
+			str += "\t{0} = {1}\n".format (key, value)
+		return str
 	
 class Site:
-	name = ''	
-	descFilePerGame = False
-	searchGameByCRC = True
-	searchGameByCRCIgnoreRomName = False
-	useFoldernameAsCRC = False
-	useFilenameAsCRC = False
+	def __init__(self):
+		self.name = ''
+		self.descFilePerGame = False
+		self.searchGameByCRC = True
+		self.searchGameByCRCIgnoreRomName = False
+		self.useFoldernameAsCRC = False
+		self.useFilenameAsCRC = False
 	
-	scrapers = None
-	
+		self.scrapers = []	# List of Scraper objects
+
+	def __repr__(self):
+		str = "Site\n"
+		for key, value in vars(self).iteritems():
+			str += "\t{0} = {1}\n".format (key, value)
+		return str
+
+
 
 class MissingFilter:
 	andGroup = []
 	orGroup = []
 
 class RomCollection:
-	id = -1
-	name = ''
-	
-	useBuiltinEmulator = False
-	gameclient = ''
-	emulatorCmd = ''
-	preCmd = ''
-	postCmd = ''
-	emulatorParams = ''
-	romPaths = None
-	saveStatePath = ''
-	saveStateParams = ''
-	mediaPaths = None
-	scraperSites = None
-	imagePlacingMain = None
-	imagePlacingInfo = None
-	autoplayVideoMain = True
-	autoplayVideoInfo = True
-	ignoreOnScan = False
-	allowUpdate = True
-	useEmuSolo = False
-	usePopen = False
-	maxFolderDepth = 99
-	useFoldernameAsGamename = False
-	doNotExtractZipFiles = False
-	makeLocalCopy = False
-	diskPrefix = '_Disk.*'
-	xboxCreateShortcut = False
-	xboxCreateShortcutAddRomfile = False
-	xboxCreateShortcutUseShortGamename = False
+	def __init__(self):
+		self.id = -1
+		self.name = ''
 
+		self.useBuiltinEmulator = False
+		self.gameclient = ''
+		self.emulatorCmd = ''
+		''' Full string to execute when launching '''
+		self.preCmd = ''
+		self.postCmd = ''
+		self.emulatorParams = ''
+		self.romPaths = []
+		''' Rompaths to pass to the emulator command '''
+		self.saveStatePath = ''
+		self.saveStateParams = ''
+		self.mediaPaths = []
+		self.scraperSites = []
+		''' List of Scrapers to use to retrieve game info '''
+		self.imagePlacingMain = []
+		self.imagePlacingInfo = []
+		self.autoplayVideoMain = True
+		self.autoplayVideoInfo = True
+		self.ignoreOnScan = False
+		self.allowUpdate = True
+		self.useEmuSolo = False
+		self.usePopen = False
+		self.maxFolderDepth = 99
+		''' How far down the rompath to look '''
+		self.useFoldernameAsGamename = False
+		self.doNotExtractZipFiles = False
+		''' If true, launch the emulator passing the zip as the rom '''
+		self.makeLocalCopy = False
+		''' If true, copies the rom to Kodi temp dir before running '''
+		self.diskPrefix = '_Disk.*'
+		self.xboxCreateShortcut = False
+		self.xboxCreateShortcutAddRomfile = False
+		self.xboxCreateShortcutUseShortGamename = False
+
+	def __repr__(self):
+		rc = "Rom Collection\n"
+		for key, value in vars(self).iteritems():
+			rc += "\t{0} = {1}\n".format (key, value)
+		return rc
 
 class Config:
 		
 	romCollections = None
+	''' Dictionary of RomCollections '''
 	scraperSites = None
+	''' Dictionary of Sites '''
 	fileTypeIdsForGamelist = None
+	''' Dictionary of FileTypes '''
 	
 	showHideOption = 'ignore'
 	missingFilterInfo = None
@@ -254,7 +306,6 @@ class Config:
 	
 	tree = None
 	configPath = None
-	
 	
 	def __init__(self, configFile):
 		Logutil.log('Config() set path to %s' %configFile, util.LOG_LEVEL_INFO)
@@ -270,15 +321,13 @@ class Config:
 		if(not os.path.isfile(self.configFile)):
 			Logutil.log('File config.xml does not exist. Place a valid config file here: %s' %self.configFile, util.LOG_LEVEL_ERROR)
 			return None, False, util.localize(32003)
-		
-		# force utf-8
-		tree = ElementTree()
-		parser = XMLParser(encoding='utf-8') 
-		tree.parse(self.configFile, parser)
-		if(tree == None):
+		try:
+			# force utf-8
+			tree = ElementTree().parse(self.configFile, XMLParser(encoding='utf-8'))
+		except ParseError as pe:
 			Logutil.log('Could not read config.xml', util.LOG_LEVEL_ERROR)
 			return None, False, util.localize(32004)
-		
+
 		self.tree = tree
 		
 		return tree, True, ''
@@ -314,7 +363,7 @@ class Config:
 		#Scrapers
 		scrapers, errorMsg = self.readScrapers(tree)
 		if(scrapers == None):
-			return False, errorMsg		
+			return False, errorMsg
 		self.scraperSites = scrapers
 				
 		self.fileTypeIdsForGamelist = self.getFileTypeIdsForGameList(tree, romCollections)
@@ -339,7 +388,7 @@ class Config:
 		Logutil.log('Begin readRomCollections', util.LOG_LEVEL_INFO)
 		
 		romCollections = {}
-		
+
 		romCollectionRows = tree.findall('RomCollections/RomCollection')
 								
 		if (len(romCollectionRows) == 0):
@@ -349,59 +398,76 @@ class Config:
 		for romCollectionRow in romCollectionRows:
 			
 			romCollection = RomCollection()
+			# Parse the XML child elements
+			for child in romCollectionRow:
+				#print "Collection: tag = {0}, value = {1}".format (child.tag, child.text)
+
+				try:
+					if isinstance (getattr(romCollection, child.tag), (bool)):
+						setattr(romCollection, child.tag, child.text.upper() == "TRUE")
+					elif isinstance(getattr(romCollection, child.tag), (str)):
+						setattr(romCollection, child.tag, child.text)
+						#print "  item is a string"
+					elif isinstance(getattr(romCollection, child.tag), (list)):
+						pass
+						#print "  item is a list"
+				except:
+					pass
+					#print "  can't work out: {0}".format (child.tag)
+
+
+				# Tags that are entered multiple times so we record them as lists
+				if child.tag == 'romPath':
+					romCollection.romPaths.append(child.text)
+				elif child.tag == 'mediaPath':
+					mediaPath = MediaPath()
+					mediaPath.path = child.text
+					Logutil.log('Adding media path: {0}'.format (mediaPath.path), util.LOG_LEVEL_INFO)
+					fileType, errorMsg = self.readFileType(child.attrib.get('type'), tree)
+					if(fileType == None):
+						Logutil.log('Unable to find filetype for {0}'.format (child.attrib.get('type')), util.LOG_LEVEL_WARNING)
+						# Skip to the next XML element
+						continue
+
+					mediaPath.fileType = fileType
+					romCollection.mediaPaths.append(mediaPath)
+
+
+
+			# Attributes
+			if 'name' not in romCollectionRow.attrib:
+				Logutil.log('Error while adding RomCollection: Missing name attribute', util.LOG_LEVEL_ERROR)
+				# Skip this collection, move to the next
+				continue
+
 			romCollection.name = romCollectionRow.attrib.get('name')
-			if(romCollection.name == None):
-				Logutil.log('Configuration error. RomCollection must have an attribute name', util.LOG_LEVEL_ERROR)
-				return None, util.localize(32005)
-			
-			Logutil.log('current Rom Collection: ' +str(romCollection.name), util.LOG_LEVEL_INFO)
-			
+			Logutil.log('current Rom Collection: {0}'.format (romCollection.name), util.LOG_LEVEL_INFO)
+
+			if 'id' not in romCollectionRow.attrib:
+				Logutil.log('Error while adding RomCollection {0}: Missing id attribute'.format (romCollection.name),
+							util.LOG_LEVEL_ERROR)
+				# Skip this collection, move to the next
+				continue
+
+			# Check if the key for this romCollection already exists
 			id = romCollectionRow.attrib.get('id')
-			if(id == ''):
-				Logutil.log('Configuration error. RomCollection %s must have an id' %romCollection.name, util.LOG_LEVEL_ERROR)
-				return None, util.localize(32005)
-			try:
-				rc = romCollections[id]
-				Logutil.log('Error while adding RomCollection. Make sure that the id is unique.', util.LOG_LEVEL_ERROR)
-				return None, util.localize(32006)
-			except:
-				pass
-			
+			if id in romCollections:
+				Logutil.log('Error while adding RomCollection {0}: Duplicate id attribute.'.format (romCollection.name),
+							util.LOG_LEVEL_ERROR)
+				# Skip this collection, move to the next
+				continue
+
 			romCollection.id = id
-			
-			#romPath
-			romCollection.romPaths = []
-			romPathRows = romCollectionRow.findall('romPath')
-			for romPathRow in romPathRows:
-				Logutil.log('Rom path: ' +romPathRow.text, util.LOG_LEVEL_INFO)
-				if(romPathRow.text != None):
-					romCollection.romPaths.append(romPathRow.text)
-				
-			#mediaPath
-			romCollection.mediaPaths = []
-			mediaPathRows = romCollectionRow.findall('mediaPath')
-			
-			for mediaPathRow in mediaPathRows:
-				mediaPath = MediaPath()
-				if(mediaPathRow.text != None):					
-					mediaPath.path = mediaPathRow.text
-				Logutil.log('Media path: ' +mediaPath.path, util.LOG_LEVEL_INFO)
-				fileType, errorMsg = self.readFileType(mediaPathRow.attrib.get('type'), tree)
-				if(fileType == None):
-					return None, errorMsg
-				mediaPath.fileType = fileType
-				romCollection.mediaPaths.append(mediaPath)
 			
 			#Scraper
 			romCollection.scraperSites = []
-			scraperRows = romCollectionRow.findall('scraper')
-			for scraperRow in scraperRows:
+			for scraperRow in romCollectionRow.findall('scraper'):
 				siteName = scraperRow.attrib.get('name')
 				Logutil.log('Scraper site: ' +str(siteName), util.LOG_LEVEL_INFO)
 				if(siteName == None or siteName == ''):
 					Logutil.log('Configuration error. RomCollection/scraper must have an attribute name', util.LOG_LEVEL_ERROR)
 					return None, util.localize(32005)
-				
+
 				#read additional scraper properties
 				replaceKeyString = scraperRow.attrib.get('replaceKeyString')
 				if(replaceKeyString == None):
@@ -410,16 +476,16 @@ class Config:
 				if(replaceValueString == None):
 					replaceValueString = ''
 								
-				#elementtree version 1.2.7 does not support xpath like this: Scrapers/Site[@name="%s"] 
+				#elementtree version 1.2.7 does not support xpath like this: Scrapers/Site[@name="%s"]
 				siteRow = None
-				siteRows = tree.findall('Scrapers/Site')
-				for element in siteRows:
+				for element in tree.findall('Scrapers/Site'):
 					if(element.attrib.get('name') == siteName):
 						siteRow = element
 						break
-				
+
 				if(siteRow == None):
 					Logutil.log('Configuration error. Site %s does not exist in config.xml' %siteName, util.LOG_LEVEL_ERROR)
+					# FIXME TODO continue, skipping this site
 					return None, util.localize(32005)
 								
 				scraper, errorMsg = self.readScraper(siteRow, romCollection.name, replaceKeyString, replaceValueString, True, tree)
@@ -448,74 +514,7 @@ class Config:
 					return None, errorMsg
 				
 				romCollection.imagePlacingInfo = fileTypeFor
-						
-			#all simple RomCollection properties
-			romCollection.gameclient = self.readTextElement(romCollectionRow, 'gameclient')
-			romCollection.emulatorCmd = self.readTextElement(romCollectionRow, 'emulatorCmd')
-			romCollection.preCmd = self.readTextElement(romCollectionRow, 'preCmd')
-			romCollection.postCmd = self.readTextElement(romCollectionRow, 'postCmd')
-			romCollection.emulatorParams = self.readTextElement(romCollectionRow, 'emulatorParams')
-			romCollection.saveStatePath = self.readTextElement(romCollectionRow, 'saveStatePath')
-			romCollection.saveStateParams = self.readTextElement(romCollectionRow, 'saveStateParams')
-						
-			useBuiltinEmulator = self.readTextElement(romCollectionRow, 'useBuiltinEmulator')
-			if(useBuiltinEmulator != ''):
-				romCollection.useBuiltinEmulator = useBuiltinEmulator.upper() == 'TRUE'
-				
-			ignoreOnScan = self.readTextElement(romCollectionRow, 'ignoreOnScan')
-			if(ignoreOnScan != ''):
-				romCollection.ignoreOnScan = ignoreOnScan.upper() == 'TRUE'
-			
-			allowUpdate = self.readTextElement(romCollectionRow, 'allowUpdate') 			
-			if(allowUpdate != ''):
-				romCollection.allowUpdate = allowUpdate.upper() == 'TRUE'
-				
-			useEmuSolo = self.readTextElement(romCollectionRow, 'useEmuSolo') 			
-			if(useEmuSolo != ''):
-				romCollection.useEmuSolo = useEmuSolo.upper() == 'TRUE'
-				
-			usePopen = self.readTextElement(romCollectionRow, 'usePopen') 			
-			if(usePopen != ''):
-				romCollection.usePopen = usePopen.upper() == 'TRUE'
-				
-			autoplayVideoMain = self.readTextElement(romCollectionRow, 'autoplayVideoMain')
-			if(autoplayVideoMain != ''):
-				romCollection.autoplayVideoMain = autoplayVideoMain.upper() == 'TRUE'
-				
-			autoplayVideoInfo = self.readTextElement(romCollectionRow, 'autoplayVideoInfo')
-			if(autoplayVideoInfo != ''):
-				romCollection.autoplayVideoInfo = autoplayVideoInfo.upper() == 'TRUE'
-			
-			useFoldernameAsGamename = self.readTextElement(romCollectionRow, 'useFoldernameAsGamename')			
-			if(useFoldernameAsGamename != ''):
-				romCollection.useFoldernameAsGamename = useFoldernameAsGamename.upper() == 'TRUE'	
-			
-			maxFolderDepth = self.readTextElement(romCollectionRow, 'maxFolderDepth') 
-			if(maxFolderDepth != ''):
-				romCollection.maxFolderDepth = int(maxFolderDepth)
-				
-			doNotExtractZipFiles = self.readTextElement(romCollectionRow, 'doNotExtractZipFiles') 			
-			if(doNotExtractZipFiles != ''):
-				romCollection.doNotExtractZipFiles = doNotExtractZipFiles.upper() == 'TRUE'
-				
-			makeLocalCopy = self.readTextElement(romCollectionRow, 'makeLocalCopy')
-			if(makeLocalCopy != ''):
-				romCollection.makeLocalCopy = makeLocalCopy.upper() == 'TRUE'		
-				
-			romCollection.diskPrefix = self.readTextElement(romCollectionRow, 'diskPrefix')
-				
-			xboxCreateShortcut = self.readTextElement(romCollectionRow, 'xboxCreateShortcut')			
-			if(xboxCreateShortcut != ''):
-				romCollection.xboxCreateShortcut = xboxCreateShortcut.upper() == 'TRUE'
-				
-			xboxCreateShortcutAddRomfile = self.readTextElement(romCollectionRow, 'xboxCreateShortcutAddRomfile') 			
-			if(xboxCreateShortcutAddRomfile != ''):
-				romCollection.xboxCreateShortcutAddRomfile = xboxCreateShortcutAddRomfile.upper() == 'TRUE'
-				
-			xboxCreateShortcutUseShortGamename = self.readTextElement(romCollectionRow, 'xboxCreateShortcutUseShortGamename')			
-			if(xboxCreateShortcutUseShortGamename != ''):
-				romCollection.xboxCreateShortcutUseShortGamename = xboxCreateShortcutUseShortGamename.upper() == 'TRUE'
-			
+
 			romCollections[id] = romCollection
 			
 		return romCollections, ''
@@ -536,74 +535,40 @@ class Config:
 
 		return sites, ''
 		
-			
+	# FIXME TODO Handle input parameters
 	def readScraper(self, siteRow, romCollectionName, inReplaceKeyString, inReplaceValueString, replaceValues, tree):
 		
 		site = Site()
-		site.name = siteRow.attrib.get('name')
-		Logutil.log('Scraper Site: ' +str(site.name), util.LOG_LEVEL_INFO)
-		
-		descFilePerGame = siteRow.attrib.get('descFilePerGame')
-		if(descFilePerGame != None and descFilePerGame != ''):
-			site.descFilePerGame = descFilePerGame.upper() == 'TRUE'
-			Logutil.log('Scraper descFilePerGame: ' +str(site.descFilePerGame), util.LOG_LEVEL_INFO)
-		
-		searchGameByCRC = siteRow.attrib.get('searchGameByCRC')
-		if(searchGameByCRC != None and searchGameByCRC != ''):
-			site.searchGameByCRC = searchGameByCRC.upper() == 'TRUE'
-			
-		searchGameByCRCIgnoreRomName = siteRow.attrib.get('searchGameByCRCIgnoreRomName')
-		if(searchGameByCRCIgnoreRomName != None and searchGameByCRCIgnoreRomName != ''):
-			site.searchGameByCRCIgnoreRomName = searchGameByCRCIgnoreRomName.upper() == 'TRUE'
-			
-		useFoldernameAsCRC = siteRow.attrib.get('useFoldernameAsCRC')
-		if(useFoldernameAsCRC != None and useFoldernameAsCRC != ''):
-			site.useFoldernameAsCRC = useFoldernameAsCRC.upper() == 'TRUE'
-			
-		useFilenameAsCRC = siteRow.attrib.get('useFilenameAsCRC')
-		if(useFilenameAsCRC != None and useFilenameAsCRC != ''):
-			site.useFilenameAsCRC = useFilenameAsCRC.upper() == 'TRUE'
-		
+		for key, value in siteRow.attrib.iteritems():
+			#print "Site: Key = {0}, Value = {1}".format (key, value)
+			if key == 'name':
+				setattr(site, key, value)
+			else:
+				setattr(site, key, value.upper() == "TRUE")
+
 		scrapers = []
-		
-		scraperRows = siteRow.findall('Scraper')
-		for scraperRow in scraperRows:
+		for scraperRow in siteRow.findall('Scraper'):
 			scraper = Scraper()
-			
-			parseInstruction = scraperRow.attrib.get('parseInstruction')
-			if(parseInstruction != None and parseInstruction != ''):
-				if(not os.path.isabs(parseInstruction)):
-					#if it is a relative path, search in RCBs home directory
-					parseInstruction = os.path.join(util.RCBHOME, 'resources', 'scraper', parseInstruction)
-				
-				if(not os.path.isfile(parseInstruction)):
-					Logutil.log('Configuration error. parseInstruction file %s does not exist.' %parseInstruction, util.LOG_LEVEL_ERROR)
-					return None, util.localize(32005)
-				
-				scraper.parseInstruction = parseInstruction
-				
-			source = scraperRow.attrib.get('source')
-			if(source != None and source != ''):
-				if(replaceValues):
-					platform = getPlatformByRomCollection(source, romCollectionName)
-					platform = urllib.quote(platform, safe='')
-					source = source.replace('%PLATFORM%', platform)
-				scraper.source = source
-			
-			encoding = scraperRow.attrib.get('encoding')
-			if(encoding != None and encoding != 'utf-8'):
-				scraper.encoding = encoding
-			
-			returnUrl = scraperRow.attrib.get('returnUrl')
-			if(returnUrl != None and returnUrl != ''):
-				scraper.returnUrl = returnUrl.upper() == 'TRUE'
-				
-			sourceAppend = scraperRow.attrib.get('sourceAppend')
-			if(sourceAppend != None and sourceAppend != ''):
-				scraper.sourceAppend = sourceAppend
-				
-			scraper.replaceKeyString = inReplaceKeyString
-			scraper.replaceValueString = inReplaceValueString
+
+			for key, value in scraperRow.attrib.iteritems():
+				#print "Scraper: Key = {0}, Value = {1}".format (key, value)
+				if key == 'parseInstruction':
+					parseInstruction = scraperRow.attrib.get('parseInstruction')
+					if(parseInstruction != None and parseInstruction != ''):
+						if(not os.path.isabs(parseInstruction)):
+							#if it is a relative path, search in RCBs home directory
+							parseInstruction = os.path.join(util.RCBHOME, 'resources', 'scraper', parseInstruction)
+
+						if(not os.path.isfile(parseInstruction)):
+							Logutil.log('Configuration error. parseInstruction file %s does not exist.' %parseInstruction, util.LOG_LEVEL_ERROR)
+							# FIXME TODO continue, skipping this scraper
+							return None, util.localize(32005)
+
+						scraper.parseInstruction = parseInstruction
+				elif key == 'returnUrl':
+					setattr(scraper, key, value.upper() == "TRUE")
+				else:
+					setattr(scraper, key, value)
 			
 			scrapers.append(scraper)
 			
@@ -611,12 +576,12 @@ class Config:
 			
 		return site, ''
 	
-	
+	# Return a populated FileType object for a given name
 	def readFileType(self, name, tree):
-		
-		fileTypeRow = None 
-		fileTypeRows = tree.findall('FileTypes/FileType')
-		for element in fileTypeRows:
+
+		fileTypeRow = None
+
+		for element in tree.findall('FileTypes/FileType'):
 			if(element.attrib.get('name') == name):
 				fileTypeRow = element
 				break
@@ -626,31 +591,20 @@ class Config:
 			return None, util.localize(32005)
 			
 		fileType = FileType()
-		fileType.name = name
-		
-		id = fileTypeRow.attrib.get('id')
-		if(id == ''):
-			Logutil.log('Configuration error. FileType %s must have an id' %name, util.LOG_LEVEL_ERROR)
-			return None, util.localize(32005)
-			
-		fileType.id = id
-		
-		type = fileTypeRow.find('type')
-		if(type != None):
-			fileType.type = type.text
-			
-		parent = fileTypeRow.find('parent')
-		if(parent != None):
-			fileType.parent = parent.text
-			
+		for key, value in fileTypeRow.attrib.iteritems():
+			#print "FileType: Key = {0}, Value = {1}".format (key, value)
+			setattr(fileType, key, value)
+
+		for child in fileTypeRow:
+			#print "FileType: tag = {0}, value = {1}".format (child.tag, child.text)
+			setattr(fileType, child.tag, child.text)
+
 		return fileType, ''
 		
-		
+	# Given imagePlacingInfo or imagePlacingMain, retrieve all the associated ImagePlacing/fileTypeFor elements
 	def readImagePlacing(self, imagePlacingName, tree):
-		
-		fileTypeForRow = None 
-		fileTypeForRows = tree.findall('ImagePlacing/fileTypeFor')
-		for element in fileTypeForRows:
+		fileTypeForRow = None
+		for element in tree.findall('ImagePlacing/fileTypeFor'):
 			if(element.attrib.get('name') == imagePlacingName):
 				fileTypeForRow = element
 				break
@@ -660,46 +614,22 @@ class Config:
 			return None, util.localize(32005)
 		
 		imagePlacing = ImagePlacing()
-		
 		imagePlacing.name = imagePlacingName
-			
-		imagePlacing.fileTypesForGameList, errorMsg = self.readFileTypeForElement(fileTypeForRow, 'fileTypeForGameList', tree)		
-		imagePlacing.fileTypesForGameListSelected, errorMsg = self.readFileTypeForElement(fileTypeForRow, 'fileTypeForGameListSelected', tree)
-		imagePlacing.fileTypesForMainView1, errorMsg = self.readFileTypeForElement(fileTypeForRow, 'fileTypeForMainView1', tree)
-		imagePlacing.fileTypesForMainView2, errorMsg = self.readFileTypeForElement(fileTypeForRow, 'fileTypeForMainView2', tree)
-		imagePlacing.fileTypesForMainView3, errorMsg = self.readFileTypeForElement(fileTypeForRow, 'fileTypeForMainView3', tree)
-		imagePlacing.fileTypesForMainViewBackground, errorMsg = self.readFileTypeForElement(fileTypeForRow, 'fileTypeForMainViewBackground', tree)
-		imagePlacing.fileTypesForMainViewGameInfoBig, errorMsg = self.readFileTypeForElement(fileTypeForRow, 'fileTypeForMainViewGameInfoBig', tree)
-		imagePlacing.fileTypesForMainViewGameInfoUpperLeft, errorMsg = self.readFileTypeForElement(fileTypeForRow, 'fileTypeForMainViewGameInfoUpperLeft', tree)
-		imagePlacing.fileTypesForMainViewGameInfoUpperRight, errorMsg = self.readFileTypeForElement(fileTypeForRow, 'fileTypeForMainViewGameInfoUpperRight', tree)
-		imagePlacing.fileTypesForMainViewGameInfoLowerLeft, errorMsg = self.readFileTypeForElement(fileTypeForRow, 'fileTypeForMainViewGameInfoLowerLeft', tree)
-		imagePlacing.fileTypesForMainViewGameInfoLowerRight, errorMsg = self.readFileTypeForElement(fileTypeForRow, 'fileTypeForMainViewGameInfoLowerRight', tree)
-		
-		imagePlacing.fileTypesForMainViewGameInfoLower, errorMsg = self.readFileTypeForElement(fileTypeForRow, 'fileTypeForMainViewGameInfoLower', tree)
-		imagePlacing.fileTypesForMainViewGameInfoUpper, errorMsg = self.readFileTypeForElement(fileTypeForRow, 'fileTypeForMainViewGameInfoUpper', tree)
-		imagePlacing.fileTypesForMainViewGameInfoRight, errorMsg = self.readFileTypeForElement(fileTypeForRow, 'fileTypeForMainViewGameInfoRight', tree)
-		imagePlacing.fileTypesForMainViewGameInfoLeft, errorMsg = self.readFileTypeForElement(fileTypeForRow, 'fileTypeForMainViewGameInfoLeft', tree)
-		
-		imagePlacing.fileTypesForMainViewVideoWindowBig, errorMsg = self.readFileTypeForElement(fileTypeForRow, 'fileTypeForMainViewVideoWindowBig', tree)
-		imagePlacing.fileTypesForMainViewVideoWindowSmall, errorMsg = self.readFileTypeForElement(fileTypeForRow, 'fileTypeForMainViewVideoWindowSmall', tree)
-		imagePlacing.fileTypesForMainViewVideoFullscreen, errorMsg = self.readFileTypeForElement(fileTypeForRow, 'fileTypeForMainViewVideoFullscreen', tree)
-			
+
+		for child in fileTypeForRow:
+			ftype, msg = self.readFileType(child.text, tree)
+			# Since the class variable names are a list, they are called fileTypesForXXX
+			# Meanwhile, the XML config file we are reading has each tag as fileTypeForXXX
+			varname = child.tag.replace('fileTypeFor', 'fileTypesFor')
+			try:
+				# Read the existing list, append and write back
+				ftypes = getattr(imagePlacing, varname)
+				ftypes.append (ftype)
+				setattr(imagePlacing, varname, ftypes)
+			except AttributeError as e:
+				Logutil.log("Error for attribute {0}: {1}".format (varname, str(e)), util.LOG_LEVEL_WARNING)
+
 		return imagePlacing, ''
-			
-	
-	def readFileTypeForElement(self, fileTypeForRow, key, tree):
-		fileTypeList = []
-		fileTypesForControl = fileTypeForRow.findall(key)		
-		for fileTypeForControl in fileTypesForControl:						
-				
-			fileType, errorMsg = self.readFileType(fileTypeForControl.text, tree)
-			if(fileType == None):
-				return None, errorMsg
-						
-			fileTypeList.append(fileType)
-				
-		return fileTypeList, ''
-	
 	
 	def readMissingFilter(self, filterName, tree):
 		missingFilter = MissingFilter()
