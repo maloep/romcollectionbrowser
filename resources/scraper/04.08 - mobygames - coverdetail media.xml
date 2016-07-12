@@ -5,6 +5,6 @@
 		<SkippableContent closeStmnt="true">&lt;center&gt;&lt;img alt=&quot;</SkippableContent>
 		<SkippableContent skipTo="src=&quot;" closeStmnt="true"></SkippableContent>
 		<SkippableContent closeStmnt="true">src=&quot;</SkippableContent>
-		<Filetypecartridge closeStmnt="true" skipTo="&quot;"></Filetypecartridge>
+		<Filetypecartridge closeStmnt="true" skipTo="&quot;" appendResultTo="http://www.mobygames.com"></Filetypecartridge>
 	</GameGrammar>
 </parserConfig>

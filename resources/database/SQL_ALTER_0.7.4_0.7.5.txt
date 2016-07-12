@@ -1,0 +1,16 @@
+DROP TABLE IF EXISTS Publisher_tmp;
+ALTER TABLE Publisher RENAME TO Publisher_tmp;
+
+CREATE TABLE IF NOT EXISTS [Publisher]
+(
+    [id] INTEGER PRIMARY KEY AUTOINCREMENT,
+    [name] TEXT NOT NULL UNIQUE
+);
+
+INSERT INTO Publisher(id, name)
+SELECT id, name
+FROM Publisher_tmp;
+
+DROP TABLE Publisher_tmp;
+
+UPDATE RCBSetting SET dbVersion = '0.7.5';
