@@ -2,13 +2,15 @@
 
 import sys
 import os
+
+sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', '..', 'resources', 'lib'))
+sys.path.append (os.path.join(os.path.dirname(__file__), '..', '..', 'resources', 'lib', 'pyparsing'))
+sys.path.append (os.path.join(os.path.dirname(__file__), '..', '..', 'resources', 'lib', 'pyscraper'))
+
 import unittest
 import datetime
 from pprint import pprint
 from urllib2 import HTTPError
-
-sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', '..', 'resources', 'lib'))
-sys.path.append (os.path.join(os.path.dirname(__file__), '..', '..', 'resources', 'lib', 'pyscraper'))
 
 class TestScrapers(unittest.TestCase):
 
@@ -19,8 +21,8 @@ class TestScrapers(unittest.TestCase):
         return os.path.join(os.path.dirname(__file__), '..', '..', 'resources', 'tests', 'testdata')
 
     def test_SearchWithMultipleMatches(self):
-        from resources.lib.pyscraper.descriptionparserflatfile import DescriptionParserFlatFile
-        from resources.lib.pyscraper.descriptionparserfactory import DescriptionParserFactory
+        from descriptionparserflatfile import DescriptionParserFlatFile
+        from descriptionparserfactory import DescriptionParserFactory
 
         parseInstruction = self.get_scraper_xml_path ('04.01 - mobygames - gamesearch.xml')
         descFile = "http://www.mobygames.com/search/quick?game=Actraiser&p=15"
@@ -32,7 +34,7 @@ class TestScrapers(unittest.TestCase):
 
     def test_GameDetails_MobyGames_Sega(self):
 
-        from resources.lib.pyscraper.descriptionparserfactory import DescriptionParserFactory
+        from descriptionparserfactory import DescriptionParserFactory
 
         #descFile = "http://www.mobygames.com/game/sega-32x/blackthorne"
         #parseInstruction = "C:\\Users\\lom\\AppData\\Roaming\\XBMC\\scripts\\Rom Collection Browser\\resources\\scraper\\04.02 - mobygames - details.xml"
@@ -52,7 +54,7 @@ class TestScrapers(unittest.TestCase):
 
     def test_GameDetails_MobyGames_Atari5200(self):
 
-        from resources.lib.pyscraper.descriptionparserfactory import DescriptionParserFactory
+        from descriptionparserfactory import DescriptionParserFactory
 
         parseInstruction = self.get_scraper_xml_path ('04.02 - mobygames - details.xml')
         descFile = "http://www.mobygames.com/game/atari-5200/gyruss"
@@ -63,8 +65,8 @@ class TestScrapers(unittest.TestCase):
         # FIXME TODO No Perspective value
 
     def test_TheGamesDB_SearchByNameWithApostropheAndPlatform(self):
-        from resources.lib.pyscraper.descriptionparserflatfile import DescriptionParserFlatFile
-        from resources.lib.pyscraper.descriptionparserfactory import DescriptionParserFactory
+        from descriptionparserflatfile import DescriptionParserFlatFile
+        from descriptionparserfactory import DescriptionParserFactory
 
         parseInstruction = self.get_scraper_xml_path ('02 - thegamesdb.xml')
         descFile = "http://thegamesdb.net/api/GetGame.php?name=NBA%20Live%20%2798&platform=Super%20Nintendo%20%28SNES%29"
@@ -79,8 +81,8 @@ class TestScrapers(unittest.TestCase):
         self.assertEqual(results[0].get('Developer')[0], "EA Sports")
 
     def test_TheGamesDB_RetrieveByIdWithMultipleGenres(self):
-        from resources.lib.pyscraper.descriptionparserflatfile import DescriptionParserFlatFile
-        from resources.lib.pyscraper.descriptionparserfactory import DescriptionParserFactory
+        from descriptionparserflatfile import DescriptionParserFlatFile
+        from descriptionparserfactory import DescriptionParserFactory
 
         parseInstruction = self.get_scraper_xml_path ('02 - thegamesdb.xml')
         #descFile = "http://www.thegamesdb.net/game/7808/"   # Syphon Filter, Publisher 989
@@ -97,8 +99,8 @@ class TestScrapers(unittest.TestCase):
                         "Expected type of ReleaseYear to be date, is {}".format (type (results[0].get('ReleaseYear')[0])))
 
     def test_PublisherWithNumericName(self):
-        from resources.lib.pyscraper.descriptionparserflatfile import DescriptionParserFlatFile
-        from resources.lib.pyscraper.descriptionparserfactory import DescriptionParserFactory
+        from descriptionparserflatfile import DescriptionParserFlatFile
+        from descriptionparserfactory import DescriptionParserFactory
 
         parseInstruction = self.get_scraper_xml_path ('02 - thegamesdb.xml')
         descFile = "http://thegamesdb.net/api/GetGame.php?name=Syphon%20Filter&platform=Sony%20Playstation"
@@ -109,7 +111,7 @@ class TestScrapers(unittest.TestCase):
         self.assertEqual(results[0].get('Publisher')[0], "989", 'Expected publisher with numeric name to be a string')
 
     def test_GiantBomb_Search(self):
-        from resources.lib.pyscraper.descriptionparserfactory import DescriptionParserFactory
+        from descriptionparserfactory import DescriptionParserFactory
 
         parseInstruction = self.get_scraper_xml_path ('03.01 - giantbomb - search.xml')
         descFile = "http://api.giantbomb.com/search/?api_key=279442d60999f92c5e5f693b4d23bd3b6fd8e868&query=Actraiser&resources=game&format=xml"
@@ -129,7 +131,7 @@ class TestScrapers(unittest.TestCase):
         pprint (results)
 
     def test_GiantBomb_GameDetails(self):
-        from resources.lib.pyscraper.descriptionparserfactory import DescriptionParserFactory
+        from descriptionparserfactory import DescriptionParserFactory
 
         parseInstruction = self.get_scraper_xml_path ('03.02 - giantbomb - detail.xml')
         descFile = "http://www.giantbomb.com/api/game/3030-17123/?api_key=279442d60999f92c5e5f693b4d23bd3b6fd8e868&resources=game&format=xml"
@@ -149,7 +151,7 @@ class TestScrapers(unittest.TestCase):
 
 
     def test_LocalNFO(self):
-        from resources.lib.pyscraper.descriptionparserfactory import DescriptionParserFactory
+        from descriptionparserfactory import DescriptionParserFactory
 
         parseInstruction = self.get_scraper_xml_path ('00 - local nfo.xml')
         descFile = os.path.join(self.get_testdata_path(), 'psx', 'Bushido Blade [SCUS-94180].nfo')
@@ -162,8 +164,8 @@ class TestScrapers(unittest.TestCase):
 
 
     def test_ContentNotFound404_ArchiveVG(self):
-        from resources.lib.pyscraper.descriptionparserflatfile import DescriptionParserFlatFile
-        from resources.lib.pyscraper.descriptionparserfactory import DescriptionParserFactory
+        from descriptionparserflatfile import DescriptionParserFlatFile
+        from descriptionparserfactory import DescriptionParserFactory
 
 
         #descFile = "http://api.archive.vg/1.0/Game.getInfoByCRC/VT7RJ960FWD4CC71L0Z0K4KQYR4PJNW8/b710561b"
@@ -184,8 +186,8 @@ class TestScrapers(unittest.TestCase):
 
 
     def test_ContentNotFound404_MAWS(self):
-        from resources.lib.pyscraper.descriptionparserflatfile import DescriptionParserFlatFile
-        from resources.lib.pyscraper.descriptionparserfactory import DescriptionParserFactory
+        from descriptionparserflatfile import DescriptionParserFlatFile
+        from descriptionparserfactory import DescriptionParserFactory
 
         parseInstruction = self.get_scraper_xml_path ('06 - maws.xml')
         descFile = "http://maws.mameworld.info/maws/romset/88games"

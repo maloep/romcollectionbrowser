@@ -6,25 +6,29 @@ python -m unittest discover -v resources/tests/ "test_db_upgrade.py"
 
 import sys
 import os
+
+sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', '..', 'resources', 'lib'))
+sys.path.append (os.path.join(os.path.dirname(__file__), '..', '..', 'resources', 'lib', 'pyscraper'))
+
+
 import shutil
 import unittest
 import datetime
 from pprint import pprint
-from resources.lib.xbmcaddon import Addon
+from xbmcaddon import Addon
 
 # Shared resources
 addon = Addon(id='script.games.rom.collection.browser')
 addonPath = addon.getAddonInfo('path')
 
-sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', '..', 'resources', 'lib'))
-sys.path.append (os.path.join(os.path.dirname(__file__), '..', '..', 'resources', 'lib', 'pyscraper'))
+
 
 class TestDBUpgrade(unittest.TestCase):
     def get_testdata_path(self):
         return os.path.join(os.path.dirname(__file__), '..', '..', 'resources', 'tests', 'testdata')
 
     def test_DBUpgrade(self):
-        from resources.lib.gamedatabase import GameDataBase
+        from gamedatabase import GameDataBase
 
         db_path = os.path.join (self.get_testdata_path(), 'dbupgrade')
 

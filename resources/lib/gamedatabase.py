@@ -124,8 +124,7 @@ class GameDataBase:
 					return -1, util.localize(32031) +": " +str(exc)
 								
 				self.executeSQLScript(alterTableScript)
-				self.commit()
-				return returnCode, message
+				self.commit()				
 			else:
 				return -1, util.localize(32032) %(dbVersion, util.CURRENT_DB_VERSION)
 					

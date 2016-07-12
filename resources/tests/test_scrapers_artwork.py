@@ -2,17 +2,16 @@
 
 import sys
 import os
+
+sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', '..', 'resources', 'lib'))
+sys.path.append (os.path.join(os.path.dirname(__file__), '..', '..', 'resources', 'lib', 'pyparsing'))
+sys.path.append (os.path.join(os.path.dirname(__file__), '..', '..', 'resources', 'lib', 'pyscraper'))
+
 import unittest
 from pprint import pprint
 from pyparsing import *
 import HTMLParser
 import xml.etree.ElementTree as ET
-
-
-
-sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', '..', 'resources', 'lib'))
-#sys.path.append (os.path.join(os.path.dirname(__file__), '..', '..', 'resources', 'lib', 'pyparsing'))
-sys.path.append (os.path.join(os.path.dirname(__file__), '..', '..', 'resources', 'lib', 'pyscraper'))
 
 
 class TestScrapersArtwork(unittest.TestCase):
@@ -39,7 +38,7 @@ class TestScrapersArtwork(unittest.TestCase):
     """
 
     def test_ArtworkLink_Screenshot_MobyGames(self):
-        from resources.lib.pyscraper.descriptionparserfactory import DescriptionParserFactory
+        from descriptionparserfactory import DescriptionParserFactory
 
         parseInstruction = self.get_scraper_xml_path ('04.09 - mobygames - screenshotlink.xml')
         descFile = "http://www.mobygames.com/game/snes/actraiser/screenshots"
@@ -59,8 +58,8 @@ class TestScrapersArtwork(unittest.TestCase):
         # Expect 29 shots, all from the SNES
 
     def test_ArtworkLink_FrontCover_MobyGames(self):
-        from resources.lib.pyscraper.descriptionparserflatfile import DescriptionParserFlatFile
-        from resources.lib.pyscraper.descriptionparserfactory import DescriptionParserFactory
+        from descriptionparserflatfile import DescriptionParserFlatFile
+        from descriptionparserfactory import DescriptionParserFactory
 
         parseInstruction = self.get_scraper_xml_path ('04.03 - mobygames - coverlink front.xml')
         descFile = "http://www.mobygames.com/game/snes/actraiser/cover-art"
@@ -77,14 +76,14 @@ class TestScrapersArtwork(unittest.TestCase):
 
         self.assertFalse(results is None)
         self.assertTrue(len(results) == 13, "Expected 13 front covers from Mobygames")
-        self.assertTrue(results[0].get('url')[0].startsWith("http://www.mobygames.com"),
+        self.assertTrue(results[0].get('url')[0].startswith("http://www.mobygames.com"),
                         "Expected mobygames URL prefix to be added due to appendTo clause")
 
         # FIXME TODO This doesn't include covers from other platforms
 
     def test_ArtworkLink_BackCover_MobyGames(self):
-        from resources.lib.pyscraper.descriptionparserflatfile import DescriptionParserFlatFile
-        from resources.lib.pyscraper.descriptionparserfactory import DescriptionParserFactory
+        from descriptionparserflatfile import DescriptionParserFlatFile
+        from descriptionparserfactory import DescriptionParserFactory
 
         parseInstruction = self.get_scraper_xml_path ('04.05 - mobygames - coverlink back.xml')
         descFile = "http://www.mobygames.com/game/snes/actraiser/cover-art"
@@ -100,12 +99,12 @@ class TestScrapersArtwork(unittest.TestCase):
 
         self.assertFalse(results is None)
         self.assertTrue(len(results) == 3, "Expected 3 back covers from Mobygames")
-        self.assertTrue(results[0].get('url')[0].startsWith("http://www.mobygames.com"),
+        self.assertTrue(results[0].get('url')[0].startswith("http://www.mobygames.com"),
                         "Expected mobygames URL prefix to be added due to appendTo clause")
 
     def test_ArtworkLink_Media_MobyGames(self):
-        from resources.lib.pyscraper.descriptionparserflatfile import DescriptionParserFlatFile
-        from resources.lib.pyscraper.descriptionparserfactory import DescriptionParserFactory
+        from descriptionparserflatfile import DescriptionParserFlatFile
+        from descriptionparserfactory import DescriptionParserFactory
 
         parseInstruction = self.get_scraper_xml_path ('04.07 - mobygames - coverlink media.xml')
         descFile = "http://www.mobygames.com/game/snes/actraiser/cover-art"
@@ -121,14 +120,14 @@ class TestScrapersArtwork(unittest.TestCase):
 
         self.assertFalse(results is None)
         self.assertTrue(len(results) == 3, "Expected 3 media items from Mobygames")
-        self.assertTrue(results[0].get('url')[0].startsWith("http://www.mobygames.com"),
+        self.assertTrue(results[0].get('url')[0].startswith("http://www.mobygames.com"),
                         "Expected mobygames URL prefix to be added due to appendTo clause")
 
     # FIXME TODO Add entries for all the other scrapers
 
     def test_ArtworkDetail_CoverFront_MobyGames(self):
-        from resources.lib.pyscraper.descriptionparserflatfile import DescriptionParserFlatFile
-        from resources.lib.pyscraper.descriptionparserfactory import DescriptionParserFactory
+        from descriptionparserflatfile import DescriptionParserFlatFile
+        from descriptionparserfactory import DescriptionParserFactory
 
         parseInstruction = self.get_scraper_xml_path ('04.04 - mobygames - coverdetail front.xml')
         descFile = "http://www.mobygames.com/game/snes/actraiser/cover-art/gameCoverId,170207"
@@ -138,7 +137,7 @@ class TestScrapersArtwork(unittest.TestCase):
 
         filetype_boxfront_url = results[0].get('Filetypeboxfront')[0]
         # Mobygames parser extracts filename as /images/covers...; we prefix this with the domain name
-        self.assertTrue(filetype_boxfront_url.startsWith("http://www.mobygames.com"),
+        self.assertTrue(filetype_boxfront_url.startswith("http://www.mobygames.com"),
                         "Expected mobygames URL prefix to be added due to appendTo clause")
         self.assertEqual(filetype_boxfront_url, 'http://www.mobygames.com/images/covers/l/170207-actraiser-snes-front-cover.jpg')
 
