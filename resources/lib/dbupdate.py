@@ -14,7 +14,7 @@ from util import *
 from config import *
 from gamedatabase import *
 from descriptionparserfactory import *
-from pyscraper import *
+from pyscraper.pyscraper import PyScraper
 import nfowriter
 from nfowriter import *
 
@@ -408,7 +408,7 @@ class DBUpdate:
 		#only use files that are not already present in database
 		if enableFullReimport == False:
 			inDBFiles = DataBaseObject(self.gdb, '').getFileAllFilesByRCId(romCollection.id)
-			files = [f.decode('utf-8') for f in files if not f.decode('utf-8') in inDBFiles]			
+			files = [f for f in files if not f in inDBFiles]
 		
 		files.sort()
 		Logutil.log("Files read: " +str(files), util.LOG_LEVEL_INFO)
@@ -975,12 +975,11 @@ class DBUpdate:
 		for file in filesLocal:
 			if(fnmatch.fnmatch(file, filemask)):
 			#allFiles = [f.decode(sys.getfilesystemencoding()).encode('utf-8') for f in glob.glob(newRomPath)]
-				file = util.joinPath(dirname, file)
-				# return unicode filenames so relating scraping actions can handle them correctly
 				if (type(file) == str):
-					files.append(file.decode('utf-8'))
-				else:
-					files.append(file)
+					file = file.decode('utf-8')
+				file = util.joinPath(dirname, file)
+				# return unicode filenames so relating scraping actions can handle them correctly				
+				files.append(file)
 				
 		return dirs, files, dirname, filemask
 		

@@ -5,6 +5,6 @@
 		<SkippableContent closeStmnt="true">&lt;center&gt;&lt;img alt=&quot;</SkippableContent>
 		<SkippableContent skipTo="src=&quot;" closeStmnt="true"></SkippableContent>
 		<SkippableContent closeStmnt="true">src=&quot;</SkippableContent>
-		<Filetypeboxfront closeStmnt="true" skipTo="&quot;"></Filetypeboxfront>
+		<Filetypeboxfront closeStmnt="true" skipTo="&quot;" appendResultTo="http://www.mobygames.com"></Filetypeboxfront>
 	</GameGrammar>
 </parserConfig>

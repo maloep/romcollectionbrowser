@@ -1,0 +1,6 @@
+*.py[cod]
+.project
+.pydevproject
+.settings
+resources/tests/dummy.log
+resources/lib/dummy.log
