@@ -104,6 +104,7 @@ class DBUpdate:
 			
 			files = self.getRomFilesByRomCollection(romCollection, enableFullReimport)
 			if(len(files) == 0):
+				Logutil.log(u'No files found for rom collection {0}, skipping'.format (romCollection.name), util.LOG_LEVEL_INFO)
 				continue
 			
 			#itemCount is used for percentage in ProgressDialogGUI
@@ -156,7 +157,7 @@ class DBUpdate:
 									Logutil.log('Game import canceled by user', util.LOG_LEVEL_INFO)
 									break
 								
-								Logutil.log('Start scraping info for game: ' +str(gamenameFromFile), LOG_LEVEL_INFO)
+								Logutil.log(u'Start scraping info for game: {0}'.format (gamenameFromFile), LOG_LEVEL_INFO)
 															
 								#check if this file already exists in DB
 								continueUpdate, isUpdate, gameId = self.checkRomfileAlreadyExists(filenamelist[0], enableFullReimport, False)
@@ -171,7 +172,10 @@ class DBUpdate:
 								Logutil.log("game " +gamenameFromDesc +" was found in parsed results but not in your rom collection.", util.LOG_LEVEL_WARNING)								
 								continue						
 							
-							dialogDict = {'dialogHeaderKey':progDialogRCHeader, 'gameNameKey':gamenameFromFile, 'scraperSiteKey':artScrapers, 'fileCountKey':fileCount}
+							dialogDict = {'dialogHeaderKey': progDialogRCHeader,
+										  'gameNameKey': gamenameFromFile,
+										  'scraperSiteKey': artScrapers,
+										  'fileCountKey': fileCount}
 							gameId, continueUpdate = self.insertGameFromDesc(result, gamenameFromFile, romCollection, filenamelist, foldername, isUpdate, gameId, gui, False, dialogDict)
 							del artScrapers, gamenameFromFile, foldername, dialogDict
 							if(not continueUpdate):
@@ -190,8 +194,8 @@ class DBUpdate:
 								break
 						
 						except Exception, (exc):
-							Logutil.log("an error occured while adding game " +gamenameFromDesc, util.LOG_LEVEL_WARNING)
-							Logutil.log("Error: " +str(exc), util.LOG_LEVEL_WARNING)
+							Logutil.log (u'An error occurred while adding game {0}\nError: {1}'.format (gamenameFromDesc, str(exc)),
+										 util.LOG_LEVEL_WARNING)
 							continue
 						
 						#flush files every x games. Trying to free some memory.
@@ -215,8 +219,9 @@ class DBUpdate:
 							self.missingDescFile.write('%s\n' %gamenameFromFile.encode('utf-8'))
 							
 				except Exception, (exc):
-					Logutil.log("an error occured while adding game " +gamenameFromDesc, util.LOG_LEVEL_WARNING)
-					Logutil.log("Error: " +str(exc), util.LOG_LEVEL_WARNING)
+
+					Logutil.log (u'An error occurred while adding game {0}\nError: {1}'.format (gamenameFromDesc, str(exc)),
+								 util.LOG_LEVEL_WARNING)
 					try:
 						self.missingDescFile.write('%s\n' %gamenameFromDesc)
 					except:
@@ -282,7 +287,10 @@ class DBUpdate:
 						filenamelist.append(filename)
 	
 						#Variables to process Art Download Info
-						dialogDict = {'dialogHeaderKey':progDialogRCHeader, 'gameNameKey':gamenameFromFile, 'scraperSiteKey':artScrapers, 'fileCountKey':fileCount}
+						dialogDict = {'dialogHeaderKey': progDialogRCHeader,
+									  'gameNameKey': gamenameFromFile,
+									  'scraperSiteKey': artScrapers,
+									  'fileCountKey': fileCount}
 						del artScrapers
 												
 						#Add 'gui' and 'dialogDict' parameters to function
@@ -321,8 +329,9 @@ class DBUpdate:
 								pass
 					
 					except Exception, (exc):
-						Logutil.log("an error occured while adding game " +gamenameFromFile, util.LOG_LEVEL_WARNING)
-						Logutil.log("Error: " +str(exc), util.LOG_LEVEL_WARNING)
+						Logutil.log (u'An error occurred while adding game {0}\nError: {1}'.format (gamenameFromFile, str(exc)),
+									 util.LOG_LEVEL_WARNING)
+
 						try:
 							self.missingDescFile.write('%s\n' %gamenameFromFile)
 						except:
@@ -387,8 +396,8 @@ class DBUpdate:
 				else:						
 					fileDict = self.buildFilenameDict(fileDict, isMultiRomGame, filename, gamename)
 			except Exception, (exc):
-				Logutil.log("an error occured while building file list", util.LOG_LEVEL_WARNING)
-				Logutil.log("Error: " +str(exc), util.LOG_LEVEL_WARNING)
+				Logutil.log (u'An error occurred while building file list\nError: {0}'.format (str(exc)),
+							 util.LOG_LEVEL_WARNING)
 				continue
 		
 		return fileDict
@@ -773,7 +782,7 @@ class DBUpdate:
 			if(not isLocalArtwork):
 				continueUpdate, artworkurls = self.getThumbFromOnlineSource(gamedescription, path.fileType.name, fileName, gui, dialogDict, artworkurls)
 				if(not continueUpdate):
-					return None, False
+					return False, artworkfiles, artworkurls
 			
 			Logutil.log("Additional data path: " +str(path.path), util.LOG_LEVEL_DEBUG)
 			files = self.resolvePath((path.path,), gamename, gamenameFromFile, foldername, romCollection.name, publisher, developer)
@@ -1174,8 +1183,8 @@ class DBUpdate:
 				try:
 					xbmcvfs.mkdir(parent)					
 				except Exception, (exc):
-					xbmcgui.Dialog().ok(util.localize(32010), util.localize(32011))
 					Logutil.log("Could not create directory: '%s'. Error message: '%s'" %(parent, str(exc)), util.LOG_LEVEL_ERROR)
+					xbmcgui.Dialog().ok(util.localize(32010), util.localize(32011))
 					return False, artworkurls
 				del parent
 				
@@ -1184,8 +1193,8 @@ class DBUpdate:
 				try:
 					xbmcvfs.mkdir(dirname)
 				except Exception, (exc):
-					xbmcgui.Dialog().ok(util.localize(32010), util.localize(32011))
 					Logutil.log("Could not create directory: '%s'. Error message: '%s'" %(dirname, str(exc)), util.LOG_LEVEL_ERROR)
+					xbmcgui.Dialog().ok(util.localize(32010), util.localize(32011))
 					del dirname
 					return False, artworkurls
 				
@@ -1226,8 +1235,9 @@ class DBUpdate:
 						xbmcvfs.delete(target)
 						
 				except Exception, (exc):
-					xbmcgui.Dialog().ok(util.localize(32012), util.localize(32011))
 					Logutil.log("Could not create file: '%s'. Error message: '%s'" %(str(fileName), str(exc)), util.LOG_LEVEL_ERROR)
+					xbmcgui.Dialog().ok(util.localize(32012), util.localize(32011))
+
 					return False, artworkurls
 				
 				# cleanup any remaining urllib cache

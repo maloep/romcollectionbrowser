@@ -94,8 +94,15 @@ class Keyboard:
     def isConfirmed(self):
         return True
 
+class Player:
+    def __init__(self):
+        pass
 
+PLAYLIST_VIDEO = 1
 
+class PlayList:
+    def __init__(self, type):
+        pass
 
 
 
@@ -193,10 +200,11 @@ def endOfDirectory(handle, succeeded=True, updateListing=False, cacheToDisk=True
     global _items_added
     print '%s -> %d items added' % (__func)
 
-
-
+def setSetting(id, val):
+    pass
+"""
 def getSetting(id):
-    """
+    ""
         Returns the value of a setting as a string.
 
         id        : string - id of the setting that the module needs to access.
@@ -205,14 +213,23 @@ def getSetting(id):
 
         example:
             apikey = xbmcplugin.getSetting('apikey')
-    """
+    ""
     global _settings
     if _settings.has_key(id):
         return _settings[id]
-       
 
+def setSetting(id, val):
+    global _settings
+    _settings.set(id, val)
+"""
+def executebuiltin(command):
+    pass
+"""
 class Settings:
-	def __init__(self, path):
-		pass
-	def getSetting(self, name):
-		return ''
+    def __init__(self, path):
+        pass
+    def getSetting(self, name):
+        return ''
+    def setSetting(id, val):
+        pass
+"""
