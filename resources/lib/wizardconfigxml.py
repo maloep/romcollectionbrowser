@@ -10,6 +10,24 @@ from emulatorautoconfig.autoconfig import EmulatorAutoconfig
 
 class ConfigXmlWizard:
 
+	@property
+	def platform(self):
+		# Map between Kodi's platform name and the os name in emu_autoconfig.xml
+		platformsOLD = [{'kodiname': 'System.Platform.Android', 'commonname': 'Android'},
+					 {'kodiname': 'System.Platform.OSX', 'commonname': 'Mac'},
+					 {'kodiname': 'System.Platform.Windows', 'commonname': 'Windows'},
+					 {'kodiname': 'System.Platform.Linux', 'commonname': 'Linux'}]
+
+		platforms = ['System.Platform.Android', 'System.Platform.OSX',
+					 'System.Platform.Windows', 'System.Platform.Linux']
+		try:
+			for platform in platforms:
+				if xbmc.getCondVisibility(platform):
+					os = platform.split('.')[2]
+					break
+		except Exception as err:
+			pass
+		return os
 
 	def createConfigXml(self, configFile):
 				
@@ -126,7 +144,8 @@ class ConfigXmlWizard:
 						romCollection.useBuiltinEmulator = True
 			
 			#only ask for emulator and params if we don't use builtin emulator
-			if(not romCollection.useBuiltinEmulator):
+			if not romCollection.useBuiltinEmulator:
+				# FIXME TODO Duplicate code, shared with dialogeditromcollection.py
 				
 				#maybe there is autoconfig support
 				preconfiguredEmulator = None
@@ -137,36 +156,35 @@ class ConfigXmlWizard:
 					romCollection.emulatorCmd = '%ROM%'
 					Logutil.log('emuCmd set to "%ROM%" on Xbox.', util.LOG_LEVEL_INFO)
 				#check for standalone games
-				elif (romCollection.name == 'Linux' or romCollection.name == 'Macintosh' or romCollection.name == 'Windows'):
+				elif romCollection.name == 'Linux' or romCollection.name == 'Macintosh' or romCollection.name == 'Windows':
 					romCollection.emulatorCmd = '"%ROM%"'
 					Logutil.log('emuCmd set to "%ROM%" for standalone games.', util.LOG_LEVEL_INFO)
 				else:
-					#TODO: Windows and Linux support
-					#xbmc.getCondVisibility('System.Platform.Windows')
-					#xbmc.getCondVisibility('System.Platform.Linux')
-					if(xbmc.getCondVisibility('System.Platform.Android')):
-						Logutil.log('Running on Android. Trying to find emulator per autoconfig.', util.LOG_LEVEL_INFO)
-						emulators = autoconfig.findEmulators('Android', romCollection.name, True)
-						emulist = []
-						for emulator in emulators:
-							if(emulator.isInstalled):
-								emulist.append(util.localize(32202) %emulator.name)
-							else:
-								emulist.append(emulator.name)
-						if(len(emulist) > 0):
+					emulist = []
+
+					Logutil.log(u'Running on {0}. Trying to find emulator per autoconfig.'.format(self.platform), util.LOG_LEVEL_INFO)
+					emulators = autoconfig.findEmulators(self.platform, romCollection.name, True)
+					for emulator in emulators:
+						if emulator.isInstalled:
+							emulist.append(util.localize(32202) %emulator.name)
+						else:
+							emulist.append(emulator.name)
+
+					# Ask the user which one they want
+					if len(emulist) > 0:
+						try:
 							emuIndex = dialog.select(util.localize(32203), emulist)
-							Logutil.log('emuIndex: ' +str(emuIndex), util.LOG_LEVEL_INFO)
-							if(emuIndex == -1):
-								Logutil.log('No Emulator selected.', util.LOG_LEVEL_INFO)
-							else:
-								preconfiguredEmulator = emulators[emuIndex]
+							preconfiguredEmulator = emulators[emuIndex]
+						except:
+							Logutil.log('No Emulator selected.', util.LOG_LEVEL_INFO)
+							preconfiguredEmulator = None
 							
-					if(preconfiguredEmulator):
+					if preconfiguredEmulator:
 						romCollection.emulatorCmd = preconfiguredEmulator.emuCmd
 					else:
 						consolePath = dialog.browse(1, util.localize(32178) %console, 'files')
 						Logutil.log('consolePath: ' +str(consolePath), util.LOG_LEVEL_INFO)
-						if(consolePath == ''):
+						if consolePath == '':
 							Logutil.log('No consolePath selected. Action canceled.', util.LOG_LEVEL_INFO)
 							break
 						romCollection.emulatorCmd = consolePath
@@ -267,17 +285,11 @@ class ConfigXmlWizard:
 				romCollection.mediaPaths = []
 				
 				if(romCollection.name == 'MAME'):
-					romCollection.mediaPaths.append(self.createMediaPath('boxfront', artworkPath, scenarioIndex))
-					romCollection.mediaPaths.append(self.createMediaPath('action', artworkPath, scenarioIndex))
-					romCollection.mediaPaths.append(self.createMediaPath('title', artworkPath, scenarioIndex))
-					romCollection.mediaPaths.append(self.createMediaPath('cabinet', artworkPath, scenarioIndex))
-					romCollection.mediaPaths.append(self.createMediaPath('marquee', artworkPath, scenarioIndex))					
+					for pictype in ['boxfront', 'action', 'title', 'cabinet', 'marquee']:
+						romCollection.mediaPaths.append(self.createMediaPath(pictype, artworkPath, scenarioIndex))
 				else:
-					romCollection.mediaPaths.append(self.createMediaPath('boxfront', artworkPath, scenarioIndex))
-					romCollection.mediaPaths.append(self.createMediaPath('boxback', artworkPath, scenarioIndex))
-					romCollection.mediaPaths.append(self.createMediaPath('cartridge', artworkPath, scenarioIndex))
-					romCollection.mediaPaths.append(self.createMediaPath('screenshot', artworkPath, scenarioIndex))
-					romCollection.mediaPaths.append(self.createMediaPath('fanart', artworkPath, scenarioIndex))
+					for pictype in ['boxfront', 'boxback', 'cartridge', 'screenshot', 'fanart']:
+						romCollection.mediaPaths.append(self.createMediaPath(pictype, artworkPath, scenarioIndex))
 				
 				#other MAME specific properties
 				if(romCollection.name == 'MAME'):

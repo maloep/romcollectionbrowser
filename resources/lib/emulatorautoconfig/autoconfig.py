@@ -6,7 +6,7 @@ class OperatingSystem:
     name = ''
     platforms = []
     
-class DetectionMethod:
+class DetectionMethod(object):
     name = ''
     command = ''
     packagename = ''
@@ -39,7 +39,7 @@ class EmulatorAutoconfig:
     
     def __init__(self, configFile):
         self.configFile = configFile
-        
+        self.initXml()
     
     def initXml(self):
         
@@ -47,11 +47,13 @@ class EmulatorAutoconfig:
            print 'EmulatorAutoconfig ERROR: File emu_autoconfig.xml does not exist. Place a valid config file here: %s' %self.configFile
            return None
             
-        tree = ET.ElementTree().parse(self.configFile)
+        tree = ET.parse(self.configFile)
         if(tree == None):
             print 'EmulatorAutoconfig ERROR: Could not read emu_autoconfig.xml'
             return None
-        
+
+        self.tree = tree
+
         return tree
         
     
@@ -61,13 +63,13 @@ class EmulatorAutoconfig:
         if(self.tree == None):
             return
         
-        self.operatingSystems = self.readOperatingSystems(self.tree)
+        self.operatingSystems = self.readOperatingSystems()
         
         
-    def readOperatingSystems(self, tree):
-        
-        osRows = self.tree.findall('os')
-        if(osRows == None):
+    def readOperatingSystems(self):
+        try:
+            osRows = self.tree.findall('os')
+        except Exception as err:
             print 'EmulatorAutoconfig ERROR: Could not find node os in emu_autoconfig.xml'
             return []
                 
@@ -123,7 +125,6 @@ class EmulatorAutoconfig:
             emulator.emuCmd = self.readTextElement(emulatorRow, 'configuration/emulatorCommand')
             emulator.emuParams = self.readTextElement(emulatorRow, 'configuration/emulatorParams')
             emulator.detectionMethods = self.readDetectionMethods(emulatorRow, osRow)
-            
             emulators.append(emulator)
             
         return emulators
@@ -169,13 +170,15 @@ class EmulatorAutoconfig:
             self.readXml()
         
         osFound = None
+
         for operatingSystem in self.operatingSystems:
             if(operatingSystem.name == operatingSystemName):
                 osFound = operatingSystem
-        
+
+
         if(osFound == None):
             print 'EmulatorAutoconfig ERROR: Could not find os %s in emu_autoconfig.xml' %operatingSystemName
-            return None
+            return []
             
         platformFound = None
         for platform in osFound.platforms:
@@ -189,7 +192,7 @@ class EmulatorAutoconfig:
             
         if(platformFound == None):
             print 'EmulatorAutoconfig ERROR: Could not find platform %s for os %s in emu_autoconfig.xml' %(platformName, operatingSystemName)
-            return None
+            return []
         
         if(checkInstalledState):            
             for emulator in platformFound.emulators:
@@ -205,20 +208,28 @@ class EmulatorAutoconfig:
         
         for detectionMethod in emulator.detectionMethods:
             print 'EmulatorAutoconfig: detectionMethod.name = ' +detectionMethod.name
-            if(detectionMethod.name == 'packagename'):
+            if detectionMethod.name == 'packagename':
                 try:                    
                     packages = os.popen(detectionMethod.command).readlines()
-                    print 'EmulatorAutoconfig: packages = ' +str(packages)
-                    for package in packages:
-                        print 'EmulatorAutoconfig: package = ' +package
-                        print 'EmulatorAutoconfig: detectionMethod.packagename = ' +detectionMethod.packagename
-                        if(package.strip() == detectionMethod.packagename.strip()):
-                            print 'EmulatorAutoconfig: emulator is installed!'
-                            return True
-                    
                 except Exception, (exc):
-                    print 'EmulatorAutoconfig ERROR: error while reading list of packages: %s' %exc
-        
+                    print 'EmulatorAutoconfig ERROR: error while reading list of packages: %s' % str(exc)
+
+                    # Try with the next detectionMethod
+                    continue
+
+                for package in packages:
+                    print 'EmulatorAutoconfig: package = ' +package
+                    print 'EmulatorAutoconfig: detectionMethod.packagename = ' +detectionMethod.packagename
+                    if package.strip() == detectionMethod.packagename.strip():
+                        print 'EmulatorAutoconfig: emulator is installed!'
+                        return True
+            elif detectionMethod.name == 'registry':
+                print 'Emulator installation status via registry has not been implemented'
+                pass
+            elif detectionMethod.name == 'commonFolders':
+                print 'Emulator installation status via commonFolders has not been implemented'
+                pass
+
         return False
                 
     
