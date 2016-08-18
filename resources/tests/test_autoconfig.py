@@ -11,18 +11,19 @@ This has been verified on Mac; other envs will need to be tested manually
 """
 
 import unittest
-from resources.lib.wizardconfigxml import ConfigXmlWizard
-from resources.lib.emulatorautoconfig.autoconfig import *
+import sys
+import os
 
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', '..', 'resources', 'lib'))
-sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', '..', 'resources', 'lib', 'autoconfig'))
+sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', '..', 'resources', 'lib', 'emulatorautoconfig'))
+sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', '..', 'resources', 'lib', 'pyparsing'))
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', '..', 'resources', 'lib', 'pyscraper'))
 
+from resources.lib.emulatorautoconfig.autoconfig import *
 
 class TestAutoConfig(unittest.TestCase):
 
     autoconfig = None
-    configxmlwizard = None
 
     @classmethod
     def setUpClass(cls):
@@ -59,32 +60,33 @@ class TestAutoConfig(unittest.TestCase):
             pass
 
     def setUp(self):
-        self.configxmlwizard = ConfigXmlWizard()
-
-        autoconfigxmlfile = os.path.join(os.path.dirname(__file__), 'testdata', 'test_emu_autoconfig.xml')
-        self.autoconfig = EmulatorAutoconfig(autoconfigxmlfile)
-        #self.autoconfig.initXml()
+        # Set a default config XML file
+        self.autoconfigxmlfile = os.path.join(os.path.dirname(__file__), 'testdata', 'test_emu_autoconfig.xml')
 
     def tearDown(self):
         pass
 
     def test_FindSingleEmulatorOnMac(self):
-        emulators = self.autoconfig.findEmulators('OSX', 'SNES', False)
+        autoconfig = EmulatorAutoconfig(self.autoconfigxmlfile)
+        emulators = autoconfig.findEmulators('OSX', 'SNES', False)
         ems_found = len(emulators)
         self.assertTrue(ems_found == 1, u'Found {0} SNES emulators, expecting 1'.format(ems_found))
 
     def test_FindMultipleEmulatorOnMac(self):
-        emulators = self.autoconfig.findEmulators('OSX', 'Atari 2600', False)
+        autoconfig = EmulatorAutoconfig(self.autoconfigxmlfile)
+        emulators = autoconfig.findEmulators('OSX', 'Atari 2600', False)
         ems_found = len(emulators)
         self.assertTrue(ems_found == 2, u'Found {0} Atari 2600 emulators, expecting 2'.format(ems_found))
 
     def test_UnableToFindNonDefinedEmulatorOnMac(self):
-        emulators = self.autoconfig.findEmulators('OSX', 'UnknownPlatform', False)
+        autoconfig = EmulatorAutoconfig(self.autoconfigxmlfile)
+        emulators = autoconfig.findEmulators('OSX', 'UnknownPlatform', False)
         ems_found = len(emulators)
         self.assertTrue(ems_found == 0, u'Found {0} "UnknownPlatform" emulators, expecting 0'.format(ems_found))
 
     def test_EmulatorCommandAndParams(self):
-        emulators = self.autoconfig.findEmulators('OSX', 'SNES', False)
+        autoconfig = EmulatorAutoconfig(self.autoconfigxmlfile)
+        emulators = autoconfig.findEmulators('OSX', 'SNES', False)
         print(emulators[0].emuCmd)
 
         self.assertEqual(emulators[0].emuCmd, u'/Applications/RetroArch.app/Contents/MacOS/RetroArch',
@@ -94,8 +96,18 @@ class TestAutoConfig(unittest.TestCase):
                          u'Emulator params doesn\'t equal expected value')
 
     def test_OperatingSystems(self):
-        oses = self.autoconfig.readOperatingSystems()
+        autoconfig = EmulatorAutoconfig(self.autoconfigxmlfile)
+        autoconfig.readXml()
+        oses = autoconfig.operatingSystems
         self.assertTrue(len(oses) == 4, u'Found {0} operating systems, expecting 4'.format(len(oses)))
+
+    def test_NoOSElementsFound(self):
+        autoconfigxmlfile = os.path.join(os.path.dirname(__file__), 'testdata', 'test_emu_autoconfig_empty.xml')
+        autoconfig = EmulatorAutoconfig(autoconfigxmlfile)
+        autoconfig.readXml()
+        oses = autoconfig.operatingSystems
+
+        self.assertTrue(len(oses) == 0, u'Found {0} operating systems, expecting 0'.format(len(oses)))
 
     @unittest.skip("Not yet implemented")
     def test_EmulatorInstalled(self):
