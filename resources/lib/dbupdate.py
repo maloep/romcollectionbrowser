@@ -104,6 +104,8 @@ class DBUpdate:
 			
 			files = self.getRomFilesByRomCollection(romCollection, enableFullReimport)
 			if(len(files) == 0):
+				Logutil.log(u'No files found for rom collection {0}, skipping'.format(romCollection.name),
+							util.LOG_LEVEL_INFO)
 				continue
 			
 			#itemCount is used for percentage in ProgressDialogGUI
@@ -773,7 +775,7 @@ class DBUpdate:
 			if(not isLocalArtwork):
 				continueUpdate, artworkurls = self.getThumbFromOnlineSource(gamedescription, path.fileType.name, fileName, gui, dialogDict, artworkurls)
 				if(not continueUpdate):
-					return None, False
+					return False, artworkfiles, artworkurls
 			
 			Logutil.log("Additional data path: " +str(path.path), util.LOG_LEVEL_DEBUG)
 			files = self.resolvePath((path.path,), gamename, gamenameFromFile, foldername, romCollection.name, publisher, developer)
