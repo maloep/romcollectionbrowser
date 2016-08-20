@@ -44,15 +44,11 @@ class Emulator(object):
         return "<Emulator: %s>" % self.__dict__
 
 
-class EmulatorAutoconfig:
-    
-    configFile = ''
-    tree = None
-    
-    operatingSystems = []
-
+class EmulatorAutoconfig(object):
     def __init__(self, configFile):
         self.configFile = configFile
+        self.tree = None
+        self.operatingSystems = []
     
     def initXml(self):
         try:
@@ -66,7 +62,6 @@ class EmulatorAutoconfig:
     def readXml(self):
         self.tree = self.initXml()
         if self.tree is None:
-            print 'EmulatorAutoconfig ERROR: tree is none'
             return
         
         self.operatingSystems = self.readOperatingSystems(self.tree)
@@ -157,13 +152,13 @@ class EmulatorAutoconfig:
 
     def findEmulators(self, operatingSystemName, platformName, checkInstalledState=False):
         """
-
+        Parse the emu_autoconfig.xml file for a specified OS and platform
         Args:
-            operatingSystemName:
-            platformName:
-            checkInstalledState:
+            operatingSystemName: The OS to find. This is currently limited to Android, OSX, Windows or Linux.
+            platformName: The emulator platform
+            checkInstalledState: Whether to check if the found emulator is installed
 
-        Returns: a list of Emulator objects, or an empty list if there was an error
+        Returns: a list of matching Emulator objects, or an empty list if there was an error.
 
         """
         print 'EmulatorAutoconfig: findEmulators(). os = %s, platform = %s, checkInstalled = %s' % (operatingSystemName,
@@ -173,12 +168,10 @@ class EmulatorAutoconfig:
         # Read autoconfig.xml file
         if self.tree == None or len(self.operatingSystems) == 0:
             self.readXml()
-        
-        osFound = None
-        for operatingSystem in self.operatingSystems:
-            if operatingSystem.name == operatingSystemName:
-                osFound = operatingSystem
-        
+
+        osFound = next((operatingSystem for operatingSystem in self.operatingSystems
+                        if operatingSystem.name == operatingSystemName), None)
+
         if osFound is None:
             print 'EmulatorAutoconfig ERROR: Could not find os %s in emu_autoconfig.xml' % operatingSystemName
             return []
