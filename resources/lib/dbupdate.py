@@ -1175,8 +1175,8 @@ class DBUpdate:
 				try:
 					xbmcvfs.mkdir(parent)					
 				except Exception, (exc):
-					xbmcgui.Dialog().ok(util.localize(32010), util.localize(32011))
 					Logutil.log("Could not create directory: '%s'. Error message: '%s'" %(parent, str(exc)), util.LOG_LEVEL_ERROR)
+					xbmcgui.Dialog().ok(util.localize(32010), util.localize(32011))
 					return False, artworkurls
 				del parent
 				
@@ -1185,8 +1185,8 @@ class DBUpdate:
 				try:
 					xbmcvfs.mkdir(dirname)
 				except Exception, (exc):
-					xbmcgui.Dialog().ok(util.localize(32010), util.localize(32011))
 					Logutil.log("Could not create directory: '%s'. Error message: '%s'" %(dirname, str(exc)), util.LOG_LEVEL_ERROR)
+					xbmcgui.Dialog().ok(util.localize(32010), util.localize(32011))
 					del dirname
 					return False, artworkurls
 				
