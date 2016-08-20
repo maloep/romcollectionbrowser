@@ -1227,7 +1227,6 @@ class DBUpdate:
 						xbmcvfs.delete(target)
 						
 				except Exception, (exc):
-					xbmcgui.Dialog().ok(util.localize(32012), util.localize(32011))
 					Logutil.log("Could not create file: '%s'. Error message: '%s'" %(str(fileName), str(exc)), util.LOG_LEVEL_ERROR)
 					return False, artworkurls
 				
