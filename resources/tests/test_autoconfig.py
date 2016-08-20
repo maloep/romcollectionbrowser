@@ -101,6 +101,12 @@ class TestAutoConfig(unittest.TestCase):
         oses = autoconfig.operatingSystems
         self.assertTrue(len(oses) == 4, u'Found {0} operating systems, expecting 4'.format(len(oses)))
 
+    def test_UnableToFindIncorrectOS(self):
+        autoconfig = EmulatorAutoconfig(self.autoconfigxmlfile)
+        emulators = autoconfig.findEmulators('UnknownOS', 'SNES', False)
+        self.assertTrue(len(emulators) == 0, u'Found {0} "UnknownOS" emulators, expecting 0'.format(len(emulators)))
+
+
     def test_NoOSElementsFound(self):
         autoconfigxmlfile = os.path.join(os.path.dirname(__file__), 'testdata', 'test_emu_autoconfig_empty.xml')
         autoconfig = EmulatorAutoconfig(autoconfigxmlfile)
