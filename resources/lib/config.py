@@ -194,9 +194,22 @@ class ImagePlacing:
 	fileTypesForMainViewVideoWindowSmall = None
 	fileTypesForMainViewVideoFullscreen = None
 	
-class MediaPath:
-	path = ''
-	fileType = None
+class MediaPath(object):
+	"""
+	A RomCollection has multiple MediaPaths, each one representing different artwork
+	e.g. boxfront, boxback, etc. The fileType is a FileType object.
+
+	Note MediaPath can also be used for RomCollections, Publishers and Developers.
+
+	path: The filesystem path to the Media
+	fileType: The FileType object referenced by the path
+	"""
+	def __init__(self):
+		self.path = ''
+		self.fileType = None
+
+	def __repr__(self):
+		return "<MediaPath: %s>" % self.__dict__
 	
 class Scraper:
 	parseInstruction = ''
