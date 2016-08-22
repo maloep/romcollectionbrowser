@@ -153,11 +153,24 @@ imagePlacingDict = {'gameinfobig' : 'one big',
 					'gameinfomamecabinet' : 'MAME: cabinet in list'}			
 
 
-class FileType:
-	name = ''
-	id = -1
-	type = ''
-	parent = ''
+class FileType(object):
+	"""
+	This config object is defined in config_template.xml in element FileTypes.
+
+	name: In the case of MAME, this will be either: boxfront, cabinet, marquee, action, title.
+	      For all other emulators: boxfront, boxback, cartridge, screenshot, fanart.
+	id: Unique identifier for the FileType, defined in config_template.xml, and used in the File table in the database.
+	type: The filetype, either image or video.
+	parent: The class that this file pertains to. Current supported values: game, romcollection, developer, publisher.
+	"""
+	def __init__(self):
+		self.name = ''
+		self.id = -1
+		self.type = ''
+		self.parent = ''
+
+	def __repr__(self):
+		return "<FileType: %s>" % self.__dict__
 	
 class ImagePlacing:	
 	name = ''	
