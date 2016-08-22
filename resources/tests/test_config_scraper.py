@@ -34,9 +34,9 @@ class TestScraper(unittest.TestCase):
         l = len(sites)
         self.assertTrue(l == 6, u'Expected multiple scraper sites, found {0}'.format(l))
 
-        #self.assertTrue(scrapers['local nfo'].descFilePerGame == 'video')
-        #self.assertTrue(ft.parent == 'game')
-        #self.assertTrue(ft.id == '12')
+        scrapers = sites['giantbomb.com'].scrapers
+        self.assertTrue(len(scrapers) == 2, u'Expected 2 scrapers for giantbomb.com, found {0}'.format(len(scrapers)))
+        self.assertIsInstance(scrapers[0], Scraper, u'Expected Scraper object, was {0}'.format(type(scrapers[0])))
 
 if __name__ == "__main__":
     unittest.main()
