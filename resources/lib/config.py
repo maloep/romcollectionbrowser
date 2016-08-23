@@ -270,37 +270,66 @@ class MissingFilter:
 	andGroup = []
 	orGroup = []
 
-class RomCollection:
-	id = -1
-	name = ''
-	
-	useBuiltinEmulator = False
-	gameclient = ''
-	emulatorCmd = ''
-	preCmd = ''
-	postCmd = ''
-	emulatorParams = ''
-	romPaths = None
-	saveStatePath = ''
-	saveStateParams = ''
-	mediaPaths = None
-	scraperSites = None
-	imagePlacingMain = None
-	imagePlacingInfo = None
-	autoplayVideoMain = True
-	autoplayVideoInfo = True
-	ignoreOnScan = False
-	allowUpdate = True
-	useEmuSolo = False
-	usePopen = False
-	maxFolderDepth = 99
-	useFoldernameAsGamename = False
-	doNotExtractZipFiles = False
-	makeLocalCopy = False
-	diskPrefix = '_Disk.*'
-	xboxCreateShortcut = False
-	xboxCreateShortcutAddRomfile = False
-	xboxCreateShortcutUseShortGamename = False
+
+class RomCollection(object):
+	"""
+	useBuiltinEmulator: Use Kodi's libretro core, rather than an external emulator
+	gameclient: Select libretro gameclient manually
+	emulatorCmd: The OS command to launch the emulator
+	preCmd: The OS command to execute before the emulatorCmd
+	postCmd: The OS command to execute after the emulatorCmd
+	emulatorParams: List of command-line parameters appended to the emulatorCmd
+	romPaths:
+	ignoreOnScan: Whether to skip this rom collection when scanning
+	allowUpdate: Allows overwriting an existing rom in the collection with details from a more recent scan
+	useEmuSolo: Whether to shutdown/restart Kodi while running the external emulator using the scripts in
+	    scriptfiles/
+	usePopen: Use Python subprocess popen
+	maxFolderDepth: How many directories to recurse from the romPath looking for matching roms
+	useFoldernameAsGamename:
+	doNotExtractZipFiles: If the rom is a zip file, extract it to a temporary local directory. Used in
+	    cases of unsupported zip files (usually .7z)
+	makeLocalCopy: Whether to copy the rom to a temporary local directory and use that in the launch. Used
+	    primarily to workaround SMB issues
+	diskPrefix: String used to assist in identifying whether a romset has multiple files (representing a
+	    multi-disk game).
+	"""
+	def __init__(self):
+		self.id = -1
+		self.name = ''
+
+		self.useBuiltinEmulator = False
+		self.gameclient = ''
+		self.emulatorCmd = ''
+		self.preCmd = ''
+		self.postCmd = ''
+		self.emulatorParams = ''
+		self.romPaths = None
+		self.saveStatePath = ''
+		self.saveStateParams = ''
+		self.mediaPaths = None
+		self.scraperSites = None
+		self.imagePlacingMain = None
+		self.imagePlacingInfo = None
+		self.autoplayVideoMain = True
+		self.autoplayVideoInfo = True
+		self.ignoreOnScan = False
+		self.allowUpdate = True
+		self.useEmuSolo = False
+		self.usePopen = False
+		self.maxFolderDepth = 99
+		self.useFoldernameAsGamename = False
+		self.doNotExtractZipFiles = False
+		self.makeLocalCopy = False
+		self.diskPrefix = '_Disk.*'
+
+		# These are used for XBox, which is now legacy and no longer supported by Kodi
+		self.xboxCreateShortcut = False
+		self.xboxCreateShortcutAddRomfile = False
+		self.xboxCreateShortcutUseShortGamename = False
+
+	def __repr__(self):
+		return "<RomCollection: %s>" % self.__dict__
 
 
 class Config:
@@ -320,7 +349,7 @@ class Config:
 	def __init__(self, configFile):
 		Logutil.log('Config() set path to %s' %configFile, util.LOG_LEVEL_INFO)
 		self.configFile = configFile
-				
+
 	
 	def initXml(self):
 		Logutil.log('initXml', util.LOG_LEVEL_INFO)
@@ -396,7 +425,17 @@ class Config:
 	
 		
 	def readRomCollections(self, tree):
-		
+		"""
+		Parses the config XML tree and extract the RomCollection objects into a dict.
+
+		Args:
+		    tree: XML tree parsed from config.xml in the user's addon directory
+
+		Returns:
+		    A dict of the rom collections, with the id attribute as the key. If an error occurs
+		    parsing the tree, None is returned
+
+		"""
 		Logutil.log('Begin readRomCollections', util.LOG_LEVEL_INFO)
 		
 		romCollections = {}
