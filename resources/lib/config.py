@@ -332,24 +332,38 @@ class RomCollection(object):
 		return "<RomCollection: %s>" % self.__dict__
 
 
-class Config:
-		
-	romCollections = None
-	scraperSites = None
+class Config(object):
+	"""
+	romCollections: A list of all the RomCollections added by the user
+	scraperSites: A list of all the available Sites/Scrapers
 	fileTypeIdsForGamelist = None
 	
-	showHideOption = 'ignore'
-	missingFilterInfo = None
-	missingFilterArtwork = None
+	showHideOption: Default is 'ignore'
+	missingFilterInfo:
+	missingFilterArtwork:
 	
-	tree = None
-	configPath = None
-	
+	tree: XML tree containing the configuration
+	configPath: This doesn't appear to be used
+	configFile: Path to the XML tree
+	"""
 	
 	def __init__(self, configFile):
+		self.romCollections = None
+		self.scraperSites = None
+		self.fileTypeIdsForGamelist = None
+
+		self.showHideOption = 'ignore'
+		self.missingFilterInfo = None
+		self.missingFilterArtwork = None
+
+		self.tree = None
+		self.configPath = None
+
 		Logutil.log('Config() set path to %s' %configFile, util.LOG_LEVEL_INFO)
 		self.configFile = configFile
 
+	def __repr__(self):
+		return "<Config: %s>" % self.__dict__
 	
 	def initXml(self):
 		Logutil.log('initXml', util.LOG_LEVEL_INFO)
