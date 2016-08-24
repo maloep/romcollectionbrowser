@@ -266,10 +266,13 @@ class Site(object):
 		return "<Site: %s>" % self.__dict__
 	
 
-class MissingFilter:
-	andGroup = []
-	orGroup = []
+class MissingFilter(object):
+	def __init__(self):
+		self.andGroup = []
+		self.orGroup = []
 
+	def __repr__(self):
+		return "<MissingFilter: %s>" % self.__dict__
 
 class RomCollection(object):
 	"""
@@ -862,4 +865,4 @@ class Config(object):
 			Logutil.log('%s: %s' %(elementName, element.text), util.LOG_LEVEL_INFO)
 			return element.text
 		else:
-			return ''
+			return ''
