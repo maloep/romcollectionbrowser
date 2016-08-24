@@ -1,0 +1,147 @@
+<config version="2.0.8">
+    <!-- All paths are fake, we don't currently validate on path -->
+    <RomCollections>
+        <!-- RomCollection missing name attrib, otherwise OK -->
+        <RomCollection id="6">
+            <useBuiltinEmulator>False</useBuiltinEmulator>
+            <gameclient />
+            <emulatorCmd>/Path/To/NES/Emulator</emulatorCmd>
+            <emulatorParams>-v -L /Applications/RetroArch.app/Contents/Resources/cores/bnes_libretro.dylib "%rom%"</emulatorParams>
+            <romPath>/Path/To/Roms/GBA/*.zip</romPath>
+            <romPath>/Path/To/Roms/GBA/*.smc</romPath>
+            <saveStatePath />
+            <saveStateParams />
+            <mediaPath type="boxfront">/Path/To/Roms/GBA/Artwork/boxfront/%GAME%.*</mediaPath>
+            <mediaPath type="boxback">/Path/To/Roms/GBA/Artwork/boxback/%GAME%.*</mediaPath>
+            <mediaPath type="cartridge">/Path/To/Roms/GBA/Artwork/cartridge/%GAME%.*</mediaPath>
+            <mediaPath type="screenshot">/Path/To/Roms/GBA/Artwork/screenshot/%GAME%.*</mediaPath>
+            <mediaPath type="fanart">/Path/To/Roms/GBA/Artwork/fanart/%GAME%.*
+            </mediaPath>
+            <preCmd />
+            <postCmd />
+            <useEmuSolo>False</useEmuSolo>
+            <usePopen>False</usePopen>
+            <ignoreOnScan>False</ignoreOnScan>
+            <allowUpdate>True</allowUpdate>
+            <autoplayVideoMain>True</autoplayVideoMain>
+            <autoplayVideoInfo>True</autoplayVideoInfo>
+            <useFoldernameAsGamename>False</useFoldernameAsGamename>
+            <maxFolderDepth>99</maxFolderDepth>
+            <doNotExtractZipFiles>False</doNotExtractZipFiles>
+            <makeLocalCopy>False</makeLocalCopy>
+            <diskPrefix>_Disk.*</diskPrefix>
+            <imagePlacingMain>gameinfobig</imagePlacingMain>
+            <imagePlacingInfo>gameinfosmall</imagePlacingInfo>
+            <scraper name="thegamesdb.net" replaceKeyString="" replaceValueString="" />
+            <scraper name="archive.vg" replaceKeyString="" replaceValueString="" />
+        </RomCollection>
+         <!-- RomCollection missing id attrib, otherwise OK -->
+        <RomCollection name="Atari 2600">
+            <useBuiltinEmulator>False</useBuiltinEmulator>
+            <gameclient />
+            <emulatorCmd>/Path/To/Atari2600/Emulator</emulatorCmd>
+            <emulatorParams>"%ROM%"</emulatorParams>
+            <romPath>/Path/To/Roms/Atari2600/*.a26</romPath>
+            <saveStatePath />
+            <saveStateParams />
+            <mediaPath type="boxfront">/Path/To/Roms/Atari2600/Artwork/boxfront/%GAME%.*</mediaPath>
+            <mediaPath type="boxback">/Path/To/Roms/Atari2600/Artwork/boxback/%GAME%.*</mediaPath>
+            <mediaPath type="cartridge">/Path/To/Roms/Atari2600/Artwork/cartridge/%GAME%.*</mediaPath>
+            <mediaPath type="screenshot">/Path/To/Roms/Atari2600/Artwork/screenshot/%GAME%.*</mediaPath>
+            <mediaPath type="fanart">/Path/To/Roms/Atari2600/Artwork/fanart/%GAME%.*</mediaPath>
+            <preCmd />
+            <postCmd />
+            <useEmuSolo>False</useEmuSolo>
+            <usePopen>False</usePopen>
+            <ignoreOnScan>False</ignoreOnScan>
+            <allowUpdate>True</allowUpdate>
+            <autoplayVideoMain>True</autoplayVideoMain>
+            <autoplayVideoInfo>True</autoplayVideoInfo>
+            <useFoldernameAsGamename>False</useFoldernameAsGamename>
+            <maxFolderDepth>99</maxFolderDepth>
+            <doNotExtractZipFiles>False</doNotExtractZipFiles>
+            <makeLocalCopy>False</makeLocalCopy>
+            <diskPrefix>_Disk.*</diskPrefix>
+            <imagePlacingMain>gameinfobig</imagePlacingMain>
+            <imagePlacingInfo>gameinfosmall</imagePlacingInfo>
+            <scraper name="thegamesdb.net" replaceKeyString="" replaceValueString="" />
+            <scraper name="archive.vg" replaceKeyString="" replaceValueString="" />
+        </RomCollection>
+         <!-- RomCollection OK -->
+        <RomCollection id="3" name="SNES">
+            <useBuiltinEmulator>False</useBuiltinEmulator>
+            <gameclient />
+            <emulatorCmd>/Path/To/SNES/Emulator</emulatorCmd>
+            <emulatorParams>"%ROM%"</emulatorParams>
+            <romPath>/Path/To/Roms/SNES/*.smc</romPath>
+            <saveStatePath />
+            <saveStateParams />
+            <mediaPath type="boxfront">/Path/To/Roms/SNES/Artwork/boxfront/%GAME%.*</mediaPath>
+            <mediaPath type="boxback">/Path/To/Roms/SNES/Artwork/boxback/%GAME%.*</mediaPath>
+            <mediaPath type="cartridge">/Path/To/Roms/SNES/Artwork/cartridge/%GAME%.*</mediaPath>
+            <mediaPath type="screenshot">/Path/To/Roms/SNES/Artwork/screenshot/%GAME%.*</mediaPath>
+            <mediaPath type="fanart">/Path/To/Roms/SNES/Artwork/fanart/%GAME%.*</mediaPath>
+            <preCmd />
+            <postCmd />
+            <useEmuSolo>False</useEmuSolo>
+            <usePopen>False</usePopen>
+            <ignoreOnScan>False</ignoreOnScan>
+            <allowUpdate>True</allowUpdate>
+            <autoplayVideoMain>True</autoplayVideoMain>
+            <autoplayVideoInfo>True</autoplayVideoInfo>
+            <useFoldernameAsGamename>False</useFoldernameAsGamename>
+            <maxFolderDepth>99</maxFolderDepth>
+            <doNotExtractZipFiles>False</doNotExtractZipFiles>
+            <makeLocalCopy>False</makeLocalCopy>
+            <diskPrefix>_Disk.*</diskPrefix>
+            <imagePlacingMain>gameinfobig</imagePlacingMain>
+            <imagePlacingInfo>gameinfosmall</imagePlacingInfo>
+            <scraper name="thegamesdb.net" replaceKeyString="" replaceValueString="" />
+            <scraper name="archive.vg" replaceKeyString="" replaceValueString="" />
+        </RomCollection>
+    </RomCollections>
+
+    <!-- The following are explicitly referenced in the RomCollections above and need to be specified -->
+
+    <ImagePlacing>
+        <fileTypeFor name="gameinfobig">
+
+        </fileTypeFor>
+        <fileTypeFor name="gameinfosmall">
+
+        </fileTypeFor>
+    </ImagePlacing>
+
+    <FileTypes>
+        <FileType id="1" name="boxfront">
+            <type>image</type>
+            <parent>game</parent>
+        </FileType>
+        <FileType id="2" name="boxback">
+            <type>image</type>
+            <parent>game</parent>
+        </FileType>
+        <FileType id="3" name="cartridge">
+            <type>image</type>
+            <parent>game</parent>
+        </FileType>
+        <FileType id="4" name="screenshot">
+            <type>image</type>
+            <parent>game</parent>
+        </FileType>
+        <FileType id="5" name="fanart">
+            <type>image</type>
+            <parent>game</parent>
+        </FileType>
+    </FileTypes>
+
+    <Scrapers>
+        <Site descFilePerGame="True" name="thegamesdb.net" searchGameByCRC="False">
+            <Scraper parseInstruction="02 - thegamesdb.xml" source="http://thegamesdb.net/api/GetGame.php?name=%GAME%&amp;platform=%PLATFORM%" />
+        </Site>
+        <Site descFilePerGame="True" name="archive.vg" searchGameByCRC="False">
+            <Scraper encoding="iso-8859-1" parseInstruction="05.01 - archive - search.xml" returnUrl="true" source="http://api.archive.vg/2.0/Archive.search/%ARCHIVEAPIKEY%/%GAME%" />
+            <Scraper encoding="iso-8859-1" parseInstruction="05.02 - archive - detail.xml" source="1" />
+        </Site>
+    </Scrapers>
+</config>
