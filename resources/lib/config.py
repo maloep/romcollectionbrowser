@@ -567,8 +567,8 @@ class Config(object):
 			romCollection.diskPrefix = romCollectionRow.findtext('diskPrefix', '')
 
 			# RomCollection bool properties
-			romCollection.allowUpdate = romCollectionRow.findtext('useBuiltinEmulator', '').upper() == 'TRUE'
-			romCollection.allowUpdate = romCollectionRow.findtext('ignoreOnScan', '').upper() == 'TRUE'
+			romCollection.useBuiltinEmulator = romCollectionRow.findtext('useBuiltinEmulator', '').upper() == 'TRUE'
+			romCollection.ignoreOnScan = romCollectionRow.findtext('ignoreOnScan', '').upper() == 'TRUE'
 			romCollection.allowUpdate = romCollectionRow.findtext('allowUpdate', '').upper() == 'TRUE'
 			romCollection.useEmuSolo = romCollectionRow.findtext('useEmuSolo', '').upper() == 'TRUE'
 			romCollection.usePopen = romCollectionRow.findtext('usePopen', '').upper() == 'TRUE'
