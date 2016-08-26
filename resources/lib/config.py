@@ -696,26 +696,26 @@ class Config(object):
 		
 		imagePlacing.name = imagePlacingName
 			
-		imagePlacing.fileTypesForGameList, errorMsg = self.readFileTypeForElement(fileTypeForRow, 'fileTypeForGameList', tree)		
-		imagePlacing.fileTypesForGameListSelected, errorMsg = self.readFileTypeForElement(fileTypeForRow, 'fileTypeForGameListSelected', tree)
-		imagePlacing.fileTypesForMainView1, errorMsg = self.readFileTypeForElement(fileTypeForRow, 'fileTypeForMainView1', tree)
-		imagePlacing.fileTypesForMainView2, errorMsg = self.readFileTypeForElement(fileTypeForRow, 'fileTypeForMainView2', tree)
-		imagePlacing.fileTypesForMainView3, errorMsg = self.readFileTypeForElement(fileTypeForRow, 'fileTypeForMainView3', tree)
-		imagePlacing.fileTypesForMainViewBackground, errorMsg = self.readFileTypeForElement(fileTypeForRow, 'fileTypeForMainViewBackground', tree)
-		imagePlacing.fileTypesForMainViewGameInfoBig, errorMsg = self.readFileTypeForElement(fileTypeForRow, 'fileTypeForMainViewGameInfoBig', tree)
-		imagePlacing.fileTypesForMainViewGameInfoUpperLeft, errorMsg = self.readFileTypeForElement(fileTypeForRow, 'fileTypeForMainViewGameInfoUpperLeft', tree)
-		imagePlacing.fileTypesForMainViewGameInfoUpperRight, errorMsg = self.readFileTypeForElement(fileTypeForRow, 'fileTypeForMainViewGameInfoUpperRight', tree)
-		imagePlacing.fileTypesForMainViewGameInfoLowerLeft, errorMsg = self.readFileTypeForElement(fileTypeForRow, 'fileTypeForMainViewGameInfoLowerLeft', tree)
-		imagePlacing.fileTypesForMainViewGameInfoLowerRight, errorMsg = self.readFileTypeForElement(fileTypeForRow, 'fileTypeForMainViewGameInfoLowerRight', tree)
+		imagePlacing.fileTypesForGameList = self.readFileTypeForElement(fileTypeForRow, 'fileTypeForGameList', tree)
+		imagePlacing.fileTypesForGameListSelected = self.readFileTypeForElement(fileTypeForRow, 'fileTypeForGameListSelected', tree)
+		imagePlacing.fileTypesForMainView1 = self.readFileTypeForElement(fileTypeForRow, 'fileTypeForMainView1', tree)
+		imagePlacing.fileTypesForMainView2 = self.readFileTypeForElement(fileTypeForRow, 'fileTypeForMainView2', tree)
+		imagePlacing.fileTypesForMainView3 = self.readFileTypeForElement(fileTypeForRow, 'fileTypeForMainView3', tree)
+		imagePlacing.fileTypesForMainViewBackground = self.readFileTypeForElement(fileTypeForRow, 'fileTypeForMainViewBackground', tree)
+		imagePlacing.fileTypesForMainViewGameInfoBig = self.readFileTypeForElement(fileTypeForRow, 'fileTypeForMainViewGameInfoBig', tree)
+		imagePlacing.fileTypesForMainViewGameInfoUpperLeft = self.readFileTypeForElement(fileTypeForRow, 'fileTypeForMainViewGameInfoUpperLeft', tree)
+		imagePlacing.fileTypesForMainViewGameInfoUpperRight = self.readFileTypeForElement(fileTypeForRow, 'fileTypeForMainViewGameInfoUpperRight', tree)
+		imagePlacing.fileTypesForMainViewGameInfoLowerLeft = self.readFileTypeForElement(fileTypeForRow, 'fileTypeForMainViewGameInfoLowerLeft', tree)
+		imagePlacing.fileTypesForMainViewGameInfoLowerRight = self.readFileTypeForElement(fileTypeForRow, 'fileTypeForMainViewGameInfoLowerRight', tree)
 		
-		imagePlacing.fileTypesForMainViewGameInfoLower, errorMsg = self.readFileTypeForElement(fileTypeForRow, 'fileTypeForMainViewGameInfoLower', tree)
-		imagePlacing.fileTypesForMainViewGameInfoUpper, errorMsg = self.readFileTypeForElement(fileTypeForRow, 'fileTypeForMainViewGameInfoUpper', tree)
-		imagePlacing.fileTypesForMainViewGameInfoRight, errorMsg = self.readFileTypeForElement(fileTypeForRow, 'fileTypeForMainViewGameInfoRight', tree)
-		imagePlacing.fileTypesForMainViewGameInfoLeft, errorMsg = self.readFileTypeForElement(fileTypeForRow, 'fileTypeForMainViewGameInfoLeft', tree)
+		imagePlacing.fileTypesForMainViewGameInfoLower = self.readFileTypeForElement(fileTypeForRow, 'fileTypeForMainViewGameInfoLower', tree)
+		imagePlacing.fileTypesForMainViewGameInfoUpper = self.readFileTypeForElement(fileTypeForRow, 'fileTypeForMainViewGameInfoUpper', tree)
+		imagePlacing.fileTypesForMainViewGameInfoRight = self.readFileTypeForElement(fileTypeForRow, 'fileTypeForMainViewGameInfoRight', tree)
+		imagePlacing.fileTypesForMainViewGameInfoLeft = self.readFileTypeForElement(fileTypeForRow, 'fileTypeForMainViewGameInfoLeft', tree)
 		
-		imagePlacing.fileTypesForMainViewVideoWindowBig, errorMsg = self.readFileTypeForElement(fileTypeForRow, 'fileTypeForMainViewVideoWindowBig', tree)
-		imagePlacing.fileTypesForMainViewVideoWindowSmall, errorMsg = self.readFileTypeForElement(fileTypeForRow, 'fileTypeForMainViewVideoWindowSmall', tree)
-		imagePlacing.fileTypesForMainViewVideoFullscreen, errorMsg = self.readFileTypeForElement(fileTypeForRow, 'fileTypeForMainViewVideoFullscreen', tree)
+		imagePlacing.fileTypesForMainViewVideoWindowBig = self.readFileTypeForElement(fileTypeForRow, 'fileTypeForMainViewVideoWindowBig', tree)
+		imagePlacing.fileTypesForMainViewVideoWindowSmall = self.readFileTypeForElement(fileTypeForRow, 'fileTypeForMainViewVideoWindowSmall', tree)
+		imagePlacing.fileTypesForMainViewVideoFullscreen = self.readFileTypeForElement(fileTypeForRow, 'fileTypeForMainViewVideoFullscreen', tree)
 			
 		return imagePlacing, ''
 	
@@ -726,11 +726,11 @@ class Config(object):
 				
 			fileType, errorMsg = self.readFileType(fileTypeForControl.text, tree)
 			if fileType is None:
-				return None, errorMsg
+				return None
 						
 			fileTypeList.append(fileType)
 				
-		return fileTypeList, ''
+		return fileTypeList
 	
 	def readMissingFilter(self, filterName, tree):
 		missingFilter = MissingFilter()
