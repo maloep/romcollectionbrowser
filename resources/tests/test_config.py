@@ -30,5 +30,15 @@ class TestConfig(unittest.TestCase):
         self.assertIsInstance(conf.romCollections, dict,
                               u'Expected dict object, was {0}'.format(type(conf.romCollections)))
 
+    def test_ParseValidConfigFileWithAllElements(self):
+        # Load a config file with 2 valid RomCollections and all FileTypes and ImagePlacings
+        config_xml_file = os.path.join(os.path.dirname(__file__), 'testdata', 'romcollections_two_valid.xml')
+        conf = Config(config_xml_file)
+        conf.readXml()
+
+        self.assertIsInstance(conf.romCollections, dict,
+                              u'Expected dict object, was {0}'.format(type(conf.romCollections)))
+
+
 if __name__ == "__main__":
     unittest.main()
