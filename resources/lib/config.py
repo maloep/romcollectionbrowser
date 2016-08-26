@@ -556,31 +556,16 @@ class Config(object):
 				romCollection.imagePlacingInfo = fileTypeFor
 						
 			# RomCollection properties
-			romCollection.gameclient = romCollectionRow.findtext('gameclient', '')
-			romCollection.emulatorCmd = romCollectionRow.findtext('emulatorCmd', '')
-
-			romCollection.preCmd = romCollectionRow.findtext('preCmd', '')
-			romCollection.postCmd = romCollectionRow.findtext('postCmd', '')
-			romCollection.emulatorParams = romCollectionRow.findtext('emulatorParams', '')
-			romCollection.saveStatePath = romCollectionRow.findtext('saveStatePath', '')
-			romCollection.saveStateParams = romCollectionRow.findtext('saveStateParams', '')
-			romCollection.diskPrefix = romCollectionRow.findtext('diskPrefix', '')
+			for var in ['gameclient', 'emulatorCmd', 'preCmd', 'postCmd', 'emulatorParams', 'saveStatePath',
+						'saveStateParams', 'diskPrefix']:
+				romCollection.__setattr__(var, romCollectionRow.findtext(var, ''))
 
 			# RomCollection bool properties
-			romCollection.useBuiltinEmulator = romCollectionRow.findtext('useBuiltinEmulator', '').upper() == 'TRUE'
-			romCollection.ignoreOnScan = romCollectionRow.findtext('ignoreOnScan', '').upper() == 'TRUE'
-			romCollection.allowUpdate = romCollectionRow.findtext('allowUpdate', '').upper() == 'TRUE'
-			romCollection.useEmuSolo = romCollectionRow.findtext('useEmuSolo', '').upper() == 'TRUE'
-			romCollection.usePopen = romCollectionRow.findtext('usePopen', '').upper() == 'TRUE'
-			romCollection.autoplayVideoMain = romCollectionRow.findtext('autoplayVideoMain', '').upper() == 'TRUE'
-			romCollection.autoplayVideoInfo = romCollectionRow.findtext('autoplayVideoInfo', '').upper() == 'TRUE'
-			romCollection.useFoldernameAsGamename = romCollectionRow.findtext('useFoldernameAsGamename', '').upper() == 'TRUE'
-			romCollection.maxFolderDepth = romCollectionRow.findtext('maxFolderDepth', '').upper() == 'TRUE'
-			romCollection.doNotExtractZipFiles = romCollectionRow.findtext('doNotExtractZipFiles', '').upper() == 'TRUE'
-			romCollection.makeLocalCopy = romCollectionRow.findtext('makeLocalCopy', '').upper() == 'TRUE'
-			romCollection.xboxCreateShortcut = romCollectionRow.findtext('xboxCreateShortcut', '').upper() == 'TRUE'
-			romCollection.xboxCreateShortcutAddRomfile = romCollectionRow.findtext('xboxCreateShortcutAddRomfile', '').upper() == 'TRUE'
-			romCollection.xboxCreateShortcutUseShortGamename = romCollectionRow.findtext('xboxCreateShortcutUseShortGamename', '').upper() == 'TRUE'
+			for var in ['useBuiltinEmulator', 'ignoreOnScan', 'allowUpdate', 'useEmuSolo', 'usePopen',
+						'autoplayVideoMain', 'autoplayVideoInfo', 'useFoldernameAsGamename', 'maxFolderDepth',
+						'doNotExtractZipFiles', 'makeLocalCopy', 'xboxCreateShortcut',
+						'xboxCreateShortcutAddRomfile', 'xboxCreateShortcutUseShortGamename']:
+				romCollection.__setattr__(var, romCollectionRow.findtext(var, '').upper() == 'TRUE')
 
 			# Add to dict
 			romCollections[id] = romCollection
@@ -608,11 +593,9 @@ class Config(object):
 		site.name = siteRow.attrib.get('name')
 		Logutil.log('Parsing scraper site: ' +str(site.name), util.LOG_LEVEL_INFO)
 
-		site.descFilePerGame = siteRow.get('descFilePerGame', '').upper() == 'TRUE'
-		site.searchGameByCRC = siteRow.get('searchGameByCRC', '').upper() == 'TRUE'
-		site.searchGameByCRCIgnoreRomName = siteRow.get('searchGameByCRCIgnoreRomName', '').upper() == 'TRUE'
-		site.useFoldernameAsCRC = siteRow.get('useFoldernameAsCRC', '').upper() == 'TRUE'
-		site.useFilenameAsCRC = siteRow.get('useFilenameAsCRC', '').upper() == 'TRUE'
+		for var in ['descFilePerGame', 'searchGameByCRC', 'searchGameByCRCIgnoreRomName',
+					'useFoldernameAsCRC', 'useFilenameAsCRC']:
+			site.__setattr__(var, siteRow.get(var, '').upper() == 'TRUE')
 
 		scrapers = []
 
@@ -643,7 +626,6 @@ class Config(object):
 			scraper.encoding = scraperRow.get('encoding', 'utf-8')
 			scraper.returnUrl = scraperRow.get('returnUrl', '').upper() == 'TRUE'
 			scraper.sourceAppend = scraperRow.get('sourceAppend', '')
-
 				
 			scraper.replaceKeyString = inReplaceKeyString
 			scraper.replaceValueString = inReplaceValueString
