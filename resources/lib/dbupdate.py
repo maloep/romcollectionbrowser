@@ -103,7 +103,9 @@ class DBUpdate:
 				enableFullReimport = True
 			
 			files = self.getRomFilesByRomCollection(romCollection, enableFullReimport)
-			if(len(files) == 0):
+			if len(files) == 0:
+				Logutil.log(u'No files found for rom collection {0}, skipping'.format (romCollection.name),
+							util.LOG_LEVEL_INFO)
 				continue
 			
 			#itemCount is used for percentage in ProgressDialogGUI
@@ -141,35 +143,33 @@ class DBUpdate:
 							
 							#find parsed game in Rom Collection
 							filenamelist = self.matchDescriptionWithRomfiles(firstScraper, result, fileDict, gamenameFromDesc)
+							if filenamelist is None or len(filenamelist) == 0:
+								Logutil.log(u'Game {0} was found in parsed results but not in your rom collection'.format(gamenameFromDesc),
+											util.LOG_LEVEL_WARNING)
+								continue
 		
 							artScrapers = {}
-		
-							if(filenamelist != None and len(filenamelist) > 0):
-																	
-								gamenameFromFile = helper.getGamenameFromFilename(filenamelist[0], romCollection)								
-								foldername = self.getFoldernameFromRomFilename(filenamelist[0])
-								
-								fileCount = fileCount +1
-								
-								continueUpdate = gui.writeMsg(progDialogRCHeader, util.localize(32123) +": " +str(gamenameFromDesc), "", fileCount)
-								if(not continueUpdate):				
-									Logutil.log('Game import canceled by user', util.LOG_LEVEL_INFO)
-									break
-								
-								Logutil.log('Start scraping info for game: ' +str(gamenameFromFile), LOG_LEVEL_INFO)
-															
-								#check if this file already exists in DB
-								continueUpdate, isUpdate, gameId = self.checkRomfileAlreadyExists(filenamelist[0], enableFullReimport, False)
-								if(not continueUpdate):
-									continue
-								
-								#use additional scrapers
-								if(len(romCollection.scraperSites) > 1):
-									result, artScrapers = self.useSingleScrapers(result, romCollection, 1, gamenameFromFile, foldername, filenamelist[0], updateOption, gui, progDialogRCHeader, fileCount)
-								
-							else:
-								Logutil.log("game " +gamenameFromDesc +" was found in parsed results but not in your rom collection.", util.LOG_LEVEL_WARNING)								
-								continue						
+
+							gamenameFromFile = helper.getGamenameFromFilename(filenamelist[0], romCollection)
+							foldername = self.getFoldernameFromRomFilename(filenamelist[0])
+
+							fileCount = fileCount +1
+
+							continueUpdate = gui.writeMsg(progDialogRCHeader, util.localize(32123) +": " +str(gamenameFromDesc), "", fileCount)
+							if(not continueUpdate):
+								Logutil.log('Game import canceled by user', util.LOG_LEVEL_INFO)
+								break
+
+							Logutil.log('Start scraping info for game: ' +str(gamenameFromFile), LOG_LEVEL_INFO)
+
+							#check if this file already exists in DB
+							continueUpdate, isUpdate, gameId = self.checkRomfileAlreadyExists(filenamelist[0], enableFullReimport, False)
+							if(not continueUpdate):
+								continue
+
+							#use additional scrapers
+							if(len(romCollection.scraperSites) > 1):
+								result, artScrapers = self.useSingleScrapers(result, romCollection, 1, gamenameFromFile, foldername, filenamelist[0], updateOption, gui, progDialogRCHeader, fileCount)
 							
 							dialogDict = {'dialogHeaderKey':progDialogRCHeader, 'gameNameKey':gamenameFromFile, 'scraperSiteKey':artScrapers, 'fileCountKey':fileCount}
 							gameId, continueUpdate = self.insertGameFromDesc(result, gamenameFromFile, romCollection, filenamelist, foldername, isUpdate, gameId, gui, False, dialogDict)
