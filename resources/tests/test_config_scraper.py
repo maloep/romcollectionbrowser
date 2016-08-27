@@ -26,10 +26,10 @@ class TestScraper(unittest.TestCase):
         config_xml_file = os.path.join(os.path.dirname(__file__), '..', 'database', 'config_template.xml')
         conf = Config(config_xml_file)
         conf.initXml()
-        #self.assertTrue(conf is None, u'Expected conf to be none')
 
         sites, msg = conf.readScrapers(conf.tree)
-        self.assertIsInstance(sites, dict, u'Expected list object, was {0}'.format(type(sites)))
+
+        self.assertIsInstance(sites, dict, u'Expected dict object, was {0}'.format(type(sites)))
 
         l = len(sites)
         self.assertTrue(l == 6, u'Expected multiple scraper sites, found {0}'.format(l))
