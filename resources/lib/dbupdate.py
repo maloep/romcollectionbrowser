@@ -29,6 +29,16 @@ class DBUpdate:
 	
 	def __init__(self):
 		Logutil.log("init DBUpdate", util.LOG_LEVEL_INFO)
+
+		# Set the fuzzy factor before scraping
+		matchingRatioIndex = self.Settings.getSetting(util.SETTING_RCB_FUZZYFACTOR)
+		if matchingRatioIndex == '':
+			matchingRatioIndex = 2
+		Logutil.log("matchingRatioIndex: " +str(matchingRatioIndex), util.LOG_LEVEL_INFO)
+
+		self.fuzzyFactor = util.FUZZY_FACTOR_ENUM[int(matchingRatioIndex)]
+		Logutil.log("fuzzyFactor: " +str(self.fuzzyFactor), util.LOG_LEVEL_INFO)
+
 		pass
 		
 	
@@ -45,16 +55,6 @@ class DBUpdate:
 		
 		Logutil.log("Iterating Rom Collections", util.LOG_LEVEL_INFO)
 		rccount = 1
-		
-		#get fuzzyFactor before scraping
-		matchingRatioIndex = self.Settings.getSetting(util.SETTING_RCB_FUZZYFACTOR)
-		if (matchingRatioIndex == ''):
-			matchingRatioIndex = 2
-		matchingRatioIndex = self.Settings.getSetting(util.SETTING_RCB_FUZZYFACTOR)
-		Logutil.log("matchingRatioIndex: " +str(matchingRatioIndex), util.LOG_LEVEL_INFO)
-		
-		fuzzyFactor = util.FUZZY_FACTOR_ENUM[int(matchingRatioIndex)]
-		Logutil.log("fuzzyFactor: " +str(fuzzyFactor), util.LOG_LEVEL_INFO)
 		
 		#always do full reimports when in rescrape-mode 
 		enableFullReimport = isRescrape or self.Settings.getSetting(util.SETTING_RCB_ENABLEFULLREIMPORT).upper() == 'TRUE'
@@ -165,7 +165,7 @@ class DBUpdate:
 								
 								#use additional scrapers
 								if(len(romCollection.scraperSites) > 1):
-									result, artScrapers = self.useSingleScrapers(result, romCollection, 1, gamenameFromFile, foldername, filenamelist[0], fuzzyFactor, updateOption, gui, progDialogRCHeader, fileCount)
+									result, artScrapers = self.useSingleScrapers(result, romCollection, 1, gamenameFromFile, foldername, filenamelist[0], updateOption, gui, progDialogRCHeader, fileCount)
 								
 							else:
 								Logutil.log("game " +gamenameFromDesc +" was found in parsed results but not in your rom collection.", util.LOG_LEVEL_WARNING)								
@@ -272,7 +272,7 @@ class DBUpdate:
 																		
 						artScrapers = {} 
 						if(not isLocalArtwork):
-							results, artScrapers = self.useSingleScrapers(results, romCollection, 0, gamenameFromFile, foldername, filename, fuzzyFactor, updateOption, gui, progDialogRCHeader, fileCount)
+							results, artScrapers = self.useSingleScrapers(results, romCollection, 0, gamenameFromFile, foldername, filename, updateOption, gui, progDialogRCHeader, fileCount)
 												
 						if(len(results) == 0):
 							#lastgamename = ""
@@ -577,7 +577,7 @@ class DBUpdate:
 		return True, isUpdate, gameId
 		
 				
-	def useSingleScrapers(self, result, romCollection, startIndex, gamenameFromFile, foldername, firstRomfile, fuzzyFactor, updateOption, gui, progDialogRCHeader, fileCount):
+	def useSingleScrapers(self, result, romCollection, startIndex, gamenameFromFile, foldername, firstRomfile, updateOption, gui, progDialogRCHeader, fileCount):
 		
 		filecrc = ''
 		artScrapers = {}
@@ -595,7 +595,7 @@ class DBUpdate:
 			doContinue = False
 			for scraper in scraperSite.scrapers:
 				pyScraper = PyScraper()
-				result, urlsFromPreviousScrapers, doContinue = pyScraper.scrapeResults(result, scraper, urlsFromPreviousScrapers, gamenameFromFile, foldername, filecrc, firstRomfile, fuzzyFactor, updateOption, romCollection, self.Settings)
+				result, urlsFromPreviousScrapers, doContinue = pyScraper.scrapeResults(result, scraper, urlsFromPreviousScrapers, gamenameFromFile, foldername, filecrc, firstRomfile, self.fuzzyFactor, updateOption, romCollection, self.Settings)
 				del pyScraper
 			if(doContinue):
 				continue
