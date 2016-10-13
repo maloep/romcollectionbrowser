@@ -432,11 +432,10 @@ class DBUpdate:
 		dirs, newFiles, dirname, filemask = self.getFilesByWildcardExt(romPath)
 		files.extend(newFiles)
 		
-		for dir in dirs:
-			newRomPath = util.joinPath(dirname, dir, filemask)
-			maxFolderDepth = maxFolderDepth -1
-			if(maxFolderDepth > 0):
-				self.walkDown(files, newRomPath, maxFolderDepth)
+		if(maxFolderDepth > 0):
+			for dir in dirs:
+				newRomPath = util.joinPath(dirname, dir, filemask)
+				self.walkDown(files, newRomPath, (maxFolderDepth -1))
 					
 		return files
 			
