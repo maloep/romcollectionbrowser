@@ -104,6 +104,8 @@ class DBUpdate:
 			
 			files = self.getRomFilesByRomCollection(romCollection, enableFullReimport)
 			if(len(files) == 0):
+				Logutil.log(u'No files found for rom collection {0}, skipping'.format(romCollection.name),
+							util.LOG_LEVEL_INFO)
 				continue
 			
 			#itemCount is used for percentage in ProgressDialogGUI
@@ -772,7 +774,7 @@ class DBUpdate:
 			if(not isLocalArtwork):
 				continueUpdate, artworkurls = self.getThumbFromOnlineSource(gamedescription, path.fileType.name, fileName, gui, dialogDict, artworkurls)
 				if(not continueUpdate):
-					return None, False
+					return False, artworkfiles, artworkurls
 			
 			Logutil.log("Additional data path: " +str(path.path), util.LOG_LEVEL_DEBUG)
 			files = self.resolvePath((path.path,), gamename, gamenameFromFile, foldername, romCollection.name, publisher, developer)
@@ -1172,8 +1174,8 @@ class DBUpdate:
 				try:
 					xbmcvfs.mkdir(parent)					
 				except Exception, (exc):
-					xbmcgui.Dialog().ok(util.localize(32010), util.localize(32011))
 					Logutil.log("Could not create directory: '%s'. Error message: '%s'" %(parent, str(exc)), util.LOG_LEVEL_ERROR)
+					xbmcgui.Dialog().ok(util.localize(32010), util.localize(32011))
 					return False, artworkurls
 				del parent
 				
@@ -1182,8 +1184,8 @@ class DBUpdate:
 				try:
 					xbmcvfs.mkdir(dirname)
 				except Exception, (exc):
-					xbmcgui.Dialog().ok(util.localize(32010), util.localize(32011))
 					Logutil.log("Could not create directory: '%s'. Error message: '%s'" %(dirname, str(exc)), util.LOG_LEVEL_ERROR)
+					xbmcgui.Dialog().ok(util.localize(32010), util.localize(32011))
 					del dirname
 					return False, artworkurls
 				
@@ -1224,7 +1226,6 @@ class DBUpdate:
 						xbmcvfs.delete(target)
 						
 				except Exception, (exc):
-					xbmcgui.Dialog().ok(util.localize(32012), util.localize(32011))
 					Logutil.log("Could not create file: '%s'. Error message: '%s'" %(str(fileName), str(exc)), util.LOG_LEVEL_ERROR)
 					return False, artworkurls
 				
