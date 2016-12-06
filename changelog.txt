@@ -1,3 +1,24 @@
+2.1.3 (12/2016)
+~~~~~~~~~~~~~
+General:
+  * migrated from google code to github
+  * fix encodings in various places (aquiles2k)
+  * changed isfile to xbmcvfs.exists (jloper3)
+  * Modify scrapers and add test cases (bruny)
+  * Set column as TEXT in Publishers table (bruny)
+  * fix for Max folder depth bug (martyn-harris)
+  * remove perspective field from moby scraper (martyn-harris)
+  * add Mac OSX section in emu autoconfig (bruny)
+  * fixes and improvements to scrape and db update process (bruny)
+  * refactoring of config objects (bruny)
+
+UI:
+  * fix game boy advance platform config (aquiles2k)
+  * fix for filter headers (aquiles2k)
+  * fix for radio buttons (aquiles2k)
+  * fix gameinfo ui for non-confluence skins (aquiles2k)
+  
+
 2.1.2 (02/2015)
 ~~~~~~~~~~~~~
 General:
