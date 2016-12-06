@@ -35,17 +35,6 @@
 				</configuration>
 			</emulator>
 		</platform>
-		<platform name="Atari 7800">
-			<emulator name="Prosystem (RetroArch)">
-				<detectionMethod name="packagename">
-					<packagename>package:com.retroarch</packagename>
-				</detectionMethod>
-				<configuration>
-					<emulatorCommand>/system/bin/am</emulatorCommand>
-					<emulatorParams>start --user 0 -a android.intent.action.MAIN -c android.intent.category.LAUNCHER -e ROM "%rom%" -e LIBRETRO /data/data/com.retroarch/cores/prosystem_libretro_android.so -e CONFIGFILE /data/data/com.retroarch/retroarch.cfg -e IME com.android.inputmethod.latin/.LatinIME -n com.retroarch/.browser.retroactivity.RetroActivityFuture</emulatorParams>
-				</configuration>
-			</emulator>
-		</platform>
 		<platform name="Commodore 64">
 			<alias>C64</alias>
 			<emulator name="C64.emu">
@@ -196,7 +185,7 @@
 			</emulator>
 		</platform>
 		<platform name="Genesis">
-			<alias>Sega Genesis</alias>	
+			<alias>Sega Genesis</alias>    
 			<emulator name="Genesis Plus GX (RetroArch)">
 				<detectionMethod name="packagename">
 					<packagename>package:com.retroarch</packagename>
@@ -223,7 +212,7 @@
 					<emulatorCommand>/system/bin/am</emulatorCommand>
 					<emulatorParams>start --user 0 -n com.androidemu.gens/.EmulatorActivity -a android.intent.action.VIEW -eu Uri "file://%rom%"</emulatorParams>
 				</configuration>
-			</emulator>		
+			</emulator>        
 			<emulator name="MD.emu">
 				<detectionMethod name="packagename">
 					<packagename>package:com.explusalpha.MdEmu</packagename>
@@ -352,7 +341,7 @@
 					<emulatorCommand>/system/bin/am</emulatorCommand>
 					<emulatorParams>start --user 0 -a android.intent.action.MAIN -c android.intent.category.LAUNCHER -e ROM "%rom%" -e LIBRETRO /data/data/com.retroarch/cores/nestopia_libretro_android.so -e CONFIGFILE /data/data/com.retroarch/retroarch.cfg -e IME com.android.inputmethod.latin/.LatinIME -n com.retroarch/.browser.retroactivity.RetroActivityFuture</emulatorParams>
 				</configuration>
-			</emulator>	   
+			</emulator>       
 			<emulator name="QuickNES (RetroArch)">
 				<detectionMethod name="packagename">
 					<packagename>package:com.retroarch</packagename>
@@ -686,7 +675,7 @@
 					<emulatorParams>start --user 0 -a android.intent.action.MAIN -c android.intent.category.LAUNCHER -e ROM "%rom%" -e LIBRETRO /data/data/com.retroarch/cores/mednafen_wswan_libretro_android.so -e CONFIGFILE /data/data/com.retroarch/retroarch.cfg -e IME com.android.inputmethod.latin/.LatinIME -n com.retroarch/.browser.retroactivity.RetroActivityFuture</emulatorParams>
 				</configuration>
 			</emulator>
-		</platform>	  
+		</platform>      
 		<platform name="WonderSwan Color">
 			<emulator name="Mednafen WonderSwan (RetroArch)">
 				<detectionMethod name="packagename">
@@ -698,19 +687,9 @@
 				</configuration>
 			</emulator>
 		</platform>
-		<platform name="ZX Spectrum">
-			<emulator name="Fuse (RetroArch)">
-				<detectionMethod name="packagename">
-					<packagename>package:com.retroarch</packagename>
-				</detectionMethod>
-				<configuration>
-					<emulatorCommand>/system/bin/am</emulatorCommand>
-					<emulatorParams>start --user 0 -a android.intent.action.MAIN -c android.intent.category.LAUNCHER -e ROM "%rom%" -e LIBRETRO /data/data/com.retroarch/cores/fuse_libretro_android.so -e CONFIGFILE /data/data/com.retroarch/retroarch.cfg -e IME com.android.inputmethod.latin/.LatinIME -n com.retroarch/.browser.retroactivity.RetroActivityFuture</emulatorParams>
-				</configuration>
-			</emulator>
-		</platform>
-	</os>
+	</os> 
 	<os name="Windows">
+		<!-- FIXME TODO registry and commonFolders not implemented yet -->
 		<detectionMethods>
 			<detectionMethod name="registry"/>
 			<detectionMethod name="commonFolders"/>
@@ -722,7 +701,7 @@
 		</platform>
 	</os>
 	<os name="Linux">
-		<detectionMethods>	  
+		<detectionMethods>      
 			<detectionMethod name="commonFolders"/>
 			<detectionMethod name="packagename"/>
 		</detectionMethods>
@@ -732,12 +711,11 @@
 		<platform name="SNES">
 		</platform>
 	</os>
-		<os name="OSX">
-		<!-- Set the generic method of detection on OSX to be listing the files in /Applications.
-		     Note that the emulator name is case-sensitive
-		  -->
+	<os name="OSX">
+		<!-- Set the generic method of detection on OSX to be listing the files in /Applications. -->
 		<detectionMethods>
 			<detectionMethod name="packagename">
+				<!-- FIXME TODO In the test XML, set the /Applications/ dir to a temp one so we can actually interrogate it properly -->
 				<command>ls -1 /Applications</command>
 			</detectionMethod>
 		</detectionMethods>
@@ -762,17 +740,6 @@
 				</configuration>
 			</emulator>
 		</platform>
-		<platform name="NES">
-			<emulator name="bnes (RetroArch)">
-				<detectionMethod name="packagename">
-					<packagename>RetroArch.app</packagename>
-				</detectionMethod>
-				<configuration>
-					<emulatorCommand>/Applications/RetroArch.app/Contents/MacOS/RetroArch</emulatorCommand>
-					<emulatorParams>-v -L /Applications/RetroArch.app/Contents/Resources/cores/bnes_libretro.dylib "%rom%"</emulatorParams>
-				</configuration>
-			</emulator>
-		</platform>
 		<platform name="SNES">
 			<emulator name="SNES9x (RetroArch)">
 				<detectionMethod name="packagename">
@@ -784,7 +751,7 @@
 				</configuration>
 			</emulator>
 		</platform>
-		<platform name="PlayStation">
+		<platform name="Playstation">
 			<emulator name="Mednafen (RetroArch)">
 				<detectionMethod name="packagename">
 					<packagename>RetroArch.app</packagename>

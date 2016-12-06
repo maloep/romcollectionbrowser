@@ -47,7 +47,6 @@ class TestScrapers(unittest.TestCase):
 
         self.assertEqual(results[0].get('Game')[0], "Metal Head")
         self.assertEqual(results[0].get('Developer')[0], "SEGA&nbsp;Enterprises&nbsp;Ltd.")
-        self.assertEqual(results[0].get('Perspective')[0], "1st-person")
         self.assertEqual(results[0].get('ReleaseYear')[0], "1994")
         self.assertEqual(results[0].get('Publisher')[0], "SEGA&nbsp;of&nbsp;America,&nbsp;Inc.")
 
@@ -181,8 +180,8 @@ class TestScrapers(unittest.TestCase):
 
         # This will throw a HTTPError which we need to handle (currently the code doesn't handle it)
         parser = DescriptionParserFactory().getParser(parseInstruction)
-        self.assertRaises(HTTPError, parser.parseDescription, descFile, 'utf-8',
-                          "Expected 404 response from unavailable site archive.vg")
+        self.assertRaises(HTTPError, parser.parseDescription, descFile, 'utf-8')
+                          #"Expected 404 response from unavailable site archive.vg")
 
 
     def test_ContentNotFound404_MAWS(self):
