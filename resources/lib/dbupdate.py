@@ -542,12 +542,10 @@ class DBUpdate:
 			
 		try:
 			filename = fileDict[key]
+			Logutil.log("result found: " +str(filename), util.LOG_LEVEL_INFO)
 		except:
 			filename = None
-			
-		if (filename != None):
-			Logutil.log("result found: " +str(filename), util.LOG_LEVEL_INFO)				
-		
+
 		return filename
 	
 	
