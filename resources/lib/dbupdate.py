@@ -110,10 +110,8 @@ class DBUpdate:
 			
 			#itemCount is used for percentage in ProgressDialogGUI
 			gui.itemCount = len(files) +1
-			
-			#check if first scraper is a multigame scraper
-			if(not firstScraper.descFilePerGame):
-				
+
+			if firstScraper.is_multigame_scraper:
 				#build file hash tables	(key = gamename or crc, value = romfiles)			
 				Logutil.log("Start building file dict", util.LOG_LEVEL_INFO)
 				fileDict = self.buildFileDict(gui, progDialogRCHeader, files, romCollection, firstScraper)

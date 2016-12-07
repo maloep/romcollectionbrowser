@@ -258,6 +258,8 @@ class Site(object):
 	"""
 	def __init__(self):
 		self.name = ''
+		# Used if the source for the game metadata is contained in a single file
+		# (e.g. MAME history.dat file) or in multiple files/web URL
 		self.descFilePerGame = False
 		self.searchGameByCRC = True
 		self.searchGameByCRCIgnoreRomName = False
@@ -268,6 +270,9 @@ class Site(object):
 
 	def __repr__(self):
 		return "<Site: %s>" % self.__dict__
+
+	def is_multigame_scraper(self):
+		return not self.descFilePerGame
 	
 
 class MissingFilter(object):
