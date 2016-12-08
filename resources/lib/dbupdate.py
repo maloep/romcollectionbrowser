@@ -98,7 +98,7 @@ class DBUpdate:
 			firstScraper = romCollection.scraperSites[0]
 			
 			#check if we are in local artwork mode
-			if(len(romCollection.scraperSites) == 1 and firstScraper.name == util.localize(32153)):
+			if(len(romCollection.scraperSites) == 1 and firstScraper.is_localartwork_scraper()):
 				Logutil.log("Forcing enableFullReimport because we are in local artwork mode", util.LOG_LEVEL_INFO)
 				enableFullReimport = True
 			

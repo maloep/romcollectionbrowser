@@ -273,6 +273,9 @@ class Site(object):
 
 	def is_multigame_scraper(self):
 		return not self.descFilePerGame
+
+	def is_localartwork_scraper(self):
+		return self.name == util.localize(32153)
 	
 
 class MissingFilter(object):
