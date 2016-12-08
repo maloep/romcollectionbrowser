@@ -98,7 +98,7 @@ class DBUpdate:
 			firstScraper = romCollection.scraperSites[0]
 			
 			#check if we are in local artwork mode
-			if(len(romCollection.scraperSites) == 1 and firstScraper.is_localartwork_scraper()):
+			if len(romCollection.scraperSites) == 1 and firstScraper.is_localartwork_scraper():
 				Logutil.log("Forcing enableFullReimport because we are in local artwork mode", util.LOG_LEVEL_INFO)
 				enableFullReimport = True
 			
@@ -257,11 +257,10 @@ class DBUpdate:
 							Logutil.log('Game import canceled by user', util.LOG_LEVEL_INFO)
 							break
 						
-						#check if we are in local artwork mode
-						isLocalArtwork = (firstScraper.name == util.localize(32153))
-						
 						#check if this file already exists in DB
-						continueUpdate, isUpdate, gameId = self.checkRomfileAlreadyExists(filename, enableFullReimport, isLocalArtwork)
+						continueUpdate, isUpdate, gameId = self.checkRomfileAlreadyExists(filename,
+																						  enableFullReimport,
+																						  firstScraper.is_localartwork_scraper())
 						if(not continueUpdate):
 							continue										
 						
@@ -269,23 +268,20 @@ class DBUpdate:
 						foldername = self.getFoldernameFromRomFilename(filename)
 																		
 						artScrapers = {} 
-						if(not isLocalArtwork):
+						if not firstScraper.is_localartwork_scraper():
 							results, artScrapers = self.useSingleScrapers(results, romCollection, 0, gamenameFromFile, foldername, filename, updateOption, gui, progDialogRCHeader, fileCount)
 												
 						if(len(results) == 0):
 							#lastgamename = ""
 							results = None
-						
-						filenamelist = []
-						filenamelist.append(filename)
 	
 						#Variables to process Art Download Info
 						dialogDict = {'dialogHeaderKey':progDialogRCHeader, 'gameNameKey':gamenameFromFile, 'scraperSiteKey':artScrapers, 'fileCountKey':fileCount}
 						del artScrapers
 												
 						#Add 'gui' and 'dialogDict' parameters to function
-						lastGameId, continueUpdate = self.insertGameFromDesc(results, gamenameFromFile, romCollection, filenamelist, foldername, isUpdate, gameId, gui, isLocalArtwork, dialogDict)
-						del results, foldername, filenamelist, dialogDict
+						lastGameId, continueUpdate = self.insertGameFromDesc(results, gamenameFromFile, romCollection, [filename], foldername, isUpdate, gameId, gui, firstScraper.is_localartwork_scraper(), dialogDict)
+						del results, foldername, dialogDict
 						
 						if (not continueUpdate):
 							break
