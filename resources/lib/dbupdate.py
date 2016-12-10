@@ -170,11 +170,14 @@ class DBUpdate:
 				Logutil.log(u'No files found for rom collection {0}, skipping'.format (romCollection.name),
 							util.LOG_LEVEL_INFO)
 				continue
+			else:
+				Logutil.log(u'Found {0} game files for rom collection {1}'.format(len(files), romCollection.name),
+							util.LOG_LEVEL_INFO)
 			
 			#itemCount is used for percentage in ProgressDialogGUI
 			gui.itemCount = len(files) +1
 
-			if firstScraper.is_multigame_scraper:
+			if firstScraper.is_multigame_scraper():
 				#build file hash tables	(key = gamename or crc, value = romfiles)			
 				Logutil.log("Start building file dict", util.LOG_LEVEL_INFO)
 				fileDict = self.buildFileDict(gui, progDialogRCHeader, files, romCollection, firstScraper)
