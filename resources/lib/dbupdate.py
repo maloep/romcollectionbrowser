@@ -25,13 +25,78 @@ except:
 	Logutil.log("Error while loading zlib library. You won't be able to import games using crc values (only used when importing offline game descriptions).", util.LOG_LEVEL_WARNING)
 
 
+class UpdateLogFile(object):
+	_fname = ''
+	_header = ''
+
+	def __init__(self):
+		with open(self.fname, mode='w') as fh:
+			fh.write("{0}\n".format(self._header))
+		return
+
+	@property
+	def logfile_dir(self):
+		return util.getAddonDataPath()
+
+	@property
+	def fname(self):
+		return os.path.join(self.logfile_dir, self._fname)
+
+	def add_header(self, rcname):
+		with open(self.fname, mode='a') as fh:
+			fh.write('\n~~~~~~~~~~~~~~~~~~~~~~~~\n{0}\n~~~~~~~~~~~~~~~~~~~~~~~~\n'.format(rcname))
+
+	def add_entry(self, gamename, filename=None):
+		if filename is None:
+			msg = '{0}\n'.format(gamename)
+		else:
+			msg = '{0}, {1}\n'.format(gamename, filename)
+		with open(self.fname, mode='a') as fh:
+			fh.write(msg)
+
+
+class ScrapeResultsLogFile(UpdateLogFile):
+	_fname = u'scrapeResults.txt'
+	_header = u'Scrape Results\n=============='
+
+
+class MissingDescLogFile(UpdateLogFile):
+	_fname = u'scrapeResult_missingDesc.txt'
+	_header = u'Missing Descriptions\n===================='
+
+
+class MissingArtworkLogFile(UpdateLogFile):
+	_fname = u'scrapeResult_missingArtwork.txt'
+	_header = u'Missing Artwork\n=============='
+
+	def add_entry(self, gamename, filename=None, pathtype=None):
+		if filename is None:
+			msg = '--> No artwork found for game "{0}". Game will not be imported.\n'.format(gamename)
+		else:
+			msg = '{0} (filename: {1}) ({2})\n'.format(gamename, filename, pathtype)
+
+		with open(self.fname, mode='a') as fh:
+			fh.write(msg)
+
+
+class MismatchLogFile(UpdateLogFile):
+	_fname = u'scrapeResult_possibleMismatches.txt'
+	_header = u'Possible Mismatches\n===================\n\n'
+
+	def add_header(self, rcname):
+		with open(self.fname, mode='w') as fh:
+			fh.write('~~~~~~~~~~~~~~~~~~~~~~~~\n{0}\n~~~~~~~~~~~~~~~~~~~~~~~~\n'.format(rcname))
+			fh.write('gamename, filename\n')
+
+
 class DBUpdate:
 	
 	def __init__(self):
 		Logutil.log("init DBUpdate", util.LOG_LEVEL_INFO)
 
 		# Set the fuzzy factor before scraping
-		matchingRatioIndex = self.Settings.getSetting(util.SETTING_RCB_FUZZYFACTOR)
+		#matchingRatioIndex = self.Settings.getSetting(util.SETTING_RCB_FUZZYFACTOR)
+		matchingRatioIndex = 0
 		if matchingRatioIndex == '':
 			matchingRatioIndex = 2
 		Logutil.log("matchingRatioIndex: " +str(matchingRatioIndex), util.LOG_LEVEL_INFO)
@@ -39,17 +104,16 @@ class DBUpdate:
 		self.fuzzyFactor = util.FUZZY_FACTOR_ENUM[int(matchingRatioIndex)]
 		Logutil.log("fuzzyFactor: " +str(self.fuzzyFactor), util.LOG_LEVEL_INFO)
 
+		#self.scrapeResultsFile = ScrapeResultsLogFile()
+		self.missingDescFile = MissingDescLogFile()
+		self.missingArtworkFile = MissingArtworkLogFile()
+		self.possibleMismatchFile = MismatchLogFile()
+
 		pass
-		
 	
 	def updateDB(self, gdb, gui, updateOption, romCollections, settings, isRescrape):
 		self.gdb = gdb
 		self.Settings = settings
-			
-		#self.scrapeResultsFile = self.openFile(os.path.join(util.getAddonDataPath(), 'scrapeResults.txt'))
-		self.missingDescFile = self.openFile(os.path.join(util.getAddonDataPath(), u'scrapeResult_missingDesc.txt'))
-		self.missingArtworkFile = self.openFile(os.path.join(util.getAddonDataPath(), u'scrapeResult_missingArtwork.txt'))
-		self.possibleMismatchFile = self.openFile(os.path.join(util.getAddonDataPath(), u'scrapeResult_possibleMismatches.txt'))
 		
 		Logutil.log("Start Update DB", util.LOG_LEVEL_INFO)
 		
@@ -78,12 +142,6 @@ class DBUpdate:
 			rccount = rccount + 1
 			
 			Logutil.log("current Rom Collection: " +romCollection.name, util.LOG_LEVEL_INFO)
-			
-			#self.scrapeResultsFile.write('~~~~~~~~~~~~~~~~~~~~~~~~\n' +romCollection.name +'\n' +'~~~~~~~~~~~~~~~~~~~~~~~~\n')
-			self.missingDescFile.write('~~~~~~~~~~~~~~~~~~~~~~~~\n' +romCollection.name +'\n' +'~~~~~~~~~~~~~~~~~~~~~~~~\n')
-			self.missingArtworkFile.write('~~~~~~~~~~~~~~~~~~~~~~~~\n' +romCollection.name +'\n' +'~~~~~~~~~~~~~~~~~~~~~~~~\n')
-			self.possibleMismatchFile.write('~~~~~~~~~~~~~~~~~~~~~~~~\n' +romCollection.name +'\n' +'~~~~~~~~~~~~~~~~~~~~~~~~\n')
-			self.possibleMismatchFile.write('gamename, filename\n')
 
 			#Read settings for current Rom Collection
 			Logutil.log("ignoreOnScan: " +str(romCollection.ignoreOnScan), util.LOG_LEVEL_INFO)
@@ -191,34 +249,17 @@ class DBUpdate:
 							Logutil.log("an error occured while adding game " +gamenameFromDesc, util.LOG_LEVEL_WARNING)
 							Logutil.log("Error: " +str(exc), util.LOG_LEVEL_WARNING)
 							continue
-						
-						#flush files every x games. Trying to free some memory.
-						if(fileCount % 50 == 0):
-							Logutil.log("Flushing files", util.LOG_LEVEL_INFO)
-							try:
-								self.missingArtworkFile.flush()
-								self.missingDescFile.flush()
-								self.possibleMismatchFile.flush()
-							except Exception, (exc):
-								Logutil.log("Error flushing files: " +str(exc), util.LOG_LEVEL_WARNING)
-								pass
-					
 					
 					#all files still available files-list, are missing entries
 					for filename in files:
 						gamenameFromFile = helper.getGamenameFromFilename(filename, romCollection)
-						try:
-							self.missingDescFile.write('%s\n' %gamenameFromFile)
-						except:
-							self.missingDescFile.write('%s\n' %gamenameFromFile.encode('utf-8'))
+						self.missingDescFile.add_entry(gamenameFromFile)
 							
 				except Exception, (exc):
 					Logutil.log("an error occured while adding game " +gamenameFromDesc, util.LOG_LEVEL_WARNING)
 					Logutil.log("Error: " +str(exc), util.LOG_LEVEL_WARNING)
-					try:
-						self.missingDescFile.write('%s\n' %gamenameFromDesc)
-					except:
-						self.missingDescFile.write('%s\n' %gamenameFromDesc.encode('utf-8'))
+					self.missingDescFile.add_entry(gamenameFromDesc)
+
 					continue
 			else:
 				
@@ -302,25 +343,12 @@ class DBUpdate:
 								xbmcgui.Dialog().ok(util.SCRIPTNAME, util.localize(32128), util.localize(32129))
 								continueUpdate = False
 								break
-													
-						#flush files every x games. Trying to free some memory.
-						if(fileCount % 50 == 0):
-							Logutil.log("Flushing files", util.LOG_LEVEL_INFO)
-							try:
-								self.missingArtworkFile.flush()
-								self.missingDescFile.flush()
-								self.possibleMismatchFile.flush()
-							except Exception, (exc):
-								Logutil.log("Error flushing files: " +str(exc), util.LOG_LEVEL_WARNING)
-								pass
 					
 					except Exception, (exc):
 						Logutil.log("an error occured while adding game " +gamenameFromFile, util.LOG_LEVEL_WARNING)
 						Logutil.log("Error: " +str(exc), util.LOG_LEVEL_WARNING)
-						try:
-							self.missingDescFile.write('%s\n' %gamenameFromFile)
-						except:
-							self.missingDescFile.write('%s\n' %gamenameFromFile.encode('utf-8'))
+						self.missingDescFile.add_entry(gamenameFromFile)
+
 						continue
 					
 					
@@ -611,13 +639,10 @@ class DBUpdate:
 			game = self.resolveParseResult(gamedescription, 'Game')
 		else:
 			if(not isLocalArtwork):
-				try:
-					self.missingDescFile.write('%s\n' %gamename)
-				except:
-					self.missingDescFile.write('%s\n' %gamename.encode('utf-8'))
 			
 				ignoreGameWithoutDesc = self.Settings.getSetting(util.SETTING_RCB_IGNOREGAMEWITHOUTDESC).upper() == 'TRUE'
 				if(ignoreGameWithoutDesc):
+				self.missingDescFile.add_entry(gamename)
 					Logutil.log('No description found for game "%s". Game will not be imported.' %gamename, util.LOG_LEVEL_WARNING)
 					return None, True
 			game = ''
@@ -683,10 +708,8 @@ class DBUpdate:
 		if(gamedescription != None):
 			gamename = self.resolveParseResult(gamedescription, 'Game')
 			if(gamename != gamenameFromFile):
-				try:
-					self.possibleMismatchFile.write('%s, %s\n' %(gamename, gamenameFromFile))
-				except:
-					self.possibleMismatchFile.write('%s, %s\n' %(gamename.encode('utf-8'), gamenameFromFile.encode('utf-8')))
+				self.possibleMismatchFile.add_entry(gamename, gamenameFromFile)
+
 			if(gamename == ""):
 				gamename = gamenameFromFile
 		else:
@@ -698,10 +721,7 @@ class DBUpdate:
 			ignoreGamesWithoutArtwork = self.Settings.getSetting(util.SETTING_RCB_IGNOREGAMEWITHOUTARTWORK).upper() == 'TRUE'
 			if(ignoreGamesWithoutArtwork):								
 				Logutil.log('No artwork found for game "%s". Game will not be imported.' %gamenameFromFile, util.LOG_LEVEL_WARNING)
-				try:
-					self.missingArtworkFile.write('--> No artwork found for game "%s". Game will not be imported.\n' %gamename)
-				except:
-					self.missingArtworkFile.write('--> No artwork found for game "%s". Game will not be imported.\n' %gamename.encode('utf-8'))
+				self.missingArtworkFile.add_entry(gamename)
 				return None, True
 
 			
@@ -782,19 +802,16 @@ class DBUpdate:
 					artWorkFound = True
 				"""					
 			else:
-				try:
-					self.missingArtworkFile.write('%s (filename: %s) (%s)\n' %(gamename, gamenameFromFile, path.fileType.name))
-				except:
-					self.missingArtworkFile.write('%s (filename: %s) (%s)\n' %(gamename.encode('utf-8'), gamenameFromFile.encode('utf-8'), path.fileType.name))
+				self.missingArtworkFile.add_entry(gamename, gamenameFromFile, path.fileType.name)
 			
 			artworkfiles[path.fileType] = files
 		
 		return artWorkFound, artworkfiles, artworkurls
 		
-		
+	# FIXME TODO Can we create a game object and set the vars on it rather than pass in a million values
 	def insertGame(self, gameName, description, romCollectionId, publisherId, developerId, reviewerId, yearId, 
 				players, rating, votes, url, region, media, perspective, controller, originalTitle, alternateTitle, translatedBy, version, isFavorite, launchCount, isUpdate, gameId, allowUpdate):
-		
+		# Check if exists and insert/update as appropriate; move this functionality to the Game object
 		try:
 			if(not isUpdate):
 				Logutil.log("Game does not exist in database. Insert game: " +gameName, util.LOG_LEVEL_INFO)
@@ -1243,12 +1260,4 @@ class DBUpdate:
 		
 
 	def exit(self):
-		
-		try:
-			self.missingArtworkFile.close()
-			self.missingDescFile.close()
-			self.possibleMismatchFile.close()
-		except:
-			pass
-		
 		Logutil.log("Update finished", util.LOG_LEVEL_INFO)
