@@ -1236,16 +1236,5 @@ class DBUpdate:
 
 		return True, artworkurls
 
-
-	def openFile(self, filename):
-		try:			
-			filehandle = open(filename,'w')		
-		except Exception, (exc):			
-			Logutil.log('Cannot write to file "%s". Error: "%s"' %(filename, str(exc)), util.LOG_LEVEL_WARNING)
-			return None
-		
-		return filehandle
-		
-
 	def exit(self):
 		Logutil.log("Update finished", util.LOG_LEVEL_INFO)
