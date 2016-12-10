@@ -1174,30 +1174,17 @@ class DBUpdate:
 				gameName = rootExtFile[0] + ".*"
 				files = self.getFilesByWildcard(gameName)
 			del rootExtFile, rootExtUrl
-			
-			#check if folder exists
+
+			# Create folder if it doesn't already exist
 			dirname = os.path.dirname(fileName)
-			#check parent folder
-			parent = os.path.dirname(dirname)
-			if(not xbmcvfs.exists(parent)):
-				try:
-					xbmcvfs.mkdir(parent)					
-				except Exception, (exc):
+			if not xbmcvfs.exists(dirname):
+				Logutil.log("Artwork directory {0} doesn't exist, creating it".format(dirname), util.LOG_LEVEL_INFO)
+				success = xbmcvfs.mkdirs(dirname)
+				if not success:
 					xbmcgui.Dialog().ok(util.localize(32010), util.localize(32011))
-					Logutil.log("Could not create directory: '%s'. Error message: '%s'" %(parent, str(exc)), util.LOG_LEVEL_ERROR)
-					return False, artworkurls
-				del parent
-				
-			#check artwork specific folders
-			if(not xbmcvfs.exists(dirname)):
-				try:
-					xbmcvfs.mkdir(dirname)
-				except Exception, (exc):
-					xbmcgui.Dialog().ok(util.localize(32010), util.localize(32011))
-					Logutil.log("Could not create directory: '%s'. Error message: '%s'" %(dirname, str(exc)), util.LOG_LEVEL_ERROR)
+					Logutil.log("Could not create artwork directory: '%s'" %(dirname), util.LOG_LEVEL_ERROR)
 					del dirname
 					return False, artworkurls
-				
 			
 			Logutil.log("Download file to: " +str(fileName), util.LOG_LEVEL_INFO)			
 			if(len(files) == 0):
