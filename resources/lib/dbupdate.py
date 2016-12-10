@@ -94,9 +94,19 @@ class DBUpdate:
 	def __init__(self):
 		Logutil.log("init DBUpdate", util.LOG_LEVEL_INFO)
 
+		#self.scrapeResultsFile = ScrapeResultsLogFile()
+		self.missingDescFile = MissingDescLogFile()
+		self.missingArtworkFile = MissingArtworkLogFile()
+		self.possibleMismatchFile = MismatchLogFile()
+
+		pass
+
+	def retrieve_settings(self):
+		self.ignoreGameWithoutDesc = self.Settings.getSetting(util.SETTING_RCB_IGNOREGAMEWITHOUTDESC).upper() == 'TRUE'
+		self.ignoreGamesWithoutArtwork = self.Settings.getSetting(util.SETTING_RCB_IGNOREGAMEWITHOUTARTWORK).upper() == 'TRUE'
+		self.createNfoFile = self.Settings.getSetting(util.SETTING_RCB_CREATENFOFILE).upper() == 'TRUE'
 		# Set the fuzzy factor before scraping
-		#matchingRatioIndex = self.Settings.getSetting(util.SETTING_RCB_FUZZYFACTOR)
-		matchingRatioIndex = 0
+		matchingRatioIndex = self.Settings.getSetting(util.SETTING_RCB_FUZZYFACTOR)
 		if matchingRatioIndex == '':
 			matchingRatioIndex = 2
 		Logutil.log("matchingRatioIndex: " +str(matchingRatioIndex), util.LOG_LEVEL_INFO)
@@ -104,16 +114,11 @@ class DBUpdate:
 		self.fuzzyFactor = util.FUZZY_FACTOR_ENUM[int(matchingRatioIndex)]
 		Logutil.log("fuzzyFactor: " +str(self.fuzzyFactor), util.LOG_LEVEL_INFO)
 
-		#self.scrapeResultsFile = ScrapeResultsLogFile()
-		self.missingDescFile = MissingDescLogFile()
-		self.missingArtworkFile = MissingArtworkLogFile()
-		self.possibleMismatchFile = MismatchLogFile()
-
-		pass
-	
 	def updateDB(self, gdb, gui, updateOption, romCollections, settings, isRescrape):
 		self.gdb = gdb
 		self.Settings = settings
+
+		self.retrieve_settings()
 		
 		Logutil.log("Start Update DB", util.LOG_LEVEL_INFO)
 		
@@ -639,10 +644,9 @@ class DBUpdate:
 			game = self.resolveParseResult(gamedescription, 'Game')
 		else:
 			if(not isLocalArtwork):
-			
-				ignoreGameWithoutDesc = self.Settings.getSetting(util.SETTING_RCB_IGNOREGAMEWITHOUTDESC).upper() == 'TRUE'
-				if(ignoreGameWithoutDesc):
 				self.missingDescFile.add_entry(gamename)
+
+				if self.ignoreGameWithoutDesc:
 					Logutil.log('No description found for game "%s". Game will not be imported.' %gamename, util.LOG_LEVEL_WARNING)
 					return None, True
 			game = ''
@@ -718,21 +722,19 @@ class DBUpdate:
 		artWorkFound, artworkfiles, artworkurls = self.getArtworkForGame(romCollection, gamename, gamenameFromFile, gamedescription, gui, dialogDict, foldername, publisher, developer, isLocalArtwork)
 				
 		if(not artWorkFound):
-			ignoreGamesWithoutArtwork = self.Settings.getSetting(util.SETTING_RCB_IGNOREGAMEWITHOUTARTWORK).upper() == 'TRUE'
-			if(ignoreGamesWithoutArtwork):								
+			if(self.ignoreGamesWithoutArtwork):
 				Logutil.log('No artwork found for game "%s". Game will not be imported.' %gamenameFromFile, util.LOG_LEVEL_WARNING)
 				self.missingArtworkFile.add_entry(gamename)
+
 				return None, True
 
 			
-		#create Nfo file with game properties
-		createNfoFile = self.Settings.getSetting(util.SETTING_RCB_CREATENFOFILE).upper() == 'TRUE'	
-		if(createNfoFile and gamedescription != None):
-			genreList = []
+		# Create Nfo file with game properties
+		if self.createNfoFile and gamedescription != None:
 			try:
 				genreList = gamedescription['Genre']
 			except:
-				pass
+				genreList = []
 			nfowriter.NfoWriter().createNfoFromDesc(gamename, plot, romCollection.name, publisher, developer, year, 
 				players, rating, votes, url, region, media, perspective, controller, originalTitle, alternateTitle, version, genreList, isFavorite, launchCount, romFiles[0], gamenameFromFile, artworkfiles, artworkurls)
 			del genreList
