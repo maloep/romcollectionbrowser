@@ -233,10 +233,8 @@ class DBUpdate:
 								result, artScrapers = self.useSingleScrapers(result, romCollection, 1, gamenameFromFile, foldername, filenamelist[0], updateOption, gui, progDialogRCHeader, fileCount)
 							
 							dialogDict = {'dialogHeaderKey':progDialogRCHeader, 'gameNameKey':gamenameFromFile, 'scraperSiteKey':artScrapers, 'fileCountKey':fileCount}
-							gameId, continueUpdate = self.insertGameFromDesc(result, gamenameFromFile, romCollection, filenamelist, foldername, isUpdate, gameId, gui, False, dialogDict)
+							gameId = self.insertGameFromDesc(result, gamenameFromFile, romCollection, filenamelist, foldername, isUpdate, gameId, gui, False, dialogDict)
 							del artScrapers, gamenameFromFile, foldername, dialogDict
-							if(not continueUpdate):
-								break
 							
 							#remove found files from file list
 							if(gameId != None):
@@ -326,11 +324,9 @@ class DBUpdate:
 						del artScrapers
 												
 						#Add 'gui' and 'dialogDict' parameters to function
-						lastGameId, continueUpdate = self.insertGameFromDesc(results, gamenameFromFile, romCollection, [filename], foldername, isUpdate, gameId, gui, firstScraper.is_localartwork_scraper(), dialogDict)
+						lastGameId = self.insertGameFromDesc(results, gamenameFromFile, romCollection, [filename], foldername, isUpdate, gameId, gui, firstScraper.is_localartwork_scraper(), dialogDict)
 						del results, foldername, dialogDict
 						
-						if (not continueUpdate):
-							break
 						
 						if (lastGameId != None):
 							successfulFiles = successfulFiles + 1
@@ -648,12 +644,12 @@ class DBUpdate:
 
 				if self.ignoreGameWithoutDesc:
 					Logutil.log('No description found for game "%s". Game will not be imported.' %gamename, util.LOG_LEVEL_WARNING)
-					return None, True
+					return None
 			game = ''
 			gamedescription = {}
 					
-		gameId, continueUpdate = self.insertData(gamedescription, gamename, romCollection, filenamelist, foldername, isUpdate, gameId, gui, isLocalArtwork, dialogDict)		
-		return gameId, continueUpdate
+		gameId = self.insertData(gamedescription, gamename, romCollection, filenamelist, foldername, isUpdate, gameId, gui, isLocalArtwork, dialogDict)
+		return gameId
 	
 	
 			
@@ -726,7 +722,7 @@ class DBUpdate:
 				Logutil.log('No artwork found for game "%s". Game will not be imported.' %gamenameFromFile, util.LOG_LEVEL_WARNING)
 				self.missingArtworkFile.add_entry(gamename)
 
-				return None, True
+				return None
 
 			
 		# Create Nfo file with game properties
@@ -748,7 +744,7 @@ class DBUpdate:
 			del plot, players, rating, votes, url, region, media, perspective, controller, originalTitle, alternateTitle, translatedBy, version
 		
 			if(gameId == None):
-				return None, True
+				return None
 						
 			for genreId in genreIds:
 				genreGame = GenreGame(self.gdb).getGenreGameByGenreIdAndGameId(genreId, gameId)
@@ -770,7 +766,7 @@ class DBUpdate:
 				self.insertFile(fileName, gameId, fileType, romCollection.id, publisherId, developerId)		
 				
 		self.gdb.commit()
-		return gameId, True
+		return gameId
 		
 		
 	def getArtworkForGame(self, romCollection, gamename, gamenameFromFile, gamedescription, gui, dialogDict, foldername, publisher, developer, isLocalArtwork):
