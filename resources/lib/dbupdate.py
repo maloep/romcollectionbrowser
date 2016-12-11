@@ -1187,13 +1187,13 @@ class DBUpdate:
 			del rootExtFile, rootExtUrl
 
 			# Create folder if it doesn't already exist
-			dirname = os.path.dirname(fileName)
+			dirname = os.path.join(os.path.dirname(fileName), '')	# Add the trailing slash that xbmcvfs.exists expects
 			if not xbmcvfs.exists(dirname):
 				Logutil.log("Artwork directory {0} doesn't exist, creating it".format(dirname), util.LOG_LEVEL_INFO)
 				success = xbmcvfs.mkdirs(dirname)
 				if not success:
-					xbmcgui.Dialog().ok(util.localize(32010), util.localize(32011))
 					Logutil.log("Could not create artwork directory: '%s'" %(dirname), util.LOG_LEVEL_ERROR)
+					xbmcgui.Dialog().ok(util.localize(32010), util.localize(32011))
 					del dirname
 					return False, artworkurls
 			
