@@ -479,20 +479,14 @@ class DBUpdate:
 		
 		
 	def buildFilenameDict(self, result, isMultiRomGame, filename, key):
-		
+
 		try:											
-			if(not isMultiRomGame):
-				filenamelist = []
-				filenamelist.append(filename)
-				result[key] = filenamelist
-				del filenamelist
-				Logutil.log('Add filename "%s" with key "%s"' %(filename, key), util.LOG_LEVEL_DEBUG)
-			else:
-				filenamelist = result[key]
-				filenamelist.append(filename)
-				result[key] = filenamelist
-				del filenamelist
+			if isMultiRomGame:
+				result[key].append(filename)
 				Logutil.log('Add filename "%s" to multirom game with key "%s"' %(filename, key), util.LOG_LEVEL_DEBUG)
+			else:
+				result[key] = [filename]
+				Logutil.log('Add filename "%s" with key "%s"' %(filename, key), util.LOG_LEVEL_DEBUG)
 		except Exception, (exc):
 			Logutil.log('Error occured in buildFilenameDict: ' +str(exc), util.LOG_LEVEL_WARNING)
 			
@@ -653,8 +647,23 @@ class DBUpdate:
 					
 		gameId = self.insertData(gamedescription, gamename, romCollection, filenamelist, foldername, isUpdate, gameId, gui, isLocalArtwork, dialogDict)
 		return gameId
-	
-	
+
+	def add_genres_to_db(self, genreIds, gameId):
+		# If the genre-game link doesn't exist in the DB, create it
+		for genreId in genreIds:
+			genreGame = GenreGame(self.gdb).getGenreGameByGenreIdAndGameId(genreId, gameId)
+			if genreGame is None:
+				GenreGame(self.gdb).insert((genreId, gameId))
+			del genreGame
+
+	def add_romfiles_to_db(self, romFiles, gameId):
+		for romFile in romFiles:
+			fileType = FileType()
+			fileType.id = 0
+			fileType.name = "rcb_rom"
+			fileType.parent = "game"
+			self.insertFile(romFile, gameId, fileType, None, None, None)
+			del fileType
 			
 	def insertData(self, gamedescription, gamenameFromFile, romCollection, romFiles, foldername, isUpdate, gameId, gui, isLocalArtwork, dialogDict=''):
 		Logutil.log("Insert data", util.LOG_LEVEL_INFO)
@@ -748,30 +757,18 @@ class DBUpdate:
 		
 			if(gameId == None):
 				return None
-						
-			for genreId in genreIds:
-				genreGame = GenreGame(self.gdb).getGenreGameByGenreIdAndGameId(genreId, gameId)
-				if(genreGame == None):
-					GenreGame(self.gdb).insert((genreId, gameId))
-				del genreGame
-				
-			for romFile in romFiles:
-				fileType = FileType()
-				fileType.id = 0
-				fileType.name = "rcb_rom"
-				fileType.parent = "game"
-				self.insertFile(romFile, gameId, fileType, None, None, None)
-				del fileType				
-		
-		Logutil.log("Importing files: " +str(artworkfiles), util.LOG_LEVEL_INFO)		
-		for fileType in artworkfiles.keys():
-			for fileName in artworkfiles[fileType]:
-				self.insertFile(fileName, gameId, fileType, romCollection.id, publisherId, developerId)		
+
+			self.add_genres_to_db(genreIds, gameId)
+
+			self.add_romfiles_to_db(romFiles, gameId)
+
+		for fileType, fileName in artworkfiles.iteritems():
+			Logutil.log("Importing artwork file {0} = {1}".format(fileType.type, fileName), util.LOG_LEVEL_INFO)
+			self.insertFile(fileName, gameId, fileType, romCollection.id, publisherId, developerId)
 				
 		self.gdb.commit()
 		return gameId
-		
-		
+
 	def getArtworkForGame(self, romCollection, gamename, gamenameFromFile, gamedescription, gui, dialogDict, foldername, publisher, developer, isLocalArtwork):
 		artWorkFound = False
 		artworkfiles = {}
