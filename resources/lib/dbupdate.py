@@ -1146,7 +1146,21 @@ class DBUpdate:
 		else:
 			Logutil.log("File already exists in database: " +fileName, util.LOG_LEVEL_INFO)
 				
-	
+
+	def download_thumb(self, thumburl, destfilename):
+		# Download file to tmp folder
+		tmp = util.joinPath(util.getTempDir(), os.path.basename(destfilename))
+
+		req = urllib2.Request(thumburl)
+		req.add_unredirected_header('User-Agent', 'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.31 (KHTML, like Gecko) Chrome/26.0.1410.64 Safari/537.31')
+		f = open(tmp, 'wb')
+		f.write(urllib2.urlopen(req).read())
+		f.close()
+
+		# Copy from the tmp folder to the target location
+		xbmcvfs.copy(tmp, destfilename)
+		xbmcvfs.delete(tmp)
+
 	def getThumbFromOnlineSource(self, gamedescription, fileType, fileName, gui, dialogDict, artworkurls):
 		Logutil.log("Get thumb from online source", util.LOG_LEVEL_INFO)
 		
@@ -1199,32 +1213,14 @@ class DBUpdate:
 				except:
 					pass
 
-				# fetch thumbnail and save to filepath
-				try:					
-					target = fileName
-					if(fileName.startswith('smb://')):
-						#download file to local folder and copy it to smb path with xbmcvfs
-						target = util.joinPath(util.getTempDir(), os.path.basename(fileName))
-											
-					req = urllib2.Request(thumbUrl)
-					del thumbUrl
-					req.add_unredirected_header('User-Agent', 'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.31 (KHTML, like Gecko) Chrome/26.0.1410.64 Safari/537.31')
-					f = open(target,'wb')
-					f.write(urllib2.urlopen(req).read())
-					f.close()
-					del f
-						
-					if(fileName.startswith('smb://')):	
-						xbmcvfs.copy(target, fileName)
-						xbmcvfs.delete(target)
+				try:
+					self.download_thumb(thumbUrl, fileName)
 						
 				except Exception, (exc):
-					xbmcgui.Dialog().ok(util.localize(32012), util.localize(32011))
 					Logutil.log("Could not create file: '%s'. Error message: '%s'" %(str(fileName), str(exc)), util.LOG_LEVEL_ERROR)
+					#xbmcgui.Dialog().ok(util.localize(32012), util.localize(32011))
 					return False, artworkurls
-				
-				# cleanup any remaining urllib cache
-				urllib.urlcleanup()
+
 				Logutil.log("Download finished.", util.LOG_LEVEL_INFO)
 			else:
 				Logutil.log("File already exists. Won't download again.", util.LOG_LEVEL_INFO)
