@@ -268,16 +268,15 @@ class DBUpdate:
 
 					continue
 			else:
-				
-				fileCount = 0
+				Logutil.log("{0} is not multigame scraper".format(firstScraper.name), util.LOG_LEVEL_INFO)
 				successfulFiles = 0
 				lastgamename = ''
 				lastGameId = None
 				
-				for filename in files:
+				for fileidx, filename in enumerate(files):
 					
 					try:
-						gamenameFromFile = ''
+						Logutil.log("Scraping for {0}".format(filename), util.LOG_LEVEL_INFO)
 						gamenameFromFile = helper.getGamenameFromFilename(filename, romCollection)
 						
 						#check if we are handling one of the additional disks of a multi rom game
@@ -298,8 +297,7 @@ class DBUpdate:
 						
 						Logutil.log('Start scraping info for game: ' + gamenameFromFile, LOG_LEVEL_INFO)						
 						
-						fileCount = fileCount +1
-						continueUpdate = gui.writeMsg(progDialogRCHeader, util.localize(32123) +": " +gamenameFromFile, "", fileCount)
+						continueUpdate = gui.writeMsg(progDialogRCHeader, util.localize(32123) +": " +gamenameFromFile, "", fileidx + 1)
 						if(not continueUpdate):				
 							Logutil.log('Game import canceled by user', util.LOG_LEVEL_INFO)
 							break
@@ -316,34 +314,32 @@ class DBUpdate:
 																		
 						artScrapers = {} 
 						if not firstScraper.is_localartwork_scraper():
-							results, artScrapers = self.useSingleScrapers(results, romCollection, 0, gamenameFromFile, foldername, filename, updateOption, gui, progDialogRCHeader, fileCount)
+							results, artScrapers = self.useSingleScrapers(results, romCollection, 0, gamenameFromFile, foldername, filename, updateOption, gui, progDialogRCHeader, fileidx + 1)
 												
 						if(len(results) == 0):
 							#lastgamename = ""
 							results = None
 	
 						#Variables to process Art Download Info
-						dialogDict = {'dialogHeaderKey':progDialogRCHeader, 'gameNameKey':gamenameFromFile, 'scraperSiteKey':artScrapers, 'fileCountKey':fileCount}
+						dialogDict = {'dialogHeaderKey':progDialogRCHeader, 'gameNameKey':gamenameFromFile, 'scraperSiteKey':artScrapers, 'fileCountKey': (fileidx + 1)}
 						del artScrapers
 												
 						#Add 'gui' and 'dialogDict' parameters to function
 						lastGameId = self.insertGameFromDesc(results, gamenameFromFile, romCollection, [filename], foldername, isUpdate, gameId, gui, firstScraper.is_localartwork_scraper(), dialogDict)
 						del results, foldername, dialogDict
 						
-						
 						if (lastGameId != None):
 							successfulFiles = successfulFiles + 1
 	
-						#check if all first 10 games have errors - Modified to allow user to continue on errors
-						if (fileCount >= 10 and successfulFiles == 0 and ignoreErrors == False):
-							options = []
-							options.append(util.localize(32124))
-							options.append(util.localize(32125))
-							options.append(util.localize(32126))
-							answer = xbmcgui.Dialog().select(util.localize(32127),options)
+						# Check if all first 10 games have errors - Modified to allow user to continue on errors
+						if fileidx > 9 and successfulFiles == 0 and not ignoreErrors:
+							options = [util.localize(32124), util.localize(32125), util.localize(32126)]
+							answer = xbmcgui.Dialog().select(util.localize(32127), options)
 							if(answer == 1):
+								# Continue and ignore errors
 								ignoreErrors = True
 							elif(answer == 2):
+								# Cancel
 								xbmcgui.Dialog().ok(util.SCRIPTNAME, util.localize(32128), util.localize(32129))
 								continueUpdate = False
 								break
@@ -367,17 +363,15 @@ class DBUpdate:
 	
 	def buildFileDict(self, gui, progDialogRCHeader, files, romCollection, firstScraper):
 		
-		fileCount = 1
 		lastgamename = ""
 		crcOfFirstGame = {}
 		
 		fileDict = {}
 		
-		for filename in files:
+		for idx, filename in enumerate(files):
 			try:
-				gui.writeMsg(progDialogRCHeader, util.localize(32130), "", fileCount)
-				fileCount = fileCount +1
-				
+				gui.writeMsg(progDialogRCHeader, util.localize(32130), "", idx + 1)
+
 				gamename = helper.getGamenameFromFilename(filename, romCollection)
 				#check if we are handling one of the additional disks of a multi rom game
 				isMultiRomGame = self.checkRomfileIsMultirom(gamename, lastgamename)
@@ -1121,19 +1115,15 @@ class DBUpdate:
 		#TODO console and romcollection could be done only once per RomCollection			
 		#fileTypeRow[3] = parent
 		if(fileType.parent == 'game'):
-			Logutil.log("Insert file with parent game", util.LOG_LEVEL_INFO)
 			parentId = gameId
 		elif(fileType.parent == 'romcollection'):
-			Logutil.log("Insert file with parent romcollection.", util.LOG_LEVEL_INFO)
-			parentId = romCollectionId		
+			parentId = romCollectionId
 		elif(fileType.parent == 'publisher'):
-			Logutil.log("Insert file with parent publisher", util.LOG_LEVEL_INFO)
 			parentId = publisherId
 		elif(fileType.parent == 'developer'):
-			Logutil.log("Insert file with parent developer", util.LOG_LEVEL_INFO)
 			parentId = developerId
-					
-		Logutil.log("Insert file with parentid: " +str(parentId), util.LOG_LEVEL_INFO)
+
+		Logutil.log("Inserting file with parent {0} (type {1})".format(parentId, fileType.parent), util.LOG_LEVEL_INFO)
 			
 		fileRow = File(self.gdb).getFileByNameAndTypeAndParent(fileName, fileType.id, parentId)
 		if(fileRow == None):
