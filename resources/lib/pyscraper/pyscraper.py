@@ -216,6 +216,10 @@ class PyScraper:
 	
 	def getBestResults(self, results, gamenameFromFile):
 		Logutil.log("getBestResults", util.LOG_LEVEL_INFO)
+
+		if results is None or len(results) == 0:
+			Logutil.log('No results found with current scraper', util.LOG_LEVEL_INFO)
+			return None
 		if (results != None and len(results) >= 1):
 			Logutil.log('Searching for game: ' +gamenameFromFile, util.LOG_LEVEL_INFO)
 			Logutil.log('%s results found. Try to find best match.' %str(len(results)), util.LOG_LEVEL_INFO)						
@@ -264,10 +268,6 @@ class PyScraper:
 									
 			Logutil.log('Using result %s' %bestMatchingGame, util.LOG_LEVEL_INFO)
 			return result
-		else:
-			Logutil.log('No results found with current scraper', util.LOG_LEVEL_INFO)
-			return None
-
 
 	def matchGamename(self, results, gamenameFromFile, checkSubtitle):
 		
