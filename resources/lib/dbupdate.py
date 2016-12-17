@@ -1176,6 +1176,10 @@ class DBUpdate:
 				files = self.getFilesByWildcard(gameName)
 			del rootExtFile, rootExtUrl
 
+			if len(files) > 0:
+				Logutil.log("File already exists. Won't download again.", util.LOG_LEVEL_INFO)
+				return True, artworkurls
+
 			# Create folder if it doesn't already exist
 			dirname = os.path.join(os.path.dirname(fileName), '')	# Add the trailing slash that xbmcvfs.exists expects
 			if not xbmcvfs.exists(dirname):
@@ -1186,34 +1190,30 @@ class DBUpdate:
 					xbmcgui.Dialog().ok(util.localize(32010), util.localize(32011))
 					del dirname
 					return False, artworkurls
-			
-			Logutil.log("Download file to: " +str(fileName), util.LOG_LEVEL_INFO)			
-			if(len(files) == 0):
-				Logutil.log("File does not exist. Starting download.", util.LOG_LEVEL_INFO)
-				del files
-				#Dialog Status Art Download
-				try:
-					if(dialogDict != ''):
-						progDialogRCHeader = dialogDict["dialogHeaderKey"]
-						gamenameFromFile = dialogDict["gameNameKey"]
-						scraperSiteName = dialogDict["scraperSiteKey"]
-						fileCount = dialogDict["fileCountKey"]
-						gui.writeMsg(progDialogRCHeader, util.localize(32123) +": " +gamenameFromFile, str(scraperSiteName[thumbKey]) + " - downloading art", fileCount)
-						del thumbKey, progDialogRCHeader, gamenameFromFile, scraperSiteName, fileCount
-				except:
-					pass
 
-				try:
-					self.download_thumb(thumbUrl, fileName)
-						
-				except Exception, (exc):
-					Logutil.log("Could not create file: '%s'. Error message: '%s'" %(str(fileName), str(exc)), util.LOG_LEVEL_ERROR)
-					#xbmcgui.Dialog().ok(util.localize(32012), util.localize(32011))
-					return False, artworkurls
+			Logutil.log("File {0} does not exist, starting download".format(fileName), util.LOG_LEVEL_INFO)
+			#Dialog Status Art Download
+			try:
+				if(dialogDict != ''):
+					progDialogRCHeader = dialogDict["dialogHeaderKey"]
+					gamenameFromFile = dialogDict["gameNameKey"]
+					scraperSiteName = dialogDict["scraperSiteKey"]
+					fileCount = dialogDict["fileCountKey"]
+					gui.writeMsg(progDialogRCHeader, util.localize(32123) +": " +gamenameFromFile, str(scraperSiteName[thumbKey]) + " - downloading art", fileCount)
+					del thumbKey, progDialogRCHeader, gamenameFromFile, scraperSiteName, fileCount
+			except:
+				pass
 
-				Logutil.log("Download finished.", util.LOG_LEVEL_INFO)
-			else:
-				Logutil.log("File already exists. Won't download again.", util.LOG_LEVEL_INFO)
+			try:
+				self.download_thumb(thumbUrl, fileName)
+
+			except Exception, (exc):
+				Logutil.log("Could not create file: '%s'. Error message: '%s'" %(str(fileName), str(exc)), util.LOG_LEVEL_ERROR)
+				#xbmcgui.Dialog().ok(util.localize(32012), util.localize(32011))
+				return False, artworkurls
+
+			Logutil.log("Download finished.", util.LOG_LEVEL_INFO)
+
 		except Exception, (exc):
 			Logutil.log("Error in getThumbFromOnlineSource: " +str(exc), util.LOG_LEVEL_WARNING)
 
