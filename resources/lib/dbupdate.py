@@ -723,12 +723,11 @@ class DBUpdate:
 		
 		artWorkFound, artworkfiles, artworkurls = self.getArtworkForGame(romCollection, gamename, gamenameFromFile, gamedescription, gui, dialogDict, foldername, publisher, developer, isLocalArtwork)
 				
-		if(not artWorkFound):
-			if(self.ignoreGamesWithoutArtwork):
-				Logutil.log('No artwork found for game "%s". Game will not be imported.' %gamenameFromFile, util.LOG_LEVEL_WARNING)
-				self.missingArtworkFile.add_entry(gamename)
+		if not artWorkFound and self.ignoreGamesWithoutArtwork:
+			Logutil.log('No artwork found for game "%s". Game will not be imported.' %gamenameFromFile, util.LOG_LEVEL_WARNING)
+			self.missingArtworkFile.add_entry(gamename)
 
-				return None
+			return None
 
 			
 		# Create Nfo file with game properties
