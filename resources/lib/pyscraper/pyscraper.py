@@ -220,54 +220,54 @@ class PyScraper:
 		if results is None or len(results) == 0:
 			Logutil.log('No results found with current scraper', util.LOG_LEVEL_INFO)
 			return None
-		if (results != None and len(results) >= 1):
-			Logutil.log('Searching for game: ' +gamenameFromFile, util.LOG_LEVEL_INFO)
-			Logutil.log('%s results found. Try to find best match.' %str(len(results)), util.LOG_LEVEL_INFO)						
-			
-			result, highestRatio = self.matchGamename(results, gamenameFromFile, False)
-			bestMatchingGame = self.resolveParseResult(result, 'SearchKey')
-			
-			if(highestRatio != 1.0):
-				
-				#stop searching in accurate mode
-				if self.update_option == util.SCRAPING_OPTION_AUTO_ACCURATE:
-					Logutil.log('Ratio != 1.0 and scraping option is set to "Accurate". Result will be skipped', LOG_LEVEL_WARNING)
-					return None
-			
-				#Ask for correct result in Interactive mode
-				if self.update_option == util.SCRAPING_OPTION_INTERACTIVE:
-					res = self.ask_user_for_result(gamenameFromFile, results)
-					if res == 0:	# Skip Game
-						Logutil.log('No result chosen by user', util.LOG_LEVEL_INFO)
-						return None
-					else:
-						selectedGame = self.resolveParseResult(results[res - 1], 'Game')
-						Logutil.log('Result chosen by user: ' +str(selectedGame), util.LOG_LEVEL_INFO)
-						return results[res - 1]
-				
-				#check seq no in guess names mode
-				seqNoIsEqual = self.checkSequelNoIsEqual(gamenameFromFile, bestMatchingGame)
-				if (not seqNoIsEqual):										
-					highestRatio = 0.0
-			
-			if highestRatio < self.fuzzy_factor:
-				Logutil.log('No result found with a ratio better than %s. Try again with subtitle search.' %(str(self.fuzzy_factor),), LOG_LEVEL_WARNING)
-				result, highestRatio = self.matchGamename(results, gamenameFromFile, True)
-				#check for sequel numbers because it could be misinteroreted as subtitle
-				bestMatchingGame = self.resolveParseResult(result, 'SearchKey')
-				seqNoIsEqual = self.checkSequelNoIsEqual(gamenameFromFile, bestMatchingGame)
-				if (not seqNoIsEqual):					
-					return None
-						
-			if highestRatio < self.fuzzy_factor:
-				Logutil.log('No result found with a ratio better than %s. Result will be skipped.' %(str(self.fuzzy_factor),), LOG_LEVEL_WARNING)
+
+		Logutil.log('Searching for game: ' +gamenameFromFile, util.LOG_LEVEL_INFO)
+		Logutil.log('%s results found. Try to find best match.' %str(len(results)), util.LOG_LEVEL_INFO)
+
+		result, highestRatio = self.matchGamename(results, gamenameFromFile, False)
+		bestMatchingGame = self.resolveParseResult(result, 'SearchKey')
+
+		if(highestRatio != 1.0):
+
+			#stop searching in accurate mode
+			if self.update_option == util.SCRAPING_OPTION_AUTO_ACCURATE:
+				Logutil.log('Ratio != 1.0 and scraping option is set to "Accurate". Result will be skipped', LOG_LEVEL_WARNING)
 				return None
-			
-			#get name of found result
-			bestMatchingGame = self.resolveParseResult(result, 'SearchKey')						
-									
-			Logutil.log('Using result %s' %bestMatchingGame, util.LOG_LEVEL_INFO)
-			return result
+
+			#Ask for correct result in Interactive mode
+			if self.update_option == util.SCRAPING_OPTION_INTERACTIVE:
+				res = self.ask_user_for_result(gamenameFromFile, results)
+				if res == 0:	# Skip Game
+					Logutil.log('No result chosen by user', util.LOG_LEVEL_INFO)
+					return None
+				else:
+					selectedGame = self.resolveParseResult(results[res - 1], 'Game')
+					Logutil.log('Result chosen by user: ' +str(selectedGame), util.LOG_LEVEL_INFO)
+					return results[res - 1]
+
+			#check seq no in guess names mode
+			seqNoIsEqual = self.checkSequelNoIsEqual(gamenameFromFile, bestMatchingGame)
+			if (not seqNoIsEqual):
+				highestRatio = 0.0
+
+		if highestRatio < self.fuzzy_factor:
+			Logutil.log('No result found with a ratio better than %s. Try again with subtitle search.' %(str(self.fuzzy_factor),), LOG_LEVEL_WARNING)
+			result, highestRatio = self.matchGamename(results, gamenameFromFile, True)
+			#check for sequel numbers because it could be misinteroreted as subtitle
+			bestMatchingGame = self.resolveParseResult(result, 'SearchKey')
+			seqNoIsEqual = self.checkSequelNoIsEqual(gamenameFromFile, bestMatchingGame)
+			if (not seqNoIsEqual):
+				return None
+
+		if highestRatio < self.fuzzy_factor:
+			Logutil.log('No result found with a ratio better than %s. Result will be skipped.' %(str(self.fuzzy_factor),), LOG_LEVEL_WARNING)
+			return None
+
+		#get name of found result
+		bestMatchingGame = self.resolveParseResult(result, 'SearchKey')
+
+		Logutil.log('Using result %s' %bestMatchingGame, util.LOG_LEVEL_INFO)
+		return result
 
 	def matchGamename(self, results, gamenameFromFile, checkSubtitle):
 		
