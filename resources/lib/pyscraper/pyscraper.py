@@ -13,7 +13,9 @@ import HTMLParser
 
 
 class PyScraper:
-	
+	digits = ['10', '9', '8', '7', '6', '5', '4', '3', '2', '1']
+	romes = ['X', 'IX', 'VIII', 'VII', 'VI', 'V', 'IV', 'III', 'II', 'I']
+
 	def __init__(self):
 		pass
 
@@ -214,10 +216,6 @@ class PyScraper:
 	
 	def getBestResults(self, results, gamenameFromFile):
 		Logutil.log("getBestResults", util.LOG_LEVEL_INFO)
-		
-		digits = ['10', '9', '8', '7', '6', '5', '4', '3', '2', '1']
-		romes = ['X', 'IX', 'VIII', 'VII', 'VI', 'V', 'IV', 'III', 'II', 'I']
-		
 		if (results != None and len(results) >= 1):
 			Logutil.log('Searching for game: ' +gamenameFromFile, util.LOG_LEVEL_INFO)
 			Logutil.log('%s results found. Try to find best match.' %str(len(results)), util.LOG_LEVEL_INFO)						
@@ -309,9 +307,9 @@ class PyScraper:
 				#try again with replaced sequel numbers		
 				sequelGamename = gamenameToCheck
 				sequelSearchKey = searchKey
-				for j in range(0, len(digits)):
-					sequelGamename = sequelGamename.replace(digits[j], romes[j])
-					sequelSearchKey = sequelSearchKey.replace(digits[j], romes[j])
+				for j in range(0, len(self.digits)):
+					sequelGamename = sequelGamename.replace(self.digits[j], self.romes[j])
+					sequelSearchKey = sequelSearchKey.replace(self.digits[j], self.romes[j])
 				
 				Logutil.log('Try with replaced sequel numbers. Comparing %s with %s' %(sequelGamename, sequelSearchKey), util.LOG_LEVEL_INFO)
 				if(self.compareNames(sequelGamename, sequelSearchKey, checkSubtitle)):
@@ -392,12 +390,9 @@ class PyScraper:
 		
 		if(numberGamename == numberSearchkey):
 			return True
-		
-		digits = [' 10', ' 9', ' 8', ' 7', ' 6', ' 5', ' 4', ' 3', ' 2', ' 1']
-		romes = [' X', ' IX', ' VIII', ' VII', ' VI', ' V', ' IV', ' III', ' II', ' I']
-		
-		indexGamename = self.getSequelNoIndex(gamenameFromFile, digits, romes)		
-		indexSearchKey = self.getSequelNoIndex(searchKey, digits, romes)		
+
+		indexGamename = self.getSequelNoIndex(gamenameFromFile)
+		indexSearchKey = self.getSequelNoIndex(searchKey)
 			
 		if(indexGamename == -1 and indexSearchKey == -1):
 			Logutil.log('"%s" and "%s" both don\'t contain a sequel number. Skip checking sequel number match.' %(gamenameFromFile, searchKey), util.LOG_LEVEL_INFO)
@@ -417,14 +412,14 @@ class PyScraper:
 		
 		
 		
-	def getSequelNoIndex(self, gamename, digits, romes):		
+	def getSequelNoIndex(self, gamename):
 		indexGamename = -1
 		
-		for i in range(0, len(digits)):	
-			if(gamename.find(digits[i]) != -1):
+		for i in range(0, len(self.digits)):
+			if(gamename.find(self.digits[i]) != -1):
 				indexGamename = i
 				break
-			if(gamename.find(romes[i]) != -1):
+			if(gamename.find(self.romes[i]) != -1):
 				indexGamename = i
 				break
 				
