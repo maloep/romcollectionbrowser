@@ -110,7 +110,7 @@ class PyScraper:
 		return results, urlsFromPreviousScrapers, False
 	
 	
-	def getNfoFile(self, settings, romCollection, gamenameFromFile, romFile):
+	def getNfoFile(self, settings, romCollection, gamenameFromFile):
 		Logutil.log("getNfoFile", util.LOG_LEVEL_INFO)
 		nfoFile = ''
 		nfoFolder = settings.getSetting(util.SETTING_RCB_NFOFOLDER)
@@ -142,11 +142,10 @@ class PyScraper:
 		return nfoFile
 	
 	
-	def parseDescriptionFile(self, scraper, scraperSource, gamenameFromFile, foldername, crc):
+	def parseDescriptionFile(self, scraper, scraperSource, gamenameFromFile):
 		Logutil.log("parseDescriptionFile", util.LOG_LEVEL_INFO)
-			
-		scraperSource = self.prepareScraperSource(scraper, scraperSource, gamenameFromFile, foldername, crc)
-		if(scraperSource == ""):
+		scraperSource = self.prepareScraperSource(scraper, scraperSource, gamenameFromFile)
+		if scraperSource == "":
 			return None
 			
 		try:
@@ -161,7 +160,7 @@ class PyScraper:
 		return results
 	
 	
-	def prepareScraperSource(self, scraper, scraperSourceOrig, romFilename, foldername, crc):
+	def prepareScraperSource(self, scraper, scraperSourceOrig, romFilename):
 		#replace configurable tokens
 		replaceKeys = scraper.replaceKeyString.split(',')
 		Logutil.log("replaceKeys: " +str(replaceKeys), util.LOG_LEVEL_DEBUG)						
@@ -213,8 +212,7 @@ class PyScraper:
 		resultIndex = xbmcgui.Dialog().select('Search for: ' +gamename, options)
 		return resultIndex
 	
-	
-	def getBestResults(self, results, gamenameFromFile, fuzzyFactor, updateOption, scraperSource, romCollection):
+	def getBestResults(self, results, gamenameFromFile):
 		Logutil.log("getBestResults", util.LOG_LEVEL_INFO)
 		
 		digits = ['10', '9', '8', '7', '6', '5', '4', '3', '2', '1']
@@ -224,13 +222,13 @@ class PyScraper:
 			Logutil.log('Searching for game: ' +gamenameFromFile, util.LOG_LEVEL_INFO)
 			Logutil.log('%s results found. Try to find best match.' %str(len(results)), util.LOG_LEVEL_INFO)						
 			
-			result, highestRatio = self.matchGamename(results, gamenameFromFile, digits, romes, False, scraperSource, romCollection)
+			result, highestRatio = self.matchGamename(results, gamenameFromFile, False)
 			bestMatchingGame = self.resolveParseResult(result, 'SearchKey')
 			
 			if(highestRatio != 1.0):
 				
 				#stop searching in accurate mode
-				if(updateOption == util.SCRAPING_OPTION_AUTO_ACCURATE):
+				if self.update_option == util.SCRAPING_OPTION_AUTO_ACCURATE:
 					Logutil.log('Ratio != 1.0 and scraping option is set to "Accurate". Result will be skipped', LOG_LEVEL_WARNING)
 					return None
 			
@@ -250,9 +248,9 @@ class PyScraper:
 				if (not seqNoIsEqual):										
 					highestRatio = 0.0
 			
-				result, highestRatio = self.matchGamename(results, gamenameFromFile, digits, romes, True, scraperSource, romCollection)
 			if highestRatio < self.fuzzy_factor:
 				Logutil.log('No result found with a ratio better than %s. Try again with subtitle search.' %(str(self.fuzzy_factor),), LOG_LEVEL_WARNING)
+				result, highestRatio = self.matchGamename(results, gamenameFromFile, True)
 				#check for sequel numbers because it could be misinteroreted as subtitle
 				bestMatchingGame = self.resolveParseResult(result, 'SearchKey')
 				seqNoIsEqual = self.checkSequelNoIsEqual(gamenameFromFile, bestMatchingGame)
@@ -273,7 +271,7 @@ class PyScraper:
 			return None
 
 
-	def matchGamename(self, results, gamenameFromFile, digits, romes, checkSubtitle, scraperSource, romCollection):
+	def matchGamename(self, results, gamenameFromFile, checkSubtitle):
 		
 		highestRatio = 0.0
 		bestIndex = 0
