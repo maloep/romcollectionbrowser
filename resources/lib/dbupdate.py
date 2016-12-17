@@ -422,6 +422,7 @@ class DBUpdate:
 		Logutil.log("Reading rom files", util.LOG_LEVEL_INFO)
 		files = []
 		for romPath in romCollection.romPaths:
+			Logutil.log("Reading rom files in path: {0}".format(romPath), util.LOG_LEVEL_INFO)
 			files = self.walkDownPath(files, unicode(romPath), romCollection.maxFolderDepth)
 		
 		#only use files that are not already present in database
@@ -755,9 +756,10 @@ class DBUpdate:
 
 			self.add_romfiles_to_db(romFiles, gameId)
 
-		for fileType, fileName in artworkfiles.iteritems():
-			Logutil.log("Importing artwork file {0} = {1}".format(fileType.type, fileName), util.LOG_LEVEL_INFO)
-			self.insertFile(fileName, gameId, fileType, romCollection.id, publisherId, developerId)
+		for fileType, fileNames in artworkfiles.iteritems():
+			for filename in fileNames:
+				Logutil.log("Importing artwork file {0} = {1}".format(fileType.type, filename), util.LOG_LEVEL_INFO)
+				self.insertFile(filename, gameId, fileType, romCollection.id, publisherId, developerId)
 				
 		self.gdb.commit()
 		return gameId
