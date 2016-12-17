@@ -193,15 +193,12 @@ class DBUpdate:
 						continue
 											
 					scraper = firstScraper.scrapers[0]
-					Logutil.log("start parsing with multi game scraper: " +str(firstScraper.name), util.LOG_LEVEL_INFO)
-					Logutil.log("using parser file: " +scraper.parseInstruction, util.LOG_LEVEL_INFO)
-					Logutil.log("using game description: " +scraper.source, util.LOG_LEVEL_INFO)
+					Logutil.log("Parsing with multi game scraper {0} using parser file {1} and game description {2}".format(firstScraper.name, scraper.parseInstruction, scraper.source), util.LOG_LEVEL_INFO)
 											
 					parser = DescriptionParserFactory.getParser(str(scraper.parseInstruction)) 										
 					
 					#parse description
 					for result in parser.scanDescription(scraper.source, str(scraper.parseInstruction), scraper.encoding):
-						
 						try:
 							gamenameFromDesc = result['Game'][0]
 							
@@ -284,7 +281,9 @@ class DBUpdate:
 						lastgamename = gamenameFromFile
 						
 						if(isMultiRomGame):
-							if(lastGameId == None):
+							# Add this entry as a file under the game ID and move on
+							Logutil.log("Detected {0} as a multirom game (previous game was {1}".format(filename, lastgamename), util.LOG_LEVEL_INFO)
+							if lastGameId is None:
 								Logutil.log('Game detected as multi rom game, but lastGameId is None.', util.LOG_LEVEL_ERROR)
 								continue
 							fileType = FileType()
@@ -594,11 +593,10 @@ class DBUpdate:
 		filecrc = ''
 		artScrapers = {}
 		
-		for i in range(startIndex, len(romCollection.scraperSites)):
-			scraperSite = romCollection.scraperSites[i]			
+		for idx, scraperSite in enumerate(romCollection.scraperSites):
 			
 			gui.writeMsg(progDialogRCHeader, util.localize(32123) +": " +gamenameFromFile, scraperSite.name + " - " +util.localize(32131), fileCount)
-			Logutil.log('using scraper: ' +scraperSite.name, util.LOG_LEVEL_INFO)
+			Logutil.log('Using site {0} with {1} scrapers'.format(scraperSite.name, len(scraperSite.scrapers)), util.LOG_LEVEL_INFO)
 			
 			if(scraperSite.searchGameByCRC and filecrc == ''):
 				filecrc = self.getFileCRC(firstRomfile)
@@ -606,9 +604,11 @@ class DBUpdate:
 			urlsFromPreviousScrapers = []
 			doContinue = False
 			for scraper in scraperSite.scrapers:
+				Logutil.log('Retrieving results for scraper {0} - {1}'.format(idx, scraper.source), util.LOG_LEVEL_DEBUG)
 				pyScraper = PyScraper()
 				result, urlsFromPreviousScrapers, doContinue = pyScraper.scrapeResults(result, scraper, urlsFromPreviousScrapers, gamenameFromFile, foldername, filecrc, firstRomfile, self.fuzzyFactor, updateOption, romCollection, self.Settings)
 				del pyScraper
+			Logutil.log('Completed site {0}'.format(scraperSite.name), util.LOG_LEVEL_DEBUG)
 			if(doContinue):
 				continue
 									
