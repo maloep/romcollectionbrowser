@@ -238,8 +238,8 @@ class DBUpdate:
 							
 							#remove found files from file list
 							if(gameId != None):
-								for filename in filenamelist:
-									files.remove(filename)
+								Logutil.log("Successfully added {0}".format(gamenameFromDesc), util.LOG_LEVEL_INFO)
+								files = [x for x in files if x not in filenamelist]
 									
 							del filenamelist
 									
@@ -256,6 +256,7 @@ class DBUpdate:
 					#all files still available files-list, are missing entries
 					for filename in files:
 						gamenameFromFile = helper.getGamenameFromFilename(filename, romCollection)
+						Logutil.log("Adding file {0} ({1}) to missing description file".format(filename, gamenameFromFile), util.LOG_LEVEL_WARNING)
 						self.missingDescFile.add_entry(gamenameFromFile)
 							
 				except Exception, (exc):
@@ -328,6 +329,7 @@ class DBUpdate:
 						del results, foldername, dialogDict
 						
 						if (lastGameId != None):
+							Logutil.log("Successfully added {0}".format(gamenameFromFile), util.LOG_LEVEL_INFO)
 							successfulFiles = successfulFiles + 1
 	
 						# Check if all first 10 games have errors - Modified to allow user to continue on errors
@@ -648,6 +650,7 @@ class DBUpdate:
 		for genreId in genreIds:
 			genreGame = GenreGame(self.gdb).getGenreGameByGenreIdAndGameId(genreId, gameId)
 			if genreGame is None:
+				Logutil.log("Inserting link to genre {0} with ID {1}".format(genreGame[util.ROW_NAME], genreId), util.LOG_LEVEL_DEBUG)
 				GenreGame(self.gdb).insert((genreId, gameId))
 			del genreGame
 

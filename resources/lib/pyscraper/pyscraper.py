@@ -19,6 +19,9 @@ class PyScraper:
 	def __init__(self):
 		pass
 
+	def log_results(self, resultslist):
+		for item in resultslist:
+			Logutil.log(' - ' + str(item), util.LOG_LEVEL_DEBUG)
 	def scrapeResults(self, results, scraper, urlsFromPreviousScrapers, gamenameFromFile, foldername, filecrc, romFile, fuzzyFactor, updateOption, romCollection, settings):		
 		Logutil.log("using parser file: " +scraper.parseInstruction, util.LOG_LEVEL_DEBUG)		
 		Logutil.log("using game description: " +scraper.source, util.LOG_LEVEL_DEBUG)
@@ -62,6 +65,9 @@ class PyScraper:
 
 				
 		tempResults = self.parseDescriptionFile(scraper, scraperSource, gamenameFromFile)
+		Logutil.log("Found {0} results for {1} from URL {2}".format(len(tempResults), gamenameFromFile, scraperSource), util.LOG_LEVEL_DEBUG)
+		self.log_results(tempResults)
+
 		tempResults = self.getBestResults(tempResults, gamenameFromFile)
 		
 		if(tempResults == None):
@@ -85,10 +91,11 @@ class PyScraper:
 			except:
 				Logutil.log("Should pass url to next scraper, but url is empty.", util.LOG_LEVEL_WARNING)
 			return results, urlsFromPreviousScrapers, True
-					
+
+		# For each result, compare against already existing results. If the old key value doesn't exist and the new
+		# one does, then use the new value, otherwise retain the value
 		if(tempResults != None):
 			for resultKey in tempResults.keys():
-				Logutil.log("resultKey: " +resultKey, util.LOG_LEVEL_INFO)
 				resultValue = []
 				
 				resultValueOld = results.get(resultKey, [])
@@ -102,11 +109,12 @@ class PyScraper:
 					resultValueNew[0] = HTMLParser.HTMLParser().unescape(resultValueNew[0])
 
 				if(len(resultValueOld) == 0 and (len(resultValueNew) != 0 and resultValueNew != [None,] and resultValueNew != None and resultValueNew != '')):
+					Logutil.log("No existing value for key {0}, replacing with new value [{1}]".format(resultKey, ','.join(str(x) for x in resultValueNew)), util.LOG_LEVEL_DEBUG)
 					results[resultKey] = resultValueNew
 					resultValue = resultValueNew
 				else:
+					Logutil.log("Retaining existing value for key {0} ([{1}])".format(resultKey, ','.join(str(x) for x in resultValueOld)), util.LOG_LEVEL_DEBUG)
 					resultValue = resultValueOld
-				Logutil.log("resultValue: " +str(resultValue), util.LOG_LEVEL_INFO)
 			del tempResults
 					
 		return results, urlsFromPreviousScrapers, False
@@ -145,6 +153,16 @@ class PyScraper:
 	
 	
 	def parseDescriptionFile(self, scraper, scraperSource, gamenameFromFile):
+		"""
+		Given a scraper, source (URL or file) and a gamename, retrieve a list
+		of possible matches.
+		Args:
+		    scraper: scraper object to use to retrieve the results
+		    scraperSource: either a URL or a file
+		    gamenameFromFile: game to search for
+		Returns:
+		A list of dicts for each result, where each dict value is itself a list
+		"""
 		Logutil.log("parseDescriptionFile", util.LOG_LEVEL_INFO)
 		scraperSource = self.prepareScraperSource(scraper, scraperSource, gamenameFromFile)
 		if scraperSource == "":
@@ -372,7 +390,18 @@ class PyScraper:
 		
 		
 	def checkSequelNoIsEqual(self, gamenameFromFile, searchKey):
-		
+		""" Given a gamename and a possible matching gamegame, check whether they
+		share a sequel number
+
+		Args:
+		    gamenameFromFile: Existing filename that we are matching
+		    searchKey: Found gamename from parser
+
+		Returns:
+		    True if there is a number (either roman or decimal) that the games share
+		    False otherwise
+
+		"""
 		Logutil.log('Check sequel numbers for "%s" and "%s".' %(gamenameFromFile, searchKey), util.LOG_LEVEL_INFO)				
 		
 		#first check equality of last number (also works for year sequels like Fifa 98)
