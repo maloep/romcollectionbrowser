@@ -106,14 +106,9 @@ class UIGameDB(xbmcgui.WindowXML):
 	
 	useRCBService = False
 	searchTerm = ''
-	
-	xbmcversion = xbmcaddon.Addon('xbmc.addon').getAddonInfo('version')
-	Logutil.log("XBMC version = " +xbmcversion, util.LOG_LEVEL_INFO)
-	
-	xbmcversionNo = xbmcversion[0:2]
-	Logutil.log("XBMC major version no = " +xbmcversionNo, util.LOG_LEVEL_INFO)
-	
-	if(int(xbmcversionNo) < util.XBMC_VERSION_HELIX):
+
+	if KodiVersions.getKodiVersion() < KodiVersions.HELIX:
+		Logutil.log("Running on Kodi version older than Helix; using old alignment", util.LOG_LEVEL_INFO)
 		xbmc.executebuiltin('Skin.SetBool(rcb_useOldAlignment)')
 	
 	def __init__(self, strXMLname, strFallbackPath, strDefaultName, forceFallback):

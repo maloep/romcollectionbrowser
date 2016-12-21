@@ -67,7 +67,7 @@ def launchEmu(gdb, gui, gameId, config, settings, listitem):
 			basePath = os.path.join(util.getAddonDataPath(), 'scriptfiles')
 			#xbmc needs other script files than kodi
 			xbmcFilenameSuffix = "_xbmc"
-			if(int(gui.xbmcversionNo) >= util.XBMC_VERSION_HELIX):
+			if KodiVersions().getKodiVersion() >= KodiVersions.HELIX:
 				xbmcFilenameSuffix = ""
 						
 			if(env == "win32"):

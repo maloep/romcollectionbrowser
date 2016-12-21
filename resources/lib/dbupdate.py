@@ -11,6 +11,7 @@ import fnmatch
 
 import util, helper
 from util import *
+from util import KodiVersions
 from config import *
 from gamedatabase import *
 from descriptionparserfactory import *
@@ -1186,7 +1187,12 @@ class DBUpdate:
 
 			# Create folder if it doesn't already exist
 			dirname = os.path.join(os.path.dirname(fileName), '')	# Add the trailing slash that xbmcvfs.exists expects
-			if not xbmcvfs.exists(dirname):
+			Logutil.log("Checking for artwork directory {0}".format(dirname), util.LOG_LEVEL_DEBUG)
+			if KodiVersions.getKodiVersion() >= KodiVersions.KRYPTON:
+				exists = xbmcvfs.exists(dirname)
+			else:
+				exists = os.path.exists(dirname)
+			if not exists:
 				Logutil.log("Artwork directory {0} doesn't exist, creating it".format(dirname), util.LOG_LEVEL_INFO)
 				success = xbmcvfs.mkdirs(dirname)
 				if not success:
