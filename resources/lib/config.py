@@ -295,7 +295,9 @@ class RomCollection(object):
 	preCmd: The OS command to execute before the emulatorCmd
 	postCmd: The OS command to execute after the emulatorCmd
 	emulatorParams: List of command-line parameters appended to the emulatorCmd
-	romPaths:
+	romPaths: List of paths containing the roms for this collection, including wildcard match, e.g.
+	    /path/to/rom/files/*.zip
+	scraperSites: List of Site objects applicable to this collection
 	ignoreOnScan: Whether to skip this rom collection when scanning
 	allowUpdate: Allows overwriting an existing rom in the collection with details from a more recent scan
 	useEmuSolo: Whether to shutdown/restart Kodi while running the external emulator using the scripts in
@@ -320,11 +322,11 @@ class RomCollection(object):
 		self.preCmd = ''
 		self.postCmd = ''
 		self.emulatorParams = ''
-		self.romPaths = None
+		self.romPaths = []
 		self.saveStatePath = ''
 		self.saveStateParams = ''
-		self.mediaPaths = None
-		self.scraperSites = None
+		self.mediaPaths = []
+		self.scraperSites = []
 		self.imagePlacingMain = None
 		self.imagePlacingInfo = None
 		self.autoplayVideoMain = True
@@ -492,15 +494,12 @@ class Config(object):
 			romCollection.id = id
 			
 			# romPath
-			romCollection.romPaths = []
 			for romPathRow in romCollectionRow.findall('romPath'):
 				Logutil.log('Rom path: ' +romPathRow.text, util.LOG_LEVEL_INFO)
 				if romPathRow.text is not None:
 					romCollection.romPaths.append(romPathRow.text)
 				
 			# mediaPath
-			romCollection.mediaPaths = []
-
 			for mediaPathRow in romCollectionRow.findall('mediaPath'):
 				mediaPath = MediaPath()
 				if mediaPathRow.text is not None:
@@ -513,7 +512,6 @@ class Config(object):
 				romCollection.mediaPaths.append(mediaPath)
 			
 			#Scraper
-			romCollection.scraperSites = []
 			for scraperRow in romCollectionRow.findall('scraper'):
 				if 'name' not in scraperRow.attrib:
 					Logutil.log('Configuration error. RomCollection/scraper must have an attribute name', util.LOG_LEVEL_ERROR)

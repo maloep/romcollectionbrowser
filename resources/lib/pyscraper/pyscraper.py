@@ -65,12 +65,16 @@ class PyScraper:
 
 				
 		tempResults = self.parseDescriptionFile(scraper, scraperSource, gamenameFromFile)
-		Logutil.log("Found {0} results for {1} from URL {2}".format(len(tempResults), gamenameFromFile, scraperSource), util.LOG_LEVEL_DEBUG)
-		self.log_results(tempResults)
+		try:
+			Logutil.log("Found {0} results for {1} from URL {2}".format(len(tempResults), gamenameFromFile, scraperSource), util.LOG_LEVEL_DEBUG)
+			self.log_results(tempResults)
+		except:
+			# Ignore if an exception since it will be where tempResults is None
+			pass
 
 		tempResults = self.getBestResults(tempResults, gamenameFromFile)
 		
-		if(tempResults == None):
+		if tempResults is None:
 			#try again without (*) and [*]
 			altname = re.sub('\s\(.*\)|\s\[.*\]|\(.*\)|\[.*\]', '', gamenameFromFile)
 			Logutil.log("Did not find any matches for {0}, trying again with {1}".format(gamenameFromFile, altname),
@@ -78,10 +82,13 @@ class PyScraper:
 			tempResults = self.parseDescriptionFile(scraper, scraperSource, altname)
 			tempResults = self.getBestResults(tempResults, altname)
 				
-		if(tempResults == None):
-			if(scraper.returnUrl):
-				urlsFromPreviousScrapers.append('')
-			return results, urlsFromPreviousScrapers, True
+			if tempResults is None:
+				Logutil.log("Still no matches after modifying game name", util.LOG_LEVEL_DEBUG)
+				if(scraper.returnUrl):
+					urlsFromPreviousScrapers.append('')
+				return results, urlsFromPreviousScrapers, True
+
+			Logutil.log("After modifying game name, found {0} best results for {1}".format(len(tempResults), altname), util.LOG_LEVEL_DEBUG)
 		
 		if(scraper.returnUrl):
 			try:								
@@ -161,11 +168,12 @@ class PyScraper:
 		    scraperSource: either a URL or a file
 		    gamenameFromFile: game to search for
 		Returns:
-		A list of dicts for each result, where each dict value is itself a list
+		A list of dicts for each result, where each dict value is itself a list, or None if an error occurred
 		"""
 		Logutil.log("parseDescriptionFile", util.LOG_LEVEL_INFO)
 		scraperSource = self.prepareScraperSource(scraper, scraperSource, gamenameFromFile)
 		if scraperSource == "":
+			Logutil.log("Scraper source for scraper {0} is empty".format(scraper.parseInstruction), util.LOG_LEVEL_DEBUG)
 			return None
 			
 		try:
