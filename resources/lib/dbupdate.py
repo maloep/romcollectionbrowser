@@ -572,7 +572,7 @@ class DBUpdate:
 		
 		isUpdate = False
 		gameId = None
-		
+		Logutil.log("Checking if file already exists in DB: {0}".format(str(filename)), util.LOG_LEVEL_DEBUG)
 		romFile = File(self.gdb).getFileByNameAndType(filename, 0)
 		if(romFile != None):
 			isUpdate = True
@@ -584,6 +584,7 @@ class DBUpdate:
 				Logutil.log('Won\'t scrape this game again. Set "Always rescan imported games" to True to force scraping.', util.LOG_LEVEL_INFO)
 				return False, isUpdate, gameId
 		else:
+			Logutil.log("Couldn't find file in DB", util.LOG_LEVEL_DEBUG)
 			if(isLocalArtwork):
 				Logutil.log('scraper == "local artwork": ' +str(isLocalArtwork), util.LOG_LEVEL_INFO)
 				Logutil.log('Can\'t use "local artwork" scraper if game is not already imported. Use another scraper first.', util.LOG_LEVEL_INFO)
@@ -651,12 +652,13 @@ class DBUpdate:
 		for genreId in genreIds:
 			genreGame = GenreGame(self.gdb).getGenreGameByGenreIdAndGameId(genreId, gameId)
 			if genreGame is None:
-				Logutil.log("Inserting link to genre {0} with ID {1}".format(genreGame[util.ROW_NAME], genreId), util.LOG_LEVEL_DEBUG)
+				Logutil.log("Inserting link between game {0} and genre {1}".format(str(gameId), str(genreId)), util.LOG_LEVEL_DEBUG)
 				GenreGame(self.gdb).insert((genreId, gameId))
 			del genreGame
 
 	def add_romfiles_to_db(self, romFiles, gameId):
 		for romFile in romFiles:
+			Logutil.log("Adding romfile to DB: {0}".format(str(romFile)), util.LOG_LEVEL_DEBUG)
 			fileType = FileType()
 			fileType.id = 0
 			fileType.name = "rcb_rom"
@@ -762,7 +764,7 @@ class DBUpdate:
 
 		for fileType, fileNames in artworkfiles.iteritems():
 			for filename in fileNames:
-				Logutil.log("Importing artwork file {0} = {1}".format(fileType.type, filename), util.LOG_LEVEL_INFO)
+				Logutil.log("Importing artwork file {0} = {1}".format(fileType.type, str(filename)), util.LOG_LEVEL_INFO)
 				self.insertFile(filename, gameId, fileType, romCollection.id, publisherId, developerId)
 				
 		self.gdb.commit()
@@ -833,7 +835,7 @@ class DBUpdate:
 								
 				return gameId
 		except Exception, (exc):
-			Logutil.log("An error occured while adding game '%s'. Error: %s" %(gameName, str(exc)), util.LOG_LEVEL_INFO)
+			Logutil.log("An error occured while adding game '%s'. Error: %s" %(gameName, str(exc)), util.LOG_LEVEL_ERROR)
 			return None
 			
 		
