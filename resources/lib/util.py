@@ -1,4 +1,3 @@
-
 import xbmc, xbmcaddon, xbmcvfs
 
 import os, sys, re, shutil
@@ -388,17 +387,56 @@ RCBHOME = getAddonInstallPath()
 try:
 	from sqlite3 import dbapi2 as sqlite
 	print("RCB_INFO: Loading sqlite3 as DB engine")
-except:
+except ImportError as e:
 	from pysqlite2 import dbapi2 as sqlite
 	print("RCB_INFO: Loading pysqlite2 as DB engine")
 
-class Logutil:
-	
+
+class Logutil(object):
+	# Class variable
 	currentLogLevel = None
+
+	levels = ['ERROR', 'WARNING', 'INFO', 'DEBUG']
+	prefix = ['RCB_ERROR', 'RCB_WARNING', 'RCB_INFO', 'RCB_DEBUG']
+
+	# Note that we don't call __init__ since we use class methods, not instance methods
+
+	@classmethod
+	def __log(cls, level, message):
+		# Init if not already set
+		if cls.currentLogLevel is None:
+			print "RCB: initialising log level"
+			cls.currentLogLevel = cls.getCurrentLogLevel()
+			print "RCB: current log level initialised to " +str(cls.currentLogLevel)
+
+		if Logutil.getCurrentLogLevel() < level:
+			return
+
+		try:
+			msg = u'{0} {1}'.format(str(cls.prefix[level]), str(message))
+			print msg.encode('utf-8')
+		except:
+			pass
+
+	@classmethod
+	def debug(cls, message):
+		cls.__log(LOG_LEVEL_DEBUG, message)
+
+	@classmethod
+	def info(cls, message):
+		cls.__log(LOG_LEVEL_INFO, message)
+
+	@classmethod
+	def warn(cls, message):
+		cls.__log(LOG_LEVEL_WARNING, message)
+
+	@classmethod
+	def error(cls, message):
+		cls.__log(LOG_LEVEL_ERROR, message)
 
 	@staticmethod
 	def log(message, logLevel):
-			
+		# FIXME TODO this is deprecated in favour of the above methods
 		if(Logutil.currentLogLevel == None):
 			print "RCB: init log level"
 			Logutil.currentLogLevel = Logutil.getCurrentLogLevel()
@@ -423,7 +461,6 @@ class Logutil:
 			print m.encode("utf-8")
 		except Exception, (exc):
 			pass
-		
 	
 	@staticmethod
 	def getCurrentLogLevel():
