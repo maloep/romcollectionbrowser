@@ -150,12 +150,7 @@ class ConfigXmlWizard(object):
 				preconfiguredEmulator = None
 				
 				#emulator
-				#xbox games on xbox will be launched directly
-				if os.environ.get("OS", "xbox") == "xbox" and romCollection.name == 'Xbox':
-					romCollection.emulatorCmd = '%ROM%'
-					Logutil.log('emuCmd set to "%ROM%" on Xbox.', util.LOG_LEVEL_INFO)
-
-				elif romCollection.name == 'Linux' or \
+				if romCollection.name == 'Linux' or \
 				     romCollection.name == 'Macintosh' or \
 				     romCollection.name == 'Windows':
 					# Check for standalone games
@@ -194,11 +189,7 @@ class ConfigXmlWizard(object):
 						romCollection.emulatorCmd = consolePath
 				
 				#params
-				#on xbox we will create .cut files without params
-				if (os.environ.get( "OS", "xbox" ) == "xbox"):
-					romCollection.emulatorParams = ''
-					Logutil.log('emuParams set to "" on Xbox.', util.LOG_LEVEL_INFO)
-				elif (romCollection.name == 'Linux' or romCollection.name == 'Macintosh' or romCollection.name == 'Windows'):
+				if (romCollection.name == 'Linux' or romCollection.name == 'Macintosh' or romCollection.name == 'Windows'):
 					romCollection.emulatorParams = ''
 					Logutil.log('emuParams set to "" for standalone games.', util.LOG_LEVEL_INFO)
 				else:
@@ -255,18 +246,7 @@ class ConfigXmlWizard(object):
 				else:
 					Logutil.log('No fileMask selected. Action canceled.', util.LOG_LEVEL_INFO)
 					break
-	
-			if (os.environ.get( "OS", "xbox" ) == "xbox"):
-				romCollection.xboxCreateShortcut = True
-				romCollection.xboxCreateShortcutAddRomfile = True
-				romCollection.xboxCreateShortcutUseShortGamename = False
-				
-				#TODO use flags for complete platform list (not only xbox)
-				if(romCollection.name == 'Xbox'):
-					romCollection.useFoldernameAsGamename = True
-					romCollection.searchGameByCRC = False
-					romCollection.maxFolderDepth = 1
-			
+
 			
 			if(scenarioIndex == 0):
 				artworkPath = dialog.browse(0, util.localize(32193) %console, 'files', '', False, False, romPath)
