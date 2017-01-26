@@ -69,7 +69,28 @@ class EditRomCollectionDialog(dialogbase.DialogBaseEdit):
 	selectedRomCollection = None	
 	romCollections = None
 	scraperSites = None
-	
+
+	# FIXME TODO Duplicated in wizardconfigxml.py. Need a class to handle these, possibly config.py?
+	@property
+	def current_os(self):
+		os = ''
+		# FIXME TODO Add other platforms
+		# Map between Kodi's platform name (defined in http://kodi.wiki/view/List_of_boolean_conditions)
+		# and the os name in emu_autoconfig.xml
+		platforms = ('System.Platform.Android',
+					 'System.Platform.OSX',
+					 'System.Platform.Windows',
+					 'System.Platform.Linux')
+		try:
+			for platform in platforms:
+				if xbmc.getCondVisibility(platform):
+					os = platform.split('.')[-1]
+					break
+		except Exception as err:
+			pass
+		return os
+
+
 	def __init__(self, *args, **kwargs):
 		Logutil.log('init Edit Rom Collection', util.LOG_LEVEL_INFO)
 		
@@ -199,38 +220,42 @@ class EditRomCollectionDialog(dialogbase.DialogBaseEdit):
 			emulatorPath = ''
 			dialog = xbmcgui.Dialog()
 			
-			if (self.selectedRomCollection.name == 'Linux' or self.selectedRomCollection.name == 'Macintosh' or self.selectedRomCollection.name == 'Windows'):
+			if self.selectedRomCollection.name == 'Linux' \
+			or self.selectedRomCollection.name == 'Macintosh' \
+			or self.selectedRomCollection.name == 'Windows':
 				emulatorPath = self.editTextProperty(CONTROL_BUTTON_EMUCMD, util.localize(32624))
 			else:
-				if(xbmc.getCondVisibility('System.Platform.Android')):
-					
-					autoconfig = EmulatorAutoconfig(util.getEmuAutoConfigPath())
-					
-					Logutil.log('Running on Android. Trying to find emulator per autoconfig.', util.LOG_LEVEL_INFO)
-					emulators = autoconfig.findEmulators('Android', self.selectedRomCollection.name, True)
-					emulist = []
-					if(emulators):
-						for emulator in emulators:
-							if(emulator.isInstalled):
-								emulist.append(util.localize(32202) %emulator.name)
-							else:
-								emulist.append(emulator.name)
-					if(len(emulist) > 0):
-						emuIndex = dialog.select(util.localize(32203), emulist)
-						Logutil.log('emuIndex: ' +str(emuIndex), util.LOG_LEVEL_INFO)
-						if(emuIndex == -1):
-							Logutil.log('No Emulator selected.', util.LOG_LEVEL_INFO)
-						else:
-							preconfiguredEmulator = emulators[emuIndex]
+				autoconfig = EmulatorAutoconfig(util.getEmuAutoConfigPath())
+
+				emulist = []
+
+				Logutil.log(u'Running on {0}. Trying to find emulator per autoconfig.'.format(self.current_os),
+							util.LOG_LEVEL_INFO)
+				emulators = autoconfig.findEmulators(self.current_os, self.selectedRomCollection.name, True)
+
+				for emulator in emulators:
+					if emulator.isInstalled:
+						emulist.append(util.localize(32202) % emulator.name)
+					else:
+						emulist.append(emulator.name)
+
+				# Ask the user which emulator they want
+				if len(emulist) > 0:
+					emuIndex = dialog.select(util.localize(32203), emulist)
+					try:
+						preconfiguredEmulator = emulators[emuIndex]
+					except:
+						Logutil.log('No Emulator selected.', util.LOG_LEVEL_INFO)
+						preconfiguredEmulator = None
 						
-				if(preconfiguredEmulator):
+				if preconfiguredEmulator:
 					emulatorPath = preconfiguredEmulator.emuCmd					
 					self.selectedRomCollection.emulatorParams = preconfiguredEmulator.emuParams
 					control = self.getControlById(CONTROL_BUTTON_PARAMS)
 					control.setLabel(self.selectedRomCollection.emulatorParams)
 				else:										
-					emulatorPath = dialog.browse(1, '%s ' %self.selectedRomCollection.name +util.localize(32139), 'files')
-					if(emulatorPath == ''):
+					emulatorPath = dialog.browse(1, '%s ' % self.selectedRomCollection.name + util.localize(32139), 'files')
+					if emulatorPath == '':
 						return
 							
 			self.selectedRomCollection.emulatorCmd = emulatorPath
