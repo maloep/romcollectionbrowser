@@ -559,10 +559,14 @@ class Config(object):
 			for var in ['gameclient', 'emulatorCmd', 'preCmd', 'postCmd', 'emulatorParams', 'saveStatePath',
 						'saveStateParams', 'diskPrefix']:
 				romCollection.__setattr__(var, romCollectionRow.findtext(var, ''))
+			
+			# RomCollection int properties
+			for var in ['maxFolderDepth']:
+				romCollection.__setattr__(var, int(romCollectionRow.findtext(var, '')))
 
 			# RomCollection bool properties
 			for var in ['useBuiltinEmulator', 'ignoreOnScan', 'allowUpdate', 'useEmuSolo', 'usePopen',
-						'autoplayVideoMain', 'autoplayVideoInfo', 'useFoldernameAsGamename', 'maxFolderDepth',
+						'autoplayVideoMain', 'autoplayVideoInfo', 'useFoldernameAsGamename',
 						'doNotExtractZipFiles', 'makeLocalCopy', 'xboxCreateShortcut',
 						'xboxCreateShortcutAddRomfile', 'xboxCreateShortcutUseShortGamename']:
 				romCollection.__setattr__(var, romCollectionRow.findtext(var, '').upper() == 'TRUE')
