@@ -472,33 +472,6 @@ def copyLauncherScriptsToUserdata(settings):
 		newPath = os.path.join(newBasePath, 'Sleep.vbs')
 		util.copyFile(oldPath, newPath)
 
-def launchXbox(gui, gdb, cmd, romCollection, filenameRows):
-	Logutil.log("launchEmu on xbox", util.LOG_LEVEL_INFO)
-	
-	#on xbox emucmd must be the path to an executable or cut file
-	if (not os.path.isfile(cmd)):
-		Logutil.log("Error while launching emu: File %s does not exist!" %cmd, util.LOG_LEVEL_ERROR)
-		gui.writeMsg(util.localize(32037) %cmd)
-		return
-					
-	if (romCollection.xboxCreateShortcut):
-		Logutil.log("creating cut file", util.LOG_LEVEL_INFO)
-		
-		cutFile = createXboxCutFile(cmd, filenameRows, romCollection)
-		if(cutFile == ""):
-			Logutil.log("Error while creating .cut file. Check xbmc.log for details.", util.LOG_LEVEL_ERROR)
-			gui.writeMsg(util.localize(32038))
-			return
-			
-		cmd = cutFile
-		Logutil.log("cut file created: " +cmd, util.LOG_LEVEL_INFO)
-		
-	Logutil.log("RunXbe", util.LOG_LEVEL_INFO)
-	xbmc.executebuiltin("XBMC.Runxbe(%s)" %cmd)
-	Logutil.log("RunXbe done", util.LOG_LEVEL_INFO)
-	time.sleep(1000)
-		
-
 def createXboxCutFile(emuCommandLine, filenameRows, romCollection):
 	Logutil.log("Begin launcher.createXboxCutFile", util.LOG_LEVEL_INFO)		
 		
