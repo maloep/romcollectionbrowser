@@ -128,7 +128,7 @@ class UIGameDB(xbmcgui.WindowXML):
 			Logutil.log("RCB service addon: " + str(serviceAddon), util.LOG_LEVEL_INFO)
 			self.useRCBService = True
 		except:
-			Logutil.log("No RCB service addon available. Will use autoexec.py for startup features.", util.LOG_LEVEL_INFO)
+			Logutil.log("No RCB service addon available.", util.LOG_LEVEL_INFO)
 			
 		self.initialized = False
 		self.Settings = util.getSettings()
@@ -266,10 +266,6 @@ class UIGameDB(xbmcgui.WindowXML):
 		self.loadViewState()
 		
 		#self.fillListInBackground()
-		
-		#check startup tasks done with autoexec.py
-		if(not self.useRCBService):
-			self.checkScrapStart()
 
 		Logutil.log("End onInit", util.LOG_LEVEL_INFO)
 
@@ -1301,56 +1297,6 @@ class UIGameDB(xbmcgui.WindowXML):
 		
 		return False
 
-
-	# Handle autoexec.py script to add/remove background scraping on startup
-	def checkScrapStart(self):
-		Logutil.log("Begin checkScrapStart" , util.LOG_LEVEL_INFO)
-		
-		autoexecFile = util.getAutoexecPath()
-		path = os.path.join(util.RCBHOME, 'dbUpLauncher.py')
-		if(util.getEnvironment() == 'win32'):
-			#HACK: There is an error with "\a" in autoexec.py on winidows, so we need "\A"
-			path = path.replace('\\addons', '\\Addons')
-		launchLine = 'xbmc.executescript("%s")' % path
-		try:
-			fp = open(autoexecFile, 'r+')
-		except:
-			Logutil.log("Error opening autoexec.py" , util.LOG_LEVEL_WARNING)
-			return
-		xbmcImported = False
-		alreadyCreated = False
-		for line in fp:
-			if line.startswith('import xbmc'):
-				Logutil.log("import xbmc line found!" , util.LOG_LEVEL_INFO)
-				xbmcImported = True
-			if launchLine in line:
-				Logutil.log("executescript line found!", util.LOG_LEVEL_INFO)
-				alreadyCreated = True
-				
-		if self.Settings.getSetting(util.SETTING_RCB_SCRAPONSTART) == 'true':
-			
-			if not xbmcImported:
-				Logutil.log("adding import xbmc line", util.LOG_LEVEL_INFO)
-				fp.write('\nimport xbmc')
-			if not alreadyCreated:
-				Logutil.log("adding executescript line", util.LOG_LEVEL_INFO)
-				fp.write('\n' + launchLine)
-				
-			fp.close()
-		elif alreadyCreated:
-			Logutil.log("Deleting executescript line" , util.LOG_LEVEL_INFO)
-			if alreadyCreated:
-				fp.seek(0)
-				lines = fp.readlines()
-				fp.close()
-				os.remove(autoexecFile)
-				fp = open(autoexecFile, 'w')
-				for line in lines:
-					if not path in line:
-						fp.write(line)
-				fp.close()
-		Logutil.log("End checkScrapStart" , util.LOG_LEVEL_INFO)
-					
 	def backupConfigXml(self):
 		#backup config.xml for later use (will be overwritten in case of an addon update)
 		configXml = util.getConfigXmlPath()
