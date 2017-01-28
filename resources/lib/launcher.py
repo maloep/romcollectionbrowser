@@ -471,61 +471,6 @@ def copyLauncherScriptsToUserdata(settings):
 		oldPath = os.path.join(oldBasePath, 'Sleep.vbs')
 		newPath = os.path.join(newBasePath, 'Sleep.vbs')
 		util.copyFile(oldPath, newPath)
-
-def createXboxCutFile(emuCommandLine, filenameRows, romCollection):
-	Logutil.log("Begin launcher.createXboxCutFile", util.LOG_LEVEL_INFO)		
-		
-	cutFile = os.path.join(util.getAddonDataPath(), 'temp.cut')
-
-	# Write new temp.cut
-	try:
-		fh = open(cutFile,'w') # truncate to 0
-		fh.write("<shortcut>\n")
-		fh.write("<path>%s</path>\n" %emuCommandLine)
-				
-		if (romCollection.xboxCreateShortcutAddRomfile):	
-			filename = getRomfilenameForXboxCutfile(filenameRows, romCollection)
-			if(filename == ""):
-				return ""			
-			fh.write("<custom>\n")
-			fh.write("<game>%s</game>\n" %filename)
-			fh.write("</custom>\n")
-			
-		fh.write("</shortcut>\n")
-		fh.write("\n")
-		fh.close()
-	except Exception, (exc):
-		Logutil.log("Cannot write to temp.cut: " +str(exc), util.LOG_LEVEL_ERROR)
-		return ""			
-	
-	Logutil.log("End launcher.createXboxCutFile", util.LOG_LEVEL_INFO)
-	return cutFile
-	
-
-def getRomfilenameForXboxCutfile(filenameRows, romCollection):
-	
-	if(len(filenameRows) != 1):
-		Logutil.log("More than one file available for current game. Xbox version only supports one file per game atm.", util.LOG_LEVEL_ERROR)
-		return ""
-	
-	filenameRow = filenameRows[0]
-	if(filenameRow == None):
-		Logutil.log("filenameRow == None in launcher.createXboxCutFile", util.LOG_LEVEL_ERROR)
-		return ""
-		
-	filename = filenameRow[0]
-		
-	if (not os.path.isfile(filename)):
-		Logutil.log("Error while launching emu: File %s does not exist!" %filename, util.LOG_LEVEL_ERROR)		
-		return ""	
-	
-	if (not romCollection.xboxCreateShortcutUseShortGamename):
-		return filename
-		
-	basename = os.path.basename(filename)
-	filename = os.path.splitext(basename)[0]
-	return filename
-	
 	
 def launchNonXbox(cmd, romCollection, gameRow, settings, precmd, postcmd, roms, gui, listitem):
 	Logutil.log("launchEmu on non-xbox", util.LOG_LEVEL_INFO)							
