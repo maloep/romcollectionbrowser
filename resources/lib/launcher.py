@@ -54,14 +54,9 @@ def launchEmu(gdb, gui, gameId, config, settings, listitem):
 		if (romCollection.useEmuSolo):
 			
 			copyLauncherScriptsToUserdata(settings)
-			
-			#check if we should use xbmc.service (Eden) or autoexec.py (Dharma)
-			if(not gui.useRCBService):
-				#try to create autoexec.py
-				writeAutoexec(gdb)
-			else:
-				#communicate with service via settings
-				settings.setSetting(util.SETTING_RCB_LAUNCHONSTARTUP, 'true')
+
+			#communicate with service via settings
+			settings.setSetting(util.SETTING_RCB_LAUNCHONSTARTUP, 'true')
 			
 			#invoke script file that kills xbmc before launching the emulator
 			basePath = os.path.join(util.getAddonDataPath(), 'scriptfiles')
@@ -95,10 +90,7 @@ def launchEmu(gdb, gui, gameId, config, settings, listitem):
 	Logutil.log("postcmd: " +postcmd, util.LOG_LEVEL_INFO)
 	
 	try:
-		if (os.environ.get( "OS", "xbox" ) == "xbox"):			
-			launchXbox(gui, gdb, cmd, romCollection, filenameRows)
-		else:
-			launchNonXbox(cmd, romCollection, gameRow, settings, precmd, postcmd, roms, gui, listitem)
+		launchNonXbox(cmd, romCollection, gameRow, settings, precmd, postcmd, roms, gui, listitem)
 	
 		gui.writeMsg("")
 					
@@ -479,29 +471,6 @@ def copyLauncherScriptsToUserdata(settings):
 		oldPath = os.path.join(oldBasePath, 'Sleep.vbs')
 		newPath = os.path.join(newBasePath, 'Sleep.vbs')
 		util.copyFile(oldPath, newPath)
-
-
-def writeAutoexec(gdb):
-	# Backup original autoexec.py		
-	autoexec = util.getAutoexecPath()
-	backupAutoexec(gdb, autoexec)
-
-	# Write new autoexec.py
-	try:
-		path = os.path.join(util.RCBHOME, 'default.py')
-		if(util.getEnvironment() == 'win32'):
-			#HACK: There is an error with "\a" in autoexec.py on windows, so we need "\A"
-			path = path.replace('\\addons', '\\Addons')
-			
-		fh = open(autoexec,'w') # truncate to 0
-		fh.write("#Rom Collection Browser autoexec\n")
-		fh.write("import xbmc\n")
-		fh.write("xbmc.executescript('"+ path+"')\n")
-		fh.close()
-	except Exception, (exc):
-		Logutil.log("Cannot write to autoexec.py: " +str(exc), util.LOG_LEVEL_ERROR)
-		return
-	
 	
 def backupAutoexec(gdb, fName):
 	Logutil.log("Begin launcher.backupAutoexec", util.LOG_LEVEL_INFO)
@@ -549,10 +518,7 @@ def launchXbox(gui, gdb, cmd, romCollection, filenameRows):
 			return
 			
 		cmd = cutFile
-		Logutil.log("cut file created: " +cmd, util.LOG_LEVEL_INFO)			
-	
-	#RunXbe always terminates XBMC. So we have to write autoexec here	
-	writeAutoexec(gdb)
+		Logutil.log("cut file created: " +cmd, util.LOG_LEVEL_INFO)
 		
 	Logutil.log("RunXbe", util.LOG_LEVEL_INFO)
 	xbmc.executebuiltin("XBMC.Runxbe(%s)" %cmd)
