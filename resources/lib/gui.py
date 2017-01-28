@@ -269,7 +269,6 @@ class UIGameDB(xbmcgui.WindowXML):
 		
 		#check startup tasks done with autoexec.py
 		if(not self.useRCBService):
-			self.checkAutoExec()
 			self.checkScrapStart()
 
 		Logutil.log("End onInit", util.LOG_LEVEL_INFO)
@@ -1351,61 +1350,7 @@ class UIGameDB(xbmcgui.WindowXML):
 						fp.write(line)
 				fp.close()
 		Logutil.log("End checkScrapStart" , util.LOG_LEVEL_INFO)
-				
-				
-	def checkAutoExec(self):
-		Logutil.log("Begin checkAutoExec" , util.LOG_LEVEL_INFO)
-		
-		autoexec = util.getAutoexecPath()		
-		Logutil.log("Checking path: " + autoexec, util.LOG_LEVEL_INFO)
-		if (os.path.isfile(autoexec)):	
-			lines = ""
-			try:
-				fh = fh = open(autoexec, "r")
-				lines = fh.readlines()
-				fh.close()
-			except Exception, (exc):
-				Logutil.log("Cannot access autoexec.py: " + str(exc), util.LOG_LEVEL_ERROR)
-				return
-				
-			if(len(lines) > 0):
-				firstLine = lines[0]
-				#check if it is our autoexec
-				if(firstLine.startswith('#Rom Collection Browser autoexec')):
-					try:
-						os.remove(autoexec)
-					except Exception, (exc):
-						Logutil.log("Cannot remove autoexec.py: " + str(exc), util.LOG_LEVEL_ERROR)
-						return
-				else:
-					return
-		else:
-			Logutil.log("No autoexec.py found at given path.", util.LOG_LEVEL_INFO)
-		
-		rcbSetting = helper.getRCBSetting(self.gdb)
-		if (rcbSetting == None):
-			print "RCB_WARNING: rcbSetting == None in checkAutoExec"
-			return
 					
-		#check if we have to restore autoexec backup 
-		autoExecBackupPath = rcbSetting[util.RCBSETTING_autoexecBackupPath]
-		if (autoExecBackupPath == None):
-			return
-			
-		if (os.path.isfile(autoExecBackupPath)):
-			try:
-				os.rename(autoExecBackupPath, autoexec)
-				os.remove(autoExecBackupPath)
-			except Exception, (exc):
-				Logutil.log("Cannot rename autoexec.py: " + str(exc), util.LOG_LEVEL_ERROR)
-				return
-			
-		RCBSetting(self.gdb).update(('autoexecBackupPath',), (None,), rcbSetting[0], True)
-		self.gdb.commit()
-		
-		Logutil.log("End checkAutoExec" , util.LOG_LEVEL_INFO)		
-		
-		
 	def backupConfigXml(self):
 		#backup config.xml for later use (will be overwritten in case of an addon update)
 		configXml = util.getConfigXmlPath()
