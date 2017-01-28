@@ -471,33 +471,6 @@ def copyLauncherScriptsToUserdata(settings):
 		oldPath = os.path.join(oldBasePath, 'Sleep.vbs')
 		newPath = os.path.join(newBasePath, 'Sleep.vbs')
 		util.copyFile(oldPath, newPath)
-	
-def backupAutoexec(gdb, fName):
-	Logutil.log("Begin launcher.backupAutoexec", util.LOG_LEVEL_INFO)
-
-	if os.path.isfile(fName):			
-		newFileName = os.path.join(util.getAddonDataPath(), 'autoexec.py.bak') 			
-		
-		if os.path.isfile(newFileName):
-			Logutil.log("Cannot backup autoexec.py: File exists.", util.LOG_LEVEL_ERROR)
-			return
-		
-		try:
-			os.rename(fName, newFileName)
-		except Exception, (exc):
-			Logutil.log("Cannot rename autoexec.py: " +str(exc), util.LOG_LEVEL_ERROR)
-			return
-		
-		rcbSetting = helper.getRCBSetting(gdb)
-		if (rcbSetting == None):
-			Logutil.log("rcbSetting == None in backupAutoexec", util.LOG_LEVEL_WARNING)
-			return
-		
-		RCBSetting(gdb).update(('autoexecBackupPath',), (newFileName,), rcbSetting[util.ROW_ID], True)
-		gdb.commit()
-		
-	Logutil.log("End launcher.backupAutoexec", util.LOG_LEVEL_INFO)
-		
 
 def launchXbox(gui, gdb, cmd, romCollection, filenameRows):
 	Logutil.log("launchEmu on xbox", util.LOG_LEVEL_INFO)
