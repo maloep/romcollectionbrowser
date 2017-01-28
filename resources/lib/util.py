@@ -268,9 +268,6 @@ def getAddonInstallPath():
 	
 	return path
 
-def getAutoexecPath():	
-	return xbmc.translatePath('special://profile/autoexec.py').decode('utf-8')
-
 def getEmuAutoConfigPath():	
 	
 	settings = getSettings()
