@@ -51,7 +51,6 @@ sys.path.append( os.path.join( BASE_RESOURCE_PATH, "platform_libraries", env ) )
 
 
 class dummyGUI():
-	useRCBService = True
 	player = xbmc.Player()
 	
 	def writeMsg(self, message):

@@ -103,8 +103,7 @@ class UIGameDB(xbmcgui.WindowXML):
 			
 	#cachingOption will be overwritten by config. Don't change it here.
 	cachingOption = 3
-	
-	useRCBService = False
+
 	searchTerm = ''
 	
 	xbmcversion = xbmcaddon.Addon('xbmc.addon').getAddonInfo('version')
@@ -122,11 +121,10 @@ class UIGameDB(xbmcgui.WindowXML):
 		addon = xbmcaddon.Addon(id='%s' %util.SCRIPTID)
 		Logutil.log("RCB version: " + addon.getAddonInfo('version'), util.LOG_LEVEL_INFO)
 			
-		#check if RCB service is available, otherwise we will use autoexec.py
+		# Check if RCB service is available
 		try:
 			serviceAddon = xbmcaddon.Addon(id=util.SCRIPTID)
 			Logutil.log("RCB service addon: " + str(serviceAddon), util.LOG_LEVEL_INFO)
-			self.useRCBService = True
 		except:
 			Logutil.log("No RCB service addon available.", util.LOG_LEVEL_INFO)
 			
