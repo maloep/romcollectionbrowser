@@ -5,7 +5,9 @@
   name="Rom Collection Browser"
   provider-name="malte">
   <requires>
-    <import addon="xbmc.python" version="2.1.0"/>
+    <!-- Require Kodi Jarvis or above -->
+    <import addon="xbmc.addon" version="16.0.0"/>
+    <import addon="xbmc.python" version="2.24.0"/>
     <import addon="service.rom.collection.browser" version="1.0.0"/>
   </requires>
   <extension point="xbmc.python.script" library="default.py">
