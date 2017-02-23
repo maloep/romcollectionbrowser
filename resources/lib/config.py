@@ -385,7 +385,11 @@ class Config(object):
 		
 		# force utf-8
 		tree = ElementTree()
-		parser = XMLParser(encoding='utf-8') 
+		if sys.version_info >= (2,7):
+			parser = XMLParser(encoding='utf-8')
+		else:
+			parser = XMLParser()
+
 		tree.parse(self.configFile, parser)
 		if(tree == None):
 			Logutil.log('Could not read config.xml', util.LOG_LEVEL_ERROR)
@@ -559,10 +563,14 @@ class Config(object):
 			for var in ['gameclient', 'emulatorCmd', 'preCmd', 'postCmd', 'emulatorParams', 'saveStatePath',
 						'saveStateParams', 'diskPrefix']:
 				romCollection.__setattr__(var, romCollectionRow.findtext(var, ''))
+			
+			# RomCollection int properties
+			for var in ['maxFolderDepth']:
+				romCollection.__setattr__(var, int(romCollectionRow.findtext(var, '')))
 
 			# RomCollection bool properties
 			for var in ['useBuiltinEmulator', 'ignoreOnScan', 'allowUpdate', 'useEmuSolo', 'usePopen',
-						'autoplayVideoMain', 'autoplayVideoInfo', 'useFoldernameAsGamename', 'maxFolderDepth',
+						'autoplayVideoMain', 'autoplayVideoInfo', 'useFoldernameAsGamename',
 						'doNotExtractZipFiles', 'makeLocalCopy', 'xboxCreateShortcut',
 						'xboxCreateShortcutAddRomfile', 'xboxCreateShortcutUseShortGamename']:
 				romCollection.__setattr__(var, romCollectionRow.findtext(var, '').upper() == 'TRUE')
