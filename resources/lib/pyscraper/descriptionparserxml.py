@@ -2,6 +2,7 @@
 from xml.etree.ElementTree import *
 import urllib2
 import time
+import sys
 
 import util
 from util import Logutil
@@ -33,7 +34,10 @@ class DescriptionParserXml:
 				
 		#load xmlDoc as elementtree to check with xpaths
 		# force utf-8
-		parser = XMLParser(encoding='utf-8')
+		if sys.version_info >= (2,7):
+			parser = XMLParser(encoding='utf-8')
+		else:
+			parser = XMLParser()
 		tree = fromstring(descFile, parser)
 		del descFile
 		if(tree == None):

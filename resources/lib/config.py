@@ -385,7 +385,11 @@ class Config(object):
 		
 		# force utf-8
 		tree = ElementTree()
-		parser = XMLParser(encoding='utf-8') 
+		if sys.version_info >= (2,7):
+			parser = XMLParser(encoding='utf-8')
+		else:
+			parser = XMLParser()
+
 		tree.parse(self.configFile, parser)
 		if(tree == None):
 			Logutil.log('Could not read config.xml', util.LOG_LEVEL_ERROR)
