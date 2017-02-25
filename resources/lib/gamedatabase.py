@@ -20,6 +20,10 @@ class GameDataBase:
 	def connect( self ):
 		print self.dataBasePath
 		self.connection = sqlite.connect(self.dataBasePath, check_same_thread = False)
+
+		# Use row factory so we can retrieve values by column name
+		self.connection.row_factory = sqlite.Row
+
 		self.cursor = self.connection.cursor()
 		
 	def commit( self ):		
