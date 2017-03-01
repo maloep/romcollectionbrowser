@@ -5,10 +5,12 @@ import shutil
 
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', '..', 'resources', 'lib'))
 
-from gamedatabase import GameDataBase, Genre
+from gamedatabase import GameDataBase, Genre, Year, Publisher, Developer
 
 
 class TestDBObjGame(unittest.TestCase):
+    ''' Test the objects linked to the Game DB row by ID
+    '''
     gdb = None
 
     @classmethod
@@ -52,6 +54,28 @@ class TestDBObjGame(unittest.TestCase):
         genres = Genre(self.gdb).getGenresForGame(179)
 
         self.assertTrue(genres == 'Racing / Driving, Role-Playing (RPG)', 'Game with slash in genre not handled correctly (was {0})'.format(genres))
+
+    ''' Developer '''
+    def test_RetrieveDeveloperByGameId(self):
+        ''' Validate basic retrieve works '''
+        dev = Developer(self.gdb).getDeveloperForGame(62)
+
+        self.assertTrue(dev == 'Squaresoft', 'Expected developer for game with id 62 to be Squaresoft, was {0}'.format(dev))
+
+    def test_RetrieveDeveloper(self):
+        dev = Developer(self.gdb).getDeveloper(2)
+        self.assertTrue(dev == 'Activision')
+
+    ''' Publisher '''
+    def test_RetrievePublisherByGameId(self):
+        ''' Validate basic retrieve works '''
+        pub = Publisher(self.gdb).getPublisherForGame(6)
+
+        self.assertTrue(pub == 'Stern', 'Expected publisher for game with id 6 to be Stern, was {0}'.format(pub))
+
+    def test_RetrievePublisher(self):
+        pub = Publisher(self.gdb).getPublisher(6)
+        self.assertTrue(pub == 'Nintendo')
 
 if __name__ == "__main__":
     unittest.main()
