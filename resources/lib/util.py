@@ -20,9 +20,6 @@ __addon__ = xbmcaddon.Addon(id='%s' %SCRIPTID)
 __language__ = __addon__.getLocalizedString
 
 
-#compatibility checks
-XBMC_VERSION_HELIX = 14
-
 #time to wait before automatic playback starts
 WAITTIME_PLAYERSTART = 500
 #time that xbmc needs to close the player (before we can load the list again)
@@ -238,6 +235,19 @@ def joinPath(part1, *parts):
 #
 # METHODS #
 #
+
+class KodiVersions(object):
+	HELIX = 14
+	ISENGARD = 15
+	JARVIS = 16
+	KRYPTON = 17
+
+	@classmethod
+	def getKodiVersion(self):
+		version = xbmc.getInfoLabel("System.BuildVersion")[:2]
+		# Alternately:
+		# version = xbmcaddon.Addon('xbmc.addon').getAddonInfo('version')
+		return int(version)
 
 def getEnvironment():
 	return ( os.environ.get( "OS", "win32" ), "win32", )[ os.environ.get( "OS", "win32" ) == "xbox" ]
