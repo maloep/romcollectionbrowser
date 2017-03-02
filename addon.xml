@@ -54,8 +54,8 @@
     <language></language>
     <platform>all</platform>
     <license>GNU GENERAL PUBLIC LICENSE. Version 2, June 1991</license>
-    <forum>http://forum.xbmc.org/showthread.php?tid=70115</forum>
-    <website>https://code.google.com/p/romcollectionbrowser/</website>
-    <source>https://romcollectionbrowser.googlecode.com/svn/trunk/</source>
+    <forum>forum.kodi.tv/showthread.php?tid=70115</forum>
+    <website>https://github.com/maloep/romcollectionbrowser</website>
+    <source>https://github.com/maloep/romcollectionbrowser</source>
   </extension>
 </addon>
