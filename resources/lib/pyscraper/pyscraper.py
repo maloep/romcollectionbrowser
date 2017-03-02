@@ -13,27 +13,46 @@ import HTMLParser
 
 
 class PyScraper:
-	
+	digits = ['10', '9', '8', '7', '6', '5', '4', '3', '2', '1']
+	romes = ['X', 'IX', 'VIII', 'VII', 'VI', 'V', 'IV', 'III', 'II', 'I']
+
 	def __init__(self):
 		pass
 
+	def log_results(self, resultslist):
+		for item in resultslist:
+			Logutil.log(' - ' + str(item), util.LOG_LEVEL_DEBUG)
 	def scrapeResults(self, results, scraper, urlsFromPreviousScrapers, gamenameFromFile, foldername, filecrc, romFile, fuzzyFactor, updateOption, romCollection, settings):		
 		Logutil.log("using parser file: " +scraper.parseInstruction, util.LOG_LEVEL_DEBUG)		
 		Logutil.log("using game description: " +scraper.source, util.LOG_LEVEL_DEBUG)
 		
 		scraperSource = scraper.source.decode('utf-8')
-		
+
+		Logutil.log('Expected platform: {0}'.format(romCollection.name), util.LOG_LEVEL_DEBUG)
+		self.expected_platform = config.getPlatformByRomCollection(scraperSource, romCollection.name)
+
+		self.fuzzy_factor = fuzzyFactor
+		self.update_option = updateOption
+		self.scraper = scraper
+
+		# Information about the current game
+		self.crc = filecrc
+		self.foldername = foldername
+		self.romfile = romFile
+
 		#url to scrape may be passed from the previous scraper
 		if(scraper.source.isdigit()):
 			if(len(urlsFromPreviousScrapers) == 0):
 				Logutil.log("Configuration error: scraper source is numeric and there is no previous scraper that returned an url to scrape.", util.LOG_LEVEL_ERROR)
 				return results, urlsFromPreviousScrapers, True			
-			if(len(urlsFromPreviousScrapers) < int(scraper.source)):
+
+			try:
+				url = urlsFromPreviousScrapers[int(scraper.source) -1]
+				Logutil.log("using url from previous scraper: " +str(url), util.LOG_LEVEL_INFO)
+			except Exception as e:
+				# FIXME TODO - out of bounds exception
 				Logutil.log("Configuration error: no url found at index " +str(scraper.source), util.LOG_LEVEL_ERROR)
 				return results, urlsFromPreviousScrapers, True
-			
-			url = urlsFromPreviousScrapers[int(scraper.source) -1]
-			Logutil.log("using url from previous scraper: " +str(url), util.LOG_LEVEL_INFO)
 			
 			if(scraper.sourceAppend != None and scraper.sourceAppend != ""):
 				url = url + '/' +scraper.sourceAppend
@@ -42,37 +61,48 @@ class PyScraper:
 			scraperSource = url
 			
 		if(scraper.source == 'nfo'):
-			nfoFile = self.getNfoFile(settings, romCollection, gamenameFromFile, romFile)
-			scraperSource = nfoFile
-								
+			scraperSource = self.getNfoFile(settings, romCollection, gamenameFromFile)
+
 				
-		tempResults = self.parseDescriptionFile(scraper, scraperSource, gamenameFromFile, foldername, filecrc)
-		tempResults = self.getBestResults(tempResults, gamenameFromFile, fuzzyFactor, updateOption, scraperSource, romCollection)
+		tempResults = self.parseDescriptionFile(scraper, scraperSource, gamenameFromFile)
+		try:
+			Logutil.log("Found {0} results for {1} from URL {2}".format(len(tempResults), gamenameFromFile, scraperSource), util.LOG_LEVEL_DEBUG)
+			self.log_results(tempResults)
+		except:
+			# Ignore if an exception since it will be where tempResults is None
+			pass
+
+		tempResults = self.getBestResults(tempResults, gamenameFromFile)
 		
-		if(tempResults == None):
+		if tempResults is None:
 			#try again without (*) and [*]
-			gamenameFromFile = re.sub('\s\(.*\)|\s\[.*\]|\(.*\)|\[.*\]', '', gamenameFromFile)
-			tempResults = self.parseDescriptionFile(scraper, scraperSource, gamenameFromFile, foldername, filecrc)
-			tempResults = self.getBestResults(tempResults, gamenameFromFile, fuzzyFactor, updateOption, scraperSource, romCollection)						
+			altname = re.sub('\s\(.*\)|\s\[.*\]|\(.*\)|\[.*\]', '', gamenameFromFile)
+			Logutil.log("Did not find any matches for {0}, trying again with {1}".format(gamenameFromFile, altname),
+						util.LOG_LEVEL_DEBUG)
+			tempResults = self.parseDescriptionFile(scraper, scraperSource, altname)
+			tempResults = self.getBestResults(tempResults, altname)
 				
-		if(tempResults == None):
-			if(scraper.returnUrl):
-				urlsFromPreviousScrapers.append('')
-			return results, urlsFromPreviousScrapers, True
+			if tempResults is None:
+				Logutil.log("Still no matches after modifying game name", util.LOG_LEVEL_DEBUG)
+				if(scraper.returnUrl):
+					urlsFromPreviousScrapers.append('')
+				return results, urlsFromPreviousScrapers, True
+
+			Logutil.log("After modifying game name, found {0} best results for {1}".format(len(tempResults), altname), util.LOG_LEVEL_DEBUG)
 		
 		if(scraper.returnUrl):
 			try:								
 				tempUrl = self.resolveParseResult(tempResults, 'url')
 				urlsFromPreviousScrapers.append(tempUrl)
 				Logutil.log("pass url to next scraper: " +str(tempUrl), util.LOG_LEVEL_INFO)
-				return results, urlsFromPreviousScrapers, True
 			except:
 				Logutil.log("Should pass url to next scraper, but url is empty.", util.LOG_LEVEL_WARNING)
-				return results, urlsFromPreviousScrapers, True
-					
+			return results, urlsFromPreviousScrapers, True
+
+		# For each result, compare against already existing results. If the old key value doesn't exist and the new
+		# one does, then use the new value, otherwise retain the value
 		if(tempResults != None):
 			for resultKey in tempResults.keys():
-				Logutil.log("resultKey: " +resultKey, util.LOG_LEVEL_INFO)
 				resultValue = []
 				
 				resultValueOld = results.get(resultKey, [])
@@ -86,21 +116,22 @@ class PyScraper:
 					resultValueNew[0] = HTMLParser.HTMLParser().unescape(resultValueNew[0])
 
 				if(len(resultValueOld) == 0 and (len(resultValueNew) != 0 and resultValueNew != [None,] and resultValueNew != None and resultValueNew != '')):
+					Logutil.log("No existing value for key {0}, replacing with new value [{1}]".format(resultKey, ','.join(str(x) for x in resultValueNew)), util.LOG_LEVEL_DEBUG)
 					results[resultKey] = resultValueNew
 					resultValue = resultValueNew
 				else:
+					Logutil.log("Retaining existing value for key {0} ([{1}])".format(resultKey, ','.join(str(x) for x in resultValueOld)), util.LOG_LEVEL_DEBUG)
 					resultValue = resultValueOld
-				Logutil.log("resultValue: " +str(resultValue), util.LOG_LEVEL_INFO)
 			del tempResults
 					
 		return results, urlsFromPreviousScrapers, False
 	
 	
-	def getNfoFile(self, settings, romCollection, gamenameFromFile, romFile):
+	def getNfoFile(self, settings, romCollection, gamenameFromFile):
 		Logutil.log("getNfoFile", util.LOG_LEVEL_INFO)
 		nfoFile = ''
 		nfoFolder = settings.getSetting(util.SETTING_RCB_NFOFOLDER)
-		splittedname = os.path.splitext(os.path.basename(romFile))
+		splittedname = os.path.splitext(os.path.basename(self.romFile))
 		filename = ''
 		if(len(splittedname) == 1):
 			filename = splittedname[0]
@@ -116,7 +147,7 @@ class PyScraper:
 				nfoFile = os.path.join(nfoFolder, filename +'.nfo')
 				
 		if (not xbmcvfs.exists(nfoFile)):
-			romDir = os.path.dirname(romFile)
+			romDir = os.path.dirname(self.romFile)
 			Logutil.log('Romdir: ' +str(romDir), util.LOG_LEVEL_INFO)
 			nfoFile = os.path.join(romDir, gamenameFromFile +'.nfo')
 			
@@ -128,11 +159,21 @@ class PyScraper:
 		return nfoFile
 	
 	
-	def parseDescriptionFile(self, scraper, scraperSource, gamenameFromFile, foldername, crc):
+	def parseDescriptionFile(self, scraper, scraperSource, gamenameFromFile):
+		"""
+		Given a scraper, source (URL or file) and a gamename, retrieve a list
+		of possible matches.
+		Args:
+		    scraper: scraper object to use to retrieve the results
+		    scraperSource: either a URL or a file
+		    gamenameFromFile: game to search for
+		Returns:
+		A list of dicts for each result, where each dict value is itself a list, or None if an error occurred
+		"""
 		Logutil.log("parseDescriptionFile", util.LOG_LEVEL_INFO)
-			
-		scraperSource = self.prepareScraperSource(scraper, scraperSource, gamenameFromFile, foldername, crc)
-		if(scraperSource == ""):
+		scraperSource = self.prepareScraperSource(scraper, scraperSource, gamenameFromFile)
+		if scraperSource == "":
+			Logutil.log("Scraper source for scraper {0} is empty".format(scraper.parseInstruction), util.LOG_LEVEL_DEBUG)
 			return None
 			
 		try:
@@ -147,7 +188,7 @@ class PyScraper:
 		return results
 	
 	
-	def prepareScraperSource(self, scraper, scraperSourceOrig, romFilename, foldername, crc):
+	def prepareScraperSource(self, scraper, scraperSourceOrig, romFilename):
 		#replace configurable tokens
 		replaceKeys = scraper.replaceKeyString.split(',')
 		Logutil.log("replaceKeys: " +str(replaceKeys), util.LOG_LEVEL_DEBUG)						
@@ -171,11 +212,9 @@ class PyScraper:
 		scraperSource = scraperSource.replace(u'%GAME%', gamenameToParse)
 		
 		replaceTokens = [u'%FILENAME%', u'%FOLDERNAME%', u'%CRC%']
-		for key in util.API_KEYS.keys():
+		replaceValues = [gamenameFromFile, self.foldername, self.crc]
+		for key, value in util.API_KEYS.iteritems():
 			replaceTokens.append(key)
-			
-		replaceValues = [gamenameFromFile, foldername, crc]
-		for value in util.API_KEYS.values():
 			replaceValues.append(value)
 			
 		for i in range(0, len(replaceTokens)):
@@ -192,88 +231,81 @@ class PyScraper:
 		Logutil.log("description file (tokens replaced): " +scraperSource, util.LOG_LEVEL_INFO)
 		Logutil.log("Encoding: %s" % scraper.encoding, util.LOG_LEVEL_WARNING)
 		return scraperSource
+
+	def ask_user_for_result(self, gamename, results):
+		options = ['Skip Game']
+		for result in results:
+			options.append(self.resolveParseResult(result, 'SearchKey'))
+
+		resultIndex = xbmcgui.Dialog().select('Search for: ' +gamename, options)
+		return resultIndex
 	
-	
-	def getBestResults(self, results, gamenameFromFile, fuzzyFactor, updateOption, scraperSource, romCollection):
+	def getBestResults(self, results, gamenameFromFile):
 		Logutil.log("getBestResults", util.LOG_LEVEL_INFO)
-		
-		digits = ['10', '9', '8', '7', '6', '5', '4', '3', '2', '1']
-		romes = ['X', 'IX', 'VIII', 'VII', 'VI', 'V', 'IV', 'III', 'II', 'I']
-		
-		if (results != None and len(results) >= 1):
-			Logutil.log('Searching for game: ' +gamenameFromFile, util.LOG_LEVEL_INFO)
-			Logutil.log('%s results found. Try to find best match.' %str(len(results)), util.LOG_LEVEL_INFO)						
-			
-			result, highestRatio = self.matchGamename(results, gamenameFromFile, digits, romes, False, scraperSource, romCollection)
-			bestMatchingGame = self.resolveParseResult(result, 'SearchKey')
-			
-			if(highestRatio != 1.0):
-				
-				#stop searching in accurate mode
-				if(updateOption == util.SCRAPING_OPTION_AUTO_ACCURATE):
-					Logutil.log('Ratio != 1.0 and scraping option is set to "Accurate". Result will be skipped', LOG_LEVEL_WARNING)
-					return None
-			
-				#Ask for correct result in Interactive mode
-				if(updateOption == util.SCRAPING_OPTION_INTERACTIVE):
-					options = []
-					options.append('Skip Game')
-					for resultEntry in results:
-						options.append(self.resolveParseResult(resultEntry, 'SearchKey'))
-						
-					resultIndex = xbmcgui.Dialog().select('Search for: ' +gamenameFromFile, options)
-					if(resultIndex == 0):
-						Logutil.log('No result chosen by user', util.LOG_LEVEL_INFO)
-						return None
-					#-1 because of "Skip Game" entry
-					resultIndex = resultIndex - 1
-					selectedGame = self.resolveParseResult(results[resultIndex], 'Game')
-					Logutil.log('Result chosen by user: ' +str(selectedGame), util.LOG_LEVEL_INFO)
-					return results[resultIndex]
-				
-				#check seq no in guess names mode
-				seqNoIsEqual = self.checkSequelNoIsEqual(gamenameFromFile, bestMatchingGame)
-				if (not seqNoIsEqual):										
-					highestRatio = 0.0
-			
-			if(highestRatio < fuzzyFactor):
-				Logutil.log('No result found with a ratio better than %s. Try again with subtitle search.' %(str(fuzzyFactor),), LOG_LEVEL_WARNING)				
-				result, highestRatio = self.matchGamename(results, gamenameFromFile, digits, romes, True, scraperSource, romCollection)
-				#check for sequel numbers because it could be misinteroreted as subtitle
-				bestMatchingGame = self.resolveParseResult(result, 'SearchKey')
-				seqNoIsEqual = self.checkSequelNoIsEqual(gamenameFromFile, bestMatchingGame)
-				if (not seqNoIsEqual):					
-					return None
-						
-			if(highestRatio < fuzzyFactor):
-				Logutil.log('No result found with a ratio better than %s. Result will be skipped.' %(str(fuzzyFactor),), LOG_LEVEL_WARNING)
-				return None
-			
-			#get name of found result
-			bestMatchingGame = self.resolveParseResult(result, 'SearchKey')						
-									
-			Logutil.log('Using result %s' %bestMatchingGame, util.LOG_LEVEL_INFO)
-			return result
-		else:
+
+		if results is None or len(results) == 0:
 			Logutil.log('No results found with current scraper', util.LOG_LEVEL_INFO)
 			return None
 
+		Logutil.log('Searching for game: ' +gamenameFromFile, util.LOG_LEVEL_INFO)
+		Logutil.log('%s results found. Try to find best match.' %str(len(results)), util.LOG_LEVEL_INFO)
 
-	def matchGamename(self, results, gamenameFromFile, digits, romes, checkSubtitle, scraperSource, romCollection):
+		result, highestRatio = self.matchGamename(results, gamenameFromFile, False)
+		bestMatchingGame = self.resolveParseResult(result, 'SearchKey')
+
+		if(highestRatio != 1.0):
+
+			#stop searching in accurate mode
+			if self.update_option == util.SCRAPING_OPTION_AUTO_ACCURATE:
+				Logutil.log('Ratio != 1.0 and scraping option is set to "Accurate". Result will be skipped', LOG_LEVEL_WARNING)
+				return None
+
+			#Ask for correct result in Interactive mode
+			if self.update_option == util.SCRAPING_OPTION_INTERACTIVE:
+				res = self.ask_user_for_result(gamenameFromFile, results)
+				if res == 0:	# Skip Game
+					Logutil.log('No result chosen by user', util.LOG_LEVEL_INFO)
+					return None
+				else:
+					selectedGame = self.resolveParseResult(results[res - 1], 'Game')
+					Logutil.log('Result chosen by user: ' +str(selectedGame), util.LOG_LEVEL_INFO)
+					return results[res - 1]
+
+			#check seq no in guess names mode
+			seqNoIsEqual = self.checkSequelNoIsEqual(gamenameFromFile, bestMatchingGame)
+			if (not seqNoIsEqual):
+				highestRatio = 0.0
+
+		if highestRatio < self.fuzzy_factor:
+			Logutil.log('No result found with a ratio better than %s. Try again with subtitle search.' %(str(self.fuzzy_factor),), LOG_LEVEL_WARNING)
+			result, highestRatio = self.matchGamename(results, gamenameFromFile, True)
+			#check for sequel numbers because it could be misinteroreted as subtitle
+			bestMatchingGame = self.resolveParseResult(result, 'SearchKey')
+			seqNoIsEqual = self.checkSequelNoIsEqual(gamenameFromFile, bestMatchingGame)
+			if (not seqNoIsEqual):
+				return None
+
+		if highestRatio < self.fuzzy_factor:
+			Logutil.log('No result found with a ratio better than %s. Result will be skipped.' %(str(self.fuzzy_factor),), LOG_LEVEL_WARNING)
+			return None
+
+		#get name of found result
+		bestMatchingGame = self.resolveParseResult(result, 'SearchKey')
+
+		Logutil.log('Using result %s' %bestMatchingGame, util.LOG_LEVEL_INFO)
+		return result
+
+	def matchGamename(self, results, gamenameFromFile, checkSubtitle):
 		
 		highestRatio = 0.0
-		bestIndex = 0		
-		
-		for i in range(0, len(results)):
-			result = results[i]
+		bestIndex = 0
+		for idx, result in enumerate(results):
 			try:
-				#check if the result has the correct platform (if needed)
-				platformSearchKey = self.resolveParseResult(result, 'PlatformSearchKey')
-				if(platformSearchKey != ''):
-					platform = config.getPlatformByRomCollection(scraperSource, romCollection.name)
-					if(platform != platformSearchKey):
-						Logutil.log('Platform mismatch. %s != %s. Result will be skipped.' %(platform, platformSearchKey), util.LOG_LEVEL_INFO)
-						continue
+				# Check if the result has the correct platform (if needed)
+				found_platform = self.resolveParseResult(result, 'PlatformSearchKey')
+				if found_platform != '' and self.expected_platform != found_platform:
+					Logutil.log('Platform mismatch. %s != %s. Result will be skipped.' %(self.expected_platform, found_platform), util.LOG_LEVEL_INFO)
+					continue
 				
 				searchKey = self.resolveParseResult(result, 'SearchKey')
 				#keep it for later reference
@@ -301,9 +333,9 @@ class PyScraper:
 				#try again with replaced sequel numbers		
 				sequelGamename = gamenameToCheck
 				sequelSearchKey = searchKey
-				for j in range(0, len(digits)):
-					sequelGamename = sequelGamename.replace(digits[j], romes[j])
-					sequelSearchKey = sequelSearchKey.replace(digits[j], romes[j])
+				for j in range(0, len(self.digits)):
+					sequelGamename = sequelGamename.replace(self.digits[j], self.romes[j])
+					sequelSearchKey = sequelSearchKey.replace(self.digits[j], self.romes[j])
 				
 				Logutil.log('Try with replaced sequel numbers. Comparing %s with %s' %(sequelGamename, sequelSearchKey), util.LOG_LEVEL_INFO)
 				if(self.compareNames(sequelGamename, sequelSearchKey, checkSubtitle)):
@@ -332,7 +364,7 @@ class PyScraper:
 				
 				if(ratio > highestRatio):
 					highestRatio = ratio
-					bestIndex = i
+					bestIndex = idx
 					
 			except Exception, (exc):
 				Logutil.log("An error occured while matching the best result: " +str(exc), util.LOG_LEVEL_WARNING)
@@ -366,7 +398,18 @@ class PyScraper:
 		
 		
 	def checkSequelNoIsEqual(self, gamenameFromFile, searchKey):
-		
+		""" Given a gamename and a possible matching gamegame, check whether they
+		share a sequel number
+
+		Args:
+		    gamenameFromFile: Existing filename that we are matching
+		    searchKey: Found gamename from parser
+
+		Returns:
+		    True if there is a number (either roman or decimal) that the games share
+		    False otherwise
+
+		"""
 		Logutil.log('Check sequel numbers for "%s" and "%s".' %(gamenameFromFile, searchKey), util.LOG_LEVEL_INFO)				
 		
 		#first check equality of last number (also works for year sequels like Fifa 98)
@@ -384,12 +427,9 @@ class PyScraper:
 		
 		if(numberGamename == numberSearchkey):
 			return True
-		
-		digits = [' 10', ' 9', ' 8', ' 7', ' 6', ' 5', ' 4', ' 3', ' 2', ' 1']
-		romes = [' X', ' IX', ' VIII', ' VII', ' VI', ' V', ' IV', ' III', ' II', ' I']
-		
-		indexGamename = self.getSequelNoIndex(gamenameFromFile, digits, romes)		
-		indexSearchKey = self.getSequelNoIndex(searchKey, digits, romes)		
+
+		indexGamename = self.getSequelNoIndex(gamenameFromFile)
+		indexSearchKey = self.getSequelNoIndex(searchKey)
 			
 		if(indexGamename == -1 and indexSearchKey == -1):
 			Logutil.log('"%s" and "%s" both don\'t contain a sequel number. Skip checking sequel number match.' %(gamenameFromFile, searchKey), util.LOG_LEVEL_INFO)
@@ -409,14 +449,14 @@ class PyScraper:
 		
 		
 		
-	def getSequelNoIndex(self, gamename, digits, romes):		
+	def getSequelNoIndex(self, gamename):
 		indexGamename = -1
 		
-		for i in range(0, len(digits)):	
-			if(gamename.find(digits[i]) != -1):
+		for i in range(0, len(self.digits)):
+			if(gamename.find(self.digits[i]) != -1):
 				indexGamename = i
 				break
-			if(gamename.find(romes[i]) != -1):
+			if(gamename.find(self.romes[i]) != -1):
 				indexGamename = i
 				break
 				
