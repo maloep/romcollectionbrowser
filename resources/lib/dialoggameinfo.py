@@ -52,8 +52,6 @@ class UIGameInfoView(xbmcgui.WindowXMLDialog):
 		self.fileDict = kwargs["fileDict"]
 		self.fileTypeGameplay = kwargs["fileTypeGameplay"]
 		
-		self.useRCBService = True
-		
 		self.doModal()
 		
 		

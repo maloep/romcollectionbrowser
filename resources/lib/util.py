@@ -108,7 +108,7 @@ RCBSETTING_lastSelectedGenreIndex = 3
 RCBSETTING_lastSelectedPublisherIndex = 4
 RCBSETTING_lastSelectedYearIndex = 5
 RCBSETTING_lastSelectedGameIndex = 6
-RCBSETTING_autoexecBackupPath = 7
+RCBSETTING_autoexecBackupPath = 7	# This is a deprecated setting, unused in code
 RCBSETTING_dbVersion = 8
 RCBSETTING_lastFocusedControlMainView = 9
 RCBSETTING_lastFocusedControlGameInfoView = 10
@@ -277,9 +277,6 @@ def getAddonInstallPath():
 	path = __addon__.getAddonInfo('path').decode('utf-8')
 	
 	return path
-
-def getAutoexecPath():	
-	return xbmc.translatePath('special://profile/autoexec.py').decode('utf-8')
 
 def getEmuAutoConfigPath():	
 	

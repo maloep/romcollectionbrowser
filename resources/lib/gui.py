@@ -103,8 +103,7 @@ class UIGameDB(xbmcgui.WindowXML):
 			
 	#cachingOption will be overwritten by config. Don't change it here.
 	cachingOption = 3
-	
-	useRCBService = False
+
 	searchTerm = ''
 
 	if KodiVersions.getKodiVersion() < KodiVersions.HELIX:
@@ -117,13 +116,12 @@ class UIGameDB(xbmcgui.WindowXML):
 		addon = xbmcaddon.Addon(id='%s' %util.SCRIPTID)
 		Logutil.log("RCB version: " + addon.getAddonInfo('version'), util.LOG_LEVEL_INFO)
 			
-		#check if RCB service is available, otherwise we will use autoexec.py
+		# Check if RCB service is available
 		try:
 			serviceAddon = xbmcaddon.Addon(id=util.SCRIPTID)
 			Logutil.log("RCB service addon: " + str(serviceAddon), util.LOG_LEVEL_INFO)
-			self.useRCBService = True
 		except:
-			Logutil.log("No RCB service addon available. Will use autoexec.py for startup features.", util.LOG_LEVEL_INFO)
+			Logutil.log("No RCB service addon available.", util.LOG_LEVEL_INFO)
 			
 		self.initialized = False
 		self.Settings = util.getSettings()
@@ -261,11 +259,6 @@ class UIGameDB(xbmcgui.WindowXML):
 		self.loadViewState()
 		
 		#self.fillListInBackground()
-		
-		#check startup tasks done with autoexec.py
-		if(not self.useRCBService):
-			self.checkAutoExec()
-			self.checkScrapStart()
 
 		Logutil.log("End onInit", util.LOG_LEVEL_INFO)
 
@@ -1291,110 +1284,6 @@ class UIGameDB(xbmcgui.WindowXML):
 		
 		return False
 
-
-	# Handle autoexec.py script to add/remove background scraping on startup
-	def checkScrapStart(self):
-		Logutil.log("Begin checkScrapStart" , util.LOG_LEVEL_INFO)
-		
-		autoexecFile = util.getAutoexecPath()
-		path = os.path.join(util.RCBHOME, 'dbUpLauncher.py')
-		if(util.getEnvironment() == 'win32'):
-			#HACK: There is an error with "\a" in autoexec.py on winidows, so we need "\A"
-			path = path.replace('\\addons', '\\Addons')
-		launchLine = 'xbmc.executescript("%s")' % path
-		try:
-			fp = open(autoexecFile, 'r+')
-		except:
-			Logutil.log("Error opening autoexec.py" , util.LOG_LEVEL_WARNING)
-			return
-		xbmcImported = False
-		alreadyCreated = False
-		for line in fp:
-			if line.startswith('import xbmc'):
-				Logutil.log("import xbmc line found!" , util.LOG_LEVEL_INFO)
-				xbmcImported = True
-			if launchLine in line:
-				Logutil.log("executescript line found!", util.LOG_LEVEL_INFO)
-				alreadyCreated = True
-				
-		if self.Settings.getSetting(util.SETTING_RCB_SCRAPONSTART) == 'true':
-			
-			if not xbmcImported:
-				Logutil.log("adding import xbmc line", util.LOG_LEVEL_INFO)
-				fp.write('\nimport xbmc')
-			if not alreadyCreated:
-				Logutil.log("adding executescript line", util.LOG_LEVEL_INFO)
-				fp.write('\n' + launchLine)
-				
-			fp.close()
-		elif alreadyCreated:
-			Logutil.log("Deleting executescript line" , util.LOG_LEVEL_INFO)
-			if alreadyCreated:
-				fp.seek(0)
-				lines = fp.readlines()
-				fp.close()
-				os.remove(autoexecFile)
-				fp = open(autoexecFile, 'w')
-				for line in lines:
-					if not path in line:
-						fp.write(line)
-				fp.close()
-		Logutil.log("End checkScrapStart" , util.LOG_LEVEL_INFO)
-				
-				
-	def checkAutoExec(self):
-		Logutil.log("Begin checkAutoExec" , util.LOG_LEVEL_INFO)
-		
-		autoexec = util.getAutoexecPath()		
-		Logutil.log("Checking path: " + autoexec, util.LOG_LEVEL_INFO)
-		if (os.path.isfile(autoexec)):	
-			lines = ""
-			try:
-				fh = fh = open(autoexec, "r")
-				lines = fh.readlines()
-				fh.close()
-			except Exception, (exc):
-				Logutil.log("Cannot access autoexec.py: " + str(exc), util.LOG_LEVEL_ERROR)
-				return
-				
-			if(len(lines) > 0):
-				firstLine = lines[0]
-				#check if it is our autoexec
-				if(firstLine.startswith('#Rom Collection Browser autoexec')):
-					try:
-						os.remove(autoexec)
-					except Exception, (exc):
-						Logutil.log("Cannot remove autoexec.py: " + str(exc), util.LOG_LEVEL_ERROR)
-						return
-				else:
-					return
-		else:
-			Logutil.log("No autoexec.py found at given path.", util.LOG_LEVEL_INFO)
-		
-		rcbSetting = helper.getRCBSetting(self.gdb)
-		if (rcbSetting == None):
-			print "RCB_WARNING: rcbSetting == None in checkAutoExec"
-			return
-					
-		#check if we have to restore autoexec backup 
-		autoExecBackupPath = rcbSetting[util.RCBSETTING_autoexecBackupPath]
-		if (autoExecBackupPath == None):
-			return
-			
-		if (os.path.isfile(autoExecBackupPath)):
-			try:
-				os.rename(autoExecBackupPath, autoexec)
-				os.remove(autoExecBackupPath)
-			except Exception, (exc):
-				Logutil.log("Cannot rename autoexec.py: " + str(exc), util.LOG_LEVEL_ERROR)
-				return
-			
-		RCBSetting(self.gdb).update(('autoexecBackupPath',), (None,), rcbSetting[0], True)
-		self.gdb.commit()
-		
-		Logutil.log("End checkAutoExec" , util.LOG_LEVEL_INFO)		
-		
-		
 	def backupConfigXml(self):
 		#backup config.xml for later use (will be overwritten in case of an addon update)
 		configXml = util.getConfigXmlPath()
