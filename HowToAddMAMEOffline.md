@@ -16,7 +16,7 @@ You can monitor the progress of MAWS coming back or not on http://www.mameworld.
 Note: RCB does not support all artwork types out of the box. If you want to save download time just get "Advert", "Cabinet", "Marquee", "Snap" and "Title" artwork one by one.
 
 ## Get offline game description for MAME roms ##
-Get the file [MAME synopsis RCB 201202.zip](http://romcollectionbrowser.googlecode.com/files/MAME%20synopsis%20RCB%20201202.zip) from RCBs project page. Unzip it somewhere on your computer. It contains the description file "MAME.txt" with all game descriptions and the parse instruction file "parserConfig.xml" that tells RCB how to parse the game description.
+Get the file [MAME synopsis RCB 201202.zip](files/MAME%20synopsis%20RCB%20201202.zip) from RCBs project page. Unzip it somewhere on your computer. It contains the description file "MAME.txt" with all game descriptions and the parse instruction file "parserConfig.xml" that tells RCB how to parse the game description.
 
 
 ## Add MAME Rom Collection with offline scraping ##
