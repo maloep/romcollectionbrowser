@@ -20,6 +20,7 @@
 
 import os, sys, re
 import xbmcaddon
+import xbmc
 
 
 # Shared resources
@@ -52,6 +53,9 @@ sys.path.append( os.path.join( BASE_RESOURCE_PATH, "platform_libraries", env ) )
 
 class dummyGUI():
 	player = xbmc.Player()
+
+	xbmcversion = xbmcaddon.Addon('xbmc.addon').getAddonInfo('version')
+	xbmcversionNo = xbmcversion[0:2]
 	
 	def writeMsg(self, message):
 		pass
