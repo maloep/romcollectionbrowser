@@ -407,32 +407,6 @@ class UIGameInfoView(xbmcgui.WindowXMLDialog):
 			
 		return file
 	
-	
-	
-	def setImage(self, controlName, fileTypes, gameId, publisherId, developerId, romCollectionId, defaultImage, selectedGame, fileDict):
-		
-		Logutil.log("Begin setImage", util.LOG_LEVEL_DEBUG)						
-				
-		images = helper.getFilesByControl_Cached(self.gdb, fileTypes, gameId, publisherId, developerId, romCollectionId, fileDict)
-								
-		#TODO more than one image?
-		image = ''
-		if(images != None and len(images) != 0):
-			image = images[0]						
-			#control.setVisible(1)
-		else:
-			if(defaultImage == None):
-				pass
-				#control.setVisible(0)
-			else:						
-				image = defaultImage
-				
-		selectedGame.setProperty(controlName, image)
-				
-		Logutil.log("End setImage", util.LOG_LEVEL_DEBUG)
-	
-	
-	
 	def launchEmu(self):
 		
 		Logutil.log("Begin launchEmu", util.LOG_LEVEL_INFO)				
