@@ -14,13 +14,8 @@ if env == 'Windows_NT':
 	env = 'win32'
 sys.path.append( os.path.join( BASE_RESOURCE_PATH, "platform_libraries", env ) )
 
-
-try:
-	print "Loading sqlite3 as DB engine"
-	from sqlite3 import dbapi2 as sqlite	
-except:
-	from pysqlite2 import dbapi2 as sqlite
-	print "Loading pysqlite2 as DB engine"
+print "Loading sqlite3 as DB engine"
+from sqlite3 import dbapi2 as sqlite
 	
 from gamedatabase import *
 from util import *

@@ -108,7 +108,7 @@ RCBSETTING_lastSelectedGenreIndex = 3
 RCBSETTING_lastSelectedPublisherIndex = 4
 RCBSETTING_lastSelectedYearIndex = 5
 RCBSETTING_lastSelectedGameIndex = 6
-RCBSETTING_autoexecBackupPath = 7
+RCBSETTING_autoexecBackupPath = 7	# This is a deprecated setting, unused in code
 RCBSETTING_dbVersion = 8
 RCBSETTING_lastFocusedControlMainView = 9
 RCBSETTING_lastFocusedControlGameInfoView = 10
@@ -278,9 +278,6 @@ def getAddonInstallPath():
 	
 	return path
 
-def getAutoexecPath():	
-	return xbmc.translatePath('special://profile/autoexec.py').decode('utf-8')
-
 def getEmuAutoConfigPath():	
 	
 	settings = getSettings()
@@ -394,13 +391,9 @@ RCBHOME = getAddonInstallPath()
 # Logging
 #
 
+from sqlite3 import dbapi2 as sqlite
+print("RCB_INFO: Loading sqlite3 as DB engine")
 
-try:
-	from sqlite3 import dbapi2 as sqlite
-	print("RCB_INFO: Loading sqlite3 as DB engine")
-except:
-	from pysqlite2 import dbapi2 as sqlite
-	print("RCB_INFO: Loading pysqlite2 as DB engine")
 
 class Logutil:
 	

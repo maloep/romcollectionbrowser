@@ -4,3 +4,6 @@
 .settings
 resources/tests/dummy.log
 resources/lib/dummy.log
+
+# Files created by IDE
+.idea/

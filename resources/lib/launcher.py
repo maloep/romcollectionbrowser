@@ -54,14 +54,9 @@ def launchEmu(gdb, gui, gameId, config, settings, listitem):
 		if (romCollection.useEmuSolo):
 			
 			copyLauncherScriptsToUserdata(settings)
-			
-			#check if we should use xbmc.service (Eden) or autoexec.py (Dharma)
-			if(not gui.useRCBService):
-				#try to create autoexec.py
-				writeAutoexec(gdb)
-			else:
-				#communicate with service via settings
-				settings.setSetting(util.SETTING_RCB_LAUNCHONSTARTUP, 'true')
+
+			#communicate with service via settings
+			settings.setSetting(util.SETTING_RCB_LAUNCHONSTARTUP, 'true')
 			
 			#invoke script file that kills xbmc before launching the emulator
 			basePath = os.path.join(util.getAddonDataPath(), 'scriptfiles')
@@ -95,10 +90,7 @@ def launchEmu(gdb, gui, gameId, config, settings, listitem):
 	Logutil.log("postcmd: " +postcmd, util.LOG_LEVEL_INFO)
 	
 	try:
-		if (os.environ.get( "OS", "xbox" ) == "xbox"):			
-			launchXbox(gui, gdb, cmd, romCollection, filenameRows)
-		else:
-			launchNonXbox(cmd, romCollection, gameRow, settings, precmd, postcmd, roms, gui, listitem)
+		launchNonXbox(cmd, romCollection, gameRow, settings, precmd, postcmd, roms, gui, listitem)
 	
 		gui.writeMsg("")
 					
@@ -479,141 +471,6 @@ def copyLauncherScriptsToUserdata(settings):
 		oldPath = os.path.join(oldBasePath, 'Sleep.vbs')
 		newPath = os.path.join(newBasePath, 'Sleep.vbs')
 		util.copyFile(oldPath, newPath)
-
-
-def writeAutoexec(gdb):
-	# Backup original autoexec.py		
-	autoexec = util.getAutoexecPath()
-	backupAutoexec(gdb, autoexec)
-
-	# Write new autoexec.py
-	try:
-		path = os.path.join(util.RCBHOME, 'default.py')
-		if(util.getEnvironment() == 'win32'):
-			#HACK: There is an error with "\a" in autoexec.py on windows, so we need "\A"
-			path = path.replace('\\addons', '\\Addons')
-			
-		fh = open(autoexec,'w') # truncate to 0
-		fh.write("#Rom Collection Browser autoexec\n")
-		fh.write("import xbmc\n")
-		fh.write("xbmc.executescript('"+ path+"')\n")
-		fh.close()
-	except Exception, (exc):
-		Logutil.log("Cannot write to autoexec.py: " +str(exc), util.LOG_LEVEL_ERROR)
-		return
-	
-	
-def backupAutoexec(gdb, fName):
-	Logutil.log("Begin launcher.backupAutoexec", util.LOG_LEVEL_INFO)
-
-	if os.path.isfile(fName):			
-		newFileName = os.path.join(util.getAddonDataPath(), 'autoexec.py.bak') 			
-		
-		if os.path.isfile(newFileName):
-			Logutil.log("Cannot backup autoexec.py: File exists.", util.LOG_LEVEL_ERROR)
-			return
-		
-		try:
-			os.rename(fName, newFileName)
-		except Exception, (exc):
-			Logutil.log("Cannot rename autoexec.py: " +str(exc), util.LOG_LEVEL_ERROR)
-			return
-		
-		rcbSetting = helper.getRCBSetting(gdb)
-		if (rcbSetting == None):
-			Logutil.log("rcbSetting == None in backupAutoexec", util.LOG_LEVEL_WARNING)
-			return
-		
-		RCBSetting(gdb).update(('autoexecBackupPath',), (newFileName,), rcbSetting[util.ROW_ID], True)
-		gdb.commit()
-		
-	Logutil.log("End launcher.backupAutoexec", util.LOG_LEVEL_INFO)
-		
-
-def launchXbox(gui, gdb, cmd, romCollection, filenameRows):
-	Logutil.log("launchEmu on xbox", util.LOG_LEVEL_INFO)
-	
-	#on xbox emucmd must be the path to an executable or cut file
-	if (not os.path.isfile(cmd)):
-		Logutil.log("Error while launching emu: File %s does not exist!" %cmd, util.LOG_LEVEL_ERROR)
-		gui.writeMsg(util.localize(32037) %cmd)
-		return
-					
-	if (romCollection.xboxCreateShortcut):
-		Logutil.log("creating cut file", util.LOG_LEVEL_INFO)
-		
-		cutFile = createXboxCutFile(cmd, filenameRows, romCollection)
-		if(cutFile == ""):
-			Logutil.log("Error while creating .cut file. Check xbmc.log for details.", util.LOG_LEVEL_ERROR)
-			gui.writeMsg(util.localize(32038))
-			return
-			
-		cmd = cutFile
-		Logutil.log("cut file created: " +cmd, util.LOG_LEVEL_INFO)			
-	
-	#RunXbe always terminates XBMC. So we have to write autoexec here	
-	writeAutoexec(gdb)
-		
-	Logutil.log("RunXbe", util.LOG_LEVEL_INFO)
-	xbmc.executebuiltin("XBMC.Runxbe(%s)" %cmd)
-	Logutil.log("RunXbe done", util.LOG_LEVEL_INFO)
-	time.sleep(1000)
-		
-
-def createXboxCutFile(emuCommandLine, filenameRows, romCollection):
-	Logutil.log("Begin launcher.createXboxCutFile", util.LOG_LEVEL_INFO)		
-		
-	cutFile = os.path.join(util.getAddonDataPath(), 'temp.cut')
-
-	# Write new temp.cut
-	try:
-		fh = open(cutFile,'w') # truncate to 0
-		fh.write("<shortcut>\n")
-		fh.write("<path>%s</path>\n" %emuCommandLine)
-				
-		if (romCollection.xboxCreateShortcutAddRomfile):	
-			filename = getRomfilenameForXboxCutfile(filenameRows, romCollection)
-			if(filename == ""):
-				return ""			
-			fh.write("<custom>\n")
-			fh.write("<game>%s</game>\n" %filename)
-			fh.write("</custom>\n")
-			
-		fh.write("</shortcut>\n")
-		fh.write("\n")
-		fh.close()
-	except Exception, (exc):
-		Logutil.log("Cannot write to temp.cut: " +str(exc), util.LOG_LEVEL_ERROR)
-		return ""			
-	
-	Logutil.log("End launcher.createXboxCutFile", util.LOG_LEVEL_INFO)
-	return cutFile
-	
-
-def getRomfilenameForXboxCutfile(filenameRows, romCollection):
-	
-	if(len(filenameRows) != 1):
-		Logutil.log("More than one file available for current game. Xbox version only supports one file per game atm.", util.LOG_LEVEL_ERROR)
-		return ""
-	
-	filenameRow = filenameRows[0]
-	if(filenameRow == None):
-		Logutil.log("filenameRow == None in launcher.createXboxCutFile", util.LOG_LEVEL_ERROR)
-		return ""
-		
-	filename = filenameRow[0]
-		
-	if (not os.path.isfile(filename)):
-		Logutil.log("Error while launching emu: File %s does not exist!" %filename, util.LOG_LEVEL_ERROR)		
-		return ""	
-	
-	if (not romCollection.xboxCreateShortcutUseShortGamename):
-		return filename
-		
-	basename = os.path.basename(filename)
-	filename = os.path.splitext(basename)[0]
-	return filename
-	
 	
 def launchNonXbox(cmd, romCollection, gameRow, settings, precmd, postcmd, roms, gui, listitem):
 	Logutil.log("launchEmu on non-xbox", util.LOG_LEVEL_INFO)							
