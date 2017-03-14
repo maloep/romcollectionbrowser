@@ -337,7 +337,7 @@ class UIGameInfoView(xbmcgui.WindowXMLDialog):
 		
 		Logutil.log("End showGameInfo", util.LOG_LEVEL_INFO)
 		
-		
+	# FIXME TODO This is only used when self._useRefactoredView = False
 	def getItemName(self, object, itemId):
 		
 		Logutil.log("Begin getItemName", util.LOG_LEVEL_DEBUG)
@@ -350,7 +350,7 @@ class UIGameInfoView(xbmcgui.WindowXMLDialog):
 			Logutil.log("End getItemName", util.LOG_LEVEL_DEBUG)
 			return itemRow[1]
 			
-	
+	# FIXME TODO This is only used when self._useRefactoredView = False
 	def getGameProperty(self, property):				
 		
 		if(property == None):
