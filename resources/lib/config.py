@@ -173,27 +173,86 @@ class FileType(object):
 		return "<FileType: %s>" % self.__dict__
 
 
-class ImagePlacing:	
-	name = ''	
-	fileTypesForGameList = None
-	fileTypesForGameListSelected = None			
-	fileTypesForMainView1 = None
-	fileTypesForMainView2 = None
-	fileTypesForMainView3 = None						
-	fileTypesForMainViewBackground = None
-	fileTypesForMainViewGameInfoBig = None
-	fileTypesForMainViewGameInfoUpperLeft = None
-	fileTypesForMainViewGameInfoUpperRight = None
-	fileTypesForMainViewGameInfoLowerLeft = None
-	fileTypesForMainViewGameInfoLowerRight = None	
-	fileTypesForMainViewGameInfoUpper = None
-	fileTypesForMainViewGameInfoLower = None
-	fileTypesForMainViewGameInfoLeft = None
-	fileTypesForMainViewGameInfoRight = None
-	
-	fileTypesForMainViewVideoWindowBig = None
-	fileTypesForMainViewVideoWindowSmall = None
-	fileTypesForMainViewVideoFullscreen = None
+class ImagePlacing(object):
+	"""This class controls how images should be displayed, based on whether it is a 'gameinfobig' or 'gameinfosmall'
+	(or other options defined in the imagePlacingDict).
+
+	For each category, there will be one or more entries defined in the config.xml; the first is the one
+	selected, with subsequent entries others as fallback if the collection hasn't set up a corresponding path.
+
+	Each class attribute is a list of FileType
+	"""
+	def __init__(self):
+		# name of the image placing - this is a key in the imagePlacingDict
+		self.name = ''
+
+		# List of FileType to be displayed as an icon in the game list, particularly the Info or Thumbs view
+		self.fileTypesForGameList = None
+		# List of FileType to be displayed as a thumb in the game list when a game is selected
+		self.fileTypesForGameListSelected = None
+
+		self.fileTypesForMainView1 = None
+		self.fileTypesForMainView2 = None
+		self.fileTypesForMainView3 = None
+
+		# Image to be displayed as background when a game is selected
+		self.fileTypesForMainViewBackground = None
+
+		# Used for gameinfobig - List of FileType to be displayed as the big image when a game is selected
+		self.fileTypesForMainViewGameInfoBig = None
+
+		# Used for gameinfosmall - Lists of FileType to be displayed as the 4 small images when a game is selected
+		self.fileTypesForMainViewGameInfoUpperLeft = None
+		self.fileTypesForMainViewGameInfoUpperRight = None
+		self.fileTypesForMainViewGameInfoLowerLeft = None
+		self.fileTypesForMainViewGameInfoLowerRight = None
+
+		# Used for MAME marquee and cabinet view when a game is selected
+		self.fileTypesForMainViewGameInfoUpper = None
+		self.fileTypesForMainViewGameInfoLower = None
+		self.fileTypesForMainViewGameInfoLeft = None
+		self.fileTypesForMainViewGameInfoRight = None
+
+		self.fileTypesForMainViewVideoWindowBig = None
+		self.fileTypesForMainViewVideoWindowSmall = None
+		self.fileTypesForMainViewVideoFullscreen = None
+
+	def __repr__(self):
+		return "<ImagePlacing: %s>" % self.__dict__
+
+	# The following properties are aligned with the artwork name used in the skins so that we can reference
+	# them by name
+	@property
+	def icon(self):
+		return self.fileTypesForGameList
+
+	@property
+	def thumb(self):
+		return self.fileTypesForGameListSelected
+
+	@property
+	def background(self):
+		return self.fileTypesForMainViewBackground
+
+	@property
+	def gameinfobig(self):
+		return self.fileTypesForMainViewGameInfoBig
+
+	@property
+	def gameinfoupperleft(self):
+		return self.fileTypesForMainViewGameInfoUpperLeft
+
+	@property
+	def gameinfoupperright(self):
+		return self.fileTypesForMainViewGameInfoUpperRight
+
+	@property
+	def gameinfolowerleft(self):
+		return self.fileTypesForMainViewGameInfoLowerLeft
+
+	@property
+	def gameinfolowerright(self):
+		return self.fileTypesForMainViewGameInfoLowerRight
 
 
 class MediaPath(object):
@@ -298,6 +357,8 @@ class RomCollection(object):
 	romPaths: List of paths containing the roms for this collection, including wildcard match, e.g.
 	    /path/to/rom/files/*.zip
 	scraperSites: List of Site objects applicable to this collection
+	imagePlacingMain: ImagePlacing (Image configuration) used on the main window
+	imagePlacingInfo: ImagePlacing (Image configuration) used on the game info window
 	ignoreOnScan: Whether to skip this rom collection when scanning
 	allowUpdate: Allows overwriting an existing rom in the collection with details from a more recent scan
 	useEmuSolo: Whether to shutdown/restart Kodi while running the external emulator using the scripts in
