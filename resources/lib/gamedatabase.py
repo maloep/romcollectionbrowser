@@ -745,7 +745,14 @@ class File(DataBaseObject):
 	def getFilesByGameIdAndTypeId(self, gameId, fileTypeId):
 		files = self.getObjectsByQuery(self.filterQueryByGameIdAndTypeId, (gameId, fileTypeId))
 		return files
-		
+
+	def getFilenameByGameIdAndTypeId(self, gameId, fileTypeId):
+		''' Get the filename (i.e. full path) for a game ID and filetype ID '''
+		file = self.getObjectByQuery(self.filterQueryByGameIdAndTypeId, (gameId, fileTypeId))
+		if file is None:
+			return ''
+		return file[util.ROW_NAME]
+
 	def getRomsByGameId(self, gameId):
 		files = self.getObjectsByQuery(self.filterQueryByGameIdAndFileType, (gameId, 0))
 		return files
