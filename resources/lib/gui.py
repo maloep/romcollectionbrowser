@@ -126,27 +126,26 @@ class UIGameDB(xbmcgui.WindowXML):
 		self.initialized = False
 		self.Settings = util.getSettings()
 		
-		#Make sure that we don't start RCB in cycles
+		# Make sure that we don't start RCB in cycles
 		self.Settings.setSetting('rcb_launchOnStartup', 'false')
-			
-		
-		#check if background game import is running
+
+		# Check if background game import is running
 		if self.checkUpdateInProgress():
 			self.quit = True
 			return
 		
-		#timestamp1 = time.clock()
+		# timestamp1 = time.clock()
 		
 		self.quit = False
 				
 		self.config, success = self.initializeConfig()
 		if not success:
-	   		self.quit = True
+			self.quit = True
 			return
-	   	
-	   	success = self.initializeDataBase()
-	   	if not success:
-	   		self.quit = True
+
+		success = self.initializeDataBase()
+		if not success:
+			self.quit = True
 			return
 		
 		cachingOptionStr = self.Settings.getSetting(util.SETTING_RCB_CACHINGOPTION)
@@ -226,8 +225,8 @@ class UIGameDB(xbmcgui.WindowXML):
 			xbmcgui.Dialog().ok(util.SCRIPTNAME, util.localize(32000), str(exc))
 			Logutil.log('Error accessing database: ' +str(exc), util.LOG_LEVEL_ERROR)
 			return False
-	   
-	   	#check if database is up to date
+
+		#check if database is up to date
 		#create new one or alter existing one
 		doImport, errorMsg = self.gdb.checkDBStructure()
 		
