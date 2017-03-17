@@ -420,16 +420,15 @@ class RomCollection(object):
 				return path.path
 		return ''
 
-	def getAvailableFileTypeForArt(self, attname):
+	def getAvailableFileTypeForArt(self, attname, placing):
 		""" Iterate over the list of <fileTypeForGameList> elements and return the first one found in the
 		RomCollection's *available* media paths
 
 		Args:
-		    attname: The art name used in either Kodi or the skin, e.g. 'icon', 'background', 'gameinfobig'
+			attname: The art name used in either Kodi or the skin, e.g. 'icon', 'background', 'gameinfobig'
+			placing: The ImagePlacing to find the FileType for - ImagePlacingMain or ImagePlacingInfo
 		"""
-		# FIXME TODO Need to support imagePlacingInfo as well. This will work as long as the FileTypes
-		# are the same for both
-		fts = getattr(self.imagePlacingMain, attname)
+		fts = getattr(placing, attname)
 		for ft in fts:
 			if self.getMediaPathByType(ft.name) != '':
 				return ft
@@ -437,49 +436,49 @@ class RomCollection(object):
 		return None
 
 	def _getImagesForPlacing(self, placing):
-		''' Returns a dict containing the filetype for each art property to be displayed. The dict key
-		    matches the ListItem.setArt key so it can be referenced in the skin
+		""" Returns a dict containing the filetype for each art property to be displayed. The dict key
+		matches the ListItem.setArt key so it can be referenced in the skin
 
-		    Note that we should already have set the icon and thumb; these aren't retrieved here
-		'''
+		Note that we should already have set the icon and thumb; these aren't retrieved here
+		"""
 		fts = {}
 
-		fts['background'] = self.getAvailableFileTypeForArt('background')
+		fts['background'] = self.getAvailableFileTypeForArt('background', placing)
 
-		if placing == 'gameinfobig':
-			fts['gameinfobig'] = self.getAvailableFileTypeForArt('gameinfobig')
+		if placing.name == 'gameinfobig':
+			fts['gameinfobig'] = self.getAvailableFileTypeForArt('gameinfobig', placing)
 
-		elif placing == 'gameinfosmall':
+		elif placing.name == 'gameinfosmall':
 			for arttype in ['gameinfoupperleft', 'gameinfoupperright', 'gameinfolowerleft', 'gameinfolowerright']:
-				fts[arttype] = self.getAvailableFileTypeForArt(arttype)
+				fts[arttype] = self.getAvailableFileTypeForArt(arttype, placing)
 
-		elif placing == 'gameinfomamemarquee':
+		elif placing.name == 'gameinfomamemarquee':
 			for arttype in ['gameinfoleft', 'gameinfoupperright', 'gameinfolowerright']:
-				fts[arttype] = self.getAvailableFileTypeForArt(arttype)
+				fts[arttype] = self.getAvailableFileTypeForArt(arttype, placing)
 
-		elif placing == 'gameinfomamecabinet':
+		elif placing.name == 'gameinfomamecabinet':
 			for arttype in ['gameinfoupperleft', 'gameinfoupperright', 'gameinfolower']:
-				fts[arttype] = self.getAvailableFileTypeForArt(arttype)
+				fts[arttype] = self.getAvailableFileTypeForArt(arttype, placing)
 
 		else:
-			print 'WARNING - Unsupported image placing type: ' + self.imagePlacingInfo.name
+			print 'WARNING - Unsupported image placing type: ' + placing.name
 			pass
 
 		return fts
 
 	def getImagesForGameInfoView(self):
 		''' Returns a dict of FileTypes to be displayed in the GameInfoView '''
-		return self._getImagesForPlacing(self.imagePlacingInfo.name)
+		return self._getImagesForPlacing(self.imagePlacingInfo)
 
 	def getImagesForGameListViewSelected(self):
 		''' Returns a dict of FileTypes to be displayed in the GameListView, when selected '''
-		return self._getImagesForPlacing(self.imagePlacingMain.name)
+		return self._getImagesForPlacing(self.imagePlacingMain)
 
 	def getImagesForGameListView(self):
 		''' Returns a dict of FileTypes to be displayed in the GameListView (typically just icon and thumb) '''
 		fts = {}
-		fts['icon'] = self.getAvailableFileTypeForArt('icon')
-		fts['thumb'] = self.getAvailableFileTypeForArt('thumb')
+		fts['icon'] = self.getAvailableFileTypeForArt('icon', self.imagePlacingMain)
+		fts['thumb'] = self.getAvailableFileTypeForArt('thumb', self.imagePlacingMain)
 		return fts
 
 
