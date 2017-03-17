@@ -88,7 +88,8 @@ class UIGameDB(xbmcgui.WindowXML):
 	applyFiltersInProgress = False
 	
 	filterChanged = False
-	
+
+	__useRefactoredView = False
 	
 	#last selected game position (prevent invoke showgameinfo twice)
 	lastPosition = -1
@@ -306,7 +307,10 @@ class UIGameDB(xbmcgui.WindowXML):
 							Logutil.log('onAction: current position = ' +str(pos), util.LOG_LEVEL_DEBUG)
 							Logutil.log('onAction: last position = ' +str(self.lastPosition), util.LOG_LEVEL_DEBUG)
 							if(pos != self.lastPosition):							
-								self.showGameInfo()
+								if self.__useRefactoredView:
+									self.showGameInfo()
+								else:
+									self.showGameInfoNew()
 							
 							self.lastPosition = pos
 									
@@ -388,7 +392,10 @@ class UIGameDB(xbmcgui.WindowXML):
 			else:
 				Logutil.log("onClick: Show Game Info", util.LOG_LEVEL_DEBUG)
 				self.setFocus(self.getControl(CONTROL_GAMES_GROUP_START))
-				self.showGameInfo()
+				if self.__useRefactoredView:
+					self.showGameInfo()
+				else:
+					self.showGameInfoNew()
 		elif (controlId in GAME_LISTS):
 			Logutil.log("onClick: Launch Emu", util.LOG_LEVEL_DEBUG)
 			self.launchEmu()
@@ -397,7 +404,10 @@ class UIGameDB(xbmcgui.WindowXML):
 			self.startFullscreenVideo()
 		elif (controlId == CONTROL_BUTTON_FAVORITE):
 			Logutil.log("onClick: Button Favorites", util.LOG_LEVEL_DEBUG)
-			self.showGames()
+			if self.__useRefactoredView:
+				self.showGamesNew()
+			else:
+				self.showGames()
 		elif (controlId == CONTROL_BUTTON_SEARCH):
 			Logutil.log("onClick: Button Search", util.LOG_LEVEL_DEBUG)
 			
@@ -415,13 +425,19 @@ class UIGameDB(xbmcgui.WindowXML):
 				self.searchTerm = ''
 				searchButton.setLabel(util.localize(32117))
 			
-			self.showGames()
+			if self.__useRefactoredView:
+				self.showGamesNew()
+			else:
+				self.showGames()
 			
 		elif (controlId == CONTROL_BUTTON_MISSINGINFODIALOG):
 			missingInfoDialog = dialogmissinginfo.MissingInfoDialog("script-RCB-missinginfo.xml", util.getAddonInstallPath(), "Default", "720p", gui=self)
 			if(missingInfoDialog.saveConfig):
 				self.config.readXml()
-				self.showGames()
+				if self.__useRefactoredView:
+					self.showGamesNew()
+				else:
+					self.showGames()
 			
 			del missingInfoDialog
 			
@@ -573,8 +589,99 @@ class UIGameDB(xbmcgui.WindowXML):
 				
 		self.updateControls(False, False, False)
 		xbmc.sleep(util.WAITTIME_UPDATECONTROLS)
-		self.showGames()
-		
+		if self.__useRefactoredView:
+			self.showGamesNew()
+		else:
+			self.showGames()
+
+	def showGamesNew(self):
+		Logutil.log("Begin showGamesNew" , util.LOG_LEVEL_INFO)
+
+		self.lastPosition = -1
+
+		preventUnfilteredSearch = self.Settings.getSetting(util.SETTING_RCB_PREVENTUNFILTEREDSEARCH).upper() == 'TRUE'
+		if preventUnfilteredSearch:
+			if self.selectedCharacter == util.localize(32120) and self.selectedConsoleId == 0 and self.selectedGenreId == 0 and self.selectedYearId == 0 and self.selectedPublisherId == 0:
+				Logutil.log("preventing unfiltered search", util.LOG_LEVEL_WARNING)
+				return
+
+		isFavorite = 0
+		try:
+			if self.getControlById(CONTROL_BUTTON_FAVORITE).isSelected():
+				isFavorite = 1
+		except AttributeError:
+			pass
+
+		showFavoriteStars = self.Settings.getSetting(util.SETTING_RCB_SHOWFAVORITESTARS).upper() == 'TRUE'
+
+		timestamp1 = time.clock()
+
+		# Build statement for character search (where name LIKE 'A%')
+		likeStatement = helper.buildLikeStatement(self.selectedCharacter, self.searchTerm)
+
+		# Build statement for missing filters
+		missingFilterStatement = helper.builMissingFilterStatement(self.config)
+		if missingFilterStatement != '':
+			likeStatement = likeStatement + ' AND ' + missingFilterStatement
+		# Set a limit of games to show
+		maxNumGamesIndex = self.Settings.getSetting(util.SETTING_RCB_MAXNUMGAMESTODISPLAY)
+		maxNumGames = util.MAXNUMGAMES_ENUM[int(maxNumGamesIndex)]
+
+		games = Game(self.gdb).getGamesByFilter(self.selectedConsoleId, self.selectedGenreId, self.selectedYearId, self.selectedPublisherId, isFavorite, likeStatement, maxNumGames)
+
+		timestamp2 = time.clock()
+		diff = (timestamp2 - timestamp1) * 1000
+		print "showGames: load games from db in %d ms" % (diff)
+
+		self.writeMsg(util.localize(32121))
+
+		self.clearList()
+		self.rcb_playList.clear()
+
+		for game in games:
+			item = xbmcgui.ListItem(game.name, str(game.id))
+			item.setProperty('romCollectionId', str(game.romCollectionId))
+
+			for prop in ['gameId', 'plot', 'playcount', 'originalTitle', 'alternateTitle', 'favorite']:
+				try:
+					item.setProperty(prop, getattr(game, prop))
+				except AttributeError:
+					Logutil.log("Unable to retrieve attribute " + prop, util.LOG_LEVEL_WARNING)
+			self.addItem(item)
+
+			if not showFavoriteStars:
+				item.setProperty('isfavorite', '')
+
+			# FIXME TODO Videos
+
+			try:
+				romCollection = self.config.romCollections[str(game.romCollectionId)]
+			except KeyError:
+				Logutil.log('Cannot get rom collection with id: ' +str(game.romCollectionId), util.LOG_LEVEL_ERROR)
+				# Won't be able to get game images, move to next game
+				continue
+
+			# Set the icon and thumb to be displayed in the main gamelist
+			images = romCollection.getImagesForGameListView()
+			f = File(self.gdb)
+			for k, v in images.items():
+				try:
+					imagepath = f.getFilenameByGameIdAndTypeId(game.gameId, v.id)
+					Logutil.log('Looking for imagetype ' + v.name + ', found ' + imagepath, util.LOG_LEVEL_DEBUG)
+					item.setArt({k: imagepath})
+
+				except Exception as err:
+					Logutil.log('Unable to set art: ' + repr(err), util.LOG_LEVEL_WARNING)
+
+		xbmc.executebuiltin("Container.SortDirection")
+
+		self.writeMsg("")
+
+		timestamp3 = time.clock()
+		diff = (timestamp3 - timestamp2) * 1000
+		Logutil.log( "showGames: load %i games to list in %d ms" % (self.getListSize(), diff), util.LOG_LEVEL_INFO)
+
+		Logutil.log("End showGamesNew" , util.LOG_LEVEL_INFO)
 
 	def showGames(self):
 		Logutil.log("Begin showGames" , util.LOG_LEVEL_INFO)
@@ -715,7 +822,56 @@ class UIGameDB(xbmcgui.WindowXML):
 				self.player.stop()
 				
 		Logutil.log("End showGameInfo" , util.LOG_LEVEL_INFO)
-		
+
+	def showGameInfoNew(self):
+		''' Called when a game is selected in the list; retrieves the object and sets the artwork data. This is to
+		    work around the fact that we may delay loading it in the main list population as a caching mechanism
+		'''
+		Logutil.log("Begin showGameInfoNew", util.LOG_LEVEL_INFO)
+
+		starttime = time.clock()
+
+		self.writeMsg("")
+
+		selectedGame = self.getSelectedItem()
+
+		if selectedGame is None:
+			Logutil.log("selectedGame == None in getGameByPosition", util.LOG_LEVEL_WARNING)
+			return
+
+		Logutil.log('Selected game with property gameId {0}, romCollectionId {1}'.format(selectedGame.getProperty('gameId'),
+				selectedGame.getProperty('romCollectionId')), util.LOG_LEVEL_DEBUG)
+
+		try:
+			romCollection = self.config.romCollections[selectedGame.getProperty('romCollectionId')]
+		except Exception as err:
+			print err.message
+			Logutil.log('Cannot get rom collection with id: ' + str(selectedGame.getProperty('romCollectionId')), util.LOG_LEVEL_ERROR)
+			return
+
+		# Set the artwork to be displayed
+		images = romCollection.getImagesForGameListViewSelected()
+		f = File(self.gdb)
+		for k, v in images.items():
+			try:
+				imagepath = f.getFilenameByGameIdAndTypeId(selectedGame.getProperty('gameId'), v.id)
+				Logutil.log('Looking for imagetype ' + v.name + ', found ' + imagepath, util.LOG_LEVEL_DEBUG)
+				selectedGame.setArt({k: imagepath})
+
+			except Exception as err:
+				Logutil.log('Unable to set art: ' + repr(err), util.LOG_LEVEL_WARNING)
+
+		# FIXME TODO Check if video works
+		video = selectedGame.getProperty('gameplaymain')
+		if video == "" or video is None or not romCollection.autoplayVideoMain:
+			if self.player.isPlayingVideo():
+				self.player.stop()
+
+		endtime = time.clock()
+		diff = (endtime - starttime) * 1000
+		Logutil.log('Time taken to showGameInfo using new format: {0}ms'.format(diff), util.LOG_LEVEL_INFO)
+
+		Logutil.log("End showGameInfoNew" , util.LOG_LEVEL_INFO)
 		
 	def launchEmu(self):
 
@@ -804,12 +960,18 @@ class UIGameDB(xbmcgui.WindowXML):
 	def updateGamelist(self):
 		#only update controls if they are available
 		if(self.initialized):
-			self.showGames()
+			if self.__useRefactoredView:
+				self.showGamesNew()
+			else:
+				self.showGames()
 			focusControl = self.getControlById(CONTROL_GAMES_GROUP_START)
 			if(focusControl != None):
 				self.setFocus(focusControl)
 			xbmc.sleep(util.WAITTIME_UPDATECONTROLS)
-			self.showGameInfo()
+			if self.__useRefactoredView:
+				self.showGameInfo()
+			else:
+				self.showGameInfoNew()
 		
 		
 	def deleteGame(self, gameID):
@@ -862,7 +1024,10 @@ class UIGameDB(xbmcgui.WindowXML):
 			if(rDelete):
 				self.selectedConsoleId = self.setFilterSelection(CONTROL_CONSOLES, self.selectedConsoleIndex)
 				self.setFilterSelection(CONTROL_GAMES_GROUP_START, 0)
-			self.showGames()
+			if self.__useRefactoredView:
+				self.showGamesNew()
+			else:
+				self.showGames()
 
 		rcList = None
 		Logutil.log("end Delete Games" , util.LOG_LEVEL_INFO)
@@ -894,13 +1059,16 @@ class UIGameDB(xbmcgui.WindowXML):
 			time.sleep(.5)
 			progressDialog2.writeMsg("", util.localize(32110), "",count)
 			time.sleep(1)
-			self.showGames()
+			if self.__useRefactoredView:
+				self.showGamesNew()
+			else:
+				self.showGames()
 		list = None
 		Logutil.log("End cleanDB" , util.LOG_LEVEL_INFO)
 		
 		
 	def showGameInfoDialog(self):
-
+		""" Called when a game is opened in the GameInfo dialog """
 		Logutil.log("Begin showGameInfoDialog", util.LOG_LEVEL_INFO)
 		
 		if(self.getListSize() == 0):
@@ -1413,8 +1581,11 @@ class UIGameDB(xbmcgui.WindowXML):
 			favoritesSelected = self.Settings.getSetting(util.SETTING_RCB_FAVORITESSELECTED)
 			isFavoriteButton.setSelected(favoritesSelected == '1')				
 		
-		#reset game list
-		self.showGames()
+		# Reset game list
+		if self.__useRefactoredView:
+			self.showGamesNew()
+		else:
+			self.showGames()
 		
 		self.setFilterSelection(CONTROL_GAMES_GROUP_START, rcbSetting[util.RCBSETTING_lastSelectedGameIndex])
 		
@@ -1423,7 +1594,10 @@ class UIGameDB(xbmcgui.WindowXML):
 		if(focusControl != None):
 			self.setFocus(focusControl)
 		
-		self.showGameInfo()
+		if self.__useRefactoredView:
+			self.showGameInfo()
+		else:
+			self.showGameInfoNew()
 			
 		Logutil.log("End loadViewState" , util.LOG_LEVEL_INFO)					
 
