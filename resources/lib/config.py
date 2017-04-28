@@ -258,6 +258,8 @@ class Site(object):
 	"""
 	def __init__(self):
 		self.name = ''
+		# Used if the source for the game metadata is contained in a single file
+		# (e.g. MAME history.dat file) or in multiple files/web URL
 		self.descFilePerGame = False
 		self.searchGameByCRC = True
 		self.searchGameByCRCIgnoreRomName = False
@@ -268,6 +270,12 @@ class Site(object):
 
 	def __repr__(self):
 		return "<Site: %s>" % self.__dict__
+
+	def is_multigame_scraper(self):
+		return not self.descFilePerGame
+
+	def is_localartwork_scraper(self):
+		return self.name == util.localize(32153)
 	
 
 class MissingFilter(object):
@@ -287,7 +295,9 @@ class RomCollection(object):
 	preCmd: The OS command to execute before the emulatorCmd
 	postCmd: The OS command to execute after the emulatorCmd
 	emulatorParams: List of command-line parameters appended to the emulatorCmd
-	romPaths:
+	romPaths: List of paths containing the roms for this collection, including wildcard match, e.g.
+	    /path/to/rom/files/*.zip
+	scraperSites: List of Site objects applicable to this collection
 	ignoreOnScan: Whether to skip this rom collection when scanning
 	allowUpdate: Allows overwriting an existing rom in the collection with details from a more recent scan
 	useEmuSolo: Whether to shutdown/restart Kodi while running the external emulator using the scripts in
@@ -312,11 +322,11 @@ class RomCollection(object):
 		self.preCmd = ''
 		self.postCmd = ''
 		self.emulatorParams = ''
-		self.romPaths = None
+		self.romPaths = []
 		self.saveStatePath = ''
 		self.saveStateParams = ''
-		self.mediaPaths = None
-		self.scraperSites = None
+		self.mediaPaths = []
+		self.scraperSites = []
 		self.imagePlacingMain = None
 		self.imagePlacingInfo = None
 		self.autoplayVideoMain = True
@@ -385,7 +395,11 @@ class Config(object):
 		
 		# force utf-8
 		tree = ElementTree()
-		parser = XMLParser(encoding='utf-8') 
+		if sys.version_info >= (2,7):
+			parser = XMLParser(encoding='utf-8')
+		else:
+			parser = XMLParser()
+
 		tree.parse(self.configFile, parser)
 		if(tree == None):
 			Logutil.log('Could not read config.xml', util.LOG_LEVEL_ERROR)
@@ -484,15 +498,12 @@ class Config(object):
 			romCollection.id = id
 			
 			# romPath
-			romCollection.romPaths = []
 			for romPathRow in romCollectionRow.findall('romPath'):
 				Logutil.log('Rom path: ' +romPathRow.text, util.LOG_LEVEL_INFO)
 				if romPathRow.text is not None:
 					romCollection.romPaths.append(romPathRow.text)
 				
 			# mediaPath
-			romCollection.mediaPaths = []
-
 			for mediaPathRow in romCollectionRow.findall('mediaPath'):
 				mediaPath = MediaPath()
 				if mediaPathRow.text is not None:
@@ -505,7 +516,6 @@ class Config(object):
 				romCollection.mediaPaths.append(mediaPath)
 			
 			#Scraper
-			romCollection.scraperSites = []
 			for scraperRow in romCollectionRow.findall('scraper'):
 				if 'name' not in scraperRow.attrib:
 					Logutil.log('Configuration error. RomCollection/scraper must have an attribute name', util.LOG_LEVEL_ERROR)
@@ -559,10 +569,14 @@ class Config(object):
 			for var in ['gameclient', 'emulatorCmd', 'preCmd', 'postCmd', 'emulatorParams', 'saveStatePath',
 						'saveStateParams', 'diskPrefix']:
 				romCollection.__setattr__(var, romCollectionRow.findtext(var, ''))
+			
+			# RomCollection int properties
+			for var in ['maxFolderDepth']:
+				romCollection.__setattr__(var, int(romCollectionRow.findtext(var, '')))
 
 			# RomCollection bool properties
 			for var in ['useBuiltinEmulator', 'ignoreOnScan', 'allowUpdate', 'useEmuSolo', 'usePopen',
-						'autoplayVideoMain', 'autoplayVideoInfo', 'useFoldernameAsGamename', 'maxFolderDepth',
+						'autoplayVideoMain', 'autoplayVideoInfo', 'useFoldernameAsGamename',
 						'doNotExtractZipFiles', 'makeLocalCopy', 'xboxCreateShortcut',
 						'xboxCreateShortcutAddRomfile', 'xboxCreateShortcutUseShortGamename']:
 				romCollection.__setattr__(var, romCollectionRow.findtext(var, '').upper() == 'TRUE')

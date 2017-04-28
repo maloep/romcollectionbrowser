@@ -16,7 +16,7 @@
 		    <width>1280</width>
 		    <height>720</height>
 		    <aspectratio>stretch</aspectratio>
-			<texture fallback="curtains.png">$INFO[ListItem.Property(background)]</texture>
+			<texture fallback="curtains.png">$INFO[ListItem.Art(background)]</texture>
 			<animation effect="fade" start="0" end="100" time="800">WindowOpen</animation>	
 			<animation effect="fade" start="100" end="0" time="200">WindowClose</animation>
 			<animation effect="fade" start="0" end="100" time="200">Visible</animation>	
@@ -477,7 +477,7 @@
 						<width>436</width>
 						<height>244</height>
 						<visible>!Player.HasVideo | IsEmpty(ListItem.Property(gameplaymain))</visible>
-						<texture background="true" diffuse="showcase-diffuse.png" fallback="missing.jpg">$INFO[ListItem.Property(gameinfobig)]</texture>
+						<texture background="true" diffuse="showcase-diffuse.png" fallback="missing.jpg">$INFO[ListItem.Art(gameinfobig)]</texture>
 						<fadetime>400</fadetime>
 						<aspectratio>stretch</aspectratio>
 						<animation type="WindowOpen" reversible="false">

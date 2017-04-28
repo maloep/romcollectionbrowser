@@ -298,7 +298,7 @@
 					<width>540</width>
 					<height>280</height>
 					<visible>!Player.HasVideo</visible>
-					<texture>$INFO[ListItem.Property(gameinfobig)]</texture>
+					<texture>$INFO[ListItem.Art(gameinfobig)]</texture>
 					<bordertexture border="2">rcb-button-nofocus.png</bordertexture>
 					<bordersize>2</bordersize>
 				</control>
@@ -328,7 +328,7 @@
 					<posy>25</posy>
 					<width>265</width>
 					<height>135</height>						
-					<texture>$INFO[ListItem.Property(gameinfoupperleft)]</texture>
+					<texture>$INFO[ListItem.Art(gameinfoupperleft)]</texture>
 					<bordertexture border="2">rcb-button-nofocus.png</bordertexture>
 					<bordersize>2</bordersize>
 				</control>
@@ -339,7 +339,7 @@
 					<posy>25</posy>
 					<width>265</width>
 					<height>135</height>						
-					<texture>$INFO[ListItem.Property(gameinfoupperright)]</texture>
+					<texture>$INFO[ListItem.Art(gameinfoupperright)]</texture>
 					<bordertexture border="2">rcb-button-nofocus.png</bordertexture>
 					<bordersize>2</bordersize>
 				</control>
@@ -350,7 +350,7 @@
 					<posy>170</posy>
 					<width>265</width>
 					<height>135</height>						
-					<texture>$INFO[ListItem.Property(gameinfolowerleft)]</texture>
+					<texture>$INFO[ListItem.Art(gameinfolowerleft)]</texture>
 					<bordertexture border="2">rcb-button-nofocus.png</bordertexture>
 					<bordersize>2</bordersize>
 				</control>
@@ -362,7 +362,7 @@
 					<width>265</width>
 					<height>135</height>
 					<visible>!Player.HasVideo</visible>
-					<texture>$INFO[ListItem.Property(gameinfolowerright)]</texture>
+					<texture>$INFO[ListItem.Art(gameinfolowerright)]</texture>
 					<bordertexture border="2">rcb-button-nofocus.png</bordertexture>
 					<bordersize>2</bordersize>
 				</control>
@@ -374,7 +374,7 @@
 					<posy>25</posy>
 					<width>537</width>
 					<height>135</height>						
-					<texture>$INFO[ListItem.Property(gameinfoupper)]</texture>
+					<texture>$INFO[ListItem.Art(gameinfoupper)]</texture>
 					<bordertexture border="2">rcb-button-nofocus.png</bordertexture>
 					<bordersize>2</bordersize>
 				</control>
@@ -385,7 +385,7 @@
 					<posy>170</posy>
 					<width>537</width>
 					<height>135</height>						
-					<texture>$INFO[ListItem.Property(gameinfolower)]</texture>
+					<texture>$INFO[ListItem.Art(gameinfolower)]</texture>
 					<bordertexture border="2">rcb-button-nofocus.png</bordertexture>
 					<bordersize>2</bordersize>
 				</control>
@@ -396,7 +396,7 @@
 					<posy>25</posy>
 					<width>265</width>
 					<height>280</height>						
-					<texture>$INFO[ListItem.Property(gameinfoleft)]</texture>
+					<texture>$INFO[ListItem.Art(gameinfoleft)]</texture>
 					<bordertexture border="2">rcb-button-nofocus.png</bordertexture>
 					<bordersize>2</bordersize>
 				</control>
@@ -407,7 +407,7 @@
 					<posy>25</posy>
 					<width>265</width>
 					<height>280</height>						
-					<texture>$INFO[ListItem.Property(gameinforight)]</texture>
+					<texture>$INFO[ListItem.Art(gameinforight)]</texture>
 					<bordertexture border="2">rcb-button-nofocus.png</bordertexture>
 					<bordersize>2</bordersize>
 				</control>

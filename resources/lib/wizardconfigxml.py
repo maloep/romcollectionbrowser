@@ -150,14 +150,7 @@ class ConfigXmlWizard(object):
 				preconfiguredEmulator = None
 				
 				#emulator
-				#xbox games on xbox will be launched directly
-				if os.environ.get("OS", "xbox") == "xbox" and romCollection.name == 'Xbox':
-					romCollection.emulatorCmd = '%ROM%'
-					Logutil.log('emuCmd set to "%ROM%" on Xbox.', util.LOG_LEVEL_INFO)
-
-				elif romCollection.name == 'Linux' or \
-				     romCollection.name == 'Macintosh' or \
-				     romCollection.name == 'Windows':
+				if romCollection.name in ['Linux', 'Macintosh', 'Windows']:
 					# Check for standalone games
 					romCollection.emulatorCmd = '"%ROM%"'
 					Logutil.log('emuCmd set to "%ROM%" for standalone games.', util.LOG_LEVEL_INFO)
@@ -194,11 +187,7 @@ class ConfigXmlWizard(object):
 						romCollection.emulatorCmd = consolePath
 				
 				#params
-				#on xbox we will create .cut files without params
-				if (os.environ.get( "OS", "xbox" ) == "xbox"):
-					romCollection.emulatorParams = ''
-					Logutil.log('emuParams set to "" on Xbox.', util.LOG_LEVEL_INFO)
-				elif (romCollection.name == 'Linux' or romCollection.name == 'Macintosh' or romCollection.name == 'Windows'):
+				if romCollection.name in ['Linux', 'Macintosh', 'Windows']:
 					romCollection.emulatorParams = ''
 					Logutil.log('emuParams set to "" for standalone games.', util.LOG_LEVEL_INFO)
 				else:
@@ -233,40 +222,21 @@ class ConfigXmlWizard(object):
 				break
 					
 			#filemask
-			
-			#xbox games always use default.xbe as executable
-			if (os.environ.get( "OS", "xbox" ) == "xbox" and romCollection.name == 'Xbox'):
-				Logutil.log('filemask "default.xbe" for Xbox games on Xbox.', util.LOG_LEVEL_INFO)
-				romPathComplete = util.joinPath(romPath, 'default.xbe')					
+			keyboard = xbmc.Keyboard()
+			keyboard.setHeading(util.localize(32181))
+			keyboard.doModal()
+			if (keyboard.isConfirmed()):
+				fileMaskInput = keyboard.getText()
+				Logutil.log('fileMask: ' +str(fileMaskInput), util.LOG_LEVEL_INFO)
+				fileMasks = fileMaskInput.split(',')
 				romCollection.romPaths = []
-				romCollection.romPaths.append(romPathComplete)
+				for fileMask in fileMasks:
+					romPathComplete = util.joinPath(romPath, fileMask.strip())
+					romCollection.romPaths.append(romPathComplete)
 			else:
-				keyboard = xbmc.Keyboard()
-				keyboard.setHeading(util.localize(32181))			
-				keyboard.doModal()
-				if (keyboard.isConfirmed()):					
-					fileMaskInput = keyboard.getText()
-					Logutil.log('fileMask: ' +str(fileMaskInput), util.LOG_LEVEL_INFO)
-					fileMasks = fileMaskInput.split(',')
-					romCollection.romPaths = []
-					for fileMask in fileMasks:
-						romPathComplete = util.joinPath(romPath, fileMask.strip())					
-						romCollection.romPaths.append(romPathComplete)
-				else:
-					Logutil.log('No fileMask selected. Action canceled.', util.LOG_LEVEL_INFO)
-					break
-	
-			if (os.environ.get( "OS", "xbox" ) == "xbox"):
-				romCollection.xboxCreateShortcut = True
-				romCollection.xboxCreateShortcutAddRomfile = True
-				romCollection.xboxCreateShortcutUseShortGamename = False
-				
-				#TODO use flags for complete platform list (not only xbox)
-				if(romCollection.name == 'Xbox'):
-					romCollection.useFoldernameAsGamename = True
-					romCollection.searchGameByCRC = False
-					romCollection.maxFolderDepth = 1
-			
+				Logutil.log('No fileMask selected. Action canceled.', util.LOG_LEVEL_INFO)
+				break
+
 			
 			if(scenarioIndex == 0):
 				artworkPath = dialog.browse(0, util.localize(32193) %console, 'files', '', False, False, romPath)

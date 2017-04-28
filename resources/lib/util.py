@@ -19,9 +19,6 @@ __addon__ = xbmcaddon.Addon(id='%s' %SCRIPTID)
 __language__ = __addon__.getLocalizedString
 
 
-#compatibility checks
-XBMC_VERSION_HELIX = 14
-
 #time to wait before automatic playback starts
 WAITTIME_PLAYERSTART = 500
 #time that xbmc needs to close the player (before we can load the list again)
@@ -110,7 +107,7 @@ RCBSETTING_lastSelectedGenreIndex = 3
 RCBSETTING_lastSelectedPublisherIndex = 4
 RCBSETTING_lastSelectedYearIndex = 5
 RCBSETTING_lastSelectedGameIndex = 6
-RCBSETTING_autoexecBackupPath = 7
+RCBSETTING_autoexecBackupPath = 7	# This is a deprecated setting, unused in code
 RCBSETTING_dbVersion = 8
 RCBSETTING_lastFocusedControlMainView = 9
 RCBSETTING_lastFocusedControlGameInfoView = 10
@@ -238,6 +235,19 @@ def joinPath(part1, *parts):
 # METHODS #
 #
 
+class KodiVersions(object):
+	HELIX = 14
+	ISENGARD = 15
+	JARVIS = 16
+	KRYPTON = 17
+
+	@classmethod
+	def getKodiVersion(self):
+		version = xbmc.getInfoLabel("System.BuildVersion")[:2]
+		# Alternately:
+		# version = xbmcaddon.Addon('xbmc.addon').getAddonInfo('version')
+		return int(version)
+
 def getEnvironment():
 	return ( os.environ.get( "OS", "win32" ), "win32", )[ os.environ.get( "OS", "win32" ) == "xbox" ]
 
@@ -266,9 +276,6 @@ def getAddonInstallPath():
 	path = __addon__.getAddonInfo('path').decode('utf-8')
 	
 	return path
-
-def getAutoexecPath():	
-	return xbmc.translatePath('special://profile/autoexec.py').decode('utf-8')
 
 def getEmuAutoConfigPath():	
 	
@@ -383,13 +390,8 @@ RCBHOME = getAddonInstallPath()
 # Logging
 #
 
-
-try:
-	from sqlite3 import dbapi2 as sqlite
-	print("RCB_INFO: Loading sqlite3 as DB engine")
-except ImportError as e:
-	from pysqlite2 import dbapi2 as sqlite
-	print("RCB_INFO: Loading pysqlite2 as DB engine")
+from sqlite3 import dbapi2 as sqlite
+print("RCB_INFO: Loading sqlite3 as DB engine")
 
 
 class Logutil(object):

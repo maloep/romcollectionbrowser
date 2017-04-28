@@ -103,17 +103,11 @@ class UIGameDB(xbmcgui.WindowXML):
 			
 	#cachingOption will be overwritten by config. Don't change it here.
 	cachingOption = 3
-	
-	useRCBService = False
+
 	searchTerm = ''
-	
-	xbmcversion = xbmcaddon.Addon('xbmc.addon').getAddonInfo('version')
-	Logutil.log("XBMC version = " +xbmcversion, util.LOG_LEVEL_INFO)
-	
-	xbmcversionNo = xbmcversion[0:2]
-	Logutil.log("XBMC major version no = " +xbmcversionNo, util.LOG_LEVEL_INFO)
-	
-	if(int(xbmcversionNo) < util.XBMC_VERSION_HELIX):
+
+	if KodiVersions.getKodiVersion() < KodiVersions.HELIX:
+		Logutil.log("Running on Kodi version older than Helix; using old alignment", util.LOG_LEVEL_INFO)
 		xbmc.executebuiltin('Skin.SetBool(rcb_useOldAlignment)')
 	
 	def __init__(self, strXMLname, strFallbackPath, strDefaultName, forceFallback):
@@ -122,13 +116,12 @@ class UIGameDB(xbmcgui.WindowXML):
 		addon = xbmcaddon.Addon(id='%s' %util.SCRIPTID)
 		Logutil.log("RCB version: " + addon.getAddonInfo('version'), util.LOG_LEVEL_INFO)
 			
-		#check if RCB service is available, otherwise we will use autoexec.py
+		# Check if RCB service is available
 		try:
 			serviceAddon = xbmcaddon.Addon(id=util.SCRIPTID)
 			Logutil.log("RCB service addon: " + str(serviceAddon), util.LOG_LEVEL_INFO)
-			self.useRCBService = True
 		except:
-			Logutil.log("No RCB service addon available. Will use autoexec.py for startup features.", util.LOG_LEVEL_INFO)
+			Logutil.log("No RCB service addon available.", util.LOG_LEVEL_INFO)
 			
 		self.initialized = False
 		self.Settings = util.getSettings()
@@ -266,11 +259,6 @@ class UIGameDB(xbmcgui.WindowXML):
 		self.loadViewState()
 		
 		#self.fillListInBackground()
-		
-		#check startup tasks done with autoexec.py
-		if(not self.useRCBService):
-			self.checkAutoExec()
-			self.checkScrapStart()
 
 		Logutil.log("End onInit", util.LOG_LEVEL_INFO)
 
@@ -648,11 +636,13 @@ class UIGameDB(xbmcgui.WindowXML):
 		
 			try:
 				#images for gamelist
+				# icon
 				imageGameList = self.getFileForControl(romCollection.imagePlacingMain.fileTypesForGameList, gameRow[util.ROW_ID], gameRow[util.GAME_publisherId], gameRow[util.GAME_developerId], gameRow[util.GAME_romCollectionId], fileDict)
+				# thumb
 				imageGameListSelected = self.getFileForControl(romCollection.imagePlacingMain.fileTypesForGameListSelected, gameRow[util.ROW_ID], gameRow[util.GAME_publisherId], gameRow[util.GAME_developerId], gameRow[util.GAME_romCollectionId], fileDict)
 				
 				#create ListItem
-				item = xbmcgui.ListItem(gameRow[util.ROW_NAME], str(gameRow[util.ROW_ID]), imageGameList, imageGameListSelected)			
+				item = xbmcgui.ListItem(gameRow[util.ROW_NAME], str(gameRow[util.ROW_ID]))
 				item.setProperty('gameId', helper.saveReadString(gameRow[util.ROW_ID]))
 				
 				#favorite handling
@@ -1007,7 +997,9 @@ class UIGameDB(xbmcgui.WindowXML):
 			file = files[0]
 		else:
 			file = ""
-			
+
+		Logutil.log("Found file {0}".format(file), util.LOG_LEVEL_DEBUG)
+
 		return file
 	
 		
@@ -1154,38 +1146,28 @@ class UIGameDB(xbmcgui.WindowXML):
 		
 		
 	def setAllItemData(self, item, gameRow, fileDict, romCollection):				
-		
-		# all other images in mainwindow
-		imagemainViewBackground = self.getFileForControl(romCollection.imagePlacingMain.fileTypesForMainViewBackground, gameRow[util.ROW_ID], gameRow[util.GAME_publisherId], gameRow[util.GAME_developerId], gameRow[util.GAME_romCollectionId], fileDict)
-		imageGameInfoBig = self.getFileForControl(romCollection.imagePlacingMain.fileTypesForMainViewGameInfoBig, gameRow[util.ROW_ID], gameRow[util.GAME_publisherId], gameRow[util.GAME_developerId], gameRow[util.GAME_romCollectionId], fileDict)
-		imageGameInfoUpperLeft = self.getFileForControl(romCollection.imagePlacingMain.fileTypesForMainViewGameInfoUpperLeft, gameRow[util.ROW_ID], gameRow[util.GAME_publisherId], gameRow[util.GAME_developerId], gameRow[util.GAME_romCollectionId], fileDict)
-		imageGameInfoUpperRight = self.getFileForControl(romCollection.imagePlacingMain.fileTypesForMainViewGameInfoUpperRight, gameRow[util.ROW_ID], gameRow[util.GAME_publisherId], gameRow[util.GAME_developerId], gameRow[util.GAME_romCollectionId], fileDict)
-		imageGameInfoLowerLeft = self.getFileForControl(romCollection.imagePlacingMain.fileTypesForMainViewGameInfoLowerLeft, gameRow[util.ROW_ID], gameRow[util.GAME_publisherId], gameRow[util.GAME_developerId], gameRow[util.GAME_romCollectionId], fileDict)
-		imageGameInfoLowerRight = self.getFileForControl(romCollection.imagePlacingMain.fileTypesForMainViewGameInfoLowerRight, gameRow[util.ROW_ID], gameRow[util.GAME_publisherId], gameRow[util.GAME_developerId], gameRow[util.GAME_romCollectionId], fileDict)
-		
-		imageGameInfoUpper = self.getFileForControl(romCollection.imagePlacingMain.fileTypesForMainViewGameInfoUpper, gameRow[util.ROW_ID], gameRow[util.GAME_publisherId], gameRow[util.GAME_developerId], gameRow[util.GAME_romCollectionId], fileDict)
-		imageGameInfoLower = self.getFileForControl(romCollection.imagePlacingMain.fileTypesForMainViewGameInfoLower, gameRow[util.ROW_ID], gameRow[util.GAME_publisherId], gameRow[util.GAME_developerId], gameRow[util.GAME_romCollectionId], fileDict)
-		imageGameInfoLeft = self.getFileForControl(romCollection.imagePlacingMain.fileTypesForMainViewGameInfoLeft, gameRow[util.ROW_ID], gameRow[util.GAME_publisherId], gameRow[util.GAME_developerId], gameRow[util.GAME_romCollectionId], fileDict)
-		imageGameInfoRight = self.getFileForControl(romCollection.imagePlacingMain.fileTypesForMainViewGameInfoRight, gameRow[util.ROW_ID], gameRow[util.GAME_publisherId], gameRow[util.GAME_developerId], gameRow[util.GAME_romCollectionId], fileDict)
-		
-		imageMainView1 = self.getFileForControl(romCollection.imagePlacingMain.fileTypesForMainView1, gameRow[util.ROW_ID], gameRow[util.GAME_publisherId], gameRow[util.GAME_developerId], gameRow[util.GAME_romCollectionId], fileDict)
-		imageMainView2 = self.getFileForControl(romCollection.imagePlacingMain.fileTypesForMainView2, gameRow[util.ROW_ID], gameRow[util.GAME_publisherId], gameRow[util.GAME_developerId], gameRow[util.GAME_romCollectionId], fileDict)
-		imageMainView3 = self.getFileForControl(romCollection.imagePlacingMain.fileTypesForMainView3, gameRow[util.ROW_ID], gameRow[util.GAME_publisherId], gameRow[util.GAME_developerId], gameRow[util.GAME_romCollectionId], fileDict)		
-		
-		#set images as properties for use in the skin
-		item.setProperty(util.IMAGE_CONTROL_BACKGROUND, imagemainViewBackground)
-		item.setProperty(util.IMAGE_CONTROL_GAMEINFO_BIG, imageGameInfoBig)
-		item.setProperty(util.IMAGE_CONTROL_GAMEINFO_UPPERLEFT, imageGameInfoUpperLeft)
-		item.setProperty(util.IMAGE_CONTROL_GAMEINFO_UPPERRIGHT, imageGameInfoUpperRight)
-		item.setProperty(util.IMAGE_CONTROL_GAMEINFO_LOWERLEFT, imageGameInfoLowerLeft)
-		item.setProperty(util.IMAGE_CONTROL_GAMEINFO_LOWERRIGHT, imageGameInfoLowerRight)		
-		item.setProperty(util.IMAGE_CONTROL_GAMEINFO_UPPER, imageGameInfoUpper)
-		item.setProperty(util.IMAGE_CONTROL_GAMEINFO_LOWER, imageGameInfoLower)
-		item.setProperty(util.IMAGE_CONTROL_GAMEINFO_LEFT, imageGameInfoLeft)
-		item.setProperty(util.IMAGE_CONTROL_GAMEINFO_RIGHT, imageGameInfoRight)
-		item.setProperty(util.IMAGE_CONTROL_1, imageMainView1)
-		item.setProperty(util.IMAGE_CONTROL_2, imageMainView2)
-		item.setProperty(util.IMAGE_CONTROL_3, imageMainView3)
+		item.setArt({
+			'icon': self.getFileForControl(romCollection.imagePlacingMain.fileTypesForGameList, gameRow[util.ROW_ID], gameRow[util.GAME_publisherId], gameRow[util.GAME_developerId], gameRow[util.GAME_romCollectionId], fileDict),
+			'thumb': self.getFileForControl(romCollection.imagePlacingMain.fileTypesForGameListSelected, gameRow[util.ROW_ID], gameRow[util.GAME_publisherId], gameRow[util.GAME_developerId], gameRow[util.GAME_romCollectionId], fileDict),
+
+			IMAGE_CONTROL_BACKGROUND: self.getFileForControl(romCollection.imagePlacingMain.fileTypesForMainViewBackground, gameRow[util.ROW_ID], gameRow[util.GAME_publisherId], gameRow[util.GAME_developerId], gameRow[util.GAME_romCollectionId], fileDict),
+			IMAGE_CONTROL_GAMEINFO_BIG: self.getFileForControl(romCollection.imagePlacingMain.fileTypesForMainViewGameInfoBig, gameRow[util.ROW_ID], gameRow[util.GAME_publisherId], gameRow[util.GAME_developerId], gameRow[util.GAME_romCollectionId], fileDict),
+
+			IMAGE_CONTROL_GAMEINFO_UPPERLEFT: self.getFileForControl(romCollection.imagePlacingMain.fileTypesForMainViewGameInfoUpperLeft, gameRow[util.ROW_ID], gameRow[util.GAME_publisherId], gameRow[util.GAME_developerId], gameRow[util.GAME_romCollectionId], fileDict),
+			IMAGE_CONTROL_GAMEINFO_UPPERRIGHT: self.getFileForControl(romCollection.imagePlacingMain.fileTypesForMainViewGameInfoUpperRight, gameRow[util.ROW_ID], gameRow[util.GAME_publisherId], gameRow[util.GAME_developerId], gameRow[util.GAME_romCollectionId], fileDict),
+			IMAGE_CONTROL_GAMEINFO_LOWERLEFT: self.getFileForControl(romCollection.imagePlacingMain.fileTypesForMainViewGameInfoLowerLeft, gameRow[util.ROW_ID], gameRow[util.GAME_publisherId], gameRow[util.GAME_developerId], gameRow[util.GAME_romCollectionId], fileDict),
+			IMAGE_CONTROL_GAMEINFO_LOWERRIGHT: self.getFileForControl(romCollection.imagePlacingMain.fileTypesForMainViewGameInfoLowerRight, gameRow[util.ROW_ID], gameRow[util.GAME_publisherId], gameRow[util.GAME_developerId], gameRow[util.GAME_romCollectionId], fileDict),
+
+			IMAGE_CONTROL_GAMEINFO_UPPER: self.getFileForControl(romCollection.imagePlacingMain.fileTypesForMainViewGameInfoUpper, gameRow[util.ROW_ID], gameRow[util.GAME_publisherId], gameRow[util.GAME_developerId], gameRow[util.GAME_romCollectionId], fileDict),
+			IMAGE_CONTROL_GAMEINFO_LOWER: self.getFileForControl(romCollection.imagePlacingMain.fileTypesForMainViewGameInfoLower, gameRow[util.ROW_ID], gameRow[util.GAME_publisherId], gameRow[util.GAME_developerId], gameRow[util.GAME_romCollectionId], fileDict),
+			IMAGE_CONTROL_GAMEINFO_LEFT: self.getFileForControl(romCollection.imagePlacingMain.fileTypesForMainViewGameInfoLeft, gameRow[util.ROW_ID], gameRow[util.GAME_publisherId], gameRow[util.GAME_developerId], gameRow[util.GAME_romCollectionId], fileDict),
+			IMAGE_CONTROL_GAMEINFO_RIGHT: self.getFileForControl(romCollection.imagePlacingMain.fileTypesForMainViewGameInfoRight, gameRow[util.ROW_ID], gameRow[util.GAME_publisherId], gameRow[util.GAME_developerId], gameRow[util.GAME_romCollectionId], fileDict),
+
+			IMAGE_CONTROL_1: self.getFileForControl(romCollection.imagePlacingMain.fileTypesForMainView1, gameRow[util.ROW_ID], gameRow[util.GAME_publisherId], gameRow[util.GAME_developerId], gameRow[util.GAME_romCollectionId], fileDict),
+			IMAGE_CONTROL_2: self.getFileForControl(romCollection.imagePlacingMain.fileTypesForMainView2, gameRow[util.ROW_ID], gameRow[util.GAME_publisherId], gameRow[util.GAME_developerId], gameRow[util.GAME_romCollectionId], fileDict),
+			IMAGE_CONTROL_3: self.getFileForControl(romCollection.imagePlacingMain.fileTypesForMainView3, gameRow[util.ROW_ID], gameRow[util.GAME_publisherId], gameRow[util.GAME_developerId], gameRow[util.GAME_romCollectionId], fileDict),
+
+		})
 		
 		
 		#set additional properties
@@ -1302,110 +1284,6 @@ class UIGameDB(xbmcgui.WindowXML):
 		
 		return False
 
-
-	# Handle autoexec.py script to add/remove background scraping on startup
-	def checkScrapStart(self):
-		Logutil.log("Begin checkScrapStart" , util.LOG_LEVEL_INFO)
-		
-		autoexecFile = util.getAutoexecPath()
-		path = os.path.join(util.RCBHOME, 'dbUpLauncher.py')
-		if(util.getEnvironment() == 'win32'):
-			#HACK: There is an error with "\a" in autoexec.py on winidows, so we need "\A"
-			path = path.replace('\\addons', '\\Addons')
-		launchLine = 'xbmc.executescript("%s")' % path
-		try:
-			fp = open(autoexecFile, 'r+')
-		except:
-			Logutil.log("Error opening autoexec.py" , util.LOG_LEVEL_WARNING)
-			return
-		xbmcImported = False
-		alreadyCreated = False
-		for line in fp:
-			if line.startswith('import xbmc'):
-				Logutil.log("import xbmc line found!" , util.LOG_LEVEL_INFO)
-				xbmcImported = True
-			if launchLine in line:
-				Logutil.log("executescript line found!", util.LOG_LEVEL_INFO)
-				alreadyCreated = True
-				
-		if self.Settings.getSetting(util.SETTING_RCB_SCRAPONSTART) == 'true':
-			
-			if not xbmcImported:
-				Logutil.log("adding import xbmc line", util.LOG_LEVEL_INFO)
-				fp.write('\nimport xbmc')
-			if not alreadyCreated:
-				Logutil.log("adding executescript line", util.LOG_LEVEL_INFO)
-				fp.write('\n' + launchLine)
-				
-			fp.close()
-		elif alreadyCreated:
-			Logutil.log("Deleting executescript line" , util.LOG_LEVEL_INFO)
-			if alreadyCreated:
-				fp.seek(0)
-				lines = fp.readlines()
-				fp.close()
-				os.remove(autoexecFile)
-				fp = open(autoexecFile, 'w')
-				for line in lines:
-					if not path in line:
-						fp.write(line)
-				fp.close()
-		Logutil.log("End checkScrapStart" , util.LOG_LEVEL_INFO)
-				
-				
-	def checkAutoExec(self):
-		Logutil.log("Begin checkAutoExec" , util.LOG_LEVEL_INFO)
-		
-		autoexec = util.getAutoexecPath()		
-		Logutil.log("Checking path: " + autoexec, util.LOG_LEVEL_INFO)
-		if (os.path.isfile(autoexec)):	
-			lines = ""
-			try:
-				fh = fh = open(autoexec, "r")
-				lines = fh.readlines()
-				fh.close()
-			except Exception, (exc):
-				Logutil.log("Cannot access autoexec.py: " + str(exc), util.LOG_LEVEL_ERROR)
-				return
-				
-			if(len(lines) > 0):
-				firstLine = lines[0]
-				#check if it is our autoexec
-				if(firstLine.startswith('#Rom Collection Browser autoexec')):
-					try:
-						os.remove(autoexec)
-					except Exception, (exc):
-						Logutil.log("Cannot remove autoexec.py: " + str(exc), util.LOG_LEVEL_ERROR)
-						return
-				else:
-					return
-		else:
-			Logutil.log("No autoexec.py found at given path.", util.LOG_LEVEL_INFO)
-		
-		rcbSetting = helper.getRCBSetting(self.gdb)
-		if (rcbSetting == None):
-			print "RCB_WARNING: rcbSetting == None in checkAutoExec"
-			return
-					
-		#check if we have to restore autoexec backup 
-		autoExecBackupPath = rcbSetting[util.RCBSETTING_autoexecBackupPath]
-		if (autoExecBackupPath == None):
-			return
-			
-		if (os.path.isfile(autoExecBackupPath)):
-			try:
-				os.rename(autoExecBackupPath, autoexec)
-				os.remove(autoExecBackupPath)
-			except Exception, (exc):
-				Logutil.log("Cannot rename autoexec.py: " + str(exc), util.LOG_LEVEL_ERROR)
-				return
-			
-		RCBSetting(self.gdb).update(('autoexecBackupPath',), (None,), rcbSetting[0], True)
-		self.gdb.commit()
-		
-		Logutil.log("End checkAutoExec" , util.LOG_LEVEL_INFO)		
-		
-		
 	def backupConfigXml(self):
 		#backup config.xml for later use (will be overwritten in case of an addon update)
 		configXml = util.getConfigXmlPath()

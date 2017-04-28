@@ -5,7 +5,9 @@
   name="Rom Collection Browser"
   provider-name="malte">
   <requires>
-    <import addon="xbmc.python" version="2.1.0"/>
+    <!-- Require Kodi Jarvis or above -->
+    <import addon="xbmc.addon" version="16.0.0"/>
+    <import addon="xbmc.python" version="2.24.0"/>
     <import addon="service.rom.collection.browser" version="1.0.0"/>
   </requires>
   <extension point="xbmc.python.script" library="default.py">
@@ -52,8 +54,8 @@
     <language></language>
     <platform>all</platform>
     <license>GNU GENERAL PUBLIC LICENSE. Version 2, June 1991</license>
-    <forum>http://forum.xbmc.org/showthread.php?tid=70115</forum>
-    <website>https://code.google.com/p/romcollectionbrowser/</website>
-    <source>https://romcollectionbrowser.googlecode.com/svn/trunk/</source>
+    <forum>forum.kodi.tv/showthread.php?tid=70115</forum>
+    <website>https://github.com/maloep/romcollectionbrowser</website>
+    <source>https://github.com/maloep/romcollectionbrowser</source>
   </extension>
 </addon>
