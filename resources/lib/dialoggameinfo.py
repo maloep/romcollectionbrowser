@@ -73,10 +73,7 @@ class UIGameInfoView(xbmcgui.WindowXMLDialog):
 				self.setFocus(control)
 		
 		xbmc.sleep(util.WAITTIME_UPDATECONTROLS)
-		if self.__useRefactoredView:
-			self.showGameInfoNew()
-		else:
-			self.showGameInfoNew()
+		self.showGameInfo()
 		
 		Logutil.log("End OnInit", util.LOG_LEVEL_INFO)		
 		
@@ -222,7 +219,11 @@ class UIGameInfoView(xbmcgui.WindowXMLDialog):
 		Logutil.log("End showGameInfo", util.LOG_LEVEL_INFO)
 		
 	def showGameInfo(self):
-		
+
+		if self.__useRefactoredView:
+			self.showGameInfoNew()
+			return
+
 		Logutil.log("Begin showGameInfo", util.LOG_LEVEL_INFO)
 		
 		#stop Player (if playing)

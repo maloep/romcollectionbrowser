@@ -307,10 +307,7 @@ class UIGameDB(xbmcgui.WindowXML):
 							Logutil.log('onAction: current position = ' +str(pos), util.LOG_LEVEL_DEBUG)
 							Logutil.log('onAction: last position = ' +str(self.lastPosition), util.LOG_LEVEL_DEBUG)
 							if(pos != self.lastPosition):							
-								if self.__useRefactoredView:
-									self.showGameInfo()
-								else:
-									self.showGameInfoNew()
+								self.showGameInfo()
 							
 							self.lastPosition = pos
 									
@@ -392,10 +389,7 @@ class UIGameDB(xbmcgui.WindowXML):
 			else:
 				Logutil.log("onClick: Show Game Info", util.LOG_LEVEL_DEBUG)
 				self.setFocus(self.getControl(CONTROL_GAMES_GROUP_START))
-				if self.__useRefactoredView:
-					self.showGameInfo()
-				else:
-					self.showGameInfoNew()
+				self.showGameInfo()
 		elif (controlId in GAME_LISTS):
 			Logutil.log("onClick: Launch Emu", util.LOG_LEVEL_DEBUG)
 			self.launchEmu()
@@ -404,10 +398,7 @@ class UIGameDB(xbmcgui.WindowXML):
 			self.startFullscreenVideo()
 		elif (controlId == CONTROL_BUTTON_FAVORITE):
 			Logutil.log("onClick: Button Favorites", util.LOG_LEVEL_DEBUG)
-			if self.__useRefactoredView:
-				self.showGamesNew()
-			else:
-				self.showGames()
+			self.showGames()
 		elif (controlId == CONTROL_BUTTON_SEARCH):
 			Logutil.log("onClick: Button Search", util.LOG_LEVEL_DEBUG)
 			
@@ -425,20 +416,14 @@ class UIGameDB(xbmcgui.WindowXML):
 				self.searchTerm = ''
 				searchButton.setLabel(util.localize(32117))
 			
-			if self.__useRefactoredView:
-				self.showGamesNew()
-			else:
-				self.showGames()
+			self.showGames()
 			
 		elif (controlId == CONTROL_BUTTON_MISSINGINFODIALOG):
 			missingInfoDialog = dialogmissinginfo.MissingInfoDialog("script-RCB-missinginfo.xml", util.getAddonInstallPath(), "Default", "720p", gui=self)
 			if(missingInfoDialog.saveConfig):
 				self.config.readXml()
-				if self.__useRefactoredView:
-					self.showGamesNew()
-				else:
-					self.showGames()
-			
+				self.showGames()
+
 			del missingInfoDialog
 			
 		elif controlId == CONTROL_BUTTON_CHANGE_VIEW:
@@ -589,10 +574,7 @@ class UIGameDB(xbmcgui.WindowXML):
 				
 		self.updateControls(False, False, False)
 		xbmc.sleep(util.WAITTIME_UPDATECONTROLS)
-		if self.__useRefactoredView:
-			self.showGamesNew()
-		else:
-			self.showGames()
+		self.showGames()
 
 	def showGamesNew(self):
 		Logutil.log("Begin showGamesNew" , util.LOG_LEVEL_INFO)
@@ -631,7 +613,7 @@ class UIGameDB(xbmcgui.WindowXML):
 
 		timestamp2 = time.clock()
 		diff = (timestamp2 - timestamp1) * 1000
-		print "showGames: load games from db in %d ms" % (diff)
+		print "showGames: load %d games from db in %d ms" % (len(games), diff)
 
 		self.writeMsg(util.localize(32121))
 
@@ -684,6 +666,10 @@ class UIGameDB(xbmcgui.WindowXML):
 		Logutil.log("End showGamesNew" , util.LOG_LEVEL_INFO)
 
 	def showGames(self):
+		if self.__useRefactoredView:
+			self.showGamesNew()
+			return
+
 		Logutil.log("Begin showGames" , util.LOG_LEVEL_INFO)
 		
 		self.lastPosition = -1
@@ -724,7 +710,7 @@ class UIGameDB(xbmcgui.WindowXML):
 				
 		timestamp2 = time.clock()
 		diff = (timestamp2 - timestamp1) * 1000
-		print "showGames: load games from db in %d ms" % (diff)
+		print "showGames: load %d games from db in %d ms" % (len(games), diff)
 	
 		self.writeMsg(util.localize(32121))
 		
@@ -784,6 +770,10 @@ class UIGameDB(xbmcgui.WindowXML):
 		
 	
 	def showGameInfo(self):
+		if self.__useRefactoredView:
+			self.showGameInfoNew()
+			return
+
 		Logutil.log("Begin showGameInfo" , util.LOG_LEVEL_INFO)
 		
 		self.writeMsg("")
@@ -960,18 +950,12 @@ class UIGameDB(xbmcgui.WindowXML):
 	def updateGamelist(self):
 		#only update controls if they are available
 		if(self.initialized):
-			if self.__useRefactoredView:
-				self.showGamesNew()
-			else:
-				self.showGames()
+			self.showGames()
 			focusControl = self.getControlById(CONTROL_GAMES_GROUP_START)
 			if(focusControl != None):
 				self.setFocus(focusControl)
 			xbmc.sleep(util.WAITTIME_UPDATECONTROLS)
-			if self.__useRefactoredView:
-				self.showGameInfo()
-			else:
-				self.showGameInfoNew()
+			self.showGameInfo()
 		
 		
 	def deleteGame(self, gameID):
@@ -1024,10 +1008,7 @@ class UIGameDB(xbmcgui.WindowXML):
 			if(rDelete):
 				self.selectedConsoleId = self.setFilterSelection(CONTROL_CONSOLES, self.selectedConsoleIndex)
 				self.setFilterSelection(CONTROL_GAMES_GROUP_START, 0)
-			if self.__useRefactoredView:
-				self.showGamesNew()
-			else:
-				self.showGames()
+			self.showGames()
 
 		rcList = None
 		Logutil.log("end Delete Games" , util.LOG_LEVEL_INFO)
@@ -1059,10 +1040,7 @@ class UIGameDB(xbmcgui.WindowXML):
 			time.sleep(.5)
 			progressDialog2.writeMsg("", util.localize(32110), "",count)
 			time.sleep(1)
-			if self.__useRefactoredView:
-				self.showGamesNew()
-			else:
-				self.showGames()
+			self.showGames()
 		list = None
 		Logutil.log("End cleanDB" , util.LOG_LEVEL_INFO)
 		
@@ -1582,10 +1560,7 @@ class UIGameDB(xbmcgui.WindowXML):
 			isFavoriteButton.setSelected(favoritesSelected == '1')				
 		
 		# Reset game list
-		if self.__useRefactoredView:
-			self.showGamesNew()
-		else:
-			self.showGames()
+		self.showGames()
 		
 		self.setFilterSelection(CONTROL_GAMES_GROUP_START, rcbSetting[util.RCBSETTING_lastSelectedGameIndex])
 		
@@ -1594,10 +1569,7 @@ class UIGameDB(xbmcgui.WindowXML):
 		if(focusControl != None):
 			self.setFocus(focusControl)
 		
-		if self.__useRefactoredView:
-			self.showGameInfo()
-		else:
-			self.showGameInfoNew()
+		self.showGameInfo()
 			
 		Logutil.log("End loadViewState" , util.LOG_LEVEL_INFO)					
 
