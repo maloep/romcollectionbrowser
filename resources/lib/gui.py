@@ -576,8 +576,31 @@ class UIGameDB(xbmcgui.WindowXML):
 		xbmc.sleep(util.WAITTIME_UPDATECONTROLS)
 		self.showGames()
 
+	def _getMaxGamesToDisplay(self):
+		# Set a limit of games to show
+		maxNumGamesIndex = self.Settings.getSetting(util.SETTING_RCB_MAXNUMGAMESTODISPLAY)
+		return util.MAXNUMGAMES_ENUM[int(maxNumGamesIndex)]
+
+	def _getGamesListQueryStatement(self):
+		# Build statement for character search (where name LIKE 'A%')
+		likeStatement = helper.buildLikeStatement(self.selectedCharacter, self.searchTerm)
+
+		# Build statement for missing filters
+		missingFilterStatement = helper.builMissingFilterStatement(self.config)
+		if missingFilterStatement != '':
+			likeStatement = likeStatement + ' AND ' + missingFilterStatement
+
+		return likeStatement
+
+	def _isGameFavourite(self):
+		try:
+			if self.getControlById(CONTROL_BUTTON_FAVORITE).isSelected():
+				return True
+		except AttributeError:
+			return False
+
 	def showGamesNew(self):
-		Logutil.log("Begin showGamesNew" , util.LOG_LEVEL_INFO)
+		Logutil.log("Begin showGamesNew", util.LOG_LEVEL_INFO)
 
 		self.lastPosition = -1
 
@@ -587,29 +610,17 @@ class UIGameDB(xbmcgui.WindowXML):
 				Logutil.log("preventing unfiltered search", util.LOG_LEVEL_WARNING)
 				return
 
-		isFavorite = 0
-		try:
-			if self.getControlById(CONTROL_BUTTON_FAVORITE).isSelected():
-				isFavorite = 1
-		except AttributeError:
-			pass
+		isFavorite = self._isGameFavourite()
 
 		showFavoriteStars = self.Settings.getSetting(util.SETTING_RCB_SHOWFAVORITESTARS).upper() == 'TRUE'
 
 		timestamp1 = time.clock()
 
-		# Build statement for character search (where name LIKE 'A%')
-		likeStatement = helper.buildLikeStatement(self.selectedCharacter, self.searchTerm)
+		likeStatement = self._getGamesListQueryStatement()
+		maxNumGames = self._getMaxGamesToDisplay()
 
-		# Build statement for missing filters
-		missingFilterStatement = helper.builMissingFilterStatement(self.config)
-		if missingFilterStatement != '':
-			likeStatement = likeStatement + ' AND ' + missingFilterStatement
-		# Set a limit of games to show
-		maxNumGamesIndex = self.Settings.getSetting(util.SETTING_RCB_MAXNUMGAMESTODISPLAY)
-		maxNumGames = util.MAXNUMGAMES_ENUM[int(maxNumGamesIndex)]
-
-		games = Game(self.gdb).getGamesByFilter(self.selectedConsoleId, self.selectedGenreId, self.selectedYearId, self.selectedPublisherId, isFavorite, likeStatement, maxNumGames)
+		games = Game(self.gdb).getGamesByFilter(self.selectedConsoleId, self.selectedGenreId, self.selectedYearId,
+												self.selectedPublisherId, isFavorite, likeStatement, maxNumGames)
 
 		timestamp2 = time.clock()
 		diff = (timestamp2 - timestamp1) * 1000
@@ -661,7 +672,7 @@ class UIGameDB(xbmcgui.WindowXML):
 
 		timestamp3 = time.clock()
 		diff = (timestamp3 - timestamp2) * 1000
-		Logutil.log( "showGames: load %i games to list in %d ms" % (self.getListSize(), diff), util.LOG_LEVEL_INFO)
+		Logutil.log("showGames: load %i games to list in %d ms" % (self.getListSize(), diff), util.LOG_LEVEL_INFO)
 
 		Logutil.log("End showGamesNew" , util.LOG_LEVEL_INFO)
 
