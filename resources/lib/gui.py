@@ -597,7 +597,9 @@ class UIGameDB(xbmcgui.WindowXML):
 			if self.getControlById(CONTROL_BUTTON_FAVORITE).isSelected():
 				return True
 		except AttributeError:
-			return False
+			pass
+
+		return False
 
 	def showGamesNew(self):
 		Logutil.log("Begin showGamesNew", util.LOG_LEVEL_INFO)
