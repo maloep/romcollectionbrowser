@@ -866,7 +866,7 @@ class UIGameDB(xbmcgui.WindowXML):
 		for k, v in images.items():
 			try:
 				imagepath = f.getFilenameByGameIdAndTypeId(selectedGame.getProperty('gameId'), v.id)
-				Logutil.log('Looking for imagetype ' + v.name + ', found ' + imagepath, util.LOG_LEVEL_DEBUG)
+				Logutil.log('Looking for {0}, imagetype {1}, found {2}'.format(k, v.name, imagepath), util.LOG_LEVEL_DEBUG)
 				selectedGame.setArt({k: imagepath})
 
 			except Exception as err:
