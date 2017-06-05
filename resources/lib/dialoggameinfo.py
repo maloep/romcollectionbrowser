@@ -157,7 +157,7 @@ class UIGameInfoView(xbmcgui.WindowXMLDialog):
 		Logutil.log("End showGameList", util.LOG_LEVEL_INFO)
 
 	def showGameInfoNew(self):
-		Logutil.log("Begin showGameInfo", util.LOG_LEVEL_INFO)
+		Logutil.log("Begin showGameInfoNew", util.LOG_LEVEL_INFO)
 
 		# Stop Player (if playing)
 		if xbmc.Player().isPlayingVideo():
@@ -216,7 +216,7 @@ class UIGameInfoView(xbmcgui.WindowXMLDialog):
 			except Exception as err:
 				Logutil.log('Unable to set art: ' + repr(err), util.LOG_LEVEL_WARNING)
 
-		Logutil.log("End showGameInfo", util.LOG_LEVEL_INFO)
+		Logutil.log("End showGameInfoNew", util.LOG_LEVEL_INFO)
 		
 	def showGameInfo(self):
 

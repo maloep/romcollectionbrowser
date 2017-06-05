@@ -254,6 +254,10 @@ class ImagePlacing(object):
 	def gameinfolowerright(self):
 		return self.fileTypesForMainViewGameInfoLowerRight
 
+	@property
+	def gameinfolower(self):
+		return self.fileTypesForMainViewGameInfoLower
+
 
 class MediaPath(object):
 	"""
