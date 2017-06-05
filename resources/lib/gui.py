@@ -642,7 +642,6 @@ class UIGameDB(xbmcgui.WindowXML):
 					item.setProperty(prop, getattr(game, prop))
 				except AttributeError:
 					Logutil.log("Unable to retrieve attribute " + prop, util.LOG_LEVEL_WARNING)
-			self.addItem(item)
 
 			if not showFavoriteStars:
 				item.setProperty('isfavorite', '')
@@ -668,6 +667,9 @@ class UIGameDB(xbmcgui.WindowXML):
 				except Exception as err:
 					Logutil.log('Unable to set art: ' + repr(err), util.LOG_LEVEL_WARNING)
 
+			# Add the listitem to the list
+			self.addItem(item)
+
 		xbmc.executebuiltin("Container.SortDirection")
 
 		self.writeMsg("")
@@ -677,6 +679,7 @@ class UIGameDB(xbmcgui.WindowXML):
 		Logutil.log("showGames: load %i games to list in %d ms" % (self.getListSize(), diff), util.LOG_LEVEL_INFO)
 
 		Logutil.log("End showGamesNew" , util.LOG_LEVEL_INFO)
+		Logutil.log("End showGamesNew", util.LOG_LEVEL_INFO)
 
 	def showGames(self):
 		if self.__useRefactoredView:
