@@ -883,7 +883,18 @@ class UIGameDB(xbmcgui.WindowXML):
 		Logutil.log('Time taken to showGameInfo using new format: {0}ms'.format(diff), util.LOG_LEVEL_INFO)
 
 		Logutil.log("End showGameInfoNew" , util.LOG_LEVEL_INFO)
-		
+
+	def getSelectedItem(self):
+		if self.getListSize() == 0:
+			Logutil.log("ListSize == 0 in getSelectedItem", util.LOG_LEVEL_WARNING)
+			return
+
+		pos = self.getCurrentListPosition()
+		if pos == -1:
+			pos = 0
+
+		return self.getListItem(pos)
+
 	def launchEmu(self):
 
 		Logutil.log("Begin launchEmu" , util.LOG_LEVEL_INFO)
