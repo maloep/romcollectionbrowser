@@ -633,6 +633,7 @@ class UIGameDB(xbmcgui.WindowXML):
 		self.clearList()
 		self.rcb_playList.clear()
 
+		filecache = self.getFileDictForGamelist()
 		for game in games:
 			item = xbmcgui.ListItem(game.name, str(game.id))
 			item.setProperty('romCollectionId', str(game.romCollectionId))
@@ -657,11 +658,16 @@ class UIGameDB(xbmcgui.WindowXML):
 
 			# Set the icon and thumb to be displayed in the main gamelist
 			images = romCollection.getImagesForGameListView()
-			f = File(self.gdb)
+			Logutil.log('Rom collection {0} has {1} images for gamelist view: {2}'.format(romCollection.name, len(images), images), util.LOG_LEVEL_DEBUG)
+
+			# f = File(self.gdb)
 			for k, v in images.items():
 				try:
-					imagepath = f.getFilenameByGameIdAndTypeId(game.gameId, v.id)
-					Logutil.log('Looking for imagetype ' + v.name + ', found ' + imagepath, util.LOG_LEVEL_DEBUG)
+					# Retrieve from DB
+					# imagepath = f.getFilenameByGameIdAndTypeId(game.gameId, v.id)
+					# Retrieve from cache
+					imagepath = helper.getFilenameForGame(game.gameId, v.id, filecache)
+					Logutil.log('Looking for {0}, imagetype {1}, found {2}'.format(k, v.name, imagepath), util.LOG_LEVEL_DEBUG)
 					item.setArt({k: imagepath})
 
 				except Exception as err:
@@ -678,7 +684,6 @@ class UIGameDB(xbmcgui.WindowXML):
 		diff = (timestamp3 - timestamp2) * 1000
 		Logutil.log("showGames: load %i games to list in %d ms" % (self.getListSize(), diff), util.LOG_LEVEL_INFO)
 
-		Logutil.log("End showGamesNew" , util.LOG_LEVEL_INFO)
 		Logutil.log("End showGamesNew", util.LOG_LEVEL_INFO)
 
 	def showGames(self):
