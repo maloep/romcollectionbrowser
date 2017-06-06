@@ -29,7 +29,21 @@ class RemoveRCDialog(xbmcgui.WindowXMLDialog):
 	romDelete = 'RCollection'
 	deleteCollection = False
 	rcDeleteCollection = False
-	
+
+	def _getRomCollectionNames(self):
+		rcname_list = []
+		for k, v in self.romCollections.items():
+			rcname_list.append(v.name)
+
+		return rcname_list
+
+	def _getRomCollectionByName(self, name):
+		for k, v in self.romCollections.items():
+			if v.name == name:
+				return v
+
+		return None
+
 	def __init__(self, *args, **kwargs):
 		Logutil.log('init Edit RC Basic', util.LOG_LEVEL_INFO)
 		
