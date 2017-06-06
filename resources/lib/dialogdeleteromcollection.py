@@ -1,13 +1,10 @@
-import xbmc, xbmcgui
+import xbmc
+import xbmcgui
 
-import os
-
-import util, config
-from util import *
 from util import Logutil as log
 from configxmlwriter import *
 
-ACTION_CANCEL_DIALOG = (9,10,51,92,110)
+ACTION_CANCEL_DIALOG = (9, 10, 51, 92, 110)
 
 CONTROL_BUTTON_EXIT = 5101
 CONTROL_BUTTON_SAVE = 6000
@@ -48,31 +45,28 @@ class RemoveRCDialog(xbmcgui.WindowXMLDialog):
 		return None
 
 	def __init__(self, *args, **kwargs):
-		Logutil.log('init Edit RC Basic', util.LOG_LEVEL_INFO)
+		log.info('init Edit RC Basic')
 		
-		self.gui = kwargs[ "gui" ]
+		self.gui = kwargs["gui"]
 		self.romCollections = self.gui.config.romCollections
 		self.doModal()
-	
-	
+
 	def onInit(self):
-		Logutil.log('onInit Remove Rom Collection', util.LOG_LEVEL_INFO)
-		
-		#Rom Collections
-		Logutil.log('build rom collection list', util.LOG_LEVEL_INFO)
+		log.info('onInit Remove Rom Collection')
+
+		# Rom Collections
+		log.info('build rom collection list')
 
 		self.addItemsToList(CONTROL_LIST_ROMCOLLECTIONS, self._getRomCollectionNames())
 		
-		#Delete Options
-		rcDeleteOptions = [util.localize(32137),util.localize(32138)]
+		# Delete Options
+		rcDeleteOptions = [util.localize(32137), util.localize(32138)]
 		self.addItemsToList(CONTROL_LIST_DELETEOPTIONS, rcDeleteOptions, properties=['RCollection', 'Roms'])
 		self.updateControls()
-		
 		
 	def onAction(self, action):		
 		if (action.getId() in ACTION_CANCEL_DIALOG):
 			self.close()
-		
 	
 	def onClick(self, controlID):
 		
@@ -91,17 +85,17 @@ class RemoveRCDialog(xbmcgui.WindowXMLDialog):
 
 			# Store selectedRomCollection
 			if self.selectedRomCollection is not None:
-				#Code to Remove Roms
+				# Code to Remove Roms
 				log.info('Removing Roms')
 				self.setDeleteStatus(True)
-				#Code to Remove Collection
+				# Code to Remove Collection
 				if self.romDelete == 'RCollection':
 					self.setRCDeleteStatus(True)
 					Logutil.log('Removing Rom Collection', util.LOG_LEVEL_INFO)
 					configWriterRCDel = ConfigXmlWriter(False)
 					RCName = str(self.selectedRomCollection.name)
 					success, message = configWriterRCDel.removeRomCollection(RCName)
-					if success == False:
+					if success is False:
 						log.error(message)
 						xbmcgui.Dialog().ok(util.localize(32019), util.localize(32020))
 			log.info('Click Close')
@@ -120,27 +114,24 @@ class RemoveRCDialog(xbmcgui.WindowXMLDialog):
 			# Changing selection in Delete Option list
 			control = self.getControlById(CONTROL_LIST_DELETEOPTIONS)
 			selectedDeleteOption = str(control.getSelectedItem().getLabel2())
-			Logutil.log('selectedDeleteOption = ' +selectedDeleteOption, util.LOG_LEVEL_INFO)
+			log.info('selectedDeleteOption = {0}'.format(selectedDeleteOption))
 			self.romDelete = selectedDeleteOption
 	
 	def onFocus(self, controlId):
 		self.selectedControlId = controlId
 	
-	
 	def updateControls(self):
 		
-		Logutil.log('updateControls', util.LOG_LEVEL_INFO)
+		log.info('updateControls')
 		
 		control = self.getControlById(CONTROL_LIST_ROMCOLLECTIONS)
 		selectedRomCollectionName = str(control.getSelectedItem().getLabel())
 
 		self.selectedRomCollection = self._getRomCollectionByName(selectedRomCollectionName)
-		
 	
 	def getSelectedRCId(self):
 		return self.selectedRomCollection.id
-		
-	
+
 	def getControlById(self, controlId):
 		try:
 			control = self.getControl(controlId)
@@ -148,7 +139,6 @@ class RemoveRCDialog(xbmcgui.WindowXMLDialog):
 			return None
 		
 		return control
-	
 	
 	def addItemsToList(self, controlId, options, properties=None):
 		Logutil.log('addItemsToList', util.LOG_LEVEL_INFO)
@@ -160,21 +150,20 @@ class RemoveRCDialog(xbmcgui.WindowXMLDialog):
 		items = []		
 		for i in range(0, len(options)):
 			option = options[i]
-			property = ''
-			if(properties):
-				property = properties[i]
-			items.append(xbmcgui.ListItem(option, property, '', ''))
+			p = ''
+			if properties:
+				p = properties[i]
+			items.append(xbmcgui.ListItem(option, p, '', ''))
 							
 		control.addItems(items)
-			
 	
 	def selectItemInList(self, options, itemName, controlId):				
 		
-		Logutil.log('selectItemInList', util.LOG_LEVEL_INFO)		
+		log.info('selectItemInList')
 		
 		for i in range(0, len(options)):			
 			option = options[i]
-			if(itemName == option):
+			if itemName == option:
 				control = self.getControlById(controlId)
 				control.selectItem(i)
 				break
