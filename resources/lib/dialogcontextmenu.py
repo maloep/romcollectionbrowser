@@ -7,6 +7,7 @@ from nfowriter import *
 from gamedatabase import *
 from util import *
 from config import *
+from util import Logutil as log
 
 ACTION_CANCEL_DIALOG = (9,10,51,92,110)
 CONTROL_BUTTON_SETFAVORITE_GAME = 5118
@@ -19,14 +20,14 @@ class ContextMenuDialog(xbmcgui.WindowXMLDialog):
 		
 	def __init__(self, *args, **kwargs):
 		# Don't put GUI sensitive stuff here (as the xml hasn't been read yet)
-		Logutil.log('init ContextMenu', util.LOG_LEVEL_INFO)
+		log.info("init ContextMenu")
 		
 		self.gui = kwargs[ "gui" ]
 		
 		self.doModal()
 	
 	def onInit(self):
-		Logutil.log('onInit ContextMenu', util.LOG_LEVEL_INFO)
+		log.info("onInit ContextMenu")
 		
 		pos = self.gui.getCurrentListPosition()
 		if(pos != -1):
@@ -99,8 +100,8 @@ class ContextMenuDialog(xbmcgui.WindowXMLDialog):
 					romCollection.romPaths.append(filename)
 					romCollections[romCollection.id] = romCollection
 				except:
-					Logutil.log('Error getting filename for romCollectionId: ' +str(romCollectionId), util.LOG_LEVEL_INFO)
-				
+					log.info("Error getting filename for romCollectionId: {0}".format(romCollectionId))
+
 			self.gui.rescrapeGames(romCollections)
 				
 			
@@ -110,14 +111,14 @@ class ContextMenuDialog(xbmcgui.WindowXMLDialog):
 			statusOk, errorMsg = wizardconfigxml.ConfigXmlWizard().addRomCollection(self.gui.config)
 			if(statusOk == False):
 				xbmcgui.Dialog().ok(util.SCRIPTNAME, util.localize(32001), errorMsg)
-				Logutil.log('Error updating config.xml: ' +errorMsg, util.LOG_LEVEL_INFO)
+				log.info("Error updating config.xml: {0}".format(errorMsg))
 				return
 			
 			#update self.config
 			statusOk, errorMsg = self.gui.config.readXml()
 			if(statusOk == False):
 				xbmcgui.Dialog().ok(util.SCRIPTNAME, util.localize(32002), errorMsg)
-				Logutil.log('Error reading config.xml: ' +errorMsg, util.LOG_LEVEL_INFO)
+				log.info("Error reading config.xml: {0}".format(errorMsg))
 				return
 			
 			#import Games
@@ -160,7 +161,7 @@ class ContextMenuDialog(xbmcgui.WindowXMLDialog):
 				command = keyboard.getText()
 					
 			if(command != origCommand):
-				Logutil.log("Updating game '%s' with command '%s'" %(str(self.gameRow[util.ROW_NAME]), command), util.LOG_LEVEL_INFO)
+				log.info("Updating game '{0}' with command '{1}'".format(self.gameRow[util.ROW_NAME], command))
 				Game(self.gui.gdb).update(('gameCmd',), (command,), self.gameRow[util.ROW_ID], True)
 				self.gui.gdb.commit()
 				
@@ -174,8 +175,8 @@ class ContextMenuDialog(xbmcgui.WindowXMLDialog):
 			isFavorite = 1
 			if(self.gameRow[util.GAME_isFavorite] == 1):
 				isFavorite = 0
-			
-			Logutil.log("Updating game '%s' set isFavorite = %s" %(str(self.gameRow[util.ROW_NAME]), str(isFavorite)), util.LOG_LEVEL_INFO)
+
+			log.info("Updating game '{0}' set isFavorite = {1}".format(self.gameRow[util.ROW_NAME], isFavorite))
 			Game(self.gui.gdb).update(('isFavorite',), (isFavorite,), self.gameRow[util.ROW_ID], True)
 			self.gui.gdb.commit()
 						
@@ -198,8 +199,8 @@ class ContextMenuDialog(xbmcgui.WindowXMLDialog):
 			for i in range(0, listSize):
 				
 				selectedGame, gameRow = self.gui.getGameByPosition(self.gui.gdb, i)
-			
-				Logutil.log("Updating game '%s' set isFavorite = %s" %(str(gameRow[util.ROW_NAME]), str(isFavorite)), util.LOG_LEVEL_INFO)
+
+				log.info("Updating game '{0}' set isFavorite = {1}".format(gameRow[util.ROW_NAME], isFavorite))
 				Game(self.gui.gdb).update(('isFavorite',), (isFavorite,), gameRow[util.ROW_ID], True)
 				selectedGame.setProperty('isfavorite', str(isFavorite))
 			self.gui.gdb.commit()
@@ -254,7 +255,7 @@ class ContextMenuDialog(xbmcgui.WindowXMLDialog):
 			self.close()
 			
 			if(not helper.retroPlayerSupportsPythonIntegration()):
-				Logutil.log("This RetroPlayer branch does not support selecting gameclients.", util.LOG_LEVEL_INFO)
+				log.info("This RetroPlayer branch does not support selecting gameclients.")
 				return
 			
 			if(self.selectedGame == None or self.gameRow == None):
@@ -272,11 +273,11 @@ class ContextMenuDialog(xbmcgui.WindowXMLDialog):
 			if success:
 				gameclient = selectedcore
 			else:
-				Logutil.log("No libretro core was chosen. Won't update game command.", util.LOG_LEVEL_INFO)
+				log.info("No libretro core was chosen. Won't update game command.")
 				return
 				
 			if(gameclient != origGameClient):
-				Logutil.log("Updating game '%s' with gameclient '%s'" %(str(self.gameRow[util.ROW_NAME]), gameclient), util.LOG_LEVEL_INFO)
+				log.info("Updating game '{0}' with gameclient '{1}'".format(self.gameRow[util.ROW_NAME], gameclient))
 				Game(self.gui.gdb).update(('alternateGameCmd',), (gameclient,), self.gameRow[util.ROW_ID], True)
 				self.gui.gdb.commit()
 	
@@ -292,4 +293,3 @@ class ContextMenuDialog(xbmcgui.WindowXMLDialog):
 		
 		return control
 
-		
