@@ -25,8 +25,8 @@ class RemoveRCDialog(xbmcgui.WindowXMLDialog):
 	selectedRomCollection = None
 	romCollections = None
 	romDelete = 'RCollection'
-	deleteCollection = False
-	rcDeleteCollection = False
+	_deleteCollection = False
+	_rcDeleteCollection = False
 
 	def _getRomCollectionNames(self):
 		rcname_list = []
@@ -87,10 +87,10 @@ class RemoveRCDialog(xbmcgui.WindowXMLDialog):
 			if self.selectedRomCollection is not None:
 				# Code to Remove Roms
 				log.info('Removing Roms')
-				self.setDeleteStatus(True)
+				self._setDeleteStatus(True)
 				# Code to Remove Collection
 				if self.romDelete == 'RCollection':
-					self.setRCDeleteStatus(True)
+					self._setRCDeleteStatus(True)
 					Logutil.log('Removing Rom Collection', util.LOG_LEVEL_INFO)
 					configWriterRCDel = ConfigXmlWriter(False)
 					RCName = str(self.selectedRomCollection.name)
@@ -156,7 +156,7 @@ class RemoveRCDialog(xbmcgui.WindowXMLDialog):
 			items.append(xbmcgui.ListItem(option, p, '', ''))
 							
 		control.addItems(items)
-	
+
 	def selectItemInList(self, options, itemName, controlId):				
 		
 		log.info('selectItemInList')
@@ -167,15 +167,15 @@ class RemoveRCDialog(xbmcgui.WindowXMLDialog):
 				control = self.getControlById(controlId)
 				control.selectItem(i)
 				break
-				
-	def getDeleteStatus(self):
-		return self.deleteCollection
 
-	def setDeleteStatus(self, status):
-		self.deleteCollection = status
+	def getDeleteStatus(self):
+		return self._deleteCollection
+
+	def _setDeleteStatus(self, status):
+		self._deleteCollection = status
 		
 	def getRCDeleteStatus(self):
-		return self.rcDeleteCollection
+		return self._rcDeleteCollection
 
-	def setRCDeleteStatus(self, status):
-		self.rcDeleteCollection = status
+	def _setRCDeleteStatus(self, status):
+		self._rcDeleteCollection = status
