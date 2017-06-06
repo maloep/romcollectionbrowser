@@ -4,6 +4,7 @@ import os
 
 import util, config
 from util import *
+from util import Logutil as log
 from configxmlwriter import *
 
 ACTION_CANCEL_DIALOG = (9,10,51,92,110)
@@ -75,53 +76,52 @@ class RemoveRCDialog(xbmcgui.WindowXMLDialog):
 	
 	def onClick(self, controlID):
 		
-		Logutil.log('onClick', util.LOG_LEVEL_INFO)
-		
-		if (controlID == CONTROL_BUTTON_EXIT): # Close window button
-			Logutil.log('close', util.LOG_LEVEL_INFO)
+		log.info('onClick')
+
+		if controlID == CONTROL_BUTTON_EXIT:
+			# Close window button
+			log.info('Close')
 			self.close()
-		#OK
-		elif (controlID == CONTROL_BUTTON_SAVE):
-			Logutil.log('save', util.LOG_LEVEL_INFO)
-			#store selectedRomCollection
-			if(self.selectedRomCollection != None):
+		elif controlID == CONTROL_BUTTON_CANCEL:
+			# Cancel button
+			self.close()
+		elif controlID == CONTROL_BUTTON_SAVE:
+			# OK
+			log.info('Save')
+
+			# Store selectedRomCollection
+			if self.selectedRomCollection is not None:
 				#Code to Remove Roms
-				Logutil.log('Removing Roms', util.LOG_LEVEL_INFO)
+				log.info('Removing Roms')
 				self.setDeleteStatus(True)
 				#Code to Remove Collection
-				if(self.romDelete == 'RCollection'):
+				if self.romDelete == 'RCollection':
 					self.setRCDeleteStatus(True)
 					Logutil.log('Removing Rom Collection', util.LOG_LEVEL_INFO)
 					configWriterRCDel = ConfigXmlWriter(False)
 					RCName = str(self.selectedRomCollection.name)
 					success, message = configWriterRCDel.removeRomCollection(RCName)
-					if(success == False):
-						Logutil.log(message, util.LOG_LEVEL_ERROR)
+					if success == False:
+						log.error(message)
 						xbmcgui.Dialog().ok(util.localize(32019), util.localize(32020))
-			Logutil.log('Click Close', util.LOG_LEVEL_INFO)
+			log.info('Click Close')
 			self.close()
-		#Cancel
-		elif (controlID == CONTROL_BUTTON_CANCEL):
-			self.close()
-		#Rom Collection list
-		elif(self.selectedControlId in (CONTROL_BUTTON_RC_DOWN, CONTROL_BUTTON_RC_UP)):						
-						
-			if(self.selectedRomCollection != None):
-				
-				#store previous selectedRomCollections state
+
+		elif self.selectedControlId in (CONTROL_BUTTON_RC_DOWN, CONTROL_BUTTON_RC_UP):
+			# Changing selection in Rom Collection list
+			if self.selectedRomCollection is not None:
+				# Store previous selectedRomCollections state
 				self.romCollections[self.selectedRomCollection.id] = self.selectedRomCollection
 			
-			#HACK: add a little wait time as XBMC needs some ms to execute the MoveUp/MoveDown actions from the skin
+			# HACK: add a little wait time as XBMC needs some ms to execute the MoveUp/MoveDown actions from the skin
 			xbmc.sleep(util.WAITTIME_UPDATECONTROLS)
 			self.updateControls()
-		elif(self.selectedControlId in (CONTROL_BUTTON_DEL_DOWN, CONTROL_BUTTON_DEL_UP)):
-			#Check for Remove Roms or Roms and Rom Collection
+		elif self.selectedControlId in (CONTROL_BUTTON_DEL_DOWN, CONTROL_BUTTON_DEL_UP):
+			# Changing selection in Delete Option list
 			control = self.getControlById(CONTROL_LIST_DELETEOPTIONS)
 			selectedDeleteOption = str(control.getSelectedItem().getLabel2())
 			Logutil.log('selectedDeleteOption = ' +selectedDeleteOption, util.LOG_LEVEL_INFO)
 			self.romDelete = selectedDeleteOption
-		
-						
 	
 	def onFocus(self, controlId):
 		self.selectedControlId = controlId
