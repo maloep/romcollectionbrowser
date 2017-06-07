@@ -135,9 +135,9 @@ class EditRomCollectionDialog(dialogbase.DialogBaseEdit):
 		#Rom Collections
 		Logutil.log('build rom collection list', util.LOG_LEVEL_INFO)
 		romCollectionList = []
-		for rcId in self.romCollections.keys():
-			romCollection = self.romCollections[rcId]
-			romCollectionList.append(romCollection.name)
+		for k, v in self.romCollections.items():
+			romCollectionList.append(v.name)
+
 		self.addItemsToList(CONTROL_LIST_ROMCOLLECTIONS, romCollectionList)
 		
 		Logutil.log('build scraper lists', util.LOG_LEVEL_INFO)
@@ -357,11 +357,10 @@ class EditRomCollectionDialog(dialogbase.DialogBaseEdit):
 		Logutil.log('selected rom collection: ' +str(selectedRomCollectionName), util.LOG_LEVEL_INFO)
 				
 		self.selectedRomCollection = None
-		
-		for rcId in self.romCollections.keys():
-			romCollection = self.romCollections[rcId]
-			if romCollection.name == selectedRomCollectionName:
-				self.selectedRomCollection = romCollection
+
+		for k, v in self.romCollections.items():
+			if selectedRomCollectionName == v.name:
+				self.selectedRomCollection = v
 				break
 			
 		if(self.selectedRomCollection == None):
