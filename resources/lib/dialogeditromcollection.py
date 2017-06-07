@@ -70,6 +70,34 @@ class EditRomCollectionDialog(dialogbase.DialogBaseEdit):
 	romCollections = None
 	scraperSites = None
 
+	# Mapping between widget ID and RomCollection attribute - buttons
+	_control_buttons = [
+		{'control': CONTROL_BUTTON_IGNOREONSCAN, 'value': 'ignoreOnScan'},
+		{'control': CONTROL_BUTTON_ALLOWUPDATE, 'value': 'allowUpdate'},
+		{'control': CONTROL_BUTTON_USEFOLDERASGAMENAME, 'value': 'useFoldernameAsGamename'},
+		{'control': CONTROL_BUTTON_AUTOPLAYVIDEO_MAIN, 'value': 'autoplayVideoMain'},
+		{'control': CONTROL_BUTTON_AUTOPLAYVIDEO_INFO, 'value': 'autoplayVideoInfo'},
+		{'control': CONTROL_BUTTON_USERETROPLAYER, 'value': 'useBuiltinEmulator'},
+		{'control': CONTROL_BUTTON_USEEMUSOLO, 'value': 'useEmuSolo'},
+		{'control': CONTROL_BUTTON_USEPOPEN, 'value': 'usePopen'},
+		{'control': CONTROL_BUTTON_DONTEXTRACTZIP, 'value': 'doNotExtractZipFiles'},
+		{'control': CONTROL_BUTTON_MAKELOCALCOPY, 'value': 'makeLocalCopy'},
+	]
+
+	# Mapping between widget ID and RomCollection attribute - labels
+	_control_labels = [
+		{'control': CONTROL_BUTTON_DISKINDICATOR, 'value': 'diskPrefix'},
+		{'control': CONTROL_BUTTON_MAXFOLDERDEPTH, 'value': 'maxFolderDepth'},
+		{'control': CONTROL_BUTTON_GAMECLIENT, 'value': 'gameclient'},
+		{'control': CONTROL_BUTTON_EMUCMD, 'value': 'emulatorCmd'},
+		{'control': CONTROL_BUTTON_PARAMS, 'value': 'emulatorParams'},
+		{'control': CONTROL_BUTTON_SAVESTATEPATH, 'value': 'pathSaveState'},
+		{'control': CONTROL_BUTTON_SAVESTATEMASK, 'value': 'maskSaveState'},
+		{'control': CONTROL_BUTTON_SAVESTATEPARAMS, 'value': 'saveStateParams'},
+		{'control': CONTROL_BUTTON_PRECMD, 'value': 'preCmd'},
+		{'control': CONTROL_BUTTON_POSTCMD, 'value': 'postCmd'},
+	]
+
 	# FIXME TODO Duplicated in wizardconfigxml.py. Need a class to handle these, possibly config.py?
 	@property
 	def current_os(self):
@@ -350,6 +378,7 @@ class EditRomCollectionDialog(dialogbase.DialogBaseEdit):
 				firstRomPath = pathParts[0]
 				fileMask = pathParts[1]
 			elif(firstRomPath == pathParts[0]):
+				# This is adding all the file masks for the *same* file path (i.e. where the path matches the first one)
 				fileMask = fileMask +',' +pathParts[1]
 								
 		control = self.getControlById(CONTROL_BUTTON_ROMPATH)
@@ -357,21 +386,19 @@ class EditRomCollectionDialog(dialogbase.DialogBaseEdit):
 		
 		control = self.getControlById(CONTROL_BUTTON_FILEMASK)
 		util.setLabel(fileMask, control)		
-		
-		control = self.getControlById(CONTROL_BUTTON_IGNOREONSCAN)		
-		control.setSelected(self.selectedRomCollection.ignoreOnScan)
-		
-		control = self.getControlById(CONTROL_BUTTON_ALLOWUPDATE)
-		control.setSelected(self.selectedRomCollection.allowUpdate)
-		
-		control = self.getControlById(CONTROL_BUTTON_DISKINDICATOR)
-		util.setLabel(self.selectedRomCollection.diskPrefix, control)
-		
-		control = self.getControlById(CONTROL_BUTTON_MAXFOLDERDEPTH)
-		util.setLabel(self.selectedRomCollection.maxFolderDepth, control)
-		
-		control = self.getControlById(CONTROL_BUTTON_USEFOLDERASGAMENAME)
-		control.setSelected(self.selectedRomCollection.useFoldernameAsGamename)
+
+		# Set the currently selected state for all the buttons
+		for item in self._control_buttons:
+			control = self.getControlById(item['control'])
+			control.setSelected(getattr(self.selectedRomCollection, item['value']))
+			print 'Set button control ID ' + str(item['control']) + ' to value ' + str(getattr(self.selectedRomCollection, item['value']))
+
+		# Set the value for all the labels
+		for item in self._control_labels:
+			control = self.getControlById(item['control'])
+			util.setLabel(getattr(self.selectedRomCollection, item['value']), control)
+			print 'Set label control ID ' + str(item['control']) + ' to value ' + str(getattr(self.selectedRomCollection, item['value']))
+
 		
 		#Import Game Data
 		#Media Types
@@ -409,61 +436,6 @@ class EditRomCollectionDialog(dialogbase.DialogBaseEdit):
 		except:			
 			pass		
 		self.selectItemInList(optionInfo, CONTROL_LIST_IMAGEPLACING_INFO)
-		
-		control = self.getControlById(CONTROL_BUTTON_AUTOPLAYVIDEO_MAIN)
-		if(control != None):
-			control.setSelected(self.selectedRomCollection.autoplayVideoMain)
-		
-		control = self.getControlById(CONTROL_BUTTON_AUTOPLAYVIDEO_INFO)
-		if(control != None):
-			control.setSelected(self.selectedRomCollection.autoplayVideoInfo)
-		
-		#Launch Games
-		control = self.getControlById(CONTROL_BUTTON_USERETROPLAYER)
-		if(control):
-			control.setSelected(self.selectedRomCollection.useBuiltinEmulator)
-		
-		control = self.getControlById(CONTROL_BUTTON_GAMECLIENT)
-		if(control):
-			util.setLabel(self.selectedRomCollection.gameclient, control)		
-			
-		control = self.getControlById(CONTROL_BUTTON_EMUCMD)
-		util.setLabel(self.selectedRomCollection.emulatorCmd, control)		
-		
-		control = self.getControlById(CONTROL_BUTTON_PARAMS)
-		util.setLabel(self.selectedRomCollection.emulatorParams, control)		
-		
-		control = self.getControlById(CONTROL_BUTTON_USEEMUSOLO)
-		control.setSelected(self.selectedRomCollection.useEmuSolo)
-		
-		control = self.getControlById(CONTROL_BUTTON_USEPOPEN)
-		control.setSelected(self.selectedRomCollection.usePopen)
-		
-		pathParts = os.path.split(self.selectedRomCollection.saveStatePath)
-		saveStatePath = pathParts[0]
-		saveStateFileMask = pathParts[1]
-		
-		control = self.getControlById(CONTROL_BUTTON_SAVESTATEPATH)
-		util.setLabel(saveStatePath, control)
-		
-		control = self.getControlById(CONTROL_BUTTON_SAVESTATEMASK)
-		util.setLabel(saveStateFileMask, control)
-		
-		control = self.getControlById(CONTROL_BUTTON_SAVESTATEPARAMS)		
-		util.setLabel(self.selectedRomCollection.saveStateParams, control)
-		
-		control = self.getControlById(CONTROL_BUTTON_DONTEXTRACTZIP)
-		control.setSelected(self.selectedRomCollection.doNotExtractZipFiles)
-		
-		control = self.getControlById(CONTROL_BUTTON_MAKELOCALCOPY)
-		control.setSelected(self.selectedRomCollection.makeLocalCopy)
-		
-		control = self.getControlById(CONTROL_BUTTON_PRECMD)
-		util.setLabel(self.selectedRomCollection.preCmd, control)		
-		
-		control = self.getControlById(CONTROL_BUTTON_POSTCMD)
-		util.setLabel(self.selectedRomCollection.postCmd, control)
-	
 	
 	def updateMediaPathControls(self):
 		
@@ -485,13 +457,6 @@ class EditRomCollectionDialog(dialogbase.DialogBaseEdit):
 	def updateSelectedRomCollection(self):
 		
 		Logutil.log('updateSelectedRomCollection', util.LOG_LEVEL_INFO)
-		
-		control = self.getControlById(CONTROL_BUTTON_IGNOREONSCAN)
-		self.selectedRomCollection.ignoreOnScan = bool(control.isSelected())
-		control = self.getControlById(CONTROL_BUTTON_ALLOWUPDATE)
-		self.selectedRomCollection.allowUpdate = bool(control.isSelected())
-		control = self.getControlById(CONTROL_BUTTON_USEFOLDERASGAMENAME)
-		self.selectedRomCollection.useFoldernameAsGamename = bool(control.isSelected())
 		
 		sites = []
 		sites = self.addScraperToSiteList(CONTROL_LIST_SCRAPER1, sites, self.selectedRomCollection)
@@ -522,26 +487,10 @@ class EditRomCollectionDialog(dialogbase.DialogBaseEdit):
 		imgPlacing, errorMsg = self.gui.config.readImagePlacing(imgPlacingName, self.gui.config.tree)
 		self.selectedRomCollection.imagePlacingInfo = imgPlacing
 		
-		control = self.getControlById(CONTROL_BUTTON_AUTOPLAYVIDEO_MAIN)
-		if(control != None):
-			self.selectedRomCollection.autoplayVideoMain = bool(control.isSelected())
-		control = self.getControlById(CONTROL_BUTTON_AUTOPLAYVIDEO_INFO)
-		if(control != None):
-			self.selectedRomCollection.autoplayVideoInfo = bool(control.isSelected())
-		
-		control = self.getControlById(CONTROL_BUTTON_USERETROPLAYER)
-		if(control):
-			self.selectedRomCollection.useBuiltinEmulator = bool(control.isSelected())
-			
-		control = self.getControlById(CONTROL_BUTTON_USEEMUSOLO)
-		self.selectedRomCollection.useEmuSolo = bool(control.isSelected())
-		control = self.getControlById(CONTROL_BUTTON_USEPOPEN)
-		self.selectedRomCollection.usePopen = bool(control.isSelected())
-		control = self.getControlById(CONTROL_BUTTON_DONTEXTRACTZIP)
-		self.selectedRomCollection.doNotExtractZipFiles = bool(control.isSelected())
-		control = self.getControlById(CONTROL_BUTTON_MAKELOCALCOPY)
-		self.selectedRomCollection.makeLocalCopy = bool(control.isSelected())
-	
+		# Update values for each of the buttons
+		for btn in self._control_buttons:
+			control = self.getControlById(btn['control'])
+			setattr(self.selectedRomCollection, btn['value'], bool(control.isSelected()))
 	
 	def editRomPath(self):
 		

@@ -295,8 +295,9 @@ class RomCollection(object):
 	preCmd: The OS command to execute before the emulatorCmd
 	postCmd: The OS command to execute after the emulatorCmd
 	emulatorParams: List of command-line parameters appended to the emulatorCmd
-	romPaths: List of paths containing the roms for this collection, including wildcard match, e.g.
-	    /path/to/rom/files/*.zip
+	romPaths: List of path + masks containing the roms for this collection, including wildcard match, e.g.
+	    /path/to/rom/files/*.zip, /path/to/rom/files/*.smc. Note we can only have 1 path but multiple wildcard masks
+
 	scraperSites: List of Site objects applicable to this collection
 	ignoreOnScan: Whether to skip this rom collection when scanning
 	allowUpdate: Allows overwriting an existing rom in the collection with details from a more recent scan
@@ -348,6 +349,62 @@ class RomCollection(object):
 
 	def __repr__(self):
 		return "<RomCollection: %s>" % self.__dict__
+
+	@property
+	def pathRoms(self):
+		"""
+		Returns:
+			A list of paths containing romfiles supported by this emulator, e.g. [/path/to/roms1, /path/to/roms2]
+		"""
+		paths = []
+		for rompath in self.romPaths:
+			# Skip if the path has already been added
+			if rompath in paths:
+				continue
+			paths.append(os.path.dirname(rompath))
+		return paths
+
+	@property
+	def maskRomPaths(self):
+		"""
+		Returns:
+			A list of suffixes supported by this emulator, e.g. [*.smc, *.zip]
+		"""
+		exts = []
+		for rompath in self.romPaths:
+			exts.append(os.path.basename(rompath))
+		return exts
+
+	@property
+	def pathSaveState(self):
+		saveStatePath = ''
+
+		try:
+			saveStatePath = os.path.split(self.saveStatePath)[0]
+		except IndexError:
+			pass
+
+		return saveStatePath
+
+	@property
+	def maskSaveState(self):
+		saveStateMask = ''
+
+		try:
+			saveStateMask = os.path.split(self.saveStatePath)[1]
+		except IndexError:
+			pass
+
+		return saveStateMask
+
+	@property
+	def imagePlacingNameGameList(self):
+		return self.imagePlacingMain.name
+
+	@property
+	def imagePlacingNameGameInfo(self):
+		return self.imagePlacingInfo.name
+
 
 
 class Config(object):
