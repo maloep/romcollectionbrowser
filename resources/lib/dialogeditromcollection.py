@@ -4,6 +4,7 @@ import os
 
 import util, helper, config, dialogbase
 from util import *
+from util import Logutil as log
 from configxmlwriter import *
 from emulatorautoconfig.autoconfig import EmulatorAutoconfig
 
@@ -117,8 +118,8 @@ class EditRomCollectionDialog(dialogbase.DialogBaseEdit):
 		return os
 
 	def __init__(self, *args, **kwargs):
-		Logutil.log('init Edit Rom Collection', util.LOG_LEVEL_INFO)
-		
+		log.info("init Edit Rom Collection")
+
 		self.gui = kwargs["gui"]
 		self.romCollections = self.gui.config.romCollections
 		self.scraperSites = self.gui.config.scraperSites
@@ -126,26 +127,26 @@ class EditRomCollectionDialog(dialogbase.DialogBaseEdit):
 		self.doModal()
 	
 	def onInit(self):
-		Logutil.log('onInit Edit Rom Collection', util.LOG_LEVEL_INFO)
-		
+		log.info("onInit Edit Rom Collection")
+
 		# Rom Collections
-		Logutil.log('build rom collection list', util.LOG_LEVEL_INFO)
+		log.info("build rom collection list")
 		romCollectionList = []
 		for k, v in self.romCollections.items():
 			romCollectionList.append(v.name)
 
 		self.addItemsToList(CONTROL_LIST_ROMCOLLECTIONS, romCollectionList)
-		
-		Logutil.log('build scraper lists', util.LOG_LEVEL_INFO)
+
+		log.info("build scraper lists")
 		self.availableScrapers = self.getAvailableScrapers(False)
 		for i in [CONTROL_LIST_SCRAPER1, CONTROL_LIST_SCRAPER2, CONTROL_LIST_SCRAPER3]:
 			self.addItemsToList(i, self.availableScrapers)
 
-		Logutil.log('build imagePlacing list', util.LOG_LEVEL_INFO)		
+		log.info("build imagePlacing list")
 		self.imagePlacingList = []
 		imagePlacingRows = self.gui.config.tree.findall('ImagePlacing/fileTypeFor')
 		for imagePlacing in imagePlacingRows:
-			Logutil.log('add image placing: ' +str(imagePlacing.attrib.get('name')), util.LOG_LEVEL_INFO)
+			log.info("add image placing: {0}".format(imagePlacing.attrib.get('name')))
 			option = imagePlacing.attrib.get('name')
 			# HACK: remove all video options from config
 			if option.upper().find('VIDEO') >= 0:
@@ -182,15 +183,14 @@ class EditRomCollectionDialog(dialogbase.DialogBaseEdit):
 			self.close()
 	
 	def onClick(self, controlID):
-		
-		Logutil.log('onClick', util.LOG_LEVEL_INFO)
+		log.info("onClick")
 		
 		if controlID == CONTROL_BUTTON_EXIT:  # Close window button
-			Logutil.log('close', util.LOG_LEVEL_INFO)
+			log.info("close")
 			self.close()
 		# OK
 		elif controlID == CONTROL_BUTTON_SAVE:
-			Logutil.log('save', util.LOG_LEVEL_INFO)
+			log.info("save")
 			# Store selectedRomCollection
 			if self.selectedRomCollection is not None:
 				self.updateSelectedRomCollection()
@@ -251,8 +251,7 @@ class EditRomCollectionDialog(dialogbase.DialogBaseEdit):
 
 				emulist = []
 
-				Logutil.log(u'Running on {0}. Trying to find emulator per autoconfig.'.format(self.current_os),
-							util.LOG_LEVEL_INFO)
+				log.info(u"Running on {0}. Trying to find emulator per autoconfig.".format(self.current_os))
 				emulators = autoconfig.findEmulators(self.current_os, self.selectedRomCollection.name, True)
 
 				for emulator in emulators:
@@ -267,7 +266,7 @@ class EditRomCollectionDialog(dialogbase.DialogBaseEdit):
 					try:
 						preconfiguredEmulator = emulators[emuIndex]
 					except IndexError:
-						Logutil.log('No Emulator selected.', util.LOG_LEVEL_INFO)
+						log.info("No Emulator selected.")
 						preconfiguredEmulator = None
 						
 				if preconfiguredEmulator:
@@ -329,8 +328,8 @@ class EditRomCollectionDialog(dialogbase.DialogBaseEdit):
 		elif controlID == CONTROL_BUTTON_PRECMD:
 			preCmd = self.editTextProperty(CONTROL_BUTTON_PRECMD, util.localize(32632))
 			self.selectedRomCollection.preCmd = preCmd
-			Logutil.log('OnClick: precmd = ' + self.selectedRomCollection.preCmd, util.LOG_LEVEL_INFO)
-			
+			log.info("OnClick: precmd = {0}".format(self.selectedRomCollection.preCmd))
+
 		elif controlID == CONTROL_BUTTON_POSTCMD:
 			postCmd = self.editTextProperty(CONTROL_BUTTON_POSTCMD, util.localize(32633))
 			self.selectedRomCollection.postCmd = postCmd
@@ -339,14 +338,13 @@ class EditRomCollectionDialog(dialogbase.DialogBaseEdit):
 		self.selectedControlId = controlId
 	
 	def updateRomCollectionControls(self):
-		
-		Logutil.log('updateRomCollectionControls', util.LOG_LEVEL_INFO)
-		
+		log.info("updateRomCollectionControls")
+
 		control = self.getControlById(CONTROL_LIST_ROMCOLLECTIONS)
 		selectedRomCollectionName = str(control.getSelectedItem().getLabel())
-				
-		Logutil.log('selected rom collection: ' + str(selectedRomCollectionName), util.LOG_LEVEL_INFO)
-				
+
+		log.info("selected rom collection: {0}".format(selectedRomCollectionName))
+
 		self.selectedRomCollection = None
 
 		for k, v in self.romCollections.items():
@@ -443,8 +441,8 @@ class EditRomCollectionDialog(dialogbase.DialogBaseEdit):
 				break
 	
 	def updateSelectedRomCollection(self):
-		
-		Logutil.log('updateSelectedRomCollection', util.LOG_LEVEL_INFO)
+
+		log.info("updateSelectedRomCollection")
 
 		sites = []
 		sites = self.addScraperToSiteList(CONTROL_LIST_SCRAPER1, sites, self.selectedRomCollection)
@@ -646,9 +644,9 @@ class EditRomCollectionDialog(dialogbase.DialogBaseEdit):
 		self.updateRomCollectionControls()
 	
 	def selectScrapersInList(self, sitesInRomCollection, sitesInList):
-		
-		Logutil.log('selectScrapersInList', util.LOG_LEVEL_INFO)
-		
+
+		log.info("selectScrapersInList")
+
 		if len(sitesInRomCollection) >= 1:
 			self.selectItemInList(sitesInRomCollection[0].name, CONTROL_LIST_SCRAPER1)			
 		else:
@@ -665,8 +663,8 @@ class EditRomCollectionDialog(dialogbase.DialogBaseEdit):
 			
 	def addScraperToSiteList(self, controlId, sites, romCollection):				
 
-		Logutil.log('addScraperToSiteList', util.LOG_LEVEL_INFO)
-		
+		log.info("addScraperToSiteList")
+
 		control = self.getControlById(controlId)
 		scraperItem = control.getSelectedItem()
 		scraper = scraperItem.getLabel()
