@@ -142,9 +142,8 @@ class EditRomCollectionDialog(dialogbase.DialogBaseEdit):
 		
 		Logutil.log('build scraper lists', util.LOG_LEVEL_INFO)
 		self.availableScrapers = self.getAvailableScrapers(False)
-		self.addItemsToList(CONTROL_LIST_SCRAPER1, self.availableScrapers)
-		self.addItemsToList(CONTROL_LIST_SCRAPER2, self.availableScrapers)
-		self.addItemsToList(CONTROL_LIST_SCRAPER3, self.availableScrapers)
+		for i in [CONTROL_LIST_SCRAPER1, CONTROL_LIST_SCRAPER2, CONTROL_LIST_SCRAPER3]:
+			self.addItemsToList(i, self.availableScrapers)
 
 		Logutil.log('build imagePlacing list', util.LOG_LEVEL_INFO)		
 		self.imagePlacingList = []
@@ -164,14 +163,14 @@ class EditRomCollectionDialog(dialogbase.DialogBaseEdit):
 		self.addItemsToList(CONTROL_LIST_IMAGEPLACING_INFO, self.imagePlacingList)
 		
 		if(not helper.isRetroPlayerSupported()):
-			control = self.getControlById(CONTROL_BUTTON_USERETROPLAYER)
-			if(control):
-				control.setEnabled(False)
-				control.setVisible(False)
-			control = self.getControlById(CONTROL_BUTTON_GAMECLIENT)
-			if(control):
-				control.setEnabled(False)
-				control.setVisible(False)
+			for ctrl_id in [CONTROL_BUTTON_USERETROPLAYER, CONTROL_BUTTON_GAMECLIENT]:
+				try:
+					control = self.getControlById(ctrl_id)
+					control.setEnabled(False)
+					control.setVisible(False)
+				except AttributeError:
+					pass
+
 		elif(not helper.retroPlayerSupportsPythonIntegration()):
 			control = self.getControlById(CONTROL_BUTTON_GAMECLIENT)
 			if(control):
