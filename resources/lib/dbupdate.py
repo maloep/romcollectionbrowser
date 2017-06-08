@@ -137,24 +137,24 @@ class DBUpdate:
 		
 		for romCollection in romCollections.values():
 			
-			#timestamp1 = time.clock()
+			# timestamp1 = time.clock()
 			
-			#check if import was canceled
-			if(not continueUpdate):
+			# check if import was canceled
+			if not continueUpdate:
 				log.info("Game import canceled")
 				break
 							
-			#prepare Header for ProgressDialog
+			# prepare Header for ProgressDialog
 			progDialogRCHeader = util.localize(32122) +" (%i / %i): %s" %(rccount, len(romCollections), romCollection.name)
 			rccount = rccount + 1
 
 			log.info("current Rom Collection: {0}".format(romCollection.name))
 
-			#Read settings for current Rom Collection
+			# Read settings for current Rom Collection
 			log.info("ignoreOnScan: {0}".format(romCollection.ignoreOnScan))
-			if(romCollection.ignoreOnScan):
+			if romCollection.ignoreOnScan:
 				log.info("current Rom Collection will be ignored.")
-				#self.scrapeResultsFile.write('Rom Collection will be ignored.\n')
+				# self.scrapeResultsFile.write('Rom Collection will be ignored.\n')
 				continue
 
 			log.info("update is allowed for current rom collection: {0}".format(romCollection.allowUpdate))
@@ -162,7 +162,7 @@ class DBUpdate:
 
 			firstScraper = romCollection.scraperSites[0]
 			
-			#check if we are in local artwork mode
+			# check if we are in local artwork mode
 			if len(romCollection.scraperSites) == 1 and firstScraper.is_localartwork_scraper():
 				log.info("Forcing enableFullReimport because we are in local artwork mode")
 				enableFullReimport = True
@@ -174,11 +174,11 @@ class DBUpdate:
 			else:
 				log.info(u"Found {0} game files for rom collection {1}".format(len(files), romCollection.name))
 			
-			#itemCount is used for percentage in ProgressDialogGUI
+			# itemCount is used for percentage in ProgressDialogGUI
 			gui.itemCount = len(files) +1
 
 			if firstScraper.is_multigame_scraper():
-				#build file hash tables	(key = gamename or crc, value = romfiles)
+				# build file hash tables	(key = gamename or crc, value = romfiles)
 				log.info("Start building file dict")
 				fileDict = self.buildFileDict(gui, progDialogRCHeader, files, romCollection, firstScraper)
 									
@@ -186,9 +186,9 @@ class DBUpdate:
 					fileCount = 0
 					gamenameFromDesc = u''
 					
-					#TODO move to to check preconditions
-					#first scraper must be the one for multiple games
-					if(len(firstScraper.scrapers) == 0):
+					# TODO move to to check preconditions
+					# first scraper must be the one for multiple games
+					if len(firstScraper.scrapers) == 0:
 						log.error("Configuration error: Configured scraper site does not contain any scrapers")
 						continue
 											
@@ -197,7 +197,7 @@ class DBUpdate:
 
 					parser = DescriptionParserFactory.getParser(str(scraper.parseInstruction)) 										
 					
-					#parse description
+					# parse description
 					for result in parser.scanDescription(scraper.source, str(scraper.parseInstruction), scraper.encoding):
 						try:
 							gamenameFromDesc = result['Game'][0]
@@ -216,34 +216,34 @@ class DBUpdate:
 							fileCount = fileCount +1
 
 							continueUpdate = gui.writeMsg(progDialogRCHeader, util.localize(32123) +": " +str(gamenameFromDesc), "", fileCount)
-							if(not continueUpdate):
+							if not continueUpdate:
 								log.util("Game import canceled by user")
 								break
 
 							log.util(u"Start scraping info for game: {0}".format(gamenameFromFile))
 
-							#check if this file already exists in DB
+							# check if this file already exists in DB
 							continueUpdate, isUpdate, gameId = self.checkRomfileAlreadyExists(filenamelist[0], enableFullReimport, False)
-							if(not continueUpdate):
+							if not continueUpdate:
 								continue
 
-							#use additional scrapers
-							if(len(romCollection.scraperSites) > 1):
+							# use additional scrapers
+							if len(romCollection.scraperSites) > 1:
 								result, artScrapers = self.useSingleScrapers(result, romCollection, 1, gamenameFromFile, foldername, filenamelist[0], updateOption, gui, progDialogRCHeader, fileCount)
 							
 							dialogDict = {'dialogHeaderKey':progDialogRCHeader, 'gameNameKey':gamenameFromFile, 'scraperSiteKey':artScrapers, 'fileCountKey':fileCount}
 							gameId = self.insertGameFromDesc(result, gamenameFromFile, romCollection, filenamelist, foldername, isUpdate, gameId, gui, False, dialogDict)
 							del artScrapers, gamenameFromFile, foldername, dialogDict
 							
-							#remove found files from file list
-							if(gameId != None):
+							# remove found files from file list
+							if gameId is not None:
 								log.info("Successfully added {0}".format(gamenameFromDesc))
 								files = [x for x in files if x not in filenamelist]
 									
 							del filenamelist
 									
-							#stop import if no files are left
-							if(len(files) == 0):
+							# stop import if no files are left
+							if len(files) == 0:
 								log.info("All games are imported")
 								break
 						
@@ -252,7 +252,7 @@ class DBUpdate:
 							log.warning("Error: {0}".format(exc))
 							continue
 					
-					#all files still available files-list, are missing entries
+					# all files still available files-list, are missing entries
 					for filename in files:
 						gamenameFromFile = helper.getGamenameFromFilename(filename, romCollection)
 						log.warning("Adding file {0} ({1}) to missing description file".format(filename, gamenameFromFile))
@@ -276,11 +276,11 @@ class DBUpdate:
 						log.info("Scraping for {0}".format(filename))
 						gamenameFromFile = helper.getGamenameFromFilename(filename, romCollection)
 						
-						#check if we are handling one of the additional disks of a multi rom game
+						# check if we are handling one of the additional disks of a multi rom game
 						isMultiRomGame = self.checkRomfileIsMultirom(gamenameFromFile, lastgamename)
 						lastgamename = gamenameFromFile
 						
-						if(isMultiRomGame):
+						if isMultiRomGame:
 							# Add this entry as a file under the game ID and move on
 							log.info("Detected {0} as a multirom game (previous game was {1}".format(filename, lastgamename))
 							if lastGameId is None:
@@ -297,7 +297,7 @@ class DBUpdate:
 						log.info("Start scraping info for game: {0}".format(gamenameFromFile))
 						
 						continueUpdate = gui.writeMsg(progDialogRCHeader, util.localize(32123) +": " +gamenameFromFile, "", fileidx + 1)
-						if(not continueUpdate):
+						if not continueUpdate:
 							log.info("Game import canceled by user")
 							break
 						
@@ -305,7 +305,7 @@ class DBUpdate:
 						continueUpdate, isUpdate, gameId = self.checkRomfileAlreadyExists(filename,
 																						  enableFullReimport,
 																						  firstScraper.is_localartwork_scraper())
-						if(not continueUpdate):
+						if not continueUpdate:
 							continue										
 						
 						results = {}
@@ -315,19 +315,19 @@ class DBUpdate:
 						if not firstScraper.is_localartwork_scraper():
 							results, artScrapers = self.useSingleScrapers(results, romCollection, 0, gamenameFromFile, foldername, filename, updateOption, gui, progDialogRCHeader, fileidx + 1)
 												
-						if(len(results) == 0):
+						if len(results) == 0:
 							#lastgamename = ""
 							results = None
 	
-						#Variables to process Art Download Info
+						# Variables to process Art Download Info
 						dialogDict = {'dialogHeaderKey':progDialogRCHeader, 'gameNameKey':gamenameFromFile, 'scraperSiteKey':artScrapers, 'fileCountKey': (fileidx + 1)}
 						del artScrapers
 												
-						#Add 'gui' and 'dialogDict' parameters to function
+						# Add 'gui' and 'dialogDict' parameters to function
 						lastGameId = self.insertGameFromDesc(results, gamenameFromFile, romCollection, [filename], foldername, isUpdate, gameId, gui, firstScraper.is_localartwork_scraper(), dialogDict)
 						del results, foldername, dialogDict
 						
-						if (lastGameId != None):
+						if lastGameId is not None:
 							log.info("Successfully added {0}".format(gamenameFromFile))
 							successfulFiles = successfulFiles + 1
 	
@@ -335,10 +335,10 @@ class DBUpdate:
 						if fileidx > 9 and successfulFiles == 0 and not ignoreErrors:
 							options = [util.localize(32124), util.localize(32125), util.localize(32126)]
 							answer = xbmcgui.Dialog().select(util.localize(32127), options)
-							if(answer == 1):
+							if answer == 1:
 								# Continue and ignore errors
 								ignoreErrors = True
-							elif(answer == 2):
+							elif answer == 2:
 								# Cancel
 								xbmcgui.Dialog().ok(util.SCRIPTNAME, util.localize(32128), util.localize(32129))
 								continueUpdate = False
@@ -359,8 +359,7 @@ class DBUpdate:
 		gui.writeMsg("Done.", "", "", gui.itemCount)
 		self.exit()
 		return True, ''
-	
-	
+
 	def buildFileDict(self, gui, progDialogRCHeader, files, romCollection, firstScraper):
 		
 		lastgamename = ""
@@ -373,30 +372,30 @@ class DBUpdate:
 				gui.writeMsg(progDialogRCHeader, util.localize(32130), "", idx + 1)
 
 				gamename = helper.getGamenameFromFilename(filename, romCollection)
-				#check if we are handling one of the additional disks of a multi rom game
+				# check if we are handling one of the additional disks of a multi rom game
 				isMultiRomGame = self.checkRomfileIsMultirom(gamename, lastgamename)
-				#lastgamename may be overwritten by parsed gamename
+				# lastgamename may be overwritten by parsed gamename
 				lastgamename = gamename
 				gamename = gamename.strip()
 				gamename = gamename.lower()
 				
 				#Logutil.log('gamename in fileDict: ' +str(gamename), util.LOG_LEVEL_INFO)
 									
-				#build dictionaries (key=gamename, filecrc or foldername; value=filenames) for later game search
-				if(firstScraper.useFoldernameAsCRC):
+				# build dictionaries (key=gamename, filecrc or foldername; value=filenames) for later game search
+				if firstScraper.useFoldernameAsCRC:
 					log.info("useFoldernameAsCRC = True")
 					foldername = self.getFoldernameFromRomFilename(filename)
 					foldername = foldername.strip()
 					foldername = foldername.lower()
 					fileDict = self.buildFilenameDict(fileDict, isMultiRomGame, filename, foldername)
-				elif(firstScraper.useFilenameAsCRC):
+				elif firstScraper.useFilenameAsCRC:
 					log.info("useFilenameAsCRC = True")
 					fileDict = self.buildFilenameDict(fileDict, isMultiRomGame, filename, gamename)
-				elif(firstScraper.searchGameByCRC):
+				elif firstScraper.searchGameByCRC:
 					log.info("searchGameByCRC = True")
 					filecrc = self.getFileCRC(filename)
-					#use crc of first rom if it is a multirom game
-					if(not isMultiRomGame):
+					# use crc of first rom if it is a multirom game
+					if not isMultiRomGame:
 						crcOfFirstGame[gamename] = filecrc
 						log.info("Adding crc to crcOfFirstGame-dict: {0}: {1}".format(gamename, filecrc))
 					else:
@@ -412,9 +411,6 @@ class DBUpdate:
 				continue
 		
 		return fileDict
-		
-		
-	
 	
 	def getRomFilesByRomCollection(self, romCollection, enableFullReimport):
 				
@@ -426,7 +422,7 @@ class DBUpdate:
 			log.info("Reading rom files in path: {0}".format(romPath))
 			files = self.walkDownPath(files, unicode(romPath), romCollection.maxFolderDepth)
 		
-		#only use files that are not already present in database
+		# only use files that are not already present in database
 		if enableFullReimport == False:
 			inDBFiles = DataBaseObject(self.gdb, '').getFileAllFilesByRCId(romCollection.id)
 			files = [f for f in files if not f in inDBFiles]
@@ -436,7 +432,6 @@ class DBUpdate:
 
 		return files
 		
-		
 	def walkDownPath(self, files, romPath, maxFolderDepth):
 		
 		log.info("alkDownPath romPath: {0}".format(romPath))
@@ -445,7 +440,6 @@ class DBUpdate:
 		log.info("files after walkDown = {0}".format(files))
 
 		return files
-	
 	
 	def walkDown(self, files, romPath, maxFolderDepth):
 		log.info("Running walkdown on: {0}".format(romPath))
@@ -460,18 +454,16 @@ class DBUpdate:
 				self.walkDown(files, newRomPath, maxFolderDepth)
 					
 		return files
-			
 		
 	def checkRomfileIsMultirom(self, gamename, lastgamename):
 
 		log.info("checkRomfileIsMultirom. gamename = {0}, lastgamename = {1}".format(gamename, lastgamename))
 	
-		#XBOX Hack: rom files will always be named default.xbe: always detected as multi rom without this hack
-		if(gamename == lastgamename and lastgamename.lower() != 'default'):
+		# XBOX Hack: rom files will always be named default.xbe: always detected as multi rom without this hack
+		if gamename == lastgamename and lastgamename.lower() != 'default':
 			log.info("handling multi rom game: {0}".format(lastgamename))
 			return True
 		return False
-		
 		
 	def buildFilenameDict(self, result, isMultiRomGame, filename, key):
 
@@ -487,26 +479,25 @@ class DBUpdate:
 
 		return result
 		
-		
 	def getFileCRC(self, filename):
 		
 		try:
-			#get crc value of the rom file - this can take a long time for large files, so it is configurable
+			# get crc value of the rom file - this can take a long time for large files, so it is configurable
 			filecrc = ''		
 			if (zipfile.is_zipfile(str(filename))):
 					log.info("handling zip file")
 					zip = zipfile.ZipFile(str(filename), 'r')
 					zipInfos = zip.infolist()
 					del zip
-					if(len(zipInfos) > 1):
+					if len(zipInfos) > 1:
 						log.warning("more than one file in zip archive is not supported! Checking CRC of first entry.")
-					filecrc = "%0.8X" %(zipInfos[0].CRC & 0xFFFFFFFF)
+					filecrc = "%0.8X" % (zipInfos[0].CRC & 0xFFFFFFFF)
 					log.info("crc in zipped file: {0}".format(filecrc))
 			else:
 				prev = 0
-				for eachLine in open(str(filename),"rb"):
+				for eachLine in open(str(filename), "rb"):
 					prev = zlib.crc32(eachLine, prev)					
-				filecrc = "%0.8X"%(prev & 0xFFFFFFFF)
+				filecrc = "%0.8X" % (prev & 0xFFFFFFFF)
 				log.info("crc for current file: {0}".format(filecrc))
 			
 			filecrc = filecrc.strip()
@@ -517,15 +508,14 @@ class DBUpdate:
 		
 		return filecrc
 		
-		
 	def getFoldernameFromRomFilename(self, filename):
 		log.info("Begin getFoldernameFromRomFilename: {0}".format(filename))
 		foldername = ''
 		dirname = os.path.dirname(filename)
 		log.info("dirname: {0}".format(dirname))
-		if(dirname != None):
+		if dirname is not None:
 			pathTuple = os.path.split(dirname)
-			if(len(pathTuple) == 2):
+			if len(pathTuple) == 2:
 				foldername = pathTuple[1]				
 				
 		return foldername
@@ -535,14 +525,14 @@ class DBUpdate:
 			
 		filenamelist = []
 		
-		if(firstScraper.searchGameByCRC or firstScraper.useFoldernameAsCRC or firstScraper.useFilenameAsCRC):
+		if firstScraper.searchGameByCRC or firstScraper.useFoldernameAsCRC or firstScraper.useFilenameAsCRC:
 			resultcrcs = result['crc']
 			for resultcrc in resultcrcs:
 				log.debug("crc in parsed result: {0}".format(resultcrc))
 				resultcrc = resultcrc.lower()
 				resultcrc = resultcrc.strip()
 				filenamelist = self.findFilesByGameDescription(resultcrc, fileDict)
-				if(filenamelist != None):
+				if filenamelist is not None:
 					break
 		else:
 			log.info("game name in parsed result: {0}".format(gamenameFromDesc))
@@ -551,7 +541,6 @@ class DBUpdate:
 			filenamelist = self.findFilesByGameDescription(gamenameFromDesc, fileDict)
 		
 		return filenamelist
-
 
 	def findFilesByGameDescription(self, key, fileDict):
 		
@@ -565,31 +554,29 @@ class DBUpdate:
 
 		return filename
 	
-	
 	def checkRomfileAlreadyExists(self, filename, enableFullReimport, isLocalArtwork):
 		
 		isUpdate = False
 		gameId = None
 		log.debug("Checking if file already exists in DB: {0}".format(filename))
 		romFile = File(self.gdb).getFileByNameAndType(filename, 0)
-		if(romFile != None):
+		if romFile is not  None:
 			isUpdate = True
 			gameId = romFile[3]
 			log.info("File '{0}' already exists in database.".format(filename))
 			log.info("Always rescan imported games = ".format(enableFullReimport))
 			log.info("scraper == 'local artwork': ".format(isLocalArtwork))
-			if(enableFullReimport == False and not isLocalArtwork):
+			if enableFullReimport == False and not isLocalArtwork:
 				log.info("Won't scrape this game again. Set 'Always rescan imported games' to True to force scraping.")
 				return False, isUpdate, gameId
 		else:
 			log.debug("Couldn't find file in DB")
-			if(isLocalArtwork):
+			if isLocalArtwork:
 				log.info("scraper == 'local artwork': {0}".format(isLocalArtwork))
 				log.info("Can't use 'local artwork' scraper if game is not already imported. Use another scraper first.")
 				return False, isUpdate, gameId
 		
 		return True, isUpdate, gameId
-		
 				
 	def useSingleScrapers(self, result, romCollection, startIndex, gamenameFromFile, foldername, firstRomfile, updateOption, gui, progDialogRCHeader, fileCount):
 		
@@ -601,7 +588,7 @@ class DBUpdate:
 			gui.writeMsg(progDialogRCHeader, util.localize(32123) +": " +gamenameFromFile, scraperSite.name + " - " +util.localize(32131), fileCount)
 			log.info("Using site {0} with {1} scrapers".format(scraperSite.name, len(scraperSite.scrapers)))
 
-			if(scraperSite.searchGameByCRC and filecrc == ''):
+			if scraperSite.searchGameByCRC and filecrc == '':
 				filecrc = self.getFileCRC(firstRomfile)
 			
 			urlsFromPreviousScrapers = []
@@ -612,28 +599,27 @@ class DBUpdate:
 				result, urlsFromPreviousScrapers, doContinue = pyScraper.scrapeResults(result, scraper, urlsFromPreviousScrapers, gamenameFromFile, foldername, filecrc, firstRomfile, self.fuzzyFactor, updateOption, romCollection, self.Settings)
 				del pyScraper
 			log.debug("Completed site {0}".format(scraperSite.name))
-			if(doContinue):
+			if doContinue:
 				continue
 									
-			#Find Filetypes and Scrapers for Art Download
-			if(len(result) > 0):
+			# Find Filetypes and Scrapers for Art Download
+			if len(result) > 0:
 				for path in romCollection.mediaPaths:
 					thumbKey = 'Filetype' + path.fileType.name 
-					if(len(self.resolveParseResult(result, thumbKey)) > 0):
+					if len(self.resolveParseResult(result, thumbKey)) > 0:
 						if((thumbKey in artScrapers) == 0):
 							artScrapers[thumbKey] = scraperSite.name			
 						
 		return result, artScrapers
 				
-				
 	def insertGameFromDesc(self, gamedescription, gamename, romCollection, filenamelist, foldername, isUpdate, gameId, gui, isLocalArtwork, dialogDict=''):
 		
 		log.info("insertGameFromDesc")
 		
-		if(gamedescription != None):
+		if gamedescription is not None:
 			game = self.resolveParseResult(gamedescription, 'Game')
 		else:
-			if(not isLocalArtwork):
+			if not isLocalArtwork:
 				self.missingDescFile.add_entry(gamename)
 
 				if self.ignoreGameWithoutDesc:
@@ -678,21 +664,21 @@ class DBUpdate:
 		publisherId = -1
 		developerId = -1
 			
-		#read current properties for local artwork scraper
-		if(not isLocalArtwork):
+		# read current properties for local artwork scraper
+		if not isLocalArtwork:
 			publisherId = self.insertForeignKeyItem(gamedescription, 'Publisher', Publisher(self.gdb))
 			developerId = self.insertForeignKeyItem(gamedescription, 'Developer', Developer(self.gdb))
 		else:
 			gameRow = Game(self.gdb).getObjectById(gameId)
-			if(gameRow != None):
+			if gameRow is not None:
 				publisherId = gameRow[GAME_publisherId]
 				publisherRow = Publisher(self.gdb).getObjectById(gameId)
-				if(publisherRow != None):
+				if publisherRow is not None:
 					publisher = publisherRow[util.ROW_NAME]  			
 				developerId = gameRow[GAME_developerId]
 				del gameRow
 				developerRow = Developer(self.gdb).getObjectById(gameId)
-				if(developerRow != None):
+				if developerRow is not None:
 					developer = developerRow[util.ROW_NAME]
 					del developerRow
 		
@@ -710,18 +696,18 @@ class DBUpdate:
 		version = self.resolveParseResult(gamedescription, 'Version')								
 		plot = self.resolveParseResult(gamedescription, 'Description')
 		isFavorite = self.resolveParseResult(gamedescription, 'IsFavorite')
-		if(isFavorite == ''):
+		if isFavorite == '':
 			isFavorite = '0'
 		launchCount = self.resolveParseResult(gamedescription, 'LaunchCount')
-		if(launchCount == ''):
+		if launchCount == '':
 			launchCount = '0'
 		
-		if(gamedescription != None):
+		if gamedescription is not None:
 			gamename = self.resolveParseResult(gamedescription, 'Game')
-			if(gamename != gamenameFromFile):
+			if gamename != gamenameFromFile:
 				self.possibleMismatchFile.add_entry(gamename, gamenameFromFile)
 
-			if(gamename == ""):
+			if gamename == "":
 				gamename = gamenameFromFile
 		else:
 			gamename = gamenameFromFile
@@ -747,13 +733,13 @@ class DBUpdate:
 					
 		del publisher, developer, year		
 						
-		if(not isLocalArtwork):
+		if not isLocalArtwork:
 			gameId = self.insertGame(gamename, plot, romCollection.id, publisherId, developerId, reviewerId, yearId, 
 				players, rating, votes, url, region, media, perspective, controller, originalTitle, alternateTitle, translatedBy, version, isFavorite, launchCount, isUpdate, gameId, romCollection.allowUpdate, )
 		
 			del plot, players, rating, votes, url, region, media, perspective, controller, originalTitle, alternateTitle, translatedBy, version
 		
-			if(gameId == None):
+			if gameId is None:
 				return None
 
 			self.add_genres_to_db(genreIds, gameId)
@@ -776,17 +762,17 @@ class DBUpdate:
 						
 			log.info("FileType: {0}".format(path.fileType.name))
 			
-			#TODO replace %ROMCOLLECTION%, %PUBLISHER%, ... 
+			# TODO replace %ROMCOLLECTION%, %PUBLISHER%, ...
 			fileName = path.path.replace("%GAME%", gamenameFromFile)
 									
-			if(not isLocalArtwork):
+			if not isLocalArtwork:
 				continueUpdate, artworkurls = self.getThumbFromOnlineSource(gamedescription, path.fileType.name, fileName, gui, dialogDict, artworkurls)
-				if(not continueUpdate):
+				if not continueUpdate:
 					return None, False
 			
 			log.debug("Additional data path: ".format(path.path))
 			files = self.resolvePath((path.path,), gamename, gamenameFromFile, foldername, romCollection.name, publisher, developer)
-			if(len(files) > 0):
+			if len(files) > 0:
 				artWorkFound = True
 				
 				#HACK: disable static image check as a preparation for new default image handling (this code has problems with [] in rom names)				
@@ -810,13 +796,13 @@ class DBUpdate:
 				players, rating, votes, url, region, media, perspective, controller, originalTitle, alternateTitle, translatedBy, version, isFavorite, launchCount, isUpdate, gameId, allowUpdate):
 		# Check if exists and insert/update as appropriate; move this functionality to the Game object
 		try:
-			if(not isUpdate):
+			if not isUpdate:
 				log.info("Game does not exist in database. Insert game: {0}".format(gameName))
 				Game(self.gdb).insert((gameName, description, None, None, romCollectionId, publisherId, developerId, reviewerId, yearId, 
 					players, rating, votes, url, region, media, perspective, controller, int(isFavorite), int(launchCount), originalTitle, alternateTitle, translatedBy, version))				
 				return self.gdb.cursor.lastrowid
 			else:	
-				if(allowUpdate):
+				if allowUpdate:
 					
 					#check if we are allowed to update with null values
 					allowOverwriteWithNullvalues = self.Settings.getSetting(util.SETTING_RCB_ALLOWOVERWRITEWITHNULLVALUES).upper() == 'TRUE'
@@ -835,16 +821,14 @@ class DBUpdate:
 		except Exception, (exc):
 			log.error("An error occured while adding game '{0}'. Error: {1}".format(gameName, exc))
 			return None
-			
-		
-	
+
 	def insertForeignKeyItem(self, result, itemName, gdbObject):
 		
 		item = self.resolveParseResult(result, itemName)
 						
-		if(item != "" and item != None):
+		if item != "" and item is not None:
 			itemRow = gdbObject.getOneByName(item)
-			if(itemRow == None):	
+			if itemRow is None:
 				try:
 					log.info("{0} does not exist in database. Insert: {1}".format(itemName, item))
 				except:
@@ -858,7 +842,6 @@ class DBUpdate:
 			itemId = None
 			
 		return itemId
-		
 	
 	def insertForeignKeyItemList(self, result, itemName, gdbObject):
 		idList = []				
@@ -866,7 +849,7 @@ class DBUpdate:
 		try:
 			itemList = result[itemName]
 			log.info("Result {0} = {1}".format(itemName, itemList))
-		except:
+		except IndexError:
 			log.warning("Error while resolving item: {0}".format(itemName))
 			return idList				
 		
@@ -874,7 +857,7 @@ class DBUpdate:
 			item = self.stripHTMLTags(item)
 			
 			itemRow = gdbObject.getOneByName(item)
-			if(itemRow == None):
+			if itemRow is not None:
 				try:
 					log.info("{0} does not exist in database. Insert: {1}".format(itemName, item))
 				except:
@@ -886,7 +869,6 @@ class DBUpdate:
 				
 		return idList
 		
-		
 	def resolvePath(self, paths, gamename, gamenameFromFile, foldername, romCollectionName, publisher, developer):		
 		resolvedFiles = []				
 				
@@ -894,63 +876,61 @@ class DBUpdate:
 			files = []
 			log.info("resolve path: {0}".format(path))
 			
-			if(path.find("%GAME%") > -1):
+			if path.find("%GAME%") > -1:
 				
 				pathnameFromFile = path.replace("%GAME%", gamenameFromFile)									
 				log.info("resolved path from rom file name: {0}".format(pathnameFromFile))
 				files = self.getFilesByWildcard(pathnameFromFile)
-				if(len(files) == 0):
+				if len(files) == 0:
 					files = self.getFilesByGameNameIgnoreCase(pathnameFromFile)
 				
-				if(gamename != gamenameFromFile and len(files) == 0):
+				if gamename != gamenameFromFile and len(files) == 0:
 					pathnameFromGameName = path.replace("%GAME%", gamename)
 					log.info("resolved path from game name: {0}".format(pathnameFromGameName))
 					files = self.getFilesByWildcard(pathnameFromGameName)
-					if(len(files) == 0):
+					if len(files) == 0:
 						files = self.getFilesByGameNameIgnoreCase(pathnameFromGameName)								
 									
-				if(gamename != foldername and len(files) == 0):
+				if gamename != foldername and len(files) == 0:
 					pathnameFromFolder = path.replace("%GAME%", foldername)					
 					log.info("resolved path from rom folder name: {0}".format(pathnameFromFolder))
 					files = self.getFilesByWildcard(pathnameFromFolder)
-					if(len(files) == 0):
+					if len(files) == 0:
 						files = self.getFilesByGameNameIgnoreCase(pathnameFromFolder)
 				
 				
-			#TODO could be done only once per RomCollection
-			if(path.find("%ROMCOLLECTION%") > -1 and romCollectionName != None and len(files) == 0):
+			# ODO could be done only once per RomCollection
+			if path.find("%ROMCOLLECTION%") > -1 and romCollectionName is not None and len(files) == 0:
 				pathnameFromRomCollection = path.replace("%ROMCOLLECTION%", romCollectionName)
 				log.info("resolved path from rom collection name: ".format(pathnameFromRomCollection))
 				files = self.getFilesByWildcard(pathnameFromRomCollection)				
 				
-			if(path.find("%PUBLISHER%") > -1 and publisher != None and len(files) == 0):
+			if path.find("%PUBLISHER%") > -1 and publisher is not None and len(files) == 0:
 				pathnameFromPublisher = path.replace("%PUBLISHER%", publisher)
 				log.info("resolved path from publisher name: {0}".format(pathnameFromPublisher))
 				files = self.getFilesByWildcard(pathnameFromPublisher)				
 				
-			if(path.find("%DEVELOPER%") > -1 and developer != None and len(files) == 0):
+			if path.find("%DEVELOPER%") > -1 and developer is not None and len(files) == 0:
 				pathnameFromDeveloper = path.replace("%DEVELOPER%", developer)
 				log.info("resolved path from developer name: {0}".format(pathnameFromDeveloper))
 				files = self.getFilesByWildcard(pathnameFromDeveloper)													
 			
-			if(path.find("%GAME%") == -1 & path.find("%ROMCOLLECTION%") == -1 & path.find("%PUBLISHER%") == -1 & path.find("%DEVELOPER%") == -1):
+			if path.find("%GAME%") == -1 & path.find("%ROMCOLLECTION%") == -1 & path.find("%PUBLISHER%") == -1 & path.find("%DEVELOPER%") == -1:
 				pathnameFromStaticFile = path
 				log.info("using static defined media file from path: {0}".format(pathnameFromStaticFile))
 				files = self.getFilesByWildcard(pathnameFromStaticFile)			
 				
-			if(len(files) == 0):
+			if len(files) == 0:
 				log.warning("No files found for game '{0}' at path '{1}'. Make sure that file names are matching.".format(gamename, path))
 			for file in files:
-				if(xbmcvfs.exists(file)):
+				if xbmcvfs.exists(file):
 					resolvedFiles.append(file)
 					
 		return resolvedFiles
 	
-	
 	def getFilesByWildcard(self, pathName):
 		dirs, files, dirname, filemask = self.getFilesByWildcardExt(pathName)
 		return files
-	
 	
 	def getFilesByWildcardExt(self, pathName):
 		
@@ -973,15 +953,15 @@ class DBUpdate:
 		log.info("xbmcvfs files: {0}".format(filesLocal))
 		
 		for dir in dirsLocal:
-			if (type(dir) == str):
+			if type(dir) == str:
 				dirs.append(dir.decode('utf-8'))
 			else:
 				dirs.append(dir)
 			
 		for file in filesLocal:
-			if(fnmatch.fnmatch(file, filemask)):
+			if fnmatch.fnmatch(file, filemask):
 			#allFiles = [f.decode(sys.getfilesystemencoding()).encode('utf-8') for f in glob.glob(newRomPath)]
-				if (type(file) == str):
+				if type(file) == str:
 					file = file.decode('utf-8')
 				file = util.joinPath(dirname, file)
 				# return unicode filenames so relating scraping actions can handle them correctly				
@@ -1022,8 +1002,7 @@ class DBUpdate:
 				pass
 		Logutil.log("resolved files: " +str(files), util.LOG_LEVEL_INFO)
 		return files
-		"""	
-		
+		"""
 		
 	def getFilesByGameNameIgnoreCase(self, pathname):
 		
@@ -1032,7 +1011,7 @@ class DBUpdate:
 		dirname = os.path.dirname(pathname)
 		basename = os.path.basename(pathname)
 		
-		#search all Files that start with the first character of game name
+		# search all Files that start with the first character of game name
 		newpath = util.joinPath(dirname, basename[0].upper() +'*')
 		filesUpper = glob.glob(newpath)
 		newpath = util.joinPath(dirname, basename[0].lower() +'*')
@@ -1040,12 +1019,11 @@ class DBUpdate:
 		
 		allFiles = filesUpper + filesLower
 		for file in allFiles:
-			if(pathname.lower() == file.lower()):
+			if pathname.lower() == file.lower():
 				log.warning("Found path '{0}' by search with ignore case.".format(pathname))
 				files.append(file)
 				
 		return files
-		
 		
 	def resolveParseResult(self, result, itemName):
 		
@@ -1054,10 +1032,10 @@ class DBUpdate:
 		try:			
 			resultValue = result[itemName][0]
 			
-			if(itemName == 'ReleaseYear' and resultValue != None):
-				if(type(resultValue) is time.struct_time):
+			if itemName == 'ReleaseYear' and resultValue is not None:
+				if type(resultValue) is time.struct_time:
 					resultValue = str(resultValue[0])
-				elif(len(resultValue) > 4):
+				elif len(resultValue) > 4:
 					resultValueOrig = resultValue
 					resultValue = resultValue[0:4]
 					try:
@@ -1073,7 +1051,7 @@ class DBUpdate:
 			#replace and remove HTML tags
 			resultValue = self.stripHTMLTags(resultValue)
 			resultValue = resultValue.strip()
-			if (type(resultValue) == str):
+			if type(resultValue) == str:
 				resultValue = resultValue.decode('utf-8')
 									
 		except Exception, (exc):
@@ -1085,7 +1063,6 @@ class DBUpdate:
 			pass
 				
 		return resultValue
-	
 	
 	def stripHTMLTags(self, inputString):
 				
@@ -1110,28 +1087,27 @@ class DBUpdate:
 			return True
 		
 		return ''.join(c for c in inputString if chk(c))
-			
 		
 	def insertFile(self, fileName, gameId, fileType, romCollectionId, publisherId, developerId):
 		log.debug("Begin Insert file: {0}".format(fileName))
 		
 		parentId = None
 		
-		#TODO console and romcollection could be done only once per RomCollection			
+		# TODO console and romcollection could be done only once per RomCollection
 		#fileTypeRow[3] = parent
-		if(fileType.parent == 'game'):
+		if fileType.parent == 'game':
 			parentId = gameId
-		elif(fileType.parent == 'romcollection'):
+		elif fileType.parent == 'romcollection':
 			parentId = romCollectionId
-		elif(fileType.parent == 'publisher'):
+		elif fileType.parent == 'publisher':
 			parentId = publisherId
-		elif(fileType.parent == 'developer'):
+		elif fileType.parent == 'developer':
 			parentId = developerId
 
 		log.info("Inserting file with parent {0} (type {1})".format(parentId, fileType.parent))
 			
 		fileRow = File(self.gdb).getFileByNameAndTypeAndParent(fileName, fileType.id, parentId)
-		if(fileRow == None):
+		if fileRow is None:
 			log.info("File does not exist in database. Insert file: {0}".format(fileName))
 			f = File(self.gdb)
 			try:
@@ -1140,7 +1116,6 @@ class DBUpdate:
 				log.warning("Error inserting into database: {0}".format(fileName))
 		else:
 			log.info("File already exists in database: {0}".format(fileName))
-				
 
 	def download_thumb(self, thumburl, destfilename):
 		# Download file to tmp folder
@@ -1160,11 +1135,11 @@ class DBUpdate:
 		log.info("Get thumb from online source")
 		
 		try:
-			#maybe we got a thumb url from desc parser
+			# maybe we got a thumb url from desc parser
 			thumbKey = 'Filetype' +fileType
 			log.info("using key: {0}".format(thumbKey))
 			thumbUrl = self.resolveParseResult(gamedescription, thumbKey)			
-			if(thumbUrl == ''):
+			if thumbUrl == '':
 				return True, artworkurls
 			
 			artworkurls[fileType] = thumbUrl
@@ -1175,7 +1150,7 @@ class DBUpdate:
 			rootExtUrl = os.path.splitext(thumbUrl)
 			
 			files = []
-			if(len(rootExtUrl) == 2 and len(rootExtFile) != 0):
+			if len(rootExtUrl) == 2 and len(rootExtFile) != 0:
 				fileName = rootExtFile[0] + rootExtUrl[1]
 				gameName = rootExtFile[0] + ".*"
 				files = self.getFilesByWildcard(gameName)
@@ -1202,9 +1177,9 @@ class DBUpdate:
 					return False, artworkurls
 
 			log.info("File {0} does not exist, starting download".format(fileName))
-			#Dialog Status Art Download
+			# Dialog Status Art Download
 			try:
-				if(dialogDict != ''):
+				if dialogDict != '':
 					progDialogRCHeader = dialogDict["dialogHeaderKey"]
 					gamenameFromFile = dialogDict["gameNameKey"]
 					scraperSiteName = dialogDict["scraperSiteKey"]
