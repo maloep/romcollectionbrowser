@@ -145,8 +145,8 @@ class DBUpdate:
 				break
 							
 			# prepare Header for ProgressDialog
-			progDialogRCHeader = util.localize(32122) +" (%i / %i): %s" %(rccount, len(romCollections), romCollection.name)
-			rccount = rccount + 1
+			progDialogRCHeader = util.localize(32122) + " (%i / %i): %s" % (rccount, len(romCollections), romCollection.name)
+			rccount += 1
 
 			log.info("current Rom Collection: {0}".format(romCollection.name))
 
@@ -301,7 +301,7 @@ class DBUpdate:
 							log.info("Game import canceled by user")
 							break
 						
-						#check if this file already exists in DB
+						# check if this file already exists in DB
 						continueUpdate, isUpdate, gameId = self.checkRomfileAlreadyExists(filename,
 																						  enableFullReimport,
 																						  firstScraper.is_localartwork_scraper())
@@ -329,7 +329,7 @@ class DBUpdate:
 						
 						if lastGameId is not None:
 							log.info("Successfully added {0}".format(gamenameFromFile))
-							successfulFiles = successfulFiles + 1
+							successfulFiles += 1
 	
 						# Check if all first 10 games have errors - Modified to allow user to continue on errors
 						if fileidx > 9 and successfulFiles == 0 and not ignoreErrors:
@@ -350,7 +350,6 @@ class DBUpdate:
 						self.missingDescFile.add_entry(gamenameFromFile)
 
 						continue
-					
 					
 			#timestamp2 = time.clock()
 			#diff = (timestamp2 - timestamp1) * 1000		
@@ -549,7 +548,7 @@ class DBUpdate:
 		try:
 			filename = fileDict[key]
 			log.info("result found: {0}".format(filename))
-		except:
+		except KeyError:
 			filename = None
 
 		return filename
@@ -719,19 +718,18 @@ class DBUpdate:
 			self.missingArtworkFile.add_entry(gamename)
 
 			return None
-
 			
 		# Create Nfo file with game properties
-		if self.createNfoFile and gamedescription != None:
+		if self.createNfoFile and gamedescription is not None:
 			try:
 				genreList = gamedescription['Genre']
-			except:
+			except KeyError:
 				genreList = []
 			nfowriter.NfoWriter().createNfoFromDesc(gamename, plot, romCollection.name, publisher, developer, year, 
 				players, rating, votes, url, region, media, perspective, controller, originalTitle, alternateTitle, version, genreList, isFavorite, launchCount, romFiles[0], gamenameFromFile, artworkfiles, artworkurls)
 			del genreList
 					
-		del publisher, developer, year		
+		del publisher, developer, year
 						
 		if not isLocalArtwork:
 			gameId = self.insertGame(gamename, plot, romCollection.id, publisherId, developerId, reviewerId, yearId, 
@@ -829,10 +827,8 @@ class DBUpdate:
 		if item != "" and item is not None:
 			itemRow = gdbObject.getOneByName(item)
 			if itemRow is None:
-				try:
-					log.info("{0} does not exist in database. Insert: {1}".format(itemName, item))
-				except:
-					pass
+				log.info("{0} does not exist in database. Insert: {1}".format(itemName, item))
+
 				gdbObject.insert((item,))
 				del item
 				itemId = self.gdb.cursor.lastrowid
@@ -849,7 +845,7 @@ class DBUpdate:
 		try:
 			itemList = result[itemName]
 			log.info("Result {0} = {1}".format(itemName, itemList))
-		except IndexError:
+		except KeyError:
 			log.warning("Error while resolving item: {0}".format(itemName))
 			return idList				
 		
@@ -858,10 +854,8 @@ class DBUpdate:
 			
 			itemRow = gdbObject.getOneByName(item)
 			if itemRow is not None:
-				try:
-					log.info("{0} does not exist in database. Insert: {1}".format(itemName, item))
-				except:
-					pass
+				log.info("{0} does not exist in database. Insert: {1}".format(itemName, item))
+
 				gdbObject.insert((item,))
 				idList.append(self.gdb.cursor.lastrowid)
 			else:
@@ -922,9 +916,9 @@ class DBUpdate:
 				
 			if len(files) == 0:
 				log.warning("No files found for game '{0}' at path '{1}'. Make sure that file names are matching.".format(gamename, path))
-			for file in files:
-				if xbmcvfs.exists(file):
-					resolvedFiles.append(file)
+			for f in files:
+				if xbmcvfs.exists(f):
+					resolvedFiles.append(f)
 					
 		return resolvedFiles
 	
@@ -941,10 +935,10 @@ class DBUpdate:
 		dirname = os.path.dirname(pathName)
 		log.info("dirname: {0}".format(dirname))
 		filemask = os.path.basename(pathName)
-		#HACK: escape [] for use with fnmatch
+		# HACK: escape [] for use with fnmatch
 		filemask = filemask.replace('[', '[[]')
 		filemask = filemask.replace(']', '[]]')
-		#This might be stupid but it was late...
+		# This might be stupid but it was late...
 		filemask = filemask.replace('[[[]]', '[[]')
 		log.info("filemask: {0}".format(filemask))
 		
@@ -1048,7 +1042,7 @@ class DBUpdate:
 						except:
 							resultValue = u''
 							
-			#replace and remove HTML tags
+			# replace and remove HTML tags
 			resultValue = self.stripHTMLTags(resultValue)
 			resultValue = resultValue.strip()
 			if type(resultValue) == str:
@@ -1161,7 +1155,7 @@ class DBUpdate:
 				return True, artworkurls
 
 			# Create folder if it doesn't already exist
-			dirname = os.path.join(os.path.dirname(fileName), '')	# Add the trailing slash that xbmcvfs.exists expects
+			dirname = os.path.join(os.path.dirname(fileName), '')  # Add the trailing slash that xbmcvfs.exists expects
 			log.debug("Checking for artwork directory {0}".format(dirname))
 			if KodiVersions.getKodiVersion() >= KodiVersions.KRYPTON:
 				exists = xbmcvfs.exists(dirname)
