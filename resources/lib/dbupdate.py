@@ -12,7 +12,7 @@ import fnmatch
 import util, helper
 from util import *
 from util import KodiVersions
-from util import log
+from util import Logutil as log
 from config import *
 from gamedatabase import *
 from descriptionparserfactory import *
