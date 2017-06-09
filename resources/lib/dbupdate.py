@@ -561,8 +561,8 @@ class DBUpdate(object):
 			isUpdate = True
 			gameId = romFile[3]
 			log.info("File '{0}' already exists in database.".format(filename))
-			log.info("Always rescan imported games = ".format(enableFullReimport))
-			log.info("scraper == 'local artwork': ".format(isLocalArtwork))
+			log.info("Always rescan imported games = {0}".format(enableFullReimport))
+			log.info("scraper == 'local artwork': {0}".format(isLocalArtwork))
 			if enableFullReimport is False and not isLocalArtwork:
 				log.info("Won't scrape this game again. Set 'Always rescan imported games' to True to force scraping.")
 				return False, isUpdate, gameId
@@ -710,7 +710,7 @@ class DBUpdate(object):
 		artWorkFound, artworkfiles, artworkurls = self.getArtworkForGame(romCollection, gamename, gamenameFromFile, gamedescription, gui, dialogDict, foldername, publisher, developer, isLocalArtwork)
 				
 		if not artWorkFound and self.ignoreGamesWithoutArtwork:
-			log.warn("No artwork found for game '%s'. Game will not be imported.".format(gamenameFromFile))
+			log.warn("No artwork found for game '{0}'. Game will not be imported.".format(gamenameFromFile))
 			self.missingArtworkFile.add_entry(gamename)
 
 			return None
@@ -762,9 +762,9 @@ class DBUpdate(object):
 			if not isLocalArtwork:
 				continueUpdate, artworkurls = self.getThumbFromOnlineSource(gamedescription, path.fileType.name, fileName, gui, dialogDict, artworkurls)
 				if not continueUpdate:
-					return None, False
+					return False, {}, {}
 			
-			log.debug("Additional data path: ".format(path.path))
+			log.debug("Additional data path: {0}".format(path.path))
 			files = self.resolvePath((path.path,), gamename, gamenameFromFile, foldername, romCollection.name, publisher, developer)
 			if len(files) > 0:
 				artWorkFound = True
@@ -849,7 +849,7 @@ class DBUpdate(object):
 			item = self.stripHTMLTags(item)
 			
 			itemRow = gdbObject.getOneByName(item)
-			if itemRow is not None:
+			if itemRow is None:
 				log.info("{0} does not exist in database. Insert: {1}".format(itemName, item))
 
 				gdbObject.insert((item,))
@@ -892,7 +892,7 @@ class DBUpdate(object):
 			# ODO could be done only once per RomCollection
 			if path.find("%ROMCOLLECTION%") > -1 and romCollectionName is not None and len(files) == 0:
 				pathnameFromRomCollection = path.replace("%ROMCOLLECTION%", romCollectionName)
-				log.info("resolved path from rom collection name: ".format(pathnameFromRomCollection))
+				log.info("resolved path from rom collection name: {0}".format(pathnameFromRomCollection))
 				files = self.getFilesByWildcard(pathnameFromRomCollection)				
 				
 			if path.find("%PUBLISHER%") > -1 and publisher is not None and len(files) == 0:
