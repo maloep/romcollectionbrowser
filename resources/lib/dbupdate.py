@@ -91,7 +91,7 @@ class MismatchLogFile(UpdateLogFile):
 			fh.write('gamename, filename\n')
 
 
-class DBUpdate:
+class DBUpdate(object):
 	
 	def __init__(self):
 		Logutil.log("init DBUpdate", util.LOG_LEVEL_INFO)
@@ -175,7 +175,7 @@ class DBUpdate:
 				log.info(u"Found {0} game files for rom collection {1}".format(len(files), romCollection.name))
 			
 			# itemCount is used for percentage in ProgressDialogGUI
-			gui.itemCount = len(files) +1
+			gui.itemCount = len(files) + 1
 
 			if firstScraper.is_multigame_scraper():
 				# build file hash tables	(key = gamename or crc, value = romfiles)
@@ -202,7 +202,7 @@ class DBUpdate:
 						try:
 							gamenameFromDesc = result['Game'][0]
 							
-							#find parsed game in Rom Collection
+							# find parsed game in Rom Collection
 							filenamelist = self.matchDescriptionWithRomfiles(firstScraper, result, fileDict, gamenameFromDesc)
 							if filenamelist is None or len(filenamelist) == 0:
 								log.warning(u"Game {0} was found in parsed results but not in your rom collection".format(gamenameFromDesc))
@@ -213,7 +213,7 @@ class DBUpdate:
 							gamenameFromFile = helper.getGamenameFromFilename(filenamelist[0], romCollection)
 							foldername = self.getFoldernameFromRomFilename(filenamelist[0])
 
-							fileCount = fileCount +1
+							fileCount += 1
 
 							continueUpdate = gui.writeMsg(progDialogRCHeader, util.localize(32123) +": " +str(gamenameFromDesc), "", fileCount)
 							if not continueUpdate:
@@ -287,9 +287,7 @@ class DBUpdate:
 								log.error("Game detected as multi rom game, but lastGameId is None.")
 								continue
 							fileType = FileType()
-							fileType.id = 0
-							fileType.name = "rcb_rom"
-							fileType.parent = "game"
+							fileType.id, fileType.name, fileType.parent = 0, "rcb_rom", "game"
 							self.insertFile(filename, lastGameId, fileType, None, None, None)
 							del fileType
 							continue
@@ -483,15 +481,15 @@ class DBUpdate:
 		try:
 			# get crc value of the rom file - this can take a long time for large files, so it is configurable
 			filecrc = ''		
-			if (zipfile.is_zipfile(str(filename))):
-					log.info("handling zip file")
-					zip = zipfile.ZipFile(str(filename), 'r')
-					zipInfos = zip.infolist()
-					del zip
-					if len(zipInfos) > 1:
-						log.warning("more than one file in zip archive is not supported! Checking CRC of first entry.")
-					filecrc = "%0.8X" % (zipInfos[0].CRC & 0xFFFFFFFF)
-					log.info("crc in zipped file: {0}".format(filecrc))
+			if zipfile.is_zipfile(str(filename)):
+				log.info("handling zip file")
+				zip = zipfile.ZipFile(str(filename), 'r')
+				zipInfos = zip.infolist()
+				del zip
+				if len(zipInfos) > 1:
+					log.warning("more than one file in zip archive is not supported! Checking CRC of first entry.")
+				filecrc = "%0.8X" % (zipInfos[0].CRC & 0xFFFFFFFF)
+				log.info("crc in zipped file: {0}".format(filecrc))
 			else:
 				prev = 0
 				for eachLine in open(str(filename), "rb"):
@@ -559,13 +557,13 @@ class DBUpdate:
 		gameId = None
 		log.debug("Checking if file already exists in DB: {0}".format(filename))
 		romFile = File(self.gdb).getFileByNameAndType(filename, 0)
-		if romFile is not  None:
+		if romFile is not None:
 			isUpdate = True
 			gameId = romFile[3]
 			log.info("File '{0}' already exists in database.".format(filename))
 			log.info("Always rescan imported games = ".format(enableFullReimport))
 			log.info("scraper == 'local artwork': ".format(isLocalArtwork))
-			if enableFullReimport == False and not isLocalArtwork:
+			if enableFullReimport is False and not isLocalArtwork:
 				log.info("Won't scrape this game again. Set 'Always rescan imported games' to True to force scraping.")
 				return False, isUpdate, gameId
 		else:
@@ -643,9 +641,7 @@ class DBUpdate:
 		for romFile in romFiles:
 			log.debug("Adding romfile to DB: {0}".format(str(romFile)))
 			fileType = FileType()
-			fileType.id = 0
-			fileType.name = "rcb_rom"
-			fileType.parent = "game"
+			fileType.id, fileType.name, fileType.parent = 0, "rcb_rom", "game"
 			self.insertFile(romFile, gameId, fileType, None, None, None)
 			del fileType
 			
