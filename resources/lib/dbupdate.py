@@ -205,7 +205,7 @@ class DBUpdate(object):
 							# find parsed game in Rom Collection
 							filenamelist = self.matchDescriptionWithRomfiles(firstScraper, result, fileDict, gamenameFromDesc)
 							if filenamelist is None or len(filenamelist) == 0:
-								log.warning(u"Game {0} was found in parsed results but not in your rom collection".format(gamenameFromDesc))
+								log.warn(u"Game {0} was found in parsed results but not in your rom collection".format(gamenameFromDesc))
 								continue
 		
 							artScrapers = {}
@@ -248,19 +248,19 @@ class DBUpdate(object):
 								break
 						
 						except Exception, (exc):
-							log.warning("an error occured while adding game {0}".format(gamenameFromDesc))
-							log.warning("Error: {0}".format(exc))
+							log.warn("an error occured while adding game {0}".format(gamenameFromDesc))
+							log.warn("Error: {0}".format(exc))
 							continue
 					
 					# all files still available files-list, are missing entries
 					for filename in files:
 						gamenameFromFile = helper.getGamenameFromFilename(filename, romCollection)
-						log.warning("Adding file {0} ({1}) to missing description file".format(filename, gamenameFromFile))
+						log.warn("Adding file {0} ({1}) to missing description file".format(filename, gamenameFromFile))
 						self.missingDescFile.add_entry(gamenameFromFile)
 							
 				except Exception, (exc):
-					log.warning("an error occured while adding game {0}".format(gamenameFromDesc))
-					log.warning("Error: {0}".format(exc))
+					log.warn("an error occured while adding game {0}".format(gamenameFromDesc))
+					log.warn("Error: {0}".format(exc))
 					self.missingDescFile.add_entry(gamenameFromDesc)
 
 					continue
@@ -343,8 +343,8 @@ class DBUpdate(object):
 								break
 					
 					except Exception, (exc):
-						log.warning("an error occured while adding game {0}".format(gamenameFromFile))
-						log.warning("Error: {0}".format(exc))
+						log.warn("an error occured while adding game {0}".format(gamenameFromFile))
+						log.warn("Error: {0}".format(exc))
 						self.missingDescFile.add_entry(gamenameFromFile)
 
 						continue
@@ -403,8 +403,8 @@ class DBUpdate(object):
 				else:						
 					fileDict = self.buildFilenameDict(fileDict, isMultiRomGame, filename, gamename)
 			except Exception, (exc):
-				log.warning("an error occured while building file list")
-				log.warning("Error: {0}".format(exc))
+				log.warn("an error occured while building file list")
+				log.warn("Error: {0}".format(exc))
 				continue
 		
 		return fileDict
@@ -472,7 +472,7 @@ class DBUpdate(object):
 				result[key] = [filename]
 				log.debug("Add filename '{0}' with key '{1}'".format(filename, key))
 		except Exception, (exc):
-			log.warning("Error occured in buildFilenameDict: {0}".format(exc))
+			log.warn("Error occured in buildFilenameDict: {0}".format(exc))
 
 		return result
 		
@@ -487,7 +487,7 @@ class DBUpdate(object):
 				zipInfos = zip.infolist()
 				del zip
 				if len(zipInfos) > 1:
-					log.warning("more than one file in zip archive is not supported! Checking CRC of first entry.")
+					log.warn("more than one file in zip archive is not supported! Checking CRC of first entry.")
 				filecrc = "%0.8X" % (zipInfos[0].CRC & 0xFFFFFFFF)
 				log.info("crc in zipped file: {0}".format(filecrc))
 			else:
@@ -620,7 +620,7 @@ class DBUpdate(object):
 				self.missingDescFile.add_entry(gamename)
 
 				if self.ignoreGameWithoutDesc:
-					log.warning("No description found for game '{0}'. Game will not be imported.".format(gamename))
+					log.warn("No description found for game '{0}'. Game will not be imported.".format(gamename))
 					return None
 			game = ''
 			gamedescription = {}
@@ -710,7 +710,7 @@ class DBUpdate(object):
 		artWorkFound, artworkfiles, artworkurls = self.getArtworkForGame(romCollection, gamename, gamenameFromFile, gamedescription, gui, dialogDict, foldername, publisher, developer, isLocalArtwork)
 				
 		if not artWorkFound and self.ignoreGamesWithoutArtwork:
-			log.warning("No artwork found for game '%s'. Game will not be imported.".format(gamenameFromFile))
+			log.warn("No artwork found for game '%s'. Game will not be imported.".format(gamenameFromFile))
 			self.missingArtworkFile.add_entry(gamename)
 
 			return None
@@ -842,7 +842,7 @@ class DBUpdate(object):
 			itemList = result[itemName]
 			log.info("Result {0} = {1}".format(itemName, itemList))
 		except KeyError:
-			log.warning("Error while resolving item: {0}".format(itemName))
+			log.warn("Error while resolving item: {0}".format(itemName))
 			return idList				
 		
 		for item in itemList:
@@ -911,7 +911,7 @@ class DBUpdate(object):
 				files = self.getFilesByWildcard(pathnameFromStaticFile)			
 				
 			if len(files) == 0:
-				log.warning("No files found for game '{0}' at path '{1}'. Make sure that file names are matching.".format(gamename, path))
+				log.warn("No files found for game '{0}' at path '{1}'. Make sure that file names are matching.".format(gamename, path))
 			for f in files:
 				if xbmcvfs.exists(f):
 					resolvedFiles.append(f)
@@ -1010,7 +1010,7 @@ class DBUpdate(object):
 		allFiles = filesUpper + filesLower
 		for file in allFiles:
 			if pathname.lower() == file.lower():
-				log.warning("Found path '{0}' by search with ignore case.".format(pathname))
+				log.warn("Found path '{0}' by search with ignore case.".format(pathname))
 				files.append(file)
 				
 		return files
@@ -1045,7 +1045,7 @@ class DBUpdate(object):
 				resultValue = resultValue.decode('utf-8')
 									
 		except Exception, (exc):
-			log.warning("Error while resolving item: {0}: {1}".format(itemName, exc))
+			log.warn("Error while resolving item: {0}: {1}".format(itemName, exc))
 
 		try:
 			log.debug("Result {0} = {1}".format(itemName, resultValue))
@@ -1103,7 +1103,7 @@ class DBUpdate(object):
 			try:
 				f.insert((fileName, fileType.id, parentId))
 			except Exception, (exc):
-				log.warning("Error inserting into database: {0}".format(fileName))
+				log.warn("Error inserting into database: {0}".format(fileName))
 		else:
 			log.info("File already exists in database: {0}".format(fileName))
 
@@ -1190,7 +1190,7 @@ class DBUpdate(object):
 			Logutil.log("Download finished.", util.LOG_LEVEL_INFO)
 
 		except Exception, (exc):
-			log.warning("Error in getThumbFromOnlineSource: {0}".format(exc))
+			log.warn("Error in getThumbFromOnlineSource: {0}".format(exc))
 
 		return True, artworkurls
 
