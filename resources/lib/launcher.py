@@ -77,7 +77,7 @@ def launchEmu(gdb, gui, gameId, config, settings, listitem):
 				cmd = os.path.join(basePath, 'applaunch%s.sh ' % xbmcFilenameSuffix) + cmd
 		else:
 			# use call to support paths with whitespaces
-			if env == "win32" and not (os.environ.get("OS", "xbox") == "xbox"):
+			if env == "win32":
 				cmd = 'call ' + cmd
 	
 	# update LaunchCount
@@ -212,9 +212,7 @@ def buildCmd(filenameRows, romCollection, gameRow, escapeCmd, calledFromSkin):
 				if escapeCmd:
 					emuCommandLine = re.escape(emuCommandLine)
 				
-				if os.environ.get("OS", "xbox") == "xbox":
-					cmd = replacePlaceholdersInParams(emuCommandLine, rom, romCollection, gameRow, escapeCmd)
-				elif romCollection.name == 'Linux' or romCollection.name == 'Macintosh' or romCollection.name == 'Windows':
+				if romCollection.name in ['Linux', 'Macintosh', 'Windows']:
 					cmd = replacePlaceholdersInParams(emuCommandLine, rom, romCollection, gameRow, escapeCmd)
 				else:
 					cmd = '\"' + emuCommandLine + '\" ' + emuParams.replace('%I%', str(fileindex))
