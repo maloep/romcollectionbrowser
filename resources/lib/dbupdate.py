@@ -94,6 +94,7 @@ class MismatchLogFile(UpdateLogFile):
 class DBUpdate(object):
 
 	_guiDict = {}   # Dict for logging to screen
+	_gui = None		# Only retained for displaying message dialog
 	
 	def __init__(self):
 		Logutil.log("init DBUpdate", util.LOG_LEVEL_INFO)
@@ -120,6 +121,7 @@ class DBUpdate(object):
 
 	def updateDB(self, gdb, gui, updateOption, romCollections, settings, isRescrape):
 		self.gdb = gdb
+		self._gui = gui
 		self.Settings = settings
 
 		self.retrieve_settings()
@@ -173,11 +175,11 @@ class DBUpdate(object):
 			if len(files) == 0:
 				log.info(u"No files found for rom collection {0}, skipping".format(romCollection.name))
 				continue
-			else:
-				log.info(u"Found {0} game files for rom collection {1}".format(len(files), romCollection.name))
+
+			log.info(u"Found {0} game files for rom collection {1}".format(len(files), romCollection.name))
 			
 			# itemCount is used for percentage in ProgressDialogGUI
-			gui.itemCount = len(files) + 1
+			self._gui.itemCount = len(files) + 1
 
 			if firstScraper.is_multigame_scraper():
 				# build file hash tables	(key = gamename or crc, value = romfiles)
@@ -217,7 +219,7 @@ class DBUpdate(object):
 
 							fileCount += 1
 
-							continueUpdate = gui.writeMsg(progDialogRCHeader, util.localize(32123) +": " +str(gamenameFromDesc), "", fileCount)
+							continueUpdate = self._gui.writeMsg(progDialogRCHeader, util.localize(32123) + ": " + str(gamenameFromDesc), "", fileCount)
 							if not continueUpdate:
 								log.util("Game import canceled by user")
 								break
@@ -235,7 +237,7 @@ class DBUpdate(object):
 							
 							self._guiDict.update({'dialogHeaderKey': progDialogRCHeader, 'gameNameKey': gamenameFromFile,
 												  'scraperSiteKey': artScrapers, 'fileCountKey': fileCount})
-							gameId = self.insertGameFromDesc(result, gamenameFromFile, romCollection, filenamelist, foldername, isUpdate, gameId, gui, False)
+							gameId = self.insertGameFromDesc(result, gamenameFromFile, romCollection, filenamelist, foldername, isUpdate, gameId, False)
 							del artScrapers, gamenameFromFile, foldername
 							
 							# remove found files from file list
@@ -297,7 +299,7 @@ class DBUpdate(object):
 						
 						log.info("Start scraping info for game: {0}".format(gamenameFromFile))
 						
-						continueUpdate = gui.writeMsg(progDialogRCHeader, util.localize(32123) + ": " +gamenameFromFile, "", fileidx + 1)
+						continueUpdate = self._gui.writeMsg(progDialogRCHeader, util.localize(32123) + ": " + gamenameFromFile, "", fileidx + 1)
 						if not continueUpdate:
 							log.info("Game import canceled by user")
 							break
@@ -314,7 +316,7 @@ class DBUpdate(object):
 																		
 						artScrapers = {} 
 						if not firstScraper.is_localartwork_scraper():
-							results, artScrapers = self.useSingleScrapers(results, romCollection, 0, gamenameFromFile, foldername, filename, updateOption, gui, progDialogRCHeader, fileidx + 1)
+							results, artScrapers = self.useSingleScrapers(results, romCollection, 0, gamenameFromFile, foldername, filename, updateOption, progDialogRCHeader, fileidx + 1)
 												
 						if len(results) == 0:
 							#lastgamename = ""
@@ -326,7 +328,7 @@ class DBUpdate(object):
 						del artScrapers
 												
 						# Add 'gui' and 'dialogDict' parameters to function
-						lastGameId = self.insertGameFromDesc(results, gamenameFromFile, romCollection, [filename], foldername, isUpdate, gameId, gui, firstScraper.is_localartwork_scraper())
+						lastGameId = self.insertGameFromDesc(results, gamenameFromFile, romCollection, [filename], foldername, isUpdate, gameId, firstScraper.is_localartwork_scraper())
 						del results, foldername
 						
 						if lastGameId is not None:
@@ -357,7 +359,7 @@ class DBUpdate(object):
 			#diff = (timestamp2 - timestamp1) * 1000		
 			#print "load %i games in %d ms" % (self.getListSize(), diff)
 					
-		gui.writeMsg("Done.", "", "", gui.itemCount)
+		self._gui.writeMsg("Done.", "", "", self._gui.itemCount)
 		self.exit()
 		return True, ''
 
@@ -510,17 +512,13 @@ class DBUpdate(object):
 		return filecrc
 		
 	def getFoldernameFromRomFilename(self, filename):
-		log.info("Begin getFoldernameFromRomFilename: {0}".format(filename))
-		foldername = ''
-		dirname = os.path.dirname(filename)
-		log.info("dirname: {0}".format(dirname))
-		if dirname is not None:
-			pathTuple = os.path.split(dirname)
-			if len(pathTuple) == 2:
-				foldername = pathTuple[1]				
-				
-		return foldername
+		"""
+		Get the containing folder from a full path. For example, /Path/To/SNES/SNESGame.smc, return SNES
 
+		If no path is specified (i.e. only a rom filename), then return ''
+		"""
+		d = os.path.dirname(filename)
+		return os.path.basename(d)
 
 	def matchDescriptionWithRomfiles(self, firstScraper, result, fileDict, gamenameFromDesc):
 			
@@ -543,6 +541,7 @@ class DBUpdate(object):
 		
 		return filenamelist
 
+	# FIXME TODO This is just a dict find; just do this where required, this function is redundant
 	def findFilesByGameDescription(self, key, fileDict):
 		
 		log.info("searching for Key: {0}".format(key))
@@ -563,7 +562,7 @@ class DBUpdate(object):
 		romFile = File(self.gdb).getFileByNameAndType(filename, 0)
 		if romFile is not None:
 			isUpdate = True
-			gameId = romFile[3]
+			gameId = romFile[3]	 # FIXME TODO Replace with FILE_parentId
 			log.info("File '{0}' already exists in database.".format(filename))
 			log.info("Always rescan imported games = {0}".format(enableFullReimport))
 			log.info("scraper == 'local artwork': {0}".format(isLocalArtwork))
@@ -579,14 +578,14 @@ class DBUpdate(object):
 		
 		return True, isUpdate, gameId
 				
-	def useSingleScrapers(self, result, romCollection, startIndex, gamenameFromFile, foldername, firstRomfile, updateOption, gui, progDialogRCHeader, fileCount):
+	def useSingleScrapers(self, result, romCollection, startIndex, gamenameFromFile, foldername, firstRomfile, updateOption, progDialogRCHeader, fileCount):
 		
 		filecrc = ''
 		artScrapers = {}
 		
 		for idx, scraperSite in enumerate(romCollection.scraperSites):
 			
-			gui.writeMsg(progDialogRCHeader, util.localize(32123) + ": " + gamenameFromFile, scraperSite.name + " - " + util.localize(32131), fileCount)
+			self._gui.writeMsg(progDialogRCHeader, util.localize(32123) + ": " + gamenameFromFile, scraperSite.name + " - " + util.localize(32131), fileCount)
 			log.info("Using site {0} with {1} scrapers".format(scraperSite.name, len(scraperSite.scrapers)))
 
 			if scraperSite.searchGameByCRC and filecrc == '':
@@ -613,7 +612,7 @@ class DBUpdate(object):
 						
 		return result, artScrapers
 				
-	def insertGameFromDesc(self, gamedescription, gamename, romCollection, filenamelist, foldername, isUpdate, gameId, gui, isLocalArtwork):
+	def insertGameFromDesc(self, gamedescription, gamename, romCollection, filenamelist, foldername, isUpdate, gameId, isLocalArtwork):
 		
 		log.info("insertGameFromDesc")
 		
@@ -629,7 +628,7 @@ class DBUpdate(object):
 			game = ''
 			gamedescription = {}
 					
-		gameId = self.insertData(gamedescription, gamename, romCollection, filenamelist, foldername, isUpdate, gameId, gui, isLocalArtwork)
+		gameId = self.insertData(gamedescription, gamename, romCollection, filenamelist, foldername, isUpdate, gameId, isLocalArtwork)
 		return gameId
 
 	def add_genres_to_db(self, genreIds, gameId):
@@ -649,7 +648,7 @@ class DBUpdate(object):
 			self.insertFile(romFile, gameId, fileType, None, None, None)
 			del fileType
 			
-	def insertData(self, gamedescription, gamenameFromFile, romCollection, romFiles, foldername, isUpdate, gameId, gui, isLocalArtwork):
+	def insertData(self, gamedescription, gamenameFromFile, romCollection, romFiles, foldername, isUpdate, gameId, isLocalArtwork):
 		log.info("Insert data")
 
 		publisher = self.resolveParseResult(gamedescription, 'Publisher')
@@ -711,7 +710,7 @@ class DBUpdate(object):
 		else:
 			gamename = gamenameFromFile
 		
-		artWorkFound, artworkfiles, artworkurls = self.getArtworkForGame(romCollection, gamename, gamenameFromFile, gamedescription, gui, foldername, publisher, developer, isLocalArtwork)
+		artWorkFound, artworkfiles, artworkurls = self.getArtworkForGame(romCollection, gamename, gamenameFromFile, gamedescription, foldername, publisher, developer, isLocalArtwork)
 				
 		if not artWorkFound and self.ignoreGamesWithoutArtwork:
 			log.warn("No artwork found for game '{0}'. Game will not be imported.".format(gamenameFromFile))
@@ -752,7 +751,7 @@ class DBUpdate(object):
 		self.gdb.commit()
 		return gameId
 
-	def getArtworkForGame(self, romCollection, gamename, gamenameFromFile, gamedescription, gui, foldername, publisher, developer, isLocalArtwork):
+	def getArtworkForGame(self, romCollection, gamename, gamenameFromFile, gamedescription, foldername, publisher, developer, isLocalArtwork):
 		artWorkFound = False
 		artworkfiles = {}
 		artworkurls = {}
@@ -764,7 +763,7 @@ class DBUpdate(object):
 			fileName = path.path.replace("%GAME%", gamenameFromFile)
 									
 			if not isLocalArtwork:
-				continueUpdate, artworkurls = self.getThumbFromOnlineSource(gamedescription, path.fileType.name, fileName, gui, artworkurls)
+				continueUpdate, artworkurls = self.getThumbFromOnlineSource(gamedescription, path.fileType.name, fileName, artworkurls)
 				if not continueUpdate:
 					return False, {}, {}
 			
@@ -1125,7 +1124,7 @@ class DBUpdate(object):
 		xbmcvfs.copy(tmp, destfilename)
 		xbmcvfs.delete(tmp)
 
-	def getThumbFromOnlineSource(self, gamedescription, fileType, fileName, gui, artworkurls):
+	def getThumbFromOnlineSource(self, gamedescription, fileType, fileName, artworkurls):
 		log.info("Get thumb from online source")
 		
 		try:
@@ -1177,7 +1176,7 @@ class DBUpdate(object):
 			try:
 				msg = "{0}: {1}".format(util.localize(32123), self._guiDict["gameNameKey"])
 				submsg = "{0} - downloading art".format(self._guiDict["scraperSiteKey"][thumbKey])
-				gui.writeMsg(self._guiDict["dialogHeaderKey"], msg, submsg, self._guiDict["fileCountKey"])
+				self._gui.writeMsg(self._guiDict["dialogHeaderKey"], msg, submsg, self._guiDict["fileCountKey"])
 			except KeyError:
 				log.warn("Unable to retrieve key from GUI dict")
 
