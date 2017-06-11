@@ -14,7 +14,7 @@ import HTMLParser
 import urllib
 
 
-class PyScraper:
+class PyScraper(object):
 	digits = ['10', '9', '8', '7', '6', '5', '4', '3', '2', '1']
 	romes = ['X', 'IX', 'VIII', 'VII', 'VI', 'V', 'IV', 'III', 'II', 'I']
 
@@ -88,8 +88,8 @@ class PyScraper:
 					urlsFromPreviousScrapers.append('')
 				return results, urlsFromPreviousScrapers, True
 
-			Logutil.log("After modifying game name, found {0} best results for {1}".format(len(tempResults), altname), util.LOG_LEVEL_DEBUG)
-		
+			log.debug("After modifying game name, found {0} best results for {1}".format(len(tempResults), altname))
+
 		if scraper.returnUrl:
 			try:								
 				tempUrl = self.resolveParseResult(tempResults, 'url')
@@ -189,12 +189,12 @@ class PyScraper:
 	def prepareScraperSource(self, scraper, scraperSourceOrig, romFilename):
 		# replace configurable tokens
 		replaceKeys = scraper.replaceKeyString.split(',')
-		Logutil.log("replaceKeys: " + str(replaceKeys), util.LOG_LEVEL_DEBUG)
+		log.debug("replaceKeys: " + str(replaceKeys))
 		replaceValues = scraper.replaceValueString.split(',')
-		Logutil.log("replaceValues: " + str(replaceValues), util.LOG_LEVEL_DEBUG)
+		log.debug("replaceValues: " + str(replaceValues))
 		
 		if len(replaceKeys) != len(replaceValues):
-			Logutil.log("Configuration error: replaceKeyString (%s) and replaceValueString(%s) does not have the same number of ','-separated items." % (scraper.replaceKeyString, scraper.replaceValueString), util.LOG_LEVEL_ERROR)
+			log.debug("Configuration error: replaceKeyString (%s) and replaceValueString(%s) does not have the same number of ','-separated items." % (scraper.replaceKeyString, scraper.replaceValueString))
 			return None
 		
 		for i in range(0, len(replaceKeys)):
@@ -314,7 +314,6 @@ class PyScraper:
 					log.info("No searchKey found. Using first result")
 					return result, 1.0
 				
-				Logutil.log('Comparing %s with %s' % (gamenameToCheck, searchKey), util.LOG_LEVEL_INFO)
 				log.info("Comparing %s with %s" % (gamenameToCheck, searchKey))
 				if self.compareNames(gamenameToCheck, searchKey, checkSubtitle):
 					# perfect match
