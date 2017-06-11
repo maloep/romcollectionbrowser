@@ -6,6 +6,8 @@ from util import *
 from util import Logutil as log
 import time, zipfile, glob, shutil
 
+KODI_JSONRPC_TOGGLE_FULLSCREEN = '{"jsonrpc": "2.0", "method": "Input.ExecuteAction", "params": {"action": "togglefullscreen"}, "id": "1"}'
+
 
 def launchEmu(gdb, gui, gameId, config, settings, listitem):
 	Logutil.log("Begin launcher.launchEmu", util.LOG_LEVEL_INFO)
@@ -303,8 +305,8 @@ def __handleCompressedFile(filext, rom, romCollection, emuParams):
 		if os.path.exists(tempDir):
 			Logutil.log("Trying to delete temporary rom files", util.LOG_LEVEL_INFO)
 			files = os.listdir(tempDir)
-			for file in files:
-				os.remove(os.path.join(tempDir, file))
+			for f in files:
+				os.remove(os.path.join(tempDir, f))
 	except Exception, (exc):
 		Logutil.log("Error deleting files after launch emu: " + str(exc), util.LOG_LEVEL_ERROR)
 		gui.writeMsg(util.localize(32036) + ": " + str(exc))
@@ -458,8 +460,8 @@ def __copyLauncherScriptsToUserdata(settings):
 			log.warn("Error copying file")
 	
 def __launchNonXbox(cmd, romCollection, gameRow, settings, precmd, postcmd, roms, gui, listitem):
-	Logutil.log("launchEmu on non-xbox", util.LOG_LEVEL_INFO)							
-				
+	log.info("launchEmu on non-xbox")
+
 	screenModeToggled = False
 		
 	encoding = 'utf-8'
@@ -471,14 +473,15 @@ def __launchNonXbox(cmd, romCollection, gameRow, settings, precmd, postcmd, roms
 	
 	# use libretro core to play game
 	if romCollection.useBuiltinEmulator:
-		Logutil.log("launching game with internal emulator", util.LOG_LEVEL_INFO)
+		log.info("launching game with internal emulator")
 		rom = roms[0]
 		gameclient = romCollection.gameclient
 		# HACK: use alternateGameCmd as gameclient
 		if gameRow[util.GAME_alternateGameCmd] is not None and gameRow[util.GAME_alternateGameCmd] != "":
 			gameclient = str(gameRow[util.GAME_alternateGameCmd])
 		Logutil.log("Preferred gameclient: " + gameclient, util.LOG_LEVEL_INFO)
-		Logutil.log("Setting platform: " + romCollection.name, util.LOG_LEVEL_INFO)
+		log.info("Preferred gameclient: " + gameclient)
+		log.info("Setting platform: " + romCollection.name)
 		
 		if listitem is None:
 			listitem = xbmcgui.ListItem(rom, "0", "", "")
@@ -487,34 +490,30 @@ def __launchNonXbox(cmd, romCollection, gameRow, settings, precmd, postcmd, roms
 		if gameclient != "":
 			parameters["gameclient"] = gameclient
 		listitem.setInfo(type="game", infoLabels=parameters)
-		Logutil.log("launching rom: " + rom, util.LOG_LEVEL_INFO)
+		log.info("launching rom: " + rom)
 		gui.player.play(rom, listitem)
 		# xbmc.executebuiltin('PlayMedia(\"%s\", platform=%s, gameclient=%s)' %(rom, romCollection.name, romCollection.gameclient))
 		return
 	
 	if not romCollection.useEmuSolo:
-		#screenMode = xbmc.executehttpapi("GetSystemInfoByName(system.screenmode)").replace("<li>","")
 		screenMode = xbmc.getInfoLabel("System.Screenmode")
-		Logutil.log("screenMode: " +screenMode, util.LOG_LEVEL_INFO)
+		log.info("screenMode: " + screenMode)
 		isFullScreen = screenMode.endswith("Full Screen")
 		
 		toggleScreenMode = settings.getSetting(util.SETTING_RCB_TOGGLESCREENMODE).upper() == 'TRUE'
 		
 		if isFullScreen and toggleScreenMode:
-			Logutil.log("Toggle to Windowed mode", util.LOG_LEVEL_INFO)
+			log.info("Toggling to windowed mode")
 			# this minimizes xbmc some apps seems to need it
-			try:
-				xbmc.executehttpapi("Action(199)")
-			except:
-				xbmc.executeJSONRPC('{"jsonrpc":"2.0","method":"Input.ExecuteAction","params":{"action":"togglefullscreen"},"id":"1"}')
+			xbmc.executeJSONRPC(KODI_JSONRPC_TOGGLE_FULLSCREEN)
 			
 			screenModeToggled = True
-		
-	Logutil.log("launch emu", util.LOG_LEVEL_INFO)
-	
+
+	log.info("launch emu")
+
 	# pre launch command
 	if precmd.strip() != '' and precmd.strip() != 'call':
-		Logutil.log("Got to PRE", util.LOG_LEVEL_INFO)
+		log.info("Got to PRE: " + precmd.strip())
 		os.system(precmd.encode(encoding))
 	
 	preDelay = settings.getSetting(SETTING_RCB_PRELAUNCHDELAY)
@@ -546,9 +545,9 @@ def __launchNonXbox(cmd, romCollection, gameRow, settings, precmd, postcmd, roms
 			os.system(cmd.encode(encoding))
 		except:
 			os.system(cmd.encode('utf-8'))
-	
-	Logutil.log("launch emu done", util.LOG_LEVEL_INFO)		
-	
+
+	log.info("launch emu done")
+
 	postDelay = settings.getSetting(SETTING_RCB_POSTLAUNCHDELAY)
 	if postDelay != '':
 		postDelay = int(float(postDelay))
@@ -561,23 +560,20 @@ def __launchNonXbox(cmd, romCollection, gameRow, settings, precmd, postcmd, roms
 	
 	# post launch command
 	if postcmd.strip() != '' and postcmd.strip() != 'call':
-		Logutil.log("Got to POST: " + postcmd.strip(), util.LOG_LEVEL_INFO)
+		log.info("Got to POST: " + postcmd.strip())
 		os.system(postcmd.encode(encoding))
 	
 	if screenModeToggled:
-		Logutil.log("Toggle to Full Screen mode", util.LOG_LEVEL_INFO)
-		#this brings xbmc back
-		try:
-			xbmc.executehttpapi("Action(199)")
-		except:
-			xbmc.executeJSONRPC('{"jsonrpc":"2.0","method":"Input.ExecuteAction","params":{"action":"togglefullscreen"},"id":"1"}')
+		log.info("Toggle to Full Screen mode")
+		# this brings xbmc back
+		xbmc.executeJSONRPC(KODI_JSONRPC_TOGGLE_FULLSCREEN)
 
 	
 # Compressed files functions
 
 def __getNames(type, filepath):
-	return {'zip' : __getNamesZip,
-			'7z'  : __getNames7z}[type](filepath)
+	return {'zip': __getNamesZip,
+			'7z': __getNames7z}[type](filepath)
 
 
 def __getNames7z(filepath):
@@ -599,7 +595,7 @@ def __getNames7z(filepath):
 	
 def __getNamesZip(filepath):
 	fp = open(str(filepath), 'rb')
-	archive =  zipfile.ZipFile(fp)
+	archive = zipfile.ZipFile(fp)
 	names = archive.namelist()
 	fp.close()
 	return names
@@ -621,7 +617,7 @@ def __getArchives7z(filepath, archiveList):
 	
 	fp = open(str(filepath), 'rb')
 	archive = py7zlib.Archive7z(fp)
-	archivesDecompressed =  [(name, archive.getmember(name).read())for name in archiveList]
+	archivesDecompressed = [(name, archive.getmember(name).read())for name in archiveList]
 	fp.close()
 	return archivesDecompressed
 
