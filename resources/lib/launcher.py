@@ -39,7 +39,7 @@ def launchEmu(gdb, gui, gameId, config, settings, listitem):
 	Logutil.log("files for current game: " + str(filenameRows), util.LOG_LEVEL_INFO)
 		
 	escapeCmd = settings.getSetting(util.SETTING_RCB_ESCAPECOMMAND).upper() == 'TRUE'
-	cmd, precmd, postcmd, roms = buildCmd(filenameRows, romCollection, gameRow, escapeCmd, False)
+	cmd, precmd, postcmd, roms = __buildCmd(filenameRows, romCollection, gameRow, escapeCmd, False)
 	
 	if not romCollection.useBuiltinEmulator:
 		if cmd == '':
@@ -54,7 +54,7 @@ def launchEmu(gdb, gui, gameId, config, settings, listitem):
 		# solo mode
 		if romCollection.useEmuSolo:
 			
-			copyLauncherScriptsToUserdata(settings)
+			__copyLauncherScriptsToUserdata(settings)
 
 			# communicate with service via settings
 			settings.setSetting(util.SETTING_RCB_LAUNCHONSTARTUP, 'true')
@@ -91,7 +91,7 @@ def launchEmu(gdb, gui, gameId, config, settings, listitem):
 	Logutil.log("postcmd: " + postcmd, util.LOG_LEVEL_INFO)
 	
 	try:
-		launchNonXbox(cmd, romCollection, gameRow, settings, precmd, postcmd, roms, gui, listitem)
+		__launchNonXbox(cmd, romCollection, gameRow, settings, precmd, postcmd, roms, gui, listitem)
 	
 		gui.writeMsg("")
 					
@@ -109,7 +109,7 @@ def launchEmu(gdb, gui, gameId, config, settings, listitem):
 ##################
 		
 		
-def buildCmd(filenameRows, romCollection, gameRow, escapeCmd, calledFromSkin):		
+def __buildCmd(filenameRows, romCollection, gameRow, escapeCmd, calledFromSkin):		
 	Logutil.log('launcher.buildCmd', util.LOG_LEVEL_INFO)
 		
 	compressedExtensions = ['7z', 'zip']
@@ -124,7 +124,7 @@ def buildCmd(filenameRows, romCollection, gameRow, escapeCmd, calledFromSkin):
 	Logutil.log('postCmdLine: ' + romCollection.postCmd, util.LOG_LEVEL_INFO)
 
 	# handle savestates
-	stateFile = checkGameHasSaveStates(romCollection, gameRow, filenameRows, escapeCmd)
+	stateFile = __checkGameHasSaveStates(romCollection, gameRow, filenameRows, escapeCmd)
 		
 	if stateFile == '':
 		emuParams = romCollection.emulatorParams
@@ -138,7 +138,7 @@ def buildCmd(filenameRows, romCollection, gameRow, escapeCmd, calledFromSkin):
 	
 	# params could be: {-%I% %ROM%}
 	# we have to repeat the part inside the brackets and replace the %I% with the current index
-	emuParams, partToRepeat = prepareMultiRomCommand(emuParams)
+	emuParams, partToRepeat = __prepareMultiRomCommand(emuParams)
 
 	# ask for disc number if multidisc game
 	diskName = ""
@@ -193,7 +193,7 @@ def buildCmd(filenameRows, romCollection, gameRow, escapeCmd, calledFromSkin):
 		filext = rom.split('.')[-1]
 		roms = [rom]
 		if filext in compressedExtensions and not romCollection.doNotExtractZipFiles and stateFile == '' and not calledFromSkin:
-			roms = handleCompressedFile(filext, rom, romCollection, emuParams)
+			roms = __handleCompressedFile(filext, rom, romCollection, emuParams)
 			print "roms compressed = " +str(roms)
 			if len(roms) == 0:
 				return "", "", "", None
@@ -209,17 +209,17 @@ def buildCmd(filenameRows, romCollection, gameRow, escapeCmd, calledFromSkin):
 			precmd = ""
 			postcmd = ""
 			if fileindex == 0:
-				emuParams = replacePlaceholdersInParams(emuParams, rom, romCollection, gameRow, escapeCmd)
+				emuParams = __replacePlaceholdersInParams(emuParams, rom, romCollection, gameRow, escapeCmd)
 				if escapeCmd:
 					emuCommandLine = re.escape(emuCommandLine)
 				
 				if romCollection.name in ['Linux', 'Macintosh', 'Windows']:
-					cmd = replacePlaceholdersInParams(emuCommandLine, rom, romCollection, gameRow, escapeCmd)
+					cmd = __replacePlaceholdersInParams(emuCommandLine, rom, romCollection, gameRow, escapeCmd)
 				else:
 					cmd = '\"' + emuCommandLine + '\" ' + emuParams.replace('%I%', str(fileindex))
 			else:
 				newrepl = partToRepeat
-				newrepl = replacePlaceholdersInParams(newrepl, rom, romCollection, gameRow, escapeCmd)
+				newrepl = __replacePlaceholdersInParams(newrepl, rom, romCollection, gameRow, escapeCmd)
 				if escapeCmd:
 					emuCommandLine = re.escape(emuCommandLine)
 
@@ -231,8 +231,8 @@ def buildCmd(filenameRows, romCollection, gameRow, escapeCmd, calledFromSkin):
 			if env == "win32":
 				cmdprefix = 'call '
 				
-			precmd = cmdprefix + replacePlaceholdersInParams(romCollection.preCmd, rom, romCollection, gameRow, escapeCmd)
-			postcmd = cmdprefix + replacePlaceholdersInParams(romCollection.postCmd, rom, romCollection, gameRow, escapeCmd)
+			precmd = cmdprefix + __replacePlaceholdersInParams(romCollection.preCmd, rom, romCollection, gameRow, escapeCmd)
+			postcmd = cmdprefix + __replacePlaceholdersInParams(romCollection.postCmd, rom, romCollection, gameRow, escapeCmd)
 						
 			fileindex += 1
 
@@ -246,13 +246,13 @@ def buildCmd(filenameRows, romCollection, gameRow, escapeCmd, calledFromSkin):
 	return cmd, precmd, postcmd, roms
 
 
-def checkGameHasSaveStates(romCollection, gameRow, filenameRows, escapeCmd):
+def __checkGameHasSaveStates(romCollection, gameRow, filenameRows, escapeCmd):
 	
 	if romCollection.saveStatePath == '':
 		return ''
 		
 	rom = filenameRows[0][0]
-	saveStatePath = replacePlaceholdersInParams(romCollection.saveStatePath, rom, romCollection, gameRow, escapeCmd)
+	saveStatePath = __replacePlaceholdersInParams(romCollection.saveStatePath, rom, romCollection, gameRow, escapeCmd)
 		
 	saveStateFiles = glob.glob(saveStatePath)
 	
@@ -279,7 +279,7 @@ def checkGameHasSaveStates(romCollection, gameRow, filenameRows, escapeCmd):
 	return stateFile
 
 
-def prepareMultiRomCommand(emuParams):
+def __prepareMultiRomCommand(emuParams):
 	obIndex = emuParams.find('{')
 	cbIndex = emuParams.find('}')			
 	partToRepeat = ''
@@ -291,7 +291,7 @@ def prepareMultiRomCommand(emuParams):
 	return emuParams, partToRepeat
 
 
-def handleCompressedFile(filext, rom, romCollection, emuParams):
+def __handleCompressedFile(filext, rom, romCollection, emuParams):
 	
 	# Note: Trying to delete temporary files (from zip or 7z extraction) from last run
 	# Do this before launching a new game. Otherwise game could be deleted before launch
@@ -316,7 +316,7 @@ def handleCompressedFile(filext, rom, romCollection, emuParams):
 	compressed = True						
 
 	try:
-		names = getNames(filext, rom)
+		names = __getNames(filext, rom)
 	except Exception, (exc):
 		Logutil.log('Error handling compressed file: ' + str(exc), util.LOG_LEVEL_ERROR)
 		return []
@@ -336,7 +336,7 @@ def handleCompressedFile(filext, rom, romCollection, emuParams):
 		Logutil.log("Loading %d archives" % len(names), util.LOG_LEVEL_INFO)
 		
 		try:
-			archives = getArchives(filext, rom, names)
+			archives = __getArchives(filext, rom, names)
 		except Exception, (exc):
 			Logutil.log('Error handling compressed file: ' +str(exc), util.LOG_LEVEL_ERROR)
 			return []		
@@ -363,7 +363,7 @@ def handleCompressedFile(filext, rom, romCollection, emuParams):
 
 	if chosenROM != -1:
 		# Extract all files to %TMP%
-		archives = getArchives(filext, rom, names)
+		archives = __getArchives(filext, rom, names)
 		if archives is None:
 			Logutil.log('Error handling compressed file', util.LOG_LEVEL_WARNING)
 			return []
@@ -380,7 +380,7 @@ def handleCompressedFile(filext, rom, romCollection, emuParams):
 	return roms
 
 
-def replacePlaceholdersInParams(emuParams, rom, romCollection, gameRow, escapeCmd):
+def __replacePlaceholdersInParams(emuParams, rom, romCollection, gameRow, escapeCmd):
 		
 	if escapeCmd:
 		rom = re.escape(rom)
@@ -436,8 +436,8 @@ def replacePlaceholdersInParams(emuParams, rom, romCollection, gameRow, escapeCm
 	
 	return emuParams
 
-def copyLauncherScriptsToUserdata(settings):
-	log.info('copyLauncherScriptsToUserdata')
+def __copyLauncherScriptsToUserdata(settings):
+	log.info('__copyLauncherScriptsToUserdata')
 	
 	oldBasePath = os.path.join(util.getAddonInstallPath(), 'resources', 'scriptfiles')
 	newBasePath = os.path.join(util.getAddonDataPath(), 'scriptfiles')
@@ -458,7 +458,7 @@ def copyLauncherScriptsToUserdata(settings):
 			if not xbmcvfs.copy(os.path.join(oldBasePath, f), os.path.join(newBasePath, f)):
 				log.warn("Error copying file")
 	
-def launchNonXbox(cmd, romCollection, gameRow, settings, precmd, postcmd, roms, gui, listitem):
+def __launchNonXbox(cmd, romCollection, gameRow, settings, precmd, postcmd, roms, gui, listitem):
 	Logutil.log("launchEmu on non-xbox", util.LOG_LEVEL_INFO)							
 				
 	screenModeToggled = False
@@ -576,12 +576,12 @@ def launchNonXbox(cmd, romCollection, gameRow, settings, precmd, postcmd, roms, 
 	
 # Compressed files functions
 
-def getNames(type, filepath):
-	return {'zip' : getNamesZip,
-			'7z'  : getNames7z}[type](filepath)
+def __getNames(type, filepath):
+	return {'zip' : __getNamesZip,
+			'7z'  : __getNames7z}[type](filepath)
 
 
-def getNames7z(filepath):
+def __getNames7z(filepath):
 	
 	try:
 		import py7zlib
@@ -598,7 +598,7 @@ def getNames7z(filepath):
 	return names
 
 	
-def getNamesZip(filepath):
+def __getNamesZip(filepath):
 	fp = open(str(filepath), 'rb')
 	archive =  zipfile.ZipFile(fp)
 	names = archive.namelist()
@@ -606,12 +606,12 @@ def getNamesZip(filepath):
 	return names
 
 	
-def getArchives(type, filepath, archiveList):
-	return {'zip': getArchivesZip,
-			'7z': getArchives7z}[type](filepath, archiveList)
+def __getArchives(type, filepath, archiveList):
+	return {'zip': __getArchivesZip,
+			'7z': __getArchives7z}[type](filepath, archiveList)
 			
 				
-def getArchives7z(filepath, archiveList):
+def __getArchives7z(filepath, archiveList):
 	
 	try:
 		import py7zlib
@@ -627,7 +627,7 @@ def getArchives7z(filepath, archiveList):
 	return archivesDecompressed
 
 
-def getArchivesZip(filepath, archiveList):
+def __getArchivesZip(filepath, archiveList):
 	fp = open(str(filepath), 'rb')
 	archive = zipfile.ZipFile(fp)
 	archivesDecompressed = [(name, archive.read(name)) for name in archiveList]
