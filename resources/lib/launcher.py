@@ -3,6 +3,7 @@ import os, sys, re
 import dbupdate, util, helper
 from gamedatabase import *
 from util import *
+from util import Logutil as log
 import time, zipfile, glob, shutil
 
 
@@ -435,36 +436,27 @@ def replacePlaceholdersInParams(emuParams, rom, romCollection, gameRow, escapeCm
 	
 	return emuParams
 
-
 def copyLauncherScriptsToUserdata(settings):
-	
-	Logutil.log('copyLauncherScriptsToUserdata', util.LOG_LEVEL_INFO)
+	log.info('copyLauncherScriptsToUserdata')
 	
 	oldBasePath = os.path.join(util.getAddonInstallPath(), 'resources', 'scriptfiles')
 	newBasePath = os.path.join(util.getAddonDataPath(), 'scriptfiles')
-	
+
+	# Copy applaunch shell script/batch file
 	if util.getEnvironment() == 'win32':
-		oldPath = os.path.join(oldBasePath, 'applaunch.bat')
-		newPath = os.path.join(newBasePath, 'applaunch.bat')
+		f = 'applaunch.bat'
 	else:
-		oldPath = os.path.join(oldBasePath, 'applaunch.sh')
-		newPath = os.path.join(newBasePath, 'applaunch.sh')
-		
-	util.copyFile(oldPath, newPath)
+		f = 'applaunch.sh'
+	log.debug("Copying file {0} from {1} to {2}".format(f, oldBasePath, newBasePath))
+	if not xbmcvfs.copy(os.path.join(oldBasePath, f), os.path.join(newBasePath, f)):
+		log.warn("Error copying file")
 	
-	# copy VBS files
+	# Copy VBS files
 	if util.getEnvironment() == 'win32' and settings.getSetting(util.SETTING_RCB_USEVBINSOLOMODE).lower() == 'true':
-		oldPath = os.path.join(oldBasePath, 'applaunch-vbs.bat')
-		newPath = os.path.join(newBasePath, 'applaunch-vbs.bat')
-		util.copyFile(oldPath, newPath)
-		
-		oldPath = os.path.join(oldBasePath, 'LaunchXBMC.vbs')
-		newPath = os.path.join(newBasePath, 'LaunchXBMC.vbs')
-		util.copyFile(oldPath, newPath)
-		
-		oldPath = os.path.join(oldBasePath, 'Sleep.vbs')
-		newPath = os.path.join(newBasePath, 'Sleep.vbs')
-		util.copyFile(oldPath, newPath)
+		for f in ['applaunch-vbs.bat', 'LaunchXBMC.vbs', 'Sleep.vbs']:
+			log.debug("Copying file {0} from {1} to {2}".format(f, oldBasePath, newBasePath))
+			if not xbmcvfs.copy(os.path.join(oldBasePath, f), os.path.join(newBasePath, f)):
+				log.warn("Error copying file")
 	
 def launchNonXbox(cmd, romCollection, gameRow, settings, precmd, postcmd, roms, gui, listitem):
 	Logutil.log("launchEmu on non-xbox", util.LOG_LEVEL_INFO)							
