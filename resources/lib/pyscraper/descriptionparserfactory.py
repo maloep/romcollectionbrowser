@@ -1,7 +1,6 @@
 # -*- coding: iso-8859-15 -*-
 
 
-from xml.etree.ElementTree import *
 from descriptionparserxml import *
 from descriptionparserflatfile import *
 
@@ -18,7 +17,7 @@ class DescriptionParserFactory:
 					
 		grammarNode = tree.find('GameGrammar')
 		del tree
-		if(grammarNode == None):
+		if grammarNode is None:
 			print "no valid parserConfig"
 			return None
 					
@@ -26,13 +25,10 @@ class DescriptionParserFactory:
 		
 		parserType = attributes.get('type')
 		del attributes		
-		if(parserType == 'multiline'):
+		if parserType == 'multiline':
 			return DescriptionParserFlatFile(grammarNode)			
-		elif(parserType == 'xml'):
+		elif parserType == 'xml':
 			return DescriptionParserXml(grammarNode)
 		else:
-			print "Unknown parser: " +parserType
+			print "Unknown parser: " + parserType
 			return None
-		
-		
-	
