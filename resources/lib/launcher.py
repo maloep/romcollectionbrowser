@@ -442,21 +442,21 @@ def __copyLauncherScriptsToUserdata(settings):
 	oldBasePath = os.path.join(util.getAddonInstallPath(), 'resources', 'scriptfiles')
 	newBasePath = os.path.join(util.getAddonDataPath(), 'scriptfiles')
 
+	files = []
 	# Copy applaunch shell script/batch file
 	if util.getEnvironment() == 'win32':
-		f = 'applaunch.bat'
+		files.append('applaunch.bat')
 	else:
-		f = 'applaunch.sh'
-	log.debug("Copying file {0} from {1} to {2}".format(f, oldBasePath, newBasePath))
-	if not xbmcvfs.copy(os.path.join(oldBasePath, f), os.path.join(newBasePath, f)):
-		log.warn("Error copying file")
-	
+		files.append('applaunch.sh')
+
 	# Copy VBS files
 	if util.getEnvironment() == 'win32' and settings.getSetting(util.SETTING_RCB_USEVBINSOLOMODE).lower() == 'true':
-		for f in ['applaunch-vbs.bat', 'LaunchXBMC.vbs', 'Sleep.vbs']:
-			log.debug("Copying file {0} from {1} to {2}".format(f, oldBasePath, newBasePath))
-			if not xbmcvfs.copy(os.path.join(oldBasePath, f), os.path.join(newBasePath, f)):
-				log.warn("Error copying file")
+		files += ['applaunch-vbs.bat', 'LaunchXBMC.vbs', 'Sleep.vbs']
+
+	for f in files:
+		log.debug("Copying file {0} from {1} to {2}".format(f, oldBasePath, newBasePath))
+		if not xbmcvfs.copy(os.path.join(oldBasePath, f), os.path.join(newBasePath, f)):
+			log.warn("Error copying file")
 	
 def __launchNonXbox(cmd, romCollection, gameRow, settings, precmd, postcmd, roms, gui, listitem):
 	Logutil.log("launchEmu on non-xbox", util.LOG_LEVEL_INFO)							
