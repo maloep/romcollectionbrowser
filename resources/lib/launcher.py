@@ -249,34 +249,33 @@ def __buildCmd(filenameRows, romCollection, gameRow, escapeCmd, calledFromSkin):
 def __checkGameHasSaveStates(romCollection, gameRow, filenameRows, escapeCmd):
 	
 	if romCollection.saveStatePath == '':
+		log.debug("No save state path set")
 		return ''
 		
 	rom = filenameRows[0][0]
 	saveStatePath = __replacePlaceholdersInParams(romCollection.saveStatePath, rom, romCollection, gameRow, escapeCmd)
 		
 	saveStateFiles = glob.glob(saveStatePath)
-	
-	stateFile = ''
+
 	if len(saveStateFiles) == 0:
+		log.debug("No save state files found")
 		return ''
-	elif len(saveStateFiles) >= 1:
-		Logutil.log('saveStateFiles found: ' + str(saveStateFiles), util.LOG_LEVEL_INFO)
-		
-		# don't select savestatefile if ASKNUM is requested in Params
-		if re.search('(?i)%ASKNUM%', romCollection.saveStateParams):
-			return saveStateFiles[0]
-				
-		options = [util.localize(32165)]
-		for f in saveStateFiles:
-			options.append(os.path.basename(f))
-		selectedFile = xbmcgui.Dialog().select(util.localize(32166), options)
-		# If selections is canceled or "Don't launch statefile" option
-		if selectedFile < 1:
-			return ''
-		else:
-			stateFile = saveStateFiles[selectedFile - 1]
+
+	log.info('saveStateFiles found: ' + str(saveStateFiles))
+
+	# don't select savestatefile if ASKNUM is requested in Params
+	if re.search('(?i)%ASKNUM%', romCollection.saveStateParams):
+		return saveStateFiles[0]
+
+	options = [util.localize(32165)]
+	for f in saveStateFiles:
+		options.append(os.path.basename(f))
+	selectedFile = xbmcgui.Dialog().select(util.localize(32166), options)
+	# If selections is canceled or "Don't launch statefile" option
+	if selectedFile < 1:
+		return ''
 	
-	return stateFile
+	return saveStateFiles[selectedFile - 1]
 
 
 def __prepareMultiRomCommand(emuParams):
