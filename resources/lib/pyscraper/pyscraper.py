@@ -10,8 +10,11 @@ from util import Logutil as log
 import difflib
 
 import xbmcgui
+import xbmcvfs
 import HTMLParser
 import urllib
+import re
+import os
 
 
 class PyScraper(object):
@@ -19,7 +22,13 @@ class PyScraper(object):
 	romes = ['X', 'IX', 'VIII', 'VII', 'VI', 'V', 'IV', 'III', 'II', 'I']
 
 	def __init__(self):
-		pass
+		self.scraper = None
+		self.crc = ''
+		self.foldername = ''
+		self.romfile = ''
+
+		self.update_option = 0		# Automatic: Accurate
+		self.fuzzy_factor = 0.8
 
 	def log_results(self, resultslist):
 		for item in resultslist:
