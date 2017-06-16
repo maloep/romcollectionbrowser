@@ -13,13 +13,8 @@ This has been verified on Mac; other envs will need to be tested manually
 import unittest
 import sys
 import os
-
-sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', '..', 'resources', 'lib'))
-sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', '..', 'resources', 'lib', 'emulatorautoconfig'))
-sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', '..', 'resources', 'lib', 'pyparsing'))
-sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', '..', 'resources', 'lib', 'pyscraper'))
-
 from resources.lib.emulatorautoconfig.autoconfig import *
+
 
 class TestAutoConfig(unittest.TestCase):
 
@@ -54,7 +49,6 @@ class TestAutoConfig(unittest.TestCase):
         import shutil
         try:
             shutil.rmtree(os.path.join(os.path.dirname(__file__), 'testdata', 'appdirparent'))
-            #os.removedirs(os.path.join(os.path.dirname(__file__), 'testdata', 'appdirparent'))
         except Exception as err:
             print str(err)
             pass
@@ -105,7 +99,6 @@ class TestAutoConfig(unittest.TestCase):
         autoconfig = EmulatorAutoconfig(self.autoconfigxmlfile)
         emulators = autoconfig.findEmulators('UnknownOS', 'SNES', False)
         self.assertTrue(len(emulators) == 0, u'Found {0} "UnknownOS" emulators, expecting 0'.format(len(emulators)))
-
 
     def test_NoOSElementsFound(self):
         autoconfigxmlfile = os.path.join(os.path.dirname(__file__), 'testdata', 'test_emu_autoconfig_empty.xml')

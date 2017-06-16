@@ -1,46 +1,38 @@
 #  -*- coding: utf-8 -*-
 
-import sys
 import os
-
-sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', '..', 'resources', 'lib'))
-sys.path.append (os.path.join(os.path.dirname(__file__), '..', '..', 'resources', 'lib', 'pyparsing'))
-sys.path.append (os.path.join(os.path.dirname(__file__), '..', '..', 'resources', 'lib', 'pyscraper'))
-
 import unittest
-from pprint import pprint
 from pyparsing import *
-import HTMLParser
-import xml.etree.ElementTree as ET
+from resources.lib.pyscraper.descriptionparserfactory import DescriptionParserFactory
 
 
+@unittest.skip("Can't be bothered waiting for HTTP requests")
 class TestScrapersArtwork(unittest.TestCase):
     def get_scraper_xml_path(self, xml_filename):
         return os.path.join(os.path.dirname(__file__), '..', '..', 'resources', 'scraper', xml_filename)
 
-
-    """ FIXME TODO
+    @unittest.skip("FIXME TODO")
     def test_ArtworkDetail_CoverBack_MobyGames(self):
-        parseInstruction = self.get_scraper_xml_path ('04.06 - mobygames - coverdetail back.xml')
+        parseInstruction = self.get_scraper_xml_path('04.06 - mobygames - coverdetail back.xml')
         descFile = "http://www.mobygames.com/game/snes/actraiser/cover-art/gameCoverId,170208"
         pass
 
+    @unittest.skip("FIXME TODO")
     def test_ArtworkDetail_Media_MobyGames(self):
-        parseInstruction = self.get_scraper_xml_path ('04.08 - mobygames - coverdetail media.xml')
+        parseInstruction = self.get_scraper_xml_path('04.08 - mobygames - coverdetail media.xml')
         descFile = "http://www.mobygames.com/game/snes/actraiser/cover-art/gameCoverId,17623"
         pass
 
+    @unittest.skip("FIXME TODO")
     def test_ArtworkDetail_Screenshot_MobyGames(self):
-        parseInstruction = self.get_scraper_xml_path ('04.10 - mobygames - screenshot detail.xml')
+        parseInstruction = self.get_scraper_xml_path('04.10 - mobygames - screenshot detail.xml')
         descFile = "http://www.mobygames.com/game/snes/actraiser/screenshots/gameShotId,27458/"
         pass
-
-    """
 
     def test_ArtworkLink_Screenshot_MobyGames(self):
         from descriptionparserfactory import DescriptionParserFactory
 
-        parseInstruction = self.get_scraper_xml_path ('04.09 - mobygames - screenshotlink.xml')
+        parseInstruction = self.get_scraper_xml_path('04.09 - mobygames - screenshotlink.xml')
         descFile = "http://www.mobygames.com/game/snes/actraiser/screenshots"
 
         parser = DescriptionParserFactory().getParser(parseInstruction)
@@ -58,12 +50,9 @@ class TestScrapersArtwork(unittest.TestCase):
         # Expect 29 shots, all from the SNES
 
     def test_ArtworkLink_FrontCover_MobyGames(self):
-        from descriptionparserflatfile import DescriptionParserFlatFile
-        from descriptionparserfactory import DescriptionParserFactory
-
-        parseInstruction = self.get_scraper_xml_path ('04.03 - mobygames - coverlink front.xml')
+        parseInstruction = self.get_scraper_xml_path('04.03 - mobygames - coverlink front.xml')
         descFile = "http://www.mobygames.com/game/snes/actraiser/cover-art"
-        #http://www.mobygames.com/game/actraiser/cover-art  FIXME Add check that this returns more, for other platforms
+        # http://www.mobygames.com/game/actraiser/cover-art  FIXME Add check that this returns more, for other platforms
 
         parser = DescriptionParserFactory().getParser(parseInstruction)
         results = None
@@ -82,10 +71,7 @@ class TestScrapersArtwork(unittest.TestCase):
         # FIXME TODO This doesn't include covers from other platforms
 
     def test_ArtworkLink_BackCover_MobyGames(self):
-        from descriptionparserflatfile import DescriptionParserFlatFile
-        from descriptionparserfactory import DescriptionParserFactory
-
-        parseInstruction = self.get_scraper_xml_path ('04.05 - mobygames - coverlink back.xml')
+        parseInstruction = self.get_scraper_xml_path('04.05 - mobygames - coverlink back.xml')
         descFile = "http://www.mobygames.com/game/snes/actraiser/cover-art"
 
         parser = DescriptionParserFactory().getParser(parseInstruction)
@@ -103,10 +89,7 @@ class TestScrapersArtwork(unittest.TestCase):
                         "Expected mobygames URL prefix to be added due to appendTo clause")
 
     def test_ArtworkLink_Media_MobyGames(self):
-        from descriptionparserflatfile import DescriptionParserFlatFile
-        from descriptionparserfactory import DescriptionParserFactory
-
-        parseInstruction = self.get_scraper_xml_path ('04.07 - mobygames - coverlink media.xml')
+        parseInstruction = self.get_scraper_xml_path('04.07 - mobygames - coverlink media.xml')
         descFile = "http://www.mobygames.com/game/snes/actraiser/cover-art"
 
         parser = DescriptionParserFactory().getParser(parseInstruction)
@@ -126,10 +109,7 @@ class TestScrapersArtwork(unittest.TestCase):
     # FIXME TODO Add entries for all the other scrapers
 
     def test_ArtworkDetail_CoverFront_MobyGames(self):
-        from descriptionparserflatfile import DescriptionParserFlatFile
-        from descriptionparserfactory import DescriptionParserFactory
-
-        parseInstruction = self.get_scraper_xml_path ('04.04 - mobygames - coverdetail front.xml')
+        parseInstruction = self.get_scraper_xml_path('04.04 - mobygames - coverdetail front.xml')
         descFile = "http://www.mobygames.com/game/snes/actraiser/cover-art/gameCoverId,170207"
 
         parser = DescriptionParserFactory().getParser(parseInstruction)
