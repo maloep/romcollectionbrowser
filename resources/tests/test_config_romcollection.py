@@ -1,14 +1,9 @@
 import os
 import sys
-
-sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', '..', 'resources', 'lib'))
-sys.path.append (os.path.join(os.path.dirname(__file__), '..', '..', 'resources', 'lib', 'pyparsing'))
-sys.path.append (os.path.join(os.path.dirname(__file__), '..', '..', 'resources', 'lib', 'pyscraper'))
-
 import unittest
+from resources.lib.config import Config, RomCollection
+import resources.lib.util as util
 
-from config import Config, RomCollection
-import util
 
 class TestRomCollection(unittest.TestCase):
     """
@@ -61,11 +56,11 @@ class TestRomCollection(unittest.TestCase):
         self.assertTrue(rc.name == 'NES', u'Expected collection name to be NES, was {0}'.format(rc.name))
 
         # Validate boolean values
-        self.assertTrue(rc.useEmuSolo == False,
+        self.assertTrue(rc.useEmuSolo is False,
                         u'Expected boolean value for boolean attribute, was {0}'.format(rc.useEmuSolo))
         self.assertIsInstance(rc.useEmuSolo, bool,
                               u'Expected boolean type for boolean attribute, was {0}'.format(type(rc.useEmuSolo)))
-        self.assertTrue(rc.allowUpdate == True,
+        self.assertTrue(rc.allowUpdate is True,
                         u'Expected boolean value for boolean attribute, was {0}'.format(rc.allowUpdate))
 
         # Validate empty elements are empty strings

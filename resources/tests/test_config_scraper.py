@@ -1,14 +1,9 @@
 import os
-import sys
 
-sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', '..', 'resources', 'lib'))
-sys.path.append (os.path.join(os.path.dirname(__file__), '..', '..', 'resources', 'lib', 'pyparsing'))
-sys.path.append (os.path.join(os.path.dirname(__file__), '..', '..', 'resources', 'lib', 'pyscraper'))
-
+from resources.lib.config import Config, Scraper
+import resources.lib.util as util
 import unittest
 
-from config import Config, Scraper
-import util
 
 class TestScraper(unittest.TestCase):
     """
