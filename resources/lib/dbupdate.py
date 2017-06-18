@@ -282,7 +282,7 @@ class DBUpdate(object):
 						gamenameFromFile = helper.getGamenameFromFilename(filename, romCollection)
 						
 						# check if we are handling one of the additional disks of a multi rom game
-						isMultiRomGame = self.checkRomfileIsMultirom(gamenameFromFile, lastgamename)
+						isMultiRomGame = (gamenameFromFile == lastgamename)
 						lastgamename = gamenameFromFile
 						
 						if isMultiRomGame:
@@ -375,7 +375,7 @@ class DBUpdate(object):
 			try:
 				gamename = helper.getGamenameFromFilename(filename, romCollection)
 				# check if we are handling one of the additional disks of a multi rom game
-				isMultiRomGame = self.checkRomfileIsMultirom(gamename, lastgamename)
+				isMultiRomGame = (gamename == lastgamename)
 				# lastgamename may be overwritten by parsed gamename
 				lastgamename = gamename
 				gamename = gamename.strip()
@@ -456,16 +456,6 @@ class DBUpdate(object):
 				self.walkDown(files, newRomPath, maxFolderDepth)
 					
 		return files
-		
-	def checkRomfileIsMultirom(self, gamename, lastgamename):
-
-		log.info("checkRomfileIsMultirom. gamename = {0}, lastgamename = {1}".format(gamename, lastgamename))
-	
-		# XBOX Hack: rom files will always be named default.xbe: always detected as multi rom without this hack
-		if gamename == lastgamename and lastgamename.lower() != 'default':
-			log.info("handling multi rom game: {0}".format(lastgamename))
-			return True
-		return False
 		
 	def buildFilenameDict(self, result, isMultiRomGame, filename, key):
 
