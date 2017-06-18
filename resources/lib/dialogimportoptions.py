@@ -46,14 +46,11 @@ class ImportOptionsDialog(xbmcgui.WindowXMLDialog):
 		
 	
 	def onInit(self):
-		Logutil.log('onInit ImportOptions', util.LOG_LEVEL_INFO)
-		
-		#Rom Collections
-		romCollectionList = [util.localize(32120)]
-		for rcId in self.gui.config.romCollections.keys():
-			romCollection = self.gui.config.romCollections[rcId]
-			romCollectionList.append(romCollection.name)
+		log.info('onInit ImportOptions', util.LOG_LEVEL_INFO)
+		romCollectionList = [util.localize(32120)] + self.gui.config.getRomCollectionNames()
+		log.debug("Adding list of RC names: {0}".format(romCollectionList))
 		self.addItemsToList(CONTROL_LIST_ROMCOLLECTIONS, romCollectionList)
+
 		
 		#deactivate Rom Collection list
 		if(self.romCollections != None):
@@ -64,10 +61,7 @@ class ImportOptionsDialog(xbmcgui.WindowXMLDialog):
 			xbmc.executebuiltin('Skin.Reset(%s)' %util.SETTING_RCB_IMPORTOPTIONS_DISABLEROMCOLLECTIONS)
 		
 		#Scraping modes
-		options = ['Automatic: Accurate',
-					'Automatic: Guess Matches',
-					'Interactive: Select Matches']
-		self.addItemsToList(CONTROL_LIST_SCRAPEMODE, options)
+		self.addItemsToList(CONTROL_LIST_SCRAPEMODE, ['Automatic: Accurate', 'Automatic: Guess Matches', 'Interactive: Select Matches'])
 
 		sitesInList = self.getAvailableScrapers()
 		
