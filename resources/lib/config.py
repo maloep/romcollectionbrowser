@@ -852,3 +852,20 @@ class Config(object):
 		except KeyError as e:
 			log.warn("Unable to find rom collection with ID {0}".format(id))
 			return None
+
+	def getRomCollectionByName(self, name):
+		"""
+		Find the matching Rom Collection by Name
+
+		Args:
+		    name: the name of the Rom Collection to be found
+
+		Returns:
+		    The Rom Collection with the matching name, or None if not found
+
+		"""
+		for rckey, rcval in self.romCollections.iteritems():
+			if rcval.name == name:
+				return rcval
+
+		return None

@@ -60,6 +60,15 @@ class TestConfig(unittest.TestCase):
         rc = conf.getRomCollectionById("-1")
         self.assertTrue(rc is None, "Expected searching for invalid rom collection ID to return None")
 
+    def test_GetRomCollectionByName(self):
+        config_xml_file = os.path.join(os.path.dirname(__file__), 'testdata', 'romcollections_two_valid.xml')
+        conf = Config(config_xml_file)
+        conf.readXml()
+
+        rc = conf.getRomCollectionById("Atari 2600")
+        self.assertIsInstance(rc, RomCollection, "Expected Rom Collection object to be returned by ID")
+        self.assertTrue(rc.id == '7', "Rom Collection ID should be returned by name")
+
 
 if __name__ == "__main__":
     unittest.main()
