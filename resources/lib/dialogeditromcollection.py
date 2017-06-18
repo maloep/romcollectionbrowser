@@ -130,12 +130,7 @@ class EditRomCollectionDialog(dialogbase.DialogBaseEdit):
 		log.info("onInit Edit Rom Collection")
 
 		# Rom Collections
-		log.info("build rom collection list")
-		romCollectionList = []
-		for k, v in self.romCollections.items():
-			romCollectionList.append(v.name)
-
-		self.addItemsToList(CONTROL_LIST_ROMCOLLECTIONS, romCollectionList)
+		self.addItemsToList(CONTROL_LIST_ROMCOLLECTIONS, self.gui.config.getRomCollectionNames())
 
 		log.info("build scraper lists")
 		self.availableScrapers = self.getAvailableScrapers(False)
@@ -344,14 +339,7 @@ class EditRomCollectionDialog(dialogbase.DialogBaseEdit):
 		selectedRomCollectionName = str(control.getSelectedItem().getLabel())
 
 		log.info("selected rom collection: {0}".format(selectedRomCollectionName))
-
-		self.selectedRomCollection = None
-
-		for k, v in self.romCollections.items():
-			if selectedRomCollectionName == v.name:
-				self.selectedRomCollection = v
-				break
-			
+		self.selectedRomCollection = self.gui.config.getRomCollectionByName(selectedRomCollectionName)
 		if self.selectedRomCollection is None:
 			return
 				
