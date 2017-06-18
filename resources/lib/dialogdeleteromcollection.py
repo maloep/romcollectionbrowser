@@ -28,22 +28,6 @@ class RemoveRCDialog(xbmcgui.WindowXMLDialog):
 	_deleteCollection = False
 	_rcDeleteCollection = False
 
-	def _getRomCollectionNames(self):
-		rcname_list = []
-		for k, v in self.romCollections.items():
-			rcname_list.append(v.name)
-
-		log.debug('List of rom collection names: {0}'.format(rcname_list))
-		return rcname_list
-
-	def _getRomCollectionByName(self, name):
-		for k, v in self.romCollections.items():
-			if v.name == name:
-				log.debug('Found rom collection by name {0}: {1}'.format(name, v))
-				return v
-		log.debug('Did not find rom collection for name {0}'.format(name))
-		return None
-
 	def __init__(self, *args, **kwargs):
 		log.info('init Edit RC Basic')
 		
@@ -57,7 +41,7 @@ class RemoveRCDialog(xbmcgui.WindowXMLDialog):
 		# Rom Collections
 		log.info('build rom collection list')
 
-		self.addItemsToList(CONTROL_LIST_ROMCOLLECTIONS, self._getRomCollectionNames())
+		self.addItemsToList(CONTROL_LIST_ROMCOLLECTIONS, self.gui.config.getRomCollectionNames())
 		
 		# Delete Options
 		rcDeleteOptions = [util.localize(32137), util.localize(32138)]
@@ -127,7 +111,7 @@ class RemoveRCDialog(xbmcgui.WindowXMLDialog):
 		control = self.getControlById(CONTROL_LIST_ROMCOLLECTIONS)
 		selectedRomCollectionName = str(control.getSelectedItem().getLabel())
 
-		self.selectedRomCollection = self._getRomCollectionByName(selectedRomCollectionName)
+		self.selectedRomCollection = self.gui.config.getRomCollectionByName(selectedRomCollectionName)
 	
 	def getSelectedRCId(self):
 		return self.selectedRomCollection.id
