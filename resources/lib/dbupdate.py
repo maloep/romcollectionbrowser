@@ -184,8 +184,8 @@ class DBUpdate(object):
 			if firstScraper.is_multigame_scraper():
 				# build file hash tables	(key = gamename or crc, value = romfiles)
 				log.info("Start building file dict")
-				fileDict = self.buildFileDict(gui, progDialogRCHeader, files, romCollection, firstScraper)
-									
+				fileDict = self.buildFileDict(files, romCollection, firstScraper)
+
 				try:
 					fileCount = 0
 					gamenameFromDesc = u''
@@ -282,7 +282,7 @@ class DBUpdate(object):
 						gamenameFromFile = helper.getGamenameFromFilename(filename, romCollection)
 						
 						# check if we are handling one of the additional disks of a multi rom game
-						isMultiRomGame = self.checkRomfileIsMultirom(gamenameFromFile, lastgamename)
+						isMultiRomGame = (gamenameFromFile == lastgamename)
 						lastgamename = gamenameFromFile
 						
 						if isMultiRomGame:
@@ -363,7 +363,7 @@ class DBUpdate(object):
 		self.exit()
 		return True, ''
 
-	def buildFileDict(self, gui, progDialogRCHeader, files, romCollection, firstScraper):
+	def buildFileDict(self, files, romCollection, firstScraper):
 		
 		lastgamename = ""
 		crcOfFirstGame = {}
@@ -371,12 +371,11 @@ class DBUpdate(object):
 		fileDict = {}
 		
 		for idx, filename in enumerate(files):
+			log.debug("Adding file {0} to file dict".format(filename))
 			try:
-				gui.writeMsg(progDialogRCHeader, util.localize(32130), "", idx + 1)
-
 				gamename = helper.getGamenameFromFilename(filename, romCollection)
 				# check if we are handling one of the additional disks of a multi rom game
-				isMultiRomGame = self.checkRomfileIsMultirom(gamename, lastgamename)
+				isMultiRomGame = (gamename == lastgamename)
 				# lastgamename may be overwritten by parsed gamename
 				lastgamename = gamename
 				gamename = gamename.strip()
@@ -457,16 +456,6 @@ class DBUpdate(object):
 				self.walkDown(files, newRomPath, maxFolderDepth)
 					
 		return files
-		
-	def checkRomfileIsMultirom(self, gamename, lastgamename):
-
-		log.info("checkRomfileIsMultirom. gamename = {0}, lastgamename = {1}".format(gamename, lastgamename))
-	
-		# XBOX Hack: rom files will always be named default.xbe: always detected as multi rom without this hack
-		if gamename == lastgamename and lastgamename.lower() != 'default':
-			log.info("handling multi rom game: {0}".format(lastgamename))
-			return True
-		return False
 		
 	def buildFilenameDict(self, result, isMultiRomGame, filename, key):
 
