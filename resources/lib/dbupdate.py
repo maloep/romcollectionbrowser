@@ -184,8 +184,8 @@ class DBUpdate(object):
 			if firstScraper.is_multigame_scraper():
 				# build file hash tables	(key = gamename or crc, value = romfiles)
 				log.info("Start building file dict")
-				fileDict = self.buildFileDict(gui, progDialogRCHeader, files, romCollection, firstScraper)
-									
+				fileDict = self.buildFileDict(files, romCollection, firstScraper)
+
 				try:
 					fileCount = 0
 					gamenameFromDesc = u''
@@ -363,7 +363,7 @@ class DBUpdate(object):
 		self.exit()
 		return True, ''
 
-	def buildFileDict(self, gui, progDialogRCHeader, files, romCollection, firstScraper):
+	def buildFileDict(self, files, romCollection, firstScraper):
 		
 		lastgamename = ""
 		crcOfFirstGame = {}
@@ -371,9 +371,8 @@ class DBUpdate(object):
 		fileDict = {}
 		
 		for idx, filename in enumerate(files):
+			log.debug("Adding file {0} to file dict".format(filename))
 			try:
-				gui.writeMsg(progDialogRCHeader, util.localize(32130), "", idx + 1)
-
 				gamename = helper.getGamenameFromFilename(filename, romCollection)
 				# check if we are handling one of the additional disks of a multi rom game
 				isMultiRomGame = self.checkRomfileIsMultirom(gamename, lastgamename)
