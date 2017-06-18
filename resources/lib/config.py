@@ -5,7 +5,7 @@ import urllib
 import helper
 from util import *
 from xml.etree.ElementTree import *
-
+from util import Logutil as log
 
 
 #friendly name : db column, missing filter statement
@@ -409,7 +409,7 @@ class RomCollection(object):
 
 class Config(object):
 	"""
-	romCollections: A list of all the RomCollections added by the user
+	romCollections: A dict of all the RomCollections added by the user, with key being the numeric ID cast as a string
 	scraperSites: A list of all the available Sites/Scrapers
 	fileTypeIdsForGamelist = None
 	
@@ -822,3 +822,33 @@ class Config(object):
 				fileTypeIds.append(fileType.id)
 
 		return fileTypeIds
+
+	def getRomCollectionNames(self):
+		"""
+		Returns: an alphabetically-sorted list of the Rom Collection names, suitable for a UI list
+
+		"""
+		names = []
+		for rckey, rcval in self.romCollections.iteritems():
+			names.append(rcval.name)
+
+		names.sort()
+
+		return names
+
+	def getRomCollectionById(self, id):
+		"""
+		Find the matching Rom Collection by ID
+
+		Args:
+		    id: the ID of the Rom Collection to be found (as a str)
+
+		Returns:
+		    The Rom Collection with the matching ID, or None if not found
+
+		"""
+		try:
+			return self.romCollections.get(id)
+		except KeyError as e:
+			log.warn("Unable to find rom collection with ID {0}".format(id))
+			return None

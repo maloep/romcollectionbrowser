@@ -8,7 +8,7 @@ sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', '..', 'resource
 sys.path.append(os.path.join(os.path.dirname(__file__), '..', '..', 'resources', 'lib', 'pyparsing'))
 sys.path.append(os.path.join(os.path.dirname(__file__), '..', '..', 'resources', 'lib', 'pyscraper'))
 
-from resources.lib.config import Config
+from resources.lib.config import Config, RomCollection
 import resources.lib.util as util
 
 
@@ -39,6 +39,26 @@ class TestConfig(unittest.TestCase):
 
         self.assertIsInstance(conf.romCollections, dict,
                               u'Expected dict object, was {0}'.format(type(conf.romCollections)))
+
+    def test_GetRomCollectionNames(self):
+        config_xml_file = os.path.join(os.path.dirname(__file__), 'testdata', 'romcollections_two_valid.xml')
+        conf = Config(config_xml_file)
+        conf.readXml()
+
+        list = conf.getRomCollectionNames()
+        self.assertEqual(list, ['Atari 2600', 'NES'])
+
+    def test_GetRomCollectionById(self):
+        config_xml_file = os.path.join(os.path.dirname(__file__), 'testdata', 'romcollections_two_valid.xml')
+        conf = Config(config_xml_file)
+        conf.readXml()
+
+        rc = conf.getRomCollectionById("7")
+        self.assertIsInstance(rc, RomCollection, "Expected Rom Collection object to be returned by ID")
+        self.assertTrue(rc.name == 'Atari 2600', "Rom Collection name should be returned by ID")
+
+        rc = conf.getRomCollectionById("-1")
+        self.assertTrue(rc is None, "Expected searching for invalid rom collection ID to return None")
 
 
 if __name__ == "__main__":
