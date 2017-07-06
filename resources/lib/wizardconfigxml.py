@@ -90,7 +90,20 @@ class ConfigXmlWizard(object):
 		else:
 			log.info("No emuParams selected. Action canceled.")
 			return ''
-	
+
+	def promptOtherConsoleName(self):
+		"""  Ask the user to enter a (other) console name """
+		keyboard = xbmc.Keyboard()
+		keyboard.setHeading(util.localize(32177))
+		keyboard.doModal()
+		if keyboard.isConfirmed():
+			console = keyboard.getText()
+			log.info("Platform entered manually: " + console)
+			return console
+		else:
+			log.info("No Platform entered. Action canceled.")
+			return ''
+
 	def addRomCollections(self, id, configObj, consoleList, isUpdate):
 		
 		romCollections = {}
@@ -111,27 +124,22 @@ class ConfigXmlWizard(object):
 			fileTypeList, errorMsg = self.buildMediaTypeList(configObj, isUpdate)
 			romCollection = RomCollection()
 			
-			#console
+			# Console
 			platformIndex = dialog.select(util.localize(32176), consoleList)
 			log.info("platformIndex: " + str(platformIndex))
-			if(platformIndex == -1):
+			if platformIndex == -1:
 				log.info("No Platform selected. Action canceled.")
 				break
+
+			console = consoleList[platformIndex]
+			if console == 'Other':
+				console = self.promptOtherConsoleName()
+				if console == '':
+					break
+
 			else:
-				console = consoleList[platformIndex]
-				if(console =='Other'):				
-					keyboard = xbmc.Keyboard()
-					keyboard.setHeading(util.localize(32177))			
-					keyboard.doModal()
-					if (keyboard.isConfirmed()):
-						console = keyboard.getText()
-						log.info("Platform entered manually: " + console)
-					else:
-						log.info("No Platform entered. Action canceled.")
-						break
-				else:
-					consoleList.remove(console)
-					log.info("Selected platform: " + console)
+				consoleList.remove(console)
+				log.info("Selected platform: " + console)
 
 			romCollection.name = console
 			romCollection.id = id
