@@ -6,6 +6,7 @@ from xml.etree.ElementTree import *
 import config, helper
 from configxmlwriter import *
 from emulatorautoconfig.autoconfig import EmulatorAutoconfig
+from util import Logutil as log
 
 
 class ConfigXmlWizard(object):
@@ -36,7 +37,7 @@ class ConfigXmlWizard(object):
 				
 		success, romCollections = self.addRomCollections(id, None, consoleList, False)
 		if(not success):
-			Logutil.log('Action canceled. Config.xml will not be written', util.LOG_LEVEL_INFO)
+			log.info("Action canceled. Config.xml will not be written")
 			return False, util.localize(32172)
 				
 		configWriter = ConfigXmlWriter(True)
@@ -67,13 +68,13 @@ class ConfigXmlWizard(object):
 		
 		success, romCollections = self.addRomCollections(id, configObj, consoleList, True)
 		if(not success):
-			Logutil.log('Action canceled. Config.xml will not be written', util.LOG_LEVEL_INFO)
+			log.info("Action canceled. Config.xml will not be written")
 			return False, util.localize(32172)
 				
 		configWriter = ConfigXmlWriter(False)
 		success, message = configWriter.writeRomCollections(romCollections, False)
-		
-		Logutil.log("End addRomCollection" , util.LOG_LEVEL_INFO)
+
+		log.info("End addRomCollection")
 		return success, message
 	
 	
@@ -84,10 +85,10 @@ class ConfigXmlWizard(object):
 		
 		#scraping scenario
 		scenarioIndex = dialog.select(util.localize(32173), [util.localize(32174), util.localize(32175)])
-		Logutil.log('scenarioIndex: ' +str(scenarioIndex), util.LOG_LEVEL_INFO)
+		log.info("scenarioIndex: " + str(scenarioIndex))
 		if(scenarioIndex == -1):
 			del dialog
-			Logutil.log('No scenario selected. Action canceled.', util.LOG_LEVEL_INFO)
+			log.info("No scenario selected. Action canceled.")
 			return False, romCollections
 		
 		autoconfig = EmulatorAutoconfig(util.getEmuAutoConfigPath())
@@ -99,9 +100,9 @@ class ConfigXmlWizard(object):
 			
 			#console
 			platformIndex = dialog.select(util.localize(32176), consoleList)
-			Logutil.log('platformIndex: ' +str(platformIndex), util.LOG_LEVEL_INFO)
+			log.info("platformIndex: " + str(platformIndex))
 			if(platformIndex == -1):
-				Logutil.log('No Platform selected. Action canceled.', util.LOG_LEVEL_INFO)
+				log.info("No Platform selected. Action canceled.")
 				break
 			else:
 				console = consoleList[platformIndex]
@@ -111,14 +112,14 @@ class ConfigXmlWizard(object):
 					keyboard.doModal()
 					if (keyboard.isConfirmed()):
 						console = keyboard.getText()
-						Logutil.log('Platform entered manually: ' +console, util.LOG_LEVEL_INFO)
+						log.info("Platform entered manually: " + console)
 					else:
-						Logutil.log('No Platform entered. Action canceled.', util.LOG_LEVEL_INFO)
+						log.info("No Platform entered. Action canceled.")
 						break
 				else:
 					consoleList.remove(console)
-					Logutil.log('selected platform: ' +console, util.LOG_LEVEL_INFO)
-			
+					log.info("Selected platform: " + console)
+
 			romCollection.name = console
 			romCollection.id = id
 			id = id +1
@@ -153,13 +154,12 @@ class ConfigXmlWizard(object):
 				if romCollection.name in ['Linux', 'Macintosh', 'Windows']:
 					# Check for standalone games
 					romCollection.emulatorCmd = '"%ROM%"'
-					Logutil.log('emuCmd set to "%ROM%" for standalone games.', util.LOG_LEVEL_INFO)
+					log.info("emuCmd set to '%ROM%' for standalone games.")
 
 				else:
 					emulist = []
 
-					Logutil.log(u'Running on {0}. Trying to find emulator per autoconfig.'.format(self.current_os),
-								util.LOG_LEVEL_INFO)
+					log.info(u'Running on {0}. Trying to find emulator per autoconfig.'.format(self.current_os))
 					emulators = autoconfig.findEmulators(self.current_os, romCollection.name, True)
 					for emulator in emulators:
 						if emulator.isInstalled:
@@ -173,7 +173,7 @@ class ConfigXmlWizard(object):
 							emuIndex = dialog.select(util.localize(32203), emulist)
 							preconfiguredEmulator = emulators[emuIndex]
 						except:
-							Logutil.log('No Emulator selected.', util.LOG_LEVEL_INFO)
+							log.info("No Emulator selected.")
 							preconfiguredEmulator = None
 							
 					if preconfiguredEmulator:
@@ -182,14 +182,14 @@ class ConfigXmlWizard(object):
 						consolePath = dialog.browse(1, util.localize(32178) % console, 'files')
 						Logutil.log('consolePath: ' + str(consolePath), util.LOG_LEVEL_INFO)
 						if consolePath == '':
-							Logutil.log('No consolePath selected. Action canceled.', util.LOG_LEVEL_INFO)
+							log.info("No consolePath selected. Action canceled.")
 							break
 						romCollection.emulatorCmd = consolePath
 				
 				#params
 				if romCollection.name in ['Linux', 'Macintosh', 'Windows']:
 					romCollection.emulatorParams = ''
-					Logutil.log('emuParams set to "" for standalone games.', util.LOG_LEVEL_INFO)
+					log.info("emuParams set to "" for standalone games.")
 				else:
 					defaultParams = '"%ROM%"'
 					if(preconfiguredEmulator):
@@ -201,23 +201,23 @@ class ConfigXmlWizard(object):
 					keyboard.doModal()
 					if (keyboard.isConfirmed()):
 						emuParams = keyboard.getText()
-						Logutil.log('emuParams: ' +str(emuParams), util.LOG_LEVEL_INFO)
+						log.info("emuParams: " + str(emuParams))
 					else:
-						Logutil.log('No emuParams selected. Action canceled.', util.LOG_LEVEL_INFO)
+						log.info("No emuParams selected. Action canceled.")
 						break
 					romCollection.emulatorParams = emuParams
 			
 			#roms
 			romPath = dialog.browse(0, util.localize(32180) %console, 'files')
 			if(romPath == ''):
-				Logutil.log('No romPath selected. Action canceled.', util.LOG_LEVEL_INFO)
+				log.info("No romPath selected. Action canceled.")
 				break
 									
 			#TODO: find out how to deal with non-ascii characters
 			try:
 				unicode(romPath)
 			except:
-				Logutil.log("RCB can't acces your Rom Path. Make sure it does not contain any non-ascii characters.", util.LOG_LEVEL_INFO)
+				log.info("RCB can't access your Rom Path. Make sure it does not contain any non-ascii characters.")
 				xbmcgui.Dialog().ok(util.SCRIPTNAME, util.localize(32041), errorMsg)
 				break
 					
@@ -227,30 +227,30 @@ class ConfigXmlWizard(object):
 			keyboard.doModal()
 			if (keyboard.isConfirmed()):
 				fileMaskInput = keyboard.getText()
-				Logutil.log('fileMask: ' +str(fileMaskInput), util.LOG_LEVEL_INFO)
+				log.info("fileMask: " + str(fileMaskInput))
 				fileMasks = fileMaskInput.split(',')
 				romCollection.romPaths = []
 				for fileMask in fileMasks:
 					romPathComplete = util.joinPath(romPath, fileMask.strip())
 					romCollection.romPaths.append(romPathComplete)
 			else:
-				Logutil.log('No fileMask selected. Action canceled.', util.LOG_LEVEL_INFO)
+				log.info("No fileMask selected. Action canceled.")
 				break
 
 			
 			if(scenarioIndex == 0):
 				artworkPath = dialog.browse(0, util.localize(32193) %console, 'files', '', False, False, romPath)
-				Logutil.log('artworkPath: ' +str(artworkPath), util.LOG_LEVEL_INFO)				
+				log.info("artworkPath: " + str(artworkPath))
 				#TODO: find out how to deal with non-ascii characters
 				try:
 					unicode(artworkPath)
 				except:
-					Logutil.log("RCB can't acces your artwork path. Make sure it does not contain any non-ascii characters.", util.LOG_LEVEL_INFO)
+					log.info("RCB can't access your artwork path. Make sure it does not contain any non-ascii characters.")
 					xbmcgui.Dialog().ok(util.SCRIPTNAME, util.localize(32042), errorMsg)
 					break
 				
 				if(artworkPath == ''):
-					Logutil.log('No artworkPath selected. Action canceled.', util.LOG_LEVEL_INFO)
+					log.info("No artworkPath selected. Action canceled.")
 					break
 				
 				romCollection.descFilePerGame= True
@@ -307,7 +307,7 @@ class ConfigXmlWizard(object):
 					fileTypeIndex = dialog.select(util.localize(32183), fileTypeList)
 					Logutil.log('fileTypeIndex: ' +str(fileTypeIndex), util.LOG_LEVEL_INFO)					
 					if(fileTypeIndex == -1):
-						Logutil.log('No fileTypeIndex selected.', util.LOG_LEVEL_INFO)
+						log.info("No fileTypeIndex selected.")
 						break
 					
 					fileType = fileTypeList[fileTypeIndex]
@@ -320,15 +320,15 @@ class ConfigXmlWizard(object):
 					
 					try:
 						unicode(artworkPath)
-					except:				
-						Logutil.log("RCB can't acces your artwork path. Make sure it does not contain any non-ascii characters.", util.LOG_LEVEL_INFO)
+					except:
+						log.info("RCB can't access your artwork path. Make sure it does not contain any non-ascii characters.")
 						xbmcgui.Dialog().ok(util.SCRIPTNAME, util.localize(32042), errorMsg)
 						break
 					
 					lastArtworkPath = artworkPath
 					Logutil.log('artworkPath: ' +str(artworkPath), util.LOG_LEVEL_INFO)
 					if(artworkPath == ''):
-						Logutil.log('No artworkPath selected.', util.LOG_LEVEL_INFO)
+						log.info("No artworkPath selected.")
 						break
 					
 					romCollection.mediaPaths.append(self.createMediaPath(fileType, artworkPath, scenarioIndex))
@@ -340,7 +340,7 @@ class ConfigXmlWizard(object):
 				descIndex = dialog.select(util.localize(32185), [util.localize(32186), util.localize(32187), util.localize(32188)])
 				Logutil.log('descIndex: ' +str(descIndex), util.LOG_LEVEL_INFO)
 				if(descIndex == -1):
-					Logutil.log('No descIndex selected. Action canceled.', util.LOG_LEVEL_INFO)
+					log.info("No descIndex selected. Action canceled.")
 					break
 				
 				romCollection.descFilePerGame = (descIndex != 1)
@@ -369,16 +369,16 @@ class ConfigXmlWizard(object):
 						descPath = util.joinPath(pathValue, filemask.strip())
 					else:
 						descPath = dialog.browse(1, util.localize(32189) %console, 'files', '', False, False, lastArtworkPath)
-					
-					Logutil.log('descPath: ' +str(descPath), util.LOG_LEVEL_INFO)
+
+					log.info("descPath: " + str(descPath))
 					if(descPath == ''):
-						Logutil.log('No descPath selected. Action canceled.', util.LOG_LEVEL_INFO)
+						log.info("No descPath selected. Action canceled.")
 						break
 					
 					parserPath = dialog.browse(1, util.localize(32191) %console, 'files', '', False, False, descPath)
-					Logutil.log('parserPath: ' +str(parserPath), util.LOG_LEVEL_INFO)
+					log.info("parserPath: " + str(parserPath))
 					if(parserPath == ''):
-						Logutil.log('No parserPath selected. Action canceled.', util.LOG_LEVEL_INFO)
+						log.info("No parserPath selected. Action canceled.")
 						break
 					
 					#create scraper
@@ -419,7 +419,7 @@ class ConfigXmlWizard(object):
 			configFile = util.joinPath(util.getAddonInstallPath(), 'resources', 'database', 'config_template.xml')
 	
 			if(not xbmcvfs.exists(configFile)):
-				Logutil.log('File config_template.xml does not exist. Place a valid config file here: ' +str(configFile), util.LOG_LEVEL_ERROR)
+				log.error("File config_template.xml does not exist. Place a valid config file here: " + str(configFile))
 				return None, util.localize(32040)
 			
 			tree = ElementTree().parse(configFile)			
@@ -460,5 +460,3 @@ class ConfigXmlWizard(object):
 			mediaPath.path = util.joinPath(path, fileMask)
 				
 		return mediaPath
-	
-	
