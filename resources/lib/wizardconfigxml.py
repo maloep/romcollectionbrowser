@@ -267,23 +267,17 @@ class ConfigXmlWizard(object):
 				
 				romCollection.descFilePerGame= True
 				
-				#mediaPaths
+				# Media Paths
 				romCollection.mediaPaths = []
-				
-				if(romCollection.name == 'MAME'):
-					romCollection.mediaPaths.append(self.createMediaPath('boxfront', artworkPath, scenarioIndex))
-					romCollection.mediaPaths.append(self.createMediaPath('action', artworkPath, scenarioIndex))
-					romCollection.mediaPaths.append(self.createMediaPath('title', artworkPath, scenarioIndex))
-					romCollection.mediaPaths.append(self.createMediaPath('cabinet', artworkPath, scenarioIndex))
-					romCollection.mediaPaths.append(self.createMediaPath('marquee', artworkPath, scenarioIndex))					
+
+				if romCollection.name == 'MAME':
+					mediaTypes = ['boxfront', 'action', 'title', 'cabinet', 'marquee']
 				else:
-					romCollection.mediaPaths.append(self.createMediaPath('boxfront', artworkPath, scenarioIndex))
-					romCollection.mediaPaths.append(self.createMediaPath('boxback', artworkPath, scenarioIndex))
-					romCollection.mediaPaths.append(self.createMediaPath('cartridge', artworkPath, scenarioIndex))
-					romCollection.mediaPaths.append(self.createMediaPath('screenshot', artworkPath, scenarioIndex))
-					romCollection.mediaPaths.append(self.createMediaPath('fanart', artworkPath, scenarioIndex))
+					mediaTypes = ['boxfront', 'boxback', 'cartridge', 'screenshot', 'fanart']
+				for t in mediaTypes:
+					romCollection.mediaPaths.append(self.createMediaPath(t, artworkPath, scenarioIndex))
 				
-				#other MAME specific properties
+				# Other MAME specific properties
 				if(romCollection.name == 'MAME'):
 					romCollection.imagePlacingMain = ImagePlacing()
 					romCollection.imagePlacingMain.name = 'gameinfomamecabinet'
