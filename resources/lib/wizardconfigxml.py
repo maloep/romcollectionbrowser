@@ -104,6 +104,19 @@ class ConfigXmlWizard(object):
 			log.info("No Platform entered. Action canceled.")
 			return ''
 
+	def promptEmulatorFileMasks(self):
+		keyboard = xbmc.Keyboard()
+		keyboard.setHeading(util.localize(32181))
+		keyboard.doModal()
+		if keyboard.isConfirmed():
+			fileMaskInput = keyboard.getText()
+			log.info("fileMask: " + str(fileMaskInput))
+			fileMasks = fileMaskInput.split(',')
+			return fileMasks
+		else:
+			log.info("No fileMask selected. Action canceled.")
+			return []
+
 	def doesSupportRetroplayer(self, romCollectionName):
 		supportsRetroPlayer = True
 		# If we have full python integration we can also check if specific platform supports RetroPlayer
@@ -234,22 +247,14 @@ class ConfigXmlWizard(object):
 				xbmcgui.Dialog().ok(util.SCRIPTNAME, util.localize(32041), errorMsg)
 				break
 					
-			#filemask
-			keyboard = xbmc.Keyboard()
-			keyboard.setHeading(util.localize(32181))
-			keyboard.doModal()
-			if (keyboard.isConfirmed()):
-				fileMaskInput = keyboard.getText()
-				log.info("fileMask: " + str(fileMaskInput))
-				fileMasks = fileMaskInput.split(',')
-				romCollection.romPaths = []
-				for fileMask in fileMasks:
-					romPathComplete = util.joinPath(romPath, fileMask.strip())
-					romCollection.romPaths.append(romPathComplete)
-			else:
-				log.info("No fileMask selected. Action canceled.")
+			# Filemask
+			fileMasks = self.promptEmulatorFileMasks()
+			if fileMasks == []:
 				break
 
+			romCollection.romPaths = []
+			for fileMask in fileMasks:
+				romCollection.romPaths.append(util.joinPath(romPath, fileMask.strip()))
 			
 			if(scenarioIndex == 0):
 				artworkPath = dialog.browse(0, util.localize(32193) %console, 'files', '', False, False, romPath)
