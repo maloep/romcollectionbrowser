@@ -104,6 +104,21 @@ class ConfigXmlWizard(object):
 			log.info("No Platform entered. Action canceled.")
 			return ''
 
+	def doesSupportRetroplayer(self, romCollectionName):
+		supportsRetroPlayer = True
+		# If we have full python integration we can also check if specific platform supports RetroPlayer
+		if helper.retroPlayerSupportsPythonIntegration():
+			supportsRetroPlayer = False
+			success, installedAddons = helper.readLibretroCores("all", True, romCollectionName)
+			if success and len(installedAddons) > 0:
+				supportsRetroPlayer = True
+			else:
+				success, installedAddons = helper.readLibretroCores("uninstalled", False, romCollectionName)
+				if success and len(installedAddons) > 0:
+					supportsRetroPlayer = True
+
+		return supportsRetroPlayer
+
 	def addRomCollections(self, id, configObj, consoleList, isUpdate):
 		
 		romCollections = {}
@@ -145,25 +160,11 @@ class ConfigXmlWizard(object):
 			romCollection.id = id
 			id = id +1
 			
-			
+
 			#check if we have general RetroPlayer support
-			if(helper.isRetroPlayerSupported()):
-				supportsRetroPlayer = True
-				#if we have full python integration we can also check if specific platform supports RetroPlayer
-				if(helper.retroPlayerSupportsPythonIntegration()):
-					supportsRetroPlayer = False
-					success, installedAddons = helper.readLibretroCores("all", True, romCollection.name)
-					if(success and len(installedAddons) > 0):
-						supportsRetroPlayer = True
-					else:
-						success, installedAddons = helper.readLibretroCores("uninstalled", False, romCollection.name)
-						if(success and len(installedAddons) > 0):
-							supportsRetroPlayer = True
-					
-				if(supportsRetroPlayer):
-					retValue = dialog.yesno(util.localize(32999), util.localize(32198))
-					if(retValue == True):
-						romCollection.useBuiltinEmulator = True
+			if helper.isRetroPlayerSupported():
+				if self.doesSupportRetroplayer(romCollection.name):
+					romCollection.useBuiltinEmulator = dialog.yesno(util.localize(32999), util.localize(32198))
 			
 			#only ask for emulator and params if we don't use builtin emulator
 			if(not romCollection.useBuiltinEmulator):
