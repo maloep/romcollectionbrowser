@@ -76,7 +76,20 @@ class ConfigXmlWizard(object):
 
 		log.info("End addRomCollection")
 		return success, message
-	
+
+	def promptEmulatorParams(self, defaultValue):
+		""" Ask the user to enter emulator parameters """
+		keyboard = xbmc.Keyboard()
+		keyboard.setDefault(defaultValue)
+		keyboard.setHeading(util.localize(32179))
+		keyboard.doModal()
+		if keyboard.isConfirmed():
+			emuParams = keyboard.getText()
+			log.info("emuParams: " + str(emuParams))
+			return emuParams
+		else:
+			log.info("No emuParams selected. Action canceled.")
+			return ''
 	
 	def addRomCollections(self, id, configObj, consoleList, isUpdate):
 		
@@ -186,26 +199,17 @@ class ConfigXmlWizard(object):
 							break
 						romCollection.emulatorCmd = consolePath
 				
-				#params
+				# Set emulator parameters
 				if romCollection.name in ['Linux', 'Macintosh', 'Windows']:
 					romCollection.emulatorParams = ''
 					log.info("emuParams set to "" for standalone games.")
 				else:
-					defaultParams = '"%ROM%"'
-					if(preconfiguredEmulator):
+					if preconfiguredEmulator:
 						defaultParams = preconfiguredEmulator.emuParams
-											
-					keyboard = xbmc.Keyboard()
-					keyboard.setDefault(defaultParams)
-					keyboard.setHeading(util.localize(32179))			
-					keyboard.doModal()
-					if (keyboard.isConfirmed()):
-						emuParams = keyboard.getText()
-						log.info("emuParams: " + str(emuParams))
 					else:
-						log.info("No emuParams selected. Action canceled.")
-						break
-					romCollection.emulatorParams = emuParams
+						defaultParams = '"%ROM%"'
+
+					romCollection.emulatorParams = self.promptEmulatorParams(defaultParams)
 			
 			#roms
 			romPath = dialog.browse(0, util.localize(32180) %console, 'files')
