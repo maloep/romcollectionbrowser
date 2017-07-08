@@ -8,6 +8,10 @@ from configxmlwriter import *
 from emulatorautoconfig.autoconfig import EmulatorAutoconfig
 from util import Logutil as log
 
+GAME_DESCRIPTION_PER_FILE = 0
+GAME_DESCRIPTION_SINGLE_FILE = 1     # All game descriptions in a single file, e.g. MAME history.dat
+GAME_DESCRIPTION_ONLINE = 2          # Game descriptions to be retrieved from online source
+
 
 class ConfigXmlWizard(object):
 	# FIXME TODO Duplicated in dialogeditromcollection.py. Need a class to handle these, possibly config.py?
@@ -349,16 +353,18 @@ class ConfigXmlWizard(object):
 					if(retValue == False):
 						break
 				
+
+				# Ask user for source of game descriptions
 				descIndex = dialog.select(util.localize(32185), [util.localize(32186), util.localize(32187), util.localize(32188)])
 				Logutil.log('descIndex: ' +str(descIndex), util.LOG_LEVEL_INFO)
 				if(descIndex == -1):
 					log.info("No descIndex selected. Action canceled.")
 					break
 				
-				romCollection.descFilePerGame = (descIndex != 1)
+				romCollection.descFilePerGame = (descIndex != GAME_DESCRIPTION_SINGLE_FILE)
 				
-				if(descIndex == 2):
-					#leave scraperSites empty - they will be filled in configwriter
+				if descIndex == GAME_DESCRIPTION_ONLINE:
+					# Leave scraperSites empty - they will be filled in configwriter
 					pass
 				
 				else:
