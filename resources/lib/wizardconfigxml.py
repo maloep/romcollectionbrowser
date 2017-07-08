@@ -351,11 +351,10 @@ class ConfigXmlWizard(object):
 						break
 					
 					romCollection.mediaPaths.append(self.createMediaPath(fileType, artworkPath, scenarioIndex))
-					
-					retValue = dialog.yesno(util.localize(32999), util.localize(32184))
-					if(retValue == False):
+
+					# Ask to add another artwork path
+					if not dialog.yesno(util.localize(32999), util.localize(32184)):
 						break
-				
 
 				# Ask user for source of game descriptions
 				descIndex = dialog.select(util.localize(32185), [util.localize(32186), util.localize(32187), util.localize(32188)])
