@@ -404,7 +404,7 @@ class ConfigXmlWizard(object):
 					#create scraper
 					site = Site()
 					site.name = console
-					site.descFilePerGame = (descIndex == 0)
+					site.descFilePerGame = (descIndex == GAME_DESCRIPTION_PER_FILE)
 					site.searchGameByCRC = True
 					scrapers = []
 					scraper = Scraper()
@@ -416,10 +416,10 @@ class ConfigXmlWizard(object):
 					romCollection.scraperSites = []
 					romCollection.scraperSites.append(site)
 			
-			romCollections[romCollection.id] = romCollection						
-			
-			retValue = dialog.yesno(util.localize(32999), util.localize(32192))
-			if(retValue == False):
+			romCollections[romCollection.id] = romCollection
+
+			# Ask the user if they want to add another rom collection
+			if not dialog.yesno(util.localize(32999), util.localize(32192)):
 				break
 		
 		del dialog
@@ -474,7 +474,7 @@ class ConfigXmlWizard(object):
 		
 		mediaPath = MediaPath()
 		mediaPath.fileType = fileType
-		if(scenarioIndex == 0):
+		if scenarioIndex == RETRIEVE_INFO_ARTWORK_ONLINE:
 			mediaPath.path = util.joinPath(path, type, fileMask)
 		else:
 			mediaPath.path = util.joinPath(path, fileMask)
