@@ -8,6 +8,9 @@ from configxmlwriter import *
 from emulatorautoconfig.autoconfig import EmulatorAutoconfig
 from util import Logutil as log
 
+RETRIEVE_INFO_ARTWORK_ONLINE = 0     # Game description and artwork need to be downloaded
+RETRIEVE_INFO_ARTWORK_LOCALLY = 1    # Game description and artwork already exist locally
+
 GAME_DESCRIPTION_PER_FILE = 0
 GAME_DESCRIPTION_SINGLE_FILE = 1     # All game descriptions in a single file, e.g. MAME history.dat
 GAME_DESCRIPTION_ONLINE = 2          # Game descriptions to be retrieved from online source
@@ -141,10 +144,10 @@ class ConfigXmlWizard(object):
 		romCollections = {}
 		dialog = xbmcgui.Dialog()
 		
-		#scraping scenario
+		# Scraping scenario - game descriptions and artwork retrieved from online or available locally
 		scenarioIndex = dialog.select(util.localize(32173), [util.localize(32174), util.localize(32175)])
 		log.info("scenarioIndex: " + str(scenarioIndex))
-		if(scenarioIndex == -1):
+		if scenarioIndex == -1:
 			del dialog
 			log.info("No scenario selected. Action canceled.")
 			return False, romCollections
@@ -260,7 +263,7 @@ class ConfigXmlWizard(object):
 			for fileMask in fileMasks:
 				romCollection.romPaths.append(util.joinPath(romPath, fileMask.strip()))
 			
-			if(scenarioIndex == 0):
+			if scenarioIndex == RETRIEVE_INFO_ARTWORK_ONLINE:
 				artworkPath = dialog.browse(0, util.localize(32193) %console, 'files', '', False, False, romPath)
 				log.info("artworkPath: " + str(artworkPath))
 				#TODO: find out how to deal with non-ascii characters
