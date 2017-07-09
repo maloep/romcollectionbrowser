@@ -309,8 +309,9 @@ class ConfigXmlWizard(object):
 					romCollection.scraperSites = [site]
 			else:
 				romCollection.mediaPaths = []
-				
-				lastArtworkPath = ''
+
+				# Default to looking in the romPath for the first artwork path
+				lastArtworkPath = romPath
 				while True:
 					
 					fileTypeIndex = dialog.select(util.localize(32183), fileTypeList)
@@ -321,11 +322,7 @@ class ConfigXmlWizard(object):
 					
 					fileType = fileTypeList[fileTypeIndex]
 					fileTypeList.remove(fileType)
-					
-					if(lastArtworkPath == ''):					
-						artworkPath = dialog.browse(0, util.localize(32182) %(console, fileType), 'files', '', False, False, romPath)
-					else:
-						artworkPath = dialog.browse(0, util.localize(32182) %(console, fileType), 'files', '', False, False, lastArtworkPath)
+					artworkPath = dialog.browse(0, util.localize(32182) %(console, fileType), 'files', '', False, False, lastArtworkPath)
 					
 					try:
 						unicode(artworkPath)
@@ -346,7 +343,7 @@ class ConfigXmlWizard(object):
 					if not dialog.yesno(util.localize(32999), util.localize(32184)):
 						break
 
-				# Ask user for source of game descriptions
+				# Ask user for source of game descriptions (description file per game or for all games, or online/local NFO)
 				descIndex = dialog.select(util.localize(32185), [util.localize(32186), util.localize(32187), util.localize(32188)])
 				Logutil.log('descIndex: ' +str(descIndex), util.LOG_LEVEL_INFO)
 				if(descIndex == -1):
