@@ -232,7 +232,7 @@ class ConfigXmlWizard(object):
 						try:
 							emuIndex = dialog.select(util.localize(32203), emulist)
 							preconfiguredEmulator = emulators[emuIndex]
-						except:
+						except IndexError:
 							log.info("No Emulator selected.")
 							preconfiguredEmulator = None
 							
@@ -313,29 +313,22 @@ class ConfigXmlWizard(object):
 				# Default to looking in the romPath for the first artwork path
 				lastArtworkPath = romPath
 				while True:
-					
+					# Prompt the user for which artwork type we are selecting
 					fileTypeIndex = dialog.select(util.localize(32183), fileTypeList)
-					Logutil.log('fileTypeIndex: ' +str(fileTypeIndex), util.LOG_LEVEL_INFO)					
-					if(fileTypeIndex == -1):
+					if fileTypeIndex == -1:
 						log.info("No fileTypeIndex selected.")
 						break
 					
 					fileType = fileTypeList[fileTypeIndex]
 					fileTypeList.remove(fileType)
-					artworkPath = dialog.browse(0, util.localize(32182) %(console, fileType), 'files', '', False, False, lastArtworkPath)
-					
-					try:
-						unicode(artworkPath)
-					except:
-						log.info("RCB can't access your artwork path. Make sure it does not contain any non-ascii characters.")
-						xbmcgui.Dialog().ok(util.SCRIPTNAME, util.localize(32042), errorMsg)
-						break
-					
-					lastArtworkPath = artworkPath
-					Logutil.log('artworkPath: ' +str(artworkPath), util.LOG_LEVEL_INFO)
-					if(artworkPath == ''):
+
+					# Prompt user for path for existing artwork
+					artworkPath = dialog.browse(0, util.localize(32182) %(console, fileType), 'files', '', False, False, lastArtworkPath).decode('utf-8')
+					log.debug(u"artworkPath selected: {0}".format(artworkPath))
+					if artworkPath == '':
 						log.info("No artworkPath selected.")
 						break
+					lastArtworkPath = artworkPath
 					
 					romCollection.mediaPaths.append(self.createMediaPath(fileType, artworkPath, scenarioIndex))
 
@@ -345,8 +338,8 @@ class ConfigXmlWizard(object):
 
 				# Ask user for source of game descriptions (description file per game or for all games, or online/local NFO)
 				descIndex = dialog.select(util.localize(32185), [util.localize(32186), util.localize(32187), util.localize(32188)])
-				Logutil.log('descIndex: ' +str(descIndex), util.LOG_LEVEL_INFO)
-				if(descIndex == -1):
+				log.debug("descIndex: " + str(descIndex))
+				if descIndex == -1:
 					log.info("No descIndex selected. Action canceled.")
 					break
 				
@@ -360,12 +353,13 @@ class ConfigXmlWizard(object):
 					descPath = ''
 					
 					if(romCollection.descFilePerGame):
-						#get path
+						# Assume the files are in a single directory with the mask %GAME%.txt
+						# Prompt the user for the path
 						pathValue = dialog.browse(0, util.localize(32189) %console, 'files')
 						if(pathValue == ''):
 							break
 						
-						#get file mask
+						# Prompt the user for the description file mask
 						keyboard = xbmc.Keyboard()
 						keyboard.setHeading(util.localize(32190))
 						keyboard.setDefault('%GAME%.txt')
@@ -381,7 +375,8 @@ class ConfigXmlWizard(object):
 					if(descPath == ''):
 						log.info("No descPath selected. Action canceled.")
 						break
-					
+
+					# Prompt the user for a parse instruction file
 					parserPath = dialog.browse(1, util.localize(32191) %console, 'files', '', False, False, descPath)
 					log.info("parserPath: " + str(parserPath))
 					if(parserPath == ''):
