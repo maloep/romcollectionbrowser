@@ -434,27 +434,25 @@ class ConfigXmlWizard(object):
 				
 		return fileTypeList, ''
 	
-	
-	def createMediaPath(self, type, path, scenarioIndex):
+	def createMediaPath(self, mediatype, path, scenarioIndex):
 		
-		if(type == 'gameplay (video)'):
-			type = 'gameplay'
-			
-		fileMask = '%GAME%.*'
-		if(type == 'romcollection'):
-			fileMask = '%ROMCOLLECTION%.*'
-		if(type == 'developer'):
-			fileMask = '%DEVELOPER%.*'
-		if(type == 'publisher'):
-			fileMask = '%PUBLISHER%.*'
+		if mediatype == 'gameplay (video)':
+			mediatype = 'gameplay'
+
+		if mediatype in ['romcollection', 'developer', 'publisher']:
+			fileMask = '%{0}%.*'.format(mediatype.upper())
+		else:
+			fileMask = '%GAME%.*'
+
+		log.debug("media path type is {0}, filemask is {1}".format(mediatype, fileMask))
 		
 		fileType = FileType()
-		fileType.name = type
+		fileType.name = mediatype
 		
 		mediaPath = MediaPath()
 		mediaPath.fileType = fileType
 		if scenarioIndex == RETRIEVE_INFO_ARTWORK_ONLINE:
-			mediaPath.path = util.joinPath(path, type, fileMask)
+			mediaPath.path = util.joinPath(path, mediatype, fileMask)
 		else:
 			mediaPath.path = util.joinPath(path, fileMask)
 				
