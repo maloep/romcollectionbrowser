@@ -300,17 +300,11 @@ class ConfigXmlWizard(object):
 				
 				# Other MAME specific properties
 				if(romCollection.name == 'MAME'):
-					#create MAWS scraper
-					site = Site()
-					site.name = 'maws.mameworld.info'
-					scrapers = []
-					scraper = Scraper()
-					scraper.parseInstruction = '06 - maws.xml'
-					scraper.source = 'http://maws.mameworld.info/maws/romset/%GAME%'
-					scrapers.append(scraper)
-					site.scrapers = scrapers
-					romCollection.scraperSites = []
-					romCollection.scraperSites.append(site)
+					# FIXME TODO MAWS not available anymore, shouldn't allow online scraper for MAME
+					# Create MAWS scraper
+					site = Site(name='maws.mameworld.info')
+					site.scrapers = [Scraper(parseInstruction='06 - maws.xml', source='http://maws.mameworld.info/maws/romset/%GAME%')]
+					romCollection.scraperSites = [site]
 			else:
 				romCollection.mediaPaths = []
 				
@@ -395,21 +389,13 @@ class ConfigXmlWizard(object):
 						log.info("No parserPath selected. Action canceled.")
 						break
 					
-					#create scraper
-					site = Site()
-					site.name = console
-					site.descFilePerGame = (descIndex == GAME_DESCRIPTION_PER_FILE)
-					site.searchGameByCRC = True
-					scrapers = []
-					scraper = Scraper()
-					scraper.parseInstruction = parserPath
-					scraper.source = descPath
-					scraper.encoding = 'iso-8859-1'
-					scrapers.append(scraper)
-					site.scrapers = scrapers
-					romCollection.scraperSites = []
-					romCollection.scraperSites.append(site)
-			
+					# Create scraper
+					site = Site(name=console, descFilePerGame=(descIndex == GAME_DESCRIPTION_PER_FILE), searchGameByCRC=True)
+					site.scrapers = [Scraper(parseInstruction=parserPath, source=descPath, encoding='iso-8859-1')]
+					romCollection.scraperSites = [site]
+
+			log.debug("Created new rom collection: {0}".format(romCollection))
+
 			romCollections[romCollection.id] = romCollection
 
 			# Ask the user if they want to add another rom collection
