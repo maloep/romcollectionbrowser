@@ -37,6 +37,7 @@ class ConfigXmlWizard(object):
 			pass
 		return os
 
+	# Called on first run
 	def createConfigXml(self, configFile):
 				
 		id = 1		
@@ -52,7 +53,7 @@ class ConfigXmlWizard(object):
 			
 		return success, message
 	
-	
+	# Called by context menu
 	def addRomCollection(self, configObj):
 		Logutil.log("Begin addRomCollection" , util.LOG_LEVEL_INFO)
 		
@@ -72,12 +73,14 @@ class ConfigXmlWizard(object):
 				id = rcId
 								
 		id = int(id) +1
-		
+
+		# Add new rom collections
 		success, romCollections = self.addRomCollections(id, configObj, consoleList, True)
 		if(not success):
 			log.info("Action canceled. Config.xml will not be written")
 			return False, util.localize(32172)
-				
+
+		# Update config file
 		configWriter = ConfigXmlWriter(False)
 		success, message = configWriter.writeRomCollections(romCollections, False)
 
@@ -197,20 +200,19 @@ class ConfigXmlWizard(object):
 			romCollection.name = console
 			romCollection.id = id
 			id = id +1
-			
 
-			#check if we have general RetroPlayer support
+			# Check if we have general RetroPlayer support
 			if helper.isRetroPlayerSupported():
 				if self.doesSupportRetroplayer(romCollection.name):
 					romCollection.useBuiltinEmulator = dialog.yesno(util.localize(32999), util.localize(32198))
 			
-			#only ask for emulator and params if we don't use builtin emulator
-			if(not romCollection.useBuiltinEmulator):
+			# Only ask for emulator and params if we don't use builtin emulator
+			if not romCollection.useBuiltinEmulator:
 				
-				#maybe there is autoconfig support
+				# Maybe there is autoconfig support
 				preconfiguredEmulator = None
 				
-				#emulator
+				# Emulator
 				if romCollection.name in ['Linux', 'Macintosh', 'Windows']:
 					# Check for standalone games
 					romCollection.emulatorCmd = '"%ROM%"'
@@ -301,7 +303,7 @@ class ConfigXmlWizard(object):
 					romCollection.mediaPaths.append(self.createMediaPath(t, artworkPath, scenarioIndex))
 				
 				# Other MAME specific properties
-				if(romCollection.name == 'MAME'):
+				if romCollection.name == 'MAME':
 					# FIXME TODO MAWS not available anymore, shouldn't allow online scraper for MAME
 					# Create MAWS scraper
 					site = Site(name='maws.mameworld.info')
@@ -352,11 +354,11 @@ class ConfigXmlWizard(object):
 				else:
 					descPath = ''
 					
-					if(romCollection.descFilePerGame):
+					if romCollection.descFilePerGame:
 						# Assume the files are in a single directory with the mask %GAME%.txt
 						# Prompt the user for the path
-						pathValue = dialog.browse(0, util.localize(32189) %console, 'files')
-						if(pathValue == ''):
+						pathValue = dialog.browse(0, util.localize(32189) % console, 'files')
+						if pathValue == '':
 							break
 						
 						# Prompt the user for the description file mask
@@ -372,14 +374,14 @@ class ConfigXmlWizard(object):
 						descPath = dialog.browse(1, util.localize(32189) %console, 'files', '', False, False, lastArtworkPath)
 
 					log.info("descPath: " + str(descPath))
-					if(descPath == ''):
+					if descPath == '':
 						log.info("No descPath selected. Action canceled.")
 						break
 
 					# Prompt the user for a parse instruction file
 					parserPath = dialog.browse(1, util.localize(32191) %console, 'files', '', False, False, descPath)
 					log.info("parserPath: " + str(parserPath))
-					if(parserPath == ''):
+					if parserPath == '':
 						log.info("No parserPath selected. Action canceled.")
 						break
 					
