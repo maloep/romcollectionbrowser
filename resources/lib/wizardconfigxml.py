@@ -124,6 +124,24 @@ class ConfigXmlWizard(object):
 			log.info("No fileMask selected. Action canceled.")
 			return []
 
+	def promptRomPath(self, consolename):
+		""" Prompt the user to browse to the rompath """
+		dialog = xbmcgui.Dialog()
+		# http://kodi.wiki/view/Add-on_unicode_paths
+		romPath = dialog.browse(0, util.localize(32180) % consolename, 'files').decode('utf-8')
+		log.debug(u"rompath selected: {0}".format(romPath))
+
+		return romPath
+
+	def promptArtworkPath(self, console, startingDirectory):
+		""" Prompt the user to browse to the artwork path """
+		dialog = xbmcgui.Dialog()
+		# http://kodi.wiki/view/Add-on_unicode_paths
+		artworkPath = dialog.browse(0, util.localize(32193) % console, 'files', '', False, False, startingDirectory).decode('utf-8')
+		log.debug(u"artworkPath selected: {0}".format(artworkPath))
+
+		return artworkPath
+
 	def doesSupportRetroplayer(self, romCollectionName):
 		supportsRetroPlayer = True
 		# If we have full python integration we can also check if specific platform supports RetroPlayer
@@ -239,21 +257,13 @@ class ConfigXmlWizard(object):
 						defaultParams = '"%ROM%"'
 
 					romCollection.emulatorParams = self.promptEmulatorParams(defaultParams)
-			
-			#roms
-			romPath = dialog.browse(0, util.localize(32180) %console, 'files')
-			if(romPath == ''):
+
+			# Prompt for rompath
+			romPath = self.promptRomPath(console)
+			if romPath == '':
 				log.info("No romPath selected. Action canceled.")
 				break
-									
-			#TODO: find out how to deal with non-ascii characters
-			try:
-				unicode(romPath)
-			except:
-				log.info("RCB can't access your Rom Path. Make sure it does not contain any non-ascii characters.")
-				xbmcgui.Dialog().ok(util.SCRIPTNAME, util.localize(32041), errorMsg)
-				break
-					
+
 			# Filemask
 			fileMasks = self.promptEmulatorFileMasks()
 			if fileMasks == []:
@@ -272,21 +282,13 @@ class ConfigXmlWizard(object):
 				romCollection.doNotExtractZipFiles = True
 
 			if scenarioIndex == RETRIEVE_INFO_ARTWORK_ONLINE:
-				artworkPath = dialog.browse(0, util.localize(32193) %console, 'files', '', False, False, romPath)
-				log.info("artworkPath: " + str(artworkPath))
-				#TODO: find out how to deal with non-ascii characters
-				try:
-					unicode(artworkPath)
-				except:
-					log.info("RCB can't access your artwork path. Make sure it does not contain any non-ascii characters.")
-					xbmcgui.Dialog().ok(util.SCRIPTNAME, util.localize(32042), errorMsg)
-					break
-				
-				if(artworkPath == ''):
+				# Prompt for artwork path
+				artworkPath = self.promptArtworkPath(console, romPath)
+				if artworkPath == '':
 					log.info("No artworkPath selected. Action canceled.")
 					break
 				
-				romCollection.descFilePerGame= True
+				romCollection.descFilePerGame = True
 				
 				# Media Paths
 				romCollection.mediaPaths = []
