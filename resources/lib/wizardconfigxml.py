@@ -262,7 +262,15 @@ class ConfigXmlWizard(object):
 			romCollection.romPaths = []
 			for fileMask in fileMasks:
 				romCollection.romPaths.append(util.joinPath(romPath, fileMask.strip()))
-			
+
+			# Specific MAME settings
+			if romCollection.name == 'MAME':
+				romCollection.imagePlacingMain = ImagePlacing()
+				romCollection.imagePlacingMain.name = 'gameinfomamecabinet'
+
+				# MAME zip files contain several files but they must be passed to the emu as zip file
+				romCollection.doNotExtractZipFiles = True
+
 			if scenarioIndex == RETRIEVE_INFO_ARTWORK_ONLINE:
 				artworkPath = dialog.browse(0, util.localize(32193) %console, 'files', '', False, False, romPath)
 				log.info("artworkPath: " + str(artworkPath))
@@ -292,12 +300,6 @@ class ConfigXmlWizard(object):
 				
 				# Other MAME specific properties
 				if(romCollection.name == 'MAME'):
-					romCollection.imagePlacingMain = ImagePlacing()
-					romCollection.imagePlacingMain.name = 'gameinfomamecabinet'
-					
-					#MAME zip files contain several files but they must be passed to the emu as zip file
-					romCollection.doNotExtractZipFiles = True
-					
 					#create MAWS scraper
 					site = Site()
 					site.name = 'maws.mameworld.info'
@@ -310,14 +312,6 @@ class ConfigXmlWizard(object):
 					romCollection.scraperSites = []
 					romCollection.scraperSites.append(site)
 			else:
-				
-				if(romCollection.name == 'MAME'):
-					romCollection.imagePlacingMain = ImagePlacing()
-					romCollection.imagePlacingMain.name = 'gameinfomamecabinet'
-					#MAME zip files contain several files but they must be passed to the emu as zip file
-					romCollection.doNotExtractZipFiles = True
-				
-				
 				romCollection.mediaPaths = []
 				
 				lastArtworkPath = ''
