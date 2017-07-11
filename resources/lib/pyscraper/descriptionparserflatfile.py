@@ -32,7 +32,7 @@ class DescriptionParserFlatFile(DescriptionParser):
 		
 		all = OneOrMore(gameGrammar)				
 						
-		fileAsString = self.openDescFile(descFile)
+		fileAsString = self.getDescriptionContents(descFile)
 		
 		# switch as fast as possible to unicode to prevent all weird encoding problems
 		fileAsString = fileAsString.decode(encoding)
@@ -57,7 +57,7 @@ class DescriptionParserFlatFile(DescriptionParser):
 	
 	def scanDescription(self, descFile, descParseInstruction, encoding):
 				
-		fileAsString = self.openDescFile(descFile)
+		fileAsString = self.getDescriptionContents(descFile)
 		
 		fileAsString = fileAsString.decode(encoding).encode('utf-8')
 		
@@ -132,11 +132,6 @@ class DescriptionParserFlatFile(DescriptionParser):
 		
 		return resultAsDict
 			
-	
-	def openDescFile(self, descFile):
-		return self.getDescriptionContents(descFile)
-	
-	
 	def getGameGrammar(self, descParseInstruction):				
 		
 		#load xmlDoc as elementtree to check with xpaths
