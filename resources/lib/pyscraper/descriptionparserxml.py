@@ -1,4 +1,5 @@
 
+from descriptionparser import DescriptionParser
 from xml.etree.ElementTree import *
 import urllib2
 import time
@@ -7,7 +8,8 @@ import sys
 import util
 from util import Logutil
 
-class DescriptionParserXml:
+
+class DescriptionParserXml(DescriptionParser):
 	
 	def __init__(self, grammarNode):
 		self.grammarNode = grammarNode
@@ -21,16 +23,7 @@ class DescriptionParserXml:
 		Logutil.log('parseDescription: %s' % descFile, util.LOG_LEVEL_INFO)
 		
 		results = None
-						
-		if(descFile.startswith('http://')):
-			req = urllib2.Request(descFile)
-			req.add_unredirected_header('User-Agent', 'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.31 (KHTML, like Gecko) Chrome/26.0.1410.64 Safari/537.31')
-			descFile = urllib2.urlopen(req).read()
-			del req
-		else:
-			fh = open(str(descFile), 'r')
-			descFile = fh.read()
-			del fh
+		descFile = self.getDescriptionContents(descFile)
 				
 		#load xmlDoc as elementtree to check with xpaths
 		# force utf-8
@@ -67,16 +60,8 @@ class DescriptionParserXml:
 	def scanDescription(self, descFile, descParseInstruction, encoding):
 		
 		Logutil.log('scanDescription: %s' % descFile, util.LOG_LEVEL_INFO)
-		
-		if(descFile.startswith('http://')):
-			req = urllib2.Request(descFile)
-			req.add_unredirected_header('User-Agent', 'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.31 (KHTML, like Gecko) Chrome/26.0.1410.64 Safari/537.31')
-			descFile = urllib2.urlopen(req).read()
-			del req
-		else:
-			fh = open(str(descFile), 'r')
-			descFile = fh.read()
-			del fh
+
+		descFile = self.getDescriptionContents(descFile)
 		
 		#load xmlDoc as elementtree to check with xpaths
 		tree = fromstring(descFile)

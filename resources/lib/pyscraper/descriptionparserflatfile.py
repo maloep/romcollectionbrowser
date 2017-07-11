@@ -1,4 +1,5 @@
 
+from descriptionparser import DescriptionParser
 from pyparsing import *
 from xml.etree.ElementTree import *
 import urllib2
@@ -16,7 +17,7 @@ _mycommasepitem = Combine(OneOrMore(Word(_mynoncomma) +
 mycommaSeparatedList = delimitedList( Optional( quotedString | _mycommasepitem, default="") ).setName("mycommaSeparatedList")
 
 
-class DescriptionParserFlatFile:
+class DescriptionParserFlatFile(DescriptionParser):
 	
 	def __init__(self, grammarNode):
 		self.grammarNode = grammarNode
@@ -133,20 +134,7 @@ class DescriptionParserFlatFile:
 			
 	
 	def openDescFile(self, descFile):
-		
-		fileAsString = ''
-		
-		if(descFile.startswith('http://')):
-			req = urllib2.Request(descFile)
-			req.add_unredirected_header('User-Agent', 'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.31 (KHTML, like Gecko) Chrome/26.0.1410.64 Safari/537.31')
-			fileAsString = urllib2.urlopen(req).read()
-			del req
-		else:
-			fh = open(str(descFile), 'r')
-			fileAsString = fh.read()
-			del fh
-			
-		return fileAsString
+		return self.getDescriptionContents(descFile)
 	
 	
 	def getGameGrammar(self, descParseInstruction):				
