@@ -3,6 +3,7 @@
 import os
 import unittest
 import datetime
+import time
 from pprint import pprint
 from urllib2 import HTTPError
 
@@ -78,7 +79,7 @@ class TestScrapers(unittest.TestCase):
         self.assertEqual(results[0].get('Game')[0], "Syphon Filter")
         self.assertEqual(results[0].get('Genre')[0], "Action")
         self.assertEqual(results[0].get('Genre')[1], "Stealth")
-        self.assertTrue(type(results[0].get('ReleaseYear')[0]) is datetime.date,
+        self.assertTrue(type(results[0].get('ReleaseYear')[0]) is time.struct_time,
                         "Expected type of ReleaseYear to be date, is {}".format(type(results[0].get('ReleaseYear')[0])))
 
     def test_PublisherWithNumericName(self):
@@ -116,8 +117,13 @@ class TestScrapers(unittest.TestCase):
 
         self.assertFalse(results is None)
         self.assertTrue(len(results) == 1, "Expected 1 result for GiantBomb Game Details")
-        self.assertEqual(results[0].get('Publisher')[0], "989")
+        # Multiple publishers expected, but the order may change
+        self.assertIn("Ubisoft S.A.", results[0].get('Publisher'))
+        self.assertIn("Enix Corporation", results[0].get('Publisher'))
         self.assertTrue(len(results[0].get('Publisher')) == 2, "Expected 2 publishers for GiantBomb Game Details for ActRaiser 2")
+        # Multiple genres expected, but the order may change
+        self.assertIn("Action", results[0].get('Genre'))
+        self.assertIn("Platformer", results[0].get('Genre'))
         self.assertTrue(len(results[0].get('Genre')) == 2, "Expected 2 genres for GiantBomb Game Details for ActRaiser 2")
 
     def test_LocalNFO(self):
@@ -129,6 +135,7 @@ class TestScrapers(unittest.TestCase):
         # pprint(results)
         self.assertEqual(results[0].get('Game')[0], "Bushido Blade", "Expected game title to be Bushido Blade from .nfo")
 
+    @unittest.skip("Website now available again FIXME TODO Update test cases")
     def test_ContentNotFound404_ArchiveVG(self):
         #descFile = "http://api.archive.vg/1.0/Game.getInfoByCRC/VT7RJ960FWD4CC71L0Z0K4KQYR4PJNW8/b710561b"
         #parseInstruction = "C:\\Users\\lom\\AppData\\Roaming\\XBMC\\addons\\script.games.rom.collection.browser.dev\\resources\\scraper\\05.01 - archive - search.xml"
@@ -142,18 +149,18 @@ class TestScrapers(unittest.TestCase):
         descFile = "http://api.archive.vg/1.0/Game.getInfoByCRC/VT7RJ960FWD4CC71L0Z0K4KQYR4PJNW8/b710561b"
 
         # This will throw a HTTPError which we need to handle (currently the code doesn't handle it)
+        # since archive.vg is no longer available
         parser = DescriptionParserFactory().getParser(parseInstruction)
         self.assertRaises(HTTPError, parser.parseDescription, descFile, 'utf-8')
-                          #"Expected 404 response from unavailable site archive.vg")
 
     def test_ContentNotFound404_MAWS(self):
         parseInstruction = self.get_scraper_xml_path('06 - maws.xml')
         descFile = "http://maws.mameworld.info/maws/romset/88games"
 
         # This will throw a HTTPError which we need to handle (currently the code doesn't handle it)
+        # since MAWS is no longer available
         parser = DescriptionParserFactory().getParser(parseInstruction)
-        self.assertRaises(HTTPError, parser.parseDescription, descFile, 'utf-8',
-                          "Expected 404 response from unavailable site MAWS")
+        self.assertRaises(HTTPError, parser.parseDescription, descFile, 'utf-8')
 
 
 if __name__ == "__main__":

@@ -71,67 +71,6 @@ class DescriptionParserFlatFile(DescriptionParser):
 			resultAsDict = self.replaceResultTokens(resultAsDict)
 			yield resultAsDict
 			
-			
-	def replaceResultTokens(self, resultAsDict):
-		
-		for key in resultAsDict.keys():
-			
-			grammarElement = self.grammarNode.find(key)
-			
-			if(grammarElement != None):
-				
-				appendResultTo = grammarElement.attrib.get('appendResultTo')
-				appendResultWith = grammarElement.attrib.get('appendResultWith')
-				replaceKeyString = grammarElement.attrib.get('replaceInResultKey')
-				replaceValueString = grammarElement.attrib.get('replaceInResultValue')
-				dateFormat = grammarElement.attrib.get('dateFormat')
-				del grammarElement
-														
-				#TODO: avoid multiple loops
-				if(appendResultTo != None or appendResultWith != None or dateFormat != None):									
-					itemList = resultAsDict[key]
-					for i in range(0, len(itemList)):
-						
-						try:
-							item = itemList[i]
-							newValue = item
-							if(appendResultTo != None):								
-								newValue = appendResultTo +newValue
-							if(appendResultWith != None):
-								newValue = newValue + appendResultWith
-							if(dateFormat != None):
-								newValue = time.strptime(newValue, dateFormat)
-							itemList[i] = newValue
-						except:
-							print "Error while handling appendResultTo"
-							
-					resultAsDict[key] = itemList
-					
-				if(replaceKeyString != None and replaceValueString != None):												
-					replaceKeys = replaceKeyString.split(',')
-					replaceValues = replaceValueString.split(',')
-					
-					if(len(replaceKeys) != len(replaceValues)):
-						print "Configuration error: replaceKeys must be the same number as replaceValues"
-					
-					itemList = resultAsDict[key]
-					for i in range(0, len(itemList)):
-						try:							
-							item = itemList[i]
-							
-							for j in range(len(replaceKeys)):
-								replaceKey = replaceKeys[j]
-								replaceValue = replaceValues[j]
-															
-								newValue = item.replace(replaceKey, replaceValue)							
-								itemList[i] = newValue
-						except:
-							print "Error while handling appendResultTo"
-							
-					resultAsDict[key] = itemList
-		
-		return resultAsDict
-			
 	def getGameGrammar(self, descParseInstruction):				
 		
 		#load xmlDoc as elementtree to check with xpaths

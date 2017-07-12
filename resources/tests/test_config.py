@@ -65,7 +65,7 @@ class TestConfig(unittest.TestCase):
         conf = Config(config_xml_file)
         conf.readXml()
 
-        rc = conf.getRomCollectionById("Atari 2600")
+        rc = conf.getRomCollectionByName("Atari 2600")
         self.assertIsInstance(rc, RomCollection, "Expected Rom Collection object to be returned by ID")
         self.assertTrue(rc.id == '7', "Rom Collection ID should be returned by name")
 

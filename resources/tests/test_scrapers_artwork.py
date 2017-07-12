@@ -30,8 +30,6 @@ class TestScrapersArtwork(unittest.TestCase):
         pass
 
     def test_ArtworkLink_Screenshot_MobyGames(self):
-        from descriptionparserfactory import DescriptionParserFactory
-
         parseInstruction = self.get_scraper_xml_path('04.09 - mobygames - screenshotlink.xml')
         descFile = "http://www.mobygames.com/game/snes/actraiser/screenshots"
 
