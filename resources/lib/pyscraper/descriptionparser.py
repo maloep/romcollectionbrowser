@@ -26,13 +26,24 @@ class DescriptionParser(object):
 		return fileAsString
 
 	def replaceResultTokens(self, resultAsDict):
+		"""
+		Process the description dict according to the GameGrammar for this scraper
+		Args:
+			resultAsDict: A dictionary containing a key for each field returned by the scraper (e.g. Game,
+				ReleaseYear, Description) and a value list
+
+		Returns:
+			A dictionary with each element processed according to the GrammarNode
+		"""
+		# resultAsDict
+		# Each GameGrammar node will have a key e.g. Game, ReleaseYear, Description and a list with the value(s)
 		log.debug("replaceResultTokens: {0}".format(resultAsDict))
 		for key in resultAsDict.keys():
 			grammarElement = self.grammarNode.find(key)
 			if grammarElement is None:
-				log.warn("Could not find grammar element {0}".format(key))
+				log.warn("Could not find grammar element to describe result field {0}".format(key))
 				continue
-			
+
 			appendResultTo = grammarElement.attrib.get('appendResultTo')
 			appendResultWith = grammarElement.attrib.get('appendResultWith')
 			replaceKeyString = grammarElement.attrib.get('replaceInResultKey')
@@ -67,27 +78,22 @@ class DescriptionParser(object):
 				resultAsDict[key] = itemList
 				del itemList
 
-			if(replaceKeyString != None and replaceValueString != None):
+			if replaceKeyString is not None and replaceValueString is not None:
 				replaceKeys = replaceKeyString.split(',')
 				replaceValues = replaceValueString.split(',')
 
-				if(len(replaceKeys) != len(replaceValues)):
-					print "Configuration error: replaceKeys must be the same number as replaceValues"
+				if len(replaceKeys) != len(replaceValues):
+					log.warn("Configuration error: replaceKeys must be the same number as replaceValues")
 
 				itemList = resultAsDict[key]
 				for i in range(0, len(itemList)):
 					try:
-						item = itemList[i]
+						tokens = zip(replaceKeyString.split(','), replaceValueString.split(','))
+						for (k, v) in tokens:
+							itemList[i] = itemList[i].replace(k, v)
 
-						for j in range(len(replaceKeys)):
-							replaceKey = replaceKeys[j]
-							replaceValue = replaceValues[j]
-
-							newValue = item.replace(replaceKey, replaceValue)
-							del item
-							itemList[i] = newValue
-					except:
-						print "Error while handling appendResultTo"
+					except Exception as e:
+						log.warn("Error while handling appendResultTo: " + str(e))
 
 				resultAsDict[key] = itemList
 				del itemList
