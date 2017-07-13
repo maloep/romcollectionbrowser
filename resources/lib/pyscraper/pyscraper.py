@@ -196,37 +196,29 @@ class PyScraper(object):
 		return results
 	
 	def prepareScraperSource(self, scraper, scraperSourceOrig, romFilename):
-		# replace configurable tokens
-		replaceKeys = scraper.replaceKeyString.split(',')
-		log.debug("replaceKeys: " + str(replaceKeys))
-		replaceValues = scraper.replaceValueString.split(',')
-		log.debug("replaceValues: " + str(replaceValues))
-		
-		if len(replaceKeys) != len(replaceValues):
-			log.debug("Configuration error: replaceKeyString (%s) and replaceValueString(%s) does not have the same number of ','-separated items." % (scraper.replaceKeyString, scraper.replaceValueString))
-			return None
-		
-		for i in range(0, len(replaceKeys)):
-			scraperSource = scraperSourceOrig.replace(replaceKeys[i], replaceValues[i])
+		# Prepare the scraper source (i.e. the URL or filename) by substituting various parameters
+
+		log.debug("prepareScraperSource: {0} - {1} - {2}".format(scraper, scraperSourceOrig, romFilename))
+
+		# FIXME TODO this doesn't raise an error if num of keys doesn't match values - should really validate that in the scraper itself
+		tokens = zip(scraper.replaceKeyString.split(','), scraper.replaceValueString.split(','))
+		for (key, val) in tokens:
+			scraperSource = scraperSourceOrig.replace(key, val)
 			# also replace in gamename for later result matching
-			gamenameFromFile = romFilename.replace(replaceKeys[i], replaceValues[i])
+			gamenameFromFile = romFilename.replace(key, val)
 			
-		if scraperSource.startswith('http://'):
-			gamenameToParse = urllib.quote(gamenameFromFile, safe='')
-		else:
-			gamenameToParse = gamenameFromFile
-			
-		scraperSource = scraperSource.replace(u'%GAME%', gamenameToParse)
-		
-		replaceTokens = [u'%FILENAME%', u'%FOLDERNAME%', u'%CRC%']
-		replaceValues = [gamenameFromFile, self.foldername, self.crc]
+		tokens = zip([u'%FILENAME%', u'%FOLDERNAME%', u'%CRC%'], [gamenameFromFile, self.foldername, self.crc])
 		for key, value in util.API_KEYS.iteritems():
-			replaceTokens.append(key)
-			replaceValues.append(value)
-			
-		for i in range(0, len(replaceTokens)):
-			scraperSource = scraperSource.replace(replaceTokens[i], replaceValues[i])
-		
+			tokens.append((key, value))
+
+		if scraperSource.startswith('http://'):
+			tokens.append((u'%GAME%', urllib.quote(gamenameFromFile, safe='')))
+		else:
+			tokens.append((u'%GAME%', gamenameFromFile))
+
+		for (key, val) in tokens:
+			scraperSource = scraperSource.replace(key, val)
+
 		if not scraperSource.startswith('http://') and not os.path.exists(scraperSource):
 			# try again with original rom filename
 			scraperSource = scraperSourceOrig.replace("%GAME%", romFilename)
@@ -247,6 +239,15 @@ class PyScraper(object):
 		return resultIndex
 	
 	def getBestResults(self, results, gamenameFromFile):
+		"""
+		Compare a game name against each item in a result set to work out which is the likely match
+		Args:
+			results: A list of dicts with the SearchKey key being the game title in the result set
+			gamenameFromFile: The title of the game we are trying to match
+
+		Returns:
+			Either None if no match was found, or the title of the matching game (SearchKey key in the dict)
+		"""
 		log.info("getBestResults")
 
 		if results is None or len(results) == 0:
@@ -450,21 +451,28 @@ class PyScraper(object):
 		return True
 		
 	def getSequelNoIndex(self, gamename):
+		""" Returns the index in the list that matches the first number found, either number or roman numeral.
+			This is used to compare a game that has a sequel number with a result that has a sequel number in a
+			different format (e.g. Final Fantasy VIII vs. Final Fantasy 8).
+			Note we currently only support matching up to X (10), so Final Fantasy XIII won't work
+			In addition, because of the way this iterates, we won't match IX properly since X is found first
+		"""
 		indexGamename = -1
 		
 		for i in range(0, len(self.digits)):
-			if gamename.find(self.digits[i]) != -1:
+			if gamename.find(' ' + self.digits[i]) != -1:
 				indexGamename = i
 				break
-			if gamename.find(self.romes[i]) != -1:
+			if gamename.find(' ' + self.romes[i]) != -1:
 				indexGamename = i
 				break
 				
 		return indexGamename
 				
-	# TODO merge with method from dbupdate.py
+	# TODO merge with method from dbupdate.py - why do we have two functions?
 	def resolveParseResult(self, result, itemName):
-		
+		# FIXME TODO Do all the unescaping, stripping etc when adding to the dict! or even better, use BeautifulSoup
+
 		resultValue = ""
 		
 		try:			

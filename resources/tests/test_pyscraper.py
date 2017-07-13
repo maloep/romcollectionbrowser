@@ -36,6 +36,31 @@ class TestPyScraper(unittest.TestCase):
 		self.assertEqual(url, "http://api.giantbomb.com/search/?api_key=279442d60999f92c5e5f693b4d23bd3b6fd8e868&query=Final%20Fantasy%20%28USA%29&resources=game&field_list=api_detail_url,name&format=xml", "Expected URL to be parsed correctly")
 
 	@unittest.skip("Not yet implemented")
+	# Test matching against a result set
+	def test_getBestResultsWithRomanNumerals(self):
+		results = [{'SearchKey': ['Tekken 2']}, {'SearchKey': ['Tekken 3']}, {'SearchKey': ['Tekken IV']}]
+		gamename = 'Tekken II'
+
+		ps = PyScraper()
+		x = ps.getBestResults(results, gamename)
+		self.assertIsInstance(x, dict, "Expected a matching dict to be returned")
+		self.assertTrue(x.get('SearchKey')[0] == 'Tekken 2', "Expected to match title (was {0})".format(x.get('SearchKey')[0]))
+
+	def test_getBestResultsWithApostropheAndYear(self):
+		results = [{'SearchKey': ['FIFA 98']}, {'SearchKey': ['FIFA 97']}, {'SearchKey': ['FIFA 2001']}]
+		gamename = 'FIFA \'98'
+
+		ps = PyScraper()
+		x = ps.getBestResults(results, gamename)
+		self.assertTrue(x.get('SearchKey')[0] == 'FIFA 98', "Expected to match title (was {0})".format(x.get('SearchKey')[0]))
+
+	def test_getBestResultsWithBrackets(self):
+		results = [{'SearchKey': ['FIFA 98']}, {'SearchKey': ['FIFA 97']}, {'SearchKey': ['FIFA 2001']}]
+		gamename = 'FIFA \'98 (1998) [Electronic Arts]'
+
+		ps = PyScraper()
+		x = ps.getBestResults(results, gamename)
+		self.assertTrue(x.get('SearchKey')[0] == 'FIFA 98', "Expected to match title (was {0})".format(x.get('SearchKey')[0]))
 	def test_checkSequelNoIsEqual(self):
 		ps = PyScraper()
 		print ps.checkSequelNoIsEqual("Legend of Zelda, The - A Link to the Past (USA)", "5")
