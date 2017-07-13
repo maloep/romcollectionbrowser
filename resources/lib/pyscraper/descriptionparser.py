@@ -44,40 +44,39 @@ class DescriptionParser(object):
 				log.warn("Could not find grammar element to describe result field {0}".format(key))
 				continue
 
-			appendResultTo = grammarElement.attrib.get('appendResultTo')
-			appendResultWith = grammarElement.attrib.get('appendResultWith')
+			itemList = resultAsDict[key]
+			for i in range(0, len(itemList)):
+				try:
+					item = itemList[i]
+					newValue = item
+					del item
+
+					# Add prefix and suffix - appends/prepends empty string if not found in dict
+					newValue = "{0}{1}{2}".format(grammarElement.attrib.get('appendResultTo', ''),
+						newValue,
+						grammarElement.attrib.get('appendResultWith', ''))
+
+					# Parse ReleaseYear (for some parsers)
+					if 'dateFormat' in grammarElement.attrib:
+						if grammarElement.attrib.get('dateFormat') == 'epoch':
+							# Used only for archive.vg
+							try:
+								newValue = time.gmtime(int(newValue))
+							except Exception as e:
+								print 'error converting timestamp: ' + str(newValue) + ': ' + str(e)
+						else:
+							# Parse according to the datetime format
+							newValue = time.strptime(newValue, grammarElement.attrib.get('dateFormat'))
+
+					itemList[i] = newValue
+				except Exception as e:
+					print "Error while parsing result with GrammarNode: " + str(e)
+
+			resultAsDict[key] = itemList
+
+			# This is only used in archive.vg
 			replaceKeyString = grammarElement.attrib.get('replaceInResultKey')
 			replaceValueString = grammarElement.attrib.get('replaceInResultValue')
-			dateFormat = grammarElement.attrib.get('dateFormat')
-			del grammarElement
-
-			#TODO: avoid multiple loops
-			if(appendResultTo != None or appendResultWith != None or dateFormat != None):
-				itemList = resultAsDict[key]
-				for i in range(0, len(itemList)):
-					try:
-						item = itemList[i]
-						newValue = item
-						del item
-						if(appendResultTo != None):
-							newValue = appendResultTo +newValue
-						if(appendResultWith != None):
-							newValue = newValue + appendResultWith
-						if(dateFormat != None):
-							if(dateFormat == 'epoch'):
-								try:
-									newValue = time.gmtime(int(newValue))
-								except:
-									print 'error converting timestamp: ' +str(newValue)
-							else:
-								newValue = time.strptime(newValue, dateFormat)
-						itemList[i] = newValue
-					except Exception, (exc):
-						print "Error while handling appendResultTo: " +str(exc)
-
-				resultAsDict[key] = itemList
-				del itemList
-
 			if replaceKeyString is not None and replaceValueString is not None:
 				replaceKeys = replaceKeyString.split(',')
 				replaceValues = replaceValueString.split(',')
