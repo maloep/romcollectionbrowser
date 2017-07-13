@@ -30,11 +30,22 @@ class PyScraper(object):
 		self.update_option = 0		# Automatic: Accurate
 		self.fuzzy_factor = 0.8
 
-	def log_results(self, resultslist):
-		for item in resultslist:
-			log.debug(" - " + str(item))
 
 	def scrapeResults(self, results, scraper, urlsFromPreviousScrapers, gamenameFromFile, foldername, filecrc, romFile, fuzzyFactor, updateOption, romCollection, settings):
+	def searchAndMatchResults(self, scraper, source, gamename):
+		""" Using the scraper, search for a gamename, and get the best match """
+		tempResults = self.parseDescriptionFile(scraper, source, gamename)
+		try:
+			log.debug("Found {0} results for {1} from URL {2}".format(len(tempResults), gamename, source))
+			for item in tempResults:
+				log.debug(" - " + str(item))
+		except:
+			# Ignore if an exception since it will be where tempResults is None
+			pass
+
+		tempResults = self.getBestResults(tempResults, gamename)
+		return tempResults
+
 		log.debug("Using parser file {0} and game description {1}".format(scraper.parseInstruction, scraper.source))
 
 		scraperSource = scraper.source.decode('utf-8')
@@ -72,25 +83,14 @@ class PyScraper(object):
 			
 		if scraper.source == 'nfo':
 			scraperSource = self.getNfoFile(settings, romCollection, gamenameFromFile)
-				
-		tempResults = self.parseDescriptionFile(scraper, scraperSource, gamenameFromFile)
-		try:
-			log.debug("Found {0} results for {1} from URL {2}".format(len(tempResults), gamenameFromFile, scraperSource))
-			self.log_results(tempResults)
-		except:
-			# Ignore if an exception since it will be where tempResults is None
-			pass
 
-		tempResults = self.getBestResults(tempResults, gamenameFromFile)
-		
+		tempResults = self.searchAndMatchResults(scraper, scraperSource, gamenameFromFile)
 		if tempResults is None:
 			# try again without (*) and [*]
 			altname = re.sub('\s\(.*\)|\s\[.*\]|\(.*\)|\[.*\]', '', gamenameFromFile)
 			log.debug("Did not find any matches for {0}, trying again with {1}".format(gamenameFromFile, altname))
 
-			tempResults = self.parseDescriptionFile(scraper, scraperSource, altname)
-			tempResults = self.getBestResults(tempResults, altname)
-				
+			tempResults = self.searchAndMatchResults(scraper, scraperSource, altname)
 			if tempResults is None:
 				log.debug("Still no matches after modifying game name")
 				if scraper.returnUrl:
