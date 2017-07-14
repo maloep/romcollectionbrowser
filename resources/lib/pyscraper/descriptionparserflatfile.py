@@ -1,7 +1,7 @@
 
 from descriptionparser import DescriptionParser
 from pyparsing import *
-from xml.etree import ElementTree as ET
+from xml.etree.ElementTree import *
 
 from util import Logutil
 #from xml.dom.minidom import parseString, Node, Document
@@ -74,7 +74,7 @@ class DescriptionParserFlatFile(DescriptionParser):
 		#load xmlDoc as elementtree to check with xpaths
 		#tree = ElementTree().parse(descParseInstruction)
 		fp = open(descParseInstruction, 'r')
-		tree = ET.fromstring(fp.read())
+		tree = fromstring(fp.read())
 		fp.close()
 		del fp
 		

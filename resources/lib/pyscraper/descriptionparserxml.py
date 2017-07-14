@@ -1,6 +1,6 @@
 
 from descriptionparser import DescriptionParser
-from xml.etree import ElementTree as ET
+from xml.etree.ElementTree import *
 
 import util
 from util import Logutil
@@ -24,7 +24,7 @@ class DescriptionParserXml(DescriptionParser):
 		Returns:
 			List containing the search result dicts
 		"""
-		tree = ET.fromstring(description)
+		tree = fromstring(description)
 
 		rootElementXPath = self.grammarNode.attrib.get('root', '.')
 		rootElements = tree.findall(rootElementXPath)
@@ -75,7 +75,7 @@ class DescriptionParserXml(DescriptionParser):
 		descFile = self.getDescriptionContents(descFile)
 		
 		#load xmlDoc as elementtree to check with xpaths
-		tree = ET.fromstring(descFile)
+		tree = fromstring(descFile)
 		del descFile
 		
 		#single result as dictionary
