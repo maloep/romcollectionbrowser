@@ -36,6 +36,20 @@ class TestPyScraper(unittest.TestCase):
 		self.assertEqual(url, "http://api.giantbomb.com/search/?api_key=279442d60999f92c5e5f693b4d23bd3b6fd8e868&query=Final%20Fantasy%20%28USA%29&resources=game&field_list=api_detail_url,name&format=xml", "Expected URL to be parsed correctly")
 
 	@unittest.skip("Not yet implemented")
+	def test_AddNewElements(self):
+		ps = PyScraper()
+		existingResults = {"SearchKey": ["Tekken 2"], "Publisher": []}
+		newResults = {"SearchKey": ["Tekken 3"], "Description": ["Tekken 2 description &amp; history"], "Publisher": ["Namco"]}
+		existingResults = ps.addNewElements(existingResults, newResults)
+
+		self.assertIn("Description", existingResults, "Expected to add Description")
+		self.assertEqual(existingResults.get("SearchKey")[0], "Tekken 2",
+			"Expected existing field SearchKey to not be overwritten (now {0}".format(existingResults.get("SearchKey")[0]))
+		self.assertEqual(existingResults.get("Publisher")[0], "Namco",
+			"Expected existing but empty field Publisher to be overwritten")
+		self.assertEqual(existingResults.get("Description")[0], "Tekken 2 description & history",
+			"Expected HTML special characters to be converted")
+
 	# Test matching against a result set
 	def test_getBestResultsWithRomanNumerals(self):
 		results = [{'SearchKey': ['Tekken 2']}, {'SearchKey': ['Tekken 3']}, {'SearchKey': ['Tekken IV']}]
