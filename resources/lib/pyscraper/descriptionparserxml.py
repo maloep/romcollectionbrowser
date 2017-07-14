@@ -1,6 +1,6 @@
 
 from descriptionparser import DescriptionParser
-from xml.etree.ElementTree import *
+from xml.etree import ElementTree as ET
 import urllib2
 import time
 import sys
@@ -17,44 +17,58 @@ class DescriptionParserXml(DescriptionParser):
 	
 	def prepareScan(self, descFile, descParseInstruction):
 		pass
-	
-	
-	def parseDescription(self, descFile, encoding):
-		Logutil.log('parseDescription: %s' % descFile, util.LOG_LEVEL_INFO)
-		
-		results = None
-		descFile = self.getDescriptionContents(descFile)
-				
-		#load xmlDoc as elementtree to check with xpaths
-		# force utf-8
-		if sys.version_info >= (2,7):
-			parser = XMLParser(encoding='utf-8')
-		else:
-			parser = XMLParser()
-		tree = fromstring(descFile, parser)
-		del descFile
-		if(tree == None):
-			return None				
-						
-		rootElementXPath = self.grammarNode.attrib.get('root')
-		if(not rootElementXPath):
-			rootElementXPath = "."
+
+	def applyGrammerToDescription(self, description):
+		"""
+		Using the GameGrammar node for this scraper, parse the description
+		Args:
+			description:
+
+		Returns:
+			List containing the search result dicts
+		"""
+		tree = ET.fromstring(description)
+
+		rootElementXPath = self.grammarNode.attrib.get('root', '.')
 		rootElements = tree.findall(rootElementXPath)
-		del tree, rootElementXPath
-		if(rootElements == None):
-			return None
-		
+
+		if rootElements is None:
+			log.warn("Unable to find root element {0} in description".format(rootElementXPath))
+			return []
+
 		resultList = []
-		
-		for rootElement in rootElements:			
-			tempResults = self.parseElement(rootElement)			
-			if tempResults != None:				
-				results = tempResults
-				del tempResults
-				results = self.replaceResultTokens(results)
-				resultList.append(results)
-		
+
+		for rootElement in rootElements:
+			tempResults = self.parseElement(rootElement)
+			if tempResults is None:
+				continue
+
+			resultList.append(self.replaceResultTokens(tempResults))
+
 		return resultList
+
+	def parseDescription(self, descFile, encoding):
+		"""
+		Get a "description" (i.e. a search result) and process it according to the GrammarNode for the site we are
+		using.
+
+		Args:
+			descFile: Either a URL or a file path to the source of the "description"
+			encoding:
+
+		Returns:
+			A list of dicts with keys matching the GameGrammar elements, or None if there was an error parsing.
+
+			Each dict in the list is a matching search result.
+		"""
+
+		Logutil.log('parseDescription: %s' % descFile, util.LOG_LEVEL_INFO)
+
+		# Parse the description
+		descFile = self.getDescriptionContents(descFile)
+
+		# Apply the GrammarNode rules to find the data
+		return self.applyGrammerToDescription(descFile)
 	
 	
 	def scanDescription(self, descFile, descParseInstruction, encoding):
@@ -64,7 +78,7 @@ class DescriptionParserXml(DescriptionParser):
 		descFile = self.getDescriptionContents(descFile)
 		
 		#load xmlDoc as elementtree to check with xpaths
-		tree = fromstring(descFile)
+		tree = ET.fromstring(descFile)
 		del descFile
 		
 		#single result as dictionary
