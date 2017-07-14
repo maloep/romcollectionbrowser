@@ -1,9 +1,6 @@
 
 from descriptionparser import DescriptionParser
 from xml.etree import ElementTree as ET
-import urllib2
-import time
-import sys
 
 import util
 from util import Logutil

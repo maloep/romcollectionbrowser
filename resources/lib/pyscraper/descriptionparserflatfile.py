@@ -1,10 +1,8 @@
 
 from descriptionparser import DescriptionParser
 from pyparsing import *
-from xml.etree.ElementTree import *
-import urllib2
-import time
-import util
+from xml.etree import ElementTree as ET
+
 from util import Logutil
 #from xml.dom.minidom import parseString, Node, Document
 
@@ -76,13 +74,13 @@ class DescriptionParserFlatFile(DescriptionParser):
 		#load xmlDoc as elementtree to check with xpaths
 		#tree = ElementTree().parse(descParseInstruction)
 		fp = open(descParseInstruction, 'r')
-		tree = fromstring(fp.read())
+		tree = ET.fromstring(fp.read())
 		fp.close()
 		del fp
 		
 		grammarNode = tree.find('GameGrammar')
 		if(grammarNode == None):
-			return "";
+			return ""
 					
 		results = self.buildGameGrammar(grammarNode)
 			
