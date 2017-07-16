@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 
 import sys
 import os
@@ -35,7 +36,6 @@ class TestPyScraper(unittest.TestCase):
 		url = ps.prepareScraperSource(scrapers[0], scrapers[0].source, "Final Fantasy (USA)")
 		self.assertEqual(url, "http://api.giantbomb.com/search/?api_key=279442d60999f92c5e5f693b4d23bd3b6fd8e868&query=Final%20Fantasy%20%28USA%29&resources=game&field_list=api_detail_url,name&format=xml", "Expected URL to be parsed correctly")
 
-	@unittest.skip("Not yet implemented")
 	def test_AddNewElements(self):
 		ps = PyScraper()
 		existingResults = {"SearchKey": ["Tekken 2"], "Publisher": []}
@@ -50,6 +50,15 @@ class TestPyScraper(unittest.TestCase):
 		self.assertEqual(existingResults.get("Description")[0], "Tekken 2 description & history",
 			"Expected HTML special characters to be converted")
 
+	def test_AddNewElementsUnicode(self):
+		ps = PyScraper()
+		existingResults = {"SearchKey": ["Random Game"]}
+		newResults = {"Description": [u"'Super Keirin (スーパー競輪, Super Keirin) is a Japan-exclusive video game"]}
+		existingResults = ps.addNewElements(existingResults, newResults)
+
+		self.assertEqual(existingResults.get("Description")[0], u"'Super Keirin (スーパー競輪, Super Keirin) is a Japan-exclusive video game",
+			"Expected Unicode string to be handled when adding new search result element")
+
 	# Test matching against a result set
 	def test_getBestResultsWithRomanNumerals(self):
 		results = [{'SearchKey': ['Tekken 2']}, {'SearchKey': ['Tekken 3']}, {'SearchKey': ['Tekken IV']}]
@@ -59,6 +68,13 @@ class TestPyScraper(unittest.TestCase):
 		x = ps.getBestResults(results, gamename)
 		self.assertIsInstance(x, dict, "Expected a matching dict to be returned")
 		self.assertTrue(x.get('SearchKey')[0] == 'Tekken 2', "Expected to match title (was {0})".format(x.get('SearchKey')[0]))
+
+	def test_getBestResultsWithUnicode(self):
+		results = [{'SearchKey': [u'スーパー競輪']}]
+		gamename = 'Super Test Game'
+		ps = PyScraper()
+		x = ps.getBestResults(results, gamename)
+		self.assertIsNone(x, "Expected to not match on unicode")
 
 	def test_getBestResultsWithApostropheAndYear(self):
 		results = [{'SearchKey': ['FIFA 98']}, {'SearchKey': ['FIFA 97']}, {'SearchKey': ['FIFA 2001']}]

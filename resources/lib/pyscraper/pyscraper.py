@@ -135,25 +135,28 @@ class PyScraper(object):
 			return
 
 		for resultKey in tempResults.keys():
+			try:
+				resultValueOld = results.get(resultKey, [])
+				resultValueNew = tempResults.get(resultKey, [])
 
-			resultValueOld = results.get(resultKey, [])
-			resultValueNew = tempResults.get(resultKey, [])
+				# Unescaping ugly html encoding from websites
+				# FIXME TODO Do this when field is added to results
+				if len(resultValueNew) > 0:
+					# FIXME TODO Should do this when we first get the value
+					resultValueNew[0] = HTMLParser.HTMLParser().unescape(resultValueNew[0])
 
-			# Unescaping ugly html encoding from websites
-			# FIXME TODO Do this when field is added to results
-			if len(resultValueNew) > 0:
-				resultValueNew[0] = HTMLParser.HTMLParser().unescape(resultValueNew[0])
-
-			if resultKey not in results:
-				log.debug("No existing value for key {0}, replacing with new value [{1}]".format(resultKey, ','.join(str(x) for x in resultValueNew)))
-				results[resultKey] = resultValueNew
-			else:
-				# FIXME TODO Check if the previous value is empty, and overwrite if so
-				if resultValueOld == []:
-					log.debug("Previous value empty for key {0}, replacing with new value [{1}]".format(resultKey, ','.join(str(x) for x in resultValueNew)))
+				if resultKey not in results:
+					log.debug(u"No existing value for key {0}, replacing with new value [{1}]".format(resultKey, ','.join(x for x in resultValueNew)))
 					results[resultKey] = resultValueNew
 				else:
-					log.debug("Retaining existing value for key {0} ([{1}])".format(resultKey, ','.join(str(x) for x in resultValueOld)))
+					# FIXME TODO Check if the previous value is empty, and overwrite if so
+					if resultValueOld == []:
+						log.debug(u"Previous value empty for key {0}, replacing with new value [{1}]".format(resultKey, ','.join(x for x in resultValueNew)))
+						results[resultKey] = resultValueNew
+					else:
+						log.debug(u"Retaining existing value for key {0} ([{1}])".format(resultKey, ','.join(x for x in resultValueOld)))
+			except Exception as e:
+				log.warn("There was an error adding key {0} to existing result set: {1}".format(resultKey, str(e)))
 
 		return results
 
