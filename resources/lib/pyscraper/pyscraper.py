@@ -47,7 +47,8 @@ class PyScraper(object):
 			altname = re.sub('\s\(.*\)|\s\[.*\]|\(.*\)|\[.*\]', '', gamename)
 			log.debug("Did not find any matches for {0}, trying again with {1}".format(gamename, altname))
 			match = self.getBestResults(resultset, altname)
-			log.debug("After modifying game name, found {0} best results for {1}".format(len(match), altname))
+			if match:
+				log.debug("After modifying game name, found {0} best results for {1}".format(len(match), altname))
 
 		return match
 
@@ -231,7 +232,7 @@ class PyScraper(object):
 		for key, value in util.API_KEYS.iteritems():
 			tokens.append((key, value))
 
-		if scraperSource.startswith('http://'):
+		if scraperSource.startswith('http'):
 			tokens.append((u'%GAME%', urllib.quote(gamenameFromFile, safe='')))
 		else:
 			tokens.append((u'%GAME%', gamenameFromFile))
@@ -239,7 +240,7 @@ class PyScraper(object):
 		for (key, val) in tokens:
 			scraperSource = scraperSource.replace(key, val)
 
-		if not scraperSource.startswith('http://') and not os.path.exists(scraperSource):
+		if not scraperSource.startswith('http') and not os.path.exists(scraperSource):
 			# try again with original rom filename
 			scraperSource = scraperSourceOrig.replace("%GAME%", romFilename)
 			if not os.path.exists(scraperSource):

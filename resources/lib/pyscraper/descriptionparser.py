@@ -1,29 +1,45 @@
-
 import time
 import urllib2
+from util import Logutil as log
 
 class DescriptionParser(object):
 	def __init__(self):
 		pass
 
-	def downloadDescription(self):
-		pass
+	def downloadDescription(self, url):
+		contents = ''
+		try:
+			req = urllib2.Request(url)
+			req.add_unredirected_header('User-Agent', 'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.31 (KHTML, like Gecko) Chrome/26.0.1410.64 Safari/537.31')
+			contents = urllib2.urlopen(req).read()
+		except Exception as e:
+			log.warn("Error downloading {0}: {1}".format(url, str(e)))
 
-	def openFile(self):
-		pass
+		return contents
+
+	def openFile(self, path):
+		with open(str(path), 'r') as fh:
+			return fh.read()
 
 	def getDescriptionContents(self, descFile):
-		if(descFile.startswith('http://')):
-			req = urllib2.Request(descFile)
-			req.add_unredirected_header('User-Agent', 'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.31 (KHTML, like Gecko) Chrome/26.0.1410.64 Safari/537.31')
-			fileAsString = urllib2.urlopen(req).read()
-			del req
-		else:
-			fh = open(str(descFile), 'r')
-			fileAsString = fh.read()
-			del fh
+		"""
+		Opens a file or downloads the data and parses the description as an XML string
+		Args:
+			descFile: source of the description, either a file or a URL
 
-		return fileAsString
+		Returns:
+			XML string
+		"""
+		contents = ''
+
+		if descFile.startswith('http'):
+			contents = self.downloadDescription(descFile)
+		else:
+			contents = self.openFile(descFile)
+
+		# Warning this will generate a lot of data
+		#log.debug("Contents of description {0}: {1}".format(descFile, contents))
+		return contents
 
 	def replaceResultTokens(self, resultAsDict):
 		"""
