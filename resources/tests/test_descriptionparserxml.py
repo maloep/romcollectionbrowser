@@ -29,6 +29,7 @@ class TestDescriptionParserXML(unittest.TestCase):
 		self.assertEqual(result[0].get('Publisher')[0], 'Namco', "Expected publisher to be 'Namco'")
 		self.assertTrue(type(result[0].get('ReleaseYear')[0]) is time.struct_time,
 						"Expected type of ReleaseYear to be date, is {}".format(type(result[0].get('ReleaseYear')[0])))
+		self.assertTrue("Battle Mode & Practice Mode" in result[0].get('Description')[0], "Expected special character &amp; to be converted")
 
 		# This returns a generator
 		result = parser.scanDescription(descFile, None, "utf-8")
