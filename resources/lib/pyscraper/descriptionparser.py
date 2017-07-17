@@ -27,69 +27,73 @@ class DescriptionParser(object):
 		return fileAsString
 
 	def replaceResultTokens(self, resultAsDict):
+		"""
+		Process the description dict according to the GameGrammar for this scraper
+		Args:
+			resultAsDict: A dictionary containing a key for each field returned by the scraper (e.g. Game,
+				ReleaseYear, Description) and a value list
+
+		Returns:
+			A dictionary with each element processed according to the GrammarNode
+		"""
+
 		log.debug("replaceResultTokens: {0}".format(resultAsDict))
 		for key in resultAsDict.keys():
 			grammarElement = self.grammarNode.find(key)
 
 			if grammarElement is None:
-				log.warn("Could not find grammar element {0}".format(key))
+				log.warn("Could not find grammar element to describe result field {0}".format(key))
 				continue
 
-			appendResultTo = grammarElement.attrib.get('appendResultTo')
-			appendResultWith = grammarElement.attrib.get('appendResultWith')
+			itemList = resultAsDict[key]
+			for i in range(0, len(itemList)):
+				try:
+					item = itemList[i]
+					newValue = item
+					del item
+
+					# Add prefix and suffix - appends/prepends empty string if not found in dict
+					newValue = "{0}{1}{2}".format(grammarElement.attrib.get('appendResultTo', ''),
+						newValue,
+						grammarElement.attrib.get('appendResultWith', ''))
+
+					# Parse ReleaseYear (for some parsers)
+					if 'dateFormat' in grammarElement.attrib:
+						if grammarElement.attrib.get('dateFormat') == 'epoch':
+							# Used only for archive.vg
+							try:
+								newValue = time.gmtime(int(newValue))
+							except Exception as e:
+								print 'error converting timestamp: ' + str(newValue) + ': ' + str(e)
+						else:
+							# Parse according to the datetime format
+							newValue = time.strptime(newValue, grammarElement.attrib.get('dateFormat'))
+
+					itemList[i] = newValue
+				except Exception as e:
+					print "Error while parsing result with GrammarNode: " + str(e)
+
+			resultAsDict[key] = itemList
+
+			# This is only used in archive.vg
 			replaceKeyString = grammarElement.attrib.get('replaceInResultKey')
 			replaceValueString = grammarElement.attrib.get('replaceInResultValue')
-			dateFormat = grammarElement.attrib.get('dateFormat')
-			del grammarElement
 
-			#TODO: avoid multiple loops
-			if(appendResultTo != None or appendResultWith != None or dateFormat != None):
-				itemList = resultAsDict[key]
-				for i in range(0, len(itemList)):
-					try:
-						item = itemList[i]
-						newValue = item
-						del item
-						if(appendResultTo != None):
-							newValue = appendResultTo +newValue
-						if(appendResultWith != None):
-							newValue = newValue + appendResultWith
-						if(dateFormat != None):
-							if(dateFormat == 'epoch'):
-								try:
-									newValue = time.gmtime(int(newValue))
-								except:
-									print 'error converting timestamp: ' +str(newValue)
-							else:
-								newValue = time.strptime(newValue, dateFormat)
-						itemList[i] = newValue
-					except Exception, (exc):
-						print "Error while handling appendResultTo: " +str(exc)
-
-				resultAsDict[key] = itemList
-				del itemList
-
-			if(replaceKeyString != None and replaceValueString != None):
+			if replaceKeyString is not None and replaceValueString is not None:
 				replaceKeys = replaceKeyString.split(',')
 				replaceValues = replaceValueString.split(',')
 
-				if(len(replaceKeys) != len(replaceValues)):
-					print "Configuration error: replaceKeys must be the same number as replaceValues"
+				if len(replaceKeys) != len(replaceValues):
+					log.warn("Configuration error: replaceKeys must be the same number as replaceValues")
 
 				itemList = resultAsDict[key]
 				for i in range(0, len(itemList)):
 					try:
-						item = itemList[i]
-
-						for j in range(len(replaceKeys)):
-							replaceKey = replaceKeys[j]
-							replaceValue = replaceValues[j]
-
-							newValue = item.replace(replaceKey, replaceValue)
-							del item
-							itemList[i] = newValue
-					except:
-						print "Error while handling appendResultTo"
+						tokens = zip(replaceKeyString.split(','), replaceValueString.split(','))
+						for (k, v) in tokens:
+							itemList[i] = itemList[i].replace(k, v)
+					except Exception as e:
+						log.warn("Error while replacing keys in element: " + str(e))
 
 				resultAsDict[key] = itemList
 				del itemList
