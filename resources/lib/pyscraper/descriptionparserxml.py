@@ -6,8 +6,9 @@ import sys
 
 import util
 from util import Logutil
+from descriptionparser import DescriptionParser
 
-class DescriptionParserXml:
+class DescriptionParserXml(DescriptionParser):
 	
 	def __init__(self, grammarNode):
 		self.grammarNode = grammarNode
@@ -22,15 +23,7 @@ class DescriptionParserXml:
 		
 		results = None
 						
-		if(descFile.startswith('http://')):
-			req = urllib2.Request(descFile)
-			req.add_unredirected_header('User-Agent', 'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.31 (KHTML, like Gecko) Chrome/26.0.1410.64 Safari/537.31')
-			descFile = urllib2.urlopen(req).read()
-			del req
-		else:
-			fh = open(str(descFile), 'r')
-			descFile = fh.read()
-			del fh
+		descFile = self.getDescriptionContents(descFile)
 				
 		#load xmlDoc as elementtree to check with xpaths
 		# force utf-8
@@ -68,15 +61,7 @@ class DescriptionParserXml:
 		
 		Logutil.log('scanDescription: %s' % descFile, util.LOG_LEVEL_INFO)
 		
-		if(descFile.startswith('http://')):
-			req = urllib2.Request(descFile)
-			req.add_unredirected_header('User-Agent', 'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.31 (KHTML, like Gecko) Chrome/26.0.1410.64 Safari/537.31')
-			descFile = urllib2.urlopen(req).read()
-			del req
-		else:
-			fh = open(str(descFile), 'r')
-			descFile = fh.read()
-			del fh
+		descFile = self.getDescriptionContents(descFile)
 		
 		#load xmlDoc as elementtree to check with xpaths
 		tree = fromstring(descFile)
@@ -91,76 +76,7 @@ class DescriptionParserXml:
 			result = self.parseElement(node)
 			result = self.replaceResultTokens(result)
 			yield result
-	
-	
-	#TODO: make a base class and make this a base method
-	def replaceResultTokens(self, resultAsDict):
-				
-		for key in resultAsDict.keys():
-			grammarElement = self.grammarNode.find(key)
-			if(grammarElement != None):
-				appendResultTo = grammarElement.attrib.get('appendResultTo')
-				appendResultWith = grammarElement.attrib.get('appendResultWith')
-				replaceKeyString = grammarElement.attrib.get('replaceInResultKey')
-				replaceValueString = grammarElement.attrib.get('replaceInResultValue')
-				dateFormat = grammarElement.attrib.get('dateFormat')
-				del grammarElement
-														
-				#TODO: avoid multiple loops
-				if(appendResultTo != None or appendResultWith != None or dateFormat != None):									
-					itemList = resultAsDict[key]
-					for i in range(0, len(itemList)):
-						try:
-							item = itemList[i]
-							newValue = item
-							del item
-							if(appendResultTo != None):								
-								newValue = appendResultTo +newValue
-							if(appendResultWith != None):
-								newValue = newValue + appendResultWith
-							if(dateFormat != None):
-								if(dateFormat == 'epoch'):
-									try:
-										newValue = time.gmtime(int(newValue))
-									except:
-										print 'error converting timestamp: ' +str(newValue) 
-								else:
-									newValue = time.strptime(newValue, dateFormat)
-							itemList[i] = newValue
-						except Exception, (exc):
-							print "Error while handling appendResultTo: " +str(exc)
-							
-					resultAsDict[key] = itemList
-					del itemList
-					
-				if(replaceKeyString != None and replaceValueString != None):												
-					replaceKeys = replaceKeyString.split(',')
-					replaceValues = replaceValueString.split(',')
-					
-					if(len(replaceKeys) != len(replaceValues)):
-						print "Configuration error: replaceKeys must be the same number as replaceValues"
-					
-					itemList = resultAsDict[key]
-					for i in range(0, len(itemList)):
-						try:							
-							item = itemList[i]
-							
-							for j in range(len(replaceKeys)):
-								replaceKey = replaceKeys[j]
-								replaceValue = replaceValues[j]
-															
-								newValue = item.replace(replaceKey, replaceValue)
-								del item							
-								itemList[i] = newValue
-						except:
-							print "Error while handling appendResultTo"
-							
-					resultAsDict[key] = itemList
-					del itemList
-		
-		return resultAsDict			
 
-			
 	def parseElement(self, sourceTree):
 		#single result as dictionary
 		result = {}

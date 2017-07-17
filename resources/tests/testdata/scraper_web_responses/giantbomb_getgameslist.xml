@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<response>
+    <error><![CDATA[OK]]></error>
+    <limit>10</limit>
+    <offset>0</offset>
+    <number_of_page_results>10</number_of_page_results>
+    <number_of_total_results>30</number_of_total_results>
+    <status_code>1</status_code>
+    <results>
+        <game>
+            <api_detail_url><![CDATA[https://www.giantbomb.com/api/game/3030-10081/]]></api_detail_url>
+            <name><![CDATA[Tekken]]></name>
+            <resource_type><![CDATA[game]]></resource_type>
+        </game>
+        <game>
+            <api_detail_url><![CDATA[https://www.giantbomb.com/api/game/3030-41323/]]></api_detail_url>
+            <name><![CDATA[Tekken Resolute]]></name>
+            <resource_type><![CDATA[game]]></resource_type>
+        </game>
+        <game>
+            <api_detail_url><![CDATA[https://www.giantbomb.com/api/game/3030-51837/]]></api_detail_url>
+            <name><![CDATA[Tekken 7: Fated Retribution]]></name>
+            <resource_type><![CDATA[game]]></resource_type>
+        </game>
+        <game>
+            <api_detail_url><![CDATA[https://www.giantbomb.com/api/game/3030-11606/]]></api_detail_url>
+            <name><![CDATA[Tekken: Dark Resurrection]]></name>
+            <resource_type><![CDATA[game]]></resource_type>
+        </game>
+        <game>
+            <api_detail_url><![CDATA[https://www.giantbomb.com/api/game/3030-32161/]]></api_detail_url>
+            <name><![CDATA[Street Fighter X Tekken]]></name>
+            <resource_type><![CDATA[game]]></resource_type>
+        </game>
+        <game>
+            <api_detail_url><![CDATA[https://www.giantbomb.com/api/game/3030-10162/]]></api_detail_url>
+            <name><![CDATA[Tekken Tag Tournament]]></name>
+            <resource_type><![CDATA[game]]></resource_type>
+        </game>
+        <game>
+            <api_detail_url><![CDATA[https://www.giantbomb.com/api/game/3030-23833/]]></api_detail_url>
+            <name><![CDATA[Tekken 6: Bloodline Rebellion]]></name>
+            <resource_type><![CDATA[game]]></resource_type>
+        </game>
+        <game>
+            <api_detail_url><![CDATA[https://www.giantbomb.com/api/game/3030-32162/]]></api_detail_url>
+            <name><![CDATA[Tekken X Street Fighter]]></name>
+            <resource_type><![CDATA[game]]></resource_type>
+        </game>
+        <game>
+            <api_detail_url><![CDATA[https://www.giantbomb.com/api/game/3030-32716/]]></api_detail_url>
+            <name><![CDATA[Tekken Tag Tournament 2]]></name>
+            <resource_type><![CDATA[game]]></resource_type>
+        </game>
+        <game>
+            <api_detail_url><![CDATA[https://www.giantbomb.com/api/game/3030-50452/]]></api_detail_url>
+            <name><![CDATA[Tekken R]]></name>
+            <resource_type><![CDATA[game]]></resource_type>
+        </game>
+    </results>
+    <version>1.0</version>
+</response>
