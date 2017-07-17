@@ -140,9 +140,7 @@ class PyScraper(object):
 				resultValueNew = tempResults.get(resultKey, [])
 
 				# Unescaping ugly html encoding from websites
-				# FIXME TODO Do this when field is added to results
 				if len(resultValueNew) > 0:
-					# FIXME TODO Should do this when we first get the value
 					resultValueNew[0] = HTMLParser.HTMLParser().unescape(resultValueNew[0])
 
 				if resultKey not in results:

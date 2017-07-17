@@ -713,9 +713,13 @@ class DBUpdate(object):
 				genreList = gamedescription['Genre']
 			except KeyError:
 				genreList = []
-			nfowriter.NfoWriter().createNfoFromDesc(gamename, plot, romCollection.name, publisher, developer, year, 
-				players, rating, votes, url, region, media, perspective, controller, originalTitle, alternateTitle, version, genreList, isFavorite, launchCount, romFiles[0], gamenameFromFile, artworkfiles, artworkurls)
-			del genreList
+
+			try:
+				nfowriter.NfoWriter().createNfoFromDesc(gamename, plot, romCollection.name, publisher, developer, year,
+					players, rating, votes, url, region, media, perspective, controller, originalTitle, alternateTitle, version, genreList, isFavorite, launchCount, romFiles[0], gamenameFromFile, artworkfiles, artworkurls)
+				del genreList
+			except Exception as e:
+				log.warn("Unable to create an NFO file for {0}: {1}".format(gamename, e))
 					
 		del publisher, developer, year
 						
