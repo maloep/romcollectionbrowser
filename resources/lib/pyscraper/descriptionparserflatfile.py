@@ -6,6 +6,7 @@ import time
 import util
 from util import Logutil
 #from xml.dom.minidom import parseString, Node, Document
+from descriptionparser import DescriptionParser
 
 
 #Add support for unicode chars in commaseparated lists
@@ -16,7 +17,7 @@ _mycommasepitem = Combine(OneOrMore(Word(_mynoncomma) +
 mycommaSeparatedList = delimitedList( Optional( quotedString | _mycommasepitem, default="") ).setName("mycommaSeparatedList")
 
 
-class DescriptionParserFlatFile:
+class DescriptionParserFlatFile(DescriptionParser):
 	
 	def __init__(self, grammarNode):
 		self.grammarNode = grammarNode
@@ -31,7 +32,7 @@ class DescriptionParserFlatFile:
 		
 		all = OneOrMore(gameGrammar)				
 						
-		fileAsString = self.openDescFile(descFile)
+		fileAsString = self.getDescriptionContents(descFile)
 		
 		# switch as fast as possible to unicode to prevent all weird encoding problems
 		fileAsString = fileAsString.decode(encoding)
@@ -56,7 +57,7 @@ class DescriptionParserFlatFile:
 	
 	def scanDescription(self, descFile, descParseInstruction, encoding):
 				
-		fileAsString = self.openDescFile(descFile)
+		fileAsString = self.getDescriptionContents(descFile)
 		
 		fileAsString = fileAsString.decode(encoding).encode('utf-8')
 		
@@ -130,24 +131,6 @@ class DescriptionParserFlatFile:
 					resultAsDict[key] = itemList
 		
 		return resultAsDict
-			
-	
-	def openDescFile(self, descFile):
-		
-		fileAsString = ''
-		
-		if(descFile.startswith('http://')):
-			req = urllib2.Request(descFile)
-			req.add_unredirected_header('User-Agent', 'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.31 (KHTML, like Gecko) Chrome/26.0.1410.64 Safari/537.31')
-			fileAsString = urllib2.urlopen(req).read()
-			del req
-		else:
-			fh = open(str(descFile), 'r')
-			fileAsString = fh.read()
-			del fh
-			
-		return fileAsString
-	
 	
 	def getGameGrammar(self, descParseInstruction):				
 		
