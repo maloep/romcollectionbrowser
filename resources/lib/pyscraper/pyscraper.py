@@ -324,6 +324,12 @@ class PyScraper(object):
 		log.info("Using best result %s" % bestMatchingGame)
 		return result
 
+	def replaceSequelNumbers(self, name):
+		""" Replace any digits in the game with the roman numeral equivalent """
+		for i in range(0, len(self.digits)):
+			name = name.replace(self.digits[i], self.romes[i])
+		return name
+
 	def matchGamename(self, results, gamenameFromFile, checkSubtitle):
 		
 		highestRatio = 0.0
@@ -360,11 +366,8 @@ class PyScraper(object):
 					return result, 1.0
 							
 				# try again with replaced sequel numbers
-				sequelGamename = gamenameToCheck
-				sequelSearchKey = searchKey
-				for j in range(0, len(self.digits)):
-					sequelGamename = sequelGamename.replace(self.digits[j], self.romes[j])
-					sequelSearchKey = sequelSearchKey.replace(self.digits[j], self.romes[j])
+				sequelGamename = self.replaceSequelNumbers(gamenameToCheck)
+				sequelSearchKey = self.replaceSequelNumbers(searchKey)
 				
 				log.info("Try with replaced sequel numbers. Comparing %s with %s" % (sequelGamename, sequelSearchKey))
 				if self.compareNames(sequelGamename, sequelSearchKey, checkSubtitle):

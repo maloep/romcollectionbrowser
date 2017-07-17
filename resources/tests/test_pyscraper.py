@@ -3,15 +3,16 @@
 import sys
 import os
 
-#sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', '..', 'resources', 'lib'))
-#sys.path.append(os.path.join(os.path.dirname(__file__), '..', '..', 'resources', 'lib', 'pyparsing'))
-#sys.path.append(os.path.join(os.path.dirname(__file__), '..', '..', 'resources', 'lib', 'pyscraper'))
+sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', '..', 'resources', 'lib'))
+sys.path.append(os.path.join(os.path.dirname(__file__), '..', '..', 'resources', 'lib', 'pyparsing'))
+sys.path.append(os.path.join(os.path.dirname(__file__), '..', '..', 'resources', 'lib', 'pyscraper'))
 
 from resources.lib.pyscraper.pyscraper import PyScraper
-from resources.lib.config import Config, Scraper
+from resources.lib.config import Config, Scraper, RomCollection
 import resources.lib.util as util
 
 import unittest
+from resources.lib.xbmc import _settings, Settings
 
 
 class TestPyScraper(unittest.TestCase):
@@ -58,6 +59,30 @@ class TestPyScraper(unittest.TestCase):
 
 		self.assertEqual(existingResults.get("Description")[0], u"'Super Keirin (スーパー競輪, Super Keirin) is a Japan-exclusive video game",
 			"Expected Unicode string to be handled when adding new search result element")
+
+	def test_ReplaceSequelNumbers(self):
+		ps = PyScraper()
+		x = ps.replaceSequelNumbers("Final Fantasy 9")
+		self.assertEqual(x, "Final Fantasy IX", "Sequel number at end of game not replaced properly")
+
+		x = ps.replaceSequelNumbers("Final Fantasy 9: Subtitle")
+		self.assertEqual(x, "Final Fantasy IX: Subtitle", "Sequel number at end of game not replaced properly")
+
+		x = ps.replaceSequelNumbers("Final Fantasy 9 (Subtitle)")
+		self.assertEqual(x, "Final Fantasy IX (Subtitle)", "Sequel number at end of game not replaced properly")
+
+		x = ps.replaceSequelNumbers("Final Fantasy IX")
+		self.assertEqual(x, "Final Fantasy IX", "Sequel number in roman numeral form should be retained")
+
+		x = ps.replaceSequelNumbers("Final Fantasy 11")
+		self.assertEqual(x, "Final Fantasy XI", "Multiple digits should be interpreted as a group")
+
+		# FIXME TODO An example where this doesn't work
+		# Replace with a regex: \s(\d{1,2})[\s\W]
+		# i.e. whitespace, 1 or 2 digit number than either whitespace or non-word
+		# no that would replace 11 with II
+		x = ps.replaceSequelNumbers("Miner 2049er")
+		self.assertEqual(x, "Miner 2049er", "Non-sequel number should not be replaced")
 
 	# Test matching against a result set
 	def test_getBestResultsWithRomanNumerals(self):
