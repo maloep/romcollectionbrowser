@@ -115,32 +115,50 @@ class PyScraper(object):
 				log.debug("{0} - {1}".format(type(e), str(e)))
 			return results, urlsFromPreviousScrapers, True
 
-		# For each result, compare against already existing results. If the old key value doesn't exist and the new
-		# one does, then use the new value, otherwise retain the value
-		if tempResults is not None:
-			for resultKey in tempResults.keys():
-				resultValue = []
-				
+		# Add the fields from the scrape to any existing results
+		results = self.addNewElements(results, tempResults)
+
+		return results, urlsFromPreviousScrapers, False
+
+	def addNewElements(self, results, tempResults):
+		""" Add fields from the results to the existing set of results, adding if new, replacing if empty. This allows
+			us to add fields from subsequent site scrapes that were missing or not available in previous sites.
+
+		Args:
+			results: Existing results dict from previous scrapes
+			tempResults: Result dict from most recent scrape
+
+		Returns:
+			Updated dict of result fields
+		"""
+		if tempResults is None:
+			log.warn("No results found, not adding to existing results")
+			return
+
+		for resultKey in tempResults.keys():
+			try:
 				resultValueOld = results.get(resultKey, [])
-				# unescaping ugly html encoding from websites
-				if len(resultValueOld) > 0:
-					resultValueOld[0] = HTMLParser.HTMLParser().unescape(resultValueOld[0])
-				
 				resultValueNew = tempResults.get(resultKey, [])
-				# unescaping ugly html encoding from websites
+
+				# Unescaping ugly html encoding from websites
 				if len(resultValueNew) > 0:
 					resultValueNew[0] = HTMLParser.HTMLParser().unescape(resultValueNew[0])
 
-				if len(resultValueOld) == 0 and (len(resultValueNew) != 0 and resultValueNew != [None, ] and resultValueNew != None and resultValueNew != ''):
-					log.debug("No existing value for key {0}, replacing with new value [{1}]".format(resultKey, ','.join(str(x) for x in resultValueNew)))
+				if resultKey not in results:
+					log.debug(u"No existing value for key {0}, replacing with new value [{1}]".format(resultKey, ','.join(x for x in resultValueNew)))
+
 					results[resultKey] = resultValueNew
-					resultValue = resultValueNew
 				else:
-					log.debug("Retaining existing value for key {0} ([{1}])".format(resultKey, ','.join(str(x) for x in resultValueOld)))
-					resultValue = resultValueOld
-			del tempResults
-					
-		return results, urlsFromPreviousScrapers, False
+					# FIXME TODO Check if the previous value is empty, and overwrite if so
+					if resultValueOld == []:
+						log.debug(u"Previous value empty for key {0}, replacing with new value [{1}]".format(resultKey, ','.join(x for x in resultValueNew)))
+						results[resultKey] = resultValueNew
+					else:
+						log.debug(u"Retaining existing value for key {0} ([{1}])".format(resultKey, ','.join(x for x in resultValueOld)))
+			except Exception as e:
+				log.warn("There was an error adding key {0} to existing result set: {1}".format(resultKey, str(e)))
+
+		return results
 	
 	def getNfoFile(self, settings, romCollection, gamenameFromFile):
 		log.info("getNfoFile")
