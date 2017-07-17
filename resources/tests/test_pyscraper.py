@@ -118,13 +118,19 @@ class TestPyScraper(unittest.TestCase):
 		self.assertTrue(x.get('SearchKey')[0] == 'FIFA 98', "Expected to match title (was {0})".format(x.get('SearchKey')[0]))
 	def test_checkSequelNoIsEqual(self):
 		ps = PyScraper()
-		print ps.checkSequelNoIsEqual("Legend of Zelda, The - A Link to the Past (USA)", "5")
+		self.assertTrue(ps.checkSequelNoIsEqual("Final Fantasy IX", "Final Fantasy 9"), "Expected IX to match with 9")
+		self.assertTrue(ps.checkSequelNoIsEqual("Final Fantasy X", "Final Fantasy 10"), "Expected X to match with 10")
+		self.assertTrue(ps.checkSequelNoIsEqual("Final Fantasy II", "Final Fantasy 2"), "Expected II to match with 2")
+		self.assertTrue(ps.checkSequelNoIsEqual("Fifa 98", "FIFA 98"), "Game ending with a year should be matched")
 
-	@unittest.skip("Not yet implemented")
 	def test_getSequelNoIndex(self):
 		ps = PyScraper()
-		print ps.getSequelNoIndex("Legend of Zelda, The - A Link to the Past (USA)")
-		print ps.getSequelNoIndex("Super Mario World 2 - Yoshi's Island (USA)")
+		y = ps.getSequelNoIndex("Legend of Zelda, The - A Link to the Past (USA)")
+		self.assertTrue(y == -1, "Game name with no number should return -1")
+		y = ps.getSequelNoIndex("Super Mario World 2 - Yoshi's Island (USA)")
+		self.assertTrue(y == 8, "Did not find sequel index for number (found {0})".format(y))
+		y = ps.getSequelNoIndex("Final Fantasy XIII")
+		self.assertTrue(y != -1, "Did not find sequel index for roman numeral above 10 (found {0})".format(y))
 
 if __name__ == "__main__":
 	unittest.main()
