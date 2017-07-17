@@ -31,7 +31,7 @@ class PyScraper(object):
 		self.fuzzy_factor = 0.8
 
 	def searchAndMatchResults(self, scraper, source, gamename):
-		""" Using the scraper, search for a gamename, and get the best match """
+		""" Using the scraper, search for a gamename, and get the best match. Returns None if no match found """
 		resultset = self.parseDescriptionFile(scraper, source, gamename)
 		try:
 			log.debug("Found {0} results for {1} from URL {2}".format(len(resultset), gamename, source))
@@ -47,7 +47,8 @@ class PyScraper(object):
 			altname = re.sub('\s\(.*\)|\s\[.*\]|\(.*\)|\[.*\]', '', gamename)
 			log.debug("Did not find any matches for {0}, trying again with {1}".format(gamename, altname))
 			match = self.getBestResults(resultset, altname)
-			log.debug("After modifying game name, found {0} best results for {1}".format(len(match), altname))
+			if match:
+				log.debug("After modifying game name, found {0} best results for {1}".format(len(match), altname))
 
 		return match
 
