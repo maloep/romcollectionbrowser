@@ -51,6 +51,25 @@ class PyScraper(object):
 
 		return match
 
+	def getUrlFromPreviousRequest(self, scraper, urlsFromPreviousScrapers):
+		# Check that the previous scraper has returned a URL
+		if len(urlsFromPreviousScrapers) == 0:
+			log.error("Configuration error: we expected a URL to have been provided by a previous scrape")
+			return None
+
+		try:
+			# Get the URL returned from source
+			url = urlsFromPreviousScrapers[int(scraper.source) - 1]
+			log.info("Scraper with parse instruction {0} using url from previous scraper: {1}".format(scraper.parseInstruction, url))
+		except IndexError:
+			log.error("Configuration error: parse instruction {0} did not find a URL from source {1}".format(scraper.parseInstruction, str(scraper.source)))
+			return None
+
+		if scraper.sourceAppend is not None and scraper.sourceAppend != "":
+			url = url + '/' + scraper.sourceAppend
+			log.info("sourceAppend = '%s'. New url = '%s'" % (scraper.sourceAppend, url))
+
+		return url
 
 	def scrapeResults(self, results, scraper, urlsFromPreviousScrapers, gamenameFromFile, foldername, filecrc, romFile, fuzzyFactor, updateOption, romCollection, settings):
 		log.debug("Using parser file {0} and game description {1}".format(scraper.parseInstruction, scraper.source))
@@ -71,22 +90,9 @@ class PyScraper(object):
 
 		# url to scrape may be passed from the previous scraper
 		if scraper.source.isdigit():
-			if len(urlsFromPreviousScrapers) == 0:
-				log.error("Configuration error: scraper source is numeric and there is no previous scraper that returned an url to scrape.")
+			scraperSource = self.getUrlFromPreviousRequest(scraper, urlsFromPreviousScrapers)
+			if scraperSource is None:
 				return results, urlsFromPreviousScrapers, True
-
-			try:
-				url = urlsFromPreviousScrapers[int(scraper.source) - 1]
-				log.info("using url from previous scraper: " + str(url))
-			except IndexError:
-				log.error("Configuration error: no url found at index " + str(scraper.source))
-				return results, urlsFromPreviousScrapers, True
-			
-			if scraper.sourceAppend is not None and scraper.sourceAppend != "":
-				url = url + '/' + scraper.sourceAppend
-				log.info("sourceAppend = '%s'. New url = '%s'" % (scraper.sourceAppend, url))
-
-			scraperSource = url
 			
 		if scraper.source == 'nfo':
 			scraperSource = self.getNfoFile(settings, romCollection, gamenameFromFile)
