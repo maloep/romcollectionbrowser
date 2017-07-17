@@ -68,8 +68,17 @@ class DescriptionParserFlatFile(DescriptionParser):
 			resultAsDict = result.asDict()
 			resultAsDict = self.replaceResultTokens(resultAsDict)
 			yield resultAsDict
-			
-	def getGameGrammar(self, descParseInstruction):				
+
+	def getGameGrammar(self, descParseInstruction):
+		"""
+		Open the file containing the GameGrammar for files, and parse
+
+		Args:
+			descParseInstruction: File containing an XML GameGrammar node to parse the file
+
+		Returns:
+			List of processing instructions for parsing fields from file
+		"""
 		
 		#load xmlDoc as elementtree to check with xpaths
 		#tree = ElementTree().parse(descParseInstruction)
