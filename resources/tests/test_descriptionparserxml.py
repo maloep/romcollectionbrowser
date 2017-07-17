@@ -3,6 +3,11 @@ import os
 import sys
 import time
 from xml.etree.ElementTree import *
+
+sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', '..', 'resources', 'lib'))
+sys.path.append(os.path.join(os.path.dirname(__file__), '..', '..', 'resources', 'lib', 'pyparsing'))
+sys.path.append(os.path.join(os.path.dirname(__file__), '..', '..', 'resources', 'lib', 'pyscraper'))
+
 from resources.lib.pyscraper.descriptionparserxml import DescriptionParserXml
 
 
@@ -29,6 +34,8 @@ class TestDescriptionParserXML(unittest.TestCase):
 		self.assertEqual(result[0].get('Publisher')[0], 'Namco', "Expected publisher to be 'Namco'")
 		self.assertTrue(type(result[0].get('ReleaseYear')[0]) is time.struct_time,
 						"Expected type of ReleaseYear to be date, is {}".format(type(result[0].get('ReleaseYear')[0])))
+		self.assertTrue("Battle Mode & Practice Mode" in result[0].get('Description')[0], "Expected special character &amp; to be converted")
+
 
 		# This returns a generator
 		result = parser.scanDescription(descFile, None, "utf-8")
