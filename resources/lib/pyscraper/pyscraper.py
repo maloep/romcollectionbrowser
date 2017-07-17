@@ -211,7 +211,7 @@ class PyScraper(object):
 			# also replace in gamename for later result matching
 			gamenameFromFile = romFilename.replace(replaceKeys[i], replaceValues[i])
 			
-		if scraperSource.startswith('http://'):
+		if scraperSource.startswith('http'):
 			gamenameToParse = urllib.quote(gamenameFromFile, safe='')
 		else:
 			gamenameToParse = gamenameFromFile
@@ -227,7 +227,7 @@ class PyScraper(object):
 		for i in range(0, len(replaceTokens)):
 			scraperSource = scraperSource.replace(replaceTokens[i], replaceValues[i])
 		
-		if not scraperSource.startswith('http://') and not os.path.exists(scraperSource):
+		if not scraperSource.startswith('http') and not os.path.exists(scraperSource):
 			# try again with original rom filename
 			scraperSource = scraperSourceOrig.replace("%GAME%", romFilename)
 			if not os.path.exists(scraperSource):
