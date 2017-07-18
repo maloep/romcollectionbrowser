@@ -17,8 +17,8 @@ from config import *
 from gamedatabase import *
 from descriptionparserfactory import *
 from pyscraper.pyscraper import PyScraper
-import nfowriter
-from nfowriter import *
+
+from nfowriter import NfoWriter
 
 #HACK: zlib isn't shipped with some linux distributions
 try:
@@ -710,12 +710,12 @@ class DBUpdate(object):
 		# Create Nfo file with game properties
 		if self.createNfoFile and gamedescription is not None:
 			try:
-				genreList = gamedescription['Genre']
-			except KeyError:
-				genreList = []
-			nfowriter.NfoWriter().createNfoFromDesc(gamename, plot, romCollection.name, publisher, developer, year, 
-				players, rating, votes, url, region, media, perspective, controller, originalTitle, alternateTitle, version, genreList, isFavorite, launchCount, romFiles[0], gamenameFromFile, artworkfiles, artworkurls)
-			del genreList
+				genreList = gamedescription.get('Genre', [])
+				writer = NfoWriter()
+				writer.createNfoFromDesc(gamename, plot, romCollection.name, publisher, developer, year,
+					players, rating, votes, url, region, media, perspective, controller, originalTitle, alternateTitle, version, genreList, isFavorite, launchCount, romFiles[0], gamenameFromFile, artworkfiles, artworkurls)
+			except Exception as e:
+				log.warn("Unable to write NFO file for game {0}: {1}".format(gamename, e))
 					
 		del publisher, developer, year
 						
