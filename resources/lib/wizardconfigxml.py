@@ -6,6 +6,14 @@ from xml.etree.ElementTree import *
 import config, helper
 from configxmlwriter import *
 from emulatorautoconfig.autoconfig import EmulatorAutoconfig
+from util import Logutil as log
+
+RETRIEVE_INFO_ARTWORK_ONLINE = 0     # Game description and artwork need to be downloaded
+RETRIEVE_INFO_ARTWORK_LOCALLY = 1    # Game description and artwork already exist locally
+
+GAME_DESCRIPTION_PER_FILE = 0
+GAME_DESCRIPTION_SINGLE_FILE = 1     # All game descriptions in a single file, e.g. MAME history.dat
+GAME_DESCRIPTION_ONLINE = 2          # Game descriptions to be retrieved from online source
 
 
 class ConfigXmlWizard(object):
@@ -29,6 +37,7 @@ class ConfigXmlWizard(object):
 			pass
 		return os
 
+	# Called on first run
 	def createConfigXml(self, configFile):
 				
 		id = 1		
@@ -36,7 +45,7 @@ class ConfigXmlWizard(object):
 				
 		success, romCollections = self.addRomCollections(id, None, consoleList, False)
 		if(not success):
-			Logutil.log('Action canceled. Config.xml will not be written', util.LOG_LEVEL_INFO)
+			log.info("Action canceled. Config.xml will not be written")
 			return False, util.localize(32172)
 				
 		configWriter = ConfigXmlWriter(True)
@@ -44,7 +53,7 @@ class ConfigXmlWizard(object):
 			
 		return success, message
 	
-	
+	# Called by context menu
 	def addRomCollection(self, configObj):
 		Logutil.log("Begin addRomCollection" , util.LOG_LEVEL_INFO)
 		
@@ -64,30 +73,104 @@ class ConfigXmlWizard(object):
 				id = rcId
 								
 		id = int(id) +1
-		
+
+		# Add new rom collections
 		success, romCollections = self.addRomCollections(id, configObj, consoleList, True)
 		if(not success):
-			Logutil.log('Action canceled. Config.xml will not be written', util.LOG_LEVEL_INFO)
+			log.info("Action canceled. Config.xml will not be written")
 			return False, util.localize(32172)
-				
+
+		# Update config file
 		configWriter = ConfigXmlWriter(False)
 		success, message = configWriter.writeRomCollections(romCollections, False)
-		
-		Logutil.log("End addRomCollection" , util.LOG_LEVEL_INFO)
+
+		log.info("End addRomCollection")
 		return success, message
-	
-	
+
+	def promptEmulatorParams(self, defaultValue):
+		""" Ask the user to enter emulator parameters """
+		keyboard = xbmc.Keyboard()
+		keyboard.setDefault(defaultValue)
+		keyboard.setHeading(util.localize(32179))
+		keyboard.doModal()
+		if keyboard.isConfirmed():
+			emuParams = keyboard.getText()
+			log.info("emuParams: " + str(emuParams))
+			return emuParams
+		else:
+			log.info("No emuParams selected. Action canceled.")
+			return ''
+
+	def promptOtherConsoleName(self):
+		"""  Ask the user to enter a (other) console name """
+		keyboard = xbmc.Keyboard()
+		keyboard.setHeading(util.localize(32177))
+		keyboard.doModal()
+		if keyboard.isConfirmed():
+			console = keyboard.getText()
+			log.info("Platform entered manually: " + console)
+			return console
+		else:
+			log.info("No Platform entered. Action canceled.")
+			return ''
+
+	def promptEmulatorFileMasks(self):
+		keyboard = xbmc.Keyboard()
+		keyboard.setHeading(util.localize(32181))
+		keyboard.doModal()
+		if keyboard.isConfirmed():
+			fileMaskInput = keyboard.getText()
+			log.info("fileMask: " + str(fileMaskInput))
+			fileMasks = fileMaskInput.split(',')
+			return fileMasks
+		else:
+			log.info("No fileMask selected. Action canceled.")
+			return []
+
+	def promptRomPath(self, consolename):
+		""" Prompt the user to browse to the rompath """
+		dialog = xbmcgui.Dialog()
+		# http://kodi.wiki/view/Add-on_unicode_paths
+		romPath = dialog.browse(0, util.localize(32180) % consolename, 'files').decode('utf-8')
+		log.debug(u"rompath selected: {0}".format(romPath))
+
+		return romPath
+
+	def promptArtworkPath(self, console, startingDirectory):
+		""" Prompt the user to browse to the artwork path """
+		dialog = xbmcgui.Dialog()
+		# http://kodi.wiki/view/Add-on_unicode_paths
+		artworkPath = dialog.browse(0, util.localize(32193) % console, 'files', '', False, False, startingDirectory).decode('utf-8')
+		log.debug(u"artworkPath selected: {0}".format(artworkPath))
+
+		return artworkPath
+
+	def doesSupportRetroplayer(self, romCollectionName):
+		supportsRetroPlayer = True
+		# If we have full python integration we can also check if specific platform supports RetroPlayer
+		if helper.retroPlayerSupportsPythonIntegration():
+			supportsRetroPlayer = False
+			success, installedAddons = helper.readLibretroCores("all", True, romCollectionName)
+			if success and len(installedAddons) > 0:
+				supportsRetroPlayer = True
+			else:
+				success, installedAddons = helper.readLibretroCores("uninstalled", False, romCollectionName)
+				if success and len(installedAddons) > 0:
+					supportsRetroPlayer = True
+
+		return supportsRetroPlayer
+
 	def addRomCollections(self, id, configObj, consoleList, isUpdate):
 		
 		romCollections = {}
 		dialog = xbmcgui.Dialog()
 		
-		#scraping scenario
+		# Scraping scenario - game descriptions and artwork retrieved from online or available locally
 		scenarioIndex = dialog.select(util.localize(32173), [util.localize(32174), util.localize(32175)])
-		Logutil.log('scenarioIndex: ' +str(scenarioIndex), util.LOG_LEVEL_INFO)
-		if(scenarioIndex == -1):
+		log.info("scenarioIndex: " + str(scenarioIndex))
+		if scenarioIndex == -1:
 			del dialog
-			Logutil.log('No scenario selected. Action canceled.', util.LOG_LEVEL_INFO)
+			log.info("No scenario selected. Action canceled.")
 			return False, romCollections
 		
 		autoconfig = EmulatorAutoconfig(util.getEmuAutoConfigPath())
@@ -97,69 +180,48 @@ class ConfigXmlWizard(object):
 			fileTypeList, errorMsg = self.buildMediaTypeList(configObj, isUpdate)
 			romCollection = RomCollection()
 			
-			#console
+			# Console
 			platformIndex = dialog.select(util.localize(32176), consoleList)
-			Logutil.log('platformIndex: ' +str(platformIndex), util.LOG_LEVEL_INFO)
-			if(platformIndex == -1):
-				Logutil.log('No Platform selected. Action canceled.', util.LOG_LEVEL_INFO)
+			log.info("platformIndex: " + str(platformIndex))
+			if platformIndex == -1:
+				log.info("No Platform selected. Action canceled.")
 				break
+
+			console = consoleList[platformIndex]
+			if console == 'Other':
+				console = self.promptOtherConsoleName()
+				if console == '':
+					break
+
 			else:
-				console = consoleList[platformIndex]
-				if(console =='Other'):				
-					keyboard = xbmc.Keyboard()
-					keyboard.setHeading(util.localize(32177))			
-					keyboard.doModal()
-					if (keyboard.isConfirmed()):
-						console = keyboard.getText()
-						Logutil.log('Platform entered manually: ' +console, util.LOG_LEVEL_INFO)
-					else:
-						Logutil.log('No Platform entered. Action canceled.', util.LOG_LEVEL_INFO)
-						break
-				else:
-					consoleList.remove(console)
-					Logutil.log('selected platform: ' +console, util.LOG_LEVEL_INFO)
-			
+				consoleList.remove(console)
+				log.info("Selected platform: " + console)
+
 			romCollection.name = console
 			romCollection.id = id
 			id = id +1
+
+			# Check if we have general RetroPlayer support
+			if helper.isRetroPlayerSupported():
+				if self.doesSupportRetroplayer(romCollection.name):
+					romCollection.useBuiltinEmulator = dialog.yesno(util.localize(32999), util.localize(32198))
 			
-			
-			#check if we have general RetroPlayer support
-			if(helper.isRetroPlayerSupported()):
-				supportsRetroPlayer = True
-				#if we have full python integration we can also check if specific platform supports RetroPlayer
-				if(helper.retroPlayerSupportsPythonIntegration()):
-					supportsRetroPlayer = False
-					success, installedAddons = helper.readLibretroCores("all", True, romCollection.name)
-					if(success and len(installedAddons) > 0):
-						supportsRetroPlayer = True
-					else:
-						success, installedAddons = helper.readLibretroCores("uninstalled", False, romCollection.name)
-						if(success and len(installedAddons) > 0):
-							supportsRetroPlayer = True
-					
-				if(supportsRetroPlayer):
-					retValue = dialog.yesno(util.localize(32999), util.localize(32198))
-					if(retValue == True):
-						romCollection.useBuiltinEmulator = True
-			
-			#only ask for emulator and params if we don't use builtin emulator
-			if(not romCollection.useBuiltinEmulator):
+			# Only ask for emulator and params if we don't use builtin emulator
+			if not romCollection.useBuiltinEmulator:
 				
-				#maybe there is autoconfig support
+				# Maybe there is autoconfig support
 				preconfiguredEmulator = None
 				
-				#emulator
+				# Emulator
 				if romCollection.name in ['Linux', 'Macintosh', 'Windows']:
 					# Check for standalone games
 					romCollection.emulatorCmd = '"%ROM%"'
-					Logutil.log('emuCmd set to "%ROM%" for standalone games.', util.LOG_LEVEL_INFO)
+					log.info("emuCmd set to '%ROM%' for standalone games.")
 
 				else:
 					emulist = []
 
-					Logutil.log(u'Running on {0}. Trying to find emulator per autoconfig.'.format(self.current_os),
-								util.LOG_LEVEL_INFO)
+					log.info(u'Running on {0}. Trying to find emulator per autoconfig.'.format(self.current_os))
 					emulators = autoconfig.findEmulators(self.current_os, romCollection.name, True)
 					for emulator in emulators:
 						if emulator.isInstalled:
@@ -172,8 +234,8 @@ class ConfigXmlWizard(object):
 						try:
 							emuIndex = dialog.select(util.localize(32203), emulist)
 							preconfiguredEmulator = emulators[emuIndex]
-						except:
-							Logutil.log('No Emulator selected.', util.LOG_LEVEL_INFO)
+						except IndexError:
+							log.info("No Emulator selected.")
 							preconfiguredEmulator = None
 							
 					if preconfiguredEmulator:
@@ -182,183 +244,124 @@ class ConfigXmlWizard(object):
 						consolePath = dialog.browse(1, util.localize(32178) % console, 'files')
 						Logutil.log('consolePath: ' + str(consolePath), util.LOG_LEVEL_INFO)
 						if consolePath == '':
-							Logutil.log('No consolePath selected. Action canceled.', util.LOG_LEVEL_INFO)
+							log.info("No consolePath selected. Action canceled.")
 							break
 						romCollection.emulatorCmd = consolePath
 				
-				#params
+				# Set emulator parameters
 				if romCollection.name in ['Linux', 'Macintosh', 'Windows']:
 					romCollection.emulatorParams = ''
-					Logutil.log('emuParams set to "" for standalone games.', util.LOG_LEVEL_INFO)
+					log.info("emuParams set to "" for standalone games.")
 				else:
-					defaultParams = '"%ROM%"'
-					if(preconfiguredEmulator):
+					if preconfiguredEmulator:
 						defaultParams = preconfiguredEmulator.emuParams
-											
-					keyboard = xbmc.Keyboard()
-					keyboard.setDefault(defaultParams)
-					keyboard.setHeading(util.localize(32179))			
-					keyboard.doModal()
-					if (keyboard.isConfirmed()):
-						emuParams = keyboard.getText()
-						Logutil.log('emuParams: ' +str(emuParams), util.LOG_LEVEL_INFO)
 					else:
-						Logutil.log('No emuParams selected. Action canceled.', util.LOG_LEVEL_INFO)
-						break
-					romCollection.emulatorParams = emuParams
-			
-			#roms
-			romPath = dialog.browse(0, util.localize(32180) %console, 'files')
-			if(romPath == ''):
-				Logutil.log('No romPath selected. Action canceled.', util.LOG_LEVEL_INFO)
-				break
-									
-			#TODO: find out how to deal with non-ascii characters
-			try:
-				unicode(romPath)
-			except:
-				Logutil.log("RCB can't acces your Rom Path. Make sure it does not contain any non-ascii characters.", util.LOG_LEVEL_INFO)
-				xbmcgui.Dialog().ok(util.SCRIPTNAME, util.localize(32041), errorMsg)
-				break
-					
-			#filemask
-			keyboard = xbmc.Keyboard()
-			keyboard.setHeading(util.localize(32181))
-			keyboard.doModal()
-			if (keyboard.isConfirmed()):
-				fileMaskInput = keyboard.getText()
-				Logutil.log('fileMask: ' +str(fileMaskInput), util.LOG_LEVEL_INFO)
-				fileMasks = fileMaskInput.split(',')
-				romCollection.romPaths = []
-				for fileMask in fileMasks:
-					romPathComplete = util.joinPath(romPath, fileMask.strip())
-					romCollection.romPaths.append(romPathComplete)
-			else:
-				Logutil.log('No fileMask selected. Action canceled.', util.LOG_LEVEL_INFO)
+						defaultParams = '"%ROM%"'
+
+					romCollection.emulatorParams = self.promptEmulatorParams(defaultParams)
+
+			# Prompt for rompath
+			romPath = self.promptRomPath(console)
+			if romPath == '':
+				log.info("No romPath selected. Action canceled.")
 				break
 
-			
-			if(scenarioIndex == 0):
-				artworkPath = dialog.browse(0, util.localize(32193) %console, 'files', '', False, False, romPath)
-				Logutil.log('artworkPath: ' +str(artworkPath), util.LOG_LEVEL_INFO)				
-				#TODO: find out how to deal with non-ascii characters
-				try:
-					unicode(artworkPath)
-				except:
-					Logutil.log("RCB can't acces your artwork path. Make sure it does not contain any non-ascii characters.", util.LOG_LEVEL_INFO)
-					xbmcgui.Dialog().ok(util.SCRIPTNAME, util.localize(32042), errorMsg)
+			# Filemask
+			fileMasks = self.promptEmulatorFileMasks()
+			if fileMasks == []:
+				break
+
+			romCollection.romPaths = []
+			for fileMask in fileMasks:
+				romCollection.romPaths.append(util.joinPath(romPath, fileMask.strip()))
+
+			# Specific MAME settings
+			if romCollection.name == 'MAME':
+				romCollection.imagePlacingMain = ImagePlacing()
+				romCollection.imagePlacingMain.name = 'gameinfomamecabinet'
+
+				# MAME zip files contain several files but they must be passed to the emu as zip file
+				romCollection.doNotExtractZipFiles = True
+
+			if scenarioIndex == RETRIEVE_INFO_ARTWORK_ONLINE:
+				# Prompt for artwork path
+				artworkPath = self.promptArtworkPath(console, romPath)
+				if artworkPath == '':
+					log.info("No artworkPath selected. Action canceled.")
 					break
 				
-				if(artworkPath == ''):
-					Logutil.log('No artworkPath selected. Action canceled.', util.LOG_LEVEL_INFO)
-					break
+				romCollection.descFilePerGame = True
 				
-				romCollection.descFilePerGame= True
-				
-				#mediaPaths
+				# Media Paths
 				romCollection.mediaPaths = []
-				
-				if(romCollection.name == 'MAME'):
-					romCollection.mediaPaths.append(self.createMediaPath('boxfront', artworkPath, scenarioIndex))
-					romCollection.mediaPaths.append(self.createMediaPath('action', artworkPath, scenarioIndex))
-					romCollection.mediaPaths.append(self.createMediaPath('title', artworkPath, scenarioIndex))
-					romCollection.mediaPaths.append(self.createMediaPath('cabinet', artworkPath, scenarioIndex))
-					romCollection.mediaPaths.append(self.createMediaPath('marquee', artworkPath, scenarioIndex))					
+
+				if romCollection.name == 'MAME':
+					mediaTypes = ['boxfront', 'action', 'title', 'cabinet', 'marquee']
 				else:
-					romCollection.mediaPaths.append(self.createMediaPath('boxfront', artworkPath, scenarioIndex))
-					romCollection.mediaPaths.append(self.createMediaPath('boxback', artworkPath, scenarioIndex))
-					romCollection.mediaPaths.append(self.createMediaPath('cartridge', artworkPath, scenarioIndex))
-					romCollection.mediaPaths.append(self.createMediaPath('screenshot', artworkPath, scenarioIndex))
-					romCollection.mediaPaths.append(self.createMediaPath('fanart', artworkPath, scenarioIndex))
+					mediaTypes = ['boxfront', 'boxback', 'cartridge', 'screenshot', 'fanart']
+				for t in mediaTypes:
+					romCollection.mediaPaths.append(self.createMediaPath(t, artworkPath, scenarioIndex))
 				
-				#other MAME specific properties
-				if(romCollection.name == 'MAME'):
-					romCollection.imagePlacingMain = ImagePlacing()
-					romCollection.imagePlacingMain.name = 'gameinfomamecabinet'
-					
-					#MAME zip files contain several files but they must be passed to the emu as zip file
-					romCollection.doNotExtractZipFiles = True
-					
-					#create MAWS scraper
-					site = Site()
-					site.name = 'maws.mameworld.info'
-					scrapers = []
-					scraper = Scraper()
-					scraper.parseInstruction = '06 - maws.xml'
-					scraper.source = 'http://maws.mameworld.info/maws/romset/%GAME%'
-					scrapers.append(scraper)
-					site.scrapers = scrapers
-					romCollection.scraperSites = []
-					romCollection.scraperSites.append(site)
+				# Other MAME specific properties
+				if romCollection.name == 'MAME':
+					# FIXME TODO MAWS not available anymore, shouldn't allow online scraper for MAME
+					# Create MAWS scraper
+					site = Site(name='maws.mameworld.info')
+					site.scrapers = [Scraper(parseInstruction='06 - maws.xml', source='http://maws.mameworld.info/maws/romset/%GAME%')]
+					romCollection.scraperSites = [site]
 			else:
-				
-				if(romCollection.name == 'MAME'):
-					romCollection.imagePlacingMain = ImagePlacing()
-					romCollection.imagePlacingMain.name = 'gameinfomamecabinet'
-					#MAME zip files contain several files but they must be passed to the emu as zip file
-					romCollection.doNotExtractZipFiles = True
-				
-				
 				romCollection.mediaPaths = []
-				
-				lastArtworkPath = ''
+
+				# Default to looking in the romPath for the first artwork path
+				lastArtworkPath = romPath
 				while True:
-					
+					# Prompt the user for which artwork type we are selecting
 					fileTypeIndex = dialog.select(util.localize(32183), fileTypeList)
-					Logutil.log('fileTypeIndex: ' +str(fileTypeIndex), util.LOG_LEVEL_INFO)					
-					if(fileTypeIndex == -1):
-						Logutil.log('No fileTypeIndex selected.', util.LOG_LEVEL_INFO)
+					if fileTypeIndex == -1:
+						log.info("No fileTypeIndex selected.")
 						break
 					
 					fileType = fileTypeList[fileTypeIndex]
 					fileTypeList.remove(fileType)
-					
-					if(lastArtworkPath == ''):					
-						artworkPath = dialog.browse(0, util.localize(32182) %(console, fileType), 'files', '', False, False, romPath)
-					else:
-						artworkPath = dialog.browse(0, util.localize(32182) %(console, fileType), 'files', '', False, False, lastArtworkPath)
-					
-					try:
-						unicode(artworkPath)
-					except:				
-						Logutil.log("RCB can't acces your artwork path. Make sure it does not contain any non-ascii characters.", util.LOG_LEVEL_INFO)
-						xbmcgui.Dialog().ok(util.SCRIPTNAME, util.localize(32042), errorMsg)
+
+					# Prompt user for path for existing artwork
+					artworkPath = dialog.browse(0, util.localize(32182) %(console, fileType), 'files', '', False, False, lastArtworkPath).decode('utf-8')
+					log.debug(u"artworkPath selected: {0}".format(artworkPath))
+					if artworkPath == '':
+						log.info("No artworkPath selected.")
 						break
-					
 					lastArtworkPath = artworkPath
-					Logutil.log('artworkPath: ' +str(artworkPath), util.LOG_LEVEL_INFO)
-					if(artworkPath == ''):
-						Logutil.log('No artworkPath selected.', util.LOG_LEVEL_INFO)
-						break
 					
 					romCollection.mediaPaths.append(self.createMediaPath(fileType, artworkPath, scenarioIndex))
-					
-					retValue = dialog.yesno(util.localize(32999), util.localize(32184))
-					if(retValue == False):
+
+					# Ask to add another artwork path
+					if not dialog.yesno(util.localize(32999), util.localize(32184)):
 						break
-				
+
+				# Ask user for source of game descriptions (description file per game or for all games, or online/local NFO)
 				descIndex = dialog.select(util.localize(32185), [util.localize(32186), util.localize(32187), util.localize(32188)])
-				Logutil.log('descIndex: ' +str(descIndex), util.LOG_LEVEL_INFO)
-				if(descIndex == -1):
-					Logutil.log('No descIndex selected. Action canceled.', util.LOG_LEVEL_INFO)
+				log.debug("descIndex: " + str(descIndex))
+				if descIndex == -1:
+					log.info("No descIndex selected. Action canceled.")
 					break
 				
-				romCollection.descFilePerGame = (descIndex != 1)
+				romCollection.descFilePerGame = (descIndex != GAME_DESCRIPTION_SINGLE_FILE)
 				
-				if(descIndex == 2):
-					#leave scraperSites empty - they will be filled in configwriter
+				if descIndex == GAME_DESCRIPTION_ONLINE:
+					# Leave scraperSites empty - they will be filled in configwriter
 					pass
 				
 				else:
 					descPath = ''
 					
-					if(romCollection.descFilePerGame):
-						#get path
-						pathValue = dialog.browse(0, util.localize(32189) %console, 'files')
-						if(pathValue == ''):
+					if romCollection.descFilePerGame:
+						# Assume the files are in a single directory with the mask %GAME%.txt
+						# Prompt the user for the path
+						pathValue = dialog.browse(0, util.localize(32189) % console, 'files')
+						if pathValue == '':
 							break
 						
-						#get file mask
+						# Prompt the user for the description file mask
 						keyboard = xbmc.Keyboard()
 						keyboard.setHeading(util.localize(32190))
 						keyboard.setDefault('%GAME%.txt')
@@ -369,37 +372,30 @@ class ConfigXmlWizard(object):
 						descPath = util.joinPath(pathValue, filemask.strip())
 					else:
 						descPath = dialog.browse(1, util.localize(32189) %console, 'files', '', False, False, lastArtworkPath)
-					
-					Logutil.log('descPath: ' +str(descPath), util.LOG_LEVEL_INFO)
-					if(descPath == ''):
-						Logutil.log('No descPath selected. Action canceled.', util.LOG_LEVEL_INFO)
+
+					log.info("descPath: " + str(descPath))
+					if descPath == '':
+						log.info("No descPath selected. Action canceled.")
 						break
-					
+
+					# Prompt the user for a parse instruction file
 					parserPath = dialog.browse(1, util.localize(32191) %console, 'files', '', False, False, descPath)
-					Logutil.log('parserPath: ' +str(parserPath), util.LOG_LEVEL_INFO)
-					if(parserPath == ''):
-						Logutil.log('No parserPath selected. Action canceled.', util.LOG_LEVEL_INFO)
+					log.info("parserPath: " + str(parserPath))
+					if parserPath == '':
+						log.info("No parserPath selected. Action canceled.")
 						break
 					
-					#create scraper
-					site = Site()
-					site.name = console
-					site.descFilePerGame = (descIndex == 0)
-					site.searchGameByCRC = True
-					scrapers = []
-					scraper = Scraper()
-					scraper.parseInstruction = parserPath
-					scraper.source = descPath
-					scraper.encoding = 'iso-8859-1'
-					scrapers.append(scraper)
-					site.scrapers = scrapers
-					romCollection.scraperSites = []
-					romCollection.scraperSites.append(site)
-			
-			romCollections[romCollection.id] = romCollection						
-			
-			retValue = dialog.yesno(util.localize(32999), util.localize(32192))
-			if(retValue == False):
+					# Create scraper
+					site = Site(name=console, descFilePerGame=(descIndex == GAME_DESCRIPTION_PER_FILE), searchGameByCRC=True)
+					site.scrapers = [Scraper(parseInstruction=parserPath, source=descPath, encoding='iso-8859-1')]
+					romCollection.scraperSites = [site]
+
+			log.debug("Created new rom collection: {0}".format(romCollection))
+
+			romCollections[romCollection.id] = romCollection
+
+			# Ask the user if they want to add another rom collection
+			if not dialog.yesno(util.localize(32999), util.localize(32192)):
 				break
 		
 		del dialog
@@ -419,7 +415,7 @@ class ConfigXmlWizard(object):
 			configFile = util.joinPath(util.getAddonInstallPath(), 'resources', 'database', 'config_template.xml')
 	
 			if(not xbmcvfs.exists(configFile)):
-				Logutil.log('File config_template.xml does not exist. Place a valid config file here: ' +str(configFile), util.LOG_LEVEL_ERROR)
+				log.error("File config_template.xml does not exist. Place a valid config file here: " + str(configFile))
 				return None, util.localize(32040)
 			
 			tree = ElementTree().parse(configFile)			
@@ -435,30 +431,26 @@ class ConfigXmlWizard(object):
 				
 		return fileTypeList, ''
 	
-	
-	def createMediaPath(self, type, path, scenarioIndex):
+	def createMediaPath(self, mediatype, path, scenarioIndex):
 		
-		if(type == 'gameplay (video)'):
-			type = 'gameplay'
-			
-		fileMask = '%GAME%.*'
-		if(type == 'romcollection'):
-			fileMask = '%ROMCOLLECTION%.*'
-		if(type == 'developer'):
-			fileMask = '%DEVELOPER%.*'
-		if(type == 'publisher'):
-			fileMask = '%PUBLISHER%.*'
+		if mediatype == 'gameplay (video)':
+			mediatype = 'gameplay'
+
+		if mediatype in ['romcollection', 'developer', 'publisher']:
+			fileMask = '%{0}%.*'.format(mediatype.upper())
+		else:
+			fileMask = '%GAME%.*'
+
+		log.debug("media path type is {0}, filemask is {1}".format(mediatype, fileMask))
 		
 		fileType = FileType()
-		fileType.name = type
+		fileType.name = mediatype
 		
 		mediaPath = MediaPath()
 		mediaPath.fileType = fileType
-		if(scenarioIndex == 0):
-			mediaPath.path = util.joinPath(path, type, fileMask)
+		if scenarioIndex == RETRIEVE_INFO_ARTWORK_ONLINE:
+			mediaPath.path = util.joinPath(path, mediatype, fileMask)
 		else:
 			mediaPath.path = util.joinPath(path, fileMask)
 				
 		return mediaPath
-	
-	

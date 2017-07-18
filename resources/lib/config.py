@@ -228,7 +228,7 @@ class Scraper(object):
 	replaceKeyString:
 	replaceValueString:
 	"""
-	def __init__(self):
+	def __init__(self, **kwargs):
 		self.parseInstruction = ''
 		self.source = ''
 		self.sourceAppend = ''
@@ -236,6 +236,10 @@ class Scraper(object):
 		self.returnUrl = False
 		self.replaceKeyString = ''
 		self.replaceValueString = ''
+
+		""" Set any variables explicitly passed """
+		for name in kwargs:
+			setattr(self, name, kwargs[name])
 
 	def __repr__(self):
 		return "<Scraper: %s>" % self.__dict__
@@ -256,7 +260,7 @@ class Site(object):
 
 	scrapers: A list of Scraper objects which are the default for this site.
 	"""
-	def __init__(self):
+	def __init__(self, **kwargs):
 		self.name = ''
 		# Used if the source for the game metadata is contained in a single file
 		# (e.g. MAME history.dat file) or in multiple files/web URL
@@ -267,6 +271,10 @@ class Site(object):
 		self.useFilenameAsCRC = False
 
 		self.scrapers = []
+
+		""" Set any variables explicitly passed """
+		for name in kwargs:
+			setattr(self, name, kwargs[name])
 
 	def __repr__(self):
 		return "<Site: %s>" % self.__dict__
