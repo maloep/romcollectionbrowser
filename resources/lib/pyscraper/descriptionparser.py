@@ -7,24 +7,34 @@ class DescriptionParser(object):
 	def __init__(self):
 		pass
 
-	def downloadDescription(self):
-		pass
+	def downloadDescription(self, descriptionUrl):
+		try:
+			req = urllib2.Request(descriptionUrl)
+			req.add_unredirected_header('User-Agent', 'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.31 (KHTML, like Gecko) Chrome/26.0.1410.64 Safari/537.31')
+			return urllib2.urlopen(req).read()
+		except Exception as e:
+			log.error("Unable to download metadata from {0}: {1}".format(descriptionUrl, e))
+			return ''
 
-	def openFile(self):
-		pass
+	def openFile(self, descriptionFilepath):
+		try:
+			with open(str(descriptionFilepath), 'r') as fh:
+				return fh.read()
+		except Exception as e:
+			log.error("Unable to open metadata from {0}: {1}".format(descriptionFilepath, e))
+
+	def descriptionIsUrl(self, descriptionPath):
+		return descriptionPath.startswith('http')
 
 	def getDescriptionContents(self, descFile):
-		if(descFile.startswith('http')):
-			req = urllib2.Request(descFile)
-			req.add_unredirected_header('User-Agent', 'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.31 (KHTML, like Gecko) Chrome/26.0.1410.64 Safari/537.31')
-			fileAsString = urllib2.urlopen(req).read()
-			del req
-		else:
-			fh = open(str(descFile), 'r')
-			fileAsString = fh.read()
-			del fh
+		contents = ''
 
-		return fileAsString
+		if self.descriptionIsUrl(descFile):
+			contents = self.downloadDescription(descFile)
+		else:
+			contents = self.openFile(descFile)
+
+		return contents
 
 	def replaceResultTokens(self, resultAsDict):
 		"""
