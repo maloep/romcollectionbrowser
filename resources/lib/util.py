@@ -415,10 +415,9 @@ class Logutil(object):
 			return
 
 		try:
-			msg = u'{0} {1}'.format(str(cls.prefix[level]), str(message))
-			print msg.encode('utf-8')
-		except:
-			pass
+			print u"{0} {1}".format(str(cls.prefix[level]), message).encode('utf-8')
+		except Exception as e:
+			print("Warning when trying to log in RCB: {0}".format(e))
 
 	@classmethod
 	def debug(cls, message):
