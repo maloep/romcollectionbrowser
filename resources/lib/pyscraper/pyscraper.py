@@ -30,9 +30,47 @@ class PyScraper(object):
 		self.update_option = 0		# Automatic: Accurate
 		self.fuzzy_factor = 0.8
 
-	def log_results(self, resultslist):
-		for item in resultslist:
-			log.debug(" - " + str(item))
+	def searchAndMatchResults(self, scraper, source, gamename):
+		""" Using the scraper, search for a gamename, and get the best match. Returns None if no match found """
+		resultset = self.parseDescriptionFile(scraper, source, gamename)
+		try:
+			log.debug("Found {0} results for {1} from URL {2}".format(len(resultset), gamename, source))
+			for item in resultset:
+				log.debug(" - " + str(item))
+		except Exception as e:
+			# Ignore if an exception since it will be where tempResults is None
+			pass
+
+		match = self.getBestResults(resultset, gamename)
+		if match is None:
+			# try again without (*) and [*]
+			altname = re.sub('\s\(.*\)|\s\[.*\]|\(.*\)|\[.*\]', '', gamename)
+			log.debug("Did not find any matches for {0}, trying again with {1}".format(gamename, altname))
+			match = self.getBestResults(resultset, altname)
+			if match:
+				log.debug("After modifying game name, found {0} best results for {1}".format(len(match), altname))
+
+		return match
+
+	def getUrlFromPreviousRequest(self, scraper, urlsFromPreviousScrapers):
+		# Check that the previous scraper has returned a URL
+		if len(urlsFromPreviousScrapers) == 0:
+			log.error("Configuration error: we expected a URL to have been provided by a previous scrape")
+			return None
+
+		try:
+			# Get the URL returned from source
+			url = urlsFromPreviousScrapers[int(scraper.source) - 1]
+			log.info("Scraper with parse instruction {0} using url from previous scraper: {1}".format(scraper.parseInstruction, url))
+		except IndexError:
+			log.error("Configuration error: parse instruction {0} did not find a URL from source {1}".format(scraper.parseInstruction, str(scraper.source)))
+			return None
+
+		if scraper.sourceAppend is not None and scraper.sourceAppend != "":
+			url = url + '/' + scraper.sourceAppend
+			log.info("sourceAppend = '%s'. New url = '%s'" % (scraper.sourceAppend, url))
+
+		return url
 
 	def scrapeResults(self, results, scraper, urlsFromPreviousScrapers, gamenameFromFile, foldername, filecrc, romFile, fuzzyFactor, updateOption, romCollection, settings):
 		log.debug("Using parser file {0} and game description {1}".format(scraper.parseInstruction, scraper.source))
@@ -53,51 +91,19 @@ class PyScraper(object):
 
 		# url to scrape may be passed from the previous scraper
 		if scraper.source.isdigit():
-			if len(urlsFromPreviousScrapers) == 0:
-				log.error("Configuration error: scraper source is numeric and there is no previous scraper that returned an url to scrape.")
+			scraperSource = self.getUrlFromPreviousRequest(scraper, urlsFromPreviousScrapers)
+			if scraperSource is None:
 				return results, urlsFromPreviousScrapers, True
-
-			try:
-				url = urlsFromPreviousScrapers[int(scraper.source) - 1]
-				log.info("using url from previous scraper: " + str(url))
-			except IndexError:
-				log.error("Configuration error: no url found at index " + str(scraper.source))
-				return results, urlsFromPreviousScrapers, True
-			
-			if scraper.sourceAppend is not None and scraper.sourceAppend != "":
-				url = url + '/' + scraper.sourceAppend
-				log.info("sourceAppend = '%s'. New url = '%s'" % (scraper.sourceAppend, url))
-
-			scraperSource = url
 			
 		if scraper.source == 'nfo':
 			scraperSource = self.getNfoFile(settings, romCollection, gamenameFromFile)
-				
-		tempResults = self.parseDescriptionFile(scraper, scraperSource, gamenameFromFile)
-		try:
-			log.debug("Found {0} results for {1} from URL {2}".format(len(tempResults), gamenameFromFile, scraperSource))
-			self.log_results(tempResults)
-		except:
-			# Ignore if an exception since it will be where tempResults is None
-			pass
 
-		tempResults = self.getBestResults(tempResults, gamenameFromFile)
-		
+		tempResults = self.searchAndMatchResults(scraper, scraperSource, gamenameFromFile)
 		if tempResults is None:
-			# try again without (*) and [*]
-			altname = re.sub('\s\(.*\)|\s\[.*\]|\(.*\)|\[.*\]', '', gamenameFromFile)
-			log.debug("Did not find any matches for {0}, trying again with {1}".format(gamenameFromFile, altname))
-
-			tempResults = self.parseDescriptionFile(scraper, scraperSource, altname)
-			tempResults = self.getBestResults(tempResults, altname)
-				
-			if tempResults is None:
-				log.debug("Still no matches after modifying game name")
-				if scraper.returnUrl:
-					urlsFromPreviousScrapers.append('')
-				return results, urlsFromPreviousScrapers, True
-
-			log.debug("After modifying game name, found {0} best results for {1}".format(len(tempResults), altname))
+			log.debug("No matches found in result set")
+			if scraper.returnUrl:
+				urlsFromPreviousScrapers.append('')
+			return results, urlsFromPreviousScrapers, True
 
 		if scraper.returnUrl:
 			try:								
@@ -109,32 +115,50 @@ class PyScraper(object):
 				log.debug("{0} - {1}".format(type(e), str(e)))
 			return results, urlsFromPreviousScrapers, True
 
-		# For each result, compare against already existing results. If the old key value doesn't exist and the new
-		# one does, then use the new value, otherwise retain the value
-		if tempResults is not None:
-			for resultKey in tempResults.keys():
-				resultValue = []
-				
+		# Add the fields from the scrape to any existing results
+		results = self.addNewElements(results, tempResults)
+
+		return results, urlsFromPreviousScrapers, False
+
+	def addNewElements(self, results, tempResults):
+		""" Add fields from the results to the existing set of results, adding if new, replacing if empty. This allows
+			us to add fields from subsequent site scrapes that were missing or not available in previous sites.
+
+		Args:
+			results: Existing results dict from previous scrapes
+			tempResults: Result dict from most recent scrape
+
+		Returns:
+			Updated dict of result fields
+		"""
+		if tempResults is None:
+			log.warn("No results found, not adding to existing results")
+			return
+
+		for resultKey in tempResults.keys():
+			try:
 				resultValueOld = results.get(resultKey, [])
-				# unescaping ugly html encoding from websites
-				if len(resultValueOld) > 0:
-					resultValueOld[0] = HTMLParser.HTMLParser().unescape(resultValueOld[0])
-				
 				resultValueNew = tempResults.get(resultKey, [])
-				# unescaping ugly html encoding from websites
+
+				# Unescaping ugly html encoding from websites
 				if len(resultValueNew) > 0:
 					resultValueNew[0] = HTMLParser.HTMLParser().unescape(resultValueNew[0])
 
-				if len(resultValueOld) == 0 and (len(resultValueNew) != 0 and resultValueNew != [None, ] and resultValueNew != None and resultValueNew != ''):
-					log.debug("No existing value for key {0}, replacing with new value [{1}]".format(resultKey, ','.join(str(x) for x in resultValueNew)))
+				if resultKey not in results:
+					log.debug(u"No existing value for key {0}, replacing with new value [{1}]".format(resultKey, ','.join(x for x in resultValueNew)))
+
 					results[resultKey] = resultValueNew
-					resultValue = resultValueNew
 				else:
-					log.debug("Retaining existing value for key {0} ([{1}])".format(resultKey, ','.join(str(x) for x in resultValueOld)))
-					resultValue = resultValueOld
-			del tempResults
-					
-		return results, urlsFromPreviousScrapers, False
+					# FIXME TODO Check if the previous value is empty, and overwrite if so
+					if resultValueOld == []:
+						log.debug(u"Previous value empty for key {0}, replacing with new value [{1}]".format(resultKey, ','.join(x for x in resultValueNew)))
+						results[resultKey] = resultValueNew
+					else:
+						log.debug(u"Retaining existing value for key {0} ([{1}])".format(resultKey, ','.join(x for x in resultValueOld)))
+			except Exception as e:
+				log.warn("There was an error adding key {0} to existing result set: {1}".format(resultKey, str(e)))
+
+		return results
 	
 	def getNfoFile(self, settings, romCollection, gamenameFromFile):
 		log.info("getNfoFile")
@@ -247,6 +271,16 @@ class PyScraper(object):
 		return resultIndex
 	
 	def getBestResults(self, results, gamenameFromFile):
+		"""
+		Compare a game name against each item in a result set to work out which is the likely match
+		Args:
+			results: A list of dicts with the SearchKey key being the game title in the result set
+			gamenameFromFile: The title of the game we are trying to match
+
+		Returns:
+			Either None if no match was found, or the title of the matching game (SearchKey key in the dict)
+		"""
+
 		log.info("getBestResults")
 
 		if results is None or len(results) == 0:
@@ -337,11 +371,8 @@ class PyScraper(object):
 					return result, 1.0
 							
 				# try again with replaced sequel numbers
-				sequelGamename = gamenameToCheck
-				sequelSearchKey = searchKey
-				for j in range(0, len(self.digits)):
-					sequelGamename = sequelGamename.replace(self.digits[j], self.romes[j])
-					sequelSearchKey = sequelSearchKey.replace(self.digits[j], self.romes[j])
+				sequelGamename = self.replaceSequelNumbers(gamenameToCheck)
+				sequelSearchKey = self.replaceSequelNumbers(searchKey)
 				
 				log.info("Try with replaced sequel numbers. Comparing %s with %s" % (sequelGamename, sequelSearchKey))
 				if self.compareNames(sequelGamename, sequelSearchKey, checkSubtitle):
@@ -450,18 +481,32 @@ class PyScraper(object):
 		return True
 		
 	def getSequelNoIndex(self, gamename):
+		""" Returns the index in the list that matches the first number found, either number or roman numeral.
+			This is used to compare a game that has a sequel number with a result that has a sequel number in a
+			different format (e.g. Final Fantasy VIII vs. Final Fantasy 8).
+			Note we currently only support matching up to X (10), so Final Fantasy XIII won't work
+			In addition, because of the way this iterates, we won't match IX properly since X is found first
+		"""
 		indexGamename = -1
 		
 		for i in range(0, len(self.digits)):
-			if gamename.find(self.digits[i]) != -1:
+			if gamename.find(' ' + self.digits[i]) != -1:
 				indexGamename = i
 				break
-			if gamename.find(self.romes[i]) != -1:
+			if gamename.find(' ' + self.romes[i]) != -1:
 				indexGamename = i
 				break
 				
 		return indexGamename
-				
+
+	def replaceSequelNumbers(self, name):
+		""" Replace any sequel-style digits in the game name with the roman numeral equivalent, and return the
+			string with the replaced digits
+			FIXME TODO This only matches on single digits """
+		for i in range(0, len(self.digits)):
+			name = name.replace(self.digits[i], self.romes[i])
+		return name
+
 	# TODO merge with method from dbupdate.py
 	def resolveParseResult(self, result, itemName):
 		
