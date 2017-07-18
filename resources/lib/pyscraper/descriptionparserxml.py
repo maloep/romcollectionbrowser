@@ -64,7 +64,17 @@ class DescriptionParserXml(DescriptionParser):
 		return self.applyGrammerToDescription(descFile)
 	
 	def scanDescription(self, descFile, descParseInstruction, encoding):
-		
+		"""
+		Args:
+			descFile: Either a path to a file containing the description for the game or a URL that the
+				description can be retrieved from. Both need to have the description data in XML format.
+				For non-XML format (i.e. text files), use DescriptionParserFlatFile.
+			descParseInstruction: not used
+			encoding: not used
+
+		Returns:
+			Generator for the instructions
+		"""
 		log.info('scanDescription: %s' % descFile)
 		
 		descFile = self.getDescriptionContents(descFile)
@@ -83,6 +93,7 @@ class DescriptionParserXml(DescriptionParser):
 			result = self.replaceResultTokens(result)
 			yield result
 
+	# FIXME TODO Add test cases
 	def parseElement(self, sourceTree):
 		#single result as dictionary
 		result = {}

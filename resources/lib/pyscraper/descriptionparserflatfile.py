@@ -22,7 +22,15 @@ class DescriptionParserFlatFile(DescriptionParser):
 		
 	
 	def parseDescription(self, descFile, encoding):
-		
+		"""
+		Open the file containing the GameGrammar for files, and parse
+
+		Args:
+			descParseInstruction: File containing an XML GameGrammar node to parse the file
+
+		Returns:
+			List of processing instructions for parsing fields from file
+		"""
 		grammar = self.buildGameGrammar(self.grammarNode)
 				
 		gameGrammar = Group(grammar)
@@ -34,7 +42,6 @@ class DescriptionParserFlatFile(DescriptionParser):
 		
 		# switch as fast as possible to unicode to prevent all weird encoding problems
 		fileAsString = fileAsString.decode(encoding)
-		
 		
 		results = all.parseString(fileAsString)
 		del all, fileAsString
@@ -51,7 +58,6 @@ class DescriptionParserFlatFile(DescriptionParser):
 				resultAsDict = self.replaceResultTokens(resultAsDict)
 				resultList.append(resultAsDict)
 		return resultList
-			
 	
 	def scanDescription(self, descFile, descParseInstruction, encoding):
 				
@@ -85,7 +91,6 @@ class DescriptionParserFlatFile(DescriptionParser):
 		results = self.buildGameGrammar(grammarNode)
 			
 		return results
-		
 		
 	def buildGameGrammar(self, grammarNode):
 		
@@ -182,8 +187,7 @@ class DescriptionParserFlatFile(DescriptionParser):
 		for grammarItem in grammarList:			
 			grammar += grammarItem
 				
-		return grammar		
-		
+		return grammar
 		
 	def replaceTokens(self, inputString, tokens):
 		grammar = Empty()
