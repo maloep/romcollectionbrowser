@@ -271,6 +271,16 @@ class PyScraper(object):
 		return resultIndex
 	
 	def getBestResults(self, results, gamenameFromFile):
+		"""
+		Compare a game name against each item in a result set to work out which is the likely match
+		Args:
+			results: A list of dicts with the SearchKey key being the game title in the result set
+			gamenameFromFile: The title of the game we are trying to match
+
+		Returns:
+			Either None if no match was found, or the title of the matching game (SearchKey key in the dict)
+		"""
+
 		log.info("getBestResults")
 
 		if results is None or len(results) == 0:
@@ -361,11 +371,8 @@ class PyScraper(object):
 					return result, 1.0
 							
 				# try again with replaced sequel numbers
-				sequelGamename = gamenameToCheck
-				sequelSearchKey = searchKey
-				for j in range(0, len(self.digits)):
-					sequelGamename = sequelGamename.replace(self.digits[j], self.romes[j])
-					sequelSearchKey = sequelSearchKey.replace(self.digits[j], self.romes[j])
+				sequelGamename = self.replaceSequelNumbers(gamenameToCheck)
+				sequelSearchKey = self.replaceSequelNumbers(searchKey)
 				
 				log.info("Try with replaced sequel numbers. Comparing %s with %s" % (sequelGamename, sequelSearchKey))
 				if self.compareNames(sequelGamename, sequelSearchKey, checkSubtitle):
@@ -474,18 +481,32 @@ class PyScraper(object):
 		return True
 		
 	def getSequelNoIndex(self, gamename):
+		""" Returns the index in the list that matches the first number found, either number or roman numeral.
+			This is used to compare a game that has a sequel number with a result that has a sequel number in a
+			different format (e.g. Final Fantasy VIII vs. Final Fantasy 8).
+			Note we currently only support matching up to X (10), so Final Fantasy XIII won't work
+			In addition, because of the way this iterates, we won't match IX properly since X is found first
+		"""
 		indexGamename = -1
 		
 		for i in range(0, len(self.digits)):
-			if gamename.find(self.digits[i]) != -1:
+			if gamename.find(' ' + self.digits[i]) != -1:
 				indexGamename = i
 				break
-			if gamename.find(self.romes[i]) != -1:
+			if gamename.find(' ' + self.romes[i]) != -1:
 				indexGamename = i
 				break
 				
 		return indexGamename
-				
+
+	def replaceSequelNumbers(self, name):
+		""" Replace any sequel-style digits in the game name with the roman numeral equivalent, and return the
+			string with the replaced digits
+			FIXME TODO This only matches on single digits """
+		for i in range(0, len(self.digits)):
+			name = name.replace(self.digits[i], self.romes[i])
+		return name
+
 	# TODO merge with method from dbupdate.py
 	def resolveParseResult(self, result, itemName):
 		
