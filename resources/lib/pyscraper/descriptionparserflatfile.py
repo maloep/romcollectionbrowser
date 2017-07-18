@@ -1,11 +1,9 @@
 
 from pyparsing import *
 from xml.etree.ElementTree import *
-import urllib2
-import time
+
 import util
 from util import Logutil
-#from xml.dom.minidom import parseString, Node, Document
 from descriptionparser import DescriptionParser
 
 
