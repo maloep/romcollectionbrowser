@@ -5,10 +5,14 @@ from gamedatabase import *
 from util import *
 from util import Logutil as log
 import time, zipfile, glob, shutil
+import struct, io
+from collections import namedtuple
 
 KODI_JSONRPC_TOGGLE_FULLSCREEN = '{"jsonrpc": "2.0", "method": "Input.ExecuteAction", "params": {"action": "togglefullscreen"}, "id": "1"}'
 
-
+PKZIP_EOCD = namedtuple('PKZIP_EOCD', ['signature', 'disk_cnt', 'cdir_disk', 'cdir_cnt_disk', 'cdir_cnt', 'cdir_sz', 'cdir_pos', 'cmmt_sz', 'cmmt'])
+PKZIP_CDIR = namedtuple('PKZIP_CDIR', ['signature', 'ver_crt', 'ver_min', 'gen_flg', 'cmpr_typ', 'mod_tim', 'mod_dte', 'crc32', 'cmpr_sz', 'real_sz', 'fname_sz', 'extra_sz', 'cmmt_sz', 'start_disk', 'int_attr', 'ext_attr', 'rel_pos', 'fname', 'extra', 'cmmt'])
+			
 def launchEmu(gdb, gui, gameId, config, settings, listitem):
 	log.info("Begin launcher.launchEmu")
 
@@ -188,8 +192,8 @@ def __buildCmd(filenameRows, romCollection, gameRow, escapeCmd, calledFromSkin):
 			log.info("Creating local copy: " + str(localRom))
 			if xbmcvfs.copy(rom, localRom):
 				log.info("Local copy created")
-			rom = localRom
-
+			rom = localRom	
+			
 		# If it's a .7z file
 		# Don't extract zip files in case of savestate handling and when called From skin
 		filext = rom.split('.')[-1]
@@ -313,11 +317,13 @@ def __handleCompressedFile(filext, rom, romCollection, emuParams):
 	
 	roms = []
 	
+	pze = romCollection.progressiveZipExtraction
+	
 	log.info("Treating file as a compressed archive")
 	compressed = True						
 
 	try:
-		names = __getNames(filext, rom)
+		names = __getNames(filext, rom, pze)
 	except Exception, (exc):
 		log.error("Error handling compressed file: " + str(exc))
 		return []
@@ -325,6 +331,13 @@ def __handleCompressedFile(filext, rom, romCollection, emuParams):
 	if names is None:
 		log.error("Error handling compressed file")
 		return []
+	
+	cdirs = []	
+	if pze:
+		cdirs = names
+		names = []
+		for cdir in cdirs:
+			names.append(cdir.fname)
 	
 	chosenROM = -1
 	
@@ -337,7 +350,7 @@ def __handleCompressedFile(filext, rom, romCollection, emuParams):
 		log.info("Loading %d archives" % len(names))
 
 		try:
-			archives = __getArchives(filext, rom, names)
+			archives = __getArchives(filext, rom, names if not pze else cdirs, pze)
 		except Exception, (exc):
 			log.error("Error handling compressed file: " +str(exc))
 			return []
@@ -361,10 +374,11 @@ def __handleCompressedFile(filext, rom, romCollection, emuParams):
 	else:
 		log.error("Archive had no files inside!")
 		return []
-
+	log.info(names[chosenROM])
 	if chosenROM != -1:
 		# Extract all files to %TMP%
-		archives = __getArchives(filext, rom, names)
+		# ... or just the chosen one, in case progressiveZipExtraction is being used
+		archives = __getArchives(filext, rom, names if not pze else [cdirs[chosenROM]], pze)
 		if archives is None:
 			log.warn("Error handling compressed file")
 			return []
@@ -570,12 +584,12 @@ def __launchNonXbox(cmd, romCollection, gameRow, settings, precmd, postcmd, roms
 	
 # Compressed files functions
 
-def __getNames(type, filepath):
+def __getNames(type, filepath, pze):
 	return {'zip': __getNamesZip,
-			'7z': __getNames7z}[type](filepath)
+			'7z': __getNames7z}[type](filepath, pze)
 
 
-def __getNames7z(filepath):
+def __getNames7z(filepath, pze):
 	
 	try:
 		import py7zlib
@@ -594,20 +608,72 @@ def __getNames7z(filepath):
 	return names
 
 	
-def __getNamesZip(filepath):
-	fp = open(str(filepath), 'rb')
-	archive = zipfile.ZipFile(fp)
-	names = archive.namelist()
-	fp.close()
-	return names
+def __getNamesZip(filepath, pze):
+	if not pze:
+		fp = open(str(filepath), 'rb')
+		archive = zipfile.ZipFile(fp)
+		names = archive.namelist()
+		fp.close()
+		return names
+	else:
+		log.info('Reading files in compressed file in pze: ' + filepath)
+		names = []
+		fp = xbmcvfs.File(filepath, 'r')
+		if not fp:
+			log.error('Error while opening compressed file in pze: ' + filepath)
+		else:
+			file_sz = fp.size()
+			eocd_sz = 256 # should be enough if there is no extensive comment in the eocd.
+			if not fp.seek(-eocd_sz, 2):
+				log.error('Error while seeking compressed file in pze: ' + filepath)
+			else:
+				eocd_bin = fp.readBytes(eocd_sz)
+				if not eocd_bin:
+					log.error('Error while reading compressed file in pze: ' + filepath)
+				else:
+					eocd_pos = eocd_bin.rfind(b'\x50\x4b\x05\x06')
+					if not eocd_pos >= 0:
+						log.error('No EOCD block found at the end on compressed file in pze: ' + filepath)
+					else:							
+						eocd = PKZIP_EOCD._make(struct.unpack('<LHHHHLLH0s', eocd_bin[eocd_pos:eocd_pos + 34]))
+						eocd = PKZIP_EOCD._make(struct.unpack('<LHHHHLLH' + str(eocd.cmmt_sz) + 's', eocd_bin[eocd_pos:eocd_pos + 34 + eocd.cmmt_sz]))
+						#-- End Of Central Dictionary record found. 
+						log.info('{:08X}'.format(eocd.signature))
+						log.info(eocd)
+						if not(eocd.cdir_cnt > 0 and eocd.cdir_cnt == eocd.cdir_cnt_disk):
+							log.error('Compressed file is empty or multidisk in pze: ' + filepath)
+						else:	
+							if not fp.seek(eocd.cdir_pos, 0):
+								log.error('Error while seeking compressed file in pze: ' + filepath)
+							else:
+								cdir_bin = fp.readBytes(eocd.cdir_sz);
+								if not cdir_bin:
+									log.error('Error while reading compressed file in pze: ' + filepath)
+								else:
+									for cdir_i in xrange(0, eocd.cdir_cnt):
+										cdir = PKZIP_CDIR._make(struct.unpack('<LHHHHHHLLLHHHHHLL0s0s0s', cdir_bin[:46]))
+										cdir_sz = 46 + cdir.fname_sz + cdir.extra_sz + cdir.cmmt_sz
+										cdir = PKZIP_CDIR._make(struct.unpack('<LHHHHHHLLLHHHHHLL' + str(cdir.fname_sz) + 's' + str(cdir.extra_sz) + 's' + str(cdir.cmmt_sz) + 's', cdir_bin[:cdir_sz]))
+										if not(cdir.signature == 0x02014b50 and cdir.start_disk == 0):
+											log.error('Not a valid CDIR block in compressed file in pze: ' + filepath)
+											break
+										else:
+											log.info('Found CDIR block in compressed file: ' + cdir.fname)
+											#-- Central Dictionary record found.
+											#~ log.info('{:02X} {:08X}'.format(cdir_i, cdir.signature))
+											#~ log.info(cdir)
+											names.append(cdir)							
+										cdir_bin = cdir_bin[cdir_sz:]					
+			fp.close();
+		return names
 
 	
-def __getArchives(type, filepath, archiveList):
+def __getArchives(type, filepath, archiveList, pze):
 	return {'zip': __getArchivesZip,
-			'7z': __getArchives7z}[type](filepath, archiveList)
+			'7z': __getArchives7z}[type](filepath, archiveList, pze)
 			
 				
-def __getArchives7z(filepath, archiveList):
+def __getArchives7z(filepath, archiveList, pze):
 	
 	try:
 		import py7zlib
@@ -625,9 +691,50 @@ def __getArchives7z(filepath, archiveList):
 	return archivesDecompressed
 
 
-def __getArchivesZip(filepath, archiveList):
-	fp = open(str(filepath), 'rb')
-	archive = zipfile.ZipFile(fp)
-	archivesDecompressed = [(name, archive.read(name)) for name in archiveList]
-	fp.close()
-	return archivesDecompressed
+def __getArchivesZip(filepath, archiveList, pze):
+	if not pze:
+		fp = open(str(filepath), 'rb')
+		archive = zipfile.ZipFile(fp)
+		archivesDecompressed = [(name, archive.read(name)) for name in archiveList]
+		fp.close()
+		return archivesDecompressed
+	else:
+		log.info('Extracting files from compressed file in pze: ' + filepath)
+		archivesDecompressed = []
+		fp = xbmcvfs.File(filepath, 'r')
+		
+		if not fp:
+			log.error('Error while opening compressed file in pze: ' + filepath)
+		else:
+			cdir_i = 0
+			for cdir in archiveList:
+				cdir_i = cdir_i + 1
+				file_sz = cdir.cmpr_sz + 30 + cdir.fname_sz
+				fp.seek(cdir.rel_pos, 0)
+				dialog  = xbmcgui.DialogProgress()
+				one_mb  = float(1024 * 1024)
+				prog_sz = (1024 * 1024) / 10
+				file_bin = bytearray();
+				dialog.create(util.localize(32204) % (cdir_i, len(archiveList)), cdir.fname, '', util.localize(32205) % (0, file_sz / one_mb))
+				for x in xrange(0, file_sz, prog_sz):
+					if dialog.iscanceled():
+						return []
+					dialog.update((x / file_sz) * 100, cdir.fname, '', util.localize(32205) % (x / one_mb, file_sz / one_mb))
+					file_bin.extend(fp.readBytes(prog_sz))
+				dialog.close()
+				if not file_bin:
+					log.error('Error while opening compressed file in pze: ' + filepath)
+				else:
+					cdir_bin = struct.pack('<LHHHHHHLLLHHHHHLL' + str(cdir.fname_sz) + 's' + str(cdir.extra_sz) + 's' + str(cdir.cmmt_sz) + 's', cdir.signature, cdir.ver_crt, cdir.ver_min, cdir.gen_flg, cdir.cmpr_typ, cdir.mod_tim, cdir.mod_dte, cdir.crc32, cdir.cmpr_sz, cdir.real_sz, cdir.fname_sz, cdir.extra_sz, cdir.cmmt_sz, cdir.start_disk, cdir.int_attr, cdir.ext_attr, 0, cdir.fname, cdir.extra, cdir.cmmt)
+					eocd_bin = struct.pack('<LHHHHLLH0s', 0x06054b50, 0, 0, 1, 1, len(cdir_bin), len(file_bin), 0, '')
+					file_bin.extend(cdir_bin)
+					file_bin.extend(eocd_bin)
+					file_io = io.BytesIO(file_bin)
+					zf = zipfile.ZipFile(file_io)
+					uncmpr_bin = zf.read(cdir.fname)
+					archivesDecompressed.append([cdir.fname, uncmpr_bin])
+					#~ log.info(' '.join('{:02X}'.format(x) for x in uncmpr_bin[:64]))
+					#~ log.info(''.join(chr(x) if x > 0x20 and x < 0x80 else '.' for x in uncmpr_bin[:64]))	
+			fp.close()
+		return archivesDecompressed
+		

@@ -461,7 +461,8 @@
 	<string id="32201">Pfad zu emu_autoconfig.xml</string>
 	<string id="32202">%s (Installiert)</string>
 	<string id="32203">Per autoconfig verfügbare Emulatoren</string>
-
+	<string id="32204">Entpacke Datei %d von %d...</string>
+	<string id="32205">Bereits %.1f MB von %.1f MB kopiert</string>
 	
 	<!-- Settings -->
 	<string id="32300">Allgemein</string>

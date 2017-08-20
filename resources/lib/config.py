@@ -317,7 +317,13 @@ class RomCollection(object):
 	doNotExtractZipFiles: If the rom is a zip file, extract it to a temporary local directory. Used in
 	    cases of unsupported zip files (usually .7z)
 	makeLocalCopy: Whether to copy the rom to a temporary local directory and use that in the launch. Used
-	    primarily to workaround SMB issues
+	    primarily to work around SMB issues
+	progressiveZipExtraction: Process zip files more effectively. Instead of transfering the whole zip
+	    file, first load just the file list. Then - after selecting the desired files from the list - extract
+	    only the compressed files locally and unzip those. Saves on transfering the whole zip file from slow 
+	    storage like SD cards or network shares before anything else is handled. Instead it shows the file
+	    list almost instantly and transfers only the parts of the zip file that are required to extract the
+	    desired compressed files. Hugh advantage on large merged romsets. 
 	diskPrefix: String used to assist in identifying whether a romset has multiple files (representing a
 	    multi-disk game).
 	"""
@@ -348,6 +354,7 @@ class RomCollection(object):
 		self.useFoldernameAsGamename = False
 		self.doNotExtractZipFiles = False
 		self.makeLocalCopy = False
+		self.progressiveZipExtraction = False
 		self.diskPrefix = '_Disk.*'
 
 		# These are used for XBox, which is now legacy and no longer supported by Kodi
@@ -642,7 +649,7 @@ class Config(object):
 			# RomCollection bool properties
 			for var in ['useBuiltinEmulator', 'ignoreOnScan', 'allowUpdate', 'useEmuSolo', 'usePopen',
 						'autoplayVideoMain', 'autoplayVideoInfo', 'useFoldernameAsGamename',
-						'doNotExtractZipFiles', 'makeLocalCopy', 'xboxCreateShortcut',
+						'doNotExtractZipFiles', 'makeLocalCopy', 'progressiveZipExtraction', 'xboxCreateShortcut',
 						'xboxCreateShortcutAddRomfile', 'xboxCreateShortcutUseShortGamename']:
 				romCollection.__setattr__(var, romCollectionRow.findtext(var, '').upper() == 'TRUE')
 

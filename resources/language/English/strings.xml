@@ -257,6 +257,7 @@
 	<string id="52037">Use RetroPlayer</string>
 	<string id="52038">Gameclient</string>
 	<string id="52039">Make Local Copy</string>
+	<string id="52040">Progressive Zip Extraction</string>
 	
 	<string id="52034">Save Config</string>
 	<string id="52035">Cancel</string>
@@ -461,7 +462,8 @@
 	<string id="32201">Path to emu_autoconfig.xml</string>
 	<string id="32202">%s (Installed)</string>
 	<string id="32203">Available autoconfig emulators</string>
-	
+	<string id="32204">Extracting file %d of %d...</string>
+	<string id="32205">Copied %.1f MB of %.1f MB</string>
 	
 	<!-- Settings -->
 	<string id="32300">General</string>
