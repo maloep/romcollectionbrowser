@@ -103,6 +103,7 @@ class DBUpdate(object):
 		self.missingDescFile = MissingDescLogFile()
 		self.missingArtworkFile = MissingArtworkLogFile()
 		self.possibleMismatchFile = MismatchLogFile()
+		self.updateOption = self.getScrapingMode()
 
 		pass
 
@@ -119,7 +120,21 @@ class DBUpdate(object):
 		self.fuzzyFactor = util.FUZZY_FACTOR_ENUM[int(matchingRatioIndex)]
 		log.info("fuzzyFactor: {0}".format(self.fuzzyFactor))
 
-	def updateDB(self, gdb, gui, updateOption, romCollections, settings, isRescrape):
+	def getScrapingMode(self):
+		mode = 0
+		scrape_options = {'Automatic: Accurate': 0,
+						  'Automatic: Guess Matches': 1,
+						  'Interactive: Select Matches': 2}
+		try:
+			mode = scrape_options[Addon().getSetting(SETTING_RCB_SCRAPINGMODE)]
+		except KeyError:
+			pass
+
+		log.info("Scraping mode: " + mode)
+
+		return mode
+
+	def updateDB(self, gdb, gui, romCollections, settings, isRescrape):
 		self.gdb = gdb
 		self._gui = gui
 		self.Settings = settings
@@ -233,7 +248,7 @@ class DBUpdate(object):
 
 							# use additional scrapers
 							if len(romCollection.scraperSites) > 1:
-								result, artScrapers = self.useSingleScrapers(result, romCollection, 1, gamenameFromFile, foldername, filenamelist[0], updateOption, gui, progDialogRCHeader, fileCount)
+								result, artScrapers = self.useSingleScrapers(result, romCollection, 1, gamenameFromFile, foldername, filenamelist[0], gui, progDialogRCHeader, fileCount)
 							
 							self._guiDict.update({'dialogHeaderKey': progDialogRCHeader, 'gameNameKey': gamenameFromFile,
 												  'scraperSiteKey': artScrapers, 'fileCountKey': fileCount})
@@ -316,7 +331,7 @@ class DBUpdate(object):
 																		
 						artScrapers = {} 
 						if not firstScraper.is_localartwork_scraper():
-							results, artScrapers = self.useSingleScrapers(results, romCollection, 0, gamenameFromFile, foldername, filename, updateOption, progDialogRCHeader, fileidx + 1)
+							results, artScrapers = self.useSingleScrapers(results, romCollection, 0, gamenameFromFile, foldername, filename, progDialogRCHeader, fileidx + 1)
 												
 						if len(results) == 0:
 							#lastgamename = ""
@@ -567,7 +582,7 @@ class DBUpdate(object):
 		
 		return True, isUpdate, gameId
 				
-	def useSingleScrapers(self, result, romCollection, startIndex, gamenameFromFile, foldername, firstRomfile, updateOption, progDialogRCHeader, fileCount):
+	def useSingleScrapers(self, result, romCollection, startIndex, gamenameFromFile, foldername, firstRomfile, progDialogRCHeader, fileCount):
 		
 		filecrc = ''
 		artScrapers = {}
@@ -585,7 +600,7 @@ class DBUpdate(object):
 			for scraper in scraperSite.scrapers:
 				log.debug("Retrieving results for scraper {0} - {1}".format(idx, scraper.source))
 				pyScraper = PyScraper()
-				result, urlsFromPreviousScrapers, doContinue = pyScraper.scrapeResults(result, scraper, urlsFromPreviousScrapers, gamenameFromFile, foldername, filecrc, firstRomfile, self.fuzzyFactor, updateOption, romCollection, self.Settings)
+				result, urlsFromPreviousScrapers, doContinue = pyScraper.scrapeResults(result, scraper, urlsFromPreviousScrapers, gamenameFromFile, foldername, filecrc, firstRomfile, self.fuzzyFactor, self.updateOption, romCollection, self.Settings)
 				del pyScraper
 			log.debug("Completed site {0}".format(scraperSite.name))
 			if doContinue:

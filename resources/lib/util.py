@@ -356,19 +356,6 @@ def getLabel(control):
 	return label
 
 
-def getScrapingMode(settings):
-	scrapingMode = 0
-	scrapingModeStr = settings.getSetting(SETTING_RCB_SCRAPINGMODE)			
-	if(scrapingModeStr == 'Automatic: Accurate'):
-		scrapingMode = 0
-	elif(scrapingModeStr == 'Automatic: Guess Matches'):
-		scrapingMode = 1
-	elif(scrapingModeStr == 'Interactive: Select Matches'):
-		scrapingMode = 2
-		
-	return scrapingMode
-
-
 def indentXml(elem, level=0):
 	i = "\n" + level*"  "
 	if len(elem):
