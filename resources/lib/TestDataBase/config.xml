@@ -2,9 +2,6 @@
 	<RomCollections>
 		<RomCollection id="1" name="Amiga V1">
 			<emulatorCmd>E:\Emulatoren\WINUAE\winuae.exe {-%I% "%ROM%"}</emulatorCmd>
-			<xboxCreateShortcut>False</xboxCreateShortcut>
-			<xboxCreateShortcutAddRomfile>False</xboxCreateShortcutAddRomfile>
-			<xboxCreateShortcutUseShortGamename>False</xboxCreateShortcutUseShortGamename>
 			<diskPrefix>_Disk</diskPrefix>
 			<allowUpdate>True</allowUpdate>
 			<ignoreOnScan>False</ignoreOnScan>			
@@ -20,9 +17,6 @@
 		</RomCollection>
 		<RomCollection id="2" name="Amiga V2">
 			<emulatorCmd>E:\Emulatoren\WINUAE\winuae.exe {-%I% "%ROM%"}</emulatorCmd>
-			<xboxCreateShortcut>False</xboxCreateShortcut>
-			<xboxCreateShortcutAddRomfile>False</xboxCreateShortcutAddRomfile>
-			<xboxCreateShortcutUseShortGamename>False</xboxCreateShortcutUseShortGamename>
 			<diskPrefix> [(]Disk.*[)]</diskPrefix>
 			<allowUpdate>True</allowUpdate>
 			<ignoreOnScan>False</ignoreOnScan>
@@ -38,9 +32,6 @@
 		</RomCollection>
 		<RomCollection id="3" name="Super Nintendo V1">			
 			<emulatorCmd>E:\Emulatoren\SNES\zsnes.exe -m "%ROM%"</emulatorCmd>
-			<xboxCreateShortcut>False</xboxCreateShortcut>
-			<xboxCreateShortcutAddRomfile>False</xboxCreateShortcutAddRomfile>
-			<xboxCreateShortcutUseShortGamename>False</xboxCreateShortcutUseShortGamename>
 			<diskPrefix>_Disk</diskPrefix>			
 			<allowUpdate>False</allowUpdate>
 			<ignoreOnScan>False</ignoreOnScan>
@@ -58,9 +49,6 @@
 		</RomCollection>
 		<RomCollection id="4"  name="Super Nintendo V2">
 			<emulatorCmd>E:\Emulatoren\SNES\zsnes.exe -m "%ROM%"</emulatorCmd>
-			<xboxCreateShortcut>False</xboxCreateShortcut>
-			<xboxCreateShortcutAddRomfile>False</xboxCreateShortcutAddRomfile>
-			<xboxCreateShortcutUseShortGamename>False</xboxCreateShortcutUseShortGamename>
 			<diskPrefix>_Disk</diskPrefix>			
 			<allowUpdate>False</allowUpdate>
 			<ignoreOnScan>False</ignoreOnScan>
@@ -77,9 +65,6 @@
 		</RomCollection>
 		<RomCollection id="5"  name="Xbox">			
 			<emulatorCmd>%ROM%</emulatorCmd>
-			<xboxCreateShortcut>True</xboxCreateShortcut>
-			<xboxCreateShortcutAddRomfile>True</xboxCreateShortcutAddRomfile>
-			<xboxCreateShortcutUseShortGamename>True</xboxCreateShortcutUseShortGamename>
 			<ignoreOnScan>False</ignoreOnScan>
 			<useFoldernameAsGamename>True</useFoldernameAsGamename>
 			<romPath>TestDataBase\V5 - Xbox - ff - descforall\Roms\default.xbe</romPath>						
@@ -90,9 +75,6 @@
 		</RomCollection>
 		<RomCollection id="6"  name="Sega 32 V1">
 			<emulatorCmd>%ROM%</emulatorCmd>
-			<xboxCreateShortcut>False</xboxCreateShortcut>
-			<xboxCreateShortcutAddRomfile>False</xboxCreateShortcutAddRomfile>
-			<xboxCreateShortcutUseShortGamename>False</xboxCreateShortcutUseShortGamename>
 			<searchGameByCRC>False</searchGameByCRC>
 			<descFilePerGame>True</descFilePerGame>
 			<ignoreOnScan>False</ignoreOnScan>						
@@ -137,9 +119,6 @@
 		</RomCollection>
 		<RomCollection id="10"  name="N64 - online">
 			<emulatorCmd>%ROM%</emulatorCmd>
-			<xboxCreateShortcut>False</xboxCreateShortcut>
-			<xboxCreateShortcutAddRomfile>False</xboxCreateShortcutAddRomfile>
-			<xboxCreateShortcutUseShortGamename>False</xboxCreateShortcutUseShortGamename>
 			<searchGameByCRC>False</searchGameByCRC>
 			<useFilenameAsCRC>True</useFilenameAsCRC>
 			<descFilePerGame>True</descFilePerGame>

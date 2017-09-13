@@ -415,11 +415,6 @@ class RomCollection(object):
 		self.makeLocalCopy = False
 		self.diskPrefix = '_Disk.*'
 
-		# These are used for XBox, which is now legacy and no longer supported by Kodi
-		self.xboxCreateShortcut = False
-		self.xboxCreateShortcutAddRomfile = False
-		self.xboxCreateShortcutUseShortGamename = False
-
 	@property
 	def pathRoms(self):
 		"""
@@ -777,8 +772,7 @@ class Config(object):
 			# RomCollection bool properties
 			for var in ['useBuiltinEmulator', 'ignoreOnScan', 'allowUpdate', 'useEmuSolo', 'usePopen',
 						'autoplayVideoMain', 'autoplayVideoInfo', 'useFoldernameAsGamename',
-						'doNotExtractZipFiles', 'makeLocalCopy', 'xboxCreateShortcut',
-						'xboxCreateShortcutAddRomfile', 'xboxCreateShortcutUseShortGamename']:
+						'doNotExtractZipFiles', 'makeLocalCopy']:
 				romCollection.__setattr__(var, romCollectionRow.findtext(var, '').upper() == 'TRUE')
 
 			# Add to dict
