@@ -7,6 +7,7 @@ import time
 import urllib2
 
 import xbmcvfs
+from xbmcaddon import Addon
 import fnmatch
 
 import util, helper
