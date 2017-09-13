@@ -1,4 +1,3 @@
-
 import xbmc, xbmcaddon, xbmcvfs
 
 import os, sys, re, shutil
@@ -357,19 +356,6 @@ def getLabel(control):
 	return label
 
 
-def getScrapingMode(settings):
-	scrapingMode = 0
-	scrapingModeStr = settings.getSetting(SETTING_RCB_SCRAPINGMODE)			
-	if(scrapingModeStr == 'Automatic: Accurate'):
-		scrapingMode = 0
-	elif(scrapingModeStr == 'Automatic: Guess Matches'):
-		scrapingMode = 1
-	elif(scrapingModeStr == 'Interactive: Select Matches'):
-		scrapingMode = 2
-		
-	return scrapingMode
-
-
 def indentXml(elem, level=0):
 	i = "\n" + level*"  "
 	if len(elem):
@@ -395,13 +381,50 @@ from sqlite3 import dbapi2 as sqlite
 print("RCB_INFO: Loading sqlite3 as DB engine")
 
 
-class Logutil:
-	
+class Logutil(object):
+	# Class variable
 	currentLogLevel = None
+
+	levels = ['ERROR', 'WARNING', 'INFO', 'DEBUG']
+	prefix = ['RCB_ERROR', 'RCB_WARNING', 'RCB_INFO', 'RCB_DEBUG']
+
+	# Note that we don't call __init__ since we use class methods, not instance methods
+
+	@classmethod
+	def __log(cls, level, message):
+		# Init if not already set
+		if cls.currentLogLevel is None:
+			print "RCB: initialising log level"
+			cls.currentLogLevel = cls.getCurrentLogLevel()
+			print "RCB: current log level initialised to " +str(cls.currentLogLevel)
+
+		if Logutil.getCurrentLogLevel() < level:
+			return
+
+		try:
+			print u"{0} {1}".format(str(cls.prefix[level]), message).encode('utf-8')
+		except Exception as e:
+			print("Warning when trying to log in RCB: {0}".format(e))
+
+	@classmethod
+	def debug(cls, message):
+		cls.__log(LOG_LEVEL_DEBUG, message)
+
+	@classmethod
+	def info(cls, message):
+		cls.__log(LOG_LEVEL_INFO, message)
+
+	@classmethod
+	def warn(cls, message):
+		cls.__log(LOG_LEVEL_WARNING, message)
+
+	@classmethod
+	def error(cls, message):
+		cls.__log(LOG_LEVEL_ERROR, message)
 
 	@staticmethod
 	def log(message, logLevel):
-			
+		# FIXME TODO this is deprecated in favour of the above methods
 		if(Logutil.currentLogLevel == None):
 			print "RCB: init log level"
 			Logutil.currentLogLevel = Logutil.getCurrentLogLevel()
@@ -426,7 +449,6 @@ class Logutil:
 			print m.encode("utf-8")
 		except Exception, (exc):
 			pass
-		
 	
 	@staticmethod
 	def getCurrentLogLevel():

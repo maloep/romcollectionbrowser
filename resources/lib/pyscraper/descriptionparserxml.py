@@ -1,82 +1,83 @@
 
 from xml.etree.ElementTree import *
-import urllib2
-import time
-import sys
 
-import util
-from util import Logutil
+from util import Logutil as log
+from descriptionparser import DescriptionParser
 
-class DescriptionParserXml:
+class DescriptionParserXml(DescriptionParser):
 	
 	def __init__(self, grammarNode):
 		self.grammarNode = grammarNode
-		
 	
 	def prepareScan(self, descFile, descParseInstruction):
 		pass
-	
-	
-	def parseDescription(self, descFile, encoding):
-		Logutil.log('parseDescription: %s' % descFile, util.LOG_LEVEL_INFO)
-		
-		results = None
-						
-		if(descFile.startswith('http://')):
-			req = urllib2.Request(descFile)
-			req.add_unredirected_header('User-Agent', 'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.31 (KHTML, like Gecko) Chrome/26.0.1410.64 Safari/537.31')
-			descFile = urllib2.urlopen(req).read()
-			del req
-		else:
-			fh = open(str(descFile), 'r')
-			descFile = fh.read()
-			del fh
-				
-		#load xmlDoc as elementtree to check with xpaths
-		# force utf-8
-		if sys.version_info >= (2,7):
-			parser = XMLParser(encoding='utf-8')
-		else:
-			parser = XMLParser()
-		tree = fromstring(descFile, parser)
-		del descFile
-		if(tree == None):
-			return None				
-						
-		rootElementXPath = self.grammarNode.attrib.get('root')
-		if(not rootElementXPath):
-			rootElementXPath = "."
+
+	def applyGrammerToDescription(self, description):
+		"""
+		Using the GameGrammar node for this scraper, parse the description
+		Args:
+			description:
+
+		Returns:
+			List containing the search result dicts
+		"""
+		tree = fromstring(description)
+
+		rootElementXPath = self.grammarNode.attrib.get('root', '.')
 		rootElements = tree.findall(rootElementXPath)
-		del tree, rootElementXPath
-		if(rootElements == None):
-			return None
+
+		if rootElements is None:
+			log.warn("Unable to find root element {0} in description".format(rootElementXPath))
+			return []
 		
 		resultList = []
-		
-		for rootElement in rootElements:			
-			tempResults = self.parseElement(rootElement)			
-			if tempResults != None:				
-				results = tempResults
-				del tempResults
-				results = self.replaceResultTokens(results)
-				resultList.append(results)
-		
+		for rootElement in rootElements:
+			tempResults = self.parseElement(rootElement)
+			if tempResults is None:
+				continue
+
+			resultList.append(self.replaceResultTokens(tempResults))
+
 		return resultList
-	
+
+	def parseDescription(self, descFile, encoding):
+		"""
+		Get a "description" (i.e. a search result) and process it according to the GrammarNode for the site we are
+		using.
+
+		Args:
+			descFile: Either a URL or a file path to the source of the "description"
+			encoding:
+
+		Returns:
+			A list of dicts with keys matching the GameGrammar elements, or None if there was an error parsing.
+
+			Each dict in the list is a matching search result.
+		"""
+
+		log.info('parseDescription: %s' % descFile)
+
+		# Parse the description
+		descFile = self.getDescriptionContents(descFile)
+
+		# Apply the GrammarNode rules to find the data
+		return self.applyGrammerToDescription(descFile)
 	
 	def scanDescription(self, descFile, descParseInstruction, encoding):
+		"""
+		Args:
+			descFile: Either a path to a file containing the description for the game or a URL that the
+				description can be retrieved from. Both need to have the description data in XML format.
+				For non-XML format (i.e. text files), use DescriptionParserFlatFile.
+			descParseInstruction: not used
+			encoding: not used
+
+		Returns:
+			Generator for the instructions
+		"""
+		log.info('scanDescription: %s' % descFile)
 		
-		Logutil.log('scanDescription: %s' % descFile, util.LOG_LEVEL_INFO)
-		
-		if(descFile.startswith('http://')):
-			req = urllib2.Request(descFile)
-			req.add_unredirected_header('User-Agent', 'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.31 (KHTML, like Gecko) Chrome/26.0.1410.64 Safari/537.31')
-			descFile = urllib2.urlopen(req).read()
-			del req
-		else:
-			fh = open(str(descFile), 'r')
-			descFile = fh.read()
-			del fh
+		descFile = self.getDescriptionContents(descFile)
 		
 		#load xmlDoc as elementtree to check with xpaths
 		tree = fromstring(descFile)
@@ -91,76 +92,8 @@ class DescriptionParserXml:
 			result = self.parseElement(node)
 			result = self.replaceResultTokens(result)
 			yield result
-	
-	
-	#TODO: make a base class and make this a base method
-	def replaceResultTokens(self, resultAsDict):
-				
-		for key in resultAsDict.keys():
-			grammarElement = self.grammarNode.find(key)
-			if(grammarElement != None):
-				appendResultTo = grammarElement.attrib.get('appendResultTo')
-				appendResultWith = grammarElement.attrib.get('appendResultWith')
-				replaceKeyString = grammarElement.attrib.get('replaceInResultKey')
-				replaceValueString = grammarElement.attrib.get('replaceInResultValue')
-				dateFormat = grammarElement.attrib.get('dateFormat')
-				del grammarElement
-														
-				#TODO: avoid multiple loops
-				if(appendResultTo != None or appendResultWith != None or dateFormat != None):									
-					itemList = resultAsDict[key]
-					for i in range(0, len(itemList)):
-						try:
-							item = itemList[i]
-							newValue = item
-							del item
-							if(appendResultTo != None):								
-								newValue = appendResultTo +newValue
-							if(appendResultWith != None):
-								newValue = newValue + appendResultWith
-							if(dateFormat != None):
-								if(dateFormat == 'epoch'):
-									try:
-										newValue = time.gmtime(int(newValue))
-									except:
-										print 'error converting timestamp: ' +str(newValue) 
-								else:
-									newValue = time.strptime(newValue, dateFormat)
-							itemList[i] = newValue
-						except Exception, (exc):
-							print "Error while handling appendResultTo: " +str(exc)
-							
-					resultAsDict[key] = itemList
-					del itemList
-					
-				if(replaceKeyString != None and replaceValueString != None):												
-					replaceKeys = replaceKeyString.split(',')
-					replaceValues = replaceValueString.split(',')
-					
-					if(len(replaceKeys) != len(replaceValues)):
-						print "Configuration error: replaceKeys must be the same number as replaceValues"
-					
-					itemList = resultAsDict[key]
-					for i in range(0, len(itemList)):
-						try:							
-							item = itemList[i]
-							
-							for j in range(len(replaceKeys)):
-								replaceKey = replaceKeys[j]
-								replaceValue = replaceValues[j]
-															
-								newValue = item.replace(replaceKey, replaceValue)
-								del item							
-								itemList[i] = newValue
-						except:
-							print "Error while handling appendResultTo"
-							
-					resultAsDict[key] = itemList
-					del itemList
-		
-		return resultAsDict			
 
-			
+	# FIXME TODO Add test cases
 	def parseElement(self, sourceTree):
 		#single result as dictionary
 		result = {}
@@ -227,6 +160,3 @@ class DescriptionParserXml:
 				result[resultKey] = resultValues
 									
 		return result
-		
-		
-		

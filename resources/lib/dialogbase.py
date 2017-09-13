@@ -22,7 +22,7 @@ class DialogBaseEdit(xbmcgui.WindowXMLDialog):
 	
 	
 	def addItemsToList(self, controlId, options):
-		Logutil.log('addItemsToList', util.LOG_LEVEL_INFO)
+		Logutil.log('addItemsToList: ID = ' + str(controlId) + ', values = ' + str(options), util.LOG_LEVEL_INFO)
 		
 		control = self.getControlById(controlId)
 		control.setVisible(1)

@@ -1418,21 +1418,19 @@ class UIGameDB(xbmcgui.WindowXML):
 			dialog = xbmcgui.Dialog()
 			retGames = dialog.yesno(util.localize(32999), util.localize(32500), message)
 			if(retGames == True):
-				
-				scrapingMode = util.getScrapingMode(self.Settings)
 				#Import Games
 				if(romCollections == None):
-					self.doImport(scrapingMode, self.config.romCollections, isRescrape)
+					self.doImport(self.config.romCollections, isRescrape)
 				else:
-					self.doImport(scrapingMode, romCollections, isRescrape)
+					self.doImport(romCollections, isRescrape)
 		
 		
-	def doImport(self, scrapingmode, romCollections, isRescrape):
+	def doImport(self, romCollections, isRescrape):
 		progressDialog = dialogprogress.ProgressDialogGUI()
 		progressDialog.writeMsg(util.localize(32111), "", "")
 		
 		updater = dbupdate.DBUpdate()
-		updater.updateDB(self.gdb, progressDialog, scrapingmode, romCollections, self.Settings, isRescrape)
+		updater.updateDB(self.gdb, progressDialog, romCollections, self.Settings, isRescrape)
 		del updater
 		progressDialog.writeMsg("", "", "", -1)
 		del progressDialog

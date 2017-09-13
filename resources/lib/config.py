@@ -5,7 +5,7 @@ import urllib
 import helper
 from util import *
 from xml.etree.ElementTree import *
-
+from util import Logutil as log
 
 
 #friendly name : db column, missing filter statement
@@ -291,7 +291,7 @@ class Scraper(object):
 	replaceKeyString:
 	replaceValueString:
 	"""
-	def __init__(self):
+	def __init__(self, **kwargs):
 		self.parseInstruction = ''
 		self.source = ''
 		self.sourceAppend = ''
@@ -299,6 +299,10 @@ class Scraper(object):
 		self.returnUrl = False
 		self.replaceKeyString = ''
 		self.replaceValueString = ''
+
+		""" Set any variables explicitly passed """
+		for name in kwargs:
+			setattr(self, name, kwargs[name])
 
 	def __repr__(self):
 		return "<Scraper: %s>" % self.__dict__
@@ -319,7 +323,7 @@ class Site(object):
 
 	scrapers: A list of Scraper objects which are the default for this site.
 	"""
-	def __init__(self):
+	def __init__(self, **kwargs):
 		self.name = ''
 		# Used if the source for the game metadata is contained in a single file
 		# (e.g. MAME history.dat file) or in multiple files/web URL
@@ -330,6 +334,10 @@ class Site(object):
 		self.useFilenameAsCRC = False
 
 		self.scrapers = []
+
+		""" Set any variables explicitly passed """
+		for name in kwargs:
+			setattr(self, name, kwargs[name])
 
 	def __repr__(self):
 		return "<Site: %s>" % self.__dict__
@@ -358,8 +366,9 @@ class RomCollection(object):
 	preCmd: The OS command to execute before the emulatorCmd
 	postCmd: The OS command to execute after the emulatorCmd
 	emulatorParams: List of command-line parameters appended to the emulatorCmd
-	romPaths: List of paths containing the roms for this collection, including wildcard match, e.g.
-	    /path/to/rom/files/*.zip
+	romPaths: List of path + masks containing the roms for this collection, including wildcard match, e.g.
+	    /path/to/rom/files/*.zip, /path/to/rom/files/*.smc. Note we can only have 1 path but multiple wildcard masks
+
 	scraperSites: List of Site objects applicable to this collection
 	imagePlacingMain: ImagePlacing (Image configuration) used on the main window
 	imagePlacingInfo: ImagePlacing (Image configuration) used on the game info window
@@ -411,6 +420,61 @@ class RomCollection(object):
 		self.xboxCreateShortcutAddRomfile = False
 		self.xboxCreateShortcutUseShortGamename = False
 
+  @property
+	def pathRoms(self):
+		"""
+		Returns:
+			A list of paths containing romfiles supported by this emulator, e.g. [/path/to/roms1, /path/to/roms2]
+		"""
+		paths = []
+		for rompath in self.romPaths:
+			# Skip if the path has already been added
+			if rompath in paths:
+				continue
+			paths.append(os.path.dirname(rompath))
+		return paths
+
+	@property
+	def maskRomPaths(self):
+		"""
+		Returns:
+			A list of suffixes supported by this emulator, e.g. [*.smc, *.zip]
+		"""
+		exts = []
+		for rompath in self.romPaths:
+			exts.append(os.path.basename(rompath))
+		return exts
+
+	@property
+	def pathSaveState(self):
+		saveStatePath = ''
+
+		try:
+			saveStatePath = os.path.split(self.saveStatePath)[0]
+		except IndexError:
+			pass
+
+		return saveStatePath
+
+	@property
+	def maskSaveState(self):
+		saveStateMask = ''
+
+		try:
+			saveStateMask = os.path.split(self.saveStatePath)[1]
+		except IndexError:
+			pass
+
+		return saveStateMask
+
+	@property
+	def imagePlacingNameGameList(self):
+		return self.imagePlacingMain.name
+
+	@property
+	def imagePlacingNameGameInfo(self):
+		return self.imagePlacingInfo.name
+  
 	def __repr__(self):
 		return "<RomCollection: %s>" % self.__dict__
 
@@ -488,7 +552,7 @@ class RomCollection(object):
 
 class Config(object):
 	"""
-	romCollections: A list of all the RomCollections added by the user
+	romCollections: A dict of all the RomCollections added by the user, with key being the numeric ID cast as a string
 	scraperSites: A list of all the available Sites/Scrapers
 	fileTypeIdsForGamelist = None
 	
@@ -901,3 +965,50 @@ class Config(object):
 				fileTypeIds.append(fileType.id)
 
 		return fileTypeIds
+
+	def getRomCollectionNames(self):
+		"""
+		Returns: an alphabetically-sorted list of the Rom Collection names, suitable for a UI list
+
+		"""
+		names = []
+		for rckey, rcval in self.romCollections.iteritems():
+			names.append(rcval.name)
+
+		names.sort()
+
+		return names
+
+	def getRomCollectionById(self, id):
+		"""
+		Find the matching Rom Collection by ID
+
+		Args:
+		    id: the ID of the Rom Collection to be found (as a str)
+
+		Returns:
+		    The Rom Collection with the matching ID, or None if not found
+
+		"""
+		try:
+			return self.romCollections.get(id)
+		except KeyError as e:
+			log.warn("Unable to find rom collection with ID {0}".format(id))
+			return None
+
+	def getRomCollectionByName(self, name):
+		"""
+		Find the matching Rom Collection by Name
+
+		Args:
+		    name: the name of the Rom Collection to be found
+
+		Returns:
+		    The Rom Collection with the matching name, or None if not found
+
+		"""
+		for rckey, rcval in self.romCollections.iteritems():
+			if rcval.name == name:
+				return rcval
+
+		return None

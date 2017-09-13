@@ -46,47 +46,38 @@ class ImportOptionsDialog(xbmcgui.WindowXMLDialog):
 		
 	
 	def onInit(self):
-		Logutil.log('onInit ImportOptions', util.LOG_LEVEL_INFO)
-		
-		#Rom Collections
-		romCollectionList = [util.localize(32120)]
-		for rcId in self.gui.config.romCollections.keys():
-			romCollection = self.gui.config.romCollections[rcId]
-			romCollectionList.append(romCollection.name)
+		log.info('onInit ImportOptions')
+		romCollectionList = [util.localize(32120)] + self.gui.config.getRomCollectionNames()
+		log.debug("Adding list of RC names: {0}".format(romCollectionList))
 		self.addItemsToList(CONTROL_LIST_ROMCOLLECTIONS, romCollectionList)
-		
-		#deactivate Rom Collection list
-		if(self.romCollections != None):
-			#set overwrite flag to false
-			xbmc.executebuiltin('Skin.SetBool(%s)' %util.SETTING_RCB_IMPORTOPTIONS_DISABLEROMCOLLECTIONS)
+
+		# Deactivate Rom Collection list
+		if self.romCollections is not None:
+			# Set overwrite flag to false
+			xbmc.executebuiltin('Skin.SetBool(%s)' % util.SETTING_RCB_IMPORTOPTIONS_DISABLEROMCOLLECTIONS)
 			self.setFocus(self.getControl(CONTROL_BUTTON_SCRAPEMODE_UP))
 		else:
-			xbmc.executebuiltin('Skin.Reset(%s)' %util.SETTING_RCB_IMPORTOPTIONS_DISABLEROMCOLLECTIONS)
+			xbmc.executebuiltin('Skin.Reset(%s)' % util.SETTING_RCB_IMPORTOPTIONS_DISABLEROMCOLLECTIONS)
 		
-		#Scraping modes
-		options = ['Automatic: Accurate',
-					'Automatic: Guess Matches',
-					'Interactive: Select Matches']
-		self.addItemsToList(CONTROL_LIST_SCRAPEMODE, options)
+		# Scraping modes
+		self.addItemsToList(CONTROL_LIST_SCRAPEMODE, ['Automatic: Accurate', 'Automatic: Guess Matches', 'Interactive: Select Matches'])
 
 		sitesInList = self.getAvailableScrapers()
+
+		for scraper in [CONTROL_LIST_SCRAPER1, CONTROL_LIST_SCRAPER2, CONTROL_LIST_SCRAPER3]:
+			self.addItemsToList(scraper, sitesInList)
 		
-		self.addItemsToList(CONTROL_LIST_SCRAPER1, sitesInList)
-		self.addItemsToList(CONTROL_LIST_SCRAPER2, sitesInList)
-		self.addItemsToList(CONTROL_LIST_SCRAPER3, sitesInList)
-		
-		#set initial scraper values
+		# Set initial scraper values
 		sitesInRomCollection = []
-		#use scraper config of first non-MAME rom collection
-		for rcId in self.gui.config.romCollections.keys():
-			romCollection = self.gui.config.romCollections[rcId]
-			if romCollection.name != 'MAME' or len(self.gui.config.romCollections) == 1:
-				sitesInRomCollection = romCollection.scraperSites
+		# Use scraper config of first non-MAME rom collection
+		for rcid, rc in self.gui.config.romCollections.iteritems():
+			if rc.name != 'MAME' or len(self.gui.config.romCollections) == 1:
+				sitesInRomCollection = rc.scraperSites
 				break
-			
+
 		self.selectScrapersInList(sitesInRomCollection, sitesInList)
 		
-		#set overwrite flag to false
+		# Set overwrite flag to false
 		xbmc.executebuiltin('Skin.Reset(%s)' %util.SETTING_RCB_OVERWRITEIMPORTOPTIONS)		
 			
 	

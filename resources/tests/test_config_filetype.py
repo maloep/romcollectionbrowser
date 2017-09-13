@@ -1,13 +1,8 @@
 import os
 import sys
-
-sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', '..', 'resources', 'lib'))
-sys.path.append (os.path.join(os.path.dirname(__file__), '..', '..', 'resources', 'lib', 'pyparsing'))
-sys.path.append (os.path.join(os.path.dirname(__file__), '..', '..', 'resources', 'lib', 'pyscraper'))
-
 import unittest
+from resources.lib.config import Config, FileType
 
-from config import Config, FileType
 
 class TestFileType(unittest.TestCase):
     """
@@ -25,6 +20,7 @@ class TestFileType(unittest.TestCase):
         self.assertTrue(ft.type == 'video')
         self.assertTrue(ft.parent == 'game')
         self.assertTrue(ft.id == '12')
+
 
 if __name__ == "__main__":
     unittest.main()
