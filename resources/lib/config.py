@@ -420,7 +420,7 @@ class RomCollection(object):
 		self.xboxCreateShortcutAddRomfile = False
 		self.xboxCreateShortcutUseShortGamename = False
 
-  @property
+	@property
 	def pathRoms(self):
 		"""
 		Returns:
