@@ -173,27 +173,90 @@ class FileType(object):
 		return "<FileType: %s>" % self.__dict__
 
 
-class ImagePlacing:	
-	name = ''	
-	fileTypesForGameList = None
-	fileTypesForGameListSelected = None			
-	fileTypesForMainView1 = None
-	fileTypesForMainView2 = None
-	fileTypesForMainView3 = None						
-	fileTypesForMainViewBackground = None
-	fileTypesForMainViewGameInfoBig = None
-	fileTypesForMainViewGameInfoUpperLeft = None
-	fileTypesForMainViewGameInfoUpperRight = None
-	fileTypesForMainViewGameInfoLowerLeft = None
-	fileTypesForMainViewGameInfoLowerRight = None	
-	fileTypesForMainViewGameInfoUpper = None
-	fileTypesForMainViewGameInfoLower = None
-	fileTypesForMainViewGameInfoLeft = None
-	fileTypesForMainViewGameInfoRight = None
-	
-	fileTypesForMainViewVideoWindowBig = None
-	fileTypesForMainViewVideoWindowSmall = None
-	fileTypesForMainViewVideoFullscreen = None
+class ImagePlacing(object):
+	"""This class controls how images should be displayed, based on whether it is a 'gameinfobig' or 'gameinfosmall'
+	(or other options defined in the imagePlacingDict).
+
+	For each category, there will be one or more entries defined in the config.xml; the first is the one
+	selected, with subsequent entries others as fallback if the collection hasn't set up a corresponding path.
+
+	Each class attribute is a list of FileType
+	"""
+	def __init__(self):
+		# name of the image placing - this is a key in the imagePlacingDict
+		self.name = ''
+
+		# List of FileType to be displayed as an icon in the game list, particularly the Info or Thumbs view
+		self.fileTypesForGameList = None
+		# List of FileType to be displayed as a thumb in the game list when a game is selected
+		self.fileTypesForGameListSelected = None
+
+		self.fileTypesForMainView1 = None
+		self.fileTypesForMainView2 = None
+		self.fileTypesForMainView3 = None
+
+		# Image to be displayed as background when a game is selected
+		self.fileTypesForMainViewBackground = None
+
+		# Used for gameinfobig - List of FileType to be displayed as the big image when a game is selected
+		self.fileTypesForMainViewGameInfoBig = None
+
+		# Used for gameinfosmall - Lists of FileType to be displayed as the 4 small images when a game is selected
+		self.fileTypesForMainViewGameInfoUpperLeft = None
+		self.fileTypesForMainViewGameInfoUpperRight = None
+		self.fileTypesForMainViewGameInfoLowerLeft = None
+		self.fileTypesForMainViewGameInfoLowerRight = None
+
+		# Used for MAME marquee and cabinet view when a game is selected
+		self.fileTypesForMainViewGameInfoUpper = None
+		self.fileTypesForMainViewGameInfoLower = None
+		self.fileTypesForMainViewGameInfoLeft = None
+		self.fileTypesForMainViewGameInfoRight = None
+
+		self.fileTypesForMainViewVideoWindowBig = None
+		self.fileTypesForMainViewVideoWindowSmall = None
+		self.fileTypesForMainViewVideoFullscreen = None
+
+	def __repr__(self):
+		return "<ImagePlacing: %s>" % self.__dict__
+
+	# The following properties are aligned with the artwork name used in the skins so that we can reference
+	# them by name
+	@property
+	def icon(self):
+		return self.fileTypesForGameList
+
+	@property
+	def thumb(self):
+		return self.fileTypesForGameListSelected
+
+	@property
+	def background(self):
+		return self.fileTypesForMainViewBackground
+
+	@property
+	def gameinfobig(self):
+		return self.fileTypesForMainViewGameInfoBig
+
+	@property
+	def gameinfoupperleft(self):
+		return self.fileTypesForMainViewGameInfoUpperLeft
+
+	@property
+	def gameinfoupperright(self):
+		return self.fileTypesForMainViewGameInfoUpperRight
+
+	@property
+	def gameinfolowerleft(self):
+		return self.fileTypesForMainViewGameInfoLowerLeft
+
+	@property
+	def gameinfolowerright(self):
+		return self.fileTypesForMainViewGameInfoLowerRight
+
+	@property
+	def gameinfolower(self):
+		return self.fileTypesForMainViewGameInfoLower
 
 
 class MediaPath(object):
@@ -307,6 +370,8 @@ class RomCollection(object):
 	    /path/to/rom/files/*.zip, /path/to/rom/files/*.smc. Note we can only have 1 path but multiple wildcard masks
 
 	scraperSites: List of Site objects applicable to this collection
+	imagePlacingMain: ImagePlacing (Image configuration) used on the main window
+	imagePlacingInfo: ImagePlacing (Image configuration) used on the game info window
 	ignoreOnScan: Whether to skip this rom collection when scanning
 	allowUpdate: Allows overwriting an existing rom in the collection with details from a more recent scan
 	useEmuSolo: Whether to shutdown/restart Kodi while running the external emulator using the scripts in
@@ -355,10 +420,7 @@ class RomCollection(object):
 		self.xboxCreateShortcutAddRomfile = False
 		self.xboxCreateShortcutUseShortGamename = False
 
-	def __repr__(self):
-		return "<RomCollection: %s>" % self.__dict__
-
-	@property
+  @property
 	def pathRoms(self):
 		"""
 		Returns:
@@ -412,7 +474,80 @@ class RomCollection(object):
 	@property
 	def imagePlacingNameGameInfo(self):
 		return self.imagePlacingInfo.name
+  
+	def __repr__(self):
+		return "<RomCollection: %s>" % self.__dict__
 
+	def getMediaPathByType(self, ftype):
+		""" Returns the mediaPath object matching where the FileType's name matches e.g. type = boxfront
+
+		If not found (i.e. the rom collection has not set a path for this type), will return an empty string
+		"""
+		for path in self.mediaPaths:
+			if path.fileType.name == ftype:
+				return path.path
+		return ''
+
+	def getAvailableFileTypeForArt(self, attname, placing):
+		""" Iterate over the list of <fileTypeForGameList> elements and return the first one found in the
+		RomCollection's *available* media paths
+
+		Args:
+			attname: The art name used in either Kodi or the skin, e.g. 'icon', 'background', 'gameinfobig'
+			placing: The ImagePlacing to find the FileType for - ImagePlacingMain or ImagePlacingInfo
+		"""
+		fts = getattr(placing, attname)
+		for ft in fts:
+			if self.getMediaPathByType(ft.name) != '':
+				return ft
+
+		return None
+
+	def _getImagesForPlacing(self, placing):
+		""" Returns a dict containing the filetype for each art property to be displayed. The dict key
+		matches the ListItem.setArt key so it can be referenced in the skin
+
+		Note that we should already have set the icon and thumb; these aren't retrieved here
+		"""
+		fts = {}
+
+		fts['background'] = self.getAvailableFileTypeForArt('background', placing)
+
+		if placing.name == 'gameinfobig':
+			fts['gameinfobig'] = self.getAvailableFileTypeForArt('gameinfobig', placing)
+
+		elif placing.name == 'gameinfosmall':
+			for arttype in ['gameinfoupperleft', 'gameinfoupperright', 'gameinfolowerleft', 'gameinfolowerright']:
+				fts[arttype] = self.getAvailableFileTypeForArt(arttype, placing)
+
+		elif placing.name == 'gameinfomamemarquee':
+			for arttype in ['gameinfoleft', 'gameinfoupperright', 'gameinfolowerright']:
+				fts[arttype] = self.getAvailableFileTypeForArt(arttype, placing)
+
+		elif placing.name == 'gameinfomamecabinet':
+			for arttype in ['gameinfoupperleft', 'gameinfoupperright', 'gameinfolower']:
+				fts[arttype] = self.getAvailableFileTypeForArt(arttype, placing)
+
+		else:
+			print 'WARNING - Unsupported image placing type: ' + placing.name
+			pass
+
+		return fts
+
+	def getImagesForGameInfoView(self):
+		''' Returns a dict of FileTypes to be displayed in the GameInfoView '''
+		return self._getImagesForPlacing(self.imagePlacingInfo)
+
+	def getImagesForGameListViewSelected(self):
+		''' Returns a dict of FileTypes to be displayed in the GameListView, when selected '''
+		return self._getImagesForPlacing(self.imagePlacingMain)
+
+	def getImagesForGameListView(self):
+		''' Returns a dict of FileTypes to be displayed in the GameListView (typically just icon and thumb) '''
+		fts = {}
+		fts['icon'] = self.getAvailableFileTypeForArt('icon', self.imagePlacingMain)
+		fts['thumb'] = self.getAvailableFileTypeForArt('thumb', self.imagePlacingMain)
+		return fts
 
 
 class Config(object):

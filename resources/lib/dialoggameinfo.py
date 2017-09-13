@@ -26,6 +26,8 @@ RCBHOME = util.getAddonInstallPath()
 
 
 class UIGameInfoView(xbmcgui.WindowXMLDialog):
+
+	__useRefactoredView = False
 	
 	def __init__(self, *args, **kwargs):		
 		xbmcgui.WindowXMLDialog.__init__( self, *args, **kwargs )		
@@ -153,10 +155,74 @@ class UIGameInfoView(xbmcgui.WindowXMLDialog):
 		self.writeMsg("")
 		
 		Logutil.log("End showGameList", util.LOG_LEVEL_INFO)
-	
+
+	def showGameInfoNew(self):
+		Logutil.log("Begin showGameInfoNew", util.LOG_LEVEL_INFO)
+
+		# Stop Player (if playing)
+		if xbmc.Player().isPlayingVideo():
+			xbmc.Player().stop()
+
+		pos = self.getCurrentListPosition()
+		if pos == -1:
+			pos = 0
+
+		selectedGame = self.getListItem(pos)
+
+		if selectedGame is None:
+			Logutil.log("selectedGame == None in showGameInfo", util.LOG_LEVEL_WARNING)
+			return
+
+		thegame = Game(self.gdb).getGameById(self.selectedGameId)
+		if thegame is None:
+			self.writeMsg(util.localize(32024))
+			return
+
+		# Properties from the game object
+		for var in ['maxplayers', 'rating', 'votes', 'url', 'region', 'media', 'perspective', 'controllertype',
+					'originaltitle', 'alternatetitle', 'translatedby', 'version', 'playcount', 'plot']:
+			try:
+				selectedGame.setProperty(var, getattr(thegame, var))
+			except AttributeError as e:
+				Logutil.log('Error retrieving property ' + var + ': ' + str(e), util.LOG_LEVEL_WARNING)
+				selectedGame.setProperty(var, '')
+
+		# Properties available through ID on the game
+		selectedGame.setProperty('year', Year(self.gdb).getYear(thegame.yearId))
+		selectedGame.setProperty('genre', Genre(self.gdb).getGenresForGame(thegame.gameId))
+		selectedGame.setProperty('publisher', Publisher(self.gdb).getPublisher(thegame.publisherId))
+		selectedGame.setProperty('developer', Developer(self.gdb).getDeveloper(thegame.developerId))
+
+		try:
+			romCollection = self.config.romCollections[str(thegame.romCollectionId)]
+		except KeyError as e:
+			Logutil.log('Cannot get rom collection with id: ' + str(thegame.romCollectionId), util.LOG_LEVEL_ERROR)
+			return
+
+		# Rom Collection properties
+		selectedGame.setProperty('romcollection', romCollection.name)
+		selectedGame.setProperty('console', romCollection.name)
+
+		# Associated artwork properties
+		images = romCollection.getImagesForGameInfoView()
+		f = File(self.gdb)
+		for k, v in images.items():
+			try:
+				imagepath = f.getFilenameByGameIdAndTypeId(thegame.gameId, v.id)
+				Logutil.log('Looking for {0}, imagetype {1}, found {2}'.format(k, v.name, imagepath), util.LOG_LEVEL_DEBUG)
+				selectedGame.setArt({k: imagepath})
+
+			except Exception as err:
+				Logutil.log('Unable to set art: ' + repr(err), util.LOG_LEVEL_WARNING)
+
+		Logutil.log("End showGameInfoNew", util.LOG_LEVEL_INFO)
 		
 	def showGameInfo(self):
-		
+
+		if self.__useRefactoredView:
+			self.showGameInfoNew()
+			return
+
 		Logutil.log("Begin showGameInfo", util.LOG_LEVEL_INFO)
 		
 		#stop Player (if playing)
@@ -259,7 +325,7 @@ class UIGameInfoView(xbmcgui.WindowXMLDialog):
 		
 		Logutil.log("End showGameInfo", util.LOG_LEVEL_INFO)
 		
-		
+	# FIXME TODO This is only used when self._useRefactoredView = False
 	def getItemName(self, object, itemId):
 		
 		Logutil.log("Begin getItemName", util.LOG_LEVEL_DEBUG)
@@ -272,7 +338,7 @@ class UIGameInfoView(xbmcgui.WindowXMLDialog):
 			Logutil.log("End getItemName", util.LOG_LEVEL_DEBUG)
 			return itemRow[1]
 			
-	
+	# FIXME TODO This is only used when self._useRefactoredView = False
 	def getGameProperty(self, property):				
 		
 		if(property == None):
@@ -328,32 +394,6 @@ class UIGameInfoView(xbmcgui.WindowXMLDialog):
 			file = ""
 			
 		return file
-	
-	
-	
-	def setImage(self, controlName, fileTypes, gameId, publisherId, developerId, romCollectionId, defaultImage, selectedGame, fileDict):
-		
-		Logutil.log("Begin setImage", util.LOG_LEVEL_DEBUG)						
-				
-		images = helper.getFilesByControl_Cached(self.gdb, fileTypes, gameId, publisherId, developerId, romCollectionId, fileDict)
-								
-		#TODO more than one image?
-		image = ''
-		if(images != None and len(images) != 0):
-			image = images[0]						
-			#control.setVisible(1)
-		else:
-			if(defaultImage == None):
-				pass
-				#control.setVisible(0)
-			else:						
-				image = defaultImage
-				
-		selectedGame.setProperty(controlName, image)
-				
-		Logutil.log("End setImage", util.LOG_LEVEL_DEBUG)
-	
-	
 	
 	def launchEmu(self):
 		

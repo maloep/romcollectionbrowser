@@ -20,6 +20,10 @@ class GameDataBase:
 	def connect( self ):
 		print self.dataBasePath
 		self.connection = sqlite.connect(self.dataBasePath, check_same_thread = False)
+
+		# Use row factory so we can retrieve values by column name
+		self.connection.row_factory = sqlite.Row
+
 		self.cursor = self.connection.cursor()
 		
 	def commit( self ):		
@@ -251,6 +255,60 @@ class DataBaseObject:
 		return newList
 
 
+class gameobj(object):
+	''' This class contains all the logic for the Game object, separate from the database implementation.
+	'''
+	def __init__(self):
+		''' Set default values for specific fields '''
+		self.name = ''
+		self.id = -1
+		self.romCollectionId = -1
+		self.yearId = -1
+		self.publisherId = -1
+		self.developerId = -1
+		self.reviewerId = -1
+
+	def __repr__(self):
+		return "<game: %s>" % self.__dict__
+
+	''' Property decorators are used to format the return data in some way, or to translate from a DB column
+	    name to how it is actually used in the skin or the calling method
+	'''
+	@property
+	def gameId(self):
+		# Used to store the ID in the lists, where a unicode string is required rather than an integer
+		return unicode(self.id)
+
+	@property
+	def favorite(self):
+		if self.isFavorite == 1:
+			return '1'
+		else:
+			return ''
+
+	@property
+	def plot(self):
+		if self.description is None:
+			return ''
+		return self.description
+
+	@property
+	def maxplayers(self):
+		return str(self.maxPlayers)
+
+	@property
+	def votes(self):
+		return str(self.numVotes)
+
+	@property
+	def playcount(self):
+		return str(self.launchCount)
+
+	@property
+	def year(self):
+		pass
+
+
 class Game(DataBaseObject):	
 	filterQuery = "Select * From Game WHERE \
 					(romCollectionId = ? OR (0 = ?)) AND \
@@ -283,6 +341,55 @@ class Game(DataBaseObject):
 		games = self.getObjectsByWildcardQuery(filterQuery, args)
 		newList = self.encodeUtf8(games)
 		return newList
+
+	def rowToObj(self, dbobj):
+		''' Map Game DB Row object to gameobj '''
+		gobj = gameobj()
+
+		# Check if dbobj is None, i.e. no results found
+		if dbobj is None:
+			print 'WARNING: empty dbobj'
+		else:
+			for key in dbobj.keys():
+				try:
+					#Logutil.log(key + ' (' + type(dbobj[key]) + '): ' + getattr(gobj, key), util.LOG_LEVEL_DEBUG)
+					if type(dbobj[key]).__name__ == 'str':
+						gobj.__setattr__(key, dbobj[key].encode('utf-8'))
+					else:
+						gobj.__setattr__(key, dbobj[key])
+				except Exception as e:
+					print 'Error retrieving key ' + key + ': ' + e.message
+
+		return gobj
+
+	def getGameById(self, gameid):
+		try:
+			dbobj = self.getObjectById(gameid)
+			gobj = self.rowToObj(dbobj)
+		except Exception as e:
+			print 'Error mapping game row to object: ' + e.message
+			return None
+		return gobj
+
+	def getGamesByFilter(self, romCollectionId, genreId, yearId, publisherId, isFavorite, likeStatement, maxNumGames=0):
+		''' This is very similar to getFilteredGames but returns a list of gameobjs.
+		    FIXME TODO Wrap the common retrieve part of getFilteredGames prior to deprecating it
+		'''
+		args = (romCollectionId, genreId, yearId, publisherId, isFavorite)
+		limit = ""
+		if(int(maxNumGames) > 0):
+			limit = "LIMIT %s" %str(maxNumGames)
+		filterQuery = self.filterQuery %(likeStatement, limit)
+		util.Logutil.log('searching games with query: ' +filterQuery, util.LOG_LEVEL_DEBUG)
+		util.Logutil.log('searching games with args: romCollectionId = %s, genreId = %s, yearId = %s, publisherId = %s, isFavorite = %s, likeStatement = %s, limit = %s' %(str(romCollectionId), str(genreId), str(yearId), str(publisherId), str(isFavorite), likeStatement, limit), util.LOG_LEVEL_DEBUG)
+		games = self.getObjectsByWildcardQuery(filterQuery, args)
+
+		gamelist = []
+		for game in games:
+			gobj = self.rowToObj(game)
+			gamelist.append(gobj)
+
+		return gamelist
 		
 	def getGameByNameAndRomCollectionId(self, name, romCollectionId):
 		game = self.getObjectByQuery(self.filterByNameAndRomCollectionId, (name, romCollectionId))
@@ -355,6 +462,12 @@ class Genre(DataBaseObject):
 		genres = self.getObjectsByQuery(self.filteGenreByGameId, (gameId,))
 		return genres
 
+	def getGenresForGame(self, gameId):
+		''' As per getGenresByGameId, but this joins the genres together so we don't need to do it client-side '''
+		genres = self.getObjectsByQuery(self.filteGenreByGameId, (gameId,))
+		genrestring = ', '.join(g['name'] for g in genres)
+		return genrestring
+
 	def getGenreIdByGameId(self, gameId):
 		genreId = self.getObjectsByQuery(self.filteGenreIdByGameId, (gameId,))
 		return genreId
@@ -414,7 +527,14 @@ class Year(DataBaseObject):
 	def __init__(self, gdb):		
 		self.gdb = gdb
 		self.tableName = "Year"
-		
+
+	def getYear(self, yearid):
+		year = self.getObjectById(yearid)
+		if year is None:
+			return '1900'
+		else:
+			return year['name']
+
 	def getYearIdByGameId(self, gameId):
 		yearId = self.getObjectByQuery(self.yearIdByGameIdQuery, (gameId,))
 		if(yearId == None):
@@ -476,7 +596,28 @@ class Publisher(DataBaseObject):
 			return None
 		else:
 			return publisherId[0]
-		
+
+	def getPublisher(self, publisherid):
+		publisher = self.getObjectById(publisherid)
+		if publisher is None:
+			return 'Unknown'
+		else:
+			return publisher['name']
+
+	def getPublisherForGame(self, gameId):
+		''' As per getPublisherIdByGameId, but this returns the publisher name so we don't need to do it client-side '''
+		publisherId = self.getObjectByQuery(self.publisherIdByGameIdQuery, (gameId,))
+		if publisherId is None:
+			print 'Unable to find publisher for game with id ' + gameId
+			return 'Unknown'
+		publisher = self.getObjectById(publisherId['publisherId'])
+
+		if publisher is None:
+			print 'Unable to find publisher for id ' + publisherId['publisherId']
+			return 'Unknown'
+
+		return publisher['name']
+
 	def getFilteredPublishers(self, romCollectionId, genreId, yearId, likeStatement):
 		args = (romCollectionId, yearId, genreId)
 		filterQuery = self.filterQuery %likeStatement
@@ -519,7 +660,29 @@ class Developer(DataBaseObject):
 			return None
 		else:
 			return developerId[0]
-	
+
+	def getDeveloper(self, developerid):
+		developer = self.getObjectById(developerid)
+		if developer is None:
+			return 'Unknown'
+		else:
+			return developer['name']
+
+	def getDeveloperForGame(self, gameId):
+		''' As per getDeveloperIdByGameId, but this returns the publisher name so we don't need to do it client-side '''
+		developerId = self.getObjectByQuery(self.developerIdByGameIdQuery, (gameId,))
+
+		if developerId is None:
+			print 'Unable to find developer for game with id ' + gameId
+			return 'Unknown'
+		developer = self.getObjectById(developerId['developerId'])
+
+		if developer is None:
+			print 'Unable to find developer for id ' + developerId['developerId']
+			return 'Unknown'
+
+		return developer['name']
+
 	def delete(self, gameId):
 		developerId = self.getDeveloperIdByGameId(gameId)
 		if(developerId != None):
@@ -582,7 +745,14 @@ class File(DataBaseObject):
 	def getFilesByGameIdAndTypeId(self, gameId, fileTypeId):
 		files = self.getObjectsByQuery(self.filterQueryByGameIdAndTypeId, (gameId, fileTypeId))
 		return files
-		
+
+	def getFilenameByGameIdAndTypeId(self, gameId, fileTypeId):
+		''' Get the filename (i.e. full path) for a game ID and filetype ID '''
+		file = self.getObjectByQuery(self.filterQueryByGameIdAndTypeId, (gameId, fileTypeId))
+		if file is None:
+			return ''
+		return file[util.ROW_NAME]
+
 	def getRomsByGameId(self, gameId):
 		files = self.getObjectsByQuery(self.filterQueryByGameIdAndFileType, (gameId, 0))
 		return files
