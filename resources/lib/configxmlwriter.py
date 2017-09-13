@@ -75,6 +75,7 @@ class ConfigXmlWriter:
 			SubElement(romCollectionXml, 'maxFolderDepth').text = str(romCollection.maxFolderDepth)
 			SubElement(romCollectionXml, 'doNotExtractZipFiles').text = str(romCollection.doNotExtractZipFiles)
 			SubElement(romCollectionXml, 'makeLocalCopy').text = str(romCollection.makeLocalCopy)
+			SubElement(romCollectionXml, 'progressiveZipExtraction').text = str(romCollection.progressiveZipExtraction)
 			SubElement(romCollectionXml, 'diskPrefix').text = str(romCollection.diskPrefix)
 			
 			if (os.environ.get( "OS", "xbox" ) == "xbox"):

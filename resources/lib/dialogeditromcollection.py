@@ -60,7 +60,7 @@ CONTROL_BUTTON_SAVESTATEPARAMS = 5480
 CONTROL_BUTTON_PRECMD = 5510
 CONTROL_BUTTON_POSTCMD = 5520
 CONTROL_BUTTON_MAKELOCALCOPY = 5560
-
+CONTROL_BUTTON_PROGRESSIVEZIPEXTRACTION = 5570
 
 class EditRomCollectionDialog(dialogbase.DialogBaseEdit):
 		
@@ -81,6 +81,7 @@ class EditRomCollectionDialog(dialogbase.DialogBaseEdit):
 		{'control': CONTROL_BUTTON_USEPOPEN, 'value': 'usePopen'},
 		{'control': CONTROL_BUTTON_DONTEXTRACTZIP, 'value': 'doNotExtractZipFiles'},
 		{'control': CONTROL_BUTTON_MAKELOCALCOPY, 'value': 'makeLocalCopy'},
+		{'control': CONTROL_BUTTON_PROGRESSIVEZIPEXTRACTION, 'value': 'progressiveZipExtraction'},
 	]
 
 	# Mapping between widget ID and RomCollection attribute - labels

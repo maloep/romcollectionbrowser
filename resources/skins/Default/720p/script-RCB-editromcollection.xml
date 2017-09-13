@@ -2177,7 +2177,26 @@
 					<onleft>7000</onleft>
 					<onright>6000</onright>
 					<onup>5450</onup>
-					<ondown>5540</ondown>
+					<ondown>5570</ondown>
+				</control>
+				<!-- Make local copy -->
+				<control type="radiobutton" id="5570">
+					<posx>0</posx>
+					<posy>330</posy>
+					<width>660</width>
+					<height>30</height>
+					<radiowidth>24</radiowidth>
+					<radioheight>24</radioheight>
+					<font>font13</font>
+					<label>$ADDON[script.games.rom.collection.browser 52040]</label>
+					<textcolor>88FFFFFF</textcolor>
+					<focusedcolor>FFFFFFFF</focusedcolor>
+					<texturefocus>rcb-MenuItemFO.png</texturefocus>
+					<texturenofocus>rcb-MenuItemNF.png</texturenofocus>
+					<onleft>7000</onleft>
+					<onright>6000</onright>
+					<onup>5460</onup>
+					<ondown>5550</ondown>
 				</control>
 				
 				<!-- Use RetroPlayer -->
