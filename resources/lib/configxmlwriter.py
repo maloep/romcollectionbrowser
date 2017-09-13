@@ -76,11 +76,6 @@ class ConfigXmlWriter:
 			SubElement(romCollectionXml, 'doNotExtractZipFiles').text = str(romCollection.doNotExtractZipFiles)
 			SubElement(romCollectionXml, 'makeLocalCopy').text = str(romCollection.makeLocalCopy)
 			SubElement(romCollectionXml, 'diskPrefix').text = str(romCollection.diskPrefix)
-			
-			if (os.environ.get( "OS", "xbox" ) == "xbox"):
-				SubElement(romCollectionXml, 'xboxCreateShortcut').text = str(romCollection.xboxCreateShortcut)
-				SubElement(romCollectionXml, 'xboxCreateShortcutAddRomfile').text = str(romCollection.xboxCreateShortcutAddRomfile)
-				SubElement(romCollectionXml, 'xboxCreateShortcutUseShortGamename').text = str(romCollection.xboxCreateShortcutUseShortGamename)
 				
 			#image placing
 			if(not self.createNew):
