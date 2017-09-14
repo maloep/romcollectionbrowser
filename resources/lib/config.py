@@ -544,6 +544,32 @@ class RomCollection(object):
 		fts['thumb'] = self.getAvailableFileTypeForArt('thumb', self.imagePlacingMain)
 		return fts
 
+	def getGamenameFromFilename(self, filename):
+		log.info("current rom file: " + filename)
+
+		# Build friendly romname
+		if self.useFoldernameAsGamename:
+			gamename = os.path.basename(os.path.dirname(filename))
+		else:
+			gamename = os.path.basename(filename)
+
+		log.info("gamename (file): " + gamename)
+
+		# Use regular expression to find disk prefix like '(Disk 1)' etc.
+		match = False
+		if self.diskPrefix != '':
+			match = re.search(self.diskPrefix.lower(), gamename.lower())
+
+		if match:
+			gamename = gamename[0:match.start()]
+		else:
+			gamename = os.path.splitext(gamename)[0]
+
+		gamename = gamename.strip()
+
+		log.info("gamename (friendly): " + gamename)
+
+		return gamename
 
 class Config(object):
 	"""
