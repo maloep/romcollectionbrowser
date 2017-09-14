@@ -1,6 +1,11 @@
 import os
 import sys
 import unittest
+
+sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', '..', 'resources', 'lib'))
+sys.path.append(os.path.join(os.path.dirname(__file__), '..', '..', 'resources', 'lib', 'pyparsing'))
+sys.path.append(os.path.join(os.path.dirname(__file__), '..', '..', 'resources', 'lib', 'pyscraper'))
+
 from resources.lib.config import Config, RomCollection
 import resources.lib.util as util
 
@@ -87,6 +92,25 @@ class TestRomCollection(unittest.TestCase):
         rc = self.rom_collections['7']
         self.assertIsInstance(rc, RomCollection, u'Expected RomCollection object, was {0}'.format(type(rc)))
         self.assertTrue(rc.name == 'SNES', u'Expected RomCollection name to be SNES, was {0}'.format(rc.name))
+
+    def test_GetFilenameFromGamename(self):
+        rc = RomCollection()
+        gamename = rc.getGamenameFromFilename('/path/to/Game.iso')
+        self.assertTrue(gamename == "Game", u'Expected gamename to be Game, was {0}'.format(gamename))
+
+        rc.useFoldernameAsGamename = True
+        gamename = rc.getGamenameFromFilename('/path/to/Game.iso')
+        self.assertTrue(gamename == "to", u'Expected gamename from foldername to be "to", was {0}'.format(gamename))
+
+        rc.useFoldernameAsGamename = False
+        rc.diskPrefix = '_Disk.*'
+        gamename = rc.getGamenameFromFilename('/path/to/Game_Disk1.iso')
+        self.assertTrue(gamename == "Game", u'Expected gamename with disk pattern to be Game, was {0}'.format(gamename))
+
+        # FIXME TODO This fails with an exception - need to fix code
+        # rc.diskPrefix = ' (Disk .*'
+        # gamename = rc.getGamenameFromFilename('/path/to/Game (Disk 1).iso')
+        # self.assertTrue(gamename == "Game", u'Expected gamename with disk pattern to be Game, was {0}'.format(gamename))
 
 
 if __name__ == "__main__":

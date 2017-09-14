@@ -4,7 +4,7 @@ import os
 import xbmc, xbmcgui, xbmcvfs
 
 import dialogprogress
-import util, helper
+import util
 from util import *
 from config import *
 from gamedatabase import *
@@ -93,7 +93,7 @@ class NfoWriter:
 				romFile = ''
 				if(romFiles != None and len(romFiles) > 0):
 					romFile = romFiles[0][0]
-				gamenameFromFile = helper.getGamenameFromFilename(romFile, romCollection)
+				gamenameFromFile = romCollection.getGamenameFromFilename(romFile)
 				artworkfiles = {}
 				artworkurls = []
 				

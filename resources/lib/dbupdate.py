@@ -10,7 +10,7 @@ import xbmcvfs
 from xbmcaddon import Addon
 import fnmatch
 
-import util, helper
+import util
 from util import *
 from util import KodiVersions
 from util import Logutil as log
@@ -230,7 +230,7 @@ class DBUpdate(object):
 		
 							artScrapers = {}
 
-							gamenameFromFile = helper.getGamenameFromFilename(filenamelist[0], romCollection)
+							gamenameFromFile = romCollection.getGamenameFromFilename(filenamelist[0])
 							foldername = self.getFoldernameFromRomFilename(filenamelist[0])
 
 							fileCount += 1
@@ -275,7 +275,7 @@ class DBUpdate(object):
 					
 					# all files still available files-list, are missing entries
 					for filename in files:
-						gamenameFromFile = helper.getGamenameFromFilename(filename, romCollection)
+						gamenameFromFile = romCollection.getGamenameFromFilename(filename)
 						log.warn("Adding file {0} ({1}) to missing description file".format(filename, gamenameFromFile))
 						self.missingDescFile.add_entry(gamenameFromFile)
 							
@@ -295,7 +295,7 @@ class DBUpdate(object):
 					
 					try:
 						log.info("Scraping for {0}".format(filename))
-						gamenameFromFile = helper.getGamenameFromFilename(filename, romCollection)
+						gamenameFromFile = romCollection.getGamenameFromFilename(filename)
 						
 						# check if we are handling one of the additional disks of a multi rom game
 						isMultiRomGame = (gamenameFromFile == lastgamename)
@@ -389,7 +389,7 @@ class DBUpdate(object):
 		for idx, filename in enumerate(files):
 			log.debug("Adding file {0} to file dict".format(filename))
 			try:
-				gamename = helper.getGamenameFromFilename(filename, romCollection)
+				gamename = romCollection.getGamenameFromFilename(filename)
 				# check if we are handling one of the additional disks of a multi rom game
 				isMultiRomGame = (gamename == lastgamename)
 				# lastgamename may be overwritten by parsed gamename
