@@ -149,15 +149,7 @@ class ContextMenuDialog(xbmcgui.WindowXMLDialog):
 				return
 
 			origCommand = self.gameRow[util.GAME_gameCmd]
-			command = ''
-									
-			keyboard = xbmc.Keyboard()
-			keyboard.setHeading(util.localize(32135))
-			if origCommand is not None:
-				keyboard.setDefault(origCommand)
-			keyboard.doModal()
-			if keyboard.isConfirmed():
-				command = keyboard.getText()
+			command = xbmcgui.Dialog().input(util.localize(32135), defaultt=origCommand, type=xbmcgui.INPUT_ALPHANUM)
 					
 			if command != origCommand:
 				log.info("Updating game '{0}' with command '{1}'".format(self.gameRow[util.ROW_NAME], command))

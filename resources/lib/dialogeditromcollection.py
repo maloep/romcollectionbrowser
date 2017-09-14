@@ -490,15 +490,10 @@ class EditRomCollectionDialog(dialogbase.DialogBaseEdit):
 		
 		control = self.getControlById(CONTROL_BUTTON_FILEMASK)
 		romFileMask = control.getLabel()
-		
-		keyboard = xbmc.Keyboard()
-		keyboard.setHeading(util.localize(32140))
-		keyboard.setDefault(romFileMask)			
-		keyboard.doModal()
-		if keyboard.isConfirmed():
-			romFileMask = keyboard.getText()
-			if romFileMask == '':
-				romFileMask = ' '
+
+		romFileMask = xbmcgui.Dialog().input(util.localize(32140), defaultt=romFileMask, type=xbmcgui.INPUT_ALPHANUM)
+		if romFileMask == '':
+			romFileMask = ' '
 								
 		# HACK: this only handles 1 base rom path
 		romPath = self.selectedRomCollection.romPaths[0]

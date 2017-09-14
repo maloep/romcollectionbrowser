@@ -89,43 +89,20 @@ class ConfigXmlWizard(object):
 
 	def promptEmulatorParams(self, defaultValue):
 		""" Ask the user to enter emulator parameters """
-		keyboard = xbmc.Keyboard()
-		keyboard.setDefault(defaultValue)
-		keyboard.setHeading(util.localize(32179))
-		keyboard.doModal()
-		if keyboard.isConfirmed():
-			emuParams = keyboard.getText()
-			log.info("emuParams: " + str(emuParams))
-			return emuParams
-		else:
-			log.info("No emuParams selected. Action canceled.")
-			return ''
+		emuParams = xbmcgui.Dialog().input(util.localize(32179), defaultt=defaultValue, type=xbmcgui.INPUT_ALPHANUM)
+		return emuParams
 
 	def promptOtherConsoleName(self):
 		"""  Ask the user to enter a (other) console name """
-		keyboard = xbmc.Keyboard()
-		keyboard.setHeading(util.localize(32177))
-		keyboard.doModal()
-		if keyboard.isConfirmed():
-			console = keyboard.getText()
-			log.info("Platform entered manually: " + console)
-			return console
-		else:
-			log.info("No Platform entered. Action canceled.")
-			return ''
+		console = xbmcgui.Dialog().input(util.localize(32177), type=xbmcgui.INPUT_ALPHANUM)
+		return console
 
 	def promptEmulatorFileMasks(self):
-		keyboard = xbmc.Keyboard()
-		keyboard.setHeading(util.localize(32181))
-		keyboard.doModal()
-		if keyboard.isConfirmed():
-			fileMaskInput = keyboard.getText()
-			log.info("fileMask: " + str(fileMaskInput))
-			fileMasks = fileMaskInput.split(',')
-			return fileMasks
-		else:
-			log.info("No fileMask selected. Action canceled.")
+		fileMaskInput = xbmcgui.Dialog().input(util.localize(32181), type=xbmcgui.INPUT_ALPHANUM)
+		if fileMaskInput == '':
 			return []
+		return fileMaskInput.split(',')
+
 
 	def promptRomPath(self, consolename):
 		""" Prompt the user to browse to the rompath """
@@ -362,16 +339,10 @@ class ConfigXmlWizard(object):
 							break
 						
 						# Prompt the user for the description file mask
-						keyboard = xbmc.Keyboard()
-						keyboard.setHeading(util.localize(32190))
-						keyboard.setDefault('%GAME%.txt')
-						keyboard.doModal()
-						if (keyboard.isConfirmed()):
-							filemask = keyboard.getText()
-							
+						filemask = xbmcgui.Dialog().input(util.localize(32190), defaultt='%GAME%.txt', type=xbmcgui.INPUT_ALPHANUM)
 						descPath = util.joinPath(pathValue, filemask.strip())
 					else:
-						descPath = dialog.browse(1, util.localize(32189) %console, 'files', '', False, False, lastArtworkPath)
+						descPath = dialog.browse(1, util.localize(32189) % console, 'files', '', False, False, lastArtworkPath)
 
 					log.info("descPath: " + str(descPath))
 					if descPath == '':
@@ -379,7 +350,7 @@ class ConfigXmlWizard(object):
 						break
 
 					# Prompt the user for a parse instruction file
-					parserPath = dialog.browse(1, util.localize(32191) %console, 'files', '', False, False, descPath)
+					parserPath = dialog.browse(1, util.localize(32191) % console, 'files', '', False, False, descPath)
 					log.info("parserPath: " + str(parserPath))
 					if parserPath == '':
 						log.info("No parserPath selected. Action canceled.")
@@ -401,8 +372,6 @@ class ConfigXmlWizard(object):
 		del dialog
 		
 		return True, romCollections
-	
-	
 	
 	def buildMediaTypeList(self, configObj, isUpdate):
 		#build fileTypeList

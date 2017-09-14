@@ -405,16 +405,12 @@ class UIGameDB(xbmcgui.WindowXML):
 			searchButton = self.getControlById(CONTROL_BUTTON_SEARCH)
 			if(searchButton == None):
 				return
-			
-			keyboard = xbmc.Keyboard()
-			keyboard.setHeading(util.localize(32116))			
-			keyboard.doModal()
-			if (keyboard.isConfirmed()):
-				self.searchTerm = keyboard.getText()
-				searchButton.setLabel(util.localize(32117) +': ' +self.searchTerm)				
-			else:
-				self.searchTerm = ''
+
+			self.searchTerm = xbmcgui.Dialog().input(util.localize(32116), type=xbmcgui.INPUT_ALPHANUM)
+			if self.searchTerm == '':
 				searchButton.setLabel(util.localize(32117))
+			else:
+				searchButton.setLabel(util.localize(32117) + ': ' + self.searchTerm)
 			
 			self.showGames()
 			
