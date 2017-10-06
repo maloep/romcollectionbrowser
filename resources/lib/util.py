@@ -201,22 +201,6 @@ def html_unescape(text):
 			text = text.replace(key, html_unescape_table[key])
 			
 		return text
-	
-
-html_escape_table = {
-		"&" : "%26",
-		" " : "%20" ,
-		"'" : "%27",
-		">" : "%3E",
-		"<" : "%3C",		
-		}
-
-def html_escape(text):
-		
-		for key in html_escape_table.keys():
-			text = text.replace(key, html_escape_table[key])
-			
-		return text
 
 
 def joinPath(part1, *parts):
@@ -286,7 +270,7 @@ def getEmuAutoConfigPath():
 		
 	if(not xbmcvfs.exists(path)):
 		oldPath = os.path.join(getAddonInstallPath(), 'resources', 'emu_autoconfig.xml')
-		copyFile(oldPath, path)
+		xbmcvfs.copy(oldPath, path)
 		
 	return path
 
@@ -313,25 +297,6 @@ def getConfigXmlPath():
 	
 	Logutil.log('Path to configuration file: ' +str(configFile), LOG_LEVEL_INFO)
 	return configFile
-
-
-def copyFile(oldPath, newPath):
-	Logutil.log('new path = %s' %newPath, LOG_LEVEL_INFO)
-	newDir = os.path.dirname(newPath)
-	if not os.path.isdir(newDir):
-		Logutil.log('create directory: %s' %newDir, LOG_LEVEL_INFO)
-		try:
-			os.mkdir(newDir)
-		except Exception, (exc):
-			Logutil.log('Error creating directory: %s\%s' %(newDir, str(exc)), LOG_LEVEL_ERROR)
-			return
-	
-	if not os.path.isfile(newPath):
-		Logutil.log('copy file from %s to %s' %(oldPath, newPath), LOG_LEVEL_INFO)
-		try:
-			shutil.copy2(oldPath, newPath)
-		except Exception, (exc):
-			Logutil.log('Error copying file from %s to %s\%s' %(oldPath, newPath, str(exc)), LOG_LEVEL_ERROR)
 	
 	
 def getSettings():
