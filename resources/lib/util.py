@@ -201,22 +201,6 @@ def html_unescape(text):
 			text = text.replace(key, html_unescape_table[key])
 			
 		return text
-	
-
-html_escape_table = {
-		"&" : "%26",
-		" " : "%20" ,
-		"'" : "%27",
-		">" : "%3E",
-		"<" : "%3C",		
-		}
-
-def html_escape(text):
-		
-		for key in html_escape_table.keys():
-			text = text.replace(key, html_escape_table[key])
-			
-		return text
 
 
 def joinPath(part1, *parts):
