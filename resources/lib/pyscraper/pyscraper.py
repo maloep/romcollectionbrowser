@@ -66,7 +66,7 @@ class PyScraper(object):
 
 		return url
 
-	def scrapeResults(self, results, scraper, urlsFromPreviousScrapers, gamenameFromFile, foldername, filecrc, romFile, fuzzyFactor, updateOption, romCollection, settings):
+	def scrapeResults(self, results, scraper, urlsFromPreviousScrapers, gamenameFromFile, foldername, filecrc, romFile, romCollection, settings):
 		log.debug("Using parser file {0} and game description {1}".format(scraper.parseInstruction, scraper.source))
 
 		scraperSource = scraper.source.decode('utf-8')

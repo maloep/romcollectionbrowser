@@ -601,7 +601,7 @@ class DBUpdate(object):
 			for scraper in scraperSite.scrapers:
 				log.debug("Retrieving results for scraper {0} - {1}".format(idx, scraper.source))
 				pyScraper = PyScraper()
-				result, urlsFromPreviousScrapers, doContinue = pyScraper.scrapeResults(result, scraper, urlsFromPreviousScrapers, gamenameFromFile, foldername, filecrc, firstRomfile, self.fuzzyFactor, self.updateOption, romCollection, self.Settings)
+				result, urlsFromPreviousScrapers, doContinue = pyScraper.scrapeResults(result, scraper, urlsFromPreviousScrapers, gamenameFromFile, foldername, filecrc, firstRomfile, romCollection, self.Settings)
 				del pyScraper
 			log.debug("Completed site {0}".format(scraperSite.name))
 			if doContinue:
