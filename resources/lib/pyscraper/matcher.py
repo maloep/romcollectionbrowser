@@ -48,7 +48,7 @@ class Matcher(object):
 		except KeyError:
 			pass
 
-		log.info("Scraping mode: " + mode)
+		log.info("Scraping mode: {0}".format(mode))
 
 		return mode
 
