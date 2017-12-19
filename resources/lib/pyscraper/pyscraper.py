@@ -6,10 +6,8 @@ from descriptionparserfactory import *
 import util
 from util import *
 from util import Logutil as log
+from matcher import Matcher
 
-import difflib
-
-import xbmcgui
 import xbmcvfs
 import HTMLParser
 import urllib
