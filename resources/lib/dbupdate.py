@@ -104,7 +104,6 @@ class DBUpdate(object):
 		self.missingDescFile = MissingDescLogFile()
 		self.missingArtworkFile = MissingArtworkLogFile()
 		self.possibleMismatchFile = MismatchLogFile()
-		self.updateOption = self.getScrapingMode()
 
 		pass
 
@@ -112,28 +111,6 @@ class DBUpdate(object):
 		self.ignoreGameWithoutDesc = self.Settings.getSetting(util.SETTING_RCB_IGNOREGAMEWITHOUTDESC).upper() == 'TRUE'
 		self.ignoreGamesWithoutArtwork = self.Settings.getSetting(util.SETTING_RCB_IGNOREGAMEWITHOUTARTWORK).upper() == 'TRUE'
 		self.createNfoFile = self.Settings.getSetting(util.SETTING_RCB_CREATENFOFILE).upper() == 'TRUE'
-		# Set the fuzzy factor before scraping
-		matchingRatioIndex = self.Settings.getSetting(util.SETTING_RCB_FUZZYFACTOR)
-		if matchingRatioIndex == '':
-			matchingRatioIndex = 2
-		log.info("matchingRatioIndex: {0}".format(matchingRatioIndex))
-
-		self.fuzzyFactor = util.FUZZY_FACTOR_ENUM[int(matchingRatioIndex)]
-		log.info("fuzzyFactor: {0}".format(self.fuzzyFactor))
-
-	def getScrapingMode(self):
-		mode = 0
-		scrape_options = {'Automatic: Accurate': 0,
-						  'Automatic: Guess Matches': 1,
-						  'Interactive: Select Matches': 2}
-		try:
-			mode = scrape_options[Addon().getSetting(SETTING_RCB_SCRAPINGMODE)]
-		except KeyError:
-			pass
-
-		log.info("Scraping mode: " + mode)
-
-		return mode
 
 	def updateDB(self, gdb, gui, romCollections, settings, isRescrape):
 		self.gdb = gdb
