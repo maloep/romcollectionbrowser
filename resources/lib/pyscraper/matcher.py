@@ -28,6 +28,8 @@ class Matcher(object):
 		self.update_option = self.getScrapingMode()
 
 	def getFuzzyFactor(self):
+		FUZZY_FACTOR_ENUM = [0.5, 0.6, 0.7, 0.8, 0.9, 1.0]
+
 		# Set the fuzzy factor before scraping
 		matchingRatioIndex = Addon().getSetting(util.SETTING_RCB_FUZZYFACTOR)
 
@@ -35,7 +37,7 @@ class Matcher(object):
 			matchingRatioIndex = 2
 		log.info("matchingRatioIndex: {0}".format(matchingRatioIndex))
 
-		self.fuzzyFactor = util.FUZZY_FACTOR_ENUM[int(matchingRatioIndex)]
+		self.fuzzyFactor = FUZZY_FACTOR_ENUM[int(matchingRatioIndex)]
 		log.info("fuzzyFactor: {0}".format(self.fuzzyFactor))
 
 	def getScrapingMode(self):
