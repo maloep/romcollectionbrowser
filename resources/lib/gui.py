@@ -577,62 +577,63 @@ class UIGameDB(xbmcgui.WindowXML):
 		maxNumGamesIndex = self.Settings.getSetting(util.SETTING_RCB_MAXNUMGAMESTODISPLAY)
 		return util.MAXNUMGAMES_ENUM[int(maxNumGamesIndex)]
 
+	""" Functions for generating query strings for filtering """
 	def _buildLikeStatement(self, selectedCharacter, searchTerm):
-		Logutil.log("buildLikeStatement", util.LOG_LEVEL_INFO)
+		log.debug("buildLikeStatement")
 
 		likeStatement = ''
 
-		if (selectedCharacter == util.localize(32120)):
+		if selectedCharacter == util.localize(32120):    # All
 			likeStatement = "0 = 0"
-		elif (selectedCharacter == '0-9'):
+		elif selectedCharacter == '0-9':
 
 			likeStatement = '('
 			for i in range(0, 10):
 				likeStatement += "name LIKE '%s'" % (str(i) + '%')
-				if (i != 9):
+				if i != 9:
 					likeStatement += ' or '
 
 			likeStatement += ')'
 		else:
 			likeStatement = "name LIKE '%s'" % (selectedCharacter + '%')
 
-		if (searchTerm != ''):
+		if searchTerm != '':
 			likeStatement += " AND name LIKE '%s'" % ('%' + searchTerm + '%')
 
 		return likeStatement
 
 	def _buildMissingFilterStatement(self, config):
 
-		if (config.showHideOption.lower() == util.localize(32157)):
+		if config.showHideOption.lower() == util.localize(32157):    # ignore
 			return ''
 
 		statement = ''
 
 		andStatementInfo = self._buildInfoStatement(config.missingFilterInfo.andGroup, ' AND ')
-		if (andStatementInfo != ''):
+		if andStatementInfo != '':
 			statement = andStatementInfo
 
 		orStatementInfo = self._buildInfoStatement(config.missingFilterInfo.orGroup, ' OR ')
-		if (orStatementInfo != ''):
-			if (statement != ''):
+		if orStatementInfo != '':
+			if statement != '':
 				statement = statement + ' OR '
 			statement = statement + orStatementInfo
 
 		andStatementArtwork = self._buildArtworkStatement(config, config.missingFilterArtwork.andGroup, ' AND ')
-		if (andStatementArtwork != ''):
-			if (statement != ''):
+		if andStatementArtwork != '':
+			if statement != '':
 				statement = statement + ' OR '
 			statement = statement + andStatementArtwork
 
 		orStatementArtwork = self._buildArtworkStatement(config, config.missingFilterArtwork.orGroup, ' OR ')
-		if (orStatementArtwork != ''):
-			if (statement != ''):
+		if orStatementArtwork != '':
+			if statement != '':
 				statement = statement + ' OR '
 			statement = statement + orStatementArtwork
 
-		if (statement != ''):
+		if statement != '':
 			statement = '(%s)' % (statement)
-			if (config.showHideOption.lower() == util.localize(32161)):
+			if config.showHideOption.lower() == util.localize(32161):
 				statement = 'NOT ' + statement
 
 		return statement
@@ -645,7 +646,7 @@ class UIGameDB(xbmcgui.WindowXML):
 			else:
 				statement = statement + operator
 			statement = statement + config.gameproperties[item][1]
-		if (statement != ''):
+		if statement != '':
 			statement = statement + ')'
 
 		return statement
@@ -662,12 +663,12 @@ class UIGameDB(xbmcgui.WindowXML):
 
 			fileTypeRows = config.tree.findall('FileTypes/FileType')
 			for element in fileTypeRows:
-				if (element.attrib.get('name') == item):
+				if element.attrib.get('name') == item:
 					typeId = element.attrib.get('id')
 					break
 			statement = statement + 'Id NOT IN (SELECT ParentId from File Where fileTypeId = %s)' % str(typeId)
 
-		if (statement != ''):
+		if statement != '':
 			statement = statement + ')'
 
 		return statement
@@ -682,6 +683,7 @@ class UIGameDB(xbmcgui.WindowXML):
 			likeStatement = likeStatement + ' AND ' + missingFilterStatement
 
 		return likeStatement
+	""" End of Functions for generating query strings for filtering """
 
 	def _isGameFavourite(self):
 		try:
