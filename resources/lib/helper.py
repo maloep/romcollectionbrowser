@@ -242,33 +242,6 @@ def getRCBSetting(gdb):
 		return None
 					
 	return rcbSettingRows[util.ROW_ID]
-		
-		
-
-def buildLikeStatement(selectedCharacter, searchTerm):
-	Logutil.log("helper.buildLikeStatement", util.LOG_LEVEL_INFO)
-	
-	likeStatement = ''
-	
-	if (selectedCharacter == util.localize(32120)):
-		likeStatement = "0 = 0"
-	elif (selectedCharacter == '0-9'):
-		
-		likeStatement = '('
-		for i in range (0, 10):				
-			likeStatement += "name LIKE '%s'" %(str(i) +'%')
-			if(i != 9):
-				likeStatement += ' or '
-		
-		likeStatement += ')'
-	else:		
-		likeStatement = "name LIKE '%s'" %(selectedCharacter +'%')
-	
-	if(searchTerm != ''):
-		likeStatement += " AND name LIKE '%s'" %('%' +searchTerm +'%')
-	
-	return likeStatement
-
 
 def builMissingFilterStatement(config):
 

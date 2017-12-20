@@ -562,7 +562,7 @@ class UIGameDB(xbmcgui.WindowXML):
 			
 		control.addItems(items)
 		Logutil.log("End showCharacterFilter" , util.LOG_LEVEL_INFO)
-		
+
 		
 	def applyFilters(self):
 		
@@ -577,9 +577,33 @@ class UIGameDB(xbmcgui.WindowXML):
 		maxNumGamesIndex = self.Settings.getSetting(util.SETTING_RCB_MAXNUMGAMESTODISPLAY)
 		return util.MAXNUMGAMES_ENUM[int(maxNumGamesIndex)]
 
+	def _buildLikeStatement(self, selectedCharacter, searchTerm):
+		Logutil.log("buildLikeStatement", util.LOG_LEVEL_INFO)
+
+		likeStatement = ''
+
+		if (selectedCharacter == util.localize(32120)):
+			likeStatement = "0 = 0"
+		elif (selectedCharacter == '0-9'):
+
+			likeStatement = '('
+			for i in range(0, 10):
+				likeStatement += "name LIKE '%s'" % (str(i) + '%')
+				if (i != 9):
+					likeStatement += ' or '
+
+			likeStatement += ')'
+		else:
+			likeStatement = "name LIKE '%s'" % (selectedCharacter + '%')
+
+		if (searchTerm != ''):
+			likeStatement += " AND name LIKE '%s'" % ('%' + searchTerm + '%')
+
+		return likeStatement
+
 	def _getGamesListQueryStatement(self):
 		# Build statement for character search (where name LIKE 'A%')
-		likeStatement = helper.buildLikeStatement(self.selectedCharacter, self.searchTerm)
+		likeStatement = self._buildLikeStatement(self.selectedCharacter, self.searchTerm)
 
 		# Build statement for missing filters
 		missingFilterStatement = helper.builMissingFilterStatement(self.config)
@@ -707,7 +731,7 @@ class UIGameDB(xbmcgui.WindowXML):
 		timestamp1 = time.clock()
 		
 		# build statement for character search (where name LIKE 'A%')
-		likeStatement = helper.buildLikeStatement(self.selectedCharacter, self.searchTerm)
+		likeStatement = self._buildLikeStatement(self.selectedCharacter, self.searchTerm)
 		
 		#build statement for missing filters
 		missingFilterStatement = helper.builMissingFilterStatement(self.config)
