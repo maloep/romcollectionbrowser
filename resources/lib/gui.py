@@ -562,7 +562,7 @@ class UIGameDB(xbmcgui.WindowXML):
 			
 		control.addItems(items)
 		Logutil.log("End showCharacterFilter" , util.LOG_LEVEL_INFO)
-		
+
 		
 	def applyFilters(self):
 		
@@ -577,16 +577,113 @@ class UIGameDB(xbmcgui.WindowXML):
 		maxNumGamesIndex = self.Settings.getSetting(util.SETTING_RCB_MAXNUMGAMESTODISPLAY)
 		return util.MAXNUMGAMES_ENUM[int(maxNumGamesIndex)]
 
+	""" Functions for generating query strings for filtering """
+	def _buildLikeStatement(self, selectedCharacter, searchTerm):
+		log.debug("buildLikeStatement")
+
+		likeStatement = ''
+
+		if selectedCharacter == util.localize(32120):    # All
+			likeStatement = "0 = 0"
+		elif selectedCharacter == '0-9':
+
+			likeStatement = '('
+			for i in range(0, 10):
+				likeStatement += "name LIKE '%s'" % (str(i) + '%')
+				if i != 9:
+					likeStatement += ' or '
+
+			likeStatement += ')'
+		else:
+			likeStatement = "name LIKE '%s'" % (selectedCharacter + '%')
+
+		if searchTerm != '':
+			likeStatement += " AND name LIKE '%s'" % ('%' + searchTerm + '%')
+
+		return likeStatement
+
+	def _buildMissingFilterStatement(self, config):
+
+		if config.showHideOption.lower() == util.localize(32157):    # ignore
+			return ''
+
+		statement = ''
+
+		andStatementInfo = self._buildInfoStatement(config.missingFilterInfo.andGroup, ' AND ')
+		if andStatementInfo != '':
+			statement = andStatementInfo
+
+		orStatementInfo = self._buildInfoStatement(config.missingFilterInfo.orGroup, ' OR ')
+		if orStatementInfo != '':
+			if statement != '':
+				statement = statement + ' OR '
+			statement = statement + orStatementInfo
+
+		andStatementArtwork = self._buildArtworkStatement(config, config.missingFilterArtwork.andGroup, ' AND ')
+		if andStatementArtwork != '':
+			if statement != '':
+				statement = statement + ' OR '
+			statement = statement + andStatementArtwork
+
+		orStatementArtwork = self._buildArtworkStatement(config, config.missingFilterArtwork.orGroup, ' OR ')
+		if orStatementArtwork != '':
+			if statement != '':
+				statement = statement + ' OR '
+			statement = statement + orStatementArtwork
+
+		if statement != '':
+			statement = '(%s)' % (statement)
+			if config.showHideOption.lower() == util.localize(32161):
+				statement = 'NOT ' + statement
+
+		return statement
+
+	def _buildInfoStatement(self, group, operator):
+		statement = ''
+		for item in group:
+			if statement == '':
+				statement = '('
+			else:
+				statement = statement + operator
+			statement = statement + config.gameproperties[item][1]
+		if statement != '':
+			statement = statement + ')'
+
+		return statement
+
+	def _buildArtworkStatement(self, config, group, operator):
+		statement = ''
+		for item in group:
+			if statement == '':
+				statement = '('
+			else:
+				statement = statement + operator
+
+			typeId = ''
+
+			fileTypeRows = config.tree.findall('FileTypes/FileType')
+			for element in fileTypeRows:
+				if element.attrib.get('name') == item:
+					typeId = element.attrib.get('id')
+					break
+			statement = statement + 'Id NOT IN (SELECT ParentId from File Where fileTypeId = %s)' % str(typeId)
+
+		if statement != '':
+			statement = statement + ')'
+
+		return statement
+
 	def _getGamesListQueryStatement(self):
 		# Build statement for character search (where name LIKE 'A%')
-		likeStatement = helper.buildLikeStatement(self.selectedCharacter, self.searchTerm)
+		likeStatement = self._buildLikeStatement(self.selectedCharacter, self.searchTerm)
 
 		# Build statement for missing filters
-		missingFilterStatement = helper.builMissingFilterStatement(self.config)
+		missingFilterStatement = self._buildMissingFilterStatement(self.config)
 		if missingFilterStatement != '':
 			likeStatement = likeStatement + ' AND ' + missingFilterStatement
 
 		return likeStatement
+	""" End of Functions for generating query strings for filtering """
 
 	def _isGameFavourite(self):
 		try:
@@ -707,10 +804,10 @@ class UIGameDB(xbmcgui.WindowXML):
 		timestamp1 = time.clock()
 		
 		# build statement for character search (where name LIKE 'A%')
-		likeStatement = helper.buildLikeStatement(self.selectedCharacter, self.searchTerm)
+		likeStatement = self._buildLikeStatement(self.selectedCharacter, self.searchTerm)
 		
 		#build statement for missing filters
-		missingFilterStatement = helper.builMissingFilterStatement(self.config)
+		missingFilterStatement = self._buildMissingFilterStatement(self.config)
 		if(missingFilterStatement != ''):
 			likeStatement = likeStatement + ' AND ' +missingFilterStatement
 		#set a limit of games to show

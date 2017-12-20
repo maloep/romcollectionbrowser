@@ -233,7 +233,6 @@ def saveViewState(gdb, isOnExit, selectedView, selectedGameIndex, selectedConsol
 	
 	Logutil.log("End helper.saveViewState", util.LOG_LEVEL_INFO)
 
-
 			
 def getRCBSetting(gdb):
 	rcbSettingRows = RCBSetting(gdb).getAll()
@@ -242,106 +241,6 @@ def getRCBSetting(gdb):
 		return None
 					
 	return rcbSettingRows[util.ROW_ID]
-		
-		
-
-def buildLikeStatement(selectedCharacter, searchTerm):
-	Logutil.log("helper.buildLikeStatement", util.LOG_LEVEL_INFO)
-	
-	likeStatement = ''
-	
-	if (selectedCharacter == util.localize(32120)):
-		likeStatement = "0 = 0"
-	elif (selectedCharacter == '0-9'):
-		
-		likeStatement = '('
-		for i in range (0, 10):				
-			likeStatement += "name LIKE '%s'" %(str(i) +'%')
-			if(i != 9):
-				likeStatement += ' or '
-		
-		likeStatement += ')'
-	else:		
-		likeStatement = "name LIKE '%s'" %(selectedCharacter +'%')
-	
-	if(searchTerm != ''):
-		likeStatement += " AND name LIKE '%s'" %('%' +searchTerm +'%')
-	
-	return likeStatement
-
-
-def builMissingFilterStatement(config):
-
-	if(config.showHideOption.lower() == util.localize(32157)):
-		return ''
-		
-	statement = ''
-	
-	andStatementInfo = buildInfoStatement(config.missingFilterInfo.andGroup, ' AND ')
-	if(andStatementInfo != ''):
-		statement = andStatementInfo
-		
-	orStatementInfo =  buildInfoStatement(config.missingFilterInfo.orGroup, ' OR ')
-	if(orStatementInfo != ''):
-		if (statement != ''):
-			statement = statement +' OR '
-		statement = statement + orStatementInfo
-		
-	andStatementArtwork = buildArtworkStatement(config, config.missingFilterArtwork.andGroup, ' AND ')
-	if(andStatementArtwork != ''):
-		if (statement != ''):
-			statement = statement +' OR '
-		statement = statement + andStatementArtwork
-	
-	orStatementArtwork =  buildArtworkStatement(config, config.missingFilterArtwork.orGroup, ' OR ')
-	if(orStatementArtwork != ''):
-		if (statement != ''):
-			statement = statement +' OR '
-		statement = statement + orStatementArtwork
-	
-	if(statement != ''):
-		statement = '(%s)' %(statement)
-		if(config.showHideOption.lower() == util.localize(32161)):
-			statement = 'NOT ' +statement
-	
-	return statement
-
-
-def buildInfoStatement(group, operator):
-	statement = ''
-	for item in group:
-		if statement == '':
-			statement = '('
-		else:
-			statement = statement + operator
-		statement = statement + config.gameproperties[item][1]
-	if(statement != ''):
-		statement = statement + ')'
-	
-	return statement
-
-
-def buildArtworkStatement(config, group, operator):
-	statement = ''
-	for item in group:
-		if statement == '':
-			statement = '('
-		else:
-			statement = statement + operator
-			
-		typeId = ''
-						
-		fileTypeRows = config.tree.findall('FileTypes/FileType')
-		for element in fileTypeRows:
-			if(element.attrib.get('name') == item):
-				typeId = element.attrib.get('id')
-				break
-		statement = statement + 'Id NOT IN (SELECT ParentId from File Where fileTypeId = %s)' %str(typeId) 
-	
-	if(statement != ''):
-		statement = statement + ')'
-	
-	return statement
 
 
 def isRetroPlayerSupported():
