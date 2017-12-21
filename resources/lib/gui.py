@@ -316,39 +316,23 @@ class UIGameDB(xbmcgui.WindowXML):
 					if(self.player.isPlayingVideo()):
 						self.player.stop()
 						xbmc.sleep(util.WAITTIME_PLAYERSTOP)
-					
-					label = str(control.getSelectedItem().getLabel())
-					label2 = str(control.getSelectedItem().getLabel2())
-					
-					if (self.selectedControlId == CONTROL_CONSOLES):
-						if(self.selectedConsoleIndex != control.getSelectedPosition()):
-							self.selectedConsoleId = int(label2)
-							self.selectedConsoleIndex = control.getSelectedPosition()
-							self.filterChanged = True
+
+					pos = control.getSelectedPosition()
+					cid = control.getId()
+					if cid == CONTROL_CONSOLES and self.hasConsoleFilterChanged(pos):
+						self.updateSelectedConsole(control)
+
+					elif cid == CONTROL_GENRE and self.hasGenreFilterChanged(pos):
+						self.updateSelectedGenre(control)
 							
-					elif (self.selectedControlId == CONTROL_GENRE):
-						if(self.selectedGenreIndex != control.getSelectedPosition()):
-							self.selectedGenreId = int(label2)
-							self.selectedGenreIndex = control.getSelectedPosition()
-							self.filterChanged = True
+					elif cid == CONTROL_YEAR and self.hasYearFilterChanged(pos):
+						self.updateSelectedYear(control)
 							
-					elif (self.selectedControlId == CONTROL_YEAR):
-						if(self.selectedYearIndex != control.getSelectedPosition()):
-							self.selectedYearId = int(label2)
-							self.selectedYearIndex = control.getSelectedPosition()
-							self.filterChanged = True
+					elif cid == CONTROL_PUBLISHER and self.hasPublisherFilterChanged(pos):
+						self.updatedSelectedPublisher(control)
 							
-					elif (self.selectedControlId == CONTROL_PUBLISHER):
-						if(self.selectedPublisherIndex != control.getSelectedPosition()):
-							self.selectedPublisherId = int(label2)
-							self.selectedPublisherIndex = control.getSelectedPosition()
-							self.filterChanged = True
-							
-					elif (self.selectedControlId == CONTROL_CHARACTER):
-						if(self.selectedCharacterIndex != control.getSelectedPosition()):
-							self.selectedCharacter = label
-							self.selectedCharacterIndex = control.getSelectedPosition()
-							self.filterChanged = True
+					elif cid == CONTROL_CHARACTER and self.hasCharacterFilterChanged(pos):
+						self.updateSelectedCharacter(control)
 				
 			elif(action.getId() in ACTION_INFO):
 				Logutil.log("onAction: ACTION_INFO", util.LOG_LEVEL_DEBUG)
@@ -429,7 +413,66 @@ class UIGameDB(xbmcgui.WindowXML):
 	def onFocus(self, controlId):
 		Logutil.log("onFocus: " + str(controlId), util.LOG_LEVEL_DEBUG)
 		self.selectedControlId = controlId
-		
+
+	""" Check if one of the filter lists has changed """
+	def hasConsoleFilterChanged(self, pos):
+		return self.selectedConsoleIndex != pos
+
+	def hasGenreFilterChanged(self, pos):
+		return self.selectedGenreIndex != pos
+
+	def hasYearFilterChanged(self, pos):
+		return self.selectedYearIndex != pos
+
+	def hasPublisherFilterChanged(self, pos):
+		return self.selectedPublisherIndex != pos
+
+	def hasCharacterFilterChanged(self, pos):
+		return self.selectedCharacterIndex != pos
+
+	""" Handle when one of the filter lists has changed """
+	def updateSelectedConsole(self, control):
+		label = str(control.getSelectedItem().getLabel())
+		label2 = str(control.getSelectedItem().getLabel2())
+
+		self.selectedConsoleId = int(label2)
+		self.selectedConsoleIndex = control.getSelectedPosition()
+		self.filterChanged = True
+
+	def updatedSelectedPublisher(self, control):
+		label = str(control.getSelectedItem().getLabel())
+		label2 = str(control.getSelectedItem().getLabel2())
+
+		self.selectedPublisherId = int(label2)
+		self.selectedPublisherIndex = control.getSelectedPosition()
+		self.filterChanged = True
+
+	def updatedSelectedGenre(self, control):
+		label = str(control.getSelectedItem().getLabel())
+		label2 = str(control.getSelectedItem().getLabel2())
+
+		self.selectedGenreId = int(label2)
+		self.selectedGenreIndex = control.getSelectedPosition()
+		self.filterChanged = True
+
+	def updateSelectedYear(self, control):
+		label = str(control.getSelectedItem().getLabel())
+		label2 = str(control.getSelectedItem().getLabel2())
+
+		self.selectedYearId = int(label2)
+		self.selectedYearIndex = control.getSelectedPosition()
+		self.filterChanged = True
+
+	def updateSelectedCharacter(self, control):
+		# Note - different to the others
+		label = str(control.getSelectedItem().getLabel())
+		label2 = str(control.getSelectedItem().getLabel2())
+
+		self.selectedCharacter = label
+		self.selectedCharacterIndex = control.getSelectedPosition()
+		log.debug("char is {0}, index is {1}".format(self.selectedCharacter, self.selectedCharacterIndex))
+		self.filterChanged = True
+
 		
 	def updateControls(self, onInit, rcDelete=False, rDelete=False):
 		
