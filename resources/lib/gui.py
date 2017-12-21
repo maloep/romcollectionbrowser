@@ -493,74 +493,69 @@ class UIGameDB(xbmcgui.WindowXML):
 		
 		Logutil.log("End updateControls", util.LOG_LEVEL_INFO)
 		
-		
-		Logutil.log("Begin showConsoles" , util.LOG_LEVEL_INFO)
-				
-		showEntryAllItems = self.Settings.getSetting(util.SETTING_RCB_SHOWENTRYALLCONSOLES).upper() == 'TRUE'
 	def showConsoles(self):
+		log.debug("Begin showConsoles")
+
+		showEntryAllItems = getSettings().getSetting(util.SETTING_RCB_SHOWENTRYALLCONSOLES).upper() == 'TRUE'
 		
 		consoles = []
 		for romCollection in self.config.romCollections.values():
-			consoleRow = []
-			consoleRow.append(romCollection.id)
-			consoleRow.append(romCollection.name)
-			consoles.append(consoleRow)
+			consoles.append([romCollection.id, romCollection.name])
 		
 		self.showFilterControl(consoles, CONTROL_CONSOLES, showEntryAllItems)
 		
-		#reset selection after loading the list
+		# Reset selection after loading the list
 		self.selectedConsoleId = 0
 		self.selectedConsoleIndex = 0
-		
-		Logutil.log("End showConsoles" , util.LOG_LEVEL_INFO)
 
+		log.debug("End showConsoles")
 
 	def showGenre(self):
-		Logutil.log("Begin showGenre" , util.LOG_LEVEL_INFO)
-		Logutil.log("Selected Console: " +str(self.selectedConsoleId), util.LOG_LEVEL_INFO)
+		log.debug("Begin showGenre with selected console {0}".format(self.selectedConsoleId))
 					
 		rows = Genre(self.gdb).getFilteredGenresByConsole(self.selectedConsoleId)
+		log.debug("Found {0} genres to add to filter list".format(len(rows)))
 		
-		showEntryAllItems = self.Settings.getSetting(util.SETTING_RCB_SHOWENTRYALLGENRES).upper() == 'TRUE'				
+		showEntryAllItems = getSettings().getSetting(util.SETTING_RCB_SHOWENTRYALLGENRES).upper() == 'TRUE'
 		self.showFilterControl(rows, CONTROL_GENRE, showEntryAllItems)
-		#reset selection after loading the list
+
+		# Reset selection after loading the list
 		self.selectedGenreId = 0
 		self.selectedGenreIndex = 0
-		
-		Logutil.log("End showGenre" , util.LOG_LEVEL_INFO)
-		
+
+		log.debug("End showGenre")
 	
 	def showYear(self):
-		Logutil.log("Begin showYear" , util.LOG_LEVEL_INFO)
-		Logutil.log("Selected Console: " +str(self.selectedConsoleId), util.LOG_LEVEL_INFO)
+		log.debug("Begin showYear with selected console {0}".format(self.selectedConsoleId))
 		
 		rows = Year(self.gdb).getFilteredYears(self.selectedConsoleId, self.selectedGenreId, 0, '0 = 0')
-				
-		showEntryAllItems = self.Settings.getSetting(util.SETTING_RCB_SHOWENTRYALLYEARS).upper() == 'TRUE'
+		log.debug("Found {0} years to add to filter list".format(len(rows)))
+
+		showEntryAllItems = getSettings().getSetting(util.SETTING_RCB_SHOWENTRYALLYEARS).upper() == 'TRUE'
 		self.showFilterControl(rows, CONTROL_YEAR, showEntryAllItems)
-		#reset selection after loading the list
+
+		# Reset selection after loading the list
 		self.selectedYearId = 0
 		self.selectedYearIndex = 0
-		Logutil.log("End showYear" , util.LOG_LEVEL_INFO)
-		
+
+		log.debug("End showYear")
 		
 	def showPublisher(self):
-		Logutil.log("Begin showPublisher" , util.LOG_LEVEL_INFO)
-		Logutil.log("Selected Console: " +str(self.selectedConsoleId), util.LOG_LEVEL_INFO)
+		log.debug("Begin showPublisher with selected console {0}".format(self.selectedConsoleId))
 
 		rows = Publisher(self.gdb).getFilteredPublishers(self.selectedConsoleId, self.selectedGenreId, self.selectedYearId, '0 = 0')
+		log.debug("Found {0} publishers to add to filter list".format(len(rows)))
 		
-		showEntryAllItems = self.Settings.getSetting(util.SETTING_RCB_SHOWENTRYALLPUBLISHER).upper() == 'TRUE'
+		showEntryAllItems = getSettings().getSetting(util.SETTING_RCB_SHOWENTRYALLPUBLISHER).upper() == 'TRUE'
 		self.showFilterControl(rows, CONTROL_PUBLISHER, showEntryAllItems)
-		#reset selection after loading the list
+
+		# Reset selection after loading the list
 		self.selectedPublisherId = 0
 		self.selectedPublisherIndex = 0
 		
-		
-		Logutil.log("End showPublisher" , util.LOG_LEVEL_INFO)
+		log.debug("End showPublisher")
 
 	def showFilterControl(self, rows, controlId, showEntryAllItems):
-
 		log.debug("begin showFilterControl: {0}".format(controlId))
 
 		control = self.getControlById(controlId)
@@ -580,28 +575,28 @@ class UIGameDB(xbmcgui.WindowXML):
 		control.addItems(items)
 
 	def showCharacterFilter(self):
-		Logutil.log("Begin showCharacterFilter" , util.LOG_LEVEL_INFO)
+		log.debug("Begin showCharacterFilter")
 		
 		control = self.getControlById(CONTROL_CHARACTER)
-		if(control == None):
-			Logutil.log("control == None in showFilterControl", util.LOG_LEVEL_WARNING)
+		if control is None:
 			return
 			
 		control.reset()
 		
-		showEntryAllItems = self.Settings.getSetting(util.SETTING_RCB_SHOWENTRYALLCHARS).upper() == 'TRUE'
+		showEntryAllItems = getSettings().getSetting(util.SETTING_RCB_SHOWENTRYALLCHARS).upper() == 'TRUE'
 		
-		items = []		
+		items = []
+
 		if(showEntryAllItems):
-			items.append(xbmcgui.ListItem(util.localize(32120), util.localize(32120), "", ""))
-		items.append(xbmcgui.ListItem("0-9", "0-9", "", ""))
+			items.append(xbmcgui.ListItem(util.localize(32120), util.localize(32120)))
+		items.append(xbmcgui.ListItem("0-9", "0-9"))
 		
 		for i in range(0, 26):
 			char = chr(ord('A') + i)
-			items.append(xbmcgui.ListItem(char, char, "", ""))
+			items.append(xbmcgui.ListItem(char, char))
 			
 		control.addItems(items)
-		Logutil.log("End showCharacterFilter" , util.LOG_LEVEL_INFO)
+		log.debug("End showCharacterFilter")
 
 		
 	def applyFilters(self):
