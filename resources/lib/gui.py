@@ -481,23 +481,23 @@ class UIGameDB(xbmcgui.WindowXML):
 		#prepare Filter Controls
 			
 		if (onInit):
-			self.showConsoles(rcDelete, rDelete)
+			self.showConsoles()
 		if (onInit or self.selectedControlId == CONTROL_CONSOLES):
-			self.showGenre(rcDelete, rDelete)
+			self.showGenre()
 		if (onInit or self.selectedControlId == CONTROL_CONSOLES or self.selectedControlId == CONTROL_GENRE):
-			self.showYear(rcDelete, rDelete)
+			self.showYear()
 		if (onInit or self.selectedControlId == CONTROL_CONSOLES or self.selectedControlId == CONTROL_GENRE or self.selectedControlId == CONTROL_YEAR):
-			self.showPublisher(rcDelete, rDelete)
+			self.showPublisher()
 		if(onInit):
 			self.showCharacterFilter()
 		
 		Logutil.log("End updateControls", util.LOG_LEVEL_INFO)
 		
 		
-	def showConsoles(self, rcDelete=False, rDelete=False):
 		Logutil.log("Begin showConsoles" , util.LOG_LEVEL_INFO)
 				
 		showEntryAllItems = self.Settings.getSetting(util.SETTING_RCB_SHOWENTRYALLCONSOLES).upper() == 'TRUE'
+	def showConsoles(self):
 		
 		consoles = []
 		for romCollection in self.config.romCollections.values():
@@ -515,7 +515,7 @@ class UIGameDB(xbmcgui.WindowXML):
 		Logutil.log("End showConsoles" , util.LOG_LEVEL_INFO)
 
 
-	def showGenre(self, rcDelete=False, rDelete=False):
+	def showGenre(self):
 		Logutil.log("Begin showGenre" , util.LOG_LEVEL_INFO)
 		Logutil.log("Selected Console: " +str(self.selectedConsoleId), util.LOG_LEVEL_INFO)
 					
@@ -530,7 +530,7 @@ class UIGameDB(xbmcgui.WindowXML):
 		Logutil.log("End showGenre" , util.LOG_LEVEL_INFO)
 		
 	
-	def showYear(self, rcDelete=False, rDelete=False):
+	def showYear(self):
 		Logutil.log("Begin showYear" , util.LOG_LEVEL_INFO)
 		Logutil.log("Selected Console: " +str(self.selectedConsoleId), util.LOG_LEVEL_INFO)
 		
@@ -544,7 +544,7 @@ class UIGameDB(xbmcgui.WindowXML):
 		Logutil.log("End showYear" , util.LOG_LEVEL_INFO)
 		
 		
-	def showPublisher(self, rcDelete=False, rDelete=False):
+	def showPublisher(self):
 		Logutil.log("Begin showPublisher" , util.LOG_LEVEL_INFO)
 		Logutil.log("Selected Console: " +str(self.selectedConsoleId), util.LOG_LEVEL_INFO)
 
@@ -1672,7 +1672,7 @@ class UIGameDB(xbmcgui.WindowXML):
 			return
 		
 		#first load console filter
-		self.showConsoles(False, False)
+		self.showConsoles()
 		
 		#set console filter selection
 		if(rcbSetting[util.RCBSETTING_lastSelectedConsoleIndex] != None):
@@ -1680,17 +1680,17 @@ class UIGameDB(xbmcgui.WindowXML):
 			self.selectedConsoleIndex = rcbSetting[util.RCBSETTING_lastSelectedConsoleIndex]
 		
 		#load other filters
-		self.showGenre(False, False)
+		self.showGenre()
 		if(rcbSetting[util.RCBSETTING_lastSelectedGenreIndex] != None):
 			self.selectedGenreId = int(self.setFilterSelection(CONTROL_GENRE, rcbSetting[util.RCBSETTING_lastSelectedGenreIndex]))
 			self.selectedGenreIndex = rcbSetting[util.RCBSETTING_lastSelectedGenreIndex]
 		
-		self.showYear(False, False)
+		self.showYear()
 		if(rcbSetting[util.RCBSETTING_lastSelectedYearIndex] != None):
 			self.selectedYearId = int(self.setFilterSelection(CONTROL_YEAR, rcbSetting[util.RCBSETTING_lastSelectedYearIndex]))
 			self.selectedYearIndex = rcbSetting[util.RCBSETTING_lastSelectedYearIndex]
 			
-		self.showPublisher(False, False)
+		self.showPublisher()
 		if(rcbSetting[util.RCBSETTING_lastSelectedPublisherIndex] != None):
 			self.selectedPublisherId = int(self.setFilterSelection(CONTROL_PUBLISHER, rcbSetting[util.RCBSETTING_lastSelectedPublisherIndex]))
 			self.selectedPublisherIndex = rcbSetting[util.RCBSETTING_lastSelectedPublisherIndex]
