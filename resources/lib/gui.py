@@ -506,7 +506,7 @@ class UIGameDB(xbmcgui.WindowXML):
 			consoleRow.append(romCollection.name)
 			consoles.append(consoleRow)
 		
-		self.showFilterControl(consoles, CONTROL_CONSOLES, showEntryAllItems, rcDelete, rDelete, True)
+		self.showFilterControl(consoles, CONTROL_CONSOLES, showEntryAllItems)
 		
 		#reset selection after loading the list
 		self.selectedConsoleId = 0
@@ -522,7 +522,7 @@ class UIGameDB(xbmcgui.WindowXML):
 		rows = Genre(self.gdb).getFilteredGenresByConsole(self.selectedConsoleId)
 		
 		showEntryAllItems = self.Settings.getSetting(util.SETTING_RCB_SHOWENTRYALLGENRES).upper() == 'TRUE'				
-		self.showFilterControl(rows, CONTROL_GENRE, showEntryAllItems, rcDelete, rDelete)
+		self.showFilterControl(rows, CONTROL_GENRE, showEntryAllItems)
 		#reset selection after loading the list
 		self.selectedGenreId = 0
 		self.selectedGenreIndex = 0
@@ -537,7 +537,7 @@ class UIGameDB(xbmcgui.WindowXML):
 		rows = Year(self.gdb).getFilteredYears(self.selectedConsoleId, self.selectedGenreId, 0, '0 = 0')
 				
 		showEntryAllItems = self.Settings.getSetting(util.SETTING_RCB_SHOWENTRYALLYEARS).upper() == 'TRUE'
-		self.showFilterControl(rows, CONTROL_YEAR, showEntryAllItems, rcDelete, rDelete)
+		self.showFilterControl(rows, CONTROL_YEAR, showEntryAllItems)
 		#reset selection after loading the list
 		self.selectedYearId = 0
 		self.selectedYearIndex = 0
@@ -551,7 +551,7 @@ class UIGameDB(xbmcgui.WindowXML):
 		rows = Publisher(self.gdb).getFilteredPublishers(self.selectedConsoleId, self.selectedGenreId, self.selectedYearId, '0 = 0')
 		
 		showEntryAllItems = self.Settings.getSetting(util.SETTING_RCB_SHOWENTRYALLPUBLISHER).upper() == 'TRUE'
-		self.showFilterControl(rows, CONTROL_PUBLISHER, showEntryAllItems, rcDelete, rDelete)
+		self.showFilterControl(rows, CONTROL_PUBLISHER, showEntryAllItems)
 		#reset selection after loading the list
 		self.selectedPublisherId = 0
 		self.selectedPublisherIndex = 0
@@ -560,7 +560,7 @@ class UIGameDB(xbmcgui.WindowXML):
 		Logutil.log("End showPublisher" , util.LOG_LEVEL_INFO)
 
 
-	def showFilterControl(self, rows, controlId, showEntryAllItems, romCollectionDeleted=False, romsDeleted=False, handleConsole=False):
+	def showFilterControl(self, rows, controlId, showEntryAllItems):
 		
 		Logutil.log("begin showFilterControl: " + str(controlId), util.LOG_LEVEL_INFO)
 		
