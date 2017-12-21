@@ -559,29 +559,26 @@ class UIGameDB(xbmcgui.WindowXML):
 		
 		Logutil.log("End showPublisher" , util.LOG_LEVEL_INFO)
 
-
 	def showFilterControl(self, rows, controlId, showEntryAllItems):
-		
-		Logutil.log("begin showFilterControl: " + str(controlId), util.LOG_LEVEL_INFO)
-		
+
+		log.debug("begin showFilterControl: {0}".format(controlId))
+
 		control = self.getControlById(controlId)
-		if(control == None):
-			Logutil.log("control == None in showFilterControl", util.LOG_LEVEL_WARNING)
+		if control is None:
 			return
-		
-		control.setVisible(1)
-		control.reset()
-		
+
+		control.setVisible(True)
+		control.reset()  # Clear any existing entries in the ControlList
+
 		items = []
-		if(showEntryAllItems):
-			items.append(xbmcgui.ListItem(util.localize(32120), "0", "", ""))
-		
+		if showEntryAllItems:
+			items.append(xbmcgui.ListItem(util.localize(32120), "0"))  # Add "All" entry
+
 		for row in rows:
-			items.append(xbmcgui.ListItem(helper.saveReadString(row[util.ROW_NAME]), str(row[util.ROW_ID]), "", ""))
-			
+			items.append(xbmcgui.ListItem(helper.saveReadString(row[util.ROW_NAME]), str(row[util.ROW_ID])))
+
 		control.addItems(items)
-			
-	
+
 	def showCharacterFilter(self):
 		Logutil.log("Begin showCharacterFilter" , util.LOG_LEVEL_INFO)
 		
