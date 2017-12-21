@@ -474,7 +474,7 @@ class UIGameDB(xbmcgui.WindowXML):
 		self.filterChanged = True
 
 		
-	def updateControls(self, onInit, rcDelete=False, rDelete=False):
+	def updateControls(self, onInit):
 		
 		Logutil.log("Begin updateControls", util.LOG_LEVEL_INFO)
 		
@@ -603,7 +603,7 @@ class UIGameDB(xbmcgui.WindowXML):
 		
 		Logutil.log("Begin applyFilters" , util.LOG_LEVEL_INFO)
 				
-		self.updateControls(False, False, False)
+		self.updateControls(False)
 		xbmc.sleep(util.WAITTIME_UPDATECONTROLS)
 		self.showGames()
 
@@ -1164,7 +1164,7 @@ class UIGameDB(xbmcgui.WindowXML):
 			self.clearList()
 			self.rcb_playList.clear()
 			xbmc.sleep(util.WAITTIME_UPDATECONTROLS)
-			self.updateControls(True, rcDelete, rDelete)
+			self.updateControls(True)
 			if(rDelete):
 				self.selectedConsoleId = self.setFilterSelection(CONTROL_CONSOLES, self.selectedConsoleIndex)
 				self.setFilterSelection(CONTROL_GAMES_GROUP_START, 0)
