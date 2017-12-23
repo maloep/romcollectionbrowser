@@ -383,18 +383,16 @@ class UIGameDB(xbmcgui.WindowXML):
 		elif (controlId == CONTROL_BUTTON_FAVORITE):
 			Logutil.log("onClick: Button Favorites", util.LOG_LEVEL_DEBUG)
 			self.showGames()
-		elif (controlId == CONTROL_BUTTON_SEARCH):
-			Logutil.log("onClick: Button Search", util.LOG_LEVEL_DEBUG)
-			
+		elif controlId == CONTROL_BUTTON_SEARCH:
+			log.debug("onClick: Button Search")
+
 			searchButton = self.getControlById(CONTROL_BUTTON_SEARCH)
-			if(searchButton == None):
+			if searchButton is None:
 				return
 
 			self.searchTerm = xbmcgui.Dialog().input(util.localize(32116), type=xbmcgui.INPUT_ALPHANUM)
-			if self.searchTerm == '':
-				searchButton.setLabel(util.localize(32117))
-			else:
-				searchButton.setLabel(util.localize(32117) + ': ' + self.searchTerm)
+			lbl = util.localize(32117) if self.searchTerm == '' else util.localize(32117) + ': ' + self.searchTerm
+			searchButton.setLabel(lbl)
 			
 			self.showGames()
 			
