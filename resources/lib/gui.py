@@ -472,26 +472,23 @@ class UIGameDB(xbmcgui.WindowXML):
 		self.selectedCharacterIndex = control.getSelectedPosition()
 		log.debug("char is {0}, index is {1}".format(self.selectedCharacter, self.selectedCharacterIndex))
 		self.filterChanged = True
-
 		
 	def updateControls(self, onInit):
-		
-		Logutil.log("Begin updateControls", util.LOG_LEVEL_INFO)
-		
-		#prepare Filter Controls
-			
-		if (onInit):
+		log.debug("Begin updateControls")
+
+		# Prepare Filter Controls. If statement takes care of dependencies between each filter control
+		if onInit:
 			self.showConsoles()
-		if (onInit or self.selectedControlId == CONTROL_CONSOLES):
+		if onInit or self.selectedControlId == CONTROL_CONSOLES:
 			self.showGenre()
-		if (onInit or self.selectedControlId == CONTROL_CONSOLES or self.selectedControlId == CONTROL_GENRE):
+		if onInit or self.selectedControlId in [CONTROL_CONSOLES, CONTROL_GENRE]:
 			self.showYear()
-		if (onInit or self.selectedControlId == CONTROL_CONSOLES or self.selectedControlId == CONTROL_GENRE or self.selectedControlId == CONTROL_YEAR):
+		if onInit or self.selectedControlId in [CONTROL_CONSOLES, CONTROL_GENRE, CONTROL_YEAR]:
 			self.showPublisher()
-		if(onInit):
+		if onInit:
 			self.showCharacterFilter()
 		
-		Logutil.log("End updateControls", util.LOG_LEVEL_INFO)
+		log.debug("End updateControls")
 		
 	def showConsoles(self):
 		log.debug("Begin showConsoles")
@@ -587,7 +584,7 @@ class UIGameDB(xbmcgui.WindowXML):
 		
 		items = []
 
-		if(showEntryAllItems):
+		if showEntryAllItems:
 			items.append(xbmcgui.ListItem(util.localize(32120), util.localize(32120)))
 		items.append(xbmcgui.ListItem("0-9", "0-9"))
 		
