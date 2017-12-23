@@ -175,7 +175,7 @@ class UIGameDB(xbmcgui.WindowXML):
 				
 		self.initialized = True
 		
-		
+	# FIXME TODO Move to config.py
 	def initializeConfig(self):		
 		Logutil.log("initializeConfig", util.LOG_LEVEL_INFO)
 		
@@ -217,7 +217,7 @@ class UIGameDB(xbmcgui.WindowXML):
 			
 		return config, statusOk
 		
-		
+	# FIXME TODO Move to gamedatabase.py
 	def initializeDataBase(self):
 		try:
 			self.gdb = GameDataBase(util.getAddonDataPath())
@@ -359,29 +359,27 @@ class UIGameDB(xbmcgui.WindowXML):
 				self.startFullscreenVideo()
 		except Exception, (exc):
 			Logutil.log("RCB_ERROR: unhandled Error in onAction: " +str(exc), util.LOG_LEVEL_ERROR)
-			
 
 	def onClick(self, controlId):
-		
-		Logutil.log("onClick: " + str(controlId), util.LOG_LEVEL_DEBUG)
+		log.debug("onClick: {0}".format(controlId))
 				
-		if (controlId in FILTER_CONTROLS):
-			if(self.filterChanged):
-				Logutil.log("onClick: apply Filters", util.LOG_LEVEL_DEBUG)
+		if controlId in FILTER_CONTROLS:
+			if self.filterChanged:
+				log.debug("onClick: apply Filters")
 				self.applyFilters()
 				self.filterChanged = False
 			else:
-				Logutil.log("onClick: Show Game Info", util.LOG_LEVEL_DEBUG)
+				log.debug("onClick: Show Game Info")
 				self.setFocus(self.getControl(CONTROL_GAMES_GROUP_START))
 				self.showGameInfo()
-		elif (controlId in GAME_LISTS):
-			Logutil.log("onClick: Launch Emu", util.LOG_LEVEL_DEBUG)
+		elif controlId in GAME_LISTS:
+			log.debug("onClick: Launch Emu")
 			self.launchEmu()
-		elif (controlId in CONTROL_BUTTON_VIDEOFULLSCREEN):
-			Logutil.log("onClick: Video fullscreen", util.LOG_LEVEL_DEBUG)
+		elif controlId in CONTROL_BUTTON_VIDEOFULLSCREEN:
+			log.debug("onClick: Video fullscreen")
 			self.startFullscreenVideo()
-		elif (controlId == CONTROL_BUTTON_FAVORITE):
-			Logutil.log("onClick: Button Favorites", util.LOG_LEVEL_DEBUG)
+		elif controlId == CONTROL_BUTTON_FAVORITE:
+			log.debug("onClick: Button Favorites")
 			self.showGames()
 		elif controlId == CONTROL_BUTTON_SEARCH:
 			log.debug("onClick: Button Search")
@@ -396,16 +394,16 @@ class UIGameDB(xbmcgui.WindowXML):
 			
 			self.showGames()
 			
-		elif (controlId == CONTROL_BUTTON_MISSINGINFODIALOG):
+		elif controlId == CONTROL_BUTTON_MISSINGINFODIALOG:
 			missingInfoDialog = dialogmissinginfo.MissingInfoDialog("script-RCB-missinginfo.xml", util.getAddonInstallPath(), "Default", "720p", gui=self)
-			if(missingInfoDialog.saveConfig):
+			if missingInfoDialog.saveConfig:
 				self.config.readXml()
 				self.showGames()
 
 			del missingInfoDialog
 			
 		elif controlId == CONTROL_BUTTON_CHANGE_VIEW:
-			#need to change viewmode manually since Frodo			
+			# Need to change viewmode manually since Frodo
 			xbmc.executebuiltin('Container.NextViewMode')			
 
 	def onFocus(self, controlId):
