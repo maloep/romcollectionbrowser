@@ -31,9 +31,6 @@ CONTROL_BUTTON_OVERWRITESETTINGS = 5330
 
 
 class ImportOptionsDialog(xbmcgui.WindowXMLDialog):
-	
-	selectedControlId = 0
-	
 	def __init__(self, *args, **kwargs):
 		# Don't put GUI sensitive stuff here (as the xml hasn't been read yet)
 		Logutil.log('init ImportOptions', util.LOG_LEVEL_INFO)
@@ -98,7 +95,7 @@ class ImportOptionsDialog(xbmcgui.WindowXMLDialog):
 		elif (controlID == CONTROL_BUTTON_CANCEL):
 			self.close()
 		#Rom Collection list
-		elif(self.selectedControlId in (CONTROL_BUTTON_RC_DOWN, CONTROL_BUTTON_RC_UP)):
+		elif(controlID in (CONTROL_BUTTON_RC_DOWN, CONTROL_BUTTON_RC_UP)):
 						
 			#HACK: add a little wait time as XBMC needs some ms to execute the MoveUp/MoveDown actions from the skin
 			xbmc.sleep(util.WAITTIME_UPDATECONTROLS)
@@ -117,11 +114,6 @@ class ImportOptionsDialog(xbmcgui.WindowXMLDialog):
 				
 			sitesInList = self.getAvailableScrapers()
 			self.selectScrapersInList(sitesInRomCollection, sitesInList)
-			
-			
-	def onFocus(self, controlId):
-		self.selectedControlId = controlId
-	
 	
 	def getControlById(self, controlId):
 		try:
