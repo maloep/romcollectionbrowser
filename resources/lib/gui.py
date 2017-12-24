@@ -175,7 +175,7 @@ class UIGameDB(xbmcgui.WindowXML):
 				
 		self.initialized = True
 		
-		
+	# FIXME TODO Move to config.py
 	def initializeConfig(self):		
 		Logutil.log("initializeConfig", util.LOG_LEVEL_INFO)
 		
@@ -217,7 +217,7 @@ class UIGameDB(xbmcgui.WindowXML):
 			
 		return config, statusOk
 		
-		
+	# FIXME TODO Move to gamedatabase.py
 	def initializeDataBase(self):
 		try:
 			self.gdb = GameDataBase(util.getAddonDataPath())
@@ -316,39 +316,23 @@ class UIGameDB(xbmcgui.WindowXML):
 					if(self.player.isPlayingVideo()):
 						self.player.stop()
 						xbmc.sleep(util.WAITTIME_PLAYERSTOP)
-					
-					label = str(control.getSelectedItem().getLabel())
-					label2 = str(control.getSelectedItem().getLabel2())
-					
-					if (self.selectedControlId == CONTROL_CONSOLES):
-						if(self.selectedConsoleIndex != control.getSelectedPosition()):
-							self.selectedConsoleId = int(label2)
-							self.selectedConsoleIndex = control.getSelectedPosition()
-							self.filterChanged = True
+
+					pos = control.getSelectedPosition()
+					cid = control.getId()
+					if cid == CONTROL_CONSOLES and self.hasConsoleFilterChanged(pos):
+						self.updateSelectedConsole(control)
+
+					elif cid == CONTROL_GENRE and self.hasGenreFilterChanged(pos):
+						self.updateSelectedGenre(control)
 							
-					elif (self.selectedControlId == CONTROL_GENRE):
-						if(self.selectedGenreIndex != control.getSelectedPosition()):
-							self.selectedGenreId = int(label2)
-							self.selectedGenreIndex = control.getSelectedPosition()
-							self.filterChanged = True
+					elif cid == CONTROL_YEAR and self.hasYearFilterChanged(pos):
+						self.updateSelectedYear(control)
 							
-					elif (self.selectedControlId == CONTROL_YEAR):
-						if(self.selectedYearIndex != control.getSelectedPosition()):
-							self.selectedYearId = int(label2)
-							self.selectedYearIndex = control.getSelectedPosition()
-							self.filterChanged = True
+					elif cid == CONTROL_PUBLISHER and self.hasPublisherFilterChanged(pos):
+						self.updatedSelectedPublisher(control)
 							
-					elif (self.selectedControlId == CONTROL_PUBLISHER):
-						if(self.selectedPublisherIndex != control.getSelectedPosition()):
-							self.selectedPublisherId = int(label2)
-							self.selectedPublisherIndex = control.getSelectedPosition()
-							self.filterChanged = True
-							
-					elif (self.selectedControlId == CONTROL_CHARACTER):
-						if(self.selectedCharacterIndex != control.getSelectedPosition()):
-							self.selectedCharacter = label
-							self.selectedCharacterIndex = control.getSelectedPosition()
-							self.filterChanged = True
+					elif cid == CONTROL_CHARACTER and self.hasCharacterFilterChanged(pos):
+						self.updateSelectedCharacter(control)
 				
 			elif(action.getId() in ACTION_INFO):
 				Logutil.log("onAction: ACTION_INFO", util.LOG_LEVEL_DEBUG)
@@ -375,200 +359,244 @@ class UIGameDB(xbmcgui.WindowXML):
 				self.startFullscreenVideo()
 		except Exception, (exc):
 			Logutil.log("RCB_ERROR: unhandled Error in onAction: " +str(exc), util.LOG_LEVEL_ERROR)
-			
 
 	def onClick(self, controlId):
-		
-		Logutil.log("onClick: " + str(controlId), util.LOG_LEVEL_DEBUG)
+		log.debug("onClick: {0}".format(controlId))
 				
-		if (controlId in FILTER_CONTROLS):
-			if(self.filterChanged):
-				Logutil.log("onClick: apply Filters", util.LOG_LEVEL_DEBUG)
+		if controlId in FILTER_CONTROLS:
+			if self.filterChanged:
+				log.debug("onClick: apply Filters")
 				self.applyFilters()
 				self.filterChanged = False
 			else:
-				Logutil.log("onClick: Show Game Info", util.LOG_LEVEL_DEBUG)
+				log.debug("onClick: Show Game Info")
 				self.setFocus(self.getControl(CONTROL_GAMES_GROUP_START))
 				self.showGameInfo()
-		elif (controlId in GAME_LISTS):
-			Logutil.log("onClick: Launch Emu", util.LOG_LEVEL_DEBUG)
+		elif controlId in GAME_LISTS:
+			log.debug("onClick: Launch Emu")
 			self.launchEmu()
-		elif (controlId in CONTROL_BUTTON_VIDEOFULLSCREEN):
-			Logutil.log("onClick: Video fullscreen", util.LOG_LEVEL_DEBUG)
+		elif controlId in CONTROL_BUTTON_VIDEOFULLSCREEN:
+			log.debug("onClick: Video fullscreen")
 			self.startFullscreenVideo()
-		elif (controlId == CONTROL_BUTTON_FAVORITE):
-			Logutil.log("onClick: Button Favorites", util.LOG_LEVEL_DEBUG)
+		elif controlId == CONTROL_BUTTON_FAVORITE:
+			log.debug("onClick: Button Favorites")
 			self.showGames()
-		elif (controlId == CONTROL_BUTTON_SEARCH):
-			Logutil.log("onClick: Button Search", util.LOG_LEVEL_DEBUG)
-			
+		elif controlId == CONTROL_BUTTON_SEARCH:
+			log.debug("onClick: Button Search")
+
 			searchButton = self.getControlById(CONTROL_BUTTON_SEARCH)
-			if(searchButton == None):
+			if searchButton is None:
 				return
 
 			self.searchTerm = xbmcgui.Dialog().input(util.localize(32116), type=xbmcgui.INPUT_ALPHANUM)
-			if self.searchTerm == '':
-				searchButton.setLabel(util.localize(32117))
-			else:
-				searchButton.setLabel(util.localize(32117) + ': ' + self.searchTerm)
+			lbl = util.localize(32117) if self.searchTerm == '' else util.localize(32117) + ': ' + self.searchTerm
+			searchButton.setLabel(lbl)
 			
 			self.showGames()
 			
-		elif (controlId == CONTROL_BUTTON_MISSINGINFODIALOG):
+		elif controlId == CONTROL_BUTTON_MISSINGINFODIALOG:
 			missingInfoDialog = dialogmissinginfo.MissingInfoDialog("script-RCB-missinginfo.xml", util.getAddonInstallPath(), "Default", "720p", gui=self)
-			if(missingInfoDialog.saveConfig):
+			if missingInfoDialog.saveConfig:
 				self.config.readXml()
 				self.showGames()
 
 			del missingInfoDialog
 			
 		elif controlId == CONTROL_BUTTON_CHANGE_VIEW:
-			#need to change viewmode manually since Frodo			
+			# Need to change viewmode manually since Frodo
 			xbmc.executebuiltin('Container.NextViewMode')			
 
 	def onFocus(self, controlId):
 		Logutil.log("onFocus: " + str(controlId), util.LOG_LEVEL_DEBUG)
 		self.selectedControlId = controlId
+
+	""" Check if one of the filter lists has changed """
+	def hasConsoleFilterChanged(self, pos):
+		return self.selectedConsoleIndex != pos
+
+	def hasGenreFilterChanged(self, pos):
+		return self.selectedGenreIndex != pos
+
+	def hasYearFilterChanged(self, pos):
+		return self.selectedYearIndex != pos
+
+	def hasPublisherFilterChanged(self, pos):
+		return self.selectedPublisherIndex != pos
+
+	def hasCharacterFilterChanged(self, pos):
+		return self.selectedCharacterIndex != pos
+
+	""" Handle when one of the filter lists has changed """
+	def updateSelectedConsole(self, control):
+		label = str(control.getSelectedItem().getLabel())
+		label2 = str(control.getSelectedItem().getLabel2())
+
+		self.selectedConsoleId = int(label2)
+		self.selectedConsoleIndex = control.getSelectedPosition()
+		self.filterChanged = True
+
+	def updatedSelectedPublisher(self, control):
+		label = str(control.getSelectedItem().getLabel())
+		label2 = str(control.getSelectedItem().getLabel2())
+
+		self.selectedPublisherId = int(label2)
+		self.selectedPublisherIndex = control.getSelectedPosition()
+		self.filterChanged = True
+
+	def updatedSelectedGenre(self, control):
+		label = str(control.getSelectedItem().getLabel())
+		label2 = str(control.getSelectedItem().getLabel2())
+
+		self.selectedGenreId = int(label2)
+		self.selectedGenreIndex = control.getSelectedPosition()
+		self.filterChanged = True
+
+	def updateSelectedYear(self, control):
+		label = str(control.getSelectedItem().getLabel())
+		label2 = str(control.getSelectedItem().getLabel2())
+
+		self.selectedYearId = int(label2)
+		self.selectedYearIndex = control.getSelectedPosition()
+		self.filterChanged = True
+
+	def updateSelectedCharacter(self, control):
+		# Note - different to the others
+		label = str(control.getSelectedItem().getLabel())
+		label2 = str(control.getSelectedItem().getLabel2())
+
+		self.selectedCharacter = label
+		self.selectedCharacterIndex = control.getSelectedPosition()
+		log.debug("char is {0}, index is {1}".format(self.selectedCharacter, self.selectedCharacterIndex))
+		self.filterChanged = True
 		
-		
-	def updateControls(self, onInit, rcDelete=False, rDelete=False):
-		
-		Logutil.log("Begin updateControls", util.LOG_LEVEL_INFO)
-		
-		#prepare Filter Controls
-			
-		if (onInit):
-			self.showConsoles(rcDelete, rDelete)
-		if (onInit or self.selectedControlId == CONTROL_CONSOLES):
-			self.showGenre(rcDelete, rDelete)
-		if (onInit or self.selectedControlId == CONTROL_CONSOLES or self.selectedControlId == CONTROL_GENRE):
-			self.showYear(rcDelete, rDelete)
-		if (onInit or self.selectedControlId == CONTROL_CONSOLES or self.selectedControlId == CONTROL_GENRE or self.selectedControlId == CONTROL_YEAR):
-			self.showPublisher(rcDelete, rDelete)
-		if(onInit):
+	def updateControls(self, onInit):
+		log.debug("Begin updateControls")
+
+		# Prepare Filter Controls. If statement takes care of dependencies between each filter control
+		if onInit:
+			self.showConsoles()
+		if onInit or self.selectedControlId == CONTROL_CONSOLES:
+			self.showGenre()
+		if onInit or self.selectedControlId in [CONTROL_CONSOLES, CONTROL_GENRE]:
+			self.showYear()
+		if onInit or self.selectedControlId in [CONTROL_CONSOLES, CONTROL_GENRE, CONTROL_YEAR]:
+			self.showPublisher()
+		if onInit:
 			self.showCharacterFilter()
 		
-		Logutil.log("End updateControls", util.LOG_LEVEL_INFO)
+		log.debug("End updateControls")
 		
-		
-	def showConsoles(self, rcDelete=False, rDelete=False):
-		Logutil.log("Begin showConsoles" , util.LOG_LEVEL_INFO)
-				
-		showEntryAllItems = self.Settings.getSetting(util.SETTING_RCB_SHOWENTRYALLCONSOLES).upper() == 'TRUE'
+	def showConsoles(self):
+		log.debug("Begin showConsoles")
+
+		showEntryAllItems = getSettings().getSetting(util.SETTING_RCB_SHOWENTRYALLCONSOLES).upper() == 'TRUE'
 		
 		consoles = []
 		for romCollection in self.config.romCollections.values():
-			consoleRow = []
-			consoleRow.append(romCollection.id)
-			consoleRow.append(romCollection.name)
-			consoles.append(consoleRow)
+			consoles.append([romCollection.id, romCollection.name])
 		
-		self.showFilterControl(consoles, CONTROL_CONSOLES, showEntryAllItems, rcDelete, rDelete, True)
+		self.showFilterControl(consoles, CONTROL_CONSOLES, showEntryAllItems)
 		
-		#reset selection after loading the list
+		# Reset selection after loading the list
 		self.selectedConsoleId = 0
 		self.selectedConsoleIndex = 0
-		
-		Logutil.log("End showConsoles" , util.LOG_LEVEL_INFO)
 
+		log.debug("End showConsoles")
 
-	def showGenre(self, rcDelete=False, rDelete=False):
-		Logutil.log("Begin showGenre" , util.LOG_LEVEL_INFO)
-		Logutil.log("Selected Console: " +str(self.selectedConsoleId), util.LOG_LEVEL_INFO)
+	def showGenre(self):
+		log.debug("Begin showGenre with selected console {0}".format(self.selectedConsoleId))
 					
 		rows = Genre(self.gdb).getFilteredGenresByConsole(self.selectedConsoleId)
+		log.debug("Found {0} genres to add to filter list".format(len(rows)))
 		
-		showEntryAllItems = self.Settings.getSetting(util.SETTING_RCB_SHOWENTRYALLGENRES).upper() == 'TRUE'				
-		self.showFilterControl(rows, CONTROL_GENRE, showEntryAllItems, rcDelete, rDelete)
-		#reset selection after loading the list
+		showEntryAllItems = getSettings().getSetting(util.SETTING_RCB_SHOWENTRYALLGENRES).upper() == 'TRUE'
+		self.showFilterControl(rows, CONTROL_GENRE, showEntryAllItems)
+
+		# Reset selection after loading the list
 		self.selectedGenreId = 0
 		self.selectedGenreIndex = 0
-		
-		Logutil.log("End showGenre" , util.LOG_LEVEL_INFO)
-		
+
+		log.debug("End showGenre")
 	
-	def showYear(self, rcDelete=False, rDelete=False):
-		Logutil.log("Begin showYear" , util.LOG_LEVEL_INFO)
-		Logutil.log("Selected Console: " +str(self.selectedConsoleId), util.LOG_LEVEL_INFO)
+	def showYear(self):
+		log.debug("Begin showYear with selected console {0}".format(self.selectedConsoleId))
 		
 		rows = Year(self.gdb).getFilteredYears(self.selectedConsoleId, self.selectedGenreId, 0, '0 = 0')
-				
-		showEntryAllItems = self.Settings.getSetting(util.SETTING_RCB_SHOWENTRYALLYEARS).upper() == 'TRUE'
-		self.showFilterControl(rows, CONTROL_YEAR, showEntryAllItems, rcDelete, rDelete)
-		#reset selection after loading the list
+		log.debug("Found {0} years to add to filter list".format(len(rows)))
+
+		showEntryAllItems = getSettings().getSetting(util.SETTING_RCB_SHOWENTRYALLYEARS).upper() == 'TRUE'
+		self.showFilterControl(rows, CONTROL_YEAR, showEntryAllItems)
+
+		# Reset selection after loading the list
 		self.selectedYearId = 0
 		self.selectedYearIndex = 0
-		Logutil.log("End showYear" , util.LOG_LEVEL_INFO)
+
+		log.debug("End showYear")
 		
-		
-	def showPublisher(self, rcDelete=False, rDelete=False):
-		Logutil.log("Begin showPublisher" , util.LOG_LEVEL_INFO)
-		Logutil.log("Selected Console: " +str(self.selectedConsoleId), util.LOG_LEVEL_INFO)
+	def showPublisher(self):
+		log.debug("Begin showPublisher with selected console {0}".format(self.selectedConsoleId))
 
 		rows = Publisher(self.gdb).getFilteredPublishers(self.selectedConsoleId, self.selectedGenreId, self.selectedYearId, '0 = 0')
+		log.debug("Found {0} publishers to add to filter list".format(len(rows)))
 		
-		showEntryAllItems = self.Settings.getSetting(util.SETTING_RCB_SHOWENTRYALLPUBLISHER).upper() == 'TRUE'
-		self.showFilterControl(rows, CONTROL_PUBLISHER, showEntryAllItems, rcDelete, rDelete)
-		#reset selection after loading the list
+		showEntryAllItems = getSettings().getSetting(util.SETTING_RCB_SHOWENTRYALLPUBLISHER).upper() == 'TRUE'
+		self.showFilterControl(rows, CONTROL_PUBLISHER, showEntryAllItems)
+
+		# Reset selection after loading the list
 		self.selectedPublisherId = 0
 		self.selectedPublisherIndex = 0
 		
-		
-		Logutil.log("End showPublisher" , util.LOG_LEVEL_INFO)
+		log.debug("End showPublisher")
 
+	def showFilterControl(self, rows, controlId, showEntryAllItems):
+		log.debug("begin showFilterControl: {0}".format(controlId))
 
-	def showFilterControl(self, rows, controlId, showEntryAllItems, romCollectionDeleted=False, romsDeleted=False, handleConsole=False):
-		
-		Logutil.log("begin showFilterControl: " + str(controlId), util.LOG_LEVEL_INFO)
-		
 		control = self.getControlById(controlId)
-		if(control == None):
-			Logutil.log("control == None in showFilterControl", util.LOG_LEVEL_WARNING)
+		if control is None:
 			return
-		
-		control.setVisible(1)
-		control.reset()
-		
+
+		control.setVisible(True)
+		control.reset()  # Clear any existing entries in the ControlList
+
 		items = []
-		if(showEntryAllItems):
-			items.append(xbmcgui.ListItem(util.localize(32120), "0", "", ""))
-		
+		if showEntryAllItems:
+			items.append(xbmcgui.ListItem(util.localize(32120), "0"))  # Add "All" entry
+
 		for row in rows:
-			items.append(xbmcgui.ListItem(helper.saveReadString(row[util.ROW_NAME]), str(row[util.ROW_ID]), "", ""))
-			
+			items.append(xbmcgui.ListItem(helper.saveReadString(row[util.ROW_NAME]), str(row[util.ROW_ID])))
+
 		control.addItems(items)
-			
-	
+
 	def showCharacterFilter(self):
-		Logutil.log("Begin showCharacterFilter" , util.LOG_LEVEL_INFO)
+		log.debug("Begin showCharacterFilter")
 		
 		control = self.getControlById(CONTROL_CHARACTER)
-		if(control == None):
-			Logutil.log("control == None in showFilterControl", util.LOG_LEVEL_WARNING)
+		if control is None:
 			return
 			
 		control.reset()
 		
-		showEntryAllItems = self.Settings.getSetting(util.SETTING_RCB_SHOWENTRYALLCHARS).upper() == 'TRUE'
+		showEntryAllItems = getSettings().getSetting(util.SETTING_RCB_SHOWENTRYALLCHARS).upper() == 'TRUE'
 		
-		items = []		
-		if(showEntryAllItems):
-			items.append(xbmcgui.ListItem(util.localize(32120), util.localize(32120), "", ""))
-		items.append(xbmcgui.ListItem("0-9", "0-9", "", ""))
+		items = []
+
+		if showEntryAllItems:
+			items.append(xbmcgui.ListItem(util.localize(32120), util.localize(32120)))
+		items.append(xbmcgui.ListItem("0-9", "0-9"))
 		
 		for i in range(0, 26):
 			char = chr(ord('A') + i)
-			items.append(xbmcgui.ListItem(char, char, "", ""))
+			items.append(xbmcgui.ListItem(char, char))
 			
 		control.addItems(items)
-		Logutil.log("End showCharacterFilter" , util.LOG_LEVEL_INFO)
+		log.debug("End showCharacterFilter")
 
 		
 	def applyFilters(self):
 		
 		Logutil.log("Begin applyFilters" , util.LOG_LEVEL_INFO)
 				
-		self.updateControls(False, False, False)
+		self.updateControls(False)
 		xbmc.sleep(util.WAITTIME_UPDATECONTROLS)
 		self.showGames()
 
@@ -1129,7 +1157,7 @@ class UIGameDB(xbmcgui.WindowXML):
 			self.clearList()
 			self.rcb_playList.clear()
 			xbmc.sleep(util.WAITTIME_UPDATECONTROLS)
-			self.updateControls(True, rcDelete, rDelete)
+			self.updateControls(True)
 			if(rDelete):
 				self.selectedConsoleId = self.setFilterSelection(CONTROL_CONSOLES, self.selectedConsoleIndex)
 				self.setFilterSelection(CONTROL_GAMES_GROUP_START, 0)
@@ -1632,7 +1660,7 @@ class UIGameDB(xbmcgui.WindowXML):
 			return
 		
 		#first load console filter
-		self.showConsoles(False, False)
+		self.showConsoles()
 		
 		#set console filter selection
 		if(rcbSetting[util.RCBSETTING_lastSelectedConsoleIndex] != None):
@@ -1640,17 +1668,17 @@ class UIGameDB(xbmcgui.WindowXML):
 			self.selectedConsoleIndex = rcbSetting[util.RCBSETTING_lastSelectedConsoleIndex]
 		
 		#load other filters
-		self.showGenre(False, False)
+		self.showGenre()
 		if(rcbSetting[util.RCBSETTING_lastSelectedGenreIndex] != None):
 			self.selectedGenreId = int(self.setFilterSelection(CONTROL_GENRE, rcbSetting[util.RCBSETTING_lastSelectedGenreIndex]))
 			self.selectedGenreIndex = rcbSetting[util.RCBSETTING_lastSelectedGenreIndex]
 		
-		self.showYear(False, False)
+		self.showYear()
 		if(rcbSetting[util.RCBSETTING_lastSelectedYearIndex] != None):
 			self.selectedYearId = int(self.setFilterSelection(CONTROL_YEAR, rcbSetting[util.RCBSETTING_lastSelectedYearIndex]))
 			self.selectedYearIndex = rcbSetting[util.RCBSETTING_lastSelectedYearIndex]
 			
-		self.showPublisher(False, False)
+		self.showPublisher()
 		if(rcbSetting[util.RCBSETTING_lastSelectedPublisherIndex] != None):
 			self.selectedPublisherId = int(self.setFilterSelection(CONTROL_PUBLISHER, rcbSetting[util.RCBSETTING_lastSelectedPublisherIndex]))
 			self.selectedPublisherIndex = rcbSetting[util.RCBSETTING_lastSelectedPublisherIndex]
