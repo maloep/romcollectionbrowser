@@ -675,7 +675,26 @@ class Config(RcbXmlReaderWriter):
 		self.missingFilterArtwork = self.readMissingFilter('missingArtworkFilter', missingFilter)
 		
 		return True, ''
-		
+
+	""" FIXME TODO This function is not used """
+	def backupConfigXml(self):
+		# backup config.xml for later use (will be overwritten in case of an addon update)
+		configXml = util.getConfigXmlPath()
+		configXmlBackup = os.path.join(util.getAddonDataPath(), 'config.xml.backup')
+
+		if os.path.isfile(configXmlBackup):
+			try:
+				os.remove(configXmlBackup)
+			except Exception, (exc):
+				Logutil.log("Cannot remove config.xml backup: " + str(exc), util.LOG_LEVEL_ERROR)
+				return
+
+		try:
+			shutil.copy(configXml, configXmlBackup)
+		except Exception, (exc):
+			Logutil.log("Cannot backup config.xml: " + str(exc), util.LOG_LEVEL_ERROR)
+			return
+
 	def readRomCollections(self, tree):
 		"""
 		Parses the config XML tree and extract the RomCollection objects into a dict.
