@@ -27,7 +27,54 @@ class ConfigXmlWriter(RcbXmlReaderWriter):
 		
 		self.tree = ElementTree().parse(configFile)
 
-	
+	""" Functions for generating XML objects from objects """
+	def getXmlAttributesForRomCollection(self, rc):
+		return {'id': str(rc.id), 'name': rc.name}
+
+	def getXmlElementsForRomCollection(self, rc):
+		elements = []
+		# String attributes
+		for e in ['gameclient', 'emulatorCmd', 'emulatorParams', 'preCmd', 'postCmd',
+				  'saveStatePath', 'saveStateParams']:
+			try:
+				el = Element(e, {})
+				el.text = getattr(rc, e)
+				elements.append(el)
+			except Exception as e:
+				# Skip any errors
+				pass
+
+		# Non-string attributes
+		for e in ['useBuiltinEmulator', 'useEmuSolo', 'usePopen', 'ignoreOnScan', 'allowUpdate', 'autoplayVideoMain',
+				  'autoplayVideoInfo', 'useFoldernameAsGamename', 'maxFolderDepth', 'doNotExtractZipFiles',
+				  'makeLocalCopy', 'diskPrefix']:
+			try:
+				el = Element(e, {})
+				el.text = str(getattr(rc, e))
+				elements.append(el)
+			except Exception as e:
+				# Skip any errors
+				pass
+
+		for romPath in rc.romPaths:
+			el = Element('romPath', {})
+			el.text = romPath
+			elements.append(el)
+
+		return elements
+
+	def getXmlAttributesForSite(self, site):
+		attrs = {'name': site.name,
+				 'descFilePerGame': str(site.descFilePerGame),
+				 'searchGameByCRC': str(site.searchGameByCRC),
+				 'useFoldernameAsCRC': str(site.useFoldernameAsCRC),
+				 'useFilenameAsCRC': str(site.useFilenameAsCRC)}
+		return attrs
+
+	def getXmlElementsForSite(self, site):
+		""" Not needed """
+		pass
+
 	def writeRomCollections(self, romCollections, isEdit):
 				
 		Logutil.log('write Rom Collections', util.LOG_LEVEL_INFO)
@@ -43,17 +90,13 @@ class ConfigXmlWriter(RcbXmlReaderWriter):
 		for romCollection in romCollections.values():
 			
 			Logutil.log('write Rom Collection: ' +str(romCollection.name), util.LOG_LEVEL_INFO)
-			
-			romCollectionXml = SubElement(romCollectionsXml, 'RomCollection', {'id' : str(romCollection.id), 'name' : romCollection.name})
 
-			# String attributes
-			for e in ['gameclient', 'emulatorCmd', 'emulatorParams', 'preCmd', 'postCmd',
-					  'saveStatePath', 'saveStateParams']:
-				SubElement(romCollectionXml, e).text = getattr(romCollection, e)
-			
-			for romPath in romCollection.romPaths:
-				SubElement(romCollectionXml, 'romPath').text = romPath
-				
+			romCollectionXml = SubElement(romCollectionsXml, 'RomCollection', self.getXmlAttributesForRomCollection(romCollection))
+
+			for subel in self.getXmlElementsForRomCollection(romCollection):
+				romCollectionXml.append(subel)
+
+
 			for mediaPath in romCollection.mediaPaths:
 				
 				success, message = self.searchConfigObjects('FileTypes/FileType', mediaPath.fileType.name, 'FileType')
@@ -61,13 +104,6 @@ class ConfigXmlWriter(RcbXmlReaderWriter):
 					return False, message								
 												
 				SubElement(romCollectionXml, 'mediaPath', {'type': mediaPath.fileType.name}).text = mediaPath.path
-
-			# Non-string attributes
-			for e in ['useBuiltinEmulator', 'useEmuSolo', 'usePopen', 'ignoreOnScan', 'allowUpdate', 'autoplayVideoMain',
-					  'autoplayVideoInfo', 'useFoldernameAsGamename', 'maxFolderDepth', 'doNotExtractZipFiles',
-					  'makeLocalCopy', 'diskPrefix']:
-				SubElement(romCollectionXml, e).text = str(getattr(romCollection, e))
-
 				
 			#image placing
 			if(not self.createNew):
@@ -119,14 +155,7 @@ class ConfigXmlWriter(RcbXmlReaderWriter):
 						
 					if not siteExists:
 						#HACK: this only covers the first scraper (for offline scrapers)
-						site = SubElement(scrapersXml, 'Site', 
-							{ 
-							'name' : scraperSite.name,
-							'descFilePerGame' : str(scraperSite.descFilePerGame),
-							'searchGameByCRC' : str(scraperSite.searchGameByCRC),
-							'useFoldernameAsCRC' : str(scraperSite.useFoldernameAsCRC),
-							'useFilenameAsCRC' : str(scraperSite.useFilenameAsCRC)
-							})
+						site = SubElement(scrapersXml, 'Site', self.getXmlAttributesForSite(scraperSite))
 																		
 						scraper = scraperSite.scrapers[0]
 						
@@ -160,14 +189,7 @@ class ConfigXmlWriter(RcbXmlReaderWriter):
 				Logutil.log('None scraper will be skipped', util.LOG_LEVEL_INFO)
 				continue
 			
-			scraperSiteXml = SubElement(scraperSitesXml, 'Site', 
-					{ 
-					'name' : scraperSite.name,
-					'descFilePerGame' : str(scraperSite.descFilePerGame),
-					'searchGameByCRC' : str(scraperSite.searchGameByCRC),
-					'useFoldernameAsCRC' : str(scraperSite.useFoldernameAsCRC),
-					'useFilenameAsCRC' : str(scraperSite.useFilenameAsCRC)
-					})
+			scraperSiteXml = SubElement(scraperSitesXml, 'Site', self.getXmlAttributesForSite(scraperSite))
 			
 			for scraper in scraperSite.scrapers:
 				
