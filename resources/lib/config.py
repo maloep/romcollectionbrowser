@@ -903,18 +903,15 @@ class Config(RcbXmlReaderWriter):
 		fileType = FileType()
 		fileType.name = name
 
-		if 'id' not in fileTypeRow.attrib:
-			Logutil.log('Configuration error. FileType %s must have an id' %name, util.LOG_LEVEL_ERROR)
+		try:
+			fileType.id = fileTypeRow.attrib.get('id')
+			fileType.type = fileTypeRow.find('type').text
+			fileType.parent = fileTypeRow.find('parent').text
+		except KeyError as e:
+			Logutil.log('Configuration error. FileType %s must have an id' % name, util.LOG_LEVEL_ERROR)
 			return None, util.localize(32005)
-		fileType.id = fileTypeRow.attrib.get('id')
-		
-		type = fileTypeRow.find('type')
-		if(type != None):
-			fileType.type = type.text
-			
-		parent = fileTypeRow.find('parent')
-		if(parent != None):
-			fileType.parent = parent.text
+		except AttributeError as e:
+			pass
 			
 		return fileType, ''
 		
