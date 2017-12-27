@@ -313,35 +313,31 @@ class ConfigXmlWriter(RcbXmlReaderWriter):
 				
 		if not cabinetExists:
 			fileTypeFor = SubElement(imagePlacingXml, 'fileTypeFor', {'name' : 'gameinfomamecabinet'})
-			SubElement(fileTypeFor, 'fileTypeForGameList').text = 'cabinet'
-			SubElement(fileTypeFor, 'fileTypeForGameList').text = 'boxfront'
-			SubElement(fileTypeFor, 'fileTypeForGameList').text = 'title'
-			SubElement(fileTypeFor, 'fileTypeForGameListSelected').text = 'cabinet'
-			SubElement(fileTypeFor, 'fileTypeForGameListSelected').text = 'boxfront'
-			SubElement(fileTypeFor, 'fileTypeForGameListSelected').text = 'title'			
-			SubElement(fileTypeFor, 'fileTypeForMainViewBackground').text = 'boxfront'
-			SubElement(fileTypeFor, 'fileTypeForMainViewBackground').text = 'title'
-			SubElement(fileTypeFor, 'fileTypeForMainViewBackground').text = 'action'
+			for imgtype in ['cabinet', 'boxfront', 'title']:
+				SubElement(fileTypeFor, 'fileTypeForGameList').text = imgtype
+				SubElement(fileTypeFor, 'fileTypeForGameListSelected').text = imgtype
+
+			for imgtype in ['boxfront', 'title', 'action']:
+				SubElement(fileTypeFor, 'fileTypeForMainViewBackground').text = imgtype
+
 			SubElement(fileTypeFor, 'fileTypeForMainViewGameInfoUpperLeft').text = 'title'
 			SubElement(fileTypeFor, 'fileTypeForMainViewGameInfoUpperRight').text = 'action'
 			SubElement(fileTypeFor, 'fileTypeForMainViewGameInfoLower').text = 'marquee'
 			
 		if not marqueeExists:
 			fileTypeFor = SubElement(imagePlacingXml, 'fileTypeFor', {'name' : 'gameinfomamemarquee'})
-			SubElement(fileTypeFor, 'fileTypeForGameList').text = 'marquee'
-			SubElement(fileTypeFor, 'fileTypeForGameList').text = 'boxfront'
-			SubElement(fileTypeFor, 'fileTypeForGameList').text = 'title'
-			SubElement(fileTypeFor, 'fileTypeForGameListSelected').text = 'marquee'
-			SubElement(fileTypeFor, 'fileTypeForGameListSelected').text = 'boxfront'
-			SubElement(fileTypeFor, 'fileTypeForGameListSelected').text = 'title'			
-			SubElement(fileTypeFor, 'fileTypeForMainViewBackground').text = 'boxfront'
-			SubElement(fileTypeFor, 'fileTypeForMainViewBackground').text = 'title'
-			SubElement(fileTypeFor, 'fileTypeForMainViewBackground').text = 'action'
+			for imgtype in ['marquee', 'boxfront', 'title']:
+				SubElement(fileTypeFor, 'fileTypeForGameList').text = imgtype
+				SubElement(fileTypeFor, 'fileTypeForGameListSelected').text = imgtype
+
+			for imgtype in ['boxfront', 'title', 'action']:
+				SubElement(fileTypeFor, 'fileTypeForMainViewBackground').text = imgtype
+
 			SubElement(fileTypeFor, 'fileTypeForMainViewGameInfoLeft').text = 'cabinet'
 			SubElement(fileTypeFor, 'fileTypeForMainViewGameInfoUpperRight').text = 'action'
 			SubElement(fileTypeFor, 'fileTypeForMainViewGameInfoLowerRight').text = 'title'
 		
-						
+	# FIXME TODO This function is only called within this class - raise exception rather than return tuple
 	def writeFile(self):
 		Logutil.log('writeFile', util.LOG_LEVEL_INFO)
 		#write file
