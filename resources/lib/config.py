@@ -931,27 +931,20 @@ class Config(RcbXmlReaderWriter):
 		imagePlacing = ImagePlacing()
 		
 		imagePlacing.name = imagePlacingName
-			
-		imagePlacing.fileTypesForGameList = self.readFileTypeForElement(fileTypeForRow, 'fileTypeForGameList', tree)
-		imagePlacing.fileTypesForGameListSelected = self.readFileTypeForElement(fileTypeForRow, 'fileTypeForGameListSelected', tree)
-		imagePlacing.fileTypesForMainView1 = self.readFileTypeForElement(fileTypeForRow, 'fileTypeForMainView1', tree)
-		imagePlacing.fileTypesForMainView2 = self.readFileTypeForElement(fileTypeForRow, 'fileTypeForMainView2', tree)
-		imagePlacing.fileTypesForMainView3 = self.readFileTypeForElement(fileTypeForRow, 'fileTypeForMainView3', tree)
-		imagePlacing.fileTypesForMainViewBackground = self.readFileTypeForElement(fileTypeForRow, 'fileTypeForMainViewBackground', tree)
-		imagePlacing.fileTypesForMainViewGameInfoBig = self.readFileTypeForElement(fileTypeForRow, 'fileTypeForMainViewGameInfoBig', tree)
-		imagePlacing.fileTypesForMainViewGameInfoUpperLeft = self.readFileTypeForElement(fileTypeForRow, 'fileTypeForMainViewGameInfoUpperLeft', tree)
-		imagePlacing.fileTypesForMainViewGameInfoUpperRight = self.readFileTypeForElement(fileTypeForRow, 'fileTypeForMainViewGameInfoUpperRight', tree)
-		imagePlacing.fileTypesForMainViewGameInfoLowerLeft = self.readFileTypeForElement(fileTypeForRow, 'fileTypeForMainViewGameInfoLowerLeft', tree)
-		imagePlacing.fileTypesForMainViewGameInfoLowerRight = self.readFileTypeForElement(fileTypeForRow, 'fileTypeForMainViewGameInfoLowerRight', tree)
-		
-		imagePlacing.fileTypesForMainViewGameInfoLower = self.readFileTypeForElement(fileTypeForRow, 'fileTypeForMainViewGameInfoLower', tree)
-		imagePlacing.fileTypesForMainViewGameInfoUpper = self.readFileTypeForElement(fileTypeForRow, 'fileTypeForMainViewGameInfoUpper', tree)
-		imagePlacing.fileTypesForMainViewGameInfoRight = self.readFileTypeForElement(fileTypeForRow, 'fileTypeForMainViewGameInfoRight', tree)
-		imagePlacing.fileTypesForMainViewGameInfoLeft = self.readFileTypeForElement(fileTypeForRow, 'fileTypeForMainViewGameInfoLeft', tree)
-		
-		imagePlacing.fileTypesForMainViewVideoWindowBig = self.readFileTypeForElement(fileTypeForRow, 'fileTypeForMainViewVideoWindowBig', tree)
-		imagePlacing.fileTypesForMainViewVideoWindowSmall = self.readFileTypeForElement(fileTypeForRow, 'fileTypeForMainViewVideoWindowSmall', tree)
-		imagePlacing.fileTypesForMainViewVideoFullscreen = self.readFileTypeForElement(fileTypeForRow, 'fileTypeForMainViewVideoFullscreen', tree)
+
+		for attr in ['fileTypesForGameList', 'fileTypesForGameListSelected',
+					 'fileTypesForMainView1', 'fileTypesForMainView2', 'fileTypesForMainView3',
+					 'fileTypesForMainViewBackground', 'fileTypesForMainViewGameInfoBig',
+					 'fileTypesForMainViewGameInfoUpperLeft', 'fileTypesForMainViewGameInfoUpperRight',
+					 'fileTypesForMainViewGameInfoLowerLeft', 'fileTypesForMainViewGameInfoLowerRight',
+					 'fileTypesForMainViewGameInfoLower', 'fileTypesForMainViewGameInfoUpper',
+					 'fileTypesForMainViewGameInfoRight', 'fileTypesForMainViewGameInfoLeft',
+					 'fileTypesForMainViewVideoWindowBig', 'fileTypesForMainViewVideoWindowSmall',
+					 'fileTypesForMainViewVideoFullscreen']:
+			# Hack - class attribute fileTypesForXXX doesn't match XML key fileTypeForXXX
+			val = self.readFileTypeForElement(fileTypeForRow, attr.replace('fileTypesFor', 'fileTypeFor'), tree)
+			log.debug("Reading imageplacing for {0}: {1}".format(attr, val))
+			setattr(imagePlacing, attr, val)
 			
 		return imagePlacing, ''
 	
