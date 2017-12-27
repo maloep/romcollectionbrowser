@@ -93,7 +93,7 @@ class ConfigXmlWriter(RcbXmlReaderWriter):
 				SubElement(romCollectionXml, 'imagePlacingInfo').text = 'gameinfosmall'
 			
 			if(romCollection.scraperSites == None or len(romCollection.scraperSites) == 0):
-				for s in ['thegamesdb.net', 'archive.vg', 'mobygames']:
+				for s in ['thegamesdb.net', 'archive.vg', 'mobygames.com']:
 					SubElement(romCollectionXml, 'scraper', {'name': s, 'replaceKeyString': '', 'replaceValueString': ''})
 			else:
 				for scraperSite in romCollection.scraperSites:
