@@ -26,7 +26,7 @@ class ConfigXmlWriter(RcbXmlReaderWriter):
 			return False, util.localize(32003)
 		
 		self.tree = ElementTree().parse(configFile)
-	
+
 	
 	def writeRomCollections(self, romCollections, isEdit):
 				
@@ -45,16 +45,14 @@ class ConfigXmlWriter(RcbXmlReaderWriter):
 			Logutil.log('write Rom Collection: ' +str(romCollection.name), util.LOG_LEVEL_INFO)
 			
 			romCollectionXml = SubElement(romCollectionsXml, 'RomCollection', {'id' : str(romCollection.id), 'name' : romCollection.name})
-			SubElement(romCollectionXml, 'useBuiltinEmulator').text = str(romCollection.useBuiltinEmulator)
-			SubElement(romCollectionXml, 'gameclient').text = romCollection.gameclient
-			SubElement(romCollectionXml, 'emulatorCmd').text = romCollection.emulatorCmd
-			SubElement(romCollectionXml, 'emulatorParams').text = romCollection.emulatorParams
+
+			# String attributes
+			for e in ['gameclient', 'emulatorCmd', 'emulatorParams', 'preCmd', 'postCmd',
+					  'saveStatePath', 'saveStateParams']:
+				SubElement(romCollectionXml, e).text = getattr(romCollection, e)
 			
 			for romPath in romCollection.romPaths:
 				SubElement(romCollectionXml, 'romPath').text = romPath
-							
-			SubElement(romCollectionXml, 'saveStatePath').text = romCollection.saveStatePath
-			SubElement(romCollectionXml, 'saveStateParams').text = romCollection.saveStateParams
 				
 			for mediaPath in romCollection.mediaPaths:
 				
@@ -62,21 +60,14 @@ class ConfigXmlWriter(RcbXmlReaderWriter):
 				if(not success):
 					return False, message								
 												
-				SubElement(romCollectionXml, 'mediaPath', {'type' : mediaPath.fileType.name}).text = mediaPath.path
-				
-			SubElement(romCollectionXml, 'preCmd').text = romCollection.preCmd
-			SubElement(romCollectionXml, 'postCmd').text = romCollection.postCmd
-			SubElement(romCollectionXml, 'useEmuSolo').text = str(romCollection.useEmuSolo)
-			SubElement(romCollectionXml, 'usePopen').text = str(romCollection.usePopen)
-			SubElement(romCollectionXml, 'ignoreOnScan').text = str(romCollection.ignoreOnScan)
-			SubElement(romCollectionXml, 'allowUpdate').text = str(romCollection.allowUpdate)
-			SubElement(romCollectionXml, 'autoplayVideoMain').text = str(romCollection.autoplayVideoMain)
-			SubElement(romCollectionXml, 'autoplayVideoInfo').text = str(romCollection.autoplayVideoInfo)
-			SubElement(romCollectionXml, 'useFoldernameAsGamename').text = str(romCollection.useFoldernameAsGamename)
-			SubElement(romCollectionXml, 'maxFolderDepth').text = str(romCollection.maxFolderDepth)
-			SubElement(romCollectionXml, 'doNotExtractZipFiles').text = str(romCollection.doNotExtractZipFiles)
-			SubElement(romCollectionXml, 'makeLocalCopy').text = str(romCollection.makeLocalCopy)
-			SubElement(romCollectionXml, 'diskPrefix').text = str(romCollection.diskPrefix)
+				SubElement(romCollectionXml, 'mediaPath', {'type': mediaPath.fileType.name}).text = mediaPath.path
+
+			# Non-string attributes
+			for e in ['useBuiltinEmulator', 'useEmuSolo', 'usePopen', 'ignoreOnScan', 'allowUpdate', 'autoplayVideoMain',
+					  'autoplayVideoInfo', 'useFoldernameAsGamename', 'maxFolderDepth', 'doNotExtractZipFiles',
+					  'makeLocalCopy', 'diskPrefix']:
+				SubElement(romCollectionXml, e).text = str(getattr(romCollection, e))
+
 				
 			#image placing
 			if(not self.createNew):
@@ -102,9 +93,8 @@ class ConfigXmlWriter(RcbXmlReaderWriter):
 				SubElement(romCollectionXml, 'imagePlacingInfo').text = 'gameinfosmall'
 			
 			if(romCollection.scraperSites == None or len(romCollection.scraperSites) == 0):
-				SubElement(romCollectionXml, 'scraper', {'name' : 'thegamesdb.net', 'replaceKeyString' : '', 'replaceValueString' : ''})
-				SubElement(romCollectionXml, 'scraper', {'name' : 'archive.vg', 'replaceKeyString' : '', 'replaceValueString' : ''})
-				SubElement(romCollectionXml, 'scraper', {'name' : 'mobygames.com', 'replaceKeyString' : '', 'replaceValueString' : ''})
+				for s in ['thegamesdb.net', 'archive.vg', 'mobygames']:
+					SubElement(romCollectionXml, 'scraper', {'name': s, 'replaceKeyString': '', 'replaceValueString': ''})
 			else:
 				for scraperSite in romCollection.scraperSites:
 				
