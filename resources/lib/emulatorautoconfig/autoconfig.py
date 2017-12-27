@@ -1,7 +1,7 @@
 
 import os, sys
 import xml.etree.ElementTree as ET
-from ..rcbxmlreaderwriter import RcbXmlReaderWriter
+from rcbxmlreaderwriter import RcbXmlReaderWriter
 
 class OperatingSystem(object):
     def __init__(self):
