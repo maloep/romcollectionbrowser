@@ -332,7 +332,7 @@ class ConfigxmlUpdater(RcbXmlReaderWriter):
 	def writeFile(self):
 		#write file		
 		try:
-			util.indentXml(self.tree)
+			self.indentXml(self.tree)
 			treeToWrite = ElementTree(self.tree)			
 			treeToWrite.write(self.configFile)
 			

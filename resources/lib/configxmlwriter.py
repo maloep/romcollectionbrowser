@@ -358,7 +358,7 @@ class ConfigXmlWriter(RcbXmlReaderWriter):
 		try:
 			configFile = util.getConfigXmlPath()
 			
-			util.indentXml(self.tree)
+			self.indentXml(self.tree)
 			treeToWrite = ElementTree(self.tree)			
 			treeToWrite.write(configFile)
 			

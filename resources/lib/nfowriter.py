@@ -154,7 +154,7 @@ class NfoWriter(RcbXmlReaderWriter):
 		
 		#write file		
 		try:
-			util.indentXml(root)
+			self.indentXml(root)
 			tree = ElementTree(root)
 			
 			nfoFile = self.getNfoFilePath(romCollectionName, romFile, gameNameFromFile)
