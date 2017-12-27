@@ -16,7 +16,6 @@ CONTROL_BUTTON_OK = 5300
 CONTROL_BUTTON_CANCEL = 5310
 
 CONTROL_LIST_ROMCOLLECTIONS = 5210
-CONTROL_LIST_SCRAPEMODE = 5220
 CONTROL_LIST_FUZZYFACTOR = 5260
 CONTROL_LIST_SCRAPER1 = 5270
 CONTROL_LIST_SCRAPER2 = 5280
@@ -54,9 +53,6 @@ class ImportOptionsDialog(xbmcgui.WindowXMLDialog):
 			self.setFocus(self.getControl(CONTROL_BUTTON_SCRAPEMODE_UP))
 		else:
 			xbmc.executebuiltin('Skin.Reset(%s)' % util.SETTING_RCB_IMPORTOPTIONS_DISABLEROMCOLLECTIONS)
-		
-		# Scraping modes
-		self.addItemsToList(CONTROL_LIST_SCRAPEMODE, ['Automatic: Accurate', 'Automatic: Guess Matches', 'Interactive: Select Matches'])
 
 		sitesInList = self.getAvailableScrapers()
 
@@ -170,16 +166,10 @@ class ImportOptionsDialog(xbmcgui.WindowXMLDialog):
 				break
 			
 	def doImport(self):
-		# Get selected Scraping mode
-		control = self.getControlById(CONTROL_LIST_SCRAPEMODE)
-		scrapingMode = control.getSelectedPosition()
-		
-		log.debug('Selected scraping mode: {0}'.format(scrapingMode))
-		
 		romCollections, statusOk = self.setScrapersInConfig()
-		
+
 		if statusOk:
-			self.gui.doImport(scrapingMode, romCollections, self.isRescrape)
+			self.gui.doImport(romCollections, self.isRescrape)
 		
 	def setScrapersInConfig(self):
 		# Read selected Rom Collection
