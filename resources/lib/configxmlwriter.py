@@ -4,10 +4,11 @@ import util
 from util import *
 import config
 from config import *
+from rcbxmlreaderwriter import RcbXmlReaderWriter
 from xml.etree.ElementTree import *
 
 
-class ConfigXmlWriter:
+class ConfigXmlWriter(RcbXmlReaderWriter):
 	
 	def __init__(self, createNew):
 		

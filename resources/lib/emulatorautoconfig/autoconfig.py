@@ -1,6 +1,7 @@
 
 import os, sys
 import xml.etree.ElementTree as ET
+from ..rcbxmlreaderwriter import RcbXmlReaderWriter
 
 class OperatingSystem(object):
     def __init__(self):
@@ -44,7 +45,7 @@ class Emulator(object):
         return "<Emulator: %s>" % self.__dict__
 
 
-class EmulatorAutoconfig(object):
+class EmulatorAutoconfig(RcbXmlReaderWriter):
     def __init__(self, configFile):
         self.configFile = configFile
         self.tree = None

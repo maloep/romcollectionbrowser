@@ -7,9 +7,10 @@ import util
 from gamedatabase import *
 from xml.etree.ElementTree import *
 from config import ImagePlacing
+from rcbxmlreaderwriter import RcbXmlReaderWriter
 
 
-class ConfigxmlUpdater:
+class ConfigxmlUpdater(RcbXmlReaderWriter):
 	
 	tree = None
 	configFile = util.getConfigXmlPath()

@@ -4,6 +4,7 @@ import util
 import urllib
 import helper
 from util import *
+from rcbxmlreaderwriter import RcbXmlReaderWriter
 from xml.etree.ElementTree import *
 from util import Logutil as log
 
@@ -571,7 +572,7 @@ class RomCollection(object):
 
 		return gamename
 
-class Config(object):
+class Config(RcbXmlReaderWriter):
 	"""
 	romCollections: A dict of all the RomCollections added by the user, with key being the numeric ID cast as a string
 	scraperSites: A list of all the available Sites/Scrapers
