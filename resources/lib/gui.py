@@ -614,19 +614,12 @@ class UIGameDB(xbmcgui.WindowXML):
 		if selectedCharacter == util.localize(32120):    # All
 			likeStatement = "0 = 0"
 		elif selectedCharacter == '0-9':
-
-			likeStatement = '('
-			for i in range(0, 10):
-				likeStatement += "name LIKE '%s'" % (str(i) + '%')
-				if i != 9:
-					likeStatement += ' or '
-
-			likeStatement += ')'
+			likeStatement = "(name REGEXP '^[0-9]')"
 		else:
-			likeStatement = "name LIKE '%s'" % (selectedCharacter + '%')
+			likeStatement = "name LIKE '{0}%'".format(selectedCharacter)
 
 		if searchTerm != '':
-			likeStatement += " AND name LIKE '%s'" % ('%' + searchTerm + '%')
+			likeStatement += " AND name LIKE '%{0}%'".format(searchTerm)
 
 		return likeStatement
 
