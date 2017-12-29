@@ -4,10 +4,11 @@ import util
 from util import *
 import config
 from config import *
+from rcbxmlreaderwriter import RcbXmlReaderWriter
 from xml.etree.ElementTree import *
 
 
-class ConfigXmlWriter:
+class ConfigXmlWriter(RcbXmlReaderWriter):
 	
 	def __init__(self, createNew):
 		
@@ -25,8 +26,64 @@ class ConfigXmlWriter:
 			return False, util.localize(32003)
 		
 		self.tree = ElementTree().parse(configFile)
-	
-	
+
+	""" Functions for generating XML objects from objects """
+	def getXmlAttributesForRomCollection(self, rc):
+		return {'id': str(rc.id), 'name': rc.name}
+
+	def getXmlElementsForRomCollection(self, rc):
+		elements = []
+		# String attributes
+		for e in ['gameclient', 'emulatorCmd', 'emulatorParams', 'preCmd', 'postCmd',
+				  'saveStatePath', 'saveStateParams']:
+			try:
+				el = Element(e, {})
+				el.text = getattr(rc, e)
+				elements.append(el)
+			except Exception as e:
+				# Skip any errors
+				pass
+
+		# Non-string attributes
+		for e in ['useBuiltinEmulator', 'useEmuSolo', 'usePopen', 'ignoreOnScan', 'allowUpdate', 'autoplayVideoMain',
+				  'autoplayVideoInfo', 'useFoldernameAsGamename', 'maxFolderDepth', 'doNotExtractZipFiles',
+				  'makeLocalCopy', 'diskPrefix']:
+			try:
+				el = Element(e, {})
+				el.text = str(getattr(rc, e))
+				elements.append(el)
+			except Exception as e:
+				# Skip any errors
+				pass
+
+		for romPath in rc.romPaths:
+			el = Element('romPath', {})
+			el.text = romPath
+			elements.append(el)
+
+		return elements
+
+	def getXmlAttributesForSite(self, site):
+		attrs = {'name': site.name,
+				 'descFilePerGame': str(site.descFilePerGame),
+				 'searchGameByCRC': str(site.searchGameByCRC),
+				 'useFoldernameAsCRC': str(site.useFoldernameAsCRC),
+				 'useFilenameAsCRC': str(site.useFilenameAsCRC)}
+		return attrs
+
+	def getXmlElementsForSite(self, site):
+		""" Not needed """
+		pass
+
+	def getXmlAttributesForScraper(self, scraper):
+		attrs = {'parseInstruction': scraper.parseInstruction,
+				 'source': scraper.source,
+				 'encoding': scraper.encoding,
+				 'returnUrl': str(scraper.returnUrl)
+				 }
+		return attrs
+
+
 	def writeRomCollections(self, romCollections, isEdit):
 				
 		Logutil.log('write Rom Collections', util.LOG_LEVEL_INFO)
@@ -42,40 +99,20 @@ class ConfigXmlWriter:
 		for romCollection in romCollections.values():
 			
 			Logutil.log('write Rom Collection: ' +str(romCollection.name), util.LOG_LEVEL_INFO)
-			
-			romCollectionXml = SubElement(romCollectionsXml, 'RomCollection', {'id' : str(romCollection.id), 'name' : romCollection.name})
-			SubElement(romCollectionXml, 'useBuiltinEmulator').text = str(romCollection.useBuiltinEmulator)
-			SubElement(romCollectionXml, 'gameclient').text = romCollection.gameclient
-			SubElement(romCollectionXml, 'emulatorCmd').text = romCollection.emulatorCmd
-			SubElement(romCollectionXml, 'emulatorParams').text = romCollection.emulatorParams
-			
-			for romPath in romCollection.romPaths:
-				SubElement(romCollectionXml, 'romPath').text = romPath
-							
-			SubElement(romCollectionXml, 'saveStatePath').text = romCollection.saveStatePath
-			SubElement(romCollectionXml, 'saveStateParams').text = romCollection.saveStateParams
-				
+
+			romCollectionXml = SubElement(romCollectionsXml, 'RomCollection', self.getXmlAttributesForRomCollection(romCollection))
+
+			for subel in self.getXmlElementsForRomCollection(romCollection):
+				romCollectionXml.append(subel)
+
+
 			for mediaPath in romCollection.mediaPaths:
 				
 				success, message = self.searchConfigObjects('FileTypes/FileType', mediaPath.fileType.name, 'FileType')
 				if(not success):
 					return False, message								
 												
-				SubElement(romCollectionXml, 'mediaPath', {'type' : mediaPath.fileType.name}).text = mediaPath.path
-				
-			SubElement(romCollectionXml, 'preCmd').text = romCollection.preCmd
-			SubElement(romCollectionXml, 'postCmd').text = romCollection.postCmd
-			SubElement(romCollectionXml, 'useEmuSolo').text = str(romCollection.useEmuSolo)
-			SubElement(romCollectionXml, 'usePopen').text = str(romCollection.usePopen)
-			SubElement(romCollectionXml, 'ignoreOnScan').text = str(romCollection.ignoreOnScan)
-			SubElement(romCollectionXml, 'allowUpdate').text = str(romCollection.allowUpdate)
-			SubElement(romCollectionXml, 'autoplayVideoMain').text = str(romCollection.autoplayVideoMain)
-			SubElement(romCollectionXml, 'autoplayVideoInfo').text = str(romCollection.autoplayVideoInfo)
-			SubElement(romCollectionXml, 'useFoldernameAsGamename').text = str(romCollection.useFoldernameAsGamename)
-			SubElement(romCollectionXml, 'maxFolderDepth').text = str(romCollection.maxFolderDepth)
-			SubElement(romCollectionXml, 'doNotExtractZipFiles').text = str(romCollection.doNotExtractZipFiles)
-			SubElement(romCollectionXml, 'makeLocalCopy').text = str(romCollection.makeLocalCopy)
-			SubElement(romCollectionXml, 'diskPrefix').text = str(romCollection.diskPrefix)
+				SubElement(romCollectionXml, 'mediaPath', {'type': mediaPath.fileType.name}).text = mediaPath.path
 				
 			#image placing
 			if(not self.createNew):
@@ -101,9 +138,8 @@ class ConfigXmlWriter:
 				SubElement(romCollectionXml, 'imagePlacingInfo').text = 'gameinfosmall'
 			
 			if(romCollection.scraperSites == None or len(romCollection.scraperSites) == 0):
-				SubElement(romCollectionXml, 'scraper', {'name' : 'thegamesdb.net', 'replaceKeyString' : '', 'replaceValueString' : ''})
-				SubElement(romCollectionXml, 'scraper', {'name' : 'archive.vg', 'replaceKeyString' : '', 'replaceValueString' : ''})
-				SubElement(romCollectionXml, 'scraper', {'name' : 'mobygames.com', 'replaceKeyString' : '', 'replaceValueString' : ''})
+				for s in ['thegamesdb.net', 'archive.vg', 'mobygames.com']:
+					SubElement(romCollectionXml, 'scraper', {'name': s, 'replaceKeyString': '', 'replaceValueString': ''})
 			else:
 				for scraperSite in romCollection.scraperSites:
 				
@@ -128,14 +164,7 @@ class ConfigXmlWriter:
 						
 					if not siteExists:
 						#HACK: this only covers the first scraper (for offline scrapers)
-						site = SubElement(scrapersXml, 'Site', 
-							{ 
-							'name' : scraperSite.name,
-							'descFilePerGame' : str(scraperSite.descFilePerGame),
-							'searchGameByCRC' : str(scraperSite.searchGameByCRC),
-							'useFoldernameAsCRC' : str(scraperSite.useFoldernameAsCRC),
-							'useFilenameAsCRC' : str(scraperSite.useFilenameAsCRC)
-							})
+						site = SubElement(scrapersXml, 'Site', self.getXmlAttributesForSite(scraperSite))
 																		
 						scraper = scraperSite.scrapers[0]
 						
@@ -169,14 +198,7 @@ class ConfigXmlWriter:
 				Logutil.log('None scraper will be skipped', util.LOG_LEVEL_INFO)
 				continue
 			
-			scraperSiteXml = SubElement(scraperSitesXml, 'Site', 
-					{ 
-					'name' : scraperSite.name,
-					'descFilePerGame' : str(scraperSite.descFilePerGame),
-					'searchGameByCRC' : str(scraperSite.searchGameByCRC),
-					'useFoldernameAsCRC' : str(scraperSite.useFoldernameAsCRC),
-					'useFilenameAsCRC' : str(scraperSite.useFilenameAsCRC)
-					})
+			scraperSiteXml = SubElement(scraperSitesXml, 'Site', self.getXmlAttributesForSite(scraperSite))
 			
 			for scraper in scraperSite.scrapers:
 				
@@ -186,13 +208,7 @@ class ConfigXmlWriter:
 				if(pathParts[0].upper() == rcbScraperPath.upper()):
 					scraper.parseInstruction = pathParts[1]
 				
-				scraperXml = SubElement(scraperSiteXml, 'Scraper', 
-					{ 
-					'parseInstruction' : scraper.parseInstruction,
-					'source' : scraper.source,
-					'encoding' : scraper.encoding,
-					'returnUrl' : str(scraper.returnUrl)
-					})
+				scraperXml = SubElement(scraperSiteXml, 'Scraper', self.getXmlAttributesForScraper(scraper))
 		
 		success, message = self.writeFile()
 		return success, message
@@ -322,42 +338,38 @@ class ConfigXmlWriter:
 				
 		if not cabinetExists:
 			fileTypeFor = SubElement(imagePlacingXml, 'fileTypeFor', {'name' : 'gameinfomamecabinet'})
-			SubElement(fileTypeFor, 'fileTypeForGameList').text = 'cabinet'
-			SubElement(fileTypeFor, 'fileTypeForGameList').text = 'boxfront'
-			SubElement(fileTypeFor, 'fileTypeForGameList').text = 'title'
-			SubElement(fileTypeFor, 'fileTypeForGameListSelected').text = 'cabinet'
-			SubElement(fileTypeFor, 'fileTypeForGameListSelected').text = 'boxfront'
-			SubElement(fileTypeFor, 'fileTypeForGameListSelected').text = 'title'			
-			SubElement(fileTypeFor, 'fileTypeForMainViewBackground').text = 'boxfront'
-			SubElement(fileTypeFor, 'fileTypeForMainViewBackground').text = 'title'
-			SubElement(fileTypeFor, 'fileTypeForMainViewBackground').text = 'action'
+			for imgtype in ['cabinet', 'boxfront', 'title']:
+				SubElement(fileTypeFor, 'fileTypeForGameList').text = imgtype
+				SubElement(fileTypeFor, 'fileTypeForGameListSelected').text = imgtype
+
+			for imgtype in ['boxfront', 'title', 'action']:
+				SubElement(fileTypeFor, 'fileTypeForMainViewBackground').text = imgtype
+
 			SubElement(fileTypeFor, 'fileTypeForMainViewGameInfoUpperLeft').text = 'title'
 			SubElement(fileTypeFor, 'fileTypeForMainViewGameInfoUpperRight').text = 'action'
 			SubElement(fileTypeFor, 'fileTypeForMainViewGameInfoLower').text = 'marquee'
 			
 		if not marqueeExists:
 			fileTypeFor = SubElement(imagePlacingXml, 'fileTypeFor', {'name' : 'gameinfomamemarquee'})
-			SubElement(fileTypeFor, 'fileTypeForGameList').text = 'marquee'
-			SubElement(fileTypeFor, 'fileTypeForGameList').text = 'boxfront'
-			SubElement(fileTypeFor, 'fileTypeForGameList').text = 'title'
-			SubElement(fileTypeFor, 'fileTypeForGameListSelected').text = 'marquee'
-			SubElement(fileTypeFor, 'fileTypeForGameListSelected').text = 'boxfront'
-			SubElement(fileTypeFor, 'fileTypeForGameListSelected').text = 'title'			
-			SubElement(fileTypeFor, 'fileTypeForMainViewBackground').text = 'boxfront'
-			SubElement(fileTypeFor, 'fileTypeForMainViewBackground').text = 'title'
-			SubElement(fileTypeFor, 'fileTypeForMainViewBackground').text = 'action'
+			for imgtype in ['marquee', 'boxfront', 'title']:
+				SubElement(fileTypeFor, 'fileTypeForGameList').text = imgtype
+				SubElement(fileTypeFor, 'fileTypeForGameListSelected').text = imgtype
+
+			for imgtype in ['boxfront', 'title', 'action']:
+				SubElement(fileTypeFor, 'fileTypeForMainViewBackground').text = imgtype
+
 			SubElement(fileTypeFor, 'fileTypeForMainViewGameInfoLeft').text = 'cabinet'
 			SubElement(fileTypeFor, 'fileTypeForMainViewGameInfoUpperRight').text = 'action'
 			SubElement(fileTypeFor, 'fileTypeForMainViewGameInfoLowerRight').text = 'title'
 		
-						
+	# FIXME TODO This function is only called within this class - raise exception rather than return tuple
 	def writeFile(self):
 		Logutil.log('writeFile', util.LOG_LEVEL_INFO)
 		#write file
 		try:
 			configFile = util.getConfigXmlPath()
 			
-			util.indentXml(self.tree)
+			self.indentXml(self.tree)
 			treeToWrite = ElementTree(self.tree)			
 			treeToWrite.write(configFile)
 			

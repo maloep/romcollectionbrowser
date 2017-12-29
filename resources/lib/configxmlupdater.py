@@ -7,9 +7,10 @@ import util
 from gamedatabase import *
 from xml.etree.ElementTree import *
 from config import ImagePlacing
+from rcbxmlreaderwriter import RcbXmlReaderWriter
 
 
-class ConfigxmlUpdater:
+class ConfigxmlUpdater(RcbXmlReaderWriter):
 	
 	tree = None
 	configFile = util.getConfigXmlPath()
@@ -331,7 +332,7 @@ class ConfigxmlUpdater:
 	def writeFile(self):
 		#write file		
 		try:
-			util.indentXml(self.tree)
+			self.indentXml(self.tree)
 			treeToWrite = ElementTree(self.tree)			
 			treeToWrite.write(self.configFile)
 			

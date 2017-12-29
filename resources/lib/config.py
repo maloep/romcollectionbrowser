@@ -4,6 +4,7 @@ import util
 import urllib
 import helper
 from util import *
+from rcbxmlreaderwriter import RcbXmlReaderWriter
 from xml.etree.ElementTree import *
 from util import Logutil as log
 
@@ -571,7 +572,7 @@ class RomCollection(object):
 
 		return gamename
 
-class Config(object):
+class Config(RcbXmlReaderWriter):
 	"""
 	romCollections: A dict of all the RomCollections added by the user, with key being the numeric ID cast as a string
 	scraperSites: A list of all the available Sites/Scrapers
@@ -674,7 +675,26 @@ class Config(object):
 		self.missingFilterArtwork = self.readMissingFilter('missingArtworkFilter', missingFilter)
 		
 		return True, ''
-		
+
+	""" FIXME TODO This function is not used """
+	def backupConfigXml(self):
+		# backup config.xml for later use (will be overwritten in case of an addon update)
+		configXml = util.getConfigXmlPath()
+		configXmlBackup = os.path.join(util.getAddonDataPath(), 'config.xml.backup')
+
+		if os.path.isfile(configXmlBackup):
+			try:
+				os.remove(configXmlBackup)
+			except Exception, (exc):
+				Logutil.log("Cannot remove config.xml backup: " + str(exc), util.LOG_LEVEL_ERROR)
+				return
+
+		try:
+			shutil.copy(configXml, configXmlBackup)
+		except Exception, (exc):
+			Logutil.log("Cannot backup config.xml: " + str(exc), util.LOG_LEVEL_ERROR)
+			return
+
 	def readRomCollections(self, tree):
 		"""
 		Parses the config XML tree and extract the RomCollection objects into a dict.
@@ -883,18 +903,15 @@ class Config(object):
 		fileType = FileType()
 		fileType.name = name
 
-		if 'id' not in fileTypeRow.attrib:
-			Logutil.log('Configuration error. FileType %s must have an id' %name, util.LOG_LEVEL_ERROR)
+		try:
+			fileType.id = fileTypeRow.attrib.get('id')
+			fileType.type = fileTypeRow.find('type').text
+			fileType.parent = fileTypeRow.find('parent').text
+		except KeyError as e:
+			Logutil.log('Configuration error. FileType %s must have an id' % name, util.LOG_LEVEL_ERROR)
 			return None, util.localize(32005)
-		fileType.id = fileTypeRow.attrib.get('id')
-		
-		type = fileTypeRow.find('type')
-		if(type != None):
-			fileType.type = type.text
-			
-		parent = fileTypeRow.find('parent')
-		if(parent != None):
-			fileType.parent = parent.text
+		except AttributeError as e:
+			pass
 			
 		return fileType, ''
 		
@@ -911,27 +928,20 @@ class Config(object):
 		imagePlacing = ImagePlacing()
 		
 		imagePlacing.name = imagePlacingName
-			
-		imagePlacing.fileTypesForGameList = self.readFileTypeForElement(fileTypeForRow, 'fileTypeForGameList', tree)
-		imagePlacing.fileTypesForGameListSelected = self.readFileTypeForElement(fileTypeForRow, 'fileTypeForGameListSelected', tree)
-		imagePlacing.fileTypesForMainView1 = self.readFileTypeForElement(fileTypeForRow, 'fileTypeForMainView1', tree)
-		imagePlacing.fileTypesForMainView2 = self.readFileTypeForElement(fileTypeForRow, 'fileTypeForMainView2', tree)
-		imagePlacing.fileTypesForMainView3 = self.readFileTypeForElement(fileTypeForRow, 'fileTypeForMainView3', tree)
-		imagePlacing.fileTypesForMainViewBackground = self.readFileTypeForElement(fileTypeForRow, 'fileTypeForMainViewBackground', tree)
-		imagePlacing.fileTypesForMainViewGameInfoBig = self.readFileTypeForElement(fileTypeForRow, 'fileTypeForMainViewGameInfoBig', tree)
-		imagePlacing.fileTypesForMainViewGameInfoUpperLeft = self.readFileTypeForElement(fileTypeForRow, 'fileTypeForMainViewGameInfoUpperLeft', tree)
-		imagePlacing.fileTypesForMainViewGameInfoUpperRight = self.readFileTypeForElement(fileTypeForRow, 'fileTypeForMainViewGameInfoUpperRight', tree)
-		imagePlacing.fileTypesForMainViewGameInfoLowerLeft = self.readFileTypeForElement(fileTypeForRow, 'fileTypeForMainViewGameInfoLowerLeft', tree)
-		imagePlacing.fileTypesForMainViewGameInfoLowerRight = self.readFileTypeForElement(fileTypeForRow, 'fileTypeForMainViewGameInfoLowerRight', tree)
-		
-		imagePlacing.fileTypesForMainViewGameInfoLower = self.readFileTypeForElement(fileTypeForRow, 'fileTypeForMainViewGameInfoLower', tree)
-		imagePlacing.fileTypesForMainViewGameInfoUpper = self.readFileTypeForElement(fileTypeForRow, 'fileTypeForMainViewGameInfoUpper', tree)
-		imagePlacing.fileTypesForMainViewGameInfoRight = self.readFileTypeForElement(fileTypeForRow, 'fileTypeForMainViewGameInfoRight', tree)
-		imagePlacing.fileTypesForMainViewGameInfoLeft = self.readFileTypeForElement(fileTypeForRow, 'fileTypeForMainViewGameInfoLeft', tree)
-		
-		imagePlacing.fileTypesForMainViewVideoWindowBig = self.readFileTypeForElement(fileTypeForRow, 'fileTypeForMainViewVideoWindowBig', tree)
-		imagePlacing.fileTypesForMainViewVideoWindowSmall = self.readFileTypeForElement(fileTypeForRow, 'fileTypeForMainViewVideoWindowSmall', tree)
-		imagePlacing.fileTypesForMainViewVideoFullscreen = self.readFileTypeForElement(fileTypeForRow, 'fileTypeForMainViewVideoFullscreen', tree)
+
+		for attr in ['fileTypesForGameList', 'fileTypesForGameListSelected',
+					 'fileTypesForMainView1', 'fileTypesForMainView2', 'fileTypesForMainView3',
+					 'fileTypesForMainViewBackground', 'fileTypesForMainViewGameInfoBig',
+					 'fileTypesForMainViewGameInfoUpperLeft', 'fileTypesForMainViewGameInfoUpperRight',
+					 'fileTypesForMainViewGameInfoLowerLeft', 'fileTypesForMainViewGameInfoLowerRight',
+					 'fileTypesForMainViewGameInfoLower', 'fileTypesForMainViewGameInfoUpper',
+					 'fileTypesForMainViewGameInfoRight', 'fileTypesForMainViewGameInfoLeft',
+					 'fileTypesForMainViewVideoWindowBig', 'fileTypesForMainViewVideoWindowSmall',
+					 'fileTypesForMainViewVideoFullscreen']:
+			# Hack - class attribute fileTypesForXXX doesn't match XML key fileTypeForXXX
+			val = self.readFileTypeForElement(fileTypeForRow, attr.replace('fileTypesFor', 'fileTypeFor'), tree)
+			log.debug("Reading imageplacing for {0}: {1}".format(attr, val))
+			setattr(imagePlacing, attr, val)
 			
 		return imagePlacing, ''
 	

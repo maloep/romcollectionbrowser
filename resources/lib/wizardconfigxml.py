@@ -5,6 +5,7 @@ import xbmc, xbmcgui, xbmcvfs
 from xml.etree.ElementTree import *
 import config, helper
 from configxmlwriter import *
+from rcbxmlreaderwriter import RcbXmlReaderWriter
 from emulatorautoconfig.autoconfig import EmulatorAutoconfig
 from util import Logutil as log
 
@@ -16,7 +17,7 @@ GAME_DESCRIPTION_SINGLE_FILE = 1     # All game descriptions in a single file, e
 GAME_DESCRIPTION_ONLINE = 2          # Game descriptions to be retrieved from online source
 
 
-class ConfigXmlWizard(object):
+class ConfigXmlWizard(RcbXmlReaderWriter):
 	# FIXME TODO Duplicated in dialogeditromcollection.py. Need a class to handle these, possibly config.py?
 	@property
 	def current_os(self):

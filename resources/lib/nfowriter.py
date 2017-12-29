@@ -8,10 +8,11 @@ import util
 from util import *
 from config import *
 from gamedatabase import *
+from rcbxmlreaderwriter import RcbXmlReaderWriter
 from xml.etree.ElementTree import *
 
 
-class NfoWriter:
+class NfoWriter(RcbXmlReaderWriter):
 	
 	Settings = util.getSettings()
 	
@@ -153,7 +154,7 @@ class NfoWriter:
 		
 		#write file		
 		try:
-			util.indentXml(root)
+			self.indentXml(root)
 			tree = ElementTree(root)
 			
 			nfoFile = self.getNfoFilePath(romCollectionName, romFile, gameNameFromFile)

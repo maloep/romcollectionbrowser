@@ -1579,25 +1579,6 @@ class UIGameDB(xbmcgui.WindowXML):
 			return True
 		
 		return False
-
-	def backupConfigXml(self):
-		#backup config.xml for later use (will be overwritten in case of an addon update)
-		configXml = util.getConfigXmlPath()
-		configXmlBackup = os.path.join(util.getAddonDataPath(), 'config.xml.backup')
-		
-		if os.path.isfile(configXmlBackup):
-			try:
-				os.remove(configXmlBackup)
-			except Exception, (exc):
-				Logutil.log("Cannot remove config.xml backup: " +str(exc), util.LOG_LEVEL_ERROR)
-				return
-		
-		try:
-			shutil.copy(configXml, configXmlBackup)
-		except Exception, (exc):
-			Logutil.log("Cannot backup config.xml: " +str(exc), util.LOG_LEVEL_ERROR)
-			return
-		
 		
 	def saveViewState(self, isOnExit):
 		
