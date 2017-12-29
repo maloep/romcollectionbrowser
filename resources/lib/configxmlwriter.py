@@ -75,6 +75,15 @@ class ConfigXmlWriter(RcbXmlReaderWriter):
 		""" Not needed """
 		pass
 
+	def getXmlAttributesForScraper(self, scraper):
+		attrs = {'parseInstruction': scraper.parseInstruction,
+				 'source': scraper.source,
+				 'encoding': scraper.encoding,
+				 'returnUrl': str(scraper.returnUrl)
+				 }
+		return attrs
+
+
 	def writeRomCollections(self, romCollections, isEdit):
 				
 		Logutil.log('write Rom Collections', util.LOG_LEVEL_INFO)
@@ -199,13 +208,7 @@ class ConfigXmlWriter(RcbXmlReaderWriter):
 				if(pathParts[0].upper() == rcbScraperPath.upper()):
 					scraper.parseInstruction = pathParts[1]
 				
-				scraperXml = SubElement(scraperSiteXml, 'Scraper', 
-					{ 
-					'parseInstruction' : scraper.parseInstruction,
-					'source' : scraper.source,
-					'encoding' : scraper.encoding,
-					'returnUrl' : str(scraper.returnUrl)
-					})
+				scraperXml = SubElement(scraperSiteXml, 'Scraper', self.getXmlAttributesForScraper(scraper))
 		
 		success, message = self.writeFile()
 		return success, message
