@@ -1,5 +1,5 @@
 import os
-
+import xbmcvfs
 import util
 import urllib
 import helper
@@ -611,7 +611,7 @@ class Config(RcbXmlReaderWriter):
 		if(not self.configFile):
 			self.configFile = util.getConfigXmlPath()
 		
-		if(not os.path.isfile(self.configFile)):
+		if(not xbmcvfs.exists(self.configFile)):
 			Logutil.log('File config.xml does not exist. Place a valid config file here: %s' %self.configFile, util.LOG_LEVEL_ERROR)
 			return None, False, util.localize(32003)
 		
@@ -682,9 +682,9 @@ class Config(RcbXmlReaderWriter):
 		configXml = util.getConfigXmlPath()
 		configXmlBackup = os.path.join(util.getAddonDataPath(), 'config.xml.backup')
 
-		if os.path.isfile(configXmlBackup):
+		if xbmcvfs.exists(configXmlBackup):
 			try:
-				os.remove(configXmlBackup)
+				xbmcvfs.delete(configXmlBackup)
 			except Exception, (exc):
 				Logutil.log("Cannot remove config.xml backup: " + str(exc), util.LOG_LEVEL_ERROR)
 				return
@@ -858,11 +858,12 @@ class Config(RcbXmlReaderWriter):
 			
 			parseInstruction = scraperRow.attrib.get('parseInstruction', '')
 			if parseInstruction != '':
-				if not os.path.isabs(parseInstruction):
+				#os.path.isabs does not recognize smb paths
+				if not os.path.isabs(parseInstruction) and not parseInstruction.startswith('smb://'):
 					# If it is a relative path, search in RCBs home directory
 					parseInstruction = os.path.join(util.RCBHOME, 'resources', 'scraper', parseInstruction)
 				
-				if not os.path.isfile(parseInstruction):
+				if not xbmcvfs.exists(parseInstruction):
 					Logutil.log('Configuration error. parseInstruction file %s does not exist.' %parseInstruction, util.LOG_LEVEL_ERROR)
 					return None, util.localize(32005)
 				

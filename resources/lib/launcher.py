@@ -1,4 +1,4 @@
-import xbmc, xbmcgui
+import xbmc, xbmcgui, xbmcvfs
 import os, sys, re
 import dbupdate, util, helper
 from gamedatabase import *
@@ -179,11 +179,11 @@ def __buildCmd(gui, filenameRows, romCollection, gameRow, escapeCmd, calledFromS
 
 		if romCollection.makeLocalCopy:
 			localDir = os.path.join(util.getTempDir(), romCollection.name)
-			if os.path.exists(localDir):
+			if xbmcvfs.exists(localDir):
 				log.info("Trying to delete local rom files")
-				files = os.listdir(localDir)
+				files = xbmcvfs.listdir(localDir)
 				for f in files:
-					os.remove(os.path.join(localDir, f))
+					xbmcvfs.delete(os.path.join(localDir, f))
 			localRom = os.path.join(localDir, os.path.basename(str(rom)))
 			log.info("Creating local copy: " + str(localRom))
 			if xbmcvfs.copy(rom, localRom):
@@ -298,15 +298,15 @@ def __handleCompressedFile(gui, filext, rom, romCollection, emuParams):
 	# Do this before launching a new game. Otherwise game could be deleted before launch
 	tempDir = os.path.join(util.getTempDir(), 'extracted')
 	# check if folder exists
-	if not os.path.isdir(tempDir):
-		os.mkdir(tempDir)
+	if not xbmcvfs.exists(tempDir):
+		xbmcvfs.mkdir(tempDir)
 	
 	try:		
-		if os.path.exists(tempDir):
+		if xbmcvfs.exists(tempDir):
 			log.info("Trying to delete temporary rom files")
-			files = os.listdir(tempDir)
+			files = xbmcvfs.listdir(tempDir)
 			for f in files:
-				os.remove(os.path.join(tempDir, f))
+				xbmcvfs.delete(os.path.join(tempDir, f))
 	except Exception, (exc):
 		log.error("Error deleting files after launch emu: " + str(exc))
 		gui.writeMsg(util.localize(32036) + ": " + str(exc))
@@ -594,6 +594,7 @@ def __getNamesZip(filepath):
 	names = archive.namelist()
 	fp.close()
 	return names
+		
 
 	
 def __getArchives(type, filepath, archiveList):

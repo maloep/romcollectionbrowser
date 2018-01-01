@@ -267,22 +267,38 @@ def selectlibretrocore(platform):
 	selectedCore = ''
 	addons = ['None']
 	
-	success, installedAddons = readLibretroCores()
-	if(not success):
-		return False, ""
-	addons.extend(installedAddons)
-		
+	items = []
+	addonsJson = xbmc.executeJSONRPC('{ "jsonrpc": "2.0", "id": 1, "method": "Addons.GetAddons", "params": { "type": "kodi.gameclient" } }')
+	jsonResult = json.loads(addonsJson)
 	
-	dialog = xbmcgui.Dialog()
-	index = dialog.select('Select libretro core', addons)
-	print "index = " +str(index)
+	Logutil.log("selectlibretrocore: jsonresult = " +str(jsonResult), util.LOG_LEVEL_INFO)	
+	if (str(jsonResult.keys()).find('error') >= 0):
+		Logutil.log("Error while reading gameclient addons via json. Assume that we are not in RetroPlayer branch.", util.LOG_LEVEL_WARNING)
+		return False, None
+	
+	try:
+		for addonObj in jsonResult[u'result'][u'addons']:
+			id = addonObj[u'addonid']
+			addonDetails = xbmc.executeJSONRPC('{ "jsonrpc": "2.0", "id": 1, "method": "Addons.GetAddonDetails", "params": { "addonid": "%s", "properties" : ["name", "thumbnail"] } }' %id)
+			jsonResultDetails = json.loads(addonDetails)
+			Logutil.log("selectlibretrocore: jsonResultDetails = " +str(jsonResultDetails), util.LOG_LEVEL_INFO)
+			
+			name = jsonResultDetails[u'result'][u'addon'][u'name']			
+			thumbnail = jsonResultDetails[u'result'][u'addon'][u'thumbnail']
+			item = xbmcgui.ListItem(name, id, thumbnail)
+			items.append(item)
+	except KeyError:
+		#no addons installed or found
+		return True, addons
+		
+	index = xbmcgui.Dialog().select('Select core', items, useDetails=True)
+	
 	if(index == -1):
 		return False, ""
 	elif(index == 0):
-		print "return success"
 		return True, ""
 	else:
-		selectedCore = addons[index]
+		selectedCore = items[index].getLabel2()
 		return True, selectedCore
 
 
