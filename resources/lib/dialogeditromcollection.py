@@ -162,14 +162,6 @@ class EditRomCollectionDialog(dialogbase.DialogBaseEdit):
 					control.setVisible(False)
 				except AttributeError:
 					pass
-
-		elif not helper.retroPlayerSupportsPythonIntegration():
-			try:
-				control = self.getControlById(CONTROL_BUTTON_GAMECLIENT)
-				control.setEnabled(False)
-				control.setVisible(False)
-			except AttributeError:
-				pass
 		
 		self.updateRomCollectionControls()
 		

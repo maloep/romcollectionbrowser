@@ -244,24 +244,22 @@ def getRCBSetting(gdb):
 
 
 def isRetroPlayerSupported():
-	#HACK: if this json call fails, we are not in RetroPlayer branch
-	addonsJson = xbmc.executeJSONRPC('{ "jsonrpc": "2.0", "id": 1, "method": "Addons.GetAddons", "params": { "type": "xbmc.gameclient"} }')
-	jsonResult = json.loads(addonsJson)
-	if (str(jsonResult.keys()).find('error') >= 0):
-		Logutil.log("Error while reading gameclient addons via json. Assume that we are not in RetroPlayer branch.", util.LOG_LEVEL_WARNING)
-		return False
-	return True
-
-
-def retroPlayerSupportsPythonIntegration():
-	#HACK: if this fails, RetroPlayer branch does not support python integration
-	addon = xbmcaddon.Addon(id=util.SCRIPTID)
+	
+	Logutil.log("Begin isRetroPlayerSupported", util.LOG_LEVEL_INFO)
+	
+	kodiVersion = KodiVersions.getKodiVersion()
+	Logutil.log("Kodi Version = " +str(kodiVersion), util.LOG_LEVEL_INFO)
+	
 	try:
-		platforms = addon.getAddonInfo('platforms')
-	except RuntimeError:
-		Logutil.log("Error while reading platforms from addon. Assume that we are not in RetroPlayer branch.", util.LOG_LEVEL_WARNING)
+		if KodiVersions.getKodiVersion() > KodiVersions.KRYPTON:
+			Logutil.log("RetroPlayer is supported", util.LOG_LEVEL_INFO)
+			return True
+	except:
+		Logutil.log("RetroPlayer is not supported", util.LOG_LEVEL_INFO)
 		return False
-	return True
+		
+	Logutil.log("RetroPlayer is not supported", util.LOG_LEVEL_INFO)
+	return False
 
 
 def selectlibretrocore(platform):
@@ -269,15 +267,11 @@ def selectlibretrocore(platform):
 	selectedCore = ''
 	addons = ['None']
 	
-	success, installedAddons = readLibretroCores("all", True, platform)
+	success, installedAddons = readLibretroCores()
 	if(not success):
 		return False, ""
 	addons.extend(installedAddons)
-	
-	success, uninstalledAddons = readLibretroCores("uninstalled", False, platform)
-	if(not success):
-		return False, ""
-	addons.extend(uninstalledAddons)
+		
 	
 	dialog = xbmcgui.Dialog()
 	index = dialog.select('Select libretro core', addons)
@@ -292,13 +286,14 @@ def selectlibretrocore(platform):
 		return True, selectedCore
 
 
-def readLibretroCores(enabledParam, installedParam, platform):
+def readLibretroCores():
 	
 	Logutil.log("readLibretroCores", util.LOG_LEVEL_INFO)
 		
 	addons = []
-	addonsJson = xbmc.executeJSONRPC('{ "jsonrpc": "2.0", "id": 1, "method": "Addons.GetAddons", "params": { "type": "xbmc.gameclient", "enabled": "%s" } }' %enabledParam)
-	jsonResult = json.loads(addonsJson)	
+	addonsJson = xbmc.executeJSONRPC('{ "jsonrpc": "2.0", "id": 1, "method": "Addons.GetAddons", "params": { "type": "kodi.gameclient" } }')
+	jsonResult = json.loads(addonsJson)
+	Logutil.log("readLibretroCores: jsonresult = " +str(jsonResult), util.LOG_LEVEL_INFO)	
 	if (str(jsonResult.keys()).find('error') >= 0):
 		Logutil.log("Error while reading gameclient addons via json. Assume that we are not in RetroPlayer branch.", util.LOG_LEVEL_WARNING)
 		return False, None
@@ -306,13 +301,7 @@ def readLibretroCores(enabledParam, installedParam, platform):
 	try:
 		for addonObj in jsonResult[u'result'][u'addons']:
 			id = addonObj[u'addonid']
-			addon = xbmcaddon.Addon(id, installed=installedParam)
-			# extensions and platforms are "|" separated, extensions may or may not have a leading "."
-			addonPlatformStr = addon.getAddonInfo('platforms')
-			addonPlatforms = addonPlatformStr.split("|")
-			for addonPlatform in addonPlatforms:
-				if(addonPlatform == platform):
-					addons.append(id)
+			addons.append(id)
 	except KeyError:
 		#no addons installed or found
 		return True, addons

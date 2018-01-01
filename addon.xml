@@ -7,7 +7,7 @@
   <requires>
     <!-- Require Kodi Krypton or above -->
     <import addon="xbmc.addon" version="17.0.0"/>
-    <import addon="xbmc.gui" version="5.12.0"/>
+    <!--<import addon="xbmc.gui" version="5.12.0"/>-->
     <import addon="xbmc.python" version="2.25.0"/>
     <import addon="service.rom.collection.browser" version="1.0.0"/>
   </requires>

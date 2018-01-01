@@ -1212,13 +1212,9 @@ class UIGameDB(xbmcgui.WindowXML):
 		fileDict = self.getFileDictForGamelist()
 		
 		self.saveViewMode()
-		
-		video = ''
+				
 		if(self.player.isPlayingVideo()):
 			self.player.stop()
-			
-		video = selectedGame.getProperty('gameplaymain')
-		selectedGame.setProperty('gameplaymain', '')
 		
 		self.gameinfoDialogOpen = True
 				

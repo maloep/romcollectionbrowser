@@ -6,6 +6,7 @@
 		<posx>0</posx>
 		<posy>0</posy>
 	</coordinates>
+	<views>59</views>
 	<controls>
 		<control type="group">
 			<posx>180</posx>
@@ -309,7 +310,7 @@
 					<posy>25</posy>
 					<width>540</width>
 					<height>280</height>												
-					<visible>!IsEmpty(ListItem.Property(videosizebig))</visible>
+					<visible>!String.IsEmpty(ListItem.Property(videosizebig))</visible>
 				</control>
 				<control type="button">
 					<description>click absorber</description>
@@ -319,7 +320,7 @@
 					<height>280</height>
 					<texturefocus></texturefocus>
 					<texturenofocus></texturenofocus>
-					<visible>!IsEmpty(ListItem.Property(videosizebig))</visible>
+					<visible>!String.IsEmpty(ListItem.Property(videosizebig))</visible>
 				</control>
 				<!-- gameinfoupperleft -->
 				<control type="image" id="2400">
@@ -419,7 +420,7 @@
 					<posy>170</posy>
 					<width>265</width>
 					<height>135</height>
-					<visible>!IsEmpty(ListItem.Property(videosizesmall))</visible>						
+					<visible>!String.IsEmpty(ListItem.Property(videosizesmall))</visible>						
 				</control>
 				<control type="button">
 					<description>click absorber</description>
@@ -429,7 +430,7 @@
 					<height>135</height>
 					<texturefocus></texturefocus>
 					<texturenofocus></texturenofocus>
-					<visible>!IsEmpty(ListItem.Property(videosizesmall))</visible>
+					<visible>!String.IsEmpty(ListItem.Property(videosizesmall))</visible>
 				</control>
 			</control>
 			
@@ -513,7 +514,7 @@
 				<height>0</height>
 				<texturefocus></texturefocus>
 				<texturenofocus></texturenofocus>
-				<visible>!IsEmpty(ListItem.Property(autoplayvideoinfo)) + !IsEmpty(ListItem.Property(gameplayinfo))</visible>
+				<visible>!String.IsEmpty(ListItem.Property(autoplayvideoinfo)) + !String.IsEmpty(ListItem.Property(gameplayinfo))</visible>
 				<animation delay="500" effect="fade" start="100" end="100">Focus</animation>
 				<onfocus>XBMC.PlayMedia($ESCINFO[ListItem.Property(gameplayinfo)],1)</onfocus>
 			</control>

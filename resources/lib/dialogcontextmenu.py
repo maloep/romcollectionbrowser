@@ -45,7 +45,7 @@ class ContextMenuDialog(xbmcgui.WindowXMLDialog):
 					buttonMarkFavorite.setLabel(util.localize(32134))
 		
 		# Hide Set Gameclient option
-		if not helper.retroPlayerSupportsPythonIntegration():
+		if not helper.isRetroPlayerSupported():
 			control = self.getControlById(5224)
 			control.setVisible(False)
 			control.setEnabled(False)
@@ -245,7 +245,7 @@ class ContextMenuDialog(xbmcgui.WindowXMLDialog):
 		elif controlID == 5224:  # Set gameclient
 			self.close()
 			
-			if not helper.retroPlayerSupportsPythonIntegration():
+			if not helper.isRetroPlayerSupported():
 				log.info("This RetroPlayer branch does not support selecting gameclients.")
 				return
 			

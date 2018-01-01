@@ -1675,7 +1675,7 @@
 					<aligny>center</aligny>
 					<label>$ADDON[script.games.rom.collection.browser 32624]</label>
 					<visible>Control.HasFocus(5220)</visible>
-					<animation reversible="false" effect="fade" end="20" time="0" condition="SubString(Control.GetLabel(5540),*) + Control.IsVisible(5540)">Conditional</animation>
+					<animation reversible="false" effect="fade" end="20" time="0" condition="String.Contains(Control.GetLabel(5540),*) + Control.IsVisible(5540)">Conditional</animation>
 				</control>
 				<control type="label">
 					<posx>7</posx>
@@ -1688,7 +1688,7 @@
 					<aligny>center</aligny>
 					<label>$ADDON[script.games.rom.collection.browser 32624]</label>
 					<visible>!Control.HasFocus(5220)</visible>
-					<animation reversible="false" effect="fade" end="20" time="0" condition="SubString(Control.GetLabel(5540),*) + Control.IsVisible(5540)">Conditional</animation>
+					<animation reversible="false" effect="fade" end="20" time="0" condition="String.Contains(Control.GetLabel(5540),*) + Control.IsVisible(5540)">Conditional</animation>
 				</control>
 				<control type="button" id="5220"> 
 					<description>EmuCmd</description>
@@ -1714,8 +1714,8 @@
 					<ondown>5230</ondown>
 					<onleft>7000</onleft>
 					<onright>6000</onright>
-					<enable>!SubString(Control.GetLabel(5540),*) | !Control.IsVisible(5540)</enable>
-					<animation reversible="false" effect="fade" end="20" time="0" condition="SubString(Control.GetLabel(5540),*) + Control.IsVisible(5540)">Conditional</animation>
+					<enable>!String.Contains(Control.GetLabel(5540),*) | !Control.IsVisible(5540)</enable>
+					<animation reversible="false" effect="fade" end="20" time="0" condition="String.Contains(Control.GetLabel(5540),*) + Control.IsVisible(5540)">Conditional</animation>
 				</control>
 				
 				<!-- Emulator Params -->
@@ -1738,7 +1738,7 @@
 					<aligny>center</aligny>
 					<label>$ADDON[script.games.rom.collection.browser 32625]</label>
 					<visible>Control.HasFocus(5230)</visible>
-					<animation reversible="false" effect="fade" end="20" time="0" condition="SubString(Control.GetLabel(5540),*) + Control.IsVisible(5540)">Conditional</animation>
+					<animation reversible="false" effect="fade" end="20" time="0" condition="String.Contains(Control.GetLabel(5540),*) + Control.IsVisible(5540)">Conditional</animation>
 				</control>
 				<control type="label">
 					<posx>7</posx>
@@ -1751,7 +1751,7 @@
 					<aligny>center</aligny>
 					<label>$ADDON[script.games.rom.collection.browser 32625]</label>
 					<visible>!Control.HasFocus(5230)</visible>
-					<animation reversible="false" effect="fade" end="20" time="0" condition="SubString(Control.GetLabel(5540),*) + Control.IsVisible(5540)">Conditional</animation>
+					<animation reversible="false" effect="fade" end="20" time="0" condition="String.Contains(Control.GetLabel(5540),*) + Control.IsVisible(5540)">Conditional</animation>
 				</control>
 				<control type="button" id="5230"> 
 					<description>EmuParams</description>
@@ -1776,8 +1776,8 @@
 					<ondown>5440</ondown>
 					<onleft>7000</onleft>
 					<onright>6000</onright>
-					<enable>!SubString(Control.GetLabel(5540),*) | !Control.IsVisible(5540)</enable>
-					<animation reversible="false" effect="fade" end="20" time="0" condition="SubString(Control.GetLabel(5540),*) + Control.IsVisible(5540)">Conditional</animation>
+					<enable>!String.Contains(Control.GetLabel(5540),*) | !Control.IsVisible(5540)</enable>
+					<animation reversible="false" effect="fade" end="20" time="0" condition="String.Contains(Control.GetLabel(5540),*) + Control.IsVisible(5540)">Conditional</animation>
 				</control>
 				
 				<!-- Use emu solo -->
@@ -1796,8 +1796,8 @@
 					<onright>6000</onright>
 					<onup>5230</onup>
 					<ondown>5530</ondown>
-					<enable>!SubString(Control.GetLabel(5540),*) | !Control.IsVisible(5540)</enable>
-					<animation reversible="false" effect="fade" end="50" time="0" condition="SubString(Control.GetLabel(5540),*) + Control.IsVisible(5540)">Conditional</animation>
+					<enable>!String.Contains(Control.GetLabel(5540),*) | !Control.IsVisible(5540)</enable>
+					<animation reversible="false" effect="fade" end="50" time="0" condition="String.Contains(Control.GetLabel(5540),*) + Control.IsVisible(5540)">Conditional</animation>
 				</control>
 				
 				<!-- Use Popen -->
@@ -1816,8 +1816,8 @@
 					<onright>6000</onright>
 					<onup>5440</onup>
 					<ondown>5460</ondown>
-					<enable>!SubString(Control.GetLabel(5540),*) | !Control.IsVisible(5540)</enable>
-					<animation reversible="false" effect="fade" end="50" time="0" condition="SubString(Control.GetLabel(5540),*) + Control.IsVisible(5540)">Conditional</animation>
+					<enable>!String.Contains(Control.GetLabel(5540),*) | !Control.IsVisible(5540)</enable>
+					<animation reversible="false" effect="fade" end="50" time="0" condition="String.Contains(Control.GetLabel(5540),*) + Control.IsVisible(5540)">Conditional</animation>
 				</control>
 				
 				<!-- Savestate path -->
@@ -1840,7 +1840,7 @@
 					<aligny>center</aligny>
 					<label>$ADDON[script.games.rom.collection.browser 32629]</label>
 					<visible>Control.HasFocus(5460)</visible>
-					<animation reversible="false" effect="fade" end="20" time="0" condition="SubString(Control.GetLabel(5540),*) + Control.IsVisible(5540)">Conditional</animation>
+					<animation reversible="false" effect="fade" end="20" time="0" condition="String.Contains(Control.GetLabel(5540),*) + Control.IsVisible(5540)">Conditional</animation>
 				</control>
 				<control type="label">
 					<posx>7</posx>
@@ -1853,7 +1853,7 @@
 					<aligny>center</aligny>
 					<label>$ADDON[script.games.rom.collection.browser 32629]</label>
 					<visible>!Control.HasFocus(5460)</visible>
-					<animation reversible="false" effect="fade" end="20" time="0" condition="SubString(Control.GetLabel(5540),*) + Control.IsVisible(5540)">Conditional</animation>
+					<animation reversible="false" effect="fade" end="20" time="0" condition="String.Contains(Control.GetLabel(5540),*) + Control.IsVisible(5540)">Conditional</animation>
 				</control>
 				<control type="button" id="5460"> 
 					<description>Savestates</description>
@@ -1878,8 +1878,8 @@
 					<ondown>5470</ondown>
 					<onleft>7000</onleft>
 					<onright>6000</onright>
-					<enable>!SubString(Control.GetLabel(5540),*) | !Control.IsVisible(5540)</enable>
-					<animation reversible="false" effect="fade" end="20" time="0" condition="SubString(Control.GetLabel(5540),*) + Control.IsVisible(5540)">Conditional</animation>
+					<enable>!String.Contains(Control.GetLabel(5540),*) | !Control.IsVisible(5540)</enable>
+					<animation reversible="false" effect="fade" end="20" time="0" condition="String.Contains(Control.GetLabel(5540),*) + Control.IsVisible(5540)">Conditional</animation>
 				</control>
 				<!-- Savestate file mask -->
 				<control type="image">
@@ -1901,7 +1901,7 @@
 					<aligny>center</aligny>
 					<label>$ADDON[script.games.rom.collection.browser 32630]</label>
 					<visible>Control.HasFocus(5470)</visible>
-					<animation reversible="false" effect="fade" end="20" time="0" condition="SubString(Control.GetLabel(5540),*) + Control.IsVisible(5540)">Conditional</animation>
+					<animation reversible="false" effect="fade" end="20" time="0" condition="String.Contains(Control.GetLabel(5540),*) + Control.IsVisible(5540)">Conditional</animation>
 				</control>
 				<control type="label">
 					<posx>7</posx>
@@ -1914,7 +1914,7 @@
 					<aligny>center</aligny>
 					<label>$ADDON[script.games.rom.collection.browser 32630]</label>
 					<visible>!Control.HasFocus(5470)</visible>
-					<animation reversible="false" effect="fade" end="20" time="0" condition="SubString(Control.GetLabel(5540),*) + Control.IsVisible(5540)">Conditional</animation>
+					<animation reversible="false" effect="fade" end="20" time="0" condition="String.Contains(Control.GetLabel(5540),*) + Control.IsVisible(5540)">Conditional</animation>
 				</control>
 				<control type="button" id="5470"> 
 					<description>Savestates</description>
@@ -1939,8 +1939,8 @@
 					<ondown>5480</ondown>
 					<onleft>7000</onleft>
 					<onright>6000</onright>
-					<enable>!SubString(Control.GetLabel(5540),*) | !Control.IsVisible(5540)</enable>
-					<animation reversible="false" effect="fade" end="20" time="0" condition="SubString(Control.GetLabel(5540),*) + Control.IsVisible(5540)">Conditional</animation>
+					<enable>!String.Contains(Control.GetLabel(5540),*) | !Control.IsVisible(5540)</enable>
+					<animation reversible="false" effect="fade" end="20" time="0" condition="String.Contains(Control.GetLabel(5540),*) + Control.IsVisible(5540)">Conditional</animation>
 				</control>
 				
 				<!-- Savestate params -->
@@ -1963,7 +1963,7 @@
 					<aligny>center</aligny>
 					<label>$ADDON[script.games.rom.collection.browser 32631]</label>
 					<visible>Control.HasFocus(5480)</visible>
-					<animation reversible="false" effect="fade" end="20" time="0" condition="SubString(Control.GetLabel(5540),*) + Control.IsVisible(5540)">Conditional</animation>
+					<animation reversible="false" effect="fade" end="20" time="0" condition="String.Contains(Control.GetLabel(5540),*) + Control.IsVisible(5540)">Conditional</animation>
 				</control>
 				<control type="label">
 					<posx>7</posx>
@@ -1976,7 +1976,7 @@
 					<aligny>center</aligny>
 					<label>$ADDON[script.games.rom.collection.browser 32631]</label>
 					<visible>!Control.HasFocus(5480)</visible>
-					<animation reversible="false" effect="fade" end="20" time="0" condition="SubString(Control.GetLabel(5540),*) + Control.IsVisible(5540)">Conditional</animation>
+					<animation reversible="false" effect="fade" end="20" time="0" condition="String.Contains(Control.GetLabel(5540),*) + Control.IsVisible(5540)">Conditional</animation>
 				</control>
 				<control type="button" id="5480"> 
 					<description>Savestates</description>
@@ -2001,8 +2001,8 @@
 					<ondown>5510</ondown>
 					<onleft>7000</onleft>
 					<onright>6000</onright>
-					<enable>!SubString(Control.GetLabel(5540),*) | !Control.IsVisible(5540)</enable>
-					<animation reversible="false" effect="fade" end="20" time="0" condition="SubString(Control.GetLabel(5540),*) + Control.IsVisible(5540)">Conditional</animation>
+					<enable>!String.Contains(Control.GetLabel(5540),*) | !Control.IsVisible(5540)</enable>
+					<animation reversible="false" effect="fade" end="20" time="0" condition="String.Contains(Control.GetLabel(5540),*) + Control.IsVisible(5540)">Conditional</animation>
 				</control>
 				
 				<!-- PreCmd -->
@@ -2025,7 +2025,7 @@
 					<aligny>center</aligny>
 					<label>$ADDON[script.games.rom.collection.browser 32632]</label>
 					<visible>Control.HasFocus(5510)</visible>
-					<animation reversible="false" effect="fade" end="20" time="0" condition="SubString(Control.GetLabel(5540),*) + Control.IsVisible(5540)">Conditional</animation>
+					<animation reversible="false" effect="fade" end="20" time="0" condition="String.Contains(Control.GetLabel(5540),*) + Control.IsVisible(5540)">Conditional</animation>
 				</control>
 				<control type="label">
 					<posx>7</posx>
@@ -2038,7 +2038,7 @@
 					<aligny>center</aligny>
 					<label>$ADDON[script.games.rom.collection.browser 32632]</label>
 					<visible>!Control.HasFocus(5510)</visible>
-					<animation reversible="false" effect="fade" end="20" time="0" condition="SubString(Control.GetLabel(5540),*) + Control.IsVisible(5540)">Conditional</animation>
+					<animation reversible="false" effect="fade" end="20" time="0" condition="String.Contains(Control.GetLabel(5540),*) + Control.IsVisible(5540)">Conditional</animation>
 				</control>
 				<control type="button" id="5510"> 
 					<description>Pre-Launch Command</description>
@@ -2063,8 +2063,8 @@
 					<ondown>5520</ondown>
 					<onleft>7000</onleft>
 					<onright>6000</onright>
-					<enable>!SubString(Control.GetLabel(5540),*) | !Control.IsVisible(5540)</enable>
-					<animation reversible="false" effect="fade" end="20" time="0" condition="SubString(Control.GetLabel(5540),*) + Control.IsVisible(5540)">Conditional</animation>
+					<enable>!String.Contains(Control.GetLabel(5540),*) | !Control.IsVisible(5540)</enable>
+					<animation reversible="false" effect="fade" end="20" time="0" condition="String.Contains(Control.GetLabel(5540),*) + Control.IsVisible(5540)">Conditional</animation>
 				</control>
 				<!-- PostCmd -->
 				<control type="image">
@@ -2086,7 +2086,7 @@
 					<aligny>center</aligny>
 					<label>$ADDON[script.games.rom.collection.browser 32633]</label>
 					<visible>Control.HasFocus(5520)</visible>
-					<animation reversible="false" effect="fade" end="20" time="0" condition="SubString(Control.GetLabel(5540),*) + Control.IsVisible(5540)">Conditional</animation>
+					<animation reversible="false" effect="fade" end="20" time="0" condition="String.Contains(Control.GetLabel(5540),*) + Control.IsVisible(5540)">Conditional</animation>
 				</control>
 				<control type="label">
 					<posx>7</posx>
@@ -2099,7 +2099,7 @@
 					<aligny>center</aligny>
 					<label>$ADDON[script.games.rom.collection.browser 32633]</label>
 					<visible>!Control.HasFocus(5520)</visible>
-					<animation reversible="false" effect="fade" end="20" time="0" condition="SubString(Control.GetLabel(5540),*) + Control.IsVisible(5540)">Conditional</animation>
+					<animation reversible="false" effect="fade" end="20" time="0" condition="String.Contains(Control.GetLabel(5540),*) + Control.IsVisible(5540)">Conditional</animation>
 				</control>
 				<control type="button" id="5520"> 
 					<description>Post-Launch Command</description>
@@ -2124,8 +2124,8 @@
 					<ondown>5450</ondown>
 					<onleft>7000</onleft>
 					<onright>6000</onright>
-					<enable>!SubString(Control.GetLabel(5540),*) | !Control.IsVisible(5540)</enable>
-					<animation reversible="false" effect="fade" end="20" time="0" condition="SubString(Control.GetLabel(5540),*) + Control.IsVisible(5540)">Conditional</animation>
+					<enable>!String.Contains(Control.GetLabel(5540),*) | !Control.IsVisible(5540)</enable>
+					<animation reversible="false" effect="fade" end="20" time="0" condition="String.Contains(Control.GetLabel(5540),*) + Control.IsVisible(5540)">Conditional</animation>
 				</control>
 				
 				<!-- Do not extract zip files -->
@@ -2201,7 +2201,7 @@
 					<aligny>center</aligny>
 					<label>$ADDON[script.games.rom.collection.browser 32638]</label>
 					<visible>Control.HasFocus(5550) + Control.IsVisible(5550)</visible>
-					<animation reversible="false" effect="fade" end="20" time="0" condition="!SubString(Control.GetLabel(5540),*)">Conditional</animation>
+					<animation reversible="false" effect="fade" end="20" time="0" condition="!String.Contains(Control.GetLabel(5540),*)">Conditional</animation>
 				</control>
 				<control type="label">
 					<posx>7</posx>
@@ -2214,7 +2214,7 @@
 					<aligny>center</aligny>
 					<label>$ADDON[script.games.rom.collection.browser 32638]</label>
 					<visible>!Control.HasFocus(5550) + Control.IsVisible(5550)</visible>
-					<animation reversible="false" effect="fade" end="20" time="0" condition="!SubString(Control.GetLabel(5540),*)">Conditional</animation>
+					<animation reversible="false" effect="fade" end="20" time="0" condition="!String.Contains(Control.GetLabel(5540),*)">Conditional</animation>
 				</control>
 				<control type="button" id="5550">
 					<description>Game client</description>
@@ -2233,7 +2233,7 @@
 					<disabledcolor>80FFFFFF</disabledcolor>
 					<align>right</align>
 					<aligny>center</aligny>
-					<enable>SubString(Control.GetLabel(5540),*)</enable>
+					<enable>String.Contains(Control.GetLabel(5540),*)</enable>					
 					<textoffsetx></textoffsetx>
 					<textoffsety></textoffsety>
 					<pulseonselect></pulseonselect>

@@ -41,7 +41,7 @@ def launchEmu(gdb, gui, gameId, config, settings, listitem):
 	log.info("files for current game: " + str(filenameRows))
 
 	escapeCmd = settings.getSetting(util.SETTING_RCB_ESCAPECOMMAND).upper() == 'TRUE'
-	cmd, precmd, postcmd, roms = __buildCmd(filenameRows, romCollection, gameRow, escapeCmd, False)
+	cmd, precmd, postcmd, roms = __buildCmd(gui, filenameRows, romCollection, gameRow, escapeCmd, False)
 	
 	if not romCollection.useBuiltinEmulator:
 		if cmd == '':
@@ -111,7 +111,7 @@ def launchEmu(gdb, gui, gameId, config, settings, listitem):
 ##################
 		
 		
-def __buildCmd(filenameRows, romCollection, gameRow, escapeCmd, calledFromSkin):
+def __buildCmd(gui, filenameRows, romCollection, gameRow, escapeCmd, calledFromSkin):
 	log.info("launcher.buildCmd")
 
 	compressedExtensions = ['7z', 'zip']
@@ -195,7 +195,7 @@ def __buildCmd(filenameRows, romCollection, gameRow, escapeCmd, calledFromSkin):
 		filext = rom.split('.')[-1]
 		roms = [rom]
 		if filext in compressedExtensions and not romCollection.doNotExtractZipFiles and stateFile == '' and not calledFromSkin:
-			roms = __handleCompressedFile(filext, rom, romCollection, emuParams)
+			roms = __handleCompressedFile(gui, filext, rom, romCollection, emuParams)
 			log.debug("roms compressed = " + str(roms))
 			if len(roms) == 0:
 				return "", "", "", None
@@ -292,7 +292,7 @@ def __prepareMultiRomCommand(emuParams):
 	return emuParams, partToRepeat
 
 
-def __handleCompressedFile(filext, rom, romCollection, emuParams):
+def __handleCompressedFile(gui, filext, rom, romCollection, emuParams):
 	
 	# Note: Trying to delete temporary files (from zip or 7z extraction) from last run
 	# Do this before launching a new game. Otherwise game could be deleted before launch
