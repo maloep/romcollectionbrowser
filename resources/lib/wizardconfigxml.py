@@ -122,21 +122,7 @@ class ConfigXmlWizard(RcbXmlReaderWriter):
 		log.debug(u"artworkPath selected: {0}".format(artworkPath))
 
 		return artworkPath
-
-	def doesSupportRetroplayer(self, romCollectionName):
-		supportsRetroPlayer = True
-		# If we have full python integration we can also check if specific platform supports RetroPlayer
-		if helper.retroPlayerSupportsPythonIntegration():
-			supportsRetroPlayer = False
-			success, installedAddons = helper.readLibretroCores("all", True, romCollectionName)
-			if success and len(installedAddons) > 0:
-				supportsRetroPlayer = True
-			else:
-				success, installedAddons = helper.readLibretroCores("uninstalled", False, romCollectionName)
-				if success and len(installedAddons) > 0:
-					supportsRetroPlayer = True
-
-		return supportsRetroPlayer
+	
 
 	def addRomCollections(self, id, configObj, consoleList, isUpdate):
 		
@@ -181,8 +167,7 @@ class ConfigXmlWizard(RcbXmlReaderWriter):
 
 			# Check if we have general RetroPlayer support
 			if helper.isRetroPlayerSupported():
-				if self.doesSupportRetroplayer(romCollection.name):
-					romCollection.useBuiltinEmulator = dialog.yesno(util.localize(32999), util.localize(32198))
+				romCollection.useBuiltinEmulator = dialog.yesno(util.localize(32999), util.localize(32198))
 			
 			# Only ask for emulator and params if we don't use builtin emulator
 			if not romCollection.useBuiltinEmulator:
