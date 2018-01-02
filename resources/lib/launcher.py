@@ -179,11 +179,12 @@ def __buildCmd(gui, filenameRows, romCollection, gameRow, escapeCmd, calledFromS
 
 		if romCollection.makeLocalCopy:
 			localDir = os.path.join(util.getTempDir(), romCollection.name)
-			if xbmcvfs.exists(localDir):
+			if xbmcvfs.exists(localDir +'\\'):
 				log.info("Trying to delete local rom files")
-				files = xbmcvfs.listdir(localDir)
+				dirs, files = xbmcvfs.listdir(localDir)
 				for f in files:
-					xbmcvfs.delete(os.path.join(localDir, f))
+					pass
+					#xbmcvfs.delete(os.path.join(localDir, f))
 			localRom = os.path.join(localDir, os.path.basename(str(rom)))
 			log.info("Creating local copy: " + str(localRom))
 			if xbmcvfs.copy(rom, localRom):
@@ -294,19 +295,25 @@ def __prepareMultiRomCommand(emuParams):
 
 def __handleCompressedFile(gui, filext, rom, romCollection, emuParams):
 	
+	log.info("__handleCompressedFile")
+	
 	# Note: Trying to delete temporary files (from zip or 7z extraction) from last run
 	# Do this before launching a new game. Otherwise game could be deleted before launch
-	tempDir = os.path.join(util.getTempDir(), 'extracted')
+	tempDir = os.path.join(util.getTempDir(), 'extracted', romCollection.name)
 	# check if folder exists
-	if not xbmcvfs.exists(tempDir):
+	if not xbmcvfs.exists(tempDir +'\\'):
+		log.info("Create temporary folder: " +tempDir)
 		xbmcvfs.mkdir(tempDir)
 	
-	try:		
-		if xbmcvfs.exists(tempDir):
+	try:
+		if xbmcvfs.exists(tempDir +'\\'):
 			log.info("Trying to delete temporary rom files")
-			files = xbmcvfs.listdir(tempDir)
+			dirs, files = xbmcvfs.listdir(tempDir)
 			for f in files:
-				xbmcvfs.delete(os.path.join(tempDir, f))
+				#RetroPlayer places savestate files next to the roms. Don't delete these files.
+				fname, ext = os.path.splitext(f)
+				if(ext not in ('.sav', '.xml', '.png')):
+					xbmcvfs.delete(os.path.join(tempDir, f))
 	except Exception, (exc):
 		log.error("Error deleting files after launch emu: " + str(exc))
 		gui.writeMsg(util.localize(32036) + ": " + str(exc))
