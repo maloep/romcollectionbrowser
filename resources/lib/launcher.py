@@ -182,9 +182,8 @@ def __buildCmd(gui, filenameRows, romCollection, gameRow, escapeCmd, calledFromS
 			if xbmcvfs.exists(localDir +'\\'):
 				log.info("Trying to delete local rom files")
 				dirs, files = xbmcvfs.listdir(localDir)
-				for f in files:
-					pass
-					#xbmcvfs.delete(os.path.join(localDir, f))
+				for f in files:					
+					xbmcvfs.delete(os.path.join(localDir, f))
 			localRom = os.path.join(localDir, os.path.basename(str(rom)))
 			log.info("Creating local copy: " + str(localRom))
 			if xbmcvfs.copy(rom, localRom):
