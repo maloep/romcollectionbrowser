@@ -153,7 +153,7 @@ class PyScraper(object):
 		log.info("getNfoFile")
 		nfoFile = ''
 		nfoFolder = settings.getSetting(util.SETTING_RCB_NFOFOLDER)
-		splittedname = os.path.splitext(os.path.basename(self.romFile))
+		splittedname = os.path.splitext(os.path.basename(self.romfile))
 		filename = ''
 		if len(splittedname) == 1:
 			filename = splittedname[0]
@@ -169,7 +169,7 @@ class PyScraper(object):
 				nfoFile = os.path.join(nfoFolder, filename + '.nfo')
 				
 		if not xbmcvfs.exists(nfoFile):
-			romDir = os.path.dirname(self.romFile)
+			romDir = os.path.dirname(self.romfile)
 			log.info("Romdir: " + str(romDir))
 			nfoFile = os.path.join(romDir, gamenameFromFile + '.nfo')
 			

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <parserConfig>
-	<GameGrammar type="xml" root="">
+	<GameGrammar type="xml" root=".">
 		<Game>title</Game>
 		<Platform>platform</Platform>
 		<Region>region</Region>		

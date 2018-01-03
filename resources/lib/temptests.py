@@ -30,15 +30,15 @@ from config import *
 #descFile = "F:\\Emulatoren\\data\\synopsis\\XTRAS-RCB\\NGPC.txt"
 #parseInstruction = "F:\\Emulatoren\\data\\synopsis\\XTRAS-RCB\\_parserConfig.xml"
 
-descFile = "D:\\Games\\collection\\_gamedesc\\SNES.txt"
-parseInstruction = "D:\\Games\\collection\\_gamedesc\\_parserConfig.xml"
+descFile = "D:\\Games\\Testsets\\launch tests\\RetroPlayer\\SNES\\3 Ninjas Kick Back.nfo"
+parseInstruction = "C:\\Users\\lom\\AppData\\Roaming\\Kodi\\addons\\script.games.rom.collection.browser.git\\resources\\scraper\\00 - local nfo.xml"
 
 
 from descriptionparserfactory import *
 descParser = DescriptionParserFactory.getParser(parseInstruction)
 
-results = descParser.scanDescription(str(descFile), parseInstruction, '	iso-8859-15')
-#results = descParser.parseDescription(str(descFile), '	iso-8859-15')
+#results = descParser.scanDescription(str(descFile), parseInstruction, '	iso-8859-15')
+results = descParser.parseDescription(str(descFile), '	iso-8859-15')
 for result in results:
 	print result
 	
