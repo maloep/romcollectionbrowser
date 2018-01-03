@@ -303,11 +303,12 @@ def __handleCompressedFile(gui, filext, rom, romCollection, emuParams):
 	if not xbmcvfs.exists(tempDir +'\\'):
 		log.info("Create temporary folder: " +tempDir)
 		xbmcvfs.mkdir(tempDir)
-	
+			
 	try:
 		if xbmcvfs.exists(tempDir +'\\'):
 			log.info("Trying to delete temporary rom files")
-			dirs, files = xbmcvfs.listdir(tempDir)
+			#can't use xbmcvfs.listdir here as it seems to cache the file list and RetroPlayer won't find newly created files anymore
+			files = os.listdir(tempDir)
 			for f in files:
 				#RetroPlayer places savestate files next to the roms. Don't delete these files.
 				fname, ext = os.path.splitext(f)
@@ -490,6 +491,7 @@ def __launchNonXbox(cmd, romCollection, gameRow, settings, precmd, postcmd, roms
 			parameters["gameclient"] = gameclient
 		listitem.setInfo(type="game", infoLabels=parameters)
 		log.info("launching rom: " + rom)
+		
 		gui.player.play(rom, listitem)
 		# xbmc.executebuiltin('PlayMedia(\"%s\", platform=%s, gameclient=%s)' %(rom, romCollection.name, romCollection.gameclient))
 		return
