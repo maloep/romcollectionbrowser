@@ -191,7 +191,7 @@ class DBUpdate(object):
 											
 					scraper = firstScraper.scrapers[0]
 					log.info("Parsing with multi game scraper {0} using parser file {1} and game description {2}".format(firstScraper.name, scraper.parseInstruction, scraper.source))
-
+	
 					parser = DescriptionParserFactory.getParser(str(scraper.parseInstruction)) 										
 					
 					# parse description
@@ -206,24 +206,24 @@ class DBUpdate(object):
 								continue
 		
 							artScrapers = {}
-
+		
 							gamenameFromFile = romCollection.getGamenameFromFilename(filenamelist[0])
 							foldername = self.getFoldernameFromRomFilename(filenamelist[0])
-
+		
 							fileCount += 1
-
+		
 							continueUpdate = self._gui.writeMsg(progDialogRCHeader, util.localize(32123) + ": " + str(gamenameFromDesc), "", fileCount)
 							if not continueUpdate:
 								log.util("Game import canceled by user")
 								break
-
+		
 							log.util(u"Start scraping info for game: {0}".format(gamenameFromFile))
-
+		
 							# check if this file already exists in DB
 							continueUpdate, isUpdate, gameId = self.checkRomfileAlreadyExists(filenamelist[0], enableFullReimport, False)
 							if not continueUpdate:
 								continue
-
+		
 							# use additional scrapers
 							if len(romCollection.scraperSites) > 1:
 								result, artScrapers = self.useSingleScrapers(result, romCollection, 1, gamenameFromFile, foldername, filenamelist[0], gui, progDialogRCHeader, fileCount)
@@ -244,18 +244,19 @@ class DBUpdate(object):
 							if len(files) == 0:
 								log.info("All games are imported")
 								break
-						
+											
 						except Exception, (exc):
 							log.warn("an error occured while adding game {0}".format(gamenameFromDesc))
 							log.warn("Error: {0}".format(exc))
 							continue
+						
 					
 					# all files still available files-list, are missing entries
 					for filename in files:
 						gamenameFromFile = romCollection.getGamenameFromFilename(filename)
 						log.warn("Adding file {0} ({1}) to missing description file".format(filename, gamenameFromFile))
 						self.missingDescFile.add_entry(gamenameFromFile)
-							
+										
 				except Exception, (exc):
 					log.warn("an error occured while adding game {0}".format(gamenameFromDesc))
 					log.warn("Error: {0}".format(exc))
@@ -340,7 +341,7 @@ class DBUpdate(object):
 								xbmcgui.Dialog().ok(util.SCRIPTNAME, util.localize(32128), util.localize(32129))
 								continueUpdate = False
 								break
-					
+										
 					except Exception, (exc):
 						log.warn("an error occured while adding game {0}".format(gamenameFromFile))
 						log.warn("Error: {0}".format(exc))
@@ -808,7 +809,7 @@ class DBUpdate(object):
 		if item != "" and item is not None:
 			itemRow = gdbObject.getOneByName(item)
 			if itemRow is None:
-				log.info("{0} does not exist in database. Insert: {1}".format(itemName, item))
+				log.info("{0} does not exist in database. Insert: {1}".format(itemName, item.encode('utf-8')))
 
 				gdbObject.insert((item,))
 				del item
@@ -835,7 +836,7 @@ class DBUpdate(object):
 			
 			itemRow = gdbObject.getOneByName(item)
 			if itemRow is None:
-				log.info("{0} does not exist in database. Insert: {1}".format(itemName, item))
+				log.info("{0} does not exist in database. Insert: {1}".format(itemName, item.encode('utf-8')))
 
 				gdbObject.insert((item,))
 				idList.append(self.gdb.cursor.lastrowid)
