@@ -224,8 +224,6 @@
 				<posy>110</posy>
 				<width>640</width>
 				<height>30</height>
-				<radiowidth>80</radiowidth>
-				<radioheight>80</radioheight>
 				<font>font13</font>
 				<label>$ADDON[script.games.rom.collection.browser 32802]</label>
 				<textcolor>88FFFFFF</textcolor>

@@ -495,9 +495,6 @@ class UIGameDB(xbmcgui.WindowXML):
 		for romCollection in self.config.romCollections.values():
 			consoles.append([romCollection.id, romCollection.name])
 		
-		# Sort the consoles by name
-		consoles = sorted (consoles, key=lambda console: console[1])
-		
 		self.showFilterControl(consoles, CONTROL_CONSOLES, showEntryAllItems)
 		
 		# Reset selection after loading the list
