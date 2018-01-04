@@ -3,7 +3,7 @@
   id="script.games.rom.collection.browser"
   version="2.1.4"
   name="Rom Collection Browser"
-  provider-name="malte">
+  provider-name="bruny, malte">
   <requires>
     <!-- Require Kodi Krypton or above -->
     <import addon="xbmc.addon" version="17.0.0"/>

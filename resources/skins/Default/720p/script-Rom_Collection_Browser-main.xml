@@ -1164,6 +1164,8 @@
 			<control type="radiobutton" id="1000">
 				<posx>25</posx>
 				<posy>50</posy>
+				<radiowidth>80</radiowidth>
+				<radioheight>80</radioheight>
 				<width>200</width>
 				<height>30</height>
 				<font>font13</font>
