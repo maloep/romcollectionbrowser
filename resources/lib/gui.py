@@ -111,7 +111,7 @@ class UIGameDB(xbmcgui.WindowXML):
 		Logutil.log("Running on Kodi version older than Helix; using old alignment", util.LOG_LEVEL_INFO)
 		xbmc.executebuiltin('Skin.SetBool(rcb_useOldAlignment)')
 	
-	def __init__(self, strXMLname, strFallbackPath, strDefaultName, forceFallback):
+	def __init__(self, strXMLname, strFallbackPath, strDefaultName, forceFallback, isMedia=True):
 		Logutil.log("Init Rom Collection Browser: " + util.RCBHOME, util.LOG_LEVEL_INFO)
 		
 		addon = xbmcaddon.Addon(id='%s' %util.SCRIPTID)
@@ -1836,7 +1836,14 @@ def main():
 	if(skin == "Confluence"):
 		skin = "Default"
 	
-	ui = UIGameDB("script-Rom_Collection_Browser-main.xml", util.getAddonInstallPath(), skin, "720p")
+	kodiVersion = KodiVersions.getKodiVersion()
+	Logutil.log("Kodi Version = " +str(kodiVersion), util.LOG_LEVEL_INFO)
+		
+	if KodiVersions.getKodiVersion() > KodiVersions.KRYPTON:
+		ui = UIGameDB("script-Rom_Collection_Browser-main.xml", util.getAddonInstallPath(), skin, "720p", True)
+	else:
+		ui = UIGameDB("script-Rom_Collection_Browser-main.xml", util.getAddonInstallPath(), skin, "720p")	
+	
 	ui.doModal()
 	del ui
 

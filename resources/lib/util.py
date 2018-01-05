@@ -223,6 +223,7 @@ class KodiVersions(object):
 	ISENGARD = 15
 	JARVIS = 16
 	KRYPTON = 17
+	LEIA = 18
 
 	@classmethod
 	def getKodiVersion(self):
