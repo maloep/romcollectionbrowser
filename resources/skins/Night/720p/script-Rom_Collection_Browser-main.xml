@@ -7,6 +7,7 @@
 		<posx>0</posx>
 		<posy>0</posy>
 	</coordinates>
+	<views>50,51,52,55,56</views>
 	<controls>
 		<!-- background -->
 		<control type="image" id="75">
@@ -122,7 +123,7 @@
 						<width>100</width>
 						<height>25</height>
 						<texture>rcb-star.png</texture>					
-						<visible>!IsEmpty(ListItem.Property(isfavorite))</visible>
+						<visible>!String.IsEmpty(ListItem.Property(isfavorite))</visible>
 					</control>
 				</itemlayout>
 				<focusedlayout width="1210" height="36">
@@ -161,7 +162,7 @@
 						<width>100</width>
 						<height>25</height>
 						<texture>rcb-star.png</texture>					
-						<visible>!IsEmpty(ListItem.Property(isfavorite))</visible>
+						<visible>!String.IsEmpty(ListItem.Property(isfavorite))</visible>
 					</control>
 				</focusedlayout>
 			</control>
@@ -297,7 +298,7 @@
 								<width>100</width>
 								<height>25</height>
 								<texture>rcb-star.png</texture>					
-								<visible>!IsEmpty(ListItem.Property(isfavorite))</visible>
+								<visible>!String.IsEmpty(ListItem.Property(isfavorite))</visible>
 							</control>
 						</control>
 					</itemlayout>
@@ -409,7 +410,7 @@
 								<width>100</width>
 								<height>25</height>
 								<texture>rcb-star.png</texture>					
-								<visible>!IsEmpty(ListItem.Property(isfavorite))</visible>
+								<visible>!String.IsEmpty(ListItem.Property(isfavorite))</visible>
 							</control>
 						</control>	
 					</focusedlayout>
@@ -476,7 +477,7 @@
 						<posy>0</posy>
 						<width>436</width>
 						<height>244</height>
-						<visible>!Player.HasVideo | IsEmpty(ListItem.Property(gameplaymain))</visible>
+						<visible>!Player.HasVideo | String.IsEmpty(ListItem.Property(gameplaymain))</visible>
 						<texture background="true" diffuse="showcase-diffuse.png" fallback="missing.jpg">$INFO[ListItem.Art(gameinfobig)]</texture>
 						<fadetime>400</fadetime>
 						<aspectratio>stretch</aspectratio>
@@ -504,7 +505,7 @@
 						<posy>0</posy>
 						<width>436</width>
 						<height>244</height>											
-						<visible>!IsEmpty(ListItem.Property(videosizebig)) + !IsEmpty(ListItem.Property(gameplaymain))</visible>
+						<visible>!String.IsEmpty(ListItem.Property(videosizebig)) + !String.IsEmpty(ListItem.Property(gameplaymain))</visible>
 					</control>
 					<control type="button">
 						<description>click absorber</description>
@@ -514,7 +515,7 @@
 						<height>244</height>
 						<texturefocus></texturefocus>
 						<texturenofocus></texturenofocus>
-						<visible>!IsEmpty(ListItem.Property(videosizebig))</visible>
+						<visible>!String.IsEmpty(ListItem.Property(videosizebig))</visible>
 					</control>	
 					<control type="wraplist" id="52">
 						<posx>-70</posx>
@@ -571,7 +572,7 @@
 									<width>100</width>
 									<height>25</height>
 									<texture>rcb-star.png</texture>					
-									<visible>!IsEmpty(ListItem.Property(isfavorite))</visible>
+									<visible>!String.IsEmpty(ListItem.Property(isfavorite))</visible>
 									<animation effect="fade" start="100" end="0" time="200" condition="Window.IsActive(movieinformation) | Window.IsActive(addoninformation) | Window.IsActive(songinformation)">Conditional</animation>
 								</control>
 							</control>
@@ -615,7 +616,7 @@
 									<width>100</width>
 									<height>25</height>
 									<texture>rcb-star.png</texture>					
-									<visible>!IsEmpty(ListItem.Property(isfavorite))</visible>
+									<visible>!String.IsEmpty(ListItem.Property(isfavorite))</visible>
 									<animation effect="fade" start="100" end="0" time="150" condition="Window.IsActive(movieinformation) | Window.IsActive(addoninformation) | Window.IsActive(songinformation)">Conditional</animation>
 								</control>
 								<control type="button">
@@ -626,9 +627,9 @@
 									<height>0</height>
 									<texturefocus></texturefocus>
 									<texturenofocus></texturenofocus>
-									<visible>!IsEmpty(ListItem.Property(autoplayvideomain)) + !IsEmpty(ListItem.Property(gameplaymain))</visible>
+									<visible>!String.IsEmpty(ListItem.Property(autoplayvideomain)) + !String.IsEmpty(ListItem.Property(gameplaymain))</visible>
 									<animation delay="300" effect="fade" start="100" end="100">Focus</animation>
-									<onfocus>XBMC.PlayMedia($ESCINFO[ListItem.Property(gameplaymain)],1)</onfocus>
+									<onfocus condition="!String.IsEmpty(ListItem.Property(autoplayvideomain)) + !String.IsEmpty(ListItem.Property(gameplaymain))">XBMC.PlayMedia($ESCINFO[ListItem.Property(gameplaymain)],1)</onfocus>
 								</control>
 							</control>
 						</focusedlayout>
@@ -931,7 +932,7 @@
 							<width>100</width>
 							<height>25</height>
 							<texture>rcb-star.png</texture>					
-							<visible>!IsEmpty(ListItem.Property(isfavorite))</visible>
+							<visible>!String.IsEmpty(ListItem.Property(isfavorite))</visible>
 						</control>
 					</control>
 				</itemlayout>
@@ -1032,7 +1033,7 @@
 							<width>100</width>
 							<height>25</height>
 							<texture>rcb-star.png</texture>					
-							<visible>!IsEmpty(ListItem.Property(isfavorite))</visible>
+							<visible>!String.IsEmpty(ListItem.Property(isfavorite))</visible>
 						</control>
 					</control>	
 				</focusedlayout>
@@ -1145,7 +1146,7 @@
 								<width>100</width>
 								<height>25</height>
 								<texture>rcb-star.png</texture>					
-								<visible>!IsEmpty(ListItem.Property(isfavorite))</visible>
+								<visible>!String.IsEmpty(ListItem.Property(isfavorite))</visible>
 							</control>
 						</control>
 					</itemlayout>
@@ -1214,7 +1215,7 @@
 						<width>100</width>
 						<height>25</height>
 						<texture>rcb-star.png</texture>					
-						<visible>!IsEmpty(ListItem.Property(isfavorite))</visible>
+						<visible>!String.IsEmpty(ListItem.Property(isfavorite))</visible>
 					</control>
 				</control>
 				<control type="group">
