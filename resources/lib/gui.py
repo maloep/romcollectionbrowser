@@ -325,7 +325,7 @@ class UIGameDB(xbmcgui.WindowXML):
 						self.updateSelectedYear(control)
 							
 					elif cid == CONTROL_PUBLISHER and self.hasPublisherFilterChanged(pos):
-						self.updatedSelectedPublisher(control)
+						self.updateSelectedPublisher(control)
 							
 					elif cid == CONTROL_CHARACTER and self.hasCharacterFilterChanged(pos):
 						self.updateSelectedCharacter(control)
@@ -431,7 +431,7 @@ class UIGameDB(xbmcgui.WindowXML):
 		self.selectedConsoleIndex = control.getSelectedPosition()
 		self.filterChanged = True
 
-	def updatedSelectedPublisher(self, control):
+	def updateSelectedPublisher(self, control):
 		label = str(control.getSelectedItem().getLabel())
 		label2 = str(control.getSelectedItem().getLabel2())
 
@@ -439,7 +439,7 @@ class UIGameDB(xbmcgui.WindowXML):
 		self.selectedPublisherIndex = control.getSelectedPosition()
 		self.filterChanged = True
 
-	def updatedSelectedGenre(self, control):
+	def updateSelectedGenre(self, control):
 		label = str(control.getSelectedItem().getLabel())
 		label2 = str(control.getSelectedItem().getLabel2())
 
