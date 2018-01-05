@@ -224,12 +224,6 @@ class ImportOptionsDialog(xbmcgui.WindowXMLDialog):
 		
 		if scraper == util.localize(32854):
 			return sites, True
-		
-		#HACK: don't use other scrapers than MAME and local nfo for MAME collections
-		#HACK2: check if scraper name contains mame
-		if romCollection.name == 'MAME':
-			if scraper != util.localize(32154) and scraper != util.localize(32153) and not bool(re.search('(?i)mame', scraper)):
-				scraper = 'maws.mameworld.info'
 				
 		siteRow = None
 		siteRows = self.gui.config.tree.findall('Scrapers/Site')

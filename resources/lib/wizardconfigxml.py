@@ -264,14 +264,6 @@ class ConfigXmlWizard(RcbXmlReaderWriter):
 					mediaTypes = ['boxfront', 'boxback', 'cartridge', 'screenshot', 'fanart']
 				for t in mediaTypes:
 					romCollection.mediaPaths.append(self.createMediaPath(t, artworkPath, scenarioIndex))
-				
-				# Other MAME specific properties
-				if romCollection.name == 'MAME':
-					# FIXME TODO MAWS not available anymore, shouldn't allow online scraper for MAME
-					# Create MAWS scraper
-					site = Site(name='maws.mameworld.info')
-					site.scrapers = [Scraper(parseInstruction='06 - maws.xml', source='http://maws.mameworld.info/maws/romset/%GAME%')]
-					romCollection.scraperSites = [site]
 			else:
 				romCollection.mediaPaths = []
 

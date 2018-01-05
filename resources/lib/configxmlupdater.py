@@ -87,6 +87,12 @@ class ConfigxmlUpdater(RcbXmlReaderWriter):
 			configVersion = '2.0.8'
 			if(not success):
 				return False, message
+		
+		if(configVersion == '2.0.8'):
+			success, message = self.update_208_to_214()
+			configVersion = '2.1.4'
+			if(not success):
+				return False, message
 			
 		#write file
 		success, message = self.writeFile()	
@@ -108,16 +114,10 @@ class ConfigxmlUpdater(RcbXmlReaderWriter):
 			elif(siteName == 'thegamesdb.net'):
 				scraperSiteXml.attrib['descFilePerGame'] = 'True'
 				scraperSiteXml.attrib['searchGameByCRC'] = 'False'
-			elif(siteName == 'archive.vg'):
-				scraperSiteXml.attrib['descFilePerGame'] = 'True'
-				scraperSiteXml.attrib['searchGameByCRC'] = 'False'
 			elif(siteName == 'giantbomb.com'):
 				scraperSiteXml.attrib['descFilePerGame'] = 'True'
 				scraperSiteXml.attrib['searchGameByCRC'] = 'False'
 			elif(siteName == 'mobygames.com'):
-				scraperSiteXml.attrib['descFilePerGame'] = 'True'
-				scraperSiteXml.attrib['searchGameByCRC'] = 'False'
-			elif(siteName == 'maws.mameworld.info'):
 				scraperSiteXml.attrib['descFilePerGame'] = 'True'
 				scraperSiteXml.attrib['searchGameByCRC'] = 'False'
 				
@@ -312,6 +312,22 @@ class ConfigxmlUpdater(RcbXmlReaderWriter):
 		return True, ''
 			
 	
+	def update_208_to_214(self):
+		
+		#remove archive.vg and maws.mameworld scraper from each rom collection
+		romCollectionsXml = self.tree.findall('RomCollections/RomCollection')
+		for romCollectionXml in romCollectionsXml:
+			#self.removeElementByAttributeValue(romCollectionXml, 'scraper', 'name', 'archive.vg')
+			self.removeElement(romCollectionXml, "scraper[@name='archive.vg']")
+			self.removeElement(romCollectionXml, "scraper[@name='maws.mameworld.info']")
+			
+		scraperSitesXml = self.tree.find('Scrapers')
+		self.removeElement(scraperSitesXml, "Site[@name='archive.vg']")
+		self.removeElement(scraperSitesXml, "Site[@name='maws.mameworld.info']")
+				
+		return True, '' 
+	
+	
 	#TODO use same as in config
 	def readTextElement(self, parent, elementName):
 		element = parent.find(elementName)
@@ -323,6 +339,12 @@ class ConfigxmlUpdater(RcbXmlReaderWriter):
 		
 		
 	def removeElement(self, parent, elementName):
+		element = parent.find(elementName)
+		if(element != None):
+			parent.remove(element)
+			
+	
+	def removeElementByAttributeValue(self, parent, elementName, attribname, attribValue):
 		element = parent.find(elementName)
 		if(element != None):
 			parent.remove(element)

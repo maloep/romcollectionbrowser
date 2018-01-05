@@ -69,15 +69,8 @@ class DescriptionParser(object):
 
 					# Parse ReleaseYear (for some parsers)
 					if 'dateFormat' in grammarElement.attrib:
-						if grammarElement.attrib.get('dateFormat') == 'epoch':
-							# Used only for archive.vg
-							try:
-								newValue = time.gmtime(int(newValue))
-							except Exception as e:
-								print 'error converting timestamp: ' + str(newValue) + ': ' + str(e)
-						else:
-							# Parse according to the datetime format
-							newValue = time.strptime(newValue, grammarElement.attrib.get('dateFormat'))
+						# Parse according to the datetime format
+						newValue = time.strptime(newValue, grammarElement.attrib.get('dateFormat'))
 
 					itemList[i] = newValue
 				except Exception as e:

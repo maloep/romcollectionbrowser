@@ -47,10 +47,8 @@
 
 RCB scrapes data from these sites (don't forget to visit, register and contribute!):<br>
 * [http://thegamesdb.net](http://thegamesdb.net) - game data + artwork (boxfront, boxback, fanart)<br>
-* [http://archive.vg](http://archive.vg/) - game data + artwork (boxfront)<br>
 * [http://www.giantbomb.com](http://www.giantbomb.com) - game data + artwork (screenshot)<br>
 * [http://www.mobygames.com](http://www.mobygames.com) - game data + artwork (screenshot, boxfront, boxback,     cartridge)<br>
-* [http://maws.mameworld.info](http://maws.mameworld.info) - game data + artwork (action, title, cabinet, marquee, flyer)</ul>
 
 ## Screenshots
 
