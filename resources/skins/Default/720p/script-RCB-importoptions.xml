@@ -170,7 +170,7 @@
 				<onleft>5300</onleft>
 				<onright>5212</onright>
 				<onup>5101</onup>
-				<ondown>5222</ondown>
+				<ondown>5330</ondown>
 				<enable>!Skin.HasSetting(rcb_disableRomcollections)</enable>
 			</control>
 			<control type="button" id="5212">

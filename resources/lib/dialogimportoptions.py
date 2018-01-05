@@ -24,8 +24,6 @@ CONTROL_LIST_SCRAPER3 = 5290
 CONTROL_BUTTON_RC_DOWN = 5211
 CONTROL_BUTTON_RC_UP = 5212
 
-CONTROL_BUTTON_SCRAPEMODE_UP = 5222
-
 CONTROL_BUTTON_OVERWRITESETTINGS = 5330
 
 
@@ -50,7 +48,7 @@ class ImportOptionsDialog(xbmcgui.WindowXMLDialog):
 		if self.romCollections is not None:
 			# Set overwrite flag to false
 			xbmc.executebuiltin('Skin.SetBool(%s)' % util.SETTING_RCB_IMPORTOPTIONS_DISABLEROMCOLLECTIONS)
-			self.setFocus(self.getControl(CONTROL_BUTTON_SCRAPEMODE_UP))
+			self.setFocus(self.getControl(CONTROL_BUTTON_OVERWRITESETTINGS))
 		else:
 			xbmc.executebuiltin('Skin.Reset(%s)' % util.SETTING_RCB_IMPORTOPTIONS_DISABLEROMCOLLECTIONS)
 
