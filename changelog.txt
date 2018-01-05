@@ -1,3 +1,26 @@
+2.1.4 (01/2018)
+~~~~~~~~~~~~~
+General:
+  * lots of refactoring (remove unused code, performance, readability, ...)  
+  * minor bug fixes
+  * add compatibility to Kodi Leia
+  * break compatibility to Kodi versions < Krypton
+  * exit script when home button is pressed
+
+UI:
+  * slight adjustments to Estuary UI controls
+
+Import Games:
+  * fix some scraper errors
+  * remove archive.vg and maws.mameworld scraper
+
+Browse Games:
+  * sort consoles alphabetically in filter control
+
+Launch Games:
+  * RetroPlayer compatibility
+
+
 2.1.3 (12/2016)
 ~~~~~~~~~~~~~
 General:
