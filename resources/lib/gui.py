@@ -106,10 +106,6 @@ class UIGameDB(xbmcgui.WindowXML):
 	cachingOption = 3
 
 	searchTerm = ''
-
-	if KodiVersions.getKodiVersion() < KodiVersions.HELIX:
-		Logutil.log("Running on Kodi version older than Helix; using old alignment", util.LOG_LEVEL_INFO)
-		xbmc.executebuiltin('Skin.SetBool(rcb_useOldAlignment)')
 	
 	def __init__(self, strXMLname, strFallbackPath, strDefaultName, forceFallback, isMedia=True):
 		Logutil.log("Init Rom Collection Browser: " + util.RCBHOME, util.LOG_LEVEL_INFO)
