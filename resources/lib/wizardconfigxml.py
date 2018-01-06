@@ -167,7 +167,7 @@ class ConfigXmlWizard(RcbXmlReaderWriter):
 
 			# Check if we have general RetroPlayer support
 			if helper.isRetroPlayerSupported():
-				romCollection.useBuiltinEmulator = dialog.yesno(util.localize(32999), util.localize(32198))
+				romCollection.useBuiltinEmulator = bool(dialog.yesno(util.localize(32999), util.localize(32198)))
 			
 			# Only ask for emulator and params if we don't use builtin emulator
 			if not romCollection.useBuiltinEmulator:
