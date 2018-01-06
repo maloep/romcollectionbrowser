@@ -601,7 +601,9 @@ class DBUpdate(object):
 		
 		if gamedescription is not None:
 			game = self.resolveParseResult(gamedescription, 'Game')
-		else:
+		
+		#if no game name has been scraped we expect that no results have been found
+		if game == '':
 			if not isLocalArtwork:
 				self.missingDescFile.add_entry(gamename)
 
