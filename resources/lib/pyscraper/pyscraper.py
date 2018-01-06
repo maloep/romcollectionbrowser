@@ -240,10 +240,10 @@ class PyScraper(object):
 		for i in range(0, len(replaceTokens)):
 			scraperSource = scraperSource.replace(replaceTokens[i], replaceValues[i])
 		
-		if not scraperSource.startswith('http') and not os.path.exists(scraperSource):
+		if not scraperSource.startswith('http') and not xbmcvfs.exists(scraperSource):
 			# try again with original rom filename
 			scraperSource = scraperSourceOrig.replace("%GAME%", romFilename)
-			if not os.path.exists(scraperSource):
+			if not xbmcvfs.exists(scraperSource):
 				log.warn("description file for game {0} could not be found. Check if this path exists: {1}".format(gamenameFromFile, scraperSource))
 				return ""
 

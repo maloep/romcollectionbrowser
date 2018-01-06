@@ -1,4 +1,5 @@
 
+import xbmcvfs
 import time
 import urllib2
 from util import Logutil as log
@@ -18,8 +19,8 @@ class DescriptionParser(object):
 
 	def openFile(self, descriptionFilepath):
 		try:
-			with open(str(descriptionFilepath), 'r') as fh:
-				return fh.read()
+			fh = xbmcvfs.File(str(descriptionFilepath))
+			return fh.read()
 		except Exception as e:
 			log.error("Unable to open metadata from {0}: {1}".format(descriptionFilepath, e))
 
