@@ -456,9 +456,10 @@ def __copyLauncherScriptsToUserdata(settings):
 		files += ['applaunch-vbs.bat', 'LaunchXBMC.vbs', 'Sleep.vbs']
 
 	for f in files:
-		log.debug("Copying file {0} from {1} to {2}".format(f, oldBasePath, newBasePath))
-		if not xbmcvfs.copy(os.path.join(oldBasePath, f), os.path.join(newBasePath, f)):
-			log.warn("Error copying file")
+		if not xbmcvfs.exists(os.path.join(newBasePath, f)):
+			log.debug("Copying file {0} from {1} to {2}".format(f, oldBasePath, newBasePath))
+			if not xbmcvfs.copy(os.path.join(oldBasePath, f), os.path.join(newBasePath, f)):
+				log.warn("Error copying file")
 	
 def __launchNonXbox(cmd, romCollection, gameRow, settings, precmd, postcmd, roms, gui, listitem):
 	log.info("launchEmu on non-xbox")
