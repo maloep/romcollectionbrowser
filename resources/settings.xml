@@ -7,6 +7,12 @@
 		<!--<setting id="rcb_memDB" label="Load the DB into memory" value="false" type="bool" default="false"/>-->
 		<setting id="rcb_saveViewStateOnExit" label="45004" type="bool" default="true"/>
 		<setting id="rcb_saveViewStateOnLaunchEmu" label="45005" type="bool" default="true"/>
+		
+		<setting id="rcb_view_mode" visible="false" value="" type="text"/>
+		<setting id="rcb_launchOnStartup" visible="false" type="bool" default="false"/>
+		<setting id="rcb_scrapeOnStartupAction" visible="false" type="labelenum" values="update|cancel|nothing" default="nothing"/>
+		<setting id="rcb_favoritesSelected" visible="false" type="bool" default="false"/>
+		<setting id="rcb_searchText" visible="false" value="" type="text"/>
 	</category>
 	
 	<category label="45006">
@@ -44,11 +50,5 @@
 		<setting id="rcb_toggleScreenMode" label="40100" type="bool" default="true"/>
 		<setting id="rcb_pathToEmuAutoConfig" label="40101" type="file" />
 	</category>
-	
-	<setting id="rcb_view_mode" visible="false" value="" type="text"/>
-	<setting id="rcb_launchOnStartup" visible="false" type="bool" default="false"/>
-	<setting id="rcb_scrapeOnStartupAction" visible="false" type="labelenum" values="update|cancel|nothing" default="nothing"/>
-	<setting id="rcb_favoritesSelected" visible="false" type="bool" default="false"/>
-	<setting id="rcb_searchText" visible="false" value="" type="text"/>
 
 </settings>
