@@ -14,8 +14,9 @@
 
 
 import os, sys, re
-import xbmcaddon
+
 import xbmc
+import xbmcaddon
 
 
 # Shared resources
@@ -40,8 +41,8 @@ if re.match("Linux", env):
 		env2 = platform.machine()
 		if(env2 == "x86_64"):
 			env = "Linux64"
-	except:
-		pass
+	except ImportError:
+		env = 'Linux'
 
 sys.path.append(os.path.join(BASE_RESOURCE_PATH, "platform_libraries", env))
 
@@ -62,23 +63,23 @@ class dummyGUI():
 class Main():
 
 	def __init__(self):
-		print 'RCB: sys.argv = ' + str(sys.argv)
+		xbmc.log('RCB: sys.argv = ' + str(sys.argv))
 		launchRCB = False
 		for arg in sys.argv:
 			param = str(arg)
-			print 'RCB: param = ' + param
+			xbmc.log('RCB: param = ' + param)
 			if param == '' or param == 'script.games.rom.collection.browser' or param == 'default.py':
-				print 'RCB: setting launchRCB = True'
+				xbmc.log('RCB: setting launchRCB = True')
 				launchRCB = True
 
 			#provide data that skins can show on home screen
 			if 'limit=' in param:
-				print 'RCB: setting launchRCB = False'
+				xbmc.log('RCB: setting launchRCB = False')
 				launchRCB = False
 				#check if RCB should be launched at startup (via RCB Service)
 				launchOnStartup = addon.getSetting('rcb_launchOnStartup')
 				if(launchOnStartup.lower() == 'true'):
-					print "RCB: RCB will be started via RCB service. Won't gather widget data on this run."
+					xbmc.log("RCB: RCB will be started via RCB service. Won't gather widget data on this run.")
 				else:
 					self.gatherWidgetData(param)
 
@@ -87,41 +88,45 @@ class Main():
 				self.launchGame(param)
 
 		# Start the main gui
-		print 'RCB: launchRCB = ' + str(launchRCB)
+		xbmc.log('RCB: launchRCB = ' + str(launchRCB))
 		if launchRCB:
 			import gui
 
 
 	def gatherWidgetData(self, param):
-		print 'start gatherWidgetData'
+		xbmc.log('start gatherWidgetData')
 		import util, helper
 		from gamedatabase import Game, GameDataBase, File
-		from config import Config, RomCollection
+		from config import Config
 
 		gdb = GameDataBase(util.getAddonDataPath())
 		gdb.connect()
 
 		doImport, errorMsg = gdb.checkDBStructure()
 		if(doImport) > 0:
-			print "RCB: No database available. Won't gather any data."
+			xbmc.log("RCB: No database available. Won't gather any data.")
 			gdb.close()
 			return
+		elif(doImport < 0):
+			xbmc.log("RCB: Error occured while checking db structure: {0}" % errorMsg)
+
+
 
 		#cache lookup tables
 		yearDict = helper.cacheYears(gdb)
 		publisherDict = helper.cachePublishers(gdb)
 		developerDict = helper.cacheDevelopers(gdb)
-		reviewerDict = helper.cacheReviewers(gdb)
 		genreDict = helper.cacheGenres(gdb)
 
 		limit = int(param.replace('limit=', ''))
 		games = Game(gdb).getMostPlayedGames(limit)
-		print 'most played games: %s' % games
+		xbmc.log('most played games: %s' % games)
 
 		config = Config(None)
 		statusOk, errorMsg = config.readXml()
 
-		settings = util.getSettings()
+		if(not statusOk):
+			xbmc.log('RCB: Error reading config.xml: {0}' % errorMsg)
 
 		import xbmcgui
 		count = 0
@@ -129,7 +134,7 @@ class Main():
 
 			count += 1
 			try:
-				print "Gathering data for rom no %i: %s" % (count, gameRow[util.ROW_NAME])
+				xbmc.log("Gathering data for rom no %i: %s" % (count, gameRow[util.ROW_NAME]))
 
 				romCollection = config.romCollections[str(gameRow[util.GAME_romCollectionId])]
 
@@ -171,8 +176,6 @@ class Main():
 				version = helper.saveReadString(gameRow[util.GAME_version])
 				playcount = helper.saveReadString(gameRow[util.GAME_launchCount])
 
-				#get launch command
-				filenameRows = File(gdb).getRomsByGameId(gameRow[util.ROW_ID])
 
 				xbmcgui.Window(10000).setProperty("MostPlayedROM.%d.Id" % count, str(gameRow[util.ROW_ID]))
 				xbmcgui.Window(10000).setProperty("MostPlayedROM.%d.Console" % count, romCollection.name)
@@ -200,7 +203,7 @@ class Main():
 				xbmcgui.Window(10000).setProperty("MostPlayedROM.%d.Version" % count, version)
 
 			except Exception, (exc):
-				print 'RCB: Error while getting most played games: ' + str(exc)
+				xbmc.log('RCB: Error while getting most played games: ' + str(exc))
 
 		gdb.close()
 
@@ -226,14 +229,14 @@ class Main():
 
 
 if (__name__ == "__main__"):
-	print 'RCB started'
+	xbmc.log('RCB started')
 	try:
 		Main()
 	except Exception, (exc):
 		message = 'Unhandled exception occured during execution of RCB:'
 		message2 = str(exc)
 		message3 = 'See xbmc.log for details'
-		print message
-		print message2
+		xbmc.log(message)
+		xbmc.log(message2)
 		import xbmcgui
 		xbmcgui.Dialog().ok("Rom Collection Browser", message, message2, message3)

@@ -1,7 +1,10 @@
 # coding=utf-8
 
 import os, sys
-import time
+
+from config import *
+from descriptionparserfactory import *
+from descriptionparserfactory import DescriptionParserFactory
 
 
 BASE_RESOURCE_PATH = os.path.join(os.getcwd())
@@ -13,9 +16,7 @@ if env == 'Windows_NT':
 	env = 'win32'
 sys.path.append(os.path.join(BASE_RESOURCE_PATH, "..", "platform_libraries", env))
 
-from descriptionparserfactory import DescriptionParserFactory
 
-from config import *
 
 #descFile = "F:\\Emulatoren\\data\\Synopsis\\giantbomb\\Actraisersearch.xml"
 #parseInstruction = "F:\\Emulatoren\\data\\Synopsis\\giantbomb\\giantbomb - parserConfig.xml"
@@ -30,7 +31,6 @@ descFile = "D:\\Games\\Testsets\\launch tests\\RetroPlayer\\SNES\\3 Ninjas Kick 
 parseInstruction = "C:\\Users\\lom\\AppData\\Roaming\\Kodi\\addons\\script.games.rom.collection.browser.git\\resources\\scraper\\00 - local nfo.xml"
 
 
-from descriptionparserfactory import *
 descParser = DescriptionParserFactory.getParser(parseInstruction)
 
 #results = descParser.scanDescription(str(descFile), parseInstruction, '	iso-8859-15')
@@ -47,20 +47,20 @@ print len(results)
 import glob
 
 def getFilesByWildcard(pathName):
-		
+
 	files = []
 	
 	try:
 		# try glob with * wildcard
-		files = glob.glob(pathName)	
-		
-		if(len(files) == 0):				
-			squares = re.findall('\[.*\]',pathName)				
+		files = glob.glob(pathName)
+
+		if(len(files) == 0):
+			squares = re.findall('\[.*\]',pathName)
 			if(squares != None and len(squares) >= 1):
 				print('Replacing [...] with *')
-				for square in squares:						
+				for square in squares:
 					pathName = pathName.replace(square, '*')
-			
+
 				print('new pathname: ' +str(pathName))
 				try:
 					files = glob.glob(pathName)
@@ -68,18 +68,18 @@ def getFilesByWildcard(pathName):
 					print("Error using glob function in resolvePath " +str(exc))
 	except Exception, (exc):
 		print("Error using glob function in resolvePath " +str(exc))
-	
+
 	# glob can't handle []-characters - try it with listdir
 	if(len(files)  == 0):
 		try:
 			if(os.path.isfile(pathName)):
 				files.append(pathName)
 			else:
-				files = os.listdir(pathName)					
+				files = os.listdir(pathName)
 		except:
 			pass
 	print("resolved files: " +str(files))
-	return files	
+	return files
 
 pathName = 'F:\\Emulatoren\\data\\Scraper Tests\\Artwork RCB\\Sega32\\boxback\\[32x] - Doom.*'
 #pathName = 'F:\\Emulatoren\\data\\Scraper Tests\\Artwork RCB\\Amiga\\screenshot\\Metal Gear Solid [!].*'
@@ -147,7 +147,7 @@ print parent
 
 """
 def walklevel(some_dir, level=1):
-	some_dir = some_dir.rstrip(os.path.sep)	
+	some_dir = some_dir.rstrip(os.path.sep)
 	assert os.path.isdir(some_dir)
 	num_sep = len([x for x in some_dir if x == os.path.sep])
 	for root, dirs, files in os.walk(some_dir):
@@ -173,7 +173,7 @@ basename = os.path.basename(myConfig.romCollections["1"].romPaths[0])
 dirname = dirname.decode('utf-8')
 #dirname = dirname.decode(sys.getfilesystemencoding()).encode('utf-8')
 for walkRoot, walkDirs, walkFiles in walklevel(dirname, 99):
-	newRomPath = os.path.join(walkRoot, basename)	
+	newRomPath = os.path.join(walkRoot, basename)
 	#glob is same as "os.listdir(romPath)" but it can handle wildcards like *.adf
 	allFiles = [f.decode(sys.getfilesystemencoding()).encode('utf-8') for f in glob.glob(newRomPath)]
 

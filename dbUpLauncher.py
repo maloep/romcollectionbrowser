@@ -2,7 +2,7 @@
 import os
 import sys
 
-import xbmcgui, xbmcaddon
+import xbmc, xbmcgui, xbmcaddon
 
 # Shared resources
 addonPath = ''
@@ -41,7 +41,7 @@ class ProgressDialogBk:
 		self.paintProgress()
 
 	def paintProgress(self):
-		print 'paintProgress'
+		xbmc.log('paintProgress')
 
 		self.windowID = xbmcgui.getCurrentWindowId()
 		self.window = xbmcgui.Window(self.windowID)
@@ -73,8 +73,8 @@ class ProgressDialogBk:
 
 
 	def writeMsg(self, line1, line2, line3, count=0):
-		print 'writeMsg'
-		print 'count = ' + str(count)
+		xbmc.log('writeMsg')
+		xbmc.log('count = ' + str(count))
 
 		#If we are done, remove progress
 		if(line1 == 'Done.'):
@@ -83,14 +83,14 @@ class ProgressDialogBk:
 				self.window.removeControl(self.header)
 				self.window.removeControl(self.label)
 				self.window.removeControl(self.progress)
-			except:
-				pass
+			except (TypeError , RuntimeError), exc:
+				xbmc.log('RCB: Error while removing control from window: {0}' %str(exc))
 
 			return False
 
 		#check if action was canceled from RCB
 		scrapeOnStartupAction = util.getSettings().getSetting(util.SETTING_RCB_SCRAPEONSTARTUPACTION)
-		print 'scrapeOnStartupAction = ' + scrapeOnStartupAction
+		xbmc.log('scrapeOnStartupAction = ' + scrapeOnStartupAction)
 		if (scrapeOnStartupAction == 'cancel'):
 			self.label.setLabel("%d %% - %s" % (100, 'Update canceled'))
 			try:
@@ -98,15 +98,15 @@ class ProgressDialogBk:
 				self.window.removeControl(self.header)
 				self.window.removeControl(self.label)
 				self.window.removeControl(self.progress)
-			except:
-				pass
+			except (TypeError , RuntimeError), exc:
+				xbmc.log('RCB: Error while removing control from window: {0}' %str(exc))
 
 			return False
 
 		if not self.label:
 		  return True
 		elif (count > 0):
-			print 'count > 0'
+			xbmc.log('count > 0')
 			percent = int(count * (float(100) / self.itemCount))
 			self.header.setLabel(line1)
 			self.label.setLabel("%d %% - %s" % (percent, line2))
@@ -121,7 +121,7 @@ class ProgressDialogBk:
 		return True
 
 def runUpdate():
-	print 'runUpdate'
+	xbmc.log('runUpdate')
 
 	gdb = GameDataBase(util.getAddonDataPath())
 	gdb.connect()

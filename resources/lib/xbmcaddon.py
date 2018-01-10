@@ -8,7 +8,7 @@
 
 import os
 #Addon = Addon()
-_settings = {'rcb_fuzzyFactor': '3', 
+_settings = {'rcb_fuzzyFactor': '3',
 			'rcb_enableFullReimport': 'true',
 			'rcb_createNfoWhileScraping': 'false',
 			'rcb_overwriteWithNullvalues': 'false',
@@ -16,7 +16,7 @@ _settings = {'rcb_fuzzyFactor': '3',
 			'rcb_ignoreGamesWithoutArtwork': 'false'}
 
 class Addon:
-	
+
 	def __init__(self, *args, **kwargs):
 		pass
 
@@ -33,10 +33,10 @@ class Addon:
 		return 'dummy'
 
 
-	def getLocalizedString(self, id ):
+	def getLocalizedString(self, stringId ):
 		return "mytext"
 
-	def getSetting(self, id):
+	def getSetting(self, settingId):
 		"""
 			Returns the value of a setting as a string.
 	
@@ -48,7 +48,7 @@ class Addon:
 				apikey = xbmcplugin.getSetting('apikey')
 		"""
 		global _settings
-		if _settings.has_key(id):
-			return _settings[id]
+		if _settings.has_key(settingId):
+			return _settings[settingId]
 
 

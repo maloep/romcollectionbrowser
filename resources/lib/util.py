@@ -341,17 +341,17 @@ class Logutil(object):
 	def __log(cls, level, message):
 		# Init if not already set
 		if cls.currentLogLevel is None:
-			print "RCB: initialising log level"
+			xbmc.log("RCB: initialising log level")
 			cls.currentLogLevel = cls.getCurrentLogLevel()
-			print "RCB: current log level initialised to " +str(cls.currentLogLevel)
+			xbmc.log("RCB: current log level initialised to " +str(cls.currentLogLevel))
 
 		if Logutil.getCurrentLogLevel() < level:
 			return
 
 		try:
-			print u"{0} {1}".format(str(cls.prefix[level]), message).encode('utf-8')
+			xbmc.log(u"{0} {1}".format(str(cls.prefix[level]), message).encode('utf-8'))
 		except Exception as e:
-			print("Warning when trying to log in RCB: {0}".format(e))
+			xbmc.log(("Warning when trying to log in RCB: {0}".format(e)))
 
 	@classmethod
 	def debug(cls, message):
@@ -373,9 +373,9 @@ class Logutil(object):
 	def log(message, logLevel):
 		# FIXME TODO this is deprecated in favour of the above methods
 		if(Logutil.currentLogLevel == None):
-			print "RCB: init log level"
+			xbmc.log("RCB: init log level")
 			Logutil.currentLogLevel = Logutil.getCurrentLogLevel()
-			print "RCB: current log level: " +str(Logutil.currentLogLevel)
+			xbmc.log("RCB: current log level: " +str(Logutil.currentLogLevel))
 		
 		if(logLevel > Logutil.currentLogLevel):			
 			return
@@ -393,7 +393,7 @@ class Logutil(object):
 		try:
 			# should be save as prefix is guaranteed to be unicode
 			m = prefix + message
-			print m.encode("utf-8")
+			xbmc.log(m.encode("utf-8"))
 		except Exception, (exc):
 			pass
 	

@@ -1,5 +1,4 @@
 import os, sys
-import re
 
 import config
 import dbupdate
