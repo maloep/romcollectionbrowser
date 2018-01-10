@@ -206,7 +206,7 @@ class ConfigXmlWriter(RcbXmlReaderWriter):
 				if(pathParts[0].upper() == rcbScraperPath.upper()):
 					scraper.parseInstruction = pathParts[1]
 
-				scraperXml = SubElement(scraperSiteXml, 'Scraper', self.getXmlAttributesForScraper(scraper))
+				SubElement(scraperSiteXml, 'Scraper', self.getXmlAttributesForScraper(scraper))
 
 		success, message = self.writeFile()
 		return success, message

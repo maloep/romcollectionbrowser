@@ -29,51 +29,50 @@ class ConfigXmlWizard(RcbXmlReaderWriter):
 					 'System.Platform.OSX',
 					 'System.Platform.Windows',
 					 'System.Platform.Linux')
-		try:
-			for platform in platforms:
-				if xbmc.getCondVisibility(platform):
-					os = platform.split('.')[-1]
-					break
-		except Exception as err:
-			pass
+
+		for platform in platforms:
+			if xbmc.getCondVisibility(platform):
+				os = platform.split('.')[-1]
+				break
+
 		return os
 
 	# Called on first run
 	def createConfigXml(self, configFile):
-				
-		id = 1		
+
+		rcId = 1
 		consoleList = sorted(config.consoleDict.keys())
-				
-		success, romCollections = self.addRomCollections(id, None, consoleList, False)
+
+		success, romCollections = self.addRomCollections(rcId, None, consoleList, False)
 		if(not success):
 			log.info("Action canceled. Config.xml will not be written")
 			return False, util.localize(32172)
-				
+
 		configWriter = ConfigXmlWriter(True)
 		success, message = configWriter.writeRomCollections(romCollections, False)
-			
+
 		return success, message
-	
+
 	# Called by context menu
 	def addRomCollection(self, configObj):
 		Logutil.log("Begin addRomCollection" , util.LOG_LEVEL_INFO)
-		
+
 		consoleList = sorted(config.consoleDict.keys())
 		id = 1
-		
+
 		rcIds = configObj.romCollections.keys()
 		rcIds.sort()
 		#read existing rom collection ids and names
-		for rcId in rcIds:				
-			
-			#remove already configured consoles from the list			
+		for rcId in rcIds:
+
+			#remove already configured consoles from the list
 			if(configObj.romCollections[rcId].name in consoleList):
 				consoleList.remove(configObj.romCollections[rcId].name)
 			#find highest id
 			if(int(rcId) > int(id)):
 				id = rcId
-								
-		id = int(id) +1
+
+		id = int(id) + 1
 
 		# Add new rom collections
 		success, romCollections = self.addRomCollections(id, configObj, consoleList, True)
@@ -122,13 +121,13 @@ class ConfigXmlWizard(RcbXmlReaderWriter):
 		log.debug(u"artworkPath selected: {0}".format(artworkPath))
 
 		return artworkPath
-	
 
-	def addRomCollections(self, id, configObj, consoleList, isUpdate):
-		
+
+	def addRomCollections(self, rcId, configObj, consoleList, isUpdate):
+
 		romCollections = {}
 		dialog = xbmcgui.Dialog()
-		
+
 		# Scraping scenario - game descriptions and artwork retrieved from online or available locally
 		scenarioIndex = dialog.select(util.localize(32173), [util.localize(32174), util.localize(32175)])
 		log.info("scenarioIndex: " + str(scenarioIndex))
@@ -136,14 +135,17 @@ class ConfigXmlWizard(RcbXmlReaderWriter):
 			del dialog
 			log.info("No scenario selected. Action canceled.")
 			return False, romCollections
-		
+
 		autoconfig = EmulatorAutoconfig(util.getEmuAutoConfigPath())
-		
+
 		while True:
-					
+
 			fileTypeList, errorMsg = self.buildMediaTypeList(configObj, isUpdate)
 			romCollection = RomCollection()
-			
+			if(errorMsg):
+				log.warn("Error building Media Type List: {0}" %errorMsg)
+				break
+
 			# Console
 			platformIndex = dialog.select(util.localize(32176), consoleList)
 			log.info("platformIndex: " + str(platformIndex))
@@ -162,19 +164,19 @@ class ConfigXmlWizard(RcbXmlReaderWriter):
 				log.info("Selected platform: " + console)
 
 			romCollection.name = console
-			romCollection.id = id
-			id = id +1
+			romCollection.id = rcId
+			rcId = rcId + 1
 
 			# Check if we have general RetroPlayer support
 			if helper.isRetroPlayerSupported():
 				romCollection.useBuiltinEmulator = bool(dialog.yesno(util.localize(32999), util.localize(32198)))
-			
+
 			# Only ask for emulator and params if we don't use builtin emulator
 			if not romCollection.useBuiltinEmulator:
-				
+
 				# Maybe there is autoconfig support
 				preconfiguredEmulator = None
-				
+
 				# Emulator
 				if romCollection.name in ['Linux', 'Macintosh', 'Windows']:
 					# Check for standalone games
@@ -200,7 +202,7 @@ class ConfigXmlWizard(RcbXmlReaderWriter):
 						except IndexError:
 							log.info("No Emulator selected.")
 							preconfiguredEmulator = None
-							
+
 					if preconfiguredEmulator:
 						romCollection.emulatorCmd = preconfiguredEmulator.emuCmd
 					else:
@@ -210,7 +212,7 @@ class ConfigXmlWizard(RcbXmlReaderWriter):
 							log.info("No consolePath selected. Action canceled.")
 							break
 						romCollection.emulatorCmd = consolePath
-				
+
 				# Set emulator parameters
 				if romCollection.name in ['Linux', 'Macintosh', 'Windows']:
 					romCollection.emulatorParams = ''
@@ -252,9 +254,9 @@ class ConfigXmlWizard(RcbXmlReaderWriter):
 				if artworkPath == '':
 					log.info("No artworkPath selected. Action canceled.")
 					break
-				
+
 				romCollection.descFilePerGame = True
-				
+
 				# Media Paths
 				romCollection.mediaPaths = []
 
@@ -275,18 +277,18 @@ class ConfigXmlWizard(RcbXmlReaderWriter):
 					if fileTypeIndex == -1:
 						log.info("No fileTypeIndex selected.")
 						break
-					
+
 					fileType = fileTypeList[fileTypeIndex]
 					fileTypeList.remove(fileType)
 
 					# Prompt user for path for existing artwork
-					artworkPath = dialog.browse(0, util.localize(32182) %(console, fileType), 'files', '', False, False, lastArtworkPath).decode('utf-8')
+					artworkPath = dialog.browse(0, util.localize(32182) % (console, fileType), 'files', '', False, False, lastArtworkPath).decode('utf-8')
 					log.debug(u"artworkPath selected: {0}".format(artworkPath))
 					if artworkPath == '':
 						log.info("No artworkPath selected.")
 						break
 					lastArtworkPath = artworkPath
-					
+
 					romCollection.mediaPaths.append(self.createMediaPath(fileType, artworkPath, scenarioIndex))
 
 					# Ask to add another artwork path
@@ -299,23 +301,23 @@ class ConfigXmlWizard(RcbXmlReaderWriter):
 				if descIndex == -1:
 					log.info("No descIndex selected. Action canceled.")
 					break
-				
+
 				romCollection.descFilePerGame = (descIndex != GAME_DESCRIPTION_SINGLE_FILE)
-				
+
 				if descIndex == GAME_DESCRIPTION_ONLINE:
 					# Leave scraperSites empty - they will be filled in configwriter
 					pass
-				
+
 				else:
 					descPath = ''
-					
+
 					if romCollection.descFilePerGame:
 						# Assume the files are in a single directory with the mask %GAME%.txt
 						# Prompt the user for the path
 						pathValue = dialog.browse(0, util.localize(32189) % console, 'files')
 						if pathValue == '':
 							break
-						
+
 						# Prompt the user for the description file mask
 						filemask = xbmcgui.Dialog().input(util.localize(32190), defaultt='%GAME%.txt', type=xbmcgui.INPUT_ALPHANUM)
 						descPath = util.joinPath(pathValue, filemask.strip())
@@ -333,7 +335,7 @@ class ConfigXmlWizard(RcbXmlReaderWriter):
 					if parserPath == '':
 						log.info("No parserPath selected. Action canceled.")
 						break
-					
+
 					# Create scraper
 					site = Site(name=console, descFilePerGame=(descIndex == GAME_DESCRIPTION_PER_FILE), searchGameByCRC=True)
 					site.scrapers = [Scraper(parseInstruction=parserPath, source=descPath, encoding='iso-8859-1')]
@@ -346,40 +348,40 @@ class ConfigXmlWizard(RcbXmlReaderWriter):
 			# Ask the user if they want to add another rom collection
 			if not dialog.yesno(util.localize(32999), util.localize(32192)):
 				break
-		
+
 		del dialog
-		
+
 		return True, romCollections
-	
+
 	def buildMediaTypeList(self, configObj, isUpdate):
 		#build fileTypeList
 		fileTypeList = []
-		
+
 		if(isUpdate):
 			fileTypes = configObj.tree.findall('FileTypes/FileType')
 		else:
 			#build fileTypeList
 			configFile = util.joinPath(util.getAddonInstallPath(), 'resources', 'database', 'config_template.xml')
-	
+
 			if(not xbmcvfs.exists(configFile)):
 				log.error("File config_template.xml does not exist. Place a valid config file here: " + str(configFile))
 				return None, util.localize(32040)
-			
-			tree = ElementTree().parse(configFile)			
-			fileTypes = tree.findall('FileTypes/FileType')			
-			
+
+			tree = ElementTree().parse(configFile)
+			fileTypes = tree.findall('FileTypes/FileType')
+
 		for fileType in fileTypes:
 			name = fileType.attrib.get('name')
 			if(name != None):
-				type = fileType.find('type')				
-				if(type != None and type.text == 'video'):
-					name = name +' (video)'
+				mediaType = fileType.find('type')
+				if(mediaType != None and mediaType.text == 'video'):
+					name = name + ' (video)'
 				fileTypeList.append(name)
-				
+
 		return fileTypeList, ''
-	
+
 	def createMediaPath(self, mediatype, path, scenarioIndex):
-		
+
 		if mediatype == 'gameplay (video)':
 			mediatype = 'gameplay'
 
@@ -389,15 +391,15 @@ class ConfigXmlWizard(RcbXmlReaderWriter):
 			fileMask = '%GAME%.*'
 
 		log.debug("media path type is {0}, filemask is {1}".format(mediatype, fileMask))
-		
+
 		fileType = FileType()
 		fileType.name = mediatype
-		
+
 		mediaPath = MediaPath()
 		mediaPath.fileType = fileType
 		if scenarioIndex == RETRIEVE_INFO_ARTWORK_ONLINE:
 			mediaPath.path = util.joinPath(path, mediatype, fileMask)
 		else:
 			mediaPath.path = util.joinPath(path, fileMask)
-				
+
 		return mediaPath
