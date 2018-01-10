@@ -1,6 +1,6 @@
 
 import xbmc, xbmcgui, xbmcaddon
-import string, glob, time, array, os, sys, shutil, re
+import glob, time, array, os, sys, shutil, re
 from threading import *
 
 from util import *

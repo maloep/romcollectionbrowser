@@ -20,7 +20,7 @@ CONTROL_BUTTON_DEL_UP = 5492
 
 
 class RemoveRCDialog(xbmcgui.WindowXMLDialog):
-		
+
 	selectedControlId = 0
 	selectedRomCollection = None
 	romCollections = None
@@ -30,7 +30,7 @@ class RemoveRCDialog(xbmcgui.WindowXMLDialog):
 
 	def __init__(self, *args, **kwargs):
 		log.info('init Edit RC Basic')
-		
+
 		self.gui = kwargs["gui"]
 		self.romCollections = self.gui.config.romCollections
 		self.doModal()
@@ -42,18 +42,18 @@ class RemoveRCDialog(xbmcgui.WindowXMLDialog):
 		log.info('build rom collection list')
 
 		self.addItemsToList(CONTROL_LIST_ROMCOLLECTIONS, self.gui.config.getRomCollectionNames())
-		
+
 		# Delete Options
 		rcDeleteOptions = [util.localize(32137), util.localize(32138)]
 		self.addItemsToList(CONTROL_LIST_DELETEOPTIONS, rcDeleteOptions, properties=['RCollection', 'Roms'])
 		self.updateControls()
-		
-	def onAction(self, action):		
+
+	def onAction(self, action):
 		if (action.getId() in ACTION_CANCEL_DIALOG):
 			self.close()
-	
+
 	def onClick(self, controlID):
-		
+
 		log.info('onClick')
 
 		if controlID == CONTROL_BUTTON_EXIT:
@@ -90,7 +90,7 @@ class RemoveRCDialog(xbmcgui.WindowXMLDialog):
 			if self.selectedRomCollection is not None:
 				# Store previous selectedRomCollections state
 				self.romCollections[self.selectedRomCollection.id] = self.selectedRomCollection
-			
+
 			# HACK: add a little wait time as XBMC needs some ms to execute the MoveUp/MoveDown actions from the skin
 			xbmc.sleep(util.WAITTIME_UPDATECONTROLS)
 			self.updateControls()
@@ -100,19 +100,19 @@ class RemoveRCDialog(xbmcgui.WindowXMLDialog):
 			selectedDeleteOption = str(control.getSelectedItem().getLabel2())
 			log.info('selectedDeleteOption = {0}'.format(selectedDeleteOption))
 			self.romDelete = selectedDeleteOption
-	
+
 	def onFocus(self, controlId):
 		self.selectedControlId = controlId
-	
+
 	def updateControls(self):
-		
+
 		log.info('updateControls')
-		
+
 		control = self.getControlById(CONTROL_LIST_ROMCOLLECTIONS)
 		selectedRomCollectionName = str(control.getSelectedItem().getLabel())
 
 		self.selectedRomCollection = self.gui.config.getRomCollectionByName(selectedRomCollectionName)
-	
+
 	def getSelectedRCId(self):
 		return self.selectedRomCollection.id
 
@@ -121,31 +121,31 @@ class RemoveRCDialog(xbmcgui.WindowXMLDialog):
 			control = self.getControl(controlId)
 		except:
 			return None
-		
+
 		return control
-	
+
 	def addItemsToList(self, controlId, options, properties=None):
 		Logutil.log('addItemsToList', util.LOG_LEVEL_INFO)
-		
+
 		control = self.getControlById(controlId)
 		control.setVisible(1)
 		control.reset()
-				
-		items = []		
+
+		items = []
 		for i in range(0, len(options)):
 			option = options[i]
 			p = ''
 			if properties:
 				p = properties[i]
 			items.append(xbmcgui.ListItem(option, p, '', ''))
-							
+
 		control.addItems(items)
 
-	def selectItemInList(self, options, itemName, controlId):				
-		
+	def selectItemInList(self, options, itemName, controlId):
+
 		log.info('selectItemInList')
-		
-		for i in range(0, len(options)):			
+
+		for i in range(0, len(options)):
 			option = options[i]
 			if itemName == option:
 				control = self.getControlById(controlId)
@@ -157,7 +157,7 @@ class RemoveRCDialog(xbmcgui.WindowXMLDialog):
 
 	def _setDeleteStatus(self, status):
 		self._deleteCollection = status
-		
+
 	def getRCDeleteStatus(self):
 		return self._rcDeleteCollection
 
