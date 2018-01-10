@@ -1,14 +1,12 @@
-import xbmc, xbmcaddon, xbmcvfs
+import os, re, shutil
+from sqlite3 import dbapi2 as sqlite
 
-import os, sys, re, shutil
-#import xbmc, time
-import time
+import xbmc, xbmcaddon, xbmcvfs
 
 
 #
 # CONSTANTS AND GLOBALS #
 #
-
 SCRIPTNAME = 'Rom Collection Browser'
 SCRIPTID = 'script.games.rom.collection.browser'
 CURRENT_CONFIG_VERSION = "2.1.4"
@@ -327,7 +325,6 @@ RCBHOME = getAddonInstallPath()
 # Logging
 #
 
-from sqlite3 import dbapi2 as sqlite
 print("RCB_INFO: Loading sqlite3 as DB engine")
 
 

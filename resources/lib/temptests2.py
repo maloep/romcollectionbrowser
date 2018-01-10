@@ -1,7 +1,7 @@
 
-import os, sys
+import os
 
-'''
+"""
 BASE_RESOURCE_PATH = os.path.join(os.getcwd())
 sys.path.append(os.path.join(BASE_RESOURCE_PATH, "pyparsing"))
 sys.path.append(os.path.join(BASE_RESOURCE_PATH, "pyscraper"))
@@ -19,7 +19,7 @@ for result in results:
     print result
     
 print len(results)
-'''
+"""
 
 
 from emulatorautoconfig.autoconfig import EmulatorAutoconfig
@@ -27,7 +27,7 @@ from emulatorautoconfig.autoconfig import EmulatorAutoconfig
 
 config = EmulatorAutoconfig('C:\\Users\\lom\\AppData\\Roaming\\XBMC\\addons\\script.games.rom.collection.browser.dev\\resources\\emu_autoconfig.xml')
 
-'''
+"""
 config.readXml()
 for op in config.operatingSystems:
     print op.name
@@ -42,7 +42,7 @@ for op in config.operatingSystems:
             for detection in emulator.detectionMethods:
                 print detection.name
                 print detection.command
-''' 
+"""
 
 
 emulators = config.findEmulators('Android', 'Super Nintendo', True);

@@ -1,15 +1,14 @@
 
 import os
+from xml.etree.ElementTree import *
 
-import xbmc, xbmcgui, xbmcvfs
-
-import dialogprogress
-import util
-from util import *
 from config import *
+import dialogprogress
 from gamedatabase import *
 from rcbxmlreaderwriter import RcbXmlReaderWriter
-from xml.etree.ElementTree import *
+from util import *
+import util
+import xbmcgui, xbmcvfs
 
 
 class NfoWriter(RcbXmlReaderWriter):

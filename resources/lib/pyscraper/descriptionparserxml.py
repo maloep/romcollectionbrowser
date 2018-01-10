@@ -5,10 +5,10 @@ from util import Logutil as log
 from descriptionparser import DescriptionParser
 
 class DescriptionParserXml(DescriptionParser):
-	
+
 	def __init__(self, grammarNode):
 		self.grammarNode = grammarNode
-	
+
 	def prepareScan(self, descFile, descParseInstruction):
 		pass
 
@@ -29,7 +29,7 @@ class DescriptionParserXml(DescriptionParser):
 		if rootElements is None:
 			log.warn("Unable to find root element {0} in description".format(rootElementXPath))
 			return []
-		
+
 		resultList = []
 		for rootElement in rootElements:
 			tempResults = self.parseElement(rootElement)
@@ -62,7 +62,7 @@ class DescriptionParserXml(DescriptionParser):
 
 		# Apply the GrammarNode rules to find the data
 		return self.applyGrammerToDescription(descFile)
-	
+
 	def scanDescription(self, descFile, descParseInstruction, encoding):
 		"""
 		Args:
@@ -76,18 +76,18 @@ class DescriptionParserXml(DescriptionParser):
 			Generator for the instructions
 		"""
 		log.info('scanDescription: %s' % descFile)
-		
+
 		descFile = self.getDescriptionContents(descFile)
-		
+
 		#load xmlDoc as elementtree to check with xpaths
 		tree = fromstring(descFile)
 		del descFile
-		
+
 		#single result as dictionary
 		result = {}
-					
+
 		rootElement = self.grammarNode.attrib.get('root')
-				
+
 		for node in tree.findall(rootElement):
 			result = self.parseElement(node)
 			result = self.replaceResultTokens(result)
@@ -97,32 +97,32 @@ class DescriptionParserXml(DescriptionParser):
 	def parseElement(self, sourceTree):
 		#single result as dictionary
 		result = {}
-		
+
 		for parserNode in self.grammarNode:
-					
+
 			resultKey = parserNode.tag
 			xpath = parserNode.text
 			sourceRoot = sourceTree
-				
+
 			if(xpath == None):
 				continue
-			
+
 			#check if xpath uses attributes for searching
 			parts = xpath.split('[@')
-			
+
 			if(len(parts) == 2):
 				xpathRest = str(parts[1])
 				attribnameIndex = xpathRest.find('="')
 				searchedattribname = xpathRest[0:attribnameIndex]
-				searchedvalue = xpathRest[attribnameIndex +2: xpathRest.find('"', attribnameIndex +2)]
-				
+				searchedvalue = xpathRest[attribnameIndex + 2: xpathRest.find('"', attribnameIndex + 2)]
+
 				resultValues = []
 				sourceElements = sourceRoot.findall(parts[0])
 				for sourceElement in sourceElements:
 					attribute = sourceElement.attrib.get(searchedattribname)
 					if(attribute != searchedvalue):
 						continue
-										
+
 					if xpath.find(']/') != -1:
 						parts = xpath.split(']/')
 						attribute = sourceElement.attrib.get(parts[1])
@@ -130,17 +130,17 @@ class DescriptionParserXml(DescriptionParser):
 					else:
 						resultValues.append(sourceElement.text)
 			else:
-				#check if xpath targets an attribute 
+				#check if xpath targets an attribute
 				parts = xpath.split('/@')
 				if(len(parts) > 2):
 					print("Usage error: wrong xpath! Only 1 attribute allowed")
 					continue
-				
+
 				resultValues = []
-				
-				#check only the first part without attribute (elementtree does not support attributes as target)			
+
+				#check only the first part without attribute (elementtree does not support attributes as target)
 				elements = sourceRoot.findall(parts[0])
-								
+
 				for element in elements:
 					#if search for attribute
 					if(len(parts) > 1):
@@ -149,14 +149,14 @@ class DescriptionParserXml(DescriptionParser):
 						#print "found attribute: " +attribute
 					else:
 						if(element.text != None):
-							resultValues.append(element.text.encode('utf-8'))					
+							resultValues.append(element.text.encode('utf-8'))
 						#print "found result: " +element.text
-			
+
 			try:
 				resultEntry = result[resultKey]
 				resultEntry.append(resultValues)
 				result[resultKey] = resultEntry
 			except:
 				result[resultKey] = resultValues
-									
+
 		return result

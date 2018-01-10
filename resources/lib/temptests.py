@@ -1,9 +1,7 @@
 # coding=utf-8
 
-import os, sys, re
-import time, datetime
-import urllib
-import difflib
+import os, sys
+import time
 
 
 BASE_RESOURCE_PATH = os.path.join(os.getcwd())
@@ -15,10 +13,8 @@ if env == 'Windows_NT':
 	env = 'win32'
 sys.path.append(os.path.join(BASE_RESOURCE_PATH, "..", "platform_libraries", env))
 
-import util
 from descriptionparserfactory import DescriptionParserFactory
 
-import config
 from config import *
 
 #descFile = "F:\\Emulatoren\\data\\Synopsis\\giantbomb\\Actraisersearch.xml"
@@ -41,7 +37,7 @@ descParser = DescriptionParserFactory.getParser(parseInstruction)
 results = descParser.parseDescription(str(descFile), '	iso-8859-15')
 for result in results:
 	print result
-	
+
 print len(results)
 
 

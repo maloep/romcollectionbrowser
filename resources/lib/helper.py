@@ -1,13 +1,10 @@
-import xbmc, xbmcgui
-import os, sys, re
 import json
+import os, re
 
-
-import dbupdate
 from gamedatabase import *
-import util
 from util import *
-import config
+import util
+import xbmc, xbmcgui
 
 
 def cacheFiles(fileRows):

@@ -1,10 +1,12 @@
-import xbmc, xbmcgui, xbmcvfs
 import os, sys, re
-import dbupdate, util, helper
+import time, zipfile, glob, shutil
+
+import dbupdate, util
 from gamedatabase import *
 from util import *
 from util import Logutil as log
-import time, zipfile, glob, shutil
+import xbmc, xbmcgui, xbmcvfs
+
 
 KODI_JSONRPC_TOGGLE_FULLSCREEN = '{"jsonrpc": "2.0", "method": "Input.ExecuteAction", "params": {"action": "togglefullscreen"}, "id": "1"}'
 

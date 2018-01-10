@@ -16,27 +16,27 @@ _logentry = 0
 def _write_to_file(msg):
     global _filename
     global _logentry
-    filepath = os.path.join( os.getcwd(), _filename )
+    filepath = os.path.join(os.getcwd(), _filename)
     if _logentry == 0: mode = 'w'
     else: mode = 'a'
     fh = open(filepath, mode)
-    fh.write( '%003d -- %s\n' % ( _logentry, msg ) )
+    fh.write('%003d -- %s\n' % (_logentry, msg))
     fh.close()
     _logentry += 1
-    
 
-    
+
+
 # ------------------------------------------------------------------------------
 #                     xbmc module functions and constants
 # ------------------------------------------------------------------------------
 
-LOGNONE    = -1
-LOGNORMAL  = 0
-LOGDEBUG   = 1
-LOGNOTICE  = 'NOTICE'
-LOGDEBUG   = 'DEBUG'
+LOGNONE = -1
+LOGNORMAL = 0
+LOGDEBUG = 1
+LOGNOTICE = 'NOTICE'
+LOGDEBUG = 'DEBUG'
 LOGWARNING = 'WARNING'
-LOGERROR   = 'ERROR'
+LOGERROR = 'ERROR'
 
 def log(msg, level=LOGNOTICE):
     """
@@ -74,9 +74,9 @@ def log(msg, level=LOGNOTICE):
 log('%s::Logging initiated!' % __name__)
 
 def translatePath(path):
-    b, t = os.path.split( path )
-    return os.path.join( os.getcwd(), t )
-    
+    b, t = os.path.split(path)
+    return os.path.join(os.getcwd(), t)
+
 class Keyboard:
     def __init__(self, default='', heading=None, hidden=False):
         self.default = default
@@ -87,10 +87,10 @@ class Keyboard:
 
     def doModal(self):
         self.text = raw_input('%s\n-->' % self.heading)
-        
+
     def getText(self):
         return self.text
-        
+
     def isConfirmed(self):
         return True
 
@@ -111,7 +111,7 @@ class ListItem:
         pass
     def setProperty(self, *args, **kwargs):
         pass
-    
+
 def addDirectoryItem(handle, url, listitem, isFolder=False, totalItems=None):
     """
         Callback function to pass directory contents back to XBMC.
@@ -138,8 +138,8 @@ def addDirectoryItem(handle, url, listitem, isFolder=False, totalItems=None):
     global _items_added
     _items_added += 1
 
-    
-    
+
+
 def addDirectoryItems(handle, items, totalItems=None):
     """
         Callback function to pass directory contents back to XBMC as a list.
@@ -165,8 +165,8 @@ def addDirectoryItems(handle, items, totalItems=None):
     global _items_added
     _items_added += len(items)
 
-    
-    
+
+
 def endOfDirectory(handle, succeeded=True, updateListing=False, cacheToDisk=True):
     """
         Callback function to tell XBMC that the end of the directory listing in
@@ -209,7 +209,7 @@ def getSetting(id):
     global _settings
     if _settings.has_key(id):
         return _settings[id]
-       
+
 
 class Settings:
 	def __init__(self, path):

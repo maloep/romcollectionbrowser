@@ -1,32 +1,30 @@
-import unittest
 import os, sys
-import re, string
+import re
+
+import config
+import dbupdate
+from gamedatabase import *
+from util import *
 
 
 # Shared resources
-BASE_RESOURCE_PATH = os.path.join( os.getcwd(), ".." )
-sys.path.append( os.path.join( BASE_RESOURCE_PATH, "lib" ) )
-sys.path.append( os.path.join( BASE_RESOURCE_PATH, "lib", "pyscraper" ) )
-sys.path.append( os.path.join( BASE_RESOURCE_PATH, "lib", "pyparsing" ) )
+BASE_RESOURCE_PATH = os.path.join(os.getcwd(), "..")
+sys.path.append(os.path.join(BASE_RESOURCE_PATH, "lib"))
+sys.path.append(os.path.join(BASE_RESOURCE_PATH, "lib", "pyscraper"))
+sys.path.append(os.path.join(BASE_RESOURCE_PATH, "lib", "pyparsing"))
 # append the proper platforms folder to our path, xbox is the same as win32
-env = ( os.environ.get( "OS", "win32" ), "win32", )[ os.environ.get( "OS", "win32" ) == "xbox" ]
+env = (os.environ.get("OS", "win32"), "win32",)[ os.environ.get("OS", "win32") == "xbox" ]
 if env == 'Windows_NT':
 	env = 'win32'
-sys.path.append( os.path.join( BASE_RESOURCE_PATH, "platform_libraries", env ) )
+sys.path.append(os.path.join(BASE_RESOURCE_PATH, "platform_libraries", env))
 
-print "Loading sqlite3 as DB engine"
-from sqlite3 import dbapi2 as sqlite
-	
-from gamedatabase import *
-from util import *
-import dbupdate
-import config
+
 
 
 class RCBMock:
-	
+
 	itemCount = 0
-	
+
 	def writeMsg(self, msg1, msg2, msg3, count=0):
 		return True
 
@@ -39,10 +37,10 @@ Logutil.currentLogLevel = util.LOG_LEVEL_INFO
 
 
 #Init database
-databasedir = os.path.join( os.getcwd())
+databasedir = os.path.join(os.getcwd())
 gdb = GameDataBase(databasedir)
 gdb.connect()
-gdb.dropTables()		
+gdb.dropTables()
 gdb.createTables()
 
 util.ISTESTRUN = True

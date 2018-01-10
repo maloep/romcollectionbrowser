@@ -4,10 +4,10 @@
 	in xbmc, xbmcgui and xbmcplugin built in modules
 """
 
-import os, sys
-import xbmc
-#Addon = Addon()
 
+
+import os
+#Addon = Addon()
 _settings = {'rcb_fuzzyFactor': '3', 
 			'rcb_enableFullReimport': 'true',
 			'rcb_createNfoWhileScraping': 'false',

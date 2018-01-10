@@ -1,4 +1,4 @@
-import os
+import os, sys
 import xbmcvfs
 import util
 import urllib

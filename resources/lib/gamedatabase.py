@@ -1,11 +1,12 @@
 
 
-import os, sys, shutil
+import os, shutil
+from sqlite3 import dbapi2 as sqlite
 
 from util import *
 import util
 
-from sqlite3 import dbapi2 as sqlite
+
 Logutil.log("Loading sqlite3 as DB engine", util.LOG_LEVEL_INFO)
 
 

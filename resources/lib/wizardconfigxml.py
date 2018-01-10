@@ -1,13 +1,13 @@
 
-import os
-import xbmc, xbmcgui, xbmcvfs
-
 from xml.etree.ElementTree import *
+
 import config, helper
 from configxmlwriter import *
-from rcbxmlreaderwriter import RcbXmlReaderWriter
 from emulatorautoconfig.autoconfig import EmulatorAutoconfig
+from rcbxmlreaderwriter import RcbXmlReaderWriter
 from util import Logutil as log
+import xbmc, xbmcgui, xbmcvfs
+
 
 RETRIEVE_INFO_ARTWORK_ONLINE = 0     # Game description and artwork need to be downloaded
 RETRIEVE_INFO_ARTWORK_LOCALLY = 1    # Game description and artwork already exist locally
