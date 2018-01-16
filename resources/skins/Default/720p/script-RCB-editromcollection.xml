@@ -5,7 +5,7 @@
 	<coordinates>
 		<system>1</system>
 		<posx>60</posx>
-		<posy>80</posy>
+		<posy>60</posy>
 	</coordinates>
 	
 	<controls>
@@ -13,17 +13,17 @@
 		<control type="image">
 			<description>header image</description>
 			<posx>0</posx>
-			<posy>-35</posy>
+			<posy>-40</posy>
 			<width>1160</width>
-			<height>35</height>
+			<height>40</height>
 			<texture colordiffuse="FF12A0C7">rcb-white.png</texture>
 		</control>
 		<control type="image">
 			<description>kodi logo</description>
 			<posx>1125</posx>
-			<posy>-30</posy>
-			<width>25</width>
-			<height>25</height>
+			<posy>-35</posy>
+			<width>30</width>
+			<height>30</height>
 			<texture>rcb-kodilogo.png</texture>
 		</control>
 		<control type="image">
@@ -31,7 +31,7 @@
 			<posx>0</posx>
 			<posy>0</posy>
 			<width>1160</width>
-			<height>600</height>
+			<height>620</height>
 			<texture colordiffuse="FF222222">rcb-white.png</texture>
 		</control>
 		<control type="image">
@@ -44,12 +44,13 @@
 		</control>
 		
 		<control type="label">			
-			<posx>50</posx>
-			<posy>-30</posy>
+			<posx>20</posx>
+			<posy>-35</posy>
 			<width>520</width>
 			<height>30</height>
-			<font>font13caps</font>
-			<textcolor>FFFFFFFF</textcolor>
+			<font>font32_title</font>
+			<textcolor>white</textcolor>
+			<shadowcolor>black</shadowcolor>
 			<align>left</align>
 			<aligny>center</aligny>
 			<label>$ADDON[script.games.rom.collection.browser 32999] - $ADDON[script.games.rom.collection.browser 32600]</label>
@@ -86,54 +87,28 @@
 					<width>200</width>
 					<height>20</height>
 					<font>font13</font>
-					<textcolor>FFFFFFFF</textcolor>
+					<textcolor>white</textcolor>
 					<align>left</align>
 					<aligny>center</aligny>
 					<label>$ADDON[script.games.rom.collection.browser 32601]</label>
-					<visible>![Control.HasFocus(5211) | Control.HasFocus(5212)]</visible>
 				</control>				
 				<control type="label">
-					<posx>230</posx>
+					<posx>240</posx>
 					<posy>15</posy>
 					<width>370</width>
 					<height>20</height>
 					<font>font13</font>
-					<textcolor>FFFFFFFF</textcolor>
+					<textcolor>white</textcolor>
 					<align>right</align>
 					<aligny>center</aligny>
 					<label>$INFO[ListItem.Label]</label>
-					<visible>![Control.HasFocus(5211) | Control.HasFocus(5212)]</visible>
-				</control>
-				<control type="label">
-					<posx>7</posx>
-					<posy>15</posy>
-					<width>200</width>
-					<height>20</height>
-					<font>font13</font>
-					<textcolor>FFFFFFFF</textcolor>
-					<align>left</align>
-					<aligny>center</aligny>
-					<label>$ADDON[script.games.rom.collection.browser 32601]</label>
-					<visible>[Control.HasFocus(5211) | Control.HasFocus(5212)]</visible>
-				</control>				
-				<control type="label">
-					<posx>230</posx>
-					<posy>15</posy>
-					<width>370</width>
-					<height>20</height>
-					<font>font13</font>
-					<textcolor>FFFFFFFF</textcolor>
-					<align>right</align>
-					<aligny>center</aligny>
-					<label>$INFO[ListItem.Label]</label>
-					<visible>[Control.HasFocus(5211) | Control.HasFocus(5212)]</visible>
 				</control>
 			</focusedlayout>
 		</control>
 		<control type="button" id="5211">
 			<description>Menu Item Next Button</description>
 			<visible>!Container(7000).Hasfocus(5)</visible>
-			<posx>860</posx>
+			<posx>870</posx>
 			<posy>40</posy>
 			<width>20</width>
 			<height>10</height>
@@ -148,7 +123,7 @@
 		<control type="button" id="5212">
 			<description>Menu Item Prev Button</description>
 			<visible>!Container(7000).Hasfocus(5)</visible>
-			<posx>880</posx>
+			<posx>890</posx>
 			<posy>40</posy>
 			<width>20</width>
 			<height>10</height>
@@ -186,8 +161,8 @@
 					<posy>10</posy>
 					<width>200</width>
 					<height>30</height>
-					<font>font13_title</font>
-					<textcolor>FFFFFFFF</textcolor>
+					<font>font25_title</font>
+					<textcolor>white</textcolor>
 					<align>center</align>
 					<aligny>center</aligny>
 					<label>$INFO[ListItem.Label]</label>					
@@ -207,8 +182,8 @@
 					<posy>10</posy>
 					<width>200</width>
 					<height>30</height>
-					<font>font13_title</font>
-					<textcolor>FFFFFFFF</textcolor>
+					<font>font25_title</font>
+					<textcolor>white</textcolor>
 					<align>center</align>
 					<aligny>center</aligny>
 					<label>$INFO[ListItem.Label]</label>					
@@ -258,7 +233,7 @@
 					<width>200</width>
 					<height>40</height>
 					<font>font13</font>
-					<textcolor>FFFFFFFF</textcolor>
+					<textcolor>white</textcolor>
 					<align>left</align>
 					<aligny>center</aligny>
 					<label>$ADDON[script.games.rom.collection.browser 32606]</label>
@@ -270,7 +245,7 @@
 					<width>200</width>
 					<height>40</height>
 					<font>font13</font>
-					<textcolor>FFFFFFFF</textcolor>
+					<textcolor>white</textcolor>
 					<align>left</align>
 					<aligny>center</aligny>
 					<label>$ADDON[script.games.rom.collection.browser 32606]</label>
@@ -287,7 +262,7 @@
 					<texturefocus colordiffuse="FF12A0C7">rcb-MenuItemFO.png</texturefocus>
 					<texturenofocus></texturenofocus>
 					<label>$ADDON[script.games.rom.collection.browser 32606]</label>
-					<textcolor>FFFFFFFF</textcolor>
+					<textcolor>white</textcolor>
 					<focusedcolor>FFFFFFFF</focusedcolor>
 					<disabledcolor>80FFFFFF</disabledcolor>
 					<align>right</align>
@@ -312,7 +287,7 @@
 					<width>200</width>
 					<height>40</height>
 					<font>font13</font>
-					<textcolor>FFFFFFFF</textcolor>
+					<textcolor>white</textcolor>
 					<align>left</align>
 					<aligny>center</aligny>
 					<label>$ADDON[script.games.rom.collection.browser 32607]</label>
@@ -324,7 +299,7 @@
 					<width>200</width>
 					<height>40</height>
 					<font>font13</font>
-					<textcolor>FFFFFFFF</textcolor>
+					<textcolor>white</textcolor>
 					<align>left</align>
 					<aligny>center</aligny>
 					<label>$ADDON[script.games.rom.collection.browser 32607]</label>
@@ -342,7 +317,7 @@
 					<texturefocus colordiffuse="FF12A0C7">rcb-MenuItemFO.png</texturefocus>
 					<texturenofocus></texturenofocus>
 					<label>$ADDON[script.games.rom.collection.browser 32607]</label>
-					<textcolor>FFFFFFFF</textcolor>
+					<textcolor>white</textcolor>
 					<focusedcolor>FFFFFFFF</focusedcolor>
 					<disabledcolor>80FFFFFF</disabledcolor>
 					<align>right</align>
@@ -362,7 +337,7 @@
 					<radioheight>40</radioheight>
 					<font>font13</font>
 					<label>$ADDON[script.games.rom.collection.browser 32608]</label>
-					<textcolor>FFFFFFFF</textcolor>
+					<textcolor>white</textcolor>
 					<focusedcolor>FFFFFFFF</focusedcolor>
 					<texturefocus colordiffuse="FF12A0C7">rcb-MenuItemFO.png</texturefocus>
 					<texturenofocus></texturenofocus>
@@ -385,7 +360,7 @@
 					<radioheight>40</radioheight>
 					<font>font13</font>
 					<label>$ADDON[script.games.rom.collection.browser 32609]</label>
-					<textcolor>FFFFFFFF</textcolor>
+					<textcolor>white</textcolor>
 					<focusedcolor>FFFFFFFF</focusedcolor>
 					<texturefocus colordiffuse="FF12A0C7">rcb-MenuItemFO.png</texturefocus>
 					<texturenofocus></texturenofocus>
@@ -414,7 +389,7 @@
 					<width>200</width>
 					<height>40</height>
 					<font>font13</font>
-					<textcolor>FFFFFFFF</textcolor>
+					<textcolor>white</textcolor>
 					<align>left</align>
 					<aligny>center</aligny>
 					<label>$ADDON[script.games.rom.collection.browser 32610]</label>
@@ -426,7 +401,7 @@
 					<width>200</width>
 					<height>40</height>
 					<font>font13</font>
-					<textcolor>FFFFFFFF</textcolor>
+					<textcolor>white</textcolor>
 					<align>left</align>
 					<aligny>center</aligny>
 					<label>$ADDON[script.games.rom.collection.browser 32610]</label>
@@ -443,7 +418,7 @@
 					<colordiffuse>DDFFFFFF</colordiffuse>
 					<texturefocus colordiffuse="FF12A0C7">rcb-MenuItemFO.png</texturefocus>
 					<texturenofocus></texturenofocus>
-					<textcolor>FFFFFFFF</textcolor>
+					<textcolor>white</textcolor>
 					<focusedcolor>FFFFFFFF</focusedcolor>
 					<disabledcolor>80FFFFFF</disabledcolor>
 					<align>right</align>
@@ -469,7 +444,7 @@
 					<width>200</width>
 					<height>40</height>
 					<font>font13</font>
-					<textcolor>FFFFFFFF</textcolor>
+					<textcolor>white</textcolor>
 					<align>left</align>
 					<aligny>center</aligny>
 					<label>$ADDON[script.games.rom.collection.browser 32611]</label>
@@ -481,7 +456,7 @@
 					<width>200</width>
 					<height>40</height>
 					<font>font13</font>
-					<textcolor>FFFFFFFF</textcolor>
+					<textcolor>white</textcolor>
 					<align>left</align>
 					<aligny>center</aligny>
 					<label>$ADDON[script.games.rom.collection.browser 32611]</label>
@@ -498,7 +473,7 @@
 					<colordiffuse>DDFFFFFF</colordiffuse>
 					<texturefocus colordiffuse="FF12A0C7">rcb-MenuItemFO.png</texturefocus>
 					<texturenofocus></texturenofocus>
-					<textcolor>FFFFFFFF</textcolor>
+					<textcolor>white</textcolor>
 					<focusedcolor>FFFFFFFF</focusedcolor>
 					<disabledcolor>80FFFFFF</disabledcolor>
 					<align>right</align>
@@ -517,7 +492,7 @@
 					<radioheight>40</radioheight>
 					<font>font13</font>
 					<label>$ADDON[script.games.rom.collection.browser 32612]</label>
-					<textcolor>FFFFFFFF</textcolor>
+					<textcolor>white</textcolor>
 					<focusedcolor>FFFFFFFF</focusedcolor>
 					<texturefocus colordiffuse="FF12A0C7">rcb-MenuItemFO.png</texturefocus>
 					<texturenofocus></texturenofocus>
@@ -569,18 +544,18 @@
 							<width>200</width>
 							<height>40</height>
 							<font>font13</font>
-							<textcolor>FFFFFFFF</textcolor>
+							<textcolor>white</textcolor>
 							<align>left</align>
 							<aligny>center</aligny>
 							<label>$ADDON[script.games.rom.collection.browser 32613]</label>
 						</control>						
 						<control type="label">
-							<posx>230</posx>
+							<posx>240</posx>
 							<posy>0</posy>
 							<width>370</width>
 							<height>40</height>
 							<font>font13</font>
-							<textcolor>FFFFFFFF</textcolor>
+							<textcolor>white</textcolor>
 							<align>right</align>
 							<aligny>center</aligny>
 							<label>$INFO[ListItem.Label]</label>
@@ -589,7 +564,7 @@
 				</control>
 				<control type="button" id="5291">
 					<description>Menu Item Next Button</description>
-					<posx>620</posx>
+					<posx>630</posx>
 					<posy>20</posy>
 					<width>20</width>
 					<height>10</height>
@@ -603,7 +578,7 @@
 				</control>
 				<control type="button" id="5292">
 					<description>Menu Item Prev Button</description>
-					<posx>640</posx>
+					<posx>650</posx>
 					<posy>20</posy>
 					<width>20</width>
 					<height>10</height>
@@ -645,18 +620,18 @@
 							<width>200</width>
 							<height>40</height>
 							<font>font13</font>
-							<textcolor>FFFFFFFF</textcolor>
+							<textcolor>white</textcolor>
 							<align>left</align>
 							<aligny>center</aligny>
 							<label>$ADDON[script.games.rom.collection.browser 32614]</label>
 						</control>
 						<control type="label">
-							<posx>230</posx>
+							<posx>240</posx>
 							<posy>0</posy>
 							<width>370</width>
 							<height>40</height>
 							<font>font13</font>
-							<textcolor>FFFFFFFF</textcolor>
+							<textcolor>white</textcolor>
 							<align>right</align>
 							<aligny>center</aligny>
 							<label>$INFO[ListItem.Label]</label>
@@ -665,7 +640,7 @@
 				</control>
 				<control type="button" id="5301">
 					<description>Menu Item Next Button</description>
-					<posx>620</posx>
+					<posx>630</posx>
 					<posy>60</posy>
 					<width>20</width>
 					<height>10</height>
@@ -679,7 +654,7 @@
 				</control>
 				<control type="button" id="5302">
 					<description>Menu Item Prev Button</description>
-					<posx>640</posx>
+					<posx>650</posx>
 					<posy>60</posy>
 					<width>20</width>
 					<height>10</height>
@@ -720,18 +695,18 @@
 							<width>200</width>
 							<height>40</height>
 							<font>font13</font>
-							<textcolor>FFFFFFFF</textcolor>
+							<textcolor>white</textcolor>
 							<align>left</align>
 							<aligny>center</aligny>
 							<label>$ADDON[script.games.rom.collection.browser 32615]</label>
 						</control>						
 						<control type="label">
-							<posx>230</posx>
+							<posx>240</posx>
 							<posy>0</posy>
 							<width>370</width>
 							<height>40</height>
 							<font>font13</font>
-							<textcolor>FFFFFFFF</textcolor>
+							<textcolor>white</textcolor>
 							<align>right</align>
 							<aligny>center</aligny>
 							<label>$INFO[ListItem.Label]</label>
@@ -740,7 +715,7 @@
 				</control>
 				<control type="button" id="5311">
 					<description>Menu Item Next Button</description>
-					<posx>620</posx>
+					<posx>630</posx>
 					<posy>100</posy>
 					<width>20</width>
 					<height>10</height>
@@ -754,7 +729,7 @@
 				</control>
 				<control type="button" id="5312">
 					<description>Menu Item Prev Button</description>
-					<posx>640</posx>
+					<posx>650</posx>
 					<posy>100</posy>
 					<width>20</width>
 					<height>10</height>
@@ -801,18 +776,18 @@
 								<width>200</width>
 								<height>40</height>
 								<font>font13</font>
-								<textcolor>FFFFFFFF</textcolor>
+								<textcolor>white</textcolor>
 								<align>left</align>
 								<aligny>center</aligny>
 								<label>$ADDON[script.games.rom.collection.browser 32616]</label>
 							</control>
 							<control type="label">
-								<posx>230</posx>
+								<posx>240</posx>
 								<posy>0</posy>
 								<width>370</width>
 								<height>40</height>
 								<font>font13</font>
-								<textcolor>FFFFFFFF</textcolor>
+								<textcolor>white</textcolor>
 								<align>right</align>
 								<aligny>center</aligny>
 								<label>$INFO[ListItem.Label]</label>
@@ -821,7 +796,7 @@
 					</control>
 					<control type="button" id="5261">
 						<description>Menu Item Next Button</description>
-						<posx>620</posx>
+						<posx>630</posx>
 						<posy>20</posy>
 						<width>20</width>
 						<height>10</height>
@@ -835,7 +810,7 @@
 					</control>
 					<control type="button" id="5262">
 						<description>Menu Item Prev Button</description>
-						<posx>640</posx>
+						<posx>650</posx>
 						<posy>20</posy>
 						<width>20</width>
 						<height>10</height>
@@ -862,7 +837,7 @@
 						<width>200</width>
 						<height>40</height>
 						<font>font13</font>
-						<textcolor>FFFFFFFF</textcolor>
+						<textcolor>white</textcolor>
 						<align>left</align>
 						<aligny>center</aligny>
 						<label>$ADDON[script.games.rom.collection.browser 32617]</label>
@@ -879,7 +854,7 @@
 						<texturefocus colordiffuse="FF12A0C7">rcb-MenuItemFO.png</texturefocus>
 						<texturenofocus></texturenofocus>
 						<label>$ADDON[script.games.rom.collection.browser 32617]</label>
-						<textcolor>FFFFFFFF</textcolor>
+						<textcolor>white</textcolor>
 						<focusedcolor>FFFFFFFF</focusedcolor>
 						<disabledcolor>80FFFFFF</disabledcolor>
 						<align>right</align>
@@ -904,7 +879,7 @@
 						<width>200</width>
 						<height>40</height>
 						<font>font13</font>
-						<textcolor>FFFFFFFF</textcolor>
+						<textcolor>white</textcolor>
 						<align>left</align>
 						<aligny>center</aligny>
 						<label>$ADDON[script.games.rom.collection.browser 32618]</label>
@@ -920,7 +895,7 @@
 						<texturefocus colordiffuse="FF12A0C7">rcb-MenuItemFO.png</texturefocus>
 						<texturenofocus></texturenofocus>
 						<label>$ADDON[script.games.rom.collection.browser 32618]</label>
-						<textcolor>FFFFFFFF</textcolor>
+						<textcolor>white</textcolor>
 						<focusedcolor>FFFFFFFF</focusedcolor>
 						<disabledcolor>80FFFFFF</disabledcolor>
 						<align>right</align>
@@ -942,7 +917,7 @@
 						<texturefocus colordiffuse="FF12A0C7">rcb-MenuItemFO.png</texturefocus>
 						<texturenofocus></texturenofocus>
 						<label>$ADDON[script.games.rom.collection.browser 32619]</label>
-						<textcolor>FFFFFFFF</textcolor>
+						<textcolor>white</textcolor>
 						<focusedcolor>FFFFFFFF</focusedcolor>
 						<disabledcolor>80FFFFFF</disabledcolor>
 						<textoffsetx>25</textoffsetx>
@@ -965,7 +940,7 @@
 						<texturefocus colordiffuse="FF12A0C7">rcb-MenuItemFO.png</texturefocus>
 						<texturenofocus></texturenofocus>
 						<label>$ADDON[script.games.rom.collection.browser 32620]</label>
-						<textcolor>FFFFFFFF</textcolor>
+						<textcolor>white</textcolor>
 						<focusedcolor>FFFFFFFF</focusedcolor>
 						<disabledcolor>80FFFFFF</disabledcolor>
 						<textoffsetx>25</textoffsetx>
@@ -1015,18 +990,18 @@
 							<width>300</width>
 							<height>40</height>
 							<font>font13</font>
-							<textcolor>FFFFFFFF</textcolor>
+							<textcolor>white</textcolor>
 							<align>left</align>
 							<aligny>center</aligny>
 							<label>$ADDON[script.games.rom.collection.browser 32621]</label>
 						</control>
 						<control type="label">
-							<posx>230</posx>
+							<posx>240</posx>
 							<posy>0</posy>
 							<width>370</width>
 							<height>40</height>
 							<font>font13</font>
-							<textcolor>FFFFFFFF</textcolor>
+							<textcolor>white</textcolor>
 							<align>right</align>
 							<aligny>center</aligny>
 							<label>$INFO[ListItem.Label]</label>
@@ -1035,7 +1010,7 @@
 				</control>
 				<control type="button" id="5321">
 					<description>Menu Item Next Button</description>
-					<posx>620</posx>
+					<posx>630</posx>
 					<posy>20</posy>
 					<width>20</width>
 					<height>10</height>
@@ -1049,7 +1024,7 @@
 				</control>
 				<control type="button" id="5322">
 					<description>Menu Item Prev Button</description>
-					<posx>640</posx>
+					<posx>650</posx>
 					<posy>20</posy>
 					<width>20</width>
 					<height>10</height>
@@ -1093,18 +1068,18 @@
 							<width>300</width>
 							<height>40</height>
 							<font>font13</font>
-							<textcolor>FFFFFFFF</textcolor>
+							<textcolor>white</textcolor>
 							<align>left</align>
 							<aligny>center</aligny>
 							<label>$ADDON[script.games.rom.collection.browser 32622]</label>
 						</control>
 						<control type="label">
-							<posx>230</posx>
+							<posx>240</posx>
 							<posy>0</posy>
 							<width>370</width>
 							<height>40</height>
 							<font>font13</font>
-							<textcolor>FFFFFFFF</textcolor>
+							<textcolor>white</textcolor>
 							<align>right</align>
 							<aligny>center</aligny>
 							<label>$INFO[ListItem.Label]</label>
@@ -1113,7 +1088,7 @@
 				</control>
 				<control type="button" id="5341">
 					<description>Menu Item Next Button</description>
-					<posx>620</posx>
+					<posx>630</posx>
 					<posy>60</posy>
 					<width>20</width>
 					<height>10</height>
@@ -1127,7 +1102,7 @@
 				</control>
 				<control type="button" id="5342">
 					<description>Menu Item Prev Button</description>
-					<posx>640</posx>
+					<posx>650</posx>
 					<posy>60</posy>
 					<width>20</width>
 					<height>10</height>
@@ -1149,7 +1124,7 @@
 					<radioheight>40</radioheight>
 					<font>font13</font>
 					<label>$ADDON[script.games.rom.collection.browser 32623]</label>
-					<textcolor>FFFFFFFF</textcolor>
+					<textcolor>white</textcolor>
 					<focusedcolor>FFFFFFFF</focusedcolor>
 					<texturefocus colordiffuse="FF12A0C7">rcb-MenuItemFO.png</texturefocus>
 					<texturenofocus></texturenofocus>
@@ -1172,7 +1147,7 @@
 					<radioheight>40</radioheight>
 					<font>font13</font>
 					<label>$ADDON[script.games.rom.collection.browser 32636]</label>
-					<textcolor>FFFFFFFF</textcolor>
+					<textcolor>white</textcolor>
 					<focusedcolor>FFFFFFFF</focusedcolor>
 					<texturefocus colordiffuse="FF12A0C7">rcb-MenuItemFO.png</texturefocus>
 					<texturenofocus></texturenofocus>
@@ -1209,7 +1184,7 @@
 					<width>200</width>
 					<height>40</height>
 					<font>font13</font>
-					<textcolor>FFFFFFFF</textcolor>
+					<textcolor>white</textcolor>
 					<align>left</align>
 					<aligny>center</aligny>
 					<label>$ADDON[script.games.rom.collection.browser 32624]</label>
@@ -1227,7 +1202,7 @@
 					<texturefocus colordiffuse="FF12A0C7">rcb-MenuItemFO.png</texturefocus>
 					<texturenofocus></texturenofocus>
 					<label>$INFO[ListItem.Label]</label>
-					<textcolor>FFFFFFFF</textcolor>
+					<textcolor>white</textcolor>
 					<focusedcolor>FFFFFFFF</focusedcolor>
 					<disabledcolor>80FFFFFF</disabledcolor>
 					<align>right</align>
@@ -1255,7 +1230,7 @@
 					<width>200</width>
 					<height>40</height>
 					<font>font13</font>
-					<textcolor>FFFFFFFF</textcolor>
+					<textcolor>white</textcolor>
 					<align>left</align>
 					<aligny>center</aligny>
 					<label>$ADDON[script.games.rom.collection.browser 32625]</label>
@@ -1272,7 +1247,7 @@
 					<colordiffuse>DDFFFFFF</colordiffuse>
 					<texturefocus colordiffuse="FF12A0C7">rcb-MenuItemFO.png</texturefocus>
 					<texturenofocus></texturenofocus>
-					<textcolor>FFFFFFFF</textcolor>
+					<textcolor>white</textcolor>
 					<focusedcolor>FFFFFFFF</focusedcolor>
 					<disabledcolor>80FFFFFF</disabledcolor>
 					<align>right</align>
@@ -1295,7 +1270,7 @@
 					<radioheight>40</radioheight>
 					<font>font13</font>
 					<label>$ADDON[script.games.rom.collection.browser 32626]</label>
-					<textcolor>FFFFFFFF</textcolor>
+					<textcolor>white</textcolor>
 					<focusedcolor>FFFFFFFF</focusedcolor>
 					<texturefocus colordiffuse="FF12A0C7">rcb-MenuItemFO.png</texturefocus>
 					<texturenofocus></texturenofocus>
@@ -1303,6 +1278,8 @@
 					<textureradioonnofocus>rcb-radio-button-on.png</textureradioonnofocus>
 					<textureradioofffocus>rcb-radio-button-off.png</textureradioofffocus>
 					<textureradiooffnofocus>rcb-radio-button-off.png</textureradiooffnofocus>
+					<textureradioondisabled>rcb-radio-button-on.png</textureradioondisabled>
+					<textureradiooffdisabled>rcb-radio-button-off.png</textureradiooffdisabled>
 					<onleft>7000</onleft>
 					<onright>6000</onright>
 					<onup>5230</onup>
@@ -1321,7 +1298,7 @@
 					<radioheight>40</radioheight>
 					<font>font13</font>
 					<label>$ADDON[script.games.rom.collection.browser 32627]</label>
-					<textcolor>FFFFFFFF</textcolor>
+					<textcolor>white</textcolor>
 					<focusedcolor>FFFFFFFF</focusedcolor>
 					<texturefocus colordiffuse="FF12A0C7">rcb-MenuItemFO.png</texturefocus>
 					<texturenofocus></texturenofocus>
@@ -1329,6 +1306,8 @@
 					<textureradioonnofocus>rcb-radio-button-on.png</textureradioonnofocus>
 					<textureradioofffocus>rcb-radio-button-off.png</textureradioofffocus>
 					<textureradiooffnofocus>rcb-radio-button-off.png</textureradiooffnofocus>
+					<textureradioondisabled>rcb-radio-button-on.png</textureradioondisabled>
+					<textureradiooffdisabled>rcb-radio-button-off.png</textureradiooffdisabled>
 					<onleft>7000</onleft>
 					<onright>6000</onright>
 					<onup>5440</onup>
@@ -1352,7 +1331,7 @@
 					<width>200</width>
 					<height>40</height>
 					<font>font13</font>
-					<textcolor>FFFFFFFF</textcolor>
+					<textcolor>white</textcolor>
 					<align>left</align>
 					<aligny>center</aligny>
 					<label>$ADDON[script.games.rom.collection.browser 32629]</label>
@@ -1369,7 +1348,7 @@
 					<colordiffuse>DDFFFFFF</colordiffuse>
 					<texturefocus colordiffuse="FF12A0C7">rcb-MenuItemFO.png</texturefocus>
 					<texturenofocus></texturenofocus>
-					<textcolor>FFFFFFFF</textcolor>
+					<textcolor>white</textcolor>
 					<focusedcolor>FFFFFFFF</focusedcolor>
 					<disabledcolor>80FFFFFF</disabledcolor>
 					<align>right</align>
@@ -1396,7 +1375,7 @@
 					<width>200</width>
 					<height>40</height>
 					<font>font13</font>
-					<textcolor>FFFFFFFF</textcolor>
+					<textcolor>white</textcolor>
 					<align>left</align>
 					<aligny>center</aligny>
 					<label>$ADDON[script.games.rom.collection.browser 32630]</label>
@@ -1413,7 +1392,7 @@
 					<colordiffuse>DDFFFFFF</colordiffuse>
 					<texturefocus colordiffuse="FF12A0C7">rcb-MenuItemFO.png</texturefocus>
 					<texturenofocus></texturenofocus>
-					<textcolor>FFFFFFFF</textcolor>
+					<textcolor>white</textcolor>
 					<focusedcolor>FFFFFFFF</focusedcolor>
 					<disabledcolor>80FFFFFF</disabledcolor>
 					<align>right</align>
@@ -1441,7 +1420,7 @@
 					<width>200</width>
 					<height>40</height>
 					<font>font13</font>
-					<textcolor>FFFFFFFF</textcolor>
+					<textcolor>white</textcolor>
 					<align>left</align>
 					<aligny>center</aligny>
 					<label>$ADDON[script.games.rom.collection.browser 32631]</label>
@@ -1458,7 +1437,7 @@
 					<colordiffuse>DDFFFFFF</colordiffuse>
 					<texturefocus colordiffuse="FF12A0C7">rcb-MenuItemFO.png</texturefocus>
 					<texturenofocus></texturenofocus>
-					<textcolor>FFFFFFFF</textcolor>
+					<textcolor>white</textcolor>
 					<focusedcolor>FFFFFFFF</focusedcolor>
 					<disabledcolor>80FFFFFF</disabledcolor>
 					<align>right</align>
@@ -1486,7 +1465,7 @@
 					<width>200</width>
 					<height>40</height>
 					<font>font13</font>
-					<textcolor>FFFFFFFF</textcolor>
+					<textcolor>white</textcolor>
 					<align>left</align>
 					<aligny>center</aligny>
 					<label>$ADDON[script.games.rom.collection.browser 32632]</label>
@@ -1503,7 +1482,7 @@
 					<colordiffuse>DDFFFFFF</colordiffuse>
 					<texturefocus colordiffuse="FF12A0C7">rcb-MenuItemFO.png</texturefocus>
 					<texturenofocus></texturenofocus>
-					<textcolor>FFFFFFFF</textcolor>
+					<textcolor>white</textcolor>
 					<focusedcolor>FFFFFFFF</focusedcolor>
 					<disabledcolor>80FFFFFF</disabledcolor>
 					<align>right</align>
@@ -1530,7 +1509,7 @@
 					<width>200</width>
 					<height>40</height>
 					<font>font13</font>
-					<textcolor>FFFFFFFF</textcolor>
+					<textcolor>white</textcolor>
 					<align>left</align>
 					<aligny>center</aligny>
 					<label>$ADDON[script.games.rom.collection.browser 32633]</label>
@@ -1547,7 +1526,7 @@
 					<colordiffuse>DDFFFFFF</colordiffuse>
 					<texturefocus colordiffuse="FF12A0C7">rcb-MenuItemFO.png</texturefocus>
 					<texturenofocus></texturenofocus>
-					<textcolor>FFFFFFFF</textcolor>
+					<textcolor>white</textcolor>
 					<focusedcolor>FFFFFFFF</focusedcolor>
 					<disabledcolor>80FFFFFF</disabledcolor>
 					<align>right</align>
@@ -1570,7 +1549,7 @@
 					<radioheight>40</radioheight>
 					<font>font13</font>
 					<label>$ADDON[script.games.rom.collection.browser 32628]</label>
-					<textcolor>FFFFFFFF</textcolor>
+					<textcolor>white</textcolor>
 					<focusedcolor>FFFFFFFF</focusedcolor>
 					<texturefocus colordiffuse="FF12A0C7">rcb-MenuItemFO.png</texturefocus>
 					<texturenofocus></texturenofocus>
@@ -1594,7 +1573,7 @@
 					<radioheight>40</radioheight>
 					<font>font13</font>
 					<label>$ADDON[script.games.rom.collection.browser 52039]</label>
-					<textcolor>FFFFFFFF</textcolor>
+					<textcolor>white</textcolor>
 					<focusedcolor>FFFFFFFF</focusedcolor>
 					<texturefocus colordiffuse="FF12A0C7">rcb-MenuItemFO.png</texturefocus>
 					<texturenofocus></texturenofocus>
@@ -1618,7 +1597,7 @@
 					<radioheight>40</radioheight>
 					<font>font13</font>
 					<label>$ADDON[script.games.rom.collection.browser 32637]</label>
-					<textcolor>FFFFFFFF</textcolor>
+					<textcolor>white</textcolor>
 					<focusedcolor>FFFFFFFF</focusedcolor>
 					<texturefocus colordiffuse="FF12A0C7">rcb-MenuItemFO.png</texturefocus>
 					<texturenofocus></texturenofocus>
@@ -1646,7 +1625,7 @@
 					<width>200</width>
 					<height>40</height>
 					<font>font13</font>
-					<textcolor>FFFFFFFF</textcolor>
+					<textcolor>white</textcolor>
 					<align>left</align>
 					<aligny>center</aligny>
 					<label>$ADDON[script.games.rom.collection.browser 32638]</label>
@@ -1663,7 +1642,7 @@
 					<texturefocus colordiffuse="FF12A0C7">rcb-MenuItemFO.png</texturefocus>
 					<texturenofocus></texturenofocus>
 					<label>$INFO[ListItem.Label]</label>
-					<textcolor>FFFFFFFF</textcolor>
+					<textcolor>white</textcolor>
 					<focusedcolor>FFFFFFFF</focusedcolor>
 					<disabledcolor>80FFFFFF</disabledcolor>
 					<align>right</align>
@@ -1686,11 +1665,11 @@
 			<width>200</width>
 			<height>50</height>
 			<visible>true</visible>
-			<font>font13</font>
+			<font>font25_title</font>
 			<texturefocus colordiffuse="FF12A0C7">rcb-MenuItemFO.png</texturefocus>
 			<texturenofocus colordiffuse="FF111111">rcb-white.png</texturenofocus>
 			<label>$ADDON[script.games.rom.collection.browser 32634]</label>
-			<textcolor>FFFFFFFF</textcolor>
+			<textcolor>white</textcolor>
 			<disabledcolor>80FFFFFF</disabledcolor>
 			<align>center</align>
 			<aligny>center</aligny>
@@ -1709,11 +1688,11 @@
 			<width>200</width>
 			<height>50</height>
 			<visible>true</visible>
-			<font>font13</font>
+			<font>font25_title</font>
 			<texturefocus colordiffuse="FF12A0C7">rcb-MenuItemFO.png</texturefocus>
 			<texturenofocus colordiffuse="FF111111">rcb-white.png</texturenofocus>
 			<label>$ADDON[script.games.rom.collection.browser 32635]</label>
-			<textcolor>FFFFFFFF</textcolor>
+			<textcolor>white</textcolor>
 			<disabledcolor>80FFFFFF</disabledcolor>
 			<align>center</align>
 			<aligny>center</aligny>

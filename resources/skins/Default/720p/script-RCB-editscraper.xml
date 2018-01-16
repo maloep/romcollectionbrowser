@@ -13,17 +13,17 @@
 		<control type="image">
 			<description>header image</description>
 			<posx>0</posx>
-			<posy>-35</posy>
+			<posy>-40</posy>
 			<width>1160</width>
-			<height>35</height>
+			<height>40</height>
 			<texture colordiffuse="FF12A0C7">rcb-white.png</texture>
 		</control>
 		<control type="image">
 			<description>kodi logo</description>
 			<posx>1125</posx>
-			<posy>-30</posy>
-			<width>25</width>
-			<height>25</height>
+			<posy>-35</posy>
+			<width>30</width>
+			<height>30</height>
 			<texture>rcb-kodilogo.png</texture>
 		</control>
 		<control type="image">
@@ -44,12 +44,13 @@
 		</control>
 		
 		<control type="label">			
-			<posx>50</posx>
-			<posy>-30</posy>
+			<posx>20</posx>
+			<posy>-35	</posy>
 			<width>520</width>
 			<height>30</height>
-			<font>font13caps</font>
-			<textcolor>FFFFFFFF</textcolor>
+			<font>font32_title</font>
+			<textcolor>white</textcolor>
+			<shadowcolor>black</shadowcolor>
 			<align>left</align>
 			<aligny>center</aligny>
 			<label>$ADDON[script.games.rom.collection.browser 32999] - $ADDON[script.games.rom.collection.browser 32600]</label>
@@ -80,7 +81,7 @@
 					<posy>10</posy>
 					<width>200</width>
 					<height>30</height>
-					<font>font13_title</font>
+					<font>font25_title</font>
 					<textcolor>FFFFFFFF</textcolor>
 					<align>center</align>
 					<aligny>center</aligny>
@@ -101,7 +102,7 @@
 					<posy>10</posy>
 					<width>200</width>
 					<height>30</height>
-					<font>font13_title</font>
+					<font>font25_title</font>
 					<textcolor>FFFFFFFF</textcolor>
 					<align>center</align>
 					<aligny>center</aligny>
@@ -505,7 +506,7 @@
 			<width>200</width>
 			<height>50</height>
 			<visible>true</visible>
-			<font>font13</font>
+			<font>font25_title</font>
 			<texturefocus colordiffuse="FF12A0C7">rcb-MenuItemFO.png</texturefocus>
 			<texturenofocus colordiffuse="FF111111">rcb-white.png</texturenofocus>
 			<label>$ADDON[script.games.rom.collection.browser 32634]</label>
@@ -528,7 +529,7 @@
 			<width>200</width>
 			<height>50</height>
 			<visible>true</visible>
-			<font>font13</font>
+			<font>font25_title</font>
 			<texturefocus colordiffuse="FF12A0C7">rcb-MenuItemFO.png</texturefocus>
 			<texturenofocus colordiffuse="FF111111">rcb-white.png</texturenofocus>
 			<label>$ADDON[script.games.rom.collection.browser 32635]</label>
