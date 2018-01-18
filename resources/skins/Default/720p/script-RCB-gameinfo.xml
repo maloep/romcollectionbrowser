@@ -13,8 +13,8 @@
 			<depth>DepthBackground</depth>
 			<left>0</left>
 			<top>0</top>
-			<width>100%</width>
-			<height>100%</height>
+			<width>1280</width>
+		    <height>720</height>
 			<aspectratio>scale</aspectratio>
 			<texture colordiffuse="FF0E597E">rcb-primary.jpg</texture>
 		</control>
@@ -24,9 +24,9 @@
 		    <description>background image</description>
 		    <posx>0</posx>
 		    <posy>0</posy>
-		    <width>100%</width>
-			<aspectratio>scale</aspectratio>
-			<height>100%</height>
+		    <width>1280</width>
+		    <height>720</height>
+			<!--<aspectratio>scale</aspectratio>-->
 			<texture background="true" colordiffuse="37FFFFFF">$INFO[ListItem.Art(background)]</texture>
 		</control>
 		

@@ -12,7 +12,10 @@
 		
 		<control type="image">
 			<depth>DepthBackground</depth>
-			<include>FullScreenDimensions</include>
+			<left>0</left>
+			<top>0</top>
+			<width>1280</width>
+			<height>720</height>
 			<aspectratio>scale</aspectratio>
 			<texture colordiffuse="FF0E597E">rcb-primary.jpg</texture>
 		</control>
@@ -34,14 +37,6 @@
 			<control type="group">
 				<posx>0</posx>
 				<posy>0</posy>				
-				<!--<control type="image">
-					<posx>0</posx>
-					<posy>160r</posy>
-					<width>1280</width>
-					<height>180</height>
-					<texture>rcb-floor.png</texture>
-					<visible>Control.IsVisible(50)</visible>
-				</control>-->
 				<control type="wraplist" id="50">
 					<posx>-115</posx>
 					<posy>350</posy>
@@ -201,16 +196,6 @@
 					<visible allowhiddenfocus="true">Control.IsVisible(50)</visible>
 					<posx>40</posx>
 					<posy>5</posy>
-					<!--<control type="image">
-						<description>gamedesc background image</description>
-						<posx>0</posx>
-						<posy>0</posy>
-						<width>1200</width>
-						<height>325</height>
-						<texture>rcb-ContentPanel.png</texture>
-						<colordiffuse>DDFFFFFF</colordiffuse>
-					</control>-->
-					<!-- gameinfobig -->
 					<control type="image" id="2000">
 						<animation delay="200" effect="fade" start="0" end="100">Visible</animation>
 						<description>gameinfo</description>
@@ -218,6 +203,7 @@
 						<posy>25</posy>
 						<width>540</width>
 						<height>280</height>
+						<aspectratio>keep</aspectratio>
 						<visible>!Player.HasVideo | String.IsEmpty(ListItem.Property(gameplaymain))</visible>
 						<texture>$INFO[ListItem.Art(gameinfobig)]</texture>
 						<bordertexture border="2">rcb-button-nofocus.png</bordertexture>
@@ -493,16 +479,6 @@
 			
 			<!-- gamelist 52 -->
 			<control type="group">
-				<!--<control type="image">				
-					<description>gamelist background image</description>
-					<posx>10</posx>
-					<posy>0</posy>
-					<width>1280</width>
-					<height>720</height>
-					<texture>rcb-ContentPanel4.png</texture>
-					<colordiffuse>DDFFFFFF</colordiffuse>
-					<visible>Control.IsVisible(52)</visible>
-				</control>-->
 				<control type="group">
 					<posx>635r</posx>
 					<posy>0</posy>
@@ -666,6 +642,7 @@
 						<posy>60</posy>
 						<width>540</width>
 						<height>280</height>
+						<aspectratio>keep</aspectratio>
 						<visible>!Player.HasVideo | String.IsEmpty(ListItem.Property(gameplaymain))</visible>
 						<texture>$INFO[ListItem.Art(gameinfobig)]</texture>
 						<bordertexture border="2">rcb-button-nofocus.png</bordertexture>
@@ -932,28 +909,6 @@
 			<!-- gamelist 58 -->						
 			<control type="group">
 				<visible>Control.IsVisible(58)</visible>
-				<!--<control type="image">				
-					<description>gamelist background image</description>
-					<posx>0</posx>
-					<posy>0</posy>
-					<width>100%</width>
-					<height>100%</height>
-					<texture>rcb-black-back.png</texture>
-					<aspectratio>scale</aspectratio>
-					<colordiffuse>90FFFFFF</colordiffuse>
-					<visible>Control.IsVisible(58)</visible>
-				</control>-->
-				<!--<control type="image">				
-					<description>gamelist background image</description>
-					<posx>0</posx>
-					<posy>0</posy>
-					<width>100%</width>
-					<height>100%</height>
-					<texture>rcb-black-back.png</texture>
-					<aspectratio>scale</aspectratio>
-					<colordiffuse>90FFFFFF</colordiffuse>
-					<visible>Control.IsVisible(58)</visible>
-				</control>-->
 				
 				<control type="image">
 					<texture colordiffuse="EDFFFFFF">rcb-panel_transp.png</texture>
