@@ -7,7 +7,7 @@
         	<posx>0</posx>
         	<posy>0</posy>
 	</coordinates>
-	<views>50,52,58</views>
+	<views>50,52,57,58</views>
 	<controls>
 		
 		<control type="image">
@@ -905,6 +905,245 @@
 			</control>
 			
 			<!-- gamelists without video support from id 55-58-->
+			
+			<!-- gamelist 57 -->						
+			<control type="group">
+				<visible>Control.IsVisible(57)</visible>
+				
+				<control type="image">
+					<texture colordiffuse="EDFFFFFF">rcb-panel_transp.png</texture>
+					<posx>0</posx>
+					<posy>60</posy>	
+					<width>100%</width>
+					<height>120</height>
+					<visible>Control.IsVisible(57)</visible>
+				</control>
+				
+				<!-- Console -->
+				<control type="label">
+					<description>Console txt</description>
+					<posx>30</posx>
+					<posy>60</posy>
+					<width>160</width>
+					<height>25</height>
+					<label>$ADDON[script.games.rom.collection.browser 32406]:</label>
+					<align>left</align>
+					<aligny>center</aligny>
+					<font>font13_title</font>
+					<textcolor>FF0084ff</textcolor>
+				</control>
+				<control type="label">
+					<posx>200</posx>
+					<posy>60</posy>
+					<width>400</width>
+					<height>25</height>
+					<font>font16caps</font>
+					<aligny>center</aligny>
+					<textcolor>white</textcolor>
+					<align>left</align>
+					<label>$INFO[ListItem.Property(console)]</label>
+				</control>
+				
+				<!-- Year -->
+				<control type="label">
+					<description>Year txt</description>
+					<posx>30</posx>
+					<posy>90</posy>
+					<width>160</width>
+					<height>25</height>
+					<label>$ADDON[script.games.rom.collection.browser 32400]:</label>
+					<align>left</align>
+					<aligny>center</aligny>
+					<font>font13_title</font>
+					<textcolor>FF0084ff</textcolor>
+				</control>
+				<control type="label">
+					<description>Year Value</description>
+					<posx>200</posx>
+					<posy>90</posy>
+					<width>400</width>
+					<height>25</height>
+					<label fallback="416">$INFO[ListItem.Property(year)]</label>
+					<align>left</align>
+					<aligny>center</aligny>
+					<font>font13</font>
+					<textcolor>white</textcolor>
+					<scroll>true</scroll>
+				</control>				
+				
+				<!-- Genre -->
+				<control type="label">
+					<description>Genre txt</description>
+					<posx>30</posx>
+					<posy>120</posy>
+					<width>160</width>
+					<height>25</height>
+					<label>$ADDON[script.games.rom.collection.browser 32401]:</label>
+					<align>left</align>
+					<aligny>center</aligny>
+					<font>font13_title</font>
+					<textcolor>FF0084ff</textcolor>
+				</control>
+				<control type="label">
+					<description>Genre Value</description>
+					<posx>200</posx>
+					<posy>120</posy>
+					<width>400</width>
+					<height>25</height>
+					<label fallback="416">$INFO[ListItem.Property(genre)]</label>
+					<align>left</align>
+					<aligny>center</aligny>
+					<font>font13</font>
+					<scroll>true</scroll>
+				</control>
+				
+				<!-- Publisher -->
+				<control type="label">
+					<description>Publisher txt</description>
+					<posx>30</posx>
+					<posy>150</posy>
+					<width>160</width>
+					<height>25</height>
+					<label>$ADDON[script.games.rom.collection.browser 32402]:</label>
+					<align>left</align>
+					<aligny>center</aligny>
+					<font>font13_title</font>
+					<textcolor>FF0084ff</textcolor>
+				</control>
+				<control type="label">
+					<description>Publisher Value</description>
+					<posx>200</posx>
+					<posy>150</posy>
+					<width>400</width>
+					<height>25</height>
+					<label fallback="416">$INFO[ListItem.Property(publisher)]</label>
+					<align>left</align>
+					<aligny>center</aligny>
+					<font>font13</font>
+					<scroll>true</scroll>
+				</control>
+				
+				<control type="textbox">
+					<description>Plot</description>
+					<posx>600</posx>
+					<posy>60</posy>
+					<width>640</width>
+					<height>115</height>			
+					<textcolor>white</textcolor>
+					<align>justify</align>
+					<font>font12</font>
+					<label>$INFO[ListItem.Property(plot)]</label>
+				</control>
+				
+				<control type="image">
+					<texture colordiffuse="EDFFFFFF">rcb-panel_transp.png</texture>
+					<posx>0</posx>
+					<posy>150r</posy>	
+					<width>100%</width>
+					<height>80</height>
+					<visible>Control.IsVisible(57)</visible>
+				</control>
+				<control type="image">
+					<texture colordiffuse="FF12A0C7">rcb-white.png</texture>
+					<posx>170</posx>
+					<posy>150r</posy>	
+					<width>270</width>
+					<height>80</height>
+					<visible>Control.IsVisible(57)</visible>
+				</control>
+				
+				<control type="fixedlist" id="57">
+					<posx>-102</posx>
+					<posy>100</posy>
+					<width>1420</width>
+					<height>600</height>
+					<onleft>57</onleft>
+					<onright>57</onright>
+					<onup>500</onup>
+					<ondown>63</ondown>
+					<orientation>horizontal</orientation>
+					<focusposition>1</focusposition>
+					<movement>0</movement>
+					<scrolltime tween="cubic" easing="out">500</scrolltime>
+					<preloaditems>1</preloaditems>
+					<viewtype label="Shift">icon</viewtype>			
+					<scrolltime>100</scrolltime>
+					<pagecontrol>63</pagecontrol>
+					<itemlayout width="270">
+						<control type="image">
+							<posx>10</posx>
+							<posy>100</posy>
+							<width>250</width>
+							<height>350</height>
+							<aspectratio aligny="center">keep</aspectratio>
+							<texture>$INFO[ListItem.ActualIcon]</texture>
+						</control>
+						<control type="image">
+							<posx>-42</posx>
+							<posy>358</posy>
+							<width>100</width>
+							<height>25</height>
+							<texture>rcb-star.png</texture>					
+							<visible>!String.IsEmpty(ListItem.Property(isfavorite))</visible>
+						</control>
+						<control type="textbox">
+							<posx>5</posx>
+							<posy>455</posy>
+							<width>260</width>
+							<height>105</height>
+							<align>center</align>
+							<aligny>center</aligny>
+							<label>$INFO[ListItem.Label]</label>
+						</control>
+					</itemlayout>
+					<focusedlayout width="270" >
+						<control type="image">
+							<posx>10</posx>
+							<posy>100</posy>
+							<width>250</width>
+							<height>350</height>
+							<aspectratio aligny="center">keep</aspectratio>
+							<texture>$INFO[ListItem.Art(thumb)]</texture>
+						</control>
+						<control type="image">
+							<posx>-68</posx>
+							<posy>365</posy>
+							<width>100</width>
+							<height>25</height>
+							<texture>rcb-star.png</texture>					
+							<visible>!String.IsEmpty(ListItem.Property(isfavorite))</visible>
+							<animation reversible="false" effect="fade" start="0" end="100" time="400">Focus</animation>
+						</control>
+						<control type="textbox">
+							<posx>5</posx>
+							<posy>455</posy>
+							<width>260</width>
+							<height>105</height>
+							<align>center</align>
+							<aligny>center</aligny>
+							<label>$INFO[ListItem.Label]</label>
+							<autoscroll time="3000" delay="3000" repeat="3000">True</autoscroll>
+						</control>
+					</focusedlayout>
+				</control>
+				<control type="scrollbar" id="63">
+					<posx>400</posx>
+					<posy>20r</posy>
+					<width>480</width>
+					<height>10</height>
+					<texturesliderbackground colordiffuse="29FFFFFF">rcb-white.png</texturesliderbackground>
+					<texturesliderbar colordiffuse="FFAAAAAA">rcb-white.png</texturesliderbar>
+					<texturesliderbarfocus colordiffuse="FF12A0C7">rcb-white.png</texturesliderbarfocus>
+					<textureslidernib></textureslidernib>
+					<textureslidernibfocus></textureslidernibfocus>
+					<onup>57</onup>
+					<ondown>2</ondown>
+					<showonepage>false</showonepage>
+					<orientation>horizontal</orientation>
+					<visible allowhiddenfocus="true">Control.IsVisible(57)</visible>
+				</control>
+			</control>		
+			
 			
 			<!-- gamelist 58 -->						
 			<control type="group">
