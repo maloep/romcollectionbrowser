@@ -116,8 +116,8 @@
 					<posy>15</posy>
 					<width>20</width>
 					<height>10</height>
-					<texturenofocus colordiffuse="FFAAAAAA">rcb-scroll-down.png</texturenofocus>
-					<texturefocus>rcb-scroll-down.png</texturefocus>
+					<texturenofocus colordiffuse="FFAAAAAA">rcb-scroll-up.png</texturenofocus>
+					<texturefocus>rcb-scroll-up.png</texturefocus>
 					<onclick>Control.Move(5210,1)</onclick>
 					<onleft>5300</onleft>
 					<onright>5212</onright>
@@ -131,8 +131,8 @@
 					<posy>15</posy>
 					<width>20</width>
 					<height>10</height>
-					<texturenofocus colordiffuse="FFAAAAAA">rcb-scroll-up.png</texturenofocus>
-					<texturefocus>rcb-scroll-up.png</texturefocus>
+					<texturenofocus colordiffuse="FFAAAAAA">rcb-scroll-down.png</texturenofocus>
+					<texturefocus>rcb-scroll-down.png</texturefocus>
 					<onclick>Control.Move(5210,-1)</onclick>
 					<onleft>5211</onleft>
 					<onright>5300</onright>
