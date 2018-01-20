@@ -1164,8 +1164,8 @@
 			<control type="radiobutton" id="1000">
 				<posx>25</posx>
 				<posy>50</posy>
-				<radiowidth>80</radiowidth>
-				<radioheight>80</radioheight>
+				<radiowidth>24</radiowidth>
+				<radioheight>24</radioheight>
 				<width>200</width>
 				<height>30</height>
 				<font>font13</font>
@@ -1174,6 +1174,12 @@
 				<focusedcolor>DDFFFFFF</focusedcolor>
 				<texturefocus>rcb-button-focus.png</texturefocus>
 				<texturenofocus>rcb-button-nofocus.png</texturenofocus>
+				<textureradioonfocus>rcb-radio-button-on.png</textureradioonfocus>
+				<textureradioonnofocus>rcb-radio-button-on.png</textureradioonnofocus>
+				<textureradioofffocus>rcb-radio-button-off.png</textureradioofffocus>
+				<textureradiooffnofocus>rcb-radio-button-off.png</textureradiooffnofocus>
+				<textureradioondisabled>rcb-radio-button-on.png</textureradioondisabled>
+				<textureradiooffdisabled>rcb-radio-button-off.png</textureradiooffdisabled>
 				<onleft>900</onleft>
 				<onright>500</onright>
 				<onup>50</onup>

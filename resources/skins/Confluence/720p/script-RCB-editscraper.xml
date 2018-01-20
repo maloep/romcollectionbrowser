@@ -43,8 +43,6 @@
 			<posy>25</posy>
 			<width>40</width>
 			<height>25</height>
-			<label>-</label>
-			<font>-</font>
 			<texturefocus>rcb-DialogCloseButton-focus.png</texturefocus>
 			<texturenofocus>rcb-DialogCloseButton.png</texturenofocus>
 			<onleft>5211</onleft>
@@ -210,8 +208,6 @@
 					<posy>5</posy>
 					<width>20</width>
 					<height>20</height>
-					<label>-</label>
-					<font>-</font>
 					<texturenofocus>rcb-scroll-down-2.png</texturenofocus>
 					<texturefocus>rcb-scroll-down-focus-2.png</texturefocus>
 					<onclick>Control.Move(5600,1)</onclick>
@@ -226,8 +222,6 @@
 					<posy>5</posy>
 					<width>20</width>
 					<height>20</height>
-					<label>-</label>
-					<font>-</font>
 					<texturenofocus>rcb-scroll-up-2.png</texturenofocus>
 					<texturefocus>rcb-scroll-up-focus-2.png</texturefocus>
 					<onclick>Control.Move(5600,-1)</onclick>
@@ -243,14 +237,20 @@
 					<posy>60</posy>
 					<width>660</width>
 					<height>30</height>
-					<radiowidth>80</radiowidth>
-					<radioheight>80</radioheight>
+					<radiowidth>24</radiowidth>
+					<radioheight>24</radioheight>
 					<font>font13</font>
 					<label>$ADDON[script.games.rom.collection.browser 32702]</label>
 					<textcolor>88FFFFFF</textcolor>
 					<focusedcolor>white</focusedcolor>
 					<texturefocus>rcb-MenuItemFO.png</texturefocus>
 					<texturenofocus>rcb-MenuItemNF.png</texturenofocus>
+					<textureradioonfocus>rcb-radio-button-on.png</textureradioonfocus>
+					<textureradioonnofocus>rcb-radio-button-on.png</textureradioonnofocus>
+					<textureradioofffocus>rcb-radio-button-off.png</textureradioofffocus>
+					<textureradiooffnofocus>rcb-radio-button-off.png</textureradiooffnofocus>
+					<textureradioondisabled>rcb-radio-button-on.png</textureradioondisabled>
+					<textureradiooffdisabled>rcb-radio-button-off.png</textureradiooffdisabled>
 					<onleft>7000</onleft>
 					<onright>6000</onright>
 					<onup>5601</onup>
@@ -443,14 +443,20 @@
 					<posy>180</posy>
 					<width>660</width>
 					<height>30</height>
-					<radiowidth>80</radiowidth>
-					<radioheight>80</radioheight>
+					<radiowidth>24</radiowidth>
+					<radioheight>24</radioheight>
 					<font>font13</font>
 					<label>$ADDON[script.games.rom.collection.browser 32706]</label>
 					<textcolor>88FFFFFF</textcolor>
 					<focusedcolor>white</focusedcolor>
 					<texturefocus>rcb-MenuItemFO.png</texturefocus>
 					<texturenofocus>rcb-MenuItemNF.png</texturenofocus>
+					<textureradioonfocus>rcb-radio-button-on.png</textureradioonfocus>
+					<textureradioonnofocus>rcb-radio-button-on.png</textureradioonnofocus>
+					<textureradioofffocus>rcb-radio-button-off.png</textureradioofffocus>
+					<textureradiooffnofocus>rcb-radio-button-off.png</textureradiooffnofocus>
+					<textureradioondisabled>rcb-radio-button-on.png</textureradioondisabled>
+					<textureradiooffdisabled>rcb-radio-button-off.png</textureradiooffdisabled>
 					<onleft>7000</onleft>
 					<onright>6000</onright>
 					<onup>5540</onup>
@@ -462,14 +468,20 @@
 					<posy>210</posy>
 					<width>660</width>
 					<height>30</height>
-					<radiowidth>80</radiowidth>
-					<radioheight>80</radioheight>
+					<radiowidth>24</radiowidth>
+					<radioheight>24</radioheight>
 					<font>font13</font>
 					<label>$ADDON[script.games.rom.collection.browser 32707]</label>
 					<textcolor>88FFFFFF</textcolor>
 					<focusedcolor>white</focusedcolor>
 					<texturefocus>rcb-MenuItemFO.png</texturefocus>
 					<texturenofocus>rcb-MenuItemNF.png</texturenofocus>
+					<textureradioonfocus>rcb-radio-button-on.png</textureradioonfocus>
+					<textureradioonnofocus>rcb-radio-button-on.png</textureradioonnofocus>
+					<textureradioofffocus>rcb-radio-button-off.png</textureradioofffocus>
+					<textureradiooffnofocus>rcb-radio-button-off.png</textureradiooffnofocus>
+					<textureradioondisabled>rcb-radio-button-on.png</textureradioondisabled>
+					<textureradiooffdisabled>rcb-radio-button-off.png</textureradiooffdisabled>
 					<onleft>7000</onleft>
 					<onright>6000</onright>
 					<onup>5560</onup>
@@ -481,14 +493,20 @@
 					<posy>240</posy>
 					<width>660</width>
 					<height>30</height>
-					<radiowidth>80</radiowidth>
-					<radioheight>80</radioheight>
+					<radiowidth>24</radiowidth>
+					<radioheight>24</radioheight>
 					<font>font13</font>
 					<label>$ADDON[script.games.rom.collection.browser 32708]</label>
 					<textcolor>88FFFFFF</textcolor>
 					<focusedcolor>white</focusedcolor>
 					<texturefocus>rcb-MenuItemFO.png</texturefocus>
 					<texturenofocus>rcb-MenuItemNF.png</texturenofocus>
+					<textureradioonfocus>rcb-radio-button-on.png</textureradioonfocus>
+					<textureradioonnofocus>rcb-radio-button-on.png</textureradioonnofocus>
+					<textureradioofffocus>rcb-radio-button-off.png</textureradioofffocus>
+					<textureradiooffnofocus>rcb-radio-button-off.png</textureradiooffnofocus>
+					<textureradioondisabled>rcb-radio-button-on.png</textureradioondisabled>
+					<textureradiooffdisabled>rcb-radio-button-off.png</textureradiooffdisabled>
 					<onleft>7000</onleft>
 					<onright>6000</onright>
 					<onup>5580</onup>

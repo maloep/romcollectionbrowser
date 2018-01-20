@@ -35,8 +35,6 @@
 			<posy>-30</posy>
 			<width>40</width>
 			<height>25</height>
-			<label>-</label>
-			<font>-</font>
 			<texturefocus>rcb-DialogCloseButton-focus.png</texturefocus>
 			<texturenofocus>rcb-DialogCloseButton.png</texturenofocus>
 			<onleft>5411</onleft>
@@ -157,8 +155,6 @@
 			<posy>20</posy>
 			<width>20</width>
 			<height>20</height>
-			<label>-</label>
-			<font>-</font>
 			<texturenofocus>rcb-scroll-down-2.png</texturenofocus>
 			<texturefocus>rcb-scroll-down-focus-2.png</texturefocus>
 			<onclick>Control.Move(5410,1)</onclick>
@@ -173,8 +169,6 @@
 			<posy>20</posy>
 			<width>20</width>
 			<height>20</height>
-			<label>-</label>
-			<font>-</font>
 			<texturenofocus>rcb-scroll-up-2.png</texturenofocus>
 			<texturefocus>rcb-scroll-up-focus-2.png</texturefocus>
 			<onclick>Control.Move(5410,-1)</onclick>
@@ -272,8 +266,6 @@
 			<posy>55</posy>
 			<width>20</width>
 			<height>20</height>
-			<label>-</label>
-			<font>-</font>
 			<texturenofocus>rcb-scroll-down-2.png</texturenofocus>
 			<texturefocus>rcb-scroll-down-focus-2.png</texturefocus>
 			<onclick>Control.Move(5490,1)</onclick>
@@ -288,8 +280,6 @@
 			<posy>55</posy>
 			<width>20</width>
 			<height>20</height>
-			<label>-</label>
-			<font>-</font>
 			<texturenofocus>rcb-scroll-up-2.png</texturenofocus>
 			<texturefocus>rcb-scroll-up-focus-2.png</texturefocus>
 			<onclick>Control.Move(5490,-1)</onclick>

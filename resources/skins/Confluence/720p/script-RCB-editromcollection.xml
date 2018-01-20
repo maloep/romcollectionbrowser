@@ -43,8 +43,6 @@
 			<posy>25</posy>
 			<width>40</width>
 			<height>25</height>
-			<label>-</label>
-			<font>-</font>
 			<texturefocus>rcb-DialogCloseButton-focus.png</texturefocus>
 			<texturenofocus>rcb-DialogCloseButton.png</texturenofocus>
 			<onleft>5211</onleft>
@@ -145,8 +143,6 @@
 			<posy>70</posy>
 			<width>20</width>
 			<height>20</height>
-			<label>-</label>
-			<font>-</font>
 			<texturenofocus>rcb-scroll-down-2.png</texturenofocus>
 			<texturefocus>rcb-scroll-down-focus-2.png</texturefocus>
 			<onclick>Control.Move(5210,1)</onclick>
@@ -162,8 +158,6 @@
 			<posy>70</posy>
 			<width>20</width>
 			<height>20</height>
-			<label>-</label>
-			<font>-</font>
 			<texturenofocus>rcb-scroll-up-2.png</texturenofocus>
 			<texturefocus>rcb-scroll-up-focus-2.png</texturefocus>
 			<onclick>Control.Move(5210,-1)</onclick>
@@ -377,14 +371,20 @@
 					<posy>60</posy>
 					<width>660</width>
 					<height>30</height>
-					<radiowidth>80</radiowidth>
-					<radioheight>80</radioheight>
+					<radiowidth>24</radiowidth>
+					<radioheight>24</radioheight>
 					<font>font13</font>
 					<label>$ADDON[script.games.rom.collection.browser 32608]</label>
 					<textcolor>88FFFFFF</textcolor>
 					<focusedcolor>FFFFFFFF</focusedcolor>
 					<texturefocus>rcb-MenuItemFO.png</texturefocus>
 					<texturenofocus>rcb-MenuItemNF.png</texturenofocus>
+					<textureradioonfocus>rcb-radio-button-on.png</textureradioonfocus>
+					<textureradioonnofocus>rcb-radio-button-on.png</textureradioonnofocus>
+					<textureradioofffocus>rcb-radio-button-off.png</textureradioofffocus>
+					<textureradiooffnofocus>rcb-radio-button-off.png</textureradiooffnofocus>
+					<textureradioondisabled>rcb-radio-button-on.png</textureradioondisabled>
+					<textureradiooffdisabled>rcb-radio-button-off.png</textureradiooffdisabled>
 					<onleft>7000</onleft>
 					<onright>6000</onright>
 					<onup>5250</onup>
@@ -396,14 +396,20 @@
 					<posy>90</posy>
 					<width>660</width>
 					<height>30</height>
-					<radiowidth>80</radiowidth>
-					<radioheight>80</radioheight>
+					<radiowidth>24</radiowidth>
+					<radioheight>24</radioheight>
 					<font>font13</font>
 					<label>$ADDON[script.games.rom.collection.browser 32609]</label>
 					<textcolor>88FFFFFF</textcolor>
 					<focusedcolor>FFFFFFFF</focusedcolor>
 					<texturefocus>rcb-MenuItemFO.png</texturefocus>
 					<texturenofocus>rcb-MenuItemNF.png</texturenofocus>
+					<textureradioonfocus>rcb-radio-button-on.png</textureradioonfocus>
+					<textureradioonnofocus>rcb-radio-button-on.png</textureradioonnofocus>
+					<textureradioofffocus>rcb-radio-button-off.png</textureradioofffocus>
+					<textureradiooffnofocus>rcb-radio-button-off.png</textureradiooffnofocus>
+					<textureradioondisabled>rcb-radio-button-on.png</textureradioondisabled>
+					<textureradiooffdisabled>rcb-radio-button-off.png</textureradiooffdisabled>
 					<onleft>7000</onleft>
 					<onright>6000</onright>
 					<onup>5330</onup>
@@ -530,14 +536,20 @@
 					<posy>180</posy>
 					<width>660</width>
 					<height>30</height>
-					<radiowidth>80</radiowidth>
-					<radioheight>80</radioheight>
+					<radiowidth>24</radiowidth>
+					<radioheight>24</radioheight>
 					<font>font13</font>
 					<label>$ADDON[script.games.rom.collection.browser 32612]</label>
 					<textcolor>88FFFFFF</textcolor>
 					<focusedcolor>FFFFFFFF</focusedcolor>
 					<texturefocus>rcb-MenuItemFO.png</texturefocus>
 					<texturenofocus>rcb-MenuItemNF.png</texturenofocus>
+					<textureradioonfocus>rcb-radio-button-on.png</textureradioonfocus>
+					<textureradioonnofocus>rcb-radio-button-on.png</textureradioonnofocus>
+					<textureradioofffocus>rcb-radio-button-off.png</textureradioofffocus>
+					<textureradiooffnofocus>rcb-radio-button-off.png</textureradiooffnofocus>
+					<textureradioondisabled>rcb-radio-button-on.png</textureradioondisabled>
+					<textureradiooffdisabled>rcb-radio-button-off.png</textureradiooffdisabled>
 					<onleft>7000</onleft>
 					<onright>6000</onright>
 					<onup>5420</onup>
@@ -641,8 +653,6 @@
 					<posy>5</posy>
 					<width>20</width>
 					<height>20</height>
-					<label>-</label>
-					<font>-</font>
 					<texturenofocus>rcb-scroll-down-2.png</texturenofocus>
 					<texturefocus>rcb-scroll-down-focus-2.png</texturefocus>
 					<onclick>Control.Move(5290,1)</onclick>
@@ -657,8 +667,6 @@
 					<posy>5</posy>
 					<width>20</width>
 					<height>20</height>
-					<label>-</label>
-					<font>-</font>
 					<texturenofocus>rcb-scroll-up-2.png</texturenofocus>
 					<texturefocus>rcb-scroll-up-focus-2.png</texturefocus>
 					<onclick>Control.Move(5290,-1)</onclick>
@@ -756,8 +764,6 @@
 					<posy>36</posy>
 					<width>20</width>
 					<height>20</height>
-					<label>-</label>
-					<font>-</font>
 					<texturenofocus>rcb-scroll-down-2.png</texturenofocus>
 					<texturefocus>rcb-scroll-down-focus-2.png</texturefocus>
 					<onclick>Control.Move(5300,1)</onclick>
@@ -772,8 +778,6 @@
 					<posy>36</posy>
 					<width>20</width>
 					<height>20</height>
-					<label>-</label>
-					<font>-</font>
 					<texturenofocus>rcb-scroll-up-2.png</texturenofocus>
 					<texturefocus>rcb-scroll-up-focus-2.png</texturefocus>
 					<onclick>Control.Move(5300,-1)</onclick>
@@ -870,8 +874,6 @@
 					<posy>62</posy>
 					<width>20</width>
 					<height>20</height>
-					<label>-</label>
-					<font>-</font>
 					<texturenofocus>rcb-scroll-down-2.png</texturenofocus>
 					<texturefocus>rcb-scroll-down-focus-2.png</texturefocus>
 					<onclick>Control.Move(5310,1)</onclick>
@@ -886,8 +888,6 @@
 					<posy>62</posy>
 					<width>20</width>
 					<height>20</height>
-					<label>-</label>
-					<font>-</font>
 					<texturenofocus>rcb-scroll-up-2.png</texturenofocus>
 					<texturefocus>rcb-scroll-up-focus-2.png</texturefocus>
 					<onclick>Control.Move(5310,-1)</onclick>
@@ -990,8 +990,6 @@
 						<posy>8</posy>
 						<width>20</width>
 						<height>20</height>
-						<label>-</label>
-						<font>-</font>
 						<texturenofocus>rcb-scroll-down-2.png</texturenofocus>
 						<texturefocus>rcb-scroll-down-focus-2.png</texturefocus>
 						<onclick>Control.Move(5260,1)</onclick>
@@ -1006,8 +1004,6 @@
 						<posy>8</posy>
 						<width>20</width>
 						<height>20</height>
-						<label>-</label>
-						<font>-</font>
 						<texturenofocus>rcb-scroll-up-2.png</texturenofocus>
 						<texturefocus>rcb-scroll-up-focus-2.png</texturefocus>
 						<onclick>Control.Move(5260,-1)</onclick>
@@ -1281,8 +1277,6 @@
 					<posy>5</posy>
 					<width>20</width>
 					<height>20</height>
-					<label>-</label>
-					<font>-</font>
 					<texturenofocus>rcb-scroll-down-2.png</texturenofocus>
 					<texturefocus>rcb-scroll-down-focus-2.png</texturefocus>
 					<onclick>Control.Move(5320,1)</onclick>
@@ -1297,8 +1291,6 @@
 					<posy>5</posy>
 					<width>20</width>
 					<height>20</height>
-					<label>-</label>
-					<font>-</font>
 					<texturenofocus>rcb-scroll-up-2.png</texturenofocus>
 					<texturefocus>rcb-scroll-up-focus-2.png</texturefocus>
 					<onclick>Control.Move(5320,-1)</onclick>
@@ -1397,8 +1389,6 @@
 					<posy>35</posy>
 					<width>20</width>
 					<height>20</height>
-					<label>-</label>
-					<font>-</font>
 					<texturenofocus>rcb-scroll-down-2.png</texturenofocus>
 					<texturefocus>rcb-scroll-down-focus-2.png</texturefocus>
 					<onclick>Control.Move(5340,1)</onclick>
@@ -1413,8 +1403,6 @@
 					<posy>35</posy>
 					<width>20</width>
 					<height>20</height>
-					<label>-</label>
-					<font>-</font>
 					<texturenofocus>rcb-scroll-up-2.png</texturenofocus>
 					<texturefocus>rcb-scroll-up-focus-2.png</texturefocus>
 					<onclick>Control.Move(5340,-1)</onclick>
@@ -1429,14 +1417,20 @@
 					<posy>60</posy>
 					<width>660</width>
 					<height>30</height>
-					<radiowidth>80</radiowidth>
-					<radioheight>80</radioheight>
+					<radiowidth>24</radiowidth>
+					<radioheight>24</radioheight>
 					<font>font13</font>
 					<label>$ADDON[script.games.rom.collection.browser 32623]</label>
 					<textcolor>88FFFFFF</textcolor>
 					<focusedcolor>FFFFFFFF</focusedcolor>
 					<texturefocus>rcb-MenuItemFO.png</texturefocus>
 					<texturenofocus>rcb-MenuItemNF.png</texturenofocus>
+					<textureradioonfocus>rcb-radio-button-on.png</textureradioonfocus>
+					<textureradioonnofocus>rcb-radio-button-on.png</textureradioonnofocus>
+					<textureradioofffocus>rcb-radio-button-off.png</textureradioofffocus>
+					<textureradiooffnofocus>rcb-radio-button-off.png</textureradiooffnofocus>
+					<textureradioondisabled>rcb-radio-button-on.png</textureradioondisabled>
+					<textureradiooffdisabled>rcb-radio-button-off.png</textureradiooffdisabled>
 					<onleft>7000</onleft>
 					<onright>6000</onright>
 					<onup>5342</onup>
@@ -1448,14 +1442,20 @@
 					<posy>90</posy>
 					<width>660</width>
 					<height>30</height>
-					<radiowidth>80</radiowidth>
-					<radioheight>80</radioheight>
+					<radiowidth>24</radiowidth>
+					<radioheight>24</radioheight>
 					<font>font13</font>
 					<label>$ADDON[script.games.rom.collection.browser 32636]</label>
 					<textcolor>88FFFFFF</textcolor>
 					<focusedcolor>FFFFFFFF</focusedcolor>
 					<texturefocus>rcb-MenuItemFO.png</texturefocus>
 					<texturenofocus>rcb-MenuItemNF.png</texturenofocus>
+					<textureradioonfocus>rcb-radio-button-on.png</textureradioonfocus>
+					<textureradioonnofocus>rcb-radio-button-on.png</textureradioonnofocus>
+					<textureradioofffocus>rcb-radio-button-off.png</textureradioofffocus>
+					<textureradiooffnofocus>rcb-radio-button-off.png</textureradiooffnofocus>
+					<textureradioondisabled>rcb-radio-button-on.png</textureradioondisabled>
+					<textureradiooffdisabled>rcb-radio-button-off.png</textureradiooffdisabled>
 					<onleft>7000</onleft>
 					<onright>6000</onright>
 					<onup>5350</onup>
@@ -1601,14 +1601,20 @@
 					<posy>60</posy>
 					<width>660</width>
 					<height>30</height>
-					<radiowidth>80</radiowidth>
-					<radioheight>80</radioheight>
+					<radiowidth>24</radiowidth>
+					<radioheight>24</radioheight>
 					<font>font13</font>
 					<label>$ADDON[script.games.rom.collection.browser 32626]</label>
 					<textcolor>88FFFFFF</textcolor>
 					<focusedcolor>FFFFFFFF</focusedcolor>
 					<texturefocus>rcb-MenuItemFO.png</texturefocus>
 					<texturenofocus>rcb-MenuItemNF.png</texturenofocus>
+					<textureradioonfocus>rcb-radio-button-on.png</textureradioonfocus>
+					<textureradioonnofocus>rcb-radio-button-on.png</textureradioonnofocus>
+					<textureradioofffocus>rcb-radio-button-off.png</textureradioofffocus>
+					<textureradiooffnofocus>rcb-radio-button-off.png</textureradiooffnofocus>
+					<textureradioondisabled>rcb-radio-button-on.png</textureradioondisabled>
+					<textureradiooffdisabled>rcb-radio-button-off.png</textureradiooffdisabled>
 					<onleft>7000</onleft>
 					<onright>6000</onright>
 					<onup>5230</onup>
@@ -1623,14 +1629,20 @@
 					<posy>90</posy>
 					<width>660</width>
 					<height>30</height>
-					<radiowidth>80</radiowidth>
-					<radioheight>80</radioheight>
+					<radiowidth>24</radiowidth>
+					<radioheight>24</radioheight>
 					<font>font13</font>
 					<label>$ADDON[script.games.rom.collection.browser 32627]</label>
 					<textcolor>88FFFFFF</textcolor>
 					<focusedcolor>FFFFFFFF</focusedcolor>
 					<texturefocus>rcb-MenuItemFO.png</texturefocus>
 					<texturenofocus>rcb-MenuItemNF.png</texturenofocus>
+					<textureradioonfocus>rcb-radio-button-on.png</textureradioonfocus>
+					<textureradioonnofocus>rcb-radio-button-on.png</textureradioonnofocus>
+					<textureradioofffocus>rcb-radio-button-off.png</textureradioofffocus>
+					<textureradiooffnofocus>rcb-radio-button-off.png</textureradiooffnofocus>
+					<textureradioondisabled>rcb-radio-button-on.png</textureradioondisabled>
+					<textureradiooffdisabled>rcb-radio-button-off.png</textureradiooffdisabled>
 					<onleft>7000</onleft>
 					<onright>6000</onright>
 					<onup>5440</onup>
@@ -1953,14 +1965,20 @@
 					<posy>270</posy>
 					<width>660</width>
 					<height>30</height>
-					<radiowidth>80</radiowidth>
-					<radioheight>80</radioheight>
+					<radiowidth>24</radiowidth>
+					<radioheight>24</radioheight>
 					<font>font13</font>
 					<label>$ADDON[script.games.rom.collection.browser 32628]</label>
 					<textcolor>88FFFFFF</textcolor>
 					<focusedcolor>FFFFFFFF</focusedcolor>
 					<texturefocus>rcb-MenuItemFO.png</texturefocus>
 					<texturenofocus>rcb-MenuItemNF.png</texturenofocus>
+					<textureradioonfocus>rcb-radio-button-on.png</textureradioonfocus>
+					<textureradioonnofocus>rcb-radio-button-on.png</textureradioonnofocus>
+					<textureradioofffocus>rcb-radio-button-off.png</textureradioofffocus>
+					<textureradiooffnofocus>rcb-radio-button-off.png</textureradiooffnofocus>
+					<textureradioondisabled>rcb-radio-button-on.png</textureradioondisabled>
+					<textureradiooffdisabled>rcb-radio-button-off.png</textureradiooffdisabled>
 					<onleft>7000</onleft>
 					<onright>6000</onright>
 					<onup>5520</onup>
@@ -1973,14 +1991,20 @@
 					<posy>300</posy>
 					<width>660</width>
 					<height>30</height>
-					<radiowidth>80</radiowidth>
-					<radioheight>80</radioheight>
+					<radiowidth>24</radiowidth>
+					<radioheight>24</radioheight>
 					<font>font13</font>
 					<label>$ADDON[script.games.rom.collection.browser 52039]</label>
 					<textcolor>88FFFFFF</textcolor>
 					<focusedcolor>FFFFFFFF</focusedcolor>
 					<texturefocus>rcb-MenuItemFO.png</texturefocus>
 					<texturenofocus>rcb-MenuItemNF.png</texturenofocus>
+					<textureradioonfocus>rcb-radio-button-on.png</textureradioonfocus>
+					<textureradioonnofocus>rcb-radio-button-on.png</textureradioonnofocus>
+					<textureradioofffocus>rcb-radio-button-off.png</textureradioofffocus>
+					<textureradiooffnofocus>rcb-radio-button-off.png</textureradiooffnofocus>
+					<textureradioondisabled>rcb-radio-button-on.png</textureradioondisabled>
+					<textureradiooffdisabled>rcb-radio-button-off.png</textureradiooffdisabled>
 					<onleft>7000</onleft>
 					<onright>6000</onright>
 					<onup>5450</onup>
@@ -1993,14 +2017,20 @@
 					<posy>330</posy>
 					<width>660</width>
 					<height>30</height>
-					<radiowidth>80</radiowidth>
-					<radioheight>80</radioheight>
+					<radiowidth>24</radiowidth>
+					<radioheight>24</radioheight>
 					<font>font13</font>
 					<label>$ADDON[script.games.rom.collection.browser 32637]</label>
 					<textcolor>88FFFFFF</textcolor>
 					<focusedcolor>FFFFFFFF</focusedcolor>
 					<texturefocus>rcb-MenuItemFO.png</texturefocus>
 					<texturenofocus>rcb-MenuItemNF.png</texturenofocus>
+					<textureradioonfocus>rcb-radio-button-on.png</textureradioonfocus>
+					<textureradioonnofocus>rcb-radio-button-on.png</textureradioonnofocus>
+					<textureradioofffocus>rcb-radio-button-off.png</textureradioofffocus>
+					<textureradiooffnofocus>rcb-radio-button-off.png</textureradiooffnofocus>
+					<textureradioondisabled>rcb-radio-button-on.png</textureradioondisabled>
+					<textureradiooffdisabled>rcb-radio-button-off.png</textureradiooffdisabled>
 					<onleft>7000</onleft>
 					<onright>6000</onright>
 					<onup>5450</onup>
