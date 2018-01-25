@@ -16,6 +16,7 @@ class DetectionMethod(object):
         self.name = ''
         self.command = ''
         self.packagename = ''
+        self.folders = []
 
     def __repr__(self):
         return "<DetectionMethod: %s>" % self.__dict__
@@ -146,6 +147,10 @@ class EmulatorAutoconfig(RcbXmlReaderWriter):
                         detectionMethod.command = self.readTextElement(globalDMRow, 'command')
                         
                 detectionMethod.packagename = self.readTextElement(detectionMethodRow, 'packagename')
+            elif detectionMethod.name == 'commonFolders':
+                folderRows = detectionMethodRow.findall('folder')
+                for folderRow in folderRows:                    
+                    detectionMethod.folders.append(folderRow.text)
             
             detectionMethods.append(detectionMethod)
             
@@ -224,9 +229,20 @@ class EmulatorAutoconfig(RcbXmlReaderWriter):
                 pass
 
             elif detectionMethod.name == 'commonFolders':
-                print 'Emulator installation status via commonFolders has not been implemented'
-                pass
-
+                for folder in detectionMethod.folders:
+                    #resolve windows environment variables like %APPDATA%
+                    newFolder = ''
+                    parts = folder.split('%')
+                    for part in parts:
+                        partEnv = os.getenv(part)
+                        if(partEnv):
+                            newFolder = newFolder +partEnv
+                        else:
+                            newFolder = newFolder +part
+                    
+                    if(os.path.exists(newFolder)):
+                        emulator.installdir = newFolder
+                        return True
             else:
                 print 'Unhandled detection method: {0}'.format(detectionMethod.name)
 

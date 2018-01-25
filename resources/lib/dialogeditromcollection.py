@@ -257,10 +257,10 @@ class EditRomCollectionDialog(dialogbase.DialogBaseEdit):
 						preconfiguredEmulator = None
 
 				if preconfiguredEmulator:
-					emulatorPath = preconfiguredEmulator.emuCmd
+					emulatorPath = preconfiguredEmulator.emuCmd.replace('%INSTALLDIR%', preconfiguredEmulator.installdir)
 					self.selectedRomCollection.emulatorParams = preconfiguredEmulator.emuParams
 					control = self.getControlById(CONTROL_BUTTON_PARAMS)
-					control.setLabel(self.selectedRomCollection.emulatorParams)
+					control.setLabel(self.selectedRomCollection.emulatorParams.replace('%INSTALLDIR%', preconfiguredEmulator.installdir))
 				else:
 					emulatorPath = dialog.browse(1, '%s ' % self.selectedRomCollection.name + util.localize(32139), 'files')
 					if emulatorPath == '':

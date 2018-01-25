@@ -204,7 +204,7 @@ class ConfigXmlWizard(RcbXmlReaderWriter):
 							preconfiguredEmulator = None
 
 					if preconfiguredEmulator:
-						romCollection.emulatorCmd = preconfiguredEmulator.emuCmd
+						romCollection.emulatorCmd = preconfiguredEmulator.emuCmd.replace('%INSTALLDIR%', preconfiguredEmulator.installdir)
 					else:
 						consolePath = dialog.browse(1, util.localize(32178) % console, 'files')
 						Logutil.log('consolePath: ' + str(consolePath), util.LOG_LEVEL_INFO)
@@ -219,7 +219,7 @@ class ConfigXmlWizard(RcbXmlReaderWriter):
 					log.info("emuParams set to "" for standalone games.")
 				else:
 					if preconfiguredEmulator:
-						defaultParams = preconfiguredEmulator.emuParams
+						defaultParams = preconfiguredEmulator.emuParams.replace('%INSTALLDIR%', preconfiguredEmulator.installdir)
 					else:
 						defaultParams = '"%ROM%"'
 
