@@ -4,78 +4,126 @@
 	<include>dialogeffect</include>
 	<coordinates>
 		<system>1</system>
-		<posx>280</posx>
-		<posy>75</posy>
+		<posx>60</posx>
+		<posy>60</posy>
 	</coordinates>
 	
 	<controls>
-		<!-- Window -->
+		<!-- Window -->	
 		<control type="image">
-			<description>background top image</description>
+			<description>header image</description>
 			<posx>0</posx>
-			<posy>-65</posy>
-			<width>720</width>
-			<height>65</height>
-			<texture border="45,45,45,0">rcb-DialogContextTop.png</texture>
+			<posy>-40</posy>
+			<width>1160</width>
+			<height>40</height>
+			<texture colordiffuse="FF12A0C7">rcb-white.png</texture>
 		</control>
-		<control type="label">
-			<posx>0</posx>
-			<posy>-30</posy>
-			<width>720</width>
+		<control type="image">
+			<description>kodi logo</description>
+			<posx>1125</posx>
+			<posy>-35</posy>
+			<width>30</width>
 			<height>30</height>
-			<font>font24_title</font>
+			<texture>rcb-kodilogo.png</texture>
+		</control>
+		<control type="image">
+			<description>background image</description>
+			<posx>0</posx>
+			<posy>0</posy>
+			<width>1160</width>
+			<height>620</height>
+			<texture colordiffuse="FF222222">rcb-white.png</texture>
+		</control>
+		<control type="image">
+			<description>background image edit pane</description>
+			<posx>240</posx>
+			<posy>20</posy>
+			<width>680</width>
+			<height>580</height>
+			<texture colordiffuse="FF111111">rcb-white.png</texture>
+		</control>
+		
+		<control type="label">
+			<posx>20</posx>
+			<posy>-35</posy>
+			<width>520</width>
+			<height>30</height>
+			<font>font32_title</font>
 			<textcolor>white</textcolor>
-			<align>center</align>
+			<shadowcolor>black</shadowcolor>
+			<align>left</align>
 			<aligny>center</aligny>
-			<label>$ADDON[script.games.rom.collection.browser 32850]</label>
+			<label>$ADDON[script.games.rom.collection.browser 32999] - $ADDON[script.games.rom.collection.browser 32850]</label>
 		</control>
-		<control type="button" id="5101">
-			<description>Close Window button</description>
-			<posx>640</posx>
-			<posy>-30</posy>
-			<width>40</width>
-			<height>25</height>
-			<label>-</label>
-			<font>-</font>
-			<texturefocus>rcb-DialogCloseButton-focus.png</texturefocus>
-			<texturenofocus>rcb-DialogCloseButton.png</texturenofocus>
-			<onleft>5201</onleft>
-			<onright>5201</onright>
-			<onup>6000</onup>
-			<ondown>5201</ondown>
-			<visible>system.getbool(input.enablemouse)</visible>
+		
+		<!-- Category buttons -->
+		<control type="list" id="7000">
+			<posx>15</posx>
+			<posy>20</posy>
+			<width>220</width>
+			<height>400</height>
+			<onleft>7010</onleft>
+			<onright>7010</onright>
+			<onup>7000</onup>
+			<ondown>7000</ondown>
+			<pagecontrol>-</pagecontrol>
+			<scrolltime>300</scrolltime>
+			<itemlayout height="70" width="150">
+				<control type="image">
+					<posx>0</posx>
+					<posy>0</posy>
+					<width>210</width>
+					<height>50</height>
+					<texture colordiffuse="FF111111">rcb-white.png</texture>
+				</control>
+				<control type="label">
+					<posx>0</posx>
+					<posy>10</posy>
+					<width>200</width>
+					<height>30</height>
+					<font>font25_title</font>
+					<textcolor>white</textcolor>
+					<align>center</align>
+					<aligny>center</aligny>
+					<label>$INFO[ListItem.Label]</label>					
+				</control>
+			</itemlayout>
+			<focusedlayout height="70" width="150">
+				<control type="image">
+					<posx>0</posx>
+					<posy>0</posy>
+					<width>210</width>
+					<height>50</height>
+					<texture colordiffuse="FF12A0C7">rcb-MenuItemFO.png</texture>
+					<animation effect="fade" start="100" end="30" time="100" condition="!Control.HasFocus(7000)">Conditional</animation>
+				</control>
+				<control type="label">
+					<posx>0</posx>
+					<posy>10</posy>
+					<width>200</width>
+					<height>30</height>
+					<font>font25_title</font>
+					<textcolor>white</textcolor>
+					<align>center</align>
+					<aligny>center</aligny>
+					<label>$INFO[ListItem.Label]</label>					
+				</control>
+			</focusedlayout>
+			<content>
+				<item id="1">
+					<label>$ADDON[script.games.rom.collection.browser 32409]</label>
+					<onclick>-</onclick>
+				</item>
+			</content>
 		</control>
-		<control type="image">
-			<description>background image</description>
-			<posx>0</posx>
-			<posy>0</posy>
-			<width>720</width>
-			<height>550</height>
-			<texture border="45,0,45,0">rcb-DialogContextMiddle.png</texture>				
-		</control>
-		<control type="image">
-			<description>background image</description>
-			<posx>35</posx>
-			<posy>0</posy>
-			<width>640</width>
-			<height>550</height>				
-			<texture border="0,0,0,0">rcb-floor.png</texture>
-		</control>
-		<control type="image">
-			<description>background bottom image</description>
-			<posx>0</posx>
-			<posy>550</posy>
-			<width>720</width>
-			<texture border="45,0,45,49">rcb-DialogContextBottom.png</texture>
-		</control>				
 		
 		<!-- Show/Hide missing info list -->
 		<control type="list" id="5200">
 			<hitrect x="0" y="0" w="0" h="0" />
-			<posx>40</posx>
-			<posy>50</posy>
-			<width>630</width>
-			<height>30</height>
+			<posx>240</posx>
+			<posy>20</posy>
+			<width>680</width>
+			<height>50</height>
 			<onleft>5200</onleft>
 			<onright>5200</onright>
 			<onup>5200</onup>
@@ -83,38 +131,18 @@
 			<pagecontrol>-</pagecontrol>
 			<scrolltime>0</scrolltime>
 			<itemlayout height="1" width="750"></itemlayout>
-			<focusedlayout height="30" width="670">
+			<focusedlayout height="50" width="680">
 				<control type="image">
 					<posx>0</posx>
 					<posy>0</posy>
-					<width>630</width>
-					<height>30</height>
-					<texture>rcb-MenuItemNF.png</texture>
-					<visible>![Control.HasFocus(5201) | Control.HasFocus(5202)]</visible>
-				</control>
-				<control type="image">
-					<posx>0</posx>
-					<posy>0</posy>
-					<width>630</width>
-					<height>30</height>
-					<texture>rcb-MenuItemFO.png</texture>
+					<width>680</width>
+					<height>50</height>
+					<texture colordiffuse="FF12A0C7">rcb-MenuItemFO.png</texture>
 					<visible>[Control.HasFocus(5201) | Control.HasFocus(5202)]</visible>
 				</control>
 				<control type="label">
 					<posx>7</posx>
-					<posy>5</posy>
-					<width>300</width>
-					<height>20</height>
-					<font>font13</font>
-					<textcolor>88FFFFFF</textcolor>
-					<align>left</align>
-					<aligny>center</aligny>
-					<label>$ADDON[script.games.rom.collection.browser 32851]</label>
-					<visible>![Control.HasFocus(5201) | Control.HasFocus(5202)]</visible>
-				</control>
-				<control type="label">
-					<posx>7</posx>
-					<posy>5</posy>
+					<posy>15</posy>
 					<width>300</width>
 					<height>20</height>
 					<font>font13</font>
@@ -122,23 +150,10 @@
 					<align>left</align>
 					<aligny>center</aligny>
 					<label>$ADDON[script.games.rom.collection.browser 32851]</label>
-					<visible>[Control.HasFocus(5201) | Control.HasFocus(5202)]</visible>
 				</control>
 				<control type="label">
-					<posx>210</posx>
-					<posy>5</posy>
-					<width>370</width>
-					<height>20</height>
-					<font>font13</font>
-					<textcolor>88FFFFFF</textcolor>
-					<align>right</align>
-					<aligny>center</aligny>
-					<label>$INFO[ListItem.Label]</label>
-					<visible>![Control.HasFocus(5201) | Control.HasFocus(5202)]</visible>
-				</control>
-				<control type="label">
-					<posx>210</posx>
-					<posy>5</posy>
+					<posx>240</posx>
+					<posy>15</posy>
 					<width>370</width>
 					<height>20</height>
 					<font>font13</font>
@@ -146,20 +161,17 @@
 					<align>right</align>
 					<aligny>center</aligny>
 					<label>$INFO[ListItem.Label]</label>
-					<visible>[Control.HasFocus(5201) | Control.HasFocus(5202)]</visible>
 				</control>
 			</focusedlayout>
 		</control>
 		<control type="button" id="5201">
 			<description>Menu Item Next Button</description>
-			<posx>630</posx>
-			<posy>55</posy>
+			<posx>870</posx>
+			<posy>40</posy>
 			<width>20</width>
-			<height>20</height>
-			<label>-</label>
-			<font>-</font>
-			<texturenofocus>rcb-scroll-down-2.png</texturenofocus>
-			<texturefocus>rcb-scroll-down-focus-2.png</texturefocus>
+			<height>10</height>
+			<texturenofocus colordiffuse="FFAAAAAA">rcb-scroll-up.png</texturenofocus>
+			<texturefocus>rcb-scroll-up.png</texturefocus>
 			<onclick>Control.Move(5200,1)</onclick>
 			<onleft>6000</onleft>
 			<onright>5202</onright>
@@ -168,14 +180,12 @@
 		</control>
 		<control type="button" id="5202">
 			<description>Menu Item Prev Button</description>
-			<posx>650</posx>
-			<posy>55</posy>
+			<posx>890</posx>
+			<posy>40</posy>
 			<width>20</width>
-			<height>20</height>
-			<label>-</label>
-			<font>-</font>
-			<texturenofocus>rcb-scroll-up-2.png</texturenofocus>
-			<texturefocus>rcb-scroll-up-focus-2.png</texturefocus>
+			<height>10</height>
+			<texturenofocus colordiffuse="FFAAAAAA">rcb-scroll-down.png</texturenofocus>
+			<texturefocus>rcb-scroll-down.png</texturefocus>
 			<onclick>Control.Move(5200,-1)</onclick>
 			<onleft>5201</onleft>
 			<onright>6000</onright>
@@ -184,30 +194,30 @@
 		</control>
 			
 		<!-- Artwork -->
-		<control type="group">
-			<posx>40</posx>
-			<posy>100</posy>
+		<control type="group" id="7010">
+			<posx>240</posx>
+			<posy>80</posy>
 			<control type="label">
 				<posx>7</posx>
 				<posy>0</posy>
 				<width>370</width>
 				<height>20</height>
 				<font>font13</font>
-				<textcolor>88FFFFFF</textcolor>
+				<textcolor>white</textcolor>
 				<align>left</align>
 				<aligny>center</aligny>
 				<label>$ADDON[script.games.rom.collection.browser 32852]</label>
 			</control>
 			<control type="group">
-				<posx>20</posx>
+				<posx>0</posx>
 				<posy>30</posy>
 				<control type="label">
-					<posx>0</posx>
+					<posx>20</posx>
 					<posy>0</posy>
 					<width>370</width>
 					<height>20</height>
 					<font>font13</font>
-					<textcolor>88FFFFFF</textcolor>
+					<textcolor>white</textcolor>
 					<align>left</align>
 					<aligny>center</aligny>
 					<label>$ADDON[script.games.rom.collection.browser 32853]:</label>
@@ -218,23 +228,24 @@
 					<width>300</width>
 					<height>20</height>
 					<font>font13</font>
-					<textcolor>88FFFFFF</textcolor>
+					<textcolor>white</textcolor>
 					<align>right</align>
 					<aligny>center</aligny>
 					<label>$ADDON[script.games.rom.collection.browser 32854]</label>
 				</control>
 				<control type="button" id="5230"> 
 					<description>Add item</description>
-					<posx>15</posx>
+					<posx>0</posx>
 					<posy>25</posy>
-					<width>613</width>
-					<height>30</height>				
+					<width>680</width>
+					<height>30</height>
 					<font>font13</font>
 					<colordiffuse>DDFFFFFF</colordiffuse>
-					<texturefocus>rcb-MenuItemFO.png</texturefocus>
-					<texturenofocus>rcb-MenuItemNF.png</texturenofocus>
+					<texturefocus colordiffuse="FF12A0C7">rcb-MenuItemFO.png</texturefocus>
+					<texturenofocus></texturenofocus>
 					<label>- $ADDON[script.games.rom.collection.browser 32855]</label>
-					<textcolor>88FFFFFF</textcolor>
+					<textcolor>white</textcolor>
+					<textoffsetx>30</textoffsetx>
 					<focusedcolor>FFFFFFFF</focusedcolor>
 					<disabledcolor>80FFFFFF</disabledcolor>
 					<align>left</align>
@@ -246,16 +257,17 @@
 				</control>
 				<control type="button" id="5240"> 
 					<description>Remove item</description>
-					<posx>15</posx>
+					<posx>0</posx>
 					<posy>50</posy>
-					<width>613</width>
+					<width>680</width>
 					<height>30</height>				
 					<font>font13</font>
 					<colordiffuse>DDFFFFFF</colordiffuse>
-					<texturefocus>rcb-MenuItemFO.png</texturefocus>
-					<texturenofocus>rcb-MenuItemNF.png</texturenofocus>
+					<texturefocus colordiffuse="FF12A0C7">rcb-MenuItemFO.png</texturefocus>
+					<texturenofocus></texturenofocus>
 					<label>- $ADDON[script.games.rom.collection.browser 32856]</label>
-					<textcolor>88FFFFFF</textcolor>
+					<textcolor>white</textcolor>
+					<textoffsetx>30</textoffsetx>
 					<focusedcolor>FFFFFFFF</focusedcolor>
 					<disabledcolor>80FFFFFF</disabledcolor>
 					<align>left</align>
@@ -267,15 +279,15 @@
 				</control>
 			</control>
 			<control type="group">
-				<posx>20</posx>
+				<posx>0</posx>
 				<posy>120</posy>
 				<control type="label">
-					<posx>0</posx>
+					<posx>20</posx>
 					<posy>0</posy>
 					<width>370</width>
 					<height>20</height>
 					<font>font13</font>
-					<textcolor>88FFFFFF</textcolor>
+					<textcolor>white</textcolor>
 					<align>left</align>
 					<aligny>center</aligny>
 					<label>$ADDON[script.games.rom.collection.browser 32857]:</label>
@@ -286,23 +298,24 @@
 					<width>300</width>
 					<height>20</height>
 					<font>font13</font>
-					<textcolor>88FFFFFF</textcolor>
+					<textcolor>white</textcolor>
 					<align>right</align>
 					<aligny>center</aligny>
 					<label>$ADDON[script.games.rom.collection.browser 32854]</label>
 				</control>
 				<control type="button" id="5260"> 
 					<description>Add item</description>
-					<posx>15</posx>
+					<posx>0</posx>
 					<posy>25</posy>
-					<width>613</width>
+					<width>680</width>
 					<height>30</height>				
 					<font>font13</font>
 					<colordiffuse>DDFFFFFF</colordiffuse>
-					<texturefocus>rcb-MenuItemFO.png</texturefocus>
-					<texturenofocus>rcb-MenuItemNF.png</texturenofocus>
+					<texturefocus colordiffuse="FF12A0C7">rcb-MenuItemFO.png</texturefocus>
+					<texturenofocus></texturenofocus>
 					<label>- $ADDON[script.games.rom.collection.browser 32855]</label>
-					<textcolor>88FFFFFF</textcolor>
+					<textcolor>white</textcolor>
+					<textoffsetx>30</textoffsetx>
 					<focusedcolor>FFFFFFFF</focusedcolor>
 					<disabledcolor>80FFFFFF</disabledcolor>
 					<align>left</align>
@@ -314,16 +327,17 @@
 				</control>
 				<control type="button" id="5270"> 
 					<description>Remove item</description>
-					<posx>15</posx>
+					<posx>0</posx>
 					<posy>50</posy>
-					<width>613</width>
+					<width>680</width>
 					<height>30</height>				
 					<font>font13</font>
 					<colordiffuse>DDFFFFFF</colordiffuse>
-					<texturefocus>rcb-MenuItemFO.png</texturefocus>
-					<texturenofocus>rcb-MenuItemNF.png</texturenofocus>
+					<texturefocus colordiffuse="FF12A0C7">rcb-MenuItemFO.png</texturefocus>
+					<texturenofocus></texturenofocus>
 					<label>- $ADDON[script.games.rom.collection.browser 32856]</label>
-					<textcolor>88FFFFFF</textcolor>
+					<textcolor>white</textcolor>
+					<textoffsetx>30</textoffsetx>
 					<focusedcolor>FFFFFFFF</focusedcolor>
 					<disabledcolor>80FFFFFF</disabledcolor>
 					<align>left</align>
@@ -338,7 +352,7 @@
 		
 		<!-- Info -->
 		<control type="group">
-			<posx>40</posx>
+			<posx>240</posx>
 			<posy>320</posy>
 			<control type="label">
 				<posx>7</posx>
@@ -346,21 +360,21 @@
 				<width>370</width>
 				<height>20</height>
 				<font>font13</font>
-				<textcolor>88FFFFFF</textcolor>
+				<textcolor>white</textcolor>
 				<align>left</align>
 				<aligny>center</aligny>
 				<label>$ADDON[script.games.rom.collection.browser 32858]</label>
 			</control>
 			<control type="group">
-				<posx>20</posx>
+				<posx>0</posx>
 				<posy>30</posy>
 				<control type="label">
-					<posx>0</posx>
+					<posx>20</posx>
 					<posy>0</posy>
 					<width>370</width>
 					<height>20</height>
 					<font>font13</font>
-					<textcolor>88FFFFFF</textcolor>
+					<textcolor>white</textcolor>
 					<align>left</align>
 					<aligny>center</aligny>
 					<label>$ADDON[script.games.rom.collection.browser 32853]:</label>
@@ -371,23 +385,24 @@
 					<width>300</width>
 					<height>20</height>
 					<font>font13</font>
-					<textcolor>88FFFFFF</textcolor>
+					<textcolor>white</textcolor>
 					<align>right</align>
 					<aligny>center</aligny>
 					<label>$ADDON[script.games.rom.collection.browser 32854]</label>
 				</control>
 				<control type="button" id="5290"> 
 					<description>Add item</description>
-					<posx>15</posx>
+					<posx>0</posx>
 					<posy>25</posy>
-					<width>613</width>
+					<width>680</width>
 					<height>30</height>				
 					<font>font13</font>
 					<colordiffuse>DDFFFFFF</colordiffuse>
-					<texturefocus>rcb-MenuItemFO.png</texturefocus>
-					<texturenofocus>rcb-MenuItemNF.png</texturenofocus>
+					<texturefocus colordiffuse="FF12A0C7">rcb-MenuItemFO.png</texturefocus>
+					<texturenofocus></texturenofocus>
 					<label>- $ADDON[script.games.rom.collection.browser 32855]</label>
-					<textcolor>88FFFFFF</textcolor>
+					<textcolor>white</textcolor>
+					<textoffsetx>30</textoffsetx>
 					<focusedcolor>FFFFFFFF</focusedcolor>
 					<disabledcolor>80FFFFFF</disabledcolor>
 					<align>left</align>
@@ -399,16 +414,17 @@
 				</control>
 				<control type="button" id="5300"> 
 					<description>Remove item</description>
-					<posx>15</posx>
+					<posx>0</posx>
 					<posy>50</posy>
-					<width>613</width>
+					<width>680</width>
 					<height>30</height>				
 					<font>font13</font>
 					<colordiffuse>DDFFFFFF</colordiffuse>
-					<texturefocus>rcb-MenuItemFO.png</texturefocus>
-					<texturenofocus>rcb-MenuItemNF.png</texturenofocus>
+					<texturefocus colordiffuse="FF12A0C7">rcb-MenuItemFO.png</texturefocus>
+					<texturenofocus></texturenofocus>
 					<label>- $ADDON[script.games.rom.collection.browser 32856]</label>
-					<textcolor>88FFFFFF</textcolor>
+					<textcolor>white</textcolor>
+					<textoffsetx>30</textoffsetx>
 					<focusedcolor>FFFFFFFF</focusedcolor>
 					<disabledcolor>80FFFFFF</disabledcolor>
 					<align>left</align>
@@ -420,15 +436,15 @@
 				</control>
 			</control>
 			<control type="group">
-				<posx>20</posx>
+				<posx>0</posx>
 				<posy>120</posy>
 				<control type="label">
-					<posx>0</posx>
+					<posx>20</posx>
 					<posy>0</posy>
 					<width>370</width>
 					<height>20</height>
 					<font>font13</font>
-					<textcolor>88FFFFFF</textcolor>
+					<textcolor>white</textcolor>
 					<align>left</align>
 					<aligny>center</aligny>
 					<label>$ADDON[script.games.rom.collection.browser 32857]:</label>
@@ -439,23 +455,24 @@
 					<width>300</width>
 					<height>20</height>
 					<font>font13</font>
-					<textcolor>88FFFFFF</textcolor>
+					<textcolor>white</textcolor>
 					<align>right</align>
 					<aligny>center</aligny>
 					<label>$ADDON[script.games.rom.collection.browser 32854]</label>
 				</control>
 				<control type="button" id="5320"> 
 					<description>Add item</description>
-					<posx>15</posx>
+					<posx>0</posx>
 					<posy>25</posy>
-					<width>613</width>
+					<width>680</width>
 					<height>30</height>				
 					<font>font13</font>
 					<colordiffuse>DDFFFFFF</colordiffuse>
-					<texturefocus>rcb-MenuItemFO.png</texturefocus>
-					<texturenofocus>rcb-MenuItemNF.png</texturenofocus>
+					<texturefocus colordiffuse="FF12A0C7">rcb-MenuItemFO.png</texturefocus>
+					<texturenofocus></texturenofocus>
 					<label>- $ADDON[script.games.rom.collection.browser 32855]</label>
-					<textcolor>88FFFFFF</textcolor>
+					<textcolor>white</textcolor>
+					<textoffsetx>30</textoffsetx>
 					<focusedcolor>FFFFFFFF</focusedcolor>
 					<disabledcolor>80FFFFFF</disabledcolor>
 					<align>left</align>
@@ -467,16 +484,17 @@
 				</control>
 				<control type="button" id="5330"> 
 					<description>Remove item</description>
-					<posx>15</posx>
+					<posx>0</posx>
 					<posy>50</posy>
-					<width>613</width>
+					<width>680</width>
 					<height>30</height>				
 					<font>font13</font>
 					<colordiffuse>DDFFFFFF</colordiffuse>
-					<texturefocus>rcb-MenuItemFO.png</texturefocus>
-					<texturenofocus>rcb-MenuItemNF.png</texturenofocus>
+					<texturefocus colordiffuse="FF12A0C7">rcb-MenuItemFO.png</texturefocus>
+					<texturenofocus></texturenofocus>
 					<label>- $ADDON[script.games.rom.collection.browser 32856]</label>
-					<textcolor>88FFFFFF</textcolor>
+					<textcolor>white</textcolor>
+					<textoffsetx>30</textoffsetx>
 					<focusedcolor>FFFFFFFF</focusedcolor>
 					<disabledcolor>80FFFFFF</disabledcolor>
 					<align>left</align>
@@ -489,54 +507,53 @@
 			</control>
 		</control>
 			
-		<!-- Save and Cancel -->
+		<!-- Buttons -->
 		<control type="button" id="6000"> 
-			<description>Delete</description>
-			<posx>150</posx>
-			<posy>540</posy>
+			<description>Save</description>
+			<posx>940</posx>
+			<posy>20</posy>
 			<width>200</width>
-			<height>30</height>
+			<height>50</height>
 			<visible>true</visible>
-			<font>font13</font>
-			<colordiffuse>DDFFFFFF</colordiffuse>
-			<texturefocus>rcb-button-focus.png</texturefocus>
-			<texturenofocus>rcb-button-nofocus.png</texturenofocus>
+			<font>font25_title</font>
+			<texturefocus colordiffuse="FF12A0C7">rcb-MenuItemFO.png</texturefocus>
+			<texturenofocus colordiffuse="FF111111">rcb-white.png</texturenofocus>
 			<label>$ADDON[script.games.rom.collection.browser 32634]</label>
-			<textcolor>88FFFFFF</textcolor>
+			<textcolor>white</textcolor>
 			<disabledcolor>80FFFFFF</disabledcolor>
 			<align>center</align>
 			<aligny>center</aligny>
 			<textoffsetx></textoffsetx>
 			<textoffsety></textoffsety>
 			<pulseonselect></pulseonselect>
-			<onup>5330</onup>
-			<ondown>5101</ondown>
-			<onleft>6010</onleft>
-			<onright>6010</onright>
+			<onup>6010</onup>
+			<ondown>6010</ondown>
+			<onleft>7010</onleft>
+			<onright>7000</onright>
 		</control>
 		<control type="button" id="6010"> 
 			<description>Cancel</description>
-			<posx>370</posx>
-			<posy>540</posy>
+			<posx>940</posx>
+			<posy>90</posy>
 			<width>200</width>
-			<height>30</height>
+			<height>50</height>
 			<visible>true</visible>
-			<font>font13</font>
-			<colordiffuse>DDFFFFFF</colordiffuse>
-			<texturefocus>rcb-button-focus.png</texturefocus>
-			<texturenofocus>rcb-button-nofocus.png</texturenofocus>
-			<label>$ADDON[script.games.rom.collection.browser 32635]</label>			
-			<textcolor>88FFFFFF</textcolor>
+			<font>font25_title</font>
+			<texturefocus colordiffuse="FF12A0C7">rcb-MenuItemFO.png</texturefocus>
+			<texturenofocus colordiffuse="FF111111">rcb-white.png</texturenofocus>
+			<label>$ADDON[script.games.rom.collection.browser 32635]</label>
+			<textcolor>white</textcolor>
 			<disabledcolor>80FFFFFF</disabledcolor>
 			<align>center</align>
 			<aligny>center</aligny>
 			<textoffsetx></textoffsetx>
 			<textoffsety></textoffsety>
 			<pulseonselect></pulseonselect>
-			<onup>5330</onup>
-			<ondown>5101</ondown>
-			<onleft>6000</onleft>
-			<onright>6000</onright>
-		</control>		
+			<onup>6000</onup>
+			<ondown>6000</ondown>
+			<onleft>7010</onleft>
+			<onright>7000</onright>
+		</control>
+		
 	</controls>
 </window>
