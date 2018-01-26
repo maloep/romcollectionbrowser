@@ -62,25 +62,43 @@ class TestAutoConfig(unittest.TestCase):
 
     def test_FindSingleEmulatorOnMac(self):
         autoconfig = EmulatorAutoconfig(self.autoconfigxmlfile)
-        emulators = autoconfig.findEmulators('OSX', 'SNES', False)
+        emulators = autoconfig.findEmulators('OSX', '', 'SNES', False)
         ems_found = len(emulators)
         self.assertTrue(ems_found == 1, u'Found {0} SNES emulators, expecting 1'.format(ems_found))
 
     def test_FindMultipleEmulatorOnMac(self):
         autoconfig = EmulatorAutoconfig(self.autoconfigxmlfile)
-        emulators = autoconfig.findEmulators('OSX', 'Atari 2600', False)
+        emulators = autoconfig.findEmulators('OSX', '', 'Atari 2600', False)
         ems_found = len(emulators)
         self.assertTrue(ems_found == 2, u'Found {0} Atari 2600 emulators, expecting 2'.format(ems_found))
+        
+    def test_FindSingleEmulatorOnWindows(self):
+        autoconfig = EmulatorAutoconfig(self.autoconfigxmlfile)
+        emulators = autoconfig.findEmulators('Windows', 'Windows 8 (kernel: Windows NT 8.0)', 'SNES', False)
+        ems_found = len(emulators)
+        self.assertTrue(ems_found == 1, u'Found {0} SNES emulators, expecting 1'.format(ems_found))
+        
+        emuname = emulators[0].name
+        self.assertTrue(emuname == 'RetroArch (bsnes accuracy)', u'Found wrong SNES emulator: {0}, expecting "RetroArch (bsnes accuracy)"'.format(emuname))
+        
+    def test_FindEmulatorForSpecificVersionOnWindows(self):
+        autoconfig = EmulatorAutoconfig(self.autoconfigxmlfile)
+        emulators = autoconfig.findEmulators('Windows', 'Windows 10 (kernel: Windows NT 10.0)', 'SNES', False)
+        ems_found = len(emulators)
+        self.assertTrue(ems_found == 1, u'Found {0} SNES emulators, expecting 1'.format(ems_found))
+        
+        emuname = emulators[0].name
+        self.assertTrue(emuname == 'RetroArch (bsnes accuracy) Windows 10', u'Found wrong SNES emulator: {0}, expecting "RetroArch (bsnes accuracy) Windows 10"'.format(emuname))
 
     def test_UnableToFindNonDefinedEmulatorOnMac(self):
         autoconfig = EmulatorAutoconfig(self.autoconfigxmlfile)
-        emulators = autoconfig.findEmulators('OSX', 'UnknownPlatform', False)
+        emulators = autoconfig.findEmulators('OSX', '', 'UnknownPlatform', False)
         ems_found = len(emulators)
         self.assertTrue(ems_found == 0, u'Found {0} "UnknownPlatform" emulators, expecting 0'.format(ems_found))
 
     def test_EmulatorCommandAndParams(self):
         autoconfig = EmulatorAutoconfig(self.autoconfigxmlfile)
-        emulators = autoconfig.findEmulators('OSX', 'SNES', False)
+        emulators = autoconfig.findEmulators('OSX', '', 'SNES', False)
         print(emulators[0].emuCmd)
 
         self.assertEqual(emulators[0].emuCmd, u'/Applications/RetroArch.app/Contents/MacOS/RetroArch',
@@ -93,11 +111,11 @@ class TestAutoConfig(unittest.TestCase):
         autoconfig = EmulatorAutoconfig(self.autoconfigxmlfile)
         autoconfig.readXml()
         oses = autoconfig.operatingSystems
-        self.assertTrue(len(oses) == 4, u'Found {0} operating systems, expecting 4'.format(len(oses)))
+        self.assertTrue(len(oses) == 5, u'Found {0} operating systems, expecting 5'.format(len(oses)))
 
     def test_UnableToFindIncorrectOS(self):
         autoconfig = EmulatorAutoconfig(self.autoconfigxmlfile)
-        emulators = autoconfig.findEmulators('UnknownOS', 'SNES', False)
+        emulators = autoconfig.findEmulators('UnknownOS', '', 'SNES', False)
         self.assertTrue(len(emulators) == 0, u'Found {0} "UnknownOS" emulators, expecting 0'.format(len(emulators)))
 
     def test_NoOSElementsFound(self):

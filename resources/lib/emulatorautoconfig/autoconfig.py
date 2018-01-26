@@ -6,6 +6,7 @@ from rcbxmlreaderwriter import RcbXmlReaderWriter
 class OperatingSystem(object):
     def __init__(self):
         self.name = ''
+        self.versions = []
         self.platforms = []
 
     def __repr__(self):
@@ -75,6 +76,8 @@ class EmulatorAutoconfig(RcbXmlReaderWriter):
         for osRow in osRows:
             operatingSystem = OperatingSystem()
             operatingSystem.name = osRow.attrib.get('name')
+            if(osRow.attrib.get('version')):
+                operatingSystem.versions = [version.strip() for version in osRow.attrib.get('version').split(',')]
             operatingSystem.platforms = self.readPlatforms(osRow)
             operatingSystems.append(operatingSystem)
             
@@ -156,18 +159,20 @@ class EmulatorAutoconfig(RcbXmlReaderWriter):
             
         return detectionMethods
 
-    def findEmulators(self, operatingSystemName, platformName, checkInstalledState=False):
+    def findEmulators(self, operatingSystemName, osVersionInfo, platformName, checkInstalledState=False):
         """
         Parse the emu_autoconfig.xml file for a specified OS and platform
         Args:
             operatingSystemName: The OS to find. This is currently limited to Android, OSX, Windows or Linux.
+            osVersionInfo: specific version of the OS. For example "Windows 10", "LibreELEC", ...   
             platformName: The emulator platform
             checkInstalledState: Whether to check if the found emulator is installed
 
         Returns: a list of matching Emulator objects, or an empty list if there was an error.
 
         """
-        print 'EmulatorAutoconfig: findEmulators(). os = %s, platform = %s, checkInstalled = %s' % (operatingSystemName,
+        print 'EmulatorAutoconfig: findEmulators(). os = %s, osVersionInfo = %s, platform = %s, checkInstalled = %s' % (operatingSystemName,
+                                                                                                    osVersionInfo,
                                                                                                     platformName,
                                                                                                     str(checkInstalledState))
         
@@ -175,8 +180,7 @@ class EmulatorAutoconfig(RcbXmlReaderWriter):
         if self.tree == None or len(self.operatingSystems) == 0:
             self.readXml()
 
-        osFound = next((operatingSystem for operatingSystem in self.operatingSystems
-                        if operatingSystem.name == operatingSystemName), None)
+        osFound = self.findOsByNameAndVersion(operatingSystemName, osVersionInfo)
 
         if osFound is None:
             print 'EmulatorAutoconfig ERROR: Could not find os %s in emu_autoconfig.xml' % operatingSystemName
@@ -202,6 +206,22 @@ class EmulatorAutoconfig(RcbXmlReaderWriter):
                 emulator.isInstalled = self.isInstalled(emulator)
         
         return platformFound.emulators
+    
+    
+    def findOsByNameAndVersion(self, operatingSystemName, osVersionInfo):
+        
+        osFound = None
+        
+        for operatingSystem in self.operatingSystems:
+            if operatingSystem.name == operatingSystemName:
+                if(len(operatingSystem.versions) == 0):
+                    osFound = operatingSystem
+                #version specific os will override general os entry
+                if(next((version for version in operatingSystem.versions if version in osVersionInfo),None)):
+                    return operatingSystem
+                    
+        return osFound
+    
 
     def isInstalled(self, emulator):
         print 'EmulatorAutoconfig: isInstalled(). emulator = %s' % emulator.name

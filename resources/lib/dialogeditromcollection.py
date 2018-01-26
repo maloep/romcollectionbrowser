@@ -239,7 +239,7 @@ class EditRomCollectionDialog(dialogbase.DialogBaseEdit):
 				emulist = []
 
 				log.info(u"Running on {0}. Trying to find emulator per autoconfig.".format(self.current_os))
-				emulators = autoconfig.findEmulators(self.current_os, self.selectedRomCollection.name, True)
+				emulators = autoconfig.findEmulators(self.current_os, util.getOSVersionInfo(), self.selectedRomCollection.name, True)
 
 				for emulator in emulators:
 					if emulator.isInstalled:

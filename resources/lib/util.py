@@ -233,6 +233,15 @@ class KodiVersions(object):
 def getEnvironment():
 	return ( os.environ.get( "OS", "win32" ), "win32", )[ os.environ.get( "OS", "win32" ) == "xbox" ]
 
+def getOSVersionInfo():
+	versionInfo = xbmc.getInfoLabel("System.OSVersionInfo")
+	#HACK: sometimes Kodi needs some time to get the version info and just returns "Busy"
+	if(versionInfo == 'Busy'):
+		xbmc.sleep(100)
+		versionInfo = xbmc.getInfoLabel("System.OSVersionInfo")
+		
+	return versionInfo
+
 def localize(id):
 	try:
 		return __language__(id)

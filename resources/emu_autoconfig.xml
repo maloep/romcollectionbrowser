@@ -739,7 +739,7 @@
 			<folder/>
 		</commonFolders>
 		<platform name="SNES">
-			<emulator name="RetroArch (bsnes accuracy)">
+			<emulator name="bsnes mercury accuracy (RetroArch via GameStarter)">
 				<detectionMethod name="commonFolders">
 					<folder>/storage/.kodi/addons/game.retroarch</folder>
 				</detectionMethod>
@@ -758,7 +758,7 @@
 			<folder/>
 		</commonFolders>
 		<platform name="SNES">
-			<emulator name="RetroArch (bsnes accuracy)">
+			<emulator name="bsnes accuracy (RetroArch)">
 				<detectionMethod name="commonFolders">
 					<folder>/usr/bin/retroarch</folder>
 				</detectionMethod>
