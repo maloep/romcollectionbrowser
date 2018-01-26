@@ -27,7 +27,7 @@ class TestScraper(unittest.TestCase):
         self.assertIsInstance(sites, dict, u'Expected dict object, was {0}'.format(type(sites)))
 
         l = len(sites)
-        self.assertTrue(l == 6, u'Expected multiple scraper sites, found {0}'.format(l))
+        self.assertTrue(l == 4, u'Expected multiple scraper sites, found {0}'.format(l))
 
         scrapers = sites['giantbomb.com'].scrapers
         self.assertTrue(len(scrapers) == 2, u'Expected 2 scrapers for giantbomb.com, found {0}'.format(len(scrapers)))
