@@ -198,7 +198,8 @@ class ConfigXmlWizard(RcbXmlReaderWriter):
 					if len(emulist) > 0:
 						try:
 							emuIndex = dialog.select(util.localize(32203), emulist)
-							preconfiguredEmulator = emulators[emuIndex]
+							if(emuIndex >= 0):
+								preconfiguredEmulator = emulators[emuIndex]
 						except IndexError:
 							log.info("No Emulator selected.")
 							preconfiguredEmulator = None
