@@ -1395,25 +1395,27 @@ class UIGameDB(xbmcgui.WindowXML):
 		# > 2: cacheItemAndNext
 		if(self.cachingOption > 2):
 			#prepare items before and after actual position
-			posBefore = pos - 1
-			if(posBefore < 0):
-				posBefore = self.getListSize() - 1
-
-			selectedGame, gameRow = self.getGameByPosition(self.gdb, posBefore)
-			if(selectedGame == None or gameRow == None):
-				return
-			fileDict = self.getFileDictByGameRow(gameRow)
-			self.setAllItemData(selectedGame, gameRow, fileDict, romCollection)
-
-			posAfter = pos + 1
-			if(posAfter >= self.getListSize()):
-				posAfter = 0
-
-			selectedGame, gameRow = self.getGameByPosition(self.gdb, posAfter)
-			if(selectedGame == None or gameRow == None):
-				return
-			fileDict = self.getFileDictByGameRow(gameRow)
-			self.setAllItemData(selectedGame, gameRow, fileDict, romCollection)
+			#go 5 items back and forward to make sure that thumb lists do not look bad
+			for i in range(0, 5):
+				posBefore = pos - i
+				if(posBefore < 0):
+					posBefore = self.getListSize() - i
+	
+				selectedGame, gameRow = self.getGameByPosition(self.gdb, posBefore)
+				if(selectedGame == None or gameRow == None):
+					return
+				fileDict = self.getFileDictByGameRow(gameRow)
+				self.setAllItemData(selectedGame, gameRow, fileDict, romCollection)
+	
+				posAfter = pos + i
+				if(posAfter >= self.getListSize()):
+					posAfter = 0
+	
+				selectedGame, gameRow = self.getGameByPosition(self.gdb, posAfter)
+				if(selectedGame == None or gameRow == None):
+					return
+				fileDict = self.getFileDictByGameRow(gameRow)
+				self.setAllItemData(selectedGame, gameRow, fileDict, romCollection)
 
 		Logutil.log("end loadGameInfos", util.LOG_LEVEL_DEBUG)
 
