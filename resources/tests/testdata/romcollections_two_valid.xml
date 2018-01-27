@@ -32,7 +32,6 @@
             <imagePlacingMain>gameinfobig</imagePlacingMain>
             <imagePlacingInfo>gameinfosmall</imagePlacingInfo>
             <scraper name="thegamesdb.net" replaceKeyString="" replaceValueString="" />
-            <scraper name="archive.vg" replaceKeyString="" replaceValueString="" />
         </RomCollection>
         <RomCollection id="7" name="Atari 2600">
             <useBuiltinEmulator>False</useBuiltinEmulator>
@@ -63,7 +62,6 @@
             <imagePlacingMain>gameinfobig</imagePlacingMain>
             <imagePlacingInfo>gameinfosmall</imagePlacingInfo>
             <scraper name="thegamesdb.net" replaceKeyString="" replaceValueString="" />
-            <scraper name="archive.vg" replaceKeyString="" replaceValueString="" />
         </RomCollection>
     </RomCollections>
 
@@ -103,10 +101,6 @@
     <Scrapers>
         <Site descFilePerGame="True" name="thegamesdb.net" searchGameByCRC="False">
             <Scraper parseInstruction="02 - thegamesdb.xml" source="http://thegamesdb.net/api/GetGame.php?name=%GAME%&amp;platform=%PLATFORM%" />
-        </Site>
-        <Site descFilePerGame="True" name="archive.vg" searchGameByCRC="False">
-            <Scraper encoding="iso-8859-1" parseInstruction="05.01 - archive - search.xml" returnUrl="true" source="http://api.archive.vg/2.0/Archive.search/%ARCHIVEAPIKEY%/%GAME%" />
-            <Scraper encoding="iso-8859-1" parseInstruction="05.02 - archive - detail.xml" source="1" />
         </Site>
     </Scrapers>
 </config>

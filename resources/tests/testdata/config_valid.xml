@@ -32,7 +32,6 @@
       <imagePlacingMain>gameinfobig</imagePlacingMain>
       <imagePlacingInfo>gameinfosmall</imagePlacingInfo>
       <scraper name="thegamesdb.net" replaceKeyString="" replaceValueString="" />
-      <scraper name="archive.vg" replaceKeyString="" replaceValueString="" />
     </RomCollection>
     <RomCollection id="7" name="Atari 2600">
       <useBuiltinEmulator>False</useBuiltinEmulator>
@@ -63,7 +62,6 @@
       <imagePlacingMain>gameinfobig</imagePlacingMain>
       <imagePlacingInfo>gameinfosmall</imagePlacingInfo>
       <scraper name="thegamesdb.net" replaceKeyString="" replaceValueString="" />
-      <scraper name="archive.vg" replaceKeyString="" replaceValueString="" />
     </RomCollection>
   </RomCollections>
   <FileTypes>
@@ -229,13 +227,6 @@
       <Scraper parseInstruction="04.08 - mobygames - coverdetail media.xml" source="4" />
       <Scraper parseInstruction="04.09 - mobygames - screenshotlink.xml" returnUrl="true" source="1" sourceAppend="screenshots" />
       <Scraper parseInstruction="04.10 - mobygames - screenshot detail.xml" source="5" />
-    </Site>
-    <Site descFilePerGame="True" name="archive.vg" searchGameByCRC="False">
-      <Scraper encoding="iso-8859-1" parseInstruction="05.01 - archive - search.xml" returnUrl="true" source="http://api.archive.vg/2.0/Archive.search/%ARCHIVEAPIKEY%/%GAME%" />
-      <Scraper encoding="iso-8859-1" parseInstruction="05.02 - archive - detail.xml" source="1" />
-    </Site>
-    <Site name="maws.mameworld.info" descFilePerGame="True" searchGameByCRC="False">
-      <Scraper parseInstruction="06 - maws.xml" source="http://maws.mameworld.info/maws/romset/%GAME%" encoding='iso-8859-1'/>
     </Site>
   </Scrapers>
 </config>
