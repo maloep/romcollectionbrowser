@@ -37,7 +37,7 @@
 			<control type="group">
 				<posx>0</posx>
 				<posy>0</posy>				
-				<control type="wraplist" id="50">
+				<control type="fixedlist" id="50">
 					<posx>-115</posx>
 					<posy>350</posy>
 					<width>1420</width>
@@ -358,7 +358,7 @@
 						<align>left</align>
 						<aligny>center</aligny>
 						<font>font13_title</font>
-						<textcolor>FF0084ff</textcolor>
+						<textcolor>FF12A0C7</textcolor>
 					</control>
 					<control type="label">
 						<description>Year Value</description>
@@ -384,7 +384,7 @@
 						<align>left</align>
 						<aligny>center</aligny>
 						<font>font13_title</font>
-						<textcolor>FF0084ff</textcolor>
+						<textcolor>FF12A0C7</textcolor>
 					</control>
 					<control type="label">
 						<description>Genre Value</description>
@@ -410,7 +410,7 @@
 						<align>left</align>
 						<aligny>center</aligny>
 						<font>font13_title</font>
-						<textcolor>FF0084ff</textcolor>
+						<textcolor>FF12A0C7</textcolor>
 					</control>
 					<control type="label">
 						<description>Publisher Value</description>
@@ -436,7 +436,7 @@
 						<align>left</align>
 						<aligny>center</aligny>
 						<font>font13_title</font>
-						<textcolor>FF0084ff</textcolor>
+						<textcolor>FF12A0C7</textcolor>
 					</control>
 					<control type="label">
 						<description>Developer Value</description>
@@ -796,7 +796,7 @@
 							<align>left</align>
 							<aligny>center</aligny>
 							<font>font13_title</font>
-							<textcolor>FF0084ff</textcolor>
+							<textcolor>FF12A0C7</textcolor>
 						</control>
 						<control type="label">
 							<description>Year Value</description>
@@ -822,7 +822,7 @@
 							<align>left</align>
 							<aligny>center</aligny>
 							<font>font13_title</font>
-							<textcolor>FF0084ff</textcolor>
+							<textcolor>FF12A0C7</textcolor>
 						</control>
 						<control type="label">
 							<description>Genre Value</description>
@@ -848,7 +848,7 @@
 							<align>left</align>
 							<aligny>center</aligny>
 							<font>font13_title</font>
-							<textcolor>FF0084ff</textcolor>
+							<textcolor>FF12A0C7</textcolor>
 						</control>
 						<control type="label">
 							<description>Publisher Value</description>
@@ -874,7 +874,7 @@
 							<align>left</align>
 							<aligny>center</aligny>
 							<font>font13_title</font>
-							<textcolor>FF0084ff</textcolor>
+							<textcolor>FF12A0C7</textcolor>
 						</control>
 						<control type="label">
 							<description>Developer Value</description>
@@ -930,7 +930,7 @@
 					<align>left</align>
 					<aligny>center</aligny>
 					<font>font13_title</font>
-					<textcolor>FF0084ff</textcolor>
+					<textcolor>FF12A0C7</textcolor>
 				</control>
 				<control type="label">
 					<posx>200</posx>
@@ -955,7 +955,7 @@
 					<align>left</align>
 					<aligny>center</aligny>
 					<font>font13_title</font>
-					<textcolor>FF0084ff</textcolor>
+					<textcolor>FF12A0C7</textcolor>
 				</control>
 				<control type="label">
 					<description>Year Value</description>
@@ -982,7 +982,7 @@
 					<align>left</align>
 					<aligny>center</aligny>
 					<font>font13_title</font>
-					<textcolor>FF0084ff</textcolor>
+					<textcolor>FF12A0C7</textcolor>
 				</control>
 				<control type="label">
 					<description>Genre Value</description>
@@ -1008,7 +1008,7 @@
 					<align>left</align>
 					<aligny>center</aligny>
 					<font>font13_title</font>
-					<textcolor>FF0084ff</textcolor>
+					<textcolor>FF12A0C7</textcolor>
 				</control>
 				<control type="label">
 					<description>Publisher Value</description>
@@ -1158,7 +1158,7 @@
 					<visible>Control.IsVisible(58)</visible>
 				</control>
 				
-				<control type="wraplist" id="58">
+				<control type="fixedlist" id="58">
 					<posx>-102</posx>
 					<posy>110</posy>
 					<width>1420</width>
@@ -1749,7 +1749,7 @@
 			<scroll>false</scroll>
 			<align>right</align>
 			<aligny>center</aligny>			
-			<label>([COLOR=FF0084ff]$INFO[Container.NumItems][/COLOR]) $ADDON[script.games.rom.collection.browser 32410] - $ADDON[script.games.rom.collection.browser 32411] ([COLOR=FF0084ff]$INFO[Container.CurrentPage]/$INFO[Container.NumPages][/COLOR])</label>
+			<label>([COLOR=FF12A0C7]$INFO[Container.NumItems][/COLOR]) $ADDON[script.games.rom.collection.browser 32410] - $ADDON[script.games.rom.collection.browser 32411] ([COLOR=FF12A0C7]$INFO[Container.CurrentPage]/$INFO[Container.NumPages][/COLOR])</label>
 		</control>
 		
 		<!-- Messages -->
