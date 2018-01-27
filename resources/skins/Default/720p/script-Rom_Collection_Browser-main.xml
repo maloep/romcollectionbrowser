@@ -76,10 +76,10 @@
 								<texture background="true" flipy="true" diffuse="rcb-diffuse_mirror.png">$INFO[ListItem.ActualIcon]</texture>
 							</control>
 							<control type="image">
-								<posx>-50</posx>
+								<posx>-5</posx>
 								<posy>240</posy>
-								<width>100</width>
-								<height>25</height>
+								<width>15</width>
+								<height>15</height>
 								<texture>rcb-star.png</texture>					
 								<visible>!String.IsEmpty(ListItem.Property(isfavorite))</visible>
 							</control>
@@ -98,10 +98,10 @@
 							<animation reversible="false" effect="zoom" end="120" center="auto" time="150">Focus</animation>
 						</control>
 						<control type="image">
-							<posx>-65</posx>
+							<posx>-25</posx>
 							<posy>250</posy>
-							<width>100</width>
-							<height>25</height>
+							<width>15</width>
+							<height>15</height>
 							<texture>rcb-star.png</texture>
 							<visible>!String.IsEmpty(ListItem.Property(isfavorite))</visible>
 							<animation reversible="false" effect="fade" start="0" end="100" time="150">Focus</animation>
@@ -122,10 +122,10 @@
 				</control>
 				<control type="scrollbar" id="60">
 					<posx>400</posx>
-					<posy>30r</posy>
-					<width>480</width>
-					<height>10</height>
-					<texturesliderbackground colordiffuse="29FFFFFF">rcb-white.png</texturesliderbackground>
+					<posy>10r</posy>
+					<width>600</width>
+					<height>5</height>
+					<texturesliderbackground></texturesliderbackground>
 					<texturesliderbar colordiffuse="FFAAAAAA">rcb-white.png</texturesliderbar>
 					<texturesliderbarfocus colordiffuse="FF12A0C7">rcb-white.png</texturesliderbarfocus>
 					<textureslidernib></textureslidernib>
@@ -480,7 +480,7 @@
 			<!-- gamelist 52 -->
 			<control type="group">
 				<control type="group">
-					<posx>635r</posx>
+					<posx>640r</posx>
 					<posy>0</posy>
 					<visible>Control.IsVisible(52)</visible>
 					<control type="label">
@@ -517,7 +517,7 @@
 					<control type="list" id="52">					
 						<posx>0</posx>
 						<posy>70</posy>
-						<width>600</width>
+						<width>640</width>
 						<height>600</height>
 						<onleft>500</onleft>
 						<onright>61</onright>
@@ -526,12 +526,12 @@
 						<pagecontrol>61</pagecontrol>
 						<viewtype label="Info 2">list</viewtype>	
 						<scrolltime>100</scrolltime>
-						<itemlayout height="35" width="585">
+						<itemlayout height="35" width="640">
 							<control type="image">
-								<posx>515</posx>
-								<posy>7</posy>
-								<width>100</width>
-								<height>25</height>
+								<posx>30r</posx>
+								<posy>10</posy>
+								<width>15</width>
+								<height>15</height>
 								<texture>rcb-star.png</texture>
 								<visible>!String.IsEmpty(ListItem.Property(isfavorite))</visible>
 							</control>
@@ -548,20 +548,20 @@
 								<label>$INFO[ListItem.Label]</label>
 							</control>									
 						</itemlayout>
-						<focusedlayout height="35" width="585">
+						<focusedlayout height="35" width="640">
 							<control type="image">
 								<posx>0</posx>
 								<posy>0</posy>
-								<width>585</width>
+								<width>640</width>
 								<height>37</height>
 								<texture border="0,2,0,2" colordiffuse="FF12A0C7">rcb-MenuItemFO.png</texture>
 								<visible>Control.HasFocus(52)</visible>
 							</control>							
 							<control type="image">
-								<posx>515</posx>
-								<posy>7</posy>
-								<width>100</width>
-								<height>25</height>
+								<posx>30r</posx>
+								<posy>10</posy>
+								<width>15</width>
+								<height>15</height>
 								<texture>rcb-star.png</texture>
 								<visible>!String.IsEmpty(ListItem.Property(isfavorite))</visible>
 							</control>
@@ -592,11 +592,11 @@
 						</focusedlayout>
 					</control>
 					<control type="scrollbar" id="61">
-						<posx>30r</posx>
+						<posx>10r</posx>
 						<posy>60</posy>
-						<width>10</width>
+						<width>5</width>
 						<height>600</height>
-						<texturesliderbackground colordiffuse="29FFFFFF">rcb-white.png</texturesliderbackground>
+						<texturesliderbackground></texturesliderbackground>
 						<texturesliderbar colordiffuse="FFAAAAAA">rcb-white.png</texturesliderbar>
 						<texturesliderbarfocus colordiffuse="FF12A0C7">rcb-white.png</texturesliderbarfocus>
 						<textureslidernib></textureslidernib>
@@ -613,7 +613,7 @@
 					<texture colordiffuse="EDFFFFFF">rcb-panel_transp.png</texture>
 					<posx>0</posx>
 					<posy>0</posy>	
-					<width>625</width>
+					<width>640</width>
 					<height>100%</height>
 					<visible>Control.IsVisible(52) + Integer.IsGreater(Container.NumItems,0)</visible>
 				</control>
@@ -1079,10 +1079,10 @@
 							<texture>$INFO[ListItem.ActualIcon]</texture>
 						</control>
 						<control type="image">
-							<posx>-42</posx>
-							<posy>358</posy>
-							<width>100</width>
-							<height>25</height>
+							<posx>5</posx>
+							<posy>532</posy>
+							<width>15</width>
+							<height>15</height>
 							<texture>rcb-star.png</texture>					
 							<visible>!String.IsEmpty(ListItem.Property(isfavorite))</visible>
 						</control>
@@ -1106,10 +1106,10 @@
 							<texture>$INFO[ListItem.Art(thumb)]</texture>
 						</control>
 						<control type="image">
-							<posx>-68</posx>
-							<posy>365</posy>
-							<width>100</width>
-							<height>25</height>
+							<posx>5</posx>
+							<posy>532</posy>
+							<width>15</width>
+							<height>15</height>
 							<texture>rcb-star.png</texture>					
 							<visible>!String.IsEmpty(ListItem.Property(isfavorite))</visible>
 							<animation reversible="false" effect="fade" start="0" end="100" time="400">Focus</animation>
@@ -1128,10 +1128,10 @@
 				</control>
 				<control type="scrollbar" id="63">
 					<posx>400</posx>
-					<posy>20r</posy>
-					<width>480</width>
-					<height>10</height>
-					<texturesliderbackground colordiffuse="29FFFFFF">rcb-white.png</texturesliderbackground>
+					<posy>10r</posy>
+					<width>600</width>
+					<height>5</height>
+					<texturesliderbackground></texturesliderbackground>
 					<texturesliderbar colordiffuse="FFAAAAAA">rcb-white.png</texturesliderbar>
 					<texturesliderbarfocus colordiffuse="FF12A0C7">rcb-white.png</texturesliderbarfocus>
 					<textureslidernib></textureslidernib>
@@ -1185,10 +1185,10 @@
 							<texture background="true">$INFO[ListItem.ActualIcon]</texture>
 						</control>
 						<control type="image">
-							<posx>-42</posx>
-							<posy>358</posy>
-							<width>100</width>
-							<height>25</height>
+							<posx>-5</posx>
+							<posy>360</posy>
+							<width>15</width>
+							<height>15</height>
 							<texture>rcb-star.png</texture>					
 							<visible>!String.IsEmpty(ListItem.Property(isfavorite))</visible>
 						</control>						
@@ -1206,10 +1206,10 @@
 							<animation reversible="false" effect="zoom" end="120" center="auto" time="200">Focus</animation>
 						</control>
 						<control type="image">
-							<posx>-68</posx>
-							<posy>365</posy>
-							<width>100</width>
-							<height>25</height>
+							<posx>-32</posx>
+							<posy>374</posy>
+							<width>15</width>
+							<height>15</height>
 							<texture>rcb-star.png</texture>					
 							<visible>!String.IsEmpty(ListItem.Property(isfavorite))</visible>
 							<animation reversible="false" effect="fade" start="0" end="100" time="400">Focus</animation>
@@ -1218,10 +1218,10 @@
 				</control>
 				<control type="scrollbar" id="62">
 					<posx>400</posx>
-					<posy>20r</posy>
-					<width>480</width>
-					<height>10</height>
-					<texturesliderbackground colordiffuse="29FFFFFF">rcb-white.png</texturesliderbackground>
+					<posy>10r</posy>
+					<width>600</width>
+					<height>5</height>
+					<texturesliderbackground></texturesliderbackground>
 					<texturesliderbar colordiffuse="FFAAAAAA">rcb-white.png</texturesliderbar>
 					<texturesliderbarfocus colordiffuse="FF12A0C7">rcb-white.png</texturesliderbarfocus>
 					<textureslidernib></textureslidernib>
