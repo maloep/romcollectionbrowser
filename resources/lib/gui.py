@@ -34,7 +34,7 @@ CONTROL_PUBLISHER = 800
 CONTROL_CHARACTER = 900
 FILTER_CONTROLS = (500, 600, 700, 800, 900,)
 GAME_LISTS = (50, 51, 52, 53, 54, 55, 56, 57, 58)
-CONTROL_SCROLLBARS = (2200, 2201, 60, 61, 62)
+CONTROL_SCROLLBARS = (2200, 2201, 60, 61, 62, 63)
 
 CONTROL_GAMES_GROUP_START = 50
 CONTROL_GAMES_GROUP_END = 59
@@ -391,7 +391,7 @@ class UIGameDB(xbmcgui.WindowXML):
 			self.showGames()
 
 		elif controlId == CONTROL_BUTTON_MISSINGINFODIALOG:
-			missingInfoDialog = dialogmissinginfo.MissingInfoDialog("script-RCB-missinginfo.xml", util.getAddonInstallPath(), "Default", "720p", gui=self)
+			missingInfoDialog = dialogmissinginfo.MissingInfoDialog("script-RCB-missinginfo.xml", util.getAddonInstallPath(), util.getConfiguredSkin(), "720p", gui=self)
 			if missingInfoDialog.saveConfig:
 				self.config.readXml()
 				self.showGames()
@@ -1217,15 +1217,11 @@ class UIGameDB(xbmcgui.WindowXML):
 
 		self.gameinfoDialogOpen = True
 
-		skin = self.Settings.getSetting(util.SETTING_RCB_SKIN)
-		if(skin == "Confluence"):
-			skin = "Default"
-
 		constructorParam = "720p"
 
 		import dialoggameinfo
 		try:
-			gid = dialoggameinfo.UIGameInfoView("script-RCB-gameinfo.xml", util.getAddonInstallPath(), skin, constructorParam, gdb=self.gdb, gameId=gameId, listItem=selectedGame,
+			gid = dialoggameinfo.UIGameInfoView("script-RCB-gameinfo.xml", util.getAddonInstallPath(), util.getConfiguredSkin(), constructorParam, gdb=self.gdb, gameId=gameId, listItem=selectedGame,
 				consoleId=self.selectedConsoleId, genreId=self.selectedGenreId, yearId=self.selectedYearId, publisherId=self.selectedPublisherId, selectedGameIndex=selectedGameIndex,
 				consoleIndex=self.selectedConsoleIndex, genreIndex=self.selectedGenreIndex, yearIndex=self.selectedYearIndex, publisherIndex=self.selectedPublisherIndex,
 				selectedCharacter=self.selectedCharacter, selectedCharacterIndex=self.selectedCharacterIndex, controlIdMainView=self.selectedControlId, fileDict=fileDict, config=self.config, settings=self.Settings,
@@ -1251,7 +1247,7 @@ class UIGameDB(xbmcgui.WindowXML):
 	def showContextMenu(self):
 
 		constructorParam = "720p"
-		cm = dialogcontextmenu.ContextMenuDialog("script-RCB-contextmenu.xml", util.getAddonInstallPath(), "Default", constructorParam, gui=self)
+		cm = dialogcontextmenu.ContextMenuDialog("script-RCB-contextmenu.xml", util.getAddonInstallPath(), util.getConfiguredSkin(), constructorParam, gui=self)
 		del cm
 
 
@@ -1399,25 +1395,27 @@ class UIGameDB(xbmcgui.WindowXML):
 		# > 2: cacheItemAndNext
 		if(self.cachingOption > 2):
 			#prepare items before and after actual position
-			posBefore = pos - 1
-			if(posBefore < 0):
-				posBefore = self.getListSize() - 1
-
-			selectedGame, gameRow = self.getGameByPosition(self.gdb, posBefore)
-			if(selectedGame == None or gameRow == None):
-				return
-			fileDict = self.getFileDictByGameRow(gameRow)
-			self.setAllItemData(selectedGame, gameRow, fileDict, romCollection)
-
-			posAfter = pos + 1
-			if(posAfter >= self.getListSize()):
-				posAfter = 0
-
-			selectedGame, gameRow = self.getGameByPosition(self.gdb, posAfter)
-			if(selectedGame == None or gameRow == None):
-				return
-			fileDict = self.getFileDictByGameRow(gameRow)
-			self.setAllItemData(selectedGame, gameRow, fileDict, romCollection)
+			#go 5 items back and forward to make sure that thumb lists do not look bad
+			for i in range(0, 5):
+				posBefore = pos - i
+				if(posBefore < 0):
+					posBefore = self.getListSize() - i
+	
+				selectedGame, gameRow = self.getGameByPosition(self.gdb, posBefore)
+				if(selectedGame == None or gameRow == None):
+					return
+				fileDict = self.getFileDictByGameRow(gameRow)
+				self.setAllItemData(selectedGame, gameRow, fileDict, romCollection)
+	
+				posAfter = pos + i
+				if(posAfter >= self.getListSize()):
+					posAfter = 0
+	
+				selectedGame, gameRow = self.getGameByPosition(self.gdb, posAfter)
+				if(selectedGame == None or gameRow == None):
+					return
+				fileDict = self.getFileDictByGameRow(gameRow)
+				self.setAllItemData(selectedGame, gameRow, fileDict, romCollection)
 
 		Logutil.log("end loadGameInfos", util.LOG_LEVEL_DEBUG)
 
@@ -1519,7 +1517,7 @@ class UIGameDB(xbmcgui.WindowXML):
 		showImportOptionsDialog = self.Settings.getSetting(util.SETTING_RCB_SHOWIMPORTOPTIONSDIALOG).upper() == 'TRUE'
 		if(showImportOptionsDialog):
 			constructorParam = "720p"
-			iod = dialogimportoptions.ImportOptionsDialog("script-RCB-importoptions.xml", util.getAddonInstallPath(), "Default", constructorParam, gui=self, romCollections=romCollections, isRescrape=isRescrape)
+			iod = dialogimportoptions.ImportOptionsDialog("script-RCB-importoptions.xml", util.getAddonInstallPath(), util.getConfiguredSkin(), constructorParam, gui=self, romCollections=romCollections, isRescrape=isRescrape)
 			del iod
 		else:
 			message = util.localize(32118)
@@ -1824,13 +1822,9 @@ class UIGameDB(xbmcgui.WindowXML):
 		self.close()
 
 
-
 def main():
 
-	settings = util.getSettings()
-	skin = settings.getSetting(util.SETTING_RCB_SKIN)
-	if(skin == "Confluence"):
-		skin = "Default"
+	skin = util.getConfiguredSkin()
 
 	kodiVersion = KodiVersions.getKodiVersion()
 	Logutil.log("Kodi Version = " + str(kodiVersion), util.LOG_LEVEL_INFO)

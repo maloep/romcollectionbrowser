@@ -1,3 +1,12 @@
+2.1.5 (01/2018)
+~~~~~~~~~~~~~
+General:
+  * minor bugfixes and improvements
+
+UI:
+  * new default skin Estuary
+  * new view: Shift
+
 2.1.4 (01/2018)
 ~~~~~~~~~~~~~
 General:

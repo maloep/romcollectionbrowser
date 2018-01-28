@@ -15,7 +15,6 @@ ACTION_MOVEMENT_DOWN = (4,)
 ACTION_MOVEMENT = (1, 2, 3, 4,)
 
 CONTROL_BUTTON_PLAYGAME = 3000
-CONTROL_BUTTON_PLAYVIDEO = 3001
 
 CONTROL_GAME_LIST_GROUP = 1000
 CONTROL_GAME_LIST = 59
@@ -23,6 +22,20 @@ CONTROL_GAME_LIST = 59
 CONTROL_LABEL_MSG = 4000
 
 RCBHOME = util.getAddonInstallPath()
+
+
+class MyPlayer(xbmc.Player):
+
+	gui = None
+	
+	def onPlayBackEnded(self):
+		print 'RCB: onPlaybackEnded'
+
+		if(self.gui == None):
+			print "RCB_WARNING: gui == None in MyPlayer"
+			return
+
+		self.gui.setFocus(self.gui.getControl(CONTROL_BUTTON_PLAYGAME))
 
 
 class UIGameInfoView(xbmcgui.WindowXMLDialog):
@@ -54,47 +67,45 @@ class UIGameInfoView(xbmcgui.WindowXMLDialog):
 		self.fileDict = kwargs["fileDict"]
 		self.fileTypeGameplay = kwargs["fileTypeGameplay"]
 
+		self.player = MyPlayer()
+		self.player.gui = self
+		
 		self.doModal()
 
 
 	def onInit(self):
 
-		Logutil.log("Begin OnInit", util.LOG_LEVEL_INFO)
+		Logutil.log("Begin OnInit UIGameInfoView", util.LOG_LEVEL_INFO)
 
 		self.showGameList()
-
-		control = self.getControlById(CONTROL_BUTTON_PLAYVIDEO)
-		if(control != None and xbmc.getCondVisibility("Control.IsVisible(%i)" % CONTROL_BUTTON_PLAYVIDEO)):
-			xbmc.sleep(util.WAITTIME_UPDATECONTROLS)
+		
+		control = self.getControlById(CONTROL_BUTTON_PLAYGAME)
+		if(control != None):
 			self.setFocus(control)
-		else:
-			control = self.getControlById(CONTROL_BUTTON_PLAYGAME)
-			if(control != None):
-				self.setFocus(control)
-
+		
 		xbmc.sleep(util.WAITTIME_UPDATECONTROLS)
 		self.showGameInfo()
 
-		Logutil.log("End OnInit", util.LOG_LEVEL_INFO)
+		Logutil.log("End OnInit UIGameInfoView", util.LOG_LEVEL_INFO)
 
 
 	def onClick(self, controlId):
-		Logutil.log("Begin onClick", util.LOG_LEVEL_DEBUG)
+		Logutil.log("Begin onClick UIGameInfoView", util.LOG_LEVEL_DEBUG)
 
 		if (controlId == CONTROL_BUTTON_PLAYGAME):
 			self.launchEmu()
 
-		Logutil.log("End onClick", util.LOG_LEVEL_DEBUG)
+		Logutil.log("End onClick UIGameInfoView", util.LOG_LEVEL_DEBUG)
 
 
 	def onFocus(self, controlId):
-		Logutil.log("onFocus", util.LOG_LEVEL_DEBUG)
+		Logutil.log("onFocus UIGameInfoView", util.LOG_LEVEL_DEBUG)
 		self.selectedControlId = controlId
 
 	def onAction(self, action):
 
 		if(action.getId() in ACTION_CANCEL_DIALOG):
-			Logutil.log("onAction exit", util.LOG_LEVEL_DEBUG)
+			Logutil.log("onAction exit UIGameInfoView", util.LOG_LEVEL_DEBUG)
 
 			#stop Player (if playing)
 			if(xbmc.Player().isPlayingVideo()):
@@ -105,7 +116,7 @@ class UIGameInfoView(xbmcgui.WindowXMLDialog):
 
 	def showGameList(self):
 
-		Logutil.log("Begin showGameList", util.LOG_LEVEL_INFO)
+		Logutil.log("Begin showGameList UIGameInfoView", util.LOG_LEVEL_INFO)
 
 		#likeStatement = helper.buildLikeStatement(self.selectedCharacter)
 		#games = Game(self.gdb).getFilteredGames(self.selectedConsoleId, self.selectedGenreId, self.selectedYearId, self.selectedPublisherId, likeStatement)
@@ -130,34 +141,15 @@ class UIGameInfoView(xbmcgui.WindowXMLDialog):
 		item = xbmcgui.ListItem(gameRow[util.ROW_NAME], str(gameRow[util.ROW_ID]), imageGameList, imageGameListSelected)
 		item.setProperty('gameId', str(gameRow[util.ROW_ID]))
 
-		#check if we should use autoplay video
-		if(romCollection.autoplayVideoInfo):
-			item.setProperty('autoplayvideoinfo', 'true')
-		else:
-			item.setProperty('autoplayvideoinfo', '')
-
-		#get video window size
-		if (romCollection.imagePlacingInfo.name.startswith('gameinfosmall')):
-			item.setProperty('videosizesmall', 'small')
-			item.setProperty('videosizebig', '')
-		else:
-			item.setProperty('videosizebig', 'big')
-			item.setProperty('videosizesmall', '')
-
-		videos = helper.getFilesByControl_Cached(self.gdb, (self.fileTypeGameplay,), gameRow[util.ROW_ID], gameRow[util.GAME_publisherId], gameRow[util.GAME_developerId], gameRow[util.GAME_romCollectionId], fileDict)
-		if(videos != None and len(videos) != 0):
-			video = videos[0]
-			item.setProperty('gameplayinfo', video)
-
 		self.addItem(item)
 
 		xbmc.executebuiltin("Container.SortDirection")
 		self.writeMsg("")
 
-		Logutil.log("End showGameList", util.LOG_LEVEL_INFO)
+		Logutil.log("End showGameList UIGameInfoView", util.LOG_LEVEL_INFO)
 
 	def showGameInfoNew(self):
-		Logutil.log("Begin showGameInfoNew", util.LOG_LEVEL_INFO)
+		Logutil.log("Begin showGameInfoNew UIGameInfoView", util.LOG_LEVEL_INFO)
 
 		# Stop Player (if playing)
 		if xbmc.Player().isPlayingVideo():
@@ -215,7 +207,7 @@ class UIGameInfoView(xbmcgui.WindowXMLDialog):
 			except Exception as err:
 				Logutil.log('Unable to set art: ' + repr(err), util.LOG_LEVEL_WARNING)
 
-		Logutil.log("End showGameInfoNew", util.LOG_LEVEL_INFO)
+		Logutil.log("End showGameInfoNew UIGameInfoView", util.LOG_LEVEL_INFO)
 
 	def showGameInfo(self):
 
@@ -223,7 +215,7 @@ class UIGameInfoView(xbmcgui.WindowXMLDialog):
 			self.showGameInfoNew()
 			return
 
-		Logutil.log("Begin showGameInfo", util.LOG_LEVEL_INFO)
+		Logutil.log("Begin showGameInfo UIGameInfoView", util.LOG_LEVEL_INFO)
 
 		#stop Player (if playing)
 		if(xbmc.Player().isPlayingVideo()):
@@ -304,26 +296,40 @@ class UIGameInfoView(xbmcgui.WindowXMLDialog):
 			pass
 
 		selectedGame.setArt({
-			IMAGE_CONTROL_BACKGROUND: self.getFileForControl(romCollection.imagePlacingMain.fileTypesForMainViewBackground, gameRow[util.ROW_ID], gameRow[util.GAME_publisherId], gameRow[util.GAME_developerId], gameRow[util.GAME_romCollectionId], fileDict),
-			IMAGE_CONTROL_GAMEINFO_BIG: self.getFileForControl(romCollection.imagePlacingMain.fileTypesForMainViewGameInfoBig, gameRow[util.ROW_ID], gameRow[util.GAME_publisherId], gameRow[util.GAME_developerId], gameRow[util.GAME_romCollectionId], fileDict),
+			IMAGE_CONTROL_BACKGROUND: self.getFileForControl(romCollection.imagePlacingInfo.fileTypesForMainViewBackground, gameRow[util.ROW_ID], gameRow[util.GAME_publisherId], gameRow[util.GAME_developerId], gameRow[util.GAME_romCollectionId], fileDict),
+			IMAGE_CONTROL_GAMEINFO_BIG: self.getFileForControl(romCollection.imagePlacingInfo.fileTypesForMainViewGameInfoBig, gameRow[util.ROW_ID], gameRow[util.GAME_publisherId], gameRow[util.GAME_developerId], gameRow[util.GAME_romCollectionId], fileDict),
 
-			IMAGE_CONTROL_GAMEINFO_UPPERLEFT: self.getFileForControl(romCollection.imagePlacingMain.fileTypesForMainViewGameInfoUpperLeft, gameRow[util.ROW_ID], gameRow[util.GAME_publisherId], gameRow[util.GAME_developerId], gameRow[util.GAME_romCollectionId], fileDict),
-			IMAGE_CONTROL_GAMEINFO_UPPERRIGHT: self.getFileForControl(romCollection.imagePlacingMain.fileTypesForMainViewGameInfoUpperRight, gameRow[util.ROW_ID], gameRow[util.GAME_publisherId], gameRow[util.GAME_developerId], gameRow[util.GAME_romCollectionId], fileDict),
-			IMAGE_CONTROL_GAMEINFO_LOWERLEFT: self.getFileForControl(romCollection.imagePlacingMain.fileTypesForMainViewGameInfoLowerLeft, gameRow[util.ROW_ID], gameRow[util.GAME_publisherId], gameRow[util.GAME_developerId], gameRow[util.GAME_romCollectionId], fileDict),
-			IMAGE_CONTROL_GAMEINFO_LOWERRIGHT: self.getFileForControl(romCollection.imagePlacingMain.fileTypesForMainViewGameInfoLowerRight, gameRow[util.ROW_ID], gameRow[util.GAME_publisherId], gameRow[util.GAME_developerId], gameRow[util.GAME_romCollectionId], fileDict),
+			IMAGE_CONTROL_GAMEINFO_UPPERLEFT: self.getFileForControl(romCollection.imagePlacingInfo.fileTypesForMainViewGameInfoUpperLeft, gameRow[util.ROW_ID], gameRow[util.GAME_publisherId], gameRow[util.GAME_developerId], gameRow[util.GAME_romCollectionId], fileDict),
+			IMAGE_CONTROL_GAMEINFO_UPPERRIGHT: self.getFileForControl(romCollection.imagePlacingInfo.fileTypesForMainViewGameInfoUpperRight, gameRow[util.ROW_ID], gameRow[util.GAME_publisherId], gameRow[util.GAME_developerId], gameRow[util.GAME_romCollectionId], fileDict),
+			IMAGE_CONTROL_GAMEINFO_LOWERLEFT: self.getFileForControl(romCollection.imagePlacingInfo.fileTypesForMainViewGameInfoLowerLeft, gameRow[util.ROW_ID], gameRow[util.GAME_publisherId], gameRow[util.GAME_developerId], gameRow[util.GAME_romCollectionId], fileDict),
+			IMAGE_CONTROL_GAMEINFO_LOWERRIGHT: self.getFileForControl(romCollection.imagePlacingInfo.fileTypesForMainViewGameInfoLowerRight, gameRow[util.ROW_ID], gameRow[util.GAME_publisherId], gameRow[util.GAME_developerId], gameRow[util.GAME_romCollectionId], fileDict),
 
-			IMAGE_CONTROL_GAMEINFO_UPPER: self.getFileForControl(romCollection.imagePlacingMain.fileTypesForMainViewGameInfoUpper, gameRow[util.ROW_ID], gameRow[util.GAME_publisherId], gameRow[util.GAME_developerId], gameRow[util.GAME_romCollectionId], fileDict),
-			IMAGE_CONTROL_GAMEINFO_LOWER: self.getFileForControl(romCollection.imagePlacingMain.fileTypesForMainViewGameInfoLower, gameRow[util.ROW_ID], gameRow[util.GAME_publisherId], gameRow[util.GAME_developerId], gameRow[util.GAME_romCollectionId], fileDict),
-			IMAGE_CONTROL_GAMEINFO_LEFT: self.getFileForControl(romCollection.imagePlacingMain.fileTypesForMainViewGameInfoLeft, gameRow[util.ROW_ID], gameRow[util.GAME_publisherId], gameRow[util.GAME_developerId], gameRow[util.GAME_romCollectionId], fileDict),
-			IMAGE_CONTROL_GAMEINFO_RIGHT: self.getFileForControl(romCollection.imagePlacingMain.fileTypesForMainViewGameInfoRight, gameRow[util.ROW_ID], gameRow[util.GAME_publisherId], gameRow[util.GAME_developerId], gameRow[util.GAME_romCollectionId], fileDict),
+			IMAGE_CONTROL_GAMEINFO_UPPER: self.getFileForControl(romCollection.imagePlacingInfo.fileTypesForMainViewGameInfoUpper, gameRow[util.ROW_ID], gameRow[util.GAME_publisherId], gameRow[util.GAME_developerId], gameRow[util.GAME_romCollectionId], fileDict),
+			IMAGE_CONTROL_GAMEINFO_LOWER: self.getFileForControl(romCollection.imagePlacingInfo.fileTypesForMainViewGameInfoLower, gameRow[util.ROW_ID], gameRow[util.GAME_publisherId], gameRow[util.GAME_developerId], gameRow[util.GAME_romCollectionId], fileDict),
+			IMAGE_CONTROL_GAMEINFO_LEFT: self.getFileForControl(romCollection.imagePlacingInfo.fileTypesForMainViewGameInfoLeft, gameRow[util.ROW_ID], gameRow[util.GAME_publisherId], gameRow[util.GAME_developerId], gameRow[util.GAME_romCollectionId], fileDict),
+			IMAGE_CONTROL_GAMEINFO_RIGHT: self.getFileForControl(romCollection.imagePlacingInfo.fileTypesForMainViewGameInfoRight, gameRow[util.ROW_ID], gameRow[util.GAME_publisherId], gameRow[util.GAME_developerId], gameRow[util.GAME_romCollectionId], fileDict),
 
-			IMAGE_CONTROL_1: self.getFileForControl(romCollection.imagePlacingMain.fileTypesForMainView1, gameRow[util.ROW_ID], gameRow[util.GAME_publisherId], gameRow[util.GAME_developerId], gameRow[util.GAME_romCollectionId], fileDict),
-			IMAGE_CONTROL_2: self.getFileForControl(romCollection.imagePlacingMain.fileTypesForMainView2, gameRow[util.ROW_ID], gameRow[util.GAME_publisherId], gameRow[util.GAME_developerId], gameRow[util.GAME_romCollectionId], fileDict),
-			IMAGE_CONTROL_3: self.getFileForControl(romCollection.imagePlacingMain.fileTypesForMainView3, gameRow[util.ROW_ID], gameRow[util.GAME_publisherId], gameRow[util.GAME_developerId], gameRow[util.GAME_romCollectionId], fileDict),
-
+			IMAGE_CONTROL_1: self.getFileForControl(romCollection.imagePlacingInfo.fileTypesForMainView1, gameRow[util.ROW_ID], gameRow[util.GAME_publisherId], gameRow[util.GAME_developerId], gameRow[util.GAME_romCollectionId], fileDict),
+			IMAGE_CONTROL_2: self.getFileForControl(romCollection.imagePlacingInfo.fileTypesForMainView2, gameRow[util.ROW_ID], gameRow[util.GAME_publisherId], gameRow[util.GAME_developerId], gameRow[util.GAME_romCollectionId], fileDict),
+			IMAGE_CONTROL_3: self.getFileForControl(romCollection.imagePlacingInfo.fileTypesForMainView3, gameRow[util.ROW_ID], gameRow[util.GAME_publisherId], gameRow[util.GAME_developerId], gameRow[util.GAME_romCollectionId], fileDict),
 		})
+		
+		#check if we should use autoplay video
+		if(romCollection.autoplayVideoInfo):
+			#get video window size
+			if (romCollection.imagePlacingInfo.name.startswith('gameinfosmall')):
+				selectedGame.setProperty('videosizesmall', 'small')
+				selectedGame.setProperty('videosizebig', '')
+			else:
+				selectedGame.setProperty('videosizebig', 'big')
+				selectedGame.setProperty('videosizesmall', '')
 
-		Logutil.log("End showGameInfo", util.LOG_LEVEL_INFO)
+			videos = helper.getFilesByControl_Cached(self.gdb, (self.fileTypeGameplay,), gameRow[util.ROW_ID], gameRow[util.GAME_publisherId], gameRow[util.GAME_developerId], gameRow[util.GAME_romCollectionId], fileDict)
+			if(videos != None and len(videos) != 0):
+				video = videos[0]
+				self.player.play(video, windowed=True)
+
+		Logutil.log("End showGameInfo UIGameInfoView", util.LOG_LEVEL_INFO)
 
 	# FIXME TODO This is only used when self._useRefactoredView = False
 	def getItemName(self, object, itemId):
@@ -363,7 +369,7 @@ class UIGameInfoView(xbmcgui.WindowXMLDialog):
 
 	def cacheFiles(self, fileRows):
 
-		Logutil.log("Begin cacheFiles" , util.LOG_LEVEL_DEBUG)
+		Logutil.log("Begin cacheFiles UIGameInfoView" , util.LOG_LEVEL_DEBUG)
 
 		fileDict = {}
 		for fileRow in fileRows:
@@ -382,7 +388,7 @@ class UIGameInfoView(xbmcgui.WindowXMLDialog):
 				fileRowList.append(fileRow)
 				fileDict[key] = fileRowList
 
-		Logutil.log("End cacheFiles" , util.LOG_LEVEL_DEBUG)
+		Logutil.log("End cacheFiles UIGameInfoView" , util.LOG_LEVEL_DEBUG)
 		return fileDict
 
 
@@ -397,15 +403,19 @@ class UIGameInfoView(xbmcgui.WindowXMLDialog):
 
 	def launchEmu(self):
 
-		Logutil.log("Begin launchEmu", util.LOG_LEVEL_INFO)
+		Logutil.log("Begin launchEmu UIGameInfoView", util.LOG_LEVEL_INFO)
 
 		launcher.launchEmu(self.gdb, self, self.selectedGameId, self.config, self.settings, self.selectedGame)
-		Logutil.log("End launchEmu", util.LOG_LEVEL_INFO)
+		
+		self.saveViewState(False)
+		self.close()
+		
+		Logutil.log("End launchEmu UIGameInfoView", util.LOG_LEVEL_INFO)
 
 
 	def saveViewState(self, isOnExit):
 
-		Logutil.log("Begin saveViewState", util.LOG_LEVEL_INFO)
+		Logutil.log("Begin saveViewState UIGameInfoView", util.LOG_LEVEL_INFO)
 
 		#TODO: save selectedGameIndex from main view
 		selectedGameIndex = 0
@@ -413,7 +423,7 @@ class UIGameInfoView(xbmcgui.WindowXMLDialog):
 		helper.saveViewState(self.gdb, isOnExit, 'gameInfoView', selectedGameIndex, self.selectedConsoleIndex, self.selectedGenreIndex, self.selectedPublisherIndex,
 			self.selectedYearIndex, self.selectedCharacterIndex, self.selectedControlIdMainView, self.selectedControlId, self.settings)
 
-		Logutil.log("End saveViewState", util.LOG_LEVEL_INFO)
+		Logutil.log("End saveViewState UIGameInfoView", util.LOG_LEVEL_INFO)
 
 
 	def getControlById(self, controlId):

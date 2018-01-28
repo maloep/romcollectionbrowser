@@ -328,6 +328,16 @@ def getLabel(control):
 	return label
 
 
+def getConfiguredSkin():
+	skin = "Default"
+	settings = getSettings()
+	skin = settings.getSetting(SETTING_RCB_SKIN)
+	if(skin == "Estuary"):
+		skin = "Default"
+		
+	return skin
+
+
 RCBHOME = getAddonInstallPath()
 
 #
