@@ -52,7 +52,7 @@ RCB scrapes data from these sites (don't forget to visit, register and contribut
 
 ## Screenshots
 
-Check out the <a href='Gallery.md'>Screenshot gallery</a>
+Check out the [Screenshot gallery](https://github.com/maloep/romcollectionbrowser/wiki/Gallery)
 
 ## Donate
 <a href='https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=6WHY43UNQSHFJ'><img src='https://www.paypal.com/en_US/i/btn/btn_donateCC_LG.gif' /></a>
