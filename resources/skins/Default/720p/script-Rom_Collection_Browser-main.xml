@@ -392,7 +392,7 @@
 						<posy>55</posy>
 						<width>370</width>
 						<height>25</height>
-						<label fallback="416">$INFO[ListItem.Property(genre)]:</label>
+						<label fallback="416">$INFO[ListItem.Property(genre)]</label>
 						<align>left</align>
 						<aligny>center</aligny>
 						<font>font13</font>
