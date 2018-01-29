@@ -1,0 +1,776 @@
+{
+  "error": "OK",
+  "limit": 1,
+  "offset": 0,
+  "number_of_page_results": 1,
+  "number_of_total_results": 1,
+  "status_code": 1,
+  "results": {
+    "aliases": "Wip3out",
+    "api_detail_url": "https:\/\/www.giantbomb.com\/api\/game\/3030-12298\/",
+    "date_added": "2008-04-01 16:03:30",
+    "date_last_updated": "2013-04-28 18:39:18",
+    "deck": "The third release of Psygnosis's seminal anti-grav racing series, and also the last game from the series to appear on the original PlayStation.",
+    "description": "<p>The main gameplay addition to this version of Wipeout (Wip3out - the sequel to Wip2out, otherwise known as Wipeout XL \/ 2097) was \"hyper boost\", which by pressing the R1 button caused your craft of choice to propel itself into the nearest wall, or with a bit of practice and swearing, victory. Hyper boost also rapidly drained your crafts shields, which meant further frustration for the unskilled air-jockey, but for an expert player, this ability added another layer of competitive complexity to the already rather aggressive late-game difficulty level.<\/p><p><strong>Teams:<\/strong><\/p><ul><li><strong>Feiser:<\/strong> Ever the sluggish tank, great shields, low top speed and pretty average turning.<\/li><li><strong>Auricom: <\/strong>The all-rounder, is just slightly above average with all its attributes.<\/li><li><strong>Goteki 45: <\/strong>Slower turning and acceleration than Auricom, but makes up for it with a higher top speed, better shields and a cooler name.<\/li><li><strong>Piranha Advancements: <\/strong>Not quite as awesome as it was in Wipeout 2097\/XL, but still sporting it's main attributes of strong acceleration and top speed, coupled with above average turning and under-cooked shields.<\/li><li><strong>Qirex: <\/strong>Often referred to as the \"Big Bouncer\" (not really), Qirex has strong shields, sluggish acceleration and a high top speed. Not great at corners though.<\/li><li><strong>AG Systems: <\/strong>The second-best turning ability you'll see this side of an election, balanced out with a crappy top speed, shoddy shields and real fast acceleration.<\/li><li><strong>Assegai: <\/strong>Mad-fast turning that takes even AG Systems to the proverbial cleaner. The only problem: Shields that don't stop much, a very low top speed and ridiculous (in a good way - until you smash into a chicane) acceleration.<\/li><li><strong>Icarus: <\/strong>Top speed: Incredible. Acceleration: Pretty damn fast. Turns: Like an elderly woman with a zimmer-frame. Shields: Where? Oh, that little patch over... (after several minutes of inspection, it was a damp cloth in the shape of a shield).<\/li><\/ul><h2>Soundtrack<\/h2><ul><li>Sasha - Feisar<\/li><li>Underworld - Kittens<\/li><li>Sasha - Icaras<\/li><li>Orbital - Know Where To Run<\/li><li>Sasha - Auricom<\/li><li>MKL - Surrender<\/li><li>Propellerheads - Lethal Cut<\/li><li>Sasha - Goteki 45<\/li><li>The Chemical Brothers - Under The Influence<\/li><li>Sasha - Pirhana<\/li><li>MKL - Control<\/li><li>Paul Van Dyk - Avenue<\/li><li>Sasha - Xpander<\/li><\/ul>",
+    "expected_release_day": null,
+    "expected_release_month": null,
+    "expected_release_quarter": null,
+    "expected_release_year": null,
+    "id": 12298,
+    "image": {
+      "icon_url": "https:\/\/www.giantbomb.com\/api\/image\/square_avatar\/2210281-box_wout3.png",
+      "medium_url": "https:\/\/www.giantbomb.com\/api\/image\/scale_medium\/2210281-box_wout3.png",
+      "screen_url": "https:\/\/www.giantbomb.com\/api\/image\/screen_medium\/2210281-box_wout3.png",
+      "screen_large_url": "https:\/\/www.giantbomb.com\/api\/image\/screen_kubrick\/2210281-box_wout3.png",
+      "small_url": "https:\/\/www.giantbomb.com\/api\/image\/scale_small\/2210281-box_wout3.png",
+      "super_url": "https:\/\/www.giantbomb.com\/api\/image\/scale_large\/2210281-box_wout3.png",
+      "thumb_url": "https:\/\/www.giantbomb.com\/api\/image\/scale_avatar\/2210281-box_wout3.png",
+      "tiny_url": "https:\/\/www.giantbomb.com\/api\/image\/square_mini\/2210281-box_wout3.png"
+    },
+    "name": "WipEout 3",
+    "number_of_user_reviews": 1,
+    "original_game_rating": [
+      {
+        "api_detail_url": "https:\/\/www.giantbomb.com\/api\/game_rating\/3065-6\/",
+        "id": 6,
+        "name": "ESRB: E"
+      }
+    ],
+    "original_release_date": "1999-09-30 00:00:00",
+    "platforms": [
+      {
+        "api_detail_url": "https:\/\/www.giantbomb.com\/api\/platform\/3045-22\/",
+        "id": 22,
+        "name": "PlayStation",
+        "site_detail_url": "https:\/\/www.giantbomb.com\/playstation\/3045-22\/",
+        "abbreviation": "PS1"
+      }
+    ],
+    "site_detail_url": "https:\/\/www.giantbomb.com\/wipeout-3\/3030-12298\/",
+    "images": [
+      {
+        "icon_url": "https:\/\/static.giantbomb.com\/uploads\/square_avatar\/8\/87790\/2210281-box_wout3.png",
+        "medium_url": "https:\/\/static.giantbomb.com\/uploads\/screen_medium\/8\/87790\/2210281-box_wout3.png",
+        "screen_url": "https:\/\/static.giantbomb.com\/uploads\/screen_medium\/8\/87790\/2210281-box_wout3.png",
+        "small_url": "https:\/\/static.giantbomb.com\/uploads\/square_avatar\/8\/87790\/2210281-box_wout3.png",
+        "super_url": "https:\/\/static.giantbomb.com\/uploads\/scale_large\/8\/87790\/2210281-box_wout3.png",
+        "thumb_url": "https:\/\/static.giantbomb.com\/uploads\/scale_small\/8\/87790\/2210281-box_wout3.png",
+        "tiny_url": "https:\/\/static.giantbomb.com\/uploads\/square_mini\/8\/87790\/2210281-box_wout3.png",
+        "tags": "Box Art, All Images"
+      },
+      {
+        "icon_url": "https:\/\/static.giantbomb.com\/uploads\/square_avatar\/1\/13158\/868428-gb.png",
+        "medium_url": "https:\/\/static.giantbomb.com\/uploads\/screen_medium\/1\/13158\/868428-gb.png",
+        "screen_url": "https:\/\/static.giantbomb.com\/uploads\/screen_medium\/1\/13158\/868428-gb.png",
+        "small_url": "https:\/\/static.giantbomb.com\/uploads\/square_avatar\/1\/13158\/868428-gb.png",
+        "super_url": "https:\/\/static.giantbomb.com\/uploads\/scale_large\/1\/13158\/868428-gb.png",
+        "thumb_url": "https:\/\/static.giantbomb.com\/uploads\/scale_small\/1\/13158\/868428-gb.png",
+        "tiny_url": "https:\/\/static.giantbomb.com\/uploads\/square_mini\/1\/13158\/868428-gb.png",
+        "tags": "Screenshots, PS1 Screenshots, All Images"
+      },
+      {
+        "icon_url": "https:\/\/static.giantbomb.com\/uploads\/square_avatar\/1\/13158\/868427-gb.png",
+        "medium_url": "https:\/\/static.giantbomb.com\/uploads\/screen_medium\/1\/13158\/868427-gb.png",
+        "screen_url": "https:\/\/static.giantbomb.com\/uploads\/screen_medium\/1\/13158\/868427-gb.png",
+        "small_url": "https:\/\/static.giantbomb.com\/uploads\/square_avatar\/1\/13158\/868427-gb.png",
+        "super_url": "https:\/\/static.giantbomb.com\/uploads\/scale_large\/1\/13158\/868427-gb.png",
+        "thumb_url": "https:\/\/static.giantbomb.com\/uploads\/scale_small\/1\/13158\/868427-gb.png",
+        "tiny_url": "https:\/\/static.giantbomb.com\/uploads\/square_mini\/1\/13158\/868427-gb.png",
+        "tags": "Screenshots, PS1 Screenshots, All Images"
+      },
+      {
+        "icon_url": "https:\/\/static.giantbomb.com\/uploads\/square_avatar\/1\/13158\/868426-gb.png",
+        "medium_url": "https:\/\/static.giantbomb.com\/uploads\/screen_medium\/1\/13158\/868426-gb.png",
+        "screen_url": "https:\/\/static.giantbomb.com\/uploads\/screen_medium\/1\/13158\/868426-gb.png",
+        "small_url": "https:\/\/static.giantbomb.com\/uploads\/square_avatar\/1\/13158\/868426-gb.png",
+        "super_url": "https:\/\/static.giantbomb.com\/uploads\/scale_large\/1\/13158\/868426-gb.png",
+        "thumb_url": "https:\/\/static.giantbomb.com\/uploads\/scale_small\/1\/13158\/868426-gb.png",
+        "tiny_url": "https:\/\/static.giantbomb.com\/uploads\/square_mini\/1\/13158\/868426-gb.png",
+        "tags": "Screenshots, PS1 Screenshots, All Images"
+      },
+      {
+        "icon_url": "https:\/\/static.giantbomb.com\/uploads\/square_avatar\/1\/13158\/864258-gb.png",
+        "medium_url": "https:\/\/static.giantbomb.com\/uploads\/screen_medium\/1\/13158\/864258-gb.png",
+        "screen_url": "https:\/\/static.giantbomb.com\/uploads\/screen_medium\/1\/13158\/864258-gb.png",
+        "small_url": "https:\/\/static.giantbomb.com\/uploads\/square_avatar\/1\/13158\/864258-gb.png",
+        "super_url": "https:\/\/static.giantbomb.com\/uploads\/scale_large\/1\/13158\/864258-gb.png",
+        "thumb_url": "https:\/\/static.giantbomb.com\/uploads\/scale_small\/1\/13158\/864258-gb.png",
+        "tiny_url": "https:\/\/static.giantbomb.com\/uploads\/square_mini\/1\/13158\/864258-gb.png",
+        "tags": "Box Art, All Images"
+      },
+      {
+        "icon_url": "https:\/\/static.giantbomb.com\/uploads\/square_avatar\/1\/13158\/864255-gb.png",
+        "medium_url": "https:\/\/static.giantbomb.com\/uploads\/screen_medium\/1\/13158\/864255-gb.png",
+        "screen_url": "https:\/\/static.giantbomb.com\/uploads\/screen_medium\/1\/13158\/864255-gb.png",
+        "small_url": "https:\/\/static.giantbomb.com\/uploads\/square_avatar\/1\/13158\/864255-gb.png",
+        "super_url": "https:\/\/static.giantbomb.com\/uploads\/scale_large\/1\/13158\/864255-gb.png",
+        "thumb_url": "https:\/\/static.giantbomb.com\/uploads\/scale_small\/1\/13158\/864255-gb.png",
+        "tiny_url": "https:\/\/static.giantbomb.com\/uploads\/square_mini\/1\/13158\/864255-gb.png",
+        "tags": "Box Art, All Images"
+      },
+      {
+        "icon_url": "https:\/\/static.giantbomb.com\/uploads\/square_avatar\/1\/13158\/864254-gb.png",
+        "medium_url": "https:\/\/static.giantbomb.com\/uploads\/screen_medium\/1\/13158\/864254-gb.png",
+        "screen_url": "https:\/\/static.giantbomb.com\/uploads\/screen_medium\/1\/13158\/864254-gb.png",
+        "small_url": "https:\/\/static.giantbomb.com\/uploads\/square_avatar\/1\/13158\/864254-gb.png",
+        "super_url": "https:\/\/static.giantbomb.com\/uploads\/scale_large\/1\/13158\/864254-gb.png",
+        "thumb_url": "https:\/\/static.giantbomb.com\/uploads\/scale_small\/1\/13158\/864254-gb.png",
+        "tiny_url": "https:\/\/static.giantbomb.com\/uploads\/square_mini\/1\/13158\/864254-gb.png",
+        "tags": "Box Art, All Images"
+      },
+      {
+        "icon_url": "https:\/\/static.giantbomb.com\/uploads\/square_avatar\/0\/7439\/691211-wipeout3.png",
+        "medium_url": "https:\/\/static.giantbomb.com\/uploads\/screen_medium\/0\/7439\/691211-wipeout3.png",
+        "screen_url": "https:\/\/static.giantbomb.com\/uploads\/screen_medium\/0\/7439\/691211-wipeout3.png",
+        "small_url": "https:\/\/static.giantbomb.com\/uploads\/square_avatar\/0\/7439\/691211-wipeout3.png",
+        "super_url": "https:\/\/static.giantbomb.com\/uploads\/scale_large\/0\/7439\/691211-wipeout3.png",
+        "thumb_url": "https:\/\/static.giantbomb.com\/uploads\/scale_small\/0\/7439\/691211-wipeout3.png",
+        "tiny_url": "https:\/\/static.giantbomb.com\/uploads\/square_mini\/0\/7439\/691211-wipeout3.png",
+        "tags": "Box Art, All Images"
+      },
+      {
+        "icon_url": "https:\/\/static.giantbomb.com\/uploads\/square_avatar\/0\/136\/468291-w3_01.jpg",
+        "medium_url": "https:\/\/static.giantbomb.com\/uploads\/screen_medium\/0\/136\/468291-w3_01.jpg",
+        "screen_url": "https:\/\/static.giantbomb.com\/uploads\/screen_medium\/0\/136\/468291-w3_01.jpg",
+        "small_url": "https:\/\/static.giantbomb.com\/uploads\/square_avatar\/0\/136\/468291-w3_01.jpg",
+        "super_url": "https:\/\/static.giantbomb.com\/uploads\/scale_large\/0\/136\/468291-w3_01.jpg",
+        "thumb_url": "https:\/\/static.giantbomb.com\/uploads\/scale_small\/0\/136\/468291-w3_01.jpg",
+        "tiny_url": "https:\/\/static.giantbomb.com\/uploads\/square_mini\/0\/136\/468291-w3_01.jpg",
+        "tags": "Screenshots, All Images"
+      },
+      {
+        "icon_url": "https:\/\/static.giantbomb.com\/uploads\/square_avatar\/0\/136\/468290-w3_terminal_02.jpg",
+        "medium_url": "https:\/\/static.giantbomb.com\/uploads\/screen_medium\/0\/136\/468290-w3_terminal_02.jpg",
+        "screen_url": "https:\/\/static.giantbomb.com\/uploads\/screen_medium\/0\/136\/468290-w3_terminal_02.jpg",
+        "small_url": "https:\/\/static.giantbomb.com\/uploads\/square_avatar\/0\/136\/468290-w3_terminal_02.jpg",
+        "super_url": "https:\/\/static.giantbomb.com\/uploads\/scale_large\/0\/136\/468290-w3_terminal_02.jpg",
+        "thumb_url": "https:\/\/static.giantbomb.com\/uploads\/scale_small\/0\/136\/468290-w3_terminal_02.jpg",
+        "tiny_url": "https:\/\/static.giantbomb.com\/uploads\/square_mini\/0\/136\/468290-w3_terminal_02.jpg",
+        "tags": "PS1 Screenshots, All Images"
+      },
+      {
+        "icon_url": "https:\/\/static.giantbomb.com\/uploads\/square_avatar\/0\/136\/468287-w3_stanzainter_02.jpg",
+        "medium_url": "https:\/\/static.giantbomb.com\/uploads\/screen_medium\/0\/136\/468287-w3_stanzainter_02.jpg",
+        "screen_url": "https:\/\/static.giantbomb.com\/uploads\/screen_medium\/0\/136\/468287-w3_stanzainter_02.jpg",
+        "small_url": "https:\/\/static.giantbomb.com\/uploads\/square_avatar\/0\/136\/468287-w3_stanzainter_02.jpg",
+        "super_url": "https:\/\/static.giantbomb.com\/uploads\/scale_large\/0\/136\/468287-w3_stanzainter_02.jpg",
+        "thumb_url": "https:\/\/static.giantbomb.com\/uploads\/scale_small\/0\/136\/468287-w3_stanzainter_02.jpg",
+        "tiny_url": "https:\/\/static.giantbomb.com\/uploads\/square_mini\/0\/136\/468287-w3_stanzainter_02.jpg",
+        "tags": "PS1 Screenshots, All Images"
+      },
+      {
+        "icon_url": "https:\/\/static.giantbomb.com\/uploads\/square_avatar\/0\/136\/468286-w3_stanzainter_01.jpg",
+        "medium_url": "https:\/\/static.giantbomb.com\/uploads\/screen_medium\/0\/136\/468286-w3_stanzainter_01.jpg",
+        "screen_url": "https:\/\/static.giantbomb.com\/uploads\/screen_medium\/0\/136\/468286-w3_stanzainter_01.jpg",
+        "small_url": "https:\/\/static.giantbomb.com\/uploads\/square_avatar\/0\/136\/468286-w3_stanzainter_01.jpg",
+        "super_url": "https:\/\/static.giantbomb.com\/uploads\/scale_large\/0\/136\/468286-w3_stanzainter_01.jpg",
+        "thumb_url": "https:\/\/static.giantbomb.com\/uploads\/scale_small\/0\/136\/468286-w3_stanzainter_01.jpg",
+        "tiny_url": "https:\/\/static.giantbomb.com\/uploads\/square_mini\/0\/136\/468286-w3_stanzainter_01.jpg",
+        "tags": "PS1 Screenshots, All Images"
+      },
+      {
+        "icon_url": "https:\/\/static.giantbomb.com\/uploads\/square_avatar\/0\/136\/468285-w3_ship_qirexrd.jpg",
+        "medium_url": "https:\/\/static.giantbomb.com\/uploads\/screen_medium\/0\/136\/468285-w3_ship_qirexrd.jpg",
+        "screen_url": "https:\/\/static.giantbomb.com\/uploads\/screen_medium\/0\/136\/468285-w3_ship_qirexrd.jpg",
+        "small_url": "https:\/\/static.giantbomb.com\/uploads\/square_avatar\/0\/136\/468285-w3_ship_qirexrd.jpg",
+        "super_url": "https:\/\/static.giantbomb.com\/uploads\/scale_large\/0\/136\/468285-w3_ship_qirexrd.jpg",
+        "thumb_url": "https:\/\/static.giantbomb.com\/uploads\/scale_small\/0\/136\/468285-w3_ship_qirexrd.jpg",
+        "tiny_url": "https:\/\/static.giantbomb.com\/uploads\/square_mini\/0\/136\/468285-w3_ship_qirexrd.jpg",
+        "tags": "PS1 Screenshots, All Images"
+      },
+      {
+        "icon_url": "https:\/\/static.giantbomb.com\/uploads\/square_avatar\/0\/136\/468284-w3_ship_pirhanaa.jpg",
+        "medium_url": "https:\/\/static.giantbomb.com\/uploads\/screen_medium\/0\/136\/468284-w3_ship_pirhanaa.jpg",
+        "screen_url": "https:\/\/static.giantbomb.com\/uploads\/screen_medium\/0\/136\/468284-w3_ship_pirhanaa.jpg",
+        "small_url": "https:\/\/static.giantbomb.com\/uploads\/square_avatar\/0\/136\/468284-w3_ship_pirhanaa.jpg",
+        "super_url": "https:\/\/static.giantbomb.com\/uploads\/scale_large\/0\/136\/468284-w3_ship_pirhanaa.jpg",
+        "thumb_url": "https:\/\/static.giantbomb.com\/uploads\/scale_small\/0\/136\/468284-w3_ship_pirhanaa.jpg",
+        "tiny_url": "https:\/\/static.giantbomb.com\/uploads\/square_mini\/0\/136\/468284-w3_ship_pirhanaa.jpg",
+        "tags": "PS1 Screenshots, All Images"
+      },
+      {
+        "icon_url": "https:\/\/static.giantbomb.com\/uploads\/square_avatar\/0\/136\/468283-w3_ship_icaras.jpg",
+        "medium_url": "https:\/\/static.giantbomb.com\/uploads\/screen_medium\/0\/136\/468283-w3_ship_icaras.jpg",
+        "screen_url": "https:\/\/static.giantbomb.com\/uploads\/screen_medium\/0\/136\/468283-w3_ship_icaras.jpg",
+        "small_url": "https:\/\/static.giantbomb.com\/uploads\/square_avatar\/0\/136\/468283-w3_ship_icaras.jpg",
+        "super_url": "https:\/\/static.giantbomb.com\/uploads\/scale_large\/0\/136\/468283-w3_ship_icaras.jpg",
+        "thumb_url": "https:\/\/static.giantbomb.com\/uploads\/scale_small\/0\/136\/468283-w3_ship_icaras.jpg",
+        "tiny_url": "https:\/\/static.giantbomb.com\/uploads\/square_mini\/0\/136\/468283-w3_ship_icaras.jpg",
+        "tags": "PS1 Screenshots, All Images"
+      },
+      {
+        "icon_url": "https:\/\/static.giantbomb.com\/uploads\/square_avatar\/0\/136\/468282-w3_ship_goteki45.jpg",
+        "medium_url": "https:\/\/static.giantbomb.com\/uploads\/screen_medium\/0\/136\/468282-w3_ship_goteki45.jpg",
+        "screen_url": "https:\/\/static.giantbomb.com\/uploads\/screen_medium\/0\/136\/468282-w3_ship_goteki45.jpg",
+        "small_url": "https:\/\/static.giantbomb.com\/uploads\/square_avatar\/0\/136\/468282-w3_ship_goteki45.jpg",
+        "super_url": "https:\/\/static.giantbomb.com\/uploads\/scale_large\/0\/136\/468282-w3_ship_goteki45.jpg",
+        "thumb_url": "https:\/\/static.giantbomb.com\/uploads\/scale_small\/0\/136\/468282-w3_ship_goteki45.jpg",
+        "tiny_url": "https:\/\/static.giantbomb.com\/uploads\/square_mini\/0\/136\/468282-w3_ship_goteki45.jpg",
+        "tags": "PS1 Screenshots, All Images"
+      },
+      {
+        "icon_url": "https:\/\/static.giantbomb.com\/uploads\/square_avatar\/0\/136\/468281-w3_ship_feisar.jpg",
+        "medium_url": "https:\/\/static.giantbomb.com\/uploads\/screen_medium\/0\/136\/468281-w3_ship_feisar.jpg",
+        "screen_url": "https:\/\/static.giantbomb.com\/uploads\/screen_medium\/0\/136\/468281-w3_ship_feisar.jpg",
+        "small_url": "https:\/\/static.giantbomb.com\/uploads\/square_avatar\/0\/136\/468281-w3_ship_feisar.jpg",
+        "super_url": "https:\/\/static.giantbomb.com\/uploads\/scale_large\/0\/136\/468281-w3_ship_feisar.jpg",
+        "thumb_url": "https:\/\/static.giantbomb.com\/uploads\/scale_small\/0\/136\/468281-w3_ship_feisar.jpg",
+        "tiny_url": "https:\/\/static.giantbomb.com\/uploads\/square_mini\/0\/136\/468281-w3_ship_feisar.jpg",
+        "tags": "PS1 Screenshots, All Images"
+      },
+      {
+        "icon_url": "https:\/\/static.giantbomb.com\/uploads\/square_avatar\/0\/136\/468280-w3_ship_auricom.jpg",
+        "medium_url": "https:\/\/static.giantbomb.com\/uploads\/screen_medium\/0\/136\/468280-w3_ship_auricom.jpg",
+        "screen_url": "https:\/\/static.giantbomb.com\/uploads\/screen_medium\/0\/136\/468280-w3_ship_auricom.jpg",
+        "small_url": "https:\/\/static.giantbomb.com\/uploads\/square_avatar\/0\/136\/468280-w3_ship_auricom.jpg",
+        "super_url": "https:\/\/static.giantbomb.com\/uploads\/scale_large\/0\/136\/468280-w3_ship_auricom.jpg",
+        "thumb_url": "https:\/\/static.giantbomb.com\/uploads\/scale_small\/0\/136\/468280-w3_ship_auricom.jpg",
+        "tiny_url": "https:\/\/static.giantbomb.com\/uploads\/square_mini\/0\/136\/468280-w3_ship_auricom.jpg",
+        "tags": "PS1 Screenshots, All Images"
+      },
+      {
+        "icon_url": "https:\/\/static.giantbomb.com\/uploads\/square_avatar\/0\/136\/468279-w3_ship_assegai.jpg",
+        "medium_url": "https:\/\/static.giantbomb.com\/uploads\/screen_medium\/0\/136\/468279-w3_ship_assegai.jpg",
+        "screen_url": "https:\/\/static.giantbomb.com\/uploads\/screen_medium\/0\/136\/468279-w3_ship_assegai.jpg",
+        "small_url": "https:\/\/static.giantbomb.com\/uploads\/square_avatar\/0\/136\/468279-w3_ship_assegai.jpg",
+        "super_url": "https:\/\/static.giantbomb.com\/uploads\/scale_large\/0\/136\/468279-w3_ship_assegai.jpg",
+        "thumb_url": "https:\/\/static.giantbomb.com\/uploads\/scale_small\/0\/136\/468279-w3_ship_assegai.jpg",
+        "tiny_url": "https:\/\/static.giantbomb.com\/uploads\/square_mini\/0\/136\/468279-w3_ship_assegai.jpg",
+        "tags": "PS1 Screenshots, All Images"
+      },
+      {
+        "icon_url": "https:\/\/static.giantbomb.com\/uploads\/square_avatar\/0\/136\/468278-w3_ship_agsystems.jpg",
+        "medium_url": "https:\/\/static.giantbomb.com\/uploads\/screen_medium\/0\/136\/468278-w3_ship_agsystems.jpg",
+        "screen_url": "https:\/\/static.giantbomb.com\/uploads\/screen_medium\/0\/136\/468278-w3_ship_agsystems.jpg",
+        "small_url": "https:\/\/static.giantbomb.com\/uploads\/square_avatar\/0\/136\/468278-w3_ship_agsystems.jpg",
+        "super_url": "https:\/\/static.giantbomb.com\/uploads\/scale_large\/0\/136\/468278-w3_ship_agsystems.jpg",
+        "thumb_url": "https:\/\/static.giantbomb.com\/uploads\/scale_small\/0\/136\/468278-w3_ship_agsystems.jpg",
+        "tiny_url": "https:\/\/static.giantbomb.com\/uploads\/square_mini\/0\/136\/468278-w3_ship_agsystems.jpg",
+        "tags": "PS1 Screenshots, All Images"
+      },
+      {
+        "icon_url": "https:\/\/static.giantbomb.com\/uploads\/square_avatar\/0\/136\/468277-w3_samparun_02.jpg",
+        "medium_url": "https:\/\/static.giantbomb.com\/uploads\/screen_medium\/0\/136\/468277-w3_samparun_02.jpg",
+        "screen_url": "https:\/\/static.giantbomb.com\/uploads\/screen_medium\/0\/136\/468277-w3_samparun_02.jpg",
+        "small_url": "https:\/\/static.giantbomb.com\/uploads\/square_avatar\/0\/136\/468277-w3_samparun_02.jpg",
+        "super_url": "https:\/\/static.giantbomb.com\/uploads\/scale_large\/0\/136\/468277-w3_samparun_02.jpg",
+        "thumb_url": "https:\/\/static.giantbomb.com\/uploads\/scale_small\/0\/136\/468277-w3_samparun_02.jpg",
+        "tiny_url": "https:\/\/static.giantbomb.com\/uploads\/square_mini\/0\/136\/468277-w3_samparun_02.jpg",
+        "tags": "Screenshots, All Images"
+      },
+      {
+        "icon_url": "https:\/\/static.giantbomb.com\/uploads\/square_avatar\/0\/136\/468276-w3_samparun_01.jpg",
+        "medium_url": "https:\/\/static.giantbomb.com\/uploads\/screen_medium\/0\/136\/468276-w3_samparun_01.jpg",
+        "screen_url": "https:\/\/static.giantbomb.com\/uploads\/screen_medium\/0\/136\/468276-w3_samparun_01.jpg",
+        "small_url": "https:\/\/static.giantbomb.com\/uploads\/square_avatar\/0\/136\/468276-w3_samparun_01.jpg",
+        "super_url": "https:\/\/static.giantbomb.com\/uploads\/scale_large\/0\/136\/468276-w3_samparun_01.jpg",
+        "thumb_url": "https:\/\/static.giantbomb.com\/uploads\/scale_small\/0\/136\/468276-w3_samparun_01.jpg",
+        "tiny_url": "https:\/\/static.giantbomb.com\/uploads\/square_mini\/0\/136\/468276-w3_samparun_01.jpg",
+        "tags": "PS1 Screenshots, All Images"
+      },
+      {
+        "icon_url": "https:\/\/static.giantbomb.com\/uploads\/square_avatar\/0\/136\/468275-w3_portokora_03.jpg",
+        "medium_url": "https:\/\/static.giantbomb.com\/uploads\/screen_medium\/0\/136\/468275-w3_portokora_03.jpg",
+        "screen_url": "https:\/\/static.giantbomb.com\/uploads\/screen_medium\/0\/136\/468275-w3_portokora_03.jpg",
+        "small_url": "https:\/\/static.giantbomb.com\/uploads\/square_avatar\/0\/136\/468275-w3_portokora_03.jpg",
+        "super_url": "https:\/\/static.giantbomb.com\/uploads\/scale_large\/0\/136\/468275-w3_portokora_03.jpg",
+        "thumb_url": "https:\/\/static.giantbomb.com\/uploads\/scale_small\/0\/136\/468275-w3_portokora_03.jpg",
+        "tiny_url": "https:\/\/static.giantbomb.com\/uploads\/square_mini\/0\/136\/468275-w3_portokora_03.jpg",
+        "tags": "PS1 Screenshots, All Images"
+      },
+      {
+        "icon_url": "https:\/\/static.giantbomb.com\/uploads\/square_avatar\/0\/136\/468274-w3_portokora_02.jpg",
+        "medium_url": "https:\/\/static.giantbomb.com\/uploads\/screen_medium\/0\/136\/468274-w3_portokora_02.jpg",
+        "screen_url": "https:\/\/static.giantbomb.com\/uploads\/screen_medium\/0\/136\/468274-w3_portokora_02.jpg",
+        "small_url": "https:\/\/static.giantbomb.com\/uploads\/square_avatar\/0\/136\/468274-w3_portokora_02.jpg",
+        "super_url": "https:\/\/static.giantbomb.com\/uploads\/scale_large\/0\/136\/468274-w3_portokora_02.jpg",
+        "thumb_url": "https:\/\/static.giantbomb.com\/uploads\/scale_small\/0\/136\/468274-w3_portokora_02.jpg",
+        "tiny_url": "https:\/\/static.giantbomb.com\/uploads\/square_mini\/0\/136\/468274-w3_portokora_02.jpg",
+        "tags": "PS1 Screenshots, All Images"
+      },
+      {
+        "icon_url": "https:\/\/static.giantbomb.com\/uploads\/square_avatar\/0\/136\/468272-w3_pmarproject_03.jpg",
+        "medium_url": "https:\/\/static.giantbomb.com\/uploads\/screen_medium\/0\/136\/468272-w3_pmarproject_03.jpg",
+        "screen_url": "https:\/\/static.giantbomb.com\/uploads\/screen_medium\/0\/136\/468272-w3_pmarproject_03.jpg",
+        "small_url": "https:\/\/static.giantbomb.com\/uploads\/square_avatar\/0\/136\/468272-w3_pmarproject_03.jpg",
+        "super_url": "https:\/\/static.giantbomb.com\/uploads\/scale_large\/0\/136\/468272-w3_pmarproject_03.jpg",
+        "thumb_url": "https:\/\/static.giantbomb.com\/uploads\/scale_small\/0\/136\/468272-w3_pmarproject_03.jpg",
+        "tiny_url": "https:\/\/static.giantbomb.com\/uploads\/square_mini\/0\/136\/468272-w3_pmarproject_03.jpg",
+        "tags": "Screenshots, All Images"
+      },
+      {
+        "icon_url": "https:\/\/static.giantbomb.com\/uploads\/square_avatar\/0\/136\/468271-w3_pmarproject_02.jpg",
+        "medium_url": "https:\/\/static.giantbomb.com\/uploads\/screen_medium\/0\/136\/468271-w3_pmarproject_02.jpg",
+        "screen_url": "https:\/\/static.giantbomb.com\/uploads\/screen_medium\/0\/136\/468271-w3_pmarproject_02.jpg",
+        "small_url": "https:\/\/static.giantbomb.com\/uploads\/square_avatar\/0\/136\/468271-w3_pmarproject_02.jpg",
+        "super_url": "https:\/\/static.giantbomb.com\/uploads\/scale_large\/0\/136\/468271-w3_pmarproject_02.jpg",
+        "thumb_url": "https:\/\/static.giantbomb.com\/uploads\/scale_small\/0\/136\/468271-w3_pmarproject_02.jpg",
+        "tiny_url": "https:\/\/static.giantbomb.com\/uploads\/square_mini\/0\/136\/468271-w3_pmarproject_02.jpg",
+        "tags": "PS1 Screenshots, All Images"
+      },
+      {
+        "icon_url": "https:\/\/static.giantbomb.com\/uploads\/square_avatar\/0\/136\/468270-w3_pmarproject_01.jpg",
+        "medium_url": "https:\/\/static.giantbomb.com\/uploads\/screen_medium\/0\/136\/468270-w3_pmarproject_01.jpg",
+        "screen_url": "https:\/\/static.giantbomb.com\/uploads\/screen_medium\/0\/136\/468270-w3_pmarproject_01.jpg",
+        "small_url": "https:\/\/static.giantbomb.com\/uploads\/square_avatar\/0\/136\/468270-w3_pmarproject_01.jpg",
+        "super_url": "https:\/\/static.giantbomb.com\/uploads\/scale_large\/0\/136\/468270-w3_pmarproject_01.jpg",
+        "thumb_url": "https:\/\/static.giantbomb.com\/uploads\/scale_small\/0\/136\/468270-w3_pmarproject_01.jpg",
+        "tiny_url": "https:\/\/static.giantbomb.com\/uploads\/square_mini\/0\/136\/468270-w3_pmarproject_01.jpg",
+        "tags": "PS1 Screenshots, All Images"
+      },
+      {
+        "icon_url": "https:\/\/static.giantbomb.com\/uploads\/square_avatar\/0\/136\/468269-w3_pit.jpg",
+        "medium_url": "https:\/\/static.giantbomb.com\/uploads\/screen_medium\/0\/136\/468269-w3_pit.jpg",
+        "screen_url": "https:\/\/static.giantbomb.com\/uploads\/screen_medium\/0\/136\/468269-w3_pit.jpg",
+        "small_url": "https:\/\/static.giantbomb.com\/uploads\/square_avatar\/0\/136\/468269-w3_pit.jpg",
+        "super_url": "https:\/\/static.giantbomb.com\/uploads\/scale_large\/0\/136\/468269-w3_pit.jpg",
+        "thumb_url": "https:\/\/static.giantbomb.com\/uploads\/scale_small\/0\/136\/468269-w3_pit.jpg",
+        "tiny_url": "https:\/\/static.giantbomb.com\/uploads\/square_mini\/0\/136\/468269-w3_pit.jpg",
+        "tags": "PS1 Screenshots, All Images"
+      },
+      {
+        "icon_url": "https:\/\/static.giantbomb.com\/uploads\/square_avatar\/0\/136\/468268-w3_megamall_02.jpg",
+        "medium_url": "https:\/\/static.giantbomb.com\/uploads\/screen_medium\/0\/136\/468268-w3_megamall_02.jpg",
+        "screen_url": "https:\/\/static.giantbomb.com\/uploads\/screen_medium\/0\/136\/468268-w3_megamall_02.jpg",
+        "small_url": "https:\/\/static.giantbomb.com\/uploads\/square_avatar\/0\/136\/468268-w3_megamall_02.jpg",
+        "super_url": "https:\/\/static.giantbomb.com\/uploads\/scale_large\/0\/136\/468268-w3_megamall_02.jpg",
+        "thumb_url": "https:\/\/static.giantbomb.com\/uploads\/scale_small\/0\/136\/468268-w3_megamall_02.jpg",
+        "tiny_url": "https:\/\/static.giantbomb.com\/uploads\/square_mini\/0\/136\/468268-w3_megamall_02.jpg",
+        "tags": "Screenshots, All Images"
+      },
+      {
+        "icon_url": "https:\/\/static.giantbomb.com\/uploads\/square_avatar\/0\/136\/468267-w3_megamall_01.jpg",
+        "medium_url": "https:\/\/static.giantbomb.com\/uploads\/screen_medium\/0\/136\/468267-w3_megamall_01.jpg",
+        "screen_url": "https:\/\/static.giantbomb.com\/uploads\/screen_medium\/0\/136\/468267-w3_megamall_01.jpg",
+        "small_url": "https:\/\/static.giantbomb.com\/uploads\/square_avatar\/0\/136\/468267-w3_megamall_01.jpg",
+        "super_url": "https:\/\/static.giantbomb.com\/uploads\/scale_large\/0\/136\/468267-w3_megamall_01.jpg",
+        "thumb_url": "https:\/\/static.giantbomb.com\/uploads\/scale_small\/0\/136\/468267-w3_megamall_01.jpg",
+        "tiny_url": "https:\/\/static.giantbomb.com\/uploads\/square_mini\/0\/136\/468267-w3_megamall_01.jpg",
+        "tags": "Screenshots, All Images"
+      }
+    ],
+    "videos": [],
+    "characters": null,
+    "concepts": [
+      {
+        "api_detail_url": "https:\/\/www.giantbomb.com\/api\/concept\/3015-45\/",
+        "id": 45,
+        "name": "Instant Replay",
+        "site_detail_url": "https:\/\/www.giantbomb.com\/instant-replay\/3015-45\/"
+      },
+      {
+        "api_detail_url": "https:\/\/www.giantbomb.com\/api\/concept\/3015-61\/",
+        "id": 61,
+        "name": "Future Sport",
+        "site_detail_url": "https:\/\/www.giantbomb.com\/future-sport\/3015-61\/"
+      },
+      {
+        "api_detail_url": "https:\/\/www.giantbomb.com\/api\/concept\/3015-433\/",
+        "id": 433,
+        "name": "Licensed Soundtrack",
+        "site_detail_url": "https:\/\/www.giantbomb.com\/licensed-soundtrack\/3015-433\/"
+      },
+      {
+        "api_detail_url": "https:\/\/www.giantbomb.com\/api\/concept\/3015-461\/",
+        "id": 461,
+        "name": "Boost",
+        "site_detail_url": "https:\/\/www.giantbomb.com\/boost\/3015-461\/"
+      },
+      {
+        "api_detail_url": "https:\/\/www.giantbomb.com\/api\/concept\/3015-464\/",
+        "id": 464,
+        "name": "Third-Person Perspective",
+        "site_detail_url": "https:\/\/www.giantbomb.com\/third-person-perspective\/3015-464\/"
+      },
+      {
+        "api_detail_url": "https:\/\/www.giantbomb.com\/api\/concept\/3015-990\/",
+        "id": 990,
+        "name": "Anti-Gravity Racing",
+        "site_detail_url": "https:\/\/www.giantbomb.com\/anti-gravity-racing\/3015-990\/"
+      },
+      {
+        "api_detail_url": "https:\/\/www.giantbomb.com\/api\/concept\/3015-1202\/",
+        "id": 1202,
+        "name": "Laps",
+        "site_detail_url": "https:\/\/www.giantbomb.com\/laps\/3015-1202\/"
+      },
+      {
+        "api_detail_url": "https:\/\/www.giantbomb.com\/api\/concept\/3015-1644\/",
+        "id": 1644,
+        "name": "Greatest Hits",
+        "site_detail_url": "https:\/\/www.giantbomb.com\/greatest-hits\/3015-1644\/"
+      },
+      {
+        "api_detail_url": "https:\/\/www.giantbomb.com\/api\/concept\/3015-2435\/",
+        "id": 2435,
+        "name": "Speed Boost",
+        "site_detail_url": "https:\/\/www.giantbomb.com\/speed-boost\/3015-2435\/"
+      },
+      {
+        "api_detail_url": "https:\/\/www.giantbomb.com\/api\/concept\/3015-2634\/",
+        "id": 2634,
+        "name": "The Future",
+        "site_detail_url": "https:\/\/www.giantbomb.com\/the-future\/3015-2634\/"
+      },
+      {
+        "api_detail_url": "https:\/\/www.giantbomb.com\/api\/concept\/3015-3178\/",
+        "id": 3178,
+        "name": "Sequel",
+        "site_detail_url": "https:\/\/www.giantbomb.com\/sequel\/3015-3178\/"
+      },
+      {
+        "api_detail_url": "https:\/\/www.giantbomb.com\/api\/concept\/3015-3421\/",
+        "id": 3421,
+        "name": "E3 1999",
+        "site_detail_url": "https:\/\/www.giantbomb.com\/e3-1999\/3015-3421\/"
+      },
+      {
+        "api_detail_url": "https:\/\/www.giantbomb.com\/api\/concept\/3015-5146\/",
+        "id": 5146,
+        "name": "FEISAR",
+        "site_detail_url": "https:\/\/www.giantbomb.com\/feisar\/3015-5146\/"
+      },
+      {
+        "api_detail_url": "https:\/\/www.giantbomb.com\/api\/concept\/3015-6487\/",
+        "id": 6487,
+        "name": "Redbook Audio",
+        "site_detail_url": "https:\/\/www.giantbomb.com\/redbook-audio\/3015-6487\/"
+      },
+      {
+        "api_detail_url": "https:\/\/www.giantbomb.com\/api\/concept\/3015-7335\/",
+        "id": 7335,
+        "name": "Qirex",
+        "site_detail_url": "https:\/\/www.giantbomb.com\/qirex\/3015-7335\/"
+      }
+    ],
+    "developers": [
+      {
+        "api_detail_url": "https:\/\/www.giantbomb.com\/api\/company\/3010-448\/",
+        "id": 448,
+        "name": "Psygnosis Limited",
+        "site_detail_url": "https:\/\/www.giantbomb.com\/psygnosis-limited\/3010-448\/"
+      },
+      {
+        "api_detail_url": "https:\/\/www.giantbomb.com\/api\/company\/3010-6360\/",
+        "id": 6360,
+        "name": "The Designers Republic",
+        "site_detail_url": "https:\/\/www.giantbomb.com\/the-designers-republic\/3010-6360\/"
+      }
+    ],
+    "first_appearance_characters": null,
+    "first_appearance_concepts": [
+      {
+        "api_detail_url": "https:\/\/www.giantbomb.com\/api\/concept\/3015-45\/",
+        "id": 45,
+        "name": "Instant Replay",
+        "site_detail_url": "https:\/\/www.giantbomb.com\/instant-replay\/3015-45\/"
+      },
+      {
+        "api_detail_url": "https:\/\/www.giantbomb.com\/api\/concept\/3015-61\/",
+        "id": 61,
+        "name": "Future Sport",
+        "site_detail_url": "https:\/\/www.giantbomb.com\/future-sport\/3015-61\/"
+      },
+      {
+        "api_detail_url": "https:\/\/www.giantbomb.com\/api\/concept\/3015-433\/",
+        "id": 433,
+        "name": "Licensed Soundtrack",
+        "site_detail_url": "https:\/\/www.giantbomb.com\/licensed-soundtrack\/3015-433\/"
+      },
+      {
+        "api_detail_url": "https:\/\/www.giantbomb.com\/api\/concept\/3015-461\/",
+        "id": 461,
+        "name": "Boost",
+        "site_detail_url": "https:\/\/www.giantbomb.com\/boost\/3015-461\/"
+      },
+      {
+        "api_detail_url": "https:\/\/www.giantbomb.com\/api\/concept\/3015-464\/",
+        "id": 464,
+        "name": "Third-Person Perspective",
+        "site_detail_url": "https:\/\/www.giantbomb.com\/third-person-perspective\/3015-464\/"
+      },
+      {
+        "api_detail_url": "https:\/\/www.giantbomb.com\/api\/concept\/3015-990\/",
+        "id": 990,
+        "name": "Anti-Gravity Racing",
+        "site_detail_url": "https:\/\/www.giantbomb.com\/anti-gravity-racing\/3015-990\/"
+      },
+      {
+        "api_detail_url": "https:\/\/www.giantbomb.com\/api\/concept\/3015-1202\/",
+        "id": 1202,
+        "name": "Laps",
+        "site_detail_url": "https:\/\/www.giantbomb.com\/laps\/3015-1202\/"
+      },
+      {
+        "api_detail_url": "https:\/\/www.giantbomb.com\/api\/concept\/3015-1644\/",
+        "id": 1644,
+        "name": "Greatest Hits",
+        "site_detail_url": "https:\/\/www.giantbomb.com\/greatest-hits\/3015-1644\/"
+      },
+      {
+        "api_detail_url": "https:\/\/www.giantbomb.com\/api\/concept\/3015-2435\/",
+        "id": 2435,
+        "name": "Speed Boost",
+        "site_detail_url": "https:\/\/www.giantbomb.com\/speed-boost\/3015-2435\/"
+      },
+      {
+        "api_detail_url": "https:\/\/www.giantbomb.com\/api\/concept\/3015-2634\/",
+        "id": 2634,
+        "name": "The Future",
+        "site_detail_url": "https:\/\/www.giantbomb.com\/the-future\/3015-2634\/"
+      },
+      {
+        "api_detail_url": "https:\/\/www.giantbomb.com\/api\/concept\/3015-3178\/",
+        "id": 3178,
+        "name": "Sequel",
+        "site_detail_url": "https:\/\/www.giantbomb.com\/sequel\/3015-3178\/"
+      },
+      {
+        "api_detail_url": "https:\/\/www.giantbomb.com\/api\/concept\/3015-3421\/",
+        "id": 3421,
+        "name": "E3 1999",
+        "site_detail_url": "https:\/\/www.giantbomb.com\/e3-1999\/3015-3421\/"
+      },
+      {
+        "api_detail_url": "https:\/\/www.giantbomb.com\/api\/concept\/3015-5146\/",
+        "id": 5146,
+        "name": "FEISAR",
+        "site_detail_url": "https:\/\/www.giantbomb.com\/feisar\/3015-5146\/"
+      },
+      {
+        "api_detail_url": "https:\/\/www.giantbomb.com\/api\/concept\/3015-6487\/",
+        "id": 6487,
+        "name": "Redbook Audio",
+        "site_detail_url": "https:\/\/www.giantbomb.com\/redbook-audio\/3015-6487\/"
+      },
+      {
+        "api_detail_url": "https:\/\/www.giantbomb.com\/api\/concept\/3015-7335\/",
+        "id": 7335,
+        "name": "Qirex",
+        "site_detail_url": "https:\/\/www.giantbomb.com\/qirex\/3015-7335\/"
+      }
+    ],
+    "first_appearance_locations": null,
+    "first_appearance_objects": [
+      {
+        "api_detail_url": "https:\/\/www.giantbomb.com\/api\/object\/3055-129\/",
+        "id": 129,
+        "name": "Airborne Hovercraft",
+        "site_detail_url": "https:\/\/www.giantbomb.com\/airborne-hovercraft\/3055-129\/"
+      },
+      {
+        "api_detail_url": "https:\/\/www.giantbomb.com\/api\/object\/3055-1789\/",
+        "id": 1789,
+        "name": "Speed Boost Arrows",
+        "site_detail_url": "https:\/\/www.giantbomb.com\/speed-boost-arrows\/3055-1789\/"
+      }
+    ],
+    "first_appearance_people": [
+      {
+        "api_detail_url": "https:\/\/www.giantbomb.com\/api\/person\/3040-6029\/",
+        "id": 6029,
+        "name": "Paul Walker",
+        "site_detail_url": "https:\/\/www.giantbomb.com\/paul-walker\/3040-6029\/"
+      },
+      {
+        "api_detail_url": "https:\/\/www.giantbomb.com\/api\/person\/3040-37442\/",
+        "id": 37442,
+        "name": "Chris Cubbin",
+        "site_detail_url": "https:\/\/www.giantbomb.com\/chris-cubbin\/3040-37442\/"
+      },
+      {
+        "api_detail_url": "https:\/\/www.giantbomb.com\/api\/person\/3040-20077\/",
+        "id": 20077,
+        "name": "Damon Fairclough",
+        "site_detail_url": "https:\/\/www.giantbomb.com\/damon-fairclough\/3040-20077\/"
+      },
+      {
+        "api_detail_url": "https:\/\/www.giantbomb.com\/api\/person\/3040-96295\/",
+        "id": 96295,
+        "name": "Pete Bratcher",
+        "site_detail_url": "https:\/\/www.giantbomb.com\/pete-bratcher\/3040-96295\/"
+      }
+    ],
+    "franchises": [
+      {
+        "api_detail_url": "https:\/\/www.giantbomb.com\/api\/franchise\/3025-205\/",
+        "id": 205,
+        "name": "WipEout",
+        "site_detail_url": "https:\/\/www.giantbomb.com\/wipeout\/3025-205\/"
+      }
+    ],
+    "genres": [
+      {
+        "api_detail_url": "https:\/\/www.giantbomb.com\/api\/genre\/3060-6\/",
+        "id": 6,
+        "name": "Driving\/Racing",
+        "site_detail_url": "https:\/\/www.giantbomb.com\/games\/?wikiSlug=drivingracing&wikiTypeId=3060&wikiId=6&genre=6"
+      }
+    ],
+    "killed_characters": null,
+    "locations": null,
+    "objects": [
+      {
+        "api_detail_url": "https:\/\/www.giantbomb.com\/api\/object\/3055-129\/",
+        "id": 129,
+        "name": "Airborne Hovercraft",
+        "site_detail_url": "https:\/\/www.giantbomb.com\/airborne-hovercraft\/3055-129\/"
+      },
+      {
+        "api_detail_url": "https:\/\/www.giantbomb.com\/api\/object\/3055-1789\/",
+        "id": 1789,
+        "name": "Speed Boost Arrows",
+        "site_detail_url": "https:\/\/www.giantbomb.com\/speed-boost-arrows\/3055-1789\/"
+      }
+    ],
+    "people": [
+      {
+        "api_detail_url": "https:\/\/www.giantbomb.com\/api\/person\/3040-6029\/",
+        "id": 6029,
+        "name": "Paul Walker",
+        "site_detail_url": "https:\/\/www.giantbomb.com\/paul-walker\/3040-6029\/"
+      },
+      {
+        "api_detail_url": "https:\/\/www.giantbomb.com\/api\/person\/3040-37442\/",
+        "id": 37442,
+        "name": "Chris Cubbin",
+        "site_detail_url": "https:\/\/www.giantbomb.com\/chris-cubbin\/3040-37442\/"
+      },
+      {
+        "api_detail_url": "https:\/\/www.giantbomb.com\/api\/person\/3040-20077\/",
+        "id": 20077,
+        "name": "Damon Fairclough",
+        "site_detail_url": "https:\/\/www.giantbomb.com\/damon-fairclough\/3040-20077\/"
+      },
+      {
+        "api_detail_url": "https:\/\/www.giantbomb.com\/api\/person\/3040-96295\/",
+        "id": 96295,
+        "name": "Pete Bratcher",
+        "site_detail_url": "https:\/\/www.giantbomb.com\/pete-bratcher\/3040-96295\/"
+      }
+    ],
+    "publishers": [
+      {
+        "api_detail_url": "https:\/\/www.giantbomb.com\/api\/publisher\/3010-46\/",
+        "id": 46,
+        "name": "Sony Interactive Entertainment Europe",
+        "site_detail_url": "https:\/\/www.giantbomb.com\/sony-interactive-entertainment-europe\/3010-46\/"
+      }
+    ],
+    "releases": [
+      {
+        "api_detail_url": "https:\/\/www.giantbomb.com\/api\/release\/3050-80826\/",
+        "id": 80826,
+        "name": "Wipeout 3",
+        "site_detail_url": "https:\/\/www.giantbomb.com\/wipeout-3\/3030-12298\/releases\/"
+      },
+      {
+        "api_detail_url": "https:\/\/www.giantbomb.com\/api\/release\/3050-80827\/",
+        "id": 80827,
+        "name": "Wip3out",
+        "site_detail_url": "https:\/\/www.giantbomb.com\/wipeout-3\/3030-12298\/releases\/"
+      },
+      {
+        "api_detail_url": "https:\/\/www.giantbomb.com\/api\/release\/3050-80828\/",
+        "id": 80828,
+        "name": "Wip3out",
+        "site_detail_url": "https:\/\/www.giantbomb.com\/wipeout-3\/3030-12298\/releases\/"
+      },
+      {
+        "api_detail_url": "https:\/\/www.giantbomb.com\/api\/release\/3050-97529\/",
+        "id": 97529,
+        "name": "Wipeout 3 (Special Edition)",
+        "site_detail_url": "https:\/\/www.giantbomb.com\/wipeout-3\/3030-12298\/releases\/"
+      }
+    ],
+    "similar_games": [
+      {
+        "api_detail_url": "https:\/\/www.giantbomb.com\/api\/game\/3030-9060\/",
+        "id": 9060,
+        "name": "Rollcage",
+        "site_detail_url": "https:\/\/www.giantbomb.com\/rollcage\/3030-9060\/"
+      },
+      {
+        "api_detail_url": "https:\/\/www.giantbomb.com\/api\/game\/3030-21252\/",
+        "id": 21252,
+        "name": "F-Zero Climax",
+        "site_detail_url": "https:\/\/www.giantbomb.com\/f-zero-climax\/3030-21252\/"
+      },
+      {
+        "api_detail_url": "https:\/\/www.giantbomb.com\/api\/game\/3030-7880\/",
+        "id": 7880,
+        "name": "Jet Moto",
+        "site_detail_url": "https:\/\/www.giantbomb.com\/jet-moto\/3030-7880\/"
+      },
+      {
+        "api_detail_url": "https:\/\/www.giantbomb.com\/api\/game\/3030-15636\/",
+        "id": 15636,
+        "name": "Forsaken",
+        "site_detail_url": "https:\/\/www.giantbomb.com\/forsaken\/3030-15636\/"
+      },
+      {
+        "api_detail_url": "https:\/\/www.giantbomb.com\/api\/game\/3030-20448\/",
+        "id": 20448,
+        "name": "F-Zero GX",
+        "site_detail_url": "https:\/\/www.giantbomb.com\/f-zero-gx\/3030-20448\/"
+      },
+      {
+        "api_detail_url": "https:\/\/www.giantbomb.com\/api\/game\/3030-18808\/",
+        "id": 18808,
+        "name": "F-Zero X",
+        "site_detail_url": "https:\/\/www.giantbomb.com\/f-zero-x\/3030-18808\/"
+      },
+      {
+        "api_detail_url": "https:\/\/www.giantbomb.com\/api\/game\/3030-15242\/",
+        "id": 15242,
+        "name": "F-Zero",
+        "site_detail_url": "https:\/\/www.giantbomb.com\/f-zero\/3030-15242\/"
+      },
+      {
+        "api_detail_url": "https:\/\/www.giantbomb.com\/api\/game\/3030-21146\/",
+        "id": 21146,
+        "name": "Fatal Inertia EX",
+        "site_detail_url": "https:\/\/www.giantbomb.com\/fatal-inertia-ex\/3030-21146\/"
+      },
+      {
+        "api_detail_url": "https:\/\/www.giantbomb.com\/api\/game\/3030-18126\/",
+        "id": 18126,
+        "name": "Kinetica",
+        "site_detail_url": "https:\/\/www.giantbomb.com\/kinetica\/3030-18126\/"
+      },
+      {
+        "api_detail_url": "https:\/\/www.giantbomb.com\/api\/game\/3030-19008\/",
+        "id": 19008,
+        "name": "Ballistics",
+        "site_detail_url": "https:\/\/www.giantbomb.com\/ballistics\/3030-19008\/"
+      },
+      {
+        "api_detail_url": "https:\/\/www.giantbomb.com\/api\/game\/3030-23156\/",
+        "id": 23156,
+        "name": "F-Zero X Expansion Kit",
+        "site_detail_url": "https:\/\/www.giantbomb.com\/f-zero-x-expansion-kit\/3030-23156\/"
+      },
+      {
+        "api_detail_url": "https:\/\/www.giantbomb.com\/api\/game\/3030-21285\/",
+        "id": 21285,
+        "name": "Rollcage Stage II",
+        "site_detail_url": "https:\/\/www.giantbomb.com\/rollcage-stage-ii\/3030-21285\/"
+      },
+      {
+        "api_detail_url": "https:\/\/www.giantbomb.com\/api\/game\/3030-8949\/",
+        "id": 8949,
+        "name": "S.T.U.N. Runner",
+        "site_detail_url": "https:\/\/www.giantbomb.com\/stun-runner\/3030-8949\/"
+      }
+    ],
+    "themes": [
+      {
+        "api_detail_url": "https:\/\/www.giantbomb.com\/api\/theme\/3032-3\/",
+        "id": 3,
+        "name": "Sci-Fi",
+        "site_detail_url": "https:\/\/www.giantbomb.com\/games\/?wikiSlug=sci-fi&wikiTypeId=3032&wikiId=3&theme=3"
+      }
+    ]
+  },
+  "version": "0"
+}
