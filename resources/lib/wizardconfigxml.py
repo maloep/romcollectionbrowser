@@ -330,7 +330,14 @@ class ConfigXmlWizard(RcbXmlReaderWriter):
 						log.info("No descPath selected. Action canceled.")
 						break
 
+					# Add this path to the settings (for file-based parsers). Note that setting names can have spaces in them,
+					# e.g. rcb_Commodore 64DescriptionFilePath, or rcb_MAMEDescriptionFilePath.
+					# Note that when scraping, local file scraper names will be set to the collection name
+					log.debug("Setting rcb_{0}DescriptionFilePath to {1}".format(romCollection.name, descPath))
+					xbmcaddon.Addon().setSetting("rcb_{0}DescriptionFilePath".format(romCollection.name), descPath)
+
 					# Prompt the user for a parse instruction file
+					# FIXME TODO With class-based scrapers, this is unnecessary but kept to avoid unexpected breakages
 					parserPath = dialog.browse(1, util.localize(32191) % console, 'files', '', False, False, descPath)
 					log.info("parserPath: " + str(parserPath))
 					if parserPath == '':
