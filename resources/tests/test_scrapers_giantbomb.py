@@ -9,6 +9,7 @@ sys.path.append(os.path.join(os.path.dirname(__file__), '..', '..', 'resources',
 
 import unittest
 from resources.lib.pyscraper.giantbomb_scraper import GiantBomb_Scraper
+from resources.lib.rcbexceptions import ScraperExceededAPIQuoteException
 
 
 class Test_GiantBombScraper(unittest.TestCase):
@@ -67,7 +68,7 @@ class Test_GiantBombScraper(unittest.TestCase):
         # Genres
         self.assertEquals(results['Genre'], ['Driving/Racing'])
 
-    @unittest.skip("Not yet implemented")
+    @unittest.skip("Not yet working")
     def test_ErrorResponseInvalidApiKey(self):
         f = os.path.join(os.path.dirname(__file__), '..', '..', 'resources', 'tests', 'testdata',
                          'scraper_web_responses', 'giantbomb_error_invalidapikey.json')
@@ -75,8 +76,9 @@ class Test_GiantBombScraper(unittest.TestCase):
 
         with open(f) as jsonfile:
             data = jsonfile.read()
-        # FIXME TODO Check for the invalid API key occurs before we parse the game result
-        results = scraper._parse_game_result(json.loads(data)['results'])
+
+        with self.assertRaises(ScraperExceededAPIQuoteException):
+            scraper._check_status_code(json.loads(data)['status_code'])
 
     @unittest.skip("Skip downloading from site")
     def test_DownloadGameWithSpecialCharactersReturnsResults(self):
