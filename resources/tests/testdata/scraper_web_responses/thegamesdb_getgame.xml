@@ -1,44 +1,64 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <Data>
-<baseImgUrl>http://thegamesdb.net/banners/</baseImgUrl>
-<Game>
-<id>2613</id>
-<GameTitle>Tekken 2</GameTitle>
-<PlatformId>10</PlatformId>
-<Platform>Sony Playstation</Platform>
-<ReleaseDate>08/27/1996</ReleaseDate>
-<Overview>MORE THAN A SEQUEL. THE UNDISPUTED #1 FIGHTING GAME ON THE PLANET.
+    <baseImgUrl>http://thegamesdb.net/banners/</baseImgUrl>
+    <Game>
+        <id>2613</id>
+        <GameTitle>Tekken 2</GameTitle>
+        <PlatformId>10</PlatformId>
+        <Platform>Sony Playstation</Platform>
+        <ReleaseDate>08/27/1996</ReleaseDate>
+        <Overview>MORE THAN A SEQUEL. THE UNDISPUTED #1 FIGHTING GAME ON THE PLANET.
 
-23 OF THE GREATEST FIGHTERS ON EARTH.
-Includes new characters, new bosses, each with new ways to inflict multiple ten-hit combos.
+            23 OF THE GREATEST FIGHTERS ON EARTH.
+            Includes new characters, new bosses, each with new ways to inflict multiple ten-hit combos.
 
-23 NEW STAGES.
-Mind blowing backgrounds with phenomenal light-sourcing. Jam to 23 new music tracks as you jam an opponents face in the ground.
+            23 NEW STAGES.
+            Mind blowing backgrounds with phenomenal light-sourcing. Jam to 23 new music tracks as you jam an opponents
+            face in the ground.
 
-BRAND NEW 3D ANIMATIONS.
-Cinematics at their finest. All-new intro sequence plus animations for each character not found in the arcade version.
+            BRAND NEW 3D ANIMATIONS.
+            Cinematics at their finest. All-new intro sequence plus animations for each character not found in the
+            arcade version.
 
-THREE NEW FIGHTING MODES.
-Not available in the original: Survival Mode, Battle Mode &amp; Practice Mode.
+            THREE NEW FIGHTING MODES.
+            Not available in the original: Survival Mode, Battle Mode &amp; Practice Mode.
 
-MORE MOVES AND MULTIPLE COMBOS.
-New attack and throw reversals plus new bone-snapping techniques.</Overview>
-<ESRB>T - Teen</ESRB>
-<Genres><genre>Fighting</genre></Genres><Players>2</Players><Co-op>No</Co-op>
-<Youtube>http://www.youtube.com/watch?v=eUKWfSFtGec</Youtube>
-<Publisher>Namco</Publisher>
-<Developer>Namco</Developer>
-<Rating>7.4</Rating><Similar><SimilarCount>2</SimilarCount><Game><id>28621</id><PlatformId>23</PlatformId></Game><Game><id>41008</id><PlatformId>6</PlatformId></Game></Similar><Images>
-<fanart>
-<original width="1280" height="720">fanart/original/2613-1.jpg</original>
-<thumb>fanart/thumb/2613-1.jpg</thumb>
-</fanart>
-<boxart side="back" width="1740" height="1560" thumb="boxart/thumb/original/back/2613-1.jpg">boxart/original/back/2613-1.jpg</boxart>
-<boxart side="front" width="984" height="998" thumb="boxart/thumb/original/front/2613-1.png">boxart/original/front/2613-1.png</boxart>
-<screenshot>
-<original width="450" height="338">screenshots/2613-1.jpg</original>
-<thumb>screenshots/thumb/2613-1.jpg</thumb>
-</screenshot>
-<clearlogo width="400" height="204">clearlogo/2613.png</clearlogo></Images>
-</Game>
+            MORE MOVES AND MULTIPLE COMBOS.
+            New attack and throw reversals plus new bone-snapping techniques.
+        </Overview>
+        <ESRB>T - Teen</ESRB>
+        <Genres>
+            <genre>Fighting</genre>
+        </Genres>
+        <Players>2</Players>
+        <Co-op>No</Co-op>
+        <Youtube>http://www.youtube.com/watch?v=eUKWfSFtGec</Youtube>
+        <Publisher>Namco</Publisher>
+        <Developer>Namco</Developer>
+        <Rating>7.4</Rating>
+        <Similar>
+            <SimilarCount>2</SimilarCount>
+            <Game>
+                <id>28621</id>
+                <PlatformId>23</PlatformId>
+            </Game>
+            <Game>
+                <id>41008</id>
+                <PlatformId>6</PlatformId>
+            </Game>
+        </Similar>
+        <Images>
+            <fanart>
+                <original width="1280" height="720">fanart/original/2613-1.jpg</original>
+                <thumb>fanart/thumb/2613-1.jpg</thumb>
+            </fanart>
+            <boxart side="back" width="1740" height="1560" thumb="boxart/thumb/original/back/2613-1.jpg">boxart/original/back/2613-1.jpg</boxart>
+            <boxart side="front" width="984" height="998" thumb="boxart/thumb/original/front/2613-1.png">boxart/original/front/2613-1.png</boxart>
+            <screenshot>
+                <original width="450" height="338">screenshots/2613-1.jpg</original>
+                <thumb>screenshots/thumb/2613-1.jpg</thumb>
+            </screenshot>
+            <clearlogo width="400" height="204">clearlogo/2613.png</clearlogo>
+        </Images>
+    </Game>
 </Data>

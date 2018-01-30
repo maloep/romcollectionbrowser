@@ -13,7 +13,10 @@ _settings = {'rcb_fuzzyFactor': '3',
 			'rcb_createNfoWhileScraping': 'false',
 			'rcb_overwriteWithNullvalues': 'false',
 			'rcb_ignoreGamesWithoutDesc': 'false',
-			'rcb_ignoreGamesWithoutArtwork': 'false'}
+			'rcb_ignoreGamesWithoutArtwork': 'false',
+			# Interact with cut-down MAME history dat file in the unittests
+			'rcb_MAMEDescriptionFilePath': 'testdata/scraper_web_responses/history.dat'}
+
 
 class Addon:
 

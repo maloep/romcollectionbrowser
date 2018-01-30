@@ -1,0 +1,1330 @@
+## History.dat - An arcade video games database.
+## Available at http://www.arcade-history.com - A coin-operated game & machine database project.
+##
+## NOTE This document is a truncated version containing only the game data that we need for the tests
+##
+
+$info=88games,
+$<a href="http://www.arcade-history.com/?n='88-games&page=detail&id=1&o=2" title="Edit this entry at Arcade-History.com">Edit this entry at Arcade-History.com</a>
+$bio
+
+'88 Games (c) 1988 Konami.
+
+
+Go for the gold in Konami's newest kit, '88 Games. Feel the thrill of competition as you test your Olympic skills against other world-class athletes. Bronze or silver medals are not good enough - you are going for the gold! However, you must at least qualify in each event in order to compete in the next event. Get pumped up to compete in the following events :
+
+* 100m Dash : Race against the other athletes as well as the clock. This is just a warm-up compared to the events to come.
+
+* Long Jump : Player dashes to the line, leaps, and propels his body as far as he is able. The player controls the speed and angle of the jump.
+
+* 400m Relay (Qualifying Heat) : Speed and timing are crucial in this event. Player must coordinate the baton hand-off perfectly for the best qualifying time.
+
+* Skeet Shooting : Player can aim left and right at the clay pigeons and must prove that he is a sure shot. A chance for bonus points is given for excellent marksmanship.
+
+* 110m Hurdles : Player sprints down the track, timing his jumps perfectly to clear all of the hurdles and reach the finish line in time.
+
+* Archery : This is a trial of the player's proficiency in using a bow and arrow. The player can decide the direction and force of the wind, which will help in demonstrating his skill as a sharpshooter.
+
+* Javelin Throw : The player darts to the line and throws the javelin with all his might. The player controls the height of the javelin.
+
+* High Jump : Another test of speed and strength as the player runs to the line and hurls his body over the bar. The player can control his angle above the bar.
+
+* 400m Relay - The Final Race : The final test of physical training as the player faces the challenging relay again.
+
+
+GO FOR THE GOLD!
+
+
+- TECHNICAL -
+
+
+Game ID : GX861
+
+Main Board Number : PWB351171A
+
+Rom Board Number : PWB350782
+
+Prom Stickers : A0xx
+
+
+Main CPU : KONAMI
+
+Sound CPU : Z80
+
+Sound Chips : YM2151, (2x) UPD7759
+
+
+Screen orientation : Horizontal
+
+Video resolution : 304 x 224 pixels
+
+Screen refresh : 60.00 Hz
+
+Palette colors : 2048
+
+
+Players : 4
+
+Buttons : 3, depending of the event...
+
+=> 100m Dash : [1] Power, [2] Unused, [3] Power
+
+=> Long Jump : [1] Power, [2] Jump, [3] Power
+
+=> 400m Relay : [1] Power, [2] Relay, [3] Power
+
+=> Skeet Shooting : [1] Shoot, [2] Left, [3]Right
+
+=> 110m Hurdles : [1] Power, [2] Jump, [3] Power
+
+=> Archery : [1] Unused, [2] Shoot, [3] Unused
+
+=> Javelin Throw : [1] Power, [2] Shoot, [3] Power
+
+=> High Jump : [1] Power, [2] Jump, [3] Power
+
+
+- TRIVIA -
+
+
+Released in July 1988, just in time for the 1988 Olympic games.
+
+
+On the 100m Dash event, adverts for some other Konami games can be seen in the background : "Flak Attack", "Ajax", "The Hustler" and "City Bomber".
+
+
+Default high-score :
+
+1 H.O 50000
+
+2 M.O 49500
+
+3 J.N 49000
+
+4 A.S 48500
+
+5 T.O 48000
+
+6 K.K 47500
+
+7 H.A 47000
+
+8 A.N 46500
+
+9 H.I 46000
+
+10 Y.S 45500
+
+11 F.S 45000
+
+12 K.O 44500
+
+
+Japanese releases :
+
+Hyper Sports Special (Konami)
+
+
+Outside Japan releases :
+
+'88 Games (Konami)
+
+Konami '88 (Konami)
+
+
+- SERIES -
+
+
+1. Track and Field (1983)
+
+2. Hyper Sports (1984)
+
+3. '88 Games (1988)
+
+4. Hyper Athlete (1996)
+
+5. Nagano Winter Olympics '98 (1998)
+
+6. International Track & Field 2000 (2000, Sony PlayStation)
+
+7. International Track & Field Summer Games (2000, Nintendo 64)
+
+8. New International Track & Field (2008, Nintendo DS)
+
+
+- SOURCES -
+
+
+Game's rom.
+
+Machine's picture.
+
+$end
+
+
+$info=1941,1941j,
+$<a href="http://www.arcade-history.com/?n=1941-counter-attack&page=detail&id=5&o=2" title="Edit this entry at Arcade-History.com">Edit this entry at Arcade-History.com</a>
+$bio
+
+1941 - Counter Attack (c) 1990 Capcom.
+
+
+A vertically scrolling shoot'em up. Player-1 uses a P-38 Lightning and Player-2 uses a Mosquito B Mk.IV.
+
+
+- TECHNICAL -
+
+
+Capcom Play System (CPS) hardware
+
+Game ID : CP-S No. 07
+
+
+Main CPU : 68000 (@ 10 Mhz)
+
+Sound CPU : Z80 (@ 3.579545 Mhz)
+
+Sound Chips : YM2151 (@ 3.579545 Mhz), OKI6295 (@ 7.576 Khz)
+
+
+Screen orientation : Vertical
+
+Video resolution : 224 x 384 pixels
+
+Screen refresh : 60.00 Hz
+
+Palette colors : 4096
+
+
+Players : 2
+
+Control : 8-way joystick
+
+Buttons : 2
+
+=> [A] Fire, [B] Bomb
+
+
+- TRIVIA -
+
+
+Released in February 1990.
+
+
+1941 - Counter Attack was the first Shoot'em Up to add +1 to the score when a continue is used.
+
+
+Here is all the official bosses names :
+
+* Stage 1 - Leviathan
+
+* Stage 2 - Bismarck
+
+* Stage 3 - V3Rocket
+
+* Stage 4 - Krote
+
+* Stage 5 - Leviathan
+
+* Stage 6 - Gotha
+
+
+Historical inaccuracies - V3Rocket : The real V3 was a Super Gun, not a rocket. Furthermore, 'V-weapons' would not appear until 1944.
+
+
+Default high-score table :
+
+1ST 30000 CAP
+
+2ND 29000 COM
+
+3RD 28000 CAP
+
+4TH 27000 COM
+
+5TH 26000 oO2
+
+
+Pony Canyon / Scitron released a limited-edition soundtrack album for this game (Final Fight : G.S.M. Capcom 3 - PCCB-00030) on 21/05/1990.
+
+
+- UPDATES -
+
+
+At the 5th position on the high score table, the Japanese version says 'j01' instead of 'o02'.
+
+
+- TIPS AND TRICKS -
+
+
+* Hint : Your airplane doesn't lose energy when it collides with cliff-walls, buildings etc. Instead it will rotate a bit after such collisions. That means you can tumble up and down these obstacles (keep on colliding), and if you keep shooting, your shots will go in all directions. This way you can clear up a lot of enemies when you are under pressure (while rolling you are invincible).
+
+
+- SERIES -
+
+
+1. 1942 (1984)
+
+2. 1943 - The Battle of Midway (1987)
+
+3. 1943 Kai - Midway Kaisen (1988)
+
+4. 1941 - Counter Attack (1990)
+
+5. 19XX - The War Against Destiny (1995)
+
+6. 1944 - The Loop Master (2000)
+
+
+- STAFF -
+
+
+Planners : Noritaka Funamizu (Poo), Rekite
+
+Object designers : Shinji Sakashita (Sakashita Thing), Yokota Yokozo, Terukun, Kuribow
+
+Scroll designers : Sadakichi, Marilyn Higuchi, Yuki, Kintarou, Harusan
+
+Character support : Akiman
+
+Character coordinator : Rekite
+
+Character effects : Yokota Yokozo
+
+Sound composer : Hifumi
+
+Programmers : Makkow, Babel-2, Dome
+
+Game analysers : Akira Nishitani (Nin), Doda Nda Uda
+
+Director : Kihaji Okamoto
+
+
+- PORTS -
+
+
+* Consoles :
+
+NEC SuperGrafx (1991)
+
+Sony PSP (2006, "Capcom Classics Collection Remixed")
+
+Sony PlayStation 2 (2006, "Capcom Classics Collection, Volume 2")
+
+Microsoft XBOX (2006, "Capcom Classics Collection, Volume 2")
+
+
+- SOURCES -
+
+
+Game's rom.
+
+Machine's picture.
+
+$end
+
+
+$info=1942,1942a,1942b,1942abl,
+$<a href="http://www.arcade-history.com/?n=1942&page=detail&id=6&o=2" title="Edit this entry at Arcade-History.com">Edit this entry at Arcade-History.com</a>
+$bio
+
+1942 (c) 1984 Capcom.
+
+
+1942 is a vertically scrolling shoot 'em up set in the Asian theater of World War II. The goal is to reach Tokyo and destroy the entire Japanese air fleet. The player (the American 'Super Ace') pilots a plane, and has to shoot down enemy planes. Besides shooting, the player can also perform a 'loop-the-loop' to avoid enemy fire.
+
+
+- TECHNICAL -
+
+
+Main CPU : Z80 (@ 4 Mhz)
+
+Sound CPU : Z80 (@ 3 Mhz)
+
+Sound Chips : (2x) AY8910 (@ 1.5 Mhz)
+
+
+Screen orientation : Vertical
+
+Video resolution : 224 x 256 pixels
+
+Screen refresh : 60.00 Hz
+
+Palette colors : 256
+
+
+Players : 2
+
+Control : 8-way joystick
+
+Buttons : 2
+
+
+- TRIVIA -
+
+
+Released in December 1984, 1942 was the first game that Okamoto designed at Capcom. 1942 was also the first Capcom title to spawn a successful series of sequels, with 6 titles in the 19XX line released from 1984 to 2000.
+
+
+Stage names :
+
+Stages 32 � 29 : Midway
+
+Stages 28 � 25 : Marshall
+
+Stages 24 � 21 : Attu
+
+Stages 20 � 17 : Rabaul
+
+Stages 16 � 13 : Leyte
+
+Stages 12 � 09 : Saipan
+
+Stages 08 � 05 : Iwojima
+
+Stages 04 � 01 : Okinawa
+
+
+After the last boss plane on stage 02 is destroyed the screen displays:
+
+CONGRATULATION
+
+YOU ARE THE BEST OF PLAYER !
+
+FIGHT LAST ONE STAGE
+
+
+Stage 01 is displayed as LAST STAGE.
+
+
+After the last stage is complete the screen displays :
+
+WE GIVE UP!
+
+SPECIAL BONUS
+
+10,000,000 PTS
+
+GAME OVER
+
+PRESENTED BY CAPCOM
+
+PS. HOPE OUR NEXT GAME.
+
+(c) CAPCOM
+
+
+Default High-score table ('Top 5 ranking score!!') :
+
+TOP 40000 (c) CAPCOM 0
+
+2ND 35000 ALL 0
+
+3RD 30000 RIGHT 0
+
+4TH 25000 RESERVED 0
+
+5TH 20000 EXEDEXES 0
+
+
+In the default high-score table, some previous Capcom Games appear. Since the Demo Mode only shows the top five, you need to play the game and to make a score of approximately 10,000 points (To enter in the top ten).
+
+The number 5 (20,000 points) appears as 'EXEDEXES'.
+
+Number 6 is 'VULGUS' (9,999 points).
+
+Number 7 is 'SONSON' (8,888 points).
+
+Number 8 is 'HIGEMARU' (7,777 points).
+
+Number 9 is again 'EXEDEXES' (6,666 points).
+
+
+Martin Bedard of Saint-Lazare, Quebec, Canada holds the record for this game with 13,360,960 points on November 19, 2006.
+
+
+Soundtrack album releases :
+
+Capcom Game Music (28XA-94)(08/25/86) [Alfa Record]
+
+Capcom Game Music [Reprint] (SCDC-00193) (06/19/2002) [Scitron Discs]
+
+Legend of Game Music~Premium Box (SCDC-00410~7) (03/24/2005) [Scitron Discs]
+
+
+Original products :
+
+1942 (Capcom)
+
+
+Licensed products :
+
+1942 (Williams Electronics)
+
+
+Bootlegs/Hacks :
+
+Supercharger 1942 (Two-Bits Score)
+
+
+- SCORING -
+
+
+Small planes are 30, 50, 70, 100, 150, or 200 points each.
+
+
+The small red planes that fly formations of 5 or 10 are 100 points each.  Shooting all the planes in the 5 plane formation awards 500 bonus points.   Shooting all the planes in the 10 plane formation awards 1,000 bonus points. In both cases, when the last plane of a formation is destroyed, a powerup marker appears and is worth 1,000 points when picked up.
+
+
+Occasionally a small airplane comes slowly out of the lower left or lower right hand side of the screen and flies towards the top. When hit, it turns into a special figure which awards 5,000 points when picked up.
+
+
+Medium size planes are 1,000 or 1,500 points each.
+
+
+Large bomber planes start at 2,000 points each. The score for each consecutive bomber destroyed without the player dying is 500 points more than the previous one, up to a maximum of 9,000 points. When the player�s ship is destroyed, the score for the bombers is reset back to 2,000 points.
+
+
+There are four boss planes. They appear at the end of stages 26, 18, 10, and 02 :
+
+The stage 26 boss plane is worth 20,000 points.
+
+The stage 18 boss plane is worth 30,000 points.
+
+The stage 10 boss plane is worth 40,000 points.
+
+The stage 02 boss plane is worth 50,000 points.
+
+
+For all enemy planes that require more than one hit to kill, each hit on them gives 100 points.
+
+
+At the end of each stage a bonus is awarded for shooting down percentage and for unused loops :
+
+100% = Special bonus 50,000 points (the game displays 10,000 points bonus but 50,000 points are actually awarded)
+
+95-99% = 20,000 points
+
+90-94% = 10,000 points
+
+85-89% = 5,000 points
+
+80-84% = 4,000 points
+
+70-79% = 3,000 points
+
+60-69% = 2,000 points
+
+50-59% = 1,000 points
+
+Under 50% = 0 points
+
+Unused loops are 1,000 points each.
+
+
+Finishing the final stage awards 10,000,000 points.
+
+
+- TIPS AND TRICKS -
+
+
+* On stages 27, 20, 15, 08, and 04, a V-formation of red planes will come straight down from the top. If all 5 of the planes are destroyed, a Black/Red POW appears, giving the player an extra airplane when picked up.
+
+
+* On stages with the wingmang powerups, use them to kill off the large bombers easily by crashing a wingman into them. You will get a second chance to get them back later on.
+
+
+* On the stages with the boss planes, save all your loops; shoot at it quickly, loop down to avoid the shots, shoot at it again and THEN loop. You should be able to kill it this way.
+
+
+* Most of the time it is easier to keep only one wingman rather than both; that way it's easier to maneuver around enemies. If you miss the red airplanes that give you the wingman powerup, kill off your plane (assuming you have some remaining) and the game will place you back before them.
+
+
+* An interesting bug : If you win an extra plane from points when killing a boss plane, no extra planes will be awarded on the basis of points. Extra planes can still be obtained by getting the Black/Red POW, but no point-based bonuses will be awarded for the rest of the game.
+
+
+* The end of stage bonus for 100% shooting down is actually 50,000 points, even though the game displays a 'special' bonus of only 10,000 points.
+
+
+When the player loses all of his ships, the game offers to continue for another credit. If this option is chosen, the game continues where it left off but the score is reset to zero.
+
+
+* There are 6 kinds of powerups : Quad fire, destroy all enemies on screen, 2 wingmen, make enemies stop shooting temporarily, extra loop, and extra life. Note that the destroy all enemies powerup does not destroy the small slow plane that has the 5,000 bonus item pickup.
+
+
+Quad fire powerups are found on stages 32, 28, 24, 20, 16, 12, 08, and 04.
+
+Destroy all enemies powerups are found on stages 31, 21, 19, 18, 11, 07, 03, and 01.
+
+Wingman powerups are found on stages 30, 26, 22, 18, 14, 10, 06, and 02.
+
+Extra life powerups are found on stages 27, 20, 15, 08, and 04.
+
+Stop shooting powerups are found on stages 27 and 15.
+
+Extra loop powerups are found on stages 23, 18, 17, 13, 09, and 05.
+
+
+* % and point up stages are 29, 25, 21, 17, 13, 09, 05, 01. During these stages none of the enemies fire on the player except the large bomber planes.
+
+
+* If the player earns enough bonus planes so that 10 ships or more are in the reserve, the 10 remaining ships indicators are replaced by the Greek letter sigma (&#931;).
+
+
+- SERIES -
+
+
+1. 1942 (1984)
+
+2. 1943 - The Battle of Midway (1987)
+
+3. 1943 Kai - Midway Kaisen (1988)
+
+4. 1941 - Counter Attack (1990)
+
+5. 19XX - The War Against Destiny (1995)
+
+6. 1944 - The Loop Master (2000)
+
+
+- STAFF -
+
+
+Designed & programmed by : Yoshiki Okamoto
+
+
+- PORTS -
+
+
+* Consoles :
+
+Nintendo Famicom (1985)
+
+Sony PlayStation (1998, "Capcom Generation 1")
+
+Sega Saturn (1998, "Capcom Generation 1")
+
+Nintendo Game Boy Color (2000)
+
+Sony PlayStation 2 (2005, "Capcom Classics Collection")
+
+Microsoft XBOX (2005, "Capcom Classics Collection")
+
+Sony PSP (2006, "Capcom Classics Collection Reloaded")
+
+Sony PlayStation 3 (2008, "1942: Joint Strike" - PlayStation Network) (remake with 3-D graphics)
+
+Microsoft XBOX 360 (2008, "1942: Joint Strike" - Xbox Live Arcade) (remake with 3-D graphics)
+
+
+* Computers :
+
+Sinclair ZX Spectrum (1986)
+
+Commodore C64 (1986)
+
+MSX2 (1986)
+
+Amstrad CPC (1986)
+
+MSX (1987)
+
+FM-7 (1987 - ascii)
+
+PC [CD-ROM] (2003, "Capcom Coin-Op Collection Volume 1")
+
+PC [CD-ROM] (2003, "Capcom Arcade Hits Volume 2")
+
+
+- SOURCES -
+
+
+Game's rom.
+
+Machine's picture.
+
+$end
+
+
+$info=1943kai,
+$<a href="http://www.arcade-history.com/?n=1943-kai-midway-kaisen&page=detail&id=9&o=2" title="Edit this entry at Arcade-History.com">Edit this entry at Arcade-History.com</a>
+$bio
+
+1943 Kai - Midway Kaisen (c) 1988 Capcom.
+
+
+Control a WWII airplane fighting against small airplanes and big airplanes.
+
+
+- TECHNICAL -
+
+
+Main CPU : Z80 (@ 6 Mhz)
+
+Sound CPU : Z80 (@ 3 Mhz)
+
+Sound Chips : (2x) YM2203 (@ 1.5 Mhz)
+
+
+Screen orientation : Vertical
+
+Video resolution : 224 x 256 pixels
+
+Screen refresh : 60.00 Hz
+
+Palette colors : 256
+
+
+Players : 2
+
+Control : 8-way joystick
+
+Buttons : 2
+
+
+- TRIVIA -
+
+
+Released in June 1988.
+
+
+The title of this game translates from Japanese as "1943 Modified - Midway Naval Battle".
+
+
+This update of "1943 - The Battle of Midway" was only released to arcades in Japan; it was only released in the US to home systems (see Ports below).
+
+
+Default High-score table ('Ranking best 5') :
+
+1ST 200000 TAE
+
+2ND 150000 YAM
+
+3RD 100000 POO
+
+4TH 70000 MR.
+
+5TH 50000 BLB
+
+
+Pony Canyon / Scitron released a limited-edition soundtrack album for this game (Daimakaimura : G.S.M. Capcom 1 - D28B-0011) on 11/01/1989.
+
+
+- UPDATES -
+
+
+"1943 Kai - Midway Kaisen" has different graphics and gameplay and is slightly harder than "1943 - The Battle of Midway".
+
+
+- TIPS AND TRICKS -
+
+
+* Choose Your Weapon : Hold these buttons at the beginning of each stage to activate the weapon...
+
+Stage 1 for a Shot Gun, press 1P side Right and 2P side Upright.
+
+Stage 2 for a Laser, press 1P side Upleft and 2P side Down+B.
+
+Stage 3 for a 3-way, press 1P side A and 2P side Upleft.
+
+Stage 4 for a 3-way, press 1P side Downleft+A and 2P side Up+A.
+
+Stage 5 for a Shell, press 1P side Left and 2P side Downright+A.
+
+Stage 6 for a Laser, press 1P side Downleft+B and 2P side Upleft+A.
+
+Stage 7 for a 3-way, press 1P side Down+A+B and 2P side B.
+
+Stage 8 for a Laser, press 1P side Downleft+B and 2P side Down+A.
+
+Stage 9 for a Shell, press 1P side Upleft+B and 2P side Downright+A+B.
+
+Stage 10 for a 3-way, press 1P side Up+A and 2P side Upleft.
+
+
+* Hint : If you see an icon shaped like a mountain, get it - it will give you the laser! (This bonus will not appear in every game, or at any particular level).
+
+
+- SERIES -
+
+
+1. 1942 (1984)
+
+2. 1943 - The Battle of Midway (1987)
+
+3. 1943 Kai - Midway Kaisen (1988)
+
+4. 1941 - Counter Attack (1990)
+
+5. 19XX - The War Against Destiny (1995)
+
+6. 1944 - The Loop Master (2000)
+
+
+- STAFF -
+
+
+Designers : Noritaka Funamizu (Poo), Dechikun
+
+Producer : Yoshiki Okamoto (Kikaji O.)
+
+Character designers : Naoko Sato, Miki Chan, Kawamoyan, Aho no Sakata
+
+Music & SFX : Yoshihiro Sakaguchi
+
+Additional music : Junko Tamiya (stage 1-1), Manami Matsumae (stage 1-2), Harumi Fujita (stages 2-2 and 3-1)
+
+Hardware : Panchi Kubozoo (Punch Kubozoo), Jumbo Saito
+
+Programming : BLBON
+
+
+- PORTS -
+
+
+* Consoles :
+
+NEC PC-Engine (1991)
+
+Sony PlayStation (1998, "Capcom Generation 1")
+
+Sega Saturn (1998, "Capcom Generation 1")
+
+Sony PlayStation 2 (2005, "Capcom Classics Collection")
+
+Microsoft XBOX (2005, "Capcom Classics Collection")
+
+Sony PSP (2006, "Capcom Classics Collection Reloaded")
+
+
+- SOURCES -
+
+
+Game's rom.
+
+$end
+
+
+$info=aof,
+$<a href="http://www.arcade-history.com/?n=art-of-fighting&page=detail&id=116&o=2" title="Edit this entry at Arcade-History.com">Edit this entry at Arcade-History.com</a>
+$bio
+
+Art of Fighting (c) 1992 SNK.
+
+
+An early Neo-Geo martial arts fighting game with 2 selectable characters in 1-player mode and 8 selectable characters in 2-player mode which also features a long-nosed end boss. Progressive damage is shown on each fighter's face for a dramatic effect.
+
+
+- TECHNICAL -
+
+
+SNK Neo-Geo MVS hardware
+
+Game ID : 0044
+
+
+Main CPU : 68000 (@ 12 Mhz)
+
+Sound CPU : Z80 (@ 4 Mhz)
+
+Sound Chips : YM2610 (@ 8 Mhz)
+
+
+Screen orientation : Horizontal
+
+Video resolution : 320 x 224 pixels
+
+Screen refresh : 59.19 Hz
+
+Palette colors : 4096
+
+
+Players : 2
+
+Control : 8-way joystick
+
+Buttons : 4
+
+= > [A] Punching attack, [B] Kicking attack, [C] Throw enemy, [D] Taunt
+
+
+- TRIVIA -
+
+
+Released in September 1992.
+
+
+This game is known in Japan as "Ryuuko no Ken" (translates from Japanese as 'Dragon and Tiger Fist').
+
+
+A bootleg of this game is known as "Fit of Fighting".
+
+
+SNK's second fighting-game franchise. It was the first fighting game by SNK to feature the character designs of former SNK illustrator Shinkiro, who would go on to do the character designs for the later "Fatal Fury" and "The King of Fighters" games.
+
+
+This is the first fighting game to feature the 'camera zoom' - where the camera zooms in when the fighters are close together and zooms out when the fighters move away from each other. This is also the first fighting game to utilize a 'spirit meter'. Every time a special move is executed the spirit meter is depleted accordingly. The more powerful the special move, the more it depletes. When it's empty special moves can't be done anymore, however, you can recharge the spirit meter by standing still and holding the A or B button leaving you totally defenseless.
+
+
+The Haou Shokou Ken was referred to as the Haou Ken (or as the game put it, the 'Haow-Ken'). Its similarity to Ryu's (of "Street Fighter" fame) Hadou Ken forced the name change.
+
+
+The character's fighting stance and their victory pose depends on how beaten up they are.
+
+
+- TIPS AND TRICKS -
+
+
+* Play as Todoh, Jack, Lee, King, Micky and John : player 2 must join.
+
+
+* Play as Mr. Big and Mr. Karate : reach them on 1P Game, then player 2 must join.
+
+
+* Move Command Delay : its possible to input the commands for any special or super move but it is not necessary to press the corresponding attack button right away, this allows you to delay any move for as long as you want in order to surprise an opponent! This trick also enables you to perform slower versions of some special moves such as projectile attacks. Try it! :)
+
+
+- SERIES -
+
+
+1. Art of Fighting (1992)
+
+2. Art of Fighting 2 (1994)
+
+3. Art of Fighting 3 - The Path of the Warrior (1996)
+
+
+- STAFF -
+
+
+Producer : Eikichi Kawasaki
+
+Directors : Finish Hiroshi, Dog Akira, Matakichi.Chan, Mastang.2
+
+Programmers : John Guso, Cross.Moon D.S.K
+
+Obj. designers : Hatarakuogsan, Muta Teizon, Kama Kama, Tree.Village.Ken, Kylly Maclako, Pinkey.2, Lionheart, Tony Oki (Tony.R.Oki), Outim Amadok Eel, Toyochan, 7.7812.8270.Kubo, Ayustat Shin 25, I000.Taroh Age22, Gynos.Crash!, Dir Tetsuzan, 555 Zi5han, Ahokamen.Boke, Bo.Bo, Kiritao.Y, Gmhenson Jr
+
+Back designers : Muramama.2, Take.P, Shimachan, Moriyan, H Skallter, Ug
+
+Sound : Paciorek, Masahiko Hataya (Papaya), Yamapy-1, Jojoha Kitapy, Toshio Shimizm (as Shimizum)
+
+
+* Voice Actors :
+
+Ryo : Masaki Usui
+
+Robert : Eiji Yano
+
+King : Harumi Ikoma
+
+Lee : Eiji Yano
+
+Jack : ???
+
+John : ???
+
+Micky : ???
+
+Todo : ???
+
+
+- PORTS -
+
+
+* Consoles :
+
+Nintendo Super Famicom (1993)
+
+Sega Mega Drive (1994)
+
+NEC PC-Engine CD (1994)
+
+SNK Neo-Geo CD (1994)
+
+Sony PlayStation 2 (2006, "NeoGeo Online Collection Vol.4 : Art of Fighting")
+
+Nintendo Wii (2007, "Virtual Console")
+
+Sony PlayStation 2 (Apr.2008, "SNK Arcade Classics 1")
+
+Sony PSP (Apr.2008, "SNK Arcade Classics 1")
+
+
+- SOURCES -
+
+
+Game's rom.
+
+Machine's picture.
+
+$end
+
+
+$info=aof2,aof2a,
+$<a href="http://www.arcade-history.com/?n=art-of-fighting-2&page=detail&id=117&o=2" title="Edit this entry at Arcade-History.com">Edit this entry at Arcade-History.com</a>
+$bio
+
+Art of Fighting 2 (c) 1994 SNK.
+
+
+12 selectable characters are available in this martial arts fighting game, each showing progressive damage on their bodies during the fight.
+
+
+- TECHNICAL -
+
+
+SNK Neo-Geo MVS hardware
+
+Game ID : 0056
+
+
+Main CPU : 68000 (@ 12 Mhz)
+
+Sound CPU : Z80 (@ 4 Mhz)
+
+Sound Chips : YM2610 (@ 8 Mhz)
+
+
+Screen orientation : Horizontal
+
+Video resolution : 320 x 224 pixels
+
+Screen refresh : 59.19 Hz
+
+Palette colors : 4096
+
+
+Players : 2
+
+Control : 8-way joystick
+
+Buttons : 4
+
+=> [A] Punch [B] Kick, [C] Throw, [D] Psyche
+
+
+- TRIVIA -
+
+
+Released in March 1994.
+
+
+This game is known in Japan as "Ryuuko no Ken 2".
+
+
+Geese Howard's guest appearance (see 'Tips And Tricks' section) tries to tie this game's story with the Fatal Fury games. Apparently, this game takes place a few years before the events occurred in "Fatal Fury - King of Fighters" since Geese looks quite young and uses a very different fighting style (instead of his trademark Aikido which he learned in Japan). Another fact is the special ending when you defeat Geese (you get to see when he gives the order to eliminate Jeff Bogard who happens to be Terry & Andy Bogard's father, before he heads to Japan to learn that country's martial art techniques). This fact also explains why Ryo Sakazaki is so damn powerful in his "Fatal Fury Special" appearance (after all, he was already a powerful & skilled fighter and has had more time than most of the Fatal Fury characters to brush up on his techniques!). Obviously, all these storyline details were ignored in the King of Fighters series for the sake of convenience (All the "Art of Fighting" characters should be way older than the Fatal Fury characters in that game!).
+
+
+In Temjin's ending, Terry Bogard makes a guest appearance as a little boy!
+
+
+- UPDATES -
+
+
+The Japanese version features different voice actors for some characters (John Crawley, Robert Garcia & King).
+
+
+- TIPS AND TRICKS -
+
+
+Adjust the game difficulty setting up to level 8 in order to boost game's overall speed!
+
+
+It may be downright cheap & silly, but if you successfully manage to throw an opponent and then hit him with a special move as he gets up, you will dizzy your opponent! This can be done over and over again with most characters... :/
+
+
+Beat opponents with a special move at the end of the decisive round to see a special 'defeat' animation (some auto-combos & special moves that lift the opponent of the ground won't work though).
+
+
+Defeat all opponents in two rounds only to fight a special battle against Fatal Fury's main villain & owner of Southtown : Geese Howard (Notice that it is possible to use continues & use different characters as long as you defeat your opponents in 'two rounds only'!). :)
+
+
+- SERIES -
+
+
+1. Art of Fighting (1992)
+
+2. Art of Fighting 2 (1994)
+
+3. Art of Fighting 3 - The Path of the Warrior (1996)
+
+
+- STAFF -
+
+
+Objects designers : Soe Soe (Forever Soe-soe), Pinkey!(Boomer), Terarin, Hori Pu-
+
+Back up : Moriyan, Somatoreeno
+
+Programmers : John guso, Ma2
+
+Directed by : Dog.Gotoh, Shigeti
+
+
+* Voice Actors :
+
+Ryo, John : Masaki Usui
+
+Robert, Micky, Lee : Kazuhiro Inage (Key Inage)
+
+Yuri : Kaori Horie
+
+Takuma : Eiji Tsuda
+
+King : Harumi Ikoma
+
+Temjin, Kisaragi : Yoshinori Shima
+
+Big, Jack : ???
+
+
+- PORTS -
+
+
+* Consoles :
+
+SNK Neo-Geo CD (1994)
+
+Nintendo Super Famicom (1994)
+
+Sony PlayStation 2 (2006, "NeoGeo Online Collection Vol.4 : Art of Fighting")
+
+
+- SOURCES -
+
+
+Game's rom.
+
+Machine's picture.
+
+$end
+
+
+$info=aof3,
+$<a href="http://www.arcade-history.com/?n=art-of-fighting-3-the-path-of-the-warrior&page=detail&id=118&o=2" title="Edit this entry at Arcade-History.com">Edit this entry at Arcade-History.com</a>
+$bio
+
+Art of Fighting 3 - The Path of the Warrior (c) 1996 SNK.
+
+
+10 selectable characters battle each other in various locations in Mexico. Extremely beautiful and fluid animation courtesy of motion capture technology brings a whole new style of game-play to this popular fighting game.
+
+
+- TECHNICAL -
+
+
+SNK Neo-Geo MVS hardware
+
+Game ID : 0096
+
+
+Main CPU : 68000 (@ 12 Mhz)
+
+Sound CPU : Z80 (@ 4 Mhz)
+
+Sound Chips : YM2610 (@ 8 Mhz)
+
+
+Screen orientation : Horizontal
+
+Video resolution : 320 x 224 pixels
+
+Screen refresh : 59.19 Hz
+
+Palette colors : 4096
+
+
+Players : 2
+
+Control : 8-way joystick
+
+Buttons : 4
+
+=> [A] Punch [B] Kick [C] Hard brow [D] Raz
+
+
+- TRIVIA -
+
+
+Released in March 1996.
+
+
+This game is known in Japan as "Ryuuko no Ken Gaiden" (translates from Japanese as 'Dragon and Tiger Fist Side Story').
+
+
+In each character endings, you receive a nice hand-draw of the character on the 'Thank you for Playing' screen.
+
+
+The drawing Hoeh-Hoeh selects for Wang Koh San in the ending is random, there are 7 different ones.
+
+
+Pony Canyon / Scitron released a limited-edition soundtrack album for this game (Ryuuko no Ken Gaiden - PCCB-00212) on 03/04/1996.
+
+
+- TIPS AND TRICKS -
+
+
+* All characters have 2 colors, one is selected with the A button an the other one is chosen with the D button.
+
+
+* Play as Sinclair : Highlight Robert and press Left (or highlight Jin and press Right(x2)).
+
+
+* Play as Wyler : Highlight Robert and press Left(x2) (or highlight Jin and press Right).
+
+
+* Special Day (Birthday Gift) : Definitely one of the strangest tricks in fighting games, each character will be powered up on his birthday (able to perform Super Desperation Moves at any moment during the fight!).
+
+Kasumi Todo - March, 29
+
+Wang Koh-San - April, 17
+
+Lenny Criston - May, 20
+
+Karman Cole - June, 13
+
+Rody Births - July, 24
+
+Ryo Sakazaki - August, 2
+
+Jin-Fuha - September, 4
+
+Wyler - October, 22
+
+Sinclair - November, 14
+
+Robert Garcia - December, 25
+
+
+* Ultimate K.O. : Defeat an opponent in the first round by using your character's Super Desperation Move when the enemy's lifebar is 5% of less. If done correctly, you'll win the whole match in just a single round!
+
+
+* Finish the game without losing a round to get a comical hand drawn picture of the character after the credits.
+
+
+- SERIES -
+
+
+1. Art of Fighting (1992)
+
+2. Art of Fighting 2 (1994)
+
+3. Art of Fighting 3 - The Path of the Warrior (1996)
+
+
+- STAFF -
+
+
+Object designers : Heitarou, Black Tree, Futatsu!!, Higetoboin, UG, Ponda, Tohru, Pinkey-EX, Hori-pu~?, Terarin, Kattsun, Sumiccho, Nana, Ashizawan, Satopyon, Tani Tani, Koara, Rave Man, Sasa, K.Miya, Rolly(r), Tony Oki, ??....!
+
+Back designers : Muramama Eiko, Daisuke, Wa-Da-Mo, J K, Sho-Chan, Take-Pyon
+
+Programmers : MA2++, Yuritaro, Hiropon
+
+CG creaters : K-Asa, Aki.Yama, Demao.Sat, Seri
+
+Music composers : Yamapy-1, Masahiko Hataya (Papaya), Shibakichi
+
+Capture assisted by : Masa, Shin.T, Jeffrey Zoern, Raymond Ho.
+
+Producers : Takashi Nishiyama, Finish Hiroshi
+
+Directors : Go, Shigeri #3, Kim-Ken, Moai-Nao
+
+
+* Voice Actors :
+
+Ryo : Masaki Usui
+
+Robert : Mantaro Koichi
+
+Rody : Eiji Yano
+
+Lenny : Kumi Ishida
+
+Wang : Monster Maetsuka
+
+Karman : Mantaro Koichi
+
+Jin : Jai
+
+Sinclair : Harumi Ikoma
+
+Wyler : Monster Maetsuka
+
+
+- PORTS -
+
+
+* Consoles :
+
+SNK Neo-Geo CD (1996) : contains endings for the two secret characters (Sinclair & Wyler).
+
+Sony PlayStation 2 (2006, "NeoGeo Online Collection Vol.4 : Art of Fighting")
+
+
+- SOURCES -
+
+
+Game's rom.
+
+Machine's picture.
+
+$end
+
+## Newer version history.dat (1.76) file starts here
+
+$info=10yard,
+$bio
+
+10-Yard Fight (c) 1983 Electrocoin Automatics, Limited.
+
+Export version. Game developed in Japan by Irem Corp. For more information please see the original Japanese entry.
+
+- TRIVIA -
+
+Released by Electrocoin in the UK and Europe under license from Irem.
+
+- CONTRIBUTE -
+
+Edit this entry: http://www.arcade-history.com/?&page=detail&id=71326&o=2
+
+$end
+
+
+# This is aof in more recent history files, with the Japanese title rather than the English title from earlier releases
+$info=aofx,
+$bio
+
+龍虎の拳 (c) 1992 SNK Corp.
+(Ryuuko no Ken)
+
+An early Neo-Geo martial arts fighting game with 2 selectable characters in 1-player mode and 8 selectable characters in 2-player mode which also features a long-nosed end boss. Progressive damage is shown on each fighter's face for a dramatic effect.
+
+- TECHNICAL -
+
+Runs on the SNK "Neo-Geo MVS" hardware.
+Game ID : NGM-044
+
+$end
+
+
+## Newer version history.dat (1.93b) file starts here
+
+# This is aof with 1.93b, with an age-based description between the bio and title lines
+$info=aof2age,
+$bio
+
+A 24-year-old SNK Neo-Geo MVS Cart.
+
+龍虎の拳2 (c) 1994 SNK Corp.
+(Ryuuko no Ken 2)
+
+12 selectable characters are available in this martial arts fighting game, each showing progressive damage on their bodies during the fight.
+
+- TECHNICAL -
+
+Runs on the SNK "Neo-Geo MVS" hardware.
+
+$end

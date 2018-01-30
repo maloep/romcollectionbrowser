@@ -1,0 +1,46 @@
+<Data>
+    <baseImgUrl>http://thegamesdb.net/banners/</baseImgUrl>
+    <Game>
+        <id>291</id>
+        <GameTitle>Madden NFL 97</GameTitle>
+        <PlatformId>6</PlatformId>
+        <Platform>Super Nintendo (SNES)</Platform>
+        <ReleaseDate>10/01/1996</ReleaseDate>
+        <Overview>
+            Welcome to Madden NFL 97, the game that captures the excitement of a 30 yard touchdown pass, the strategy of
+            a well executed scoring drive, and the atmosphere of a crisp autumn afternoon in the stadium. Madden NFL 97
+            delivers state of the art graphics and sound -- and with modem and network support, it's ready to put your
+            competitive skills to the test.
+        </Overview>
+        <Genres>
+            <genre>Sports</genre>
+        </Genres>
+        <Co-op>No</Co-op>
+        <Publisher>Electronic Arts</Publisher>
+        <Developer>Electronic Arts</Developer>
+        <Similar>
+            <SimilarCount>3</SimilarCount>
+            <Game>
+                <id>4492</id>
+                <PlatformId>18</PlatformId>
+            </Game>
+            <Game>
+                <id>11292</id>
+                <PlatformId>17</PlatformId>
+            </Game>
+            <Game>
+                <id>39464</id>
+                <PlatformId>10</PlatformId>
+            </Game>
+        </Similar>
+        <Images>
+            <boxart side="back" width="1000" height="692" thumb="boxart/thumb/original/back/291-1.jpg">boxart/original/back/291-1.jpg</boxart>
+            <boxart side="front" width="1000" height="692" thumb="boxart/thumb/original/front/291-1.jpg">boxart/original/front/291-1.jpg</boxart>
+            <screenshot>
+                <original width="640" height="480">screenshots/291-1.jpg</original>
+                <thumb>screenshots/thumb/291-1.jpg</thumb>
+            </screenshot>
+            <clearlogo width="400" height="62">clearlogo/291.png</clearlogo>
+        </Images>
+    </Game>
+</Data>
