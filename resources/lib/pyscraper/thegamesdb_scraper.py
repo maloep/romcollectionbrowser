@@ -1,5 +1,4 @@
 import sys
-from datetime import datetime
 import xml.etree.ElementTree as ET
 from web_scraper import WebScraper
 from util import Logutil as log
@@ -124,7 +123,7 @@ class TheGamesDB_Scraper(WebScraper):
 		result['Genre'] = self._parse_genres(game.find("Genres"))
 
 		# Adjust the date
-		result['ReleaseYear'] = [self._parse_date(game.find("ReleaseDate").text)]
+		result['ReleaseYear'] = [self._parse_date(game.find("ReleaseDate").text, "%m/%d/%Y")]
 
 		# Prefix images with base url
 		for image in ['fanart', 'boxfront', 'boxback', 'screenshot']:
@@ -179,11 +178,6 @@ class TheGamesDB_Scraper(WebScraper):
 		print u"Found {0} results using ElementTree parser: {1}".format(len(results), results)
 
 		return results
-
-	# Parse a date string returned from TheGamesDB and extract the year as a string
-	# <ReleaseDate>08/27/1996</ReleaseDate>
-	def _parse_date(self, datestr):
-		return datetime.strptime(datestr, "%m/%d/%Y").strftime("%Y")
 
 	# FIXME TODO Do we add genres to a list? Or concat the string with a /? e.g. Fighting / Racing
 	def _parse_genres(self, sr):
