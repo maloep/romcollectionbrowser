@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 """
 python -m unittest discover -v resources/tests/ "test_dbupdate.py"
 """
@@ -5,6 +7,11 @@ python -m unittest discover -v resources/tests/ "test_dbupdate.py"
 import sys
 import os
 import unittest
+
+sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', '..', 'resources', 'lib'))
+sys.path.append(os.path.join(os.path.dirname(__file__), '..', '..', 'resources', 'lib', 'pyparsing'))
+sys.path.append(os.path.join(os.path.dirname(__file__), '..', '..', 'resources', 'lib', 'pyscraper'))
+
 from resources.lib.config import FileType
 from resources.lib.dbupdate import DBUpdate
 
@@ -25,6 +32,30 @@ class TestDbUpdate(unittest.TestCase):
 
         fname = dbu.getFoldernameFromRomFilename("Chrono Trigger (USA).zip")
         self.assertEqual(fname, "")
+
+    def test_AddNewElements(self):
+        ps = DBUpdate()
+        existingResults = {"SearchKey": ["Tekken 2"], "Publisher": []}
+        newResults = {"SearchKey": ["Tekken 3"], "Description": ["Tekken 2 description & history"],
+                      "Publisher": ["Namco"]}
+        existingResults = ps.addNewElements(existingResults, newResults)
+
+        self.assertIn("Description", existingResults, "Expected to add Description")
+        self.assertEqual(existingResults.get("SearchKey")[0], "Tekken 2",
+                         "Expected existing field SearchKey to not be overwritten (now {0})".format(
+                             existingResults.get("SearchKey")[0]))
+        self.assertEqual(existingResults.get("Publisher")[0], "Namco",
+                         "Expected existing but empty field Publisher to be overwritten")
+
+    def test_AddNewElementsUnicode(self):
+        ps = DBUpdate()
+        existingResults = {"SearchKey": ["Random Game"]}
+        newResults = {"Description": [u"'Super Keirin (スーパー競輪, Super Keirin) is a Japan-exclusive video game"]}
+        existingResults = ps.addNewElements(existingResults, newResults)
+
+        self.assertEqual(existingResults.get("Description")[0],
+                         u"'Super Keirin (スーパー競輪, Super Keirin) is a Japan-exclusive video game",
+                         "Expected Unicode string to be handled when adding new search result element")
 
     @unittest.skip("Not yet implemented")
     def test_getFilesByWildcard(self):

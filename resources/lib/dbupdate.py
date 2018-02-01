@@ -4,8 +4,10 @@ import getpass, glob
 import zipfile
 import time
 import urllib2
+import io
 
 import xbmcvfs
+import xbmcgui
 import fnmatch
 
 import util
@@ -15,9 +17,11 @@ from util import Logutil as log
 from config import *
 from gamedatabase import *
 from descriptionparserfactory import *
-from pyscraper.pyscraper import PyScraper
+from pyscraper.scraper import AbstractScraper
+from pyscraper.matcher import Matcher
 
 from nfowriter import NfoWriter
+from rcbexceptions import *
 
 #HACK: zlib isn't shipped with some linux distributions
 try:
@@ -49,10 +53,10 @@ class UpdateLogFile(object):
 
 	def add_entry(self, gamename, filename=None):
 		if filename is None:
-			msg = '{0}\n'.format(gamename)
+			msg = u'{0}\n'.format(gamename)
 		else:
-			msg = '{0}, {1}\n'.format(gamename, filename)
-		with open(self.fname, mode='a') as fh:
+			msg = u'{0}, {1}\n'.format(gamename, filename)
+		with io.open(self.fname, mode='a', encoding='utf-8') as fh:
 			fh.write(msg)
 
 
@@ -72,11 +76,11 @@ class MissingArtworkLogFile(UpdateLogFile):
 
 	def add_entry(self, gamename, filename=None, pathtype=None):
 		if filename is None:
-			msg = '--> No artwork found for game "{0}". Game will not be imported.\n'.format(gamename)
+			msg = u'--> No artwork found for game "{0}". Game will not be imported.\n'.format(gamename)
 		else:
-			msg = '{0} (filename: {1}) ({2})\n'.format(gamename, filename, pathtype)
+			msg = u'{0} (filename: {1}) ({2})\n'.format(gamename, filename, pathtype)
 
-		with open(self.fname, mode='a') as fh:
+		with io.open(self.fname, mode='a', encoding='utf-8') as fh:
 			fh.write(msg)
 
 
@@ -222,7 +226,7 @@ class DBUpdate(object):
 							if not continueUpdate:
 								continue
 
-							# use additional scrapers
+							# Use additional scrapers - Retrieve
 							if len(romCollection.scraperSites) > 1:
 								result, artScrapers = self.useSingleScrapers(result, romCollection, 1, gamenameFromFile, foldername, filenamelist[0], gui, progDialogRCHeader, fileCount)
 
@@ -340,7 +344,11 @@ class DBUpdate(object):
 								continueUpdate = False
 								break
 
-					except Exception, (exc):
+					except ScraperExceededAPIQuoteException as ke:
+						xbmcgui.Dialog().ok(util.localize(32128), "The API key for a scraper was exceeded")
+						# Abort the scraping entirely
+						break
+					except Exception as exc:
 						log.warn("an error occured while adding game {0}".format(gamenameFromFile))
 						log.warn("Error: {0}".format(exc))
 						self.missingDescFile.add_entry(gamenameFromFile)
@@ -559,39 +567,113 @@ class DBUpdate(object):
 
 		return True, isUpdate, gameId
 
-	def useSingleScrapers(self, result, romCollection, startIndex, gamenameFromFile, foldername, firstRomfile, progDialogRCHeader, fileCount):
+	def addNewElements(self, results, newResults):
+		""" Add fields from the results to the existing set of results, adding if new, replacing if empty. This allows
+		us to add fields from subsequent site scrapes that were missing or not available in previous sites.
 
+		Args:
+			results: Existing results dict from previous scrapes
+			newResults: Result dict from most recent scrape
+
+		Returns:
+			Updated dict of result fields
+		"""
+		try:
+			log.debug("Before merging results: {0} vs {1}".format(results.items(), newResults.items()))
+			# Retain any existing key values that aren't an empty list, overwrite all others
+			z = dict(newResults.items() + dict((k, v) for k, v in results.iteritems() if len(v) > 0).items())
+			log.debug("After merging results: {0}".format(z.items()))
+			return z
+		except Exception as e:
+			# Return original results without doing anything
+			log.warn("Error when merging results: {0}".format(e))
+			return results
+
+	def useSingleScrapers(self, result, romCollection, startIndex, gamenameFromFile, foldername, firstRomfile, progDialogRCHeader, fileCount):
+		"""Scrape site for game metadata
+
+		Args:
+			result:
+			romCollection:
+			startIndex:
+			gamenameFromFile:
+			foldername:
+			firstRomfile:
+			progDialogRCHeader:
+			fileCount:
+
+		Returns:
+			dict for the game result:
+				{'SearchKey': ['Chrono Trigger'],
+				 'Publisher': ['Squaresoft'],
+				 'Description': ["The millennium. A portal is opened. The chain of time is broken...],
+				 'Players': ['1'],
+				 'Platform': ['Super Nintendo (SNES)'],
+				 'Game': ['Chrono Trigger'],
+				 'Filetypeboxfront': ['http://thegamesdb.net/banners/boxart/original/front/1255-1.jpg'],
+				 'Filetypeboxback': ['http://thegamesdb.net/banners/boxart/original/back/1255-1.jpg'],
+				 'Filetypescreenshot': ['http://thegamesdb.net/banners/screenshots/1255-1.jpg', 'http://thegamesdb.net/banners/screenshots/1255-2.jpg', 'http://thegamesdb.net/banners/screenshots/1255-3.jpg', 'http://thegamesdb.net/banners/screenshots/1255-4.jpg', 'http://thegamesdb.net/banners/screenshots/1255-5.jpg'],
+				 'Filetypefanart': ['http://thegamesdb.net/banners/fanart/original/1255-1.jpg', 'http://thegamesdb.net/banners/fanart/original/1255-10.jpg', 'http://thegamesdb.net/banners/fanart/original/1255-11.jpg', 'http://thegamesdb.net/banners/fanart/original/1255-2.jpg', 'http://thegamesdb.net/banners/fanart/original/1255-3.jpg', 'http://thegamesdb.net/banners/fanart/original/1255-4.jpg', 'http://thegamesdb.net/banners/fanart/original/1255-5.jpg', 'http://thegamesdb.net/banners/fanart/original/1255-6.jpg', 'http://thegamesdb.net/banners/fanart/original/1255-7.jpg', 'http://thegamesdb.net/banners/fanart/original/1255-8.jpg', 'http://thegamesdb.net/banners/fanart/original/1255-9.jpg'],
+				 'Genre': ['Role-Playing'],
+				 'Developer': ['Squaresoft']}
+			dict for artwork urls:
+				{'Filetypefanart': 'thegamesdb.net', 'Filetypeboxback': 'thegamesdb.net', 'Filetypescreenshot': 'thegamesdb.net', 'Filetypeboxfront': 'thegamesdb.net'}
+				Note - this only contains entries for artwork that was found (i.e. is not empty list)
+		"""
 		filecrc = ''
 		artScrapers = {}
+		gameresult = {}
 
 		for idx, scraperSite in enumerate(romCollection.scraperSites):
 
-			self._gui.writeMsg(progDialogRCHeader, util.localize(32123) + ": " + gamenameFromFile, scraperSite.name + " - " + util.localize(32131), fileCount)
-			log.info("Using site {0} with {1} scrapers".format(scraperSite.name, len(scraperSite.scrapers)))
-
-			if scraperSite.searchGameByCRC and filecrc == '':
-				filecrc = self.getFileCRC(firstRomfile)
-
-			urlsFromPreviousScrapers = []
-			doContinue = False
-			for scraper in scraperSite.scrapers:
-				log.debug("Retrieving results for scraper {0} - {1}".format(idx, scraper.source))
-				pyScraper = PyScraper()
-				result, urlsFromPreviousScrapers, doContinue = pyScraper.scrapeResults(result, scraper, urlsFromPreviousScrapers, gamenameFromFile, foldername, filecrc, firstRomfile, romCollection, self.Settings)
-				del pyScraper
-			log.debug("Completed site {0}".format(scraperSite.name))
-			if doContinue:
+			try:
+				newscraper = AbstractScraper().get_scraper_by_name(scraperSite.name)
+				results = newscraper.search(gamenameFromFile, romCollection.name)
+				log.debug(u"Searching for {0} - found {1} results: {2}".format(gamenameFromFile, len(results), results))
+			except ScraperExceededAPIQuoteException as ke:
+				# API key is invalid - we need to stop scraping
+				log.error("Scraper exceeded API key, stopping scraping")
+				raise
+			except Exception as e:
+				log.error("Error searching for {0} using scraper {1} - {2} {3}".format(gamenameFromFile, scraperSite.name, type(e), e))
 				continue
 
+			if results == []:
+				log.warn("No search results found for {0} using scraper {1}".format(gamenameFromFile, scraperSite.name))
+				continue
+
+			matched = Matcher().getBestResults(results, gamenameFromFile)
+			if matched is None:
+				log.error("No matches found for {0}, skipping".format(gamenameFromFile))
+				continue
+			log.debug("After matching: {0}".format(matched))
+
+			try:
+				retrievedresult = newscraper.retrieve(matched['id'])
+				log.debug(u"Retrieving {0} - found {1}".format(matched['id'], retrievedresult))
+			except Exception as e:
+				# FIXME TODO Catch exceptions specifically
+				log.error("Error retrieving {0} - {1} {2}".format(matched['id'], type(e), e))
+				continue
+
+			# Update the gameresult with any new fields
+			gameresult = self.addNewElements(gameresult, retrievedresult)
+
+			self._gui.writeMsg(progDialogRCHeader, util.localize(32123) + ": " + gamenameFromFile,
+							   scraperSite.name + " - " + util.localize(32131), fileCount)
+
 			# Find Filetypes and Scrapers for Art Download
-			if len(result) > 0:
+			# FIXME TODO The following is kept to keep artwork downloading working as it currently is. We already have
+			# the URLs and so could handle/download here, rather than deferring
+			if len(gameresult) > 0:
 				for path in romCollection.mediaPaths:
 					thumbKey = 'Filetype' + path.fileType.name
-					if len(self.resolveParseResult(result, thumbKey)) > 0:
+					if len(self.resolveParseResult(gameresult, thumbKey)) > 0:
 						if (thumbKey in artScrapers) == 0:
 							artScrapers[thumbKey] = scraperSite.name
 
-		return result, artScrapers
+		log.debug(u"After scraping, result = {0}, artscrapers = {1}".format(gameresult, artScrapers))
+		return gameresult, artScrapers
 
 	def insertGameFromDesc(self, gamedescription, gamename, romCollection, filenamelist, foldername, isUpdate, gameId, isLocalArtwork):
 
@@ -709,7 +791,7 @@ class DBUpdate(object):
 				writer.createNfoFromDesc(gamename, plot, romCollection.name, publisher, developer, year,
 					players, rating, votes, url, region, media, perspective, controller, originalTitle, alternateTitle, version, genreList, isFavorite, launchCount, romFiles[0], gamenameFromFile, artworkfiles, artworkurls)
 			except Exception as e:
-				log.warn("Unable to write NFO file for game {0}: {1}".format(gamename, e))
+				log.warn(u"Unable to write NFO file for game {0}: {1}".format(gamename, e))
 
 		del publisher, developer, year
 
@@ -777,7 +859,7 @@ class DBUpdate(object):
 		# Check if exists and insert/update as appropriate; move this functionality to the Game object
 		try:
 			if not isUpdate:
-				log.info("Game does not exist in database. Insert game: {0}".format(gameName))
+				log.info(u"Game does not exist in database. Insert game: {0}".format(gameName))
 				Game(self.gdb).insert((gameName, description, None, None, romCollectionId, publisherId, developerId, reviewerId, yearId,
 					players, rating, votes, url, region, media, perspective, controller, int(isFavorite), int(launchCount), originalTitle, alternateTitle, translatedBy, version))
 				return self.gdb.cursor.lastrowid
@@ -788,18 +870,18 @@ class DBUpdate(object):
 					allowOverwriteWithNullvalues = self.Settings.getSetting(util.SETTING_RCB_ALLOWOVERWRITEWITHNULLVALUES).upper() == 'TRUE'
 					log.info("allowOverwriteWithNullvalues: {0}".format(allowOverwriteWithNullvalues))
 
-					log.info("Game does exist in database. Update game: {0}".format(gameName))
+					log.info(u"Game does exist in database. Update game: {0}".format(gameName))
 					Game(self.gdb).update(('name', 'description', 'romCollectionId', 'publisherId', 'developerId', 'reviewerId', 'yearId', 'maxPlayers', 'rating', 'numVotes',
 						'url', 'region', 'media', 'perspective', 'controllerType', 'originalTitle', 'alternateTitle', 'translatedBy', 'version', 'isFavorite', 'launchCount'),
 						(gameName, description, romCollectionId, publisherId, developerId, reviewerId, yearId, players, rating, votes, url, region, media, perspective, controller,
 						originalTitle, alternateTitle, translatedBy, version, int(isFavorite), int(launchCount)),
 						gameId, allowOverwriteWithNullvalues)
 				else:
-					log.info("Game does exist in database but update is not allowed for current rom collection. game: {0}".format(gameName))
+					log.info(u"Game does exist in database but update is not allowed for current rom collection. game: {0}".format(gameName))
 
 				return gameId
 		except Exception, (exc):
-			log.error("An error occured while adding game '{0}'. Error: {1}".format(gameName, exc))
+			log.error(u"An error occured while adding game '{0}'. Error: {1}".format(gameName, exc))
 			return None
 
 	def insertForeignKeyItem(self, result, itemName, gdbObject):
@@ -1031,10 +1113,10 @@ class DBUpdate(object):
 				resultValue = resultValue.decode('utf-8')
 
 		except Exception, (exc):
-			log.warn("Error while resolving item: {0}: {1}".format(itemName, exc))
+			log.warn(u"Error while resolving item: {0}: {1}".format(itemName, exc))
 
 		try:
-			log.debug("Result {0} = {1}".format(itemName, resultValue))
+			log.debug(u"Result {0} = {1}".format(itemName, resultValue))
 		except:
 			pass
 
