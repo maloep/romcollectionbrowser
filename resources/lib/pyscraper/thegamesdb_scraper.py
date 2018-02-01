@@ -20,7 +20,7 @@ class TheGamesDB_Scraper(WebScraper):
 
 	# Mapping between the dict keys and the XML fields in the response
 	_game_mapping = {
-		'Name': 'GameTitle',
+		'Game': 'GameTitle',
 		'Description': 'Overview',
 		'Publisher': 'Publisher',
 		'Developer': 'Developer',
