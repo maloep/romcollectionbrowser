@@ -59,6 +59,7 @@ class Test_GamesDBScraper(unittest.TestCase):
             data = xmlfile.read()
         result = scraper._parseGameResult(data)
         self.assertIsInstance(result, dict, "Return value of parseGameResult should be a dict")
+        self.assertEqual(result['Game'], ["Tekken 2"], "Expected game name value to be set")
         self.assertEqual(result['Publisher'], ["Namco"], "Expected publisher value to be set")
         self.assertTrue(result['Description'][0].startswith("MORE THAN A SEQUEL. THE UNDISPUT"), "Expected description value to be set")
 
