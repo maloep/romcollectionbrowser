@@ -4,6 +4,7 @@ import getpass, glob
 import zipfile
 import time
 import urllib2
+import io
 
 import xbmcvfs
 import xbmcgui
@@ -52,10 +53,10 @@ class UpdateLogFile(object):
 
 	def add_entry(self, gamename, filename=None):
 		if filename is None:
-			msg = '{0}\n'.format(gamename)
+			msg = u'{0}\n'.format(gamename)
 		else:
-			msg = '{0}, {1}\n'.format(gamename, filename)
-		with open(self.fname, mode='a') as fh:
+			msg = u'{0}, {1}\n'.format(gamename, filename)
+		with io.open(self.fname, mode='a', encoding='utf-8') as fh:
 			fh.write(msg)
 
 
@@ -75,11 +76,11 @@ class MissingArtworkLogFile(UpdateLogFile):
 
 	def add_entry(self, gamename, filename=None, pathtype=None):
 		if filename is None:
-			msg = '--> No artwork found for game "{0}". Game will not be imported.\n'.format(gamename)
+			msg = u'--> No artwork found for game "{0}". Game will not be imported.\n'.format(gamename)
 		else:
-			msg = '{0} (filename: {1}) ({2})\n'.format(gamename, filename, pathtype)
+			msg = u'{0} (filename: {1}) ({2})\n'.format(gamename, filename, pathtype)
 
-		with open(self.fname, mode='a') as fh:
+		with io.open(self.fname, mode='a', encoding='utf-8') as fh:
 			fh.write(msg)
 
 
@@ -671,6 +672,7 @@ class DBUpdate(object):
 						if (thumbKey in artScrapers) == 0:
 							artScrapers[thumbKey] = scraperSite.name
 
+		log.debug(u"After scraping, result = {0}, artscrapers = {1}".format(gameresult, artScrapers))
 		return gameresult, artScrapers
 
 	def insertGameFromDesc(self, gamedescription, gamename, romCollection, filenamelist, foldername, isUpdate, gameId, isLocalArtwork):
@@ -789,7 +791,7 @@ class DBUpdate(object):
 				writer.createNfoFromDesc(gamename, plot, romCollection.name, publisher, developer, year,
 					players, rating, votes, url, region, media, perspective, controller, originalTitle, alternateTitle, version, genreList, isFavorite, launchCount, romFiles[0], gamenameFromFile, artworkfiles, artworkurls)
 			except Exception as e:
-				log.warn("Unable to write NFO file for game {0}: {1}".format(gamename, e))
+				log.warn(u"Unable to write NFO file for game {0}: {1}".format(gamename, e))
 
 		del publisher, developer, year
 
@@ -857,7 +859,7 @@ class DBUpdate(object):
 		# Check if exists and insert/update as appropriate; move this functionality to the Game object
 		try:
 			if not isUpdate:
-				log.info("Game does not exist in database. Insert game: {0}".format(gameName))
+				log.info(u"Game does not exist in database. Insert game: {0}".format(gameName))
 				Game(self.gdb).insert((gameName, description, None, None, romCollectionId, publisherId, developerId, reviewerId, yearId,
 					players, rating, votes, url, region, media, perspective, controller, int(isFavorite), int(launchCount), originalTitle, alternateTitle, translatedBy, version))
 				return self.gdb.cursor.lastrowid
@@ -868,18 +870,18 @@ class DBUpdate(object):
 					allowOverwriteWithNullvalues = self.Settings.getSetting(util.SETTING_RCB_ALLOWOVERWRITEWITHNULLVALUES).upper() == 'TRUE'
 					log.info("allowOverwriteWithNullvalues: {0}".format(allowOverwriteWithNullvalues))
 
-					log.info("Game does exist in database. Update game: {0}".format(gameName))
+					log.info(u"Game does exist in database. Update game: {0}".format(gameName))
 					Game(self.gdb).update(('name', 'description', 'romCollectionId', 'publisherId', 'developerId', 'reviewerId', 'yearId', 'maxPlayers', 'rating', 'numVotes',
 						'url', 'region', 'media', 'perspective', 'controllerType', 'originalTitle', 'alternateTitle', 'translatedBy', 'version', 'isFavorite', 'launchCount'),
 						(gameName, description, romCollectionId, publisherId, developerId, reviewerId, yearId, players, rating, votes, url, region, media, perspective, controller,
 						originalTitle, alternateTitle, translatedBy, version, int(isFavorite), int(launchCount)),
 						gameId, allowOverwriteWithNullvalues)
 				else:
-					log.info("Game does exist in database but update is not allowed for current rom collection. game: {0}".format(gameName))
+					log.info(u"Game does exist in database but update is not allowed for current rom collection. game: {0}".format(gameName))
 
 				return gameId
 		except Exception, (exc):
-			log.error("An error occured while adding game '{0}'. Error: {1}".format(gameName, exc))
+			log.error(u"An error occured while adding game '{0}'. Error: {1}".format(gameName, exc))
 			return None
 
 	def insertForeignKeyItem(self, result, itemName, gdbObject):
@@ -1111,10 +1113,10 @@ class DBUpdate(object):
 				resultValue = resultValue.decode('utf-8')
 
 		except Exception, (exc):
-			log.warn("Error while resolving item: {0}: {1}".format(itemName, exc))
+			log.warn(u"Error while resolving item: {0}: {1}".format(itemName, exc))
 
 		try:
-			log.debug("Result {0} = {1}".format(itemName, resultValue))
+			log.debug(u"Result {0} = {1}".format(itemName, resultValue))
 		except:
 			pass
 
