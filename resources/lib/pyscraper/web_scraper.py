@@ -1,5 +1,7 @@
 import re
 import requests
+from datetime import datetime
+import time
 
 from xbmcaddon import Addon
 
@@ -170,3 +172,23 @@ class WebScraper(AbstractScraper):
 
         # Need to ensure we are sending back Unicode text
         return r.text.encode('utf-8')
+
+    def _parse_date(self, datestr, fmt):
+        """Extract the year from a given date string using a given format. This function is used to cater for
+        an edge case identified in https://forum.kodi.tv/showthread.php?tid=112916&pid=1214507#pid1214507.
+
+        Args:
+        	datestr: Input date
+        	fmt: Expected date format of input date
+
+        Returns:
+            Year as a %Y format string
+        """
+        if datestr is None:
+            return '1970'
+
+        try:
+            return datetime.strptime(datestr, fmt).strftime("%Y")
+        except TypeError as e:
+            log.warn("Unable to parse date using strptime, falling back to time function")
+            return datetime(*(time.strptime(datestr, fmt)[5:8]))

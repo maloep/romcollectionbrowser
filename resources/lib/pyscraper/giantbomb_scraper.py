@@ -1,4 +1,3 @@
-from datetime import datetime
 from web_scraper import WebScraper
 from rcbexceptions import *
 from util import Logutil as log
@@ -79,7 +78,7 @@ class GiantBomb_Scraper(WebScraper):
 
 		for result in response['results']:
 			try:
-				year = self._parse_date(result['original_release_date'])
+				year = self._parse_date(result['original_release_date'], "%Y-%m-%d %H:%M:%S")
 				results.append({'id': result['id'],
 								'title': result['name'],
 								'releaseDate': year,
@@ -109,7 +108,7 @@ class GiantBomb_Scraper(WebScraper):
 
 		# Custom fields (i.e. ones that require special handling
 		# HACK - for compatibility we need to put each result in an array
-		result['ReleaseYear'] = [self._parse_date(response['original_release_date'])]
+		result['ReleaseYear'] = [self._parse_date(response['original_release_date'], "%Y-%m-%d %H:%M:%S")]
 		result['Developers'] = self._parse_developers(response['developers'])
 		result['Publishers'] = self._parse_publishers(response['publishers'])
 		result['Genre'] = self._parse_genres(response['genres'])
@@ -117,20 +116,6 @@ class GiantBomb_Scraper(WebScraper):
 		# FIXME TODO Artwork and images are quite cumbersome to get from giantbomb search results
 
 		return result
-
-	def _parse_date(self, datestr):
-		"""Convert the release date into the expected format
-
-		Args:
-			datestr: Date string captured from the original_release_data, usually in format as per "1987-12-18 00:00:00"
-
-		Returns:
-			Year represented as a 4 digit string, e.g. "1987"
-
-		"""
-		if datestr is None:
-			return '1970'
-		return datetime.strptime(datestr, "%Y-%m-%d %H:%M:%S").strftime("%Y")
 
 	def _parse_developers(self, developers):
 		devs = []
