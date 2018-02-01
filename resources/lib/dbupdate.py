@@ -6,6 +6,7 @@ import time
 import urllib2
 
 import xbmcvfs
+import xbmcgui
 import fnmatch
 
 import util
@@ -342,7 +343,11 @@ class DBUpdate(object):
 								continueUpdate = False
 								break
 
-					except Exception, (exc):
+					except ScraperExceededAPIQuoteException as ke:
+						xbmcgui.Dialog().ok(util.localize(32128), "The API key for a scraper was exceeded")
+						# Abort the scraping entirely
+						break
+					except Exception as exc:
 						log.warn("an error occured while adding game {0}".format(gamenameFromFile))
 						log.warn("Error: {0}".format(exc))
 						self.missingDescFile.add_entry(gamenameFromFile)
