@@ -1,7 +1,5 @@
 
-import os, sys
 import getpass, glob
-import zipfile
 import time
 import urllib2
 import io
@@ -258,8 +256,7 @@ class DBUpdate(object):
 					# Abort the scraping entirely
 					break
 				except Exception as exc:
-					log.warn("an error occured while adding game {0}".format(gamenameFromFile))
-					log.warn("Error: {0}".format(exc))
+					log.warn(u"An error occurred while adding game {0}: {1}".format(gamenameFromFile, exc))
 					self.missingDescFile.add_entry(gamenameFromFile)
 
 					continue
