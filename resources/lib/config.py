@@ -342,9 +342,6 @@ class Site(object):
 	def __repr__(self):
 		return "<Site: %s>" % self.__dict__
 
-	def is_multigame_scraper(self):
-		return not self.descFilePerGame
-
 	def is_localartwork_scraper(self):
 		return self.name == util.localize(32153)
 
