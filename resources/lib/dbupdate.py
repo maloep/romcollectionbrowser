@@ -176,97 +176,93 @@ class DBUpdate(object):
 			# itemCount is used for percentage in ProgressDialogGUI
 			self._gui.itemCount = len(files) + 1
 
-			if firstScraper.is_multigame_scraper():
-				pass
-			else:
-				log.info("{0} is not multigame scraper".format(firstScraper.name))
-				successfulFiles = 0
-				lastgamename = ''
-				lastGameId = None
+			successfulFiles = 0
+			lastgamename = ''
+			lastGameId = None
 
-				for fileidx, filename in enumerate(files):
+			for fileidx, filename in enumerate(files):
 
-					try:
-						log.info("Scraping for {0}".format(filename))
-						gamenameFromFile = romCollection.getGamenameFromFilename(filename)
+				try:
+					log.info("Scraping for {0}".format(filename))
+					gamenameFromFile = romCollection.getGamenameFromFilename(filename)
 
-						# check if we are handling one of the additional disks of a multi rom game
-						isMultiRomGame = (gamenameFromFile == lastgamename)
-						lastgamename = gamenameFromFile
+					# check if we are handling one of the additional disks of a multi rom game
+					isMultiRomGame = (gamenameFromFile == lastgamename)
+					lastgamename = gamenameFromFile
 
-						if isMultiRomGame:
-							# Add this entry as a file under the game ID and move on
-							log.info("Detected {0} as a multirom game (previous game was {1}".format(filename, lastgamename))
-							if lastGameId is None:
-								log.error("Game detected as multi rom game, but lastGameId is None.")
-								continue
-							fileType = FileType()
-							fileType.id, fileType.name, fileType.parent = 0, "rcb_rom", "game"
-							self.insertFile(filename, lastGameId, fileType, None, None, None)
-							del fileType
+					if isMultiRomGame:
+						# Add this entry as a file under the game ID and move on
+						log.info("Detected {0} as a multirom game (previous game was {1}".format(filename, lastgamename))
+						if lastGameId is None:
+							log.error("Game detected as multi rom game, but lastGameId is None.")
 							continue
+						fileType = FileType()
+						fileType.id, fileType.name, fileType.parent = 0, "rcb_rom", "game"
+						self.insertFile(filename, lastGameId, fileType, None, None, None)
+						del fileType
+						continue
 
-						log.info("Start scraping info for game: {0}".format(gamenameFromFile))
+					log.info("Start scraping info for game: {0}".format(gamenameFromFile))
 
-						continueUpdate = self._gui.writeMsg(progDialogRCHeader, util.localize(32123) + ": " + gamenameFromFile, "", fileidx + 1)
-						if not continueUpdate:
-							log.info("Game import canceled by user")
+					continueUpdate = self._gui.writeMsg(progDialogRCHeader, util.localize(32123) + ": " + gamenameFromFile, "", fileidx + 1)
+					if not continueUpdate:
+						log.info("Game import canceled by user")
+						break
+
+					# check if this file already exists in DB
+					continueUpdate, isUpdate, gameId = self.checkRomfileAlreadyExists(filename,
+																					  enableFullReimport,
+																					  firstScraper.is_localartwork_scraper())
+					if not continueUpdate:
+						continue
+
+					results = {}
+					foldername = self.getFoldernameFromRomFilename(filename)
+
+					artScrapers = {}
+					if not firstScraper.is_localartwork_scraper():
+						results, artScrapers = self.useSingleScrapers(results, romCollection, 0, gamenameFromFile, foldername, filename, progDialogRCHeader, fileidx + 1)
+
+					if len(results) == 0:
+						#lastgamename = ""
+						results = None
+
+					# Variables to process Art Download Info
+					self._guiDict.update({'dialogHeaderKey': progDialogRCHeader, 'gameNameKey': gamenameFromFile,
+										  'scraperSiteKey': artScrapers, 'fileCountKey': (fileidx + 1)})
+					del artScrapers
+
+					# Add 'gui' and 'dialogDict' parameters to function
+					lastGameId = self.insertGameFromDesc(results, gamenameFromFile, romCollection, [filename], foldername, isUpdate, gameId, firstScraper.is_localartwork_scraper())
+					del results, foldername
+
+					if lastGameId is not None:
+						log.info("Successfully added {0}".format(gamenameFromFile))
+						successfulFiles += 1
+
+					# Check if all first 10 games have errors - Modified to allow user to continue on errors
+					if fileidx > 9 and successfulFiles == 0 and not ignoreErrors:
+						options = [util.localize(32124), util.localize(32125), util.localize(32126)]
+						answer = xbmcgui.Dialog().select(util.localize(32127), options)
+						if answer == 1:
+							# Continue and ignore errors
+							ignoreErrors = True
+						elif answer == 2:
+							# Cancel
+							xbmcgui.Dialog().ok(util.SCRIPTNAME, util.localize(32128), util.localize(32129))
+							continueUpdate = False
 							break
 
-						# check if this file already exists in DB
-						continueUpdate, isUpdate, gameId = self.checkRomfileAlreadyExists(filename,
-																						  enableFullReimport,
-																						  firstScraper.is_localartwork_scraper())
-						if not continueUpdate:
-							continue
+				except ScraperExceededAPIQuoteException as ke:
+					xbmcgui.Dialog().ok(util.localize(32128), "The API key for a scraper was exceeded")
+					# Abort the scraping entirely
+					break
+				except Exception as exc:
+					log.warn("an error occured while adding game {0}".format(gamenameFromFile))
+					log.warn("Error: {0}".format(exc))
+					self.missingDescFile.add_entry(gamenameFromFile)
 
-						results = {}
-						foldername = self.getFoldernameFromRomFilename(filename)
-
-						artScrapers = {}
-						if not firstScraper.is_localartwork_scraper():
-							results, artScrapers = self.useSingleScrapers(results, romCollection, 0, gamenameFromFile, foldername, filename, progDialogRCHeader, fileidx + 1)
-
-						if len(results) == 0:
-							#lastgamename = ""
-							results = None
-
-						# Variables to process Art Download Info
-						self._guiDict.update({'dialogHeaderKey': progDialogRCHeader, 'gameNameKey': gamenameFromFile,
-											  'scraperSiteKey': artScrapers, 'fileCountKey': (fileidx + 1)})
-						del artScrapers
-
-						# Add 'gui' and 'dialogDict' parameters to function
-						lastGameId = self.insertGameFromDesc(results, gamenameFromFile, romCollection, [filename], foldername, isUpdate, gameId, firstScraper.is_localartwork_scraper())
-						del results, foldername
-
-						if lastGameId is not None:
-							log.info("Successfully added {0}".format(gamenameFromFile))
-							successfulFiles += 1
-
-						# Check if all first 10 games have errors - Modified to allow user to continue on errors
-						if fileidx > 9 and successfulFiles == 0 and not ignoreErrors:
-							options = [util.localize(32124), util.localize(32125), util.localize(32126)]
-							answer = xbmcgui.Dialog().select(util.localize(32127), options)
-							if answer == 1:
-								# Continue and ignore errors
-								ignoreErrors = True
-							elif answer == 2:
-								# Cancel
-								xbmcgui.Dialog().ok(util.SCRIPTNAME, util.localize(32128), util.localize(32129))
-								continueUpdate = False
-								break
-
-					except ScraperExceededAPIQuoteException as ke:
-						xbmcgui.Dialog().ok(util.localize(32128), "The API key for a scraper was exceeded")
-						# Abort the scraping entirely
-						break
-					except Exception as exc:
-						log.warn("an error occured while adding game {0}".format(gamenameFromFile))
-						log.warn("Error: {0}".format(exc))
-						self.missingDescFile.add_entry(gamenameFromFile)
-
-						continue
+					continue
 
 			#timestamp2 = time.clock()
 			#diff = (timestamp2 - timestamp1) * 1000
