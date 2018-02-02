@@ -147,16 +147,13 @@ class NfoWriter(RcbXmlReaderWriter):
 				log.debug(u"Not writing NFO file for {0}".format(gameNameFromFile))
 				return
 
-			if nfoFile.startswith('smb://'):
-				localFile = util.joinPath(util.getTempDir(), os.path.basename(nfoFile))
-				tree.write(localFile, encoding="UTF-8", xml_declaration=True)
-				xbmcvfs.copy(localFile, nfoFile)
-				xbmcvfs.delete(localFile)
-			else:
-				tree.write(nfoFile, encoding="UTF-8", xml_declaration=True)
+			localFile = util.joinPath(util.getTempDir(), os.path.basename(nfoFile))
+			tree.write(localFile, encoding="UTF-8", xml_declaration=True)
+			xbmcvfs.copy(localFile, nfoFile)
+			xbmcvfs.delete(localFile)
 
-		except Exception, (exc):
-			Logutil.log(u"Error: Cannot write file game.nfo: {0}".format(exc), util.LOG_LEVEL_WARNING)
+		except Exception as exc:
+			log.warn(u"Error: Cannot write game nfo for {0}: {1}".format(gameNameFromFile, exc))
 
 	def getNfoFilePath(self, romCollectionName, romFile, gameNameFromFile):
 		nfoFile = ''
