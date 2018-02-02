@@ -110,30 +110,13 @@ class NfoWriter(RcbXmlReaderWriter):
 		Logutil.log("Begin createNfoFromDesc", util.LOG_LEVEL_INFO)
 
 		root = Element('game')
-		SubElement(root, 'title').text = title
-		SubElement(root, 'originalTitle').text = originalTitle
-		SubElement(root, 'alternateTitle').text = alternateTitle
-		SubElement(root, 'platform').text = platform
-		SubElement(root, 'plot').text = plot
-		SubElement(root, 'publisher').text = publisher
-		SubElement(root, 'developer').text = developer
-		SubElement(root, 'year').text = year
+		for elem in ['title', 'originalTitle', 'alternateTitle', 'platform', 'plot', 'publisher', 'developer', 'year',
+					 'detailUrl', 'maxPlayer', 'region', 'media', 'perspective', 'controller', 'version', 'rating',
+					 'votes', 'isFavorite', 'launchCount']:
+			SubElement(root, elem).text = locals()[elem]
 
 		for genre in genreList:
 			SubElement(root, 'genre').text = genre
-
-		SubElement(root, 'detailUrl').text = detailUrl
-		SubElement(root, 'maxPlayer').text = maxPlayer
-		SubElement(root, 'region').text = region
-		SubElement(root, 'media').text = media
-		SubElement(root, 'perspective').text = perspective
-		SubElement(root, 'controller').text = controller
-		SubElement(root, 'version').text = version
-		SubElement(root, 'rating').text = rating
-		SubElement(root, 'votes').text = votes
-
-		SubElement(root, 'isFavorite').text = isFavorite
-		SubElement(root, 'launchCount').text = launchCount
 
 		for artworktype in artworkfiles.keys():
 
@@ -151,7 +134,10 @@ class NfoWriter(RcbXmlReaderWriter):
 				Logutil.log('Error writing artwork url: ' + str(exc), util.LOG_LEVEL_WARNING)
 				pass
 
-		#write file
+		self.writeNfoElementToFile(root, platform, romFile, gameNameFromFile)
+
+	def writeNfoElementToFile(self, root, platform, romFile, gameNameFromFile):
+		# write file
 		try:
 			self.indentXml(root)
 			tree = ElementTree(root)
