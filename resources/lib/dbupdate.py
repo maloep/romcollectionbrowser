@@ -321,27 +321,6 @@ class DBUpdate(object):
 		d = os.path.dirname(filename)
 		return os.path.basename(d)
 
-	def matchDescriptionWithRomfiles(self, firstScraper, result, fileDict, gamenameFromDesc):
-
-		filenamelist = []
-
-		if firstScraper.searchGameByCRC or firstScraper.useFoldernameAsCRC or firstScraper.useFilenameAsCRC:
-			resultcrcs = result['crc']
-			for resultcrc in resultcrcs:
-				log.debug("crc in parsed result: {0}".format(resultcrc))
-				resultcrc = resultcrc.lower()
-				resultcrc = resultcrc.strip()
-				filenamelist = self.findFilesByGameDescription(resultcrc, fileDict)
-				if filenamelist is not None:
-					break
-		else:
-			log.info("game name in parsed result: {0}".format(gamenameFromDesc))
-			gamenameFromDesc = gamenameFromDesc.lower()
-			gamenameFromDesc = gamenameFromDesc.strip()
-			filenamelist = self.findFilesByGameDescription(gamenameFromDesc, fileDict)
-
-		return filenamelist
-
 	# FIXME TODO This is just a dict find; just do this where required, this function is redundant
 	def findFilesByGameDescription(self, key, fileDict):
 
