@@ -143,15 +143,17 @@ class NfoWriter(RcbXmlReaderWriter):
 			tree = ElementTree(root)
 
 			nfoFile = self.getNfoFilePath(platform, romFile, gameNameFromFile)
+			if nfoFile == '':
+				log.debug(u"Not writing NFO file for {0}".format(gameNameFromFile))
+				return
 
-			if(nfoFile != ''):
-				if(nfoFile.startswith('smb://')):
-					localFile = util.joinPath(util.getTempDir(), os.path.basename(nfoFile))
-					tree.write(localFile, encoding="UTF-8", xml_declaration=True)
-					xbmcvfs.copy(localFile, nfoFile)
-					xbmcvfs.delete(localFile)
-				else:
-					tree.write(nfoFile, encoding="UTF-8", xml_declaration=True)
+			if nfoFile.startswith('smb://'):
+				localFile = util.joinPath(util.getTempDir(), os.path.basename(nfoFile))
+				tree.write(localFile, encoding="UTF-8", xml_declaration=True)
+				xbmcvfs.copy(localFile, nfoFile)
+				xbmcvfs.delete(localFile)
+			else:
+				tree.write(nfoFile, encoding="UTF-8", xml_declaration=True)
 
 		except Exception, (exc):
 			Logutil.log(u"Error: Cannot write file game.nfo: {0}".format(exc), util.LOG_LEVEL_WARNING)
