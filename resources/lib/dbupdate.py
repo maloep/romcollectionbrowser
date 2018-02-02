@@ -219,7 +219,7 @@ class DBUpdate(object):
 
 					artScrapers = {}
 					if not firstScraper.is_localartwork_scraper():
-						results, artScrapers = self.useSingleScrapers(results, romCollection, 0, gamenameFromFile, foldername, filename, progDialogRCHeader, fileidx + 1)
+						results, artScrapers = self.useSingleScrapers(romCollection, gamenameFromFile, progDialogRCHeader, fileidx + 1)
 
 					if len(results) == 0:
 						#lastgamename = ""
@@ -321,27 +321,6 @@ class DBUpdate(object):
 		d = os.path.dirname(filename)
 		return os.path.basename(d)
 
-	def matchDescriptionWithRomfiles(self, firstScraper, result, fileDict, gamenameFromDesc):
-
-		filenamelist = []
-
-		if firstScraper.searchGameByCRC or firstScraper.useFoldernameAsCRC or firstScraper.useFilenameAsCRC:
-			resultcrcs = result['crc']
-			for resultcrc in resultcrcs:
-				log.debug("crc in parsed result: {0}".format(resultcrc))
-				resultcrc = resultcrc.lower()
-				resultcrc = resultcrc.strip()
-				filenamelist = self.findFilesByGameDescription(resultcrc, fileDict)
-				if filenamelist is not None:
-					break
-		else:
-			log.info("game name in parsed result: {0}".format(gamenameFromDesc))
-			gamenameFromDesc = gamenameFromDesc.lower()
-			gamenameFromDesc = gamenameFromDesc.strip()
-			filenamelist = self.findFilesByGameDescription(gamenameFromDesc, fileDict)
-
-		return filenamelist
-
 	# FIXME TODO This is just a dict find; just do this where required, this function is redundant
 	def findFilesByGameDescription(self, key, fileDict):
 
@@ -401,16 +380,12 @@ class DBUpdate(object):
 			log.warn("Error when merging results: {0}".format(e))
 			return results
 
-	def useSingleScrapers(self, result, romCollection, startIndex, gamenameFromFile, foldername, firstRomfile, progDialogRCHeader, fileCount):
+	def useSingleScrapers(self, romCollection, gamenameFromFile, progDialogRCHeader, fileCount):
 		"""Scrape site for game metadata
 
 		Args:
-			result:
 			romCollection:
-			startIndex:
 			gamenameFromFile:
-			foldername:
-			firstRomfile:
 			progDialogRCHeader:
 			fileCount:
 
@@ -432,7 +407,6 @@ class DBUpdate(object):
 				{'Filetypefanart': 'thegamesdb.net', 'Filetypeboxback': 'thegamesdb.net', 'Filetypescreenshot': 'thegamesdb.net', 'Filetypeboxfront': 'thegamesdb.net'}
 				Note - this only contains entries for artwork that was found (i.e. is not empty list)
 		"""
-		filecrc = ''
 		artScrapers = {}
 		gameresult = {}
 
