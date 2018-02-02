@@ -104,16 +104,16 @@ class NfoWriter(RcbXmlReaderWriter):
 		del progressDialog
 
 
-	def createNfoFromDesc(self, gamename, plot, romCollectionName, publisher, developer, year, players, rating, votes,
-						url, region, media, perspective, controller, originalTitle, alternateTitle, version, genreList, isFavorite, launchCount, romFile, gameNameFromFile, artworkfiles, artworkurls):
+	def createNfoFromDesc(self, title, plot, platform, publisher, developer, year, maxPlayer, rating, votes,
+						  detailUrl, region, media, perspective, controller, originalTitle, alternateTitle, version, genreList, isFavorite, launchCount, romFile, gameNameFromFile, artworkfiles, artworkurls):
 
 		Logutil.log("Begin createNfoFromDesc", util.LOG_LEVEL_INFO)
 
 		root = Element('game')
-		SubElement(root, 'title').text = gamename
+		SubElement(root, 'title').text = title
 		SubElement(root, 'originalTitle').text = originalTitle
 		SubElement(root, 'alternateTitle').text = alternateTitle
-		SubElement(root, 'platform').text = romCollectionName
+		SubElement(root, 'platform').text = platform
 		SubElement(root, 'plot').text = plot
 		SubElement(root, 'publisher').text = publisher
 		SubElement(root, 'developer').text = developer
@@ -122,8 +122,8 @@ class NfoWriter(RcbXmlReaderWriter):
 		for genre in genreList:
 			SubElement(root, 'genre').text = genre
 
-		SubElement(root, 'detailUrl').text = url
-		SubElement(root, 'maxPlayer').text = players
+		SubElement(root, 'detailUrl').text = detailUrl
+		SubElement(root, 'maxPlayer').text = maxPlayer
 		SubElement(root, 'region').text = region
 		SubElement(root, 'media').text = media
 		SubElement(root, 'perspective').text = perspective
@@ -156,7 +156,7 @@ class NfoWriter(RcbXmlReaderWriter):
 			self.indentXml(root)
 			tree = ElementTree(root)
 
-			nfoFile = self.getNfoFilePath(romCollectionName, romFile, gameNameFromFile)
+			nfoFile = self.getNfoFilePath(platform, romFile, gameNameFromFile)
 
 			if(nfoFile != ''):
 				if(nfoFile.startswith('smb://')):
