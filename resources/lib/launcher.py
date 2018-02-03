@@ -458,6 +458,19 @@ class RCBLauncher(object):
 				if not xbmcvfs.copy(os.path.join(oldBasePath, f), os.path.join(newBasePath, f)):
 					log.warn("Error copying file")
 
+	def __audioSuspend(self):
+		if xbmcaddon.Addon().getSetting(util.SETTING_RCB_SUSPENDAUDIO).upper() == 'TRUE':
+			log.debug("Suspending audio")
+			xbmc.executebuiltin("PlayerControl(Stop)")
+			xbmc.enableNavSounds(False)
+			xbmc.audioSuspend()
+
+	def __audioResume(self):
+		if xbmcaddon.Addon().getSetting(util.SETTING_RCB_SUSPENDAUDIO).upper() == 'TRUE':
+			log.debug("Resuming audio")
+			xbmc.audioResume()
+			xbmc.enableNavSounds(True)
+
 	def __launchNonXbox(self, cmd, romCollection, gameRow, settings, precmd, postcmd, roms, gui, listitem):
 		log.info("launchEmu on non-xbox")
 
@@ -528,12 +541,7 @@ class RCBLauncher(object):
 			except OSError:
 				pass
 
-		# pause audio
-		suspendAudio = settings.getSetting(util.SETTING_RCB_SUSPENDAUDIO).upper() == 'TRUE'
-		if suspendAudio:
-			xbmc.executebuiltin("PlayerControl(Stop)")
-			xbmc.enableNavSounds(False)
-			xbmc.audioSuspend()
+		self.__audioSuspend()
 
 		if romCollection.usePopen:
 			import subprocess
@@ -552,10 +560,7 @@ class RCBLauncher(object):
 			postDelay = int(float(postDelay))
 			xbmc.sleep(postDelay)
 
-		# resume audio
-		if suspendAudio:
-			xbmc.audioResume()
-			xbmc.enableNavSounds(True)
+		self.__audioResume()
 
 		# post launch command
 		if postcmd.strip() != '' and postcmd.strip() != 'call':
