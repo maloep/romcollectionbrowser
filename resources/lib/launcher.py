@@ -471,6 +471,18 @@ class RCBLauncher(object):
 			xbmc.audioResume()
 			xbmc.enableNavSounds(True)
 
+	def __preDelay(self):
+		preDelay = xbmcaddon.Addon().getSetting(SETTING_RCB_PRELAUNCHDELAY)
+		if preDelay != '':
+			log.debug("Pre delaying by {0}ms".format(preDelay))
+			xbmc.sleep(int(float(preDelay)))
+
+	def __postDelay(self):
+		postDelay = xbmcaddon.Addon().getSetting(SETTING_RCB_POSTLAUNCHDELAY)
+		if postDelay != '':
+			log.debug("Post delaying by {0}ms".format(postDelay))
+			xbmc.sleep(int(float(postDelay)))
+
 	def __launchNonXbox(self, cmd, romCollection, gameRow, settings, precmd, postcmd, roms, gui, listitem):
 		log.info("launchEmu on non-xbox")
 
@@ -528,10 +540,7 @@ class RCBLauncher(object):
 			log.info("Got to PRE: " + precmd.strip())
 			os.system(precmd.encode(encoding))
 
-		preDelay = settings.getSetting(SETTING_RCB_PRELAUNCHDELAY)
-		if preDelay != '':
-			preDelay = int(float(preDelay))
-			xbmc.sleep(preDelay)
+		self.__preDelay()
 
 		# change working directory
 		path = os.path.dirname(romCollection.emulatorCmd)
@@ -555,10 +564,7 @@ class RCBLauncher(object):
 
 		log.info("launch emu done")
 
-		postDelay = settings.getSetting(SETTING_RCB_POSTLAUNCHDELAY)
-		if postDelay != '':
-			postDelay = int(float(postDelay))
-			xbmc.sleep(postDelay)
+		self.__postDelay()
 
 		self.__audioResume()
 
