@@ -147,6 +147,7 @@ class NfoWriter(RcbXmlReaderWriter):
 				log.debug(u"Not writing NFO file for {0}".format(gameNameFromFile))
 				return
 
+			log.info(u"Writing NFO file {0}".format(nfoFile))
 			localFile = util.joinPath(util.getTempDir(), os.path.basename(nfoFile))
 			tree.write(localFile, encoding="UTF-8", xml_declaration=True)
 			xbmcvfs.copy(localFile, nfoFile)
@@ -178,11 +179,11 @@ class NfoWriter(RcbXmlReaderWriter):
 			Logutil.log('Romdir: ' + romDir, util.LOG_LEVEL_INFO)
 			nfoFile = os.path.join(romDir, gameNameFromFile + '.nfo')
 
-		if (not os.path.isfile(nfoFile)):
-			Logutil.log('Writing NfoFile: ' + nfoFile, util.LOG_LEVEL_INFO)
-		else:
-			Logutil.log('NfoFile already exists. Wont overwrite file: ' + nfoFile, util.LOG_LEVEL_INFO)
+		if os.path.isfile(nfoFile):
+			log.info(u"NFO file already exists at {0}, won't overwrite".format(nfoFile))
 			nfoFile = ''
+
+		log.debug(u"{0} returns {1} for {2} ({3}) on platform {4}".format(__name__, nfoFile, gameNameFromFile, romFile, romCollectionName))
 
 		return nfoFile
 
