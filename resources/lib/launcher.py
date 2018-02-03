@@ -11,6 +11,14 @@ import xbmc, xbmcgui, xbmcvfs
 KODI_JSONRPC_TOGGLE_FULLSCREEN = '{"jsonrpc": "2.0", "method": "Input.ExecuteAction", "params": {"action": "togglefullscreen"}, "id": "1"}'
 
 
+class RCBLauncher(object):
+	def __init__(self):
+		pass
+
+	def launchEmu(self, gdb, gui, gameId, config, settings, listitem):
+		launchEmu(gdb, gui, gameId, config, settings, listitem)
+
+
 def launchEmu(gdb, gui, gameId, config, settings, listitem):
 	log.info("Begin launcher.launchEmu")
 

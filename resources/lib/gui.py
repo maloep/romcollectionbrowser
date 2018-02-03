@@ -5,7 +5,8 @@ from threading import *
 
 from util import *
 import util
-import dbupdate, helper, launcher, config
+import dbupdate, helper, config
+from launcher import RCBLauncher
 import dialogimportoptions, dialogcontextmenu, dialogprogress, dialogmissinginfo
 from config import *
 from configxmlupdater import *
@@ -1033,6 +1034,7 @@ class UIGameDB(xbmcgui.WindowXML):
 			#self.player.stoppedByRCB = True
 			self.player.stop()
 
+		launcher = RCBLauncher()
 		launcher.launchEmu(self.gdb, self, gameId, self.config, self.Settings, selectedGame)
 		Logutil.log("End launchEmu" , util.LOG_LEVEL_INFO)
 
