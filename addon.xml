@@ -12,7 +12,7 @@
     <import addon="service.rom.collection.browser" version="1.0.0"/>
   </requires>
   <extension point="xbmc.python.script" library="default.py">
-    <provides>game</provides>
+    <provides>executable game</provides>
   </extension>
   <extension point="xbmc.addon.metadata">
     <summary lang="be">Import, browse and launch games in XBMC</summary>
