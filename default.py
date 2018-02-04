@@ -216,6 +216,8 @@ class Main():
 		gdb = GameDataBase(util.getAddonDataPath())
 		gdb.connect()
 
+		#HACK if invoked from widget addon there is an additional ? in param
+		param = param.replace('?', '')
 		gameId = int(param.replace('launchid=', ''))
 
 		config = Config(None)
