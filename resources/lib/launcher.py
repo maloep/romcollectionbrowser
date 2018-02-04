@@ -13,7 +13,8 @@ KODI_JSONRPC_TOGGLE_FULLSCREEN = '{"jsonrpc": "2.0", "method": "Input.ExecuteAct
 
 class RCBLauncher(object):
 	def __init__(self):
-		pass
+		self.env = (os.environ.get("OS", "win32"), "win32", )[os.environ.get("OS", "win32") == "xbox"]
+		log.debug("Running environment detected as {0}".format(self.env))
 
 	def launchEmu(self, gdb, gui, gameId, config, listitem):
 		log.info("Begin launcher.launchEmu")
@@ -39,9 +40,6 @@ class RCBLauncher(object):
 		cmd = ""
 		precmd = ""
 		postcmd = ""
-
-		# get environment OS
-		env = util.getEnvironment()
 
 		filenameRows = File(gdb).getRomsByGameId(gameRow[util.ROW_ID])
 		log.info("files for current game: " + str(filenameRows))
@@ -70,7 +68,7 @@ class RCBLauncher(object):
 				# invoke script file that kills xbmc before launching the emulator
 				basePath = os.path.join(util.getAddonDataPath(), 'scriptfiles')
 
-				if env == "win32":
+				if self.env == "win32":
 					if xbmc.Addon().getSetting(util.SETTING_RCB_USEVBINSOLOMODE).lower() == 'true':
 						# There is a problem with quotes passed as argument to windows command shell. This only works with "call"
 						# use vb script to restart xbmc
@@ -83,7 +81,7 @@ class RCBLauncher(object):
 					cmd = os.path.join(basePath, 'applaunch.sh ') + cmd
 			else:
 				# use call to support paths with whitespaces
-				if env == "win32":
+				if self.env == "win32":
 					cmd = 'call ' + cmd
 
 		# update LaunchCount
@@ -439,13 +437,13 @@ class RCBLauncher(object):
 
 		files = []
 		# Copy applaunch shell script/batch file
-		if util.getEnvironment() == 'win32':
+		if self.env == 'win32':
 			files.append('applaunch.bat')
 		else:
 			files.append('applaunch.sh')
 
 		# Copy VBS files
-		if util.getEnvironment() == 'win32' and xbmc.Addon().getSetting(util.SETTING_RCB_USEVBINSOLOMODE).lower() == 'true':
+		if self.env == 'win32' and xbmc.Addon().getSetting(util.SETTING_RCB_USEVBINSOLOMODE).lower() == 'true':
 			files += ['applaunch-vbs.bat', 'LaunchKodi.vbs', 'Sleep.vbs']
 
 		for f in files:
