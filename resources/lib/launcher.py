@@ -69,22 +69,18 @@ class RCBLauncher(object):
 
 				# invoke script file that kills xbmc before launching the emulator
 				basePath = os.path.join(util.getAddonDataPath(), 'scriptfiles')
-				# xbmc needs other script files than kodi
-				xbmcFilenameSuffix = "_xbmc"
-				if KodiVersions().getKodiVersion() >= KodiVersions.HELIX:
-					xbmcFilenameSuffix = ""
 
 				if env == "win32":
 					if xbmc.Addon().getSetting(util.SETTING_RCB_USEVBINSOLOMODE).lower() == 'true':
 						# There is a problem with quotes passed as argument to windows command shell. This only works with "call"
 						# use vb script to restart xbmc
 						cmd = 'call \"' + os.path.join(basePath,
-													   'applaunch-vbs%s.bat' % xbmcFilenameSuffix) + '\" ' + cmd
+													   'applaunch-vbs.bat') + '\" ' + cmd
 					else:
 						# There is a problem with quotes passed as argument to windows command shell. This only works with "call"
-						cmd = 'call \"' + os.path.join(basePath, 'applaunch%s.bat' % xbmcFilenameSuffix) + '\" ' + cmd
+						cmd = 'call \"' + os.path.join(basePath, 'applaunch.bat') + '\" ' + cmd
 				else:
-					cmd = os.path.join(basePath, 'applaunch%s.sh ' % xbmcFilenameSuffix) + cmd
+					cmd = os.path.join(basePath, 'applaunch.sh ') + cmd
 			else:
 				# use call to support paths with whitespaces
 				if env == "win32":
@@ -450,7 +446,7 @@ class RCBLauncher(object):
 
 		# Copy VBS files
 		if util.getEnvironment() == 'win32' and xbmc.Addon().getSetting(util.SETTING_RCB_USEVBINSOLOMODE).lower() == 'true':
-			files += ['applaunch-vbs.bat', 'LaunchXBMC.vbs', 'Sleep.vbs']
+			files += ['applaunch-vbs.bat', 'LaunchKodi.vbs', 'Sleep.vbs']
 
 		for f in files:
 			if not xbmcvfs.exists(os.path.join(newBasePath, f)):
