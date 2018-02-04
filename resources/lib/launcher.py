@@ -16,6 +16,9 @@ class RCBLauncher(object):
 		self.env = (os.environ.get("OS", "win32"), "win32", )[os.environ.get("OS", "win32") == "xbox"]
 		log.debug("Running environment detected as {0}".format(self.env))
 
+		# Do we need to escape commands before executing?
+		self.escapeCmd = xbmc.Addon().getSetting(util.SETTING_RCB_ESCAPECOMMAND).upper() == 'TRUE'
+
 	def launchEmu(self, gdb, gui, gameId, config, listitem):
 		log.info("Begin launcher.launchEmu")
 
@@ -44,8 +47,7 @@ class RCBLauncher(object):
 		filenameRows = File(gdb).getRomsByGameId(gameRow[util.ROW_ID])
 		log.info("files for current game: " + str(filenameRows))
 
-		escapeCmd = xbmc.Addon().getSetting(util.SETTING_RCB_ESCAPECOMMAND).upper() == 'TRUE'
-		cmd, precmd, postcmd, roms = self.__buildCmd(gui, filenameRows, romCollection, gameRow, escapeCmd, False)
+		cmd, precmd, postcmd, roms = self.__buildCmd(gui, filenameRows, romCollection, gameRow, False)
 
 		if not romCollection.useBuiltinEmulator:
 			if cmd == '':
@@ -104,7 +106,7 @@ class RCBLauncher(object):
 
 		log.info("End launcher.launchEmu")
 
-	def __buildCmd(self, gui, filenameRows, romCollection, gameRow, escapeCmd, calledFromSkin):
+	def __buildCmd(self, gui, filenameRows, romCollection, gameRow, calledFromSkin):
 		log.info("launcher.buildCmd")
 
 		compressedExtensions = ['7z', 'zip']
@@ -119,13 +121,13 @@ class RCBLauncher(object):
 		log.info("postCmdLine: " + romCollection.postCmd)
 
 		# handle savestates
-		stateFile = self.__checkGameHasSaveStates(romCollection, gameRow, filenameRows, escapeCmd)
+		stateFile = self.__checkGameHasSaveStates(romCollection, gameRow, filenameRows)
 
 		if stateFile == '':
 			emuParams = romCollection.emulatorParams
 		else:
 			emuParams = romCollection.saveStateParams
-			if escapeCmd:
+			if self.escapeCmd:
 				stateFile = re.escape(stateFile)
 			emuParams = emuParams.replace('%statefile%', stateFile)
 			emuParams = emuParams.replace('%STATEFILE%', stateFile)
@@ -204,18 +206,18 @@ class RCBLauncher(object):
 				precmd = ""
 				postcmd = ""
 				if fileindex == 0:
-					emuParams = self.__replacePlaceholdersInParams(emuParams, rom, romCollection, gameRow, escapeCmd)
-					if escapeCmd:
+					emuParams = self.__replacePlaceholdersInParams(emuParams, rom, romCollection, gameRow)
+					if self.escapeCmd:
 						emuCommandLine = re.escape(emuCommandLine)
 
 					if romCollection.name in ['Linux', 'Macintosh', 'Windows']:
-						cmd = self.__replacePlaceholdersInParams(emuCommandLine, rom, romCollection, gameRow, escapeCmd)
+						cmd = self.__replacePlaceholdersInParams(emuCommandLine, rom, romCollection, gameRow)
 					else:
 						cmd = '\"' + emuCommandLine + '\" ' + emuParams.replace('%I%', str(fileindex))
 				else:
 					newrepl = partToRepeat
-					newrepl = self.__replacePlaceholdersInParams(newrepl, rom, romCollection, gameRow, escapeCmd)
-					if escapeCmd:
+					newrepl = self.__replacePlaceholdersInParams(newrepl, rom, romCollection, gameRow)
+					if self.escapeCmd:
 						emuCommandLine = re.escape(emuCommandLine)
 
 					newrepl = newrepl.replace('%I%', str(fileindex))
@@ -226,10 +228,8 @@ class RCBLauncher(object):
 				if self.env == "win32":
 					cmdprefix = 'call '
 
-				precmd = cmdprefix + self.__replacePlaceholdersInParams(romCollection.preCmd, rom, romCollection, gameRow,
-																   escapeCmd)
-				postcmd = cmdprefix + self.__replacePlaceholdersInParams(romCollection.postCmd, rom, romCollection, gameRow,
-																	escapeCmd)
+				precmd = cmdprefix + self.__replacePlaceholdersInParams(romCollection.preCmd, rom, romCollection, gameRow)
+				postcmd = cmdprefix + self.__replacePlaceholdersInParams(romCollection.postCmd, rom, romCollection, gameRow)
 
 				fileindex += 1
 
@@ -242,14 +242,14 @@ class RCBLauncher(object):
 
 		return cmd, precmd, postcmd, roms
 
-	def __checkGameHasSaveStates(self, romCollection, gameRow, filenameRows, escapeCmd):
+	def __checkGameHasSaveStates(self, romCollection, gameRow, filenameRows):
 
 		if romCollection.saveStatePath == '':
 			log.debug("No save state path set")
 			return ''
 
 		rom = filenameRows[0][0]
-		saveStatePath = self.__replacePlaceholdersInParams(romCollection.saveStatePath, rom, romCollection, gameRow, escapeCmd)
+		saveStatePath = self.__replacePlaceholdersInParams(romCollection.saveStatePath, rom, romCollection, gameRow)
 
 		saveStateFiles = glob.glob(saveStatePath)
 
@@ -379,9 +379,9 @@ class RCBLauncher(object):
 
 		return roms
 
-	def __replacePlaceholdersInParams(self, emuParams, rom, romCollection, gameRow, escapeCmd):
+	def __replacePlaceholdersInParams(self, emuParams, rom, romCollection, gameRow):
 
-		if escapeCmd:
+		if self.escapeCmd:
 			rom = re.escape(rom)
 
 		# TODO: Wanted to do this with re.sub:
