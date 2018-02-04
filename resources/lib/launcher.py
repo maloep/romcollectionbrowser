@@ -15,7 +15,7 @@ class RCBLauncher(object):
 	def __init__(self):
 		pass
 
-	def launchEmu(self, gdb, gui, gameId, config, settings, listitem):
+	def launchEmu(self, gdb, gui, gameId, config, listitem):
 		log.info("Begin launcher.launchEmu")
 
 		gameRow = Game(gdb).getObjectById(gameId)
@@ -46,7 +46,7 @@ class RCBLauncher(object):
 		filenameRows = File(gdb).getRomsByGameId(gameRow[util.ROW_ID])
 		log.info("files for current game: " + str(filenameRows))
 
-		escapeCmd = settings.getSetting(util.SETTING_RCB_ESCAPECOMMAND).upper() == 'TRUE'
+		escapeCmd = xbmc.Addon().getSetting(util.SETTING_RCB_ESCAPECOMMAND).upper() == 'TRUE'
 		cmd, precmd, postcmd, roms = self.__buildCmd(gui, filenameRows, romCollection, gameRow, escapeCmd, False)
 
 		if not romCollection.useBuiltinEmulator:
@@ -62,10 +62,10 @@ class RCBLauncher(object):
 			# solo mode
 			if romCollection.useEmuSolo:
 
-				self.__copyLauncherScriptsToUserdata(settings)
+				self.__copyLauncherScriptsToUserdata()
 
 				# communicate with service via settings
-				settings.setSetting(util.SETTING_RCB_LAUNCHONSTARTUP, 'true')
+				xbmc.Addon().setSetting(util.SETTING_RCB_LAUNCHONSTARTUP, 'true')
 
 				# invoke script file that kills xbmc before launching the emulator
 				basePath = os.path.join(util.getAddonDataPath(), 'scriptfiles')
@@ -75,7 +75,7 @@ class RCBLauncher(object):
 					xbmcFilenameSuffix = ""
 
 				if env == "win32":
-					if settings.getSetting(util.SETTING_RCB_USEVBINSOLOMODE).lower() == 'true':
+					if xbmc.Addon().getSetting(util.SETTING_RCB_USEVBINSOLOMODE).lower() == 'true':
 						# There is a problem with quotes passed as argument to windows command shell. This only works with "call"
 						# use vb script to restart xbmc
 						cmd = 'call \"' + os.path.join(basePath,
@@ -100,7 +100,7 @@ class RCBLauncher(object):
 		log.info("postcmd: " + postcmd)
 
 		try:
-			self.__launchNonXbox(cmd, romCollection, gameRow, settings, precmd, postcmd, roms, gui, listitem)
+			self.__launchNonXbox(cmd, romCollection, gameRow, precmd, postcmd, roms, gui, listitem)
 
 			gui.writeMsg("")
 
@@ -435,7 +435,7 @@ class RCBLauncher(object):
 
 		return emuParams
 
-	def __copyLauncherScriptsToUserdata(self, settings):
+	def __copyLauncherScriptsToUserdata(self):
 		log.info('__copyLauncherScriptsToUserdata')
 
 		oldBasePath = os.path.join(util.getAddonInstallPath(), 'resources', 'scriptfiles')
@@ -449,7 +449,7 @@ class RCBLauncher(object):
 			files.append('applaunch.sh')
 
 		# Copy VBS files
-		if util.getEnvironment() == 'win32' and settings.getSetting(util.SETTING_RCB_USEVBINSOLOMODE).lower() == 'true':
+		if util.getEnvironment() == 'win32' and xbmc.Addon().getSetting(util.SETTING_RCB_USEVBINSOLOMODE).lower() == 'true':
 			files += ['applaunch-vbs.bat', 'LaunchXBMC.vbs', 'Sleep.vbs']
 
 		for f in files:
@@ -483,7 +483,7 @@ class RCBLauncher(object):
 			log.debug("Post delaying by {0}ms".format(postDelay))
 			xbmc.sleep(int(float(postDelay)))
 
-	def __launchNonXbox(self, cmd, romCollection, gameRow, settings, precmd, postcmd, roms, gui, listitem):
+	def __launchNonXbox(self, cmd, romCollection, gameRow, precmd, postcmd, roms, gui, listitem):
 		log.info("launchEmu on non-xbox")
 
 		screenModeToggled = False
@@ -524,7 +524,7 @@ class RCBLauncher(object):
 			log.info("screenMode: " + screenMode)
 			isFullScreen = screenMode.endswith("Full Screen")
 
-			toggleScreenMode = settings.getSetting(util.SETTING_RCB_TOGGLESCREENMODE).upper() == 'TRUE'
+			toggleScreenMode = xbmc.Addon().getSetting(util.SETTING_RCB_TOGGLESCREENMODE).upper() == 'TRUE'
 
 			if isFullScreen and toggleScreenMode:
 				log.info("Toggling to windowed mode")

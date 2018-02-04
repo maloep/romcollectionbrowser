@@ -407,7 +407,7 @@ class UIGameInfoView(xbmcgui.WindowXMLDialog):
 		Logutil.log("Begin launchEmu UIGameInfoView", util.LOG_LEVEL_INFO)
 
 		launcher = RCBLauncher()
-		launcher.launchEmu(self.gdb, self, self.selectedGameId, self.config, self.settings, self.selectedGame)
+		launcher.launchEmu(self.gdb, self, self.selectedGameId, self.config, self.selectedGame)
 		
 		self.saveViewState(False)
 		self.close()
