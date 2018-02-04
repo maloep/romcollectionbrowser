@@ -143,7 +143,7 @@
 					<height>20</height>
 					<font>font24_title</font>
 					<aligny>center</aligny>
-					<textcolor>DDFFFFFF</textcolor>
+					<textcolor>white</textcolor>
 					<selectedcolor>FFe2ff43</selectedcolor>
 					<align>center</align>
 					<label>$INFO[ListItem.Label]</label>
@@ -156,7 +156,7 @@
 					<height>20</height>
 					<font>font16caps</font>
 					<aligny>center</aligny>
-					<textcolor>DDFFFFFF</textcolor>
+					<textcolor>white</textcolor>
 					<selectedcolor>FFe2ff43</selectedcolor>
 					<align>center</align>
 					<label>$INFO[ListItem.Property(console)]</label>
@@ -371,6 +371,7 @@
 						<aligny>center</aligny>
 						<font>font13</font>
 						<scroll>true</scroll>
+						<textcolor>white</textcolor>
 					</control>
 					
 					<!-- Genre -->
@@ -397,6 +398,7 @@
 						<aligny>center</aligny>
 						<font>font13</font>
 						<scroll>true</scroll>
+						<textcolor>white</textcolor>
 					</control>
 					
 					<!-- Publisher -->
@@ -423,6 +425,7 @@
 						<aligny>center</aligny>
 						<font>font13</font>
 						<scroll>true</scroll>
+						<textcolor>white</textcolor>
 					</control>
 					
 					<!-- Developer -->
@@ -449,6 +452,7 @@
 						<aligny>center</aligny>
 						<font>font13</font>
 						<scroll>true</scroll>
+						<textcolor>white</textcolor>
 					</control>
 					
 					<!-- extraImage2 -->
@@ -469,7 +473,7 @@
 						<posy>148</posy>
 						<width>530</width>
 						<height>158</height>
-						<textcolor>DDFFFFFF</textcolor>
+						<textcolor>white</textcolor>
 						<align>justify</align>
 						<font>font12</font>
 						<label>$INFO[ListItem.Property(plot)]</label>
@@ -490,7 +494,7 @@
 						<height>30</height>
 						<font>font16caps</font>
 						<aligny>center</aligny>
-						<textcolor>DDFFFFFF</textcolor>
+						<textcolor>white</textcolor>
 						<selectedcolor>FFe2ff43</selectedcolor>
 						<align>center</align>
 						<label>$INFO[ListItem.Property(console)]</label>
@@ -629,7 +633,7 @@
 						<height>30</height>
 						<font>font24_title</font>
 						<aligny>center</aligny>
-						<textcolor>DDFFFFFF</textcolor>
+						<textcolor>white</textcolor>
 						<selectedcolor>FFe2ff43</selectedcolor>
 						<align>center</align>
 						<label>$INFO[ListItem.Label]</label>
@@ -809,6 +813,7 @@
 							<aligny>center</aligny>
 							<font>font13</font>
 							<scroll>true</scroll>
+							<textcolor>white</textcolor>
 						</control>
 						
 						<!-- Genre -->
@@ -835,6 +840,7 @@
 							<aligny>center</aligny>
 							<font>font13</font>
 							<scroll>true</scroll>
+							<textcolor>white</textcolor>
 						</control>
 						
 						<!-- Publisher -->
@@ -861,6 +867,7 @@
 							<aligny>center</aligny>
 							<font>font13</font>
 							<scroll>true</scroll>
+							<textcolor>white</textcolor>
 						</control>
 						
 						<!-- Developer -->
@@ -887,6 +894,7 @@
 							<aligny>center</aligny>
 							<font>font13</font>
 							<scroll>true</scroll>
+							<textcolor>white</textcolor>
 						</control>
 						<control type="textbox" id="2101">
 							<description>Plot</description>
@@ -895,7 +903,7 @@
 							<width>540</width>
 							<height>178</height>			
 							<!--<pagecontrol>2201</pagecontrol>-->
-							<textcolor>DDFFFFFF</textcolor>
+							<textcolor>white</textcolor>
 							<align>justify</align>
 							<font>font12</font>
 							<label>$INFO[ListItem.Property(plot)]</label>
@@ -995,6 +1003,7 @@
 					<aligny>center</aligny>
 					<font>font13</font>
 					<scroll>true</scroll>
+					<textcolor>white</textcolor>
 				</control>
 				
 				<!-- Publisher -->
@@ -1021,6 +1030,7 @@
 					<aligny>center</aligny>
 					<font>font13</font>
 					<scroll>true</scroll>
+					<textcolor>white</textcolor>
 				</control>
 				
 				<control type="textbox">
@@ -1241,7 +1251,7 @@
 					<font>font24_title</font>
 					<align>center</align>
 					<aligny>center</aligny>
-					<textcolor>DDFFFFFF</textcolor>
+					<textcolor>white</textcolor>
 					<selectedcolor>FFe2ff43</selectedcolor>						
 					<label>$INFO[ListItem.Label]</label>					
 				</control>
@@ -1253,7 +1263,7 @@
 					<height>20</height>
 					<font>font16caps</font>
 					<aligny>center</aligny>
-					<textcolor>DDFFFFFF</textcolor>
+					<textcolor>white</textcolor>
 					<selectedcolor>FFe2ff43</selectedcolor>
 					<align>center</align>
 					<label>$INFO[ListItem.Property(console)]</label>
@@ -1271,6 +1281,7 @@
 					<aligny>center</aligny>
 					<font>font13</font>
 					<scroll>true</scroll>
+					<textcolor>white</textcolor>
 				</control>				
 				<!-- Genre -->
 				<control type="label">
@@ -1284,6 +1295,7 @@
 					<aligny>center</aligny>
 					<font>font13</font>
 					<scroll>true</scroll>
+					<textcolor>white</textcolor>
 				</control>
 				
 				<!-- extraImage1 -->
@@ -1339,7 +1351,7 @@
 				<label>$ADDON[script.games.rom.collection.browser 32404]:</label>
 				<align>left</align>
 				<textoffsetx>7</textoffsetx>
-				<textcolor>DDFFFFFF</textcolor>
+				<textcolor>white</textcolor>
 				<focusedcolor>DDFFFFFF</focusedcolor>
 				<texturefocus colordiffuse="FF12A0C7">rcb-MenuItemFO.png</texturefocus>
 				<texturenofocus></texturenofocus>
@@ -1362,7 +1374,7 @@
 				<texturefocus colordiffuse="FF12A0C7">rcb-MenuItemFO.png</texturefocus>
 				<texturenofocus></texturenofocus>
 				<label>$ADDON[script.games.rom.collection.browser 32405]:</label>
-				<textcolor>DDFFFFFF</textcolor>
+				<textcolor>white</textcolor>
 				<disabledcolor>80FFFFFF</disabledcolor>
 				<align>left</align>
 				<aligny>center</aligny>
@@ -1383,7 +1395,7 @@
 					<width>200</width>
 					<height>30</height>
 					<align>center</align>
-					<textcolor>DDFFFFFF</textcolor>
+					<textcolor>white</textcolor>
 					<label>$ADDON[script.games.rom.collection.browser 32406]</label>
 				</control>		
 				<control type="wraplist" id="500">
@@ -1406,7 +1418,7 @@
 							<height>30</height>
 							<font>font13</font>
 							<aligny>center</aligny>
-							<textcolor>DDFFFFFF</textcolor>
+							<textcolor>white</textcolor>
 							<selectedcolor>FFe2ff43</selectedcolor>
 							<align>left</align>
 							<info>ListItem.Label</info>
@@ -1428,7 +1440,7 @@
 							<height>30</height>
 							<font>font13</font>
 							<aligny>center</aligny>
-							<textcolor>DDFFFFFF</textcolor>
+							<textcolor>white</textcolor>
 							<selectedcolor>FFe2ff43</selectedcolor>
 							<align>left</align>
 							<info>ListItem.Label</info>
@@ -1443,7 +1455,7 @@
 					<width>200</width>
 					<height>30</height>
 					<align>center</align>
-					<textcolor>DDFFFFFF</textcolor>
+					<textcolor>white</textcolor>
 					<label>$ADDON[script.games.rom.collection.browser 32401]</label>
 				</control>
 				<control type="wraplist" id="600">
@@ -1466,7 +1478,7 @@
 							<height>30</height>
 							<font>font13</font>
 							<aligny>center</aligny>
-							<textcolor>DDFFFFFF</textcolor>
+							<textcolor>white</textcolor>
 							<selectedcolor>FFe2ff43</selectedcolor>
 							<align>left</align>
 							<info>ListItem.Label</info>
@@ -1488,7 +1500,7 @@
 							<height>30</height>
 							<font>font13</font>
 							<aligny>center</aligny>
-							<textcolor>DDFFFFFF</textcolor>
+							<textcolor>white</textcolor>
 							<selectedcolor>FFe2ff43</selectedcolor>
 							<align>left</align>
 							<info>ListItem.Label</info>
@@ -1503,7 +1515,7 @@
 					<width>200</width>
 					<height>30</height>
 					<align>center</align>
-					<textcolor>DDFFFFFF</textcolor>
+					<textcolor>white</textcolor>
 					<label>$ADDON[script.games.rom.collection.browser 32400]</label>
 				</control>		
 				<control type="wraplist" id="700">
@@ -1526,7 +1538,7 @@
 							<height>30</height>
 							<font>font13</font>
 							<aligny>center</aligny>
-							<textcolor>DDFFFFFF</textcolor>
+							<textcolor>white</textcolor>
 							<selectedcolor>FFe2ff43</selectedcolor>
 							<align>left</align>
 							<info>ListItem.Label</info>
@@ -1548,7 +1560,7 @@
 							<height>30</height>
 							<font>font13</font>
 							<aligny>center</aligny>
-							<textcolor>DDFFFFFF</textcolor>
+							<textcolor>white</textcolor>
 							<selectedcolor>FFe2ff43</selectedcolor>
 							<align>left</align>
 							<info>ListItem.Label</info>
@@ -1563,7 +1575,7 @@
 					<width>200</width>
 					<height>30</height>
 					<align>center</align>
-					<textcolor>DDFFFFFF</textcolor>
+					<textcolor>white</textcolor>
 					<label>$ADDON[script.games.rom.collection.browser 32402]</label>
 				</control>		
 				<control type="wraplist" id="800">
@@ -1586,7 +1598,7 @@
 							<height>30</height>
 							<font>font13</font>
 							<aligny>center</aligny>
-							<textcolor>DDFFFFFF</textcolor>
+							<textcolor>white</textcolor>
 							<selectedcolor>FFe2ff43</selectedcolor>
 							<align>left</align>
 							<info>ListItem.Label</info>
@@ -1608,7 +1620,7 @@
 							<height>30</height>
 							<font>font13</font>
 							<aligny>center</aligny>
-							<textcolor>DDFFFFFF</textcolor>
+							<textcolor>white</textcolor>
 							<selectedcolor>FFe2ff43</selectedcolor>
 							<align>left</align>
 							<info>ListItem.Label</info>
@@ -1623,7 +1635,7 @@
 					<width>60</width>
 					<height>30</height>
 					<align>center</align>
-					<textcolor>DDFFFFFF</textcolor>
+					<textcolor>white</textcolor>
 					<label>$ADDON[script.games.rom.collection.browser 32407]</label>
 				</control>		
 				<control type="wraplist" id="900">
@@ -1646,7 +1658,7 @@
 							<height>30</height>
 							<font>font13</font>
 							<aligny>center</aligny>
-							<textcolor>DDFFFFFF</textcolor>
+							<textcolor>white</textcolor>
 							<selectedcolor>FFe2ff43</selectedcolor>
 							<align>left</align>
 							<info>ListItem.Label</info>
@@ -1668,7 +1680,7 @@
 							<height>30</height>
 							<font>font13</font>
 							<aligny>center</aligny>
-							<textcolor>DDFFFFFF</textcolor>
+							<textcolor>white</textcolor>
 							<selectedcolor>FFe2ff43</selectedcolor>
 							<align>left</align>
 							<info>ListItem.Label</info>
@@ -1701,7 +1713,7 @@
 				<texturefocus  colordiffuse="FF12A0C7">rcb-MenuItemFO.png</texturefocus>
 				<texturenofocus></texturenofocus>
 				<label>$ADDON[script.games.rom.collection.browser 32408]:</label>
-				<textcolor>DDFFFFFF</textcolor>
+				<textcolor>white</textcolor>
 				<disabledcolor>80FFFFFF</disabledcolor>
 				<align>center</align>
 				<aligny>center</aligny>
@@ -1723,7 +1735,7 @@
 				<texturefocus  colordiffuse="FF12A0C7">rcb-MenuItemFO.png</texturefocus>
 				<texturenofocus></texturenofocus>
 				<label>$ADDON[script.games.rom.collection.browser 32409]</label>
-				<textcolor>DDFFFFFF</textcolor>
+				<textcolor>white</textcolor>
 				<disabledcolor>80FFFFFF</disabledcolor>
 				<align>center</align>
 				<aligny>center</aligny>
@@ -1761,7 +1773,7 @@
 			<height>10</height>
 			<align>left</align>
 			<scroll>true</scroll>
-		    <textcolor>DDFFFFFF</textcolor>
+		    <textcolor>white</textcolor>
 		    <label></label>
 			<font>font10</font>
 		</control>		
