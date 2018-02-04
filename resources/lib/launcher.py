@@ -222,8 +222,8 @@ class RCBLauncher(object):
 					cmd += ' ' + newrepl
 
 				cmdprefix = ''
-				env = (os.environ.get("OS", "win32"), "win32",)[os.environ.get("OS", "win32") == "xbox"]
-				if env == "win32":
+
+				if self.env == "win32":
 					cmdprefix = 'call '
 
 				precmd = cmdprefix + self.__replacePlaceholdersInParams(romCollection.preCmd, rom, romCollection, gameRow,
