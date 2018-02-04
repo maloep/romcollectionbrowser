@@ -500,6 +500,14 @@ class RCBLauncher(object):
 			os.system(precmd.encode(self.__getEncoding()))
 
 	def __executeCommand(self, romCollection, cmd):
+		# change working directory
+		path = os.path.dirname(romCollection.emulatorCmd)
+		if os.path.isdir(path):
+			try:
+				os.chdir(path)
+			except OSError:
+				log.warn("Unable to chdir to {0}".format(path))
+
 		if romCollection.usePopen:
 			import subprocess
 			process = subprocess.Popen(cmd.encode(self.__getEncoding()), shell=True)
@@ -561,14 +569,6 @@ class RCBLauncher(object):
 		self.__executePreCommand(precmd)
 
 		self.__preDelay()
-
-		# change working directory
-		path = os.path.dirname(romCollection.emulatorCmd)
-		if os.path.isdir(path):
-			try:
-				os.chdir(path)
-			except OSError:
-				pass
 
 		self.__audioSuspend()
 
