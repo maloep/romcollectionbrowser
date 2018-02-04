@@ -104,36 +104,19 @@ class NfoWriter(RcbXmlReaderWriter):
 		del progressDialog
 
 
-	def createNfoFromDesc(self, gamename, plot, romCollectionName, publisher, developer, year, players, rating, votes,
-						url, region, media, perspective, controller, originalTitle, alternateTitle, version, genreList, isFavorite, launchCount, romFile, gameNameFromFile, artworkfiles, artworkurls):
+	def createNfoFromDesc(self, title, plot, platform, publisher, developer, year, maxPlayer, rating, votes,
+						  detailUrl, region, media, perspective, controller, originalTitle, alternateTitle, version, genreList, isFavorite, launchCount, romFile, gameNameFromFile, artworkfiles, artworkurls):
 
 		Logutil.log("Begin createNfoFromDesc", util.LOG_LEVEL_INFO)
 
 		root = Element('game')
-		SubElement(root, 'title').text = gamename
-		SubElement(root, 'originalTitle').text = originalTitle
-		SubElement(root, 'alternateTitle').text = alternateTitle
-		SubElement(root, 'platform').text = romCollectionName
-		SubElement(root, 'plot').text = plot
-		SubElement(root, 'publisher').text = publisher
-		SubElement(root, 'developer').text = developer
-		SubElement(root, 'year').text = year
+		for elem in ['title', 'originalTitle', 'alternateTitle', 'platform', 'plot', 'publisher', 'developer', 'year',
+					 'detailUrl', 'maxPlayer', 'region', 'media', 'perspective', 'controller', 'version', 'rating',
+					 'votes', 'isFavorite', 'launchCount']:
+			SubElement(root, elem).text = locals()[elem]
 
 		for genre in genreList:
 			SubElement(root, 'genre').text = genre
-
-		SubElement(root, 'detailUrl').text = url
-		SubElement(root, 'maxPlayer').text = players
-		SubElement(root, 'region').text = region
-		SubElement(root, 'media').text = media
-		SubElement(root, 'perspective').text = perspective
-		SubElement(root, 'controller').text = controller
-		SubElement(root, 'version').text = version
-		SubElement(root, 'rating').text = rating
-		SubElement(root, 'votes').text = votes
-
-		SubElement(root, 'isFavorite').text = isFavorite
-		SubElement(root, 'launchCount').text = launchCount
 
 		for artworktype in artworkfiles.keys():
 
@@ -151,24 +134,27 @@ class NfoWriter(RcbXmlReaderWriter):
 				Logutil.log('Error writing artwork url: ' + str(exc), util.LOG_LEVEL_WARNING)
 				pass
 
-		#write file
+		self.writeNfoElementToFile(root, platform, romFile, gameNameFromFile)
+
+	def writeNfoElementToFile(self, root, platform, romFile, gameNameFromFile):
+		# write file
 		try:
 			self.indentXml(root)
 			tree = ElementTree(root)
 
-			nfoFile = self.getNfoFilePath(romCollectionName, romFile, gameNameFromFile)
+			nfoFile = self.getNfoFilePath(platform, romFile, gameNameFromFile)
+			if nfoFile == '':
+				log.debug(u"Not writing NFO file for {0}".format(gameNameFromFile))
+				return
 
-			if(nfoFile != ''):
-				if(nfoFile.startswith('smb://')):
-					localFile = util.joinPath(util.getTempDir(), os.path.basename(nfoFile))
-					tree.write(localFile, encoding="UTF-8", xml_declaration=True)
-					xbmcvfs.copy(localFile, nfoFile)
-					xbmcvfs.delete(localFile)
-				else:
-					tree.write(nfoFile, encoding="UTF-8", xml_declaration=True)
+			log.info(u"Writing NFO file {0}".format(nfoFile))
+			localFile = util.joinPath(util.getTempDir(), os.path.basename(nfoFile))
+			tree.write(localFile, encoding="UTF-8", xml_declaration=True)
+			xbmcvfs.copy(localFile, nfoFile)
+			xbmcvfs.delete(localFile)
 
-		except Exception, (exc):
-			Logutil.log(u"Error: Cannot write file game.nfo: {0}".format(exc), util.LOG_LEVEL_WARNING)
+		except Exception as exc:
+			log.warn(u"Error: Cannot write game nfo for {0}: {1}".format(gameNameFromFile, exc))
 
 	def getNfoFilePath(self, romCollectionName, romFile, gameNameFromFile):
 		nfoFile = ''
@@ -193,11 +179,11 @@ class NfoWriter(RcbXmlReaderWriter):
 			Logutil.log('Romdir: ' + romDir, util.LOG_LEVEL_INFO)
 			nfoFile = os.path.join(romDir, gameNameFromFile + '.nfo')
 
-		if (not os.path.isfile(nfoFile)):
-			Logutil.log('Writing NfoFile: ' + nfoFile, util.LOG_LEVEL_INFO)
-		else:
-			Logutil.log('NfoFile already exists. Wont overwrite file: ' + nfoFile, util.LOG_LEVEL_INFO)
+		if os.path.isfile(nfoFile):
+			log.info(u"NFO file already exists at {0}, won't overwrite".format(nfoFile))
 			nfoFile = ''
+
+		log.debug(u"{0} returns {1} for {2} ({3}) on platform {4}".format(__name__, nfoFile, gameNameFromFile, romFile, romCollectionName))
 
 		return nfoFile
 
