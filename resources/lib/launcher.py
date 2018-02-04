@@ -483,17 +483,40 @@ class RCBLauncher(object):
 			log.debug("Post delaying by {0}ms".format(postDelay))
 			xbmc.sleep(int(float(postDelay)))
 
+	def __getEncoding(self):
+		# HACK: sys.getfilesystemencoding() is not supported on all systems (e.g. Android)
+		try:
+			encoding = sys.getfilesystemencoding()
+		except Exception as e:
+			log.warn("Unable to get filesystem encoding, defaulting to UTF-8")
+			encoding = 'utf-8'
+
+		return encoding
+
+	def __executePreCommand(self, precmd):
+		# pre launch command
+		if precmd.strip() != '' and precmd.strip() != 'call':
+			log.info("Got to PRE: " + precmd.strip())
+			os.system(precmd.encode(self.__getEncoding()))
+
+	def __executeCommand(self, romCollection, cmd):
+		if romCollection.usePopen:
+			import subprocess
+			process = subprocess.Popen(cmd.encode(self.__getEncoding()), shell=True)
+			process.wait()
+		else:
+			os.system(cmd.encode(self.__getEncoding()))
+
+	def __executePostCommand(self, postcmd):
+		# post launch command
+		if postcmd.strip() != '' and postcmd.strip() != 'call':
+			log.info("Got to POST: " + postcmd.strip())
+			os.system(postcmd.encode(self.__getEncoding()))
+
 	def __launchNonXbox(self, cmd, romCollection, gameRow, precmd, postcmd, roms, gui, listitem):
 		log.info("launchEmu on non-xbox")
 
 		screenModeToggled = False
-
-		encoding = 'utf-8'
-		# HACK: sys.getfilesystemencoding() is not supported on all systems (e.g. Android)
-		try:
-			encoding = sys.getfilesystemencoding()
-		except:
-			pass
 
 		# use libretro core to play game
 		if romCollection.useBuiltinEmulator:
@@ -535,10 +558,7 @@ class RCBLauncher(object):
 
 		log.info("launch emu")
 
-		# pre launch command
-		if precmd.strip() != '' and precmd.strip() != 'call':
-			log.info("Got to PRE: " + precmd.strip())
-			os.system(precmd.encode(encoding))
+		self.__executePreCommand(precmd)
 
 		self.__preDelay()
 
@@ -552,15 +572,7 @@ class RCBLauncher(object):
 
 		self.__audioSuspend()
 
-		if romCollection.usePopen:
-			import subprocess
-			process = subprocess.Popen(cmd.encode(encoding), shell=True)
-			process.wait()
-		else:
-			try:
-				os.system(cmd.encode(encoding))
-			except:
-				os.system(cmd.encode('utf-8'))
+		self.__executeCommand(romCollection, cmd)
 
 		log.info("launch emu done")
 
@@ -568,10 +580,7 @@ class RCBLauncher(object):
 
 		self.__audioResume()
 
-		# post launch command
-		if postcmd.strip() != '' and postcmd.strip() != 'call':
-			log.info("Got to POST: " + postcmd.strip())
-			os.system(postcmd.encode(encoding))
+		self.__executePostCommand(postcmd)
 
 		if screenModeToggled:
 			log.info("Toggle to Full Screen mode")
