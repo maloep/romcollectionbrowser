@@ -4,6 +4,7 @@ import time, zipfile, glob, shutil
 import dbupdate, util
 from gamedatabase import *
 from util import *
+from util import __addon__
 from util import Logutil as log
 import xbmc, xbmcgui, xbmcvfs
 
@@ -17,7 +18,7 @@ class RCBLauncher(object):
 		log.debug("Running environment detected as {0}".format(self.env))
 
 		# Do we need to escape commands before executing?
-		self.escapeCmd = xbmc.Addon().getSetting(util.SETTING_RCB_ESCAPECOMMAND).upper() == 'TRUE'
+		self.escapeCmd = __addon__.getSetting(util.SETTING_RCB_ESCAPECOMMAND).upper() == 'TRUE'
 
 		self.romCollection = None
 
@@ -66,13 +67,13 @@ class RCBLauncher(object):
 				self.__copyLauncherScriptsToUserdata()
 
 				# communicate with service via settings
-				xbmc.Addon().setSetting(util.SETTING_RCB_LAUNCHONSTARTUP, 'true')
+				__addon__.setSetting(util.SETTING_RCB_LAUNCHONSTARTUP, 'true')
 
 				# invoke script file that kills xbmc before launching the emulator
 				basePath = os.path.join(util.getAddonDataPath(), 'scriptfiles')
 
 				if self.env == "win32":
-					if xbmc.Addon().getSetting(util.SETTING_RCB_USEVBINSOLOMODE).lower() == 'true':
+					if __addon__.getSetting(util.SETTING_RCB_USEVBINSOLOMODE).lower() == 'true':
 						# There is a problem with quotes passed as argument to windows command shell. This only works with "call"
 						# use vb script to restart xbmc
 						cmd = 'call \"' + os.path.join(basePath,
@@ -444,7 +445,7 @@ class RCBLauncher(object):
 			files.append('applaunch.sh')
 
 		# Copy VBS files
-		if self.env == 'win32' and xbmc.Addon().getSetting(util.SETTING_RCB_USEVBINSOLOMODE).lower() == 'true':
+		if self.env == 'win32' and __addon__.getSetting(util.SETTING_RCB_USEVBINSOLOMODE).lower() == 'true':
 			files += ['applaunch-vbs.bat', 'LaunchKodi.vbs', 'Sleep.vbs']
 
 		for f in files:
@@ -550,7 +551,7 @@ class RCBLauncher(object):
 			log.info("screenMode: " + screenMode)
 			isFullScreen = screenMode.endswith("Full Screen")
 
-			toggleScreenMode = xbmc.Addon().getSetting(util.SETTING_RCB_TOGGLESCREENMODE).upper() == 'TRUE'
+			toggleScreenMode = __addon__.getSetting(util.SETTING_RCB_TOGGLESCREENMODE).upper() == 'TRUE'
 
 			if isFullScreen and toggleScreenMode:
 				log.info("Toggling to windowed mode")
