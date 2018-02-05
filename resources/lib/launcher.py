@@ -455,26 +455,26 @@ class RCBLauncher(object):
 					log.warn("Error copying file")
 
 	def __audioSuspend(self):
-		if xbmcaddon.Addon().getSetting(util.SETTING_RCB_SUSPENDAUDIO).upper() == 'TRUE':
+		if __addon__.getSetting(util.SETTING_RCB_SUSPENDAUDIO).upper() == 'TRUE':
 			log.debug("Suspending audio")
 			xbmc.executebuiltin("PlayerControl(Stop)")
 			xbmc.enableNavSounds(False)
 			xbmc.audioSuspend()
 
 	def __audioResume(self):
-		if xbmcaddon.Addon().getSetting(util.SETTING_RCB_SUSPENDAUDIO).upper() == 'TRUE':
+		if __addon__.getSetting(util.SETTING_RCB_SUSPENDAUDIO).upper() == 'TRUE':
 			log.debug("Resuming audio")
 			xbmc.audioResume()
 			xbmc.enableNavSounds(True)
 
 	def __preDelay(self):
-		preDelay = xbmcaddon.Addon().getSetting(SETTING_RCB_PRELAUNCHDELAY)
+		preDelay = __addon__.getSetting(SETTING_RCB_PRELAUNCHDELAY)
 		if preDelay != '':
 			log.debug("Pre delaying by {0}ms".format(preDelay))
 			xbmc.sleep(int(float(preDelay)))
 
 	def __postDelay(self):
-		postDelay = xbmcaddon.Addon().getSetting(SETTING_RCB_POSTLAUNCHDELAY)
+		postDelay = __addon__.getSetting(SETTING_RCB_POSTLAUNCHDELAY)
 		if postDelay != '':
 			log.debug("Post delaying by {0}ms".format(postDelay))
 			xbmc.sleep(int(float(postDelay)))
