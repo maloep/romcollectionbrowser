@@ -230,9 +230,6 @@ class KodiVersions(object):
 		# version = xbmcaddon.Addon('xbmc.addon').getAddonInfo('version')
 		return int(version)
 
-def getEnvironment():
-	return ( os.environ.get( "OS", "win32" ), "win32", )[ os.environ.get( "OS", "win32" ) == "xbox" ]
-
 def localize(id):
 	try:
 		return __language__(id)

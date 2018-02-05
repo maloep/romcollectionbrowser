@@ -17,5 +17,5 @@ echo.
 
 REM Restart Kodi
 echo Restarting Kodi...
-echo cscript //B //Nologo "%~dp0\LaunchXBMC.vbs" %KodiLaunchCmd%
-cscript //B //Nologo "%~dp0\LaunchXBMC.vbs" %KodiLaunchCmd%
+echo cscript //B //Nologo "%~dp0\LaunchKodi.vbs" %KodiLaunchCmd%
+cscript //B //Nologo "%~dp0\LaunchKodi.vbs" %KodiLaunchCmd%
