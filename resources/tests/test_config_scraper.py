@@ -8,7 +8,7 @@ import unittest
 class TestScraper(unittest.TestCase):
     """
     This unittest class is used for testing the parsing of the Scraper and Site objects from the config_template.xml
-    file. Tests for the parsing process itself is in test_scrapers.py and test_scrapers_artwork.py
+    file. Tests for the parsing process itself is in test_scrapers.py
     """
 
     @classmethod
