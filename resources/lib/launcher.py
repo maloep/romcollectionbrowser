@@ -19,6 +19,8 @@ class RCBLauncher(object):
 		# Do we need to escape commands before executing?
 		self.escapeCmd = xbmc.Addon().getSetting(util.SETTING_RCB_ESCAPECOMMAND).upper() == 'TRUE'
 
+		self.romCollection = None
+
 	def launchEmu(self, gdb, gui, gameId, config, listitem):
 		log.info("Begin launcher.launchEmu")
 
@@ -27,9 +29,8 @@ class RCBLauncher(object):
 			log.error("Game with id %s could not be found in database" % gameId)
 			return
 
-		romCollection = None
 		try:
-			romCollection = config.romCollections[str(gameRow[util.GAME_romCollectionId])]
+			self.romCollection = config.romCollections[str(gameRow[util.GAME_romCollectionId])]
 		except KeyError:
 			log.error("Cannot get rom collection with id: " + str(gameRow[util.GAME_romCollectionId]))
 			gui.writeMsg(util.localize(32034))
@@ -47,9 +48,9 @@ class RCBLauncher(object):
 		filenameRows = File(gdb).getRomsByGameId(gameRow[util.ROW_ID])
 		log.info("files for current game: " + str(filenameRows))
 
-		cmd, precmd, postcmd, roms = self.__buildCmd(gui, filenameRows, romCollection, gameRow, False)
+		cmd, precmd, postcmd, roms = self.__buildCmd(gui, filenameRows, gameRow, False)
 
-		if not romCollection.useBuiltinEmulator:
+		if not self.romCollection.useBuiltinEmulator:
 			if cmd == '':
 				log.info("No cmd created. Game will not be launched.")
 				return
@@ -60,7 +61,7 @@ class RCBLauncher(object):
 				log.info("No postcmd created.")
 
 			# solo mode
-			if romCollection.useEmuSolo:
+			if self.romCollection.useEmuSolo:
 
 				self.__copyLauncherScriptsToUserdata()
 
@@ -96,7 +97,7 @@ class RCBLauncher(object):
 		log.info("postcmd: " + postcmd)
 
 		try:
-			self.__launchNonXbox(cmd, romCollection, gameRow, precmd, postcmd, roms, gui, listitem)
+			self.__launchNonXbox(cmd, gameRow, precmd, postcmd, roms, gui, listitem)
 
 			gui.writeMsg("")
 
@@ -106,7 +107,7 @@ class RCBLauncher(object):
 
 		log.info("End launcher.launchEmu")
 
-	def __buildCmd(self, gui, filenameRows, romCollection, gameRow, calledFromSkin):
+	def __buildCmd(self, gui, filenameRows, gameRow, calledFromSkin):
 		log.info("launcher.buildCmd")
 
 		compressedExtensions = ['7z', 'zip']
@@ -115,18 +116,18 @@ class RCBLauncher(object):
 		precmd = ""
 		postcmd = ""
 
-		emuCommandLine = romCollection.emulatorCmd
+		emuCommandLine = self.romCollection.emulatorCmd
 		log.info("emuCommandLine: " + emuCommandLine)
-		log.info("preCmdLine: " + romCollection.preCmd)
-		log.info("postCmdLine: " + romCollection.postCmd)
+		log.info("preCmdLine: " + self.romCollection.preCmd)
+		log.info("postCmdLine: " + self.romCollection.postCmd)
 
 		# handle savestates
-		stateFile = self.__checkGameHasSaveStates(romCollection, gameRow, filenameRows)
+		stateFile = self.__checkGameHasSaveStates(gameRow, filenameRows)
 
 		if stateFile == '':
-			emuParams = romCollection.emulatorParams
+			emuParams = self.romCollection.emulatorParams
 		else:
-			emuParams = romCollection.saveStateParams
+			emuParams = self.romCollection.saveStateParams
 			if self.escapeCmd:
 				stateFile = re.escape(stateFile)
 			emuParams = emuParams.replace('%statefile%', stateFile)
@@ -139,12 +140,12 @@ class RCBLauncher(object):
 
 		# ask for disc number if multidisc game
 		diskName = ""
-		if romCollection.diskPrefix != '' and '%I%' not in emuParams:
+		if self.romCollection.diskPrefix != '' and '%I%' not in emuParams:
 			log.info("Getting Multiple Disc Parameter")
 			options = []
 			for disk in filenameRows:
 				gamename = os.path.basename(disk[0])
-				match = re.search(romCollection.diskPrefix.lower(), str(gamename).lower())
+				match = re.search(self.romCollection.diskPrefix.lower(), str(gamename).lower())
 				if match:
 					disk = gamename[match.start():match.end()]
 					options.append(disk)
@@ -172,8 +173,8 @@ class RCBLauncher(object):
 			rom = fileNameRow[0]
 			log.info("rom: " + str(rom))
 
-			if romCollection.makeLocalCopy:
-				localDir = os.path.join(util.getTempDir(), romCollection.name)
+			if self.romCollection.makeLocalCopy:
+				localDir = os.path.join(util.getTempDir(), self.romCollection.name)
 				if xbmcvfs.exists(localDir + '\\'):
 					log.info("Trying to delete local rom files")
 					dirs, files = xbmcvfs.listdir(localDir)
@@ -189,14 +190,14 @@ class RCBLauncher(object):
 			# Don't extract zip files in case of savestate handling and when called From skin
 			filext = rom.split('.')[-1]
 			roms = [rom]
-			if filext in compressedExtensions and not romCollection.doNotExtractZipFiles and stateFile == '' and not calledFromSkin:
-				roms = self.__handleCompressedFile(gui, filext, rom, romCollection, emuParams)
+			if filext in compressedExtensions and not self.romCollection.doNotExtractZipFiles and stateFile == '' and not calledFromSkin:
+				roms = self.__handleCompressedFile(gui, filext, rom, emuParams)
 				log.debug("roms compressed = " + str(roms))
 				if len(roms) == 0:
 					return "", "", "", None
 
 			# no use for complete cmd as we just need the game name
-			if romCollection.useBuiltinEmulator:
+			if self.romCollection.useBuiltinEmulator:
 				log.debug("roms = " + str(roms))
 				return "", "", "", roms
 
@@ -206,17 +207,17 @@ class RCBLauncher(object):
 				precmd = ""
 				postcmd = ""
 				if fileindex == 0:
-					emuParams = self.__replacePlaceholdersInParams(emuParams, rom, romCollection, gameRow)
+					emuParams = self.__replacePlaceholdersInParams(emuParams, rom, gameRow)
 					if self.escapeCmd:
 						emuCommandLine = re.escape(emuCommandLine)
 
-					if romCollection.name in ['Linux', 'Macintosh', 'Windows']:
-						cmd = self.__replacePlaceholdersInParams(emuCommandLine, rom, romCollection, gameRow)
+					if self.romCollection.name in ['Linux', 'Macintosh', 'Windows']:
+						cmd = self.__replacePlaceholdersInParams(emuCommandLine, rom, gameRow)
 					else:
 						cmd = '\"' + emuCommandLine + '\" ' + emuParams.replace('%I%', str(fileindex))
 				else:
 					newrepl = partToRepeat
-					newrepl = self.__replacePlaceholdersInParams(newrepl, rom, romCollection, gameRow)
+					newrepl = self.__replacePlaceholdersInParams(newrepl, rom, gameRow)
 					if self.escapeCmd:
 						emuCommandLine = re.escape(emuCommandLine)
 
@@ -228,28 +229,28 @@ class RCBLauncher(object):
 				if self.env == "win32":
 					cmdprefix = 'call '
 
-				precmd = cmdprefix + self.__replacePlaceholdersInParams(romCollection.preCmd, rom, romCollection, gameRow)
-				postcmd = cmdprefix + self.__replacePlaceholdersInParams(romCollection.postCmd, rom, romCollection, gameRow)
+				precmd = cmdprefix + self.__replacePlaceholdersInParams(self.romCollection.preCmd, rom, gameRow)
+				postcmd = cmdprefix + self.__replacePlaceholdersInParams(self.romCollection.postCmd, rom, gameRow)
 
 				fileindex += 1
 
 		# A disk was chosen by the user, select it here
 		if diskName:
 			log.info("Choosing Disk: " + str(diskName))
-			match = re.search(romCollection.diskPrefix.lower(), cmd.lower())
+			match = re.search(self.romCollection.diskPrefix.lower(), cmd.lower())
 			replString = cmd[match.start():match.end()]
 			cmd = cmd.replace(replString, diskName)
 
 		return cmd, precmd, postcmd, roms
 
-	def __checkGameHasSaveStates(self, romCollection, gameRow, filenameRows):
+	def __checkGameHasSaveStates(self, gameRow, filenameRows):
 
-		if romCollection.saveStatePath == '':
+		if self.romCollection.saveStatePath == '':
 			log.debug("No save state path set")
 			return ''
 
 		rom = filenameRows[0][0]
-		saveStatePath = self.__replacePlaceholdersInParams(romCollection.saveStatePath, rom, romCollection, gameRow)
+		saveStatePath = self.__replacePlaceholdersInParams(self.romCollection.saveStatePath, rom, gameRow)
 
 		saveStateFiles = glob.glob(saveStatePath)
 
@@ -260,7 +261,7 @@ class RCBLauncher(object):
 		log.info('saveStateFiles found: ' + str(saveStateFiles))
 
 		# don't select savestatefile if ASKNUM is requested in Params
-		if re.search('(?i)%ASKNUM%', romCollection.saveStateParams):
+		if re.search('(?i)%ASKNUM%', self.romCollection.saveStateParams):
 			return saveStateFiles[0]
 
 		options = [util.localize(32165)]
@@ -284,13 +285,13 @@ class RCBLauncher(object):
 
 		return emuParams, partToRepeat
 
-	def __handleCompressedFile(self, gui, filext, rom, romCollection, emuParams):
+	def __handleCompressedFile(self, gui, filext, rom, emuParams):
 
 		log.info("__handleCompressedFile")
 
 		# Note: Trying to delete temporary files (from zip or 7z extraction) from last run
 		# Do this before launching a new game. Otherwise game could be deleted before launch
-		tempDir = os.path.join(util.getTempDir(), 'extracted', romCollection.name)
+		tempDir = os.path.join(util.getTempDir(), 'extracted', self.romCollection.name)
 		# check if folder exists
 		if not xbmcvfs.exists(tempDir +'\\'):
 			log.info("Create temporary folder: " +tempDir)
@@ -329,8 +330,8 @@ class RCBLauncher(object):
 
 		# check if we should handle multiple roms
 		match = False
-		if romCollection.diskPrefix != '':
-			match = re.search(romCollection.diskPrefix.lower(), str(names).lower())
+		if self.romCollection.diskPrefix != '':
+			match = re.search(self.romCollection.diskPrefix.lower(), str(names).lower())
 
 		if '%I%' in emuParams and match:
 			log.info("Loading %d archives" % len(names))
@@ -379,7 +380,7 @@ class RCBLauncher(object):
 
 		return roms
 
-	def __replacePlaceholdersInParams(self, emuParams, rom, romCollection, gameRow):
+	def __replacePlaceholdersInParams(self, emuParams, rom, gameRow):
 
 		if self.escapeCmd:
 			rom = re.escape(rom)
@@ -493,16 +494,16 @@ class RCBLauncher(object):
 			log.info("Got to PRE: " + precmd.strip())
 			os.system(precmd.encode(self.__getEncoding()))
 
-	def __executeCommand(self, romCollection, cmd):
+	def __executeCommand(self, cmd):
 		# change working directory
-		path = os.path.dirname(romCollection.emulatorCmd)
+		path = os.path.dirname(self.romCollection.emulatorCmd)
 		if os.path.isdir(path):
 			try:
 				os.chdir(path)
 			except OSError:
 				log.warn("Unable to chdir to {0}".format(path))
 
-		if romCollection.usePopen:
+		if self.romCollection.usePopen:
 			import subprocess
 			process = subprocess.Popen(cmd.encode(self.__getEncoding()), shell=True)
 			process.wait()
@@ -515,26 +516,26 @@ class RCBLauncher(object):
 			log.info("Got to POST: " + postcmd.strip())
 			os.system(postcmd.encode(self.__getEncoding()))
 
-	def __launchNonXbox(self, cmd, romCollection, gameRow, precmd, postcmd, roms, gui, listitem):
+	def __launchNonXbox(self, cmd, gameRow, precmd, postcmd, roms, gui, listitem):
 		log.info("launchEmu on non-xbox")
 
 		screenModeToggled = False
 
 		# use libretro core to play game
-		if romCollection.useBuiltinEmulator:
+		if self.romCollection.useBuiltinEmulator:
 			log.info("launching game with internal emulator")
 			rom = roms[0]
-			gameclient = romCollection.gameclient
+			gameclient = self.romCollection.gameclient
 			# HACK: use alternateGameCmd as gameclient
 			if gameRow[util.GAME_alternateGameCmd] is not None and gameRow[util.GAME_alternateGameCmd] != "":
 				gameclient = str(gameRow[util.GAME_alternateGameCmd])
 			log.info("Preferred gameclient: " + gameclient)
-			log.info("Setting platform: " + romCollection.name)
+			log.info("Setting platform: " + self.romCollection.name)
 
 			if listitem is None:
 				listitem = xbmcgui.ListItem(rom, "0", "", "")
 
-			parameters = {"platform": romCollection.name}
+			parameters = {"platform": self.romCollection.name}
 			if gameclient != "":
 				parameters["gameclient"] = gameclient
 			listitem.setInfo(type="game", infoLabels=parameters)
@@ -544,7 +545,7 @@ class RCBLauncher(object):
 			# xbmc.executebuiltin('PlayMedia(\"%s\", platform=%s, gameclient=%s)' %(rom, romCollection.name, romCollection.gameclient))
 			return
 
-		if not romCollection.useEmuSolo:
+		if not self.romCollection.useEmuSolo:
 			screenMode = xbmc.getInfoLabel("System.Screenmode")
 			log.info("screenMode: " + screenMode)
 			isFullScreen = screenMode.endswith("Full Screen")
@@ -566,7 +567,7 @@ class RCBLauncher(object):
 
 		self.__audioSuspend()
 
-		self.__executeCommand(romCollection, cmd)
+		self.__executeCommand(cmd)
 
 		log.info("launch emu done")
 
