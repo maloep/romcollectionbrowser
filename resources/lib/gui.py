@@ -1240,7 +1240,7 @@ class UIGameDB(xbmcgui.WindowXML):
 		self.gameinfoDialogOpen = False
 
 		#force restart of video if available
-		selectedGame.setProperty('gameplaymain', video)
+		#selectedGame.setProperty('gameplaymain', video)
 		self.setFocus(self.getControl(CONTROL_GAMES_GROUP_START))
 
 		Logutil.log("End showGameInfoDialog", util.LOG_LEVEL_INFO)
