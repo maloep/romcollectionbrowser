@@ -865,25 +865,8 @@ class DBUpdate(object):
 		resultValue = u''
 
 		try:
-			resultValue = result[itemName][0]
+			resultValue = result[itemName][0].strip()
 
-			if itemName == 'ReleaseYear' and resultValue is not None:
-				if type(resultValue) is time.struct_time:
-					resultValue = str(resultValue[0])
-				elif len(resultValue) > 4:
-					resultValueOrig = resultValue
-					resultValue = resultValue[0:4]
-					try:
-						#year must be numeric
-						int(resultValue)
-					except:
-						resultValue = resultValueOrig[len(resultValueOrig) - 4:]
-						try:
-							int(resultValue)
-						except:
-							resultValue = u''
-
-			resultValue = resultValue.strip()
 			if type(resultValue) == str:
 				resultValue = resultValue.decode('utf-8')
 
