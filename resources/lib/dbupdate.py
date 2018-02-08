@@ -700,8 +700,6 @@ class DBUpdate(object):
 			return idList
 
 		for item in itemList:
-			item = self.stripHTMLTags(item)
-
 			itemRow = gdbObject.getOneByName(item)
 			if itemRow is None:
 				log.info("{0} does not exist in database. Insert: {1}".format(itemName, item.encode('utf-8')))
@@ -892,8 +890,6 @@ class DBUpdate(object):
 						except:
 							resultValue = u''
 
-			# replace and remove HTML tags
-			resultValue = self.stripHTMLTags(resultValue)
 			resultValue = resultValue.strip()
 			if type(resultValue) == str:
 				resultValue = resultValue.decode('utf-8')
@@ -907,30 +903,6 @@ class DBUpdate(object):
 			pass
 
 		return resultValue
-
-	def stripHTMLTags(self, inputString):
-
-		inputString = util.html_unescape(inputString)
-
-		#remove html tags and double spaces
-		intag = [False]
-		lastSpace = [False]
-		def chk(c):
-			if intag[0]:
-				intag[0] = (c != '>')
-				lastSpace[0] = (c == ' ')
-				return False
-			elif c == '<':
-				intag[0] = True
-				lastSpace[0] = (c == ' ')
-				return False
-			if(c == ' ' and lastSpace[0]):
-				lastSpace[0] = (c == ' ')
-				return False
-			lastSpace[0] = (c == ' ')
-			return True
-
-		return ''.join(c for c in inputString if chk(c))
 
 	def insertFile(self, fileName, gameId, fileType, romCollectionId, publisherId, developerId):
 		log.debug("Begin Insert file: {0}".format(fileName))
