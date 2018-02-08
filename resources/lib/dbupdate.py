@@ -259,7 +259,7 @@ class DBUpdate(object):
 			#print "load %i games in %d ms" % (self.getListSize(), diff)
 
 		self._gui.writeMsg("Done.", "", "", self._gui.itemCount)
-		self.exit()
+		log.info("Update finished")
 		return True, ''
 
 	def getRomFilesByRomCollection(self, romCollection, enableFullReimport):
@@ -993,6 +993,3 @@ class DBUpdate(object):
 			log.warn("Error in getThumbFromOnlineSource: {0}".format(exc))
 
 		return True, artworkurls
-
-	def exit(self):
-		log.info("Update finished")
