@@ -69,6 +69,21 @@ class Test_GamesDBScraper(unittest.TestCase):
         self.assertEqual(result['Genre'], ["Fighting"], "Expected Fighting genre in test XML")
 
         # FIXME TODO Games with multiple Genres
+        
+        
+    # Parse game retrieve
+    def test_RetrieveMissingProperties(self):
+        f = os.path.join(os.path.dirname(__file__), '..', '..', 'resources', 'tests', 'testdata', 'scraper_web_responses', 'thegamesdb_getgame_missingproperties.xml')
+        scraper = TheGamesDB_Scraper()
+        with open(f) as xmlfile:
+            data = xmlfile.read()
+        result = scraper._parseGameResult(data)
+        self.assertIsInstance(result, dict, "Return value of parseGameResult should be a dict")
+        self.assertEqual(result['Game'], ["Arkanoid"], "Expected game name value to be set")
+        self.assertEqual(result['Developer'], ["Taito"], "Expected developer value to be set")
+        self.assertEqual(result['Publisher'], ["Discovery"], "Expected publisher value to be set")
+        self.assertTrue(result['Description'][0].startswith("The original Breakout concept involves controlling a bat at the bottom of the screen"), "Expected description value to be set")
+    
 
     # Parse image capture in the retrieve result
     def test_RetrieveImages(self):
