@@ -24,6 +24,7 @@ class TheGamesDB_Scraper(WebScraper):
 		'Publisher': 'Publisher',
 		'Developer': 'Developer',
 		'Players': 'Players',
+		'Rating': 'Rating',
 		'Filetypefanart': 'Images/fanart/original',
 		'Filetypeboxfront': "Images/boxart[@side='front']",
 		'Filetypeboxback': "Images/boxart[@side='back']",
