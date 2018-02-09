@@ -717,6 +717,62 @@
 		<commonFolders>
 			<folder/>
 		</commonFolders>
+		<platform name="3DO">
+			<emulator name="RetroArch (4DO)">
+				<detectionMethod name="commonFolders">
+					<folder>%APPDATA%\RetroArch</folder>
+					<folder>%PROGRAMFILES%\RetroArch</folder>
+					<folder>%PROGRAMFILES(X86)%\RetroArch</folder>
+				</detectionMethod>
+				<configuration>
+					<emulatorCommand>%INSTALLDIR%\retroarch.exe</emulatorCommand>
+					<emulatorParams>"%rom%" -f -D -c "%INSTALLDIR%\retroarch.cfg" -L "%INSTALLDIR%\cores\4do_libretro.dll"</emulatorParams>
+				</configuration>
+			</emulator>
+		</platform>
+		<platform name="Amiga">
+			<emulator name="WinUAE (32)">
+				<detectionMethod name="commonFolders">
+					<folder>%PROGRAMFILES(X86)%\WinUAE</folder>				
+				</detectionMethod>
+				<configuration>
+					<emulatorCommand>%INSTALLDIR%\winuae.exe</emulatorCommand>
+					<emulatorParams>-f "C:\Users\Public\Documents\Amiga Files\WinUAE\Configurations\Default.uae" {-%I% "%ROM%"}</emulatorParams>
+				</configuration>
+			</emulator>
+			<emulator name="WinUAE (64)">
+				<detectionMethod name="commonFolders">
+					<folder>%PROGRAMFILES%\WinUAE</folder>
+					<folder>%ProgramW6432%\WinUAE</folder>
+				</detectionMethod>
+				<configuration>
+					<emulatorCommand>%INSTALLDIR%\winuae64.exe</emulatorCommand>
+					<emulatorParams>-f "C:\Users\Public\Documents\Amiga Files\WinUAE\Configurations\Default.uae" {-%I% "%ROM%"}</emulatorParams>
+				</configuration>
+			</emulator>
+			<emulator name="FS-UAE">
+				<detectionMethod name="commonFolders">
+					<folder>%LOCALAPPDATA%\fs-uae</folder>
+				</detectionMethod>
+				<configuration>
+					<emulatorCommand>%INSTALLDIR%\fs-uae.exe</emulatorCommand>
+					<emulatorParams>--fullscreen=1 {--floppy-drive-%I%="%ROM%"}</emulatorParams>
+				</configuration>
+			</emulator>
+		</platform>
+		<platform name="Nintendo 64">
+			<emulator name="RetroArch (mupen 64 plus)">
+				<detectionMethod name="commonFolders">
+					<folder>%APPDATA%\RetroArch</folder>
+					<folder>%PROGRAMFILES%\RetroArch</folder>
+					<folder>%PROGRAMFILES(X86)%\RetroArch</folder>
+				</detectionMethod>
+				<configuration>
+					<emulatorCommand>%INSTALLDIR%\retroarch.exe</emulatorCommand>
+					<emulatorParams>"%rom%" -f -D -c "%INSTALLDIR%\retroarch.cfg" -L "%INSTALLDIR%\cores\mupen64plus_libretro.dll"</emulatorParams>
+				</configuration>
+			</emulator>
+		</platform>
 		<platform name="SNES">
 			<emulator name="RetroArch (bsnes accuracy)">
 				<detectionMethod name="commonFolders">
@@ -725,11 +781,11 @@
 					<folder>%PROGRAMFILES(X86)%\RetroArch</folder>
 				</detectionMethod>
 				<configuration>
-					<emulatorCommand>%INSTALLDIR%\RetroArch\retroarch.exe</emulatorCommand>
-					<emulatorParams>"%rom%" -f -D -c "%INSTALLDIR%\RetroArch\retroarch.cfg" -L "%INSTALLDIR%\RetroArch\cores\bsnes_accuracy_libretro.dll"</emulatorParams>
+					<emulatorCommand>%INSTALLDIR%\retroarch.exe</emulatorCommand>
+					<emulatorParams>"%rom%" -f -D -c "%INSTALLDIR%\retroarch.cfg" -L "%INSTALLDIR%\cores\bsnes_accuracy_libretro.dll"</emulatorParams>
 				</configuration>
 			</emulator>
-		</platform>
+		</platform>		
 	</os>
 	<os name="Linux" version="LibreELEC, OpenELEC">
 		<detectionMethods>	  

@@ -250,6 +250,7 @@ class EmulatorAutoconfig(RcbXmlReaderWriter):
 
             elif detectionMethod.name == 'commonFolders':
                 for folder in detectionMethod.folders:
+                    print 'Checking folder: %s' %folder
                     #resolve windows environment variables like %APPDATA%
                     newFolder = ''
                     parts = folder.split('%')
@@ -260,7 +261,9 @@ class EmulatorAutoconfig(RcbXmlReaderWriter):
                         else:
                             newFolder = newFolder +part
                     
+                    print 'Checking folder (resolved environment variables): %s' %newFolder
                     if(os.path.exists(newFolder)):
+                        print 'Folder %s exists' %newFolder
                         emulator.installdir = newFolder
                         return True
             else:
