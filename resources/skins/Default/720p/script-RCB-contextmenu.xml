@@ -91,10 +91,10 @@
 			<texturenofocus></texturenofocus>
 			<label>$ADDON[script.games.rom.collection.browser 32504]</label>
 			<onup>5111</onup>
-			<ondown>5117</ondown>
+			<ondown>5113</ondown>
 		</control>
-		<control type="button" id="5117">
-			<description>button edit offline scraper</description>
+		<control type="button" id="5113">
+			<description>button edit command</description>
 			<posx>0</posx>
 			<posy>90</posy>
 			<width>350</width>
@@ -104,30 +104,15 @@
 			<textcolor>white</textcolor>
 			<texturefocus colordiffuse="FF12A0C7">rcb-MenuItemFO.png</texturefocus>
 			<texturenofocus></texturenofocus>
-			<label>$ADDON[script.games.rom.collection.browser 32505]</label>
-			<onup>5112</onup>
-			<ondown>5113</ondown>
-		</control>
-		<control type="button" id="5113">
-			<description>button edit command</description>
-			<posx>0</posx>
-			<posy>126</posy>
-			<width>350</width>
-			<height>38</height>
-			<font>fontContextMenu</font>
-			<align>center</align>
-			<textcolor>white</textcolor>
-			<texturefocus colordiffuse="FF12A0C7">rcb-MenuItemFO.png</texturefocus>
-			<texturenofocus></texturenofocus>
 			<label>$ADDON[script.games.rom.collection.browser 32506]</label>
-			<onup>5117</onup>
+			<onup>5112</onup>
 			<ondown>5118</ondown>
 		</control>
 		
 		<control type="button" id="5118">
 			<description>button game as favorite</description>
 			<posx>0</posx>
-			<posy>162</posy>
+			<posy>128</posy>
 			<width>350</width>
 			<height>38</height>
 			<font>fontContextMenu</font>
@@ -142,7 +127,7 @@
 		<control type="button" id="5119">
 			<description>button selection as favorite</description>
 			<posx>0</posx>
-			<posy>200</posy>
+			<posy>166</posy>
 			<width>350</width>
 			<height>38</height>
 			<font>fontContextMenu</font>
@@ -158,7 +143,7 @@
 		<control type="button" id="5120">
 			<description>button export nfo files</description>
 			<posx>0</posx>
-			<posy>238</posy>
+			<posy>200</posy>
 			<width>350</width>
 			<height>38</height>
 			<font>fontContextMenu</font>
@@ -174,7 +159,7 @@
 		<control type="button" id="5114">
 			<description>button delete rom</description>
 			<posx>0</posx>
-			<posy>276</posy>
+			<posy>238</posy>
 			<width>350</width>
 			<height>38</height>
 			<font>fontContextMenu</font>
@@ -189,7 +174,7 @@
 		<control type="button" id="5115">
 			<description>button delete rom collection</description>
 			<posx>0</posx>
-			<posy>314</posy>
+			<posy>276</posy>
 			<width>350</width>
 			<height>38</height>
 			<font>fontContextMenu</font>
@@ -204,7 +189,7 @@
 		<control type="button" id="5116">
 			<description>button clean database</description>
 			<posx>0</posx>
-			<posy>352</posy>
+			<posy>314</posy>
 			<width>350</width>
 			<height>38</height>
 			<font>fontContextMenu</font>
@@ -219,7 +204,7 @@
 		<control type="button" id="5223">
 			<description>button open settings</description>
 			<posx>0</posx>
-			<posy>390</posy>
+			<posy>352</posy>
 			<width>350</width>
 			<height>38</height>
 			<font>fontContextMenu</font>
@@ -234,7 +219,7 @@
 		<control type="button" id="5224">
 			<description>button set gameclient</description>
 			<posx>0</posx>
-			<posy>428</posy>
+			<posy>390</posy>
 			<width>350</width>
 			<height>38</height>
 			<font>fontContextMenu</font>
