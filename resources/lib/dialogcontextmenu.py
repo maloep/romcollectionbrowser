@@ -2,7 +2,7 @@
 import xbmc, xbmcgui
 
 import util, nfowriter, wizardconfigxml, helper
-import dialogeditromcollection, dialogeditscraper, dialogdeleteromcollection
+import dialogeditromcollection, dialogdeleteromcollection
 from nfowriter import *
 from gamedatabase import *
 from util import *
@@ -128,15 +128,6 @@ class ContextMenuDialog(xbmcgui.WindowXMLDialog):
 			constructorParam = "720p"
 			editRCdialog = dialogeditromcollection.EditRomCollectionDialog("script-RCB-editromcollection.xml", util.getAddonInstallPath(), util.getConfiguredSkin(), constructorParam, gui=self.gui)
 			del editRCdialog
-
-			self.gui.config = Config(None)
-			self.gui.config.readXml()
-
-		elif controlID == 5117:  # Edit scraper
-			self.close()
-			constructorParam = "720p"
-			editscraperdialog = dialogeditscraper.EditOfflineScraper("script-RCB-editscraper.xml", util.getAddonInstallPath(), util.getConfiguredSkin(), constructorParam, gui=self.gui)
-			del editscraperdialog
 
 			self.gui.config = Config(None)
 			self.gui.config.readXml()
