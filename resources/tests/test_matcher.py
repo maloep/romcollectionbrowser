@@ -8,7 +8,6 @@ sys.path.append(os.path.join(os.path.dirname(__file__), '..', '..', 'resources',
 sys.path.append(os.path.join(os.path.dirname(__file__), '..', '..', 'resources', 'lib', 'pyscraper'))
 
 from resources.lib.pyscraper.matcher import Matcher
-from resources.lib.config import Config, Scraper
 import resources.lib.util as util
 
 import unittest

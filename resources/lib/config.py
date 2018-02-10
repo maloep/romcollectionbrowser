@@ -713,10 +713,6 @@ class Config(RcbXmlReaderWriter):
 
 				siteName = scraperRow.attrib.get('name')
 
-				# Read additional scraper properties
-				replaceKeyString = scraperRow.attrib.get('replaceKeyString', '')
-				replaceValueString = scraperRow.attrib.get('replaceValueString', '')
-
 				# elementtree version 1.2.7 does not support xpath like this: Scrapers/Site[@name="%s"]
 				siteRow = None
 				for element in tree.findall('Scrapers/Site'):
