@@ -775,7 +775,7 @@ class Config(RcbXmlReaderWriter):
 					Logutil.log('Configuration error. Site %s does not exist in config.xml' % siteName, util.LOG_LEVEL_ERROR)
 					return None, util.localize(32005)
 
-				scraper, errorMsg = self.readScraper(siteRow, romCollection.name, replaceKeyString, replaceValueString, True, tree)
+				scraper, errorMsg = self.readScraper(siteRow)
 				if scraper is None:
 					return None, errorMsg
 				romCollection.scraperSites.append(scraper)
@@ -828,7 +828,7 @@ class Config(RcbXmlReaderWriter):
 
 		siteRows = tree.findall('Scrapers/Site')
 		for siteRow in siteRows:
-			site, errorMsg = self.readScraper(siteRow, '', '', '', False, tree)
+			site, errorMsg = self.readScraper(siteRow)
 			if site is None:
 				return None, errorMsg
 
@@ -837,55 +837,12 @@ class Config(RcbXmlReaderWriter):
 
 		return sites, ''
 
-	def readScraper(self, siteRow, romCollectionName, inReplaceKeyString, inReplaceValueString, replaceValues, tree):
+	def readScraper(self, siteRow):
 
 		site = Site()
 		site.name = siteRow.attrib.get('name')
-		Logutil.log('Parsing scraper site: ' + str(site.name), util.LOG_LEVEL_INFO)
 
-		for var in ['descFilePerGame', 'searchGameByCRC', 'searchGameByCRCIgnoreRomName',
-					'useFoldernameAsCRC', 'useFilenameAsCRC']:
-			site.__setattr__(var, siteRow.get(var, '').upper() == 'TRUE')
-
-		scrapers = []
-
-		for scraperRow in siteRow.findall('Scraper'):
-			scraper = Scraper()
-
-			parseInstruction = scraperRow.attrib.get('parseInstruction', '')
-			if parseInstruction != '':
-				#os.path.isabs does not recognize smb paths
-				if not os.path.isabs(parseInstruction) and not parseInstruction.startswith('smb://'):
-					# If it is a relative path, search in RCBs home directory
-					parseInstruction = os.path.join(util.RCBHOME, 'resources', 'scraper', parseInstruction)
-
-				if not xbmcvfs.exists(parseInstruction):
-					Logutil.log('Configuration error. parseInstruction file %s does not exist.' % parseInstruction, util.LOG_LEVEL_ERROR)
-					return None, util.localize(32005)
-
-				scraper.parseInstruction = parseInstruction
-
-			source = scraperRow.attrib.get('source', '')
-			if source != '':
-				if replaceValues:
-					#platform = getPlatformByRomCollection(source, romCollectionName)
-					platform = urllib.quote(getPlatformByRomCollection(source, romCollectionName),
-											safe='')
-					source = source.replace('%PLATFORM%', platform)
-				scraper.source = source
-
-			scraper.encoding = scraperRow.get('encoding', 'utf-8')
-			scraper.returnUrl = scraperRow.get('returnUrl', '').upper() == 'TRUE'
-			scraper.sourceAppend = scraperRow.get('sourceAppend', '')
-
-			scraper.replaceKeyString = inReplaceKeyString
-			scraper.replaceValueString = inReplaceValueString
-
-			scrapers.append(scraper)
-
-		site.scrapers = scrapers
-
-		Logutil.log('Parsed scraper site: {0}'.format(site), util.LOG_LEVEL_INFO)
+		log.info('Parsed scraper site: {0}'.format(site))
 
 		return site, ''
 
