@@ -1539,7 +1539,7 @@ class UIGameDB(xbmcgui.WindowXML):
 		progressDialog.writeMsg(util.localize(32111), "", "")
 
 		updater = dbupdate.DBUpdate()
-		updater.updateDB(self.gdb, progressDialog, romCollections, self.Settings, isRescrape)
+		updater.updateDB(self.gdb, progressDialog, romCollections, isRescrape)
 		del updater
 		progressDialog.writeMsg("", "", "", -1)
 		del progressDialog

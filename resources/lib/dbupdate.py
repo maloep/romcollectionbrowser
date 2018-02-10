@@ -12,6 +12,7 @@ import util
 from util import *
 from util import KodiVersions
 from util import Logutil as log
+from util import __addon__
 from config import *
 from gamedatabase import *
 from descriptionparserfactory import *
@@ -107,17 +108,9 @@ class DBUpdate(object):
 
 		pass
 
-	def retrieve_settings(self):
-		self.ignoreGameWithoutDesc = self.Settings.getSetting(util.SETTING_RCB_IGNOREGAMEWITHOUTDESC).upper() == 'TRUE'
-		self.ignoreGamesWithoutArtwork = self.Settings.getSetting(util.SETTING_RCB_IGNOREGAMEWITHOUTARTWORK).upper() == 'TRUE'
-		self.createNfoFile = self.Settings.getSetting(util.SETTING_RCB_CREATENFOFILE).upper() == 'TRUE'
-
-	def updateDB(self, gdb, gui, romCollections, settings, isRescrape):
+	def updateDB(self, gdb, gui, romCollections, isRescrape):
 		self.gdb = gdb
 		self._gui = gui
-		self.Settings = settings
-
-		self.retrieve_settings()
 
 		log.info("Start Update DB")
 
@@ -125,7 +118,7 @@ class DBUpdate(object):
 		rccount = 1
 
 		#always do full reimports when in rescrape-mode
-		enableFullReimport = isRescrape or self.Settings.getSetting(util.SETTING_RCB_ENABLEFULLREIMPORT).upper() == 'TRUE'
+		enableFullReimport = isRescrape or __addon__.getSetting(util.SETTING_RCB_ENABLEFULLREIMPORT).upper() == 'TRUE'
 		log.info("enableFullReimport: {0}".format(enableFullReimport))
 
 		continueUpdate = True
@@ -266,7 +259,7 @@ class DBUpdate(object):
 			#print "load %i games in %d ms" % (self.getListSize(), diff)
 
 		self._gui.writeMsg("Done.", "", "", self._gui.itemCount)
-		self.exit()
+		log.info("Update finished")
 		return True, ''
 
 	def getRomFilesByRomCollection(self, romCollection, enableFullReimport):
@@ -473,7 +466,7 @@ class DBUpdate(object):
 			if not isLocalArtwork:
 				self.missingDescFile.add_entry(gamename)
 
-				if self.ignoreGameWithoutDesc:
+				if __addon__.getSetting(util.SETTING_RCB_IGNOREGAMEWITHOUTDESC).upper() == 'TRUE':
 					log.warn("No description found for game '{0}'. Game will not be imported.".format(gamename))
 					return None
 			game = ''
@@ -563,14 +556,14 @@ class DBUpdate(object):
 
 		artWorkFound, artworkfiles, artworkurls = self.getArtworkForGame(romCollection, gamename, gamenameFromFile, gamedescription, foldername, publisher, developer, isLocalArtwork)
 
-		if not artWorkFound and self.ignoreGamesWithoutArtwork:
+		if not artWorkFound and (__addon__.getSetting(util.SETTING_RCB_IGNOREGAMEWITHOUTARTWORK).upper() == 'TRUE'):
 			log.warn("No artwork found for game '{0}'. Game will not be imported.".format(gamenameFromFile))
 			self.missingArtworkFile.add_entry(gamename)
 
 			return None
 
 		# Create Nfo file with game properties
-		if self.createNfoFile and gamedescription is not None:
+		if (__addon__.getSetting(util.SETTING_RCB_CREATENFOFILE).upper() == 'TRUE') and gamedescription is not None:
 			try:
 				genreList = gamedescription.get('Genre', [])
 				writer = NfoWriter()
@@ -653,7 +646,7 @@ class DBUpdate(object):
 				if allowUpdate:
 
 					#check if we are allowed to update with null values
-					allowOverwriteWithNullvalues = self.Settings.getSetting(util.SETTING_RCB_ALLOWOVERWRITEWITHNULLVALUES).upper() == 'TRUE'
+					allowOverwriteWithNullvalues = __addon__.getSetting(util.SETTING_RCB_ALLOWOVERWRITEWITHNULLVALUES).upper() == 'TRUE'
 					log.info("allowOverwriteWithNullvalues: {0}".format(allowOverwriteWithNullvalues))
 
 					log.info(u"Game does exist in database. Update game: {0}".format(gameName))
@@ -700,8 +693,6 @@ class DBUpdate(object):
 			return idList
 
 		for item in itemList:
-			item = self.stripHTMLTags(item)
-
 			itemRow = gdbObject.getOneByName(item)
 			if itemRow is None:
 				log.info("{0} does not exist in database. Insert: {1}".format(itemName, item.encode('utf-8')))
@@ -874,27 +865,8 @@ class DBUpdate(object):
 		resultValue = u''
 
 		try:
-			resultValue = result[itemName][0]
+			resultValue = result[itemName][0].strip()
 
-			if itemName == 'ReleaseYear' and resultValue is not None:
-				if type(resultValue) is time.struct_time:
-					resultValue = str(resultValue[0])
-				elif len(resultValue) > 4:
-					resultValueOrig = resultValue
-					resultValue = resultValue[0:4]
-					try:
-						#year must be numeric
-						int(resultValue)
-					except:
-						resultValue = resultValueOrig[len(resultValueOrig) - 4:]
-						try:
-							int(resultValue)
-						except:
-							resultValue = u''
-
-			# replace and remove HTML tags
-			resultValue = self.stripHTMLTags(resultValue)
-			resultValue = resultValue.strip()
 			if type(resultValue) == str:
 				resultValue = resultValue.decode('utf-8')
 
@@ -907,30 +879,6 @@ class DBUpdate(object):
 			pass
 
 		return resultValue
-
-	def stripHTMLTags(self, inputString):
-
-		inputString = util.html_unescape(inputString)
-
-		#remove html tags and double spaces
-		intag = [False]
-		lastSpace = [False]
-		def chk(c):
-			if intag[0]:
-				intag[0] = (c != '>')
-				lastSpace[0] = (c == ' ')
-				return False
-			elif c == '<':
-				intag[0] = True
-				lastSpace[0] = (c == ' ')
-				return False
-			if(c == ' ' and lastSpace[0]):
-				lastSpace[0] = (c == ' ')
-				return False
-			lastSpace[0] = (c == ' ')
-			return True
-
-		return ''.join(c for c in inputString if chk(c))
 
 	def insertFile(self, fileName, gameId, fileType, romCollectionId, publisherId, developerId):
 		log.debug("Begin Insert file: {0}".format(fileName))
@@ -1045,6 +993,3 @@ class DBUpdate(object):
 			log.warn("Error in getThumbFromOnlineSource: {0}".format(exc))
 
 		return True, artworkurls
-
-	def exit(self):
-		log.info("Update finished")
