@@ -277,63 +277,16 @@ class MediaPath(object):
 		return "<MediaPath: %s>" % self.__dict__
 
 
-class Scraper(object):
-	"""
-	A scraper represents the details of how to interpret the XML response from a site to extract the game's
-	metadata.
-
-	parseInstruction: Name of the XML file which details how to interpret the XML response. The XML files are
-	contained in the scraper/ directory.
-	source: URL to retrieve the element in question, with placeholders defined.
-	sourceAppend:
-	encoding: Expected encoding of the site, defaults to 'utf-8' unless overridden.
-	returnUrl:
-	replaceKeyString:
-	replaceValueString:
-	"""
-	def __init__(self, **kwargs):
-		self.parseInstruction = ''
-		self.source = ''
-		self.sourceAppend = ''
-		self.encoding = 'utf-8'
-		self.returnUrl = False
-		self.replaceKeyString = ''
-		self.replaceValueString = ''
-
-		""" Set any variables explicitly passed """
-		for name in kwargs:
-			setattr(self, name, kwargs[name])
-
-	def __repr__(self):
-		return "<Scraper: %s>" % self.__dict__
-
-
 class Site(object):
 	"""
-	A site represents a source of metadata for the rom collections, e.g. giantbomb.com, local NFO.
+	A site is a reference to the scraper class used to retrieve game metadata. These are defined in config_template.xml.
 
-	These are defined in config_template.xml.
+	NOTE that this class will be deprecated in the future.
 
 	name: The name of the site
-	descFilePerGame:
-	searchGameByCRC: Use CRC of the rom to match, rather than the rom's title.
-	searchGameByCRCIgnoreRomName: This doesn't appear to be used at the moment.
-	useFoldernameAsCRC: Generate CRC based on the foldername
-	useFilenameAsCRC: Generate CRC based on the filename
-
-	scrapers: A list of Scraper objects which are the default for this site.
 	"""
 	def __init__(self, **kwargs):
 		self.name = ''
-		# Used if the source for the game metadata is contained in a single file
-		# (e.g. MAME history.dat file) or in multiple files/web URL
-		self.descFilePerGame = False
-		self.searchGameByCRC = True
-		self.searchGameByCRCIgnoreRomName = False
-		self.useFoldernameAsCRC = False
-		self.useFilenameAsCRC = False
-
-		self.scrapers = []
 
 		""" Set any variables explicitly passed """
 		for name in kwargs:
