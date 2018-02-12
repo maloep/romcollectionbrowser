@@ -32,7 +32,7 @@
             <diskPrefix>_Disk.*</diskPrefix>
             <imagePlacingMain>gameinfobig</imagePlacingMain>
             <imagePlacingInfo>gameinfosmall</imagePlacingInfo>
-            <scraper name="thegamesdb.net" replaceKeyString="" replaceValueString="" />
+            <scraper name="thegamesdb.net" />
         </RomCollection>
          <!-- RomCollection missing id attrib, otherwise OK -->
         <RomCollection name="Atari 2600">
@@ -63,7 +63,7 @@
             <diskPrefix>_Disk.*</diskPrefix>
             <imagePlacingMain>gameinfobig</imagePlacingMain>
             <imagePlacingInfo>gameinfosmall</imagePlacingInfo>
-            <scraper name="thegamesdb.net" replaceKeyString="" replaceValueString="" />
+            <scraper name="thegamesdb.net" />
         </RomCollection>
          <!-- RomCollection OK -->
         <RomCollection id="3" name="SNES">
@@ -94,7 +94,7 @@
             <diskPrefix>_Disk.*</diskPrefix>
             <imagePlacingMain>gameinfobig</imagePlacingMain>
             <imagePlacingInfo>gameinfosmall</imagePlacingInfo>
-            <scraper name="thegamesdb.net" replaceKeyString="" replaceValueString="" />
+            <scraper name="thegamesdb.net" />
         </RomCollection>
     </RomCollections>
 
@@ -133,8 +133,6 @@
     </FileTypes>
 
     <Scrapers>
-        <Site descFilePerGame="True" name="thegamesdb.net" searchGameByCRC="False">
-            <Scraper parseInstruction="02 - thegamesdb.xml" source="http://thegamesdb.net/api/GetGame.php?name=%GAME%&amp;platform=%PLATFORM%" />
-        </Site>
+        <Site name="thegamesdb.net"/>
     </Scrapers>
 </config>

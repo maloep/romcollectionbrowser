@@ -68,6 +68,23 @@ class Test_GiantBombScraper(unittest.TestCase):
         # Genres
         self.assertEquals(results['Genre'], ['Driving/Racing'])
 
+    def test_RetrieveGameWithMultipleGenres(self):
+        """Make sure that games with multiple genres are handled correctly"""
+        # Ref https://www.giantbomb.com/api/game/3030-17123/?api_key=API_KEY&format=json&resources=game
+        f = os.path.join(os.path.dirname(__file__), '..', '..', 'resources', 'tests', 'testdata',
+                         'scraper_web_responses', 'giantbomb_getgame_2genres.json')
+        scraper = GiantBomb_Scraper()
+        with open(f) as jsonfile:
+            data = jsonfile.read()
+        result = scraper._parse_game_result(json.loads(data)['results'])
+        self.assertEqual(len(result['Genre']), 2)
+        self.assertIn("Action", result['Genre'], "Expected genre Action to be retrieved")
+        self.assertIn("Platformer", result['Genre'], "Expected genre Platformer to be retrieved")
+
+        self.assertEqual(len(result['Publishers']), 2)
+        self.assertIn("Ubisoft S.A.", result['Publishers'], "Expected publisher Ubisoft S.A. to be retrieved")
+        self.assertIn("Enix Corporation", result['Publishers'], "Expected publisher Enix Corporation to be retrieved")
+
     @unittest.skip("Not yet working")
     def test_ErrorResponseInvalidApiKey(self):
         f = os.path.join(os.path.dirname(__file__), '..', '..', 'resources', 'tests', 'testdata',

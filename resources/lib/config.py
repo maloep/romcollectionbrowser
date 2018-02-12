@@ -277,63 +277,16 @@ class MediaPath(object):
 		return "<MediaPath: %s>" % self.__dict__
 
 
-class Scraper(object):
-	"""
-	A scraper represents the details of how to interpret the XML response from a site to extract the game's
-	metadata.
-
-	parseInstruction: Name of the XML file which details how to interpret the XML response. The XML files are
-	contained in the scraper/ directory.
-	source: URL to retrieve the element in question, with placeholders defined.
-	sourceAppend:
-	encoding: Expected encoding of the site, defaults to 'utf-8' unless overridden.
-	returnUrl:
-	replaceKeyString:
-	replaceValueString:
-	"""
-	def __init__(self, **kwargs):
-		self.parseInstruction = ''
-		self.source = ''
-		self.sourceAppend = ''
-		self.encoding = 'utf-8'
-		self.returnUrl = False
-		self.replaceKeyString = ''
-		self.replaceValueString = ''
-
-		""" Set any variables explicitly passed """
-		for name in kwargs:
-			setattr(self, name, kwargs[name])
-
-	def __repr__(self):
-		return "<Scraper: %s>" % self.__dict__
-
-
 class Site(object):
 	"""
-	A site represents a source of metadata for the rom collections, e.g. giantbomb.com, local NFO.
+	A site is a reference to the scraper class used to retrieve game metadata. These are defined in config_template.xml.
 
-	These are defined in config_template.xml.
+	NOTE that this class will be deprecated in the future.
 
 	name: The name of the site
-	descFilePerGame:
-	searchGameByCRC: Use CRC of the rom to match, rather than the rom's title.
-	searchGameByCRCIgnoreRomName: This doesn't appear to be used at the moment.
-	useFoldernameAsCRC: Generate CRC based on the foldername
-	useFilenameAsCRC: Generate CRC based on the filename
-
-	scrapers: A list of Scraper objects which are the default for this site.
 	"""
 	def __init__(self, **kwargs):
 		self.name = ''
-		# Used if the source for the game metadata is contained in a single file
-		# (e.g. MAME history.dat file) or in multiple files/web URL
-		self.descFilePerGame = False
-		self.searchGameByCRC = True
-		self.searchGameByCRCIgnoreRomName = False
-		self.useFoldernameAsCRC = False
-		self.useFilenameAsCRC = False
-
-		self.scrapers = []
 
 		""" Set any variables explicitly passed """
 		for name in kwargs:
@@ -760,10 +713,6 @@ class Config(RcbXmlReaderWriter):
 
 				siteName = scraperRow.attrib.get('name')
 
-				# Read additional scraper properties
-				replaceKeyString = scraperRow.attrib.get('replaceKeyString', '')
-				replaceValueString = scraperRow.attrib.get('replaceValueString', '')
-
 				# elementtree version 1.2.7 does not support xpath like this: Scrapers/Site[@name="%s"]
 				siteRow = None
 				for element in tree.findall('Scrapers/Site'):
@@ -775,7 +724,7 @@ class Config(RcbXmlReaderWriter):
 					Logutil.log('Configuration error. Site %s does not exist in config.xml' % siteName, util.LOG_LEVEL_ERROR)
 					return None, util.localize(32005)
 
-				scraper, errorMsg = self.readScraper(siteRow, romCollection.name, replaceKeyString, replaceValueString, True, tree)
+				scraper, errorMsg = self.readScraper(siteRow)
 				if scraper is None:
 					return None, errorMsg
 				romCollection.scraperSites.append(scraper)
@@ -828,7 +777,7 @@ class Config(RcbXmlReaderWriter):
 
 		siteRows = tree.findall('Scrapers/Site')
 		for siteRow in siteRows:
-			site, errorMsg = self.readScraper(siteRow, '', '', '', False, tree)
+			site, errorMsg = self.readScraper(siteRow)
 			if site is None:
 				return None, errorMsg
 
@@ -837,55 +786,12 @@ class Config(RcbXmlReaderWriter):
 
 		return sites, ''
 
-	def readScraper(self, siteRow, romCollectionName, inReplaceKeyString, inReplaceValueString, replaceValues, tree):
+	def readScraper(self, siteRow):
 
 		site = Site()
 		site.name = siteRow.attrib.get('name')
-		Logutil.log('Parsing scraper site: ' + str(site.name), util.LOG_LEVEL_INFO)
 
-		for var in ['descFilePerGame', 'searchGameByCRC', 'searchGameByCRCIgnoreRomName',
-					'useFoldernameAsCRC', 'useFilenameAsCRC']:
-			site.__setattr__(var, siteRow.get(var, '').upper() == 'TRUE')
-
-		scrapers = []
-
-		for scraperRow in siteRow.findall('Scraper'):
-			scraper = Scraper()
-
-			parseInstruction = scraperRow.attrib.get('parseInstruction', '')
-			if parseInstruction != '':
-				#os.path.isabs does not recognize smb paths
-				if not os.path.isabs(parseInstruction) and not parseInstruction.startswith('smb://'):
-					# If it is a relative path, search in RCBs home directory
-					parseInstruction = os.path.join(util.RCBHOME, 'resources', 'scraper', parseInstruction)
-
-				if not xbmcvfs.exists(parseInstruction):
-					Logutil.log('Configuration error. parseInstruction file %s does not exist.' % parseInstruction, util.LOG_LEVEL_ERROR)
-					return None, util.localize(32005)
-
-				scraper.parseInstruction = parseInstruction
-
-			source = scraperRow.attrib.get('source', '')
-			if source != '':
-				if replaceValues:
-					#platform = getPlatformByRomCollection(source, romCollectionName)
-					platform = urllib.quote(getPlatformByRomCollection(source, romCollectionName),
-											safe='')
-					source = source.replace('%PLATFORM%', platform)
-				scraper.source = source
-
-			scraper.encoding = scraperRow.get('encoding', 'utf-8')
-			scraper.returnUrl = scraperRow.get('returnUrl', '').upper() == 'TRUE'
-			scraper.sourceAppend = scraperRow.get('sourceAppend', '')
-
-			scraper.replaceKeyString = inReplaceKeyString
-			scraper.replaceValueString = inReplaceValueString
-
-			scrapers.append(scraper)
-
-		site.scrapers = scrapers
-
-		Logutil.log('Parsed scraper site: {0}'.format(site), util.LOG_LEVEL_INFO)
+		log.info('Parsed scraper site: {0}'.format(site))
 
 		return site, ''
 

@@ -336,17 +336,8 @@ class ConfigXmlWizard(RcbXmlReaderWriter):
 					log.debug("Setting rcb_{0}DescriptionFilePath to {1}".format(romCollection.name, descPath))
 					xbmcaddon.Addon().setSetting("rcb_{0}DescriptionFilePath".format(romCollection.name), descPath)
 
-					# Prompt the user for a parse instruction file
-					# FIXME TODO With class-based scrapers, this is unnecessary but kept to avoid unexpected breakages
-					parserPath = dialog.browse(1, util.localize(32191) % console, 'files', '', False, False, descPath)
-					log.info("parserPath: " + str(parserPath))
-					if parserPath == '':
-						log.info("No parserPath selected. Action canceled.")
-						break
-
 					# Create scraper
-					site = Site(name=console, descFilePerGame=(descIndex == GAME_DESCRIPTION_PER_FILE), searchGameByCRC=True)
-					site.scrapers = [Scraper(parseInstruction=parserPath, source=descPath, encoding='iso-8859-1')]
+					site = Site(name=console)
 					romCollection.scraperSites = [site]
 
 			log.debug("Created new rom collection: {0}".format(romCollection))

@@ -83,7 +83,6 @@ class Test_GamesDBScraper(unittest.TestCase):
         self.assertEqual(result['Developer'], ["Taito"], "Expected developer value to be set")
         self.assertEqual(result['Publisher'], ["Discovery"], "Expected publisher value to be set")
         self.assertTrue(result['Description'][0].startswith("The original Breakout concept involves controlling a bat at the bottom of the screen"), "Expected description value to be set")
-    
 
     # Parse image capture in the retrieve result
     def test_RetrieveImages(self):
@@ -111,6 +110,40 @@ class Test_GamesDBScraper(unittest.TestCase):
         self.assertEqual(result['Filetypeboxfront'], ['http://thegamesdb.net/banners/boxart/original/front/291-1.jpg'])
         self.assertEqual(result['Filetypeboxback'], ['http://thegamesdb.net/banners/boxart/original/back/291-1.jpg'])
         self.assertEqual(result['Filetypescreenshot'], ['http://thegamesdb.net/banners/screenshots/291-1.jpg'])
+
+    def test_RetrieveGameWithMultipleGenres(self):
+        """Make sure that games with multiple genres are handled correctly"""
+        # Ref http://thegamesdb.net/api/GetGame.php?id=7808"  # Syphon Filter, Publisher 989
+        f = os.path.join(os.path.dirname(__file__), '..', '..', 'resources', 'tests', 'testdata',
+                         'scraper_web_responses', 'thegamesdb_getgame_2genres.xml')
+        scraper = TheGamesDB_Scraper()
+        with open(f) as xmlfile:
+            data = xmlfile.read()
+        result = scraper._parseGameResult(data)
+        self.assertEqual(len(result['Genre']), 2)
+        self.assertIn("Action", result['Genre'], "Expected genre Action to be retrieved")
+        self.assertIn("Stealth", result['Genre'], "Expected genre Stealth to be retrieved")
+
+    def test_RetrieveGameWithNumericPublisher(self):
+        """Make sure that games with numeric fields that are expected to be strings (e.g. Publisher) are
+        handled correctly"""
+        # Ref http://thegamesdb.net/api/GetGame.php?id=7808"  # Syphon Filter, Publisher 989
+        f = os.path.join(os.path.dirname(__file__), '..', '..', 'resources', 'tests', 'testdata',
+                         'scraper_web_responses', 'thegamesdb_getgame_2genres.xml')
+        scraper = TheGamesDB_Scraper()
+        with open(f) as xmlfile:
+            data = xmlfile.read()
+        result = scraper._parseGameResult(data)
+        self.assertEqual(u"989", result['Publisher'][0], "Expected publisher with numeric name to be a string")
+
+    @unittest.skip("FIXME TODO Not yet implemented")
+    def test_SearchForGameWithApostropheAndPlatform(self):
+        url = "http://thegamesdb.net/api/GetGame.php?name=NBA%20Live%20%2798&platform=Super%20Nintendo%20%28SNES%29"
+
+        #self.assertEqual(results[0].get('Game')[0], "NBA Live 98")
+        #self.assertEqual(results[0].get('Platform')[0], "Super Nintendo (SNES)")
+        #self.assertEqual(results[0].get('Publisher')[0], "THQ")
+        #self.assertEqual(results[0].get('Developer')[0], "EA Sports")
 
     @unittest.skip("FIXME TODO Not yet implemented")
     def test_InvalidResponse(self):

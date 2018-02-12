@@ -62,25 +62,12 @@ class ConfigXmlWriter(RcbXmlReaderWriter):
 		return elements
 
 	def getXmlAttributesForSite(self, site):
-		attrs = {'name': site.name,
-				 'descFilePerGame': str(site.descFilePerGame),
-				 'searchGameByCRC': str(site.searchGameByCRC),
-				 'useFoldernameAsCRC': str(site.useFoldernameAsCRC),
-				 'useFilenameAsCRC': str(site.useFilenameAsCRC)}
+		attrs = {'name': site.name}
 		return attrs
 
 	def getXmlElementsForSite(self, site):
 		""" Not needed """
 		pass
-
-	def getXmlAttributesForScraper(self, scraper):
-		attrs = {'parseInstruction': scraper.parseInstruction,
-				 'source': scraper.source,
-				 'encoding': scraper.encoding,
-				 'returnUrl': str(scraper.returnUrl)
-				 }
-		return attrs
-
 
 	def writeRomCollections(self, romCollections, isEdit):
 
@@ -137,41 +124,15 @@ class ConfigXmlWriter(RcbXmlReaderWriter):
 
 			if(romCollection.scraperSites == None or len(romCollection.scraperSites) == 0):
 				for s in ['thegamesdb.net', 'mobygames.com']:
-					SubElement(romCollectionXml, 'scraper', {'name': s, 'replaceKeyString': '', 'replaceValueString': ''})
+					# FIXME TODO Not sure what's so special about these sites
+					SubElement(romCollectionXml, 'scraper', {'name': s})
 			else:
 				for scraperSite in romCollection.scraperSites:
 
 					if(scraperSite == None):
 						continue
 
-					#HACK: use replaceKey and -Value only from first scraper
-					firstScraper = scraperSite.scrapers[0]
-					SubElement(romCollectionXml, 'scraper', {'name' : scraperSite.name, 'replaceKeyString' : firstScraper.replaceKeyString, 'replaceValueString' : firstScraper.replaceValueString})
-
-					#create Scraper element
-					scrapersXml = self.tree.find('Scrapers')
-
-					#check if the current scraper already exists
-					siteExists = False
-					sitesXml = scrapersXml.findall('Site')
-					for site in sitesXml:
-						name = site.attrib.get('name')
-						if name == scraperSite.name:
-							siteExists = True
-							break
-
-					if not siteExists:
-						#HACK: this only covers the first scraper (for offline scrapers)
-						site = SubElement(scrapersXml, 'Site', self.getXmlAttributesForSite(scraperSite))
-
-						scraper = scraperSite.scrapers[0]
-
-						SubElement(site, 'Scraper',
-							{
-							'parseInstruction' : scraper.parseInstruction,
-							'source' : scraper.source,
-							'encoding' : scraper.encoding
-							})
+					SubElement(romCollectionXml, 'scraper', {'name' : scraperSite.name})
 
 		success, message = self.writeFile()
 		return success, message
@@ -197,16 +158,6 @@ class ConfigXmlWriter(RcbXmlReaderWriter):
 				continue
 
 			scraperSiteXml = SubElement(scraperSitesXml, 'Site', self.getXmlAttributesForSite(scraperSite))
-
-			for scraper in scraperSite.scrapers:
-
-				#check if we can use a relative path to parseInstructions
-				rcbScraperPath = os.path.join(util.RCBHOME, 'resources', 'scraper')
-				pathParts = os.path.split(scraper.parseInstruction)
-				if(pathParts[0].upper() == rcbScraperPath.upper()):
-					scraper.parseInstruction = pathParts[1]
-
-				SubElement(scraperSiteXml, 'Scraper', self.getXmlAttributesForScraper(scraper))
 
 		success, message = self.writeFile()
 		return success, message
