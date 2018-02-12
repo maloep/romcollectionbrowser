@@ -3,12 +3,9 @@
 import os, sys
 
 from config import *
-from descriptionparserfactory import *
-from descriptionparserfactory import DescriptionParserFactory
 
 
 BASE_RESOURCE_PATH = os.path.join(os.getcwd())
-sys.path.append(os.path.join(BASE_RESOURCE_PATH, "pyparsing"))
 sys.path.append(os.path.join(BASE_RESOURCE_PATH, "pyscraper"))
 
 env = (os.environ.get("OS", "win32"), "win32",)[ os.environ.get("OS", "win32") == "xbox" ]
@@ -18,28 +15,18 @@ sys.path.append(os.path.join(BASE_RESOURCE_PATH, "..", "platform_libraries", env
 
 
 
-#descFile = "F:\\Emulatoren\\data\\Synopsis\\giantbomb\\Actraisersearch.xml"
-#parseInstruction = "F:\\Emulatoren\\data\\Synopsis\\giantbomb\\giantbomb - parserConfig.xml"
+configFile = 'C:\\Users\\lom\\AppData\\Roaming\\Kodi\\userdata\\addon_data\\script.games.rom.collection.browser\\config.xml'
 
-#descFile = "E:\\Games\\RCB TestDataBase\\Scraping\\V2 - Amiga - ff - descpergame\\synopsis\\Dogfight\\synopsis.txt"
-#parseInstruction = "E:\\Games\\RCB TestDataBase\\Scraping\\V2 - Amiga - ff - descpergame\\parserConfig.xml"
+myConfig = Config(configFile)
+statusOk, errorMsg = myConfig.readXml()
 
-#descFile = "F:\\Emulatoren\\data\\synopsis\\XTRAS-RCB\\NGPC.txt"
-#parseInstruction = "F:\\Emulatoren\\data\\synopsis\\XTRAS-RCB\\_parserConfig.xml"
+mediaDict = {}
 
-descFile = "D:\\Games\\Testsets\\launch tests\\RetroPlayer\\SNES\\3 Ninjas Kick Back.nfo"
-parseInstruction = "C:\\Users\\lom\\AppData\\Roaming\\Kodi\\addons\\script.games.rom.collection.browser.git\\resources\\scraper\\00 - local nfo.xml"
-
-
-descParser = DescriptionParserFactory.getParser(parseInstruction)
-
-#results = descParser.scanDescription(str(descFile), parseInstruction, '	iso-8859-15')
-results = descParser.parseDescription(str(descFile), '	iso-8859-15')
-for result in results:
-	print result
-
-print len(results)
-
+for rc in myConfig.romCollections.values():
+	for mediaPath in rc.mediaPaths:
+		key = '%s:%s' %(rc.id, mediaPath.fileType.name)
+		print key
+		print mediaPath
 
 
 
