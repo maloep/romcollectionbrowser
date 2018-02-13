@@ -855,33 +855,23 @@ class UIGameDB(xbmcgui.WindowXML):
 
 		self.clearList()
 		self.rcb_playList.clear()
+		
+		showFavoriteStars = self.Settings.getSetting(util.SETTING_RCB_SHOWFAVORITESTARS).upper() == 'TRUE'
 
-		count = 0
-		items = []
 		for gameRow in games:
 
 			romCollection = None
 			try:
 				romCollection = self.config.romCollections[str(gameRow[util.GAME_romCollectionId])]
-			except:
+			except KeyError:
 				Logutil.log('Cannot get rom collection with id: ' + str(gameRow[util.GAME_romCollectionId]), util.LOG_LEVEL_ERROR)
 
 			try:
-				#images for gamelist
-				# icon
-				romfiles = File(self.gdb).getRomsByGameId(gameRow[util.ROW_ID])
-				gamenameFromFile = romCollection.getGamenameFromFilename(romfiles[0][0])
-				mediaPathsDict = self.mediaDict[gameRow[util.GAME_romCollectionId]]
-				imageGameList = self.getFileForControl_New(romCollection.imagePlacingMain.fileTypesForGameList, romCollection, mediaPathsDict, gamenameFromFile)
-				# thumb
-				imageGameListSelected = self.getFileForControl_New(romCollection.imagePlacingMain.fileTypesForGameListSelected, romCollection, mediaPathsDict, gamenameFromFile)
-
 				#create ListItem
 				item = xbmcgui.ListItem(gameRow[util.ROW_NAME], str(gameRow[util.ROW_ID]))
 				item.setProperty('gameId', helper.saveReadString(gameRow[util.ROW_ID]))
 
 				#favorite handling
-				showFavoriteStars = self.Settings.getSetting(util.SETTING_RCB_SHOWFAVORITESTARS).upper() == 'TRUE'
 				isFavorite = helper.saveReadString(gameRow[util.GAME_isFavorite])
 				if(isFavorite == '1' and showFavoriteStars):
 					item.setProperty('isfavorite', '1')
@@ -890,17 +880,11 @@ class UIGameDB(xbmcgui.WindowXML):
 				#0 = cacheAll: load all game data at once
 				if(self.cachingOption == 0):
 					self.setAllItemDataFromFile(item, gameRow, self.fileDict, romCollection)
-				
-				items.append(item)
+								
+				self.addItem(item)
 
-				# add video to playlist for fullscreen support
-				self.loadVideoFiles(item, gameRow, imageGameList, imageGameListSelected, count, fileDict, romCollection)
-
-				count = count + 1
 			except Exception, (exc):
 				Logutil.log('Error loading game: %s' % str(exc), util.LOG_LEVEL_ERROR)
-				
-		self.addItems(items)
 
 		xbmc.executebuiltin("Container.SortDirection")
 
@@ -1004,7 +988,7 @@ class UIGameDB(xbmcgui.WindowXML):
 				self.addItem(item)
 
 				# add video to playlist for fullscreen support
-				self.loadVideoFiles(item, gameRow, imageGameList, imageGameListSelected, count, fileDict, romCollection)
+				#self.loadVideoFiles(item, gameRow, imageGameList, imageGameListSelected, count, fileDict, romCollection)
 
 				count = count + 1
 			except Exception, (exc):
@@ -1102,7 +1086,7 @@ class UIGameDB(xbmcgui.WindowXML):
 
 		#gameinfos are already loaded with cachingOption 0 (cacheAll)
 		if(self.cachingOption > 0):
-			self.loadGameInfosFromFile(gameRow, selectedGame, pos, romCollection, fileDict)
+			self.loadGameInfosFromFile(gameRow, selectedGame, pos, fileDict)
 
 		video = selectedGame.getProperty('gameplaymain')
 		if(video == "" or video == None or not romCollection.autoplayVideoMain):
@@ -1203,6 +1187,7 @@ class UIGameDB(xbmcgui.WindowXML):
 		Logutil.log("End launchEmu" , util.LOG_LEVEL_INFO)
 
 
+	#FIXME TODO: remove fullscreen support (build fullscreen video views instead)
 	def startFullscreenVideo(self):
 		Logutil.log("startFullscreenVideo" , util.LOG_LEVEL_INFO)
 
@@ -1226,11 +1211,8 @@ class UIGameDB(xbmcgui.WindowXML):
 		if(self.player.isPlayingVideo()):
 			#self.player.stoppedByRCB = True
 			self.player.stop()
-
-		#self.player.startedInPlayListMode = True
-		self.player.play(self.rcb_playList)
-		xbmc.executebuiltin('Playlist.PlayOffset(%i)' % pos)
-		#xbmc.executebuiltin('XBMC.PlayerControl(RepeatAll)')
+		
+		self.player.play(self.rcb_playList, windowed=False, startpos=pos)		
 
 		self.fullScreenVideoStarted = False
 
@@ -1451,10 +1433,9 @@ class UIGameDB(xbmcgui.WindowXML):
 		return file
 	
 	
-	def getFileForControl_New(self, fileTypes, romCollection, mediaPathsDict, gamenameFromFile):
+	def getFileForControl_New(self, fileTypes, romCollection, mediaPathsDict, gamenameFromFile, isVideo=False):
 		
-		#log.info("begin getFileForControl_New")
-		Logutil.log("begin getFileForControl_New", util.LOG_LEVEL_INFO)
+		Logutil.log("begin getFileForControl_New", util.LOG_LEVEL_DEBUG)
 		
 		for fileType in fileTypes:
 			#log.debug("fileType: " +str(fileType.name))
@@ -1475,7 +1456,10 @@ class UIGameDB(xbmcgui.WindowXML):
 						
 			mediaPathsList = mediaPathsDict[fileType.name]
 			
-			for extension in ['png', 'jpg', 'gif']:
+			extensionlist = ['png', 'jpg', 'gif']
+			if isVideo:
+				extensionlist = ['wmv', 'mp4', 'flv']
+			for extension in extensionlist:
 				path = pathnameFromFile.replace('*', extension)
 				#log.debug("looking for image: {0}".format(path))
 				if os.path.basename(path) in mediaPathsList:
@@ -1484,13 +1468,14 @@ class UIGameDB(xbmcgui.WindowXML):
 					#log.info("end getFileForControl_New")
 					Logutil.log("end getFileForControl_New", util.LOG_LEVEL_INFO)
 					return path
-		
-		#log.info("end getFileForControl_New")
-		Logutil.log("end getFileForControl_New", util.LOG_LEVEL_INFO)
+				
+		Logutil.log("end getFileForControl_New", util.LOG_LEVEL_DEBUG)
 		return ""
 
 
-	def loadVideoFiles(self, listItem, gameRow, imageGameList, imageGameListSelected, count, fileDict, romCollection):
+	def loadVideoFiles(self, listItem, gameRow, romCollection, mediaPathsDict, gamenameFromFile):
+
+		Logutil.log("begin loadVideoFiles", util.LOG_LEVEL_INFO)
 
 		#check if we should use autoplay video
 		if(romCollection.autoplayVideoMain):
@@ -1506,39 +1491,17 @@ class UIGameDB(xbmcgui.WindowXML):
 			listItem.setProperty('videosizebig', 'big')
 			listItem.setProperty('videosizesmall', '')
 
-		#get video
-		video = ""
-
 		if(self.fileTypeGameplay == None):
 			Logutil.log("fileType gameplay == None. No video loaded.", util.LOG_LEVEL_INFO)
 
 		#load gameplay videos
 		#HACK: other video types are not supported
-		videos = helper.getFilesByControl_Cached(self.gdb, (self.fileTypeGameplay,), gameRow[util.ROW_ID], gameRow[util.GAME_publisherId], gameRow[util.GAME_developerId], gameRow[util.GAME_romCollectionId], fileDict)
-		if(videos != None and len(videos) != 0):
-			video = videos[0]
-			#make video accessable via UI
+		video = self.getFileForControl_New((self.fileTypeGameplay,), romCollection, mediaPathsDict, gamenameFromFile, True)
+		if video:
+			#make video accessible via UI
 			listItem.setProperty('gameplaymain', video)
-
-			#create dummy ListItem for playlist
-			dummyItem = xbmcgui.ListItem(gameRow[util.ROW_NAME], str(gameRow[util.ROW_ID]), imageGameList, imageGameListSelected)
-
-			#add video to playlist and compute playlistOffset (missing videos must be skipped)
-			self.rcb_playList.add(video, dummyItem)
-			try:
-				if(len(self.playlistOffsets) == 0 or count == 0):
-					self.playlistOffsets[count] = 0
-				else:
-					offset = self.playlistOffsets[count - 1]
-					self.playlistOffsets[count] = offset + 1
-			except:
-				Logutil.log("Error while creating playlist offset", util.LOG_LEVEL_WARNING)
-		else:
-			if(len(self.playlistOffsets) == 0 or count == 0):
-				self.playlistOffsets[count] = 0
-			else:
-				offset = self.playlistOffsets[count - 1]
-				self.playlistOffsets[count] = offset
+			
+		Logutil.log("end loadVideoFiles", util.LOG_LEVEL_INFO)
 
 
 	def getGameByPosition(self, gdb, pos):
@@ -1585,13 +1548,15 @@ class UIGameDB(xbmcgui.WindowXML):
 		return gameId
 
 
-	def loadGameInfosFromFile(self, gameRow, selectedGame, pos, romCollection, fileDict):
+	def loadGameInfosFromFile(self, gameRow, selectedGame, pos, fileDict):
 		Logutil.log("begin loadGameInfosFromFile", util.LOG_LEVEL_DEBUG)
 		Logutil.log("gameRow = " + str(gameRow), util.LOG_LEVEL_DEBUG)
 
 		if(self.getListSize() == 0):
 			Logutil.log("ListSize == 0 in loadGameInfosFromFile", util.LOG_LEVEL_WARNING)
 			return
+		
+		romCollection = self.config.romCollections[str(gameRow[util.GAME_romCollectionId])]
 
 		# > 1: cacheItem, cacheItemAndNext
 		if(self.cachingOption > 1):
@@ -1611,6 +1576,8 @@ class UIGameDB(xbmcgui.WindowXML):
 				if(selectedGame == None or gameRow == None):
 					continue
 				
+				romCollection = self.config.romCollections[str(gameRow[util.GAME_romCollectionId])]
+				
 				fileDict = self.getFileDictByGameRow(gameRow)
 				self.setAllItemDataFromFile(selectedGame, gameRow, fileDict, romCollection)
 	
@@ -1621,6 +1588,8 @@ class UIGameDB(xbmcgui.WindowXML):
 				selectedGame, gameRow = self.getGameByPosition(self.gdb, posAfter)
 				if(selectedGame == None or gameRow == None):
 					continue
+				
+				romCollection = self.config.romCollections[str(gameRow[util.GAME_romCollectionId])]
 								
 				fileDict = self.getFileDictByGameRow(gameRow)
 				self.setAllItemDataFromFile(selectedGame, gameRow, fileDict, romCollection)
@@ -1682,18 +1651,9 @@ class UIGameDB(xbmcgui.WindowXML):
 
 	def setAllItemDataFromFile(self, item, gameRow, fileDict, romCollection):
 		
-		#log.debug('before getGamenameFromFilename')
+		mediaPathsDict = self.mediaDict[gameRow[util.GAME_romCollectionId]]
 		romfile = helper.getFilenameForGame(gameRow[util.ROW_ID], 0, fileDict)
 		gamenameFromFile = romCollection.getGamenameFromFilename(romfile)
-		#log.debug('after getGamenameFromFilename')
-		
-		#log.debug("before mediaPathsDict")
-		mediaPathsDict = self.mediaDict[gameRow[util.GAME_romCollectionId]]
-		#log.debug("after mediaPathsDict")
-		
-		#log.debug("before self.config.romCollections")
-		romCollection = self.config.romCollections[str(gameRow[util.GAME_romCollectionId])]
-		#log.debug("after self.config.romCollections")
 		
 		item.setArt({
 			'icon': self.getFileForControl_New(romCollection.imagePlacingMain.fileTypesForGameList, romCollection, mediaPathsDict, gamenameFromFile),
@@ -1712,6 +1672,9 @@ class UIGameDB(xbmcgui.WindowXML):
 			IMAGE_CONTROL_GAMEINFO_LEFT: self.getFileForControl_New(romCollection.imagePlacingMain.fileTypesForMainViewGameInfoLeft, romCollection, mediaPathsDict, gamenameFromFile),
 			IMAGE_CONTROL_GAMEINFO_RIGHT: self.getFileForControl_New(romCollection.imagePlacingMain.fileTypesForMainViewGameInfoRight, romCollection, mediaPathsDict, gamenameFromFile),
 		})
+		
+		#FIXME TODO: remove fullscreen support (build fullscreen video views instead)
+		self.loadVideoFiles(item, gameRow, romCollection, mediaPathsDict, gamenameFromFile)
 
 		#set additional properties
 		description = helper.saveReadString(gameRow[util.GAME_description])
@@ -1740,9 +1703,9 @@ class UIGameDB(xbmcgui.WindowXML):
 				if (genres != None):
 					for i in range(0, len(genres)):
 						genreRow = genres[i]
-						genre += genreRow[util.ROW_NAME]
+						genre = '%s%s' %(genre, genreRow[util.ROW_NAME])
 						if(i < len(genres) - 1):
-							genre += ", "
+							genre = "%s, " %genre
 		except:
 			pass
 		item.setProperty('genre', genre)
