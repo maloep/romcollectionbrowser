@@ -44,28 +44,23 @@ class Mobygames_Scraper(WebScraper):
 		time.sleep(1.2)
 		response = self.open_json_url(url=self._get_search_url(), params=self._get_search_params(gamename=gamename, platform=platform))
 
-		try:
-			result = self._parse_search_results(response)
-		except Exception as e:
-			# FIXME TODO Error handling
-			print type(e)
-			print e
-			return []
+		# Handle API status code
+		if 'error' in response:
+			self._check_status_code(response['code'])
 
+		result = self._parse_search_results(response)
 		return result
+
+	def _check_status_code(self, sc):
+		if sc == 429:
+			raise ScraperExceededAPIQuoteException("API quota exceeded for MobyGames")
+		elif sc == 401:
+			raise ScraperUnauthorisedException("API key unauthorised for MobyGames")
+		else:
+			raise ScraperUnexpectedError("Unexpected error when scraping MobyGames")
 
 	def _parse_search_results(self, response):
 		results = []
-
-		# Handle status code
-		if 'error' in response:
-			if response['code'] == 429:
-				raise ScraperExceededAPIQuoteException("API quota exceeded for MobyGames")
-			elif response['code'] == 401:
-				raise ScraperUnauthorisedException("API key unauthorised for MobyGames")
-			else:
-				print 'Error searching Mobygames: ' + response['error']
-				raise ScraperUnexpectedError("Unexpected error when scraping MobyGames")
 
 		""" response is expected to be a JSON object """
 		log.debug("Parsing response for search results: {0}".format(response))
@@ -90,8 +85,9 @@ class Mobygames_Scraper(WebScraper):
 		time.sleep(1.2)
 		response = self.open_json_url(url=self._get_retrieve_url(gameid), params=self._get_retrieve_params())
 
-		# Handle status code
-		# FIXME TODO self._check_status_code(response['status_code'])
+		# Handle API status code
+		if 'error' in response:
+			self._check_status_code(response['code'])
 
 		results = self._parse_game_result(response)
 		print results
@@ -112,10 +108,8 @@ class Mobygames_Scraper(WebScraper):
 			except Exception as e:
 				log.warn("Unable to extract data from key {0}".format(e))
 
-		# FIXME TODO Custom fields
-
+		# Custom fields (i.e. ones that require special handling)
 		result['Genre'] = self._parse_genres(response['genres'])
-
 		try:
 			result['ReleaseYear'] = [self._parse_date(response['platforms'][0]['first_release_date'], "%Y")]
 		except ValueError:

@@ -73,7 +73,6 @@ class Test_MobygamesScraper(unittest.TestCase):
 		# The release date for PlayStation in this result set is %Y-%m-%d
 		self.assertEquals(result['ReleaseYear'], ['1996'])
 
-
 	def test_GamesListNoResults(self):
 		f = os.path.join(os.path.dirname(__file__), '..', '..', 'resources', 'tests', 'testdata',
 						 'scraper_web_responses', 'mobygames_getgameslist_noresults.json')
