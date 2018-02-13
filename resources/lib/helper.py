@@ -159,6 +159,46 @@ def getFilenameForGame(gameid, filetypeid, fileDict):
 	return files[0][ROW_NAME]
 
 
+def getFileForControl(fileTypes, romCollection, mediaPathsDict, gamenameFromFile, isVideo=False):
+		
+	Logutil.log("begin getFileForControl", util.LOG_LEVEL_DEBUG)
+	
+	for fileType in fileTypes:
+		#log.debug("fileType: " +str(fileType.name))
+		
+		if(fileType.parent != util.FILETYPEPARENT_GAME):
+			continue
+					
+		#log.debug("before rc.getMediaPathByType")
+		mediaPath = romCollection.getMediaPathByType(fileType.name)
+		#log.debug("after rc.getMediaPathByType")
+		
+		#log.debug("mediaPath: %s" %mediaPath)
+		if(not mediaPath):
+			continue
+		
+		pathnameFromFile = mediaPath.replace("%GAME%", gamenameFromFile)
+		#log.debug("resolved path from rom file name: {0}".format(pathnameFromFile))
+					
+		mediaPathsList = mediaPathsDict[fileType.name]
+		
+		extensionlist = ['png', 'jpg', 'gif']
+		if isVideo:
+			extensionlist = ['wmv', 'mp4', 'flv']
+		for extension in extensionlist:
+			path = pathnameFromFile.replace('*', extension)
+			#log.debug("looking for image: {0}".format(path))
+			if os.path.basename(path) in mediaPathsList:
+			#if xbmcvfs.exists(path):
+				#log.debug("image found")
+				#log.info("end getFileForControl_New")
+				Logutil.log("end getFileForControl", util.LOG_LEVEL_INFO)
+				return path
+			
+	Logutil.log("end getFileForControl", util.LOG_LEVEL_DEBUG)
+	return ""
+
+
 def getFilesByControl_Cached(gdb, fileTypes, gameId, publisherId, developerId, romCollectionId, fileDict):
 					
 	Logutil.log("getFilesByControl gameId: " +str(gameId), util.LOG_LEVEL_DEBUG)

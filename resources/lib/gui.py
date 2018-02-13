@@ -1373,13 +1373,13 @@ class UIGameDB(xbmcgui.WindowXML):
 				consoleId=self.selectedConsoleId, genreId=self.selectedGenreId, yearId=self.selectedYearId, publisherId=self.selectedPublisherId, selectedGameIndex=selectedGameIndex,
 				consoleIndex=self.selectedConsoleIndex, genreIndex=self.selectedGenreIndex, yearIndex=self.selectedYearIndex, publisherIndex=self.selectedPublisherIndex,
 				selectedCharacter=self.selectedCharacter, selectedCharacterIndex=self.selectedCharacterIndex, controlIdMainView=self.selectedControlId, fileDict=fileDict, config=self.config, settings=self.Settings,
-				fileTypeGameplay=self.fileTypeGameplay)
+				fileTypeGameplay=self.fileTypeGameplay, mediaDict=self.mediaDict)
 		except:
 			gid = dialoggameinfo.UIGameInfoView("script-RCB-gameinfo.xml", util.getAddonInstallPath(), "Default", constructorParam, gdb=self.gdb, gameId=gameId, listItem=selectedGame,
 				consoleId=self.selectedConsoleId, genreId=self.selectedGenreId, yearId=self.selectedYearId, publisherId=self.selectedPublisherId, selectedGameIndex=selectedGameIndex,
 				consoleIndex=self.selectedConsoleIndex, genreIndex=self.selectedGenreIndex, yearIndex=self.selectedYearIndex, publisherIndex=self.selectedPublisherIndex,
 				selectedCharacter=self.selectedCharacter, selectedCharacterIndex=self.selectedCharacterIndex, controlIdMainView=self.selectedControlId, fileDict=fileDict, config=self.config, settings=self.Settings,
-				fileTypeGameplay=self.fileTypeGameplay)
+				fileTypeGameplay=self.fileTypeGameplay, mediaDict=self.mediaDict)
 
 		del gid
 
@@ -1431,46 +1431,6 @@ class UIGameDB(xbmcgui.WindowXML):
 		Logutil.log("Found file {0}".format(file), util.LOG_LEVEL_DEBUG)
 
 		return file
-	
-	
-	def getFileForControl_New(self, fileTypes, romCollection, mediaPathsDict, gamenameFromFile, isVideo=False):
-		
-		Logutil.log("begin getFileForControl_New", util.LOG_LEVEL_DEBUG)
-		
-		for fileType in fileTypes:
-			#log.debug("fileType: " +str(fileType.name))
-			
-			if(fileType.parent != util.FILETYPEPARENT_GAME):
-				continue
-						
-			#log.debug("before rc.getMediaPathByType")
-			mediaPath = romCollection.getMediaPathByType(fileType.name)
-			#log.debug("after rc.getMediaPathByType")
-			
-			#log.debug("mediaPath: %s" %mediaPath)
-			if(not mediaPath):
-				continue
-			
-			pathnameFromFile = mediaPath.replace("%GAME%", gamenameFromFile)
-			#log.debug("resolved path from rom file name: {0}".format(pathnameFromFile))
-						
-			mediaPathsList = mediaPathsDict[fileType.name]
-			
-			extensionlist = ['png', 'jpg', 'gif']
-			if isVideo:
-				extensionlist = ['wmv', 'mp4', 'flv']
-			for extension in extensionlist:
-				path = pathnameFromFile.replace('*', extension)
-				#log.debug("looking for image: {0}".format(path))
-				if os.path.basename(path) in mediaPathsList:
-				#if xbmcvfs.exists(path):
-					#log.debug("image found")
-					#log.info("end getFileForControl_New")
-					Logutil.log("end getFileForControl_New", util.LOG_LEVEL_INFO)
-					return path
-				
-		Logutil.log("end getFileForControl_New", util.LOG_LEVEL_DEBUG)
-		return ""
 
 
 	def loadVideoFiles(self, listItem, gameRow, romCollection, mediaPathsDict, gamenameFromFile):
@@ -1496,7 +1456,7 @@ class UIGameDB(xbmcgui.WindowXML):
 
 		#load gameplay videos
 		#HACK: other video types are not supported
-		video = self.getFileForControl_New((self.fileTypeGameplay,), romCollection, mediaPathsDict, gamenameFromFile, True)
+		video = helper.getFileForControl((self.fileTypeGameplay,), romCollection, mediaPathsDict, gamenameFromFile, True)
 		if video:
 			#make video accessible via UI
 			listItem.setProperty('gameplaymain', video)
@@ -1656,21 +1616,21 @@ class UIGameDB(xbmcgui.WindowXML):
 		gamenameFromFile = romCollection.getGamenameFromFilename(romfile)
 		
 		item.setArt({
-			'icon': self.getFileForControl_New(romCollection.imagePlacingMain.fileTypesForGameList, romCollection, mediaPathsDict, gamenameFromFile),
-			'thumb': self.getFileForControl_New(romCollection.imagePlacingMain.fileTypesForGameListSelected, romCollection, mediaPathsDict, gamenameFromFile),
+			'icon': helper.getFileForControl(romCollection.imagePlacingMain.fileTypesForGameList, romCollection, mediaPathsDict, gamenameFromFile),
+			'thumb': helper.getFileForControl(romCollection.imagePlacingMain.fileTypesForGameListSelected, romCollection, mediaPathsDict, gamenameFromFile),
 			
-			IMAGE_CONTROL_BACKGROUND: self.getFileForControl_New(romCollection.imagePlacingMain.fileTypesForMainViewBackground, romCollection, mediaPathsDict, gamenameFromFile),
-			IMAGE_CONTROL_GAMEINFO_BIG: self.getFileForControl_New(romCollection.imagePlacingMain.fileTypesForMainViewGameInfoBig, romCollection, mediaPathsDict, gamenameFromFile),
+			IMAGE_CONTROL_BACKGROUND: helper.getFileForControl(romCollection.imagePlacingMain.fileTypesForMainViewBackground, romCollection, mediaPathsDict, gamenameFromFile),
+			IMAGE_CONTROL_GAMEINFO_BIG: helper.getFileForControl(romCollection.imagePlacingMain.fileTypesForMainViewGameInfoBig, romCollection, mediaPathsDict, gamenameFromFile),
 
-			IMAGE_CONTROL_GAMEINFO_UPPERLEFT: self.getFileForControl_New(romCollection.imagePlacingMain.fileTypesForMainViewGameInfoUpperLeft, romCollection, mediaPathsDict, gamenameFromFile),
-			IMAGE_CONTROL_GAMEINFO_UPPERRIGHT: self.getFileForControl_New(romCollection.imagePlacingMain.fileTypesForMainViewGameInfoUpperRight, romCollection, mediaPathsDict, gamenameFromFile),
-			IMAGE_CONTROL_GAMEINFO_LOWERLEFT: self.getFileForControl_New(romCollection.imagePlacingMain.fileTypesForMainViewGameInfoLowerLeft, romCollection, mediaPathsDict, gamenameFromFile),
-			IMAGE_CONTROL_GAMEINFO_LOWERRIGHT: self.getFileForControl_New(romCollection.imagePlacingMain.fileTypesForMainViewGameInfoLowerRight, romCollection, mediaPathsDict, gamenameFromFile),
+			IMAGE_CONTROL_GAMEINFO_UPPERLEFT: helper.getFileForControl(romCollection.imagePlacingMain.fileTypesForMainViewGameInfoUpperLeft, romCollection, mediaPathsDict, gamenameFromFile),
+			IMAGE_CONTROL_GAMEINFO_UPPERRIGHT: helper.getFileForControl(romCollection.imagePlacingMain.fileTypesForMainViewGameInfoUpperRight, romCollection, mediaPathsDict, gamenameFromFile),
+			IMAGE_CONTROL_GAMEINFO_LOWERLEFT: helper.getFileForControl(romCollection.imagePlacingMain.fileTypesForMainViewGameInfoLowerLeft, romCollection, mediaPathsDict, gamenameFromFile),
+			IMAGE_CONTROL_GAMEINFO_LOWERRIGHT: helper.getFileForControl(romCollection.imagePlacingMain.fileTypesForMainViewGameInfoLowerRight, romCollection, mediaPathsDict, gamenameFromFile),
 
-			IMAGE_CONTROL_GAMEINFO_UPPER: self.getFileForControl_New(romCollection.imagePlacingMain.fileTypesForMainViewGameInfoUpper, romCollection, mediaPathsDict, gamenameFromFile),
-			IMAGE_CONTROL_GAMEINFO_LOWER: self.getFileForControl_New(romCollection.imagePlacingMain.fileTypesForMainViewGameInfoLower, romCollection, mediaPathsDict, gamenameFromFile),
-			IMAGE_CONTROL_GAMEINFO_LEFT: self.getFileForControl_New(romCollection.imagePlacingMain.fileTypesForMainViewGameInfoLeft, romCollection, mediaPathsDict, gamenameFromFile),
-			IMAGE_CONTROL_GAMEINFO_RIGHT: self.getFileForControl_New(romCollection.imagePlacingMain.fileTypesForMainViewGameInfoRight, romCollection, mediaPathsDict, gamenameFromFile),
+			IMAGE_CONTROL_GAMEINFO_UPPER: helper.getFileForControl(romCollection.imagePlacingMain.fileTypesForMainViewGameInfoUpper, romCollection, mediaPathsDict, gamenameFromFile),
+			IMAGE_CONTROL_GAMEINFO_LOWER: helper.getFileForControl(romCollection.imagePlacingMain.fileTypesForMainViewGameInfoLower, romCollection, mediaPathsDict, gamenameFromFile),
+			IMAGE_CONTROL_GAMEINFO_LEFT: helper.getFileForControl(romCollection.imagePlacingMain.fileTypesForMainViewGameInfoLeft, romCollection, mediaPathsDict, gamenameFromFile),
+			IMAGE_CONTROL_GAMEINFO_RIGHT: helper.getFileForControl(romCollection.imagePlacingMain.fileTypesForMainViewGameInfoRight, romCollection, mediaPathsDict, gamenameFromFile),
 		})
 				
 		if(romCollection.autoplayVideoMain):
