@@ -1672,9 +1672,9 @@ class UIGameDB(xbmcgui.WindowXML):
 			IMAGE_CONTROL_GAMEINFO_LEFT: self.getFileForControl_New(romCollection.imagePlacingMain.fileTypesForMainViewGameInfoLeft, romCollection, mediaPathsDict, gamenameFromFile),
 			IMAGE_CONTROL_GAMEINFO_RIGHT: self.getFileForControl_New(romCollection.imagePlacingMain.fileTypesForMainViewGameInfoRight, romCollection, mediaPathsDict, gamenameFromFile),
 		})
-		
-		#FIXME TODO: remove fullscreen support (build fullscreen video views instead)
-		self.loadVideoFiles(item, gameRow, romCollection, mediaPathsDict, gamenameFromFile)
+				
+		if(romCollection.autoplayVideoMain):
+			self.loadVideoFiles(item, gameRow, romCollection, mediaPathsDict, gamenameFromFile)
 
 		#set additional properties
 		description = helper.saveReadString(gameRow[util.GAME_description])
