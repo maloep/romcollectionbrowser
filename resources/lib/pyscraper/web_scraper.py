@@ -114,7 +114,7 @@ class WebScraper(AbstractScraper):
         pass
 
     def prepare_gamename_for_request(self, gamename):
-        """Some websites (giantbomb) don't handle special characters in game search requests very well. Strip
+        """Some websites (giantbomb and MobyGames) don't handle special characters in game search requests very well. Strip
         out anything after a special character
 
         Args:
@@ -123,7 +123,7 @@ class WebScraper(AbstractScraper):
         Returns:
         	Game name without any suffix, e.g. My Game Name
         """
-        pattern = r"[^:[(]*"     # Match anything until : [ or (
+        pattern = r"[^:\-[(]*"     # Match anything until : - [ or (
         return re.search(pattern, gamename).group(0).strip()
 
     def get_platform_for_scraper(self, platformname):
@@ -157,6 +157,9 @@ class WebScraper(AbstractScraper):
         if r.status_code == 401:
             # Mobygames and GiantBomb send a 401 if the API key is invalid
             raise ScraperUnauthorisedException("Invalid API key sent")
+
+        if r.status_code == 429:
+            raise ScraperExceededAPIQuoteException("Scraper exceeded API key limits")
 
         if r.status_code == 500:
             raise ScraperWebsiteUnavailableException("Website unavailable")

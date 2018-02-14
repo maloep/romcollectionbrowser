@@ -8,6 +8,7 @@ sys.path.append(os.path.join(os.path.dirname(__file__), '..', '..', 'resources',
 import unittest
 from resources.lib.pyscraper.thegamesdb_scraper import TheGamesDB_Scraper
 from resources.lib.pyscraper.giantbomb_scraper import GiantBomb_Scraper
+from resources.lib.pyscraper.mobygames_scraper import Mobygames_Scraper
 from resources.lib.pyscraper.web_scraper import WebScraper
 
 
@@ -17,11 +18,15 @@ class TestWebScraper(unittest.TestCase):
 		platform = scraper.get_platform_for_scraper('PlayStation')
 		self.assertEqual(platform, "Sony Playstation", "Did not get expected platform name for {0} scraper".format(scraper.name))
 
-	@unittest.skip("GiantBomb not yet coded for this function")
 	def test_GetPlatformGiantBomb(self):
 		scraper = GiantBomb_Scraper()
 		platform = scraper.get_platform_for_scraper('PlayStation')
 		self.assertEqual(platform, "22", "Did not get expected platform name for {0} scraper".format(scraper.name))
+
+	def test_GetPlatformMobygames(self):
+		scraper = Mobygames_Scraper()
+		platform = scraper.get_platform_for_scraper('PlayStation')
+		self.assertEqual(platform, "6", "Did not get expected platform name for {0} scraper".format(scraper.name))
 
 	def test_PrepareGameName(self):
 		scraper = WebScraper()
@@ -33,6 +38,9 @@ class TestWebScraper(unittest.TestCase):
 
 		x = scraper.prepare_gamename_for_request("Crash Bandicoot 2: Cortex Strikes Back")
 		self.assertEqual(x, "Crash Bandicoot 2")
+
+		x = scraper.prepare_gamename_for_request("Super Mario World 2 - Yoshi's Island (USA)")
+		self.assertEqual(x, "Super Mario World 2")
 
 
 if __name__ == "__main__":
