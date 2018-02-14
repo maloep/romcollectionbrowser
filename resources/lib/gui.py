@@ -2022,11 +2022,29 @@ class UIGameDB(xbmcgui.WindowXML):
 		mediaPathDict = {}
 		
 		for mediaPath in romCollection.mediaPaths:
-			dirs, files = xbmcvfs.listdir(os.path.dirname(mediaPath.path))			
-			mediaPathDict[mediaPath.fileType.name] = files
-			#FIXME TODO check sub directories for platforms with foldernames as gamenames
-
+			mediadir = mediaPath.path
+			#if foldername is gamename only get content of parent directory
+			if romCollection.useFoldernameAsGamename:
+				mediadir = mediadir[0:mediadir.index('%GAME%')]
+				print 'mediadir: %s' %mediadir
+			
+			mediafiles = []
+			self.walkDownMediaDirectories(os.path.dirname(mediadir), mediafiles)
+			
+			mediaPathDict[mediaPath.fileType.name] = mediafiles
+			
 		self.mediaDict[consoleId] = mediaPathDict
+				
+	
+	def walkDownMediaDirectories(self, mediadir, mediafiles):
+		
+		print 'walkDownMediaDirectories mediadir: %s' %mediadir
+		mediasubdirs, mediasubfiles = xbmcvfs.listdir(mediadir)
+		for mediasubfile in mediasubfiles:
+			mediafiles.append(os.path.normpath(os.path.join(mediadir, mediasubfile)))
+		
+		for mediasubdir in mediasubdirs:
+			self.walkDownMediaDirectories(os.path.join(mediadir, mediasubdir), mediafiles)
 		
 
 	def cacheItems(self):

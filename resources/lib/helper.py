@@ -164,35 +164,29 @@ def getFileForControl(fileTypes, romCollection, mediaPathsDict, gamenameFromFile
 	Logutil.log("begin getFileForControl", util.LOG_LEVEL_DEBUG)
 	
 	for fileType in fileTypes:
-		#log.debug("fileType: " +str(fileType.name))
-		
 		if(fileType.parent != util.FILETYPEPARENT_GAME):
 			continue
-					
-		#log.debug("before rc.getMediaPathByType")
-		mediaPath = romCollection.getMediaPathByType(fileType.name)
-		#log.debug("after rc.getMediaPathByType")
 		
-		#log.debug("mediaPath: %s" %mediaPath)
+		mediaPath = romCollection.getMediaPathByType(fileType.name)
+		
 		if(not mediaPath):
 			continue
 		
 		pathnameFromFile = mediaPath.replace("%GAME%", gamenameFromFile)
-		#log.debug("resolved path from rom file name: {0}".format(pathnameFromFile))
 					
 		mediaPathsList = mediaPathsDict[fileType.name]
 		
 		extensionlist = ['png', 'jpg', 'gif']
 		if isVideo:
-			extensionlist = ['wmv', 'mp4', 'flv']
+			extensionlist = ['wmv', 'mp4', 'avi', 'flv']
 		for extension in extensionlist:
 			path = pathnameFromFile.replace('*', extension)
-			#log.debug("looking for image: {0}".format(path))
-			if os.path.basename(path) in mediaPathsList:
-			#if xbmcvfs.exists(path):
-				#log.debug("image found")
-				#log.info("end getFileForControl_New")
-				Logutil.log("end getFileForControl", util.LOG_LEVEL_INFO)
+			#HACK: os.path.normpath creates smb paths like smb:\\foo. Only use this path for searching the image in mediadict
+			pathToSearch = os.path.normpath(path)
+			Logutil.log("Looking for image: %s" %path, util.LOG_LEVEL_INFO)
+			if pathToSearch in mediaPathsList:
+				Logutil.log("image found", util.LOG_LEVEL_DEBUG)
+				Logutil.log("end getFileForControl", util.LOG_LEVEL_DEBUG)
 				return path
 			
 	Logutil.log("end getFileForControl", util.LOG_LEVEL_DEBUG)
