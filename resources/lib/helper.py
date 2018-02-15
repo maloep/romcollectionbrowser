@@ -183,7 +183,7 @@ def getFileForControl(fileTypes, romCollection, mediaPathsDict, gamenameFromFile
 			path = pathnameFromFile.replace('*', extension)
 			#HACK: os.path.normpath creates smb paths like smb:\\foo. Only use this path for searching the image in mediadict
 			pathToSearch = os.path.normpath(path)
-			Logutil.log("Looking for image: %s" %path, util.LOG_LEVEL_INFO)
+			Logutil.log("Looking for image: %s" %path, util.LOG_LEVEL_DEBUG)
 			if pathToSearch in mediaPathsList:
 				Logutil.log("image found", util.LOG_LEVEL_DEBUG)
 				Logutil.log("end getFileForControl", util.LOG_LEVEL_DEBUG)

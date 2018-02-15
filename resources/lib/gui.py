@@ -1611,7 +1611,7 @@ class UIGameDB(xbmcgui.WindowXML):
 
 	def setAllItemDataFromFile(self, item, gameRow, fileDict, romCollection):
 		
-		mediaPathsDict = self.mediaDict[gameRow[util.GAME_romCollectionId]]
+		mediaPathsDict = self.mediaDict[str(gameRow[util.GAME_romCollectionId])]
 		romfile = helper.getFilenameForGame(gameRow[util.ROW_ID], 0, fileDict)
 		gamenameFromFile = romCollection.getGamenameFromFilename(romfile)
 		
@@ -2026,7 +2026,6 @@ class UIGameDB(xbmcgui.WindowXML):
 			#if foldername is gamename only get content of parent directory
 			if romCollection.useFoldernameAsGamename:
 				mediadir = mediadir[0:mediadir.index('%GAME%')]
-				print 'mediadir: %s' %mediadir
 			
 			mediafiles = []
 			self.walkDownMediaDirectories(os.path.dirname(mediadir), mediafiles)
