@@ -42,6 +42,12 @@ class TestWebScraper(unittest.TestCase):
 		x = scraper.prepare_gamename_for_request("Super Mario World 2 - Yoshi's Island (USA)")
 		self.assertEqual(x, "Super Mario World 2")
 
+		x = scraper.prepare_gamename_for_request("Madden NFL '97 (USA)")
+		self.assertEqual(x, "Madden NFL 97")
+
+		x = scraper.prepare_gamename_for_request("Legend of Zelda, The - A Link to the Past (USA)")
+		self.assertEqual(x, "Legend of Zelda")
+
 
 if __name__ == "__main__":
 	unittest.main()

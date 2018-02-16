@@ -123,8 +123,8 @@ class WebScraper(AbstractScraper):
         Returns:
         	Game name without any suffix, e.g. My Game Name
         """
-        pattern = r"[^:\-[(]*"     # Match anything until : - [ or (
-        return re.search(pattern, gamename).group(0).strip()
+        pattern = r"[^:,\-[(]*"     # Match anything until : , - [ or (
+        return re.search(pattern, gamename).group(0).strip().replace("'", "")
 
     def get_platform_for_scraper(self, platformname):
         """Get the platform identifier used on the corresponding website.
