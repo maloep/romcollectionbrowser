@@ -9,7 +9,7 @@ import xbmc, xbmcgui
 
 def cacheFiles(fileRows):
 		
-	Logutil.log("Begin cacheFiles" , util.LOG_LEVEL_DEBUG)
+	Logutil.log("Begin cacheFiles" , util.LOG_LEVEL_INFO)
 	
 	fileDict = {}
 	for fileRow in fileRows:
@@ -28,12 +28,12 @@ def cacheFiles(fileRows):
 			fileRowList.append(fileRow)
 			fileDict[key] = fileRowList
 			
-	Logutil.log("End cacheFiles" , util.LOG_LEVEL_DEBUG)
+	Logutil.log("End cacheFiles" , util.LOG_LEVEL_INFO)
 	return fileDict
 
 
 def cacheYears(gdb):
-	Logutil.log("Begin cacheYears" , util.LOG_LEVEL_DEBUG)
+	Logutil.log("Begin cacheYears" , util.LOG_LEVEL_INFO)
 	yearRows = Year(gdb).getAll()
 	if(yearRows == None):
 		Logutil.log("yearRows == None in cacheYears", util.LOG_LEVEL_WARNING)
@@ -42,12 +42,12 @@ def cacheYears(gdb):
 	for yearRow in yearRows:
 		yearDict[yearRow[util.ROW_ID]] = yearRow
 		
-	Logutil.log("End cacheYears" , util.LOG_LEVEL_DEBUG)
+	Logutil.log("End cacheYears" , util.LOG_LEVEL_INFO)
 	return yearDict
 	
 	
 def cacheReviewers(gdb):
-	Logutil.log("Begin cacheReviewers" , util.LOG_LEVEL_DEBUG)
+	Logutil.log("Begin cacheReviewers" , util.LOG_LEVEL_INFO)
 	reviewerRows = Reviewer(gdb).getAll()
 	if(reviewerRows == None):
 		Logutil.log("reviewerRows == None in cacheReviewers", util.LOG_LEVEL_WARNING)
@@ -56,12 +56,12 @@ def cacheReviewers(gdb):
 	for reviewerRow in reviewerRows:
 		reviewerDict[reviewerRow[util.ROW_ID]] = reviewerRow
 		
-	Logutil.log("End cacheReviewers" , util.LOG_LEVEL_DEBUG)
+	Logutil.log("End cacheReviewers" , util.LOG_LEVEL_INFO)
 	return reviewerDict
 	
 
 def cachePublishers(gdb):
-	Logutil.log("Begin cachePublishers" , util.LOG_LEVEL_DEBUG)
+	Logutil.log("Begin cachePublishers" , util.LOG_LEVEL_INFO)
 	publisherRows = Publisher(gdb).getAll()
 	if(publisherRows == None):
 		Logutil.log("publisherRows == None in cachePublishers", util.LOG_LEVEL_WARNING)
@@ -70,12 +70,12 @@ def cachePublishers(gdb):
 	for publisherRow in publisherRows:
 		publisherDict[publisherRow[util.ROW_ID]] = publisherRow
 		
-	Logutil.log("End cachePublishers" , util.LOG_LEVEL_DEBUG)
+	Logutil.log("End cachePublishers" , util.LOG_LEVEL_INFO)
 	return publisherDict
 	
 	
 def cacheDevelopers(gdb):
-	Logutil.log("Begin cacheDevelopers" , util.LOG_LEVEL_DEBUG)
+	Logutil.log("Begin cacheDevelopers" , util.LOG_LEVEL_INFO)
 	developerRows = Developer(gdb).getAll()
 	if(developerRows == None):
 		Logutil.log("developerRows == None in cacheDevelopers", util.LOG_LEVEL_WARNING)
@@ -84,13 +84,13 @@ def cacheDevelopers(gdb):
 	for developerRow in developerRows:
 		developerDict[developerRow[util.ROW_ID]] = developerRow
 		
-	Logutil.log("End cacheDevelopers" , util.LOG_LEVEL_DEBUG)
+	Logutil.log("End cacheDevelopers" , util.LOG_LEVEL_INFO)
 	return developerDict
 	
 
 def cacheGenres(gdb):
 	
-	Logutil.log("Begin cacheGenres" , util.LOG_LEVEL_DEBUG)
+	Logutil.log("Begin cacheGenres" , util.LOG_LEVEL_INFO)
 			
 	genreGameRows = GenreGame(gdb).getAll()
 	if(genreGameRows == None):
@@ -98,14 +98,14 @@ def cacheGenres(gdb):
 		return
 	genreDict = {}
 	for genreGameRow in genreGameRows:
-		key = genreGameRow[util.GENREGAME_gameId]
-		item = None
+		key = genreGameRow[util.GENREGAME_gameId]		
+		#check if key is already present
 		try:
 			item = genreDict[key]
 			continue
-		except:
+		except KeyError:
 			pass
-			
+					
 		genreRows = Genre(gdb).getGenresByGameId(genreGameRow[util.GENREGAME_gameId])
 		for i in range(0, len(genreRows)):
 			if(i == 0):
@@ -113,10 +113,10 @@ def cacheGenres(gdb):
 				genreDict[key] = genres
 			else:				
 				genres = genreDict[key]					
-				genres = genres + ', ' + genreRows[i][util.ROW_NAME]					
+				genres = '%s, %s' %(genres, genreRows[i][util.ROW_NAME])					
 				genreDict[key] = genres
 			
-	Logutil.log("End cacheGenres" , util.LOG_LEVEL_DEBUG)
+	Logutil.log("End cacheGenres" , util.LOG_LEVEL_INFO)
 	return genreDict
 
 
@@ -157,6 +157,40 @@ def getFilenameForGame(gameid, filetypeid, fileDict):
 		return ''
 
 	return files[0][ROW_NAME]
+
+
+def getFileForControl(fileTypes, romCollection, mediaPathsDict, gamenameFromFile, isVideo=False):
+		
+	Logutil.log("begin getFileForControl", util.LOG_LEVEL_DEBUG)
+	
+	for fileType in fileTypes:
+		if(fileType.parent != util.FILETYPEPARENT_GAME):
+			continue
+		
+		mediaPath = romCollection.getMediaPathByType(fileType.name)
+		
+		if(not mediaPath):
+			continue
+		
+		pathnameFromFile = mediaPath.replace("%GAME%", gamenameFromFile)
+					
+		mediaPathsList = mediaPathsDict[fileType.name]
+		
+		extensionlist = ['png', 'jpg', 'gif']
+		if isVideo:
+			extensionlist = ['wmv', 'mp4', 'avi', 'flv']
+		for extension in extensionlist:
+			path = pathnameFromFile.replace('*', extension)
+			#HACK: os.path.normpath creates smb paths like smb:\\foo. Only use this path for searching the image in mediadict
+			pathToSearch = os.path.normpath(path)
+			Logutil.log("Looking for image: %s" %path, util.LOG_LEVEL_DEBUG)
+			if pathToSearch in mediaPathsList:
+				Logutil.log("image found", util.LOG_LEVEL_DEBUG)
+				Logutil.log("end getFileForControl", util.LOG_LEVEL_DEBUG)
+				return path
+			
+	Logutil.log("end getFileForControl", util.LOG_LEVEL_DEBUG)
+	return ""
 
 
 def getFilesByControl_Cached(gdb, fileTypes, gameId, publisherId, developerId, romCollectionId, fileDict):
