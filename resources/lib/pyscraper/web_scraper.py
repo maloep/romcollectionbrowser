@@ -176,13 +176,12 @@ class WebScraper(AbstractScraper):
         # Need to ensure we are sending back Unicode text
         return r.text.encode('utf-8')
 
-    def _parse_date(self, datestr, fmt):
+    def _parse_date(self, datestr):
         """Extract the year from a given date string using a given format. This function is used to cater for
         an edge case identified in https://forum.kodi.tv/showthread.php?tid=112916&pid=1214507#pid1214507.
 
         Args:
         	datestr: Input date
-        	fmt: Expected date format of input date
 
         Returns:
             Year as a %Y format string
@@ -190,8 +189,20 @@ class WebScraper(AbstractScraper):
         if datestr is None:
             return '1970'
 
-        try:
-            return datetime.strptime(datestr, fmt).strftime("%Y")
-        except TypeError as e:
-            log.warn("Unable to parse date using strptime, falling back to time function")
-            return datetime(*(time.strptime(datestr, fmt)[5:8]))
+        x = None
+        for fmt2 in ["%Y-%m-%d", "%Y", "%Y-%m-%d %H:%M:%S", "%d/%m/%Y", "%m/%d/%Y"]:
+            try:
+                x = datetime.strptime(datestr, fmt2).strftime("%Y")
+            except ValueError as e:
+                # Skip to the next format
+                pass
+            except TypeError as e:
+                log.warn("Unable to parse date using strptime, falling back to time function")
+                x = datetime(*(time.strptime(datestr, fmt2)[0:6]))
+
+        if x is not None:
+            return x
+        else:
+            log.warn(u"Unexpected date format: {0}".format(datestr))
+            return u"1970"
+

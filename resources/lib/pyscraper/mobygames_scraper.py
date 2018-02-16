@@ -110,11 +110,9 @@ class Mobygames_Scraper(WebScraper):
 
 		# Custom fields (i.e. ones that require special handling)
 		result['Genre'] = self._parse_genres(response['genres'])
-		try:
-			result['ReleaseYear'] = [self._parse_date(response['platforms'][0]['first_release_date'], "%Y")]
-		except ValueError:
-			result['ReleaseYear'] = [self._parse_date(response['platforms'][0]['first_release_date'], "%Y-%m-%d")]
-		# FIXME TODO If this raises an exception, set to u"1970"
+		# Release year can be either %Y-%m-%d
+
+		result['ReleaseYear'] = [self._parse_date(response['platforms'][0]['first_release_date'])]
 
 		# FIXME TODO Publisher is in releases.companies.@role="Published by"?
 

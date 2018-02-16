@@ -126,7 +126,7 @@ class TheGamesDB_Scraper(WebScraper):
 		# Adjust the date
 		releaseDate = game.find("ReleaseDate")
 		if releaseDate is not None:
-			result['ReleaseYear'] = [self._parse_date(releaseDate.text, "%m/%d/%Y")]
+			result['ReleaseYear'] = [self._parse_date(releaseDate.text)]
 
 		# Prefix images with base url
 		for image in ['fanart', 'boxfront', 'boxback', 'screenshot']:

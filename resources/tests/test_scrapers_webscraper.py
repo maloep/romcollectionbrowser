@@ -48,6 +48,17 @@ class TestWebScraper(unittest.TestCase):
 		x = scraper.prepare_gamename_for_request("Legend of Zelda, The - A Link to the Past (USA)")
 		self.assertEqual(x, "Legend of Zelda")
 
+	def test_Date(self):
+		scraper = WebScraper()
+		self.assertEqual(scraper._parse_date("1982"), "1982", "Unexpected date response for valid date format")
+		self.assertEqual(scraper._parse_date("1983-08-14"), "1983", "Unexpected date response for valid date format")
+		self.assertEqual(scraper._parse_date("1986-08-14 00:00:00"), "1986", "Unexpected date response for valid date format")
+		self.assertEqual(scraper._parse_date("19/08/1980"), "1980", "Unexpected date response for valid date format")
+		self.assertEqual(scraper._parse_date(""), "1970", "Unexpected date response for invalid date format")
+		self.assertEqual(scraper._parse_date("no date"), "1970", "Unexpected date response for invalid date format")
+		self.assertEqual(scraper._parse_date(None), "1970", "Unexpected date response for invalid date format")
+		self.assertEqual(scraper._parse_date("test"), "1970", "Unexpected date response for invalid date format")
+
 
 if __name__ == "__main__":
 	unittest.main()
