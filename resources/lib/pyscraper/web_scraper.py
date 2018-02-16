@@ -19,7 +19,7 @@ class WebScraper(AbstractScraper):
     _retrieve_url = ''
 
     # Note - this needs to map to the order of the consoleDict array.
-    pmaps = ['mobygames.com', 'TheGamesDB.com', 'archive.vg', 'GiantBomb.com']
+    pmaps = ['MobyGames.com', 'TheGamesDB.com', 'archive.vg', 'GiantBomb.com']
 
     # Mapping between the platform name in RCB and the platform identifier for the various web scrapers
     # FIXME Move to the appropriate scraper classes
@@ -114,7 +114,7 @@ class WebScraper(AbstractScraper):
         pass
 
     def prepare_gamename_for_request(self, gamename):
-        """Some websites (giantbomb) don't handle special characters in game search requests very well. Strip
+        """Some websites (giantbomb and MobyGames) don't handle special characters in game search requests very well. Strip
         out anything after a special character
 
         Args:
@@ -123,8 +123,8 @@ class WebScraper(AbstractScraper):
         Returns:
         	Game name without any suffix, e.g. My Game Name
         """
-        pattern = r"[^:[(]*"     # Match anything until : [ or (
-        return re.search(pattern, gamename).group(0).strip()
+        pattern = r"[^:,\-[(]*"     # Match anything until : , - [ or (
+        return re.search(pattern, gamename).group(0).strip().replace("'", "")
 
     def get_platform_for_scraper(self, platformname):
         """Get the platform identifier used on the corresponding website.
@@ -158,6 +158,9 @@ class WebScraper(AbstractScraper):
             # Mobygames and GiantBomb send a 401 if the API key is invalid
             raise ScraperUnauthorisedException("Invalid API key sent")
 
+        if r.status_code == 429:
+            raise ScraperExceededAPIQuoteException("Scraper exceeded API key limits")
+
         if r.status_code == 500:
             raise ScraperWebsiteUnavailableException("Website unavailable")
 
@@ -173,13 +176,12 @@ class WebScraper(AbstractScraper):
         # Need to ensure we are sending back Unicode text
         return r.text.encode('utf-8')
 
-    def _parse_date(self, datestr, fmt):
+    def _parse_date(self, datestr):
         """Extract the year from a given date string using a given format. This function is used to cater for
         an edge case identified in https://forum.kodi.tv/showthread.php?tid=112916&pid=1214507#pid1214507.
 
         Args:
         	datestr: Input date
-        	fmt: Expected date format of input date
 
         Returns:
             Year as a %Y format string
@@ -187,8 +189,20 @@ class WebScraper(AbstractScraper):
         if datestr is None:
             return '1970'
 
-        try:
-            return datetime.strptime(datestr, fmt).strftime("%Y")
-        except TypeError as e:
-            log.warn("Unable to parse date using strptime, falling back to time function")
-            return datetime(*(time.strptime(datestr, fmt)[5:8]))
+        x = None
+        for fmt2 in ["%Y-%m-%d", "%Y", "%Y-%m-%d %H:%M:%S", "%d/%m/%Y", "%m/%d/%Y"]:
+            try:
+                x = datetime.strptime(datestr, fmt2).strftime("%Y")
+            except ValueError as e:
+                # Skip to the next format
+                pass
+            except TypeError as e:
+                log.warn("Unable to parse date using strptime, falling back to time function")
+                x = datetime(*(time.strptime(datestr, fmt2)[0:6]))
+
+        if x is not None:
+            return x
+        else:
+            log.warn(u"Unexpected date format: {0}".format(datestr))
+            return u"1970"
+

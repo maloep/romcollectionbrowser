@@ -28,7 +28,7 @@ class GiantBomb_Scraper(WebScraper):
 		return {'api_key': self._apikey,
 				'query': '{0}'.format(self.prepare_gamename_for_request(kwargs['gamename'])),
 				'resources': 'game',
-				'filter': 'platforms:{0}'.format(self.consoleDict[kwargs['platform']][3]),
+				'filter': 'platforms:{0}'.format(self.get_platform_for_scraper([kwargs['platform']])),
 				'format': 'json',
 				'field_list': 'id,name,platforms,original_release_date'}
 
@@ -78,7 +78,7 @@ class GiantBomb_Scraper(WebScraper):
 
 		for result in response['results']:
 			try:
-				year = self._parse_date(result['original_release_date'], "%Y-%m-%d %H:%M:%S")
+				year = self._parse_date(result['original_release_date'])
 				results.append({'id': result['id'],
 								'title': result['name'],
 								'releaseDate': year,
@@ -108,7 +108,7 @@ class GiantBomb_Scraper(WebScraper):
 
 		# Custom fields (i.e. ones that require special handling
 		# HACK - for compatibility we need to put each result in an array
-		result['ReleaseYear'] = [self._parse_date(response['original_release_date'], "%Y-%m-%d %H:%M:%S")]
+		result['ReleaseYear'] = [self._parse_date(response['original_release_date'])]
 		result['Developers'] = self._parse_developers(response['developers'])
 		result['Publishers'] = self._parse_publishers(response['publishers'])
 		result['Genre'] = self._parse_genres(response['genres'])

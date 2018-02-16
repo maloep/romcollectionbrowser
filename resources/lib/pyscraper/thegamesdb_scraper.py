@@ -38,7 +38,7 @@ class TheGamesDB_Scraper(WebScraper):
 		return self._search_url
 
 	def _get_search_params(self, **kwargs):
-		return {'name': kwargs['gamename'], 'platform': self.consoleDict[kwargs['platform']][1]}
+		return {'name': kwargs['gamename'], 'platform': self.get_platform_for_scraper([kwargs['platform']]),}
 
 	def _get_retrieve_url(self):
 		return self._retrieve_url
@@ -126,7 +126,7 @@ class TheGamesDB_Scraper(WebScraper):
 		# Adjust the date
 		releaseDate = game.find("ReleaseDate")
 		if releaseDate is not None:
-			result['ReleaseYear'] = [self._parse_date(releaseDate.text, "%m/%d/%Y")]
+			result['ReleaseYear'] = [self._parse_date(releaseDate.text)]
 
 		# Prefix images with base url
 		for image in ['fanart', 'boxfront', 'boxback', 'screenshot']:

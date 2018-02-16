@@ -1,0 +1,5 @@
+{
+  "message": "Oy, yo're making reqests too freqently for s to handle. Please wait at least 1.0 seconds between reqests.",
+  "code": 429,
+  "error": "Too many reqests"
+}

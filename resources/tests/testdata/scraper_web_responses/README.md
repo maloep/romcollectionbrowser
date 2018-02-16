@@ -10,3 +10,13 @@ These files contain the responses from the various API sources
 ## The Games DB - Retrieve
 
 * thegamesdb_getgame.xml - Retrieve page for Tekken in XML format from thegamesdb
+
+## Mobygames - Search
+
+* mobygames_getgame.json - [Search result](Wipeout", "PlayStation)
+
+## Mobygames - Retrieve
+
+* mobygames_getgame.json - [Search result](33250)
+* mobygames_getgame_2genres.json - [Search result](3134)
+

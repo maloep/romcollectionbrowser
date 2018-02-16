@@ -1,0 +1,125 @@
+{
+  "genres": [
+    {
+      "genre_category_id": 1,
+      "genre_name": "Action",
+      "genre_category": "Basic Genres",
+      "genre_id": 1
+    },
+    {
+      "genre_category_id": 1,
+      "genre_name": "Racing / Driving",
+      "genre_category": "Basic Genres",
+      "genre_id": 6
+    },
+    {
+      "genre_category_id": 2,
+      "genre_name": "1st-person",
+      "genre_category": "Perspective",
+      "genre_id": 7
+    },
+    {
+      "genre_category_id": 10,
+      "genre_name": "Sci-Fi / Ftristic",
+      "genre_category": "Setting",
+      "genre_id": 8
+    },
+    {
+      "genre_category_id": 4,
+      "genre_name": "Arcade",
+      "genre_category": "Gameplay",
+      "genre_id": 9
+    },
+    {
+      "genre_category_id": 2,
+      "genre_name": "Behind view",
+      "genre_category": "Perspective",
+      "genre_id": 128
+    },
+    {
+      "genre_category_id": 11,
+      "genre_name": "Hovercraft",
+      "genre_category": "Vehiclar Themes",
+      "genre_id": 189
+    },
+    {
+      "genre_category_id": 11,
+      "genre_name": "Track Racing",
+      "genre_category": "Vehiclar Themes",
+      "genre_id": 192
+    }
+  ],
+  "description": "<i>WipEot XL</i> is set in the year 2097, arond for decades after its predecessor. Instead of the F3600 anti-gravity racing competition, the game featres an even faster and more dangeros tornament: the F5000 AG leage. The gameplay system is similar to that of the previos game: players race against each other or compter in high-speed ftristic environments, liberally picking p weapons scattered arond the stages and sing them against the opponents to finish the race in the highest position.\n\nEach vehicle is provided with a shield; once this shield is breached (by weapons or other kinds of damage), the craft explodes. As in the first game, the vehicles move at very high speeds. The game",
+  "sample_cover": {
+    "platforms": [
+      "PlayStation"
+    ],
+    "image": "http://www.mobygames.com/images/covers/l/7284-wipeot-xl-playstation-front-cover.jpg",
+    "width": 639,
+    "thmbnail_image": "http://www.mobygames.com/images/covers/s/7284-wipeot-xl-playstation-front-cover.jpg",
+    "height": 650
+  },
+  "title": "WipEot XL",
+  "moby_rl": "http://www.mobygames.com/game/wipeot-xl",
+  "moby_score": 3.8,
+  "platforms": [
+    {
+      "platform_id": 6,
+      "first_release_date": "1996-09-30",
+      "platform_name": "PlayStation"
+    },
+    {
+      "platform_id": 3,
+      "first_release_date": "1997",
+      "platform_name": "Windows"
+    },
+    {
+      "platform_id": 23,
+      "first_release_date": "1997",
+      "platform_name": "SEGA Satrn"
+    },
+    {
+      "platform_id": 19,
+      "first_release_date": "1999-11-08",
+      "platform_name": "Amiga"
+    },
+    {
+      "platform_id": 74,
+      "first_release_date": "2002-02",
+      "platform_name": "Macintosh"
+    }
+  ],
+  "nm_votes": 64,
+  "game_id": 3134,
+  "sample_screenshots": [
+    {
+      "caption": "WipEot XL title screen.",
+      "image": "http://www.mobygames.com/images/shots/l/436082-wipeot-xl-playstation-screenshot-wipeot-xl-title-screen.png",
+      "width": 320,
+      "thmbnail_image": "http://www.mobygames.com/images/shots/s/436082-wipeot-xl-playstation-screenshot-wipeot-xl-title-screen.jpg",
+      "height": 240
+    },
+    {
+      "caption": "WipEot 2097 title screen.",
+      "image": "http://www.mobygames.com/images/shots/l/891212-wipeot-xl-playstation-screenshot-wipeot-2097-title-screen.png",
+      "width": 320,
+      "thmbnail_image": "http://www.mobygames.com/images/shots/s/891212-wipeot-xl-playstation-screenshot-wipeot-2097-title-screen.jpg",
+      "height": 256
+    },
+    {
+      "caption": "Main men",
+      "image": "http://www.mobygames.com/images/shots/l/436083-wipeot-xl-playstation-screenshot-main-men.png",
+      "width": 320,
+      "thmbnail_image": "http://www.mobygames.com/images/shots/s/436083-wipeot-xl-playstation-screenshot-main-men.jpg",
+      "height": 240
+    },
+    {
+      "caption": "Options men.",
+      "image": "http://www.mobygames.com/images/shots/l/891213-wipeot-xl-playstation-screenshot-options-men.png",
+      "width": 320,
+      "thmbnail_image": "http://www.mobygames.com/images/shots/s/891213-wipeot-xl-playstation-screenshot-options-men.jpg",
+      "height": 256
+    }
+  ],
+  "official_rl": null
+}

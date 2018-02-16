@@ -1,0 +1,34 @@
+{
+  "genres": [
+    {
+      "genre_category_id": 1,
+      "genre_name": "Compilation",
+      "genre_category": "Basic Genres",
+      "genre_id": 76
+    }
+  ],
+  "description": "This twin pack incldes:<l>\n<li>WipEot 3: Special Edition</li>\n<li>Destrction Derby 2</li></l>",
+  "sample_cover": {
+    "platforms": [
+      "PlayStation"
+    ],
+    "image": "http://www.mobygames.com/images/covers/l/254708-wipeot-3-special-edition-destrction-derby-2-playstation-front-cover.jpg",
+    "width": 800,
+    "thmbnail_image": "http://www.mobygames.com/images/covers/s/254708-wipeot-3-special-edition-destrction-derby-2-playstation-front-cover.jpg",
+    "height": 825
+  },
+  "title": "WipEot 3 Special Edition / Destrction Derby 2",
+  "moby_rl": "http://www.mobygames.com/game/wipeot-3-special-edition-destrction-derby-2",
+  "moby_score": 3.7,
+  "platforms": [
+    {
+      "platform_id": 6,
+      "first_release_date": "2003",
+      "platform_name": "PlayStation"
+    }
+  ],
+  "nm_votes": 3,
+  "game_id": 33250,
+  "sample_screenshots": [],
+  "official_rl": null
+}
