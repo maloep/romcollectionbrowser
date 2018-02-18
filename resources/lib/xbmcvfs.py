@@ -2,6 +2,7 @@
 Classes and functions to work with files and folders
 """
 
+import os
 
 __author__ = 'Team Kodi <http://kodi.tv>'
 __credits__ = 'Team Kodi'
@@ -224,7 +225,14 @@ def listdir(path):
 
         dirs, files = xbmcvfs.listdir(path)
     """
-    return list(), list()
+    #path = os.path.normpath(path)
+        
+    dirs = [d for d in os.listdir(path) if os.path.isdir(os.path.join(path, d))]
+    #print 'dirs: %s' %dirs
+    files = [f for f in os.listdir(path) if os.path.isfile(os.path.join(path, f))]
+    #print 'files: %s' %files
+    
+    return dirs, files 
 
 
 class Stat(object):
