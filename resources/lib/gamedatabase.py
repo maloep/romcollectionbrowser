@@ -211,7 +211,7 @@ class DataBaseObject:
 	def getObjectById(self, id):
 		self.gdb.cursor.execute("SELECT * FROM '%s' WHERE id = ?" % self.tableName, (id,))
 		object = self.gdb.cursor.fetchone()		
-		return object	
+		return object
 	
 	def getObjectsByWildcardQuery(self, query, args):		
 		#double Args for WildCard-Comparison (0 = 0)
@@ -304,14 +304,14 @@ class gameobj(object):
 	@property
 	def playcount(self):
 		return str(self.launchCount)
-
+	
 	@property
-	def year(self):
-		pass
+	def genre(self):
+		return str(self.genres)
 
 
 class Game(DataBaseObject):	
-	filterQuery = "Select * From Game WHERE \
+	filterQuery = "Select * From GameView WHERE \
 					(romCollectionId = ? OR (0 = ?)) AND \
 					(Id IN (Select GameId From GenreGame Where GenreId = ?) OR (0 = ?)) AND \
 					(YearId = ? OR (0 = ?)) AND \
@@ -321,9 +321,11 @@ class Game(DataBaseObject):
 					ORDER BY name COLLATE NOCASE \
 					%s"
 					
-	filterByNameAndRomCollectionId = "SELECT * FROM Game WHERE name = ? and romCollectionId = ?"
+	filterByGameByIdFromView = "SELECT * FROM GameView WHERE id = ?"
+					
+	filterByNameAndRomCollectionId = "SELECT * FROM GameView WHERE name = ? and romCollectionId = ?"
 	
-	filterMostPlayedGames = "Select * From Game Where launchCount > 0 Order by launchCount desc Limit "
+	filterMostPlayedGames = "Select * From GameView Where launchCount > 0 Order by launchCount desc Limit "
 	
 	deleteQuery = "DELETE FROM Game WHERE id = ?"
 	
@@ -365,7 +367,7 @@ class Game(DataBaseObject):
 
 	def getGameById(self, gameid):
 		try:
-			dbobj = self.getObjectById(gameid)
+			dbobj = self.getObjectByQuery(self.filterByGameByIdFromView, (gameid,))
 			gobj = self.rowToObj(dbobj)
 		except Exception as e:
 			print 'Error mapping game row to object: ' + e.message

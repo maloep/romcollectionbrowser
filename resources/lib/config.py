@@ -495,15 +495,15 @@ class RomCollection(object):
 		return fts
 
 	def getGamenameFromFilename(self, filename):
-		log.info("current rom file: " + filename)
+		Logutil.log("current rom file: %s" %filename, util.LOG_LEVEL_DEBUG)		
 
 		# Build friendly romname
 		if self.useFoldernameAsGamename:
 			gamename = os.path.basename(os.path.dirname(filename))
 		else:
 			gamename = os.path.basename(filename)
-
-		log.info("gamename (file): " + gamename)
+		
+		Logutil.log("gamename (file): %s" %gamename, util.LOG_LEVEL_DEBUG)
 
 		# Use regular expression to find disk prefix like '(Disk 1)' etc.
 		match = False
@@ -516,8 +516,8 @@ class RomCollection(object):
 			gamename = os.path.splitext(gamename)[0]
 
 		gamename = gamename.strip()
-
-		log.info("gamename (friendly): " + gamename)
+		
+		Logutil.log("gamename (friendly): %s" %gamename, util.LOG_LEVEL_DEBUG)
 
 		return gamename
 

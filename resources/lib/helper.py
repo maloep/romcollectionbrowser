@@ -147,13 +147,13 @@ def getFilenameForGame(gameid, filetypeid, fileDict):
 	Returns a Row object from the cache based on a key comprising the game ID and the filetype ID
 	"""
 	key = '%i;%i' % (int(gameid), int(filetypeid))
-	Logutil.log("Searching file cache for file type {0}, game {1} using key {2}".format(filetypeid, gameid, key), util.LOG_LEVEL_DEBUG)
+	Logutil.log("Searching file cache for file type {0}, game {1} using key {2}".format(filetypeid, gameid, key), util.LOG_LEVEL_INFO)
 	try:
 		# Get the Row object from the cache dict
 		files = fileDict[key]
-		Logutil.log("Found in cache: {0}".format(files), util.LOG_LEVEL_DEBUG)
+		Logutil.log("Found in cache: {0}".format(files), util.LOG_LEVEL_INFO)
 	except KeyError:
-		Logutil.log("Not found in file cache", util.LOG_LEVEL_DEBUG)
+		Logutil.log("Not found in file cache", util.LOG_LEVEL_INFO)
 		return ''
 
 	return files[0][ROW_NAME]
