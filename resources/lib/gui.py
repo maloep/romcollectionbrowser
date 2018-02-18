@@ -718,7 +718,7 @@ class UIGameDB(xbmcgui.WindowXML):
 		self.writeMsg(util.localize(32121))
 
 		self.clearList()
-		self.cacheMediaPathsForSelection(self.selectedConsoleId)
+		self.mediaDict = helper.cacheMediaPathsForSelection(self.selectedConsoleId, self.mediaDict, self.config)
 		
 		items = []
 		for game in games:
@@ -1322,60 +1322,6 @@ class UIGameDB(xbmcgui.WindowXML):
 		else:
 			Logutil.log("End setFilterSelection" , util.LOG_LEVEL_DEBUG)
 			return 0
-
-
-	def cacheMediaPathsForSelection(self, consoleId):
-		log.info('Begin cacheMediaPathsForSelection')
-		
-		if self.mediaDict is None:
-			self.mediaDict = {}
-			
-		#if this console is already cached there is nothing to do
-		if consoleId in self.mediaDict.keys():
-			log.info('MediaPaths for RomCollection %s are already in cache' %str(consoleId))
-			return
-		
-		if(consoleId > 0):
-			self.cacheMediaPathsForConsole(consoleId)
-			return
-		else:
-			for rcId in self.config.romCollections.keys():
-				if rcId in self.mediaDict.keys():
-					log.info('MediaPaths for RomCollection %s are already in cache' %str(rcId))
-					continue
-				self.cacheMediaPathsForConsole(rcId)
-				
-
-	def cacheMediaPathsForConsole(self, consoleId):
-		log.info('Begin cacheMediaPathsForConsole')
-		log.info('Caching mediaPaths for Rom Collection %s' %str(consoleId))
-		
-		romCollection = self.config.romCollections[str(consoleId)]
-				
-		mediaPathDict = {}
-		
-		for mediaPath in romCollection.mediaPaths:
-			mediadir = mediaPath.path
-			#if foldername is gamename only get content of parent directory
-			if romCollection.useFoldernameAsGamename:
-				mediadir = mediadir[0:mediadir.index('%GAME%')]
-			
-			mediafiles = []
-			self.walkDownMediaDirectories(os.path.dirname(mediadir), mediafiles)
-			
-			mediaPathDict[mediaPath.fileType.name] = mediafiles
-			
-		self.mediaDict[str(consoleId)] = mediaPathDict
-				
-	
-	def walkDownMediaDirectories(self, mediadir, mediafiles):
-		
-		mediasubdirs, mediasubfiles = xbmcvfs.listdir(mediadir)
-		for mediasubfile in mediasubfiles:
-			mediafiles.append(os.path.normpath(os.path.join(mediadir, mediasubfile)))
-		
-		for mediasubdir in mediasubdirs:
-			self.walkDownMediaDirectories(os.path.join(mediadir, mediasubdir), mediafiles)
 
 
 	def getControlById(self, controlId):

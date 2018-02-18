@@ -5,6 +5,7 @@ from gamedatabase import *
 from util import *
 import util
 import xbmc, xbmcgui
+from temptests import mediaDict
 
 
 def cacheFiles(fileRows):
@@ -157,6 +158,63 @@ def getFilenameForGame(gameid, filetypeid, fileDict):
 		return ''
 
 	return files[0][ROW_NAME]
+
+
+def cacheMediaPathsForSelection(consoleId, mediaDict, config):
+	Logutil.log('Begin cacheMediaPathsForSelection', util.LOG_LEVEL_INFO)
+	
+	if mediaDict is None:
+		mediaDict = {}
+		
+	#if this console is already cached there is nothing to do
+	if consoleId in mediaDict.keys():
+		Logutil.log('MediaPaths for RomCollection %s are already in cache' %str(consoleId), util.LOG_LEVEL_INFO)
+		return mediaDict
+	
+	if(consoleId > 0):
+		cacheMediaPathsForConsole(consoleId, mediaDict, config)
+		return mediaDict
+	else:
+		for rcId in config.romCollections.keys():
+			if rcId in mediaDict.keys():
+				Logutil.log('MediaPaths for RomCollection %s are already in cache' %str(rcId), util.LOG_LEVEL_INFO)
+				continue
+			cacheMediaPathsForConsole(rcId, mediaDict, config)
+			
+	return mediaDict
+		
+
+def cacheMediaPathsForConsole(consoleId, mediaDict, config):
+	Logutil.log('Begin cacheMediaPathsForConsole', util.LOG_LEVEL_INFO)
+	Logutil.log('Caching mediaPaths for Rom Collection %s' %str(consoleId), util.LOG_LEVEL_INFO)
+	
+	romCollection = config.romCollections[str(consoleId)]
+			
+	mediaPathDict = {}
+	
+	for mediaPath in romCollection.mediaPaths:
+		mediadir = mediaPath.path
+		#if foldername is gamename only get content of parent directory
+		if romCollection.useFoldernameAsGamename:
+			mediadir = mediadir[0:mediadir.index('%GAME%')]
+		
+		mediafiles = []
+		walkDownMediaDirectories(os.path.dirname(mediadir), mediafiles)
+		
+		mediaPathDict[mediaPath.fileType.name] = mediafiles
+		
+	mediaDict[str(consoleId)] = mediaPathDict
+				
+	
+def walkDownMediaDirectories(mediadir, mediafiles):
+		
+	print mediadir
+	mediasubdirs, mediasubfiles = xbmcvfs.listdir(mediadir)
+	for mediasubfile in mediasubfiles:
+		mediafiles.append(os.path.normpath(os.path.join(mediadir, mediasubfile)))
+	
+	for mediasubdir in mediasubdirs:
+		walkDownMediaDirectories(os.path.join(mediadir, mediasubdir), mediafiles)
 
 
 def getFileForControl(fileTypes, romCollection, mediaPathsDict, gamenameFromFile, isVideo=False):
