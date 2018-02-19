@@ -62,7 +62,15 @@
     <!-- The following are explicitly referenced in the RomCollections above and need to be specified -->
     <ImagePlacing>
         <fileTypeFor name="gameinfobig">
-
+			<fileTypeForGameList>boxfront</fileTypeForGameList>
+			<fileTypeForGameList>screenshot</fileTypeForGameList>		
+			<fileTypeForGameListSelected>boxfront</fileTypeForGameListSelected>
+			<fileTypeForGameListSelected>screenshot</fileTypeForGameListSelected>
+			<fileTypeForMainViewBackground>fanart</fileTypeForMainViewBackground>
+			<fileTypeForMainViewBackground>boxfront</fileTypeForMainViewBackground>
+			<fileTypeForMainViewBackground>screenshot</fileTypeForMainViewBackground>
+			<fileTypeForMainViewGameInfoBig>screenshot</fileTypeForMainViewGameInfoBig>
+			<fileTypeForMainViewGameInfoBig>boxfront</fileTypeForMainViewGameInfoBig>
         </fileTypeFor>
         <fileTypeFor name="gameinfosmall">
 

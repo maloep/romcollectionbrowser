@@ -5,7 +5,6 @@ from gamedatabase import *
 from util import *
 import util
 import xbmc, xbmcgui
-from temptests import mediaDict
 
 
 def cacheFiles(fileRows):
@@ -207,8 +206,7 @@ def cacheMediaPathsForConsole(consoleId, mediaDict, config):
 				
 	
 def walkDownMediaDirectories(mediadir, mediafiles):
-		
-	print mediadir
+	
 	mediasubdirs, mediasubfiles = xbmcvfs.listdir(mediadir)
 	for mediasubfile in mediasubfiles:
 		mediafiles.append(os.path.normpath(os.path.join(mediadir, mediasubfile)))
