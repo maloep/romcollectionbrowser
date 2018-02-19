@@ -36,28 +36,6 @@ missingFilterOptions = {util.localize(32157) : util.localize(32158),
 					util.localize(32161) : util.localize(32162)}
 
 
-
-def getPlatformByRomCollection(source, romCollectionName):
-	platform = ''
-	if(source.find('mobygames.com') != -1):
-		try:
-			platform = consoleDict[romCollectionName][0]
-		except:
-			Logutil.log('Could not find platform name for Rom Collection %s' % romCollectionName, util.LOG_LEVEL_WARNING)
-	elif(source.find('thegamesdb.net') != -1):
-		try:
-			platform = consoleDict[romCollectionName][1]
-		except:
-			Logutil.log('Could not find platform name for Rom Collection %s' % romCollectionName, util.LOG_LEVEL_WARNING)
-	elif(source.find('archive.vg') != -1):
-		try:
-			platform = consoleDict[romCollectionName][2]
-		except:
-			Logutil.log('Could not find platform name for Rom Collection %s' % romCollectionName, util.LOG_LEVEL_WARNING)
-
-	return platform
-
-
 imagePlacingDict = {'gameinfobig' : 'one big',
 					'gameinfobigVideo' : 'one big or video',
 					'gameinfosmall' : 'four small',
