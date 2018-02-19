@@ -31,10 +31,6 @@ gameproperties = {'Title' : ['name', "name = ''"],
 				}
 
 
-missingFilterOptions = {util.localize(32157) : util.localize(32158),
-					util.localize(32159) : util.localize(32160),
-					util.localize(32161) : util.localize(32162)}
-
 
 imagePlacingDict = {'gameinfobig' : 'one big',
 					'gameinfobigVideo' : 'one big or video',
