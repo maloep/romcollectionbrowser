@@ -38,6 +38,10 @@ class MissingInfoDialog(dialogbase.DialogBaseEdit):
 
 	saveConfig = False
 
+	missingFilterOptions = {util.localize(32157): util.localize(32158),
+							util.localize(32159): util.localize(32160),
+							util.localize(32161): util.localize(32162)}
+
 	def __init__(self, *args, **kwargs):
 		Logutil.log('init dialog missing info', util.LOG_LEVEL_INFO)
 
@@ -69,8 +73,8 @@ class MissingInfoDialog(dialogbase.DialogBaseEdit):
 		#showHideOptions = ['Ignore filter', 'Show only games with missing items', 'Hide games with missing items']
 		self.addItemsToList(CONTROL_LIST_SHOWHIDEMISSING, config.missingFilterOptions.values())
 
-		for i in range(0, len(config.missingFilterOptions.keys())):
-			key = config.missingFilterOptions.keys()[i]
+		for i in range(0, len(self.missingFilterOptions.keys())):
+			key = self.missingFilterOptions.keys()[i]
 			if(key == self.gui.config.showHideOption):
 				listShowHide = self.getControlById(CONTROL_LIST_SHOWHIDEMISSING)
 				listShowHide.selectItem(i)
@@ -127,7 +131,7 @@ class MissingInfoDialog(dialogbase.DialogBaseEdit):
 
 			showHideList = self.getControlById(CONTROL_LIST_SHOWHIDEMISSING)
 			index = showHideList.getSelectedPosition()
-			showHideOptions = config.missingFilterOptions.keys()
+			showHideOptions = self.missingFilterOptions.keys()
 			showHideOption = showHideOptions[index]
 
 			configWriter = ConfigXmlWriter(False)
