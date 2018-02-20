@@ -229,22 +229,48 @@ def getFileForControl(fileTypes, romCollection, mediaPathsDict, gamenameFromFile
 			continue
 		
 		pathnameFromFile = mediaPath.replace("%GAME%", gamenameFromFile)
-					
 		mediaPathsList = mediaPathsDict[fileType.name]
+				
+		imagePath = _findFileWithCorrectExtensionRegex(pathnameFromFile, mediaPathsList, isVideo)
+		if imagePath:
+			return imagePath
+
+
+def _findFileWithCorrectExtensionRegex(pathnameFromFile, mediaPathsList, isVideo):
+	pathToSearch = re.escape(os.path.normpath(pathnameFromFile.replace('.*', '')))
+	pattern = re.compile('%s\.(jpe?g|gif|bmp|wmv|mp4|flv|avi|png)$' %pathToSearch)
+	for imagePath in mediaPathsList:
+		match = pattern.search(imagePath)
+		if match:
+			resultFilename, resultExtension = os.path.splitext(imagePath)
+			mediaPathFilename, mediaPathExtension = os.path.splitext(pathnameFromFile)
+			return '%s%s' %(mediaPathFilename, resultExtension)
 		
-		extensionlist = ['png', 'jpg', 'gif']
-		if isVideo:
-			extensionlist = ['wmv', 'mp4', 'avi', 'flv']
-		for extension in extensionlist:
-			path = pathnameFromFile.replace('*', extension)
-			#HACK: os.path.normpath creates smb paths like smb:\\foo. Only use this path for searching the image in mediadict
-			pathToSearch = os.path.normpath(path)
-			Logutil.log("Looking for image: %s" %path, util.LOG_LEVEL_DEBUG)
-			if pathToSearch in mediaPathsList:
-				Logutil.log("image found", util.LOG_LEVEL_DEBUG)
-				Logutil.log("end getFileForControl", util.LOG_LEVEL_DEBUG)
-				return path
-			
+
+def _findFileWithCorrectExtensionRegexFilter(pathnameFromFile, mediaPathsList, isVideo):
+	pathToSearch = re.escape(os.path.normpath(pathnameFromFile.replace('.*', '')))
+	pattern = re.compile('%s\.(jpe?g|png|gif|bmp|wmv|mp4|flv|avi)$' %pathToSearch)
+	result = filter(pattern.match, mediaPathsList)
+	if len(result) > 0:
+		resultFilename, resultExtension = os.path.splitext(result[0])
+		mediaPathFilename, mediaPathExtension = os.path.splitext(pathnameFromFile)
+		return '%s%s' %(mediaPathFilename, resultExtension)
+		
+		
+def _findFileWithCorrectExtension(pathnameFromFile, mediaPathsList, isVideo):
+	extensionlist = ['jpg', 'gif', 'jpeg', 'bmp', 'png']
+	if isVideo:
+		extensionlist = ['wmv', 'mp4', 'avi', 'flv']
+	for extension in extensionlist:
+		path = pathnameFromFile.replace('*', extension)
+		#HACK: os.path.normpath creates smb paths like smb:\\foo. Only use this path for searching the image in mediadict
+		pathToSearch = os.path.normpath(path)
+		Logutil.log("Looking for image: %s" %path, util.LOG_LEVEL_DEBUG)
+		if pathToSearch in mediaPathsList:
+			Logutil.log("image found", util.LOG_LEVEL_DEBUG)
+			Logutil.log("end getFileForControl", util.LOG_LEVEL_DEBUG)
+			return path
+					
 	Logutil.log("end getFileForControl", util.LOG_LEVEL_DEBUG)
 	return ""
 
