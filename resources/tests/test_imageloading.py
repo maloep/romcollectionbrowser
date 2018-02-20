@@ -1,5 +1,5 @@
 
-import os
+import os, re, time
 import unittest
 
 
@@ -178,6 +178,64 @@ class Test(unittest.TestCase):
         filenameExpected = "./testdata/artwork/SNES/Madden NFL '97/screenshot.png"
         self.assertTrue(filename[0] == filenameExpected, 'Artwork file should have been %s but was %s' %(filenameExpected, filename))
         
+        
+    def testFileForControlRegularExpression(self):
+                
+        imagelist = [os.path.normpath('testdata\artwork\SNES\Game 1.png'),
+                     os.path.normpath('testdata\artwork\SNES\Game 2 (USA).png'),
+                     os.path.normpath('testdata\artwork\SNES\Game 3 [V1].jpg'),
+                     os.path.normpath('testdata\artwork\SNES\Game 4.gif')]
+                
+        image = self._matchImagePattern(imagelist, 'Game 1')
+        self.assertTrue(image == 'testdata\artwork\SNES\Game 1.png', 'Wrong image: %s' %image)
+        
+        image = self._matchImagePattern(imagelist, 'Game 2 (USA)')
+        self.assertTrue(image == 'testdata\artwork\SNES\Game 2 (USA).png', 'Wrong image: %s' %image)
+        
+        image = self._matchImagePattern(imagelist, 'Game 3 [V1]')
+        self.assertTrue(image == 'testdata\artwork\SNES\Game 3 [V1].jpg', 'Wrong image: %s' %image)
+        
+        image = self._matchImagePattern(imagelist, 'Game 4')
+        self.assertTrue(image == 'testdata\artwork\SNES\Game 4.gif', 'Wrong image: %s' %image)
+        
+    
+    def _matchImagePattern(self, imagelist, gamenameFromFile):
+        
+        mediaPath = 'testdata\artwork\SNES\%GAME%.*'
+        pathnameFromFile = mediaPath.replace("%GAME%", gamenameFromFile)
+        pathToSearch = re.escape(os.path.normpath(pathnameFromFile.replace('.*', '')))
+        foundImage = ''
+                
+        timestamp1 = time.clock()
+        pattern = re.compile('%s\..*$' %re.escape(gamenameFromFile))
+        for image in imagelist:
+            match = pattern.search(image)
+            if match:
+                foundImage = image
+                
+        timestamp2 = time.clock()
+        diff = (timestamp2 - timestamp1) * 1000
+        print 'pattern.search took %s ms' %diff
+        
+        return foundImage
+    
+    
+    def _matchImageFilter(self, imagelist, gamenameFromFile):
+        
+        mediaPath = 'testdata\artwork\SNES\%GAME%.*'
+        pathnameFromFile = mediaPath.replace("%GAME%", gamenameFromFile)
+        pathToSearch = re.escape(os.path.normpath(pathnameFromFile.replace('.*', '')))
+        foundImage = ''
+        
+        timestamp1 = time.clock()
+        pattern = re.compile('%s\..*$' %pathToSearch)
+        foundImage = filter(pattern.match, imagelist)
+        timestamp2 = time.clock()
+        diff = (timestamp2 - timestamp1) * 1000
+        print 'filter took %s ms' %diff
+                
+        return foundImage[0]
+            
 
 if __name__ == "__main__":
     #import sys;sys.argv = ['', 'Test.testName']

@@ -238,7 +238,7 @@ def getFileForControl(fileTypes, romCollection, mediaPathsDict, gamenameFromFile
 
 def _findFileWithCorrectExtensionRegex(pathnameFromFile, mediaPathsList, isVideo):
 	pathToSearch = re.escape(os.path.normpath(pathnameFromFile.replace('.*', '')))
-	pattern = re.compile('%s\.(jpe?g|gif|bmp|wmv|mp4|flv|avi|png)$' %pathToSearch)
+	pattern = re.compile('%s\..*$' %pathToSearch)
 	for imagePath in mediaPathsList:
 		match = pattern.search(imagePath)
 		if match:
@@ -249,7 +249,7 @@ def _findFileWithCorrectExtensionRegex(pathnameFromFile, mediaPathsList, isVideo
 
 def _findFileWithCorrectExtensionRegexFilter(pathnameFromFile, mediaPathsList, isVideo):
 	pathToSearch = re.escape(os.path.normpath(pathnameFromFile.replace('.*', '')))
-	pattern = re.compile('%s\.(jpe?g|png|gif|bmp|wmv|mp4|flv|avi)$' %pathToSearch)
+	pattern = re.compile('%s\..*$' %pathToSearch)
 	result = filter(pattern.match, mediaPathsList)
 	if len(result) > 0:
 		resultFilename, resultExtension = os.path.splitext(result[0])
