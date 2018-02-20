@@ -377,7 +377,7 @@
 	<string id="32118">Do you want to import Games now?</string>
 	<string id="32119">loading list...</string>
 	<string id="32120">All</string>
-	<string id="32121">loading games...</string>
+	<string id="32121">Loading games...</string>
 	<string id="32122">Importing Rom Collection</string>
 	<string id="32123">Importing Game</string>
 	<string id="32124">Continue</string>
@@ -460,6 +460,7 @@
 	<string id="32201">Path to emu_autoconfig.xml</string>
 	<string id="32202">%s (Installed)</string>
 	<string id="32203">Available autoconfig emulators</string>
+	<string id="32204">Caching images...</string>
 	
 	
 	<!-- Settings -->

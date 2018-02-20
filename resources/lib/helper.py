@@ -147,16 +147,72 @@ def getFilenameForGame(gameid, filetypeid, fileDict):
 	Returns a Row object from the cache based on a key comprising the game ID and the filetype ID
 	"""
 	key = '%i;%i' % (int(gameid), int(filetypeid))
-	Logutil.log("Searching file cache for file type {0}, game {1} using key {2}".format(filetypeid, gameid, key), util.LOG_LEVEL_DEBUG)
+	Logutil.log("Searching file cache for file type {0}, game {1} using key {2}".format(filetypeid, gameid, key), util.LOG_LEVEL_INFO)
 	try:
 		# Get the Row object from the cache dict
 		files = fileDict[key]
-		Logutil.log("Found in cache: {0}".format(files), util.LOG_LEVEL_DEBUG)
+		Logutil.log("Found in cache: {0}".format(files), util.LOG_LEVEL_INFO)
 	except KeyError:
-		Logutil.log("Not found in file cache", util.LOG_LEVEL_DEBUG)
+		Logutil.log("Not found in file cache", util.LOG_LEVEL_INFO)
 		return ''
 
 	return files[0][ROW_NAME]
+
+
+def cacheMediaPathsForSelection(consoleId, mediaDict, config):
+	Logutil.log('Begin cacheMediaPathsForSelection', util.LOG_LEVEL_INFO)
+	
+	if mediaDict is None:
+		mediaDict = {}
+		
+	#if this console is already cached there is nothing to do
+	if consoleId in mediaDict.keys():
+		Logutil.log('MediaPaths for RomCollection %s are already in cache' %str(consoleId), util.LOG_LEVEL_INFO)
+		return mediaDict
+	
+	if(consoleId > 0):
+		cacheMediaPathsForConsole(consoleId, mediaDict, config)
+		return mediaDict
+	else:
+		for rcId in config.romCollections.keys():
+			if rcId in mediaDict.keys():
+				Logutil.log('MediaPaths for RomCollection %s are already in cache' %str(rcId), util.LOG_LEVEL_INFO)
+				continue
+			cacheMediaPathsForConsole(rcId, mediaDict, config)
+			
+	return mediaDict
+		
+
+def cacheMediaPathsForConsole(consoleId, mediaDict, config):
+	Logutil.log('Begin cacheMediaPathsForConsole', util.LOG_LEVEL_INFO)
+	Logutil.log('Caching mediaPaths for Rom Collection %s' %str(consoleId), util.LOG_LEVEL_INFO)
+	
+	romCollection = config.romCollections[str(consoleId)]
+			
+	mediaPathDict = {}
+	
+	for mediaPath in romCollection.mediaPaths:
+		mediadir = mediaPath.path
+		#if foldername is gamename only get content of parent directory
+		if romCollection.useFoldernameAsGamename:
+			mediadir = mediadir[0:mediadir.index('%GAME%')]
+		
+		mediafiles = []
+		walkDownMediaDirectories(os.path.dirname(mediadir), mediafiles)
+		
+		mediaPathDict[mediaPath.fileType.name] = mediafiles
+		
+	mediaDict[str(consoleId)] = mediaPathDict
+				
+	
+def walkDownMediaDirectories(mediadir, mediafiles):
+	
+	mediasubdirs, mediasubfiles = xbmcvfs.listdir(mediadir)
+	for mediasubfile in mediasubfiles:
+		mediafiles.append(os.path.normpath(os.path.join(mediadir, mediasubfile)))
+	
+	for mediasubdir in mediasubdirs:
+		walkDownMediaDirectories(os.path.join(mediadir, mediasubdir), mediafiles)
 
 
 def getFileForControl(fileTypes, romCollection, mediaPathsDict, gamenameFromFile, isVideo=False):
@@ -173,22 +229,48 @@ def getFileForControl(fileTypes, romCollection, mediaPathsDict, gamenameFromFile
 			continue
 		
 		pathnameFromFile = mediaPath.replace("%GAME%", gamenameFromFile)
-					
 		mediaPathsList = mediaPathsDict[fileType.name]
+				
+		imagePath = _findFileWithCorrectExtensionRegex(pathnameFromFile, mediaPathsList, isVideo)
+		if imagePath:
+			return imagePath
+
+
+def _findFileWithCorrectExtensionRegex(pathnameFromFile, mediaPathsList, isVideo):
+	pathToSearch = re.escape(os.path.normpath(pathnameFromFile.replace('.*', '')))
+	pattern = re.compile('%s\..*$' %pathToSearch)
+	for imagePath in mediaPathsList:
+		match = pattern.search(imagePath)
+		if match:
+			resultFilename, resultExtension = os.path.splitext(imagePath)
+			mediaPathFilename, mediaPathExtension = os.path.splitext(pathnameFromFile)
+			return '%s%s' %(mediaPathFilename, resultExtension)
 		
-		extensionlist = ['png', 'jpg', 'gif']
-		if isVideo:
-			extensionlist = ['wmv', 'mp4', 'avi', 'flv']
-		for extension in extensionlist:
-			path = pathnameFromFile.replace('*', extension)
-			#HACK: os.path.normpath creates smb paths like smb:\\foo. Only use this path for searching the image in mediadict
-			pathToSearch = os.path.normpath(path)
-			Logutil.log("Looking for image: %s" %path, util.LOG_LEVEL_DEBUG)
-			if pathToSearch in mediaPathsList:
-				Logutil.log("image found", util.LOG_LEVEL_DEBUG)
-				Logutil.log("end getFileForControl", util.LOG_LEVEL_DEBUG)
-				return path
-			
+
+def _findFileWithCorrectExtensionRegexFilter(pathnameFromFile, mediaPathsList, isVideo):
+	pathToSearch = re.escape(os.path.normpath(pathnameFromFile.replace('.*', '')))
+	pattern = re.compile('%s\..*$' %pathToSearch)
+	result = filter(pattern.match, mediaPathsList)
+	if len(result) > 0:
+		resultFilename, resultExtension = os.path.splitext(result[0])
+		mediaPathFilename, mediaPathExtension = os.path.splitext(pathnameFromFile)
+		return '%s%s' %(mediaPathFilename, resultExtension)
+		
+		
+def _findFileWithCorrectExtension(pathnameFromFile, mediaPathsList, isVideo):
+	extensionlist = ['jpg', 'gif', 'jpeg', 'bmp', 'png']
+	if isVideo:
+		extensionlist = ['wmv', 'mp4', 'avi', 'flv']
+	for extension in extensionlist:
+		path = pathnameFromFile.replace('*', extension)
+		#HACK: os.path.normpath creates smb paths like smb:\\foo. Only use this path for searching the image in mediadict
+		pathToSearch = os.path.normpath(path)
+		Logutil.log("Looking for image: %s" %path, util.LOG_LEVEL_DEBUG)
+		if pathToSearch in mediaPathsList:
+			Logutil.log("image found", util.LOG_LEVEL_DEBUG)
+			Logutil.log("end getFileForControl", util.LOG_LEVEL_DEBUG)
+			return path
+					
 	Logutil.log("end getFileForControl", util.LOG_LEVEL_DEBUG)
 	return ""
 

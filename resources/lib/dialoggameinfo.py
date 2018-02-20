@@ -65,7 +65,6 @@ class UIGameInfoView(xbmcgui.WindowXMLDialog):
 		self.selectedCharacterIndex = kwargs[ "selectedCharacterIndex" ]
 		self.selectedGameIndex = kwargs[ "selectedGameIndex" ]
 		self.selectedControlIdMainView = kwargs["controlIdMainView"]
-		self.fileDict = kwargs["fileDict"]
 		self.fileTypeGameplay = kwargs["fileTypeGameplay"]
 		self.mediaDict = kwargs["mediaDict"]
 
@@ -79,14 +78,13 @@ class UIGameInfoView(xbmcgui.WindowXMLDialog):
 
 		Logutil.log("Begin OnInit UIGameInfoView", util.LOG_LEVEL_INFO)
 
-		self.showGameList()
+		self.showGame()
 		
 		control = self.getControlById(CONTROL_BUTTON_PLAYGAME)
 		if(control != None):
 			self.setFocus(control)
 		
 		xbmc.sleep(util.WAITTIME_UPDATECONTROLS)
-		self.showGameInfo()
 
 		Logutil.log("End OnInit UIGameInfoView", util.LOG_LEVEL_INFO)
 
@@ -116,289 +114,70 @@ class UIGameInfoView(xbmcgui.WindowXMLDialog):
 			self.close()
 
 
-	def showGameList(self):
+	def showGame(self):
 
 		Logutil.log("Begin showGameList UIGameInfoView", util.LOG_LEVEL_INFO)
-
-		#likeStatement = helper.buildLikeStatement(self.selectedCharacter)
-		#games = Game(self.gdb).getFilteredGames(self.selectedConsoleId, self.selectedGenreId, self.selectedYearId, self.selectedPublisherId, likeStatement)
 
 		self.writeMsg(util.localize(32121))
 
 		self.clearList()
 
-		gameRow = Game(self.gdb).getObjectById(self.selectedGameId)
+		game = Game(self.gdb).getGameById(self.selectedGameId)
 
-		fileDict = self.getFileDictByGameRow(self.gdb, gameRow)
+		item = xbmcgui.ListItem(game.name, str(game.id))
+		item.setProperty('romCollectionId', str(game.romCollectionId))
+		
+		# Properties from the game object
+		for var in ['maxplayers', 'rating', 'votes', 'url', 'region', 'media', 'perspective', 'controllertype',
+					'originaltitle', 'alternatetitle', 'translatedby', 'version', 'playcount', 'plot', 'year', 
+					'publisher', 'developer', 'genre', 'firstRom']:
+			try:
+				item.setProperty(var, getattr(game, var))
+			except AttributeError as e:
+				Logutil.log('Error retrieving property ' + var + ': ' + str(e), util.LOG_LEVEL_WARNING)
+				item.setProperty(var, '')
 
 		romCollection = None
 		try:
-			romCollection = self.config.romCollections[str(gameRow[util.GAME_romCollectionId])]
+			romCollection = self.config.romCollections[str(game.romCollectionId)]
 		except:
-			Logutil.log(util.localize(32023) % str(gameRow[util.GAME_romCollectionId]), util.LOG_LEVEL_ERROR)
+			Logutil.log(util.localize(32023) % str(game.romCollectionId), util.LOG_LEVEL_ERROR)
+			
+		# Rom Collection properties
+		item.setProperty('romcollection', romCollection.name)
+		item.setProperty('console', romCollection.name)
 
-		mediaPathsDict = self.mediaDict[gameRow[util.GAME_romCollectionId]]
-		romfile = helper.getFilenameForGame(gameRow[util.ROW_ID], 0, fileDict)
+		mediaPathsDict = self.mediaDict[str(game.romCollectionId)]
+		romfile = game.firstRom
 		gamenameFromFile = romCollection.getGamenameFromFilename(romfile)
-
-		imageGameList = helper.getFileForControl(romCollection.imagePlacingInfo.fileTypesForGameList, romCollection, mediaPathsDict, gamenameFromFile)
-		imageGameListSelected = helper.getFileForControl(romCollection.imagePlacingInfo.fileTypesForGameListSelected, romCollection, mediaPathsDict, gamenameFromFile)
-
-		item = xbmcgui.ListItem(gameRow[util.ROW_NAME], str(gameRow[util.ROW_ID]), imageGameList, imageGameListSelected)
-		item.setProperty('gameId', str(gameRow[util.ROW_ID]))
+		
+		item.setArt({
+				'icon': helper.getFileForControl(romCollection.imagePlacingMain.fileTypesForGameList, romCollection, mediaPathsDict, gamenameFromFile, False),
+				'thumb': helper.getFileForControl(romCollection.imagePlacingMain.fileTypesForGameListSelected, romCollection, mediaPathsDict, gamenameFromFile, False),
+				
+				IMAGE_CONTROL_BACKGROUND: helper.getFileForControl(romCollection.imagePlacingInfo.fileTypesForMainViewBackground, romCollection, mediaPathsDict, gamenameFromFile),
+				IMAGE_CONTROL_GAMEINFO_BIG: helper.getFileForControl(romCollection.imagePlacingInfo.fileTypesForMainViewGameInfoBig, romCollection, mediaPathsDict, gamenameFromFile),
+	
+				IMAGE_CONTROL_GAMEINFO_UPPERLEFT: helper.getFileForControl(romCollection.imagePlacingInfo.fileTypesForMainViewGameInfoUpperLeft, romCollection, mediaPathsDict, gamenameFromFile),
+				IMAGE_CONTROL_GAMEINFO_UPPERRIGHT: helper.getFileForControl(romCollection.imagePlacingInfo.fileTypesForMainViewGameInfoUpperRight, romCollection, mediaPathsDict, gamenameFromFile),
+				IMAGE_CONTROL_GAMEINFO_LOWERLEFT: helper.getFileForControl(romCollection.imagePlacingInfo.fileTypesForMainViewGameInfoLowerLeft, romCollection, mediaPathsDict, gamenameFromFile),
+				IMAGE_CONTROL_GAMEINFO_LOWERRIGHT: helper.getFileForControl(romCollection.imagePlacingInfo.fileTypesForMainViewGameInfoLowerRight, romCollection, mediaPathsDict, gamenameFromFile),
+	
+				IMAGE_CONTROL_GAMEINFO_UPPER: helper.getFileForControl(romCollection.imagePlacingInfo.fileTypesForMainViewGameInfoUpper, romCollection, mediaPathsDict, gamenameFromFile),
+				IMAGE_CONTROL_GAMEINFO_LOWER: helper.getFileForControl(romCollection.imagePlacingInfo.fileTypesForMainViewGameInfoLower, romCollection, mediaPathsDict, gamenameFromFile),
+				IMAGE_CONTROL_GAMEINFO_LEFT: helper.getFileForControl(romCollection.imagePlacingInfo.fileTypesForMainViewGameInfoLeft, romCollection, mediaPathsDict, gamenameFromFile),
+				IMAGE_CONTROL_GAMEINFO_RIGHT: helper.getFileForControl(romCollection.imagePlacingInfo.fileTypesForMainViewGameInfoRight, romCollection, mediaPathsDict, gamenameFromFile),
+	
+				IMAGE_CONTROL_1: helper.getFileForControl(romCollection.imagePlacingInfo.fileTypesForMainView1, romCollection, mediaPathsDict, gamenameFromFile),
+				IMAGE_CONTROL_2: helper.getFileForControl(romCollection.imagePlacingInfo.fileTypesForMainView2, romCollection, mediaPathsDict, gamenameFromFile),
+				IMAGE_CONTROL_3: helper.getFileForControl(romCollection.imagePlacingInfo.fileTypesForMainView3, romCollection, mediaPathsDict, gamenameFromFile),
+		})
 
 		self.addItem(item)
 
-		xbmc.executebuiltin("Container.SortDirection")
 		self.writeMsg("")
 
 		Logutil.log("End showGameList UIGameInfoView", util.LOG_LEVEL_INFO)
-
-	def showGameInfoNew(self):
-		Logutil.log("Begin showGameInfoNew UIGameInfoView", util.LOG_LEVEL_INFO)
-
-		# Stop Player (if playing)
-		if xbmc.Player().isPlayingVideo():
-			xbmc.Player().stop()
-
-		pos = self.getCurrentListPosition()
-		if pos == -1:
-			pos = 0
-
-		selectedGame = self.getListItem(pos)
-
-		if selectedGame is None:
-			Logutil.log("selectedGame == None in showGameInfo", util.LOG_LEVEL_WARNING)
-			return
-
-		thegame = Game(self.gdb).getGameById(self.selectedGameId)
-		if thegame is None:
-			self.writeMsg(util.localize(32024))
-			return
-
-		# Properties from the game object
-		for var in ['maxplayers', 'rating', 'votes', 'url', 'region', 'media', 'perspective', 'controllertype',
-					'originaltitle', 'alternatetitle', 'translatedby', 'version', 'playcount', 'plot']:
-			try:
-				selectedGame.setProperty(var, getattr(thegame, var))
-			except AttributeError as e:
-				Logutil.log('Error retrieving property ' + var + ': ' + str(e), util.LOG_LEVEL_WARNING)
-				selectedGame.setProperty(var, '')
-
-		# Properties available through ID on the game
-		selectedGame.setProperty('year', Year(self.gdb).getYear(thegame.yearId))
-		selectedGame.setProperty('genre', Genre(self.gdb).getGenresForGame(thegame.gameId))
-		selectedGame.setProperty('publisher', Publisher(self.gdb).getPublisher(thegame.publisherId))
-		selectedGame.setProperty('developer', Developer(self.gdb).getDeveloper(thegame.developerId))
-
-		try:
-			romCollection = self.config.romCollections[str(thegame.romCollectionId)]
-		except KeyError as e:
-			Logutil.log('Cannot get rom collection with id: ' + str(thegame.romCollectionId), util.LOG_LEVEL_ERROR)
-			return
-
-		# Rom Collection properties
-		selectedGame.setProperty('romcollection', romCollection.name)
-		selectedGame.setProperty('console', romCollection.name)
-
-		# Associated artwork properties
-		images = romCollection.getImagesForGameInfoView()
-		f = File(self.gdb)
-		for k, v in images.items():
-			try:
-				imagepath = f.getFilenameByGameIdAndTypeId(thegame.gameId, v.id)
-				Logutil.log('Looking for {0}, imagetype {1}, found {2}'.format(k, v.name, imagepath), util.LOG_LEVEL_DEBUG)
-				selectedGame.setArt({k: imagepath})
-
-			except Exception as err:
-				Logutil.log('Unable to set art: ' + repr(err), util.LOG_LEVEL_WARNING)
-
-		Logutil.log("End showGameInfoNew UIGameInfoView", util.LOG_LEVEL_INFO)
-
-	def showGameInfo(self):
-
-		if self.__useRefactoredView:
-			self.showGameInfoNew()
-			return
-
-		Logutil.log("Begin showGameInfo UIGameInfoView", util.LOG_LEVEL_INFO)
-
-		#stop Player (if playing)
-		if(xbmc.Player().isPlayingVideo()):
-			xbmc.Player().stop()
-
-		pos = self.getCurrentListPosition()
-		if(pos == -1):
-			pos = 0
-
-		selectedGame = self.getListItem(pos)
-
-		if(selectedGame == None):
-			Logutil.log("selectedGame == None in showGameInfo", util.LOG_LEVEL_WARNING)
-			return
-
-		gameRow = Game(self.gdb).getObjectById(self.selectedGameId)
-		if(gameRow == None):
-			self.writeMsg(util.localize(32024))
-			return
-
-		genreString = ""
-		genres = Genre(self.gdb).getGenresByGameId(gameRow[0])
-		if (genres != None):
-			for i in range(0, len(genres)):
-				genre = genres[i]
-				genreString += genre[util.ROW_NAME]
-				if(i < len(genres) - 1):
-					genreString += ", "
-
-		year = self.getItemName(Year(self.gdb), gameRow[util.GAME_yearId])
-		publisher = self.getItemName(Publisher(self.gdb), gameRow[util.GAME_publisherId])
-		developer = self.getItemName(Developer(self.gdb), gameRow[util.GAME_developerId])
-
-
-		selectedGame.setProperty('year', year)
-		selectedGame.setProperty('publisher', publisher)
-		selectedGame.setProperty('developer', developer)
-		selectedGame.setProperty('genre', genreString)
-
-		selectedGame.setProperty('maxplayers', self.getGameProperty(gameRow[util.GAME_maxPlayers]))
-		selectedGame.setProperty('rating', self.getGameProperty(gameRow[util.GAME_rating]))
-		selectedGame.setProperty('votes', self.getGameProperty(gameRow[util.GAME_numVotes]))
-		selectedGame.setProperty('url', self.getGameProperty(gameRow[util.GAME_url]))
-		selectedGame.setProperty('region', self.getGameProperty(gameRow[util.GAME_region]))
-		selectedGame.setProperty('media', self.getGameProperty(gameRow[util.GAME_media]))
-		selectedGame.setProperty('perspective', self.getGameProperty(gameRow[util.GAME_perspective]))
-		selectedGame.setProperty('controllertype', self.getGameProperty(gameRow[util.GAME_controllerType]))
-		selectedGame.setProperty('originaltitle', self.getGameProperty(gameRow[util.GAME_originalTitle]))
-		selectedGame.setProperty('alternatetitle', self.getGameProperty(gameRow[util.GAME_alternateTitle]))
-		selectedGame.setProperty('translatedby', self.getGameProperty(gameRow[util.GAME_translatedBy]))
-		selectedGame.setProperty('version', self.getGameProperty(gameRow[util.GAME_version]))
-
-		selectedGame.setProperty('playcount', self.getGameProperty(gameRow[util.GAME_launchCount]))
-
-		isFavorite = self.getGameProperty(gameRow[util.GAME_isFavorite])
-		if(isFavorite == '1'):
-			selectedGame.setProperty('isfavorite', '1')
-		else:
-			selectedGame.setProperty('isfavorite', '')
-
-		description = gameRow[util.GAME_description]
-		if(description == None):
-			description = ""
-		selectedGame.setProperty('plot', description)
-
-		fileDict = self.getFileDictByGameRow(self.gdb, gameRow)
-
-		romCollection = None
-		try:
-			romCollection = self.config.romCollections[str(gameRow[util.GAME_romCollectionId])]
-		except:
-			Logutil.log('Cannot get rom collection with id: ' + str(gameRow[util.GAME_romCollectionId]), util.LOG_LEVEL_ERROR)
-
-		try:
-			selectedGame.setProperty('romcollection', romCollection.name)
-			selectedGame.setProperty('console', romCollection.name)
-		except:
-			pass
-		
-		mediaPathsDict = self.mediaDict[gameRow[util.GAME_romCollectionId]]
-		romfile = helper.getFilenameForGame(gameRow[util.ROW_ID], 0, fileDict)
-		gamenameFromFile = romCollection.getGamenameFromFilename(romfile)
-
-		selectedGame.setArt({
-			IMAGE_CONTROL_BACKGROUND: helper.getFileForControl(romCollection.imagePlacingInfo.fileTypesForMainViewBackground, romCollection, mediaPathsDict, gamenameFromFile),
-			IMAGE_CONTROL_GAMEINFO_BIG: helper.getFileForControl(romCollection.imagePlacingInfo.fileTypesForMainViewGameInfoBig, romCollection, mediaPathsDict, gamenameFromFile),
-
-			IMAGE_CONTROL_GAMEINFO_UPPERLEFT: helper.getFileForControl(romCollection.imagePlacingInfo.fileTypesForMainViewGameInfoUpperLeft, romCollection, mediaPathsDict, gamenameFromFile),
-			IMAGE_CONTROL_GAMEINFO_UPPERRIGHT: helper.getFileForControl(romCollection.imagePlacingInfo.fileTypesForMainViewGameInfoUpperRight, romCollection, mediaPathsDict, gamenameFromFile),
-			IMAGE_CONTROL_GAMEINFO_LOWERLEFT: helper.getFileForControl(romCollection.imagePlacingInfo.fileTypesForMainViewGameInfoLowerLeft, romCollection, mediaPathsDict, gamenameFromFile),
-			IMAGE_CONTROL_GAMEINFO_LOWERRIGHT: helper.getFileForControl(romCollection.imagePlacingInfo.fileTypesForMainViewGameInfoLowerRight, romCollection, mediaPathsDict, gamenameFromFile),
-
-			IMAGE_CONTROL_GAMEINFO_UPPER: helper.getFileForControl(romCollection.imagePlacingInfo.fileTypesForMainViewGameInfoUpper, romCollection, mediaPathsDict, gamenameFromFile),
-			IMAGE_CONTROL_GAMEINFO_LOWER: helper.getFileForControl(romCollection.imagePlacingInfo.fileTypesForMainViewGameInfoLower, romCollection, mediaPathsDict, gamenameFromFile),
-			IMAGE_CONTROL_GAMEINFO_LEFT: helper.getFileForControl(romCollection.imagePlacingInfo.fileTypesForMainViewGameInfoLeft, romCollection, mediaPathsDict, gamenameFromFile),
-			IMAGE_CONTROL_GAMEINFO_RIGHT: helper.getFileForControl(romCollection.imagePlacingInfo.fileTypesForMainViewGameInfoRight, romCollection, mediaPathsDict, gamenameFromFile),
-
-			IMAGE_CONTROL_1: helper.getFileForControl(romCollection.imagePlacingInfo.fileTypesForMainView1, romCollection, mediaPathsDict, gamenameFromFile),
-			IMAGE_CONTROL_2: helper.getFileForControl(romCollection.imagePlacingInfo.fileTypesForMainView2, romCollection, mediaPathsDict, gamenameFromFile),
-			IMAGE_CONTROL_3: helper.getFileForControl(romCollection.imagePlacingInfo.fileTypesForMainView3, romCollection, mediaPathsDict, gamenameFromFile),
-		})
-		
-		#check if we should use autoplay video
-		if(romCollection.autoplayVideoInfo):
-			#get video window size
-			if (romCollection.imagePlacingInfo.name.startswith('gameinfosmall')):
-				selectedGame.setProperty('videosizesmall', 'small')
-				selectedGame.setProperty('videosizebig', '')
-			else:
-				selectedGame.setProperty('videosizebig', 'big')
-				selectedGame.setProperty('videosizesmall', '')
-
-			video = helper.getFileForControl((self.fileTypeGameplay,), romCollection, mediaPathsDict, gamenameFromFile, True)
-			if video:
-				self.player.play(video, windowed=True)
-
-		Logutil.log("End showGameInfo UIGameInfoView", util.LOG_LEVEL_INFO)
-
-	# FIXME TODO This is only used when self._useRefactoredView = False
-	def getItemName(self, object, itemId):
-
-		Logutil.log("Begin getItemName", util.LOG_LEVEL_DEBUG)
-
-		itemRow = object.getObjectById(itemId)
-		if(itemRow == None):
-			Logutil.log("End getItemName", util.LOG_LEVEL_DEBUG)
-			return ""
-		else:
-			Logutil.log("End getItemName", util.LOG_LEVEL_DEBUG)
-			return itemRow[1]
-
-	# FIXME TODO This is only used when self._useRefactoredView = False
-	def getGameProperty(self, property):
-
-		if(property == None):
-			return ""
-
-		try:
-			result = str(property)
-		except:
-			result = ""
-
-		return result
-
-
-	def getFileDictByGameRow(self, gdb, gameRow):
-
-		files = File(gdb).getFilesByParentIds(gameRow[util.ROW_ID], gameRow[util.GAME_romCollectionId], gameRow[util.GAME_publisherId], gameRow[util.GAME_developerId])
-
-		fileDict = self.cacheFiles(files)
-
-		return fileDict
-
-
-	def cacheFiles(self, fileRows):
-
-		Logutil.log("Begin cacheFiles UIGameInfoView" , util.LOG_LEVEL_DEBUG)
-
-		fileDict = {}
-		for fileRow in fileRows:
-			key = '%i;%i' % (fileRow[util.FILE_parentId] , fileRow[util.FILE_fileTypeId])
-			item = None
-			try:
-				item = fileDict[key]
-			except:
-				pass
-			if(item == None):
-				fileRowList = []
-				fileRowList.append(fileRow)
-				fileDict[key] = fileRowList
-			else:
-				fileRowList = fileDict[key]
-				fileRowList.append(fileRow)
-				fileDict[key] = fileRowList
-
-		Logutil.log("End cacheFiles UIGameInfoView" , util.LOG_LEVEL_DEBUG)
-		return fileDict
 	
 
 	def launchEmu(self):

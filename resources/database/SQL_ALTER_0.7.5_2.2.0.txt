@@ -1,0 +1,52 @@
+CREATE VIEW IF NOT EXISTS [GameView] AS
+	SELECT 	Ga.id,
+			Ga.name,
+			Ga.description,
+			Ga.gameCmd,
+			Ga.alternateGameCmd,
+			Ga.isFavorite,
+			Ga.launchCount,
+			Ga.version,
+			Ga.romCollectionId,
+			Ga.developerId,
+			Developer.name AS developer,
+			Ga.publisherId,
+			Publisher.name AS publisher,
+			Ga.yearId,
+			Year.name AS year,
+			Ga.region,
+			Ga.maxPlayers,
+			Ga.rating,
+			Ga.numVotes,
+			Ga.url,
+			Ga.region,
+			Ga.media,
+			Ga.controllerType,
+			Ga.originalTitle,
+			Ga.alternateTitle,
+			Ga.translatedBy,
+			Ga.version,
+			Ga.perspective,
+			GROUP_CONCAT(Ge.name, ', ') AS genres,
+			first_rom.name AS firstRom
+
+			FROM [Game] Ga
+				LEFT OUTER JOIN Developer
+					ON Ga.developerId = Developer.id
+				LEFT OUTER JOIN Publisher
+					ON Ga.publisherId = Publisher.id
+				LEFT OUTER JOIN Year
+					ON Ga.yearId = Year.id
+				LEFT OUTER JOIN 
+				(
+					SELECT * From File Where id IN (SELECT MIN(id) FROM File GROUP BY parentid)					
+				) AS first_rom
+				ON Ga.id = first_rom.parentid
+								
+				LEFT OUTER JOIN GenreGame Gg ON
+					Ga.id = Gg.gameid
+				LEFT OUTER JOIN Genre Ge ON
+					Ge.id = Gg.genreid
+			GROUP BY Ga.id;
+
+UPDATE RCBSetting SET dbVersion = '2.2.0';
