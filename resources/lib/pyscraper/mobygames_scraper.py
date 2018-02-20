@@ -31,7 +31,7 @@ class Mobygames_Scraper(WebScraper):
 		print 'returning ' + kwargs['gamename']
 		return {'title': '{0}'.format(self.prepare_gamename_for_request(kwargs['gamename'])),
 				'api_key': self._apikey,
-				'platform': self.get_platform_for_scraper([kwargs['platform']]),
+				'platform': self.get_platform_for_scraper(kwargs['platform']),
 				'format': 'brief'}
 
 	def _get_retrieve_url(self, gameid):

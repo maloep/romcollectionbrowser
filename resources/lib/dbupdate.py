@@ -962,6 +962,7 @@ class DBUpdate(object):
 			if not exists:
 				log.info("Artwork directory {0} doesn't exist, creating it".format(dirname))
 				success = xbmcvfs.mkdirs(dirname)
+				print success
 				if not success:
 					log.error("Could not create artwork directory: '{0}'".format(dirname))
 					xbmcgui.Dialog().ok(util.localize(32010), util.localize(32011))

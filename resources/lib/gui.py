@@ -910,7 +910,6 @@ class UIGameDB(xbmcgui.WindowXML):
 	def importGames(self, romCollections, isRescrape):
 		self.saveViewState(False)
 		self.clearList()
-		self.clearCache()
 		self.checkImport(3, romCollections, isRescrape)
 		self.updateControls(True)
 		self.loadViewState()

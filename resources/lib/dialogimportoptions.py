@@ -213,6 +213,7 @@ class ImportOptionsDialog(xbmcgui.WindowXMLDialog):
 			romCollections[rcId] = romCollection
 
 		return romCollections, True
+	
 
 	def addScraperToRomCollection(self, controlId, sites, romCollection):
 
@@ -234,20 +235,13 @@ class ImportOptionsDialog(xbmcgui.WindowXMLDialog):
 			if siteRow is None:
 				xbmcgui.Dialog().ok(util.localize(32021), util.localize(32022) % scraper)
 				return None, False
-			site, errorMsg = self.gui.config.readScraper(siteRow, romCollection.name, '', '', True, self.gui.config.tree)
+			site, errorMsg = self.gui.config.readScraper(siteRow)
 		else:
 			site = Site()
 			site.name = scraper
 			site.descFilePerGame = True
 
 		if site is not None:
-			# Check if first scraper is an online or offline scraper
-			if site.scrapers is not None and len(site.scrapers) > 0:
-				firstScraper = site.scrapers[0]
-				if firstScraper.source != 'nfo' and not firstScraper.source.startswith('http') and site.name != romCollection.name:
-					xbmcgui.Dialog().ok(util.localize(32021), util.localize(32027) % (site.name, romCollection.name))
-					return None, False
-
 			sites.append(site)
 
 		return sites, True

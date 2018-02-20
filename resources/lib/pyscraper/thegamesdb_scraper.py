@@ -38,7 +38,7 @@ class TheGamesDB_Scraper(WebScraper):
 		return self._search_url
 
 	def _get_search_params(self, **kwargs):
-		return {'name': kwargs['gamename'], 'platform': self.get_platform_for_scraper([kwargs['platform']]),}
+		return {'name': kwargs['gamename'], 'platform': self.get_platform_for_scraper(kwargs['platform']),}
 
 	def _get_retrieve_url(self):
 		return self._retrieve_url

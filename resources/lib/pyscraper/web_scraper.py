@@ -23,6 +23,7 @@ class WebScraper(AbstractScraper):
 
     # Mapping between the platform name in RCB and the platform identifier for the various web scrapers
     # FIXME Move to the appropriate scraper classes
+    # consoleDict is the master list of all platforms that are supported by RCB. This list is also shown in configwizard to let the user select the platform
     consoleDict = {
         # name, mobygames-id, thegamesdb, archive vg, giantbomb
         'Other': ['0', '', '', ''],

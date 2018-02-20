@@ -7,6 +7,7 @@ from emulatorautoconfig.autoconfig import EmulatorAutoconfig
 from rcbxmlreaderwriter import RcbXmlReaderWriter
 from util import Logutil as log
 import xbmc, xbmcgui, xbmcvfs
+from pyscraper.web_scraper import WebScraper
 
 
 RETRIEVE_INFO_ARTWORK_ONLINE = 0     # Game description and artwork need to be downloaded
@@ -41,7 +42,8 @@ class ConfigXmlWizard(RcbXmlReaderWriter):
 	def createConfigXml(self, configFile):
 
 		rcId = 1
-		consoleList = sorted(config.consoleDict.keys())
+		#FIXME TODO move console dict to correct place
+		consoleList = sorted(WebScraper().consoleDict.keys())
 
 		success, romCollections = self.addRomCollections(rcId, None, consoleList, False)
 		if(not success):
@@ -57,7 +59,7 @@ class ConfigXmlWizard(RcbXmlReaderWriter):
 	def addRomCollection(self, configObj):
 		Logutil.log("Begin addRomCollection" , util.LOG_LEVEL_INFO)
 
-		consoleList = sorted(config.consoleDict.keys())
+		consoleList = sorted(WebScraper().consoleDict.keys())
 		id = 1
 
 		rcIds = configObj.romCollections.keys()
