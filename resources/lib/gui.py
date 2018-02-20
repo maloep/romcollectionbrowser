@@ -715,10 +715,16 @@ class UIGameDB(xbmcgui.WindowXML):
 		diff = (timestamp2 - timestamp1) * 1000
 		print "showGames: load %d games from db in %d ms" % (len(games), diff)
 
-		self.writeMsg(util.localize(32121))
+		self.writeMsg(util.localize(32204))
 
 		self.clearList()
 		self.mediaDict = helper.cacheMediaPathsForSelection(self.selectedConsoleId, self.mediaDict, self.config)
+		
+		self.writeMsg(util.localize(32121))
+		
+		#used to show percentage during game loading
+		divisor = len(games) / 10
+		counter = 0
 		
 		items = []
 		for game in games:
@@ -766,6 +772,14 @@ class UIGameDB(xbmcgui.WindowXML):
 			# Add the listitem to the list
 			items.append(item)
 			
+			#add progress to "loading games" message
+			if(len(games) > 1000):
+				if counter >= divisor and counter % divisor == 0:
+					percent = (len(games) / divisor) * (counter / divisor)
+					self.writeMsg('%s (%i%%)'%(util.localize(32121), percent))
+				counter = counter +1
+			
+		#Add list to window
 		self.addItems(items)
 
 		xbmc.executebuiltin("Container.SortDirection")
@@ -1244,11 +1258,6 @@ class UIGameDB(xbmcgui.WindowXML):
 		if(rcbSetting[util.RCBSETTING_lastSelectedCharacterIndex] != None):
 			self.selectedCharacter = self.setFilterSelection(CONTROL_CHARACTER, rcbSetting[util.RCBSETTING_lastSelectedCharacterIndex])
 			self.selectedCharacterIndex = rcbSetting[util.RCBSETTING_lastSelectedCharacterIndex]
-
-		#HACK: Dummy item because loading an empty list crashes XBMC
-		item = xbmcgui.ListItem(util.localize(32119), '', '', '')
-		#self.addItem(item, False)
-		self.addItem(item)
 
 		#reset view mode
 		viewModeId = self.Settings.getSetting(util.SETTING_RCB_VIEW_MODE)
