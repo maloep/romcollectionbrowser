@@ -49,4 +49,4 @@ CREATE VIEW IF NOT EXISTS [GameView] AS
 					Ge.id = Gg.genreid
 			GROUP BY Ga.id;
 
-UPDATE RCBSetting SET dbVersion = '2.1.6';
+UPDATE RCBSetting SET dbVersion = '2.2.0';
