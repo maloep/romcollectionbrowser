@@ -741,7 +741,9 @@ class UIGameDB(xbmcgui.WindowXML):
 						'publisher', 
 						'year', 
 						'genre',
-						'firstRom']:
+						'firstRom',
+						'gameCmd',
+						'alternateGameCmd']:
 				try:
 					item.setProperty(prop, getattr(game, prop))
 				except AttributeError:
@@ -806,7 +808,7 @@ class UIGameDB(xbmcgui.WindowXML):
 		selectedGame = self.getSelectedItem()
 
 		if selectedGame is None:
-			Logutil.log("selectedGame == None in getGameByPosition", util.LOG_LEVEL_WARNING)
+			Logutil.log("selectedGame == None in showGameInfo", util.LOG_LEVEL_WARNING)
 			return
 
 		Logutil.log('Selected game with property gameId {0}, romCollectionId {1}'.format(selectedGame.getProperty('gameId'),

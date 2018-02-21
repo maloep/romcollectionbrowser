@@ -129,7 +129,7 @@ class UIGameInfoView(xbmcgui.WindowXMLDialog):
 		
 		# Properties from the game object
 		for var in ['maxplayers', 'rating', 'votes', 'url', 'region', 'media', 'perspective', 'controllertype',
-					'originaltitle', 'alternatetitle', 'translatedby', 'version', 'playcount', 'plot', 'year', 
+					'originalTitle', 'alternateTitle', 'translatedby', 'version', 'playcount', 'plot', 'year', 
 					'publisher', 'developer', 'genre', 'firstRom']:
 			try:
 				item.setProperty(var, getattr(game, var))
