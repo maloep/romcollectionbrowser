@@ -364,6 +364,16 @@ class Game(DataBaseObject):
 					print 'Error retrieving key ' + key + ': ' + e.message
 
 		return gobj
+	
+	
+	def rowsToObjs(self, rows):
+		
+		gamelist = []
+		for row in rows:
+			gobj = self.rowToObj(row)
+			gamelist.append(gobj)
+
+		return gamelist
 
 	def getGameById(self, gameid):
 		try:
@@ -387,16 +397,19 @@ class Game(DataBaseObject):
 		util.Logutil.log('searching games with args: romCollectionId = %s, genreId = %s, yearId = %s, publisherId = %s, isFavorite = %s, likeStatement = %s, limit = %s' %(str(romCollectionId), str(genreId), str(yearId), str(publisherId), str(isFavorite), likeStatement, limit), util.LOG_LEVEL_DEBUG)
 		games = self.getObjectsByWildcardQuery(filterQuery, args)
 
-		gamelist = []
-		for game in games:
-			gobj = self.rowToObj(game)
-			gamelist.append(gobj)
-
-		return gamelist
+		return self.rowsToObjs(games)
 		
 	def getGameByNameAndRomCollectionId(self, name, romCollectionId):
 		game = self.getObjectByQuery(self.filterByNameAndRomCollectionId, (name, romCollectionId))
 		return game
+		
+	def getGamesByQuery(self, query, args):
+		rows = self.getObjectsByQuery(query, args)
+		return self.rowsToObjs(rows)
+	
+	def getGamesByQueryNoArgs(self, query):
+		rows = self.getObjectsByQueryNoArgs(query)
+		return self.rowsToObjs(rows)
 		
 	def getMostPlayedGames(self, count):
 		if(str.isdigit(str(count))):
