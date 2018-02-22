@@ -410,15 +410,7 @@ class Game(DataBaseObject):
 	def getGamesByQueryNoArgs(self, query):
 		rows = self.getObjectsByQueryNoArgs(query)
 		return self.rowsToObjs(rows)
-		
-	def getMostPlayedGames(self, count):
-		if(str.isdigit(str(count))):
-			filter = self.filterMostPlayedGames +str(count)
-		else:
-			filter = self.filterMostPlayedGames +str(10)
-		games = self.getObjectsByQuery(filter, [])
-		return games
-		
+			
 	def delete(self, gameId):
 		self.deleteObjectByQuery(self.deleteQuery, (gameId,))
 
