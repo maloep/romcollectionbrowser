@@ -34,7 +34,7 @@ class ContextMenuDialog(xbmcgui.WindowXMLDialog):
 
 		# Set mark favorite text
 		if self.selectedGame is not None:
-			if self.selectedGame.getProperty('isFavorite') == 1:
+			if self.selectedGame.getProperty('isfavorite') == '1':
 				buttonMarkFavorite = self.getControlById(CONTROL_BUTTON_SETFAVORITE_GAME)
 				if buttonMarkFavorite is not None:
 					buttonMarkFavorite.setLabel(util.localize(32133))
@@ -152,15 +152,15 @@ class ContextMenuDialog(xbmcgui.WindowXMLDialog):
 				xbmcgui.Dialog().ok(util.SCRIPTNAME, util.localize(32016), util.localize(32014))
 				return
 
-			isFavorite = 1
-			if self.selectedGame.getProperty('isFavorite') == 1:
-				isFavorite = 0
+			isFavorite = '1'
+			if self.selectedGame.getProperty('isfavorite') == '1':
+				isFavorite = '0'
 
 			log.info("Updating game '{0}' set isFavorite = {1}".format(self.selectedGame.getLabel(), isFavorite))
-			Game(self.gui.gdb).update(('isFavorite',), (isFavorite,), self.selectedGame.getProperty('gameId'), True)
+			Game(self.gui.gdb).update(('isfavorite',), (isFavorite,), self.selectedGame.getProperty('gameId'), True)
 			self.gui.gdb.commit()
 
-			if isFavorite == 0:
+			if isFavorite == '0':
 				isFavorite = ''
 			self.selectedGame.setProperty('isfavorite', str(isFavorite))
 
@@ -171,17 +171,17 @@ class ContextMenuDialog(xbmcgui.WindowXMLDialog):
 				xbmcgui.Dialog().ok(util.SCRIPTNAME, util.localize(32016), util.localize(32014))
 				return
 
-			isFavorite = 1
-			if self.selectedGame.getProperty('isFavorite') == 1:
-				isFavorite = 0
+			isFavorite = '1'
+			if self.selectedGame.getProperty('isfavorite') == '1':
+				isFavorite = '0'
 
 			listSize = self.gui.getListSize()
 			for i in range(0, listSize):
 
 				listItem = self.gui.getListItem(i)
 
-				log.info("Updating game '{0}' set isFavorite = {1}".format(listItem.getLabel(), isFavorite))
-				Game(self.gui.gdb).update(('isFavorite',), (isFavorite,), listItem.getProperty('gameId'), True)
+				log.info("Updating game '{0}' set isfavorite = {1}".format(listItem.getLabel(), isFavorite))
+				Game(self.gui.gdb).update(('isfavorite',), (isFavorite,), listItem.getProperty('gameId'), True)
 				listItem.setProperty('isfavorite', str(isFavorite))
 			self.gui.gdb.commit()
 

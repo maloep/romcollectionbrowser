@@ -681,11 +681,11 @@ class UIGameDB(xbmcgui.WindowXML):
 	def _isGameFavourite(self):
 		try:
 			if self.getControlById(CONTROL_BUTTON_FAVORITE).isSelected():
-				return True
+				return 1
 		except AttributeError:
 			pass
 
-		return False
+		return 0
 
 
 	def showGames(self):
@@ -736,7 +736,7 @@ class UIGameDB(xbmcgui.WindowXML):
 						'playcount', 
 						'originalTitle', 
 						'alternateTitle', 
-						'favorite', 
+						'isfavorite', 
 						'developer', 
 						'publisher', 
 						'year', 

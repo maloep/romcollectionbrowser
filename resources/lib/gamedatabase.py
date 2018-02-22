@@ -213,14 +213,14 @@ class DataBaseObject:
 		object = self.gdb.cursor.fetchone()		
 		return object
 	
-	def getObjectsByWildcardQuery(self, query, args):		
+	def getObjectsByWildcardQuery(self, query, args):
 		#double Args for WildCard-Comparison (0 = 0)
 		newArgs = []
 		for arg in args:
 			newArgs.append(arg)
 			newArgs.append(arg)
 					
-		return self.getObjectsByQuery(query, newArgs)		
+		return self.getObjectsByQuery(query, newArgs)
 		
 	def getObjectsByQuery(self, query, args):
 		self.gdb.cursor.execute(query, args)
@@ -281,7 +281,7 @@ class gameobj(object):
 		return unicode(self.id)
 
 	@property
-	def favorite(self):
+	def isfavorite(self):
 		if self.isFavorite == 1:
 			return '1'
 		else:
@@ -393,8 +393,8 @@ class Game(DataBaseObject):
 		if(int(maxNumGames) > 0):
 			limit = "LIMIT %s" %str(maxNumGames)
 		filterQuery = self.filterQuery %(likeStatement, limit)
-		util.Logutil.log('searching games with query: ' +filterQuery, util.LOG_LEVEL_DEBUG)
-		util.Logutil.log('searching games with args: romCollectionId = %s, genreId = %s, yearId = %s, publisherId = %s, isFavorite = %s, likeStatement = %s, limit = %s' %(str(romCollectionId), str(genreId), str(yearId), str(publisherId), str(isFavorite), likeStatement, limit), util.LOG_LEVEL_DEBUG)
+		util.Logutil.log('searching games with query: ' +filterQuery, util.LOG_LEVEL_INFO)
+		util.Logutil.log('searching games with args: romCollectionId = %s, genreId = %s, yearId = %s, publisherId = %s, isFavorite = %s, likeStatement = %s, limit = %s' %(str(romCollectionId), str(genreId), str(yearId), str(publisherId), str(isFavorite), likeStatement, limit), util.LOG_LEVEL_INFO)
 		games = self.getObjectsByWildcardQuery(filterQuery, args)
 
 		return self.rowsToObjs(games)
