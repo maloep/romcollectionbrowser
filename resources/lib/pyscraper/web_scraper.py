@@ -199,8 +199,10 @@ class WebScraper(AbstractScraper):
                 pass
             except TypeError as e:
                 log.warn("Unable to parse date using strptime, falling back to time function")
-                x = datetime(*(time.strptime(datestr, fmt2)[0:6]))
-
+                try:
+                    x = datetime(*(time.strptime(datestr, fmt2)[0:6]))
+                except ValueError as ve:
+                    log.warn("Unable to parse date using %s, try next format." %fmt2)
         if x is not None:
             return x
         else:

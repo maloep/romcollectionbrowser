@@ -174,7 +174,8 @@ class Main():
 
 
 	def launchGame(self, param):
-		import launcher, util
+		import util
+		from launcher import RCBLauncher
 		from gamedatabase import GameDataBase
 		from config import Config
 
@@ -188,11 +189,9 @@ class Main():
 		config = Config(None)
 		statusOk, errorMsg = config.readXml()
 
-		settings = util.getSettings()
-
 		gui = dummyGUI()
 
-		launcher.launchEmu(gdb, gui, gameId, config, settings, None)
+		RCBLauncher().launchEmu(gdb, gui, gameId, config, None)
 
 
 if (__name__ == "__main__"):
