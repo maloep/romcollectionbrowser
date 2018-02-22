@@ -1103,6 +1103,7 @@
 							<height>105</height>
 							<align>center</align>
 							<aligny>center</aligny>
+							<textcolor>white</textcolor>
 							<label>$INFO[ListItem.Label]</label>
 						</control>
 					</itemlayout>
@@ -1131,6 +1132,7 @@
 							<height>105</height>
 							<align>center</align>
 							<aligny>center</aligny>
+							<textcolor>white</textcolor>
 							<label>$INFO[ListItem.Label]</label>
 							<autoscroll time="3000" delay="3000" repeat="3000">True</autoscroll>
 						</control>
@@ -1343,11 +1345,14 @@
 			</control>
 			<control type="radiobutton" id="1000">
 				<posx>25</posx>
-				<posy>50</posy>
-				<radiowidth>40</radiowidth>
-				<radioheight>40</radioheight>
+				<posy>50</posy>				
 				<width>200</width>
 				<height>30</height>				
+				<align>left</align>
+				<textoffsetx>8</textoffsetx>
+				<radioposx>155</radioposx>
+				<radiowidth>40</radiowidth>
+				<radioheight>40</radioheight>
 				<label>$ADDON[script.games.rom.collection.browser 32404]:</label>
 				<align>left</align>
 				<textoffsetx>7</textoffsetx>

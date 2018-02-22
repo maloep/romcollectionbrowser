@@ -333,8 +333,11 @@
 					<posy>80</posy>
 					<width>680</width>
 					<height>40</height>
+					<align>left</align>
+					<textoffsetx>8</textoffsetx>
+					<radioposx>630</radioposx>
 					<radiowidth>40</radiowidth>
-					<radioheight>40</radioheight>
+					<radioheight>40</radioheight>					
 					<font>font13</font>
 					<label>$ADDON[script.games.rom.collection.browser 32608]</label>
 					<textcolor>white</textcolor>
@@ -356,6 +359,9 @@
 					<posy>120</posy>
 					<width>680</width>
 					<height>40</height>
+					<align>left</align>
+					<textoffsetx>8</textoffsetx>
+					<radioposx>630</radioposx>
 					<radiowidth>40</radiowidth>
 					<radioheight>40</radioheight>
 					<font>font13</font>
@@ -488,6 +494,9 @@
 					<posy>240</posy>
 					<width>680</width>
 					<height>40</height>
+					<align>left</align>
+					<textoffsetx>8</textoffsetx>
+					<radioposx>630</radioposx>
 					<radiowidth>40</radiowidth>
 					<radioheight>40</radioheight>
 					<font>font13</font>
@@ -1120,6 +1129,9 @@
 					<posy>80</posy>
 					<width>680</width>
 					<height>40</height>
+					<align>left</align>
+					<textoffsetx>8</textoffsetx>
+					<radioposx>630</radioposx>
 					<radiowidth>40</radiowidth>
 					<radioheight>40</radioheight>
 					<font>font13</font>
@@ -1143,6 +1155,9 @@
 					<posy>120</posy>
 					<width>680</width>
 					<height>40</height>
+					<align>left</align>
+					<textoffsetx>8</textoffsetx>
+					<radioposx>630</radioposx>
 					<radiowidth>40</radiowidth>
 					<radioheight>40</radioheight>
 					<font>font13</font>
@@ -1266,6 +1281,9 @@
 					<posy>80</posy>
 					<width>680</width>
 					<height>40</height>
+					<align>left</align>
+					<textoffsetx>8</textoffsetx>
+					<radioposx>630</radioposx>
 					<radiowidth>40</radiowidth>
 					<radioheight>40</radioheight>
 					<font>font13</font>
@@ -1294,6 +1312,9 @@
 					<posy>120</posy>
 					<width>680</width>
 					<height>40</height>
+					<align>left</align>
+					<textoffsetx>8</textoffsetx>
+					<radioposx>630</radioposx>
 					<radiowidth>40</radiowidth>
 					<radioheight>40</radioheight>
 					<font>font13</font>
@@ -1545,6 +1566,9 @@
 					<posy>360</posy>
 					<width>680</width>
 					<height>40</height>
+					<align>left</align>
+					<textoffsetx>8</textoffsetx>
+					<radioposx>630</radioposx>
 					<radiowidth>40</radiowidth>
 					<radioheight>40</radioheight>
 					<font>font13</font>
@@ -1569,6 +1593,9 @@
 					<posy>400</posy>
 					<width>680</width>
 					<height>40</height>
+					<align>left</align>
+					<textoffsetx>8</textoffsetx>
+					<radioposx>630</radioposx>
 					<radiowidth>40</radiowidth>
 					<radioheight>40</radioheight>
 					<font>font13</font>
@@ -1593,6 +1620,9 @@
 					<posy>440</posy>
 					<width>680</width>
 					<height>40</height>
+					<align>left</align>
+					<textoffsetx>8</textoffsetx>
+					<radioposx>630</radioposx>
 					<radiowidth>40</radiowidth>
 					<radioheight>40</radioheight>
 					<font>font13</font>
