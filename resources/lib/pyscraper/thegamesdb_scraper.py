@@ -53,7 +53,7 @@ class TheGamesDB_Scraper(WebScraper):
 		result = self._parseSearchResults(response)
 		return result
 
-	def retrieve(self, gameid):
+	def retrieve(self, gameid, platform):
 		""" Ref http://wiki.thegamesdb.net/index.php/GetGame """
 		response = self.open_xml_url(url=self._get_retrieve_url(), params=self._get_retrieve_params(gameid=gameid))
 

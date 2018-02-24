@@ -147,6 +147,8 @@ class WebScraper(AbstractScraper):
         return self.consoleDict[platformname][ix]
 
     def open_json_url(self, **kwargs):
+        log.info('Retrieving url %s, params = %s' %(kwargs['url'], kwargs['params']))
+        
         try:
             r = requests.get(kwargs['url'], headers=self._headers, params=kwargs['params'])
         except ValueError as e:
@@ -168,7 +170,7 @@ class WebScraper(AbstractScraper):
         return r.json()
 
     def open_xml_url(self, **kwargs):
-        print 'Retrieving url ' + kwargs['url']
+        log.info('Retrieving url %s, params = %s' %(kwargs['url'], kwargs['params']))
 
         r = requests.get(kwargs['url'], headers=self._headers, params=kwargs['params'])
 

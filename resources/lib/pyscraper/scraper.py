@@ -78,7 +78,7 @@ class AbstractScraper(object):
 		return []
 
 
-	def retrieve(self, gameid):
+	def retrieve(self, gameid, platform):
 		"""Retrieve a game using the scraper using an ID captured during the search. As per search,
 		implementation is left to the child class scrapers.
 

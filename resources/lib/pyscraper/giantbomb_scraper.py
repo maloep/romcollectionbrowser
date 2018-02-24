@@ -58,7 +58,7 @@ class GiantBomb_Scraper(WebScraper):
 
 		return result
 
-	def retrieve(self, gameid):
+	def retrieve(self, gameid, platform):
 		response = self.open_json_url(url=self._get_retrieve_url(gameid), params=self._get_retrieve_params())
 
 		# Handle status code

@@ -117,7 +117,7 @@ class MAME_Scraper(FileScraper):
 
 		return self.resultdata
 
-	def retrieve(self, gameid):
+	def retrieve(self, gameid, platform):
 		# For consistency with the web scrapers, returns a dict containing the game details already found in
 		# the search function
 		return self.resultdata[0]
