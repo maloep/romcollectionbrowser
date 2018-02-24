@@ -15,7 +15,6 @@ from util import Logutil as log
 from util import __addon__
 from config import *
 from gamedatabase import *
-from descriptionparserfactory import *
 from pyscraper.scraper import AbstractScraper
 from pyscraper.matcher import Matcher
 
@@ -428,7 +427,7 @@ class DBUpdate(object):
 			log.debug("After matching: {0}".format(matched))
 
 			try:
-				retrievedresult = newscraper.retrieve(matched['id'])
+				retrievedresult = newscraper.retrieve(matched['id'], romCollection.name)
 				log.debug(u"Retrieving {0} - found {1}".format(matched['id'], retrievedresult))
 			except Exception as e:
 				# FIXME TODO Catch exceptions specifically
