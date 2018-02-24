@@ -1,0 +1,161 @@
+
+{
+  "cover_groups": [
+    {
+      "comments": null, 
+      "countries": [
+        "United States"
+      ], 
+      "covers": [
+        {
+          "comments": null, 
+          "description": null, 
+          "height": 787, 
+          "image": "http://www.mobygames.com/images/covers/l/175218-wipeout-xl-playstation-front-cover.png", 
+          "scan_of": "Front Cover", 
+          "thumbnail_image": "http://www.mobygames.com/images/covers/s/175218-wipeout-xl-playstation-front-cover.jpg", 
+          "width": 800
+        }, 
+        {
+          "comments": null, 
+          "description": null, 
+          "height": 793, 
+          "image": "http://www.mobygames.com/images/covers/l/175219-wipeout-xl-playstation-media.png", 
+          "scan_of": "Media", 
+          "thumbnail_image": "http://www.mobygames.com/images/covers/s/175219-wipeout-xl-playstation-media.jpg", 
+          "width": 800
+        }, 
+        {
+          "comments": null, 
+          "description": null, 
+          "height": 680, 
+          "image": "http://www.mobygames.com/images/covers/l/175220-wipeout-xl-playstation-back-cover.png", 
+          "scan_of": "Back Cover", 
+          "thumbnail_image": "http://www.mobygames.com/images/covers/s/175220-wipeout-xl-playstation-back-cover.jpg", 
+          "width": 800
+        }, 
+        {
+          "comments": null, 
+          "description": null, 
+          "height": 677, 
+          "image": "http://www.mobygames.com/images/covers/l/175221-wipeout-xl-playstation-inside-cover.png", 
+          "scan_of": "Inside Cover", 
+          "thumbnail_image": "http://www.mobygames.com/images/covers/s/175221-wipeout-xl-playstation-inside-cover.jpg", 
+          "width": 800
+        }
+      ], 
+      "packaging": {
+        "packaging_id": 226, 
+        "packaging_name": "Jewel Case"
+      }
+    }, 
+    {
+      "comments": null, 
+      "countries": [
+        "Germany", 
+        "United Kingdom", 
+        "France"
+      ], 
+      "covers": [
+        {
+          "comments": null, 
+          "description": "WipeOut 2097 PSX PAL (or JAP) Front", 
+          "height": 650, 
+          "image": "http://www.mobygames.com/images/covers/l/7284-wipeout-xl-playstation-front-cover.jpg", 
+          "scan_of": "Front Cover", 
+          "thumbnail_image": "http://www.mobygames.com/images/covers/s/7284-wipeout-xl-playstation-front-cover.jpg", 
+          "width": 639
+        }
+      ], 
+      "packaging": {
+        "packaging_id": 226, 
+        "packaging_name": "Jewel Case"
+      }
+    }, 
+    {
+      "comments": null, 
+      "countries": [
+        "Germany", 
+        "France", 
+        "United Kingdom"
+      ], 
+      "covers": [
+        {
+          "comments": null, 
+          "description": "WipeOut 2097 PSX PAL (or JAP) Back", 
+          "height": 597, 
+          "image": "http://www.mobygames.com/images/covers/l/7285-wipeout-xl-playstation-back-cover.jpg", 
+          "scan_of": "Back Cover", 
+          "thumbnail_image": "http://www.mobygames.com/images/covers/s/7285-wipeout-xl-playstation-back-cover.jpg", 
+          "width": 800
+        }
+      ], 
+      "packaging": {
+        "packaging_id": 226, 
+        "packaging_name": "Jewel Case"
+      }
+    }, 
+    {
+      "comments": null, 
+      "countries": [
+        "United Kingdom", 
+        "France", 
+        "Germany"
+      ], 
+      "covers": [
+        {
+          "comments": null, 
+          "description": null, 
+          "height": 810, 
+          "image": "http://www.mobygames.com/images/covers/l/106357-wipeout-xl-playstation-media.jpg", 
+          "scan_of": "Media", 
+          "thumbnail_image": "http://www.mobygames.com/images/covers/s/106357-wipeout-xl-playstation-media.jpg", 
+          "width": 800
+        }
+      ], 
+      "packaging": {
+        "packaging_id": 226, 
+        "packaging_name": "Jewel Case"
+      }
+    }, 
+    {
+      "comments": "Platinum release", 
+      "countries": [
+        "United Kingdom"
+      ], 
+      "covers": [
+        {
+          "comments": null, 
+          "description": null, 
+          "height": 813, 
+          "image": "http://www.mobygames.com/images/covers/l/159834-wipeout-xl-playstation-front-cover.jpg", 
+          "scan_of": "Front Cover", 
+          "thumbnail_image": "http://www.mobygames.com/images/covers/s/159834-wipeout-xl-playstation-front-cover.jpg", 
+          "width": 800
+        }, 
+        {
+          "comments": null, 
+          "description": null, 
+          "height": 714, 
+          "image": "http://www.mobygames.com/images/covers/l/159835-wipeout-xl-playstation-back-cover.jpg", 
+          "scan_of": "Back Cover", 
+          "thumbnail_image": "http://www.mobygames.com/images/covers/s/159835-wipeout-xl-playstation-back-cover.jpg", 
+          "width": 800
+        }, 
+        {
+          "comments": null, 
+          "description": null, 
+          "height": 800, 
+          "image": "http://www.mobygames.com/images/covers/l/159836-wipeout-xl-playstation-media.jpg", 
+          "scan_of": "Media", 
+          "thumbnail_image": "http://www.mobygames.com/images/covers/s/159836-wipeout-xl-playstation-media.jpg", 
+          "width": 800
+        }
+      ], 
+      "packaging": {
+        "packaging_id": 226, 
+        "packaging_name": "Jewel Case"
+      }
+    }
+  ]
+}

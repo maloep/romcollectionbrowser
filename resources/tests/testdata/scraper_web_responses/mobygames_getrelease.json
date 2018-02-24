@@ -1,0 +1,109 @@
+
+{
+  "attributes": [
+    {
+      "attribute_category_id": 6, 
+      "attribute_category_name": "Input Devices Supported", 
+      "attribute_id": 459, 
+      "attribute_name": "Controller Pad"
+    }, 
+    {
+      "attribute_category_id": 19, 
+      "attribute_category_name": "Number of Players Supported", 
+      "attribute_id": 140, 
+      "attribute_name": "1 Player"
+    }
+  ], 
+  "first_release_date": "1994-08-03", 
+  "game_id": 325, 
+  "patches": [], 
+  "platform_id": 35, 
+  "platform_name": "3DO", 
+  "ratings": [
+    {
+      "rating_id": 435, 
+      "rating_name": "16", 
+      "rating_system_id": 33, 
+      "rating_system_name": "USK Rating"
+    }
+  ], 
+  "releases": [
+    {
+      "companies": [
+        {
+          "company_id": 45, 
+          "company_name": "Interplay Productions, Inc.", 
+          "role": "Published by"
+        }, 
+        {
+          "company_id": 45, 
+          "company_name": "Interplay Productions, Inc.", 
+          "role": "Distributed by"
+        }, 
+        {
+          "company_id": 133, 
+          "company_name": "Krisalis Software Ltd.", 
+          "role": "Ported by"
+        }, 
+        {
+          "company_id": 16440, 
+          "company_name": "JEL Recording Studios", 
+          "role": "Voice Recording by"
+        }, 
+        {
+          "company_id": 34, 
+          "company_name": "Infogrames Europe SA", 
+          "role": "Developed by"
+        }
+      ], 
+      "countries": [
+        "United States"
+      ], 
+      "description": null, 
+      "product_codes": [
+        {
+          "product_code": "040421290383", 
+          "product_code_type": "UPC/A", 
+          "product_code_type_id": 1
+        }, 
+        {
+          "product_code": "040421291069", 
+          "product_code_type": "UPC/A", 
+          "product_code_type_id": 1
+        }
+      ], 
+      "release_date": "1994-08-03"
+    }, 
+    {
+      "companies": [
+        {
+          "company_id": 2766, 
+          "company_name": "Pony Canyon, Inc.", 
+          "role": "Published by"
+        }, 
+        {
+          "company_id": 133, 
+          "company_name": "Krisalis Software Ltd.", 
+          "role": "Ported by"
+        }, 
+        {
+          "company_id": 34, 
+          "company_name": "Infogrames Europe SA", 
+          "role": "Developed by"
+        }
+      ], 
+      "countries": [
+        "Japan"
+      ], 
+      "description": null, 
+      "product_codes": [
+        {
+          "product_code": "4984824053243", 
+          "product_code_type": "EAN-13", 
+          "product_code_type_id": 2
+        }
+      ], 
+      "release_date": "1994-10-21"
+    }
+  ]
+}

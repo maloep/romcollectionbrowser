@@ -1,0 +1,81 @@
+
+{
+  "attributes": [
+    {
+      "attribute_category_id": 9, 
+      "attribute_category_name": "Miscellaneous Attributes", 
+      "attribute_id": 137, 
+      "attribute_name": "Vibration"
+    }, 
+    {
+      "attribute_category_id": 9, 
+      "attribute_category_name": "Miscellaneous Attributes", 
+      "attribute_id": 138, 
+      "attribute_name": "Analog Controller"
+    }, 
+    {
+      "attribute_category_id": 9, 
+      "attribute_category_name": "Miscellaneous Attributes", 
+      "attribute_id": 158, 
+      "attribute_name": "Link Cable"
+    }, 
+    {
+      "attribute_category_id": 19, 
+      "attribute_category_name": "Number of Players Supported", 
+      "attribute_id": 141, 
+      "attribute_name": "1-2 Players"
+    }, 
+    {
+      "attribute_category_id": 43, 
+      "attribute_category_name": "Number of Players: System Link", 
+      "attribute_id": 527, 
+      "attribute_name": "2-4 Players"
+    }
+  ], 
+  "first_release_date": "2003", 
+  "game_id": 33250, 
+  "patches": [], 
+  "platform_id": 6, 
+  "platform_name": "PlayStation", 
+  "ratings": [
+    {
+      "rating_id": 293, 
+      "rating_name": "3+", 
+      "rating_system_id": 26, 
+      "rating_system_name": "ELSPA Rating"
+    }
+  ], 
+  "releases": [
+    {
+      "companies": [
+        {
+          "company_id": 1277, 
+          "company_name": "Sony Computer Entertainment Europe Ltd.", 
+          "role": "Published by"
+        }
+      ], 
+      "countries": [
+        "United Kingdom"
+      ], 
+      "description": null, 
+      "product_codes": [
+        {
+          "product_code": "711719493129", 
+          "product_code_type": "UPC/A", 
+          "product_code_type_id": 1
+        }, 
+        {
+          "product_code": "SLES-00299-T", 
+          "product_code_type": "Sony PN", 
+          "product_code_type_id": 5
+        }, 
+        {
+          "product_code": "SCES-02845-T", 
+          "product_code_type": "Sony PN", 
+          "product_code_type_id": 5
+        }
+      ], 
+      "release_date": "2003"
+    }
+  ]
+}
