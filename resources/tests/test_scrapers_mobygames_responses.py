@@ -5,7 +5,6 @@ import json
 import responses
 
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', '..', 'resources', 'lib'))
-sys.path.append(os.path.join(os.path.dirname(__file__), '..', '..', 'resources', 'lib', 'pyparsing'))
 sys.path.append(os.path.join(os.path.dirname(__file__), '..', '..', 'resources', 'lib', 'pyscraper'))
 
 import unittest
@@ -23,9 +22,9 @@ class Test_MobygamesScraperResponses(unittest.TestCase):
 	def test_search_game(self):				
 		
 		responses.add(responses.GET, 
-					'https://api.mobygames.com/v1/games?platform=6&format=brief&api_key=FH9VxTkB6BGAEsF3qlnnxQ%3D%3D&title=WipEout XL',
-                  json=self._loadJsonFromFile('mobygames_getgameslist.json'), 
-                  status=200)
+				'https://api.mobygames.com/v1/games?platform=6&format=brief&api_key=FH9VxTkB6BGAEsF3qlnnxQ%3D%3D&title=WipEout XL',
+                json=self._loadJsonFromFile('mobygames_getgameslist.json'), 
+                status=200)
 		
 		scraper = Mobygames_Scraper()
 		result = scraper.search('WipEout XL', 'PlayStation')
@@ -38,27 +37,27 @@ class Test_MobygamesScraperResponses(unittest.TestCase):
 		
 		# first call gets general game data
 		responses.add(responses.GET, 
-					'https://api.mobygames.com/v1/games/33250?api_key=FH9VxTkB6BGAEsF3qlnnxQ%3D%3D',
-                  json=self._loadJsonFromFile('mobygames_getgame.json'), 
-                  status=200)
+				'https://api.mobygames.com/v1/games/33250?api_key=FH9VxTkB6BGAEsF3qlnnxQ%3D%3D',
+                json=self._loadJsonFromFile('mobygames_getgame.json'), 
+                status=200)
 		
 		# second call gets platform specific release data
 		responses.add(responses.GET, 
-					'https://api.mobygames.com/v1/games/33250/platforms/6?api_key=FH9VxTkB6BGAEsF3qlnnxQ%3D%3D',
-                  json=self._loadJsonFromFile('mobygames_getrelease_missingelements.json'), 
-                  status=200)
+				'https://api.mobygames.com/v1/games/33250/platforms/6?api_key=FH9VxTkB6BGAEsF3qlnnxQ%3D%3D',
+                json=self._loadJsonFromFile('mobygames_getrelease_missingelements.json'), 
+                status=200)
 		
 		# third call gets platform specific covers
 		responses.add(responses.GET, 
-					'https://api.mobygames.com/v1/games/33250/platforms/6/covers?api_key=FH9VxTkB6BGAEsF3qlnnxQ%3D%3D',
-                  json=self._loadJsonFromFile('mobygames_getcovers.json'), 
-                  status=200)
+				'https://api.mobygames.com/v1/games/33250/platforms/6/covers?api_key=FH9VxTkB6BGAEsF3qlnnxQ%3D%3D',
+                json=self._loadJsonFromFile('mobygames_getcovers.json'), 
+                status=200)
 		
-		# fourth call gets platform specific covers
+		# fourth call gets platform specific screenshots
 		responses.add(responses.GET, 
-					'https://api.mobygames.com/v1/games/33250/platforms/6/screenshots?api_key=FH9VxTkB6BGAEsF3qlnnxQ%3D%3D',
-                  json=self._loadJsonFromFile('mobygames_getscreenshots.json'), 
-                  status=200)
+				'https://api.mobygames.com/v1/games/33250/platforms/6/screenshots?api_key=FH9VxTkB6BGAEsF3qlnnxQ%3D%3D',
+                json=self._loadJsonFromFile('mobygames_getscreenshots.json'), 
+                status=200)
 		
 		scraper = Mobygames_Scraper()
 		result = scraper.retrieve(33250, 'PlayStation')
@@ -72,6 +71,20 @@ class Test_MobygamesScraperResponses(unittest.TestCase):
 		self.assertEquals(result['Filetypescreenshot'], ['http://www.mobygames.com/images/shots/l/436082-wipeout-xl-playstation-screenshot-wipeout-xl-title-screen.png'])
 		self.assertEquals(result['Filetypeboxfront'], ['http://www.mobygames.com/images/covers/l/175218-wipeout-xl-playstation-front-cover.png'])
 		self.assertEquals(result['Filetypecartridge'], ['http://www.mobygames.com/images/covers/l/175219-wipeout-xl-playstation-media.png'])
+
+
+	@responses.activate
+	@unittest.skip("TODO: assertRaises does not catch ScraperExceededAPIQuoteException")
+	def test_search_game_api_key_exceeded(self):
+		
+		responses.add(responses.GET, 
+				'https://api.mobygames.com/v1/games?platform=6&format=brief&api_key=FH9VxTkB6BGAEsF3qlnnxQ%3D%3D&title=WipEout XL',
+                json=self._loadJsonFromFile('mobygames_error_apikey_exceeded.json'), 
+                status=429)
+		
+		scraper = Mobygames_Scraper()
+		with self.assertRaises(ScraperExceededAPIQuoteException):
+			scraper.search('WipEout XL', 'PlayStation')
 
 
 	def _loadJsonFromFile(self, filename):
