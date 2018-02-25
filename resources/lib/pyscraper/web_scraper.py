@@ -204,7 +204,7 @@ class WebScraper(AbstractScraper):
                 try:
                     x = datetime(*(time.strptime(datestr, fmt2)[0:6]))
                 except ValueError as ve:
-                    log.warn("Unable to parse date using %s, try next format." %fmt2)
+                    log.warn("Unable to parse date %s using %s, try next format. %s" %(datestr, fmt2, ve))
         if x is not None:
             return x
         else:

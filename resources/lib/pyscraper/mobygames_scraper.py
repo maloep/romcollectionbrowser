@@ -108,8 +108,6 @@ class Mobygames_Scraper(WebScraper):
 		
 		#TODO check if we should invoke this from dbupdate after we searched for local artwork
 		results.update(self.retrieve_images(gameid, platformid))
-				
-		print results
 		
 		return results
 
