@@ -8,8 +8,8 @@ sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', '..', 'resource
 sys.path.append(os.path.join(os.path.dirname(__file__), '..', '..', 'resources', 'lib', 'pyscraper'))
 
 import unittest
-from resources.lib.pyscraper.mobygames_scraper import Mobygames_Scraper
-from resources.lib.rcbexceptions import ScraperExceededAPIQuoteException
+from mobygames_scraper import Mobygames_Scraper
+from rcbexceptions import ScraperExceededAPIQuoteException
 
 class Test_MobygamesScraperResponses(unittest.TestCase):
 	"""
@@ -74,7 +74,6 @@ class Test_MobygamesScraperResponses(unittest.TestCase):
 
 
 	@responses.activate
-	@unittest.skip("TODO: assertRaises does not catch ScraperExceededAPIQuoteException")
 	def test_search_game_api_key_exceeded(self):
 		
 		responses.add(responses.GET, 
