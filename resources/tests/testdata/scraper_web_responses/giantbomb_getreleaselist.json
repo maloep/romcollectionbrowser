@@ -1,0 +1,24 @@
+
+{
+	"error": "OK",
+	"limit": 100,
+	"offset": 0,
+	"number_of_page_results": 2,
+	"number_of_total_results": "2",
+	"status_code": 1,
+	"results": [
+		{
+			"guid": "3050-80827",
+			"id": 80827,
+			"name": "Wip3out",
+			"release_date": "1999-09-08 00:00:00"
+		},
+		{
+			"guid": "3050-80828",
+			"id": 80828,
+			"name": "Wip3out",
+			"release_date": "2000-02-03 00:00:00"
+		}
+	],
+	"version": "1.0"
+}

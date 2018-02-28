@@ -9,8 +9,9 @@ class GiantBomb_Scraper(WebScraper):
 	"""GiantBomb.com has its API described at https://www.giantbomb.com/api/documentation """
 	_name = 'GiantBomb.com'
 	_apikey = '279442d60999f92c5e5f693b4d23bd3b6fd8e868'
-	_search_url = 'https://giantbomb.com/api/search'    # http://www.giantbomb.com/api/search/?api_key=XXX&query=SEARCHTERM&field_list=name,id
-	_retrieve_url = 'https://www.giantbomb.com/api/game/{0}/'  # game ID is substituted
+	_search_url = 'https://www.giantbomb.com/api/releases'
+	_retrieve_release_url = 'https://www.giantbomb.com/api/release/{0}/'  # release ID is substituted
+	_retrieve_game_url = 'https://www.giantbomb.com/api/game/{0}/'  # game ID is substituted
 
 	# Mapping between the dict keys and the JSON fields in the response
 	_game_mapping = {
@@ -26,17 +27,22 @@ class GiantBomb_Scraper(WebScraper):
 
 	def _get_search_params(self, **kwargs):
 		return {'api_key': self._apikey,
-				'query': '{0}'.format(self.prepare_gamename_for_request(kwargs['gamename'])),
-				'resources': 'game',
-				'filter': 'platforms:{0}'.format(self.get_platform_for_scraper(kwargs['platform'])),
+				'filter': 'platform:{0},name:{1}'.format(self.get_platform_for_scraper(kwargs['platform']),kwargs['gamename']),
 				'format': 'json',
-				'field_list': 'id,name,platforms,original_release_date'}
+				'field_list': 'id,guid,name,release_date'}
+
+	def _get_retrieve_release_url(self, gameid):
+		return self._retrieve_release_url.format(gameid)
+
+	def _get_retrieve_release_params(self):
+		return {'api_key': self._apikey,
+				'format': 'json'}
 
 	# FIXME generic kwargs
-	def _get_retrieve_url(self, gameid):
-		return self._retrieve_url.format(gameid)
+	def _get_retrieve_game_url(self, gameid):
+		return self._retrieve_game_url.format(gameid)
 
-	def _get_retrieve_params(self):
+	def _get_retrieve_game_params(self):
 		return {'api_key': self._apikey,
 				'format': 'json'}
 
@@ -59,12 +65,19 @@ class GiantBomb_Scraper(WebScraper):
 		return result
 
 	def retrieve(self, gameid, platform):
-		response = self.open_json_url(url=self._get_retrieve_url(gameid), params=self._get_retrieve_params())
-
+		
+		response = self.open_json_url(url=self._get_retrieve_release_url(gameid), params=self._get_retrieve_release_params())
 		# Handle status code
 		self._check_status_code(response['status_code'])
-
-		results = self._parse_game_result(response['results'])
+		results = self._parse_release_result(response['results'])
+		
+		gameid = results['id']
+		
+		response = self.open_json_url(url=self._get_retrieve_game_url(gameid), params=self._get_retrieve_game_params())
+		# Handle status code
+		self._check_status_code(response['status_code'])
+		results.update(self._parse_game_result(response['results']))
+		
 		return results
 
 	def _parse_search_results(self, response):
@@ -78,8 +91,8 @@ class GiantBomb_Scraper(WebScraper):
 
 		for result in response['results']:
 			try:
-				year = self._parse_date(result['original_release_date'])
-				results.append({'id': result['id'],
+				year = self._parse_date(result['release_date'])
+				results.append({'id': result['guid'],
 								'title': result['name'],
 								'releaseDate': year,
 								'SearchKey': [result['name']]})
@@ -90,6 +103,18 @@ class GiantBomb_Scraper(WebScraper):
 
 		log.debug("Found {0} results using requests JSON parser: {1}".format(len(results), results))
 		return results
+	
+	
+	def _parse_release_result(self, response):
+		""" response is expected to be a JSON object """
+		result = {}
+
+		result['id'] = response['game']['id']
+		result['Filetypeboxfront'] = [response['image']['super_url']]
+		
+		return result
+		
+	
 
 	def _parse_game_result(self, response):
 		""" response is expected to be a JSON object """
@@ -109,8 +134,8 @@ class GiantBomb_Scraper(WebScraper):
 		# Custom fields (i.e. ones that require special handling
 		# HACK - for compatibility we need to put each result in an array
 		result['ReleaseYear'] = [self._parse_date(response['original_release_date'])]
-		result['Developers'] = self._parse_developers(response['developers'])
-		result['Publishers'] = self._parse_publishers(response['publishers'])
+		result['Developer'] = self._parse_developers(response['developers'])
+		result['Publisher'] = self._parse_publishers(response['publishers'])
 		result['Genre'] = self._parse_genres(response['genres'])
 
 		# FIXME TODO Artwork and images are quite cumbersome to get from giantbomb search results

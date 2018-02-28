@@ -4,12 +4,11 @@ import os
 import json
 
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', '..', 'resources', 'lib'))
-sys.path.append(os.path.join(os.path.dirname(__file__), '..', '..', 'resources', 'lib', 'pyparsing'))
 sys.path.append(os.path.join(os.path.dirname(__file__), '..', '..', 'resources', 'lib', 'pyscraper'))
 
 import unittest
-from resources.lib.pyscraper.giantbomb_scraper import GiantBomb_Scraper
-from resources.lib.rcbexceptions import ScraperExceededAPIQuoteException
+from giantbomb_scraper import GiantBomb_Scraper
+from rcbexceptions import ScraperExceededAPIQuoteException
 
 
 class Test_GiantBombScraper(unittest.TestCase):
@@ -18,6 +17,7 @@ class Test_GiantBombScraper(unittest.TestCase):
     Test parsing the output of queries to giantbomb.com.
     """
     # Parse game search query
+    @unittest.skip("Search has been changed")
     def test_GamesListResults(self):
         f = os.path.join(os.path.dirname(__file__), '..', '..', 'resources', 'tests', 'testdata', 'scraper_web_responses', 'giantbomb_getgameslist.json')
         scraper = GiantBomb_Scraper()
@@ -84,6 +84,37 @@ class Test_GiantBombScraper(unittest.TestCase):
         self.assertEqual(len(result['Publishers']), 2)
         self.assertIn("Ubisoft S.A.", result['Publishers'], "Expected publisher Ubisoft S.A. to be retrieved")
         self.assertIn("Enix Corporation", result['Publishers'], "Expected publisher Enix Corporation to be retrieved")
+        
+        
+    def test_parse_search_results(self):
+        
+        f = os.path.join(os.path.dirname(__file__), '..', '..', 'resources', 'tests', 'testdata',
+                         'scraper_web_responses', 'giantbomb_getreleaselist.json')
+        scraper = GiantBomb_Scraper()
+        with open(f) as jsonfile:
+            data = jsonfile.read()
+        results = scraper._parse_search_results(json.loads(data))
+        
+        # Expect 10 results per page (regardless of total)
+        self.assertEqual(len(results), 2, "Number of search results for multiple search match did not match expected number")
+        self.assertEqual(results[0]['title'], "Wip3out", "Incorrect description for first result")
+        self.assertEqual(results[0]['id'], '3050-80827', "Incorrect game ID for first result")
+        self.assertEqual(results[0]['releaseDate'], "1999", "Incorrect releaseDate for first result")
+        self.assertEqual(results[0]['SearchKey'][0], "Wip3out", "Incorrect SearchKey for first result")
+        
+        
+    def test_parse_release_result(self):
+        
+        f = os.path.join(os.path.dirname(__file__), '..', '..', 'resources', 'tests', 'testdata',
+                         'scraper_web_responses', 'giantbomb_getrelease.json')
+        scraper = GiantBomb_Scraper()
+        with open(f) as jsonfile:
+            data = jsonfile.read()
+        result = scraper._parse_release_result(json.loads(data)['results'])
+
+        self.assertEqual(result['id'], 12298, "Incorrect game ID")
+        self.assertEqual(result['Filetypeboxfront'][0], "https://www.giantbomb.com/api/image/scale_large/691211-wipeout3.png", "Incorrect image")
+        
 
     @unittest.skip("Not yet working")
     def test_ErrorResponseInvalidApiKey(self):

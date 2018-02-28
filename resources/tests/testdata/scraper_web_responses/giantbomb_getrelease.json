@@ -1,0 +1,72 @@
+
+{
+	"error": "OK",
+	"limit": 1,
+	"offset": 0,
+	"number_of_page_results": 1,
+	"number_of_total_results": 1,
+	"status_code": 1,
+	"results": {
+		"api_detail_url": "https:\/\/www.giantbomb.com\/api\/release\/3050-80827\/",
+		"date_added": "2009-01-18 02:41:22",
+		"date_last_updated": "2009-01-18 21:09:54",
+		"deck": null,
+		"description": null,
+		"expected_release_day": null,
+		"expected_release_month": null,
+		"expected_release_quarter": null,
+		"expected_release_year": null,
+		"game": {
+			"api_detail_url": "https:\/\/www.giantbomb.com\/api\/game\/3030-12298\/",
+			"id": 12298,
+			"name": "WipEout 3"
+		},
+		"game_rating": null,
+		"guid": "3050-80827",
+		"id": 80827,
+		"image": {
+			"icon_url": "https:\/\/www.giantbomb.com\/api\/image\/square_avatar\/691211-wipeout3.png",
+			"medium_url": "https:\/\/www.giantbomb.com\/api\/image\/scale_medium\/691211-wipeout3.png",
+			"screen_url": "https:\/\/www.giantbomb.com\/api\/image\/screen_medium\/691211-wipeout3.png",
+			"screen_large_url": "https:\/\/www.giantbomb.com\/api\/image\/screen_kubrick\/691211-wipeout3.png",
+			"small_url": "https:\/\/www.giantbomb.com\/api\/image\/scale_small\/691211-wipeout3.png",
+			"super_url": "https:\/\/www.giantbomb.com\/api\/image\/scale_large\/691211-wipeout3.png",
+			"thumb_url": "https:\/\/www.giantbomb.com\/api\/image\/scale_avatar\/691211-wipeout3.png",
+			"tiny_url": "https:\/\/www.giantbomb.com\/api\/image\/square_mini\/691211-wipeout3.png",
+			"original_url": "https:\/\/www.giantbomb.com\/api\/image\/original\/691211-wipeout3.png",
+			"image_tags": "All Images,Box Art"
+		},
+		"maximum_players": null,
+		"minimum_players": 1,
+		"name": "Wip3out",
+		"platform": {
+			"api_detail_url": "https:\/\/www.giantbomb.com\/api\/platform\/3045-22\/",
+			"id": 22,
+			"name": "PlayStation"
+		},
+		"product_code_type": null,
+		"product_code_value": null,
+		"region": {
+			"api_detail_url": "https:\/\/www.giantbomb.com\/api\/region\/3075-2\/",
+			"id": 2,
+			"name": "United Kingdom"
+		},
+		"release_date": "1999-09-08 00:00:00",
+		"site_detail_url": "https:\/\/www.giantbomb.com\/wipeout-3\/3030-12298\/releases\/#toc-release-80827",
+		"widescreen_support": null,
+		"images": [
+			{
+				"icon_url": "https:\/\/static.giantbomb.com\/uploads\/square_avatar\/0\/7439\/691211-wipeout3.png",
+				"medium_url": "https:\/\/static.giantbomb.com\/uploads\/screen_medium\/0\/7439\/691211-wipeout3.png",
+				"screen_url": "https:\/\/static.giantbomb.com\/uploads\/screen_medium\/0\/7439\/691211-wipeout3.png",
+				"small_url": "https:\/\/static.giantbomb.com\/uploads\/square_avatar\/0\/7439\/691211-wipeout3.png",
+				"super_url": "https:\/\/static.giantbomb.com\/uploads\/scale_large\/0\/7439\/691211-wipeout3.png",
+				"thumb_url": "https:\/\/static.giantbomb.com\/uploads\/scale_small\/0\/7439\/691211-wipeout3.png",
+				"tiny_url": "https:\/\/static.giantbomb.com\/uploads\/square_mini\/0\/7439\/691211-wipeout3.png",
+				"original": "https:\/\/static.giantbomb.com\/uploads\/original\/0\/7439\/691211-wipeout3.png",
+				"tags": "Box Art, All Images"
+			}
+		]
+	},
+	"version": "1.0"
+}
