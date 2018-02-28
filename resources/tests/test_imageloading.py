@@ -3,8 +3,8 @@ import os, re, time
 import unittest
 
 
-from resources.lib import helper
-from resources.lib.config import Config, RomCollection
+import helper
+from config import Config, RomCollection
 
 class Test(unittest.TestCase):
 

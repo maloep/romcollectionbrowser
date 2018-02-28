@@ -9,11 +9,10 @@ import os
 import unittest
 
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', '..', 'resources', 'lib'))
-sys.path.append(os.path.join(os.path.dirname(__file__), '..', '..', 'resources', 'lib', 'pyparsing'))
 sys.path.append(os.path.join(os.path.dirname(__file__), '..', '..', 'resources', 'lib', 'pyscraper'))
 
-from resources.lib.config import FileType
-from resources.lib.dbupdate import DBUpdate
+from config import FileType
+from dbupdate import DBUpdate
 
 
 class TestDbUpdate(unittest.TestCase):

@@ -7,8 +7,8 @@ python -m unittest discover -v resources/tests/ "test_db_upgrade.py"
 import os
 import shutil
 import unittest
-from resources.lib.xbmcaddon import Addon
-from resources.lib.gamedatabase import GameDataBase
+from xbmcaddon import Addon
+from gamedatabase import GameDataBase
 
 # Shared resources
 addon = Addon(id='script.games.rom.collection.browser')

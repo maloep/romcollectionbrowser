@@ -4,12 +4,11 @@ import sys
 import os
 
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', '..', 'resources', 'lib'))
-sys.path.append(os.path.join(os.path.dirname(__file__), '..', '..', 'resources', 'lib', 'pyparsing'))
 sys.path.append(os.path.join(os.path.dirname(__file__), '..', '..', 'resources', 'lib', 'pyscraper'))
 
 import unittest
-from resources.lib.rcbexceptions import *
-from resources.lib.pyscraper.mame_scraper import MAME_Scraper
+from rcbexceptions import *
+from mame_scraper import MAME_Scraper
 
 
 class Test_MAMEHistoryScraper(unittest.TestCase):

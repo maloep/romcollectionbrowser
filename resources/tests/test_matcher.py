@@ -4,11 +4,10 @@ import sys
 import os
 
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', '..', 'resources', 'lib'))
-sys.path.append(os.path.join(os.path.dirname(__file__), '..', '..', 'resources', 'lib', 'pyparsing'))
 sys.path.append(os.path.join(os.path.dirname(__file__), '..', '..', 'resources', 'lib', 'pyscraper'))
 
-from resources.lib.pyscraper.matcher import Matcher
-import resources.lib.util as util
+from matcher import Matcher
+import util as util
 
 import unittest
 

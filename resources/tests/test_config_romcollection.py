@@ -3,11 +3,10 @@ import sys
 import unittest
 
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', '..', 'resources', 'lib'))
-sys.path.append(os.path.join(os.path.dirname(__file__), '..', '..', 'resources', 'lib', 'pyparsing'))
 sys.path.append(os.path.join(os.path.dirname(__file__), '..', '..', 'resources', 'lib', 'pyscraper'))
 
-from resources.lib.config import Config, RomCollection
-import resources.lib.util as util
+from config import Config, RomCollection
+import util as util
 
 
 class TestRomCollection(unittest.TestCase):

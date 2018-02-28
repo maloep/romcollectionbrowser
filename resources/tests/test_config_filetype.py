@@ -1,7 +1,7 @@
 import os
 import sys
 import unittest
-from resources.lib.config import Config, FileType
+from config import Config, FileType
 
 
 class TestFileType(unittest.TestCase):

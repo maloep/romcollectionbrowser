@@ -21,7 +21,7 @@ class TestDbGameView(unittest.TestCase):
         db_path = os.path.join(cls.get_testdata_path(), 'dbupgrade')
 
         # Setup data - MyGames.db is the hard-coded expected DB name
-        shutil.copyfile(os.path.join(db_path, 'test-2.1.6.db'), os.path.join(db_path, 'MyGames.db'))
+        shutil.copyfile(os.path.join(db_path, 'test-2.2.0.db'), os.path.join(db_path, 'MyGames.db'))
 
         cls.gdb = GameDataBase(db_path)
         cls.gdb.connect()

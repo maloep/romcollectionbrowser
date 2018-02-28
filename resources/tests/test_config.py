@@ -5,11 +5,10 @@ from pprint import pprint
 
 # Required for import chain
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', '..', 'resources', 'lib'))
-sys.path.append(os.path.join(os.path.dirname(__file__), '..', '..', 'resources', 'lib', 'pyparsing'))
 sys.path.append(os.path.join(os.path.dirname(__file__), '..', '..', 'resources', 'lib', 'pyscraper'))
 
-from resources.lib.config import Config, RomCollection
-import resources.lib.util as util
+from config import Config, RomCollection
+import util as util
 
 
 class TestConfig(unittest.TestCase):

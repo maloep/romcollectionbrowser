@@ -2,11 +2,10 @@ import sys
 import os
 
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', '..', 'resources', 'lib'))
-sys.path.append(os.path.join(os.path.dirname(__file__), '..', '..', 'resources', 'lib', 'pyparsing'))
 sys.path.append(os.path.join(os.path.dirname(__file__), '..', '..', 'resources', 'lib', 'pyscraper'))
 
 import unittest
-from resources.lib.pyscraper.thegamesdb_scraper import TheGamesDB_Scraper
+from thegamesdb_scraper import TheGamesDB_Scraper
 
 
 class Test_GamesDBScraper(unittest.TestCase):

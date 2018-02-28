@@ -2,14 +2,13 @@ import os
 import sys
 
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', '..', 'resources', 'lib'))
-sys.path.append(os.path.join(os.path.dirname(__file__), '..', '..', 'resources', 'lib', 'pyparsing'))
 sys.path.append(os.path.join(os.path.dirname(__file__), '..', '..', 'resources', 'lib', 'pyscraper'))
 
 import unittest
-from resources.lib.pyscraper.thegamesdb_scraper import TheGamesDB_Scraper
-from resources.lib.pyscraper.giantbomb_scraper import GiantBomb_Scraper
-from resources.lib.pyscraper.mobygames_scraper import Mobygames_Scraper
-from resources.lib.pyscraper.web_scraper import WebScraper
+from thegamesdb_scraper import TheGamesDB_Scraper
+from giantbomb_scraper import GiantBomb_Scraper
+from mobygames_scraper import Mobygames_Scraper
+from web_scraper import WebScraper
 
 
 class TestWebScraper(unittest.TestCase):

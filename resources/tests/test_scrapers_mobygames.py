@@ -4,12 +4,11 @@ import os
 import json
 
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', '..', 'resources', 'lib'))
-sys.path.append(os.path.join(os.path.dirname(__file__), '..', '..', 'resources', 'lib', 'pyparsing'))
 sys.path.append(os.path.join(os.path.dirname(__file__), '..', '..', 'resources', 'lib', 'pyscraper'))
 
 import unittest
-from resources.lib.pyscraper.mobygames_scraper import Mobygames_Scraper
-from resources.lib.rcbexceptions import ScraperExceededAPIQuoteException
+from mobygames_scraper import Mobygames_Scraper
+from rcbexceptions import ScraperExceededAPIQuoteException
 
 class Test_MobygamesScraper(unittest.TestCase):
 	"""

@@ -13,7 +13,10 @@ This has been verified on Mac; other envs will need to be tested manually
 import unittest
 import sys
 import os
-from resources.lib.emulatorautoconfig.autoconfig import *
+
+
+sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', '..', 'resources', 'lib'))
+from autoconfig import EmulatorAutoconfig
 
 
 class TestAutoConfig(unittest.TestCase):

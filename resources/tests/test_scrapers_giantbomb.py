@@ -61,8 +61,8 @@ class Test_GiantBombScraper(unittest.TestCase):
         print "Game result is {0}".format(results)
 
         # FIXME TODO Do we have a double-list, or just a single one?
-        self.assertEquals(results['Developers'], ['Psygnosis Limited', 'The Designers Republic'])
-        self.assertEquals(results['Publishers'], ['Sony Interactive Entertainment Europe'])
+        self.assertEquals(results['Developer'], ['Psygnosis Limited', 'The Designers Republic'])
+        self.assertEquals(results['Publisher'], ['Sony Interactive Entertainment Europe'])
         self.assertEquals(results['ReleaseYear'], ['1999'])
 
         # Genres
@@ -81,9 +81,9 @@ class Test_GiantBombScraper(unittest.TestCase):
         self.assertIn("Action", result['Genre'], "Expected genre Action to be retrieved")
         self.assertIn("Platformer", result['Genre'], "Expected genre Platformer to be retrieved")
 
-        self.assertEqual(len(result['Publishers']), 2)
-        self.assertIn("Ubisoft S.A.", result['Publishers'], "Expected publisher Ubisoft S.A. to be retrieved")
-        self.assertIn("Enix Corporation", result['Publishers'], "Expected publisher Enix Corporation to be retrieved")
+        self.assertEqual(len(result['Publisher']), 2)
+        self.assertIn("Ubisoft S.A.", result['Publisher'], "Expected publisher Ubisoft S.A. to be retrieved")
+        self.assertIn("Enix Corporation", result['Publisher'], "Expected publisher Enix Corporation to be retrieved")
         
         
     def test_parse_search_results(self):
