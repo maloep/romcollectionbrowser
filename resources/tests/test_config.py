@@ -23,7 +23,7 @@ class TestConfig(unittest.TestCase):
 
     def test_ParseValidConfigFile(self):
         # Load a config file with 2 valid RomCollections
-        config_xml_file = os.path.join(os.path.dirname(__file__), 'testdata', 'romcollections_two_valid.xml')
+        config_xml_file = os.path.join(os.path.dirname(__file__), 'testdata', 'config', 'romcollections_two_valid.xml')
         conf = Config(config_xml_file)
         conf.readXml()
 
@@ -32,7 +32,7 @@ class TestConfig(unittest.TestCase):
 
     def test_ParseValidConfigFileWithAllElements(self):
         # Load a config file with 2 valid RomCollections and all FileTypes and ImagePlacings
-        config_xml_file = os.path.join(os.path.dirname(__file__), 'testdata', 'romcollections_two_valid.xml')
+        config_xml_file = os.path.join(os.path.dirname(__file__), 'testdata', 'config', 'romcollections_two_valid.xml')
         conf = Config(config_xml_file)
         conf.readXml()
 
@@ -40,7 +40,7 @@ class TestConfig(unittest.TestCase):
                               u'Expected dict object, was {0}'.format(type(conf.romCollections)))
 
     def test_GetRomCollectionNames(self):
-        config_xml_file = os.path.join(os.path.dirname(__file__), 'testdata', 'romcollections_two_valid.xml')
+        config_xml_file = os.path.join(os.path.dirname(__file__), 'testdata', 'config', 'romcollections_two_valid.xml')
         conf = Config(config_xml_file)
         conf.readXml()
 
@@ -48,7 +48,7 @@ class TestConfig(unittest.TestCase):
         self.assertEqual(list, ['Atari 2600', 'NES'])
 
     def test_GetRomCollectionById(self):
-        config_xml_file = os.path.join(os.path.dirname(__file__), 'testdata', 'romcollections_two_valid.xml')
+        config_xml_file = os.path.join(os.path.dirname(__file__), 'testdata', 'config', 'romcollections_two_valid.xml')
         conf = Config(config_xml_file)
         conf.readXml()
 
@@ -60,7 +60,7 @@ class TestConfig(unittest.TestCase):
         self.assertTrue(rc is None, "Expected searching for invalid rom collection ID to return None")
 
     def test_GetRomCollectionByName(self):
-        config_xml_file = os.path.join(os.path.dirname(__file__), 'testdata', 'romcollections_two_valid.xml')
+        config_xml_file = os.path.join(os.path.dirname(__file__), 'testdata', 'config', 'romcollections_two_valid.xml')
         conf = Config(config_xml_file)
         conf.readXml()
 

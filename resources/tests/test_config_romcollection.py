@@ -38,7 +38,7 @@ class TestRomCollection(unittest.TestCase):
                           u'Expected readRomCollections to return None, was {0}'.format(type(self.rom_collections)))
 
     def test_ParseFileWithValidCollections(self):
-        config_xml_file = os.path.join(os.path.dirname(__file__), 'testdata', 'romcollections_two_valid.xml')
+        config_xml_file = os.path.join(os.path.dirname(__file__), 'testdata', 'config', 'romcollections_two_valid.xml')
         self.read_config_file(config_xml_file)
 
         self.assertIsInstance(self.rom_collections, dict,
@@ -81,7 +81,7 @@ class TestRomCollection(unittest.TestCase):
 
     @unittest.skip('Skipping until parsing config.xml file returns only the valid collections instead of None')
     def test_ParseCollectionWithMissingAttribsFails(self):
-        config_xml_file = os.path.join(os.path.dirname(__file__), 'testdata', 'romcollections_invalid_missingattribs.xml')
+        config_xml_file = os.path.join(os.path.dirname(__file__), 'testdata', 'config', 'romcollections_invalid_missingattribs.xml')
         self.read_config_file(config_xml_file)
 
         self.assertTrue(len(self.rom_collections) == 1,

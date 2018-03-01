@@ -18,7 +18,7 @@ class TestDbGameView(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
         # Open the DB
-        db_path = os.path.join(cls.get_testdata_path(), 'dbupgrade')
+        db_path = os.path.join(cls.get_testdata_path(), 'database')
 
         # Setup data - MyGames.db is the hard-coded expected DB name
         shutil.copyfile(os.path.join(db_path, 'test-2.2.0.db'), os.path.join(db_path, 'MyGames.db'))
@@ -30,7 +30,7 @@ class TestDbGameView(unittest.TestCase):
     def tearDownClass(cls):
         # Cleanup
         cls.gdb.close()
-        os.remove(os.path.join(os.path.join(cls.get_testdata_path(), 'dbupgrade'), 'MyGames.db'))
+        os.remove(os.path.join(os.path.join(cls.get_testdata_path(), 'database'), 'MyGames.db'))
         
     
     def test_RetrieveGameById(self):

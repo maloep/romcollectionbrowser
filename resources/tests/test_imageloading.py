@@ -20,7 +20,7 @@ class Test(unittest.TestCase):
     
     def testCacheMediaPaths_1RomCollection(self):
         # Load a config file with 2 valid RomCollections and all FileTypes and ImagePlacings
-        config_xml_file = os.path.join(os.path.dirname(__file__), 'testdata', 'romcollections_imageloading.xml')
+        config_xml_file = os.path.join(os.path.dirname(__file__), 'testdata', 'config', 'romcollections_imageloading.xml')
         conf = Config(config_xml_file)
         conf.readXml()
                         
@@ -48,7 +48,7 @@ class Test(unittest.TestCase):
         
     def testCacheMediaPaths_1RomCollection_FoldernameAsGamename(self):
         # Load a config file with 2 valid RomCollections and all FileTypes and ImagePlacings
-        config_xml_file = os.path.join(os.path.dirname(__file__), 'testdata', 'romcollections_imageloading.xml')
+        config_xml_file = os.path.join(os.path.dirname(__file__), 'testdata', 'config', 'romcollections_imageloading.xml')
         conf = Config(config_xml_file)
         conf.readXml()
         
@@ -78,7 +78,7 @@ class Test(unittest.TestCase):
         
     def testCacheMediaPaths_2RomCollections(self):
         # Load a config file with 2 valid RomCollections and all FileTypes and ImagePlacings
-        config_xml_file = os.path.join(os.path.dirname(__file__), 'testdata', 'romcollections_imageloading.xml')
+        config_xml_file = os.path.join(os.path.dirname(__file__), 'testdata', 'config', 'romcollections_imageloading.xml')
         conf = Config(config_xml_file)
         conf.readXml()
                         
@@ -93,7 +93,7 @@ class Test(unittest.TestCase):
         
         
     def testFileForControl(self):
-        config_xml_file = os.path.join(os.path.dirname(__file__), 'testdata', 'romcollections_imageloading.xml')
+        config_xml_file = os.path.join(os.path.dirname(__file__), 'testdata', 'config', 'romcollections_imageloading.xml')
         conf = Config(config_xml_file)
         conf.readXml()
         
@@ -146,7 +146,7 @@ class Test(unittest.TestCase):
         
         
     def testFileForControl_FoldernameAsGamename(self):
-        config_xml_file = os.path.join(os.path.dirname(__file__), 'testdata', 'romcollections_imageloading.xml')
+        config_xml_file = os.path.join(os.path.dirname(__file__), 'testdata', 'config', 'romcollections_imageloading.xml')
         conf = Config(config_xml_file)
         conf.readXml()
         

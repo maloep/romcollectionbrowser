@@ -20,7 +20,7 @@ class TestDBUpgrade(unittest.TestCase):
         return os.path.join(os.path.dirname(__file__), '..', '..', 'resources', 'tests', 'testdata')
 
     def test_DBUpgrade(self):
-        db_path = os.path.join (self.get_testdata_path(), 'dbupgrade')
+        db_path = os.path.join (self.get_testdata_path(), 'database')
 
         # Setup data - MyGames.db is the hard-coded expected DB name
         self.assertTrue(os.path.isfile(os.path.join(db_path, 'MyGames-0.7.4.db')), "Expected to find 0.7.4 DB")
