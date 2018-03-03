@@ -1,3 +1,4 @@
+# coding=utf-8
 import os
 import sys
 import shutil
@@ -198,12 +199,60 @@ class TestImportGames(unittest.TestCase):
         snowboarding = games[0]
         self.assertEquals(snowboarding.name, '1080 Snowboarding')
         #TODO check for description with special characters
+        #self.assertTrue(snowboarding.plot.startswith(u"You’re taking a Tahoe 155 snowboard down a steep, bumpy incline at night and you’re about to top off an Indy Nosebone with a 360° Air"))
         self.assertEquals(snowboarding.year, '1998')
         self.assertEquals(snowboarding.genre, 'Sports')
         self.assertEquals(snowboarding.publisher, 'Nintendo')
         self.assertEquals(snowboarding.developer, 'Nintendo EAD')
         roms = File(self.gdb).getRomsByGameId(snowboarding.id)
         self.assertEquals(len(roms), 1)
+
+    @responses.activate
+    def test_import_multirompath_multidisc(self):
+        config_xml_file = os.path.join(os.path.dirname(__file__), 'testdata', 'config',
+                                       'romcollections_importtests.xml')
+        conf = Config(config_xml_file)
+        conf.readXml()
+
+        rcs = {}
+        rcs[4] = conf.romCollections['4']
+
+        self.register_responses_PSX()
+
+        # adjust settings
+        xbmcaddon._settings['rcb_createNfoWhileScraping'] = 'false'
+        xbmcaddon._settings['rcb_ignoreGamesWithoutDesc'] = 'true'
+        xbmcaddon._settings['rcb_scrapingMode'] = 'Automatic: Guess Matches'
+
+        dbu = DBUpdate()
+        dbu.updateDB(self.gdb, RCBMockGui(), rcs, False)
+
+        likeStmnt = '0 = 0'
+        games = Game(self.gdb).getGamesByFilter(4, 0, 0, 0, 0, likeStmnt)
+
+        self.assertEquals(len(games), 2)
+
+        bushido = games[0]
+        self.assertEquals(bushido.name, 'Bushido Blade')
+        self.assertEquals(bushido.year, '1997')
+        self.assertTrue(bushido.plot.startswith('"Bushido" is the soul of Japan - an ancient honor code deeply followed by samurai warriors for centuries'))
+        self.assertEquals(bushido.genre, 'Fighting')
+        self.assertEquals(bushido.maxPlayers, '2')
+        self.assertEquals(bushido.publisher, 'Square, SCEA')
+        self.assertEquals(bushido.developer, 'Light Weight')
+        roms = File(self.gdb).getRomsByGameId(bushido.id)
+        self.assertEquals(len(roms), 1)
+
+        silenthill = games[1]
+        self.assertEquals(silenthill.name, 'Silent Hill')
+        self.assertEquals(silenthill.year, '1999')
+        self.assertTrue(silenthill.plot.startswith('Silent Hill is a 1999 survival horror video game for the PlayStation.'))
+        self.assertEquals(silenthill.genre, 'Action, Horror')
+        self.assertEquals(silenthill.maxPlayers, '1')
+        self.assertEquals(silenthill.publisher, 'Konami Digital Entertainment')
+        self.assertEquals(silenthill.developer, 'Team Silent, Konami')
+        roms = File(self.gdb).getRomsByGameId(silenthill.id)
+        self.assertEquals(len(roms), 2)
 
     
     def register_responses_Amiga(self):
@@ -297,6 +346,29 @@ class TestImportGames(unittest.TestCase):
                       'http://thegamesdb.net/api/GetGame.php?id=237',
                       body=self.loadXmlFromFile('thegamesdb_N64_1080 Snowboarding_result.xml'),
                       status=200)
+
+    def register_responses_PSX(self):
+
+        responses.add(responses.GET, 
+                'http://thegamesdb.net/api/GetGamesList.php?platform=Sony+Playstation&name=Bushido+Blade',
+                body=self.loadXmlFromFile('thegamesdb_PSX_Bushido Blade_search.xml'),
+                status=200)
+
+        responses.add(responses.GET,
+                      'http://thegamesdb.net/api/GetGame.php?id=8375',
+                      body=self.loadXmlFromFile('thegamesdb_PSX_Bushido Blade_result.xml'),
+                      status=200)
+
+        responses.add(responses.GET,
+                      'http://thegamesdb.net/api/GetGamesList.php?platform=Sony+Playstation&name=Silent+Hill+%28Disc+1+of+2%29',
+                      body=self.loadXmlFromFile('thegamesdb_PSX_Silent Hill_search.xml'),
+                      status=200)
+
+        responses.add(responses.GET,
+                      'http://thegamesdb.net/api/GetGame.php?id=1014',
+                      body=self.loadXmlFromFile('thegamesdb_PSX_Silent Hill_result.xml'),
+                      status=200)
+
         
         
     def loadXmlFromFile(self, filename):

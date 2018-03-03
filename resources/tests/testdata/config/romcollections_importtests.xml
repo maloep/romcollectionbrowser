@@ -10,7 +10,6 @@
             <saveStateParams />
             <mediaPath type="boxfront">./testdata/artwork/Amiga/boxfront/%GAME%.*</mediaPath>
             <mediaPath type="screenshot">./testdata/artwork/Amiga/screenshot/%GAME%.*</mediaPath>
-            <mediaPath type="gameplay">./testdata/artwork/Amiga/video/%GAME%.*</mediaPath>
             <preCmd />
             <postCmd />
             <useEmuSolo>False</useEmuSolo>
@@ -38,7 +37,6 @@
             <saveStateParams />
             <mediaPath type="boxfront">./testdata/artwork/Atari 2600/boxfront/%GAME%.*</mediaPath>
             <mediaPath type="screenshot">./testdata/artwork/Atari 2600/screenshot/%GAME%.*</mediaPath>
-            <mediaPath type="gameplay">./testdata/artwork/Atari 2600/video/%GAME%.*</mediaPath>
             <preCmd />
             <postCmd />
             <useEmuSolo>False</useEmuSolo>
@@ -88,12 +86,12 @@
             <gameclient />
             <emulatorCmd>/Path/To/PSX/Emulator</emulatorCmd>
             <emulatorParams>"%ROM%"</emulatorParams>
-            <romPath>./testdata/roms/PSX/*.zip</romPath>
+            <romPath>./testdata/roms/PSX/*.bin</romPath>
+            <romPath>./testdata/roms/PSX/*.img</romPath>
             <saveStatePath />
             <saveStateParams />
             <mediaPath type="boxfront">./testdata/artwork/PSX/boxfront/%GAME%.*</mediaPath>
             <mediaPath type="screenshot">./testdata/artwork/PSX/screenshot/%GAME%.*</mediaPath>
-            <mediaPath type="gameplay">./testdata/artwork/PSX/video/%GAME%.*</mediaPath>
             <preCmd />
             <postCmd />
             <useEmuSolo>False</useEmuSolo>
@@ -106,7 +104,7 @@
             <maxFolderDepth>99</maxFolderDepth>
             <doNotExtractZipFiles>False</doNotExtractZipFiles>
             <makeLocalCopy>False</makeLocalCopy>
-            <diskPrefix>_Disk.*</diskPrefix>
+            <diskPrefix>\(Disc.*\)</diskPrefix>
             <imagePlacingMain>gameinfobig</imagePlacingMain>
             <imagePlacingInfo>gameinfosmall</imagePlacingInfo>
             <scraper name="thegamesdb.net" />
