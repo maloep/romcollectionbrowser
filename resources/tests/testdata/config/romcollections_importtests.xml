@@ -66,7 +66,6 @@
             <saveStateParams />
             <mediaPath type="boxfront">./testdata/artwork/N64/boxfront/%GAME%.*</mediaPath>
             <mediaPath type="screenshot">./testdata/artwork/N64/screenshot/%GAME%.*</mediaPath>
-            <mediaPath type="gameplay">./testdata/artwork/N64/video/%GAME%.*</mediaPath>
             <preCmd />
             <postCmd />
             <useEmuSolo>False</useEmuSolo>

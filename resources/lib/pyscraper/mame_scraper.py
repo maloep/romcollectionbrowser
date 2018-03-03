@@ -60,7 +60,7 @@ class MAME_Scraper(FileScraper):
 	def search(self, gamename, platform=None):
 		""" Ignore platform """
 		# Newer versions support multi systems, $info=XXX indicates an arcade ROM
-		startmarker = "$info={0},".format(gamename)
+		startmarker = "$info=%s," %gamename
 		gamedata = False
 		data = ""
 
@@ -100,10 +100,10 @@ class MAME_Scraper(FileScraper):
 			rdata = re.search(pattern, data, re.DOTALL | re.MULTILINE | re.UNICODE)
 
 			if rdata is None:
-				raise ScraperNoSearchResultsFoundException("Unable to find {0} in MAME history dat file".format(gamename))
+				raise ScraperNoSearchResultsFoundException("Unable to find %s in MAME history dat file" %gamename)
 
 		except Exception as e:
-			print "Error searching for game {0} using regex: {1}".format(gamename, str(e))
+			print "Error searching for game %s using regex: %s" %(gamename, str(e))
 			return []
 
 		self.resultdata = [rdata.groupdict()]

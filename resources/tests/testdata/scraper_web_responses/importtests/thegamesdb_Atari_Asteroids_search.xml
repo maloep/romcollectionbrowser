@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<Data>
+<Game>
+<id>1342</id>
+<GameTitle>Asteroids</GameTitle>
+<ReleaseDate>08/01/1979</ReleaseDate>
+<Platform>Atari 2600</Platform>
+</Game>
+<Game>
+<id>5301</id>
+<GameTitle>Circus Atari</GameTitle>
+<ReleaseDate>01/01/1978</ReleaseDate>
+<Platform>Atari 2600</Platform>
+</Game>
+<Game>
+<id>17501</id>
+<GameTitle>Atari Video Cube</GameTitle>
+<ReleaseDate>01/01/1982</ReleaseDate>
+<Platform>Atari 2600</Platform>
+</Game>
+<Game>
+<id>17525</id>
+<GameTitle>No Escape!</GameTitle>
+<ReleaseDate>01/01/1983</ReleaseDate>
+<Platform>Atari 2600</Platform>
+</Game>
+<Game>
+<id>44229</id>
+<GameTitle>Tanks But No Tanks</GameTitle>
+<ReleaseDate>05/06/1982</ReleaseDate>
+<Platform>Atari 2600</Platform>
+</Game>
+</Data>

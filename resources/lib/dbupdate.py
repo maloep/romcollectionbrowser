@@ -47,13 +47,13 @@ class UpdateLogFile(object):
 
 	def add_header(self, rcname):
 		with open(self.fname, mode='a') as fh:
-			fh.write('\n~~~~~~~~~~~~~~~~~~~~~~~~\n{0}\n~~~~~~~~~~~~~~~~~~~~~~~~\n'.format(rcname))
+			fh.write('\n~~~~~~~~~~~~~~~~~~~~~~~~\n%s\n~~~~~~~~~~~~~~~~~~~~~~~~\n' %rcname)
 
 	def add_entry(self, gamename, filename=None):
 		if filename is None:
-			msg = u'{0}\n'.format(gamename)
+			msg = u'%s\n' %gamename
 		else:
-			msg = u'{0}, {1}\n'.format(gamename, filename)
+			msg = u'%s, %s\n' %(gamename, filename)
 		with io.open(self.fname, mode='a', encoding='utf-8') as fh:
 			fh.write(msg)
 
@@ -74,9 +74,9 @@ class MissingArtworkLogFile(UpdateLogFile):
 
 	def add_entry(self, gamename, filename=None, pathtype=None):
 		if filename is None:
-			msg = u'--> No artwork found for game "{0}". Game will not be imported.\n'.format(gamename)
+			msg = u'--> No artwork found for game "%s". Game will not be imported.\n' %gamename
 		else:
-			msg = u'{0} (filename: {1}) ({2})\n'.format(gamename, filename, pathtype)
+			msg = u'%s (filename: %s) (%s)\n' %(gamename, filename, pathtype)
 
 		with io.open(self.fname, mode='a', encoding='utf-8') as fh:
 			fh.write(msg)
@@ -88,7 +88,7 @@ class MismatchLogFile(UpdateLogFile):
 
 	def add_header(self, rcname):
 		with open(self.fname, mode='w') as fh:
-			fh.write('~~~~~~~~~~~~~~~~~~~~~~~~\n{0}\n~~~~~~~~~~~~~~~~~~~~~~~~\n'.format(rcname))
+			fh.write('~~~~~~~~~~~~~~~~~~~~~~~~\n%s\n~~~~~~~~~~~~~~~~~~~~~~~~\n' %rcname)
 			fh.write('gamename, filename\n')
 
 
@@ -173,7 +173,7 @@ class DBUpdate(object):
 			for fileidx, filename in enumerate(files):
 
 				try:
-					log.info("Scraping for {0}".format(filename))
+					log.info("Scraping for %s" %filename)
 					gamenameFromFile = romCollection.getGamenameFromFilename(filename)
 
 					# check if we are handling one of the additional disks of a multi rom game
@@ -182,7 +182,7 @@ class DBUpdate(object):
 
 					if isMultiRomGame:
 						# Add this entry as a file under the game ID and move on
-						log.info("Detected {0} as a multirom game (previous game was {1}".format(filename, lastgamename))
+						log.info("Detected %s as a multirom game (previous game was %s)" %(filename, lastgamename))
 						if lastGameId is None:
 							log.error("Game detected as multi rom game, but lastGameId is None.")
 							continue
@@ -193,7 +193,7 @@ class DBUpdate(object):
 						del fileType						
 						continue
 
-					log.info("Start scraping info for game: {0}".format(gamenameFromFile))
+					log.info("Start scraping info for game: %s" %gamenameFromFile)
 
 					continueUpdate = self._gui.writeMsg(progDialogRCHeader, util.localize(32123) + ": " + gamenameFromFile, "", fileidx + 1)
 					if not continueUpdate:
@@ -228,7 +228,7 @@ class DBUpdate(object):
 					del results, foldername
 
 					if lastGameId is not None:
-						log.info("Successfully added {0}".format(gamenameFromFile))
+						log.info("Successfully added %s" %gamenameFromFile)
 						successfulFiles += 1
 
 					# Check if all first 10 games have errors - Modified to allow user to continue on errors
@@ -249,7 +249,7 @@ class DBUpdate(object):
 					# Abort the scraping entirely
 					break
 				except Exception as exc:
-					log.warn(u"An error occurred while adding game {0}: {1}".format(gamenameFromFile, exc))
+					log.warn(u"An error occurred while adding game %s: %s" %(gamenameFromFile, exc))
 					self.missingDescFile.add_entry(gamenameFromFile)
 
 					continue
@@ -264,12 +264,12 @@ class DBUpdate(object):
 
 	def getRomFilesByRomCollection(self, romCollection, enableFullReimport):
 
-		log.info("Rom path: {0}".format(romCollection.romPaths))
+		log.info("Rom path: %s" %romCollection.romPaths)
 
 		log.info("Reading rom files")
 		files = []
 		for romPath in romCollection.romPaths:
-			log.info("Reading rom files in path: {0}".format(romPath))
+			log.info("Reading rom files in path: %s" %romPath)
 			files = self.walkDownPath(files, unicode(romPath), romCollection.maxFolderDepth)
 
 		# only use files that are not already present in database
@@ -278,21 +278,21 @@ class DBUpdate(object):
 			files = [f for f in files if not f in inDBFiles]
 
 		files.sort()
-		log.info("Files read: {0}".format(files))
+		log.info("Files read: %s" %files)
 
 		return files
 
 	def walkDownPath(self, files, romPath, maxFolderDepth):
 
-		log.info("alkDownPath romPath: {0}".format(romPath))
+		log.info("alkDownPath romPath: %s" %romPath)
 
 		files = self.walkDown(files, romPath, maxFolderDepth)
-		log.info("files after walkDown = {0}".format(files))
+		log.info("files after walkDown = %s"  %files)
 
 		return files
 
 	def walkDown(self, files, romPath, maxFolderDepth):
-		log.info("Running walkdown on: {0}".format(romPath))
+		log.info("Running walkdown on: %s" %romPath)
 
 		dirs, newFiles, dirname, filemask = self.getFilesByWildcardExt(romPath)
 		files.extend(newFiles)
@@ -317,11 +317,11 @@ class DBUpdate(object):
 	# FIXME TODO This is just a dict find; just do this where required, this function is redundant
 	def findFilesByGameDescription(self, key, fileDict):
 
-		log.info("searching for Key: {0}".format(key))
+		log.info("searching for Key: %s" %key)
 
 		try:
 			filename = fileDict[key]
-			log.info("result found: {0}".format(filename))
+			log.info("result found: %s" %filename)
 		except KeyError:
 			filename = None
 
@@ -331,12 +331,12 @@ class DBUpdate(object):
 
 		isUpdate = False
 		gameId = None
-		log.debug("Checking if file already exists in DB: {0}".format(filename))
+		log.debug("Checking if file already exists in DB: %s" %filename)
 		romFile = File(self.gdb).getFileByNameAndType(filename, 0)
 		if romFile is not None:
 			isUpdate = True
 			gameId = romFile[3]	 # FIXME TODO Replace with FILE_parentId
-			log.info("File '{0}' already exists in database.".format(filename))
+			log.info("File '%s' already exists in database." %filename)
 			log.info("Always rescan imported games = {0}".format(enableFullReimport))
 			log.info("scraper == 'local artwork': {0}".format(isLocalArtwork))
 			if enableFullReimport is False and not isLocalArtwork:
@@ -363,14 +363,14 @@ class DBUpdate(object):
 			Updated dict of result fields
 		"""
 		try:
-			log.debug("Before merging results: {0} vs {1}".format(results.items(), newResults.items()))
+			log.debug("Before merging results: %s vs %s" %(results.items(), newResults.items()))
 			# Retain any existing key values that aren't an empty list, overwrite all others
 			z = dict(newResults.items() + dict((k, v) for k, v in results.iteritems() if len(v) > 0).items())
-			log.debug("After merging results: {0}".format(z.items()))
+			log.debug("After merging results: %s" %z.items())
 			return z
 		except Exception as e:
 			# Return original results without doing anything
-			log.warn("Error when merging results: {0}".format(e))
+			log.warn("Error when merging results: %s" %e)
 			return results
 
 	def useSingleScrapers(self, romCollection, gamenameFromFile, progDialogRCHeader, fileCount):
@@ -408,31 +408,31 @@ class DBUpdate(object):
 			try:
 				newscraper = AbstractScraper().get_scraper_by_name(scraperSite.name)
 				results = newscraper.search(gamenameFromFile, romCollection.name)
-				log.debug(u"Searching for {0} - found {1} results: {2}".format(gamenameFromFile, len(results), results))
+				log.debug(u"Searching for %s - found %s results: %s" %(gamenameFromFile, len(results), results))
 			except ScraperExceededAPIQuoteException as ke:
 				# API key is invalid - we need to stop scraping
 				log.error("Scraper exceeded API key, stopping scraping")
 				raise
 			except Exception as e:
-				log.error("Error searching for {0} using scraper {1} - {2} {3}".format(gamenameFromFile, scraperSite.name, type(e), e))
+				log.error("Error searching for %s using scraper %s - %s %s" %(gamenameFromFile, scraperSite.name, type(e), e))
 				continue
 
 			if results == []:
-				log.warn("No search results found for {0} using scraper {1}".format(gamenameFromFile, scraperSite.name))
+				log.warn("No search results found for %s using scraper %s" %(gamenameFromFile, scraperSite.name))
 				continue
 
 			matched = Matcher().getBestResults(results, gamenameFromFile)
 			if matched is None:
-				log.error("No matches found for {0}, skipping".format(gamenameFromFile))
+				log.error("No matches found for %s, skipping" %gamenameFromFile)
 				continue
-			log.debug("After matching: {0}".format(matched))
+			log.debug("After matching: %s" %matched)
 
 			try:
 				retrievedresult = newscraper.retrieve(matched['id'], romCollection.name)
-				log.debug(u"Retrieving {0} - found {1}".format(matched['id'], retrievedresult))
+				log.debug(u"Retrieving %s - found %s" %(matched['id'], retrievedresult))
 			except Exception as e:
 				# FIXME TODO Catch exceptions specifically
-				log.error("Error retrieving {0} - {1} {2}".format(matched['id'], type(e), e))
+				log.error("Error retrieving %s - %s %s" %(matched['id'], type(e), e))
 				continue
 
 			# Update the gameresult with any new fields
@@ -451,7 +451,7 @@ class DBUpdate(object):
 						if (thumbKey in artScrapers) == 0:
 							artScrapers[thumbKey] = scraperSite.name
 
-		log.debug(u"After scraping, result = {0}, artscrapers = {1}".format(gameresult, artScrapers))
+		log.debug(u"After scraping, result = %s, artscrapers = %s" %(gameresult, artScrapers))
 		return gameresult, artScrapers
 
 	def insertGameFromDesc(self, gamedescription, gamename, romCollection, filenamelist, foldername, isUpdate, gameId, isLocalArtwork):
@@ -469,7 +469,7 @@ class DBUpdate(object):
 				self.missingDescFile.add_entry(gamename)
 
 				if __addon__.getSetting(util.SETTING_RCB_IGNOREGAMEWITHOUTDESC).upper() == 'TRUE':
-					log.warn("No description found for game '{0}'. Game will not be imported.".format(gamename))
+					log.warn("No description found for game '%s'. Game will not be imported." %gamename)
 					return None
 			gamedescription = {}
 
@@ -481,13 +481,13 @@ class DBUpdate(object):
 		for genreId in genreIds:
 			genreGame = GenreGame(self.gdb).getGenreGameByGenreIdAndGameId(genreId, gameId)
 			if genreGame is None:
-				log.debug("Inserting link between game {0} and genre {1}".format(str(gameId), str(genreId)))
+				log.debug("Inserting link between game %s and genre %s" %(str(gameId), str(genreId)))
 				GenreGame(self.gdb).insert((genreId, gameId))
 			del genreGame
 
 	def add_romfiles_to_db(self, romFiles, gameId):
 		for romFile in romFiles:
-			log.debug("Adding romfile to DB: {0}".format(str(romFile)))
+			log.debug("Adding romfile to DB: %s" %romFile)
 			fileType = FileType()
 			fileType.id, fileType.name, fileType.parent = 0, "rcb_rom", "game"
 			self.insertFile(romFile, gameId, fileType, None, None, None)
@@ -558,7 +558,7 @@ class DBUpdate(object):
 		artWorkFound, artworkfiles, artworkurls = self.getArtworkForGame(romCollection, gamename, gamenameFromFile, gamedescription, foldername, publisher, developer, isLocalArtwork)
 
 		if not artWorkFound and (__addon__.getSetting(util.SETTING_RCB_IGNOREGAMEWITHOUTARTWORK).upper() == 'TRUE'):
-			log.warn("No artwork found for game '{0}'. Game will not be imported.".format(gamenameFromFile))
+			log.warn("No artwork found for game '%s'. Game will not be imported." %gamenameFromFile)
 			self.missingArtworkFile.add_entry(gamename)
 
 			return None
@@ -571,7 +571,7 @@ class DBUpdate(object):
 				writer.createNfoFromDesc(gamename, plot, romCollection.name, publisher, developer, year,
 					players, rating, votes, url, region, media, perspective, controller, originalTitle, alternateTitle, version, genreList, isFavorite, launchCount, romFiles[0], gamenameFromFile, artworkfiles, artworkurls)
 			except Exception as e:
-				log.warn(u"Unable to write NFO file for game {0}: {1}".format(gamename, e))
+				log.warn(u"Unable to write NFO file for game %s: %s" %(gamename, e))
 
 		del publisher, developer, year
 
@@ -590,7 +590,7 @@ class DBUpdate(object):
 
 		for fileType, fileNames in artworkfiles.iteritems():
 			for filename in fileNames:
-				log.info("Importing artwork file {0} = {1}".format(fileType.type, str(filename)))
+				log.info("Importing artwork file %s = %s" %(fileType.type, str(filename)))
 				self.insertFile(filename, gameId, fileType, romCollection.id, publisherId, developerId)
 
 		self.gdb.commit()
@@ -612,7 +612,7 @@ class DBUpdate(object):
 				if not continueUpdate:
 					return False, {}, {}
 
-			log.debug("Additional data path: {0}".format(path.path))
+			log.debug("Additional data path: %s" %path.path)
 			files = self.resolvePath((path.path,), gamename, gamenameFromFile, foldername, romCollection.name, publisher, developer)
 			if len(files) > 0:
 				artWorkFound = True
@@ -639,7 +639,7 @@ class DBUpdate(object):
 		# Check if exists and insert/update as appropriate; move this functionality to the Game object
 		try:
 			if not isUpdate:
-				log.info(u"Game does not exist in database. Insert game: {0}".format(gameName))
+				log.info(u"Game does not exist in database. Insert game: %s" %gameName)
 				Game(self.gdb).insert((gameName, description, None, None, romCollectionId, publisherId, developerId, reviewerId, yearId,
 					players, rating, votes, url, region, media, perspective, controller, int(isFavorite), int(launchCount), originalTitle, alternateTitle, translatedBy, version))
 				return self.gdb.cursor.lastrowid
@@ -650,18 +650,18 @@ class DBUpdate(object):
 					allowOverwriteWithNullvalues = __addon__.getSetting(util.SETTING_RCB_ALLOWOVERWRITEWITHNULLVALUES).upper() == 'TRUE'
 					log.info("allowOverwriteWithNullvalues: {0}".format(allowOverwriteWithNullvalues))
 
-					log.info(u"Game does exist in database. Update game: {0}".format(gameName))
+					log.info(u"Game does exist in database. Update game: %s" %gameName)
 					Game(self.gdb).update(('name', 'description', 'romCollectionId', 'publisherId', 'developerId', 'reviewerId', 'yearId', 'maxPlayers', 'rating', 'numVotes',
 						'url', 'region', 'media', 'perspective', 'controllerType', 'originalTitle', 'alternateTitle', 'translatedBy', 'version', 'isFavorite', 'launchCount'),
 						(gameName, description, romCollectionId, publisherId, developerId, reviewerId, yearId, players, rating, votes, url, region, media, perspective, controller,
 						originalTitle, alternateTitle, translatedBy, version, int(isFavorite), int(launchCount)),
 						gameId, allowOverwriteWithNullvalues)
 				else:
-					log.info(u"Game does exist in database but update is not allowed for current rom collection. game: {0}".format(gameName))
+					log.info(u"Game does exist in database but update is not allowed for current rom collection. game: %s" %gameName)
 
 				return gameId
 		except Exception, (exc):
-			log.error(u"An error occured while adding game '{0}'. Error: {1}".format(gameName, exc))
+			log.error(u"An error occured while adding game '%s'. Error: %s" %(gameName, exc))
 			return None
 
 	def insertForeignKeyItem(self, result, itemName, gdbObject):
@@ -671,7 +671,7 @@ class DBUpdate(object):
 		if item != "" and item is not None:
 			itemRow = gdbObject.getOneByName(item)
 			if itemRow is None:
-				log.info("{0} does not exist in database. Insert: {1}".format(itemName, item.encode('utf-8')))
+				log.info("%s does not exist in database. Insert: %s" %(itemName, item.encode('utf-8')))
 
 				gdbObject.insert((item,))
 				del item
@@ -688,15 +688,15 @@ class DBUpdate(object):
 
 		try:
 			itemList = result[itemName]
-			log.info("Result {0} = {1}".format(itemName, itemList))
+			log.info("Result %s = %s" %(itemName, itemList))
 		except KeyError:
-			log.warn("Error while resolving item: {0}".format(itemName))
+			log.warn("Error while resolving item: %s" %itemName)
 			return idList
 
 		for item in itemList:
 			itemRow = gdbObject.getOneByName(item)
 			if itemRow is None:
-				log.info("{0} does not exist in database. Insert: {1}".format(itemName, item.encode('utf-8')))
+				log.info("%s does not exist in database. Insert: %s" %(itemName, item.encode('utf-8')))
 
 				gdbObject.insert((item,))
 				idList.append(self.gdb.cursor.lastrowid)
@@ -710,26 +710,26 @@ class DBUpdate(object):
 
 		for path in paths:
 			files = []
-			log.info("resolve path: {0}".format(path))
+			log.info("resolve path: %s" %path)
 
 			if path.find("%GAME%") > -1:
 
 				pathnameFromFile = path.replace("%GAME%", gamenameFromFile)
-				log.info("resolved path from rom file name: {0}".format(pathnameFromFile))
+				log.info("resolved path from rom file name: %s" %pathnameFromFile)
 				files = self.getFilesByWildcard(pathnameFromFile)
 				if len(files) == 0:
 					files = self.getFilesByGameNameIgnoreCase(pathnameFromFile)
 
 				if gamename != gamenameFromFile and len(files) == 0:
 					pathnameFromGameName = path.replace("%GAME%", gamename)
-					log.info("resolved path from game name: {0}".format(pathnameFromGameName))
+					log.info("resolved path from game name: %s" %pathnameFromGameName)
 					files = self.getFilesByWildcard(pathnameFromGameName)
 					if len(files) == 0:
 						files = self.getFilesByGameNameIgnoreCase(pathnameFromGameName)
 
 				if gamename != foldername and len(files) == 0:
 					pathnameFromFolder = path.replace("%GAME%", foldername)
-					log.info("resolved path from rom folder name: {0}".format(pathnameFromFolder))
+					log.info("resolved path from rom folder name: %s" %pathnameFromFolder)
 					files = self.getFilesByWildcard(pathnameFromFolder)
 					if len(files) == 0:
 						files = self.getFilesByGameNameIgnoreCase(pathnameFromFolder)
@@ -743,21 +743,21 @@ class DBUpdate(object):
 
 			if path.find("%PUBLISHER%") > -1 and publisher is not None and len(files) == 0:
 				pathnameFromPublisher = path.replace("%PUBLISHER%", publisher)
-				log.info("resolved path from publisher name: {0}".format(pathnameFromPublisher))
+				log.info("resolved path from publisher name: %s" %pathnameFromPublisher)
 				files = self.getFilesByWildcard(pathnameFromPublisher)
 
 			if path.find("%DEVELOPER%") > -1 and developer is not None and len(files) == 0:
 				pathnameFromDeveloper = path.replace("%DEVELOPER%", developer)
-				log.info("resolved path from developer name: {0}".format(pathnameFromDeveloper))
+				log.info("resolved path from developer name: %s" %pathnameFromDeveloper)
 				files = self.getFilesByWildcard(pathnameFromDeveloper)
 
 			if path.find("%GAME%") == -1 & path.find("%ROMCOLLECTION%") == -1 & path.find("%PUBLISHER%") == -1 & path.find("%DEVELOPER%") == -1:
 				pathnameFromStaticFile = path
-				log.info("using static defined media file from path: {0}".format(pathnameFromStaticFile))
+				log.info("using static defined media file from path: %s" %pathnameFromStaticFile)
 				files = self.getFilesByWildcard(pathnameFromStaticFile)
 
 			if len(files) == 0:
-				log.warn("No files found for game '{0}' at path '{1}'. Make sure that file names are matching.".format(gamename, path))
+				log.warn("No files found for game '%s' at path '%s'. Make sure that file names are matching." %(gamename, path))
 			for f in files:
 				if xbmcvfs.exists(f):
 					resolvedFiles.append(f)
@@ -770,23 +770,23 @@ class DBUpdate(object):
 
 	def getFilesByWildcardExt(self, pathName):
 
-		log.info("Begin getFilesByWildcard. pathName = {0}".format(pathName))
+		log.info("Begin getFilesByWildcard. pathName = %s" %pathName)
 		files = []
 		dirs = []
 
 		dirname = os.path.dirname(pathName)
-		log.info("dirname: {0}".format(dirname))
+		log.info("dirname: %s" %dirname)
 		filemask = os.path.basename(pathName)
 		# HACK: escape [] for use with fnmatch
 		filemask = filemask.replace('[', '[[]')
 		filemask = filemask.replace(']', '[]]')
 		# This might be stupid but it was late...
 		filemask = filemask.replace('[[[]]', '[[]')
-		log.info("filemask: {0}".format(filemask))
+		log.info("filemask: %s" %filemask)
 
 		dirsLocal, filesLocal = xbmcvfs.listdir(dirname)
-		log.info("xbmcvfs dirs: {0}".format(dirs))
-		log.info("xbmcvfs files: {0}".format(filesLocal))
+		log.info("xbmcvfs dirs: %s" %dirs)
+		log.info("xbmcvfs files: %s" %filesLocal)
 
 		for dir in dirsLocal:
 			if type(dir) == str:
@@ -856,7 +856,7 @@ class DBUpdate(object):
 		allFiles = filesUpper + filesLower
 		for file in allFiles:
 			if pathname.lower() == file.lower():
-				log.warn("Found path '{0}' by search with ignore case.".format(pathname))
+				log.warn("Found path '%s' by search with ignore case." %pathname)
 				files.append(file)
 
 		return files
@@ -872,17 +872,17 @@ class DBUpdate(object):
 				resultValue = resultValue.decode('utf-8')
 
 		except Exception, (exc):
-			log.warn(u"Error while resolving item: {0}: {1}".format(itemName, exc))
+			log.warn(u"Error while resolving item: %s: %s" %(itemName, exc))
 
 		try:
-			log.debug(u"Result {0} = {1}".format(itemName, resultValue))
+			log.debug(u"Result %s = %s" %(itemName, resultValue))
 		except:
 			pass
 
 		return resultValue
 
 	def insertFile(self, fileName, gameId, fileType, romCollectionId, publisherId, developerId):
-		log.debug("Begin Insert file: {0}".format(fileName))
+		log.debug("Begin Insert file: %s" %fileName)
 
 		parentId = None
 
@@ -901,14 +901,14 @@ class DBUpdate(object):
 
 		fileRow = File(self.gdb).getFileByNameAndTypeAndParent(fileName, fileType.id, parentId)
 		if fileRow is None:
-			log.info("File does not exist in database. Insert file: {0}".format(fileName))
+			log.info("File does not exist in database. Insert file: %s" %fileName)
 			f = File(self.gdb)
 			try:
 				f.insert((fileName, fileType.id, parentId))
 			except Exception, (exc):
-				log.warn("Error inserting into database: {0}".format(fileName))
+				log.warn("Error inserting into database: %s" %fileName)
 		else:
-			log.info("File already exists in database: {0}".format(fileName))
+			log.info("File already exists in database: %s" %fileName)
 
 	def download_thumb(self, thumburl, destfilename):
 		# Download file to tmp folder
@@ -930,14 +930,14 @@ class DBUpdate(object):
 		try:
 			# maybe we got a thumb url from desc parser
 			thumbKey = 'Filetype' + fileType
-			log.info("using key: {0}".format(thumbKey))
+			log.info("using key: %s" %thumbKey)
 			thumbUrl = self.resolveParseResult(gamedescription, thumbKey)
 			if thumbUrl == '':
 				return True, artworkurls
 
 			artworkurls[fileType] = thumbUrl
 
-			log.info("Get thumb from url: {0}".format(thumbUrl))
+			log.info("Get thumb from url: %s" %thumbUrl)
 
 			rootExtFile = os.path.splitext(fileName)
 			rootExtUrl = os.path.splitext(thumbUrl)
@@ -955,28 +955,28 @@ class DBUpdate(object):
 
 			# Create folder if it doesn't already exist
 			dirname = os.path.join(os.path.dirname(fileName), '')  # Add the trailing slash that xbmcvfs.exists expects
-			log.debug("Checking for artwork directory {0}".format(dirname))
+			log.debug("Checking for artwork directory %s" %dirname)
 			if KodiVersions.getKodiVersion() >= KodiVersions.KRYPTON:
 				exists = xbmcvfs.exists(dirname)
 			else:
 				exists = os.path.exists(dirname)
 			if not exists:
-				log.info("Artwork directory {0} doesn't exist, creating it".format(dirname))
+				log.info("Artwork directory %s doesn't exist, creating it" %dirname)
 				success = xbmcvfs.mkdirs(dirname)
 				print success
 				if not success:
-					log.error("Could not create artwork directory: '{0}'".format(dirname))
+					log.error("Could not create artwork directory: '%s'" %dirname)
 					xbmcgui.Dialog().ok(util.localize(32010), util.localize(32011))
 					del dirname
 					return False, artworkurls
 
-			log.info("File {0} does not exist, starting download".format(fileName))
+			log.info("File %s does not exist, starting download" %fileName)
 			# Dialog Status Art Download
 
 			# Update progress dialog to state we are downloading art
 			try:
-				msg = "{0}: {1}".format(util.localize(32123), self._guiDict["gameNameKey"])
-				submsg = "{0} - downloading art".format(self._guiDict["scraperSiteKey"][thumbKey])
+				msg = "%s: %s" %(util.localize(32123), self._guiDict["gameNameKey"])
+				submsg = "%s - downloading art" %self._guiDict["scraperSiteKey"][thumbKey]
 				self._gui.writeMsg(self._guiDict["dialogHeaderKey"], msg, submsg, self._guiDict["fileCountKey"])
 			except KeyError:
 				log.warn("Unable to retrieve key from GUI dict")
@@ -985,13 +985,13 @@ class DBUpdate(object):
 				self.download_thumb(thumbUrl, fileName)
 
 			except Exception, (exc):
-				log.error("Could not create file: '{0}'. Error message: '{1}'".format(fileName, exc))
+				log.error("Could not create file: '%s'. Error message: '%s'" %(fileName, exc))
 				#xbmcgui.Dialog().ok(util.localize(32012), util.localize(32011))
 				return False, artworkurls
 
 			Logutil.log("Download finished.", util.LOG_LEVEL_INFO)
 
 		except Exception, (exc):
-			log.warn("Error in getThumbFromOnlineSource: {0}".format(exc))
+			log.warn("Error in getThumbFromOnlineSource: %s" %exc)
 
 		return True, artworkurls

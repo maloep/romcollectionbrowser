@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<Data>
+<Game>
+<id>5301</id>
+<GameTitle>Circus Atari</GameTitle>
+<ReleaseDate>01/01/1978</ReleaseDate>
+<Platform>Atari 2600</Platform>
+</Game>
+<Game>
+<id>2570</id>
+<GameTitle>Adventure</GameTitle>
+<ReleaseDate>01/01/1978</ReleaseDate>
+<Platform>Atari 2600</Platform>
+</Game>
+<Game>
+<id>17501</id>
+<GameTitle>Atari Video Cube</GameTitle>
+<ReleaseDate>01/01/1982</ReleaseDate>
+<Platform>Atari 2600</Platform>
+</Game>
+<Game>
+<id>17517</id>
+<GameTitle>Lilly Adventure</GameTitle>
+<ReleaseDate>10/01/1983</ReleaseDate>
+<Platform>Atari 2600</Platform>
+</Game>
+<Game>
+<id>31493</id>
+<GameTitle>Star Wars: Ewok Adventure</GameTitle>
+<ReleaseDate>01/01/1997</ReleaseDate>
+<Platform>Atari 2600</Platform>
+</Game>
+</Data>

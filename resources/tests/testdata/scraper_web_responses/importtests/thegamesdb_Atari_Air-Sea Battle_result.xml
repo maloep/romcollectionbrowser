@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<Data>
+<baseImgUrl>http://thegamesdb.net/banners/</baseImgUrl>
+<Game>
+<id>5296</id>
+<GameTitle>Air-Sea Battle (Target Fun)</GameTitle>
+<PlatformId>22</PlatformId>
+<Platform>Atari 2600</Platform>
+<ReleaseDate>03/24/1978</ReleaseDate>
+<Overview>There are six basic types of game available in Air-Sea Battle, and for each type, there are one or two groups of three games, for a total of twenty-seven game variants. Within each group, variant one is the standard game, variant two features guided missiles which can be directed left or right after being fired, and variant three pits a single player (using the right gun) against a computer opponent, which simply fires continuously at the default angle or speed. In every game, players shoot targets (enemy planes or ships, shooting gallery targets, or each other, depending on the game chosen) competing to get a higher score. Each round lasts two minutes and sixteen seconds; the player with the higher score after time expires is the winner, unless one player wins (and ends the game) by reaching 99 points before the time is up.</Overview>
+<Genres><genre>Action</genre></Genres><Players>2</Players><Co-op>Yes</Co-op>
+<Youtube>http://www.youtube.com/watch?v=NJKMUNTChTg</Youtube>
+<Publisher>Atari</Publisher>
+<Developer>Atari</Developer>
+<Rating>7</Rating><Images>
+<fanart>
+<original width="1920" height="1080">fanart/original/5296-1.jpg</original>
+<thumb>fanart/thumb/5296-1.jpg</thumb>
+</fanart>
+<boxart side="back" width="1527" height="2100" thumb="boxart/thumb/original/back/5296-1.jpg">boxart/original/back/5296-1.jpg</boxart>
+<boxart side="front" width="1530" height="2100" thumb="boxart/thumb/original/front/5296-1.jpg">boxart/original/front/5296-1.jpg</boxart>
+<screenshot>
+<original width="240" height="180">screenshots/5296-1.jpg</original>
+<thumb>screenshots/thumb/5296-1.jpg</thumb>
+</screenshot>
+</Images>
+</Game>
+</Data>

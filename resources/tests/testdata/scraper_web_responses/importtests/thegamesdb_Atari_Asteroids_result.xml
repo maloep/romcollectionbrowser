@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<Data>
+<baseImgUrl>http://thegamesdb.net/banners/</baseImgUrl>
+<Game>
+<id>1342</id>
+<GameTitle>Asteroids</GameTitle>
+<PlatformId>22</PlatformId>
+<Platform>Atari 2600</Platform>
+<ReleaseDate>08/01/1979</ReleaseDate>
+<Overview>The objective of Asteroids is to score as many points as possible by destroying asteroids and flying saucers. The player controls a triangular-shaped ship that can rotate left and right, fire shots straight forward, and thrust forward. As the ship moves, momentum is not conserved — the ship eventually comes to a stop again when not thrusting. The player can also send their ship into hyperspace, causing it to disappear and reappear in a random location on the screen (with the risk of self-destructing or appearing on top of an asteroid).</Overview>
+<Genres><genre>Shooter</genre></Genres><Players>2</Players><Co-op>No</Co-op>
+<Youtube>http://www.youtube.com/watch?v=i3Pr8yC8_F4</Youtube>
+<Publisher>Atari</Publisher>
+<Developer>Atari</Developer>
+<Rating>7.8</Rating><Similar><SimilarCount>8</SimilarCount><Game><id>5482</id><PlatformId>23</PlatformId></Game><Game><id>34466</id><PlatformId>26</PlatformId></Game><Game><id>18177</id><PlatformId>27</PlatformId></Game><Game><id>53194</id><PlatformId>4943</PlatformId></Game><Game><id>5251</id><PlatformId>29</PlatformId></Game><Game><id>18291</id><PlatformId>4</PlatformId></Game><Game><id>25445</id><PlatformId>41</PlatformId></Game><Game><id>9852</id><PlatformId>10</PlatformId></Game></Similar><Images>
+<fanart>
+<original width="1920" height="1080">fanart/original/1342-1.jpg</original>
+<thumb>fanart/thumb/1342-1.jpg</thumb>
+</fanart>
+<boxart side="back" width="1560" height="2100" thumb="boxart/thumb/original/back/1342-1.jpg">boxart/original/back/1342-1.jpg</boxart>
+<boxart side="front" width="1539" height="2100" thumb="boxart/thumb/original/front/1342-1.jpg">boxart/original/front/1342-1.jpg</boxart>
+<clearlogo width="400" height="72">clearlogo/1342.png</clearlogo></Images>
+</Game>
+</Data>
