@@ -1,11 +1,39 @@
 <config version="2.0.8">
     <RomCollections>
-    	<RomCollection id="1" name="Atari 2600">
+    	<RomCollection id="1" name="Amiga">
+            <useBuiltinEmulator>False</useBuiltinEmulator>
+            <gameclient />
+            <emulatorCmd>/Path/To/Amiga/Emulator</emulatorCmd>
+            <emulatorParams>"%ROM%"</emulatorParams>
+            <romPath>./testdata/roms/Amiga/*.adf</romPath>
+            <saveStatePath />
+            <saveStateParams />
+            <mediaPath type="boxfront">./testdata/artwork/Amiga/boxfront/%GAME%.*</mediaPath>
+            <mediaPath type="screenshot">./testdata/artwork/Amiga/screenshot/%GAME%.*</mediaPath>
+            <mediaPath type="gameplay">./testdata/artwork/Amiga/video/%GAME%.*</mediaPath>
+            <preCmd />
+            <postCmd />
+            <useEmuSolo>False</useEmuSolo>
+            <usePopen>False</usePopen>
+            <ignoreOnScan>False</ignoreOnScan>
+            <allowUpdate>True</allowUpdate>
+            <autoplayVideoMain>True</autoplayVideoMain>
+            <autoplayVideoInfo>True</autoplayVideoInfo>
+            <useFoldernameAsGamename>False</useFoldernameAsGamename>
+            <maxFolderDepth>99</maxFolderDepth>
+            <doNotExtractZipFiles>False</doNotExtractZipFiles>
+            <makeLocalCopy>False</makeLocalCopy>
+            <diskPrefix>_Disk.*</diskPrefix>
+            <imagePlacingMain>gameinfobig</imagePlacingMain>
+            <imagePlacingInfo>gameinfosmall</imagePlacingInfo>
+            <scraper name="thegamesdb.net" />
+        </RomCollection>
+    	<RomCollection id="2" name="Atari 2600">
             <useBuiltinEmulator>False</useBuiltinEmulator>
             <gameclient />
             <emulatorCmd>/Path/To/Atari2600/Emulator</emulatorCmd>
             <emulatorParams>"%ROM%"</emulatorParams>
-            <romPath>/Path/To/Roms/Atari2600/*.a26</romPath>
+            <romPath>./testdata/roms/Atari 2600/*.a26</romPath>
             <saveStatePath />
             <saveStateParams />
             <mediaPath type="boxfront">./testdata/artwork/Atari 2600/boxfront/%GAME%.*</mediaPath>
@@ -28,7 +56,63 @@
             <imagePlacingInfo>gameinfosmall</imagePlacingInfo>
             <scraper name="thegamesdb.net" />
         </RomCollection>
-        <RomCollection id="2" name="SNES">
+        <RomCollection id="3" name="Nintendo 64">
+            <useBuiltinEmulator>False</useBuiltinEmulator>
+            <gameclient />
+            <emulatorCmd>/Path/To/N64/Emulator</emulatorCmd>
+            <emulatorParams>"%ROM%"</emulatorParams>
+            <romPath>./testdata/roms/N64/*.zip</romPath>
+            <saveStatePath />
+            <saveStateParams />
+            <mediaPath type="boxfront">./testdata/artwork/N64/boxfront/%GAME%.*</mediaPath>
+            <mediaPath type="screenshot">./testdata/artwork/N64/screenshot/%GAME%.*</mediaPath>
+            <mediaPath type="gameplay">./testdata/artwork/N64/video/%GAME%.*</mediaPath>
+            <preCmd />
+            <postCmd />
+            <useEmuSolo>False</useEmuSolo>
+            <usePopen>False</usePopen>
+            <ignoreOnScan>False</ignoreOnScan>
+            <allowUpdate>True</allowUpdate>
+            <autoplayVideoMain>True</autoplayVideoMain>
+            <autoplayVideoInfo>True</autoplayVideoInfo>
+            <useFoldernameAsGamename>False</useFoldernameAsGamename>
+            <maxFolderDepth>99</maxFolderDepth>
+            <doNotExtractZipFiles>False</doNotExtractZipFiles>
+            <makeLocalCopy>False</makeLocalCopy>
+            <diskPrefix>_Disk.*</diskPrefix>
+            <imagePlacingMain>gameinfobig</imagePlacingMain>
+            <imagePlacingInfo>gameinfosmall</imagePlacingInfo>
+            <scraper name="thegamesdb.net" />
+        </RomCollection>
+        <RomCollection id="4" name="PlayStation">
+            <useBuiltinEmulator>False</useBuiltinEmulator>
+            <gameclient />
+            <emulatorCmd>/Path/To/PSX/Emulator</emulatorCmd>
+            <emulatorParams>"%ROM%"</emulatorParams>
+            <romPath>./testdata/roms/PSX/*.zip</romPath>
+            <saveStatePath />
+            <saveStateParams />
+            <mediaPath type="boxfront">./testdata/artwork/PSX/boxfront/%GAME%.*</mediaPath>
+            <mediaPath type="screenshot">./testdata/artwork/PSX/screenshot/%GAME%.*</mediaPath>
+            <mediaPath type="gameplay">./testdata/artwork/PSX/video/%GAME%.*</mediaPath>
+            <preCmd />
+            <postCmd />
+            <useEmuSolo>False</useEmuSolo>
+            <usePopen>False</usePopen>
+            <ignoreOnScan>False</ignoreOnScan>
+            <allowUpdate>True</allowUpdate>
+            <autoplayVideoMain>True</autoplayVideoMain>
+            <autoplayVideoInfo>True</autoplayVideoInfo>
+            <useFoldernameAsGamename>False</useFoldernameAsGamename>
+            <maxFolderDepth>99</maxFolderDepth>
+            <doNotExtractZipFiles>False</doNotExtractZipFiles>
+            <makeLocalCopy>False</makeLocalCopy>
+            <diskPrefix>_Disk.*</diskPrefix>
+            <imagePlacingMain>gameinfobig</imagePlacingMain>
+            <imagePlacingInfo>gameinfosmall</imagePlacingInfo>
+            <scraper name="thegamesdb.net" />
+        </RomCollection>
+        <RomCollection id="5" name="SNES">
             <useBuiltinEmulator>False</useBuiltinEmulator>
             <gameclient />
             <emulatorCmd>/Path/To/NES/Emulator</emulatorCmd>

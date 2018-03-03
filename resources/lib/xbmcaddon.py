@@ -12,12 +12,14 @@ __platform__ = 'ALL'
 __version__ = '2.20.0'
 
 
-_settings = {'rcb_fuzzyFactor': '3',
+_settings = {'rcb_logLevel': 2,
+             'rcb_fuzzyFactor': '3',
             'rcb_enableFullReimport': 'true',
             'rcb_createNfoWhileScraping': 'false',
             'rcb_overwriteWithNullvalues': 'false',
             'rcb_ignoreGamesWithoutDesc': 'false',
             'rcb_ignoreGamesWithoutArtwork': 'false',
+            'rcb_scrapingMode': 'Automatic: Accurate',
             # Interact with cut-down MAME history dat file in the unittests
             'rcb_MAMEDescriptionFilePath': 'testdata/scraper_web_responses/history.dat'}
 

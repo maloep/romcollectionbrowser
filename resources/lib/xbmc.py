@@ -1116,6 +1116,9 @@ def getInfoLabel(cLine):
 
         label = xbmc.getInfoLabel('Weather.Conditions')
     """
+    if(cLine == 'System.BuildVersion'):
+        return '17.6'
+    
     return str()
 
 

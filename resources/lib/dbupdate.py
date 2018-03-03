@@ -189,7 +189,8 @@ class DBUpdate(object):
 						fileType = FileType()
 						fileType.id, fileType.name, fileType.parent = 0, "rcb_rom", "game"
 						self.insertFile(filename, lastGameId, fileType, None, None, None)
-						del fileType
+						self.gdb.commit()
+						del fileType						
 						continue
 
 					log.info("Start scraping info for game: {0}".format(gamenameFromFile))
@@ -459,6 +460,8 @@ class DBUpdate(object):
 
 		if gamedescription is not None:
 			game = self.resolveParseResult(gamedescription, 'Game')
+		else:
+			game = ''
 
 		#if no game name has been scraped we expect that no results have been found
 		if game == '':
@@ -468,7 +471,6 @@ class DBUpdate(object):
 				if __addon__.getSetting(util.SETTING_RCB_IGNOREGAMEWITHOUTDESC).upper() == 'TRUE':
 					log.warn("No description found for game '{0}'. Game will not be imported.".format(gamename))
 					return None
-			game = ''
 			gamedescription = {}
 
 		gameId = self.insertData(gamedescription, gamename, romCollection, filenamelist, foldername, isUpdate, gameId, isLocalArtwork)
