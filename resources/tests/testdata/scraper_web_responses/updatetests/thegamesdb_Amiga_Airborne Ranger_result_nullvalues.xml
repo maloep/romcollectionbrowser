@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<Data>
+<baseImgUrl>http://thegamesdb.net/banners/</baseImgUrl>
+<Game>
+<id>24471</id>
+<GameTitle>Airborne Ranger Update</GameTitle>
+<PlatformId>4911</PlatformId>
+<Platform>Amiga</Platform>
+<Similar><SimilarCount>3</SimilarCount><Game><id>38078</id><PlatformId>4937</PlatformId></Game><Game><id>6481</id><PlatformId>40</PlatformId></Game><Game><id>19940</id><PlatformId>1</PlatformId></Game></Similar><Images>
+<boxart side="back" width="512" height="725" thumb="boxart/thumb/original/back/24471-1.jpg">boxart/original/back/24471-1.jpg</boxart>
+<boxart side="front" width="512" height="682" thumb="boxart/thumb/original/front/24471-1.jpg">boxart/original/front/24471-1.jpg</boxart>
+<clearlogo width="400" height="187">clearlogo/24471.png</clearlogo></Images>
+</Game>
+</Data>

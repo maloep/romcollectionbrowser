@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<Data>
+<baseImgUrl>http://thegamesdb.net/banners/</baseImgUrl>
+<Game>
+<id>35508</id>
+<GameTitle>Chuck Rock</GameTitle>
+<PlatformId>4911</PlatformId>
+<Platform>Amiga</Platform>
+<ReleaseDate>01/01/1991</ReleaseDate>
+<Overview>Chuck Rock hasn't been the same since his long-time rival in love, the evil Gary Gritter, kidnapped his wife, the beautiful Ophelia.
+
+Help Chuck in his quest to rescue Ophelia from the clutches of the evil Gary. Kick, throw rocks and belly-butt your way through a multitude of comical zones featuring 500 screans of exciting and addictive gameplay.</Overview>
+<Genres><genre>Platform</genre></Genres><Players>1</Players><Co-op>No</Co-op>
+<Publisher>Core Design</Publisher>
+<Developer>Core Design</Developer>
+<Rating>8</Rating><Similar><SimilarCount>9</SimilarCount><Game><id>20262</id><PlatformId>4947</PlatformId></Game><Game><id>6718</id><PlatformId>40</PlatformId></Game><Game><id>18608</id><PlatformId>4</PlatformId></Game><Game><id>4948</id><PlatformId>21</PlatformId></Game><Game><id>24280</id><PlatformId>20</PlatformId></Game><Game><id>7506</id><PlatformId>18</PlatformId></Game><Game><id>11762</id><PlatformId>35</PlatformId></Game><Game><id>27976</id><PlatformId>36</PlatformId></Game><Game><id>1738</id><PlatformId>6</PlatformId></Game></Similar><Images>
+<boxart side="front" width="320" height="382" thumb="boxart/thumb/original/front/35508-1.jpg">boxart/original/front/35508-1.jpg</boxart>
+</Images>
+</Game>
+</Data>

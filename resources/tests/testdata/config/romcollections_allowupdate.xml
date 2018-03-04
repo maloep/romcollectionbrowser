@@ -1,0 +1,80 @@
+<config version="2.0.8">
+    <RomCollections>
+    	<RomCollection id="1" name="Amiga">
+            <useBuiltinEmulator>False</useBuiltinEmulator>
+            <gameclient />
+            <emulatorCmd>/Path/To/Amiga/Emulator</emulatorCmd>
+            <emulatorParams>"%ROM%"</emulatorParams>
+            <romPath>./testdata/roms/Amiga/*.adf</romPath>
+            <saveStatePath />
+            <saveStateParams />
+            <mediaPath type="boxfront">./testdata/artwork/Amiga/boxfront/%GAME%.*</mediaPath>
+            <mediaPath type="screenshot">./testdata/artwork/Amiga/screenshot/%GAME%.*</mediaPath>
+            <preCmd />
+            <postCmd />
+            <useEmuSolo>False</useEmuSolo>
+            <usePopen>False</usePopen>
+            <ignoreOnScan>False</ignoreOnScan>
+            <allowUpdate>False</allowUpdate>
+            <autoplayVideoMain>True</autoplayVideoMain>
+            <autoplayVideoInfo>True</autoplayVideoInfo>
+            <useFoldernameAsGamename>False</useFoldernameAsGamename>
+            <maxFolderDepth>99</maxFolderDepth>
+            <doNotExtractZipFiles>False</doNotExtractZipFiles>
+            <makeLocalCopy>False</makeLocalCopy>
+            <diskPrefix>_Disk.*</diskPrefix>
+            <imagePlacingMain>gameinfobig</imagePlacingMain>
+            <imagePlacingInfo>gameinfosmall</imagePlacingInfo>
+            <scraper name="thegamesdb.net" />
+        </RomCollection>
+    </RomCollections>
+
+    <!-- The following are explicitly referenced in the RomCollections above and need to be specified -->
+    <ImagePlacing>
+        <fileTypeFor name="gameinfobig">
+			<fileTypeForGameList>boxfront</fileTypeForGameList>
+			<fileTypeForGameList>screenshot</fileTypeForGameList>		
+			<fileTypeForGameListSelected>boxfront</fileTypeForGameListSelected>
+			<fileTypeForGameListSelected>screenshot</fileTypeForGameListSelected>
+			<fileTypeForMainViewBackground>fanart</fileTypeForMainViewBackground>
+			<fileTypeForMainViewBackground>boxfront</fileTypeForMainViewBackground>
+			<fileTypeForMainViewBackground>screenshot</fileTypeForMainViewBackground>
+			<fileTypeForMainViewGameInfoBig>screenshot</fileTypeForMainViewGameInfoBig>
+			<fileTypeForMainViewGameInfoBig>boxfront</fileTypeForMainViewGameInfoBig>
+        </fileTypeFor>
+        <fileTypeFor name="gameinfosmall">
+
+        </fileTypeFor>
+    </ImagePlacing>
+
+    <FileTypes>
+        <FileType id="1" name="boxfront">
+            <type>image</type>
+            <parent>game</parent>
+        </FileType>
+        <FileType id="2" name="boxback">
+            <type>image</type>
+            <parent>game</parent>
+        </FileType>
+        <FileType id="3" name="cartridge">
+            <type>image</type>
+            <parent>game</parent>
+        </FileType>
+        <FileType id="4" name="screenshot">
+            <type>image</type>
+            <parent>game</parent>
+        </FileType>
+        <FileType id="5" name="fanart">
+            <type>image</type>
+            <parent>game</parent>
+        </FileType>
+        <FileType id="6" name="gameplay">
+            <type>image</type>
+            <parent>game</parent>
+        </FileType>
+    </FileTypes>
+
+    <Scrapers>
+        <Site name="thegamesdb.net" />
+    </Scrapers>
+</config>
