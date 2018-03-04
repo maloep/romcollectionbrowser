@@ -49,7 +49,13 @@ class TestImportGames(unittest.TestCase):
 
         cls.gdb = GameDataBase(db_path)
         cls.gdb.connect()
-        
+
+    @classmethod
+    def tearDownClass(cls):
+        # Cleanup
+        cls.gdb.close()
+        os.remove(os.path.join(os.path.join(cls.get_testdata_path(), 'database'), 'MyGames.db'))
+
 
     @responses.activate
     def test_import_initial_accurate_gameswithoutdesc(self):
@@ -108,7 +114,9 @@ class TestImportGames(unittest.TestCase):
         self.assertEquals(formulaOne.name, 'MicroProse Formula One Grand Prix')
         self.assertEquals(formulaOne.year, '1991')
         self.assertTrue(formulaOne.plot.startswith("MicroProse Formula One Grand Prix is a racing simulator released in 1991 by MicroProse and created by game designer Geoff Crammond."))
-        self.assertEquals(formulaOne.genre, 'Racing, Sports')
+        #HACK: Order of genres depends on id in database. If we run the full set of tests Genre Sports might already be
+        #in database and has a lower id than Racing
+        self.assertTrue(formulaOne.genre == 'Racing, Sports' or formulaOne.genre == 'Sports, Racing')
         self.assertEquals(formulaOne.publisher, 'MicroProse')
         self.assertEquals(formulaOne.developer, None)
         self.assertEquals(formulaOne.maxPlayers, '1')
@@ -254,7 +262,55 @@ class TestImportGames(unittest.TestCase):
         roms = File(self.gdb).getRomsByGameId(silenthill.id)
         self.assertEquals(len(roms), 2)
 
-    
+    @responses.activate
+    def test_import_gameasfolder(self):
+        config_xml_file = os.path.join(os.path.dirname(__file__), 'testdata', 'config',
+                                       'romcollections_importtests.xml')
+        conf = Config(config_xml_file)
+        conf.readXml()
+
+        rcs = {}
+        rcs[5] = conf.romCollections['5']
+
+        self.register_responses_SNES()
+
+        # adjust settings
+        xbmcaddon._settings['rcb_createNfoWhileScraping'] = 'false'
+        xbmcaddon._settings['rcb_ignoreGamesWithoutDesc'] = 'true'
+        xbmcaddon._settings['rcb_scrapingMode'] = 'Automatic: Accurate'
+
+        dbu = DBUpdate()
+        dbu.updateDB(self.gdb, RCBMockGui(), rcs, False)
+
+        likeStmnt = '0 = 0'
+        games = Game(self.gdb).getGamesByFilter(5, 0, 0, 0, 0, likeStmnt)
+
+        self.assertEquals(len(games), 2)
+
+        chronoTrigger = games[0]
+        self.assertEquals(chronoTrigger.name, 'Chrono Trigger')
+        self.assertEquals(chronoTrigger.year, '1995')
+        self.assertTrue(chronoTrigger.plot.startswith('The 32-Meg quest begins.'))
+        self.assertEquals(chronoTrigger.genre, 'Role-Playing')
+        self.assertEquals(chronoTrigger.maxPlayers, '1')
+        self.assertEquals(chronoTrigger.publisher, 'Squaresoft')
+        self.assertEquals(chronoTrigger.developer, 'Squaresoft')
+        roms = File(self.gdb).getRomsByGameId(chronoTrigger.id)
+        self.assertEquals(len(roms), 1)
+
+        maddennfl = games[1]
+        self.assertEquals(maddennfl.name, 'Madden NFL 97')
+        self.assertEquals(maddennfl.year, '1996')
+        self.assertTrue(
+            maddennfl.plot.startswith('Welcome to Madden NFL 97, the game that captures the excitement of a 30 yard touchdown pass'))
+        self.assertEquals(maddennfl.genre, 'Sports')
+        self.assertEquals(maddennfl.maxPlayers, '')
+        self.assertEquals(maddennfl.publisher, 'Electronic Arts')
+        self.assertEquals(maddennfl.developer, 'Electronic Arts')
+        roms = File(self.gdb).getRomsByGameId(maddennfl.id)
+        self.assertEquals(len(roms), 1)
+
+
     def register_responses_Amiga(self):
         
         """
@@ -369,6 +425,28 @@ class TestImportGames(unittest.TestCase):
                       body=self.loadXmlFromFile('thegamesdb_PSX_Silent Hill_result.xml'),
                       status=200)
 
+
+    def register_responses_SNES(self):
+
+        responses.add(responses.GET,
+                'http://thegamesdb.net/api/GetGamesList.php?platform=Super+Nintendo+%28SNES%29&name=Chrono+Trigger',
+                body=self.loadXmlFromFile('thegamesdb_SNES_Chrono Trigger_search.xml'),
+                status=200)
+
+        responses.add(responses.GET,
+                      'http://thegamesdb.net/api/GetGame.php?id=1255',
+                      body=self.loadXmlFromFile('thegamesdb_SNES_Chrono Trigger_result.xml'),
+                      status=200)
+
+        responses.add(responses.GET,
+                      'http://thegamesdb.net/api/GetGamesList.php?platform=Super+Nintendo+%28SNES%29&name=Madden+NFL+%2797',
+                      body=self.loadXmlFromFile('thegamesdb_SNES_Madden NFL 97_search.xml'),
+                      status=200)
+
+        responses.add(responses.GET,
+                      'http://thegamesdb.net/api/GetGame.php?id=291',
+                      body=self.loadXmlFromFile('thegamesdb_SNES_Madden NFL 97_result.xml'),
+                      status=200)
         
         
     def loadXmlFromFile(self, filename):

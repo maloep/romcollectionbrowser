@@ -114,8 +114,8 @@
             <gameclient />
             <emulatorCmd>/Path/To/NES/Emulator</emulatorCmd>
             <emulatorParams>-v -L /Applications/RetroArch.app/Contents/Resources/cores/bnes_libretro.dylib "%rom%"</emulatorParams>
-            <romPath>/Path/To/Roms/GBA/*.zip</romPath>
-            <romPath>/Path/To/Roms/GBA/*.smc</romPath>
+            <romPath>./testdata/roms/SNES/*.smc</romPath>
+            <romPath>./testdata/roms/SNES/*.sfc</romPath>
             <saveStatePath />
             <saveStateParams />
             <mediaPath type="boxfront">./testdata/artwork/SNES/%GAME%/boxfront.*</mediaPath>

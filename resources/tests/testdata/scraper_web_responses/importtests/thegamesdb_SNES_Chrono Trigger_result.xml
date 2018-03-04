@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<Data>
+<baseImgUrl>http://thegamesdb.net/banners/</baseImgUrl>
+<Game>
+<id>1255</id>
+<GameTitle>Chrono Trigger</GameTitle>
+<PlatformId>6</PlatformId>
+<Platform>Super Nintendo (SNES)</Platform>
+<ReleaseDate>03/11/1995</ReleaseDate>
+<Overview>The 32-Meg quest begins.
+The millennium. A portal is opened. The chain of time is broken. A young man is transported into the past, altering the course of history and the outcome of the future. He has to find his way home, but first he must travel to the outer edges of time to repair the world's chronology. On the way he encounters strange friends and foes, utilizes incredible devices and vehicles, and penetrates and neutralizes the fortresses of the past, present, and future. A paradox has been created. If he does not restore the order of time, nothing will ever be the same. He is the one who will become a hero. He is Crono.
+*FROM THE CREATORS OF THE ACCLAIMED FINAL FANTASY SERIES
+*CHARACTER DESIGNS BY AKIRA TORIYAMA</Overview>
+<ESRB>E - Everyone</ESRB>
+<Genres><genre>Role-Playing</genre></Genres><Players>1</Players><Co-op>No</Co-op>
+<Youtube>http://www.youtube.com/watch?v=vqTZfknDVes</Youtube>
+<Publisher>Squaresoft</Publisher>
+<Developer>Squaresoft</Developer>
+<Rating>8.2692</Rating><Similar><SimilarCount>4</SimilarCount><Game><id>26732</id><PlatformId>4916</PlatformId></Game><Game><id>6707</id><PlatformId>8</PlatformId></Game><Game><id>53583</id><PlatformId>1</PlatformId></Game><Game><id>10848</id><PlatformId>10</PlatformId></Game></Similar><Images>
+<fanart>
+<original width="1280" height="720">fanart/original/1255-1.jpg</original>
+<thumb>fanart/thumb/1255-1.jpg</thumb>
+</fanart>
+<fanart>
+<original width="1920" height="1080">fanart/original/1255-10.jpg</original>
+<thumb>fanart/thumb/1255-10.jpg</thumb>
+</fanart>
+<fanart>
+<original width="1920" height="1080">fanart/original/1255-11.jpg</original>
+<thumb>fanart/thumb/1255-11.jpg</thumb>
+</fanart>
+<fanart>
+<original width="1920" height="1080">fanart/original/1255-2.jpg</original>
+<thumb>fanart/thumb/1255-2.jpg</thumb>
+</fanart>
+<fanart>
+<original width="1920" height="1080">fanart/original/1255-3.jpg</original>
+<thumb>fanart/thumb/1255-3.jpg</thumb>
+</fanart>
+<fanart>
+<original width="1920" height="1080">fanart/original/1255-4.jpg</original>
+<thumb>fanart/thumb/1255-4.jpg</thumb>
+</fanart>
+<fanart>
+<original width="1280" height="720">fanart/original/1255-5.jpg</original>
+<thumb>fanart/thumb/1255-5.jpg</thumb>
+</fanart>
+<fanart>
+<original width="1280" height="720">fanart/original/1255-6.jpg</original>
+<thumb>fanart/thumb/1255-6.jpg</thumb>
+</fanart>
+<fanart>
+<original width="1280" height="720">fanart/original/1255-7.jpg</original>
+<thumb>fanart/thumb/1255-7.jpg</thumb>
+</fanart>
+<fanart>
+<original width="1280" height="720">fanart/original/1255-8.jpg</original>
+<thumb>fanart/thumb/1255-8.jpg</thumb>
+</fanart>
+<fanart>
+<original width="1280" height="720">fanart/original/1255-9.jpg</original>
+<thumb>fanart/thumb/1255-9.jpg</thumb>
+</fanart>
+<boxart side="back" width="2100" height="1534" thumb="boxart/thumb/original/back/1255-1.jpg">boxart/original/back/1255-1.jpg</boxart>
+<boxart side="front" width="2100" height="1533" thumb="boxart/thumb/original/front/1255-1.jpg">boxart/original/front/1255-1.jpg</boxart>
+<banner width="760" height="140">graphical/1255-g.jpg</banner><screenshot>
+<original width="509" height="423">screenshots/1255-1.jpg</original>
+<thumb>screenshots/thumb/1255-1.jpg</thumb>
+</screenshot>
+<screenshot>
+<original width="512" height="423">screenshots/1255-2.jpg</original>
+<thumb>screenshots/thumb/1255-2.jpg</thumb>
+</screenshot>
+<screenshot>
+<original width="508" height="445">screenshots/1255-3.jpg</original>
+<thumb>screenshots/thumb/1255-3.jpg</thumb>
+</screenshot>
+<screenshot>
+<original width="508" height="446">screenshots/1255-4.jpg</original>
+<thumb>screenshots/thumb/1255-4.jpg</thumb>
+</screenshot>
+<screenshot>
+<original width="505" height="443">screenshots/1255-5.jpg</original>
+<thumb>screenshots/thumb/1255-5.jpg</thumb>
+</screenshot>
+<clearlogo width="400" height="141">clearlogo/1255.png</clearlogo></Images>
+</Game>
+</Data>
