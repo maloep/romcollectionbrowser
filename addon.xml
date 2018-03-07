@@ -14,7 +14,7 @@
     <import addon="script.module.requests" version="2.18.4"/>
   </requires>
   <extension point="xbmc.python.script" library="default.py">
-    <provides>game</provides>
+    <provides>executable game</provides>
   </extension>
   <extension point="xbmc.addon.metadata">
     <summary lang="be">Import, browse and launch games in XBMC</summary>
