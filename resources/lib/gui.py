@@ -53,7 +53,7 @@ class MyPlayer(xbmc.Player):
 	gui = None
 
 	def onPlayBackEnded(self):
-		print 'RCB: onPlaybackEnded'
+		xbmc.log('RCB MyPlayer: onPlaybackEnded')
 
 		if(self.gui == None):
 			print "RCB_WARNING: gui == None in MyPlayer"
@@ -234,8 +234,6 @@ class UIGameDB(xbmcgui.WindowXML):
 
 		#reset last view
 		self.loadViewState()
-
-		#self.fillListInBackground()
 
 		Logutil.log("End onInit", util.LOG_LEVEL_INFO)
 
@@ -577,6 +575,7 @@ class UIGameDB(xbmcgui.WindowXML):
 		maxNumGamesIndex = self.Settings.getSetting(util.SETTING_RCB_MAXNUMGAMESTODISPLAY)
 		return util.MAXNUMGAMES_ENUM[int(maxNumGamesIndex)]
 
+
 	""" Functions for generating query strings for filtering """
 	def _buildLikeStatement(self, selectedCharacter, searchTerm):
 		log.debug("buildLikeStatement")
@@ -770,7 +769,7 @@ class UIGameDB(xbmcgui.WindowXML):
 			item.setArt({'icon': helper.getFileForControl(romCollection.imagePlacingMain.fileTypesForGameList, romCollection, mediaPathsDict, gamenameFromFile, False),
 						'thumb': helper.getFileForControl(romCollection.imagePlacingMain.fileTypesForGameListSelected, romCollection, mediaPathsDict, gamenameFromFile, False),
 						})
-			
+
 			# Add the listitem to the list
 			items.append(item)
 			
@@ -839,14 +838,9 @@ class UIGameDB(xbmcgui.WindowXML):
 			IMAGE_CONTROL_GAMEINFO_LEFT: helper.getFileForControl(romCollection.imagePlacingMain.fileTypesForMainViewGameInfoLeft, romCollection, mediaPathsDict, gamenameFromFile),
 			IMAGE_CONTROL_GAMEINFO_RIGHT: helper.getFileForControl(romCollection.imagePlacingMain.fileTypesForMainViewGameInfoRight, romCollection, mediaPathsDict, gamenameFromFile),
 		})
-				
+
 		if(romCollection.autoplayVideoMain):
 			self.loadVideoFiles(selectedGame, romCollection, mediaPathsDict, gamenameFromFile)
-
-		video = selectedGame.getProperty('gameplaymain')
-		if video == "" or video is None or not romCollection.autoplayVideoMain:
-			if self.player.isPlayingVideo():
-				self.player.stop()
 
 		endtime = time.clock()
 		diff = (endtime - starttime) * 1000
@@ -1102,11 +1096,13 @@ class UIGameDB(xbmcgui.WindowXML):
 			Logutil.log("fileType gameplay == None. No video loaded.", util.LOG_LEVEL_INFO)
 
 		#load gameplay videos
-		#HACK: other video types are not supported
 		video = helper.getFileForControl((self.fileTypeGameplay,), romCollection, mediaPathsDict, gamenameFromFile, True)
 		if video:
-			#make video accessible via UI
 			listItem.setProperty('gameplaymain', video)
+
+		if video == "" or video is None or not romCollection.autoplayVideoMain:
+			if self.player.isPlayingVideo():
+				self.player.stop()
 			
 		Logutil.log("end loadVideoFiles", util.LOG_LEVEL_INFO)
 
