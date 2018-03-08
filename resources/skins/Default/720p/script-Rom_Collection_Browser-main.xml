@@ -517,7 +517,7 @@
 						<height>48</height>						
 						<texture>$INFO[ListItem.Art(extraImage3)]</texture>
 					</control>					
-					<control type="list" id="52">
+					<control type="fixedlist" id="52">
 						<posx>0</posx>
 						<posy>70</posy>
 						<width>640</width>
@@ -527,6 +527,8 @@
 						<onup>52</onup>
 						<ondown>52</ondown>
 						<pagecontrol>61</pagecontrol>
+						<focusposition>7</focusposition>
+						<movement>6</movement>
 						<viewtype label="Info 2">list</viewtype>
 						<scrolltime>100</scrolltime>
 						<itemlayout height="35" width="640">
