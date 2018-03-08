@@ -131,8 +131,4 @@
             <parent>game</parent>
         </FileType>
     </FileTypes>
-
-    <Scrapers>
-        <Site name="thegamesdb.net"/>
-    </Scrapers>
 </config>

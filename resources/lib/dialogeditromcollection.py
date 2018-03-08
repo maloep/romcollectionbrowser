@@ -133,7 +133,7 @@ class EditRomCollectionDialog(dialogbase.DialogBaseEdit):
 		self.addItemsToList(CONTROL_LIST_ROMCOLLECTIONS, self.gui.config.getRomCollectionNames())
 
 		log.info("build scraper lists")
-		self.availableScrapers = self.getAvailableScrapers(False)
+		self.availableScrapers = self.getAvailableScrapers()
 		for i in [CONTROL_LIST_SCRAPER1, CONTROL_LIST_SCRAPER2, CONTROL_LIST_SCRAPER3]:
 			self.addItemsToList(i, self.availableScrapers)
 

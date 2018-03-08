@@ -205,10 +205,4 @@
       <fileTypeForMainView3>developer</fileTypeForMainView3>
     </fileTypeFor>
   </ImagePlacing>
-  <Scrapers>
-    <Site name="local nfo" />
-    <Site name="thegamesdb.net" />
-    <Site name="giantbomb.com" />
-    <Site name="mobygames.com" />
-  </Scrapers>
 </config>

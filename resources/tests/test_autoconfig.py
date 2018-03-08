@@ -16,6 +16,7 @@ import os
 
 
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', '..', 'resources', 'lib'))
+sys.path.append(os.path.join(os.path.dirname(__file__), '..', '..', 'resources', 'lib', 'emulatorautoconfig'))
 from autoconfig import EmulatorAutoconfig
 
 

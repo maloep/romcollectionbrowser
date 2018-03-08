@@ -1,6 +1,6 @@
 import xbmc, xbmcgui
-
 import os
+from pyscraper.scraper import AbstractScraper
 
 import util
 from util import *
@@ -35,40 +35,12 @@ class DialogBaseEdit(xbmcgui.WindowXMLDialog):
 		control.addItems(items)
 
 
-	def getAvailableScrapers(self, localOnly):
-		Logutil.log('get available scrapers', util.LOG_LEVEL_INFO)
-
-		#Scrapers
-		sitesInList = []
-		if(not localOnly):
-			sitesInList.append(util.localize(32854))
-		#get all scrapers
-
-		for siteName in self.scraperSites:
-
-			site = self.scraperSites[siteName]
-
-			#only add scrapers without http
-			if(localOnly):
-				#don't use local nfo scraper
-				if(site.name == util.localize(32154)):
-					 continue
-				skipScraper = False
-
-				for scraper in site.scrapers:
-					source = scraper.source
-					if(source.startswith('http')):
-						skipScraper = True
-						break
-				if(skipScraper):
-					continue
-
-
-			Logutil.log('add scraper name: ' + str(site.name), util.LOG_LEVEL_INFO)
-			sitesInList.append(site.name)
-
-		if(len(sitesInList) == 0):
-			 sitesInList.append(util.localize(32854))
+	def getAvailableScrapers(self):
+		# Scrapers
+		sitesInList = [util.localize(32854)]
+		# Get all scrapers
+		scrapers = AbstractScraper().get_available_scrapers()
+		sitesInList.extend(scrapers)
 
 		return sitesInList
 

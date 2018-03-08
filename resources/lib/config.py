@@ -493,12 +493,6 @@ class Config(RcbXmlReaderWriter):
 			return False, errorMsg
 		self.romCollections = romCollections
 
-		# Scrapers
-		scrapers, errorMsg = self.readScrapers(tree)
-		if scrapers is None:
-			return False, errorMsg
-		self.scraperSites = scrapers
-
 		self.fileTypeIdsForGamelist = self.getFileTypeIdsForGameList(tree, romCollections)
 
 		# Missing filter settings
@@ -598,23 +592,10 @@ class Config(RcbXmlReaderWriter):
 					Logutil.log('Configuration error. RomCollection/scraper must have an attribute name', util.LOG_LEVEL_ERROR)
 					return None, util.localize(32005)
 
-				siteName = scraperRow.attrib.get('name')
+				site = Site()
+				site.name = scraperRow.attrib.get('name')
 
-				# elementtree version 1.2.7 does not support xpath like this: Scrapers/Site[@name="%s"]
-				siteRow = None
-				for element in tree.findall('Scrapers/Site'):
-					if element.attrib.get('name') == siteName:
-						siteRow = element
-						break
-
-				if siteRow is None:
-					Logutil.log('Configuration error. Site %s does not exist in config.xml' % siteName, util.LOG_LEVEL_ERROR)
-					return None, util.localize(32005)
-
-				scraper, errorMsg = self.readScraper(siteRow)
-				if scraper is None:
-					return None, errorMsg
-				romCollection.scraperSites.append(scraper)
+				romCollection.scraperSites.append(site)
 
 			# ImagePlacing - Main window
 			romCollection.imagePlacingMain = ImagePlacing()
@@ -658,29 +639,6 @@ class Config(RcbXmlReaderWriter):
 
 		return romCollections, ''
 
-	def readScrapers(self, tree):
-
-		sites = {}
-
-		siteRows = tree.findall('Scrapers/Site')
-		for siteRow in siteRows:
-			site, errorMsg = self.readScraper(siteRow)
-			if site is None:
-				return None, errorMsg
-
-			name = siteRow.attrib.get('name')
-			sites[name] = site
-
-		return sites, ''
-
-	def readScraper(self, siteRow):
-
-		site = Site()
-		site.name = siteRow.attrib.get('name')
-
-		log.info('Parsed scraper site: {0}'.format(site))
-
-		return site, ''
 
 	def readFileType(self, name, tree):
 		fileTypeRows = tree.findall('FileTypes/FileType')

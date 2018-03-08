@@ -3,6 +3,7 @@ from config import *
 from util import *
 import util
 import xbmc, xbmcgui
+from pyscraper.scraper import AbstractScraper
 
 
 ACTION_MOVEMENT_UP = (3,)
@@ -130,13 +131,10 @@ class ImportOptionsDialog(xbmcgui.WindowXMLDialog):
 
 	def getAvailableScrapers(self):
 		# Scrapers
-		sitesInList = [util.localize(32854), util.localize(32153)]
+		sitesInList = [util.localize(32854)]
 		# Get all scrapers
-		scrapers = self.gui.config.tree.findall('Scrapers/Site')
-		for scraper in scrapers:
-			name = scraper.attrib.get('name')
-			if name is not None:
-				sitesInList.append(name)
+		scrapers = AbstractScraper().get_available_scrapers()
+		sitesInList.extend(scrapers)
 
 		return sitesInList
 
@@ -224,24 +222,9 @@ class ImportOptionsDialog(xbmcgui.WindowXMLDialog):
 		if scraper == util.localize(32854):
 			return sites, True
 
-		siteRow = None
-		siteRows = self.gui.config.tree.findall('Scrapers/Site')
-		for element in siteRows:
-			if element.attrib.get('name') == scraper:
-				siteRow = element
-				break
+		site = Site()
+		site.name = scraper
 
-		if scraper != util.localize(32153):
-			if siteRow is None:
-				xbmcgui.Dialog().ok(util.localize(32021), util.localize(32022) % scraper)
-				return None, False
-			site, errorMsg = self.gui.config.readScraper(siteRow)
-		else:
-			site = Site()
-			site.name = scraper
-			site.descFilePerGame = True
-
-		if site is not None:
-			sites.append(site)
+		sites.append(site)
 
 		return sites, True
