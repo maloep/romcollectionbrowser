@@ -1143,6 +1143,9 @@ class UIGameDB(xbmcgui.WindowXML):
 		progressDialog.writeMsg("", "", "", -1)
 		del progressDialog
 
+		#force recache images
+		self.mediaDict = None
+
 
 	def checkUpdateInProgress(self):
 
