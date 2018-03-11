@@ -17,8 +17,7 @@
 	<category label="45006">
 		<setting id="rcb_scrapOnStartUP" label="45007" value="false" type="bool" default="false"/>
 		<setting id="rcb_showImportOptions" label="45008" type="bool" default="true"/>
-		<setting id="rcb_scrapingMode" label="45009" type="labelenum" values="Automatic: Accurate|Automatic: Guess Matches|Interactive: Select Matches" default="Automatic: Accurate"/>
-		<setting id="rcb_fuzzyFactor" label="45010" type="enum" values="0.5|0.6|0.7|0.8|0.9|1.0" default="2"/>
+		<setting id="rcb_scrapingMode" label="45009" type="labelenum" values="Automatic: Accurate|Interactive: Select Matches" default="Automatic: Accurate"/>
 		<setting id="rcb_createNfoWhileScraping" label="45011" type="bool" default="true"/>
 		<setting id="rcb_ignoreGamesWithoutDesc" label="45012" type="bool" default="false"/>
 		<setting id="rcb_ignoreGamesWithoutArtwork" label="45013" type="bool" default="false"/>

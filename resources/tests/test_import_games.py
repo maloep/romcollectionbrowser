@@ -125,63 +125,6 @@ class TestImportGames(unittest.TestCase):
         
     
     @responses.activate
-    def test_import_initial_guessmatches_nogameswithoutdesc(self):
-        config_xml_file = os.path.join(os.path.dirname(__file__), 'testdata', 'config', 'romcollections_importtests.xml')
-        conf = Config(config_xml_file)
-        conf.readXml()
-        
-        rcs = {}
-        rcs[2] = conf.romCollections['2']
-        
-        self.register_responses_Atari()
-        
-        #adjust settings        
-        xbmcaddon._settings['rcb_createNfoWhileScraping'] = 'false'
-        xbmcaddon._settings['rcb_ignoreGamesWithoutDesc'] = 'true'
-        xbmcaddon._settings['rcb_scrapingMode'] = 'Automatic: Guess Matches'
-        
-        dbu = DBUpdate()
-        dbu.updateDB(self.gdb, RCBMockGui(), rcs, False)
-        
-        likeStmnt = '0 = 0'
-        games = Game(self.gdb).getGamesByFilter(2, 0, 0, 0, 0, likeStmnt)
-        
-        self.assertEquals(len(games), 3)
-        
-        adventure = games[0]
-        self.assertEquals(adventure.name, 'Adventure')
-        self.assertEquals(adventure.year, '1978')
-        self.assertTrue(adventure.plot.startswith('Adventure was the first action-adventure game on a video console'))
-        self.assertEquals(adventure.genre, 'Adventure')
-        self.assertEquals(adventure.publisher, 'Atari')
-        self.assertEquals(adventure.developer, 'Atari')
-        roms = File(self.gdb).getRomsByGameId(adventure.id)
-        self.assertEquals(len(roms), 1)
-        
-        airSeaBattle = games[1]
-        self.assertEquals(airSeaBattle.name, 'Air-Sea Battle (Target Fun)')
-        self.assertEquals(airSeaBattle.year, '1978')
-        self.assertTrue(airSeaBattle.plot.startswith('There are six basic types of game available in Air-Sea Battle'))
-        self.assertEquals(airSeaBattle.genre, 'Action')
-        self.assertEquals(airSeaBattle.maxPlayers, '2')
-        self.assertEquals(airSeaBattle.publisher, 'Atari')
-        self.assertEquals(airSeaBattle.developer, 'Atari')
-        roms = File(self.gdb).getRomsByGameId(airSeaBattle.id)
-        self.assertEquals(len(roms), 1)
-        
-        asteroids = games[2]
-        self.assertEquals(asteroids.name, 'Asteroids')
-        self.assertEquals(asteroids.year, '1979')
-        self.assertTrue(asteroids.plot.startswith('The objective of Asteroids is to score as many points'))
-        self.assertEquals(asteroids.genre, 'Shooter')
-        self.assertEquals(asteroids.maxPlayers, '2')
-        self.assertEquals(asteroids.publisher, 'Atari')
-        self.assertEquals(asteroids.developer, 'Atari')
-        roms = File(self.gdb).getRomsByGameId(asteroids.id)
-        self.assertEquals(len(roms), 1)
-        
-    
-    @responses.activate
     def test_import_initial_special_characters(self):
         config_xml_file = os.path.join(os.path.dirname(__file__), 'testdata', 'config', 'romcollections_importtests.xml')
         conf = Config(config_xml_file)
@@ -195,7 +138,7 @@ class TestImportGames(unittest.TestCase):
         #adjust settings        
         xbmcaddon._settings['rcb_createNfoWhileScraping'] = 'false'
         xbmcaddon._settings['rcb_ignoreGamesWithoutDesc'] = 'true'
-        xbmcaddon._settings['rcb_scrapingMode'] = 'Automatic: Guess Matches'
+        xbmcaddon._settings['rcb_scrapingMode'] = 'Automatic: Accurate'
         
         dbu = DBUpdate()
         dbu.updateDB(self.gdb, RCBMockGui(), rcs, False)
@@ -230,7 +173,7 @@ class TestImportGames(unittest.TestCase):
         # adjust settings
         xbmcaddon._settings['rcb_createNfoWhileScraping'] = 'false'
         xbmcaddon._settings['rcb_ignoreGamesWithoutDesc'] = 'true'
-        xbmcaddon._settings['rcb_scrapingMode'] = 'Automatic: Guess Matches'
+        xbmcaddon._settings['rcb_scrapingMode'] = 'Automatic: Accurate'
 
         dbu = DBUpdate()
         dbu.updateDB(self.gdb, RCBMockGui(), rcs, False)

@@ -6,6 +6,7 @@ import time
 from xbmcaddon import Addon
 
 from scraper import AbstractScraper
+from gamename_utils import GameNameUtil
 from rcbexceptions import *
 from util import Logutil as log
 
@@ -114,18 +115,19 @@ class WebScraper(AbstractScraper):
     def __init__(self):
         pass
 
+
     def prepare_gamename_for_request(self, gamename):
         """Some websites (giantbomb and MobyGames) don't handle special characters in game search requests very well. Strip
         out anything after a special character
 
         Args:
-        	gamename: e.g. My Game Name (1984) [cr TCS]
+            gamename: e.g. My Game Name (1984) [cr TCS]
 
         Returns:
-        	Game name without any suffix, e.g. My Game Name
+            Game name without any suffix, e.g. My Game Name
         """
-        pattern = r"[^:,\-[(]*"     # Match anything until : , - [ or (
-        return re.search(pattern, gamename).group(0).strip().replace("'", "")
+        return GameNameUtil().prepare_gamename_for_webrequest(gamename)
+
 
     def get_platform_for_scraper(self, platformname):
         """Get the platform identifier used on the corresponding website.
