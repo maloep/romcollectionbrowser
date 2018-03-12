@@ -17,14 +17,14 @@ class GameNameUtil(object):
     def normalize_name(self, name):
         name = name.upper()
 
-        removeSubstrings = ['A ', ', A', 'THE', ', THE', 'AND']
-        for substring in removeSubstrings:
-            name = name.replace(substring, '')
-
         # replace roman numerals with digits, remove trailing sequel no one (" 1" or " I")
         s = SequelNumberHandler()
         name = s.replace_roman_to_int(name)
         name = s.remove_sequel_no_one(name)
+
+        removeSubstrings = ['A ', ', A', 'THE', ', THE', 'AND']
+        for substring in removeSubstrings:
+            name = name.replace(substring, '')
 
         # remove all non-word characters
         name = re.sub('[\W_]', '', name)
@@ -33,15 +33,22 @@ class GameNameUtil(object):
 
 
     def prepare_gamename_for_webrequest(self, gamename):
-        """Strip out subtitles and additional info
+        """Strip out subtitles, additional info and sequel numbers
         Args:
-            gamename: e.g. My Game Name: Subtitle (1984) [cr TCS]
+            gamename: e.g. My Game Name 2: Subtitle (1984) [cr TCS]
 
         Returns:
-            Game name without subtitle, e.g. My Game Name
+            Game name without sequel number, subtitle and additional info, e.g. My Game Name
         """
         gamename = self.strip_addinfo_from_name(gamename)
         gamename = self.strip_subtitle_from_name(gamename)
+
+        s = SequelNumberHandler()
+        index = s.get_sequel_no_index(gamename)
+        #check for > 0 as we don't want to strip numbers that the gamename begins with
+        if index > 0:
+            gamename = gamename[:index].strip()
+
         return gamename
 
 

@@ -1,6 +1,7 @@
 from web_scraper import WebScraper
 from rcbexceptions import *
 from util import Logutil as log
+from gamename_utils import GameNameUtil
 import time
 
 
@@ -32,7 +33,7 @@ class Mobygames_Scraper(WebScraper):
 
 	def _get_search_params(self, **kwargs):
 		print 'returning ' + kwargs['gamename']
-		return {'title': '%s' %self.prepare_gamename_for_request(kwargs['gamename']),
+		return {'title': '%s' %GameNameUtil().prepare_gamename_for_webrequest(kwargs['gamename']),
 				'api_key': self._apikey,
 				'platform': self.get_platform_for_scraper(kwargs['platform']),
 				'format': 'brief'}

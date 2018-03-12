@@ -6,7 +6,6 @@ import time
 from xbmcaddon import Addon
 
 from scraper import AbstractScraper
-from gamename_utils import GameNameUtil
 from rcbexceptions import *
 from util import Logutil as log
 
@@ -115,20 +114,6 @@ class WebScraper(AbstractScraper):
     def __init__(self):
         pass
 
-
-    def prepare_gamename_for_request(self, gamename):
-        """Some websites (giantbomb and MobyGames) don't handle special characters in game search requests very well. Strip
-        out anything after a special character
-
-        Args:
-            gamename: e.g. My Game Name (1984) [cr TCS]
-
-        Returns:
-            Game name without any suffix, e.g. My Game Name
-        """
-        return GameNameUtil().prepare_gamename_for_webrequest(gamename)
-
-
     def get_platform_for_scraper(self, platformname):
         """Get the platform identifier used on the corresponding website.
 
@@ -195,18 +180,21 @@ class WebScraper(AbstractScraper):
             return '1970'
 
         x = None
-        for fmt2 in ["%Y-%m-%d", "%Y", "%Y-%m-%d %H:%M:%S", "%d/%m/%Y", "%m/%d/%Y"]:
+        for fmt2 in ["%Y-%m-%d", "%Y-%m", "%Y", "%Y-%m-%d %H:%M:%S", "%d/%m/%Y", "%m/%d/%Y"]:
             try:
                 x = datetime.strptime(datestr, fmt2).strftime("%Y")
+                break
             except ValueError as e:
                 # Skip to the next format
-                pass
+                log.warn("ValueError in parseDate: %s" %e)
             except TypeError as e:
                 log.warn("Unable to parse date using strptime, falling back to time function")
                 try:
-                    x = datetime(*(time.strptime(datestr, fmt2)[0:6]))
+                    x = datetime(*(time.strptime(datestr, fmt2)[0:6])).strftime("%Y")
+                    break
                 except ValueError as ve:
                     log.warn("Unable to parse date %s using %s, try next format. %s" %(datestr, fmt2, ve))
+
         if x is not None:
             return x
         else:

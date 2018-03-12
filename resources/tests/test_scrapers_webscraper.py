@@ -27,37 +27,17 @@ class TestWebScraper(unittest.TestCase):
 		platform = scraper.get_platform_for_scraper('PlayStation')
 		self.assertEqual(platform, "6", "Did not get expected platform name for {0} scraper".format(scraper.name))
 
-	def test_PrepareGameName(self):
-		scraper = WebScraper()
-		x = scraper.prepare_gamename_for_request("Chrono Trigger (USA)")
-		self.assertEqual(x, "Chrono Trigger")
-
-		x = scraper.prepare_gamename_for_request("Chrono Trigger [cr TCS] (USA)")
-		self.assertEqual(x, "Chrono Trigger")
-
-		x = scraper.prepare_gamename_for_request("Crash Bandicoot 2: Cortex Strikes Back")
-		self.assertEqual(x, "Crash Bandicoot 2")
-
-		x = scraper.prepare_gamename_for_request("Super Mario World 2 - Yoshi's Island (USA)")
-		self.assertEqual(x, "Super Mario World 2")
-
-		x = scraper.prepare_gamename_for_request("Madden NFL '97 (USA)")
-		self.assertEqual(x, "Madden NFL 97")
-
-		x = scraper.prepare_gamename_for_request("Legend of Zelda, The - A Link to the Past (USA)")
-		self.assertEqual(x, "Legend of Zelda")
-
 	def test_Date(self):
 		scraper = WebScraper()
 		self.assertEqual(scraper._parse_date("1982"), "1982", "Unexpected date response for valid date format")
 		self.assertEqual(scraper._parse_date("1983-08-14"), "1983", "Unexpected date response for valid date format")
 		self.assertEqual(scraper._parse_date("1986-08-14 00:00:00"), "1986", "Unexpected date response for valid date format")
 		self.assertEqual(scraper._parse_date("19/08/1980"), "1980", "Unexpected date response for valid date format")
+		self.assertEqual(scraper._parse_date("1980-08"), "1980", "Unexpected date response for valid date format")
 		self.assertEqual(scraper._parse_date(""), "1970", "Unexpected date response for invalid date format")
 		self.assertEqual(scraper._parse_date("no date"), "1970", "Unexpected date response for invalid date format")
 		self.assertEqual(scraper._parse_date(None), "1970", "Unexpected date response for invalid date format")
 		self.assertEqual(scraper._parse_date("test"), "1970", "Unexpected date response for invalid date format")
-
 
 if __name__ == "__main__":
 	unittest.main()
