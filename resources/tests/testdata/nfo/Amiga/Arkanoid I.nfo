@@ -1,0 +1,30 @@
+<game>
+  <title>Arkanoid</title>
+  <originalTitle />
+  <alternateTitle />
+  <platform>Amiga</platform>
+  <plot>The original Breakout concept involves controlling a bat at the bottom of the screen and using it to catch and direct a ball so as to hit all the bricks which are arranged at the top of the screen. It was unpopular for over a decade, before Taito revived it with some new ideas in this arcade game.
+
+The game's plot redefines the bat as a Vaus spaceship, the ball as an energy bolt, and the bricks form a mysterious wall stopping the ship from progressing to safety.</plot>
+  <publisher>Discovery</publisher>
+  <developer>Taito</developer>
+  <year>1987</year>
+  <genre>Action</genre>
+  <genre>Platform</genre>
+  <detailUrl />
+  <maxPlayer>1</maxPlayer>
+  <region>USA</region>
+  <media>Floppy</media>
+  <perspective>Top-Down</perspective>
+  <controller>Joystick</controller>
+  <version>v1.00</version>
+  <rating>3.8</rating>
+  <votes>128</votes>
+  <isFavorite>0</isFavorite>
+  <launchCount>0</launchCount>
+  <thumb local="" type="fanart" />
+  <thumb local="E:\Games\Testsets\RCB Testset\Testdata - online scraping\Artwork\Amiga\boxfront\Arkanoid I.jpg" type="boxfront">http://thegamesdb.net/banners/boxart/original/front/9580-1.jpg</thumb>
+  <thumb local="" type="cartridge" />
+  <thumb local="" type="boxback" />
+  <thumb local="" type="screenshot" />
+</game>
