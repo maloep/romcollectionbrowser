@@ -47,6 +47,7 @@ class NFO_Scraper(FileScraper):
     # Mapping between the dict keys and the XML fields in the nfo file
     _game_mapping = {
         'Game': 'title',
+        'ReleaseYear': 'year',
         'Description': 'plot',
         'Publisher': 'publisher',
         'Developer': 'developer',
@@ -79,6 +80,12 @@ class NFO_Scraper(FileScraper):
 
         tree.parse(self._get_nfo_path(), parser)
 
+        results = []
+        #do not add a search key as we don't want to match the result in matcher (nfo should always find the correct game via filename)
+        results.append({'id': gamename,
+                        'title': gamename})
+
+        return results
 
     def retrieve(self, gameid, platform):
 

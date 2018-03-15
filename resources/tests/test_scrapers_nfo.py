@@ -9,7 +9,32 @@ import xml.etree.ElementTree as ET
 from nfo_scraper import NFO_Scraper
 
 
+#used to provide our own test files in _get_xml_path()
+class NFO_Scraper_Mock(NFO_Scraper):
+    nfopath = ''
+
+    def _get_nfo_path(self):
+        return self.nfopath
+
+
 class Test_NFOScraper(unittest.TestCase):
+
+    def test_search(self):
+        f = os.path.join(os.path.dirname(__file__), '..', '..', 'resources', 'tests', 'testdata',
+                         'nfo', 'Amiga', 'Arkanoid I.nfo')
+
+        scraper = NFO_Scraper_Mock()
+        scraper.nfopath = f
+
+        results = scraper.search("Arkanoid")
+
+        self.assertEqual(1, len(results))
+        self.assertEqual("Arkanoid", results[0]['id'])
+        self.assertEqual("Arkanoid", results[0]['title'])
+        with self.assertRaises(KeyError):
+            results[0]['SearchKey']
+
+
 
     def test_retrieve(self):
         f = os.path.join(os.path.dirname(__file__), '..', '..', 'resources', 'tests', 'testdata',
@@ -27,9 +52,9 @@ class Test_NFOScraper(unittest.TestCase):
         scraper.tree = tree
 
         result = scraper.retrieve(1, 'Amiga')
-        print result
 
         self.assertEqual(["Arkanoid"], result['Game'])
+        self.assertEqual(["1987"], result['ReleaseYear'])
         self.assertEqual(["Discovery"], result['Publisher'])
         self.assertEqual(["Taito"], result['Developer'])
         self.assertEqual(["Top-Down"], result['Perspective'])
