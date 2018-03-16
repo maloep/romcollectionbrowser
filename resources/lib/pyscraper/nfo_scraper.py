@@ -2,7 +2,11 @@
 
 import sys
 import xml.etree.ElementTree as ET
+
+import xbmcvfs
+
 from file_scraper import FileScraper
+from nfowriter import NfoWriter
 from util import Logutil as log
 
 class NFO_Scraper(FileScraper):
@@ -41,8 +45,8 @@ class NFO_Scraper(FileScraper):
     </game>
     """
 
-    # tree is created in search method and will be used in retrieve
-    tree = None
+    #nfo_file is created in nfo_file_exists and will be used in retrieve
+    nfo_file = ''
 
     # Mapping between the dict keys and the XML fields in the nfo file
     _game_mapping = {
@@ -64,33 +68,41 @@ class NFO_Scraper(FileScraper):
     }
 
 
-    def _get_nfo_path(self):
+    def get_nfo_path(self, gamename, platform, romFile):
 
-        return "not implemented"
+        self.nfo_file = NfoWriter().getNfoFilePath(platform, romFile, gamename)
+
+        return self.nfo_file
 
 
     def search(self, gamename, platform=None):
 
-        # force utf-8
-        tree = ET.ElementTree()
-        if sys.version_info >= (2, 7):
-            parser = ET.XMLParser(encoding='utf-8')
-        else:
-            parser = ET.XMLParser()
-
-        tree.parse(self._get_nfo_path(), parser)
-
         results = []
+
+        if not xbmcvfs.exists(self.nfo_file):
+            return results
+
         #do not add a search key as we don't want to match the result in matcher (nfo should always find the correct game via filename)
         results.append({'id': gamename,
                         'title': gamename})
 
         return results
 
+
     def retrieve(self, gameid, platform):
 
         result = {}
-        game = self.tree
+
+        if not xbmcvfs.exists(self.nfo_file):
+            return result
+
+        game = ET.ElementTree()
+        if sys.version_info >= (2, 7):
+            parser = ET.XMLParser(encoding='utf-8')
+        else:
+            parser = ET.XMLParser()
+
+        game.parse(self.nfo_file, parser)
 
         # Standard fields
         for k, v in self._game_mapping.items():

@@ -3,7 +3,6 @@
 	<category label="45000">
 		<setting id="rcb_skin" label="45001" type="labelenum" values="Estuary|Confluence|Night|Simplicity" default="Estuary"/>
 		<setting id="rcb_logLevel" label="45002" type="labelenum" values="ERROR|WARNING|INFO|DEBUG" default="INFO"/>
-		<!--<setting id="rcb_memDB" label="Load the DB into memory" value="false" type="bool" default="false"/>-->
 		<setting id="rcb_saveViewStateOnExit" label="45004" type="bool" default="true"/>
 		<setting id="rcb_saveViewStateOnLaunchEmu" label="45005" type="bool" default="true"/>
 		
@@ -18,13 +17,12 @@
 		<setting id="rcb_scrapOnStartUP" label="45007" value="false" type="bool" default="false"/>
 		<setting id="rcb_showImportOptions" label="45008" type="bool" default="true"/>
 		<setting id="rcb_scrapingMode" label="45009" type="labelenum" values="Automatic: Accurate|Interactive: Select Matches" default="Automatic: Accurate"/>
-		<setting id="rcb_createNfoWhileScraping" label="45011" type="bool" default="true"/>
 		<setting id="rcb_ignoreGamesWithoutDesc" label="45012" type="bool" default="false"/>
-		<setting id="rcb_ignoreGamesWithoutArtwork" label="45013" type="bool" default="false"/>
 		<setting id="rcb_enableFullReimport" label="45014" type="bool" default="false"/>
 		<setting id="rcb_overwriteWithNullvalues" label="45015" type="bool" default="false"/>
 		<setting id="rcb_useNfoFolder" label="45016" type="bool" />
 		<setting id="rcb_nfoFolder" label="45017" type="folder" enable="eq(-1,true)" />
+		<setting id="rcb_PreferNfoFileIfAvailable" label="32329" type="bool" default="true" />
 	</category>
 	
 	<category label="45018">

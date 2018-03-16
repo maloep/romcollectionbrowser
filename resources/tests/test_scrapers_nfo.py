@@ -11,10 +11,8 @@ from nfo_scraper import NFO_Scraper
 
 #used to provide our own test files in _get_xml_path()
 class NFO_Scraper_Mock(NFO_Scraper):
-    nfopath = ''
 
-    def _get_nfo_path(self):
-        return self.nfopath
+    nfo_file = ''
 
 
 class Test_NFOScraper(unittest.TestCase):
@@ -40,16 +38,8 @@ class Test_NFOScraper(unittest.TestCase):
         f = os.path.join(os.path.dirname(__file__), '..', '..', 'resources', 'tests', 'testdata',
                          'nfo', 'Amiga', 'Arkanoid I.nfo')
 
-        tree = ET.ElementTree()
-        if sys.version_info >= (2, 7):
-            parser = ET.XMLParser(encoding='utf-8')
-        else:
-            parser = ET.XMLParser()
-
-        tree.parse(f, parser)
-
-        scraper = NFO_Scraper()
-        scraper.tree = tree
+        scraper = NFO_Scraper_Mock()
+        scraper.nfo_file = f
 
         result = scraper.retrieve(1, 'Amiga')
 

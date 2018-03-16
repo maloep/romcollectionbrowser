@@ -179,11 +179,7 @@ class NfoWriter(RcbXmlReaderWriter):
 			Logutil.log('Romdir: ' + romDir, util.LOG_LEVEL_INFO)
 			nfoFile = os.path.join(romDir, gameNameFromFile + '.nfo')
 
-		if os.path.isfile(nfoFile):
-			log.info(u"NFO file already exists at {0}, won't overwrite".format(nfoFile))
-			nfoFile = ''
-
-		log.debug(u"{0} returns {1} for {2} ({3}) on platform {4}".format(__name__, nfoFile, gameNameFromFile, romFile, romCollectionName))
+		log.debug(u"%s returns %s for %s (%s) on platform %s" %(__name__, nfoFile, gameNameFromFile, romFile, romCollectionName))
 
 		return nfoFile
 

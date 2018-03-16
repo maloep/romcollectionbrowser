@@ -166,10 +166,7 @@
 	<string id="45007">Import games on XBMC startup</string>
 	<string id="45008">Show import options dialog</string>
 	<string id="45009">Scraping mode</string>
-	<string id="45010">Game matching fuzzy factor</string>
-	<string id="45011">Create local nfo file while scraping</string>
 	<string id="45012">Don't import games without description</string>
-	<string id="45013">Don't import games without artwork</string>
 	<string id="45014">Rescrape already imported games</string>
 	<string id="45015">Allow overwrite with null values</string>
 	<string id="45016">Use extra nfo folder</string>
@@ -185,6 +182,7 @@
 	<string id="45026">Launch Games</string>
 	<string id="45027">Escape emulator cmd</string>
 	<string id="45028">Max number of games to display</string>
+	<string id="45029">Prefer local nfo file if available</string>
 	
 	<!-- GUI controls -->
 	<!-- main window -->
@@ -474,10 +472,7 @@
 	<string id="32307">Import games on XBMC startup</string>
 	<string id="32308">Show import options dialog</string>
 	<string id="32309">Scraping mode</string>
-	<string id="32310">Game matching fuzzy factor</string>
-	<string id="32311">Create local nfo file while scraping</string>
 	<string id="32312">Don't import games without description</string>
-	<string id="32313">Don't import games without artwork</string>
 	<string id="32314">Rescrape already imported games</string>
 	<string id="32315">Allow overwrite with null values</string>
 	<string id="32316">Use extra nfo folder</string>
@@ -492,6 +487,8 @@
 	<string id="32325">Prevent unfiltered search</string>
 	<string id="32326">Launch Games</string>
 	<string id="32327">Escape emulator cmd</string>
+	<string id="32328">Max number of games to display</string>
+	<string id="32329">Prefer local nfo file if available</string>
 	
 	<!-- GUI controls -->
 	<!-- main window -->

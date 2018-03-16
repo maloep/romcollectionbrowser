@@ -16,6 +16,7 @@ from config import *
 from gamedatabase import *
 from pyscraper.scraper import AbstractScraper
 from pyscraper.matcher import Matcher
+from pyscraper.nfo_scraper import NFO_Scraper
 
 from nfowriter import NfoWriter
 from rcbexceptions import *
@@ -150,13 +151,6 @@ class DBUpdate(object):
             log.info("update is allowed for current rom collection: {0}".format(romCollection.allowUpdate))
             log.info("max folder depth: {0}".format(romCollection.maxFolderDepth))
 
-            firstScraper = romCollection.scraperSites[0]
-
-            # check if we are in local artwork mode
-            if len(romCollection.scraperSites) == 1 and firstScraper.is_localartwork_scraper():
-                log.info("Forcing enableFullReimport because we are in local artwork mode")
-                enableFullReimport = True
-
             files = self.getRomFilesByRomCollection(romCollection, enableFullReimport)
             if len(files) == 0:
                 log.info(u"No files found for rom collection {0}, skipping".format(romCollection.name))
@@ -203,9 +197,7 @@ class DBUpdate(object):
                         break
 
                     # check if this file already exists in DB
-                    continueUpdate, isUpdate, gameId = self.checkRomfileAlreadyExists(filename,
-                                                                                      enableFullReimport,
-                                                                                      firstScraper.is_localartwork_scraper())
+                    continueUpdate, isUpdate, gameId = self.checkRomfileAlreadyExists(filename, enableFullReimport)
                     if not continueUpdate:
                         continue
 
@@ -213,8 +205,7 @@ class DBUpdate(object):
                     foldername = self.getFoldernameFromRomFilename(filename)
 
                     artScrapers = {}
-                    if not firstScraper.is_localartwork_scraper():
-                        results, artScrapers = self.useSingleScrapers(romCollection, gamenameFromFile,
+                    results, artScrapers = self.useSingleScrapers(romCollection, filename, gamenameFromFile,
                                                                       progDialogRCHeader, fileidx + 1)
 
                     if len(results) == 0:
@@ -228,8 +219,7 @@ class DBUpdate(object):
 
                     # Add 'gui' and 'dialogDict' parameters to function
                     lastGameId = self.insertGameFromDesc(results, gamenameFromFile, romCollection, [filename],
-                                                         foldername, isUpdate, gameId,
-                                                         firstScraper.is_localartwork_scraper())
+                                                         foldername, isUpdate, gameId)
                     del results, foldername
 
                     if lastGameId is not None:
@@ -332,7 +322,7 @@ class DBUpdate(object):
 
         return filename
 
-    def checkRomfileAlreadyExists(self, filename, enableFullReimport, isLocalArtwork):
+    def checkRomfileAlreadyExists(self, filename, enableFullReimport):
 
         isUpdate = False
         gameId = None
@@ -343,17 +333,11 @@ class DBUpdate(object):
             gameId = romFile[3]  # FIXME TODO Replace with FILE_parentId
             log.info("File '%s' already exists in database." % filename)
             log.info("Always rescan imported games = {0}".format(enableFullReimport))
-            log.info("scraper == 'local artwork': {0}".format(isLocalArtwork))
-            if enableFullReimport is False and not isLocalArtwork:
+            if enableFullReimport is False:
                 log.info("Won't scrape this game again. Set 'Always rescan imported games' to True to force scraping.")
                 return False, isUpdate, gameId
         else:
             log.debug("Couldn't find file in DB")
-            if isLocalArtwork:
-                log.info("scraper == 'local artwork': {0}".format(isLocalArtwork))
-                log.info(
-                    "Can't use 'local artwork' scraper if game is not already imported. Use another scraper first.")
-                return False, isUpdate, gameId
 
         return True, isUpdate, gameId
 
@@ -379,7 +363,7 @@ class DBUpdate(object):
             log.warn("Error when merging results: %s" % e)
             return results
 
-    def useSingleScrapers(self, romCollection, gamenameFromFile, progDialogRCHeader, fileCount):
+    def useSingleScrapers(self, romCollection, romFile, gamenameFromFile, progDialogRCHeader, fileCount):
         """Scrape site for game metadata
 
 		Args:
@@ -406,63 +390,70 @@ class DBUpdate(object):
 				{'Filetypefanart': 'thegamesdb.net', 'Filetypeboxback': 'thegamesdb.net', 'Filetypescreenshot': 'thegamesdb.net', 'Filetypeboxfront': 'thegamesdb.net'}
 				Note - this only contains entries for artwork that was found (i.e. is not empty list)
 		"""
-        artScrapers = {}
         gameresult = {}
+        artScrapers = {}
 
-        for idx, scraperSite in enumerate(romCollection.scraperSites):
+        scraperSite = romCollection.scraperSites[0]
 
-            try:
+        try:
+            #first check if a local nfo file is available
+            nfoscraper = NFO_Scraper()
+            nfofile = nfoscraper.get_nfo_path(gamenameFromFile, romCollection.name, romFile)
+            if xbmcvfs.exists(nfofile) and __addon__.getSetting(util.SETTING_RCB_PREFERLOCALNFO).upper() == 'TRUE':
+                log.info("Found local nfo file. Using this to scrape info.")
+                newscraper = nfoscraper
+            else:
                 newscraper = AbstractScraper().get_scraper_by_name(scraperSite.name)
-                results = newscraper.search(gamenameFromFile, romCollection.name)
-                log.debug(u"Searching for %s - found %s results: %s" % (gamenameFromFile, len(results), results))
-            except ScraperExceededAPIQuoteException as ke:
-                # API key is invalid - we need to stop scraping
-                log.error("Scraper exceeded API key, stopping scraping")
-                raise
-            except Exception as e:
-                log.error("Error searching for %s using scraper %s - %s %s" % (
-                gamenameFromFile, scraperSite.name, type(e), e))
-                continue
 
-            if results == []:
-                log.warn("No search results found for %s using scraper %s" % (gamenameFromFile, scraperSite.name))
-                continue
+            results = newscraper.search(gamenameFromFile, romCollection.name)
+            log.debug(u"Searching for %s - found %s results: %s" % (gamenameFromFile, len(results), results))
+        except ScraperExceededAPIQuoteException as ke:
+            # API key is invalid - we need to stop scraping
+            log.error("Scraper exceeded API key, stopping scraping")
+            raise
+        except Exception as e:
+            log.error("Error searching for %s using scraper %s - %s %s" % (
+            gamenameFromFile, scraperSite.name, type(e), e))
+            return gameresult, artScrapers
 
-            matched = Matcher().getBestResults(results, gamenameFromFile)
-            if matched is None:
-                log.error("No matches found for %s, skipping" % gamenameFromFile)
-                continue
-            log.debug("After matching: %s" % matched)
+        if results == []:
+            log.warn("No search results found for %s using scraper %s" % (gamenameFromFile, scraperSite.name))
+            return gameresult, artScrapers
 
-            try:
-                retrievedresult = newscraper.retrieve(matched['id'], romCollection.name)
-                log.debug(u"Retrieving %s - found %s" % (matched['id'], retrievedresult))
-            except Exception as e:
-                # FIXME TODO Catch exceptions specifically
-                log.error("Error retrieving %s - %s %s" % (matched['id'], type(e), e))
-                continue
+        matched = Matcher().getBestResults(results, gamenameFromFile)
+        if matched is None:
+            log.error("No matches found for %s, skipping" % gamenameFromFile)
+            return gameresult, artScrapers
+        log.debug("After matching: %s" % matched)
 
-            # Update the gameresult with any new fields
-            gameresult = self.addNewElements(gameresult, retrievedresult)
+        try:
+            retrievedresult = newscraper.retrieve(matched['id'], romCollection.name)
+            log.debug(u"Retrieving %s - found %s" % (matched['id'], retrievedresult))
+        except Exception as e:
+            # FIXME TODO Catch exceptions specifically
+            log.error("Error retrieving %s - %s %s" % (matched['id'], type(e), e))
+            return gameresult, artScrapers
 
-            self._gui.writeMsg(progDialogRCHeader, util.localize(32123) + ": " + gamenameFromFile,
-                               scraperSite.name + " - " + util.localize(32131), fileCount)
+        # Update the gameresult with any new fields
+        gameresult = self.addNewElements(gameresult, retrievedresult)
 
-            # Find Filetypes and Scrapers for Art Download
-            # FIXME TODO The following is kept to keep artwork downloading working as it currently is. We already have
-            # the URLs and so could handle/download here, rather than deferring
-            if len(gameresult) > 0:
-                for path in romCollection.mediaPaths:
-                    thumbKey = 'Filetype' + path.fileType.name
-                    if len(self.resolveParseResult(gameresult, thumbKey)) > 0:
-                        if (thumbKey in artScrapers) == 0:
-                            artScrapers[thumbKey] = scraperSite.name
+        self._gui.writeMsg(progDialogRCHeader, util.localize(32123) + ": " + gamenameFromFile,
+                           scraperSite.name + " - " + util.localize(32131), fileCount)
+
+        # Find Filetypes and Scrapers for Art Download
+        # FIXME TODO The following is kept to keep artwork downloading working as it currently is. We already have
+        # the URLs and so could handle/download here, rather than deferring
+        if len(gameresult) > 0:
+            for path in romCollection.mediaPaths:
+                thumbKey = 'Filetype' + path.fileType.name
+                if len(self.resolveParseResult(gameresult, thumbKey)) > 0:
+                    if (thumbKey in artScrapers) == 0:
+                        artScrapers[thumbKey] = scraperSite.name
 
         log.debug(u"After scraping, result = %s, artscrapers = %s" % (gameresult, artScrapers))
         return gameresult, artScrapers
 
-    def insertGameFromDesc(self, gamedescription, gamename, romCollection, filenamelist, foldername, isUpdate, gameId,
-                           isLocalArtwork):
+    def insertGameFromDesc(self, gamedescription, gamename, romCollection, filenamelist, foldername, isUpdate, gameId):
 
         log.info("insertGameFromDesc")
 
@@ -473,16 +464,14 @@ class DBUpdate(object):
 
         # if no game name has been scraped we expect that no results have been found
         if game == '':
-            if not isLocalArtwork:
-                self.missingDescFile.add_entry(gamename)
+            self.missingDescFile.add_entry(gamename)
 
-                if __addon__.getSetting(util.SETTING_RCB_IGNOREGAMEWITHOUTDESC).upper() == 'TRUE':
-                    log.warn("No description found for game '%s'. Game will not be imported." % gamename)
-                    return None
+            if __addon__.getSetting(util.SETTING_RCB_IGNOREGAMEWITHOUTDESC).upper() == 'TRUE':
+                log.warn("No description found for game '%s'. Game will not be imported." % gamename)
+                return None
             gamedescription = {}
 
-        gameId = self.insertData(gamedescription, gamename, romCollection, filenamelist, foldername, isUpdate, gameId,
-                                 isLocalArtwork)
+        gameId = self.insertData(gamedescription, gamename, romCollection, filenamelist, foldername, isUpdate, gameId)
         return gameId
 
     def add_genres_to_db(self, genreIds, gameId):
@@ -502,8 +491,7 @@ class DBUpdate(object):
             self.insertFile(romFile, gameId, fileType, None, None, None)
             del fileType
 
-    def insertData(self, gamedescription, gamenameFromFile, romCollection, romFiles, foldername, isUpdate, gameId,
-                   isLocalArtwork):
+    def insertData(self, gamedescription, gamenameFromFile, romCollection, romFiles, foldername, isUpdate, gameId):
         log.info("Insert data")
 
         publisher = self.resolveParseResult(gamedescription, 'Publisher')
@@ -513,27 +501,8 @@ class DBUpdate(object):
         yearId = self.insertForeignKeyItem(gamedescription, 'ReleaseYear', Year(self.gdb))
         genreIds = self.insertForeignKeyItemList(gamedescription, 'Genre', Genre(self.gdb))
         reviewerId = self.insertForeignKeyItem(gamedescription, 'Reviewer', Reviewer(self.gdb))
-
-        publisherId = -1
-        developerId = -1
-
-        # read current properties for local artwork scraper
-        if not isLocalArtwork:
-            publisherId = self.insertForeignKeyItem(gamedescription, 'Publisher', Publisher(self.gdb))
-            developerId = self.insertForeignKeyItem(gamedescription, 'Developer', Developer(self.gdb))
-        else:
-            gameRow = Game(self.gdb).getObjectById(gameId)
-            if gameRow is not None:
-                publisherId = gameRow[GAME_publisherId]
-                publisherRow = Publisher(self.gdb).getObjectById(gameId)
-                if publisherRow is not None:
-                    publisher = publisherRow[util.ROW_NAME]
-                developerId = gameRow[GAME_developerId]
-                del gameRow
-                developerRow = Developer(self.gdb).getObjectById(gameId)
-                if developerRow is not None:
-                    developer = developerRow[util.ROW_NAME]
-                    del developerRow
+        publisherId = self.insertForeignKeyItem(gamedescription, 'Publisher', Publisher(self.gdb))
+        developerId = self.insertForeignKeyItem(gamedescription, 'Developer', Developer(self.gdb))
 
         region = self.resolveParseResult(gamedescription, 'Region')
         media = self.resolveParseResult(gamedescription, 'Media')
@@ -567,16 +536,10 @@ class DBUpdate(object):
 
         artWorkFound, artworkfiles, artworkurls = self.getArtworkForGame(romCollection, gamename, gamenameFromFile,
                                                                          gamedescription, foldername, publisher,
-                                                                         developer, isLocalArtwork)
-
-        if not artWorkFound and (__addon__.getSetting(util.SETTING_RCB_IGNOREGAMEWITHOUTARTWORK).upper() == 'TRUE'):
-            log.warn("No artwork found for game '%s'. Game will not be imported." % gamenameFromFile)
-            self.missingArtworkFile.add_entry(gamename)
-
-            return None
+                                                                         developer)
 
         # Create Nfo file with game properties
-        if (__addon__.getSetting(util.SETTING_RCB_CREATENFOFILE).upper() == 'TRUE') and gamedescription is not None:
+        if gamedescription is not None:
             try:
                 genreList = gamedescription.get('Genre', [])
                 writer = NfoWriter()
@@ -589,20 +552,19 @@ class DBUpdate(object):
 
         del publisher, developer, year
 
-        if not isLocalArtwork:
-            gameId = self.insertGame(gamename, plot, romCollection.id, publisherId, developerId, reviewerId, yearId,
-                                     players, rating, votes, url, region, media, perspective, controller, originalTitle,
-                                     alternateTitle, translatedBy, version, isFavorite, launchCount, isUpdate, gameId,
-                                     romCollection.allowUpdate, )
+        gameId = self.insertGame(gamename, plot, romCollection.id, publisherId, developerId, reviewerId, yearId,
+                                 players, rating, votes, url, region, media, perspective, controller, originalTitle,
+                                 alternateTitle, translatedBy, version, isFavorite, launchCount, isUpdate, gameId,
+                                 romCollection.allowUpdate, )
 
-            del plot, players, rating, votes, url, region, media, perspective, controller, originalTitle, alternateTitle, translatedBy, version
+        del plot, players, rating, votes, url, region, media, perspective, controller, originalTitle, alternateTitle, translatedBy, version
 
-            if gameId is None:
-                return None
+        if gameId is None:
+            return None
 
-            self.add_genres_to_db(genreIds, gameId)
+        self.add_genres_to_db(genreIds, gameId)
 
-            self.add_romfiles_to_db(romFiles, gameId)
+        self.add_romfiles_to_db(romFiles, gameId)
 
         for fileType, fileNames in artworkfiles.iteritems():
             for filename in fileNames:
@@ -613,7 +575,7 @@ class DBUpdate(object):
         return gameId
 
     def getArtworkForGame(self, romCollection, gamename, gamenameFromFile, gamedescription, foldername, publisher,
-                          developer, isLocalArtwork):
+                          developer):
         artWorkFound = False
         artworkfiles = {}
         artworkurls = {}
@@ -624,11 +586,10 @@ class DBUpdate(object):
             # TODO replace %ROMCOLLECTION%, %PUBLISHER%, ...
             fileName = path.path.replace("%GAME%", gamenameFromFile)
 
-            if not isLocalArtwork:
-                continueUpdate, artworkurls = self.getThumbFromOnlineSource(gamedescription, path.fileType.name,
-                                                                            fileName, artworkurls)
-                if not continueUpdate:
-                    return False, {}, {}
+            continueUpdate, artworkurls = self.getThumbFromOnlineSource(gamedescription, path.fileType.name,
+                                                                        fileName, artworkurls)
+            if not continueUpdate:
+                return False, {}, {}
 
             log.debug("Additional data path: %s" % path.path)
             files = self.resolvePath((path.path,), gamename, gamenameFromFile, foldername, romCollection.name,
@@ -940,19 +901,26 @@ class DBUpdate(object):
             log.info("File already exists in database: %s" % fileName)
 
     def download_thumb(self, thumburl, destfilename):
+        log.info("begin download_thumb: thumburl = %s" %thumburl)
+
         # Download file to tmp folder
         tmp = util.joinPath(util.getTempDir(), os.path.basename(destfilename))
 
         req = urllib2.Request(thumburl)
         req.add_unredirected_header('User-Agent',
                                     'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.31 (KHTML, like Gecko) Chrome/26.0.1410.64 Safari/537.31')
+
+        log.info("download_thumb: start downloading to temp file: %s" % tmp)
         f = open(tmp, 'wb')
         f.write(urllib2.urlopen(req).read())
         f.close()
 
+        log.info("download_thumb: copy from temp file to final destination: %s" % destfilename)
+
         # Copy from the tmp folder to the target location
         xbmcvfs.copy(tmp, destfilename)
         xbmcvfs.delete(tmp)
+        log.info("end download_thumb")
 
     def getThumbFromOnlineSource(self, gamedescription, fileType, fileName, artworkurls):
         log.info("Get thumb from online source")
