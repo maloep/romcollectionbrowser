@@ -51,6 +51,8 @@ class NFO_Scraper(FileScraper):
     # Mapping between the dict keys and the XML fields in the nfo file
     _game_mapping = {
         'Game': 'title',
+        'OriginalTitle': 'originalTitle',
+        'AlternateTitle': 'alternateTitle',
         'ReleaseYear': 'year',
         'Description': 'plot',
         'Publisher': 'publisher',
