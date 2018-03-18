@@ -1,6 +1,7 @@
 
 import os
-from xml.etree.ElementTree import *
+import xml.etree.ElementTree as ET
+from xml.etree.ElementTree import Element, SubElement
 
 from config import *
 import dialogprogress
@@ -109,14 +110,44 @@ class NfoWriter(RcbXmlReaderWriter):
 
 		Logutil.log("Begin createNfoFromDesc", util.LOG_LEVEL_INFO)
 
-		root = Element('game')
+		nfoFile = self.getNfoFilePath(platform, romFile, gameNameFromFile)
+		if nfoFile == '':
+			log.debug(u"Not writing NFO file for {0}".format(gameNameFromFile))
+			return
+
+		root = ET.Element('game')
+		#reference to eventually existing nfo
+		existing_nfo = None
+
+		#Read info from existing nfo file. New info and existing info will be merged
+		if xbmcvfs.exists(nfoFile):
+			existing_nfo = ET.ElementTree()
+			if sys.version_info >= (2, 7):
+				parser = ET.XMLParser(encoding='utf-8')
+			else:
+				parser = ET.XMLParser()
+
+			existing_nfo.parse(nfoFile, parser)
+
 		for elem in ['title', 'originalTitle', 'alternateTitle', 'platform', 'plot', 'publisher', 'developer', 'year',
 					 'detailUrl', 'maxPlayer', 'region', 'media', 'perspective', 'controller', 'version', 'rating',
 					 'votes', 'isFavorite', 'launchCount']:
-			SubElement(root, elem).text = locals()[elem]
+			elemText = locals()[elem]
+			#if new info is empty, check if the existing file has it
+			if existing_nfo and not elemText:
+				try:
+					elemText = existing_nfo.find(elem).text
+				except:
+					pass
+			ET.SubElement(root, elem).text = elemText
+
+		#if no genre was given, use genres from existing file
+		if existing_nfo and len(genreList) == 0:
+			for genre in existing_nfo.findall("genre"):
+				genreList.append(genre.text)
 
 		for genre in genreList:
-			SubElement(root, 'genre').text = genre
+			ET.SubElement(root, 'genre').text = genre
 
 		for artworktype in artworkfiles.keys():
 
@@ -134,18 +165,14 @@ class NfoWriter(RcbXmlReaderWriter):
 				Logutil.log('Error writing artwork url: ' + str(exc), util.LOG_LEVEL_WARNING)
 				pass
 
-		self.writeNfoElementToFile(root, platform, romFile, gameNameFromFile)
+		self.writeNfoElementToFile(root, platform, romFile, gameNameFromFile, nfoFile)
 
-	def writeNfoElementToFile(self, root, platform, romFile, gameNameFromFile):
+
+	def writeNfoElementToFile(self, root, platform, romFile, gameNameFromFile, nfoFile):
 		# write file
 		try:
 			self.indentXml(root)
 			tree = ElementTree(root)
-
-			nfoFile = self.getNfoFilePath(platform, romFile, gameNameFromFile)
-			if nfoFile == '':
-				log.debug(u"Not writing NFO file for {0}".format(gameNameFromFile))
-				return
 
 			log.info(u"Writing NFO file {0}".format(nfoFile))
 			localFile = util.joinPath(util.getTempDir(), os.path.basename(nfoFile))
@@ -159,13 +186,12 @@ class NfoWriter(RcbXmlReaderWriter):
 	def getNfoFilePath(self, romCollectionName, romFile, gameNameFromFile):
 		nfoFile = ''
 
-		useNfoFolder = self.Settings.getSetting(util.SETTING_RCB_USENFOFOLDER)
-		if(useNfoFolder == 'true'):
-			nfoFolder = self.Settings.getSetting(util.SETTING_RCB_NFOFOLDER)
-		else:
-			nfoFolder = ''
-		if(nfoFolder != '' and nfoFolder != None):
-			if(not os.path.exists(nfoFolder)):
+		nfoFolder = self.Settings.getSetting(util.SETTING_RCB_NFOFOLDER)
+
+		if nfoFolder != '' and nfoFolder != None:
+			# Add the trailing slash that xbmcvfs.exists expects
+			nfoFolder = os.path.join(os.path.dirname(nfoFolder), '')
+			if not xbmcvfs.exists(nfoFolder):
 				Logutil.log("Path to nfoFolder does not exist: " + nfoFolder, util.LOG_LEVEL_WARNING)
 			else:
 				nfoFolder = os.path.join(nfoFolder, romCollectionName)

@@ -169,7 +169,6 @@
 	<string id="45012">Don't import games without description</string>
 	<string id="45014">Rescrape already imported games</string>
 	<string id="45015">Allow overwrite with null values</string>
-	<string id="45016">Use extra nfo folder</string>
 	<string id="45017">nfo folder path</string>
 	<string id="45018">Browse Games</string>
 	<string id="45019">Show stars for favorites</string>
@@ -475,7 +474,6 @@
 	<string id="32312">Don't import games without description</string>
 	<string id="32314">Rescrape already imported games</string>
 	<string id="32315">Allow overwrite with null values</string>
-	<string id="32316">Use extra nfo folder</string>
 	<string id="32317">nfo folder path</string>
 	<string id="32318">Browse Games</string>
 	<string id="32319">Show stars for favorites</string>

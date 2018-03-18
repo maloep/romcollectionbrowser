@@ -173,7 +173,6 @@
 	<string id="45013">Spiele ohne Artwork nicht importieren</string>
 	<string id="45014">Importierte Spiele erneut scannen</string>
 	<string id="45015">Überschreiben mit Null-Werten erlauben</string>
-	<string id="45016">local nfo Dateien in separatem Ordner speichern</string>
 	<string id="45017">Pfad zu local nfo Dateien</string>
 	<string id="45018">Spiele durchsuchen</string>
 	<string id="45019">Sterne bei Favoriten anzeigen</string>
@@ -480,7 +479,6 @@
 	<string id="32313">Spiele ohne Artwork nicht importieren</string>
 	<string id="32314">Importierte Spiele erneut scannen</string>
 	<string id="32315">Überschreiben mit Null-Werten erlauben</string>
-	<string id="32316">local nfo Dateien in separatem Ordner speichern</string>
 	<string id="32317">Pfad zu local nfo Dateien</string>
 	<string id="32318">Spiele durchsuchen</string>
 	<string id="32319">Sterne bei Favoriten anzeigen</string>

@@ -20,7 +20,6 @@
 		<setting id="rcb_ignoreGamesWithoutDesc" label="45012" type="bool" default="false"/>
 		<setting id="rcb_enableFullReimport" label="45014" type="bool" default="false"/>
 		<setting id="rcb_overwriteWithNullvalues" label="45015" type="bool" default="false"/>
-		<setting id="rcb_useNfoFolder" label="45016" type="bool" />
 		<setting id="rcb_nfoFolder" label="45017" type="folder" enable="eq(-1,true)" />
 		<setting id="rcb_PreferNfoFileIfAvailable" label="32329" type="bool" default="true" />
 	</category>
