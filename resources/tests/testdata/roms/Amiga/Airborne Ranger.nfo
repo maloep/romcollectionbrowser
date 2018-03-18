@@ -1,0 +1,26 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<game>
+  <title>Airborne Ranger nfo</title>
+  <originalTitle />
+  <alternateTitle />
+  <platform>Amiga</platform>
+  <plot>nfo: In this action/simulation game by Microprose the player takes the role of an U.S. Army airborne ranger.</plot>
+  <publisher>MicroProse nfo</publisher>
+  <developer>Imagitec nfo</developer>
+  <year>1989</year>
+  <detailUrl />
+  <maxPlayer />
+  <region />
+  <media />
+  <perspective />
+  <controller />
+  <version />
+  <rating />
+  <votes />
+  <isFavorite>0</isFavorite>
+  <launchCount>0</launchCount>
+  <genre>Action</genre>
+  <genre>Adventure</genre>
+  <thumb local="./testdata/artwork/Amiga/screenshot\Airborne Ranger.png" type="screenshot" />
+  <thumb local="./testdata/artwork/Amiga/boxfront\Airborne Ranger.png" type="boxfront" />
+</game>

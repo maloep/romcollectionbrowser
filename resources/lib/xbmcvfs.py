@@ -3,6 +3,7 @@ Classes and functions to work with files and folders
 """
 
 import os
+import shutil
 
 __author__ = 'Team Kodi <http://kodi.tv>'
 __credits__ = 'Team Kodi'
@@ -139,7 +140,7 @@ def copy(strSource, strDestnation):
 
         success = xbmcvfs.copy(source, destination)
     """
-    return bool(1)
+    return shutil.copy(strSource, strDestnation)
 
 
 def delete(file):
@@ -151,7 +152,10 @@ def delete(file):
 
         xbmcvfs.delete(file)
     """
-    pass
+    try:
+        os.remove(file)
+    except OSError:
+        pass
 
 
 def rename(file, newFile):
@@ -212,7 +216,7 @@ def exists(path):
 
         success = xbmcvfs.exists(path)
     """
-    return bool(1)
+    return os.path.exists(path)
 
 
 def listdir(path):

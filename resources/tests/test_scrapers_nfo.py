@@ -5,14 +5,7 @@ sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', '..', 'resource
 sys.path.append(os.path.join(os.path.dirname(__file__), '..', '..', 'resources', 'lib', 'pyscraper'))
 
 import unittest
-import xml.etree.ElementTree as ET
 from nfo_scraper import NFO_Scraper
-
-
-#used to provide our own test files in _get_xml_path()
-class NFO_Scraper_Mock(NFO_Scraper):
-
-    nfo_file = ''
 
 
 class Test_NFOScraper(unittest.TestCase):
@@ -21,8 +14,8 @@ class Test_NFOScraper(unittest.TestCase):
         f = os.path.join(os.path.dirname(__file__), '..', '..', 'resources', 'tests', 'testdata',
                          'nfo', 'Amiga', 'Arkanoid I.nfo')
 
-        scraper = NFO_Scraper_Mock()
-        scraper.nfopath = f
+        scraper = NFO_Scraper()
+        scraper.nfo_file = f
 
         results = scraper.search("Arkanoid")
 
@@ -38,7 +31,7 @@ class Test_NFOScraper(unittest.TestCase):
         f = os.path.join(os.path.dirname(__file__), '..', '..', 'resources', 'tests', 'testdata',
                          'nfo', 'Amiga', 'Arkanoid I.nfo')
 
-        scraper = NFO_Scraper_Mock()
+        scraper = NFO_Scraper()
         scraper.nfo_file = f
 
         result = scraper.retrieve(1, 'Amiga')

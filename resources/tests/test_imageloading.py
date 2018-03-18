@@ -34,7 +34,8 @@ class Test(unittest.TestCase):
         self.assertTrue(len(mediaPathsDict['boxfront']) == 3, 'len(mediaPathsDict[boxfront]) should have been 2 but was %i' %len(mediaPathsDict['boxfront']))
         self.assertTrue(len(mediaPathsDict['screenshot']) == 2, 'len(mediaPathsDict[screenshot]) should have been 2 but was %i' %len(mediaPathsDict['screenshot']))
         self.assertTrue(len(mediaPathsDict['gameplay']) == 2, 'len(mediaPathsDict[gameplay]) should have been 2 but was %i' %len(mediaPathsDict['gameplay']))
-        
+
+        #FIXME TODO: this test might fail on non-Windows systems
         self.assertTrue(mediaPathsDict['boxfront'][0] == 'testdata\\artwork\\Atari 2600\\boxfront\\Adventure (1980) (Atari).png', 'wrong boxfront image in cache')
         self.assertTrue(mediaPathsDict['boxfront'][1] == 'testdata\\artwork\\Atari 2600\\boxfront\\Air-Sea Battle (32 in 1) (1988) (Atari) (PAL).png', 'wrong boxfront image in cache')
         self.assertTrue(mediaPathsDict['boxfront'][2] == 'testdata\\artwork\\Atari 2600\\boxfront\\Asteroids (1981) (Atari) [no copyright].png', 'wrong boxfront image in cache')

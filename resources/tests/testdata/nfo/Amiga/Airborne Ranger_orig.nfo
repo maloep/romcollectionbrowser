@@ -1,0 +1,24 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<game>
+  <title>Airborne Ranger</title>
+  <originalTitle></originalTitle>
+  <alternateTitle></alternateTitle>
+  <platform>Amiga</platform>
+  <plot>Description with some special characters: ' &amp; &lt;  &gt;</plot>
+  <publisher>"MicroProse"</publisher>
+  <developer>Imagitec</developer>
+  <year>1989</year>
+  <detailUrl />
+  <maxPlayer>1</maxPlayer>
+  <region>USA</region>
+  <media>Floppy</media>
+  <perspective>Top-Down</perspective>
+  <controller>Joystick</controller>
+  <version>v1.00</version>
+  <rating>3.2</rating>
+  <votes>128</votes>
+  <isFavorite>1</isFavorite>
+  <launchCount>1</launchCount>
+  <genre>Action</genre>
+  <genre>Simulation</genre>
+</game>

@@ -68,8 +68,9 @@ class TestImportGames(unittest.TestCase):
         
         self.register_responses_Amiga()
         
-        #adjust settings        
-        xbmcaddon._settings['rcb_createNfoWhileScraping'] = 'false'
+        #adjust settings
+        xbmcaddon._settings['rcb_nfoFolder'] = './script.games.rom.collection.browser/nfo/'
+        xbmcaddon._settings['rcb_PreferNfoFileIfAvailable'] = 'false'
         xbmcaddon._settings['rcb_ignoreGamesWithoutDesc'] = 'false'
         xbmcaddon._settings['rcb_scrapingMode'] = 'Automatic: Accurate'
         
@@ -135,8 +136,9 @@ class TestImportGames(unittest.TestCase):
         
         self.register_responses_N64()
         
-        #adjust settings        
-        xbmcaddon._settings['rcb_createNfoWhileScraping'] = 'false'
+        #adjust settings
+        xbmcaddon._settings['rcb_nfoFolder'] = './script.games.rom.collection.browser/nfo/'
+        xbmcaddon._settings['rcb_PreferNfoFileIfAvailable'] = 'false'
         xbmcaddon._settings['rcb_ignoreGamesWithoutDesc'] = 'true'
         xbmcaddon._settings['rcb_scrapingMode'] = 'Automatic: Accurate'
         
@@ -171,7 +173,8 @@ class TestImportGames(unittest.TestCase):
         self.register_responses_PSX()
 
         # adjust settings
-        xbmcaddon._settings['rcb_createNfoWhileScraping'] = 'false'
+        xbmcaddon._settings['rcb_nfoFolder'] = './script.games.rom.collection.browser/nfo/'
+        xbmcaddon._settings['rcb_PreferNfoFileIfAvailable'] = 'false'
         xbmcaddon._settings['rcb_ignoreGamesWithoutDesc'] = 'true'
         xbmcaddon._settings['rcb_scrapingMode'] = 'Automatic: Accurate'
 
@@ -218,7 +221,8 @@ class TestImportGames(unittest.TestCase):
         self.register_responses_SNES()
 
         # adjust settings
-        xbmcaddon._settings['rcb_createNfoWhileScraping'] = 'false'
+        xbmcaddon._settings['rcb_nfoFolder'] = './script.games.rom.collection.browser/nfo/'
+        xbmcaddon._settings['rcb_PreferNfoFileIfAvailable'] = 'false'
         xbmcaddon._settings['rcb_ignoreGamesWithoutDesc'] = 'true'
         xbmcaddon._settings['rcb_scrapingMode'] = 'Automatic: Accurate'
 
@@ -252,6 +256,74 @@ class TestImportGames(unittest.TestCase):
         self.assertEquals(maddennfl.developer, 'Electronic Arts')
         roms = File(self.gdb).getRomsByGameId(maddennfl.id)
         self.assertEquals(len(roms), 1)
+
+    @responses.activate
+    def test_import_initial_prefer_nfo(self):
+        config_xml_file = os.path.join(os.path.dirname(__file__), 'testdata', 'config',
+                                       'romcollections_importtests.xml')
+        conf = Config(config_xml_file)
+        conf.readXml()
+
+        rcs = {}
+        rcs[1] = conf.romCollections['1']
+
+        #adjust settings
+        xbmcaddon._settings['rcb_nfoFolder'] = ''
+        xbmcaddon._settings['rcb_PreferNfoFileIfAvailable'] = 'true'
+        xbmcaddon._settings['rcb_ignoreGamesWithoutDesc'] = 'false'
+        xbmcaddon._settings['rcb_scrapingMode'] = 'Automatic: Accurate'
+
+        dbu = DBUpdate()
+        dbu.updateDB(self.gdb, RCBMockGui(), rcs, False)
+
+        likeStmnt = '0 = 0'
+        games = Game(self.gdb).getGamesByFilter(1, 0, 0, 0, 0, likeStmnt)
+
+        self.assertEquals(len(games), 4)
+
+        airborneRanger = games[0]
+        self.assertEquals(airborneRanger.name, 'Airborne Ranger nfo')
+        self.assertEquals(airborneRanger.year, '1989')
+        self.assertTrue(airborneRanger.plot.startswith(
+            'nfo: In this action/simulation game by Microprose the player takes the role of an U.S. Army airborne ranger.'))
+        self.assertEquals(airborneRanger.genre, 'Action, Adventure')
+        self.assertEquals(airborneRanger.publisher, 'MicroProse nfo')
+        self.assertEquals(airborneRanger.developer, 'Imagitec nfo')
+        roms = File(self.gdb).getRomsByGameId(airborneRanger.id)
+        self.assertEquals(len(roms), 1)
+
+        chuckRock = games[1]
+        self.assertEquals(chuckRock.name, 'Chuck Rock nfo')
+        self.assertEquals(chuckRock.year, '1991')
+        self.assertTrue(chuckRock.plot.startswith(
+            "nfo: Chuck Rock hasn't been the same since his long-time rival in love, the evil Gary Gritter, kidnapped his wife, the beautiful Ophelia."))
+        self.assertEquals(chuckRock.genre, 'Platform')
+        self.assertEquals(chuckRock.publisher, 'Core Design nfo')
+        self.assertEquals(chuckRock.developer, 'Core Design nfo')
+        self.assertEquals(chuckRock.maxPlayers, '1')
+        self.assertEquals(chuckRock.rating, '8')
+        roms = File(self.gdb).getRomsByGameId(chuckRock.id)
+        self.assertEquals(len(roms), 1)
+
+        eliminator = games[2]
+        self.assertEquals(eliminator.name, 'Eliminator nfo')
+        self.assertEquals(eliminator.year, None)
+        roms = File(self.gdb).getRomsByGameId(eliminator.id)
+        self.assertEquals(len(roms), 1)
+
+        formulaOne = games[3]
+        self.assertEquals(formulaOne.name, 'MicroProse Formula One Grand Prix nfo')
+        self.assertEquals(formulaOne.year, '1991')
+        self.assertTrue(formulaOne.plot.startswith(
+            "MicroProse Formula One Grand Prix is a racing simulator released in 1991 by MicroProse and created by game designer Geoff Crammond."))
+        #HACK: Order of genres depends on id in database. If we run the full set of tests Genre Sports might already be
+        #in database and has a lower id than Racing
+        self.assertTrue(formulaOne.genre == 'Racing, Sports' or formulaOne.genre == 'Sports, Racing')
+        self.assertEquals(formulaOne.publisher, 'MicroProse')
+        self.assertEquals(formulaOne.developer, None)
+        self.assertEquals(formulaOne.maxPlayers, '1')
+        roms = File(self.gdb).getRomsByGameId(formulaOne.id)
+        self.assertEquals(len(roms), 4)
 
 
     def register_responses_Amiga(self):

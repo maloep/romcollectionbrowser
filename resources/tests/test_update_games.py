@@ -70,7 +70,8 @@ class TestUpdateGames(unittest.TestCase):
         self.register_responses_Amiga()
         
         #adjust settings        
-        xbmcaddon._settings['rcb_createNfoWhileScraping'] = 'false'
+        xbmcaddon._settings['rcb_nfoFolder'] = './script.games.rom.collection.browser/nfo/'
+        xbmcaddon._settings['rcb_PreferNfoFileIfAvailable'] = 'false'
         xbmcaddon._settings['rcb_ignoreGamesWithoutDesc'] = 'false'
         xbmcaddon._settings['rcb_scrapingMode'] = 'Automatic: Accurate'
         xbmcaddon._settings['rcb_enableFullReimport'] = 'true'
@@ -110,7 +111,8 @@ class TestUpdateGames(unittest.TestCase):
         self.register_responses_Amiga_nullvalues()
 
         # adjust settings
-        xbmcaddon._settings['rcb_createNfoWhileScraping'] = 'false'
+        xbmcaddon._settings['rcb_nfoFolder'] = './script.games.rom.collection.browser/nfo/'
+        xbmcaddon._settings['rcb_PreferNfoFileIfAvailable'] = 'false'
         xbmcaddon._settings['rcb_ignoreGamesWithoutDesc'] = 'false'
         xbmcaddon._settings['rcb_scrapingMode'] = 'Automatic: Accurate'
         xbmcaddon._settings['rcb_enableFullReimport'] = 'true'
@@ -150,7 +152,8 @@ class TestUpdateGames(unittest.TestCase):
         self.register_responses_Amiga_nullvalues()
 
         # adjust settings
-        xbmcaddon._settings['rcb_createNfoWhileScraping'] = 'false'
+        xbmcaddon._settings['rcb_nfoFolder'] = './script.games.rom.collection.browser/nfo/'
+        xbmcaddon._settings['rcb_PreferNfoFileIfAvailable'] = 'false'
         xbmcaddon._settings['rcb_ignoreGamesWithoutDesc'] = 'false'
         xbmcaddon._settings['rcb_scrapingMode'] = 'Automatic: Accurate'
         xbmcaddon._settings['rcb_enableFullReimport'] = 'true'
@@ -191,7 +194,8 @@ class TestUpdateGames(unittest.TestCase):
         self.register_responses_Amiga_nullvalues()
 
         # adjust settings
-        xbmcaddon._settings['rcb_createNfoWhileScraping'] = 'false'
+        xbmcaddon._settings['rcb_nfoFolder'] = './script.games.rom.collection.browser/nfo/'
+        xbmcaddon._settings['rcb_PreferNfoFileIfAvailable'] = 'false'
         xbmcaddon._settings['rcb_ignoreGamesWithoutDesc'] = 'false'
         xbmcaddon._settings['rcb_scrapingMode'] = 'Automatic: Accurate'
         xbmcaddon._settings['rcb_enableFullReimport'] = 'false'
@@ -231,7 +235,8 @@ class TestUpdateGames(unittest.TestCase):
         self.register_responses_Amiga_nullvalues()
 
         # adjust settings
-        xbmcaddon._settings['rcb_createNfoWhileScraping'] = 'false'
+        xbmcaddon._settings['rcb_nfoFolder'] = './script.games.rom.collection.browser/nfo/'
+        xbmcaddon._settings['rcb_PreferNfoFileIfAvailable'] = 'false'
         xbmcaddon._settings['rcb_ignoreGamesWithoutDesc'] = 'false'
         xbmcaddon._settings['rcb_scrapingMode'] = 'Automatic: Accurate'
         xbmcaddon._settings['rcb_enableFullReimport'] = 'true'
@@ -270,7 +275,9 @@ class TestUpdateGames(unittest.TestCase):
         self.register_responses_Amiga_nullvalues()
 
         # adjust settings
-        xbmcaddon._settings['rcb_createNfoWhileScraping'] = 'false'
+        xbmcaddon._settings['rcb_nfoFolder'] = './script.games.rom.collection.browser/nfo/'
+        xbmcaddon._settings['rcb_PreferNfoFileIfAvailable'] = 'false'
+        xbmcaddon._settings['rcb_PreferNfoFileIfAvailable'] = 'false'
         xbmcaddon._settings['rcb_ignoreGamesWithoutDesc'] = 'false'
         xbmcaddon._settings['rcb_scrapingMode'] = 'Automatic: Accurate'
         xbmcaddon._settings['rcb_enableFullReimport'] = 'true'
