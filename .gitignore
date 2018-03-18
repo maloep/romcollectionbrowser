@@ -1,9 +1,10 @@
 *.py[cod]
-.project
-.pydevproject
-.settings
 resources/tests/dummy.log
 resources/lib/dummy.log
+resources/tests/script.games.rom.collection.browser
 
 # Files created by IDE
 .idea/
+.project
+.pydevproject
+.settings
