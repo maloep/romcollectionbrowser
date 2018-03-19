@@ -1,3 +1,4 @@
+# coding=utf-8
 import sys
 import os
 import shutil
@@ -9,6 +10,8 @@ sys.path.append(os.path.join(os.path.dirname(__file__), '..', '..', 'resources',
 import xbmcaddon
 from nfowriter import NfoWriter
 from nfo_scraper import NFO_Scraper
+from gamedatabase import GameDataBase
+from config import Config, RomCollection
 
 
 class Test_NFOWriter(unittest.TestCase):
@@ -230,3 +233,55 @@ class Test_NFOWriter(unittest.TestCase):
         self.assertIn("Simulation", result['Genre'])
 
         os.remove('./testdata/nfo/Amiga/Airborne Ranger.nfo')
+
+
+    def test_exportLibrary(self):
+
+        export_base_folder = './testdata/nfo/export/'
+        xbmcaddon._settings['rcb_nfoFolder'] = export_base_folder
+
+        # Setup data - MyGames.db is the hard-coded expected DB name
+        db_path = './testdata/database/'
+        shutil.copyfile(os.path.join(db_path, 'MyGames_2.2.0_full.db'), os.path.join(db_path, 'MyGames.db'))
+        gdb = GameDataBase(db_path)
+        gdb.connect()
+
+        # Setup config
+        config_xml_file = './testdata/config/romcollections_importtests.xml'
+        conf = Config(config_xml_file)
+        conf.readXml()
+
+        writer = NfoWriter()
+        writer.exportLibrary(gdb, conf.romCollections)
+
+        #check if all files have been created
+        self.assertTrue(os.path.isfile(os.path.join(export_base_folder, 'Amiga/Airborne Ranger.nfo')))
+        self.assertTrue(os.path.isfile(os.path.join(export_base_folder, 'Amiga/Chuck Rock.nfo')))
+        self.assertTrue(os.path.isfile(os.path.join(export_base_folder, 'Amiga/Eliminator.nfo')))
+        self.assertTrue(os.path.isfile(os.path.join(export_base_folder, 'Amiga/MicroProse Formula One Grand Prix.nfo')))
+        self.assertTrue(os.path.isfile(os.path.join(export_base_folder, 'Atari 2600/Adventure (1980) (Atari).nfo')))
+        self.assertTrue(os.path.isfile(os.path.join(export_base_folder, 'Atari 2600/Air-Sea Battle (32 in 1) (1988) (Atari) (PAL).nfo')))
+        self.assertTrue(os.path.isfile(os.path.join(export_base_folder, 'Atari 2600/Asteroids (1981) (Atari) [no copyright].nfo')))
+        #FIXME TODO: can't find file even if it exists
+        #self.assertTrue(os.path.isfile(os.path.join(export_base_folder, 'Nintendo 64/1080° Snowboarding.nfo')))
+        self.assertTrue(os.path.isfile(os.path.join(export_base_folder, 'PlayStation/Bushido Blade.nfo')))
+        self.assertTrue(os.path.isfile(os.path.join(export_base_folder, 'PlayStation/Silent Hill.nfo')))
+        self.assertTrue(os.path.isfile(os.path.join(export_base_folder, 'SNES/Chrono Trigger.nfo')))
+        self.assertTrue(os.path.isfile(os.path.join(export_base_folder, "SNES/Madden NFL '97.nfo")))
+
+        os.remove(os.path.join(export_base_folder, 'Amiga/Airborne Ranger.nfo'))
+        os.remove(os.path.join(export_base_folder, 'Amiga/Chuck Rock.nfo'))
+        os.remove(os.path.join(export_base_folder, 'Amiga/Eliminator.nfo'))
+        os.remove(os.path.join(export_base_folder, 'Amiga/MicroProse Formula One Grand Prix.nfo'))
+        os.remove(os.path.join(export_base_folder, 'Atari 2600/Adventure (1980) (Atari).nfo'))
+        os.remove(os.path.join(export_base_folder, 'Atari 2600/Air-Sea Battle (32 in 1) (1988) (Atari) (PAL).nfo'))
+        os.remove(os.path.join(export_base_folder, 'Atari 2600/Asteroids (1981) (Atari) [no copyright].nfo'))
+        #FIXME TODO: can't find file even if it exists
+        #os.remove(os.path.join(export_base_folder, 'Nintendo 64/1080° Snowboarding.nfo'))
+        os.remove(os.path.join(export_base_folder, 'PlayStation/Bushido Blade.nfo'))
+        os.remove(os.path.join(export_base_folder, 'PlayStation/Silent Hill.nfo'))
+        os.remove(os.path.join(export_base_folder, 'SNES/Chrono Trigger.nfo'))
+        os.remove(os.path.join(export_base_folder, "SNES/Madden NFL '97.nfo"))
+
+        gdb.close()
+        os.remove(os.path.join(db_path, 'MyGames.db'))

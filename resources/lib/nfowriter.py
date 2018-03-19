@@ -20,18 +20,15 @@ class NfoWriter(RcbXmlReaderWriter):
 		pass
 
 
-	def exportLibrary(self, gui):
+	def exportLibrary(self, gdb, romCollections):
 		Logutil.log("Begin exportLibrary", util.LOG_LEVEL_INFO)
-
-		gdb = gui.gdb
-		romCollections = gui.config.romCollections
 
 		progressDialog = dialogprogress.ProgressDialogGUI()
 		progressDialog.writeMsg(util.localize(32169), "", "")
 		continueExport = True
 		rccount = 1
 
-		for romCollection in gui.config.romCollections.values():
+		for romCollection in romCollections.values():
 
 			progDialogRCHeader = util.localize(32170) + " (%i / %i): %s" % (rccount, len(romCollections), romCollection.name)
 			rccount = rccount + 1
@@ -40,66 +37,51 @@ class NfoWriter(RcbXmlReaderWriter):
 			gameCount = 1
 
 			#get all games for this Rom Collection
-			games = Game(gdb).getFilteredGames(romCollection.id, 0, 0, 0, False, '0 = 0')
+			games = Game(gdb).getGamesByFilter(romCollection.id, 0, 0, 0, False, '0 = 0')
 			progressDialog.itemCount = len(games) + 1
 
-			for gameRow in games:
+			for game in games:
 
-				gamename = self.getGameProperty(gameRow[util.ROW_NAME])
-
-				continueExport = progressDialog.writeMsg(progDialogRCHeader, util.localize(32171) + ": " + str(gamename), "", gameCount)
+				continueExport = progressDialog.writeMsg(progDialogRCHeader, util.localize(32171) + ": " + str(game.name), "", gameCount)
 				if(not continueExport):
 					Logutil.log('Game export canceled by user', util.LOG_LEVEL_INFO)
 					break
 
 				gameCount = gameCount + 1
 
-				plot = self.getGameProperty(gameRow[util.GAME_description])
-
-				publisher = self.getGamePropertyFromCache(gameRow, gui.publisherDict, util.GAME_publisherId, util.ROW_NAME)
-				developer = self.getGamePropertyFromCache(gameRow, gui.developerDict, util.GAME_developerId, util.ROW_NAME)
-				year = self.getGamePropertyFromCache(gameRow, gui.yearDict, util.GAME_yearId, util.ROW_NAME)
-
-				genreList = []
-				try:
-					cachingOptionStr = self.Settings.getSetting(util.SETTING_RCB_CACHINGOPTION)
-					if(cachingOptionStr == 'CACHEALL'):
-						genre = gui.genreDict[gameRow[util.ROW_ID]]
-					else:
-						genres = Genre(gdb).getGenresByGameId(gameRow[util.ROW_ID])
-						if (genres != None):
-							for i in range(0, len(genres)):
-								genreRow = genres[i]
-								genreList.append(genreRow[util.ROW_NAME])
-				except:
-					pass
-
-				players = self.getGameProperty(gameRow[util.GAME_maxPlayers])
-				rating = self.getGameProperty(gameRow[util.GAME_rating])
-				votes = self.getGameProperty(gameRow[util.GAME_numVotes])
-				url = self.getGameProperty(gameRow[util.GAME_url])
-				region = self.getGameProperty(gameRow[util.GAME_region])
-				media = self.getGameProperty(gameRow[util.GAME_media])
-				perspective = self.getGameProperty(gameRow[util.GAME_perspective])
-				controller = self.getGameProperty(gameRow[util.GAME_controllerType])
-				originalTitle = self.getGameProperty(gameRow[util.GAME_originalTitle])
-				alternateTitle = self.getGameProperty(gameRow[util.GAME_alternateTitle])
-				version = self.getGameProperty(gameRow[util.GAME_version])
-
-				#user settings
-				isFavorite = self.getGameProperty(gameRow[util.GAME_isFavorite])
-				launchCount = self.getGameProperty(gameRow[util.GAME_launchCount])
-
-				romFiles = File(gdb).getRomsByGameId(gameRow[util.ROW_ID])
-				romFile = ''
-				if(romFiles != None and len(romFiles) > 0):
-					romFile = romFiles[0][0]
-				gamenameFromFile = romCollection.getGamenameFromFilename(romFile)
+				gamenameFromFile = romCollection.getGamenameFromFilename(game.firstRom)
 				artworkfiles = {}
 				artworkurls = []
 
-				self.createNfoFromDesc(gamename, plot, romCollection.name, publisher, developer, year,
-									players, rating, votes, url, region, media, perspective, controller, originalTitle, alternateTitle, version, genreList, isFavorite, launchCount, romFile, gamenameFromFile, artworkfiles, artworkurls)
+				genreList = []
+				for genre in game.genre.split(', '):
+					if genre != 'None':
+						genreList.append(genre)
+
+				self.createNfoFromDesc(game.name,
+									   game.plot,
+									   romCollection.name,
+									   game.publisher,
+									   game.developer,
+									   game.year,
+									   game.maxplayers,
+									   game.rating,
+									   game.votes,
+									   game.url,
+									   game.region,
+									   game.media,
+									   game.perspective,
+									   game.controllerType,
+									   game.originalTitle,
+									   game.alternateTitle,
+									   game.version,
+									   genreList,
+									   game.isFavorite,
+									   game.playcount,
+									   game.firstRom,
+									   gamenameFromFile,
+									   artworkfiles,
+									   artworkurls)
 
 		progressDialog.writeMsg("", "", "", -1)
 		del progressDialog

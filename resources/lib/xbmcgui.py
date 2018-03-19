@@ -3015,7 +3015,7 @@ class DialogProgress(object):
 
     def iscanceled(self):
         """Returns ``True`` if the user pressed cancel."""
-        return bool(1)
+        return False
 
     def close(self):
         """Close the progress dialog."""

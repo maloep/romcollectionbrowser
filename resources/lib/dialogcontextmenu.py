@@ -191,7 +191,7 @@ class ContextMenuDialog(xbmcgui.WindowXMLDialog):
 
 		elif controlID == 5120:  # Export nfo files
 			self.close()
-			nfowriter.NfoWriter().exportLibrary(self.gui)
+			nfowriter.NfoWriter().exportLibrary(self.gui.gdb, self.gui.config.romCollections)
 
 		elif controlID == 5114:  # Delete Rom
 			self.close()
