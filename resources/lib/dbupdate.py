@@ -2,6 +2,7 @@ import getpass, glob
 import time
 import urllib2
 import io
+import requests
 
 import xbmcvfs
 import xbmcgui
@@ -900,20 +901,23 @@ class DBUpdate(object):
         else:
             log.info("File already exists in database: %s" % fileName)
 
+
     def download_thumb(self, thumburl, destfilename):
-        log.info("begin download_thumb: thumburl = %s" %thumburl)
+        log.info("begin download_thumb using requests module: thumburl = %s" % thumburl)
 
         # Download file to tmp folder
         tmp = util.joinPath(util.getTempDir(), os.path.basename(destfilename))
 
-        req = urllib2.Request(thumburl)
-        req.add_unredirected_header('User-Agent',
-                                    'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.31 (KHTML, like Gecko) Chrome/26.0.1410.64 Safari/537.31')
-
         log.info("download_thumb: start downloading to temp file: %s" % tmp)
-        f = open(tmp, 'wb')
-        f.write(urllib2.urlopen(req).read())
-        f.close()
+        response = requests.get(thumburl, stream=True)
+        log.info("download_thumb: status code = %s" %response.status_code)
+        if response.status_code != 200:
+            log.info("download_thumb: invalid response status code. Can't download image.")
+            return
+
+        with open(tmp, 'wb') as f:
+            response.raw.decode_content = True
+            shutil.copyfileobj(response.raw, f)
 
         log.info("download_thumb: copy from temp file to final destination: %s" % destfilename)
 
@@ -921,6 +925,7 @@ class DBUpdate(object):
         xbmcvfs.copy(tmp, destfilename)
         xbmcvfs.delete(tmp)
         log.info("end download_thumb")
+
 
     def getThumbFromOnlineSource(self, gamedescription, fileType, fileName, artworkurls):
         log.info("Get thumb from online source")
@@ -961,12 +966,16 @@ class DBUpdate(object):
             if not exists:
                 log.info("Artwork directory %s doesn't exist, creating it" % dirname)
                 success = xbmcvfs.mkdirs(dirname)
-                print success
+                log.info("Directory successfully created: %s" %success)
                 if not success:
-                    log.error("Could not create artwork directory: '%s'" % dirname)
-                    xbmcgui.Dialog().ok(util.localize(32010), util.localize(32011))
-                    del dirname
-                    return False, artworkurls
+                    #HACK: check if directory was really not created.
+                    directoryExists = xbmcvfs.exists(dirname)
+                    log.info("Directory exists: %s" %directoryExists)
+                    if not directoryExists:
+                        log.error("Could not create artwork directory: '%s'" % dirname)
+                        xbmcgui.Dialog().ok(util.localize(32010), util.localize(32011))
+                        del dirname
+                        return False, artworkurls
 
             log.info("File %s does not exist, starting download" % fileName)
             # Dialog Status Art Download
