@@ -540,16 +540,15 @@ class DBUpdate(object):
                                                                          developer)
 
         # Create Nfo file with game properties
-        if gamedescription is not None:
-            try:
-                genreList = gamedescription.get('Genre', [])
-                writer = NfoWriter()
-                writer.createNfoFromDesc(gamename, plot, romCollection.name, publisher, developer, year,
-                                         players, rating, votes, url, region, media, perspective, controller,
-                                         originalTitle, alternateTitle, version, genreList, isFavorite, launchCount,
-                                         romFiles[0], gamenameFromFile, artworkfiles, artworkurls)
-            except Exception as e:
-                log.warn(u"Unable to write NFO file for game %s: %s" % (gamename, e))
+        try:
+            genreList = gamedescription.get('Genre', [])
+            writer = NfoWriter()
+            writer.createNfoFromDesc(gamename, plot, romCollection.name, publisher, developer, year,
+                                     players, rating, votes, url, region, media, perspective, controller,
+                                     originalTitle, alternateTitle, version, genreList, isFavorite, launchCount,
+                                     romFiles[0], gamenameFromFile, artworkfiles, artworkurls)
+        except Exception as e:
+            log.warn(u"Unable to write NFO file for game %s: %s" % (gamename, e))
 
         del publisher, developer, year
 

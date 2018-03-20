@@ -307,7 +307,7 @@ class gameobj(object):
 	
 	@property
 	def genre(self):
-		return str(self.genres)
+		return self.genres
 
 
 class Game(DataBaseObject):	
