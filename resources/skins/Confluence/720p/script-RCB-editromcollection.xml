@@ -659,7 +659,7 @@
 					<onleft>7000</onleft>
 					<onright>5292</onright>
 					<onup>5211</onup>
-					<ondown>5301</ondown>
+					<ondown>5261</ondown>
 				</control>
 				<control type="button" id="5292">
 					<description>Menu Item Prev Button</description>
@@ -673,227 +673,6 @@
 					<onleft>5291</onleft>
 					<onright>6000</onright>
 					<onup>5212</onup>
-					<ondown>5302</ondown>
-				</control>
-				<!-- Scraper 2 -->
-				<control type="list" id="5300">
-					<hitrect x="0" y="0" w="0" h="0" />
-					<posx>0</posx>
-					<posy>28</posy>
-					<width>670</width>
-					<height>30</height>
-					<onleft>5290</onleft>
-					<onright>5310</onright>
-					<onup>5290</onup>
-					<ondown>5310</ondown>
-					<pagecontrol>-</pagecontrol>
-					<scrolltime>0</scrolltime>
-					<itemlayout height="1" width="380">
-					</itemlayout>
-					<focusedlayout height="30" width="670">
-						<control type="image">
-							<posx>0</posx>
-							<posy>0</posy>
-							<width>670</width>
-							<height>30</height>
-							<texture>rcb-MenuItemNF.png</texture>
-							<visible>![Control.HasFocus(5301) | Control.HasFocus(5302)]</visible>
-						</control>
-						<control type="image">
-							<posx>0</posx>
-							<posy>0</posy>
-							<width>670</width>
-							<height>30</height>
-							<texture>rcb-MenuItemFO.png</texture>
-							<visible>[Control.HasFocus(5301) | Control.HasFocus(5302)]</visible>
-						</control>
-						<control type="label">
-							<posx>7</posx>
-							<posy>5</posy>
-							<width>200</width>
-							<height>20</height>
-							<font>font13</font>
-							<textcolor>88FFFFFF</textcolor>
-							<align>left</align>
-							<aligny>center</aligny>
-							<label>$ADDON[script.games.rom.collection.browser 32614]</label>
-							<visible>![Control.HasFocus(5301) | Control.HasFocus(5302)]</visible>
-						</control>
-						<control type="label">
-							<posx>7</posx>
-							<posy>5</posy>
-							<width>200</width>
-							<height>20</height>
-							<font>font13</font>
-							<textcolor>FFFFFFFF</textcolor>
-							<align>left</align>
-							<aligny>center</aligny>
-							<label>$ADDON[script.games.rom.collection.browser 32614]</label>
-							<visible>[Control.HasFocus(5301) | Control.HasFocus(5302)]</visible>
-						</control>						
-						<control type="label">
-							<posx>230</posx>
-							<posy>5</posy>
-							<width>370</width>
-							<height>20</height>
-							<font>font13</font>
-							<textcolor>88FFFFFF</textcolor>
-							<align>right</align>
-							<aligny>center</aligny>
-							<label>$INFO[ListItem.Label]</label>
-							<visible>![Control.HasFocus(5301) | Control.HasFocus(5302)]</visible>
-						</control>
-												
-						<control type="label">
-							<posx>230</posx>
-							<posy>5</posy>
-							<width>370</width>
-							<height>20</height>
-							<font>font13</font>
-							<textcolor>FFFFFFFF</textcolor>
-							<align>right</align>
-							<aligny>center</aligny>
-							<label>$INFO[ListItem.Label]</label>
-							<visible>[Control.HasFocus(5301) | Control.HasFocus(5302)]</visible>
-						</control>
-					</focusedlayout>
-				</control>
-				<control type="button" id="5301">
-					<description>Menu Item Next Button</description>
-					<posx>610</posx>
-					<posy>36</posy>
-					<width>20</width>
-					<height>20</height>
-					<texturenofocus>rcb-scroll-down-2.png</texturenofocus>
-					<texturefocus>rcb-scroll-down-focus-2.png</texturefocus>
-					<onclick>Control.Move(5300,1)</onclick>
-					<onleft>7000</onleft>
-					<onright>5302</onright>
-					<onup>5291</onup>
-					<ondown>5311</ondown>
-				</control>
-				<control type="button" id="5302">
-					<description>Menu Item Prev Button</description>
-					<posx>630</posx>
-					<posy>36</posy>
-					<width>20</width>
-					<height>20</height>
-					<texturenofocus>rcb-scroll-up-2.png</texturenofocus>
-					<texturefocus>rcb-scroll-up-focus-2.png</texturefocus>
-					<onclick>Control.Move(5300,-1)</onclick>
-					<onleft>5301</onleft>
-					<onright>6000</onright>
-					<onup>5292</onup>
-					<ondown>5312</ondown>
-				</control>
-				<!-- Scraper 3 -->
-				<control type="list" id="5310">
-					<hitrect x="0" y="0" w="0" h="0" />
-					<posx>0</posx>
-					<posy>56</posy>
-					<width>670</width>
-					<height>30</height>
-					<onleft>5302</onleft>
-					<onright>5320</onright>
-					<onup>5301</onup>
-					<ondown>5320</ondown>
-					<pagecontrol>-</pagecontrol>
-					<scrolltime>0</scrolltime>
-					<itemlayout height="1" width="380"></itemlayout>
-					<focusedlayout height="30" width="670">
-						<control type="image">
-							<posx>0</posx>
-							<posy>0</posy>
-							<width>670</width>
-							<height>30</height>
-							<texture>rcb-MenuItemNF.png</texture>
-							<visible>![Control.HasFocus(5311) | Control.HasFocus(5312)]</visible>
-						</control>
-						<control type="image">
-							<posx>0</posx>
-							<posy>0</posy>
-							<width>670</width>
-							<height>30</height>
-							<texture>rcb-MenuItemFO.png</texture>
-							<visible>[Control.HasFocus(5311) | Control.HasFocus(5312)]</visible>
-						</control>
-						<control type="label">
-							<posx>7</posx>
-							<posy>5</posy>
-							<width>200</width>
-							<height>20</height>
-							<font>font13</font>
-							<textcolor>88FFFFFF</textcolor>
-							<align>left</align>
-							<aligny>center</aligny>
-							<label>$ADDON[script.games.rom.collection.browser 32615]</label>
-							<visible>![Control.HasFocus(5311) | Control.HasFocus(5312)]</visible>
-						</control>
-						<control type="label">
-							<posx>7</posx>
-							<posy>5</posy>
-							<width>200</width>
-							<height>20</height>
-							<font>font13</font>
-							<textcolor>FFFFFFFF</textcolor>
-							<align>left</align>
-							<aligny>center</aligny>
-							<label>$ADDON[script.games.rom.collection.browser 32615]</label>
-							<visible>[Control.HasFocus(5311) | Control.HasFocus(5312)]</visible>
-						</control>						
-						<control type="label">
-							<posx>230</posx>
-							<posy>5</posy>
-							<width>370</width>
-							<height>20</height>
-							<font>font13</font>
-							<textcolor>88FFFFFF</textcolor>
-							<align>right</align>
-							<aligny>center</aligny>
-							<label>$INFO[ListItem.Label]</label>
-							<visible>![Control.HasFocus(5311) | Control.HasFocus(5312)]</visible>
-						</control>
-												
-						<control type="label">
-							<posx>230</posx>
-							<posy>5</posy>
-							<width>370</width>
-							<height>20</height>
-							<font>font13</font>
-							<textcolor>FFFFFFFF</textcolor>
-							<align>right</align>
-							<aligny>center</aligny>
-							<label>$INFO[ListItem.Label]</label>
-							<visible>[Control.HasFocus(5311) | Control.HasFocus(5312)]</visible>
-						</control>
-					</focusedlayout>
-				</control>
-				<control type="button" id="5311">
-					<description>Menu Item Next Button</description>
-					<posx>610</posx>
-					<posy>62</posy>
-					<width>20</width>
-					<height>20</height>
-					<texturenofocus>rcb-scroll-down-2.png</texturenofocus>
-					<texturefocus>rcb-scroll-down-focus-2.png</texturefocus>
-					<onclick>Control.Move(5310,1)</onclick>
-					<onleft>7000</onleft>
-					<onright>5312</onright>
-					<onup>5301</onup>
-					<ondown>5261</ondown>
-				</control>
-				<control type="button" id="5312">
-					<description>Menu Item Prev Button</description>
-					<posx>630</posx>
-					<posy>62</posy>
-					<width>20</width>
-					<height>20</height>
-					<texturenofocus>rcb-scroll-up-2.png</texturenofocus>
-					<texturefocus>rcb-scroll-up-focus-2.png</texturefocus>
-					<onclick>Control.Move(5310,-1)</onclick>
-					<onleft>5311</onleft>
-					<onright>6000</onright>
-					<onup>5302</onup>
 					<ondown>5262</ondown>
 				</control>
 				
@@ -995,7 +774,7 @@
 						<onclick>Control.Move(5260,1)</onclick>
 						<onleft>7000</onleft>
 						<onright>5262</onright>
-						<onup>5311</onup>
+						<onup>5291</onup>
 						<ondown>5270</ondown>
 					</control>
 					<control type="button" id="5262">
@@ -1009,7 +788,7 @@
 						<onclick>Control.Move(5260,-1)</onclick>
 						<onleft>5261</onleft>
 						<onright>6000</onright>
-						<onup>5312</onup>
+						<onup>5292</onup>
 						<ondown>5270</ondown>
 					</control>
 					<!-- Media Path -->

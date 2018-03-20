@@ -19,8 +19,6 @@ CONTROL_BUTTON_CANCEL = 5310
 CONTROL_LIST_ROMCOLLECTIONS = 5210
 CONTROL_LIST_FUZZYFACTOR = 5260
 CONTROL_LIST_SCRAPER1 = 5270
-CONTROL_LIST_SCRAPER2 = 5280
-CONTROL_LIST_SCRAPER3 = 5290
 
 CONTROL_BUTTON_RC_DOWN = 5211
 CONTROL_BUTTON_RC_UP = 5212
@@ -55,8 +53,7 @@ class ImportOptionsDialog(xbmcgui.WindowXMLDialog):
 
 		sitesInList = self.getAvailableScrapers()
 
-		for scraper in [CONTROL_LIST_SCRAPER1, CONTROL_LIST_SCRAPER2, CONTROL_LIST_SCRAPER3]:
-			self.addItemsToList(scraper, sitesInList)
+		self.addItemsToList(CONTROL_LIST_SCRAPER1, sitesInList)
 
 		# Set initial scraper values
 		sitesInRomCollection = []
@@ -139,19 +136,10 @@ class ImportOptionsDialog(xbmcgui.WindowXMLDialog):
 		return sitesInList
 
 	def selectScrapersInList(self, sitesInRomCollection, sitesInList):
-
 		if len(sitesInRomCollection) >= 1:
 			self.selectScraperInList(sitesInList, sitesInRomCollection[0].name, CONTROL_LIST_SCRAPER1)
 		else:
 			self.selectScraperInList(sitesInList, util.localize(32854), CONTROL_LIST_SCRAPER1)
-		if len(sitesInRomCollection) >= 2:
-			self.selectScraperInList(sitesInList, sitesInRomCollection[1].name, CONTROL_LIST_SCRAPER2)
-		else:
-			self.selectScraperInList(sitesInList, util.localize(32854), CONTROL_LIST_SCRAPER2)
-		if len(sitesInRomCollection) >= 3:
-			self.selectScraperInList(sitesInList, sitesInRomCollection[2].name, CONTROL_LIST_SCRAPER3)
-		else:
-			self.selectScraperInList(sitesInList, util.localize(32854), CONTROL_LIST_SCRAPER3)
 
 	def selectScraperInList(self, options, siteName, controlId):
 		for i in range(0, len(options)):
@@ -198,12 +186,6 @@ class ImportOptionsDialog(xbmcgui.WindowXMLDialog):
 
 			sites = []
 			sites, statusOk = self.addScraperToRomCollection(CONTROL_LIST_SCRAPER1, sites, romCollection)
-			if not statusOk:
-				return None, False
-			sites, statusOk = self.addScraperToRomCollection(CONTROL_LIST_SCRAPER2, sites, romCollection)
-			if not statusOk:
-				return None, False
-			sites, statusOk = self.addScraperToRomCollection(CONTROL_LIST_SCRAPER3, sites, romCollection)
 			if not statusOk:
 				return None, False
 

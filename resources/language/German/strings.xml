@@ -231,9 +231,7 @@
 	<string id="52010">Anzahl Unterordner</string>
 	<string id="52011">Disk Indikator</string>
 	<string id="52012">Ordnername als Spielename</string>
-	<string id="52013">Scraper 1</string>
-	<string id="52014">Scraper 2</string>
-	<string id="52015">Scraper 3</string>
+	<string id="52013">Scraper</string>
 	<string id="52016">Media Typ</string>
 	<string id="52017">Media Pfad</string>
 	<string id="52018">Media Dateimaske</string>
@@ -536,9 +534,7 @@
 	<string id="32610">Anzahl Unterordner</string>
 	<string id="32611">Disk Indikator</string>
 	<string id="32612">Ordnername als Spielename</string>
-	<string id="32613">Scraper 1</string>
-	<string id="32614">Scraper 2</string>
-	<string id="32615">Scraper 3</string>
+	<string id="32613">Scraper</string>
 	<string id="32616">Media Typ</string>
 	<string id="32617">Media Pfad</string>
 	<string id="32618">Media Dateimaske</string>

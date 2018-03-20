@@ -29,8 +29,6 @@ CONTROL_BUTTON_USEFOLDERASGAMENAME = 5430
 
 # Import Game data
 CONTROL_LIST_SCRAPER1 = 5290
-CONTROL_LIST_SCRAPER2 = 5300
-CONTROL_LIST_SCRAPER3 = 5310
 CONTROL_LIST_MEDIATYPES = 5260
 CONTROL_BUTTON_MEDIA_DOWN = 5261
 CONTROL_BUTTON_MEDIA_UP = 5262
@@ -134,8 +132,7 @@ class EditRomCollectionDialog(dialogbase.DialogBaseEdit):
 
 		log.info("build scraper lists")
 		self.availableScrapers = self.getAvailableScrapers()
-		for i in [CONTROL_LIST_SCRAPER1, CONTROL_LIST_SCRAPER2, CONTROL_LIST_SCRAPER3]:
-			self.addItemsToList(i, self.availableScrapers)
+		self.addItemsToList(CONTROL_LIST_SCRAPER1, self.availableScrapers)
 
 		log.info("build imagePlacing list")
 		self.imagePlacingList = []
@@ -427,8 +424,6 @@ class EditRomCollectionDialog(dialogbase.DialogBaseEdit):
 
 		sites = []
 		sites = self.addScraperToSiteList(CONTROL_LIST_SCRAPER1, sites, self.selectedRomCollection)
-		sites = self.addScraperToSiteList(CONTROL_LIST_SCRAPER2, sites, self.selectedRomCollection)
-		sites = self.addScraperToSiteList(CONTROL_LIST_SCRAPER3, sites, self.selectedRomCollection)
 
 		self.selectedRomCollection.scraperSites = sites
 
@@ -627,14 +622,6 @@ class EditRomCollectionDialog(dialogbase.DialogBaseEdit):
 			self.selectItemInList(sitesInRomCollection[0].name, CONTROL_LIST_SCRAPER1)
 		else:
 			self.selectItemInList(util.localize(32854), CONTROL_LIST_SCRAPER1)
-		if len(sitesInRomCollection) >= 2:
-			self.selectItemInList(sitesInRomCollection[1].name, CONTROL_LIST_SCRAPER2)
-		else:
-			self.selectItemInList(util.localize(32854), CONTROL_LIST_SCRAPER2)
-		if len(sitesInRomCollection) >= 3:
-			self.selectItemInList(sitesInRomCollection[2].name, CONTROL_LIST_SCRAPER3)
-		else:
-			self.selectItemInList(util.localize(32854), CONTROL_LIST_SCRAPER3)
 
 
 	def addScraperToSiteList(self, controlId, sites, romCollection):

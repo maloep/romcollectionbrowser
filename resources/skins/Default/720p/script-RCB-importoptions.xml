@@ -232,7 +232,7 @@
 					<onleft>5300</onleft>
 					<onright>5272</onright>
 					<onup>5330</onup>
-					<ondown>5281</ondown>
+					<ondown>5300</ondown>
 					<enable>Skin.HasSetting(rcb_overwriteImportOptions)</enable>
 				</control>
 				<control type="button" id="5272">
@@ -247,172 +247,11 @@
 					<onleft>5271</onleft>
 					<onright>5300</onright>
 					<onup>5330</onup>
-					<ondown>5282</ondown>
-					<enable>Skin.HasSetting(rcb_overwriteImportOptions)</enable>
-				</control>
-				<!-- Scraper 2 -->
-				<control type="list" id="5280">
-					<hitrect x="0" y="0" w="0" h="0" />
-					<posx>0</posx>
-					<posy>130</posy>
-					<width>680</width>
-					<height>40</height>
-					<onleft>5280</onleft>
-					<onright>5280</onright>
-					<onup>5280</onup>
-					<ondown>5280</ondown>
-					<pagecontrol>-</pagecontrol>
-					<scrolltime>0</scrolltime>
-					<itemlayout height="1" width="750">
-					</itemlayout>
-					<focusedlayout height="40" width="680">
-						<control type="image">
-							<posx>0</posx>
-							<posy>0</posy>
-							<width>680</width>
-							<height>40</height>
-							<texture colordiffuse="FF12A0C7">rcb-MenuItemFO.png</texture>
-							<visible>[Control.HasFocus(5281) | Control.HasFocus(5282)]</visible>
-						</control>
-						<control type="label">
-							<posx>50</posx>
-							<posy>10</posy>
-							<width>200</width>
-							<height>20</height>
-							<font>font13</font>
-							<textcolor>white</textcolor>
-							<align>left</align>
-							<aligny>center</aligny>
-							<label>$ADDON[script.games.rom.collection.browser 32614]</label>
-							<animation reversible="false" effect="fade" end="50" time="0" condition="!Skin.HasSetting(rcb_overwriteImportOptions)">Conditional</animation>
-						</control>
-						<control type="label">
-							<posx>250</posx>
-							<posy>10</posy>
-							<width>330</width>
-							<height>20</height>
-							<font>font13</font>
-							<textcolor>white</textcolor>
-							<align>right</align>
-							<aligny>center</aligny>
-							<label>$INFO[ListItem.Label]</label>
-							<animation reversible="false" effect="fade" end="50" time="0" condition="!Skin.HasSetting(rcb_overwriteImportOptions)">Conditional</animation>
-						</control>
-					</focusedlayout>
-				</control>
-				<control type="button" id="5281">
-					<description>Menu Item Next Button</description>
-					<posx>610</posx>
-					<posy>145</posy>
-					<width>20</width>
-					<height>10</height>
-					<texturenofocus colordiffuse="FFAAAAAA">rcb-scroll-down.png</texturenofocus>
-					<texturefocus>rcb-scroll-down.png</texturefocus>
-					<onclick>Control.Move(5280,1)</onclick>
-					<onleft>5300</onleft>
-					<onright>5282</onright>
-					<onup>5271</onup>
-					<ondown>5291</ondown>
-					<enable>Skin.HasSetting(rcb_overwriteImportOptions)</enable>
-				</control>
-				<control type="button" id="5282">
-					<description>Menu Item Prev Button</description>
-					<posx>630</posx>
-					<posy>145</posy>
-					<width>20</width>
-					<height>10</height>
-					<texturenofocus colordiffuse="FFAAAAAA">rcb-scroll-up.png</texturenofocus>
-					<texturefocus>rcb-scroll-up.png</texturefocus>
-					<onclick>Control.Move(5280,-1)</onclick>
-					<onleft>5281</onleft>
-					<onright>5300</onright>
-					<onup>5272</onup>
-					<ondown>5292</ondown>
-					<enable>Skin.HasSetting(rcb_overwriteImportOptions)</enable>
-				</control>
-				<!-- Scraper 3 -->
-				<control type="list" id="5290">
-					<hitrect x="0" y="0" w="0" h="0" />
-					<posx>0</posx>
-					<posy>170</posy>
-					<width>680</width>
-					<height>40</height>
-					<onleft>5290</onleft>
-					<onright>5290</onright>
-					<onup>5290</onup>
-					<ondown>5290</ondown>
-					<pagecontrol>-</pagecontrol>
-					<scrolltime>0</scrolltime>
-					<itemlayout height="1" width="750">
-					</itemlayout>
-					<focusedlayout height="40" width="630">
-						<control type="image">
-							<posx>0</posx>
-							<posy>0</posy>
-							<width>680</width>
-							<height>40</height>
-							<texture colordiffuse="FF12A0C7">rcb-MenuItemFO.png</texture>
-							<visible>[Control.HasFocus(5291) | Control.HasFocus(5292)]</visible>
-						</control>
-						<control type="label">
-							<posx>50</posx>
-							<posy>10</posy>
-							<width>200</width>
-							<height>20</height>
-							<font>font13</font>
-							<textcolor>white</textcolor>
-							<align>left</align>
-							<aligny>center</aligny>
-							<label>$ADDON[script.games.rom.collection.browser 32615]</label>
-							<animation reversible="false" effect="fade" end="50" time="0" condition="!Skin.HasSetting(rcb_overwriteImportOptions)">Conditional</animation>
-						</control>
-						<control type="label">
-							<posx>250</posx>
-							<posy>10</posy>
-							<width>330</width>
-							<height>20</height>
-							<font>font13</font>
-							<textcolor>white</textcolor>
-							<align>right</align>
-							<aligny>center</aligny>
-							<label>$INFO[ListItem.Label]</label>
-							<animation reversible="false" effect="fade" end="50" time="0" condition="!Skin.HasSetting(rcb_overwriteImportOptions)">Conditional</animation>
-						</control>
-					</focusedlayout>
-				</control>
-				<control type="button" id="5291">
-					<description>Menu Item Next Button</description>
-					<posx>610</posx>
-					<posy>185</posy>
-					<width>20</width>
-					<height>10</height>
-					<texturenofocus colordiffuse="FFAAAAAA">rcb-scroll-down.png</texturenofocus>
-					<texturefocus>rcb-scroll-down.png</texturefocus>
-					<onclick>Control.Move(5290,1)</onclick>
-					<onleft>5300</onleft>
-					<onright>5292</onright>
-					<onup>5281</onup>
-					<ondown>5300</ondown>
-					<enable>Skin.HasSetting(rcb_overwriteImportOptions)</enable>
-				</control>
-				<control type="button" id="5292">
-					<description>Menu Item Prev Button</description>
-					<posx>630</posx>
-					<posy>185</posy>
-					<width>20</width>
-					<height>10</height>
-					<texturenofocus colordiffuse="FFAAAAAA">rcb-scroll-up.png</texturenofocus>
-					<texturefocus>rcb-scroll-up.png</texturefocus>
-					<onclick>Control.Move(5290,-1)</onclick>
-					<onleft>5291</onleft>
-					<onright>5300</onright>
-					<onup>5282</onup>
 					<ondown>5300</ondown>
 					<enable>Skin.HasSetting(rcb_overwriteImportOptions)</enable>
 				</control>
 			</control>
-			
-			
+						
 			<control type="button" id="5300"> 
 				<description>Import</description>
 				<posx>150</posx>
@@ -432,7 +271,7 @@
 				<textoffsetx></textoffsetx>
 				<textoffsety></textoffsety>
 				<pulseonselect></pulseonselect>
-				<onup>5292</onup>
+				<onup>5272</onup>
 				<ondown>5101</ondown>
 				<onleft>5310</onleft>
 				<onright>5310</onright>
@@ -456,7 +295,7 @@
 				<textoffsetx></textoffsetx>
 				<textoffsety></textoffsety>
 				<pulseonselect></pulseonselect>
-				<onup>5292</onup>
+				<onup>5272</onup>
 				<ondown>5101</ondown>
 				<onleft>5300</onleft>
 				<onright>5300</onright>

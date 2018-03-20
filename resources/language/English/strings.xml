@@ -228,9 +228,7 @@
 	<string id="52010">Max Folder Depth</string>
 	<string id="52011">Disk Indicator</string>
 	<string id="52012">Use Foldername As Gamename</string>
-	<string id="52013">Scraper 1</string>
-	<string id="52014">Scraper 2</string>
-	<string id="52015">Scraper 3</string>
+	<string id="52013">Scraper</string>
 	<string id="52016">Media Type</string>
 	<string id="52017">Media Path</string>
 	<string id="52018">Media File Mask</string>
@@ -533,9 +531,7 @@
 	<string id="32610">Max Folder Depth</string>
 	<string id="32611">Disk Indicator</string>
 	<string id="32612">Use Foldername As Gamename</string>
-	<string id="32613">Scraper 1</string>
-	<string id="32614">Scraper 2</string>
-	<string id="32615">Scraper 3</string>
+	<string id="32613">Scraper</string>	
 	<string id="32616">Media Type</string>
 	<string id="32617">Media Path</string>
 	<string id="32618">Media File Mask</string>
@@ -586,7 +582,7 @@
 	<!-- importdialog -->
 	<string id="32800">Import Games</string>
 	<string id="32801">Scraping mode</string>
-	<string id="32802">Change scrapers for this run</string>
+	<string id="32802">Change scraper for this run</string>
 	
 	<!-- Missing info filter -->
 	<string id="32850">RCB - Missing info filter</string>
