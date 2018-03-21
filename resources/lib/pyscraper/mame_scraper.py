@@ -3,6 +3,7 @@
 import re
 import io
 import xbmcaddon
+from util import __addon__
 from util import Logutil as log
 from rcbexceptions import *
 from file_scraper import FileScraper
@@ -53,7 +54,7 @@ class MAME_Scraper(FileScraper):
 
 	def _get_history_path(self):
 		# FIXME TODO If this is not set, need to raise exception
-		historyfile_path = xbmcaddon.Addon().getSetting('rcb_MAMEDescriptionFilePath')
+		historyfile_path = __addon__.getSetting('rcb_MAMEDescriptionFilePath')
 		log.debug("Using MAME history dat file defined in settings: {0}".format(historyfile_path))
 		return historyfile_path
 

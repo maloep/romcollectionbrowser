@@ -1,4 +1,3 @@
-
 import os
 import sys
 
@@ -14,132 +13,55 @@ BASE_RESOURCE_PATH = os.path.join(addonPath, "resources")
 sys.path.append(os.path.join(BASE_RESOURCE_PATH, "lib"))
 sys.path.append(os.path.join(BASE_RESOURCE_PATH, "lib", "pyscraper"))
 
-# append the proper platforms folder to our path, xbox is the same as win32
-env = (os.environ.get("OS", "win32"), "win32",)[ os.environ.get("OS", "win32") == "xbox" ]
-if env == 'Windows_NT':
-	env = 'win32'
-sys.path.append(os.path.join(BASE_RESOURCE_PATH, "platform_libraries", 'Linux'))
-
-from gamedatabase import *
-from util import *
+from gamedatabase import GameDataBase
+import util
 import dbupdate
 import config
 
 
-ALLOWEDWINDOWS = [10000]
+class ProgressDialogBk(xbmcgui.DialogProgressBG):
 
-class ProgressDialogBk:
+    itemCount = 0
 
-	itemCount = 1
-	label = None
-	progress = None
-	windowID = None
+    def writeMsg(self, line1, line2, line3, count=0):
+        xbmc.log('writeMsg')
 
+        scrapeOnStartupAction = addon.getSetting(util.SETTING_RCB_SCRAPEONSTARTUPACTION)
+        xbmc.log('scrapeOnStartupAction = ' + scrapeOnStartupAction)
+        if (scrapeOnStartupAction == 'cancel'):
+            self.update(100, 'Rom Collection Browser', 'Update canceled')
+            return False
 
-	def __init__(self):
-		self.paintProgress()
+        if count > 0:
+            percent = int(count * (float(100) / self.itemCount))
+        else:
+            percent = 0
+        self.update(percent, line1, line2)
 
-	def paintProgress(self):
-		xbmc.log('paintProgress')
+        return True
 
-		self.windowID = xbmcgui.getCurrentWindowId()
-		self.window = xbmcgui.Window(self.windowID)
-		self.image = xbmcgui.ControlImage(880, 630, 400, 60, "InfoMessagePanel.png", colorDiffuse='0xC0C0C0C0')
-		self.window.addControl(self.image)
-		self.image.setVisible(False)
-		animations = [('Conditional', 'effect=slide start=1280,0 time=2000 condition=Control.IsVisible(%d)' % self.image.getId())]
-		self.image.setAnimations(animations)
-
-		self.header = xbmcgui.ControlLabel(900, 635, 400, 60, 'Scraping RCB', font='font10_title', textColor='0xFFEB9E17')
-		self.window.addControl(self.header)
-		self.header.setVisible(False)
-		self.header.setAnimations(animations)
-
-		self.label = xbmcgui.ControlLabel(900, 655, 400, 60, 'Scraping RCB', font='font10')
-		self.window.addControl(self.label)
-		self.label.setVisible(False)
-		self.label.setAnimations(animations)
-
-		self.progress = xbmcgui.ControlProgress(900, 675, 370, 8)
-		self.window.addControl(self.progress)
-		self.progress.setVisible(False)
-		self.progress.setAnimations(animations)
-
-		self.label.setVisible(True)
-		self.image.setVisible(True)
-		self.progress.setVisible(True)
-		self.header.setVisible(True)
-
-
-	def writeMsg(self, line1, line2, line3, count=0):
-		xbmc.log('writeMsg')
-		xbmc.log('count = ' + str(count))
-
-		#If we are done, remove progress
-		if(line1 == 'Done.'):
-			try:
-				self.window.removeControl(self.image)
-				self.window.removeControl(self.header)
-				self.window.removeControl(self.label)
-				self.window.removeControl(self.progress)
-			except (TypeError , RuntimeError), exc:
-				xbmc.log('RCB: Error while removing control from window: {0}' %str(exc))
-
-			return False
-
-		#check if action was canceled from RCB
-		scrapeOnStartupAction = util.getSettings().getSetting(util.SETTING_RCB_SCRAPEONSTARTUPACTION)
-		xbmc.log('scrapeOnStartupAction = ' + scrapeOnStartupAction)
-		if (scrapeOnStartupAction == 'cancel'):
-			self.label.setLabel("%d %% - %s" % (100, 'Update canceled'))
-			try:
-				self.window.removeControl(self.image)
-				self.window.removeControl(self.header)
-				self.window.removeControl(self.label)
-				self.window.removeControl(self.progress)
-			except (TypeError , RuntimeError), exc:
-				xbmc.log('RCB: Error while removing control from window: {0}' %str(exc))
-
-			return False
-
-		if not self.label:
-		  return True
-		elif (count > 0):
-			xbmc.log('count > 0')
-			percent = int(count * (float(100) / self.itemCount))
-			self.header.setLabel(line1)
-			self.label.setLabel("%d %% - %s" % (percent, line2))
-			self.progress.setPercent(percent)
-
-
-		if self.windowID != xbmcgui.getCurrentWindowId():
-			self.windowID = xbmcgui.getCurrentWindowId()
-			if xbmcgui.getCurrentWindowId() in ALLOWEDWINDOWS:
-				self.paintProgress()
-
-		return True
 
 def runUpdate():
-	xbmc.log('runUpdate')
+    xbmc.log('runUpdate')
 
-	gdb = GameDataBase(util.getAddonDataPath())
-	gdb.connect()
-	#create db if not existent and maybe update to new version
-	gdb.checkDBStructure()
+    gdb = GameDataBase(util.getAddonDataPath())
+    gdb.connect()
+    #create db if not existent and maybe update to new version
+    gdb.checkDBStructure()
 
-	configFile = config.Config(None)
-	statusOk, errorMsg = configFile.readXml()
+    configFile = config.Config(None)
+    statusOk, errorMsg = configFile.readXml()
 
-	settings = util.getSettings()
-	scrapingMode = util.getScrapingMode(settings)
+    settings = util.getSettings()
+    settings.setSetting(util.SETTING_RCB_SCRAPEONSTARTUPACTION, 'update')
 
-	settings.setSetting(util.SETTING_RCB_SCRAPEONSTARTUPACTION, 'update')
+    progress = ProgressDialogBk()
+    progress.create('Rom Collection Browser', 'Update DB')
 
-	progress = ProgressDialogBk()
-	dbupdate.DBUpdate().updateDB(gdb, progress, scrapingMode, configFile.romCollections, util.getSettings(), False)
+    dbupdate.DBUpdate().updateDB(gdb, progress, configFile.romCollections, False)
 
-	settings.setSetting(util.SETTING_RCB_SCRAPEONSTARTUPACTION, 'nothing')
+    settings.setSetting(util.SETTING_RCB_SCRAPEONSTARTUPACTION, 'nothing')
+    progress.close()
 
 if __name__ == "__main__":
-	runUpdate()
-
+    runUpdate()

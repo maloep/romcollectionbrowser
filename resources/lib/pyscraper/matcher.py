@@ -3,11 +3,10 @@ import HTMLParser
 import re
 
 import xbmcgui
-from xbmcaddon import Addon
 
 import difflib
 import util
-from util import *
+from util import __addon__
 from util import Logutil as log
 from gamename_utils import GameNameUtil
 
@@ -29,7 +28,7 @@ class Matcher(object):
 		scrape_options = {'Automatic: Accurate': 0,
 						  'Interactive: Select Matches': 1}
 		try:
-			mode = scrape_options[Addon().getSetting(util.SETTING_RCB_SCRAPINGMODE)]
+			mode = scrape_options[__addon__.getSetting(util.SETTING_RCB_SCRAPINGMODE)]
 		except KeyError:
 			pass
 

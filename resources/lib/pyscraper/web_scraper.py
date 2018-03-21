@@ -8,10 +8,11 @@ from xbmcaddon import Addon
 from scraper import AbstractScraper
 from rcbexceptions import *
 from util import Logutil as log
+from util import __addon__
 
 
 class WebScraper(AbstractScraper):
-    _headers = {'User-Agent': 'RomCollectionBrowser {0}'.format(Addon().getAddonInfo('version'))}
+    _headers = {'User-Agent': 'RomCollectionBrowser {0}'.format(__addon__.getAddonInfo('version'))}
 
     """ The following attributes are overridden in child web scrapers"""
     _apikey = ''
