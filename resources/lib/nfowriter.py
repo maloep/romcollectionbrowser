@@ -54,9 +54,10 @@ class NfoWriter(RcbXmlReaderWriter):
 				artworkurls = []
 
 				genreList = []
-				for genre in game.genre.split(', '):
-					if genre != 'None':
-						genreList.append(genre)
+				if game.genre:
+					for genre in game.genre.split(', '):
+						if genre != 'None':
+							genreList.append(genre)
 
 				self.createNfoFromDesc(game.name,
 									   game.plot,
