@@ -31,6 +31,9 @@ except:
         util.LOG_LEVEL_WARNING)
 
 
+monitor = xbmc.Monitor()
+
+
 class UpdateLogFile(object):
     _fname = ''
     _header = ''
@@ -169,6 +172,13 @@ class DBUpdate(object):
             for fileidx, filename in enumerate(files):
 
                 try:
+                    #Give kodi a chance to interrupt the process
+                    #HACK: we should use monitor.abortRequested() or monitor.waitForAbort()
+                    #but for some reason only xbmc.abortRequested returns True
+                    if monitor.abortRequested() or xbmc.abortRequested:
+                        log.info("Kodi requests abort. Cancel Update.")
+                        break
+
                     log.info("Scraping for %s" % filename)
                     gamenameFromFile = romCollection.getGamenameFromFilename(filename)
 
@@ -217,6 +227,13 @@ class DBUpdate(object):
                     self._guiDict.update({'dialogHeaderKey': progDialogRCHeader, 'gameNameKey': gamenameFromFile,
                                           'scraperSiteKey': artScrapers, 'fileCountKey': (fileidx + 1)})
                     del artScrapers
+
+                    #Give kodi a chance to interrupt the process
+                    #HACK: we should use monitor.abortRequested() or monitor.waitForAbort()
+                    #but for some reason only xbmc.abortRequested returns True
+                    if monitor.abortRequested() or xbmc.abortRequested:
+                        log.info("Kodi requests abort. Cancel Update.")
+                        break
 
                     # Add 'gui' and 'dialogDict' parameters to function
                     lastGameId = self.insertGameFromDesc(results, gamenameFromFile, romCollection, [filename],

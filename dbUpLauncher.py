@@ -18,6 +18,25 @@ import util
 import dbupdate
 import config
 
+monitor = xbmc.Monitor()
+
+
+class HandleAbort:
+    def __enter__(self):
+        xbmc.log("HandleAbort enter")
+
+        settings = util.getSettings()
+        settings.setSetting(util.SETTING_RCB_SCRAPEONSTARTUPACTION, 'update')
+
+        return True
+
+    def __exit__(self, type, value, traceback):
+        xbmc.log("HandleAbort exit")
+
+        settings = util.getSettings()
+        settings.setSetting(util.SETTING_RCB_SCRAPEONSTARTUPACTION, 'nothing')
+
+
 
 class ProgressDialogBk(xbmcgui.DialogProgressBG):
 
@@ -52,15 +71,12 @@ def runUpdate():
     configFile = config.Config(None)
     statusOk, errorMsg = configFile.readXml()
 
-    settings = util.getSettings()
-    settings.setSetting(util.SETTING_RCB_SCRAPEONSTARTUPACTION, 'update')
-
     progress = ProgressDialogBk()
     progress.create('Rom Collection Browser', 'Update DB')
 
-    dbupdate.DBUpdate().updateDB(gdb, progress, configFile.romCollections, False)
+    with HandleAbort():
+        dbupdate.DBUpdate().updateDB(gdb, progress, configFile.romCollections, False)
 
-    settings.setSetting(util.SETTING_RCB_SCRAPEONSTARTUPACTION, 'nothing')
     progress.close()
 
 if __name__ == "__main__":
