@@ -1166,9 +1166,12 @@
 				<posy>50</posy>
 				<radiowidth>24</radiowidth>
 				<radioheight>24</radioheight>
+				<radioposx>155</radioposx>
 				<width>200</width>
 				<height>30</height>
 				<font>font13</font>
+				<align>left</align>
+				<textoffsetx>7</textoffsetx>
 				<label>$ADDON[script.games.rom.collection.browser 32404]:</label>
 				<textcolor>DDFFFFFF</textcolor>
 				<focusedcolor>DDFFFFFF</focusedcolor>
