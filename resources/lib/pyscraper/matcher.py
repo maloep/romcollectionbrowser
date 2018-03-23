@@ -25,8 +25,8 @@ class Matcher(object):
 
 	def getScrapingMode(self):
 		mode = 0
-		scrape_options = {'Automatic: Accurate': 0,
-						  'Interactive: Select Matches': 1}
+		scrape_options = {util.SCRAPING_OPTION_AUTO_ACCURATE_TXT: 0,
+						  util.SCRAPING_OPTION_INTERACTIVE_TXT: 1}
 		try:
 			mode = scrape_options[__addon__.getSetting(util.SETTING_RCB_SCRAPINGMODE)]
 		except KeyError:

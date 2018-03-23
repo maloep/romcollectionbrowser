@@ -17,13 +17,14 @@ CONTROL_BUTTON_OK = 5300
 CONTROL_BUTTON_CANCEL = 5310
 
 CONTROL_LIST_ROMCOLLECTIONS = 5210
-CONTROL_LIST_FUZZYFACTOR = 5260
 CONTROL_LIST_SCRAPER1 = 5270
 
 CONTROL_BUTTON_RC_DOWN = 5211
 CONTROL_BUTTON_RC_UP = 5212
 
-CONTROL_BUTTON_OVERWRITESETTINGS = 5330
+CONTROL_BUTTON_SCRAPER_DOWN = 5271
+
+CONTROL_BUTTON_SCRAPEINBACKGROUND = 5340
 
 
 class ImportOptionsDialog(xbmcgui.WindowXMLDialog):
@@ -47,9 +48,17 @@ class ImportOptionsDialog(xbmcgui.WindowXMLDialog):
 		if self.romCollections is not None:
 			# Set overwrite flag to false
 			xbmc.executebuiltin('Skin.SetBool(%s)' % util.SETTING_RCB_IMPORTOPTIONS_DISABLEROMCOLLECTIONS)
-			self.setFocus(self.getControl(CONTROL_BUTTON_OVERWRITESETTINGS))
+			if not self.isRescrape:
+				self.setFocus(self.getControl(CONTROL_BUTTON_SCRAPEINBACKGROUND))
 		else:
 			xbmc.executebuiltin('Skin.Reset(%s)' % util.SETTING_RCB_IMPORTOPTIONS_DISABLEROMCOLLECTIONS)
+
+		#disable background scraping control when in rescrape-mode
+		if self.isRescrape:
+			xbmc.executebuiltin('Skin.SetBool(%s)' % util.SETTING_RCB_IMPORTOPTIONS_ISRESCRAPE)
+			self.setFocus(self.getControl(CONTROL_BUTTON_SCRAPER_DOWN))
+		else:
+			xbmc.executebuiltin('Skin.Reset(%s)' % util.SETTING_RCB_IMPORTOPTIONS_ISRESCRAPE)
 
 		sitesInList = self.getAvailableScrapers()
 
@@ -64,9 +73,6 @@ class ImportOptionsDialog(xbmcgui.WindowXMLDialog):
 				break
 
 		self.selectScrapersInList(sitesInRomCollection, sitesInList)
-
-		# Set overwrite flag to false
-		xbmc.executebuiltin('Skin.Reset(%s)' % util.SETTING_RCB_OVERWRITEIMPORTOPTIONS)
 
 	def onAction(self, action):
 		if action.getId() in ACTION_CANCEL_DIALOG:
@@ -121,11 +127,6 @@ class ImportOptionsDialog(xbmcgui.WindowXMLDialog):
 
 		control.addItems(items)
 
-	def setRadioButtonValue(self, controlId, setting):
-		control = self.getControlById(controlId)
-		value = self.gui.Settings.getSetting(setting).upper() == 'TRUE'
-		control.setSelected(value)
-
 	def getAvailableScrapers(self):
 		# Scrapers
 		sitesInList = [util.localize(32854)]
@@ -153,7 +154,8 @@ class ImportOptionsDialog(xbmcgui.WindowXMLDialog):
 		romCollections, statusOk = self.setScrapersInConfig()
 
 		if statusOk:
-			self.gui.doImport(romCollections, self.isRescrape)
+			control = self.getControlById(CONTROL_BUTTON_SCRAPEINBACKGROUND)
+			self.gui.doImport(romCollections, self.isRescrape, control.isSelected())
 
 	def setScrapersInConfig(self):
 		# Read selected Rom Collection
@@ -173,11 +175,6 @@ class ImportOptionsDialog(xbmcgui.WindowXMLDialog):
 					if romCollection.name == selectedRC:
 						romCollections[romCollection.id] = romCollection
 						break
-
-		# Check if we should use configured scrapers
-		control = self.getControlById(CONTROL_BUTTON_OVERWRITESETTINGS)
-		if not control.isSelected():
-			return romCollections, True
 
 		# TODO ignore offline scrapers
 		for rcId in romCollections.keys():

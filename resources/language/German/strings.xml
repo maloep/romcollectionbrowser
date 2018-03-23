@@ -458,6 +458,7 @@
 	<string id="32202">%s (Installiert)</string>
 	<string id="32203">Per autoconfig verfügbare Emulatoren</string>
 	<string id="32204">Lade Bilder...</string>
+	<string id="32205">Abbruch erzwingen?</string>
 
 	
 	<!-- Settings -->
@@ -586,6 +587,7 @@
 	<string id="32800">Spiele importieren</string>
 	<string id="32801">Scrape Modus</string>
 	<string id="32802">Scraper für diesen Lauf ändern</string>
+	<string id="32803">Im Hintergrund importieren (beendet RCB)</string>
 	
 	<!-- Missing info filter -->
 	<string id="32850">RCB - Nach fehlenden Infos filtern</string>

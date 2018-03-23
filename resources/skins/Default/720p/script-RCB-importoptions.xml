@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <window id="5200">
 	<defaultcontrol>5211</defaultcontrol>
-	<include>dialogeffect</include>
 	<coordinates>
 		<system>1</system>
 		<posx>280</posx>
@@ -122,7 +121,7 @@
 					<onleft>5300</onleft>
 					<onright>5212</onright>
 					<onup>5101</onup>
-					<ondown>5330</ondown>
+					<ondown>5340</ondown>
 					<enable>!Skin.HasSetting(rcb_disableRomcollections)</enable>
 				</control>
 				<control type="button" id="5212">
@@ -137,14 +136,14 @@
 					<onleft>5211</onleft>
 					<onright>5300</onright>
 					<onup>5101</onup>
-					<ondown>5330</ondown>
+					<ondown>5340</ondown>
 					<enable>!Skin.HasSetting(rcb_disableRomcollections)</enable>
 				</control>
 				
-				<!-- Change Scrapers for this Run -->
-				<control type="radiobutton" id="5330">
+				<!-- Run in Background -->
+				<control type="radiobutton" id="5340">
 					<posx>0</posx>
-					<posy>50</posy>
+					<posy>40</posy>
 					<width>680</width>
 					<height>40</height>
 					<radiowidth>40</radiowidth>
@@ -152,8 +151,9 @@
 					<radioposx>610</radioposx>
 					<align>left</align>
 					<font>font13</font>
-					<label>$ADDON[script.games.rom.collection.browser 32802]</label>
+					<label>$ADDON[script.games.rom.collection.browser 32803]</label>
 					<textcolor>white</textcolor>
+					<disabledcolor>white</disabledcolor>
 					<textoffsetx>25</textoffsetx>
 					<focusedcolor>FFFFFFFF</focusedcolor>
 					<texturefocus colordiffuse="FF12A0C7">rcb-MenuItemFO.png</texturefocus>
@@ -161,26 +161,28 @@
 					<textureradioonfocus>rcb-radio-button-on.png</textureradioonfocus>
 					<textureradioonnofocus>rcb-radio-button-on.png</textureradioonnofocus>
 					<textureradioofffocus>rcb-radio-button-off.png</textureradioofffocus>
-					<textureradiooffnofocus>rcb-radio-button-off.png</textureradiooffnofocus>					
+					<textureradiooffnofocus>rcb-radio-button-off.png</textureradiooffnofocus>
+					<textureradioondisabled>rcb-radio-button-on.png</textureradioondisabled>
+					<textureradiooffdisabled>rcb-radio-button-off.png</textureradiooffdisabled>
 					<onleft>5300</onleft>
 					<onright>5300</onright>
 					<onup>5212</onup>
 					<ondown>5272</ondown>
-					<onclick>Skin.ToggleSetting(rcb_overwriteImportOptions)</onclick>
+					<enable>!Skin.HasSetting(rcb_isRescrape)</enable>
+					<animation reversible="false" effect="fade" end="50" time="0" condition="Skin.HasSetting(rcb_isRescrape)">Conditional</animation>
 				</control>
 				
 				<!-- Scraper 1 -->
 				<control type="list" id="5270">
 					<hitrect x="0" y="0" w="0" h="0" />
 					<posx>0</posx>
-					<posy>90</posy>
+					<posy>80</posy>
 					<width>680</width>
 					<height>40</height>
 					<onleft>5272</onleft>
 					<onright>5270</onright>
 					<onup>5270</onup>
 					<ondown>5270</ondown>
-					<enable>false</enable>
 					<pagecontrol>-</pagecontrol>
 					<scrolltime>0</scrolltime>
 					<itemlayout height="1" width="750">
@@ -195,7 +197,7 @@
 							<visible>[Control.HasFocus(5271) | Control.HasFocus(5272)]</visible>
 						</control>
 						<control type="label">
-							<posx>50</posx>
+							<posx>25</posx>
 							<posy>10</posy>
 							<width>200</width>
 							<height>20</height>
@@ -204,7 +206,6 @@
 							<align>left</align>
 							<aligny>center</aligny>
 							<label>$ADDON[script.games.rom.collection.browser 32613]</label>
-							<animation reversible="false" effect="fade" end="50" time="0" condition="!Skin.HasSetting(rcb_overwriteImportOptions)">Conditional</animation>
 						</control>
 						<control type="label">
 							<posx>250</posx>
@@ -216,14 +217,13 @@
 							<align>right</align>
 							<aligny>center</aligny>
 							<label>$INFO[ListItem.Label]</label>
-							<animation reversible="false" effect="fade" end="50" time="0" condition="!Skin.HasSetting(rcb_overwriteImportOptions)">Conditional</animation>
 						</control>
 					</focusedlayout>
 				</control>
 				<control type="button" id="5271">
 					<description>Menu Item Next Button</description>
 					<posx>610</posx>
-					<posy>105</posy>
+					<posy>95</posy>
 					<width>20</width>
 					<height>10</height>
 					<texturenofocus colordiffuse="FFAAAAAA">rcb-scroll-down.png</texturenofocus>
@@ -231,14 +231,13 @@
 					<onclick>Control.Move(5270,1)</onclick>
 					<onleft>5300</onleft>
 					<onright>5272</onright>
-					<onup>5330</onup>
+					<onup>5340</onup>
 					<ondown>5300</ondown>
-					<enable>Skin.HasSetting(rcb_overwriteImportOptions)</enable>
 				</control>
 				<control type="button" id="5272">
 					<description>Menu Item Prev Button</description>
 					<posx>630</posx>
-					<posy>105</posy>
+					<posy>95</posy>
 					<width>20</width>
 					<height>10</height>
 					<texturenofocus colordiffuse="FFAAAAAA">rcb-scroll-up.png</texturenofocus>
@@ -246,9 +245,8 @@
 					<onclick>Control.Move(5270,-1)</onclick>
 					<onleft>5271</onleft>
 					<onright>5300</onright>
-					<onup>5330</onup>
+					<onup>5340</onup>
 					<ondown>5300</ondown>
-					<enable>Skin.HasSetting(rcb_overwriteImportOptions)</enable>
 				</control>
 			</control>
 						

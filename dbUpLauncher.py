@@ -22,11 +22,18 @@ monitor = xbmc.Monitor()
 
 
 class HandleAbort:
+
+    orig_scraping_mode = ''
+
     def __enter__(self):
         xbmc.log("HandleAbort enter")
 
         settings = util.getSettings()
         settings.setSetting(util.SETTING_RCB_SCRAPEONSTARTUPACTION, 'update')
+
+        #set scraping mode to accurate
+        self.orig_scraping_mode = settings.getSetting(util.SETTING_RCB_SCRAPINGMODE)
+        settings.setSetting(util.SETTING_RCB_SCRAPINGMODE, util.SCRAPING_OPTION_AUTO_ACCURATE_TXT)
 
         return True
 
@@ -35,6 +42,9 @@ class HandleAbort:
 
         settings = util.getSettings()
         settings.setSetting(util.SETTING_RCB_SCRAPEONSTARTUPACTION, 'nothing')
+
+        #restore original scraping mode
+        settings.setSetting(util.SETTING_RCB_SCRAPINGMODE, self.orig_scraping_mode)
 
 
 

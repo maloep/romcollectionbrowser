@@ -1128,23 +1128,32 @@ class UIGameDB(xbmcgui.WindowXML):
 			if(retGames == True):
 				#Import Games
 				if(romCollections == None):
-					self.doImport(self.config.romCollections, isRescrape)
+					self.doImport(self.config.romCollections, isRescrape, False)
 				else:
-					self.doImport(romCollections, isRescrape)
+					self.doImport(romCollections, isRescrape, False)
 
 
-	def doImport(self, romCollections, isRescrape):
-		progressDialog = dialogprogress.ProgressDialogGUI()
-		progressDialog.writeMsg(util.localize(32111), "", "")
+	def doImport(self, romCollections, isRescrape, scrapeInBackground):
 
-		updater = dbupdate.DBUpdate()
-		updater.updateDB(self.gdb, progressDialog, romCollections, isRescrape)
-		del updater
-		progressDialog.writeMsg("", "", "", -1)
-		del progressDialog
+		if scrapeInBackground:
+			path = os.path.join(self.Settings.getAddonInfo('path'), 'dbUpLauncher.py')
+			log.info('Launch external update script: %s' %path)
+			xbmc.executescript("%s" % path)
+			#exit RCB
+			self.quit = True
+			self.exit()
+		else:
+			progressDialog = dialogprogress.ProgressDialogGUI()
+			progressDialog.writeMsg(util.localize(32111), "", "")
 
-		#force recache images
-		self.mediaDict = None
+			updater = dbupdate.DBUpdate()
+			updater.updateDB(self.gdb, progressDialog, romCollections, isRescrape)
+			del updater
+			progressDialog.writeMsg("", "", "", -1)
+			del progressDialog
+
+			#force recache images
+			self.mediaDict = None
 
 
 	def checkUpdateInProgress(self):
@@ -1161,10 +1170,11 @@ class UIGameDB(xbmcgui.WindowXML):
 			return True
 
 		elif (scrapeOnStartupAction == 'cancel'):
-			xbmcgui.Dialog().ok(util.localize(32999), util.localize(32114), util.localize(32115))
+			retForceCancel = xbmcgui.Dialog().yesno(util.localize(32999), util.localize(32114), util.localize(32205))
 
 			#HACK: Assume that there is a problem with canceling the action
-			#self.Settings.setSetting(util.SETTING_RCB_SCRAPEONSTARTUPACTION, 'nothing')
+			if (retForceCancel == True):
+				self.Settings.setSetting(util.SETTING_RCB_SCRAPEONSTARTUPACTION, 'nothing')
 
 			return True
 
@@ -1363,15 +1373,6 @@ class UIGameDB(xbmcgui.WindowXML):
 		Logutil.log("exit" , util.LOG_LEVEL_INFO)
 
 		self.saveViewState(True)
-
-		"""
-		if self.memDB:
-			Logutil.log("Saving DB to disk", util.LOG_LEVEL_INFO)
-			if self.gdb.toDisk():
-				Logutil.log("Database saved ok!", util.LOG_LEVEL_INFO)
-			else:
-				Logutil.log("Failed to save database!", util.LOG_LEVEL_INFO)
-		"""
 
 		self.gdb.close()
 		self.close()

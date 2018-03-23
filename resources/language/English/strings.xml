@@ -456,6 +456,7 @@
 	<string id="32202">%s (Installed)</string>
 	<string id="32203">Available autoconfig emulators</string>
 	<string id="32204">Caching images...</string>
+	<string id="32205">Do you want to force cancel current import?</string>
 	
 	
 	<!-- Settings -->
@@ -583,6 +584,7 @@
 	<string id="32800">Import Games</string>
 	<string id="32801">Scraping mode</string>
 	<string id="32802">Change scraper for this run</string>
+	<string id="32803">Scrape in background (exit RCB)</string>
 	
 	<!-- Missing info filter -->
 	<string id="32850">RCB - Missing info filter</string>
