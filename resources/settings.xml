@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <settings>
-	<category label="45000">
-		<setting id="rcb_skin" label="45001" type="labelenum" values="Estuary|Confluence|Night|Simplicity" default="Estuary"/>
-		<setting id="rcb_logLevel" label="45002" type="labelenum" values="ERROR|WARNING|INFO|DEBUG" default="INFO"/>
-		<setting id="rcb_saveViewStateOnExit" label="45004" type="bool" default="true"/>
-		<setting id="rcb_saveViewStateOnLaunchEmu" label="45005" type="bool" default="true"/>
+	<category label="32300">
+		<setting id="rcb_skin" label="32301" type="labelenum" values="Estuary|Confluence|Night|Simplicity" default="Estuary"/>
+		<setting id="rcb_logLevel" label="32302" type="labelenum" values="ERROR|WARNING|INFO|DEBUG" default="INFO"/>
+		<setting id="rcb_saveViewStateOnExit" label="32304" type="bool" default="true"/>
+		<setting id="rcb_saveViewStateOnLaunchEmu" label="32305" type="bool" default="true"/>
 		
 		<setting id="rcb_view_mode" visible="false" value="" type="text"/>
 		<setting id="rcb_launchOnStartup" visible="false" type="bool" default="false"/>
@@ -13,37 +13,37 @@
 		<setting id="rcb_searchText" visible="false" value="" type="text"/>
 	</category>
 	
-	<category label="45006">
-		<setting id="rcb_scrapOnStartUP" label="45007" value="false" type="bool" default="false"/>
-		<setting id="rcb_showImportOptions" label="45008" type="bool" default="true"/>
-		<setting id="rcb_scrapingMode" label="45009" type="labelenum" values="Automatic: Accurate|Interactive: Select Matches" default="Automatic: Accurate"/>
-		<setting id="rcb_ignoreGamesWithoutDesc" label="45012" type="bool" default="false"/>
-		<setting id="rcb_enableFullReimport" label="45014" type="bool" default="false"/>
-		<setting id="rcb_overwriteWithNullvalues" label="45015" type="bool" default="false"/>
-		<setting id="rcb_nfoFolder" label="45017" type="folder" enable="eq(-1,true)" />
+	<category label="32306">
+		<setting id="rcb_scrapOnStartUP" label="32307" value="false" type="bool" default="false"/>
+		<setting id="rcb_showImportOptions" label="32308" type="bool" default="true"/>
+		<setting id="rcb_scrapingMode" label="32309" type="labelenum" values="Automatic: Accurate|Interactive: Select Matches" default="Automatic: Accurate"/>
+		<setting id="rcb_ignoreGamesWithoutDesc" label="32312" type="bool" default="false"/>
+		<setting id="rcb_enableFullReimport" label="32314" type="bool" default="false"/>
+		<setting id="rcb_overwriteWithNullvalues" label="32315" type="bool" default="false"/>
+		<setting id="rcb_nfoFolder" label="32317" type="folder" />
 		<setting id="rcb_PreferNfoFileIfAvailable" label="32329" type="bool" default="true" />
 	</category>
 	
-	<category label="45018">
-		<setting id="rcb_showFavoriteStars" label="45019" type="bool" default="true"/>
-		<setting id="rcb_showEntryAllConsoles" label="45020" type="bool" default="true"/>
-		<setting id="rcb_showEntryAllGenres" label="45021" type="bool" default="true"/>
-		<setting id="rcb_showEntryAllYears" label="45022" type="bool" default="true"/>
-		<setting id="rcb_showEntryAllPublisher" label="45023" type="bool" default="true"/>
-		<setting id="rcb_showEntryAllChars" label="45024" type="bool" default="true"/>
-		<setting id="rcb_preventUnfilteredSearch" label="45025" type="bool" default="false"/>
-		<setting id="rcb_maxNumGames" label="45028" type="enum" values="max|100|250|500|1000|2500|5000|10000" default="0"/>
+	<category label="32318">
+		<setting id="rcb_showFavoriteStars" label="32319" type="bool" default="true"/>
+		<setting id="rcb_showEntryAllConsoles" label="32320" type="bool" default="true"/>
+		<setting id="rcb_showEntryAllGenres" label="32321" type="bool" default="true"/>
+		<setting id="rcb_showEntryAllYears" label="32322" type="bool" default="true"/>
+		<setting id="rcb_showEntryAllPublisher" label="32323" type="bool" default="true"/>
+		<setting id="rcb_showEntryAllChars" label="32324" type="bool" default="true"/>
+		<setting id="rcb_preventUnfilteredSearch" label="32325" type="bool" default="false"/>
+		<setting id="rcb_maxNumGames" label="32328" type="enum" values="max|100|250|500|1000|2500|5000|10000" default="0"/>
 	</category>
 	
-	<category label="45026">
-	    <setting id="rcb_useVBInSoloMode" label="40097" type="bool" default="false"/>
-		<setting id="rcb_startupDelay" label="40096" type="slider" default="1000" range="100,100,2000" option="int"/>
-		<setting id="rcb_escapeEmulatorCommand" label="45027" value="false" type="bool" default="false"/>
-		<setting id="rcb_prelaunchDelay" label="40094" type="slider" default="1000" range="100,100,2000" option="int"/>
-		<setting id="rcb_postlaunchDelay" label="40095" type="slider" default="1000" range="100,100,2000" option="int"/>
-		<setting id="rcb_suspendAudio" label="40099" type="bool" default="true"/>
-		<setting id="rcb_toggleScreenMode" label="40100" type="bool" default="true"/>
-		<setting id="rcb_pathToEmuAutoConfig" label="40101" type="file" />
+	<category label="32326">
+	    <setting id="rcb_useVBInSoloMode" label="32197" type="bool" default="false"/>
+		<setting id="rcb_startupDelay" label="32196" type="slider" default="1000" range="100,100,2000" option="int"/>
+		<setting id="rcb_escapeEmulatorCommand" label="32327" value="false" type="bool" default="false"/>
+		<setting id="rcb_prelaunchDelay" label="32194" type="slider" default="1000" range="100,100,2000" option="int"/>
+		<setting id="rcb_postlaunchDelay" label="32195" type="slider" default="1000" range="100,100,2000" option="int"/>
+		<setting id="rcb_suspendAudio" label="32199" type="bool" default="true"/>
+		<setting id="rcb_toggleScreenMode" label="32200" type="bool" default="true"/>
+		<setting id="rcb_pathToEmuAutoConfig" label="32201" type="file" />
 	</category>
 
 </settings>
