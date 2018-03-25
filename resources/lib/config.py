@@ -171,9 +171,11 @@ class Site(object):
 	NOTE that this class will be deprecated in the future.
 
 	name: The name of the site
+	path: path to offline game description
 	"""
 	def __init__(self, **kwargs):
 		self.name = ''
+		self.path = ''
 
 		""" Set any variables explicitly passed """
 		for name in kwargs:
@@ -181,9 +183,6 @@ class Site(object):
 
 	def __repr__(self):
 		return "<Site: %s>" % self.__dict__
-
-	def is_localartwork_scraper(self):
-		return self.name == util.localize(32153)
 
 
 class MissingFilter(object):
@@ -319,6 +318,16 @@ class RomCollection(object):
 			if path.fileType.name == ftype:
 				return path.path
 		return ''
+
+	def getScraperSiteByName(self, name):
+		""" Returns the scraperSite object by name
+
+		If not found, will return None
+		"""
+		for scraper in self.scraperSites:
+			if scraper.name == name:
+				return scraper
+		return None
 
 	def getAvailableFileTypeForArt(self, attname, placing):
 		""" Iterate over the list of <fileTypeForGameList> elements and return the first one found in the
@@ -594,6 +603,7 @@ class Config(RcbXmlReaderWriter):
 
 				site = Site()
 				site.name = scraperRow.attrib.get('name')
+				site.path = scraperRow.attrib.get('path')
 
 				romCollection.scraperSites.append(site)
 
