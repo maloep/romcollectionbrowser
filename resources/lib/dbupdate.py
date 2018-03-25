@@ -422,6 +422,8 @@ class DBUpdate(object):
                 newscraper = nfoscraper
             else:
                 newscraper = AbstractScraper().get_scraper_by_name(scraperSite.name)
+                #set path to desc file (only useful for offline scrapers)
+                newscraper.path = scraperSite.path
 
             results = newscraper.search(gamenameFromFile, romCollection.name)
             log.debug(u"Searching for %s - found %s results: %s" % (gamenameFromFile, len(results), results))

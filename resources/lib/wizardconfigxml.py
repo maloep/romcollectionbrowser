@@ -8,10 +8,12 @@ from rcbxmlreaderwriter import RcbXmlReaderWriter
 from util import Logutil as log
 import xbmc, xbmcgui, xbmcvfs
 from pyscraper.web_scraper import WebScraper
+from pyscraper.scraper import AbstractScraper
 
 
-RETRIEVE_INFO_ARTWORK_ONLINE = 0     # Game description and artwork need to be downloaded
-RETRIEVE_INFO_ARTWORK_LOCALLY = 1    # Game description and artwork already exist locally
+RETRIEVE_INFO_ONLINE_ARTWORK_ONLINE = 0     # Game description and artwork need to be downloaded
+RETRIEVE_INFO_LOCAL_ARTWORK_LOCAL = 1    # Game description and artwork already exist locally
+RETRIEVE_INFO_ONLINE_ARTWORK_LOCAL = 2    # Game description will be scraped online and artwork already exist locally
 
 GAME_DESCRIPTION_PER_FILE = 0
 GAME_DESCRIPTION_SINGLE_FILE = 1     # All game descriptions in a single file, e.g. MAME history.dat
@@ -131,7 +133,7 @@ class ConfigXmlWizard(RcbXmlReaderWriter):
 		dialog = xbmcgui.Dialog()
 
 		# Scraping scenario - game descriptions and artwork retrieved from online or available locally
-		scenarioIndex = dialog.select(util.localize(32173), [util.localize(32174), util.localize(32175)])
+		scenarioIndex = dialog.select(util.localize(32173), [util.localize(32174), util.localize(32175), util.localize(32207)])
 		log.info("scenarioIndex: " + str(scenarioIndex))
 		if scenarioIndex == -1:
 			del dialog
@@ -251,7 +253,7 @@ class ConfigXmlWizard(RcbXmlReaderWriter):
 				# MAME zip files contain several files but they must be passed to the emu as zip file
 				romCollection.doNotExtractZipFiles = True
 
-			if scenarioIndex == RETRIEVE_INFO_ARTWORK_ONLINE:
+			if scenarioIndex == RETRIEVE_INFO_ONLINE_ARTWORK_ONLINE:
 				# Prompt for artwork path
 				artworkPath = self.promptArtworkPath(console, romPath)
 				if artworkPath == '':
@@ -298,34 +300,43 @@ class ConfigXmlWizard(RcbXmlReaderWriter):
 					if not dialog.yesno(util.localize(32999), util.localize(32184)):
 						break
 
-				# Ask user for source of game descriptions (description file per game or for all games, or online/local NFO)
-				descIndex = dialog.select(util.localize(32185), [util.localize(32186), util.localize(32187), util.localize(32188)])
+				#not used atm as we don't have any offline scrapers with descfile per game
+				"""
+				# Ask user for source of game descriptions (description file per game or for all games)
+				descIndex = dialog.select(util.localize(32185), [util.localize(32186), util.localize(32187)])
 				log.debug("descIndex: " + str(descIndex))
 				if descIndex == -1:
 					log.info("No descIndex selected. Action canceled.")
 					break
 
 				romCollection.descFilePerGame = (descIndex != GAME_DESCRIPTION_SINGLE_FILE)
+				"""
 
-				if descIndex == GAME_DESCRIPTION_ONLINE:
-					# Leave scraperSites empty - they will be filled in configwriter
-					pass
+				if scenarioIndex == RETRIEVE_INFO_LOCAL_ARTWORK_LOCAL:
+					offline_scrapers = AbstractScraper().get_available_offline_scrapers(console)
+					scraperIndex = dialog.select(util.localize(32206), offline_scrapers)
+					if scraperIndex == -1:
+						log.info("No Scraper type selected. Action canceled.")
+						break
 
-				else:
-					descPath = ''
+					selectedscraper = offline_scrapers[scraperIndex]
+					log.info("Selected scraper = {0}".format(selectedscraper))
 
+					#not used atm as we don't have any offline scrapers with descfile per game
+					"""
 					if romCollection.descFilePerGame:
 						# Assume the files are in a single directory with the mask %GAME%.txt
 						# Prompt the user for the path
 						pathValue = dialog.browse(0, util.localize(32189) % console, 'files')
 						if pathValue == '':
 							break
-
+	
 						# Prompt the user for the description file mask
-						filemask = xbmcgui.Dialog().input(util.localize(32190), defaultt='%GAME%.txt', type=xbmcgui.INPUT_ALPHANUM)
+						filemask = xbmcgui.Dialog().input(util.localize(32190), defaultt='%GAME%.xml', type=xbmcgui.INPUT_ALPHANUM)
 						descPath = util.joinPath(pathValue, filemask.strip())
 					else:
-						descPath = dialog.browse(1, util.localize(32189) % console, 'files', '', False, False, lastArtworkPath)
+					"""
+					descPath = dialog.browse(1, util.localize(32189) % console, 'files', '', False, False, lastArtworkPath)
 
 					log.info("descPath: " + str(descPath))
 					if descPath == '':
@@ -335,11 +346,11 @@ class ConfigXmlWizard(RcbXmlReaderWriter):
 					# Add this path to the settings (for file-based parsers). Note that setting names can have spaces in them,
 					# e.g. rcb_Commodore 64DescriptionFilePath, or rcb_MAMEDescriptionFilePath.
 					# Note that when scraping, local file scraper names will be set to the collection name
-					log.debug("Setting rcb_{0}DescriptionFilePath to {1}".format(romCollection.name, descPath))
-					xbmcaddon.Addon().setSetting("rcb_{0}DescriptionFilePath".format(romCollection.name), descPath)
+					#log.debug("Setting rcb_{0}DescriptionFilePath to {1}".format(romCollection.name, descPath))
+					#xbmcaddon.Addon().setSetting("rcb_{0}DescriptionFilePath".format(romCollection.name), descPath)
 
 					# Create scraper
-					site = Site(name=console)
+					site = Site(name=selectedscraper,path=descPath)
 					romCollection.scraperSites = [site]
 
 			log.debug("Created new rom collection: {0}".format(romCollection))
@@ -398,7 +409,7 @@ class ConfigXmlWizard(RcbXmlReaderWriter):
 
 		mediaPath = MediaPath()
 		mediaPath.fileType = fileType
-		if scenarioIndex == RETRIEVE_INFO_ARTWORK_ONLINE:
+		if scenarioIndex == RETRIEVE_INFO_ONLINE_ARTWORK_ONLINE:
 			mediaPath.path = util.joinPath(path, mediatype, fileMask)
 		else:
 			mediaPath.path = util.joinPath(path, fileMask)

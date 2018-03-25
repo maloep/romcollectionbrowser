@@ -9,12 +9,22 @@ class AbstractScraper(object):
 
 	"""
 	_name = ''
+	_path = ''
 
 	# Mapping between scraper names in the config files and the corresponding scraper classes
 	scrapers = {'thegamesdb.net': 'TheGamesDB_Scraper',
 				'mobygames.com': 'Mobygames_Scraper',
 				'giantbomb.com': 'GiantBomb_Scraper',
-				'MAME': 'MAME_Scraper'}
+				'MAME': 'MAME_Scraper',
+				'Game-database-info': 'Offline_GDBI_Scraper'}
+
+	# Mapping between scraper names in the config files and the corresponding scraper classes
+	online_scrapers = {'thegamesdb.net': 'TheGamesDB_Scraper',
+					   'mobygames.com': 'Mobygames_Scraper',
+					   'giantbomb.com': 'GiantBomb_Scraper'}
+
+	offline_scrapers = {'MAME': 'MAME_Scraper',
+						'Game-database-info': 'Offline_GDBI_Scraper'}
 
 	def __init__(self):
 		pass
@@ -23,8 +33,25 @@ class AbstractScraper(object):
 	def name(self):
 		return self._name
 
+	@property
+	def path(self):
+		return self._path
+
+	@path.setter
+	def path(self, value):
+		self._path = value
+
 	def get_available_scrapers(self):
 		return self.scrapers.keys()
+
+	def get_available_online_scrapers(self, platform):
+		return self.online_scrapers.keys()
+
+	def get_available_offline_scrapers(self, platform):
+		#MAME scraper can only be used with MAME platform
+		if platform != 'MAME':
+			return [s for s in self.offline_scrapers.keys() if s != 'MAME']
+		return self.offline_scrapers.keys()
 
 	def get_scraper_by_name(self, sname):
 		"""Given a scraper name, returns the scraper class

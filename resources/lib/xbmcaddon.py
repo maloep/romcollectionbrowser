@@ -18,9 +18,7 @@ _settings = {'rcb_logLevel': 2,
             'rcb_ignoreGamesWithoutDesc': 'false',
             'rcb_ignoreGamesWithoutArtwork': 'false',
             'rcb_PreferNfoFileIfAvailable': 'false',
-            'rcb_scrapingMode': 'Automatic: Accurate',
-            # Interact with cut-down MAME history dat file in the unittests
-            'rcb_MAMEDescriptionFilePath': 'testdata/scraper_web_responses/history.dat'}
+            'rcb_scrapingMode': 'Automatic: Accurate'}
 
 
 class Addon(object):

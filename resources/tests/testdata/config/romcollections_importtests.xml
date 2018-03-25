@@ -52,7 +52,7 @@
             <diskPrefix>_Disk.*</diskPrefix>
             <imagePlacingMain>gameinfobig</imagePlacingMain>
             <imagePlacingInfo>gameinfosmall</imagePlacingInfo>
-            <scraper name="thegamesdb.net" />
+            <scraper name="Game-database-info" path="./testdata/scraper_offline/gdbi/Atari 2600.xml" />
         </RomCollection>
         <RomCollection id="3" name="Nintendo 64">
             <useBuiltinEmulator>False</useBuiltinEmulator>

@@ -62,7 +62,7 @@ class ConfigXmlWriter(RcbXmlReaderWriter):
 		return elements
 
 	def getXmlAttributesForSite(self, site):
-		attrs = {'name': site.name}
+		attrs = {'name': site.name, 'path': site.path}
 		return attrs
 
 	def getXmlElementsForSite(self, site):
@@ -122,42 +122,14 @@ class ConfigXmlWriter(RcbXmlReaderWriter):
 			else:
 				SubElement(romCollectionXml, 'imagePlacingInfo').text = 'gameinfosmall'
 
-			if(romCollection.scraperSites == None or len(romCollection.scraperSites) == 0):
-				for s in ['thegamesdb.net', 'mobygames.com']:
-					# FIXME TODO Not sure what's so special about these sites
-					SubElement(romCollectionXml, 'scraper', {'name': s})
+			if (romCollection.scraperSites == None or len(romCollection.scraperSites) == 0):
+				#use thegamesdb.net as default scraper in online scraping scenario
+				SubElement(romCollectionXml, 'scraper', {'name': 'thegamesdb.net'})
 			else:
 				for scraperSite in romCollection.scraperSites:
-
 					if(scraperSite == None):
 						continue
-
-					SubElement(romCollectionXml, 'scraper', {'name' : scraperSite.name})
-
-		success, message = self.writeFile()
-		return success, message
-
-
-	def writeScrapers(self, scrapers):
-
-		Logutil.log('write scraper sites', util.LOG_LEVEL_INFO)
-
-		scraperSitesXml = self.tree.find('Scrapers')
-
-		#HACK: remove all scrapers and create new
-		for scraperSiteXml in scraperSitesXml.findall('Site'):
-			scraperSitesXml.remove(scraperSiteXml)
-
-		for scraperSite in scrapers.values():
-
-			Logutil.log('write scraper site: ' + str(scraperSite.name), util.LOG_LEVEL_INFO)
-
-			#Don't write None-Scraper
-			if(scraperSite.name == util.localize(32854)):
-				Logutil.log('None scraper will be skipped', util.LOG_LEVEL_INFO)
-				continue
-
-			scraperSiteXml = SubElement(scraperSitesXml, 'Site', self.getXmlAttributesForSite(scraperSite))
+					SubElement(romCollectionXml, 'scraper', {'name' : scraperSite.name, 'path' : scraperSite.path})
 
 		success, message = self.writeFile()
 		return success, message

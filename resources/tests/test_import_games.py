@@ -257,7 +257,7 @@ class TestImportGames(unittest.TestCase):
         roms = File(self.gdb).getRomsByGameId(maddennfl.id)
         self.assertEquals(len(roms), 1)
 
-    @responses.activate
+
     def test_import_initial_prefer_nfo(self):
         config_xml_file = os.path.join(os.path.dirname(__file__), 'testdata', 'config',
                                        'romcollections_importtests.xml')
@@ -326,6 +326,62 @@ class TestImportGames(unittest.TestCase):
         self.assertEquals(len(roms), 4)
 
 
+    def test_import_initial_offline_gdbi(self):
+        config_xml_file = os.path.join(os.path.dirname(__file__), 'testdata', 'config',
+                                       'romcollections_importtests.xml')
+        conf = Config(config_xml_file)
+        conf.readXml()
+
+        rcs = {}
+        rcs[2] = conf.romCollections['2']
+
+        #adjust settings
+        xbmcaddon._settings['rcb_nfoFolder'] = ''
+        xbmcaddon._settings['rcb_PreferNfoFileIfAvailable'] = 'false'
+        xbmcaddon._settings['rcb_ignoreGamesWithoutDesc'] = 'false'
+        xbmcaddon._settings['rcb_scrapingMode'] = 'Automatic: Accurate'
+
+        dbu = DBUpdate()
+        dbu.updateDB(self.gdb, RCBMockGui(), rcs, False)
+
+        likeStmnt = '0 = 0'
+        games = Game(self.gdb).getGamesByFilter(2, 0, 0, 0, 0, likeStmnt)
+
+        self.assertEquals(len(games), 4)
+
+        adventure = games[0]
+        self.assertEquals(adventure.name, 'Adventure')
+        self.assertEquals(adventure.year, '1980')
+        self.assertEquals(adventure.publisher, 'Atari, Inc.')
+        self.assertEquals(adventure.developer, 'Atari, Inc.')
+        self.assertEquals(adventure.genre, 'Adventure')
+        self.assertEquals(adventure.rating, '3.8')
+        self.assertEquals(adventure.maxPlayers, '1 Player')
+        self.assertTrue(adventure.plot.startswith('A graphic dungeon quest inspired by the old mainframe game of the same name'))
+
+        airSeaBattle = games[1]
+        self.assertEquals(airSeaBattle.name, 'Air-Sea Battle')
+        self.assertEquals(airSeaBattle.year, '1977')
+        self.assertEquals(airSeaBattle.publisher, 'Sears, Roebuck and Co.')
+        self.assertEquals(airSeaBattle.developer, 'Atari, Inc.')
+        self.assertEquals(airSeaBattle.genre, 'Shooter')
+        self.assertEquals(airSeaBattle.rating, '2.4')
+        self.assertEquals(airSeaBattle.maxPlayers, '1-2 Players')
+        self.assertTrue(
+            airSeaBattle.plot.startswith('Air-Sea Battle is basically a target shooting game.'))
+
+        asteroids = games[2]
+        self.assertEquals(asteroids.name, 'Asteroids')
+        self.assertEquals(asteroids.year, '1981')
+        self.assertEquals(asteroids.publisher, 'Atari, Inc.')
+        self.assertEquals(asteroids.developer, 'Atari, Inc.')
+        self.assertEquals(asteroids.genre, 'Shooter')
+        self.assertEquals(asteroids.rating, '3.5')
+        self.assertEquals(asteroids.maxPlayers, '1-2 Players')
+        self.assertTrue(
+            asteroids.plot.startswith('Asteroids is a conversion of the arcade game of the same name.'))
+
+
     def register_responses_Amiga(self):
         
         """
@@ -368,6 +424,7 @@ class TestImportGames(unittest.TestCase):
                 status=200)
         
         
+    """
     def register_responses_Atari(self):
         
         responses.add(responses.GET, 
@@ -404,6 +461,7 @@ class TestImportGames(unittest.TestCase):
                 'http://thegamesdb.net/api/GetGamesList.php?platform=Atari+2600&name=Unknown',
                 body=self.loadXmlFromFile('thegamesdb_Atari_Unknown_search.xml'), 
                 status=200)
+    """
         
         
     def register_responses_N64(self):

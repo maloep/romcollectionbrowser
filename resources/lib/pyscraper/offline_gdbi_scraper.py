@@ -3,6 +3,7 @@
 import sys, re, io
 import xml.etree.ElementTree as ET
 from file_scraper import FileScraper
+from gamename_utils import GameNameUtil
 from util import Logutil as log
 
 class Offline_GDBI_Scraper(FileScraper):
@@ -51,8 +52,7 @@ class Offline_GDBI_Scraper(FileScraper):
 
 
     def _get_xml_path(self):
-
-        return "not implemented"
+        return self.path
 
 
     def search(self, gamename, platform=None):
@@ -60,7 +60,7 @@ class Offline_GDBI_Scraper(FileScraper):
         #use description to search for the game name as the name attribute also contains the region
         #FIXME TODO
         #currently not working with MAME xml files as the rom files don't use the friendly game name
-        pattern = "\<description\>(.*%s.*)\</description\>" % gamename
+        pattern = "\<description\>(.*%s.*)\</description\>" % GameNameUtil().prepare_gamename_for_searchrequest(gamename)
         results = []
 
         try:

@@ -53,10 +53,7 @@ class MAME_Scraper(FileScraper):
 		pass
 
 	def _get_history_path(self):
-		# FIXME TODO If this is not set, need to raise exception
-		historyfile_path = __addon__.getSetting('rcb_MAMEDescriptionFilePath')
-		log.debug("Using MAME history dat file defined in settings: {0}".format(historyfile_path))
-		return historyfile_path
+		return self.path
 
 	def search(self, gamename, platform=None):
 		""" Ignore platform """

@@ -459,6 +459,8 @@
 	<string id="32203">Per autoconfig verfügbare Emulatoren</string>
 	<string id="32204">Lade Bilder...</string>
 	<string id="32205">Abbruch erzwingen?</string>
+	<string id="32206">Typ des lokalen Scrapers</string>
+	<string id="32207">Spiel-Infos online scrapen und Artwork ist lokal verfügbar</string>
 
 	
 	<!-- Settings -->

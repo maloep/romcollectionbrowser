@@ -166,17 +166,13 @@ class ImportOptionsDialog(xbmcgui.WindowXMLDialog):
 		if self.romCollections is not None:
 			romCollections = self.romCollections
 		else:
-			# TODO add id to list and select rc by id
 			if selectedRC == util.localize(32120):
 				romCollections = self.gui.config.romCollections
 			else:
 				romCollections = {}
-				for romCollection in self.gui.config.romCollections.values():
-					if romCollection.name == selectedRC:
-						romCollections[romCollection.id] = romCollection
-						break
+				romCollection = self.gui.config.getRomCollectionByName(selectedRC)
+				romCollections[romCollection.id] = romCollection
 
-		# TODO ignore offline scrapers
 		for rcId in romCollections.keys():
 
 			romCollection = self.gui.config.romCollections[rcId]
@@ -201,8 +197,14 @@ class ImportOptionsDialog(xbmcgui.WindowXMLDialog):
 		if scraper == util.localize(32854):
 			return sites, True
 
-		site = Site()
-		site.name = scraper
+		#check if this scraper is already configured in current Rom Collection
+		#this will be used in case of offline scrapers as they additionally have a path configured in config.xml
+		siteInRomCollection = romCollection.getScraperSiteByName(scraper)
+		if siteInRomCollection:
+			site = siteInRomCollection
+		else:
+			site = Site()
+			site.name = scraper
 
 		sites.append(site)
 

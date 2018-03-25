@@ -457,6 +457,8 @@
 	<string id="32203">Available autoconfig emulators</string>
 	<string id="32204">Caching images...</string>
 	<string id="32205">Do you want to force cancel current import?</string>
+	<string id="32206">Type of offline scraper</string>
+	<string id="32207">Scrape game info online and artwork is available locally</string>
 	
 	
 	<!-- Settings -->
