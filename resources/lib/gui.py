@@ -491,7 +491,7 @@ class UIGameDB(xbmcgui.WindowXML):
 	def showYear(self):
 		log.debug("Begin showYear with selected console {0}".format(self.selectedConsoleId))
 
-		rows = Year(self.gdb).getFilteredYears(self.selectedConsoleId, self.selectedGenreId, 0, '0 = 0')
+		rows = Year(self.gdb).getFilteredYearsByConsole(self.selectedConsoleId)
 		log.debug("Found {0} years to add to filter list".format(len(rows)))
 
 		showEntryAllItems = getSettings().getSetting(util.SETTING_RCB_SHOWENTRYALLYEARS).upper() == 'TRUE'
@@ -506,7 +506,7 @@ class UIGameDB(xbmcgui.WindowXML):
 	def showPublisher(self):
 		log.debug("Begin showPublisher with selected console {0}".format(self.selectedConsoleId))
 
-		rows = Publisher(self.gdb).getFilteredPublishers(self.selectedConsoleId, self.selectedGenreId, self.selectedYearId, '0 = 0')
+		rows = Publisher(self.gdb).getFilteredPublishersByConsole(self.selectedConsoleId)
 		log.debug("Found {0} publishers to add to filter list".format(len(rows)))
 
 		showEntryAllItems = getSettings().getSetting(util.SETTING_RCB_SHOWENTRYALLPUBLISHER).upper() == 'TRUE'
