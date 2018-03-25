@@ -29,7 +29,7 @@ class GiantBomb_Scraper(WebScraper):
 	def _get_search_params(self, **kwargs):
 		return {'api_key': self._apikey,
 				'filter': 'platform:%s,name:%s' %(self.get_platform_for_scraper(kwargs['platform']),
-												  GameNameUtil().prepare_gamename_for_webrequest(kwargs['gamename'])),
+												  GameNameUtil().prepare_gamename_for_searchrequest(kwargs['gamename'])),
 				'format': 'json',
 				'field_list': 'id,guid,name,release_date'}
 

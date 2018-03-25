@@ -32,7 +32,7 @@ class GameNameUtil(object):
         return name
 
 
-    def prepare_gamename_for_webrequest(self, gamename):
+    def prepare_gamename_for_searchrequest(self, gamename):
         """Strip out subtitles, additional info and sequel numbers
         Args:
             gamename: e.g. My Game Name 2: Subtitle (1984) [cr TCS]

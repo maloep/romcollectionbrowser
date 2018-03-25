@@ -33,7 +33,7 @@ class Mobygames_Scraper(WebScraper):
 
 	def _get_search_params(self, **kwargs):
 		print 'returning ' + kwargs['gamename']
-		return {'title': '%s' %GameNameUtil().prepare_gamename_for_webrequest(kwargs['gamename']),
+		return {'title': '%s' %GameNameUtil().prepare_gamename_for_searchrequest(kwargs['gamename']),
 				'api_key': self._apikey,
 				'platform': self.get_platform_for_scraper(kwargs['platform']),
 				'format': 'brief'}
