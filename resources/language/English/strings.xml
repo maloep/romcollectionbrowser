@@ -233,7 +233,7 @@
 	<string id="32610">Max Folder Depth</string>
 	<string id="32611">Disk Indicator</string>
 	<string id="32612">Use Foldername As Gamename</string>
-	<string id="32613">Scraper</string>	
+	<string id="32613">Scraper</string>
 	<string id="32616">Media Type</string>
 	<string id="32617">Media Path</string>
 	<string id="32618">Media File Mask</string>
@@ -252,14 +252,21 @@
 	<string id="32631">Savestate Params</string>
 	<string id="32632">Pre-Launch Cmd</string>
 	<string id="32633">Post-Launch Cmd</string>
+	<string id="32634">Save Config</string>
+	<string id="32635">Cancel</string>
 	<string id="32636">Autoplay Video (Info Window)</string>
 	<string id="32637">Use RetroPlayer</string>
 	<string id="32638">Gameclient</string>
-	
-	<string id="32634">Save Config</string>
-	<string id="32635">Cancel</string>
+	<string id="32639">Artwork</string>
+	<string id="32640">Available Offline Scrapers</string>
+	<string id="32641">Click to add Offline Scraper</string>
+	<string id="32642">Select Offline Scraper Type</string>
+	<string id="32642">Select Path to Game description file</string>
+	<string id="32643">Default Scraper</string>
+		
 	
 	<!-- editscraper -->
+	<!--
 	<string id="32700">Offline Scrapers</string>
 	<string id="32701">Scraper</string>	
 	<string id="32702">Use description per game</string>
@@ -271,6 +278,7 @@
 	<string id="32708">Use filename as crc</string>
 	<string id="32709">Remove scraper</string>
 	<string id="32710">Add scraper</string>
+	-->
 	
 	<!-- info -->
 	<string id="32750">Region</string>
@@ -286,6 +294,7 @@
 	<string id="32801">Scraping mode</string>
 	<string id="32802">Change scraper for this run</string>
 	<string id="32803">Scrape in background (exit RCB)</string>
+	<string id="32804">Use configured default scrapers</string>
 	
 	<!-- Missing info filter -->
 	<string id="32850">RCB - Missing info filter</string>

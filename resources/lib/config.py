@@ -176,6 +176,7 @@ class Site(object):
 	def __init__(self, **kwargs):
 		self.name = ''
 		self.path = ''
+		self.default = False
 
 		""" Set any variables explicitly passed """
 		for name in kwargs:
@@ -604,6 +605,11 @@ class Config(RcbXmlReaderWriter):
 				site = Site()
 				site.name = scraperRow.attrib.get('name')
 				site.path = scraperRow.attrib.get('path')
+				default = scraperRow.attrib.get('default')
+				if default:
+					site.default = default.upper() == 'TRUE'
+				else:
+					site.default = False
 
 				romCollection.scraperSites.append(site)
 

@@ -124,12 +124,18 @@ class ConfigXmlWriter(RcbXmlReaderWriter):
 
 			if (romCollection.scraperSites == None or len(romCollection.scraperSites) == 0):
 				#use thegamesdb.net as default scraper in online scraping scenario
-				SubElement(romCollectionXml, 'scraper', {'name': 'thegamesdb.net'})
+				SubElement(romCollectionXml, 'scraper', {'name': 'thegamesdb.net', 'default': 'True'})
 			else:
 				for scraperSite in romCollection.scraperSites:
 					if(scraperSite == None):
 						continue
-					SubElement(romCollectionXml, 'scraper', {'name' : scraperSite.name, 'path' : scraperSite.path})
+					attributes = {'name' : scraperSite.name}
+					if scraperSite.path:
+						attributes['path'] = scraperSite.path
+					if scraperSite.default:
+						attributes['default'] = str(scraperSite.default)
+
+					SubElement(romCollectionXml, 'scraper', attributes)
 
 		success, message = self.writeFile()
 		return success, message

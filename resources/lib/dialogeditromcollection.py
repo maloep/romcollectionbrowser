@@ -5,8 +5,10 @@ import os
 import util, helper, config, dialogbase
 from util import *
 from util import Logutil as log
+from dialogbase import DialogBase
 from configxmlwriter import *
 from emulatorautoconfig.autoconfig import EmulatorAutoconfig
+from pyscraper.scraper import AbstractScraper
 
 ACTION_CANCEL_DIALOG = (9, 10, 51, 92, 110)
 
@@ -28,7 +30,10 @@ CONTROL_BUTTON_DISKINDICATOR = 5420
 CONTROL_BUTTON_USEFOLDERASGAMENAME = 5430
 
 # Import Game data
-CONTROL_LIST_SCRAPER1 = 5290
+CONTROL_LIST_DEFAULT_SCRAPER = 5290
+CONTROL_LIST_OFFLINE_SCRAPER = 5570
+
+#Artwork
 CONTROL_LIST_MEDIATYPES = 5260
 CONTROL_BUTTON_MEDIA_DOWN = 5261
 CONTROL_BUTTON_MEDIA_UP = 5262
@@ -60,7 +65,7 @@ CONTROL_BUTTON_POSTCMD = 5520
 CONTROL_BUTTON_MAKELOCALCOPY = 5560
 
 
-class EditRomCollectionDialog(dialogbase.DialogBaseEdit):
+class EditRomCollectionDialog(DialogBase):
 
 	selectedControlId = 0
 	selectedRomCollection = None
@@ -129,10 +134,6 @@ class EditRomCollectionDialog(dialogbase.DialogBaseEdit):
 
 		# Rom Collections
 		self.addItemsToList(CONTROL_LIST_ROMCOLLECTIONS, self.gui.config.getRomCollectionNames())
-
-		log.info("build scraper lists")
-		self.availableScrapers = self.getAvailableScrapers()
-		self.addItemsToList(CONTROL_LIST_SCRAPER1, self.availableScrapers)
 
 		log.info("build imagePlacing list")
 		self.imagePlacingList = []
@@ -208,6 +209,9 @@ class EditRomCollectionDialog(dialogbase.DialogBaseEdit):
 			xbmc.sleep(util.WAITTIME_UPDATECONTROLS)
 			self.updateMediaPathControls()
 
+		elif controlID == CONTROL_LIST_OFFLINE_SCRAPER:
+			self.editOfflineScraper()
+
 		elif controlID == CONTROL_BUTTON_GAMECLIENT:
 			success, gameclient = helper.selectlibretrocore(self.selectedRomCollection.name)
 			if success:
@@ -220,53 +224,7 @@ class EditRomCollectionDialog(dialogbase.DialogBaseEdit):
 				control.setLabel(gameclient)
 
 		elif controlID == CONTROL_BUTTON_EMUCMD:
-
-			# Maybe there is autoconfig support
-			preconfiguredEmulator = None
-			emulatorPath = ''
-			dialog = xbmcgui.Dialog()
-
-			if self.selectedRomCollection.name == 'Linux' \
-			or self.selectedRomCollection.name == 'Macintosh' \
-			or self.selectedRomCollection.name == 'Windows':
-				emulatorPath = self.editTextProperty(CONTROL_BUTTON_EMUCMD, util.localize(32624))
-			else:
-				autoconfig = EmulatorAutoconfig(util.getEmuAutoConfigPath())
-
-				emulist = []
-
-				log.info(u"Running on {0}. Trying to find emulator per autoconfig.".format(self.current_os))
-				emulators = autoconfig.findEmulators(self.current_os, self.selectedRomCollection.name, True)
-
-				for emulator in emulators:
-					if emulator.isInstalled:
-						emulist.append(util.localize(32202) % emulator.name)
-					else:
-						emulist.append(emulator.name)
-
-				# Ask the user which emulator they want
-				if len(emulist) > 0:
-					emuIndex = dialog.select(util.localize(32203), emulist)
-					try:
-						if(emuIndex >= 0):
-							preconfiguredEmulator = emulators[emuIndex]
-					except IndexError:
-						log.info("No Emulator selected.")
-						preconfiguredEmulator = None
-
-				if preconfiguredEmulator:
-					emulatorPath = preconfiguredEmulator.emuCmd
-					self.selectedRomCollection.emulatorParams = preconfiguredEmulator.emuParams
-					control = self.getControlById(CONTROL_BUTTON_PARAMS)
-					control.setLabel(self.selectedRomCollection.emulatorParams)
-				else:
-					emulatorPath = dialog.browse(1, '%s ' % self.selectedRomCollection.name + util.localize(32139), 'files')
-					if emulatorPath == '':
-						return
-
-			self.selectedRomCollection.emulatorCmd = emulatorPath
-			control = self.getControlById(CONTROL_BUTTON_EMUCMD)
-			control.setLabel(emulatorPath)
+			self.editEmuCmd()
 
 		elif controlID == CONTROL_BUTTON_PARAMS:
 			emulatorParams = self.editTextProperty(CONTROL_BUTTON_PARAMS, util.localize(32625))
@@ -333,12 +291,55 @@ class EditRomCollectionDialog(dialogbase.DialogBaseEdit):
 		if self.selectedRomCollection is None:
 			return
 
+		log.info("build scraper lists")
+		self.availableScrapers = AbstractScraper().get_available_scrapers(self.selectedRomCollection.name)
+		self.addItemsToList(CONTROL_LIST_DEFAULT_SCRAPER, self.availableScrapers)
+
 		# Import Games
+		self.updateRomParams()
+
+		# Set the currently selected state for all the buttons
+		for item in self._control_buttons:
+			control = self.getControlById(item['control'])
+			control.setSelected(getattr(self.selectedRomCollection, item['value']))
+			log.info('Set button control ID ' + str(item['control']) + ' to value ' + str(getattr(self.selectedRomCollection, item['value'])))
+
+		# Set the value for all the labels
+		for item in self._control_labels:
+			control = self.getControlById(item['control'])
+			util.setLabel(getattr(self.selectedRomCollection, item['value']), control)
+			log.info('Set label control ID ' + str(item['control']) + ' to value ' + str(getattr(self.selectedRomCollection, item['value'])))
+
+		# preferred scraper
+		self.selectScrapersInList(self.selectedRomCollection.scraperSites, CONTROL_LIST_DEFAULT_SCRAPER)
+
+		self.addOfflineScrapersToList()
+
+		# Artwork
+		# Media Types
+		self.updateMediaTypes()
+
+		# Browse Games
+		optionMain = self.selectedRomCollection.imagePlacingMain.name
+		try:
+			optionMain = config.imagePlacingDict[optionMain]
+		except IndexError:
+			pass
+		self.selectItemInList(optionMain, CONTROL_LIST_IMAGEPLACING_MAIN)
+
+		optionInfo = self.selectedRomCollection.imagePlacingInfo.name
+		try:
+			optionInfo = config.imagePlacingDict[optionInfo]
+		except IndexError:
+			pass
+		self.selectItemInList(optionInfo, CONTROL_LIST_IMAGEPLACING_INFO)
+
+
+	def updateRomParams(self):
 		# HACK: split romPath and fileMask
 		firstRomPath = ''
 		fileMask = ''
 		for romPath in self.selectedRomCollection.romPaths:
-
 			pathParts = os.path.split(romPath)
 			if firstRomPath == '':
 				firstRomPath = pathParts[0]
@@ -353,20 +354,8 @@ class EditRomCollectionDialog(dialogbase.DialogBaseEdit):
 		control = self.getControlById(CONTROL_BUTTON_FILEMASK)
 		util.setLabel(fileMask, control)
 
-		# Set the currently selected state for all the buttons
-		for item in self._control_buttons:
-			control = self.getControlById(item['control'])
-			control.setSelected(getattr(self.selectedRomCollection, item['value']))
-			print 'Set button control ID ' + str(item['control']) + ' to value ' + str(getattr(self.selectedRomCollection, item['value']))
 
-		# Set the value for all the labels
-		for item in self._control_labels:
-			control = self.getControlById(item['control'])
-			util.setLabel(getattr(self.selectedRomCollection, item['value']), control)
-			print 'Set label control ID ' + str(item['control']) + ' to value ' + str(getattr(self.selectedRomCollection, item['value']))
-
-		# Import Game Data
-		# Media Types
+	def updateMediaTypes(self):
 		mediaTypeList = []
 		firstMediaPath = ''
 		firstMediaFileMask = ''
@@ -385,22 +374,6 @@ class EditRomCollectionDialog(dialogbase.DialogBaseEdit):
 		control = self.getControlById(CONTROL_BUTTON_MEDIAFILEMASK)
 		util.setLabel(firstMediaFileMask, control)
 
-		self.selectScrapersInList(self.selectedRomCollection.scraperSites, self.availableScrapers)
-
-		# Browse Games
-		optionMain = self.selectedRomCollection.imagePlacingMain.name
-		try:
-			optionMain = config.imagePlacingDict[optionMain]
-		except IndexError:
-			pass
-		self.selectItemInList(optionMain, CONTROL_LIST_IMAGEPLACING_MAIN)
-
-		optionInfo = self.selectedRomCollection.imagePlacingInfo.name
-		try:
-			optionInfo = config.imagePlacingDict[optionInfo]
-		except IndexError:
-			pass
-		self.selectItemInList(optionInfo, CONTROL_LIST_IMAGEPLACING_INFO)
 
 	def updateMediaPathControls(self):
 
@@ -418,14 +391,26 @@ class EditRomCollectionDialog(dialogbase.DialogBaseEdit):
 
 				break
 
+
+	def addOfflineScrapersToList(self):
+		log.info('addOfflineScrapersToList')
+		control = self.getControlById(CONTROL_LIST_OFFLINE_SCRAPER)
+		control.reset()
+
+		for scraper in self.selectedRomCollection.scraperSites:
+			if scraper.path:
+				listitem = xbmcgui.ListItem(scraper.name, scraper.path, '', '')
+				control.addItem(listitem)
+
+		listitem = xbmcgui.ListItem('', util.localize(32641), '', '')
+		control.addItem(listitem)
+
+
 	def updateSelectedRomCollection(self):
 
 		log.info("updateSelectedRomCollection")
 
-		sites = []
-		sites = self.addScraperToSiteList(CONTROL_LIST_SCRAPER1, sites, self.selectedRomCollection)
-
-		self.selectedRomCollection.scraperSites = sites
+		self.addScrapersToSiteList()
 
 		# Image Placing Main
 		control = self.getControlById(CONTROL_LIST_IMAGEPLACING_MAIN)
@@ -453,6 +438,83 @@ class EditRomCollectionDialog(dialogbase.DialogBaseEdit):
 		for btn in self._control_buttons:
 			control = self.getControlById(btn['control'])
 			setattr(self.selectedRomCollection, btn['value'], bool(control.isSelected()))
+
+
+	def editOfflineScraper(self):
+		log.info('editOfflineScraper')
+		control = self.getControlById(CONTROL_LIST_OFFLINE_SCRAPER)
+		item = control.getSelectedItem()
+
+		if item.getLabel() == '':
+			scrapers = AbstractScraper().get_available_offline_scrapers(self.selectedRomCollection.name)
+			scraperTypeIndex = xbmcgui.Dialog().select(util.localize(32642), scrapers)
+			if scraperTypeIndex == -1:
+				log.info('No Scraper Type selected.')
+				return
+			descfile = xbmcgui.Dialog().browse(1, util.localize(32643), 'files')
+			if not descfile:
+				log.info('No Scraper Path selected.')
+				return
+
+			scraper = Site()
+			scraper.name = scrapers[scraperTypeIndex]
+			scraper.path = descfile
+			self.selectedRomCollection.scraperSites.append(scraper)
+			self.addOfflineScrapersToList()
+		else:
+			path = os.path.dirname(item.getLabel2())
+			descfile = xbmcgui.Dialog().browse(1, util.localize(32643), 'files', defaultt=path)
+			item.setLabel2(descfile)
+
+
+	def editEmuCmd(self):
+		# Maybe there is autoconfig support
+		preconfiguredEmulator = None
+		emulatorPath = ''
+		dialog = xbmcgui.Dialog()
+
+		if self.selectedRomCollection.name == 'Linux' \
+				or self.selectedRomCollection.name == 'Macintosh' \
+				or self.selectedRomCollection.name == 'Windows':
+			emulatorPath = self.editTextProperty(CONTROL_BUTTON_EMUCMD, util.localize(32624))
+		else:
+			autoconfig = EmulatorAutoconfig(util.getEmuAutoConfigPath())
+
+			emulist = []
+
+			log.info(u"Running on {0}. Trying to find emulator per autoconfig.".format(self.current_os))
+			emulators = autoconfig.findEmulators(self.current_os, self.selectedRomCollection.name, True)
+
+			for emulator in emulators:
+				if emulator.isInstalled:
+					emulist.append(util.localize(32202) % emulator.name)
+				else:
+					emulist.append(emulator.name)
+
+			# Ask the user which emulator they want
+			if len(emulist) > 0:
+				emuIndex = dialog.select(util.localize(32203), emulist)
+				try:
+					if (emuIndex >= 0):
+						preconfiguredEmulator = emulators[emuIndex]
+				except IndexError:
+					log.info("No Emulator selected.")
+					preconfiguredEmulator = None
+
+			if preconfiguredEmulator:
+				emulatorPath = preconfiguredEmulator.emuCmd
+				self.selectedRomCollection.emulatorParams = preconfiguredEmulator.emuParams
+				control = self.getControlById(CONTROL_BUTTON_PARAMS)
+				control.setLabel(self.selectedRomCollection.emulatorParams)
+			else:
+				emulatorPath = dialog.browse(1, '%s ' % self.selectedRomCollection.name + util.localize(32139), 'files')
+				if emulatorPath == '':
+					return
+
+		self.selectedRomCollection.emulatorCmd = emulatorPath
+		control = self.getControlById(CONTROL_BUTTON_EMUCMD)
+		control.setLabel(emulatorPath)
+
 
 	def editRomPath(self):
 
@@ -614,46 +676,46 @@ class EditRomCollectionDialog(dialogbase.DialogBaseEdit):
 
 		self.updateRomCollectionControls()
 
-	def selectScrapersInList(self, sitesInRomCollection, sitesInList):
 
-		log.info("selectScrapersInList")
+	def addScrapersToSiteList(self):
 
-		if len(sitesInRomCollection) >= 1:
-			self.selectItemInList(sitesInRomCollection[0].name, CONTROL_LIST_SCRAPER1)
-		else:
-			self.selectItemInList(util.localize(32854), CONTROL_LIST_SCRAPER1)
+		log.info("addScrapersToSiteList")
+
+		sites = []
+		control = self.getControlById(CONTROL_LIST_OFFLINE_SCRAPER)
+
+		for i in range(0, control.size()):
+			item = control.getListItem(i)
+			siteName = item.getLabel()
+			if not siteName:
+				continue
+			sitePath = item.getLabel2()
+			sites = self.addScraperToSiteList(siteName, sitePath, False, sites)
+
+		#set default scraper
+		control = self.getControlById(CONTROL_LIST_DEFAULT_SCRAPER)
+		scraperItem = control.getSelectedItem()
+		siteName = scraperItem.getLabel()
+		sitePath = scraperItem.getLabel2()
+		sites = self.addScraperToSiteList(siteName, sitePath, True, sites)
+
+		self.selectedRomCollection.scraperSites = sites
 
 
-	def addScraperToSiteList(self, controlId, sites, romCollection):
+	def addScraperToSiteList(self, siteName, sitePath, setDefault, sites):
 
 		log.info("addScraperToSiteList")
 
-		control = self.getControlById(controlId)
-		scraperItem = control.getSelectedItem()
-		scraper = scraperItem.getLabel()
-
-		if scraper == util.localize(32854):
-			return sites
-
 		#check if this site is already available for current RC
-		for site in romCollection.scraperSites:
-			if site.name == scraper:
-				sites.append(site)
+		for site in sites:
+			if site.name == siteName:
+				site.default = setDefault
 				return sites
 
-		siteRow = None
-		siteRows = self.gui.config.tree.findall('Scrapers/Site')
-		for element in siteRows:
-			if element.attrib.get('name') == scraper:
-				siteRow = element
-				break
-
-		if siteRow is None:
-			xbmcgui.Dialog().ok(util.localize(32021), util.localize(32022) % scraper)
-			return None
-
-		site, errorMsg = self.gui.config.readScraper(siteRow, romCollection.name, '', '', True, self.gui.config.tree)
-		if site is not None:
-			sites.append(site)
+		site = Site()
+		site.name = siteName
+		site.path = sitePath
+		site.default = setDefault
+		sites.append(site)
 
 		return sites

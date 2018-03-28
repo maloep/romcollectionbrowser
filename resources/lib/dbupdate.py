@@ -411,7 +411,18 @@ class DBUpdate(object):
         gameresult = {}
         artScrapers = {}
 
-        scraperSite = romCollection.scraperSites[0]
+        scraperSite = None
+
+        #search for default scraper if there are more than one
+        for site in romCollection.scraperSites:
+            if site.default:
+                scraperSite = site
+                break
+
+        #if no default site was found, just use the first one
+        if not scraperSite:
+            if len(romCollection.scraperSites) >= 1:
+                scraperSite = romCollection.scraperSites[0]
 
         try:
             #first check if a local nfo file is available

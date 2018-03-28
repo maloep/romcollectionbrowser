@@ -3,6 +3,7 @@ from config import *
 from util import *
 import util
 import xbmc, xbmcgui
+from dialogbase import DialogBase
 from pyscraper.scraper import AbstractScraper
 
 
@@ -27,7 +28,7 @@ CONTROL_BUTTON_SCRAPER_DOWN = 5271
 CONTROL_BUTTON_SCRAPEINBACKGROUND = 5340
 
 
-class ImportOptionsDialog(xbmcgui.WindowXMLDialog):
+class ImportOptionsDialog(DialogBase):
 	def __init__(self, *args, **kwargs):
 		# Don't put GUI sensitive stuff here (as the xml hasn't been read yet)
 		Logutil.log('init ImportOptions', util.LOG_LEVEL_INFO)
@@ -40,6 +41,7 @@ class ImportOptionsDialog(xbmcgui.WindowXMLDialog):
 
 	def onInit(self):
 		log.info('onInit ImportOptions')
+		# 32120 = All
 		romCollectionList = [util.localize(32120)] + self.gui.config.getRomCollectionNames()
 		log.debug("Adding list of RC names: {0}".format(romCollectionList))
 		self.addItemsToList(CONTROL_LIST_ROMCOLLECTIONS, romCollectionList)
@@ -60,19 +62,14 @@ class ImportOptionsDialog(xbmcgui.WindowXMLDialog):
 		else:
 			xbmc.executebuiltin('Skin.Reset(%s)' % util.SETTING_RCB_IMPORTOPTIONS_ISRESCRAPE)
 
-		sitesInList = self.getAvailableScrapers()
-
+		#only provide online scrapers for option All Rom Collections
+		sitesInList = AbstractScraper().get_available_online_scrapers()
+		# add option for all rom collections
+		# 32804 = Use configured default scrapers
+		sitesInList.append(util.localize(32804))
 		self.addItemsToList(CONTROL_LIST_SCRAPER1, sitesInList)
+		self.selectItemInList(util.localize(32804), CONTROL_LIST_SCRAPER1)
 
-		# Set initial scraper values
-		sitesInRomCollection = []
-		# Use scraper config of first non-MAME rom collection
-		for rcid, rc in self.gui.config.romCollections.iteritems():
-			if rc.name != 'MAME' or len(self.gui.config.romCollections) == 1:
-				sitesInRomCollection = rc.scraperSites
-				break
-
-		self.selectScrapersInList(sitesInRomCollection, sitesInList)
 
 	def onAction(self, action):
 		if action.getId() in ACTION_CANCEL_DIALOG:
@@ -92,72 +89,33 @@ class ImportOptionsDialog(xbmcgui.WindowXMLDialog):
 			xbmc.sleep(util.WAITTIME_UPDATECONTROLS)
 
 			control = self.getControlById(CONTROL_LIST_ROMCOLLECTIONS)
-			selectedRomCollection = str(control.getSelectedItem().getLabel())
+			selectedRomCollectionName = str(control.getSelectedItem().getLabel())
 
-			# Set initial scraper values
-			sitesInRomCollection = []
-			# Get selected Rom Collection
-			for rcId in self.gui.config.romCollections.keys():
-				romCollection = self.gui.config.romCollections[rcId]
-				if (selectedRomCollection == util.localize(32120) and romCollection.name != 'MAME') \
-					or len(self.gui.config.romCollections) == 1 \
-					or romCollection.name == selectedRomCollection:
-					sitesInRomCollection = romCollection.scraperSites
-					break
+			#32120 = All
+			if selectedRomCollectionName == util.localize(32120):
+				sitesInList = AbstractScraper().get_available_online_scrapers()
+				# 32804 = Use configured default scrapers
+				sitesInList.append(util.localize(32804))
+				self.addItemsToList(CONTROL_LIST_SCRAPER1, sitesInList)
+				self.selectItemInList(util.localize(32804), CONTROL_LIST_SCRAPER1)
+			else:
+				sitesInList = AbstractScraper().get_available_scrapers(selectedRomCollectionName)
+				self.addItemsToList(CONTROL_LIST_SCRAPER1, sitesInList)
+				# get selected rom collection object
+				romCollection = self.gui.config.getRomCollectionByName(selectedRomCollectionName)
+				self.selectScrapersInList(romCollection.scraperSites, CONTROL_LIST_SCRAPER1)
 
-			sitesInList = self.getAvailableScrapers()
-			self.selectScrapersInList(sitesInRomCollection, sitesInList)
-
-	def getControlById(self, controlId):
-		try:
-			control = self.getControl(controlId)
-		except RuntimeError as e:
-			return None
-
-		return control
-
-	def addItemsToList(self, controlId, options):
-		control = self.getControlById(controlId)
-		control.setVisible(True)
-		control.reset()    # Clear entries
-
-		items = []
-		for option in options:
-			items.append(xbmcgui.ListItem(option, '', '', ''))
-
-		control.addItems(items)
-
-	def getAvailableScrapers(self):
-		# Scrapers
-		sitesInList = [util.localize(32854)]
-		# Get all scrapers
-		scrapers = AbstractScraper().get_available_scrapers()
-		sitesInList.extend(scrapers)
-
-		return sitesInList
-
-	def selectScrapersInList(self, sitesInRomCollection, sitesInList):
-		if len(sitesInRomCollection) >= 1:
-			self.selectScraperInList(sitesInList, sitesInRomCollection[0].name, CONTROL_LIST_SCRAPER1)
-		else:
-			self.selectScraperInList(sitesInList, util.localize(32854), CONTROL_LIST_SCRAPER1)
-
-	def selectScraperInList(self, options, siteName, controlId):
-		for i in range(0, len(options)):
-			option = options[i]
-			if siteName == option:
-				control = self.getControlById(controlId)
-				control.selectItem(i)
-				break
 
 	def doImport(self):
-		romCollections, statusOk = self.setScrapersInConfig()
+		log.info('doImport')
+		romCollections = self.setScrapersInConfig()
 
-		if statusOk:
-			control = self.getControlById(CONTROL_BUTTON_SCRAPEINBACKGROUND)
-			self.gui.doImport(romCollections, self.isRescrape, control.isSelected())
+		control = self.getControlById(CONTROL_BUTTON_SCRAPEINBACKGROUND)
+		self.gui.doImport(romCollections, self.isRescrape, control.isSelected())
+
 
 	def setScrapersInConfig(self):
+		log.info('setScrapersInConfig')
 		# Read selected Rom Collection
 		control = self.getControlById(CONTROL_LIST_ROMCOLLECTIONS)
 		romCollItem = control.getSelectedItem()
@@ -166,6 +124,7 @@ class ImportOptionsDialog(xbmcgui.WindowXMLDialog):
 		if self.romCollections is not None:
 			romCollections = self.romCollections
 		else:
+			#32120 = All
 			if selectedRC == util.localize(32120):
 				romCollections = self.gui.config.romCollections
 			else:
@@ -173,39 +132,28 @@ class ImportOptionsDialog(xbmcgui.WindowXMLDialog):
 				romCollection = self.gui.config.getRomCollectionByName(selectedRC)
 				romCollections[romCollection.id] = romCollection
 
-		for rcId in romCollections.keys():
+		control = self.getControlById(CONTROL_LIST_SCRAPER1)
+		scraperItem = control.getSelectedItem()
 
+		siteName = scraperItem.getLabel()
+
+		for rcId in romCollections.keys():
 			romCollection = self.gui.config.romCollections[rcId]
 
+			#if current rom collection only has 1 scraper, we will use this one
+			if len(romCollection.scraperSites) == 1:
+				continue
+
 			sites = []
-			sites, statusOk = self.addScraperToRomCollection(CONTROL_LIST_SCRAPER1, sites, romCollection)
-			if not statusOk:
-				return None, False
 
-			romCollection.scraperSites = sites
-			romCollections[rcId] = romCollection
+			#search for selected scraper in available scrapers and use this one
+			for site in romCollection.scraperSites:
+				# 32804 = Use configured default scrapers
+				if site.name == siteName or (siteName == util.localize(32804) and site.default):
+					sites.append(site)
+					break
 
-		return romCollections, True
-	
+			if len(sites) > 0:
+				romCollection.scraperSites = sites
 
-	def addScraperToRomCollection(self, controlId, sites, romCollection):
-
-		control = self.getControlById(controlId)
-		scraperItem = control.getSelectedItem()
-		scraper = scraperItem.getLabel()
-
-		if scraper == util.localize(32854):
-			return sites, True
-
-		#check if this scraper is already configured in current Rom Collection
-		#this will be used in case of offline scrapers as they additionally have a path configured in config.xml
-		siteInRomCollection = romCollection.getScraperSiteByName(scraper)
-		if siteInRomCollection:
-			site = siteInRomCollection
-		else:
-			site = Site()
-			site.name = scraper
-
-		sites.append(site)
-
-		return sites, True
+		return romCollections

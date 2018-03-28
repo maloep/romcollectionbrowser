@@ -9,13 +9,13 @@ ACTION_CANCEL_DIALOG = (9, 10, 51, 92, 110)
 CONTROL_BUTTON_EXIT = 5101
 
 
-class DialogBaseEdit(xbmcgui.WindowXMLDialog):
+class DialogBase(xbmcgui.WindowXMLDialog):
 
 
 	def getControlById(self, controlId):
 		try:
 			control = self.getControl(controlId)
-		except:
+		except RuntimeError as e:
 			return None
 
 		return control
@@ -33,16 +33,6 @@ class DialogBaseEdit(xbmcgui.WindowXMLDialog):
 			items.append(xbmcgui.ListItem(option, '', '', ''))
 
 		control.addItems(items)
-
-
-	def getAvailableScrapers(self):
-		# Scrapers
-		sitesInList = [util.localize(32854)]
-		# Get all scrapers
-		scrapers = AbstractScraper().get_available_scrapers()
-		sitesInList.extend(scrapers)
-
-		return sitesInList
 
 
 	def editTextProperty(self, controlId, name):
@@ -97,6 +87,16 @@ class DialogBaseEdit(xbmcgui.WindowXMLDialog):
 		pathComplete = os.path.join(path, filemask.strip())
 
 		return pathComplete
+
+
+	def selectScrapersInList(self, sitesInRomCollection, controlId):
+
+		Logutil.log('selectScrapersInList', util.LOG_LEVEL_INFO)
+
+		for site in sitesInRomCollection:
+			if site.default:
+				self.selectItemInList(site.name, controlId)
+				break
 
 
 	def selectItemInList(self, itemName, controlId):

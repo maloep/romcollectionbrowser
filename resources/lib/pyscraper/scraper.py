@@ -41,15 +41,18 @@ class AbstractScraper(object):
 	def path(self, value):
 		self._path = value
 
-	def get_available_scrapers(self):
-		return self.scrapers.keys()
+	def get_available_scrapers(self, platform=None):
+		scrapers = self.get_available_online_scrapers(platform)
+		scrapers.extend(self.get_available_offline_scrapers(platform))
+		return scrapers
 
-	def get_available_online_scrapers(self, platform):
+	def get_available_online_scrapers(self, platform=None):
+		#TODO check which scraper supports which platform
 		return self.online_scrapers.keys()
 
-	def get_available_offline_scrapers(self, platform):
+	def get_available_offline_scrapers(self, platform=None):
 		#MAME scraper can only be used with MAME platform
-		if platform != 'MAME':
+		if platform != 'MAME' and platform != None:
 			return [s for s in self.offline_scrapers.keys() if s != 'MAME']
 		return self.offline_scrapers.keys()
 

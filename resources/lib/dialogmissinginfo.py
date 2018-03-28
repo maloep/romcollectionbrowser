@@ -3,6 +3,7 @@ from configxmlwriter import *
 from util import *
 import util, config, dialogbase
 import xbmcgui
+from dialogbase import DialogBase
 
 
 ACTION_CANCEL_DIALOG = (9, 10, 51, 92, 110)
@@ -29,7 +30,7 @@ CONTROL_BUTTON_REMOVE_INFO_ANDGROUP = 5330
 
 
 
-class MissingInfoDialog(dialogbase.DialogBaseEdit):
+class MissingInfoDialog(DialogBase):
 
 	artworkAndList = []
 	artworkOrList = []
