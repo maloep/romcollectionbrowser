@@ -476,6 +476,7 @@
 						<align>justify</align>
 						<font>font12</font>
 						<label>$INFO[ListItem.Property(plot)]</label>
+						<autoscroll time="3000" delay="10000" repeat="3000">True</autoscroll>
 					</control>
 				</control>
 			</control>
@@ -901,12 +902,12 @@
 							<posx>5</posx>
 							<posy>135</posy>
 							<width>540</width>
-							<height>178</height>			
-							<!--<pagecontrol>2201</pagecontrol>-->
+							<height>178</height>
 							<textcolor>white</textcolor>
 							<align>justify</align>
 							<font>font12</font>
 							<label>$INFO[ListItem.Property(plot)]</label>
+							<autoscroll time="3000" delay="10000" repeat="3000">True</autoscroll>
 						</control>
 					</control>
 				</control>
@@ -1043,6 +1044,7 @@
 					<align>justify</align>
 					<font>font12</font>
 					<label>$INFO[ListItem.Property(plot)]</label>
+					<autoscroll time="3000" delay="10000" repeat="3000">True</autoscroll>
 				</control>
 				
 				<control type="image">
