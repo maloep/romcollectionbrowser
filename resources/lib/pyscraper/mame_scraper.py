@@ -106,7 +106,9 @@ class MAME_Scraper(FileScraper):
 
 		self.resultdata = [rdata.groupdict()]
 		self.resultdata[0]['id'] = self.resultdata[0]['Game']
-		self.resultdata[0]['SearchKey'] = self.resultdata[0]['Game']
+		#don't use a search key as we should always have 1 result that perfectly fits
+		#search key is used in matcher to compare the rom name with the game name and this will usually not match
+		#self.resultdata[0]['SearchKey'] = self.resultdata[0]['Game']
 
 		# HACK - This is only used to retain backwards compatibility with existing scraper, where each key value was a
 		# list, even if only one value is in that list
