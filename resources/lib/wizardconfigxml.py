@@ -344,7 +344,7 @@ class ConfigXmlWizard(RcbXmlReaderWriter):
 						break
 
 					# Create scraper
-					site = Site(name=selectedscraper,path=descPath)
+					site = Site(name=selectedscraper,path=descPath,default=True)
 					romCollection.scraperSites = [site]
 
 			log.debug("Created new rom collection: {0}".format(romCollection))
