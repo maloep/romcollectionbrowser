@@ -140,20 +140,26 @@ class ImportOptionsDialog(DialogBase):
 		for rcId in romCollections.keys():
 			romCollection = self.gui.config.romCollections[rcId]
 
-			#if current rom collection only has 1 scraper, we will use this one
-			if len(romCollection.scraperSites) == 1:
-				continue
-
 			sites = []
 
-			#search for selected scraper in available scrapers and use this one
 			for site in romCollection.scraperSites:
-				# 32804 = Use configured default scrapers
-				if site.name == siteName or (siteName == util.localize(32804) and site.default):
-					sites.append(site)
-					break
+				# check if it is the selected scraper or
+                # 32804 = Use configured default scrapers
+                # search for default scraper or check if we only have one scraper and use this one
+				if site.name == siteName or \
+					(siteName == util.localize(32804) and \
+					(site.default or len(romCollection.scraperSites) == 1)):
+						sites.append(site)
+						break
 
-			if len(sites) > 0:
-				romCollection.scraperSites = sites
+			# if we did not find a scraper lets assume the selected scraper is not available in current rom collection
+            # create it and set it to default
+			if len(sites) == 0:
+				site = Site()
+				site.name = siteName
+				site.default = True
+				sites.append(site)
+
+			romCollection.scraperSites = sites
 
 		return romCollections
