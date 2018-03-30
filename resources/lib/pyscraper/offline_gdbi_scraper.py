@@ -38,6 +38,8 @@ class Offline_GDBI_Scraper(FileScraper):
     </menu>
     """
 
+    _name = 'Game-database-info'
+
     # Mapping between the dict keys and the XML fields
     _game_mapping = {
         'Game': 'description',

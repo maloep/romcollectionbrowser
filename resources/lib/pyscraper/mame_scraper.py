@@ -45,6 +45,8 @@ class MAME_Scraper(FileScraper):
 
 	"""
 
+	_name = 'MAME'
+
 	# This is only used to persist data between the search and retrieve since the regex should pick up an exact
 	# match and there is no point parsing the file twice
 	resultdata = []

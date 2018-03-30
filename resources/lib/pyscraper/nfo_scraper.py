@@ -45,6 +45,8 @@ class NFO_Scraper(FileScraper):
     </game>
     """
 
+    _name = 'nfo'
+
     #nfo_file is created in nfo_file_exists and will be used in retrieve
     nfo_file = ''
 

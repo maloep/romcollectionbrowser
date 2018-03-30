@@ -139,6 +139,7 @@ class DBUpdate(object):
                 break
 
             # prepare Header for ProgressDialog
+            # 32122 = Importing Rom Collection
             progDialogRCHeader = util.localize(32122) + " (%i / %i): %s" % (
             rccount, len(romCollections), romCollection.name)
             rccount += 1
@@ -201,6 +202,7 @@ class DBUpdate(object):
 
                     log.info("Start scraping info for game: %s" % gamenameFromFile)
 
+                    # 32123 = Importing Game
                     continueUpdate = self._gui.writeMsg(progDialogRCHeader,
                                                         util.localize(32123) + ": " + gamenameFromFile, "", fileidx + 1)
                     if not continueUpdate:
@@ -436,6 +438,11 @@ class DBUpdate(object):
                 #set path to desc file (only useful for offline scrapers)
                 newscraper.path = scraperSite.path
 
+            # 32123 = Importing Game
+            # 32131 = downloading info
+            self._gui.writeMsg(progDialogRCHeader, util.localize(32123) + ": " + gamenameFromFile,
+                               newscraper.name + " - " + util.localize(32131), fileCount)
+
             results = newscraper.search(gamenameFromFile, romCollection.name)
             log.debug(u"Searching for %s - found %s results: %s" % (gamenameFromFile, len(results), results))
         except ScraperExceededAPIQuoteException as ke:
@@ -467,9 +474,6 @@ class DBUpdate(object):
 
         # Update the gameresult with any new fields
         gameresult = self.addNewElements(gameresult, retrievedresult)
-
-        self._gui.writeMsg(progDialogRCHeader, util.localize(32123) + ": " + gamenameFromFile,
-                           scraperSite.name + " - " + util.localize(32131), fileCount)
 
         # Find Filetypes and Scrapers for Art Download
         # FIXME TODO The following is kept to keep artwork downloading working as it currently is. We already have
