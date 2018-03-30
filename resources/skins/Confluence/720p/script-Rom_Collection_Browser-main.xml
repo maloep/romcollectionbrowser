@@ -204,6 +204,7 @@
 						<texture>$INFO[ListItem.Art(gameinfobig)]</texture>
 						<bordertexture border="2">rcb-button-nofocus.png</bordertexture>
 						<bordersize>2</bordersize>
+						<aspectratio>keep</aspectratio>
 					</control>
 					<!-- videowindowbig -->
 					<control type="videowindow" id="2300">
@@ -469,6 +470,7 @@
 						<align>justify</align>
 						<font>font12</font>
 						<label>$INFO[ListItem.Property(plot)]</label>
+						<autoscroll time="3000" delay="10000" repeat="3000">True</autoscroll>
 					</control>
 				</control>
 			</control>
@@ -668,6 +670,7 @@
 						<texture>$INFO[ListItem.Art(gameinfobig)]</texture>
 						<bordertexture border="2">rcb-button-nofocus.png</bordertexture>
 						<bordersize>2</bordersize>
+						<aspectratio>keep</aspectratio>
 					</control>					
 					<control type="videowindow" id="2301">
 						<description>video control</description>
@@ -948,6 +951,7 @@
 							<align>justify</align>
 							<font>font12</font>
 							<label>$INFO[ListItem.Property(plot)]</label>
+							<autoscroll time="3000" delay="10000" repeat="3000">True</autoscroll>
 						</control>
 					</control>
 				</control>
