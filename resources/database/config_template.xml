@@ -120,7 +120,8 @@
       <fileTypeForGameListSelected>marquee</fileTypeForGameListSelected>
       <fileTypeForGameListSelected>boxfront</fileTypeForGameListSelected>
       <fileTypeForGameListSelected>title</fileTypeForGameListSelected>
-      <fileTypeForMainViewBackground>boxfront</fileTypeForMainViewBackground>
+      <fileTypeForMainViewBackground>fanart</fileTypeForMainViewBackground>
+	  <fileTypeForMainViewBackground>boxfront</fileTypeForMainViewBackground>
       <fileTypeForMainViewBackground>title</fileTypeForMainViewBackground>
       <fileTypeForMainViewBackground>action</fileTypeForMainViewBackground>
       <fileTypeForMainViewGameInfoLeft>cabinet</fileTypeForMainViewGameInfoLeft>
@@ -137,7 +138,8 @@
       <fileTypeForGameListSelected>cabinet</fileTypeForGameListSelected>
       <fileTypeForGameListSelected>boxfront</fileTypeForGameListSelected>
       <fileTypeForGameListSelected>title</fileTypeForGameListSelected>
-      <fileTypeForMainViewBackground>boxfront</fileTypeForMainViewBackground>
+      <fileTypeForMainViewBackground>fanart</fileTypeForMainViewBackground>
+	  <fileTypeForMainViewBackground>boxfront</fileTypeForMainViewBackground>
       <fileTypeForMainViewBackground>title</fileTypeForMainViewBackground>
       <fileTypeForMainViewBackground>action</fileTypeForMainViewBackground>
       <fileTypeForMainViewGameInfoUpperLeft>title</fileTypeForMainViewGameInfoUpperLeft>
