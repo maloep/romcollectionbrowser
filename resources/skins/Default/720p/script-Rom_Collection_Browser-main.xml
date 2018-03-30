@@ -60,7 +60,7 @@
 								<width>160</width>
 								<height>240</height>								
 								<aspectratio align="center" aligny="bottom">keep</aspectratio>
-								<bordertexture border="2">rcb-button-nofocus.png</bordertexture>
+								<!--<bordertexture border="2">rcb-button-nofocus.png</bordertexture>-->
 								<bordersize>2</bordersize>
 								<texture background="true">$INFO[ListItem.ActualIcon]</texture>								
 							</control>
@@ -71,7 +71,7 @@
 								<width>160</width>
 								<height>240</height>
 								<aspectratio align="center" aligny="top">keep</aspectratio>
-								<bordertexture border="2" diffuse="rcb-diffuse_mirror.png"></bordertexture>								
+								<!--<bordertexture border="2" diffuse="rcb-diffuse_mirror.png"></bordertexture>-->
 								<bordersize>2</bordersize>
 								<texture background="true" flipy="true" diffuse="rcb-diffuse_mirror.png">$INFO[ListItem.ActualIcon]</texture>
 							</control>
@@ -92,7 +92,7 @@
 							<width>160</width>
 							<height>240</height>
 							<aspectratio align="center" aligny="bottom">keep</aspectratio>
-							<bordertexture border="8">rcb-ThumbBorder.png</bordertexture>
+							<!--<bordertexture border="8">rcb-ThumbBorder.png</bordertexture>-->
 							<bordersize>8</bordersize>
 							<texture background="true">$INFO[ListItem.Art(thumb)]</texture>
 							<animation reversible="false" effect="zoom" end="120" center="auto" time="150">Focus</animation>
@@ -138,27 +138,36 @@
 				</control>
 				<control type="label">
 					<posx>0</posx>
-					<posy>97r</posy>
+					<posy>70r</posy>
 					<width>1280</width>
 					<height>20</height>
-					<font>font24_title</font>
+					<font>font25_title</font>
 					<aligny>center</aligny>
 					<textcolor>white</textcolor>
 					<selectedcolor>FFe2ff43</selectedcolor>
 					<align>center</align>
 					<label>$INFO[ListItem.Label]</label>
+					<visible>Control.IsVisible(50) + String.IsEmpty(ListItem.Art(clearlogo))</visible>
+				</control>
+				<control type="image">
+					<posx>560</posx>
+					<posy>90r</posy>
+					<width>160</width>
+					<height>60</height>
+					<aspectratio align="center" aligny="bottom">keep</aspectratio>
+					<bordersize>2</bordersize>
+					<texture background="true">$INFO[ListItem.Art(clearlogo)]</texture>
 					<visible>Control.IsVisible(50)</visible>
 				</control>
 				<control type="label">
-					<posx>0</posx>
-					<posy>62r</posy>
-					<width>1280</width>
+					<posx>25</posx>
+					<posy>25r</posy>
+					<width>280</width>
 					<height>20</height>
-					<font>font16caps</font>
+					<font>font30_title</font>
+					<align>left</align>
 					<aligny>center</aligny>
-					<textcolor>white</textcolor>
-					<selectedcolor>FFe2ff43</selectedcolor>
-					<align>center</align>
+					<textcolor>FF12A0C7</textcolor>
 					<label>$INFO[ListItem.Property(console)]</label>
 					<visible>Control.IsVisible(50)</visible>
 				</control>					
@@ -492,7 +501,7 @@
 						<posy>15</posy>
 						<width>620</width>
 						<height>30</height>
-						<font>font16caps</font>
+						<font>font25_title</font>
 						<aligny>center</aligny>
 						<textcolor>white</textcolor>
 						<selectedcolor>FFe2ff43</selectedcolor>
@@ -552,7 +561,7 @@
 								<align>left</align>
 								<aligny>center</aligny>
 								<label>$INFO[ListItem.Label]</label>
-							</control>									
+							</control>
 						</itemlayout>
 						<focusedlayout height="35" width="640">
 							<control type="image">
@@ -633,12 +642,23 @@
 						<posy>5</posy>
 						<width>600</width>
 						<height>30</height>
-						<font>font24_title</font>
+						<font>font25_title</font>
 						<aligny>center</aligny>
 						<textcolor>white</textcolor>
 						<selectedcolor>FFe2ff43</selectedcolor>
 						<align>center</align>
 						<label>$INFO[ListItem.Label]</label>
+						<visible>String.IsEmpty(ListItem.Art(clearlogo))</visible>
+					</control>
+						<control type="image">
+						<posx>5</posx>
+						<posy>5</posy>
+						<width>600</width>
+						<height>50</height>
+						<aspectratio align="center" aligny="bottom">keep</aspectratio>
+						<bordersize>2</bordersize>
+						<texture background="true">$INFO[ListItem.Art(clearlogo)]</texture>
+						<visible>!String.IsEmpty(ListItem.Art(clearlogo))</visible>
 					</control>
 					<!-- gameinfobig -->
 					<control type="image" id="2001">
@@ -946,7 +966,7 @@
 					<posy>60</posy>
 					<width>400</width>
 					<height>25</height>
-					<font>font16caps</font>
+					<font>font13_title</font>
 					<aligny>center</aligny>
 					<textcolor>white</textcolor>
 					<align>left</align>
@@ -1194,7 +1214,7 @@
 							<width>288</width>
 							<height>350</height>
 							<aspectratio align="center" aligny="bottom">keep</aspectratio>
-							<bordertexture border="2">rcb-button-nofocus.png</bordertexture>
+							<!--<bordertexture border="2">rcb-button-nofocus.png</bordertexture>-->
 							<bordersize>2</bordersize>
 							<texture background="true">$INFO[ListItem.ActualIcon]</texture>
 						</control>
@@ -1214,7 +1234,7 @@
 							<width>288</width>
 							<height>350</height>
 							<aspectratio align="center" aligny="bottom">keep</aspectratio>
-							<bordertexture border="8">rcb-ThumbBorder.png</bordertexture>
+							<!--<bordertexture border="8">rcb-ThumbBorder.png</bordertexture>-->
 							<bordersize>8</bordersize>
 							<texture background="true">$INFO[ListItem.Art(thumb)]</texture>
 							<animation reversible="false" effect="zoom" end="120" center="auto" time="200">Focus</animation>
@@ -1249,10 +1269,10 @@
 				<!-- Title -->
 				<control type="label">
 					<posx>0</posx>
-					<posy>190r</posy>
+					<posy>180r</posy>
 					<width>1280</width>
-					<height>30</height>
-					<font>font24_title</font>
+					<height>20</height>
+					<font>font25_title</font>
 					<align>center</align>
 					<aligny>center</aligny>
 					<textcolor>white</textcolor>
@@ -1265,7 +1285,7 @@
 					<posy>150r</posy>
 					<width>1280</width>
 					<height>20</height>
-					<font>font16caps</font>
+					<font>font25_title</font>
 					<aligny>center</aligny>
 					<textcolor>white</textcolor>
 					<selectedcolor>FFe2ff43</selectedcolor>
@@ -1283,7 +1303,7 @@
 					<label fallback="416">$INFO[ListItem.Property(year)]</label>
 					<align>center</align>
 					<aligny>center</aligny>
-					<font>font13</font>
+					<font>font25_title</font>
 					<scroll>true</scroll>
 					<textcolor>white</textcolor>
 				</control>				
@@ -1297,7 +1317,7 @@
 					<label fallback="416">$INFO[ListItem.Property(genre)]</label>
 					<align>center</align>
 					<aligny>center</aligny>
-					<font>font13</font>
+					<font>font25_title</font>
 					<scroll>true</scroll>
 					<textcolor>white</textcolor>
 				</control>

@@ -266,9 +266,9 @@ class ConfigXmlWizard(RcbXmlReaderWriter):
 				romCollection.mediaPaths = []
 
 				if romCollection.name == 'MAME':
-					mediaTypes = ['boxfront', 'action', 'title', 'cabinet', 'marquee']
+					mediaTypes = ['boxfront', 'action', 'title', 'cabinet', 'marquee', 'clearlogo', 'gameplay']
 				else:
-					mediaTypes = ['boxfront', 'boxback', 'cartridge', 'screenshot', 'fanart']
+					mediaTypes = ['boxfront', 'boxback', 'cartridge', 'screenshot', 'fanart', 'clearlogo', 'gameplay']
 				for t in mediaTypes:
 					romCollection.mediaPaths.append(self.createMediaPath(t, artworkPath, scenarioIndex))
 			else:
@@ -342,12 +342,6 @@ class ConfigXmlWizard(RcbXmlReaderWriter):
 					if descPath == '':
 						log.info("No descPath selected. Action canceled.")
 						break
-
-					# Add this path to the settings (for file-based parsers). Note that setting names can have spaces in them,
-					# e.g. rcb_Commodore 64DescriptionFilePath, or rcb_MAMEDescriptionFilePath.
-					# Note that when scraping, local file scraper names will be set to the collection name
-					#log.debug("Setting rcb_{0}DescriptionFilePath to {1}".format(romCollection.name, descPath))
-					#xbmcaddon.Addon().setSetting("rcb_{0}DescriptionFilePath".format(romCollection.name), descPath)
 
 					# Create scraper
 					site = Site(name=selectedscraper,path=descPath)

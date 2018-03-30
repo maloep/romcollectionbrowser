@@ -20,7 +20,7 @@ class WebScraper(AbstractScraper):
     _retrieve_url = ''
 
     # Note - this needs to map to the order of the consoleDict array.
-    pmaps = ['MobyGames.com', 'TheGamesDB.com', 'archive.vg', 'GiantBomb.com']
+    pmaps = ['MobyGames.com', 'thegamesdb.net', 'archive.vg', 'GiantBomb.com']
 
     # Mapping between the platform name in RCB and the platform identifier for the various web scrapers
     # FIXME Move to the appropriate scraper classes

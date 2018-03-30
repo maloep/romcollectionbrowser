@@ -144,6 +144,11 @@ class UIGameDB(xbmcgui.WindowXML):
 		if(self.fileTypeGameplay == None):
 			Logutil.log("Error while loading fileType gameplay: " + errorMsg, util.LOG_LEVEL_WARNING)
 
+		#load video fileType for later use in showGameInfo
+		self.fileTypeClearlogo, errorMsg = self.config.readFileType('clearlogo', self.config.tree)
+		if (self.fileTypeClearlogo == None):
+			Logutil.log("Error while loading fileType gameplay: " + errorMsg, util.LOG_LEVEL_WARNING)
+
 		#timestamp2 = time.clock()
 		#diff = (timestamp2 - timestamp1) * 1000
 		#print "RCB startup time: %d ms" % (diff)
@@ -837,6 +842,8 @@ class UIGameDB(xbmcgui.WindowXML):
 			IMAGE_CONTROL_GAMEINFO_LOWER: helper.getFileForControl(romCollection.imagePlacingMain.fileTypesForMainViewGameInfoLower, romCollection, mediaPathsDict, gamenameFromFile),
 			IMAGE_CONTROL_GAMEINFO_LEFT: helper.getFileForControl(romCollection.imagePlacingMain.fileTypesForMainViewGameInfoLeft, romCollection, mediaPathsDict, gamenameFromFile),
 			IMAGE_CONTROL_GAMEINFO_RIGHT: helper.getFileForControl(romCollection.imagePlacingMain.fileTypesForMainViewGameInfoRight, romCollection, mediaPathsDict, gamenameFromFile),
+
+			IMAGE_CONTROL_CLEARLOGO: helper.getFileForControl([self.fileTypeClearlogo], romCollection, mediaPathsDict,gamenameFromFile),
 		})
 
 		if(romCollection.autoplayVideoMain):

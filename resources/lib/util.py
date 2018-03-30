@@ -163,6 +163,8 @@ VIDEO_CONTROL_VideoWindowBig = 'videowindowbig'
 VIDEO_CONTROL_VideoWindowSmall = 'videowindowsmall'
 VIDEO_CONTROL_VideoFullscreen = 'videofullscreen'
 
+IMAGE_CONTROL_CLEARLOGO = 'clearlogo'
+
 GAMEPROPERTY_Console = 'console'
 
 

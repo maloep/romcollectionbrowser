@@ -13,7 +13,7 @@ class TheGamesDB_Scraper(WebScraper):
 	library. Kodi does not distribute the XML parser required for BeautifulSoup to parse XML files, so the parsing
 	defaults to ElementTree with BeautifulSoup provided as a possible future implementation.
 	"""
-	_name = 'TheGamesDB.com'
+	_name = 'thegamesdb.net'
 	_search_url = 'http://thegamesdb.net/api/GetGamesList.php'
 	_retrieve_url = 'http://thegamesdb.net/api/GetGame.php'
 
@@ -28,7 +28,8 @@ class TheGamesDB_Scraper(WebScraper):
 		'Filetypefanart': 'Images/fanart/original',
 		'Filetypeboxfront': "Images/boxart[@side='front']",
 		'Filetypeboxback': "Images/boxart[@side='back']",
-		'Filetypescreenshot': "Images/screenshot/original"
+		'Filetypescreenshot': "Images/screenshot/original",
+		'Filetypeclearlogo': "Images/clearlogo"
 	}
 
 	def __init__(self):
@@ -129,7 +130,7 @@ class TheGamesDB_Scraper(WebScraper):
 			result['ReleaseYear'] = [self._parse_date(releaseDate.text)]
 
 		# Prefix images with base url
-		for image in ['fanart', 'boxfront', 'boxback', 'screenshot']:
+		for image in ['fanart', 'boxfront', 'boxback', 'screenshot', 'clearlogo']:
 			try:
 				result['Filetype' + image] = ["http://thegamesdb.net/banners/" + result['Filetype' + image][0]]
 			except KeyError:

@@ -60,6 +60,10 @@
       <type>image</type>
       <parent>game</parent>
     </FileType>
+	<FileType id="15" name="clearlogo">
+      <type>image</type>
+      <parent>game</parent>
+    </FileType>
   </FileTypes>
   <ImagePlacing>
     <fileTypeFor name="gameinfobig">
