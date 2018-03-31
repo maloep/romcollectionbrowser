@@ -470,7 +470,7 @@
 						<align>justify</align>
 						<font>font12</font>
 						<label>$INFO[ListItem.Property(plot)]</label>
-						<autoscroll time="3000" delay="10000" repeat="3000">True</autoscroll>
+						<autoscroll time="3000" delay="10000" repeat="6000">True</autoscroll>
 					</control>
 				</control>
 			</control>
@@ -951,7 +951,7 @@
 							<align>justify</align>
 							<font>font12</font>
 							<label>$INFO[ListItem.Property(plot)]</label>
-							<autoscroll time="3000" delay="10000" repeat="3000">True</autoscroll>
+							<autoscroll time="3000" delay="10000" repeat="6000">True</autoscroll>
 						</control>
 					</control>
 				</control>
