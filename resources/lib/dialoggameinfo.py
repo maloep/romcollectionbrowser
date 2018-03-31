@@ -18,7 +18,7 @@ ACTION_MOVEMENT = (1, 2, 3, 4,)
 CONTROL_BUTTON_PLAYGAME = 3000
 
 CONTROL_GAME_LIST_GROUP = 1000
-CONTROL_GAME_LIST = 59
+CONTROL_GAME_LIST = 8200
 
 CONTROL_LABEL_MSG = 4000
 
@@ -44,8 +44,6 @@ class UIGameInfoView(xbmcgui.WindowXMLDialog):
 	__useRefactoredView = False
 
 	def __init__(self, *args, **kwargs):
-		xbmcgui.WindowXMLDialog.__init__(self, *args, **kwargs)
-
 		Logutil.log("Init GameInfoView", util.LOG_LEVEL_INFO)
 
 		self.gdb = kwargs[ "gdb" ]
@@ -173,7 +171,9 @@ class UIGameInfoView(xbmcgui.WindowXMLDialog):
 				IMAGE_CONTROL_3: helper.getFileForControl(romCollection.imagePlacingInfo.fileTypesForMainView3, romCollection, mediaPathsDict, gamenameFromFile),
 		})
 
-		self.addItem(item)
+		#add item to listcontrol
+		listcontrol = self.getControlById(CONTROL_GAME_LIST)
+		listcontrol.addItem(item)
 
 		self.writeMsg("")
 
