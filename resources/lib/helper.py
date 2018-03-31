@@ -76,8 +76,11 @@ def walkDownMediaDirectories(mediadir, mediafiles):
 def getFileForControl(fileTypes, romCollection, mediaPathsDict, gamenameFromFile, isVideo=False):
 		
 	Logutil.log("begin getFileForControl", util.LOG_LEVEL_DEBUG)
-	
+
 	for fileType in fileTypes:
+		if not fileType:
+			continue
+		
 		if(fileType.parent != util.FILETYPEPARENT_GAME):
 			continue
 		
