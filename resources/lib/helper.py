@@ -80,7 +80,7 @@ def getFileForControl(fileTypes, romCollection, mediaPathsDict, gamenameFromFile
 	for fileType in fileTypes:
 		if not fileType:
 			continue
-		
+
 		if(fileType.parent != util.FILETYPEPARENT_GAME):
 			continue
 		
