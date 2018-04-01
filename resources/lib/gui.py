@@ -733,6 +733,9 @@ class UIGameDB(xbmcgui.WindowXML):
 		self.mediaDict = helper.cacheMediaPathsForSelection(self.selectedConsoleId, self.mediaDict, self.config)
 		
 		self.writeMsg(util.localize(32121))
+
+		loadGamelistArtwork = self.Settings.getSetting(util.SETTING_RCB_LOADGAMELISTARTWORK).upper() == 'TRUE'
+		useClearlogoAsTitle = self.Settings.getSetting(util.SETTING_RCB_USECLEARLOGOASTITLE).upper() == 'TRUE'
 		
 		#used to show percentage during game loading
 		divisor = len(games) / 10
@@ -752,8 +755,13 @@ class UIGameDB(xbmcgui.WindowXML):
 			romfile = game.firstRom
 			gamenameFromFile = romCollection.getGamenameFromFilename(romfile)
 
-			image_gamelist = helper.getFileForControl(romCollection.imagePlacingMain.fileTypesForGameList, romCollection, mediaPathsDict, gamenameFromFile, False)
-			image_clearlogo = helper.getFileForControl([self.fileTypeClearlogo], romCollection, mediaPathsDict, gamenameFromFile)
+			image_gamelist = ''
+			if loadGamelistArtwork:
+				image_gamelist = helper.getFileForControl(romCollection.imagePlacingMain.fileTypesForGameList, romCollection, mediaPathsDict, gamenameFromFile, False)
+
+			image_clearlogo = ''
+			if useClearlogoAsTitle:
+				image_clearlogo = helper.getFileForControl([self.fileTypeClearlogo], romCollection, mediaPathsDict, gamenameFromFile)
 
 			#check if this game should not be added due to missing artwork
 			if not self._checkMissingArtworkFilter(image_gamelist, image_clearlogo):
@@ -789,7 +797,7 @@ class UIGameDB(xbmcgui.WindowXML):
 			#set gamelist artwork at startup
 			item.setArt({'icon': image_gamelist,
 						 IMAGE_CONTROL_CLEARLOGO: image_clearlogo,
-						})
+						 })
 
 			# Add the listitem to the list
 			items.append(item)
@@ -860,6 +868,9 @@ class UIGameDB(xbmcgui.WindowXML):
 			IMAGE_CONTROL_GAMEINFO_LOWER: helper.getFileForControl(romCollection.imagePlacingMain.fileTypesForMainViewGameInfoLower, romCollection, mediaPathsDict, gamenameFromFile),
 			IMAGE_CONTROL_GAMEINFO_LEFT: helper.getFileForControl(romCollection.imagePlacingMain.fileTypesForMainViewGameInfoLeft, romCollection, mediaPathsDict, gamenameFromFile),
 			IMAGE_CONTROL_GAMEINFO_RIGHT: helper.getFileForControl(romCollection.imagePlacingMain.fileTypesForMainViewGameInfoRight, romCollection, mediaPathsDict, gamenameFromFile),
+
+			#TODO: might already been added in showGames
+			IMAGE_CONTROL_CLEARLOGO: helper.getFileForControl([self.fileTypeClearlogo], romCollection, mediaPathsDict, gamenameFromFile)
 		})
 
 		if(romCollection.autoplayVideoMain):

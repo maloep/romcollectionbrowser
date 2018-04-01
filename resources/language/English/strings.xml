@@ -187,6 +187,8 @@
 	<string id="32327">Escape emulator cmd</string>
 	<string id="32328">Max number of games to display</string>
 	<string id="32329">Prefer local nfo file if available</string>
+	<string id="32330">Use clearlogo as list title</string>
+	<string id="32331">Load artwork for game lists</string>
 	
 	<!-- GUI controls -->
 	<!-- main window -->
