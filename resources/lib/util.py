@@ -196,6 +196,25 @@ def html_unescape(text):
 		return text
 
 
+"""
+replace html tags with kodi tags in plot
+"""
+html_kodi_table = {
+	"<i>" : "[I]",
+	"</i>" : "[/I]",
+	"<b>" : "[B]",
+	"</b>" : "[/B]",
+	"<br>" : "[CR]",
+}
+
+def html_to_kodi(text):
+	for key in html_kodi_table.keys():
+		text = text.replace(key, html_kodi_table[key])
+
+	return text
+
+
+
 def joinPath(part1, *parts):
 	path = ''
 	if(part1.startswith('smb://')):

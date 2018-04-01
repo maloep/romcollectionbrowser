@@ -291,7 +291,7 @@ class gameobj(object):
 	def plot(self):
 		if self.description is None:
 			return ''
-		return self.description
+		return util.html_to_kodi(self.description)
 
 	@property
 	def maxplayers(self):
