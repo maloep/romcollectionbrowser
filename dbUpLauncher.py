@@ -17,6 +17,7 @@ from gamedatabase import GameDataBase
 import util
 import dbupdate
 import config
+from config import Site
 
 monitor = xbmc.Monitor()
 
@@ -71,7 +72,7 @@ class ProgressDialogBk(xbmcgui.DialogProgressBG):
 
 
 def runUpdate():
-    xbmc.log('runUpdate')
+    xbmc.log('RCB: runUpdate')
 
     gdb = GameDataBase(util.getAddonDataPath())
     gdb.connect()
@@ -81,13 +82,71 @@ def runUpdate():
     configFile = config.Config(None)
     statusOk, errorMsg = configFile.readXml()
 
+    selectedRomCollection = ''
+    selectedScraper = ''
+
+    xbmc.log ('RCB: parameters = %s' % sys.argv)
+    for arg in sys.argv:
+        param = str(arg)
+        xbmc.log('RCB: param = %s' % param)
+
+        if 'selectedRomCollection' in param:
+            selectedRomCollection = param.replace('selectedRomCollection=', '')
+        if 'selectedScraper' in param:
+            selectedScraper = param.replace('selectedScraper=', '')
+
+    romCollections = configFile.romCollections
+    if selectedRomCollection and selectedScraper:
+        romCollections = prepareRomCollections(configFile, selectedRomCollection, selectedScraper)
+
     progress = ProgressDialogBk()
     progress.create('Rom Collection Browser', 'Update DB')
 
     with HandleAbort():
-        dbupdate.DBUpdate().updateDB(gdb, progress, configFile.romCollections, False)
+        dbupdate.DBUpdate().updateDB(gdb, progress, romCollections, False)
 
     progress.close()
 
+
+def prepareRomCollections(config, selectedRC, siteName):
+    xbmc.log('prepareRomCollections')
+
+    #32120 = All
+    if selectedRC == util.localize(32120):
+        romCollections = config.romCollections
+    else:
+        romCollections = {}
+        romCollection = config.getRomCollectionByName(selectedRC)
+        romCollections[romCollection.id] = romCollection
+
+    for rcId in romCollections.keys():
+        romCollection = config.romCollections[rcId]
+
+        sites = []
+
+        for site in romCollection.scraperSites:
+            # check if it is the selected scraper or
+            # 32804 = Use configured default scrapers
+            # search for default scraper or check if we only have one scraper and use this one
+            if site.name == siteName or \
+                (siteName == util.localize(32804) and \
+                (site.default or len(romCollection.scraperSites) == 1)):
+                    sites.append(site)
+                    break
+
+        # if we did not find a scraper lets assume the selected scraper is not available in current rom collection
+        # create it and set it to default
+        if len(sites) == 0:
+            site = Site()
+            site.name = siteName
+            site.default = True
+            sites.append(site)
+
+        romCollection.scraperSites = sites
+
+    return romCollections
+
+
 if __name__ == "__main__":
+
     runUpdate()

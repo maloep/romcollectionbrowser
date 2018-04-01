@@ -438,6 +438,7 @@ class DBUpdate(object):
                 #set path to desc file (only useful for offline scrapers)
                 newscraper.path = scraperSite.path
 
+            log.info("Using scraper: %s" %newscraper.name)
             # 32123 = Importing Game
             # 32131 = downloading info
             self._gui.writeMsg(progDialogRCHeader, util.localize(32123) + ": " + gamenameFromFile,

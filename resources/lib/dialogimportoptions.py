@@ -108,10 +108,18 @@ class ImportOptionsDialog(DialogBase):
 
 	def doImport(self):
 		log.info('doImport')
+
+		control = self.getControlById(CONTROL_LIST_ROMCOLLECTIONS)
+		romCollItem = control.getSelectedItem()
+		selectedRomCollection = romCollItem.getLabel()
+
+		control = self.getControlById(CONTROL_LIST_SCRAPER1)
+		selectedScraper = control.getSelectedItem().getLabel()
+
 		romCollections = self.setScrapersInConfig()
 
 		control = self.getControlById(CONTROL_BUTTON_SCRAPEINBACKGROUND)
-		self.gui.doImport(romCollections, self.isRescrape, control.isSelected())
+		self.gui.doImport(romCollections, self.isRescrape, control.isSelected(), selectedRomCollection, selectedScraper)
 
 
 	def setScrapersInConfig(self):

@@ -1128,9 +1128,12 @@ class UIGameDB(xbmcgui.WindowXML):
 			iod = dialogimportoptions.ImportOptionsDialog("script-RCB-importoptions.xml", util.getAddonInstallPath(), util.getConfiguredSkin(), constructorParam, gui=self, romCollections=romCollections, isRescrape=isRescrape)
 			del iod
 		else:
+			#32118 = Do you want to import Games now?
 			message = util.localize(32118)
 
 			dialog = xbmcgui.Dialog()
+
+			#32500 = Import Games
 			retGames = dialog.yesno(util.localize(32999), util.localize(32500), message)
 			if(retGames == True):
 				#Import Games
@@ -1140,12 +1143,13 @@ class UIGameDB(xbmcgui.WindowXML):
 					self.doImport(romCollections, isRescrape, False)
 
 
-	def doImport(self, romCollections, isRescrape, scrapeInBackground):
+	def doImport(self, romCollections, isRescrape, scrapeInBackground, selectedRomCollection=None, selectedScraper=None):
 
 		if scrapeInBackground:
 			path = os.path.join(self.Settings.getAddonInfo('path'), 'dbUpLauncher.py')
 			log.info('Launch external update script: %s' %path)
-			xbmc.executescript("%s" % path)
+			xbmc.executebuiltin("RunScript(%s, selectedRomCollection=%s, selectedScraper=%s)"
+								%(path, selectedRomCollection, selectedScraper))
 			#exit RCB
 			self.quit = True
 			self.exit()
