@@ -599,9 +599,11 @@ class UIGameDB(xbmcgui.WindowXML):
 
 		return likeStatement
 
+
 	def _buildMissingFilterStatement(self, config):
 
-		if config.showHideOption.lower() == util.localize(32157):    # ignore
+		#32157 = ignore
+		if config.showHideOption.lower() == util.localize(32157):
 			return ''
 
 		statement = ''
@@ -616,24 +618,14 @@ class UIGameDB(xbmcgui.WindowXML):
 				statement = statement + ' OR '
 			statement = statement + orStatementInfo
 
-		andStatementArtwork = self._buildArtworkStatement(config, config.missingFilterArtwork.andGroup, ' AND ')
-		if andStatementArtwork != '':
-			if statement != '':
-				statement = statement + ' OR '
-			statement = statement + andStatementArtwork
-
-		orStatementArtwork = self._buildArtworkStatement(config, config.missingFilterArtwork.orGroup, ' OR ')
-		if orStatementArtwork != '':
-			if statement != '':
-				statement = statement + ' OR '
-			statement = statement + orStatementArtwork
-
 		if statement != '':
 			statement = '(%s)' % (statement)
+			#32161 = hide
 			if config.showHideOption.lower() == util.localize(32161):
 				statement = 'NOT ' + statement
 
 		return statement
+
 
 	def _buildInfoStatement(self, group, operator):
 		statement = ''
@@ -648,27 +640,43 @@ class UIGameDB(xbmcgui.WindowXML):
 
 		return statement
 
-	def _buildArtworkStatement(self, config, group, operator):
-		statement = ''
-		for item in group:
-			if statement == '':
-				statement = '('
-			else:
-				statement = statement + operator
 
-			typeId = ''
+	def _checkMissingArtworkFilter(self, image_gamelist, image_clearlogo):
 
-			fileTypeRows = config.tree.findall('FileTypes/FileType')
-			for element in fileTypeRows:
-				if element.attrib.get('name') == item:
-					typeId = element.attrib.get('id')
-					break
-			statement = statement + 'Id NOT IN (SELECT ParentId from File Where fileTypeId = %s)' % str(typeId)
+		#32157 = ignore
+		if self.config.showHideOption.lower() == util.localize(32157):
+			return True
 
-		if statement != '':
-			statement = statement + ')'
+		missinglist = []
+		if not image_gamelist:
+			missinglist.append('gamelist')
+		if not image_clearlogo:
+			missinglist.append('clearlogo')
 
-		return statement
+		#check if one item from orGroup is missing
+		resultOrGoup = True
+		for item in self.config.missingFilterArtwork.orGroup:
+			if item in missinglist:
+				resultOrGoup = False
+				break
+
+		#check if all items from andGroup are missing
+		#set True if no filter is configured
+		resultAndGoup = len(self.config.missingFilterArtwork.andGroup) == 0
+		for item in self.config.missingFilterArtwork.andGroup:
+			if item not in missinglist:
+				resultAndGoup = True
+				break
+
+		addItemToList = resultOrGoup and resultAndGoup
+
+		#32159 = show
+		#invert filter if we should show only games with missing artwork
+		if self.config.showHideOption.lower() == util.localize(32159):
+			addItemToList = not addItemToList
+
+		return addItemToList
+
 
 	def _getGamesListQueryStatement(self):
 		# Build statement for character search (where name LIKE 'A%')
@@ -729,9 +737,28 @@ class UIGameDB(xbmcgui.WindowXML):
 		#used to show percentage during game loading
 		divisor = len(games) / 10
 		counter = 0
-		
+
 		items = []
 		for game in games:
+
+			try:
+				romCollection = self.config.romCollections[str(game.romCollectionId)]
+			except KeyError:
+				Logutil.log('Cannot get rom collection with id: ' + str(game.romCollectionId), util.LOG_LEVEL_ERROR)
+				# Won't be able to get game images, move to next game
+				continue
+
+			mediaPathsDict = self.mediaDict[str(game.romCollectionId)]
+			romfile = game.firstRom
+			gamenameFromFile = romCollection.getGamenameFromFilename(romfile)
+
+			image_gamelist = helper.getFileForControl(romCollection.imagePlacingMain.fileTypesForGameList, romCollection, mediaPathsDict, gamenameFromFile, False)
+			image_clearlogo = helper.getFileForControl([self.fileTypeClearlogo], romCollection, mediaPathsDict, gamenameFromFile)
+
+			#check if this game should not be added due to missing artwork
+			if not self._checkMissingArtworkFilter(image_gamelist, image_clearlogo):
+				continue
+
 			item = xbmcgui.ListItem(game.name, str(game.id))
 			item.setProperty('romCollectionId', str(game.romCollectionId))
 			
@@ -756,23 +783,12 @@ class UIGameDB(xbmcgui.WindowXML):
 			if not showFavoriteStars:
 				item.setProperty('isfavorite', '')
 			
-			try:
-				romCollection = self.config.romCollections[str(game.romCollectionId)]
-			except KeyError:
-				Logutil.log('Cannot get rom collection with id: ' + str(game.romCollectionId), util.LOG_LEVEL_ERROR)
-				# Won't be able to get game images, move to next game
-				continue
-			
 			item.setProperty('romcollection', romCollection.name)
 			item.setProperty('console', romCollection.name)
 
-			mediaPathsDict = self.mediaDict[str(game.romCollectionId)]
-			romfile = game.firstRom
-			gamenameFromFile = romCollection.getGamenameFromFilename(romfile)
-			
 			#set gamelist artwork at startup
-			item.setArt({'icon': helper.getFileForControl(romCollection.imagePlacingMain.fileTypesForGameList, romCollection, mediaPathsDict, gamenameFromFile, False),
-						'thumb': helper.getFileForControl(romCollection.imagePlacingMain.fileTypesForGameListSelected, romCollection, mediaPathsDict, gamenameFromFile, False),
+			item.setArt({'icon': image_gamelist,
+						 IMAGE_CONTROL_CLEARLOGO: image_clearlogo,
 						})
 
 			# Add the listitem to the list
@@ -830,6 +846,8 @@ class UIGameDB(xbmcgui.WindowXML):
 		gamenameFromFile = romCollection.getGamenameFromFilename(romfile)
 		
 		selectedGame.setArt({
+			'thumb': helper.getFileForControl(romCollection.imagePlacingMain.fileTypesForGameListSelected, romCollection, mediaPathsDict, gamenameFromFile, False),
+
 			IMAGE_CONTROL_BACKGROUND: helper.getFileForControl(romCollection.imagePlacingMain.fileTypesForMainViewBackground, romCollection, mediaPathsDict, gamenameFromFile),
 			IMAGE_CONTROL_GAMEINFO_BIG: helper.getFileForControl(romCollection.imagePlacingMain.fileTypesForMainViewGameInfoBig, romCollection, mediaPathsDict, gamenameFromFile),
 
@@ -842,8 +860,6 @@ class UIGameDB(xbmcgui.WindowXML):
 			IMAGE_CONTROL_GAMEINFO_LOWER: helper.getFileForControl(romCollection.imagePlacingMain.fileTypesForMainViewGameInfoLower, romCollection, mediaPathsDict, gamenameFromFile),
 			IMAGE_CONTROL_GAMEINFO_LEFT: helper.getFileForControl(romCollection.imagePlacingMain.fileTypesForMainViewGameInfoLeft, romCollection, mediaPathsDict, gamenameFromFile),
 			IMAGE_CONTROL_GAMEINFO_RIGHT: helper.getFileForControl(romCollection.imagePlacingMain.fileTypesForMainViewGameInfoRight, romCollection, mediaPathsDict, gamenameFromFile),
-
-			IMAGE_CONTROL_CLEARLOGO: helper.getFileForControl([self.fileTypeClearlogo], romCollection, mediaPathsDict,gamenameFromFile),
 		})
 
 		if(romCollection.autoplayVideoMain):

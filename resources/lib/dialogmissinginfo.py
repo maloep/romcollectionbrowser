@@ -39,6 +39,12 @@ class MissingInfoDialog(DialogBase):
 
 	saveConfig = False
 
+	#32157 = ignore
+	#32158 = Ignore filter
+	#32159 = show
+	#32160 = Show only games with missing items
+	#32161 = hide
+	#32162 = Hide games with missing items
 	missingFilterOptions = {util.localize(32157): util.localize(32158),
 							util.localize(32159): util.localize(32160),
 							util.localize(32161): util.localize(32162)}
@@ -72,7 +78,7 @@ class MissingInfoDialog(DialogBase):
 
 		Logutil.log('add show/hide missing info options', util.LOG_LEVEL_INFO)
 		#showHideOptions = ['Ignore filter', 'Show only games with missing items', 'Hide games with missing items']
-		self.addItemsToList(CONTROL_LIST_SHOWHIDEMISSING, config.missingFilterOptions.values())
+		self.addItemsToList(CONTROL_LIST_SHOWHIDEMISSING, self.missingFilterOptions.values())
 
 		for i in range(0, len(self.missingFilterOptions.keys())):
 			key = self.missingFilterOptions.keys()[i]
@@ -154,12 +160,13 @@ class MissingInfoDialog(DialogBase):
 
 	def addItemToMissingArtworkList(self, inList, labelId):
 		tempList = []
-		for romCollection in self.gui.config.romCollections.values():
-			for mediaPath in romCollection.mediaPaths:
-				if(not mediaPath.fileType.name in tempList and not mediaPath.fileType.name in inList):
-					tempList.append(mediaPath.fileType.name)
+
+		for item in ['clearlogo', 'gamelist']:
+			if not item in inList:
+				tempList.append(item)
 
 		dialog = xbmcgui.Dialog()
+		#32155 = Select Artwork type
 		index = dialog.select(util.localize(32155), tempList)
 		del dialog
 		if(index == -1):
