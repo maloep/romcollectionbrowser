@@ -1145,6 +1145,17 @@
 							<aligny>center</aligny>
 							<textcolor>white</textcolor>
 							<label>$INFO[ListItem.Label]</label>
+							<visible>String.IsEmpty(ListItem.Art(clearlogo)) | !Skin.HasSetting(rcb_useClearlogoAsTitle)</visible>
+						</control>
+						<control type="image">
+							<posx>5</posx>
+							<posy>470</posy>
+							<width>260</width>
+							<height>80</height>
+							<aspectratio align="center" aligny="center">keep</aspectratio>
+							<bordersize>2</bordersize>
+							<texture background="true">$INFO[ListItem.Art(clearlogo)]</texture>
+							<visible>Skin.HasSetting(rcb_useClearlogoAsTitle)</visible>
 						</control>
 					</itemlayout>
 					<focusedlayout width="270" >
@@ -1175,6 +1186,17 @@
 							<textcolor>white</textcolor>
 							<label>$INFO[ListItem.Label]</label>
 							<autoscroll time="3000" delay="3000" repeat="3000">True</autoscroll>
+							<visible>String.IsEmpty(ListItem.Art(clearlogo)) | !Skin.HasSetting(rcb_useClearlogoAsTitle)</visible>
+						</control>
+						<control type="image">
+							<posx>5</posx>
+							<posy>470</posy>
+							<width>260</width>
+							<height>80</height>
+							<aspectratio align="center" aligny="center">keep</aspectratio>
+							<bordersize>2</bordersize>
+							<texture background="true">$INFO[ListItem.Art(clearlogo)]</texture>
+							<visible>Skin.HasSetting(rcb_useClearlogoAsTitle)</visible>
 						</control>
 					</focusedlayout>
 				</control>

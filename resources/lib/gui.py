@@ -198,6 +198,12 @@ class UIGameDB(xbmcgui.WindowXML):
 		if(statusOk == False):
 			xbmcgui.Dialog().ok(util.SCRIPTNAME, util.localize(32002), errorMsg)
 
+		#set flag if the skin should display clearlogo as title in lists
+		if  self.Settings.getSetting(util.SETTING_RCB_USECLEARLOGOASTITLE).upper() == "TRUE":
+			xbmc.executebuiltin('Skin.SetBool(%s)' % util.SETTING_RCB_USECLEARLOGOASTITLE)
+		else:
+			xbmc.executebuiltin('Skin.Reset(%s)' % util.SETTING_RCB_USECLEARLOGOASTITLE)
+
 		return config, statusOk
 
 	# FIXME TODO Move to gamedatabase.py
