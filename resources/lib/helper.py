@@ -164,6 +164,35 @@ def saveViewState(gdb, isOnExit, selectedView, selectedGameIndex, selectedConsol
 	
 	Logutil.log("End helper.saveViewState", util.LOG_LEVEL_INFO)
 
+
+def createArtworkDirectories(romCollections):
+	Logutil.log('Begin createArtworkDirectories', util.LOG_LEVEL_INFO)
+
+	for romCollection in romCollections.values():
+		for mediaPath in romCollection.mediaPaths:
+			# Add the trailing slash that xbmcvfs.exists expects
+			dirname = os.path.join(os.path.dirname(mediaPath.path), '')
+			Logutil.log('Check if directory exists: %s' %dirname, util.LOG_LEVEL_INFO)
+			if xbmcvfs.exists(dirname):
+				Logutil.log('Directory exists.', util.LOG_LEVEL_INFO)
+				continue
+
+			Logutil.log('Directory does not exist. Try to create it', util.LOG_LEVEL_INFO)
+			success = xbmcvfs.mkdirs(dirname)
+			Logutil.log("Directory successfully created: %s" % success, util.LOG_LEVEL_INFO)
+			if not success:
+				#HACK: check if directory was really not created.
+				directoryExists = xbmcvfs.exists(dirname)
+				Logutil.log("2nd check if directory exists: %s" % directoryExists, util.LOG_LEVEL_INFO)
+				if not directoryExists:
+					Logutil.log("Could not create artwork directory: '%s'" % dirname, util.LOG_LEVEL_ERROR)
+					#32010: Error: Could not create artwork directory.
+					#32011: Check kodi.log for details.
+					xbmcgui.Dialog().ok(util.localize(32010), dirname, util.localize(32011))
+					return False
+
+	return True
+
 			
 def getRCBSetting(gdb):
 	rcbSettingRows = RCBSetting(gdb).getAll()

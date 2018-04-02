@@ -13,6 +13,7 @@ from util import *
 from util import KodiVersions
 from util import Logutil as log
 from util import __addon__
+import helper
 from config import *
 from gamedatabase import *
 from pyscraper.scraper import AbstractScraper
@@ -117,6 +118,11 @@ class DBUpdate(object):
         self._gui = gui
 
         log.info("Start Update DB")
+
+        #at start, check if we need to create any artwork directories
+        if not helper.createArtworkDirectories(romCollections):
+            #32010: Error: Could not create artwork directory.
+            return False, util.localize(32010)
 
         log.info("Iterating Rom Collections")
         rccount = 1
@@ -989,27 +995,6 @@ class DBUpdate(object):
             if len(files) > 0:
                 log.info("File already exists. Won't download again.")
                 return True, artworkurls
-
-            # Create folder if it doesn't already exist
-            dirname = os.path.join(os.path.dirname(fileName), '')  # Add the trailing slash that xbmcvfs.exists expects
-            log.debug("Checking for artwork directory %s" % dirname)
-            if KodiVersions.getKodiVersion() >= KodiVersions.KRYPTON:
-                exists = xbmcvfs.exists(dirname)
-            else:
-                exists = os.path.exists(dirname)
-            if not exists:
-                log.info("Artwork directory %s doesn't exist, creating it" % dirname)
-                success = xbmcvfs.mkdirs(dirname)
-                log.info("Directory successfully created: %s" %success)
-                if not success:
-                    #HACK: check if directory was really not created.
-                    directoryExists = xbmcvfs.exists(dirname)
-                    log.info("Directory exists: %s" %directoryExists)
-                    if not directoryExists:
-                        log.error("Could not create artwork directory: '%s'" % dirname)
-                        xbmcgui.Dialog().ok(util.localize(32010), util.localize(32011))
-                        del dirname
-                        return False, artworkurls
 
             log.info("File %s does not exist, starting download" % fileName)
             # Dialog Status Art Download

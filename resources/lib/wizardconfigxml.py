@@ -55,6 +55,9 @@ class ConfigXmlWizard(RcbXmlReaderWriter):
 		configWriter = ConfigXmlWriter(True)
 		success, message = configWriter.writeRomCollections(romCollections, False)
 
+		#create artwork directories for all rom collections
+		helper.createArtworkDirectories(romCollections)
+
 		return success, message
 
 	# Called by context menu
@@ -87,6 +90,9 @@ class ConfigXmlWizard(RcbXmlReaderWriter):
 		# Update config file
 		configWriter = ConfigXmlWriter(False)
 		success, message = configWriter.writeRomCollections(romCollections, False)
+
+		#create artwork directories for all rom collections
+		helper.createArtworkDirectories(romCollections)
 
 		log.info("End addRomCollection")
 		return success, message
