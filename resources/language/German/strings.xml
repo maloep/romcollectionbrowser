@@ -170,10 +170,7 @@
 	<string id="32307">Spiele beim Start von XBMC importieren</string>
 	<string id="32308">Optionen-Dialog beim Import anzeigen</string>
 	<string id="32309">Scraping Modus</string>
-	<string id="32310">Fuzzy Faktor um Treffer zu ermitteln</string>
-	<string id="32311">local nfo Datei beim Import erzeugen</string>
 	<string id="32312">Spiele ohne Beschreibung nicht importieren</string>
-	<string id="32313">Spiele ohne Artwork nicht importieren</string>
 	<string id="32314">Importierte Spiele erneut scannen</string>
 	<string id="32315">Überschreiben mit Null-Werten erlauben</string>
 	<string id="32317">Pfad zu local nfo Dateien</string>
@@ -187,6 +184,10 @@
 	<string id="32325">Ungefilterte Suche verhindern</string>
 	<string id="32326">Spiele starten</string>
 	<string id="32327">Emulator Kommando maskieren</string>
+	<string id="32328">Maximale Anzahl Spiele anzeigen</string>
+	<string id="32329">lokale nfo Datei bevorzugen (falls verfügbar)</string>
+	<string id="32330">Clearlogo als Titel in Liste verwenden</string>
+	<string id="32331">Artwork für Listen laden</string>
 	
 	<!-- GUI controls -->
 	<!-- main window-->
@@ -202,6 +203,7 @@
 	<string id="32409">Fehlende Infos filtern</string>
 	<string id="32410">Einträge</string>
 	<string id="32411">Seite</string>
+	<string id="32412">Keine Spiele gefunden</string>
 	
 	<!-- context menu-->
 	<string id="32500">Spiele importieren</string>
