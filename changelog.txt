@@ -1,3 +1,41 @@
+2.2.0 (04/2018)
+~~~~~~~~~~~~~
+General:
+  * lots of refactoring and bug fixing
+  * new supplement addon: RCB widget
+  * new translation: Spanish (thanks to trihy)
+  * fixed language ids in strings-files
+  
+Import Games:
+  * move from configurable scrapers to hard coded scrapers
+  * use mobygames API instead of website scraping
+  * offline scraper for MAME history.dat file
+  * offline scraper for Game-database-info xml files (provided by billyc999)
+  * remove addon setting: "Automatic: Guess Matches"
+  * remove addon setting: "Fuzzy Factor" (used in Guess Matches mode)
+  * remove explicit "local nfo" scraper
+  * new addon setting: prefer local nfo file if available
+  * always create nfo files while scraping
+  * existing nfo files will be updated with new information (no complete overwrite)
+  * remove "local artwork" scraper (not needed anymore)
+  * reduce number of sequentially invoked scrapers to 1
+  * re-enable scrape on startup option (background scraping)
+  * add background scraping option to import dialog
+  * new option in import options dialog: "Use configured default scrapers"
+  * download clearlogo artwork from thegamesdb.net
+  
+Browse Games:
+  * lots of small layout fixes
+  * adjust missing artwork filter to new image loading
+  * remove fullscreen video browser (will be replaced with fullscreen video views)
+  * removed caching options from addon settings
+  * adjust scrolling behaviour in Info 2 view
+  * set aspectratio for upper/lower/left/right images to scale in info and info2 view
+  * new addon setting: Use clearlogo as list title
+  * new addon setting: Load artwork for game lists
+
+
+
 2.1.5 (01/2018)
 ~~~~~~~~~~~~~
 General:
