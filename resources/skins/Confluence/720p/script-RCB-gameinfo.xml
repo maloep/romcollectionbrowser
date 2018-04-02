@@ -6,7 +6,6 @@
 		<posx>0</posx>
 		<posy>0</posy>
 	</coordinates>
-	<views>59</views>
 	<controls>
 		<control type="group">
 			<posx>180</posx>
@@ -36,7 +35,7 @@
 				<width>1030</width>
 				<height>30</height>
 				<font>font35_title</font>
-				<label>$INFO[Listitem.Label]</label>
+				<label>$INFO[Container(8200).ListItem.Label]</label>
 				<align>center</align>
 				<aligny>center</aligny>
 				<textcolor>white</textcolor>
@@ -45,7 +44,7 @@
 			
 			<!-- gameinfoviewgamelist -->
 			<control type="group" id="1000">
-				<control type="wraplist" id="59">
+				<control type="wraplist" id="8200">
 					<posx>0</posx>
 					<posy>0</posy>
 					<width>0</width>
@@ -84,7 +83,7 @@
 					<height>30</height>
 					<font>font13</font>
 					<textcolor>FFFFFFFF</textcolor>
-					<label>$INFO[ListItem.Property(genre)]</label>
+					<label>$INFO[Container(8200).ListItem.Property(genre)]</label>
 				</control>
 				<control type="label">
 					<posx>165</posx>
@@ -105,7 +104,7 @@
 					<height>30</height>
 					<font>font13</font>
 					<textcolor>FFFFFFFF</textcolor>
-					<label>$INFO[ListItem.Property(year)]</label>
+					<label>$INFO[Container(8200).ListItem.Property(year)]</label>
 				</control>
 				<control type="label">
 					<posx>165</posx>
@@ -126,7 +125,7 @@
 					<height>30</height>
 					<font>font13</font>
 					<textcolor>FFFFFFFF</textcolor>
-					<label>$INFO[ListItem.Property(publisher)]</label>
+					<label>$INFO[Container(8200).ListItem.Property(publisher)]</label>
 				</control>
 				<control type="label">
 					<posx>165</posx>
@@ -147,7 +146,7 @@
 					<height>30</height>
 					<font>font13</font>
 					<textcolor>FFFFFFFF</textcolor>
-					<label>$INFO[ListItem.Property(developer)]</label>
+					<label>$INFO[Container(8200).ListItem.Property(developer)]</label>
 				</control>		
 				<control type="label">
 					<posx>165</posx>
@@ -168,7 +167,7 @@
 					<height>30</height>
 					<font>font13</font>
 					<textcolor>FFFFFFFF</textcolor>
-					<label>$INFO[ListItem.Property(region)]</label>
+					<label>$INFO[Container(8200).ListItem.Property(region)]</label>
 				</control>		
 				<control type="label">
 					<posx>165</posx>
@@ -189,7 +188,7 @@
 					<height>30</height>
 					<font>font13</font>
 					<textcolor>FFFFFFFF</textcolor>
-					<label>$INFO[ListItem.Property(media)]</label>
+					<label>$INFO[Container(8200).ListItem.Property(media)]</label>
 				</control>
 				<control type="label">
 					<posx>165</posx>
@@ -210,7 +209,7 @@
 					<height>30</height>
 					<font>font13</font>
 					<textcolor>FFFFFFFF</textcolor>
-					<label>$INFO[ListItem.Property(controllertype)]</label>
+					<label>$INFO[Container(8200).ListItem.Property(controllertype)]</label>
 				</control>
 				<control type="label">
 					<posx>165</posx>
@@ -231,7 +230,7 @@
 					<height>30</height>
 					<font>font13</font>
 					<textcolor>FFFFFFFF</textcolor>
-					<label>$INFO[ListItem.Property(rating)]</label>
+					<label>$INFO[Container(8200).ListItem.Property(rating)]</label>
 				</control>
 				<control type="label">
 					<posx>165</posx>
@@ -252,7 +251,7 @@
 					<height>30</height>
 					<font>font13</font>
 					<textcolor>FFFFFFFF</textcolor>
-					<label>$INFO[ListItem.Property(maxplayers)]</label>
+					<label>$INFO[Container(8200).ListItem.Property(maxplayers)]</label>
 				</control>
 				<control type="label">
 					<posx>165</posx>
@@ -273,7 +272,7 @@
 					<height>30</height>
 					<font>font13</font>
 					<textcolor>FFFFFFFF</textcolor>
-					<label>$INFO[ListItem.Property(playcount)]</label>
+					<label>$INFO[Container(8200).ListItem.Property(playcount)]</label>
 				</control>			
 				<control type="label" id="7300">
 					<description>URL value</description>
@@ -282,7 +281,7 @@
 					<width>500</width>					
 					<font>font13</font>
 					<textcolor>FFFFFFFF</textcolor>
-					<label>$INFO[ListItem.Property(url)]</label>
+					<label>$INFO[Container(8200).ListItem.Property(url)]</label>
 				</control>			
 			</control>
 			
@@ -299,7 +298,7 @@
 					<width>540</width>
 					<height>280</height>
 					<visible>!Player.HasVideo</visible>
-					<texture>$INFO[ListItem.Art(gameinfobig)]</texture>
+					<texture>$INFO[Container(8200).ListItem.Art(gameinfobig)]</texture>
 					<bordertexture border="2">rcb-button-nofocus.png</bordertexture>
 					<bordersize>2</bordersize>
 				</control>
@@ -310,7 +309,7 @@
 					<posy>25</posy>
 					<width>540</width>
 					<height>280</height>												
-					<visible>!String.IsEmpty(ListItem.Property(videosizebig))</visible>
+					<visible>!String.IsEmpty(Container(8200).ListItem.Property(videosizebig))</visible>
 				</control>
 				<control type="button">
 					<description>click absorber</description>
@@ -320,7 +319,7 @@
 					<height>280</height>
 					<texturefocus></texturefocus>
 					<texturenofocus></texturenofocus>
-					<visible>!String.IsEmpty(ListItem.Property(videosizebig))</visible>
+					<visible>!String.IsEmpty(Container(8200).ListItem.Property(videosizebig))</visible>
 				</control>
 				<!-- gameinfoupperleft -->
 				<control type="image" id="2400">
@@ -329,7 +328,7 @@
 					<posy>25</posy>
 					<width>265</width>
 					<height>135</height>						
-					<texture>$INFO[ListItem.Art(gameinfoupperleft)]</texture>
+					<texture>$INFO[Container(8200).ListItem.Art(gameinfoupperleft)]</texture>
 					<bordertexture border="2">rcb-button-nofocus.png</bordertexture>
 					<bordersize>2</bordersize>
 				</control>
@@ -340,7 +339,7 @@
 					<posy>25</posy>
 					<width>265</width>
 					<height>135</height>						
-					<texture>$INFO[ListItem.Art(gameinfoupperright)]</texture>
+					<texture>$INFO[Container(8200).ListItem.Art(gameinfoupperright)]</texture>
 					<bordertexture border="2">rcb-button-nofocus.png</bordertexture>
 					<bordersize>2</bordersize>
 				</control>
@@ -351,7 +350,7 @@
 					<posy>170</posy>
 					<width>265</width>
 					<height>135</height>						
-					<texture>$INFO[ListItem.Art(gameinfolowerleft)]</texture>
+					<texture>$INFO[Container(8200).ListItem.Art(gameinfolowerleft)]</texture>
 					<bordertexture border="2">rcb-button-nofocus.png</bordertexture>
 					<bordersize>2</bordersize>
 				</control>
@@ -363,7 +362,7 @@
 					<width>265</width>
 					<height>135</height>
 					<visible>!Player.HasVideo</visible>
-					<texture>$INFO[ListItem.Art(gameinfolowerright)]</texture>
+					<texture>$INFO[Container(8200).ListItem.Art(gameinfolowerright)]</texture>
 					<bordertexture border="2">rcb-button-nofocus.png</bordertexture>
 					<bordersize>2</bordersize>
 				</control>
@@ -375,7 +374,7 @@
 					<posy>25</posy>
 					<width>537</width>
 					<height>135</height>						
-					<texture>$INFO[ListItem.Art(gameinfoupper)]</texture>
+					<texture>$INFO[Container(8200).ListItem.Art(gameinfoupper)]</texture>
 					<bordertexture border="2">rcb-button-nofocus.png</bordertexture>
 					<bordersize>2</bordersize>
 				</control>
@@ -386,7 +385,7 @@
 					<posy>170</posy>
 					<width>537</width>
 					<height>135</height>						
-					<texture>$INFO[ListItem.Art(gameinfolower)]</texture>
+					<texture>$INFO[Container(8200).ListItem.Art(gameinfolower)]</texture>
 					<bordertexture border="2">rcb-button-nofocus.png</bordertexture>
 					<bordersize>2</bordersize>
 				</control>
@@ -397,7 +396,7 @@
 					<posy>25</posy>
 					<width>265</width>
 					<height>280</height>						
-					<texture>$INFO[ListItem.Art(gameinfoleft)]</texture>
+					<texture>$INFO[Container(8200).ListItem.Art(gameinfoleft)]</texture>
 					<bordertexture border="2">rcb-button-nofocus.png</bordertexture>
 					<bordersize>2</bordersize>
 				</control>
@@ -408,7 +407,7 @@
 					<posy>25</posy>
 					<width>265</width>
 					<height>280</height>						
-					<texture>$INFO[ListItem.Art(gameinforight)]</texture>
+					<texture>$INFO[Container(8200).ListItem.Art(gameinforight)]</texture>
 					<bordertexture border="2">rcb-button-nofocus.png</bordertexture>
 					<bordersize>2</bordersize>
 				</control>
@@ -420,7 +419,7 @@
 					<posy>170</posy>
 					<width>265</width>
 					<height>135</height>
-					<visible>!String.IsEmpty(ListItem.Property(videosizesmall))</visible>						
+					<visible>!String.IsEmpty(Container(8200).ListItem.Property(videosizesmall))</visible>						
 				</control>
 				<control type="button">
 					<description>click absorber</description>
@@ -430,7 +429,7 @@
 					<height>135</height>
 					<texturefocus></texturefocus>
 					<texturenofocus></texturenofocus>
-					<visible>!String.IsEmpty(ListItem.Property(videosizesmall))</visible>
+					<visible>!String.IsEmpty(Container(8200).ListItem.Property(videosizesmall))</visible>
 				</control>
 			</control>
 			
@@ -454,7 +453,7 @@
 				<pagecontrol>8100</pagecontrol>			
 				<textcolor>FFFFFFFF</textcolor>
 				<align>justify</align>
-				<label>$INFO[ListItem.Property(plot)]</label>
+				<label>$INFO[Container(8200).ListItem.Property(plot)]</label>
 			</control>
 			<control type="scrollbar" id="8100">
 				<description>GameDesc Scrollbar</description>
@@ -514,9 +513,9 @@
 				<height>0</height>
 				<texturefocus></texturefocus>
 				<texturenofocus></texturenofocus>
-				<visible>!String.IsEmpty(ListItem.Property(autoplayvideoinfo)) + !String.IsEmpty(ListItem.Property(gameplayinfo))</visible>
+				<visible>!String.IsEmpty(Container(8200).ListItem.Property(autoplayvideoinfo)) + !String.IsEmpty(Container(8200).ListItem.Property(gameplayinfo))</visible>
 				<animation delay="500" effect="fade" start="100" end="100">Focus</animation>
-				<onfocus>XBMC.PlayMedia($ESCINFO[ListItem.Property(gameplayinfo)],1)</onfocus>
+				<onfocus>XBMC.PlayMedia($ESCINFO[Container(8200).ListItem.Property(gameplayinfo)],1)</onfocus>
 			</control>
 			
 			<control type="label" id="4000">
