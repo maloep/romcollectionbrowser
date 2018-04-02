@@ -812,9 +812,16 @@ class UIGameDB(xbmcgui.WindowXML):
 			if(len(games) > 1000):
 				if counter >= divisor and counter % divisor == 0:
 					percent = (len(games) / divisor) * (counter / divisor)
+					#32121 = Loading games...
 					self.writeMsg('%s (%i%%)'%(util.localize(32121), percent))
 				counter = counter +1
-			
+
+		#add dummy item to keep the list navigable
+		if (len(items) == 0):
+			#32412 = No Games found
+			item = xbmcgui.ListItem(util.localize(32412), '')
+			items.append(item)
+
 		#Add list to window
 		self.addItems(items)
 
