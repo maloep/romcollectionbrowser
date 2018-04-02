@@ -26,6 +26,7 @@ Import Games:
   
 Browse Games:
   * lots of small layout fixes
+  * load artwork files on RCB startup, no need to import artwork anymore
   * adjust missing artwork filter to new image loading
   * remove fullscreen video browser (will be replaced with fullscreen video views)
   * removed caching options from addon settings
