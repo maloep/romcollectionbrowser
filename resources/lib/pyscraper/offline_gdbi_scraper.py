@@ -2,6 +2,7 @@
 
 import sys, re, io
 import xml.etree.ElementTree as ET
+import xbmcvfs
 from file_scraper import FileScraper
 from gamename_utils import GameNameUtil
 from util import Logutil as log
@@ -66,14 +67,16 @@ class Offline_GDBI_Scraper(FileScraper):
         results = []
 
         try:
-            with io.open(self._get_xml_path(), 'r', encoding="utf-8") as xmlfile:
-                for line in xmlfile:
-                    result = re.search(pattern, line)
-                    if result:
-                        gamename = result.groups()[0]
-                        results.append({'id': gamename,
-                                        'title': gamename,
-                                        'SearchKey': [gamename]})
+            fh = xbmcvfs.File(self._get_xml_path())
+            text = fh.read()
+            fh.close()
+            for line in text.splitlines():
+                result = re.search(pattern, line)
+                if result:
+                    gamename = result.groups()[0]
+                    results.append({'id': gamename,
+                                    'title': gamename,
+                                    'SearchKey': [gamename]})
         except Exception as e:
             log.error(e)
             raise
@@ -85,13 +88,9 @@ class Offline_GDBI_Scraper(FileScraper):
 
         result = {}
 
-        tree = ET.ElementTree()
-        if sys.version_info >= (2, 7):
-            parser = ET.XMLParser(encoding='utf-8')
-        else:
-            parser = ET.XMLParser()
-
-        tree.parse(self._get_xml_path(), parser)
+        fh = xbmcvfs.File(self._get_xml_path())
+        tree = ET.fromstring(fh.read())
+        fh.close()
 
         #gameid is the exact name of the game used in element <description>
         game = tree.find('.//game[description="%s"]'%gameid)

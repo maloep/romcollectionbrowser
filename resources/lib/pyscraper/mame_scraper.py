@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 
 import re
-import io
-import xbmcaddon
+import os
+import xbmcvfs
 from util import __addon__
 from util import Logutil as log
 from rcbexceptions import *
@@ -67,16 +67,19 @@ class MAME_Scraper(FileScraper):
 		historyfile_path = self._get_history_path()
 
 		try:
-			with io.open(historyfile_path, 'r', encoding="utf-8") as historyfile:
-				for line in historyfile:
-					if line.startswith(startmarker):
-						gamedata = True
+			fh = xbmcvfs.File(historyfile_path)
+			historyfile = fh.read()
+			historyfile = historyfile.decode('utf-8')
+			fh.close()
+			for line in historyfile.splitlines():
+				if line.startswith(startmarker):
+					gamedata = True
 
-					if gamedata:
-						data += line
+				if gamedata:
+					data += line +os.linesep
 
-					if line.startswith("$end"):
-						gamedata = False
+				if line.startswith("$end"):
+					gamedata = False
 
 		except Exception as e:
 			log.error(e)
@@ -90,6 +93,7 @@ class MAME_Scraper(FileScraper):
 			# Japanese (or other foreign titles) have the translated name in brackets underneath.
 			# Newer versions have an age-based reference (e.g. A 24-year-old SNK Neo-Geo MVS Cart) between the $bio
 			# and title line
+
 			pattern = r"\$bio(\r?\n){2}" \
 			           "(?P<AgeRef>.*?(\r?\n){2})?" \
 			           "(?P<Game>.*?) \(c\) (?P<ReleaseYear>\d{4}) (?P<Publisher>.*?)\.(\r?\n)" \

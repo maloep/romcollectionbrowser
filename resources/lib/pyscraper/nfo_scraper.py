@@ -100,13 +100,9 @@ class NFO_Scraper(FileScraper):
         if not xbmcvfs.exists(self.nfo_file):
             return result
 
-        game = ET.ElementTree()
-        if sys.version_info >= (2, 7):
-            parser = ET.XMLParser(encoding='utf-8')
-        else:
-            parser = ET.XMLParser()
-
-        game.parse(self.nfo_file, parser)
+        fh = xbmcvfs.File(self.nfo_file)
+        game = ET.fromstring(fh.read())
+        fh.close()
 
         # Standard fields
         for k, v in self._game_mapping.items():

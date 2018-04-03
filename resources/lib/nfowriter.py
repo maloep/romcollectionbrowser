@@ -104,13 +104,9 @@ class NfoWriter(RcbXmlReaderWriter):
 
 		#Read info from existing nfo file. New info and existing info will be merged
 		if xbmcvfs.exists(nfoFile):
-			existing_nfo = ET.ElementTree()
-			if sys.version_info >= (2, 7):
-				parser = ET.XMLParser(encoding='utf-8')
-			else:
-				parser = ET.XMLParser()
-
-			existing_nfo.parse(nfoFile, parser)
+			fh = xbmcvfs.File(nfoFile)
+			existing_nfo = ET.fromstring(fh.read())
+			fh.close()
 
 		for elem in ['title', 'originalTitle', 'alternateTitle', 'platform', 'plot', 'publisher', 'developer', 'year',
 					 'detailUrl', 'maxPlayer', 'region', 'media', 'perspective', 'controller', 'version', 'rating',
