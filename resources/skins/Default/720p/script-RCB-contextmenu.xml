@@ -13,7 +13,7 @@
 			<posx>0</posx>
 			<posy>-100</posy>
 			<width>350</width>
-			<height>570</height>
+			<height>530</height>
 			<texture colordiffuse="FF222222">rcb-white.png</texture>
 		</control>
 		<control type="button" id="5110">
@@ -28,7 +28,7 @@
 			<texturefocus colordiffuse="FF12A0C7">rcb-MenuItemFO.png</texturefocus>
 			<texturenofocus></texturenofocus>
 			<label>$ADDON[script.games.rom.collection.browser 32500]</label>
-			<onup>5101</onup>
+			<onup>5224</onup>
 			<ondown>5121</ondown>
 		</control>
 		
@@ -229,7 +229,7 @@
 			<texturenofocus></texturenofocus>
 			<label>$ADDON[script.games.rom.collection.browser 32514]</label>
 			<onup>5223</onup>
-			<ondown>5101</ondown>
+			<ondown>5110</ondown>
 		</control>
 	</controls>
 </window>
