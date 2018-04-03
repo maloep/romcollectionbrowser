@@ -9,13 +9,13 @@
 	<string id="32002">Error leyendo config.xml.</string>
 	<string id="32003">Error: Archivo config.xml no existe.</string>
 	<string id="32004">Error: No se puede leer config.xml.</string>
-	<string id="32005">Error de configuración. Mira xbmc.log por detalles.</string>
+	<string id="32005">Error de configuración. Mira kodi.log por detalles.</string>
 	<string id="32006">ids de colección de rom no son únicas.</string>
 	<string id="32007">Error: No se puede backup config.xml.</string>
 	<string id="32008">Error: No se puede escribir config.xml.</string>
 	<string id="32009">%s %s no puede ser encontrado en config.xml.</string>
 	<string id="32010">Error: No se puede crear directorio artwork.</string>
-	<string id="32011">Mira xbmc.log por detalles.</string>
+	<string id="32011">Mira kodi.log por detalles.</string>
 	<string id="32012">Error: No se puede crear archivo artwork.</string>
 	<string id="32013">Rescrape error de juego</string>
 	<string id="32014">No se puede cargar juego seleccionado</string>
@@ -42,7 +42,7 @@
 	<string id="32035">Error mientras lanzando emulador</string>
 	<string id="32036">Error borrando archivos después de lanzar emulador</string>
 	<string id="32037">Error mientras se lanza emulador: Archivo %s no existe!</string>
-	<string id="32038">Error mientras se crea archivo .cut. Mira xbmc.log por detalles.</string>
+	<string id="32038">Error mientras se crea archivo .cut. Mira kodi.log por detalles.</string>
 	<string id="32039">Error lanzando archivo .7z.</string>
 	<string id="32040">Error: Archivo config_template.xml no existe</string>
 	<string id="32041">RCB no puede acceder a su directorio de Rom.[CR]Asegúrese de que no contenga caracteres no ascii.</string>
@@ -79,7 +79,7 @@
 	<string id="32126">Cancelar</string>
 	<string id="32127">Primeros 10 juegos no pueden ser importados.</string>
 	<string id="32128">Importar cancelado.</string>
-	<string id="32129">Por favor mira xbmc.log por detalles.</string>
+	<string id="32129">Por favor mira kodi.log por detalles.</string>
 	<string id="32130">Construyendo lista de archivos...</string>
 	<string id="32131">Descargando info</string>
 	<string id="32132">Ingresar %s</string>

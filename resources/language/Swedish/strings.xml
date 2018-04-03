@@ -12,13 +12,13 @@
     <string id="32002">Fel under läsning av config.xml.</string>
     <string id="32003">Fel: Filen config.xml existerar inte.</string>
     <string id="32004">Fel: Kunde inte läsa config.xml.</string>
-    <string id="32005">Konfigurationsfel. Se xbmc.log för detaljer.</string>
+    <string id="32005">Konfigurationsfel. Se kodi.log för detaljer.</string>
     <string id="32006">Rom-samlingarnas id är inte unika.</string>
     <string id="32007">Fel: Kan inte säkerhetskopiera config.xml.</string>
     <string id="32008">Fel: Kan inte skriva config.xml.</string>
     <string id="32009">%s %s hittades inte i config.xml.</string>
     <string id="32010">Fel: Kunde inte skapa omslagsmappen.</string>
-    <string id="32011">Kontrollera xbmc.log för detaljer</string>
+    <string id="32011">Kontrollera kodi.log för detaljer</string>
     <string id="32012">Fel: Kunde inte skapa omslagsfilen.</string>
     <string id="32013">Fel vid omskrapning av spel</string>
     <string id="32014">Kan ej ladda valt spel</string>
@@ -48,7 +48,7 @@
     <string id="32035">Fel vid start av emulator</string>
     <string id="32036">Fel under radering av filer efter emulatorstart</string>
     <string id="32037">Fel under start av emulator: Filen %s existerar inte!</string>
-    <string id="32038">Fel vid skapande av .cut fil. Kontrollera xbmc.log för detaljer.</string>
+    <string id="32038">Fel vid skapande av .cut fil. Kontrollera kodi.log för detaljer.</string>
     <string id="32039">Fel vid start av .7z fil.</string>
     <string id="32040">Error: Filen config_template.xml existerar inte</string>
     <string id="32041">RCB kan inte nå din ROM-sökväg.[CR]Se till att den inte innehåller några icke-ASCII tecken.</string>
@@ -84,7 +84,7 @@
     <string id="32126">Avbryt</string>
     <string id="32127">De första 10 spelen kunde inte importeras.</string>
     <string id="32128">Import avbruten</string>
-    <string id="32129">Kontrollera xbmc.log för detaljer.</string>
+    <string id="32129">Kontrollera kodi.log för detaljer.</string>
     <string id="32130">Skapar fillista...</string>
     <string id="32131">laddar ner info</string>
     <string id="32132">Ange %s</string>
@@ -156,7 +156,7 @@
     <string id="32197">Använd VB skript i sololäge (endast Windows)</string>
     <string id="32198">Använd RetroPlayer för att starta spel?</string>
     <string id="32199">Stäng av ljud</string>
-    <string id="32200">Minimera XBMC</string>
+    <string id="32200">Minimera Kodi</string>
     <string id="32201">Sökväg till emu_autoconfig.xml</string>
     <string id="32202">%s (Installerade)</string>
     <string id="32203">Tillgängliga autoconfig emulatorer</string>
@@ -169,7 +169,7 @@
     <string id="32304">Spara vyläge vid avslut</string>
     <string id="32305">Spara vyläge vid emulatorstart</string>
     <string id="32306">Importera spel</string>
-    <string id="32307">Importera spel vid start av XBMC</string>
+    <string id="32307">Importera spel vid start av Kodi</string>
     <string id="32308">Visa dialog för importalternativ</string>
     <string id="32309">Skrapläge</string>
     <string id="32310">Fuzzy factor för spelmatchning</string>

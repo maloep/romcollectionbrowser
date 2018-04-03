@@ -12,13 +12,13 @@
     <string id="32002">Erro ao ler o config.xml</string>
     <string id="32003">Erro: O ficheiro config.xml não existe.</string>
     <string id="32004">Erro: Não foi possível ler config.xml.</string>
-    <string id="32005">Erro de configuração. Veja xbmc.log para mais detalhes.</string>
+    <string id="32005">Erro de configuração. Veja kodi.log para mais detalhes.</string>
     <string id="32006">Os ids da Colecção de Roms não são únicos.</string>
     <string id="32007">Erro: Não é possível criar cópia de segurança de config.xml</string>
     <string id="32008">Erro: Não é possível modificar config.xml</string>
     <string id="32009">%s %s não foi encontrado em config.xml.</string>
     <string id="32010">Erro: Não foi possível criar pasta de artwork.</string>
-    <string id="32011">Veja o xbmc.log para mais detalhes.</string>
+    <string id="32011">Veja o kodi.log para mais detalhes.</string>
     <string id="32012">Erro: Não foi possível criar o ficheiro de artwork</string>
     <string id="32013">Erro ao obter conteúdo do colector para o jogo</string>
     <string id="32014">Não é possível carregar o jogo seleccionado</string>
@@ -48,7 +48,7 @@
     <string id="32035">Erro ao iniciar o emulador</string>
     <string id="32036">Erro ao apagar ficheiros após iniciar o emulador</string>
     <string id="32037">Erro ao iniciar o emulador: O ficheiro %s não existe!</string>
-    <string id="32038">Erro ao criar o ficheiro .cut. Veja o xbmc.log para mais detalhes.</string>
+    <string id="32038">Erro ao criar o ficheiro .cut. Veja o kodi.log para mais detalhes.</string>
     <string id="32039">Erro ao iniciar o ficheiro .7z.</string>
     <string id="32040">Erro: O ficheiro config_template.xml não existe</string>
     <string id="32041">O RCB não consegue aceder à pasta dos roms.[CR]Verifique se esta contém apenas caracteres ascii.</string>
@@ -84,7 +84,7 @@
     <string id="32126">Cancelar</string>
     <string id="32127">Não foi possível importar os primeiros 10 jogos .</string>
     <string id="32128">Importação cancelada.</string>
-    <string id="32129">Por favor, veja o xbmc.log para mais detalhes.</string>
+    <string id="32129">Por favor, veja o kodi.log para mais detalhes.</string>
     <string id="32130">Construindo a lista de ficheiros...</string>
     <string id="32131">transferindo informação</string>
     <string id="32132">Introduza %s</string>
@@ -156,7 +156,7 @@
     <string id="32197">Usar script VB em modo solo (apenas Windows)</string>
     <string id="32198">Usar RetroPlayer para iniciar os jogos?</string>
     <string id="32199">Suspender Áudio</string>
-    <string id="32200">Minimizar o XBMC</string>
+    <string id="32200">Minimizar o Kodi</string>
     <string id="32201">Localização de emu_autoconfig.xml</string>
     <string id="32202">%s (Instalado)</string>
     <string id="32203">Emuladores autoconfig disponíveis</string>
@@ -169,7 +169,7 @@
     <string id="32304">Guardar modo de vista ao sair</string>
     <string id="32305">Guardar modo de vista ao iniciar emulação</string>
     <string id="32306">Importar Jogos</string>
-    <string id="32307">Importar jogos ao iniciar o XBMC</string>
+    <string id="32307">Importar jogos ao iniciar o Kodi</string>
     <string id="32308">Exibir janela de opções de importação</string>
     <string id="32309">Modo do colector</string>
     <string id="32310">Factor de incerteza ao corresponder jogos</string>

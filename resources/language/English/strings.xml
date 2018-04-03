@@ -9,13 +9,13 @@
 	<string id="32002">Error reading config.xml.</string>
 	<string id="32003">Error: File config.xml does not exist.</string>
 	<string id="32004">Error: Could not read config.xml.</string>
-	<string id="32005">Configuration error. See xbmc.log for details.</string>
+	<string id="32005">Configuration error. See kodi.log for details.</string>
 	<string id="32006">Rom Collection ids are not unique.</string>
 	<string id="32007">Error: Cannot backup config.xml.</string>
 	<string id="32008">Error: Cannot write config.xml.</string>
 	<string id="32009">%s %s could not be found in config.xml.</string>
 	<string id="32010">Error: Could not create artwork directory.</string>
-	<string id="32011">Check xbmc.log for details.</string>
+	<string id="32011">Check kodi.log for details.</string>
 	<string id="32012">Error: Could not create artwork file.</string>
 	<string id="32013">Rescrape game error</string>
 	<string id="32014">Can't load selected Game</string>
@@ -42,7 +42,7 @@
 	<string id="32035">Error while launching emulator</string>
 	<string id="32036">Error deleting files after launching emulator</string>
 	<string id="32037">Error while launching emulator: File %s does not exist!</string>
-	<string id="32038">Error while creating .cut file. Check xbmc.log for details.</string>
+	<string id="32038">Error while creating .cut file. Check kodi.log for details.</string>
 	<string id="32039">Error launching .7z file.</string>
 	<string id="32040">Error: File config_template.xml does not exist</string>
 	<string id="32041">RCB can't acces your rom path.[CR]Make sure it does not contain any non-ascii characters.</string>
@@ -79,7 +79,7 @@
 	<string id="32126">Cancel</string>
 	<string id="32127">First 10 games could not be imported.</string>
 	<string id="32128">Import canceled.</string>
-	<string id="32129">Please check xbmc.log for details.</string>
+	<string id="32129">Please check kodi.log for details.</string>
 	<string id="32130">Building file list...</string>
 	<string id="32131">downloading info</string>
 	<string id="32132">Enter %s</string>
@@ -150,7 +150,7 @@
 	<string id="32197">Use VB script in solo mode (Windows only)</string>
 	<string id="32198">Use RetroPlayer to launch games?</string>
 	<string id="32199">Suspend Audio</string>
-	<string id="32200">Minimize XBMC</string>
+	<string id="32200">Minimize Kodi</string>
 	<string id="32201">Path to emu_autoconfig.xml</string>
 	<string id="32202">%s (Installed)</string>
 	<string id="32203">Available autoconfig emulators</string>
@@ -168,7 +168,7 @@
 	<string id="32304">Save viewstate on exit</string>
 	<string id="32305">Save viewstate on launch emu</string>
 	<string id="32306">Import Games</string>
-	<string id="32307">Import games on XBMC startup</string>
+	<string id="32307">Import games on Kodi startup</string>
 	<string id="32308">Show import options dialog</string>
 	<string id="32309">Scraping mode</string>
 	<string id="32312">Don't import games without description</string>

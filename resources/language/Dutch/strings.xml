@@ -12,13 +12,13 @@
     <string id="32002">Fout inlezen config.xml.</string>
     <string id="32003">Fout: Bestand config.xml bestaat niet.</string>
     <string id="32004">Fout: Kan config.xml niet inlezen.</string>
-    <string id="32005">Configuratiefout: Zie xbmc.log voor details.</string>
+    <string id="32005">Configuratiefout: Zie kodi.log voor details.</string>
     <string id="32006">ROM collectie id's zijn niet uniek.</string>
     <string id="32007">Fout: kan config.xml niet backuppen.</string>
     <string id="32008">Fout: kan config.xml niet wegschrijven.</string>
     <string id="32009">%s %s kan niet in config.xml gevonden worden.</string>
     <string id="32010">Fout: kan artwork folder niet aanmaken.</string>
-    <string id="32011">Controleer xbmc.log voor bijzonderheden.</string>
+    <string id="32011">Controleer kodi.log voor bijzonderheden.</string>
     <string id="32012">Fout: kan artworkbestand niet aanmaken.</string>
     <string id="32013">Spelfout opnieuw uitlezen.</string>
     <string id="32014">Kan gekozen spel niet inlezen.</string>
@@ -48,7 +48,7 @@
     <string id="32035">Fout ontstaan bij starten emulator</string>
     <string id="32036">fout ontstaan bij verwijderen bestand na starten van emulator</string>
     <string id="32037">Fout ontstaan bij starten emulator: bestand %s bestaat niet!</string>
-    <string id="32038">Fout ontstaan bij het creëren .cut bestand. controleer xbmc.log voor details.</string>
+    <string id="32038">Fout ontstaan bij het creëren .cut bestand. controleer kodi.log voor details.</string>
     <string id="32039">Fout ontstaan bij starten .7z bestand </string>
     <string id="32040">Fout: Het bestand config_template.xml bestaat niet</string>
     <string id="32041">RCB kan jou Rom locatie niet bereiken.[CR]weet zeker dat het geen non-ascii karakters bevat.</string>
@@ -84,7 +84,7 @@
     <string id="32126">Afbreken</string>
     <string id="32127">De eerste 10 spellen kunnen niet worden geïmporteerd.</string>
     <string id="32128">Importeren geannuleerd.</string>
-    <string id="32129">Controleer xbmc.log voor details.</string>
+    <string id="32129">Controleer kodi.log voor details.</string>
     <string id="32130">Opbouwen bestandslijst...</string>
     <string id="32131">downloaden van informatie</string>
     <string id="32132">Voer %s</string>
@@ -156,7 +156,7 @@
     <string id="32197">Gebruik VB script in solo modus (Alleen in Windows)</string>
     <string id="32198">Gebruik RetroPlayer om spellen te starten?</string>
     <string id="32199">Opschorten audio</string>
-    <string id="32200">Minimaliseer XBMC</string>
+    <string id="32200">Minimaliseer Kodi</string>
     <string id="32201">Locatie naar emu_autoconfig.xml</string>
     <string id="32202">%s (geïnstalleerd)</string>
     <string id="32203">Beschikbare autoconfig emulators</string>
@@ -169,7 +169,7 @@
     <string id="32304">bewaar kijkstatus bij afsluiten</string>
     <string id="32305">bewaar kijkstatus bij starten emu</string>
     <string id="32306">importeer spellen</string>
-    <string id="32307">importeer spellen bij het starten van XBMC</string>
+    <string id="32307">importeer spellen bij het starten van Kodi</string>
     <string id="32308">Toon importeer opties venster</string>
     <string id="32309">Scraping modus</string>
     <string id="32310">spel matching fuzzy factor</string>
