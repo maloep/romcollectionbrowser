@@ -7,7 +7,7 @@
         	<posx>0</posx>
         	<posy>0</posy>
 	</coordinates>
-	<views>50,52,57,58</views>
+	<views>50,52,53,57,58</views>
 	<controls>
 		
 		<control type="image">
@@ -28,6 +28,7 @@
 		    <width>1280</width>
 		    <height>720</height>
 			<texture background="true" colordiffuse="37FFFFFF">$INFO[ListItem.Art(background)]</texture>
+			<visible>!Control.IsVisible(53)</visible>
 		</control>
 		
 		<!-- gamelist groups -->
@@ -951,6 +952,200 @@
 				</control>
 			</control>
 			
+			<!-- gamelist 53 -->
+			<control type="group">
+				<visible>Control.IsVisible(53)</visible>
+				<control type="image">
+					<description>background image</description>
+					<posx>0</posx>
+					<posy>0</posy>
+					<width>1280</width>
+					<height>720</height>
+					<texture background="true">$INFO[ListItem.Art(background)]</texture>
+					<visible>!Player.HasVideo | String.IsEmpty(ListItem.Property(gameplaymain))</visible>
+				</control>
+				<control type="videowindow">
+					<description>video control</description>
+					<posx>0</posx>
+					<posy>0</posy>
+					<width>1280</width>
+					<height>720</height>
+					<visible>!String.IsEmpty(ListItem.Property(videosizebig)) + !String.IsEmpty(ListItem.Property(gameplaymain))</visible>
+				</control>
+				
+				<control type="group">
+					<posx>230r</posx>
+					<posy>0</posy>
+					<control type="image">
+						<texture colordiffuse="AAFFFFFF">rcb-panel_transp.png</texture>
+						<posx>0</posx>
+						<posy>0</posy>	
+						<width>230</width>
+						<height>100%</height>
+						<visible>Control.IsVisible(53) + Integer.IsGreater(Container.NumItems,0)</visible>
+					</control>
+					<control type="fixedlist" id="53">
+						<posx>0</posx>
+						<posy>10</posy>
+						<width>230</width>
+						<height>540</height>
+						<onleft>500</onleft>
+						<onright>2</onright>
+						<onup>53</onup>
+						<ondown>53</ondown>
+						<focusposition>4</focusposition>
+						<movement>4</movement>
+						<viewtype label="Fanart">list</viewtype>
+						<scrolltime>100</scrolltime>
+						<itemlayout height="60" width="230">
+							<control type="label">
+								<posx>10</posx>
+								<posy>0</posy>
+								<width>210</width>
+								<height>50</height>
+								<font>font13</font>
+								<textcolor>white</textcolor>
+								<selectedcolor>selected</selectedcolor>
+								<align>right</align>
+								<aligny>center</aligny>
+								<label>$INFO[ListItem.Label]</label>
+								<visible>String.IsEmpty(ListItem.Art(clearlogo)) | !Skin.HasSetting(rcb_useClearlogoAsTitle)</visible>
+							</control>
+							<control type="image">
+								<posx>10</posx>
+								<posy>5</posy>
+								<width>210</width>
+								<height>50</height>
+								<aspectratio align="center" aligny="center">keep</aspectratio>
+								<bordersize>2</bordersize>
+								<texture>$INFO[ListItem.Art(clearlogo)]</texture>
+								<visible>Skin.HasSetting(rcb_useClearlogoAsTitle)</visible>
+							</control>
+							<control type="image">
+								<posx>20r</posx>
+								<posy>5</posy>
+								<width>15</width>
+								<height>15</height>
+								<texture>rcb-star.png</texture>
+								<visible>!String.IsEmpty(ListItem.Property(isfavorite))</visible>
+							</control>
+						</itemlayout>
+						<focusedlayout height="60" width="230">
+							<control type="image">
+								<posx>0</posx>
+								<posy>0</posy>
+								<width>230</width>
+								<height>60</height>
+								<texture border="0,2,0,2" colordiffuse="FF12A0C7">rcb-MenuItemFO.png</texture>
+								<visible>Control.HasFocus(53)</visible>
+							</control>
+							<control type="textbox">
+								<posx>10</posx>
+								<posy>0</posy>
+								<width>210</width>
+								<height>60</height>
+								<font>font13</font>
+								<textcolor>white</textcolor>
+								<selectedcolor>selected</selectedcolor>
+								<align>right</align>
+								<aligny>center</aligny>
+								<label>$INFO[ListItem.Label]</label>
+								<visible>String.IsEmpty(ListItem.Art(clearlogo)) | !Skin.HasSetting(rcb_useClearlogoAsTitle)</visible>
+							</control>
+							<control type="image">
+								<posx>10</posx>
+								<posy>5</posy>
+								<width>210</width>
+								<height>50</height>
+								<aspectratio align="center" aligny="center">keep</aspectratio>
+								<bordersize>2</bordersize>
+								<texture>$INFO[ListItem.Art(clearlogo)]</texture>
+								<visible>Skin.HasSetting(rcb_useClearlogoAsTitle)</visible>
+							</control>
+							<control type="image">
+								<posx>20r</posx>
+								<posy>5</posy>
+								<width>15</width>
+								<height>15</height>
+								<texture>rcb-star.png</texture>
+								<visible>!String.IsEmpty(ListItem.Property(isfavorite))</visible>
+							</control>
+							<control type="button">
+								<description>autoplay video</description>
+								<posx>0</posx>
+								<posy>0</posy>
+								<width>0</width>
+								<height>0</height>
+								<texturefocus></texturefocus>
+								<texturenofocus></texturenofocus>
+								<visible>!String.IsEmpty(ListItem.Property(autoplayvideomain)) + !String.IsEmpty(ListItem.Property(gameplaymain))</visible>
+								<animation delay="500" effect="fade" start="100" end="100">Focus</animation>
+								<onfocus condition="!String.IsEmpty(ListItem.Property(autoplayvideomain)) + !String.IsEmpty(ListItem.Property(gameplaymain))">XBMC.PlayMedia($ESCINFO[ListItem.Property(gameplaymain)],1)</onfocus>
+							</control>
+						</focusedlayout>
+					</control>
+				</control>
+				<control type="image">
+					<texture colordiffuse="AAFFFFFF">rcb-panel_transp.png</texture>
+					<posx>0</posx>
+					<posy>100r</posy>	
+					<width>640</width>
+					<height>100</height>
+					<visible>Control.IsVisible(53) + Integer.IsGreater(Container.NumItems,0)</visible>
+				</control>
+				<control type="label">
+					<posx>5</posx>
+					<posy>100r</posy>
+					<width>600</width>
+					<height>30</height>
+					<font>font25_title</font>
+					<aligny>center</aligny>
+					<textcolor>white</textcolor>
+					<selectedcolor>FFe2ff43</selectedcolor>
+					<align>left</align>
+					<label>$INFO[ListItem.Label] ($INFO[ListItem.Property(year)])</label>
+					<visible>Control.IsVisible(53) + Integer.IsGreater(Container.NumItems,0) +!String.IsEmpty(ListItem.Property(year))</visible>
+				</control>
+				<control type="label">
+					<posx>5</posx>
+					<posy>100r</posy>
+					<width>600</width>
+					<height>30</height>
+					<font>font25_title</font>
+					<aligny>center</aligny>
+					<textcolor>white</textcolor>
+					<selectedcolor>FFe2ff43</selectedcolor>
+					<align>left</align>
+					<label>$INFO[ListItem.Label]</label>
+					<visible>Control.IsVisible(53) + Integer.IsGreater(Container.NumItems,0) +String.IsEmpty(ListItem.Property(year))</visible>
+				</control>
+				<control type="label">
+					<posx>655r</posx>
+					<posy>100r</posy>
+					<width>200</width>
+					<height>30</height>
+					<font>font25_title</font>
+					<aligny>center</aligny>
+					<textcolor>white</textcolor>
+					<selectedcolor>FFe2ff43</selectedcolor>
+					<align>right</align>
+					<label>$INFO[ListItem.Property(console)]</label>
+					<visible>Control.IsVisible(53)</visible>
+				</control>
+				<control type="textbox" id="2101">
+					<description>Plot</description>
+					<posx>5</posx>
+					<posy>70r</posy>
+					<width>620</width>
+					<height>70</height>
+					<textcolor>white</textcolor>
+					<align>justify</align>
+					<font>font12</font>
+					<label>$INFO[ListItem.Property(plot)]</label>
+					<autoscroll time="3000" delay="10000" repeat="6000">True</autoscroll>
+				</control>
+			</control>
+			
 			<!-- gamelists without video support from id 55-58-->
 			
 			<!-- gamelist 57 -->						
@@ -1110,7 +1305,7 @@
 					<onleft>57</onleft>
 					<onright>57</onright>
 					<onup>500</onup>
-					<ondown>63</ondown>
+					<ondown>67</ondown>
 					<orientation>horizontal</orientation>
 					<focusposition>1</focusposition>
 					<movement>0</movement>
@@ -1118,7 +1313,7 @@
 					<preloaditems>1</preloaditems>
 					<viewtype label="Shift">icon</viewtype>
 					<scrolltime>100</scrolltime>
-					<pagecontrol>63</pagecontrol>
+					<pagecontrol>67</pagecontrol>
 					<itemlayout width="270">
 						<control type="image">
 							<posx>10</posx>
@@ -1200,7 +1395,7 @@
 						</control>
 					</focusedlayout>
 				</control>
-				<control type="scrollbar" id="63">
+				<control type="scrollbar" id="67">
 					<posx>400</posx>
 					<posy>10r</posy>
 					<width>600</width>
