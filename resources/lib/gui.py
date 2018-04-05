@@ -1016,7 +1016,7 @@ class UIGameDB(xbmcgui.WindowXML):
 			xbmc.sleep(util.WAITTIME_UPDATECONTROLS)
 			self.updateControls(True)
 			if(rDelete):
-				self.selectedConsoleId = self.setFilterSelection(CONTROL_CONSOLES, self.selectedConsoleIndex)
+				self.selectedConsoleId = int(self.setFilterSelection(CONTROL_CONSOLES, self.selectedConsoleIndex))
 				self.setFilterSelection(CONTROL_GAMES_GROUP_START, 0)
 			self.showGames()
 
