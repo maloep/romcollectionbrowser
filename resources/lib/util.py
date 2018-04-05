@@ -9,7 +9,7 @@ import xbmc, xbmcaddon, xbmcvfs
 #
 SCRIPTNAME = 'Rom Collection Browser'
 SCRIPTID = 'script.games.rom.collection.browser'
-CURRENT_CONFIG_VERSION = "2.1.4"
+CURRENT_CONFIG_VERSION = "2.2.0"
 CURRENT_DB_VERSION = "2.2.0"
 ISTESTRUN = False
 

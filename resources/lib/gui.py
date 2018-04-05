@@ -189,7 +189,7 @@ class UIGameDB(xbmcgui.WindowXML):
 				return config, False
 		else:
 			#check if config.xml is up to date
-			returnCode, message = ConfigxmlUpdater().updateConfig(self)
+			returnCode, message = ConfigxmlUpdater().updateConfig(configFile)
 			if(returnCode == False):
 				xbmcgui.Dialog().ok(util.SCRIPTNAME, util.localize(32001), message)
 

@@ -1,4 +1,4 @@
-<config version="2.0.8">
+<config version="2.2.0">
     <RomCollections>
     	<RomCollection id="1" name="Amiga">
             <useBuiltinEmulator>False</useBuiltinEmulator>

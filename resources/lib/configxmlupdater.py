@@ -12,15 +12,14 @@ from rcbxmlreaderwriter import RcbXmlReaderWriter
 class ConfigxmlUpdater(RcbXmlReaderWriter):
 
 	tree = None
-	configFile = util.getConfigXmlPath()
 
-	def updateConfig(self, gui):
+	def updateConfig(self, configFile):
 
-		if(not os.path.isfile(self.configFile)):
+		if(not os.path.isfile(configFile)):
 			return False, util.localize(32003)
 
 
-		tree = ElementTree().parse(self.configFile)
+		tree = ElementTree().parse(configFile)
 		if(tree == None):
 			Logutil.log('Could not read config.xml', util.LOG_LEVEL_ERROR)
 			return False, util.localize(32004)
@@ -41,10 +40,10 @@ class ConfigxmlUpdater(RcbXmlReaderWriter):
 		Logutil.log('Config file is out of date. Start update', util.LOG_LEVEL_INFO)
 
 		#backup config.xml
-		newFileName = self.configFile + '.backup ' + configVersion
+		newFileName = configFile + '.backup ' + configVersion
 		if not os.path.isfile(newFileName):
 			try:
-				shutil.copy(str(self.configFile), str(newFileName))
+				shutil.copy(str(configFile), str(newFileName))
 			except Exception, (exc):
 				return False, util.localize(32007) + ": " + str(exc)
 
@@ -93,143 +92,65 @@ class ConfigxmlUpdater(RcbXmlReaderWriter):
 			if(not success):
 				return False, message
 
+		if (configVersion == '2.1.4'):
+			success, message = self.update_214_to_220()
+			configVersion = '2.2.0'
+			if (not success):
+				return False, message
+
 		#write file
-		success, message = self.writeFile()
+		success, message = self.writeFile(configFile)
 
 		return success, message
 
 
-	def update_074_to_086(self):
+	def update_214_to_220(self):
 
-		#update scrapers
-		scraperSitesXml = self.tree.findall('Scrapers/Site')
-		for scraperSiteXml in scraperSitesXml:
-			siteName = scraperSiteXml.attrib.get('name')
+		#remove Scrapers section
+		self.removeElement(self.tree, 'Scrapers')
 
-			#handle online scrapers
-			if(siteName == util.localize(32154)):
-				scraperSiteXml.attrib['descFilePerGame'] = 'True'
-				scraperSiteXml.attrib['searchGameByCRC'] = 'False'
-			elif(siteName == 'thegamesdb.net'):
-				scraperSiteXml.attrib['descFilePerGame'] = 'True'
-				scraperSiteXml.attrib['searchGameByCRC'] = 'False'
-			elif(siteName == 'giantbomb.com'):
-				scraperSiteXml.attrib['descFilePerGame'] = 'True'
-				scraperSiteXml.attrib['searchGameByCRC'] = 'False'
-			elif(siteName == 'mobygames.com'):
-				scraperSiteXml.attrib['descFilePerGame'] = 'True'
-				scraperSiteXml.attrib['searchGameByCRC'] = 'False'
-
-			#handle offline scrapers
-			else:
-				#search for rom collection that uses current scraper
-				romCollectionsXml = self.tree.findall('RomCollections/RomCollection')
-				for romCollectionXml in romCollectionsXml:
-					scraperXml = romCollectionXml.find('scraper')
-					scraperName = scraperXml.attrib.get('name')
-
-					if(scraperName != siteName):
-						continue
-
-					descFilePerGame = self.readTextElement(romCollectionXml, 'descFilePerGame')
-					if(descFilePerGame != ''):
-						scraperSiteXml.attrib['descFilePerGame'] = descFilePerGame
-
-					searchGameByCRC = self.readTextElement(romCollectionXml, 'searchGameByCRC')
-					if(searchGameByCRC != ''):
-						scraperSiteXml.attrib['searchGameByCRC'] = searchGameByCRC
-
-					useFoldernameAsCRC = self.readTextElement(romCollectionXml, 'useFoldernameAsCRC')
-					if(useFoldernameAsCRC != ''):
-						scraperSiteXml.attrib['useFoldernameAsCRC'] = useFoldernameAsCRC
-
-					useFilenameAsCRC = self.readTextElement(romCollectionXml, 'useFilenameAsCRC')
-					if(useFilenameAsCRC != ''):
-						scraperSiteXml.attrib['useFilenameAsCRC'] = useFilenameAsCRC
-
-			#remove obsolete entries from rom collections
-			romCollectionsXml = self.tree.findall('RomCollections/RomCollection')
-			for romCollectionXml in romCollectionsXml:
-				self.removeElement(romCollectionXml, 'descFilePerGame')
-				self.removeElement(romCollectionXml, 'searchGameByCRC')
-				self.removeElement(romCollectionXml, 'useFoldernameAsCRC')
-				self.removeElement(romCollectionXml, 'useFilenameAsCRC')
-				self.removeElement(romCollectionXml, 'searchGameByCRCIgnoreRomName')
-
-		return True, ''
-
-
-	def update_086_to_0810(self):
-		#reflect changes to thegamesdb.net
-		scraperSitesXml = self.tree.findall('Scrapers/Site')
-		for scraperSiteXml in scraperSitesXml:
-			siteName = scraperSiteXml.attrib.get('name')
-			if(siteName == 'thegamesdb.net'):
-				scraperXml = scraperSiteXml.find('Scraper')
-				scraperXml.attrib['source'] = "http://thegamesdb.net/api/GetGame.php?name=%GAME%&platform=%PLATFORM%"
+		#find highest file type id
+		maxFileTypeId = 0
+		createClearlogo = True
+		fileTypesXml = self.tree.find('FileTypes')
+		fileTypesXmlList = fileTypesXml.findall('FileType')
+		for fileTypeXml in fileTypesXmlList:
+			#check if filetype clearlogo already exists
+			fileTypeName = fileTypeXml.attrib.get('name')
+			if fileTypeName == 'clearlogo':
+				createClearlogo = False
 				break
+			fileTypeId = int(fileTypeXml.attrib.get('id'))
+			if fileTypeId > maxFileTypeId:
+				maxFileTypeId = fileTypeId
 
-		return True, ''
+		#add clearlogo with highest id +1
+		if createClearlogo:
+			clearlogoxml = SubElement(fileTypesXml, 'FileType', {'id': str(maxFileTypeId +1), 'name': 'clearlogo'})
+			SubElement(clearlogoxml, 'type').text = 'image'
+			SubElement(clearlogoxml, 'parent').text = 'game'
 
-
-	def update_0810_to_090(self):
-		#change imagePlacing elements
+		#remove all configured scrapers from rom collections and add thegamesdb as default scraper
 		romCollectionsXml = self.tree.findall('RomCollections/RomCollection')
 		for romCollectionXml in romCollectionsXml:
-			#read value from old element
-			imagePlacingValue = self.readTextElement(romCollectionXml, 'imagePlacing')
-			#write with new name
-			SubElement(romCollectionXml, 'imagePlacingMain').text = imagePlacingValue
-			SubElement(romCollectionXml, 'imagePlacingInfo').text = imagePlacingValue
-
-			#remove old element
-			self.removeElement(romCollectionXml, 'imagePlacing')
+			self.removeElement(romCollectionXml, 'scraper')
+			SubElement(romCollectionXml, 'scraper', {'name': 'thegamesdb.net', 'default': 'True'})
 
 		return True, ''
 
 
-	def update_090_to_095(self):
-		#add archive scraper
-		scraperSitesXml = self.tree.findall('Scrapers/Site')
-		archiveFound = False
-		for scraperSiteXml in scraperSitesXml:
-			siteName = scraperSiteXml.attrib.get('name')
-			if(siteName == 'archive.vg'):
-				return True, ''
+	def update_208_to_214(self):
 
-		scrapersXml = self.tree.find('Scrapers')
-		scraperSiteXml = SubElement(scrapersXml, 'Site',
-			{
-			'name' : 'archive.vg',
-			'descFilePerGame' : 'True',
-			'searchGameByCRC' : 'False'
-			})
-		scraperXml = SubElement(scraperSiteXml, 'Scraper',
-			{
-			'parseInstruction' : '05.01 - archive - search.xml',
-			'source' : 'http://api.archive.vg/1.0/Archive.search/%ARCHIVEAPIKEY%/%GAME%',
-			'encoding' : 'iso-8859-1',
-			'returnUrl' : 'true'
-			})
-		scraperXml = SubElement(scraperSiteXml, 'Scraper',
-			{
-			'parseInstruction' : '05.02 - archive - detail.xml',
-			'source' : '1',
-			'encoding' : 'iso-8859-1'
-			})
+		#remove archive.vg and maws.mameworld scraper from each rom collection
+		romCollectionsXml = self.tree.findall('RomCollections/RomCollection')
+		for romCollectionXml in romCollectionsXml:
+			#self.removeElementByAttributeValue(romCollectionXml, 'scraper', 'name', 'archive.vg')
+			self.removeElement(romCollectionXml, "scraper[@name='archive.vg']")
+			self.removeElement(romCollectionXml, "scraper[@name='maws.mameworld.info']")
 
-		return True, ''
-
-
-	def update_095_to_106(self):
-		#update archive.vg scraper to API v2.0
-		scraperSitesXml = self.tree.findall('Scrapers/Site')
-		for scraperSiteXml in scraperSitesXml:
-			siteName = scraperSiteXml.attrib.get('name')
-			if(siteName == 'archive.vg'):
-				scraperXml = scraperSiteXml.find('Scraper')
-				scraperXml.attrib['source'] = "http://api.archive.vg/2.0/Archive.search/%ARCHIVEAPIKEY%/%GAME%"
-				break
+		scraperSitesXml = self.tree.find('Scrapers')
+		self.removeElement(scraperSitesXml, "Site[@name='archive.vg']")
+		self.removeElement(scraperSitesXml, "Site[@name='maws.mameworld.info']")
 
 		return True, ''
 
@@ -311,18 +232,137 @@ class ConfigxmlUpdater(RcbXmlReaderWriter):
 		return True, ''
 
 
-	def update_208_to_214(self):
+	def update_095_to_106(self):
+		#update archive.vg scraper to API v2.0
+		scraperSitesXml = self.tree.findall('Scrapers/Site')
+		for scraperSiteXml in scraperSitesXml:
+			siteName = scraperSiteXml.attrib.get('name')
+			if(siteName == 'archive.vg'):
+				scraperXml = scraperSiteXml.find('Scraper')
+				scraperXml.attrib['source'] = "http://api.archive.vg/2.0/Archive.search/%ARCHIVEAPIKEY%/%GAME%"
+				break
 
-		#remove archive.vg and maws.mameworld scraper from each rom collection
+		return True, ''
+
+
+	def update_090_to_095(self):
+		#add archive scraper
+		scraperSitesXml = self.tree.findall('Scrapers/Site')
+		archiveFound = False
+		for scraperSiteXml in scraperSitesXml:
+			siteName = scraperSiteXml.attrib.get('name')
+			if(siteName == 'archive.vg'):
+				return True, ''
+
+		scrapersXml = self.tree.find('Scrapers')
+		scraperSiteXml = SubElement(scrapersXml, 'Site',
+			{
+			'name' : 'archive.vg',
+			'descFilePerGame' : 'True',
+			'searchGameByCRC' : 'False'
+			})
+		scraperXml = SubElement(scraperSiteXml, 'Scraper',
+			{
+			'parseInstruction' : '05.01 - archive - search.xml',
+			'source' : 'http://api.archive.vg/1.0/Archive.search/%ARCHIVEAPIKEY%/%GAME%',
+			'encoding' : 'iso-8859-1',
+			'returnUrl' : 'true'
+			})
+		scraperXml = SubElement(scraperSiteXml, 'Scraper',
+			{
+			'parseInstruction' : '05.02 - archive - detail.xml',
+			'source' : '1',
+			'encoding' : 'iso-8859-1'
+			})
+
+		return True, ''
+
+
+	def update_0810_to_090(self):
+		#change imagePlacing elements
 		romCollectionsXml = self.tree.findall('RomCollections/RomCollection')
 		for romCollectionXml in romCollectionsXml:
-			#self.removeElementByAttributeValue(romCollectionXml, 'scraper', 'name', 'archive.vg')
-			self.removeElement(romCollectionXml, "scraper[@name='archive.vg']")
-			self.removeElement(romCollectionXml, "scraper[@name='maws.mameworld.info']")
+			#read value from old element
+			imagePlacingValue = self.readTextElement(romCollectionXml, 'imagePlacing')
+			#write with new name
+			SubElement(romCollectionXml, 'imagePlacingMain').text = imagePlacingValue
+			SubElement(romCollectionXml, 'imagePlacingInfo').text = imagePlacingValue
 
-		scraperSitesXml = self.tree.find('Scrapers')
-		self.removeElement(scraperSitesXml, "Site[@name='archive.vg']")
-		self.removeElement(scraperSitesXml, "Site[@name='maws.mameworld.info']")
+			#remove old element
+			self.removeElement(romCollectionXml, 'imagePlacing')
+
+		return True, ''
+
+
+	def update_086_to_0810(self):
+		#reflect changes to thegamesdb.net
+		scraperSitesXml = self.tree.findall('Scrapers/Site')
+		for scraperSiteXml in scraperSitesXml:
+			siteName = scraperSiteXml.attrib.get('name')
+			if(siteName == 'thegamesdb.net'):
+				scraperXml = scraperSiteXml.find('Scraper')
+				scraperXml.attrib['source'] = "http://thegamesdb.net/api/GetGame.php?name=%GAME%&platform=%PLATFORM%"
+				break
+
+		return True, ''
+
+
+	def update_074_to_086(self):
+
+		#update scrapers
+		scraperSitesXml = self.tree.findall('Scrapers/Site')
+		for scraperSiteXml in scraperSitesXml:
+			siteName = scraperSiteXml.attrib.get('name')
+
+			#handle online scrapers
+			if(siteName == util.localize(32154)):
+				scraperSiteXml.attrib['descFilePerGame'] = 'True'
+				scraperSiteXml.attrib['searchGameByCRC'] = 'False'
+			elif(siteName == 'thegamesdb.net'):
+				scraperSiteXml.attrib['descFilePerGame'] = 'True'
+				scraperSiteXml.attrib['searchGameByCRC'] = 'False'
+			elif(siteName == 'giantbomb.com'):
+				scraperSiteXml.attrib['descFilePerGame'] = 'True'
+				scraperSiteXml.attrib['searchGameByCRC'] = 'False'
+			elif(siteName == 'mobygames.com'):
+				scraperSiteXml.attrib['descFilePerGame'] = 'True'
+				scraperSiteXml.attrib['searchGameByCRC'] = 'False'
+
+			#handle offline scrapers
+			else:
+				#search for rom collection that uses current scraper
+				romCollectionsXml = self.tree.findall('RomCollections/RomCollection')
+				for romCollectionXml in romCollectionsXml:
+					scraperXml = romCollectionXml.find('scraper')
+					scraperName = scraperXml.attrib.get('name')
+
+					if(scraperName != siteName):
+						continue
+
+					descFilePerGame = self.readTextElement(romCollectionXml, 'descFilePerGame')
+					if(descFilePerGame != ''):
+						scraperSiteXml.attrib['descFilePerGame'] = descFilePerGame
+
+					searchGameByCRC = self.readTextElement(romCollectionXml, 'searchGameByCRC')
+					if(searchGameByCRC != ''):
+						scraperSiteXml.attrib['searchGameByCRC'] = searchGameByCRC
+
+					useFoldernameAsCRC = self.readTextElement(romCollectionXml, 'useFoldernameAsCRC')
+					if(useFoldernameAsCRC != ''):
+						scraperSiteXml.attrib['useFoldernameAsCRC'] = useFoldernameAsCRC
+
+					useFilenameAsCRC = self.readTextElement(romCollectionXml, 'useFilenameAsCRC')
+					if(useFilenameAsCRC != ''):
+						scraperSiteXml.attrib['useFilenameAsCRC'] = useFilenameAsCRC
+
+			#remove obsolete entries from rom collections
+			romCollectionsXml = self.tree.findall('RomCollections/RomCollection')
+			for romCollectionXml in romCollectionsXml:
+				self.removeElement(romCollectionXml, 'descFilePerGame')
+				self.removeElement(romCollectionXml, 'searchGameByCRC')
+				self.removeElement(romCollectionXml, 'useFoldernameAsCRC')
+				self.removeElement(romCollectionXml, 'useFilenameAsCRC')
+				self.removeElement(romCollectionXml, 'searchGameByCRCIgnoreRomName')
 
 		return True, ''
 
@@ -350,12 +390,12 @@ class ConfigxmlUpdater(RcbXmlReaderWriter):
 
 
 	#TODO use configxmlwriter
-	def writeFile(self):
+	def writeFile(self, configFile):
 		#write file
 		try:
 			self.indentXml(self.tree)
 			treeToWrite = ElementTree(self.tree)
-			treeToWrite.write(self.configFile)
+			treeToWrite.write(configFile)
 
 			return True, ""
 
