@@ -47,6 +47,7 @@
 	<string id="32040">Error: File config_template.xml does not exist</string>
 	<string id="32041">RCB can't acces your rom path.[CR]Make sure it does not contain any non-ascii characters.</string>
 	<string id="32042">RCB can't acces your artwork path.[CR]Make sure it does not contain any non-ascii characters.</string>
+	<string id="32043">API quota for current scraper exceeded.[CR]Please try again later or use another scraper.</string>
 	
 	
 	<!-- Hints / questions -->

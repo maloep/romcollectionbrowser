@@ -254,6 +254,10 @@ class DBUpdate(object):
 
                     # Check if all first 10 games have errors - Modified to allow user to continue on errors
                     if fileidx > 9 and successfulFiles == 0 and not ignoreErrors:
+                        #32124 = Continue
+                        #32125 = Continue and Ignore Errors
+                        #32126 = Cancel
+                        #32127 = First 10 games could not be imported.
                         options = [util.localize(32124), util.localize(32125), util.localize(32126)]
                         answer = xbmcgui.Dialog().select(util.localize(32127), options)
                         if answer == 1:
@@ -261,12 +265,16 @@ class DBUpdate(object):
                             ignoreErrors = True
                         elif answer == 2:
                             # Cancel
+                            #32128 = Import canceled.
+                            #32129 = Please check kodi.log for details.
                             xbmcgui.Dialog().ok(util.SCRIPTNAME, util.localize(32128), util.localize(32129))
                             continueUpdate = False
                             break
 
                 except ScraperExceededAPIQuoteException as ke:
-                    xbmcgui.Dialog().ok(util.localize(32128), "The API key for a scraper was exceeded")
+                    #32128 = Import canceled.
+                    #32043 = API quota for current scraper exceeded.
+                    xbmcgui.Dialog().ok(util.localize(32128), util.localize(32043))
                     # Abort the scraping entirely
                     break
                 except Exception as exc:
