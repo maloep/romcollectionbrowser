@@ -5,6 +5,7 @@ General:
   * new supplement addon: RCB widget
   * new translation: Spanish (thanks to trihy)
   * fixed language ids in strings-files
+  * create all artwork directories in config wizard
   
 Import Games:
   * move from configurable scrapers to hard coded scrapers
@@ -28,12 +29,13 @@ Browse Games:
   * lots of small layout fixes
   * load artwork files on RCB startup, no need to import artwork anymore
   * adjust missing artwork filter to new image loading
-  * remove fullscreen video browser (will be replaced with fullscreen video views)
+  * remove fullscreen video browser (replaced with fullscreen video view)
   * removed caching options from addon settings
   * adjust scrolling behaviour in Info 2 view
   * set aspectratio for upper/lower/left/right images to scale in info and info2 view
   * new addon setting: Use clearlogo as list title
   * new addon setting: Load artwork for game lists
+  * new view: Fanart (with clearlogo and fullscreen video)
 
 
 
