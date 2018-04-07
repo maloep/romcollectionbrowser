@@ -24,7 +24,7 @@ def cacheMediaPathsForSelection(consoleId, mediaDict, config):
 		mediaDict = {}
 		
 	#if this console is already cached there is nothing to do
-	if consoleId in mediaDict.keys():
+	if str(consoleId) in mediaDict.keys():
 		Logutil.log('MediaPaths for RomCollection %s are already in cache' %str(consoleId), util.LOG_LEVEL_INFO)
 		return mediaDict
 	
@@ -33,7 +33,7 @@ def cacheMediaPathsForSelection(consoleId, mediaDict, config):
 		return mediaDict
 	else:
 		for rcId in config.romCollections.keys():
-			if rcId in mediaDict.keys():
+			if str(rcId) in mediaDict.keys():
 				Logutil.log('MediaPaths for RomCollection %s are already in cache' %str(rcId), util.LOG_LEVEL_INFO)
 				continue
 			cacheMediaPathsForConsole(rcId, mediaDict, config)
