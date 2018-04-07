@@ -136,6 +136,28 @@ class ConfigxmlUpdater(RcbXmlReaderWriter):
 			self.removeElement(romCollectionXml, 'scraper')
 			SubElement(romCollectionXml, 'scraper', {'name': 'thegamesdb.net', 'default': 'True'})
 
+		#add fanart as fileTypeForMainViewBackground to MAME views
+		imagePlacing = self.tree.find('ImagePlacing')
+		fileTypeForList = imagePlacing.findall('fileTypeFor')
+		for fileTypeFor in fileTypeForList:
+			fileTypeForName = fileTypeFor.attrib.get('name')
+			if fileTypeForName == 'gameinfomamemarquee' or fileTypeForName == 'gameinfomamecabinet':
+				createFanart = True
+				fileTypeForMainViewBackgroundList = fileTypeFor.findall('fileTypeForMainViewBackground')
+				insertAtIndex = 0
+				for fileTypeForMainViewBackground in fileTypeForMainViewBackgroundList:
+					if insertAtIndex == 0:
+						insertAtIndex = list(fileTypeFor).index(fileTypeForMainViewBackground)
+					if fileTypeForMainViewBackground.text == 'fanart':
+						createFanart = False
+						break
+				if createFanart:
+					element = Element('fileTypeForMainViewBackground')
+					element.text = 'fanart'
+					fileTypeFor.insert(insertAtIndex, element)
+
+
+
 		return True, ''
 
 

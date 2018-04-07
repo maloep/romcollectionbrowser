@@ -194,6 +194,7 @@
       <fileTypeForGameListSelected>cabinet</fileTypeForGameListSelected>
       <fileTypeForGameListSelected>boxfront</fileTypeForGameListSelected>
       <fileTypeForGameListSelected>title</fileTypeForGameListSelected>
+      <fileTypeForMainViewBackground>fanart</fileTypeForMainViewBackground>
       <fileTypeForMainViewBackground>boxfront</fileTypeForMainViewBackground>
       <fileTypeForMainViewBackground>title</fileTypeForMainViewBackground>
       <fileTypeForMainViewBackground>action</fileTypeForMainViewBackground>

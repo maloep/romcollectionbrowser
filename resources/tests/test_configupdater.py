@@ -34,5 +34,13 @@ class TestConfigUpdater(unittest.TestCase):
         scrapers = tree.findall('RomCollections/RomCollection/scraper[@name="thegamesdb.net"]')
         self.assertEquals(2, len(scrapers))
 
+        fileTypeFor = tree.find('ImagePlacing/fileTypeFor[@name="gameinfomamemarquee"]')
+        fileTypeForMainViewBackground = fileTypeFor.findall('fileTypeForMainViewBackground')[0]
+        self.assertEquals('fanart', fileTypeForMainViewBackground.text)
+
+        fileTypeFor = tree.find('ImagePlacing/fileTypeFor[@name="gameinfomamecabinet"]')
+        fileTypeForMainViewBackground = fileTypeFor.findall('fileTypeForMainViewBackground')[0]
+        self.assertEquals('fanart', fileTypeForMainViewBackground.text)
+
         os.remove(os.path.join(config_path, 'config.xml'))
         os.remove(os.path.join(config_path, 'config.xml.backup 2.1.4'))
