@@ -124,7 +124,16 @@ class ContextMenuDialog(xbmcgui.WindowXMLDialog):
 		elif controlID == 5112:  # Edit Rom Collection
 			self.close()
 			constructorParam = "720p"
-			editRCdialog = dialogeditromcollection.EditRomCollectionDialog("script-RCB-editromcollection.xml", util.getAddonInstallPath(), util.getConfiguredSkin(), constructorParam, gui=self.gui)
+			try:
+				editRCdialog = dialogeditromcollection.EditRomCollectionDialog("script-RCB-editromcollection.xml",
+																			   util.getAddonInstallPath(),
+																			   util.getConfiguredSkin(),
+																			   constructorParam, gui=self.gui)
+			except:
+				editRCdialog = dialogeditromcollection.EditRomCollectionDialog("script-RCB-editromcollection.xml",
+																			   util.getAddonInstallPath(),
+																			   "Default",
+																			   constructorParam, gui=self.gui)
 			del editRCdialog
 
 			self.gui.config = Config(None)
@@ -215,7 +224,17 @@ class ContextMenuDialog(xbmcgui.WindowXMLDialog):
 			self.close()
 
 			constructorParam = "720p"
-			removeRCDialog = dialogdeleteromcollection.RemoveRCDialog("script-RCB-removeRC.xml", util.getAddonInstallPath(), util.getConfiguredSkin(), constructorParam, gui=self.gui)
+			try:
+				removeRCDialog = dialogdeleteromcollection.RemoveRCDialog("script-RCB-removeRC.xml",
+																		  util.getAddonInstallPath(),
+																		  util.getConfiguredSkin(),
+																		  constructorParam,
+																		  gui=self.gui)
+			except:
+				removeRCDialog = dialogdeleteromcollection.RemoveRCDialog("script-RCB-removeRC.xml",
+																		  util.getAddonInstallPath(),
+																		  "Default",
+																		  constructorParam, gui=self.gui)
 			rDelStat = removeRCDialog.getDeleteStatus()
 			if rDelStat:
 				selectedRCId = removeRCDialog.getSelectedRCId()

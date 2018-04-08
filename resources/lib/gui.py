@@ -373,7 +373,14 @@ class UIGameDB(xbmcgui.WindowXML):
 			self.showGames()
 
 		elif controlId == CONTROL_BUTTON_MISSINGINFODIALOG:
-			missingInfoDialog = dialogmissinginfo.MissingInfoDialog("script-RCB-missinginfo.xml", util.getAddonInstallPath(), util.getConfiguredSkin(), "720p", gui=self)
+			try:
+				missingInfoDialog = dialogmissinginfo.MissingInfoDialog("script-RCB-missinginfo.xml",
+																		util.getAddonInstallPath(),
+																		util.getConfiguredSkin(), "720p", gui=self)
+			except:
+				missingInfoDialog = dialogmissinginfo.MissingInfoDialog("script-RCB-missinginfo.xml",
+																		util.getAddonInstallPath(),
+																		"Default", "720p", gui=self)
 			if missingInfoDialog.saveConfig:
 				self.config.readXml()
 				self.showGames()
@@ -1110,7 +1117,11 @@ class UIGameDB(xbmcgui.WindowXML):
 	def showContextMenu(self):
 
 		constructorParam = "720p"
-		cm = dialogcontextmenu.ContextMenuDialog("script-RCB-contextmenu.xml", util.getAddonInstallPath(), util.getConfiguredSkin(), constructorParam, gui=self)
+		try:
+		    cm = dialogcontextmenu.ContextMenuDialog("script-RCB-contextmenu.xml", util.getAddonInstallPath(), util.getConfiguredSkin(), constructorParam, gui=self)
+		except:
+			cm = dialogcontextmenu.ContextMenuDialog("script-RCB-contextmenu.xml", util.getAddonInstallPath(), "Default", constructorParam, gui=self)
+
 		del cm
 
 
@@ -1165,7 +1176,20 @@ class UIGameDB(xbmcgui.WindowXML):
 		showImportOptionsDialog = self.Settings.getSetting(util.SETTING_RCB_SHOWIMPORTOPTIONSDIALOG).upper() == 'TRUE'
 		if(showImportOptionsDialog):
 			constructorParam = "720p"
-			iod = dialogimportoptions.ImportOptionsDialog("script-RCB-importoptions.xml", util.getAddonInstallPath(), util.getConfiguredSkin(), constructorParam, gui=self, romCollections=romCollections, isRescrape=isRescrape)
+			try:
+				iod = dialogimportoptions.ImportOptionsDialog("script-RCB-importoptions.xml",
+															  util.getAddonInstallPath(),
+															  util.getConfiguredSkin(),
+															  constructorParam, gui=self,
+															  romCollections=romCollections,
+															  isRescrape=isRescrape)
+			except:
+				iod = dialogimportoptions.ImportOptionsDialog("script-RCB-importoptions.xml",
+															  util.getAddonInstallPath(),
+															  "Default",
+															  constructorParam, gui=self,
+															  romCollections=romCollections,
+															  isRescrape=isRescrape)
 			del iod
 		else:
 			#32118 = Do you want to import Games now?
