@@ -218,9 +218,9 @@ def html_to_kodi(text):
 
 
 def joinPath(part1, *parts):
-	path = ''
 	if(part1.startswith('smb://')):
-		path = part1
+		#remove trailing "/"
+		path = part1.strip("/")
 		for part in parts:
 			path = "%s/%s" %(path, part)
 	else:
