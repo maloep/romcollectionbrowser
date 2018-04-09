@@ -59,7 +59,6 @@
 		<!-- Rom Collection List -->
 		<control type="list" id="5210">
 			<hitrect x="0" y="0" w="0" h="0" />
-			<visible>!Container(7000).Hasfocus(5)</visible>
 			<posx>240</posx>
 			<posy>20</posy>
 			<width>680</width>
@@ -107,7 +106,6 @@
 		</control>
 		<control type="button" id="5211">
 			<description>Menu Item Next Button</description>
-			<visible>!Container(7000).Hasfocus(5)</visible>
 			<posx>870</posx>
 			<posy>40</posy>
 			<width>20</width>
@@ -122,7 +120,6 @@
 		</control>
 		<control type="button" id="5212">
 			<description>Menu Item Prev Button</description>
-			<visible>!Container(7000).Hasfocus(5)</visible>
 			<posx>890</posx>
 			<posy>40</posy>
 			<width>20</width>
@@ -1542,7 +1539,7 @@
 					<radiowidth>40</radiowidth>
 					<radioheight>40</radioheight>
 					<font>font13</font>
-					<label>$ADDON[script.games.rom.collection.browser 52039]</label>
+					<label>$ADDON[script.games.rom.collection.browser 32644]</label>
 					<textcolor>white</textcolor>
 					<focusedcolor>FFFFFFFF</focusedcolor>
 					<texturefocus colordiffuse="FF12A0C7">rcb-MenuItemFO.png</texturefocus>
