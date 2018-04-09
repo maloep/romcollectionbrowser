@@ -2,9 +2,9 @@
 
 <a href='http://www.youtube.com/watch?feature=player_embedded&v=NRTg3HmIuqU' target='_blank'><img src='http://img.youtube.com/vi/NRTg3HmIuqU/0.jpg' width='425' height=344 /></a>
 
-**Current stable version:** [2.1.2](http://forum.kodi.tv/showthread.php?tid=70115&pid=1941700#pid1941700)
+**Current stable version:** [2.1.5](https://forum.kodi.tv/showthread.php?tid=70115&pid=2697022#pid2697022)
 
-**Current test version:** [2.1.5](https://forum.kodi.tv/showthread.php?tid=70115&pid=2697022#pid2697022)
+**Current test version:** [Current Git version] (UseGitVersion)
 
 **Documentation:** [https://github.com/maloep/romcollectionbrowser/wiki](https://github.com/maloep/romcollectionbrowser/wiki)
 
