@@ -4,7 +4,7 @@
 
 **Current stable version:** [2.1.5](https://forum.kodi.tv/showthread.php?tid=70115&pid=2697022#pid2697022)
 
-**Current test version:** [Current Git version](https://github.com/maloep/romcollectionbrowser/wiki/UseGitVersion)
+**Current test version:** [Current Git version](https://github.com/maloep/romcollectionbrowser/wiki/Installation#current-git-version)
 
 **Documentation:** [https://github.com/maloep/romcollectionbrowser/wiki](https://github.com/maloep/romcollectionbrowser/wiki)
 
