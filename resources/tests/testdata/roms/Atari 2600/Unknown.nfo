@@ -1,9 +1,9 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <game>
-  <title>Eliminator nfo</title>
+  <title>Unknown</title>
   <originalTitle />
   <alternateTitle />
-  <platform>Amiga</platform>
+  <platform>Atari 2600</platform>
   <plot />
   <publisher />
   <developer />
@@ -19,6 +19,6 @@
   <votes />
   <isFavorite>0</isFavorite>
   <launchCount>0</launchCount>
-  <thumb local="./testdata/artwork/Amiga/boxfront\Eliminator.png" type="boxfront" />
-  <thumb local="./testdata/artwork/Amiga/screenshot\Eliminator.png" type="screenshot" />
+  <thumb local="" type="screenshot" />
+  <thumb local="" type="boxfront" />
 </game>

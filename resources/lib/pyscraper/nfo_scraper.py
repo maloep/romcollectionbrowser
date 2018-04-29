@@ -9,6 +9,7 @@ from file_scraper import FileScraper
 from nfowriter import NfoWriter
 from util import Logutil as log
 
+
 class NFO_Scraper(FileScraper):
     """
     NFO_Scraper parses local nfo files using ElementTree
@@ -71,13 +72,11 @@ class NFO_Scraper(FileScraper):
         'LaunchCount': 'launchCount'
     }
 
-
     def get_nfo_path(self, gamename, platform, romFile):
 
         self.nfo_file = NfoWriter().getNfoFilePath(platform, romFile, gamename)
 
         return self.nfo_file
-
 
     def search(self, gamename, platform=None):
 
@@ -91,7 +90,6 @@ class NFO_Scraper(FileScraper):
                         'title': gamename})
 
         return results
-
 
     def retrieve(self, gameid, platform):
 
@@ -120,7 +118,6 @@ class NFO_Scraper(FileScraper):
         result['Genre'] = self._parse_genres(game)
 
         return result
-
 
     def _parse_genres(self, game):
         # <genre>...</genre><genre>...</genre>

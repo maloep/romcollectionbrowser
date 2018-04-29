@@ -2,19 +2,16 @@
 import re
 
 
-"""
-This object provides methods for game name manipulations
-"""
 class GameNameUtil(object):
+    """This object provides methods for game name manipulations"""
 
-    """
-    removes any special characters from gamenames
-    removes substrings that may not be part of the name (The, A, and, ...)
-    replaces roman numerals with digits
-    removes trailing sequel no one
-    converts to upper char
-    """
     def normalize_name(self, name):
+        """removes any special characters from gamenames
+            removes substrings that may not be part of the name (The, A, and, ...)
+            replaces roman numerals with digits
+            removes trailing sequel no one
+            converts to upper char
+        """
         name = name.upper()
 
         # replace roman numerals with digits, remove trailing sequel no one (" 1" or " I")
@@ -30,7 +27,6 @@ class GameNameUtil(object):
         name = re.sub('[\W_]', '', name)
 
         return name
-
 
     def prepare_gamename_for_searchrequest(self, gamename):
         """Strip out subtitles, additional info and sequel numbers
@@ -51,7 +47,6 @@ class GameNameUtil(object):
 
         return gamename
 
-
     def strip_subtitle_from_name(self, gamename):
         """Strip out subtitles
         Args:
@@ -62,7 +57,6 @@ class GameNameUtil(object):
         """
         pattern = r"[^:,\-]*"  # Match anything until : , - [ or (
         return re.search(pattern, gamename).group(0).strip().replace("'", "")
-
 
     def strip_addinfo_from_name(self, gamename):
         """Strip out additional info
@@ -76,10 +70,11 @@ class GameNameUtil(object):
         return re.search(pattern, gamename).group(0).strip().replace("'", "")
 
 
-"""
-This object provides methods for handling sequel numbers in game names 
-"""
 class SequelNumberHandler(object):
+    """
+    This object provides methods for handling sequel numbers in game names
+    """
+
     # taken from http://code.activestate.com/recipes/81611-roman-numerals/
     numeral_map = zip(
         (1000, 900, 500, 400, 100, 90, 50, 40, 10, 9, 5, 4, 1),
@@ -91,24 +86,19 @@ class SequelNumberHandler(object):
 
     regex_int = re.compile('\d+')
 
-
-    """
-    replaces every roman numeral in title with its integer equivalent
-    """
     def replace_roman_to_int(self, title):
+        """replaces every roman numeral in title with its integer equivalent
+        """
         return self.regex_roman.sub(self._roman_to_int_repl, title)
 
-    """
-    replaces every integer in title with its roman numeral equivalent
-    """
     def replace_int_to_roman(self, title):
+        """replaces every integer in title with its roman numeral equivalent
+        """
         return self.regex_int.sub(self._int_to_roman_repl, title)
 
-    """
-    returns the index in the title that matches the first number found, either number or roman numeral.
-    """
     def get_sequel_no_index(self, title):
-
+        """returns the index in the title that matches the first number found, either number or roman numeral.
+        """
         match = re.search(self.regex_roman, title)
         if not match:
             match = re.search(self.regex_int, title)
@@ -118,10 +108,9 @@ class SequelNumberHandler(object):
 
         return -1
 
-    """
-    removes trailing sequel no one. "My Game 1" or "My Game I" will be converted to "My Game"
-    """
     def remove_sequel_no_one(self, gamename):
+        """removes trailing sequel no one. "My Game 1" or "My Game I" will be converted to "My Game"
+        """
         return re.sub(' [1I]$', '', gamename)
 
 

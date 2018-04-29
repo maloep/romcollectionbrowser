@@ -1,0 +1,25 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<game>
+  <title>Air-Sea Battle</title>
+  <originalTitle />
+  <alternateTitle />
+  <platform>Atari 2600</platform>
+  <plot>Air-Sea Battle is basically a target shooting game. On most settings, you are positioned at the bottom of the screen and you shoot at targets at the top of the screen. The various settings provide different targets and weapons with different characteristics. In games 1-6, you are an anti-aircraft gun and you shoot, unsurprisingly, at aircraft. You are stationary. Your control is limited to selecting the time of firing, the angle at which your shot is fired and, on some settings, exertion of minor control over the direction of your missile. In games 7-12, you are a submarine and you shoot torpedoes at the ships above. On these settings you are able to move your submarine back and forth across the bottom of the screen. Your torpedoes, however, can only be fired directly above. Some settings allow minor control over the direction of your torpedo once fired. In games 13-15, you are apparently the anti-aircraft gun again. This time, however, you are shooting at shooting gallery targets (clown faces, ducks, rabbits). The controls are as in games 1-6. In games 16-18, you are a ship and you fire polaris missiles at jets flying above. Your ship constantly moves on its own, you control only the speed. When you fire, the angle of the missile and its speed are based on the speed your ship was traveling at the time of firing. Some settings restrict your ability to change speed once a missile is fired, others allow you to exert control over the missile by changing speed once the missile is fired. In games 19-21, the situation is reversed, you are the jet dropping bombs at the ships below. The controls in this setting are the same as in games 16-18. The difference, of course, is that you are dropping bombs from above at targets below. In Games 22-27, one player is the jet and the other is the ship. Each of the two player games is a matter of who can hit more targets in (oddly enough) 2 minutes and 16 seconds. (The manual says that the game will also end if one player hits 99 targets. I have yet to see this happen.) In each of the single player games, the single player tries to outscore a computer opponent that simply constantly fires.</plot>
+  <publisher>Sears, Roebuck and Co.</publisher>
+  <developer>Atari, Inc.</developer>
+  <year>1977</year>
+  <detailUrl />
+  <maxPlayer>1-2 Players</maxPlayer>
+  <region />
+  <media />
+  <perspective />
+  <controller />
+  <version />
+  <rating>2.4</rating>
+  <votes />
+  <isFavorite>0</isFavorite>
+  <launchCount>0</launchCount>
+  <genre>Shooter</genre>
+  <thumb local="./testdata/artwork/Atari 2600/screenshot\Air-Sea Battle (32 in 1) (1988) (Atari) (PAL).gif" type="screenshot" />
+  <thumb local="./testdata/artwork/Atari 2600/boxfront\Air-Sea Battle (32 in 1) (1988) (Atari) (PAL).png" type="boxfront" />
+</game>

@@ -11,102 +11,95 @@ CONTROL_BUTTON_EXIT = 5101
 
 class DialogBase(xbmcgui.WindowXMLDialog):
 
+    def getControlById(self, controlId):
+        try:
+            control = self.getControl(controlId)
+        except RuntimeError as e:
+            return None
 
-	def getControlById(self, controlId):
-		try:
-			control = self.getControl(controlId)
-		except RuntimeError as e:
-			return None
+        return control
 
-		return control
+    def addItemsToList(self, controlId, options):
+        Logutil.log('addItemsToList: ID = ' + str(controlId) + ', values = ' + str(options), util.LOG_LEVEL_INFO)
 
+        control = self.getControlById(controlId)
+        control.setVisible(1)
+        control.reset()
 
-	def addItemsToList(self, controlId, options):
-		Logutil.log('addItemsToList: ID = ' + str(controlId) + ', values = ' + str(options), util.LOG_LEVEL_INFO)
+        items = []
+        for option in options:
+            items.append(xbmcgui.ListItem(option, '', '', ''))
 
-		control = self.getControlById(controlId)
-		control.setVisible(1)
-		control.reset()
+        control.addItems(items)
 
-		items = []
-		for option in options:
-			items.append(xbmcgui.ListItem(option, '', '', ''))
+    def editTextProperty(self, controlId, name):
+        control = self.getControlById(controlId)
+        textValue = util.getLabel(control)
 
-		control.addItems(items)
+        keyboard = xbmc.Keyboard()
+        keyboard.setHeading(util.localize(32132) % name)
+        keyboard.setDefault(textValue)
+        keyboard.doModal()
+        if (keyboard.isConfirmed()):
+            textValue = keyboard.getText()
 
+        util.setLabel(textValue, control)
 
-	def editTextProperty(self, controlId, name):
-		control = self.getControlById(controlId)
-		textValue = util.getLabel(control)
+        return textValue
 
-		keyboard = xbmc.Keyboard()
-		keyboard.setHeading(util.localize(32132) % name)
-		keyboard.setDefault(textValue)
-		keyboard.doModal()
-		if (keyboard.isConfirmed()):
-			textValue = keyboard.getText()
+    def editPathWithFileMask(self, controlId, enterString, controlIdFilemask):
 
-		util.setLabel(textValue, control)
+        dialog = xbmcgui.Dialog()
 
-		return textValue
+        #get new value
+        pathValue = dialog.browse(0, enterString, 'files')
 
+        control = self.getControlById(controlId)
 
-	def editPathWithFileMask(self, controlId, enterString, controlIdFilemask):
+        util.setLabel(pathValue, control)
 
-		dialog = xbmcgui.Dialog()
+        control = self.getControlById(controlIdFilemask)
+        filemask = util.getLabel(control)
+        pathComplete = os.path.join(pathValue, filemask.strip())
 
-		#get new value
-		pathValue = dialog.browse(0, enterString, 'files')
+        return pathComplete
 
-		control = self.getControlById(controlId)
+    def editFilemask(self, controlId, enterString, pathComplete):
+        control = self.getControlById(controlId)
+        filemask = util.getLabel(control)
 
-		util.setLabel(pathValue, control)
+        keyboard = xbmc.Keyboard()
+        keyboard.setHeading(util.localize(32132) % enterString)
+        keyboard.setDefault(filemask)
+        keyboard.doModal()
+        if (keyboard.isConfirmed()):
+            filemask = keyboard.getText()
 
-		control = self.getControlById(controlIdFilemask)
-		filemask = util.getLabel(control)
-		pathComplete = os.path.join(pathValue, filemask.strip())
+        util.setLabel(filemask, control)
 
-		return pathComplete
+        pathParts = os.path.split(pathComplete)
+        path = pathParts[0]
+        pathComplete = os.path.join(path, filemask.strip())
 
+        return pathComplete
 
-	def editFilemask(self, controlId, enterString, pathComplete):
-		control = self.getControlById(controlId)
-		filemask = util.getLabel(control)
+    def selectScrapersInList(self, sitesInRomCollection, controlId):
 
-		keyboard = xbmc.Keyboard()
-		keyboard.setHeading(util.localize(32132) % enterString)
-		keyboard.setDefault(filemask)
-		keyboard.doModal()
-		if (keyboard.isConfirmed()):
-			filemask = keyboard.getText()
+        Logutil.log('selectScrapersInList', util.LOG_LEVEL_INFO)
 
-		util.setLabel(filemask, control)
+        for site in sitesInRomCollection:
+            if site.default:
+                self.selectItemInList(site.name, controlId)
+                break
 
-		pathParts = os.path.split(pathComplete)
-		path = pathParts[0]
-		pathComplete = os.path.join(path, filemask.strip())
+    def selectItemInList(self, itemName, controlId):
 
-		return pathComplete
+        Logutil.log('selectItemInList', util.LOG_LEVEL_INFO)
 
+        control = self.getControlById(controlId)
 
-	def selectScrapersInList(self, sitesInRomCollection, controlId):
-
-		Logutil.log('selectScrapersInList', util.LOG_LEVEL_INFO)
-
-		for site in sitesInRomCollection:
-			if site.default:
-				self.selectItemInList(site.name, controlId)
-				break
-
-
-	def selectItemInList(self, itemName, controlId):
-
-		Logutil.log('selectItemInList', util.LOG_LEVEL_INFO)
-
-		control = self.getControlById(controlId)
-
-		for i in range(0, control.size()):
-			item = control.getListItem(i)
-			if(item.getLabel() == itemName):
-				control.selectItem(i)
-				break
+        for i in range(0, control.size()):
+            item = control.getListItem(i)
+            if (item.getLabel() == itemName):
+                control.selectItem(i)
+                break
