@@ -1,0 +1,25 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<game>
+  <title>Adventure</title>
+  <originalTitle />
+  <alternateTitle />
+  <platform>Atari 2600</platform>
+  <plot>A graphic dungeon quest inspired by the old mainframe game of the same name, Adventure is a graphic adventure where you use your joystick to wander around, collecting keys to explore castles, labyrinths and everything in between, whilst slaying anything that moves (i.e. Dragons &amp; Co.) to get treasures. The game has 3 difficulty settings- 1. Level 1 (Easiest) 2. Level 2- The Kingdom is larger than Level 1, containing secret rooms and hidden items to add difficulty. 3. Level 3 (Hardest)- Similar to Level 2 but all objects/items are placed randomly throughout the Kingdom. Gameplay revolves around picking up (and dropping) items, hacking your way though dragons, finding keys to open the castle gates and using magic (i.e. reincarnation) in case you get swallowed by failing-to-follow-their-diet-plan-dragons.</plot>
+  <publisher>Atari, Inc.</publisher>
+  <developer>Atari, Inc.</developer>
+  <year>1980</year>
+  <detailUrl />
+  <maxPlayer>1 Player</maxPlayer>
+  <region />
+  <media />
+  <perspective />
+  <controller />
+  <version />
+  <rating>3.8</rating>
+  <votes />
+  <isFavorite>0</isFavorite>
+  <launchCount>0</launchCount>
+  <genre>Adventure</genre>
+  <thumb local="./testdata/artwork/Atari 2600/screenshot\Adventure (1980) (Atari).jpg" type="screenshot" />
+  <thumb local="./testdata/artwork/Atari 2600/boxfront\Adventure (1980) (Atari).png" type="boxfront" />
+</game>

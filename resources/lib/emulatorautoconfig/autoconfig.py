@@ -1,9 +1,11 @@
 
-import os, sys
+import os
 import xml.etree.ElementTree as ET
+
 from rcbxmlreaderwriter import RcbXmlReaderWriter
 
 class OperatingSystem(object):
+
     def __init__(self):
         self.name = ''
         self.platforms = []
@@ -12,6 +14,7 @@ class OperatingSystem(object):
         return "<OperatingSystem: %s>" % self.__dict__
 
 class DetectionMethod(object):
+
     def __init__(self):
         self.name = ''
         self.command = ''
