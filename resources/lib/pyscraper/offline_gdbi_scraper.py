@@ -7,6 +7,7 @@ from file_scraper import FileScraper
 from gamename_utils import GameNameUtil
 from util import Logutil as log
 
+
 class Offline_GDBI_Scraper(FileScraper):
     """
     Offline_GDBI_Scraper local xml files provided by billyc999:
@@ -53,10 +54,8 @@ class Offline_GDBI_Scraper(FileScraper):
         'Votes': 'votes'
     }
 
-
     def _get_xml_path(self):
         return self.path
-
 
     def search(self, gamename, platform=None):
 
@@ -82,7 +81,6 @@ class Offline_GDBI_Scraper(FileScraper):
             raise
 
         return results
-
 
     def retrieve(self, gameid, platform=None):
 
@@ -111,7 +109,6 @@ class Offline_GDBI_Scraper(FileScraper):
         result['Genre'] = self._parse_genres(game)
 
         return result
-
 
     def _parse_genres(self, game):
         # <genre>Genre 1 - Genre 2</genre>

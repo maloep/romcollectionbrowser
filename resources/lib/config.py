@@ -379,15 +379,15 @@ class RomCollection(object):
         return fts
 
     def getImagesForGameInfoView(self):
-        ''' Returns a dict of FileTypes to be displayed in the GameInfoView '''
+        """Returns a dict of FileTypes to be displayed in the GameInfoView"""
         return self._getImagesForPlacing(self.imagePlacingInfo)
 
     def getImagesForGameListViewSelected(self):
-        ''' Returns a dict of FileTypes to be displayed in the GameListView, when selected '''
+        """Returns a dict of FileTypes to be displayed in the GameListView, when selected"""
         return self._getImagesForPlacing(self.imagePlacingMain)
 
     def getImagesForGameListView(self):
-        ''' Returns a dict of FileTypes to be displayed in the GameListView (typically just icon and thumb) '''
+        """Returns a dict of FileTypes to be displayed in the GameListView (typically just icon and thumb)"""
         fts = {}
         fts['icon'] = self.getAvailableFileTypeForArt('icon', self.imagePlacingMain)
         fts['thumb'] = self.getAvailableFileTypeForArt('thumb', self.imagePlacingMain)

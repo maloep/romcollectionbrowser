@@ -4,6 +4,7 @@ import xml.etree.ElementTree as ET
 
 from rcbxmlreaderwriter import RcbXmlReaderWriter
 
+
 class OperatingSystem(object):
 
     def __init__(self):
@@ -13,8 +14,8 @@ class OperatingSystem(object):
     def __repr__(self):
         return "<OperatingSystem: %s>" % self.__dict__
 
-class DetectionMethod(object):
 
+class DetectionMethod(object):
     def __init__(self):
         self.name = ''
         self.command = ''
@@ -32,6 +33,7 @@ class Platform(object):
 
     def __repr__(self):
         return "<Platform: %s>" % self.__dict__
+
 
 class Emulator(object):
     def __init__(self):

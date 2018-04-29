@@ -31,7 +31,6 @@ except:
         "Error while loading zlib library. You won't be able to import games using crc values (only used when importing offline game descriptions).",
         util.LOG_LEVEL_WARNING)
 
-
 monitor = xbmc.Monitor()
 
 
@@ -147,7 +146,7 @@ class DBUpdate(object):
             # prepare Header for ProgressDialog
             # 32122 = Importing Rom Collection
             progDialogRCHeader = util.localize(32122) + " (%i / %i): %s" % (
-            rccount, len(romCollections), romCollection.name)
+                rccount, len(romCollections), romCollection.name)
             rccount += 1
 
             log.info("current Rom Collection: {0}".format(romCollection.name))
@@ -225,7 +224,7 @@ class DBUpdate(object):
 
                     artScrapers = {}
                     results, artScrapers = self.useSingleScrapers(romCollection, filename, gamenameFromFile,
-                                                                      progDialogRCHeader, fileidx + 1)
+                                                                  progDialogRCHeader, fileidx + 1)
 
                     if len(results) == 0:
                         # lastgamename = ""
@@ -452,7 +451,7 @@ class DBUpdate(object):
                 #set path to desc file (only useful for offline scrapers)
                 newscraper.path = scraperSite.path
 
-            log.info("Using scraper: %s" %newscraper.name)
+            log.info("Using scraper: %s" % newscraper.name)
             # 32123 = Importing Game
             # 32131 = downloading info
             self._gui.writeMsg(progDialogRCHeader, util.localize(32123) + ": " + gamenameFromFile,
@@ -466,7 +465,7 @@ class DBUpdate(object):
             raise
         except Exception as e:
             log.error("Error searching for %s using scraper %s - %s %s" % (
-            gamenameFromFile, scraperSite.name, type(e), e))
+                gamenameFromFile, scraperSite.name, type(e), e))
             return gameresult, artScrapers
 
         if results == []:
@@ -796,7 +795,7 @@ class DBUpdate(object):
 
             if len(files) == 0:
                 log.warn("No files found for game '%s' at path '%s'. Make sure that file names are matching." % (
-                gamename, path))
+                    gamename, path))
             for f in files:
                 if xbmcvfs.exists(f):
                     resolvedFiles.append(f)
@@ -949,7 +948,6 @@ class DBUpdate(object):
         else:
             log.info("File already exists in database: %s" % fileName)
 
-
     def download_thumb(self, thumburl, destfilename):
         log.info("begin download_thumb using requests module: thumburl = %s" % thumburl)
 
@@ -958,7 +956,7 @@ class DBUpdate(object):
 
         log.info("download_thumb: start downloading to temp file: %s" % tmp)
         response = requests.get(thumburl, stream=True)
-        log.info("download_thumb: status code = %s" %response.status_code)
+        log.info("download_thumb: status code = %s" % response.status_code)
         if response.status_code != 200:
             log.info("download_thumb: invalid response status code. Can't download image.")
             return
@@ -973,7 +971,6 @@ class DBUpdate(object):
         xbmcvfs.copy(tmp, destfilename)
         xbmcvfs.delete(tmp)
         log.info("end download_thumb")
-
 
     def getThumbFromOnlineSource(self, gamedescription, fileType, fileName, artworkurls):
         log.info("Get thumb from online source")
