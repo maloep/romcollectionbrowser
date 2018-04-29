@@ -61,10 +61,10 @@ class GameNameUtil(object):
     def strip_addinfo_from_name(self, gamename):
         """Strip out additional info
         Args:
-        	gamename: e.g. My Game Name (1984) [cr TCS]
+            gamename: e.g. My Game Name (1984) [cr TCS]
 
         Returns:
-        	Game name without any suffix, e.g. My Game Name
+            Game name without any suffix, e.g. My Game Name
         """
         pattern = r"[^[(]*"     # Match anything until : , - [ or (
         return re.search(pattern, gamename).group(0).strip().replace("'", "")
@@ -81,7 +81,8 @@ class SequelNumberHandler(object):
         ('M', 'CM', 'D', 'CD', 'C', 'XC', 'L', 'XL', 'X', 'IX', 'V', 'IV', 'I')
     )
 
-    #regex taken from https://stackoverflow.com/questions/10093618/convert-a-string-containing-a-roman-numeral-to-integer-equivalent
+    #regex taken from
+    #https://stackoverflow.com/questions/10093618/convert-a-string-containing-a-roman-numeral-to-integer-equivalent
     regex_roman = re.compile(r'\b(?=[MDCLXVI]+\b)M{0,4}(CM|CD|D?C{0,3})(XC|XL|L?X{0,3})(IX|IV|V?I{0,3})\b')
 
     regex_int = re.compile('\d+')
@@ -112,7 +113,6 @@ class SequelNumberHandler(object):
         """removes trailing sequel no one. "My Game 1" or "My Game I" will be converted to "My Game"
         """
         return re.sub(' [1I]$', '', gamename)
-
 
     def _int_to_roman(self, i):
         result = []

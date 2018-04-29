@@ -55,11 +55,11 @@ class EmulatorAutoconfig(RcbXmlReaderWriter):
         self.configFile = configFile
         self.tree = None
         self.operatingSystems = []
-    
+
     def initXml(self):
         try:
             tree = ET.ElementTree().parse(self.configFile)
-        except ET.ParseError as err:
+        except ET.ParseError:
             print 'EmulatorAutoconfig ERROR: Could not read emu_autoconfig.xml'
             return None
         
@@ -75,7 +75,7 @@ class EmulatorAutoconfig(RcbXmlReaderWriter):
     def readOperatingSystems(self, tree):
         operatingSystems = []
 
-        osRows = self.tree.findall('os')
+        osRows = tree.findall('os')
         for osRow in osRows:
             operatingSystem = OperatingSystem()
             operatingSystem.name = osRow.attrib.get('name')
@@ -189,9 +189,9 @@ class EmulatorAutoconfig(RcbXmlReaderWriter):
             else:
                 if platform.aliases:
                     for alias in platform.aliases:
-                        if(alias == platformName):
+                        if alias == platformName:
                             platformFound = platform 
-            
+
         if platformFound is None:
             print 'EmulatorAutoconfig ERROR: Could not find platform %s for os %s in emu_autoconfig.xml' % (platformName,
                                                                                                             operatingSystemName)
@@ -226,11 +226,9 @@ class EmulatorAutoconfig(RcbXmlReaderWriter):
 
             elif detectionMethod.name == 'registry':
                 print 'Emulator installation status via registry has not been implemented'
-                pass
 
             elif detectionMethod.name == 'commonFolders':
                 print 'Emulator installation status via commonFolders has not been implemented'
-                pass
 
             else:
                 print 'Unhandled detection method: {0}'.format(detectionMethod.name)

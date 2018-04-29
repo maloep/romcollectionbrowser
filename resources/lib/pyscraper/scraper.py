@@ -68,7 +68,7 @@ class AbstractScraper(object):
         """
         try:
             target = self.scrapers[sname]
-        except KeyError as e:
+        except KeyError:
             raise ConfigScraperSiteDoesNotExistException("Unsupported scraper: {0}".format(sname))
 
         log.debug("Instantiating scraper class {0} - {1}".format(sname, target))
@@ -113,6 +113,7 @@ class AbstractScraper(object):
 
         Args:
             gameid: ID of the game to retrieve
+            platform: Specify the platform to restrict results to
 
         Returns:
             A dict containing the game details. Currently, for backwards compatibility with the existing

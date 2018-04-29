@@ -1,21 +1,18 @@
 # coding=utf-8
 import HTMLParser
-import re
 
 import xbmcgui
 
-import difflib
 import util
 from util import __addon__
 from util import Logutil as log
 from gamename_utils import GameNameUtil
 
-"""
-This object performs the comparison of a game name against the result set
-"""
-
 
 class Matcher(object):
+    """This object performs the comparison of a game name against the result set
+    """
+
     """ Initial defaults """
     update_option = 0  # Automatic: Accurate
 
@@ -56,7 +53,7 @@ class Matcher(object):
         log.info("Searching for game: " + gamenameFromFile)
         log.info("%s results found. Try to find best match." % str(len(results)))
 
-        result = self.matchGamename(results, gamenameFromFile, False)
+        result = self.matchGamename(results, gamenameFromFile)
 
         if result:
             # get name of found result
@@ -88,7 +85,7 @@ class Matcher(object):
         resultIndex = xbmcgui.Dialog().select('Search for: ' + gamename, options)
         return resultIndex
 
-    def matchGamename(self, results, gamenameFromFile, checkSubtitle):
+    def matchGamename(self, results, gamenameFromFile):
         for idx, result in enumerate(results):
             try:
                 # Check if the result has the correct platform (if needed)
@@ -126,7 +123,7 @@ class Matcher(object):
                 gamename_stripped = gnu.strip_addinfo_from_name(gamename_orig)
                 gamename_stripped = gnu.normalize_name(gamename_stripped)
                 log.info("Try with stripped additional info. Comparing %s with %s" % (
-                gamename_stripped, searchkey_normalized))
+                    gamename_stripped, searchkey_normalized))
                 if gamename_stripped == searchkey_normalized:
                     # perfect match
                     return result
@@ -149,9 +146,8 @@ class Matcher(object):
 
         return False
 
-    """ This method is due to the fact that our result set is a list of dicts """
-
     def resolveParseResult(self, result, itemName):
+        """ This method is due to the fact that our result set is a list of dicts """
 
         resultValue = ""
 
