@@ -4,7 +4,6 @@ import sys
 import xbmc, xbmcgui, xbmcaddon
 
 # Shared resources
-addonPath = ''
 addon = xbmcaddon.Addon(id='script.games.rom.collection.browser')
 addonPath = addon.getAddonInfo('path')
 
@@ -23,7 +22,6 @@ monitor = xbmc.Monitor()
 
 
 class HandleAbort:
-
     orig_scraping_mode = ''
 
     def __enter__(self):
@@ -48,9 +46,7 @@ class HandleAbort:
         settings.setSetting(util.SETTING_RCB_SCRAPINGMODE, self.orig_scraping_mode)
 
 
-
 class ProgressDialogBk(xbmcgui.DialogProgressBG):
-
     itemCount = 0
 
     def writeMsg(self, line1, line2, line3, count=0):
@@ -58,7 +54,7 @@ class ProgressDialogBk(xbmcgui.DialogProgressBG):
 
         scrapeOnStartupAction = addon.getSetting(util.SETTING_RCB_SCRAPEONSTARTUPACTION)
         xbmc.log('scrapeOnStartupAction = ' + scrapeOnStartupAction)
-        if (scrapeOnStartupAction == 'cancel'):
+        if scrapeOnStartupAction == 'cancel':
             self.update(100, 'Rom Collection Browser', 'Update canceled')
             return False
 
@@ -80,12 +76,12 @@ def runUpdate():
     gdb.checkDBStructure()
 
     configFile = config.Config(None)
-    statusOk, errorMsg = configFile.readXml()
+    configFile.readXml()
 
     selectedRomCollection = ''
     selectedScraper = ''
 
-    xbmc.log ('RCB: parameters = %s' % sys.argv)
+    xbmc.log('RCB: parameters = %s' % sys.argv)
     for arg in sys.argv:
         param = str(arg)
         xbmc.log('RCB: param = %s' % param)
@@ -128,11 +124,10 @@ def prepareRomCollections(config, selectedRC, siteName):
             # check if it is the selected scraper or
             # 32804 = Use configured default scrapers
             # search for default scraper or check if we only have one scraper and use this one
-            if site.name == siteName or \
-                (siteName == util.localize(32804) and \
-                (site.default or len(romCollection.scraperSites) == 1)):
-                    sites.append(site)
-                    break
+            if site.name == siteName or (siteName == util.localize(32804) and
+                                         (site.default or len(romCollection.scraperSites) == 1)):
+                sites.append(site)
+                break
 
         # if we did not find a scraper lets assume the selected scraper is not available in current rom collection
         # create it and set it to default
@@ -148,5 +143,4 @@ def prepareRomCollections(config, selectedRC, siteName):
 
 
 if __name__ == "__main__":
-
     runUpdate()

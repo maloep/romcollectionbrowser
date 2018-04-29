@@ -18,11 +18,11 @@ import xbmc
 import xbmcaddon
 
 # Shared resources
-addonPath = ''
 addon = xbmcaddon.Addon(id='script.games.rom.collection.browser')
 addonPath = addon.getAddonInfo('path')
 
 BASE_RESOURCE_PATH = os.path.join(addonPath, "resources")
+
 sys.path.append(os.path.join(BASE_RESOURCE_PATH, "lib"))
 sys.path.append(os.path.join(BASE_RESOURCE_PATH, "lib", "pyscraper"))
 
@@ -43,7 +43,7 @@ if re.match("Linux", env):
 sys.path.append(os.path.join(BASE_RESOURCE_PATH, "platform_libraries", env))
 
 
-class dummyGUI():
+class dummyGUI(object):
     player = xbmc.Player()
 
     xbmcversion = xbmcaddon.Addon('xbmc.addon').getAddonInfo('version')
@@ -56,7 +56,7 @@ class dummyGUI():
         pass
 
 
-class Main():
+class Main(object):
 
     def __init__(self):
         xbmc.log('RCB: sys.argv = ' + str(sys.argv))
@@ -91,7 +91,7 @@ class Main():
     def gatherWidgetData(self, param):
         xbmc.log('start gatherWidgetData')
         import util, helper
-        from gamedatabase import Game, GameDataBase, File
+        from gamedatabase import Game, GameDataBase
         from config import Config
 
         gdb = GameDataBase(util.getAddonDataPath())
@@ -183,14 +183,14 @@ class Main():
         gameId = int(param.replace('launchid=', ''))
 
         config = Config(None)
-        statusOk, errorMsg = config.readXml()
+        config.readXml()
 
         gui = dummyGUI()
 
         RCBLauncher().launchEmu(gdb, gui, gameId, config, None)
 
 
-if (__name__ == "__main__"):
+if __name__ == "__main__":
     xbmc.log('RCB started')
     try:
         Main()
