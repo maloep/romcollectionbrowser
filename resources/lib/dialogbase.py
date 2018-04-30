@@ -1,6 +1,5 @@
 import xbmc, xbmcgui
 import os
-from pyscraper.scraper import AbstractScraper
 
 import util
 from util import *
@@ -14,7 +13,7 @@ class DialogBase(xbmcgui.WindowXMLDialog):
     def getControlById(self, controlId):
         try:
             control = self.getControl(controlId)
-        except RuntimeError as e:
+        except RuntimeError:
             return None
 
         return control
@@ -40,7 +39,7 @@ class DialogBase(xbmcgui.WindowXMLDialog):
         keyboard.setHeading(util.localize(32132) % name)
         keyboard.setDefault(textValue)
         keyboard.doModal()
-        if (keyboard.isConfirmed()):
+        if keyboard.isConfirmed():
             textValue = keyboard.getText()
 
         util.setLabel(textValue, control)
@@ -72,7 +71,7 @@ class DialogBase(xbmcgui.WindowXMLDialog):
         keyboard.setHeading(util.localize(32132) % enterString)
         keyboard.setDefault(filemask)
         keyboard.doModal()
-        if (keyboard.isConfirmed()):
+        if keyboard.isConfirmed():
             filemask = keyboard.getText()
 
         util.setLabel(filemask, control)
@@ -100,6 +99,6 @@ class DialogBase(xbmcgui.WindowXMLDialog):
 
         for i in range(0, control.size()):
             item = control.getListItem(i)
-            if (item.getLabel() == itemName):
+            if item.getLabel() == itemName:
                 control.selectItem(i)
                 break

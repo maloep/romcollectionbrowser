@@ -1,7 +1,7 @@
 from config import *
 from util import *
 import util
-import xbmc, xbmcgui
+import xbmc
 from dialogbase import DialogBase
 from pyscraper.scraper import AbstractScraper
 

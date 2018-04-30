@@ -405,7 +405,7 @@ class Window(object):
         """
         pass
 
-    def onFocus(self, control):
+    def onFocus(self, controlId):
         """onFocus method.
 
         This method will recieve all focus events that the main program will send to this window.

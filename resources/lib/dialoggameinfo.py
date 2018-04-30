@@ -1,5 +1,4 @@
 import xbmc, xbmcgui
-import sys
 import helper, util
 from launcher import RCBLauncher
 from util import *
