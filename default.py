@@ -134,9 +134,9 @@ class Main(object):
 
                 #get artwork that is chosen to be shown in gamelist
                 thumb = helper.getFileForControl(romCollection.imagePlacingMain.fileTypesForGameList, romCollection,
-                                                 mediaPathsDict, gamenameFromFile, False)
+                                                 mediaPathsDict, gamenameFromFile)
                 fanart = helper.getFileForControl(romCollection.imagePlacingMain.fileTypesForMainViewBackground,
-                                                  romCollection, mediaPathsDict, gamenameFromFile, False)
+                                                  romCollection, mediaPathsDict, gamenameFromFile)
 
                 url = "plugin://script.games.rom.collection.browser/?launchid=%s" % game.id
 

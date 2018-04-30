@@ -141,9 +141,9 @@ class UIGameInfoView(xbmcgui.WindowXMLDialog):
 
         item.setArt({
             'icon': helper.getFileForControl(romCollection.imagePlacingMain.fileTypesForGameList, romCollection,
-                                             mediaPathsDict, gamenameFromFile, False),
+                                             mediaPathsDict, gamenameFromFile),
             'thumb': helper.getFileForControl(romCollection.imagePlacingMain.fileTypesForGameListSelected,
-                                              romCollection, mediaPathsDict, gamenameFromFile, False),
+                                              romCollection, mediaPathsDict, gamenameFromFile),
 
             IMAGE_CONTROL_BACKGROUND: helper.getFileForControl(
                 romCollection.imagePlacingInfo.fileTypesForMainViewBackground, romCollection, mediaPathsDict,

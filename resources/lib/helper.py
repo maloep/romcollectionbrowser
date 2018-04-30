@@ -7,9 +7,9 @@ import util
 import xbmc, xbmcgui
 
 
-def saveReadString(property):
+def saveReadString(prop):
     try:
-        result = unicode(property)
+        result = unicode(prop)
     except:
         result = u''
 
@@ -27,7 +27,7 @@ def cacheMediaPathsForSelection(consoleId, mediaDict, config):
         Logutil.log('MediaPaths for RomCollection %s are already in cache' % str(consoleId), util.LOG_LEVEL_INFO)
         return mediaDict
 
-    if (consoleId > 0):
+    if consoleId > 0:
         cacheMediaPathsForConsole(consoleId, mediaDict, config)
         return mediaDict
     else:
@@ -71,30 +71,30 @@ def walkDownMediaDirectories(mediadir, mediafiles):
         walkDownMediaDirectories(os.path.join(mediadir, mediasubdir), mediafiles)
 
 
-def getFileForControl(fileTypes, romCollection, mediaPathsDict, gamenameFromFile, isVideo=False):
+def getFileForControl(fileTypes, romCollection, mediaPathsDict, gamenameFromFile):
     Logutil.log("begin getFileForControl", util.LOG_LEVEL_DEBUG)
 
     for fileType in fileTypes:
         if not fileType:
             continue
 
-        if (fileType.parent != util.FILETYPEPARENT_GAME):
+        if fileType.parent != util.FILETYPEPARENT_GAME:
             continue
 
         mediaPath = romCollection.getMediaPathByType(fileType.name)
 
-        if (not mediaPath):
+        if not mediaPath:
             continue
 
         pathnameFromFile = mediaPath.replace("%GAME%", gamenameFromFile)
         mediaPathsList = mediaPathsDict[fileType.name]
 
-        imagePath = _findFileWithCorrectExtensionRegex(pathnameFromFile, mediaPathsList, isVideo)
+        imagePath = _findFileWithCorrectExtensionRegex(pathnameFromFile, mediaPathsList)
         if imagePath:
             return imagePath
 
 
-def _findFileWithCorrectExtensionRegex(pathnameFromFile, mediaPathsList, isVideo):
+def _findFileWithCorrectExtensionRegex(pathnameFromFile, mediaPathsList):
     pathToSearch = re.escape(os.path.normpath(pathnameFromFile.replace('.*', '')))
     pattern = re.compile('%s\..*$' % pathToSearch)
     for imagePath in mediaPathsList:
@@ -104,8 +104,7 @@ def _findFileWithCorrectExtensionRegex(pathnameFromFile, mediaPathsList, isVideo
             mediaPathFilename, mediaPathExtension = os.path.splitext(pathnameFromFile)
             return '%s%s' % (mediaPathFilename, resultExtension)
 
-
-def _findFileWithCorrectExtensionRegexFilter(pathnameFromFile, mediaPathsList, isVideo):
+def _findFileWithCorrectExtensionRegexFilter(pathnameFromFile, mediaPathsList):
     pathToSearch = re.escape(os.path.normpath(pathnameFromFile.replace('.*', '')))
     pattern = re.compile('%s\..*$' % pathToSearch)
     result = filter(pattern.match, mediaPathsList)
@@ -114,31 +113,12 @@ def _findFileWithCorrectExtensionRegexFilter(pathnameFromFile, mediaPathsList, i
         mediaPathFilename, mediaPathExtension = os.path.splitext(pathnameFromFile)
         return '%s%s' % (mediaPathFilename, resultExtension)
 
-
-def _findFileWithCorrectExtension(pathnameFromFile, mediaPathsList, isVideo):
-    extensionlist = ['jpg', 'gif', 'jpeg', 'bmp', 'png']
-    if isVideo:
-        extensionlist = ['wmv', 'mp4', 'avi', 'flv']
-    for extension in extensionlist:
-        path = pathnameFromFile.replace('*', extension)
-        #HACK: os.path.normpath creates smb paths like smb:\\foo. Only use this path for searching the image in mediadict
-        pathToSearch = os.path.normpath(path)
-        Logutil.log("Looking for image: %s" % path, util.LOG_LEVEL_DEBUG)
-        if pathToSearch in mediaPathsList:
-            Logutil.log("image found", util.LOG_LEVEL_DEBUG)
-            Logutil.log("end getFileForControl", util.LOG_LEVEL_DEBUG)
-            return path
-
-    Logutil.log("end getFileForControl", util.LOG_LEVEL_DEBUG)
-    return ""
-
-
 def saveViewState(gdb, isOnExit, selectedView, selectedGameIndex, selectedConsoleIndex, selectedGenreIndex,
                   selectedPublisherIndex, selectedYearIndex, selectedCharacterIndex,
                   selectedControlIdMainView, selectedControlIdGameInfoView, settings):
     Logutil.log("Begin helper.saveViewState", util.LOG_LEVEL_INFO)
 
-    if (isOnExit):
+    if isOnExit:
         #saveViewStateOnExit
         saveViewState = settings.getSetting(util.SETTING_RCB_SAVEVIEWSTATEONEXIT).upper() == 'TRUE'
     else:
@@ -146,11 +126,11 @@ def saveViewState(gdb, isOnExit, selectedView, selectedGameIndex, selectedConsol
         saveViewState = settings.getSetting(util.SETTING_RCB_SAVEVIEWSTATEONLAUNCHEMU).upper() == 'TRUE'
 
     rcbSetting = getRCBSetting(gdb)
-    if (rcbSetting == None):
+    if rcbSetting == None:
         Logutil.log("rcbSetting == None in helper.saveViewState", util.LOG_LEVEL_WARNING)
         return
 
-    if (saveViewState):
+    if saveViewState:
         RCBSetting(gdb).update(('lastSelectedView', 'lastSelectedConsoleIndex', 'lastSelectedGenreIndex',
                                 'lastSelectedPublisherIndex', 'lastSelectedYearIndex', 'lastSelectedGameIndex',
                                 'lastFocusedControlMainView', 'lastFocusedControlGameInfoView',
@@ -201,7 +181,7 @@ def createArtworkDirectories(romCollections):
 
 def getRCBSetting(gdb):
     rcbSettingRows = RCBSetting(gdb).getAll()
-    if (rcbSettingRows == None or len(rcbSettingRows) != 1):
+    if rcbSettingRows == None or len(rcbSettingRows) != 1:
         #TODO raise error
         return None
 
@@ -236,22 +216,22 @@ def selectlibretrocore(platform):
     jsonResult = json.loads(addonsJson)
 
     Logutil.log("selectlibretrocore: jsonresult = " + str(jsonResult), util.LOG_LEVEL_INFO)
-    if (str(jsonResult.keys()).find('error') >= 0):
+    if str(jsonResult.keys()).find('error') >= 0:
         Logutil.log("Error while reading gameclient addons via json. Assume that we are not in RetroPlayer branch.",
                     util.LOG_LEVEL_WARNING)
         return False, None
 
     try:
         for addonObj in jsonResult[u'result'][u'addons']:
-            id = addonObj[u'addonid']
+            addonid = addonObj[u'addonid']
             addonDetails = xbmc.executeJSONRPC(
-                '{ "jsonrpc": "2.0", "id": 1, "method": "Addons.GetAddonDetails", "params": { "addonid": "%s", "properties" : ["name", "thumbnail"] } }' % id)
+                '{ "jsonrpc": "2.0", "id": 1, "method": "Addons.GetAddonDetails", "params": { "addonid": "%s", "properties" : ["name", "thumbnail"] } }' % addonid)
             jsonResultDetails = json.loads(addonDetails)
             Logutil.log("selectlibretrocore: jsonResultDetails = " + str(jsonResultDetails), util.LOG_LEVEL_INFO)
 
             name = jsonResultDetails[u'result'][u'addon'][u'name']
             thumbnail = jsonResultDetails[u'result'][u'addon'][u'thumbnail']
-            item = xbmcgui.ListItem(name, id, thumbnail)
+            item = xbmcgui.ListItem(name, addonid, thumbnail)
             items.append(item)
     except KeyError:
         #no addons installed or found
@@ -259,9 +239,9 @@ def selectlibretrocore(platform):
 
     index = xbmcgui.Dialog().select('Select core', items, useDetails=True)
 
-    if (index == -1):
+    if index == -1:
         return False, ""
-    elif (index == 0):
+    elif index == 0:
         return True, ""
     else:
         selectedCore = items[index].getLabel2()
@@ -276,15 +256,15 @@ def readLibretroCores():
         '{ "jsonrpc": "2.0", "id": 1, "method": "Addons.GetAddons", "params": { "type": "kodi.gameclient" } }')
     jsonResult = json.loads(addonsJson)
     Logutil.log("readLibretroCores: jsonresult = " + str(jsonResult), util.LOG_LEVEL_INFO)
-    if (str(jsonResult.keys()).find('error') >= 0):
+    if str(jsonResult.keys()).find('error') >= 0:
         Logutil.log("Error while reading gameclient addons via json. Assume that we are not in RetroPlayer branch.",
                     util.LOG_LEVEL_WARNING)
         return False, None
 
     try:
         for addonObj in jsonResult[u'result'][u'addons']:
-            id = addonObj[u'addonid']
-            addons.append(id)
+            addonid = addonObj[u'addonid']
+            addons.append(addonid)
     except KeyError:
         #no addons installed or found
         return True, addons

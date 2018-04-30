@@ -758,7 +758,7 @@ class UIGameDB(xbmcgui.WindowXML):
             image_gamelist = ''
             if loadGamelistArtwork:
                 image_gamelist = helper.getFileForControl(romCollection.imagePlacingMain.fileTypesForGameList,
-                                                          romCollection, mediaPathsDict, gamenameFromFile, False)
+                                                          romCollection, mediaPathsDict, gamenameFromFile)
 
             image_clearlogo = ''
             if useClearlogoAsTitle:
@@ -868,7 +868,7 @@ class UIGameDB(xbmcgui.WindowXML):
 
         selectedGame.setArt({
             'thumb': helper.getFileForControl(romCollection.imagePlacingMain.fileTypesForGameListSelected,
-                                              romCollection, mediaPathsDict, gamenameFromFile, False),
+                                              romCollection, mediaPathsDict, gamenameFromFile),
 
             IMAGE_CONTROL_BACKGROUND: helper.getFileForControl(
                 romCollection.imagePlacingMain.fileTypesForMainViewBackground, romCollection, mediaPathsDict,
@@ -1169,8 +1169,7 @@ class UIGameDB(xbmcgui.WindowXML):
             Logutil.log("fileType gameplay == None. No video loaded.", util.LOG_LEVEL_INFO)
 
         #load gameplay videos
-        video = helper.getFileForControl((self.fileTypeGameplay,), romCollection, mediaPathsDict, gamenameFromFile,
-                                         True)
+        video = helper.getFileForControl((self.fileTypeGameplay,), romCollection, mediaPathsDict, gamenameFromFile)
         if video:
             listItem.setProperty('gameplaymain', video)
 
