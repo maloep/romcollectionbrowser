@@ -1,7 +1,7 @@
 import os, sys, re
-import time, zipfile, glob, shutil
+import time, zipfile, glob
 
-import dbupdate, util
+import util
 from gamedatabase import *
 from util import *
 from util import __addon__
@@ -40,10 +40,6 @@ class RCBLauncher(object):
 
         # Remember viewstate
         gui.saveViewState(False)
-
-        cmd = ""
-        precmd = ""
-        postcmd = ""
 
         filenameRows = File(gdb).getRomsByGameId(gameRow[util.ROW_ID])
         log.info("files for current game: " + str(filenameRows))
@@ -115,6 +111,7 @@ class RCBLauncher(object):
         cmd = ""
         precmd = ""
         postcmd = ""
+        roms = []
 
         emuCommandLine = self.romCollection.emulatorCmd
         log.info("emuCommandLine: " + emuCommandLine)
@@ -204,8 +201,6 @@ class RCBLauncher(object):
             del rom
 
             for rom in roms:
-                precmd = ""
-                postcmd = ""
                 if fileindex == 0:
                     emuParams = self.__replacePlaceholdersInParams(emuParams, rom, gameRow)
                     if self.escapeCmd:
@@ -305,7 +300,7 @@ class RCBLauncher(object):
                 for f in files:
                     #RetroPlayer places savestate files next to the roms. Don't delete these files.
                     fname, ext = os.path.splitext(f)
-                    if (ext not in ('.sav', '.xml', '.png')):
+                    if ext not in ('.sav', '.xml', '.png'):
                         xbmcvfs.delete(os.path.join(tempDir, f))
         except Exception, (exc):
             log.error("Error deleting files after launch emu: " + str(exc))
@@ -314,7 +309,6 @@ class RCBLauncher(object):
         roms = []
 
         log.info("Treating file as a compressed archive")
-        compressed = True
 
         try:
             names = self.__getNames(filext, rom)
@@ -482,7 +476,7 @@ class RCBLauncher(object):
         # HACK: sys.getfilesystemencoding() is not supported on all systems (e.g. Android)
         try:
             encoding = sys.getfilesystemencoding()
-        except Exception as e:
+        except Exception:
             log.warn("Unable to get filesystem encoding, defaulting to UTF-8")
             encoding = 'utf-8'
 
@@ -583,9 +577,9 @@ class RCBLauncher(object):
             xbmc.executeJSONRPC(KODI_JSONRPC_TOGGLE_FULLSCREEN)
 
     # Compressed files functions
-    def __getNames(self, type, filepath):
+    def __getNames(self, compression_type, filepath):
         return {'zip': self.__getNamesZip,
-                '7z': self.__getNames7z}[type](filepath)
+                '7z': self.__getNames7z}[compression_type](filepath)
 
     def __getNames7z(self, filepath):
 
@@ -612,9 +606,9 @@ class RCBLauncher(object):
         fp.close()
         return names
 
-    def __getArchives(self, type, filepath, archiveList):
+    def __getArchives(self, compression_type, filepath, archiveList):
         return {'zip': self.__getArchivesZip,
-                '7z': self.__getArchives7z}[type](filepath, archiveList)
+                '7z': self.__getArchives7z}[compression_type](filepath, archiveList)
 
     def __getArchives7z(self, filepath, archiveList):
 

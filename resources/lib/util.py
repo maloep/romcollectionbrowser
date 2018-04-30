@@ -1,5 +1,4 @@
-import os, re, shutil
-from sqlite3 import dbapi2 as sqlite
+import os
 
 import xbmc, xbmcaddon, xbmcvfs
 
@@ -191,9 +190,7 @@ def html_unescape(text):
     return text
 
 
-"""
-replace html tags with kodi tags in plot
-"""
+#replace html tags with kodi tags in plot
 html_kodi_table = {
     "<i>": "[I]",
     "</i>": "[/I]",
@@ -241,11 +238,11 @@ class KodiVersions(object):
         return int(version)
 
 
-def localize(id):
+def localize(string_id):
     try:
-        return __language__(id)
+        return __language__(string_id)
     except:
-        return "Sorry. No translation available for string with id: " + str(id)
+        return "Sorry. No translation available for string with id: " + str(string_id)
 
 
 def getAddonDataPath():
@@ -342,9 +339,6 @@ RCBHOME = getAddonInstallPath()
 # Logging
 #
 
-print("RCB_INFO: Loading sqlite3 as DB engine")
-
-
 class Logutil(object):
     # Class variable
     currentLogLevel = None
@@ -411,7 +405,7 @@ class Logutil(object):
             # should be save as prefix is guaranteed to be unicode
             m = prefix + message
             xbmc.log(m.encode("utf-8"))
-        except Exception, (exc):
+        except Exception:
             pass
 
     @staticmethod
