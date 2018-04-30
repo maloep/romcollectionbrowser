@@ -123,7 +123,7 @@ class Mobygames_Scraper(WebScraper):
                 # HACK - for compatibility we need to put each result in an array
                 # result[k] = response[v]
                 result[k] = [response[v]]
-            except KeyError as ke:
+            except KeyError:
                 log.warn("Unable to find key: {0}".format(k))
             except Exception as e:
                 log.warn("Unable to extract data from key {0}".format(e))

@@ -1,7 +1,6 @@
 import os, sys
 import xbmcvfs
 import util
-import urllib
 from util import *
 from rcbxmlreaderwriter import RcbXmlReaderWriter
 from xml.etree.ElementTree import *
@@ -374,7 +373,6 @@ class RomCollection(object):
 
         else:
             print 'WARNING - Unsupported image placing type: ' + placing.name
-            pass
 
         return fts
 
@@ -457,7 +455,7 @@ class Config(RcbXmlReaderWriter):
     def initXml(self):
         Logutil.log('initXml', util.LOG_LEVEL_INFO)
 
-        if (not self.configFile):
+        if not self.configFile:
             self.configFile = util.getConfigXmlPath()
 
         if (not xbmcvfs.exists(self.configFile)):
@@ -520,26 +518,6 @@ class Config(RcbXmlReaderWriter):
 
         return True, ''
 
-    """ FIXME TODO This function is not used """
-
-    def backupConfigXml(self):
-        # backup config.xml for later use (will be overwritten in case of an addon update)
-        configXml = util.getConfigXmlPath()
-        configXmlBackup = os.path.join(util.getAddonDataPath(), 'config.xml.backup')
-
-        if xbmcvfs.exists(configXmlBackup):
-            try:
-                xbmcvfs.delete(configXmlBackup)
-            except Exception, (exc):
-                Logutil.log("Cannot remove config.xml backup: " + str(exc), util.LOG_LEVEL_ERROR)
-                return
-
-        try:
-            shutil.copy(configXml, configXmlBackup)
-        except Exception, (exc):
-            Logutil.log("Cannot backup config.xml: " + str(exc), util.LOG_LEVEL_ERROR)
-            return
-
     def readRomCollections(self, tree):
         """
         Parses the config XML tree and extract the RomCollection objects into a dict.
@@ -572,17 +550,17 @@ class Config(RcbXmlReaderWriter):
 
             Logutil.log('current Rom Collection: ' + str(romCollection.name), util.LOG_LEVEL_INFO)
 
-            id = romCollectionRow.attrib.get('id', '')
-            if id == '':
+            rcid = romCollectionRow.attrib.get('id', '')
+            if rcid == '':
                 Logutil.log('Configuration error. RomCollection %s must have an id' % romCollection.name,
                             util.LOG_LEVEL_ERROR)
                 return None, util.localize(32005)
 
-            if id in romCollections:
+            if rcid in romCollections:
                 Logutil.log('Error while adding RomCollection. Make sure that the id is unique.', util.LOG_LEVEL_ERROR)
                 return None, util.localize(32006)
 
-            romCollection.id = id
+            romCollection.id = rcid
 
             # romPath
             for romPathRow in romCollectionRow.findall('romPath'):
@@ -658,7 +636,7 @@ class Config(RcbXmlReaderWriter):
                 romCollection.__setattr__(var, romCollectionRow.findtext(var, '').upper() == 'TRUE')
 
             # Add to dict
-            romCollections[id] = romCollection
+            romCollections[rcid] = romCollection
 
         return romCollections, ''
 
@@ -677,10 +655,10 @@ class Config(RcbXmlReaderWriter):
             fileType.id = fileTypeRow.attrib.get('id')
             fileType.type = fileTypeRow.find('type').text
             fileType.parent = fileTypeRow.find('parent').text
-        except KeyError as e:
+        except KeyError:
             Logutil.log('Configuration error. FileType %s must have an id' % name, util.LOG_LEVEL_ERROR)
             return None, util.localize(32005)
-        except AttributeError as e:
+        except AttributeError:
             pass
 
         return fileType, ''
@@ -782,21 +760,21 @@ class Config(RcbXmlReaderWriter):
 
         return names
 
-    def getRomCollectionById(self, id):
+    def getRomCollectionById(self, rcid):
         """
         Find the matching Rom Collection by ID
 
         Args:
-            id: the ID of the Rom Collection to be found (as a str)
+            rcid: the ID of the Rom Collection to be found (as a str)
 
         Returns:
             The Rom Collection with the matching ID, or None if not found
 
         """
         try:
-            return self.romCollections.get(id)
-        except KeyError as e:
-            log.warn("Unable to find rom collection with ID {0}".format(id))
+            return self.romCollections.get(rcid)
+        except KeyError:
+            log.warn("Unable to find rom collection with ID {0}".format(rcid))
             return None
 
     def getRomCollectionByName(self, name):
