@@ -130,7 +130,7 @@ class Test(unittest.TestCase):
         filenameExpected = './testdata/artwork/Atari 2600/screenshot/Air-Sea Battle (32 in 1) (1988) (Atari) (PAL).gif'
         self.assertTrue(filename[0] == filenameExpected, 'Artwork file should have been %s but was %s' %(filenameExpected, filename))
         
-        filename = helper.getFileForControl((filetypeGameplay,), romCollection, mediaPathsDict, gamenameFromFile, True),        
+        filename = helper.getFileForControl((filetypeGameplay,), romCollection, mediaPathsDict, gamenameFromFile),
         filenameExpected = './testdata/artwork/Atari 2600/video/Air-Sea Battle (32 in 1) (1988) (Atari) (PAL).mp4'
         self.assertTrue(filename[0] == filenameExpected, 'Artwork file should have been %s but was %s' %(filenameExpected, filename))
         

@@ -1,4 +1,4 @@
-import os, sys
+import os, sys, re
 import xbmcvfs
 import util
 from util import *
