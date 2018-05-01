@@ -1,0 +1,793 @@
+<?xml version="1.0"?>
+<menu>
+  <header>
+    <listname>Sega Model 2</listname>
+    <lastlistupdate></lastlistupdate>
+    <listversion>test</listversion>
+    <exporterversion></exporterversion>
+  </header>
+  <game name="bel">
+    <description>Behind... Enemy Lines</description>
+    <year>1997</year>
+    <rating>ESRB - T (Teen)</rating>
+    <manufacturer>Sega</manufacturer>
+    <dev>Real3D</dev>
+    <genre>Shooter</genre>
+    <score>4.3</score>
+    <player>1-2 Players</player>
+    <story>Behind Enemy Lines is a first person rail shooter where the player controls a machine gun mounted on a jeep driving through enemy territory. The game consists of four missions that all involve infiltrating and destroying various enemy facilities. The setting is modern and enemies include simple foot soldiers, light vehicles such as jeeps and humvees and heavy vehicles like tanks and helicopters. As in other rail shooters the player&apos;s control is limited to moving a crosshair and shooting while movement is automatic. The main weapon is a machine gun that can fire both bullets and missiles. There is no reloading and it&apos;s not possible to run out of ammo completely but if the ammo counter gets too low the firing rate will decrease. Therefore more ammo has to be collected by destroying ammo crates. Missiles too has to be collected by destroying crates. They can however only be used on certain heavy targets, such as helicopters and tanks and when aiming on these the missile will automatically lock on the target and the player only has to launch it by pressing the right button. Fuel can also be collected by hitting fuel drums. If the vehicle&apos;s fuel supply is depleted the player will get a score penalty.</story>
+    <enabled>Yes</enabled>
+    <crc></crc>
+    <cloneof></cloneof>
+  </game>
+  <game name="dayton93">
+    <description>Daytona USA Deluxe &apos;93</description>
+    <year>1993</year>
+    <rating>ESRB - E (Everyone)</rating>
+    <manufacturer>Sega</manufacturer>
+    <dev>Sega AM2</dev>
+    <genre>Driving</genre>
+    <score>4.2</score>
+    <player>1-2 Players</player>
+    <story>The original arcade release has the player drive a stock car, known as the Hornet (number 41, producer Toshihiro Nagoshi&apos;s lucky number) loosely based on a Chevrolet Beretta, racing against numerous other cars around three selectable tracks. Player one&apos;s car by default is coloured red and blue (the manual car uses a red, black and yellow colour scheme), and can be seen at the forefront of all game covers, flyers and similar media related to the series with the exception of Daytona USA 2 and its update, Daytona USA 2- Power Edition. The game features both automatic and manual transmissions, the latter requiring use of the gear stick and which, if used properly, can lead to a faster car than the automatic. Crashing into walls or other cars can inflict damage leading to poor performance - to remedy this each level has a pit lane, which, by sacrificing some time, can fix the car. Daytona USA has smarter AI than many other driving games from around this period. The computer analyses the player&apos;s skill during the first lap, and will instruct rival cars to move out of the way if it feels the player is doing poorly (while doing the opposite if the player registers a fast time). Most notably, however, is Daytona USA&apos;s multiplayer features. It was the first arcade game ever to allow up to eight cabinets to be linked together, with each player capable of competing in the same race. Each player assumes the roll of a different coloured Hornet, and each cabinet must be ready to race and agreed on a course before this can happen (otherwise the game may start up with less than eight players). The game also has Team Hornet inform the player of turns and traffic, and will comment on your driving if you crash. </story>
+    <enabled>Yes</enabled>
+    <crc></crc>
+    <cloneof></cloneof>
+  </game>
+  <game name="daytona">
+    <description>Daytona USA</description>
+    <year>1994</year>
+    <rating>ESRB - E (Everyone)</rating>
+    <manufacturer>Sega</manufacturer>
+    <dev>Sega AM2</dev>
+    <genre>Driving</genre>
+    <score>4.2</score>
+    <player>1-2 Players</player>
+    <story>The original arcade release has the player drive a stock car, known as the Hornet (number 41, producer Toshihiro Nagoshi&apos;s lucky number) loosely based on a Chevrolet Beretta, racing against numerous other cars around three selectable tracks. Player one&apos;s car by default is coloured red and blue (the manual car uses a red, black and yellow colour scheme), and can be seen at the forefront of all game covers, flyers and similar media related to the series with the exception of Daytona USA 2 and its update, Daytona USA 2- Power Edition. The game features both automatic and manual transmissions, the latter requiring use of the gear stick and which, if used properly, can lead to a faster car than the automatic. Crashing into walls or other cars can inflict damage leading to poor performance - to remedy this each level has a pit lane, which, by sacrificing some time, can fix the car. Daytona USA has smarter AI than many other driving games from around this period. The computer analyses the player&apos;s skill during the first lap, and will instruct rival cars to move out of the way if it feels the player is doing poorly (while doing the opposite if the player registers a fast time). Most notably, however, is Daytona USA&apos;s multiplayer features. It was the first arcade game ever to allow up to eight cabinets to be linked together, with each player capable of competing in the same race. Each player assumes the roll of a different coloured Hornet, and each cabinet must be ready to race and agreed on a course before this can happen (otherwise the game may start up with less than eight players). The game also has Team Hornet inform the player of turns and traffic, and will comment on your driving if you crash. </story>
+    <enabled>Yes</enabled>
+    <crc></crc>
+    <cloneof></cloneof>
+  </game>
+  <game name="daytonagtx">
+    <description>Daytona USA- GTX2004</description>
+    <year>1994</year>
+    <rating>ESRB - E (Everyone)</rating>
+    <manufacturer>Sega</manufacturer>
+    <dev>Sega AM2</dev>
+    <genre>Driving</genre>
+    <score>4.2</score>
+    <player>1-2 Players</player>
+    <story>The original arcade release has the player drive a stock car, known as the Hornet (number 41, producer Toshihiro Nagoshi&apos;s lucky number) loosely based on a Chevrolet Beretta, racing against numerous other cars around three selectable tracks. Player one&apos;s car by default is coloured red and blue (the manual car uses a red, black and yellow colour scheme), and can be seen at the forefront of all game covers, flyers and similar media related to the series with the exception of Daytona USA 2 and its update, Daytona USA 2- Power Edition. The game features both automatic and manual transmissions, the latter requiring use of the gear stick and which, if used properly, can lead to a faster car than the automatic. Crashing into walls or other cars can inflict damage leading to poor performance - to remedy this each level has a pit lane, which, by sacrificing some time, can fix the car. Daytona USA has smarter AI than many other driving games from around this period. The computer analyses the player&apos;s skill during the first lap, and will instruct rival cars to move out of the way if it feels the player is doing poorly (while doing the opposite if the player registers a fast time). Most notably, however, is Daytona USA&apos;s multiplayer features. It was the first arcade game ever to allow up to eight cabinets to be linked together, with each player capable of competing in the same race. Each player assumes the roll of a different coloured Hornet, and each cabinet must be ready to race and agreed on a course before this can happen (otherwise the game may start up with less than eight players). The game also has Team Hornet inform the player of turns and traffic, and will comment on your driving if you crash. </story>
+    <enabled>Yes</enabled>
+    <crc></crc>
+    <cloneof></cloneof>
+  </game>
+  <game name="daytonam">
+    <description>Daytona USA- To The Maxx</description>
+    <year>1994</year>
+    <rating>ESRB - E (Everyone)</rating>
+    <manufacturer>Sega</manufacturer>
+    <dev>Sega AM2</dev>
+    <genre>Driving</genre>
+    <score>4.2</score>
+    <player>1-2 Players</player>
+    <story>The original arcade release has the player drive a stock car, known as the Hornet (number 41, producer Toshihiro Nagoshi&apos;s lucky number) loosely based on a Chevrolet Beretta, racing against numerous other cars around three selectable tracks. Player one&apos;s car by default is coloured red and blue (the manual car uses a red, black and yellow colour scheme), and can be seen at the forefront of all game covers, flyers and similar media related to the series with the exception of Daytona USA 2 and its update, Daytona USA 2- Power Edition. The game features both automatic and manual transmissions, the latter requiring use of the gear stick and which, if used properly, can lead to a faster car than the automatic. Crashing into walls or other cars can inflict damage leading to poor performance - to remedy this each level has a pit lane, which, by sacrificing some time, can fix the car. Daytona USA has smarter AI than many other driving games from around this period. The computer analyses the player&apos;s skill during the first lap, and will instruct rival cars to move out of the way if it feels the player is doing poorly (while doing the opposite if the player registers a fast time). Most notably, however, is Daytona USA&apos;s multiplayer features. It was the first arcade game ever to allow up to eight cabinets to be linked together, with each player capable of competing in the same race. Each player assumes the roll of a different coloured Hornet, and each cabinet must be ready to race and agreed on a course before this can happen (otherwise the game may start up with less than eight players). The game also has Team Hornet inform the player of turns and traffic, and will comment on your driving if you crash. </story>
+    <enabled>Yes</enabled>
+    <crc></crc>
+    <cloneof></cloneof>
+  </game>
+  <game name="daytonas">
+    <description>Daytona USA (Saturn Ads)</description>
+    <year>1994</year>
+    <rating>ESRB - E (Everyone)</rating>
+    <manufacturer>Sega</manufacturer>
+    <dev>Sega AM2</dev>
+    <genre>Driving</genre>
+    <score>4.2</score>
+    <player>1-2 Players</player>
+    <story>The original arcade release has the player drive a stock car, known as the Hornet (number 41, producer Toshihiro Nagoshi&apos;s lucky number) loosely based on a Chevrolet Beretta, racing against numerous other cars around three selectable tracks. Player one&apos;s car by default is coloured red and blue (the manual car uses a red, black and yellow colour scheme), and can be seen at the forefront of all game covers, flyers and similar media related to the series with the exception of Daytona USA 2 and its update, Daytona USA 2- Power Edition. The game features both automatic and manual transmissions, the latter requiring use of the gear stick and which, if used properly, can lead to a faster car than the automatic. Crashing into walls or other cars can inflict damage leading to poor performance - to remedy this each level has a pit lane, which, by sacrificing some time, can fix the car. Daytona USA has smarter AI than many other driving games from around this period. The computer analyses the player&apos;s skill during the first lap, and will instruct rival cars to move out of the way if it feels the player is doing poorly (while doing the opposite if the player registers a fast time). Most notably, however, is Daytona USA&apos;s multiplayer features. It was the first arcade game ever to allow up to eight cabinets to be linked together, with each player capable of competing in the same race. Each player assumes the roll of a different coloured Hornet, and each cabinet must be ready to race and agreed on a course before this can happen (otherwise the game may start up with less than eight players). The game also has Team Hornet inform the player of turns and traffic, and will comment on your driving if you crash. </story>
+    <enabled>Yes</enabled>
+    <crc></crc>
+    <cloneof></cloneof>
+  </game>
+  <game name="daytonat">
+    <description>Daytona USA Turbo</description>
+    <year>1994</year>
+    <rating>ESRB - E (Everyone)</rating>
+    <manufacturer>Sega</manufacturer>
+    <dev>Sega AM2</dev>
+    <genre>Driving</genre>
+    <score>4.2</score>
+    <player>1-2 Players</player>
+    <story>The original arcade release has the player drive a stock car, known as the Hornet (number 41, producer Toshihiro Nagoshi&apos;s lucky number) loosely based on a Chevrolet Beretta, racing against numerous other cars around three selectable tracks. Player one&apos;s car by default is coloured red and blue (the manual car uses a red, black and yellow colour scheme), and can be seen at the forefront of all game covers, flyers and similar media related to the series with the exception of Daytona USA 2 and its update, Daytona USA 2- Power Edition. The game features both automatic and manual transmissions, the latter requiring use of the gear stick and which, if used properly, can lead to a faster car than the automatic. Crashing into walls or other cars can inflict damage leading to poor performance - to remedy this each level has a pit lane, which, by sacrificing some time, can fix the car. Daytona USA has smarter AI than many other driving games from around this period. The computer analyses the player&apos;s skill during the first lap, and will instruct rival cars to move out of the way if it feels the player is doing poorly (while doing the opposite if the player registers a fast time). Most notably, however, is Daytona USA&apos;s multiplayer features. It was the first arcade game ever to allow up to eight cabinets to be linked together, with each player capable of competing in the same race. Each player assumes the roll of a different coloured Hornet, and each cabinet must be ready to race and agreed on a course before this can happen (otherwise the game may start up with less than eight players). The game also has Team Hornet inform the player of turns and traffic, and will comment on your driving if you crash. </story>
+    <enabled>Yes</enabled>
+    <crc></crc>
+    <cloneof></cloneof>
+  </game>
+  <game name="desert">
+    <description>Desert Tank</description>
+    <year>1994</year>
+    <rating>ESRB - T (Teen)</rating>
+    <manufacturer>Sega</manufacturer>
+    <dev>Sega AM2</dev>
+    <genre>Shooter</genre>
+    <score>4.5</score>
+    <player>1-2 Players</player>
+    <story>Desert Tank is 3D arcade simulator of tank.The player has a tank, and destroys every opponent on battlefield. He has tank cannon and machine gun. Gameplay is very arcade - tank is very fast, good armoured, and powerful. The player needs to hurry - the game has a time limit.</story>
+    <enabled>Yes</enabled>
+    <crc></crc>
+    <cloneof></cloneof>
+  </game>
+  <game name="doa">
+    <description>Dead or Alive (Model 2B)</description>
+    <year>1996</year>
+    <rating>ESRB - T (Teen)</rating>
+    <manufacturer>Sega</manufacturer>
+    <dev>Tecmo</dev>
+    <genre>Fighter</genre>
+    <score>3.8</score>
+    <player>1-2 Players</player>
+    <story>The first in the Dead or Alive series, and features many of the same features that has made the DoA series so popular today; somewhat realistic combat, good character design, and scantily clad women whose breasts bounce a lot.The game doesn&apos;t mess too much with a background story- it&apos;s a 3D one on one fighter that takes place within an arena of limited space. Each character has their own unique way of fighting, their own abilities, and even their own hobbies and likes. (For example, Ryu Hayabusa- yes, he of Ninja Gaiden fame- likes sushi, mountain climbing, and fishing.) </story>
+    <enabled>Yes</enabled>
+    <crc></crc>
+    <cloneof></cloneof>
+  </game>
+  <game name="doaa">
+    <description>Dead or Alive (Model 2A)</description>
+    <year>1996</year>
+    <rating>ESRB - T (Teen)</rating>
+    <manufacturer>Sega</manufacturer>
+    <dev>Tecmo</dev>
+    <genre>Fighter</genre>
+    <score>3.8</score>
+    <player>1-2 Players</player>
+    <story>The first in the Dead or Alive series, and features many of the same features that has made the DoA series so popular today; somewhat realistic combat, good character design, and scantily clad women whose breasts bounce a lot.The game doesn&apos;t mess too much with a background story- it&apos;s a 3D one on one fighter that takes place within an arena of limited space. Each character has their own unique way of fighting, their own abilities, and even their own hobbies and likes. (For example, Ryu Hayabusa- yes, he of Ninja Gaiden fame- likes sushi, mountain climbing, and fishing.) </story>
+    <enabled>Yes</enabled>
+    <crc></crc>
+    <cloneof></cloneof>
+  </game>
+  <game name="dynabb">
+    <description>Dynamite Baseball</description>
+    <year>1997</year>
+    <rating>ESRB - E (Everyone)</rating>
+    <manufacturer>Sega</manufacturer>
+    <dev>Sega</dev>
+    <genre>Baseball/Sports</genre>
+    <score>3.9</score>
+    <player>1-2 Players</player>
+    <story> A 3-D baseball game.</story>
+    <enabled>Yes</enabled>
+    <crc></crc>
+    <cloneof></cloneof>
+  </game>
+  <game name="dynamcop">
+    <description>Dynamite Cop (Model 2A)</description>
+    <year>1998</year>
+    <rating>ESRB - T (Teen)</rating>
+    <manufacturer>Sega</manufacturer>
+    <dev>Sega AM1</dev>
+    <genre>Beat-&apos;Em-Up</genre>
+    <score>3.3</score>
+    <player>1-2 Players</player>
+    <story>Pirates have kidnapped the President&apos;s daughter and are holding her on a hijacked cruise ship. Now it&apos;s up to an elite police force to get them back, using whatever means necessary. The action takes place on both the cruise ship and the pirate&apos;s island hideaway.You play as one of three cops, in this beat-em up fighting game from Sega. Dynamite Cop features similar gameplay to Die Hard Arcade. As your character enters an area, you have to beat up everyone there. Once they are gone, you continue to the next area. To help you there are many weapons, such as guns, knives, pepper spray, chairs, and bread. Bread? Yes, you can use pretty much anything as a weapon.</story>
+    <enabled>Yes</enabled>
+    <crc></crc>
+    <cloneof></cloneof>
+  </game>
+  <game name="dyndek2b">
+    <description>Dynamite Deka 2 (Model 2B)</description>
+    <year>1998</year>
+    <rating>ESRB - T (Teen)</rating>
+    <manufacturer>Sega</manufacturer>
+    <dev>Sega</dev>
+    <genre>Beat-&apos;Em-Up</genre>
+    <score>3</score>
+    <player>1-2 Players</player>
+    <story>Pirates have kidnapped the President&apos;s daughter and are holding her on a hijacked cruise ship. Now it&apos;s up to an elite police force to get them back, using whatever means necessary. The action takes place on both the cruise ship and the pirate&apos;s island hideaway.You play as one of three cops, in this beat-em up fighting game from Sega. Dynamite Cop features similar gameplay to Die Hard Arcade. As your character enters an area, you have to beat up everyone there. Once they are gone, you continue to the next area. To help you there are many weapons, such as guns, knives, pepper spray, chairs, and bread. Bread? Yes, you can use pretty much anything as a weapon.</story>
+    <enabled>Yes</enabled>
+    <crc></crc>
+    <cloneof></cloneof>
+  </game>
+  <game name="dyndeka2">
+    <description>Dynamite Deka 2 (Model 2A)</description>
+    <year>1998</year>
+    <rating>ESRB - T (Teen)</rating>
+    <manufacturer>Sega</manufacturer>
+    <dev>Sega</dev>
+    <genre>Beat-&apos;Em-Up</genre>
+    <score>3</score>
+    <player>1-2 Players</player>
+    <story>Pirates have kidnapped the President&apos;s daughter and are holding her on a hijacked cruise ship. Now it&apos;s up to an elite police force to get them back, using whatever means necessary. The action takes place on both the cruise ship and the pirate&apos;s island hideaway.You play as one of three cops, in this beat-em up fighting game from Sega. Dynamite Cop features similar gameplay to Die Hard Arcade. As your character enters an area, you have to beat up everyone there. Once they are gone, you continue to the next area. To help you there are many weapons, such as guns, knives, pepper spray, chairs, and bread. Bread? Yes, you can use pretty much anything as a weapon.</story>
+    <enabled>Yes</enabled>
+    <crc></crc>
+    <cloneof></cloneof>
+  </game>
+  <game name="dynmcopb">
+    <description>Dynamite Cop (Model 2B)</description>
+    <year>1998</year>
+    <rating>ESRB - T (Teen)</rating>
+    <manufacturer>Sega</manufacturer>
+    <dev>Sega AM1</dev>
+    <genre>Beat-&apos;Em-Up</genre>
+    <score>3.3</score>
+    <player>1-2 Players</player>
+    <story>Pirates have kidnapped the President&apos;s daughter and are holding her on a hijacked cruise ship. Now it&apos;s up to an elite police force to get them back, using whatever means necessary. The action takes place on both the cruise ship and the pirate&apos;s island hideaway.You play as one of three cops, in this beat-em up fighting game from Sega. Dynamite Cop features similar gameplay to Die Hard Arcade. As your character enters an area, you have to beat up everyone there. Once they are gone, you continue to the next area. To help you there are many weapons, such as guns, knives, pepper spray, chairs, and bread. Bread? Yes, you can use pretty much anything as a weapon.</story>
+    <enabled>Yes</enabled>
+    <crc></crc>
+    <cloneof></cloneof>
+  </game>
+  <game name="dynmcopc">
+    <description>Dynamite Cop (Model 2C)</description>
+    <year>1998</year>
+    <rating>ESRB - T (Teen)</rating>
+    <manufacturer>Sega</manufacturer>
+    <dev>Sega AM1</dev>
+    <genre>Beat-&apos;Em-Up</genre>
+    <score>3.3</score>
+    <player>1-2 Players</player>
+    <story>Pirates have kidnapped the President&apos;s daughter and are holding her on a hijacked cruise ship. Now it&apos;s up to an elite police force to get them back, using whatever means necessary. The action takes place on both the cruise ship and the pirate&apos;s island hideaway.You play as one of three cops, in this beat-em up fighting game from Sega. Dynamite Cop features similar gameplay to Die Hard Arcade. As your character enters an area, you have to beat up everyone there. Once they are gone, you continue to the next area. To help you there are many weapons, such as guns, knives, pepper spray, chairs, and bread. Bread? Yes, you can use pretty much anything as a weapon.</story>
+    <enabled>Yes</enabled>
+    <crc></crc>
+    <cloneof></cloneof>
+  </game>
+  <game name="fvipers">
+    <description>Fighting Vipers</description>
+    <year>1995</year>
+    <rating>ESRB - T (Teen)</rating>
+    <manufacturer>Sega</manufacturer>
+    <dev>Sega AM2</dev>
+    <genre>Fighter</genre>
+    <score>4</score>
+    <player>1-2 Players</player>
+    <story>Armstone City, year unknown. The Mayor decided to hold a fighting tournament with the grand finale being held on the top of the city tower, and the Vipers, young urban warriors decide to compete, each with their own goal on mind. All eight came from several backgrounds, like the hard-rocker Raxel, the orphan with a burning desire to meet his father Bahn, former gang leader Tokyo, queen of the catwalk Grace, the giant with an unknown past Sanman, construction worker and former marine trainee Jane, fashion designer to-be Candy and skater boy Picky, plus Mahler, someone with a score to settle with the Mayor. While based on the same Model-2 arcade board as Virtua Fighter 2, Fighting Vipers included several changes, such as a wall surrounding the battle area and equipping each fighter with a two-piece (chest and legs) armour that can only be broken with power hits. Once the armour is gone, the unfortunate fighter is more vulnerable to opponent hits, and damage can also be collected after hitting the wall or floor after a throw. Gameplay is also radically different from Virtua Fighter - noticeably faster, with combos done by fast button-mashing sequences sometimes on the same button, instead of the timed presses that require an additional push on the d-pad of the first title. Another new addition to gameplay is the Quick recovery, which allows a fighter that suffered a severe blow to quickly get on his feet, avoiding damage and allowing for a quick counter, but at the same time leaving him open for another blow if the opponent is fast enough. to react. Game modes include Arcade, Vs, Team Battle (best of 9) and Training. Game options allow the player to tweak the difficulty setting, number of rounds before a match winner is decided, size of life bars, if there&apos;s a time limit, if the order of opponents is random or predefined and between three game modes- Original (based on the arcade version), Arrange (gameplay tweaked for the Sega Saturn) and Hyper (allows Vipers to voluntarily drop their armour, allowing to perform special attacks at lightening fast speeds), Stage selection, and to change the disposition of the control pad to better suit the players&apos; style.</story>
+    <enabled>Yes</enabled>
+    <crc></crc>
+    <cloneof></cloneof>
+  </game>
+  <game name="gunblade">
+    <description>Gunblade NY</description>
+    <year>1996</year>
+    <rating>ESRB - T (Teen)</rating>
+    <manufacturer>Sega</manufacturer>
+    <dev>Sega AM3</dev>
+    <genre>Gun</genre>
+    <score>2.9</score>
+    <player>1-2 Players</player>
+    <story>Gunblade NY - Special Air Assault Force is a 3D arcade, very straightforward rail-shooter. Terrorists attack New York. The player is a helicopter&apos;s shooter and must kill all bad guys. He uses the powerful helicopter&apos;s machine gun. The game has two modes (easy and hard) with different levels (and one special Score Attack Remix is a time attack mode). There is also co-op multiplayer for two players.</story>
+    <enabled>Yes</enabled>
+    <crc></crc>
+    <cloneof></cloneof>
+  </game>
+  <game name="hotd">
+    <description>House of the Dead</description>
+    <year>1997</year>
+    <rating>ESRB - M (Mature)</rating>
+    <manufacturer>Sega</manufacturer>
+    <dev>Sega AM1</dev>
+    <genre>Gun</genre>
+    <score>3.7</score>
+    <player>1-2 Players</player>
+    <story>The House of the Dead is a rail shooter. Go through the four chapters with branching paths and kill all the zombies, avoid killing the humans, and rescue the girl. Shooting various special targets along the way or in a certain time period give the player temporary health and weapon upgrades.The Saturn version of the game contains two extra modes called Saturn Mode and Boss Mode. Saturn mode plays like the arcade game, but offers the player different characters to choose from. Character selection matters since they each have varying attributes such as their reload time and how much damage they can take before dying. The Boss Mode allows the player to fight one boss of their choosing or all of the game&apos;s four boss monsters consecutively.</story>
+    <enabled>Yes</enabled>
+    <crc></crc>
+    <cloneof></cloneof>
+  </game>
+  <game name="indy500">
+    <description>Indianapolis 500 (Rev A, Twin)</description>
+    <year>1995</year>
+    <rating>ESRB - E (Everyone)</rating>
+    <manufacturer>Sega</manufacturer>
+    <dev>Sega AM1</dev>
+    <genre>Driving</genre>
+    <score>4</score>
+    <player>1-2 Players</player>
+    <story>Indy 500 is a 1995 arcade racing game developed by Sega&apos;s AM1 division[1] and published by Sega of Japan. It follows the format of previous driving games such as Daytona USA. It includes the famous Indianapolis 500. It uses the Sega Model 2 B CRX.[1] Players can race one of three courses including- Highland Raceway Indianapolis 500 Bayside Street A disclaimer appears at the start of the game notifying players that Highland Raceway and Bay Side Street are fictional courses and are not affiliated with Indy. However, the two courses resemble Laguna Seca and Long Beach/Surfers Paradise respectively. The race commences after the user has made their choice of automatic transmission or manual transmission with a 2-position shifter. </story>
+    <enabled>Yes</enabled>
+    <crc></crc>
+    <cloneof></cloneof>
+  </game>
+  <game name="indy500d">
+    <description>Indianapolis 500 (Rev A, Deluxe)</description>
+    <year>1995</year>
+    <rating>ESRB - E (Everyone)</rating>
+    <manufacturer>Sega</manufacturer>
+    <dev>Sega AM1</dev>
+    <genre>Driving</genre>
+    <score>4</score>
+    <player>1 Player</player>
+    <story>Indy 500 is a 1995 arcade racing game developed by Sega&apos;s AM1 division[1] and published by Sega of Japan. It follows the format of previous driving games such as Daytona USA. It includes the famous Indianapolis 500. It uses the Sega Model 2 B CRX.[1] Players can race one of three courses including- Highland Raceway Indianapolis 500 Bayside Street A disclaimer appears at the start of the game notifying players that Highland Raceway and Bay Side Street are fictional courses and are not affiliated with Indy. However, the two courses resemble Laguna Seca and Long Beach/Surfers Paradise respectively. The race commences after the user has made their choice of automatic transmission or manual transmission with a 2-position shifter. </story>
+    <enabled>Yes</enabled>
+    <crc></crc>
+    <cloneof></cloneof>
+  </game>
+  <game name="lastbrnj">
+    <description>Last Bronx (Rev A)</description>
+    <year>1996</year>
+    <rating>ESRB - T (Teen)</rating>
+    <manufacturer>Sega</manufacturer>
+    <dev>Sega AM3</dev>
+    <genre>Fighter</genre>
+    <score>3.4</score>
+    <player>1-2 Players</player>
+    <story>The leader of Soul Crew, the toughest gang in Tokyo, was viciously killed. Shortly after that an anonymous challenge appeared in graffiti scrawls all over the city inviting all of the city&apos;s gang leaders to a fighting tournament that will settle which group has the power to rule Tokyo. Everyone knew refusing to participate was not an option. Just like in Virtua Fighter 2, you fight in 3D stages and every character has its unique style and feel. But unlike the PC version of Virtua Fighter 2, where the background of every stage is a flat picture, in Last Bronx all the scenery is done in 3D. Plus, you can taunt your opponent during the fight!</story>
+    <enabled>Yes</enabled>
+    <crc></crc>
+    <cloneof></cloneof>
+  </game>
+  <game name="lastbrnx">
+    <description>Last Bronx (Export, Rev A)</description>
+    <year>1996</year>
+    <rating>ESRB - T (Teen)</rating>
+    <manufacturer>Sega</manufacturer>
+    <dev>Sega AM3</dev>
+    <genre>Fighter</genre>
+    <score>3.4</score>
+    <player>1-2 Players</player>
+    <story>The leader of Soul Crew, the toughest gang in Tokyo, was viciously killed. Shortly after that an anonymous challenge appeared in graffiti scrawls all over the city inviting all of the city&apos;s gang leaders to a fighting tournament that will settle which group has the power to rule Tokyo. Everyone knew refusing to participate was not an option. Just like in Virtua Fighter 2, you fight in 3D stages and every character has its unique style and feel. But unlike the PC version of Virtua Fighter 2, where the background of every stage is a flat picture, in Last Bronx all the scenery is done in 3D. Plus, you can taunt your opponent during the fight!</story>
+    <enabled>Yes</enabled>
+    <crc></crc>
+    <cloneof></cloneof>
+  </game>
+  <game name="manxtt">
+    <description>ManxTT Superbike</description>
+    <year>1995</year>
+    <rating>ESRB - E (Everyone)</rating>
+    <manufacturer>Sega</manufacturer>
+    <dev>Sega AM3</dev>
+    <genre>Motorcycle</genre>
+    <score>3.5</score>
+    <player>1-2 Players</player>
+    <story>Race motorcycles in this arcade port based on the real-life Isle of Man Trophy Race. There are two courses to race with the usual reversed and mirrored variations on the tracks. Also provided is a short and long version of the main course. Play modes include arcade (standard tracks), PC mode (added variations), time trial, and network games with up to eight people.</story>
+    <enabled>Yes</enabled>
+    <crc></crc>
+    <cloneof></cloneof>
+  </game>
+  <game name="motoraid">
+    <description>Moto Raid</description>
+    <year>1997</year>
+    <rating>ESRB - T (Teen)</rating>
+    <manufacturer>Sega</manufacturer>
+    <dev>Sega AM1</dev>
+    <genre>Motorcycle</genre>
+    <score>3.8</score>
+    <player>1-2 Players</player>
+    <story>With its futuristic bikes and the rare ability to fight while racing the game bears obvious inspirations from both the Akira (1988) and Venus Wars (1989) manga and anime adaptation, Psygnosis&apos;s Wipeout (1995) for its futuristic planets, and from the Road Rash (1991) game series. The game is available as a single or two-player cabinet. Game modes include Championship and Practice and playable characters are named Geila, Gunz, I.O and Robin. Unlike other Model 2A racers like Manx TT Superbike or the original Sega Rally Championship, Motor Raid was not ported to the contemporary Sega Saturn or Windows 95. It was expected to emulate this game on Model-2-Emulator, by ELSemi or Nebula, starting in 2004. </story>
+    <enabled>Yes</enabled>
+    <crc></crc>
+    <cloneof></cloneof>
+  </game>
+  <game name="overrev">
+    <description>Over Rev</description>
+    <year>1997</year>
+    <rating>ESRB - E (Everyone)</rating>
+    <manufacturer>Jaleco Entertainment</manufacturer>
+    <dev>Jaleco Entertainment</dev>
+    <genre>Driving</genre>
+    <score>3.5</score>
+    <player>1 Player</player>
+    <story>Over Rev is a racing simulation game for 1 or 2 players with multiple views and courses.</story>
+    <enabled>Yes</enabled>
+    <crc></crc>
+    <cloneof></cloneof>
+  </game>
+  <game name="pltkids">
+    <description>Pilot Kids (Model 2B)</description>
+    <year>1999</year>
+    <rating>ESRB - E (Everyone)</rating>
+    <manufacturer>Psikyo</manufacturer>
+    <dev>Psikyo</dev>
+    <genre>Shoot-&apos;Em-Up</genre>
+    <score>2.1</score>
+    <player>1-2 Players</player>
+    <story>Pilot Kids is an horizontal shooter, about two kids who get shrunk down, and fly toy planes to fight off all the other toys, insects and other assorted household objects that have come to life in a hostile manner. The players have two weapons at their disposal- a normal machine gun and lock-on homing missiles. The machine gun is almost useless as an offensive weapon, though it does have the useful property of being able to destroy the orange bullets the enemies fire (which, for the first few stages, is all they fire.</story>
+    <enabled>Yes</enabled>
+    <crc></crc>
+    <cloneof></cloneof>
+  </game>
+  <game name="pltkidsa">
+    <description>Pilot Kids (Model 2A)</description>
+    <year>1999</year>
+    <rating>ESRB - E (Everyone)</rating>
+    <manufacturer>Psikyo</manufacturer>
+    <dev>Psikyo</dev>
+    <genre>Shoot-&apos;Em-Up</genre>
+    <score>2.1</score>
+    <player>1-2 Players</player>
+    <story>Pilot Kids is an horizontal shooter, about two kids who get shrunk down, and fly toy planes to fight off all the other toys, insects and other assorted household objects that have come to life in a hostile manner. The players have two weapons at their disposal- a normal machine gun and lock-on homing missiles. The machine gun is almost useless as an offensive weapon, though it does have the useful property of being able to destroy the orange bullets the enemies fire (which, for the first few stages, is all they fire.</story>
+    <enabled>Yes</enabled>
+    <crc></crc>
+    <cloneof></cloneof>
+  </game>
+  <game name="rchase2">
+    <description>Rail Chase 2</description>
+    <year>1996</year>
+    <rating>ESRB - T (Teen)</rating>
+    <manufacturer>Sega</manufacturer>
+    <dev>Sega AM3</dev>
+    <genre>Gun</genre>
+    <score>3.7</score>
+    <player>1-2 Players</player>
+    <story>Sequel to the original Rail Chase. This version maintains the chase perspective while broadening the scope of the game with more ways to go and other features. The game is a shooting game where you jump aboard a runaway mine cart and must shoot at any oncoming enemies. Players use a fixed joystick with a trigger to control the action. The cabinet has a three axis motion base which allows for upward inclination, downward inclination, left/right and up/down movements. </story>
+    <enabled>Yes</enabled>
+    <crc></crc>
+    <cloneof></cloneof>
+  </game>
+  <game name="schamp">
+    <description>Sonic Championship</description>
+    <year>1996</year>
+    <rating>ESRB - K-A (Kids to Adults)</rating>
+    <manufacturer>Sega</manufacturer>
+    <dev>Sega AM2</dev>
+    <genre>Fighter</genre>
+    <score>3.4</score>
+    <player>1-2 Players</player>
+    <story>Sonic Championship is a 3D fighting game, featuring characters from the Sonic the Hedgehog franchise. The background story is that Doctor Eggman built the Death Egg II, a new version of his facility that appeared in previous games. Stopping him requires Chaos Emeralds, and various individuals including heroes like Sonic the Hedgehog and Miles Tails Prower participate in a fighting tournament to gather them. In total there are eight playable characters (nine in later console releases) and two bosses (Metal Sonic and Doctor Eggman). Gameplay is mostly typical for a versus fighter, it is a one-on-one fight on a best two out of three basis. Players use jumps, punches, kicks and special weapons. Bean the Dynamite for example, a duck-like character who makes his debut in the Sonic universe, uses bombs. Blocking is done by making use of a limited supply of barriers. The whole action is illustrated in a comical fashion though, like one would expect from a Sonic game. A round is won when a player managed to deplete an opponent&apos;s health, unless the timer runs out, in which case the character with the most energy left is the winner. Environments are 3D closed arenas, but the gameplay is mostly 2D, allowing limited sidestep maneuvers.</story>
+    <enabled>Yes</enabled>
+    <crc></crc>
+    <cloneof></cloneof>
+  </game>
+  <game name="segawski">
+    <description>Sega Water Ski</description>
+    <year>1997</year>
+    <rating>ESRB - E (Everyone)</rating>
+    <manufacturer>Sega</manufacturer>
+    <dev>Sega AM1</dev>
+    <genre>Water</genre>
+    <score>3.6</score>
+    <player>1 Player</player>
+    <story>Sega Water Ski is a Sega Model 2 arcade game which simulates water skiing. As a result, the player controls the game with their feet. It should not be confused with Water Ski, a much earlier arcade game by Taito. Sega Water Ski has never seen a home release, though its soundtrack was released along with Motor Raid&apos;s in Motor Raid/Water Ski. </story>
+    <enabled>Yes</enabled>
+    <crc></crc>
+    <cloneof></cloneof>
+  </game>
+  <game name="sfight">
+    <description>Sonic The Fighters</description>
+    <year>1996</year>
+    <rating>ESRB - K-A (Kids to Adults)</rating>
+    <manufacturer>Sega</manufacturer>
+    <dev>Sega AM2</dev>
+    <genre>Fighter</genre>
+    <score>3.4</score>
+    <player>1-2 Players</player>
+    <story>Sonic The Fighters aka- Sonic Championship is a 3D fighting game, featuring characters from the Sonic the Hedgehog franchise. The background story is that Doctor Eggman built the Death Egg II, a new version of his facility that appeared in previous games. Stopping him requires Chaos Emeralds, and various individuals including heroes like Sonic the Hedgehog and Miles Tails Prower participate in a fighting tournament to gather them. In total there are eight playable characters (nine in later console releases) and two bosses (Metal Sonic and Doctor Eggman). Gameplay is mostly typical for a versus fighter, it is a one-on-one fight on a best two out of three basis. Players use jumps, punches, kicks and special weapons. Bean the Dynamite for example, a duck-like character who makes his debut in the Sonic universe, uses bombs. Blocking is done by making use of a limited supply of barriers. The whole action is illustrated in a comical fashion though, like one would expect from a Sonic game. A round is won when a player managed to deplete an opponent&apos;s health, unless the timer runs out, in which case the character with the most energy left is the winner. Environments are 3D closed arenas, but the gameplay is mostly 2D, allowing limited sidestep maneuvers.</story>
+    <enabled>Yes</enabled>
+    <crc></crc>
+    <cloneof></cloneof>
+  </game>
+  <game name="sgt24h">
+    <description>Super GT 24h</description>
+    <year>1996</year>
+    <rating>ESRB - E (Everyone)</rating>
+    <manufacturer>Jaleco Entertainment</manufacturer>
+    <dev>Jaleco Entertainment</dev>
+    <genre>Driving</genre>
+    <score>3.7</score>
+    <player>1 Player</player>
+    <story>Super GT 24h is a 3D arcade racing game developed and published by Jaleco for Sega Model 2B CRX hardware. It was originally released in 1996, with a watered down Sega Saturn port appearing in Japan in 1998. The Saturn version of the game is known as GT24. </story>
+    <enabled>Yes</enabled>
+    <crc></crc>
+    <cloneof></cloneof>
+  </game>
+  <game name="skisuprg">
+    <description>Sega Ski Super G</description>
+    <year>1996</year>
+    <rating>ESRB - E (Everyone)</rating>
+    <manufacturer>Sega</manufacturer>
+    <dev>Sega AM1</dev>
+    <genre>Skiing/Sports</genre>
+    <score>3.3</score>
+    <player>1-2 Players</player>
+    <story>Sega Ski Super G is an arcade ski racing game released for Sega Model 2 hardware. It was followed by the similar Ski Champ in 1998. Players steer their racer by standing on skis which can both pivot left/right in a horizontal plane, as well as tilt to simulate edging. Metal ski poles are held on to for balance. During development, and at the Amusement Machine Show 1996 the game was known as Sega CG Ski. </story>
+    <enabled>Yes</enabled>
+    <crc></crc>
+    <cloneof></cloneof>
+  </game>
+  <game name="skytargt">
+    <description>Sky Target</description>
+    <year>1995</year>
+    <rating>ESRB - K-A (Kids to Adults)</rating>
+    <manufacturer>Sega</manufacturer>
+    <dev>Sega AM1</dev>
+    <genre>Flying</genre>
+    <score>1.8</score>
+    <player>1-2 Players</player>
+    <story>Another 3rd person perspective arcade flight sim by Sega, similar to their classic After Burner in gameplay but featuring new gameplay mechanics and an entirely polygonal engine. As in most games of it&apos;s type your objective is to clear a number of stages by shooting anything that moves, but at the end of each stage you can select where to go next thanks to branching paths a-la Darius, which coupled with 4 different planes to select give the game an increased gameplay value. No multiple lives are given, but you get a life bar (which can be replenished in-flight) to help you outlast your enemies.</story>
+    <enabled>Yes</enabled>
+    <crc></crc>
+    <cloneof></cloneof>
+  </game>
+  <game name="srallyc">
+    <description>Sega Rally Championship</description>
+    <year>1995</year>
+    <rating>ESRB - E (Everyone)</rating>
+    <manufacturer>Sega</manufacturer>
+    <dev>Sega AM4</dev>
+    <genre>Driving</genre>
+    <score>4.5</score>
+    <player>1-2 Players</player>
+    <story>Sega Rally was a major success in the arcades, bringing rally-style racing to the masses before the Colin McRae games. Four detailed tracks have been created, with a succession of stomach-churning bends and jumps, and you can choose from 3 different cars. As well as the main championship, there is a time-trial mode featuring a ghost car to beat, so you always know how your run compares with your best-ever. Two machines can be linked for multi-player action. The handling of the cars is unrealistic, to put the focus on action and instant playability.</story>
+    <enabled>Yes</enabled>
+    <crc></crc>
+    <cloneof></cloneof>
+  </game>
+  <game name="srallycb">
+    <description>Sega Rally Championship (Rev B)</description>
+    <year>1995</year>
+    <rating>ESRB - E (Everyone)</rating>
+    <manufacturer>Sega</manufacturer>
+    <dev>Sega AM4</dev>
+    <genre>Driving</genre>
+    <score>4.5</score>
+    <player>1-2 Players</player>
+    <story>Sega Rally was a major success in the arcades, bringing rally-style racing to the masses before the Colin McRae games. Four detailed tracks have been created, with a succession of stomach-churning bends and jumps, and you can choose from 3 different cars. As well as the main championship, there is a time-trial mode featuring a ghost car to beat, so you always know how your run compares with your best-ever. Two machines can be linked for multi-player action. The handling of the cars is unrealistic, to put the focus on action and instant playability.</story>
+    <enabled>Yes</enabled>
+    <crc></crc>
+    <cloneof></cloneof>
+  </game>
+  <game name="srallyp">
+    <description>Sega Rally Pro Drivin&apos;</description>
+    <year>1995</year>
+    <rating>ESRB - E (Everyone)</rating>
+    <manufacturer>Sega</manufacturer>
+    <dev>Sega AM4</dev>
+    <genre>Driving</genre>
+    <score>4.5</score>
+    <player>1-2 Players</player>
+    <story>A Kyle Hodgetts game, Sega Rally Pro Drivin was an unofficial hack where the celica is now red, all three tracks are reversed and a turbo button has been added. It also suffers from issues such as in practice mode the cpu car still goes the original route forward causing a head on collision if you don&apos;t avoid it.</story>
+    <enabled>Yes</enabled>
+    <crc></crc>
+    <cloneof></cloneof>
+  </game>
+  <game name="stcc">
+    <description>Sega Touring Car Championship</description>
+    <year>1996</year>
+    <rating>ESRB - E (Everyone)</rating>
+    <manufacturer>Sega</manufacturer>
+    <dev>AM Annex</dev>
+    <genre>Driving</genre>
+    <score>3.8</score>
+    <player>1-2 Players</player>
+    <story>After Virtua Racing, Daytona USA and Sega Rally, yet another classic SEGA arcade racer (this time, from the Model 2C CRX architecture) is converted for home users. After open-wheel, stock and rally cars, Sega took on the popular European Touring Car races (factory models modified for racing), featuring four real models (Alfa Romeo 155V6TI, Toyota Supra GT, AMG Mercedes C-Class and Opel Calibra V6) as well as some hidden cars. Some models feature four-wheel drive (easier to control on sharper turns) while other only have rear-wheel drive (forcing the player to calculate turns properly so the car doesn&apos;t skid). Because of this, gameplay is notoriously tighter and less forgiving than in any of the previous titles by Sega. Like with other Sega arcade ports, this home versions features both an Arcade and a PC/Saturn mode (the biggest difference being the time constraints and inability to use tweaked cars in arcade) with the usual Championship (three races in a row) and Time Attack modes, and a 2P split-screen race is also available. There are three tracks, plus one more as the final race (as usual with contemporary Sega arcade racers), and two viewpoints (behind and front bumper) are at the disposal of the player. As usual, there are additional modes, tracks and cars to be unlocked for those proficient in the game. Another feature was the Global Ranking mode, where players of either version could e-mail Sega of Japan a password containing his times, and compare them to the World&apos;s finest players, as well as in special one-day only Global Net Events.</story>
+    <enabled>Yes</enabled>
+    <crc></crc>
+    <cloneof></cloneof>
+  </game>
+  <game name="stcce">
+    <description>Sega Touring Car Championship (Euro)</description>
+    <year>1996</year>
+    <rating>ESRB - E (Everyone)</rating>
+    <manufacturer>Sega</manufacturer>
+    <dev>AM Annex</dev>
+    <genre>Driving</genre>
+    <score>3.8</score>
+    <player>1-2 Players</player>
+    <story>After Virtua Racing, Daytona USA and Sega Rally, yet another classic SEGA arcade racer (this time, from the Model 2C CRX architecture) is converted for home users. After open-wheel, stock and rally cars, Sega took on the popular European Touring Car races (factory models modified for racing), featuring four real models (Alfa Romeo 155V6TI, Toyota Supra GT, AMG Mercedes C-Class and Opel Calibra V6) as well as some hidden cars. Some models feature four-wheel drive (easier to control on sharper turns) while other only have rear-wheel drive (forcing the player to calculate turns properly so the car doesn&apos;t skid). Because of this, gameplay is notoriously tighter and less forgiving than in any of the previous titles by Sega. Like with other Sega arcade ports, this home versions features both an Arcade and a PC/Saturn mode (the biggest difference being the time constraints and inability to use tweaked cars in arcade) with the usual Championship (three races in a row) and Time Attack modes, and a 2P split-screen race is also available. There are three tracks, plus one more as the final race (as usual with contemporary Sega arcade racers), and two viewpoints (behind and front bumper) are at the disposal of the player. As usual, there are additional modes, tracks and cars to be unlocked for those proficient in the game. Another feature was the Global Ranking mode, where players of either version could e-mail Sega of Japan a password containing his times, and compare them to the World&apos;s finest players, as well as in special one-day only Global Net Events.</story>
+    <enabled>Yes</enabled>
+    <crc></crc>
+    <cloneof></cloneof>
+  </game>
+  <game name="topskatr">
+    <description>Top Skater</description>
+    <year>1997</year>
+    <rating>ESRB - E (Everyone)</rating>
+    <manufacturer>Sega</manufacturer>
+    <dev>Sega AM3</dev>
+    <genre>Skateboarding/Sports</genre>
+    <score>3.3</score>
+    <player>1-2 Players</player>
+    <story>Top Skater is an arcade skateboarding game developed by Sega AM3 for Sega Model 2 hardware. Its spiritual successor, art-wise and music-wise, was Crazy Taxi, which was also directed by Kenji Kanno; other spiritual successors of the game include Air Trix and Ollie King. Alan J., the DJ of Top Skater, would later provide his voice again for another Sega arcade game, F355 Challenge. </story>
+    <enabled>Yes</enabled>
+    <crc></crc>
+    <cloneof></cloneof>
+  </game>
+  <game name="topskatu">
+    <description>Top Skater (USA)</description>
+    <year>1997</year>
+    <rating>ESRB - E (Everyone)</rating>
+    <manufacturer>Sega</manufacturer>
+    <dev>Sega AM3</dev>
+    <genre>Skateboarding/Sports</genre>
+    <score>3.3</score>
+    <player>1-2 Players</player>
+    <story>Top Skater is an arcade skateboarding game developed by Sega AM3 for Sega Model 2 hardware. Its spiritual successor, art-wise and music-wise, was Crazy Taxi, which was also directed by Kenji Kanno; other spiritual successors of the game include Air Trix and Ollie King. Alan J., the DJ of Top Skater, would later provide his voice again for another Sega arcade game, F355 Challenge. </story>
+    <enabled>Yes</enabled>
+    <crc></crc>
+    <cloneof></cloneof>
+  </game>
+  <game name="vcop">
+    <description>Virtua Cop</description>
+    <year>1994</year>
+    <rating>ESRB - T (Teen)</rating>
+    <manufacturer>Sega</manufacturer>
+    <dev>Sega AM2</dev>
+    <genre>Gun</genre>
+    <score>3.7</score>
+    <player>1-2 Players</player>
+    <story>Cast as one of two brave cops, players of Virtua Cop are charged with bringing down an evil crime syndicate that is running riot in some unspecified town. Dropped into a series of locations, one or two players must arm up and shoot their way through three death filled levels, in an attempt to restore peace and order. Played from a first person perspective view, players can use keys or joypad, to aim and fire at the multitude of sharp shooters who come gunning for them. Starting the game armed with just a trusty old six-shooter, players can pick up more powerful, state-of-the-art weapons -- such as machine guns and shotguns -- as they progress. As these are hidden away in crates and the like, finding these weapons is an important part of the game and they can give players extra firepower when they most need it. In particular, such weapons can be extremely useful when trying to take on the customary end-of-level bosses. Made of stern stuff, you&apos;ll need all the help you can get in dispatching them off to hell. </story>
+    <enabled>Yes</enabled>
+    <crc></crc>
+    <cloneof></cloneof>
+  </game>
+  <game name="vcop2">
+    <description>Virtua Cop 2</description>
+    <year>1995</year>
+    <rating>ESRB - T (Teen)</rating>
+    <manufacturer>Sega</manufacturer>
+    <dev>Sega AM2</dev>
+    <genre>Gun</genre>
+    <score>4.3</score>
+    <player>1-2 Players</player>
+    <story>Virtua Cop 2 follows the same gameplay pattern of its predecessor. You are a police officer sent after criminals, from subways and a bank to aboard helicopters. The game moves you automatically, although you can find hiding places to shoot from a safe angle. Your main task is to aim and fire your weapon so as to take out the bad guys for points. Avoid the innocents, as shooting them costs you points. The enemies have tougher firepower than in the original.</story>
+    <enabled>Yes</enabled>
+    <crc></crc>
+    <cloneof></cloneof>
+  </game>
+  <game name="vf2">
+    <description>Virtua Fighter 2.1</description>
+    <year>1995</year>
+    <rating>ESRB - T (Teen)</rating>
+    <manufacturer>Sega</manufacturer>
+    <dev>Sega AM2</dev>
+    <genre>Fighter</genre>
+    <score>4.1</score>
+    <player>1-2 Players</player>
+    <story>Virtua Fighter 2.1 is a revised version featuring re-tweaked gameplay, slightly enhanced graphics and the ability to play as Dural- One year after after the first tournament Akira, Wolf, Pai, Jeffry, Kage, Jacky, Sarah and defending champion Lau are invited to the World Fighting Tournament, and are joined by the master of drunken Kung-Fu Shun-di, who wants to prove he&apos;s more than an old geezer and Lion Rafale, who&apos;s fighting for his freedom. Each fighter has his own style, from the lightning fast attacks of Pai to the powerful slams of Jeffry. Home port of Sega&apos;s popular Model 2A arcade vs. fighter released in 1995. Game modes include classic arcade mode, 2P vs mode, Expert mode (where the computer character progressively learns and counters players&apos; technique), Ranking Mode (similar to Arcade, but at the end, a fighting style analysis is shown based on number of specials and time to knock down an opponent), Team Battle Mode (two teams composed of five fighters go against each other, the first to beat five characters being the winner) and Watch mode (allows choosing two fighters and then see them fighting). Both VF2 and VF2.1 (a tweaked version available only in Japan) modes are included. Gameplay keeps the same style from the first game, adding more moves to each fighters&apos; roll. Using a three-key layout (block, kick and punch, being possible to assign button combinations to the extra keys) the player is able to control their fighter, aiming to knock or push the opponent outside the rink inside the time limit. Combo moves range from the quickest, which require the player to push up to five buttons quickly, to strong moves that require more button presses along d-pad nudges to be successful. As with the previous game, fighting is realistic (except the physics-defying leaps), and each fighter has nothing but their body to harm the opponent. While in comparison with the arcade version some parts took a hit on graphical quality (such as the texture details and backgrounds), the game uses the Saturn High-Resolution mode and flowing 60-fps to bring the arcade experience home.</story>
+    <enabled>Yes</enabled>
+    <crc></crc>
+    <cloneof></cloneof>
+  </game>
+  <game name="vf2a">
+    <description>Virtua Fighter 2 (Rev A)</description>
+    <year>1995</year>
+    <rating>ESRB - T (Teen)</rating>
+    <manufacturer>Sega</manufacturer>
+    <dev>Sega AM2</dev>
+    <genre>Fighter</genre>
+    <score>4.2</score>
+    <player>1-2 Players</player>
+    <story>One year after after the first tournament Akira, Wolf, Pai, Jeffry, Kage, Jacky, Sarah and defending champion Lau are invited to the World Fighting Tournament, and are joined by the master of drunken Kung-Fu Shun-di, who wants to prove he&apos;s more than an old geezer and Lion Rafale, who&apos;s fighting for his freedom. Each fighter has his own style, from the lightning fast attacks of Pai to the powerful slams of Jeffry. Home port of Sega&apos;s popular Model 2A arcade vs. fighter released in 1995. Game modes include classic arcade mode, 2P vs mode, Expert mode (where the computer character progressively learns and counters players&apos; technique), Ranking Mode (similar to Arcade, but at the end, a fighting style analysis is shown based on number of specials and time to knock down an opponent), Team Battle Mode (two teams composed of five fighters go against each other, the first to beat five characters being the winner) and Watch mode (allows choosing two fighters and then see them fighting). Both VF2 and VF2.1 (a tweaked version available only in Japan) modes are included. Gameplay keeps the same style from the first game, adding more moves to each fighters&apos; roll. Using a three-key layout (block, kick and punch, being possible to assign button combinations to the extra keys) the player is able to control their fighter, aiming to knock or push the opponent outside the rink inside the time limit. Combo moves range from the quickest, which require the player to push up to five buttons quickly, to strong moves that require more button presses along d-pad nudges to be successful. As with the previous game, fighting is realistic (except the physics-defying leaps), and each fighter has nothing but their body to harm the opponent. While in comparison with the arcade version some parts took a hit on graphical quality (such as the texture details and backgrounds), the game uses the Saturn High-Resolution mode and flowing 60-fps to bring the arcade experience home.</story>
+    <enabled>Yes</enabled>
+    <crc></crc>
+    <cloneof></cloneof>
+  </game>
+  <game name="vf2b">
+    <description>Virtua Fighter 2 (Rev B)</description>
+    <year>1995</year>
+    <rating>ESRB - T (Teen)</rating>
+    <manufacturer>Sega</manufacturer>
+    <dev>Sega AM2</dev>
+    <genre>Fighter</genre>
+    <score>4.2</score>
+    <player>1-2 Players</player>
+    <story>One year after after the first tournament Akira, Wolf, Pai, Jeffry, Kage, Jacky, Sarah and defending champion Lau are invited to the World Fighting Tournament, and are joined by the master of drunken Kung-Fu Shun-di, who wants to prove he&apos;s more than an old geezer and Lion Rafale, who&apos;s fighting for his freedom. Each fighter has his own style, from the lightning fast attacks of Pai to the powerful slams of Jeffry. Home port of Sega&apos;s popular Model 2A arcade vs. fighter released in 1995. Game modes include classic arcade mode, 2P vs mode, Expert mode (where the computer character progressively learns and counters players&apos; technique), Ranking Mode (similar to Arcade, but at the end, a fighting style analysis is shown based on number of specials and time to knock down an opponent), Team Battle Mode (two teams composed of five fighters go against each other, the first to beat five characters being the winner) and Watch mode (allows choosing two fighters and then see them fighting). Both VF2 and VF2.1 (a tweaked version available only in Japan) modes are included. Gameplay keeps the same style from the first game, adding more moves to each fighters&apos; roll. Using a three-key layout (block, kick and punch, being possible to assign button combinations to the extra keys) the player is able to control their fighter, aiming to knock or push the opponent outside the rink inside the time limit. Combo moves range from the quickest, which require the player to push up to five buttons quickly, to strong moves that require more button presses along d-pad nudges to be successful. As with the previous game, fighting is realistic (except the physics-defying leaps), and each fighter has nothing but their body to harm the opponent. While in comparison with the arcade version some parts took a hit on graphical quality (such as the texture details and backgrounds), the game uses the Saturn High-Resolution mode and flowing 60-fps to bring the arcade experience home.</story>
+    <enabled>Yes</enabled>
+    <crc></crc>
+    <cloneof></cloneof>
+  </game>
+  <game name="vf2o">
+    <description>Virtua Fighter 2</description>
+    <year>1995</year>
+    <rating>ESRB - T (Teen)</rating>
+    <manufacturer>Sega</manufacturer>
+    <dev>Sega AM2</dev>
+    <genre>Fighter</genre>
+    <score>4.2</score>
+    <player>1-2 Players</player>
+    <story>One year after after the first tournament Akira, Wolf, Pai, Jeffry, Kage, Jacky, Sarah and defending champion Lau are invited to the World Fighting Tournament, and are joined by the master of drunken Kung-Fu Shun-di, who wants to prove he&apos;s more than an old geezer and Lion Rafale, who&apos;s fighting for his freedom. Each fighter has his own style, from the lightning fast attacks of Pai to the powerful slams of Jeffry. Home port of Sega&apos;s popular Model 2A arcade vs. fighter released in 1995. Game modes include classic arcade mode, 2P vs mode, Expert mode (where the computer character progressively learns and counters players&apos; technique), Ranking Mode (similar to Arcade, but at the end, a fighting style analysis is shown based on number of specials and time to knock down an opponent), Team Battle Mode (two teams composed of five fighters go against each other, the first to beat five characters being the winner) and Watch mode (allows choosing two fighters and then see them fighting). Both VF2 and VF2.1 (a tweaked version available only in Japan) modes are included. Gameplay keeps the same style from the first game, adding more moves to each fighters&apos; roll. Using a three-key layout (block, kick and punch, being possible to assign button combinations to the extra keys) the player is able to control their fighter, aiming to knock or push the opponent outside the rink inside the time limit. Combo moves range from the quickest, which require the player to push up to five buttons quickly, to strong moves that require more button presses along d-pad nudges to be successful. As with the previous game, fighting is realistic (except the physics-defying leaps), and each fighter has nothing but their body to harm the opponent. While in comparison with the arcade version some parts took a hit on graphical quality (such as the texture details and backgrounds), the game uses the Saturn High-Resolution mode and flowing 60-fps to bring the arcade experience home.</story>
+    <enabled>Yes</enabled>
+    <crc></crc>
+    <cloneof></cloneof>
+  </game>
+  <game name="von">
+    <description>Virtua On Cybertroopers (US)</description>
+    <year>1995</year>
+    <rating>ESRB - K-A (Kids to Adults)</rating>
+    <manufacturer>Sega</manufacturer>
+    <dev>Sega AM3</dev>
+    <genre>Fighter</genre>
+    <score>3.5</score>
+    <player>1-2 Players</player>
+    <story>Get it on with Virtual On! The home port of Sega&apos;s arcade hit where you take control of gigantic, fully armored battle droids and duke it out against other droids in duel-like battles over a set of different arenas. The game boasts 8 fully polygonal droids, each with his own strengths and weaponry and 10 different arenas with their own layout and traps. Proceed through the entire campaign via subjecting yourself to virtual training and then facing off for the real thing against the other computer controlled droids, or go against a human opponent in multiplayer combat over Lan, modem, serial link or the same computer with split screen display.</story>
+    <enabled>Yes</enabled>
+    <crc></crc>
+    <cloneof></cloneof>
+  </game>
+  <game name="vonj">
+    <description>Virtua On Cybertroopers (Japan)</description>
+    <year>1995</year>
+    <rating>ESRB - K-A (Kids to Adults)</rating>
+    <manufacturer>Sega</manufacturer>
+    <dev>Sega AM3</dev>
+    <genre>Fighter</genre>
+    <score>3.5</score>
+    <player>1-2 Players</player>
+    <story>Get it on with Virtual On! The home port of Sega&apos;s arcade hit where you take control of gigantic, fully armored battle droids and duke it out against other droids in duel-like battles over a set of different arenas. The game boasts 8 fully polygonal droids, each with his own strengths and weaponry and 10 different arenas with their own layout and traps. Proceed through the entire campaign via subjecting yourself to virtual training and then facing off for the real thing against the other computer controlled droids, or go against a human opponent in multiplayer combat over Lan, modem, serial link or the same computer with split screen display.</story>
+    <enabled>Yes</enabled>
+    <crc></crc>
+    <cloneof></cloneof>
+  </game>
+  <game name="vstriker">
+    <description>Virtua Striker (Rev A)</description>
+    <year>1994</year>
+    <rating>ESRB - E (Everyone)</rating>
+    <manufacturer>Sega</manufacturer>
+    <dev>Sega AM2</dev>
+    <genre>Soccer/Sports</genre>
+    <score>2.9</score>
+    <player>1-2 Players</player>
+    <story>Virtua Striker is an arcade football game developed by Sega AM2. Like Virtua Racing, Virtua Fighter, Virtua Cop and later Virtua Tennis, it is part of the Virtua series, and the first in the set of Virtua Striker games. Virtua Striker was released in 1994 for Sega Model 2B CRX hardware and is widely considered to be the first 3D football game ever to be released. Unlike other games which contain the Virtua name, Virtua Striker was not ported to home consoles when it was new. It would not be made officially available to home users until nearly twenty years later, when an enhanced version was released for the Japanese PlayStation Network and Xbox Live Arcade in early 2013. </story>
+    <enabled>Yes</enabled>
+    <crc></crc>
+    <cloneof></cloneof>
+  </game>
+  <game name="vstrikro">
+    <description>Virtua Striker</description>
+    <year>1994</year>
+    <rating>ESRB - E (Everyone)</rating>
+    <manufacturer>Sega</manufacturer>
+    <dev>Sega AM2</dev>
+    <genre>Soccer/Sports</genre>
+    <score>2.9</score>
+    <player>1-2 Players</player>
+    <story>Virtua Striker is an arcade football game developed by Sega AM2. Like Virtua Racing, Virtua Fighter, Virtua Cop and later Virtua Tennis, it is part of the Virtua series, and the first in the set of Virtua Striker games. Virtua Striker was released in 1994 for Sega Model 2B CRX hardware and is widely considered to be the first 3D football game ever to be released. Unlike other games which contain the Virtua name, Virtua Striker was not ported to home consoles when it was new. It would not be made officially available to home users until nearly twenty years later, when an enhanced version was released for the Japanese PlayStation Network and Xbox Live Arcade in early 2013. </story>
+    <enabled>Yes</enabled>
+    <crc></crc>
+    <cloneof></cloneof>
+  </game>
+  <game name="waverunr">
+    <description>Wave Runner</description>
+    <year>1996</year>
+    <rating>ESRB - E (Everyone)</rating>
+    <manufacturer>Sega</manufacturer>
+    <dev>Sega AM1</dev>
+    <genre>Water</genre>
+    <score>3.7</score>
+    <player>1 Player</player>
+    <story>WaveRunner is a Sega racing arcade game developed and released in 1996. The game was built on the Sega Model 2 arcade hardware. The game is based on the water craft of the same name by Yamaha. WaveRunner was designed in a cabinet that resembled an actual WaveRunner model. The game features three courses- Novice, Intermediate, and Expert. The gameplay focuses on being more of straight racing game, like most Model 2 racing games, but you do tricks on ramps. WaveRunner wasn&apos;t ported to any home systems. This game is emulated on the Model 2 Emulator by ELSemi. </story>
+    <enabled>Yes</enabled>
+    <crc></crc>
+    <cloneof></cloneof>
+  </game>
+  <game name="zerogun">
+    <description>Zero Gunner (Model 2B)</description>
+    <year>1997</year>
+    <rating>ESRB - E (Everyone)</rating>
+    <manufacturer>Psikyo</manufacturer>
+    <dev>Psikyo</dev>
+    <genre>Shooter</genre>
+    <score>2.9</score>
+    <player>1-2 Players</player>
+    <story>Zero Gunner is a shoot &apos;em up developed by Psikyo and released in 1997. The arcade game allows for eight-way movement using a joystick and supports up to two players at a time. It was notable for its lock on targeting mechanic that allowed players to rotate around targets. The game was succeeded by a sequel, Zero Gunner 2 for the Sega NAOMI/Dreamcast. Story In the future date of 2016, worldwide martial law is initiated when a widespread terrorist organization overthrew and took control of the world&apos;s military authorities. A group of ace helicopter pilots are secretly amassed in a special forces squadron called ZERO to travel around the world and destroy the occupied terrorist forces. </story>
+    <enabled>Yes</enabled>
+    <crc></crc>
+    <cloneof></cloneof>
+  </game>
+  <game name="zeroguna">
+    <description>Zero Gunner (Model 2A)</description>
+    <year>1997</year>
+    <rating>ESRB - E (Everyone)</rating>
+    <manufacturer>Psikyo</manufacturer>
+    <dev>Psikyo</dev>
+    <genre>Shooter</genre>
+    <score>2.9</score>
+    <player>1-2 Players</player>
+    <story>Zero Gunner is a shoot &apos;em up developed by Psikyo and released in 1997. The arcade game allows for eight-way movement using a joystick and supports up to two players at a time. It was notable for its lock on targeting mechanic that allowed players to rotate around targets. The game was succeeded by a sequel, Zero Gunner 2 for the Sega NAOMI/Dreamcast. Story In the future date of 2016, worldwide martial law is initiated when a widespread terrorist organization overthrew and took control of the world&apos;s military authorities. A group of ace helicopter pilots are secretly amassed in a special forces squadron called ZERO to travel around the world and destroy the occupied terrorist forces. </story>
+    <enabled>Yes</enabled>
+    <crc></crc>
+    <cloneof></cloneof>
+  </game>
+  <game name="zerogunj">
+    <description>Zero Gunner (Jap, Model 2B)</description>
+    <year>1997</year>
+    <rating>ESRB - E (Everyone)</rating>
+    <manufacturer>Psikyo</manufacturer>
+    <dev>Psikyo</dev>
+    <genre>Shooter</genre>
+    <score>2.9</score>
+    <player>1-2 Players</player>
+    <story>Zero Gunner is a shoot &apos;em up developed by Psikyo and released in 1997. The arcade game allows for eight-way movement using a joystick and supports up to two players at a time. It was notable for its lock on targeting mechanic that allowed players to rotate around targets. The game was succeeded by a sequel, Zero Gunner 2 for the Sega NAOMI/Dreamcast. Story In the future date of 2016, worldwide martial law is initiated when a widespread terrorist organization overthrew and took control of the world&apos;s military authorities. A group of ace helicopter pilots are secretly amassed in a special forces squadron called ZERO to travel around the world and destroy the occupied terrorist forces. </story>
+    <enabled>Yes</enabled>
+    <crc></crc>
+    <cloneof></cloneof>
+  </game>
+</menu>

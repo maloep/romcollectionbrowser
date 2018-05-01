@@ -54,15 +54,22 @@ class Offline_GDBI_Scraper(FileScraper):
         'Votes': 'votes'
     }
 
+    # list of platforms that use MAME style naming scheme (these platforms need a different search pattern)
+    _MAME_style_platforms = [
+        'MAME',
+        'Sega Model 2',
+        'Sega Model 3'
+    ]
+
     def _get_xml_path(self):
         return self.path
 
     def search(self, gamename, platform=None):
-
         #use description to search for the game name as the name attribute also contains the region
-        #FIXME TODO
-        #currently not working with MAME xml files as the rom files don't use the friendly game name
         pattern = "\<description\>(.*%s.*)\</description\>" % GameNameUtil().prepare_gamename_for_searchrequest(gamename)
+        if platform in self._MAME_style_platforms:
+            pattern = 'name="(.*%s.*)"' % GameNameUtil().prepare_gamename_for_searchrequest(gamename)
+
         results = []
 
         try:
@@ -90,8 +97,12 @@ class Offline_GDBI_Scraper(FileScraper):
         tree = ET.fromstring(fh.read())
         fh.close()
 
-        #gameid is the exact name of the game used in element <description>
-        game = tree.find('.//game[description="%s"]'%gameid)
+        #gameid is the exact name of the game used in <description> or @name (for platforms with MAME style names)
+        searchpattern = './/game[description="%s"]'%gameid
+        if platform in self._MAME_style_platforms:
+            searchpattern = './/game[@name="%s"]' % gameid
+
+        game = tree.find(searchpattern)
 
         # Standard fields
         for k, v in self._game_mapping.items():

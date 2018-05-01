@@ -36,6 +36,36 @@ class Test_Offline_GDBI_Scraper(unittest.TestCase):
         self.assertEqual(["Air Raiders"], results[1]['SearchKey'])
 
 
+    def test_search_MAME(self):
+        f = os.path.join(os.path.dirname(__file__), '..', '..', 'resources', 'tests', 'testdata',
+                         'scraper_offline', 'gdbi', 'MAME.xml')
+
+        gdbi = Offline_GDBI_Scraper_Mock()
+        gdbi.xmlpath = f
+
+        results = gdbi.search("rbff2", "MAME")
+        print results
+
+        self.assertEqual(3, len(results))
+        self.assertEqual("rbff1", results[0]['id'])
+        self.assertEqual("rbff2", results[1]['id'])
+        self.assertEqual("rbffspec", results[2]['id'])
+
+
+    def test_search_Model2(self):
+        f = os.path.join(os.path.dirname(__file__), '..', '..', 'resources', 'tests', 'testdata',
+                         'scraper_offline', 'gdbi', 'Sega Model 2.xml')
+
+        gdbi = Offline_GDBI_Scraper_Mock()
+        gdbi.xmlpath = f
+
+        results = gdbi.search("fvipers", "Sega Model 2")
+        print results
+
+        self.assertEqual(1, len(results))
+        self.assertEqual("fvipers", results[0]['id'])
+
+
     def test_retrieve(self):
         f = os.path.join(os.path.dirname(__file__), '..', '..', 'resources', 'tests', 'testdata',
                          'scraper_offline', 'gdbi', 'Atari 2600.xml')
@@ -56,3 +86,44 @@ class Test_Offline_GDBI_Scraper(unittest.TestCase):
         self.assertEqual(len(result['Genre']), 2)
         self.assertIn("Action", result['Genre'])
         self.assertIn("Shoot-'Em-Up", result['Genre'])
+
+
+    def test_retrieve_MAME(self):
+        f = os.path.join(os.path.dirname(__file__), '..', '..', 'resources', 'tests', 'testdata',
+                         'scraper_offline', 'gdbi', 'MAME.xml')
+
+        gdbi = Offline_GDBI_Scraper_Mock()
+        gdbi.xmlpath = f
+
+        result = gdbi.retrieve("rbff2", "MAME")
+
+        self.assertEqual(["Real Bout Fatal Fury 2 - The Newcomers"], result['Game'])
+        self.assertEqual(["1998"], result['ReleaseYear'])
+        self.assertEqual(["SNK"], result['Publisher'])
+        self.assertEqual(["SNK"], result['Developer'])
+        self.assertEqual(["1-2 Players"], result['Players'])
+        self.assertEqual(["4.5"], result['Rating'])
+        self.assertTrue(result['Description'][0].startswith(
+            "32 of the finest South Town fighters in the 7th installment of this SNK gem."))
+        self.assertEqual(len(result['Genre']), 1)
+        self.assertIn("Fighter", result['Genre'])
+
+    def test_retrieve_Model2(self):
+        f = os.path.join(os.path.dirname(__file__), '..', '..', 'resources', 'tests', 'testdata',
+                         'scraper_offline', 'gdbi', 'Sega Model 2.xml')
+
+        gdbi = Offline_GDBI_Scraper_Mock()
+        gdbi.xmlpath = f
+
+        result = gdbi.retrieve("fvipers", "Sega Model 2")
+
+        self.assertEqual(["Fighting Vipers"], result['Game'])
+        self.assertEqual(["1995"], result['ReleaseYear'])
+        self.assertEqual(["Sega"], result['Publisher'])
+        self.assertEqual(["Sega AM2"], result['Developer'])
+        self.assertEqual(["1-2 Players"], result['Players'])
+        self.assertEqual(["4"], result['Rating'])
+        self.assertTrue(result['Description'][0].startswith(
+            "Armstone City, year unknown."))
+        self.assertEqual(len(result['Genre']), 1)
+        self.assertIn("Fighter", result['Genre'])

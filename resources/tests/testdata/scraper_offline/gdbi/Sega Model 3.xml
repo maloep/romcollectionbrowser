@@ -1,0 +1,541 @@
+<?xml version="1.0"?>
+<menu>
+  <header>
+    <listname>Sega Model 3</listname>
+    <lastlistupdate></lastlistupdate>
+    <listversion>test</listversion>
+    <exporterversion></exporterversion>
+  </header>
+  <game name="bass">
+    <description>Sega Bass Fishing (Japan)</description>
+    <year>1997</year>
+    <rating>ESRB - E (Everyone)</rating>
+    <manufacturer>Sega</manufacturer>
+    <dev>Sega AM1</dev>
+    <genre>Fishing/Sports</genre>
+    <score>3.8</score>
+    <player>1 Player</player>
+    <story>Explore the exciting sport of bass fishing! Based on the arcade hit, explore eight fishing locations as you try to catch the biggest fish possible! You can choose between fourteen different lures, and compete in four tournaments, starting with you as an amateur, up to a Masters Classic tournament!</story>
+    <enabled>Yes</enabled>
+    <crc></crc>
+    <cloneof></cloneof>
+  </game>
+  <game name="dayto2pe">
+    <description>Daytona USA 2 Power Edition</description>
+    <year>1998</year>
+    <rating>ESRB - E (Everyone)</rating>
+    <manufacturer>Sega</manufacturer>
+    <dev>Sega AM2</dev>
+    <genre>Racing</genre>
+    <score>3.6</score>
+    <player>1 Player</player>
+    <story>In late 1998, a few months after the release of Battle on the Edge, Sega released an updated version, known as Daytona USA 2- Power Edition. Changes in this game include the environment of the beginner course; the dome and natural scenery that encircles the track in the regular release is removed, but the course layout remains the same. Also included is the Challenge course option, which combines all three courses together. Along with slightly revamped handling physics, the beginner car&apos;s design is slightly altered. Added to Power Edition is the Hornet Classic car, the player car from Daytona USA with an altered design. The opponent cars&apos; AI is also more aggressive in this version, with another change being to one corner in the advanced course to balance out the difficulty. Before this change, many experts considered this corner the most difficult in the game.</story>
+    <enabled>Yes</enabled>
+    <crc></crc>
+    <cloneof></cloneof>
+  </game>
+  <game name="daytona2">
+    <description>Daytona USA 2 (Revision A)</description>
+    <year>1998</year>
+    <rating>ESRB - E (Everyone)</rating>
+    <manufacturer>Sega</manufacturer>
+    <dev>Sega AM2</dev>
+    <genre>Racing</genre>
+    <score>3.6</score>
+    <player>1 Player</player>
+    <story>Madō King Granzort is based on the anime of the same name. The story takes place in science-fiction scenario in which a few kids get special powers to save the world from the evil Jadou Clan. To be more exact, they can summon three powerful creatures- The Madou kings of earth, water and wind. The player takes the role of those kings to defeat the Jadou Clan. The player needs to find the way through the levels while solving basic platforming challenges and a lot of fighting, either with a sword or by shooting. The player can switch between the Madou kings which have different abilities. It is important to look after the energy bar and the time limit- both result in the loss of a life when running out.Daytona USA 2 is an arcade racing game released by Sega in 1998 as a follow-up to the extremely successful Daytona USA. The game featured vastly superior graphics, utilizing the Sega Model 3 hardware. The majority of Daytona USA 2 cabinets were released as deluxe models (with far fewer Twin Cabinets), which could be linked together for up to four players. A notable change from the original is the ability to select a car and corresponding driver, each with varying capabilities for varying levels of player experience. Just like before, the game has three courses – a Beginner course with 8 laps with a distance of 1 mile (1.6 km), an Advanced course with 4 laps with a distance of 2.5 miles (4 km), and a long Expert course with 2 laps with a distance of 5 miles (8 km). The &apos;time lap&apos; mode also returns, and is accessed in the same manner – by holding down start at the transmission select screen. Like the original game, mirrored versions of the tracks can also be played by holding down the Start button when selecting the course. It is recommended, however, that the player has had mastery of the course beforehand. By request, an arcade operator could put the game on Grand Prix or Endurance mode to increase the number of laps in a game. Finishing a race in the top 3 in any course allows the player to view an ending and see the game credits. An addition to the game was the slingshot, corresponding to advanced NASCAR drafting techniques</story>
+    <enabled>Yes</enabled>
+    <crc></crc>
+    <cloneof></cloneof>
+  </game>
+  <game name="dirtdvls">
+    <description>Dirt Devils (Export, Revision A)</description>
+    <year>1998</year>
+    <rating>ESRB - E (Everyone)</rating>
+    <manufacturer>Sega</manufacturer>
+    <dev>Sega AM3</dev>
+    <genre>Racing</genre>
+    <score>4.0</score>
+    <player>1 Player</player>
+    <story>An off road dirt racing game from Sega. Players get a choice of 5 off road vehicles to race against, and can choose from one of four racing perspectives - nose cam, driver cam, chase cam and sky cam. There is also a rear view mode to check the action behind you. Up to four players can verse one another with link mode play.</story>
+    <enabled>Yes</enabled>
+    <crc></crc>
+    <cloneof></cloneof>
+  </game>
+  <game name="dirtdvlsa">
+    <description>Dirt Devils (Australia, Revision A)</description>
+    <year>1998</year>
+    <rating>ESRB - E (Everyone)</rating>
+    <manufacturer>Sega</manufacturer>
+    <dev>Sega AM3</dev>
+    <genre>Racing</genre>
+    <score>4.0</score>
+    <player>1 Player</player>
+    <story>An off road dirt racing game from Sega. Players get a choice of 5 off road vehicles to race against, and can choose from one of four racing perspectives - nose cam, driver cam, chase cam and sky cam. There is also a rear view mode to check the action behind you. Up to four players can verse one another with link mode play.</story>
+    <enabled>Yes</enabled>
+    <crc></crc>
+    <cloneof></cloneof>
+  </game>
+  <game name="eca">
+    <description>Emergency Call Ambulance (Export)</description>
+    <year>1999</year>
+    <rating>ESRB - K-A (Kids to Adults)</rating>
+    <manufacturer>Sega</manufacturer>
+    <dev>Sega AM1</dev>
+    <genre>Driving</genre>
+    <score>3.9</score>
+    <player>1 Player</player>
+    <story>In the game, the player takes the role of a Chicago paramedic and ambulance driver, trying to save several people and taking them to the nearby hospital. There are two modes of gameplay- automatic transmission and manual transmission. The first victim is a ten-year-old child named Jack. His family&apos;s station wagon was in a collision with a tanker truck. The second victim is a 35-year-old Chicago Police officer named Edward, who has been shot by a gang (who somewhat resemble Yakuza), with a rocket launcher. The third victim is a 23-year-old woman named Kate. The hotel she and her partner were staying at has caught fire, and she is pregnant. The final mission is to rescue Gregorio Tavaresky, the 48-year-old President of an unspecified country, whose airliner has crashed into Lake Michigan after being struck by lightning</story>
+    <enabled>Yes</enabled>
+    <crc></crc>
+    <cloneof></cloneof>
+  </game>
+  <game name="fvipers2">
+    <description>Fighting Vipers 2 (Japan, Revision A)</description>
+    <year>1998</year>
+    <rating>ESRB - T (Teen)</rating>
+    <manufacturer>Sega</manufacturer>
+    <dev>Sega AM2</dev>
+    <genre>Fighting</genre>
+    <score>3.8</score>
+    <player>1-2 Players</player>
+    <story>This game is a sequel to Fighting Vipers, a 3D fighting game that allows you to face adolescents and adults that comes from different urban tribes, but also, in that second version you can choose or beat another time the most charismatic characters of FV1 and some unedited characters never seen again (either in FV2 arcade, version appeared in 1998 on Model 3 arcade board). FV2, as in FV, has the incentive to destroy the fight arena walls with the last combat impact, also, you can destroy again the armor of your opponent, that as a newness in 1998&apos;s FV2, includes the Super KO System, in which, if you break the armor of your opponent and immediately, you make a Super Combo that leaves him confused, you will win without dispute a second round.</story>
+    <enabled>Yes</enabled>
+    <crc></crc>
+    <cloneof></cloneof>
+  </game>
+  <game name="getbass">
+    <description>Get Bass</description>
+    <year>1998</year>
+    <rating>ESRB - E (Everyone)</rating>
+    <manufacturer>Sega</manufacturer>
+    <dev>Sega AM1</dev>
+    <genre>Fishing/Sports</genre>
+    <score>3.9</score>
+    <player>1 Player</player>
+    <story>Explore the exciting sport of bass fishing! Based on the arcade hit, explore eight fishing locations as you try to catch the biggest fish possible! You can choose between fourteen different lures, and compete in four tournaments, starting with you as an amateur, up to a Masters Classic tournament!</story>
+    <enabled>Yes</enabled>
+    <crc></crc>
+    <cloneof></cloneof>
+  </game>
+  <game name="harley">
+    <description>Harley-Davidson and L.A. Riders (Revision B)</description>
+    <year>1997</year>
+    <rating>ESRB - E (Everyone)</rating>
+    <manufacturer>Sega</manufacturer>
+    <dev>Sega AM1</dev>
+    <genre>Action/Driving</genre>
+    <score>3.5</score>
+    <player>1 Player</player>
+    <story>In Harley-Davidson &amp; L.A. Riders, the player rides one of five Harley-Davidson models. The objective is to complete a series of checkpoints around Los Angeles under a time limit. The number of stages allotted depends on the machine&apos;s settings. It can be three, four, or five stages. The player also has to collect as many hidden items (such as tokens that resemble the Harley-Davidson logo) as possible, in order to earn bonus points. The token points range anywhere from 1,000 to 100,000 points. The tokens which are more lucrative (that range in larger point sizes from 10,000-100,000) are located in more obscure and irrelevant areas of Los Angeles. Tokens that are worth 3,000 points are located through street corners. Others that are worth 10,000-50,000 points are located in special areas such as the golf course in Beverly Hills, where a token worth 30,000 is located. Tokens worth 100,000 are more difficult to get and are located in obscure areas. Occasionally, the player will find red-yellow-colored tokens floating around more irrelevant areas that allow you to earn 5 or 10 seconds of bonus time</story>
+    <enabled>Yes</enabled>
+    <crc></crc>
+    <cloneof></cloneof>
+  </game>
+  <game name="lamachin">
+    <description>L.A. Machineguns (Japan)</description>
+    <year>1998</year>
+    <rating>ESRB - T (Teen)</rating>
+    <manufacturer>Sega</manufacturer>
+    <dev>Sega AM3</dev>
+    <genre>Shoot-&apos;em-Up</genre>
+    <score>3.0</score>
+    <player>1-2 Players</player>
+    <story>The point and shoot gunner is a sequel to Gunblade NY, and was released in 1998. The cabinet has two machine guns designed for the player to use whilst playing through the game. The game is based in the year 2025 in Los Angeles where players of the game can drive virtual hoverbikes attacking the enemy (futuristic attacking androids), the other objective of the game is to avoid accidentally killing civilians. The player can select one of the five levels at the beginning of the game all of the levels ranging in difficulty for the more veteran players. </story>
+    <enabled>Yes</enabled>
+    <crc></crc>
+    <cloneof></cloneof>
+  </game>
+  <game name="lemans24">
+    <description>Le Mans 24 (Revision B)</description>
+    <year>1997</year>
+    <rating>ESRB - E (Everyone)</rating>
+    <manufacturer>Sega</manufacturer>
+    <dev>Sega AM3</dev>
+    <genre>Racing</genre>
+    <score>3.8</score>
+    <player>1 Player</player>
+    <story>Le Mans 24 is an arcade game by Sega produced in 1997 and is based on the Sega Model 3 Step 1.5 arcade system board. The game is based on the race of the same name with some of its cars from the 1996 race including those that appeared in Scud Race, henceforth it was licensed by its organisers, Automobile Club de l&apos;Ouest. Only GT1 and Group C cars make appearances in the game with the JWA Gulf Porsche 917 (a Group 5 racer, under the pre-1972 rule amendment) appearing as a bonus car which is unlocked after finishing the first race.</story>
+    <enabled>Yes</enabled>
+    <crc></crc>
+    <cloneof></cloneof>
+  </game>
+  <game name="lostwsga">
+    <description>The Lost World (Japan, Revision A)</description>
+    <year>1997</year>
+    <rating>ESRB - T (Teen)</rating>
+    <manufacturer>Sega</manufacturer>
+    <dev>Sega AM3</dev>
+    <genre>Shoot-&apos;em-Up</genre>
+    <score>3.8</score>
+    <player>1-2 Players</player>
+    <story>The Lost World- Jurassic Park is a first-person LightGun rail shooter made as a tie-in to the 1997 movie of the same name and a follow up to the 1994 Jurassic Park arcade game by the same developer. It consists of five stages based on environments from the film, such as a laboratory or the workers&apos; village. Two male rangers travel through Jurassic Park in a jeep to find and save Ian Malcolm and Sarah Harding who have gone missing after landing on Isla Sorna. The game uses fixed, cinematic camera perspectives that move on when all dinosaurs in a scene have been killed. By moving to the edges of the screen it is possible to scroll slightly. The gun only has five bullets and reloading is done by pointing to the side along with a downward motion. A single credit provides three lives that deplete when a dinosaur manages to attack or someone innocent is shot. Many objects in the environment are destructible, including barrels that cause explosions. Bonus points are provided for snipe and quick shots. There are often boss fights against large dinosaurs with a health meter shown on the screen. Optionally power bars can be picked up that are converted into additional lives. The game offers some opportunities to save humans from attacking dinosaurs. If this is done before they are killed, a temporary weapons upgrade or additional health is provided. At the end of each stage a score is calculated based on the number of hits, technical shots, hit rate and a score for clearing the stage. At the start the player can choose from three difficulty levels- beginner, expert or shuffle. The game supports cooperative multiplayer with a second player shooting on the same screen using cross-hairs with a different colour. A second player can join at any time.</story>
+    <enabled>Yes</enabled>
+    <crc></crc>
+    <cloneof></cloneof>
+  </game>
+  <game name="magtruck">
+    <description>Magical Truck Adventure (Japan)</description>
+    <year>1998</year>
+    <rating>ESRB - E (Everyone)</rating>
+    <manufacturer>Sega</manufacturer>
+    <dev>Sega AM3</dev>
+    <genre>Action</genre>
+    <score>4.0</score>
+    <player>1-2 Players</player>
+    <story>Players use the truck lever and action pedal to control the rail car, whilst simultaneously attempting to dodge and outrun enemies attempting to steal their precious stones. This two-player game will certainly have you working up a sweat, as you pump the levers of the cart to increase speed. With multiple unique scenic routes, each with an array of obstacles and threats, there is much to be explored. The water-based side of the game adds a different aspect to the experience, with two of the routes based either on or below the water, adding potential dangers from both aggressive sharks and hungry crocodiles. </story>
+    <enabled>Yes</enabled>
+    <crc></crc>
+    <cloneof></cloneof>
+  </game>
+  <game name="oceanhun">
+    <description>The Ocean Hunter</description>
+    <year>1998</year>
+    <rating>ESRB - K-A (Kids to Adults)</rating>
+    <manufacturer>Sega</manufacturer>
+    <dev>Sega AM1</dev>
+    <genre>Shoot-&apos;em-Up</genre>
+    <score>4.0</score>
+    <player>1-2 Players</player>
+    <story>The Seven Seas spread throughout the world. It is said that there is a monster for each of these seven seas. Ships are being attacked one after another. Sharks gather around monsters seeking human flesh. The ocean is not only a place of blessing but a place of terror. Defeat the violent gigantic monsters of the seven seas. An enormous bounty has been set for their heads. Brave youth go out to face the monsters. Set in an alternate steampunk world, a new civilization is flourishing in the seas. However, the sudden appearance of the Seven Great Monsters, accompanied by a number of lesser sea monsters and ordinary marine predators, have ravaged much of this newly-flourished civilization and, in addition, attacked the native marine life with increasing frequency. Frightened for their lives, humanity issues bounties on the monsters&apos; heads as well secondary bounties on the minor sea monsters. The game follows two young underwater adventurers, Torel (Player 1) and Chris (player 2), as they head out to defeat the Seven Great Monsters of the Seven Seas. Gameplay The Ocean Hunter is played by using two mounted turret-like Shock Guns on the arcade cabinet, which vibrate when shot to provide a feeling of realism. The game is capable of being played with either one or two people simultaneously. During the game, the players use the Shock Guns to aim at and shoot enemies while automatically traveling through the level on underwater scooters. The game is divided into seven stages. Each stage has its own enemies, sub boss(es) and a Great Monster boss to defeat at the end, all of which are usually based off of real-life marine animals. During the boss fights, there will be specific weak point(s) highlighted for the player to target. Firing upon these points three times defeats the boss and allows the player to advance to the next level. The player has a life meter consisting of 3 Life Points which decreases by either taking damage from enemies or by firing at friendly NPC divers, regardless of situation. Health can only be restored by obtaining health units from rescuing other divers. There are treasure chests throughout each stage that award bonus points if fired at. </story>
+    <enabled>Yes</enabled>
+    <crc></crc>
+    <cloneof></cloneof>
+  </game>
+  <game name="scud">
+    <description>Scud Race Twin (Australia)</description>
+    <year>1997</year>
+    <rating>ESRB - E (Everyone)</rating>
+    <manufacturer>Sega</manufacturer>
+    <dev>Sega AM2</dev>
+    <genre>Racing</genre>
+    <score>4.3</score>
+    <player>1-4 Players</player>
+    <story>Scud Race came in either Twin or Deluxe cabinets, which can be linked together for up to four players. The game was modelled after the BPR Global GT Series (now known as the FIA GT Championship), featuring the cars of four prominent teams in the 1996 season. The game features four different courses of varying difficulty, though two are Beginner level (with the difference being day and night time.) And just like Daytona USA, an arcade operator can put the game in Grand Prix or Endurance Mode for longer races. There has never been a console release, although there was a tech demo of this game for the Dreamcast back in the late 90&apos;s (Which may have turned into the Sega GT series.) The four Scud Race tracks are presented as an unlockable bonus in the Xbox version of OutRun 2, rearranged as a whole OutRun route instead of separate tracks with a number of laps each to race. The opponent cars, aside from the selectable cars at the main screen, are all Renault Alpine GTA/A610s. </story>
+    <enabled>Yes</enabled>
+    <crc></crc>
+    <cloneof></cloneof>
+  </game>
+  <game name="scuda">
+    <description>Scud Race Twin (Export)</description>
+    <year>1997</year>
+    <rating>ESRB - E (Everyone)</rating>
+    <manufacturer>Sega</manufacturer>
+    <dev>Sega AM2</dev>
+    <genre>Racing</genre>
+    <score>4.3</score>
+    <player>1-4 Players</player>
+    <story>Scud Race came in either Twin or Deluxe cabinets, which can be linked together for up to four players. The game was modelled after the BPR Global GT Series (now known as the FIA GT Championship), featuring the cars of four prominent teams in the 1996 season. The game features four different courses of varying difficulty, though two are Beginner level (with the difference being day and night time.) And just like Daytona USA, an arcade operator can put the game in Grand Prix or Endurance Mode for longer races. There has never been a console release, although there was a tech demo of this game for the Dreamcast back in the late 90&apos;s (Which may have turned into the Sega GT series.) The four Scud Race tracks are presented as an unlockable bonus in the Xbox version of OutRun 2, rearranged as a whole OutRun route instead of separate tracks with a number of laps each to race. The opponent cars, aside from the selectable cars at the main screen, are all Renault Alpine GTA/A610s. </story>
+    <enabled>Yes</enabled>
+    <crc></crc>
+    <cloneof></cloneof>
+  </game>
+  <game name="scudj">
+    <description>Scud Race Deluxe (Japan)</description>
+    <year>1997</year>
+    <rating>ESRB - E (Everyone)</rating>
+    <manufacturer>Sega</manufacturer>
+    <dev>Sega AM2</dev>
+    <genre>Racing</genre>
+    <score>4.3</score>
+    <player>1-4 Players</player>
+    <story>Scud Race came in either Twin or Deluxe cabinets, which can be linked together for up to four players. The game was modelled after the BPR Global GT Series (now known as the FIA GT Championship), featuring the cars of four prominent teams in the 1996 season. The game features four different courses of varying difficulty, though two are Beginner level (with the difference being day and night time.) And just like Daytona USA, an arcade operator can put the game in Grand Prix or Endurance Mode for longer races. There has never been a console release, although there was a tech demo of this game for the Dreamcast back in the late 90&apos;s (Which may have turned into the Sega GT series.) The four Scud Race tracks are presented as an unlockable bonus in the Xbox version of OutRun 2, rearranged as a whole OutRun route instead of separate tracks with a number of laps each to race. The opponent cars, aside from the selectable cars at the main screen, are all Renault Alpine GTA/A610s. </story>
+    <enabled>Yes</enabled>
+    <crc></crc>
+    <cloneof></cloneof>
+  </game>
+  <game name="scudp">
+    <description>Scud Race Plus</description>
+    <year>1997</year>
+    <rating>ESRB - E (Everyone)</rating>
+    <manufacturer>Sega</manufacturer>
+    <dev>Sega AM2</dev>
+    <genre>Racing</genre>
+    <score>4.3</score>
+    <player>1-4 Players</player>
+    <story>Aswell as Scud Racee, Sega also created Scud Race Plus as an update to the game in 1997. This version allowed players to play any of the four courses in reverse. Scud Race Plus also included the bizarre Super-Beginner course, an oval track inside a giant-scale children&apos;s playhouse. featuring a rocking Horse also bowling pins which you could hit. Exclusive to this course, players could press Start at the car select screen to race as a cat, a tank, an “AM2 crew” bus and a rocket car. There is also an attract mode, which is not in the game where a red sports car runs in an Italian village and destroys the Roman Coloseum. The background with the giant wheel is actually blue rather than yellow orange. There was no American release of Scud Race Plus. Apparently, Sega never marketed this version outside Japan, but it is possible to switch the country to USA and get Sega Super GT Plus which features everything from Scud Race Plus, but in the American format. In this version, the suitable for all ages by Sega could be seen before the Winners Don&apos;t Use Drugs warning. </story>
+    <enabled>Yes</enabled>
+    <crc></crc>
+    <cloneof></cloneof>
+  </game>
+  <game name="skichamp">
+    <description>Ski Champ (Japan)</description>
+    <year>1998</year>
+    <rating>ESRB - E (Everyone)</rating>
+    <manufacturer>Sega</manufacturer>
+    <dev>Sega AM1</dev>
+    <genre>Skiing</genre>
+    <score>3.4</score>
+    <player>1 Player</player>
+    <story>A skiing simulator where the players hangs on to the safety bar and uses their body to move the platform left or right to steer. This game is the sequel of Sega Ski Super G. This version is more of a cross country longer courses. Players can see their progress on the left hand side map.</story>
+    <enabled>Yes</enabled>
+    <crc></crc>
+    <cloneof></cloneof>
+  </game>
+  <game name="spikeofe">
+    <description>Spikeout Final Edition</description>
+    <year>1998</year>
+    <rating>ESRB - T (Teen)</rating>
+    <manufacturer>Sega</manufacturer>
+    <dev>Team Spikeout</dev>
+    <genre>Action</genre>
+    <score>2.6</score>
+    <player>1-4 Players</player>
+    <story>Take control of one of 16 characters in a 3D cityscape environment of Diesel Town to fight your way through as two gangs (Team Spike and Team Inferno) go head to head in this arcade style beat em up as Spike Jr (leader of Team Spike) heads out for to take on his fathers nemesis, Mike. Based on the original series which hit Japanese arcades back in the 90&apos;s, the game is as unforgiving as an arcade release with no continues during single player. However this being an arcade style game its focus is in the multiplayer with split screen, system link and Live functionality allowing 4 player co-op, even online.</story>
+    <enabled>Yes</enabled>
+    <crc></crc>
+    <cloneof></cloneof>
+  </game>
+  <game name="spikeout">
+    <description>Spikeout (Revision C)</description>
+    <year>1998</year>
+    <rating>ESRB - T (Teen)</rating>
+    <manufacturer>Sega</manufacturer>
+    <dev>Team Spikeout</dev>
+    <genre>Action</genre>
+    <score>3.2</score>
+    <player>1-4 Players</player>
+    <story>Take control of one of 16 characters in a 3D cityscape environment of Diesel Town to fight your way through as two gangs (Team Spike and Team Inferno) go head to head in this arcade style beat em up as Spike Jr (leader of Team Spike) heads out for to take on his fathers nemesis, Mike. Based on the original series which hit Japanese arcades back in the 90&apos;s, the game is as unforgiving as an arcade release with no continues during single player. However this being an arcade style game its focus is in the multiplayer with split screen, system link and Live functionality allowing 4 player co-op, even online.</story>
+    <enabled>Yes</enabled>
+    <crc></crc>
+    <cloneof></cloneof>
+  </game>
+  <game name="srally2">
+    <description>Sega Rally 2</description>
+    <year>1998</year>
+    <rating>ESRB - E (Everyone)</rating>
+    <manufacturer>Sega</manufacturer>
+    <dev>AM Annex</dev>
+    <genre>Racing</genre>
+    <score>4.1</score>
+    <player>1-2 Players</player>
+    <story>Sega Rally 2 is the sequel to Sega&apos;s hit arcade game, Sega Rally. This game, like it&apos;s predecessor, is based on Rally racing. Rally racing is unique in that races take place on both race tracks and off-road courses. The courses in this game reflect this nicely. Some take place in the desert or forest, others take place in cities. The cars in this game are all actual rally cars, with manufacturers from Europe and Japan both well represented. You do not get to see very many of them at one time, however, since rally races are typically time-based events. In this game, you are not competing directly against the other cars, you simply have to have the best time through the course. So, during any race you will usually see a handful of other cars on the track. Sega Rally 2 contains several modes of play. The first mode is the simple arcade mode of play. Here, you race in 4 courses, one right after another. The second mode is the 10 year championship. In this mode you race on 16 courses, and can make modifications to your car between races. Finally, there is a 2-person split screen mode for head-to-head competition.</story>
+    <enabled>Yes</enabled>
+    <crc></crc>
+    <cloneof></cloneof>
+  </game>
+  <game name="srally2x">
+    <description>Sega Rally 2 DX</description>
+    <year>1998</year>
+    <rating>ESRB - E (Everyone)</rating>
+    <manufacturer>Sega</manufacturer>
+    <dev>AM Annex</dev>
+    <genre>Racing</genre>
+    <score>4.1</score>
+    <player>1-2 Players</player>
+    <story>Sega Rally 2 is the sequel to Sega&apos;s hit arcade game, Sega Rally. This game, like it&apos;s predecessor, is based on Rally racing. Rally racing is unique in that races take place on both race tracks and off-road courses. The courses in this game reflect this nicely. Some take place in the desert or forest, others take place in cities. The cars in this game are all actual rally cars, with manufacturers from Europe and Japan both well represented. You do not get to see very many of them at one time, however, since rally races are typically time-based events. In this game, you are not competing directly against the other cars, you simply have to have the best time through the course. So, during any race you will usually see a handful of other cars on the track. Sega Rally 2 contains several modes of play. The first mode is the simple arcade mode of play. Here, you race in 4 courses, one right after another. The second mode is the 10 year championship. In this mode you race on 16 courses, and can make modifications to your car between races. Finally, there is a 2-person split screen mode for head-to-head competition.</story>
+    <enabled>Yes</enabled>
+    <crc></crc>
+    <cloneof></cloneof>
+  </game>
+  <game name="swtrilgy">
+    <description>Star Wars Trilogy (Revision A)</description>
+    <year>1998</year>
+    <rating>ESRB - T (Teen)</rating>
+    <manufacturer>Sega</manufacturer>
+    <dev>LucasArts</dev>
+    <genre>Shoot-&apos;em-Up</genre>
+    <score>3.0</score>
+    <player>1 Player</player>
+    <story>The game uses a control setup consisting of a single flight stick with two fire buttons and two Event buttons which flash when the player is able to trigger certain events in game such as summoning backup fighters. The player advances through 3 stages and can choose them in any order. Each stage is based on a single scene from the Star Wars trilogy. Players can score points by destroying enemies, completing levels, and performing combo hits on enemies in succession without missing a shot. Star Wars Episode IV- A New Hope- This stage depicts the Battle of Yavin, right up to the destruction of the Death Star. Star Wars Episode V- The Empire Strikes Back- The famous Battle of Hoth is depicted, and the player must assist in destroying AT-ATs as well as invading Echo Base. Star Wars Episode VI- Return of the Jedi- The player rides a speeder bike on Endor and shoots Imperial troopers, then moves towards the Empire&apos;s base and destroys an AT-ST. The game ends with the final space battle from Return of the Jedi with the destruction of the Death Star II. Two bonus stages are included where the player duels Boba Fett and Darth Vader using a lightsaber. The player must quickly execute joystick motions to block Fett&apos;s shots or Vader&apos;s lightsaber swings and take them down. Failing these stages will not cause the game to be lost but bonus points will not be gained. </story>
+    <enabled>Yes</enabled>
+    <crc></crc>
+    <cloneof></cloneof>
+  </game>
+  <game name="swtrilgya">
+    <description>Star Wars Trilogy</description>
+    <year>1998</year>
+    <rating>ESRB - K-A (Kids to Adults)</rating>
+    <manufacturer>Sega</manufacturer>
+    <dev>LucasArts</dev>
+    <genre>Shoot-&apos;em-Up</genre>
+    <score>3.0</score>
+    <player>1 Player</player>
+    <story>The game uses a control setup consisting of a single flight stick with two fire buttons and two Event buttons which flash when the player is able to trigger certain events in game such as summoning backup fighters. The player advances through 3 stages and can choose them in any order. Each stage is based on a single scene from the Star Wars trilogy. Players can score points by destroying enemies, completing levels, and performing combo hits on enemies in succession without missing a shot. Star Wars Episode IV- A New Hope- This stage depicts the Battle of Yavin, right up to the destruction of the Death Star. Star Wars Episode V- The Empire Strikes Back- The famous Battle of Hoth is depicted, and the player must assist in destroying AT-ATs as well as invading Echo Base. Star Wars Episode VI- Return of the Jedi- The player rides a speeder bike on Endor and shoots Imperial troopers, then moves towards the Empire&apos;s base and destroys an AT-ST. The game ends with the final space battle from Return of the Jedi with the destruction of the Death Star II. Two bonus stages are included where the player duels Boba Fett and Darth Vader using a lightsaber. The player must quickly execute joystick motions to block Fett&apos;s shots or Vader&apos;s lightsaber swings and take them down. Failing these stages will not cause the game to be lost but bonus points will not be gained. </story>
+    <enabled>Yes</enabled>
+    <crc></crc>
+    <cloneof></cloneof>
+  </game>
+  <game name="vf3">
+    <description>Virtua Fighter 3 (Revision C)</description>
+    <year>1996</year>
+    <rating>ESRB - T (Teen)</rating>
+    <manufacturer>Sega</manufacturer>
+    <dev>Sega AM2</dev>
+    <genre>Fighter</genre>
+    <score>3.4</score>
+    <player>1-2 Players</player>
+    <story>This iteration is the first in the series to have undulation in the stages, such as a staircase in the Great Wall stage, a stage set on top of a sloping roof and a raft constructed of individually moving elements on a bobbing water surface. A fourth button, the Dodge, was added (the series had previously used only three - Kick, Punch and Guard). Pressing the button with the joystick in neutral or held up makes the character move into the screen (i.e. away from the viewer), while pressing the button with the joystick held down makes the character move out of the screen (i.e. towards the viewer). This &apos;evasion&apos; technique enables players to dodge incoming attacks, creating opportunities to counter-attack almost immediately. </story>
+    <enabled>Yes</enabled>
+    <crc></crc>
+    <cloneof></cloneof>
+  </game>
+  <game name="vf3a">
+    <description>Virtua Fighter 3 (Revision A)</description>
+    <year>1996</year>
+    <rating>ESRB - T (Teen)</rating>
+    <manufacturer>Sega</manufacturer>
+    <dev>Sega AM2</dev>
+    <genre>Fighter</genre>
+    <score>2.7</score>
+    <player>1-2 Players</player>
+    <story>This iteration is the first in the series to have undulation in the stages, such as a staircase in the Great Wall stage, a stage set on top of a sloping roof and a raft constructed of individually moving elements on a bobbing water surface. A fourth button, the Dodge, was added (the series had previously used only three - Kick, Punch and Guard). Pressing the button with the joystick in neutral or held up makes the character move into the screen (i.e. away from the viewer), while pressing the button with the joystick held down makes the character move out of the screen (i.e. towards the viewer). This &apos;evasion&apos; technique enables players to dodge incoming attacks, creating opportunities to counter-attack almost immediately. </story>
+    <enabled>Yes</enabled>
+    <crc></crc>
+    <cloneof></cloneof>
+  </game>
+  <game name="vf3tb">
+    <description>Virtua Fighter 3 Team Battle</description>
+    <year>1996</year>
+    <rating>ESRB - T (Teen)</rating>
+    <manufacturer>Sega</manufacturer>
+    <dev>Sega AM2</dev>
+    <genre>Fighter</genre>
+    <score>3.4</score>
+    <player>1-2 Players</player>
+    <story>Virtua Fighter 3tb (Team Battle) is a port of the arcade game Virtua Fighter 3 to the Dreamcast. The tb adds a team battle mode which was not present in the coin-op. For those that do not know, the Virtua Fighter series is your classic beat-em-up, with a bunch of characters all trying to kick, punch, throw and body slam the bejesus out of each other. Each of the characters has over a hundred possible moves and the game plays very faithfully to the original. The game features interesting arena to fight in which are more like real locations in they are not flat and some parts can be broken away during the match.</story>
+    <enabled>Yes</enabled>
+    <crc></crc>
+    <cloneof></cloneof>
+  </game>
+  <game name="von2">
+    <description>Virtual On 2- Oratorio Tangram (Revision B)</description>
+    <year>2000</year>
+    <rating>ESRB - T (Teen)</rating>
+    <manufacturer>Sega</manufacturer>
+    <dev>Sega AM3</dev>
+    <genre>Fighter</genre>
+    <score>3.9</score>
+    <player>1-2 Players</player>
+    <story>Virtual-On features mecha called Virtuaroids, or VRs, that are large robots the player controls in battles against enemy VRs, and its twin-stick control, in which two joysticks, complemented by an array of controls, are used by players. Additionally, in the plot of the first game, Cyber Troopers Virtual-On (Virtual-On- Operation Moongate), the Virtual-On&apos;s arcade machine is actually a remote operation device sent from the future in search of Virtual-On Positive (VO+) pilots.</story>
+    <enabled>Yes</enabled>
+    <crc></crc>
+    <cloneof></cloneof>
+  </game>
+  <game name="von254g">
+    <description>Virtual On 2- Oratorio Tangram (ver 5.4g)</description>
+    <year>2000</year>
+    <rating>ESRB - T (Teen)</rating>
+    <manufacturer>Sega</manufacturer>
+    <dev>Sega AM3</dev>
+    <genre>Fighter</genre>
+    <score>3.9</score>
+    <player>1-2 Players</player>
+    <story>Virtual-On features mecha called Virtuaroids, or VRs, that are large robots the player controls in battles against enemy VRs, and its twin-stick control, in which two joysticks, complemented by an array of controls, are used by players. Additionally, in the plot of the first game, Cyber Troopers Virtual-On (Virtual-On- Operation Moongate), the Virtual-On&apos;s arcade machine is actually a remote operation device sent from the future in search of Virtual-On Positive (VO+) pilots.</story>
+    <enabled>Yes</enabled>
+    <crc></crc>
+    <cloneof></cloneof>
+  </game>
+  <game name="vs2">
+    <description>Virtua Striker 2 (Step 2.0)</description>
+    <year>1997</year>
+    <rating>ESRB - E (Everyone)</rating>
+    <manufacturer>Sega</manufacturer>
+    <dev>Sega AM2</dev>
+    <genre>Soccer/Sports</genre>
+    <score>3.8</score>
+    <player>1-2 Players</player>
+    <story>Virtua Striker 2 is a Sega Model 3 arcade football game and a sequel to Virtua Striker. This particular entry in the series was very popular in arcades across the globe, and has therefore been re-released numerous times with minor improvements. Virtua Striker 2 Version &apos;98 and Virtua Striker 2 Version &apos;99 (and a minor revision, Virtua Striker 2 Version &apos;99.1) were released as Sega Model 3 arcade updates, while Virtua Striker 2 Ver. 2000 was released for the Sega NAOMI arcade platform. The original Virtua Striker 2 was set for release for the Sega Dreamcast in November 1998, being one of the first titles announced for the system. It was subsequently revised and replaced with Virtua Striker 2 Ver. 2000.1. In North America, the this version retains the simple Virtua Striker 2 name, but is due to its increased number of features, is not considered by Sega Retro to be the same game as this one. </story>
+    <enabled>Yes</enabled>
+    <crc></crc>
+    <cloneof></cloneof>
+  </game>
+  <game name="vs215">
+    <description>Virtua Striker 2 (Step 1.5)</description>
+    <year>1997</year>
+    <rating>ESRB - E (Everyone)</rating>
+    <manufacturer>Sega</manufacturer>
+    <dev>Sega AM2</dev>
+    <genre>Soccer/Sports</genre>
+    <score>3.8</score>
+    <player>1-2 Players</player>
+    <story>Virtua Striker 2 is a Sega Model 3 arcade football game and a sequel to Virtua Striker. This particular entry in the series was very popular in arcades across the globe, and has therefore been re-released numerous times with minor improvements. Virtua Striker 2 Version &apos;98 and Virtua Striker 2 Version &apos;99 (and a minor revision, Virtua Striker 2 Version &apos;99.1) were released as Sega Model 3 arcade updates, while Virtua Striker 2 Ver. 2000 was released for the Sega NAOMI arcade platform. The original Virtua Striker 2 was set for release for the Sega Dreamcast in November 1998, being one of the first titles announced for the system. It was subsequently revised and replaced with Virtua Striker 2 Ver. 2000.1. In North America, the this version retains the simple Virtua Striker 2 name, but is due to its increased number of features, is not considered by Sega Retro to be the same game as this one. </story>
+    <enabled>Yes</enabled>
+    <crc></crc>
+    <cloneof></cloneof>
+  </game>
+  <game name="vs298">
+    <description>Virtua Striker 2 &apos;98 (Step 2.0)</description>
+    <year>1998</year>
+    <rating>ESRB - E (Everyone)</rating>
+    <manufacturer>Sega</manufacturer>
+    <dev>Sega AM2</dev>
+    <genre>Soccer/Sports</genre>
+    <score>3.7</score>
+    <player>1-2 Players</player>
+    <story>Virtua Striker 2 including a minor update is a Sega Model 3 arcade football game and a sequel to Virtua Striker. This particular entry in the series was very popular in arcades across the globe, and has therefore been re-released numerous times with minor improvements. Virtua Striker 2 Version &apos;98 and Virtua Striker 2 Version &apos;99 (and a minor revision, Virtua Striker 2 Version &apos;99.1) were released as Sega Model 3 arcade updates, while Virtua Striker 2 Ver. 2000 was released for the Sega NAOMI arcade platform. The original Virtua Striker 2 was set for release for the Sega Dreamcast in November 1998, being one of the first titles announced for the system. It was subsequently revised and replaced with Virtua Striker 2 Ver. 2000.1. In North America, the this version retains the simple Virtua Striker 2 name, but is due to its increased number of features, is not considered by Sega Retro to be the same game as this one. </story>
+    <enabled>Yes</enabled>
+    <crc></crc>
+    <cloneof></cloneof>
+  </game>
+  <game name="vs29815">
+    <description>Virtua Striker 2 &apos;98 (Step 1.5)</description>
+    <year>1998</year>
+    <rating>ESRB - E (Everyone)</rating>
+    <manufacturer>Sega</manufacturer>
+    <dev>Sega AM2</dev>
+    <genre>Soccer/Sports</genre>
+    <score>3.7</score>
+    <player>1-2 Players</player>
+    <story>Virtua Striker 2 including a minor update is a Sega Model 3 arcade football game and a sequel to Virtua Striker. This particular entry in the series was very popular in arcades across the globe, and has therefore been re-released numerous times with minor improvements. Virtua Striker 2 Version &apos;98 and Virtua Striker 2 Version &apos;99 (and a minor revision, Virtua Striker 2 Version &apos;99.1) were released as Sega Model 3 arcade updates, while Virtua Striker 2 Ver. 2000 was released for the Sega NAOMI arcade platform. The original Virtua Striker 2 was set for release for the Sega Dreamcast in November 1998, being one of the first titles announced for the system. It was subsequently revised and replaced with Virtua Striker 2 Ver. 2000.1. In North America, the this version retains the simple Virtua Striker 2 name, but is due to its increased number of features, is not considered by Sega Retro to be the same game as this one. </story>
+    <enabled>Yes</enabled>
+    <crc></crc>
+    <cloneof></cloneof>
+  </game>
+  <game name="vs299">
+    <description>Virtua Striker 2 &apos;99</description>
+    <year>1999</year>
+    <rating>ESRB - E (Everyone)</rating>
+    <manufacturer>Sega</manufacturer>
+    <dev>Sega AM2</dev>
+    <genre>Soccer/Sports</genre>
+    <score>3.5</score>
+    <player>1-2 Players</player>
+    <story>Virtua Striker 2 including a minor update is a Sega Model 3 arcade football game and a sequel to Virtua Striker. This particular entry in the series was very popular in arcades across the globe, and has therefore been re-released numerous times with minor improvements. Virtua Striker 2 Version &apos;98 and Virtua Striker 2 Version &apos;99 (and a minor revision, Virtua Striker 2 Version &apos;99.1) were released as Sega Model 3 arcade updates, while Virtua Striker 2 Ver. 2000 was released for the Sega NAOMI arcade platform. The original Virtua Striker 2 was set for release for the Sega Dreamcast in November 1998, being one of the first titles announced for the system. It was subsequently revised and replaced with Virtua Striker 2 Ver. 2000.1. In North America, the this version retains the simple Virtua Striker 2 name, but is due to its increased number of features, is not considered by Sega Retro to be the same game as this one. </story>
+    <enabled>Yes</enabled>
+    <crc></crc>
+    <cloneof></cloneof>
+  </game>
+  <game name="vs299a">
+    <description>Virtua Striker 2 &apos;99 (Revision A)</description>
+    <year>1999</year>
+    <rating>ESRB - E (Everyone)</rating>
+    <manufacturer>Sega</manufacturer>
+    <dev>Sega AM2</dev>
+    <genre>Soccer/Sports</genre>
+    <score>3.5</score>
+    <player>1-2 Players</player>
+    <story>Virtua Striker 2 including a minor update is a Sega Model 3 arcade football game and a sequel to Virtua Striker. This particular entry in the series was very popular in arcades across the globe, and has therefore been re-released numerous times with minor improvements. Virtua Striker 2 Version &apos;98 and Virtua Striker 2 Version &apos;99 (and a minor revision, Virtua Striker 2 Version &apos;99.1) were released as Sega Model 3 arcade updates, while Virtua Striker 2 Ver. 2000 was released for the Sega NAOMI arcade platform. The original Virtua Striker 2 was set for release for the Sega Dreamcast in November 1998, being one of the first titles announced for the system. It was subsequently revised and replaced with Virtua Striker 2 Ver. 2000.1. In North America, the this version retains the simple Virtua Striker 2 name, but is due to its increased number of features, is not considered by Sega Retro to be the same game as this one. </story>
+    <enabled>Yes</enabled>
+    <crc></crc>
+    <cloneof></cloneof>
+  </game>
+  <game name="vs299b">
+    <description>Virtua Striker 2 &apos;99 (Revision B)</description>
+    <year>1999</year>
+    <rating>ESRB - E (Everyone)</rating>
+    <manufacturer>Sega</manufacturer>
+    <dev>Sega AM2</dev>
+    <genre>Soccer/Sports</genre>
+    <score>3.5</score>
+    <player>1-2 Players</player>
+    <story>Virtua Striker 2 including a minor update is a Sega Model 3 arcade football game and a sequel to Virtua Striker. This particular entry in the series was very popular in arcades across the globe, and has therefore been re-released numerous times with minor improvements. Virtua Striker 2 Version &apos;98 and Virtua Striker 2 Version &apos;99 (and a minor revision, Virtua Striker 2 Version &apos;99.1) were released as Sega Model 3 arcade updates, while Virtua Striker 2 Ver. 2000 was released for the Sega NAOMI arcade platform. The original Virtua Striker 2 was set for release for the Sega Dreamcast in November 1998, being one of the first titles announced for the system. It was subsequently revised and replaced with Virtua Striker 2 Ver. 2000.1. In North America, the this version retains the simple Virtua Striker 2 name, but is due to its increased number of features, is not considered by Sega Retro to be the same game as this one. </story>
+    <enabled>Yes</enabled>
+    <crc></crc>
+    <cloneof></cloneof>
+  </game>
+  <game name="vs2v991">
+    <description>Virtua Striker 2 &apos;99.1 (Revision B)</description>
+    <year>1999</year>
+    <rating>ESRB - E (Everyone)</rating>
+    <manufacturer>Sega</manufacturer>
+    <dev>Sega AM2</dev>
+    <genre>Soccer/Sports</genre>
+    <score>3.5</score>
+    <player>1-2 Players</player>
+    <story>Virtua Striker 2 including a minor update is a Sega Model 3 arcade football game and a sequel to Virtua Striker. This particular entry in the series was very popular in arcades across the globe, and has therefore been re-released numerous times with minor improvements. Virtua Striker 2 Version &apos;98 and Virtua Striker 2 Version &apos;99 (and a minor revision, Virtua Striker 2 Version &apos;99.1) were released as Sega Model 3 arcade updates, while Virtua Striker 2 Ver. 2000 was released for the Sega NAOMI arcade platform. The original Virtua Striker 2 was set for release for the Sega Dreamcast in November 1998, being one of the first titles announced for the system. It was subsequently revised and replaced with Virtua Striker 2 Ver. 2000.1. In North America, the this version retains the simple Virtua Striker 2 name, but is due to its increased number of features, is not considered by Sega Retro to be the same game as this one. </story>
+    <enabled>Yes</enabled>
+    <crc></crc>
+    <cloneof></cloneof>
+  </game>
+</menu>
