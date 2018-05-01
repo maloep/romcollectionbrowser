@@ -1,6 +1,6 @@
 from xml.etree.ElementTree import *
 
-import config, helper
+import helper
 from configxmlwriter import *
 from emulatorautoconfig.autoconfig import EmulatorAutoconfig
 from rcbxmlreaderwriter import RcbXmlReaderWriter
@@ -19,24 +19,6 @@ GAME_DESCRIPTION_ONLINE = 2  # Game descriptions to be retrieved from online sou
 
 
 class ConfigXmlWizard(RcbXmlReaderWriter):
-    # FIXME TODO Duplicated in dialogeditromcollection.py. Need a class to handle these, possibly config.py?
-    @property
-    def current_os(self):
-        os = ''
-        # FIXME TODO Add other platforms
-        # Map between Kodi's platform name (defined in http://kodi.wiki/view/List_of_boolean_conditions)
-        # and the os name in emu_autoconfig.xml
-        platforms = ('System.Platform.Android',
-                     'System.Platform.OSX',
-                     'System.Platform.Windows',
-                     'System.Platform.Linux')
-
-        for platform in platforms:
-            if xbmc.getCondVisibility(platform):
-                os = platform.split('.')[-1]
-                break
-
-        return os
 
     # Called on first run
     def createConfigXml(self, configFile):
@@ -46,7 +28,7 @@ class ConfigXmlWizard(RcbXmlReaderWriter):
         consoleList = sorted(WebScraper().consoleDict.keys())
 
         success, romCollections = self.addRomCollections(rcId, None, consoleList, False)
-        if (not success):
+        if not success:
             log.info("Action canceled. Config.xml will not be written")
             return False, util.localize(32172)
 
@@ -63,7 +45,7 @@ class ConfigXmlWizard(RcbXmlReaderWriter):
         Logutil.log("Begin addRomCollection", util.LOG_LEVEL_INFO)
 
         consoleList = sorted(WebScraper().consoleDict.keys())
-        id = 1
+        new_id = 1
 
         rcIds = configObj.romCollections.keys()
         rcIds.sort()
@@ -71,17 +53,17 @@ class ConfigXmlWizard(RcbXmlReaderWriter):
         for rcId in rcIds:
 
             #remove already configured consoles from the list
-            if (configObj.romCollections[rcId].name in consoleList):
+            if configObj.romCollections[rcId].name in consoleList:
                 consoleList.remove(configObj.romCollections[rcId].name)
             #find highest id
-            if (int(rcId) > int(id)):
-                id = rcId
+            if int(rcId) > int(new_id):
+                new_id = rcId
 
-        id = int(id) + 1
+        new_id = int(new_id) + 1
 
         # Add new rom collections
-        success, romCollections = self.addRomCollections(id, configObj, consoleList, True)
-        if (not success):
+        success, romCollections = self.addRomCollections(new_id, configObj, consoleList, True)
+        if not success:
             log.info("Action canceled. Config.xml will not be written")
             return False, util.localize(32172)
 
@@ -194,8 +176,8 @@ class ConfigXmlWizard(RcbXmlReaderWriter):
                 else:
                     emulist = []
 
-                    log.info(u'Running on {0}. Trying to find emulator per autoconfig.'.format(self.current_os))
-                    emulators = autoconfig.findEmulators(self.current_os, romCollection.name, True)
+                    log.info(u'Running on {0}. Trying to find emulator per autoconfig.'.format(util.current_os))
+                    emulators = autoconfig.findEmulators(util.current_os, romCollection.name, True)
                     for emulator in emulators:
                         if emulator.isInstalled:
                             emulist.append(util.localize(32202) % emulator.name)
@@ -206,7 +188,7 @@ class ConfigXmlWizard(RcbXmlReaderWriter):
                     if len(emulist) > 0:
                         try:
                             emuIndex = dialog.select(util.localize(32203), emulist)
-                            if (emuIndex >= 0):
+                            if emuIndex >= 0:
                                 preconfiguredEmulator = emulators[emuIndex]
                         except IndexError:
                             log.info("No Emulator selected.")
@@ -335,7 +317,7 @@ class ConfigXmlWizard(RcbXmlReaderWriter):
                         pathValue = dialog.browse(0, util.localize(32189) % console, 'files')
                         if pathValue == '':
                             break
-    
+
                         # Prompt the user for the description file mask
                         filemask = xbmcgui.Dialog().input(util.localize(32190), defaultt='%GAME%.xml', type=xbmcgui.INPUT_ALPHANUM)
                         descPath = util.joinPath(pathValue, filemask.strip())
@@ -369,13 +351,13 @@ class ConfigXmlWizard(RcbXmlReaderWriter):
         #build fileTypeList
         fileTypeList = []
 
-        if (isUpdate):
+        if isUpdate:
             fileTypes = configObj.tree.findall('FileTypes/FileType')
         else:
             #build fileTypeList
             configFile = util.joinPath(util.getAddonInstallPath(), 'resources', 'database', 'config_template.xml')
 
-            if (not xbmcvfs.exists(configFile)):
+            if not xbmcvfs.exists(configFile):
                 log.error("File config_template.xml does not exist. Place a valid config file here: " + str(configFile))
                 return None, util.localize(32040)
 
@@ -384,9 +366,9 @@ class ConfigXmlWizard(RcbXmlReaderWriter):
 
         for fileType in fileTypes:
             name = fileType.attrib.get('name')
-            if (name != None):
+            if name != None:
                 mediaType = fileType.find('type')
-                if (mediaType != None and mediaType.text == 'video'):
+                if mediaType != None and mediaType.text == 'video':
                     name = name + ' (video)'
                 fileTypeList.append(name)
 

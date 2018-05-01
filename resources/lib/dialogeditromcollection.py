@@ -99,25 +99,6 @@ class EditRomCollectionDialog(DialogBase):
         {'control': CONTROL_BUTTON_POSTCMD, 'value': 'postCmd'},
     ]
 
-    # FIXME TODO Duplicated in wizardconfigxml.py. Need a class to handle these, possibly config.py?
-    @property
-    def current_os(self):
-        cos = ''
-        # FIXME TODO Add other platforms
-        # Map between Kodi's platform name (defined in http://kodi.wiki/view/List_of_boolean_conditions)
-        # and the os name in emu_autoconfig.xml
-        platforms = ('System.Platform.Android',
-                     'System.Platform.OSX',
-                     'System.Platform.Windows',
-                     'System.Platform.Linux')
-        try:
-            for platform in platforms:
-                if xbmc.getCondVisibility(platform):
-                    cos = platform.split('.')[-1]
-                    break
-        except Exception:
-            pass
-        return cos
 
     def __init__(self, *args, **kwargs):
         log.info("init Edit Rom Collection")
@@ -479,8 +460,8 @@ class EditRomCollectionDialog(DialogBase):
 
             emulist = []
 
-            log.info(u"Running on {0}. Trying to find emulator per autoconfig.".format(self.current_os))
-            emulators = autoconfig.findEmulators(self.current_os, self.selectedRomCollection.name, True)
+            log.info(u"Running on {0}. Trying to find emulator per autoconfig.".format(util.current_os))
+            emulators = autoconfig.findEmulators(util.current_os, self.selectedRomCollection.name, True)
 
             for emulator in emulators:
                 if emulator.isInstalled:

@@ -33,7 +33,7 @@ class Addon(object):
 
         self.Addon = xbmcaddon.Addon(id='script.recentlyadded')
     """
-    def __init__(self, id=None):
+    def __init__(self, addonid=None):
         """Creates a new Addon class.
 
         :param id: string - id of the addon (autodetected in XBMC Eden)
@@ -44,7 +44,7 @@ class Addon(object):
         """
         pass
 
-    def getLocalizedString(self, id):
+    def getLocalizedString(self, stringid):
         """Returns an addon's localized 'unicode string'.
 
         :param id: integer - id# for string you want to localize.
@@ -55,7 +55,7 @@ class Addon(object):
         """
         return unicode()
 
-    def getSetting(self, id):
+    def getSetting(self, settingid):
         """Returns the value of a setting as a unicode string.
 
         :param id: string - id of the setting that the module needs to access.
@@ -65,11 +65,11 @@ class Addon(object):
             apikey = self.Addon.getSetting('apikey')
         """
         global _settings
-        if _settings.has_key(id):
-            return _settings[id]
+        if _settings.has_key(settingid):
+            return _settings[settingid]
 
 
-    def setSetting(self, id, value):
+    def setSetting(self, settingid, value):
         """Sets a script setting.
 
         :param id: string - id of the setting that the module needs to access.
@@ -85,10 +85,10 @@ class Addon(object):
         """Opens this scripts settings dialog."""
         pass
 
-    def getAddonInfo(self, id):
+    def getAddonInfo(self, addonid):
         """Returns the value of an addon property as a string.
 
-        :param id: string - id of the property that the module needs to access.
+        :param addonid: string - id of the property that the module needs to access.
 
         .. note::
             Choices are (author, changelog, description, disclaimer, fanart, icon, id, name, path,
@@ -98,12 +98,10 @@ class Addon(object):
 
             version = self.Addon.getAddonInfo('version')
         """
-        print 'getAddonInfo called with key: ' + str(id)
+        print 'getAddonInfo called with key: ' + str(addonid)
 
-        if(id == 'path'):
+        if(addonid == 'path'):
             basepath = os.getcwd()
             path = os.path.join(basepath, "..\..")
             print 'path = ' + str(path)
             return path
-        
-            return 'dummy'
