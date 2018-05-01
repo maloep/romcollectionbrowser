@@ -1118,7 +1118,7 @@ def getInfoLabel(cLine):
     """
     if(cLine == 'System.BuildVersion'):
         return '17.6'
-    
+
     return str()
 
 

@@ -1,4 +1,3 @@
-import re
 import requests
 from datetime import datetime
 import time
@@ -119,15 +118,15 @@ class WebScraper(AbstractScraper):
         """Get the platform identifier used on the corresponding website.
 
         Args:
-        	platformname: The RCB platform name
+            platformname: The RCB platform name
 
         Returns:
-        	String that is the identifier for the platform on the corresponding website.
+            String that is the identifier for the platform on the corresponding website.
 
         """
         try:
             ix = self.pmaps.index(self._name)
-        except ValueError as e:
+        except ValueError:
             # Did not find a mapping
             log.warn("Did not find a platform mapping for {0}".format(self._name))
             ix = 0
@@ -139,7 +138,7 @@ class WebScraper(AbstractScraper):
         
         try:
             r = requests.get(kwargs['url'], headers=self._headers, params=kwargs['params'])
-        except ValueError as e:
+        except ValueError:
             # Typically non-JSON response
             raise ScraperUnexpectedContentException("Non-JSON response received")
 
@@ -172,7 +171,7 @@ class WebScraper(AbstractScraper):
         an edge case identified in https://forum.kodi.tv/showthread.php?tid=112916&pid=1214507#pid1214507.
 
         Args:
-        	datestr: Input date
+            datestr: Input date
 
         Returns:
             Year as a %Y format string
@@ -188,7 +187,7 @@ class WebScraper(AbstractScraper):
             except ValueError as e:
                 # Skip to the next format
                 log.warn("ValueError in parseDate: %s" %e)
-            except TypeError as e:
+            except TypeError:
                 log.warn("Unable to parse date using strptime, falling back to time function")
                 try:
                     x = datetime(*(time.strptime(datestr, fmt2)[0:6])).strftime("%Y")

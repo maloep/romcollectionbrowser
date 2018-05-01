@@ -2,7 +2,7 @@ import xbmc, xbmcgui
 
 import os
 
-import util, helper, config, dialogbase
+import util, helper, config
 from util import *
 from util import Logutil as log
 from dialogbase import DialogBase
@@ -99,25 +99,6 @@ class EditRomCollectionDialog(DialogBase):
         {'control': CONTROL_BUTTON_POSTCMD, 'value': 'postCmd'},
     ]
 
-    # FIXME TODO Duplicated in wizardconfigxml.py. Need a class to handle these, possibly config.py?
-    @property
-    def current_os(self):
-        os = ''
-        # FIXME TODO Add other platforms
-        # Map between Kodi's platform name (defined in http://kodi.wiki/view/List_of_boolean_conditions)
-        # and the os name in emu_autoconfig.xml
-        platforms = ('System.Platform.Android',
-                     'System.Platform.OSX',
-                     'System.Platform.Windows',
-                     'System.Platform.Linux')
-        try:
-            for platform in platforms:
-                if xbmc.getCondVisibility(platform):
-                    os = platform.split('.')[-1]
-                    break
-        except Exception as err:
-            pass
-        return os
 
     def __init__(self, *args, **kwargs):
         log.info("init Edit Rom Collection")
@@ -163,7 +144,7 @@ class EditRomCollectionDialog(DialogBase):
         self.updateRomCollectionControls()
 
     def onAction(self, action):
-        if (action.getId() in ACTION_CANCEL_DIALOG):
+        if action.getId() in ACTION_CANCEL_DIALOG:
             self.close()
 
     def onClick(self, controlID):
@@ -479,8 +460,8 @@ class EditRomCollectionDialog(DialogBase):
 
             emulist = []
 
-            log.info(u"Running on {0}. Trying to find emulator per autoconfig.".format(self.current_os))
-            emulators = autoconfig.findEmulators(self.current_os, self.selectedRomCollection.name, True)
+            log.info(u"Running on {0}. Trying to find emulator per autoconfig.".format(util.current_os))
+            emulators = autoconfig.findEmulators(util.current_os, self.selectedRomCollection.name, True)
 
             for emulator in emulators:
                 if emulator.isInstalled:
@@ -562,7 +543,7 @@ class EditRomCollectionDialog(DialogBase):
 
         # get current media path
         currentMediaPath = None
-        currentMediaPathIndex = -1;
+        currentMediaPathIndex = -1
         for i in range(0, len(self.selectedRomCollection.mediaPaths)):
             mediaPath = self.selectedRomCollection.mediaPaths[i]
             if mediaPath.fileType.name == selectedMediaType:
@@ -608,8 +589,8 @@ class EditRomCollectionDialog(DialogBase):
         for mediaType in mediaTypes:
             name = mediaType.attrib.get('name')
             if name is not None:
-                type = mediaType.find('type')
-                if type is not None and type.text == 'video':
+                mtype = mediaType.find('type')
+                if mtype is not None and mtype.text == 'video':
                     name = name + ' (video)'
 
                 # check if media type is already in use for selected RC

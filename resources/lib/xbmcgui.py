@@ -405,7 +405,7 @@ class Window(object):
         """
         pass
 
-    def onFocus(self, control):
+    def onFocus(self, controlId):
         """onFocus method.
 
         This method will recieve all focus events that the main program will send to this window.
@@ -1291,7 +1291,7 @@ class ListItem(object):
         """Returns the listitem's selected status."""
         return bool(1)
 
-    def setInfo(self, type, infoLabels):
+    def setInfo(self, infotype, infoLabels):
         """Sets the listitem's infoLabels.
 
         :param type: string - type of media(video/music/pictures).
@@ -1345,7 +1345,7 @@ class ListItem(object):
             imdbnumber    : string (tt0110293) - IMDb code
             set           : string (Batman Collection) - name of the collection
             setid         : integer (14) - ID of the collection
-            mediatype     : string "video", "movie", "tvshow", "season", "episode" or "musicvideo" 
+            mediatype     : string "video", "movie", "tvshow", "season", "episode" or "musicvideo"
 
         Music Values::
 
@@ -1547,9 +1547,9 @@ class ListItem(object):
     def setUniqueIDs(self, values, defaultrating=''):
         """
         Sets the listitem's uniqueID 
-        
+
         Some example values (any string possible):
-        
+
         =========  ======================
         **Label**  **Type**
         ---------  ----------------------
@@ -1659,7 +1659,7 @@ class ListItem(object):
         """
         return float()
 
-    def setRating(self, type, rating, votes=0, defaultt=False):
+    def setRating(self, ratingtype, rating, votes=0, defaultt=False):
         """
         Sets a listitem's rating. It needs at least type and rating param
 
@@ -1948,10 +1948,10 @@ class ControlTextBox(Control):
         """
         pass
 
-    def scroll(self, id):
+    def scroll(self, position):
         """Scrolls to the given position.
 
-        :param id: integer - position to scroll to.
+        :param position: integer - position to scroll to.
         """
         pass
 
@@ -2676,7 +2676,7 @@ class Dialog(object):
 
     Then you need to call a method to open the respective dialog.
     """
-    def browse(self, type, heading, s_shares, mask='', useThumbs=False, treatAsFolder=False, defaultt='',
+    def browse(self, dialogtype, heading, s_shares, mask='', useThumbs=False, treatAsFolder=False, defaultt='',
                enableMultiple=False):
         """Show a 'Browse' dialog.
 
@@ -2713,7 +2713,7 @@ class Dialog(object):
         """
         return str()
 
-    def browseMultiple(self, type, heading, shares, mask='', useThumbs=None, treatAsFolder=None, defaultt=''):
+    def browseMultiple(self, dialogtype, heading, shares, mask='', useThumbs=None, treatAsFolder=None, defaultt=''):
         """
         Show a 'Browse' dialog.
 
@@ -2742,7 +2742,7 @@ class Dialog(object):
         """
         return tuple()
 
-    def browseSingle(self, type, heading, shares, mask='', useThumbs=None, treatAsFolder=None, defaultt=''):
+    def browseSingle(self, dialogtype, heading, shares, mask='', useThumbs=None, treatAsFolder=None, defaultt=''):
         """
         Show a 'Browse' dialog.
 

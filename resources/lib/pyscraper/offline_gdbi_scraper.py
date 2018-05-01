@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-import sys, re, io
+import re
 import xml.etree.ElementTree as ET
 import xbmcvfs
 from file_scraper import FileScraper
@@ -101,7 +101,7 @@ class Offline_GDBI_Scraper(FileScraper):
                 result[k] = [game.find(v).text]
             # FIXME TODO When we remove the hack, this will be the code to use:
             # result[k] = game.find(v).text
-            except Exception as e:
+            except Exception:
                 # Typically this result doesn't have this field
                 log.debug("Unable to extract data from key {0}".format(k))
 

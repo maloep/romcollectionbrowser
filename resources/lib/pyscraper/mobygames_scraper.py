@@ -76,7 +76,7 @@ class Mobygames_Scraper(WebScraper):
     def _parse_search_results(self, response):
         results = []
 
-        """ response is expected to be a JSON object """
+        #response is expected to be a JSON object
         log.debug("Parsing response for search results: {0}".format(response))
 
         if len(response["games"]) == 0:
@@ -123,7 +123,7 @@ class Mobygames_Scraper(WebScraper):
                 # HACK - for compatibility we need to put each result in an array
                 # result[k] = response[v]
                 result[k] = [response[v]]
-            except KeyError as k:
+            except KeyError:
                 log.warn("Unable to find key: {0}".format(k))
             except Exception as e:
                 log.warn("Unable to extract data from key {0}".format(e))

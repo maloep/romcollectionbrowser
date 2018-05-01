@@ -12,11 +12,11 @@ class ConfigxmlUpdater(RcbXmlReaderWriter):
 
     def updateConfig(self, configFile):
 
-        if (not os.path.isfile(configFile)):
+        if not os.path.isfile(configFile):
             return False, util.localize(32003)
 
         tree = ElementTree().parse(configFile)
-        if (tree == None):
+        if tree == None:
             Logutil.log('Could not read config.xml', util.LOG_LEVEL_ERROR)
             return False, util.localize(32004)
 
@@ -24,7 +24,7 @@ class ConfigxmlUpdater(RcbXmlReaderWriter):
 
         configVersion = tree.attrib.get('version')
         Logutil.log('Reading config version from config.xml: ' + str(configVersion), util.LOG_LEVEL_INFO)
-        if (configVersion == None):
+        if configVersion == None:
             #set to previous version
             configVersion = '0.7.4'
 
@@ -46,52 +46,52 @@ class ConfigxmlUpdater(RcbXmlReaderWriter):
         #write current version to config
         self.tree.attrib['version'] = util.CURRENT_CONFIG_VERSION
 
-        if (configVersion == '0.7.4'):
+        if configVersion == '0.7.4':
             success, message = self.update_074_to_086()
             configVersion = '0.8.6'
-            if (not success):
+            if not success:
                 return False, message
 
-        if (configVersion == '0.8.6'):
+        if configVersion == '0.8.6':
             success, message = self.update_086_to_0810()
             configVersion = '0.8.10'
-            if (not success):
+            if not success:
                 return False, message
 
-        if (configVersion == '0.8.10'):
+        if configVersion == '0.8.10':
             success, message = self.update_0810_to_090()
             configVersion = '0.9.0'
-            if (not success):
+            if not success:
                 return False, message
 
-        if (configVersion == '0.9.0'):
+        if configVersion == '0.9.0':
             success, message = self.update_090_to_095()
             configVersion = '0.9.5'
-            if (not success):
+            if not success:
                 return False, message
 
-        if (configVersion == '0.9.5'):
+        if configVersion == '0.9.5':
             success, message = self.update_095_to_106()
             configVersion = '1.0.6'
-            if (not success):
+            if not success:
                 return False, message
 
-        if (configVersion == '1.0.6'):
+        if configVersion == '1.0.6':
             success, message = self.update_106_to_208()
             configVersion = '2.0.8'
-            if (not success):
+            if not success:
                 return False, message
 
-        if (configVersion == '2.0.8'):
+        if configVersion == '2.0.8':
             success, message = self.update_208_to_214()
             configVersion = '2.1.4'
-            if (not success):
+            if not success:
                 return False, message
 
-        if (configVersion == '2.1.4'):
+        if configVersion == '2.1.4':
             success, message = self.update_214_to_220()
             configVersion = '2.2.0'
-            if (not success):
+            if not success:
                 return False, message
 
         #write file
@@ -173,68 +173,68 @@ class ConfigxmlUpdater(RcbXmlReaderWriter):
         scraperSitesXml = self.tree.findall('Scrapers/Site')
         for scraperSiteXml in scraperSitesXml:
             siteName = scraperSiteXml.attrib.get('name')
-            if (siteName == 'mobygames.com'):
+            if siteName == 'mobygames.com':
                 #delete all existing scraper elements
                 scraperElements = scraperSiteXml.findall('Scraper')
                 for scraperElement in scraperElements:
                     self.removeElement(scraperSiteXml, 'Scraper')
 
                 #add new scraper elements
-                scraperXml = SubElement(scraperSiteXml, 'Scraper',
+                SubElement(scraperSiteXml, 'Scraper',
                                         {
                                             'parseInstruction': '04.01 - mobygames - gamesearch.xml',
                                             'source': 'http://www.mobygames.com/search/quick?game=%GAME%&amp;p=%PLATFORM%',
                                             'returnUrl': 'true'
                                         })
-                scraperXml = SubElement(scraperSiteXml, 'Scraper',
+                SubElement(scraperSiteXml, 'Scraper',
                                         {
                                             'parseInstruction': '04.02 - mobygames - details.xml',
                                             'source': '1'
                                         })
-                scraperXml = SubElement(scraperSiteXml, 'Scraper',
+                SubElement(scraperSiteXml, 'Scraper',
                                         {
                                             'parseInstruction': '04.03 - mobygames - coverlink front.xml',
                                             'source': '1',
                                             'sourceAppend': 'cover-art',
                                             'returnUrl': 'true'
                                         })
-                scraperXml = SubElement(scraperSiteXml, 'Scraper',
+                SubElement(scraperSiteXml, 'Scraper',
                                         {
                                             'parseInstruction': '04.04 - mobygames - coverdetail front.xml',
                                             'source': '2'
                                         })
-                scraperXml = SubElement(scraperSiteXml, 'Scraper',
+                SubElement(scraperSiteXml, 'Scraper',
                                         {
                                             'parseInstruction': '04.05 - mobygames - coverlink back.xml',
                                             'source': '1',
                                             'sourceAppend': 'cover-art',
                                             'returnUrl': 'true'
                                         })
-                scraperXml = SubElement(scraperSiteXml, 'Scraper',
+                SubElement(scraperSiteXml, 'Scraper',
                                         {
                                             'parseInstruction': '04.06 - mobygames - coverdetail back.xml',
                                             'source': '3'
                                         })
-                scraperXml = SubElement(scraperSiteXml, 'Scraper',
+                SubElement(scraperSiteXml, 'Scraper',
                                         {
                                             'parseInstruction': '04.07 - mobygames - coverlink media.xml',
                                             'source': '1',
                                             'sourceAppend': 'cover-art',
                                             'returnUrl': 'true'
                                         })
-                scraperXml = SubElement(scraperSiteXml, 'Scraper',
+                SubElement(scraperSiteXml, 'Scraper',
                                         {
                                             'parseInstruction': '04.08 - mobygames - coverdetail media.xml',
                                             'source': '4'
                                         })
-                scraperXml = SubElement(scraperSiteXml, 'Scraper',
+                SubElement(scraperSiteXml, 'Scraper',
                                         {
                                             'parseInstruction': '04.09 - mobygames - screenshotlink.xml',
                                             'source': '1',
                                             'sourceAppend': 'screenshots',
                                             'returnUrl': 'true'
                                         })
-                scraperXml = SubElement(scraperSiteXml, 'Scraper',
+                SubElement(scraperSiteXml, 'Scraper',
                                         {
                                             'parseInstruction': '04.10 - mobygames - screenshot detail.xml',
                                             'source': '5'
@@ -249,7 +249,7 @@ class ConfigxmlUpdater(RcbXmlReaderWriter):
         scraperSitesXml = self.tree.findall('Scrapers/Site')
         for scraperSiteXml in scraperSitesXml:
             siteName = scraperSiteXml.attrib.get('name')
-            if (siteName == 'archive.vg'):
+            if siteName == 'archive.vg':
                 scraperXml = scraperSiteXml.find('Scraper')
                 scraperXml.attrib['source'] = "http://api.archive.vg/2.0/Archive.search/%ARCHIVEAPIKEY%/%GAME%"
                 break
@@ -259,10 +259,9 @@ class ConfigxmlUpdater(RcbXmlReaderWriter):
     def update_090_to_095(self):
         #add archive scraper
         scraperSitesXml = self.tree.findall('Scrapers/Site')
-        archiveFound = False
         for scraperSiteXml in scraperSitesXml:
             siteName = scraperSiteXml.attrib.get('name')
-            if (siteName == 'archive.vg'):
+            if siteName == 'archive.vg':
                 return True, ''
 
         scrapersXml = self.tree.find('Scrapers')
@@ -272,14 +271,14 @@ class ConfigxmlUpdater(RcbXmlReaderWriter):
                                         'descFilePerGame': 'True',
                                         'searchGameByCRC': 'False'
                                     })
-        scraperXml = SubElement(scraperSiteXml, 'Scraper',
+        SubElement(scraperSiteXml, 'Scraper',
                                 {
                                     'parseInstruction': '05.01 - archive - search.xml',
                                     'source': 'http://api.archive.vg/1.0/Archive.search/%ARCHIVEAPIKEY%/%GAME%',
                                     'encoding': 'iso-8859-1',
                                     'returnUrl': 'true'
                                 })
-        scraperXml = SubElement(scraperSiteXml, 'Scraper',
+        SubElement(scraperSiteXml, 'Scraper',
                                 {
                                     'parseInstruction': '05.02 - archive - detail.xml',
                                     'source': '1',
@@ -308,7 +307,7 @@ class ConfigxmlUpdater(RcbXmlReaderWriter):
         scraperSitesXml = self.tree.findall('Scrapers/Site')
         for scraperSiteXml in scraperSitesXml:
             siteName = scraperSiteXml.attrib.get('name')
-            if (siteName == 'thegamesdb.net'):
+            if siteName == 'thegamesdb.net':
                 scraperXml = scraperSiteXml.find('Scraper')
                 scraperXml.attrib['source'] = "http://thegamesdb.net/api/GetGame.php?name=%GAME%&platform=%PLATFORM%"
                 break
@@ -323,16 +322,16 @@ class ConfigxmlUpdater(RcbXmlReaderWriter):
             siteName = scraperSiteXml.attrib.get('name')
 
             #handle online scrapers
-            if (siteName == util.localize(32154)):
+            if siteName == util.localize(32154):
                 scraperSiteXml.attrib['descFilePerGame'] = 'True'
                 scraperSiteXml.attrib['searchGameByCRC'] = 'False'
-            elif (siteName == 'thegamesdb.net'):
+            elif siteName == 'thegamesdb.net':
                 scraperSiteXml.attrib['descFilePerGame'] = 'True'
                 scraperSiteXml.attrib['searchGameByCRC'] = 'False'
-            elif (siteName == 'giantbomb.com'):
+            elif siteName == 'giantbomb.com':
                 scraperSiteXml.attrib['descFilePerGame'] = 'True'
                 scraperSiteXml.attrib['searchGameByCRC'] = 'False'
-            elif (siteName == 'mobygames.com'):
+            elif siteName == 'mobygames.com':
                 scraperSiteXml.attrib['descFilePerGame'] = 'True'
                 scraperSiteXml.attrib['searchGameByCRC'] = 'False'
 
@@ -344,23 +343,23 @@ class ConfigxmlUpdater(RcbXmlReaderWriter):
                     scraperXml = romCollectionXml.find('scraper')
                     scraperName = scraperXml.attrib.get('name')
 
-                    if (scraperName != siteName):
+                    if scraperName != siteName:
                         continue
 
                     descFilePerGame = self.readTextElement(romCollectionXml, 'descFilePerGame')
-                    if (descFilePerGame != ''):
+                    if descFilePerGame != '':
                         scraperSiteXml.attrib['descFilePerGame'] = descFilePerGame
 
                     searchGameByCRC = self.readTextElement(romCollectionXml, 'searchGameByCRC')
-                    if (searchGameByCRC != ''):
+                    if searchGameByCRC != '':
                         scraperSiteXml.attrib['searchGameByCRC'] = searchGameByCRC
 
                     useFoldernameAsCRC = self.readTextElement(romCollectionXml, 'useFoldernameAsCRC')
-                    if (useFoldernameAsCRC != ''):
+                    if useFoldernameAsCRC != '':
                         scraperSiteXml.attrib['useFoldernameAsCRC'] = useFoldernameAsCRC
 
                     useFilenameAsCRC = self.readTextElement(romCollectionXml, 'useFilenameAsCRC')
-                    if (useFilenameAsCRC != ''):
+                    if useFilenameAsCRC != '':
                         scraperSiteXml.attrib['useFilenameAsCRC'] = useFilenameAsCRC
 
             #remove obsolete entries from rom collections
@@ -377,7 +376,7 @@ class ConfigxmlUpdater(RcbXmlReaderWriter):
     #TODO use same as in config
     def readTextElement(self, parent, elementName):
         element = parent.find(elementName)
-        if (element != None and element.text != None):
+        if element != None and element.text != None:
             Logutil.log('%s: %s' % (elementName, element.text), util.LOG_LEVEL_INFO)
             return element.text
         else:
@@ -385,12 +384,7 @@ class ConfigxmlUpdater(RcbXmlReaderWriter):
 
     def removeElement(self, parent, elementName):
         element = parent.find(elementName)
-        if (element != None):
-            parent.remove(element)
-
-    def removeElementByAttributeValue(self, parent, elementName, attribname, attribValue):
-        element = parent.find(elementName)
-        if (element != None):
+        if element != None:
             parent.remove(element)
 
     #TODO use configxmlwriter

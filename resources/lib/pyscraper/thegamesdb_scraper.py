@@ -119,7 +119,7 @@ class TheGamesDB_Scraper(WebScraper):
                 result[k] = [game.find(v).text]
             # FIXME TODO When we remove the hack, this will be the code to use:
             # result[k] = game.find(v).text
-            except Exception as e:
+            except Exception:
                 # Typically this result doesn't have this field
                 log.debug("Unable to extract data from key {0}".format(k))
 
@@ -177,7 +177,7 @@ class TheGamesDB_Scraper(WebScraper):
                                 'title': game.find('GameTitle').text,
                                 'releaseDate': game.find('ReleaseDate').text,
                                 'SearchKey': [game.find('GameTitle').text]})
-            except AttributeError as e:
+            except AttributeError:
                 # If we have an attribute error, typically there is no ReleaseDate for this game. Skip.
                 pass
 

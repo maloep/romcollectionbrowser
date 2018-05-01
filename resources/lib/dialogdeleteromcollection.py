@@ -48,7 +48,7 @@ class RemoveRCDialog(xbmcgui.WindowXMLDialog):
         self.updateControls()
 
     def onAction(self, action):
-        if (action.getId() in ACTION_CANCEL_DIALOG):
+        if action.getId() in ACTION_CANCEL_DIALOG:
             self.close()
 
     def onClick(self, controlID):

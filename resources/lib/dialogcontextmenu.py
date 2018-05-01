@@ -1,4 +1,4 @@
-import xbmc, xbmcgui
+import xbmcgui
 
 import util, nfowriter, wizardconfigxml, helper
 import dialogeditromcollection, dialogdeleteromcollection
@@ -47,16 +47,16 @@ class ContextMenuDialog(xbmcgui.WindowXMLDialog):
             control.setEnabled(False)
 
     def onAction(self, action):
-        if (action.getId() in ACTION_CANCEL_DIALOG):
+        if action.getId() in ACTION_CANCEL_DIALOG:
             self.close()
 
-    def onClick(self, controlID):
-        if controlID == 5101:  # Close window button
+    def onClick(self, controlId):
+        if controlId == 5101:  # Close window button
             self.close()
-        elif controlID == 5110:  # Import games
+        elif controlId == 5110:  # Import games
             self.close()
             self.gui.updateDB()
-        elif controlID == 5121:  # Rescrape single games
+        elif controlId == 5121:  # Rescrape single games
             self.close()
 
             if self.selectedGame is None:
@@ -74,7 +74,7 @@ class ContextMenuDialog(xbmcgui.WindowXMLDialog):
 
             self.gui.rescrapeGames(romCollections)
 
-        elif controlID == 5122:  # Rescrape selection
+        elif controlId == 5122:  # Rescrape selection
             self.close()
 
             romCollections = {}
@@ -101,7 +101,7 @@ class ContextMenuDialog(xbmcgui.WindowXMLDialog):
             self.gui.rescrapeGames(romCollections)
 
         #self.gui.updateDB()
-        elif controlID == 5111:  # Add Rom Collection
+        elif controlId == 5111:  # Add Rom Collection
             self.close()
             statusOk, errorMsg = wizardconfigxml.ConfigXmlWizard().addRomCollection(self.gui.config)
             if statusOk is False:
@@ -119,7 +119,7 @@ class ContextMenuDialog(xbmcgui.WindowXMLDialog):
             #import Games
             self.gui.updateDB()
 
-        elif controlID == 5112:  # Edit Rom Collection
+        elif controlId == 5112:  # Edit Rom Collection
             self.close()
             constructorParam = "720p"
             try:
@@ -137,10 +137,10 @@ class ContextMenuDialog(xbmcgui.WindowXMLDialog):
             self.gui.config = Config(None)
             self.gui.config.readXml()
 
-        elif controlID == 5113:  # Edit Game Command
+        elif controlId == 5113:  # Edit Game Command
             self.close()
 
-            if (self.selectedGame == None):
+            if self.selectedGame == None:
                 xbmcgui.Dialog().ok(util.SCRIPTNAME, util.localize(32015), util.localize(32014))
                 return
 
@@ -152,7 +152,7 @@ class ContextMenuDialog(xbmcgui.WindowXMLDialog):
                 Game(self.gui.gdb).update(('gameCmd',), (command,), self.selectedGame.getProperty('gameId'), True)
                 self.gui.gdb.commit()
 
-        elif controlID == 5118:  # (Un)Mark as Favorite
+        elif controlId == 5118:  # (Un)Mark as Favorite
             self.close()
 
             if self.selectedGame is None:
@@ -171,7 +171,7 @@ class ContextMenuDialog(xbmcgui.WindowXMLDialog):
                 isFavorite = ''
             self.selectedGame.setProperty('isfavorite', str(isFavorite))
 
-        elif controlID == 5119:  # (Un)Mark as Favorite
+        elif controlId == 5119:  # (Un)Mark as Favorite
             self.close()
 
             if self.selectedGame is None:
@@ -195,11 +195,11 @@ class ContextMenuDialog(xbmcgui.WindowXMLDialog):
             if isFavorite == 0:
                 self.gui.loadViewState()
 
-        elif controlID == 5120:  # Export nfo files
+        elif controlId == 5120:  # Export nfo files
             self.close()
             nfowriter.NfoWriter().exportLibrary(self.gui.gdb, self.gui.config.romCollections)
 
-        elif controlID == 5114:  # Delete Rom
+        elif controlId == 5114:  # Delete Rom
             self.close()
 
             pos = self.gui.getCurrentListPosition()
@@ -217,7 +217,7 @@ class ContextMenuDialog(xbmcgui.WindowXMLDialog):
                 else:
                     self.gui.setFilterSelection(self.gui.CONTROL_GAMES_GROUP_START, 0)
 
-        elif controlID == 5115:  # Remove Rom Collection
+        elif controlId == 5115:  # Remove Rom Collection
             self.close()
 
             constructorParam = "720p"
@@ -239,15 +239,15 @@ class ContextMenuDialog(xbmcgui.WindowXMLDialog):
                 self.gui.deleteRCGames(selectedRCId, rcDelStat, rDelStat)
                 del removeRCDialog
 
-        elif controlID == 5116:  # Clean DB
+        elif controlId == 5116:  # Clean DB
             self.close()
             self.gui.cleanDB()
 
-        elif controlID == 5223:  # Open Settings
+        elif controlId == 5223:  # Open Settings
             self.close()
             self.gui.Settings.openSettings()
 
-        elif controlID == 5224:  # Set gameclient
+        elif controlId == 5224:  # Set gameclient
             self.close()
 
             if not helper.isRetroPlayerSupported():
@@ -278,13 +278,13 @@ class ContextMenuDialog(xbmcgui.WindowXMLDialog):
                                           True)
                 self.gui.gdb.commit()
 
-    def onFocus(self, controlID):
+    def onFocus(self, controlId):
         pass
 
     def getControlById(self, controlId):
         try:
             control = self.getControl(controlId)
-        except Exception, (exc):
+        except Exception:
             return None
 
         return control

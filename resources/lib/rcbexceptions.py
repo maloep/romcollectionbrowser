@@ -1,10 +1,6 @@
 class Error(Exception):
     """Base class for other exceptions"""
     pass
-    """
-    def __init__(self, *args, **kwargs):
-        Exception.__init__(self, *args, **kwargs)
-    """
 
 
 class ScraperUnauthorisedException(Error):
@@ -46,11 +42,6 @@ class ScraperUnexpectedError(Error):
 class ConfigScraperSiteDoesNotExistException(Error):
     """Raised when the config file references a scraper which does not exist"""
     pass
-    """
-    def __init__(self, *args, **kwargs):
-        #Error.__init__(self, *args, **kwargs)
-        Error.__init__(self, 'Configuration error. Site  does not exist in config.xml')
-    """
 
 
 class ConfigFileWriteException(Error):

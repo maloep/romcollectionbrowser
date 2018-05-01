@@ -15,18 +15,18 @@ class ConfigXmlWriter(RcbXmlReaderWriter):
 
         self.createNew = createNew
 
-        if (createNew):
+        if createNew:
             configFile = os.path.join(util.getAddonInstallPath(), 'resources', 'database', 'config_template.xml')
         else:
             configFile = util.getConfigXmlPath()
 
-        if (not os.path.isfile(configFile)):
+        if not os.path.isfile(configFile):
             Logutil.log('File config.xml does not exist. Place a valid config file here: ' + str(configFile),
                         util.LOG_LEVEL_ERROR)
         else:
             self.tree = ElementTree().parse(configFile)
 
-    """ Functions for generating XML objects from objects """
+    #Functions for generating XML objects from objects
 
     def getXmlAttributesForRomCollection(self, rc):
         return {'id': str(rc.id), 'name': rc.name}
@@ -40,7 +40,7 @@ class ConfigXmlWriter(RcbXmlReaderWriter):
                 el = Element(e, {})
                 el.text = getattr(rc, e)
                 elements.append(el)
-            except AttributeError as exc:
+            except AttributeError:
                 # Skip any errors
                 pass
 
@@ -52,7 +52,7 @@ class ConfigXmlWriter(RcbXmlReaderWriter):
                 el = Element(e, {})
                 el.text = str(getattr(rc, e))
                 elements.append(el)
-            except AttributeError as exc:
+            except AttributeError:
                 # Skip any errors
                 pass
 
@@ -78,7 +78,7 @@ class ConfigXmlWriter(RcbXmlReaderWriter):
         romCollectionsXml = self.tree.find('RomCollections')
 
         #HACK: remove all Rom Collections and create new
-        if (isEdit):
+        if isEdit:
             for romCollectionXml in romCollectionsXml.findall('RomCollection'):
                 romCollectionsXml.remove(romCollectionXml)
 
@@ -95,42 +95,42 @@ class ConfigXmlWriter(RcbXmlReaderWriter):
             for mediaPath in romCollection.mediaPaths:
 
                 success, message = self.searchConfigObjects('FileTypes/FileType', mediaPath.fileType.name, 'FileType')
-                if (not success):
+                if not success:
                     return False, message
 
                 SubElement(romCollectionXml, 'mediaPath', {'type': mediaPath.fileType.name}).text = mediaPath.path
 
             #image placing
-            if (not self.createNew):
+            if not self.createNew:
                 #in case of an update we have to create new options
-                if (romCollection.name == 'MAME' and not self.createNew):
+                if romCollection.name == 'MAME' and not self.createNew:
                     self.addFileTypesForMame()
                     self.addImagePlacingForMame()
 
-            if (romCollection.imagePlacingMain != None and romCollection.imagePlacingMain.name != ''):
+            if romCollection.imagePlacingMain != None and romCollection.imagePlacingMain.name != '':
                 success, message = self.searchConfigObjects('ImagePlacing/fileTypeFor',
                                                             romCollection.imagePlacingMain.name, 'ImagePlacing')
-                if (not success):
+                if not success:
                     return False, message
                 SubElement(romCollectionXml, 'imagePlacingMain').text = romCollection.imagePlacingMain.name
             else:
                 SubElement(romCollectionXml, 'imagePlacingMain').text = 'gameinfobig'
 
-            if (romCollection.imagePlacingInfo != None and romCollection.imagePlacingInfo.name != ''):
+            if romCollection.imagePlacingInfo != None and romCollection.imagePlacingInfo.name != '':
                 success, message = self.searchConfigObjects('ImagePlacing/fileTypeFor',
                                                             romCollection.imagePlacingInfo.name, 'ImagePlacing')
-                if (not success):
+                if not success:
                     return False, message
                 SubElement(romCollectionXml, 'imagePlacingInfo').text = romCollection.imagePlacingInfo.name
             else:
                 SubElement(romCollectionXml, 'imagePlacingInfo').text = 'gameinfosmall'
 
-            if (romCollection.scraperSites == None or len(romCollection.scraperSites) == 0):
+            if romCollection.scraperSites == None or len(romCollection.scraperSites) == 0:
                 #use thegamesdb.net as default scraper in online scraping scenario
                 SubElement(romCollectionXml, 'scraper', {'name': 'thegamesdb.net', 'default': 'True'})
             else:
                 for scraperSite in romCollection.scraperSites:
-                    if (scraperSite == None):
+                    if scraperSite == None:
                         continue
                     attributes = {'name': scraperSite.name}
                     if scraperSite.path:
@@ -150,17 +150,17 @@ class ConfigXmlWriter(RcbXmlReaderWriter):
         missingFilterXml = self.tree.find('MissingFilter')
 
         #HACK: remove MissingFilter-element
-        if (missingFilterXml != None):
+        if missingFilterXml != None:
             self.tree.remove(missingFilterXml)
 
         missingFilterXml = SubElement(self.tree, 'MissingFilter')
         SubElement(missingFilterXml, 'showHideOption').text = showHideOption
 
-        if (len(artworkOrGroup) > 0 or len(artworkAndGroup) > 0):
+        if len(artworkOrGroup) > 0 or len(artworkAndGroup) > 0:
             missingArtworkXml = SubElement(missingFilterXml, 'missingArtworkFilter')
             self.addMissingFilterItems(missingArtworkXml, artworkOrGroup, 'orGroup')
             self.addMissingFilterItems(missingArtworkXml, artworkAndGroup, 'andGroup')
-        if (len(infoOrGroup) > 0 or len(infoAndGroup) > 0):
+        if len(infoOrGroup) > 0 or len(infoAndGroup) > 0:
             missingInfoXml = SubElement(missingFilterXml, 'missingInfoFilter')
             self.addMissingFilterItems(missingInfoXml, infoOrGroup, 'orGroup')
             self.addMissingFilterItems(missingInfoXml, infoAndGroup, 'andGroup')
@@ -169,7 +169,7 @@ class ConfigXmlWriter(RcbXmlReaderWriter):
         return success, message
 
     def addMissingFilterItems(self, missingXml, group, groupName):
-        if (len(group) > 0):
+        if len(group) > 0:
             groupXml = SubElement(missingXml, groupName)
             for item in group:
                 SubElement(groupXml, 'item').text = item
@@ -179,11 +179,11 @@ class ConfigXmlWriter(RcbXmlReaderWriter):
         objectFound = False
         for obj in objects:
             objectName = obj.attrib.get('name')
-            if (objectName == nameToCompare):
+            if objectName == nameToCompare:
                 objectFound = True
                 break
 
-        if (not objectFound):
+        if not objectFound:
             return False, util.localize(32009) % (objectType, nameToCompare)
 
         return True, ''
@@ -197,7 +197,7 @@ class ConfigXmlWriter(RcbXmlReaderWriter):
         romCollectionsXml = self.tree.find('RomCollections')
         for romCollectionXml in romCollectionsXml.findall('RomCollection'):
             name = romCollectionXml.attrib.get('name')
-            if (name == RCName):
+            if name == RCName:
                 romCollectionsXml.remove(romCollectionXml)
 
         success, message = self.writeFile()
@@ -226,9 +226,9 @@ class ConfigXmlWriter(RcbXmlReaderWriter):
             elif name == 'title':
                 titleExists = True
 
-            id = fileType.attrib.get('id')
-            if int(id) > highestId:
-                highestId = int(id)
+            ftid = fileType.attrib.get('id')
+            if int(ftid) > highestId:
+                highestId = int(ftid)
 
         if not cabinetExists:
             self.createFileType(fileTypesXml, str(highestId + 1), 'cabinet', 'image', 'game')
@@ -239,9 +239,9 @@ class ConfigXmlWriter(RcbXmlReaderWriter):
         if not titleExists:
             self.createFileType(fileTypesXml, str(highestId + 4), 'title', 'image', 'game')
 
-    def createFileType(self, fileTypesXml, id, name, type, parent):
-        fileType = SubElement(fileTypesXml, 'FileType', {'id': str(id), 'name': name})
-        SubElement(fileType, 'type').text = type
+    def createFileType(self, fileTypesXml, ftid, name, filetype, parent):
+        fileType = SubElement(fileTypesXml, 'FileType', {'id': str(ftid), 'name': name})
+        SubElement(fileType, 'type').text = filetype
         SubElement(fileType, 'parent').text = parent
 
     def addImagePlacingForMame(self):

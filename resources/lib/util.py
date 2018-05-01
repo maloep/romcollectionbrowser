@@ -1,5 +1,4 @@
-import os, re, shutil
-from sqlite3 import dbapi2 as sqlite
+import os
 
 import xbmc, xbmcaddon, xbmcvfs
 
@@ -191,9 +190,7 @@ def html_unescape(text):
     return text
 
 
-"""
-replace html tags with kodi tags in plot
-"""
+#replace html tags with kodi tags in plot
 html_kodi_table = {
     "<i>": "[I]",
     "</i>": "[/I]",
@@ -226,6 +223,24 @@ def joinPath(part1, *parts):
 # METHODS #
 #
 
+def current_os():
+    cos = ''
+    # FIXME TODO Add other platforms
+    # Map between Kodi's platform name (defined in http://kodi.wiki/view/List_of_boolean_conditions)
+    # and the os name in emu_autoconfig.xml
+    platforms = ('System.Platform.Android',
+                 'System.Platform.OSX',
+                 'System.Platform.Windows',
+                 'System.Platform.Linux')
+
+    for platform in platforms:
+        if xbmc.getCondVisibility(platform):
+            cos = platform.split('.')[-1]
+            break
+
+    return cos
+
+
 class KodiVersions(object):
     HELIX = 14
     ISENGARD = 15
@@ -241,11 +256,11 @@ class KodiVersions(object):
         return int(version)
 
 
-def localize(id):
+def localize(string_id):
     try:
-        return __language__(id)
+        return __language__(string_id)
     except:
-        return "Sorry. No translation available for string with id: " + str(id)
+        return "Sorry. No translation available for string with id: " + str(string_id)
 
 
 def getAddonDataPath():
@@ -270,10 +285,10 @@ def getAddonInstallPath():
 def getEmuAutoConfigPath():
     settings = getSettings()
     path = settings.getSetting(SETTING_RCB_EMUAUTOCONFIGPATH)
-    if (path == ''):
+    if path == '':
         path = os.path.join(getAddonDataPath(), u'emu_autoconfig.xml')
 
-    if (not xbmcvfs.exists(path)):
+    if not xbmcvfs.exists(path):
         oldPath = os.path.join(getAddonInstallPath(), 'resources', 'emu_autoconfig.xml')
         xbmcvfs.copy(oldPath, path)
 
@@ -285,7 +300,7 @@ def getTempDir():
 
     try:
         #check if folder exists
-        if (not os.path.isdir(tempDir)):
+        if not os.path.isdir(tempDir):
             os.mkdir(tempDir)
         return tempDir
     except Exception, (exc):
@@ -294,7 +309,7 @@ def getTempDir():
 
 
 def getConfigXmlPath():
-    if (not ISTESTRUN):
+    if not ISTESTRUN:
         addonDataPath = getAddonDataPath()
         configFile = os.path.join(addonDataPath, "config.xml")
     else:
@@ -311,7 +326,7 @@ def getSettings():
 
 #HACK: XBMC does not update labels with empty strings
 def setLabel(label, control):
-    if (label == ''):
+    if label == '':
         label = ' '
 
     control.setLabel(str(label))
@@ -320,7 +335,7 @@ def setLabel(label, control):
 #HACK: XBMC does not update labels with empty strings
 def getLabel(control):
     label = control.getLabel()
-    if (label == ' '):
+    if label == ' ':
         label = ''
 
     return label
@@ -330,19 +345,13 @@ def getConfiguredSkin():
     skin = "Default"
     settings = getSettings()
     skin = settings.getSetting(SETTING_RCB_SKIN)
-    if (skin == "Estuary"):
+    if skin == "Estuary":
         skin = "Default"
 
     return skin
 
 
 RCBHOME = getAddonInstallPath()
-
-#
-# Logging
-#
-
-print("RCB_INFO: Loading sqlite3 as DB engine")
 
 
 class Logutil(object):
@@ -389,29 +398,29 @@ class Logutil(object):
     @staticmethod
     def log(message, logLevel):
         # FIXME TODO this is deprecated in favour of the above methods
-        if (Logutil.currentLogLevel == None):
+        if Logutil.currentLogLevel == None:
             xbmc.log("RCB: init log level")
             Logutil.currentLogLevel = Logutil.getCurrentLogLevel()
             xbmc.log("RCB: current log level: " + str(Logutil.currentLogLevel))
 
-        if (logLevel > Logutil.currentLogLevel):
+        if logLevel > Logutil.currentLogLevel:
             return
 
         prefix = u''
-        if (logLevel == LOG_LEVEL_DEBUG):
+        if logLevel == LOG_LEVEL_DEBUG:
             prefix = u'RCB_DEBUG: '
-        elif (logLevel == LOG_LEVEL_INFO):
+        elif logLevel == LOG_LEVEL_INFO:
             prefix = u'RCB_INFO: '
-        elif (logLevel == LOG_LEVEL_WARNING):
+        elif logLevel == LOG_LEVEL_WARNING:
             prefix = u'RCB_WARNING: '
-        elif (logLevel == LOG_LEVEL_ERROR):
+        elif logLevel == LOG_LEVEL_ERROR:
             prefix = u'RCB_ERROR: '
 
         try:
             # should be save as prefix is guaranteed to be unicode
             m = prefix + message
             xbmc.log(m.encode("utf-8"))
-        except Exception, (exc):
+        except Exception:
             pass
 
     @staticmethod
@@ -420,13 +429,13 @@ class Logutil(object):
         try:
             settings = getSettings()
             logLevelStr = settings.getSetting(SETTING_RCB_LOGLEVEL)
-            if (logLevelStr == 'ERROR'):
+            if logLevelStr == 'ERROR':
                 logLevel = LOG_LEVEL_ERROR
-            elif (logLevelStr == 'WARNING'):
+            elif logLevelStr == 'WARNING':
                 logLevel = LOG_LEVEL_WARNING
-            elif (logLevelStr == 'INFO'):
+            elif logLevelStr == 'INFO':
                 logLevel = LOG_LEVEL_INFO
-            elif (logLevelStr == 'DEBUG'):
+            elif logLevelStr == 'DEBUG':
                 logLevel = LOG_LEVEL_DEBUG
         except:
             pass

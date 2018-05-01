@@ -1,6 +1,6 @@
 from configxmlwriter import *
 from util import *
-import util, config, dialogbase
+import util, config
 import xbmcgui
 from dialogbase import DialogBase
 
@@ -77,56 +77,55 @@ class MissingInfoDialog(DialogBase):
 
         for i in range(0, len(self.missingFilterOptions.keys())):
             key = self.missingFilterOptions.keys()[i]
-            if (key == self.gui.config.showHideOption):
+            if key == self.gui.config.showHideOption:
                 listShowHide = self.getControlById(CONTROL_LIST_SHOWHIDEMISSING)
                 listShowHide.selectItem(i)
 
     def onAction(self, action):
-        if (action.getId() in ACTION_CANCEL_DIALOG):
+        if action.getId() in ACTION_CANCEL_DIALOG:
             self.close()
 
     def onClick(self, controlID):
 
         Logutil.log('onClick', util.LOG_LEVEL_INFO)
 
-        if (controlID == CONTROL_BUTTON_EXIT):  # Close window button
+        if controlID == CONTROL_BUTTON_EXIT:  # Close window button
             Logutil.log('close', util.LOG_LEVEL_INFO)
             self.close()
-        elif (controlID == CONTROL_BUTTON_ADD_ARTWORK_ORGROUP):
+        elif controlID == CONTROL_BUTTON_ADD_ARTWORK_ORGROUP:
             Logutil.log('Add artwork or', util.LOG_LEVEL_INFO)
             self.artworkOrList = self.addItemToMissingArtworkList(self.artworkOrList, CONTROL_LABEL_ARTWORK_ORGROUP)
 
-        elif (controlID == CONTROL_BUTTON_REMOVE_ARTWORK_ORGROUP):
+        elif controlID == CONTROL_BUTTON_REMOVE_ARTWORK_ORGROUP:
             Logutil.log('Remove artwork or', util.LOG_LEVEL_INFO)
             self.artworkOrList = self.removeFromMissingList(self.artworkOrList, CONTROL_LABEL_ARTWORK_ORGROUP)
 
-        elif (controlID == CONTROL_BUTTON_ADD_ARTWORK_ANDGROUP):
+        elif controlID == CONTROL_BUTTON_ADD_ARTWORK_ANDGROUP:
             Logutil.log('Add artwork and', util.LOG_LEVEL_INFO)
             self.artworkAndList = self.addItemToMissingArtworkList(self.artworkAndList, CONTROL_LABEL_ARTWORK_ANDGROUP)
 
-        elif (controlID == CONTROL_BUTTON_REMOVE_ARTWORK_ANDGROUP):
+        elif controlID == CONTROL_BUTTON_REMOVE_ARTWORK_ANDGROUP:
             Logutil.log('Remove artwork and', util.LOG_LEVEL_INFO)
             self.artworkAndList = self.removeFromMissingList(self.artworkAndList, CONTROL_LABEL_ARTWORK_ANDGROUP)
 
-        elif (controlID == CONTROL_BUTTON_ADD_INFO_ORGROUP):
+        elif controlID == CONTROL_BUTTON_ADD_INFO_ORGROUP:
             Logutil.log('Add info or', util.LOG_LEVEL_INFO)
             self.infoOrList = self.addItemToMissingInfoList(self.infoOrList, CONTROL_LABEL_INFO_ORGROUP)
 
-        elif (controlID == CONTROL_BUTTON_REMOVE_INFO_ORGROUP):
+        elif controlID == CONTROL_BUTTON_REMOVE_INFO_ORGROUP:
             Logutil.log('Remove info and', util.LOG_LEVEL_INFO)
             self.infoOrList = self.removeFromMissingList(self.infoOrList, CONTROL_LABEL_INFO_ORGROUP)
 
-        elif (controlID == CONTROL_BUTTON_ADD_INFO_ANDGROUP):
+        elif controlID == CONTROL_BUTTON_ADD_INFO_ANDGROUP:
             Logutil.log('Add info and', util.LOG_LEVEL_INFO)
             self.infoAndList = self.addItemToMissingInfoList(self.infoAndList, CONTROL_LABEL_INFO_ANDGROUP)
 
-        elif (controlID == CONTROL_BUTTON_REMOVE_INFO_ANDGROUP):
+        elif controlID == CONTROL_BUTTON_REMOVE_INFO_ANDGROUP:
             Logutil.log('Remove info and', util.LOG_LEVEL_INFO)
             self.infoAndList = self.removeFromMissingList(self.infoAndList, CONTROL_LABEL_INFO_ANDGROUP)
 
-
         #Save
-        elif (controlID == CONTROL_BUTTON_SAVE):
+        elif controlID == CONTROL_BUTTON_SAVE:
             Logutil.log('save', util.LOG_LEVEL_INFO)
 
             showHideList = self.getControlById(CONTROL_LIST_SHOWHIDEMISSING)
@@ -138,12 +137,12 @@ class MissingInfoDialog(DialogBase):
             success, message = configWriter.writeMissingFilter(showHideOption, self.artworkOrList, self.artworkAndList,
                                                                self.infoOrList, self.infoAndList)
 
-            if (success):
+            if success:
                 self.saveConfig = True
             self.close()
 
         #Cancel
-        elif (controlID == CONTROL_BUTTON_CANCEL):
+        elif controlID == CONTROL_BUTTON_CANCEL:
             Logutil.log('cancel', util.LOG_LEVEL_INFO)
             self.close()
 
@@ -161,7 +160,7 @@ class MissingInfoDialog(DialogBase):
         #32155 = Select Artwork type
         index = dialog.select(util.localize(32155), tempList)
         del dialog
-        if (index == -1):
+        if index == -1:
             return inList
 
         inList.append(tempList[index])
@@ -176,13 +175,13 @@ class MissingInfoDialog(DialogBase):
         keys = config.gameproperties.keys()
         keys.sort()
         for item in keys:
-            if (not item in tempList and not item in inList):
+            if not item in tempList and not item in inList:
                 tempList.append(item)
 
         dialog = xbmcgui.Dialog()
         index = dialog.select(util.localize(32156), tempList)
         del dialog
-        if (index == -1):
+        if index == -1:
             return inList
 
         inList.append(tempList[index])
@@ -195,7 +194,7 @@ class MissingInfoDialog(DialogBase):
         dialog = xbmcgui.Dialog()
         index = dialog.select(util.localize(32856), inList)
         del dialog
-        if (index == -1):
+        if index == -1:
             return inList
         inList.remove(inList[index])
         label = self.getControlById(labelId)

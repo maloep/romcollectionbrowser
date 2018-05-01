@@ -1,7 +1,7 @@
 from config import *
 from util import *
 import util
-import xbmc, xbmcgui
+import xbmc
 from dialogbase import DialogBase
 from pyscraper.scraper import AbstractScraper
 
@@ -150,7 +150,7 @@ class ImportOptionsDialog(DialogBase):
                 # 32804 = Use configured default scrapers
                 # search for default scraper or check if we only have one scraper and use this one
                 if site.name == siteName or \
-                        (siteName == util.localize(32804) and \
+                        (siteName == util.localize(32804) and
                          (site.default or len(romCollection.scraperSites) == 1)):
                     sites.append(site)
                     break

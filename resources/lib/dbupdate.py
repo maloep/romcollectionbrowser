@@ -1,6 +1,5 @@
-import getpass, glob
+import glob
 import time
-import urllib2
 import io
 import requests
 
@@ -22,14 +21,6 @@ from pyscraper.nfo_scraper import NFO_Scraper
 
 from nfowriter import NfoWriter
 from rcbexceptions import *
-
-# HACK: zlib isn't shipped with some linux distributions
-try:
-    import zlib
-except:
-    Logutil.log(
-        "Error while loading zlib library. You won't be able to import games using crc values (only used when importing offline game descriptions).",
-        util.LOG_LEVEL_WARNING)
 
 monitor = xbmc.Monitor()
 
@@ -55,7 +46,7 @@ class UpdateLogFile(object):
         with open(self.fname, mode='a') as fh:
             fh.write('\n~~~~~~~~~~~~~~~~~~~~~~~~\n%s\n~~~~~~~~~~~~~~~~~~~~~~~~\n' % rcname)
 
-    def add_entry(self, gamename, filename=None):
+    def add_entry(self, gamename, filename=None, pathtype=None):
         if filename is None:
             msg = u'%s\n' % gamename
         else:
@@ -109,8 +100,6 @@ class DBUpdate(object):
         self.missingDescFile = MissingDescLogFile()
         self.missingArtworkFile = MissingArtworkLogFile()
         self.possibleMismatchFile = MismatchLogFile()
-
-        pass
 
     def updateDB(self, gdb, gui, romCollections, isRescrape):
         self.gdb = gdb
@@ -219,10 +208,8 @@ class DBUpdate(object):
                     if not continueUpdate:
                         continue
 
-                    results = {}
                     foldername = self.getFoldernameFromRomFilename(filename)
 
-                    artScrapers = {}
                     results, artScrapers = self.useSingleScrapers(romCollection, filename, gamenameFromFile,
                                                                   progDialogRCHeader, fileidx + 1)
 
@@ -270,7 +257,7 @@ class DBUpdate(object):
                             continueUpdate = False
                             break
 
-                except ScraperExceededAPIQuoteException as ke:
+                except ScraperExceededAPIQuoteException:
                     #32128 = Import canceled.
                     #32043 = API quota for current scraper exceeded.
                     xbmcgui.Dialog().ok(util.localize(32128), util.localize(32043))
@@ -325,20 +312,20 @@ class DBUpdate(object):
         dirs, newFiles, dirname, filemask = self.getFilesByWildcardExt(romPath)
         files.extend(newFiles)
 
-        for dir in dirs:
-            newRomPath = util.joinPath(dirname, dir, filemask)
+        for directory in dirs:
+            newRomPath = util.joinPath(dirname, directory, filemask)
             maxFolderDepth = maxFolderDepth - 1
-            if (maxFolderDepth > 0):
+            if maxFolderDepth > 0:
                 self.walkDown(files, newRomPath, maxFolderDepth)
 
         return files
 
     def getFoldernameFromRomFilename(self, filename):
         """
-		Get the containing folder from a full path. For example, /Path/To/SNES/SNESGame.smc, return SNES
+        Get the containing folder from a full path. For example, /Path/To/SNES/SNESGame.smc, return SNES
 
-		If no path is specified (i.e. only a rom filename), then return ''
-		"""
+        If no path is specified (i.e. only a rom filename), then return ''
+        """
         d = os.path.dirname(filename)
         return os.path.basename(d)
 
@@ -376,15 +363,15 @@ class DBUpdate(object):
 
     def addNewElements(self, results, newResults):
         """ Add fields from the results to the existing set of results, adding if new, replacing if empty. This allows
-		us to add fields from subsequent site scrapes that were missing or not available in previous sites.
+        us to add fields from subsequent site scrapes that were missing or not available in previous sites.
 
-		Args:
-			results: Existing results dict from previous scrapes
-			newResults: Result dict from most recent scrape
+        Args:
+            results: Existing results dict from previous scrapes
+            newResults: Result dict from most recent scrape
 
-		Returns:
-			Updated dict of result fields
-		"""
+        Returns:
+            Updated dict of result fields
+        """
         try:
             log.debug("Before merging results: %s vs %s" % (results.items(), newResults.items()))
             # Retain any existing key values that aren't an empty list, overwrite all others
@@ -399,30 +386,31 @@ class DBUpdate(object):
     def useSingleScrapers(self, romCollection, romFile, gamenameFromFile, progDialogRCHeader, fileCount):
         """Scrape site for game metadata
 
-		Args:
-			romCollection:
-			gamenameFromFile:
-			progDialogRCHeader:
-			fileCount:
+        Args:
+            romCollection:
+            romFile:
+            gamenameFromFile:
+            progDialogRCHeader:
+            fileCount:
 
-		Returns:
-			dict for the game result:
-				{'SearchKey': ['Chrono Trigger'],
-				 'Publisher': ['Squaresoft'],
-				 'Description': ["The millennium. A portal is opened. The chain of time is broken...],
-				 'Players': ['1'],
-				 'Platform': ['Super Nintendo (SNES)'],
-				 'Game': ['Chrono Trigger'],
-				 'Filetypeboxfront': ['http://thegamesdb.net/banners/boxart/original/front/1255-1.jpg'],
-				 'Filetypeboxback': ['http://thegamesdb.net/banners/boxart/original/back/1255-1.jpg'],
-				 'Filetypescreenshot': ['http://thegamesdb.net/banners/screenshots/1255-1.jpg', 'http://thegamesdb.net/banners/screenshots/1255-2.jpg', 'http://thegamesdb.net/banners/screenshots/1255-3.jpg', 'http://thegamesdb.net/banners/screenshots/1255-4.jpg', 'http://thegamesdb.net/banners/screenshots/1255-5.jpg'],
-				 'Filetypefanart': ['http://thegamesdb.net/banners/fanart/original/1255-1.jpg', 'http://thegamesdb.net/banners/fanart/original/1255-10.jpg', 'http://thegamesdb.net/banners/fanart/original/1255-11.jpg', 'http://thegamesdb.net/banners/fanart/original/1255-2.jpg', 'http://thegamesdb.net/banners/fanart/original/1255-3.jpg', 'http://thegamesdb.net/banners/fanart/original/1255-4.jpg', 'http://thegamesdb.net/banners/fanart/original/1255-5.jpg', 'http://thegamesdb.net/banners/fanart/original/1255-6.jpg', 'http://thegamesdb.net/banners/fanart/original/1255-7.jpg', 'http://thegamesdb.net/banners/fanart/original/1255-8.jpg', 'http://thegamesdb.net/banners/fanart/original/1255-9.jpg'],
-				 'Genre': ['Role-Playing'],
-				 'Developer': ['Squaresoft']}
-			dict for artwork urls:
-				{'Filetypefanart': 'thegamesdb.net', 'Filetypeboxback': 'thegamesdb.net', 'Filetypescreenshot': 'thegamesdb.net', 'Filetypeboxfront': 'thegamesdb.net'}
-				Note - this only contains entries for artwork that was found (i.e. is not empty list)
-		"""
+        Returns:
+            dict for the game result:
+                {'SearchKey': ['Chrono Trigger'],
+                 'Publisher': ['Squaresoft'],
+                 'Description': ["The millennium. A portal is opened. The chain of time is broken...],
+                 'Players': ['1'],
+                 'Platform': ['Super Nintendo (SNES)'],
+                 'Game': ['Chrono Trigger'],
+                 'Filetypeboxfront': ['http://thegamesdb.net/banners/boxart/original/front/1255-1.jpg'],
+                 'Filetypeboxback': ['http://thegamesdb.net/banners/boxart/original/back/1255-1.jpg'],
+                 'Filetypescreenshot': ['http://thegamesdb.net/banners/screenshots/1255-1.jpg', 'http://thegamesdb.net/banners/screenshots/1255-2.jpg', 'http://thegamesdb.net/banners/screenshots/1255-3.jpg', 'http://thegamesdb.net/banners/screenshots/1255-4.jpg', 'http://thegamesdb.net/banners/screenshots/1255-5.jpg'],
+                 'Filetypefanart': ['http://thegamesdb.net/banners/fanart/original/1255-1.jpg', 'http://thegamesdb.net/banners/fanart/original/1255-10.jpg', 'http://thegamesdb.net/banners/fanart/original/1255-11.jpg', 'http://thegamesdb.net/banners/fanart/original/1255-2.jpg', 'http://thegamesdb.net/banners/fanart/original/1255-3.jpg', 'http://thegamesdb.net/banners/fanart/original/1255-4.jpg', 'http://thegamesdb.net/banners/fanart/original/1255-5.jpg', 'http://thegamesdb.net/banners/fanart/original/1255-6.jpg', 'http://thegamesdb.net/banners/fanart/original/1255-7.jpg', 'http://thegamesdb.net/banners/fanart/original/1255-8.jpg', 'http://thegamesdb.net/banners/fanart/original/1255-9.jpg'],
+                 'Genre': ['Role-Playing'],
+                 'Developer': ['Squaresoft']}
+            dict for artwork urls:
+                {'Filetypefanart': 'thegamesdb.net', 'Filetypeboxback': 'thegamesdb.net', 'Filetypescreenshot': 'thegamesdb.net', 'Filetypeboxfront': 'thegamesdb.net'}
+                Note - this only contains entries for artwork that was found (i.e. is not empty list)
+        """
         gameresult = {}
         artScrapers = {}
 
@@ -644,16 +632,6 @@ class DBUpdate(object):
                                      publisher, developer)
             if len(files) > 0:
                 artWorkFound = True
-
-                # HACK: disable static image check as a preparation for new default image handling (this code has problems with [] in rom names)
-                """
-				imagePath = str(self.resolvePath((path.path,), gamename, gamenameFromFile, foldername, romCollection.name, publisher, developer))
-				staticImageCheck = imagePath.upper().find(gamenameFromFile.upper())
-				
-				#make sure that it was no default image that was found here
-				if(staticImageCheck != -1):
-					artWorkFound = True
-				"""
             else:
                 self.missingArtworkFile.add_entry(gamename, gamenameFromFile, path.fileType.name)
 
@@ -826,57 +804,22 @@ class DBUpdate(object):
         log.info("xbmcvfs dirs: %s" % dirs)
         log.info("xbmcvfs files: %s" % filesLocal)
 
-        for dir in dirsLocal:
-            if type(dir) == str:
-                dirs.append(dir.decode('utf-8'))
+        for directory in dirsLocal:
+            if isinstance(directory, str):
+                dirs.append(directory.decode('utf-8'))
             else:
-                dirs.append(dir)
+                dirs.append(directory)
 
-        for file in filesLocal:
-            if fnmatch.fnmatch(file, filemask):
+        for localfile in filesLocal:
+            if fnmatch.fnmatch(localfile, filemask):
                 # allFiles = [f.decode(sys.getfilesystemencoding()).encode('utf-8') for f in glob.glob(newRomPath)]
-                if type(file) == str:
-                    file = file.decode('utf-8')
-                file = util.joinPath(dirname, file)
+                if isinstance(localfile, str):
+                    localfile = localfile.decode('utf-8')
+                localfile = util.joinPath(dirname, localfile)
                 # return unicode filenames so relating scraping actions can handle them correctly
-                files.append(file)
+                files.append(localfile)
 
         return dirs, files, dirname, filemask
-
-        """
-		try:
-			# try glob with * wildcard
-			files = glob.glob(pathName)
-			Logutil.log('files after glob.glob: %s' %files, util.LOG_LEVEL_INFO)
-		except Exception, (exc):
-			Logutil.log("Error using glob function in resolvePath " +str(exc), util.LOG_LEVEL_WARNING)
-			
-		if(len(files) == 0):
-			#HACK: removed \s from regular expression. previous version was '\s\[.*\]' 
-			squares = re.findall('\[.*\]',pathName)
-			if(squares != None and len(squares) >= 1):
-				Logutil.log('Replacing [...] with *', util.LOG_LEVEL_INFO)
-				for square in squares:						
-					pathName = pathName.replace(square, '*')
-			
-				Logutil.log('new pathname: ' +str(pathName), util.LOG_LEVEL_INFO)
-				try:
-					files = glob.glob(pathName)
-				except Exception, (exc):
-					Logutil.log("Error using glob function in resolvePath " +str(exc), util.LOG_LEVEL_WARNING)
-		
-		# glob can't handle []-characters - try it with listdir
-		if(len(files)  == 0):
-			try:
-				if(xbmcvfs.exists(pathName)):
-					files.append(pathName)
-				else:
-					files = xbmcvfs.listdir(pathName)					
-			except:
-				pass
-		Logutil.log("resolved files: " +str(files), util.LOG_LEVEL_INFO)
-		return files
-		"""
 
     def getFilesByGameNameIgnoreCase(self, pathname):
 
@@ -892,10 +835,10 @@ class DBUpdate(object):
         filesLower = glob.glob(newpath)
 
         allFiles = filesUpper + filesLower
-        for file in allFiles:
-            if pathname.lower() == file.lower():
+        for f in allFiles:
+            if pathname.lower() == f.lower():
                 log.warn("Found path '%s' by search with ignore case." % pathname)
-                files.append(file)
+                files.append(f)
 
         return files
 
@@ -906,7 +849,7 @@ class DBUpdate(object):
         try:
             resultValue = result[itemName][0].strip()
 
-            if type(resultValue) == str:
+            if isinstance(resultValue, str):
                 resultValue = resultValue.decode('utf-8')
 
         except Exception, (exc):
@@ -943,7 +886,7 @@ class DBUpdate(object):
             f = File(self.gdb)
             try:
                 f.insert((fileName, fileType.id, parentId))
-            except Exception, (exc):
+            except Exception:
                 log.warn("Error inserting into database: %s" % fileName)
         else:
             log.info("File already exists in database: %s" % fileName)

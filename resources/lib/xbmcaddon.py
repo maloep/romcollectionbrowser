@@ -105,5 +105,3 @@ class Addon(object):
             path = os.path.join(basepath, "..\..")
             print 'path = ' + str(path)
             return path
-        
-            return 'dummy'

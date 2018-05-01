@@ -1,6 +1,6 @@
 import os
 import xml.etree.ElementTree as ET
-from xml.etree.ElementTree import Element, SubElement
+from xml.etree.ElementTree import SubElement
 
 from config import *
 import dialogprogress
@@ -42,7 +42,7 @@ class NfoWriter(RcbXmlReaderWriter):
 
                 continueExport = progressDialog.writeMsg(progDialogRCHeader,
                                                          util.localize(32171) + ": " + str(game.name), "", gameCount)
-                if (not continueExport):
+                if not continueExport:
                     Logutil.log('Game export canceled by user', util.LOG_LEVEL_INFO)
                     break
 
@@ -141,7 +141,6 @@ class NfoWriter(RcbXmlReaderWriter):
                 SubElement(root, 'thumb', {'type': artworktype.name, 'local': local}).text = online
             except Exception, (exc):
                 Logutil.log('Error writing artwork url: ' + str(exc), util.LOG_LEVEL_WARNING)
-                pass
 
         self.writeNfoElementToFile(root, platform, romFile, gameNameFromFile, nfoFile)
 
@@ -172,12 +171,12 @@ class NfoWriter(RcbXmlReaderWriter):
                 Logutil.log("Path to nfoFolder does not exist: " + nfoFolder, util.LOG_LEVEL_WARNING)
             else:
                 nfoFolder = os.path.join(nfoFolder, romCollectionName)
-                if (not os.path.exists(nfoFolder)):
+                if not os.path.exists(nfoFolder):
                     os.mkdir(nfoFolder)
 
                 nfoFile = os.path.join(nfoFolder, gameNameFromFile + '.nfo')
 
-        if (nfoFile == ''):
+        if nfoFile == '':
             romDir = os.path.dirname(romFile)
             Logutil.log('Romdir: ' + romDir, util.LOG_LEVEL_INFO)
             nfoFile = os.path.join(romDir, gameNameFromFile + '.nfo')
@@ -187,21 +186,21 @@ class NfoWriter(RcbXmlReaderWriter):
 
         return nfoFile
 
-    def getGamePropertyFromCache(self, gameRow, dict, key, index):
+    def getGamePropertyFromCache(self, gameRow, game_dict, key, index):
 
         result = ""
         try:
-            itemRow = dict[gameRow[key]]
+            itemRow = game_dict[gameRow[key]]
             result = itemRow[index]
         except:
             pass
 
         return result
 
-    def getGameProperty(self, property):
+    def getGameProperty(self, prop):
 
         try:
-            result = str(property)
+            result = str(prop)
         except:
             result = ""
 

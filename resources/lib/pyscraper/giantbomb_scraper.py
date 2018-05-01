@@ -102,7 +102,7 @@ class GiantBomb_Scraper(WebScraper):
                                 'title': result['name'],
                                 'releaseDate': year,
                                 'SearchKey': [result['name']]})
-            except KeyError as k:
+            except KeyError:
                 log.warn("Unable to find expected field in response")
             except Exception as e:
                 log.warn("Error parsing field: {0}".format(e))
