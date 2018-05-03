@@ -461,7 +461,7 @@ class Config(RcbXmlReaderWriter):
         if (not xbmcvfs.exists(self.configFile)):
             Logutil.log('File config.xml does not exist. Place a valid config file here: %s' % self.configFile,
                         util.LOG_LEVEL_ERROR)
-            return None, False, util.localize(32003)
+            return False, util.localize(32003)
 
         # force utf-8
         tree = ElementTree()
@@ -473,20 +473,21 @@ class Config(RcbXmlReaderWriter):
         tree.parse(self.configFile, parser)
         if (tree == None):
             Logutil.log('Could not read config.xml', util.LOG_LEVEL_ERROR)
-            return None, False, util.localize(32004)
+            return False, util.localize(32004)
 
         self.tree = tree
 
-        return tree, True, ''
+        return True, ''
 
     def checkRomCollectionsAvailable(self):
         Logutil.log('checkRomCollectionsAvailable', util.LOG_LEVEL_INFO)
 
-        tree, success, errorMsg = self.initXml()
-        if not success:
-            return False, errorMsg
+        if not self.tree:
+            success, errorMsg = self.initXml()
+            if not success:
+                return False, errorMsg
 
-        romCollectionRows = tree.findall('RomCollections/RomCollection')
+        romCollectionRows = self.tree.findall('RomCollections/RomCollection')
         numRomCollections = len(romCollectionRows)
         Logutil.log("Number of Rom Collections in config.xml: %i" % numRomCollections, util.LOG_LEVEL_INFO)
 
@@ -495,20 +496,21 @@ class Config(RcbXmlReaderWriter):
     def readXml(self):
         Logutil.log('readXml', util.LOG_LEVEL_INFO)
 
-        tree, success, errorMsg = self.initXml()
-        if not success:
-            return False, errorMsg
+        if not self.tree:
+            success, errorMsg = self.initXml()
+            if not success:
+                return False, errorMsg
 
         # Rom Collections
-        romCollections, errorMsg = self.readRomCollections(tree)
+        romCollections, errorMsg = self.readRomCollections(self.tree)
         if romCollections is None:
             return False, errorMsg
         self.romCollections = romCollections
 
-        self.fileTypeIdsForGamelist = self.getFileTypeIdsForGameList(tree, romCollections)
+        self.fileTypeIdsForGamelist = self.getFileTypeIdsForGameList(self.tree, romCollections)
 
         # Missing filter settings
-        missingFilter = tree.find('MissingFilter')
+        missingFilter = self.tree.find('MissingFilter')
 
         if missingFilter is not None:
             self.showHideOption = missingFilter.findtext('showHideOption')
