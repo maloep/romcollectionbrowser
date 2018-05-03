@@ -1,15 +1,11 @@
 import xbmc, xbmcgui, xbmcaddon
-import glob, time, array, os, sys, shutil
-from threading import *
+import time, os
 
 from util import *
 import util
-import dbupdate, helper, config
-from launcher import RCBLauncher
-import dialogimportoptions, dialogcontextmenu, dialogprogress, dialogmissinginfo
+import helper, config
+import dialogprogress
 from config import *
-from configxmlupdater import *
-import wizardconfigxml
 from gamedatabase import *
 
 #Action Codes
@@ -178,11 +174,13 @@ class UIGameDB(xbmcgui.WindowXML):
                     return config, False
 
         if createNewConfig:
+            import wizardconfigxml
             statusOk, errorMsg = wizardconfigxml.ConfigXmlWizard().createConfigXml(configFile)
             if statusOk == False:
                 xbmcgui.Dialog().ok(util.SCRIPTNAME, util.localize(32001), errorMsg)
                 return config, False
         else:
+            from configxmlupdater import *
             #check if config.xml is up to date
             returnCode, message = ConfigxmlUpdater().updateConfig(configFile)
             if returnCode == False:
@@ -367,6 +365,7 @@ class UIGameDB(xbmcgui.WindowXML):
             self.showGames()
 
         elif controlId == CONTROL_BUTTON_MISSINGINFODIALOG:
+            import dialogmissinginfo
             try:
                 missingInfoDialog = dialogmissinginfo.MissingInfoDialog("script-RCB-missinginfo.xml",
                                                                         util.getAddonInstallPath(),
@@ -953,6 +952,7 @@ class UIGameDB(xbmcgui.WindowXML):
             #self.player.stoppedByRCB = True
             self.player.stop()
 
+        from launcher import RCBLauncher
         launcher = RCBLauncher()
         launcher.launchEmu(self.gdb, self, gameId, self.config, selectedGame)
         Logutil.log("End launchEmu", util.LOG_LEVEL_INFO)
@@ -1137,6 +1137,8 @@ class UIGameDB(xbmcgui.WindowXML):
 
     def showContextMenu(self):
 
+        import dialogcontextmenu
+
         constructorParam = "720p"
         try:
             cm = dialogcontextmenu.ContextMenuDialog("script-RCB-contextmenu.xml", util.getAddonInstallPath(),
@@ -1189,6 +1191,7 @@ class UIGameDB(xbmcgui.WindowXML):
         #Import is started from dialog
         showImportOptionsDialog = self.Settings.getSetting(util.SETTING_RCB_SHOWIMPORTOPTIONSDIALOG).upper() == 'TRUE'
         if showImportOptionsDialog:
+            import dialogimportoptions
             constructorParam = "720p"
             try:
                 iod = dialogimportoptions.ImportOptionsDialog("script-RCB-importoptions.xml",
@@ -1232,6 +1235,8 @@ class UIGameDB(xbmcgui.WindowXML):
             self.quit = True
             self.exit()
         else:
+            import dbupdate
+
             progressDialog = dialogprogress.ProgressDialogGUI()
             progressDialog.writeMsg(util.localize(32111), "", "")
 
