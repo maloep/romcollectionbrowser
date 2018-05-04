@@ -135,7 +135,7 @@ class UIGameDB(xbmcgui.WindowXML):
         if self.fileTypeGameplay == None:
             Logutil.log("Error while loading fileType gameplay: " + errorMsg, util.LOG_LEVEL_WARNING)
 
-        #load video fileType for later use in showGameInfo
+        #load fileType clearlogo for later use in showGameInfo
         self.fileTypeClearlogo, errorMsg = self.config.readFileType('clearlogo', self.config.tree)
         if self.fileTypeClearlogo == None:
             Logutil.log("Error while loading fileType gameplay: " + errorMsg, util.LOG_LEVEL_WARNING)
@@ -861,54 +861,40 @@ class UIGameDB(xbmcgui.WindowXML):
                         util.LOG_LEVEL_ERROR)
             return
 
-        mediaPathsDict = self.mediaDict[str(selectedGame.getProperty('romCollectionId'))]
         romfile = selectedGame.getProperty('firstRom')
         gamenameFromFile = romCollection.getGamenameFromFilename(romfile)
 
         selectedGame.setArt({
-            'thumb': helper.getFileForControl(romCollection.imagePlacingMain.fileTypesForGameListSelected,
-                                              romCollection, mediaPathsDict, gamenameFromFile),
+            'thumb': helper.getFileForControl_NoCache(romCollection.imagePlacingMain.fileTypesForGameListSelected,
+                                              romCollection, gamenameFromFile, False),
 
-            IMAGE_CONTROL_BACKGROUND: helper.getFileForControl(
-                romCollection.imagePlacingMain.fileTypesForMainViewBackground, romCollection, mediaPathsDict,
-                gamenameFromFile),
-            IMAGE_CONTROL_GAMEINFO_BIG: helper.getFileForControl(
-                romCollection.imagePlacingMain.fileTypesForMainViewGameInfoBig, romCollection, mediaPathsDict,
-                gamenameFromFile),
-
-            IMAGE_CONTROL_GAMEINFO_UPPERLEFT: helper.getFileForControl(
-                romCollection.imagePlacingMain.fileTypesForMainViewGameInfoUpperLeft, romCollection, mediaPathsDict,
-                gamenameFromFile),
-            IMAGE_CONTROL_GAMEINFO_UPPERRIGHT: helper.getFileForControl(
-                romCollection.imagePlacingMain.fileTypesForMainViewGameInfoUpperRight, romCollection, mediaPathsDict,
-                gamenameFromFile),
-            IMAGE_CONTROL_GAMEINFO_LOWERLEFT: helper.getFileForControl(
-                romCollection.imagePlacingMain.fileTypesForMainViewGameInfoLowerLeft, romCollection, mediaPathsDict,
-                gamenameFromFile),
-            IMAGE_CONTROL_GAMEINFO_LOWERRIGHT: helper.getFileForControl(
-                romCollection.imagePlacingMain.fileTypesForMainViewGameInfoLowerRight, romCollection, mediaPathsDict,
-                gamenameFromFile),
-
-            IMAGE_CONTROL_GAMEINFO_UPPER: helper.getFileForControl(
-                romCollection.imagePlacingMain.fileTypesForMainViewGameInfoUpper, romCollection, mediaPathsDict,
-                gamenameFromFile),
-            IMAGE_CONTROL_GAMEINFO_LOWER: helper.getFileForControl(
-                romCollection.imagePlacingMain.fileTypesForMainViewGameInfoLower, romCollection, mediaPathsDict,
-                gamenameFromFile),
-            IMAGE_CONTROL_GAMEINFO_LEFT: helper.getFileForControl(
-                romCollection.imagePlacingMain.fileTypesForMainViewGameInfoLeft, romCollection, mediaPathsDict,
-                gamenameFromFile),
-            IMAGE_CONTROL_GAMEINFO_RIGHT: helper.getFileForControl(
-                romCollection.imagePlacingMain.fileTypesForMainViewGameInfoRight, romCollection, mediaPathsDict,
-                gamenameFromFile),
+            IMAGE_CONTROL_BACKGROUND: helper.getFileForControl_NoCache(
+                romCollection.imagePlacingMain.fileTypesForMainViewBackground, romCollection, gamenameFromFile, False),
+            IMAGE_CONTROL_GAMEINFO_BIG: helper.getFileForControl_NoCache(
+                romCollection.imagePlacingMain.fileTypesForMainViewGameInfoBig, romCollection, gamenameFromFile, False),
+            IMAGE_CONTROL_GAMEINFO_UPPERLEFT: helper.getFileForControl_NoCache(
+                romCollection.imagePlacingMain.fileTypesForMainViewGameInfoUpperLeft, romCollection, gamenameFromFile, False),
+            IMAGE_CONTROL_GAMEINFO_UPPERRIGHT: helper.getFileForControl_NoCache(
+                romCollection.imagePlacingMain.fileTypesForMainViewGameInfoUpperRight, romCollection, gamenameFromFile, False),
+            IMAGE_CONTROL_GAMEINFO_LOWERLEFT: helper.getFileForControl_NoCache(
+                romCollection.imagePlacingMain.fileTypesForMainViewGameInfoLowerLeft, romCollection, gamenameFromFile, False),
+            IMAGE_CONTROL_GAMEINFO_LOWERRIGHT: helper.getFileForControl_NoCache(
+                romCollection.imagePlacingMain.fileTypesForMainViewGameInfoLowerRight, romCollection, gamenameFromFile, False),
+            IMAGE_CONTROL_GAMEINFO_UPPER: helper.getFileForControl_NoCache(
+                romCollection.imagePlacingMain.fileTypesForMainViewGameInfoUpper, romCollection, gamenameFromFile, False),
+            IMAGE_CONTROL_GAMEINFO_LOWER: helper.getFileForControl_NoCache(
+                romCollection.imagePlacingMain.fileTypesForMainViewGameInfoLower, romCollection, gamenameFromFile, False),
+            IMAGE_CONTROL_GAMEINFO_LEFT: helper.getFileForControl_NoCache(
+                romCollection.imagePlacingMain.fileTypesForMainViewGameInfoLeft, romCollection, gamenameFromFile, False),
+            IMAGE_CONTROL_GAMEINFO_RIGHT: helper.getFileForControl_NoCache(
+                romCollection.imagePlacingMain.fileTypesForMainViewGameInfoRight, romCollection, gamenameFromFile, False),
 
             #TODO: might already been added in showGames
-            IMAGE_CONTROL_CLEARLOGO: helper.getFileForControl([self.fileTypeClearlogo], romCollection, mediaPathsDict,
-                                                              gamenameFromFile)
+            IMAGE_CONTROL_CLEARLOGO: helper.getFileForControl_NoCache([self.fileTypeClearlogo], romCollection, gamenameFromFile, False)
         })
 
         if romCollection.autoplayVideoMain:
-            self.loadVideoFiles(selectedGame, romCollection, mediaPathsDict, gamenameFromFile)
+            self.loadVideoFiles(selectedGame, romCollection, gamenameFromFile)
 
         endtime = time.clock()
         diff = (endtime - starttime) * 1000
@@ -1149,7 +1135,7 @@ class UIGameDB(xbmcgui.WindowXML):
 
         del cm
 
-    def loadVideoFiles(self, listItem, romCollection, mediaPathsDict, gamenameFromFile):
+    def loadVideoFiles(self, listItem, romCollection, gamenameFromFile):
 
         Logutil.log("begin loadVideoFiles", util.LOG_LEVEL_INFO)
 
@@ -1171,7 +1157,7 @@ class UIGameDB(xbmcgui.WindowXML):
             Logutil.log("fileType gameplay == None. No video loaded.", util.LOG_LEVEL_INFO)
 
         #load gameplay videos
-        video = helper.getFileForControl((self.fileTypeGameplay,), romCollection, mediaPathsDict, gamenameFromFile)
+        video = helper.getFileForControl_NoCache((self.fileTypeGameplay,), romCollection, gamenameFromFile, True)
         if video:
             listItem.setProperty('gameplaymain', video)
 

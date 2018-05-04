@@ -1,7 +1,9 @@
 import json
 import os, re
+import glob
 
 from gamedatabase import *
+from config import FileType
 from util import *
 import util
 import xbmc, xbmcgui
@@ -37,6 +39,7 @@ def cacheMediaPathsForSelection(consoleId, mediaDict, config):
                 continue
             cacheMediaPathsForConsole(rcId, mediaDict, config)
 
+    Logutil.log('End cacheMediaPathsForSelection', util.LOG_LEVEL_INFO)
     return mediaDict
 
 
@@ -45,10 +48,26 @@ def cacheMediaPathsForConsole(consoleId, mediaDict, config):
     Logutil.log('Caching mediaPaths for Rom Collection %s' % str(consoleId), util.LOG_LEVEL_INFO)
 
     romCollection = config.romCollections[str(consoleId)]
+    # only cache images for gamelist and clearlogo
+    gamelist_types = []
+    if util.getSettings().getSetting(util.SETTING_RCB_LOADGAMELISTARTWORK).upper() == 'TRUE':
+        gamelist_types.extend(romCollection.imagePlacingMain.fileTypesForGameList)
+    if util.getSettings().getSetting(util.SETTING_RCB_USECLEARLOGOASTITLE).upper() == 'TRUE':
+        gamelist_types.append(FileType(name='clearlogo'))
 
     mediaPathDict = {}
 
-    for mediaPath in romCollection.mediaPaths:
+    for filetype in gamelist_types:
+        is_gamelist_type = False
+        for mediaPath in romCollection.mediaPaths:
+            if mediaPath.fileType.name == filetype.name:
+                is_gamelist_type = True
+                break
+        if not is_gamelist_type:
+            Logutil.log('%s is no gamelist type. Skip type.' %mediaPath.fileType.name, util.LOG_LEVEL_INFO)
+            continue
+
+        Logutil.log('mediaPath = %s' %mediaPath.path, util.LOG_LEVEL_INFO)
         mediadir = mediaPath.path
         #if foldername is gamename only get content of parent directory
         if romCollection.useFoldernameAsGamename:
@@ -60,10 +79,14 @@ def cacheMediaPathsForConsole(consoleId, mediaDict, config):
         mediaPathDict[mediaPath.fileType.name] = mediafiles
 
     mediaDict[str(consoleId)] = mediaPathDict
+    Logutil.log('End cacheMediaPathsForConsole', util.LOG_LEVEL_INFO)
 
 
 def walkDownMediaDirectories(mediadir, mediafiles):
+    Logutil.log('Begin walkDownMediaDirectories', util.LOG_LEVEL_INFO)
+    Logutil.log('xbmcvfs.listdir', util.LOG_LEVEL_INFO)
     mediasubdirs, mediasubfiles = xbmcvfs.listdir(mediadir)
+    Logutil.log('Add files', util.LOG_LEVEL_INFO)
     for mediasubfile in mediasubfiles:
         mediafiles.append(os.path.normpath(os.path.join(mediadir, mediasubfile)))
 
@@ -94,6 +117,77 @@ def getFileForControl(fileTypes, romCollection, mediaPathsDict, gamenameFromFile
             return imagePath
 
 
+def getFileForControl_NoCache(fileTypes, romCollection, gamenameFromFile, isVideo):
+    Logutil.log("begin getFileForControl_NoCache_xbmcvfs", util.LOG_LEVEL_INFO)
+
+    for fileType in fileTypes:
+        if not fileType:
+            continue
+
+        if fileType.parent != util.FILETYPEPARENT_GAME:
+            continue
+
+        mediaPath = romCollection.getMediaPathByType(fileType.name)
+        if not mediaPath:
+            continue
+
+        pathnameFromFileOrig = mediaPath.replace("%GAME%", gamenameFromFile)
+        Logutil.log("pathnameFromFileOrig: %s" %pathnameFromFileOrig, util.LOG_LEVEL_INFO)
+        if pathnameFromFileOrig.endswith('.*'):
+            if not isVideo:
+                extensions = ['png', 'jpg', 'gif', 'bmp', 'jpeg']
+            else:
+                extensions = ['mp4', 'wmv', 'avi', 'flv']
+            for extension in extensions:
+                filename = pathnameFromFileOrig.replace('*', extension)
+                if xbmcvfs.exists(filename):
+                    return  filename
+        else:
+            if xbmcvfs.exists(pathnameFromFileOrig):
+                return pathnameFromFileOrig
+
+    Logutil.log("end getFileForControl_NoCache_xbmcvfs - nothing found", util.LOG_LEVEL_INFO)
+    return ""
+
+
+def getFileForControl_NoCache_glob(fileTypes, romCollection, mediaPathsDict, gamenameFromFile):
+    """
+    Just kept as reference. glob does not seem to work with network shares in libreelec.
+    """
+    Logutil.log("begin getFileForControl_NoCache", util.LOG_LEVEL_INFO)
+
+    for fileType in fileTypes:
+        if not fileType:
+            continue
+
+        if fileType.parent != util.FILETYPEPARENT_GAME:
+            continue
+
+        mediaPath = romCollection.getMediaPathByType(fileType.name)
+        if not mediaPath:
+            continue
+
+        pathnameFromFileOrig = mediaPath.replace("%GAME%", gamenameFromFile)
+        Logutil.log("pathnameFromFileOrig: %s" %pathnameFromFileOrig, util.LOG_LEVEL_INFO)
+        #HACK: glob can't handle smb paths, so we need to use unc path syntax
+        if pathnameFromFileOrig.startswith('smb://'):
+            pathnameFromFile = pathnameFromFileOrig.replace('smb://', '\\\\')
+            pathnameFromFile = pathnameFromFile.replace('/', '\\')
+        else:
+            pathnameFromFile = pathnameFromFileOrig
+        Logutil.log("pathnameFromFile: %s" % pathnameFromFile, util.LOG_LEVEL_INFO)
+        files = glob.glob(pathnameFromFile)
+        Logutil.log("files found by glob: %s" % files, util.LOG_LEVEL_INFO)
+
+        if len(files) > 0:
+            filename = pathnameFromFileOrig.replace('.*', os.path.splitext(files[0])[1])
+            Logutil.log("end getFileForControl_NoCache: %s" %filename, util.LOG_LEVEL_INFO)
+            return filename
+
+    Logutil.log("end getFileForControl_NoCache - nothing found", util.LOG_LEVEL_INFO)
+    return ""
+
+
 def _findFileWithCorrectExtensionRegex(pathnameFromFile, mediaPathsList):
     pathToSearch = re.escape(os.path.normpath(pathnameFromFile.replace('.*', '')))
     pattern = re.compile('%s\..*$' % pathToSearch)
@@ -104,14 +198,6 @@ def _findFileWithCorrectExtensionRegex(pathnameFromFile, mediaPathsList):
             mediaPathFilename, mediaPathExtension = os.path.splitext(pathnameFromFile)
             return '%s%s' % (mediaPathFilename, resultExtension)
 
-def _findFileWithCorrectExtensionRegexFilter(pathnameFromFile, mediaPathsList):
-    pathToSearch = re.escape(os.path.normpath(pathnameFromFile.replace('.*', '')))
-    pattern = re.compile('%s\..*$' % pathToSearch)
-    result = filter(pattern.match, mediaPathsList)
-    if len(result) > 0:
-        resultFilename, resultExtension = os.path.splitext(result[0])
-        mediaPathFilename, mediaPathExtension = os.path.splitext(pathnameFromFile)
-        return '%s%s' % (mediaPathFilename, resultExtension)
 
 def saveViewState(gdb, isOnExit, selectedView, selectedGameIndex, selectedConsoleIndex, selectedGenreIndex,
                   selectedPublisherIndex, selectedYearIndex, selectedCharacterIndex,
