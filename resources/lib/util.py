@@ -371,7 +371,7 @@ class Logutil(object):
             cls.currentLogLevel = cls.getCurrentLogLevel()
             xbmc.log("RCB: current log level initialised to " + str(cls.currentLogLevel))
 
-        if Logutil.getCurrentLogLevel() < level:
+        if cls.currentLogLevel < level:
             return
 
         try:
