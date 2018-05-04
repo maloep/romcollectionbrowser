@@ -47,11 +47,15 @@ class FileType(object):
     parent: The class that this file pertains to. Current supported values: game, romcollection, developer, publisher.
     """
 
-    def __init__(self):
+    def __init__(self, **kwargs):
         self.name = ''
         self.id = -1
         self.type = ''
         self.parent = ''
+
+        """ Set any variables explicitly passed """
+        for name in kwargs:
+            setattr(self, name, kwargs[name])
 
     def __repr__(self):
         return "<FileType: %s>" % self.__dict__
