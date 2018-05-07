@@ -125,11 +125,6 @@ class UIGameDB(xbmcgui.WindowXML):
             self.quit = True
             return
 
-        #store content of mediapath folders in a dictionary
-        #self.mediaDict is a nested dictionary with Rom Collection Id as first key and media type name as second key
-        # '1': {'boxfront': ['list of boxfront files'], 'screenshot' : ['list of screenshot files']}
-        self.mediaDict = None
-
         #load video fileType for later use in showGameInfo
         self.fileTypeGameplay, errorMsg = self.config.readFileType('gameplay', self.config.tree)
         if self.fileTypeGameplay == None:
@@ -726,15 +721,10 @@ class UIGameDB(xbmcgui.WindowXML):
         diff = (timestamp2 - timestamp1) * 1000
         print "showGames: load %d games from db in %d ms" % (len(games), diff)
 
-        self.writeMsg(util.localize(32204))
-
         self.clearList()
-        self.mediaDict = helper.cacheMediaPathsForSelection(self.selectedConsoleId, self.mediaDict, self.config)
 
+        #32121 = Loading games...
         self.writeMsg(util.localize(32121))
-
-        loadGamelistArtwork = self.Settings.getSetting(util.SETTING_RCB_LOADGAMELISTARTWORK).upper() == 'TRUE'
-        useClearlogoAsTitle = self.Settings.getSetting(util.SETTING_RCB_USECLEARLOGOASTITLE).upper() == 'TRUE'
 
         #used to show percentage during game loading
         divisor = len(games) / 10
@@ -748,24 +738,6 @@ class UIGameDB(xbmcgui.WindowXML):
             except KeyError:
                 Logutil.log('Cannot get rom collection with id: ' + str(game.romCollectionId), util.LOG_LEVEL_ERROR)
                 # Won't be able to get game images, move to next game
-                continue
-
-            mediaPathsDict = self.mediaDict[str(game.romCollectionId)]
-            romfile = game.firstRom
-            gamenameFromFile = romCollection.getGamenameFromFilename(romfile)
-
-            image_gamelist = ''
-            if loadGamelistArtwork:
-                image_gamelist = helper.getFileForControl(romCollection.imagePlacingMain.fileTypesForGameList,
-                                                          romCollection, mediaPathsDict, gamenameFromFile)
-
-            image_clearlogo = ''
-            if useClearlogoAsTitle:
-                image_clearlogo = helper.getFileForControl([self.fileTypeClearlogo], romCollection, mediaPathsDict,
-                                                           gamenameFromFile)
-
-            #check if this game should not be added due to missing artwork
-            if not self._checkMissingArtworkFilter(image_gamelist, image_clearlogo):
                 continue
 
             item = xbmcgui.ListItem(game.name, str(game.id))
@@ -783,7 +755,22 @@ class UIGameDB(xbmcgui.WindowXML):
                          'genre',
                          'firstRom',
                          'gameCmd',
-                         'alternateGameCmd']:
+                         'alternateGameCmd',
+                         'fileType1',
+                         'fileType2',
+                         'fileType3',
+                         'fileType4',
+                         'fileType5',
+                         'fileType6',
+                         'fileType7',
+                         'fileType8',
+                         'fileType9',
+                         'fileType10',
+                         'fileType11',
+                         'fileType12',
+                         'fileType13',
+                         'fileType14',
+                         'fileType15']:
                 try:
                     item.setProperty(prop, getattr(game, prop))
                 except AttributeError:
@@ -797,9 +784,36 @@ class UIGameDB(xbmcgui.WindowXML):
             item.setProperty('console', romCollection.name)
 
             #set gamelist artwork at startup
-            item.setArt({'icon': image_gamelist,
-                         IMAGE_CONTROL_CLEARLOGO: image_clearlogo,
+            item.setArt({'icon': helper.get_file_for_control_from_db(
+                             romCollection.imagePlacingMain.fileTypesForGameList, item),
+                         IMAGE_CONTROL_CLEARLOGO: helper.get_file_for_control_from_db(
+                             [self.fileTypeClearlogo], item),
+                         'thumb': helper.get_file_for_control_from_db(
+                             romCollection.imagePlacingMain.fileTypesForGameListSelected, item),
+                         IMAGE_CONTROL_BACKGROUND: helper.get_file_for_control_from_db(
+                             romCollection.imagePlacingMain.fileTypesForMainViewBackground, item),
+                         IMAGE_CONTROL_GAMEINFO_BIG: helper.get_file_for_control_from_db(
+                             romCollection.imagePlacingMain.fileTypesForMainViewGameInfoBig, item),
+                         IMAGE_CONTROL_GAMEINFO_UPPERLEFT: helper.get_file_for_control_from_db(
+                             romCollection.imagePlacingMain.fileTypesForMainViewGameInfoUpperLeft, item),
+                         IMAGE_CONTROL_GAMEINFO_UPPERRIGHT: helper.get_file_for_control_from_db(
+                             romCollection.imagePlacingMain.fileTypesForMainViewGameInfoUpperRight, item),
+                         IMAGE_CONTROL_GAMEINFO_LOWERLEFT: helper.get_file_for_control_from_db(
+                             romCollection.imagePlacingMain.fileTypesForMainViewGameInfoLowerLeft, item),
+                         IMAGE_CONTROL_GAMEINFO_LOWERRIGHT: helper.get_file_for_control_from_db(
+                             romCollection.imagePlacingMain.fileTypesForMainViewGameInfoLowerRight, item),
+                         IMAGE_CONTROL_GAMEINFO_UPPER: helper.get_file_for_control_from_db(
+                             romCollection.imagePlacingMain.fileTypesForMainViewGameInfoUpper, item),
+                         IMAGE_CONTROL_GAMEINFO_LOWER: helper.get_file_for_control_from_db(
+                             romCollection.imagePlacingMain.fileTypesForMainViewGameInfoLower, item),
+                         IMAGE_CONTROL_GAMEINFO_LEFT: helper.get_file_for_control_from_db(
+                             romCollection.imagePlacingMain.fileTypesForMainViewGameInfoLeft, item),
+                         IMAGE_CONTROL_GAMEINFO_RIGHT: helper.get_file_for_control_from_db(
+                             romCollection.imagePlacingMain.fileTypesForMainViewGameInfoRight, item)
                          })
+
+            if romCollection.autoplayVideoMain:
+                self.loadVideoFiles(item, romCollection)
 
             # Add the listitem to the list
             items.append(item)
@@ -835,10 +849,13 @@ class UIGameDB(xbmcgui.WindowXML):
         """ Called when a game is selected in the list; retrieves the object and sets the artwork data. This is to
             work around the fact that we may delay loading it in the main list population as a caching mechanism
         """
+
+        #current implementation does not need showGameInfo as all data is loaded in showGames.
+        pass
+
+        """
         Logutil.log("Begin showGameInfo", util.LOG_LEVEL_INFO)
-
         starttime = time.clock()
-
         self.writeMsg("")
 
         selectedGame = self.getSelectedItem()
@@ -861,46 +878,15 @@ class UIGameDB(xbmcgui.WindowXML):
                         util.LOG_LEVEL_ERROR)
             return
 
-        romfile = selectedGame.getProperty('firstRom')
-        gamenameFromFile = romCollection.getGamenameFromFilename(romfile)
-
-        selectedGame.setArt({
-            'thumb': helper.getFileForControl_NoCache(romCollection.imagePlacingMain.fileTypesForGameListSelected,
-                                              romCollection, gamenameFromFile, False),
-
-            IMAGE_CONTROL_BACKGROUND: helper.getFileForControl_NoCache(
-                romCollection.imagePlacingMain.fileTypesForMainViewBackground, romCollection, gamenameFromFile, False),
-            IMAGE_CONTROL_GAMEINFO_BIG: helper.getFileForControl_NoCache(
-                romCollection.imagePlacingMain.fileTypesForMainViewGameInfoBig, romCollection, gamenameFromFile, False),
-            IMAGE_CONTROL_GAMEINFO_UPPERLEFT: helper.getFileForControl_NoCache(
-                romCollection.imagePlacingMain.fileTypesForMainViewGameInfoUpperLeft, romCollection, gamenameFromFile, False),
-            IMAGE_CONTROL_GAMEINFO_UPPERRIGHT: helper.getFileForControl_NoCache(
-                romCollection.imagePlacingMain.fileTypesForMainViewGameInfoUpperRight, romCollection, gamenameFromFile, False),
-            IMAGE_CONTROL_GAMEINFO_LOWERLEFT: helper.getFileForControl_NoCache(
-                romCollection.imagePlacingMain.fileTypesForMainViewGameInfoLowerLeft, romCollection, gamenameFromFile, False),
-            IMAGE_CONTROL_GAMEINFO_LOWERRIGHT: helper.getFileForControl_NoCache(
-                romCollection.imagePlacingMain.fileTypesForMainViewGameInfoLowerRight, romCollection, gamenameFromFile, False),
-            IMAGE_CONTROL_GAMEINFO_UPPER: helper.getFileForControl_NoCache(
-                romCollection.imagePlacingMain.fileTypesForMainViewGameInfoUpper, romCollection, gamenameFromFile, False),
-            IMAGE_CONTROL_GAMEINFO_LOWER: helper.getFileForControl_NoCache(
-                romCollection.imagePlacingMain.fileTypesForMainViewGameInfoLower, romCollection, gamenameFromFile, False),
-            IMAGE_CONTROL_GAMEINFO_LEFT: helper.getFileForControl_NoCache(
-                romCollection.imagePlacingMain.fileTypesForMainViewGameInfoLeft, romCollection, gamenameFromFile, False),
-            IMAGE_CONTROL_GAMEINFO_RIGHT: helper.getFileForControl_NoCache(
-                romCollection.imagePlacingMain.fileTypesForMainViewGameInfoRight, romCollection, gamenameFromFile, False),
-
-            #TODO: might already been added in showGames
-            IMAGE_CONTROL_CLEARLOGO: helper.getFileForControl_NoCache([self.fileTypeClearlogo], romCollection, gamenameFromFile, False)
-        })
-
         if romCollection.autoplayVideoMain:
-            self.loadVideoFiles(selectedGame, romCollection, gamenameFromFile)
+            self.loadVideoFiles(selectedGame, romCollection, selectedGame)
 
         endtime = time.clock()
         diff = (endtime - starttime) * 1000
         Logutil.log('Time taken to showGameInfo using new format: {0}ms'.format(diff), util.LOG_LEVEL_INFO)
 
         Logutil.log("End showGameInfo", util.LOG_LEVEL_INFO)
+        """
 
     def getSelectedItem(self):
         if self.getListSize() == 0:
@@ -1095,7 +1081,7 @@ class UIGameDB(xbmcgui.WindowXML):
                                                 selectedCharacterIndex=self.selectedCharacterIndex,
                                                 controlIdMainView=self.selectedControlId, config=self.config,
                                                 settings=self.Settings,
-                                                fileTypeGameplay=self.fileTypeGameplay, mediaDict=self.mediaDict)
+                                                fileTypeGameplay=self.fileTypeGameplay)
         except:
             gid = dialoggameinfo.UIGameInfoView("script-RCB-gameinfo.xml", util.getAddonInstallPath(), "Default",
                                                 constructorParam, gdb=self.gdb, gameId=gameId, listItem=selectedGame,
@@ -1109,7 +1095,7 @@ class UIGameDB(xbmcgui.WindowXML):
                                                 selectedCharacterIndex=self.selectedCharacterIndex,
                                                 controlIdMainView=self.selectedControlId, config=self.config,
                                                 settings=self.Settings,
-                                                fileTypeGameplay=self.fileTypeGameplay, mediaDict=self.mediaDict)
+                                                fileTypeGameplay=self.fileTypeGameplay)
 
         del gid
 
@@ -1135,9 +1121,7 @@ class UIGameDB(xbmcgui.WindowXML):
 
         del cm
 
-    def loadVideoFiles(self, listItem, romCollection, gamenameFromFile):
-
-        Logutil.log("begin loadVideoFiles", util.LOG_LEVEL_INFO)
+    def loadVideoFiles(self, listItem, romCollection):
 
         #check if we should use autoplay video
         if romCollection.autoplayVideoMain:
@@ -1157,15 +1141,13 @@ class UIGameDB(xbmcgui.WindowXML):
             Logutil.log("fileType gameplay == None. No video loaded.", util.LOG_LEVEL_INFO)
 
         #load gameplay videos
-        video = helper.getFileForControl_NoCache((self.fileTypeGameplay,), romCollection, gamenameFromFile, True)
+        video = helper.get_file_for_control_from_db((self.fileTypeGameplay,), listItem)
         if video:
             listItem.setProperty('gameplaymain', video)
 
         if video == "" or video is None or not romCollection.autoplayVideoMain:
             if self.player.isPlayingVideo():
                 self.player.stop()
-
-        Logutil.log("end loadVideoFiles", util.LOG_LEVEL_INFO)
 
     def checkImport(self, doImport, romCollections, isRescrape):
 
@@ -1231,9 +1213,6 @@ class UIGameDB(xbmcgui.WindowXML):
             del updater
             progressDialog.writeMsg("", "", "", -1)
             del progressDialog
-
-            #force recache images
-            self.mediaDict = None
 
     def checkUpdateInProgress(self):
 

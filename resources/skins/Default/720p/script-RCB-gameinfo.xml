@@ -538,7 +538,7 @@
 			<align>left</align>
 			<scroll>true</scroll>
 			<textcolor>DDFFFFFF</textcolor>
-			<label>String.IsEmpty(Container(8200).ListItem.Property(autoplayvideoinfo))</label>
+			<label></label>
 			<font>font10</font>
 		</control>
 	</controls>

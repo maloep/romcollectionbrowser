@@ -199,6 +199,23 @@ def _findFileWithCorrectExtensionRegex(pathnameFromFile, mediaPathsList):
             return '%s%s' % (mediaPathFilename, resultExtension)
 
 
+def get_file_for_control_from_db(file_types, listitem):
+    """
+    Read media files from db entry. Media files are stored as fileType1, fileType2, ... in db with the filetype id at the end of the name
+    :param file_types:
+    :param listitem:
+    :return:
+    """
+    Logutil.log("begin get_file_for_control_from_db", util.LOG_LEVEL_DEBUG)
+
+    for file_type in file_types:
+        prop = 'fileType%s' %file_type.id
+        file = listitem.getProperty(prop)
+        if file:
+            return file
+    return ""
+
+
 def saveViewState(gdb, isOnExit, selectedView, selectedGameIndex, selectedConsoleIndex, selectedGenreIndex,
                   selectedPublisherIndex, selectedYearIndex, selectedCharacterIndex,
                   selectedControlIdMainView, selectedControlIdGameInfoView, settings):
