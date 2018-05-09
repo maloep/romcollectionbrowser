@@ -199,7 +199,7 @@ def _findFileWithCorrectExtensionRegex(pathnameFromFile, mediaPathsList):
             return '%s%s' % (mediaPathFilename, resultExtension)
 
 
-def get_file_for_control_from_db(file_types, listitem):
+def get_file_for_control_from_db(file_types, listItem):
     """
     Read media files from db entry. Media files are stored as fileType1, fileType2, ... in db with the filetype id at the end of the name
     :param file_types:
@@ -210,7 +210,7 @@ def get_file_for_control_from_db(file_types, listitem):
 
     for file_type in file_types:
         prop = 'fileType%s' %file_type.id
-        file = listitem.getProperty(prop)
+        file = listItem.getProperty(prop)
         if file:
             return file
     return ""

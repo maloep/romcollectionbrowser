@@ -142,44 +142,27 @@ CREATE VIEW IF NOT EXISTS [GameView] AS
 			Ga.version,
 			Ga.perspective,
 			GROUP_CONCAT(Ge.name, ', ') AS genres,
-			first_rom.name AS firstRom,
-			FT_1.name as fileType1,
-			FT_2.name as fileType2,
-			FT_3.name as fileType3,
-			FT_4.name as fileType4,
-			FT_5.name as fileType5,		
-			FT_6.name as fileType6,
-			FT_7.name as fileType7,
-			FT_8.name as fileType8,
-			FT_9.name as fileType9,
-			FT_10.name as fileType10,
-			FT_11.name as fileType11,
-			FT_12.name as fileType12,
-			FT_13.name as fileType13,
-			FT_14.name as fileType14,
-			FT_15.name as fileType15
+			Ga.fileType1,
+			Ga.fileType2,
+			Ga.fileType3,
+			Ga.fileType4,
+			Ga.fileType5,
+			Ga.fileType6,
+			Ga.fileType7,
+			Ga.fileType8,
+			Ga.fileType9,
+			Ga.fileType10,
+			Ga.fileType11,
+			Ga.fileType12,
+			Ga.fileType13,
+			Ga.fileType14,
+			Ga.fileType15
 
 			FROM [Game] Ga
 				LEFT OUTER JOIN Developer ON Ga.developerId = Developer.id
 				LEFT OUTER JOIN Publisher ON Ga.publisherId = Publisher.id
 				LEFT OUTER JOIN Year ON Ga.yearId = Year.id
-				LEFT OUTER JOIN (SELECT * From File Where id IN (SELECT MIN(id) FROM File GROUP BY parentid)) AS first_rom ON Ga.id = first_rom.parentid				
 				LEFT OUTER JOIN GenreGame Gg ON Ga.id = Gg.gameid
 				LEFT OUTER JOIN Genre Ge ON Ge.id = Gg.genreid
-				LEFT OUTER JOIN (SELECT * FROM File WHERE FileTypeId = 1) AS FT_1 ON Ga.id = FT_1.parentid
-				LEFT OUTER JOIN (SELECT * FROM File WHERE FileTypeId = 2) AS FT_2 ON Ga.id = FT_2.parentid
-				LEFT OUTER JOIN (SELECT * FROM File WHERE FileTypeId = 3) AS FT_3 ON Ga.id = FT_3.parentid
-				LEFT OUTER JOIN (SELECT * FROM File WHERE FileTypeId = 4) AS FT_4 ON Ga.id = FT_4.parentid
-				LEFT OUTER JOIN (SELECT * FROM File WHERE FileTypeId = 5) AS FT_5 ON Ga.id = FT_5.parentid
-				LEFT OUTER JOIN (SELECT * FROM File WHERE FileTypeId = 6) AS FT_6 ON Ga.id = FT_6.parentid
-				LEFT OUTER JOIN (SELECT * FROM File WHERE FileTypeId = 7) AS FT_7 ON Ga.id = FT_7.parentid
-				LEFT OUTER JOIN (SELECT * FROM File WHERE FileTypeId = 8) AS FT_8 ON Ga.id = FT_8.parentid
-				LEFT OUTER JOIN (SELECT * FROM File WHERE FileTypeId = 9) AS FT_9 ON Ga.id = FT_9.parentid
-				LEFT OUTER JOIN (SELECT * FROM File WHERE FileTypeId = 10) AS FT_10 ON Ga.id = FT_10.parentid
-				LEFT OUTER JOIN (SELECT * FROM File WHERE FileTypeId = 11) AS FT_11 ON Ga.id = FT_11.parentid
-				LEFT OUTER JOIN (SELECT * FROM File WHERE FileTypeId = 12) AS FT_12 ON Ga.id = FT_12.parentid
-				LEFT OUTER JOIN (SELECT * FROM File WHERE FileTypeId = 13) AS FT_13 ON Ga.id = FT_13.parentid
-				LEFT OUTER JOIN (SELECT * FROM File WHERE FileTypeId = 14) AS FT_14 ON Ga.id = FT_14.parentid
-				LEFT OUTER JOIN (SELECT * FROM File WHERE FileTypeId = 15) AS FT_15 ON Ga.id = FT_15.parentid
 				
 			GROUP BY Ga.id;

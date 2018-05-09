@@ -705,6 +705,10 @@ class UIGameDB(xbmcgui.WindowXML):
                 Logutil.log("preventing unfiltered search", util.LOG_LEVEL_WARNING)
                 return
 
+        self.clearList()
+        #32121 = Loading games...
+        self.writeMsg(util.localize(32121))
+
         isFavorite = self._isGameFavourite()
 
         showFavoriteStars = self.Settings.getSetting(util.SETTING_RCB_SHOWFAVORITESTARS).upper() == 'TRUE'
@@ -721,18 +725,12 @@ class UIGameDB(xbmcgui.WindowXML):
         diff = (timestamp2 - timestamp1) * 1000
         print "showGames: load %d games from db in %d ms" % (len(games), diff)
 
-        self.clearList()
-
-        #32121 = Loading games...
-        self.writeMsg(util.localize(32121))
-
         #used to show percentage during game loading
         divisor = len(games) / 10
         counter = 0
 
         items = []
         for game in games:
-
             try:
                 romCollection = self.config.romCollections[str(game.romCollectionId)]
             except KeyError:
@@ -753,7 +751,6 @@ class UIGameDB(xbmcgui.WindowXML):
                          'publisher',
                          'year',
                          'genre',
-                         'firstRom',
                          'gameCmd',
                          'alternateGameCmd',
                          'fileType1',
@@ -784,32 +781,33 @@ class UIGameDB(xbmcgui.WindowXML):
             item.setProperty('console', romCollection.name)
 
             #set gamelist artwork at startup
-            item.setArt({'icon': helper.get_file_for_control_from_db(
-                             romCollection.imagePlacingMain.fileTypesForGameList, item),
-                         IMAGE_CONTROL_CLEARLOGO: helper.get_file_for_control_from_db(
-                             [self.fileTypeClearlogo], item),
-                         'thumb': helper.get_file_for_control_from_db(
-                             romCollection.imagePlacingMain.fileTypesForGameListSelected, item),
-                         IMAGE_CONTROL_BACKGROUND: helper.get_file_for_control_from_db(
-                             romCollection.imagePlacingMain.fileTypesForMainViewBackground, item),
-                         IMAGE_CONTROL_GAMEINFO_BIG: helper.get_file_for_control_from_db(
-                             romCollection.imagePlacingMain.fileTypesForMainViewGameInfoBig, item),
-                         IMAGE_CONTROL_GAMEINFO_UPPERLEFT: helper.get_file_for_control_from_db(
-                             romCollection.imagePlacingMain.fileTypesForMainViewGameInfoUpperLeft, item),
-                         IMAGE_CONTROL_GAMEINFO_UPPERRIGHT: helper.get_file_for_control_from_db(
-                             romCollection.imagePlacingMain.fileTypesForMainViewGameInfoUpperRight, item),
-                         IMAGE_CONTROL_GAMEINFO_LOWERLEFT: helper.get_file_for_control_from_db(
-                             romCollection.imagePlacingMain.fileTypesForMainViewGameInfoLowerLeft, item),
-                         IMAGE_CONTROL_GAMEINFO_LOWERRIGHT: helper.get_file_for_control_from_db(
-                             romCollection.imagePlacingMain.fileTypesForMainViewGameInfoLowerRight, item),
-                         IMAGE_CONTROL_GAMEINFO_UPPER: helper.get_file_for_control_from_db(
-                             romCollection.imagePlacingMain.fileTypesForMainViewGameInfoUpper, item),
-                         IMAGE_CONTROL_GAMEINFO_LOWER: helper.get_file_for_control_from_db(
-                             romCollection.imagePlacingMain.fileTypesForMainViewGameInfoLower, item),
-                         IMAGE_CONTROL_GAMEINFO_LEFT: helper.get_file_for_control_from_db(
-                             romCollection.imagePlacingMain.fileTypesForMainViewGameInfoLeft, item),
-                         IMAGE_CONTROL_GAMEINFO_RIGHT: helper.get_file_for_control_from_db(
-                             romCollection.imagePlacingMain.fileTypesForMainViewGameInfoRight, item)
+            item.setArt({
+                        'icon': helper.get_file_for_control_from_db(
+                            romCollection.imagePlacingMain.fileTypesForGameList, item),
+                        'thumb': helper.get_file_for_control_from_db(
+                            romCollection.imagePlacingMain.fileTypesForGameListSelected, item),
+                        IMAGE_CONTROL_CLEARLOGO: helper.get_file_for_control_from_db(
+                            [self.fileTypeClearlogo], item),
+                        IMAGE_CONTROL_BACKGROUND: helper.get_file_for_control_from_db(
+                            romCollection.imagePlacingMain.fileTypesForMainViewBackground, item),
+                        IMAGE_CONTROL_GAMEINFO_BIG: helper.get_file_for_control_from_db(
+                            romCollection.imagePlacingMain.fileTypesForMainViewGameInfoBig, item),
+                        IMAGE_CONTROL_GAMEINFO_UPPERLEFT: helper.get_file_for_control_from_db(
+                            romCollection.imagePlacingMain.fileTypesForMainViewGameInfoUpperLeft, item),
+                        IMAGE_CONTROL_GAMEINFO_UPPERRIGHT: helper.get_file_for_control_from_db(
+                            romCollection.imagePlacingMain.fileTypesForMainViewGameInfoUpperRight, item),
+                        IMAGE_CONTROL_GAMEINFO_LOWERLEFT: helper.get_file_for_control_from_db(
+                            romCollection.imagePlacingMain.fileTypesForMainViewGameInfoLowerLeft, item),
+                        IMAGE_CONTROL_GAMEINFO_LOWERRIGHT: helper.get_file_for_control_from_db(
+                            romCollection.imagePlacingMain.fileTypesForMainViewGameInfoLowerRight, item),
+                        IMAGE_CONTROL_GAMEINFO_UPPER: helper.get_file_for_control_from_db(
+                            romCollection.imagePlacingMain.fileTypesForMainViewGameInfoUpper, item),
+                        IMAGE_CONTROL_GAMEINFO_LOWER: helper.get_file_for_control_from_db(
+                            romCollection.imagePlacingMain.fileTypesForMainViewGameInfoLower, item),
+                        IMAGE_CONTROL_GAMEINFO_LEFT: helper.get_file_for_control_from_db(
+                            romCollection.imagePlacingMain.fileTypesForMainViewGameInfoLeft, item),
+                        IMAGE_CONTROL_GAMEINFO_RIGHT: helper.get_file_for_control_from_db(
+                            romCollection.imagePlacingMain.fileTypesForMainViewGameInfoRight, item)
                          })
 
             if romCollection.autoplayVideoMain:
