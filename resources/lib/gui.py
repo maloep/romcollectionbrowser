@@ -767,15 +767,18 @@ class UIGameDB(xbmcgui.WindowXML):
 
         items = []
         for game in games:
+
+            romcollection_id = str(game[gamedatabase.GAME_romCollectionId])
+
             try:
-                romCollection = self.config.romCollections[str(game[gamedatabase.GAME_romCollectionId])]
+                romCollection = self.config.romCollections[romcollection_id]
             except KeyError:
-                Logutil.log('Cannot get rom collection with id: ' + str(game[gamedatabase.GAME_romCollectionId]), util.LOG_LEVEL_ERROR)
+                Logutil.log('Cannot get rom collection with id: ' + romcollection_id, util.LOG_LEVEL_ERROR)
                 # Won't be able to get game images, move to next game
                 continue
 
             item = xbmcgui.ListItem(game[gamedatabase.ROW_NAME], str(game[gamedatabase.ROW_ID]))
-            item.setProperty('romCollectionId', str(game[gamedatabase.GAME_romCollectionId]))
+            item.setProperty('romCollectionId', romcollection_id)
             item.setProperty('romcollection', romCollection.name)
             item.setProperty('console', romCollection.name)
             item.setProperty('gameId', str(game[gamedatabase.ROW_ID]))

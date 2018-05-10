@@ -2,6 +2,7 @@ import xbmc, xbmcgui
 import helper, util
 from launcher import RCBLauncher
 from util import *
+import gamedatabase
 from gamedatabase import *
 
 ACTION_CANCEL_DIALOG = (9, 10, 51, 92, 110)
@@ -107,30 +108,36 @@ class UIGameInfoView(xbmcgui.WindowXMLDialog):
 
         self.clearList()
 
-        game = Game(self.gdb).getGameById(self.selectedGameId)
+        game = Game(self.gdb).getGameRowById(self.selectedGameId)
 
-        item = xbmcgui.ListItem(game.name, str(game.id))
-        item.setProperty('romCollectionId', str(game.romCollectionId))
+        item = xbmcgui.ListItem(game[gamedatabase.ROW_NAME], str(game[gamedatabase.ROW_ID]))
 
-        # Properties from the game object
-        for var in ['maxplayers', 'rating', 'votes', 'url', 'region', 'media', 'perspective', 'controllertype',
-                    'originalTitle', 'alternateTitle', 'translatedby', 'version', 'playcount', 'plot', 'year',
-                    'publisher', 'developer', 'genre', 'firstRom']:
-            try:
-                item.setProperty(var, getattr(game, var))
-            except AttributeError as e:
-                Logutil.log('Error retrieving property ' + var + ': ' + str(e), util.LOG_LEVEL_WARNING)
-                item.setProperty(var, '')
-
-        romCollection = None
+        romcollection_id = str(game[gamedatabase.GAME_romCollectionId])
         try:
-            romCollection = self.config.romCollections[str(game.romCollectionId)]
-        except:
-            Logutil.log(util.localize(32023) % str(game.romCollectionId), util.LOG_LEVEL_ERROR)
+            romCollection = self.config.romCollections[romcollection_id]
+        except KeyError:
+            Logutil.log('Cannot get rom collection with id: ' + romcollection_id,
+                        util.LOG_LEVEL_ERROR)
 
-        # Rom Collection properties
+        item.setProperty('romCollectionId', romcollection_id)
         item.setProperty('romcollection', romCollection.name)
         item.setProperty('console', romCollection.name)
+        item.setProperty('gameId', str(game[gamedatabase.ROW_ID]))
+        item.setProperty('plot', game[gamedatabase.GAME_description])
+        item.setProperty('playcount', str(game[gamedatabase.GAME_launchCount]))
+        item.setProperty('originalTitle', game[gamedatabase.GAME_originalTitle])
+        item.setProperty('alternateTitle', game[gamedatabase.GAME_alternateTitle])
+        item.setProperty('developer', game[gamedatabase.GAME_developer])
+        item.setProperty('publisher', game[gamedatabase.GAME_publisher])
+        item.setProperty('year', game[gamedatabase.GAME_year])
+        item.setProperty('genre', game[gamedatabase.GAME_genre])
+        item.setProperty('gameCmd', game[gamedatabase.GAME_gameCmd])
+        item.setProperty('alternateGameCmd', game[gamedatabase.GAME_alternateGameCmd])
+
+        if game[gamedatabase.GAME_isFavorite] == 1:
+            item.setProperty('isfavorite', '1')
+        else:
+            item.setProperty('isfavorite', '')
 
         item.setArt({
             'icon': helper.get_file_for_control_from_db(
