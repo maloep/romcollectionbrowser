@@ -23,6 +23,8 @@ class GameDataBase(object):
         self.connection.row_factory = sqlite.Row
 
         self.cursor = self.connection.cursor()
+        #set cache size to 20000 pages (default is 2000)
+        self.cursor.execute("PRAGMA cache_size = 20000")
 
     def commit(self):
         try:
