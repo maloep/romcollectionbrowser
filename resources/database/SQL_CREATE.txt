@@ -111,6 +111,8 @@ CREATE TABLE IF NOT EXISTS [GenreGame]
     )
 );
 
+CREATE INDEX IF NOT EXISTS genregame_genreid ON [GenreGame](genreid);
+
 
 CREATE VIEW IF NOT EXISTS [GameView] AS
 	SELECT 	Ga.id,

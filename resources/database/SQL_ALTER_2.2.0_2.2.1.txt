@@ -35,6 +35,8 @@ SET fileType1 = (SELECT name FROM File WHERE parentid = Game.id AND fileTypeid =
 
 DELETE FROM File Where fileTypeId > 0;
 
+CREATE INDEX IF NOT EXISTS genregame_genreid ON [GenreGame](genreid);
+
 DROP VIEW IF EXISTS [GameView];
 
 CREATE VIEW IF NOT EXISTS [GameView] AS
