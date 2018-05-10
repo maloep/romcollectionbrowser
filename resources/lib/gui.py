@@ -614,6 +614,18 @@ class UIGameDB(xbmcgui.WindowXML):
                 statement = statement + ' OR '
             statement = statement + orStatementInfo
 
+        andStatementArtwork = self._buildArtworkStatement(configobject, configobject.missingFilterArtwork.andGroup, ' AND ')
+        if andStatementArtwork != '':
+            if statement != '':
+                statement = statement + ' OR '
+            statement = statement + andStatementArtwork
+
+        orStatementArtwork = self._buildArtworkStatement(configobject, configobject.missingFilterArtwork.orGroup, ' OR ')
+        if orStatementArtwork != '':
+            if statement != '':
+                statement = statement + ' OR '
+            statement = statement + orStatementArtwork
+
         if statement != '':
             statement = '(%s)' % (statement)
             #32161 = hide
@@ -635,6 +647,26 @@ class UIGameDB(xbmcgui.WindowXML):
 
         return statement
 
+    def _buildArtworkStatement(self, configobject, group, operator):
+        statement = ''
+        for item in group:
+            if statement == '':
+                statement = '('
+            else:
+                statement = statement + operator
+            typeId = ''
+            fileTypeRows = configobject.tree.findall('FileTypes/FileType')
+            for element in fileTypeRows:
+                if element.attrib.get('name') == item:
+                    typeId = element.attrib.get('id')
+                    break
+            statement = statement + 'fileType%s IS NULL' % str(typeId)
+
+        if statement != '':
+            statement = statement + ')'
+        return statement
+
+    """
     def _checkMissingArtworkFilter(self, image_gamelist, image_clearlogo):
 
         #32157 = ignore
@@ -670,6 +702,7 @@ class UIGameDB(xbmcgui.WindowXML):
             addItemToList = not addItemToList
 
         return addItemToList
+    """
 
     def _getGamesListQueryStatement(self):
         # Build statement for character search (where name LIKE 'A%')
