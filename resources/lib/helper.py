@@ -2,6 +2,7 @@ import json
 import os, re
 import glob
 
+import gamedatabase
 from gamedatabase import *
 from config import FileType
 from util import *
@@ -209,8 +210,9 @@ def get_file_for_control_from_db(file_types, game):
     Logutil.log("begin get_file_for_control_from_db", util.LOG_LEVEL_DEBUG)
 
     for file_type in file_types:
-        prop = 'fileType%s' %file_type.id
-        file = getattr(game, prop)
+        prop = 'GAME_fileType%s' %file_type.id
+        #file = getattr(game, prop)
+        file = game[getattr(gamedatabase, prop)]
         if file:
             return file
     return ""
@@ -246,7 +248,7 @@ def saveViewState(gdb, isOnExit, selectedView, selectedGameIndex, selectedConsol
                                 'lastSelectedPublisherIndex', 'lastSelectedYearIndex', 'lastSelectedGameIndex',
                                 'lastFocusedControlMainView', 'lastFocusedControlGameInfoView',
                                 'lastSelectedCharacterIndex'),
-                               (None, None, None, None, None, None, None, None, None), rcbSetting[util.ROW_ID], True)
+                               (None, None, None, None, None, None, None, None, None), rcbSetting[gamedatabase.ROW_ID], True)
 
     gdb.commit()
 
@@ -288,7 +290,7 @@ def getRCBSetting(gdb):
         #TODO raise error
         return None
 
-    return rcbSettingRows[util.ROW_ID]
+    return rcbSettingRows[gamedatabase.ROW_ID]
 
 
 def isRetroPlayerSupported():

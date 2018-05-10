@@ -7,6 +7,68 @@ import util
 Logutil.log("Loading sqlite3 as DB engine", util.LOG_LEVEL_INFO)
 
 
+#
+# DB FIELDS #
+#
+ROW_ID = 0
+ROW_NAME = 1
+
+RCBSETTING_lastSelectedView = 1
+RCBSETTING_lastSelectedConsoleIndex = 2
+RCBSETTING_lastSelectedGenreIndex = 3
+RCBSETTING_lastSelectedPublisherIndex = 4
+RCBSETTING_lastSelectedYearIndex = 5
+RCBSETTING_lastSelectedGameIndex = 6
+RCBSETTING_autoexecBackupPath = 7  # This is a deprecated setting, unused in code
+RCBSETTING_dbVersion = 8
+RCBSETTING_lastFocusedControlMainView = 9
+RCBSETTING_lastFocusedControlGameInfoView = 10
+RCBSETTING_lastSelectedCharacterIndex = 11
+
+GAME_description = 2
+GAME_gameCmd = 3
+GAME_alternateGameCmd = 4
+GAME_isFavorite = 5
+GAME_launchCount = 6
+GAME_version = 7
+GAME_romCollectionId = 8
+GAME_developerId = 9
+GAME_developer = 10
+GAME_publisherId = 11
+GAME_publisher = 12
+GAME_yearId = 13
+GAME_year = 14
+GAME_region = 15
+GAME_maxPlayers = 16
+GAME_rating = 17
+GAME_numVotes = 18
+GAME_url = 19
+GAME_media = 20
+GAME_controllerType = 21
+GAME_originalTitle = 22
+GAME_alternateTitle = 23
+GAME_translatedBy = 24
+GAME_perspective = 25
+GAME_genre = 26
+GAME_fileType1 = 27
+GAME_fileType2 = 28
+GAME_fileType3 = 29
+GAME_fileType4 = 30
+GAME_fileType5 = 31
+GAME_fileType6 = 32
+GAME_fileType7 = 33
+GAME_fileType8 = 34
+GAME_fileType9 = 35
+GAME_fileType10 = 36
+GAME_fileType11 = 37
+GAME_fileType12 = 38
+GAME_fileType13 = 39
+GAME_fileType14 = 40
+GAME_fileType15 = 41
+
+FILE_fileTypeId = 2
+FILE_parentId = 3
+
 class GameDataBase(object):
 
     def __init__(self, databaseDir):
@@ -96,7 +158,7 @@ class GameDataBase(object):
             rcbSetting = rcbSettingRows[0]
 
             #HACK: reflect changes in RCBSetting
-            dbVersion = rcbSetting[util.RCBSETTING_dbVersion]
+            dbVersion = rcbSetting[RCBSETTING_dbVersion]
             if dbVersion == None:
                 dbVersion = rcbSetting[10]
 
@@ -384,6 +446,14 @@ class Game(DataBaseObject):
             print 'Error mapping game row to object: ' + e.message
             return None
         return gobj
+
+    def getGameRowById(self, gameid):
+        try:
+            dbobj = self.getObjectByQuery(self.filterByGameByIdFromView, (gameid,))
+        except Exception as e:
+            print 'Error mapping game row to object: ' + e.message
+            return None
+        return dbobj
 
     def getGamesByFilter(self, romCollectionId, genreId, yearId, publisherId, isFavorite, likeStatement, maxNumGames=0):
         """ This is very similar to getFilteredGames but returns a list of gameobjs.
@@ -759,7 +829,7 @@ class File(DataBaseObject):
         f = self.getObjectByQuery(self.filterQueryByGameIdAndTypeId, (gameId, fileTypeId))
         if f is None:
             return ''
-        return f[util.ROW_NAME]
+        return f[ROW_NAME]
 
     def getRomsByGameId(self, gameId):
         files = self.getObjectsByQuery(self.filterQueryByGameIdAndFileType, (gameId, 0))
