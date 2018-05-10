@@ -93,7 +93,7 @@ class UIGameInfoView(xbmcgui.WindowXMLDialog):
     def onAction(self, action):
 
         if (action.getId() in ACTION_CANCEL_DIALOG):
-            Logutil.log("onAction exit UIGameInfoView", util.LOG_LEVEL_DEBUG)
+            Logutil.log("onAction exit UIGameInfoView", util.LOG_LEVEL_INFO)
 
             #stop Player (if playing)
             if (xbmc.Player().isPlayingVideo()):
