@@ -107,24 +107,26 @@ class UIGameInfoView(xbmcgui.WindowXMLDialog):
 
         self.clearList()
 
-        item = xbmcgui.ListItem(self.selectedGame.getLabel(), self.selectedGame.getLabel2())
-        item.setProperty('romCollectionId', self.selectedGame.getProperty('romCollectionId'))
+        game = Game(self.gdb).getGameById(self.selectedGameId)
+
+        item = xbmcgui.ListItem(game.name, str(game.id))
+        item.setProperty('romCollectionId', str(game.romCollectionId))
 
         # Properties from the game object
         for var in ['maxplayers', 'rating', 'votes', 'url', 'region', 'media', 'perspective', 'controllertype',
                     'originalTitle', 'alternateTitle', 'translatedby', 'version', 'playcount', 'plot', 'year',
                     'publisher', 'developer', 'genre', 'firstRom']:
             try:
-                item.setProperty(var, self.selectedGame.getProperty(var))
+                item.setProperty(var, getattr(game, var))
             except AttributeError as e:
                 Logutil.log('Error retrieving property ' + var + ': ' + str(e), util.LOG_LEVEL_WARNING)
                 item.setProperty(var, '')
 
         romCollection = None
         try:
-            romCollection = self.config.romCollections[self.selectedGame.getProperty('romCollectionId')]
+            romCollection = self.config.romCollections[str(game.romCollectionId)]
         except:
-            Logutil.log(util.localize(32023) % self.selectedGame.getProperty('romCollectionId'), util.LOG_LEVEL_ERROR)
+            Logutil.log(util.localize(32023) % str(game.romCollectionId), util.LOG_LEVEL_ERROR)
 
         # Rom Collection properties
         item.setProperty('romcollection', romCollection.name)
@@ -132,39 +134,39 @@ class UIGameInfoView(xbmcgui.WindowXMLDialog):
 
         item.setArt({
             'icon': helper.get_file_for_control_from_db(
-                romCollection.imagePlacingMain.fileTypesForGameList, self.selectedGame),
+                romCollection.imagePlacingMain.fileTypesForGameList, game),
             'thumb': helper.get_file_for_control_from_db(
-                romCollection.imagePlacingMain.fileTypesForGameListSelected, self.selectedGame),
+                romCollection.imagePlacingMain.fileTypesForGameListSelected, game),
 
             IMAGE_CONTROL_BACKGROUND: helper.get_file_for_control_from_db(
-                romCollection.imagePlacingInfo.fileTypesForMainViewBackground, self.selectedGame),
+                romCollection.imagePlacingInfo.fileTypesForMainViewBackground, game),
             IMAGE_CONTROL_GAMEINFO_BIG: helper.get_file_for_control_from_db(
-                romCollection.imagePlacingInfo.fileTypesForMainViewGameInfoBig, self.selectedGame),
+                romCollection.imagePlacingInfo.fileTypesForMainViewGameInfoBig, game),
 
             IMAGE_CONTROL_GAMEINFO_UPPERLEFT: helper.get_file_for_control_from_db(
-                romCollection.imagePlacingInfo.fileTypesForMainViewGameInfoUpperLeft, self.selectedGame),
+                romCollection.imagePlacingInfo.fileTypesForMainViewGameInfoUpperLeft, game),
             IMAGE_CONTROL_GAMEINFO_UPPERRIGHT: helper.get_file_for_control_from_db(
-                romCollection.imagePlacingInfo.fileTypesForMainViewGameInfoUpperRight, self.selectedGame),
+                romCollection.imagePlacingInfo.fileTypesForMainViewGameInfoUpperRight, game),
             IMAGE_CONTROL_GAMEINFO_LOWERLEFT: helper.get_file_for_control_from_db(
-                romCollection.imagePlacingInfo.fileTypesForMainViewGameInfoLowerLeft, self.selectedGame),
+                romCollection.imagePlacingInfo.fileTypesForMainViewGameInfoLowerLeft, game),
             IMAGE_CONTROL_GAMEINFO_LOWERRIGHT: helper.get_file_for_control_from_db(
-                romCollection.imagePlacingInfo.fileTypesForMainViewGameInfoLowerRight, self.selectedGame),
+                romCollection.imagePlacingInfo.fileTypesForMainViewGameInfoLowerRight, game),
 
             IMAGE_CONTROL_GAMEINFO_UPPER: helper.get_file_for_control_from_db(
-                romCollection.imagePlacingInfo.fileTypesForMainViewGameInfoUpper, self.selectedGame),
+                romCollection.imagePlacingInfo.fileTypesForMainViewGameInfoUpper, game),
             IMAGE_CONTROL_GAMEINFO_LOWER: helper.get_file_for_control_from_db(
-                romCollection.imagePlacingInfo.fileTypesForMainViewGameInfoLower, self.selectedGame),
+                romCollection.imagePlacingInfo.fileTypesForMainViewGameInfoLower, game),
             IMAGE_CONTROL_GAMEINFO_LEFT: helper.get_file_for_control_from_db(
-                romCollection.imagePlacingInfo.fileTypesForMainViewGameInfoLeft, self.selectedGame),
+                romCollection.imagePlacingInfo.fileTypesForMainViewGameInfoLeft, game),
             IMAGE_CONTROL_GAMEINFO_RIGHT: helper.get_file_for_control_from_db(
-                romCollection.imagePlacingInfo.fileTypesForMainViewGameInfoRight, self.selectedGame),
+                romCollection.imagePlacingInfo.fileTypesForMainViewGameInfoRight, game),
 
             IMAGE_CONTROL_1: helper.get_file_for_control_from_db(
-                romCollection.imagePlacingInfo.fileTypesForMainView1, self.selectedGame),
+                romCollection.imagePlacingInfo.fileTypesForMainView1, game),
             IMAGE_CONTROL_2: helper.get_file_for_control_from_db(
-                romCollection.imagePlacingInfo.fileTypesForMainView2, self.selectedGame),
+                romCollection.imagePlacingInfo.fileTypesForMainView2, game),
             IMAGE_CONTROL_3: helper.get_file_for_control_from_db(
-                romCollection.imagePlacingInfo.fileTypesForMainView3, self.selectedGame)
+                romCollection.imagePlacingInfo.fileTypesForMainView3, game)
         })
 
         #add item to listcontrol

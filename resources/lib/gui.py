@@ -752,22 +752,7 @@ class UIGameDB(xbmcgui.WindowXML):
                          'year',
                          'genre',
                          'gameCmd',
-                         'alternateGameCmd',
-                         'fileType1',
-                         'fileType2',
-                         'fileType3',
-                         'fileType4',
-                         'fileType5',
-                         'fileType6',
-                         'fileType7',
-                         'fileType8',
-                         'fileType9',
-                         'fileType10',
-                         'fileType11',
-                         'fileType12',
-                         'fileType13',
-                         'fileType14',
-                         'fileType15']:
+                         'alternateGameCmd']:
                 try:
                     item.setProperty(prop, getattr(game, prop))
                 except AttributeError:
@@ -783,35 +768,35 @@ class UIGameDB(xbmcgui.WindowXML):
             #set gamelist artwork at startup
             item.setArt({
                         'icon': helper.get_file_for_control_from_db(
-                            romCollection.imagePlacingMain.fileTypesForGameList, item),
+                            romCollection.imagePlacingMain.fileTypesForGameList, game),
                         'thumb': helper.get_file_for_control_from_db(
-                            romCollection.imagePlacingMain.fileTypesForGameListSelected, item),
+                            romCollection.imagePlacingMain.fileTypesForGameListSelected, game),
                         IMAGE_CONTROL_CLEARLOGO: helper.get_file_for_control_from_db(
-                            [self.fileTypeClearlogo], item),
+                            [self.fileTypeClearlogo], game),
                         IMAGE_CONTROL_BACKGROUND: helper.get_file_for_control_from_db(
-                            romCollection.imagePlacingMain.fileTypesForMainViewBackground, item),
+                            romCollection.imagePlacingMain.fileTypesForMainViewBackground, game),
                         IMAGE_CONTROL_GAMEINFO_BIG: helper.get_file_for_control_from_db(
-                            romCollection.imagePlacingMain.fileTypesForMainViewGameInfoBig, item),
+                            romCollection.imagePlacingMain.fileTypesForMainViewGameInfoBig, game),
                         IMAGE_CONTROL_GAMEINFO_UPPERLEFT: helper.get_file_for_control_from_db(
-                            romCollection.imagePlacingMain.fileTypesForMainViewGameInfoUpperLeft, item),
+                            romCollection.imagePlacingMain.fileTypesForMainViewGameInfoUpperLeft, game),
                         IMAGE_CONTROL_GAMEINFO_UPPERRIGHT: helper.get_file_for_control_from_db(
-                            romCollection.imagePlacingMain.fileTypesForMainViewGameInfoUpperRight, item),
+                            romCollection.imagePlacingMain.fileTypesForMainViewGameInfoUpperRight, game),
                         IMAGE_CONTROL_GAMEINFO_LOWERLEFT: helper.get_file_for_control_from_db(
-                            romCollection.imagePlacingMain.fileTypesForMainViewGameInfoLowerLeft, item),
+                            romCollection.imagePlacingMain.fileTypesForMainViewGameInfoLowerLeft, game),
                         IMAGE_CONTROL_GAMEINFO_LOWERRIGHT: helper.get_file_for_control_from_db(
-                            romCollection.imagePlacingMain.fileTypesForMainViewGameInfoLowerRight, item),
+                            romCollection.imagePlacingMain.fileTypesForMainViewGameInfoLowerRight, game),
                         IMAGE_CONTROL_GAMEINFO_UPPER: helper.get_file_for_control_from_db(
-                            romCollection.imagePlacingMain.fileTypesForMainViewGameInfoUpper, item),
+                            romCollection.imagePlacingMain.fileTypesForMainViewGameInfoUpper, game),
                         IMAGE_CONTROL_GAMEINFO_LOWER: helper.get_file_for_control_from_db(
-                            romCollection.imagePlacingMain.fileTypesForMainViewGameInfoLower, item),
+                            romCollection.imagePlacingMain.fileTypesForMainViewGameInfoLower, game),
                         IMAGE_CONTROL_GAMEINFO_LEFT: helper.get_file_for_control_from_db(
-                            romCollection.imagePlacingMain.fileTypesForMainViewGameInfoLeft, item),
+                            romCollection.imagePlacingMain.fileTypesForMainViewGameInfoLeft, game),
                         IMAGE_CONTROL_GAMEINFO_RIGHT: helper.get_file_for_control_from_db(
-                            romCollection.imagePlacingMain.fileTypesForMainViewGameInfoRight, item)
+                            romCollection.imagePlacingMain.fileTypesForMainViewGameInfoRight, game)
                          })
 
             if romCollection.autoplayVideoMain:
-                self.loadVideoFiles(item, romCollection)
+                self.loadVideoFiles(item, romCollection, game)
 
             # Add the listitem to the list
             items.append(item)
@@ -1119,7 +1104,7 @@ class UIGameDB(xbmcgui.WindowXML):
 
         del cm
 
-    def loadVideoFiles(self, listItem, romCollection):
+    def loadVideoFiles(self, listItem, romCollection, game):
 
         #check if we should use autoplay video
         if romCollection.autoplayVideoMain:
@@ -1139,7 +1124,7 @@ class UIGameDB(xbmcgui.WindowXML):
             Logutil.log("fileType gameplay == None. No video loaded.", util.LOG_LEVEL_INFO)
 
         #load gameplay videos
-        video = helper.get_file_for_control_from_db((self.fileTypeGameplay,), listItem)
+        video = helper.get_file_for_control_from_db((self.fileTypeGameplay,), game)
         if video:
             listItem.setProperty('gameplaymain', video)
 
