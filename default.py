@@ -90,7 +90,7 @@ class Main(object):
 
     def gatherWidgetData(self, param):
         xbmc.log('start gatherWidgetData')
-        import util, helper
+        import util, helper, gamedatabase
         from gamedatabase import Game, GameDataBase
         from config import Config
 
@@ -117,52 +117,47 @@ class Main(object):
             xbmc.log('RCB: Error reading config.xml: {0}' % errorMsg)
             return
 
-        mediaDict = {}
-        mediaDict = helper.cacheMediaPathsForSelection(0, mediaDict, config)
-
         import xbmcgui
         count = 0
         for game in games:
 
             count += 1
             try:
-                xbmc.log("RCB widget: Gathering data for rom no %i: %s" % (count, game.name))
+                xbmc.log("RCB widget: Gathering data for rom no %i: %s" % (count, game[gamedatabase.ROW_NAME]))
 
-                romCollection = config.romCollections[str(game.romCollectionId)]
-                gamenameFromFile = romCollection.getGamenameFromFilename(game.firstRom)
-                mediaPathsDict = mediaDict[str(game.romCollectionId)]
+                romCollection = config.romCollections[str(game[gamedatabase.GAME_romCollectionId])]
 
                 #get artwork that is chosen to be shown in gamelist
-                thumb = helper.getFileForControl(romCollection.imagePlacingMain.fileTypesForGameList, romCollection,
-                                                 mediaPathsDict, gamenameFromFile)
-                fanart = helper.getFileForControl(romCollection.imagePlacingMain.fileTypesForMainViewBackground,
-                                                  romCollection, mediaPathsDict, gamenameFromFile)
+                thumb = helper.get_file_for_control_from_db(
+                    romCollection.imagePlacingMain.fileTypesForGameList, game)
+                fanart = helper.getFileForControl(
+                    romCollection.imagePlacingMain.fileTypesForMainViewBackground, game)
 
-                url = "plugin://script.games.rom.collection.browser/?launchid=%s" % game.id
+                url = "plugin://script.games.rom.collection.browser/?launchid=%s" % game[gamedatabase.ROW_ID]
 
-                xbmcgui.Window(10000).setProperty("MostPlayedROM.%d.Id" % count, str(game.id))
+                xbmcgui.Window(10000).setProperty("MostPlayedROM.%d.Id" % count, str(game[gamedatabase.ROW_ID]))
                 xbmcgui.Window(10000).setProperty("MostPlayedROM.%d.Console" % count, romCollection.name)
-                xbmcgui.Window(10000).setProperty("MostPlayedROM.%d.Title" % count, game.name)
+                xbmcgui.Window(10000).setProperty("MostPlayedROM.%d.Title" % count, game[gamedatabase.ROW_NAME])
                 xbmcgui.Window(10000).setProperty("MostPlayedROM.%d.Thumb" % count, thumb)
                 xbmcgui.Window(10000).setProperty("MostPlayedROM.%d.Fanart" % count, fanart)
-                xbmcgui.Window(10000).setProperty("MostPlayedROM.%d.Plot" % count, game.plot)
-                xbmcgui.Window(10000).setProperty("MostPlayedROM.%d.Year" % count, game.year)
-                xbmcgui.Window(10000).setProperty("MostPlayedROM.%d.Publisher" % count, game.publisher)
-                xbmcgui.Window(10000).setProperty("MostPlayedROM.%d.Developer" % count, game.developer)
-                xbmcgui.Window(10000).setProperty("MostPlayedROM.%d.Genre" % count, game.genre)
+                xbmcgui.Window(10000).setProperty("MostPlayedROM.%d.Plot" % count, game[gamedatabase.GAME_description])
+                xbmcgui.Window(10000).setProperty("MostPlayedROM.%d.Year" % count, game[gamedatabase.GAME_year])
+                xbmcgui.Window(10000).setProperty("MostPlayedROM.%d.Publisher" % count, game[gamedatabase.GAME_publisher])
+                xbmcgui.Window(10000).setProperty("MostPlayedROM.%d.Developer" % count, game[gamedatabase.GAME_developer])
+                xbmcgui.Window(10000).setProperty("MostPlayedROM.%d.Genre" % count, game[gamedatabase.GAME_genre])
 
-                xbmcgui.Window(10000).setProperty("MostPlayedROM.%d.Maxplayers" % count, game.maxplayers)
-                xbmcgui.Window(10000).setProperty("MostPlayedROM.%d.Region" % count, game.region)
-                xbmcgui.Window(10000).setProperty("MostPlayedROM.%d.Media" % count, game.media)
-                xbmcgui.Window(10000).setProperty("MostPlayedROM.%d.Perspective" % count, game.perspective)
-                xbmcgui.Window(10000).setProperty("MostPlayedROM.%d.Controllertype" % count, game.controllertype)
-                xbmcgui.Window(10000).setProperty("MostPlayedROM.%d.Playcount" % count, game.playcount)
-                xbmcgui.Window(10000).setProperty("MostPlayedROM.%d.Rating" % count, game.rating)
-                xbmcgui.Window(10000).setProperty("MostPlayedROM.%d.Votes" % count, game.votes)
-                xbmcgui.Window(10000).setProperty("MostPlayedROM.%d.Url" % count, url)
-                xbmcgui.Window(10000).setProperty("MostPlayedROM.%d.Originaltitle" % count, game.originalTitle)
-                xbmcgui.Window(10000).setProperty("MostPlayedROM.%d.Alternatetitle" % count, game.alternateTitle)
-                xbmcgui.Window(10000).setProperty("MostPlayedROM.%d.Version" % count, game.version)
+                xbmcgui.Window(10000).setProperty("MostPlayedROM.%d.Maxplayers" % count, game[gamedatabase.GAME_maxPlayers])
+                xbmcgui.Window(10000).setProperty("MostPlayedROM.%d.Region" % count, game[gamedatabase.GAME_region])
+                xbmcgui.Window(10000).setProperty("MostPlayedROM.%d.Media" % count, game[gamedatabase.GAME_description])
+                xbmcgui.Window(10000).setProperty("MostPlayedROM.%d.Perspective" % count, game[gamedatabase.GAME_perspective])
+                xbmcgui.Window(10000).setProperty("MostPlayedROM.%d.Controllertype" % count, game[gamedatabase.GAME_controllerType])
+                xbmcgui.Window(10000).setProperty("MostPlayedROM.%d.Playcount" % count, game[gamedatabase.GAME_launchCount])
+                xbmcgui.Window(10000).setProperty("MostPlayedROM.%d.Rating" % count, game[gamedatabase.GAME_rating])
+                xbmcgui.Window(10000).setProperty("MostPlayedROM.%d.Votes" % count, game[gamedatabase.GAME_numVotes])
+                xbmcgui.Window(10000).setProperty("MostPlayedROM.%d.Url" % count, game[gamedatabase.GAME_url])
+                xbmcgui.Window(10000).setProperty("MostPlayedROM.%d.Originaltitle" % count, game[gamedatabase.GAME_originalTitle])
+                xbmcgui.Window(10000).setProperty("MostPlayedROM.%d.Alternatetitle" % count, game[gamedatabase.GAME_alternateTitle])
+                xbmcgui.Window(10000).setProperty("MostPlayedROM.%d.Version" % count, game[gamedatabase.GAME_version])
 
             except Exception, (exc):
                 xbmc.log('RCB: Error while getting most played games: ' + str(exc))
