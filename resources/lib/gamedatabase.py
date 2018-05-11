@@ -479,12 +479,10 @@ class Game(DataBaseObject):
         return game
 
     def getGamesByQuery(self, query, args):
-        rows = self.getObjectsByQuery(query, args)
-        return self.rowsToObjs(rows)
+        return self.getObjectsByQuery(query, args)
 
     def getGamesByQueryNoArgs(self, query):
-        rows = self.getObjectsByQueryNoArgs(query)
-        return self.rowsToObjs(rows)
+        return self.getObjectsByQueryNoArgs(query)
 
     def delete(self, gameId):
         self.deleteObjectByQuery(self.deleteQuery, (gameId,))
