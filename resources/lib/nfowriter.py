@@ -35,50 +35,29 @@ class NfoWriter(RcbXmlReaderWriter):
             gameCount = 1
 
             #get all games for this Rom Collection
-            games = Game(gdb).getGamesByFilter(romCollection.id, 0, 0, 0, False, '0 = 0')
+            games = GameView(gdb).getFilteredGames(romCollection.id, 0, 0, 0, False, '0 = 0')
             progressDialog.itemCount = len(games) + 1
 
             for game in games:
 
                 continueExport = progressDialog.writeMsg(progDialogRCHeader,
-                                                         util.localize(32171) + ": " + str(game.name), "", gameCount)
+                                                         util.localize(32171) + ": " + str(game[GameView.COL_NAME]), "", gameCount)
                 if not continueExport:
                     Logutil.log('Game export canceled by user', util.LOG_LEVEL_INFO)
                     break
 
                 gameCount = gameCount + 1
 
-                gamenameFromFile = romCollection.getGamenameFromFilename(game.firstRom)
+                romfiles = File(gdb).getRomsByGameId(game[GameView.COL_ID])
+                first_rom = romfiles[0]
+
+                gamenameFromFile = romCollection.getGamenameFromFilename(first_rom[0])
                 artworkfiles = {}
                 artworkurls = []
 
-                genreList = []
-                if game.genre:
-                    for genre in game.genre.split(', '):
-                        if genre != 'None':
-                            genreList.append(genre)
-
-                self.createNfoFromDesc(game.name,
-                                       game.plot,
+                self.createNfoFromDesc(game,
                                        romCollection.name,
-                                       game.publisher,
-                                       game.developer,
-                                       game.year,
-                                       game.maxplayers,
-                                       game.rating,
-                                       game.votes,
-                                       game.url,
-                                       game.region,
-                                       game.media,
-                                       game.perspective,
-                                       game.controllerType,
-                                       game.originalTitle,
-                                       game.alternateTitle,
-                                       game.version,
-                                       genreList,
-                                       game.isFavorite,
-                                       game.playcount,
-                                       game.firstRom,
+                                       romfiles[0],
                                        gamenameFromFile,
                                        artworkfiles,
                                        artworkurls)
@@ -86,9 +65,7 @@ class NfoWriter(RcbXmlReaderWriter):
         progressDialog.writeMsg("", "", "", -1)
         del progressDialog
 
-    def createNfoFromDesc(self, title, plot, platform, publisher, developer, year, maxPlayer, rating, votes,
-                          detailUrl, region, media, perspective, controller, originalTitle, alternateTitle, version,
-                          genreList, isFavorite, launchCount, romFile, gameNameFromFile, artworkfiles, artworkurls):
+    def createNfoFromDesc(self, game, platform, romFile, gameNameFromFile, artworkfiles, artworkurls):
 
         Logutil.log("Begin createNfoFromDesc", util.LOG_LEVEL_INFO)
 
@@ -107,6 +84,27 @@ class NfoWriter(RcbXmlReaderWriter):
             existing_nfo = ET.fromstring(fh.read())
             fh.close()
 
+        self.write_from_db_or_nfo(game[GameView.COL_NAME], existing_nfo, root, 'title')
+        self.write_from_db_or_nfo(game[GameView.COL_originalTitle], existing_nfo, root, 'originalTitle')
+        self.write_from_db_or_nfo(game[GameView.COL_alternateTitle], existing_nfo, root, 'alternateTitle')
+        self.write_from_db_or_nfo(platform, existing_nfo, root, 'platform')
+        self.write_from_db_or_nfo(game[GameView.COL_description], existing_nfo, root, 'plot')
+        self.write_from_db_or_nfo(game[GameView.COL_publisher], existing_nfo, root, 'publisher')
+        self.write_from_db_or_nfo(game[GameView.COL_developer], existing_nfo, root, 'developer')
+        self.write_from_db_or_nfo(game[GameView.COL_year], existing_nfo, root, 'year')
+        self.write_from_db_or_nfo(game[GameView.COL_url], existing_nfo, root, 'detailUrl')
+        self.write_from_db_or_nfo(game[GameView.COL_maxPlayers], existing_nfo, root, 'maxPlayer')
+        self.write_from_db_or_nfo(game[GameView.COL_region], existing_nfo, root, 'region')
+        self.write_from_db_or_nfo(game[GameView.COL_media], existing_nfo, root, 'media')
+        self.write_from_db_or_nfo(game[GameView.COL_perspective], existing_nfo, root, 'perspective')
+        self.write_from_db_or_nfo(game[GameView.COL_controllerType], existing_nfo, root, 'controller')
+        self.write_from_db_or_nfo(game[GameView.COL_version], existing_nfo, root, 'version')
+        self.write_from_db_or_nfo(game[GameView.COL_rating], existing_nfo, root, 'rating')
+        self.write_from_db_or_nfo(game[GameView.COL_numVotes], existing_nfo, root, 'votes')
+        self.write_from_db_or_nfo(game[GameView.COL_isFavorite], existing_nfo, root, 'isFavorite')
+        self.write_from_db_or_nfo(game[GameView.COL_launchCount], existing_nfo, root, 'launchCount')
+
+        """
         for elem in ['title', 'originalTitle', 'alternateTitle', 'platform', 'plot', 'publisher', 'developer', 'year',
                      'detailUrl', 'maxPlayer', 'region', 'media', 'perspective', 'controller', 'version', 'rating',
                      'votes', 'isFavorite', 'launchCount']:
@@ -118,6 +116,13 @@ class NfoWriter(RcbXmlReaderWriter):
                 except:
                     pass
             ET.SubElement(root, elem).text = elemText
+        """
+
+        genreList = []
+        if game[GameView.COL_genre]:
+            for genre in game[GameView.COL_genre].split(', '):
+                if genre != 'None':
+                    genreList.append(genre)
 
         #if no genre was given, use genres from existing file
         if existing_nfo and len(genreList) == 0:
@@ -143,6 +148,19 @@ class NfoWriter(RcbXmlReaderWriter):
                 Logutil.log('Error writing artwork url: ' + str(exc), util.LOG_LEVEL_WARNING)
 
         self.writeNfoElementToFile(root, platform, romFile, gameNameFromFile, nfoFile)
+
+    def write_from_db_or_nfo(self, value_from_db, existing_nfo, root, elementname):
+
+        val = ''
+        if value_from_db:
+            val = value_from_db
+        else:
+            if existing_nfo:
+                try:
+                    val = existing_nfo.find(elementname).text
+                except:
+                    pass
+        ET.SubElement(root, elementname).text = val
 
     def writeNfoElementToFile(self, root, platform, romFile, gameNameFromFile, nfoFile):
         # write file
@@ -185,23 +203,3 @@ class NfoWriter(RcbXmlReaderWriter):
         __name__, nfoFile, gameNameFromFile, romFile, romCollectionName))
 
         return nfoFile
-
-    def getGamePropertyFromCache(self, gameRow, game_dict, key, index):
-
-        result = ""
-        try:
-            itemRow = game_dict[gameRow[key]]
-            result = itemRow[index]
-        except:
-            pass
-
-        return result
-
-    def getGameProperty(self, prop):
-
-        try:
-            result = str(prop)
-        except:
-            result = ""
-
-        return result
