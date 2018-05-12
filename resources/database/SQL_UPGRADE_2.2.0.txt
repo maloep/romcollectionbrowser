@@ -1,18 +1,112 @@
-ALTER TABLE Game ADD COLUMN fileType1 TEXT;
-ALTER TABLE Game ADD COLUMN fileType2 TEXT;
-ALTER TABLE Game ADD COLUMN fileType3 TEXT;
-ALTER TABLE Game ADD COLUMN fileType4 TEXT;
-ALTER TABLE Game ADD COLUMN fileType5 TEXT;
-ALTER TABLE Game ADD COLUMN fileType6 TEXT;
-ALTER TABLE Game ADD COLUMN fileType7 TEXT;
-ALTER TABLE Game ADD COLUMN fileType8 TEXT;
-ALTER TABLE Game ADD COLUMN fileType9 TEXT;
-ALTER TABLE Game ADD COLUMN fileType10 TEXT;
-ALTER TABLE Game ADD COLUMN fileType11 TEXT;
-ALTER TABLE Game ADD COLUMN fileType12 TEXT;
-ALTER TABLE Game ADD COLUMN fileType13 TEXT;
-ALTER TABLE Game ADD COLUMN fileType14 TEXT;
-ALTER TABLE Game ADD COLUMN fileType15 TEXT;
+
+BEGIN TRANSACTION;
+
+ALTER TABLE [Game] RENAME TO [Game_temp];
+
+CREATE TABLE IF NOT EXISTS [Game]
+(
+    [id] INTEGER PRIMARY KEY AUTOINCREMENT,
+    [name] TEXT NOT NULL,
+    [description] TEXT,
+	[gameCmd] TEXT,
+	[alternateGameCmd] TEXT,
+    [romCollectionId] INTEGER,
+    [publisherId] INTEGER REFERENCES [Publisher]
+    (
+        id
+    ),
+	[developerId] INTEGER REFERENCES [Developer]
+    (
+        id
+    ),
+    [yearId] INTEGER REFERENCES [Year]
+    (
+        id
+    ),
+	[maxPlayers] TEXT,
+    [rating] TEXT,
+    [numVotes] INTEGER,
+	[url] TEXT,
+    [region] TEXT,
+	[media] TEXT,
+    [perspective] TEXT,
+    [controllerType] TEXT,
+	[isFavorite] INTEGER,
+	[launchCount] INTEGER,
+	[originalTitle] TEXT,
+	[alternateTitle] TEXT,
+	[translatedBy] TEXT,
+	[version] TEXT,
+	[fileType1] TEXT,
+	[fileType2] TEXT,
+	[fileType3] TEXT,
+	[fileType4] TEXT,
+	[fileType5] TEXT,
+	[fileType6] TEXT,
+	[fileType7] TEXT,
+	[fileType8] TEXT,
+	[fileType9] TEXT,
+	[fileType10] TEXT,
+	[fileType11] TEXT,
+	[fileType12] TEXT,
+	[fileType13] TEXT,
+	[fileType14] TEXT,
+	[fileType15] TEXT,
+	UNIQUE (name, romCollectionId)
+);
+
+INSERT INTO [Game]
+	(id,
+	name,
+	description,
+	gameCmd,
+	alternateGameCmd,
+	romCollectionId,
+	publisherId,
+	developerId,
+	yearId,
+	maxPlayers,
+	rating,
+	numVotes,
+	url,
+	region,
+	media,
+	perspective,
+	controllerType,
+	isFavorite,
+	launchCount,
+	originalTitle,
+	alternateTitle,
+	translatedBy,
+	version)
+SELECT 
+	id,
+	name,
+	description,
+	gameCmd,
+	alternateGameCmd,
+	romCollectionId,
+	publisherId,
+	developerId,
+	yearId,
+	maxPlayers,
+	rating,
+	numVotes,
+	url,
+	region,
+	media,
+	perspective,
+	controllerType,
+	isFavorite,
+	launchCount,
+	originalTitle,
+	alternateTitle,
+	translatedBy,
+	version
+FROM [Game_temp];
+
+DROP TABLE [Game_temp];
+
 
 CREATE Index file_parentid_filetypeid On File(parentid, filetypeid);
 
@@ -92,5 +186,8 @@ CREATE VIEW IF NOT EXISTS [GameView] AS
 				
 			GROUP BY Ga.id;
 
+DROP Table Reviewer;
 
 UPDATE RCBSetting SET dbVersion = '2.2.1';
+
+COMMIT;
