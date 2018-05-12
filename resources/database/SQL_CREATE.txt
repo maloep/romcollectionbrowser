@@ -1,29 +1,22 @@
-CREATE TABLE IF NOT EXISTS [Developer] 
+CREATE TABLE IF NOT EXISTS [Developer]
 (
     [id] INTEGER PRIMARY KEY AUTOINCREMENT,
     [name] TEXT NOT NULL UNIQUE
 );
 
-CREATE TABLE IF NOT EXISTS [Reviewer]
-(
-    [id] INTEGER PRIMARY KEY AUTOINCREMENT,
-    [name] TEXT NOT NULL UNIQUE
-);
-
-
-CREATE TABLE IF NOT EXISTS [Genre] 
+CREATE TABLE IF NOT EXISTS [Genre]
 (
     [id] INTEGER PRIMARY KEY AUTOINCREMENT,
     [name] TEXT UNIQUE
 );
 
-CREATE TABLE IF NOT EXISTS [Publisher] 
+CREATE TABLE IF NOT EXISTS [Publisher]
 (
     [id] INTEGER PRIMARY KEY AUTOINCREMENT,
     [name] TEXT NOT NULL UNIQUE
 );
 
-CREATE TABLE IF NOT EXISTS [Year] 
+CREATE TABLE IF NOT EXISTS [Year]
 (
     [id] INTEGER PRIMARY KEY AUTOINCREMENT,
     [name] TEXT UNIQUE
@@ -33,16 +26,16 @@ CREATE TABLE IF NOT EXISTS [RCBSetting]
 (
     [id] INTEGER PRIMARY KEY AUTOINCREMENT,
     [lastSelectedView] TEXT,
-    [lastSelectedConsoleIndex] INTEGER,	
-	[lastSelectedGenreIndex] INTEGER,
-	[lastSelectedPublisherIndex] INTEGER,
+    [lastSelectedConsoleIndex] INTEGER,
+    [lastSelectedGenreIndex] INTEGER,
+    [lastSelectedPublisherIndex] INTEGER,
     [lastSelectedYearIndex] INTEGER,
-	[lastSelectedGameIndex] INTEGER,	
-	[autoexecBackupPath] TEXT,
-	[dbVersion] TEXT,	
-	[lastFocusedControlMainView] INTEGER,
-	[lastFocusedControlGameInfoView] INTEGER,	
-	[lastSelectedCharacterIndex] INTEGER	
+    [lastSelectedGameIndex] INTEGER,
+    [autoexecBackupPath] TEXT,
+    [dbVersion] TEXT,
+    [lastFocusedControlMainView] INTEGER,
+    [lastFocusedControlGameInfoView] INTEGER,
+    [lastSelectedCharacterIndex] INTEGER
 );
 
 
@@ -51,18 +44,14 @@ CREATE TABLE IF NOT EXISTS [Game]
     [id] INTEGER PRIMARY KEY AUTOINCREMENT,
     [name] TEXT NOT NULL,
     [description] TEXT,
-	[gameCmd] TEXT,
-	[alternateGameCmd] TEXT,
+    [gameCmd] TEXT,
+    [alternateGameCmd] TEXT,
     [romCollectionId] INTEGER,
     [publisherId] INTEGER REFERENCES [Publisher]
     (
         id
     ),
-	[developerId] INTEGER REFERENCES [Developer]
-    (
-        id
-    ),
-	[reviewerId] INTEGER REFERENCES [Reviewer]
+    [developerId] INTEGER REFERENCES [Developer]
     (
         id
     ),
@@ -70,21 +59,36 @@ CREATE TABLE IF NOT EXISTS [Game]
     (
         id
     ),
-	[maxPlayers] TEXT,
+    [maxPlayers] TEXT,
     [rating] TEXT,
     [numVotes] INTEGER,
-	[url] TEXT,
+    [url] TEXT,
     [region] TEXT,
-	[media] TEXT,
+    [media] TEXT,
     [perspective] TEXT,
     [controllerType] TEXT,
-	[isFavorite] INTEGER,
-	[launchCount] INTEGER,
-	[originalTitle] TEXT,
-	[alternateTitle] TEXT,
-	[translatedBy] TEXT,
-	[version] TEXT,
-	UNIQUE (name, romCollectionId)
+    [isFavorite] INTEGER,
+    [launchCount] INTEGER,
+    [originalTitle] TEXT,
+    [alternateTitle] TEXT,
+    [translatedBy] TEXT,
+    [version] TEXT,
+    [fileType1] TEXT,
+    [fileType2] TEXT,
+    [fileType3] TEXT,
+    [fileType4] TEXT,
+    [fileType5] TEXT,
+    [fileType6] TEXT,
+    [fileType7] TEXT,
+    [fileType8] TEXT,
+    [fileType9] TEXT,
+    [fileType10] TEXT,
+    [fileType11] TEXT,
+    [fileType12] TEXT,
+    [fileType13] TEXT,
+    [fileType14] TEXT,
+    [fileType15] TEXT,
+    UNIQUE (name, romCollectionId)
 );
 
 
@@ -95,7 +99,6 @@ CREATE TABLE IF NOT EXISTS [File]
     [fileTypeId] INTEGER,
     [parentId] INTEGER
 );
-
 
 
 CREATE TABLE IF NOT EXISTS [GenreGame]
@@ -115,54 +118,54 @@ CREATE INDEX IF NOT EXISTS genregame_genreid ON [GenreGame](genreid);
 
 
 CREATE VIEW IF NOT EXISTS [GameView] AS
-	SELECT 	Ga.id,
-			Ga.name,
-			Ga.description,
-			Ga.gameCmd,
-			Ga.alternateGameCmd,
-			Ga.isFavorite,
-			Ga.launchCount,
-			Ga.version,
-			Ga.romCollectionId,
-			Ga.developerId,
-			Developer.name AS developer,
-			Ga.publisherId,
-			Publisher.name AS publisher,
-			Ga.yearId,
-			Year.name AS year,
-			Ga.region,
-			Ga.maxPlayers,
-			Ga.rating,
-			Ga.numVotes,
-			Ga.url,			
-			Ga.media,
-			Ga.controllerType,
-			Ga.originalTitle,
-			Ga.alternateTitle,
-			Ga.translatedBy,
-			Ga.perspective,
-			GROUP_CONCAT(Ge.name, ', ') AS genres,
-			Ga.fileType1,
-			Ga.fileType2,
-			Ga.fileType3,
-			Ga.fileType4,
-			Ga.fileType5,
-			Ga.fileType6,
-			Ga.fileType7,
-			Ga.fileType8,
-			Ga.fileType9,
-			Ga.fileType10,
-			Ga.fileType11,
-			Ga.fileType12,
-			Ga.fileType13,
-			Ga.fileType14,
-			Ga.fileType15
+    SELECT     Ga.id,
+            Ga.name,
+            Ga.description,
+            Ga.gameCmd,
+            Ga.alternateGameCmd,
+            Ga.isFavorite,
+            Ga.launchCount,
+            Ga.version,
+            Ga.romCollectionId,
+            Ga.developerId,
+            Developer.name AS developer,
+            Ga.publisherId,
+            Publisher.name AS publisher,
+            Ga.yearId,
+            Year.name AS year,
+            Ga.region,
+            Ga.maxPlayers,
+            Ga.rating,
+            Ga.numVotes,
+            Ga.url,
+            Ga.media,
+            Ga.controllerType,
+            Ga.originalTitle,
+            Ga.alternateTitle,
+            Ga.translatedBy,
+            Ga.perspective,
+            GROUP_CONCAT(Ge.name, ', ') AS genres,
+            Ga.fileType1,
+            Ga.fileType2,
+            Ga.fileType3,
+            Ga.fileType4,
+            Ga.fileType5,
+            Ga.fileType6,
+            Ga.fileType7,
+            Ga.fileType8,
+            Ga.fileType9,
+            Ga.fileType10,
+            Ga.fileType11,
+            Ga.fileType12,
+            Ga.fileType13,
+            Ga.fileType14,
+            Ga.fileType15
 
-			FROM [Game] Ga
-				LEFT OUTER JOIN Developer ON Ga.developerId = Developer.id
-				LEFT OUTER JOIN Publisher ON Ga.publisherId = Publisher.id
-				LEFT OUTER JOIN Year ON Ga.yearId = Year.id
-				LEFT OUTER JOIN GenreGame Gg ON Ga.id = Gg.gameid
-				LEFT OUTER JOIN Genre Ge ON Ge.id = Gg.genreid
-				
-			GROUP BY Ga.id;
+            FROM [Game] Ga
+                LEFT OUTER JOIN Developer ON Ga.developerId = Developer.id
+                LEFT OUTER JOIN Publisher ON Ga.publisherId = Publisher.id
+                LEFT OUTER JOIN Year ON Ga.yearId = Year.id
+                LEFT OUTER JOIN GenreGame Gg ON Ga.id = Gg.gameid
+                LEFT OUTER JOIN Genre Ge ON Ge.id = Gg.genreid
+                
+            GROUP BY Ga.id;
