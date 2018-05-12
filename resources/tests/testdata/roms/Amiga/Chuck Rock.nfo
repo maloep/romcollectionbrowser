@@ -22,6 +22,6 @@ Help Chuck in his quest to rescue Ophelia from the clutches of the evil Gary. Ki
   <isFavorite>0</isFavorite>
   <launchCount>0</launchCount>
   <genre>Platform</genre>
-  <thumb local="./testdata/artwork/Amiga/boxfront\Chuck Rock.png" type="boxfront" />
   <thumb local="./testdata/artwork/Amiga/screenshot\Chuck Rock.png" type="screenshot" />
+  <thumb local="./testdata/artwork/Amiga/boxfront\Chuck Rock.png" type="boxfront" />
 </game>

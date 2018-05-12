@@ -1,6 +1,10 @@
 
-import os, re, time
+import os, sys, re, time, shutil
 import unittest
+
+sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', '..', 'resources', 'lib'))
+
+from gamedatabase import GameDataBase, GameView
 
 
 import helper
@@ -9,15 +13,27 @@ from config import Config, RomCollection
 class Test(unittest.TestCase):
 
     @classmethod
-    def setUp(cls):
-        pass
+    def get_testdata_path(cls):
+        return os.path.join(os.path.dirname(__file__), '..', '..', 'resources', 'tests', 'testdata')
 
-    
     @classmethod
-    def tearDown(cls):
-        pass
+    def setUpClass(cls):
+        # Open the DB
+        db_path = os.path.join(cls.get_testdata_path(), 'database')
 
-    
+        # Setup data - MyGames.db is the hard-coded expected DB name
+        shutil.copyfile(os.path.join(db_path, 'MyGames_current_117_games.db'), os.path.join(db_path, 'MyGames.db'))
+
+        cls.gdb = GameDataBase(db_path)
+        cls.gdb.connect()
+
+    @classmethod
+    def tearDownClass(cls):
+        # Cleanup
+        cls.gdb.close()
+        os.remove(os.path.join(os.path.join(cls.get_testdata_path(), 'database'), 'MyGames.db'))
+
+    @unittest.skip("to be reimplemented")
     def testCacheMediaPaths_1RomCollection(self):
         # Load a config file with 2 valid RomCollections and all FileTypes and ImagePlacings
         config_xml_file = os.path.join(os.path.dirname(__file__), 'testdata', 'config', 'romcollections_imageloading.xml')
@@ -45,8 +61,8 @@ class Test(unittest.TestCase):
         
         self.assertTrue(mediaPathsDict['gameplay'][0] == 'testdata\\artwork\\Atari 2600\\video\\Adventure (1980) (Atari).wmv', 'wrong gameplay video in cache')
         self.assertTrue(mediaPathsDict['gameplay'][1] == 'testdata\\artwork\\Atari 2600\\video\\Air-Sea Battle (32 in 1) (1988) (Atari) (PAL).mp4', 'wrong gameplay video in cache')
-        
-        
+
+    @unittest.skip("to be reimplemented")
     def testCacheMediaPaths_1RomCollection_FoldernameAsGamename(self):
         # Load a config file with 2 valid RomCollections and all FileTypes and ImagePlacings
         config_xml_file = os.path.join(os.path.dirname(__file__), 'testdata', 'config', 'romcollections_imageloading.xml')
@@ -75,8 +91,8 @@ class Test(unittest.TestCase):
         self.assertTrue(mediaPathsDict['screenshot'][1] == 'testdata\\artwork\\SNES\\Chrono Trigger\\screenshot.png', 'wrong screenshot image in cache')
         self.assertTrue(mediaPathsDict['screenshot'][2] == "testdata\\artwork\\SNES\\Madden NFL '97\\boxfront.png", 'wrong screenshot image in cache')
         self.assertTrue(mediaPathsDict['screenshot'][3] == "testdata\\artwork\\SNES\\Madden NFL '97\\screenshot.png", 'wrong screenshot image in cache')
-        
-        
+
+    @unittest.skip("to be reimplemented")
     def testCacheMediaPaths_2RomCollections(self):
         # Load a config file with 2 valid RomCollections and all FileTypes and ImagePlacings
         config_xml_file = os.path.join(os.path.dirname(__file__), 'testdata', 'config', 'romcollections_imageloading.xml')
@@ -91,8 +107,24 @@ class Test(unittest.TestCase):
         
         mediaPathsDict = mediaDict['2']
         self.assertTrue(len(mediaPathsDict) == 2, 'len(mediaPathsDict) should have been 2 but was %i' %len(mediaPathsDict))
-        
-        
+
+    @unittest.skip("to be reimplemented")
+    def testFileForControl_DB(self):
+        config_xml_file = os.path.join(os.path.dirname(__file__), 'testdata', 'config',
+                                       'romcollections_imageloading.xml')
+        conf = Config(config_xml_file)
+        conf.readXml()
+
+        rc_id = 1
+        rom_collection = conf.romCollections[str(rc_id)]
+
+        game = GameView(self.gdb).getGameById(28)
+
+        file = helper.get_file_for_control_from_db(rom_collection.imagePlacingMain.fileTypesForGameList, game)
+
+        print file
+
+    @unittest.skip("to be reimplemented")
     def testFileForControl(self):
         config_xml_file = os.path.join(os.path.dirname(__file__), 'testdata', 'config', 'romcollections_imageloading.xml')
         conf = Config(config_xml_file)
@@ -144,8 +176,8 @@ class Test(unittest.TestCase):
         filename = helper.getFileForControl(romCollection.imagePlacingMain.fileTypesForMainViewGameInfoBig, romCollection, mediaPathsDict, gamenameFromFile),
         filenameExpected = './testdata/artwork/Atari 2600/boxfront/Asteroids (1981) (Atari) [no copyright].png'
         self.assertTrue(filename[0] == filenameExpected, 'Artwork file should have been %s but was %s' %(filenameExpected, filename))
-        
-        
+
+    @unittest.skip("to be reimplemented")
     def testFileForControl_FoldernameAsGamename(self):
         config_xml_file = os.path.join(os.path.dirname(__file__), 'testdata', 'config', 'romcollections_imageloading.xml')
         conf = Config(config_xml_file)
@@ -178,8 +210,8 @@ class Test(unittest.TestCase):
         filename = helper.getFileForControl(romCollection.imagePlacingMain.fileTypesForMainViewGameInfoBig, romCollection, mediaPathsDict, gamenameFromFile),
         filenameExpected = "./testdata/artwork/SNES/Madden NFL '97/screenshot.png"
         self.assertTrue(filename[0] == filenameExpected, 'Artwork file should have been %s but was %s' %(filenameExpected, filename))
-        
-        
+
+    @unittest.skip("to be reimplemented")
     def testFileForControlRegularExpression(self):
                 
         imagelist = [os.path.normpath('testdata\artwork\SNES\Game 1.png'),
@@ -198,8 +230,7 @@ class Test(unittest.TestCase):
         
         image = self._matchImagePattern(imagelist, 'Game 4')
         self.assertTrue(image == 'testdata\artwork\SNES\Game 4.gif', 'Wrong image: %s' %image)
-        
-    
+
     def _matchImagePattern(self, imagelist, gamenameFromFile):
         
         mediaPath = 'testdata\artwork\SNES\%GAME%.*'
@@ -219,8 +250,7 @@ class Test(unittest.TestCase):
         print 'pattern.search took %s ms' %diff
         
         return foundImage
-    
-    
+
     def _matchImageFilter(self, imagelist, gamenameFromFile):
         
         mediaPath = 'testdata\artwork\SNES\%GAME%.*'
