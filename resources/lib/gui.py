@@ -6,7 +6,6 @@ import util
 import helper, config
 import dialogprogress
 from config import *
-import gamedatabase
 from gamedatabase import *
 
 #Action Codes
@@ -537,7 +536,7 @@ class UIGameDB(xbmcgui.WindowXML):
             items.append(xbmcgui.ListItem(util.localize(32120), "0"))  # Add "All" entry
 
         for row in rows:
-            items.append(xbmcgui.ListItem(helper.saveReadString(row[gamedatabase.ROW_NAME]), str(row[gamedatabase.ROW_ID])))
+            items.append(xbmcgui.ListItem(helper.saveReadString(row[DataBaseObject.COL_NAME]), str(row[DataBaseObject.COL_ID])))
 
         control.addItems(items)
 
@@ -752,9 +751,9 @@ class UIGameDB(xbmcgui.WindowXML):
         likeStatement = self._getGamesListQueryStatement()
         maxNumGames = self._getMaxGamesToDisplay()
 
-        #games = Game(self.gdb).getGamesByFilter(self.selectedConsoleId, self.selectedGenreId, self.selectedYearId,
+        #games = GameView(self.gdb).getFilteredGames(self.selectedConsoleId, self.selectedGenreId, self.selectedYearId,
         #                                        self.selectedPublisherId, isFavorite, likeStatement, maxNumGames)
-        games = Game(self.gdb).getFilteredGames(self.selectedConsoleId, self.selectedGenreId, self.selectedYearId,
+        games = GameView(self.gdb).getFilteredGames(self.selectedConsoleId, self.selectedGenreId, self.selectedYearId,
                                                 self.selectedPublisherId, isFavorite, likeStatement, maxNumGames)
 
         timestamp2 = time.clock()
@@ -768,7 +767,7 @@ class UIGameDB(xbmcgui.WindowXML):
         items = []
         for game in games:
 
-            romcollection_id = str(game[gamedatabase.GAME_romCollectionId])
+            romcollection_id = str(game[GameView.COL_romCollectionId])
 
             try:
                 romCollection = self.config.romCollections[romcollection_id]
@@ -777,23 +776,23 @@ class UIGameDB(xbmcgui.WindowXML):
                 # Won't be able to get game images, move to next game
                 continue
 
-            item = xbmcgui.ListItem(game[gamedatabase.ROW_NAME], str(game[gamedatabase.ROW_ID]))
+            item = xbmcgui.ListItem(game[GameView.COL_NAME], str(game[GameView.COL_ID]))
             item.setProperty('romCollectionId', romcollection_id)
             item.setProperty('romcollection', romCollection.name)
             item.setProperty('console', romCollection.name)
-            item.setProperty('gameId', str(game[gamedatabase.ROW_ID]))
-            item.setProperty('plot', game[gamedatabase.GAME_description])
-            item.setProperty('playcount', str(game[gamedatabase.GAME_launchCount]))
-            item.setProperty('originalTitle', game[gamedatabase.GAME_originalTitle])
-            item.setProperty('alternateTitle', game[gamedatabase.GAME_alternateTitle])
-            item.setProperty('developer', game[gamedatabase.GAME_developer])
-            item.setProperty('publisher', game[gamedatabase.GAME_publisher])
-            item.setProperty('year', game[gamedatabase.GAME_year])
-            item.setProperty('genre', game[gamedatabase.GAME_genre])
-            item.setProperty('gameCmd', game[gamedatabase.GAME_gameCmd])
-            item.setProperty('alternateGameCmd', game[gamedatabase.GAME_alternateGameCmd])
+            item.setProperty('gameId', str(game[GameView.COL_ID]))
+            item.setProperty('plot', game[GameView.COL_description])
+            item.setProperty('playcount', str(game[GameView.COL_launchCount]))
+            item.setProperty('originalTitle', game[GameView.COL_originalTitle])
+            item.setProperty('alternateTitle', game[GameView.COL_alternateTitle])
+            item.setProperty('developer', game[GameView.COL_developer])
+            item.setProperty('publisher', game[GameView.COL_publisher])
+            item.setProperty('year', game[GameView.COL_year])
+            item.setProperty('genre', game[GameView.COL_genre])
+            item.setProperty('gameCmd', game[GameView.COL_gameCmd])
+            item.setProperty('alternateGameCmd', game[GameView.COL_alternateGameCmd])
 
-            if game[gamedatabase.GAME_isFavorite] == 1 and showFavoriteStars:
+            if game[GameView.COL_isFavorite] == 1 and showFavoriteStars:
                 item.setProperty('isfavorite', '1')
             else:
                 item.setProperty('isfavorite', '')
@@ -993,7 +992,7 @@ class UIGameDB(xbmcgui.WindowXML):
         Logutil.log("begin Delete Games", util.LOG_LEVEL_INFO)
         count = 0
 
-        rcList = Game(self.gdb).getFilteredGames(rcID, 0, 0, 0, 0, '0 = 0')
+        rcList = GameView(self.gdb).getFilteredGames(rcID, 0, 0, 0, 0, '0 = 0')
         progressDialog = dialogprogress.ProgressDialogGUI()
         progressDialog.itemCount = len(rcList)
 
@@ -1004,7 +1003,7 @@ class UIGameDB(xbmcgui.WindowXML):
                 count = count + 1
                 progDialogRCDelStat = util.localize(32104) + " (%i / %i)" % (count, progressDialog.itemCount)
                 progressDialog.writeMsg("", progDialogRCDelStat, "", count)
-                self.deleteGame(items[gamedatabase.ROW_ID])
+                self.deleteGame(items[Game.COL_ID])
             if len(rcList) > 0:
                 progressDialog.writeMsg("", util.localize(32106), "", count)
             else:
@@ -1039,11 +1038,11 @@ class UIGameDB(xbmcgui.WindowXML):
                 count = count + 1
                 progDialogCleanStat = util.localize(32107) + " (%i / %i)" % (count, progressDialog2.itemCount)
                 progressDialog2.writeMsg("", progDialogCleanStat, "", count)
-                if os.path.exists(items[gamedatabase.ROW_NAME]) != True:
-                    if items[util.FILE_fileTypeId] == 0:
-                        self.deleteGame(items[util.FILE_parentId])
+                if os.path.exists(items[File.COL_NAME]) != True:
+                    if items[File.COL_fileTypeId] == 0:
+                        self.deleteGame(items[File.COL_parentId])
                     else:
-                        File(self.gdb).deleteByFileId(items[gamedatabase.ROW_ID])
+                        File(self.gdb).deleteByFileId(items[File.COL_ID])
                     removeCount = removeCount + 1
             progressDialog2.writeMsg("", util.localize(32109), "", count)
             self.gdb.compact()
@@ -1316,35 +1315,35 @@ class UIGameDB(xbmcgui.WindowXML):
         self.showConsoles()
 
         #set console filter selection
-        if rcbSetting[gamedatabase.RCBSETTING_lastSelectedConsoleIndex] != None:
+        if rcbSetting[RCBSetting.COL_lastSelectedConsoleIndex] != None:
             self.selectedConsoleId = int(
-                self.setFilterSelection(CONTROL_CONSOLES, rcbSetting[gamedatabase.RCBSETTING_lastSelectedConsoleIndex]))
-            self.selectedConsoleIndex = rcbSetting[gamedatabase.RCBSETTING_lastSelectedConsoleIndex]
+                self.setFilterSelection(CONTROL_CONSOLES, rcbSetting[RCBSetting.COL_lastSelectedConsoleIndex]))
+            self.selectedConsoleIndex = rcbSetting[RCBSetting.COL_lastSelectedConsoleIndex]
 
         #load other filters
         self.showGenre()
-        if rcbSetting[gamedatabase.RCBSETTING_lastSelectedGenreIndex] != None:
+        if rcbSetting[RCBSetting.COL_lastSelectedGenreIndex] != None:
             self.selectedGenreId = int(
-                self.setFilterSelection(CONTROL_GENRE, rcbSetting[gamedatabase.RCBSETTING_lastSelectedGenreIndex]))
-            self.selectedGenreIndex = rcbSetting[gamedatabase.RCBSETTING_lastSelectedGenreIndex]
+                self.setFilterSelection(CONTROL_GENRE, rcbSetting[RCBSetting.COL_lastSelectedGenreIndex]))
+            self.selectedGenreIndex = rcbSetting[RCBSetting.COL_lastSelectedGenreIndex]
 
         self.showYear()
-        if rcbSetting[gamedatabase.RCBSETTING_lastSelectedYearIndex] != None:
+        if rcbSetting[RCBSetting.COL_lastSelectedYearIndex] != None:
             self.selectedYearId = int(
-                self.setFilterSelection(CONTROL_YEAR, rcbSetting[gamedatabase.RCBSETTING_lastSelectedYearIndex]))
-            self.selectedYearIndex = rcbSetting[gamedatabase.RCBSETTING_lastSelectedYearIndex]
+                self.setFilterSelection(CONTROL_YEAR, rcbSetting[RCBSetting.COL_lastSelectedYearIndex]))
+            self.selectedYearIndex = rcbSetting[RCBSetting.COL_lastSelectedYearIndex]
 
         self.showPublisher()
-        if rcbSetting[gamedatabase.RCBSETTING_lastSelectedPublisherIndex] != None:
+        if rcbSetting[RCBSetting.COL_lastSelectedPublisherIndex] != None:
             self.selectedPublisherId = int(
-                self.setFilterSelection(CONTROL_PUBLISHER, rcbSetting[gamedatabase.RCBSETTING_lastSelectedPublisherIndex]))
-            self.selectedPublisherIndex = rcbSetting[gamedatabase.RCBSETTING_lastSelectedPublisherIndex]
+                self.setFilterSelection(CONTROL_PUBLISHER, rcbSetting[RCBSetting.COL_lastSelectedPublisherIndex]))
+            self.selectedPublisherIndex = rcbSetting[RCBSetting.COL_lastSelectedPublisherIndex]
 
         self.showCharacterFilter()
-        if rcbSetting[gamedatabase.RCBSETTING_lastSelectedCharacterIndex] != None:
+        if rcbSetting[RCBSetting.COL_lastSelectedCharacterIndex] != None:
             self.selectedCharacter = self.setFilterSelection(CONTROL_CHARACTER,
-                                                             rcbSetting[gamedatabase.RCBSETTING_lastSelectedCharacterIndex])
-            self.selectedCharacterIndex = rcbSetting[gamedatabase.RCBSETTING_lastSelectedCharacterIndex]
+                                                             rcbSetting[RCBSetting.COL_lastSelectedCharacterIndex])
+            self.selectedCharacterIndex = rcbSetting[RCBSetting.COL_lastSelectedCharacterIndex]
 
         #reset view mode
         viewModeId = self.Settings.getSetting(util.SETTING_RCB_VIEW_MODE)
@@ -1366,7 +1365,7 @@ class UIGameDB(xbmcgui.WindowXML):
         # Reset game list
         self.showGames()
 
-        self.setFilterSelection(CONTROL_GAMES_GROUP_START, rcbSetting[gamedatabase.RCBSETTING_lastSelectedGameIndex])
+        self.setFilterSelection(CONTROL_GAMES_GROUP_START, rcbSetting[RCBSetting.COL_lastSelectedGameIndex])
 
         #always set focus on game list on start
         focusControl = self.getControlById(CONTROL_GAMES_GROUP_START)

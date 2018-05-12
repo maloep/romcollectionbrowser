@@ -2,7 +2,6 @@ import xbmc, xbmcgui
 import helper, util
 from launcher import RCBLauncher
 from util import *
-import gamedatabase
 from gamedatabase import *
 
 ACTION_CANCEL_DIALOG = (9, 10, 51, 92, 110)
@@ -108,11 +107,11 @@ class UIGameInfoView(xbmcgui.WindowXMLDialog):
 
         self.clearList()
 
-        game = Game(self.gdb).getGameRowById(self.selectedGameId)
+        game = GameView(self.gdb).getGameById(self.selectedGameId)
 
-        item = xbmcgui.ListItem(game[gamedatabase.ROW_NAME], str(game[gamedatabase.ROW_ID]))
+        item = xbmcgui.ListItem(game[DataBaseObject.COL_NAME], str(game[GameView.COL_ID]))
 
-        romcollection_id = str(game[gamedatabase.GAME_romCollectionId])
+        romcollection_id = str(game[GameView.COL_romCollectionId])
         try:
             romCollection = self.config.romCollections[romcollection_id]
         except KeyError:
@@ -122,26 +121,26 @@ class UIGameInfoView(xbmcgui.WindowXMLDialog):
         item.setProperty('romCollectionId', romcollection_id)
         item.setProperty('romcollection', romCollection.name)
         item.setProperty('console', romCollection.name)
-        item.setProperty('gameId', str(game[gamedatabase.ROW_ID]))
-        item.setProperty('plot', game[gamedatabase.GAME_description])
-        item.setProperty('developer', game[gamedatabase.GAME_developer])
-        item.setProperty('publisher', game[gamedatabase.GAME_publisher])
-        item.setProperty('year', game[gamedatabase.GAME_year])
-        item.setProperty('genre', game[gamedatabase.GAME_genre])
-        item.setProperty('gameCmd', game[gamedatabase.GAME_gameCmd])
-        item.setProperty('alternateGameCmd', game[gamedatabase.GAME_alternateGameCmd])
-        item.setProperty('playcount', str(game[gamedatabase.GAME_launchCount]))
-        item.setProperty('originalTitle', game[gamedatabase.GAME_originalTitle])
-        item.setProperty('alternateTitle', game[gamedatabase.GAME_alternateTitle])
+        item.setProperty('gameId', str(game[GameView.COL_ID]))
+        item.setProperty('plot', game[GameView.COL_description])
+        item.setProperty('developer', game[GameView.COL_developer])
+        item.setProperty('publisher', game[GameView.COL_publisher])
+        item.setProperty('year', game[GameView.COL_year])
+        item.setProperty('genre', game[GameView.COL_genre])
+        item.setProperty('gameCmd', game[GameView.COL_gameCmd])
+        item.setProperty('alternateGameCmd', game[GameView.COL_alternateGameCmd])
+        item.setProperty('playcount', str(game[GameView.COL_launchCount]))
+        item.setProperty('originalTitle', game[GameView.COL_originalTitle])
+        item.setProperty('alternateTitle', game[GameView.COL_alternateTitle])
 
-        item.setProperty('rating', str(game[gamedatabase.GAME_rating]))
-        item.setProperty('media', str(game[gamedatabase.GAME_media]))
-        item.setProperty('controllertype', str(game[gamedatabase.GAME_controllerType]))
-        item.setProperty('region', str(game[gamedatabase.GAME_region]))
-        item.setProperty('maxplayers', str(game[gamedatabase.GAME_maxPlayers]))
-        item.setProperty('url', str(game[gamedatabase.GAME_url]))
+        item.setProperty('rating', str(game[GameView.COL_rating]))
+        item.setProperty('media', str(game[GameView.COL_media]))
+        item.setProperty('controllertype', str(game[GameView.COL_controllerType]))
+        item.setProperty('region', str(game[GameView.COL_region]))
+        item.setProperty('maxplayers', str(game[GameView.COL_maxPlayers]))
+        item.setProperty('url', str(game[GameView.COL_url]))
 
-        if game[gamedatabase.GAME_isFavorite] == 1:
+        if game[GameView.COL_isFavorite] == 1:
             item.setProperty('isfavorite', '1')
         else:
             item.setProperty('isfavorite', '')

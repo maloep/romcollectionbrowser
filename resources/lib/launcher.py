@@ -36,12 +36,12 @@ class RCBLauncher(object):
             gui.writeMsg(util.localize(32034))
             return
 
-        gui.writeMsg(util.localize(32163) + " " + gameRow[gamedatabase.ROW_NAME])
+        gui.writeMsg(util.localize(32163) + " " + gameRow[DataBaseObject.COL_NAME])
 
         # Remember viewstate
         gui.saveViewState(False)
 
-        filenameRows = File(gdb).getRomsByGameId(gameRow[gamedatabase.ROW_ID])
+        filenameRows = File(gdb).getRomsByGameId(gameRow[DataBaseObject.COL_ID])
         log.info("files for current game: " + str(filenameRows))
 
         cmd, precmd, postcmd, roms = self.__buildCmd(gui, filenameRows, gameRow, False)
@@ -85,7 +85,7 @@ class RCBLauncher(object):
 
         # update LaunchCount
         launchCount = gameRow[util.GAME_launchCount]
-        Game(gdb).update(('launchCount',), (launchCount + 1,), gameRow[gamedatabase.ROW_ID], True)
+        Game(gdb).update(('launchCount',), (launchCount + 1,), gameRow[DataBaseObject.COL_ID], True)
         gdb.commit()
 
         log.info("cmd: " + cmd)
@@ -401,7 +401,7 @@ class RCBLauncher(object):
         emuParams = emuParams.replace('%Romname%', romname)
 
         # gamename
-        gamename = unicode(gameRow[gamedatabase.ROW_NAME])
+        gamename = unicode(gameRow[DataBaseObject.COL_NAME])
         emuParams = emuParams.replace('%game%', gamename)
         emuParams = emuParams.replace('%GAME%', gamename)
         emuParams = emuParams.replace('%Game%', gamename)
