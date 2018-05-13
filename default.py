@@ -130,7 +130,7 @@ class Main(object):
                 #get artwork that is chosen to be shown in gamelist
                 thumb = helper.get_file_for_control_from_db(
                     romCollection.imagePlacingMain.fileTypesForGameList, game)
-                fanart = helper.getFileForControl(
+                fanart = helper.get_file_for_control(
                     romCollection.imagePlacingMain.fileTypesForMainViewBackground, game)
 
                 url = "plugin://script.games.rom.collection.browser/?launchid=%s" % game[DataBaseObject.COL_ID]
