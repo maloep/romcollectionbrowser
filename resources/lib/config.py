@@ -315,13 +315,23 @@ class RomCollection(object):
     def __repr__(self):
         return "<RomCollection: %s>" % self.__dict__
 
-    def getMediaPathByType(self, ftype):
+    def getMediaPathByTypeName(self, name):
         """ Returns the mediaPath object matching where the FileType's name matches e.g. type = boxfront
 
         If not found (i.e. the rom collection has not set a path for this type), will return an empty string
         """
         for path in self.mediaPaths:
-            if path.fileType.name == ftype:
+            if path.fileType.name == name:
+                return path.path
+        return ''
+
+    def getMediaPathByTypeId(self, typeid):
+        """ Returns the mediaPath object matching where the FileType's name matches e.g. type = boxfront
+
+        If not found (i.e. the rom collection has not set a path for this type), will return an empty string
+        """
+        for path in self.mediaPaths:
+            if path.fileType.id == typeid:
                 return path.path
         return ''
 
@@ -345,7 +355,7 @@ class RomCollection(object):
         """
         fts = getattr(placing, attname)
         for ft in fts:
-            if self.getMediaPathByType(ft.name) != '':
+            if self.getMediaPathByTypeName(ft.name) != '':
                 return ft
 
         return None

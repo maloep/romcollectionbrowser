@@ -18,71 +18,98 @@ def saveReadString(prop):
     return result
 
 
-def cacheMediaPathsForSelection(consoleId, mediaDict, config):
-    Logutil.log('Begin cacheMediaPathsForSelection', util.LOG_LEVEL_INFO)
+def update_artwork_cache(console_id, file_type_id, gdb, config):
+    Logutil.log('cache_artwork', util.LOG_LEVEL_INFO)
 
-    if mediaDict is None:
-        mediaDict = {}
+    #cache all available artwork
+    media_dict = cache_mediapaths_for_selection(console_id, {}, config)
+
+    if console_id > 0:
+        rom_collection = config.romCollections[str(console_id)]
+        update_artwork_cache_for_romcollection(rom_collection, file_type_id, media_dict, gdb, config)
+    else:
+        for rcid in config.romCollections.keys():
+            rom_collection = config.romCollections[str(rcid)]
+            update_artwork_cache_for_romcollection(rom_collection, file_type_id, media_dict, gdb, config)
+
+    Logutil.log('End cache_artwork', util.LOG_LEVEL_INFO)
+
+
+def update_artwork_cache_for_romcollection(rom_collection, file_type_id, media_dict, gdb, config):
+    Logutil.log('Begin cache_artwork_for_console', util.LOG_LEVEL_INFO)
+    Logutil.log('Caching mediaPaths for Rom Collection %s' % str(rom_collection.id), util.LOG_LEVEL_INFO)
+
+    media_paths_dict = {}
+    try:
+        media_paths_dict = media_dict[rom_collection.id]
+    except KeyError:
+        Logutil.log('No media paths dict found for rom collection %s' % rom_collection.id, util.LOG_LEVEL_WARNING)
+        return
+
+    games = GameView(gdb).getFilteredGames(rom_collection.id, 0, 0, 0, 0, '0 = 0', 0)
+    for game in games:
+        for media_path in rom_collection.mediaPaths:
+            #check if we should handle this file type
+            if file_type_id != media_path.fileType.id and file_type_id != 0:
+                continue
+
+            roms = File(gdb).getRomsByGameId(game[GameView.COL_ID])
+            gamename_from_file = rom_collection.getGamenameFromFilename(roms[0][0])
+            #check if artwork is available for this type
+            file = find_file_in_mediadict(media_path.fileType.id, rom_collection, media_paths_dict, gamename_from_file)
+            print file
+
+
+def cache_mediapaths_for_selection(console_id, media_dict, config):
+    Logutil.log('Begin cache_mediapaths_for_selection', util.LOG_LEVEL_INFO)
+
+    if media_dict is None:
+        media_dict = {}
 
     #if this console is already cached there is nothing to do
-    if str(consoleId) in mediaDict.keys():
-        Logutil.log('MediaPaths for RomCollection %s are already in cache' % str(consoleId), util.LOG_LEVEL_INFO)
-        return mediaDict
+    if console_id in media_dict.keys():
+        Logutil.log('MediaPaths for RomCollection %s are already in cache' % console_id, util.LOG_LEVEL_INFO)
+        return media_dict
 
-    if consoleId > 0:
-        cacheMediaPathsForConsole(consoleId, mediaDict, config)
-        return mediaDict
+    if console_id > 0:
+        cache_media_paths_for_console(str(console_id), media_dict, config)
+        return media_dict
     else:
         for rcId in config.romCollections.keys():
-            if str(rcId) in mediaDict.keys():
-                Logutil.log('MediaPaths for RomCollection %s are already in cache' % str(rcId), util.LOG_LEVEL_INFO)
+            if rcId in media_dict.keys():
+                Logutil.log('MediaPaths for RomCollection %s are already in cache' % rcId, util.LOG_LEVEL_INFO)
                 continue
-            cacheMediaPathsForConsole(rcId, mediaDict, config)
+            cache_media_paths_for_console(rcId, media_dict, config)
 
     Logutil.log('End cacheMediaPathsForSelection', util.LOG_LEVEL_INFO)
-    return mediaDict
+    return media_dict
 
 
-def cacheMediaPathsForConsole(consoleId, mediaDict, config):
+def cache_media_paths_for_console(console_id, media_dict, config):
     Logutil.log('Begin cacheMediaPathsForConsole', util.LOG_LEVEL_INFO)
-    Logutil.log('Caching mediaPaths for Rom Collection %s' % str(consoleId), util.LOG_LEVEL_INFO)
+    Logutil.log('Caching mediaPaths for Rom Collection %s' % console_id, util.LOG_LEVEL_INFO)
 
-    romCollection = config.romCollections[str(consoleId)]
-    # only cache images for gamelist and clearlogo
-    gamelist_types = []
-    if util.getSettings().getSetting(util.SETTING_RCB_LOADGAMELISTARTWORK).upper() == 'TRUE':
-        gamelist_types.extend(romCollection.imagePlacingMain.fileTypesForGameList)
-    if util.getSettings().getSetting(util.SETTING_RCB_USECLEARLOGOASTITLE).upper() == 'TRUE':
-        gamelist_types.append(FileType(name='clearlogo'))
+    rom_collection = config.romCollections[str(console_id)]
 
-    mediaPathDict = {}
+    media_path_dict = {}
 
-    for filetype in gamelist_types:
-        is_gamelist_type = False
-        for mediaPath in romCollection.mediaPaths:
-            if mediaPath.fileType.name == filetype.name:
-                is_gamelist_type = True
-                break
-        if not is_gamelist_type:
-            Logutil.log('%s is no gamelist type. Skip type.' %mediaPath.fileType.name, util.LOG_LEVEL_INFO)
-            continue
-
-        Logutil.log('mediaPath = %s' %mediaPath.path, util.LOG_LEVEL_INFO)
-        mediadir = mediaPath.path
+    for media_path in rom_collection.mediaPaths:
+        Logutil.log('media_path = %s' %media_path.path, util.LOG_LEVEL_INFO)
+        mediadir = media_path.path
         #if foldername is gamename only get content of parent directory
-        if romCollection.useFoldernameAsGamename:
+        if rom_collection.useFoldernameAsGamename:
             mediadir = mediadir[0:mediadir.index('%GAME%')]
 
         mediafiles = []
-        walkDownMediaDirectories(os.path.dirname(mediadir), mediafiles)
+        walk_down_media_directories(os.path.dirname(mediadir), mediafiles)
 
-        mediaPathDict[mediaPath.fileType.name] = mediafiles
+        media_path_dict[media_path.fileType.id] = mediafiles
 
-    mediaDict[str(consoleId)] = mediaPathDict
+    media_dict[console_id] = media_path_dict
     Logutil.log('End cacheMediaPathsForConsole', util.LOG_LEVEL_INFO)
 
 
-def walkDownMediaDirectories(mediadir, mediafiles):
+def walk_down_media_directories(mediadir, mediafiles):
     Logutil.log('Begin walkDownMediaDirectories', util.LOG_LEVEL_INFO)
     Logutil.log('xbmcvfs.listdir', util.LOG_LEVEL_INFO)
     mediasubdirs, mediasubfiles = xbmcvfs.listdir(mediadir)
@@ -91,10 +118,26 @@ def walkDownMediaDirectories(mediadir, mediafiles):
         mediafiles.append(os.path.normpath(os.path.join(mediadir, mediasubfile)))
 
     for mediasubdir in mediasubdirs:
-        walkDownMediaDirectories(os.path.join(mediadir, mediasubdir), mediafiles)
+        walk_down_media_directories(os.path.join(mediadir, mediasubdir), mediafiles)
 
 
-def getFileForControl(fileTypes, romCollection, mediaPathsDict, gamenameFromFile):
+def find_file_in_mediadict(filetype_id, rom_collection, media_paths_dict, gamename_from_file):
+    Logutil.log("begin getFileForControl", util.LOG_LEVEL_DEBUG)
+
+    media_path = rom_collection.getMediaPathByTypeId(filetype_id)
+
+    if not media_path:
+        return ''
+
+    pathname_from_file = media_path.replace("%GAME%", gamename_from_file)
+    media_paths_list = media_paths_dict[str(filetype_id)]
+
+    image_path = _find_file_with_correct_extension(pathname_from_file, media_paths_list)
+    if image_path:
+        return image_path
+
+
+def get_file_for_control(fileTypes, romCollection, mediaPathsDict, gamenameFromFile):
     Logutil.log("begin getFileForControl", util.LOG_LEVEL_DEBUG)
 
     for fileType in fileTypes:
@@ -104,7 +147,7 @@ def getFileForControl(fileTypes, romCollection, mediaPathsDict, gamenameFromFile
         if fileType.parent != util.FILETYPEPARENT_GAME:
             continue
 
-        mediaPath = romCollection.getMediaPathByType(fileType.name)
+        mediaPath = romCollection.getMediaPathByTypeName(fileType.name)
 
         if not mediaPath:
             continue
@@ -112,83 +155,12 @@ def getFileForControl(fileTypes, romCollection, mediaPathsDict, gamenameFromFile
         pathnameFromFile = mediaPath.replace("%GAME%", gamenameFromFile)
         mediaPathsList = mediaPathsDict[fileType.name]
 
-        imagePath = _findFileWithCorrectExtensionRegex(pathnameFromFile, mediaPathsList)
+        imagePath = _find_file_with_correct_extension(pathnameFromFile, mediaPathsList)
         if imagePath:
             return imagePath
 
 
-def getFileForControl_NoCache(fileTypes, romCollection, gamenameFromFile, isVideo):
-    Logutil.log("begin getFileForControl_NoCache_xbmcvfs", util.LOG_LEVEL_INFO)
-
-    for fileType in fileTypes:
-        if not fileType:
-            continue
-
-        if fileType.parent != util.FILETYPEPARENT_GAME:
-            continue
-
-        mediaPath = romCollection.getMediaPathByType(fileType.name)
-        if not mediaPath:
-            continue
-
-        pathnameFromFileOrig = mediaPath.replace("%GAME%", gamenameFromFile)
-        Logutil.log("pathnameFromFileOrig: %s" %pathnameFromFileOrig, util.LOG_LEVEL_INFO)
-        if pathnameFromFileOrig.endswith('.*'):
-            if not isVideo:
-                extensions = ['png', 'jpg', 'gif', 'bmp', 'jpeg']
-            else:
-                extensions = ['mp4', 'wmv', 'avi', 'flv']
-            for extension in extensions:
-                filename = pathnameFromFileOrig.replace('*', extension)
-                if xbmcvfs.exists(filename):
-                    return  filename
-        else:
-            if xbmcvfs.exists(pathnameFromFileOrig):
-                return pathnameFromFileOrig
-
-    Logutil.log("end getFileForControl_NoCache_xbmcvfs - nothing found", util.LOG_LEVEL_INFO)
-    return ""
-
-
-def getFileForControl_NoCache_glob(fileTypes, romCollection, mediaPathsDict, gamenameFromFile):
-    """
-    Just kept as reference. glob does not seem to work with network shares in libreelec.
-    """
-    Logutil.log("begin getFileForControl_NoCache", util.LOG_LEVEL_INFO)
-
-    for fileType in fileTypes:
-        if not fileType:
-            continue
-
-        if fileType.parent != util.FILETYPEPARENT_GAME:
-            continue
-
-        mediaPath = romCollection.getMediaPathByType(fileType.name)
-        if not mediaPath:
-            continue
-
-        pathnameFromFileOrig = mediaPath.replace("%GAME%", gamenameFromFile)
-        Logutil.log("pathnameFromFileOrig: %s" %pathnameFromFileOrig, util.LOG_LEVEL_INFO)
-        #HACK: glob can't handle smb paths, so we need to use unc path syntax
-        if pathnameFromFileOrig.startswith('smb://'):
-            pathnameFromFile = pathnameFromFileOrig.replace('smb://', '\\\\')
-            pathnameFromFile = pathnameFromFile.replace('/', '\\')
-        else:
-            pathnameFromFile = pathnameFromFileOrig
-        Logutil.log("pathnameFromFile: %s" % pathnameFromFile, util.LOG_LEVEL_INFO)
-        files = glob.glob(pathnameFromFile)
-        Logutil.log("files found by glob: %s" % files, util.LOG_LEVEL_INFO)
-
-        if len(files) > 0:
-            filename = pathnameFromFileOrig.replace('.*', os.path.splitext(files[0])[1])
-            Logutil.log("end getFileForControl_NoCache: %s" %filename, util.LOG_LEVEL_INFO)
-            return filename
-
-    Logutil.log("end getFileForControl_NoCache - nothing found", util.LOG_LEVEL_INFO)
-    return ""
-
-
-def _findFileWithCorrectExtensionRegex(pathnameFromFile, mediaPathsList):
+def _find_file_with_correct_extension(pathnameFromFile, mediaPathsList):
     pathToSearch = re.escape(os.path.normpath(pathnameFromFile.replace('.*', '')))
     pattern = re.compile('%s\..*$' % pathToSearch)
     for imagePath in mediaPathsList:
@@ -203,7 +175,7 @@ def get_file_for_control_from_db(file_types, game):
     """
     Read media files from db entry. Media files are stored as fileType1, fileType2, ... in db with the filetype id at the end of the name
     :param file_types:
-    :param listitem:
+    :param game:
     :return:
     """
     Logutil.log("begin get_file_for_control_from_db", util.LOG_LEVEL_DEBUG)

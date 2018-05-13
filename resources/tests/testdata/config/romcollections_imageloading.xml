@@ -1,6 +1,33 @@
 <config version="2.2.0">
     <RomCollections>
-    	<RomCollection id="1" name="Atari 2600">
+        <RomCollection id="1" name="Amiga">
+            <useBuiltinEmulator>False</useBuiltinEmulator>
+            <gameclient />
+            <emulatorCmd>/Path/To/Amiga/Emulator</emulatorCmd>
+            <emulatorParams>"%ROM%"</emulatorParams>
+            <romPath>/Path/To/Roms/Amiga/*.a26</romPath>
+            <saveStatePath />
+            <saveStateParams />
+            <mediaPath type="boxfront">./testdata/artwork/Amiga/boxfront/%GAME%.*</mediaPath>
+            <mediaPath type="screenshot">./testdata/artwork/Amiga/screenshot/%GAME%.*</mediaPath>
+            <preCmd />
+            <postCmd />
+            <useEmuSolo>False</useEmuSolo>
+            <usePopen>False</usePopen>
+            <ignoreOnScan>False</ignoreOnScan>
+            <allowUpdate>True</allowUpdate>
+            <autoplayVideoMain>True</autoplayVideoMain>
+            <autoplayVideoInfo>True</autoplayVideoInfo>
+            <useFoldernameAsGamename>False</useFoldernameAsGamename>
+            <maxFolderDepth>99</maxFolderDepth>
+            <doNotExtractZipFiles>False</doNotExtractZipFiles>
+            <makeLocalCopy>False</makeLocalCopy>
+            <diskPrefix>_Disk.*</diskPrefix>
+            <imagePlacingMain>gameinfobig</imagePlacingMain>
+            <imagePlacingInfo>gameinfosmall</imagePlacingInfo>
+            <scraper name="thegamesdb.net" />
+        </RomCollection>
+    	<RomCollection id="2" name="Atari 2600">
             <useBuiltinEmulator>False</useBuiltinEmulator>
             <gameclient />
             <emulatorCmd>/Path/To/Atari2600/Emulator</emulatorCmd>
@@ -28,7 +55,61 @@
             <imagePlacingInfo>gameinfosmall</imagePlacingInfo>
             <scraper name="thegamesdb.net" />
         </RomCollection>
-        <RomCollection id="2" name="SNES">
+        <RomCollection id="3" name="N64">
+            <useBuiltinEmulator>False</useBuiltinEmulator>
+            <gameclient />
+            <emulatorCmd>/Path/To/N64/Emulator</emulatorCmd>
+            <emulatorParams>"%ROM%"</emulatorParams>
+            <romPath>/Path/To/Roms/N64/*.a26</romPath>
+            <saveStatePath />
+            <saveStateParams />
+            <mediaPath type="boxfront">./testdata/artwork/N64/boxfront/%GAME%.*</mediaPath>
+            <mediaPath type="screenshot">./testdata/artwork/N64/screenshot/%GAME%.*</mediaPath>
+            <preCmd />
+            <postCmd />
+            <useEmuSolo>False</useEmuSolo>
+            <usePopen>False</usePopen>
+            <ignoreOnScan>False</ignoreOnScan>
+            <allowUpdate>True</allowUpdate>
+            <autoplayVideoMain>True</autoplayVideoMain>
+            <autoplayVideoInfo>True</autoplayVideoInfo>
+            <useFoldernameAsGamename>False</useFoldernameAsGamename>
+            <maxFolderDepth>99</maxFolderDepth>
+            <doNotExtractZipFiles>False</doNotExtractZipFiles>
+            <makeLocalCopy>False</makeLocalCopy>
+            <diskPrefix>_Disk.*</diskPrefix>
+            <imagePlacingMain>gameinfobig</imagePlacingMain>
+            <imagePlacingInfo>gameinfosmall</imagePlacingInfo>
+            <scraper name="thegamesdb.net" />
+        </RomCollection>
+        <RomCollection id="4" name="Playstation">
+            <useBuiltinEmulator>False</useBuiltinEmulator>
+            <gameclient />
+            <emulatorCmd>/Path/To/PSX/Emulator</emulatorCmd>
+            <emulatorParams>"%ROM%"</emulatorParams>
+            <romPath>/Path/To/Roms/PSX/*.a26</romPath>
+            <saveStatePath />
+            <saveStateParams />
+            <mediaPath type="boxfront">./testdata/artwork/PSX/boxfront/%GAME%.*</mediaPath>
+            <mediaPath type="screenshot">./testdata/artwork/PSX/screenshot/%GAME%.*</mediaPath>
+            <preCmd />
+            <postCmd />
+            <useEmuSolo>False</useEmuSolo>
+            <usePopen>False</usePopen>
+            <ignoreOnScan>False</ignoreOnScan>
+            <allowUpdate>True</allowUpdate>
+            <autoplayVideoMain>True</autoplayVideoMain>
+            <autoplayVideoInfo>True</autoplayVideoInfo>
+            <useFoldernameAsGamename>False</useFoldernameAsGamename>
+            <maxFolderDepth>99</maxFolderDepth>
+            <doNotExtractZipFiles>False</doNotExtractZipFiles>
+            <makeLocalCopy>False</makeLocalCopy>
+            <diskPrefix>_Disk.*</diskPrefix>
+            <imagePlacingMain>gameinfobig</imagePlacingMain>
+            <imagePlacingInfo>gameinfosmall</imagePlacingInfo>
+            <scraper name="thegamesdb.net" />
+        </RomCollection>
+        <RomCollection id="5" name="SNES">
             <useBuiltinEmulator>False</useBuiltinEmulator>
             <gameclient />
             <emulatorCmd>/Path/To/NES/Emulator</emulatorCmd>

@@ -22,7 +22,7 @@ class Test(unittest.TestCase):
         db_path = os.path.join(cls.get_testdata_path(), 'database')
 
         # Setup data - MyGames.db is the hard-coded expected DB name
-        shutil.copyfile(os.path.join(db_path, 'MyGames_current_117_games.db'), os.path.join(db_path, 'MyGames.db'))
+        shutil.copyfile(os.path.join(db_path, 'MyGames_current_12_games.db'), os.path.join(db_path, 'MyGames.db'))
 
         cls.gdb = GameDataBase(db_path)
         cls.gdb.connect()
@@ -32,6 +32,17 @@ class Test(unittest.TestCase):
         # Cleanup
         cls.gdb.close()
         os.remove(os.path.join(os.path.join(cls.get_testdata_path(), 'database'), 'MyGames.db'))
+
+
+    def test_cache_artwork_1_rom_collection(self):
+        # Load a config file with 2 valid RomCollections and all FileTypes and ImagePlacings
+        config_xml_file = os.path.join(os.path.dirname(__file__), 'testdata', 'config', 'romcollections_imageloading.xml')
+        conf = Config(config_xml_file)
+        conf.readXml()
+
+        rcid = 0
+
+        helper.update_artwork_cache(rcid, 0, self.gdb, conf)
 
     @unittest.skip("to be reimplemented")
     def testCacheMediaPaths_1RomCollection(self):
@@ -47,7 +58,7 @@ class Test(unittest.TestCase):
         
         mediaPathsDict = mediaDict[str(rcId)]
         self.assertTrue(len(mediaPathsDict) == 3, 'len(mediaPathsDict) should have been 3 but was %i' %len(mediaPathsDict))
-        self.assertTrue(len(mediaPathsDict['boxfront']) == 3, 'len(mediaPathsDict[boxfront]) should have been 2 but was %i' %len(mediaPathsDict['boxfront']))
+        self.assertTrue(len(mediaPathsDict['boxfront']) == 3, 'len(mediaPathsDict[boxfront]) should have been 3 but was %i' %len(mediaPathsDict['boxfront']))
         self.assertTrue(len(mediaPathsDict['screenshot']) == 2, 'len(mediaPathsDict[screenshot]) should have been 2 but was %i' %len(mediaPathsDict['screenshot']))
         self.assertTrue(len(mediaPathsDict['gameplay']) == 2, 'len(mediaPathsDict[gameplay]) should have been 2 but was %i' %len(mediaPathsDict['gameplay']))
 
@@ -138,42 +149,42 @@ class Test(unittest.TestCase):
         mediaPathsDict = mediaDict[str(rcId)]
         
         gamenameFromFile = 'Adventure (1980) (Atari)'
-        filename = helper.getFileForControl(romCollection.imagePlacingMain.fileTypesForGameList, romCollection, mediaPathsDict, gamenameFromFile),
+        filename = helper.get_file_for_control(romCollection.imagePlacingMain.fileTypesForGameList, romCollection, mediaPathsDict, gamenameFromFile),
         filenameExpected = './testdata/artwork/Atari 2600/boxfront/Adventure (1980) (Atari).png'
         #HACK: for some reason getFileForControl seems to return a list and not a string
         self.assertTrue(filename[0] == filenameExpected, 'Artwork file should have been %s but was %s' %(filenameExpected, filename))
         
-        filename = helper.getFileForControl(romCollection.imagePlacingMain.fileTypesForMainViewGameInfoBig, romCollection, mediaPathsDict, gamenameFromFile),
+        filename = helper.get_file_for_control(romCollection.imagePlacingMain.fileTypesForMainViewGameInfoBig, romCollection, mediaPathsDict, gamenameFromFile),
         filenameExpected = './testdata/artwork/Atari 2600/screenshot/Adventure (1980) (Atari).jpg'
         self.assertTrue(filename[0] == filenameExpected, 'Artwork file should have been %s but was %s' %(filenameExpected, filename))
         
         filetypeGameplay, errorMsg = conf.readFileType('gameplay', conf.tree)
-        filename = helper.getFileForControl((filetypeGameplay,), romCollection, mediaPathsDict, gamenameFromFile),
+        filename = helper.get_file_for_control((filetypeGameplay,), romCollection, mediaPathsDict, gamenameFromFile),
         filenameExpected = './testdata/artwork/Atari 2600/video/Adventure (1980) (Atari).wmv'
         self.assertTrue(filename[0] == filenameExpected, 'Artwork file should have been %s but was %s' %(filenameExpected, filename))
         
         
         gamenameFromFile = 'Air-Sea Battle (32 in 1) (1988) (Atari) (PAL)'
-        filename = helper.getFileForControl(romCollection.imagePlacingMain.fileTypesForGameList, romCollection, mediaPathsDict, gamenameFromFile),
+        filename = helper.get_file_for_control(romCollection.imagePlacingMain.fileTypesForGameList, romCollection, mediaPathsDict, gamenameFromFile),
         filenameExpected = './testdata/artwork/Atari 2600/boxfront/Air-Sea Battle (32 in 1) (1988) (Atari) (PAL).png'
         self.assertTrue(filename[0] == filenameExpected, 'Artwork file should have been %s but was %s' %(filenameExpected, filename))
         
-        filename = helper.getFileForControl(romCollection.imagePlacingMain.fileTypesForMainViewGameInfoBig, romCollection, mediaPathsDict, gamenameFromFile),
+        filename = helper.get_file_for_control(romCollection.imagePlacingMain.fileTypesForMainViewGameInfoBig, romCollection, mediaPathsDict, gamenameFromFile),
         filenameExpected = './testdata/artwork/Atari 2600/screenshot/Air-Sea Battle (32 in 1) (1988) (Atari) (PAL).gif'
         self.assertTrue(filename[0] == filenameExpected, 'Artwork file should have been %s but was %s' %(filenameExpected, filename))
         
-        filename = helper.getFileForControl((filetypeGameplay,), romCollection, mediaPathsDict, gamenameFromFile),
+        filename = helper.get_file_for_control((filetypeGameplay,), romCollection, mediaPathsDict, gamenameFromFile),
         filenameExpected = './testdata/artwork/Atari 2600/video/Air-Sea Battle (32 in 1) (1988) (Atari) (PAL).mp4'
         self.assertTrue(filename[0] == filenameExpected, 'Artwork file should have been %s but was %s' %(filenameExpected, filename))
         
 
         gamenameFromFile = 'Asteroids (1981) (Atari) [no copyright]'
-        filename = helper.getFileForControl(romCollection.imagePlacingMain.fileTypesForGameList, romCollection, mediaPathsDict, gamenameFromFile),
+        filename = helper.get_file_for_control(romCollection.imagePlacingMain.fileTypesForGameList, romCollection, mediaPathsDict, gamenameFromFile),
         filenameExpected = './testdata/artwork/Atari 2600/boxfront/Asteroids (1981) (Atari) [no copyright].png'
         self.assertTrue(filename[0] == filenameExpected, 'Artwork file should have been %s but was %s' %(filenameExpected, filename))
         
         #this should return the fallback boxfront image as there is no screenshot image available
-        filename = helper.getFileForControl(romCollection.imagePlacingMain.fileTypesForMainViewGameInfoBig, romCollection, mediaPathsDict, gamenameFromFile),
+        filename = helper.get_file_for_control(romCollection.imagePlacingMain.fileTypesForMainViewGameInfoBig, romCollection, mediaPathsDict, gamenameFromFile),
         filenameExpected = './testdata/artwork/Atari 2600/boxfront/Asteroids (1981) (Atari) [no copyright].png'
         self.assertTrue(filename[0] == filenameExpected, 'Artwork file should have been %s but was %s' %(filenameExpected, filename))
 
@@ -191,23 +202,23 @@ class Test(unittest.TestCase):
         mediaPathsDict = mediaDict[str(rcId)]
         
         gamenameFromFile = 'Chrono Trigger'
-        filename = helper.getFileForControl(romCollection.imagePlacingMain.fileTypesForGameList, romCollection, mediaPathsDict, gamenameFromFile),
+        filename = helper.get_file_for_control(romCollection.imagePlacingMain.fileTypesForGameList, romCollection, mediaPathsDict, gamenameFromFile),
         filenameExpected = './testdata/artwork/SNES/Chrono Trigger/boxfront.png'
         #HACK: for some reason getFileForControl seems to return a list and not a string
         self.assertTrue(filename[0] == filenameExpected, 'Artwork file should have been %s but was %s' %(filenameExpected, filename))
         
-        filename = helper.getFileForControl(romCollection.imagePlacingMain.fileTypesForMainViewGameInfoBig, romCollection, mediaPathsDict, gamenameFromFile),
+        filename = helper.get_file_for_control(romCollection.imagePlacingMain.fileTypesForMainViewGameInfoBig, romCollection, mediaPathsDict, gamenameFromFile),
         filenameExpected = './testdata/artwork/SNES/Chrono Trigger/screenshot.png'
         self.assertTrue(filename[0] == filenameExpected, 'Artwork file should have been %s but was %s' %(filenameExpected, filename))
         
         
         gamenameFromFile = "Madden NFL '97"
-        filename = helper.getFileForControl(romCollection.imagePlacingMain.fileTypesForGameList, romCollection, mediaPathsDict, gamenameFromFile),
+        filename = helper.get_file_for_control(romCollection.imagePlacingMain.fileTypesForGameList, romCollection, mediaPathsDict, gamenameFromFile),
         filenameExpected = "./testdata/artwork/SNES/Madden NFL '97/boxfront.png"
         #HACK: for some reason getFileForControl seems to return a list and not a string
         self.assertTrue(filename[0] == filenameExpected, 'Artwork file should have been %s but was %s' %(filenameExpected, filename))
         
-        filename = helper.getFileForControl(romCollection.imagePlacingMain.fileTypesForMainViewGameInfoBig, romCollection, mediaPathsDict, gamenameFromFile),
+        filename = helper.get_file_for_control(romCollection.imagePlacingMain.fileTypesForMainViewGameInfoBig, romCollection, mediaPathsDict, gamenameFromFile),
         filenameExpected = "./testdata/artwork/SNES/Madden NFL '97/screenshot.png"
         self.assertTrue(filename[0] == filenameExpected, 'Artwork file should have been %s but was %s' %(filenameExpected, filename))
 
