@@ -216,13 +216,13 @@
 	<string id="32506">Edit Game Command</string>
 	<string id="32507">Add Game To Favorites</string>
 	<string id="32508">Add Selection To Favorites</string>
-	<string id="32509">Export game database (nfo files)</string>
+	<string id="32509">Export Game Database (nfo files)</string>
 	<string id="32510">Delete Game</string>
 	<string id="32511">Delete Rom Collection</string>
 	<string id="32512">Clean Database</string>
 	<string id="32513">Open Addon Settings</string>
 	<string id="32514">Set Gameclient (per Game)</string>
-	<string id="32515">Update artwork cache</string>
+	<string id="32515">Scan Artwork Directories</string>
 	
 	<!-- editromcollection -->
 	<string id="32600">Configuration</string>
@@ -319,11 +319,9 @@
 	<string id="32902">Delete</string>
 	
 	<!-- update artwork -->
-	<string id="32950">Update Artwork cache</string>
-	<string id="32951">Update in background (exit RCB)</string>
-	<string id="32952">Artwork type</string>
-	<string id="32953">Caching artwork for Rom Collection</string>
-	<string id="32954">Update artwork for Rom Collection</string>
-	<string id="32955">Update artwork for Game</string>
-		
+	<string id="32950">Scan Artwork</string>
+	<string id="32952">Artwork Type</string>
+	<string id="32953">Caching Artwork for Rom Collection</string>
+	<string id="32954">Scan Artwork for Rom Collection</string>
+	<string id="32955">Scan Artwork for Game</string>
 </strings>

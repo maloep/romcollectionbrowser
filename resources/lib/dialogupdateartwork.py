@@ -26,8 +26,6 @@ CONTROL_BUTTON_RC_UP = 5212
 
 CONTROL_BUTTON_SCRAPER_DOWN = 5271
 
-CONTROL_BUTTON_SCRAPEINBACKGROUND = 5340
-
 
 class UpdateArtworkDialog(DialogBase):
     def __init__(self, *args, **kwargs):
@@ -110,8 +108,6 @@ class UpdateArtworkDialog(DialogBase):
         if selected_filetype_name != util.localize(32120):
             filetype, errormessage = self.gui.config.get_filetype_by_name(selected_filetype_name, self.gui.config.tree)
             filetype_id = filetype.id
-
-        control = self.getControlById(CONTROL_BUTTON_SCRAPEINBACKGROUND)
 
         progressDialog = dialogprogress.ProgressDialogGUI()
         progressDialog.writeMsg(util.localize(32950), "", "")

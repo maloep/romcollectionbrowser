@@ -4,7 +4,7 @@
 	<coordinates>
 		<system>1</system>
 		<posx>280</posx>
-		<posy>200</posy>
+		<posy>260</posy>
 	</coordinates>
 	<controls>
 		<control type="group">
@@ -43,7 +43,7 @@
 				<posx>0</posx>
 				<posy>0</posy>
 				<width>720</width>
-				<height>290</height>
+				<height>180</height>
 				<texture colordiffuse="FF222222">rcb-white.png</texture>
 			</control>
 			
@@ -56,7 +56,7 @@
 					<posx>0</posx>
 					<posy>0</posy>
 					<width>680</width>
-					<height>210</height>
+					<height>80</height>
 					<texture colordiffuse="FF111111">rcb-white.png</texture>
 				</control>
 			
@@ -196,7 +196,7 @@
 					<onleft>5300</onleft>
 					<onright>5272</onright>
 					<onup>5211</onup>
-					<ondown>5340</ondown>
+					<ondown>5300</ondown>
 				</control>
 				<control type="button" id="5272">
 					<description>Menu Item Prev Button</description>
@@ -210,54 +210,22 @@
 					<onleft>5271</onleft>
 					<onright>5300</onright>
 					<onup>5212</onup>
-					<ondown>5340</ondown>
-				</control>
-				
-				<!-- Run in Background -->
-				<control type="radiobutton" id="5340">
-					<posx>0</posx>
-					<posy>80</posy>
-					<width>680</width>
-					<height>40</height>
-					<radiowidth>40</radiowidth>
-					<radioheight>40</radioheight>
-					<radioposx>610</radioposx>
-					<align>left</align>
-					<font>font13</font>
-					<label>$ADDON[script.games.rom.collection.browser 32951]</label>
-					<textcolor>white</textcolor>
-					<disabledcolor>white</disabledcolor>
-					<textoffsetx>25</textoffsetx>
-					<focusedcolor>FFFFFFFF</focusedcolor>
-					<texturefocus colordiffuse="FF12A0C7">rcb-MenuItemFO.png</texturefocus>
-					<texturenofocus></texturenofocus>
-					<textureradioonfocus>rcb-radio-button-on.png</textureradioonfocus>
-					<textureradioonnofocus>rcb-radio-button-on.png</textureradioonnofocus>
-					<textureradioofffocus>rcb-radio-button-off.png</textureradioofffocus>
-					<textureradiooffnofocus>rcb-radio-button-off.png</textureradiooffnofocus>
-					<textureradioondisabled>rcb-radio-button-on.png</textureradioondisabled>
-					<textureradiooffdisabled>rcb-radio-button-off.png</textureradiooffdisabled>
-					<onleft>5300</onleft>
-					<onright>5300</onright>
-					<onup>5272</onup>
 					<ondown>5300</ondown>
-					<enable>!Skin.HasSetting(rcb_isRescrape)</enable>
-					<animation reversible="false" effect="fade" end="50" time="0" condition="Skin.HasSetting(rcb_isRescrape)">Conditional</animation>
 				</control>
 			</control>
 						
 			<control type="button" id="5300"> 
 				<description>Import</description>
 				<posx>150</posx>
-				<posy>250</posy>
+				<posy>130</posy>
 				<width>200</width>
-				<height>30</height>
+				<height>40</height>
 				<visible>true</visible>
 				<font>font25_title</font>
 				<colordiffuse>DDFFFFFF</colordiffuse>
 				<texturefocus colordiffuse="FF12A0C7">rcb-MenuItemFO.png</texturefocus>
 				<texturenofocus colordiffuse="FF111111">rcb-white.png</texturenofocus>
-				<label>$ADDON[script.games.rom.collection.browser 32800]</label>
+				<label>$ADDON[script.games.rom.collection.browser 32950]</label>
 				<textcolor>DDFFFFFF</textcolor>
 				<disabledcolor>80FFFFFF</disabledcolor>
 				<align>center</align>
@@ -273,9 +241,9 @@
 			<control type="button" id="5310"> 
 				<description>Cancel</description>
 				<posx>370</posx>
-				<posy>250</posy>
+				<posy>130</posy>
 				<width>200</width>
-				<height>30</height>
+				<height>40</height>
 				<visible>true</visible>
 				<font>font25_title</font>
 				<colordiffuse>DDFFFFFF</colordiffuse>
