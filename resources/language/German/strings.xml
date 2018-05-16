@@ -221,6 +221,7 @@
 	<string id="32512">Datenbank aufräumen</string>
 	<string id="32513">Addon Settings öffnen</string>
 	<string id="32514">Gameclient festlegen (pro Spiel)</string>
+	<string id="32515">Artwork Verzeichnisse scannen</string>
 	
 	<!-- editromcollection -->
 	<string id="32600">Konfiguration</string>
@@ -267,8 +268,7 @@
 	<string id="32642">Pfad zur Info-Datei</string>
 	<string id="32643">Default Scraper</string>
 	<string id="32644">Lokale Kopie erzeugen</string>
-	
-	
+		
 	
 	<!-- editscraper -->
 	<string id="32700">Offline Scraper</string>
@@ -314,4 +314,11 @@
 	<string id="32900">RCB - Rom Collection lsöchen</string>
 	<string id="32901">Lösch-Option</string>
 	<string id="32902">Löschen</string>
+	
+	<!-- update artwork -->
+	<string id="32950">Artwork scannen</string>
+	<string id="32952">Artwork Typ</string>
+	<string id="32953">Artwork für Rom Collection zwischenspeichern</string>
+	<string id="32954">Artwork für Rom Collection scannen</string>
+	<string id="32955">Artwork für Spiel scannen</string>
 </strings>
