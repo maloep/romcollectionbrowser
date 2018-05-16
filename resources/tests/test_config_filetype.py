@@ -14,7 +14,7 @@ class TestFileType(unittest.TestCase):
         conf = Config(configxmlfile)
         conf.initXml()
 
-        ft, msg = conf.readFileType('gameplay', conf.tree)
+        ft, msg = conf.get_filetype_by_name('gameplay', conf.tree)
         self.assertIsInstance(ft, FileType, u'Expected FileType object')
 
         self.assertTrue(ft.type == 'video')

@@ -5,10 +5,16 @@ import unittest
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', '..', 'resources', 'lib'))
 
 from gamedatabase import GameDataBase, GameView
+from artworkupdater import ArtworkUpdater
 
 
 import helper
 from config import Config, RomCollection
+
+class RCBMockGui:
+    itemCount = 0
+    def writeMsg(self, msg1, msg2, msg3, count=0):
+        return True
 
 class Test(unittest.TestCase):
 
@@ -47,7 +53,7 @@ class Test(unittest.TestCase):
         rcid = 1
         artwork_type = 1
 
-        helper.update_artwork_cache(rcid, artwork_type, self.gdb, conf)
+        ArtworkUpdater(RCBMockGui(), self.gdb, conf).update_artwork_cache(rcid, artwork_type)
 
         # image should be available now
         game = GameView(self.gdb).getGameById(5)
@@ -66,7 +72,7 @@ class Test(unittest.TestCase):
         rcid = 2
         artwork_type = 4
 
-        helper.update_artwork_cache(rcid, artwork_type, self.gdb, conf)
+        ArtworkUpdater(RCBMockGui(), self.gdb, conf).update_artwork_cache(rcid, artwork_type)
 
         # image should be removed now
         game = GameView(self.gdb).getGameById(9)
@@ -96,7 +102,7 @@ class Test(unittest.TestCase):
         rcid = 1
         artwork_type = 0
 
-        helper.update_artwork_cache(rcid, artwork_type, self.gdb, conf)
+        ArtworkUpdater(RCBMockGui(), self.gdb, conf).update_artwork_cache(rcid, artwork_type)
 
         # image should be available now
         game = GameView(self.gdb).getGameById(5)
@@ -119,7 +125,7 @@ class Test(unittest.TestCase):
         rcid = 0
         artwork_type = 0
 
-        helper.update_artwork_cache(rcid, artwork_type, self.gdb, conf)
+        ArtworkUpdater(RCBMockGui(), self.gdb, conf).update_artwork_cache(rcid, artwork_type)
 
         # image should be available now
         game = GameView(self.gdb).getGameById(5)
@@ -254,7 +260,7 @@ class Test(unittest.TestCase):
         filenameExpected = './testdata/artwork/Atari 2600/screenshot/Adventure (1980) (Atari).jpg'
         self.assertTrue(filename[0] == filenameExpected, 'Artwork file should have been %s but was %s' %(filenameExpected, filename))
 
-        filetypeGameplay, errorMsg = conf.readFileType('gameplay', conf.tree)
+        filetypeGameplay, errorMsg = conf.get_filetype_by_name('gameplay', conf.tree)
         filename = helper.get_file_for_control((filetypeGameplay,), romCollection, mediaPathsDict, gamenameFromFile),
         filenameExpected = './testdata/artwork/Atari 2600/video/Adventure (1980) (Atari).wmv'
         self.assertTrue(filename[0] == filenameExpected, 'Artwork file should have been %s but was %s' %(filenameExpected, filename))

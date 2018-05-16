@@ -126,12 +126,12 @@ class UIGameDB(xbmcgui.WindowXML):
             return
 
         #load video fileType for later use in showGameInfo
-        self.fileTypeGameplay, errorMsg = self.config.readFileType('gameplay', self.config.tree)
+        self.fileTypeGameplay, errorMsg = self.config.get_filetype_by_name('gameplay', self.config.tree)
         if self.fileTypeGameplay == None:
             Logutil.log("Error while loading fileType gameplay: " + errorMsg, util.LOG_LEVEL_WARNING)
 
         #load fileType clearlogo for later use in showGameInfo
-        self.fileTypeClearlogo, errorMsg = self.config.readFileType('clearlogo', self.config.tree)
+        self.fileTypeClearlogo, errorMsg = self.config.get_filetype_by_name('clearlogo', self.config.tree)
         if self.fileTypeClearlogo == None:
             Logutil.log("Error while loading fileType gameplay: " + errorMsg, util.LOG_LEVEL_WARNING)
 

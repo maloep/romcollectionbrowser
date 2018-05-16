@@ -1,7 +1,7 @@
 import xbmcgui
 
 import util, nfowriter, wizardconfigxml, helper
-import dialogeditromcollection, dialogdeleteromcollection
+import dialogeditromcollection, dialogdeleteromcollection, dialogupdateartwork
 from nfowriter import *
 from gamedatabase import *
 from util import *
@@ -56,6 +56,13 @@ class ContextMenuDialog(xbmcgui.WindowXMLDialog):
         elif controlId == 5110:  # Import games
             self.close()
             self.gui.updateDB()
+        elif controlId == 5125:  # Update artwork cache
+            self.close()
+            dialog = dialogupdateartwork.UpdateArtworkDialog("script-RCB-updateartwork.xml",
+                                                      util.getAddonInstallPath(),
+                                                      "Default", "720p", gui=self.gui)
+            del dialog
+
         elif controlId == 5121:  # Rescrape single games
             self.close()
 

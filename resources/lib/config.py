@@ -590,7 +590,7 @@ class Config(RcbXmlReaderWriter):
                 if mediaPathRow.text is not None:
                     mediaPath.path = mediaPathRow.text
                 Logutil.log('Media path: ' + mediaPath.path, util.LOG_LEVEL_INFO)
-                fileType, errorMsg = self.readFileType(mediaPathRow.attrib.get('type'), tree)
+                fileType, errorMsg = self.get_filetype_by_name(mediaPathRow.attrib.get('type'), tree)
                 if fileType is None:
                     return None, errorMsg
                 mediaPath.fileType = fileType
@@ -656,7 +656,7 @@ class Config(RcbXmlReaderWriter):
 
         return romCollections, ''
 
-    def readFileType(self, name, tree):
+    def get_filetype_by_name(self, name, tree):
         fileTypeRows = tree.findall('FileTypes/FileType')
 
         fileTypeRow = next((element for element in fileTypeRows if element.attrib.get('name') == name), None)
@@ -717,7 +717,7 @@ class Config(RcbXmlReaderWriter):
         fileTypesForControl = fileTypeForRow.findall(key)
         for fileTypeForControl in fileTypesForControl:
 
-            fileType, errorMsg = self.readFileType(fileTypeForControl.text, tree)
+            fileType, errorMsg = self.get_filetype_by_name(fileTypeForControl.text, tree)
             if fileType is None:
                 return None
 
@@ -757,11 +757,23 @@ class Config(RcbXmlReaderWriter):
                     fileTypeIds.append(fileType.id)
 
             #fullscreen video
-            fileType, errorMsg = self.readFileType('gameplay', tree)
+            fileType, errorMsg = self.get_filetype_by_name('gameplay', tree)
             if fileType is not None:
                 fileTypeIds.append(fileType.id)
 
         return fileTypeIds
+
+    def get_filetypes(self):
+        filetypes = []
+
+        filetype_rows = self.tree.findall('FileTypes/FileType')
+        for filetype_row in filetype_rows:
+            filetype = FileType()
+            filetype.id = filetype_row.attrib.get('id')
+            filetype.name = filetype_row.attrib.get('name')
+            filetypes.append(filetype)
+
+        return filetypes
 
     def getRomCollectionNames(self):
         """
