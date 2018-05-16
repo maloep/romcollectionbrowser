@@ -123,21 +123,21 @@ class Main(object):
 
             count += 1
             try:
-                xbmc.log("RCB widget: Gathering data for rom no %i: %s" % (count, game[DataBaseObject.COL_NAME]))
+                xbmc.log("RCB widget: Gathering data for rom no %i: %s" % (count, game[GameView.COL_NAME]))
 
                 romCollection = config.romCollections[str(game[GameView.COL_romCollectionId])]
 
                 #get artwork that is chosen to be shown in gamelist
                 thumb = helper.get_file_for_control_from_db(
                     romCollection.imagePlacingMain.fileTypesForGameList, game)
-                fanart = helper.get_file_for_control(
+                fanart = helper.get_file_for_control_from_db(
                     romCollection.imagePlacingMain.fileTypesForMainViewBackground, game)
 
-                url = "plugin://script.games.rom.collection.browser/?launchid=%s" % game[DataBaseObject.COL_ID]
+                url = "plugin://script.games.rom.collection.browser/?launchid=%s" % game[GameView.COL_ID]
 
-                xbmcgui.Window(10000).setProperty("MostPlayedROM.%d.Id" % count, str(game[DataBaseObject.COL_ID]))
+                xbmcgui.Window(10000).setProperty("MostPlayedROM.%d.Id" % count, str(game[GameView.COL_ID]))
                 xbmcgui.Window(10000).setProperty("MostPlayedROM.%d.Console" % count, romCollection.name)
-                xbmcgui.Window(10000).setProperty("MostPlayedROM.%d.Title" % count, game[DataBaseObject.COL_NAME])
+                xbmcgui.Window(10000).setProperty("MostPlayedROM.%d.Title" % count, game[GameView.COL_NAME])
                 xbmcgui.Window(10000).setProperty("MostPlayedROM.%d.Thumb" % count, thumb)
                 xbmcgui.Window(10000).setProperty("MostPlayedROM.%d.Fanart" % count, fanart)
                 xbmcgui.Window(10000).setProperty("MostPlayedROM.%d.Plot" % count, game[GameView.COL_description])
