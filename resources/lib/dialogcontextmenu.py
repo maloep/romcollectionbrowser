@@ -218,11 +218,12 @@ class ContextMenuDialog(xbmcgui.WindowXMLDialog):
                 gameID = self.selectedGame.getProperty('gameId')
                 self.gui.deleteGame(gameID)
                 self.gui.showGames()
+                from gui import CONTROL_GAMES_GROUP_START
                 if pos > 0:
                     pos = pos - 1
-                    self.gui.setFilterSelection(self.gui.CONTROL_GAMES_GROUP_START, pos)
+                    self.gui.setFilterSelection(CONTROL_GAMES_GROUP_START, pos)
                 else:
-                    self.gui.setFilterSelection(self.gui.CONTROL_GAMES_GROUP_START, 0)
+                    self.gui.setFilterSelection(CONTROL_GAMES_GROUP_START, 0)
 
         elif controlId == 5115:  # Remove Rom Collection
             self.close()
