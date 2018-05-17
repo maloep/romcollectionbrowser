@@ -23,7 +23,7 @@ class TestDBObjGame(unittest.TestCase):
         db_path = os.path.join(cls.get_testdata_path(), 'database')
 
         # Setup data - MyGames.db is the hard-coded expected DB name
-        shutil.copyfile(os.path.join(db_path, 'test.db'), os.path.join(db_path, 'MyGames.db'))
+        shutil.copyfile(os.path.join(db_path, 'MyGames_current_117_games.db'), os.path.join(db_path, 'MyGames.db'))
 
         cls.gdb = GameDataBase(db_path)
         cls.gdb.connect()

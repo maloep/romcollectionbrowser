@@ -189,7 +189,6 @@
 	<string id="32328">Max number of games to display</string>
 	<string id="32329">Prefer local nfo file if available</string>
 	<string id="32330">Use clearlogo as list title</string>
-	<string id="32331">Load artwork for game lists</string>
 	
 	<!-- GUI controls -->
 	<!-- main window -->
@@ -216,12 +215,13 @@
 	<string id="32506">Edit Game Command</string>
 	<string id="32507">Add Game To Favorites</string>
 	<string id="32508">Add Selection To Favorites</string>
-	<string id="32509">Export game database (nfo files)</string>
+	<string id="32509">Export Game Database (nfo files)</string>
 	<string id="32510">Delete Game</string>
 	<string id="32511">Delete Rom Collection</string>
 	<string id="32512">Clean Database</string>
 	<string id="32513">Open Addon Settings</string>
 	<string id="32514">Set Gameclient (per Game)</string>
+	<string id="32515">Scan Artwork Directories</string>
 	
 	<!-- editromcollection -->
 	<string id="32600">Configuration</string>
@@ -316,5 +316,11 @@
 	<string id="32900">RCB - Delete Rom Collection</string>
 	<string id="32901">Removal Option</string>
 	<string id="32902">Delete</string>
-		
+	
+	<!-- update artwork -->
+	<string id="32950">Scan Artwork</string>
+	<string id="32952">Artwork Type</string>
+	<string id="32953">Caching Artwork for Rom Collection</string>
+	<string id="32954">Scan Artwork for Rom Collection</string>
+	<string id="32955">Scan Artwork for Game</string>
 </strings>

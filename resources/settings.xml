@@ -26,7 +26,6 @@
 	
 	<category label="32318">
 		<setting id="rcb_useClearlogoAsTitle" label="32330" type="bool" default="true"/>
-		<setting id="rcb_loadGamelistArtwork" label="32331" type="bool" default="true"/>
 		<setting id="rcb_preventUnfilteredSearch" label="32325" type="bool" default="false"/>
 		<setting id="rcb_maxNumGames" label="32328" type="enum" values="max|100|250|500|1000|2500|5000|10000" default="0"/>
 		<setting id="rcb_showFavoriteStars" label="32319" type="bool" default="true"/>

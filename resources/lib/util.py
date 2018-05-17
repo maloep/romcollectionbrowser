@@ -8,7 +8,7 @@ import xbmc, xbmcaddon, xbmcvfs
 SCRIPTNAME = 'Rom Collection Browser'
 SCRIPTID = 'script.games.rom.collection.browser'
 CURRENT_CONFIG_VERSION = "2.2.0"
-CURRENT_DB_VERSION = "2.2.0"
+CURRENT_DB_VERSION = "2.2.1"
 ISTESTRUN = False
 
 __addon__ = xbmcaddon.Addon(id='%s' % SCRIPTID)
@@ -81,54 +81,6 @@ SCRAPING_OPTION_INTERACTIVE = 1
 
 SCRAPING_OPTION_AUTO_ACCURATE_TXT = 'Automatic: Accurate'
 SCRAPING_OPTION_INTERACTIVE_TXT = 'Interactive: Select Matches'
-
-#
-# DB FIELDS #
-#
-
-ROW_ID = 0
-ROW_NAME = 1
-
-RCBSETTING_lastSelectedView = 1
-RCBSETTING_lastSelectedConsoleIndex = 2
-RCBSETTING_lastSelectedGenreIndex = 3
-RCBSETTING_lastSelectedPublisherIndex = 4
-RCBSETTING_lastSelectedYearIndex = 5
-RCBSETTING_lastSelectedGameIndex = 6
-RCBSETTING_autoexecBackupPath = 7  # This is a deprecated setting, unused in code
-RCBSETTING_dbVersion = 8
-RCBSETTING_lastFocusedControlMainView = 9
-RCBSETTING_lastFocusedControlGameInfoView = 10
-RCBSETTING_lastSelectedCharacterIndex = 11
-
-GAME_description = 2
-GAME_gameCmd = 3
-GAME_alternateGameCmd = 4
-GAME_romCollectionId = 5
-GAME_publisherId = 6
-GAME_developerId = 7
-GAME_reviewerId = 8
-GAME_yearId = 9
-GAME_maxPlayers = 10
-GAME_rating = 11
-GAME_numVotes = 12
-GAME_url = 13
-GAME_region = 14
-GAME_media = 15
-GAME_perspective = 16
-GAME_controllerType = 17
-GAME_isFavorite = 18
-GAME_launchCount = 19
-GAME_originalTitle = 20
-GAME_alternateTitle = 21
-GAME_translatedBy = 22
-GAME_version = 23
-
-FILE_fileTypeId = 2
-FILE_parentId = 3
-
-GENREGAME_genreId = 1
-GENREGAME_gameId = 2
 
 #
 # UI #
@@ -371,7 +323,7 @@ class Logutil(object):
             cls.currentLogLevel = cls.getCurrentLogLevel()
             xbmc.log("RCB: current log level initialised to " + str(cls.currentLogLevel))
 
-        if Logutil.getCurrentLogLevel() < level:
+        if cls.currentLogLevel < level:
             return
 
         try:

@@ -47,11 +47,15 @@ class FileType(object):
     parent: The class that this file pertains to. Current supported values: game, romcollection, developer, publisher.
     """
 
-    def __init__(self):
+    def __init__(self, **kwargs):
         self.name = ''
         self.id = -1
         self.type = ''
         self.parent = ''
+
+        """ Set any variables explicitly passed """
+        for name in kwargs:
+            setattr(self, name, kwargs[name])
 
     def __repr__(self):
         return "<FileType: %s>" % self.__dict__
@@ -311,13 +315,23 @@ class RomCollection(object):
     def __repr__(self):
         return "<RomCollection: %s>" % self.__dict__
 
-    def getMediaPathByType(self, ftype):
+    def getMediaPathByTypeName(self, name):
         """ Returns the mediaPath object matching where the FileType's name matches e.g. type = boxfront
 
         If not found (i.e. the rom collection has not set a path for this type), will return an empty string
         """
         for path in self.mediaPaths:
-            if path.fileType.name == ftype:
+            if path.fileType.name == name:
+                return path.path
+        return ''
+
+    def getMediaPathByTypeId(self, typeid):
+        """ Returns the mediaPath object matching where the FileType's name matches e.g. type = boxfront
+
+        If not found (i.e. the rom collection has not set a path for this type), will return an empty string
+        """
+        for path in self.mediaPaths:
+            if path.fileType.id == typeid:
                 return path.path
         return ''
 
@@ -341,7 +355,7 @@ class RomCollection(object):
         """
         fts = getattr(placing, attname)
         for ft in fts:
-            if self.getMediaPathByType(ft.name) != '':
+            if self.getMediaPathByTypeName(ft.name) != '':
                 return ft
 
         return None
@@ -461,7 +475,7 @@ class Config(RcbXmlReaderWriter):
         if (not xbmcvfs.exists(self.configFile)):
             Logutil.log('File config.xml does not exist. Place a valid config file here: %s' % self.configFile,
                         util.LOG_LEVEL_ERROR)
-            return None, False, util.localize(32003)
+            return False, util.localize(32003)
 
         # force utf-8
         tree = ElementTree()
@@ -473,20 +487,21 @@ class Config(RcbXmlReaderWriter):
         tree.parse(self.configFile, parser)
         if (tree == None):
             Logutil.log('Could not read config.xml', util.LOG_LEVEL_ERROR)
-            return None, False, util.localize(32004)
+            return False, util.localize(32004)
 
         self.tree = tree
 
-        return tree, True, ''
+        return True, ''
 
     def checkRomCollectionsAvailable(self):
         Logutil.log('checkRomCollectionsAvailable', util.LOG_LEVEL_INFO)
 
-        tree, success, errorMsg = self.initXml()
-        if not success:
-            return False, errorMsg
+        if not self.tree:
+            success, errorMsg = self.initXml()
+            if not success:
+                return False, errorMsg
 
-        romCollectionRows = tree.findall('RomCollections/RomCollection')
+        romCollectionRows = self.tree.findall('RomCollections/RomCollection')
         numRomCollections = len(romCollectionRows)
         Logutil.log("Number of Rom Collections in config.xml: %i" % numRomCollections, util.LOG_LEVEL_INFO)
 
@@ -495,20 +510,21 @@ class Config(RcbXmlReaderWriter):
     def readXml(self):
         Logutil.log('readXml', util.LOG_LEVEL_INFO)
 
-        tree, success, errorMsg = self.initXml()
-        if not success:
-            return False, errorMsg
+        if not self.tree:
+            success, errorMsg = self.initXml()
+            if not success:
+                return False, errorMsg
 
         # Rom Collections
-        romCollections, errorMsg = self.readRomCollections(tree)
+        romCollections, errorMsg = self.readRomCollections(self.tree)
         if romCollections is None:
             return False, errorMsg
         self.romCollections = romCollections
 
-        self.fileTypeIdsForGamelist = self.getFileTypeIdsForGameList(tree, romCollections)
+        self.fileTypeIdsForGamelist = self.getFileTypeIdsForGameList(self.tree, romCollections)
 
         # Missing filter settings
-        missingFilter = tree.find('MissingFilter')
+        missingFilter = self.tree.find('MissingFilter')
 
         if missingFilter is not None:
             self.showHideOption = missingFilter.findtext('showHideOption')
@@ -574,7 +590,7 @@ class Config(RcbXmlReaderWriter):
                 if mediaPathRow.text is not None:
                     mediaPath.path = mediaPathRow.text
                 Logutil.log('Media path: ' + mediaPath.path, util.LOG_LEVEL_INFO)
-                fileType, errorMsg = self.readFileType(mediaPathRow.attrib.get('type'), tree)
+                fileType, errorMsg = self.get_filetype_by_name(mediaPathRow.attrib.get('type'), tree)
                 if fileType is None:
                     return None, errorMsg
                 mediaPath.fileType = fileType
@@ -640,7 +656,7 @@ class Config(RcbXmlReaderWriter):
 
         return romCollections, ''
 
-    def readFileType(self, name, tree):
+    def get_filetype_by_name(self, name, tree):
         fileTypeRows = tree.findall('FileTypes/FileType')
 
         fileTypeRow = next((element for element in fileTypeRows if element.attrib.get('name') == name), None)
@@ -701,7 +717,7 @@ class Config(RcbXmlReaderWriter):
         fileTypesForControl = fileTypeForRow.findall(key)
         for fileTypeForControl in fileTypesForControl:
 
-            fileType, errorMsg = self.readFileType(fileTypeForControl.text, tree)
+            fileType, errorMsg = self.get_filetype_by_name(fileTypeForControl.text, tree)
             if fileType is None:
                 return None
 
@@ -741,11 +757,23 @@ class Config(RcbXmlReaderWriter):
                     fileTypeIds.append(fileType.id)
 
             #fullscreen video
-            fileType, errorMsg = self.readFileType('gameplay', tree)
+            fileType, errorMsg = self.get_filetype_by_name('gameplay', tree)
             if fileType is not None:
                 fileTypeIds.append(fileType.id)
 
         return fileTypeIds
+
+    def get_filetypes(self):
+        filetypes = []
+
+        filetype_rows = self.tree.findall('FileTypes/FileType')
+        for filetype_row in filetype_rows:
+            filetype = FileType()
+            filetype.id = filetype_row.attrib.get('id')
+            filetype.name = filetype_row.attrib.get('name')
+            filetypes.append(filetype)
+
+        return filetypes
 
     def getRomCollectionNames(self):
         """

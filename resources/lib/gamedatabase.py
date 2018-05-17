@@ -23,6 +23,8 @@ class GameDataBase(object):
         self.connection.row_factory = sqlite.Row
 
         self.cursor = self.connection.cursor()
+        #set cache size to 20000 pages (default is 2000)
+        self.cursor.execute("PRAGMA cache_size = 20000")
 
     def commit(self):
         try:
@@ -93,38 +95,50 @@ class GameDataBase(object):
                 return 1, ""
             rcbSetting = rcbSettingRows[0]
 
-            #HACK: reflect changes in RCBSetting
-            dbVersion = rcbSetting[util.RCBSETTING_dbVersion]
-            if dbVersion == None:
-                dbVersion = rcbSetting[10]
+            dbVersion = rcbSetting[RCBSetting.COL_dbVersion]
 
         except Exception, (exc):
             self.createTables()
             self.commit()
             return 1, ""
 
-        #Alter Table
+        #Upgrade to new db layout
         if dbVersion != util.CURRENT_DB_VERSION:
-            alterTableScript = "SQL_ALTER_%(old)s_%(new)s.txt" % {'old': dbVersion, 'new': util.CURRENT_DB_VERSION}
-            alterTableScript = str(os.path.join(self.sqlDir, alterTableScript))
 
-            if os.path.isfile(alterTableScript):
-                #backup MyGames.db
-                newFileName = self.dataBasePath + '.backup ' + dbVersion
+            #backup MyGames.db
+            newFileName = self.dataBasePath + '.backup ' + dbVersion
 
-                if os.path.isfile(newFileName):
-                    return -1, util.localize(32030)
-                try:
-                    self.close()
-                    shutil.copy(str(self.dataBasePath), str(newFileName))
-                    self.connect()
-                except Exception, (exc):
-                    return -1, util.localize(32031) + ": " + str(exc)
+            if os.path.isfile(newFileName):
+                #32030: Error: Cannot backup MyGames.db: Backup File exists.
+                return -1, util.localize(32030)
+            try:
+                self.close()
+                shutil.copy(str(self.dataBasePath), str(newFileName))
+                self.connect()
+            except Exception, (exc):
+                #32031: Error: Cannot backup MyGames.db
+                return -1, util.localize(32031) + ": " + str(exc)
 
-                self.executeSQLScript(alterTableScript)
-                self.commit()
-            else:
-                return -1, util.localize(32032) % (dbVersion, util.CURRENT_DB_VERSION)
+            #execute all upgrade scripts from old db version to current db version
+            while True:
+                alterTableScript = "SQL_UPGRADE_%s.txt" % dbVersion
+                alterTableScript = str(os.path.join(self.sqlDir, alterTableScript))
+
+                if os.path.isfile(alterTableScript):
+                    self.executeSQLScript(alterTableScript)
+                    self.commit()
+
+                    rcbSettingRows = RCBSetting(self).getAll()
+                    dbVersion = rcbSettingRows[0][RCBSetting.COL_dbVersion]
+
+                    if dbVersion == util.CURRENT_DB_VERSION:
+                        break
+                else:
+                    #32032: Error: No Update from version %s to %s.
+                    return -1, util.localize(32032) % (dbVersion, util.CURRENT_DB_VERSION)
+
+        # VACUUM database
+        self.compact()
 
         count = Game(self).getCount()
         if (count == 0):
@@ -134,6 +148,9 @@ class GameDataBase(object):
 
 
 class DataBaseObject(object):
+
+    COL_ID = 0
+    COL_NAME = 1
 
     def __init__(self, gdb, tableName):
         self.gdb = gdb
@@ -161,14 +178,16 @@ class DataBaseObject(object):
         args = []
         updateString = "Update %s SET " % self.tableName
         for i in range(0, len(columns)):
+
             #don't update with empty values
             if not updateWithNullValues and (argsOrig[i] == '' or argsOrig[i] == None):
                 continue
 
+            if i > 0:
+                updateString += ", "
+
             args.append(argsOrig[i])
             updateString += columns[i] + " = ?"
-            if i < len(columns) - 1:
-                updateString += ", "
 
         updateString += " WHERE id = " + str(obj_id)
         self.gdb.cursor.execute(updateString, args)
@@ -307,6 +326,143 @@ class gameobj(object):
 
 
 class Game(DataBaseObject):
+    #column index of table Game (for writing game data)
+    COL_description = 2
+    COL_gameCmd = 3
+    COL_alternateGameCmd = 4
+    COL_romCollectionId = 5
+    COL_publisherId = 6
+    COL_developerId = 7
+    COL_yearId = 8
+    COL_maxPlayers = 9
+    COL_rating = 10
+    COL_numVotes = 11
+    COL_url = 12
+    COL_region = 13
+    COL_media = 14
+    COL_perspective = 15
+    COL_controllerType = 16
+    COL_isFavorite = 17
+    COL_launchCount = 18
+    COL_originalTitle = 19
+    COL_alternateTitle = 20
+    COL_translatedBy = 21
+    COL_version = 22
+    COL_fileType1 = 23
+    COL_fileType2 = 24
+    COL_fileType3 = 25
+    COL_fileType4 = 26
+    COL_fileType5 = 27
+    COL_fileType6 = 28
+    COL_fileType7 = 29
+    COL_fileType8 = 30
+    COL_fileType9 = 31
+    COL_fileType10 = 32
+    COL_fileType11 = 33
+    COL_fileType12 = 34
+    COL_fileType13 = 35
+    COL_fileType14 = 36
+    COL_fileType15 = 37
+
+    #this list uses the same order as the fields in table game
+    #this way we can use game[Game.COL_fieldname] to get the correct field name (e.g. game[Game.COL_developer])
+    FIELDNAMES = [
+        'id',
+        'name',
+        'description',
+        'gameCmd',
+        'alternateGameCmd',
+        'romCollectionId',
+        'publisherId',
+        'developerId',
+        'yearId',
+        'maxPlayers',
+        'rating',
+        'numVotes',
+        'url',
+        'region',
+        'media',
+        'perspective',
+        'controllerType',
+        'isFavorite',
+        'launchCount',
+        'originalTitle',
+        'alternateTitle',
+        'translatedBy',
+        'version',
+        'fileType1',
+        'fileType2',
+        'fileType3',
+        'fileType4',
+        'fileType5',
+        'fileType6',
+        'fileType7',
+        'fileType8',
+        'fileType9',
+        'fileType10',
+        'fileType11',
+        'fileType12',
+        'fileType13',
+        'fileType14',
+        'fileType15'
+    ]
+
+    deleteQuery = "DELETE FROM Game WHERE id = ?"
+
+    def __init__(self, gdb):
+        self.gdb = gdb
+        self.tableName = "Game"
+
+    def delete(self, gameId):
+        self.deleteObjectByQuery(self.deleteQuery, (gameId,))
+
+
+class GameView(DataBaseObject):
+
+    #column index of GameView (for reading game data)
+    COL_description = 2
+    COL_gameCmd = 3
+    COL_alternateGameCmd = 4
+    COL_isFavorite = 5
+    COL_launchCount = 6
+    COL_version = 7
+    COL_romCollectionId = 8
+    COL_developerId = 9
+    COL_developer = 10
+    COL_publisherId = 11
+    COL_publisher = 12
+    COL_yearId = 13
+    COL_year = 14
+    COL_region = 15
+    COL_maxPlayers = 16
+    COL_rating = 17
+    COL_numVotes = 18
+    COL_url = 19
+    COL_media = 20
+    COL_controllerType = 21
+    COL_originalTitle = 22
+    COL_alternateTitle = 23
+    COL_translatedBy = 24
+    COL_perspective = 25
+    COL_genre = 26
+    COL_fileType1 = 27
+    COL_fileType2 = 28
+    COL_fileType3 = 29
+    COL_fileType4 = 30
+    COL_fileType5 = 31
+    COL_fileType6 = 32
+    COL_fileType7 = 33
+    COL_fileType8 = 34
+    COL_fileType9 = 35
+    COL_fileType10 = 36
+    COL_fileType11 = 37
+    COL_fileType12 = 38
+    COL_fileType13 = 39
+    COL_fileType14 = 40
+    COL_fileType15 = 41
+
+    NUM_COLUMNS = 42
+
     filterQuery = "Select * From GameView WHERE \
                     (romCollectionId = ? OR (0 = ?)) AND \
                     (Id IN (Select GameId From GenreGame Where GenreId = ?) OR (0 = ?)) AND \
@@ -323,11 +479,9 @@ class Game(DataBaseObject):
 
     filterMostPlayedGames = "Select * From GameView Where launchCount > 0 Order by launchCount desc Limit "
 
-    deleteQuery = "DELETE FROM Game WHERE id = ?"
-
     def __init__(self, gdb):
         self.gdb = gdb
-        self.tableName = "Game"
+        self.tableName = "GameView"
 
     def getFilteredGames(self, romCollectionId, genreId, yearId, publisherId, isFavorite, likeStatement, maxNumGames=0):
         args = (romCollectionId, genreId, yearId, publisherId, isFavorite)
@@ -345,8 +499,56 @@ class Game(DataBaseObject):
         newList = self.encodeUtf8(games)
         return newList
 
+    def getGameByNameAndRomCollectionId(self, name, romCollectionId):
+        game = self.getObjectByQuery(self.filterByNameAndRomCollectionId, (name, romCollectionId))
+        return game
+
+    def getGamesByQuery(self, query, args):
+        return self.getObjectsByQuery(query, args)
+
+    def getGamesByQueryNoArgs(self, query):
+        return self.getObjectsByQueryNoArgs(query)
+
+    def getGameById(self, gameid):
+        try:
+            dbobj = self.getObjectByQuery(self.filterByGameByIdFromView, (gameid,))
+        except Exception as e:
+            print 'Error mapping game row to object: ' + e.message
+            return None
+        return dbobj
+
+    """
+    def getGameById(self, gameid):
+        try:
+            dbobj = self.getObjectByQuery(self.filterByGameByIdFromView, (gameid,))
+            gobj = self.rowToObj(dbobj)
+        except Exception as e:
+            print 'Error mapping game row to object: ' + e.message
+            return None
+        return gobj
+    """
+
+    """
+    def getGamesByFilter(self, romCollectionId, genreId, yearId, publisherId, isFavorite, likeStatement, maxNumGames=0):
+        
+        args = (romCollectionId, genreId, yearId, publisherId, isFavorite)
+        limit = ""
+        if int(maxNumGames) > 0:
+            limit = "LIMIT %s" % str(maxNumGames)
+        filterQuery = self.filterQuery % (likeStatement, limit)
+        util.Logutil.log('searching games with query: ' + filterQuery, util.LOG_LEVEL_INFO)
+        util.Logutil.log(
+            'searching games with args: romCollectionId = %s, genreId = %s, yearId = %s, publisherId = %s, isFavorite = %s, likeStatement = %s, limit = %s' % (
+                str(romCollectionId), str(genreId), str(yearId), str(publisherId), str(isFavorite), likeStatement,
+                limit),
+            util.LOG_LEVEL_INFO)
+        games = self.getObjectsByWildcardQuery(filterQuery, args)
+
+        return self.rowsToObjs(games)
+    """
+
+    """
     def rowToObj(self, dbobj):
-        """Map Game DB Row object to gameobj"""
         gobj = gameobj()
 
         # Check if dbobj is None, i.e. no results found
@@ -373,52 +575,23 @@ class Game(DataBaseObject):
             gamelist.append(gobj)
 
         return gamelist
-
-    def getGameById(self, gameid):
-        try:
-            dbobj = self.getObjectByQuery(self.filterByGameByIdFromView, (gameid,))
-            gobj = self.rowToObj(dbobj)
-        except Exception as e:
-            print 'Error mapping game row to object: ' + e.message
-            return None
-        return gobj
-
-    def getGamesByFilter(self, romCollectionId, genreId, yearId, publisherId, isFavorite, likeStatement, maxNumGames=0):
-        """ This is very similar to getFilteredGames but returns a list of gameobjs.
-            FIXME TODO Wrap the common retrieve part of getFilteredGames prior to deprecating it
-        """
-        args = (romCollectionId, genreId, yearId, publisherId, isFavorite)
-        limit = ""
-        if int(maxNumGames) > 0:
-            limit = "LIMIT %s" % str(maxNumGames)
-        filterQuery = self.filterQuery % (likeStatement, limit)
-        util.Logutil.log('searching games with query: ' + filterQuery, util.LOG_LEVEL_INFO)
-        util.Logutil.log(
-            'searching games with args: romCollectionId = %s, genreId = %s, yearId = %s, publisherId = %s, isFavorite = %s, likeStatement = %s, limit = %s' % (
-                str(romCollectionId), str(genreId), str(yearId), str(publisherId), str(isFavorite), likeStatement,
-                limit),
-            util.LOG_LEVEL_INFO)
-        games = self.getObjectsByWildcardQuery(filterQuery, args)
-
-        return self.rowsToObjs(games)
-
-    def getGameByNameAndRomCollectionId(self, name, romCollectionId):
-        game = self.getObjectByQuery(self.filterByNameAndRomCollectionId, (name, romCollectionId))
-        return game
-
-    def getGamesByQuery(self, query, args):
-        rows = self.getObjectsByQuery(query, args)
-        return self.rowsToObjs(rows)
-
-    def getGamesByQueryNoArgs(self, query):
-        rows = self.getObjectsByQueryNoArgs(query)
-        return self.rowsToObjs(rows)
-
-    def delete(self, gameId):
-        self.deleteObjectByQuery(self.deleteQuery, (gameId,))
+    """
 
 
 class RCBSetting(DataBaseObject):
+    #column index of table Rcbsetting
+    COL_lastSelectedView = 1
+    COL_lastSelectedConsoleIndex = 2
+    COL_lastSelectedGenreIndex = 3
+    COL_lastSelectedPublisherIndex = 4
+    COL_lastSelectedYearIndex = 5
+    COL_lastSelectedGameIndex = 6
+    COL_autoexecBackupPath = 7  # This is a deprecated setting, unused in code
+    COL_dbVersion = 8
+    COL_lastFocusedControlMainView = 9
+    COL_lastFocusedControlGameInfoView = 10
+    COL_lastSelectedCharacterIndex = 11
+    
     def __init__(self, gdb):
         self.gdb = gdb
         self.tableName = "RCBSetting"
@@ -697,13 +870,10 @@ class Developer(DataBaseObject):
                 self.deleteObjectByQuery(self.developerDeleteQuery, (developerId,))
 
 
-class Reviewer(DataBaseObject):
-    def __init__(self, gdb):
-        self.gdb = gdb
-        self.tableName = "Reviewer"
-
-
 class File(DataBaseObject):
+    COL_fileTypeId = 2
+    COL_parentId = 3
+
     filterQueryByGameIdAndFileType = "Select name from File \
                     where parentId = ? AND \
                     filetypeid = ?"
@@ -757,7 +927,7 @@ class File(DataBaseObject):
         f = self.getObjectByQuery(self.filterQueryByGameIdAndTypeId, (gameId, fileTypeId))
         if f is None:
             return ''
-        return f[util.ROW_NAME]
+        return f[DataBaseObject.COL_NAME]
 
     def getRomsByGameId(self, gameId):
         files = self.getObjectsByQuery(self.filterQueryByGameIdAndFileType, (gameId, 0))

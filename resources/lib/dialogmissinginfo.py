@@ -152,11 +152,13 @@ class MissingInfoDialog(DialogBase):
     def addItemToMissingArtworkList(self, inList, labelId):
         tempList = []
 
-        for item in ['clearlogo', 'gamelist']:
-            if not item in inList:
-                tempList.append(item)
+        for romCollection in self.gui.config.romCollections.values():
+            for mediaPath in romCollection.mediaPaths:
+                if (not mediaPath.fileType.name in tempList and not mediaPath.fileType.name in inList):
+                    tempList.append(mediaPath.fileType.name)
 
         dialog = xbmcgui.Dialog()
+        tempList = sorted(tempList)
         #32155 = Select Artwork type
         index = dialog.select(util.localize(32155), tempList)
         del dialog

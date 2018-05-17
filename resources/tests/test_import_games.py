@@ -13,7 +13,7 @@ sys.path.append(os.path.join(os.path.dirname(__file__), '..', '..', 'resources',
 from config import Config, RomCollection
 import util as util
 from dbupdate import DBUpdate
-from gamedatabase import GameDataBase, Game, gameobj, File
+from gamedatabase import GameDataBase, GameView, File
 
 import xbmcaddon
 
@@ -45,7 +45,7 @@ class TestImportGames(unittest.TestCase):
         db_path = os.path.join(cls.get_testdata_path(), 'database')
 
         # Setup data - MyGames.db is the hard-coded expected DB name
-        shutil.copyfile(os.path.join(db_path, 'MyGames_2.2.0_empty.db'), os.path.join(db_path, 'MyGames.db'))
+        shutil.copyfile(os.path.join(db_path, 'MyGames_current_empty.db'), os.path.join(db_path, 'MyGames.db'))
 
         cls.gdb = GameDataBase(db_path)
         cls.gdb.connect()
@@ -78,50 +78,50 @@ class TestImportGames(unittest.TestCase):
         dbu.updateDB(self.gdb, RCBMockGui(), rcs, False)
         
         likeStmnt = '0 = 0'
-        games = Game(self.gdb).getGamesByFilter(1, 0, 0, 0, 0, likeStmnt)
+        games = GameView(self.gdb).getFilteredGames(1, 0, 0, 0, 0, likeStmnt)
         
         self.assertEquals(len(games), 4)
         
         airborneRanger = games[0]
-        self.assertEquals(airborneRanger.name, 'Airborne Ranger')
-        self.assertEquals(airborneRanger.year, '1989')
-        self.assertTrue(airborneRanger.plot.startswith('In this action/simulation game by Microprose the player takes the role of an U.S. Army airborne ranger.'))
-        self.assertEquals(airborneRanger.genre, 'Action, Adventure')
-        self.assertEquals(airborneRanger.publisher, 'MicroProse')
-        self.assertEquals(airborneRanger.developer, 'Imagitec')
-        self.assertEquals(airborneRanger.maxPlayers, '1')
-        roms = File(self.gdb).getRomsByGameId(airborneRanger.id)
+        self.assertEquals(airborneRanger[GameView.COL_NAME], 'Airborne Ranger')
+        self.assertEquals(airborneRanger[GameView.COL_year], '1989')
+        self.assertTrue(airborneRanger[GameView.COL_description].startswith('In this action/simulation game by Microprose the player takes the role of an U.S. Army airborne ranger.'))
+        self.assertEquals(airborneRanger[GameView.COL_genre], 'Action, Adventure')
+        self.assertEquals(airborneRanger[GameView.COL_publisher], 'MicroProse')
+        self.assertEquals(airborneRanger[GameView.COL_developer], 'Imagitec')
+        self.assertEquals(airborneRanger[GameView.COL_maxPlayers], '1')
+        roms = File(self.gdb).getRomsByGameId(airborneRanger[GameView.COL_ID])
         self.assertEquals(len(roms), 1)
         
         chuckRock = games[1]
-        self.assertEquals(chuckRock.name, 'Chuck Rock')
-        self.assertEquals(chuckRock.year, '1991')
-        self.assertTrue(chuckRock.plot.startswith("Chuck Rock hasn't been the same since his long-time rival in love, the evil Gary Gritter, kidnapped his wife, the beautiful Ophelia."))
-        self.assertEquals(chuckRock.genre, 'Platform')
-        self.assertEquals(chuckRock.publisher, 'Core Design')
-        self.assertEquals(chuckRock.developer, 'Core Design')
-        self.assertEquals(chuckRock.maxPlayers, '1')
-        self.assertEquals(chuckRock.rating, '8')
-        roms = File(self.gdb).getRomsByGameId(chuckRock.id)
+        self.assertEquals(chuckRock[GameView.COL_NAME], 'Chuck Rock')
+        self.assertEquals(chuckRock[GameView.COL_year], '1991')
+        self.assertTrue(chuckRock[GameView.COL_description].startswith("Chuck Rock hasn't been the same since his long-time rival in love, the evil Gary Gritter, kidnapped his wife, the beautiful Ophelia."))
+        self.assertEquals(chuckRock[GameView.COL_genre], 'Platform')
+        self.assertEquals(chuckRock[GameView.COL_publisher], 'Core Design')
+        self.assertEquals(chuckRock[GameView.COL_developer], 'Core Design')
+        self.assertEquals(chuckRock[GameView.COL_maxPlayers], '1')
+        self.assertEquals(chuckRock[GameView.COL_rating], '8')
+        roms = File(self.gdb).getRomsByGameId(chuckRock[GameView.COL_ID])
         self.assertEquals(len(roms), 1)
         
         eliminator = games[2]
-        self.assertEquals(eliminator.name, 'Eliminator')
-        self.assertEquals(eliminator.year, None)
-        roms = File(self.gdb).getRomsByGameId(eliminator.id)
+        self.assertEquals(eliminator[GameView.COL_NAME], 'Eliminator')
+        self.assertEquals(eliminator[GameView.COL_year], None)
+        roms = File(self.gdb).getRomsByGameId(eliminator[GameView.COL_ID])
         self.assertEquals(len(roms), 1)
         
         formulaOne = games[3]
-        self.assertEquals(formulaOne.name, 'MicroProse Formula One Grand Prix')
-        self.assertEquals(formulaOne.year, '1991')
-        self.assertTrue(formulaOne.plot.startswith("MicroProse Formula One Grand Prix is a racing simulator released in 1991 by MicroProse and created by game designer Geoff Crammond."))
+        self.assertEquals(formulaOne[GameView.COL_NAME], 'MicroProse Formula One Grand Prix')
+        self.assertEquals(formulaOne[GameView.COL_year], '1991')
+        self.assertTrue(formulaOne[GameView.COL_description].startswith("MicroProse Formula One Grand Prix is a racing simulator released in 1991 by MicroProse and created by game designer Geoff Crammond."))
         #HACK: Order of genres depends on id in database. If we run the full set of tests Genre Sports might already be
         #in database and has a lower id than Racing
-        self.assertTrue(formulaOne.genre == 'Racing, Sports' or formulaOne.genre == 'Sports, Racing')
-        self.assertEquals(formulaOne.publisher, 'MicroProse')
-        self.assertEquals(formulaOne.developer, None)
-        self.assertEquals(formulaOne.maxPlayers, '1')
-        roms = File(self.gdb).getRomsByGameId(formulaOne.id)
+        self.assertTrue(formulaOne[GameView.COL_genre] == 'Racing, Sports' or formulaOne[GameView.COL_genre] == 'Sports, Racing')
+        self.assertEquals(formulaOne[GameView.COL_publisher], 'MicroProse')
+        self.assertEquals(formulaOne[GameView.COL_developer], None)
+        self.assertEquals(formulaOne[GameView.COL_maxPlayers], '1')
+        roms = File(self.gdb).getRomsByGameId(formulaOne[GameView.COL_ID])
         self.assertEquals(len(roms), 4)
         
     
@@ -146,18 +146,18 @@ class TestImportGames(unittest.TestCase):
         dbu.updateDB(self.gdb, RCBMockGui(), rcs, False)
         
         likeStmnt = '0 = 0'
-        games = Game(self.gdb).getGamesByFilter(3, 0, 0, 0, 0, likeStmnt)
+        games = GameView(self.gdb).getFilteredGames(3, 0, 0, 0, 0, likeStmnt)
         
         self.assertEquals(len(games), 1)
         snowboarding = games[0]
-        self.assertEquals(snowboarding.name, '1080 Snowboarding')
+        self.assertEquals(snowboarding[GameView.COL_NAME], '1080 Snowboarding')
         #TODO check for description with special characters
-        #self.assertTrue(snowboarding.plot.startswith(u"You’re taking a Tahoe 155 snowboard down a steep, bumpy incline at night and you’re about to top off an Indy Nosebone with a 360° Air"))
-        self.assertEquals(snowboarding.year, '1998')
-        self.assertEquals(snowboarding.genre, 'Sports')
-        self.assertEquals(snowboarding.publisher, 'Nintendo')
-        self.assertEquals(snowboarding.developer, 'Nintendo EAD')
-        roms = File(self.gdb).getRomsByGameId(snowboarding.id)
+        #self.assertTrue(snowboarding[GameView.COL_description].startswith(u"You’re taking a Tahoe 155 snowboard down a steep, bumpy incline at night and you’re about to top off an Indy Nosebone with a 360° Air"))
+        self.assertEquals(snowboarding[GameView.COL_year], '1998')
+        self.assertEquals(snowboarding[GameView.COL_genre], 'Sports')
+        self.assertEquals(snowboarding[GameView.COL_publisher], 'Nintendo')
+        self.assertEquals(snowboarding[GameView.COL_developer], 'Nintendo EAD')
+        roms = File(self.gdb).getRomsByGameId(snowboarding[GameView.COL_ID])
         self.assertEquals(len(roms), 1)
 
     @responses.activate
@@ -182,30 +182,30 @@ class TestImportGames(unittest.TestCase):
         dbu.updateDB(self.gdb, RCBMockGui(), rcs, False)
 
         likeStmnt = '0 = 0'
-        games = Game(self.gdb).getGamesByFilter(4, 0, 0, 0, 0, likeStmnt)
+        games = GameView(self.gdb).getFilteredGames(4, 0, 0, 0, 0, likeStmnt)
 
         self.assertEquals(len(games), 2)
 
         bushido = games[0]
-        self.assertEquals(bushido.name, 'Bushido Blade')
-        self.assertEquals(bushido.year, '1997')
-        self.assertTrue(bushido.plot.startswith('"Bushido" is the soul of Japan - an ancient honor code deeply followed by samurai warriors for centuries'))
-        self.assertEquals(bushido.genre, 'Fighting')
-        self.assertEquals(bushido.maxPlayers, '2')
-        self.assertEquals(bushido.publisher, 'Square, SCEA')
-        self.assertEquals(bushido.developer, 'Light Weight')
-        roms = File(self.gdb).getRomsByGameId(bushido.id)
+        self.assertEquals(bushido[GameView.COL_NAME], 'Bushido Blade')
+        self.assertEquals(bushido[GameView.COL_year], '1997')
+        self.assertTrue(bushido[GameView.COL_description].startswith('"Bushido" is the soul of Japan - an ancient honor code deeply followed by samurai warriors for centuries'))
+        self.assertEquals(bushido[GameView.COL_genre], 'Fighting')
+        self.assertEquals(bushido[GameView.COL_maxPlayers], '2')
+        self.assertEquals(bushido[GameView.COL_publisher], 'Square, SCEA')
+        self.assertEquals(bushido[GameView.COL_developer], 'Light Weight')
+        roms = File(self.gdb).getRomsByGameId(bushido[GameView.COL_ID])
         self.assertEquals(len(roms), 1)
 
         silenthill = games[1]
-        self.assertEquals(silenthill.name, 'Silent Hill')
-        self.assertEquals(silenthill.year, '1999')
-        self.assertTrue(silenthill.plot.startswith('Silent Hill is a 1999 survival horror video game for the PlayStation.'))
-        self.assertEquals(silenthill.genre, 'Action, Horror')
-        self.assertEquals(silenthill.maxPlayers, '1')
-        self.assertEquals(silenthill.publisher, 'Konami Digital Entertainment')
-        self.assertEquals(silenthill.developer, 'Team Silent, Konami')
-        roms = File(self.gdb).getRomsByGameId(silenthill.id)
+        self.assertEquals(silenthill[GameView.COL_NAME], 'Silent Hill')
+        self.assertEquals(silenthill[GameView.COL_year], '1999')
+        self.assertTrue(silenthill[GameView.COL_description].startswith('Silent Hill is a 1999 survival horror video game for the PlayStation.'))
+        self.assertEquals(silenthill[GameView.COL_genre], 'Action, Horror')
+        self.assertEquals(silenthill[GameView.COL_maxPlayers], '1')
+        self.assertEquals(silenthill[GameView.COL_publisher], 'Konami Digital Entertainment')
+        self.assertEquals(silenthill[GameView.COL_developer], 'Team Silent, Konami')
+        roms = File(self.gdb).getRomsByGameId(silenthill[GameView.COL_ID])
         self.assertEquals(len(roms), 2)
 
     @responses.activate
@@ -230,31 +230,31 @@ class TestImportGames(unittest.TestCase):
         dbu.updateDB(self.gdb, RCBMockGui(), rcs, False)
 
         likeStmnt = '0 = 0'
-        games = Game(self.gdb).getGamesByFilter(5, 0, 0, 0, 0, likeStmnt)
+        games = GameView(self.gdb).getFilteredGames(5, 0, 0, 0, 0, likeStmnt)
 
         self.assertEquals(len(games), 2)
 
         chronoTrigger = games[0]
-        self.assertEquals(chronoTrigger.name, 'Chrono Trigger')
-        self.assertEquals(chronoTrigger.year, '1995')
-        self.assertTrue(chronoTrigger.plot.startswith('The 32-Meg quest begins.'))
-        self.assertEquals(chronoTrigger.genre, 'Role-Playing')
-        self.assertEquals(chronoTrigger.maxPlayers, '1')
-        self.assertEquals(chronoTrigger.publisher, 'Squaresoft')
-        self.assertEquals(chronoTrigger.developer, 'Squaresoft')
-        roms = File(self.gdb).getRomsByGameId(chronoTrigger.id)
+        self.assertEquals(chronoTrigger[GameView.COL_NAME], 'Chrono Trigger')
+        self.assertEquals(chronoTrigger[GameView.COL_year], '1995')
+        self.assertTrue(chronoTrigger[GameView.COL_description].startswith('The 32-Meg quest begins.'))
+        self.assertEquals(chronoTrigger[GameView.COL_genre], 'Role-Playing')
+        self.assertEquals(chronoTrigger[GameView.COL_maxPlayers], '1')
+        self.assertEquals(chronoTrigger[GameView.COL_publisher], 'Squaresoft')
+        self.assertEquals(chronoTrigger[GameView.COL_developer], 'Squaresoft')
+        roms = File(self.gdb).getRomsByGameId(chronoTrigger[GameView.COL_ID])
         self.assertEquals(len(roms), 1)
 
         maddennfl = games[1]
-        self.assertEquals(maddennfl.name, 'Madden NFL 97')
-        self.assertEquals(maddennfl.year, '1996')
+        self.assertEquals(maddennfl[GameView.COL_NAME], 'Madden NFL 97')
+        self.assertEquals(maddennfl[GameView.COL_year], '1996')
         self.assertTrue(
-            maddennfl.plot.startswith('Welcome to Madden NFL 97, the game that captures the excitement of a 30 yard touchdown pass'))
-        self.assertEquals(maddennfl.genre, 'Sports')
-        self.assertEquals(maddennfl.maxPlayers, '')
-        self.assertEquals(maddennfl.publisher, 'Electronic Arts')
-        self.assertEquals(maddennfl.developer, 'Electronic Arts')
-        roms = File(self.gdb).getRomsByGameId(maddennfl.id)
+            maddennfl[GameView.COL_description].startswith('Welcome to Madden NFL 97, the game that captures the excitement of a 30 yard touchdown pass'))
+        self.assertEquals(maddennfl[GameView.COL_genre], 'Sports')
+        self.assertEquals(maddennfl[GameView.COL_maxPlayers], '')
+        self.assertEquals(maddennfl[GameView.COL_publisher], 'Electronic Arts')
+        self.assertEquals(maddennfl[GameView.COL_developer], 'Electronic Arts')
+        roms = File(self.gdb).getRomsByGameId(maddennfl[GameView.COL_ID])
         self.assertEquals(len(roms), 1)
 
 
@@ -277,52 +277,52 @@ class TestImportGames(unittest.TestCase):
         dbu.updateDB(self.gdb, RCBMockGui(), rcs, False)
 
         likeStmnt = '0 = 0'
-        games = Game(self.gdb).getGamesByFilter(1, 0, 0, 0, 0, likeStmnt)
+        games = GameView(self.gdb).getFilteredGames(1, 0, 0, 0, 0, likeStmnt)
 
         self.assertEquals(len(games), 4)
 
         airborneRanger = games[0]
-        self.assertEquals(airborneRanger.name, 'Airborne Ranger nfo')
-        self.assertEquals(airborneRanger.year, '1989')
-        self.assertTrue(airborneRanger.plot.startswith(
+        self.assertEquals(airborneRanger[GameView.COL_NAME], 'Airborne Ranger nfo')
+        self.assertEquals(airborneRanger[GameView.COL_year], '1989')
+        self.assertTrue(airborneRanger[GameView.COL_description].startswith(
             'nfo: In this action/simulation game by Microprose the player takes the role of an U.S. Army airborne ranger.'))
-        self.assertEquals(airborneRanger.genre, 'Action, Adventure')
-        self.assertEquals(airborneRanger.publisher, 'MicroProse nfo')
-        self.assertEquals(airborneRanger.developer, 'Imagitec nfo')
-        roms = File(self.gdb).getRomsByGameId(airborneRanger.id)
+        self.assertEquals(airborneRanger[GameView.COL_genre], 'Action, Adventure')
+        self.assertEquals(airborneRanger[GameView.COL_publisher], 'MicroProse nfo')
+        self.assertEquals(airborneRanger[GameView.COL_developer], 'Imagitec nfo')
+        roms = File(self.gdb).getRomsByGameId(airborneRanger[GameView.COL_ID])
         self.assertEquals(len(roms), 1)
 
         chuckRock = games[1]
-        self.assertEquals(chuckRock.name, 'Chuck Rock nfo')
-        self.assertEquals(chuckRock.year, '1991')
-        self.assertTrue(chuckRock.plot.startswith(
+        self.assertEquals(chuckRock[GameView.COL_NAME], 'Chuck Rock nfo')
+        self.assertEquals(chuckRock[GameView.COL_year], '1991')
+        self.assertTrue(chuckRock[GameView.COL_description].startswith(
             "nfo: Chuck Rock hasn't been the same since his long-time rival in love, the evil Gary Gritter, kidnapped his wife, the beautiful Ophelia."))
-        self.assertEquals(chuckRock.genre, 'Platform')
-        self.assertEquals(chuckRock.publisher, 'Core Design nfo')
-        self.assertEquals(chuckRock.developer, 'Core Design nfo')
-        self.assertEquals(chuckRock.maxPlayers, '1')
-        self.assertEquals(chuckRock.rating, '8')
-        roms = File(self.gdb).getRomsByGameId(chuckRock.id)
+        self.assertEquals(chuckRock[GameView.COL_genre], 'Platform')
+        self.assertEquals(chuckRock[GameView.COL_publisher], 'Core Design nfo')
+        self.assertEquals(chuckRock[GameView.COL_developer], 'Core Design nfo')
+        self.assertEquals(chuckRock[GameView.COL_maxPlayers], '1')
+        self.assertEquals(chuckRock[GameView.COL_rating], '8')
+        roms = File(self.gdb).getRomsByGameId(chuckRock[GameView.COL_ID])
         self.assertEquals(len(roms), 1)
 
         eliminator = games[2]
-        self.assertEquals(eliminator.name, 'Eliminator nfo')
-        self.assertEquals(eliminator.year, None)
-        roms = File(self.gdb).getRomsByGameId(eliminator.id)
+        self.assertEquals(eliminator[GameView.COL_NAME], 'Eliminator nfo')
+        self.assertEquals(eliminator[GameView.COL_year], None)
+        roms = File(self.gdb).getRomsByGameId(eliminator[GameView.COL_ID])
         self.assertEquals(len(roms), 1)
 
         formulaOne = games[3]
-        self.assertEquals(formulaOne.name, 'MicroProse Formula One Grand Prix nfo')
-        self.assertEquals(formulaOne.year, '1991')
-        self.assertTrue(formulaOne.plot.startswith(
+        self.assertEquals(formulaOne[GameView.COL_NAME], 'MicroProse Formula One Grand Prix nfo')
+        self.assertEquals(formulaOne[GameView.COL_year], '1991')
+        self.assertTrue(formulaOne[GameView.COL_description].startswith(
             "MicroProse Formula One Grand Prix is a racing simulator released in 1991 by MicroProse and created by game designer Geoff Crammond."))
         #HACK: Order of genres depends on id in database. If we run the full set of tests Genre Sports might already be
         #in database and has a lower id than Racing
-        self.assertTrue(formulaOne.genre == 'Racing, Sports' or formulaOne.genre == 'Sports, Racing')
-        self.assertEquals(formulaOne.publisher, 'MicroProse')
-        self.assertEquals(formulaOne.developer, None)
-        self.assertEquals(formulaOne.maxPlayers, '1')
-        roms = File(self.gdb).getRomsByGameId(formulaOne.id)
+        self.assertTrue(formulaOne[GameView.COL_genre] == 'Racing, Sports' or formulaOne[GameView.COL_genre] == 'Sports, Racing')
+        self.assertEquals(formulaOne[GameView.COL_publisher], 'MicroProse')
+        self.assertEquals(formulaOne[GameView.COL_developer], None)
+        self.assertEquals(formulaOne[GameView.COL_maxPlayers], '1')
+        roms = File(self.gdb).getRomsByGameId(formulaOne[GameView.COL_ID])
         self.assertEquals(len(roms), 4)
 
 
@@ -345,41 +345,41 @@ class TestImportGames(unittest.TestCase):
         dbu.updateDB(self.gdb, RCBMockGui(), rcs, False)
 
         likeStmnt = '0 = 0'
-        games = Game(self.gdb).getGamesByFilter(2, 0, 0, 0, 0, likeStmnt)
+        games = GameView(self.gdb).getFilteredGames(2, 0, 0, 0, 0, likeStmnt)
 
         self.assertEquals(len(games), 4)
 
         adventure = games[0]
-        self.assertEquals(adventure.name, 'Adventure')
-        self.assertEquals(adventure.year, '1980')
-        self.assertEquals(adventure.publisher, 'Atari, Inc.')
-        self.assertEquals(adventure.developer, 'Atari, Inc.')
-        self.assertEquals(adventure.genre, 'Adventure')
-        self.assertEquals(adventure.rating, '3.8')
-        self.assertEquals(adventure.maxPlayers, '1 Player')
-        self.assertTrue(adventure.plot.startswith('A graphic dungeon quest inspired by the old mainframe game of the same name'))
+        self.assertEquals(adventure[GameView.COL_NAME], 'Adventure')
+        self.assertEquals(adventure[GameView.COL_year], '1980')
+        self.assertEquals(adventure[GameView.COL_publisher], 'Atari, Inc.')
+        self.assertEquals(adventure[GameView.COL_developer], 'Atari, Inc.')
+        self.assertEquals(adventure[GameView.COL_genre], 'Adventure')
+        self.assertEquals(adventure[GameView.COL_rating], '3.8')
+        self.assertEquals(adventure[GameView.COL_maxPlayers], '1 Player')
+        self.assertTrue(adventure[GameView.COL_description].startswith('A graphic dungeon quest inspired by the old mainframe game of the same name'))
 
         airSeaBattle = games[1]
-        self.assertEquals(airSeaBattle.name, 'Air-Sea Battle')
-        self.assertEquals(airSeaBattle.year, '1977')
-        self.assertEquals(airSeaBattle.publisher, 'Sears, Roebuck and Co.')
-        self.assertEquals(airSeaBattle.developer, 'Atari, Inc.')
-        self.assertEquals(airSeaBattle.genre, 'Shooter')
-        self.assertEquals(airSeaBattle.rating, '2.4')
-        self.assertEquals(airSeaBattle.maxPlayers, '1-2 Players')
+        self.assertEquals(airSeaBattle[GameView.COL_NAME], 'Air-Sea Battle')
+        self.assertEquals(airSeaBattle[GameView.COL_year], '1977')
+        self.assertEquals(airSeaBattle[GameView.COL_publisher], 'Sears, Roebuck and Co.')
+        self.assertEquals(airSeaBattle[GameView.COL_developer], 'Atari, Inc.')
+        self.assertEquals(airSeaBattle[GameView.COL_genre], 'Shooter')
+        self.assertEquals(airSeaBattle[GameView.COL_rating], '2.4')
+        self.assertEquals(airSeaBattle[GameView.COL_maxPlayers], '1-2 Players')
         self.assertTrue(
-            airSeaBattle.plot.startswith('Air-Sea Battle is basically a target shooting game.'))
+            airSeaBattle[GameView.COL_description].startswith('Air-Sea Battle is basically a target shooting game.'))
 
         asteroids = games[2]
-        self.assertEquals(asteroids.name, 'Asteroids')
-        self.assertEquals(asteroids.year, '1981')
-        self.assertEquals(asteroids.publisher, 'Atari, Inc.')
-        self.assertEquals(asteroids.developer, 'Atari, Inc.')
-        self.assertEquals(asteroids.genre, 'Shooter')
-        self.assertEquals(asteroids.rating, '3.5')
-        self.assertEquals(asteroids.maxPlayers, '1-2 Players')
+        self.assertEquals(asteroids[GameView.COL_NAME], 'Asteroids')
+        self.assertEquals(asteroids[GameView.COL_year], '1981')
+        self.assertEquals(asteroids[GameView.COL_publisher], 'Atari, Inc.')
+        self.assertEquals(asteroids[GameView.COL_developer], 'Atari, Inc.')
+        self.assertEquals(asteroids[GameView.COL_genre], 'Shooter')
+        self.assertEquals(asteroids[GameView.COL_rating], '3.5')
+        self.assertEquals(asteroids[GameView.COL_maxPlayers], '1-2 Players')
         self.assertTrue(
-            asteroids.plot.startswith('Asteroids is a conversion of the arcade game of the same name.'))
+            asteroids[GameView.COL_description].startswith('Asteroids is a conversion of the arcade game of the same name.'))
 
 
     def register_responses_Amiga(self):

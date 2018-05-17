@@ -24,24 +24,24 @@ class RCBLauncher(object):
     def launchEmu(self, gdb, gui, gameId, config, listitem):
         log.info("Begin launcher.launchEmu")
 
-        gameRow = Game(gdb).getObjectById(gameId)
+        gameRow = GameView(gdb).getObjectById(gameId)
         if gameRow is None:
             log.error("Game with id %s could not be found in database" % gameId)
             return
 
         try:
-            self.romCollection = config.romCollections[str(gameRow[util.GAME_romCollectionId])]
+            self.romCollection = config.romCollections[str(gameRow[GameView.COL_romCollectionId])]
         except KeyError:
-            log.error("Cannot get rom collection with id: " + str(gameRow[util.GAME_romCollectionId]))
+            log.error("Cannot get rom collection with id: " + str(gameRow[GameView.COL_romCollectionId]))
             gui.writeMsg(util.localize(32034))
             return
 
-        gui.writeMsg(util.localize(32163) + " " + gameRow[util.ROW_NAME])
+        gui.writeMsg(util.localize(32163) + " " + gameRow[DataBaseObject.COL_NAME])
 
         # Remember viewstate
         gui.saveViewState(False)
 
-        filenameRows = File(gdb).getRomsByGameId(gameRow[util.ROW_ID])
+        filenameRows = File(gdb).getRomsByGameId(gameRow[DataBaseObject.COL_ID])
         log.info("files for current game: " + str(filenameRows))
 
         cmd, precmd, postcmd, roms = self.__buildCmd(gui, filenameRows, gameRow, False)
@@ -84,8 +84,8 @@ class RCBLauncher(object):
                     cmd = 'call ' + cmd
 
         # update LaunchCount
-        launchCount = gameRow[util.GAME_launchCount]
-        Game(gdb).update(('launchCount',), (launchCount + 1,), gameRow[util.ROW_ID], True)
+        launchCount = gameRow[GameView.COL_launchCount]
+        Game(gdb).update(('launchCount',), (launchCount + 1,), gameRow[Game.COL_ID], True)
         gdb.commit()
 
         log.info("cmd: " + cmd)
@@ -158,8 +158,8 @@ class RCBLauncher(object):
 
         # insert game specific command
         gameCmd = ''
-        if gameRow[util.GAME_gameCmd] is not None:
-            gameCmd = str(gameRow[util.GAME_gameCmd])
+        if gameRow[GameView.COL_gameCmd] is not None:
+            gameCmd = str(gameRow[GameView.COL_gameCmd])
         # be case insensitive with (?i)
         emuParams = re.sub('(?i)%gamecmd%', gameCmd, emuParams)
 
@@ -401,7 +401,7 @@ class RCBLauncher(object):
         emuParams = emuParams.replace('%Romname%', romname)
 
         # gamename
-        gamename = unicode(gameRow[util.ROW_NAME])
+        gamename = unicode(gameRow[DataBaseObject.COL_NAME])
         emuParams = emuParams.replace('%game%', gamename)
         emuParams = emuParams.replace('%GAME%', gamename)
         emuParams = emuParams.replace('%Game%', gamename)
@@ -521,8 +521,8 @@ class RCBLauncher(object):
             rom = roms[0]
             gameclient = self.romCollection.gameclient
             # HACK: use alternateGameCmd as gameclient
-            if gameRow[util.GAME_alternateGameCmd] is not None and gameRow[util.GAME_alternateGameCmd] != "":
-                gameclient = str(gameRow[util.GAME_alternateGameCmd])
+            if gameRow[GameView.COL_alternateGameCmd] is not None and gameRow[GameView.COL_alternateGameCmd] != "":
+                gameclient = str(gameRow[GameView.COL_alternateGameCmd])
             log.info("Preferred gameclient: " + gameclient)
             log.info("Setting platform: " + self.romCollection.name)
 

@@ -1,0 +1,193 @@
+
+BEGIN TRANSACTION;
+
+ALTER TABLE [Game] RENAME TO [Game_temp];
+
+CREATE TABLE IF NOT EXISTS [Game]
+(
+    [id] INTEGER PRIMARY KEY AUTOINCREMENT,
+    [name] TEXT NOT NULL,
+    [description] TEXT,
+	[gameCmd] TEXT,
+	[alternateGameCmd] TEXT,
+    [romCollectionId] INTEGER,
+    [publisherId] INTEGER REFERENCES [Publisher]
+    (
+        id
+    ),
+	[developerId] INTEGER REFERENCES [Developer]
+    (
+        id
+    ),
+    [yearId] INTEGER REFERENCES [Year]
+    (
+        id
+    ),
+	[maxPlayers] TEXT,
+    [rating] TEXT,
+    [numVotes] INTEGER,
+	[url] TEXT,
+    [region] TEXT,
+	[media] TEXT,
+    [perspective] TEXT,
+    [controllerType] TEXT,
+	[isFavorite] INTEGER,
+	[launchCount] INTEGER,
+	[originalTitle] TEXT,
+	[alternateTitle] TEXT,
+	[translatedBy] TEXT,
+	[version] TEXT,
+	[fileType1] TEXT,
+	[fileType2] TEXT,
+	[fileType3] TEXT,
+	[fileType4] TEXT,
+	[fileType5] TEXT,
+	[fileType6] TEXT,
+	[fileType7] TEXT,
+	[fileType8] TEXT,
+	[fileType9] TEXT,
+	[fileType10] TEXT,
+	[fileType11] TEXT,
+	[fileType12] TEXT,
+	[fileType13] TEXT,
+	[fileType14] TEXT,
+	[fileType15] TEXT,
+	UNIQUE (name, romCollectionId)
+);
+
+INSERT INTO [Game]
+	(id,
+	name,
+	description,
+	gameCmd,
+	alternateGameCmd,
+	romCollectionId,
+	publisherId,
+	developerId,
+	yearId,
+	maxPlayers,
+	rating,
+	numVotes,
+	url,
+	region,
+	media,
+	perspective,
+	controllerType,
+	isFavorite,
+	launchCount,
+	originalTitle,
+	alternateTitle,
+	translatedBy,
+	version)
+SELECT 
+	id,
+	name,
+	description,
+	gameCmd,
+	alternateGameCmd,
+	romCollectionId,
+	publisherId,
+	developerId,
+	yearId,
+	maxPlayers,
+	rating,
+	numVotes,
+	url,
+	region,
+	media,
+	perspective,
+	controllerType,
+	isFavorite,
+	launchCount,
+	originalTitle,
+	alternateTitle,
+	translatedBy,
+	version
+FROM [Game_temp];
+
+DROP TABLE [Game_temp];
+
+
+CREATE Index file_parentid_filetypeid On File(parentid, filetypeid);
+
+UPDATE Game
+SET fileType1 = (SELECT name FROM File WHERE parentid = Game.id AND fileTypeid = 1),
+	fileType2 = (SELECT name FROM File WHERE parentid = Game.id AND fileTypeid = 2),
+	fileType3 = (SELECT name FROM File WHERE parentid = Game.id AND fileTypeid = 3),
+	fileType4 = (SELECT name FROM File WHERE parentid = Game.id AND fileTypeid = 4),
+	fileType5 = (SELECT name FROM File WHERE parentid = Game.id AND fileTypeid = 5),
+	fileType6 = (SELECT name FROM File WHERE parentid = Game.id AND fileTypeid = 6),
+	fileType7 = (SELECT name FROM File WHERE parentid = Game.id AND fileTypeid = 7),
+	fileType8 = (SELECT name FROM File WHERE parentid = Game.id AND fileTypeid = 8),
+	fileType9 = (SELECT name FROM File WHERE parentid = Game.id AND fileTypeid = 9),
+	fileType10 = (SELECT name FROM File WHERE parentid = Game.id AND fileTypeid = 10),
+	fileType11 = (SELECT name FROM File WHERE parentid = Game.id AND fileTypeid = 11),
+	fileType12 = (SELECT name FROM File WHERE parentid = Game.id AND fileTypeid = 12),
+	fileType13 = (SELECT name FROM File WHERE parentid = Game.id AND fileTypeid = 13),
+	fileType14 = (SELECT name FROM File WHERE parentid = Game.id AND fileTypeid = 14),
+	fileType15 = (SELECT name FROM File WHERE parentid = Game.id AND fileTypeid = 15);
+
+DELETE FROM File Where fileTypeId > 0;
+
+CREATE INDEX IF NOT EXISTS genregame_genreid ON [GenreGame](genreid);
+
+DROP VIEW IF EXISTS [GameView];
+
+CREATE VIEW IF NOT EXISTS [GameView] AS
+	SELECT 	Ga.id,
+			Ga.name,
+			Ga.description,
+			Ga.gameCmd,
+			Ga.alternateGameCmd,
+			Ga.isFavorite,
+			Ga.launchCount,
+			Ga.version,
+			Ga.romCollectionId,
+			Ga.developerId,
+			Developer.name AS developer,
+			Ga.publisherId,
+			Publisher.name AS publisher,
+			Ga.yearId,
+			Year.name AS year,
+			Ga.region,
+			Ga.maxPlayers,
+			Ga.rating,
+			Ga.numVotes,
+			Ga.url,
+			Ga.media,
+			Ga.controllerType,
+			Ga.originalTitle,
+			Ga.alternateTitle,
+			Ga.translatedBy,
+			Ga.perspective,
+			GROUP_CONCAT(Ge.name, ', ') AS genres,
+			Ga.fileType1,
+			Ga.fileType2,
+			Ga.fileType3,
+			Ga.fileType4,
+			Ga.fileType5,
+			Ga.fileType6,
+			Ga.fileType7,
+			Ga.fileType8,
+			Ga.fileType9,
+			Ga.fileType10,
+			Ga.fileType11,
+			Ga.fileType12,
+			Ga.fileType13,
+			Ga.fileType14,
+			Ga.fileType15
+
+			FROM [Game] Ga
+				LEFT OUTER JOIN Developer ON Ga.developerId = Developer.id
+				LEFT OUTER JOIN Publisher ON Ga.publisherId = Publisher.id
+				LEFT OUTER JOIN Year ON Ga.yearId = Year.id
+				LEFT OUTER JOIN GenreGame Gg ON Ga.id = Gg.gameid
+				LEFT OUTER JOIN Genre Ge ON Ge.id = Gg.genreid
+				
+			GROUP BY Ga.id;
+
+DROP Table Reviewer;
+
+UPDATE RCBSetting SET dbVersion = '2.2.1';
+
+COMMIT;

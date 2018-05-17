@@ -9,7 +9,7 @@
   <developer>Imagitec nfo</developer>
   <year>1989</year>
   <detailUrl />
-  <maxPlayer />
+  <maxPlayer>1</maxPlayer>
   <region />
   <media />
   <perspective />
@@ -21,6 +21,6 @@
   <launchCount>0</launchCount>
   <genre>Action</genre>
   <genre>Adventure</genre>
-  <thumb local="./testdata/artwork/Amiga/boxfront\Airborne Ranger.png" type="boxfront" />
   <thumb local="./testdata/artwork/Amiga/screenshot\Airborne Ranger.png" type="screenshot" />
+  <thumb local="./testdata/artwork/Amiga/boxfront\Airborne Ranger.png" type="boxfront" />
 </game>

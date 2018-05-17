@@ -13,7 +13,7 @@ sys.path.append(os.path.join(os.path.dirname(__file__), '..', '..', 'resources',
 from config import Config, RomCollection
 import util as util
 from dbupdate import DBUpdate
-from gamedatabase import GameDataBase, Game, gameobj, File
+from gamedatabase import GameDataBase, GameView, File
 
 import xbmcaddon
 
@@ -45,7 +45,7 @@ class TestUpdateGames(unittest.TestCase):
         db_path = os.path.join(cls.get_testdata_path(), 'database')
 
         # Setup data - MyGames.db is the hard-coded expected DB name
-        shutil.copyfile(os.path.join(db_path, 'MyGames_2.2.0_full.db'), os.path.join(db_path, 'MyGames.db'))
+        shutil.copyfile(os.path.join(db_path, 'MyGames_current_12_games.db'), os.path.join(db_path, 'MyGames.db'))
 
         cls.gdb = GameDataBase(db_path)
         cls.gdb.connect()
@@ -81,19 +81,19 @@ class TestUpdateGames(unittest.TestCase):
         dbu.updateDB(self.gdb, RCBMockGui(), rcs, False)
         
         likeStmnt = '0 = 0'
-        games = Game(self.gdb).getGamesByFilter(1, 0, 0, 0, 0, likeStmnt)
+        games = GameView(self.gdb).getFilteredGames(1, 0, 0, 0, 0, likeStmnt)
         
         self.assertEquals(len(games), 4)
         
         airborneRanger = games[0]
-        self.assertEquals(airborneRanger.name, 'Airborne Ranger Update')
-        self.assertEquals(airborneRanger.year, '1990')
-        self.assertTrue(airborneRanger.plot.startswith('Update: In this action/simulation game by Microprose the player takes the role of an U.S. Army airborne ranger.'))
-        self.assertEquals(airborneRanger.genre, 'Action, Adventure, Update')
-        self.assertEquals(airborneRanger.publisher, 'MicroProse (Update)')
-        self.assertEquals(airborneRanger.developer, 'Imagitec (Update)')
-        self.assertEquals(airborneRanger.maxPlayers, '2')
-        roms = File(self.gdb).getRomsByGameId(airborneRanger.id)
+        self.assertEquals(airborneRanger[GameView.COL_NAME], 'Airborne Ranger Update')
+        self.assertEquals(airborneRanger[GameView.COL_year], '1990')
+        self.assertTrue(airborneRanger[GameView.COL_description].startswith('Update: In this action/simulation game by Microprose the player takes the role of an U.S. Army airborne ranger.'))
+        self.assertEquals(airborneRanger[GameView.COL_genre], 'Action, Adventure, Update')
+        self.assertEquals(airborneRanger[GameView.COL_publisher], 'MicroProse (Update)')
+        self.assertEquals(airborneRanger[GameView.COL_developer], 'Imagitec (Update)')
+        self.assertEquals(airborneRanger[GameView.COL_maxPlayers], '2')
+        roms = File(self.gdb).getRomsByGameId(airborneRanger[GameView.COL_ID])
         self.assertEquals(len(roms), 1)
 
 
@@ -122,20 +122,20 @@ class TestUpdateGames(unittest.TestCase):
         dbu.updateDB(self.gdb, RCBMockGui(), rcs, False)
 
         likeStmnt = '0 = 0'
-        games = Game(self.gdb).getGamesByFilter(1, 0, 0, 0, 0, likeStmnt)
+        games = GameView(self.gdb).getFilteredGames(1, 0, 0, 0, 0, likeStmnt)
 
         self.assertEquals(len(games), 4)
 
         airborneRanger = games[0]
-        self.assertEquals(airborneRanger.name, 'Airborne Ranger Update')
-        self.assertEquals(airborneRanger.year, '1989')
-        self.assertTrue(airborneRanger.plot.startswith(
+        self.assertEquals(airborneRanger[GameView.COL_NAME], 'Airborne Ranger Update')
+        self.assertEquals(airborneRanger[GameView.COL_year], '1989')
+        self.assertTrue(airborneRanger[GameView.COL_description].startswith(
             'In this action/simulation game by Microprose the player takes the role of an U.S. Army airborne ranger.'))
-        self.assertEquals(airborneRanger.genre, 'Action, Adventure')
-        self.assertEquals(airborneRanger.publisher, 'MicroProse')
-        self.assertEquals(airborneRanger.developer, 'Imagitec')
-        self.assertEquals(airborneRanger.maxPlayers, '1')
-        roms = File(self.gdb).getRomsByGameId(airborneRanger.id)
+        self.assertEquals(airborneRanger[GameView.COL_genre], 'Action, Adventure')
+        self.assertEquals(airborneRanger[GameView.COL_publisher], 'MicroProse')
+        self.assertEquals(airborneRanger[GameView.COL_developer], 'Imagitec')
+        self.assertEquals(airborneRanger[GameView.COL_maxPlayers], '1')
+        roms = File(self.gdb).getRomsByGameId(airborneRanger[GameView.COL_ID])
         self.assertEquals(len(roms), 1)
 
     @responses.activate
@@ -163,20 +163,20 @@ class TestUpdateGames(unittest.TestCase):
         dbu.updateDB(self.gdb, RCBMockGui(), rcs, False)
 
         likeStmnt = '0 = 0'
-        games = Game(self.gdb).getGamesByFilter(1, 0, 0, 0, 0, likeStmnt)
+        games = GameView(self.gdb).getFilteredGames(1, 0, 0, 0, 0, likeStmnt)
 
         self.assertEquals(len(games), 4)
 
         airborneRanger = games[0]
-        self.assertEquals(airborneRanger.name, 'Airborne Ranger Update')
-        self.assertEquals(airborneRanger.year, None)
-        self.assertEquals(airborneRanger.plot, '')
+        self.assertEquals(airborneRanger[GameView.COL_NAME], 'Airborne Ranger Update')
+        self.assertEquals(airborneRanger[GameView.COL_year], None)
+        self.assertEquals(airborneRanger[GameView.COL_description], '')
         #HACK: genres are stored in genregame link table and are not overwritten with null values
-        self.assertEquals(airborneRanger.genre, 'Action, Adventure')
-        self.assertEquals(airborneRanger.publisher, None)
-        self.assertEquals(airborneRanger.developer, None)
-        self.assertEquals(airborneRanger.maxPlayers, '')
-        roms = File(self.gdb).getRomsByGameId(airborneRanger.id)
+        self.assertEquals(airborneRanger[GameView.COL_genre], 'Action, Adventure')
+        self.assertEquals(airborneRanger[GameView.COL_publisher], None)
+        self.assertEquals(airborneRanger[GameView.COL_developer], None)
+        self.assertEquals(airborneRanger[GameView.COL_maxPlayers], '')
+        roms = File(self.gdb).getRomsByGameId(airborneRanger[GameView.COL_ID])
         self.assertEquals(len(roms), 1)
 
 
@@ -205,19 +205,19 @@ class TestUpdateGames(unittest.TestCase):
         dbu.updateDB(self.gdb, RCBMockGui(), rcs, False)
 
         likeStmnt = '0 = 0'
-        games = Game(self.gdb).getGamesByFilter(1, 0, 0, 0, 0, likeStmnt)
+        games = GameView(self.gdb).getFilteredGames(1, 0, 0, 0, 0, likeStmnt)
 
         self.assertEquals(len(games), 4)
         airborneRanger = games[0]
-        self.assertEquals(airborneRanger.name, 'Airborne Ranger')
-        self.assertEquals(airborneRanger.year, '1989')
-        self.assertTrue(airborneRanger.plot.startswith(
+        self.assertEquals(airborneRanger[GameView.COL_NAME], 'Airborne Ranger')
+        self.assertEquals(airborneRanger[GameView.COL_year], '1989')
+        self.assertTrue(airborneRanger[GameView.COL_description].startswith(
             'In this action/simulation game by Microprose the player takes the role of an U.S. Army airborne ranger.'))
-        self.assertEquals(airborneRanger.genre, 'Action, Adventure')
-        self.assertEquals(airborneRanger.publisher, 'MicroProse')
-        self.assertEquals(airborneRanger.developer, 'Imagitec')
-        self.assertEquals(airborneRanger.maxPlayers, '1')
-        roms = File(self.gdb).getRomsByGameId(airborneRanger.id)
+        self.assertEquals(airborneRanger[GameView.COL_genre], 'Action, Adventure')
+        self.assertEquals(airborneRanger[GameView.COL_publisher], 'MicroProse')
+        self.assertEquals(airborneRanger[GameView.COL_developer], 'Imagitec')
+        self.assertEquals(airborneRanger[GameView.COL_maxPlayers], '1')
+        roms = File(self.gdb).getRomsByGameId(airborneRanger[GameView.COL_ID])
         self.assertEquals(len(roms), 1)
 
 
@@ -246,19 +246,19 @@ class TestUpdateGames(unittest.TestCase):
         dbu.updateDB(self.gdb, RCBMockGui(), rcs, False)
 
         likeStmnt = '0 = 0'
-        games = Game(self.gdb).getGamesByFilter(1, 0, 0, 0, 0, likeStmnt)
+        games = GameView(self.gdb).getFilteredGames(1, 0, 0, 0, 0, likeStmnt)
 
         self.assertEquals(len(games), 4)
         airborneRanger = games[0]
-        self.assertEquals(airborneRanger.name, 'Airborne Ranger')
-        self.assertEquals(airborneRanger.year, '1989')
-        self.assertTrue(airborneRanger.plot.startswith(
+        self.assertEquals(airborneRanger[GameView.COL_NAME], 'Airborne Ranger')
+        self.assertEquals(airborneRanger[GameView.COL_year], '1989')
+        self.assertTrue(airborneRanger[GameView.COL_description].startswith(
             'In this action/simulation game by Microprose the player takes the role of an U.S. Army airborne ranger.'))
-        self.assertEquals(airborneRanger.genre, 'Action, Adventure')
-        self.assertEquals(airborneRanger.publisher, 'MicroProse')
-        self.assertEquals(airborneRanger.developer, 'Imagitec')
-        self.assertEquals(airborneRanger.maxPlayers, '1')
-        roms = File(self.gdb).getRomsByGameId(airborneRanger.id)
+        self.assertEquals(airborneRanger[GameView.COL_genre], 'Action, Adventure')
+        self.assertEquals(airborneRanger[GameView.COL_publisher], 'MicroProse')
+        self.assertEquals(airborneRanger[GameView.COL_developer], 'Imagitec')
+        self.assertEquals(airborneRanger[GameView.COL_maxPlayers], '1')
+        roms = File(self.gdb).getRomsByGameId(airborneRanger[GameView.COL_ID])
         self.assertEquals(len(roms), 1)
 
     @responses.activate
@@ -287,19 +287,19 @@ class TestUpdateGames(unittest.TestCase):
         dbu.updateDB(self.gdb, RCBMockGui(), rcs, False)
 
         likeStmnt = '0 = 0'
-        games = Game(self.gdb).getGamesByFilter(1, 0, 0, 0, 0, likeStmnt)
+        games = GameView(self.gdb).getFilteredGames(1, 0, 0, 0, 0, likeStmnt)
 
         self.assertEquals(len(games), 4)
         airborneRanger = games[0]
-        self.assertEquals(airborneRanger.name, 'Airborne Ranger')
-        self.assertEquals(airborneRanger.year, '1989')
-        self.assertTrue(airborneRanger.plot.startswith(
+        self.assertEquals(airborneRanger[GameView.COL_NAME], 'Airborne Ranger')
+        self.assertEquals(airborneRanger[GameView.COL_year], '1989')
+        self.assertTrue(airborneRanger[GameView.COL_description].startswith(
             'In this action/simulation game by Microprose the player takes the role of an U.S. Army airborne ranger.'))
-        self.assertEquals(airborneRanger.genre, 'Action, Adventure')
-        self.assertEquals(airborneRanger.publisher, 'MicroProse')
-        self.assertEquals(airborneRanger.developer, 'Imagitec')
-        self.assertEquals(airborneRanger.maxPlayers, '1')
-        roms = File(self.gdb).getRomsByGameId(airborneRanger.id)
+        self.assertEquals(airborneRanger[GameView.COL_genre], 'Action, Adventure')
+        self.assertEquals(airborneRanger[GameView.COL_publisher], 'MicroProse')
+        self.assertEquals(airborneRanger[GameView.COL_developer], 'Imagitec')
+        self.assertEquals(airborneRanger[GameView.COL_maxPlayers], '1')
+        roms = File(self.gdb).getRomsByGameId(airborneRanger[GameView.COL_ID])
         self.assertEquals(len(roms), 1)
 
 

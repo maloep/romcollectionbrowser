@@ -1,8 +1,10 @@
 import json
 import os, re
+import glob
 
 from gamedatabase import *
-from util import *
+from config import FileType
+from util import Logutil
 import util
 import xbmc, xbmcgui
 
@@ -16,102 +18,22 @@ def saveReadString(prop):
     return result
 
 
-def cacheMediaPathsForSelection(consoleId, mediaDict, config):
-    Logutil.log('Begin cacheMediaPathsForSelection', util.LOG_LEVEL_INFO)
+def get_file_for_control_from_db(file_types, game):
+    """
+    Read media files from db entry. Media files are stored as fileType1, fileType2, ... in db with the filetype id at the end of the name
+    :param file_types:
+    :param game:
+    :return:
+    """
+    Logutil.log("begin get_file_for_control_from_db", util.LOG_LEVEL_DEBUG)
 
-    if mediaDict is None:
-        mediaDict = {}
+    for file_type in file_types:
+        prop = 'COL_fileType%s' %file_type.id
+        file = game[getattr(GameView, prop)]
+        if file:
+            return file
+    return ""
 
-    #if this console is already cached there is nothing to do
-    if str(consoleId) in mediaDict.keys():
-        Logutil.log('MediaPaths for RomCollection %s are already in cache' % str(consoleId), util.LOG_LEVEL_INFO)
-        return mediaDict
-
-    if consoleId > 0:
-        cacheMediaPathsForConsole(consoleId, mediaDict, config)
-        return mediaDict
-    else:
-        for rcId in config.romCollections.keys():
-            if str(rcId) in mediaDict.keys():
-                Logutil.log('MediaPaths for RomCollection %s are already in cache' % str(rcId), util.LOG_LEVEL_INFO)
-                continue
-            cacheMediaPathsForConsole(rcId, mediaDict, config)
-
-    return mediaDict
-
-
-def cacheMediaPathsForConsole(consoleId, mediaDict, config):
-    Logutil.log('Begin cacheMediaPathsForConsole', util.LOG_LEVEL_INFO)
-    Logutil.log('Caching mediaPaths for Rom Collection %s' % str(consoleId), util.LOG_LEVEL_INFO)
-
-    romCollection = config.romCollections[str(consoleId)]
-
-    mediaPathDict = {}
-
-    for mediaPath in romCollection.mediaPaths:
-        mediadir = mediaPath.path
-        #if foldername is gamename only get content of parent directory
-        if romCollection.useFoldernameAsGamename:
-            mediadir = mediadir[0:mediadir.index('%GAME%')]
-
-        mediafiles = []
-        walkDownMediaDirectories(os.path.dirname(mediadir), mediafiles)
-
-        mediaPathDict[mediaPath.fileType.name] = mediafiles
-
-    mediaDict[str(consoleId)] = mediaPathDict
-
-
-def walkDownMediaDirectories(mediadir, mediafiles):
-    mediasubdirs, mediasubfiles = xbmcvfs.listdir(mediadir)
-    for mediasubfile in mediasubfiles:
-        mediafiles.append(os.path.normpath(os.path.join(mediadir, mediasubfile)))
-
-    for mediasubdir in mediasubdirs:
-        walkDownMediaDirectories(os.path.join(mediadir, mediasubdir), mediafiles)
-
-
-def getFileForControl(fileTypes, romCollection, mediaPathsDict, gamenameFromFile):
-    Logutil.log("begin getFileForControl", util.LOG_LEVEL_DEBUG)
-
-    for fileType in fileTypes:
-        if not fileType:
-            continue
-
-        if fileType.parent != util.FILETYPEPARENT_GAME:
-            continue
-
-        mediaPath = romCollection.getMediaPathByType(fileType.name)
-
-        if not mediaPath:
-            continue
-
-        pathnameFromFile = mediaPath.replace("%GAME%", gamenameFromFile)
-        mediaPathsList = mediaPathsDict[fileType.name]
-
-        imagePath = _findFileWithCorrectExtensionRegex(pathnameFromFile, mediaPathsList)
-        if imagePath:
-            return imagePath
-
-
-def _findFileWithCorrectExtensionRegex(pathnameFromFile, mediaPathsList):
-    pathToSearch = re.escape(os.path.normpath(pathnameFromFile.replace('.*', '')))
-    pattern = re.compile('%s\..*$' % pathToSearch)
-    for imagePath in mediaPathsList:
-        match = pattern.search(imagePath)
-        if match:
-            resultFilename, resultExtension = os.path.splitext(imagePath)
-            mediaPathFilename, mediaPathExtension = os.path.splitext(pathnameFromFile)
-            return '%s%s' % (mediaPathFilename, resultExtension)
-
-def _findFileWithCorrectExtensionRegexFilter(pathnameFromFile, mediaPathsList):
-    pathToSearch = re.escape(os.path.normpath(pathnameFromFile.replace('.*', '')))
-    pattern = re.compile('%s\..*$' % pathToSearch)
-    result = filter(pattern.match, mediaPathsList)
-    if len(result) > 0:
-        resultFilename, resultExtension = os.path.splitext(result[0])
-        mediaPathFilename, mediaPathExtension = os.path.splitext(pathnameFromFile)
-        return '%s%s' % (mediaPathFilename, resultExtension)
 
 def saveViewState(gdb, isOnExit, selectedView, selectedGameIndex, selectedConsoleIndex, selectedGenreIndex,
                   selectedPublisherIndex, selectedYearIndex, selectedCharacterIndex,
@@ -143,7 +65,7 @@ def saveViewState(gdb, isOnExit, selectedView, selectedGameIndex, selectedConsol
                                 'lastSelectedPublisherIndex', 'lastSelectedYearIndex', 'lastSelectedGameIndex',
                                 'lastFocusedControlMainView', 'lastFocusedControlGameInfoView',
                                 'lastSelectedCharacterIndex'),
-                               (None, None, None, None, None, None, None, None, None), rcbSetting[util.ROW_ID], True)
+                               (None, None, None, None, None, None, None, None, None), rcbSetting[DataBaseObject.COL_ID], True)
 
     gdb.commit()
 
@@ -185,7 +107,7 @@ def getRCBSetting(gdb):
         #TODO raise error
         return None
 
-    return rcbSettingRows[util.ROW_ID]
+    return rcbSettingRows[DataBaseObject.COL_ID]
 
 
 def isRetroPlayerSupported():

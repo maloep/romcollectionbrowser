@@ -10,7 +10,7 @@ sys.path.append(os.path.join(os.path.dirname(__file__), '..', '..', 'resources',
 import xbmcaddon
 from nfowriter import NfoWriter
 from nfo_scraper import NFO_Scraper
-from gamedatabase import GameDataBase
+from gamedatabase import GameDataBase, GameView
 from config import Config, RomCollection
 
 
@@ -46,31 +46,28 @@ class Test_NFOWriter(unittest.TestCase):
         self.assertFalse(os.path.isfile('./testdata/nfo/Amiga/Airborne Ranger.nfo'), 'nfo file should not exist')
 
         writer = NfoWriter()
-        writer.createNfoFromDesc('Airborne Ranger', #gamename
-                                 "Description with some special characters: ' & <  >", #plot
-                                 'Amiga', #romCollectionname
-                                 '"MicroProse"', #publisher
-                                 'Imagitec', #developer
-                                 '1989', #year
-                                 '1', #players
-                                 '3.2', #rating
-                                 '128', #votes
-                                 '', #url
-                                 'USA', #region
-                                 'Floppy', #media
-                                 'Top-Down', #perspective
-                                 'Joystick', #controller
-                                 'Airborne Ranger', #originalTitle
-                                 'Airborne Ranger', #alternateTitle
-                                 'v1.00', #version
-                                 ['Action', 'Simulation'], #genreList
-                                 '1', #isFavorite
-                                 '1', #launchCount
-                                 './testdata/roms/Amiga/Airborne Ranger.adf', #romFile
-                                 'Airborne Ranger', #gamenameFromFile
-                                 {}, #artworkfiles
-                                 {} #artworkurls
-                                    )
+        game_row = [None]*GameView.NUM_COLUMNS
+        game_row[GameView.COL_NAME] = 'Airborne Ranger'
+        game_row[GameView.COL_description] = "Description with some special characters: ' & <  >"
+        game_row[GameView.COL_publisher] = '"MicroProse"'
+        game_row[GameView.COL_developer] = 'Imagitec'
+        game_row[GameView.COL_year] = '1989'
+        game_row[GameView.COL_maxPlayers] = '1'
+        game_row[GameView.COL_rating] = '3.2'
+        game_row[GameView.COL_numVotes] = '128'
+        game_row[GameView.COL_url] = ''
+        game_row[GameView.COL_region] = 'USA'
+        game_row[GameView.COL_media] = 'Floppy'
+        game_row[GameView.COL_perspective] = 'Top-Down'
+        game_row[GameView.COL_controllerType] = 'Joystick'
+        game_row[GameView.COL_originalTitle] = 'Airborne Ranger'
+        game_row[GameView.COL_alternateTitle] = 'Airborne Ranger'
+        game_row[GameView.COL_version] = 'v1.00'
+        game_row[GameView.COL_genre] = 'Action, Simulation'
+        game_row[GameView.COL_isFavorite] = '1'
+        game_row[GameView.COL_launchCount] = '1'
+
+        writer.createNfoFromDesc(game_row, 'Amiga', './testdata/roms/Amiga/Airborne Ranger.adf', 'Airborne Ranger', {}, {})
 
         self.assertTrue(os.path.isfile('./testdata/nfo/Amiga/Airborne Ranger.nfo'), 'Expected nfo file to be written')
 
@@ -111,31 +108,29 @@ class Test_NFOWriter(unittest.TestCase):
         self.assertFalse(os.path.isfile('./testdata/nfo/Amiga/Airborne Ranger.nfo'), 'nfo file should not exist')
 
         writer = NfoWriter()
-        writer.createNfoFromDesc('Airborne Ranger', #gamename
-                                 '', #plot
-                                 'Amiga', #romCollectionname
-                                 '', #publisher
-                                 '', #developer
-                                 '', #year
-                                 '', #players
-                                 '', #rating
-                                 '', #votes
-                                 '', #url
-                                 '', #region
-                                 '', #media
-                                 '', #perspective
-                                 '', #controller
-                                 '', #originalTitle
-                                 '', #alternateTitle
-                                 '', #version
-                                 [], #genreList
-                                 '', #isFavorite
-                                 '', #launchCount
-                                 './testdata/roms/Amiga/Airborne Ranger.adf', #romFile
-                                 'Airborne Ranger', #gamenameFromFile
-                                 {}, #artworkfiles
-                                 {} #artworkurls
-                                    )
+
+        game_row = [None] * GameView.NUM_COLUMNS
+        game_row[GameView.COL_NAME] = 'Airborne Ranger'
+        game_row[GameView.COL_description] = ''
+        game_row[GameView.COL_publisher] = ''
+        game_row[GameView.COL_developer] = ''
+        game_row[GameView.COL_year] = ''
+        game_row[GameView.COL_maxPlayers] = ''
+        game_row[GameView.COL_rating] = ''
+        game_row[GameView.COL_numVotes] = ''
+        game_row[GameView.COL_url] = ''
+        game_row[GameView.COL_region] = ''
+        game_row[GameView.COL_media] = ''
+        game_row[GameView.COL_perspective] = ''
+        game_row[GameView.COL_controllerType] = ''
+        game_row[GameView.COL_originalTitle] = ''
+        game_row[GameView.COL_alternateTitle] = ''
+        game_row[GameView.COL_version] = ''
+        game_row[GameView.COL_genre] = ''
+        game_row[GameView.COL_isFavorite] = ''
+        game_row[GameView.COL_launchCount] = ''
+
+        writer.createNfoFromDesc(game_row, 'Amiga', './testdata/roms/Amiga/Airborne Ranger.adf', 'Airborne Ranger', {}, {})
 
         self.assertTrue(os.path.isfile('./testdata/nfo/Amiga/Airborne Ranger.nfo'), 'Expected nfo file to be written')
 
@@ -175,32 +170,31 @@ class Test_NFOWriter(unittest.TestCase):
         shutil.copy('./testdata/nfo/Amiga/Airborne Ranger_orig.nfo', './testdata/nfo/Amiga/Airborne Ranger.nfo')
 
         writer = NfoWriter()
+
+        game_row = [None] * GameView.NUM_COLUMNS
+        game_row[GameView.COL_NAME] = 'Airborne Ranger'
+        game_row[GameView.COL_description] = ''
+        game_row[GameView.COL_publisher] = ''
+        game_row[GameView.COL_developer] = ''
+        game_row[GameView.COL_year] = ''
+        game_row[GameView.COL_maxPlayers] = ''
+        game_row[GameView.COL_rating] = ''
+        game_row[GameView.COL_numVotes] = ''
+        game_row[GameView.COL_url] = ''
+        game_row[GameView.COL_region] = ''
+        game_row[GameView.COL_media] = ''
+        game_row[GameView.COL_perspective] = ''
+        game_row[GameView.COL_controllerType] = ''
+        game_row[GameView.COL_originalTitle] = 'Airborne Ranger'
+        game_row[GameView.COL_alternateTitle] = 'Airborne Ranger'
+        game_row[GameView.COL_version] = ''
+        game_row[GameView.COL_genre] = ''
+        game_row[GameView.COL_isFavorite] = ''
+        game_row[GameView.COL_launchCount] = ''
+
         #missing infos should be merged with infos from existing file
-        writer.createNfoFromDesc('Airborne Ranger', #gamename
-                                 '', #plot
-                                 'Amiga', #romCollectionname
-                                 '', #publisher
-                                 '', #developer
-                                 '', #year
-                                 '', #players
-                                 '', #rating
-                                 '', #votes
-                                 '', #url
-                                 '', #region
-                                 '', #media
-                                 '', #perspective
-                                 '', #controller
-                                 'Airborne Ranger', #originalTitle
-                                 'Airborne Ranger', #alternateTitle
-                                 '', #version
-                                 [], #genreList
-                                 '', #isFavorite
-                                 '', #launchCount
-                                 './testdata/roms/Amiga/Airborne Ranger.adf', #romFile
-                                 'Airborne Ranger', #gamenameFromFile
-                                 {}, #artworkfiles
-                                 {} #artworkurls
-                                    )
+        writer.createNfoFromDesc(game_row, 'Amiga', './testdata/roms/Amiga/Airborne Ranger.adf',
+                                 'Airborne Ranger', {}, {})
 
         self.assertTrue(os.path.isfile('./testdata/nfo/Amiga/Airborne Ranger.nfo'), 'Expected nfo file to be written')
 
@@ -242,7 +236,7 @@ class Test_NFOWriter(unittest.TestCase):
 
         # Setup data - MyGames.db is the hard-coded expected DB name
         db_path = './testdata/database/'
-        shutil.copyfile(os.path.join(db_path, 'MyGames_2.2.0_full.db'), os.path.join(db_path, 'MyGames.db'))
+        shutil.copyfile(os.path.join(db_path, 'MyGames_current_12_games.db'), os.path.join(db_path, 'MyGames.db'))
         gdb = GameDataBase(db_path)
         gdb.connect()
 

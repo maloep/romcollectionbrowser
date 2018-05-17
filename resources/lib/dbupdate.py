@@ -490,7 +490,7 @@ class DBUpdate(object):
         log.debug(u"After scraping, result = %s, artscrapers = %s" % (gameresult, artScrapers))
         return gameresult, artScrapers
 
-    def insertGameFromDesc(self, gamedescription, gamename, romCollection, filenamelist, foldername, isUpdate, gameId):
+    def insertGameFromDesc(self, gamedescription, gamename_from_file, romCollection, romfiles, foldername, isUpdate, gameId):
 
         log.info("insertGameFromDesc")
 
@@ -501,15 +501,96 @@ class DBUpdate(object):
 
         # if no game name has been scraped we expect that no results have been found
         if game == '':
-            self.missingDescFile.add_entry(gamename)
+            self.missingDescFile.add_entry(gamename_from_file)
 
             if __addon__.getSetting(util.SETTING_RCB_IGNOREGAMEWITHOUTDESC).upper() == 'TRUE':
-                log.warn("No description found for game '%s'. Game will not be imported." % gamename)
+                log.warn("No description found for game '%s'. Game will not be imported." % gamename_from_file)
                 return None
             gamedescription = {}
 
-        gameId = self.insertData(gamedescription, gamename, romCollection, filenamelist, foldername, isUpdate, gameId)
+        game_row = self.convert_parseresult_to_gamerow(gamedescription, gamename_from_file)
+        game_row[Game.COL_romCollectionId] = romCollection.id
+        gamename = game_row[Game.COL_NAME]
+        publisher = self.resolveParseResult(gamedescription, 'Publisher')
+        developer = self.resolveParseResult(gamedescription, 'Developer')
+
+        artWorkFound, artworkfiles, artworkurls = self.getArtworkForGame(romCollection, gamename, gamename_from_file,
+                                                                gamedescription, foldername, publisher, developer)
+
+        #add artwork filenames to game_row
+        for filetype, filenames in artworkfiles.iteritems():
+            for filename in filenames:
+                prop = 'COL_fileType%s' % filetype.id
+                index = getattr(Game, prop)
+                game_row[index] = filename
+
+        gameId = self.insertGame(game_row, isUpdate, gameId, romCollection.allowUpdate, )
+
+        if gameId is None:
+            return None
+
+        genreIds = self.insertForeignKeyItemList(gamedescription, 'Genre', Genre(self.gdb))
+        self.add_genres_to_db(genreIds, gameId)
+
+        self.add_romfiles_to_db(romfiles, gameId)
+
+        self.gdb.commit()
+
+        # Create Nfo file with game properties
+        try:
+            # Read game from db as nfowriter expects GameView db row
+            gamerow = GameView(self.gdb).getGameById(gameId)
+            writer = NfoWriter()
+            writer.createNfoFromDesc(gamerow, romCollection.name, romfiles[0], gamename_from_file, artworkfiles, artworkurls)
+        except Exception as e:
+            log.warn(u"Unable to write NFO file for game %s: %s" % (gamename, e))
+
         return gameId
+
+
+    def convert_parseresult_to_gamerow(self, parseresult, gamename_from_file):
+
+        #init list with Null values
+        game_row = [None]*len(Game.FIELDNAMES)
+
+        game_row[Game.COL_yearId] = self.insertForeignKeyItem(parseresult, 'ReleaseYear', Year(self.gdb))
+        game_row[Game.COL_publisherId] = self.insertForeignKeyItem(parseresult, 'Publisher', Publisher(self.gdb))
+        game_row[Game.COL_developerId] = self.insertForeignKeyItem(parseresult, 'Developer', Developer(self.gdb))
+
+        game_row[Game.COL_region] = self.resolveParseResult(parseresult, 'Region')
+        game_row[Game.COL_media] = self.resolveParseResult(parseresult, 'Media')
+        game_row[Game.COL_controllerType] = self.resolveParseResult(parseresult, 'Controller')
+        game_row[Game.COL_maxPlayers] = self.resolveParseResult(parseresult, 'Players')
+        game_row[Game.COL_rating] = self.resolveParseResult(parseresult, 'Rating')
+        game_row[Game.COL_numVotes] = self.resolveParseResult(parseresult, 'Votes')
+        game_row[Game.COL_numVotes] = self.resolveParseResult(parseresult, 'URL')
+        game_row[Game.COL_perspective] = self.resolveParseResult(parseresult, 'Perspective')
+        game_row[Game.COL_originalTitle] = self.resolveParseResult(parseresult, 'OriginalTitle')
+        game_row[Game.COL_alternateTitle] = self.resolveParseResult(parseresult, 'AlternateTitle')
+        game_row[Game.COL_translatedBy] = self.resolveParseResult(parseresult, 'TranslatedBy')
+        game_row[Game.COL_version] = self.resolveParseResult(parseresult, 'Version')
+        game_row[Game.COL_description] = self.resolveParseResult(parseresult, 'Description')
+        isFavorite = self.resolveParseResult(parseresult, 'IsFavorite')
+        if isFavorite == '':
+            isFavorite = '0'
+        game_row[Game.COL_isFavorite] = isFavorite
+        launchCount = self.resolveParseResult(parseresult, 'LaunchCount')
+        if launchCount == '':
+            launchCount = '0'
+        game_row[Game.COL_launchCount] = launchCount
+
+        if parseresult is not None:
+            gamename = self.resolveParseResult(parseresult, 'Game')
+            if gamename != gamename_from_file:
+                self.possibleMismatchFile.add_entry(gamename, gamename_from_file)
+
+            if gamename == "":
+                gamename = gamename_from_file
+        else:
+            gamename = gamename_from_file
+        game_row[DataBaseObject.COL_NAME] = gamename
+
+        return game_row
 
     def add_genres_to_db(self, genreIds, gameId):
         # If the genre-game link doesn't exist in the DB, create it
@@ -528,6 +609,7 @@ class DBUpdate(object):
             self.insertFile(romFile, gameId, fileType, None, None, None)
             del fileType
 
+    """
     def insertData(self, gamedescription, gamenameFromFile, romCollection, romFiles, foldername, isUpdate, gameId):
         log.info("Insert data")
 
@@ -588,6 +670,11 @@ class DBUpdate(object):
 
         del publisher, developer, year
 
+        for fileType, fileNames in artworkfiles.iteritems():
+            for filename in fileNames:
+                log.info("Importing artwork file %s = %s" % (fileType.type, filename))
+                self.insertFile(filename, gameId, fileType, romCollection.id, publisherId, developerId)
+
         gameId = self.insertGame(gamename, plot, romCollection.id, publisherId, developerId, reviewerId, yearId,
                                  players, rating, votes, url, region, media, perspective, controller, originalTitle,
                                  alternateTitle, translatedBy, version, isFavorite, launchCount, isUpdate, gameId,
@@ -602,13 +689,9 @@ class DBUpdate(object):
 
         self.add_romfiles_to_db(romFiles, gameId)
 
-        for fileType, fileNames in artworkfiles.iteritems():
-            for filename in fileNames:
-                log.info("Importing artwork file %s = %s" % (fileType.type, filename))
-                self.insertFile(filename, gameId, fileType, romCollection.id, publisherId, developerId)
-
         self.gdb.commit()
         return gameId
+    """
 
     def getArtworkForGame(self, romCollection, gamename, gamenameFromFile, gamedescription, foldername, publisher,
                           developer):
@@ -640,43 +723,35 @@ class DBUpdate(object):
         return artWorkFound, artworkfiles, artworkurls
 
     # FIXME TODO Can we create a game object and set the vars on it rather than pass in a million values
-    def insertGame(self, gameName, description, romCollectionId, publisherId, developerId, reviewerId, yearId,
-                   players, rating, votes, url, region, media, perspective, controller, originalTitle, alternateTitle,
-                   translatedBy, version, isFavorite, launchCount, isUpdate, gameId, allowUpdate):
+    def insertGame(self, game_row, isUpdate, gameId, allowUpdate):
+
+        #HACK: delete first element as we do not want to insert or update the id
+        del game_row[0]
+
         # Check if exists and insert/update as appropriate; move this functionality to the Game object
         try:
             if not isUpdate:
-                log.info(u"Game does not exist in database. Insert game: %s" % gameName)
-                Game(self.gdb).insert(
-                    (gameName, description, None, None, romCollectionId, publisherId, developerId, reviewerId, yearId,
-                     players, rating, votes, url, region, media, perspective, controller, int(isFavorite),
-                     int(launchCount), originalTitle, alternateTitle, translatedBy, version))
+                log.info(u"Game does not exist in database. Insert game: %s" % game_row[DataBaseObject.COL_NAME])
+                Game(self.gdb).insert(game_row)
                 return self.gdb.cursor.lastrowid
             else:
                 if allowUpdate:
-
                     # check if we are allowed to update with null values
                     allowOverwriteWithNullvalues = __addon__.getSetting(
                         util.SETTING_RCB_ALLOWOVERWRITEWITHNULLVALUES).upper() == 'TRUE'
                     log.info("allowOverwriteWithNullvalues: {0}".format(allowOverwriteWithNullvalues))
 
-                    log.info(u"Game does exist in database. Update game: %s" % gameName)
-                    Game(self.gdb).update(('name', 'description', 'romCollectionId', 'publisherId', 'developerId',
-                                           'reviewerId', 'yearId', 'maxPlayers', 'rating', 'numVotes',
-                                           'url', 'region', 'media', 'perspective', 'controllerType', 'originalTitle',
-                                           'alternateTitle', 'translatedBy', 'version', 'isFavorite', 'launchCount'),
-                                          (gameName, description, romCollectionId, publisherId, developerId, reviewerId,
-                                           yearId, players, rating, votes, url, region, media, perspective, controller,
-                                           originalTitle, alternateTitle, translatedBy, version, int(isFavorite),
-                                           int(launchCount)),
-                                          gameId, allowOverwriteWithNullvalues)
+                    log.info(u"Game does exist in database. Update game: %s" % game_row[DataBaseObject.COL_NAME])
+                    #remove id from column list
+                    columns = Game.FIELDNAMES[1:]
+                    Game(self.gdb).update(columns, game_row, gameId, allowOverwriteWithNullvalues)
                 else:
                     log.info(
-                        u"Game does exist in database but update is not allowed for current rom collection. game: %s" % gameName)
+                        u"Game does exist in database but update is not allowed for current rom collection. game: %s" % game_row[DataBaseObject.COL_NAME])
 
                 return gameId
         except Exception, (exc):
-            log.error(u"An error occured while adding game '%s'. Error: %s" % (gameName, exc))
+            log.error(u"An error occured while adding game '%s'. Error: %s" % (game_row[DataBaseObject.COL_NAME], exc))
             return None
 
     def insertForeignKeyItem(self, result, itemName, gdbObject):
