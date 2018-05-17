@@ -57,7 +57,7 @@ class NfoWriter(RcbXmlReaderWriter):
 
                 self.createNfoFromDesc(game,
                                        romCollection.name,
-                                       romfiles[0],
+                                       first_rom[0],
                                        gamenameFromFile,
                                        artworkfiles,
                                        artworkurls)
