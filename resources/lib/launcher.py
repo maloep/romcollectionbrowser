@@ -44,7 +44,7 @@ class RCBLauncher(object):
         filenameRows = File(gdb).getRomsByGameId(gameRow[DataBaseObject.COL_ID])
         log.info("files for current game: " + str(filenameRows))
 
-        cmd, precmd, postcmd, roms = self.__buildCmd(gui, filenameRows, gameRow, False)
+        cmd, precmd, postcmd, roms = self._buildCmd(gui, filenameRows, gameRow, False)
 
         if not self.romCollection.useBuiltinEmulator:
             if cmd == '':
@@ -103,7 +103,7 @@ class RCBLauncher(object):
 
         log.info("End launcher.launchEmu")
 
-    def __buildCmd(self, gui, filenameRows, gameRow, calledFromSkin):
+    def _buildCmd(self, gui, filenameRows, gameRow, calledFromSkin):
         log.info("launcher.buildCmd")
 
         compressedExtensions = ['7z', 'zip']
@@ -217,7 +217,8 @@ class RCBLauncher(object):
                         emuCommandLine = re.escape(emuCommandLine)
 
                     newrepl = newrepl.replace('%I%', str(fileindex))
-                    cmd += ' ' + newrepl
+                    if newrepl:
+                        cmd += ' ' + newrepl
 
                 cmdprefix = ''
 

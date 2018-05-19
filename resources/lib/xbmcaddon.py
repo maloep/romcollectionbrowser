@@ -18,7 +18,8 @@ _settings = {'rcb_logLevel': 2,
             'rcb_ignoreGamesWithoutDesc': 'false',
             'rcb_ignoreGamesWithoutArtwork': 'false',
             'rcb_PreferNfoFileIfAvailable': 'false',
-            'rcb_scrapingMode': 'Automatic: Accurate'}
+            'rcb_scrapingMode': 'Automatic: Accurate',
+            'rcb_escapeEmulatorCommand': 'false'}
 
 
 class Addon(object):

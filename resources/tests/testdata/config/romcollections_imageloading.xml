@@ -22,7 +22,7 @@
             <maxFolderDepth>99</maxFolderDepth>
             <doNotExtractZipFiles>False</doNotExtractZipFiles>
             <makeLocalCopy>False</makeLocalCopy>
-            <diskPrefix>_Disk.*</diskPrefix>
+            <diskPrefix>_Disk.*\.</diskPrefix>
             <imagePlacingMain>gameinfobig</imagePlacingMain>
             <imagePlacingInfo>gameinfosmall</imagePlacingInfo>
             <scraper name="thegamesdb.net" />
@@ -104,7 +104,7 @@
             <maxFolderDepth>99</maxFolderDepth>
             <doNotExtractZipFiles>False</doNotExtractZipFiles>
             <makeLocalCopy>False</makeLocalCopy>
-            <diskPrefix>_Disk.*</diskPrefix>
+            <diskPrefix>\(Disc.*\)</diskPrefix>
             <imagePlacingMain>gameinfobig</imagePlacingMain>
             <imagePlacingInfo>gameinfosmall</imagePlacingInfo>
             <scraper name="thegamesdb.net" />
@@ -112,7 +112,7 @@
         <RomCollection id="5" name="SNES">
             <useBuiltinEmulator>False</useBuiltinEmulator>
             <gameclient />
-            <emulatorCmd>/Path/To/NES/Emulator</emulatorCmd>
+            <emulatorCmd>/Path/To/SNES/Emulator</emulatorCmd>
             <emulatorParams>-v -L /Applications/RetroArch.app/Contents/Resources/cores/bnes_libretro.dylib "%rom%"</emulatorParams>
             <romPath>/Path/To/Roms/GBA/*.zip</romPath>
             <romPath>/Path/To/Roms/GBA/*.smc</romPath>
