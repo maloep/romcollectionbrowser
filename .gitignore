@@ -8,3 +8,4 @@ resources/tests/script.games.rom.collection.browser
 .project
 .pydevproject
 .settings
+*.log
