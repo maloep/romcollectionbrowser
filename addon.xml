@@ -17,6 +17,13 @@
     <provides>executable game</provides>
   </extension>
   <extension point="xbmc.addon.metadata">
+    <news>2.2.1 (05/2018)
+- add new platforms to console list
+- improve performance of loading game list
+- revert dynamic loading of artwork files
+- new option in context menu: Scan Artwork Directories
+- requires update of RCB widget
+    </news>
     <summary lang="be">Import, browse and launch games in XBMC</summary>
     <summary lang="ca">Importa, cerca i arranca jocs en l'XBMC</summary>
     <summary lang="da">Importere, gennemse og starte spil i XBMC</summary>

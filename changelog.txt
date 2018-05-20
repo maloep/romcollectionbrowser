@@ -1,3 +1,16 @@
+2.2.1 (05/2018)
+~~~~~~~~~~~~~
+General:
+  * update console list (added new platforms, fixed errors for giantbomb scraper)
+  * new option in context menu: Scan Artwork Directories
+
+Import Games:
+  * support platforms with MAME style naming in offline Game-database-info scraper
+  
+Browse Games:
+  * improve performance of loading game list
+  * revert dynamic loading of artwork files (artwork is stored in database again)
+
 2.2.0 (04/2018)
 ~~~~~~~~~~~~~
 General:
@@ -37,8 +50,6 @@ Browse Games:
   * new addon setting: Load artwork for game lists
   * new view: Fanart (with clearlogo and fullscreen video)
 
-
-
 2.1.5 (01/2018)
 ~~~~~~~~~~~~~
 General:
@@ -70,7 +81,6 @@ Browse Games:
 Launch Games:
   * RetroPlayer compatibility
 
-
 2.1.3 (12/2016)
 ~~~~~~~~~~~~~
 General:
@@ -90,7 +100,6 @@ UI:
   * fix for filter headers (aquiles2k)
   * fix for radio buttons (aquiles2k)
   * fix gameinfo ui for non-confluence skins (aquiles2k)
-  
 
 2.1.2 (02/2015)
 ~~~~~~~~~~~~~
