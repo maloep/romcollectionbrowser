@@ -16,6 +16,7 @@ import helper
 from config import *
 from gamedatabase import *
 from pyscraper.scraper import AbstractScraper
+from pyscraper.web_scraper import WebScraper
 from pyscraper.matcher import Matcher
 from pyscraper.nfo_scraper import NFO_Scraper
 
@@ -973,7 +974,7 @@ class DBUpdate(object):
         tmp = util.joinPath(util.getTempDir(), os.path.basename(destfilename))
 
         log.info("download_thumb: start downloading to temp file: %s" % tmp)
-        response = requests.get(thumburl, stream=True)
+        response = requests.get(thumburl, headers=WebScraper._headers, stream=True)
         log.info("download_thumb: status code = %s" % response.status_code)
         if response.status_code != 200:
             log.info("download_thumb: invalid response status code. Can't download image.")
