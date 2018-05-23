@@ -2,7 +2,7 @@
 
 <a href='http://www.youtube.com/watch?feature=player_embedded&v=NRTg3HmIuqU' target='_blank'><img src='http://img.youtube.com/vi/NRTg3HmIuqU/0.jpg' width='425' height=344 /></a>
 
-**Current stable version:** [2.2.0](https://forum.kodi.tv/showthread.php?tid=70115&pid=2724807#pid2724807)
+**Current stable version:** [2.2.1](https://forum.kodi.tv/showthread.php?tid=70115&pid=2737003#pid2737003)
 
 **Current test version:** [Current Git version](https://github.com/maloep/romcollectionbrowser/wiki/Installation#current-git-version)
 
