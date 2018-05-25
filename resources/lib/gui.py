@@ -282,31 +282,6 @@ class UIGameDB(xbmcgui.WindowXML):
 
                     self.lastPosition = pos
 
-                if self.selectedControlId in FILTER_CONTROLS:
-
-                    """
-                    if self.player.isPlayingVideo():
-                        self.player.stop()
-                        xbmc.sleep(util.WAITTIME_PLAYERSTOP)
-
-                    pos = control.getSelectedPosition()
-                    cid = control.getId()
-                    if cid == CONTROL_CONSOLES and self.hasConsoleFilterChanged(pos):
-                        self.updateSelectedConsole(control)
-
-                    elif cid == CONTROL_GENRE and self.hasGenreFilterChanged(pos):
-                        self.updateSelectedGenre(control)
-
-                    elif cid == CONTROL_YEAR and self.hasYearFilterChanged(pos):
-                        self.updateSelectedYear(control)
-
-                    elif cid == CONTROL_PUBLISHER and self.hasPublisherFilterChanged(pos):
-                        self.updateSelectedPublisher(control)
-
-                    elif cid == CONTROL_CHARACTER and self.hasCharacterFilterChanged(pos):
-                        self.updateSelectedCharacter(control)
-                    """
-
             elif action.getId() in ACTION_INFO:
                 Logutil.log("onAction: ACTION_INFO", util.LOG_LEVEL_DEBUG)
 
@@ -333,107 +308,8 @@ class UIGameDB(xbmcgui.WindowXML):
     def onClick(self, controlId):
         log.debug("onClick: {0}".format(controlId))
         if controlId in FILTER_CONTROLS:
-            if controlId == CONTROL_CONSOLES:
-                consoles = []
-                for romCollection in self.config.romCollections.values():
-                    consoles.append([romCollection.id, romCollection.name])
-
-                # Sort the consoles by name
-                consoles = sorted(consoles, key=lambda console: console[1])
-                consoles = [('0', util.localize(32120))] +consoles
-                items = []
-                for console in consoles:
-                    item = xbmcgui.ListItem(console[1])
-                    item.setProperty('id', console[0])
-                    items.append(item)
-                index = xbmcgui.Dialog().select(util.localize(32406), items)
-                item = items[index]
-                button = self.getControlById(CONTROL_CONSOLES)
-                button.setLabel(item.getLabel())
-                self.selectedConsoleId = int(item.getProperty('id'))
-                self.showGames()
-            if controlId == CONTROL_GENRE:
-                genres = []
-                rows = Genre(self.gdb).getFilteredGenresByConsole(self.selectedConsoleId)
-                for row in rows:
-                    genres.append([row[Genre.COL_ID], row[Genre.COL_NAME]])
-
-                genres = sorted(genres, key=lambda genre: genre[1])
-                genres = [('0', util.localize(32120))] +genres
-                items = []
-                for genre in genres:
-                    item = xbmcgui.ListItem(genre[1])
-                    item.setProperty('id', str(genre[0]))
-                    items.append(item)
-                index = xbmcgui.Dialog().select(util.localize(32401), items)
-                item = items[index]
-                button = self.getControlById(CONTROL_GENRE)
-                button.setLabel(item.getLabel())
-                self.selectedGenreId = int(item.getProperty('id'))
-                self.showGames()
-            if controlId == CONTROL_YEAR:
-                years = []
-                rows = Year(self.gdb).getFilteredYearsByConsole(self.selectedConsoleId)
-                for row in rows:
-                    years.append([row[Year.COL_ID], row[Year.COL_NAME]])
-
-                years = sorted(years, key=lambda year: year[1])
-                years = [('0', util.localize(32120))] + years
-                items = []
-                for year in years:
-                    item = xbmcgui.ListItem(year[1])
-                    item.setProperty('id', str(year[0]))
-                    items.append(item)
-                index = xbmcgui.Dialog().select(util.localize(32400), items)
-                item = items[index]
-
-                button = self.getControlById(CONTROL_YEAR)
-                button.setLabel(item.getLabel())
-                self.selectedYearId = int(item.getProperty('id'))
-                self.showGames()
-            if controlId == CONTROL_PUBLISHER:
-                publishers = []
-                rows = Publisher(self.gdb).getFilteredPublishersByConsole(self.selectedConsoleId)
-                for row in rows:
-                    publishers.append([row[Publisher.COL_ID], row[Publisher.COL_NAME]])
-
-                publishers = sorted(publishers, key=lambda publisher: publisher[1])
-                publishers = [('0', util.localize(32120))] + publishers
-                items = []
-                for publisher in publishers:
-                    item = xbmcgui.ListItem(publisher[1])
-                    item.setProperty('id', str(publisher[0]))
-                    items.append(item)
-                index = xbmcgui.Dialog().select(util.localize(32402), items)
-                item = items[index]
-
-                button = self.getControlById(CONTROL_PUBLISHER)
-                button.setLabel(item.getLabel())
-                self.selectedPublisherId = int(item.getProperty('id'))
-                self.showGames()
-            if controlId == CONTROL_CHARACTER:
-                characters = [util.localize(32120)]
-                characters.append('0-9')
-                for i in range(0, 26):
-                    char = chr(ord('A') + i)
-                    characters.append(char)
-
-                index = xbmcgui.Dialog().select('A-Z', characters)
-
-                button = self.getControlById(CONTROL_CHARACTER)
-                button.setLabel(characters[index])
-                self.selectedCharacter = characters[index]
-                self.showGames()
-            """
-            if self.filterChanged:
-                log.debug("onClick: apply Filters")
-                self.applyFilters()
-                self.filterChanged = False
-            else:
-                log.debug("onClick: Show Game Info")
-                self.setFocus(self.getControl(CONTROL_GAMES_GROUP_START))
-                self.showGameInfo()
-            """
+            self.apply_filter(controlId)
+            self.showGames()
         elif controlId in GAME_LISTS:
             log.debug("onClick: Launch Emu")
             self.launchEmu()
@@ -473,202 +349,71 @@ class UIGameDB(xbmcgui.WindowXML):
             # Need to change viewmode manually since Frodo
             xbmc.executebuiltin('Container.NextViewMode')
 
+
+    def apply_filter(self, control_id):
+        if control_id == CONTROL_CONSOLES:
+            consoles = []
+            for romCollection in self.config.romCollections.values():
+                consoles.append([romCollection.id, romCollection.name])
+
+            self.selectedConsoleId = self.filter(consoles, util.localize(32406), control_id, self.selectedConsoleId)
+        if control_id == CONTROL_GENRE:
+            genres = []
+            rows = Genre(self.gdb).getFilteredGenresByConsole(self.selectedConsoleId)
+            for row in rows:
+                genres.append([row[Genre.COL_ID], row[Genre.COL_NAME]])
+
+            self.selectedGenreId = self.filter(genres, util.localize(32401), control_id, self.selectedGenreId)
+        if control_id == CONTROL_YEAR:
+            years = []
+            rows = Year(self.gdb).getFilteredYearsByConsole(self.selectedConsoleId)
+            for row in rows:
+                years.append([row[Year.COL_ID], row[Year.COL_NAME]])
+
+            self.selectedYearId = self.filter(years, util.localize(32400), control_id, self.selectedYearId)
+        if control_id == CONTROL_PUBLISHER:
+            publishers = []
+            rows = Publisher(self.gdb).getFilteredPublishersByConsole(self.selectedConsoleId)
+            for row in rows:
+                publishers.append([row[Publisher.COL_ID], row[Publisher.COL_NAME]])
+
+            self.selectedPublisherId = self.filter(publishers, util.localize(32402), control_id,
+                                                   self.selectedPublisherId)
+        if control_id == CONTROL_CHARACTER:
+            characters = [util.localize(32120)]
+            characters.append('0-9')
+            for i in range(0, 26):
+                char = chr(ord('A') + i)
+                characters.append(char)
+
+            index = xbmcgui.Dialog().select('A-Z', characters)
+            if index < 0:
+                return
+
+            button = self.getControlById(CONTROL_CHARACTER)
+            button.setLabel(characters[index])
+            self.selectedCharacter = characters[index]
+
+    def filter(self, filter_items, header_text, control_id, current_value):
+        # Sort the consoles by name
+        filter_items = sorted(filter_items, key=lambda filter_item: filter_item[1])
+        filter_items = [('0', util.localize(32120))] + filter_items
+        items = []
+        for filter_item in filter_items:
+            item = xbmcgui.ListItem(filter_item[1])
+            item.setProperty('id', str(filter_item[0]))
+            items.append(item)
+        index = xbmcgui.Dialog().select(header_text, items)
+        if index < 0:
+            return current_value
+        item = items[index]
+        button = self.getControlById(control_id)
+        button.setLabel(item.getLabel())
+        return int(item.getProperty('id'))
+
     def onFocus(self, controlId):
         Logutil.log("onFocus: " + str(controlId), util.LOG_LEVEL_DEBUG)
         self.selectedControlId = controlId
-
-    # Check if one of the filter lists has changed
-
-    def hasConsoleFilterChanged(self, pos):
-        return self.selectedConsoleIndex != pos
-
-    def hasGenreFilterChanged(self, pos):
-        return self.selectedGenreIndex != pos
-
-    def hasYearFilterChanged(self, pos):
-        return self.selectedYearIndex != pos
-
-    def hasPublisherFilterChanged(self, pos):
-        return self.selectedPublisherIndex != pos
-
-    def hasCharacterFilterChanged(self, pos):
-        return self.selectedCharacterIndex != pos
-
-    # Handle when one of the filter lists has changed
-
-    def updateSelectedConsole(self, control):
-        label2 = str(control.getSelectedItem().getLabel2())
-
-        self.selectedConsoleId = int(label2)
-        self.selectedConsoleIndex = control.getSelectedPosition()
-        self.filterChanged = True
-
-    def updateSelectedPublisher(self, control):
-        label2 = str(control.getSelectedItem().getLabel2())
-
-        self.selectedPublisherId = int(label2)
-        self.selectedPublisherIndex = control.getSelectedPosition()
-        self.filterChanged = True
-
-    def updateSelectedGenre(self, control):
-        label2 = str(control.getSelectedItem().getLabel2())
-
-        self.selectedGenreId = int(label2)
-        self.selectedGenreIndex = control.getSelectedPosition()
-        self.filterChanged = True
-
-    def updateSelectedYear(self, control):
-        label2 = str(control.getSelectedItem().getLabel2())
-
-        self.selectedYearId = int(label2)
-        self.selectedYearIndex = control.getSelectedPosition()
-        self.filterChanged = True
-
-    def updateSelectedCharacter(self, control):
-        # Note - different to the others
-        label = str(control.getSelectedItem().getLabel())
-
-        self.selectedCharacter = label
-        self.selectedCharacterIndex = control.getSelectedPosition()
-        log.debug("char is {0}, index is {1}".format(self.selectedCharacter, self.selectedCharacterIndex))
-        self.filterChanged = True
-
-    def updateControls(self, onInit):
-        log.debug("Begin updateControls")
-
-        # Prepare Filter Controls. If statement takes care of dependencies between each filter control
-        if onInit:
-            self.showConsoles()
-        if onInit or self.selectedControlId == CONTROL_CONSOLES:
-            self.showGenre()
-        if onInit or self.selectedControlId in [CONTROL_CONSOLES, CONTROL_GENRE]:
-            self.showYear()
-        if onInit or self.selectedControlId in [CONTROL_CONSOLES, CONTROL_GENRE, CONTROL_YEAR]:
-            self.showPublisher()
-        if onInit:
-            self.showCharacterFilter()
-
-        log.debug("End updateControls")
-
-    def showConsoles(self):
-        log.debug("Begin showConsoles")
-
-        self.selectedConsoleId
-
-        """
-        showEntryAllItems = getSettings().getSetting(util.SETTING_RCB_SHOWENTRYALLCONSOLES).upper() == 'TRUE'
-
-        consoles = []
-        for romCollection in self.config.romCollections.values():
-            consoles.append([romCollection.id, romCollection.name])
-
-        # Sort the consoles by name
-        consoles = sorted(consoles, key=lambda console: console[1])
-
-        self.showFilterControl(consoles, CONTROL_CONSOLES, showEntryAllItems)
-
-        # Reset selection after loading the list
-        self.selectedConsoleId = 0
-        self.selectedConsoleIndex = 0
-        """
-
-        log.debug("End showConsoles")
-
-    def showGenre(self):
-        log.debug("Begin showGenre with selected console {0}".format(self.selectedConsoleId))
-
-        rows = Genre(self.gdb).getFilteredGenresByConsole(self.selectedConsoleId)
-        log.debug("Found {0} genres to add to filter list".format(len(rows)))
-
-        showEntryAllItems = getSettings().getSetting(util.SETTING_RCB_SHOWENTRYALLGENRES).upper() == 'TRUE'
-        self.showFilterControl(rows, CONTROL_GENRE, showEntryAllItems)
-
-        # Reset selection after loading the list
-        self.selectedGenreId = 0
-        self.selectedGenreIndex = 0
-
-        log.debug("End showGenre")
-
-    def showYear(self):
-        log.debug("Begin showYear with selected console {0}".format(self.selectedConsoleId))
-
-        rows = Year(self.gdb).getFilteredYearsByConsole(self.selectedConsoleId)
-        log.debug("Found {0} years to add to filter list".format(len(rows)))
-
-        showEntryAllItems = getSettings().getSetting(util.SETTING_RCB_SHOWENTRYALLYEARS).upper() == 'TRUE'
-        self.showFilterControl(rows, CONTROL_YEAR, showEntryAllItems)
-
-        # Reset selection after loading the list
-        self.selectedYearId = 0
-        self.selectedYearIndex = 0
-
-        log.debug("End showYear")
-
-    def showPublisher(self):
-        log.debug("Begin showPublisher with selected console {0}".format(self.selectedConsoleId))
-
-        rows = Publisher(self.gdb).getFilteredPublishersByConsole(self.selectedConsoleId)
-        log.debug("Found {0} publishers to add to filter list".format(len(rows)))
-
-        showEntryAllItems = getSettings().getSetting(util.SETTING_RCB_SHOWENTRYALLPUBLISHER).upper() == 'TRUE'
-        self.showFilterControl(rows, CONTROL_PUBLISHER, showEntryAllItems)
-
-        # Reset selection after loading the list
-        self.selectedPublisherId = 0
-        self.selectedPublisherIndex = 0
-
-        log.debug("End showPublisher")
-
-    def showFilterControl(self, rows, controlId, showEntryAllItems):
-        log.debug("begin showFilterControl: {0}".format(controlId))
-
-        control = self.getControlById(controlId)
-        if control is None:
-            return
-
-        control.setVisible(True)
-        control.reset()  # Clear any existing entries in the ControlList
-
-        items = []
-        if showEntryAllItems:
-            items.append(xbmcgui.ListItem(util.localize(32120), "0"))  # Add "All" entry
-
-        for row in rows:
-            items.append(xbmcgui.ListItem(helper.saveReadString(row[DataBaseObject.COL_NAME]), str(row[DataBaseObject.COL_ID])))
-
-        control.addItems(items)
-
-    def showCharacterFilter(self):
-        log.debug("Begin showCharacterFilter")
-
-        control = self.getControlById(CONTROL_CHARACTER)
-        if control is None:
-            return
-
-        control.reset()
-
-        showEntryAllItems = getSettings().getSetting(util.SETTING_RCB_SHOWENTRYALLCHARS).upper() == 'TRUE'
-
-        items = []
-
-        if showEntryAllItems:
-            items.append(xbmcgui.ListItem(util.localize(32120), util.localize(32120)))
-        items.append(xbmcgui.ListItem("0-9", "0-9"))
-
-        for i in range(0, 26):
-            char = chr(ord('A') + i)
-            items.append(xbmcgui.ListItem(char, char))
-
-        control.addItems(items)
-        log.debug("End showCharacterFilter")
-
-    def applyFilters(self):
-
-        Logutil.log("Begin applyFilters", util.LOG_LEVEL_INFO)
-
-        self.updateControls(False)
-        xbmc.sleep(util.WAITTIME_UPDATECONTROLS)
-        self.showGames()
 
     def _getMaxGamesToDisplay(self):
         # Set a limit of games to show
@@ -763,44 +508,6 @@ class UIGameDB(xbmcgui.WindowXML):
         if statement != '':
             statement = statement + ')'
         return statement
-
-    """
-    def _checkMissingArtworkFilter(self, image_gamelist, image_clearlogo):
-
-        #32157 = ignore
-        if self.config.showHideOption.lower() == util.localize(32157):
-            return True
-
-        missinglist = []
-        if not image_gamelist:
-            missinglist.append('gamelist')
-        if not image_clearlogo:
-            missinglist.append('clearlogo')
-
-        #check if one item from orGroup is missing
-        resultOrGoup = True
-        for item in self.config.missingFilterArtwork.orGroup:
-            if item in missinglist:
-                resultOrGoup = False
-                break
-
-        #check if all items from andGroup are missing
-        #set True if no filter is configured
-        resultAndGoup = len(self.config.missingFilterArtwork.andGroup) == 0
-        for item in self.config.missingFilterArtwork.andGroup:
-            if item not in missinglist:
-                resultAndGoup = True
-                break
-
-        addItemToList = resultOrGoup and resultAndGoup
-
-        #32159 = show
-        #invert filter if we should show only games with missing artwork
-        if self.config.showHideOption.lower() == util.localize(32159):
-            addItemToList = not addItemToList
-
-        return addItemToList
-    """
 
     def _getGamesListQueryStatement(self):
         # Build statement for character search (where name LIKE 'A%')
@@ -1055,18 +762,7 @@ class UIGameDB(xbmcgui.WindowXML):
         self.saveViewState(False)
         self.clearList()
         self.checkImport(3, romCollections, isRescrape)
-        self.updateControls(True)
         self.loadViewState()
-
-    def updateGamelist(self):
-        #only update controls if they are available
-        if self.initialized:
-            self.showGames()
-            focusControl = self.getControlById(CONTROL_GAMES_GROUP_START)
-            if focusControl != None:
-                self.setFocus(focusControl)
-            xbmc.sleep(util.WAITTIME_UPDATECONTROLS)
-            self.showGameInfo()
 
     def deleteGame(self, gameID):
         Logutil.log("Begin deleteGame", util.LOG_LEVEL_INFO)
@@ -1112,7 +808,6 @@ class UIGameDB(xbmcgui.WindowXML):
             self.config.readXml()
             self.clearList()
             xbmc.sleep(util.WAITTIME_UPDATECONTROLS)
-            self.updateControls(True)
             if rDelete:
                 self.selectedConsoleId = int(self.setFilterSelection(CONTROL_CONSOLES, self.selectedConsoleIndex))
                 self.setFilterSelection(CONTROL_GAMES_GROUP_START, 0)
@@ -1453,43 +1148,6 @@ class UIGameDB(xbmcgui.WindowXML):
         else:
             button.setLabel(util.localize(32120))
 
-
-        """
-        #first load console filter
-        self.showConsoles()
-
-        #set console filter selection
-        if rcbSetting[RCBSetting.COL_lastSelectedConsoleIndex] != None:
-            self.selectedConsoleId = int(
-                self.setFilterSelection(CONTROL_CONSOLES, rcbSetting[RCBSetting.COL_lastSelectedConsoleIndex]))
-            self.selectedConsoleIndex = rcbSetting[RCBSetting.COL_lastSelectedConsoleIndex]
-
-        #load other filters
-        self.showGenre()
-        if rcbSetting[RCBSetting.COL_lastSelectedGenreIndex] != None:
-            self.selectedGenreId = int(
-                self.setFilterSelection(CONTROL_GENRE, rcbSetting[RCBSetting.COL_lastSelectedGenreIndex]))
-            self.selectedGenreIndex = rcbSetting[RCBSetting.COL_lastSelectedGenreIndex]
-
-        self.showYear()
-        if rcbSetting[RCBSetting.COL_lastSelectedYearIndex] != None:
-            self.selectedYearId = int(
-                self.setFilterSelection(CONTROL_YEAR, rcbSetting[RCBSetting.COL_lastSelectedYearIndex]))
-            self.selectedYearIndex = rcbSetting[RCBSetting.COL_lastSelectedYearIndex]
-
-        self.showPublisher()
-        if rcbSetting[RCBSetting.COL_lastSelectedPublisherIndex] != None:
-            self.selectedPublisherId = int(
-                self.setFilterSelection(CONTROL_PUBLISHER, rcbSetting[RCBSetting.COL_lastSelectedPublisherIndex]))
-            self.selectedPublisherIndex = rcbSetting[RCBSetting.COL_lastSelectedPublisherIndex]
-
-        self.showCharacterFilter()
-        if rcbSetting[RCBSetting.COL_lastSelectedCharacterIndex] != None:
-            self.selectedCharacter = self.setFilterSelection(CONTROL_CHARACTER,
-                                                             rcbSetting[RCBSetting.COL_lastSelectedCharacterIndex])
-            self.selectedCharacterIndex = rcbSetting[RCBSetting.COL_lastSelectedCharacterIndex]
-        """
-
         #reset view mode
         viewModeId = self.Settings.getSetting(util.SETTING_RCB_VIEW_MODE)
         if viewModeId != None and viewModeId != '':
@@ -1509,8 +1167,6 @@ class UIGameDB(xbmcgui.WindowXML):
 
         # Reset game list
         self.showGames()
-
-        #self.setFilterSelection(CONTROL_GAMES_GROUP_START, rcbSetting[RCBSetting.COL_lastSelectedGameIndex])
 
         #always set focus on game list on start
         focusControl = self.getControlById(CONTROL_GAMES_GROUP_START)
