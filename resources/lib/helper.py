@@ -35,8 +35,8 @@ def get_file_for_control_from_db(file_types, game):
     return ""
 
 
-def saveViewState(gdb, isOnExit, selectedView, selectedGameIndex, selectedConsoleIndex, selectedGenreIndex,
-                  selectedPublisherIndex, selectedYearIndex, selectedCharacterIndex,
+def saveViewState(gdb, isOnExit, selectedView, selectedGameIndex, selectedConsoleId, selectedGenreId,
+                  selectedPublisherId, selectedYearId, selectedCharacter,
                   selectedControlIdMainView, selectedControlIdGameInfoView, settings):
     Logutil.log("Begin helper.saveViewState", util.LOG_LEVEL_INFO)
 
@@ -57,9 +57,9 @@ def saveViewState(gdb, isOnExit, selectedView, selectedGameIndex, selectedConsol
                                 'lastSelectedPublisherIndex', 'lastSelectedYearIndex', 'lastSelectedGameIndex',
                                 'lastFocusedControlMainView', 'lastFocusedControlGameInfoView',
                                 'lastSelectedCharacterIndex'),
-                               (selectedView, selectedConsoleIndex, selectedGenreIndex, selectedPublisherIndex,
-                                selectedYearIndex, selectedGameIndex, selectedControlIdMainView,
-                                selectedControlIdGameInfoView, selectedCharacterIndex), rcbSetting[0], True)
+                               (selectedView, selectedConsoleId, selectedGenreId, selectedPublisherId,
+                                selectedYearId, selectedGameIndex, selectedControlIdMainView,
+                                selectedControlIdGameInfoView, selectedCharacter), rcbSetting[0], True)
     else:
         RCBSetting(gdb).update(('lastSelectedView', 'lastSelectedConsoleIndex', 'lastSelectedGenreIndex',
                                 'lastSelectedPublisherIndex', 'lastSelectedYearIndex', 'lastSelectedGameIndex',

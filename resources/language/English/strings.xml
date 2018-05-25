@@ -205,6 +205,8 @@
 	<string id="32410">Items</string>
 	<string id="32411">Page</string>
 	<string id="32412">No Games found</string>
+	<string id="32413">View Options</string>
+	<string id="32414">View Type</string>
 	
 	<!-- context menu-->
 	<string id="32500">Import Games</string>

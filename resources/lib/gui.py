@@ -284,6 +284,7 @@ class UIGameDB(xbmcgui.WindowXML):
 
                 if self.selectedControlId in FILTER_CONTROLS:
 
+                    """
                     if self.player.isPlayingVideo():
                         self.player.stop()
                         xbmc.sleep(util.WAITTIME_PLAYERSTOP)
@@ -304,6 +305,7 @@ class UIGameDB(xbmcgui.WindowXML):
 
                     elif cid == CONTROL_CHARACTER and self.hasCharacterFilterChanged(pos):
                         self.updateSelectedCharacter(control)
+                    """
 
             elif action.getId() in ACTION_INFO:
                 Logutil.log("onAction: ACTION_INFO", util.LOG_LEVEL_DEBUG)
@@ -330,8 +332,99 @@ class UIGameDB(xbmcgui.WindowXML):
 
     def onClick(self, controlId):
         log.debug("onClick: {0}".format(controlId))
-
         if controlId in FILTER_CONTROLS:
+            if controlId == CONTROL_CONSOLES:
+                consoles = []
+                for romCollection in self.config.romCollections.values():
+                    consoles.append([romCollection.id, romCollection.name])
+
+                # Sort the consoles by name
+                consoles = sorted(consoles, key=lambda console: console[1])
+                consoles = [('0', util.localize(32120))] +consoles
+                items = []
+                for console in consoles:
+                    item = xbmcgui.ListItem(console[1])
+                    item.setProperty('id', console[0])
+                    items.append(item)
+                index = xbmcgui.Dialog().select(util.localize(32406), items)
+                item = items[index]
+                button = self.getControlById(CONTROL_CONSOLES)
+                button.setLabel(item.getLabel())
+                self.selectedConsoleId = int(item.getProperty('id'))
+                self.showGames()
+            if controlId == CONTROL_GENRE:
+                genres = []
+                rows = Genre(self.gdb).getFilteredGenresByConsole(self.selectedConsoleId)
+                for row in rows:
+                    genres.append([row[Genre.COL_ID], row[Genre.COL_NAME]])
+
+                genres = sorted(genres, key=lambda genre: genre[1])
+                genres = [('0', util.localize(32120))] +genres
+                items = []
+                for genre in genres:
+                    item = xbmcgui.ListItem(genre[1])
+                    item.setProperty('id', str(genre[0]))
+                    items.append(item)
+                index = xbmcgui.Dialog().select(util.localize(32401), items)
+                item = items[index]
+                button = self.getControlById(CONTROL_GENRE)
+                button.setLabel(item.getLabel())
+                self.selectedGenreId = int(item.getProperty('id'))
+                self.showGames()
+            if controlId == CONTROL_YEAR:
+                years = []
+                rows = Year(self.gdb).getFilteredYearsByConsole(self.selectedConsoleId)
+                for row in rows:
+                    years.append([row[Year.COL_ID], row[Year.COL_NAME]])
+
+                years = sorted(years, key=lambda year: year[1])
+                years = [('0', util.localize(32120))] + years
+                items = []
+                for year in years:
+                    item = xbmcgui.ListItem(year[1])
+                    item.setProperty('id', str(year[0]))
+                    items.append(item)
+                index = xbmcgui.Dialog().select(util.localize(32400), items)
+                item = items[index]
+
+                button = self.getControlById(CONTROL_YEAR)
+                button.setLabel(item.getLabel())
+                self.selectedYearId = int(item.getProperty('id'))
+                self.showGames()
+            if controlId == CONTROL_PUBLISHER:
+                publishers = []
+                rows = Publisher(self.gdb).getFilteredPublishersByConsole(self.selectedConsoleId)
+                for row in rows:
+                    publishers.append([row[Publisher.COL_ID], row[Publisher.COL_NAME]])
+
+                publishers = sorted(publishers, key=lambda publisher: publisher[1])
+                publishers = [('0', util.localize(32120))] + publishers
+                items = []
+                for publisher in publishers:
+                    item = xbmcgui.ListItem(publisher[1])
+                    item.setProperty('id', str(publisher[0]))
+                    items.append(item)
+                index = xbmcgui.Dialog().select(util.localize(32402), items)
+                item = items[index]
+
+                button = self.getControlById(CONTROL_PUBLISHER)
+                button.setLabel(item.getLabel())
+                self.selectedPublisherId = int(item.getProperty('id'))
+                self.showGames()
+            if controlId == CONTROL_CHARACTER:
+                characters = [util.localize(32120)]
+                characters.append('0-9')
+                for i in range(0, 26):
+                    char = chr(ord('A') + i)
+                    characters.append(char)
+
+                index = xbmcgui.Dialog().select('A-Z', characters)
+
+                button = self.getControlById(CONTROL_CHARACTER)
+                button.setLabel(characters[index])
+                self.selectedCharacter = characters[index]
+                self.showGames()
+            """
             if self.filterChanged:
                 log.debug("onClick: apply Filters")
                 self.applyFilters()
@@ -340,6 +433,7 @@ class UIGameDB(xbmcgui.WindowXML):
                 log.debug("onClick: Show Game Info")
                 self.setFocus(self.getControl(CONTROL_GAMES_GROUP_START))
                 self.showGameInfo()
+            """
         elif controlId in GAME_LISTS:
             log.debug("onClick: Launch Emu")
             self.launchEmu()
@@ -459,6 +553,9 @@ class UIGameDB(xbmcgui.WindowXML):
     def showConsoles(self):
         log.debug("Begin showConsoles")
 
+        self.selectedConsoleId
+
+        """
         showEntryAllItems = getSettings().getSetting(util.SETTING_RCB_SHOWENTRYALLCONSOLES).upper() == 'TRUE'
 
         consoles = []
@@ -473,6 +570,7 @@ class UIGameDB(xbmcgui.WindowXML):
         # Reset selection after loading the list
         self.selectedConsoleId = 0
         self.selectedConsoleIndex = 0
+        """
 
         log.debug("End showConsoles")
 
@@ -587,7 +685,7 @@ class UIGameDB(xbmcgui.WindowXML):
         if selectedCharacter == util.localize(32120):  # All
             likeStatement = "0 = 0"
         elif selectedCharacter == '0-9':
-            likeStatement = "(name REGEXP '^[0-9]')"
+            likeStatement = "(substr(name, 1, 1) IN ('0', '1', '2', '3', '4', '5', '6', '7', '8', '9'))"
         else:
             likeStatement = "name LIKE '{0}%'".format(selectedCharacter)
 
@@ -1268,9 +1366,9 @@ class UIGameDB(xbmcgui.WindowXML):
 
         self.saveViewMode()
 
-        helper.saveViewState(self.gdb, isOnExit, util.VIEW_MAINVIEW, selectedGameIndex, self.selectedConsoleIndex,
-                             self.selectedGenreIndex, self.selectedPublisherIndex,
-                             self.selectedYearIndex, self.selectedCharacterIndex, self.selectedControlId, None,
+        helper.saveViewState(self.gdb, isOnExit, util.VIEW_MAINVIEW, selectedGameIndex, self.selectedConsoleId,
+                             self.selectedGenreId, self.selectedPublisherId,
+                             self.selectedYearId, self.selectedCharacter, self.selectedControlId, None,
                              self.Settings)
 
         Logutil.log("End saveViewState", util.LOG_LEVEL_INFO)
@@ -1311,6 +1409,52 @@ class UIGameDB(xbmcgui.WindowXML):
             Logutil.log("rcbSetting == None in loadViewState", util.LOG_LEVEL_WARNING)
             return
 
+        rcid = rcbSetting[RCBSetting.COL_lastSelectedConsoleIndex]
+        button = self.getControlById(CONTROL_CONSOLES)
+        if rcid > 0:
+            romcollection = self.config.getRomCollectionById(str(rcid))
+            button.setLabel(romcollection.name)
+            self.selectedConsoleId = int(romcollection.id)
+        else:
+            button.setLabel(util.localize(32120))
+
+        genreid = rcbSetting[RCBSetting.COL_lastSelectedGenreIndex]
+        button = self.getControlById(CONTROL_GENRE)
+        if genreid > 0:
+            genre = Genre(self.gdb).getObjectById(genreid)
+            button.setLabel(genre[Genre.COL_NAME])
+            self.selectedGenreId = genre[Genre.COL_ID]
+        else:
+            button.setLabel(util.localize(32120))
+
+        yearid = rcbSetting[RCBSetting.COL_lastSelectedYearIndex]
+        button = self.getControlById(CONTROL_YEAR)
+        if yearid > 0:
+            year = Year(self.gdb).getObjectById(yearid)
+            button.setLabel(year[Year.COL_NAME])
+            self.selectedYearId = year[Year.COL_ID]
+        else:
+            button.setLabel(util.localize(32120))
+
+        publisherid = rcbSetting[RCBSetting.COL_lastSelectedPublisherIndex]
+        button = self.getControlById(CONTROL_PUBLISHER)
+        if publisherid > 0:
+            publisher = Publisher(self.gdb).getObjectById(publisherid)
+            button.setLabel(publisher[Publisher.COL_NAME])
+            self.selectedPublisherId = publisher[Publisher.COL_ID]
+        else:
+            button.setLabel(util.localize(32120))
+
+        character = rcbSetting[RCBSetting.COL_lastSelectedCharacterIndex]
+        button = self.getControlById(CONTROL_CHARACTER)
+        if character != util.localize(32120):
+            button.setLabel(character)
+            self.selectedCharacter = character
+        else:
+            button.setLabel(util.localize(32120))
+
+
+        """
         #first load console filter
         self.showConsoles()
 
@@ -1344,6 +1488,7 @@ class UIGameDB(xbmcgui.WindowXML):
             self.selectedCharacter = self.setFilterSelection(CONTROL_CHARACTER,
                                                              rcbSetting[RCBSetting.COL_lastSelectedCharacterIndex])
             self.selectedCharacterIndex = rcbSetting[RCBSetting.COL_lastSelectedCharacterIndex]
+        """
 
         #reset view mode
         viewModeId = self.Settings.getSetting(util.SETTING_RCB_VIEW_MODE)
@@ -1365,7 +1510,7 @@ class UIGameDB(xbmcgui.WindowXML):
         # Reset game list
         self.showGames()
 
-        self.setFilterSelection(CONTROL_GAMES_GROUP_START, rcbSetting[RCBSetting.COL_lastSelectedGameIndex])
+        #self.setFilterSelection(CONTROL_GAMES_GROUP_START, rcbSetting[RCBSetting.COL_lastSelectedGameIndex])
 
         #always set focus on game list on start
         focusControl = self.getControlById(CONTROL_GAMES_GROUP_START)
