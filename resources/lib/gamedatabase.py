@@ -517,9 +517,9 @@ class GameView(DataBaseObject):
                     (PublisherId = ? OR (0 = ?)) AND \
                     (DeveloperId = ? OR (0 = ?)) AND \
                     (isFavorite = ? OR (0 = ?)) AND \
-                    (maxPlayers = ? OR ('All' = ?)) AND \
+                    (maxPlayers = ? OR (0 = ?)) AND \
                     (rating >= ? OR (0 = ?)) AND \
-                    (region = ? OR ('All' = ?)) AND \
+                    (region = ? OR (0 = ?)) AND \
                     %s \
                     %s \
                     %s"
@@ -537,7 +537,7 @@ class GameView(DataBaseObject):
                         (PublisherId = ? OR (0 = ?)) AND \
                         (DeveloperId = ? OR (0 = ?)) AND \
                         (rating >= ? OR (0 = ?)) AND \
-                        (region = ? OR ('All' = ?)) AND \
+                        (region = ? OR (0 = ?)) AND \
                         %s \
                         ORDER BY maxPlayers COLLATE NOCASE"
 
@@ -547,7 +547,7 @@ class GameView(DataBaseObject):
                             (YearId = ? OR (0 = ?)) AND \
                             (PublisherId = ? OR (0 = ?)) AND \
                             (DeveloperId = ? OR (0 = ?)) AND \
-                            (maxPlayers = ? OR ('All' = ?)) AND \
+                            (maxPlayers = ? OR (0 = ?)) AND \
                             (rating >= ? OR (0 = ?)) AND \
                             %s \
                             ORDER BY region COLLATE NOCASE"
@@ -638,9 +638,9 @@ class Genre(DataBaseObject):
                         (YearId = ? OR (0 = ?)) AND \
                         (PublisherId = ? OR (0 = ?)) AND \
                         (DeveloperId = ? OR (0 = ?)) AND \
-                        (maxPlayers = ? OR ('All' = ?)) AND \
+                        (maxPlayers = ? OR (0 = ?)) AND \
                         (rating >= ? OR (0 = ?)) AND \
-                        (region = ? OR ('All' = ?)) AND \
+                        (region = ? OR (0 = ?)) AND \
                         %s)) \
                         ORDER BY name COLLATE NOCASE"
 
@@ -730,9 +730,9 @@ class Year(DataBaseObject):
                         id IN (SELECT GameId From GenreGame Where GenreId = ? OR (0 = ?)) AND \
                         (PublisherId = ? OR (0 = ?)) AND \
                         (DeveloperId = ? OR (0 = ?)) AND \
-                        (maxPlayers = ? OR ('All' = ?)) AND \
+                        (maxPlayers = ? OR (0 = ?)) AND \
                         (rating >= ? OR (0 = ?)) AND \
-                        (region = ? OR ('All' = ?)) AND \
+                        (region = ? OR (0 = ?)) AND \
                         %s) \
                         ORDER BY name COLLATE NOCASE"
 
@@ -794,9 +794,9 @@ class Publisher(DataBaseObject):
                         id IN (SELECT GameId From GenreGame Where GenreId = ? OR (0 = ?)) AND \
                         (YearId = ? OR (0 = ?)) AND \
                         (DeveloperId = ? OR (0 = ?)) AND \
-                        (maxPlayers = ? OR ('All' = ?)) AND \
+                        (maxPlayers = ? OR (0 = ?)) AND \
                         (rating >= ? OR (0 = ?)) AND \
-                        (region = ? OR ('All' = ?)) AND \
+                        (region = ? OR (0 = ?)) AND \
                         %s) \
                         ORDER BY name COLLATE NOCASE"
 
@@ -869,9 +869,9 @@ class Developer(DataBaseObject):
                             id IN (SELECT GameId From GenreGame Where GenreId = ? OR (0 = ?)) AND \
                             (YearId = ? OR (0 = ?)) AND \
                             (PublisherId = ? OR (0 = ?)) AND \
-                            (maxPlayers = ? OR ('All' = ?)) AND \
+                            (maxPlayers = ? OR (0 = ?)) AND \
                             (rating >= ? OR (0 = ?)) AND \
-                            (region = ? OR ('All' = ?)) AND \
+                            (region = ? OR (0 = ?)) AND \
                             %s) \
                             ORDER BY name COLLATE NOCASE"
 

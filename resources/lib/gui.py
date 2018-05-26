@@ -504,8 +504,11 @@ class UIGameDB(xbmcgui.WindowXML):
             return current_value
 
         button = self.getControlById(control_id)
-        button.setLabel(filter_items[index])
-        return filter_items[index]
+        result = filter_items[index]
+        button.setLabel(result)
+        if result == util.localize(32120):
+            result = 0
+        return result
 
     def filter_foreign_key_values(self, filter_items, header_text, control_id, current_value):
         # Sort the consoles by name
@@ -540,7 +543,7 @@ class UIGameDB(xbmcgui.WindowXML):
 
         likeStatement = ''
 
-        if selectedCharacter == util.localize(32120):  # All
+        if selectedCharacter == 0:  # All
             likeStatement = "0 = 0"
         elif selectedCharacter == '0-9':
             likeStatement = "(substr(name, 1, 1) IN ('0', '1', '2', '3', '4', '5', '6', '7', '8', '9'))"
@@ -1312,12 +1315,12 @@ class UIGameDB(xbmcgui.WindowXML):
 
     def set_filter_text_value(self, filter_value, control_id):
         button = self.getControlById(control_id)
-        if filter_value != util.localize(32120):
+        if filter_value != '0':
             button.setLabel(filter_value)
             return filter_value
         else:
             button.setLabel(util.localize(32120))
-            return util.localize(32120)
+            return 0
 
     def set_filter_foreign_key_object(self, obj_id, control_id, db_obj):
         button = self.getControlById(control_id)
