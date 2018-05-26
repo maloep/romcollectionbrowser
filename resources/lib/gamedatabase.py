@@ -483,9 +483,27 @@ class GameView(DataBaseObject):
 
     filterMostPlayedGames = "Select * From GameView Where launchCount > 0 Order by launchCount desc Limit "
 
-    getDistinctMaxPlayersQuery = "SELECT DISTINCT maxPlayers FROM GameView Order by maxPlayers COLLATE NOCASE"
+    filterQueryMaxPlayers = "SELECT DISTINCT maxPlayers FROM GameView WHERE \
+                        (romCollectionId = ? OR (0 = ?)) AND \
+                        (Id IN (Select GameId From GenreGame Where GenreId = ?) OR (0 = ?)) AND \
+                        (YearId = ? OR (0 = ?)) AND \
+                        (PublisherId = ? OR (0 = ?)) AND \
+                        (DeveloperId = ? OR (0 = ?)) AND \
+                        (rating >= ? OR (0 = ?)) AND \
+                        (region = ? OR ('All' = ?)) AND \
+                        %s \
+                        ORDER BY maxPlayers COLLATE NOCASE"
 
-    getDistinctRegionsQuery = "SELECT DISTINCT region FROM GameView Order by region COLLATE NOCASE"
+    filterQueryRegions = "SELECT DISTINCT region FROM GameView WHERE \
+                            (romCollectionId = ? OR (0 = ?)) AND \
+                            (Id IN (Select GameId From GenreGame Where GenreId = ?) OR (0 = ?)) AND \
+                            (YearId = ? OR (0 = ?)) AND \
+                            (PublisherId = ? OR (0 = ?)) AND \
+                            (DeveloperId = ? OR (0 = ?)) AND \
+                            (maxPlayers = ? OR ('All' = ?)) AND \
+                            (rating >= ? OR (0 = ?)) AND \
+                            %s \
+                            ORDER BY region COLLATE NOCASE"
 
     def __init__(self, gdb):
         self.gdb = gdb
@@ -527,11 +545,19 @@ class GameView(DataBaseObject):
             return None
         return dbobj
 
-    def getDistinctMaxPlayers(self):
-        return self.getObjectsByQueryNoArgs(self.getDistinctMaxPlayersQuery)
+    def getFilteredMaxPlayers(self, romCollectionId, genreId, yearId, publisherId, developerId, rating, region, likeStatement):
+        args = (romCollectionId, genreId, yearId, publisherId, developerId, rating, region)
+        filterQuery = self.filterQueryMaxPlayers % likeStatement
+        util.Logutil.log('searching maxPlayers with query: ' + filterQuery, util.LOG_LEVEL_DEBUG)
+        players = self.getObjectsByWildcardQuery(filterQuery, args)
+        return players
 
-    def getDistinctRegions(self):
-        return self.getObjectsByQueryNoArgs(self.getDistinctRegionsQuery)
+    def getFilteredRegions(self, romCollectionId, genreId, yearId, publisherId, developerId, maxPlayers, rating, likeStatement):
+        args = (romCollectionId, genreId, yearId, publisherId, developerId, maxPlayers, rating)
+        filterQuery = self.filterQueryRegions % likeStatement
+        util.Logutil.log('searching regions with query: ' + filterQuery, util.LOG_LEVEL_DEBUG)
+        regions = self.getObjectsByWildcardQuery(filterQuery, args)
+        return regions
 
 
 class RCBSetting(DataBaseObject):
@@ -559,15 +585,19 @@ class RCBSetting(DataBaseObject):
 
 
 class Genre(DataBaseObject):
-    #obsolete: atm genres are only filtered by console
     filterQuery = "SELECT * FROM Genre WHERE Id IN (Select GenreId From GenreGame Where GameId IN ( \
                         Select Id From Game WHERE \
                         (romCollectionId = ? OR (0 = ?)) AND \
                         (YearId = ? OR (0 = ?)) AND \
-                        (PublisherId = ? OR (0 = ?)) \
-                        AND %s)) \
+                        (PublisherId = ? OR (0 = ?)) AND \
+                        (DeveloperId = ? OR (0 = ?)) AND \
+                        (maxPlayers = ? OR ('All' = ?)) AND \
+                        (rating >= ? OR (0 = ?)) AND \
+                        (region = ? OR ('All' = ?)) AND \
+                        %s)) \
                         ORDER BY name COLLATE NOCASE"
 
+    #obsolete: atm genres are filtered with filterQuery
     filterGenreByConsole = "SELECT * FROM Genre WHERE Id IN (Select GenreId From GenreGame Where GameId IN ( \
                         Select Id From Game WHERE \
                         (romCollectionId = ? OR (0 = ?)))) \
@@ -592,8 +622,8 @@ class Genre(DataBaseObject):
         self.gdb = gdb
         self.tableName = "Genre"
 
-    def getFilteredGenres(self, romCollectionId, yearId, publisherId, likeStatement):
-        args = (romCollectionId, yearId, publisherId)
+    def getFilteredGenres(self, romCollectionId, yearId, publisherId, developerId, maxPlayers, rating, region, likeStatement):
+        args = (romCollectionId, yearId, publisherId, developerId, maxPlayers, rating, region)
         filterQuery = self.filterQuery % likeStatement
         util.Logutil.log('searching genres with query: ' + filterQuery, util.LOG_LEVEL_DEBUG)
         genres = self.getObjectsByWildcardQuery(filterQuery, args)
@@ -647,15 +677,19 @@ class GenreGame(DataBaseObject):
 class Year(DataBaseObject):
     yearIdByGameIdQuery = "SELECT yearId From Game Where Id = ?"
 
-    #obsolete: atm years are only filtered by console
+
     filterQuery = "SELECT * FROM Year WHERE Id IN (Select YearId From Game WHERE \
                         (romCollectionId = ? OR (0 = ?)) AND \
-                        (PublisherId = ? OR (0 = ?)) \
-                        AND id IN \
-                        (SELECT GameId From GenreGame Where GenreId = ? OR (0 = ?)) \
-                        AND %s) \
+                        id IN (SELECT GameId From GenreGame Where GenreId = ? OR (0 = ?)) AND \
+                        (PublisherId = ? OR (0 = ?)) AND \
+                        (DeveloperId = ? OR (0 = ?)) AND \
+                        (maxPlayers = ? OR ('All' = ?)) AND \
+                        (rating >= ? OR (0 = ?)) AND \
+                        (region = ? OR ('All' = ?)) AND \
+                        %s) \
                         ORDER BY name COLLATE NOCASE"
 
+    #obsolete: atm years are filtered by filterQuery
     filterYearByConsole = "SELECT * FROM Year WHERE Id IN (Select YearId From Game WHERE \
                         (romCollectionId = ? OR (0 = ?))) \
                         ORDER BY name COLLATE NOCASE"
@@ -685,8 +719,8 @@ class Year(DataBaseObject):
         else:
             return yearId[0]
 
-    def getFilteredYears(self, romCollectionId, genreId, publisherId, likeStatement):
-        args = (romCollectionId, publisherId, genreId)
+    def getFilteredYears(self, romCollectionId, genreId, publisherId, developerId, maxPlayers, rating, region, likeStatement):
+        args = (romCollectionId, genreId, publisherId, developerId, maxPlayers, rating, region)
         filterQuery = self.filterQuery % likeStatement
         util.Logutil.log('searching years with query: ' + filterQuery, util.LOG_LEVEL_DEBUG)
         years = self.getObjectsByWildcardQuery(filterQuery, args)
@@ -710,10 +744,13 @@ class Publisher(DataBaseObject):
 
     filterQuery = "SELECT * FROM Publisher WHERE Id IN (Select PublisherId From Game WHERE \
                         (romCollectionId = ? OR (0 = ?)) AND \
-                        (YearId = ? OR (0 = ?)) \
-                        AND id IN \
-                        (SELECT GameId From GenreGame Where GenreId = ? OR (0 = ?)) \
-                        AND %s) \
+                        id IN (SELECT GameId From GenreGame Where GenreId = ? OR (0 = ?)) AND \
+                        (YearId = ? OR (0 = ?)) AND \
+                        (DeveloperId = ? OR (0 = ?)) AND \
+                        (maxPlayers = ? OR ('All' = ?)) AND \
+                        (rating >= ? OR (0 = ?)) AND \
+                        (region = ? OR ('All' = ?)) AND \
+                        %s) \
                         ORDER BY name COLLATE NOCASE"
 
     filterPublishersByConsole = "SELECT * FROM Publisher WHERE Id IN (Select PublisherId From Game WHERE \
@@ -759,8 +796,8 @@ class Publisher(DataBaseObject):
 
         return publisher['name']
 
-    def getFilteredPublishers(self, romCollectionId, genreId, yearId, likeStatement):
-        args = (romCollectionId, yearId, genreId)
+    def getFilteredPublishers(self, romCollectionId, genreId, yearId, developerId, maxPlayers, rating, region, likeStatement):
+        args = (romCollectionId, genreId, yearId, developerId, maxPlayers, rating, region)
         filterQuery = self.filterQuery % likeStatement
         util.Logutil.log('searching publishers with query: ' + filterQuery, util.LOG_LEVEL_DEBUG)
         publishers = self.getObjectsByWildcardQuery(filterQuery, args)
@@ -780,6 +817,17 @@ class Publisher(DataBaseObject):
 
 
 class Developer(DataBaseObject):
+    filterQuery = "SELECT * FROM Developer WHERE Id IN (Select DeveloperId From Game WHERE \
+                            (romCollectionId = ? OR (0 = ?)) AND \
+                            id IN (SELECT GameId From GenreGame Where GenreId = ? OR (0 = ?)) AND \
+                            (YearId = ? OR (0 = ?)) AND \
+                            (PublisherId = ? OR (0 = ?)) AND \
+                            (maxPlayers = ? OR ('All' = ?)) AND \
+                            (rating >= ? OR (0 = ?)) AND \
+                            (region = ? OR ('All' = ?)) AND \
+                            %s) \
+                            ORDER BY name COLLATE NOCASE"
+
     developerIdByGameIdQuery = "SELECT developerId From Game Where Id = ?"
 
     developerIdCountQuery = "SELECT count(developerId) 'developerIdCount' \
@@ -810,6 +858,13 @@ class Developer(DataBaseObject):
             return 'Unknown'
         else:
             return developer['name']
+
+    def getFilteredDevelopers(self, romCollectionId, genreId, yearId, publisherId, maxPlayers, rating, region, likeStatement):
+        args = (romCollectionId, genreId, yearId, publisherId, maxPlayers, rating, region)
+        filterQuery = self.filterQuery % likeStatement
+        util.Logutil.log('searching developers with query: ' + filterQuery, util.LOG_LEVEL_DEBUG)
+        developers = self.getObjectsByWildcardQuery(filterQuery, args)
+        return developers
 
     def getFilteredDevelopersByConsole(self, romCollectionId):
         developers = self.getObjectsByWildcardQuery(self.filterDevelopersByConsole, (romCollectionId,))

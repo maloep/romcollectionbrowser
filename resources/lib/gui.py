@@ -353,7 +353,6 @@ class UIGameDB(xbmcgui.WindowXML):
             # Need to change viewmode manually since Frodo
             xbmc.executebuiltin('Container.NextViewMode')
 
-
     def apply_filter(self, control_id):
         if control_id == CONTROL_CONSOLES:
             consoles = []
@@ -363,21 +362,30 @@ class UIGameDB(xbmcgui.WindowXML):
             self.selectedConsoleId = self.filter_foreign_key_values(consoles, util.localize(32406), control_id, self.selectedConsoleId)
         elif control_id == CONTROL_GENRE:
             genres = []
-            rows = Genre(self.gdb).getFilteredGenresByConsole(self.selectedConsoleId)
+            rows = Genre(self.gdb).getFilteredGenres(self.selectedConsoleId, self.selectedYearId, self.selectedPublisherId,
+                                                     self.selectedDeveloperId, self.selectedMaxPlayers, self.selectedRating,
+                                                     self.selectedRegion,
+                                                     self._buildLikeStatement(self.selectedCharacter, ''))
             for row in rows:
                 genres.append([row[Genre.COL_ID], row[Genre.COL_NAME]])
 
             self.selectedGenreId = self.filter_foreign_key_values(genres, util.localize(32401), control_id, self.selectedGenreId)
         elif control_id == CONTROL_YEAR:
             years = []
-            rows = Year(self.gdb).getFilteredYearsByConsole(self.selectedConsoleId)
+            rows = Year(self.gdb).getFilteredYears(self.selectedConsoleId, self.selectedGenreId, self.selectedPublisherId,
+                                                     self.selectedDeveloperId, self.selectedMaxPlayers, self.selectedRating,
+                                                     self.selectedRegion,
+                                                     self._buildLikeStatement(self.selectedCharacter, ''))
             for row in rows:
                 years.append([row[Year.COL_ID], row[Year.COL_NAME]])
 
             self.selectedYearId = self.filter_foreign_key_values(years, util.localize(32400), control_id, self.selectedYearId)
         elif control_id == CONTROL_PUBLISHER:
             publishers = []
-            rows = Publisher(self.gdb).getFilteredPublishersByConsole(self.selectedConsoleId)
+            rows = Publisher(self.gdb).getFilteredPublishers(self.selectedConsoleId, self.selectedGenreId, self.selectedYearId,
+                                                     self.selectedDeveloperId, self.selectedMaxPlayers, self.selectedRating,
+                                                     self.selectedRegion,
+                                                     self._buildLikeStatement(self.selectedCharacter, ''))
             for row in rows:
                 publishers.append([row[Publisher.COL_ID], row[Publisher.COL_NAME]])
 
@@ -385,7 +393,10 @@ class UIGameDB(xbmcgui.WindowXML):
                                                                       self.selectedPublisherId)
         elif control_id == CONTROL_DEVELOPER:
             developers = []
-            rows = Developer(self.gdb).getFilteredDevelopersByConsole(self.selectedConsoleId)
+            rows = Developer(self.gdb).getFilteredDevelopers(self.selectedConsoleId, self.selectedGenreId, self.selectedYearId,
+                                                     self.selectedPublisherId, self.selectedMaxPlayers, self.selectedRating,
+                                                     self.selectedRegion,
+                                                     self._buildLikeStatement(self.selectedCharacter, ''))
             for row in rows:
                 developers.append([row[Developer.COL_ID], row[Developer.COL_NAME]])
 
@@ -393,7 +404,10 @@ class UIGameDB(xbmcgui.WindowXML):
                                                                       self.selectedDeveloperId)
         elif control_id == CONTROL_MAXPLAYERS:
             maxplayers = [util.localize(32120)]
-            rows = GameView(self.gdb).getDistinctMaxPlayers()
+            rows = GameView(self.gdb).getFilteredMaxPlayers(self.selectedConsoleId, self.selectedGenreId, self.selectedYearId,
+                                                     self.selectedPublisherId, self.selectedDeveloperId, self.selectedRating,
+                                                     self.selectedRegion,
+                                                     self._buildLikeStatement(self.selectedCharacter, ''))
             for row in rows:
                 if row[0]:
                     maxplayers.append(row[0])
@@ -414,7 +428,10 @@ class UIGameDB(xbmcgui.WindowXML):
 
         elif control_id == CONTROL_REGION:
             regions = [util.localize(32120)]
-            rows = GameView(self.gdb).getDistinctRegions()
+            rows = GameView(self.gdb).getFilteredRegions(self.selectedConsoleId, self.selectedGenreId, self.selectedYearId,
+                                                         self.selectedPublisherId, self.selectedDeveloperId,
+                                                         self.selectedMaxPlayers, self.selectedRating,
+                                                         self._buildLikeStatement(self.selectedCharacter, ''))
             for row in rows:
                 if row[0]:
                     regions.append(row[0])
@@ -1152,6 +1169,7 @@ class UIGameDB(xbmcgui.WindowXML):
             Logutil.log("rcbSetting == None in loadViewState", util.LOG_LEVEL_WARNING)
             return
 
+        #load filter settings
         rcid = rcbSetting[RCBSetting.COL_lastSelectedConsoleId]
         button = self.getControlById(CONTROL_CONSOLES)
         if rcid > 0:
@@ -1162,49 +1180,23 @@ class UIGameDB(xbmcgui.WindowXML):
             button.setLabel(util.localize(32120))
 
         genreid = rcbSetting[RCBSetting.COL_lastSelectedGenreId]
-        button = self.getControlById(CONTROL_GENRE)
-        if genreid > 0:
-            genre = Genre(self.gdb).getObjectById(genreid)
-            button.setLabel(genre[Genre.COL_NAME])
-            self.selectedGenreId = genre[Genre.COL_ID]
-        else:
-            button.setLabel(util.localize(32120))
+        self.set_filter_foreign_key_object(genreid, CONTROL_GENRE, Genre(self.gdb))
+        self.selectedGenreId = genreid
 
         yearid = rcbSetting[RCBSetting.COL_lastSelectedYearId]
-        button = self.getControlById(CONTROL_YEAR)
-        if yearid > 0:
-            year = Year(self.gdb).getObjectById(yearid)
-            button.setLabel(year[Year.COL_NAME])
-            self.selectedYearId = year[Year.COL_ID]
-        else:
-            button.setLabel(util.localize(32120))
+        self.set_filter_foreign_key_object(yearid, CONTROL_YEAR, Year(self.gdb))
+        self.selectedYearId = yearid
 
         publisherid = rcbSetting[RCBSetting.COL_lastSelectedPublisherId]
-        button = self.getControlById(CONTROL_PUBLISHER)
-        if publisherid > 0:
-            publisher = Publisher(self.gdb).getObjectById(publisherid)
-            button.setLabel(publisher[Publisher.COL_NAME])
-            self.selectedPublisherId = publisher[Publisher.COL_ID]
-        else:
-            button.setLabel(util.localize(32120))
+        self.set_filter_foreign_key_object(publisherid, CONTROL_PUBLISHER, Publisher(self.gdb))
+        self.selectedPublisherId = publisherid
 
         developerid = rcbSetting[RCBSetting.COL_lastSelectedDeveloperId]
-        button = self.getControlById(CONTROL_DEVELOPER)
-        if developerid > 0:
-            developer = Developer(self.gdb).getObjectById(developerid)
-            button.setLabel(developer[Developer.COL_NAME])
-            self.selectedDeveloperId = developer[Developer.COL_ID]
-        else:
-            button.setLabel(util.localize(32120))
+        self.set_filter_foreign_key_object(developerid, CONTROL_DEVELOPER, Developer(self.gdb))
+        self.selectedDeveloperId = developerid
 
         maxPlayers = rcbSetting[RCBSetting.COL_lastSelectedMaxPlayers]
-        button = self.getControlById(CONTROL_MAXPLAYERS)
-        if maxPlayers != util.localize(32120):
-            button.setLabel(maxPlayers)
-            self.selectedMaxPlayers = maxPlayers
-        else:
-            button.setLabel(util.localize(32120))
-            self.selectedMaxPlayers = util.localize(32120)
+        self.selectedMaxPlayers = self.set_filter_text_value(maxPlayers, CONTROL_MAXPLAYERS)
 
         rating = rcbSetting[RCBSetting.COL_lastSelectedRating]
         button = self.getControlById(CONTROL_RATING)
@@ -1216,21 +1208,10 @@ class UIGameDB(xbmcgui.WindowXML):
             self.selectedRating = 0
 
         region = rcbSetting[RCBSetting.COL_lastSelectedRegion]
-        button = self.getControlById(CONTROL_REGION)
-        if region != util.localize(32120):
-            button.setLabel(region)
-            self.selectedRegion = region
-        else:
-            button.setLabel(util.localize(32120))
-            self.selectedRegion = util.localize(32120)
+        self.selectedRegion = self.set_filter_text_value(region, CONTROL_REGION)
 
         character = rcbSetting[RCBSetting.COL_lastSelectedCharacter]
-        button = self.getControlById(CONTROL_CHARACTER)
-        if character != util.localize(32120):
-            button.setLabel(character)
-            self.selectedCharacter = character
-        else:
-            button.setLabel(util.localize(32120))
+        self.selectedCharacter = self.set_filter_text_value(character, CONTROL_CHARACTER)
 
         #reset view mode
         viewModeId = self.Settings.getSetting(util.SETTING_RCB_VIEW_MODE)
@@ -1262,6 +1243,23 @@ class UIGameDB(xbmcgui.WindowXML):
         self.showGameInfo()
 
         Logutil.log("End loadViewState", util.LOG_LEVEL_INFO)
+
+    def set_filter_text_value(self, filter_value, control_id):
+        button = self.getControlById(control_id)
+        if filter_value != util.localize(32120):
+            button.setLabel(filter_value)
+            return filter_value
+        else:
+            button.setLabel(util.localize(32120))
+            return util.localize(32120)
+
+    def set_filter_foreign_key_object(self, obj_id, control_id, db_obj):
+        button = self.getControlById(control_id)
+        if obj_id > 0:
+            row = db_obj.getObjectById(obj_id)
+            button.setLabel(row[Genre.COL_NAME])
+        else:
+            button.setLabel(util.localize(32120))
 
     def setFilterSelection(self, controlId, selectedIndex):
 
