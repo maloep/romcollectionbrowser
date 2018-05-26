@@ -56,8 +56,7 @@ class TestDBObjGame(unittest.TestCase):
 
     def test_RetrieveMultipleGamesByYear(self):
         ''' Validate retrieve by year works '''
-        # consoleId, genreId, yearId, publisherId, isFavorite, likeStatement, maxGames
-        newgames = GameView(self.gdb).getFilteredGames(0, 0, 9, 0, 0, '0 = 0', 0)
+        newgames = GameView(self.gdb).getFilteredGames(0, 0, 9, 0, 0, 0, 0, 0, 0, '0 = 0', '', 0)
 
         #self.assertIsInstance(newgames[0], gameobj, u'Expected type of return objects to be {0}, was {1}'.format(gameobj, type(newgames[0])))
         self.assertTrue(len(newgames) == 5, u'Expected 5 games found for year = 9 (1992), found {0}'.format(len(newgames)))

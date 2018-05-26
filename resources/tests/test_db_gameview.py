@@ -65,8 +65,7 @@ class TestDbGameView(unittest.TestCase):
 
         import time
         timestamp1 = time.clock()
-        #games = Game(gdb).getGamesByFilter(0, 0, 0, 0, 0, '0 = 0', 0)
-        games = GameView(gdb).getFilteredGames(0, 0, 0, 0, 0, '0 = 0', 0)
+        games = GameView(gdb).getFilteredGames(0, 0, 0, 0, 0, 0, 0, 0, 0, '0 = 0', '', 0)
         #games = Game(gdb).getAll()
         timestamp2 = time.clock()
         diff = (timestamp2 - timestamp1) * 1000
