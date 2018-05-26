@@ -360,37 +360,37 @@ class UIGameDB(xbmcgui.WindowXML):
             for romCollection in self.config.romCollections.values():
                 consoles.append([romCollection.id, romCollection.name])
 
-            self.selectedConsoleId = self.filter(consoles, util.localize(32406), control_id, self.selectedConsoleId)
+            self.selectedConsoleId = self.filter_foreign_key_values(consoles, util.localize(32406), control_id, self.selectedConsoleId)
         elif control_id == CONTROL_GENRE:
             genres = []
             rows = Genre(self.gdb).getFilteredGenresByConsole(self.selectedConsoleId)
             for row in rows:
                 genres.append([row[Genre.COL_ID], row[Genre.COL_NAME]])
 
-            self.selectedGenreId = self.filter(genres, util.localize(32401), control_id, self.selectedGenreId)
+            self.selectedGenreId = self.filter_foreign_key_values(genres, util.localize(32401), control_id, self.selectedGenreId)
         elif control_id == CONTROL_YEAR:
             years = []
             rows = Year(self.gdb).getFilteredYearsByConsole(self.selectedConsoleId)
             for row in rows:
                 years.append([row[Year.COL_ID], row[Year.COL_NAME]])
 
-            self.selectedYearId = self.filter(years, util.localize(32400), control_id, self.selectedYearId)
+            self.selectedYearId = self.filter_foreign_key_values(years, util.localize(32400), control_id, self.selectedYearId)
         elif control_id == CONTROL_PUBLISHER:
             publishers = []
             rows = Publisher(self.gdb).getFilteredPublishersByConsole(self.selectedConsoleId)
             for row in rows:
                 publishers.append([row[Publisher.COL_ID], row[Publisher.COL_NAME]])
 
-            self.selectedPublisherId = self.filter(publishers, util.localize(32402), control_id,
-                                                   self.selectedPublisherId)
+            self.selectedPublisherId = self.filter_foreign_key_values(publishers, util.localize(32402), control_id,
+                                                                      self.selectedPublisherId)
         elif control_id == CONTROL_DEVELOPER:
             developers = []
             rows = Developer(self.gdb).getFilteredDevelopersByConsole(self.selectedConsoleId)
             for row in rows:
                 developers.append([row[Developer.COL_ID], row[Developer.COL_NAME]])
 
-            self.selectedDeveloperId = self.filter(developers, util.localize(32403), control_id,
-                                                   self.selectedDeveloperId)
+            self.selectedDeveloperId = self.filter_foreign_key_values(developers, util.localize(32403), control_id,
+                                                                      self.selectedDeveloperId)
         elif control_id == CONTROL_MAXPLAYERS:
             maxplayers = [util.localize(32120)]
             rows = GameView(self.gdb).getDistinctMaxPlayers()
@@ -398,26 +398,16 @@ class UIGameDB(xbmcgui.WindowXML):
                 if row[0]:
                     maxplayers.append(row[0])
 
-            index = xbmcgui.Dialog().select(util.localize(32414), maxplayers)
-            if index < 0:
-                return
-
-            button = self.getControlById(CONTROL_MAXPLAYERS)
-            button.setLabel(maxplayers[index])
-            self.selectedMaxPlayers = maxplayers[index]
+            self.selectedMaxPlayers = self.filter_text_values(maxplayers, util.localize(32414), control_id,
+                                                              self.selectedMaxPlayers)
 
         elif control_id == CONTROL_RATING:
             ratings = [util.localize(32120)]
             for i in range(1,10):
                 ratings.append(str(i))
 
-            index = xbmcgui.Dialog().select(util.localize(32415), ratings)
-            if index < 0:
-                return
-
-            rating = ratings[index]
-            button = self.getControlById(CONTROL_RATING)
-            button.setLabel(rating)
+            rating = self.filter_text_values(ratings, util.localize(32415), control_id,
+                                                          self.selectedRating)
             if(rating == util.localize(32120)):
                 rating = 0
             self.selectedRating = rating
@@ -429,13 +419,8 @@ class UIGameDB(xbmcgui.WindowXML):
                 if row[0]:
                     regions.append(row[0])
 
-            index = xbmcgui.Dialog().select(util.localize(32416), regions)
-            if index < 0:
-                return
-
-            button = self.getControlById(CONTROL_REGION)
-            button.setLabel(regions[index])
-            self.selectedRegion = regions[index]
+            self.selectedRegion = self.filter_text_values(regions, util.localize(32416), control_id,
+                                                          self.selectedRegion)
 
         elif control_id == CONTROL_CHARACTER:
             characters = [util.localize(32120)]
@@ -444,15 +429,19 @@ class UIGameDB(xbmcgui.WindowXML):
                 char = chr(ord('A') + i)
                 characters.append(char)
 
-            index = xbmcgui.Dialog().select('A-Z', characters)
-            if index < 0:
-                return
+            self.selectedCharacter = self.filter_text_values(characters, util.localize(32407), control_id,
+                                                             self.selectedCharacter)
 
-            button = self.getControlById(CONTROL_CHARACTER)
-            button.setLabel(characters[index])
-            self.selectedCharacter = characters[index]
+    def filter_text_values(self, filter_items, header_text, control_id, current_value):
+        index = xbmcgui.Dialog().select(header_text, filter_items)
+        if index < 0:
+            return current_value
 
-    def filter(self, filter_items, header_text, control_id, current_value):
+        button = self.getControlById(control_id)
+        button.setLabel(filter_items[index])
+        return filter_items[index]
+
+    def filter_foreign_key_values(self, filter_items, header_text, control_id, current_value):
         # Sort the consoles by name
         filter_items = sorted(filter_items, key=lambda filter_item: filter_item[1])
         filter_items = [('0', util.localize(32120))] + filter_items
