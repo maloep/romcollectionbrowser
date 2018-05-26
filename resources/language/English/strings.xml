@@ -206,7 +206,9 @@
 	<string id="32411">Page</string>
 	<string id="32412">No Games found</string>
 	<string id="32413">View Options</string>
-	<string id="32414">View Type</string>
+	<string id="32414">Max Players</string>
+	<string id="32415">Rating (>=)</string>
+	<string id="32416">Region</string>
 	
 	<!-- context menu-->
 	<string id="32500">Import Games</string>

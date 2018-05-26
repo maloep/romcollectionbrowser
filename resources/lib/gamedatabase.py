@@ -468,8 +468,12 @@ class GameView(DataBaseObject):
                     (Id IN (Select GameId From GenreGame Where GenreId = ?) OR (0 = ?)) AND \
                     (YearId = ? OR (0 = ?)) AND \
                     (PublisherId = ? OR (0 = ?)) AND \
-                    (isFavorite = ? OR (0 = ?)) \
-                    AND %s \
+                    (DeveloperId = ? OR (0 = ?)) AND \
+                    (isFavorite = ? OR (0 = ?)) AND \
+                    (maxPlayers = ? OR ('All' = ?)) AND \
+                    (rating >= ? OR (0 = ?)) AND \
+                    (region = ? OR ('All' = ?)) AND \
+                    %s \
                     ORDER BY name COLLATE NOCASE \
                     %s"
 
@@ -479,22 +483,26 @@ class GameView(DataBaseObject):
 
     filterMostPlayedGames = "Select * From GameView Where launchCount > 0 Order by launchCount desc Limit "
 
+    getDistinctMaxPlayersQuery = "SELECT DISTINCT maxPlayers FROM GameView Order by maxPlayers COLLATE NOCASE"
+
     def __init__(self, gdb):
         self.gdb = gdb
         self.tableName = "GameView"
 
-    def getFilteredGames(self, romCollectionId, genreId, yearId, publisherId, isFavorite, likeStatement, maxNumGames=0):
-        args = (romCollectionId, genreId, yearId, publisherId, isFavorite)
+    def getFilteredGames(self, romCollectionId, genreId, yearId, publisherId, developerId, maxPlayers, rating, region,
+                         isFavorite, likeStatement, maxNumGames=0):
+        args = (romCollectionId, genreId, yearId, publisherId, developerId, isFavorite, maxPlayers, rating, region)
         limit = ""
         if int(maxNumGames) > 0:
             limit = "LIMIT %s" % str(maxNumGames)
         filterQuery = self.filterQuery % (likeStatement, limit)
-        util.Logutil.log('searching games with query: ' + filterQuery, util.LOG_LEVEL_DEBUG)
+        util.Logutil.log('searching games with query: ' + filterQuery, util.LOG_LEVEL_INFO)
         util.Logutil.log(
-            'searching games with args: romCollectionId = %s, genreId = %s, yearId = %s, publisherId = %s, isFavorite = %s, likeStatement = %s, limit = %s' % (
-                str(romCollectionId), str(genreId), str(yearId), str(publisherId), str(isFavorite), likeStatement,
-                limit),
-            util.LOG_LEVEL_DEBUG)
+            'searching games with args: romCollectionId = %s, genreId = %s, yearId = %s, publisherId = %s, '
+            'developerId = %s, maxPlayers = %s, rating = %s, region = %s, isFavorite = %s, likeStatement = %s, '
+            'limit = %s' % (str(romCollectionId), str(genreId), str(yearId), str(publisherId), str(developerId),
+                            maxPlayers, str(rating), region, str(isFavorite), likeStatement, limit),
+            util.LOG_LEVEL_INFO)
         games = self.getObjectsByWildcardQuery(filterQuery, args)
         newList = self.encodeUtf8(games)
         return newList
@@ -516,6 +524,9 @@ class GameView(DataBaseObject):
             print 'Error mapping game row to object: ' + e.message
             return None
         return dbobj
+
+    def getDistinctMaxPlayers(self):
+        return self.getObjectsByQueryNoArgs(self.getDistinctMaxPlayersQuery)
 
 
 class RCBSetting(DataBaseObject):
@@ -771,6 +782,10 @@ class Developer(DataBaseObject):
                     where developerId = ? \
                     group by developerId"
 
+    filterDevelopersByConsole = "SELECT * FROM Developer WHERE Id IN (Select DeveloperId From Game WHERE \
+                            (romCollectionId = ? OR (0 = ?))) \
+                            ORDER BY name COLLATE NOCASE"
+
     developerDeleteQuery = "DELETE FROM Developer WHERE id = ?"
 
     def __init__(self, gdb):
@@ -790,6 +805,10 @@ class Developer(DataBaseObject):
             return 'Unknown'
         else:
             return developer['name']
+
+    def getFilteredDevelopersByConsole(self, romCollectionId):
+        developers = self.getObjectsByWildcardQuery(self.filterDevelopersByConsole, (romCollectionId,))
+        return developers
 
     def getDeveloperForGame(self, gameId):
         """ As per getDeveloperIdByGameId, but this returns the publisher name so we don't need to do it client-side """
