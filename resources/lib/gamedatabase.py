@@ -524,17 +524,18 @@ class RCBSetting(DataBaseObject):
     COL_lastSelectedConsoleId = 2
     COL_lastSelectedGenreId = 3
     COL_lastSelectedPublisherId = 4
-    COL_lastSelectedYearId = 5
-    COL_lastSelectedGameIndex = 6
-    COL_dbVersion = 7
-    COL_lastFocusedControlMainView = 8
-    COL_lastFocusedControlGameInfoView = 9
-    COL_lastSelectedCharacter = 10
-    COL_lastSelectedMaxPlayers = 11
-    COL_lastSelectedRating = 12
-    COL_lastSelectedRegion = 13
-    COL_sortMethod = 14
-    COL_sortDirection = 15
+    COL_lastSelectedDeveloperId = 5
+    COL_lastSelectedYearId = 6
+    COL_lastSelectedGameIndex = 7
+    COL_dbVersion = 8
+    COL_lastFocusedControlMainView = 9
+    COL_lastFocusedControlGameInfoView = 10
+    COL_lastSelectedCharacter = 11
+    COL_lastSelectedMaxPlayers = 12
+    COL_lastSelectedRating = 13
+    COL_lastSelectedRegion = 14
+    COL_sortMethod = 15
+    COL_sortDirection = 16
     
     def __init__(self, gdb):
         self.gdb = gdb

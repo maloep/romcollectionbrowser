@@ -49,6 +49,7 @@ class UIGameInfoView(xbmcgui.WindowXMLDialog):
         self.selectedGenreId = kwargs["genreId"]
         self.selectedYearId = kwargs["yearId"]
         self.selectedPublisherId = kwargs["publisherId"]
+        self.selectedDeveloperId = kwargs["developerId"]
         self.selectedCharacter = kwargs["selectedCharacter"]
         self.selectedMaxPlayers = kwargs["selectedMaxPlayers"]
         self.selectedRating = kwargs["selectedRating"]
@@ -207,7 +208,7 @@ class UIGameInfoView(xbmcgui.WindowXMLDialog):
         Logutil.log("Begin saveViewState UIGameInfoView", util.LOG_LEVEL_INFO)
 
         helper.saveViewState(self.gdb, isOnExit, 'gameInfoView', self.selectedGameIndex, self.selectedConsoleId,
-                             self.selectedGenreId, self.selectedPublisherId,
+                             self.selectedGenreId, self.selectedPublisherId, self.selectedDeveloperId,
                              self.selectedYearId, self.selectedCharacter, self.selectedMaxPlayers,
                              self.selectedRating, self.selectedRegion, self.sortMethod, self.sortDirection,
                              self.selectedControlIdMainView, self.selectedControlId, self.settings)

@@ -62,6 +62,7 @@ class UIGameDB(xbmcgui.WindowXML):
     selectedGenreId = 0
     selectedYearId = 0
     selectedPublisherId = 0
+    selectedDeveloperId = 0
     selectedCharacter = util.localize(32120)
     selectedMaxPlayers = util.localize(32120)
     selectedRating = 0
@@ -877,6 +878,7 @@ class UIGameDB(xbmcgui.WindowXML):
                                                 listItem=selectedGame,
                                                 consoleId=self.selectedConsoleId, genreId=self.selectedGenreId,
                                                 yearId=self.selectedYearId, publisherId=self.selectedPublisherId,
+                                                selectedDeveloperId=self.selectedDeveloperId,
                                                 selectedGameIndex=selectedGameIndex,
                                                 selectedCharacter=self.selectedCharacter,
                                                 selectedMaxPlayers=self.selectedMaxPlayers,
@@ -890,6 +892,7 @@ class UIGameDB(xbmcgui.WindowXML):
                                                 constructorParam, gdb=self.gdb, gameId=gameId, listItem=selectedGame,
                                                 consoleId=self.selectedConsoleId, genreId=self.selectedGenreId,
                                                 yearId=self.selectedYearId, publisherId=self.selectedPublisherId,
+                                                selectedDeveloperId=self.selectedDeveloperId,
                                                 selectedGameIndex=selectedGameIndex,
                                                 selectedCharacter=self.selectedCharacter,
                                                 selectedMaxPlayers=self.selectedMaxPlayers,
@@ -1058,7 +1061,7 @@ class UIGameDB(xbmcgui.WindowXML):
         self.saveViewMode()
 
         helper.saveViewState(self.gdb, isOnExit, util.VIEW_MAINVIEW, selectedGameIndex, self.selectedConsoleId,
-                             self.selectedGenreId, self.selectedPublisherId,
+                             self.selectedGenreId, self.selectedPublisherId, self.selectedDeveloperId,
                              self.selectedYearId, self.selectedCharacter, self.selectedMaxPlayers,
                              self.selectedRating, self.selectedRegion, self.sortMethod, self.sortDirection,
                              self.selectedControlId, None, self.Settings)
@@ -1164,6 +1167,8 @@ class UIGameDB(xbmcgui.WindowXML):
 
         # Reset game list
         self.showGames()
+
+        self.setFilterSelection(CONTROL_GAMES_GROUP_START, rcbSetting[RCBSetting.COL_lastSelectedGameIndex])
 
         #always set focus on game list on start
         focusControl = self.getControlById(CONTROL_GAMES_GROUP_START)
