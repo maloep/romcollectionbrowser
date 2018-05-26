@@ -39,7 +39,11 @@ CONTROL_GAMES_GROUP_END = 59
 CONTROL_BUTTON_CHANGE_VIEW = 2
 CONTROL_BUTTON_FAVORITE = 1000
 CONTROL_BUTTON_SEARCH = 1100
-NON_EXIT_RCB_CONTROLS = (500, 600, 700, 800, 900, 2, 1000, 1100, 1200, 1300, 1400, 1500)
+CONTROL_BUTTON_SORTBY = 1600
+CONTROL_LABEL_SORTBY = 1601
+CONTROL_BUTTON_ORDER = 1700
+CONTROL_LABEL_ORDER = 1701
+NON_EXIT_RCB_CONTROLS = (500, 600, 700, 800, 900, 2, 1000, 1100, 1200, 1300, 1400, 1500, 1600, 1700)
 
 CONTROL_LABEL_MSG = 4000
 CONTROL_BUTTON_MISSINGINFODIALOG = 4001
@@ -71,12 +75,23 @@ class UIGameDB(xbmcgui.WindowXML):
     selectedMaxPlayers = util.localize(32120)
     selectedRating = 0
     selectedRegion = util.localize(32120)
+
+    SORT_METHODS = {
+        GameView.FIELDNAMES[GameView.COL_NAME]: util.localize(32421),
+        GameView.FIELDNAMES[GameView.COL_rating]: util.localize(32422),
+        GameView.FIELDNAMES[GameView.COL_launchCount]: util.localize(32423),
+        GameView.FIELDNAMES[GameView.COL_ID]: util.localize(32424),
+        GameView.FIELDNAMES[GameView.COL_year]: util.localize(32425),
+    }
+
+    SORT_DIRECTIONS = {
+        'ASC': util.localize(32419),
+        'DESC': util.localize(32420),
+    }
+
     sortMethod = ''
     sortDirection = ''
-
-    applyFilterThread = None
-    applyFilterThreadStopped = False
-    applyFiltersInProgress = False
+    searchTerm = ''
 
     filterChanged = False
 
@@ -88,8 +103,6 @@ class UIGameDB(xbmcgui.WindowXML):
 
     # set flag if we opened GID
     gameinfoDialogOpen = False
-
-    searchTerm = ''
 
     def __init__(self, strXMLname, strFallbackPath, strDefaultName, forceFallback, isMedia=True):
         Logutil.log("Init Rom Collection Browser: " + util.RCBHOME, util.LOG_LEVEL_INFO)
@@ -331,6 +344,42 @@ class UIGameDB(xbmcgui.WindowXML):
             lbl = util.localize(32117) if self.searchTerm == '' else util.localize(32117) + ': ' + self.searchTerm
             searchButton.setLabel(lbl)
 
+            self.showGames()
+
+        elif controlId == CONTROL_BUTTON_SORTBY:
+            log.debug("onClick: Button Sort by")
+
+            options = []
+            for key in self.SORT_METHODS.keys():
+                item = xbmcgui.ListItem(self.SORT_METHODS[key])
+                item.setProperty('column', key)
+                options.append(item)
+
+            index = xbmcgui.Dialog().select(util.localize(32417), options)
+            if index < 0:
+                return
+
+            self.sortMethod = options[index].getProperty('column')
+            label = self.getControlById(CONTROL_LABEL_SORTBY)
+            label.setLabel(options[index].getLabel())
+            self.showGames()
+
+        elif controlId == CONTROL_BUTTON_ORDER:
+            log.debug("onClick: Button Order")
+
+            options = []
+            for key in self.SORT_DIRECTIONS.keys():
+                item = xbmcgui.ListItem(self.SORT_DIRECTIONS[key])
+                item.setProperty('direction', key)
+                options.append(item)
+
+            index = xbmcgui.Dialog().select(util.localize(32418), options)
+            if index < 0:
+                return
+
+            self.sortDirection = options[index].getProperty('direction')
+            label = self.getControlById(CONTROL_LABEL_ORDER)
+            label.setLabel(options[index].getLabel())
             self.showGames()
 
         elif controlId == CONTROL_BUTTON_MISSINGINFODIALOG:
@@ -619,12 +668,13 @@ class UIGameDB(xbmcgui.WindowXML):
         timestamp1 = time.clock()
 
         likeStatement = self._getGamesListQueryStatement()
+        order_by = "ORDER BY %s COLLATE NOCASE %s" %(self.sortMethod, self.sortDirection)
         maxNumGames = self._getMaxGamesToDisplay()
 
         games = GameView(self.gdb).getFilteredGames(self.selectedConsoleId, self.selectedGenreId, self.selectedYearId,
                                                 self.selectedPublisherId, self.selectedDeveloperId,
                                                 self.selectedMaxPlayers, self.selectedRating, self.selectedRegion,
-                                                isFavorite, likeStatement, maxNumGames)
+                                                isFavorite, likeStatement, order_by, maxNumGames)
 
         timestamp2 = time.clock()
         diff = (timestamp2 - timestamp1) * 1000
@@ -851,7 +901,7 @@ class UIGameDB(xbmcgui.WindowXML):
         Logutil.log("begin Delete Games", util.LOG_LEVEL_INFO)
         count = 0
 
-        rcList = GameView(self.gdb).getFilteredGames(rcID, 0, 0, 0, 0, '0 = 0')
+        rcList = GameView(self.gdb).getFilteredGames(rcID, 0, 0, 0, 0, 0, 0, 0, 0, '0 = 0', '', 0)
         progressDialog = dialogprogress.ProgressDialogGUI()
         progressDialog.itemCount = len(rcList)
 
@@ -1229,6 +1279,22 @@ class UIGameDB(xbmcgui.WindowXML):
         if isFavoriteButton != None:
             favoritesSelected = self.Settings.getSetting(util.SETTING_RCB_FAVORITESSELECTED)
             isFavoriteButton.setSelected(favoritesSelected == '1')
+
+        #sort method
+        self.sortMethod = rcbSetting[RCBSetting.COL_sortMethod]
+        if not self.sortMethod:
+            self.sortMethod = GameView.FIELDNAMES[GameView.COL_NAME]
+
+        label = self.getControlById(CONTROL_LABEL_SORTBY)
+        label.setLabel(self.SORT_METHODS[self.sortMethod])
+
+        #sort direction
+        self.sortDirection = rcbSetting[RCBSetting.COL_sortDirection]
+        if not self.sortDirection:
+            self.sortDirection = 'ASC'
+
+        label = self.getControlById(CONTROL_LABEL_ORDER)
+        label.setLabel(self.SORT_DIRECTIONS[self.sortDirection])
 
         # Reset game list
         self.showGames()

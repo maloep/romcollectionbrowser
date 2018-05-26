@@ -581,7 +581,7 @@
 								<height>37</height>
 								<texture border="0,2,0,2" colordiffuse="FF12A0C7">rcb-MenuItemFO.png</texture>
 								<visible>Control.HasFocus(52)</visible>
-							</control>							
+							</control>
 							<control type="image">
 								<posx>30r</posx>
 								<posy>10</posy>
@@ -1908,57 +1908,6 @@
 					<onleft>50</onleft>
 					<onright>50</onright>
 				</control>
-				<!--
-				<control type="wraplist" id="900">
-					<posx>840</posx>
-					<posy>50</posy>
-					<width>60</width>
-					<height>96</height>
-					<onleft>800</onleft>
-					<onright>1000</onright>
-					<onup>900</onup>
-					<ondown>900</ondown>
-					<viewtype label="Character">wrap</viewtype>
-					<focusposition>1</focusposition>
-					<scrolltime>200</scrolltime>
-					<itemlayout height="32">
-						<control type="label">
-							<posx>0</posx>
-							<posy>0</posy>
-							<width>50</width>
-							<height>30</height>
-							<font>font13</font>
-							<aligny>center</aligny>
-							<textcolor>white</textcolor>
-							<selectedcolor>FFe2ff43</selectedcolor>
-							<align>left</align>
-							<info>ListItem.Label</info>
-						</control>
-					</itemlayout>
-					<focusedlayout height="32">
-						<control type="image">
-							<width>60</width>
-							<height>30</height>
-							<posx>0</posx>
-							<posy>0</posy>
-							<visible>Control.HasFocus(900)</visible>
-							<texture border="5"  colordiffuse="FF12A0C7">rcb-MenuItemFO.png</texture>
-						</control>
-						<control type="label">
-							<posx>0</posx>
-							<posy>0</posy>
-							<width>50</width>
-							<height>30</height>
-							<font>font13</font>
-							<aligny>center</aligny>
-							<textcolor>white</textcolor>
-							<selectedcolor>FFe2ff43</selectedcolor>
-							<align>left</align>
-							<info>ListItem.Label</info>
-						</control>
-					</focusedlayout>
-				</control>
-				-->
 			</control>
 		</control>
 		
@@ -1967,7 +1916,6 @@
 			<animation effect="slide" start="0,0" end="0,0" delay="0" time="400" tween="quadratic" easing="out" condition="ControlGroup(400).HasFocus">Conditional</animation>
 			<animation effect="slide" start="0,0" end="-300,0" delay="0" time="400" tween="quadratic" easing="out" condition="!ControlGroup(400).HasFocus">Conditional</animation>
 			<control type="image">
-				<!--<animation effect="zoom" start="0,0,0,0" end="0,0,300,720" time="400" tween="quadratic" easing="out" condition="ControlGroup(400).HasFocus">Conditional</animation>-->
 				<description>filter background image</description>
 				<posx>0</posx>
 				<posy>0</posy>
@@ -1986,6 +1934,7 @@
 				<aligny>center</aligny>
 				<label>$ADDON[script.games.rom.collection.browser 32413]</label>
 			</control>
+			<!-- Change view -->
 			<control type="button" id="2">
 				<description>Change View</description>
 				<posx>0</posx>
@@ -2008,6 +1957,7 @@
 				<onleft>50</onleft>
 				<onright>50</onright>
 			</control>
+			<!-- Favorite -->
 			<control type="radiobutton" id="1000">
 				<posx>0</posx>
 				<posy>130</posy>				
@@ -2015,7 +1965,7 @@
 				<height>40</height>				
 				<align>left</align>
 				<textoffsetx>8</textoffsetx>
-				<radioposx>155</radioposx>
+				<radioposx>255</radioposx>
 				<radiowidth>40</radiowidth>
 				<radioheight>40</radioheight>
 				<label>$ADDON[script.games.rom.collection.browser 32404]:</label>
@@ -2034,6 +1984,7 @@
 				<onup>2</onup>
 				<ondown>1100</ondown>
 			</control>
+			<!-- Search -->
 			<control type="button" id="1100"> 
 				<description>Search</description>
 				<posx>0</posx>
@@ -2043,21 +1994,104 @@
 				<visible>true</visible>				
 				<texturefocus colordiffuse="FF12A0C7">rcb-MenuItemFO.png</texturefocus>
 				<texturenofocus></texturenofocus>
-				<label>$ADDON[script.games.rom.collection.browser 32405]:</label>
+				<label>$ADDON[script.games.rom.collection.browser 32405]</label>
 				<textcolor>white</textcolor>
 				<disabledcolor>80FFFFFF</disabledcolor>
 				<align>left</align>
 				<aligny>center</aligny>
 				<textoffsetx>7</textoffsetx>
 				<onup>1000</onup>
+				<ondown>1600</ondown>
+				<onleft>50</onleft>
+				<onright>50</onright>
+			</control>
+			<!-- Sort by -->
+			<control type="image">
+				<posx>0</posx>
+				<posy>210</posy>
+				<width>300</width>
+				<height>40</height>
+				<texture border="0,2,0,2" colordiffuse="FF12A0C7">rcb-MenuItemFO.png</texture>
+				<visible>Control.HasFocus(1600)</visible>
+			</control>
+			<control type="button" id="1600">
+				<description>Sort by</description>
+				<posx>0</posx>
+				<posy>210</posy>
+				<width>180</width>
+				<height>40</height>
+				<visible>true</visible>				
+				<texturefocus></texturefocus>
+				<texturenofocus></texturenofocus>
+				<label>$ADDON[script.games.rom.collection.browser 32417]</label>
+				<textcolor>white</textcolor>
+				<disabledcolor>80FFFFFF</disabledcolor>
+				<align>left</align>
+				<aligny>center</aligny>
+				<textoffsetx>7</textoffsetx>
+				<onup>1100</onup>
+				<ondown>1700</ondown>
+				<onleft>50</onleft>
+				<onright>50</onright>
+			</control>
+			<control type="label" id="1601">
+				<posx>300</posx>
+				<posy>210</posy>
+				<width>120</width>
+				<height>40</height>
+				<font>font13</font>
+				<textcolor>white</textcolor>
+				<textoffsetx>7</textoffsetx>
+				<align>right</align>
+				<aligny>center</aligny>
+				<label>$ADDON[script.games.rom.collection.browser 32421]</label>
+			</control>
+			<!-- Order -->
+			<control type="image">
+				<posx>0</posx>
+				<posy>250</posy>
+				<width>300</width>
+				<height>40</height>
+				<texture border="0,2,0,2" colordiffuse="FF12A0C7">rcb-MenuItemFO.png</texture>
+				<visible>Control.HasFocus(1700)</visible>
+			</control>
+			<control type="button" id="1700">
+				<description>Order</description>
+				<posx>0</posx>
+				<posy>250</posy>
+				<width>180</width>
+				<height>40</height>
+				<visible>true</visible>				
+				<texturefocus></texturefocus>
+				<texturenofocus></texturenofocus>
+				<label>$ADDON[script.games.rom.collection.browser 32418]</label>
+				<textcolor>white</textcolor>
+				<disabledcolor>80FFFFFF</disabledcolor>
+				<align>left</align>
+				<aligny>center</aligny>
+				<textoffsetx>7</textoffsetx>
+				<onup>1600</onup>
 				<ondown>4001</ondown>
 				<onleft>50</onleft>
 				<onright>50</onright>
 			</control>
-			<control type="button" id="4001"> 
+			<control type="label" id="1701">
+				<posx>300</posx>
+				<posy>250</posy>
+				<width>120</width>
+				<height>40</height>
+				<font>font13</font>
+				<textcolor>white</textcolor>
+				<textoffsetx>7</textoffsetx>
+				<align>right</align>
+				<aligny>center</aligny>
+				<label>$ADDON[script.games.rom.collection.browser 32419]</label>
+			</control>
+			
+			<control type="button" id="4001">
 				<description>Missing info filter</description>
 				<posx>0</posx>
-				<posy>210</posy>
+				<posy>290</posy>
 				<width>300</width>
 				<height>40</height>
 				<visible>true</visible>
@@ -2071,7 +2105,7 @@
 				<textoffsetx>7</textoffsetx>
 				<textoffsety></textoffsety>
 				<pulseonselect></pulseonselect>
-				<onup>1100</onup>
+				<onup>1700</onup>
 				<ondown>2</ondown>
 				<onleft>50</onleft>
 				<onright>50</onright>

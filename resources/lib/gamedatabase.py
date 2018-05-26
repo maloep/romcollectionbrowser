@@ -461,6 +461,53 @@ class GameView(DataBaseObject):
     COL_fileType14 = 40
     COL_fileType15 = 41
 
+    #this list uses the same order as the fields in Game View
+    #this way we can use game[GameView.COL_fieldname] to get the correct field name (e.g. game[GameView.COL_developer])
+    FIELDNAMES = [
+        'id',
+        'name',
+        'description',
+        'gameCmd',
+        'alternateGameCmd',
+        'isFavorite',
+        'launchCount',
+        'version',
+        'romCollectionId',
+        'developerId',
+        'developer',
+        'publisherId',
+        'publisher',
+        'yearId',
+        'year',
+        'region',
+        'maxPlayers',
+        'rating',
+        'numVotes',
+        'url',
+        'media',
+        'controllerType',
+        'originalTitle',
+        'alternateTitle',
+        'translatedBy',
+        'perspective',
+        'genres',
+        'fileType1',
+        'fileType2',
+        'fileType3',
+        'fileType4',
+        'fileType5',
+        'fileType6',
+        'fileType7',
+        'fileType8',
+        'fileType9',
+        'fileType10',
+        'fileType11',
+        'fileType12',
+        'fileType13',
+        'fileType14',
+        'fileType15'
+    ]
+
     NUM_COLUMNS = 42
 
     filterQuery = "Select * From GameView WHERE \
@@ -474,7 +521,7 @@ class GameView(DataBaseObject):
                     (rating >= ? OR (0 = ?)) AND \
                     (region = ? OR ('All' = ?)) AND \
                     %s \
-                    ORDER BY name COLLATE NOCASE \
+                    %s \
                     %s"
 
     filterByGameByIdFromView = "SELECT * FROM GameView WHERE id = ?"
@@ -510,12 +557,12 @@ class GameView(DataBaseObject):
         self.tableName = "GameView"
 
     def getFilteredGames(self, romCollectionId, genreId, yearId, publisherId, developerId, maxPlayers, rating, region,
-                         isFavorite, likeStatement, maxNumGames=0):
+                         isFavorite, likeStatement, order_by, maxNumGames=0):
         args = (romCollectionId, genreId, yearId, publisherId, developerId, isFavorite, maxPlayers, rating, region)
         limit = ""
         if int(maxNumGames) > 0:
             limit = "LIMIT %s" % str(maxNumGames)
-        filterQuery = self.filterQuery % (likeStatement, limit)
+        filterQuery = self.filterQuery % (likeStatement, order_by, limit)
         util.Logutil.log('searching games with query: ' + filterQuery, util.LOG_LEVEL_INFO)
         util.Logutil.log(
             'searching games with args: romCollectionId = %s, genreId = %s, yearId = %s, publisherId = %s, '

@@ -209,6 +209,15 @@
 	<string id="32414">Max Players</string>
 	<string id="32415">Rating (>=)</string>
 	<string id="32416">Region</string>
+	<string id="32417">Sort by</string>
+	<string id="32418">Order</string>
+	<string id="32419">Ascending</string>
+	<string id="32420">Descending</string>
+	<string id="32421">Title</string>
+	<string id="32422">Rating</string>
+	<string id="32423">Play count</string>
+	<string id="32424">Date added</string>
+	<string id="32425">Release Year</string>
 	
 	<!-- context menu-->
 	<string id="32500">Import Games</string>
