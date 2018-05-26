@@ -76,7 +76,7 @@ class GameDataBase(object):
     def createTables(self):
         print "Create Tables"
         self.executeSQLScript(os.path.join(self.sqlDir, 'SQL_CREATE.txt'))
-        RCBSetting(self).insert((None, None, None, None, None, None, None, util.CURRENT_DB_VERSION, None, None, None))
+        RCBSetting(self).insert((None, 0, 0, 0, 0, 0, None, util.CURRENT_DB_VERSION, None, None, 0, 0, 0, 0, None, None))
 
     def dropTables(self):
         print "Drop Tables"
