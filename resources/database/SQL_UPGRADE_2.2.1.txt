@@ -61,6 +61,6 @@ VALUES
     'All',
     '',
     ''
-)
+);
 
 COMMIT;
