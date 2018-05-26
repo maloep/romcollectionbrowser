@@ -35,7 +35,7 @@ class NfoWriter(RcbXmlReaderWriter):
             gameCount = 1
 
             #get all games for this Rom Collection
-            games = GameView(gdb).getFilteredGames(romCollection.id, 0, 0, 0, False, '0 = 0')
+            games = GameView(gdb).getFilteredGames(romCollection.id, 0, 0, 0, 0, 0, 0, 0, 0, '0 = 0', '', 0)
             progressDialog.itemCount = len(games) + 1
 
             for game in games:
