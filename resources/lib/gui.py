@@ -415,9 +415,27 @@ class UIGameDB(xbmcgui.WindowXML):
             if index < 0:
                 return
 
+            rating = ratings[index]
             button = self.getControlById(CONTROL_RATING)
-            button.setLabel(ratings[index])
-            self.selectedRating = ratings[index]
+            button.setLabel(rating)
+            if(rating == util.localize(32120)):
+                rating = 0
+            self.selectedRating = rating
+
+        elif control_id == CONTROL_REGION:
+            regions = [util.localize(32120)]
+            rows = GameView(self.gdb).getDistinctRegions()
+            for row in rows:
+                if row[0]:
+                    regions.append(row[0])
+
+            index = xbmcgui.Dialog().select(util.localize(32416), regions)
+            if index < 0:
+                return
+
+            button = self.getControlById(CONTROL_REGION)
+            button.setLabel(regions[index])
+            self.selectedRegion = regions[index]
 
         elif control_id == CONTROL_CHARACTER:
             characters = [util.localize(32120)]
@@ -1201,7 +1219,7 @@ class UIGameDB(xbmcgui.WindowXML):
 
         rating = rcbSetting[RCBSetting.COL_lastSelectedRating]
         button = self.getControlById(CONTROL_RATING)
-        if rating != util.localize(32120):
+        if rating > 0:
             button.setLabel(str(rating))
             self.selectedRating = rating
         else:

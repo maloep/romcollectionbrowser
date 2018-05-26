@@ -485,6 +485,8 @@ class GameView(DataBaseObject):
 
     getDistinctMaxPlayersQuery = "SELECT DISTINCT maxPlayers FROM GameView Order by maxPlayers COLLATE NOCASE"
 
+    getDistinctRegionsQuery = "SELECT DISTINCT region FROM GameView Order by region COLLATE NOCASE"
+
     def __init__(self, gdb):
         self.gdb = gdb
         self.tableName = "GameView"
@@ -527,6 +529,9 @@ class GameView(DataBaseObject):
 
     def getDistinctMaxPlayers(self):
         return self.getObjectsByQueryNoArgs(self.getDistinctMaxPlayersQuery)
+
+    def getDistinctRegions(self):
+        return self.getObjectsByQueryNoArgs(self.getDistinctRegionsQuery)
 
 
 class RCBSetting(DataBaseObject):
