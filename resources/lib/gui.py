@@ -63,12 +63,11 @@ class UIGameDB(xbmcgui.WindowXML):
     selectedYearId = 0
     selectedPublisherId = 0
     selectedCharacter = util.localize(32120)
-
-    selectedConsoleIndex = 0
-    selectedGenreIndex = 0
-    selectedYearIndex = 0
-    selectedPublisherIndex = 0
-    selectedCharacterIndex = 0
+    selectedMaxPlayers = util.localize(32120)
+    selectedRating = 0
+    selectedRegion = util.localize(32120)
+    sortMethod = ''
+    sortDirection = ''
 
     applyFilterThread = None
     applyFilterThreadStopped = False
@@ -809,7 +808,6 @@ class UIGameDB(xbmcgui.WindowXML):
             self.clearList()
             xbmc.sleep(util.WAITTIME_UPDATECONTROLS)
             if rDelete:
-                self.selectedConsoleId = int(self.setFilterSelection(CONTROL_CONSOLES, self.selectedConsoleIndex))
                 self.setFilterSelection(CONTROL_GAMES_GROUP_START, 0)
             self.showGames()
 
@@ -880,11 +878,10 @@ class UIGameDB(xbmcgui.WindowXML):
                                                 consoleId=self.selectedConsoleId, genreId=self.selectedGenreId,
                                                 yearId=self.selectedYearId, publisherId=self.selectedPublisherId,
                                                 selectedGameIndex=selectedGameIndex,
-                                                consoleIndex=self.selectedConsoleIndex,
-                                                genreIndex=self.selectedGenreIndex, yearIndex=self.selectedYearIndex,
-                                                publisherIndex=self.selectedPublisherIndex,
                                                 selectedCharacter=self.selectedCharacter,
-                                                selectedCharacterIndex=self.selectedCharacterIndex,
+                                                selectedMaxPlayers=self.selectedMaxPlayers,
+                                                selectedRating=self.selectedRating, selectedRegion=self.selectedRegion,
+                                                sortMethod=self.sortMethod, sortDirection=self.sortDirection,
                                                 controlIdMainView=self.selectedControlId, config=self.config,
                                                 settings=self.Settings,
                                                 fileTypeGameplay=self.fileTypeGameplay)
@@ -894,11 +891,10 @@ class UIGameDB(xbmcgui.WindowXML):
                                                 consoleId=self.selectedConsoleId, genreId=self.selectedGenreId,
                                                 yearId=self.selectedYearId, publisherId=self.selectedPublisherId,
                                                 selectedGameIndex=selectedGameIndex,
-                                                consoleIndex=self.selectedConsoleIndex,
-                                                genreIndex=self.selectedGenreIndex, yearIndex=self.selectedYearIndex,
-                                                publisherIndex=self.selectedPublisherIndex,
                                                 selectedCharacter=self.selectedCharacter,
-                                                selectedCharacterIndex=self.selectedCharacterIndex,
+                                                selectedMaxPlayers=self.selectedMaxPlayers,
+                                                selectedRating=self.selectedRating, selectedRegion=self.selectedRegion,
+                                                sortMethod=self.sortMethod, sortDirection=self.sortDirection,
                                                 controlIdMainView=self.selectedControlId, config=self.config,
                                                 settings=self.Settings,
                                                 fileTypeGameplay=self.fileTypeGameplay)
@@ -1063,8 +1059,9 @@ class UIGameDB(xbmcgui.WindowXML):
 
         helper.saveViewState(self.gdb, isOnExit, util.VIEW_MAINVIEW, selectedGameIndex, self.selectedConsoleId,
                              self.selectedGenreId, self.selectedPublisherId,
-                             self.selectedYearId, self.selectedCharacter, self.selectedControlId, None,
-                             self.Settings)
+                             self.selectedYearId, self.selectedCharacter, self.selectedMaxPlayers,
+                             self.selectedRating, self.selectedRegion, self.sortMethod, self.sortDirection,
+                             self.selectedControlId, None, self.Settings)
 
         Logutil.log("End saveViewState", util.LOG_LEVEL_INFO)
 
@@ -1104,7 +1101,7 @@ class UIGameDB(xbmcgui.WindowXML):
             Logutil.log("rcbSetting == None in loadViewState", util.LOG_LEVEL_WARNING)
             return
 
-        rcid = rcbSetting[RCBSetting.COL_lastSelectedConsoleIndex]
+        rcid = rcbSetting[RCBSetting.COL_lastSelectedConsoleId]
         button = self.getControlById(CONTROL_CONSOLES)
         if rcid > 0:
             romcollection = self.config.getRomCollectionById(str(rcid))
@@ -1113,7 +1110,7 @@ class UIGameDB(xbmcgui.WindowXML):
         else:
             button.setLabel(util.localize(32120))
 
-        genreid = rcbSetting[RCBSetting.COL_lastSelectedGenreIndex]
+        genreid = rcbSetting[RCBSetting.COL_lastSelectedGenreId]
         button = self.getControlById(CONTROL_GENRE)
         if genreid > 0:
             genre = Genre(self.gdb).getObjectById(genreid)
@@ -1122,7 +1119,7 @@ class UIGameDB(xbmcgui.WindowXML):
         else:
             button.setLabel(util.localize(32120))
 
-        yearid = rcbSetting[RCBSetting.COL_lastSelectedYearIndex]
+        yearid = rcbSetting[RCBSetting.COL_lastSelectedYearId]
         button = self.getControlById(CONTROL_YEAR)
         if yearid > 0:
             year = Year(self.gdb).getObjectById(yearid)
@@ -1131,7 +1128,7 @@ class UIGameDB(xbmcgui.WindowXML):
         else:
             button.setLabel(util.localize(32120))
 
-        publisherid = rcbSetting[RCBSetting.COL_lastSelectedPublisherIndex]
+        publisherid = rcbSetting[RCBSetting.COL_lastSelectedPublisherId]
         button = self.getControlById(CONTROL_PUBLISHER)
         if publisherid > 0:
             publisher = Publisher(self.gdb).getObjectById(publisherid)
@@ -1140,7 +1137,7 @@ class UIGameDB(xbmcgui.WindowXML):
         else:
             button.setLabel(util.localize(32120))
 
-        character = rcbSetting[RCBSetting.COL_lastSelectedCharacterIndex]
+        character = rcbSetting[RCBSetting.COL_lastSelectedCharacter]
         button = self.getControlById(CONTROL_CHARACTER)
         if character != util.localize(32120):
             button.setLabel(character)

@@ -1,0 +1,63 @@
+
+BEGIN TRANSACTION;
+
+DROP TABLE IF EXISTS [RCBSetting];
+
+CREATE TABLE IF NOT EXISTS [RCBSetting]
+(
+    [id] INTEGER PRIMARY KEY AUTOINCREMENT,
+    [lastSelectedView] TEXT,
+    [lastSelectedConsoleId] INTEGER,
+    [lastSelectedGenreId] INTEGER,
+    [lastSelectedPublisherId] INTEGER,
+    [lastSelectedYearId] INTEGER,
+    [lastSelectedGameIndex] INTEGER,
+    [dbVersion] TEXT,
+    [lastFocusedControlMainView] INTEGER,
+    [lastFocusedControlGameInfoView] INTEGER,
+    [lastSelectedCharacter] TEXT,
+	[lastSelectedMaxPlayers] TEXT,
+	[lastSelectedRating] REAL,
+	[lastSelectedRegion] TEXT,
+	[sortMethod] TEXT,
+	[sortDirection] TEXT
+);
+
+INSERT INTO [RCBSetting]
+(
+	lastSelectedView,
+	lastSelectedConsoleId,
+	lastSelectedGenreId,
+    lastSelectedPublisherId,
+    lastSelectedYearId,
+    lastSelectedGameIndex,
+    dbVersion,
+    lastFocusedControlMainView,
+    lastFocusedControlGameInfoView,
+    lastSelectedCharacter,
+	lastSelectedMaxPlayers,
+	lastSelectedRating,
+	lastSelectedRegion,
+	sortMethod,
+	sortDirection
+)
+VALUES
+(
+	50,
+	0,
+	0,
+	0,
+	0,
+	0,
+	'2.2.2',
+	0,
+	0,
+	'All',
+	'All',
+	0,
+	'All',
+	'',
+	''
+)
+
+COMMIT;

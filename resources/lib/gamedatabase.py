@@ -517,80 +517,24 @@ class GameView(DataBaseObject):
             return None
         return dbobj
 
-    """
-    def getGameById(self, gameid):
-        try:
-            dbobj = self.getObjectByQuery(self.filterByGameByIdFromView, (gameid,))
-            gobj = self.rowToObj(dbobj)
-        except Exception as e:
-            print 'Error mapping game row to object: ' + e.message
-            return None
-        return gobj
-    """
-
-    """
-    def getGamesByFilter(self, romCollectionId, genreId, yearId, publisherId, isFavorite, likeStatement, maxNumGames=0):
-        
-        args = (romCollectionId, genreId, yearId, publisherId, isFavorite)
-        limit = ""
-        if int(maxNumGames) > 0:
-            limit = "LIMIT %s" % str(maxNumGames)
-        filterQuery = self.filterQuery % (likeStatement, limit)
-        util.Logutil.log('searching games with query: ' + filterQuery, util.LOG_LEVEL_INFO)
-        util.Logutil.log(
-            'searching games with args: romCollectionId = %s, genreId = %s, yearId = %s, publisherId = %s, isFavorite = %s, likeStatement = %s, limit = %s' % (
-                str(romCollectionId), str(genreId), str(yearId), str(publisherId), str(isFavorite), likeStatement,
-                limit),
-            util.LOG_LEVEL_INFO)
-        games = self.getObjectsByWildcardQuery(filterQuery, args)
-
-        return self.rowsToObjs(games)
-    """
-
-    """
-    def rowToObj(self, dbobj):
-        gobj = gameobj()
-
-        # Check if dbobj is None, i.e. no results found
-        if dbobj is None:
-            print 'WARNING: empty dbobj'
-        else:
-            for key in dbobj.keys():
-                try:
-                    #Logutil.log(key + ' (' + type(dbobj[key]) + '): ' + getattr(gobj, key), util.LOG_LEVEL_DEBUG)
-                    if type(dbobj[key]).__name__ == 'str':
-                        gobj.__setattr__(key, dbobj[key].encode('utf-8'))
-                    else:
-                        gobj.__setattr__(key, dbobj[key])
-                except Exception as e:
-                    print 'Error retrieving key ' + key + ': ' + e.message
-
-        return gobj
-
-    def rowsToObjs(self, rows):
-
-        gamelist = []
-        for row in rows:
-            gobj = self.rowToObj(row)
-            gamelist.append(gobj)
-
-        return gamelist
-    """
-
 
 class RCBSetting(DataBaseObject):
     #column index of table Rcbsetting
     COL_lastSelectedView = 1
-    COL_lastSelectedConsoleIndex = 2
-    COL_lastSelectedGenreIndex = 3
-    COL_lastSelectedPublisherIndex = 4
-    COL_lastSelectedYearIndex = 5
+    COL_lastSelectedConsoleId = 2
+    COL_lastSelectedGenreId = 3
+    COL_lastSelectedPublisherId = 4
+    COL_lastSelectedYearId = 5
     COL_lastSelectedGameIndex = 6
-    COL_autoexecBackupPath = 7  # This is a deprecated setting, unused in code
-    COL_dbVersion = 8
-    COL_lastFocusedControlMainView = 9
-    COL_lastFocusedControlGameInfoView = 10
-    COL_lastSelectedCharacterIndex = 11
+    COL_dbVersion = 7
+    COL_lastFocusedControlMainView = 8
+    COL_lastFocusedControlGameInfoView = 9
+    COL_lastSelectedCharacter = 10
+    COL_lastSelectedMaxPlayers = 11
+    COL_lastSelectedRating = 12
+    COL_lastSelectedRegion = 13
+    COL_sortMethod = 14
+    COL_sortDirection = 15
     
     def __init__(self, gdb):
         self.gdb = gdb
