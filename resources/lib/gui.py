@@ -325,8 +325,9 @@ class UIGameDB(xbmcgui.WindowXML):
     def onClick(self, controlId):
         log.debug("onClick: {0}".format(controlId))
         if controlId in FILTER_CONTROLS:
-            self.apply_filter(controlId)
-            self.showGames()
+            filter_changed = self.apply_filter(controlId)
+            if filter_changed:
+                self.showGames()
         elif controlId in GAME_LISTS:
             log.debug("onClick: Launch Emu")
             self.launchEmu()
@@ -403,12 +404,15 @@ class UIGameDB(xbmcgui.WindowXML):
             xbmc.executebuiltin('Container.NextViewMode')
 
     def apply_filter(self, control_id):
+
+        filter_changed = False
         if control_id == CONTROL_CONSOLES:
             consoles = []
             for romCollection in self.config.romCollections.values():
                 consoles.append([romCollection.id, romCollection.name])
 
-            self.selectedConsoleId = self.filter_foreign_key_values(consoles, util.localize(32406), control_id, self.selectedConsoleId)
+            self.selectedConsoleId, filter_changed = self.filter_foreign_key_values(consoles, util.localize(32406),
+                                                                                    control_id, self.selectedConsoleId)
         elif control_id == CONTROL_GENRE:
             genres = []
             rows = Genre(self.gdb).getFilteredGenres(self.selectedConsoleId, self.selectedYearId, self.selectedPublisherId,
@@ -418,7 +422,8 @@ class UIGameDB(xbmcgui.WindowXML):
             for row in rows:
                 genres.append([row[Genre.COL_ID], row[Genre.COL_NAME]])
 
-            self.selectedGenreId = self.filter_foreign_key_values(genres, util.localize(32401), control_id, self.selectedGenreId)
+            self.selectedGenreId, filter_changed = self.filter_foreign_key_values(genres, util.localize(32401),
+                                                                                  control_id, self.selectedGenreId)
         elif control_id == CONTROL_YEAR:
             years = []
             rows = Year(self.gdb).getFilteredYears(self.selectedConsoleId, self.selectedGenreId, self.selectedPublisherId,
@@ -428,7 +433,8 @@ class UIGameDB(xbmcgui.WindowXML):
             for row in rows:
                 years.append([row[Year.COL_ID], row[Year.COL_NAME]])
 
-            self.selectedYearId = self.filter_foreign_key_values(years, util.localize(32400), control_id, self.selectedYearId)
+            self.selectedYearId, filter_changed = self.filter_foreign_key_values(years, util.localize(32400),
+                                                                                 control_id, self.selectedYearId)
         elif control_id == CONTROL_PUBLISHER:
             publishers = []
             rows = Publisher(self.gdb).getFilteredPublishers(self.selectedConsoleId, self.selectedGenreId, self.selectedYearId,
@@ -438,8 +444,8 @@ class UIGameDB(xbmcgui.WindowXML):
             for row in rows:
                 publishers.append([row[Publisher.COL_ID], row[Publisher.COL_NAME]])
 
-            self.selectedPublisherId = self.filter_foreign_key_values(publishers, util.localize(32402), control_id,
-                                                                      self.selectedPublisherId)
+            self.selectedPublisherId, filter_changed = self.filter_foreign_key_values(publishers, util.localize(32402),
+                                                                                control_id, self.selectedPublisherId)
         elif control_id == CONTROL_DEVELOPER:
             developers = []
             rows = Developer(self.gdb).getFilteredDevelopers(self.selectedConsoleId, self.selectedGenreId, self.selectedYearId,
@@ -449,8 +455,8 @@ class UIGameDB(xbmcgui.WindowXML):
             for row in rows:
                 developers.append([row[Developer.COL_ID], row[Developer.COL_NAME]])
 
-            self.selectedDeveloperId = self.filter_foreign_key_values(developers, util.localize(32403), control_id,
-                                                                      self.selectedDeveloperId)
+            self.selectedDeveloperId, filter_changed = self.filter_foreign_key_values(developers, util.localize(32403),
+                                                                                    control_id, self.selectedDeveloperId)
         elif control_id == CONTROL_MAXPLAYERS:
             maxplayers = [util.localize(32120)]
             rows = GameView(self.gdb).getFilteredMaxPlayers(self.selectedConsoleId, self.selectedGenreId, self.selectedYearId,
@@ -461,15 +467,15 @@ class UIGameDB(xbmcgui.WindowXML):
                 if row[0]:
                     maxplayers.append(row[0])
 
-            self.selectedMaxPlayers = self.filter_text_values(maxplayers, util.localize(32414), control_id,
-                                                              self.selectedMaxPlayers)
+            self.selectedMaxPlayers, filter_changed = self.filter_text_values(maxplayers, util.localize(32414),
+                                                                              control_id, self.selectedMaxPlayers)
 
         elif control_id == CONTROL_RATING:
             ratings = [util.localize(32120)]
             for i in range(1,10):
                 ratings.append(str(i))
 
-            rating = self.filter_text_values(ratings, util.localize(32415), control_id,
+            rating, filter_changed = self.filter_text_values(ratings, util.localize(32415), control_id,
                                                           self.selectedRating)
             if(rating == util.localize(32120)):
                 rating = 0
@@ -485,7 +491,7 @@ class UIGameDB(xbmcgui.WindowXML):
                 if row[0]:
                     regions.append(row[0])
 
-            self.selectedRegion = self.filter_text_values(regions, util.localize(32416), control_id,
+            self.selectedRegion, filter_changed = self.filter_text_values(regions, util.localize(32416), control_id,
                                                           self.selectedRegion)
 
         elif control_id == CONTROL_CHARACTER:
@@ -495,20 +501,21 @@ class UIGameDB(xbmcgui.WindowXML):
                 char = chr(ord('A') + i)
                 characters.append(char)
 
-            self.selectedCharacter = self.filter_text_values(characters, util.localize(32407), control_id,
+            self.selectedCharacter, filter_changed = self.filter_text_values(characters, util.localize(32407), control_id,
                                                              self.selectedCharacter)
+        return filter_changed
 
     def filter_text_values(self, filter_items, header_text, control_id, current_value):
         index = xbmcgui.Dialog().select(header_text, filter_items)
         if index < 0:
-            return current_value
+            return current_value, False
 
         button = self.getControlById(control_id)
         result = filter_items[index]
         button.setLabel(result)
         if result == util.localize(32120):
             result = 0
-        return result
+        return result, True
 
     def filter_foreign_key_values(self, filter_items, header_text, control_id, current_value):
         # Sort the consoles by name
@@ -521,11 +528,11 @@ class UIGameDB(xbmcgui.WindowXML):
             items.append(item)
         index = xbmcgui.Dialog().select(header_text, items)
         if index < 0:
-            return current_value
+            return current_value, False
         item = items[index]
         button = self.getControlById(control_id)
         button.setLabel(item.getLabel())
-        return int(item.getProperty('id'))
+        return int(item.getProperty('id')), True
 
     def onFocus(self, controlId):
         Logutil.log("onFocus: " + str(controlId), util.LOG_LEVEL_DEBUG)
