@@ -30,10 +30,6 @@
 		<setting id="rcb_maxNumGames" label="32328" type="enum" values="max|100|250|500|1000|2500|5000|10000" default="0"/>
 		<setting id="rcb_showFavoriteStars" label="32319" type="bool" default="true"/>
 		<setting id="rcb_showEntryAllConsoles" label="32320" type="bool" default="true"/>
-		<setting id="rcb_showEntryAllGenres" label="32321" type="bool" default="true"/>
-		<setting id="rcb_showEntryAllYears" label="32322" type="bool" default="true"/>
-		<setting id="rcb_showEntryAllPublisher" label="32323" type="bool" default="true"/>
-		<setting id="rcb_showEntryAllChars" label="32324" type="bool" default="true"/>		
 	</category>
 	
 	<category label="32326">
