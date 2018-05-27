@@ -53,14 +53,96 @@ class TestDbGameView(unittest.TestCase):
         self.assertTrue(game[GameView.COL_year] == '1992', 'Year of game with ID 50 expected to be 1992 but was %s' %game[GameView.COL_year])
         self.assertTrue(game[GameView.COL_genre] == 'Adventure, Action, Role-Playing', 'Genre of game with ID 50 expected to be Adventure, Action, Role-Playing but was %s' %game[GameView.COL_genre])
 
+    def test_RetrieveNonExistantGameById(self):
+        ''' Validate retrieve of unavailable ID returns an empty gameobj '''
+        game = GameView(self.gdb).getGameById(9999999)
+        #self.assertIsInstance(game, gameobj, u'Expected type of return object to be {0}, was {1}'.format(gameobj, type(game)))
+
+        self.assertIsNone(game)
+
+    def test_RetrieveGameWithUnicode(self):
+        ''' Validate items with unicode descriptions are stored/retrieved correctly '''
+        game = GameView(self.gdb).getGameById(66)
+
+        self.assertTrue(game[GameView.COL_description].startswith(u'Mario\u2019s off'), 'Game with unicode plot not handled correctly')
+
+    def test_RetrieveMultipleGamesByYear(self):
+        ''' Validate retrieve by year works '''
+        newgames = GameView(self.gdb).getFilteredGames(0, 0, 9, 0, 0, 0, 0, 0, 0, '0 = 0', '', 0)
+
+        #self.assertIsInstance(newgames[0], gameobj, u'Expected type of return objects to be {0}, was {1}'.format(gameobj, type(newgames[0])))
+        self.assertTrue(len(newgames) == 5, u'Expected 5 games found for year = 9 (1992), found {0}'.format(len(newgames)))
+
+    def test_FilterGames_RomCollection(self):
+        genres = GameView(self.gdb).getFilteredGames(1, 0, 0, 0, 0, 0, 0, 0, 0, '0 = 0', '')
+        self.assertEquals(len(genres), 51)
+
+    def test_FilterGames_Genre(self):
+        genres = GameView(self.gdb).getFilteredGames(0, 2, 0, 0, 0, 0, 0, 0, 0, '0 = 0', '')
+        self.assertEquals(len(genres), 21)
+
+    def test_FilterGames_Year(self):
+        genres = GameView(self.gdb).getFilteredGames(0, 0, 2, 0, 0, 0, 0, 0, 0, '0 = 0', '')
+        self.assertEquals(len(genres), 2)
+
+    def test_FilterGames_Publisher(self):
+        genres = GameView(self.gdb).getFilteredGames(0, 0, 0, 3, 0, 0, 0, 0, 0, '0 = 0', '')
+        self.assertEquals(len(genres), 1)
+
+    def test_FilterGames_Developer(self):
+        genres = GameView(self.gdb).getFilteredGames(0, 0, 0, 0, 1, 0, 0, 0, 0, '0 = 0', '')
+        self.assertEquals(len(genres), 9)
+
+    def test_FilterGames_MaxPlayers(self):
+        genres = GameView(self.gdb).getFilteredGames(0, 0, 0, 0, 0, '2', 0, 0, 0, '0 = 0', '')
+        self.assertEquals(len(genres), 24)
+
+    def test_FilterGames_Rating(self):
+        genres = GameView(self.gdb).getFilteredGames(0, 0, 0, 0, 0, 0, 5, 0, 0, '0 = 0', '')
+        self.assertEquals(len(genres), 12)
+
+    def test_FilterGames_Region(self):
+        genres = GameView(self.gdb).getFilteredGames(0, 0, 0, 0, 0, 0, 0, 'USA', 0, '0 = 0', '')
+        self.assertEquals(len(genres), 11)
+
+    def test_FilterGames_IsFavorite(self):
+        genres = GameView(self.gdb).getFilteredGames(0, 0, 0, 0, 0, 0, 0, 0, 1, '0 = 0', '')
+        self.assertEquals(len(genres), 7)
+
+    def test_FilterGames_Character(self):
+        genres = GameView(self.gdb).getFilteredGames(0, 0, 0, 0, 0, 0, 0, 0, 0, "name LIKE 'A%'", '')
+        self.assertEquals(len(genres), 7)
+
+    def test_GetMaxPlayers_NoFilter(self):
+        maxplayers = GameView(self.gdb).getFilteredMaxPlayers(0, 0, 0, 0, 0, 0, 0, '0 = 0')
+        self.assertEquals(len(maxplayers), 4)
+
+    def test_GetMaxPlayers_RomCollection(self):
+        maxplayers = GameView(self.gdb).getFilteredMaxPlayers(1, 0, 0, 0, 0, 0, 0, '0 = 0')
+        self.assertEquals(len(maxplayers), 3)
+
+    def test_GetMaxPlayers_Genre(self):
+        maxplayers = GameView(self.gdb).getFilteredMaxPlayers(0, 1, 0, 0, 0, 0, 0, '0 = 0')
+        self.assertEquals(len(maxplayers), 2)
+
+    def test_GetRegions_NoFilter(self):
+        regions = GameView(self.gdb).getFilteredRegions(0, 0, 0, 0, 0, 0, 0, '0 = 0')
+        self.assertEquals(len(regions), 3)
+
+    def test_GetRegions_RomCollection(self):
+        regions = GameView(self.gdb).getFilteredRegions(1, 0, 0, 0, 0, 0, 0, '0 = 0')
+        self.assertEquals(len(regions), 3)
+
+    def test_GetRegions_Genre(self):
+        regions = GameView(self.gdb).getFilteredRegions(0, 3, 0, 0, 0, 0, 0, '0 = 0')
+        self.assertEquals(len(regions), 1)
+
+    @unittest.skip('only used for performance tests')
     def test_GetGamesByFilter(self):
         db_path = 'C:\\Users\\lom\\AppData\\Roaming\\Kodi\\userdata\\addon_data\\script.games.rom.collection.browser\\'
         gdb = GameDataBase(db_path)
         gdb.connect()
         gdb.checkDBStructure()
-
-        #gdb.cursor.execute("VACUUM")
-        #gdb.cursor.execute("PRAGMA optimize")
         gdb.cursor.execute("PRAGMA cache_size = 20000")
 
         import time
@@ -77,6 +159,7 @@ class TestDbGameView(unittest.TestCase):
         timestamp2 = time.clock()
         diff = (timestamp2 - timestamp1) * 1000
         print "load 1 game from db in %d ms" % diff
+
 
 if __name__ == "__main__":
     #import sys;sys.argv = ['', 'Test.testName']
