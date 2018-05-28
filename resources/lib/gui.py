@@ -244,6 +244,8 @@ class UIGameDB(xbmcgui.WindowXML):
             self.close()
             return
 
+        self.load_color_schemes()
+
         self.clearList()
         xbmc.sleep(util.WAITTIME_UPDATECONTROLS)
 
@@ -402,6 +404,23 @@ class UIGameDB(xbmcgui.WindowXML):
         elif controlId == CONTROL_BUTTON_CHANGE_VIEW:
             # Need to change viewmode manually since Frodo
             xbmc.executebuiltin('Container.NextViewMode')
+
+    def load_color_schemes(self):
+        log.info('load_color_schemes')
+
+        xbmc.executebuiltin("Skin.SetString(rcb_background, FF0E597E)")
+        xbmc.executebuiltin("Skin.SetString(rcb_background_diffuse, 37FFFFFF)")
+
+        xbmc.executebuiltin("Skin.SetString(rcb_panel_diffuse_semitransp, EDFFFFFF)")
+        xbmc.executebuiltin("Skin.SetString(rcb_panel_diffuse_transp, AAFFFFFF)")
+        xbmc.executebuiltin("Skin.SetString(rcb_panel_diffuse_notransp, FFFFFFFF)")
+
+        xbmc.executebuiltin("Skin.SetString(rcb_textcolor, FFFFFFFF)")
+        xbmc.executebuiltin("Skin.SetString(rcb_textcolor_heading, FF12A0C7)")
+        xbmc.executebuiltin("Skin.SetString(rcb_text_color_disabled, 80FFFFFF)")
+        xbmc.executebuiltin("Skin.SetString(rcb_text_color_focused, DDFFFFFF)")
+
+        xbmc.executebuiltin("Skin.SetString(rcb_button_focus, FF12A0C7)")
 
     def apply_filter(self, control_id):
 
