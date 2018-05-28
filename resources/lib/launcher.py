@@ -481,6 +481,9 @@ class RCBLauncher(object):
             log.warn("Unable to get filesystem encoding, defaulting to UTF-8")
             encoding = 'utf-8'
 
+        if not encoding:
+            encoding = 'utf-8'
+
         return encoding
 
     def __executePreCommand(self, precmd):
@@ -490,6 +493,7 @@ class RCBLauncher(object):
             os.system(precmd.encode(self.__getEncoding()))
 
     def __executeCommand(self, cmd):
+        log.info('__executeCommand')
         # change working directory
         path = os.path.dirname(self.romCollection.emulatorCmd)
         if os.path.isdir(path):
@@ -499,10 +503,12 @@ class RCBLauncher(object):
                 log.warn("Unable to chdir to {0}".format(path))
 
         if self.romCollection.usePopen:
+            log.info('execute command with popen')
             import subprocess
             process = subprocess.Popen(cmd.encode(self.__getEncoding()), shell=True)
             process.wait()
         else:
+            log.info('execute command with os.system')
             os.system(cmd.encode(self.__getEncoding()))
 
     def __executePostCommand(self, postcmd):
