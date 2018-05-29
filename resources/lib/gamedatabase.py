@@ -563,13 +563,13 @@ class GameView(DataBaseObject):
         if int(maxNumGames) > 0:
             limit = "LIMIT %s" % str(maxNumGames)
         filterQuery = self.filterQuery % (likeStatement, order_by, limit)
-        util.Logutil.log('searching games with query: ' + filterQuery, util.LOG_LEVEL_DEBUG)
+        util.Logutil.log('searching games with query: ' + filterQuery, util.LOG_LEVEL_INFO)
         util.Logutil.log(
             'searching games with args: romCollectionId = %s, genreId = %s, yearId = %s, publisherId = %s, '
             'developerId = %s, maxPlayers = %s, rating = %s, region = %s, isFavorite = %s, likeStatement = %s, '
             'limit = %s' % (str(romCollectionId), str(genreId), str(yearId), str(publisherId), str(developerId),
                             maxPlayers, str(rating), region, str(isFavorite), likeStatement, limit),
-            util.LOG_LEVEL_DEBUG)
+            util.LOG_LEVEL_INFO)
         games = self.getObjectsByWildcardQuery(filterQuery, args)
         newList = self.encodeUtf8(games)
         return newList
