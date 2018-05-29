@@ -8,7 +8,7 @@ import xbmc, xbmcaddon, xbmcvfs
 SCRIPTNAME = 'Rom Collection Browser'
 SCRIPTID = 'script.games.rom.collection.browser'
 CURRENT_CONFIG_VERSION = "2.2.0"
-CURRENT_DB_VERSION = "2.2.1"
+CURRENT_DB_VERSION = "2.2.2"
 ISTESTRUN = False
 
 __addon__ = xbmcaddon.Addon(id='%s' % SCRIPTID)
@@ -38,8 +38,6 @@ MAXNUMGAMES_ENUM = [0, 100, 250, 500, 1000, 2500, 5000, 10000]
 
 SETTING_RCB_VIEW_MODE = 'rcb_view_mode'
 SETTING_RCB_SKIN = 'rcb_skin'
-SETTING_RCB_CACHINGOPTION = 'rcb_cachingOption'
-SETTING_RCB_MEMDB = 'rcb_memDB'
 SETTING_RCB_LOGLEVEL = 'rcb_logLevel'
 SETTING_RCB_ESCAPECOMMAND = 'rcb_escapeEmulatorCommand'
 SETTING_RCB_PREFERLOCALNFO = 'rcb_PreferNfoFileIfAvailable'
@@ -47,13 +45,8 @@ SETTING_RCB_ENABLEFULLREIMPORT = 'rcb_enableFullReimport'
 SETTING_RCB_ALLOWOVERWRITEWITHNULLVALUES = 'rcb_overwriteWithNullvalues'
 SETTING_RCB_IGNOREGAMEWITHOUTDESC = 'rcb_ignoreGamesWithoutDesc'
 SETTING_RCB_SHOWENTRYALLCONSOLES = 'rcb_showEntryAllConsoles'
-SETTING_RCB_SHOWENTRYALLGENRES = 'rcb_showEntryAllGenres'
-SETTING_RCB_SHOWENTRYALLYEARS = 'rcb_showEntryAllYears'
-SETTING_RCB_SHOWENTRYALLPUBLISHER = 'rcb_showEntryAllPublisher'
-SETTING_RCB_SHOWENTRYALLCHARS = 'rcb_showEntryAllChars'
 SETTING_RCB_PREVENTUNFILTEREDSEARCH = 'rcb_preventUnfilteredSearch'
 SETTING_RCB_USECLEARLOGOASTITLE = 'rcb_useClearlogoAsTitle'
-SETTING_RCB_LOADGAMELISTARTWORK = 'rcb_loadGamelistArtwork'
 SETTING_RCB_SAVEVIEWSTATEONEXIT = 'rcb_saveViewStateOnExit'
 SETTING_RCB_SAVEVIEWSTATEONLAUNCHEMU = 'rcb_saveViewStateOnLaunchEmu'
 SETTING_RCB_SHOWIMPORTOPTIONSDIALOG = 'rcb_showImportOptions'
@@ -66,7 +59,6 @@ SETTING_RCB_FAVORITESSELECTED = 'rcb_favoritesSelected'
 SETTING_RCB_SEARCHTEXT = 'rcb_searchText'
 SETTING_RCB_IMPORTOPTIONS_DISABLEROMCOLLECTIONS = 'rcb_disableRomcollections'
 SETTING_RCB_IMPORTOPTIONS_ISRESCRAPE = 'rcb_isRescrape'
-SETTING_RCB_EDITSCRAPER_DESCFILEPERGAME = 'rcb_editScraper_descFilePerGame'
 SETTING_RCB_NFOFOLDER = 'rcb_nfoFolder'
 SETTING_RCB_PRELAUNCHDELAY = 'rcb_prelaunchDelay'
 SETTING_RCB_POSTLAUNCHDELAY = 'rcb_postlaunchDelay'
@@ -113,14 +105,6 @@ VIDEO_CONTROL_VideoFullscreen = 'videofullscreen'
 
 IMAGE_CONTROL_CLEARLOGO = 'clearlogo'
 
-GAMEPROPERTY_Console = 'console'
-
-FILETYPEPARENT_GAME = 'game'
-FILETYPEPARENT_PUBLISHER = 'publisher'
-FILETYPEPARENT_DEVELOPER = 'developer'
-FILETYPEPARENT_CONSOLE = 'console'
-FILETYPEPARENT_ROMCOLLECTION = 'romcollection'
-
 html_unescape_table = {
     "&amp;": "&",
     "&quot;": '"',
@@ -133,7 +117,6 @@ html_unescape_table = {
     "&#xB2;": "2",
     "&#xB3;": "3",
 }
-
 
 def html_unescape(text):
     for key in html_unescape_table.keys():

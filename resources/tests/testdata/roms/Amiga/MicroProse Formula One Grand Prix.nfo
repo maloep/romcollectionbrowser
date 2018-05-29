@@ -25,6 +25,6 @@ The accurately modelled tracks meant that the player could actually recognise th
   <launchCount>0</launchCount>
   <genre>Sports</genre>
   <genre>Racing</genre>
-  <thumb local="./testdata/artwork/Amiga/screenshot\MicroProse Formula One Grand Prix.png" type="screenshot" />
   <thumb local="./testdata/artwork/Amiga/boxfront\MicroProse Formula One Grand Prix.png" type="boxfront" />
+  <thumb local="./testdata/artwork/Amiga/screenshot\MicroProse Formula One Grand Prix.png" type="screenshot" />
 </game>

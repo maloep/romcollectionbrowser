@@ -26,16 +26,21 @@ CREATE TABLE IF NOT EXISTS [RCBSetting]
 (
     [id] INTEGER PRIMARY KEY AUTOINCREMENT,
     [lastSelectedView] TEXT,
-    [lastSelectedConsoleIndex] INTEGER,
-    [lastSelectedGenreIndex] INTEGER,
-    [lastSelectedPublisherIndex] INTEGER,
-    [lastSelectedYearIndex] INTEGER,
+    [lastSelectedConsoleId] INTEGER,
+    [lastSelectedGenreId] INTEGER,
+    [lastSelectedPublisherId] INTEGER,
+    [lastSelectedDeveloperId] INTEGER,
+    [lastSelectedYearId] INTEGER,
     [lastSelectedGameIndex] INTEGER,
-    [autoexecBackupPath] TEXT,
     [dbVersion] TEXT,
     [lastFocusedControlMainView] INTEGER,
     [lastFocusedControlGameInfoView] INTEGER,
-    [lastSelectedCharacterIndex] INTEGER
+    [lastSelectedCharacter] TEXT,
+    [lastSelectedMaxPlayers] TEXT,
+    [lastSelectedRating] REAL,
+    [lastSelectedRegion] TEXT,
+    [sortMethod] TEXT,
+    [sortDirection] TEXT
 );
 
 

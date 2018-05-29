@@ -76,7 +76,7 @@ class GameDataBase(object):
     def createTables(self):
         print "Create Tables"
         self.executeSQLScript(os.path.join(self.sqlDir, 'SQL_CREATE.txt'))
-        RCBSetting(self).insert((None, None, None, None, None, None, None, util.CURRENT_DB_VERSION, None, None, None))
+        RCBSetting(self).insert((None, 0, 0, 0, 0, 0, None, util.CURRENT_DB_VERSION, None, None, 0, 0, 0, 0, None, None))
 
     def dropTables(self):
         print "Drop Tables"
@@ -461,6 +461,53 @@ class GameView(DataBaseObject):
     COL_fileType14 = 40
     COL_fileType15 = 41
 
+    #this list uses the same order as the fields in Game View
+    #this way we can use game[GameView.COL_fieldname] to get the correct field name (e.g. game[GameView.COL_developer])
+    FIELDNAMES = [
+        'id',
+        'name',
+        'description',
+        'gameCmd',
+        'alternateGameCmd',
+        'isFavorite',
+        'launchCount',
+        'version',
+        'romCollectionId',
+        'developerId',
+        'developer',
+        'publisherId',
+        'publisher',
+        'yearId',
+        'year',
+        'region',
+        'maxPlayers',
+        'rating',
+        'numVotes',
+        'url',
+        'media',
+        'controllerType',
+        'originalTitle',
+        'alternateTitle',
+        'translatedBy',
+        'perspective',
+        'genres',
+        'fileType1',
+        'fileType2',
+        'fileType3',
+        'fileType4',
+        'fileType5',
+        'fileType6',
+        'fileType7',
+        'fileType8',
+        'fileType9',
+        'fileType10',
+        'fileType11',
+        'fileType12',
+        'fileType13',
+        'fileType14',
+        'fileType15'
+    ]
+
     NUM_COLUMNS = 42
 
     filterQuery = "Select * From GameView WHERE \
@@ -468,9 +515,13 @@ class GameView(DataBaseObject):
                     (Id IN (Select GameId From GenreGame Where GenreId = ?) OR (0 = ?)) AND \
                     (YearId = ? OR (0 = ?)) AND \
                     (PublisherId = ? OR (0 = ?)) AND \
-                    (isFavorite = ? OR (0 = ?)) \
-                    AND %s \
-                    ORDER BY name COLLATE NOCASE \
+                    (DeveloperId = ? OR (0 = ?)) AND \
+                    (isFavorite = ? OR (0 = ?)) AND \
+                    (maxPlayers = ? OR (0 = ?)) AND \
+                    (rating >= ? OR (0 = ?)) AND \
+                    (region = ? OR (0 = ?)) AND \
+                    %s \
+                    %s \
                     %s"
 
     filterByGameByIdFromView = "SELECT * FROM GameView WHERE id = ?"
@@ -479,21 +530,45 @@ class GameView(DataBaseObject):
 
     filterMostPlayedGames = "Select * From GameView Where launchCount > 0 Order by launchCount desc Limit "
 
+    filterQueryMaxPlayers = "SELECT DISTINCT maxPlayers FROM GameView WHERE \
+                        (romCollectionId = ? OR (0 = ?)) AND \
+                        (Id IN (Select GameId From GenreGame Where GenreId = ?) OR (0 = ?)) AND \
+                        (YearId = ? OR (0 = ?)) AND \
+                        (PublisherId = ? OR (0 = ?)) AND \
+                        (DeveloperId = ? OR (0 = ?)) AND \
+                        (rating >= ? OR (0 = ?)) AND \
+                        (region = ? OR (0 = ?)) AND \
+                        %s \
+                        ORDER BY maxPlayers COLLATE NOCASE"
+
+    filterQueryRegions = "SELECT DISTINCT region FROM GameView WHERE \
+                            (romCollectionId = ? OR (0 = ?)) AND \
+                            (Id IN (Select GameId From GenreGame Where GenreId = ?) OR (0 = ?)) AND \
+                            (YearId = ? OR (0 = ?)) AND \
+                            (PublisherId = ? OR (0 = ?)) AND \
+                            (DeveloperId = ? OR (0 = ?)) AND \
+                            (maxPlayers = ? OR (0 = ?)) AND \
+                            (rating >= ? OR (0 = ?)) AND \
+                            %s \
+                            ORDER BY region COLLATE NOCASE"
+
     def __init__(self, gdb):
         self.gdb = gdb
         self.tableName = "GameView"
 
-    def getFilteredGames(self, romCollectionId, genreId, yearId, publisherId, isFavorite, likeStatement, maxNumGames=0):
-        args = (romCollectionId, genreId, yearId, publisherId, isFavorite)
+    def getFilteredGames(self, romCollectionId, genreId, yearId, publisherId, developerId, maxPlayers, rating, region,
+                         isFavorite, likeStatement, order_by, maxNumGames=0):
+        args = (romCollectionId, genreId, yearId, publisherId, developerId, isFavorite, maxPlayers, rating, region)
         limit = ""
         if int(maxNumGames) > 0:
             limit = "LIMIT %s" % str(maxNumGames)
-        filterQuery = self.filterQuery % (likeStatement, limit)
+        filterQuery = self.filterQuery % (likeStatement, order_by, limit)
         util.Logutil.log('searching games with query: ' + filterQuery, util.LOG_LEVEL_DEBUG)
         util.Logutil.log(
-            'searching games with args: romCollectionId = %s, genreId = %s, yearId = %s, publisherId = %s, isFavorite = %s, likeStatement = %s, limit = %s' % (
-                str(romCollectionId), str(genreId), str(yearId), str(publisherId), str(isFavorite), likeStatement,
-                limit),
+            'searching games with args: romCollectionId = %s, genreId = %s, yearId = %s, publisherId = %s, '
+            'developerId = %s, maxPlayers = %s, rating = %s, region = %s, isFavorite = %s, likeStatement = %s, '
+            'limit = %s' % (str(romCollectionId), str(genreId), str(yearId), str(publisherId), str(developerId),
+                            maxPlayers, str(rating), region, str(isFavorite), likeStatement, limit),
             util.LOG_LEVEL_DEBUG)
         games = self.getObjectsByWildcardQuery(filterQuery, args)
         newList = self.encodeUtf8(games)
@@ -517,80 +592,39 @@ class GameView(DataBaseObject):
             return None
         return dbobj
 
-    """
-    def getGameById(self, gameid):
-        try:
-            dbobj = self.getObjectByQuery(self.filterByGameByIdFromView, (gameid,))
-            gobj = self.rowToObj(dbobj)
-        except Exception as e:
-            print 'Error mapping game row to object: ' + e.message
-            return None
-        return gobj
-    """
+    def getFilteredMaxPlayers(self, romCollectionId, genreId, yearId, publisherId, developerId, rating, region, likeStatement):
+        args = (romCollectionId, genreId, yearId, publisherId, developerId, rating, region)
+        filterQuery = self.filterQueryMaxPlayers % likeStatement
+        util.Logutil.log('searching maxPlayers with query: ' + filterQuery, util.LOG_LEVEL_DEBUG)
+        players = self.getObjectsByWildcardQuery(filterQuery, args)
+        return players
 
-    """
-    def getGamesByFilter(self, romCollectionId, genreId, yearId, publisherId, isFavorite, likeStatement, maxNumGames=0):
-        
-        args = (romCollectionId, genreId, yearId, publisherId, isFavorite)
-        limit = ""
-        if int(maxNumGames) > 0:
-            limit = "LIMIT %s" % str(maxNumGames)
-        filterQuery = self.filterQuery % (likeStatement, limit)
-        util.Logutil.log('searching games with query: ' + filterQuery, util.LOG_LEVEL_INFO)
-        util.Logutil.log(
-            'searching games with args: romCollectionId = %s, genreId = %s, yearId = %s, publisherId = %s, isFavorite = %s, likeStatement = %s, limit = %s' % (
-                str(romCollectionId), str(genreId), str(yearId), str(publisherId), str(isFavorite), likeStatement,
-                limit),
-            util.LOG_LEVEL_INFO)
-        games = self.getObjectsByWildcardQuery(filterQuery, args)
-
-        return self.rowsToObjs(games)
-    """
-
-    """
-    def rowToObj(self, dbobj):
-        gobj = gameobj()
-
-        # Check if dbobj is None, i.e. no results found
-        if dbobj is None:
-            print 'WARNING: empty dbobj'
-        else:
-            for key in dbobj.keys():
-                try:
-                    #Logutil.log(key + ' (' + type(dbobj[key]) + '): ' + getattr(gobj, key), util.LOG_LEVEL_DEBUG)
-                    if type(dbobj[key]).__name__ == 'str':
-                        gobj.__setattr__(key, dbobj[key].encode('utf-8'))
-                    else:
-                        gobj.__setattr__(key, dbobj[key])
-                except Exception as e:
-                    print 'Error retrieving key ' + key + ': ' + e.message
-
-        return gobj
-
-    def rowsToObjs(self, rows):
-
-        gamelist = []
-        for row in rows:
-            gobj = self.rowToObj(row)
-            gamelist.append(gobj)
-
-        return gamelist
-    """
+    def getFilteredRegions(self, romCollectionId, genreId, yearId, publisherId, developerId, maxPlayers, rating, likeStatement):
+        args = (romCollectionId, genreId, yearId, publisherId, developerId, maxPlayers, rating)
+        filterQuery = self.filterQueryRegions % likeStatement
+        util.Logutil.log('searching regions with query: ' + filterQuery, util.LOG_LEVEL_DEBUG)
+        regions = self.getObjectsByWildcardQuery(filterQuery, args)
+        return regions
 
 
 class RCBSetting(DataBaseObject):
     #column index of table Rcbsetting
     COL_lastSelectedView = 1
-    COL_lastSelectedConsoleIndex = 2
-    COL_lastSelectedGenreIndex = 3
-    COL_lastSelectedPublisherIndex = 4
-    COL_lastSelectedYearIndex = 5
-    COL_lastSelectedGameIndex = 6
-    COL_autoexecBackupPath = 7  # This is a deprecated setting, unused in code
+    COL_lastSelectedConsoleId = 2
+    COL_lastSelectedGenreId = 3
+    COL_lastSelectedPublisherId = 4
+    COL_lastSelectedDeveloperId = 5
+    COL_lastSelectedYearId = 6
+    COL_lastSelectedGameIndex = 7
     COL_dbVersion = 8
     COL_lastFocusedControlMainView = 9
     COL_lastFocusedControlGameInfoView = 10
-    COL_lastSelectedCharacterIndex = 11
+    COL_lastSelectedCharacter = 11
+    COL_lastSelectedMaxPlayers = 12
+    COL_lastSelectedRating = 13
+    COL_lastSelectedRegion = 14
+    COL_sortMethod = 15
+    COL_sortDirection = 16
     
     def __init__(self, gdb):
         self.gdb = gdb
@@ -598,18 +632,16 @@ class RCBSetting(DataBaseObject):
 
 
 class Genre(DataBaseObject):
-    #obsolete: atm genres are only filtered by console
     filterQuery = "SELECT * FROM Genre WHERE Id IN (Select GenreId From GenreGame Where GameId IN ( \
                         Select Id From Game WHERE \
                         (romCollectionId = ? OR (0 = ?)) AND \
                         (YearId = ? OR (0 = ?)) AND \
-                        (PublisherId = ? OR (0 = ?)) \
-                        AND %s)) \
-                        ORDER BY name COLLATE NOCASE"
-
-    filterGenreByConsole = "SELECT * FROM Genre WHERE Id IN (Select GenreId From GenreGame Where GameId IN ( \
-                        Select Id From Game WHERE \
-                        (romCollectionId = ? OR (0 = ?)))) \
+                        (PublisherId = ? OR (0 = ?)) AND \
+                        (DeveloperId = ? OR (0 = ?)) AND \
+                        (maxPlayers = ? OR (0 = ?)) AND \
+                        (rating >= ? OR (0 = ?)) AND \
+                        (region = ? OR (0 = ?)) AND \
+                        %s)) \
                         ORDER BY name COLLATE NOCASE"
 
     filteGenreByGameId = "SELECT * FROM Genre WHERE Id IN (Select GenreId From GenreGame Where GameId = ?)"
@@ -631,15 +663,11 @@ class Genre(DataBaseObject):
         self.gdb = gdb
         self.tableName = "Genre"
 
-    def getFilteredGenres(self, romCollectionId, yearId, publisherId, likeStatement):
-        args = (romCollectionId, yearId, publisherId)
+    def getFilteredGenres(self, romCollectionId, yearId, publisherId, developerId, maxPlayers, rating, region, likeStatement):
+        args = (romCollectionId, yearId, publisherId, developerId, maxPlayers, rating, region)
         filterQuery = self.filterQuery % likeStatement
         util.Logutil.log('searching genres with query: ' + filterQuery, util.LOG_LEVEL_DEBUG)
         genres = self.getObjectsByWildcardQuery(filterQuery, args)
-        return genres
-
-    def getFilteredGenresByConsole(self, romCollectionId):
-        genres = self.getObjectsByWildcardQuery(self.filterGenreByConsole, (romCollectionId,))
         return genres
 
     def getGenresByGameId(self, gameId):
@@ -686,17 +714,16 @@ class GenreGame(DataBaseObject):
 class Year(DataBaseObject):
     yearIdByGameIdQuery = "SELECT yearId From Game Where Id = ?"
 
-    #obsolete: atm years are only filtered by console
+
     filterQuery = "SELECT * FROM Year WHERE Id IN (Select YearId From Game WHERE \
                         (romCollectionId = ? OR (0 = ?)) AND \
-                        (PublisherId = ? OR (0 = ?)) \
-                        AND id IN \
-                        (SELECT GameId From GenreGame Where GenreId = ? OR (0 = ?)) \
-                        AND %s) \
-                        ORDER BY name COLLATE NOCASE"
-
-    filterYearByConsole = "SELECT * FROM Year WHERE Id IN (Select YearId From Game WHERE \
-                        (romCollectionId = ? OR (0 = ?))) \
+                        id IN (SELECT GameId From GenreGame Where GenreId = ? OR (0 = ?)) AND \
+                        (PublisherId = ? OR (0 = ?)) AND \
+                        (DeveloperId = ? OR (0 = ?)) AND \
+                        (maxPlayers = ? OR (0 = ?)) AND \
+                        (rating >= ? OR (0 = ?)) AND \
+                        (region = ? OR (0 = ?)) AND \
+                        %s) \
                         ORDER BY name COLLATE NOCASE"
 
     yearIdCountQuery = "SELECT count(yearId) 'yearIdCount' \
@@ -724,15 +751,11 @@ class Year(DataBaseObject):
         else:
             return yearId[0]
 
-    def getFilteredYears(self, romCollectionId, genreId, publisherId, likeStatement):
-        args = (romCollectionId, publisherId, genreId)
+    def getFilteredYears(self, romCollectionId, genreId, publisherId, developerId, maxPlayers, rating, region, likeStatement):
+        args = (romCollectionId, genreId, publisherId, developerId, maxPlayers, rating, region)
         filterQuery = self.filterQuery % likeStatement
         util.Logutil.log('searching years with query: ' + filterQuery, util.LOG_LEVEL_DEBUG)
         years = self.getObjectsByWildcardQuery(filterQuery, args)
-        return years
-
-    def getFilteredYearsByConsole(self, romCollectionId):
-        years = self.getObjectsByWildcardQuery(self.filterYearByConsole, (romCollectionId,))
         return years
 
     def delete(self, gameId):
@@ -749,14 +772,13 @@ class Publisher(DataBaseObject):
 
     filterQuery = "SELECT * FROM Publisher WHERE Id IN (Select PublisherId From Game WHERE \
                         (romCollectionId = ? OR (0 = ?)) AND \
-                        (YearId = ? OR (0 = ?)) \
-                        AND id IN \
-                        (SELECT GameId From GenreGame Where GenreId = ? OR (0 = ?)) \
-                        AND %s) \
-                        ORDER BY name COLLATE NOCASE"
-
-    filterPublishersByConsole = "SELECT * FROM Publisher WHERE Id IN (Select PublisherId From Game WHERE \
-                        (romCollectionId = ? OR (0 = ?))) \
+                        id IN (SELECT GameId From GenreGame Where GenreId = ? OR (0 = ?)) AND \
+                        (YearId = ? OR (0 = ?)) AND \
+                        (DeveloperId = ? OR (0 = ?)) AND \
+                        (maxPlayers = ? OR (0 = ?)) AND \
+                        (rating >= ? OR (0 = ?)) AND \
+                        (region = ? OR (0 = ?)) AND \
+                        %s) \
                         ORDER BY name COLLATE NOCASE"
 
     publisherIdCountQuery = "SELECT count(publisherId) 'publisherIdCount' \
@@ -798,15 +820,11 @@ class Publisher(DataBaseObject):
 
         return publisher['name']
 
-    def getFilteredPublishers(self, romCollectionId, genreId, yearId, likeStatement):
-        args = (romCollectionId, yearId, genreId)
+    def getFilteredPublishers(self, romCollectionId, genreId, yearId, developerId, maxPlayers, rating, region, likeStatement):
+        args = (romCollectionId, genreId, yearId, developerId, maxPlayers, rating, region)
         filterQuery = self.filterQuery % likeStatement
         util.Logutil.log('searching publishers with query: ' + filterQuery, util.LOG_LEVEL_DEBUG)
         publishers = self.getObjectsByWildcardQuery(filterQuery, args)
-        return publishers
-
-    def getFilteredPublishersByConsole(self, romCollectionId):
-        publishers = self.getObjectsByWildcardQuery(self.filterPublishersByConsole, (romCollectionId,))
         return publishers
 
     def delete(self, gameId):
@@ -819,6 +837,17 @@ class Publisher(DataBaseObject):
 
 
 class Developer(DataBaseObject):
+    filterQuery = "SELECT * FROM Developer WHERE Id IN (Select DeveloperId From Game WHERE \
+                            (romCollectionId = ? OR (0 = ?)) AND \
+                            id IN (SELECT GameId From GenreGame Where GenreId = ? OR (0 = ?)) AND \
+                            (YearId = ? OR (0 = ?)) AND \
+                            (PublisherId = ? OR (0 = ?)) AND \
+                            (maxPlayers = ? OR (0 = ?)) AND \
+                            (rating >= ? OR (0 = ?)) AND \
+                            (region = ? OR (0 = ?)) AND \
+                            %s) \
+                            ORDER BY name COLLATE NOCASE"
+
     developerIdByGameIdQuery = "SELECT developerId From Game Where Id = ?"
 
     developerIdCountQuery = "SELECT count(developerId) 'developerIdCount' \
@@ -845,6 +874,13 @@ class Developer(DataBaseObject):
             return 'Unknown'
         else:
             return developer['name']
+
+    def getFilteredDevelopers(self, romCollectionId, genreId, yearId, publisherId, maxPlayers, rating, region, likeStatement):
+        args = (romCollectionId, genreId, yearId, publisherId, maxPlayers, rating, region)
+        filterQuery = self.filterQuery % likeStatement
+        util.Logutil.log('searching developers with query: ' + filterQuery, util.LOG_LEVEL_DEBUG)
+        developers = self.getObjectsByWildcardQuery(filterQuery, args)
+        return developers
 
     def getDeveloperForGame(self, gameId):
         """ As per getDeveloperIdByGameId, but this returns the publisher name so we don't need to do it client-side """

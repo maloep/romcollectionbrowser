@@ -35,8 +35,9 @@ def get_file_for_control_from_db(file_types, game):
     return ""
 
 
-def saveViewState(gdb, isOnExit, selectedView, selectedGameIndex, selectedConsoleIndex, selectedGenreIndex,
-                  selectedPublisherIndex, selectedYearIndex, selectedCharacterIndex,
+def saveViewState(gdb, isOnExit, selectedView, selectedGameIndex, selectedConsoleId, selectedGenreId,
+                  selectedPublisherId, selectedDeveloperId, selectedYearId, selectedCharacter, selectedMaxPlayers,
+                  selectedRating, selectedRegion, sortMethod, sortDirection,
                   selectedControlIdMainView, selectedControlIdGameInfoView, settings):
     Logutil.log("Begin helper.saveViewState", util.LOG_LEVEL_INFO)
 
@@ -53,19 +54,23 @@ def saveViewState(gdb, isOnExit, selectedView, selectedGameIndex, selectedConsol
         return
 
     if saveViewState:
-        RCBSetting(gdb).update(('lastSelectedView', 'lastSelectedConsoleIndex', 'lastSelectedGenreIndex',
-                                'lastSelectedPublisherIndex', 'lastSelectedYearIndex', 'lastSelectedGameIndex',
-                                'lastFocusedControlMainView', 'lastFocusedControlGameInfoView',
-                                'lastSelectedCharacterIndex'),
-                               (selectedView, selectedConsoleIndex, selectedGenreIndex, selectedPublisherIndex,
-                                selectedYearIndex, selectedGameIndex, selectedControlIdMainView,
-                                selectedControlIdGameInfoView, selectedCharacterIndex), rcbSetting[0], True)
+        RCBSetting(gdb).update(('lastSelectedView', 'lastSelectedConsoleId', 'lastSelectedGenreId',
+                                'lastSelectedPublisherId', 'lastSelectedDeveloperId', 'lastSelectedYearId',
+                                'lastSelectedGameIndex', 'lastFocusedControlMainView', 'lastFocusedControlGameInfoView',
+                                'lastSelectedCharacter', 'lastSelectedMaxPlayers', 'lastSelectedRating',
+                                'lastSelectedRegion', 'sortMethod', 'sortDirection'),
+                               (selectedView, selectedConsoleId, selectedGenreId, selectedPublisherId,
+                                selectedDeveloperId, selectedYearId, selectedGameIndex, selectedControlIdMainView,
+                                selectedControlIdGameInfoView, selectedCharacter, selectedMaxPlayers,
+                                selectedRating, selectedRegion, sortMethod, sortDirection), rcbSetting[0], True)
     else:
-        RCBSetting(gdb).update(('lastSelectedView', 'lastSelectedConsoleIndex', 'lastSelectedGenreIndex',
-                                'lastSelectedPublisherIndex', 'lastSelectedYearIndex', 'lastSelectedGameIndex',
-                                'lastFocusedControlMainView', 'lastFocusedControlGameInfoView',
-                                'lastSelectedCharacterIndex'),
-                               (None, None, None, None, None, None, None, None, None), rcbSetting[DataBaseObject.COL_ID], True)
+        RCBSetting(gdb).update(('lastSelectedView', 'lastSelectedConsoleId', 'lastSelectedGenreId',
+                                'lastSelectedPublisherId', 'lastSelectedDeveloperId', 'lastSelectedYearId',
+                                'lastSelectedGameIndex', 'lastFocusedControlMainView', 'lastFocusedControlGameInfoView',
+                                'lastSelectedCharacter', 'lastSelectedMaxPlayers', 'lastSelectedRating',
+                                'lastSelectedRegion', 'sortMethod', 'sortDirection'),
+                               (None, None, None, None, None, None, None, None, None, None, None, None, None, None, None),
+                               rcbSetting[DataBaseObject.COL_ID], True)
 
     gdb.commit()
 

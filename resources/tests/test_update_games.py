@@ -81,7 +81,7 @@ class TestUpdateGames(unittest.TestCase):
         dbu.updateDB(self.gdb, RCBMockGui(), rcs, False)
         
         likeStmnt = '0 = 0'
-        games = GameView(self.gdb).getFilteredGames(1, 0, 0, 0, 0, likeStmnt)
+        games = GameView(self.gdb).getFilteredGames(1, 0, 0, 0, 0, 0, 0, 0, 0, likeStmnt, '', 0)
         
         self.assertEquals(len(games), 4)
         
@@ -122,7 +122,7 @@ class TestUpdateGames(unittest.TestCase):
         dbu.updateDB(self.gdb, RCBMockGui(), rcs, False)
 
         likeStmnt = '0 = 0'
-        games = GameView(self.gdb).getFilteredGames(1, 0, 0, 0, 0, likeStmnt)
+        games = GameView(self.gdb).getFilteredGames(1, 0, 0, 0, 0, 0, 0, 0, 0, likeStmnt, '', 0)
 
         self.assertEquals(len(games), 4)
 
@@ -163,7 +163,7 @@ class TestUpdateGames(unittest.TestCase):
         dbu.updateDB(self.gdb, RCBMockGui(), rcs, False)
 
         likeStmnt = '0 = 0'
-        games = GameView(self.gdb).getFilteredGames(1, 0, 0, 0, 0, likeStmnt)
+        games = GameView(self.gdb).getFilteredGames(1, 0, 0, 0, 0, 0, 0, 0, 0, likeStmnt, '', 0)
 
         self.assertEquals(len(games), 4)
 
@@ -205,7 +205,7 @@ class TestUpdateGames(unittest.TestCase):
         dbu.updateDB(self.gdb, RCBMockGui(), rcs, False)
 
         likeStmnt = '0 = 0'
-        games = GameView(self.gdb).getFilteredGames(1, 0, 0, 0, 0, likeStmnt)
+        games = GameView(self.gdb).getFilteredGames(1, 0, 0, 0, 0, 0, 0, 0, 0, likeStmnt, '', 0)
 
         self.assertEquals(len(games), 4)
         airborneRanger = games[0]
@@ -246,7 +246,7 @@ class TestUpdateGames(unittest.TestCase):
         dbu.updateDB(self.gdb, RCBMockGui(), rcs, False)
 
         likeStmnt = '0 = 0'
-        games = GameView(self.gdb).getFilteredGames(1, 0, 0, 0, 0, likeStmnt)
+        games = GameView(self.gdb).getFilteredGames(1, 0, 0, 0, 0, 0, 0, 0, 0, likeStmnt, '', 0)
 
         self.assertEquals(len(games), 4)
         airborneRanger = games[0]
@@ -287,7 +287,7 @@ class TestUpdateGames(unittest.TestCase):
         dbu.updateDB(self.gdb, RCBMockGui(), rcs, False)
 
         likeStmnt = '0 = 0'
-        games = GameView(self.gdb).getFilteredGames(1, 0, 0, 0, 0, likeStmnt)
+        games = GameView(self.gdb).getFilteredGames(1, 0, 0, 0, 0, 0, 0, 0, 0, likeStmnt, '', 0)
 
         self.assertEquals(len(games), 4)
         airborneRanger = games[0]

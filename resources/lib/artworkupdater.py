@@ -49,7 +49,7 @@ class ArtworkUpdater(object):
             log.warn('No media paths dict found for rom collection %s' % rom_collection.id)
             return continue_update
 
-        games = GameView(self.gdb).getFilteredGames(rom_collection.id, 0, 0, 0, 0, '0 = 0', 0)
+        games = GameView(self.gdb).getFilteredGames(rom_collection.id, 0, 0, 0, 0, 0, 0, 0, 0, '0 = 0', '', 0)
         gamecount = 1
         for game in games:
             self.progress_dialog.itemCount = len(games)

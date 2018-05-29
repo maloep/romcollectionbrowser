@@ -176,5 +176,31 @@ class TestDBUpgrade(unittest.TestCase):
         os.remove(os.path.join(db_path, 'MyGames.db'))
         os.remove(os.path.join(db_path, 'MyGames.db.backup 2.2.0'))
 
+    def test_DBUpgrade_221_222(self):
+        db_path = os.path.join (self.get_testdata_path(), 'database')
+
+        # Setup data - MyGames.db is the hard-coded expected DB name
+        self.assertTrue(os.path.isfile(os.path.join(db_path, 'MyGames-2.2.1.db')), "Expected to find 2.2.1 DB")
+        shutil.copyfile(os.path.join(db_path, 'MyGames-2.2.1.db'), os.path.join(db_path, 'MyGames.db'))
+
+        gdb = GameDataBase(db_path)
+        gdb.connect()
+
+        util.CURRENT_DB_VERSION = '2.2.2'
+        # Create db if not existent and maybe update to new version
+        gdb.checkDBStructure()
+
+        # Check backup files were created
+        self.assertTrue(os.path.isfile(os.path.join(db_path, 'MyGames.db.backup 2.2.1')), "No backup database created")
+
+        rcbSettingRows = RCBSetting(gdb).getAll()
+        self.assertEquals('2.2.2', rcbSettingRows[0][RCBSetting.COL_dbVersion])
+        self.assertEquals(117, Game(gdb).getCount())
+
+        # Cleanup
+        gdb.close()
+        os.remove(os.path.join(db_path, 'MyGames.db'))
+        os.remove(os.path.join(db_path, 'MyGames.db.backup 2.2.1'))
+
 if __name__ == "__main__":
     unittest.main()

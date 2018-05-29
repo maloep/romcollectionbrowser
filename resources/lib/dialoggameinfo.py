@@ -49,12 +49,13 @@ class UIGameInfoView(xbmcgui.WindowXMLDialog):
         self.selectedGenreId = kwargs["genreId"]
         self.selectedYearId = kwargs["yearId"]
         self.selectedPublisherId = kwargs["publisherId"]
-        self.selectedConsoleIndex = kwargs["consoleIndex"]
-        self.selectedGenreIndex = kwargs["genreIndex"]
-        self.selectedYearIndex = kwargs["yearIndex"]
-        self.selectedPublisherIndex = kwargs["publisherIndex"]
+        self.selectedDeveloperId = kwargs["developerId"]
         self.selectedCharacter = kwargs["selectedCharacter"]
-        self.selectedCharacterIndex = kwargs["selectedCharacterIndex"]
+        self.selectedMaxPlayers = kwargs["selectedMaxPlayers"]
+        self.selectedRating = kwargs["selectedRating"]
+        self.selectedRegion = kwargs["selectedRegion"]
+        self.sortMethod = kwargs["sortMethod"]
+        self.sortDirection = kwargs["sortDirection"]
         self.selectedGameIndex = kwargs["selectedGameIndex"]
         self.selectedControlIdMainView = kwargs["controlIdMainView"]
         self.fileTypeGameplay = kwargs["fileTypeGameplay"]
@@ -206,13 +207,11 @@ class UIGameInfoView(xbmcgui.WindowXMLDialog):
 
         Logutil.log("Begin saveViewState UIGameInfoView", util.LOG_LEVEL_INFO)
 
-        #TODO: save selectedGameIndex from main view
-        selectedGameIndex = 0
-
-        helper.saveViewState(self.gdb, isOnExit, 'gameInfoView', selectedGameIndex, self.selectedConsoleIndex,
-                             self.selectedGenreIndex, self.selectedPublisherIndex,
-                             self.selectedYearIndex, self.selectedCharacterIndex, self.selectedControlIdMainView,
-                             self.selectedControlId, self.settings)
+        helper.saveViewState(self.gdb, isOnExit, 'gameInfoView', self.selectedGameIndex, self.selectedConsoleId,
+                             self.selectedGenreId, self.selectedPublisherId, self.selectedDeveloperId,
+                             self.selectedYearId, self.selectedCharacter, self.selectedMaxPlayers,
+                             self.selectedRating, self.selectedRegion, self.sortMethod, self.sortDirection,
+                             self.selectedControlIdMainView, self.selectedControlId, self.settings)
 
         Logutil.log("End saveViewState UIGameInfoView", util.LOG_LEVEL_INFO)
 
