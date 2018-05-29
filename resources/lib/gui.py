@@ -47,6 +47,7 @@ NON_EXIT_RCB_CONTROLS = (500, 600, 700, 800, 900, 2, 1000, 1100, 1200, 1300, 140
 
 CONTROL_LABEL_MSG = 4000
 CONTROL_BUTTON_MISSINGINFODIALOG = 4001
+CONTROL_BUTTON_SELECTCOLORFILE = 4002
 
 
 class MyPlayer(xbmc.Player):
@@ -405,22 +406,47 @@ class UIGameDB(xbmcgui.WindowXML):
             # Need to change viewmode manually since Frodo
             xbmc.executebuiltin('Container.NextViewMode')
 
+        elif controlId == CONTROL_BUTTON_SELECTCOLORFILE:
+            color_path = os.path.join(util.getAddonInstallPath(), 'resources', 'skins', 'Default', 'colors', 'Estuary')
+            color_file = xbmcgui.Dialog().browse(1, 'RCB', 'files', '.xml', defaultt=color_path)
+            if color_file:
+                self.Settings.setSetting(util.SETTING_RCB_COLORFILE, color_file)
+
+
     def load_color_schemes(self):
         log.info('load_color_schemes')
 
-        xbmc.executebuiltin("Skin.SetString(rcb_background, FF0E597E)")
-        xbmc.executebuiltin("Skin.SetString(rcb_background_diffuse, 37FFFFFF)")
+        color_file = self.Settings.getSetting(util.SETTING_RCB_COLORFILE)
+        if not color_file or not xbmcvfs.exists(color_file):
+            color_file = os.path.join(util.getAddonInstallPath(), 'resources', 'skins', 'Default', 'colors', 'Estuary', 'defaults.xml')
 
-        xbmc.executebuiltin("Skin.SetString(rcb_panel_diffuse_semitransp, EDFFFFFF)")
-        xbmc.executebuiltin("Skin.SetString(rcb_panel_diffuse_transp, AAFFFFFF)")
-        xbmc.executebuiltin("Skin.SetString(rcb_panel_diffuse_notransp, FFFFFFFF)")
+        tree = ElementTree()
+        if sys.version_info >= (2, 7):
+            parser = XMLParser(encoding='utf-8')
+        else:
+            parser = XMLParser()
 
-        xbmc.executebuiltin("Skin.SetString(rcb_textcolor, FFFFFFFF)")
-        xbmc.executebuiltin("Skin.SetString(rcb_textcolor_heading, FF12A0C7)")
-        xbmc.executebuiltin("Skin.SetString(rcb_text_color_disabled, 80FFFFFF)")
-        xbmc.executebuiltin("Skin.SetString(rcb_text_color_focused, DDFFFFFF)")
+        tree.parse(color_file, parser)
 
-        xbmc.executebuiltin("Skin.SetString(rcb_button_focus, FF12A0C7)")
+        self.set_color(tree, 'rcb_background')
+        self.set_color(tree, 'rcb_background_diffuse')
+
+        self.set_color(tree, 'rcb_panel_diffuse_semitransp')
+        self.set_color(tree, 'rcb_panel_diffuse_transp')
+        self.set_color(tree, 'rcb_panel_diffuse_notransp')
+
+        self.set_color(tree, 'rcb_textcolor')
+        self.set_color(tree, 'rcb_textcolor_heading')
+        self.set_color(tree, 'rcb_text_color_disabled')
+        self.set_color(tree, 'rcb_text_color_focused')
+
+        self.set_color(tree, 'rcb_button_focus')
+
+    def set_color(self, tree, color_name):
+
+        color = tree.find('color[@name="%s"]' %color_name).text
+        xbmc.executebuiltin("Skin.SetString(%s, %s)" % (color_name, color))
+
 
     def apply_filter(self, control_id):
 

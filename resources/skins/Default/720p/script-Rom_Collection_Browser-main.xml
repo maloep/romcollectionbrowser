@@ -2030,6 +2030,28 @@
 				<textoffsety></textoffsety>
 				<pulseonselect></pulseonselect>
 				<onup>1700</onup>
+				<ondown>4002</ondown>
+				<onleft>50</onleft>
+				<onright>50</onright>
+			</control>
+			<control type="button" id="4002">
+				<description>Select color file</description>
+				<posx>0</posx>
+				<posy>330</posy>
+				<width>300</width>
+				<height>40</height>
+				<visible>true</visible>
+				<texturefocus  colordiffuse="$INFO[Skin.String(rcb_button_focus)]">rcb-MenuItemFO.png</texturefocus>
+				<texturenofocus></texturenofocus>
+				<label>$ADDON[script.games.rom.collection.browser 32426]</label>
+				<textcolor>$INFO[Skin.String(rcb_textcolor)]</textcolor>
+				<disabledcolor>$INFO[Skin.String(rcb_text_color_disabled)]</disabledcolor>
+				<align>left</align>
+				<aligny>center</aligny>
+				<textoffsetx>7</textoffsetx>
+				<textoffsety></textoffsety>
+				<pulseonselect></pulseonselect>
+				<onup>4001</onup>
 				<ondown>2</ondown>
 				<onleft>50</onleft>
 				<onright>50</onright>
