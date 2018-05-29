@@ -412,6 +412,8 @@ class UIGameDB(xbmcgui.WindowXML):
             if color_file:
                 self.Settings.setSetting(util.SETTING_RCB_COLORFILE, color_file)
 
+            self.load_color_schemes()
+
 
     def load_color_schemes(self):
         log.info('load_color_schemes')
@@ -431,14 +433,17 @@ class UIGameDB(xbmcgui.WindowXML):
         self.set_color(tree, 'rcb_background')
         self.set_color(tree, 'rcb_background_diffuse')
 
-        self.set_color(tree, 'rcb_panel_diffuse_semitransp')
-        self.set_color(tree, 'rcb_panel_diffuse_transp')
-        self.set_color(tree, 'rcb_panel_diffuse_notransp')
+        self.set_color(tree, 'rcb_panel_slide')
+        self.set_color(tree, 'rcb_panel_list')
+        self.set_color(tree, 'rcb_panel_list_transp')
+        self.set_color(tree, 'rcb_panel_info')
+        self.set_color(tree, 'rcb_panel_dialog')
+        self.set_color(tree, 'rcb_panel_dialog_text')
 
-        self.set_color(tree, 'rcb_textcolor')
-        self.set_color(tree, 'rcb_textcolor_heading')
-        self.set_color(tree, 'rcb_text_color_disabled')
-        self.set_color(tree, 'rcb_text_color_focused')
+        self.set_color(tree, 'rcb_text')
+        self.set_color(tree, 'rcb_text_heading')
+        self.set_color(tree, 'rcb_text_disabled')
+        self.set_color(tree, 'rcb_text_focused')
 
         self.set_color(tree, 'rcb_button_focus')
 

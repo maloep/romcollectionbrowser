@@ -1,0 +1,17 @@
+<colors>
+	<color name="rcb_background">ffdddddd</color>
+	<color name="rcb_background_diffuse">2fffffff</color>
+	
+	<color name="rcb_panel_slide">ffdddddd</color>
+	<color name="rcb_panel_list">2fffffff</color>
+	<color name="rcb_panel_list_transp">AABBBBBB</color>
+	<color name="rcb_panel_info">2fffffff</color>
+	<color name="rcb_panel_dialog">FFFFFFFF</color>
+	<color name="rcb_panel_dialog_text">FFFFFFFF</color>
+	
+	<color name="rcb_text">FF333333</color>
+	<color name="rcb_text_heading">FF222222</color>
+	<color name="rcb_text_disabled">80FFFFFF</color>
+	<color name="rcb_text_focused">ffdddddd</color>
+	<color name="rcb_button_focus">FF333333</color>
+</colors>

@@ -1,12 +1,17 @@
 <colors>
 	<color name="rcb_background">FF0E597E</color>
 	<color name="rcb_background_diffuse">37FFFFFF</color>
-	<color name="rcb_panel_diffuse_semitransp">EDFFFFFF</color>
-	<color name="rcb_panel_diffuse_transp">AAFFFFFF</color>
-	<color name="rcb_panel_diffuse_notransp">FFFFFFFF</color>
-	<color name="rcb_textcolor">FFFFFFFF</color>
-	<color name="rcb_textcolor_heading">FF12A0C7</color>
-	<color name="rcb_text_color_disabled">80FFFFFF</color>
-	<color name="rcb_text_color_focused">DDFFFFFF</color>
+	
+	<color name="rcb_panel_slide">FF000000</color>
+	<color name="rcb_panel_list">37A0A0A0</color>
+	<color name="rcb_panel_list_transp">AA333333</color>
+	<color name="rcb_panel_info">AA000000</color>
+	<color name="rcb_panel_dialog">FFFFFFFF</color>
+	<color name="rcb_panel_dialog_text">FFFFFFFF</color>
+	
+	<color name="rcb_text">FFFFFFFF</color>
+	<color name="rcb_text_heading">FF12A0C7</color>
+	<color name="rcb_text_disabled">80FFFFFF</color>
+	<color name="rcb_text_focused">FFFFFFFF</color>
 	<color name="rcb_button_focus">FF12A0C7</color>
 </colors>
