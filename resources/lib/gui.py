@@ -446,18 +446,25 @@ class UIGameDB(xbmcgui.WindowXML):
         self.set_color(tree, 'rcb_panel_dialog')
         self.set_color(tree, 'rcb_panel_dialog_text')
 
+        self.set_color(tree, 'rcb_scrollbar_background')
+        self.set_color(tree, 'rcb_scrollbar_bar')
+        self.set_color(tree, 'rcb_scrollbar_focus')
+
+        self.set_color(tree, 'rcb_button_nofocus')
         self.set_color(tree, 'rcb_button_focus')
         self.set_color(tree, 'rcb_button_highlight')
-        self.set_color(tree, 'rcb_button_focus_dialogs')
+        self.set_color(tree, 'rcb_button_nofocus_dialog')
+        self.set_color(tree, 'rcb_button_focus_dialog')
 
         self.set_color(tree, 'rcb_text_list')
         self.set_color(tree, 'rcb_text_list_focused')
         self.set_color(tree, 'rcb_text_label')
         self.set_color(tree, 'rcb_text_value')
         self.set_color(tree, 'rcb_text_heading')
+        self.set_color(tree, 'rcb_text_button')
         self.set_color(tree, 'rcb_text_button_focused')
         self.set_color(tree, 'rcb_text_button_disabled')
-        self.set_color(tree, 'rcb_text_dialog_buttons')
+        self.set_color(tree, 'rcb_text_button_dialog')
         self.set_color(tree, 'rcb_text_shadow')
 
     def set_color(self, tree, color_name):

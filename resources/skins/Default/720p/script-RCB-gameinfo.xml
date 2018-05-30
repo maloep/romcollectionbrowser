@@ -15,7 +15,7 @@
 			<width>1280</width>
 		    <height>720</height>
 			<aspectratio>scale</aspectratio>
-			<texture colordiffuse="FF0E597E">rcb-primary.jpg</texture>
+			<texture colordiffuse="$INFO[Skin.String(rcb_background)]">rcb-primary.jpg</texture>
 		</control>
 	
 		<!-- background -->
@@ -26,7 +26,7 @@
 		    <width>1280</width>
 		    <height>720</height>
 			<!--<aspectratio>scale</aspectratio>-->
-			<texture background="true" colordiffuse="37FFFFFF">$INFO[Container(8200).ListItem.Art(background)]</texture>
+			<texture background="true" colordiffuse="$INFO[Skin.String(rcb_background_diffuse)]">$INFO[Container(8200).ListItem.Art(background)]</texture>
 		</control>
 		
 		<control type="label">
@@ -39,8 +39,8 @@
 			<label>$INFO[Container(8200).ListItem.Label]</label>
 			<align>center</align>
 			<aligny>center</aligny>
-			<textcolor>white</textcolor>
-			<shadowcolor>black</shadowcolor>
+			<textcolor>$INFO[Skin.String(rcb_text_heading)]</textcolor>
+			<shadowcolor>$INFO[Skin.String(rcb_text_shadow)]</shadowcolor>
 			<animation effect="fade" start="0" end="100" time="400" delay="400" easing="out">WindowOpen</animation>
 			<animation effect="fade" start="100" end="0" time="300" easing="out">WindowClose</animation>
 		</control>
@@ -52,7 +52,7 @@
 			<animation effect="slide" start="0,0" end="1100,0" time="400" tween="quadratic" easing="out">WindowClose</animation>
 			
 			<control type="image">
-				<texture colordiffuse="EDFFFFFF">rcb-panel_transp.png</texture>
+				<texture colordiffuse="$INFO[Skin.String(rcb_panel_info)]">rcb-white.png</texture>
 				<posx>0</posx>
 				<posy>-20</posy>	
 				<width>400</width>
@@ -68,7 +68,7 @@
 				<height>350</height>
 				<font>font12</font>			
 				<pagecontrol>8100</pagecontrol>			
-				<textcolor>FFFFFFFF</textcolor>
+				<textcolor>$INFO[Skin.String(rcb_text_value)]</textcolor>
 				<align>justify</align>
 				<aligny>center</aligny>
 				<label>$INFO[Container(8200).ListItem.Property(plot)]</label>
@@ -80,9 +80,9 @@
 				<width>10</width>
 				<height>350</height>
 				<visible>Control.IsVisible(8000)</visible>
-				<texturesliderbackground colordiffuse="29FFFFFF">rcb-white.png</texturesliderbackground>
-				<texturesliderbar colordiffuse="FFAAAAAA">rcb-white.png</texturesliderbar>
-				<texturesliderbarfocus colordiffuse="FF12A0C7">rcb-white.png</texturesliderbarfocus>
+				<texturesliderbackground colordiffuse="$INFO[Skin.String(rcb_scrollbar_background)]">rcb-white.png</texturesliderbackground>
+				<texturesliderbar colordiffuse="$INFO[Skin.String(rcb_scrollbar_bar)]">rcb-white.png</texturesliderbar>
+				<texturesliderbarfocus colordiffuse="$INFO[Skin.String(rcb_scrollbar_focus)]">rcb-white.png</texturesliderbarfocus>
 				<textureslidernib></textureslidernib>
 				<textureslidernibfocus></textureslidernibfocus>
 				<pulseonselect></pulseonselect>
@@ -103,7 +103,7 @@
 			<animation effect="slide" start="0,0" end="1100,0" time="400" tween="quadratic" easing="out">WindowClose</animation>
 			
 			<control type="image">
-				<texture colordiffuse="EDFFFFFF">rcb-panel_transp.png</texture>
+				<texture colordiffuse="$INFO[Skin.String(rcb_panel_info)]">rcb-white.png</texture>
 				<posx>0</posx>
 				<posy>-20</posy>	
 				<width>400</width>
@@ -139,7 +139,7 @@
 				<align>right</align>
 				<aligny>center</aligny>
 				<font>font13_title</font>
-				<textcolor>FF12A0C7</textcolor>
+				<textcolor>$INFO[Skin.String(rcb_text_label)]</textcolor>
 				<label>$ADDON[script.games.rom.collection.browser 32401]:</label>
 			</control>
 			<control type="label" id="6100">
@@ -150,7 +150,7 @@
 				<height>30</height>
 				<font>font13</font>
 				<scroll>true</scroll>
-				<textcolor>FFFFFFFF</textcolor>
+				<textcolor>$INFO[Skin.String(rcb_text_value)]</textcolor>
 				<label>$INFO[Container(8200).ListItem.Property(genre)]</label>
 			</control>
 			<control type="label">
@@ -161,7 +161,7 @@
 				<align>right</align>
 				<aligny>center</aligny>
 				<font>font13_title</font>
-				<textcolor>FF12A0C7</textcolor>
+				<textcolor>$INFO[Skin.String(rcb_text_label)]</textcolor>
 				<label>$ADDON[script.games.rom.collection.browser 32400]:</label>
 			</control>
 			<control type="label" id="6200">
@@ -171,7 +171,7 @@
 				<width>300</width>
 				<height>30</height>
 				<font>font13</font>
-				<textcolor>FFFFFFFF</textcolor>
+				<textcolor>$INFO[Skin.String(rcb_text_value)]</textcolor>
 				<label>$INFO[Container(8200).ListItem.Property(year)]</label>
 			</control>
 			<control type="label">
@@ -182,7 +182,7 @@
 				<align>right</align>
 				<aligny>center</aligny>
 				<font>font13_title</font>
-				<textcolor>FF12A0C7</textcolor>
+				<textcolor>$INFO[Skin.String(rcb_text_label)]</textcolor>
 				<label>$ADDON[script.games.rom.collection.browser 32402]:</label>
 			</control>
 			<control type="label" id="6300">
@@ -193,7 +193,7 @@
 				<height>30</height>
 				<font>font13</font>
 				<scroll>true</scroll>
-				<textcolor>FFFFFFFF</textcolor>
+				<textcolor>$INFO[Skin.String(rcb_text_value)]</textcolor>
 				<label>$INFO[Container(8200).ListItem.Property(publisher)]</label>
 			</control>
 			<control type="label">
@@ -204,7 +204,7 @@
 				<align>right</align>
 				<aligny>center</aligny>
 				<font>font13_title</font>
-				<textcolor>FF12A0C7</textcolor>
+				<textcolor>$INFO[Skin.String(rcb_text_label)]</textcolor>
 				<label>$ADDON[script.games.rom.collection.browser 32403]:</label>
 			</control>
 			<control type="label" id="6400">
@@ -215,7 +215,7 @@
 				<height>30</height>
 				<font>font13</font>
 				<scroll>true</scroll>
-				<textcolor>FFFFFFFF</textcolor>
+				<textcolor>$INFO[Skin.String(rcb_text_value)]</textcolor>
 				<label>$INFO[Container(8200).ListItem.Property(developer)]</label>
 			</control>		
 			<control type="label">
@@ -226,7 +226,7 @@
 				<align>right</align>
 				<aligny>center</aligny>
 				<font>font13_title</font>
-				<textcolor>FF12A0C7</textcolor>
+				<textcolor>$INFO[Skin.String(rcb_text_label)]</textcolor>
 				<label>$ADDON[script.games.rom.collection.browser 32750]:</label>
 			</control>
 			<control type="label" id="6500">
@@ -236,7 +236,7 @@
 				<width>300</width>
 				<height>30</height>
 				<font>font13</font>
-				<textcolor>FFFFFFFF</textcolor>
+				<textcolor>$INFO[Skin.String(rcb_text_value)]</textcolor>
 				<label>$INFO[Container(8200).ListItem.Property(region)]</label>
 			</control>		
 			<control type="label">
@@ -247,7 +247,7 @@
 				<align>right</align>
 				<aligny>center</aligny>
 				<font>font13_title</font>
-				<textcolor>FF12A0C7</textcolor>
+				<textcolor>$INFO[Skin.String(rcb_text_label)]</textcolor>
 				<label>$ADDON[script.games.rom.collection.browser 32751]:</label>
 			</control>
 			<control type="label" id="6600">
@@ -257,7 +257,7 @@
 				<width>300</width>
 				<height>30</height>
 				<font>font13</font>
-				<textcolor>FFFFFFFF</textcolor>
+				<textcolor>$INFO[Skin.String(rcb_text_value)]</textcolor>
 				<label>$INFO[Container(8200).ListItem.Property(media)]</label>
 			</control>
 			<control type="label">
@@ -268,7 +268,7 @@
 				<align>right</align>
 				<aligny>center</aligny>
 				<font>font13_title</font>
-				<textcolor>FF12A0C7</textcolor>
+				<textcolor>$INFO[Skin.String(rcb_text_label)]</textcolor>
 				<label>$ADDON[script.games.rom.collection.browser 32752]:</label>
 			</control>
 			<control type="label" id="6700">
@@ -278,7 +278,7 @@
 				<width>300</width>
 				<height>30</height>
 				<font>font13</font>
-				<textcolor>FFFFFFFF</textcolor>
+				<textcolor>$INFO[Skin.String(rcb_text_value)]</textcolor>
 				<label>$INFO[Container(8200).ListItem.Property(controllertype)]</label>
 			</control>
 			<control type="label">
@@ -289,7 +289,7 @@
 				<align>right</align>
 				<aligny>center</aligny>
 				<font>font13_title</font>
-				<textcolor>FF12A0C7</textcolor>
+				<textcolor>$INFO[Skin.String(rcb_text_label)]</textcolor>
 				<label>$ADDON[script.games.rom.collection.browser 32753]:</label>
 			</control>
 			<control type="label" id="6800">
@@ -299,7 +299,7 @@
 				<width>300</width>
 				<height>30</height>
 				<font>font13</font>
-				<textcolor>FFFFFFFF</textcolor>
+				<textcolor>$INFO[Skin.String(rcb_text_value)]</textcolor>
 				<label>$INFO[Container(8200).ListItem.Property(rating)]</label>
 			</control>
 			<control type="label">
@@ -310,7 +310,7 @@
 				<align>right</align>
 				<aligny>center</aligny>
 				<font>font13_title</font>
-				<textcolor>FF12A0C7</textcolor>
+				<textcolor>$INFO[Skin.String(rcb_text_label)]</textcolor>
 				<label>$ADDON[script.games.rom.collection.browser 32754]:</label>
 			</control>
 			<control type="label" id="7000">
@@ -320,7 +320,7 @@
 				<width>300</width>
 				<height>30</height>
 				<font>font13</font>
-				<textcolor>FFFFFFFF</textcolor>
+				<textcolor>$INFO[Skin.String(rcb_text_value)]</textcolor>
 				<label>$INFO[Container(8200).ListItem.Property(maxplayers)]</label>
 			</control>
 			<control type="label">
@@ -331,7 +331,7 @@
 				<align>right</align>
 				<aligny>center</aligny>
 				<font>font13_title</font>
-				<textcolor>FF12A0C7</textcolor>
+				<textcolor>$INFO[Skin.String(rcb_text_label)]</textcolor>
 				<label>$ADDON[script.games.rom.collection.browser 32755]:</label>
 			</control>
 			<control type="label" id="7400">
@@ -341,18 +341,18 @@
 				<width>300</width>
 				<height>30</height>
 				<font>font13</font>
-				<textcolor>FFFFFFFF</textcolor>
+				<textcolor>$INFO[Skin.String(rcb_text_value)]</textcolor>
 				<label>$INFO[Container(8200).ListItem.Property(playcount)]</label>
 			</control>			
-			<control type="label" id="7300">
+			<!--<control type="label" id="7300">
 				<description>URL value</description>
 				<posx>0</posx>
 				<posy>300</posy>
 				<width>500</width>					
 				<font>font13</font>
-				<textcolor>FFFFFFFF</textcolor>
+				<textcolor>$INFO[Skin.String(rcb_text_value)]</textcolor>
 				<label>$INFO[Container(8200).ListItem.Property(url)]</label>
-			</control>
+			</control>-->
 		</control>
 			
 		<!-- image controls -->
@@ -512,17 +512,17 @@
 			<width>200</width>
 			<height>40</height>
 			<visible>true</visible>
-			<texturefocus colordiffuse="FF12A0C7">rcb-MenuItemFO.png</texturefocus>
-			<texturenofocus colordiffuse="FF111111">rcb-white.png</texturenofocus>
+			<texturefocus colordiffuse="$INFO[Skin.String(rcb_button_focus_dialog)]">rcb-white.png</texturefocus>
+			<texturenofocus colordiffuse="$INFO[Skin.String(rcb_button_nofocus_dialog)]">rcb-white.png</texturenofocus>
 			<label>$ADDON[script.games.rom.collection.browser 32756]</label>
 			<font>font25_title</font>
-			<textcolor>white</textcolor>
-			<disabledcolor>80FFFFFF</disabledcolor>
+			<textcolor>$INFO[Skin.String(rcb_text_button)]</textcolor>
+			<focusedcolor>$INFO[Skin.String(rcb_text_button_focused)]</focusedcolor>
+			<disabledcolor>$INFO[Skin.String(rcb_text_button_disabled)]</disabledcolor>
 			<align>center</align>
 			<aligny>center</aligny>
 			<textoffsetx></textoffsetx>
 			<textoffsety></textoffsety>
-			<pulseonselect></pulseonselect>
 			<onup>8100</onup>
 			<ondown>8100</ondown>
 			<onleft>8100</onleft>
@@ -537,7 +537,7 @@
 			<height>10</height>
 			<align>left</align>
 			<scroll>true</scroll>
-			<textcolor>DDFFFFFF</textcolor>
+			<textcolor>$INFO[Skin.String(rcb_text_value)]</textcolor>
 			<label></label>
 			<font>font10</font>
 		</control>

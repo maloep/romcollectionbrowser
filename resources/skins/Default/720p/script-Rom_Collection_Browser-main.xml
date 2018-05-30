@@ -61,7 +61,6 @@
 								<width>160</width>
 								<height>240</height>								
 								<aspectratio align="center" aligny="bottom">keep</aspectratio>
-								<!--<bordertexture border="2">rcb-button-nofocus.png</bordertexture>-->
 								<bordersize>2</bordersize>
 								<texture background="true">$INFO[ListItem.ActualIcon]</texture>								
 							</control>
@@ -93,7 +92,6 @@
 							<width>160</width>
 							<height>240</height>
 							<aspectratio align="center" aligny="bottom">keep</aspectratio>
-							<!--<bordertexture border="8">rcb-ThumbBorder.png</bordertexture>-->
 							<bordersize>8</bordersize>
 							<texture background="true">$INFO[ListItem.Art(thumb)]</texture>
 							<animation reversible="false" effect="zoom" end="120" center="auto" time="150">Focus</animation>
@@ -568,7 +566,7 @@
 								<posy>0</posy>
 								<width>640</width>
 								<height>37</height>
-								<texture border="0,2,0,2" colordiffuse="$INFO[Skin.String(rcb_button_focus)]">rcb-MenuItemFO.png</texture>
+								<texture border="0,2,0,2" colordiffuse="$INFO[Skin.String(rcb_button_focus)]">rcb-white.png</texture>
 								<visible>Control.HasFocus(52)</visible>
 							</control>
 							<control type="image">
@@ -1006,7 +1004,7 @@
 								<posy>0</posy>
 								<width>230</width>
 								<height>60</height>
-								<texture border="0,2,0,2" colordiffuse="$INFO[Skin.String(rcb_button_focus)]">rcb-MenuItemFO.png</texture>
+								<texture border="0,2,0,2" colordiffuse="$INFO[Skin.String(rcb_button_focus)]">rcb-white.png</texture>
 								<visible>Control.HasFocus(53)</visible>
 							</control>
 							<control type="textbox">
@@ -1553,10 +1551,11 @@
 					<width>300</width>
 					<height>40</height>
 					<visible>true</visible>
-					<texturefocus colordiffuse="$INFO[Skin.String(rcb_button_focus)]">rcb-MenuItemFO.png</texturefocus>
+					<texturefocus colordiffuse="$INFO[Skin.String(rcb_button_focus)]">rcb-white.png</texturefocus>
 					<texturenofocus></texturenofocus>
 					<label></label>
-					<textcolor>$INFO[Skin.String(rcb_text_value)]</textcolor>
+					<textcolor>$INFO[Skin.String(rcb_text_button)]</textcolor>
+					<focusedcolor>$INFO[Skin.String(rcb_text_button_focused)]</focusedcolor>
 					<disabledcolor>$INFO[Skin.String(rcb_text_button_disabled)]</disabledcolor>
 					<align>left</align>
 					<aligny>center</aligny>
@@ -1587,10 +1586,11 @@
 					<width>300</width>
 					<height>40</height>
 					<visible>true</visible>
-					<texturefocus colordiffuse="$INFO[Skin.String(rcb_button_focus)]">rcb-MenuItemFO.png</texturefocus>
+					<texturefocus colordiffuse="$INFO[Skin.String(rcb_button_focus)]">rcb-white.png</texturefocus>
 					<texturenofocus></texturenofocus>
 					<label></label>
-					<textcolor>$INFO[Skin.String(rcb_text_value)]</textcolor>
+					<textcolor>$INFO[Skin.String(rcb_text_button)]</textcolor>
+					<focusedcolor>$INFO[Skin.String(rcb_text_button_focused)]</focusedcolor>
 					<disabledcolor>$INFO[Skin.String(rcb_text_button_disabled)]</disabledcolor>
 					<align>left</align>
 					<aligny>center</aligny>
@@ -1621,10 +1621,11 @@
 					<width>300</width>
 					<height>40</height>
 					<visible>true</visible>
-					<texturefocus colordiffuse="$INFO[Skin.String(rcb_button_focus)]">rcb-MenuItemFO.png</texturefocus>
+					<texturefocus colordiffuse="$INFO[Skin.String(rcb_button_focus)]">rcb-white.png</texturefocus>
 					<texturenofocus></texturenofocus>
 					<label></label>
-					<textcolor>$INFO[Skin.String(rcb_text_value)]</textcolor>
+					<textcolor>$INFO[Skin.String(rcb_text_button)]</textcolor>
+					<focusedcolor>$INFO[Skin.String(rcb_text_button_focused)]</focusedcolor>
 					<disabledcolor>$INFO[Skin.String(rcb_text_button_disabled)]</disabledcolor>
 					<align>left</align>
 					<aligny>center</aligny>
@@ -1655,10 +1656,11 @@
 					<width>300</width>
 					<height>40</height>
 					<visible>true</visible>
-					<texturefocus colordiffuse="$INFO[Skin.String(rcb_button_focus)]">rcb-MenuItemFO.png</texturefocus>
+					<texturefocus colordiffuse="$INFO[Skin.String(rcb_button_focus)]">rcb-white.png</texturefocus>
 					<texturenofocus></texturenofocus>
 					<label></label>
-					<textcolor>$INFO[Skin.String(rcb_text_value)]</textcolor>
+					<textcolor>$INFO[Skin.String(rcb_text_button)]</textcolor>
+					<focusedcolor>$INFO[Skin.String(rcb_text_button_focused)]</focusedcolor>
 					<disabledcolor>$INFO[Skin.String(rcb_text_button_disabled)]</disabledcolor>
 					<align>left</align>
 					<aligny>center</aligny>
@@ -1689,10 +1691,11 @@
 					<width>300</width>
 					<height>40</height>
 					<visible>true</visible>
-					<texturefocus colordiffuse="$INFO[Skin.String(rcb_button_focus)]">rcb-MenuItemFO.png</texturefocus>
+					<texturefocus colordiffuse="$INFO[Skin.String(rcb_button_focus)]">rcb-white.png</texturefocus>
 					<texturenofocus></texturenofocus>
 					<label></label>
-					<textcolor>$INFO[Skin.String(rcb_text_value)]</textcolor>
+					<textcolor>$INFO[Skin.String(rcb_text_button)]</textcolor>
+					<focusedcolor>$INFO[Skin.String(rcb_text_button_focused)]</focusedcolor>
 					<disabledcolor>$INFO[Skin.String(rcb_text_button_disabled)]</disabledcolor>
 					<align>left</align>
 					<aligny>center</aligny>
@@ -1723,10 +1726,11 @@
 					<width>300</width>
 					<height>40</height>
 					<visible>true</visible>
-					<texturefocus colordiffuse="$INFO[Skin.String(rcb_button_focus)]">rcb-MenuItemFO.png</texturefocus>
+					<texturefocus colordiffuse="$INFO[Skin.String(rcb_button_focus)]">rcb-white.png</texturefocus>
 					<texturenofocus></texturenofocus>
 					<label></label>
-					<textcolor>$INFO[Skin.String(rcb_text_value)]</textcolor>
+					<textcolor>$INFO[Skin.String(rcb_text_button)]</textcolor>
+					<focusedcolor>$INFO[Skin.String(rcb_text_button_focused)]</focusedcolor>
 					<disabledcolor>$INFO[Skin.String(rcb_text_button_disabled)]</disabledcolor>
 					<align>left</align>
 					<aligny>center</aligny>
@@ -1757,10 +1761,11 @@
 					<width>300</width>
 					<height>40</height>
 					<visible>true</visible>
-					<texturefocus colordiffuse="$INFO[Skin.String(rcb_button_focus)]">rcb-MenuItemFO.png</texturefocus>
+					<texturefocus colordiffuse="$INFO[Skin.String(rcb_button_focus)]">rcb-white.png</texturefocus>
 					<texturenofocus></texturenofocus>
 					<label></label>
-					<textcolor>$INFO[Skin.String(rcb_text_value)]</textcolor>
+					<textcolor>$INFO[Skin.String(rcb_text_button)]</textcolor>
+					<focusedcolor>$INFO[Skin.String(rcb_text_button_focused)]</focusedcolor>
 					<disabledcolor>$INFO[Skin.String(rcb_text_button_disabled)]</disabledcolor>
 					<align>left</align>
 					<aligny>center</aligny>
@@ -1791,10 +1796,11 @@
 					<width>300</width>
 					<height>40</height>
 					<visible>true</visible>
-					<texturefocus colordiffuse="$INFO[Skin.String(rcb_button_focus)]">rcb-MenuItemFO.png</texturefocus>
+					<texturefocus colordiffuse="$INFO[Skin.String(rcb_button_focus)]">rcb-white.png</texturefocus>
 					<texturenofocus></texturenofocus>
 					<label></label>
-					<textcolor>$INFO[Skin.String(rcb_text_value)]</textcolor>
+					<textcolor>$INFO[Skin.String(rcb_text_button)]</textcolor>
+					<focusedcolor>$INFO[Skin.String(rcb_text_button_focused)]</focusedcolor>
 					<disabledcolor>$INFO[Skin.String(rcb_text_button_disabled)]</disabledcolor>
 					<align>left</align>
 					<aligny>center</aligny>
@@ -1825,10 +1831,11 @@
 					<width>300</width>
 					<height>40</height>
 					<visible>true</visible>
-					<texturefocus colordiffuse="$INFO[Skin.String(rcb_button_focus)]">rcb-MenuItemFO.png</texturefocus>
+					<texturefocus colordiffuse="$INFO[Skin.String(rcb_button_focus)]">rcb-white.png</texturefocus>
 					<texturenofocus></texturenofocus>
 					<label></label>
-					<textcolor>$INFO[Skin.String(rcb_text_value)]</textcolor>
+					<textcolor>$INFO[Skin.String(rcb_text_button)]</textcolor>
+					<focusedcolor>$INFO[Skin.String(rcb_text_button_focused)]</focusedcolor>
 					<disabledcolor>$INFO[Skin.String(rcb_text_button_disabled)]</disabledcolor>
 					<align>left</align>
 					<aligny>center</aligny>
@@ -1874,10 +1881,10 @@
 				<width>300</width>
 				<height>40</height>
 				<visible>true</visible>
-				<texturefocus colordiffuse="$INFO[Skin.String(rcb_button_focus)]">rcb-MenuItemFO.png</texturefocus>
+				<texturefocus colordiffuse="$INFO[Skin.String(rcb_button_focus)]">rcb-white.png</texturefocus>
 				<texturenofocus></texturenofocus>
 				<label></label>
-				<textcolor>$INFO[Skin.String(rcb_text_value)]</textcolor>
+				<textcolor>$INFO[Skin.String(rcb_text_button)]</textcolor>
 				<focusedcolor>$INFO[Skin.String(rcb_text_button_focused)]</focusedcolor>
 				<disabledcolor>$INFO[Skin.String(rcb_text_button_disabled)]</disabledcolor>
 				<align>left</align>
@@ -1904,9 +1911,9 @@
 				<label>$ADDON[script.games.rom.collection.browser 32404]:</label>
 				<align>left</align>
 				<textoffsetx>7</textoffsetx>
-				<textcolor>$INFO[Skin.String(rcb_text_value)]</textcolor>
+				<textcolor>$INFO[Skin.String(rcb_text_button)]</textcolor>
 				<focusedcolor>$INFO[Skin.String(rcb_text_button_focused)]</focusedcolor>
-				<texturefocus colordiffuse="$INFO[Skin.String(rcb_button_focus)]">rcb-MenuItemFO.png</texturefocus>
+				<texturefocus colordiffuse="$INFO[Skin.String(rcb_button_focus)]">rcb-white.png</texturefocus>
 				<texturenofocus></texturenofocus>
 				<textureradioonfocus>rcb-radio-button-on.png</textureradioonfocus>
 				<textureradioonnofocus>rcb-radio-button-on.png</textureradioonnofocus>
@@ -1925,10 +1932,10 @@
 				<width>300</width>
 				<height>40</height>
 				<visible>true</visible>				
-				<texturefocus colordiffuse="$INFO[Skin.String(rcb_button_focus)]">rcb-MenuItemFO.png</texturefocus>
+				<texturefocus colordiffuse="$INFO[Skin.String(rcb_button_focus)]">rcb-white.png</texturefocus>
 				<texturenofocus></texturenofocus>
 				<label>$ADDON[script.games.rom.collection.browser 32405]</label>
-				<textcolor>$INFO[Skin.String(rcb_text_value)]</textcolor>
+				<textcolor>$INFO[Skin.String(rcb_text_button)]</textcolor>
 				<focusedcolor>$INFO[Skin.String(rcb_text_button_focused)]</focusedcolor>
 				<disabledcolor>$INFO[Skin.String(rcb_text_button_disabled)]</disabledcolor>
 				<align>left</align>
@@ -1945,7 +1952,7 @@
 				<posy>210</posy>
 				<width>300</width>
 				<height>40</height>
-				<texture border="0,2,0,2" colordiffuse="$INFO[Skin.String(rcb_button_focus)]">rcb-MenuItemFO.png</texture>
+				<texture border="0,2,0,2" colordiffuse="$INFO[Skin.String(rcb_button_focus)]">rcb-white.png</texture>
 				<visible>Control.HasFocus(1600)</visible>
 			</control>
 			<control type="button" id="1600">
@@ -1958,7 +1965,7 @@
 				<texturefocus></texturefocus>
 				<texturenofocus></texturenofocus>
 				<label>$ADDON[script.games.rom.collection.browser 32417]</label>
-				<textcolor>$INFO[Skin.String(rcb_text_value)]</textcolor>
+				<textcolor>$INFO[Skin.String(rcb_text_button)]</textcolor>
 				<focusedcolor>$INFO[Skin.String(rcb_text_button_focused)]</focusedcolor>
 				<disabledcolor>$INFO[Skin.String(rcb_text_button_disabled)]</disabledcolor>
 				<align>left</align>
@@ -2001,7 +2008,7 @@
 				<posy>250</posy>
 				<width>300</width>
 				<height>40</height>
-				<texture border="0,2,0,2" colordiffuse="$INFO[Skin.String(rcb_button_focus)]">rcb-MenuItemFO.png</texture>
+				<texture border="0,2,0,2" colordiffuse="$INFO[Skin.String(rcb_button_focus)]">rcb-white.png</texture>
 				<visible>Control.HasFocus(1700)</visible>
 			</control>
 			<control type="button" id="1700">
@@ -2014,7 +2021,7 @@
 				<texturefocus></texturefocus>
 				<texturenofocus></texturenofocus>
 				<label>$ADDON[script.games.rom.collection.browser 32418]</label>
-				<textcolor>$INFO[Skin.String(rcb_text_value)]</textcolor>
+				<textcolor>$INFO[Skin.String(rcb_text_button)]</textcolor>
 				<focusedcolor>$INFO[Skin.String(rcb_text_button_focused)]</focusedcolor>
 				<disabledcolor>$INFO[Skin.String(rcb_text_button_disabled)]</disabledcolor>
 				<align>left</align>
@@ -2059,10 +2066,10 @@
 				<width>300</width>
 				<height>40</height>
 				<visible>true</visible>
-				<texturefocus  colordiffuse="$INFO[Skin.String(rcb_button_focus)]">rcb-MenuItemFO.png</texturefocus>
+				<texturefocus  colordiffuse="$INFO[Skin.String(rcb_button_focus)]">rcb-white.png</texturefocus>
 				<texturenofocus></texturenofocus>
 				<label>$ADDON[script.games.rom.collection.browser 32409]</label>
-				<textcolor>$INFO[Skin.String(rcb_text_value)]</textcolor>
+				<textcolor>$INFO[Skin.String(rcb_text_button)]</textcolor>
 				<focusedcolor>$INFO[Skin.String(rcb_text_button_focused)]</focusedcolor>
 				<disabledcolor>$INFO[Skin.String(rcb_text_button_disabled)]</disabledcolor>
 				<align>left</align>
@@ -2082,10 +2089,10 @@
 				<width>300</width>
 				<height>40</height>
 				<visible>true</visible>
-				<texturefocus  colordiffuse="$INFO[Skin.String(rcb_button_focus)]">rcb-MenuItemFO.png</texturefocus>
+				<texturefocus  colordiffuse="$INFO[Skin.String(rcb_button_focus)]">rcb-white.png</texturefocus>
 				<texturenofocus></texturenofocus>
 				<label>$ADDON[script.games.rom.collection.browser 32426]</label>
-				<textcolor>$INFO[Skin.String(rcb_text_value)]</textcolor>
+				<textcolor>$INFO[Skin.String(rcb_text_button)]</textcolor>
 				<focusedcolor>$INFO[Skin.String(rcb_text_button_focused)]</focusedcolor>
 				<disabledcolor>$INFO[Skin.String(rcb_text_button_disabled)]</disabledcolor>
 				<align>left</align>
