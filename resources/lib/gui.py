@@ -41,8 +41,10 @@ CONTROL_BUTTON_FAVORITE = 1000
 CONTROL_BUTTON_SEARCH = 1100
 CONTROL_BUTTON_SORTBY = 1600
 CONTROL_LABEL_SORTBY = 1601
+CONTROL_LABEL_SORTBY_FOCUS = 1602
 CONTROL_BUTTON_ORDER = 1700
 CONTROL_LABEL_ORDER = 1701
+CONTROL_LABEL_ORDER_FOCUS = 1702
 NON_EXIT_RCB_CONTROLS = (500, 600, 700, 800, 900, 2, 1000, 1100, 1200, 1300, 1400, 1500, 1600, 1700)
 
 CONTROL_LABEL_MSG = 4000
@@ -366,6 +368,8 @@ class UIGameDB(xbmcgui.WindowXML):
             self.sortMethod = options[index].getProperty('column')
             label = self.getControlById(CONTROL_LABEL_SORTBY)
             label.setLabel(options[index].getLabel())
+            label = self.getControlById(CONTROL_LABEL_SORTBY_FOCUS)
+            label.setLabel(options[index].getLabel())
             self.showGames()
 
         elif controlId == CONTROL_BUTTON_ORDER:
@@ -383,6 +387,8 @@ class UIGameDB(xbmcgui.WindowXML):
 
             self.sortDirection = options[index].getProperty('direction')
             label = self.getControlById(CONTROL_LABEL_ORDER)
+            label.setLabel(options[index].getLabel())
+            label = self.getControlById(CONTROL_LABEL_ORDER_FOCUS)
             label.setLabel(options[index].getLabel())
             self.showGames()
 
@@ -440,16 +446,28 @@ class UIGameDB(xbmcgui.WindowXML):
         self.set_color(tree, 'rcb_panel_dialog')
         self.set_color(tree, 'rcb_panel_dialog_text')
 
-        self.set_color(tree, 'rcb_text')
-        self.set_color(tree, 'rcb_text_heading')
-        self.set_color(tree, 'rcb_text_disabled')
-        self.set_color(tree, 'rcb_text_focused')
-
         self.set_color(tree, 'rcb_button_focus')
+        self.set_color(tree, 'rcb_button_highlight')
+        self.set_color(tree, 'rcb_button_focus_dialogs')
+
+        self.set_color(tree, 'rcb_text_list')
+        self.set_color(tree, 'rcb_text_list_focused')
+        self.set_color(tree, 'rcb_text_label')
+        self.set_color(tree, 'rcb_text_value')
+        self.set_color(tree, 'rcb_text_heading')
+        self.set_color(tree, 'rcb_text_button_focused')
+        self.set_color(tree, 'rcb_text_button_disabled')
+        self.set_color(tree, 'rcb_text_dialog_buttons')
+        self.set_color(tree, 'rcb_text_shadow')
 
     def set_color(self, tree, color_name):
 
-        color = tree.find('color[@name="%s"]' %color_name).text
+        try:
+            color = tree.find('color[@name="%s"]' %color_name).text
+        except AttributeError:
+            log.warn('Error in load_color_schemes: color %s not found in xml file' %color_name)
+            color = 'FFFFFFFF'
+
         xbmc.executebuiltin("Skin.SetString(%s, %s)" % (color_name, color))
 
 
@@ -1350,6 +1368,8 @@ class UIGameDB(xbmcgui.WindowXML):
 
         label = self.getControlById(CONTROL_LABEL_SORTBY)
         label.setLabel(self.SORT_METHODS[self.sortMethod])
+        label = self.getControlById(CONTROL_LABEL_SORTBY_FOCUS)
+        label.setLabel(self.SORT_METHODS[self.sortMethod])
 
         #sort direction
         self.sortDirection = rcbSetting[RCBSetting.COL_sortDirection]
@@ -1357,6 +1377,8 @@ class UIGameDB(xbmcgui.WindowXML):
             self.sortDirection = 'ASC'
 
         label = self.getControlById(CONTROL_LABEL_ORDER)
+        label.setLabel(self.SORT_DIRECTIONS[self.sortDirection])
+        label = self.getControlById(CONTROL_LABEL_ORDER_FOCUS)
         label.setLabel(self.SORT_DIRECTIONS[self.sortDirection])
 
         # Reset game list
