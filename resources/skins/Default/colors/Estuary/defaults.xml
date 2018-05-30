@@ -6,8 +6,8 @@
 	<color name="rcb_panel_list">37A0A0A0</color>
 	<color name="rcb_panel_list_transp">AA333333</color>
 	<color name="rcb_panel_info">AA000000</color>
-	<color name="rcb_panel_dialog">FFFFFFFF</color>
-	<color name="rcb_panel_dialog_text">FFFFFFFF</color>
+	<color name="rcb_panel_dialog">FF333333</color>
+	<color name="rcb_panel_dialog_text">FF222222</color>
 	
 	<color name="rcb_scrollbar_background">29FFFFFF</color>
 	<color name="rcb_scrollbar_bar">FFAAAAAA</color>
