@@ -447,14 +447,16 @@ class UIGameDB(xbmcgui.WindowXML):
         self.set_color(tree, 'rcb_panel_dialog_text')
 
         self.set_color(tree, 'rcb_scrollbar_background')
-        self.set_color(tree, 'rcb_scrollbar_bar')
+        self.set_color(tree, 'rcb_scrollbar_nofocus')
         self.set_color(tree, 'rcb_scrollbar_focus')
 
         self.set_color(tree, 'rcb_button_nofocus')
         self.set_color(tree, 'rcb_button_focus')
         self.set_color(tree, 'rcb_button_highlight')
-        self.set_color(tree, 'rcb_button_nofocus_dialog')
-        self.set_color(tree, 'rcb_button_focus_dialog')
+        self.set_color(tree, 'rcb_button_dialog_nofocus')
+        self.set_color(tree, 'rcb_button_dialog_focus')
+        self.set_color(tree, 'rcb_button_category_nofocus')
+        self.set_color(tree, 'rcb_button_category_focus')
 
         self.set_color(tree, 'rcb_text_list')
         self.set_color(tree, 'rcb_text_list_focused')

@@ -10,14 +10,16 @@
 	<color name="rcb_panel_dialog_text">FF111111</color>
 	
 	<color name="rcb_scrollbar_background">29FFFFFF</color>
-	<color name="rcb_scrollbar_bar">FFAAAAAA</color>
+	<color name="rcb_scrollbar_nofocus">FFAAAAAA</color>
 	<color name="rcb_scrollbar_focus">FF12A0C7</color>
 	
 	<color name="rcb_button_nofocus">FF111111</color>
 	<color name="rcb_button_focus">FF12A0C7</color>
 	<color name="rcb_button_highlight">FF12A0C7</color>
-	<color name="rcb_button_nofocus_dialog">FF111111</color>
-	<color name="rcb_button_focus_dialog">FF12A0C7</color>
+	<color name="rcb_button_dialog_nofocus">FF111111</color>
+	<color name="rcb_button_dialog_focus">FF12A0C7</color>
+	<color name="rcb_button_category_nofocus">ffaaaaaa</color>
+	<color name="rcb_button_category_focus">FF12A0C7</color>
 	
 	<color name="rcb_text_list">FFFFFFFF</color>
 	<color name="rcb_text_list_focused">FFFFFFFF</color>

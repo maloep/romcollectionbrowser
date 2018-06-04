@@ -81,7 +81,7 @@
 				<height>350</height>
 				<visible>Control.IsVisible(8000)</visible>
 				<texturesliderbackground colordiffuse="$INFO[Skin.String(rcb_scrollbar_background)]">rcb-white.png</texturesliderbackground>
-				<texturesliderbar colordiffuse="$INFO[Skin.String(rcb_scrollbar_bar)]">rcb-white.png</texturesliderbar>
+				<texturesliderbar colordiffuse="$INFO[Skin.String(rcb_scrollbar_nofocus)]">rcb-white.png</texturesliderbar>
 				<texturesliderbarfocus colordiffuse="$INFO[Skin.String(rcb_scrollbar_focus)]">rcb-white.png</texturesliderbarfocus>
 				<textureslidernib></textureslidernib>
 				<textureslidernibfocus></textureslidernibfocus>
@@ -512,8 +512,8 @@
 			<width>200</width>
 			<height>40</height>
 			<visible>true</visible>
-			<texturefocus colordiffuse="$INFO[Skin.String(rcb_button_focus_dialog)]">rcb-white.png</texturefocus>
-			<texturenofocus colordiffuse="$INFO[Skin.String(rcb_button_nofocus_dialog)]">rcb-white.png</texturenofocus>
+			<texturefocus colordiffuse="$INFO[Skin.String(rcb_button_dialog_focus)]">rcb-white.png</texturefocus>
+			<texturenofocus colordiffuse="$INFO[Skin.String(rcb_button_dialog_nofocus)]">rcb-white.png</texturenofocus>
 			<label>$ADDON[script.games.rom.collection.browser 32756]</label>
 			<font>font25_title</font>
 			<textcolor>$INFO[Skin.String(rcb_text_button)]</textcolor>
