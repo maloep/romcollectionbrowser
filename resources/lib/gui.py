@@ -438,6 +438,7 @@ class UIGameDB(xbmcgui.WindowXML):
 
         self.set_color(tree, 'rcb_background')
         self.set_color(tree, 'rcb_background_diffuse')
+        self.set_color(tree, 'rcb_background_diffuse_dialog_open')
 
         self.set_color(tree, 'rcb_panel_slide')
         self.set_color(tree, 'rcb_panel_list')

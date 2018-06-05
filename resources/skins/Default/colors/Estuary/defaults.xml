@@ -1,6 +1,7 @@
 <colors>
 	<color name="rcb_background">FF0E597E</color>
 	<color name="rcb_background_diffuse">37FFFFFF</color>
+	<color name="rcb_background_diffuse_dialog_open">AA000000</color>
 	
 	<color name="rcb_panel_slide">FF000000</color>
 	<color name="rcb_panel_list">37A0A0A0</color>

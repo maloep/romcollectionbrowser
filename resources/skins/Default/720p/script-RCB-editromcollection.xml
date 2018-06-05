@@ -9,7 +9,16 @@
 	</coordinates>
 	
 	<controls>
-		<!-- Window -->	
+		<control type="image">
+			<description>Background Fade</description>
+			<posx>-60</posx>
+			<posy>-60</posy>
+			<width>1280</width>
+			<height>720</height>
+			<texture colordiffuse="$INFO[Skin.String(rcb_background_diffuse_dialog_open)]">rcb-white.png</texture>
+		</control>
+		
+		<!-- Window -->
 		<control type="image">
 			<description>header image</description>
 			<posx>0</posx>
