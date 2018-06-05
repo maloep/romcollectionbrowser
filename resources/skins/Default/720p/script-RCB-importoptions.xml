@@ -16,7 +16,7 @@
 				<posy>-40</posy>
 				<width>720</width>
 				<height>40</height>
-				<texture colordiffuse="FF12A0C7">rcb-white.png</texture>
+				<texture colordiffuse="$INFO[Skin.String(rcb_panel_dialog)]">rcb-white.png</texture>
 			</control>
 			<control type="image">
 				<description>kodi logo</description>
@@ -32,8 +32,8 @@
 				<width>720</width>
 				<height>30</height>
 				<font>font32_title</font>
-				<textcolor>white</textcolor>
-				<shadowcolor>black</shadowcolor>
+				<textcolor>$INFO[Skin.String(rcb_text_heading)]</textcolor>
+				<shadowcolor>$INFO[Skin.String(rcb_text_shadow)]</shadowcolor>
 				<align>left</align>
 				<aligny>center</aligny>
 				<label>$ADDON[script.games.rom.collection.browser 32999] - $ADDON[script.games.rom.collection.browser 32800]</label>
@@ -44,7 +44,7 @@
 				<posy>0</posy>
 				<width>720</width>
 				<height>290</height>
-				<texture colordiffuse="FF222222">rcb-white.png</texture>
+				<texture colordiffuse="$INFO[Skin.String(rcb_panel_dialog)]">rcb-white.png</texture>
 			</control>
 			
 			<control type="group">
@@ -57,7 +57,7 @@
 					<posy>0</posy>
 					<width>680</width>
 					<height>210</height>
-					<texture colordiffuse="FF111111">rcb-white.png</texture>
+					<texture colordiffuse="$INFO[Skin.String(rcb_panel_dialog_text)]">rcb-white.png</texture>
 				</control>
 			
 				<control type="list" id="5210">
@@ -80,7 +80,7 @@
 							<posy>0</posy>
 							<width>680</width>
 							<height>40</height>
-							<texture colordiffuse="FF12A0C7">rcb-MenuItemFO.png</texture>
+							<texture colordiffuse="$INFO[Skin.String(rcb_button_dialog_focus)]">rcb-white.png</texture>
 							<visible>[Control.HasFocus(5211) | Control.HasFocus(5212)]</visible>
 						</control>
 						<control type="label">
@@ -89,11 +89,25 @@
 							<width>200</width>
 							<height>20</height>
 							<font>font13</font>
-							<textcolor>white</textcolor>
+							<textcolor>$INFO[Skin.String(rcb_text_button_focused)]</textcolor>
 							<align>left</align>
 							<aligny>center</aligny>
 							<label>$ADDON[script.games.rom.collection.browser 32601]</label>
 							<animation reversible="false" effect="fade" end="50" time="0" condition="Skin.HasSetting(rcb_disableRomcollections)">Conditional</animation>
+							<visible>[Control.HasFocus(5211) | Control.HasFocus(5212)]</visible>
+						</control>
+						<control type="label">
+							<posx>25</posx>
+							<posy>10</posy>
+							<width>200</width>
+							<height>20</height>
+							<font>font13</font>
+							<textcolor>$INFO[Skin.String(rcb_text_button)]</textcolor>
+							<align>left</align>
+							<aligny>center</aligny>
+							<label>$ADDON[script.games.rom.collection.browser 32601]</label>
+							<animation reversible="false" effect="fade" end="50" time="0" condition="Skin.HasSetting(rcb_disableRomcollections)">Conditional</animation>
+							<visible>![Control.HasFocus(5211) | Control.HasFocus(5212)]</visible>
 						</control>
 						<control type="label">
 							<posx>250</posx>
@@ -101,11 +115,25 @@
 							<width>330</width>
 							<height>20</height>
 							<font>font13</font>
-							<textcolor>white</textcolor>
+							<textcolor>$INFO[Skin.String(rcb_text_button_focused)]</textcolor>
 							<align>right</align>
 							<aligny>center</aligny>
 							<label>$INFO[ListItem.Label]</label>
 							<animation reversible="false" effect="fade" end="50" time="0" condition="Skin.HasSetting(rcb_disableRomcollections)">Conditional</animation>
+							<visible>[Control.HasFocus(5211) | Control.HasFocus(5212)]</visible>
+						</control>
+						<control type="label">
+							<posx>250</posx>
+							<posy>10</posy>
+							<width>330</width>
+							<height>20</height>
+							<font>font13</font>
+							<textcolor>$INFO[Skin.String(rcb_text_button)]</textcolor>
+							<align>right</align>
+							<aligny>center</aligny>
+							<label>$INFO[ListItem.Label]</label>
+							<animation reversible="false" effect="fade" end="50" time="0" condition="Skin.HasSetting(rcb_disableRomcollections)">Conditional</animation>
+							<visible>![Control.HasFocus(5211) | Control.HasFocus(5212)]</visible>
 						</control>
 					</focusedlayout>
 				</control>
@@ -115,7 +143,7 @@
 					<posy>15</posy>
 					<width>20</width>
 					<height>10</height>
-					<texturenofocus colordiffuse="FFAAAAAA">rcb-scroll-up.png</texturenofocus>
+					<texturenofocus colordiffuse="$INFO[Skin.String(rcb_scrollbar_nofocus)]">rcb-scroll-up.png</texturenofocus>
 					<texturefocus>rcb-scroll-up.png</texturefocus>
 					<onclick>Control.Move(5210,1)</onclick>
 					<onleft>5300</onleft>
@@ -130,7 +158,7 @@
 					<posy>15</posy>
 					<width>20</width>
 					<height>10</height>
-					<texturenofocus colordiffuse="FFAAAAAA">rcb-scroll-down.png</texturenofocus>
+					<texturenofocus colordiffuse="$INFO[Skin.String(rcb_scrollbar_nofocus)]">rcb-scroll-down.png</texturenofocus>
 					<texturefocus>rcb-scroll-down.png</texturefocus>
 					<onclick>Control.Move(5210,-1)</onclick>
 					<onleft>5211</onleft>
@@ -152,11 +180,11 @@
 					<align>left</align>
 					<font>font13</font>
 					<label>$ADDON[script.games.rom.collection.browser 32803]</label>
-					<textcolor>white</textcolor>
-					<disabledcolor>white</disabledcolor>
+					<textcolor>$INFO[Skin.String(rcb_text_button)]</textcolor>
+					<disabledcolor>$INFO[Skin.String(rcb_text_button)]</disabledcolor>
 					<textoffsetx>25</textoffsetx>
-					<focusedcolor>FFFFFFFF</focusedcolor>
-					<texturefocus colordiffuse="FF12A0C7">rcb-MenuItemFO.png</texturefocus>
+					<focusedcolor>$INFO[Skin.String(rcb_text_button_focused)]</focusedcolor>
+					<texturefocus colordiffuse="$INFO[Skin.String(rcb_button_dialog_focus)]">rcb-MenuItemFO.png</texturefocus>
 					<texturenofocus></texturenofocus>
 					<textureradioonfocus>rcb-radio-button-on.png</textureradioonfocus>
 					<textureradioonnofocus>rcb-radio-button-on.png</textureradioonnofocus>
@@ -193,7 +221,7 @@
 							<posy>0</posy>
 							<width>680</width>
 							<height>40</height>
-							<texture colordiffuse="FF12A0C7">rcb-MenuItemFO.png</texture>
+							<texture colordiffuse="$INFO[Skin.String(rcb_button_dialog_focus)]">rcb-MenuItemFO.png</texture>
 							<visible>[Control.HasFocus(5271) | Control.HasFocus(5272)]</visible>
 						</control>
 						<control type="label">
@@ -202,10 +230,23 @@
 							<width>200</width>
 							<height>20</height>
 							<font>font13</font>
-							<textcolor>white</textcolor>
+							<textcolor>$INFO[Skin.String(rcb_text_button)]</textcolor>
 							<align>left</align>
 							<aligny>center</aligny>
 							<label>$ADDON[script.games.rom.collection.browser 32613]</label>
+							<visible>![Control.HasFocus(5271) | Control.HasFocus(5272)]</visible>
+						</control>
+						<control type="label">
+							<posx>25</posx>
+							<posy>10</posy>
+							<width>200</width>
+							<height>20</height>
+							<font>font13</font>
+							<textcolor>$INFO[Skin.String(rcb_text_button_focused)]</textcolor>
+							<align>left</align>
+							<aligny>center</aligny>
+							<label>$ADDON[script.games.rom.collection.browser 32613]</label>
+							<visible>[Control.HasFocus(5271) | Control.HasFocus(5272)]</visible>
 						</control>
 						<control type="label">
 							<posx>250</posx>
@@ -213,10 +254,23 @@
 							<width>330</width>
 							<height>20</height>
 							<font>font13</font>
-							<textcolor>white</textcolor>
+							<textcolor>$INFO[Skin.String(rcb_text_button)]</textcolor>
 							<align>right</align>
 							<aligny>center</aligny>
 							<label>$INFO[ListItem.Label]</label>
+							<visible>![Control.HasFocus(5271) | Control.HasFocus(5272)]</visible>
+						</control>
+						<control type="label">
+							<posx>250</posx>
+							<posy>10</posy>
+							<width>330</width>
+							<height>20</height>
+							<font>font13</font>
+							<textcolor>$INFO[Skin.String(rcb_text_button_focused)]</textcolor>
+							<align>right</align>
+							<aligny>center</aligny>
+							<label>$INFO[ListItem.Label]</label>
+							<visible>[Control.HasFocus(5271) | Control.HasFocus(5272)]</visible>
 						</control>
 					</focusedlayout>
 				</control>
@@ -226,7 +280,7 @@
 					<posy>95</posy>
 					<width>20</width>
 					<height>10</height>
-					<texturenofocus colordiffuse="FFAAAAAA">rcb-scroll-down.png</texturenofocus>
+					<texturenofocus colordiffuse="$INFO[Skin.String(rcb_scrollbar_nofocus)]">rcb-scroll-down.png</texturenofocus>
 					<texturefocus>rcb-scroll-down.png</texturefocus>
 					<onclick>Control.Move(5270,1)</onclick>
 					<onleft>5300</onleft>
@@ -240,7 +294,7 @@
 					<posy>95</posy>
 					<width>20</width>
 					<height>10</height>
-					<texturenofocus colordiffuse="FFAAAAAA">rcb-scroll-up.png</texturenofocus>
+					<texturenofocus colordiffuse="$INFO[Skin.String(rcb_scrollbar_nofocus)]">rcb-scroll-up.png</texturenofocus>
 					<texturefocus>rcb-scroll-up.png</texturefocus>
 					<onclick>Control.Move(5270,-1)</onclick>
 					<onleft>5271</onleft>
@@ -258,12 +312,12 @@
 				<height>30</height>
 				<visible>true</visible>
 				<font>font25_title</font>
-				<colordiffuse>DDFFFFFF</colordiffuse>
-				<texturefocus colordiffuse="FF12A0C7">rcb-MenuItemFO.png</texturefocus>
-				<texturenofocus colordiffuse="FF111111">rcb-white.png</texturenofocus>
+				<texturefocus colordiffuse="$INFO[Skin.String(rcb_button_dialog_focus)]">rcb-MenuItemFO.png</texturefocus>
+				<texturenofocus colordiffuse="$INFO[Skin.String(rcb_button_dialog_nofocus)]">rcb-white.png</texturenofocus>
 				<label>$ADDON[script.games.rom.collection.browser 32800]</label>
-				<textcolor>DDFFFFFF</textcolor>
-				<disabledcolor>80FFFFFF</disabledcolor>
+				<textcolor>$INFO[Skin.String(rcb_text_button)]</textcolor>
+				<focusedcolor>$INFO[Skin.String(rcb_text_button_focused)]</focusedcolor>
+				<disabledcolor>$INFO[Skin.String(rcb_text_button_disabled)]</disabledcolor>
 				<align>center</align>
 				<aligny>center</aligny>
 				<textoffsetx></textoffsetx>
@@ -282,12 +336,12 @@
 				<height>30</height>
 				<visible>true</visible>
 				<font>font25_title</font>
-				<colordiffuse>DDFFFFFF</colordiffuse>
-				<texturefocus colordiffuse="FF12A0C7">rcb-MenuItemFO.png</texturefocus>
-				<texturenofocus colordiffuse="FF111111">rcb-white.png</texturenofocus>
+				<texturefocus colordiffuse="$INFO[Skin.String(rcb_button_dialog_focus)]">rcb-MenuItemFO.png</texturefocus>
+				<texturenofocus colordiffuse="$INFO[Skin.String(rcb_button_dialog_nofocus)]">rcb-white.png</texturenofocus>
 				<label>$ADDON[script.games.rom.collection.browser 32635]</label>
-				<textcolor>DDFFFFFF</textcolor>
-				<disabledcolor>80FFFFFF</disabledcolor>
+				<textcolor>$INFO[Skin.String(rcb_text_button)]</textcolor>
+				<focusedcolor>$INFO[Skin.String(rcb_text_button_focused)]</focusedcolor>
+				<disabledcolor>$INFO[Skin.String(rcb_text_button_disabled)]</disabledcolor>
 				<align>center</align>
 				<aligny>center</aligny>
 				<textoffsetx></textoffsetx>
