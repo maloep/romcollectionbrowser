@@ -15,7 +15,7 @@
 			<width>1280</width>
 		    <height>720</height>
 			<aspectratio>scale</aspectratio>
-			<texture colordiffuse="$INFO[Skin.String(rcb_background)]">rcb-primary.jpg</texture>
+			<texture colordiffuse="$INFO[Skin.String(rcb_background)]">rcb-background.jpg</texture>
 		</control>
 	
 		<!-- background -->
@@ -52,7 +52,7 @@
 			<animation effect="slide" start="0,0" end="1100,0" time="400" tween="quadratic" easing="out">WindowClose</animation>
 			
 			<control type="image">
-				<texture colordiffuse="$INFO[Skin.String(rcb_panel_info)]">rcb-white.png</texture>
+				<texture colordiffuse="$INFO[Skin.String(rcb_panel_info)]">rcb-panel.png</texture>
 				<posx>0</posx>
 				<posy>-20</posy>	
 				<width>400</width>
@@ -80,9 +80,9 @@
 				<width>10</width>
 				<height>350</height>
 				<visible>Control.IsVisible(8000)</visible>
-				<texturesliderbackground colordiffuse="$INFO[Skin.String(rcb_scrollbar_background)]">rcb-white.png</texturesliderbackground>
-				<texturesliderbar colordiffuse="$INFO[Skin.String(rcb_scrollbar_nofocus)]">rcb-white.png</texturesliderbar>
-				<texturesliderbarfocus colordiffuse="$INFO[Skin.String(rcb_scrollbar_focus)]">rcb-white.png</texturesliderbarfocus>
+				<texturesliderbackground colordiffuse="$INFO[Skin.String(rcb_scrollbar_background)]">rcb-scrollbar_background.png</texturesliderbackground>
+				<texturesliderbar colordiffuse="$INFO[Skin.String(rcb_scrollbar_nofocus)]">rcb-scrollbar_nib.png</texturesliderbar>
+				<texturesliderbarfocus colordiffuse="$INFO[Skin.String(rcb_scrollbar_focus)]">rcb-scrollbar_nib.png</texturesliderbarfocus>
 				<textureslidernib></textureslidernib>
 				<textureslidernibfocus></textureslidernibfocus>
 				<pulseonselect></pulseonselect>
@@ -103,7 +103,7 @@
 			<animation effect="slide" start="0,0" end="1100,0" time="400" tween="quadratic" easing="out">WindowClose</animation>
 			
 			<control type="image">
-				<texture colordiffuse="$INFO[Skin.String(rcb_panel_info)]">rcb-white.png</texture>
+				<texture colordiffuse="$INFO[Skin.String(rcb_panel_info)]">rcb-panel.png</texture>
 				<posx>0</posx>
 				<posy>-20</posy>	
 				<width>400</width>
@@ -371,7 +371,7 @@
 				<aspectratio>keep</aspectratio>
 				<visible>!Player.HasVideo</visible>
 				<texture>$INFO[Container(8200).ListItem.Art(gameinfobig)]</texture>
-				<bordertexture border="2">rcb-button-nofocus.png</bordertexture>
+				<!--<bordertexture border="2">rcb-button-nofocus.png</bordertexture>-->
 				<bordersize>2</bordersize>
 			</control>
 			<!-- videowindowbig -->
@@ -401,7 +401,7 @@
 				<width>180</width>
 				<height>135</height>						
 				<texture>$INFO[Container(8200).ListItem.Art(gameinfoupperleft)]</texture>
-				<bordertexture border="2">rcb-button-nofocus.png</bordertexture>
+				<!--<bordertexture border="2">rcb-button-nofocus.png</bordertexture>-->
 				<bordersize>2</bordersize>
 			</control>
 			<!-- gameinfoupperright -->
@@ -412,7 +412,7 @@
 				<width>180</width>
 				<height>135</height>						
 				<texture>$INFO[Container(8200).ListItem.Art(gameinfoupperright)]</texture>
-				<bordertexture border="2">rcb-button-nofocus.png</bordertexture>
+				<!--<bordertexture border="2">rcb-button-nofocus.png</bordertexture>-->
 				<bordersize>2</bordersize>
 			</control>
 			<!-- gameinfolowerleft -->
@@ -423,7 +423,7 @@
 				<width>180</width>
 				<height>135</height>						
 				<texture>$INFO[Container(8200).ListItem.Art(gameinfolowerleft)]</texture>
-				<bordertexture border="2">rcb-button-nofocus.png</bordertexture>
+				<!--<bordertexture border="2">rcb-button-nofocus.png</bordertexture>-->
 				<bordersize>2</bordersize>
 			</control>
 			<!-- gameinfolowerright -->
@@ -435,7 +435,7 @@
 				<height>135</height>
 				<visible>!Player.HasVideo</visible>
 				<texture>$INFO[Container(8200).ListItem.Art(gameinfolowerright)]</texture>
-				<bordertexture border="2">rcb-button-nofocus.png</bordertexture>
+				<!--<bordertexture border="2">rcb-button-nofocus.png</bordertexture>-->
 				<bordersize>2</bordersize>
 			</control>
 			
@@ -447,7 +447,7 @@
 				<width>370</width>
 				<height>135</height>						
 				<texture>$INFO[Container(8200).ListItem.Art(gameinfoupper)]</texture>
-				<bordertexture border="2">rcb-button-nofocus.png</bordertexture>
+				<!--<bordertexture border="2">rcb-button-nofocus.png</bordertexture>-->
 				<bordersize>2</bordersize>
 			</control>
 			<!-- gameinfolower -->
@@ -458,7 +458,7 @@
 				<width>370</width>
 				<height>135</height>						
 				<texture>$INFO[Container(8200).ListItem.Art(gameinfolower)]</texture>
-				<bordertexture border="2">rcb-button-nofocus.png</bordertexture>
+				<!--<bordertexture border="2">rcb-button-nofocus.png</bordertexture>-->
 				<bordersize>2</bordersize>
 			</control>
 			<!-- gameinfoleft -->
@@ -469,7 +469,7 @@
 				<width>180</width>
 				<height>280</height>						
 				<texture>$INFO[Container(8200).ListItem.Art(gameinfoleft)]</texture>
-				<bordertexture border="2">rcb-button-nofocus.png</bordertexture>
+				<!--<bordertexture border="2">rcb-button-nofocus.png</bordertexture>-->
 				<bordersize>2</bordersize>
 			</control>
 			<!-- gameinforight -->
@@ -480,7 +480,7 @@
 				<width>180</width>
 				<height>300</height>						
 				<texture>$INFO[Container(8200).ListItem.Art(gameinforight)]</texture>
-				<bordertexture border="2">rcb-button-nofocus.png</bordertexture>
+				<!--<bordertexture border="2">rcb-button-nofocus.png</bordertexture>-->
 				<bordersize>2</bordersize>
 			</control>
 			
@@ -512,8 +512,8 @@
 			<width>200</width>
 			<height>40</height>
 			<visible>true</visible>
-			<texturefocus colordiffuse="$INFO[Skin.String(rcb_button_dialog_focus)]">rcb-white.png</texturefocus>
-			<texturenofocus colordiffuse="$INFO[Skin.String(rcb_button_dialog_nofocus)]">rcb-white.png</texturenofocus>
+			<texturefocus colordiffuse="$INFO[Skin.String(rcb_button_dialog_focus)]">rcb-button_focus.png</texturefocus>
+			<texturenofocus colordiffuse="$INFO[Skin.String(rcb_button_dialog_nofocus)]">rcb-button_nofocus.png</texturenofocus>
 			<label>$ADDON[script.games.rom.collection.browser 32756]</label>
 			<font>font25_title</font>
 			<textcolor>$INFO[Skin.String(rcb_text_button)]</textcolor>

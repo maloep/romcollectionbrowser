@@ -25,7 +25,7 @@
 			<posy>-40</posy>
 			<width>1160</width>
 			<height>40</height>
-			<texture colordiffuse="$INFO[Skin.String(rcb_panel_dialog)]">rcb-white.png</texture>
+			<texture colordiffuse="$INFO[Skin.String(rcb_panel_dialog)]">rcb-panel.png</texture>
 		</control>
 		<control type="image">
 			<description>kodi logo</description>
@@ -41,7 +41,7 @@
 			<posy>0</posy>
 			<width>1160</width>
 			<height>620</height>
-			<texture colordiffuse="$INFO[Skin.String(rcb_panel_dialog)]">rcb-white.png</texture>
+			<texture colordiffuse="$INFO[Skin.String(rcb_panel_dialog)]">rcb-panel.png</texture>
 		</control>
 		<control type="image">
 			<description>background image edit pane</description>
@@ -49,7 +49,7 @@
 			<posy>20</posy>
 			<width>680</width>
 			<height>580</height>
-			<texture colordiffuse="$INFO[Skin.String(rcb_panel_dialog_text)]">rcb-white.png</texture>
+			<texture colordiffuse="$INFO[Skin.String(rcb_panel_dialog_text)]">rcb-panel.png</texture>
 		</control>
 		
 		<control type="label">
@@ -83,7 +83,7 @@
 					<posy>0</posy>
 					<width>210</width>
 					<height>50</height>
-					<texture colordiffuse="$INFO[Skin.String(rcb_button_category_nofocus)]">rcb-white.png</texture>
+					<texture colordiffuse="$INFO[Skin.String(rcb_button_category_nofocus)]">rcb-button_nofocus.png</texture>
 				</control>
 				<control type="label">
 					<posx>0</posx>
@@ -544,7 +544,7 @@
 			<visible>true</visible>
 			<font>font25_title</font>
 			<texturefocus colordiffuse="$INFO[Skin.String(rcb_button_dialog_focus)]">rcb-MenuItemFO.png</texturefocus>
-			<texturenofocus colordiffuse="$INFO[Skin.String(rcb_button_dialog_nofocus)]">rcb-white.png</texturenofocus>
+			<texturenofocus colordiffuse="$INFO[Skin.String(rcb_button_dialog_nofocus)]">rcb-button_nofocus.png</texturenofocus>
 			<label>$ADDON[script.games.rom.collection.browser 32634]</label>
 			<textcolor>$INFO[Skin.String(rcb_text_button)]</textcolor>
 			<disabledcolor>$INFO[Skin.String(rcb_text_button_disabled)]</disabledcolor>
@@ -567,7 +567,7 @@
 			<visible>true</visible>
 			<font>font25_title</font>
 			<texturefocus colordiffuse="$INFO[Skin.String(rcb_button_dialog_focus)]">rcb-MenuItemFO.png</texturefocus>
-			<texturenofocus colordiffuse="$INFO[Skin.String(rcb_button_dialog_nofocus)]">rcb-white.png</texturenofocus>
+			<texturenofocus colordiffuse="$INFO[Skin.String(rcb_button_dialog_nofocus)]">rcb-button_nofocus.png</texturenofocus>
 			<label>$ADDON[script.games.rom.collection.browser 32635]</label>
 			<textcolor>$INFO[Skin.String(rcb_text_button)]</textcolor>
 			<disabledcolor>$INFO[Skin.String(rcb_text_button_disabled)]</disabledcolor>
