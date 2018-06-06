@@ -15,7 +15,7 @@
 			<width>1280</width>
 		    <height>720</height>
 			<aspectratio>scale</aspectratio>
-			<texture colordiffuse="$INFO[Skin.String(rcb_background)]">rcb-background.jpg</texture>
+			<texture colordiffuse="$INFO[Skin.String(rcb_background)]">rcb-background.png</texture>
 		</control>
 	
 		<!-- background -->
