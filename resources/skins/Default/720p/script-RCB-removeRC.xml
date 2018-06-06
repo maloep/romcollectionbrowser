@@ -24,7 +24,7 @@
 			<posy>-40</posy>
 			<width>720</width>
 			<height>40</height>
-			<texture colordiffuse="$INFO[Skin.String(rcb_panel_dialog)]">rcb-panel.png</texture>
+			<texture colordiffuse="$INFO[Skin.String(rcb_panel_dialog_header)]">rcb-panel.png</texture>
 		</control>
 		<control type="image">
 			<description>kodi logo</description>
@@ -40,7 +40,7 @@
 			<width>720</width>
 			<height>30</height>
 			<font>font32_title</font>
-			<textcolor>$INFO[Skin.String(rcb_text_heading)]</textcolor>
+			<textcolor>$INFO[Skin.String(rcb_text_dialog_header)]</textcolor>
 			<shadowcolor>$INFO[Skin.String(rcb_text_shadow)]</shadowcolor>
 			<align>left</align>
 			<aligny>center</aligny>
