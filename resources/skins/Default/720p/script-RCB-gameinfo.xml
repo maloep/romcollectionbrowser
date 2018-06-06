@@ -138,7 +138,7 @@
 				<height>30</height>
 				<align>right</align>
 				<aligny>center</aligny>
-				<font>font13_title</font>
+				<font>font13</font>
 				<textcolor>$INFO[Skin.String(rcb_text_label)]</textcolor>
 				<label>$ADDON[script.games.rom.collection.browser 32401]:</label>
 			</control>
@@ -160,7 +160,7 @@
 				<height>30</height>
 				<align>right</align>
 				<aligny>center</aligny>
-				<font>font13_title</font>
+				<font>font13</font>
 				<textcolor>$INFO[Skin.String(rcb_text_label)]</textcolor>
 				<label>$ADDON[script.games.rom.collection.browser 32400]:</label>
 			</control>
@@ -181,7 +181,7 @@
 				<height>30</height>
 				<align>right</align>
 				<aligny>center</aligny>
-				<font>font13_title</font>
+				<font>font13</font>
 				<textcolor>$INFO[Skin.String(rcb_text_label)]</textcolor>
 				<label>$ADDON[script.games.rom.collection.browser 32402]:</label>
 			</control>
@@ -203,7 +203,7 @@
 				<height>30</height>
 				<align>right</align>
 				<aligny>center</aligny>
-				<font>font13_title</font>
+				<font>font13</font>
 				<textcolor>$INFO[Skin.String(rcb_text_label)]</textcolor>
 				<label>$ADDON[script.games.rom.collection.browser 32403]:</label>
 			</control>
@@ -225,7 +225,7 @@
 				<height>30</height>
 				<align>right</align>
 				<aligny>center</aligny>
-				<font>font13_title</font>
+				<font>font13</font>
 				<textcolor>$INFO[Skin.String(rcb_text_label)]</textcolor>
 				<label>$ADDON[script.games.rom.collection.browser 32750]:</label>
 			</control>
@@ -246,7 +246,7 @@
 				<height>30</height>
 				<align>right</align>
 				<aligny>center</aligny>
-				<font>font13_title</font>
+				<font>font13</font>
 				<textcolor>$INFO[Skin.String(rcb_text_label)]</textcolor>
 				<label>$ADDON[script.games.rom.collection.browser 32751]:</label>
 			</control>
@@ -267,7 +267,7 @@
 				<height>30</height>
 				<align>right</align>
 				<aligny>center</aligny>
-				<font>font13_title</font>
+				<font>font13</font>
 				<textcolor>$INFO[Skin.String(rcb_text_label)]</textcolor>
 				<label>$ADDON[script.games.rom.collection.browser 32752]:</label>
 			</control>
@@ -288,7 +288,7 @@
 				<height>30</height>
 				<align>right</align>
 				<aligny>center</aligny>
-				<font>font13_title</font>
+				<font>font13</font>
 				<textcolor>$INFO[Skin.String(rcb_text_label)]</textcolor>
 				<label>$ADDON[script.games.rom.collection.browser 32753]:</label>
 			</control>
@@ -309,7 +309,7 @@
 				<height>30</height>
 				<align>right</align>
 				<aligny>center</aligny>
-				<font>font13_title</font>
+				<font>font13</font>
 				<textcolor>$INFO[Skin.String(rcb_text_label)]</textcolor>
 				<label>$ADDON[script.games.rom.collection.browser 32754]:</label>
 			</control>
@@ -330,7 +330,7 @@
 				<height>30</height>
 				<align>right</align>
 				<aligny>center</aligny>
-				<font>font13_title</font>
+				<font>font13</font>
 				<textcolor>$INFO[Skin.String(rcb_text_label)]</textcolor>
 				<label>$ADDON[script.games.rom.collection.browser 32755]:</label>
 			</control>
