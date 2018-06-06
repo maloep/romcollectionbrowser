@@ -322,7 +322,6 @@
 				<aligny>center</aligny>
 				<textoffsetx></textoffsetx>
 				<textoffsety></textoffsety>
-				<pulseonselect></pulseonselect>
 				<onup>5272</onup>
 				<ondown>5101</ondown>
 				<onleft>5310</onleft>
@@ -346,7 +345,6 @@
 				<aligny>center</aligny>
 				<textoffsetx></textoffsetx>
 				<textoffsety></textoffsety>
-				<pulseonselect></pulseonselect>
 				<onup>5272</onup>
 				<ondown>5101</ondown>
 				<onleft>5300</onleft>
