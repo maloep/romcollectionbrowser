@@ -74,10 +74,10 @@ class UIGameDB(xbmcgui.WindowXML):
     selectedYearId = 0
     selectedPublisherId = 0
     selectedDeveloperId = 0
-    selectedCharacter = util.localize(32120)
-    selectedMaxPlayers = util.localize(32120)
+    selectedCharacter = 0
+    selectedMaxPlayers = 0
     selectedRating = 0
-    selectedRegion = util.localize(32120)
+    selectedRegion = 0
 
     SORT_METHODS = {
         GameView.FIELDNAMES[GameView.COL_NAME]: util.localize(32421),
@@ -436,49 +436,8 @@ class UIGameDB(xbmcgui.WindowXML):
 
         tree.parse(color_file, parser)
 
-        self.set_color(tree, 'rcb_background')
-        self.set_color(tree, 'rcb_background_diffuse')
-        self.set_color(tree, 'rcb_background_diffuse_dialog_open')
-
-        self.set_color(tree, 'rcb_panel_slide')
-        self.set_color(tree, 'rcb_panel_list')
-        self.set_color(tree, 'rcb_panel_list_transp')
-        self.set_color(tree, 'rcb_panel_info')
-        self.set_color(tree, 'rcb_panel_dialog')
-        self.set_color(tree, 'rcb_panel_dialog_text')
-
-        self.set_color(tree, 'rcb_scrollbar_background')
-        self.set_color(tree, 'rcb_scrollbar_nofocus')
-        self.set_color(tree, 'rcb_scrollbar_focus')
-
-        self.set_color(tree, 'rcb_button_nofocus')
-        self.set_color(tree, 'rcb_button_focus')
-        self.set_color(tree, 'rcb_button_highlight')
-        self.set_color(tree, 'rcb_button_dialog_nofocus')
-        self.set_color(tree, 'rcb_button_dialog_focus')
-        self.set_color(tree, 'rcb_button_category_nofocus')
-        self.set_color(tree, 'rcb_button_category_focus')
-
-        self.set_color(tree, 'rcb_text_list')
-        self.set_color(tree, 'rcb_text_list_focused')
-        self.set_color(tree, 'rcb_text_label')
-        self.set_color(tree, 'rcb_text_value')
-        self.set_color(tree, 'rcb_text_heading')
-        self.set_color(tree, 'rcb_text_button')
-        self.set_color(tree, 'rcb_text_button_focused')
-        self.set_color(tree, 'rcb_text_button_disabled')
-        self.set_color(tree, 'rcb_text_button_dialog')
-        self.set_color(tree, 'rcb_text_shadow')
-
-    def set_color(self, tree, color_name):
-
-        try:
-            color = tree.find('color[@name="%s"]' %color_name).text
-        except AttributeError:
-            log.warn('Error in load_color_schemes: color %s not found in xml file' %color_name)
-            color = 'FFFFFFFF'
-
-        xbmc.executebuiltin("Skin.SetString(%s, %s)" % (color_name, color))
+        for color in tree.findall('color'):
+            xbmc.executebuiltin("Skin.SetString(%s, %s)" % (color.attrib.get('name'), color.text))
 
 
     def apply_filter(self, control_id):
