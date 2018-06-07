@@ -174,9 +174,9 @@
 					<posy>40</posy>
 					<width>680</width>
 					<height>40</height>
-					<radiowidth>40</radiowidth>
-					<radioheight>40</radioheight>
-					<radioposx>610</radioposx>
+					<radiowidth>24</radiowidth>
+					<radioheight>24</radioheight>
+					<radioposx>630</radioposx>
 					<align>left</align>
 					<font>Small</font>
 					<label>$ADDON[script.games.rom.collection.browser 32803]</label>
@@ -186,12 +186,12 @@
 					<focusedcolor>$INFO[Skin.String(rcb_text_button_focused)]</focusedcolor>
 					<texturefocus colordiffuse="$INFO[Skin.String(rcb_button_dialog_focus)]">rcb-MenuItemFO.png</texturefocus>
 					<texturenofocus></texturenofocus>
-					<textureradioonfocus>rcb-radio-button-on.png</textureradioonfocus>
-					<textureradioonnofocus>rcb-radio-button-on.png</textureradioonnofocus>
-					<textureradioofffocus>rcb-radio-button-off.png</textureradioofffocus>
-					<textureradiooffnofocus>rcb-radio-button-off.png</textureradiooffnofocus>
-					<textureradioondisabled>rcb-radio-button-on.png</textureradioondisabled>
-					<textureradiooffdisabled>rcb-radio-button-off.png</textureradiooffdisabled>
+					<textureradioonfocus colordiffuse="$INFO[Skin.String(rcb_radiobutton_focus)]">rcb-radio-button-on.png</textureradioonfocus>
+					<textureradioonnofocus colordiffuse="$INFO[Skin.String(rcb_radiobutton_nofocus)]">rcb-radio-button-on.png</textureradioonnofocus>
+					<textureradioofffocus colordiffuse="$INFO[Skin.String(rcb_radiobutton_focus)]">rcb-radio-button-off.png</textureradioofffocus>
+					<textureradiooffnofocus colordiffuse="$INFO[Skin.String(rcb_radiobutton_nofocus)]">rcb-radio-button-off.png</textureradiooffnofocus>
+					<textureradioondisabled colordiffuse="$INFO[Skin.String(rcb_radiobutton_nofocus)]">rcb-radio-button-on.png</textureradioondisabled>
+					<textureradiooffdisabled colordiffuse="$INFO[Skin.String(rcb_radiobutton_nofocus)]">rcb-radio-button-off.png</textureradiooffdisabled>
 					<onleft>5300</onleft>
 					<onright>5300</onright>
 					<onup>5212</onup>
