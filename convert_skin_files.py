@@ -1,5 +1,5 @@
 
-import os, sys, shutil
+import os, sys, re
 from xml.etree.ElementTree import *
 
 class SkinFileConverter(object):
@@ -41,6 +41,9 @@ class SkinFileConverter(object):
 
         tree.parse(convert_file, parser)
         fonts = tree.findall('fonts/font')
+        radiobutton_posx = int(tree.find('controls/radiobutton/radioposx').text)
+        radiobutton_width = int(tree.find('controls/radiobutton/radiowidth').text)
+        radiobutton_height = int(tree.find('controls/radiobutton/radioheight').text)
 
         with open(source_file, "rt") as fin:
             with open(target_file, "wt") as fout:
@@ -50,7 +53,19 @@ class SkinFileConverter(object):
                         # <font name="font10">Mini</font>
                         # Estuary font names as attribute name, new skin font names as element text
                         line = line.replace(font.attrib.get('name'), font.text)
+
+                    line = self.update_radiobutton_properties(line, 'radioposx', radiobutton_posx)
+                    line = self.update_radiobutton_properties(line, 'radiowidth', radiobutton_width)
+                    line = self.update_radiobutton_properties(line, 'radioheight', radiobutton_height)
+
                     fout.write(line)
 
+    def update_radiobutton_properties(self, line, property_name, update_value):
+        pattern_posx = '<%s>(?P<value>[0-9]*)</%s>' %(property_name, property_name)
+        match = re.search(pattern_posx, line)
+        if match:
+            old_value = int(match.group('value'))
+            new_value = old_value + update_value
+            line = line.replace(str(old_value), str(new_value))
 
-
+        return line

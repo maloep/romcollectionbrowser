@@ -10,7 +10,7 @@
 	</fonts>
 	<controls>
 		<radiobutton>
-			<radioposx>+20</radioposx>
+			<radioposx>20</radioposx>
 			<radiowidth>-16</radiowidth>
 			<radioheight>-16</radioheight>
 		</radiobutton>
