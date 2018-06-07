@@ -57,7 +57,7 @@
 			<posy>-35</posy>
 			<width>520</width>
 			<height>30</height>
-			<font>font32_title</font>
+			<font>MediumBold</font>
 			<textcolor>$INFO[Skin.String(rcb_text_dialog_header)]</textcolor>
 			<shadowcolor>$INFO[Skin.String(rcb_text_shadow)]</shadowcolor>
 			<align>left</align>
@@ -94,7 +94,7 @@
 					<posy>15</posy>
 					<width>200</width>
 					<height>20</height>
-					<font>font13</font>
+					<font>Small</font>
 					<textcolor>$INFO[Skin.String(rcb_text_button_focused)]</textcolor>
 					<align>left</align>
 					<aligny>center</aligny>
@@ -106,7 +106,7 @@
 					<posy>15</posy>
 					<width>200</width>
 					<height>20</height>
-					<font>font13</font>
+					<font>Small</font>
 					<textcolor>$INFO[Skin.String(rcb_text_button)]</textcolor>
 					<align>left</align>
 					<aligny>center</aligny>
@@ -118,7 +118,7 @@
 					<posy>15</posy>
 					<width>370</width>
 					<height>20</height>
-					<font>font13</font>
+					<font>Small</font>
 					<textcolor>$INFO[Skin.String(rcb_text_button_focused)]</textcolor>
 					<align>right</align>
 					<aligny>center</aligny>
@@ -130,7 +130,7 @@
 					<posy>15</posy>
 					<width>370</width>
 					<height>20</height>
-					<font>font13</font>
+					<font>Small</font>
 					<textcolor>$INFO[Skin.String(rcb_text_button)]</textcolor>
 					<align>right</align>
 					<aligny>center</aligny>
@@ -193,7 +193,7 @@
 					<posy>10</posy>
 					<width>200</width>
 					<height>30</height>
-					<font>font25_title</font>
+					<font>SmallBold</font>
 					<textcolor>$INFO[Skin.String(rcb_text_button)]</textcolor>
 					<align>center</align>
 					<aligny>center</aligny>
@@ -214,7 +214,7 @@
 					<posy>10</posy>
 					<width>200</width>
 					<height>30</height>
-					<font>font25_title</font>
+					<font>SmallBold</font>
 					<textcolor>$INFO[Skin.String(rcb_text_button_focused)]</textcolor>
 					<align>center</align>
 					<aligny>center</aligny>
@@ -268,7 +268,7 @@
 					<posy>0</posy>
 					<width>200</width>
 					<height>40</height>
-					<font>font13</font>
+					<font>Small</font>
 					<textcolor>$INFO[Skin.String(rcb_text_button_focused)]</textcolor>
 					<align>left</align>
 					<aligny>center</aligny>
@@ -280,7 +280,7 @@
 					<posy>0</posy>
 					<width>200</width>
 					<height>40</height>
-					<font>font13</font>
+					<font>Small</font>
 					<textcolor>$INFO[Skin.String(rcb_text_button)]</textcolor>
 					<align>left</align>
 					<aligny>center</aligny>
@@ -294,7 +294,7 @@
 					<width>440</width>
 					<height>40</height>
 					<visible>true</visible>
-					<font>font13</font>
+					<font>Small</font>
 					<texturefocus colordiffuse="$INFO[Skin.String(rcb_button_dialog_focus)]">rcb-button_focus.png</texturefocus>
 					<texturenofocus></texturenofocus>
 					<label>$ADDON[script.games.rom.collection.browser 32606]</label>
@@ -322,7 +322,7 @@
 					<posy>40</posy>
 					<width>200</width>
 					<height>40</height>
-					<font>font13</font>
+					<font>Small</font>
 					<textcolor>$INFO[Skin.String(rcb_text_button_focused)]</textcolor>
 					<align>left</align>
 					<aligny>center</aligny>
@@ -334,7 +334,7 @@
 					<posy>40</posy>
 					<width>200</width>
 					<height>40</height>
-					<font>font13</font>
+					<font>Small</font>
 					<textcolor>$INFO[Skin.String(rcb_text_button)]</textcolor>
 					<align>left</align>
 					<aligny>center</aligny>
@@ -348,7 +348,7 @@
 					<width>440</width>
 					<height>40</height>
 					<visible>true</visible>
-					<font>font13</font>
+					<font>Small</font>
 					<colordiffuse>DDFFFFFF</colordiffuse>
 					<texturefocus colordiffuse="$INFO[Skin.String(rcb_button_dialog_focus)]">rcb-button_focus.png</texturefocus>
 					<texturenofocus></texturenofocus>
@@ -374,7 +374,7 @@
 					<radioposx>630</radioposx>
 					<radiowidth>40</radiowidth>
 					<radioheight>40</radioheight>					
-					<font>font13</font>
+					<font>Small</font>
 					<label>$ADDON[script.games.rom.collection.browser 32608]</label>
 					<textcolor>$INFO[Skin.String(rcb_text_button)]</textcolor>
 					<focusedcolor>$INFO[Skin.String(rcb_text_button_focused)]</focusedcolor>
@@ -400,7 +400,7 @@
 					<radioposx>630</radioposx>
 					<radiowidth>40</radiowidth>
 					<radioheight>40</radioheight>
-					<font>font13</font>
+					<font>Small</font>
 					<label>$ADDON[script.games.rom.collection.browser 32609]</label>
 					<textcolor>$INFO[Skin.String(rcb_text_button)]</textcolor>
 					<focusedcolor>$INFO[Skin.String(rcb_text_button_focused)]</focusedcolor>
@@ -430,7 +430,7 @@
 					<posy>160</posy>
 					<width>200</width>
 					<height>40</height>
-					<font>font13</font>
+					<font>Small</font>
 					<textcolor>$INFO[Skin.String(rcb_text_button_focused)]</textcolor>
 					<align>left</align>
 					<aligny>center</aligny>
@@ -442,7 +442,7 @@
 					<posy>160</posy>
 					<width>200</width>
 					<height>40</height>
-					<font>font13</font>
+					<font>Small</font>
 					<textcolor>$INFO[Skin.String(rcb_text_button)]</textcolor>
 					<align>left</align>
 					<aligny>center</aligny>
@@ -456,7 +456,7 @@
 					<width>440</width>
 					<height>40</height>
 					<visible>true</visible>
-					<font>font13</font>
+					<font>Small</font>
 					<colordiffuse>DDFFFFFF</colordiffuse>
 					<texturefocus colordiffuse="$INFO[Skin.String(rcb_button_dialog_focus)]">rcb-button_focus.png</texturefocus>
 					<texturenofocus></texturenofocus>
@@ -485,7 +485,7 @@
 					<posy>200</posy>
 					<width>200</width>
 					<height>40</height>
-					<font>font13</font>
+					<font>Small</font>
 					<textcolor>$INFO[Skin.String(rcb_text_button_focused)]</textcolor>
 					<align>left</align>
 					<aligny>center</aligny>
@@ -497,7 +497,7 @@
 					<posy>200</posy>
 					<width>200</width>
 					<height>40</height>
-					<font>font13</font>
+					<font>Small</font>
 					<textcolor>$INFO[Skin.String(rcb_text_button)]</textcolor>
 					<align>left</align>
 					<aligny>center</aligny>
@@ -511,7 +511,7 @@
 					<width>440</width>
 					<height>40</height>
 					<visible>true</visible>
-					<font>font13</font>
+					<font>Small</font>
 					<colordiffuse>DDFFFFFF</colordiffuse>
 					<texturefocus colordiffuse="$INFO[Skin.String(rcb_button_dialog_focus)]">rcb-button_focus.png</texturefocus>
 					<texturenofocus></texturenofocus>
@@ -535,7 +535,7 @@
 					<radioposx>630</radioposx>
 					<radiowidth>40</radiowidth>
 					<radioheight>40</radioheight>
-					<font>font13</font>
+					<font>Small</font>
 					<label>$ADDON[script.games.rom.collection.browser 32612]</label>
 					<textcolor>$INFO[Skin.String(rcb_text_button)]</textcolor>
 					<focusedcolor>$INFO[Skin.String(rcb_text_button_focused)]</focusedcolor>
@@ -588,7 +588,7 @@
 							<posy>0</posy>
 							<width>200</width>
 							<height>40</height>
-							<font>font13</font>
+							<font>Small</font>
 							<textcolor>$INFO[Skin.String(rcb_text_button_focused)]</textcolor>
 							<align>left</align>
 							<aligny>center</aligny>
@@ -600,7 +600,7 @@
 							<posy>0</posy>
 							<width>200</width>
 							<height>40</height>
-							<font>font13</font>
+							<font>Small</font>
 							<textcolor>$INFO[Skin.String(rcb_text_button)]</textcolor>
 							<align>left</align>
 							<aligny>center</aligny>
@@ -612,7 +612,7 @@
 							<posy>0</posy>
 							<width>370</width>
 							<height>40</height>
-							<font>font13</font>
+							<font>Small</font>
 							<textcolor>$INFO[Skin.String(rcb_text_button_focused)]</textcolor>
 							<align>right</align>
 							<aligny>center</aligny>
@@ -624,7 +624,7 @@
 							<posy>0</posy>
 							<width>370</width>
 							<height>40</height>
-							<font>font13</font>
+							<font>Small</font>
 							<textcolor>$INFO[Skin.String(rcb_text_button)]</textcolor>
 							<align>right</align>
 							<aligny>center</aligny>
@@ -668,7 +668,7 @@
 					<posy>60</posy>
 					<width>370</width>
 					<height>40</height>
-					<font>font13</font>
+					<font>Small</font>
 					<textcolor>$INFO[Skin.String(rcb_text_button)]</textcolor>
 					<align>left</align>
 					<aligny>center</aligny>
@@ -702,7 +702,7 @@
 							<posy>10</posy>
 							<width>200</width>
 							<height>30</height>
-							<font>font13</font>
+							<font>Small</font>
 							<textcolor>$INFO[Skin.String(rcb_text_button_focused)]</textcolor>
 							<align>left</align>
 							<aligny>center</aligny>
@@ -714,7 +714,7 @@
 							<posy>10</posy>
 							<width>200</width>
 							<height>30</height>
-							<font>font13</font>
+							<font>Small</font>
 							<textcolor>$INFO[Skin.String(rcb_text_button)]</textcolor>
 							<align>left</align>
 							<aligny>center</aligny>
@@ -726,7 +726,7 @@
 							<posy>10</posy>
 							<width>470</width>
 							<height>30</height>
-							<font>font13</font>
+							<font>Small</font>
 							<textcolor>$INFO[Skin.String(rcb_text_button_focused)]</textcolor>
 							<align>right</align>
 							<aligny>center</aligny>
@@ -738,7 +738,7 @@
 							<posy>10</posy>
 							<width>470</width>
 							<height>30</height>
-							<font>font13</font>
+							<font>Small</font>
 							<textcolor>$INFO[Skin.String(rcb_text_button)]</textcolor>
 							<align>right</align>
 							<aligny>center</aligny>
@@ -788,7 +788,7 @@
 								<posy>0</posy>
 								<width>200</width>
 								<height>40</height>
-								<font>font13</font>
+								<font>Small</font>
 								<textcolor>$INFO[Skin.String(rcb_text_button_focused)]</textcolor>
 								<align>left</align>
 								<aligny>center</aligny>
@@ -800,7 +800,7 @@
 								<posy>0</posy>
 								<width>200</width>
 								<height>40</height>
-								<font>font13</font>
+								<font>Small</font>
 								<textcolor>$INFO[Skin.String(rcb_text_button)]</textcolor>
 								<align>left</align>
 								<aligny>center</aligny>
@@ -812,7 +812,7 @@
 								<posy>0</posy>
 								<width>370</width>
 								<height>40</height>
-								<font>font13</font>
+								<font>Small</font>
 								<textcolor>$INFO[Skin.String(rcb_text_button_focused)]</textcolor>
 								<align>right</align>
 								<aligny>center</aligny>
@@ -824,7 +824,7 @@
 								<posy>0</posy>
 								<width>370</width>
 								<height>40</height>
-								<font>font13</font>
+								<font>Small</font>
 								<textcolor>$INFO[Skin.String(rcb_text_button)]</textcolor>
 								<align>right</align>
 								<aligny>center</aligny>
@@ -875,7 +875,7 @@
 						<posy>40</posy>
 						<width>200</width>
 						<height>40</height>
-						<font>font13</font>
+						<font>Small</font>
 						<textcolor>$INFO[Skin.String(rcb_text_button_focused)]</textcolor>
 						<align>left</align>
 						<aligny>center</aligny>
@@ -887,7 +887,7 @@
 						<posy>40</posy>
 						<width>200</width>
 						<height>40</height>
-						<font>font13</font>
+						<font>Small</font>
 						<textcolor>$INFO[Skin.String(rcb_text_button)]</textcolor>
 						<align>left</align>
 						<aligny>center</aligny>
@@ -901,7 +901,7 @@
 						<width>440</width>
 						<height>40</height>
 						<visible>true</visible>
-						<font>font13</font>
+						<font>Small</font>
 						<colordiffuse>DDFFFFFF</colordiffuse>
 						<texturefocus colordiffuse="$INFO[Skin.String(rcb_button_dialog_focus)]">rcb-button_focus.png</texturefocus>
 						<texturenofocus></texturenofocus>
@@ -930,7 +930,7 @@
 						<posy>80</posy>
 						<width>200</width>
 						<height>40</height>
-						<font>font13</font>
+						<font>Small</font>
 						<textcolor>$INFO[Skin.String(rcb_text_button_focused)]</textcolor>
 						<align>left</align>
 						<aligny>center</aligny>
@@ -942,7 +942,7 @@
 						<posy>80</posy>
 						<width>200</width>
 						<height>40</height>
-						<font>font13</font>
+						<font>Small</font>
 						<textcolor>$INFO[Skin.String(rcb_text_button)]</textcolor>
 						<align>left</align>
 						<aligny>center</aligny>
@@ -956,7 +956,7 @@
 						<width>440</width>
 						<height>40</height>
 						<visible>true</visible>
-						<font>font13</font>
+						<font>Small</font>
 						<texturefocus colordiffuse="$INFO[Skin.String(rcb_button_dialog_focus)]">rcb-button_focus.png</texturefocus>
 						<texturenofocus></texturenofocus>
 						<label>$ADDON[script.games.rom.collection.browser 32618]</label>
@@ -978,7 +978,7 @@
 						<width>680</width>
 						<height>40</height>
 						<visible>true</visible>
-						<font>font13</font>
+						<font>Small</font>
 						<texturefocus colordiffuse="$INFO[Skin.String(rcb_button_dialog_focus)]">rcb-button_focus.png</texturefocus>
 						<texturenofocus></texturenofocus>
 						<label>$ADDON[script.games.rom.collection.browser 32619]</label>
@@ -1000,7 +1000,7 @@
 						<width>680</width>
 						<height>40</height>
 						<visible>true</visible>
-						<font>font13</font>
+						<font>Small</font>
 						<colordiffuse>DDFFFFFF</colordiffuse>
 						<texturefocus colordiffuse="$INFO[Skin.String(rcb_button_dialog_focus)]">rcb-button_focus.png</texturefocus>
 						<texturenofocus></texturenofocus>
@@ -1054,7 +1054,7 @@
 							<posy>0</posy>
 							<width>300</width>
 							<height>40</height>
-							<font>font13</font>
+							<font>Small</font>
 							<textcolor>$INFO[Skin.String(rcb_text_button_focused)]</textcolor>
 							<align>left</align>
 							<aligny>center</aligny>
@@ -1066,7 +1066,7 @@
 							<posy>0</posy>
 							<width>300</width>
 							<height>40</height>
-							<font>font13</font>
+							<font>Small</font>
 							<textcolor>$INFO[Skin.String(rcb_text_button)]</textcolor>
 							<align>left</align>
 							<aligny>center</aligny>
@@ -1078,7 +1078,7 @@
 							<posy>0</posy>
 							<width>370</width>
 							<height>40</height>
-							<font>font13</font>
+							<font>Small</font>
 							<textcolor>$INFO[Skin.String(rcb_text_button_focused)]</textcolor>
 							<align>right</align>
 							<aligny>center</aligny>
@@ -1090,7 +1090,7 @@
 							<posy>0</posy>
 							<width>370</width>
 							<height>40</height>
-							<font>font13</font>
+							<font>Small</font>
 							<textcolor>$INFO[Skin.String(rcb_text_button)]</textcolor>
 							<align>right</align>
 							<aligny>center</aligny>
@@ -1158,7 +1158,7 @@
 							<posy>0</posy>
 							<width>300</width>
 							<height>40</height>
-							<font>font13</font>
+							<font>Small</font>
 							<textcolor>$INFO[Skin.String(rcb_text_button_focused)]</textcolor>
 							<align>left</align>
 							<aligny>center</aligny>
@@ -1170,7 +1170,7 @@
 							<posy>0</posy>
 							<width>300</width>
 							<height>40</height>
-							<font>font13</font>
+							<font>Small</font>
 							<textcolor>$INFO[Skin.String(rcb_text_button)]</textcolor>
 							<align>left</align>
 							<aligny>center</aligny>
@@ -1182,7 +1182,7 @@
 							<posy>0</posy>
 							<width>370</width>
 							<height>40</height>
-							<font>font13</font>
+							<font>Small</font>
 							<textcolor>$INFO[Skin.String(rcb_text_button_focused)]</textcolor>
 							<align>right</align>
 							<aligny>center</aligny>
@@ -1194,7 +1194,7 @@
 							<posy>0</posy>
 							<width>370</width>
 							<height>40</height>
-							<font>font13</font>
+							<font>Small</font>
 							<textcolor>$INFO[Skin.String(rcb_text_button)]</textcolor>
 							<align>right</align>
 							<aligny>center</aligny>
@@ -1242,7 +1242,7 @@
 					<radioposx>630</radioposx>
 					<radiowidth>40</radiowidth>
 					<radioheight>40</radioheight>
-					<font>font13</font>
+					<font>Small</font>
 					<label>$ADDON[script.games.rom.collection.browser 32623]</label>
 					<textcolor>$INFO[Skin.String(rcb_text_button)]</textcolor>
 					<focusedcolor>$INFO[Skin.String(rcb_text_button_focused)]</focusedcolor>
@@ -1268,7 +1268,7 @@
 					<radioposx>630</radioposx>
 					<radiowidth>40</radiowidth>
 					<radioheight>40</radioheight>
-					<font>font13</font>
+					<font>Small</font>
 					<label>$ADDON[script.games.rom.collection.browser 32636]</label>
 					<textcolor>$INFO[Skin.String(rcb_text_button)]</textcolor>
 					<focusedcolor>$INFO[Skin.String(rcb_text_button_focused)]</focusedcolor>
@@ -1306,7 +1306,7 @@
 					<posy>0</posy>
 					<width>200</width>
 					<height>40</height>
-					<font>font13</font>
+					<font>Small</font>
 					<textcolor>$INFO[Skin.String(rcb_text_button_focused)]</textcolor>
 					<align>left</align>
 					<aligny>center</aligny>
@@ -1319,7 +1319,7 @@
 					<posy>0</posy>
 					<width>200</width>
 					<height>40</height>
-					<font>font13</font>
+					<font>Small</font>
 					<textcolor>$INFO[Skin.String(rcb_text_button)]</textcolor>
 					<align>left</align>
 					<aligny>center</aligny>
@@ -1334,7 +1334,7 @@
 					<width>440</width>
 					<height>40</height>
 					<visible>true</visible>
-					<font>font13</font>
+					<font>Small</font>
 					<colordiffuse>DDFFFFFF</colordiffuse>
 					<texturefocus colordiffuse="$INFO[Skin.String(rcb_button_dialog_focus)]">rcb-button_focus.png</texturefocus>
 					<texturenofocus></texturenofocus>
@@ -1366,7 +1366,7 @@
 					<posy>40</posy>
 					<width>200</width>
 					<height>40</height>
-					<font>font13</font>
+					<font>Small</font>
 					<textcolor>$INFO[Skin.String(rcb_text_button_focused)]</textcolor>
 					<align>left</align>
 					<aligny>center</aligny>
@@ -1379,7 +1379,7 @@
 					<posy>40</posy>
 					<width>200</width>
 					<height>40</height>
-					<font>font13</font>
+					<font>Small</font>
 					<textcolor>$INFO[Skin.String(rcb_text_button)]</textcolor>
 					<align>left</align>
 					<aligny>center</aligny>
@@ -1394,7 +1394,7 @@
 					<width>440</width>
 					<height>40</height>
 					<visible>true</visible>
-					<font>font13</font>
+					<font>Small</font>
 					<colordiffuse>DDFFFFFF</colordiffuse>
 					<texturefocus colordiffuse="$INFO[Skin.String(rcb_button_dialog_focus)]">rcb-button_focus.png</texturefocus>
 					<texturenofocus></texturenofocus>
@@ -1422,7 +1422,7 @@
 					<radioposx>630</radioposx>
 					<radiowidth>40</radiowidth>
 					<radioheight>40</radioheight>
-					<font>font13</font>
+					<font>Small</font>
 					<label>$ADDON[script.games.rom.collection.browser 32626]</label>
 					<textcolor>$INFO[Skin.String(rcb_text_button)]</textcolor>
 					<focusedcolor>$INFO[Skin.String(rcb_text_button_focused)]</focusedcolor>
@@ -1453,7 +1453,7 @@
 					<radioposx>630</radioposx>
 					<radiowidth>40</radiowidth>
 					<radioheight>40</radioheight>
-					<font>font13</font>
+					<font>Small</font>
 					<label>$ADDON[script.games.rom.collection.browser 32627]</label>
 					<textcolor>$INFO[Skin.String(rcb_text_button)]</textcolor>
 					<focusedcolor>$INFO[Skin.String(rcb_text_button_focused)]</focusedcolor>
@@ -1487,7 +1487,7 @@
 					<posy>160</posy>
 					<width>200</width>
 					<height>40</height>
-					<font>font13</font>
+					<font>Small</font>
 					<textcolor>$INFO[Skin.String(rcb_text_button_focused)]</textcolor>
 					<align>left</align>
 					<aligny>center</aligny>
@@ -1500,7 +1500,7 @@
 					<posy>160</posy>
 					<width>200</width>
 					<height>40</height>
-					<font>font13</font>
+					<font>Small</font>
 					<textcolor>$INFO[Skin.String(rcb_text_button)]</textcolor>
 					<align>left</align>
 					<aligny>center</aligny>
@@ -1515,7 +1515,7 @@
 					<width>440</width>
 					<height>40</height>
 					<visible>true</visible>
-					<font>font13</font>
+					<font>Small</font>
 					<colordiffuse>DDFFFFFF</colordiffuse>
 					<texturefocus colordiffuse="$INFO[Skin.String(rcb_button_dialog_focus)]">rcb-button_focus.png</texturefocus>
 					<texturenofocus></texturenofocus>
@@ -1545,7 +1545,7 @@
 					<posy>200</posy>
 					<width>200</width>
 					<height>40</height>
-					<font>font13</font>
+					<font>Small</font>
 					<textcolor>$INFO[Skin.String(rcb_text_button_focused)]</textcolor>
 					<align>left</align>
 					<aligny>center</aligny>
@@ -1558,7 +1558,7 @@
 					<posy>200</posy>
 					<width>200</width>
 					<height>40</height>
-					<font>font13</font>
+					<font>Small</font>
 					<textcolor>$INFO[Skin.String(rcb_text_button)]</textcolor>
 					<align>left</align>
 					<aligny>center</aligny>
@@ -1573,7 +1573,7 @@
 					<width>440</width>
 					<height>40</height>
 					<visible>true</visible>
-					<font>font13</font>
+					<font>Small</font>
 					<colordiffuse>DDFFFFFF</colordiffuse>
 					<texturefocus colordiffuse="$INFO[Skin.String(rcb_button_dialog_focus)]">rcb-button_focus.png</texturefocus>
 					<texturenofocus></texturenofocus>
@@ -1604,7 +1604,7 @@
 					<posy>240</posy>
 					<width>200</width>
 					<height>40</height>
-					<font>font13</font>
+					<font>Small</font>
 					<textcolor>$INFO[Skin.String(rcb_text_button_focused)]</textcolor>
 					<align>left</align>
 					<aligny>center</aligny>
@@ -1617,7 +1617,7 @@
 					<posy>240</posy>
 					<width>200</width>
 					<height>40</height>
-					<font>font13</font>
+					<font>Small</font>
 					<textcolor>$INFO[Skin.String(rcb_text_button)]</textcolor>
 					<align>left</align>
 					<aligny>center</aligny>
@@ -1632,7 +1632,7 @@
 					<width>440</width>
 					<height>40</height>
 					<visible>true</visible>
-					<font>font13</font>
+					<font>Small</font>
 					<colordiffuse>DDFFFFFF</colordiffuse>
 					<texturefocus colordiffuse="$INFO[Skin.String(rcb_button_dialog_focus)]">rcb-button_focus.png</texturefocus>
 					<texturenofocus></texturenofocus>
@@ -1663,7 +1663,7 @@
 					<posy>280</posy>
 					<width>200</width>
 					<height>40</height>
-					<font>font13</font>
+					<font>Small</font>
 					<textcolor>$INFO[Skin.String(rcb_text_button_focused)]</textcolor>
 					<align>left</align>
 					<aligny>center</aligny>
@@ -1676,7 +1676,7 @@
 					<posy>280</posy>
 					<width>200</width>
 					<height>40</height>
-					<font>font13</font>
+					<font>Small</font>
 					<textcolor>$INFO[Skin.String(rcb_text_button)]</textcolor>
 					<align>left</align>
 					<aligny>center</aligny>
@@ -1691,7 +1691,7 @@
 					<width>440</width>
 					<height>40</height>
 					<visible>true</visible>
-					<font>font13</font>
+					<font>Small</font>
 					<colordiffuse>DDFFFFFF</colordiffuse>
 					<texturefocus colordiffuse="$INFO[Skin.String(rcb_button_dialog_focus)]">rcb-button_focus.png</texturefocus>
 					<texturenofocus></texturenofocus>
@@ -1721,7 +1721,7 @@
 					<posy>320</posy>
 					<width>200</width>
 					<height>40</height>
-					<font>font13</font>
+					<font>Small</font>
 					<textcolor>$INFO[Skin.String(rcb_text_button_focused)]</textcolor>
 					<align>left</align>
 					<aligny>center</aligny>
@@ -1734,7 +1734,7 @@
 					<posy>320</posy>
 					<width>200</width>
 					<height>40</height>
-					<font>font13</font>
+					<font>Small</font>
 					<textcolor>$INFO[Skin.String(rcb_text_button)]</textcolor>
 					<align>left</align>
 					<aligny>center</aligny>
@@ -1749,7 +1749,7 @@
 					<width>440</width>
 					<height>40</height>
 					<visible>true</visible>
-					<font>font13</font>
+					<font>Small</font>
 					<colordiffuse>DDFFFFFF</colordiffuse>
 					<texturefocus colordiffuse="$INFO[Skin.String(rcb_button_dialog_focus)]">rcb-button_focus.png</texturefocus>
 					<texturenofocus></texturenofocus>
@@ -1777,7 +1777,7 @@
 					<radioposx>630</radioposx>
 					<radiowidth>40</radiowidth>
 					<radioheight>40</radioheight>
-					<font>font13</font>
+					<font>Small</font>
 					<label>$ADDON[script.games.rom.collection.browser 32628]</label>
 					<textcolor>$INFO[Skin.String(rcb_text_button)]</textcolor>
 					<focusedcolor>$INFO[Skin.String(rcb_text_button_focused)]</focusedcolor>
@@ -1804,7 +1804,7 @@
 					<radioposx>630</radioposx>
 					<radiowidth>40</radiowidth>
 					<radioheight>40</radioheight>
-					<font>font13</font>
+					<font>Small</font>
 					<label>$ADDON[script.games.rom.collection.browser 32644]</label>
 					<textcolor>$INFO[Skin.String(rcb_text_button)]</textcolor>
 					<focusedcolor>$INFO[Skin.String(rcb_text_button_focused)]</focusedcolor>
@@ -1831,7 +1831,7 @@
 					<radioposx>630</radioposx>
 					<radiowidth>40</radiowidth>
 					<radioheight>40</radioheight>
-					<font>font13</font>
+					<font>Small</font>
 					<label>$ADDON[script.games.rom.collection.browser 32637]</label>
 					<textcolor>$INFO[Skin.String(rcb_text_button)]</textcolor>
 					<focusedcolor>$INFO[Skin.String(rcb_text_button_focused)]</focusedcolor>
@@ -1860,7 +1860,7 @@
 					<posy>480</posy>
 					<width>200</width>
 					<height>40</height>
-					<font>font13</font>
+					<font>Small</font>
 					<textcolor>$INFO[Skin.String(rcb_text_button_focused)]</textcolor>
 					<align>left</align>
 					<aligny>center</aligny>
@@ -1873,7 +1873,7 @@
 					<posy>480</posy>
 					<width>200</width>
 					<height>40</height>
-					<font>font13</font>
+					<font>Small</font>
 					<textcolor>$INFO[Skin.String(rcb_text_button)]</textcolor>
 					<align>left</align>
 					<aligny>center</aligny>
@@ -1888,7 +1888,7 @@
 					<width>440</width>
 					<height>40</height>
 					<visible>true</visible>
-					<font>font13</font>
+					<font>Small</font>
 					<texturefocus colordiffuse="$INFO[Skin.String(rcb_button_dialog_focus)]">rcb-button_focus.png</texturefocus>
 					<texturenofocus></texturenofocus>
 					<label>$INFO[ListItem.Label]</label>
@@ -1915,7 +1915,7 @@
 			<width>200</width>
 			<height>50</height>
 			<visible>true</visible>
-			<font>font25_title</font>
+			<font>SmallBold</font>
 			<texturefocus colordiffuse="$INFO[Skin.String(rcb_button_dialog_focus)]">rcb-button_focus.png</texturefocus>
 			<texturenofocus colordiffuse="$INFO[Skin.String(rcb_button_dialog_nofocus)]">rcb-button_nofocus.png</texturenofocus>
 			<label>$ADDON[script.games.rom.collection.browser 32634]</label>
@@ -1939,7 +1939,7 @@
 			<width>200</width>
 			<height>50</height>
 			<visible>true</visible>
-			<font>font25_title</font>
+			<font>SmallBold</font>
 			<texturefocus colordiffuse="$INFO[Skin.String(rcb_button_dialog_focus)]">rcb-button_focus.png</texturefocus>
 			<texturenofocus colordiffuse="$INFO[Skin.String(rcb_button_dialog_nofocus)]">rcb-button_nofocus.png</texturenofocus>
 			<label>$ADDON[script.games.rom.collection.browser 32635]</label>

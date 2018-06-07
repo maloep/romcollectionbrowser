@@ -124,7 +124,7 @@
 					<posy>70r</posy>
 					<width>1280</width>
 					<height>20</height>
-					<font>font25_title</font>
+					<font>SmallBold</font>
 					<aligny>center</aligny>
 					<textcolor>$INFO[Skin.String(rcb_text_heading)]</textcolor>
 					<align>center</align>
@@ -147,7 +147,7 @@
 					<posy>25r</posy>
 					<width>280</width>
 					<height>20</height>
-					<font>font30_title</font>
+					<font>MediumBold</font>
 					<align>left</align>
 					<aligny>center</aligny>
 					<textcolor>$INFO[Skin.String(rcb_text_heading)]</textcolor>
@@ -356,7 +356,7 @@
 						<label>$ADDON[script.games.rom.collection.browser 32400]:</label>
 						<align>left</align>
 						<aligny>center</aligny>
-						<font>font13</font>
+						<font>Small</font>
 						<textcolor>$INFO[Skin.String(rcb_text_label)]</textcolor>
 					</control>
 					<control type="label">
@@ -368,7 +368,7 @@
 						<label fallback="416">$INFO[ListItem.Property(year)]</label>
 						<align>left</align>
 						<aligny>center</aligny>
-						<font>font13</font>
+						<font>Small</font>
 						<scroll>true</scroll>
 						<textcolor>$INFO[Skin.String(rcb_text_value)]</textcolor>
 					</control>
@@ -383,7 +383,7 @@
 						<label>$ADDON[script.games.rom.collection.browser 32401]:</label>
 						<align>left</align>
 						<aligny>center</aligny>
-						<font>font13</font>
+						<font>Small</font>
 						<textcolor>$INFO[Skin.String(rcb_text_label)]</textcolor>
 					</control>
 					<control type="label">
@@ -395,7 +395,7 @@
 						<label fallback="416">$INFO[ListItem.Property(genre)]</label>
 						<align>left</align>
 						<aligny>center</aligny>
-						<font>font13</font>
+						<font>Small</font>
 						<scroll>true</scroll>
 						<textcolor>$INFO[Skin.String(rcb_text_value)]</textcolor>
 					</control>
@@ -410,7 +410,7 @@
 						<label>$ADDON[script.games.rom.collection.browser 32402]:</label>
 						<align>left</align>
 						<aligny>center</aligny>
-						<font>font13</font>
+						<font>Small</font>
 						<textcolor>$INFO[Skin.String(rcb_text_label)]</textcolor>
 					</control>
 					<control type="label">
@@ -422,7 +422,7 @@
 						<label fallback="416">$INFO[ListItem.Property(publisher)]</label>
 						<align>left</align>
 						<aligny>center</aligny>
-						<font>font13</font>
+						<font>Small</font>
 						<scroll>true</scroll>
 						<textcolor>$INFO[Skin.String(rcb_text_value)]</textcolor>
 					</control>
@@ -437,7 +437,7 @@
 						<label>$ADDON[script.games.rom.collection.browser 32403]:</label>
 						<align>left</align>
 						<aligny>center</aligny>
-						<font>font13</font>
+						<font>Small</font>
 						<textcolor>$INFO[Skin.String(rcb_text_label)]</textcolor>
 					</control>
 					<control type="label">
@@ -449,7 +449,7 @@
 						<label fallback="416">$INFO[ListItem.Property(developer)]</label>
 						<align>left</align>
 						<aligny>center</aligny>
-						<font>font13</font>
+						<font>Small</font>
 						<scroll>true</scroll>
 						<textcolor>$INFO[Skin.String(rcb_text_value)]</textcolor>
 					</control>
@@ -474,7 +474,7 @@
 						<height>158</height>
 						<textcolor>$INFO[Skin.String(rcb_text_value)]</textcolor>
 						<align>justify</align>
-						<font>font12</font>
+						<font>Tiny</font>
 						<label>$INFO[ListItem.Property(plot)]</label>
 						<autoscroll time="3000" delay="10000" repeat="6000">True</autoscroll>
 					</control>
@@ -500,7 +500,7 @@
 						<posy>15</posy>
 						<width>620</width>
 						<height>30</height>
-						<font>font30_title</font>
+						<font>MediumBold</font>
 						<aligny>center</aligny>
 						<textcolor>$INFO[Skin.String(rcb_text_heading)]</textcolor>
 						<align>center</align>
@@ -553,7 +553,7 @@
 								<posy>0</posy>
 								<width>540</width>
 								<height>35</height>
-								<font>font13</font>
+								<font>Small</font>
 								<textcolor>$INFO[Skin.String(rcb_text_list)]</textcolor>
 								<align>left</align>
 								<aligny>center</aligny>
@@ -582,7 +582,7 @@
 								<posy>0</posy>
 								<width>540</width>
 								<height>35</height>
-								<font>font13</font>
+								<font>Small</font>
 								<textcolor>$INFO[Skin.String(rcb_text_list_focused)]</textcolor>
 								<align>left</align>
 								<aligny>center</aligny>
@@ -622,7 +622,7 @@
 						<posy>0</posy>
 						<width>600</width>
 						<height>30</height>
-						<font>font30_title</font>
+						<font>MediumBold</font>
 						<aligny>center</aligny>
 						<textcolor>$INFO[Skin.String(rcb_text_heading)]</textcolor>
 						<align>center</align>
@@ -808,7 +808,7 @@
 							<label>$ADDON[script.games.rom.collection.browser 32400]:</label>
 							<align>left</align>
 							<aligny>center</aligny>
-							<font>font13</font>
+							<font>Small</font>
 							<textcolor>$INFO[Skin.String(rcb_text_label)]</textcolor>
 						</control>
 						<control type="label">
@@ -820,7 +820,7 @@
 							<label fallback="416">$INFO[ListItem.Property(year)]</label>
 							<align>left</align>
 							<aligny>center</aligny>
-							<font>font13</font>
+							<font>Small</font>
 							<scroll>true</scroll>
 							<textcolor>$INFO[Skin.String(rcb_text_value)]</textcolor>
 						</control>
@@ -835,7 +835,7 @@
 							<label>$ADDON[script.games.rom.collection.browser 32401]:</label>
 							<align>left</align>
 							<aligny>center</aligny>
-							<font>font13</font>
+							<font>Small</font>
 							<textcolor>$INFO[Skin.String(rcb_text_label)]</textcolor>
 						</control>
 						<control type="label">
@@ -847,7 +847,7 @@
 							<label fallback="416">$INFO[ListItem.Property(genre)]</label>
 							<align>left</align>
 							<aligny>center</aligny>
-							<font>font13</font>
+							<font>Small</font>
 							<scroll>true</scroll>
 							<textcolor>$INFO[Skin.String(rcb_text_value)]</textcolor>
 						</control>
@@ -862,7 +862,7 @@
 							<label>$ADDON[script.games.rom.collection.browser 32402]:</label>
 							<align>left</align>
 							<aligny>center</aligny>
-							<font>font13</font>
+							<font>Small</font>
 							<textcolor>$INFO[Skin.String(rcb_text_label)]</textcolor>
 						</control>
 						<control type="label">
@@ -874,7 +874,7 @@
 							<label fallback="416">$INFO[ListItem.Property(publisher)]</label>
 							<align>left</align>
 							<aligny>center</aligny>
-							<font>font13</font>
+							<font>Small</font>
 							<scroll>true</scroll>
 							<textcolor>$INFO[Skin.String(rcb_text_value)]</textcolor>
 						</control>
@@ -889,7 +889,7 @@
 							<label>$ADDON[script.games.rom.collection.browser 32403]:</label>
 							<align>left</align>
 							<aligny>center</aligny>
-							<font>font13</font>
+							<font>Small</font>
 							<textcolor>$INFO[Skin.String(rcb_text_label)]</textcolor>
 						</control>
 						<control type="label">
@@ -901,7 +901,7 @@
 							<label fallback="416">$INFO[ListItem.Property(developer)]</label>
 							<align>left</align>
 							<aligny>center</aligny>
-							<font>font13</font>
+							<font>Small</font>
 							<scroll>true</scroll>
 							<textcolor>$INFO[Skin.String(rcb_text_value)]</textcolor>
 						</control>
@@ -913,7 +913,7 @@
 							<height>178</height>
 							<textcolor>$INFO[Skin.String(rcb_text_value)]</textcolor>
 							<align>justify</align>
-							<font>font12</font>
+							<font>Tiny</font>
 							<label>$INFO[ListItem.Property(plot)]</label>
 							<autoscroll time="3000" delay="10000" repeat="6000">True</autoscroll>
 						</control>
@@ -972,7 +972,7 @@
 								<posy>0</posy>
 								<width>210</width>
 								<height>50</height>
-								<font>font13</font>
+								<font>Small</font>
 								<textcolor>$INFO[Skin.String(rcb_text_list)]</textcolor>
 								<align>right</align>
 								<aligny>center</aligny>
@@ -1012,7 +1012,7 @@
 								<posy>0</posy>
 								<width>210</width>
 								<height>60</height>
-								<font>font13</font>
+								<font>Small</font>
 								<textcolor>$INFO[Skin.String(rcb_text_list_focused)]</textcolor>
 								<align>right</align>
 								<aligny>center</aligny>
@@ -1065,7 +1065,7 @@
 					<posy>100r</posy>
 					<width>600</width>
 					<height>30</height>
-					<font>font25_title</font>
+					<font>SmallBold</font>
 					<aligny>center</aligny>
 					<textcolor>$INFO[Skin.String(rcb_text_heading)]</textcolor>
 					<align>left</align>
@@ -1077,7 +1077,7 @@
 					<posy>100r</posy>
 					<width>600</width>
 					<height>30</height>
-					<font>font25_title</font>
+					<font>SmallBold</font>
 					<aligny>center</aligny>
 					<textcolor>$INFO[Skin.String(rcb_text_heading)]</textcolor>
 					<align>left</align>
@@ -1089,7 +1089,7 @@
 					<posy>100r</posy>
 					<width>200</width>
 					<height>30</height>
-					<font>font25_title</font>
+					<font>SmallBold</font>
 					<aligny>center</aligny>
 					<textcolor>$INFO[Skin.String(rcb_text_heading)]</textcolor>
 					<align>right</align>
@@ -1104,7 +1104,7 @@
 					<height>70</height>
 					<textcolor>$INFO[Skin.String(rcb_text_value)]</textcolor>
 					<align>justify</align>
-					<font>font12</font>
+					<font>Tiny</font>
 					<label>$INFO[ListItem.Property(plot)]</label>
 					<autoscroll time="3000" delay="10000" repeat="6000">True</autoscroll>
 				</control>
@@ -1135,7 +1135,7 @@
 					<label>$ADDON[script.games.rom.collection.browser 32406]:</label>
 					<align>left</align>
 					<aligny>center</aligny>
-					<font>font13</font>
+					<font>Small</font>
 					<textcolor>$INFO[Skin.String(rcb_text_label)]</textcolor>
 				</control>
 				<control type="label">
@@ -1143,7 +1143,7 @@
 					<posy>60</posy>
 					<width>400</width>
 					<height>25</height>
-					<font>font13</font>
+					<font>Small</font>
 					<aligny>center</aligny>
 					<textcolor>$INFO[Skin.String(rcb_text_value)]</textcolor>
 					<align>left</align>
@@ -1160,7 +1160,7 @@
 					<label>$ADDON[script.games.rom.collection.browser 32400]:</label>
 					<align>left</align>
 					<aligny>center</aligny>
-					<font>font13</font>
+					<font>Small</font>
 					<textcolor>$INFO[Skin.String(rcb_text_label)]</textcolor>
 				</control>
 				<control type="label">
@@ -1172,7 +1172,7 @@
 					<label fallback="416">$INFO[ListItem.Property(year)]</label>
 					<align>left</align>
 					<aligny>center</aligny>
-					<font>font13</font>
+					<font>Small</font>
 					<textcolor>$INFO[Skin.String(rcb_text_value)]</textcolor>
 					<scroll>true</scroll>
 				</control>				
@@ -1187,7 +1187,7 @@
 					<label>$ADDON[script.games.rom.collection.browser 32401]:</label>
 					<align>left</align>
 					<aligny>center</aligny>
-					<font>font13</font>
+					<font>Small</font>
 					<textcolor>$INFO[Skin.String(rcb_text_label)]</textcolor>
 				</control>
 				<control type="label">
@@ -1199,7 +1199,7 @@
 					<label fallback="416">$INFO[ListItem.Property(genre)]</label>
 					<align>left</align>
 					<aligny>center</aligny>
-					<font>font13</font>
+					<font>Small</font>
 					<scroll>true</scroll>
 					<textcolor>$INFO[Skin.String(rcb_text_value)]</textcolor>
 				</control>
@@ -1214,7 +1214,7 @@
 					<label>$ADDON[script.games.rom.collection.browser 32402]:</label>
 					<align>left</align>
 					<aligny>center</aligny>
-					<font>font13</font>
+					<font>Small</font>
 					<textcolor>$INFO[Skin.String(rcb_text_label)]</textcolor>
 				</control>
 				<control type="label">
@@ -1226,7 +1226,7 @@
 					<label fallback="416">$INFO[ListItem.Property(publisher)]</label>
 					<align>left</align>
 					<aligny>center</aligny>
-					<font>font13</font>
+					<font>Small</font>
 					<scroll>true</scroll>
 					<textcolor>$INFO[Skin.String(rcb_text_value)]</textcolor>
 				</control>
@@ -1239,7 +1239,7 @@
 					<height>115</height>			
 					<textcolor>$INFO[Skin.String(rcb_text_value)]</textcolor>
 					<align>justify</align>
-					<font>font12</font>
+					<font>Tiny</font>
 					<label>$INFO[ListItem.Property(plot)]</label>
 					<autoscroll time="3000" delay="10000" repeat="6000">True</autoscroll>
 				</control>
@@ -1439,7 +1439,7 @@
 					<posy>180r</posy>
 					<width>1280</width>
 					<height>20</height>
-					<font>font30_title</font>
+					<font>MediumBold</font>
 					<align>center</align>
 					<aligny>center</aligny>
 					<textcolor>$INFO[Skin.String(rcb_text_value)]</textcolor>
@@ -1451,7 +1451,7 @@
 					<posy>150r</posy>
 					<width>1280</width>
 					<height>20</height>
-					<font>font25_title</font>
+					<font>SmallBold</font>
 					<aligny>center</aligny>
 					<textcolor>$INFO[Skin.String(rcb_text_value)]</textcolor>
 					<align>center</align>
@@ -1468,7 +1468,7 @@
 					<label fallback="416">$INFO[ListItem.Property(year)]</label>
 					<align>center</align>
 					<aligny>center</aligny>
-					<font>font25_title</font>
+					<font>SmallBold</font>
 					<scroll>true</scroll>
 					<textcolor>$INFO[Skin.String(rcb_text_value)]</textcolor>
 				</control>				
@@ -1482,7 +1482,7 @@
 					<label fallback="416">$INFO[ListItem.Property(genre)]</label>
 					<align>center</align>
 					<aligny>center</aligny>
-					<font>font25_title</font>
+					<font>SmallBold</font>
 					<scroll>true</scroll>
 					<textcolor>$INFO[Skin.String(rcb_text_value)]</textcolor>
 				</control>
@@ -1867,7 +1867,7 @@
 				<posy>50</posy>
 				<width>200</width>
 				<height>40</height>
-				<font>font13</font>
+				<font>Small</font>
 				<textcolor>$INFO[Skin.String(rcb_text_heading)]</textcolor>
 				<align>left</align>
 				<aligny>center</aligny>
@@ -1981,7 +1981,7 @@
 				<posy>210</posy>
 				<width>200</width>
 				<height>40</height>
-				<font>font13</font>
+				<font>Small</font>
 				<textcolor>$INFO[Skin.String(rcb_text_value)]</textcolor>				
 				<textoffsetx>7</textoffsetx>
 				<align>right</align>
@@ -1994,7 +1994,7 @@
 				<posy>210</posy>
 				<width>200</width>
 				<height>40</height>
-				<font>font13</font>
+				<font>Small</font>
 				<textcolor>$INFO[Skin.String(rcb_text_button_focused)]</textcolor>				
 				<textoffsetx>7</textoffsetx>
 				<align>right</align>
@@ -2037,7 +2037,7 @@
 				<posy>250</posy>
 				<width>200</width>
 				<height>40</height>
-				<font>font13</font>
+				<font>Small</font>
 				<textcolor>$INFO[Skin.String(rcb_text_value)]</textcolor>
 				<textoffsetx>7</textoffsetx>
 				<align>right</align>
@@ -2050,7 +2050,7 @@
 				<posy>250</posy>
 				<width>200</width>
 				<height>40</height>
-				<font>font13</font>
+				<font>Small</font>
 				<textcolor>$INFO[Skin.String(rcb_text_button_focused)]</textcolor>
 				<textoffsetx>7</textoffsetx>
 				<align>right</align>
@@ -2114,7 +2114,7 @@
 			<posy>25r</posy>
 			<width>500</width>
 			<height>20</height>
-			<font>font12</font>
+			<font>Tiny</font>
 			<textcolor>$INFO[Skin.String(rcb_text_value)]</textcolor>
 			<scroll>false</scroll>
 			<align>right</align>
@@ -2133,7 +2133,7 @@
 			<scroll>true</scroll>
 		    <textcolor>$INFO[Skin.String(rcb_text_value)]</textcolor>
 		    <label></label>
-			<font>font10</font>
+			<font>Mini</font>
 			<visible>!Control.IsVisible(53)</visible>
 		</control>
 		<control type="label" id="4000">
@@ -2146,7 +2146,7 @@
 			<scroll>true</scroll>
 		    <textcolor>$INFO[Skin.String(rcb_text_value)]</textcolor>
 		    <label></label>
-			<font>font10</font>
+			<font>Mini</font>
 			<visible>Control.IsVisible(53)</visible>
 		</control>
 	</controls>
