@@ -413,8 +413,13 @@ class UIGameDB(xbmcgui.WindowXML):
             xbmc.executebuiltin('Container.NextViewMode')
 
         elif controlId == CONTROL_BUTTON_SELECTCOLORFILE:
-            color_path = os.path.join(util.getAddonInstallPath(), 'resources', 'skins', 'Default', 'colors', 'Estuary')
-            color_file = xbmcgui.Dialog().browse(1, 'RCB', 'files', '.xml', defaultt=color_path)
+            color_path = os.path.join(util.getAddonInstallPath(), 'resources', 'skins', util.getConfiguredSkin(), 'colors')
+            dirs, files = xbmcvfs.listdir(color_path)
+            index = xbmcgui.Dialog().select('Colors', files)
+            if index >= 0:
+                color_file = os.path.join(color_path, files[index])
+
+            #color_file = xbmcgui.Dialog().browse(1, 'RCB', 'files', '.xml', defaultt=color_path)
             if color_file:
                 self.Settings.setSetting(util.SETTING_RCB_COLORFILE, color_file)
 
@@ -425,8 +430,10 @@ class UIGameDB(xbmcgui.WindowXML):
         log.info('load_color_schemes')
 
         color_file = self.Settings.getSetting(util.SETTING_RCB_COLORFILE)
-        if not color_file or not xbmcvfs.exists(color_file):
-            color_file = os.path.join(util.getAddonInstallPath(), 'resources', 'skins', 'Default', 'colors', 'Estuary', 'defaults.xml')
+        if not color_file \
+            or not xbmcvfs.exists(color_file) \
+            or util.getConfiguredSkin() not in color_file:
+            color_file = os.path.join(util.getAddonInstallPath(), 'resources', 'skins', util.getConfiguredSkin(), 'colors', 'defaults.xml')
 
         tree = ElementTree()
         if sys.version_info >= (2, 7):
