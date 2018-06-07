@@ -58,9 +58,14 @@ class ContextMenuDialog(xbmcgui.WindowXMLDialog):
             self.gui.updateDB()
         elif controlId == 5125:  # Update artwork cache
             self.close()
-            dialog = dialogupdateartwork.UpdateArtworkDialog("script-RCB-updateartwork.xml",
-                                                      util.getAddonInstallPath(),
-                                                      "Default", "720p", gui=self.gui)
+            try:
+                dialog = dialogupdateartwork.UpdateArtworkDialog("script-RCB-updateartwork.xml",
+                                                        util.getAddonInstallPath(),
+                                                        util.getConfiguredSkin(), "720p", gui=self.gui)
+            except:
+                dialog = dialogupdateartwork.UpdateArtworkDialog("script-RCB-updateartwork.xml",
+                                                        util.getAddonInstallPath(),
+                                                        "Default", "720p", gui=self.gui)
             del dialog
 
         elif controlId == 5121:  # Rescrape single games
