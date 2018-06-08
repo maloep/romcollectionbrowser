@@ -382,10 +382,10 @@
 					<focusedcolor>$INFO[Skin.String(rcb_text_button_focus_dialog)]</focusedcolor>
 					<texturefocus colordiffuse="$INFO[Skin.String(rcb_button_dialog_focus)]">rcb-button_focus.png</texturefocus>
 					<texturenofocus></texturenofocus>
-					<textureradioonfocus colordiffuse="$INFO[Skin.String(rcb_radiobutton_focus)]">rcb-radio-button-on.png</textureradioonfocus>
-					<textureradioonnofocus colordiffuse="$INFO[Skin.String(rcb_radiobutton_nofocus)]">rcb-radio-button-on.png</textureradioonnofocus>
-					<textureradioofffocus colordiffuse="$INFO[Skin.String(rcb_radiobutton_focus)]">rcb-radio-button-off.png</textureradioofffocus>
-					<textureradiooffnofocus colordiffuse="$INFO[Skin.String(rcb_radiobutton_nofocus)]">rcb-radio-button-off.png</textureradiooffnofocus>
+					<textureradioonfocus colordiffuse="$INFO[Skin.String(rcb_radiobutton_focus_dialog)]">rcb-radio-button-on.png</textureradioonfocus>
+					<textureradioonnofocus colordiffuse="$INFO[Skin.String(rcb_radiobutton_nofocus_dialog)]">rcb-radio-button-on.png</textureradioonnofocus>
+					<textureradioofffocus colordiffuse="$INFO[Skin.String(rcb_radiobutton_focus_dialog)]">rcb-radio-button-off.png</textureradioofffocus>
+					<textureradiooffnofocus colordiffuse="$INFO[Skin.String(rcb_radiobutton_nofocus_dialog)]">rcb-radio-button-off.png</textureradiooffnofocus>
 					<onleft>7000</onleft>
 					<onright>6000</onright>
 					<onup>5250</onup>
@@ -408,10 +408,10 @@
 					<focusedcolor>$INFO[Skin.String(rcb_text_button_focus_dialog)]</focusedcolor>
 					<texturefocus colordiffuse="$INFO[Skin.String(rcb_button_dialog_focus)]">rcb-button_focus.png</texturefocus>
 					<texturenofocus></texturenofocus>
-					<textureradioonfocus colordiffuse="$INFO[Skin.String(rcb_radiobutton_focus)]">rcb-radio-button-on.png</textureradioonfocus>
-					<textureradioonnofocus colordiffuse="$INFO[Skin.String(rcb_radiobutton_nofocus)]">rcb-radio-button-on.png</textureradioonnofocus>
-					<textureradioofffocus colordiffuse="$INFO[Skin.String(rcb_radiobutton_focus)]">rcb-radio-button-off.png</textureradioofffocus>
-					<textureradiooffnofocus colordiffuse="$INFO[Skin.String(rcb_radiobutton_nofocus)]">rcb-radio-button-off.png</textureradiooffnofocus>
+					<textureradioonfocus colordiffuse="$INFO[Skin.String(rcb_radiobutton_focus_dialog)]">rcb-radio-button-on.png</textureradioonfocus>
+					<textureradioonnofocus colordiffuse="$INFO[Skin.String(rcb_radiobutton_nofocus_dialog)]">rcb-radio-button-on.png</textureradioonnofocus>
+					<textureradioofffocus colordiffuse="$INFO[Skin.String(rcb_radiobutton_focus_dialog)]">rcb-radio-button-off.png</textureradioofffocus>
+					<textureradiooffnofocus colordiffuse="$INFO[Skin.String(rcb_radiobutton_nofocus_dialog)]">rcb-radio-button-off.png</textureradiooffnofocus>
 					<onleft>7000</onleft>
 					<onright>6000</onright>
 					<onup>5330</onup>
@@ -545,10 +545,10 @@
 					<focusedcolor>$INFO[Skin.String(rcb_text_button_focus_dialog)]</focusedcolor>
 					<texturefocus colordiffuse="$INFO[Skin.String(rcb_button_dialog_focus)]">rcb-button_focus.png</texturefocus>
 					<texturenofocus></texturenofocus>
-					<textureradioonfocus colordiffuse="$INFO[Skin.String(rcb_radiobutton_focus)]">rcb-radio-button-on.png</textureradioonfocus>
-					<textureradioonnofocus colordiffuse="$INFO[Skin.String(rcb_radiobutton_nofocus)]">rcb-radio-button-on.png</textureradioonnofocus>
-					<textureradioofffocus colordiffuse="$INFO[Skin.String(rcb_radiobutton_focus)]">rcb-radio-button-off.png</textureradioofffocus>
-					<textureradiooffnofocus colordiffuse="$INFO[Skin.String(rcb_radiobutton_nofocus)]">rcb-radio-button-off.png</textureradiooffnofocus>
+					<textureradioonfocus colordiffuse="$INFO[Skin.String(rcb_radiobutton_focus_dialog)]">rcb-radio-button-on.png</textureradioonfocus>
+					<textureradioonnofocus colordiffuse="$INFO[Skin.String(rcb_radiobutton_nofocus_dialog)]">rcb-radio-button-on.png</textureradioonnofocus>
+					<textureradioofffocus colordiffuse="$INFO[Skin.String(rcb_radiobutton_focus_dialog)]">rcb-radio-button-off.png</textureradioofffocus>
+					<textureradiooffnofocus colordiffuse="$INFO[Skin.String(rcb_radiobutton_nofocus_dialog)]">rcb-radio-button-off.png</textureradiooffnofocus>
 					<onleft>7000</onleft>
 					<onright>6000</onright>
 					<onup>5420</onup>
@@ -1254,10 +1254,10 @@
 					<focusedcolor>$INFO[Skin.String(rcb_text_button_focus_dialog)]</focusedcolor>
 					<texturefocus colordiffuse="$INFO[Skin.String(rcb_button_dialog_focus)]">rcb-button_focus.png</texturefocus>
 					<texturenofocus></texturenofocus>
-					<textureradioonfocus colordiffuse="$INFO[Skin.String(rcb_radiobutton_focus)]">rcb-radio-button-on.png</textureradioonfocus>
-					<textureradioonnofocus colordiffuse="$INFO[Skin.String(rcb_radiobutton_nofocus)]">rcb-radio-button-on.png</textureradioonnofocus>
-					<textureradioofffocus colordiffuse="$INFO[Skin.String(rcb_radiobutton_focus)]">rcb-radio-button-off.png</textureradioofffocus>
-					<textureradiooffnofocus colordiffuse="$INFO[Skin.String(rcb_radiobutton_nofocus)]">rcb-radio-button-off.png</textureradiooffnofocus>
+					<textureradioonfocus colordiffuse="$INFO[Skin.String(rcb_radiobutton_focus_dialog)]">rcb-radio-button-on.png</textureradioonfocus>
+					<textureradioonnofocus colordiffuse="$INFO[Skin.String(rcb_radiobutton_nofocus_dialog)]">rcb-radio-button-on.png</textureradioonnofocus>
+					<textureradioofffocus colordiffuse="$INFO[Skin.String(rcb_radiobutton_focus_dialog)]">rcb-radio-button-off.png</textureradioofffocus>
+					<textureradiooffnofocus colordiffuse="$INFO[Skin.String(rcb_radiobutton_nofocus_dialog)]">rcb-radio-button-off.png</textureradiooffnofocus>
 					<onleft>7000</onleft>
 					<onright>6000</onright>
 					<onup>5342</onup>
@@ -1280,10 +1280,10 @@
 					<focusedcolor>$INFO[Skin.String(rcb_text_button_focus_dialog)]</focusedcolor>
 					<texturefocus colordiffuse="$INFO[Skin.String(rcb_button_dialog_focus)]">rcb-button_focus.png</texturefocus>
 					<texturenofocus></texturenofocus>
-					<textureradioonfocus colordiffuse="$INFO[Skin.String(rcb_radiobutton_focus)]">rcb-radio-button-on.png</textureradioonfocus>
-					<textureradioonnofocus colordiffuse="$INFO[Skin.String(rcb_radiobutton_nofocus)]">rcb-radio-button-on.png</textureradioonnofocus>
-					<textureradioofffocus colordiffuse="$INFO[Skin.String(rcb_radiobutton_focus)]">rcb-radio-button-off.png</textureradioofffocus>
-					<textureradiooffnofocus colordiffuse="$INFO[Skin.String(rcb_radiobutton_nofocus)]">rcb-radio-button-off.png</textureradiooffnofocus>
+					<textureradioonfocus colordiffuse="$INFO[Skin.String(rcb_radiobutton_focus_dialog)]">rcb-radio-button-on.png</textureradioonfocus>
+					<textureradioonnofocus colordiffuse="$INFO[Skin.String(rcb_radiobutton_nofocus_dialog)]">rcb-radio-button-on.png</textureradioonnofocus>
+					<textureradioofffocus colordiffuse="$INFO[Skin.String(rcb_radiobutton_focus_dialog)]">rcb-radio-button-off.png</textureradioofffocus>
+					<textureradiooffnofocus colordiffuse="$INFO[Skin.String(rcb_radiobutton_nofocus_dialog)]">rcb-radio-button-off.png</textureradiooffnofocus>
 					<onleft>7000</onleft>
 					<onright>6000</onright>
 					<onup>5350</onup>
@@ -1436,12 +1436,12 @@
 					<focusedcolor>$INFO[Skin.String(rcb_text_button_focus_dialog)]</focusedcolor>
 					<texturefocus colordiffuse="$INFO[Skin.String(rcb_button_dialog_focus)]">rcb-button_focus.png</texturefocus>
 					<texturenofocus></texturenofocus>
-					<textureradioonfocus colordiffuse="$INFO[Skin.String(rcb_radiobutton_focus)]">rcb-radio-button-on.png</textureradioonfocus>
-					<textureradioonnofocus colordiffuse="$INFO[Skin.String(rcb_radiobutton_nofocus)]">rcb-radio-button-on.png</textureradioonnofocus>
-					<textureradioofffocus colordiffuse="$INFO[Skin.String(rcb_radiobutton_focus)]">rcb-radio-button-off.png</textureradioofffocus>
-					<textureradiooffnofocus colordiffuse="$INFO[Skin.String(rcb_radiobutton_nofocus)]">rcb-radio-button-off.png</textureradiooffnofocus>
-					<textureradioondisabled colordiffuse="$INFO[Skin.String(rcb_radiobutton_nofocus)]">rcb-radio-button-on.png</textureradioondisabled>
-					<textureradiooffdisabled colordiffuse="$INFO[Skin.String(rcb_radiobutton_nofocus)]">rcb-radio-button-off.png</textureradiooffdisabled>
+					<textureradioonfocus colordiffuse="$INFO[Skin.String(rcb_radiobutton_focus_dialog)]">rcb-radio-button-on.png</textureradioonfocus>
+					<textureradioonnofocus colordiffuse="$INFO[Skin.String(rcb_radiobutton_nofocus_dialog)]">rcb-radio-button-on.png</textureradioonnofocus>
+					<textureradioofffocus colordiffuse="$INFO[Skin.String(rcb_radiobutton_focus_dialog)]">rcb-radio-button-off.png</textureradioofffocus>
+					<textureradiooffnofocus colordiffuse="$INFO[Skin.String(rcb_radiobutton_nofocus_dialog)]">rcb-radio-button-off.png</textureradiooffnofocus>
+					<textureradioondisabled colordiffuse="$INFO[Skin.String(rcb_radiobutton_nofocus_dialog)]">rcb-radio-button-on.png</textureradioondisabled>
+					<textureradiooffdisabled colordiffuse="$INFO[Skin.String(rcb_radiobutton_nofocus_dialog)]">rcb-radio-button-off.png</textureradiooffdisabled>
 					<onleft>7000</onleft>
 					<onright>6000</onright>
 					<onup>5230</onup>
@@ -1467,12 +1467,12 @@
 					<focusedcolor>$INFO[Skin.String(rcb_text_button_focus_dialog)]</focusedcolor>
 					<texturefocus colordiffuse="$INFO[Skin.String(rcb_button_dialog_focus)]">rcb-button_focus.png</texturefocus>
 					<texturenofocus></texturenofocus>
-					<textureradioonfocus colordiffuse="$INFO[Skin.String(rcb_radiobutton_focus)]">rcb-radio-button-on.png</textureradioonfocus>
-					<textureradioonnofocus colordiffuse="$INFO[Skin.String(rcb_radiobutton_nofocus)]">rcb-radio-button-on.png</textureradioonnofocus>
-					<textureradioofffocus colordiffuse="$INFO[Skin.String(rcb_radiobutton_focus)]">rcb-radio-button-off.png</textureradioofffocus>
-					<textureradiooffnofocus colordiffuse="$INFO[Skin.String(rcb_radiobutton_nofocus)]">rcb-radio-button-off.png</textureradiooffnofocus>
-					<textureradioondisabled colordiffuse="$INFO[Skin.String(rcb_radiobutton_nofocus)]">rcb-radio-button-on.png</textureradioondisabled>
-					<textureradiooffdisabled colordiffuse="$INFO[Skin.String(rcb_radiobutton_nofocus)]">rcb-radio-button-off.png</textureradiooffdisabled>
+					<textureradioonfocus colordiffuse="$INFO[Skin.String(rcb_radiobutton_focus_dialog)]">rcb-radio-button-on.png</textureradioonfocus>
+					<textureradioonnofocus colordiffuse="$INFO[Skin.String(rcb_radiobutton_nofocus_dialog)]">rcb-radio-button-on.png</textureradioonnofocus>
+					<textureradioofffocus colordiffuse="$INFO[Skin.String(rcb_radiobutton_focus_dialog)]">rcb-radio-button-off.png</textureradioofffocus>
+					<textureradiooffnofocus colordiffuse="$INFO[Skin.String(rcb_radiobutton_nofocus_dialog)]">rcb-radio-button-off.png</textureradiooffnofocus>
+					<textureradioondisabled colordiffuse="$INFO[Skin.String(rcb_radiobutton_nofocus_dialog)]">rcb-radio-button-on.png</textureradioondisabled>
+					<textureradiooffdisabled colordiffuse="$INFO[Skin.String(rcb_radiobutton_nofocus_dialog)]">rcb-radio-button-off.png</textureradiooffdisabled>
 					<onleft>7000</onleft>
 					<onright>6000</onright>
 					<onup>5440</onup>
@@ -1796,10 +1796,10 @@
 					<focusedcolor>$INFO[Skin.String(rcb_text_button_focus_dialog)]</focusedcolor>
 					<texturefocus colordiffuse="$INFO[Skin.String(rcb_button_dialog_focus)]">rcb-button_focus.png</texturefocus>
 					<texturenofocus></texturenofocus>
-					<textureradioonfocus colordiffuse="$INFO[Skin.String(rcb_radiobutton_focus)]">rcb-radio-button-on.png</textureradioonfocus>
-					<textureradioonnofocus colordiffuse="$INFO[Skin.String(rcb_radiobutton_nofocus)]">rcb-radio-button-on.png</textureradioonnofocus>
-					<textureradioofffocus colordiffuse="$INFO[Skin.String(rcb_radiobutton_focus)]">rcb-radio-button-off.png</textureradioofffocus>
-					<textureradiooffnofocus colordiffuse="$INFO[Skin.String(rcb_radiobutton_nofocus)]">rcb-radio-button-off.png</textureradiooffnofocus>
+					<textureradioonfocus colordiffuse="$INFO[Skin.String(rcb_radiobutton_focus_dialog)]">rcb-radio-button-on.png</textureradioonfocus>
+					<textureradioonnofocus colordiffuse="$INFO[Skin.String(rcb_radiobutton_nofocus_dialog)]">rcb-radio-button-on.png</textureradioonnofocus>
+					<textureradioofffocus colordiffuse="$INFO[Skin.String(rcb_radiobutton_focus_dialog)]">rcb-radio-button-off.png</textureradioofffocus>
+					<textureradiooffnofocus colordiffuse="$INFO[Skin.String(rcb_radiobutton_nofocus_dialog)]">rcb-radio-button-off.png</textureradiooffnofocus>
 					<onleft>7000</onleft>
 					<onright>6000</onright>
 					<onup>5520</onup>
@@ -1823,10 +1823,10 @@
 					<focusedcolor>$INFO[Skin.String(rcb_text_button_focus_dialog)]</focusedcolor>
 					<texturefocus colordiffuse="$INFO[Skin.String(rcb_button_dialog_focus)]">rcb-button_focus.png</texturefocus>
 					<texturenofocus></texturenofocus>
-					<textureradioonfocus colordiffuse="$INFO[Skin.String(rcb_radiobutton_focus)]">rcb-radio-button-on.png</textureradioonfocus>
-					<textureradioonnofocus colordiffuse="$INFO[Skin.String(rcb_radiobutton_nofocus)]">rcb-radio-button-on.png</textureradioonnofocus>
-					<textureradioofffocus colordiffuse="$INFO[Skin.String(rcb_radiobutton_focus)]">rcb-radio-button-off.png</textureradioofffocus>
-					<textureradiooffnofocus colordiffuse="$INFO[Skin.String(rcb_radiobutton_nofocus)]">rcb-radio-button-off.png</textureradiooffnofocus>
+					<textureradioonfocus colordiffuse="$INFO[Skin.String(rcb_radiobutton_focus_dialog)]">rcb-radio-button-on.png</textureradioonfocus>
+					<textureradioonnofocus colordiffuse="$INFO[Skin.String(rcb_radiobutton_nofocus_dialog)]">rcb-radio-button-on.png</textureradioonnofocus>
+					<textureradioofffocus colordiffuse="$INFO[Skin.String(rcb_radiobutton_focus_dialog)]">rcb-radio-button-off.png</textureradioofffocus>
+					<textureradiooffnofocus colordiffuse="$INFO[Skin.String(rcb_radiobutton_nofocus_dialog)]">rcb-radio-button-off.png</textureradiooffnofocus>
 					<onleft>7000</onleft>
 					<onright>6000</onright>
 					<onup>5450</onup>
@@ -1850,10 +1850,10 @@
 					<focusedcolor>$INFO[Skin.String(rcb_text_button_focus_dialog)]</focusedcolor>
 					<texturefocus colordiffuse="$INFO[Skin.String(rcb_button_dialog_focus)]">rcb-button_focus.png</texturefocus>
 					<texturenofocus></texturenofocus>
-					<textureradioonfocus colordiffuse="$INFO[Skin.String(rcb_radiobutton_focus)]">rcb-radio-button-on.png</textureradioonfocus>
-					<textureradioonnofocus colordiffuse="$INFO[Skin.String(rcb_radiobutton_nofocus)]">rcb-radio-button-on.png</textureradioonnofocus>
-					<textureradioofffocus colordiffuse="$INFO[Skin.String(rcb_radiobutton_focus)]">rcb-radio-button-off.png</textureradioofffocus>
-					<textureradiooffnofocus colordiffuse="$INFO[Skin.String(rcb_radiobutton_nofocus)]">rcb-radio-button-off.png</textureradiooffnofocus>
+					<textureradioonfocus colordiffuse="$INFO[Skin.String(rcb_radiobutton_focus_dialog)]">rcb-radio-button-on.png</textureradioonfocus>
+					<textureradioonnofocus colordiffuse="$INFO[Skin.String(rcb_radiobutton_nofocus_dialog)]">rcb-radio-button-on.png</textureradioonnofocus>
+					<textureradioofffocus colordiffuse="$INFO[Skin.String(rcb_radiobutton_focus_dialog)]">rcb-radio-button-off.png</textureradioofffocus>
+					<textureradiooffnofocus colordiffuse="$INFO[Skin.String(rcb_radiobutton_nofocus_dialog)]">rcb-radio-button-off.png</textureradiooffnofocus>
 					<onleft>7000</onleft>
 					<onright>6000</onright>
 					<onup>5560</onup>
