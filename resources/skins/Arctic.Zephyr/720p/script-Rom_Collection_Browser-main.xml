@@ -126,7 +126,7 @@
 					<posy>70r</posy>
 					<width>1280</width>
 					<height>20</height>
-					<font>SmallBold</font>
+					<font>MediumBold</font>
 					<aligny>center</aligny>
 					<textcolor>$INFO[Skin.String(rcb_text_heading)]</textcolor>
 					<align>center</align>
@@ -1093,7 +1093,7 @@
 					<posy>100r</posy>
 					<width>600</width>
 					<height>30</height>
-					<font>SmallBold</font>
+					<font>MediumBold</font>
 					<aligny>center</aligny>
 					<textcolor>$INFO[Skin.String(rcb_text_heading)]</textcolor>
 					<align>left</align>
@@ -1105,7 +1105,7 @@
 					<posy>100r</posy>
 					<width>600</width>
 					<height>30</height>
-					<font>SmallBold</font>
+					<font>MediumBold</font>
 					<aligny>center</aligny>
 					<textcolor>$INFO[Skin.String(rcb_text_heading)]</textcolor>
 					<align>left</align>
@@ -1117,7 +1117,7 @@
 					<posy>100r</posy>
 					<width>200</width>
 					<height>30</height>
-					<font>SmallBold</font>
+					<font>MediumBold</font>
 					<aligny>center</aligny>
 					<textcolor>$INFO[Skin.String(rcb_text_heading)]</textcolor>
 					<align>right</align>
@@ -1478,7 +1478,7 @@
 					<posy>150r</posy>
 					<width>1280</width>
 					<height>20</height>
-					<font>SmallBold</font>
+					<font>MediumBold</font>
 					<aligny>center</aligny>
 					<textcolor>$INFO[Skin.String(rcb_text_value)]</textcolor>
 					<align>center</align>
@@ -1495,7 +1495,7 @@
 					<label fallback="416">$INFO[ListItem.Property(year)]</label>
 					<align>center</align>
 					<aligny>center</aligny>
-					<font>SmallBold</font>
+					<font>MediumBold</font>
 					<scroll>true</scroll>
 					<textcolor>$INFO[Skin.String(rcb_text_value)]</textcolor>
 				</control>				
@@ -1509,7 +1509,7 @@
 					<label fallback="416">$INFO[ListItem.Property(genre)]</label>
 					<align>center</align>
 					<aligny>center</aligny>
-					<font>SmallBold</font>
+					<font>MediumBold</font>
 					<scroll>true</scroll>
 					<textcolor>$INFO[Skin.String(rcb_text_value)]</textcolor>
 				</control>

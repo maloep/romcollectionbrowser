@@ -44,7 +44,7 @@
 			<shadowcolor>$INFO[Skin.String(rcb_text_shadow)]</shadowcolor>
 			<align>left</align>
 			<aligny>center</aligny>
-			<label>$ADDON[script.games.rom.collection.browser 32900]</label>
+			<label>$ADDON[script.games.rom.collection.browser 32999] - $ADDON[script.games.rom.collection.browser 32900]</label>
 		</control>
 		<control type="image">
 			<description>background image</description>
@@ -279,7 +279,7 @@
 			<width>200</width>
 			<height>30</height>
 			<visible>true</visible>
-			<font>SmallBold</font>
+			<font>Small</font>
 			<colordiffuse>DDFFFFFF</colordiffuse>
 			<texturefocus colordiffuse="$INFO[Skin.String(rcb_button_dialog_focus)]">rcb-MenuItemFO.png</texturefocus>
 			<texturenofocus colordiffuse="$INFO[Skin.String(rcb_button_dialog_nofocus)]">rcb-button_nofocus.png</texturenofocus>
@@ -303,7 +303,7 @@
 			<width>200</width>
 			<height>30</height>
 			<visible>true</visible>
-			<font>SmallBold</font>
+			<font>Small</font>
 			<colordiffuse>DDFFFFFF</colordiffuse>
 			<texturefocus colordiffuse="$INFO[Skin.String(rcb_button_dialog_focus)]">rcb-MenuItemFO.png</texturefocus>
 			<texturenofocus colordiffuse="$INFO[Skin.String(rcb_button_dialog_nofocus)]">rcb-button_nofocus.png</texturenofocus>

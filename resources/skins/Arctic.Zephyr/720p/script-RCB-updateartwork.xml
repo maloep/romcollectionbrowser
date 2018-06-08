@@ -282,7 +282,7 @@
 				<width>200</width>
 				<height>40</height>
 				<visible>true</visible>
-				<font>SmallBold</font>
+				<font>Small</font>
 				<colordiffuse>DDFFFFFF</colordiffuse>
 				<texturefocus colordiffuse="$INFO[Skin.String(rcb_button_dialog_focus)]">rcb-MenuItemFO.png</texturefocus>
 				<texturenofocus colordiffuse="$INFO[Skin.String(rcb_button_dialog_nofocus)]">rcb-button_nofocus.png</texturenofocus>
@@ -306,7 +306,7 @@
 				<width>200</width>
 				<height>40</height>
 				<visible>true</visible>
-				<font>SmallBold</font>
+				<font>Small</font>
 				<colordiffuse>DDFFFFFF</colordiffuse>
 				<texturefocus colordiffuse="$INFO[Skin.String(rcb_button_dialog_focus)]">rcb-MenuItemFO.png</texturefocus>
 				<texturenofocus colordiffuse="$INFO[Skin.String(rcb_button_dialog_nofocus)]">rcb-button_nofocus.png</texturenofocus>
