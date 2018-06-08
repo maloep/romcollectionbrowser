@@ -30,10 +30,12 @@
 	<color name="rcb_text_label">FF333333</color> <!-- Dark1 -->
 	<color name="rcb_text_value">FF333333</color> <!-- Dark1 -->
 	<color name="rcb_text_heading">ff333333</color> <!-- Dark1 -->
-	<color name="rcb_text_button">FF333333</color> <!-- Dark1 -->
-	<color name="rcb_text_button_focused">ffdddddd</color> <!-- Light1 -->
+	<color name="rcb_text_button_nofocus">FF333333</color> <!-- Dark1 -->
+	<color name="rcb_text_button_focus">ffdddddd</color> <!-- Light1 -->
 	<color name="rcb_text_button_disabled">80FFFFFF</color>
 	<color name="rcb_text_button_dialog">FF333333</color> <!-- Dark1 -->
 	<color name="rcb_text_shadow">ffdddddd</color> <!-- Light1 -->
 	<color name="rcb_text_dialog_header">ff333333</color> <!-- Dark1 -->
+	<color name="rcb_text_button_nofocus_dialog">FF333333</color> <!-- Dark1 -->
+	<color name="rcb_text_button_focus_dialog">ffdddddd</color> <!-- Light1 -->
 </colors>

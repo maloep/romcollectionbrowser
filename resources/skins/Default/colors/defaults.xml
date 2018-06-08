@@ -30,10 +30,11 @@
 	<color name="rcb_text_label">FF12A0C7</color>
 	<color name="rcb_text_value">FFFFFFFF</color>
 	<color name="rcb_text_heading">FF12A0C7</color>
-	<color name="rcb_text_button">FFFFFFFF</color>
-	<color name="rcb_text_button_focused">FFFFFFFF</color>
+	<color name="rcb_text_button_nofocus">FFFFFFFF</color>
+	<color name="rcb_text_button_focus">FFFFFFFF</color>
 	<color name="rcb_text_button_disabled">80FFFFFF</color>
-	<color name="rcb_text_button_dialog">FFFFFFFF</color>
 	<color name="rcb_text_shadow">FF000000</color>
 	<color name="rcb_text_dialog_header">FFFFFFFF</color>
+	<color name="rcb_text_button_nofocus_dialog">FFFFFFFF</color>
+	<color name="rcb_text_button_focus_dialog">FFFFFFFF</color>
 </colors>
