@@ -44,7 +44,7 @@
 			<shadowcolor>$INFO[Skin.String(rcb_text_shadow)]</shadowcolor>
 			<align>left</align>
 			<aligny>center</aligny>
-			<label>$ADDON[script.games.rom.collection.browser 32900]</label>
+			<label>$ADDON[script.games.rom.collection.browser 32999] - $ADDON[script.games.rom.collection.browser 32900]</label>
 		</control>
 		<control type="image">
 			<description>background image</description>
