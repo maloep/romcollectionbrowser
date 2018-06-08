@@ -1,12 +1,12 @@
 <convert>
     <fonts>
-		<font name="font10">Mini</font>
-		<font name="font12">Tiny</font>
-		<font name="font13">Small</font>
-		<font name="font25_title">SmallBold</font>
-		<font name="font30_title">MediumBold</font>
-		<font name="font32_title">MediumBold</font>
-		<font name="font45_title">LargeBold</font>
+		<font name="font10">Mini</font> <!-- message line -->
+		<font name="font12">Tiny</font> <!-- plot -->
+		<font name="font13">Small</font> <!-- labels -->
+		<font name="font25_title">Small</font> <!-- buttons -->
+		<font name="font30_title">MediumBold</font> <!-- titles -->
+		<font name="font32_title">MediumBold</font> <!-- dialog headers -->
+		<font name="font45_title">LargeBold</font> <!-- large titles -->
 	</fonts>
 	<controls>
 		<radiobutton>
