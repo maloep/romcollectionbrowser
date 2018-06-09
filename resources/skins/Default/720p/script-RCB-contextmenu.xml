@@ -23,7 +23,7 @@
 			<posy>-80</posy>
 			<width>350</width>
 			<height>570</height>
-			<texture colordiffuse="$INFO[Skin.String(rcb_panel_dialog)]">rcb-panel.png</texture>
+			<texture colordiffuse="$INFO[Skin.String(rcb_panel_dialog)]">rcb-dialog-middle.png</texture>
 		</control>
 		<control type="button" id="5110">
 			<description>button import games</description>

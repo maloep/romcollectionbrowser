@@ -19,6 +19,8 @@
 	
 	<color name="rcb_button_nofocus">FF111111</color>
 	<color name="rcb_button_focus">FF2866A4</color>
+	<color name="rcb_menuitem_nofocus">FF111111</color>
+	<color name="rcb_menuitem_focus">FF2866A4</color>
 	<color name="rcb_radiobutton_focus">FFFFFFFF</color>
 	<color name="rcb_radiobutton_nofocus">FFFFFFFF</color>
 	<color name="rcb_radiobutton_focus_dialog">FFFFFFFF</color>

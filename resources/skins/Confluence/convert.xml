@@ -1,0 +1,18 @@
+<convert>
+    <fonts>
+		<font name="font10">Mini</font> <!-- message line -->
+		<font name="font12">Tiny</font> <!-- plot -->
+		<font name="font13">Small</font> <!-- labels -->
+		<font name="font25_title">Small</font> <!-- buttons -->
+		<font name="font30_title">MediumBold</font> <!-- titles -->
+		<font name="font32_title">MediumBold</font> <!-- dialog headers -->
+		<font name="font45_title">LargeBold</font> <!-- large titles -->
+	</fonts>
+	<controls>
+		<radiobutton>
+			<radioposx>20</radioposx>
+			<radiowidth>-16</radiowidth>
+			<radioheight>-16</radioheight>
+		</radiobutton>
+	</controls>
+</convert>

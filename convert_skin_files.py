@@ -19,7 +19,7 @@ class SkinFileConverter(object):
         skin_dirs = [d for d in os.listdir(self.skin_path) if os.path.isdir(os.path.join(self.skin_path, d))]
 
         for skin_dir in skin_dirs:
-            if skin_dir != 'Default' and skin_dir != 'Confluence':
+            if skin_dir != 'Default':
                 target_dir = os.path.join(self.skin_path, skin_dir, '720p')
                 skin_files = os.listdir(self.source_file_dir)
                 convert_file = os.path.join(self.skin_path, skin_dir, 'convert.xml')
