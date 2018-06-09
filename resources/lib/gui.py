@@ -206,11 +206,7 @@ class UIGameDB(xbmcgui.WindowXML):
         if statusOk == False:
             xbmcgui.Dialog().ok(util.SCRIPTNAME, util.localize(32002), errorMsg)
 
-        #set flag if the skin should display clearlogo as title in lists
-        if self.Settings.getSetting(util.SETTING_RCB_USECLEARLOGOASTITLE).upper() == "TRUE":
-            xbmc.executebuiltin('Skin.SetBool(%s)' % util.SETTING_RCB_USECLEARLOGOASTITLE)
-        else:
-            xbmc.executebuiltin('Skin.Reset(%s)' % util.SETTING_RCB_USECLEARLOGOASTITLE)
+        self.set_skin_flags()
 
         return config, statusOk
 
@@ -425,6 +421,18 @@ class UIGameDB(xbmcgui.WindowXML):
 
             self.load_color_schemes()
 
+    def set_skin_flags(self):
+
+        #set flag if the skin should display clearlogo as title in lists
+        self.set_skin_flag(util.SETTING_RCB_USECLEARLOGOASTITLE)
+        #set flag if the skin should display scrollbars in game lists
+        self.set_skin_flag(util.SETTING_RCB_SHOWSCROLLBARS)
+
+    def set_skin_flag(self, flag):
+        if self.Settings.getSetting(flag).upper() == "TRUE":
+            xbmc.executebuiltin('Skin.SetBool(%s)' % flag)
+        else:
+            xbmc.executebuiltin('Skin.Reset(%s)' % flag)
 
     def load_color_schemes(self):
         log.info('load_color_schemes')

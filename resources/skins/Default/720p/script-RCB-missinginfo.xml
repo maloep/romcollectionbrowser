@@ -83,7 +83,7 @@
 					<posy>0</posy>
 					<width>210</width>
 					<height>50</height>
-					<texture colordiffuse="$INFO[Skin.String(rcb_button_category_nofocus)]">rcb-button_nofocus.png</texture>
+					<texture colordiffuse="$INFO[Skin.String(rcb_button_category_nofocus)]">rcb-button-nofocus.png</texture>
 				</control>
 				<control type="label">
 					<posx>0</posx>
@@ -103,7 +103,7 @@
 					<posy>0</posy>
 					<width>210</width>
 					<height>50</height>
-					<texture colordiffuse="$INFO[Skin.String(rcb_button_category_focus)]">rcb-button_focus.png</texture>
+					<texture colordiffuse="$INFO[Skin.String(rcb_button_category_focus)]">rcb-button-focus.png</texture>
 					<animation effect="fade" start="100" end="30" time="100" condition="!Control.HasFocus(7000)">Conditional</animation>
 				</control>
 				<control type="label">
@@ -544,7 +544,7 @@
 			<visible>true</visible>
 			<font>font25_title</font>
 			<texturefocus colordiffuse="$INFO[Skin.String(rcb_button_dialog_focus)]">rcb-MenuItemFO.png</texturefocus>
-			<texturenofocus colordiffuse="$INFO[Skin.String(rcb_button_dialog_nofocus)]">rcb-button_nofocus.png</texturenofocus>
+			<texturenofocus colordiffuse="$INFO[Skin.String(rcb_button_dialog_nofocus)]">rcb-button-nofocus.png</texturenofocus>
 			<label>$ADDON[script.games.rom.collection.browser 32634]</label>
 			<textcolor>$INFO[Skin.String(rcb_text_button_nofocus_dialog)]</textcolor>
 			<focusedcolor>$INFO[Skin.String(rcb_text_button_focus_dialog)]</focusedcolor>
@@ -568,7 +568,7 @@
 			<visible>true</visible>
 			<font>font25_title</font>
 			<texturefocus colordiffuse="$INFO[Skin.String(rcb_button_dialog_focus)]">rcb-MenuItemFO.png</texturefocus>
-			<texturenofocus colordiffuse="$INFO[Skin.String(rcb_button_dialog_nofocus)]">rcb-button_nofocus.png</texturenofocus>
+			<texturenofocus colordiffuse="$INFO[Skin.String(rcb_button_dialog_nofocus)]">rcb-button-nofocus.png</texturenofocus>
 			<label>$ADDON[script.games.rom.collection.browser 32635]</label>
 			<textcolor>$INFO[Skin.String(rcb_text_button_nofocus_dialog)]</textcolor>
 			<focusedcolor>$INFO[Skin.String(rcb_text_button_focus_dialog)]</focusedcolor>
