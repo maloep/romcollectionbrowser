@@ -144,8 +144,8 @@
 			<posy>35</posy>
 			<width>20</width>
 			<height>10</height>
-			<texturenofocus colordiffuse="$INFO[Skin.String(rcb_scrollbar_nofocus)]">rcb-scroll-up.png</texturenofocus>
-			<texturefocus>rcb-scroll-up.png</texturefocus>
+			<texturenofocus colordiffuse="$INFO[Skin.String(rcb_scroll_up_nofocus)]">rcb-scroll-up.png</texturenofocus>
+			<texturefocus colordiffuse="$INFO[Skin.String(rcb_scroll_up_focus)]">rcb-scroll-up.png</texturefocus>
 			<onclick>Control.Move(5410,1)</onclick>
 			<onleft>6000</onleft>
 			<onright>5412</onright>
@@ -158,8 +158,8 @@
 			<posy>35</posy>
 			<width>20</width>
 			<height>10</height>
-			<texturenofocus colordiffuse="$INFO[Skin.String(rcb_scrollbar_nofocus)]">rcb-scroll-down.png</texturenofocus>
-			<texturefocus>rcb-scroll-down.png</texturefocus>
+			<texturenofocus colordiffuse="$INFO[Skin.String(rcb_scroll_up_nofocus)]">rcb-scroll-down.png</texturenofocus>
+			<texturefocus colordiffuse="$INFO[Skin.String(rcb_scroll_up_focus)]">rcb-scroll-down.png</texturefocus>
 			<onclick>Control.Move(5410,-1)</onclick>
 			<onleft>5411</onleft>
 			<onright>6000</onright>
@@ -247,8 +247,8 @@
 			<posy>75</posy>
 			<width>20</width>
 			<height>10</height>
-			<texturenofocus colordiffuse="$INFO[Skin.String(rcb_scrollbar_nofocus)]">rcb-scroll-up.png</texturenofocus>
-			<texturefocus>rcb-scroll-up.png</texturefocus>
+			<texturenofocus colordiffuse="$INFO[Skin.String(rcb_scroll_up_nofocus)]">rcb-scroll-up.png</texturenofocus>
+			<texturefocus colordiffuse="$INFO[Skin.String(rcb_scroll_up_focus)]">rcb-scroll-up.png</texturefocus>
 			<onclick>Control.Move(5490,1)</onclick>
 			<onleft>6000</onleft>
 			<onright>5492</onright>
@@ -261,8 +261,8 @@
 			<posy>75</posy>
 			<width>20</width>
 			<height>10</height>
-			<texturenofocus colordiffuse="$INFO[Skin.String(rcb_scrollbar_nofocus)]">rcb-scroll-down.png</texturenofocus>
-			<texturefocus>rcb-scroll-down.png</texturefocus>
+			<texturenofocus colordiffuse="$INFO[Skin.String(rcb_scroll_up_nofocus)]">rcb-scroll-down.png</texturenofocus>
+			<texturefocus colordiffuse="$INFO[Skin.String(rcb_scroll_up_focus)]">rcb-scroll-down.png</texturefocus>
 			<onclick>Control.Move(5490,-1)</onclick>
 			<onleft>5491</onleft>
 			<onright>6000</onright>

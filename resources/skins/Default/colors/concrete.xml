@@ -14,6 +14,8 @@
 	<color name="rcb_scrollbar_background">29FFFFFF</color>
 	<color name="rcb_scrollbar_nofocus">FFAAAAAA</color>
 	<color name="rcb_scrollbar_focus">FF607D8B</color>
+	<color name="rcb_scroll_up_nofocus">29FFFFFF</color>
+	<color name="rcb_scroll_up_focus">FFFFFFFF</color>
 	
 	<color name="rcb_button_nofocus">FF111111</color>
 	<color name="rcb_button_focus">FF607D8B</color>

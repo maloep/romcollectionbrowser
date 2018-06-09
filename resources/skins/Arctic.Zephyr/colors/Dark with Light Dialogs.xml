@@ -12,8 +12,10 @@
 	<color name="rcb_panel_dialog_header">ffcccccc</color> <!-- Light1 -->
 	
 	<color name="rcb_scrollbar_background">29FFFFFF</color>
-	<color name="rcb_scrollbar_nofocus">4dcccccc</color> <!-- Dark3 -->
-	<color name="rcb_scrollbar_focus">FF12A0C7</color>
+	<color name="rcb_scrollbar_nofocus">4dcccccc</color>
+	<color name="rcb_scrollbar_focus">ffcccccc</color>
+	<color name="rcb_scroll_up_nofocus">4d333333</color>
+	<color name="rcb_scroll_up_focus">ffcccccc</color>
 	
 	<color name="rcb_button_nofocus">ffcccccc</color> <!-- Dark1 -->
 	<color name="rcb_button_focus">ffcccccc</color> <!-- Dark1 -->
