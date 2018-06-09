@@ -17,7 +17,7 @@
 			<width>1280</width>
 			<height>720</height>
 			<aspectratio>scale</aspectratio>
-			<texture colordiffuse="$INFO[Skin.String(rcb_background)]">rcb-background.png</texture>
+			<texture background="true" colordiffuse="$INFO[Skin.String(rcb_background)]">rcb-background.png</texture>
 		</control>
 	
 		<!-- background -->
@@ -47,11 +47,11 @@
 					<onleft>50</onleft>
 					<onright>50</onright>
 					<onup>2</onup>					
-					<ondown>500</ondown>
+					<ondown>60</ondown>
 					<orientation>horizontal</orientation>
 					<focusposition>4</focusposition>
 					<viewtype label="Info">wrap</viewtype>
-					<!--<pagecontrol>60</pagecontrol>-->
+					<pagecontrol>60</pagecontrol>
 					<movement>0</movement>
 					<scrolltime>450</scrolltime>
 					<preloaditems>10</preloaditems>
@@ -73,9 +73,9 @@
 								<width>160</width>
 								<height>240</height>
 								<aspectratio align="center" aligny="top">keep</aspectratio>
-								<!--<bordertexture border="2" diffuse="rcb-diffuse_mirror.png"></bordertexture>-->
+								<!--<bordertexture border="2" diffuse="rcb-diffuse-mirror.png"></bordertexture>-->
 								<bordersize>2</bordersize>
-								<texture background="true" flipy="true" diffuse="rcb-diffuse_mirror.png">$INFO[ListItem.ActualIcon]</texture>
+								<texture background="true" flipy="true" diffuse="rcb-diffuse-mirror.png">$INFO[ListItem.ActualIcon]</texture>
 							</control>
 							<control type="image">
 								<posx>-5</posx>
@@ -120,6 +120,22 @@
 							<onfocus condition="!String.IsEmpty(ListItem.Property(autoplayvideomain)) + !String.IsEmpty(ListItem.Property(gameplaymain))">XBMC.PlayMedia($ESCINFO[ListItem.Property(gameplaymain)],1)</onfocus>
 						</control>
 					</focusedlayout>
+				</control>
+				<control type="scrollbar" id="60">
+					<posx>400</posx>
+					<posy>10r</posy>
+					<width>600</width>
+					<height>5</height>
+					<texturesliderbackground colordiffuse="$INFO[Skin.String(rcb_scrollbar_background)]">rcb-scrollbar-background.png</texturesliderbackground>
+					<texturesliderbar colordiffuse="$INFO[Skin.String(rcb_scrollbar_nofocus)]">rcb-scrollbar.png</texturesliderbar>
+					<texturesliderbarfocus colordiffuse="$INFO[Skin.String(rcb_scrollbar_focus)]">rcb-scrollbar.png</texturesliderbarfocus>
+					<textureslidernib></textureslidernib>
+					<textureslidernibfocus></textureslidernibfocus>
+					<onup>50</onup>
+					<ondown>500</ondown>
+					<showonepage>false</showonepage>
+					<orientation>horizontal</orientation>
+					<visible allowhiddenfocus="false">Control.IsVisible(50) + Skin.HasSetting(rcb_showScrollbars)</visible>
 				</control>
 				<control type="label">
 					<posx>0</posx>
@@ -547,10 +563,10 @@
 						<width>640</width>
 						<height>600</height>
 						<onleft>2</onleft>
-						<onright>500</onright>
+						<onright>61</onright>
 						<onup>52</onup>
 						<ondown>52</ondown>
-						<!--<pagecontrol>61</pagecontrol>-->
+						<pagecontrol>61</pagecontrol>
 						<focusposition>7</focusposition>
 						<movement>6</movement>
 						<viewtype label="Info 2">list</viewtype>
@@ -583,7 +599,7 @@
 								<posy>0</posy>
 								<width>640</width>
 								<height>37</height>
-								<texture border="0,2,0,2" colordiffuse="$INFO[Skin.String(rcb_button_focus)]">rcb-button_focus.png</texture>
+								<texture border="0,2,0,2" colordiffuse="$INFO[Skin.String(rcb_button_focus)]">rcb-button-focus.png</texture>
 								<visible>Control.HasFocus(52)</visible>
 							</control>
 							<control type="image">
@@ -619,8 +635,23 @@
 							</control>
 						</focusedlayout>
 					</control>
+					<control type="scrollbar" id="61">
+						<posx>10r</posx>
+						<posy>60</posy>
+						<width>5</width>
+						<height>600</height>
+						<texturesliderbackground colordiffuse="$INFO[Skin.String(rcb_scrollbar_background)]">rcb-scrollbar-background.png</texturesliderbackground>
+						<texturesliderbar colordiffuse="$INFO[Skin.String(rcb_scrollbar_nofocus)]">rcb-scrollbar.png</texturesliderbar>
+						<texturesliderbarfocus colordiffuse="$INFO[Skin.String(rcb_scrollbar_focus)]">rcb-scrollbar.png</texturesliderbarfocus>
+						<textureslidernib></textureslidernib>
+						<textureslidernibfocus></textureslidernibfocus>
+						<onleft>52</onleft>
+						<onright>500</onright>
+						<showonepage>false</showonepage>
+						<orientation>vertical</orientation>
+						<visible allowhiddenfocus="false">Control.IsVisible(52) + Skin.HasSetting(rcb_showScrollbars)</visible>
+					</control>
 				</control>
-				
 				<control type="image">
 					<texture colordiffuse="$INFO[Skin.String(rcb_panel_info)]">rcb-panel.png</texture>
 					<posx>0</posx>
@@ -1032,7 +1063,7 @@
 								<posy>0</posy>
 								<width>230</width>
 								<height>60</height>
-								<texture border="0,2,0,2" colordiffuse="$INFO[Skin.String(rcb_button_focus)]">rcb-button_focus.png</texture>
+								<texture border="0,2,0,2" colordiffuse="$INFO[Skin.String(rcb_button_focus)]">rcb-button-focus.png</texture>
 								<visible>Control.HasFocus(53)</visible>
 							</control>
 							<control type="textbox">
@@ -1281,7 +1312,7 @@
 					<visible>Control.IsVisible(57)</visible>
 				</control>
 				<control type="image">
-					<texture colordiffuse="$INFO[Skin.String(rcb_button_focus)]">rcb-button_focus.png</texture>
+					<texture colordiffuse="$INFO[Skin.String(rcb_button_focus)]">rcb-button-focus.png</texture>
 					<posx>170</posx>
 					<posy>150r</posy>	
 					<width>270</width>
@@ -1297,14 +1328,14 @@
 					<onleft>57</onleft>
 					<onright>57</onright>
 					<onup>2</onup>
-					<ondown>500</ondown>
+					<ondown>67</ondown>
 					<orientation>horizontal</orientation>
 					<focusposition>1</focusposition>
 					<movement>0</movement>
 					<scrolltime>450</scrolltime>
 					<preloaditems>10</preloaditems>
 					<viewtype label="Shift">icon</viewtype>
-					<!--<pagecontrol>67</pagecontrol>-->
+					<pagecontrol>67</pagecontrol>
 					<itemlayout width="270">
 						<control type="image">
 							<posx>10</posx>
@@ -1386,6 +1417,22 @@
 						</control>
 					</focusedlayout>
 				</control>
+				<control type="scrollbar" id="67">
+					<posx>400</posx>
+					<posy>10r</posy>
+					<width>600</width>
+					<height>5</height>
+					<texturesliderbackground colordiffuse="$INFO[Skin.String(rcb_scrollbar_background)]">rcb-scrollbar-background.png</texturesliderbackground>
+					<texturesliderbar colordiffuse="$INFO[Skin.String(rcb_scrollbar_nofocus)]">rcb-scrollbar.png</texturesliderbar>
+					<texturesliderbarfocus colordiffuse="$INFO[Skin.String(rcb_scrollbar_focus)]">rcb-scrollbar.png</texturesliderbarfocus>
+					<textureslidernib></textureslidernib>
+					<textureslidernibfocus></textureslidernibfocus>
+					<onup>57</onup>
+					<ondown>500</ondown>
+					<showonepage>false</showonepage>
+					<orientation>horizontal</orientation>
+					<visible allowhiddenfocus="true">Control.IsVisible(57) + Skin.HasSetting(rcb_showScrollbars)</visible>
+				</control>
 			</control>		
 			
 			
@@ -1410,13 +1457,13 @@
 					<onleft>58</onleft>
 					<onright>58</onright>
 					<onup>2</onup>
-					<ondown>500</ondown>
+					<ondown>62</ondown>
 					<orientation>horizontal</orientation>
 					<focusposition>2</focusposition>
 					<preloaditems>10</preloaditems>
 					<viewtype label="Thumbs">wrap</viewtype>
 					<scrolltime>450</scrolltime>
-					<!--<pagecontrol>62</pagecontrol>-->
+					<pagecontrol>62</pagecontrol>
 					<itemlayout width="298">
 						<control type="image">
 							<posx>0</posx>
@@ -1459,6 +1506,22 @@
 							<animation reversible="false" effect="fade" start="0" end="100" time="400">Focus</animation>
 						</control>
 					</focusedlayout>
+				</control>
+				<control type="scrollbar" id="62">
+					<posx>400</posx>
+					<posy>10r</posy>
+					<width>600</width>
+					<height>5</height>
+					<texturesliderbackground colordiffuse="$INFO[Skin.String(rcb_scrollbar_background)]">rcb-scrollbar-background.png</texturesliderbackground>
+					<texturesliderbar colordiffuse="$INFO[Skin.String(rcb_scrollbar_nofocus)]">rcb-scrollbar.png</texturesliderbar>
+					<texturesliderbarfocus colordiffuse="$INFO[Skin.String(rcb_scrollbar_focus)]">rcb-scrollbar.png</texturesliderbarfocus>
+					<textureslidernib></textureslidernib>
+					<textureslidernibfocus></textureslidernibfocus>
+					<onup>58</onup>
+					<ondown>500</ondown>
+					<showonepage>false</showonepage>
+					<orientation>horizontal</orientation>
+					<visible allowhiddenfocus="true">Control.IsVisible(58) + Skin.HasSetting(rcb_showScrollbars)</visible>
 				</control>
 				<!-- Title -->
 				<control type="label">
@@ -1581,7 +1644,7 @@
 					<width>300</width>
 					<height>40</height>
 					<visible>true</visible>
-					<texturefocus colordiffuse="$INFO[Skin.String(rcb_button_focus)]">rcb-button_focus.png</texturefocus>
+					<texturefocus colordiffuse="$INFO[Skin.String(rcb_button_focus)]">rcb-button-focus.png</texturefocus>
 					<texturenofocus></texturenofocus>
 					<label></label>
 					<textcolor>$INFO[Skin.String(rcb_text_button_nofocus)]</textcolor>
@@ -1616,7 +1679,7 @@
 					<width>300</width>
 					<height>40</height>
 					<visible>true</visible>
-					<texturefocus colordiffuse="$INFO[Skin.String(rcb_button_focus)]">rcb-button_focus.png</texturefocus>
+					<texturefocus colordiffuse="$INFO[Skin.String(rcb_button_focus)]">rcb-button-focus.png</texturefocus>
 					<texturenofocus></texturenofocus>
 					<label></label>
 					<textcolor>$INFO[Skin.String(rcb_text_button_nofocus)]</textcolor>
@@ -1651,7 +1714,7 @@
 					<width>300</width>
 					<height>40</height>
 					<visible>true</visible>
-					<texturefocus colordiffuse="$INFO[Skin.String(rcb_button_focus)]">rcb-button_focus.png</texturefocus>
+					<texturefocus colordiffuse="$INFO[Skin.String(rcb_button_focus)]">rcb-button-focus.png</texturefocus>
 					<texturenofocus></texturenofocus>
 					<label></label>
 					<textcolor>$INFO[Skin.String(rcb_text_button_nofocus)]</textcolor>
@@ -1686,7 +1749,7 @@
 					<width>300</width>
 					<height>40</height>
 					<visible>true</visible>
-					<texturefocus colordiffuse="$INFO[Skin.String(rcb_button_focus)]">rcb-button_focus.png</texturefocus>
+					<texturefocus colordiffuse="$INFO[Skin.String(rcb_button_focus)]">rcb-button-focus.png</texturefocus>
 					<texturenofocus></texturenofocus>
 					<label></label>
 					<textcolor>$INFO[Skin.String(rcb_text_button_nofocus)]</textcolor>
@@ -1721,7 +1784,7 @@
 					<width>300</width>
 					<height>40</height>
 					<visible>true</visible>
-					<texturefocus colordiffuse="$INFO[Skin.String(rcb_button_focus)]">rcb-button_focus.png</texturefocus>
+					<texturefocus colordiffuse="$INFO[Skin.String(rcb_button_focus)]">rcb-button-focus.png</texturefocus>
 					<texturenofocus></texturenofocus>
 					<label></label>
 					<textcolor>$INFO[Skin.String(rcb_text_button_nofocus)]</textcolor>
@@ -1756,7 +1819,7 @@
 					<width>300</width>
 					<height>40</height>
 					<visible>true</visible>
-					<texturefocus colordiffuse="$INFO[Skin.String(rcb_button_focus)]">rcb-button_focus.png</texturefocus>
+					<texturefocus colordiffuse="$INFO[Skin.String(rcb_button_focus)]">rcb-button-focus.png</texturefocus>
 					<texturenofocus></texturenofocus>
 					<label></label>
 					<textcolor>$INFO[Skin.String(rcb_text_button_nofocus)]</textcolor>
@@ -1791,7 +1854,7 @@
 					<width>300</width>
 					<height>40</height>
 					<visible>true</visible>
-					<texturefocus colordiffuse="$INFO[Skin.String(rcb_button_focus)]">rcb-button_focus.png</texturefocus>
+					<texturefocus colordiffuse="$INFO[Skin.String(rcb_button_focus)]">rcb-button-focus.png</texturefocus>
 					<texturenofocus></texturenofocus>
 					<label></label>
 					<textcolor>$INFO[Skin.String(rcb_text_button_nofocus)]</textcolor>
@@ -1826,7 +1889,7 @@
 					<width>300</width>
 					<height>40</height>
 					<visible>true</visible>
-					<texturefocus colordiffuse="$INFO[Skin.String(rcb_button_focus)]">rcb-button_focus.png</texturefocus>
+					<texturefocus colordiffuse="$INFO[Skin.String(rcb_button_focus)]">rcb-button-focus.png</texturefocus>
 					<texturenofocus></texturenofocus>
 					<label></label>
 					<textcolor>$INFO[Skin.String(rcb_text_button_nofocus)]</textcolor>
@@ -1861,7 +1924,7 @@
 					<width>300</width>
 					<height>40</height>
 					<visible>true</visible>
-					<texturefocus colordiffuse="$INFO[Skin.String(rcb_button_focus)]">rcb-button_focus.png</texturefocus>
+					<texturefocus colordiffuse="$INFO[Skin.String(rcb_button_focus)]">rcb-button-focus.png</texturefocus>
 					<texturenofocus></texturenofocus>
 					<label></label>
 					<textcolor>$INFO[Skin.String(rcb_text_button_nofocus)]</textcolor>
@@ -1911,7 +1974,7 @@
 				<width>300</width>
 				<height>40</height>
 				<visible>true</visible>
-				<texturefocus colordiffuse="$INFO[Skin.String(rcb_button_focus)]">rcb-button_focus.png</texturefocus>
+				<texturefocus colordiffuse="$INFO[Skin.String(rcb_button_focus)]">rcb-button-focus.png</texturefocus>
 				<texturenofocus></texturenofocus>
 				<label></label>
 				<textcolor>$INFO[Skin.String(rcb_text_button_nofocus)]</textcolor>
@@ -1943,7 +2006,7 @@
 				<textoffsetx>7</textoffsetx>
 				<textcolor>$INFO[Skin.String(rcb_text_button_nofocus)]</textcolor>
 				<focusedcolor>$INFO[Skin.String(rcb_text_button_focus)]</focusedcolor>
-				<texturefocus colordiffuse="$INFO[Skin.String(rcb_button_focus)]">rcb-button_focus.png</texturefocus>
+				<texturefocus colordiffuse="$INFO[Skin.String(rcb_button_focus)]">rcb-button-focus.png</texturefocus>
 				<texturenofocus></texturenofocus>
 				<textureradioonfocus colordiffuse="$INFO[Skin.String(rcb_radiobutton_focus)]">rcb-radio-button-on.png</textureradioonfocus>
 				<textureradioonnofocus colordiffuse="$INFO[Skin.String(rcb_radiobutton_nofocus)]">rcb-radio-button-on.png</textureradioonnofocus>
@@ -1962,7 +2025,7 @@
 				<width>300</width>
 				<height>40</height>
 				<visible>true</visible>				
-				<texturefocus colordiffuse="$INFO[Skin.String(rcb_button_focus)]">rcb-button_focus.png</texturefocus>
+				<texturefocus colordiffuse="$INFO[Skin.String(rcb_button_focus)]">rcb-button-focus.png</texturefocus>
 				<texturenofocus></texturenofocus>
 				<label>$ADDON[script.games.rom.collection.browser 32405]</label>
 				<textcolor>$INFO[Skin.String(rcb_text_button_nofocus)]</textcolor>
@@ -1982,7 +2045,7 @@
 				<posy>210</posy>
 				<width>300</width>
 				<height>40</height>
-				<texture border="0,2,0,2" colordiffuse="$INFO[Skin.String(rcb_button_focus)]">rcb-button_focus.png</texture>
+				<texture border="0,2,0,2" colordiffuse="$INFO[Skin.String(rcb_button_focus)]">rcb-button-focus.png</texture>
 				<visible>Control.HasFocus(1600)</visible>
 			</control>
 			<control type="button" id="1600">
@@ -2038,7 +2101,7 @@
 				<posy>250</posy>
 				<width>300</width>
 				<height>40</height>
-				<texture border="0,2,0,2" colordiffuse="$INFO[Skin.String(rcb_button_focus)]">rcb-button_focus.png</texture>
+				<texture border="0,2,0,2" colordiffuse="$INFO[Skin.String(rcb_button_focus)]">rcb-button-focus.png</texture>
 				<visible>Control.HasFocus(1700)</visible>
 			</control>
 			<control type="button" id="1700">
@@ -2096,7 +2159,7 @@
 				<width>300</width>
 				<height>40</height>
 				<visible>true</visible>
-				<texturefocus colordiffuse="$INFO[Skin.String(rcb_button_focus)]">rcb-button_focus.png</texturefocus>
+				<texturefocus colordiffuse="$INFO[Skin.String(rcb_button_focus)]">rcb-button-focus.png</texturefocus>
 				<texturenofocus></texturenofocus>
 				<label>$ADDON[script.games.rom.collection.browser 32409]</label>
 				<textcolor>$INFO[Skin.String(rcb_text_button_nofocus)]</textcolor>
@@ -2119,7 +2182,7 @@
 				<width>300</width>
 				<height>40</height>
 				<visible>true</visible>
-				<texturefocus colordiffuse="$INFO[Skin.String(rcb_button_focus)]">rcb-button_focus.png</texturefocus>
+				<texturefocus colordiffuse="$INFO[Skin.String(rcb_button_focus)]">rcb-button-focus.png</texturefocus>
 				<texturenofocus></texturenofocus>
 				<label>$ADDON[script.games.rom.collection.browser 32426]</label>
 				<textcolor>$INFO[Skin.String(rcb_text_button_nofocus)]</textcolor>
