@@ -15,4 +15,22 @@
 			<radioheight>-16</radioheight>
 		</radiobutton>
 	</controls>
+	<contentpanels>
+		<view_info_panelcontent_posx>50</view_info_panelcontent_posx>
+		<view_info_panelcontent_width>-100</view_info_panelcontent_width>
+		<view_info2_panellist_posx>10</view_info2_panellist_posx>
+		<view_info2_panellist_posy>10</view_info2_panellist_posy>
+		<view_info2_panellist_width>-40</view_info2_panellist_width>
+		<view_info2_panellist_height>-40</view_info2_panellist_height>
+		<view_info2_panelcontent_posx>30</view_info2_panelcontent_posx>
+		<view_info2_panelcontent_posy>10</view_info2_panelcontent_posy>
+		<view_info2_panelcontent_width>-40</view_info2_panelcontent_width>
+		<view_info2_panelcontent_height>-40</view_info2_panelcontent_height>
+		<view_info2_list_posx>20</view_info2_list_posx>
+		<view_info2_listitem_nofocus_width>-40</view_info2_listitem_nofocus_width>
+		<view_info2_listitem_focus_width>-50</view_info2_listitem_focus_width>
+		<view_info2_labelconsole_posy>10</view_info2_labelconsole_posy>
+		<view_info2_labeltitle_posy>10</view_info2_labeltitle_posy>
+		<view_info2_clearlogo_posy>10</view_info2_clearlogo_posy>
+	</contentpanels>
 </convert>

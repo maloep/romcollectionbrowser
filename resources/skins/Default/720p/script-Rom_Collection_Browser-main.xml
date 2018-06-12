@@ -198,9 +198,10 @@
 				
 				<control type="image">
 					<texture flipx="false" colordiffuse="$INFO[Skin.String(rcb_panel_info)]">rcb-panel-content.png</texture>
-					<posx>0</posx>
+					<!-- Note: comments below are needed for skin convert scripts -->
+					<posx>0</posx><!--view_info_panelcontent_posx-->
 					<posy>20</posy>	
-					<width>100%</width>
+					<width>1280</width><!--view_info_panelcontent_width-->
 					<height>300</height>
 					<visible>Control.IsVisible(50)</visible>
 				</control>
@@ -515,10 +516,11 @@
 			<control type="group">
 				<control type="image">
 					<texture colordiffuse="$INFO[Skin.String(rcb_panel_list)]">rcb-panel-list.png</texture>
-					<posx>640</posx>
-					<posy>0</posy>	
-					<width>640</width>
-					<height>100%</height>
+					<!-- Note: comments below are needed for skin convert scripts -->
+					<posx>640</posx><!--view_info2_panellist_posx-->
+					<posy>0</posy><!--view_info2_panellist_posy-->
+					<width>640</width><!--view_info2_panellist_width-->
+					<height>720</height><!--view_info2_panellist_height-->
 					<visible>Control.IsVisible(52) + Integer.IsGreater(Container.NumItems,0)</visible>
 				</control>
 				<control type="group">
@@ -526,8 +528,9 @@
 					<posy>0</posy>
 					<visible>Control.IsVisible(52)</visible>
 					<control type="label">
+						<!-- Note: comments below are needed for skin convert scripts -->
 						<posx>5</posx>
-						<posy>15</posy>
+						<posy>15</posy><!--view_info2_labelconsole_posy-->
 						<width>620</width>
 						<height>30</height>
 						<font>font30_title</font>
@@ -558,7 +561,8 @@
 						<fadetime>100</fadetime>
 					</control>					
 					<control type="fixedlist" id="52">
-						<posx>0</posx>
+						<!-- Note: comments below are needed for skin convert scripts -->
+						<posx>0</posx><!--view_info2_list_posx-->
 						<posy>70</posy>
 						<width>640</width>
 						<height>600</height>
@@ -574,9 +578,10 @@
 						<preloaditems>10</preloaditems>
 						<itemlayout height="35" width="640">
 							<control type="image">
+								<!-- Note: comments below are needed for skin convert scripts -->
 								<posx>0</posx>
 								<posy>0</posy>
-								<width>640</width>
+								<width>640</width><!--view_info2_listitem_nofocus_width-->
 								<height>37</height>
 								<texture border="0,2,0,2" colordiffuse="$INFO[Skin.String(rcb_menuitem_nofocus)]">rcb-menuitem-nofocus.png</texture>
 							</control>
@@ -604,7 +609,7 @@
 							<control type="image">
 								<posx>0</posx>
 								<posy>0</posy>
-								<width>640</width>
+								<width>640</width><!--view_info2_listitem_focus_width-->
 								<height>37</height>
 								<texture border="0,2,0,2" colordiffuse="$INFO[Skin.String(rcb_menuitem_focus)]">rcb-menuitem-focus.png</texture>
 								<visible>Control.HasFocus(52)</visible>
@@ -661,10 +666,11 @@
 				</control>
 				<control type="image">
 					<texture colordiffuse="$INFO[Skin.String(rcb_panel_info)]">rcb-panel-content.png</texture>
-					<posx>0</posx>
-					<posy>0</posy>	
-					<width>640</width>
-					<height>100%</height>
+					<!-- Note: comments below are needed for skin convert scripts -->
+					<posx>0</posx><!--view_info2_panelcontent_posx-->
+					<posy>0</posy><!--view_info2_panelcontent_posy-->
+					<width>640</width><!--view_info2_panelcontent_width-->
+					<height>720</height><!--view_info2_panelcontent_height-->
 					<visible>Control.IsVisible(52) + Integer.IsGreater(Container.NumItems,0)</visible>
 				</control>
 				<control type="group" id="350">
@@ -673,8 +679,9 @@
 					<posy>15</posy>
 					<visible>Control.IsVisible(52) + Integer.IsGreater(Container.NumItems,0)</visible>
 					<control type="label">
+						<!-- Note: comments below are needed for skin convert scripts -->
 						<posx>5</posx>
-						<posy>0</posy>
+						<posy>0</posy><!--view_info2_labeltitle_posy-->
 						<width>600</width>
 						<height>30</height>
 						<font>font30_title</font>
@@ -685,9 +692,10 @@
 						<visible>String.IsEmpty(ListItem.Art(clearlogo))</visible>
 						<animation effect="fade" start="0" end="100" time="0" delay="300" easing="out">Visible</animation>
 					</control>
+						<!-- Note: comments below are needed for skin convert scripts -->
 						<control type="image">
 						<posx>5</posx>
-						<posy>0</posy>
+						<posy>0</posy><!--view_info2_clearlogo_posy-->
 						<width>600</width>
 						<height>50</height>
 						<aspectratio align="center" aligny="center">keep</aspectratio>
@@ -1314,7 +1322,7 @@
 					<texture colordiffuse="$INFO[Skin.String(rcb_panel_info)]">rcb-panel-content.png</texture>
 					<posx>0</posx>
 					<posy>150r</posy>	
-					<width>100%</width>
+					<width>1280</width>
 					<height>80</height>
 					<visible>Control.IsVisible(57)</visible>
 				</control>

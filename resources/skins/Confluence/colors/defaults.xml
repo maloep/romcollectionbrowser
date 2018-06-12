@@ -4,9 +4,9 @@
 	<color name="rcb_background_diffuse_dialog_open">AA000000</color>
 	
 	<color name="rcb_panel_slide">FF000000</color>
-	<color name="rcb_panel_list">37A0A0A0</color>
+	<color name="rcb_panel_list">AAFFFFFF</color>
 	<color name="rcb_panel_list_transp">AA333333</color>
-	<color name="rcb_panel_info">AA000000</color>
+	<color name="rcb_panel_info">AAFFFFFF</color>
 	<color name="rcb_panel_dialog">FF222222</color>
 	<color name="rcb_panel_dialog_text">FF111111</color>
 	<color name="rcb_panel_dialog_header">FF12A0C7</color>	
@@ -19,7 +19,7 @@
 	
 	<color name="rcb_button_nofocus">FF111111</color>
 	<color name="rcb_button_focus">FF12A0C7</color>
-	<color name="rcb_menuitem_nofocus">FF111111</color>
+	<color name="rcb_menuitem_nofocus">FFFFFFFF</color>
 	<color name="rcb_menuitem_focus">FF12A0C7</color>
 	<color name="rcb_radiobutton_focus">FFFFFFFF</color>
 	<color name="rcb_radiobutton_nofocus">FFFFFFFF</color>

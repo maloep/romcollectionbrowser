@@ -44,21 +44,75 @@ class SkinFileConverter(object):
         radiobutton_posx = int(tree.find('controls/radiobutton/radioposx').text)
         radiobutton_width = int(tree.find('controls/radiobutton/radiowidth').text)
         radiobutton_height = int(tree.find('controls/radiobutton/radioheight').text)
+        view_info_panelcontent_posx = int(tree.find('contentpanels/view_info_panelcontent_posx').text)
+        view_info_panelcontent_width = int(tree.find('contentpanels/view_info_panelcontent_width').text)
+        view_info2_panellist_posx = int(tree.find('contentpanels/view_info2_panellist_posx').text)
+        view_info2_panellist_posy = int(tree.find('contentpanels/view_info2_panellist_posy').text)
+        view_info2_panellist_width = int(tree.find('contentpanels/view_info2_panellist_width').text)
+        view_info2_panellist_height = int(tree.find('contentpanels/view_info2_panellist_height').text)
+        view_info2_panelcontent_posx = int(tree.find('contentpanels/view_info2_panelcontent_posx').text)
+        view_info2_panelcontent_posy = int(tree.find('contentpanels/view_info2_panelcontent_posy').text)
+        view_info2_panelcontent_width = int(tree.find('contentpanels/view_info2_panelcontent_width').text)
+        view_info2_panelcontent_height = int(tree.find('contentpanels/view_info2_panelcontent_height').text)
+        view_info2_list_posx = int(tree.find('contentpanels/view_info2_list_posx').text)
+        view_info2_listitem_nofocus_width = int(tree.find('contentpanels/view_info2_listitem_nofocus_width').text)
+        view_info2_listitem_focus_width = int(tree.find('contentpanels/view_info2_listitem_focus_width').text)
+        view_info2_labelconsole_posy = int(tree.find('contentpanels/view_info2_labelconsole_posy').text)
+        view_info2_labeltitle_posy = int(tree.find('contentpanels/view_info2_labeltitle_posy').text)
+        view_info2_clearlogo_posy = int(tree.find('contentpanels/view_info2_clearlogo_posy').text)
 
         with open(source_file, "rt") as fin:
             with open(target_file, "wt") as fout:
                 for line in fin:
+                    # Fonts
                     for font in fonts:
                         # font looks like this in convert.xml:
                         # <font name="font10">Mini</font>
                         # Estuary font names as attribute name, new skin font names as element text
                         line = line.replace(font.attrib.get('name'), font.text)
 
+                    # Radiobuttons
                     line = self.update_radiobutton_properties(line, 'radioposx', radiobutton_posx)
                     line = self.update_radiobutton_properties(line, 'radiowidth', radiobutton_width)
                     line = self.update_radiobutton_properties(line, 'radioheight', radiobutton_height)
 
+                    # Panel adjustments
+                    # Info View
+                    line = self.update_numeric_properties(line, 'posx', 'view_info_panelcontent_posx', view_info_panelcontent_posx)
+                    line = self.update_numeric_properties(line, 'width', 'view_info_panelcontent_width', view_info_panelcontent_width)
+
+                    #Info2 View
+                    line = self.update_numeric_properties(line, 'posx', 'view_info2_panellist_posx', view_info2_panellist_posx)
+                    line = self.update_numeric_properties(line, 'posy', 'view_info2_panellist_posy', view_info2_panellist_posy)
+                    line = self.update_numeric_properties(line, 'width', 'view_info2_panellist_width', view_info2_panellist_width)
+                    line = self.update_numeric_properties(line, 'height', 'view_info2_panellist_height', view_info2_panellist_height)
+
+                    line = self.update_numeric_properties(line, 'posx', 'view_info2_panelcontent_posx', view_info2_panelcontent_posx)
+                    line = self.update_numeric_properties(line, 'posy', 'view_info2_panelcontent_posy', view_info2_panelcontent_posy)
+                    line = self.update_numeric_properties(line, 'width', 'view_info2_panelcontent_width', view_info2_panelcontent_width)
+                    line = self.update_numeric_properties(line, 'height', 'view_info2_panelcontent_height', view_info2_panelcontent_height)
+
+                    line = self.update_numeric_properties(line, 'posx', 'view_info2_list_posx', view_info2_list_posx)
+                    line = self.update_numeric_properties(line, 'width', 'view_info2_listitem_nofocus_width', view_info2_listitem_nofocus_width)
+                    line = self.update_numeric_properties(line, 'width', 'view_info2_listitem_focus_width', view_info2_listitem_focus_width)
+                    line = self.update_numeric_properties(line, 'posy', 'view_info2_labelconsole_posy', view_info2_labelconsole_posy)
+                    line = self.update_numeric_properties(line, 'posy', 'view_info2_labeltitle_posy', view_info2_labeltitle_posy)
+                    line = self.update_numeric_properties(line, 'posy', 'view_info2_clearlogo_posy', view_info2_clearlogo_posy)
+
+
                     fout.write(line)
+
+
+    def update_numeric_properties(self, line, property_name, convert_comment, update_value):
+        pattern = '<%s>(?P<value>[0-9]*)</%s><!--%s-->' %(property_name, property_name, convert_comment)
+        match = re.search(pattern, line)
+        if match:
+            old_value = int(match.group('value'))
+            new_value = old_value + update_value
+            line = line.replace(str(old_value), str(new_value))
+
+        return line
+
 
     def update_radiobutton_properties(self, line, property_name, update_value):
         pattern_posx = '<%s>(?P<value>[0-9]*)</%s>' %(property_name, property_name)
