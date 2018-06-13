@@ -14,6 +14,12 @@
 			<radiowidth>-16</radiowidth>
 			<radioheight>-16</radioheight>
 		</radiobutton>
+		<scrollbar>
+			<scrollbar_h_posy>0</scrollbar_h_posy>
+			<scrollbar_h_height>0</scrollbar_h_height>
+			<scrollbar_v_posx>0</scrollbar_v_posx>
+			<scrollbar_v_width>0</scrollbar_v_width>
+		</scrollbar>
 	</controls>
 	<contentpanels>
 		<view_info_panelcontent_posx>0</view_info_panelcontent_posx>

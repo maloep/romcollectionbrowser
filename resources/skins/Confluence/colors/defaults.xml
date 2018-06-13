@@ -11,8 +11,8 @@
 	<color name="rcb_panel_dialog_text">FF111111</color>
 	<color name="rcb_panel_dialog_header">FF12A0C7</color>	
 	
-	<color name="rcb_scrollbar_background">29FFFFFF</color>
-	<color name="rcb_scrollbar_nofocus">FFAAAAAA</color>
+	<color name="rcb_scrollbar_background">FFFFFFFF</color>
+	<color name="rcb_scrollbar_nofocus">FFFFFFFF</color>
 	<color name="rcb_scrollbar_focus">FF12A0C7</color>
 	<color name="rcb_scroll_up_nofocus">29FFFFFF</color>
 	<color name="rcb_scroll_up_focus">FFFFFFFF</color>

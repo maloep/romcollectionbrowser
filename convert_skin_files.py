@@ -60,6 +60,12 @@ class SkinFileConverter(object):
         view_info2_labelconsole_posy = int(tree.find('contentpanels/view_info2_labelconsole_posy').text)
         view_info2_labeltitle_posy = int(tree.find('contentpanels/view_info2_labeltitle_posy').text)
         view_info2_clearlogo_posy = int(tree.find('contentpanels/view_info2_clearlogo_posy').text)
+        scrollbar_h_posy = int(tree.find('controls/scrollbar/scrollbar_h_posy').text)
+        scrollbar_h_height = int(tree.find('controls/scrollbar/scrollbar_h_height').text)
+        scrollbar_v_posx = int(tree.find('controls/scrollbar/scrollbar_v_posx').text)
+        scrollbar_v_width = int(tree.find('controls/scrollbar/scrollbar_v_width').text)
+
+
 
         with open(source_file, "rt") as fin:
             with open(target_file, "wt") as fout:
@@ -99,12 +105,17 @@ class SkinFileConverter(object):
                     line = self.update_numeric_properties(line, 'posy', 'view_info2_labeltitle_posy', view_info2_labeltitle_posy)
                     line = self.update_numeric_properties(line, 'posy', 'view_info2_clearlogo_posy', view_info2_clearlogo_posy)
 
+                    #scrollbars
+                    line = self.update_numeric_properties(line, 'posy', 'scrollbar_h_posy', scrollbar_h_posy)
+                    line = self.update_numeric_properties(line, 'height', 'scrollbar_h_height', scrollbar_h_height)
+                    line = self.update_numeric_properties(line, 'posx', 'scrollbar_v_posx', scrollbar_v_posx)
+                    line = self.update_numeric_properties(line, 'width', 'scrollbar_v_width', scrollbar_v_width)
 
                     fout.write(line)
 
 
     def update_numeric_properties(self, line, property_name, convert_comment, update_value):
-        pattern = '<%s>(?P<value>[0-9]*)</%s><!--%s-->' %(property_name, property_name, convert_comment)
+        pattern = '<%s>(?P<value>[0-9]*)r?</%s><!--%s-->' %(property_name, property_name, convert_comment)
         match = re.search(pattern, line)
         if match:
             old_value = int(match.group('value'))

@@ -122,13 +122,14 @@
 					</focusedlayout>
 				</control>
 				<control type="scrollbar" id="60">
+					<!-- Note: comments below are needed for skin convert scripts -->
 					<posx>400</posx>
-					<posy>10r</posy>
+					<posy>10r</posy><!--scrollbar_h_posy-->
 					<width>600</width>
-					<height>5</height>
-					<texturesliderbackground colordiffuse="$INFO[Skin.String(rcb_scrollbar_background)]">rcb-scrollbar-background.png</texturesliderbackground>
-					<texturesliderbar colordiffuse="$INFO[Skin.String(rcb_scrollbar_nofocus)]">rcb-scrollbar.png</texturesliderbar>
-					<texturesliderbarfocus colordiffuse="$INFO[Skin.String(rcb_scrollbar_focus)]">rcb-scrollbar.png</texturesliderbarfocus>
+					<height>5</height><!--scrollbar_h_height-->
+					<texturesliderbackground border="14,0,14,0" colordiffuse="$INFO[Skin.String(rcb_scrollbar_background)]">rcb-scrollbar-h-background.png</texturesliderbackground>
+					<texturesliderbar border="14,0,14,0" colordiffuse="$INFO[Skin.String(rcb_scrollbar_nofocus)]">rcb-scrollbar-h-nofocus.png</texturesliderbar>
+					<texturesliderbarfocus border="14,0,14,0" colordiffuse="$INFO[Skin.String(rcb_scrollbar_focus)]">rcb-scrollbar-h-focus.png</texturesliderbarfocus>
 					<textureslidernib></textureslidernib>
 					<textureslidernibfocus></textureslidernibfocus>
 					<onup>50</onup>
@@ -648,13 +649,14 @@
 						</focusedlayout>
 					</control>
 					<control type="scrollbar" id="61">
-						<posx>10r</posx>
+						<!-- Note: comments below are needed for skin convert scripts -->
+						<posx>10r</posx><!--scrollbar_v_posx-->
 						<posy>60</posy>
-						<width>5</width>
+						<width>5</width><!--scrollbar_v_width-->
 						<height>600</height>
-						<texturesliderbackground colordiffuse="$INFO[Skin.String(rcb_scrollbar_background)]">rcb-scrollbar-background.png</texturesliderbackground>
-						<texturesliderbar colordiffuse="$INFO[Skin.String(rcb_scrollbar_nofocus)]">rcb-scrollbar.png</texturesliderbar>
-						<texturesliderbarfocus colordiffuse="$INFO[Skin.String(rcb_scrollbar_focus)]">rcb-scrollbar.png</texturesliderbarfocus>
+						<texturesliderbackground border="0,14,0,14" colordiffuse="$INFO[Skin.String(rcb_scrollbar_background)]">rcb-scrollbar-v-background.png</texturesliderbackground>
+						<texturesliderbar border="0,14,0,14" colordiffuse="$INFO[Skin.String(rcb_scrollbar_nofocus)]">rcb-scrollbar-v-nofocus.png</texturesliderbar>
+						<texturesliderbarfocus border="0,14,0,14" colordiffuse="$INFO[Skin.String(rcb_scrollbar_focus)]">rcb-scrollbar-v-focus.png</texturesliderbarfocus>
 						<textureslidernib></textureslidernib>
 						<textureslidernibfocus></textureslidernibfocus>
 						<onleft>52</onleft>
@@ -1319,10 +1321,10 @@
 				</control>
 				
 				<control type="image">
-					<texture colordiffuse="$INFO[Skin.String(rcb_panel_info)]">rcb-panel-content.png</texture>
-					<posx>0</posx>
+					<texture colordiffuse="$INFO[Skin.String(rcb_panel_list)]">rcb-panel-list.png</texture>
+					<posx>-40</posx>
 					<posy>150r</posy>	
-					<width>1280</width>
+					<width>1360</width>
 					<height>80</height>
 					<visible>Control.IsVisible(57)</visible>
 				</control>
@@ -1433,13 +1435,14 @@
 					</focusedlayout>
 				</control>
 				<control type="scrollbar" id="67">
+					<!-- Note: comments below are needed for skin convert scripts -->
 					<posx>400</posx>
-					<posy>10r</posy>
+					<posy>10r</posy><!--scrollbar_h_posy-->
 					<width>600</width>
-					<height>5</height>
-					<texturesliderbackground colordiffuse="$INFO[Skin.String(rcb_scrollbar_background)]">rcb-scrollbar-background.png</texturesliderbackground>
-					<texturesliderbar colordiffuse="$INFO[Skin.String(rcb_scrollbar_nofocus)]">rcb-scrollbar.png</texturesliderbar>
-					<texturesliderbarfocus colordiffuse="$INFO[Skin.String(rcb_scrollbar_focus)]">rcb-scrollbar.png</texturesliderbarfocus>
+					<height>5</height><!--scrollbar_h_height-->
+					<texturesliderbackground border="14,0,14,0" colordiffuse="$INFO[Skin.String(rcb_scrollbar_background)]">rcb-scrollbar-h-background.png</texturesliderbackground>
+					<texturesliderbar border="14,0,14,0" colordiffuse="$INFO[Skin.String(rcb_scrollbar_nofocus)]">rcb-scrollbar-h-nofocus.png</texturesliderbar>
+					<texturesliderbarfocus border="14,0,14,0" colordiffuse="$INFO[Skin.String(rcb_scrollbar_focus)]">rcb-scrollbar-h-focus.png</texturesliderbarfocus>
 					<textureslidernib></textureslidernib>
 					<textureslidernibfocus></textureslidernibfocus>
 					<onup>57</onup>
@@ -1457,9 +1460,9 @@
 				
 				<control type="image">
 					<texture colordiffuse="$INFO[Skin.String(rcb_panel_info)]">rcb-panel-content.png</texture>
-					<posx>0</posx>
+					<posx>-40</posx>
 					<posy>100</posy>	
-					<width>100%</width>
+					<width>1360</width>
 					<height>400</height>
 					<visible>Control.IsVisible(58)</visible>
 				</control>
@@ -1523,13 +1526,14 @@
 					</focusedlayout>
 				</control>
 				<control type="scrollbar" id="62">
+					<!-- Note: comments below are needed for skin convert scripts -->
 					<posx>400</posx>
-					<posy>10r</posy>
+					<posy>10r</posy><!--scrollbar_h_posy-->
 					<width>600</width>
-					<height>5</height>
-					<texturesliderbackground colordiffuse="$INFO[Skin.String(rcb_scrollbar_background)]">rcb-scrollbar-background.png</texturesliderbackground>
-					<texturesliderbar colordiffuse="$INFO[Skin.String(rcb_scrollbar_nofocus)]">rcb-scrollbar.png</texturesliderbar>
-					<texturesliderbarfocus colordiffuse="$INFO[Skin.String(rcb_scrollbar_focus)]">rcb-scrollbar.png</texturesliderbarfocus>
+					<height>5</height><!--scrollbar_h_height-->
+					<texturesliderbackground border="14,0,14,0" colordiffuse="$INFO[Skin.String(rcb_scrollbar_background)]">rcb-scrollbar-h-background.png</texturesliderbackground>
+					<texturesliderbar border="14,0,14,0" colordiffuse="$INFO[Skin.String(rcb_scrollbar_nofocus)]">rcb-scrollbar-h-nofocus.png</texturesliderbar>
+					<texturesliderbarfocus border="14,0,14,0" colordiffuse="$INFO[Skin.String(rcb_scrollbar_focus)]">rcb-scrollbar-h-focus.png</texturesliderbarfocus>
 					<textureslidernib></textureslidernib>
 					<textureslidernibfocus></textureslidernibfocus>
 					<onup>58</onup>
