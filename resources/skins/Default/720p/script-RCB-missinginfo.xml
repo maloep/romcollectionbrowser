@@ -148,7 +148,7 @@
 						<posy>0</posy>
 						<width>680</width>
 						<height>50</height>
-						<texture colordiffuse="$INFO[Skin.String(rcb_button_dialog_focus)]">rcb-menuitem-focus.png</texture>
+						<texture colordiffuse="$INFO[Skin.String(rcb_button_focus_dialog)]">rcb-menuitem-focus-dialog.png</texture>
 						<visible>[Control.HasFocus(5201) | Control.HasFocus(5202)]</visible>
 					</control>
 					<control type="label">
@@ -277,7 +277,7 @@
 						<width>680</width>
 						<height>30</height>
 						<font>font13</font>
-						<texturefocus colordiffuse="$INFO[Skin.String(rcb_button_dialog_focus)]">rcb-menuitem-focus.png</texturefocus>
+						<texturefocus colordiffuse="$INFO[Skin.String(rcb_button_focus_dialog)]">rcb-menuitem-focus-dialog.png</texturefocus>
 						<texturenofocus></texturenofocus>
 						<label>- $ADDON[script.games.rom.collection.browser 32855]</label>
 						<textcolor>$INFO[Skin.String(rcb_text_button_nofocus_dialog)]</textcolor>
@@ -298,7 +298,7 @@
 						<width>680</width>
 						<height>30</height>				
 						<font>font13</font>
-						<texturefocus colordiffuse="$INFO[Skin.String(rcb_button_dialog_focus)]">rcb-menuitem-focus.png</texturefocus>
+						<texturefocus colordiffuse="$INFO[Skin.String(rcb_button_focus_dialog)]">rcb-menuitem-focus-dialog.png</texturefocus>
 						<texturenofocus></texturenofocus>
 						<label>- $ADDON[script.games.rom.collection.browser 32856]</label>
 						<textcolor>$INFO[Skin.String(rcb_text_button_nofocus_dialog)]</textcolor>
@@ -345,7 +345,7 @@
 						<width>680</width>
 						<height>30</height>				
 						<font>font13</font>
-						<texturefocus colordiffuse="$INFO[Skin.String(rcb_button_dialog_focus)]">rcb-menuitem-focus.png</texturefocus>
+						<texturefocus colordiffuse="$INFO[Skin.String(rcb_button_focus_dialog)]">rcb-menuitem-focus-dialog.png</texturefocus>
 						<texturenofocus></texturenofocus>
 						<label>- $ADDON[script.games.rom.collection.browser 32855]</label>
 						<textcolor>$INFO[Skin.String(rcb_text_button_nofocus_dialog)]</textcolor>
@@ -366,7 +366,7 @@
 						<width>680</width>
 						<height>30</height>				
 						<font>font13</font>
-						<texturefocus colordiffuse="$INFO[Skin.String(rcb_button_dialog_focus)]">rcb-menuitem-focus.png</texturefocus>
+						<texturefocus colordiffuse="$INFO[Skin.String(rcb_button_focus_dialog)]">rcb-menuitem-focus-dialog.png</texturefocus>
 						<texturenofocus></texturenofocus>
 						<label>- $ADDON[script.games.rom.collection.browser 32856]</label>
 						<textcolor>$INFO[Skin.String(rcb_text_button_nofocus_dialog)]</textcolor>
@@ -430,7 +430,7 @@
 						<width>680</width>
 						<height>30</height>				
 						<font>font13</font>
-						<texturefocus colordiffuse="$INFO[Skin.String(rcb_button_dialog_focus)]">rcb-menuitem-focus.png</texturefocus>
+						<texturefocus colordiffuse="$INFO[Skin.String(rcb_button_focus_dialog)]">rcb-menuitem-focus-dialog.png</texturefocus>
 						<texturenofocus></texturenofocus>
 						<label>- $ADDON[script.games.rom.collection.browser 32855]</label>
 						<textcolor>$INFO[Skin.String(rcb_text_button_nofocus_dialog)]</textcolor>
@@ -451,7 +451,7 @@
 						<width>680</width>
 						<height>30</height>				
 						<font>font13</font>
-						<texturefocus colordiffuse="$INFO[Skin.String(rcb_button_dialog_focus)]">rcb-menuitem-focus.png</texturefocus>
+						<texturefocus colordiffuse="$INFO[Skin.String(rcb_button_focus_dialog)]">rcb-menuitem-focus-dialog.png</texturefocus>
 						<texturenofocus></texturenofocus>
 						<label>- $ADDON[script.games.rom.collection.browser 32856]</label>
 						<textcolor>$INFO[Skin.String(rcb_text_button_nofocus_dialog)]</textcolor>
@@ -498,7 +498,7 @@
 						<width>680</width>
 						<height>30</height>				
 						<font>font13</font>
-						<texturefocus colordiffuse="$INFO[Skin.String(rcb_button_dialog_focus)]">rcb-menuitem-focus.png</texturefocus>
+						<texturefocus colordiffuse="$INFO[Skin.String(rcb_button_focus_dialog)]">rcb-menuitem-focus-dialog.png</texturefocus>
 						<texturenofocus></texturenofocus>
 						<label>- $ADDON[script.games.rom.collection.browser 32855]</label>
 						<textcolor>$INFO[Skin.String(rcb_text_button_nofocus_dialog)]</textcolor>
@@ -519,7 +519,7 @@
 						<width>680</width>
 						<height>30</height>				
 						<font>font13</font>
-						<texturefocus colordiffuse="$INFO[Skin.String(rcb_button_dialog_focus)]">rcb-menuitem-focus.png</texturefocus>
+						<texturefocus colordiffuse="$INFO[Skin.String(rcb_button_focus_dialog)]">rcb-menuitem-focus-dialog.png</texturefocus>
 						<texturenofocus></texturenofocus>
 						<label>- $ADDON[script.games.rom.collection.browser 32856]</label>
 						<textcolor>$INFO[Skin.String(rcb_text_button_nofocus_dialog)]</textcolor>
@@ -546,8 +546,8 @@
 			<height>50</height>
 			<visible>true</visible>
 			<font>font25_title</font>
-			<texturefocus colordiffuse="$INFO[Skin.String(rcb_button_dialog_focus)]">rcb-button-focus.png</texturefocus>
-			<texturenofocus colordiffuse="$INFO[Skin.String(rcb_button_dialog_nofocus)]">rcb-button-nofocus.png</texturenofocus>
+			<texturefocus colordiffuse="$INFO[Skin.String(rcb_button_focus_dialog)]">rcb-button-focus.png</texturefocus>
+			<texturenofocus colordiffuse="$INFO[Skin.String(rcb_button_nofocus_dialog)]">rcb-button-nofocus.png</texturenofocus>
 			<label>$ADDON[script.games.rom.collection.browser 32634]</label>
 			<textcolor>$INFO[Skin.String(rcb_text_button_nofocus_dialog)]</textcolor>
 			<focusedcolor>$INFO[Skin.String(rcb_text_button_focus_dialog)]</focusedcolor>
@@ -570,8 +570,8 @@
 			<height>50</height>
 			<visible>true</visible>
 			<font>font25_title</font>
-			<texturefocus colordiffuse="$INFO[Skin.String(rcb_button_dialog_focus)]">rcb-button-focus.png</texturefocus>
-			<texturenofocus colordiffuse="$INFO[Skin.String(rcb_button_dialog_nofocus)]">rcb-button-nofocus.png</texturenofocus>
+			<texturefocus colordiffuse="$INFO[Skin.String(rcb_button_focus_dialog)]">rcb-button-focus.png</texturefocus>
+			<texturenofocus colordiffuse="$INFO[Skin.String(rcb_button_nofocus_dialog)]">rcb-button-nofocus.png</texturenofocus>
 			<label>$ADDON[script.games.rom.collection.browser 32635]</label>
 			<textcolor>$INFO[Skin.String(rcb_text_button_nofocus_dialog)]</textcolor>
 			<focusedcolor>$INFO[Skin.String(rcb_text_button_focus_dialog)]</focusedcolor>

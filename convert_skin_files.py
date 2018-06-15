@@ -64,6 +64,11 @@ class SkinFileConverter(object):
         scrollbar_h_height = int(tree.find('controls/scrollbar/scrollbar_h_height').text)
         scrollbar_v_posx = int(tree.find('controls/scrollbar/scrollbar_v_posx').text)
         scrollbar_v_width = int(tree.find('controls/scrollbar/scrollbar_v_width').text)
+        dialog_header_image_posy = int(tree.find('dialogs/dialog_header_image_posy').text)
+        dialog_header_label_posy = int(tree.find('dialogs/dialog_header_label_posy').text)
+        dialog_button_posy = int(tree.find('dialogs/dialog_button_posy').text)
+        dialog_menuitem_height = int(tree.find('dialogs/dialog_menuitem_height').text)
+        dialog_header_label_alignment = tree.find('dialogs/dialog_header_label_alignment').text
 
 
 
@@ -111,6 +116,14 @@ class SkinFileConverter(object):
                     line = self.update_numeric_properties(line, 'posx', 'scrollbar_v_posx', scrollbar_v_posx)
                     line = self.update_numeric_properties(line, 'width', 'scrollbar_v_width', scrollbar_v_width)
 
+                    #dialogs
+                    line = self.update_numeric_properties(line, 'posy', 'dialog_header_image_posy', dialog_header_image_posy)
+                    line = self.update_numeric_properties(line, 'posy', 'dialog_header_label_posy', dialog_header_label_posy)
+                    line = self.update_numeric_properties(line, 'posy', 'dialog_button_posy', dialog_button_posy)
+                    line = self.update_numeric_properties(line, 'posy', 'dialog_menuitem_height', dialog_menuitem_height)
+
+                    line = self.update_text_properties(line, 'align', 'dialog_header_label_alignment', dialog_header_label_alignment)
+
                     fout.write(line)
 
 
@@ -124,6 +137,14 @@ class SkinFileConverter(object):
 
         return line
 
+    def update_text_properties(self, line, property_name, convert_comment, update_value):
+        pattern = '<%s>(?P<value>.*)</%s><!--%s-->' %(property_name, property_name, convert_comment)
+        match = re.search(pattern, line)
+        if match:
+            old_value = match.group('value')
+            line = line.replace(str(old_value), str(update_value))
+
+        return line
 
     def update_radiobutton_properties(self, line, property_name, update_value):
         pattern_posx = '<%s>(?P<value>[0-9]*)</%s>' %(property_name, property_name)

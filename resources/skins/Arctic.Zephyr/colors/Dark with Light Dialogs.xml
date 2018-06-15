@@ -26,8 +26,8 @@
 	<color name="rcb_radiobutton_focus_dialog">ffcccccc</color> <!-- Light1 -->
 	<color name="rcb_radiobutton_nofocus_dialog">ff333333</color> <!-- Dark1 -->
 	<color name="rcb_button_highlight">ff0385b5</color> <!-- Highlight -->
-	<color name="rcb_button_dialog_nofocus">1f222222</color> <!-- Dark4 -->
-	<color name="rcb_button_dialog_focus">ff0385b5</color> <!-- Highlight -->
+	<color name="rcb_button_nofocus_dialog">1f222222</color> <!-- Dark4 -->
+	<color name="rcb_button_focus_dialog">ff0385b5</color> <!-- Highlight -->
 	<color name="rcb_button_category_nofocus">ffcccccc</color> <!-- Light1 -->
 	<color name="rcb_button_category_focus">ff0385b5</color> <!-- Highlight -->
 	

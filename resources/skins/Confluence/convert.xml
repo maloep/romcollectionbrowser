@@ -39,4 +39,11 @@
 		<view_info2_labeltitle_posy>10</view_info2_labeltitle_posy>
 		<view_info2_clearlogo_posy>10</view_info2_clearlogo_posy>
 	</contentpanels>
+	<dialogs>
+		<dialog_header_image_posy>20</dialog_header_image_posy>
+		<dialog_header_label_posy>20</dialog_header_label_posy>
+		<dialog_button_posy>-10</dialog_button_posy>
+		<dialog_menuitem_height>-2</dialog_menuitem_height>
+		<dialog_header_label_alignment>center</dialog_header_label_alignment>
+	</dialogs>
 </convert>

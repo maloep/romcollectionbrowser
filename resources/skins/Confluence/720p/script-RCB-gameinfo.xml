@@ -512,8 +512,8 @@
 			<width>200</width>
 			<height>40</height>
 			<visible>true</visible>
-			<texturefocus colordiffuse="$INFO[Skin.String(rcb_button_dialog_focus)]">rcb-button-focus.png</texturefocus>
-			<texturenofocus colordiffuse="$INFO[Skin.String(rcb_button_dialog_nofocus)]">rcb-button-nofocus.png</texturenofocus>
+			<texturefocus colordiffuse="$INFO[Skin.String(rcb_button_focus_dialog)]">rcb-button-focus.png</texturefocus>
+			<texturenofocus colordiffuse="$INFO[Skin.String(rcb_button_nofocus_dialog)]">rcb-button-nofocus.png</texturenofocus>
 			<label>$ADDON[script.games.rom.collection.browser 32756]</label>
 			<font>Small</font>
 			<textcolor>$INFO[Skin.String(rcb_text_button_nofocus_dialog)]</textcolor>
