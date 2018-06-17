@@ -600,7 +600,7 @@
 								<width>540</width>
 								<height>35</height>
 								<font>Small</font>
-								<textcolor>$INFO[Skin.String(rcb_text_list)]</textcolor>
+								<textcolor>$INFO[Skin.String(rcb_text_menuitem_nofocus)]</textcolor>
 								<align>left</align>
 								<aligny>center</aligny>
 								<label>$INFO[ListItem.Label]</label>
@@ -629,7 +629,7 @@
 								<width>540</width>
 								<height>35</height>
 								<font>Small</font>
-								<textcolor>$INFO[Skin.String(rcb_text_list_focused)]</textcolor>
+								<textcolor>$INFO[Skin.String(rcb_text_menuitem_focus)]</textcolor>
 								<align>left</align>
 								<aligny>center</aligny>
 								<label>$INFO[ListItem.Label]</label>
@@ -1049,7 +1049,7 @@
 								<width>210</width>
 								<height>50</height>
 								<font>Small</font>
-								<textcolor>$INFO[Skin.String(rcb_text_list)]</textcolor>
+								<textcolor>$INFO[Skin.String(rcb_text_menuitem_nofocus)]</textcolor>
 								<align>right</align>
 								<aligny>center</aligny>
 								<label>$INFO[ListItem.Label]</label>
@@ -1089,7 +1089,7 @@
 								<width>210</width>
 								<height>60</height>
 								<font>Small</font>
-								<textcolor>$INFO[Skin.String(rcb_text_list_focused)]</textcolor>
+								<textcolor>$INFO[Skin.String(rcb_text_menuitem_focus)]</textcolor>
 								<align>right</align>
 								<aligny>center</aligny>
 								<label>$INFO[ListItem.Label]</label>
@@ -1377,7 +1377,7 @@
 							<height>105</height>
 							<align>center</align>
 							<aligny>center</aligny>
-							<textcolor>$INFO[Skin.String(rcb_text_list)]</textcolor>
+							<textcolor>$INFO[Skin.String(rcb_text_menuitem_nofocus)]</textcolor>
 							<label>$INFO[ListItem.Label]</label>
 							<visible>String.IsEmpty(ListItem.Art(clearlogo)) | !Skin.HasSetting(rcb_useClearlogoAsTitle)</visible>
 						</control>
@@ -1417,7 +1417,7 @@
 							<height>105</height>
 							<align>center</align>
 							<aligny>center</aligny>
-							<textcolor>$INFO[Skin.String(rcb_text_list_focused)]</textcolor>
+							<textcolor>$INFO[Skin.String(rcb_text_menuitem_focus)]</textcolor>
 							<label>$INFO[ListItem.Label]</label>
 							<autoscroll time="3000" delay="3000" repeat="3000">True</autoscroll>
 							<visible>String.IsEmpty(ListItem.Art(clearlogo)) | !Skin.HasSetting(rcb_useClearlogoAsTitle)</visible>

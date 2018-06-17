@@ -31,8 +31,8 @@
 	<color name="rcb_button_category_nofocus">ffcccccc</color> <!-- Light1 -->
 	<color name="rcb_button_category_focus">ff0385b5</color> <!-- Highlight -->
 	
-	<color name="rcb_text_list">ffcccccc</color> <!-- Dark1 -->
-	<color name="rcb_text_list_focused">ff333333</color> <!-- Light1 -->
+	<color name="rcb_text_menuitem_nofocus">ffcccccc</color> <!-- Dark1 -->
+	<color name="rcb_text_menuitem_focus">ff333333</color> <!-- Light1 -->
 	<color name="rcb_text_label">ffcccccc</color> <!-- Dark1 -->
 	<color name="rcb_text_value">ffcccccc</color> <!-- Dark1 -->
 	<color name="rcb_text_heading">ffcccccc</color> <!-- Dark1 -->

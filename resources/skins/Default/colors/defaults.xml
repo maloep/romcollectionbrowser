@@ -31,8 +31,8 @@
 	<color name="rcb_button_category_nofocus">FF111111</color>
 	<color name="rcb_button_category_focus">FF12A0C7</color>
 	
-	<color name="rcb_text_list">FFFFFFFF</color>
-	<color name="rcb_text_list_focused">FFFFFFFF</color>
+	<color name="rcb_text_menuitem_nofocus">FFFFFFFF</color>
+	<color name="rcb_text_menuitem_focus">FFFFFFFF</color>
 	<color name="rcb_text_label">FF12A0C7</color>
 	<color name="rcb_text_value">FFFFFFFF</color>
 	<color name="rcb_text_heading">FF12A0C7</color>
