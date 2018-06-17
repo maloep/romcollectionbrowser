@@ -120,7 +120,7 @@ class SkinFileConverter(object):
                     line = self.update_numeric_properties(line, 'posy', 'dialog_header_image_posy', dialog_header_image_posy)
                     line = self.update_numeric_properties(line, 'posy', 'dialog_header_label_posy', dialog_header_label_posy)
                     line = self.update_numeric_properties(line, 'posy', 'dialog_button_posy', dialog_button_posy)
-                    line = self.update_numeric_properties(line, 'posy', 'dialog_menuitem_height', dialog_menuitem_height)
+                    line = self.update_numeric_properties(line, 'height', 'dialog_menuitem_height', dialog_menuitem_height)
 
                     line = self.update_text_properties(line, 'align', 'dialog_header_label_alignment', dialog_header_label_alignment)
 

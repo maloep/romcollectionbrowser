@@ -79,15 +79,15 @@
 							<posx>0</posx>
 							<posy>0</posy>
 							<width>680</width>
-							<height>40</height>
-							<texture colordiffuse="$INFO[Skin.String(rcb_button_focus_dialog)]">rcb-menuitem-focus-dialog.png</texture>
+							<height>38</height><!--dialog_menuitem_height-->
+							<texture border="5" colordiffuse="$INFO[Skin.String(rcb_button_focus_dialog)]">rcb-menuitem-focus-dialog.png</texture>
 							<visible>[Control.HasFocus(5211) | Control.HasFocus(5212)]</visible>
 						</control>
 						<control type="image">
 							<posx>0</posx>
 							<posy>0</posy>
 							<width>680</width>
-							<height>40</height><!--dialog_menuitem_height-->
+							<height>38</height><!--dialog_menuitem_height-->
 							<texture border="5" colordiffuse="$INFO[Skin.String(rcb_button_focus_dialog)]">rcb-menuitem-nofocus-dialog.png</texture>
 							<visible>![Control.HasFocus(5211) | Control.HasFocus(5212)]</visible>
 						</control>
@@ -181,7 +181,7 @@
 					<posx>0</posx>
 					<posy>40</posy>
 					<width>680</width>
-					<height>40</height><!--dialog_menuitem_height-->
+					<height>38</height><!--dialog_menuitem_height-->
 					<radiowidth>24</radiowidth>
 					<radioheight>24</radioheight>
 					<radioposx>630</radioposx>
@@ -192,7 +192,7 @@
 					<disabledcolor>$INFO[Skin.String(rcb_text_button_nofocus_dialog)]</disabledcolor>
 					<textoffsetx>25</textoffsetx>
 					<focusedcolor>$INFO[Skin.String(rcb_text_button_focus_dialog)]</focusedcolor>
-					<texturefocus colordiffuse="$INFO[Skin.String(rcb_button_focus_dialog)]">rcb-menuitem-focus-dialog.png</texturefocus>
+					<texturefocus border="5" colordiffuse="$INFO[Skin.String(rcb_button_focus_dialog)]">rcb-menuitem-focus-dialog.png</texturefocus>
 					<texturenofocus border="5" colordiffuse="$INFO[Skin.String(rcb_button_nofocus_dialog)]">rcb-menuitem-nofocus-dialog.png</texturenofocus>
 					<textureradioonfocus colordiffuse="$INFO[Skin.String(rcb_radiobutton_focus_dialog)]">rcb-radio-button-on.png</textureradioonfocus>
 					<textureradioonnofocus colordiffuse="$INFO[Skin.String(rcb_radiobutton_nofocus_dialog)]">rcb-radio-button-on.png</textureradioonnofocus>
@@ -228,15 +228,15 @@
 							<posx>0</posx>
 							<posy>0</posy>
 							<width>680</width>
-							<height>40</height>
-							<texture colordiffuse="$INFO[Skin.String(rcb_button_focus_dialog)]">rcb-menuitem-focus-dialog.png</texture>
+							<height>38</height><!--dialog_menuitem_height-->
+							<texture border="5" colordiffuse="$INFO[Skin.String(rcb_button_focus_dialog)]">rcb-menuitem-focus-dialog.png</texture>
 							<visible>[Control.HasFocus(5271) | Control.HasFocus(5272)]</visible>
 						</control>
 						<control type="image">
 							<posx>0</posx>
 							<posy>0</posy>
 							<width>680</width>
-							<height>40</height><!--dialog_menuitem_height-->
+							<height>38</height><!--dialog_menuitem_height-->
 							<texture border="5" colordiffuse="$INFO[Skin.String(rcb_button_focus_dialog)]">rcb-menuitem-nofocus-dialog.png</texture>
 							<visible>![Control.HasFocus(5271) | Control.HasFocus(5272)]</visible>
 						</control>
