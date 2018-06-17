@@ -31,7 +31,7 @@
 			<posy>-80</posy>
 			<width>350</width>
 			<height>38</height>
-			<font>Small</font>
+			<font>font13</font>
 			<align>center</align>
 			<textcolor>$INFO[Skin.String(rcb_text_button_nofocus_dialog)]</textcolor>
 			<focusedcolor>$INFO[Skin.String(rcb_text_button_focus_dialog)]</focusedcolor>
@@ -48,7 +48,7 @@
 			<posy>-42</posy>
 			<width>350</width>
 			<height>38</height>
-			<font>Small</font>
+			<font>font13</font>
 			<align>center</align>
 			<textcolor>$INFO[Skin.String(rcb_text_button_nofocus_dialog)]</textcolor>
 			<focusedcolor>$INFO[Skin.String(rcb_text_button_focus_dialog)]</focusedcolor>
@@ -65,7 +65,7 @@
 			<posy>-4</posy>
 			<width>350</width>
 			<height>38</height>
-			<font>Small</font>
+			<font>font13</font>
 			<align>center</align>
 			<textcolor>$INFO[Skin.String(rcb_text_button_nofocus_dialog)]</textcolor>
 			<focusedcolor>$INFO[Skin.String(rcb_text_button_focus_dialog)]</focusedcolor>
@@ -81,7 +81,7 @@
 			<posy>34</posy>
 			<width>350</width>
 			<height>38</height>
-			<font>Small</font>
+			<font>font13</font>
 			<align>center</align>
 			<textcolor>$INFO[Skin.String(rcb_text_button_nofocus_dialog)]</textcolor>
 			<focusedcolor>$INFO[Skin.String(rcb_text_button_focus_dialog)]</focusedcolor>
@@ -98,7 +98,7 @@
 			<posy>72</posy>
 			<width>350</width>
 			<height>38</height>
-			<font>Small</font>
+			<font>font13</font>
 			<align>center</align>
 			<textcolor>$INFO[Skin.String(rcb_text_button_nofocus_dialog)]</textcolor>
 			<focusedcolor>$INFO[Skin.String(rcb_text_button_focus_dialog)]</focusedcolor>
@@ -114,7 +114,7 @@
 			<posy>110</posy>
 			<width>350</width>
 			<height>38</height>
-			<font>Small</font>
+			<font>font13</font>
 			<align>center</align>
 			<textcolor>$INFO[Skin.String(rcb_text_button_nofocus_dialog)]</textcolor>
 			<focusedcolor>$INFO[Skin.String(rcb_text_button_focus_dialog)]</focusedcolor>
@@ -130,7 +130,7 @@
 			<posy>148</posy>
 			<width>350</width>
 			<height>38</height>
-			<font>Small</font>
+			<font>font13</font>
 			<align>center</align>
 			<textcolor>$INFO[Skin.String(rcb_text_button_nofocus_dialog)]</textcolor>
 			<focusedcolor>$INFO[Skin.String(rcb_text_button_focus_dialog)]</focusedcolor>
@@ -147,7 +147,7 @@
 			<posy>186</posy>
 			<width>350</width>
 			<height>38</height>
-			<font>Small</font>
+			<font>font13</font>
 			<align>center</align>
 			<textcolor>$INFO[Skin.String(rcb_text_button_nofocus_dialog)]</textcolor>
 			<focusedcolor>$INFO[Skin.String(rcb_text_button_focus_dialog)]</focusedcolor>
@@ -163,7 +163,7 @@
 			<posy>224</posy>
 			<width>350</width>
 			<height>38</height>
-			<font>Small</font>
+			<font>font13</font>
 			<align>center</align>
 			<textcolor>$INFO[Skin.String(rcb_text_button_nofocus_dialog)]</textcolor>
 			<focusedcolor>$INFO[Skin.String(rcb_text_button_focus_dialog)]</focusedcolor>
@@ -180,7 +180,7 @@
 			<posy>262</posy>
 			<width>350</width>
 			<height>38</height>
-			<font>Small</font>
+			<font>font13</font>
 			<align>center</align>
 			<textcolor>$INFO[Skin.String(rcb_text_button_nofocus_dialog)]</textcolor>
 			<focusedcolor>$INFO[Skin.String(rcb_text_button_focus_dialog)]</focusedcolor>
@@ -197,7 +197,7 @@
 			<posy>300</posy>
 			<width>350</width>
 			<height>38</height>
-			<font>Small</font>
+			<font>font13</font>
 			<align>center</align>
 			<textcolor>$INFO[Skin.String(rcb_text_button_nofocus_dialog)]</textcolor>
 			<focusedcolor>$INFO[Skin.String(rcb_text_button_focus_dialog)]</focusedcolor>
@@ -213,7 +213,7 @@
 			<posy>338</posy>
 			<width>350</width>
 			<height>38</height>
-			<font>Small</font>
+			<font>font13</font>
 			<align>center</align>
 			<textcolor>$INFO[Skin.String(rcb_text_button_nofocus_dialog)]</textcolor>
 			<focusedcolor>$INFO[Skin.String(rcb_text_button_focus_dialog)]</focusedcolor>
@@ -229,7 +229,7 @@
 			<posy>376</posy>
 			<width>350</width>
 			<height>38</height>
-			<font>Small</font>
+			<font>font13</font>
 			<align>center</align>
 			<textcolor>$INFO[Skin.String(rcb_text_button_nofocus_dialog)]</textcolor>
 			<focusedcolor>$INFO[Skin.String(rcb_text_button_focus_dialog)]</focusedcolor>
@@ -245,7 +245,7 @@
 			<posy>414</posy>
 			<width>350</width>
 			<height>38</height>
-			<font>Small</font>
+			<font>font13</font>
 			<align>center</align>
 			<textcolor>$INFO[Skin.String(rcb_text_button_nofocus_dialog)]</textcolor>
 			<focusedcolor>$INFO[Skin.String(rcb_text_button_focus_dialog)]</focusedcolor>
@@ -261,7 +261,7 @@
 			<posy>452</posy>
 			<width>350</width>
 			<height>38</height>
-			<font>Small</font>
+			<font>font13</font>
 			<align>center</align>
 			<textcolor>$INFO[Skin.String(rcb_text_button_nofocus_dialog)]</textcolor>
 			<focusedcolor>$INFO[Skin.String(rcb_text_button_focus_dialog)]</focusedcolor>
