@@ -2093,6 +2093,54 @@
 			<textoffsety></textoffsety>
 			<pulseonselect></pulseonselect>
 			<onup>6010</onup>
+			<ondown>6020</ondown>
+			<onleft>7010</onleft>
+			<onright>7000</onright>
+		</control>
+		<control type="button" id="6020"> 
+			<description>Add</description>
+			<posx>940</posx>
+			<posy>130</posy>
+			<width>200</width>
+			<height>50</height>
+			<visible>true</visible>
+			<font>font13_title</font>
+			<texturefocus colordiffuse="$INFO[Skin.String(rcb_button_focus_dialog)]">rcb-button-focus.png</texturefocus>
+			<texturenofocus colordiffuse="$INFO[Skin.String(rcb_button_nofocus_dialog)]">rcb-button-nofocus.png</texturenofocus>
+			<label>$ADDON[script.games.rom.collection.browser 32645]</label>
+			<textcolor>$INFO[Skin.String(rcb_text_button_nofocus_dialog)]</textcolor>
+			<focusedcolor>$INFO[Skin.String(rcb_text_button_focus_dialog)]</focusedcolor>
+			<disabledcolor>$INFO[Skin.String(rcb_text_button_disabled)]</disabledcolor>
+			<align>center</align>
+			<aligny>center</aligny>
+			<textoffsetx></textoffsetx>
+			<textoffsety></textoffsety>
+			<pulseonselect></pulseonselect>
+			<onup>6000</onup>
+			<ondown>6030</ondown>
+			<onleft>7010</onleft>
+			<onright>7000</onright>
+		</control>
+		<control type="button" id="6030"> 
+			<description>Remove</description>
+			<posx>940</posx>
+			<posy>200</posy>
+			<width>200</width>
+			<height>50</height>
+			<visible>true</visible>
+			<font>font13_title</font>
+			<texturefocus colordiffuse="$INFO[Skin.String(rcb_button_focus_dialog)]">rcb-button-focus.png</texturefocus>
+			<texturenofocus colordiffuse="$INFO[Skin.String(rcb_button_nofocus_dialog)]">rcb-button-nofocus.png</texturenofocus>
+			<label>$ADDON[script.games.rom.collection.browser 32646]</label>
+			<textcolor>$INFO[Skin.String(rcb_text_button_nofocus_dialog)]</textcolor>
+			<focusedcolor>$INFO[Skin.String(rcb_text_button_focus_dialog)]</focusedcolor>
+			<disabledcolor>$INFO[Skin.String(rcb_text_button_disabled)]</disabledcolor>
+			<align>center</align>
+			<aligny>center</aligny>
+			<textoffsetx></textoffsetx>
+			<textoffsety></textoffsety>
+			<pulseonselect></pulseonselect>
+			<onup>6020</onup>
 			<ondown>6010</ondown>
 			<onleft>7010</onleft>
 			<onright>7000</onright>
@@ -2100,7 +2148,7 @@
 		<control type="button" id="6010"> 
 			<description>Cancel</description>
 			<posx>940</posx>
-			<posy>130</posy>
+			<posy>270</posy>
 			<width>200</width>
 			<height>50</height>
 			<visible>true</visible>
@@ -2116,10 +2164,10 @@
 			<textoffsetx></textoffsetx>
 			<textoffsety></textoffsety>
 			<pulseonselect></pulseonselect>
-			<onup>6000</onup>
+			<onup>6030</onup>
 			<ondown>6000</ondown>
 			<onleft>7010</onleft>
 			<onright>7000</onright>
-		</control>		
+		</control>
 	</controls>
 </window>

@@ -220,24 +220,23 @@
 	<string id="32424">Date added</string>
 	<string id="32425">Release Year</string>
 	<string id="32426">Select Color File</string>
+	<string id="32427">Actions</string>
+	<string id="32428">Import Games</string>
+	<string id="32429">Export Game Database</string>
+	<string id="32430">Clean Database</string>
+	<string id="32431">Scan Artwork Directories</string>
+	<string id="32432">Edit Rom Collections</string>
+	<string id="32433">Open Addon Settings</string>
 	
-	<!-- context menu-->
-	<string id="32500">Import Games</string>
+	<!-- context menu-->	
 	<string id="32501">Rescrape selected Game</string>
 	<string id="32502">Rescrape Selection</string>
-	<string id="32503">Add Rom Collection</string>
-	<string id="32504">Edit Rom Collection</string>
 	<string id="32506">Edit Game Command</string>
 	<string id="32507">Add Game To Favorites</string>
 	<string id="32508">Add Selection To Favorites</string>
-	<string id="32509">Export Game Database (nfo files)</string>
 	<string id="32510">Delete Game</string>
-	<string id="32511">Delete Rom Collection</string>
-	<string id="32512">Clean Database</string>
-	<string id="32513">Open Addon Settings</string>
 	<string id="32514">Set Gameclient (per Game)</string>
-	<string id="32515">Scan Artwork Directories</string>
-	
+
 	<!-- editromcollection -->
 	<string id="32600">Configuration</string>
 	<string id="32601">Rom Collection</string>	
@@ -283,6 +282,8 @@
 	<string id="32642">Select Path to Game description file</string>
 	<string id="32643">Default Scraper</string>
 	<string id="32644">Make Local Copy</string>
+	<string id="32645">Add Collection</string>
+	<string id="32646">Remove Collection</string>
 		
 	
 	<!-- editscraper -->

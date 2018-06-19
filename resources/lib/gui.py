@@ -5,6 +5,9 @@ from util import *
 import util
 import helper, config
 import dialogprogress
+import dialogupdateartwork
+import nfowriter
+import dialogeditromcollection
 from config import *
 from gamedatabase import *
 
@@ -45,11 +48,19 @@ CONTROL_LABEL_SORTBY_FOCUS = 1602
 CONTROL_BUTTON_ORDER = 1700
 CONTROL_LABEL_ORDER = 1701
 CONTROL_LABEL_ORDER_FOCUS = 1702
-NON_EXIT_RCB_CONTROLS = (500, 600, 700, 800, 900, 2, 1000, 1100, 1200, 1300, 1400, 1500, 1600, 1700)
+NON_EXIT_RCB_CONTROLS = (2, 500, 600, 700, 800, 900, 1000, 1100, 1200, 1300, 1400, 1500, 1600, 1700,
+                         4001, 4002, 4003, 4004, 4005, 4006, 4007, 4008)
 
 CONTROL_LABEL_MSG = 4000
+
 CONTROL_BUTTON_MISSINGINFODIALOG = 4001
 CONTROL_BUTTON_SELECTCOLORFILE = 4002
+CONTROL_BUTTON_IMPORT_GAMES = 4003
+CONTROL_BUTTON_EXPORT_LIBRARY = 4004
+CONTROL_BUTTON_CLEAN_LIBRARY = 4005
+CONTROL_BUTTON_SCAN_ARTWORK = 4006
+CONTROL_BUTTON_EDIT_ROM_COLLECTION = 4007
+CONTROL_BUTTON_OPEN_ADDON_SETTINGS = 4008
 
 
 class MyPlayer(xbmc.Player):
@@ -420,6 +431,48 @@ class UIGameDB(xbmcgui.WindowXML):
                 self.Settings.setSetting(util.SETTING_RCB_COLORFILE, color_file)
 
             self.load_color_schemes()
+
+        elif controlId == CONTROL_BUTTON_IMPORT_GAMES:
+            self.updateDB()
+
+        elif controlId == CONTROL_BUTTON_EXPORT_LIBRARY:
+            nfowriter.NfoWriter().exportLibrary(self.gdb, self.config.romCollections)
+
+        elif controlId == CONTROL_BUTTON_CLEAN_LIBRARY:
+            self.cleanDB()
+
+        elif controlId == CONTROL_BUTTON_SCAN_ARTWORK:
+            try:
+                dialog = dialogupdateartwork.UpdateArtworkDialog("script-RCB-updateartwork.xml",
+                                                        util.getAddonInstallPath(),
+                                                        util.getConfiguredSkin(), "720p", gui=self)
+            except:
+                dialog = dialogupdateartwork.UpdateArtworkDialog("script-RCB-updateartwork.xml",
+                                                        util.getAddonInstallPath(),
+                                                        "Default", "720p", gui=self)
+            del dialog
+
+        elif controlId == CONTROL_BUTTON_EDIT_ROM_COLLECTION:
+            constructorParam = "720p"
+            try:
+                editRCdialog = dialogeditromcollection.EditRomCollectionDialog("script-RCB-editromcollection.xml",
+                                                                               util.getAddonInstallPath(),
+                                                                               util.getConfiguredSkin(),
+                                                                               constructorParam, gui=self)
+            except:
+                editRCdialog = dialogeditromcollection.EditRomCollectionDialog("script-RCB-editromcollection.xml",
+                                                                               util.getAddonInstallPath(),
+                                                                               "Default",
+                                                                               constructorParam, gui=self)
+            del editRCdialog
+
+            self.config = Config(None)
+            self.config.readXml()
+
+        elif controlId == CONTROL_BUTTON_OPEN_ADDON_SETTINGS:
+            self.Settings.openSettings()
+
+
 
     def set_skin_flags(self):
 
@@ -1096,6 +1149,7 @@ class UIGameDB(xbmcgui.WindowXML):
 
         import dialogcontextmenu
 
+        """
         constructorParam = "720p"
         try:
             cm = dialogcontextmenu.ContextMenuDialog("script-RCB-contextmenu.xml", util.getAddonInstallPath(),
@@ -1103,6 +1157,8 @@ class UIGameDB(xbmcgui.WindowXML):
         except:
             cm = dialogcontextmenu.ContextMenuDialog("script-RCB-contextmenu.xml", util.getAddonInstallPath(),
                                                      "Default", constructorParam, gui=self)
+        """
+        cm = dialogcontextmenu.ContextMenuDialog(gui=self)
 
         del cm
 
