@@ -2,6 +2,7 @@
     <fonts>
 		<font name="font10">Mini</font> <!-- message line -->
 		<font name="font12">Tiny</font> <!-- plot -->
+		<font name="&lt;font&gt;font13&lt;/font&gt;&lt;!--list_item_font--&gt;">&lt;font&gt;SmallBold&lt;/font&gt;&lt;!--list_item_font--&gt;</font> <!-- game list -->
 		<font name="font13">Small</font> <!-- labels -->
 		<font name="font25_title">Small</font> <!-- buttons -->
 		<font name="font30_title">MediumBold</font> <!-- titles -->

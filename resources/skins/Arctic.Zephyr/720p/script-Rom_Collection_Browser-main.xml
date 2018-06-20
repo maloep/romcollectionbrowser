@@ -599,7 +599,7 @@
 								<posy>0</posy>
 								<width>540</width>
 								<height>35</height>
-								<font>Small</font>
+								<font>SmallBold</font><!--list_item_font-->
 								<textcolor>$INFO[Skin.String(rcb_text_menuitem_nofocus)]</textcolor>
 								<align>left</align>
 								<aligny>center</aligny>
@@ -628,7 +628,7 @@
 								<posy>0</posy>
 								<width>540</width>
 								<height>35</height>
-								<font>Small</font>
+								<font>SmallBold</font><!--list_item_font-->
 								<textcolor>$INFO[Skin.String(rcb_text_menuitem_focus)]</textcolor>
 								<align>left</align>
 								<aligny>center</aligny>
