@@ -21,6 +21,13 @@
 			<scrollbar_v_posx>0</scrollbar_v_posx>
 			<scrollbar_v_width>0</scrollbar_v_width>
 		</scrollbar>
+		<scroll_updown>
+			<scroll_updown_width>0</scroll_updown_width>
+			<scroll_updown_height>0</scroll_updown_height>
+			<scroll_updown_posx_left>0</scroll_updown_posx_left>
+			<scroll_updown_posx_right>0</scroll_updown_posx_right>
+			<scroll_updown_posy>0</scroll_updown_posy>
+		</scroll_updown>
 	</controls>
 	<contentpanels>
 		<view_info_panelcontent_posx>0</view_info_panelcontent_posx>

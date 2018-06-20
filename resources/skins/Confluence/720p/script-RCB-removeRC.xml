@@ -144,13 +144,13 @@
 			</control>
 			<control type="button" id="5411">
 				<description>Menu Item Next Button</description>
-				<posx>630</posx>
-				<posy>35</posy>
-				<width>20</width>
-				<height>10</height>
-				<texturenofocus colordiffuse="$INFO[Skin.String(rcb_scroll_up_nofocus)]">rcb-scroll-up.png</texturenofocus>
-				<texturefocus colordiffuse="$INFO[Skin.String(rcb_scroll_up_focus)]">rcb-scroll-up.png</texturefocus>
-				<onclick>Control.Move(5410,1)</onclick>
+				<posx>618</posx><!--scroll_updown_posx_left-->
+				<posy>30</posy><!--scroll_updown_posy-->
+				<width>30</width><!--scroll_updown_width-->
+				<height>20</height><!--scroll_updown_height-->
+				<texturenofocus colordiffuse="$INFO[Skin.String(rcb_scroll_up_nofocus)]">rcb-scroll-down.png</texturenofocus>
+				<texturefocus colordiffuse="$INFO[Skin.String(rcb_scroll_up_focus)]">rcb-scroll-down.png</texturefocus>
+				<onclick>Control.Move(5410,-1)</onclick>
 				<onleft>6000</onleft>
 				<onright>5412</onright>
 				<onup>5101</onup>
@@ -158,13 +158,13 @@
 			</control>
 			<control type="button" id="5412">
 				<description>Menu Item Prev Button</description>
-				<posx>650</posx>
-				<posy>35</posy>
-				<width>20</width>
-				<height>10</height>
-				<texturenofocus colordiffuse="$INFO[Skin.String(rcb_scroll_up_nofocus)]">rcb-scroll-down.png</texturenofocus>
-				<texturefocus colordiffuse="$INFO[Skin.String(rcb_scroll_up_focus)]">rcb-scroll-down.png</texturefocus>
-				<onclick>Control.Move(5410,-1)</onclick>
+				<posx>648</posx><!--scroll_updown_posx_right-->
+				<posy>30</posy><!--scroll_updown_posy-->
+				<width>30</width><!--scroll_updown_width-->
+				<height>20</height><!--scroll_updown_height-->
+				<texturenofocus colordiffuse="$INFO[Skin.String(rcb_scroll_up_nofocus)]">rcb-scroll-up.png</texturenofocus>
+				<texturefocus colordiffuse="$INFO[Skin.String(rcb_scroll_up_focus)]">rcb-scroll-up.png</texturefocus>
+				<onclick>Control.Move(5410,1)</onclick>
 				<onleft>5411</onleft>
 				<onright>6000</onright>
 				<onup>5101</onup>
@@ -247,13 +247,13 @@
 			</control>
 			<control type="button" id="5491">
 				<description>Menu Item Next Button</description>
-				<posx>630</posx>
-				<posy>75</posy>
-				<width>20</width>
-				<height>10</height>
-				<texturenofocus colordiffuse="$INFO[Skin.String(rcb_scroll_up_nofocus)]">rcb-scroll-up.png</texturenofocus>
-				<texturefocus colordiffuse="$INFO[Skin.String(rcb_scroll_up_focus)]">rcb-scroll-up.png</texturefocus>
-				<onclick>Control.Move(5490,1)</onclick>
+				<posx>618</posx><!--scroll_updown_posx_left-->
+				<posy>70</posy><!--scroll_updown_posy-->
+				<width>30</width><!--scroll_updown_width-->
+				<height>20</height><!--scroll_updown_height-->
+				<texturenofocus colordiffuse="$INFO[Skin.String(rcb_scroll_up_nofocus)]">rcb-scroll-down.png</texturenofocus>
+				<texturefocus colordiffuse="$INFO[Skin.String(rcb_scroll_up_focus)]">rcb-scroll-down.png</texturefocus>
+				<onclick>Control.Move(5490,-1)</onclick>
 				<onleft>6000</onleft>
 				<onright>5492</onright>
 				<onup>5411</onup>
@@ -261,13 +261,13 @@
 			</control>
 			<control type="button" id="5492">
 				<description>Menu Item Prev Button</description>
-				<posx>650</posx>
-				<posy>75</posy>
-				<width>20</width>
-				<height>10</height>
-				<texturenofocus colordiffuse="$INFO[Skin.String(rcb_scroll_up_nofocus)]">rcb-scroll-down.png</texturenofocus>
-				<texturefocus colordiffuse="$INFO[Skin.String(rcb_scroll_up_focus)]">rcb-scroll-down.png</texturefocus>
-				<onclick>Control.Move(5490,-1)</onclick>
+				<posx>648</posx><!--scroll_updown_posx_right-->
+				<posy>70</posy><!--scroll_updown_posy-->
+				<width>30</width><!--scroll_updown_width-->
+				<height>20</height><!--scroll_updown_height-->
+				<texturenofocus colordiffuse="$INFO[Skin.String(rcb_scroll_up_nofocus)]">rcb-scroll-up.png</texturenofocus>
+				<texturefocus colordiffuse="$INFO[Skin.String(rcb_scroll_up_focus)]">rcb-scroll-up.png</texturefocus>
+				<onclick>Control.Move(5490,1)</onclick>
 				<onleft>5491</onleft>
 				<onright>6000</onright>
 				<onup>5412</onup>

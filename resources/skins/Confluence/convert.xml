@@ -20,6 +20,13 @@
 			<scrollbar_v_posx>20</scrollbar_v_posx>
 			<scrollbar_v_width>20</scrollbar_v_width>
 		</scrollbar>
+		<scroll_updown>
+			<scroll_updown_width>10</scroll_updown_width>
+			<scroll_updown_height>10</scroll_updown_height>
+			<scroll_updown_posx_left>-12</scroll_updown_posx_left>
+			<scroll_updown_posx_right>-2</scroll_updown_posx_right>
+			<scroll_updown_posy>-5</scroll_updown_posy>
+		</scroll_updown>
 	</controls>
 	<contentpanels>
 		<view_info_panelcontent_posx>50</view_info_panelcontent_posx>

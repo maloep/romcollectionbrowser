@@ -64,6 +64,11 @@ class SkinFileConverter(object):
         scrollbar_h_height = int(tree.find('controls/scrollbar/scrollbar_h_height').text)
         scrollbar_v_posx = int(tree.find('controls/scrollbar/scrollbar_v_posx').text)
         scrollbar_v_width = int(tree.find('controls/scrollbar/scrollbar_v_width').text)
+        scroll_updown_width = int(tree.find('controls/scroll_updown/scroll_updown_width').text)
+        scroll_updown_height = int(tree.find('controls/scroll_updown/scroll_updown_height').text)
+        scroll_updown_posx_left = int(tree.find('controls/scroll_updown/scroll_updown_posx_left').text)
+        scroll_updown_posx_right = int(tree.find('controls/scroll_updown/scroll_updown_posx_right').text)
+        scroll_updown_posy = int(tree.find('controls/scroll_updown/scroll_updown_posy').text)
         dialog_header_image_posy = int(tree.find('dialogs/dialog_header_image_posy').text)
         dialog_header_label_posy = int(tree.find('dialogs/dialog_header_label_posy').text)
         dialog_button_posy = int(tree.find('dialogs/dialog_button_posy').text)
@@ -87,6 +92,19 @@ class SkinFileConverter(object):
                     line = self.update_radiobutton_properties(line, 'radiowidth', radiobutton_width)
                     line = self.update_radiobutton_properties(line, 'radioheight', radiobutton_height)
 
+                    #scrollbars
+                    line = self.update_numeric_properties(line, 'posy', 'scrollbar_h_posy', scrollbar_h_posy)
+                    line = self.update_numeric_properties(line, 'height', 'scrollbar_h_height', scrollbar_h_height)
+                    line = self.update_numeric_properties(line, 'posx', 'scrollbar_v_posx', scrollbar_v_posx)
+                    line = self.update_numeric_properties(line, 'width', 'scrollbar_v_width', scrollbar_v_width)
+
+                    #scroll-up/down
+                    line = self.update_numeric_properties(line, 'width', 'scroll_updown_width', scroll_updown_width)
+                    line = self.update_numeric_properties(line, 'height', 'scroll_updown_height', scroll_updown_height)
+                    line = self.update_numeric_properties(line, 'posx', 'scroll_updown_posx_left', scroll_updown_posx_left)
+                    line = self.update_numeric_properties(line, 'posx', 'scroll_updown_posx_right', scroll_updown_posx_right)
+                    line = self.update_numeric_properties(line, 'posy', 'scroll_updown_posy', scroll_updown_posy)
+
                     # Panel adjustments
                     # Info View
                     line = self.update_numeric_properties(line, 'posx', 'view_info_panelcontent_posx', view_info_panelcontent_posx)
@@ -109,12 +127,6 @@ class SkinFileConverter(object):
                     line = self.update_numeric_properties(line, 'posy', 'view_info2_labelconsole_posy', view_info2_labelconsole_posy)
                     line = self.update_numeric_properties(line, 'posy', 'view_info2_labeltitle_posy', view_info2_labeltitle_posy)
                     line = self.update_numeric_properties(line, 'posy', 'view_info2_clearlogo_posy', view_info2_clearlogo_posy)
-
-                    #scrollbars
-                    line = self.update_numeric_properties(line, 'posy', 'scrollbar_h_posy', scrollbar_h_posy)
-                    line = self.update_numeric_properties(line, 'height', 'scrollbar_h_height', scrollbar_h_height)
-                    line = self.update_numeric_properties(line, 'posx', 'scrollbar_v_posx', scrollbar_v_posx)
-                    line = self.update_numeric_properties(line, 'width', 'scrollbar_v_width', scrollbar_v_width)
 
                     #dialogs
                     line = self.update_numeric_properties(line, 'posy', 'dialog_header_image_posy', dialog_header_image_posy)

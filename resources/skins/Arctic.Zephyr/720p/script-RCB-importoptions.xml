@@ -147,13 +147,13 @@
 				</control>
 				<control type="button" id="5211">
 					<description>Menu Item Next Button</description>
-					<posx>610</posx>
-					<posy>15</posy>
-					<width>20</width>
-					<height>10</height>
-					<texturenofocus colordiffuse="$INFO[Skin.String(rcb_scroll_up_nofocus)]">rcb-scroll-up.png</texturenofocus>
-					<texturefocus colordiffuse="$INFO[Skin.String(rcb_scroll_up_focus)]">rcb-scroll-up.png</texturefocus>
-					<onclick>Control.Move(5210,1)</onclick>
+					<posx>610</posx><!--scroll_updown_posx_left-->
+					<posy>15</posy><!--scroll_updown_posy-->
+					<width>20</width><!--scroll_updown_width-->
+					<height>10</height><!--scroll_updown_height-->
+					<texturenofocus colordiffuse="$INFO[Skin.String(rcb_scroll_up_nofocus)]">rcb-scroll-down.png</texturenofocus>
+					<texturefocus colordiffuse="$INFO[Skin.String(rcb_scroll_up_focus)]">rcb-scroll-down.png</texturefocus>
+					<onclick>Control.Move(5210,-1)</onclick>
 					<onleft>5300</onleft>
 					<onright>5212</onright>
 					<onup>5101</onup>
@@ -162,13 +162,13 @@
 				</control>
 				<control type="button" id="5212">
 					<description>Menu Item Prev Button</description>
-					<posx>630</posx>
-					<posy>15</posy>
-					<width>20</width>
-					<height>10</height>
-					<texturenofocus colordiffuse="$INFO[Skin.String(rcb_scroll_up_nofocus)]">rcb-scroll-down.png</texturenofocus>
-					<texturefocus colordiffuse="$INFO[Skin.String(rcb_scroll_up_focus)]">rcb-scroll-down.png</texturefocus>
-					<onclick>Control.Move(5210,-1)</onclick>
+					<posx>630</posx><!--scroll_updown_posx_right-->
+					<posy>15</posy><!--scroll_updown_posy-->
+					<width>20</width><!--scroll_updown_width-->
+					<height>10</height><!--scroll_updown_height-->
+					<texturenofocus colordiffuse="$INFO[Skin.String(rcb_scroll_up_nofocus)]">rcb-scroll-up.png</texturenofocus>
+					<texturefocus colordiffuse="$INFO[Skin.String(rcb_scroll_up_focus)]">rcb-scroll-up.png</texturefocus>
+					<onclick>Control.Move(5210,1)</onclick>
 					<onleft>5211</onleft>
 					<onright>5300</onright>
 					<onup>5101</onup>
@@ -292,13 +292,13 @@
 				</control>
 				<control type="button" id="5271">
 					<description>Menu Item Next Button</description>
-					<posx>610</posx>
-					<posy>95</posy>
-					<width>20</width>
-					<height>10</height>
-					<texturenofocus colordiffuse="$INFO[Skin.String(rcb_scroll_up_nofocus)]">rcb-scroll-up.png</texturenofocus>
-					<texturefocus colordiffuse="$INFO[Skin.String(rcb_scroll_up_focus)]">rcb-scroll-up.png</texturefocus>
-					<onclick>Control.Move(5270,1)</onclick>
+					<posx>610</posx><!--scroll_updown_posx_left-->
+					<posy>95</posy><!--scroll_updown_posy-->
+					<width>20</width><!--scroll_updown_width-->
+					<height>10</height><!--scroll_updown_height-->
+					<texturenofocus colordiffuse="$INFO[Skin.String(rcb_scroll_up_nofocus)]">rcb-scroll-down.png</texturenofocus>
+					<texturefocus colordiffuse="$INFO[Skin.String(rcb_scroll_up_focus)]">rcb-scroll-down.png</texturefocus>
+					<onclick>Control.Move(5270,-1)</onclick>
 					<onleft>5300</onleft>
 					<onright>5272</onright>
 					<onup>5340</onup>
@@ -306,13 +306,13 @@
 				</control>
 				<control type="button" id="5272">
 					<description>Menu Item Prev Button</description>
-					<posx>630</posx>
-					<posy>95</posy>
-					<width>20</width>
-					<height>10</height>
-					<texturenofocus colordiffuse="$INFO[Skin.String(rcb_scroll_up_nofocus)]">rcb-scroll-down.png</texturenofocus>
-					<texturefocus colordiffuse="$INFO[Skin.String(rcb_scroll_up_focus)]">rcb-scroll-down.png</texturefocus>
-					<onclick>Control.Move(5270,-1)</onclick>
+					<posx>630</posx><!--scroll_updown_posx_right-->
+					<posy>95</posy><!--scroll_updown_posy-->
+					<width>20</width><!--scroll_updown_width-->
+					<height>10</height><!--scroll_updown_height-->
+					<texturenofocus colordiffuse="$INFO[Skin.String(rcb_scroll_up_nofocus)]">rcb-scroll-up.png</texturenofocus>
+					<texturefocus colordiffuse="$INFO[Skin.String(rcb_scroll_up_focus)]">rcb-scroll-up.png</texturefocus>
+					<onclick>Control.Move(5270,1)</onclick>
 					<onleft>5271</onleft>
 					<onright>5300</onright>
 					<onup>5340</onup>
