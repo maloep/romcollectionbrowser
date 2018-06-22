@@ -50,7 +50,7 @@
 					<ondown>60</ondown>
 					<orientation>horizontal</orientation>
 					<focusposition>4</focusposition>
-					<viewtype label="Info">wrap</viewtype>
+					<viewtype label="Info Boxart">wrap</viewtype>
 					<pagecontrol>60</pagecontrol>
 					<movement>0</movement>
 					<scrolltime>450</scrolltime>
@@ -200,9 +200,9 @@
 				<control type="image">
 					<texture flipx="false" colordiffuse="$INFO[Skin.String(rcb_panel_info)]">rcb-panel-content.png</texture>
 					<!-- Note: comments below are needed for skin convert scripts -->
-					<posx>50</posx><!--view_info_panelcontent_posx-->
+					<posx>50</posx><!--view_550_panelcontent_posx-->
 					<posy>20</posy>	
-					<width>1180</width><!--view_info_panelcontent_width-->
+					<width>1180</width><!--view_50_panelcontent_width-->
 					<height>300</height>
 					<visible>Control.IsVisible(50)</visible>
 				</control>
@@ -503,7 +503,7 @@
 						<posx>610r</posx>
 						<posy>148</posy>
 						<width>530</width>
-						<height>158</height>
+						<height>163</height><!--view_50_textbox_height-->
 						<textcolor>$INFO[Skin.String(rcb_text_value)]</textcolor>
 						<align>justify</align>
 						<font>font12</font>
@@ -518,10 +518,10 @@
 				<control type="image">
 					<texture colordiffuse="$INFO[Skin.String(rcb_panel_list)]">rcb-panel-list.png</texture>
 					<!-- Note: comments below are needed for skin convert scripts -->
-					<posx>650</posx><!--view_info2_panellist_posx-->
-					<posy>10</posy><!--view_info2_panellist_posy-->
-					<width>600</width><!--view_info2_panellist_width-->
-					<height>680</height><!--view_info2_panellist_height-->
+					<posx>650</posx><!--view_52_panellist_posx-->
+					<posy>10</posy><!--view_52_panellist_posy-->
+					<width>600</width><!--view_52_panellist_width-->
+					<height>680</height><!--view_52_panellist_height-->
 					<visible>Control.IsVisible(52) + Integer.IsGreater(Container.NumItems,0)</visible>
 				</control>
 				<control type="group">
@@ -531,7 +531,7 @@
 					<control type="label">
 						<!-- Note: comments below are needed for skin convert scripts -->
 						<posx>5</posx>
-						<posy>25</posy><!--view_info2_labelconsole_posy-->
+						<posy>25</posy><!--view_52_labelconsole_posy-->
 						<width>620</width>
 						<height>30</height>
 						<font>font24_title</font>
@@ -563,7 +563,7 @@
 					</control>					
 					<control type="fixedlist" id="52">
 						<!-- Note: comments below are needed for skin convert scripts -->
-						<posx>20</posx><!--view_info2_list_posx-->
+						<posx>20</posx><!--view_52_list_posx-->
 						<posy>70</posy>
 						<width>640</width>
 						<height>600</height>
@@ -574,7 +574,7 @@
 						<pagecontrol>61</pagecontrol>
 						<focusposition>7</focusposition>
 						<movement>6</movement>
-						<viewtype label="Info 2">list</viewtype>
+						<viewtype label="Info List">list</viewtype>
 						<scrolltime>450</scrolltime>
 						<preloaditems>10</preloaditems>
 						<itemlayout height="35" width="640">
@@ -582,7 +582,7 @@
 								<!-- Note: comments below are needed for skin convert scripts -->
 								<posx>0</posx>
 								<posy>0</posy>
-								<width>600</width><!--view_info2_listitem_nofocus_width-->
+								<width>600</width><!--view_52_listitem_nofocus_width-->
 								<height>37</height>
 								<texture border="0,2,0,2" colordiffuse="$INFO[Skin.String(rcb_menuitem_nofocus)]">rcb-menuitem-nofocus.png</texture>
 							</control>
@@ -610,7 +610,7 @@
 							<control type="image">
 								<posx>0</posx>
 								<posy>0</posy>
-								<width>590</width><!--view_info2_listitem_focus_width-->
+								<width>590</width><!--view_52_listitem_focus_width-->
 								<height>37</height>
 								<texture border="0,2,0,2" colordiffuse="$INFO[Skin.String(rcb_menuitem_focus)]">rcb-menuitem-focus.png</texture>
 								<visible>Control.HasFocus(52)</visible>
@@ -669,10 +669,10 @@
 				<control type="image">
 					<texture colordiffuse="$INFO[Skin.String(rcb_panel_info)]">rcb-panel-content.png</texture>
 					<!-- Note: comments below are needed for skin convert scripts -->
-					<posx>30</posx><!--view_info2_panelcontent_posx-->
-					<posy>10</posy><!--view_info2_panelcontent_posy-->
-					<width>600</width><!--view_info2_panelcontent_width-->
-					<height>680</height><!--view_info2_panelcontent_height-->
+					<posx>30</posx><!--view_52_panelcontent_posx-->
+					<posy>10</posy><!--view_52_panelcontent_posy-->
+					<width>600</width><!--view_52_panelcontent_width-->
+					<height>680</height><!--view_52_panelcontent_height-->
 					<visible>Control.IsVisible(52) + Integer.IsGreater(Container.NumItems,0)</visible>
 				</control>
 				<control type="group" id="350">
@@ -683,7 +683,7 @@
 					<control type="label">
 						<!-- Note: comments below are needed for skin convert scripts -->
 						<posx>5</posx>
-						<posy>10</posy><!--view_info2_labeltitle_posy-->
+						<posy>10</posy><!--view_52_labeltitle_posy-->
 						<width>600</width>
 						<height>30</height>
 						<font>font24_title</font>
@@ -697,7 +697,7 @@
 						<!-- Note: comments below are needed for skin convert scripts -->
 						<control type="image">
 						<posx>5</posx>
-						<posy>10</posy><!--view_info2_clearlogo_posy-->
+						<posy>10</posy><!--view_52_clearlogo_posy-->
 						<width>600</width>
 						<height>50</height>
 						<aspectratio align="center" aligny="center">keep</aspectratio>
@@ -985,7 +985,7 @@
 							<posx>5</posx>
 							<posy>135</posy>
 							<width>540</width>
-							<height>178</height>
+							<height>184</height><!--view_52_textbox_height-->
 							<textcolor>$INFO[Skin.String(rcb_text_value)]</textcolor>
 							<align>justify</align>
 							<font>font12</font>
@@ -1177,7 +1177,7 @@
 					<posx>5</posx>
 					<posy>70r</posy>
 					<width>620</width>
-					<height>70</height>
+					<height>64</height><!--view_53_textbox_height-->
 					<textcolor>$INFO[Skin.String(rcb_text_value)]</textcolor>
 					<align>justify</align>
 					<font>font12</font>
@@ -1312,7 +1312,7 @@
 					<posx>600</posx>
 					<posy>60</posy>
 					<width>640</width>
-					<height>115</height>			
+					<height>104</height><!--view_57_textbox_height-->			
 					<textcolor>$INFO[Skin.String(rcb_text_value)]</textcolor>
 					<align>justify</align>
 					<font>font12</font>
@@ -1463,7 +1463,7 @@
 					<posx>-40</posx>
 					<posy>100</posy>	
 					<width>1360</width>
-					<height>400</height>
+					<height>300</height>
 					<visible>Control.IsVisible(58)</visible>
 				</control>
 				
@@ -1477,18 +1477,19 @@
 					<onup>2</onup>
 					<ondown>62</ondown>
 					<orientation>horizontal</orientation>
-					<focusposition>2</focusposition>
+					<focusposition>1</focusposition>
+					<movement>0</movement>
 					<preloaditems>10</preloaditems>
-					<viewtype label="Thumbs">wrap</viewtype>
+					<viewtype label="Poster">wrap</viewtype>
 					<scrolltime>450</scrolltime>
 					<pagecontrol>62</pagecontrol>
-					<itemlayout width="298">
+					<itemlayout width="190">
 						<control type="image">
 							<posx>0</posx>
-							<posy>25</posy>
-							<width>288</width>
-							<height>350</height>
-							<aspectratio align="center" aligny="bottom">keep</aspectratio>
+							<posy>15</posy>
+							<width>180</width>
+							<height>250</height>
+							<aspectratio align="center" aligny="top">scale</aspectratio>
 							<!--<bordertexture border="2">rcb-button-nofocus.png</bordertexture>-->
 							<bordersize>2</bordersize>
 							<texture background="true">$INFO[ListItem.ActualIcon]</texture>
@@ -1502,17 +1503,30 @@
 							<visible>!String.IsEmpty(ListItem.Property(isfavorite))</visible>
 						</control>						
 					</itemlayout>
-					<focusedlayout width="298" >
+					<focusedlayout width="300">
+						<control type="image">
+							<posx>100</posx>
+							<posy>15</posy>
+							<width>180</width>
+							<height>250</height>
+							<aspectratio align="center" aligny="top">keep</aspectratio>
+							<!--<bordertexture border="2">rcb-button-nofocus.png</bordertexture>-->
+							<bordersize>2</bordersize>
+							<texture background="true">$INFO[ListItem.ActualIcon]</texture>
+							<visible>Container.OnScrollPrevious</visible>
+							<animation effect="fade" time="300" start="100" end="0">Hidden</animation>
+						</control>
 						<control type="image">
 							<posx>0</posx>
-							<posy>0</posy>
-							<width>288</width>
-							<height>350</height>
-							<aspectratio align="center" aligny="bottom">keep</aspectratio>
-							<!--<bordertexture border="8">rcb-ThumbBorder.png</bordertexture>-->
-							<bordersize>8</bordersize>
-							<texture background="true">$INFO[ListItem.Art(thumb)]</texture>
-							<animation reversible="false" effect="zoom" end="120" center="auto" time="200">Focus</animation>
+							<posy>15</posy>
+							<width>180</width>
+							<height>250</height>
+							<aspectratio align="center" aligny="top">keep</aspectratio>
+							<!--<bordertexture border="2">rcb-button-nofocus.png</bordertexture>-->
+							<bordersize>2</bordersize>
+							<texture background="true">$INFO[ListItem.ActualIcon]</texture>
+							<visible>Container.OnScrollNext</visible>
+							<animation effect="fade" time="300" start="100" end="0">Hidden</animation>
 						</control>
 						<control type="image">
 							<posx>-32</posx>
@@ -1542,55 +1556,88 @@
 					<orientation>horizontal</orientation>
 					<visible allowhiddenfocus="true">Control.IsVisible(58) + Skin.HasSetting(rcb_showScrollbars)</visible>
 				</control>
+				<control type="image">
+					<posx>90</posx>
+					<posy>120</posy>
+					<width>290</width>
+					<height>400</height>
+					<aspectratio align="center" aligny="top">scale</aspectratio>
+					<!--<bordertexture border="1" colordiffuse="$INFO[Skin.String(rcb_button_focus)]">rcb-thumbnail-border.png</bordertexture>-->
+					<bordersize>8</bordersize>
+					<texture background="true">$INFO[ListItem.Art(thumb)]</texture>
+					<fadetime>100</fadetime>
+					<animation effect="fade" start="0" end="100" time="500" tween="sine">Focus</animation>
+					<animation effect="fade" start="100" end="0" time="500">UnFocus</animation>
+				</control>
+				<control type="image">
+					<left>95</left>
+					<top>125</top>
+					<width>280</width>
+					<height>390</height>
+					<visible>Control.HasFocus(58)</visible>
+					<animation effect="fade" time="100">VisibleChange</animation>
+					<texture border="10" colordiffuse="$INFO[Skin.String(rcb_button_focus)]">rcb-thumbnail-border.png</texture>
+				</control>
 				<!-- Title -->
 				<control type="label">
-					<posx>0</posx>
-					<posy>180r</posy>
-					<width>1280</width>
+					<posx>400</posx>
+					<posy>420</posy>
+					<width>880</width>
 					<height>20</height>
-					<font>font24_title</font>
-					<align>center</align>
+					<font>font35_title</font>
+					<align>left</align>
 					<aligny>center</aligny>
 					<textcolor>$INFO[Skin.String(rcb_text_value)]</textcolor>
-					<label>$INFO[ListItem.Label]</label>					
+					<label>$INFO[ListItem.Label]</label>
+					<visible>String.IsEmpty(ListItem.Property(year))</visible>
+				</control>
+				<control type="label">
+					<posx>400</posx>
+					<posy>420</posy>
+					<width>880</width>
+					<height>20</height>
+					<font>font35_title</font>
+					<align>left</align>
+					<aligny>center</aligny>
+					<textcolor>$INFO[Skin.String(rcb_text_value)]</textcolor>
+					<label>$INFO[ListItem.Label] [COLOR=$INFO[Skin.String(rcb_text_heading)]]($INFO[ListItem.Property(year)])[/COLOR]</label>
+					<visible>!String.IsEmpty(ListItem.Property(year))</visible>
+				</control>
+				<control type="textbox">
+					<description>Plot</description>
+					<posx>400</posx>
+					<posy>450</posy>
+					<width>840</width>
+					<height>64</height><!--view_58_textbox_height-->
+					<textcolor>$INFO[Skin.String(rcb_text_value)]</textcolor>
+					<align>justify</align>
+					<font>font12</font>
+					<label>$INFO[ListItem.Property(plot)]</label>
+					<autoscroll time="3000" delay="10000" repeat="6000">True</autoscroll>
 				</control>
 				<!-- Console -->
 				<control type="label">
-					<posx>0</posx>
-					<posy>150r</posy>
-					<width>1280</width>
-					<height>20</height>
-					<font>font24_title</font>
-					<aligny>center</aligny>
+					<posx>20</posx>
+					<posy>10</posy>
+					<width>600</width>
+					<height>40</height>
+					<font>font35_title</font>
+					<aligny>top</aligny>
 					<textcolor>$INFO[Skin.String(rcb_text_value)]</textcolor>
-					<align>center</align>
+					<align>left</align>
 					<label>$INFO[ListItem.Property(console)]</label>
 					<visible>Control.IsVisible(58)</visible>
 				</control>
-				<!-- Year -->
-				<control type="label">
-					<description>Year Value</description>
-					<posx>0</posx>
-					<posy>120r</posy>
-					<width>1280</width>
-					<height>20</height>
-					<label fallback="416">$INFO[ListItem.Property(year)]</label>
-					<align>center</align>
-					<aligny>center</aligny>
-					<font>font24_title</font>
-					<scroll>true</scroll>
-					<textcolor>$INFO[Skin.String(rcb_text_value)]</textcolor>
-				</control>				
 				<!-- Genre -->
 				<control type="label">
 					<description>Genre Value</description>
-					<posx>0</posx>
-					<posy>90r</posy>
+					<posx>20</posx>
+					<posy>50</posy>
 					<width>1280</width>
 					<height>20</height>
 					<label fallback="416">$INFO[ListItem.Property(genre)]</label>
-					<align>center</align>
-					<aligny>center</aligny>
+					<align>left</align>
+					<aligny>top</aligny>
 					<font>font24_title</font>
 					<scroll>true</scroll>
 					<textcolor>$INFO[Skin.String(rcb_text_value)]</textcolor>
