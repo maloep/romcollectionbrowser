@@ -374,9 +374,11 @@ class UIGameDB(xbmcgui.WindowXML):
 
             self.sortMethod = options[index].getProperty('column')
             label = self.getControlById(CONTROL_LABEL_SORTBY)
-            label.setLabel(options[index].getLabel())
+            if label:
+                label.setLabel(options[index].getLabel())
             label = self.getControlById(CONTROL_LABEL_SORTBY_FOCUS)
-            label.setLabel(options[index].getLabel())
+            if label:
+                label.setLabel(options[index].getLabel())
             self.showGames()
 
         elif controlId == CONTROL_BUTTON_ORDER:
@@ -867,6 +869,8 @@ class UIGameDB(xbmcgui.WindowXML):
 
             if romCollection.autoplayVideoMain:
                 self.loadVideoFiles(item, romCollection, game)
+            else:
+                item.setProperty('autoplayvideomain', '')
 
             # Add the listitem to the list
             items.append(item)
@@ -1343,12 +1347,15 @@ class UIGameDB(xbmcgui.WindowXML):
         #load filter settings
         rcid = rcbSetting[RCBSetting.COL_lastSelectedConsoleId]
         button = self.getControlById(CONTROL_CONSOLES)
-        if rcid > 0:
-            romcollection = self.config.getRomCollectionById(str(rcid))
-            button.setLabel(romcollection.name)
-            self.selectedConsoleId = int(romcollection.id)
-        else:
-            button.setLabel(util.localize(32120))
+        try:
+            if rcid > 0:
+                romcollection = self.config.getRomCollectionById(str(rcid))
+                button.setLabel(romcollection.name)
+                self.selectedConsoleId = int(romcollection.id)
+            else:
+                button.setLabel(util.localize(32120))
+        except AttributeError, e:
+            log.error('An error occured while loading the filter settings: %s' %e)
 
         genreid = rcbSetting[RCBSetting.COL_lastSelectedGenreId]
         self.set_filter_foreign_key_object(genreid, CONTROL_GENRE, Genre(self.gdb))
@@ -1371,12 +1378,15 @@ class UIGameDB(xbmcgui.WindowXML):
 
         rating = rcbSetting[RCBSetting.COL_lastSelectedRating]
         button = self.getControlById(CONTROL_RATING)
-        if rating > 0:
-            button.setLabel(str(rating))
-            self.selectedRating = rating
-        else:
-            button.setLabel(util.localize(32120))
-            self.selectedRating = 0
+        try:
+            if rating > 0:
+                button.setLabel(str(rating))
+                self.selectedRating = rating
+            else:
+                button.setLabel(util.localize(32120))
+                self.selectedRating = 0
+        except AttributeError, e:
+            log.error('An error occured while loading the filter settings: %s' %e)
 
         region = rcbSetting[RCBSetting.COL_lastSelectedRegion]
         self.selectedRegion = self.set_filter_text_value(region, CONTROL_REGION)
@@ -1407,9 +1417,11 @@ class UIGameDB(xbmcgui.WindowXML):
             self.sortMethod = GameView.FIELDNAMES[GameView.COL_NAME]
 
         label = self.getControlById(CONTROL_LABEL_SORTBY)
-        label.setLabel(self.SORT_METHODS[self.sortMethod])
+        if label:
+            label.setLabel(self.SORT_METHODS[self.sortMethod])
         label = self.getControlById(CONTROL_LABEL_SORTBY_FOCUS)
-        label.setLabel(self.SORT_METHODS[self.sortMethod])
+        if label:
+            label.setLabel(self.SORT_METHODS[self.sortMethod])
 
         #sort direction
         self.sortDirection = rcbSetting[RCBSetting.COL_sortDirection]
@@ -1417,9 +1429,11 @@ class UIGameDB(xbmcgui.WindowXML):
             self.sortDirection = 'ASC'
 
         label = self.getControlById(CONTROL_LABEL_ORDER)
-        label.setLabel(self.SORT_DIRECTIONS[self.sortDirection])
+        if label:
+            label.setLabel(self.SORT_DIRECTIONS[self.sortDirection])
         label = self.getControlById(CONTROL_LABEL_ORDER_FOCUS)
-        label.setLabel(self.SORT_DIRECTIONS[self.sortDirection])
+        if label:
+            label.setLabel(self.SORT_DIRECTIONS[self.sortDirection])
 
         # Reset game list
         self.showGames()
@@ -1437,20 +1451,27 @@ class UIGameDB(xbmcgui.WindowXML):
 
     def set_filter_text_value(self, filter_value, control_id):
         button = self.getControlById(control_id)
-        if filter_value != '0':
-            button.setLabel(filter_value)
-            return filter_value
-        else:
-            button.setLabel(util.localize(32120))
+        try:
+            if filter_value != '0':
+                button.setLabel(filter_value)
+                return filter_value
+            else:
+                button.setLabel(util.localize(32120))
+                return 0
+        except AttributeError, e:
+            log.error('An error occured while loading the filter settings: %s' % e)
             return 0
 
     def set_filter_foreign_key_object(self, obj_id, control_id, db_obj):
         button = self.getControlById(control_id)
-        if obj_id > 0:
-            row = db_obj.getObjectById(obj_id)
-            button.setLabel(row[Genre.COL_NAME])
-        else:
-            button.setLabel(util.localize(32120))
+        try:
+            if obj_id > 0:
+                row = db_obj.getObjectById(obj_id)
+                button.setLabel(row[Genre.COL_NAME])
+            else:
+                button.setLabel(util.localize(32120))
+        except AttributeError, e:
+            log.error('An error occured while loading the filter settings: %s' % e)
 
     def setFilterSelection(self, controlId, selectedIndex):
 
