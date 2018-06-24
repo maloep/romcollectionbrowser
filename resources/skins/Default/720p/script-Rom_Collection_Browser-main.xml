@@ -94,8 +94,9 @@
 							<width>160</width>
 							<height>240</height>
 							<aspectratio align="center" aligny="bottom">keep</aspectratio>
-							<bordersize>8</bordersize>
+							<bordersize>2</bordersize>
 							<texture background="true">$INFO[ListItem.Art(thumb)]</texture>
+							<bordertexture border="2" colordiffuse="$INFO[Skin.String(rcb_button_focus)]">rcb-thumbnail-border.png</bordertexture>
 							<animation reversible="false" effect="zoom" end="120" center="auto" time="150">Focus</animation>
 						</control>
 						<control type="image">
@@ -1139,7 +1140,7 @@
 				<control type="label">
 					<posx>5</posx>
 					<posy>100r</posy>
-					<width>600</width>
+					<width>500</width>
 					<height>30</height>
 					<font>font30_title</font>
 					<aligny>center</aligny>
@@ -1151,7 +1152,7 @@
 				<control type="label">
 					<posx>5</posx>
 					<posy>100r</posy>
-					<width>600</width>
+					<width>500</width>
 					<height>30</height>
 					<font>font30_title</font>
 					<aligny>center</aligny>
@@ -1562,21 +1563,12 @@
 					<width>290</width>
 					<height>400</height>
 					<aspectratio align="center" aligny="top">scale</aspectratio>
-					<!--<bordertexture border="1" colordiffuse="$INFO[Skin.String(rcb_button_focus)]">rcb-thumbnail-border.png</bordertexture>-->
-					<bordersize>8</bordersize>
+					<bordertexture border="2" colordiffuse="$INFO[Skin.String(rcb_button_focus)]">rcb-thumbnail-border.png</bordertexture>
+					<bordersize>2</bordersize>
 					<texture background="true">$INFO[ListItem.Art(thumb)]</texture>
 					<fadetime>100</fadetime>
 					<animation effect="fade" start="0" end="100" time="500" tween="sine">Focus</animation>
 					<animation effect="fade" start="100" end="0" time="500">UnFocus</animation>
-				</control>
-				<control type="image">
-					<left>95</left>
-					<top>125</top>
-					<width>280</width>
-					<height>390</height>
-					<visible>Control.HasFocus(58)</visible>
-					<animation effect="fade" time="100">VisibleChange</animation>
-					<texture border="10" colordiffuse="$INFO[Skin.String(rcb_button_focus)]">rcb-thumbnail-border.png</texture>
 				</control>
 				<!-- Title -->
 				<control type="label">
