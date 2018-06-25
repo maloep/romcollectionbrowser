@@ -34,6 +34,7 @@
 			<view_53_textbox_height>-5</view_53_textbox_height>
 			<view_57_textbox_height>-10</view_57_textbox_height>
 			<view_58_textbox_height>-5</view_58_textbox_height>
+			<gameinfo_textbox_height>-5</gameinfo_textbox_height>
 		</textbox>
 		<border>
 			<bordersize>10</bordersize>

@@ -65,7 +65,7 @@
 				<posx>25</posx>
 				<posy>0</posy>
 				<width>300</width>
-				<height>350</height>
+				<height>345</height><!--gameinfo_textbox_height-->
 				<font>Tiny</font>			
 				<pagecontrol>8100</pagecontrol>			
 				<textcolor>$INFO[Skin.String(rcb_text_value)]</textcolor>

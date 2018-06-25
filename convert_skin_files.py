@@ -75,6 +75,7 @@ class SkinFileConverter(object):
         view_53_textbox_height = int(tree.find('controls/textbox/view_53_textbox_height').text)
         view_57_textbox_height = int(tree.find('controls/textbox/view_57_textbox_height').text)
         view_58_textbox_height = int(tree.find('controls/textbox/view_58_textbox_height').text)
+        gameinfo_textbox_height = int(tree.find('controls/textbox/gameinfo_textbox_height').text)
         bordersize = int(tree.find('controls/border/bordersize').text)
         border = int(tree.find('controls/border/border').text)
         scroll_updown_posy = int(tree.find('controls/scroll_updown/scroll_updown_posy').text)
@@ -124,6 +125,7 @@ class SkinFileConverter(object):
                     line = self.update_numeric_properties(line, 'height', 'view_53_textbox_height', view_53_textbox_height)
                     line = self.update_numeric_properties(line, 'height', 'view_57_textbox_height', view_57_textbox_height)
                     line = self.update_numeric_properties(line, 'height', 'view_58_textbox_height', view_58_textbox_height)
+                    line = self.update_numeric_properties(line, 'height', 'gameinfo_textbox_height', gameinfo_textbox_height)
 
                     # Panel adjustments
                     # View 50
