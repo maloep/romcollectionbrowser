@@ -371,7 +371,6 @@
 				<aspectratio>keep</aspectratio>
 				<visible>!Player.HasVideo</visible>
 				<texture>$INFO[Container(8200).ListItem.Art(gameinfobig)]</texture>
-				<!--<bordertexture border="2">rcb-button-nofocus.png</bordertexture>-->
 				<bordersize>2</bordersize>
 			</control>
 			<!-- videowindowbig -->
@@ -401,7 +400,6 @@
 				<width>180</width>
 				<height>135</height>						
 				<texture>$INFO[Container(8200).ListItem.Art(gameinfoupperleft)]</texture>
-				<!--<bordertexture border="2">rcb-button-nofocus.png</bordertexture>-->
 				<bordersize>2</bordersize>
 			</control>
 			<!-- gameinfoupperright -->
@@ -412,7 +410,6 @@
 				<width>180</width>
 				<height>135</height>						
 				<texture>$INFO[Container(8200).ListItem.Art(gameinfoupperright)]</texture>
-				<!--<bordertexture border="2">rcb-button-nofocus.png</bordertexture>-->
 				<bordersize>2</bordersize>
 			</control>
 			<!-- gameinfolowerleft -->
@@ -423,7 +420,6 @@
 				<width>180</width>
 				<height>135</height>						
 				<texture>$INFO[Container(8200).ListItem.Art(gameinfolowerleft)]</texture>
-				<!--<bordertexture border="2">rcb-button-nofocus.png</bordertexture>-->
 				<bordersize>2</bordersize>
 			</control>
 			<!-- gameinfolowerright -->
@@ -435,7 +431,6 @@
 				<height>135</height>
 				<visible>!Player.HasVideo</visible>
 				<texture>$INFO[Container(8200).ListItem.Art(gameinfolowerright)]</texture>
-				<!--<bordertexture border="2">rcb-button-nofocus.png</bordertexture>-->
 				<bordersize>2</bordersize>
 			</control>
 			
@@ -447,7 +442,6 @@
 				<width>370</width>
 				<height>135</height>						
 				<texture>$INFO[Container(8200).ListItem.Art(gameinfoupper)]</texture>
-				<!--<bordertexture border="2">rcb-button-nofocus.png</bordertexture>-->
 				<bordersize>2</bordersize>
 			</control>
 			<!-- gameinfolower -->
@@ -458,7 +452,6 @@
 				<width>370</width>
 				<height>135</height>						
 				<texture>$INFO[Container(8200).ListItem.Art(gameinfolower)]</texture>
-				<!--<bordertexture border="2">rcb-button-nofocus.png</bordertexture>-->
 				<bordersize>2</bordersize>
 			</control>
 			<!-- gameinfoleft -->
@@ -469,7 +462,6 @@
 				<width>180</width>
 				<height>280</height>						
 				<texture>$INFO[Container(8200).ListItem.Art(gameinfoleft)]</texture>
-				<!--<bordertexture border="2">rcb-button-nofocus.png</bordertexture>-->
 				<bordersize>2</bordersize>
 			</control>
 			<!-- gameinforight -->
@@ -480,7 +472,6 @@
 				<width>180</width>
 				<height>300</height>						
 				<texture>$INFO[Container(8200).ListItem.Art(gameinforight)]</texture>
-				<!--<bordertexture border="2">rcb-button-nofocus.png</bordertexture>-->
 				<bordersize>2</bordersize>
 			</control>
 			

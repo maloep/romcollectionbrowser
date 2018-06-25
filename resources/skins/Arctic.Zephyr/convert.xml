@@ -35,10 +35,15 @@
 			<view_57_textbox_height>-10</view_57_textbox_height>
 			<view_58_textbox_height>-5</view_58_textbox_height>
 		</textbox>
+		<border>
+			<bordersize>10</bordersize>
+			<border>10</border>
+		</border>
 	</controls>
 	<contentpanels>
 		<view_50_panelcontent_posx>0</view_50_panelcontent_posx>
 		<view_50_panelcontent_width>0</view_50_panelcontent_width>
+		<view_50_image_focus_posy>10</view_50_image_focus_posy>
 		<view_52_panellist_posx>0</view_52_panellist_posx>
 		<view_52_panellist_posy>0</view_52_panellist_posy>
 		<view_52_panellist_width>0</view_52_panellist_width>
@@ -53,6 +58,7 @@
 		<view_52_labelconsole_posy>0</view_52_labelconsole_posy>
 		<view_52_labeltitle_posy>0</view_52_labeltitle_posy>
 		<view_52_clearlogo_posy>0</view_52_clearlogo_posy>
+		<view_58_image_focus_posy>-10</view_58_image_focus_posy>
 	</contentpanels>
 	<dialogs>
 		<dialog_header_image_posy>0</dialog_header_image_posy>

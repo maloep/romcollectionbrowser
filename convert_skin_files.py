@@ -46,6 +46,7 @@ class SkinFileConverter(object):
         radiobutton_height = int(tree.find('controls/radiobutton/radioheight').text)
         view_50_panelcontent_posx = int(tree.find('contentpanels/view_50_panelcontent_posx').text)
         view_50_panelcontent_width = int(tree.find('contentpanels/view_50_panelcontent_width').text)
+        view_50_image_focus_posy = int(tree.find('contentpanels/view_50_image_focus_posy').text)
         view_52_panellist_posx = int(tree.find('contentpanels/view_52_panellist_posx').text)
         view_52_panellist_posy = int(tree.find('contentpanels/view_52_panellist_posy').text)
         view_52_panellist_width = int(tree.find('contentpanels/view_52_panellist_width').text)
@@ -60,6 +61,7 @@ class SkinFileConverter(object):
         view_52_labelconsole_posy = int(tree.find('contentpanels/view_52_labelconsole_posy').text)
         view_52_labeltitle_posy = int(tree.find('contentpanels/view_52_labeltitle_posy').text)
         view_52_clearlogo_posy = int(tree.find('contentpanels/view_52_clearlogo_posy').text)
+        view_58_image_focus_posy = int(tree.find('contentpanels/view_58_image_focus_posy').text)
         scrollbar_h_posy = int(tree.find('controls/scrollbar/scrollbar_h_posy').text)
         scrollbar_h_height = int(tree.find('controls/scrollbar/scrollbar_h_height').text)
         scrollbar_v_posx = int(tree.find('controls/scrollbar/scrollbar_v_posx').text)
@@ -73,6 +75,8 @@ class SkinFileConverter(object):
         view_53_textbox_height = int(tree.find('controls/textbox/view_53_textbox_height').text)
         view_57_textbox_height = int(tree.find('controls/textbox/view_57_textbox_height').text)
         view_58_textbox_height = int(tree.find('controls/textbox/view_58_textbox_height').text)
+        bordersize = int(tree.find('controls/border/bordersize').text)
+        border = int(tree.find('controls/border/border').text)
         scroll_updown_posy = int(tree.find('controls/scroll_updown/scroll_updown_posy').text)
         dialog_header_image_posy = int(tree.find('dialogs/dialog_header_image_posy').text)
         dialog_header_label_posy = int(tree.find('dialogs/dialog_header_label_posy').text)
@@ -110,6 +114,10 @@ class SkinFileConverter(object):
                     line = self.update_numeric_properties(line, 'posx', 'scroll_updown_posx_right', scroll_updown_posx_right)
                     line = self.update_numeric_properties(line, 'posy', 'scroll_updown_posy', scroll_updown_posy)
 
+                    #border
+                    line = self.update_numeric_properties(line, 'bordersize', 'bordersize', bordersize)
+                    line = self.update_numeric_attributes(line, 'bordertexture', 'border', border)
+
                     #textbox
                     line = self.update_numeric_properties(line, 'height', 'view_50_textbox_height', view_50_textbox_height)
                     line = self.update_numeric_properties(line, 'height', 'view_52_textbox_height', view_52_textbox_height)
@@ -118,11 +126,12 @@ class SkinFileConverter(object):
                     line = self.update_numeric_properties(line, 'height', 'view_58_textbox_height', view_58_textbox_height)
 
                     # Panel adjustments
-                    # Info View
+                    # View 50
                     line = self.update_numeric_properties(line, 'posx', 'view_50_panelcontent_posx', view_50_panelcontent_posx)
                     line = self.update_numeric_properties(line, 'width', 'view_50_panelcontent_width', view_50_panelcontent_width)
+                    line = self.update_numeric_properties(line, 'posy', 'view_50_image_focus_posy', view_50_image_focus_posy)
 
-                    #Info2 View
+                    # View 52
                     line = self.update_numeric_properties(line, 'posx', 'view_52_panellist_posx', view_52_panellist_posx)
                     line = self.update_numeric_properties(line, 'posy', 'view_52_panellist_posy', view_52_panellist_posy)
                     line = self.update_numeric_properties(line, 'width', 'view_52_panellist_width', view_52_panellist_width)
@@ -140,6 +149,9 @@ class SkinFileConverter(object):
                     line = self.update_numeric_properties(line, 'posy', 'view_52_labeltitle_posy', view_52_labeltitle_posy)
                     line = self.update_numeric_properties(line, 'posy', 'view_52_clearlogo_posy', view_52_clearlogo_posy)
 
+                    # View 58
+                    line = self.update_numeric_properties(line, 'posy', 'view_58_image_focus_posy', view_58_image_focus_posy)
+
                     #dialogs
                     line = self.update_numeric_properties(line, 'posy', 'dialog_header_image_posy', dialog_header_image_posy)
                     line = self.update_numeric_properties(line, 'posy', 'dialog_header_label_posy', dialog_header_label_posy)
@@ -153,6 +165,16 @@ class SkinFileConverter(object):
 
     def update_numeric_properties(self, line, property_name, convert_comment, update_value):
         pattern = '<%s>(?P<value>[0-9]*)r?</%s><!--%s-->' %(property_name, property_name, convert_comment)
+        match = re.search(pattern, line)
+        if match:
+            old_value = int(match.group('value'))
+            new_value = old_value + update_value
+            line = line.replace(str(old_value), str(new_value))
+
+        return line
+
+    def update_numeric_attributes(self, line, element_name, attribute_name, update_value):
+        pattern = '<%s %s="(?P<value>[0-9]*)"' %(element_name, attribute_name)
         match = re.search(pattern, line)
         if match:
             old_value = int(match.group('value'))

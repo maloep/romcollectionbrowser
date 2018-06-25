@@ -73,7 +73,6 @@
 								<width>160</width>
 								<height>240</height>
 								<aspectratio align="center" aligny="top">keep</aspectratio>
-								<!--<bordertexture border="2" diffuse="rcb-diffuse-mirror.png"></bordertexture>-->
 								<bordersize>2</bordersize>
 								<texture background="true" flipy="true" diffuse="rcb-diffuse-mirror.png">$INFO[ListItem.ActualIcon]</texture>
 							</control>
@@ -90,11 +89,11 @@
 					<focusedlayout width="160" height="240">
 						<control type="image">
 							<posx>-5</posx>
-							<posy>0</posy>
+							<posy>0</posy><!--view_50_image_focus_posy-->
 							<width>160</width>
 							<height>240</height>
 							<aspectratio align="center" aligny="bottom">keep</aspectratio>
-							<bordersize>2</bordersize>
+							<bordersize>2</bordersize><!--bordersize-->
 							<texture background="true">$INFO[ListItem.Art(thumb)]</texture>
 							<bordertexture border="2" colordiffuse="$INFO[Skin.String(rcb_button_focus)]">rcb-thumbnail-border.png</bordertexture>
 							<animation reversible="false" effect="zoom" end="120" center="auto" time="150">Focus</animation>
@@ -222,7 +221,6 @@
 						<visible>!Player.HasVideo | String.IsEmpty(ListItem.Property(gameplaymain))</visible>
 						<texture>$INFO[ListItem.Art(gameinfobig)]</texture>
 						<fadetime>100</fadetime>
-						<!--<bordertexture border="2">rcb-button-nofocus.png</bordertexture>-->
 						<bordersize>2</bordersize>
 					</control>
 					<!-- videowindowbig -->
@@ -255,7 +253,6 @@
 						<visible>[!Player.HasVideo | String.IsEmpty(ListItem.Property(gameplaymain))] | !String.IsEmpty(ListItem.Property(videosizesmall))</visible>
 						<texture>$INFO[ListItem.Art(gameinfoupperleft)]</texture>
 						<fadetime>100</fadetime>
-						<!--<bordertexture border="2">rcb-button-nofocus.png</bordertexture>-->
 						<bordersize>2</bordersize>
 						<aspectratio>scale</aspectratio>
 					</control>
@@ -269,7 +266,6 @@
 						<visible>[!Player.HasVideo | String.IsEmpty(ListItem.Property(gameplaymain))] | !String.IsEmpty(ListItem.Property(videosizesmall))</visible>
 						<texture>$INFO[ListItem.Art(gameinfoupperright)]</texture>
 						<fadetime>100</fadetime>
-						<!--<bordertexture border="2">rcb-button-nofocus.png</bordertexture>-->
 						<bordersize>2</bordersize>
 						<aspectratio>scale</aspectratio>
 					</control>
@@ -282,7 +278,6 @@
 						<height>135</height>
 						<texture>$INFO[ListItem.Art(gameinfolowerleft)]</texture>
 						<fadetime>100</fadetime>
-						<!--<bordertexture border="2">rcb-button-nofocus.png</bordertexture>-->
 						<bordersize>2</bordersize>
 						<aspectratio>scale</aspectratio>
 					</control>
@@ -297,7 +292,6 @@
 						<visible>!Player.HasVideo | String.IsEmpty(ListItem.Property(gameplaymain))</visible>
 						<texture>$INFO[ListItem.Art(gameinfolowerright)]</texture>
 						<fadetime>100</fadetime>
-						<!--<bordertexture border="2">rcb-button-nofocus.png</bordertexture>-->
 						<bordersize>2</bordersize>
 						<aspectratio>scale</aspectratio>
 					</control>
@@ -311,7 +305,6 @@
 						<height>135</height>
 						<texture>$INFO[ListItem.Art(gameinfoupper)]</texture>
 						<fadetime>100</fadetime>
-						<!--<bordertexture border="2">rcb-button-nofocus.png</bordertexture>-->
 						<bordersize>2</bordersize>
 						<aspectratio>scale</aspectratio>
 					</control>
@@ -325,7 +318,6 @@
 						<visible>[!Player.HasVideo | String.IsEmpty(ListItem.Property(gameplaymain))]</visible>
 						<texture>$INFO[ListItem.Art(gameinfolower)]</texture>
 						<fadetime>100</fadetime>
-						<!--<bordertexture border="2">rcb-button-nofocus.png</bordertexture>-->
 						<bordersize>2</bordersize>
 						<aspectratio>scale</aspectratio>
 					</control>
@@ -339,7 +331,6 @@
 						<visible>[!Player.HasVideo | String.IsEmpty(ListItem.Property(gameplaymain))]</visible>
 						<texture>$INFO[ListItem.Art(gameinfoleft)]</texture>
 						<fadetime>100</fadetime>
-						<!--<bordertexture border="2">rcb-button-nofocus.png</bordertexture>-->
 						<bordersize>2</bordersize>
 						<aspectratio>scale</aspectratio>
 					</control>
@@ -353,7 +344,6 @@
 						<visible>!Player.HasVideo | String.IsEmpty(ListItem.Property(gameplaymain))</visible>
 						<texture>$INFO[ListItem.Art(gameinforight)]</texture>
 						<fadetime>100</fadetime>
-						<!--<bordertexture border="2">rcb-button-nofocus.png</bordertexture>-->
 						<bordersize>2</bordersize>
 						<aspectratio>scale</aspectratio>
 					</control>
@@ -718,7 +708,6 @@
 						<visible>!Player.HasVideo | String.IsEmpty(ListItem.Property(gameplaymain))</visible>
 						<texture>$INFO[ListItem.Art(gameinfobig)]</texture>
 						<fadetime>100</fadetime>
-						<!--<bordertexture border="2">rcb-button-nofocus.png</bordertexture>-->
 						<bordersize>2</bordersize>
 					</control>					
 					<control type="videowindow" id="2301">
@@ -750,7 +739,6 @@
 						<height>135</height>
 						<visible>[!Player.HasVideo | String.IsEmpty(ListItem.Property(gameplaymain))] | !String.IsEmpty(ListItem.Property(videosizesmall))</visible>
 						<texture>$INFO[ListItem.Art(gameinfoupperleft)]</texture>
-						<!--<bordertexture border="2">rcb-button-nofocus.png</bordertexture>-->
 						<fadetime>100</fadetime>
 						<bordersize>2</bordersize>
 						<aspectratio>scale</aspectratio>
@@ -765,7 +753,6 @@
 						<visible>[!Player.HasVideo | String.IsEmpty(ListItem.Property(gameplaymain))] | !String.IsEmpty(ListItem.Property(videosizesmall))</visible>
 						<texture>$INFO[ListItem.Art(gameinfoupperright)]</texture>
 						<fadetime>100</fadetime>
-						<!--<bordertexture border="2">rcb-button-nofocus.png</bordertexture>-->
 						<bordersize>2</bordersize>
 						<aspectratio>scale</aspectratio>
 					</control>
@@ -778,7 +765,6 @@
 						<height>135</height>
 						<texture>$INFO[ListItem.Art(gameinfolowerleft)]</texture>
 						<fadetime>100</fadetime>
-						<!--<bordertexture border="2">rcb-button-nofocus.png</bordertexture>-->
 						<bordersize>2</bordersize>
 						<aspectratio>scale</aspectratio>
 					</control>
@@ -793,7 +779,6 @@
 						<visible>!Player.HasVideo | String.IsEmpty(ListItem.Property(gameplaymain))</visible>
 						<texture>$INFO[ListItem.Art(gameinfolowerright)]</texture>
 						<fadetime>100</fadetime>
-						<!--<bordertexture border="2">rcb-button-nofocus.png</bordertexture>-->
 						<bordersize>2</bordersize>
 						<aspectratio>scale</aspectratio>
 					</control>
@@ -807,7 +792,6 @@
 						<height>135</height>						
 						<texture>$INFO[ListItem.Art(gameinfoupper)]</texture>
 						<fadetime>100</fadetime>
-						<!--<bordertexture border="2">rcb-button-nofocus.png</bordertexture>-->
 						<bordersize>2</bordersize>
 						<aspectratio>scale</aspectratio>
 					</control>
@@ -821,7 +805,6 @@
 						<visible>[!Player.HasVideo | String.IsEmpty(ListItem.Property(gameplaymain))]</visible>
 						<texture>$INFO[ListItem.Art(gameinfolower)]</texture>
 						<fadetime>100</fadetime>
-						<!--<bordertexture border="2">rcb-button-nofocus.png</bordertexture>-->
 						<bordersize>2</bordersize>
 						<aspectratio>scale</aspectratio>
 					</control>
@@ -835,7 +818,6 @@
 						<visible>[!Player.HasVideo | String.IsEmpty(ListItem.Property(gameplaymain))]</visible>
 						<texture>$INFO[ListItem.Art(gameinfoleft)]</texture>
 						<fadetime>100</fadetime>
-						<!--<bordertexture border="2">rcb-button-nofocus.png</bordertexture>-->
 						<bordersize>2</bordersize>
 						<aspectratio>scale</aspectratio>
 					</control>
@@ -848,7 +830,6 @@
 						<height>540</height>						
 						<texture>$INFO[ListItem.Art(gameinforight)]</texture>
 						<fadetime>100</fadetime>
-						<!--<bordertexture border="2">rcb-button-nofocus.png</bordertexture>-->
 						<bordersize>2</bordersize>
 						<aspectratio>scale</aspectratio>
 					</control>
@@ -1491,7 +1472,6 @@
 							<width>180</width>
 							<height>250</height>
 							<aspectratio align="center" aligny="top">scale</aspectratio>
-							<!--<bordertexture border="2">rcb-button-nofocus.png</bordertexture>-->
 							<bordersize>2</bordersize>
 							<texture background="true">$INFO[ListItem.ActualIcon]</texture>
 						</control>
@@ -1511,7 +1491,6 @@
 							<width>180</width>
 							<height>250</height>
 							<aspectratio align="center" aligny="top">keep</aspectratio>
-							<!--<bordertexture border="2">rcb-button-nofocus.png</bordertexture>-->
 							<bordersize>2</bordersize>
 							<texture background="true">$INFO[ListItem.ActualIcon]</texture>
 							<visible>Container.OnScrollPrevious</visible>
@@ -1523,7 +1502,6 @@
 							<width>180</width>
 							<height>250</height>
 							<aspectratio align="center" aligny="top">keep</aspectratio>
-							<!--<bordertexture border="2">rcb-button-nofocus.png</bordertexture>-->
 							<bordersize>2</bordersize>
 							<texture background="true">$INFO[ListItem.ActualIcon]</texture>
 							<visible>Container.OnScrollNext</visible>
@@ -1559,12 +1537,12 @@
 				</control>
 				<control type="image">
 					<posx>90</posx>
-					<posy>120</posy>
+					<posy>120</posy><!--view_58_image_focus_posy-->
 					<width>290</width>
 					<height>400</height>
 					<aspectratio align="center" aligny="top">scale</aspectratio>
 					<bordertexture border="2" colordiffuse="$INFO[Skin.String(rcb_button_focus)]">rcb-thumbnail-border.png</bordertexture>
-					<bordersize>2</bordersize>
+					<bordersize>2</bordersize><!--bordersize-->
 					<texture background="true">$INFO[ListItem.Art(thumb)]</texture>
 					<fadetime>100</fadetime>
 					<animation effect="fade" start="0" end="100" time="500" tween="sine">Focus</animation>
