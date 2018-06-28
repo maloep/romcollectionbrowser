@@ -1821,37 +1821,6 @@
 					<scroll>true</scroll>
 					<textcolor>$INFO[Skin.String(rcb_text_value)]</textcolor>
 				</control>
-				
-				<!-- extraImage1 -->
-				<control type="image">
-					<description>extraImage1</description>
-					<posx>25</posx>
-					<posy>70r</posy>
-					<width>90</width>
-					<height>60</height>						
-					<texture>$INFO[ListItem.Art(extraImage1)]</texture>
-					<fadetime>100</fadetime>
-				</control>
-				<!-- extraImage2 -->
-				<control type="image">
-					<description>extraImage2</description>
-					<posx>100r</posx>
-					<posy>70r</posy>
-					<width>90</width>
-					<height>60</height>
-					<texture>$INFO[ListItem.Art(extraImage2)]</texture>
-					<fadetime>100</fadetime>
-				</control>
-				<!-- extraImage3 -->
-				<control type="image">
-					<description>extraImage3</description>
-					<posx>130</posx>
-					<posy>70r</posy>
-					<width>90</width>
-					<height>60</height>						
-					<texture>$INFO[ListItem.Art(extraImage3)]</texture>
-					<fadetime>100</fadetime>
-				</control>
 			</control>
 		</control>
 
