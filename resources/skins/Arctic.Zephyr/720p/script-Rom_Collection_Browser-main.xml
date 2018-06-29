@@ -1431,7 +1431,7 @@
 					<ondown>500</ondown>
 					<showonepage>false</showonepage>
 					<orientation>horizontal</orientation>
-					<visible allowhiddenfocus="true">Control.IsVisible(57) + Skin.HasSetting(rcb_showScrollbars)</visible>
+					<visible allowhiddenfocus="false">Control.IsVisible(57) + Skin.HasSetting(rcb_showScrollbars)</visible>
 				</control>
 			</control>		
 			
@@ -1533,7 +1533,7 @@
 					<ondown>500</ondown>
 					<showonepage>false</showonepage>
 					<orientation>horizontal</orientation>
-					<visible allowhiddenfocus="true">Control.IsVisible(58) + Skin.HasSetting(rcb_showScrollbars)</visible>
+					<visible allowhiddenfocus="false">Control.IsVisible(58) + Skin.HasSetting(rcb_showScrollbars)</visible>
 				</control>
 				<control type="image">
 					<posx>90</posx>
@@ -1742,7 +1742,7 @@
 					<onleft>2</onleft>
 					<showonepage>false</showonepage>
 					<orientation>vertical</orientation>
-					<visible allowhiddenfocus="true">Control.IsVisible(59) + Skin.HasSetting(rcb_showScrollbars)</visible>
+					<visible allowhiddenfocus="false">Control.IsVisible(59) + Skin.HasSetting(rcb_showScrollbars)</visible>
 				</control>
 				<control type="image">
 					<posx>180</posx>
@@ -1759,9 +1759,9 @@
 				</control>
 				<!-- Title -->
 				<control type="label">
-					<posx>500</posx>
-					<posy>420</posy>
-					<width>760</width>
+					<posx>550</posx>
+					<posy>295</posy>
+					<width>710</width>
 					<height>20</height>
 					<font>LargeBold</font>
 					<align>left</align>
@@ -1771,9 +1771,9 @@
 					<visible>String.IsEmpty(ListItem.Property(year))</visible>
 				</control>
 				<control type="label">
-					<posx>500</posx>
-					<posy>420</posy>
-					<width>760</width>
+					<posx>550</posx>
+					<posy>295</posy>
+					<width>710</width>
 					<height>20</height>
 					<font>LargeBold</font>
 					<align>left</align>
@@ -1784,9 +1784,9 @@
 				</control>
 				<control type="textbox">
 					<description>Plot</description>
-					<posx>500</posx>
-					<posy>450</posy>
-					<width>760</width>
+					<posx>550</posx>
+					<posy>325</posy>
+					<width>710</width>
 					<height>64</height><!--view_59_textbox_height-->
 					<textcolor>$INFO[Skin.String(rcb_text_value)]</textcolor>
 					<align>justify</align>
