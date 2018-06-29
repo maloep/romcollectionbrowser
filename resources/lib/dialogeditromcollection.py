@@ -6,7 +6,9 @@ import util, helper, config
 from util import *
 from util import Logutil as log
 from dialogbase import DialogBase
+import dialogdeleteromcollection
 from configxmlwriter import *
+import wizardconfigxml
 from emulatorautoconfig.autoconfig import EmulatorAutoconfig
 from pyscraper.scraper import AbstractScraper
 
@@ -15,6 +17,8 @@ ACTION_CANCEL_DIALOG = (9, 10, 51, 92, 110)
 CONTROL_BUTTON_EXIT = 5101
 CONTROL_BUTTON_SAVE = 6000
 CONTROL_BUTTON_CANCEL = 6010
+CONTROL_BUTTON_ADD_RC = 6020
+CONTROL_BUTTON_REMOVE_RC = 6030
 
 CONTROL_LIST_ROMCOLLECTIONS = 5210
 CONTROL_BUTTON_RC_DOWN = 5211
@@ -171,6 +175,47 @@ class EditRomCollectionDialog(DialogBase):
         # Cancel
         elif controlID == CONTROL_BUTTON_CANCEL:
             self.close()
+        elif controlID == CONTROL_BUTTON_ADD_RC:
+            statusOk, errorMsg = wizardconfigxml.ConfigXmlWizard().addRomCollection(self.gui.config)
+            if statusOk is False:
+                xbmcgui.Dialog().ok(util.SCRIPTNAME, util.localize(32001), errorMsg)
+                log.info("Error updating config.xml: {0}".format(errorMsg))
+                return
+
+            #update self.config
+            self.gui.config = Config(None)
+            statusOk, errorMsg = self.gui.config.readXml()
+            if statusOk is False:
+                xbmcgui.Dialog().ok(util.SCRIPTNAME, util.localize(32002), errorMsg)
+                log.info("Error reading config.xml: {0}".format(errorMsg))
+                return
+
+            self.addItemsToList(CONTROL_LIST_ROMCOLLECTIONS, self.gui.config.getRomCollectionNames())
+            self.updateRomCollectionControls()
+
+        elif controlID == CONTROL_BUTTON_REMOVE_RC:
+            constructorParam = "720p"
+            try:
+                removeRCDialog = dialogdeleteromcollection.RemoveRCDialog("script-RCB-removeRC.xml",
+                                                                          util.getAddonInstallPath(),
+                                                                          util.getConfiguredSkin(),
+                                                                          constructorParam,
+                                                                          gui=self.gui)
+            except:
+                removeRCDialog = dialogdeleteromcollection.RemoveRCDialog("script-RCB-removeRC.xml",
+                                                                          util.getAddonInstallPath(),
+                                                                          "Default",
+                                                                          constructorParam, gui=self.gui)
+            rDelStat = removeRCDialog.getDeleteStatus()
+            if rDelStat:
+                selectedRCId = removeRCDialog.getSelectedRCId()
+                rcDelStat = removeRCDialog.getRCDeleteStatus()
+                self.gui.deleteRCGames(selectedRCId, rcDelStat, rDelStat)
+                del removeRCDialog
+
+            self.addItemsToList(CONTROL_LIST_ROMCOLLECTIONS, self.gui.config.getRomCollectionNames())
+            self.updateRomCollectionControls()
+
         # Rom Collection list
         elif self.selectedControlId in (CONTROL_BUTTON_RC_DOWN, CONTROL_BUTTON_RC_UP):
             if self.selectedRomCollection is not None:

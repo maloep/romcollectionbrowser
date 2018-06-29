@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <settings>
 	<category label="32300">
-		<setting id="rcb_skin" label="32301" type="labelenum" values="Estuary|Confluence|Night|Simplicity" default="Estuary"/>
+		<setting id="rcb_skin" label="32301" type="labelenum" values="Estuary|Confluence|Arctic.Zephyr" default="Estuary"/>
 		<setting id="rcb_logLevel" label="32302" type="labelenum" values="ERROR|WARNING|INFO|DEBUG" default="INFO"/>
 		<setting id="rcb_saveViewStateOnExit" label="32304" type="bool" default="true"/>
 		<setting id="rcb_saveViewStateOnLaunchEmu" label="32305" type="bool" default="true"/>
@@ -30,6 +30,7 @@
 		<setting id="rcb_maxNumGames" label="32328" type="enum" values="max|100|250|500|1000|2500|5000|10000" default="0"/>
 		<setting id="rcb_showFavoriteStars" label="32319" type="bool" default="true"/>
 		<setting id="rcb_showEntryAllConsoles" label="32320" type="bool" default="true"/>
+		<setting id="rcb_showScrollbars" label="32331" type="bool" default="false"/>
 	</category>
 	
 	<category label="32326">

@@ -5,6 +5,9 @@ from util import *
 import util
 import helper, config
 import dialogprogress
+import dialogupdateartwork
+import nfowriter
+import dialogeditromcollection
 from config import *
 from gamedatabase import *
 
@@ -31,7 +34,7 @@ CONTROL_RATING = 1400
 CONTROL_REGION = 1500
 FILTER_CONTROLS = (500, 600, 700, 800, 900, 1200, 1300, 1400, 1500)
 GAME_LISTS = (50, 51, 52, 53, 54, 55, 56, 57, 58)
-CONTROL_SCROLLBARS = (2200, 2201, 60, 61, 62, 67)
+CONTROL_SCROLLBARS = (2200, 2201, 60, 61, 62, 67, 68, 69)
 
 CONTROL_GAMES_GROUP_START = 50
 CONTROL_GAMES_GROUP_END = 59
@@ -41,12 +44,23 @@ CONTROL_BUTTON_FAVORITE = 1000
 CONTROL_BUTTON_SEARCH = 1100
 CONTROL_BUTTON_SORTBY = 1600
 CONTROL_LABEL_SORTBY = 1601
+CONTROL_LABEL_SORTBY_FOCUS = 1602
 CONTROL_BUTTON_ORDER = 1700
 CONTROL_LABEL_ORDER = 1701
-NON_EXIT_RCB_CONTROLS = (500, 600, 700, 800, 900, 2, 1000, 1100, 1200, 1300, 1400, 1500, 1600, 1700)
+CONTROL_LABEL_ORDER_FOCUS = 1702
+NON_EXIT_RCB_CONTROLS = (2, 500, 600, 700, 800, 900, 1000, 1100, 1200, 1300, 1400, 1500, 1600, 1700,
+                         4001, 4002, 4003, 4004, 4005, 4006, 4007, 4008)
 
 CONTROL_LABEL_MSG = 4000
+
 CONTROL_BUTTON_MISSINGINFODIALOG = 4001
+CONTROL_BUTTON_SELECTCOLORFILE = 4002
+CONTROL_BUTTON_IMPORT_GAMES = 4003
+CONTROL_BUTTON_EXPORT_LIBRARY = 4004
+CONTROL_BUTTON_CLEAN_LIBRARY = 4005
+CONTROL_BUTTON_SCAN_ARTWORK = 4006
+CONTROL_BUTTON_EDIT_ROM_COLLECTION = 4007
+CONTROL_BUTTON_OPEN_ADDON_SETTINGS = 4008
 
 
 class MyPlayer(xbmc.Player):
@@ -71,10 +85,10 @@ class UIGameDB(xbmcgui.WindowXML):
     selectedYearId = 0
     selectedPublisherId = 0
     selectedDeveloperId = 0
-    selectedCharacter = util.localize(32120)
-    selectedMaxPlayers = util.localize(32120)
+    selectedCharacter = 0
+    selectedMaxPlayers = 0
     selectedRating = 0
-    selectedRegion = util.localize(32120)
+    selectedRegion = 0
 
     SORT_METHODS = {
         GameView.FIELDNAMES[GameView.COL_NAME]: util.localize(32421),
@@ -203,11 +217,7 @@ class UIGameDB(xbmcgui.WindowXML):
         if statusOk == False:
             xbmcgui.Dialog().ok(util.SCRIPTNAME, util.localize(32002), errorMsg)
 
-        #set flag if the skin should display clearlogo as title in lists
-        if self.Settings.getSetting(util.SETTING_RCB_USECLEARLOGOASTITLE).upper() == "TRUE":
-            xbmc.executebuiltin('Skin.SetBool(%s)' % util.SETTING_RCB_USECLEARLOGOASTITLE)
-        else:
-            xbmc.executebuiltin('Skin.Reset(%s)' % util.SETTING_RCB_USECLEARLOGOASTITLE)
+        self.set_skin_flags()
 
         return config, statusOk
 
@@ -243,6 +253,8 @@ class UIGameDB(xbmcgui.WindowXML):
             Logutil.log("RCB decided not to run. Bye.", util.LOG_LEVEL_INFO)
             self.close()
             return
+
+        self.load_color_schemes()
 
         self.clearList()
         xbmc.sleep(util.WAITTIME_UPDATECONTROLS)
@@ -362,7 +374,11 @@ class UIGameDB(xbmcgui.WindowXML):
 
             self.sortMethod = options[index].getProperty('column')
             label = self.getControlById(CONTROL_LABEL_SORTBY)
-            label.setLabel(options[index].getLabel())
+            if label:
+                label.setLabel(options[index].getLabel())
+            label = self.getControlById(CONTROL_LABEL_SORTBY_FOCUS)
+            if label:
+                label.setLabel(options[index].getLabel())
             self.showGames()
 
         elif controlId == CONTROL_BUTTON_ORDER:
@@ -380,6 +396,8 @@ class UIGameDB(xbmcgui.WindowXML):
 
             self.sortDirection = options[index].getProperty('direction')
             label = self.getControlById(CONTROL_LABEL_ORDER)
+            label.setLabel(options[index].getLabel())
+            label = self.getControlById(CONTROL_LABEL_ORDER_FOCUS)
             label.setLabel(options[index].getLabel())
             self.showGames()
 
@@ -402,6 +420,95 @@ class UIGameDB(xbmcgui.WindowXML):
         elif controlId == CONTROL_BUTTON_CHANGE_VIEW:
             # Need to change viewmode manually since Frodo
             xbmc.executebuiltin('Container.NextViewMode')
+
+        elif controlId == CONTROL_BUTTON_SELECTCOLORFILE:
+            color_path = os.path.join(util.getAddonInstallPath(), 'resources', 'skins', util.getConfiguredSkin(), 'colors')
+            dirs, files = xbmcvfs.listdir(color_path)
+            index = xbmcgui.Dialog().select('Colors', files)
+            if index >= 0:
+                color_file = os.path.join(color_path, files[index])
+
+            #color_file = xbmcgui.Dialog().browse(1, 'RCB', 'files', '.xml', defaultt=color_path)
+            if color_file:
+                self.Settings.setSetting(util.SETTING_RCB_COLORFILE, color_file)
+
+            self.load_color_schemes()
+
+        elif controlId == CONTROL_BUTTON_IMPORT_GAMES:
+            self.updateDB()
+
+        elif controlId == CONTROL_BUTTON_EXPORT_LIBRARY:
+            nfowriter.NfoWriter().exportLibrary(self.gdb, self.config.romCollections)
+
+        elif controlId == CONTROL_BUTTON_CLEAN_LIBRARY:
+            self.cleanDB()
+
+        elif controlId == CONTROL_BUTTON_SCAN_ARTWORK:
+            try:
+                dialog = dialogupdateartwork.UpdateArtworkDialog("script-RCB-updateartwork.xml",
+                                                        util.getAddonInstallPath(),
+                                                        util.getConfiguredSkin(), "720p", gui=self)
+            except:
+                dialog = dialogupdateartwork.UpdateArtworkDialog("script-RCB-updateartwork.xml",
+                                                        util.getAddonInstallPath(),
+                                                        "Default", "720p", gui=self)
+            del dialog
+
+        elif controlId == CONTROL_BUTTON_EDIT_ROM_COLLECTION:
+            constructorParam = "720p"
+            try:
+                editRCdialog = dialogeditromcollection.EditRomCollectionDialog("script-RCB-editromcollection.xml",
+                                                                               util.getAddonInstallPath(),
+                                                                               util.getConfiguredSkin(),
+                                                                               constructorParam, gui=self)
+            except:
+                editRCdialog = dialogeditromcollection.EditRomCollectionDialog("script-RCB-editromcollection.xml",
+                                                                               util.getAddonInstallPath(),
+                                                                               "Default",
+                                                                               constructorParam, gui=self)
+            del editRCdialog
+
+            self.config = Config(None)
+            self.config.readXml()
+
+        elif controlId == CONTROL_BUTTON_OPEN_ADDON_SETTINGS:
+            self.Settings.openSettings()
+
+
+
+    def set_skin_flags(self):
+
+        #set flag if the skin should display clearlogo as title in lists
+        self.set_skin_flag(util.SETTING_RCB_USECLEARLOGOASTITLE)
+        #set flag if the skin should display scrollbars in game lists
+        self.set_skin_flag(util.SETTING_RCB_SHOWSCROLLBARS)
+
+    def set_skin_flag(self, flag):
+        if self.Settings.getSetting(flag).upper() == "TRUE":
+            xbmc.executebuiltin('Skin.SetBool(%s)' % flag)
+        else:
+            xbmc.executebuiltin('Skin.Reset(%s)' % flag)
+
+    def load_color_schemes(self):
+        log.info('load_color_schemes')
+
+        color_file = self.Settings.getSetting(util.SETTING_RCB_COLORFILE)
+        if not color_file \
+            or not xbmcvfs.exists(color_file) \
+            or util.getConfiguredSkin() not in color_file:
+            color_file = os.path.join(util.getAddonInstallPath(), 'resources', 'skins', util.getConfiguredSkin(), 'colors', 'defaults.xml')
+
+        tree = ElementTree()
+        if sys.version_info >= (2, 7):
+            parser = XMLParser(encoding='utf-8')
+        else:
+            parser = XMLParser()
+
+        tree.parse(color_file, parser)
+
+        for color in tree.findall('color'):
+            xbmc.executebuiltin("Skin.SetString(%s, %s)" % (color.attrib.get('name'), color.text))
+
 
     def apply_filter(self, control_id):
 
@@ -762,6 +869,8 @@ class UIGameDB(xbmcgui.WindowXML):
 
             if romCollection.autoplayVideoMain:
                 self.loadVideoFiles(item, romCollection, game)
+            else:
+                item.setProperty('autoplayvideomain', '')
 
             # Add the listitem to the list
             items.append(item)
@@ -1044,6 +1153,7 @@ class UIGameDB(xbmcgui.WindowXML):
 
         import dialogcontextmenu
 
+        """
         constructorParam = "720p"
         try:
             cm = dialogcontextmenu.ContextMenuDialog("script-RCB-contextmenu.xml", util.getAddonInstallPath(),
@@ -1051,6 +1161,8 @@ class UIGameDB(xbmcgui.WindowXML):
         except:
             cm = dialogcontextmenu.ContextMenuDialog("script-RCB-contextmenu.xml", util.getAddonInstallPath(),
                                                      "Default", constructorParam, gui=self)
+        """
+        cm = dialogcontextmenu.ContextMenuDialog(gui=self)
 
         del cm
 
@@ -1235,12 +1347,15 @@ class UIGameDB(xbmcgui.WindowXML):
         #load filter settings
         rcid = rcbSetting[RCBSetting.COL_lastSelectedConsoleId]
         button = self.getControlById(CONTROL_CONSOLES)
-        if rcid > 0:
-            romcollection = self.config.getRomCollectionById(str(rcid))
-            button.setLabel(romcollection.name)
-            self.selectedConsoleId = int(romcollection.id)
-        else:
-            button.setLabel(util.localize(32120))
+        try:
+            if rcid > 0:
+                romcollection = self.config.getRomCollectionById(str(rcid))
+                button.setLabel(romcollection.name)
+                self.selectedConsoleId = int(romcollection.id)
+            else:
+                button.setLabel(util.localize(32120))
+        except AttributeError, e:
+            log.error('An error occured while loading the filter settings: %s' %e)
 
         genreid = rcbSetting[RCBSetting.COL_lastSelectedGenreId]
         self.set_filter_foreign_key_object(genreid, CONTROL_GENRE, Genre(self.gdb))
@@ -1263,12 +1378,15 @@ class UIGameDB(xbmcgui.WindowXML):
 
         rating = rcbSetting[RCBSetting.COL_lastSelectedRating]
         button = self.getControlById(CONTROL_RATING)
-        if rating > 0:
-            button.setLabel(str(rating))
-            self.selectedRating = rating
-        else:
-            button.setLabel(util.localize(32120))
-            self.selectedRating = 0
+        try:
+            if rating > 0:
+                button.setLabel(str(rating))
+                self.selectedRating = rating
+            else:
+                button.setLabel(util.localize(32120))
+                self.selectedRating = 0
+        except AttributeError, e:
+            log.error('An error occured while loading the filter settings: %s' %e)
 
         region = rcbSetting[RCBSetting.COL_lastSelectedRegion]
         self.selectedRegion = self.set_filter_text_value(region, CONTROL_REGION)
@@ -1299,7 +1417,11 @@ class UIGameDB(xbmcgui.WindowXML):
             self.sortMethod = GameView.FIELDNAMES[GameView.COL_NAME]
 
         label = self.getControlById(CONTROL_LABEL_SORTBY)
-        label.setLabel(self.SORT_METHODS[self.sortMethod])
+        if label:
+            label.setLabel(self.SORT_METHODS[self.sortMethod])
+        label = self.getControlById(CONTROL_LABEL_SORTBY_FOCUS)
+        if label:
+            label.setLabel(self.SORT_METHODS[self.sortMethod])
 
         #sort direction
         self.sortDirection = rcbSetting[RCBSetting.COL_sortDirection]
@@ -1307,7 +1429,11 @@ class UIGameDB(xbmcgui.WindowXML):
             self.sortDirection = 'ASC'
 
         label = self.getControlById(CONTROL_LABEL_ORDER)
-        label.setLabel(self.SORT_DIRECTIONS[self.sortDirection])
+        if label:
+            label.setLabel(self.SORT_DIRECTIONS[self.sortDirection])
+        label = self.getControlById(CONTROL_LABEL_ORDER_FOCUS)
+        if label:
+            label.setLabel(self.SORT_DIRECTIONS[self.sortDirection])
 
         # Reset game list
         self.showGames()
@@ -1325,20 +1451,27 @@ class UIGameDB(xbmcgui.WindowXML):
 
     def set_filter_text_value(self, filter_value, control_id):
         button = self.getControlById(control_id)
-        if filter_value != '0':
-            button.setLabel(filter_value)
-            return filter_value
-        else:
-            button.setLabel(util.localize(32120))
+        try:
+            if filter_value != '0':
+                button.setLabel(filter_value)
+                return filter_value
+            else:
+                button.setLabel(util.localize(32120))
+                return 0
+        except AttributeError, e:
+            log.error('An error occured while loading the filter settings: %s' % e)
             return 0
 
     def set_filter_foreign_key_object(self, obj_id, control_id, db_obj):
         button = self.getControlById(control_id)
-        if obj_id > 0:
-            row = db_obj.getObjectById(obj_id)
-            button.setLabel(row[Genre.COL_NAME])
-        else:
-            button.setLabel(util.localize(32120))
+        try:
+            if obj_id > 0:
+                row = db_obj.getObjectById(obj_id)
+                button.setLabel(row[Genre.COL_NAME])
+            else:
+                button.setLabel(util.localize(32120))
+        except AttributeError, e:
+            log.error('An error occured while loading the filter settings: %s' % e)
 
     def setFilterSelection(self, controlId, selectedIndex):
 

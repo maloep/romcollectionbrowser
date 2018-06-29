@@ -69,7 +69,7 @@ def saveViewState(gdb, isOnExit, selectedView, selectedGameIndex, selectedConsol
                                 'lastSelectedGameIndex', 'lastFocusedControlMainView', 'lastFocusedControlGameInfoView',
                                 'lastSelectedCharacter', 'lastSelectedMaxPlayers', 'lastSelectedRating',
                                 'lastSelectedRegion', 'sortMethod', 'sortDirection'),
-                               (None, None, None, None, None, None, None, None, None, None, None, None, None, None, None),
+                               (0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 'name', 'ASC'),
                                rcbSetting[DataBaseObject.COL_ID], True)
 
     gdb.commit()

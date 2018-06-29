@@ -1,0 +1,47 @@
+<colors>
+	<color name="rcb_background">FF11375C</color>
+	<color name="rcb_background_diffuse">37FFFFFF</color>
+	<color name="rcb_background_diffuse_dialog_open">AA000000</color>
+	
+	<color name="rcb_panel_slide">FF000000</color>
+	<color name="rcb_panel_list">37A0A0A0</color>
+	<color name="rcb_panel_list_transp">AA333333</color>
+	<color name="rcb_panel_info">AA000000</color>
+	<color name="rcb_panel_dialog">FF222222</color>
+	<color name="rcb_panel_dialog_text">FF111111</color>
+	<color name="rcb_panel_dialog_header">FF2866A4</color>	
+	
+	<color name="rcb_scrollbar_background">29FFFFFF</color>
+	<color name="rcb_scrollbar_nofocus">FFAAAAAA</color>
+	<color name="rcb_scrollbar_focus">FF2866A4</color>
+	<color name="rcb_scroll_up_nofocus">29FFFFFF</color>
+	<color name="rcb_scroll_up_focus">FFFFFFFF</color>
+	
+	<color name="rcb_button_nofocus">FF111111</color>
+	<color name="rcb_button_focus">FF2866A4</color>
+	<color name="rcb_menuitem_nofocus">FF111111</color>
+	<color name="rcb_menuitem_focus">FF2866A4</color>
+	<color name="rcb_radiobutton_focus">FFFFFFFF</color>
+	<color name="rcb_radiobutton_nofocus">FFFFFFFF</color>
+	<color name="rcb_radiobutton_focus_dialog">FFFFFFFF</color>
+	<color name="rcb_radiobutton_nofocus_dialog">FFFFFFFF</color>
+	<color name="rcb_button_highlight">FF2866A4</color>
+	<color name="rcb_button_nofocus_dialog">FF111111</color>
+	<color name="rcb_button_focus_dialog">FF2866A4</color>
+	<color name="rcb_button_category_nofocus">FF111111</color>
+	<color name="rcb_button_category_focus">FF2866A4</color>
+	
+	<color name="rcb_text_menuitem_nofocus">FFFFFFFF</color>
+	<color name="rcb_text_menuitem_focus">FFFFFFFF</color>
+	<color name="rcb_text_label">FF2866A4</color>
+	<color name="rcb_text_value">FFFFFFFF</color>
+	<color name="rcb_text_heading">FF2866A4</color>
+	<color name="rcb_text_button_nofocus">FFFFFFFF</color>
+	<color name="rcb_text_button_focus">FFFFFFFF</color>
+	<color name="rcb_text_button_disabled">80FFFFFF</color>
+	<color name="rcb_text_button_dialog">FFFFFFFF</color>
+	<color name="rcb_text_shadow">FF000000</color>
+	<color name="rcb_text_dialog_header">FFFFFFFF</color>
+	<color name="rcb_text_button_nofocus_dialog">FFFFFFFF</color>
+	<color name="rcb_text_button_focus_dialog">FFFFFFFF</color>
+</colors>

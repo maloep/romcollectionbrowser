@@ -1,0 +1,47 @@
+<colors>
+	<color name="rcb_background">FF181818</color> <!-- Light1 -->
+	<color name="rcb_background_diffuse">BF181818</color> <!-- FanartFade -->
+	<color name="rcb_background_diffuse_dialog_open">AA000000</color>
+	
+	<color name="rcb_panel_slide">ff333333</color> <!-- Light1 -->
+	<color name="rcb_panel_list">00181818</color> <!-- FanartFade -->
+	<color name="rcb_panel_list_transp">AA181818</color>
+	<color name="rcb_panel_info">00181818</color> <!-- FanartFade -->
+	<color name="rcb_panel_dialog">ffcccccc</color> <!-- Light1 -->
+	<color name="rcb_panel_dialog_text">ffcccccc</color> <!-- Light1 -->
+	<color name="rcb_panel_dialog_header">ffcccccc</color> <!-- Light1 -->
+	
+	<color name="rcb_scrollbar_background">29FFFFFF</color>
+	<color name="rcb_scrollbar_nofocus">4dcccccc</color>
+	<color name="rcb_scrollbar_focus">ffcccccc</color>
+	<color name="rcb_scroll_up_nofocus">4d333333</color>
+	<color name="rcb_scroll_up_focus">ffcccccc</color>
+	
+	<color name="rcb_button_nofocus">ffcccccc</color> <!-- Dark1 -->
+	<color name="rcb_button_focus">ffcccccc</color> <!-- Dark1 -->
+	<color name="rcb_menuitem_nofocus">ffcccccc</color>
+	<color name="rcb_menuitem_focus">ffcccccc</color>
+	<color name="rcb_radiobutton_focus">ff333333</color> <!-- Light1 -->
+	<color name="rcb_radiobutton_nofocus">ffcccccc</color> <!-- Dark1 -->
+	<color name="rcb_radiobutton_focus_dialog">ffcccccc</color> <!-- Light1 -->
+	<color name="rcb_radiobutton_nofocus_dialog">ff333333</color> <!-- Dark1 -->
+	<color name="rcb_button_highlight">ff0385b5</color> <!-- Highlight -->
+	<color name="rcb_button_nofocus_dialog">1f222222</color> <!-- Dark4 -->
+	<color name="rcb_button_focus_dialog">ff0385b5</color> <!-- Highlight -->
+	<color name="rcb_button_category_nofocus">ffcccccc</color> <!-- Light1 -->
+	<color name="rcb_button_category_focus">ff0385b5</color> <!-- Highlight -->
+	
+	<color name="rcb_text_menuitem_nofocus">ffcccccc</color> <!-- Dark1 -->
+	<color name="rcb_text_menuitem_focus">ff333333</color> <!-- Light1 -->
+	<color name="rcb_text_label">ffcccccc</color> <!-- Dark1 -->
+	<color name="rcb_text_value">ffcccccc</color> <!-- Dark1 -->
+	<color name="rcb_text_heading">ffcccccc</color> <!-- Dark1 -->
+	<color name="rcb_text_button_nofocus">ffcccccc</color> <!-- Dark1 -->
+	<color name="rcb_text_button_focus">ff333333</color> <!-- Light1 -->
+	<color name="rcb_text_button_disabled">80FFFFFF</color>
+	<color name="rcb_text_button_dialog">ffcccccc</color> <!-- Dark1 -->
+	<color name="rcb_text_shadow">ff333333</color> <!-- Light1 -->
+	<color name="rcb_text_dialog_header">ff333333</color> <!-- Dark1 -->
+	<color name="rcb_text_button_nofocus_dialog">ff333333</color> <!-- Dark1 -->
+	<color name="rcb_text_button_focus_dialog">ffcccccc</color> <!-- Light1 -->
+</colors>

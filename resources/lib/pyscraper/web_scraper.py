@@ -75,7 +75,7 @@ class WebScraper(AbstractScraper):
         'Famicom Disk System': ['', 'Famicom Disk System', '91'],
         'FM-7': ['126', 'Fujitsu FM-7', '114'],
         'FM Towns': ['102', 'FM Towns Marty', '108'],
-        'Game Boy': ['10', 'Nintendo Gameboy', '3'],
+        'Game Boy': ['10', 'Nintendo Game Boy', '3'],
         'Game Boy Advance': ['12', 'Nintendo Game Boy Advance', '4'],
         'Game Boy Color': ['11', 'Nintendo Game Boy Color', '57'],
         'Game.Com': ['50', 'Game.Com', '77'],
