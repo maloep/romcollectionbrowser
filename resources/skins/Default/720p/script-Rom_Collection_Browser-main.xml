@@ -1490,7 +1490,7 @@
 							<posy>15</posy>
 							<width>180</width>
 							<height>250</height>
-							<aspectratio align="center" aligny="top">keep</aspectratio>
+							<aspectratio align="center" aligny="top">scale</aspectratio>
 							<bordersize>2</bordersize>
 							<texture background="true">$INFO[ListItem.ActualIcon]</texture>
 							<visible>Container.OnScrollPrevious</visible>
@@ -1501,7 +1501,7 @@
 							<posy>15</posy>
 							<width>180</width>
 							<height>250</height>
-							<aspectratio align="center" aligny="top">keep</aspectratio>
+							<aspectratio align="center" aligny="top">scale</aspectratio>
 							<bordersize>2</bordersize>
 							<texture background="true">$INFO[ListItem.ActualIcon]</texture>
 							<visible>Container.OnScrollNext</visible>
@@ -1699,7 +1699,7 @@
 							<posy>15</posy>
 							<width>250</width>
 							<height>180</height>
-							<aspectratio align="center" aligny="top">keep</aspectratio>
+							<aspectratio align="center" aligny="top">scale</aspectratio>
 							<bordersize>2</bordersize>
 							<texture background="true">$INFO[ListItem.ActualIcon]</texture>
 							<visible>Container.OnScrollPrevious</visible>
@@ -1710,7 +1710,7 @@
 							<posy>15</posy>
 							<width>250</width>
 							<height>180</height>
-							<aspectratio align="center" aligny="top">keep</aspectratio>
+							<aspectratio align="center" aligny="top">scale</aspectratio>
 							<bordersize>2</bordersize>
 							<texture background="true">$INFO[ListItem.ActualIcon]</texture>
 							<visible>Container.OnScrollNext</visible>
