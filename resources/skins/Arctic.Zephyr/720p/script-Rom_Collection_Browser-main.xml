@@ -163,15 +163,15 @@
 					<visible>Control.IsVisible(50)</visible>
 				</control>
 				<control type="label">
-					<posx>25</posx>
-					<posy>25r</posy>
+					<posx>20</posx>
+					<posy>45r</posy>
 					<width>280</width>
 					<height>20</height>
 					<font>MediumBold</font>
 					<align>left</align>
 					<aligny>center</aligny>
 					<textcolor>$INFO[Skin.String(rcb_text_heading)]</textcolor>
-					<label>[B]$INFO[ListItem.Property(console)][/B]</label>
+					<label>[B]$INFO[ListItem.Property(console)][/B]</label>					
 					<visible>Control.IsVisible(50)</visible>
 				</control>					
 				<!-- extraImage1 -->
@@ -1490,7 +1490,7 @@
 							<posy>15</posy>
 							<width>180</width>
 							<height>250</height>
-							<aspectratio align="center" aligny="top">keep</aspectratio>
+							<aspectratio align="center" aligny="top">scale</aspectratio>
 							<bordersize>2</bordersize>
 							<texture background="true">$INFO[ListItem.ActualIcon]</texture>
 							<visible>Container.OnScrollPrevious</visible>
@@ -1501,7 +1501,7 @@
 							<posy>15</posy>
 							<width>180</width>
 							<height>250</height>
-							<aspectratio align="center" aligny="top">keep</aspectratio>
+							<aspectratio align="center" aligny="top">scale</aspectratio>
 							<bordersize>2</bordersize>
 							<texture background="true">$INFO[ListItem.ActualIcon]</texture>
 							<visible>Container.OnScrollNext</visible>
@@ -1699,7 +1699,7 @@
 							<posy>15</posy>
 							<width>250</width>
 							<height>180</height>
-							<aspectratio align="center" aligny="top">keep</aspectratio>
+							<aspectratio align="center" aligny="top">scale</aspectratio>
 							<bordersize>2</bordersize>
 							<texture background="true">$INFO[ListItem.ActualIcon]</texture>
 							<visible>Container.OnScrollPrevious</visible>
@@ -1710,7 +1710,7 @@
 							<posy>15</posy>
 							<width>250</width>
 							<height>180</height>
-							<aspectratio align="center" aligny="top">keep</aspectratio>
+							<aspectratio align="center" aligny="top">scale</aspectratio>
 							<bordersize>2</bordersize>
 							<texture background="true">$INFO[ListItem.ActualIcon]</texture>
 							<visible>Container.OnScrollNext</visible>
@@ -2601,7 +2601,7 @@
 		    <textcolor>$INFO[Skin.String(rcb_text_value)]</textcolor>
 		    <label></label>
 			<font>Mini</font>
-			<visible>!Control.IsVisible(53)</visible>
+			<visible>!Control.IsVisible(53) +!Control.IsVisible(59)</visible>
 		</control>
 		<control type="label" id="4000">
 			<description>Notes</description>
@@ -2615,6 +2615,19 @@
 		    <label></label>
 			<font>Mini</font>
 			<visible>Control.IsVisible(53)</visible>
+		</control>
+		<control type="label" id="4000">
+			<description>Notes</description>
+			<posx>490</posx>
+			<posy>25r</posy>
+			<width>680</width>
+			<height>10</height>
+			<align>left</align>
+			<scroll>true</scroll>
+		    <textcolor>$INFO[Skin.String(rcb_text_value)]</textcolor>
+		    <label></label>
+			<font>Mini</font>
+			<visible>Control.IsVisible(59)</visible>
 		</control>
 	</controls>
 </window>

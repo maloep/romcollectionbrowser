@@ -899,7 +899,7 @@ class UIGameDB(xbmcgui.WindowXML):
         self.addItems(items)
 
         self.writeMsg("")
-        
+
         #show navigation hint
         if self.Settings.getSetting(util.SETTING_RCB_SHOWNAVIGATIONHINT).upper() == 'TRUE':
             view_mode = self.get_selected_view_mode()
