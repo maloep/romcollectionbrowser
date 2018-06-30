@@ -33,7 +33,10 @@ CONTROL_MAXPLAYERS = 1300
 CONTROL_RATING = 1400
 CONTROL_REGION = 1500
 FILTER_CONTROLS = (500, 600, 700, 800, 900, 1200, 1300, 1400, 1500)
-GAME_LISTS = (50, 51, 52, 53, 54, 55, 56, 57, 58)
+GAME_LISTS = (50, 52, 53, 57, 58, 59)
+VIEWS_VERTICAL = (52, 53, 59)
+VIEWS_HORIZONTAL = (50, 57, 58)
+
 CONTROL_SCROLLBARS = (2200, 2201, 60, 61, 62, 67, 68, 69)
 
 CONTROL_GAMES_GROUP_START = 50
@@ -271,6 +274,9 @@ class UIGameDB(xbmcgui.WindowXML):
         if action.getId() == 0:
             Logutil.log("actionId == 0. Input ignored", util.LOG_LEVEL_INFO)
             return
+
+        #clear any messages
+        self.writeMsg("")
 
         try:
             if action.getId() in ACTION_CANCEL_DIALOG:
@@ -893,6 +899,15 @@ class UIGameDB(xbmcgui.WindowXML):
         self.addItems(items)
 
         self.writeMsg("")
+        
+        #show navigation hint
+        if self.Settings.getSetting(util.SETTING_RCB_SHOWNAVIGATIONHINT).upper() == 'TRUE':
+            view_mode = self.get_selected_view_mode()
+            print 'view_mode = %s' %view_mode
+            if int(view_mode) in VIEWS_VERTICAL:
+                self.writeMsg(util.localize(32208))
+            elif int(view_mode) in VIEWS_HORIZONTAL:
+                self.writeMsg(util.localize(32209))
 
         timestamp3 = time.clock()
         diff = (timestamp3 - timestamp2) * 1000
@@ -1308,9 +1323,7 @@ class UIGameDB(xbmcgui.WindowXML):
 
         Logutil.log("End saveViewState", util.LOG_LEVEL_INFO)
 
-    def saveViewMode(self):
-
-        Logutil.log("Begin saveViewMode", util.LOG_LEVEL_INFO)
+    def get_selected_view_mode(self):
 
         view_mode = ""
         for control_id in range(CONTROL_GAMES_GROUP_START, CONTROL_GAMES_GROUP_END + 1):
@@ -1320,6 +1333,14 @@ class UIGameDB(xbmcgui.WindowXML):
                     break
             except:
                 pass
+
+        return view_mode
+
+    def saveViewMode(self):
+
+        Logutil.log("Begin saveViewMode", util.LOG_LEVEL_INFO)
+
+        view_mode = self.get_selected_view_mode()
 
         self.Settings.setSetting(util.SETTING_RCB_VIEW_MODE, view_mode)
 

@@ -159,6 +159,8 @@
 	<string id="32205">Do you want to force cancel current import?</string>
 	<string id="32206">Type of offline scraper</string>
 	<string id="32207">Scrape game info online and artwork is available locally</string>
+	<string id="32208">Left - Options, Right - Filter, C - Context menu</string>
+	<string id="32209">Up - Options, Down - Filter, C - Context menu</string>
 	
 	
 	<!-- Settings -->
@@ -190,6 +192,7 @@
 	<string id="32329">Prefer local nfo file if available</string>
 	<string id="32330">Use clearlogo as list title</string>
 	<string id="32331">Show scrollbar in game lists</string>
+	<string id="32332">Show navigation hint at startup</string>
 	
 	<!-- GUI controls -->
 	<!-- main window -->
