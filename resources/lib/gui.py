@@ -21,6 +21,10 @@ ACTION_MOVEMENT_DOWN = (4,)
 ACTION_MOVEMENT = (1, 2, 3, 4, 5, 6, 159, 160)
 ACTION_INFO = (11,)
 ACTION_CONTEXT = (117,)
+ACTION_F = (77,)
+ACTION_R = (78,)
+ACTION_CTRL_F = (14,)
+
 
 #ControlIds
 CONTROL_CONSOLES = 500
@@ -327,7 +331,7 @@ class UIGameDB(xbmcgui.WindowXML):
                 if CONTROL_GAMES_GROUP_START <= self.selectedControlId <= CONTROL_GAMES_GROUP_END:
                     self.showGameInfoDialog()
             elif action.getId() in ACTION_CONTEXT:
-
+                Logutil.log('onAction: ACTION_CONTEXT', util.LOG_LEVEL_INFO)
                 if self.player.isPlayingVideo():
                     self.player.stop()
                     xbmc.sleep(util.WAITTIME_PLAYERSTOP)
@@ -335,8 +339,18 @@ class UIGameDB(xbmcgui.WindowXML):
                 self.showContextMenu()
 
                 self.setFocus(self.getControl(CONTROL_GAMES_GROUP_START))
+            elif action.getId() in ACTION_R:
+                Logutil.log('onAction: ACTION_R', util.LOG_LEVEL_INFO)
+                filter_changed = self.apply_filter(CONTROL_CONSOLES)
+                if filter_changed:
+                    self.showGames()
+            elif action.getId() in ACTION_F:
+                Logutil.log('onAction: ACTION_F', util.LOG_LEVEL_INFO)
+                self.set_isfavorite_for_game(self.getSelectedItem())
+            elif action.getId() in ACTION_CTRL_F:
+                Logutil.log('onAction: ACTION_CTRL_F', util.LOG_LEVEL_INFO)
+                self.set_isfavorite_for_selection(self.getSelectedItem())
 
-                Logutil.log('onAction: ACTION_CONTEXT', util.LOG_LEVEL_INFO)
         except Exception, (exc):
             Logutil.log("RCB_ERROR: unhandled Error in onAction: " + str(exc), util.LOG_LEVEL_ERROR)
 
@@ -1534,6 +1548,47 @@ class UIGameDB(xbmcgui.WindowXML):
         else:
             Logutil.log("End setFilterSelection", util.LOG_LEVEL_DEBUG)
             return 0
+
+    def set_isfavorite_for_game(self, selected_game):
+        log.info("set_isfavorite_for_game")
+        if selected_game is None:
+            xbmcgui.Dialog().ok(util.SCRIPTNAME, util.localize(32016), util.localize(32014))
+            return
+
+        isFavorite = '1'
+        if selected_game.getProperty('isfavorite') == '1':
+            isFavorite = '0'
+
+        log.info("Updating game '{0}' set isFavorite = {1}".format(selected_game.getLabel(), isFavorite))
+        Game(self.gdb).update(('isfavorite',), (isFavorite,), selected_game.getProperty('gameId'), True)
+        self.gdb.commit()
+
+        if isFavorite == '0':
+            isFavorite = ''
+        selected_game.setProperty('isfavorite', str(isFavorite))
+
+    def set_isfavorite_for_selection(self, selected_game):
+        log.info("set_isfavorite_for_selection")
+        if selected_game is None:
+            xbmcgui.Dialog().ok(util.SCRIPTNAME, util.localize(32016), util.localize(32014))
+            return
+
+        isFavorite = '1'
+        if selected_game.getProperty('isfavorite') == '1':
+            isFavorite = '0'
+
+        listSize = self.getListSize()
+        for i in range(0, listSize):
+            listItem = self.getListItem(i)
+
+            log.info("Updating game '{0}' set isfavorite = {1}".format(listItem.getLabel(), isFavorite))
+            Game(self.gdb).update(('isfavorite',), (isFavorite,), listItem.getProperty('gameId'), True)
+            listItem.setProperty('isfavorite', str(isFavorite))
+        self.gdb.commit()
+
+        #HACK: removing favorites does not update the UI. So do it manually.
+        if str(isFavorite) == '0':
+            self.loadViewState()
 
     def getControlById(self, controlId):
         try:

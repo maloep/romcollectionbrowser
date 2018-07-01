@@ -59,9 +59,9 @@ class ContextMenuDialog(object):
         elif choice == 2:
             self.edit_game_command()
         elif choice == 3:
-            self.set_isfavorite_for_game()
+            self.gui.set_isfavorite_for_game(self.selectedGame)
         elif choice == 4:
-            self.set_isfavorite_for_selection()
+            self.gui.set_isfavorite_for_selection(self.selectedGame)
         elif choice == 5:
             self.delete_game()
         elif choice == 6:
@@ -122,47 +122,6 @@ class ContextMenuDialog(object):
             log.info("Updating game '{0}' with command '{1}'".format(self.selectedGame.getLabel(), command))
             Game(self.gui.gdb).update(('gameCmd',), (command,), self.selectedGame.getProperty('gameId'), True)
             self.gui.gdb.commit()
-
-    def set_isfavorite_for_game(self):
-        log.info("set_isfavorite_for_game")
-        if self.selectedGame is None:
-            xbmcgui.Dialog().ok(util.SCRIPTNAME, util.localize(32016), util.localize(32014))
-            return
-
-        isFavorite = '1'
-        if self.selectedGame.getProperty('isfavorite') == '1':
-            isFavorite = '0'
-
-        log.info("Updating game '{0}' set isFavorite = {1}".format(self.selectedGame.getLabel(), isFavorite))
-        Game(self.gui.gdb).update(('isfavorite',), (isFavorite,), self.selectedGame.getProperty('gameId'), True)
-        self.gui.gdb.commit()
-
-        if isFavorite == '0':
-            isFavorite = ''
-        self.selectedGame.setProperty('isfavorite', str(isFavorite))
-
-    def set_isfavorite_for_selection(self):
-        log.info("set_isfavorite_for_selection")
-        if self.selectedGame is None:
-            xbmcgui.Dialog().ok(util.SCRIPTNAME, util.localize(32016), util.localize(32014))
-            return
-
-        isFavorite = '1'
-        if self.selectedGame.getProperty('isfavorite') == '1':
-            isFavorite = '0'
-
-        listSize = self.gui.getListSize()
-        for i in range(0, listSize):
-            listItem = self.gui.getListItem(i)
-
-            log.info("Updating game '{0}' set isfavorite = {1}".format(listItem.getLabel(), isFavorite))
-            Game(self.gui.gdb).update(('isfavorite',), (isFavorite,), listItem.getProperty('gameId'), True)
-            listItem.setProperty('isfavorite', str(isFavorite))
-        self.gui.gdb.commit()
-
-        #HACK: removing favorites does not update the UI. So do it manually.
-        if str(isFavorite) == '0':
-            self.gui.loadViewState()
 
     def delete_game(self):
         log.info("delete_game")
