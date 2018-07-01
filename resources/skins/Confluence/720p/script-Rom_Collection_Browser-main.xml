@@ -1476,8 +1476,8 @@
 							<texture background="true">$INFO[ListItem.ActualIcon]</texture>
 						</control>
 						<control type="image">
-							<posx>-5</posx>
-							<posy>360</posy>
+							<posx>0</posx>
+							<posy>250</posy>
 							<width>15</width>
 							<height>15</height>
 							<texture>rcb-star.png</texture>					
@@ -1506,15 +1506,6 @@
 							<texture background="true">$INFO[ListItem.ActualIcon]</texture>
 							<visible>Container.OnScrollNext</visible>
 							<animation effect="fade" time="300" start="100" end="0">Hidden</animation>
-						</control>
-						<control type="image">
-							<posx>-32</posx>
-							<posy>374</posy>
-							<width>15</width>
-							<height>15</height>
-							<texture>rcb-star.png</texture>					
-							<visible>!String.IsEmpty(ListItem.Property(isfavorite))</visible>
-							<animation reversible="false" effect="fade" start="0" end="100" time="400">Focus</animation>
 						</control>
 					</focusedlayout>
 				</control>
@@ -1545,6 +1536,16 @@
 					<bordersize>7</bordersize><!--bordersize-->
 					<texture background="true">$INFO[ListItem.Art(thumb)]</texture>
 					<fadetime>100</fadetime>
+					<animation effect="fade" start="0" end="100" time="500" tween="sine">Focus</animation>
+					<animation effect="fade" start="100" end="0" time="500">UnFocus</animation>
+				</control>
+				<control type="image">
+					<posx>85</posx>
+					<posy>508</posy><!--view_58_image_focus_posy-->
+					<width>15</width>
+					<height>15</height>
+					<texture>rcb-star.png</texture>					
+					<visible>!String.IsEmpty(ListItem.Property(isfavorite))</visible>
 					<animation effect="fade" start="0" end="100" time="500" tween="sine">Focus</animation>
 					<animation effect="fade" start="100" end="0" time="500">UnFocus</animation>
 				</control>
@@ -1685,8 +1686,8 @@
 							<texture background="true">$INFO[ListItem.ActualIcon]</texture>
 						</control>
 						<control type="image">
-							<posx>-5</posx>
-							<posy>360</posy>
+							<posx>0</posx>
+							<posy>185</posy>
 							<width>15</width>
 							<height>15</height>
 							<texture>rcb-star.png</texture>					
@@ -1715,15 +1716,6 @@
 							<texture background="true">$INFO[ListItem.ActualIcon]</texture>
 							<visible>Container.OnScrollNext</visible>
 							<animation effect="fade" time="300" start="100" end="0">Hidden</animation>
-						</control>
-						<control type="image">
-							<posx>-32</posx>
-							<posy>374</posy>
-							<width>15</width>
-							<height>15</height>
-							<texture>rcb-star.png</texture>					
-							<visible>!String.IsEmpty(ListItem.Property(isfavorite))</visible>
-							<animation reversible="false" effect="fade" start="0" end="100" time="400">Focus</animation>
 						</control>
 					</focusedlayout>
 				</control>
@@ -1756,6 +1748,15 @@
 					<fadetime>100</fadetime>
 					<animation effect="fade" start="0" end="100" time="500" tween="sine">Focus</animation>
 					<animation effect="fade" start="100" end="0" time="500">UnFocus</animation>
+				</control>
+				<control type="image">
+					<posx>175</posx>
+					<posy>380</posy><!--view_59_image_focus_posy-->
+					<width>15</width>
+					<height>15</height>
+					<texture>rcb-star.png</texture>					
+					<visible>!String.IsEmpty(ListItem.Property(isfavorite))</visible>
+					<animation reversible="false" effect="fade" start="0" end="100" time="400">Focus</animation>
 				</control>
 				<!-- Title -->
 				<control type="label">
