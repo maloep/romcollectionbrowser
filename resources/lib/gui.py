@@ -1588,7 +1588,7 @@ class UIGameDB(xbmcgui.WindowXML):
 
         #HACK: removing favorites does not update the UI. So do it manually.
         if str(isFavorite) == '0':
-            self.loadViewState()
+            self.showGames()
 
     def getControlById(self, controlId):
         try:
