@@ -28,6 +28,8 @@
 	<color name="rcb_button_highlight">FFA2A2A2</color>
 	<color name="rcb_button_nofocus_dialog">FF111111</color>
 	<color name="rcb_button_focus_dialog">FFA2A2A2</color>
+	<color name="rcb_menuitem_nofocus_dialog">FF111111</color>
+	<color name="rcb_menuitem_focus_dialog">FFA2A2A2</color>
 	<color name="rcb_button_category_nofocus">FF111111</color>
 	<color name="rcb_button_category_focus">FFA2A2A2</color>
 	
