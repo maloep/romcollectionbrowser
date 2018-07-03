@@ -95,7 +95,7 @@
 							<aspectratio align="center" aligny="bottom">keep</aspectratio>
 							<bordersize>7</bordersize><!--bordersize-->
 							<texture background="true">$INFO[ListItem.Art(thumb)]</texture>
-							<bordertexture border="7" colordiffuse="$INFO[Skin.String(rcb_button_focus)]">rcb-thumbnail-border.png</bordertexture>
+							<bordertexture border="7" colordiffuse="$INFO[Skin.String(rcb_thumb_border)]">rcb-thumbnail-border.png</bordertexture>
 							<animation reversible="false" effect="zoom" end="120" center="auto" time="150">Focus</animation>
 						</control>
 						<control type="image">
@@ -1532,7 +1532,7 @@
 					<width>290</width>
 					<height>400</height>
 					<aspectratio align="center" aligny="top">scale</aspectratio>
-					<bordertexture border="7" colordiffuse="$INFO[Skin.String(rcb_button_focus)]">rcb-thumbnail-border.png</bordertexture>
+					<bordertexture border="7" colordiffuse="$INFO[Skin.String(rcb_thumb_border)]">rcb-thumbnail-border.png</bordertexture>
 					<bordersize>7</bordersize><!--bordersize-->
 					<texture background="true">$INFO[ListItem.Art(thumb)]</texture>
 					<fadetime>100</fadetime>
@@ -1742,7 +1742,7 @@
 					<width>350</width>
 					<height>250</height>
 					<aspectratio align="center" aligny="top">scale</aspectratio>
-					<bordertexture border="7" colordiffuse="$INFO[Skin.String(rcb_button_focus)]">rcb-thumbnail-border.png</bordertexture>
+					<bordertexture border="7" colordiffuse="$INFO[Skin.String(rcb_thumb_border)]">rcb-thumbnail-border.png</bordertexture>
 					<bordersize>7</bordersize><!--bordersize-->
 					<texture background="true">$INFO[ListItem.Art(thumb)]</texture>
 					<fadetime>100</fadetime>

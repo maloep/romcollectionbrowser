@@ -21,6 +21,7 @@
 	<color name="rcb_button_focus">FFA2A2A2</color>
 	<color name="rcb_menuitem_nofocus">FF111111</color>
 	<color name="rcb_menuitem_focus">FFA2A2A2</color>
+	<color name="rcb_thumb_border">FFA2A2A2</color>
 	<color name="rcb_radiobutton_focus">FFFFFFFF</color>
 	<color name="rcb_radiobutton_nofocus">FFFFFFFF</color>
 	<color name="rcb_radiobutton_focus_dialog">FFFFFFFF</color>
