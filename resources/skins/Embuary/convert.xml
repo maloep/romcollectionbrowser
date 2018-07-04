@@ -6,7 +6,7 @@
 		<font name="font13">Reg24</font> <!-- labels -->
 		<font name="font25_title">Reg28</font> <!-- buttons -->
 		<font name="font30_title">Light35</font> <!-- titles -->
-		<font name="font32_title">Reg20</font> <!-- dialog headers -->
+		<font name="font32_title">Med20</font> <!-- dialog headers -->
 		<font name="font45_title">Light48</font> <!-- large titles -->
 	</fonts>
 	<controls>
@@ -35,7 +35,7 @@
 			<view_57_textbox_height>0</view_57_textbox_height>
 			<view_58_textbox_height>0</view_58_textbox_height>
 			<view_59_textbox_height>0</view_59_textbox_height>
-			<gameinfo_textbox_height>0</gameinfo_textbox_height>
+			<gameinfo_textbox_height>-4</gameinfo_textbox_height>
 		</textbox>
 		<border>
 			<bordersize>0</bordersize>

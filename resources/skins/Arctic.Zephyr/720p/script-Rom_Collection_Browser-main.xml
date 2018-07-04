@@ -1361,6 +1361,7 @@
 							<aligny>center</aligny>
 							<textcolor>$INFO[Skin.String(rcb_text_menuitem_nofocus)]</textcolor>
 							<label>$INFO[ListItem.Label]</label>
+							<font>Small</font>
 							<visible>String.IsEmpty(ListItem.Art(clearlogo)) | !Skin.HasSetting(rcb_useClearlogoAsTitle)</visible>
 						</control>
 						<control type="image">
@@ -1401,6 +1402,7 @@
 							<aligny>center</aligny>
 							<textcolor>$INFO[Skin.String(rcb_text_menuitem_focus)]</textcolor>
 							<label>$INFO[ListItem.Label]</label>
+							<font>Small</font>
 							<autoscroll time="3000" delay="3000" repeat="3000">True</autoscroll>
 							<visible>String.IsEmpty(ListItem.Art(clearlogo)) | !Skin.HasSetting(rcb_useClearlogoAsTitle)</visible>
 						</control>
@@ -2316,7 +2318,7 @@
 					<width>200</width>
 					<height>40</height>
 					<font>Small</font>
-					<textcolor>$INFO[Skin.String(rcb_text_value)]</textcolor>				
+					<textcolor>$INFO[Skin.String(rcb_text_button_nofocus)]</textcolor>				
 					<textoffsetx>7</textoffsetx>
 					<align>right</align>
 					<aligny>center</aligny>
@@ -2373,7 +2375,7 @@
 					<width>200</width>
 					<height>40</height>
 					<font>Small</font>
-					<textcolor>$INFO[Skin.String(rcb_text_value)]</textcolor>
+					<textcolor>$INFO[Skin.String(rcb_text_button_nofocus)]</textcolor>
 					<textoffsetx>7</textoffsetx>
 					<align>right</align>
 					<aligny>center</aligny>

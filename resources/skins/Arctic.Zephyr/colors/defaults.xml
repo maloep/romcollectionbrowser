@@ -50,6 +50,8 @@
 	<color name="rcb_text_button_dialog">FF333333</color> <!-- Dark1 -->
 	<color name="rcb_text_shadow">ffdddddd</color> <!-- Light1 -->
 	<color name="rcb_text_dialog_header">ff333333</color> <!-- Dark1 -->
+	<color name="rcb_text_menuitem_nofocus_dialog">FF333333</color> <!-- Dark1 -->
+	<color name="rcb_text_menuitem_focus_dialog">ffdddddd</color> <!-- Light1 -->
 	<color name="rcb_text_button_nofocus_dialog">FF333333</color> <!-- Dark1 -->
 	<color name="rcb_text_button_focus_dialog">ffdddddd</color> <!-- Light1 -->
 </colors>

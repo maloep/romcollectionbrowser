@@ -1,6 +1,6 @@
 <colors>
 	<color name="rcb_background">ff141414</color>
-	<color name="rcb_background_diffuse">f2141414</color>
+	<color name="rcb_background_diffuse">f2242424</color>
 	<color name="rcb_background_diffuse_dialog_open">AA000000</color>
 	
 	<color name="rcb_panel_slide">ff222222</color>
@@ -43,11 +43,13 @@
 	<color name="rcb_text_label">FF52b54b</color>
 	<color name="rcb_text_value">FFFFFFFF</color>
 	<color name="rcb_text_heading">FF52b54b</color>
-	<color name="rcb_text_button_nofocus">FFFFFFFF</color>
-	<color name="rcb_text_button_focus">FFFFFFFF</color>
+	<color name="rcb_text_button_nofocus">ffaaaaaa</color>
+	<color name="rcb_text_button_focus">ffaaaaaa</color>
 	<color name="rcb_text_button_disabled">80FFFFFF</color>
 	<color name="rcb_text_shadow">00000000</color>
-	<color name="rcb_text_dialog_header">FFFFFFFF</color>
+	<color name="rcb_text_dialog_header">ffaaaaaa</color>
+	<color name="rcb_text_menuitem_nofocus_dialog">ffaaaaaa</color>
+	<color name="rcb_text_menuitem_focus_dialog">ffaaaaaa</color>
 	<color name="rcb_text_button_nofocus_dialog">FFFFFFFF</color>
 	<color name="rcb_text_button_focus_dialog">FFFFFFFF</color>
 </colors>

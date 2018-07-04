@@ -48,6 +48,8 @@
 	<color name="rcb_text_button_disabled">80FFFFFF</color>
 	<color name="rcb_text_shadow">FF000000</color>
 	<color name="rcb_text_dialog_header">FFFFFFFF</color>
+	<color name="rcb_text_menuitem_nofocus_dialog">FFFFFFFF</color>
+	<color name="rcb_text_menuitem_focus_dialog">FFFFFFFF</color>
 	<color name="rcb_text_button_nofocus_dialog">FFFFFFFF</color>
 	<color name="rcb_text_button_focus_dialog">FFFFFFFF</color>
 </colors>
