@@ -1,3 +1,28 @@
+2.2.2 (07/2018)
+~~~~~~~~~~~~~
+General:
+  * move options from bottom to left
+  * move options from context menu to Action pane
+  * add color schemes
+  * remove skins Night and Simplicity
+  * add skins Arctic Zephyr, Confluence and Embuary
+  * add mechanism to automatically update skin files
+  * show navigation hint at startup
+  * new keyboard shortcuts: filter Rom Collections and add/remove favorites
+
+Browse Games:
+  * move game filter from top to right
+  * add filters for developer, max players, rating and region
+  * add sort method and direction
+  * smoother scrolling in game lists
+  * make scrollbars optional
+  * rename views
+  * rework Poster view (fka Thumbs view)
+  * new Landscape view
+
+Launch Games:
+  * fix bug when launching games on Android
+
 2.2.1 (05/2018)
 ~~~~~~~~~~~~~
 General:
