@@ -21,13 +21,20 @@
 	<color name="rcb_button_focus">FF2866A4</color>
 	<color name="rcb_menuitem_nofocus">FF111111</color>
 	<color name="rcb_menuitem_focus">FF2866A4</color>
-	<color name="rcb_radiobutton_focus">FFFFFFFF</color>
-	<color name="rcb_radiobutton_nofocus">FFFFFFFF</color>
-	<color name="rcb_radiobutton_focus_dialog">FFFFFFFF</color>
-	<color name="rcb_radiobutton_nofocus_dialog">FFFFFFFF</color>
+	<color name="rcb_thumb_border">FF2866A4</color>
+	<color name="rcb_radiobutton_on_focus">FFFFFFFF</color>
+	<color name="rcb_radiobutton_off_focus">FFFFFFFF</color>
+	<color name="rcb_radiobutton_on_nofocus">FFFFFFFF</color>
+	<color name="rcb_radiobutton_off_nofocus">FFFFFFFF</color>
+	<color name="rcb_radiobutton_on_focus_dialog">FFFFFFFF</color>
+	<color name="rcb_radiobutton_off_focus_dialog">FFFFFFFF</color>
+	<color name="rcb_radiobutton_on_nofocus_dialog">FFFFFFFF</color>
+	<color name="rcb_radiobutton_off_nofocus_dialog">FFFFFFFF</color>
 	<color name="rcb_button_highlight">FF2866A4</color>
 	<color name="rcb_button_nofocus_dialog">FF111111</color>
 	<color name="rcb_button_focus_dialog">FF2866A4</color>
+	<color name="rcb_menuitem_nofocus_dialog">FF111111</color>
+	<color name="rcb_menuitem_focus_dialog">FF2866A4</color>
 	<color name="rcb_button_category_nofocus">FF111111</color>
 	<color name="rcb_button_category_focus">FF2866A4</color>
 	
@@ -42,6 +49,8 @@
 	<color name="rcb_text_button_dialog">FFFFFFFF</color>
 	<color name="rcb_text_shadow">FF000000</color>
 	<color name="rcb_text_dialog_header">FFFFFFFF</color>
+	<color name="rcb_text_menuitem_nofocus_dialog">FFFFFFFF</color>
+	<color name="rcb_text_menuitem_focus_dialog">FFFFFFFF</color>
 	<color name="rcb_text_button_nofocus_dialog">FFFFFFFF</color>
 	<color name="rcb_text_button_focus_dialog">FFFFFFFF</color>
 </colors>

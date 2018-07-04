@@ -1,0 +1,72 @@
+<convert>
+    <fonts>
+		<font name="font10">Light24</font> <!-- message line -->
+		<font name="font12">Light24</font> <!-- plot -->
+		<font name="&lt;font&gt;font13&lt;/font&gt;&lt;!--list_item_font--&gt;">&lt;font&gt;Reg26&lt;/font&gt;&lt;!--list_item_font--&gt;</font> <!-- game list -->
+		<font name="font13">Reg24</font> <!-- labels -->
+		<font name="font25_title">Reg28</font> <!-- buttons -->
+		<font name="font30_title">Light35</font> <!-- titles -->
+		<font name="font32_title">Med20</font> <!-- dialog headers -->
+		<font name="font45_title">Light48</font> <!-- large titles -->
+	</fonts>
+	<controls>
+		<radiobutton>
+			<radioposx>15</radioposx>
+			<radiowidth>0</radiowidth>
+			<radioheight>0</radioheight>
+		</radiobutton>
+		<scrollbar>
+			<scrollbar_h_posy>0</scrollbar_h_posy>
+			<scrollbar_h_height>0</scrollbar_h_height>
+			<scrollbar_v_posx>0</scrollbar_v_posx>
+			<scrollbar_v_width>0</scrollbar_v_width>
+		</scrollbar>
+		<scroll_updown>
+			<scroll_updown_width>0</scroll_updown_width>
+			<scroll_updown_height>0</scroll_updown_height>
+			<scroll_updown_posx_left>0</scroll_updown_posx_left>
+			<scroll_updown_posx_right>0</scroll_updown_posx_right>
+			<scroll_updown_posy>0</scroll_updown_posy>
+		</scroll_updown>
+		<textbox>
+			<view_50_textbox_height>-2</view_50_textbox_height>
+			<view_52_textbox_height>-2</view_52_textbox_height>
+			<view_53_textbox_height>0</view_53_textbox_height>
+			<view_57_textbox_height>0</view_57_textbox_height>
+			<view_58_textbox_height>0</view_58_textbox_height>
+			<view_59_textbox_height>0</view_59_textbox_height>
+			<gameinfo_textbox_height>-4</gameinfo_textbox_height>
+		</textbox>
+		<border>
+			<bordersize>0</bordersize>
+			<border>0</border>
+		</border>
+	</controls>
+	<contentpanels>
+		<view_50_panelcontent_posx>0</view_50_panelcontent_posx>
+		<view_50_panelcontent_width>0</view_50_panelcontent_width>
+		<view_50_image_focus_posy>10</view_50_image_focus_posy>
+		<view_52_panellist_posx>0</view_52_panellist_posx>
+		<view_52_panellist_posy>0</view_52_panellist_posy>
+		<view_52_panellist_width>0</view_52_panellist_width>
+		<view_52_panellist_height>0</view_52_panellist_height>
+		<view_52_panelcontent_posx>0</view_52_panelcontent_posx>
+		<view_52_panelcontent_posy>0</view_52_panelcontent_posy>
+		<view_52_panelcontent_width>0</view_52_panelcontent_width>
+		<view_52_panelcontent_height>0</view_52_panelcontent_height>
+		<view_52_list_posx>0</view_52_list_posx>
+		<view_52_listitem_nofocus_width>0</view_52_listitem_nofocus_width>
+		<view_52_listitem_focus_width>0</view_52_listitem_focus_width>
+		<view_52_labelconsole_posy>0</view_52_labelconsole_posy>
+		<view_52_labeltitle_posy>0</view_52_labeltitle_posy>
+		<view_52_clearlogo_posy>0</view_52_clearlogo_posy>
+		<view_58_image_focus_posy>0</view_58_image_focus_posy>
+	</contentpanels>
+	<dialogs>
+		<dialog_header_image_posy>0</dialog_header_image_posy>
+		<dialog_header_label_posy>0</dialog_header_label_posy>
+		<dialog_button_posy>0</dialog_button_posy>
+		<dialog_menuitem_height>0</dialog_menuitem_height>
+		<dialog_header_label_alignment>left</dialog_header_label_alignment>
+	</dialogs>
+</convert>
