@@ -9,7 +9,7 @@
 	<color name="rcb_panel_info">AA000000</color>
 	<color name="rcb_panel_dialog">FF222222</color>
 	<color name="rcb_panel_dialog_text">FF111111</color>
-	<color name="rcb_panel_dialog_header">FF52b54b</color>	
+	<color name="rcb_panel_dialog_header">FF222222</color>	
 	
 	<color name="rcb_scrollbar_background">29FFFFFF</color>
 	<color name="rcb_scrollbar_nofocus">FFAAAAAA</color>
@@ -46,7 +46,7 @@
 	<color name="rcb_text_button_nofocus">FFFFFFFF</color>
 	<color name="rcb_text_button_focus">FFFFFFFF</color>
 	<color name="rcb_text_button_disabled">80FFFFFF</color>
-	<color name="rcb_text_shadow">FF000000</color>
+	<color name="rcb_text_shadow">00000000</color>
 	<color name="rcb_text_dialog_header">FFFFFFFF</color>
 	<color name="rcb_text_button_nofocus_dialog">FFFFFFFF</color>
 	<color name="rcb_text_button_focus_dialog">FFFFFFFF</color>

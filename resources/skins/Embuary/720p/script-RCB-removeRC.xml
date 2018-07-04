@@ -47,10 +47,10 @@
 			<posy>5</posy><!--dialog_header_label_posy-->
 			<width>720</width>
 			<height>30</height>
-			<font>MediumBold</font>
+			<font>Reg20</font>
 			<textcolor>$INFO[Skin.String(rcb_text_dialog_header)]</textcolor>
 			<shadowcolor>$INFO[Skin.String(rcb_text_shadow)]</shadowcolor>
-			<align>center</align><!--dialog_header_label_alignment-->
+			<align>left</align><!--dialog_header_label_alignment-->
 			<aligny>center</aligny>
 			<label>$ADDON[script.games.rom.collection.browser 32999] - $ADDON[script.games.rom.collection.browser 32900]</label>
 		</control>
@@ -97,7 +97,7 @@
 						<posy>10</posy>
 						<width>200</width>
 						<height>20</height>
-						<font>Small</font>
+						<font>Reg24</font>
 						<textcolor>$INFO[Skin.String(rcb_text_menuitem_focus)]</textcolor>
 						<align>left</align>
 						<aligny>center</aligny>
@@ -109,7 +109,7 @@
 						<posy>10</posy>
 						<width>200</width>
 						<height>20</height>
-						<font>Small</font>
+						<font>Reg24</font>
 						<textcolor>$INFO[Skin.String(rcb_text_menuitem_nofocus)]</textcolor>
 						<align>left</align>
 						<aligny>center</aligny>
@@ -121,7 +121,7 @@
 						<posy>10</posy>
 						<width>330</width>
 						<height>20</height>
-						<font>Small</font>
+						<font>Reg24</font>
 						<textcolor>$INFO[Skin.String(rcb_text_menuitem_focus)]</textcolor>
 						<align>right</align>
 						<aligny>center</aligny>
@@ -133,7 +133,7 @@
 						<posy>10</posy>
 						<width>330</width>
 						<height>20</height>
-						<font>Small</font>
+						<font>Reg24</font>
 						<textcolor>$INFO[Skin.String(rcb_text_menuitem_nofocus)]</textcolor>
 						<align>right</align>
 						<aligny>center</aligny>
@@ -192,7 +192,7 @@
 						<posy>0</posy>
 						<width>680</width>
 						<height>40</height>
-						<texture colordiffuse="FF12A0C7">rcb-menuitem-focus-dialog.png</texture>
+						<texture colordiffuse="$INFO[Skin.String(rcb_menuitem_focus_dialog)]">rcb-menuitem-focus-dialog.png</texture>
 						<visible>[Control.HasFocus(5491) | Control.HasFocus(5492)]</visible>
 					</control>
 					<control type="label">
@@ -200,7 +200,7 @@
 						<posy>10</posy>
 						<width>200</width>
 						<height>20</height>
-						<font>Small</font>
+						<font>Reg24</font>
 						<textcolor>$INFO[Skin.String(rcb_text_menuitem_focus)]</textcolor>
 						<align>left</align>
 						<aligny>center</aligny>
@@ -212,7 +212,7 @@
 						<posy>10</posy>
 						<width>200</width>
 						<height>20</height>
-						<font>Small</font>
+						<font>Reg24</font>
 						<textcolor>$INFO[Skin.String(rcb_text_menuitem_nofocus)]</textcolor>
 						<align>left</align>
 						<aligny>center</aligny>
@@ -224,7 +224,7 @@
 						<posy>10</posy>
 						<width>330</width>
 						<height>20</height>
-						<font>Small</font>
+						<font>Reg24</font>
 						<textcolor>$INFO[Skin.String(rcb_text_menuitem_focus)]</textcolor>
 						<align>right</align>
 						<aligny>center</aligny>
@@ -236,7 +236,7 @@
 						<posy>10</posy>
 						<width>330</width>
 						<height>20</height>
-						<font>Small</font>
+						<font>Reg24</font>
 						<textcolor>$INFO[Skin.String(rcb_text_menuitem_nofocus)]</textcolor>
 						<align>right</align>
 						<aligny>center</aligny>
@@ -284,7 +284,7 @@
 			<width>200</width>
 			<height>30</height>
 			<visible>true</visible>
-			<font>Small</font>
+			<font>Reg28</font>
 			<colordiffuse>DDFFFFFF</colordiffuse>
 			<texturefocus colordiffuse="$INFO[Skin.String(rcb_button_focus_dialog)]">rcb-button-focus.png</texturefocus>
 			<texturenofocus colordiffuse="$INFO[Skin.String(rcb_button_nofocus_dialog)]">rcb-button-nofocus.png</texturenofocus>
@@ -308,7 +308,7 @@
 			<width>200</width>
 			<height>30</height>
 			<visible>true</visible>
-			<font>Small</font>
+			<font>Reg28</font>
 			<colordiffuse>DDFFFFFF</colordiffuse>
 			<texturefocus colordiffuse="$INFO[Skin.String(rcb_button_focus_dialog)]">rcb-button-focus.png</texturefocus>
 			<texturenofocus colordiffuse="$INFO[Skin.String(rcb_button_nofocus_dialog)]">rcb-button-nofocus.png</texturenofocus>

@@ -1,17 +1,17 @@
 <convert>
     <fonts>
-		<font name="font10">Mini</font> <!-- message line -->
-		<font name="font12">Tiny</font> <!-- plot -->
-		<font name="&lt;font&gt;font13&lt;/font&gt;&lt;!--list_item_font--&gt;">&lt;font&gt;SmallBold&lt;/font&gt;&lt;!--list_item_font--&gt;</font> <!-- game list -->
-		<font name="font13">Small</font> <!-- labels -->
-		<font name="font25_title">Small</font> <!-- buttons -->
-		<font name="font30_title">MediumBold</font> <!-- titles -->
-		<font name="font32_title">MediumBold</font> <!-- dialog headers -->
-		<font name="font45_title">LargeBold</font> <!-- large titles -->
+		<font name="font10">Light24</font> <!-- message line -->
+		<font name="font12">Light24</font> <!-- plot -->
+		<font name="&lt;font&gt;font13&lt;/font&gt;&lt;!--list_item_font--&gt;">&lt;font&gt;Reg26&lt;/font&gt;&lt;!--list_item_font--&gt;</font> <!-- game list -->
+		<font name="font13">Reg24</font> <!-- labels -->
+		<font name="font25_title">Reg28</font> <!-- buttons -->
+		<font name="font30_title">Light35</font> <!-- titles -->
+		<font name="font32_title">Reg20</font> <!-- dialog headers -->
+		<font name="font45_title">Light48</font> <!-- large titles -->
 	</fonts>
 	<controls>
 		<radiobutton>
-			<radioposx>0</radioposx>
+			<radioposx>15</radioposx>
 			<radiowidth>0</radiowidth>
 			<radioheight>0</radioheight>
 		</radiobutton>
@@ -29,8 +29,8 @@
 			<scroll_updown_posy>0</scroll_updown_posy>
 		</scroll_updown>
 		<textbox>
-			<view_50_textbox_height>0</view_50_textbox_height>
-			<view_52_textbox_height>0</view_52_textbox_height>
+			<view_50_textbox_height>-2</view_50_textbox_height>
+			<view_52_textbox_height>-2</view_52_textbox_height>
 			<view_53_textbox_height>0</view_53_textbox_height>
 			<view_57_textbox_height>0</view_57_textbox_height>
 			<view_58_textbox_height>0</view_58_textbox_height>
@@ -67,6 +67,6 @@
 		<dialog_header_label_posy>0</dialog_header_label_posy>
 		<dialog_button_posy>0</dialog_button_posy>
 		<dialog_menuitem_height>0</dialog_menuitem_height>
-		<dialog_header_label_alignment>center</dialog_header_label_alignment>
+		<dialog_header_label_alignment>left</dialog_header_label_alignment>
 	</dialogs>
 </convert>
