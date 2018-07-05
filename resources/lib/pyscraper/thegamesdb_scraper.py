@@ -15,8 +15,8 @@ class TheGamesDB_Scraper(WebScraper):
     defaults to ElementTree with BeautifulSoup provided as a possible future implementation.
     """
     _name = 'thegamesdb.net'
-    _search_url = 'http://thegamesdb.net/api/GetGamesList.php'
-    _retrieve_url = 'http://thegamesdb.net/api/GetGame.php'
+    _search_url = 'http://legacy.thegamesdb.net/api/GetGamesList.php'
+    _retrieve_url = 'http://legacy.thegamesdb.net/api/GetGame.php'
 
     # Mapping between the dict keys and the XML fields in the response
     _game_mapping = {
