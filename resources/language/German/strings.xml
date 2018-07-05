@@ -158,6 +158,8 @@
 	<string id="32205">Abbruch erzwingen?</string>
 	<string id="32206">Typ des lokalen Scrapers</string>
 	<string id="32207">Spiel-Infos online scrapen und Artwork ist lokal verfügbar</string>
+	<string id="32208">Links - Optionen, Rechts - Filter, C - Context menu</string>
+	<string id="32209">Rauf - Optionen, Runter - Filter, C - Context menu</string>
 
 	
 	<!-- Settings -->
@@ -188,7 +190,8 @@
 	<string id="32328">Maximale Anzahl Spiele anzeigen</string>
 	<string id="32329">lokale nfo Datei bevorzugen (falls verfügbar)</string>
 	<string id="32330">Clearlogo als Titel in Liste verwenden</string>
-	<string id="32331">Artwork für Listen laden</string>
+	<string id="32331">Scrollbar in Listen anzeigen</string>
+	<string id="32332">Navigations-Hinweise beim Start anzeigen</string>
 	
 	<!-- GUI controls -->
 	<!-- main window-->
@@ -205,23 +208,37 @@
 	<string id="32410">Einträge</string>
 	<string id="32411">Seite</string>
 	<string id="32412">Keine Spiele gefunden</string>
+
+	<string id="32413">Ansicht Optionen</string>
+	<string id="32414">Anzahl Spieler</string>
+	<string id="32415">Rating (>=)</string>
+	<string id="32416">Region</string>
+	<string id="32417">Sortieren nach</string>
+	<string id="32418">Reihenfolge</string>
+	<string id="32419">Aufsteigend</string>
+	<string id="32420">Absteigend</string>
+	<string id="32421">Titel</string>
+	<string id="32422">Rating</string>
+	<string id="32423">Häufig gespielt</string>
+	<string id="32424">Hinzugefügt</string>
+	<string id="32425">Jahr</string>
+	<string id="32426">Farbschema auswählen</string>
+	<string id="32427">Aktionen</string>
+	<string id="32428">Spiele importieren</string>
+	<string id="32429">Datenbank exportieren</string>
+	<string id="32430">Datenbank aufräumen</string>
+	<string id="32431">Artwork Verzeichnisse scannen</string>
+	<string id="32432">Rom Collections bearbeiten</string>
+	<string id="32433">Addon Settings öffnen</string>
 	
 	<!-- context menu-->
-	<string id="32500">Spiele importieren</string>
 	<string id="32501">Spiel erneut einlesen</string>
 	<string id="32502">Auswahl erneut einlesen</string>
-	<string id="32503">Rom Collection hinzufügen</string>
-	<string id="32504">Rom Collection bearbeiten</string>
 	<string id="32506">Spiel-Kommando bearbeiten</string>
 	<string id="32507">Spiel zu Favoriten hinzufügen</string>
 	<string id="32508">Auswahl zu Favoriten hinzufügen</string>
-	<string id="32509">Datenbank exportieren (nfo Dateien)</string>
 	<string id="32510">Spiel löschen</string>
-	<string id="32511">Rom Collection löschen</string>
-	<string id="32512">Datenbank aufräumen</string>
-	<string id="32513">Addon Settings öffnen</string>
 	<string id="32514">Gameclient festlegen (pro Spiel)</string>
-	<string id="32515">Artwork Verzeichnisse scannen</string>
 	
 	<!-- editromcollection -->
 	<string id="32600">Konfiguration</string>
@@ -268,6 +285,8 @@
 	<string id="32642">Pfad zur Info-Datei</string>
 	<string id="32643">Default Scraper</string>
 	<string id="32644">Lokale Kopie erzeugen</string>
+	<string id="32645">Collection hinzufügen</string>
+	<string id="32646">Collection entfernen</string>
 		
 	
 	<!-- editscraper -->
@@ -311,7 +330,7 @@
 	<string id="32858">Nach fehlenden Infos filtern</string>
 	
 	<!-- Delete Rom Collection -->
-	<string id="32900">RCB - Rom Collection lsöchen</string>
+	<string id="32900">RCB - Rom Collection löschen</string>
 	<string id="32901">Lösch-Option</string>
 	<string id="32902">Löschen</string>
 	
