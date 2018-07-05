@@ -2185,7 +2185,7 @@
 			<!-- View Options -->
 			<control type="group">
 				<posx>0</posx>
-				<posy>10</posy>
+				<posy>0</posy>
 				<control type="image">
 					<description>filter background image</description>
 					<posx>0</posx>
@@ -2241,7 +2241,7 @@
 					<radioposx>275</radioposx>
 					<radiowidth>24</radiowidth>
 					<radioheight>24</radioheight>
-					<label>$ADDON[script.games.rom.collection.browser 32404]:</label>
+					<label>$ADDON[script.games.rom.collection.browser 32404]</label>
 					<font>Small</font>
 					<align>left</align>
 					<textoffsetx>7</textoffsetx>
