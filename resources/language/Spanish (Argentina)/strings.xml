@@ -154,6 +154,12 @@
 	<string id="32201">Directorio a emu_autoconfig.xml</string>
 	<string id="32202">%s (Instalado)</string>
 	<string id="32203">Emuladores Autoconfigurados Disponibles</string>
+	<string id="32204">Cacheando imágenes...</string>
+	<string id="32205">Quieres Forzar Cancelar la Importación actual?</string>
+	<string id="32206">Tipo de Scraper Offline</string>
+	<string id="32207">Scrape info de juego online y artwork está disponible localmente</string>
+	<string id="32208">Izquierda - Opciones, Derecha - Filtro, C - Menú Contextual</string>
+	<string id="32209">Arriba - Opciones, Abajo - Filtro, C - Menú Contextual</string>
 	
 	
 	<!-- Settings -->
@@ -185,6 +191,13 @@
 	<string id="32325">Prevenir búsqueda no filtrada</string>
 	<string id="32326">Lanzar Juegos</string>
 	<string id="32327">Evitar emulador cmd</string>
+	<string id="32328">Máximo número de juegos a mostrar</string>
+	<string id="32329">Preferir info local si está disponible</string>
+	<string id="32330">Usar clearlogo como título de lista</string>
+	<string id="32331">Mostrar barra de scroll en lista de juegos</string>
+	<string id="32332">Motrar tips de navegación al comienzo</string>
+	<string id="32331">Mostrar barra de scroll en listas de juegos</string>
+	<string id="32332">Mostrar tips de navegación al comienzo</string>
 	
 	<!-- GUI controls -->
 	<!-- main window -->
@@ -200,6 +213,28 @@
 	<string id="32409">Filtrar infos faltantes</string>
 	<string id="32410">Items</string>
 	<string id="32411">Página</string>
+	<string id="32412">No se encontraron juegos</string>
+	<string id="32413">Opciones de Vista</string>
+	<string id="32414">Jugadores Máximos</string>
+	<string id="32415">Puntaje (>=)</string>
+	<string id="32416">Región</string>
+	<string id="32417">Ordenar Por</string>
+	<string id="32418">Ordenar</string>
+	<string id="32419">Ascendente</string>
+	<string id="32420">Descendente</string>
+	<string id="32421">Título</string>
+	<string id="32422">Puntaje</string>
+	<string id="32423">Veces Jugado</string>
+	<string id="32424">Fecha de Adhesión</string>
+	<string id="32425">Año de Lanzamiento</string>
+	<string id="32426">Selecciona Archivo de Color</string>
+	<string id="32427">Acciones</string>
+	<string id="32428">Importar Juegos</string>
+	<string id="32429">Exportar Base de Datos de Juego</string>
+	<string id="32430">Limpiar Base de Datos</string>
+	<string id="32431">Escanear Directorios de Artwork</string>
+	<string id="32432">Editar colecciones de Rom</string>
+	<string id="32433">Abrir Configuración Addon</string>
 	
 	<!-- context menu-->
 	<string id="32500">Importar Juegos</string>
@@ -256,6 +291,15 @@
 	<string id="32636">Autoplay Video (Info Window)</string>
 	<string id="32637">Usar RetroPlayer</string>
 	<string id="32638">Cliente de Juego</string>
+	<string id="32639">Artwork</string>
+	<string id="32640">Offline Scrapers Disponible</string>
+	<string id="32641">Click Para Adherir Offline Scraper</string>
+	<string id="32642">Selecciona Tipo de Offline Scraper</string>
+	<string id="32642">Selecciona Directorio a Archivo de Descripción de Juegos</string>
+	<string id="32643">Scraper por Defecto</string>
+	<string id="32644">Hacer Copia Local</string>
+	<string id="32645">Adherir Colección</string>
+	<string id="32646">Remover Colección</string>
 	
 	<string id="32634">Guardar Configuración</string>
 	<string id="32635">Cancelar</string>
