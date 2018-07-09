@@ -432,6 +432,7 @@ class UIGameDB(xbmcgui.WindowXML):
                                                                         util.getAddonInstallPath(),
                                                                         "Default", "720p", gui=self)
             if missingInfoDialog.saveConfig:
+                self.config = Config(None)
                 self.config.readXml()
                 self.showGames()
 
@@ -1070,13 +1071,9 @@ class UIGameDB(xbmcgui.WindowXML):
                 progressDialog.writeMsg(util.localize(32106), "", "", count)
             time.sleep(1)
             self.gdb.commit()
-            self.config = Config(None)
-            self.config.readXml()
-            self.clearList()
             xbmc.sleep(util.WAITTIME_UPDATECONTROLS)
             if rDelete:
                 self.setFilterSelection(CONTROL_GAMES_GROUP_START, 0)
-            self.showGames()
 
         rcList = None
         Logutil.log("end Delete Games", util.LOG_LEVEL_INFO)

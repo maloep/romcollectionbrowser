@@ -213,6 +213,13 @@ class EditRomCollectionDialog(DialogBase):
                 self.gui.deleteRCGames(selectedRCId, rcDelStat, rDelStat)
                 del removeRCDialog
 
+            self.gui.config = Config(None)
+            statusOk, errorMsg = self.gui.config.readXml()
+            if statusOk is False:
+                xbmcgui.Dialog().ok(util.SCRIPTNAME, util.localize(32002), errorMsg)
+                log.info("Error reading config.xml: {0}".format(errorMsg))
+                return
+
             self.addItemsToList(CONTROL_LIST_ROMCOLLECTIONS, self.gui.config.getRomCollectionNames())
             self.updateRomCollectionControls()
 
