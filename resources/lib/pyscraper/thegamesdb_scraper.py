@@ -134,7 +134,7 @@ class TheGamesDB_Scraper(WebScraper):
         # Prefix images with base url
         for image in ['fanart', 'boxfront', 'boxback', 'screenshot', 'clearlogo']:
             try:
-                result['Filetype' + image] = ["http://thegamesdb.net/banners/" + result['Filetype' + image][0]]
+                result['Filetype' + image] = ["http://legacy.thegamesdb.net/banners/" + result['Filetype' + image][0]]
             except KeyError:
                 log.warn("Image type {0} not present in retrieve results".format(image))
 
