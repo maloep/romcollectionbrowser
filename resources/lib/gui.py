@@ -517,6 +517,7 @@ class UIGameDB(xbmcgui.WindowXML):
         if not color_file \
             or not xbmcvfs.exists(color_file) \
             or util.getConfiguredSkin() not in color_file:
+            log.info('setting "rcb_colorfile" not found or color file not readable. using "defaults.xml"')
             color_file = os.path.join(util.getAddonInstallPath(), 'resources', 'skins', util.getConfiguredSkin(), 'colors', 'defaults.xml')
 
         tree = ElementTree()
@@ -525,9 +526,11 @@ class UIGameDB(xbmcgui.WindowXML):
         else:
             parser = XMLParser()
 
+        log.info('Reading color file: %s' %color_file)
         tree.parse(color_file, parser)
 
         for color in tree.findall('color'):
+            log.debug('set color: %s: %s' % (color.attrib.get('name'), color.text))
             xbmc.executebuiltin("Skin.SetString(%s, %s)" % (color.attrib.get('name'), color.text))
 
 
