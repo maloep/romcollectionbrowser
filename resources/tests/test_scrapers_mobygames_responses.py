@@ -87,7 +87,7 @@ class Test_MobygamesScraperResponses(unittest.TestCase):
 
     def _loadJsonFromFile(self, filename):
         f = os.path.join(os.path.dirname(__file__), '..', '..', 'resources', 'tests', 'testdata',
-                         'scraper_web_responses', filename)
+                         'scraper_web_responses', 'mobygames', filename)
 
         with open(f) as jsonfile:
             data = jsonfile.read()

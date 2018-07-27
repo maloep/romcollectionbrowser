@@ -19,6 +19,6 @@
   <votes />
   <isFavorite>0</isFavorite>
   <launchCount>0</launchCount>
-  <thumb local="" type="boxfront" />
   <thumb local="" type="screenshot" />
+  <thumb local="" type="boxfront" />
 </game>

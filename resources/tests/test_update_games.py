@@ -310,37 +310,37 @@ class TestUpdateGames(unittest.TestCase):
         """
         
         responses.add(responses.GET, 
-                'http://thegamesdb.net/api/GetGamesList.php?platform=Amiga&name=Airborne+Ranger',
+                'http://legacy.thegamesdb.net/api/GetGamesList.php?platform=Amiga&name=Airborne+Ranger',
                 body=self.loadXmlFromFile('thegamesdb_Amiga_Airborne Ranger_search.xml'), 
                 status=200)
         
         responses.add(responses.GET, 
-                'http://thegamesdb.net/api/GetGame.php?id=24471',
+                'http://legacy.thegamesdb.net/api/GetGame.php?id=24471',
                 body=self.loadXmlFromFile('thegamesdb_Amiga_Airborne Ranger_result.xml'), 
                 status=200)
         
         responses.add(responses.GET, 
-                'http://thegamesdb.net/api/GetGamesList.php?platform=Amiga&name=Chuck+Rock',
+                'http://legacy.thegamesdb.net/api/GetGamesList.php?platform=Amiga&name=Chuck+Rock',
                 body=self.loadXmlFromFile('thegamesdb_Amiga_Chuck Rock_search.xml'), 
                 status=200)
         
         responses.add(responses.GET, 
-                'http://thegamesdb.net/api/GetGame.php?id=35508',
+                'http://legacy.thegamesdb.net/api/GetGame.php?id=35508',
                 body=self.loadXmlFromFile('thegamesdb_Amiga_Chuck Rock_result.xml'),
                 status=200)
         
         responses.add(responses.GET, 
-                'http://thegamesdb.net/api/GetGamesList.php?platform=Amiga&name=Eliminator',
+                'http://legacy.thegamesdb.net/api/GetGamesList.php?platform=Amiga&name=Eliminator',
                 body=self.loadXmlFromFile('thegamesdb_Amiga_Eliminator_search.xml'), 
                 status=200)
         
         responses.add(responses.GET, 
-                'http://thegamesdb.net/api/GetGamesList.php?platform=Amiga&name=Formula+One+Grand+Prix',
+                'http://legacy.thegamesdb.net/api/GetGamesList.php?platform=Amiga&name=Formula+One+Grand+Prix',
                 body=self.loadXmlFromFile('thegamesdb_Amiga_Formula One Grand Prix_search.xml'), 
                 status=200)
         
         responses.add(responses.GET, 
-                'http://thegamesdb.net/api/GetGame.php?id=43812',
+                'http://legacy.thegamesdb.net/api/GetGame.php?id=43812',
                 body=self.loadXmlFromFile('thegamesdb_Amiga_Formula One Grand Prix_result.xml'),
                 status=200)
 
@@ -351,37 +351,37 @@ class TestUpdateGames(unittest.TestCase):
         """
 
         responses.add(responses.GET,
-                      'http://thegamesdb.net/api/GetGamesList.php?platform=Amiga&name=Airborne+Ranger',
+                      'http://legacy.thegamesdb.net/api/GetGamesList.php?platform=Amiga&name=Airborne+Ranger',
                       body=self.loadXmlFromFile('thegamesdb_Amiga_Airborne Ranger_search.xml'),
                       status=200)
 
         responses.add(responses.GET,
-                      'http://thegamesdb.net/api/GetGame.php?id=24471',
+                      'http://legacy.thegamesdb.net/api/GetGame.php?id=24471',
                       body=self.loadXmlFromFile('thegamesdb_Amiga_Airborne Ranger_result_nullvalues.xml'),
                       status=200)
 
         responses.add(responses.GET,
-                      'http://thegamesdb.net/api/GetGamesList.php?platform=Amiga&name=Chuck+Rock',
+                      'http://legacy.thegamesdb.net/api/GetGamesList.php?platform=Amiga&name=Chuck+Rock',
                       body=self.loadXmlFromFile('thegamesdb_Amiga_Chuck Rock_search.xml'),
                       status=200)
 
         responses.add(responses.GET,
-                      'http://thegamesdb.net/api/GetGame.php?id=35508',
+                      'http://legacy.thegamesdb.net/api/GetGame.php?id=35508',
                       body=self.loadXmlFromFile('thegamesdb_Amiga_Chuck Rock_result.xml'),
                       status=200)
 
         responses.add(responses.GET,
-                      'http://thegamesdb.net/api/GetGamesList.php?platform=Amiga&name=Eliminator',
+                      'http://legacy.thegamesdb.net/api/GetGamesList.php?platform=Amiga&name=Eliminator',
                       body=self.loadXmlFromFile('thegamesdb_Amiga_Eliminator_search.xml'),
                       status=200)
 
         responses.add(responses.GET,
-                      'http://thegamesdb.net/api/GetGamesList.php?platform=Amiga&name=Formula+One+Grand+Prix',
+                      'http://legacy.thegamesdb.net/api/GetGamesList.php?platform=Amiga&name=Formula+One+Grand+Prix',
                       body=self.loadXmlFromFile('thegamesdb_Amiga_Formula One Grand Prix_search.xml'),
                       status=200)
 
         responses.add(responses.GET,
-                      'http://thegamesdb.net/api/GetGame.php?id=43812',
+                      'http://legacy.thegamesdb.net/api/GetGame.php?id=43812',
                       body=self.loadXmlFromFile('thegamesdb_Amiga_Formula One Grand Prix_result.xml'),
                       status=200)
 

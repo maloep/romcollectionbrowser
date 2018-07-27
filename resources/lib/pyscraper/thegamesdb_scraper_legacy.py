@@ -7,17 +7,16 @@ from util import Logutil as log
 # FIXME TODO Exception handling (i.e. no games found)
 
 
-class TheGamesDB_Scraper(WebScraper):
+class TheGamesDB_Scraper_Legacy(WebScraper):
     """TheGamesDB.net has its API described at http://wiki.thegamesdb.net/index.php/API_Introduction
 
     It only supports XML response. This is parsed using either BeautifulSoup or the Python xml.etree.ElementTree
     library. Kodi does not distribute the XML parser required for BeautifulSoup to parse XML files, so the parsing
     defaults to ElementTree with BeautifulSoup provided as a possible future implementation.
     """
-    _name = 'thegamesdb.net'
-    _search_url = 'http://thegamesdb.net/api/GetGamesList.php'
-    _retrieve_url = 'http://thegamesdb.net/api/GetGame.php'
-    _api_key = '1e821bf1bab06854840650d77e7e2248f49583821ff9191f2cced47e43bf0a73'
+    _name = 'legacy.thegamesdb.net'
+    _search_url = 'http://legacy.thegamesdb.net/api/GetGamesList.php'
+    _retrieve_url = 'http://legacy.thegamesdb.net/api/GetGame.php'
 
     # Mapping between the dict keys and the XML fields in the response
     _game_mapping = {
@@ -135,7 +134,7 @@ class TheGamesDB_Scraper(WebScraper):
         # Prefix images with base url
         for image in ['fanart', 'boxfront', 'boxback', 'screenshot', 'clearlogo']:
             try:
-                result['Filetype' + image] = ["http://thegamesdb.net/banners/" + result['Filetype' + image][0]]
+                result['Filetype' + image] = ["http://legacy.thegamesdb.net/banners/" + result['Filetype' + image][0]]
             except KeyError:
                 log.warn("Image type {0} not present in retrieve results".format(image))
 

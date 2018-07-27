@@ -389,37 +389,37 @@ class TestImportGames(unittest.TestCase):
         """
         
         responses.add(responses.GET, 
-                'http://thegamesdb.net/api/GetGamesList.php?platform=Amiga&name=Airborne+Ranger',
+                'http://legacy.thegamesdb.net/api/GetGamesList.php?platform=Amiga&name=Airborne+Ranger',
                 body=self.loadXmlFromFile('thegamesdb_Amiga_Airborne Ranger_search.xml'), 
                 status=200)
         
         responses.add(responses.GET, 
-                'http://thegamesdb.net/api/GetGame.php?id=24471',
+                'http://legacy.thegamesdb.net/api/GetGame.php?id=24471',
                 body=self.loadXmlFromFile('thegamesdb_Amiga_Airborne Ranger_result.xml'), 
                 status=200)
         
         responses.add(responses.GET, 
-                'http://thegamesdb.net/api/GetGamesList.php?platform=Amiga&name=Chuck+Rock',
+                'http://legacy.thegamesdb.net/api/GetGamesList.php?platform=Amiga&name=Chuck+Rock',
                 body=self.loadXmlFromFile('thegamesdb_Amiga_Chuck Rock_search.xml'), 
                 status=200)
         
         responses.add(responses.GET, 
-                'http://thegamesdb.net/api/GetGame.php?id=35508',
+                'http://legacy.thegamesdb.net/api/GetGame.php?id=35508',
                 body=self.loadXmlFromFile('thegamesdb_Amiga_Chuck Rock_result.xml'),
                 status=200)
         
         responses.add(responses.GET, 
-                'http://thegamesdb.net/api/GetGamesList.php?platform=Amiga&name=Eliminator',
+                'http://legacy.thegamesdb.net/api/GetGamesList.php?platform=Amiga&name=Eliminator',
                 body=self.loadXmlFromFile('thegamesdb_Amiga_Eliminator_search.xml'), 
                 status=200)
         
         responses.add(responses.GET, 
-                'http://thegamesdb.net/api/GetGamesList.php?platform=Amiga&name=Formula+One+Grand+Prix',
+                'http://legacy.thegamesdb.net/api/GetGamesList.php?platform=Amiga&name=Formula+One+Grand+Prix',
                 body=self.loadXmlFromFile('thegamesdb_Amiga_Formula One Grand Prix_search.xml'), 
                 status=200)
         
         responses.add(responses.GET, 
-                'http://thegamesdb.net/api/GetGame.php?id=43812',
+                'http://legacy.thegamesdb.net/api/GetGame.php?id=43812',
                 body=self.loadXmlFromFile('thegamesdb_Amiga_Formula One Grand Prix_result.xml'),
                 status=200)
         
@@ -428,37 +428,37 @@ class TestImportGames(unittest.TestCase):
     def register_responses_Atari(self):
         
         responses.add(responses.GET, 
-                'http://thegamesdb.net/api/GetGamesList.php?platform=Atari+2600&name=Adventure+%281980%29+%28Atari%29',
+                'http://legacy.thegamesdb.net/api/GetGamesList.php?platform=Atari+2600&name=Adventure+%281980%29+%28Atari%29',
                 body=self.loadXmlFromFile('thegamesdb_Atari_Adventure_search.xml'), 
                 status=200)
         
         responses.add(responses.GET, 
-                'http://thegamesdb.net/api/GetGame.php?id=2570',
+                'http://legacy.thegamesdb.net/api/GetGame.php?id=2570',
                 body=self.loadXmlFromFile('thegamesdb_Atari_Adventure_result.xml'), 
                 status=200)
         
         responses.add(responses.GET, 
-                'http://thegamesdb.net/api/GetGamesList.php?platform=Atari+2600&name=Air-Sea+Battle+%2832+in+1%29+%281988%29+%28Atari%29+%28PAL%29',
+                'http://legacy.thegamesdb.net/api/GetGamesList.php?platform=Atari+2600&name=Air-Sea+Battle+%2832+in+1%29+%281988%29+%28Atari%29+%28PAL%29',
                 body=self.loadXmlFromFile('thegamesdb_Atari_Air-Sea Battle_search.xml'), 
                 status=200)
         
         responses.add(responses.GET, 
-                'http://thegamesdb.net/api/GetGame.php?id=5296',
+                'http://legacy.thegamesdb.net/api/GetGame.php?id=5296',
                 body=self.loadXmlFromFile('thegamesdb_Atari_Air-Sea Battle_result.xml'), 
                 status=200)
         
         responses.add(responses.GET, 
-                'http://thegamesdb.net/api/GetGamesList.php?platform=Atari+2600&name=Air-Sea+Battle+%2832+in+1%29+%281988%29+%28Atari%29+%28PAL%29',
+                'http://legacy.thegamesdb.net/api/GetGamesList.php?platform=Atari+2600&name=Air-Sea+Battle+%2832+in+1%29+%281988%29+%28Atari%29+%28PAL%29',
                 body=self.loadXmlFromFile('thegamesdb_Atari_Asteroids_search.xml'), 
                 status=200)
         
         responses.add(responses.GET, 
-                'http://thegamesdb.net/api/GetGame.php?id=1342',
+                'http://legacy.thegamesdb.net/api/GetGame.php?id=1342',
                 body=self.loadXmlFromFile('thegamesdb_Atari_Asteroids_result.xml'), 
                 status=200)
         
         responses.add(responses.GET, 
-                'http://thegamesdb.net/api/GetGamesList.php?platform=Atari+2600&name=Unknown',
+                'http://legacy.thegamesdb.net/api/GetGamesList.php?platform=Atari+2600&name=Unknown',
                 body=self.loadXmlFromFile('thegamesdb_Atari_Unknown_search.xml'), 
                 status=200)
     """
@@ -467,34 +467,34 @@ class TestImportGames(unittest.TestCase):
     def register_responses_N64(self):
 
         responses.add(responses.GET, 
-                'http://thegamesdb.net/api/GetGamesList.php?platform=Nintendo+64&name=1080%C2%B0+Snowboarding',
+                'http://legacy.thegamesdb.net/api/GetGamesList.php?platform=Nintendo+64&name=1080%C2%B0+Snowboarding',
                 body=self.loadXmlFromFile('thegamesdb_N64_1080 Snowboarding_search.xml'),
                 status=200)
 
         responses.add(responses.GET,
-                      'http://thegamesdb.net/api/GetGame.php?id=237',
+                      'http://legacy.thegamesdb.net/api/GetGame.php?id=237',
                       body=self.loadXmlFromFile('thegamesdb_N64_1080 Snowboarding_result.xml'),
                       status=200)
 
     def register_responses_PSX(self):
 
         responses.add(responses.GET, 
-                'http://thegamesdb.net/api/GetGamesList.php?platform=Sony+Playstation&name=Bushido+Blade',
+                'http://legacy.thegamesdb.net/api/GetGamesList.php?platform=Sony+Playstation&name=Bushido+Blade',
                 body=self.loadXmlFromFile('thegamesdb_PSX_Bushido Blade_search.xml'),
                 status=200)
 
         responses.add(responses.GET,
-                      'http://thegamesdb.net/api/GetGame.php?id=8375',
+                      'http://legacy.thegamesdb.net/api/GetGame.php?id=8375',
                       body=self.loadXmlFromFile('thegamesdb_PSX_Bushido Blade_result.xml'),
                       status=200)
 
         responses.add(responses.GET,
-                      'http://thegamesdb.net/api/GetGamesList.php?platform=Sony+Playstation&name=Silent+Hill+%28Disc+1+of+2%29',
+                      'http://legacy.thegamesdb.net/api/GetGamesList.php?platform=Sony+Playstation&name=Silent+Hill+%28Disc+1+of+2%29',
                       body=self.loadXmlFromFile('thegamesdb_PSX_Silent Hill_search.xml'),
                       status=200)
 
         responses.add(responses.GET,
-                      'http://thegamesdb.net/api/GetGame.php?id=1014',
+                      'http://legacy.thegamesdb.net/api/GetGame.php?id=1014',
                       body=self.loadXmlFromFile('thegamesdb_PSX_Silent Hill_result.xml'),
                       status=200)
 
@@ -502,22 +502,22 @@ class TestImportGames(unittest.TestCase):
     def register_responses_SNES(self):
 
         responses.add(responses.GET,
-                'http://thegamesdb.net/api/GetGamesList.php?platform=Super+Nintendo+%28SNES%29&name=Chrono+Trigger',
+                'http://legacy.thegamesdb.net/api/GetGamesList.php?platform=Super+Nintendo+%28SNES%29&name=Chrono+Trigger',
                 body=self.loadXmlFromFile('thegamesdb_SNES_Chrono Trigger_search.xml'),
                 status=200)
 
         responses.add(responses.GET,
-                      'http://thegamesdb.net/api/GetGame.php?id=1255',
+                      'http://legacy.thegamesdb.net/api/GetGame.php?id=1255',
                       body=self.loadXmlFromFile('thegamesdb_SNES_Chrono Trigger_result.xml'),
                       status=200)
 
         responses.add(responses.GET,
-                      'http://thegamesdb.net/api/GetGamesList.php?platform=Super+Nintendo+%28SNES%29&name=Madden+NFL+%2797',
+                      'http://legacy.thegamesdb.net/api/GetGamesList.php?platform=Super+Nintendo+%28SNES%29&name=Madden+NFL+%2797',
                       body=self.loadXmlFromFile('thegamesdb_SNES_Madden NFL 97_search.xml'),
                       status=200)
 
         responses.add(responses.GET,
-                      'http://thegamesdb.net/api/GetGame.php?id=291',
+                      'http://legacy.thegamesdb.net/api/GetGame.php?id=291',
                       body=self.loadXmlFromFile('thegamesdb_SNES_Madden NFL 97_result.xml'),
                       status=200)
         

@@ -20,6 +20,6 @@
   <isFavorite>0</isFavorite>
   <launchCount>0</launchCount>
   <genre>Adventure</genre>
-  <thumb local="./testdata/artwork/Atari 2600/boxfront\Adventure (1980) (Atari).png" type="boxfront" />
   <thumb local="./testdata/artwork/Atari 2600/screenshot\Adventure (1980) (Atari).jpg" type="screenshot" />
+  <thumb local="./testdata/artwork/Atari 2600/boxfront\Adventure (1980) (Atari).png" type="boxfront" />
 </game>

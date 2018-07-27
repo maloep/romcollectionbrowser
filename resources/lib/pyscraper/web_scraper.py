@@ -19,7 +19,7 @@ class WebScraper(AbstractScraper):
     _retrieve_url = ''
 
     # Note - this needs to map to the order of the consoleDict array.
-    pmaps = ['MobyGames.com', 'thegamesdb.net', 'GiantBomb.com']
+    pmaps = ['MobyGames.com', 'thegamesdb.net', 'GiantBomb.com', 'legacy.thegamesdb.net']
 
     # Mapping between the platform name in RCB and the platform identifier for the various web scrapers
     # FIXME Move to the appropriate scraper classes
@@ -183,7 +183,12 @@ class WebScraper(AbstractScraper):
 
         """
         try:
-            ix = self.pmaps.index(self._name)
+            #HACK: use same platform mapping for thegamesdb and legacy.thegamesdb
+            #remove, when thegamesdbs update process is finished
+            name = self._name
+            if name == 'legacy.thegamesdb.net':
+                name = 'thegamesdb.net'
+            ix = self.pmaps.index(name)
         except ValueError:
             # Did not find a mapping
             log.warn("Did not find a platform mapping for {0}".format(self._name))
