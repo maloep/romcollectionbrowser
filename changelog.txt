@@ -1,3 +1,9 @@
+2.2.3 (08/2018)
+~~~~~~~~~~~~~
+Import Games:
+  * implement new thegamesdb API
+  * rename old thegamesdb scraper to legacy.thegamesdb.net
+
 2.2.2 (07/2018)
 ~~~~~~~~~~~~~
 General:

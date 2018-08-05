@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <addon
   id="script.games.rom.collection.browser"
-  version="2.2.2"
+  version="2.2.3"
   name="Rom Collection Browser"
   provider-name="bruny, malte">
   <requires>
@@ -17,12 +17,9 @@
     <provides>executable game</provides>
   </extension>
   <extension point="xbmc.addon.metadata">
-    <news>2.2.1 (05/2018)
-- add new platforms to console list
-- improve performance of loading game list
-- revert dynamic loading of artwork files
-- new option in context menu: Scan Artwork Directories
-- requires update of RCB widget
+    <news>2.2.3 (08/2018)
+- implement new thegamesdb API
+- rename old thegamesdb scraper to legacy.thegamesdb.net
     </news>
     <summary lang="be">Import, browse and launch games in XBMC</summary>
     <summary lang="ca">Importa, cerca i arranca jocs en l'XBMC</summary>
