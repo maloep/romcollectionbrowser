@@ -18,7 +18,7 @@ class Test_MobygamesScraper(unittest.TestCase):
 
     def test_GamesListResults(self):
         f = os.path.join(os.path.dirname(__file__), '..', '..', 'resources', 'tests', 'testdata',
-                         'scraper_web_responses', 'mobygames_getgameslist.json')
+                         'scraper_web_responses', 'mobygames', 'mobygames_getgameslist.json')
         scraper = Mobygames_Scraper()
 
         with open(f) as jsonfile:
@@ -36,7 +36,7 @@ class Test_MobygamesScraper(unittest.TestCase):
 
     def test_parse_game_result(self):
         f = os.path.join(os.path.dirname(__file__), '..', '..', 'resources', 'tests', 'testdata',
-                         'scraper_web_responses', 'mobygames_getgame.json')
+                         'scraper_web_responses', 'mobygames', 'mobygames_getgame.json')
         scraper = Mobygames_Scraper()
 
         with open(f) as jsonfile:
@@ -55,7 +55,7 @@ class Test_MobygamesScraper(unittest.TestCase):
 
     def test_parse_game_result_WithMultipleGenres(self):
         f = os.path.join(os.path.dirname(__file__), '..', '..', 'resources', 'tests', 'testdata',
-                         'scraper_web_responses', 'mobygames_getgame_2genres.json')
+                         'scraper_web_responses', 'mobygames', 'mobygames_getgame_2genres.json')
         scraper = Mobygames_Scraper()
 
         with open(f) as jsonfile:
@@ -76,7 +76,7 @@ class Test_MobygamesScraper(unittest.TestCase):
 
     def test_parse_release_result(self):
         f = os.path.join(os.path.dirname(__file__), '..', '..', 'resources', 'tests', 'testdata',
-                         'scraper_web_responses', 'mobygames_getrelease.json')
+                         'scraper_web_responses', 'mobygames', 'mobygames_getrelease.json')
         scraper = Mobygames_Scraper()
 
         with open(f) as jsonfile:
@@ -92,7 +92,7 @@ class Test_MobygamesScraper(unittest.TestCase):
 
     def test_parse_release_result_missingelements(self):
         f = os.path.join(os.path.dirname(__file__), '..', '..', 'resources', 'tests', 'testdata',
-                         'scraper_web_responses', 'mobygames_getrelease_missingelements.json')
+                         'scraper_web_responses', 'mobygames', 'mobygames_getrelease_missingelements.json')
         scraper = Mobygames_Scraper()
 
         with open(f) as jsonfile:
@@ -102,7 +102,7 @@ class Test_MobygamesScraper(unittest.TestCase):
 
     def test_parse_covers_result(self):
         f = os.path.join(os.path.dirname(__file__), '..', '..', 'resources', 'tests', 'testdata',
-                         'scraper_web_responses', 'mobygames_getcovers.json')
+                         'scraper_web_responses', 'mobygames', 'mobygames_getcovers.json')
         scraper = Mobygames_Scraper()
 
         with open(f) as jsonfile:
@@ -120,7 +120,7 @@ class Test_MobygamesScraper(unittest.TestCase):
 
     def test_parse_covers_result_empty(self):
         f = os.path.join(os.path.dirname(__file__), '..', '..', 'resources', 'tests', 'testdata',
-                         'scraper_web_responses', 'mobygames_getcovers_empty.json')
+                         'scraper_web_responses', 'mobygames', 'mobygames_getcovers_empty.json')
         scraper = Mobygames_Scraper()
 
         with open(f) as jsonfile:
@@ -133,7 +133,7 @@ class Test_MobygamesScraper(unittest.TestCase):
 
     def test_parse_screenshots_result(self):
         f = os.path.join(os.path.dirname(__file__), '..', '..', 'resources', 'tests', 'testdata',
-                         'scraper_web_responses', 'mobygames_getscreenshots.json')
+                         'scraper_web_responses', 'mobygames', 'mobygames_getscreenshots.json')
         scraper = Mobygames_Scraper()
 
         with open(f) as jsonfile:
@@ -147,7 +147,7 @@ class Test_MobygamesScraper(unittest.TestCase):
 
     def test_parse_screenshots_result_empty(self):
         f = os.path.join(os.path.dirname(__file__), '..', '..', 'resources', 'tests', 'testdata',
-                         'scraper_web_responses', 'mobygames_getscreenshots_empty.json')
+                         'scraper_web_responses', 'mobygames', 'mobygames_getscreenshots_empty.json')
         scraper = Mobygames_Scraper()
 
         with open(f) as jsonfile:
@@ -160,7 +160,7 @@ class Test_MobygamesScraper(unittest.TestCase):
 
     def test_GamesListNoResults(self):
         f = os.path.join(os.path.dirname(__file__), '..', '..', 'resources', 'tests', 'testdata',
-                         'scraper_web_responses', 'mobygames_getgameslist_noresults.json')
+                         'scraper_web_responses', 'mobygames', 'mobygames_getgameslist_noresults.json')
         scraper = Mobygames_Scraper()
 
         with open(f) as jsonfile:
@@ -179,7 +179,7 @@ class Test_MobygamesScraper(unittest.TestCase):
     @unittest.skip("Might be caught by HTTP428 response code")
     def test_ErrorResponseAPIKeyExeeded(self):
         f = os.path.join(os.path.dirname(__file__), '..', '..', 'resources', 'tests', 'testdata',
-                         'scraper_web_responses', 'mobygames_error_apikey_exceeded.json')
+                         'scraper_web_responses', 'mobygames', 'mobygames_error_apikey_exceeded.json')
         scraper = Mobygames_Scraper()
 
         with open(f) as jsonfile:

@@ -5,7 +5,7 @@ sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', '..', 'resource
 sys.path.append(os.path.join(os.path.dirname(__file__), '..', '..', 'resources', 'lib', 'pyscraper'))
 
 import unittest
-from thegamesdb_scraper import TheGamesDB_Scraper
+from thegamesdb_scraper_legacy import TheGamesDB_Scraper_Legacy
 
 
 class Test_GamesDBScraper(unittest.TestCase):
@@ -15,8 +15,8 @@ class Test_GamesDBScraper(unittest.TestCase):
     """
     # Parse game search query
     def test_GamesListResults(self):
-        f = os.path.join(os.path.dirname(__file__), '..', '..', 'resources', 'tests', 'testdata', 'scraper_web_responses', 'thegamesdb_getgameslist.xml')
-        scraper = TheGamesDB_Scraper()
+        f = os.path.join(os.path.dirname(__file__), '..', '..', 'resources', 'tests', 'testdata', 'scraper_web_responses', 'thegamesdb_legacy', 'thegamesdb_getgameslist.xml')
+        scraper = TheGamesDB_Scraper_Legacy()
 
         with open(f) as xmlfile:
             data = xmlfile.read()
@@ -27,8 +27,8 @@ class Test_GamesDBScraper(unittest.TestCase):
 
     def test_GamesListResultsNonAscii(self):
         f = os.path.join(os.path.dirname(__file__), '..', '..', 'resources', 'tests', 'testdata',
-                         'scraper_web_responses', 'thegamesdb_getgameslist_nonascii.xml')
-        scraper = TheGamesDB_Scraper()
+                         'scraper_web_responses', 'thegamesdb_legacy', 'thegamesdb_getgameslist_nonascii.xml')
+        scraper = TheGamesDB_Scraper_Legacy()
 
         with open(f) as xmlfile:
             data = xmlfile.read()
@@ -40,8 +40,8 @@ class Test_GamesDBScraper(unittest.TestCase):
     # Parse game search query using BeautifulSoup parser
     @unittest.skip("BeautifulSoup parser not supported in Kodi")
     def test_GamesListResultsBS(self):
-        f = os.path.join(os.path.dirname(__file__), '..', '..', 'resources', 'tests', 'testdata', 'scraper_web_responses', 'thegamesdb_getgameslist.xml')
-        scraper = TheGamesDB_Scraper()
+        f = os.path.join(os.path.dirname(__file__), '..', '..', 'resources', 'tests', 'testdata', 'scraper_web_responses', 'thegamesdb_legacy', 'thegamesdb_getgameslist.xml')
+        scraper = TheGamesDB_Scraper_Legacy()
 
         with open(f) as xmlfile:
             data = xmlfile.read()
@@ -52,8 +52,8 @@ class Test_GamesDBScraper(unittest.TestCase):
 
     # Parse game retrieve
     def test_Retrieve(self):
-        f = os.path.join(os.path.dirname(__file__), '..', '..', 'resources', 'tests', 'testdata', 'scraper_web_responses', 'thegamesdb_getgame.xml')
-        scraper = TheGamesDB_Scraper()
+        f = os.path.join(os.path.dirname(__file__), '..', '..', 'resources', 'tests', 'testdata', 'scraper_web_responses', 'thegamesdb_legacy', 'thegamesdb_getgame.xml')
+        scraper = TheGamesDB_Scraper_Legacy()
         with open(f) as xmlfile:
             data = xmlfile.read()
         result = scraper._parseGameResult(data)
@@ -72,8 +72,8 @@ class Test_GamesDBScraper(unittest.TestCase):
         
     # Parse game retrieve
     def test_RetrieveMissingProperties(self):
-        f = os.path.join(os.path.dirname(__file__), '..', '..', 'resources', 'tests', 'testdata', 'scraper_web_responses', 'thegamesdb_getgame_missingproperties.xml')
-        scraper = TheGamesDB_Scraper()
+        f = os.path.join(os.path.dirname(__file__), '..', '..', 'resources', 'tests', 'testdata', 'scraper_web_responses', 'thegamesdb_legacy', 'thegamesdb_getgame_missingproperties.xml')
+        scraper = TheGamesDB_Scraper_Legacy()
         with open(f) as xmlfile:
             data = xmlfile.read()
         result = scraper._parseGameResult(data)
@@ -86,36 +86,36 @@ class Test_GamesDBScraper(unittest.TestCase):
     # Parse image capture in the retrieve result
     def test_RetrieveImages(self):
         f = os.path.join(os.path.dirname(__file__), '..', '..', 'resources', 'tests', 'testdata',
-                         'scraper_web_responses', 'thegamesdb_getgame.xml')
-        scraper = TheGamesDB_Scraper()
+                         'scraper_web_responses', 'thegamesdb_legacy', 'thegamesdb_getgame.xml')
+        scraper = TheGamesDB_Scraper_Legacy()
         with open(f) as xmlfile:
             data = xmlfile.read()
         result = scraper._parseGameResult(data)
 
-        self.assertEqual(result['Filetypefanart'], ['http://thegamesdb.net/banners/fanart/original/2613-1.jpg'])
-        self.assertEqual(result['Filetypeboxfront'], ['http://thegamesdb.net/banners/boxart/original/front/2613-1.png'])
-        self.assertEqual(result['Filetypeboxback'], ['http://thegamesdb.net/banners/boxart/original/back/2613-1.jpg'])
-        self.assertEqual(result['Filetypescreenshot'], ['http://thegamesdb.net/banners/screenshots/2613-1.jpg'])
+        self.assertEqual(result['Filetypefanart'], ['http://legacy.thegamesdb.net/banners/fanart/original/2613-1.jpg'])
+        self.assertEqual(result['Filetypeboxfront'], ['http://legacy.thegamesdb.net/banners/boxart/original/front/2613-1.png'])
+        self.assertEqual(result['Filetypeboxback'], ['http://legacy.thegamesdb.net/banners/boxart/original/back/2613-1.jpg'])
+        self.assertEqual(result['Filetypescreenshot'], ['http://legacy.thegamesdb.net/banners/screenshots/2613-1.jpg'])
 
     def test_RetrieveImagesWhenNotPresent(self):
         """Make sure that when image types are not present (fanart in this example) that we don't have issues"""
         f = os.path.join(os.path.dirname(__file__), '..', '..', 'resources', 'tests', 'testdata',
-                         'scraper_web_responses', 'thegamesdb_getgame_missingartwork.xml')
-        scraper = TheGamesDB_Scraper()
+                         'scraper_web_responses', 'thegamesdb_legacy', 'thegamesdb_getgame_missingartwork.xml')
+        scraper = TheGamesDB_Scraper_Legacy()
         with open(f) as xmlfile:
             data = xmlfile.read()
         result = scraper._parseGameResult(data)
 
-        self.assertEqual(result['Filetypeboxfront'], ['http://thegamesdb.net/banners/boxart/original/front/291-1.jpg'])
-        self.assertEqual(result['Filetypeboxback'], ['http://thegamesdb.net/banners/boxart/original/back/291-1.jpg'])
-        self.assertEqual(result['Filetypescreenshot'], ['http://thegamesdb.net/banners/screenshots/291-1.jpg'])
+        self.assertEqual(result['Filetypeboxfront'], ['http://legacy.thegamesdb.net/banners/boxart/original/front/291-1.jpg'])
+        self.assertEqual(result['Filetypeboxback'], ['http://legacy.thegamesdb.net/banners/boxart/original/back/291-1.jpg'])
+        self.assertEqual(result['Filetypescreenshot'], ['http://legacy.thegamesdb.net/banners/screenshots/291-1.jpg'])
 
     def test_RetrieveGameWithMultipleGenres(self):
         """Make sure that games with multiple genres are handled correctly"""
         # Ref http://thegamesdb.net/api/GetGame.php?id=7808"  # Syphon Filter, Publisher 989
         f = os.path.join(os.path.dirname(__file__), '..', '..', 'resources', 'tests', 'testdata',
-                         'scraper_web_responses', 'thegamesdb_getgame_2genres.xml')
-        scraper = TheGamesDB_Scraper()
+                         'scraper_web_responses', 'thegamesdb_legacy', 'thegamesdb_getgame_2genres.xml')
+        scraper = TheGamesDB_Scraper_Legacy()
         with open(f) as xmlfile:
             data = xmlfile.read()
         result = scraper._parseGameResult(data)
@@ -128,8 +128,8 @@ class Test_GamesDBScraper(unittest.TestCase):
         handled correctly"""
         # Ref http://thegamesdb.net/api/GetGame.php?id=7808"  # Syphon Filter, Publisher 989
         f = os.path.join(os.path.dirname(__file__), '..', '..', 'resources', 'tests', 'testdata',
-                         'scraper_web_responses', 'thegamesdb_getgame_2genres.xml')
-        scraper = TheGamesDB_Scraper()
+                         'scraper_web_responses', 'thegamesdb_legacy', 'thegamesdb_getgame_2genres.xml')
+        scraper = TheGamesDB_Scraper_Legacy()
         with open(f) as xmlfile:
             data = xmlfile.read()
         result = scraper._parseGameResult(data)
@@ -159,8 +159,8 @@ class Test_GamesDBScraper(unittest.TestCase):
     # Parse game retrieve using BeautifulSoup parser
     @unittest.skip("BeautifulSoup parser not supported in Kodi")
     def test_RetrieveBS(self):
-        f = os.path.join(os.path.dirname(__file__), '..', '..', 'resources', 'tests', 'testdata', 'scraper_web_responses', 'thegamesdb_getgame.xml')
-        scraper = TheGamesDB_Scraper()
+        f = os.path.join(os.path.dirname(__file__), '..', '..', 'resources', 'tests', 'testdata', 'scraper_web_responses', 'thegamesdb_legacy', 'thegamesdb_getgame.xml')
+        scraper = TheGamesDB_Scraper_Legacy()
         with open(f) as xmlfile:
             data = xmlfile.read()
         result = scraper._parseGameResultBS(data)
@@ -172,8 +172,8 @@ class Test_GamesDBScraper(unittest.TestCase):
 
     # Parse if no entries found for game search
     def test_GamesListNoResults(self):
-        f = os.path.join(os.path.dirname(__file__), '..', '..', 'resources', 'tests', 'testdata', 'scraper_web_responses', 'thegamesdb_getgameslist_noresults.xml')
-        scraper = TheGamesDB_Scraper()
+        f = os.path.join(os.path.dirname(__file__), '..', '..', 'resources', 'tests', 'testdata', 'scraper_web_responses', 'thegamesdb_legacy', 'thegamesdb_getgameslist_noresults.xml')
+        scraper = TheGamesDB_Scraper_Legacy()
         with open(f) as xmlfile:
             data = xmlfile.read()
         results = scraper._parseSearchResults(data)
@@ -182,7 +182,7 @@ class Test_GamesDBScraper(unittest.TestCase):
 
     @unittest.skip("Skip downloading from site")
     def test_GamesResultWithUnicode(self):
-        scraper = TheGamesDB_Scraper()
+        scraper = TheGamesDB_Scraper_Legacy()
         gamedata = scraper.retrieve('137')
 
         self.assertTrue(u"Mushroom Kingdom while avoiding all of Kamek\u2019s clever traps" in gamedata['Description'][0],

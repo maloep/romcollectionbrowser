@@ -1,0 +1,146 @@
+{
+	"status": "Success",
+	"code": 200,
+	"extra_allowance": 0,
+	"remaining_monthly_allowance": 996,
+	"include": {
+		"boxart": {
+			"data": {
+				"55748": [{
+					"resolution": "1000x986",
+					"filename": "boxart/front/55748-1.jpg",
+					"type": "boxart",
+					"id": 138044,
+					"side": "front"
+				}],
+				"53536": [{
+					"resolution": "400x350",
+					"filename": "boxart/front/53536-1.jpg",
+					"type": "boxart",
+					"id": 134760,
+					"side": "front"
+				}],
+				"2613": [{
+					"resolution": "1740x1560",
+					"filename": "boxart/back/2613-1.jpg",
+					"type": "boxart",
+					"id": 48527,
+					"side": "back"
+				},
+				{
+					"resolution": "984x998",
+					"filename": "boxart/front/2613-1.png",
+					"type": "boxart",
+					"id": 102014,
+					"side": "front"
+				}],
+				"2546": [{
+					"resolution": "1742x1560",
+					"filename": "boxart/back/2546-1.jpg",
+					"type": "boxart",
+					"id": 23408,
+					"side": "back"
+				},
+				{
+					"resolution": "984x998",
+					"filename": "boxart/front/2546-1.png",
+					"type": "boxart",
+					"id": 102015,
+					"side": "front"
+				}],
+				"2612": [{
+					"resolution": "1595x1440",
+					"filename": "boxart/back/2612-1.jpg",
+					"type": "boxart",
+					"id": 30913,
+					"side": "back"
+				},
+				{
+					"resolution": "400x400",
+					"filename": "boxart/front/2612-1.jpg",
+					"type": "boxart",
+					"id": 89448,
+					"side": "front"
+				}]
+			},
+			"base_url": {
+				"medium": "https://cdn.thegamesdb.net/images/medium/",
+				"thumb": "https://cdn.thegamesdb.net/images/thumb/",
+				"cropped_center_thumb": "https://cdn.thegamesdb.net/images/cropped_center_thumb/",
+				"large": "https://cdn.thegamesdb.net/images/large/",
+				"small": "https://cdn.thegamesdb.net/images/small/",
+				"original": "https://cdn.thegamesdb.net/images/original/"
+			}
+		}
+	},
+	"data": {
+		"count": 5,
+		"games": [{
+			"rating": "T - Teen",
+			"genres": [10],
+			"players": 2,
+			"overview": "MORE THAN A SEQUEL. THE UNDISPUTED #1 FIGHTING GAME ON THE PLANET.\r\n\r\n23 OF THE GREATEST FIGHTERS ON EARTH.\r\nIncludes new characters, new bosses, each with new ways to inflict multiple ten-hit combos.\r\n\r\n23 NEW STAGES.\r\nMind blowing backgrounds with phenomenal light-sourcing. Jam to 23 new music tracks as you jam an opponents face in the ground.\r\n\r\nBRAND NEW 3D ANIMATIONS.\r\nCinematics at their finest. All-new intro sequence plus animations for each character not found in the arcade version.\r\n\r\nTHREE NEW FIGHTING MODES.\r\nNot available in the original: Survival Mode, Battle Mode & Practice Mode.\r\n\r\nMORE MOVES AND MULTIPLE COMBOS.\r\nNew attack and throw reversals plus new bone-snapping techniques.",
+			"release_date": "1996-08-27",
+			"platform": 10,
+			"publishers": [39],
+			"developers": [5804],
+			"id": 2613,
+			"game_title": "Tekken 2"
+		},
+		{
+			"rating": "T - Teen",
+			"genres": [10],
+			"players": 2,
+			"overview": "The Fight of Your Life\r\n\r\nAn ancient evil force has reawakened, attacking in secret and feeding on the souls of mighty warriors. To lure it out of hiding will take the greatest fighting contest the world has ever seen... Tekken 3. Some are fighting for revenge, some for honor. Ultimately, all are fighting for their lives and the fate of all mankind.\r\n\r\nHidden Features\r\nSecret characters, secret game modes, and dramatic cinematic sequences for each character.\r\n\r\nNew Fighting Styles\r\nIncluding the Brazilian art of the Capoeira fighting and two new styles of Kung Fu.\r\n\r\nNew Characters\r\nIncludes your favorite arcade characters: Eddy, Jin, Xiaoyu, Hwoarang, Julia, Law, Mokujin, Bryan, Ogre, and more, along with new characters created just for the PlayStation version.\r\n\r\nFaster Gameplay\r\nInstant bounce-back from falls, more escapes from tackles and stuns, plus all-new throws make gameplay faster then ever before.",
+			"release_date": "1997-03-22",
+			"platform": 10,
+			"publishers": [39],
+			"developers": [5804],
+			"id": 2546,
+			"game_title": "Tekken 3"
+		},
+		{
+			"rating": "T - Teen",
+			"genres": [2,
+			4,
+			6],
+			"players": 4,
+			"overview": "Dokapon! Ikari no Tekken is an RPG board game which takes 3-4 players to play. Dokapon is a game that makes players go in the world of fantasy to possess the best treasure by beating the enemies and the other players in the game as well. Dokapon game production originates from Japan. Made for more than two players play well together.",
+			"release_date": "1998-12-16",
+			"platform": 10,
+			"publishers": [314],
+			"developers": [9126],
+			"id": 53536,
+			"game_title": "Dokapon Ikari no Tekken"
+		},
+		{
+			"rating": "T - Teen",
+			"genres": [10],
+			"players": 2,
+			"overview": "Get ready for the ultimate brawl-for-all! Namco Limited introduces the 3D arcade smash hit Tekken for the PlayStation game console.\r\n\r\nTekken brings together eight of the world's deadliest fighters for a winner takes all tournament. Unlike Street Fighter, Tekken exists in a 3D environment with 360 degree visuals. You'll fight each round against a different enemy skilled in various forms of martial arts. You must match their skills and expose the weakness of each opponent to defeath them and become the tournament champion.\r\n\r\nRock to a techno soundtrack as you perform mind-melting special moves and bone-snapping throws throughout the world, including Italy, King Edward Island, Greece, and Fiji. String together special combo moves, and with no rules there is no shame in kicking your opponent when he's down.",
+			"release_date": "1995-10-01",
+			"platform": 10,
+			"publishers": [39],
+			"developers": [5804],
+			"id": 2612,
+			"game_title": "Tekken"
+		},
+		{
+			"rating": "E - Everyone",
+			"genres": [4],
+			"players": 1,
+			"overview": "Tokyo Mew Mew \u0096 Tojo Shin Mew Mew! \u0096 Minna Issho ni Gohoshi Suru Nyan is the name of a PS1 Tokyo Mew Mew video game. It was only released in Japan. A new Mew Mew, named Ringo Akai, is introduced, and the girls must battle to defeat G\u00e2teau du Roi, the game's main antagonist.",
+			"release_date": "2002-12-05",
+			"platform": 10,
+			"publishers": [280],
+			"developers": [9651],
+			"id": 55748,
+			"game_title": "Tokyo Mew Mew"
+		}]
+	},
+	"pages": {
+		"current": "https://api.thegamesdb.net/Games/ByGameName?filter%5Bplatform%5D=10&apikey=1e821bf1bab06854840650d77e7e2248f49583821ff9191f2cced47e43bf0a73&include=boxart&name=Tekken&fields=id%2Cgame_title%2Crelease_date%2Cdevelopers%2Cpublishers%2Cplayers%2Cgenres%2Coverview%2Crating&page=1",
+		"next": null,
+		"previous": null
+	}
+}

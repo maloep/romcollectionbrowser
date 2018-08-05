@@ -8,30 +8,34 @@ from util import Logutil as log
 
 
 class TheGamesDB_Scraper(WebScraper):
-    """TheGamesDB.net has its API described at http://wiki.thegamesdb.net/index.php/API_Introduction
-
-    It only supports XML response. This is parsed using either BeautifulSoup or the Python xml.etree.ElementTree
-    library. Kodi does not distribute the XML parser required for BeautifulSoup to parse XML files, so the parsing
-    defaults to ElementTree with BeautifulSoup provided as a possible future implementation.
+    """TheGamesDB.net has its API described at https://api.thegamesdb.net/
     """
     _name = 'thegamesdb.net'
-    _search_url = 'http://legacy.thegamesdb.net/api/GetGamesList.php'
-    _retrieve_url = 'http://legacy.thegamesdb.net/api/GetGame.php'
+    _search_url = 'https://api.thegamesdb.net/Games/ByGameName'
+    _genres_url = 'https://api.thegamesdb.net/Genres'
+    _developers_url = 'https://api.thegamesdb.net/Developers'
+    _publishers_url = 'https://api.thegamesdb.net/Publishers'
+    _images_url = 'https://api.thegamesdb.net/Games/Images'
+    #_retrieve_url = 'http://thegamesdb.net/api/GetGame.php'
+    _api_key = '1e821bf1bab06854840650d77e7e2248f49583821ff9191f2cced47e43bf0a73'
+    _fields = 'id,game_title,release_date,developers,publishers,players,genres,overview,rating'
+    _include = 'boxart'
 
-    # Mapping between the dict keys and the XML fields in the response
+    # Mapping between the dict keys and the json fields in the response
     _game_mapping = {
-        'Game': 'GameTitle',
-        'Description': 'Overview',
-        'Publisher': 'Publisher',
-        'Developer': 'Developer',
-        'Players': 'Players',
-        'Rating': 'Rating',
-        'Filetypefanart': 'Images/fanart/original',
-        'Filetypeboxfront': "Images/boxart[@side='front']",
-        'Filetypeboxback': "Images/boxart[@side='back']",
-        'Filetypescreenshot': "Images/screenshot/original",
-        'Filetypeclearlogo': "Images/clearlogo"
+        'Game': 'game_title',
+        'Description': 'overview',
+        'Players': 'players'
     }
+
+    # This is only used to persist data between the search and retrieve as the search request already returns
+    # a complete game with all details
+    resultdata = {}
+
+    # store genres, developers and publishers during the scrape process
+    genres = {}
+    developers = {}
+    publishers = {}
 
     def __init__(self):
         pass
@@ -40,160 +44,152 @@ class TheGamesDB_Scraper(WebScraper):
         return self._search_url
 
     def _get_search_params(self, **kwargs):
-        return {'name': kwargs['gamename'], 'platform': self.get_platform_for_scraper(kwargs['platform']), }
+        return {'name': kwargs['gamename'],
+                'filter[platform]': self.get_platform_for_scraper(kwargs['platform']),
+                'apikey': self._api_key,
+                'fields': self._fields,
+                'include': self._include}
+
+    def _get_apikey_param(self):
+        return {'apikey': self._api_key}
+
+    def _get_images_params(self, gameid):
+        return {'games_id': gameid,
+            'apikey': self._api_key}
 
     def _get_retrieve_url(self):
-        return self._retrieve_url
+        return ''
 
     def _get_retrieve_params(self, **kwargs):
-        return {'id': kwargs['gameid']}
+        return {}
 
     def search(self, gamename, platform=None):
-        """ Ref http://wiki.thegamesdb.net/index.php/GetGamesList """
-        response = self.open_xml_url(url=self._get_search_url(),
+        """ https://api.thegamesdb.net/ """
+        response = self.open_json_url(url=self._get_search_url(),
                                      params=self._get_search_params(gamename=gamename, platform=platform))
 
         result = self._parseSearchResults(response)
         return result
 
     def retrieve(self, gameid, platform):
-        """ Ref http://wiki.thegamesdb.net/index.php/GetGame """
-        response = self.open_xml_url(url=self._get_retrieve_url(), params=self._get_retrieve_params(gameid=gameid))
 
-        results = self._parseGameResult(response)
+        if len(self.genres) == 0:
+            self.genres = self.open_json_url(url=self._genres_url, params=self._get_apikey_param())
+        if len(self.developers) == 0:
+            self.developers = self.open_json_url(url=self._developers_url, params=self._get_apikey_param())
+        if len(self.publishers) == 0:
+            self.publishers = self.open_json_url(url=self._publishers_url, params=self._get_apikey_param())
+
+        results = self._parseGameResult(self.resultdata[int(gameid)])
+
+        images = self.open_json_url(url=self._images_url, params=self._get_images_params(gameid))
+        image_results = self._parse_image_result(images, gameid)
+
+        results.update(image_results)
+
         return results
 
-    """
-    def _parseGameResultBS(self, response):
-        print 'parseGameResultBS'
+    def _parseSearchResults(self, response):
+        """
+        Parse the json response from the Games/ByGameName API call
+        Returns a list of dicts with id, title and releaseDate
+        """
+        results = []
 
+        code = response['code']
+        status = response['status']
+
+        if code != 200 or status != "Success":
+            log.error("thegamesdb returned an error. Code = %s, Status = %s" %(code, status))
+            return results
+
+        data = response['data']
+        self.resultdata = {}
+
+        for result in data['games']:
+            results.append({'id': result['id'],
+                            'title': result['game_title'],
+                            'releaseDate': result['release_date'],
+                            'SearchKey': [result['game_title']]})
+            #store result for later use in retrieve method
+            self.resultdata[result['id']] = result
+
+        log.info(u"Found {0} results using json response: {1}".format(len(results), results))
+
+        return results
+
+    def _parseGameResult(self, game):
         result = {}
-
-        #soup = BeautifulSoup(response, 'xml')
-        soup = BeautifulSoup(response, 'html.parser')    # This converts all tags to lowercase but is more lenient
-
-        sr = soup.find('game')
-
-        # Standard fields
-        for k, v in self._game_mapping.items():
-            result[k] = sr.find(v.lower()).string
-
-        result['Genres'] = self._parse_genres(sr.find("Genres"))
-
-        # Date
-        result['ReleaseYear'] = self._parse_date(sr.find("releasedate").string)
-
-        # Artwork
-        # FIXME TODO http://wiki.thegamesdb.net/index.php/GetArt
-        try:
-            result['fanart'] = "http://thegamesdb.net/banners/" + sr.find("fanart").find("original").string
-            result['screenshot'] = "http://thegamesdb.net/banners/" + sr.find("screenshot").find("original").string
-            result['boxfront'] = "http://thegamesdb.net/banners/" + sr.find("boxart", side="front").string
-            result['boxback'] = "http://thegamesdb.net/banners/" + sr.find("boxart", side="back").string
-        except AttributeError as e:
-            print "Unable to find attribute: " + str(e)
-
-        print "Found game using BeautifulSoup parser: {0}".format(result)
-        return result
-    """
-
-    def _parseGameResult(self, response):
-        # FIXME TODO This currently is not fully implemented
-        result = {}
-
-        if sys.version_info >= (2, 7):
-            parser = ET.XMLParser(encoding='utf-8')
-        else:
-            parser = ET.XMLParser()
-
-        tree = ET.fromstring(response, parser)
-
-        game = tree.find('Game')
-        # FIXME TODO others
 
         # Standard fields
         for k, v in self._game_mapping.items():
             # HACK - This is only used to retain backwards compatibility with existing scraper, where each key value was a
             # list, even if only one value is in that list
             try:
-                result[k] = [game.find(v).text]
-            # FIXME TODO When we remove the hack, this will be the code to use:
-            # result[k] = game.find(v).text
+                result[k] = [game[v]]
             except Exception:
                 # Typically this result doesn't have this field
                 log.debug("Unable to extract data from key {0}".format(k))
 
         # Custom fields
-        result['Genre'] = self._parse_genres(game.find("Genres"))
-
         # Adjust the date
-        releaseDate = game.find("ReleaseDate")
+        releaseDate = game['release_date']
         if releaseDate is not None:
-            result['ReleaseYear'] = [self._parse_date(releaseDate.text)]
+            result['ReleaseYear'] = [self._parse_date(releaseDate)]
 
+        result['Genre'] = self._parse_lookup_data(game['genres'], self.genres['data']['genres'])
+        result['Developer'] = self._parse_lookup_data(game['developers'], self.developers['data']['developers'])
+        result['Publisher'] = self._parse_lookup_data(game['publishers'], self.publishers['data']['publishers'])
+
+
+
+        """
         # Prefix images with base url
         for image in ['fanart', 'boxfront', 'boxback', 'screenshot', 'clearlogo']:
             try:
-                result['Filetype' + image] = ["http://legacy.thegamesdb.net/banners/" + result['Filetype' + image][0]]
+                result['Filetype' + image] = ["http://thegamesdb.net/banners/" + result['Filetype' + image][0]]
             except KeyError:
                 log.warn("Image type {0} not present in retrieve results".format(image))
-
-        print u"Found game using ElementTree parser: {0}".format(result)
+        """
         return result
 
-    """
-    def _parseSearchResultsBS(self, response):
-        results = []
-        soup = BeautifulSoup(response, 'xml')
-        for sr in soup.find_all('Game'):
-            results.append({'id': sr.id.string,
-                            'title': sr.GameTitle.string,
-                            'releaseDate': sr.ReleaseDate.string,
-                            'SearchKey': sr.GameTitle.string})
+    def _parse_image_result(self, images, gameid):
 
-        print u"Found {0} results using BeautifulSoup parser: {1}".format(len(results), results)
-        return results
-    """
-
-    def _parseSearchResults(self, response):
-        """
-        Parse the response from the GetGamesList API call using ElementTree XML parser
-        Returns a list of dicts with id, title and releaseDate
-        """
-        if sys.version_info >= (2, 7):
-            parser = ET.XMLParser(encoding='utf-8')
-        else:
-            parser = ET.XMLParser()
-        # FIXME TODO throws ParseError
-
-        tree = ET.fromstring(response, parser)
-
-        # ET.iterparse()
-        results = []
-        for game in tree.findall('Game'):
-            #print "{0} - {1} - {2}".format(game.find('id').text, game.find('GameTitle').text, game.find('ReleaseDate').text)
+        result = {}
+        base_url = ''
+        for image_size in ['large', 'medium', 'original']:
             try:
-                results.append({'id': game.find('id').text,
-                                'title': game.find('GameTitle').text,
-                                'releaseDate': game.find('ReleaseDate').text,
-                                'SearchKey': [game.find('GameTitle').text]})
-            except AttributeError:
-                # If we have an attribute error, typically there is no ReleaseDate for this game. Skip.
+                base_url = images['data']['base_url'][image_size]
+                break
+            except KeyError:
                 pass
 
-        print u"Found {0} results using ElementTree parser: {1}".format(len(results), results)
+        game_images = images['data']['images'][str(gameid)]
+        for image in game_images:
+            if image['type'] == 'clearlogo':
+                result['Filetypeclearlogo'] = [base_url + image['filename']]
+            elif image['type'] == 'screenshot':
+                result['Filetypescreenshot'] = [base_url + image['filename']]
+            elif image['type'] == 'fanart':
+                result['Filetypefanart'] = [base_url + image['filename']]
+            elif image['type'] == 'boxart':
+                if (image['side']) == 'front':
+                    result['Filetypeboxfront'] = [base_url + image['filename']]
+                elif (image['side']) == 'back':
+                    result['Filetypeboxback'] = [base_url + image['filename']]
+
+        return result
+
+    def _parse_lookup_data(self, ids, dict):
+        results = []
+
+        if len(ids) == 0:
+            return results
+
+        for id in ids:
+            try:
+                results.append(dict[str(id)]['name'])
+            except KeyError:
+                pass
 
         return results
-
-    # FIXME TODO Do we add genres to a list? Or concat the string with a /? e.g. Fighting / Racing
-    def _parse_genres(self, sr):
-        # Genres - <Genres><genre>...</><genre><genre>...</genre></></Genres>
-        genres = []
-
-        if sr is None:
-            return genres
-
-        for genre in sr.findall("genre"):
-            genres.append(genre.text)
-
-        return genres

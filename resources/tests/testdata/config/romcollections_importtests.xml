@@ -25,7 +25,7 @@
             <diskPrefix>_Disk.*</diskPrefix>
             <imagePlacingMain>gameinfobig</imagePlacingMain>
             <imagePlacingInfo>gameinfosmall</imagePlacingInfo>
-            <scraper name="thegamesdb.net" />
+            <scraper name="legacy.thegamesdb.net" />
         </RomCollection>
     	<RomCollection id="2" name="Atari 2600">
             <useBuiltinEmulator>False</useBuiltinEmulator>
@@ -53,7 +53,7 @@
             <imagePlacingMain>gameinfobig</imagePlacingMain>
             <imagePlacingInfo>gameinfosmall</imagePlacingInfo>
             <scraper default="True" name="Game-database-info" path="./testdata/scraper_offline/gdbi/Atari 2600.xml" />
-            <scraper name="thegamesdb.net" />
+            <scraper name="legacy.thegamesdb.net" />
         </RomCollection>
         <RomCollection id="3" name="Nintendo 64">
             <useBuiltinEmulator>False</useBuiltinEmulator>
@@ -81,7 +81,7 @@
             <imagePlacingMain>gameinfobig</imagePlacingMain>
             <imagePlacingInfo>gameinfosmall</imagePlacingInfo>
             <scraper name="Game-database-info" path="./testdata/scraper_offline/gdbi/N64.xml" />
-            <scraper default="True" name="thegamesdb.net" />
+            <scraper default="True" name="legacy.thegamesdb.net" />
         </RomCollection>
         <RomCollection id="4" name="PlayStation">
             <useBuiltinEmulator>False</useBuiltinEmulator>
@@ -109,7 +109,7 @@
             <diskPrefix>\(Disc.*\)</diskPrefix>
             <imagePlacingMain>gameinfobig</imagePlacingMain>
             <imagePlacingInfo>gameinfosmall</imagePlacingInfo>
-            <scraper name="thegamesdb.net" />
+            <scraper name="legacy.thegamesdb.net" />
         </RomCollection>
         <RomCollection id="5" name="SNES">
             <useBuiltinEmulator>False</useBuiltinEmulator>
@@ -137,7 +137,7 @@
             <diskPrefix>_Disk.*</diskPrefix>
             <imagePlacingMain>gameinfobig</imagePlacingMain>
             <imagePlacingInfo>gameinfosmall</imagePlacingInfo>
-            <scraper name="thegamesdb.net" />
+            <scraper name="legacy.thegamesdb.net" />
         </RomCollection>        
     </RomCollections>
 

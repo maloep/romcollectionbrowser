@@ -15,7 +15,7 @@ class TestWebScraper(unittest.TestCase):
     def test_GetPlatformTheGamesDB(self):
         scraper = TheGamesDB_Scraper()
         platform = scraper.get_platform_for_scraper('PlayStation')
-        self.assertEqual(platform, "Sony Playstation",
+        self.assertEqual(platform, "10",
                          "Did not get expected platform name for {0} scraper".format(scraper.name))
 
     def test_GetPlatformGiantBomb(self):

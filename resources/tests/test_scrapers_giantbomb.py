@@ -19,7 +19,8 @@ class Test_GiantBombScraper(unittest.TestCase):
     # Parse game search query
     @unittest.skip("Search has been changed")
     def test_GamesListResults(self):
-        f = os.path.join(os.path.dirname(__file__), '..', '..', 'resources', 'tests', 'testdata', 'scraper_web_responses', 'giantbomb_getgameslist.json')
+        f = os.path.join(os.path.dirname(__file__), '..', '..', 'resources', 'tests', 'testdata',
+                         'scraper_web_responses', 'giantbomb', 'giantbomb_getgameslist.json')
         scraper = GiantBomb_Scraper()
 
         with open(f) as jsonfile:
@@ -34,7 +35,8 @@ class Test_GiantBombScraper(unittest.TestCase):
 
     # Parse if no results found for the query
     def test_GamesListNoResults(self):
-        f = os.path.join(os.path.dirname(__file__), '..', '..', 'resources', 'tests', 'testdata', 'scraper_web_responses', 'giantbomb_getgameslist_noresults.json')
+        f = os.path.join(os.path.dirname(__file__), '..', '..', 'resources', 'tests', 'testdata',
+                         'scraper_web_responses', 'giantbomb', 'giantbomb_getgameslist_noresults.json')
         scraper = GiantBomb_Scraper()
 
         with open(f) as jsonfile:
@@ -52,7 +54,7 @@ class Test_GiantBombScraper(unittest.TestCase):
 
     def test_GameResult(self):
         f = os.path.join(os.path.dirname(__file__), '..', '..', 'resources', 'tests', 'testdata',
-                         'scraper_web_responses', 'giantbomb_getgame.json')
+                         'scraper_web_responses', 'giantbomb', 'giantbomb_getgame.json')
         scraper = GiantBomb_Scraper()
 
         with open(f) as jsonfile:
@@ -72,7 +74,7 @@ class Test_GiantBombScraper(unittest.TestCase):
         """Make sure that games with multiple genres are handled correctly"""
         # Ref https://www.giantbomb.com/api/game/3030-17123/?api_key=API_KEY&format=json&resources=game
         f = os.path.join(os.path.dirname(__file__), '..', '..', 'resources', 'tests', 'testdata',
-                         'scraper_web_responses', 'giantbomb_getgame_2genres.json')
+                         'scraper_web_responses', 'giantbomb', 'giantbomb_getgame_2genres.json')
         scraper = GiantBomb_Scraper()
         with open(f) as jsonfile:
             data = jsonfile.read()
@@ -89,7 +91,7 @@ class Test_GiantBombScraper(unittest.TestCase):
     def test_parse_search_results(self):
         
         f = os.path.join(os.path.dirname(__file__), '..', '..', 'resources', 'tests', 'testdata',
-                         'scraper_web_responses', 'giantbomb_getreleaselist.json')
+                         'scraper_web_responses', 'giantbomb', 'giantbomb_getreleaselist.json')
         scraper = GiantBomb_Scraper()
         with open(f) as jsonfile:
             data = jsonfile.read()
@@ -106,7 +108,7 @@ class Test_GiantBombScraper(unittest.TestCase):
     def test_parse_release_result(self):
         
         f = os.path.join(os.path.dirname(__file__), '..', '..', 'resources', 'tests', 'testdata',
-                         'scraper_web_responses', 'giantbomb_getrelease.json')
+                         'scraper_web_responses', 'giantbomb', 'giantbomb_getrelease.json')
         scraper = GiantBomb_Scraper()
         with open(f) as jsonfile:
             data = jsonfile.read()
@@ -119,7 +121,7 @@ class Test_GiantBombScraper(unittest.TestCase):
     @unittest.skip("Not yet working")
     def test_ErrorResponseInvalidApiKey(self):
         f = os.path.join(os.path.dirname(__file__), '..', '..', 'resources', 'tests', 'testdata',
-                         'scraper_web_responses', 'giantbomb_error_invalidapikey.json')
+                         'scraper_web_responses', 'giantbomb', 'giantbomb_error_invalidapikey.json')
         scraper = GiantBomb_Scraper()
 
         with open(f) as jsonfile:

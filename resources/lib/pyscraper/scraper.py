@@ -10,9 +10,13 @@ class AbstractScraper(object):
     """
     _name = ''
     _path = ''
+    #store instantiated scraper to avoid instantiating new scrapers for every game
+    _instantiated_scrapers = {}
 
     # Mapping between scraper names in the config files and the corresponding scraper classes
+    #HACK: remove legacy.thegamesdb.net when update process is finished
     scrapers = {'thegamesdb.net': 'TheGamesDB_Scraper',
+                'legacy.thegamesdb.net': 'TheGamesDB_Scraper_Legacy',
                 'mobygames.com': 'Mobygames_Scraper',
                 'giantbomb.com': 'GiantBomb_Scraper',
                 'MAME': 'MAME_Scraper',
@@ -20,6 +24,7 @@ class AbstractScraper(object):
 
     # Mapping between scraper names in the config files and the corresponding scraper classes
     online_scrapers = {'thegamesdb.net': 'TheGamesDB_Scraper',
+                       'legacy.thegamesdb.net': 'TheGamesDB_Scraper_Legacy',
                        'mobygames.com': 'Mobygames_Scraper',
                        'giantbomb.com': 'GiantBomb_Scraper'}
 
@@ -71,14 +76,24 @@ class AbstractScraper(object):
         except KeyError:
             raise ConfigScraperSiteDoesNotExistException("Unsupported scraper: {0}".format(sname))
 
-        log.debug("Instantiating scraper class {0} - {1}".format(sname, target))
+        #check if we already have instantiated this scraper
+        instance = None
         try:
-            module = __import__(target.lower())
-            class_ = getattr(module, target)
-            instance = class_()
-        except ImportError:
-            log.error("Unable to find scraper {0}".format(sname))
-            raise
+            instance = self._instantiated_scrapers[sname]
+            log.debug("Using previously instantiated scraper class {0} - {1}".format(sname, target))
+        except KeyError:
+            pass
+
+        if not instance:
+            log.debug("Instantiating scraper class {0} - {1}".format(sname, target))
+            try:
+                module = __import__(target.lower())
+                class_ = getattr(module, target)
+                instance = class_()
+                self._instantiated_scrapers[sname] = instance
+            except ImportError:
+                log.error("Unable to find scraper {0}".format(sname))
+                raise
 
         return instance
 
