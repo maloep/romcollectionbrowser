@@ -68,8 +68,6 @@ class Test_GamesDBScraper(unittest.TestCase):
         self.assertEquals(result['Filetypeboxfront'], [u'https://cdn.thegamesdb.net/images/large/boxart/front/2613-1.png'])
         self.assertEquals(result['Filetypeboxback'], [u'https://cdn.thegamesdb.net/images/large/boxart/back/2613-1.jpg'])
 
-        print result
-
     def test_get_images(self):
 
         images = self._loadJsonFromFile('images_tekken.json')
