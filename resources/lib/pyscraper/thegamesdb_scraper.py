@@ -53,6 +53,10 @@ class TheGamesDB_Scraper(WebScraper):
     def _get_apikey_param(self):
         return {'apikey': self._api_key}
 
+    def _get_images_params(self, gameid):
+        return {'games_id': gameid,
+            'apikey': self._api_key}
+
     def _get_retrieve_url(self):
         return ''
 
@@ -69,11 +73,19 @@ class TheGamesDB_Scraper(WebScraper):
 
     def retrieve(self, gameid, platform):
 
-        self.genres = self.open_json_url(url=self._genres_url, params=self._get_apikey_param())
-        self.developers = self.open_json_url(url=self._developers_url, params=self._get_apikey_param())
-        self.publishers = self.open_json_url(url=self._publishers_url, params=self._get_apikey_param())
+        if len(self.genres) == 0:
+            self.genres = self.open_json_url(url=self._genres_url, params=self._get_apikey_param())
+        if len(self.developers) == 0:
+            self.developers = self.open_json_url(url=self._developers_url, params=self._get_apikey_param())
+        if len(self.publishers) == 0:
+            self.publishers = self.open_json_url(url=self._publishers_url, params=self._get_apikey_param())
 
         results = self._parseGameResult(self.resultdata[int(gameid)])
+
+        images = self.open_json_url(url=self._images_url, params=self._get_images_params(gameid))
+        image_results = self._parse_image_result(images, gameid)
+
+        results.update(image_results)
 
         return results
 
@@ -138,6 +150,33 @@ class TheGamesDB_Scraper(WebScraper):
             except KeyError:
                 log.warn("Image type {0} not present in retrieve results".format(image))
         """
+        return result
+
+    def _parse_image_result(self, images, gameid):
+
+        result = {}
+        base_url = ''
+        for image_size in ['large', 'medium', 'original']:
+            try:
+                base_url = images['data']['base_url'][image_size]
+                break
+            except KeyError:
+                pass
+
+        game_images = images['data']['images'][str(gameid)]
+        for image in game_images:
+            if image['type'] == 'clearlogo':
+                result['Filetypeclearlogo'] = [base_url + image['filename']]
+            elif image['type'] == 'screenshot':
+                result['Filetypescreenshot'] = [base_url + image['filename']]
+            elif image['type'] == 'fanart':
+                result['Filetypefanart'] = [base_url + image['filename']]
+            elif image['type'] == 'boxart':
+                if (image['side']) == 'front':
+                    result['Filetypeboxfront'] = [base_url + image['filename']]
+                elif (image['side']) == 'back':
+                    result['Filetypeboxback'] = [base_url + image['filename']]
+
         return result
 
     def _parse_lookup_data(self, ids, dict):

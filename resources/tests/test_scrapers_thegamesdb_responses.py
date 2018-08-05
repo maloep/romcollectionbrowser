@@ -44,6 +44,8 @@ class Test_GamesDBScraper(unittest.TestCase):
                       json=self._loadJsonFromFile('developers.json'), status=200)
         responses.add(responses.GET, 'https://api.thegamesdb.net/Publishers',
                       json=self._loadJsonFromFile('publishers.json'), status=200)
+        responses.add(responses.GET, 'https://api.thegamesdb.net/Games/Images',
+                      json=self._loadJsonFromFile('images_tekken.json'), status=200)
 
         scraper = TheGamesDB_Scraper()
 
@@ -51,7 +53,63 @@ class Test_GamesDBScraper(unittest.TestCase):
         scraper.search('Tekken', 'PlayStation')
 
         result = scraper.retrieve('2613', 'PlayStation')
+
+        self.assertEquals(result['Game'], [u'Tekken 2'])
+        self.assertTrue(result['Description'][0].startswith('MORE THAN A SEQUEL. THE UNDISPUTED #1 FIGHTING GAME ON THE PLANET.'))
+        self.assertEquals(result['Developer'], [u'Namco'])
+        self.assertEquals(result['Publisher'], [u'Namco'])
+        self.assertEquals(result['ReleaseYear'], [u'1996'])
+        self.assertEquals(result['Genre'], [u'Fighting'])
+        self.assertEquals(result['Players'], [2])
+
+        self.assertEquals(result['Filetypeclearlogo'], [u'https://cdn.thegamesdb.net/images/large/clearlogo/2613.png'])
+        self.assertEquals(result['Filetypefanart'],  [u'https://cdn.thegamesdb.net/images/large/fanart/2613-1.jpg'])
+        self.assertEquals(result['Filetypescreenshot'], [u'https://cdn.thegamesdb.net/images/large/screenshots/2613-1.jpg'])
+        self.assertEquals(result['Filetypeboxfront'], [u'https://cdn.thegamesdb.net/images/large/boxart/front/2613-1.png'])
+        self.assertEquals(result['Filetypeboxback'], [u'https://cdn.thegamesdb.net/images/large/boxart/back/2613-1.jpg'])
+
         print result
+
+    def test_get_images(self):
+
+        images = self._loadJsonFromFile('images_tekken.json')
+        scraper = TheGamesDB_Scraper()
+        result = scraper._parse_image_result(images, '2613')
+
+        self.assertEquals(result['Filetypeclearlogo'], [u'https://cdn.thegamesdb.net/images/large/clearlogo/2613.png'])
+        self.assertEquals(result['Filetypefanart'], [u'https://cdn.thegamesdb.net/images/large/fanart/2613-1.jpg'])
+        self.assertEquals(result['Filetypescreenshot'], [u'https://cdn.thegamesdb.net/images/large/screenshots/2613-1.jpg'])
+        self.assertEquals(result['Filetypeboxfront'], [u'https://cdn.thegamesdb.net/images/large/boxart/front/2613-1.png'])
+        self.assertEquals(result['Filetypeboxback'], [u'https://cdn.thegamesdb.net/images/large/boxart/back/2613-1.jpg'])
+
+    def test_search_online(self):
+        scraper = TheGamesDB_Scraper()
+        result = scraper.search('Tekken', 'PlayStation')
+
+        game = scraper.retrieve('2613', 'PlayStation')
+
+        """
+        import os, json
+        f = os.path.join(os.path.dirname(__file__), '..', '..', 'tests', 'testdata',
+                         'scraper_web_responses', 'thegamesdb', 'publishers.json')
+        with open(f, 'w') as outfile:
+            json.dump(publishers, outfile)
+        """
+
+
+
+
+    def _loadJsonFromFile(self, filename):
+        f = os.path.join(os.path.dirname(__file__), '..', '..', 'resources', 'tests', 'testdata',
+                         'scraper_web_responses', 'thegamesdb', filename)
+
+        with open(f) as jsonfile:
+            data = jsonfile.read()
+
+        return json.loads(data)
+
+
+
 
     # Parse game retrieve
     def test_Retrieve_Old(self):
@@ -168,32 +226,6 @@ class Test_GamesDBScraper(unittest.TestCase):
         results = scraper._parseSearchResults(data)
         self.assertIsInstance(results, list, "Expected search results to return list even if no results found")
         self.assertEqual(len(results), 0, "Empty search results should return empty list")
-
-    def test_search_online(self):
-        scraper = TheGamesDB_Scraper()
-        result = scraper.search('Tekken', 'PlayStation')
-
-        game = scraper.retrieve('2613', 'PlayStation')
-
-        """
-        import os, json
-        f = os.path.join(os.path.dirname(__file__), '..', '..', 'tests', 'testdata',
-                         'scraper_web_responses', 'thegamesdb', 'publishers.json')
-        with open(f, 'w') as outfile:
-            json.dump(publishers, outfile)
-        """
-
-
-
-
-    def _loadJsonFromFile(self, filename):
-        f = os.path.join(os.path.dirname(__file__), '..', '..', 'resources', 'tests', 'testdata',
-                         'scraper_web_responses', 'thegamesdb', filename)
-
-        with open(f) as jsonfile:
-            data = jsonfile.read()
-
-        return json.loads(data)
 
 
 if __name__ == "__main__":
