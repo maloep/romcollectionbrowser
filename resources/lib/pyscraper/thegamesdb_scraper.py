@@ -104,6 +104,7 @@ class TheGamesDB_Scraper(WebScraper):
             return results
 
         data = response['data']
+        self.resultdata = {}
 
         for result in data['games']:
             results.append({'id': result['id'],
