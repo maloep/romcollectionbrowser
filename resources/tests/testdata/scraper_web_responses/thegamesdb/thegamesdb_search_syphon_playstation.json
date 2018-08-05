@@ -1,0 +1,109 @@
+{
+	"status": "Success",
+	"code": 200,
+	"extra_allowance": 0,
+	"remaining_monthly_allowance": 989,
+	"include": {
+		"boxart": {
+			"data": {
+				"7808": [{
+					"resolution": "1629x1417",
+					"filename": "boxart/back/7808-1.jpg",
+					"type": "boxart",
+					"id": 39539,
+					"side": "back"
+				},
+				{
+					"resolution": "1417x1417",
+					"filename": "boxart/front/7808-1.jpg",
+					"type": "boxart",
+					"id": 39540,
+					"side": "front"
+				}],
+				"9435": [{
+					"resolution": "1749x1560",
+					"filename": "boxart/back/9435-1.jpg",
+					"type": "boxart",
+					"id": 48521,
+					"side": "back"
+				},
+				{
+					"resolution": "1741x1560",
+					"filename": "boxart/front/9435-1.jpg",
+					"type": "boxart",
+					"id": 48522,
+					"side": "front"
+				}],
+				"11866": [{
+					"resolution": "760x650",
+					"filename": "boxart/back/11866-1.jpg",
+					"type": "boxart",
+					"id": 34881,
+					"side": "back"
+				},
+				{
+					"resolution": "500x500",
+					"filename": "boxart/front/11866-1.jpg",
+					"type": "boxart",
+					"id": 34882,
+					"side": "front"
+				}]
+			},
+			"base_url": {
+				"medium": "https://cdn.thegamesdb.net/images/medium/",
+				"thumb": "https://cdn.thegamesdb.net/images/thumb/",
+				"cropped_center_thumb": "https://cdn.thegamesdb.net/images/cropped_center_thumb/",
+				"large": "https://cdn.thegamesdb.net/images/large/",
+				"small": "https://cdn.thegamesdb.net/images/small/",
+				"original": "https://cdn.thegamesdb.net/images/original/"
+			}
+		}
+	},
+	"data": {
+		"count": 3,
+		"games": [{
+			"rating": "M - Mature",
+			"genres": [8,
+			16],
+			"players": 2,
+			"overview": "Gabe and Lian are now renegade agents on the run from U.S. intelligence after discovering that the Agency was behind the manufacture of the lethal Syphon Filter virus. The Agency wants to secretly sell the virus to the highest bidder, one which will then hold the world hostage. Lian Xing is already infected with the virus and Gabe Logan barely escapes alive from a plane crash. But there's no time to waste. They must prevent the virus from getting into enemy hands as well as find the vaccine, expose the double agents, defeat the terrorists . . . . . . the hard part is just staying alive.",
+			"release_date": "2000-02-09",
+			"platform": 10,
+			"publishers": [839],
+			"developers": [2682],
+			"id": 9435,
+			"game_title": "Syphon Filter 2"
+		},
+		{
+			"rating": "M - Mature",
+			"genres": [8,
+			16],
+			"players": 1,
+			"overview": "You eliminated the Syphon Filter virus and prevented the massacre of millions of lives. You escaped from the Agency and exposed them for what they really are. Now the time has come to finish the job once and for all, using whatever means necessary. But remember - you must face your past before you can look to the future! Enter the Syphon Filter drama once more. Play as Gabe Logan, Lian Xing and Theresa Lipan, and discover the truth about their pasts. Journey through Tokyo, Panama, Afghanistan and Costa Rica as you evade, retrieve, demolish and assassinate your way through a host of nail-biting missions.",
+			"release_date": "2001-11-07",
+			"platform": 10,
+			"publishers": [14],
+			"developers": [7470],
+			"id": 11866,
+			"game_title": "Syphon Filter 3"
+		},
+		{
+			"rating": "T - Teen",
+			"genres": [1,
+			16],
+			"players": 1,
+			"overview": "Directive: Eliminate the Syphon Filter Virus\r\n\"Intelligence has confirmed the development of bio-warfare weapons. Gabe, you are our only chance to destroy the Syphon Filter virus. You've been cleared to use lethal force to complete your directives.\"",
+			"release_date": "1999-01-31",
+			"platform": 10,
+			"publishers": [839],
+			"developers": [2682],
+			"id": 7808,
+			"game_title": "Syphon Filter"
+		}]
+	},
+	"pages": {
+		"current": "https://api.thegamesdb.net/Games/ByGameName?filter%5Bplatform%5D=10&apikey=1e821bf1bab06854840650d77e7e2248f49583821ff9191f2cced47e43bf0a73&include=boxart&name=Syphon+Filter&fields=id%2Cgame_title%2Crelease_date%2Cdevelopers%2Cpublishers%2Cplayers%2Cgenres%2Coverview%2Crating&page=1",
+		"next": null,
+		"previous": null
+	}
+}

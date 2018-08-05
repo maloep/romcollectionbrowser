@@ -1,0 +1,47 @@
+{
+	"status": "Success",
+	"code": 200,
+	"extra_allowance": 0,
+	"remaining_monthly_allowance": 999,
+	"include": {
+		"boxart": {
+			"data": {
+				"9580": [{
+					"resolution": "756x1013",
+					"filename": "boxart/front/9580-1.jpg",
+					"type": "boxart",
+					"id": 27126,
+					"side": "front"
+				}]
+			},
+			"base_url": {
+				"medium": "https://cdn.thegamesdb.net/images/medium/",
+				"thumb": "https://cdn.thegamesdb.net/images/thumb/",
+				"cropped_center_thumb": "https://cdn.thegamesdb.net/images/cropped_center_thumb/",
+				"large": "https://cdn.thegamesdb.net/images/large/",
+				"small": "https://cdn.thegamesdb.net/images/small/",
+				"original": "https://cdn.thegamesdb.net/images/original/"
+			}
+		}
+	},
+	"data": {
+		"count": 1,
+		"games": [{
+			"rating": null,
+			"genres": [1],
+			"players": null,
+			"overview": "The original Breakout concept involves controlling a bat at the bottom of the screen and using it to catch and direct a ball so as to hit all the bricks which are arranged at the top of the screen. It was unpopular for over a decade, before Taito revived it with some new ideas in this arcade game.\r\n\r\nThe game's plot redefines the bat as a Vaus spaceship, the ball as an energy bolt, and the bricks form a mysterious wall stopping the ship from progressing to safety.",
+			"release_date": null,
+			"platform": 4911,
+			"publishers": [1050],
+			"developers": [8449],
+			"id": 9580,
+			"game_title": "Arkanoid"
+		}]
+	},
+	"pages": {
+		"current": "https://api.thegamesdb.net/Games/ByGameName?filter%5Bplatform%5D=4911&apikey=1e821bf1bab06854840650d77e7e2248f49583821ff9191f2cced47e43bf0a73&include=boxart&name=Arkanoid&fields=id%2Cgame_title%2Crelease_date%2Cdevelopers%2Cpublishers%2Cplayers%2Cgenres%2Coverview%2Crating&page=1",
+		"next": null,
+		"previous": null
+	}
+}
