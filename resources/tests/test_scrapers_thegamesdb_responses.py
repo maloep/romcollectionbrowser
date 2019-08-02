@@ -31,6 +31,25 @@ class Test_GamesDBScraper(unittest.TestCase):
         self.assertEqual(len(results), 5, "Number of search results for multiple search match did not match expected number")
         self.assertEqual(len(scraper.resultdata), 5, "Number of search results for multiple search match did not match expected number")
 
+        # Parse game search query
+
+    @responses.activate
+    def test_search_gamename_with_info_tags(self):
+        responses.add(responses.GET,
+                      'https://api.thegamesdb.net/Games/ByGameName?filter%5Bplatform%5D=10&apikey=1e821bf1bab06854840650d77e7e2248f49583821ff9191f2cced47e43bf0a73&include=boxart&name=Tekken&fields=id%2Cgame_title%2Crelease_date%2Cdevelopers%2Cpublishers%2Cplayers%2Cgenres%2Coverview%2Crating',
+                      json=self._loadJsonFromFile('thegamesdb_search_tekken_playstation.json'),
+                      status=200)
+
+        scraper = TheGamesDB_Scraper()
+
+        results = scraper.search('Tekken (Europa)(En,Fr,De)', 'PlayStation')
+
+        # Expect 5 results
+        self.assertEqual(len(results), 5,
+                         "Number of search results for multiple search match did not match expected number")
+        self.assertEqual(len(scraper.resultdata), 5,
+                         "Number of search results for multiple search match did not match expected number")
+
     @responses.activate
     def test_retrieve(self):
         responses.add(responses.GET,

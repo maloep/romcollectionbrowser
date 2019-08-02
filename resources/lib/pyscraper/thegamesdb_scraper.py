@@ -2,6 +2,7 @@ import sys
 import xml.etree.ElementTree as ET
 from web_scraper import WebScraper
 from util import Logutil as log
+from gamename_utils import GameNameUtil
 
 
 # FIXME TODO Exception handling (i.e. no games found)
@@ -44,7 +45,7 @@ class TheGamesDB_Scraper(WebScraper):
         return self._search_url
 
     def _get_search_params(self, **kwargs):
-        return {'name': kwargs['gamename'],
+        return {'name': GameNameUtil().prepare_gamename_for_searchrequest(kwargs['gamename']),
                 'filter[platform]': self.get_platform_for_scraper(kwargs['platform']),
                 'apikey': self._api_key,
                 'fields': self._fields,
