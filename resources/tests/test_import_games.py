@@ -261,6 +261,16 @@ class TestImportGames(unittest.TestCase):
     def test_import_initial_prefer_nfo(self):
         config_xml_file = os.path.join(os.path.dirname(__file__), 'testdata', 'config',
                                        'romcollections_importtests.xml')
+
+        shutil.copyfile(os.path.join(os.path.dirname(__file__), 'testdata',  'nfo', 'Amiga', 'Airborne Ranger_orig.nfo'),
+                        os.path.join(os.path.dirname(__file__), 'testdata', 'roms', 'Amiga', 'Airborne Ranger.nfo'))
+        shutil.copyfile(os.path.join(os.path.dirname(__file__), 'testdata', 'nfo', 'Amiga', 'Chuck Rock_orig.nfo'),
+                        os.path.join(os.path.dirname(__file__), 'testdata', 'roms', 'Amiga', 'Chuck Rock.nfo'))
+        shutil.copyfile(os.path.join(os.path.dirname(__file__), 'testdata', 'nfo', 'Amiga', 'Eliminator_orig.nfo'),
+                        os.path.join(os.path.dirname(__file__), 'testdata', 'roms', 'Amiga', 'Eliminator.nfo'))
+        shutil.copyfile(os.path.join(os.path.dirname(__file__), 'testdata', 'nfo', 'Amiga', 'MicroProse Formula One Grand Prix_orig.nfo'),
+                        os.path.join(os.path.dirname(__file__), 'testdata', 'roms', 'Amiga', 'MicroProse Formula One Grand Prix.nfo'))
+
         conf = Config(config_xml_file)
         conf.readXml()
 
@@ -285,10 +295,10 @@ class TestImportGames(unittest.TestCase):
         self.assertEquals(airborneRanger[GameView.COL_NAME], 'Airborne Ranger nfo')
         self.assertEquals(airborneRanger[GameView.COL_year], '1989')
         self.assertTrue(airborneRanger[GameView.COL_description].startswith(
-            'nfo: In this action/simulation game by Microprose the player takes the role of an U.S. Army airborne ranger.'))
+            'Description with some special characters:'))
         self.assertEquals(airborneRanger[GameView.COL_genre], 'Action, Adventure')
-        self.assertEquals(airborneRanger[GameView.COL_publisher], 'MicroProse nfo')
-        self.assertEquals(airborneRanger[GameView.COL_developer], 'Imagitec nfo')
+        self.assertEquals(airborneRanger[GameView.COL_publisher], 'MicroProse')
+        self.assertEquals(airborneRanger[GameView.COL_developer], 'Imagitec')
         roms = File(self.gdb).getRomsByGameId(airborneRanger[GameView.COL_ID])
         self.assertEquals(len(roms), 1)
 
@@ -413,8 +423,8 @@ class TestImportGames(unittest.TestCase):
                 body=self.loadXmlFromFile('thegamesdb_Amiga_Eliminator_search.xml'), 
                 status=200)
         
-        responses.add(responses.GET, 
-                'http://legacy.thegamesdb.net/api/GetGamesList.php?platform=Amiga&name=Formula+One+Grand+Prix',
+        responses.add(responses.GET,
+                'http://legacy.thegamesdb.net/api/GetGamesList.php?platform=Amiga&name=MicroProse+Formula+One+Grand+Prix',
                 body=self.loadXmlFromFile('thegamesdb_Amiga_Formula One Grand Prix_search.xml'), 
                 status=200)
         
@@ -489,7 +499,7 @@ class TestImportGames(unittest.TestCase):
                       status=200)
 
         responses.add(responses.GET,
-                      'http://legacy.thegamesdb.net/api/GetGamesList.php?platform=Sony+Playstation&name=Silent+Hill+%28Disc+1+of+2%29',
+                      'http://legacy.thegamesdb.net/api/GetGamesList.php?platform=Sony+Playstation&name=Silent+Hill',
                       body=self.loadXmlFromFile('thegamesdb_PSX_Silent Hill_search.xml'),
                       status=200)
 

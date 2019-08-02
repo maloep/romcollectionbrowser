@@ -208,7 +208,7 @@ class Test_NFOWriter(unittest.TestCase):
         self.assertEqual(["Airborne Ranger"], result['OriginalTitle'])
         self.assertEqual(["Airborne Ranger"], result['AlternateTitle'])
         self.assertEqual(["1989"], result['ReleaseYear'])
-        self.assertEqual(['"MicroProse"'], result['Publisher'])
+        self.assertEqual(['MicroProse'], result['Publisher'])
         self.assertEqual(["Imagitec"], result['Developer'])
         self.assertEqual(["Top-Down"], result['Perspective'])
         self.assertEqual(["Joystick"], result['Controller'])
@@ -224,7 +224,7 @@ class Test_NFOWriter(unittest.TestCase):
             "Description with some special characters: ' & <  >"))
         self.assertEqual(len(result['Genre']), 2)
         self.assertIn("Action", result['Genre'])
-        self.assertIn("Simulation", result['Genre'])
+        self.assertIn("Adventure", result['Genre'])
 
         os.remove('./testdata/nfo/Amiga/Airborne Ranger.nfo')
 

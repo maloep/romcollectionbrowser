@@ -22,7 +22,7 @@ class Test_MobygamesScraperResponses(unittest.TestCase):
     @responses.activate
     def test_search_game(self):
         responses.add(responses.GET,
-                      'https://api.mobygames.com/v1/games?platform=6&format=brief&api_key=FH9VxTkB6BGAEsF3qlnnxQ%3D%3D&title=WipEout XL',
+                      'https://api.mobygames.com/v1/games?platform=6&format=brief&api_key=FH9VxTkB6BGAEsF3qlnnxQ%3D%3D&title=WipEout',
                       json=self._loadJsonFromFile('mobygames_getgameslist.json'),
                       status=200)
 
@@ -77,7 +77,7 @@ class Test_MobygamesScraperResponses(unittest.TestCase):
     @responses.activate
     def test_search_game_api_key_exceeded(self):
         responses.add(responses.GET,
-                      'https://api.mobygames.com/v1/games?platform=6&format=brief&api_key=FH9VxTkB6BGAEsF3qlnnxQ%3D%3D&title=WipEout XL',
+                      'https://api.mobygames.com/v1/games?platform=6&format=brief&api_key=FH9VxTkB6BGAEsF3qlnnxQ%3D%3D&title=WipEout',
                       json=self._loadJsonFromFile('mobygames_error_apikey_exceeded.json'),
                       status=429)
 

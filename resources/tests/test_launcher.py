@@ -1,6 +1,9 @@
 
-import os, shutil
+import os, shutil, sys
 import unittest
+
+sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', '..', 'resources', 'lib'))
+
 from gamedatabase import GameDataBase, File, GameView
 from launcher import RCBLauncher
 from config import Config

@@ -22,8 +22,8 @@ class Test_GiantBombScraperResponses(unittest.TestCase):
     @responses.activate
     def test_search_release(self):                
         
-        responses.add(responses.GET, 
-                'https://www.giantbomb.com/api/releases?filter=platform%3A22%2Cname%3AWip3out&api_key=279442d60999f92c5e5f693b4d23bd3b6fd8e868&field_list=id%2Cguid%2Cname%2Crelease_date&format=json',
+        responses.add(responses.GET,
+                'https://www.giantbomb.com/api/releases?filter=platform%3A22%2Cname%3AWip&api_key=279442d60999f92c5e5f693b4d23bd3b6fd8e868&field_list=id%2Cguid%2Cname%2Crelease_date&format=json',
                 json=self._loadJsonFromFile('giantbomb_getreleaselist.json'), 
                 status=200)
         

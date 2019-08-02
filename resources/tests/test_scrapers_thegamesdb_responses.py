@@ -19,7 +19,7 @@ class Test_GamesDBScraper(unittest.TestCase):
     @responses.activate
     def test_search(self):
         responses.add(responses.GET,
-                      'https://api.thegamesdb.net/Games/ByGameName?name=Tekken&filter[platform]=10&apikey=1e821bf1bab06854840650d77e7e2248f49583821ff9191f2cced47e43bf0a73&fields=overview,players,publishers,genres,rating&include=boxart',
+                      'https://api.thegamesdb.net/Games/ByGameName?filter%5Bplatform%5D=10&apikey=1e821bf1bab06854840650d77e7e2248f49583821ff9191f2cced47e43bf0a73&include=boxart&name=Tekken&fields=id%2Cgame_title%2Crelease_date%2Cdevelopers%2Cpublishers%2Cplayers%2Cgenres%2Coverview%2Crating',
                       json=self._loadJsonFromFile('thegamesdb_search_tekken_playstation.json'),
                       status=200)
 
@@ -34,7 +34,7 @@ class Test_GamesDBScraper(unittest.TestCase):
     @responses.activate
     def test_retrieve(self):
         responses.add(responses.GET,
-                      'https://api.thegamesdb.net/Games/ByGameName?name=Tekken&filter[platform]=10&apikey=1e821bf1bab06854840650d77e7e2248f49583821ff9191f2cced47e43bf0a73&fields=overview,players,publishers,genres,rating&include=boxart',
+                      'https://api.thegamesdb.net/Games/ByGameName?filter%5Bplatform%5D=10&apikey=1e821bf1bab06854840650d77e7e2248f49583821ff9191f2cced47e43bf0a73&include=boxart&name=Tekken&fields=id%2Cgame_title%2Crelease_date%2Cdevelopers%2Cpublishers%2Cplayers%2Cgenres%2Coverview%2Crating',
                       json=self._loadJsonFromFile('thegamesdb_search_tekken_playstation.json'),
                       status=200)
 
@@ -84,7 +84,7 @@ class Test_GamesDBScraper(unittest.TestCase):
     def test_retrieve_missing_properties(self):
 
         responses.add(responses.GET,
-                      'https://api.thegamesdb.net/Games/ByGameName?name=Arkanoid&filter[platform]=4911&apikey=1e821bf1bab06854840650d77e7e2248f49583821ff9191f2cced47e43bf0a73&fields=overview,players,publishers,genres,rating&include=boxart',
+                      'https://api.thegamesdb.net/Games/ByGameName?filter%5Bplatform%5D=4911&apikey=1e821bf1bab06854840650d77e7e2248f49583821ff9191f2cced47e43bf0a73&include=boxart&name=Arkanoid&fields=id%2Cgame_title%2Crelease_date%2Cdevelopers%2Cpublishers%2Cplayers%2Cgenres%2Coverview%2Crating',
                       json=self._loadJsonFromFile('thegamesdb_search_arkanoid_amiga.json'),
                       status=200)
 
@@ -116,7 +116,7 @@ class Test_GamesDBScraper(unittest.TestCase):
     def test_retrieve_missing_images(self):
         """Make sure that when image types are not present that we don't have issues"""
         responses.add(responses.GET,
-                      'https://api.thegamesdb.net/Games/ByGameName?name=Arkanoid&filter[platform]=4911&apikey=1e821bf1bab06854840650d77e7e2248f49583821ff9191f2cced47e43bf0a73&fields=overview,players,publishers,genres,rating&include=boxart',
+                      'https://api.thegamesdb.net/Games/ByGameName?filter%5Bplatform%5D=4911&apikey=1e821bf1bab06854840650d77e7e2248f49583821ff9191f2cced47e43bf0a73&include=boxart&name=Arkanoid&fields=id%2Cgame_title%2Crelease_date%2Cdevelopers%2Cpublishers%2Cplayers%2Cgenres%2Coverview%2Crating',
                       json=self._loadJsonFromFile('thegamesdb_search_arkanoid_amiga.json'),
                       status=200)
 
@@ -143,7 +143,7 @@ class Test_GamesDBScraper(unittest.TestCase):
     def test_retrieve_multiple_genres(self):
         """Make sure that games with multiple genres are handled correctly"""
         responses.add(responses.GET,
-                      'https://api.thegamesdb.net/Games/ByGameName?name=Syphon Filter&filter[platform]=10&apikey=1e821bf1bab06854840650d77e7e2248f49583821ff9191f2cced47e43bf0a73&fields=overview,players,publishers,genres,rating&include=boxart',
+                      'https://api.thegamesdb.net/Games/ByGameName?filter%5Bplatform%5D=10&apikey=1e821bf1bab06854840650d77e7e2248f49583821ff9191f2cced47e43bf0a73&include=boxart&name=Syphon+Filter&fields=id%2Cgame_title%2Crelease_date%2Cdevelopers%2Cpublishers%2Cplayers%2Cgenres%2Coverview%2Crating',
                       json=self._loadJsonFromFile('thegamesdb_search_syphon_playstation.json'),
                       status=200)
 
@@ -173,7 +173,7 @@ class Test_GamesDBScraper(unittest.TestCase):
         handled correctly"""
         """Make sure that games with multiple genres are handled correctly"""
         responses.add(responses.GET,
-                      'https://api.thegamesdb.net/Games/ByGameName?name=Syphon Filter&filter[platform]=10&apikey=1e821bf1bab06854840650d77e7e2248f49583821ff9191f2cced47e43bf0a73&fields=overview,players,publishers,genres,rating&include=boxart',
+                      'https://api.thegamesdb.net/Games/ByGameName?filter%5Bplatform%5D=10&apikey=1e821bf1bab06854840650d77e7e2248f49583821ff9191f2cced47e43bf0a73&include=boxart&name=Syphon+Filter&fields=id%2Cgame_title%2Crelease_date%2Cdevelopers%2Cpublishers%2Cplayers%2Cgenres%2Coverview%2Crating',
                       json=self._loadJsonFromFile('thegamesdb_search_syphon_playstation.json'),
                       status=200)
 
@@ -200,7 +200,7 @@ class Test_GamesDBScraper(unittest.TestCase):
     def test_search_no_results(self):
         """Make sure that games with multiple genres are handled correctly"""
         responses.add(responses.GET,
-                      'https://api.thegamesdb.net/Games/ByGameName?name=No Game Found&filter[platform]=10&apikey=1e821bf1bab06854840650d77e7e2248f49583821ff9191f2cced47e43bf0a73&fields=overview,players,publishers,genres,rating&include=boxart',
+                      'https://api.thegamesdb.net/Games/ByGameName?filter%5Bplatform%5D=10&apikey=1e821bf1bab06854840650d77e7e2248f49583821ff9191f2cced47e43bf0a73&include=boxart&name=No+Game+Found&fields=id%2Cgame_title%2Crelease_date%2Cdevelopers%2Cpublishers%2Cplayers%2Cgenres%2Coverview%2Crating',
                       json=self._loadJsonFromFile('thegamesdb_search_no_result.json'),
                       status=200)
 

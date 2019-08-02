@@ -1,11 +1,11 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <game>
-  <title>Airborne Ranger</title>
+  <title>Airborne Ranger nfo</title>
   <originalTitle></originalTitle>
   <alternateTitle></alternateTitle>
   <platform>Amiga</platform>
   <plot>Description with some special characters: ' &amp; &lt;  &gt;</plot>
-  <publisher>"MicroProse"</publisher>
+  <publisher>MicroProse</publisher>
   <developer>Imagitec</developer>
   <year>1989</year>
   <detailUrl />
@@ -20,5 +20,5 @@
   <isFavorite>1</isFavorite>
   <launchCount>1</launchCount>
   <genre>Action</genre>
-  <genre>Simulation</genre>
+  <genre>Adventure</genre>
 </game>

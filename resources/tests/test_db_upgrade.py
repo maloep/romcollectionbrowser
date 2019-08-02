@@ -5,8 +5,12 @@ python -m unittest discover -v resources/tests/ "test_db_upgrade.py"
 """
 
 import os
+import sys
 import shutil
 import unittest
+
+sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', '..', 'resources', 'lib'))
+
 from xbmcaddon import Addon
 import util, gamedatabase
 from gamedatabase import GameDataBase, Game, RCBSetting

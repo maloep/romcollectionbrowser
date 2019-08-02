@@ -1,0 +1,30 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<game>
+  <title>MicroProse Formula One Grand Prix nfo</title>
+  <originalTitle />
+  <alternateTitle />
+  <platform>Amiga</platform>
+  <plot>MicroProse Formula One Grand Prix is a racing simulator released in 1991 by MicroProse and created by game designer Geoff Crammond.
+
+One of the first games to implement something that resembled "real world" racing physics, accurate track modelling and car handling that required skills somewhat similar to real-world driving skills to perform well. Also one of the first to offer meaningful options to tune the behaviour of the cars. Although not quite on the level of later simulations, the most important variables, such as gear ratios, tyre compounds and wing settings were available to tune and, more importantly, proved to make an actual difference when driving. Important were also the functional rearview mirrors and an "instant replay" system with a wide range of adjustable camera settings not seen in other games of the era.
+
+The accurately modelled tracks meant that the player could actually recognise their location on the real-life circuit. The detailed physics engine provided a more realistic driving experience than had been seen before, drivers could easily experience the differences in handling depending on how you entered a corner and how soon or late you accelerated out of it. Unlike other racing simulations of the time, the accuracy of the simulation actually made the 1/1000 of a second chronometer meaningful, as races could be won or lost by a few thousandths of a second. Vitally, the combination of graphics and physics meant players could actually "feel" whether they were driving fast or slow, and could predict how the car would respond. Even details such as tyre wear were modelled throughout the race, qualifying tyres are an extreme example of this: players could not drive more than a couple of laps without beginning to lose grip and eventually spinning out on nearly every corner. Together with the 16 tracks and the atmosphere-packed rendition of complete Grand Prix weekends, it made F1GP a favourite with Formula One and racing sim fans for many years, and is still referred to occasionally in current reviews as a classic benchmark.</plot>
+  <publisher>MicroProse</publisher>
+  <developer />
+  <year>1991</year>
+  <detailUrl />
+  <maxPlayer>1</maxPlayer>
+  <region />
+  <media />
+  <perspective />
+  <controller />
+  <version />
+  <rating />
+  <votes />
+  <isFavorite>0</isFavorite>
+  <launchCount>0</launchCount>
+  <genre>Sports</genre>
+  <genre>Racing</genre>
+  <thumb local="./testdata/artwork/Amiga/boxfront\MicroProse Formula One Grand Prix.png" type="boxfront" />
+  <thumb local="./testdata/artwork/Amiga/screenshot\MicroProse Formula One Grand Prix.png" type="screenshot" />
+</game>

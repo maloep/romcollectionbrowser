@@ -1,0 +1,27 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<game>
+  <title>Chuck Rock nfo</title>
+  <originalTitle />
+  <alternateTitle />
+  <platform>Amiga</platform>
+  <plot>nfo: Chuck Rock hasn't been the same since his long-time rival in love, the evil Gary Gritter, kidnapped his wife, the beautiful Ophelia.
+
+Help Chuck in his quest to rescue Ophelia from the clutches of the evil Gary. Kick, throw rocks and belly-butt your way through a multitude of comical zones featuring 500 screans of exciting and addictive gameplay.</plot>
+  <publisher>Core Design nfo</publisher>
+  <developer>Core Design nfo</developer>
+  <year>1991</year>
+  <detailUrl />
+  <maxPlayer>1</maxPlayer>
+  <region />
+  <media />
+  <perspective />
+  <controller />
+  <version />
+  <rating>8</rating>
+  <votes />
+  <isFavorite>0</isFavorite>
+  <launchCount>0</launchCount>
+  <genre>Platform</genre>
+  <thumb local="./testdata/artwork/Amiga/boxfront\Chuck Rock.png" type="boxfront" />
+  <thumb local="./testdata/artwork/Amiga/screenshot\Chuck Rock.png" type="screenshot" />
+</game>

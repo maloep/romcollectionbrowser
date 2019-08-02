@@ -1,0 +1,24 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<game>
+  <title>Eliminator nfo</title>
+  <originalTitle />
+  <alternateTitle />
+  <platform>Amiga</platform>
+  <plot />
+  <publisher />
+  <developer />
+  <year />
+  <detailUrl />
+  <maxPlayer />
+  <region />
+  <media />
+  <perspective />
+  <controller />
+  <version />
+  <rating />
+  <votes />
+  <isFavorite>0</isFavorite>
+  <launchCount>0</launchCount>
+  <thumb local="./testdata/artwork/Amiga/boxfront\Eliminator.png" type="boxfront" />
+  <thumb local="./testdata/artwork/Amiga/screenshot\Eliminator.png" type="screenshot" />
+</game>
