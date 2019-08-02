@@ -1433,6 +1433,10 @@ class UIGameDB(xbmcgui.WindowXML):
         viewModeId = self.Settings.getSetting(util.SETTING_RCB_VIEW_MODE)
         if viewModeId != None and viewModeId != '':
             xbmc.executebuiltin("Container.SetViewMode(%i)" % int(viewModeId))
+            # HACK: This second line is required to reset the viewmode at startup in Kodi 18 (Leia)
+            # more info here: https://forum.kodi.tv/showthread.php?tid=329208
+            if KodiVersions.getKodiVersion() >= KodiVersions.LEIA:
+                xbmc.executebuiltin("Container.SetViewMode(%i)" % int(viewModeId))
 
         #searchText
         self.searchTerm = self.Settings.getSetting(util.SETTING_RCB_SEARCHTEXT)
