@@ -5,6 +5,7 @@ import xml.etree.ElementTree as ET
 import xbmcvfs
 from file_scraper import FileScraper
 from gamename_utils import GameNameUtil
+import util
 from util import Logutil as log
 
 
@@ -75,9 +76,11 @@ class Offline_GDBI_Scraper(FileScraper):
         try:
             fh = xbmcvfs.File(self._get_xml_path())
             text = fh.read()
+            text = util.html_unescape(text)
             fh.close()
             for line in text.splitlines():
-                result = re.search(pattern, line)
+                #HACK: Apostrophes are removed in prepare_gamename_for_searchrequest. So we also have to do it here.
+                result = re.search(pattern, line.replace("'", ""))
                 if result:
                     gamename = result.groups()[0]
                     results.append({'id': gamename,

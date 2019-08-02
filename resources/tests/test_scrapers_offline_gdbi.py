@@ -36,6 +36,28 @@ class Test_Offline_GDBI_Scraper(unittest.TestCase):
         self.assertEqual(["Air Raiders"], results[1]['SearchKey'])
 
 
+    def test_search_apostropheTmp(self):
+        pattern = "\<description\>(.*%s.*)\</description\>" % "Yars' Revenge"
+        line = "<description>Yars' Revenge</description>"
+        result = re.search(pattern, line)
+        print result
+
+
+    def test_search_apostrophe(self):
+        f = os.path.join(os.path.dirname(__file__), '..', '..', 'resources', 'tests', 'testdata',
+                         'scraper_offline', 'gdbi', 'Atari 2600.xml')
+
+        gdbi = Offline_GDBI_Scraper_Mock()
+        gdbi.xmlpath = f
+
+        results = gdbi.search("Yars' Revenge")
+
+        self.assertEqual(1, len(results))
+        self.assertEqual("Yars Revenge", results[0]['id'])
+        self.assertEqual("Yars Revenge", results[0]['title'])
+        self.assertEqual(["Yars Revenge"], results[0]['SearchKey'])
+
+
     def test_search_MAME(self):
         f = os.path.join(os.path.dirname(__file__), '..', '..', 'resources', 'tests', 'testdata',
                          'scraper_offline', 'gdbi', 'MAME.xml')
