@@ -934,47 +934,22 @@ class UIGameDB(xbmcgui.WindowXML):
         Logutil.log("End showGames", util.LOG_LEVEL_INFO)
 
     def showGameInfo(self):
-        """ Called when a game is selected in the list; retrieves the object and sets the artwork data. This is to
-            work around the fact that we may delay loading it in the main list population as a caching mechanism
+        """ Called when a game is selected in the list;
+            Only used to stop video playback if current game has no video
         """
-
-        #current implementation does not need showGameInfo as all data is loaded in showGames.
-        pass
-
-        """
-        Logutil.log("Begin showGameInfo", util.LOG_LEVEL_INFO)
-        starttime = time.clock()
-        self.writeMsg("")
-
         selectedGame = self.getSelectedItem()
-
-        if selectedGame is None:
-            Logutil.log("selectedGame == None in showGameInfo", util.LOG_LEVEL_WARNING)
-            return
-
-        Logutil.log(
-            'Selected game with property gameId {0}, romCollectionId {1}'.format(selectedGame.getProperty('gameId'),
-                                                                                 selectedGame.getProperty(
-                                                                                     'romCollectionId')),
-            util.LOG_LEVEL_DEBUG)
-
         try:
             romCollection = self.config.romCollections[selectedGame.getProperty('romCollectionId')]
         except Exception as err:
             print err.message
             Logutil.log('Cannot get rom collection with id: ' + str(selectedGame.getProperty('romCollectionId')),
                         util.LOG_LEVEL_ERROR)
-            return
 
-        if romCollection.autoplayVideoMain:
-            self.loadVideoFiles(selectedGame, romCollection, selectedGame)
+        video = selectedGame.getProperty('gameplaymain')
 
-        endtime = time.clock()
-        diff = (endtime - starttime) * 1000
-        Logutil.log('Time taken to showGameInfo using new format: {0}ms'.format(diff), util.LOG_LEVEL_INFO)
-
-        Logutil.log("End showGameInfo", util.LOG_LEVEL_INFO)
-        """
+        if video == "" or video is None or not romCollection.autoplayVideoMain:
+            if self.player.isPlayingVideo():
+                self.player.stop()
 
     def getSelectedItem(self):
         if self.getListSize() == 0:
@@ -1218,10 +1193,6 @@ class UIGameDB(xbmcgui.WindowXML):
         video = helper.get_file_for_control_from_db((self.fileTypeGameplay,), game)
         if video:
             listItem.setProperty('gameplaymain', video)
-
-        if video == "" or video is None or not romCollection.autoplayVideoMain:
-            if self.player.isPlayingVideo():
-                self.player.stop()
 
     def checkImport(self, doImport, romCollections, isRescrape):
 
