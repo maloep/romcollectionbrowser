@@ -142,7 +142,7 @@ class RCBLauncher(object):
             options = []
             for disk in filenameRows:
                 gamename = os.path.basename(disk[0])
-                match = re.search(self.romCollection.diskPrefix.lower(), str(gamename).lower())
+                match = re.search(self.romCollection.diskPrefix, gamename, re.IGNORECASE)
                 if match:
                     disk = gamename[match.start():match.end()]
                     options.append(disk)
@@ -168,7 +168,7 @@ class RCBLauncher(object):
         fileindex = int(0)
         for fileNameRow in filenameRows:
             rom = fileNameRow[0]
-            log.info("rom: " + str(rom))
+            log.info("rom: " + rom)
 
             if self.romCollection.makeLocalCopy:
                 localDir = os.path.join(util.getTempDir(), self.romCollection.name)
