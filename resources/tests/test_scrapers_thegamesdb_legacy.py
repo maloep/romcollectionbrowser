@@ -196,7 +196,7 @@ class Test_GamesDBScraper(unittest.TestCase):
         class_ = getattr(mod, sname)
         instance = class_()
         print(type(instance))
-        print instance.search('Wipeout')    # FIXME TODO Wip3out doesn't work
+        print (instance.search('Wipeout'))    # FIXME TODO Wip3out doesn't work
 
 
 if __name__ == "__main__":

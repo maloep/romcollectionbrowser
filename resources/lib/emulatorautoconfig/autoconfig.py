@@ -60,7 +60,7 @@ class EmulatorAutoconfig(RcbXmlReaderWriter):
         try:
             tree = ET.ElementTree().parse(self.configFile)
         except ET.ParseError:
-            print 'EmulatorAutoconfig ERROR: Could not read emu_autoconfig.xml'
+            ('EmulatorAutoconfig ERROR: Could not read emu_autoconfig.xml')
             return None
         
         return tree
@@ -87,7 +87,7 @@ class EmulatorAutoconfig(RcbXmlReaderWriter):
     def readPlatforms(self, osRow):
         platformRows = osRow.findall('platform')
         if platformRows is None:
-            print 'EmulatorAutoconfig ERROR: Could not find node os/platform in emu_autoconfig.xml'
+            print ('EmulatorAutoconfig ERROR: Could not find node os/platform in emu_autoconfig.xml')
             return []
             
         platforms = []
@@ -110,7 +110,7 @@ class EmulatorAutoconfig(RcbXmlReaderWriter):
         
         emulatorRows = platformRow.findall('emulator')
         if emulatorRows is None:
-            print 'EmulatorAutoconfig ERROR: Could not find node os/platform/emulator in emu_autoconfig.xml'
+            print ('EmulatorAutoconfig ERROR: Could not find node os/platform/emulator in emu_autoconfig.xml')
             return []
         
         emulators = []
@@ -132,7 +132,7 @@ class EmulatorAutoconfig(RcbXmlReaderWriter):
         
         detectionMethodRows = emulatorRow.findall('detectionMethod')
         if detectionMethodRows is None:
-            print 'EmulatorAutoconfig WARNING: Could not find node os/platform/emulator/detectionMethod in emu_autoconfig.xml'
+            print ('EmulatorAutoconfig WARNING: Could not find node os/platform/emulator/detectionMethod in emu_autoconfig.xml')
             return []
         
         globalDMRows = osRow.findall('detectionMethods/detectionMethod')
@@ -167,9 +167,9 @@ class EmulatorAutoconfig(RcbXmlReaderWriter):
         Returns: a list of matching Emulator objects, or an empty list if there was an error.
 
         """
-        print 'EmulatorAutoconfig: findEmulators(). os = %s, platform = %s, checkInstalled = %s' % (operatingSystemName,
+        print ('EmulatorAutoconfig: findEmulators(). os = %s, platform = %s, checkInstalled = %s' % (operatingSystemName,
                                                                                                     platformName,
-                                                                                                    str(checkInstalledState))
+                                                                                                    str(checkInstalledState)))
         
         # Read autoconfig.xml file
         if self.tree == None or len(self.operatingSystems) == 0:
@@ -179,7 +179,7 @@ class EmulatorAutoconfig(RcbXmlReaderWriter):
                         if operatingSystem.name == operatingSystemName), None)
 
         if osFound is None:
-            print 'EmulatorAutoconfig ERROR: Could not find os %s in emu_autoconfig.xml' % operatingSystemName
+            print ('EmulatorAutoconfig ERROR: Could not find os %s in emu_autoconfig.xml' % operatingSystemName)
             return []
             
         platformFound = None
@@ -193,8 +193,8 @@ class EmulatorAutoconfig(RcbXmlReaderWriter):
                             platformFound = platform 
 
         if platformFound is None:
-            print 'EmulatorAutoconfig ERROR: Could not find platform %s for os %s in emu_autoconfig.xml' % (platformName,
-                                                                                                            operatingSystemName)
+            print ('EmulatorAutoconfig ERROR: Could not find platform %s for os %s in emu_autoconfig.xml' % (platformName,
+                                                                                                            operatingSystemName))
             return []
         
         if checkInstalledState:
@@ -204,34 +204,34 @@ class EmulatorAutoconfig(RcbXmlReaderWriter):
         return platformFound.emulators
 
     def isInstalled(self, emulator):
-        print 'EmulatorAutoconfig: isInstalled(). emulator = %s' % emulator.name
+        print ('EmulatorAutoconfig: isInstalled(). emulator = %s' % emulator.name)
         
         for detectionMethod in emulator.detectionMethods:
-            print 'EmulatorAutoconfig: detectionMethod.name = ' + detectionMethod.name
+            print ('EmulatorAutoconfig: detectionMethod.name = ' + detectionMethod.name)
             if detectionMethod.name == 'packagename':
                 try:
                     packages = os.popen(detectionMethod.command).readlines()
                 except OSError as exc:
-                    print 'EmulatorAutoconfig ERROR: error while reading list of packages: %s' % str(exc)
+                    print ('EmulatorAutoconfig ERROR: error while reading list of packages: %s' % str(exc))
                     # Try with the next detectionMethod
                     continue
 
-                print 'EmulatorAutoconfig: packages = ' + str(packages)
+                print ('EmulatorAutoconfig: packages = ' + str(packages))
                 for package in packages:
-                    print 'EmulatorAutoconfig: package = ' + package
-                    print 'EmulatorAutoconfig: detectionMethod.packagename = ' + detectionMethod.packagename
+                    print ('EmulatorAutoconfig: package = ' + package)
+                    print ('EmulatorAutoconfig: detectionMethod.packagename = ' + detectionMethod.packagename)
                     if package.strip() == detectionMethod.packagename.strip():
-                        print 'EmulatorAutoconfig: emulator is installed!'
+                        print ('EmulatorAutoconfig: emulator is installed!')
                         return True
 
             elif detectionMethod.name == 'registry':
-                print 'Emulator installation status via registry has not been implemented'
+                print ('Emulator installation status via registry has not been implemented')
 
             elif detectionMethod.name == 'commonFolders':
-                print 'Emulator installation status via commonFolders has not been implemented'
+                print ('Emulator installation status via commonFolders has not been implemented')
 
             else:
-                print 'Unhandled detection method: {0}'.format(detectionMethod.name)
+                print ('Unhandled detection method: {0}'.format(detectionMethod.name))
 
         return False
     

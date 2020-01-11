@@ -40,7 +40,7 @@ class ConfigxmlUpdater(RcbXmlReaderWriter):
         if not os.path.isfile(newFileName):
             try:
                 shutil.copy(str(configFile), str(newFileName))
-            except Exception, (exc):
+            except Exception as exc:
                 return False, util.localize(32007) + ": " + str(exc)
 
         #write current version to config
@@ -397,6 +397,6 @@ class ConfigxmlUpdater(RcbXmlReaderWriter):
 
             return True, ""
 
-        except Exception, (exc):
+        except Exception as exc:
             print("Error: Cannot write config.xml: " + str(exc))
             return False, util.localize(32008) + ": " + str(exc)

@@ -25,10 +25,10 @@ class MyPlayer(xbmc.Player):
     gui = None
 
     def onPlayBackEnded(self):
-        print 'RCB: onPlaybackEnded'
+        print ('RCB: onPlaybackEnded')
 
         if (self.gui == None):
-            print "RCB_WARNING: gui == None in MyPlayer"
+            print ("RCB_WARNING: gui == None in MyPlayer")
             return
 
         self.gui.setFocus(self.gui.getControl(CONTROL_BUTTON_PLAYGAME))

@@ -299,6 +299,6 @@ class ConfigXmlWriter(RcbXmlReaderWriter):
 
             return True, ""
 
-        except Exception, (exc):
+        except Exception as exc:
             print("Error: Cannot write config.xml: " + str(exc))
             return False, util.localize(32008) + ": " + str(exc)

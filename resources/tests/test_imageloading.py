@@ -235,7 +235,7 @@ class Test(unittest.TestCase):
 
         file = helper.get_file_for_control_from_db(rom_collection.imagePlacingMain.fileTypesForGameList, game)
 
-        print file
+        print (file)
 
     @unittest.skip("to be reimplemented")
     def testFileForControl(self):
@@ -360,7 +360,7 @@ class Test(unittest.TestCase):
                 
         timestamp2 = time.clock()
         diff = (timestamp2 - timestamp1) * 1000
-        print 'pattern.search took %s ms' %diff
+        print ('pattern.search took %s ms' %diff)
         
         return foundImage
 
@@ -376,7 +376,7 @@ class Test(unittest.TestCase):
         foundImage = filter(pattern.match, imagelist)
         timestamp2 = time.clock()
         diff = (timestamp2 - timestamp1) * 1000
-        print 'filter took %s ms' %diff
+        print ('filter took %s ms' %diff)
                 
         return foundImage[0]
             

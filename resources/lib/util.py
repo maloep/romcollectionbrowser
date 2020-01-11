@@ -241,7 +241,7 @@ def getTempDir():
         if not os.path.isdir(tempDir):
             os.mkdir(tempDir)
         return tempDir
-    except Exception, (exc):
+    except Exception as exc:
         Logutil.log('Error creating temp dir: ' + str(exc), LOG_LEVEL_ERROR)
         return None
 

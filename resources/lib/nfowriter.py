@@ -144,7 +144,7 @@ class NfoWriter(RcbXmlReaderWriter):
 
             try:
                 SubElement(root, 'thumb', {'type': artworktype.name, 'local': local}).text = online
-            except Exception, (exc):
+            except Exception as exc:
                 Logutil.log('Error writing artwork url: ' + str(exc), util.LOG_LEVEL_WARNING)
 
         self.writeNfoElementToFile(root, platform, romFile, gameNameFromFile, nfoFile)

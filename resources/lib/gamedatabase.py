@@ -16,7 +16,7 @@ class GameDataBase(object):
         self.sqlDir = os.path.join(util.RCBHOME, 'resources', 'database')
 
     def connect(self):
-        print self.dataBasePath
+        print (self.dataBasePath)
         self.connection = sqlite.connect(self.dataBasePath, check_same_thread=False)
 
         # Use row factory so we can retrieve values by column name
@@ -34,7 +34,7 @@ class GameDataBase(object):
             return False
 
     def close(self):
-        print "close Connection"
+        print ("close Connection")
         self.connection.close()
 
     def compact(self):
@@ -74,12 +74,12 @@ class GameDataBase(object):
         self.connection.executescript(sqlCreateString)
 
     def createTables(self):
-        print "Create Tables"
+        print ("Create Tables")
         self.executeSQLScript(os.path.join(self.sqlDir, 'SQL_CREATE.txt'))
         RCBSetting(self).insert((None, 0, 0, 0, 0, 0, None, util.CURRENT_DB_VERSION, None, None, 0, 0, 0, 0, None, None))
 
     def dropTables(self):
-        print "Drop Tables"
+        print ("Drop Tables")
         self.executeSQLScript(os.path.join(self.sqlDir, 'SQL_DROP_ALL.txt'))
 
     def checkDBStructure(self):
@@ -97,7 +97,7 @@ class GameDataBase(object):
 
             dbVersion = rcbSetting[RCBSetting.COL_dbVersion]
 
-        except Exception, (exc):
+        except Exception as exc:
             self.createTables()
             self.commit()
             return 1, ""
@@ -115,7 +115,7 @@ class GameDataBase(object):
                 self.close()
                 shutil.copy(str(self.dataBasePath), str(newFileName))
                 self.connect()
-            except Exception, (exc):
+            except Exception as exc:
                 #32031: Error: Cannot backup MyGames.db
                 return -1, util.localize(32031) + ": " + str(exc)
 
@@ -588,7 +588,7 @@ class GameView(DataBaseObject):
         try:
             dbobj = self.getObjectByQuery(self.filterByGameByIdFromView, (gameid,))
         except Exception as e:
-            print 'Error mapping game row to object: ' + e.message
+            print ('Error mapping game row to object: ' + e.message)
             return None
         return dbobj
 
@@ -810,12 +810,12 @@ class Publisher(DataBaseObject):
         """ As per getPublisherIdByGameId, but this returns the publisher name so we don't need to do it client-side """
         publisherId = self.getObjectByQuery(self.publisherIdByGameIdQuery, (gameId,))
         if publisherId is None:
-            print 'Unable to find publisher for game with id ' + gameId
+            print ('Unable to find publisher for game with id ' + gameId)
             return 'Unknown'
         publisher = self.getObjectById(publisherId['publisherId'])
 
         if publisher is None:
-            print 'Unable to find publisher for id ' + publisherId['publisherId']
+            print ('Unable to find publisher for id ' + publisherId['publisherId'])
             return 'Unknown'
 
         return publisher['name']
@@ -887,12 +887,12 @@ class Developer(DataBaseObject):
         developerId = self.getObjectByQuery(self.developerIdByGameIdQuery, (gameId,))
 
         if developerId is None:
-            print 'Unable to find developer for game with id ' + gameId
+            print ('Unable to find developer for game with id ' + gameId)
             return 'Unknown'
         developer = self.getObjectById(developerId['developerId'])
 
         if developer is None:
-            print 'Unable to find developer for id ' + developerId['developerId']
+            print ('Unable to find developer for id ' + developerId['developerId'])
             return 'Unknown'
 
         return developer['name']

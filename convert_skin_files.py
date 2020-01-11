@@ -24,7 +24,7 @@ class SkinFileConverter(object):
                 skin_files = os.listdir(self.source_file_dir)
                 convert_file = os.path.join(self.skin_path, skin_dir, 'convert.xml')
                 if not os.path.exists(convert_file):
-                    print 'convert file does not exist: %s' %convert_file
+                    print ('convert file does not exist: %s' %convert_file)
                     continue
                 for skin_file in skin_files:
                     source_file = os.path.join(self.source_file_dir, skin_file)

@@ -42,7 +42,7 @@ class Test_MobygamesScraper(unittest.TestCase):
         with open(f) as jsonfile:
             data = jsonfile.read()
         result = scraper._parse_game_result(json.loads(data))
-        print "Game result is {0}".format(result)
+        print ("Game result is {0}".format(result))
 
         self.assertEquals(result['Game'], ['WipEot 3 Special Edition / Destrction Derby 2'])
 
@@ -61,7 +61,7 @@ class Test_MobygamesScraper(unittest.TestCase):
         with open(f) as jsonfile:
             data = jsonfile.read()
         result = scraper._parse_game_result(json.loads(data))
-        print "Game result is {0}".format(result)
+        print ("Game result is {0}".format(result))
 
         # Genres - multiple genres, but only 2 "Basic Genres"
         self.assertEquals(len(result['Genre']), 2, "Expected 2 genres")
@@ -82,7 +82,7 @@ class Test_MobygamesScraper(unittest.TestCase):
         with open(f) as jsonfile:
             data = jsonfile.read()
         result = scraper._parse_release_result(json.loads(data))
-        print "Release result is {0}".format(result)
+        print ("Release result is {0}".format(result))
 
         self.assertEquals(result['ReleaseYear'], ['1994'])
         self.assertEquals(result['Publisher'], ['Interplay Productions, Inc.'])
@@ -98,7 +98,7 @@ class Test_MobygamesScraper(unittest.TestCase):
         with open(f) as jsonfile:
             data = jsonfile.read()
         result = scraper._parse_release_result(json.loads(data))
-        print "Release result is {0}".format(result)
+        print ("Release result is {0}".format(result))
 
     def test_parse_covers_result(self):
         f = os.path.join(os.path.dirname(__file__), '..', '..', 'resources', 'tests', 'testdata',
@@ -109,7 +109,7 @@ class Test_MobygamesScraper(unittest.TestCase):
             data = jsonfile.read()
 
         result = scraper._parse_covers_result(json.loads(data))
-        print "Covers result is {0}".format(result)
+        print ("Covers result is {0}".format(result))
 
         self.assertEquals(result['Filetypeboxfront'],
                           ['http://www.mobygames.com/images/covers/l/175218-wipeout-xl-playstation-front-cover.png'])
@@ -127,7 +127,7 @@ class Test_MobygamesScraper(unittest.TestCase):
             data = jsonfile.read()
 
         result = scraper._parse_covers_result(json.loads(data))
-        print "Covers result is {0}".format(result)
+        print ("Covers result is {0}".format(result))
 
         self.assertEquals(len(result), 0, 'Result length expected to be 0')
 
@@ -140,7 +140,7 @@ class Test_MobygamesScraper(unittest.TestCase):
             data = jsonfile.read()
 
         result = scraper._parse_screenshots_result(json.loads(data))
-        print "Screenshots result is {0}".format(result)
+        print ("Screenshots result is {0}".format(result))
 
         self.assertEquals(result['Filetypescreenshot'], [
             'http://www.mobygames.com/images/shots/l/436082-wipeout-xl-playstation-screenshot-wipeout-xl-title-screen.png'])
@@ -154,7 +154,7 @@ class Test_MobygamesScraper(unittest.TestCase):
             data = jsonfile.read()
 
         result = scraper._parse_screenshots_result(json.loads(data))
-        print "Screenshots result is {0}".format(result)
+        print ("Screenshots result is {0}".format(result))
 
         self.assertEquals(len(result), 0, 'Result length expected to be 0')
 

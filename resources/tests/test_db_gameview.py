@@ -151,14 +151,14 @@ class TestDbGameView(unittest.TestCase):
         #games = Game(gdb).getAll()
         timestamp2 = time.clock()
         diff = (timestamp2 - timestamp1) * 1000
-        print "load %d games from db in %d ms" % (len(games), diff)
+        print ("load %d games from db in %d ms" % (len(games), diff))
 
         timestamp1 = time.clock()
         #Game(gdb).getGameById(5000)
         row = GameView(gdb).getGameById(5000)
         timestamp2 = time.clock()
         diff = (timestamp2 - timestamp1) * 1000
-        print "load 1 game from db in %d ms" % diff
+        print ("load 1 game from db in %d ms" % diff)
 
 
 if __name__ == "__main__":

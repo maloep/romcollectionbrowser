@@ -97,7 +97,7 @@ class RCBLauncher(object):
 
             gui.writeMsg("")
 
-        except Exception, (exc):
+        except Exception as exc:
             log.error("Error while launching emu: " + str(exc))
             gui.writeMsg(util.localize(32035) + ": " + str(exc))
 
@@ -303,7 +303,7 @@ class RCBLauncher(object):
                     fname, ext = os.path.splitext(f)
                     if ext not in ('.sav', '.xml', '.png'):
                         xbmcvfs.delete(os.path.join(tempDir, f))
-        except Exception, (exc):
+        except Exception as exc:
             log.error("Error deleting files after launch emu: " + str(exc))
             gui.writeMsg(util.localize(32036) + ": " + str(exc))
 
@@ -313,7 +313,7 @@ class RCBLauncher(object):
 
         try:
             names = self.__getNames(filext, rom)
-        except Exception, (exc):
+        except Exception as exc:
             log.error("Error handling compressed file: " + str(exc))
             return []
 
@@ -333,7 +333,7 @@ class RCBLauncher(object):
 
             try:
                 archives = self.__getArchives(filext, rom, names)
-            except Exception, (exc):
+            except Exception as exc:
                 log.error("Error handling compressed file: " + str(exc))
                 return []
 

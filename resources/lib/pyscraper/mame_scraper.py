@@ -107,7 +107,7 @@ class MAME_Scraper(FileScraper):
                 raise ScraperNoSearchResultsFoundException("Unable to find %s in MAME history dat file" % gamename)
 
         except Exception as e:
-            print "Error searching for game %s using regex: %s" % (gamename, str(e))
+            print ("Error searching for game %s using regex: %s" % (gamename, str(e)))
             return []
 
         self.resultdata = [rdata.groupdict()]

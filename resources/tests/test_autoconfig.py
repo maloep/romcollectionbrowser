@@ -30,20 +30,20 @@ class TestAutoConfig(unittest.TestCase):
         try:
             os.makedirs(os.path.join(os.path.dirname(__file__), 'testdata', 'appdirparent', 'appdirnested'))
         except Exception as err:
-            print str(err)
+            print (str(err))
             pass
 
         # Create applications in parent directory
         for f in ['TestApp1', 'TestApp2', 'TestApp3']:
             fname = os.path.join(os.path.dirname(__file__), 'testdata', 'appdirparent', f)
-            print u'Creating dummy application {0}'.format(fname)
+            print (u'Creating dummy application {0}'.format(fname))
             with open(fname, 'a'):
                 os.utime(fname, None)
 
         # Create applications in child directory
         for f in ['NestedTestApp1', 'NestedTestApp2', 'NestedTestApp3']:
             fname = os.path.join(os.path.dirname(__file__), 'testdata', 'appdirparent', 'appdirnested', f)
-            print u'Creating dummy nested application {0}'.format(fname)
+            print (u'Creating dummy nested application {0}'.format(fname))
             with open(fname, 'a'):
                 os.utime(fname, None)
 
@@ -54,7 +54,7 @@ class TestAutoConfig(unittest.TestCase):
         try:
             shutil.rmtree(os.path.join(os.path.dirname(__file__), 'testdata', 'appdirparent'))
         except Exception as err:
-            print str(err)
+            print (str(err))
             pass
 
     def setUp(self):

@@ -751,7 +751,7 @@ class DBUpdate(object):
                         u"Game does exist in database but update is not allowed for current rom collection. game: %s" % game_row[DataBaseObject.COL_NAME])
 
                 return gameId
-        except Exception, (exc):
+        except Exception as exc:
             log.error(u"An error occured while adding game '%s'. Error: %s" % (game_row[DataBaseObject.COL_NAME], exc))
             return None
 
@@ -928,7 +928,7 @@ class DBUpdate(object):
             if isinstance(resultValue, str):
                 resultValue = resultValue.decode('utf-8')
 
-        except Exception, (exc):
+        except Exception as exc:
             log.warn(u"Error while resolving item: %s: %s" % (itemName, exc))
 
         try:
@@ -1034,14 +1034,14 @@ class DBUpdate(object):
             try:
                 self.download_thumb(thumbUrl, fileName)
 
-            except Exception, (exc):
+            except Exception as exc:
                 log.error("Could not create file: '%s'. Error message: '%s'" % (fileName, exc))
                 # xbmcgui.Dialog().ok(util.localize(32012), util.localize(32011))
                 return False, artworkurls
 
             Logutil.log("Download finished.", util.LOG_LEVEL_INFO)
 
-        except Exception, (exc):
+        except Exception as exc:
             log.warn("Error in getThumbFromOnlineSource: %s" % exc)
 
         return True, artworkurls
