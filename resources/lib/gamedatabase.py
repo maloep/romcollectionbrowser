@@ -11,7 +11,7 @@ class GameDataBase(object):
 
     def __init__(self, databaseDir):
         self.dataBasePath = os.path.join(databaseDir, 'MyGames.db')
-        sqlite.register_adapter(str, lambda s: s.decode('utf-8'))
+        sqlite.register_adapter(str, lambda s: util.convertToUnicodeString(s))
         #use scripts home for reading SQL files
         self.sqlDir = os.path.join(util.RCBHOME, 'resources', 'database')
 
@@ -49,7 +49,7 @@ class GameDataBase(object):
             self.connection = memDB
             self.cursor = memDB.cursor()
             return True
-        except Exception, e:
+        except Exception as e:
             util.Logutil.log("ERROR: %s" % str(e), util.LOG_LEVEL_INFO)
             return False
 
@@ -64,7 +64,7 @@ class GameDataBase(object):
             self.connection = diskDB
             self.cursor = diskDB.cursor()
             return True
-        except Exception, e:
+        except Exception as e:
             util.Logutil.log("ERROR: %s" % str(e), util.LOG_LEVEL_INFO)
             return False
 

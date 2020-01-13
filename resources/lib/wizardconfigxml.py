@@ -97,7 +97,7 @@ class ConfigXmlWizard(RcbXmlReaderWriter):
         """ Prompt the user to browse to the rompath """
         dialog = xbmcgui.Dialog()
         # http://kodi.wiki/view/Add-on_unicode_paths
-        romPath = dialog.browse(0, util.localize(32180) % consolename, 'files').decode('utf-8')
+        romPath = util.convertToUnicodeString(dialog.browse(0, util.localize(32180) % consolename, 'files'))
         log.debug(u"rompath selected: {0}".format(romPath))
 
         return romPath
@@ -106,8 +106,8 @@ class ConfigXmlWizard(RcbXmlReaderWriter):
         """ Prompt the user to browse to the artwork path """
         dialog = xbmcgui.Dialog()
         # http://kodi.wiki/view/Add-on_unicode_paths
-        artworkPath = dialog.browse(0, util.localize(32193) % console, 'files', '', False, False,
-                                    startingDirectory).decode('utf-8')
+        artworkPath = util.convertToUnicodeString(dialog.browse(0, util.localize(32193) % console, 'files', '', False, False,
+                                    startingDirectory))
         log.debug(u"artworkPath selected: {0}".format(artworkPath))
 
         return artworkPath
@@ -273,8 +273,8 @@ class ConfigXmlWizard(RcbXmlReaderWriter):
                     fileTypeList.remove(fileType)
 
                     # Prompt user for path for existing artwork
-                    artworkPath = dialog.browse(0, util.localize(32182) % (console, fileType), 'files', '', False,
-                                                False, lastArtworkPath).decode('utf-8')
+                    artworkPath = util.convertToUnicodeString(dialog.browse(0, util.localize(32182) % (console, fileType), 'files', '', False,
+                                                False, lastArtworkPath))
                     log.debug(u"artworkPath selected: {0}".format(artworkPath))
                     if artworkPath == '':
                         log.info("No artworkPath selected.")

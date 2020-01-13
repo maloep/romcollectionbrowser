@@ -386,7 +386,7 @@ class RomCollection(object):
                 fts[arttype] = self.getAvailableFileTypeForArt(arttype, placing)
 
         else:
-            print 'WARNING - Unsupported image placing type: ' + placing.name
+            print ('WARNING - Unsupported image placing type: ' + placing.name)
 
         return fts
 

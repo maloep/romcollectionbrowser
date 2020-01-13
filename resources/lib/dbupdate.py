@@ -882,7 +882,7 @@ class DBUpdate(object):
 
         for directory in dirsLocal:
             if isinstance(directory, str):
-                dirs.append(directory.decode('utf-8'))
+                dirs.append(util.convertToUnicodeString(directory))
             else:
                 dirs.append(directory)
 
@@ -890,7 +890,7 @@ class DBUpdate(object):
             if fnmatch.fnmatch(localfile, filemask):
                 # allFiles = [f.decode(sys.getfilesystemencoding()).encode('utf-8') for f in glob.glob(newRomPath)]
                 if isinstance(localfile, str):
-                    localfile = localfile.decode('utf-8')
+                    localfile = util.convertToUnicodeString(localfile)
                 localfile = util.joinPath(dirname, localfile)
                 # return unicode filenames so relating scraping actions can handle them correctly
                 files.append(localfile)
@@ -926,7 +926,7 @@ class DBUpdate(object):
             resultValue = result[itemName][0].strip()
 
             if isinstance(resultValue, str):
-                resultValue = resultValue.decode('utf-8')
+                resultValue = util.convertToUnicodeString(resultValue)
 
         except Exception as exc:
             log.warn(u"Error while resolving item: %s: %s" % (itemName, exc))

@@ -3,6 +3,7 @@
 import re
 import os
 import xbmcvfs
+import util
 from util import __addon__
 from util import Logutil as log
 from rcbexceptions import *
@@ -69,7 +70,7 @@ class MAME_Scraper(FileScraper):
         try:
             fh = xbmcvfs.File(historyfile_path)
             historyfile = fh.read()
-            historyfile = historyfile.decode('utf-8')
+            historyfile = util.convertToUnicodeString(historyfile)
             fh.close()
             for line in historyfile.splitlines():
                 if line.startswith(startmarker):
