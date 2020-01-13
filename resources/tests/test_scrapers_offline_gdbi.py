@@ -40,7 +40,7 @@ class Test_Offline_GDBI_Scraper(unittest.TestCase):
         pattern = "\<description\>(.*%s.*)\</description\>" % "Yars' Revenge"
         line = "<description>Yars' Revenge</description>"
         result = re.search(pattern, line)
-        print result
+        print (result)
 
 
     def test_search_apostrophe(self):
@@ -66,7 +66,7 @@ class Test_Offline_GDBI_Scraper(unittest.TestCase):
         gdbi.xmlpath = f
 
         results = gdbi.search("rbff2", "MAME")
-        print results
+        print (results)
 
         self.assertEqual(3, len(results))
         self.assertEqual("rbff1", results[0]['id'])
@@ -82,7 +82,7 @@ class Test_Offline_GDBI_Scraper(unittest.TestCase):
         gdbi.xmlpath = f
 
         results = gdbi.search("fvipers", "Sega Model 2")
-        print results
+        print (results)
 
         self.assertEqual(1, len(results))
         self.assertEqual("fvipers", results[0]['id'])

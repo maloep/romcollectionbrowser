@@ -65,7 +65,7 @@ class TheGamesDB_Scraper_Legacy(WebScraper):
 
     """
     def _parseGameResultBS(self, response):
-        print 'parseGameResultBS'
+        (print 'parseGameResultBS')
 
         result = {}
 
@@ -91,9 +91,9 @@ class TheGamesDB_Scraper_Legacy(WebScraper):
             result['boxfront'] = "http://thegamesdb.net/banners/" + sr.find("boxart", side="front").string
             result['boxback'] = "http://thegamesdb.net/banners/" + sr.find("boxart", side="back").string
         except AttributeError as e:
-            print "Unable to find attribute: " + str(e)
+            print ("Unable to find attribute: " + str(e))
 
-        print "Found game using BeautifulSoup parser: {0}".format(result)
+        print ("Found game using BeautifulSoup parser: {0}".format(result))
         return result
     """
 
@@ -138,7 +138,7 @@ class TheGamesDB_Scraper_Legacy(WebScraper):
             except KeyError:
                 log.warn("Image type {0} not present in retrieve results".format(image))
 
-        print u"Found game using ElementTree parser: {0}".format(result)
+        print (u"Found game using ElementTree parser: {0}".format(result))
         return result
 
     """
@@ -151,7 +151,7 @@ class TheGamesDB_Scraper_Legacy(WebScraper):
                             'releaseDate': sr.ReleaseDate.string,
                             'SearchKey': sr.GameTitle.string})
 
-        print u"Found {0} results using BeautifulSoup parser: {1}".format(len(results), results)
+        print (u"Found {0} results using BeautifulSoup parser: {1}".format(len(results), results))
         return results
     """
 
@@ -181,7 +181,7 @@ class TheGamesDB_Scraper_Legacy(WebScraper):
                 # If we have an attribute error, typically there is no ReleaseDate for this game. Skip.
                 pass
 
-        print u"Found {0} results using ElementTree parser: {1}".format(len(results), results)
+        print (u"Found {0} results using ElementTree parser: {1}".format(len(results), results))
 
         return results
 

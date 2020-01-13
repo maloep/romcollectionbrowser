@@ -60,7 +60,7 @@ class Test_GiantBombScraper(unittest.TestCase):
         with open(f) as jsonfile:
             data = jsonfile.read()
         results = scraper._parse_game_result(json.loads(data)['results'])
-        print "Game result is {0}".format(results)
+        print ("Game result is {0}".format(results))
 
         # FIXME TODO Do we have a double-list, or just a single one?
         self.assertEquals(results['Developer'], ['Psygnosis Limited', 'The Designers Republic'])
@@ -136,7 +136,7 @@ class Test_GiantBombScraper(unittest.TestCase):
         metadata from the gamename before we search"""
         scraper = GiantBomb_Scraper()
         results = scraper.search("Super Mario World (USA)", "SNES")
-        print "{0}".format(results)
+        print ("{0}".format(results))
         self.assertTrue(len(results) > 0, "Expected more than 1 result for Super Mario World")
 
     @unittest.skip("Skip downloading from site")

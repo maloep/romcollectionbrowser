@@ -82,8 +82,8 @@ class TestDbUpdate(unittest.TestCase):
 
         dbu = DBUpdate()
         fname = dbu.getFilesByWildcard("/Users/user/Games/Emulation/SNES/Chrono Trigger (USA).*")
-        print "test_getFilesByGameNameIgnoreCase"
-        print fname
+        print ("test_getFilesByGameNameIgnoreCase")
+        print (fname)
 
 
 if __name__ == "__main__":

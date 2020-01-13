@@ -159,7 +159,7 @@ class Main(object):
                 xbmcgui.Window(10000).setProperty("MostPlayedROM.%d.Alternatetitle" % count, game[GameView.COL_alternateTitle])
                 xbmcgui.Window(10000).setProperty("MostPlayedROM.%d.Version" % count, game[GameView.COL_version])
 
-            except Exception, (exc):
+            except Exception as exc:
                 xbmc.log('RCB: Error while getting most played games: ' + str(exc))
 
         gdb.close()
@@ -189,7 +189,7 @@ if __name__ == "__main__":
     xbmc.log('RCB started')
     try:
         Main()
-    except Exception, (exc):
+    except Exception as exc:
         message = 'Unhandled exception occured during execution of RCB:'
         message2 = str(exc)
         message3 = 'See xbmc.log for details'

@@ -128,7 +128,7 @@ class Matcher(object):
                     # perfect match
                     return result
 
-            except Exception, (exc):
+            except Exception as exc:
                 log.warn("An error occured while matching the best result: " + str(exc))
 
         log.info("No result found for gamename %s" % gamenameFromFile)

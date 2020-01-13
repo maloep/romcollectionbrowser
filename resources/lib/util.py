@@ -203,7 +203,7 @@ def localize(string_id):
 
 def getAddonDataPath():
     path = u''
-    path = xbmc.translatePath('special://profile/addon_data/%s' % (SCRIPTID)).decode('utf-8')
+    path = convertToUnicodeString(xbmc.translatePath('special://profile/addon_data/%s' % (SCRIPTID)))
 
     if not os.path.exists(path):
         try:
@@ -215,9 +215,16 @@ def getAddonDataPath():
 
 def getAddonInstallPath():
     path = u''
-    path = __addon__.getAddonInfo('path').decode('utf-8')
+    path = convertToUnicodeString(__addon__.getAddonInfo('path'))
 
     return path
+
+
+def convertToUnicodeString(s, encoding='utf-8'):
+    """Safe decode byte strings to Unicode"""
+    if isinstance(s, bytes):  # This works in Python 2.7 and 3+
+        s = s.decode(encoding)
+    return s
 
 
 def getEmuAutoConfigPath():
@@ -241,7 +248,7 @@ def getTempDir():
         if not os.path.isdir(tempDir):
             os.mkdir(tempDir)
         return tempDir
-    except Exception, (exc):
+    except Exception as exc:
         Logutil.log('Error creating temp dir: ' + str(exc), LOG_LEVEL_ERROR)
         return None
 

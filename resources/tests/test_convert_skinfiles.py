@@ -20,9 +20,9 @@ class TestSkinFileConverter(unittest.TestCase):
         match = re.search(pattern, line)
         old_value = int(match.group('value'))
         new_value = old_value +20
-        print old_value
-        print new_value
-        print line.replace(str(old_value), str(new_value))
+        print (old_value)
+        print (new_value)
+        print (line.replace(str(old_value), str(new_value)))
 
     @unittest.skip("manual test")
     def test_read_xml(self):
@@ -39,7 +39,7 @@ class TestSkinFileConverter(unittest.TestCase):
 
         fonts = tree.findall('fonts/font')
         for font in fonts:
-            print font.attrib.get('name')
+            print (font.attrib.get('name'))
 
 
 
