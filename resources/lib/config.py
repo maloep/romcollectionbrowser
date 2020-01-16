@@ -781,7 +781,7 @@ class Config(RcbXmlReaderWriter):
 
         """
         names = []
-        for rckey, rcval in self.romCollections.iteritems():
+        for rckey, rcval in self.romCollections.items():
             names.append(rcval.name)
 
         names.sort()
@@ -816,7 +816,7 @@ class Config(RcbXmlReaderWriter):
             The Rom Collection with the matching name, or None if not found
 
         """
-        for rckey, rcval in self.romCollections.iteritems():
+        for rckey, rcval in self.romCollections.items():
             if rcval.name == name:
                 return rcval
 

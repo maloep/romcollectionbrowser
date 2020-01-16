@@ -1,5 +1,10 @@
 # coding=utf-8
-import HTMLParser
+import sys
+print ("sys version: {0}".format(sys.version_info))
+if (sys.version_info > (3, 0)):
+    from html.parser import HTMLParser
+else:
+    from HTMLParser import HTMLParser
 
 import xbmcgui
 
@@ -156,7 +161,7 @@ class Matcher(object):
             resultValue = util.html_unescape(resultValue)
             resultValue = resultValue.strip()
             # unescape ugly html encoding from websites
-            resultValue = HTMLParser.HTMLParser().unescape(resultValue)
+            resultValue = HTMLParser().unescape(resultValue)
 
         except Exception as e:
             # log.warn("Error while resolving item: " + itemName + " : " + str(exc))

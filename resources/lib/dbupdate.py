@@ -376,7 +376,7 @@ class DBUpdate(object):
         try:
             log.debug("Before merging results: %s vs %s" % (results.items(), newResults.items()))
             # Retain any existing key values that aren't an empty list, overwrite all others
-            z = dict(newResults.items() + dict((k, v) for k, v in results.iteritems() if len(v) > 0).items())
+            z = dict(newResults.items() + dict((k, v) for k, v in results.items() if len(v) > 0).items())
             log.debug("After merging results: %s" % z.items())
             return z
         except Exception as e:
@@ -519,7 +519,7 @@ class DBUpdate(object):
                                                                 gamedescription, foldername, publisher, developer)
 
         #add artwork filenames to game_row
-        for filetype, filenames in artworkfiles.iteritems():
+        for filetype, filenames in artworkfiles.items():
             for filename in filenames:
                 prop = 'COL_fileType%s' % filetype.id
                 index = getattr(Game, prop)
@@ -671,7 +671,7 @@ class DBUpdate(object):
 
         del publisher, developer, year
 
-        for fileType, fileNames in artworkfiles.iteritems():
+        for fileType, fileNames in artworkfiles.items():
             for filename in fileNames:
                 log.info("Importing artwork file %s = %s" % (fileType.type, filename))
                 self.insertFile(filename, gameId, fileType, romCollection.id, publisherId, developerId)
