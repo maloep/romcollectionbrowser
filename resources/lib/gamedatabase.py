@@ -107,7 +107,7 @@ class GameDataBase(object):
 
             #backup MyGames.db
             #newFileName = self.dataBasePath + '.backup ' + dbVersion
-            newFileName = self.dataBasePath.format('{0}{1}', '.backup ', dbVersion)
+            newFileName = '{0}{1}{2}'.format(self.dataBasePath, '.backup ', dbVersion)
 
             if os.path.isfile(newFileName):
                 #32030: Error: Cannot backup MyGames.db: Backup File exists.
