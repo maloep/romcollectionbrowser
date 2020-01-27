@@ -12,11 +12,11 @@ class TheGamesDB_Scraper(WebScraper):
     """TheGamesDB.net has its API described at https://api.thegamesdb.net/
     """
     _name = 'thegamesdb.net'
-    _search_url = 'https://api.thegamesdb.net/Games/ByGameName'
-    _genres_url = 'https://api.thegamesdb.net/Genres'
-    _developers_url = 'https://api.thegamesdb.net/Developers'
-    _publishers_url = 'https://api.thegamesdb.net/Publishers'
-    _images_url = 'https://api.thegamesdb.net/Games/Images'
+    _search_url = 'https://api.thegamesdb.net/v1/Games/ByGameName'
+    _genres_url = 'https://api.thegamesdb.net/v1/Genres'
+    _developers_url = 'https://api.thegamesdb.net/v1/Developers'
+    _publishers_url = 'https://api.thegamesdb.net/v1/Publishers'
+    _images_url = 'https://api.thegamesdb.net/v1/Games/Images'
     #_retrieve_url = 'http://thegamesdb.net/api/GetGame.php'
     _api_key = '1e821bf1bab06854840650d77e7e2248f49583821ff9191f2cced47e43bf0a73'
     _fields = 'id,game_title,release_date,developers,publishers,players,genres,overview,rating'
