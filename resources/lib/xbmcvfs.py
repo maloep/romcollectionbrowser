@@ -39,9 +39,9 @@ class File(object):
             f = xbmcvfs.File(file, 'w')
         """
         if(mode):
-            self.fh = open(filepath, mode)
+            self.fh = open(filepath, mode, encoding="utf-8")
         else:
-            self.fh = open(filepath)
+            self.fh = open(filepath, encoding="utf-8")
 
     def close(self):
         """

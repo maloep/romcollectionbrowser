@@ -323,7 +323,8 @@ class Logutil(object):
             return
 
         try:
-            xbmc.log(u"{0} {1}".format(str(cls.prefix[level]), message).encode('utf-8'))
+            #xbmc.log(u"{0} {1}".format(str(cls.prefix[level]), message).encode('utf-8'))
+            xbmc.log(u"{0} {1}".format(str(cls.prefix[level]), message))
         except Exception as e:
             xbmc.log(("Warning when trying to log in RCB: {0}".format(e)))
 

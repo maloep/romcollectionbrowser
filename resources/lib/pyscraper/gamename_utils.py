@@ -76,10 +76,9 @@ class SequelNumberHandler(object):
     """
 
     # taken from http://code.activestate.com/recipes/81611-roman-numerals/
-    numeral_map = zip(
-        (1000, 900, 500, 400, 100, 90, 50, 40, 10, 9, 5, 4, 1),
-        ('M', 'CM', 'D', 'CD', 'C', 'XC', 'L', 'XL', 'X', 'IX', 'V', 'IV', 'I')
-    )
+    numeral_map = tuple(zip((1000, 900, 500, 400, 100, 90, 50, 40, 10, 9, 5, 4, 1),
+        ('M', 'CM', 'D', 'CD', 'C', 'XC', 'L', 'XL', 'X', 'IX', 'V', 'IV', 'I')))
+
 
     #regex taken from
     #https://stackoverflow.com/questions/10093618/convert-a-string-containing-a-roman-numeral-to-integer-equivalent
@@ -123,7 +122,7 @@ class SequelNumberHandler(object):
         return ''.join(result)
 
     def _roman_to_int(self, n):
-        n = unicode(n).upper()
+        n = n.upper()
 
         i = result = 0
         for integer, numeral in self.numeral_map:

@@ -212,14 +212,14 @@ class DataBaseObject(object):
     def getAll(self):
         self.gdb.cursor.execute("SELECT * FROM '%s'" % self.tableName)
         allObjects = self.gdb.cursor.fetchall()
-        newList = self.encodeUtf8(allObjects)
-        return newList
+        #newList = self.encodeUtf8(allObjects)
+        return allObjects
 
     def getAllOrdered(self):
         self.gdb.cursor.execute("SELECT * FROM '%s' ORDER BY name COLLATE NOCASE" % self.tableName)
         allObjects = self.gdb.cursor.fetchall()
-        newList = self.encodeUtf8(allObjects)
-        return newList
+        #newList = self.encodeUtf8(allObjects)
+        return allObjects
 
     def getOneByName(self, name):
         self.gdb.cursor.execute("SELECT * FROM '%s' WHERE name = ?" % self.tableName, (name,))
@@ -577,8 +577,8 @@ class GameView(DataBaseObject):
                             maxPlayers, str(rating), region, str(isFavorite), likeStatement, limit),
             util.LOG_LEVEL_INFO)
         games = self.getObjectsByWildcardQuery(filterQuery, args)
-        newList = self.encodeUtf8(games)
-        return newList
+        #newList = self.encodeUtf8(games)
+        return games
 
     def getGameByNameAndRomCollectionId(self, name, romCollectionId):
         game = self.getObjectByQuery(self.filterByNameAndRomCollectionId, (name, romCollectionId))
