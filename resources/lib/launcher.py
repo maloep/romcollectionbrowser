@@ -1,3 +1,6 @@
+from __future__ import absolute_import
+from builtins import str
+from builtins import object
 import os, sys, re
 import time, zipfile, glob
 
@@ -402,7 +405,7 @@ class RCBLauncher(object):
         emuParams = emuParams.replace('%Romname%', romname)
 
         # gamename
-        gamename = unicode(gameRow[DataBaseObject.COL_NAME])
+        gamename = str(gameRow[DataBaseObject.COL_NAME])
         emuParams = emuParams.replace('%game%', gamename)
         emuParams = emuParams.replace('%GAME%', gamename)
         emuParams = emuParams.replace('%Game%', gamename)
@@ -410,7 +413,7 @@ class RCBLauncher(object):
         # ask num
         if re.search('(?i)%ASKNUM%', emuParams):
             options = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9']
-            number = unicode(xbmcgui.Dialog().select(util.localize(32167), options))
+            number = str(xbmcgui.Dialog().select(util.localize(32167), options))
             emuParams = emuParams.replace('%asknum%', number)
             emuParams = emuParams.replace('%ASKNUM%', number)
             emuParams = emuParams.replace('%Asknum%', number)

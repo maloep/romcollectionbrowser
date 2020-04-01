@@ -1,3 +1,9 @@
+from __future__ import print_function
+from __future__ import absolute_import
+from __future__ import division
+from builtins import chr
+from builtins import str
+from builtins import range
 import xbmc, xbmcgui, xbmcaddon
 import time, os
 
@@ -383,7 +389,7 @@ class UIGameDB(xbmcgui.WindowXML):
             log.debug("onClick: Button Sort by")
 
             options = []
-            for key in self.SORT_METHODS.keys():
+            for key in list(self.SORT_METHODS.keys()):
                 item = xbmcgui.ListItem(self.SORT_METHODS[key])
                 item.setProperty('column', key)
                 options.append(item)
@@ -405,7 +411,7 @@ class UIGameDB(xbmcgui.WindowXML):
             log.debug("onClick: Button Order")
 
             options = []
-            for key in self.SORT_DIRECTIONS.keys():
+            for key in list(self.SORT_DIRECTIONS.keys()):
                 item = xbmcgui.ListItem(self.SORT_DIRECTIONS[key])
                 item.setProperty('direction', key)
                 options.append(item)
@@ -539,7 +545,7 @@ class UIGameDB(xbmcgui.WindowXML):
         filter_changed = False
         if control_id == CONTROL_CONSOLES:
             consoles = []
-            for romCollection in self.config.romCollections.values():
+            for romCollection in list(self.config.romCollections.values()):
                 consoles.append([romCollection.id, romCollection.name])
 
             showEntryAllItems = getSettings().getSetting(util.SETTING_RCB_SHOWENTRYALLCONSOLES).upper() == 'TRUE'
@@ -902,7 +908,7 @@ class UIGameDB(xbmcgui.WindowXML):
             #add progress to "loading games" message
             if len(games) > 1000:
                 if counter >= divisor and counter % divisor == 0:
-                    percent = (len(games) / divisor) * (counter / divisor)
+                    percent = (old_div(len(games), divisor)) * (old_div(counter, divisor))
                     #32121 = Loading games...
                     self.writeMsg('%s (%i%%)' % (util.localize(32121), percent))
                 counter = counter + 1

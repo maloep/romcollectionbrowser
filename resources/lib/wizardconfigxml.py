@@ -1,3 +1,5 @@
+from __future__ import absolute_import
+from builtins import str
 from xml.etree.ElementTree import *
 
 import helper
@@ -47,7 +49,7 @@ class ConfigXmlWizard(RcbXmlReaderWriter):
         consoleList = sorted(WebScraper().consoleDict.keys())
         new_id = 1
 
-        rcIds = configObj.romCollections.keys()
+        rcIds = list(configObj.romCollections.keys())
         rcIds.sort()
         #read existing rom collection ids and names
         for rcId in rcIds:

@@ -1,3 +1,5 @@
+from builtins import str
+from builtins import object
 import os
 import sys
 
@@ -21,7 +23,7 @@ from config import Site
 monitor = xbmc.Monitor()
 
 
-class HandleAbort:
+class HandleAbort(object):
     orig_scraping_mode = ''
 
     def __enter__(self):
@@ -115,7 +117,7 @@ def prepareRomCollections(config, selectedRC, siteName):
         romCollection = config.getRomCollectionByName(selectedRC)
         romCollections[romCollection.id] = romCollection
 
-    for rcId in romCollections.keys():
+    for rcId in list(romCollections.keys()):
         romCollection = config.romCollections[rcId]
 
         sites = []

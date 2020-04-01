@@ -1,7 +1,9 @@
+from __future__ import absolute_import
+from builtins import object
 import xbmcgui
 
 
-class ProgressDialogGUI:
+class ProgressDialogGUI(object):
 
     def __init__(self):
         self.itemCount = 0

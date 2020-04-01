@@ -1,3 +1,6 @@
+from __future__ import absolute_import
+from builtins import str
+from builtins import range
 import xbmc, xbmcgui
 
 import os
@@ -449,7 +452,7 @@ class EditRomCollectionDialog(DialogBase):
         imgPlacingItem = control.getSelectedItem()
         imgPlacingName = imgPlacingItem.getLabel()
         # HACK search key by value
-        for item in config.imagePlacingDict.items():
+        for item in list(config.imagePlacingDict.items()):
             if item[1] == imgPlacingName:
                 imgPlacingName = item[0]
         imgPlacing, errorMsg = self.gui.config.readImagePlacing(imgPlacingName, self.gui.config.tree)
@@ -460,7 +463,7 @@ class EditRomCollectionDialog(DialogBase):
         imgPlacingItem = control.getSelectedItem()
         imgPlacingName = imgPlacingItem.getLabel()
         # HACK search key by value
-        for item in config.imagePlacingDict.items():
+        for item in list(config.imagePlacingDict.items()):
             if item[1] == imgPlacingName:
                 imgPlacingName = item[0]
         imgPlacing, errorMsg = self.gui.config.readImagePlacing(imgPlacingName, self.gui.config.tree)

@@ -2,6 +2,7 @@
 Classes and functions to work with files and folders
 """
 
+from builtins import object
 import os
 import shutil
 
@@ -101,7 +102,7 @@ class File(object):
             result = f.seek(8129, 0)
             f.close()
         """
-        return long()
+        return int()
 
     def size(self):
         """
@@ -113,7 +114,7 @@ class File(object):
             s = f.size()
             f.close()
         """
-        return long()
+        return int()
 
     def write(self, buffer):
         """
@@ -263,28 +264,28 @@ class Stat(object):
         """
 
     def st_mode(self):
-        return long()
+        return int()
 
     def st_ino(self):
-        return long()
+        return int()
 
     def st_nlink(self):
-        return long()
+        return int()
 
     def st_uid(self):
-        return long()
+        return int()
 
     def st_gid(self):
-        return long()
+        return int()
 
     def st_size(self):
-        return long()
+        return int()
 
     def st_atime(self):
-        return long()
+        return int()
 
     def st_mtime(self):
-        return long()
+        return int()
 
     def st_ctime(self):
-        return long()
+        return int()

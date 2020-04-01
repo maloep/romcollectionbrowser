@@ -4,6 +4,10 @@
 """
 Various classes and functions to interact with Kodi.
 """
+from __future__ import print_function
+from __future__ import absolute_import
+from builtins import str
+from builtins import object
 import os
 import xbmcgui as _xbmcgui
 
@@ -515,7 +519,7 @@ class PlayListItem(object):
 
     def getduration(self):
         """Returns the duration of this PlayListItem."""
-        return long()
+        return int()
 
     def getfilename(self):
         """Returns the filename of this PlayListItem."""
@@ -1053,7 +1057,7 @@ def getDVDState():
 
         dvdstate = xbmc.getDVDState()
     """
-    return long()
+    return int()
 
 
 def getFreeMem():
@@ -1064,7 +1068,7 @@ def getFreeMem():
 
         freemem = xbmc.getFreeMem()
     """
-    return long()
+    return int()
 
 
 def getGlobalIdleTime():
@@ -1075,7 +1079,7 @@ def getGlobalIdleTime():
 
         t = xbmc.getGlobalIdleTime()
     """
-    return long()
+    return int()
 
 
 def getIPAddress():
@@ -1154,7 +1158,7 @@ def getLocalizedString(id):
 
         locstr = xbmc.getLocalizedString(6)
     """
-    return unicode()
+    return str()
 
 
 def getRegion(id):
@@ -1233,11 +1237,11 @@ def log(msg, level=LOGDEBUG):
     elif _loglevel == 0:
         if level == LOGNOTICE:
             msg = '%s: %s' % (level, msg)
-            print msg
+            print(msg)
             _write_to_file(msg)
     else:
         msg = '%s: %s' % (level, msg)
-        print msg
+        print(msg)
         _write_to_file(msg)
 
 
@@ -1391,4 +1395,4 @@ def validatePath(path):
 
         fpath = xbmc.validatePath(somepath)
     """
-    return unicode()
+    return str()

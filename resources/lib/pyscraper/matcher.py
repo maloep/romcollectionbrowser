@@ -1,4 +1,6 @@
 # coding=utf-8
+from __future__ import print_function
+from __future__ import absolute_import
 import sys
 print ("sys version: {0}".format(sys.version_info))
 if (sys.version_info > (3, 0)):

@@ -1,3 +1,6 @@
+from __future__ import absolute_import
+from builtins import str
+from builtins import object
 import glob
 import time
 import io
@@ -124,7 +127,7 @@ class DBUpdate(object):
         # Added variable to allow user to continue on errors
         ignoreErrors = False
 
-        for romCollection in romCollections.values():
+        for romCollection in list(romCollections.values()):
 
             # timestamp1 = time.clock()
 
@@ -286,7 +289,7 @@ class DBUpdate(object):
         files = []
         for romPath in romCollection.romPaths:
             log.info("Reading rom files in path: %s" % romPath)
-            files = self.walkDownPath(files, unicode(romPath), romCollection.maxFolderDepth)
+            files = self.walkDownPath(files, str(romPath), romCollection.maxFolderDepth)
 
         # only use files that are not already present in database
         if enableFullReimport == False:
@@ -374,10 +377,10 @@ class DBUpdate(object):
             Updated dict of result fields
         """
         try:
-            log.debug("Before merging results: %s vs %s" % (results.items(), newResults.items()))
+            log.debug("Before merging results: %s vs %s" % (list(results.items()), list(newResults.items())))
             # Retain any existing key values that aren't an empty list, overwrite all others
-            z = dict(newResults.items() + dict((k, v) for k, v in results.items() if len(v) > 0).items())
-            log.debug("After merging results: %s" % z.items())
+            z = dict(list(newResults.items()) + list(dict((k, v) for k, v in list(results.items()) if len(v) > 0).items()))
+            log.debug("After merging results: %s" % list(z.items()))
             return z
         except Exception as e:
             # Return original results without doing anything
@@ -519,7 +522,7 @@ class DBUpdate(object):
                                                                 gamedescription, foldername, publisher, developer)
 
         #add artwork filenames to game_row
-        for filetype, filenames in artworkfiles.items():
+        for filetype, filenames in list(artworkfiles.items()):
             for filename in filenames:
                 prop = 'COL_fileType%s' % filetype.id
                 index = getattr(Game, prop)

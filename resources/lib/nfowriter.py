@@ -1,3 +1,5 @@
+from __future__ import absolute_import
+from builtins import str
 import os
 import xml.etree.ElementTree as ET
 from xml.etree.ElementTree import SubElement
@@ -25,7 +27,7 @@ class NfoWriter(RcbXmlReaderWriter):
         continueExport = True
         rccount = 1
 
-        for romCollection in romCollections.values():
+        for romCollection in list(romCollections.values()):
 
             progDialogRCHeader = util.localize(32170) + " (%i / %i): %s" % (
             rccount, len(romCollections), romCollection.name)
@@ -132,7 +134,7 @@ class NfoWriter(RcbXmlReaderWriter):
         for genre in genreList:
             ET.SubElement(root, 'genre').text = genre
 
-        for artworktype in artworkfiles.keys():
+        for artworktype in list(artworkfiles.keys()):
 
             local = ''
             online = ''

@@ -1,3 +1,5 @@
+from __future__ import absolute_import
+from builtins import range
 from configxmlwriter import *
 from util import *
 import util, config
@@ -73,10 +75,10 @@ class MissingInfoDialog(DialogBase):
 
         Logutil.log('add show/hide missing info options', util.LOG_LEVEL_INFO)
         #showHideOptions = ['Ignore filter', 'Show only games with missing items', 'Hide games with missing items']
-        self.addItemsToList(CONTROL_LIST_SHOWHIDEMISSING, self.missingFilterOptions.values())
+        self.addItemsToList(CONTROL_LIST_SHOWHIDEMISSING, list(self.missingFilterOptions.values()))
 
-        for i in range(0, len(self.missingFilterOptions.keys())):
-            key = self.missingFilterOptions.keys()[i]
+        for i in range(0, len(list(self.missingFilterOptions.keys()))):
+            key = list(self.missingFilterOptions.keys())[i]
             if key == self.gui.config.showHideOption:
                 listShowHide = self.getControlById(CONTROL_LIST_SHOWHIDEMISSING)
                 listShowHide.selectItem(i)
@@ -130,7 +132,7 @@ class MissingInfoDialog(DialogBase):
 
             showHideList = self.getControlById(CONTROL_LIST_SHOWHIDEMISSING)
             index = showHideList.getSelectedPosition()
-            showHideOptions = self.missingFilterOptions.keys()
+            showHideOptions = list(self.missingFilterOptions.keys())
             showHideOption = showHideOptions[index]
 
             configWriter = ConfigXmlWriter(False)
@@ -152,7 +154,7 @@ class MissingInfoDialog(DialogBase):
     def addItemToMissingArtworkList(self, inList, labelId):
         tempList = []
 
-        for romCollection in self.gui.config.romCollections.values():
+        for romCollection in list(self.gui.config.romCollections.values()):
             for mediaPath in romCollection.mediaPaths:
                 if (not mediaPath.fileType.name in tempList and not mediaPath.fileType.name in inList):
                     tempList.append(mediaPath.fileType.name)
@@ -174,7 +176,7 @@ class MissingInfoDialog(DialogBase):
     def addItemToMissingInfoList(self, inList, labelId):
 
         tempList = []
-        keys = config.gameproperties.keys()
+        keys = list(config.gameproperties.keys())
         keys.sort()
         for item in keys:
             if not item in tempList and not item in inList:

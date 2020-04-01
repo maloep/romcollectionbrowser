@@ -1,3 +1,8 @@
+from __future__ import print_function
+from __future__ import absolute_import
+from builtins import str
+from builtins import range
+from builtins import object
 import os, shutil
 from sqlite3 import dbapi2 as sqlite
 
@@ -294,7 +299,7 @@ class gameobj(object):
     @property
     def gameId(self):
         # Used to store the ID in the lists, where a unicode string is required rather than an integer
-        return unicode(self.id)
+        return str(self.id)
 
     @property
     def isfavorite(self):

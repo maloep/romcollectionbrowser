@@ -1,4 +1,7 @@
+from __future__ import absolute_import
 
+from builtins import str
+from builtins import object
 import os, re
 import xbmcvfs
 import util
@@ -26,7 +29,7 @@ class ArtworkUpdater(object):
         else:
             rccount = 1
             rclen = len(self.config.romCollections)
-            for rcid in self.config.romCollections.keys():
+            for rcid in list(self.config.romCollections.keys()):
                 self.progress_dialog.itemCount = rclen
                 rom_collection = self.config.romCollections[str(rcid)]
                 self.dialogheader = util.localize(32954) + " (%i / %i): %s" % (rccount, rclen, rom_collection.name)
@@ -86,7 +89,7 @@ class ArtworkUpdater(object):
             media_dict = {}
 
         #if this console is already cached there is nothing to do
-        if console_id in media_dict.keys():
+        if console_id in list(media_dict.keys()):
             log.info('MediaPaths for RomCollection %s are already in cache' % console_id)
             return media_dict
 
@@ -100,12 +103,12 @@ class ArtworkUpdater(object):
         else:
             rccount = 1
             rclen = len(self.config.romCollections)
-            for rcid in self.config.romCollections.keys():
+            for rcid in list(self.config.romCollections.keys()):
                 self.progress_dialog.itemCount = rclen
                 rom_collection = self.config.romCollections[str(rcid)]
                 self.dialogheader = util.localize(32953) + " (%i / %i): %s" % (rccount, rclen, rom_collection.name)
                 self.progress_dialog.writeMsg(self.dialogheader, '', '', rccount)
-                if rcid in media_dict.keys():
+                if rcid in list(media_dict.keys()):
                     log.info('MediaPaths for RomCollection %s are already in cache' % rcid)
                     continue
                 self._cache_media_paths_for_console(rcid, media_dict)

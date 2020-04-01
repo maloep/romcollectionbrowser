@@ -1,3 +1,6 @@
+from __future__ import print_function
+from __future__ import absolute_import
+from builtins import str
 import os
 
 import util
@@ -82,7 +85,7 @@ class ConfigXmlWriter(RcbXmlReaderWriter):
             for romCollectionXml in romCollectionsXml.findall('RomCollection'):
                 romCollectionsXml.remove(romCollectionXml)
 
-        for romCollection in romCollections.values():
+        for romCollection in list(romCollections.values()):
 
             Logutil.log('write Rom Collection: ' + str(romCollection.name), util.LOG_LEVEL_INFO)
 
