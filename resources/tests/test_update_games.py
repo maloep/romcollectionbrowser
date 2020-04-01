@@ -1,4 +1,5 @@
 # coding=utf-8
+from builtins import object
 import os
 import sys
 import shutil
@@ -17,7 +18,7 @@ from gamedatabase import GameDataBase, GameView, File
 
 import xbmcaddon
 
-class RCBMockGui:
+class RCBMockGui(object):
 
     itemCount = 0
 

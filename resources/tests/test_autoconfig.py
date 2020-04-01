@@ -10,6 +10,7 @@ This has been verified on Mac; other envs will need to be tested manually
 
 """
 
+from builtins import str
 import unittest
 import sys
 import os
