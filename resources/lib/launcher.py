@@ -536,8 +536,9 @@ class RCBLauncher(object):
             log.info("Preferred gameclient: " + gameclient)
             log.info("Setting platform: " + self.romCollection.name)
 
+            #if game is launched from RCB widget there is no listitem
             if listitem is None:
-                listitem = xbmcgui.ListItem(rom, "0", "", "")
+                listitem = xbmcgui.ListItem(rom)
 
             parameters = {"platform": self.romCollection.name}
             if gameclient != "":
