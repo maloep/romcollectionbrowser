@@ -30,7 +30,7 @@ class DialogBase(xbmcgui.WindowXMLDialog):
 
         items = []
         for option in options:
-            items.append(xbmcgui.ListItem(option, '', '', ''))
+            items.append(xbmcgui.ListItem(option))
 
         control.addItems(items)
 

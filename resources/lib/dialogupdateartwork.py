@@ -112,7 +112,8 @@ class UpdateArtworkDialog(DialogBase):
             filetype_id = filetype.id
 
         progressDialog = dialogprogress.ProgressDialogGUI()
-        progressDialog.writeMsg(util.localize(32950), "", "")
+        #32950 = Scan Artwork
+        progressDialog.create(util.localize(32950))
 
         updater = ArtworkUpdater(progressDialog, self.gui.gdb, self.gui.config)
         updater.update_artwork_cache(romcollection_id, filetype_id)

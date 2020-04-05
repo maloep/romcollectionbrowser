@@ -600,6 +600,10 @@ msgctxt "#32209"
 msgid "Up - Options, Down - Filter, C - Context menu"
 msgstr ""
 
+msgctxt "#32210"
+msgid "downloading artwork"
+msgstr ""
+
 msgctxt "#32300"
 msgid "General"
 msgstr ""

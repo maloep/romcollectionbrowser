@@ -201,8 +201,8 @@ class DBUpdate(object):
                     log.info("Start scraping info for game: %s" % gamenameFromFile)
 
                     # 32123 = Importing Game
-                    continueUpdate = self._gui.writeMsg(progDialogRCHeader,
-                                                        util.localize(32123) + ": " + gamenameFromFile, "", fileidx + 1)
+                    msg = "%s: %s" %(util.localize(32123), gamenameFromFile)
+                    continueUpdate = self._gui.writeMsg(msg, fileidx + 1)
                     if not continueUpdate:
                         log.info("Game import canceled by user")
                         break
@@ -277,7 +277,7 @@ class DBUpdate(object):
         # diff = (timestamp2 - timestamp1) * 1000
         # print "load %i games in %d ms" % (self.getListSize(), diff)
 
-        self._gui.writeMsg("Done.", "", "", self._gui.itemCount)
+        self._gui.writeMsg("Done.", self._gui.itemCount)
         log.info("Update finished")
         return True, ''
 
@@ -446,8 +446,8 @@ class DBUpdate(object):
             log.info("Using scraper: %s" % newscraper.name)
             # 32123 = Importing Game
             # 32131 = downloading info
-            self._gui.writeMsg(progDialogRCHeader, util.localize(32123) + ": " + gamenameFromFile,
-                               newscraper.name + " - " + util.localize(32131), fileCount)
+            msg = "%s: %s[CR]%s: %s" %(util.localize(32123), gamenameFromFile, newscraper.name, util.localize(32131))
+            self._gui.writeMsg(msg, fileCount)
 
             results = newscraper.search(gamenameFromFile, romCollection.name)
             log.debug(u"Searching for %s - found %s results: %s" % (gamenameFromFile, len(results), results))
@@ -1028,9 +1028,11 @@ class DBUpdate(object):
 
             # Update progress dialog to state we are downloading art
             try:
-                msg = "%s: %s" % (util.localize(32123), self._guiDict["gameNameKey"])
-                submsg = "%s - downloading art" % self._guiDict["scraperSiteKey"][thumbKey]
-                self._gui.writeMsg(self._guiDict["dialogHeaderKey"], msg, submsg, self._guiDict["fileCountKey"])
+                #32123 = Importing Game
+                #32210 = downloading artwork
+                msg = "%s: %s[CR]%s: %s" % (util.localize(32123), self._guiDict["gameNameKey"],
+                                            self._guiDict["scraperSiteKey"][thumbKey], util.localize(32210))
+                self._gui.writeMsg(msg, self._guiDict["fileCountKey"])
             except KeyError:
                 log.warn("Unable to retrieve key from GUI dict")
 

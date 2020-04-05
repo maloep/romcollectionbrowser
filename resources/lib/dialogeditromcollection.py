@@ -437,8 +437,8 @@ class EditRomCollectionDialog(DialogBase):
             if scraper.path:
                 listitem = xbmcgui.ListItem(scraper.name, scraper.path, '', '')
                 control.addItem(listitem)
-
-        listitem = xbmcgui.ListItem('', util.localize(32641), '', '')
+        #32641 = Click to add Offline Scraper
+        listitem = xbmcgui.ListItem('', util.localize(32641))
         control.addItem(listitem)
 
     def updateSelectedRomCollection(self):

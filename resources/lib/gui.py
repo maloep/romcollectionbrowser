@@ -947,7 +947,7 @@ class UIGameDB(xbmcgui.WindowXML):
         try:
             romCollection = self.config.romCollections[selectedGame.getProperty('romCollectionId')]
         except Exception as err:
-            print (err.message)
+            Logutil.log(err, util.LOG_LEVEL_ERROR)
             Logutil.log('Cannot get rom collection with id: ' + str(selectedGame.getProperty('romCollectionId')),
                         util.LOG_LEVEL_ERROR)
 
@@ -1040,19 +1040,21 @@ class UIGameDB(xbmcgui.WindowXML):
         rcList = GameView(self.gdb).getFilteredGames(rcID, 0, 0, 0, 0, 0, 0, 0, 0, '0 = 0', '', 0)
         progressDialog = dialogprogress.ProgressDialogGUI()
         progressDialog.itemCount = len(rcList)
+        progressDialog.create(util.localize(32105))
 
         if rcList != None:
-            progDialogRCDelStat = util.localize(32104) + " (%i / %i)" % (count, progressDialog.itemCount)
-            progressDialog.writeMsg(util.localize(32105), progDialogRCDelStat, "", count)
+            #32104 = Deleting Rom
+            message = util.localize(32104) + " (%i / %i)" % (count, progressDialog.itemCount)
+            progressDialog.writeMsg(message, count)
             for items in rcList:
                 count = count + 1
-                progDialogRCDelStat = util.localize(32104) + " (%i / %i)" % (count, progressDialog.itemCount)
-                progressDialog.writeMsg("", progDialogRCDelStat, "", count)
+                message = util.localize(32104) + " (%i / %i)" % (count, progressDialog.itemCount)
+                progressDialog.writeMsg(message, count)
                 self.deleteGame(items[Game.COL_ID])
-            if len(rcList) > 0:
-                progressDialog.writeMsg("", util.localize(32106), "", count)
-            else:
-                progressDialog.writeMsg(util.localize(32106), "", "", count)
+
+            #32106 = Deleting Roms Complete
+            progressDialog.writeMsg(util.localize(32106), count)
+
             time.sleep(1)
             self.gdb.commit()
             xbmc.sleep(util.WAITTIME_UPDATECONTROLS)
@@ -1070,23 +1072,28 @@ class UIGameDB(xbmcgui.WindowXML):
         filelist = File(self.gdb).getFilesList()
         progressDialog2 = dialogprogress.ProgressDialogGUI()
         progressDialog2.itemCount = len(filelist)
-        progDialogCleanStat = util.localize(32107) + " (%i / %i)" % (count, progressDialog2.itemCount)
-        progressDialog2.writeMsg(util.localize(32108), progDialogCleanStat, "")
+        #32108 = Cleaning Database...
+        progressDialog2.create(util.localize(32108))
+        #32107 = Checking File
+        message = "%s (%i / %i)" % (util.localize(32107), count, progressDialog2.itemCount)
+        progressDialog2.writeMsg(message, count)
         if filelist != None:
             for items in filelist:
                 count = count + 1
-                progDialogCleanStat = util.localize(32107) + " (%i / %i)" % (count, progressDialog2.itemCount)
-                progressDialog2.writeMsg("", progDialogCleanStat, "", count)
+                message = "%s (%i / %i)" % (util.localize(32107), count, progressDialog2.itemCount)
+                progressDialog2.writeMsg(message, count)
                 if os.path.exists(items[File.COL_NAME]) != True:
                     if items[File.COL_fileTypeId] == 0:
                         self.deleteGame(items[File.COL_parentId])
                     else:
                         File(self.gdb).deleteByFileId(items[File.COL_ID])
                     removeCount = removeCount + 1
-            progressDialog2.writeMsg("", util.localize(32109), "", count)
+            #32109 = Compressing Database...
+            progressDialog2.writeMsg(util.localize(32109), count)
             self.gdb.compact()
             time.sleep(.5)
-            progressDialog2.writeMsg("", util.localize(32110), "", count)
+            #32110 = Database Clean-up Complete
+            progressDialog2.writeMsg(util.localize(32110), count)
             time.sleep(1)
             self.showGames()
         Logutil.log("End cleanDB", util.LOG_LEVEL_INFO)
@@ -1257,12 +1264,13 @@ class UIGameDB(xbmcgui.WindowXML):
             import dbupdate
 
             progressDialog = dialogprogress.ProgressDialogGUI()
-            progressDialog.writeMsg(util.localize(32111), "", "")
+            #32111 = Import Games...
+            progressDialog.create(util.localize(32111))
 
             updater = dbupdate.DBUpdate()
             updater.updateDB(self.gdb, progressDialog, romCollections, isRescrape)
             del updater
-            progressDialog.writeMsg("", "", "", -1)
+            progressDialog.writeMsg("", -1)
             del progressDialog
 
     def checkUpdateInProgress(self):

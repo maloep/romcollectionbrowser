@@ -139,7 +139,7 @@ class RemoveRCDialog(xbmcgui.WindowXMLDialog):
             p = ''
             if properties:
                 p = properties[i]
-            items.append(xbmcgui.ListItem(option, p, '', ''))
+            items.append(xbmcgui.ListItem(option, p))
 
         control.addItems(items)
 

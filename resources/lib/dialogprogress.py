@@ -9,12 +9,15 @@ class ProgressDialogGUI(object):
         self.itemCount = 0
         self.dialog = xbmcgui.DialogProgress()
 
-    def writeMsg(self, line1, line2, line3, count=0):
+    def create(self, header):
+        self.dialog.create(header)
+
+    def writeMsg(self, message, count=0):
         if not count:
-            self.dialog.create(line1)
+            self.dialog.create(message)
         elif count > 0 and self.itemCount != 0:
             percent = int(count * (float(100) / self.itemCount))
-            self.dialog.update(percent, line1, line2, line3)
+            self.dialog.update(percent, message)
             if self.dialog.iscanceled():
                 return False
             else:
