@@ -74,7 +74,10 @@ class ContextMenuDialog(object):
     def rescrape_game(self):
         log.info("rescrape_game")
         if self.selectedGame is None:
-            xbmcgui.Dialog().ok(util.SCRIPTNAME, util.localize(32013), util.localize(32014))
+            #32013 = Rescrape game error
+            #32014 = Can't load selected Game
+            message = "%s[CR]%s" %(util.localize(32013), util.localize(32014))
+            xbmcgui.Dialog().ok(util.SCRIPTNAME, message)
             return
 
         romCollectionId = self.selectedGame.getProperty('romCollectionId')
@@ -116,7 +119,10 @@ class ContextMenuDialog(object):
     def edit_game_command(self):
         log.info("edit_game_command")
         if self.selectedGame == None:
-            xbmcgui.Dialog().ok(util.SCRIPTNAME, util.localize(32015), util.localize(32014))
+            #32014 = Can't load selected Game
+            #32015 = Edit Game Command Error
+            message = "%s[CR]%s" % (util.localize(32015), util.localize(32014))
+            xbmcgui.Dialog().ok(util.SCRIPTNAME, message)
             return
 
         origCommand = self.selectedGame.getProperty('gameCmd')
@@ -131,9 +137,14 @@ class ContextMenuDialog(object):
         log.info("delete_game")
         pos = self.gui.getCurrentListPosition()
         if pos == -1:
-            xbmcgui.Dialog().ok(util.SCRIPTNAME, util.localize(32017), util.localize(32018))
+            #32017 = Delete Game Error
+            #32018 = Can't delete selected Game
+            message = "%s[CR]%s" % (util.localize(32017), util.localize(32018))
+            xbmcgui.Dialog().ok(util.SCRIPTNAME, message)
             return
         dialog = xbmcgui.Dialog()
+        #32510 = Delete Game
+        #32136 = "Are you sure you want to delete this game?
         if dialog.yesno(util.localize(32510), util.localize(32136)):
             gameID = self.selectedGame.getProperty('gameId')
             self.gui.deleteGame(gameID)
@@ -152,7 +163,10 @@ class ContextMenuDialog(object):
             return
 
         if self.selectedGame is None or self.gameRow is None:
-            xbmcgui.Dialog().ok(util.SCRIPTNAME, util.localize(32015), util.localize(32014))
+            # 32014 = Can't load selected Game
+            # 32015 = Edit Game Command Error
+            message = "%s[CR]%s" % (util.localize(32015), util.localize(32014))
+            xbmcgui.Dialog().ok(util.SCRIPTNAME, message)
             return
 
         #HACK: use alternateGameCmd to store gameclient information

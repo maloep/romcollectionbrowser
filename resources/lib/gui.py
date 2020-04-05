@@ -200,7 +200,10 @@ class UIGameDB(xbmcgui.WindowXML):
         if not os.path.isfile(configFile):
             Logutil.log("No config file available. Create new one.", util.LOG_LEVEL_INFO)
             dialog = xbmcgui.Dialog()
-            createNewConfig = dialog.yesno(util.SCRIPTNAME, util.localize(32100), util.localize(32101))
+            #32100 = No config file found.
+            #32101 = Do you want to create one?
+            message = "%s[CR]%s" %(util.localize(32100), util.localize(32101))
+            createNewConfig = dialog.yesno(util.SCRIPTNAME, message)
             if not createNewConfig:
                 return config, False
         else:
@@ -208,7 +211,10 @@ class UIGameDB(xbmcgui.WindowXML):
             if not rcAvailable:
                 Logutil.log("No Rom Collections found in config.xml.", util.LOG_LEVEL_INFO)
                 dialog = xbmcgui.Dialog()
-                createNewConfig = dialog.yesno(util.SCRIPTNAME, util.localize(32100), util.localize(32101))
+                # 32100 = No config file found.
+                # 32101 = Do you want to create one?
+                message = "%s[CR]%s" % (util.localize(32100), util.localize(32101))
+                createNewConfig = dialog.yesno(util.SCRIPTNAME, message)
                 if not createNewConfig:
                     return config, False
 
@@ -216,19 +222,25 @@ class UIGameDB(xbmcgui.WindowXML):
             import wizardconfigxml
             statusOk, errorMsg = wizardconfigxml.ConfigXmlWizard().createConfigXml(configFile)
             if statusOk == False:
-                xbmcgui.Dialog().ok(util.SCRIPTNAME, util.localize(32001), errorMsg)
+                #32001 = Error while updating config.xml.
+                message = "%s[CR]%s" % (util.localize(32001), errorMsg)
+                xbmcgui.Dialog().ok(util.SCRIPTNAME, message)
                 return config, False
         else:
             from configxmlupdater import ConfigxmlUpdater
             #check if config.xml is up to date
             returnCode, message = ConfigxmlUpdater().updateConfig(configFile)
             if returnCode == False:
-                xbmcgui.Dialog().ok(util.SCRIPTNAME, util.localize(32001), message)
+                # 32001 = Error while updating config.xml.
+                message = "%s[CR]%s" % (util.localize(32001), message)
+                xbmcgui.Dialog().ok(util.SCRIPTNAME, message)
 
         #read config.xml
         statusOk, errorMsg = config.readXml()
         if statusOk == False:
-            xbmcgui.Dialog().ok(util.SCRIPTNAME, util.localize(32002), errorMsg)
+            #32001 = Error reading config.xml.
+            message = "%s[CR]%s" % (util.localize(32002), errorMsg)
+            xbmcgui.Dialog().ok(util.SCRIPTNAME, message)
 
         self.set_skin_flags()
 
@@ -240,7 +252,9 @@ class UIGameDB(xbmcgui.WindowXML):
             self.gdb = GameDataBase(util.getAddonDataPath())
             self.gdb.connect()
         except Exception as exc:
-            xbmcgui.Dialog().ok(util.SCRIPTNAME, util.localize(32000), str(exc))
+            #32000 = Error: Can not access database.
+            message = "%s[CR]%s" % (util.localize(32000), str(exc))
+            xbmcgui.Dialog().ok(util.SCRIPTNAME, message)
             Logutil.log('Error accessing database: ' + str(exc), util.LOG_LEVEL_ERROR)
             return False
 
@@ -253,7 +267,10 @@ class UIGameDB(xbmcgui.WindowXML):
             return False
 
         if doImport == 2:
-            xbmcgui.Dialog().ok(util.SCRIPTNAME, util.localize(32102), util.localize(32103))
+            #32102 = Database and config.xml updated to new version.
+            #32103 = Please read the wiki and changelog if you encounter any problems.
+            message = "%s[CR]%s" % (util.localize(32102), util.localize(32103))
+            xbmcgui.Dialog().ok(util.SCRIPTNAME, message)
 
         self.checkImport(doImport, None, False)
         return True
@@ -1235,13 +1252,12 @@ class UIGameDB(xbmcgui.WindowXML):
                                                               isRescrape=isRescrape)
             del iod
         else:
-            #32118 = Do you want to import Games now?
-            message = util.localize(32118)
-
             dialog = xbmcgui.Dialog()
 
             #32500 = Import Games
-            retGames = dialog.yesno(util.localize(32999), util.localize(32500), message)
+            # 32118 = Do you want to import Games now?
+            message = "%s[CR]%s" % (util.localize(32500), util.localize(32118))
+            retGames = dialog.yesno(util.SCRIPTNAME, message)
             if retGames == True:
                 #Import Games
                 if romCollections == None:
@@ -1281,13 +1297,19 @@ class UIGameDB(xbmcgui.WindowXML):
         Logutil.log("scrapeOnStartupAction = " + str(scrapeOnStartupAction), util.LOG_LEVEL_INFO)
 
         if scrapeOnStartupAction == 'update':
-            retCancel = xbmcgui.Dialog().yesno(util.localize(32999), util.localize(32112), util.localize(32113))
+            #32112 = Import in Progress
+            #32113 = Do you want to cancel current import?
+            message = "%s[CR]%s" % (util.localize(32112), util.localize(32113))
+            retCancel = xbmcgui.Dialog().yesno(util.SCRIPTNAME, message)
             if retCancel == True:
                 self.Settings.setSetting(util.SETTING_RCB_SCRAPEONSTARTUPACTION, 'cancel')
             return True
 
         elif scrapeOnStartupAction == 'cancel':
-            retForceCancel = xbmcgui.Dialog().yesno(util.localize(32999), util.localize(32114), util.localize(32205))
+            #32114 = Cancelling in Progress
+            #32205 = Do you want to force cancel current import?
+            message = "%s[CR]%s" % (util.localize(32114), util.localize(32205))
+            retForceCancel = xbmcgui.Dialog().yesno(util.SCRIPTNAME, message)
 
             #HACK: Assume that there is a problem with canceling the action
             if retForceCancel == True:
@@ -1541,7 +1563,10 @@ class UIGameDB(xbmcgui.WindowXML):
     def set_isfavorite_for_game(self, selected_game):
         log.info("set_isfavorite_for_game")
         if selected_game is None:
-            xbmcgui.Dialog().ok(util.SCRIPTNAME, util.localize(32016), util.localize(32014))
+            #32014 = Can't load selected Game
+            #32016 = Add To Favorites Error
+            message = "%s[CR]%s" % (util.localize(32016), util.localize(32014))
+            xbmcgui.Dialog().ok(util.SCRIPTNAME, message)
             return
 
         isFavorite = '1'
@@ -1559,7 +1584,10 @@ class UIGameDB(xbmcgui.WindowXML):
     def set_isfavorite_for_selection(self, selected_game):
         log.info("set_isfavorite_for_selection")
         if selected_game is None:
-            xbmcgui.Dialog().ok(util.SCRIPTNAME, util.localize(32016), util.localize(32014))
+            # 32014 = Can't load selected Game
+            # 32016 = Add To Favorites Error
+            message = "%s[CR]%s" % (util.localize(32016), util.localize(32014))
+            xbmcgui.Dialog().ok(util.SCRIPTNAME, message)
             return
 
         isFavorite = '1'

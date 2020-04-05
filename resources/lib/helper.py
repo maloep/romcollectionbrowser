@@ -102,7 +102,8 @@ def createArtworkDirectories(romCollections):
                     Logutil.log("Could not create artwork directory: '%s'" % dirname, util.LOG_LEVEL_ERROR)
                     #32010: Error: Could not create artwork directory.
                     #32011: Check kodi.log for details.
-                    xbmcgui.Dialog().ok(util.localize(32010), dirname, util.localize(32011))
+                    message = "%s[CR]%s" %(dirname, util.localize(32011))
+                    xbmcgui.Dialog().ok(util.localize(32010), message)
                     return False
 
     return True

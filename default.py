@@ -199,4 +199,4 @@ if __name__ == "__main__":
         xbmc.log(message2)
         import xbmcgui
 
-        xbmcgui.Dialog().ok("Rom Collection Browser", message, message2, message3)
+        xbmcgui.Dialog().ok("Rom Collection Browser", "%s[CR]%s[CR]%s" %(message, message2, message3))

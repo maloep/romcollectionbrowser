@@ -597,7 +597,10 @@ class RCBLauncher(object):
         try:
             import py7zlib
         except ImportError as e:
-            xbmcgui.Dialog().ok(util.SCRIPTNAME, util.localize(32039), util.localize(32129))
+            #32039 = Error launching .7z file.
+            #32129 = Please check kodi.log for details.
+            message = "%s[CR]%s" %(util.localize(32039), util.localize(32129))
+            xbmcgui.Dialog().ok(util.SCRIPTNAME, message)
             msg = ("You have tried to launch a .7z file but you are missing required libraries to extract the file. "
                    "You can download the latest RCB version from RCBs project page. It contains all required libraries.")
             log.error(msg)
@@ -626,7 +629,10 @@ class RCBLauncher(object):
         try:
             import py7zlib
         except ImportError:
-            xbmcgui.Dialog().ok(util.SCRIPTNAME, util.localize(32039), util.localize(32129))
+            # 32039 = Error launching .7z file.
+            # 32129 = Please check kodi.log for details.
+            message = "%s[CR]%s" % (util.localize(32039), util.localize(32129))
+            xbmcgui.Dialog().ok(util.SCRIPTNAME, message)
             msg = ("You have tried to launch a .7z file but you are missing required libraries to extract the file. "
                    "You can download the latest RCB version from RCBs project page. It contains all required libraries.")
             log.error(msg)

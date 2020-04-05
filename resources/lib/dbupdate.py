@@ -257,7 +257,8 @@ class DBUpdate(object):
                             # Cancel
                             #32128 = Import canceled.
                             #32129 = Please check kodi.log for details.
-                            xbmcgui.Dialog().ok(util.SCRIPTNAME, util.localize(32128), util.localize(32129))
+                            message = "%s[CR]%s" % (util.localize(32128), util.localize(32129))
+                            xbmcgui.Dialog().ok(util.SCRIPTNAME, message)
                             continueUpdate = False
                             break
 

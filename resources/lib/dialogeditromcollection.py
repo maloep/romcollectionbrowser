@@ -181,7 +181,9 @@ class EditRomCollectionDialog(DialogBase):
         elif controlID == CONTROL_BUTTON_ADD_RC:
             statusOk, errorMsg = wizardconfigxml.ConfigXmlWizard().addRomCollection(self.gui.config)
             if statusOk is False:
-                xbmcgui.Dialog().ok(util.SCRIPTNAME, util.localize(32001), errorMsg)
+                #32001 = Error while updating config.xml.
+                message = "%s[CR]%s" % (util.localize(32001), errorMsg)
+                xbmcgui.Dialog().ok(util.SCRIPTNAME, message)
                 log.info("Error updating config.xml: {0}".format(errorMsg))
                 return
 
@@ -189,7 +191,9 @@ class EditRomCollectionDialog(DialogBase):
             self.gui.config = Config(None)
             statusOk, errorMsg = self.gui.config.readXml()
             if statusOk is False:
-                xbmcgui.Dialog().ok(util.SCRIPTNAME, util.localize(32002), errorMsg)
+                #32002 = Error reading config.xml.
+                message = "%s[CR]%s" % (util.localize(32002), errorMsg)
+                xbmcgui.Dialog().ok(util.SCRIPTNAME, message)
                 log.info("Error reading config.xml: {0}".format(errorMsg))
                 return
 
@@ -219,7 +223,9 @@ class EditRomCollectionDialog(DialogBase):
             self.gui.config = Config(None)
             statusOk, errorMsg = self.gui.config.readXml()
             if statusOk is False:
-                xbmcgui.Dialog().ok(util.SCRIPTNAME, util.localize(32002), errorMsg)
+                #32002 = Error reading config.xml.
+                message = "%s[CR]%s" %(util.localize(32002), errorMsg)
+                xbmcgui.Dialog().ok(util.SCRIPTNAME, message)
                 log.info("Error reading config.xml: {0}".format(errorMsg))
                 return
 

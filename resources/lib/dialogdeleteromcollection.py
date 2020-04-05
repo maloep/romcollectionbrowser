@@ -83,6 +83,8 @@ class RemoveRCDialog(xbmcgui.WindowXMLDialog):
                     success, message = configWriterRCDel.removeRomCollection(RCName)
                     if success is False:
                         log.error(message)
+                        #32019 = Error
+                        #32020 = Error Deleting Rom Collection
                         xbmcgui.Dialog().ok(util.localize(32019), util.localize(32020))
             log.info('Click Close')
             self.close()
