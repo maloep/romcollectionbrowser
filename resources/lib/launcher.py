@@ -493,7 +493,7 @@ class RCBLauncher(object):
         # pre launch command
         if precmd.strip() != '' and precmd.strip() != 'call':
             log.info("Got to PRE: " + precmd.strip())
-            os.system(precmd.encode(self.__getEncoding()))
+            os.system(precmd)
 
     def __executeCommand(self, cmd):
         log.info('__executeCommand')
@@ -508,17 +508,17 @@ class RCBLauncher(object):
         if self.romCollection.usePopen:
             log.info('execute command with popen')
             import subprocess
-            process = subprocess.Popen(cmd.encode(self.__getEncoding()), shell=True)
+            process = subprocess.Popen(cmd, shell=True)
             process.wait()
         else:
             log.info('execute command with os.system')
-            os.system(cmd.encode(self.__getEncoding()))
+            os.system(cmd)
 
     def __executePostCommand(self, postcmd):
         # post launch command
         if postcmd.strip() != '' and postcmd.strip() != 'call':
             log.info("Got to POST: " + postcmd.strip())
-            os.system(postcmd.encode(self.__getEncoding()))
+            os.system(postcmd)
 
     def __launchNonXbox(self, cmd, gameRow, precmd, postcmd, roms, gui, listitem):
         log.info("launchEmu on non-xbox")
