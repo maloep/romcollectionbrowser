@@ -1,3 +1,9 @@
+2.2.4 (04/2020)
+~~~~~~~~~~~~~
+Import Games:
+  * change url to thegamesdb API (v1)
+  * remove legacy.thegamesdb.net scraper
+
 2.2.3 (08/2018)
 ~~~~~~~~~~~~~
 Import Games:
