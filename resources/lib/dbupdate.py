@@ -927,7 +927,9 @@ class DBUpdate(object):
         resultValue = u''
 
         try:
-            resultValue = result[itemName][0].strip()
+            resultValue = result[itemName][0]
+            if (isinstance(resultValue, str)):
+                resultValue = resultValue.strip()
 
             if isinstance(resultValue, str):
                 resultValue = util.convertToUnicodeString(resultValue)

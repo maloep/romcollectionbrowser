@@ -16,7 +16,7 @@ from config import Config, RomCollection
 
 class RCBMockGui(object):
     itemCount = 0
-    def writeMsg(self, msg1, msg2, msg3, count=0):
+    def writeMsg(self, msg1, msg2, count=0):
         return True
 
 class Test(unittest.TestCase):
