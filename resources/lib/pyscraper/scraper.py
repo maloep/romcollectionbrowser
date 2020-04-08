@@ -14,9 +14,7 @@ class AbstractScraper(object):
     _instantiated_scrapers = {}
 
     # Mapping between scraper names in the config files and the corresponding scraper classes
-    #HACK: remove legacy.thegamesdb.net when update process is finished
     scrapers = {'thegamesdb.net': 'TheGamesDB_Scraper',
-                'legacy.thegamesdb.net': 'TheGamesDB_Scraper_Legacy',
                 'mobygames.com': 'Mobygames_Scraper',
                 'giantbomb.com': 'GiantBomb_Scraper',
                 'MAME': 'MAME_Scraper',
@@ -24,7 +22,6 @@ class AbstractScraper(object):
 
     # Mapping between scraper names in the config files and the corresponding scraper classes
     online_scrapers = {'thegamesdb.net': 'TheGamesDB_Scraper',
-                       'legacy.thegamesdb.net': 'TheGamesDB_Scraper_Legacy',
                        'mobygames.com': 'Mobygames_Scraper',
                        'giantbomb.com': 'GiantBomb_Scraper'}
 

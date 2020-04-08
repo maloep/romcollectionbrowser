@@ -65,7 +65,8 @@ class TestImportGames(unittest.TestCase):
         
         rcs = {}
         rcs[1] = conf.romCollections['1']
-        
+
+        self.register_responses()
         self.register_responses_Amiga()
         
         #adjust settings
@@ -87,8 +88,8 @@ class TestImportGames(unittest.TestCase):
         self.assertEquals(airborneRanger[GameView.COL_year], '1989')
         self.assertTrue(airborneRanger[GameView.COL_description].startswith('In this action/simulation game by Microprose the player takes the role of an U.S. Army airborne ranger.'))
         self.assertEquals(airborneRanger[GameView.COL_genre], 'Action, Adventure')
-        self.assertEquals(airborneRanger[GameView.COL_publisher], 'MicroProse')
-        self.assertEquals(airborneRanger[GameView.COL_developer], 'Imagitec')
+        self.assertEquals(airborneRanger[GameView.COL_publisher], 'MicroProse Software, Inc.')
+        self.assertEquals(airborneRanger[GameView.COL_developer], 'Imagitec Design Inc.')
         self.assertEquals(airborneRanger[GameView.COL_maxPlayers], '1')
         roms = File(self.gdb).getRomsByGameId(airborneRanger[GameView.COL_ID])
         self.assertEquals(len(roms), 1)
@@ -98,10 +99,10 @@ class TestImportGames(unittest.TestCase):
         self.assertEquals(chuckRock[GameView.COL_year], '1991')
         self.assertTrue(chuckRock[GameView.COL_description].startswith("Chuck Rock hasn't been the same since his long-time rival in love, the evil Gary Gritter, kidnapped his wife, the beautiful Ophelia."))
         self.assertEquals(chuckRock[GameView.COL_genre], 'Platform')
-        self.assertEquals(chuckRock[GameView.COL_publisher], 'Core Design')
-        self.assertEquals(chuckRock[GameView.COL_developer], 'Core Design')
+        self.assertEquals(chuckRock[GameView.COL_publisher], 'Core Design Ltd.')
+        self.assertEquals(chuckRock[GameView.COL_developer], 'Core Design Ltd.')
         self.assertEquals(chuckRock[GameView.COL_maxPlayers], '1')
-        self.assertEquals(chuckRock[GameView.COL_rating], '8')
+        self.assertEquals(chuckRock[GameView.COL_rating], '')
         roms = File(self.gdb).getRomsByGameId(chuckRock[GameView.COL_ID])
         self.assertEquals(len(roms), 1)
         
@@ -118,7 +119,7 @@ class TestImportGames(unittest.TestCase):
         #HACK: Order of genres depends on id in database. If we run the full set of tests Genre Sports might already be
         #in database and has a lower id than Racing
         self.assertTrue(formulaOne[GameView.COL_genre] == 'Racing, Sports' or formulaOne[GameView.COL_genre] == 'Sports, Racing')
-        self.assertEquals(formulaOne[GameView.COL_publisher], 'MicroProse')
+        self.assertEquals(formulaOne[GameView.COL_publisher], 'MicroProse Software, Inc.')
         self.assertEquals(formulaOne[GameView.COL_developer], None)
         self.assertEquals(formulaOne[GameView.COL_maxPlayers], '1')
         roms = File(self.gdb).getRomsByGameId(formulaOne[GameView.COL_ID])
@@ -133,7 +134,8 @@ class TestImportGames(unittest.TestCase):
         
         rcs = {}
         rcs[3] = conf.romCollections['3']
-        
+
+        self.register_responses()
         self.register_responses_N64()
         
         #adjust settings
@@ -150,7 +152,7 @@ class TestImportGames(unittest.TestCase):
         
         self.assertEquals(len(games), 1)
         snowboarding = games[0]
-        self.assertEquals(snowboarding[GameView.COL_NAME], '1080 Snowboarding')
+        self.assertEquals(snowboarding[GameView.COL_NAME], u'1080\xb0 Snowboarding')
         #TODO check for description with special characters
         #self.assertTrue(snowboarding[GameView.COL_description].startswith(u"You’re taking a Tahoe 155 snowboard down a steep, bumpy incline at night and you’re about to top off an Indy Nosebone with a 360° Air"))
         self.assertEquals(snowboarding[GameView.COL_year], '1998')
@@ -170,6 +172,7 @@ class TestImportGames(unittest.TestCase):
         rcs = {}
         rcs[4] = conf.romCollections['4']
 
+        self.register_responses()
         self.register_responses_PSX()
 
         # adjust settings
@@ -192,8 +195,8 @@ class TestImportGames(unittest.TestCase):
         self.assertTrue(bushido[GameView.COL_description].startswith('"Bushido" is the soul of Japan - an ancient honor code deeply followed by samurai warriors for centuries'))
         self.assertEquals(bushido[GameView.COL_genre], 'Fighting')
         self.assertEquals(bushido[GameView.COL_maxPlayers], '2')
-        self.assertEquals(bushido[GameView.COL_publisher], 'Square, SCEA')
-        self.assertEquals(bushido[GameView.COL_developer], 'Light Weight')
+        self.assertEquals(bushido[GameView.COL_publisher], 'Squaresoft')
+        self.assertEquals(bushido[GameView.COL_developer], 'LightWeight')
         roms = File(self.gdb).getRomsByGameId(bushido[GameView.COL_ID])
         self.assertEquals(len(roms), 1)
 
@@ -203,8 +206,8 @@ class TestImportGames(unittest.TestCase):
         self.assertTrue(silenthill[GameView.COL_description].startswith('Silent Hill is a 1999 survival horror video game for the PlayStation.'))
         self.assertEquals(silenthill[GameView.COL_genre], 'Action, Horror')
         self.assertEquals(silenthill[GameView.COL_maxPlayers], '1')
-        self.assertEquals(silenthill[GameView.COL_publisher], 'Konami Digital Entertainment')
-        self.assertEquals(silenthill[GameView.COL_developer], 'Team Silent, Konami')
+        self.assertEquals(silenthill[GameView.COL_publisher], 'Konami Digital Entertainment, Inc.')
+        self.assertEquals(silenthill[GameView.COL_developer], 'Konami')
         roms = File(self.gdb).getRomsByGameId(silenthill[GameView.COL_ID])
         self.assertEquals(len(roms), 2)
 
@@ -218,6 +221,7 @@ class TestImportGames(unittest.TestCase):
         rcs = {}
         rcs[5] = conf.romCollections['5']
 
+        self.register_responses()
         self.register_responses_SNES()
 
         # adjust settings
@@ -251,7 +255,7 @@ class TestImportGames(unittest.TestCase):
         self.assertTrue(
             maddennfl[GameView.COL_description].startswith('Welcome to Madden NFL 97, the game that captures the excitement of a 30 yard touchdown pass'))
         self.assertEquals(maddennfl[GameView.COL_genre], 'Sports')
-        self.assertEquals(maddennfl[GameView.COL_maxPlayers], '')
+        self.assertEquals(maddennfl[GameView.COL_maxPlayers], '2')
         self.assertEquals(maddennfl[GameView.COL_publisher], 'Electronic Arts')
         self.assertEquals(maddennfl[GameView.COL_developer], 'Electronic Arts')
         roms = File(self.gdb).getRomsByGameId(maddennfl[GameView.COL_ID])
@@ -392,45 +396,67 @@ class TestImportGames(unittest.TestCase):
             asteroids[GameView.COL_description].startswith('Asteroids is a conversion of the arcade game of the same name.'))
 
 
-    def register_responses_Amiga(self):
+    def register_responses(self):
         
         """
         Note: As responses does not check for url params the order of the responses.add-statements is important.
         """
+        responses.add(responses.GET,
+                      'https://api.thegamesdb.net/v1/Developers?apikey=1e821bf1bab06854840650d77e7e2248f49583821ff9191f2cced47e43bf0a73',
+                      body=self.loadXmlFromFile('thegamesdb_Developers.json'),
+                      status=200)
+
+        responses.add(responses.GET,
+                      'https://api.thegamesdb.net/v1/Publishers?apikey=1e821bf1bab06854840650d77e7e2248f49583821ff9191f2cced47e43bf0a73',
+                      body=self.loadXmlFromFile('thegamesdb_Publishers.json'),
+                      status=200)
+
+        responses.add(responses.GET,
+                      'https://api.thegamesdb.net/v1/Genres?apikey=1e821bf1bab06854840650d77e7e2248f49583821ff9191f2cced47e43bf0a73',
+                      body=self.loadXmlFromFile('thegamesdb_Genres.json'),
+                      status=200)
+
+
+    def register_responses_Amiga(self):
+
+        responses.add(responses.GET,
+                'https://api.thegamesdb.net/v1/Games/ByGameName?filter%5Bplatform%5D=4911&apikey=1e821bf1bab06854840650d77e7e2248f49583821ff9191f2cced47e43bf0a73&include=boxart&name=Airborne+Ranger&fields=id%2Cgame_title%2Crelease_date%2Cdevelopers%2Cpublishers%2Cplayers%2Cgenres%2Coverview%2Crating',
+                body=self.loadXmlFromFile('thegamesdb_Amiga_Airborne Ranger_search.json'),
+                status=200)
+
+        responses.add(responses.GET,
+                      'https://api.thegamesdb.net/v1/Games/Images?apikey=1e821bf1bab06854840650d77e7e2248f49583821ff9191f2cced47e43bf0a73&games_id=24471',
+                      body=self.loadXmlFromFile('thegamesdb_Amiga_Airborne Ranger_images.json'),
+                      status=200)
         
-        responses.add(responses.GET, 
-                'http://legacy.thegamesdb.net/api/GetGamesList.php?platform=Amiga&name=Airborne+Ranger',
-                body=self.loadXmlFromFile('thegamesdb_Amiga_Airborne Ranger_search.xml'), 
+        responses.add(responses.GET,
+                'https://api.thegamesdb.net/v1/Games/ByGameName?filter%5Bplatform%5D=4911&apikey=1e821bf1bab06854840650d77e7e2248f49583821ff9191f2cced47e43bf0a73&include=boxart&name=Chuck+Rock&fields=id%2Cgame_title%2Crelease_date%2Cdevelopers%2Cpublishers%2Cplayers%2Cgenres%2Coverview%2Crating',
+                body=self.loadXmlFromFile('thegamesdb_Amiga_Chuck Rock_search.json'),
                 status=200)
         
         responses.add(responses.GET, 
-                'http://legacy.thegamesdb.net/api/GetGame.php?id=24471',
-                body=self.loadXmlFromFile('thegamesdb_Amiga_Airborne Ranger_result.xml'), 
-                status=200)
-        
-        responses.add(responses.GET, 
-                'http://legacy.thegamesdb.net/api/GetGamesList.php?platform=Amiga&name=Chuck+Rock',
-                body=self.loadXmlFromFile('thegamesdb_Amiga_Chuck Rock_search.xml'), 
-                status=200)
-        
-        responses.add(responses.GET, 
-                'http://legacy.thegamesdb.net/api/GetGame.php?id=35508',
-                body=self.loadXmlFromFile('thegamesdb_Amiga_Chuck Rock_result.xml'),
-                status=200)
-        
-        responses.add(responses.GET, 
-                'http://legacy.thegamesdb.net/api/GetGamesList.php?platform=Amiga&name=Eliminator',
-                body=self.loadXmlFromFile('thegamesdb_Amiga_Eliminator_search.xml'), 
+                'https://api.thegamesdb.net/v1/Games/Images?apikey=1e821bf1bab06854840650d77e7e2248f49583821ff9191f2cced47e43bf0a73&games_id=35508',
+                body=self.loadXmlFromFile('thegamesdb_Amiga_Chuck Rock_images.json'),
                 status=200)
         
         responses.add(responses.GET,
-                'http://legacy.thegamesdb.net/api/GetGamesList.php?platform=Amiga&name=MicroProse+Formula+One+Grand+Prix',
-                body=self.loadXmlFromFile('thegamesdb_Amiga_Formula One Grand Prix_search.xml'), 
+                'https://api.thegamesdb.net/v1/Games/ByGameName?filter%5Bplatform%5D=4911&apikey=1e821bf1bab06854840650d77e7e2248f49583821ff9191f2cced47e43bf0a73&include=boxart&name=Eliminator&fields=id%2Cgame_title%2Crelease_date%2Cdevelopers%2Cpublishers%2Cplayers%2Cgenres%2Coverview%2Crating',
+                body=self.loadXmlFromFile('thegamesdb_Amiga_Eliminator_search.json'),
+                status=200)
+
+        responses.add(responses.GET,
+                'https://api.thegamesdb.net/v1/Games/Images?apikey=1e821bf1bab06854840650d77e7e2248f49583821ff9191f2cced47e43bf0a73&games_id=35508',
+                body=self.loadXmlFromFile('thegamesdb_Amiga_Eliminator_images.json'),
+                status=200)
+
+        responses.add(responses.GET,
+                'https://api.thegamesdb.net/v1/Games/ByGameName?filter%5Bplatform%5D=4911&apikey=1e821bf1bab06854840650d77e7e2248f49583821ff9191f2cced47e43bf0a73&include=boxart&name=MicroProse+Formula+One+Grand+Prix&fields=id%2Cgame_title%2Crelease_date%2Cdevelopers%2Cpublishers%2Cplayers%2Cgenres%2Coverview%2Crating',
+                body=self.loadXmlFromFile('thegamesdb_Amiga_Formula One Grand Prix_search.json'),
                 status=200)
         
         responses.add(responses.GET, 
-                'http://legacy.thegamesdb.net/api/GetGame.php?id=43812',
-                body=self.loadXmlFromFile('thegamesdb_Amiga_Formula One Grand Prix_result.xml'),
+                'https://api.thegamesdb.net/v1/Games/Images?apikey=1e821bf1bab06854840650d77e7e2248f49583821ff9191f2cced47e43bf0a73&games_id=43812',
+                body=self.loadXmlFromFile('thegamesdb_Amiga_Formula One Grand Prix_images.json'),
                 status=200)
         
         
@@ -477,58 +503,58 @@ class TestImportGames(unittest.TestCase):
     def register_responses_N64(self):
 
         responses.add(responses.GET, 
-                'http://legacy.thegamesdb.net/api/GetGamesList.php?platform=Nintendo+64&name=1080%C2%B0+Snowboarding',
-                body=self.loadXmlFromFile('thegamesdb_N64_1080 Snowboarding_search.xml'),
+                'https://api.thegamesdb.net/v1/Games/ByGameName?filter%5Bplatform%5D=3&apikey=1e821bf1bab06854840650d77e7e2248f49583821ff9191f2cced47e43bf0a73&include=boxart&name=1080%C2%B0+Snowboarding&fields=id%2Cgame_title%2Crelease_date%2Cdevelopers%2Cpublishers%2Cplayers%2Cgenres%2Coverview%2Crating',
+                body=self.loadXmlFromFile('thegamesdb_N64_1080 Snowboarding_search.json'),
                 status=200)
 
         responses.add(responses.GET,
-                      'http://legacy.thegamesdb.net/api/GetGame.php?id=237',
-                      body=self.loadXmlFromFile('thegamesdb_N64_1080 Snowboarding_result.xml'),
+                      'https://api.thegamesdb.net/v1/Games/Images?apikey=1e821bf1bab06854840650d77e7e2248f49583821ff9191f2cced47e43bf0a73&games_id=237',
+                      body=self.loadXmlFromFile('thegamesdb_N64_1080 Snowboarding_images.json'),
                       status=200)
 
     def register_responses_PSX(self):
 
         responses.add(responses.GET, 
-                'http://legacy.thegamesdb.net/api/GetGamesList.php?platform=Sony+Playstation&name=Bushido+Blade',
-                body=self.loadXmlFromFile('thegamesdb_PSX_Bushido Blade_search.xml'),
+                'https://api.thegamesdb.net/v1/Games/ByGameName?filter%5Bplatform%5D=10&apikey=1e821bf1bab06854840650d77e7e2248f49583821ff9191f2cced47e43bf0a73&include=boxart&name=Bushido+Blade&fields=id%2Cgame_title%2Crelease_date%2Cdevelopers%2Cpublishers%2Cplayers%2Cgenres%2Coverview%2Crating',
+                body=self.loadXmlFromFile('thegamesdb_PSX_Bushido Blade_search.json'),
                 status=200)
 
         responses.add(responses.GET,
-                      'http://legacy.thegamesdb.net/api/GetGame.php?id=8375',
-                      body=self.loadXmlFromFile('thegamesdb_PSX_Bushido Blade_result.xml'),
+                      'https://api.thegamesdb.net/v1/Games/Images?apikey=1e821bf1bab06854840650d77e7e2248f49583821ff9191f2cced47e43bf0a73&games_id=8375',
+                      body=self.loadXmlFromFile('thegamesdb_PSX_Bushido Blade_images.json'),
                       status=200)
 
         responses.add(responses.GET,
-                      'http://legacy.thegamesdb.net/api/GetGamesList.php?platform=Sony+Playstation&name=Silent+Hill',
-                      body=self.loadXmlFromFile('thegamesdb_PSX_Silent Hill_search.xml'),
+                      'https://api.thegamesdb.net/v1/Games/ByGameName?filter%5Bplatform%5D=10&apikey=1e821bf1bab06854840650d77e7e2248f49583821ff9191f2cced47e43bf0a73&include=boxart&name=Silent+Hill&fields=id%2Cgame_title%2Crelease_date%2Cdevelopers%2Cpublishers%2Cplayers%2Cgenres%2Coverview%2Crating',
+                      body=self.loadXmlFromFile('thegamesdb_PSX_Silent Hill_search.json'),
                       status=200)
 
         responses.add(responses.GET,
-                      'http://legacy.thegamesdb.net/api/GetGame.php?id=1014',
-                      body=self.loadXmlFromFile('thegamesdb_PSX_Silent Hill_result.xml'),
+                      'https://api.thegamesdb.net/v1/Games/Images?apikey=1e821bf1bab06854840650d77e7e2248f49583821ff9191f2cced47e43bf0a73&games_id=1014',
+                      body=self.loadXmlFromFile('thegamesdb_PSX_Silent Hill_images.json'),
                       status=200)
 
 
     def register_responses_SNES(self):
 
         responses.add(responses.GET,
-                'http://legacy.thegamesdb.net/api/GetGamesList.php?platform=Super+Nintendo+%28SNES%29&name=Chrono+Trigger',
-                body=self.loadXmlFromFile('thegamesdb_SNES_Chrono Trigger_search.xml'),
+                'https://api.thegamesdb.net/v1/Games/ByGameName?filter%5Bplatform%5D=6&apikey=1e821bf1bab06854840650d77e7e2248f49583821ff9191f2cced47e43bf0a73&include=boxart&name=Chrono+Trigger&fields=id%2Cgame_title%2Crelease_date%2Cdevelopers%2Cpublishers%2Cplayers%2Cgenres%2Coverview%2Crating',
+                body=self.loadXmlFromFile('thegamesdb_SNES_Chrono Trigger_search.json'),
                 status=200)
 
         responses.add(responses.GET,
-                      'http://legacy.thegamesdb.net/api/GetGame.php?id=1255',
-                      body=self.loadXmlFromFile('thegamesdb_SNES_Chrono Trigger_result.xml'),
+                      'https://api.thegamesdb.net/v1/Games/Images?apikey=1e821bf1bab06854840650d77e7e2248f49583821ff9191f2cced47e43bf0a73&games_id=1255',
+                      body=self.loadXmlFromFile('thegamesdb_SNES_Chrono Trigger_images.json'),
                       status=200)
 
         responses.add(responses.GET,
-                      'http://legacy.thegamesdb.net/api/GetGamesList.php?platform=Super+Nintendo+%28SNES%29&name=Madden+NFL+%2797',
-                      body=self.loadXmlFromFile('thegamesdb_SNES_Madden NFL 97_search.xml'),
+                      'https://api.thegamesdb.net/v1/Games/ByGameName?filter%5Bplatform%5D=6&apikey=1e821bf1bab06854840650d77e7e2248f49583821ff9191f2cced47e43bf0a73&include=boxart&name=Madden+NFL&fields=id%2Cgame_title%2Crelease_date%2Cdevelopers%2Cpublishers%2Cplayers%2Cgenres%2Coverview%2Crating',
+                      body=self.loadXmlFromFile('thegamesdb_SNES_Madden NFL 97_search.json'),
                       status=200)
 
         responses.add(responses.GET,
-                      'http://legacy.thegamesdb.net/api/GetGame.php?id=291',
-                      body=self.loadXmlFromFile('thegamesdb_SNES_Madden NFL 97_result.xml'),
+                      'https://api.thegamesdb.net/v1/Games/Images?apikey=1e821bf1bab06854840650d77e7e2248f49583821ff9191f2cced47e43bf0a73&games_id=291',
+                      body=self.loadXmlFromFile('thegamesdb_SNES_Madden NFL 97_images.json'),
                       status=200)
         
         

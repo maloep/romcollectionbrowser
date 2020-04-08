@@ -184,7 +184,7 @@ class TheGamesDB_Scraper(WebScraper):
     def _parse_lookup_data(self, ids, dict):
         results = []
 
-        if len(ids) == 0:
+        if ids is None or len(ids) == 0:
             return results
 
         for id in ids:

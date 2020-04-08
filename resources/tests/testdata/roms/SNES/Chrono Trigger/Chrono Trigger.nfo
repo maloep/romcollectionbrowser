@@ -1,0 +1,28 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<game>
+  <title>Chrono Trigger</title>
+  <originalTitle />
+  <alternateTitle />
+  <platform>SNES</platform>
+  <plot>The 32-Meg quest begins.
+The millennium. A portal is opened. The chain of time is broken. A young man is transported into the past, altering the course of history and the outcome of the future. He has to find his way home, but first he must travel to the outer edges of time to repair the world's chronology. On the way he encounters strange friends and foes, utilizes incredible devices and vehicles, and penetrates and neutralizes the fortresses of the past, present, and future. A paradox has been created. If he does not restore the order of time, nothing will ever be the same. He is the one who will become a hero. He is Crono.
+*FROM THE CREATORS OF THE ACCLAIMED FINAL FANTASY SERIES
+*CHARACTER DESIGNS BY AKIRA TORIYAMA</plot>
+  <publisher>Squaresoft</publisher>
+  <developer>Squaresoft</developer>
+  <year>1995</year>
+  <detailUrl />
+  <maxPlayer>1</maxPlayer>
+  <region />
+  <media />
+  <perspective />
+  <controller />
+  <version />
+  <rating />
+  <votes />
+  <isFavorite />
+  <launchCount />
+  <genre>Role-Playing</genre>
+  <thumb local="./testdata/artwork/SNES/Chrono Trigger\boxfront.png" type="boxfront">https://cdn.thegamesdb.net/images/large/boxart/front/1255-1.jpg</thumb>
+  <thumb local="./testdata/artwork/SNES/Chrono Trigger\screenshot.png" type="screenshot">https://cdn.thegamesdb.net/images/large/screenshots/1255-5.jpg</thumb>
+</game>
