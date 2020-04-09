@@ -1,6 +1,11 @@
+from __future__ import print_function
+from __future__ import absolute_import
+from builtins import next
+from builtins import str
+from builtins import object
 import os, sys, re
-import xbmcvfs
 import util
+import xbmcvfs
 from util import *
 from rcbxmlreaderwriter import RcbXmlReaderWriter
 from xml.etree.ElementTree import *
@@ -748,7 +753,7 @@ class Config(RcbXmlReaderWriter):
     def getFileTypeIdsForGameList(self, tree, romCollections):
 
         fileTypeIds = []
-        for romCollection in romCollections.values():
+        for romCollection in list(romCollections.values()):
             for fileType in romCollection.imagePlacingMain.fileTypesForGameList:
                 if (fileTypeIds.count(fileType.id) == 0):
                     fileTypeIds.append(fileType.id)
@@ -781,7 +786,7 @@ class Config(RcbXmlReaderWriter):
 
         """
         names = []
-        for rckey, rcval in self.romCollections.iteritems():
+        for rckey, rcval in list(self.romCollections.items()):
             names.append(rcval.name)
 
         names.sort()
@@ -816,7 +821,7 @@ class Config(RcbXmlReaderWriter):
             The Rom Collection with the matching name, or None if not found
 
         """
-        for rckey, rcval in self.romCollections.iteritems():
+        for rckey, rcval in list(self.romCollections.items()):
             if rcval.name == name:
                 return rcval
 

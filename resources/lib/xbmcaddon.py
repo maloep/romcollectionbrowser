@@ -2,7 +2,10 @@
 """
 A class to access addon properties
 """
+from __future__ import print_function
 
+from builtins import str
+from builtins import object
 import os
 
 __author__ = 'Team Kodi <http://kodi.tv>'
@@ -54,7 +57,7 @@ class Addon(object):
 
             locstr = self.Addon.getLocalizedString(id=6)
         """
-        return unicode()
+        return str()
 
     def getSetting(self, id):
         """Returns the value of a setting as a unicode string.
@@ -66,7 +69,7 @@ class Addon(object):
             apikey = self.Addon.getSetting('apikey')
         """
         global _settings
-        if _settings.has_key(id):
+        if id in _settings:
             return _settings[id]
 
 
@@ -99,10 +102,10 @@ class Addon(object):
 
             version = self.Addon.getAddonInfo('version')
         """
-        print 'getAddonInfo called with key: ' + str(id)
+        print('getAddonInfo called with key: ' + str(id))
 
         if(id == 'path'):
             basepath = os.getcwd()
             path = os.path.join(basepath, "..\..")
-            print 'path = ' + str(path)
+            print('path = ' + str(path))
             return path

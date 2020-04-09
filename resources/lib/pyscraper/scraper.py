@@ -50,7 +50,7 @@ class AbstractScraper(object):
 
     def get_available_online_scrapers(self, platform=None):
         #TODO check which scraper supports which platform
-        return self.online_scrapers.keys()
+        return list(self.online_scrapers.keys())
 
     def get_available_offline_scrapers(self, platform=None):
         #MAME scraper can only be used with MAME platform

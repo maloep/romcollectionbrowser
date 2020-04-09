@@ -2,7 +2,10 @@
 """
 Classes and functions to work with Kodi GUI
 """
+from __future__ import absolute_import
 
+from builtins import str
+from builtins import object
 import xbmc as _xbmc
 
 ACTION_ANALOG_FORWARD = 113
@@ -499,7 +502,7 @@ class Window(object):
         :raises SystemError: On Internal error.
         :raises RuntimeError: If no control has focus.
         """
-        return long()
+        return int()
 
     def removeControl(self, pControl):
         """Removes the control from this window.
@@ -524,11 +527,11 @@ class Window(object):
 
     def getHeight(self):
         """Returns the height of this screen."""
-        return long()
+        return int()
 
     def getWidth(self):
         """Returns the width of this screen."""
-        return long()
+        return int()
 
     def getResolution(self):
         """Returns the resolution of the screen.
@@ -557,7 +560,7 @@ class Window(object):
 
         See: https://github.com/xbmc/xbmc/blob/master/xbmc/guilib/Resolution.h
         """
-        return long()
+        return int()
 
     def setCoordinateResolution(self, res):
         """Sets the resolution that the coordinates of all controls are defined in.
@@ -976,7 +979,7 @@ class Control(object):
 
             height = self.button.getHeight()
         """
-        return long()
+        return int()
 
     def getId(self):
         """
@@ -986,7 +989,7 @@ class Control(object):
 
             id = self.button.getId()
         """
-        return long()
+        return int()
 
     def getPosition(self):
         """
@@ -996,7 +999,7 @@ class Control(object):
 
             pos = self.button.getPosition()
         """
-        return long(), long()
+        return int(), int()
 
     def getWidth(self):
         """
@@ -1006,19 +1009,19 @@ class Control(object):
 
             width = self.button.getWidth()
         """
-        return long()
+        return int()
 
     def getX(self):
         """
         Get X coordinate of a control as an integer.
         """
-        return long()
+        return int()
 
     def getY(self):
         """
         Get Y coordinate of a control as an integer.
         """
-        return long()
+        return int()
 
     def setAnimations(self, eventAttr):
         """
@@ -1818,7 +1821,7 @@ class ControlLabel(Control):
 
     def getLabel(self):
         """Returns the text value for this label."""
-        return unicode()
+        return str()
 
 
 class ControlFadeLabel(Control):
@@ -1939,7 +1942,7 @@ class ControlTextBox(Control):
 
             text = self.text.getText()
         """
-        return unicode()
+        return str()
 
     def setText(self, text):
         """Set's the text for this textbox.
@@ -2054,11 +2057,11 @@ class ControlButton(Control):
 
     def getLabel(self):
         """Returns the buttons label as a unicode string."""
-        return unicode()
+        return str()
 
     def getLabel2(self):
         """Returns the buttons label2 as a unicode string."""
-        return unicode()
+        return str()
 
 
 class ControlList(Control):
@@ -2194,7 +2197,7 @@ class ControlList(Control):
 
         .. note:: Returns ``-1`` for empty lists.
         """
-        return long()
+        return int()
 
     def getSelectedItem(self):
         """Returns the selected item as a ListItem object.
@@ -2206,7 +2209,7 @@ class ControlList(Control):
 
     def size(self):
         """Returns the total number of items in this list control as an integer."""
-        return long()
+        return int()
 
     def getListItem(self, index):
         """Returns a given ListItem in this List.
@@ -2219,11 +2222,11 @@ class ControlList(Control):
 
     def getItemHeight(self):
         """Returns the control's current item height as an integer."""
-        return long()
+        return int()
 
     def getSpace(self):
         """Returns the control's space between items as an integer."""
-        return long()
+        return int()
 
     def setStaticContent(self, items):
         """Fills a static list with a list of listitems.
@@ -2529,7 +2532,7 @@ class ControlEdit(Control):
 
             label = self.edit.getLabel()
         """
-        return unicode()
+        return str()
 
     def getText(self):
         """
@@ -2539,7 +2542,7 @@ class ControlEdit(Control):
 
             value = self.edit.getText()
         """
-        return unicode()
+        return str()
 
     def setLabel(self, label='', font=None, textColor=None, disabledColor=None, shadowColor=None,
                  focusedColor=None, label2=''):
@@ -3146,11 +3149,11 @@ class Action(object):
 
     def getId(self):
         """Returns the action's current id as a long or 0 if no action is mapped in the xml's."""
-        return long()
+        return int()
 
     def getButtonCode(self):
         """Returns the button code for this action."""
-        return long()
+        return int()
 
     def getAmount1(self):
         """Returns the first amount of force applied to the thumbstick."""
@@ -3169,7 +3172,7 @@ def getCurrentWindowId():
 
         wid = xbmcgui.getCurrentWindowId()
     """
-    return long()
+    return int()
 
 
 def getCurrentWindowDialogId():
@@ -3180,4 +3183,4 @@ def getCurrentWindowDialogId():
 
         wid = xbmcgui.getCurrentWindowDialogId()
     """
-    return long()
+    return int()

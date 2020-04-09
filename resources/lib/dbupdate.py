@@ -1,3 +1,6 @@
+from __future__ import absolute_import
+from builtins import str
+from builtins import object
 import glob
 import time
 import io
@@ -124,7 +127,7 @@ class DBUpdate(object):
         # Added variable to allow user to continue on errors
         ignoreErrors = False
 
-        for romCollection in romCollections.values():
+        for romCollection in list(romCollections.values()):
 
             # timestamp1 = time.clock()
 
@@ -198,8 +201,8 @@ class DBUpdate(object):
                     log.info("Start scraping info for game: %s" % gamenameFromFile)
 
                     # 32123 = Importing Game
-                    continueUpdate = self._gui.writeMsg(progDialogRCHeader,
-                                                        util.localize(32123) + ": " + gamenameFromFile, "", fileidx + 1)
+                    msg = "%s: %s" %(util.localize(32123), gamenameFromFile)
+                    continueUpdate = self._gui.writeMsg(msg, fileidx + 1)
                     if not continueUpdate:
                         log.info("Game import canceled by user")
                         break
@@ -254,7 +257,8 @@ class DBUpdate(object):
                             # Cancel
                             #32128 = Import canceled.
                             #32129 = Please check kodi.log for details.
-                            xbmcgui.Dialog().ok(util.SCRIPTNAME, util.localize(32128), util.localize(32129))
+                            message = "%s[CR]%s" % (util.localize(32128), util.localize(32129))
+                            xbmcgui.Dialog().ok(util.SCRIPTNAME, message)
                             continueUpdate = False
                             break
 
@@ -274,7 +278,7 @@ class DBUpdate(object):
         # diff = (timestamp2 - timestamp1) * 1000
         # print "load %i games in %d ms" % (self.getListSize(), diff)
 
-        self._gui.writeMsg("Done.", "", "", self._gui.itemCount)
+        self._gui.writeMsg("Done.", self._gui.itemCount)
         log.info("Update finished")
         return True, ''
 
@@ -286,7 +290,7 @@ class DBUpdate(object):
         files = []
         for romPath in romCollection.romPaths:
             log.info("Reading rom files in path: %s" % romPath)
-            files = self.walkDownPath(files, unicode(romPath), romCollection.maxFolderDepth)
+            files = self.walkDownPath(files, str(romPath), romCollection.maxFolderDepth)
 
         # only use files that are not already present in database
         if enableFullReimport == False:
@@ -374,10 +378,10 @@ class DBUpdate(object):
             Updated dict of result fields
         """
         try:
-            log.debug("Before merging results: %s vs %s" % (results.items(), newResults.items()))
+            log.debug("Before merging results: %s vs %s" % (list(results.items()), list(newResults.items())))
             # Retain any existing key values that aren't an empty list, overwrite all others
-            z = dict(newResults.items() + dict((k, v) for k, v in results.iteritems() if len(v) > 0).items())
-            log.debug("After merging results: %s" % z.items())
+            z = dict(list(newResults.items()) + list(dict((k, v) for k, v in list(results.items()) if len(v) > 0).items()))
+            log.debug("After merging results: %s" % list(z.items()))
             return z
         except Exception as e:
             # Return original results without doing anything
@@ -443,8 +447,8 @@ class DBUpdate(object):
             log.info("Using scraper: %s" % newscraper.name)
             # 32123 = Importing Game
             # 32131 = downloading info
-            self._gui.writeMsg(progDialogRCHeader, util.localize(32123) + ": " + gamenameFromFile,
-                               newscraper.name + " - " + util.localize(32131), fileCount)
+            msg = "%s: %s[CR]%s: %s" %(util.localize(32123), gamenameFromFile, newscraper.name, util.localize(32131))
+            self._gui.writeMsg(msg, fileCount)
 
             results = newscraper.search(gamenameFromFile, romCollection.name)
             log.debug(u"Searching for %s - found %s results: %s" % (gamenameFromFile, len(results), results))
@@ -519,7 +523,7 @@ class DBUpdate(object):
                                                                 gamedescription, foldername, publisher, developer)
 
         #add artwork filenames to game_row
-        for filetype, filenames in artworkfiles.iteritems():
+        for filetype, filenames in list(artworkfiles.items()):
             for filename in filenames:
                 prop = 'COL_fileType%s' % filetype.id
                 index = getattr(Game, prop)
@@ -671,7 +675,7 @@ class DBUpdate(object):
 
         del publisher, developer, year
 
-        for fileType, fileNames in artworkfiles.iteritems():
+        for fileType, fileNames in artworkfiles.items():
             for filename in fileNames:
                 log.info("Importing artwork file %s = %s" % (fileType.type, filename))
                 self.insertFile(filename, gameId, fileType, romCollection.id, publisherId, developerId)
@@ -924,12 +928,9 @@ class DBUpdate(object):
 
         try:
             resultValue = result[itemName][0]
-            if(isinstance(resultValue, str)):
+            if (isinstance(resultValue, str)):
                 resultValue = resultValue.strip()
-
-            if isinstance(resultValue, str):
                 resultValue = util.convertToUnicodeString(resultValue)
-
         except Exception as exc:
             log.warn(u"Error while resolving item: %s: %s" % (itemName, exc))
 
@@ -1027,9 +1028,11 @@ class DBUpdate(object):
 
             # Update progress dialog to state we are downloading art
             try:
-                msg = "%s: %s" % (util.localize(32123), self._guiDict["gameNameKey"])
-                submsg = "%s - downloading art" % self._guiDict["scraperSiteKey"][thumbKey]
-                self._gui.writeMsg(self._guiDict["dialogHeaderKey"], msg, submsg, self._guiDict["fileCountKey"])
+                #32123 = Importing Game
+                #32210 = downloading artwork
+                msg = "%s: %s[CR]%s: %s" % (util.localize(32123), self._guiDict["gameNameKey"],
+                                            self._guiDict["scraperSiteKey"][thumbKey], util.localize(32210))
+                self._gui.writeMsg(msg, self._guiDict["fileCountKey"])
             except KeyError:
                 log.warn("Unable to retrieve key from GUI dict")
 

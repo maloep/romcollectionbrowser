@@ -1,3 +1,6 @@
+from __future__ import print_function
+from __future__ import absolute_import
+from builtins import str
 import xbmc, xbmcgui
 import helper, util
 from launcher import RCBLauncher

@@ -1,3 +1,6 @@
+from __future__ import absolute_import
+from builtins import str
+from builtins import range
 import xbmc, xbmcgui
 import os
 
@@ -27,7 +30,7 @@ class DialogBase(xbmcgui.WindowXMLDialog):
 
         items = []
         for option in options:
-            items.append(xbmcgui.ListItem(option, '', '', ''))
+            items.append(xbmcgui.ListItem(option))
 
         control.addItems(items)
 

@@ -1,3 +1,6 @@
+from __future__ import absolute_import
+from builtins import str
+from builtins import object
 import os
 
 import xbmc, xbmcaddon, xbmcvfs
@@ -8,7 +11,7 @@ import xbmc, xbmcaddon, xbmcvfs
 SCRIPTNAME = 'Rom Collection Browser'
 SCRIPTID = 'script.games.rom.collection.browser'
 CURRENT_CONFIG_VERSION = "2.2.0"
-CURRENT_DB_VERSION = "2.2.2"
+CURRENT_DB_VERSION = '2.2.2'
 ISTESTRUN = False
 
 __addon__ = xbmcaddon.Addon(id='%s' % SCRIPTID)
@@ -122,7 +125,7 @@ html_unescape_table = {
 }
 
 def html_unescape(text):
-    for key in html_unescape_table.keys():
+    for key in list(html_unescape_table.keys()):
         text = text.replace(key, html_unescape_table[key])
 
     return text
@@ -139,7 +142,7 @@ html_kodi_table = {
 
 
 def html_to_kodi(text):
-    for key in html_kodi_table.keys():
+    for key in list(html_kodi_table.keys()):
         text = text.replace(key, html_kodi_table[key])
 
     return text
@@ -320,7 +323,8 @@ class Logutil(object):
             return
 
         try:
-            xbmc.log(u"{0} {1}".format(str(cls.prefix[level]), message).encode('utf-8'))
+            #xbmc.log(u"{0} {1}".format(str(cls.prefix[level]), message).encode('utf-8'))
+            xbmc.log(u"{0} {1}".format(str(cls.prefix[level]), message))
         except Exception as e:
             xbmc.log(("Warning when trying to log in RCB: {0}".format(e)))
 

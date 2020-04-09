@@ -1,3 +1,8 @@
+from __future__ import print_function
+from __future__ import absolute_import
+from builtins import str
+from builtins import range
+from builtins import object
 import os, shutil
 from sqlite3 import dbapi2 as sqlite
 
@@ -106,7 +111,8 @@ class GameDataBase(object):
         if dbVersion != util.CURRENT_DB_VERSION:
 
             #backup MyGames.db
-            newFileName = self.dataBasePath + '.backup ' + dbVersion
+            #newFileName = self.dataBasePath + '.backup ' + dbVersion
+            newFileName = '{0}{1}{2}'.format(self.dataBasePath, '.backup ', dbVersion)
 
             if os.path.isfile(newFileName):
                 #32030: Error: Cannot backup MyGames.db: Backup File exists.
@@ -206,14 +212,14 @@ class DataBaseObject(object):
     def getAll(self):
         self.gdb.cursor.execute("SELECT * FROM '%s'" % self.tableName)
         allObjects = self.gdb.cursor.fetchall()
-        newList = self.encodeUtf8(allObjects)
-        return newList
+        #newList = self.encodeUtf8(allObjects)
+        return allObjects
 
     def getAllOrdered(self):
         self.gdb.cursor.execute("SELECT * FROM '%s' ORDER BY name COLLATE NOCASE" % self.tableName)
         allObjects = self.gdb.cursor.fetchall()
-        newList = self.encodeUtf8(allObjects)
-        return newList
+        #newList = self.encodeUtf8(allObjects)
+        return allObjects
 
     def getOneByName(self, name):
         self.gdb.cursor.execute("SELECT * FROM '%s' WHERE name = ?" % self.tableName, (name,))
@@ -293,7 +299,7 @@ class gameobj(object):
     @property
     def gameId(self):
         # Used to store the ID in the lists, where a unicode string is required rather than an integer
-        return unicode(self.id)
+        return str(self.id)
 
     @property
     def isfavorite(self):
@@ -571,8 +577,8 @@ class GameView(DataBaseObject):
                             maxPlayers, str(rating), region, str(isFavorite), likeStatement, limit),
             util.LOG_LEVEL_INFO)
         games = self.getObjectsByWildcardQuery(filterQuery, args)
-        newList = self.encodeUtf8(games)
-        return newList
+        #newList = self.encodeUtf8(games)
+        return games
 
     def getGameByNameAndRomCollectionId(self, name, romCollectionId):
         game = self.getObjectByQuery(self.filterByNameAndRomCollectionId, (name, romCollectionId))

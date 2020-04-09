@@ -1,3 +1,5 @@
+from __future__ import absolute_import
+from builtins import str
 from xml.etree.ElementTree import *
 
 import helper
@@ -47,7 +49,7 @@ class ConfigXmlWizard(RcbXmlReaderWriter):
         consoleList = sorted(WebScraper().consoleDict.keys())
         new_id = 1
 
-        rcIds = configObj.romCollections.keys()
+        rcIds = list(configObj.romCollections.keys())
         rcIds.sort()
         #read existing rom collection ids and names
         for rcId in rcIds:
@@ -159,7 +161,8 @@ class ConfigXmlWizard(RcbXmlReaderWriter):
 
             # Check if we have general RetroPlayer support
             if helper.isRetroPlayerSupported():
-                romCollection.useBuiltinEmulator = bool(dialog.yesno(util.localize(32999), util.localize(32198)))
+                #32198 = Use RetroPlayer to launch games?
+                romCollection.useBuiltinEmulator = bool(dialog.yesno(util.SCRIPTNAME, util.localize(32198)))
 
             # Only ask for emulator and params if we don't use builtin emulator
             if not romCollection.useBuiltinEmulator:
@@ -284,7 +287,8 @@ class ConfigXmlWizard(RcbXmlReaderWriter):
                     romCollection.mediaPaths.append(self.createMediaPath(fileType, artworkPath, scenarioIndex))
 
                     # Ask to add another artwork path
-                    if not dialog.yesno(util.localize(32999), util.localize(32184)):
+                    #32184 = Do you want to add another Artwork Path?
+                    if not dialog.yesno(util.SCRIPTNAME, util.localize(32184)):
                         break
 
                 #not used atm as we don't have any offline scrapers with descfile per game
@@ -340,7 +344,8 @@ class ConfigXmlWizard(RcbXmlReaderWriter):
             romCollections[romCollection.id] = romCollection
 
             # Ask the user if they want to add another rom collection
-            if not dialog.yesno(util.localize(32999), util.localize(32192)):
+            #32192 = Do you want to add another Rom Collection?
+            if not dialog.yesno(util.SCRIPTNAME, util.localize(32192)):
                 break
 
         del dialog

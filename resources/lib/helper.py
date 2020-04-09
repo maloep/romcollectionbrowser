@@ -1,3 +1,5 @@
+from __future__ import absolute_import
+from builtins import str
 import json
 import os, re
 import glob
@@ -11,7 +13,7 @@ import xbmc, xbmcgui
 
 def saveReadString(prop):
     try:
-        result = unicode(prop)
+        result = str(prop)
     except:
         result = u''
 
@@ -80,7 +82,7 @@ def saveViewState(gdb, isOnExit, selectedView, selectedGameIndex, selectedConsol
 def createArtworkDirectories(romCollections):
     Logutil.log('Begin createArtworkDirectories', util.LOG_LEVEL_INFO)
 
-    for romCollection in romCollections.values():
+    for romCollection in list(romCollections.values()):
         for mediaPath in romCollection.mediaPaths:
             # Add the trailing slash that xbmcvfs.exists expects
             dirname = os.path.join(os.path.dirname(mediaPath.path), '')
@@ -100,7 +102,8 @@ def createArtworkDirectories(romCollections):
                     Logutil.log("Could not create artwork directory: '%s'" % dirname, util.LOG_LEVEL_ERROR)
                     #32010: Error: Could not create artwork directory.
                     #32011: Check kodi.log for details.
-                    xbmcgui.Dialog().ok(util.localize(32010), dirname, util.localize(32011))
+                    message = "%s[CR]%s" %(dirname, util.localize(32011))
+                    xbmcgui.Dialog().ok(util.localize(32010), message)
                     return False
 
     return True
@@ -143,7 +146,7 @@ def selectlibretrocore(platform):
     jsonResult = json.loads(addonsJson)
 
     Logutil.log("selectlibretrocore: jsonresult = " + str(jsonResult), util.LOG_LEVEL_INFO)
-    if str(jsonResult.keys()).find('error') >= 0:
+    if str(list(jsonResult.keys())).find('error') >= 0:
         Logutil.log("Error while reading gameclient addons via json. Assume that we are not in RetroPlayer branch.",
                     util.LOG_LEVEL_WARNING)
         return False, None
@@ -183,7 +186,7 @@ def readLibretroCores():
         '{ "jsonrpc": "2.0", "id": 1, "method": "Addons.GetAddons", "params": { "type": "kodi.gameclient" } }')
     jsonResult = json.loads(addonsJson)
     Logutil.log("readLibretroCores: jsonresult = " + str(jsonResult), util.LOG_LEVEL_INFO)
-    if str(jsonResult.keys()).find('error') >= 0:
+    if str(list(jsonResult.keys())).find('error') >= 0:
         Logutil.log("Error while reading gameclient addons via json. Assume that we are not in RetroPlayer branch.",
                     util.LOG_LEVEL_WARNING)
         return False, None

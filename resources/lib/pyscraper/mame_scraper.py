@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
 
+from __future__ import print_function
+from __future__ import absolute_import
 import re
 import os
 import xbmcvfs
@@ -119,7 +121,7 @@ class MAME_Scraper(FileScraper):
 
         # HACK - This is only used to retain backwards compatibility with existing scraper, where each key value was a
         # list, even if only one value is in that list
-        for k, v in self.resultdata[0].iteritems():
+        for k, v in self.resultdata[0].items():
             self.resultdata[0][k] = [v]
 
         return self.resultdata

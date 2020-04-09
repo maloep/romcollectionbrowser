@@ -51,7 +51,7 @@ class TestDbGameView(unittest.TestCase):
         self.assertTrue(game[GameView.COL_publisher] == 'Nintendo', 'Publisher of game with ID 50 expected to be Nintendo EAD but was %s' %game[GameView.COL_publisher])
         self.assertTrue(game[GameView.COL_developer] == 'Nintendo EAD', 'Developer of game with ID 50 expected to be Nintendo but was %s' %game[GameView.COL_developer])
         self.assertTrue(game[GameView.COL_year] == '1992', 'Year of game with ID 50 expected to be 1992 but was %s' %game[GameView.COL_year])
-        self.assertTrue(game[GameView.COL_genre] == 'Adventure, Action, Role-Playing', 'Genre of game with ID 50 expected to be Adventure, Action, Role-Playing but was %s' %game[GameView.COL_genre])
+        self.assertTrue(game[GameView.COL_genre] == 'Action, Adventure, Role-Playing', 'Genre of game with ID 50 expected to be Action, Adventure, Role-Playing but was %s' %game[GameView.COL_genre])
 
     def test_RetrieveNonExistantGameById(self):
         ''' Validate retrieve of unavailable ID returns an empty gameobj '''

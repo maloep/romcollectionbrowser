@@ -1,3 +1,5 @@
+from builtins import str
+from builtins import object
 import os
 import sys
 
@@ -21,7 +23,7 @@ from config import Site
 monitor = xbmc.Monitor()
 
 
-class HandleAbort:
+class HandleAbort(object):
     orig_scraping_mode = ''
 
     def __enter__(self):
@@ -48,8 +50,9 @@ class HandleAbort:
 
 class ProgressDialogBk(xbmcgui.DialogProgressBG):
     itemCount = 0
+    heading = ""
 
-    def writeMsg(self, line1, line2, line3, count=0):
+    def writeMsg(self, message, count=0):
         xbmc.log('writeMsg')
 
         scrapeOnStartupAction = addon.getSetting(util.SETTING_RCB_SCRAPEONSTARTUPACTION)
@@ -62,7 +65,7 @@ class ProgressDialogBk(xbmcgui.DialogProgressBG):
             percent = int(count * (float(100) / self.itemCount))
         else:
             percent = 0
-        self.update(percent, line1, line2)
+        self.update(percent, self.heading, message)
 
         return True
 
@@ -96,7 +99,8 @@ def runUpdate():
         romCollections = prepareRomCollections(configFile, selectedRomCollection, selectedScraper)
 
     progress = ProgressDialogBk()
-    progress.create('Rom Collection Browser', 'Update DB')
+    progress.heading = util.SCRIPTNAME
+    progress.create(util.SCRIPTNAME, 'Update DB')
 
     with HandleAbort():
         dbupdate.DBUpdate().updateDB(gdb, progress, romCollections, False)
@@ -115,7 +119,7 @@ def prepareRomCollections(config, selectedRC, siteName):
         romCollection = config.getRomCollectionByName(selectedRC)
         romCollections[romCollection.id] = romCollection
 
-    for rcId in romCollections.keys():
+    for rcId in list(romCollections.keys()):
         romCollection = config.romCollections[rcId]
 
         sites = []
