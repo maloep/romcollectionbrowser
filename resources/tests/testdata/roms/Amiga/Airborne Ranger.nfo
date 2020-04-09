@@ -29,6 +29,6 @@ Airborne Ranger can be played in practice or veteran mode. In practice mode, gam
   <launchCount>1</launchCount>
   <genre>Action</genre>
   <genre>Adventure</genre>
-  <thumb local="./testdata/artwork/Amiga/boxfront\Airborne Ranger.png" type="boxfront">https://cdn.thegamesdb.net/images/large/boxart/front/24471-1.jpg</thumb>
   <thumb local="./testdata/artwork/Amiga/screenshot\Airborne Ranger.png" type="screenshot" />
+  <thumb local="./testdata/artwork/Amiga/boxfront\Airborne Ranger.png" type="boxfront">https://cdn.thegamesdb.net/images/large/boxart/front/24471-1.jpg</thumb>
 </game>

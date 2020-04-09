@@ -930,10 +930,7 @@ class DBUpdate(object):
             resultValue = result[itemName][0]
             if (isinstance(resultValue, str)):
                 resultValue = resultValue.strip()
-
-            if isinstance(resultValue, str):
                 resultValue = util.convertToUnicodeString(resultValue)
-
         except Exception as exc:
             log.warn(u"Error while resolving item: %s: %s" % (itemName, exc))
 
