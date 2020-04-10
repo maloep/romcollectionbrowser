@@ -1,3 +1,6 @@
+from __future__ import absolute_import
+from builtins import str
+from builtins import object
 import os, sys, re
 import time, zipfile, glob
 
@@ -402,7 +405,7 @@ class RCBLauncher(object):
         emuParams = emuParams.replace('%Romname%', romname)
 
         # gamename
-        gamename = unicode(gameRow[DataBaseObject.COL_NAME])
+        gamename = str(gameRow[DataBaseObject.COL_NAME])
         emuParams = emuParams.replace('%game%', gamename)
         emuParams = emuParams.replace('%GAME%', gamename)
         emuParams = emuParams.replace('%Game%', gamename)
@@ -410,7 +413,7 @@ class RCBLauncher(object):
         # ask num
         if re.search('(?i)%ASKNUM%', emuParams):
             options = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9']
-            number = unicode(xbmcgui.Dialog().select(util.localize(32167), options))
+            number = str(xbmcgui.Dialog().select(util.localize(32167), options))
             emuParams = emuParams.replace('%asknum%', number)
             emuParams = emuParams.replace('%ASKNUM%', number)
             emuParams = emuParams.replace('%Asknum%', number)
@@ -490,7 +493,7 @@ class RCBLauncher(object):
         # pre launch command
         if precmd.strip() != '' and precmd.strip() != 'call':
             log.info("Got to PRE: " + precmd.strip())
-            os.system(precmd.encode(self.__getEncoding()))
+            os.system(precmd)
 
     def __executeCommand(self, cmd):
         log.info('__executeCommand')
@@ -505,17 +508,17 @@ class RCBLauncher(object):
         if self.romCollection.usePopen:
             log.info('execute command with popen')
             import subprocess
-            process = subprocess.Popen(cmd.encode(self.__getEncoding()), shell=True)
+            process = subprocess.Popen(cmd, shell=True)
             process.wait()
         else:
             log.info('execute command with os.system')
-            os.system(cmd.encode(self.__getEncoding()))
+            os.system(cmd)
 
     def __executePostCommand(self, postcmd):
         # post launch command
         if postcmd.strip() != '' and postcmd.strip() != 'call':
             log.info("Got to POST: " + postcmd.strip())
-            os.system(postcmd.encode(self.__getEncoding()))
+            os.system(postcmd)
 
     def __launchNonXbox(self, cmd, gameRow, precmd, postcmd, roms, gui, listitem):
         log.info("launchEmu on non-xbox")
@@ -533,8 +536,9 @@ class RCBLauncher(object):
             log.info("Preferred gameclient: " + gameclient)
             log.info("Setting platform: " + self.romCollection.name)
 
+            #if game is launched from RCB widget there is no listitem
             if listitem is None:
-                listitem = xbmcgui.ListItem(rom, "0", "", "")
+                listitem = xbmcgui.ListItem(rom)
 
             parameters = {"platform": self.romCollection.name}
             if gameclient != "":
@@ -593,7 +597,10 @@ class RCBLauncher(object):
         try:
             import py7zlib
         except ImportError as e:
-            xbmcgui.Dialog().ok(util.SCRIPTNAME, util.localize(32039), util.localize(32129))
+            #32039 = Error launching .7z file.
+            #32129 = Please check kodi.log for details.
+            message = "%s[CR]%s" %(util.localize(32039), util.localize(32129))
+            xbmcgui.Dialog().ok(util.SCRIPTNAME, message)
             msg = ("You have tried to launch a .7z file but you are missing required libraries to extract the file. "
                    "You can download the latest RCB version from RCBs project page. It contains all required libraries.")
             log.error(msg)
@@ -622,7 +629,10 @@ class RCBLauncher(object):
         try:
             import py7zlib
         except ImportError:
-            xbmcgui.Dialog().ok(util.SCRIPTNAME, util.localize(32039), util.localize(32129))
+            # 32039 = Error launching .7z file.
+            # 32129 = Please check kodi.log for details.
+            message = "%s[CR]%s" % (util.localize(32039), util.localize(32129))
+            xbmcgui.Dialog().ok(util.SCRIPTNAME, message)
             msg = ("You have tried to launch a .7z file but you are missing required libraries to extract the file. "
                    "You can download the latest RCB version from RCBs project page. It contains all required libraries.")
             log.error(msg)

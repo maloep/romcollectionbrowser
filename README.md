@@ -2,9 +2,11 @@
 
 <a href='http://www.youtube.com/watch?feature=player_embedded&v=NRTg3HmIuqU' target='_blank'><img src='http://img.youtube.com/vi/NRTg3HmIuqU/0.jpg' width='425' height=344 /></a>
 
-**Current stable version:** [2.2.3](https://forum.kodi.tv/showthread.php?tid=70115&pid=2757114#pid2757114)
+**Current stable version (Kodi Krypton & Leia):** [2.2.4](https://forum.kodi.tv/showthread.php?tid=70115&pid=2938738#pid2938738)
 
-**Current test version:** [Current Git version](https://github.com/maloep/romcollectionbrowser/wiki/Installation#current-git-version)
+**Matrix compatible:** [Matrix branch](https://forum.kodi.tv/showthread.php?tid=70115&pid=2937200#pid2937200)
+
+**Current development version (Matrix only):** [Current Git version](https://github.com/maloep/romcollectionbrowser/wiki/Installation#current-git-version)
 
 **Documentation:** [https://github.com/maloep/romcollectionbrowser/wiki](https://github.com/maloep/romcollectionbrowser/wiki)
 

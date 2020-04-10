@@ -1,4 +1,7 @@
+from __future__ import absolute_import
 
+from builtins import str
+from builtins import object
 import os, re
 import xbmcvfs
 import util
@@ -26,7 +29,7 @@ class ArtworkUpdater(object):
         else:
             rccount = 1
             rclen = len(self.config.romCollections)
-            for rcid in self.config.romCollections.keys():
+            for rcid in list(self.config.romCollections.keys()):
                 self.progress_dialog.itemCount = rclen
                 rom_collection = self.config.romCollections[str(rcid)]
                 self.dialogheader = util.localize(32954) + " (%i / %i): %s" % (rccount, rclen, rom_collection.name)
@@ -54,8 +57,8 @@ class ArtworkUpdater(object):
         for game in games:
             self.progress_dialog.itemCount = len(games)
             #32955 = Scan artwork for Game
-            update_message = util.localize(32955) +': %i/%i' %(gamecount, len(games))
-            continue_update = self.progress_dialog.writeMsg(self.dialogheader, update_message, '', gamecount)
+            update_message = "%s[CR]%s: %i/%i" %(self.dialogheader, util.localize(32955), gamecount, len(games))
+            continue_update = self.progress_dialog.writeMsg(update_message, gamecount)
             if not continue_update:
                 log.info('Update canceled')
                 break
@@ -86,26 +89,28 @@ class ArtworkUpdater(object):
             media_dict = {}
 
         #if this console is already cached there is nothing to do
-        if console_id in media_dict.keys():
+        if console_id in list(media_dict.keys()):
             log.info('MediaPaths for RomCollection %s are already in cache' % console_id)
             return media_dict
 
         if console_id > 0:
             self.progress_dialog.itemCount = 1
             rom_collection = self.config.romCollections[str(console_id)]
-            self.dialogheader = util.localize(32953) + " (%i / %i): %s" % (1, 1, rom_collection.name)
-            self.progress_dialog.writeMsg(self.dialogheader, '', '', 1)
+            #32953 = Caching Artwork for Rom Collection
+            self.dialogheader = "%s (%i / %i): %s" % (util.localize(32953), 1, 1, rom_collection.name)
+            self.progress_dialog.writeMsg(self.dialogheader, 1)
             self._cache_media_paths_for_console(str(console_id), media_dict)
             return media_dict
         else:
             rccount = 1
             rclen = len(self.config.romCollections)
-            for rcid in self.config.romCollections.keys():
+            for rcid in list(self.config.romCollections.keys()):
                 self.progress_dialog.itemCount = rclen
                 rom_collection = self.config.romCollections[str(rcid)]
-                self.dialogheader = util.localize(32953) + " (%i / %i): %s" % (rccount, rclen, rom_collection.name)
-                self.progress_dialog.writeMsg(self.dialogheader, '', '', rccount)
-                if rcid in media_dict.keys():
+                # 32953 = Caching Artwork for Rom Collection
+                self.dialogheader = "%s (%i / %i): %s" % (util.localize(32953), rccount, rclen, rom_collection.name)
+                self.progress_dialog.writeMsg(self.dialogheader, rccount)
+                if rcid in list(media_dict.keys()):
                     log.info('MediaPaths for RomCollection %s are already in cache' % rcid)
                     continue
                 self._cache_media_paths_for_console(rcid, media_dict)

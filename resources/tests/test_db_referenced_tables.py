@@ -45,7 +45,6 @@ class TestDBReferencedTables(unittest.TestCase):
     def test_RetrieveMultipleGenresByGameId(self):
         ''' Test that games with multiple genres are comma-separated strings FIXME TODO Order of genres '''
         genres = Genre(self.gdb).getGenresForGame(50)
-        print genres
 
         self.assertTrue(genres == 'Adventure, Action, Role-Playing', 'Expected multiple genres for game to be comma-separated string, was {0}'.format(genres))
 

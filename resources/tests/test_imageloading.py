@@ -1,4 +1,7 @@
 
+from builtins import filter
+from builtins import str
+from builtins import object
 import os, sys, re, time, shutil
 import unittest
 
@@ -11,9 +14,9 @@ from artworkupdater import ArtworkUpdater
 import helper
 from config import Config, RomCollection
 
-class RCBMockGui:
+class RCBMockGui(object):
     itemCount = 0
-    def writeMsg(self, msg1, msg2, msg3, count=0):
+    def writeMsg(self, msg1, msg2, count=0):
         return True
 
 class Test(unittest.TestCase):
@@ -373,7 +376,7 @@ class Test(unittest.TestCase):
         
         timestamp1 = time.clock()
         pattern = re.compile('%s\..*$' %pathToSearch)
-        foundImage = filter(pattern.match, imagelist)
+        foundImage = list(filter(pattern.match, imagelist))
         timestamp2 = time.clock()
         diff = (timestamp2 - timestamp1) * 1000
         print ('filter took %s ms' %diff)

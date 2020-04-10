@@ -1,3 +1,5 @@
+from __future__ import absolute_import
+from builtins import str
 import os
 import xml.etree.ElementTree as ET
 from xml.etree.ElementTree import SubElement
@@ -21,14 +23,14 @@ class NfoWriter(RcbXmlReaderWriter):
         Logutil.log("Begin exportLibrary", util.LOG_LEVEL_INFO)
 
         progressDialog = dialogprogress.ProgressDialogGUI()
-        progressDialog.writeMsg(util.localize(32169), "", "")
+        #32169 = Export library...
+        progressDialog.create(util.localize(32169))
         continueExport = True
         rccount = 1
 
-        for romCollection in romCollections.values():
-
-            progDialogRCHeader = util.localize(32170) + " (%i / %i): %s" % (
-            rccount, len(romCollections), romCollection.name)
+        for romCollection in list(romCollections.values()):
+            #32170 = Exporting Rom Collection
+            messageRomCollections = "%s (%i / %i): %s" % (util.localize(32170), rccount, len(romCollections), romCollection.name)
             rccount = rccount + 1
 
             Logutil.log("export Rom Collection: " + romCollection.name, util.LOG_LEVEL_INFO)
@@ -39,9 +41,9 @@ class NfoWriter(RcbXmlReaderWriter):
             progressDialog.itemCount = len(games) + 1
 
             for game in games:
-
-                continueExport = progressDialog.writeMsg(progDialogRCHeader,
-                                                         util.localize(32171) + ": " + str(game[GameView.COL_NAME]), "", gameCount)
+                #32171 = Export game
+                message = "%s[CR]%s: %s" %(messageRomCollections, util.localize(32171), str(game[GameView.COL_NAME]))
+                continueExport = progressDialog.writeMsg(message, gameCount)
                 if not continueExport:
                     Logutil.log('Game export canceled by user', util.LOG_LEVEL_INFO)
                     break
@@ -62,7 +64,7 @@ class NfoWriter(RcbXmlReaderWriter):
                                        artworkfiles,
                                        artworkurls)
 
-        progressDialog.writeMsg("", "", "", -1)
+        progressDialog.writeMsg("",  -1)
         del progressDialog
 
     def createNfoFromDesc(self, game, platform, romFile, gameNameFromFile, artworkfiles, artworkurls):
@@ -132,7 +134,7 @@ class NfoWriter(RcbXmlReaderWriter):
         for genre in genreList:
             ET.SubElement(root, 'genre').text = genre
 
-        for artworktype in artworkfiles.keys():
+        for artworktype in list(artworkfiles.keys()):
 
             local = ''
             online = ''

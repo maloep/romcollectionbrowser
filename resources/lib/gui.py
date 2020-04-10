@@ -1,3 +1,9 @@
+from __future__ import print_function
+from __future__ import absolute_import
+from __future__ import division
+from builtins import chr
+from builtins import str
+from builtins import range
 import xbmc, xbmcgui, xbmcaddon
 import time, os
 
@@ -194,7 +200,10 @@ class UIGameDB(xbmcgui.WindowXML):
         if not os.path.isfile(configFile):
             Logutil.log("No config file available. Create new one.", util.LOG_LEVEL_INFO)
             dialog = xbmcgui.Dialog()
-            createNewConfig = dialog.yesno(util.SCRIPTNAME, util.localize(32100), util.localize(32101))
+            #32100 = No config file found.
+            #32101 = Do you want to create one?
+            message = "%s[CR]%s" %(util.localize(32100), util.localize(32101))
+            createNewConfig = dialog.yesno(util.SCRIPTNAME, message)
             if not createNewConfig:
                 return config, False
         else:
@@ -202,7 +211,10 @@ class UIGameDB(xbmcgui.WindowXML):
             if not rcAvailable:
                 Logutil.log("No Rom Collections found in config.xml.", util.LOG_LEVEL_INFO)
                 dialog = xbmcgui.Dialog()
-                createNewConfig = dialog.yesno(util.SCRIPTNAME, util.localize(32100), util.localize(32101))
+                # 32100 = No config file found.
+                # 32101 = Do you want to create one?
+                message = "%s[CR]%s" % (util.localize(32100), util.localize(32101))
+                createNewConfig = dialog.yesno(util.SCRIPTNAME, message)
                 if not createNewConfig:
                     return config, False
 
@@ -210,19 +222,25 @@ class UIGameDB(xbmcgui.WindowXML):
             import wizardconfigxml
             statusOk, errorMsg = wizardconfigxml.ConfigXmlWizard().createConfigXml(configFile)
             if statusOk == False:
-                xbmcgui.Dialog().ok(util.SCRIPTNAME, util.localize(32001), errorMsg)
+                #32001 = Error while updating config.xml.
+                message = "%s[CR]%s" % (util.localize(32001), errorMsg)
+                xbmcgui.Dialog().ok(util.SCRIPTNAME, message)
                 return config, False
         else:
             from configxmlupdater import ConfigxmlUpdater
             #check if config.xml is up to date
             returnCode, message = ConfigxmlUpdater().updateConfig(configFile)
             if returnCode == False:
-                xbmcgui.Dialog().ok(util.SCRIPTNAME, util.localize(32001), message)
+                # 32001 = Error while updating config.xml.
+                message = "%s[CR]%s" % (util.localize(32001), message)
+                xbmcgui.Dialog().ok(util.SCRIPTNAME, message)
 
         #read config.xml
         statusOk, errorMsg = config.readXml()
         if statusOk == False:
-            xbmcgui.Dialog().ok(util.SCRIPTNAME, util.localize(32002), errorMsg)
+            #32001 = Error reading config.xml.
+            message = "%s[CR]%s" % (util.localize(32002), errorMsg)
+            xbmcgui.Dialog().ok(util.SCRIPTNAME, message)
 
         self.set_skin_flags()
 
@@ -234,7 +252,9 @@ class UIGameDB(xbmcgui.WindowXML):
             self.gdb = GameDataBase(util.getAddonDataPath())
             self.gdb.connect()
         except Exception as exc:
-            xbmcgui.Dialog().ok(util.SCRIPTNAME, util.localize(32000), str(exc))
+            #32000 = Error: Can not access database.
+            message = "%s[CR]%s" % (util.localize(32000), str(exc))
+            xbmcgui.Dialog().ok(util.SCRIPTNAME, message)
             Logutil.log('Error accessing database: ' + str(exc), util.LOG_LEVEL_ERROR)
             return False
 
@@ -247,7 +267,10 @@ class UIGameDB(xbmcgui.WindowXML):
             return False
 
         if doImport == 2:
-            xbmcgui.Dialog().ok(util.SCRIPTNAME, util.localize(32102), util.localize(32103))
+            #32102 = Database and config.xml updated to new version.
+            #32103 = Please read the wiki and changelog if you encounter any problems.
+            message = "%s[CR]%s" % (util.localize(32102), util.localize(32103))
+            xbmcgui.Dialog().ok(util.SCRIPTNAME, message)
 
         self.checkImport(doImport, None, False)
         return True
@@ -383,7 +406,7 @@ class UIGameDB(xbmcgui.WindowXML):
             log.debug("onClick: Button Sort by")
 
             options = []
-            for key in self.SORT_METHODS.keys():
+            for key in list(self.SORT_METHODS.keys()):
                 item = xbmcgui.ListItem(self.SORT_METHODS[key])
                 item.setProperty('column', key)
                 options.append(item)
@@ -405,7 +428,7 @@ class UIGameDB(xbmcgui.WindowXML):
             log.debug("onClick: Button Order")
 
             options = []
-            for key in self.SORT_DIRECTIONS.keys():
+            for key in list(self.SORT_DIRECTIONS.keys()):
                 item = xbmcgui.ListItem(self.SORT_DIRECTIONS[key])
                 item.setProperty('direction', key)
                 options.append(item)
@@ -539,7 +562,7 @@ class UIGameDB(xbmcgui.WindowXML):
         filter_changed = False
         if control_id == CONTROL_CONSOLES:
             consoles = []
-            for romCollection in self.config.romCollections.values():
+            for romCollection in list(self.config.romCollections.values()):
                 consoles.append([romCollection.id, romCollection.name])
 
             showEntryAllItems = getSettings().getSetting(util.SETTING_RCB_SHOWENTRYALLCONSOLES).upper() == 'TRUE'
@@ -902,7 +925,7 @@ class UIGameDB(xbmcgui.WindowXML):
             #add progress to "loading games" message
             if len(games) > 1000:
                 if counter >= divisor and counter % divisor == 0:
-                    percent = (len(games) / divisor) * (counter / divisor)
+                    percent = (old_div(len(games), divisor)) * (old_div(counter, divisor))
                     #32121 = Loading games...
                     self.writeMsg('%s (%i%%)' % (util.localize(32121), percent))
                 counter = counter + 1
@@ -941,7 +964,7 @@ class UIGameDB(xbmcgui.WindowXML):
         try:
             romCollection = self.config.romCollections[selectedGame.getProperty('romCollectionId')]
         except Exception as err:
-            print (err.message)
+            Logutil.log(err, util.LOG_LEVEL_ERROR)
             Logutil.log('Cannot get rom collection with id: ' + str(selectedGame.getProperty('romCollectionId')),
                         util.LOG_LEVEL_ERROR)
 
@@ -1034,19 +1057,21 @@ class UIGameDB(xbmcgui.WindowXML):
         rcList = GameView(self.gdb).getFilteredGames(rcID, 0, 0, 0, 0, 0, 0, 0, 0, '0 = 0', '', 0)
         progressDialog = dialogprogress.ProgressDialogGUI()
         progressDialog.itemCount = len(rcList)
+        progressDialog.create(util.localize(32105))
 
         if rcList != None:
-            progDialogRCDelStat = util.localize(32104) + " (%i / %i)" % (count, progressDialog.itemCount)
-            progressDialog.writeMsg(util.localize(32105), progDialogRCDelStat, "", count)
+            #32104 = Deleting Rom
+            message = util.localize(32104) + " (%i / %i)" % (count, progressDialog.itemCount)
+            progressDialog.writeMsg(message, count)
             for items in rcList:
                 count = count + 1
-                progDialogRCDelStat = util.localize(32104) + " (%i / %i)" % (count, progressDialog.itemCount)
-                progressDialog.writeMsg("", progDialogRCDelStat, "", count)
+                message = util.localize(32104) + " (%i / %i)" % (count, progressDialog.itemCount)
+                progressDialog.writeMsg(message, count)
                 self.deleteGame(items[Game.COL_ID])
-            if len(rcList) > 0:
-                progressDialog.writeMsg("", util.localize(32106), "", count)
-            else:
-                progressDialog.writeMsg(util.localize(32106), "", "", count)
+
+            #32106 = Deleting Roms Complete
+            progressDialog.writeMsg(util.localize(32106), count)
+
             time.sleep(1)
             self.gdb.commit()
             xbmc.sleep(util.WAITTIME_UPDATECONTROLS)
@@ -1064,23 +1089,28 @@ class UIGameDB(xbmcgui.WindowXML):
         filelist = File(self.gdb).getFilesList()
         progressDialog2 = dialogprogress.ProgressDialogGUI()
         progressDialog2.itemCount = len(filelist)
-        progDialogCleanStat = util.localize(32107) + " (%i / %i)" % (count, progressDialog2.itemCount)
-        progressDialog2.writeMsg(util.localize(32108), progDialogCleanStat, "")
+        #32108 = Cleaning Database...
+        progressDialog2.create(util.localize(32108))
+        #32107 = Checking File
+        message = "%s (%i / %i)" % (util.localize(32107), count, progressDialog2.itemCount)
+        progressDialog2.writeMsg(message, count)
         if filelist != None:
             for items in filelist:
                 count = count + 1
-                progDialogCleanStat = util.localize(32107) + " (%i / %i)" % (count, progressDialog2.itemCount)
-                progressDialog2.writeMsg("", progDialogCleanStat, "", count)
+                message = "%s (%i / %i)" % (util.localize(32107), count, progressDialog2.itemCount)
+                progressDialog2.writeMsg(message, count)
                 if os.path.exists(items[File.COL_NAME]) != True:
                     if items[File.COL_fileTypeId] == 0:
                         self.deleteGame(items[File.COL_parentId])
                     else:
                         File(self.gdb).deleteByFileId(items[File.COL_ID])
                     removeCount = removeCount + 1
-            progressDialog2.writeMsg("", util.localize(32109), "", count)
+            #32109 = Compressing Database...
+            progressDialog2.writeMsg(util.localize(32109), count)
             self.gdb.compact()
             time.sleep(.5)
-            progressDialog2.writeMsg("", util.localize(32110), "", count)
+            #32110 = Database Clean-up Complete
+            progressDialog2.writeMsg(util.localize(32110), count)
             time.sleep(1)
             self.showGames()
         Logutil.log("End cleanDB", util.LOG_LEVEL_INFO)
@@ -1222,13 +1252,12 @@ class UIGameDB(xbmcgui.WindowXML):
                                                               isRescrape=isRescrape)
             del iod
         else:
-            #32118 = Do you want to import Games now?
-            message = util.localize(32118)
-
             dialog = xbmcgui.Dialog()
 
             #32500 = Import Games
-            retGames = dialog.yesno(util.localize(32999), util.localize(32500), message)
+            # 32118 = Do you want to import Games now?
+            message = "%s[CR]%s" % (util.localize(32500), util.localize(32118))
+            retGames = dialog.yesno(util.SCRIPTNAME, message)
             if retGames == True:
                 #Import Games
                 if romCollections == None:
@@ -1251,12 +1280,13 @@ class UIGameDB(xbmcgui.WindowXML):
             import dbupdate
 
             progressDialog = dialogprogress.ProgressDialogGUI()
-            progressDialog.writeMsg(util.localize(32111), "", "")
+            #32111 = Import Games...
+            progressDialog.create(util.localize(32111))
 
             updater = dbupdate.DBUpdate()
             updater.updateDB(self.gdb, progressDialog, romCollections, isRescrape)
             del updater
-            progressDialog.writeMsg("", "", "", -1)
+            progressDialog.writeMsg("", -1)
             del progressDialog
 
     def checkUpdateInProgress(self):
@@ -1267,13 +1297,19 @@ class UIGameDB(xbmcgui.WindowXML):
         Logutil.log("scrapeOnStartupAction = " + str(scrapeOnStartupAction), util.LOG_LEVEL_INFO)
 
         if scrapeOnStartupAction == 'update':
-            retCancel = xbmcgui.Dialog().yesno(util.localize(32999), util.localize(32112), util.localize(32113))
+            #32112 = Import in Progress
+            #32113 = Do you want to cancel current import?
+            message = "%s[CR]%s" % (util.localize(32112), util.localize(32113))
+            retCancel = xbmcgui.Dialog().yesno(util.SCRIPTNAME, message)
             if retCancel == True:
                 self.Settings.setSetting(util.SETTING_RCB_SCRAPEONSTARTUPACTION, 'cancel')
             return True
 
         elif scrapeOnStartupAction == 'cancel':
-            retForceCancel = xbmcgui.Dialog().yesno(util.localize(32999), util.localize(32114), util.localize(32205))
+            #32114 = Cancelling in Progress
+            #32205 = Do you want to force cancel current import?
+            message = "%s[CR]%s" % (util.localize(32114), util.localize(32205))
+            retForceCancel = xbmcgui.Dialog().yesno(util.SCRIPTNAME, message)
 
             #HACK: Assume that there is a problem with canceling the action
             if retForceCancel == True:
@@ -1527,7 +1563,10 @@ class UIGameDB(xbmcgui.WindowXML):
     def set_isfavorite_for_game(self, selected_game):
         log.info("set_isfavorite_for_game")
         if selected_game is None:
-            xbmcgui.Dialog().ok(util.SCRIPTNAME, util.localize(32016), util.localize(32014))
+            #32014 = Can't load selected Game
+            #32016 = Add To Favorites Error
+            message = "%s[CR]%s" % (util.localize(32016), util.localize(32014))
+            xbmcgui.Dialog().ok(util.SCRIPTNAME, message)
             return
 
         isFavorite = '1'
@@ -1545,7 +1584,10 @@ class UIGameDB(xbmcgui.WindowXML):
     def set_isfavorite_for_selection(self, selected_game):
         log.info("set_isfavorite_for_selection")
         if selected_game is None:
-            xbmcgui.Dialog().ok(util.SCRIPTNAME, util.localize(32016), util.localize(32014))
+            # 32014 = Can't load selected Game
+            # 32016 = Add To Favorites Error
+            message = "%s[CR]%s" % (util.localize(32016), util.localize(32014))
+            xbmcgui.Dialog().ok(util.SCRIPTNAME, message)
             return
 
         isFavorite = '1'

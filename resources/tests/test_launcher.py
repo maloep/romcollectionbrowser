@@ -1,4 +1,6 @@
 
+from builtins import str
+from builtins import object
 import os, shutil, sys
 import unittest
 
@@ -9,7 +11,7 @@ from launcher import RCBLauncher
 from config import Config
 
 
-class RCBMockGui:
+class RCBMockGui(object):
     itemCount = 0
     def writeMsg(self, msg1, msg2, msg3, count=0):
         return True

@@ -1,4 +1,5 @@
 
+from builtins import str
 import os, re, sys
 from xml.etree.ElementTree import *
 import unittest

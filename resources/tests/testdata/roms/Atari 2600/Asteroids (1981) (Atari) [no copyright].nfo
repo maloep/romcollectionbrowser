@@ -20,6 +20,6 @@
   <isFavorite>0</isFavorite>
   <launchCount>0</launchCount>
   <genre>Shooter</genre>
-  <thumb local="" type="screenshot" />
   <thumb local="./testdata/artwork/Atari 2600/boxfront\Asteroids (1981) (Atari) [no copyright].png" type="boxfront" />
+  <thumb local="" type="screenshot" />
 </game>

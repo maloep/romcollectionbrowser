@@ -1,0 +1,982 @@
+# Kodi Media Center language file
+# Addon Name: Rom Collection Browser
+# Addon id: script.games.rom.collection.browser
+# Addon Provider: bruny, malte
+msgid ""
+msgstr ""
+"Project-Id-Version: Kodi Addons\n"
+"Report-Msgid-Bugs-To: https://forum.kodi.tv/\n"
+"POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: Kodi Translation Team\n"
+"Language-Team: Team-Kodi\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: el_GR\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+msgctxt "#32000"
+msgid "Error: Can not access database."
+msgstr "Σφάλμα: Αδυναμία πρόσβασης στη βάση δεδομένων."
+
+msgctxt "#32001"
+msgid "Error while updating config.xml."
+msgstr "Σφάλμα κατά την ενημέρωση του config.xml."
+
+msgctxt "#32002"
+msgid "Error reading config.xml."
+msgstr "Σφάλμα κατά την ανάγνωση του config.xml."
+
+msgctxt "#32003"
+msgid "Error: File config.xml does not exist."
+msgstr "Σφάλμα: Το αρχείο config.xml δεν υπάρχει."
+
+msgctxt "#32004"
+msgid "Error: Could not read config.xml."
+msgstr "Σφάλμα: Αδυναμία ανάγνωσης του config.xml."
+
+msgctxt "#32005"
+msgid "Configuration error. See kodi.log for details."
+msgstr "Σφάλμα διαμόρφωση. Ελέγξτε το kodi.log για λεπτομέρειες."
+
+msgctxt "#32006"
+msgid "Rom Collection ids are not unique."
+msgstr "Τα id της Συλλογής Rom δεν είναι μοναδικά."
+
+msgctxt "#32007"
+msgid "Error: Cannot backup config.xml."
+msgstr "Σφάλμα: Αδυναμία δημιουργίας αντιγράφου του config.xml."
+
+msgctxt "#32008"
+msgid "Error: Cannot write config.xml."
+msgstr "Σφάλμα: Αδυναμία εγγραφής του config.xml."
+
+msgctxt "#32009"
+msgid "%s %s could not be found in config.xml."
+msgstr "Αδυναμία εύρεσης %s %s στο config.xml."
+
+msgctxt "#32010"
+msgid "Error: Could not create artwork directory."
+msgstr "Σφάλμα: Αδυναμία δημιουργίας φακέλου εικόνων."
+
+msgctxt "#32011"
+msgid "Check kodi.log for details."
+msgstr "Ελέγξτε το kodi.log για λεπτομέρειες."
+
+msgctxt "#32012"
+msgid "Error: Could not create artwork file."
+msgstr "Σφάλμα: Αδυναμία δημιουργίας αρχείου εικόνας."
+
+msgctxt "#32013"
+msgid "Rescrape game error"
+msgstr "Σφάλμα επανάληψης scrape παιχνιδιών"
+
+msgctxt "#32014"
+msgid "Can't load selected Game"
+msgstr "Αδυναμία φόρτωσης του επιλεγμένου Παιχνιδιού"
+
+msgctxt "#32015"
+msgid "Edit Game Command Error"
+msgstr "Σφάλμα Επεξεργασίας Εντολής Παιχνιδιού"
+
+msgctxt "#32016"
+msgid "Add To Favorites Error"
+msgstr "Σφάλμα Προσθήκης στα Αγαπημένα"
+
+msgctxt "#32017"
+msgid "Delete Game Error"
+msgstr "Σφάλμα Διαγραφής Παιχνιδιού"
+
+msgctxt "#32018"
+msgid "Can't delete selected Game"
+msgstr "Αδυναμία διαγραφής επιλεγμένου Παιχνιδιού"
+
+msgctxt "#32019"
+msgid "Error"
+msgstr "Σφάλμα"
+
+msgctxt "#32020"
+msgid "Error Deleting Rom Collection"
+msgstr "Αδυναμία Διαγραφής Συλλογής Rom"
+
+msgctxt "#32021"
+msgid "Configuration Error"
+msgstr "Σφάλμα Διαμόρφωσης"
+
+msgctxt "#32022"
+msgid "Site %s does not exist in config.xml"
+msgstr "Η ιστοσελίδα %s δεν υπάρχει στο config.xml"
+
+msgctxt "#32023"
+msgid "Cannot get rom collection with id: %s"
+msgstr "Αδυναμία λήψης συλλογής Rom με id: %s"
+
+msgctxt "#32024"
+msgid "Selected game could not be read from database."
+msgstr "Αδυναμία ανάγνωσης του επιλεγμένου παιχνιδιού από τη βάση δεδομένων."
+
+msgctxt "#32025"
+msgid "Control with id: %s could not be found. Check WindowXML file."
+msgstr "Δε βρέθηκε στοιχείο με id: %s. Ελέγξτε το αρχείο WindowXML."
+
+msgctxt "#32027"
+msgid "Cannot scrape %s games with %s scraper.[CR]Invalid combination of scraper settings."
+msgstr "Δεν μπορεί να γίνει scrape %s παιχνιδιών με τον scraper %s.[CR]Λανθασμένος συνδυασμός ρυθμίσεων του scraper."
+
+msgctxt "#32030"
+msgid "Error: Cannot backup MyGames.db: Backup File exists."
+msgstr "Σφάλμα: Αδυναμία δημιουργίας αντιγράφου του MyGames.db: Υπάρχει ήδη αντίγραφο."
+
+msgctxt "#32031"
+msgid "Error: Cannot backup MyGames.db"
+msgstr "Σφάλμα: Αδυναμία δημιουργίας αντιγράφου του MyGames.db"
+
+msgctxt "#32032"
+msgid "Error: No Update from version %s to %s."
+msgstr "Σφάλμα: Καμία Ενημέρωση από την έκδοση %s στην %s."
+
+msgctxt "#32034"
+msgid "Error launching game!"
+msgstr "Σφάλμα κατά την έναρξη του παιχνιδιού!"
+
+msgctxt "#32035"
+msgid "Error while launching emulator"
+msgstr "Σφάλμα κατά την εκκίνηση του εξομοιωτή"
+
+msgctxt "#32036"
+msgid "Error deleting files after launching emulator"
+msgstr "Σφάλμα διαγραφής αρχείων μετά την εκκίνηση του εξομοιωτή"
+
+msgctxt "#32037"
+msgid "Error while launching emulator: File %s does not exist!"
+msgstr "Σφάλμα κατά την εκκίνηση του εξομοιωτή: Το αρχείο %s δεν υπάρχει!"
+
+msgctxt "#32038"
+msgid "Error while creating .cut file. Check kodi.log for details."
+msgstr "Σφάλμα κατά τη δημιουργία αρχείου .cut. Ελέγξτε το kodi.log για λεπτομέρειες."
+
+msgctxt "#32039"
+msgid "Error launching .7z file."
+msgstr "Σφάλμα κατά την εκτέλεση του αρχείου .7z."
+
+msgctxt "#32040"
+msgid "Error: File config_template.xml does not exist"
+msgstr "Σφάλμα: Το αρχείο config_template.xml δεν υπάρχει"
+
+msgctxt "#32041"
+msgid "RCB can't acces your rom path.[CR]Make sure it does not contain any non-ascii characters."
+msgstr "Αδυναμία πρόσβασης του RCB στη διαδρομή των ROM.[CR]Σιγουρευτείτε ότι περιέχει μόνο ascii χαρακτήρες."
+
+msgctxt "#32042"
+msgid "RCB can't acces your artwork path.[CR]Make sure it does not contain any non-ascii characters."
+msgstr "Αδυναμία πρόσβασης του RCB στη διαδρομή των εικόνων.[CR]Σιγουρευτείτε ότι περιέχει μόνο ascii χαρακτήρες."
+
+msgctxt "#32100"
+msgid "No config file found."
+msgstr "Δε βρέθηκε αρχείο διαμόρφωσης (config)."
+
+msgctxt "#32101"
+msgid "Do you want to create one?"
+msgstr "Θέλετε να δημιουργήσετε ένα;"
+
+msgctxt "#32102"
+msgid "Database and config.xml updated to new version."
+msgstr "Η βάση δεδομένων και το config.xml ενημερώθηκαν σε νέες εκδόσεις."
+
+msgctxt "#32103"
+msgid "Please read the wiki and changelog if you encounter any problems."
+msgstr "Διαβάστε το wiki και αρχείο καταγραφής αλλαγών αν έχετε προβλήματα."
+
+msgctxt "#32104"
+msgid "Deleting Rom"
+msgstr "Διαγραφή Rom"
+
+msgctxt "#32105"
+msgid "Deleting Roms..."
+msgstr "Διαγραφή των Rom..."
+
+msgctxt "#32106"
+msgid "Deleting Roms Complete"
+msgstr "Ολοκλήρωση Διαγραφής των Rom"
+
+msgctxt "#32107"
+msgid "Checking File"
+msgstr "Γίνεται έλεγχος του Αρχείου"
+
+msgctxt "#32108"
+msgid "Cleaning Database..."
+msgstr "Εκκαθάριση Βάσης Δεδομένων..."
+
+msgctxt "#32109"
+msgid "Compressing Database..."
+msgstr "Συμπίεση Βάσης Δεδομένων..."
+
+msgctxt "#32110"
+msgid "Database Clean-up Complete"
+msgstr "Ολοκλήρωση Εκκαθάρισης Βάσης Δεδομένων"
+
+msgctxt "#32111"
+msgid "Import Games..."
+msgstr "Εισαγωγή Παιχνιδιών..."
+
+msgctxt "#32112"
+msgid "Import in Progress"
+msgstr "Εισαγωγή σε Εξέλιξη"
+
+msgctxt "#32113"
+msgid "Do you want to cancel current import?"
+msgstr "Να ακυρωθεί η τρέχουσα εισαγωγή;"
+
+msgctxt "#32114"
+msgid "Cancelling in Progress"
+msgstr "Ακύρωση σε Εξέλιξη"
+
+msgctxt "#32115"
+msgid "Import is still being cancelled. Please try again later."
+msgstr "Η εισαγωγή ακόμα ακυρώνεται. Δοκιμάστε ξανά αργότερα."
+
+msgctxt "#32116"
+msgid "Enter search term"
+msgstr "Εισαγωγή όρου αναζήτησης"
+
+msgctxt "#32117"
+msgid "Search"
+msgstr "Αναζήτηση"
+
+msgctxt "#32118"
+msgid "Do you want to import Games now?"
+msgstr "Επιθυμείτε να εισάγετε Παιχνίδια τώρα;"
+
+msgctxt "#32119"
+msgid "loading list..."
+msgstr "φόρτωση λίστας..."
+
+msgctxt "#32120"
+msgid "All"
+msgstr "Όλα"
+
+msgctxt "#32121"
+msgid "Loading games..."
+msgstr "φόρτωση παιχνιδιών..."
+
+msgctxt "#32122"
+msgid "Importing Rom Collection"
+msgstr "Εισαγωγή Συλλογής Rom"
+
+msgctxt "#32123"
+msgid "Importing Game"
+msgstr "Εισαγωγή Παιχνιδιού"
+
+msgctxt "#32124"
+msgid "Continue"
+msgstr "Συνέχεια"
+
+msgctxt "#32125"
+msgid "Continue and Ignore Errors"
+msgstr "Συνέχεια και Παράβλεψη Σφαλμάτων"
+
+msgctxt "#32126"
+msgid "Cancel"
+msgstr "Ακύρωση"
+
+msgctxt "#32127"
+msgid "First 10 games could not be imported."
+msgstr "Αδυναμία εισαγωγής των 10 πρώτων παιχνιδιών."
+
+msgctxt "#32128"
+msgid "Import canceled."
+msgstr "Η εισαγωγή ακυρώθηκε."
+
+msgctxt "#32129"
+msgid "Please check kodi.log for details."
+msgstr "Ελέγξτε το kodi.log για λεπτομέρειες."
+
+msgctxt "#32130"
+msgid "Building file list..."
+msgstr "Δημιουργείται λίστα αρχείων..."
+
+msgctxt "#32131"
+msgid "downloading info"
+msgstr "πληροφορίες λήψης"
+
+msgctxt "#32132"
+msgid "Enter %s"
+msgstr "Εισάγετε %s"
+
+msgctxt "#32133"
+msgid "Remove Game From Favorites"
+msgstr "Αφαίρεση Παιχνιδιού από τα Αγαπημένα"
+
+msgctxt "#32134"
+msgid "Remove Selection From Favorites"
+msgstr "Αφαίρεση Επιλεγμένων από τα Αγαπημένα"
+
+msgctxt "#32135"
+msgid "Enter Game Command"
+msgstr "Εισαγωγή Εντολής Παιχνιδιού"
+
+msgctxt "#32136"
+msgid "Are you sure you want to delete this game?"
+msgstr "Είστε σίγουροι ότι θέλετε να διαγράψετε αυτό το παιχνίδι;"
+
+msgctxt "#32137"
+msgid "Delete games and configuration"
+msgstr "Διαγραφή παιχνιδιών και διαμόρφωσης"
+
+msgctxt "#32138"
+msgid "Delete games only"
+msgstr "Διαγραφή παιχνιδιών μόνο"
+
+msgctxt "#32139"
+msgid "Emulator"
+msgstr "Εξομοιωτής"
+
+msgctxt "#32140"
+msgid "Enter Rom File Mask"
+msgstr "Εισαγωγή Μάσκας Αρχείων Rom"
+
+msgctxt "#32141"
+msgid "Path"
+msgstr "Διαδρομή"
+
+msgctxt "#32142"
+msgid "Choose a media path to add"
+msgstr "Επιλογή διαδρομής πολυμέσων για προσθήκη"
+
+msgctxt "#32143"
+msgid "Choose a media path to remove"
+msgstr "Επιλογή διαδρομής πολυμέσων για αφαίρεση"
+
+msgctxt "#32144"
+msgid "There already are scrapers for all Rom Collections"
+msgstr "Υπάρχουν ήδη scraper για όλες τις Συλλογές Rom"
+
+msgctxt "#32145"
+msgid "Edit or delete an existing scraper"
+msgstr "Επεξεργασία ή διαγραφή του υπάρχοντος scraper"
+
+msgctxt "#32146"
+msgid "Select scraper name"
+msgstr "Επιλογή ονόματος scraper"
+
+msgctxt "#32147"
+msgid "Choose a scraper to remove"
+msgstr "Επιλέξτε ένα scraper για αφαίρεση"
+
+msgctxt "#32148"
+msgid "Scraper %s is already in use and cannot be deleted."
+msgstr "Το scraper %s χρησιμοποιείται ήδη και δεν μπορεί να διαγραφεί."
+
+msgctxt "#32153"
+msgid "local artwork"
+msgstr "τοπικές εικόνες"
+
+msgctxt "#32154"
+msgid "local nfo"
+msgstr "τοπικές πληροφορίες"
+
+msgctxt "#32155"
+msgid "Select Artwork type"
+msgstr "Επιλογή τύπου Εικόνων"
+
+msgctxt "#32156"
+msgid "Select property"
+msgstr "Επιλογή ιδιότητας"
+
+msgctxt "#32157"
+msgid "ignore"
+msgstr "παράβλεψη"
+
+msgctxt "#32158"
+msgid "Ignore filter"
+msgstr "Παράβλεψη φίλτρου"
+
+msgctxt "#32159"
+msgid "show"
+msgstr "εμφάνιση"
+
+msgctxt "#32160"
+msgid "Show only games with missing items"
+msgstr "Εμφάνιση μόνο παιχνιδιών με ελλιπή αντικείμενα"
+
+msgctxt "#32161"
+msgid "hide"
+msgstr "απόκρυψη"
+
+msgctxt "#32162"
+msgid "Hide games with missing items"
+msgstr "Απόκρυψη παιχνιδιών με ελλιπή αντικείμενα"
+
+msgctxt "#32163"
+msgid "Launch Game"
+msgstr "Έναρξη Παιχνιδιού"
+
+msgctxt "#32164"
+msgid "Please choose disc"
+msgstr "Παρακαλώ επιλέξτε δίσκο"
+
+msgctxt "#32165"
+msgid "Launch game from start"
+msgstr "Έναρξη παιχνιδιού από την αρχή"
+
+msgctxt "#32166"
+msgid "Launch saved state of this game?"
+msgstr "Άνοιγμα της αποθηκευμένης κατάστασης αυτού του παιχνιδιού;"
+
+msgctxt "#32167"
+msgid "Select slot of saved game"
+msgstr "Επιλογή υποδοχής αποθηκευμένου παιχνιδιού"
+
+msgctxt "#32168"
+msgid "Enter Command Text"
+msgstr "Εισαγωγή Κειμένου Εντολής"
+
+msgctxt "#32169"
+msgid "Export library..."
+msgstr "Εξαγωγή συλλογής..."
+
+msgctxt "#32170"
+msgid "Exporting Rom Collection"
+msgstr "Εξαγωγή Συλλογής Rom"
+
+msgctxt "#32171"
+msgid "Export game"
+msgstr "Εξαγωγή παιχνιδιού"
+
+msgctxt "#32172"
+msgid "Action canceled. Config.xml will not be written."
+msgstr "Η ενέργεια ακυρώθηκε. Το config.xml δε θα εγγραφεί."
+
+msgctxt "#32173"
+msgid "Choose a scenario"
+msgstr "Επιλογή σεναρίου"
+
+msgctxt "#32174"
+msgid "Scrape game info and artwork online"
+msgstr "Λήψη πληροφοριών και εικόνων των παιχνιδιών διαδικτυακά, μέσω scraper."
+
+msgctxt "#32175"
+msgid "Game info and artwork are available locally"
+msgstr "Υπάρχουν πληροφορίες και εικόνες των παιχνιδιών διαθέσιμες τοπικά."
+
+msgctxt "#32176"
+msgid "Choose a platform"
+msgstr "Επιλογή πλατφόρμας"
+
+msgctxt "#32177"
+msgid "Enter platform name"
+msgstr "Εισαγωγή ονόματος πλατφόρμας"
+
+msgctxt "#32178"
+msgid "Path to %s Emulator"
+msgstr "Διαδρομή για τον %s Εξομοιωτή"
+
+msgctxt "#32179"
+msgid "Emulator params ("%ROM%" is used for your rom files)"
+msgstr "Παράμετροι Εξομοιωτή (το "%ROM%" χρησιμοποιείται για τα αρχεία rom σας)"
+
+msgctxt "#32180"
+msgid "Path to %s Roms"
+msgstr "Διαδρομή για τις Rom του %s"
+
+msgctxt "#32181"
+msgid "File mask (comma-separated): e.g. *.zip, *.smc"
+msgstr "Μάσκες αρχείων (διαχωρισμένες με κόμμα): π.χ. *.zip, *.smc"
+
+msgctxt "#32182"
+msgid "%s Artwork (%s)"
+msgstr "Εικόνες %s (%s)"
+
+msgctxt "#32183"
+msgid "Choose an artwork type"
+msgstr "Επιλέξτε έναν τύπο εικόνων"
+
+msgctxt "#32184"
+msgid "Do you want to add another Artwork Path?"
+msgstr "Επιθυμείτε να προσθέσετε άλλη Διαδρομή Εικόνων;"
+
+msgctxt "#32185"
+msgid "Structure of your game descriptions"
+msgstr "Δομή των περιγραφών παιχνιδιών"
+
+msgctxt "#32186"
+msgid "One description file per game"
+msgstr "Ένα αρχείο περιγραφής ανά παιχνίδι"
+
+msgctxt "#32187"
+msgid "One description file for all games"
+msgstr "Ένα αρχείο περιγραφής για όλα τα παιχνίδια"
+
+msgctxt "#32188"
+msgid "Scrape game info online (or use local nfo)"
+msgstr "Λήψη πληροφοριών παιχνιδιού μέσω διαδικτυακού scraping (ή χρήση τοπικών πληροφοριών)"
+
+msgctxt "#32189"
+msgid "%s game description"
+msgstr "Περιγραφή παιχνιδιού %s"
+
+msgctxt "#32190"
+msgid "Enter description file mask"
+msgstr "Εισάγετε μάσκα αρχείων περιγραφής"
+
+msgctxt "#32191"
+msgid "%s parse instruction"
+msgstr "Οδηγία ανάλυσης %s"
+
+msgctxt "#32192"
+msgid "Do you want to add another Rom Collection?"
+msgstr "Επιθυμείτε να προσθέσετε άλλη Συλλογή Rom;"
+
+msgctxt "#32193"
+msgid "%s Artwork"
+msgstr "Εικόνες του %s"
+
+msgctxt "#32194"
+msgid "Pre-Launch delay (ms)"
+msgstr "Καθυστέρηση Πριν την Έναρξη (ms)"
+
+msgctxt "#32195"
+msgid "Post-Launch delay (ms)"
+msgstr "Καθυστέρηση Μετά την Έναρξη (ms)"
+
+msgctxt "#32196"
+msgid "Solo mode startup delay (ms)"
+msgstr "Καθυστέρηση έναρξης λειτουργίας solo (ms)"
+
+msgctxt "#32197"
+msgid "Use VB script in solo mode (Windows only)"
+msgstr "Χρήση VB script στη λειτουργία solo (μόνο για Windows)"
+
+msgctxt "#32198"
+msgid "Use RetroPlayer to launch games?"
+msgstr "Χρήση του RetroPlayer για εκκίνηση παιχνιδιών;"
+
+msgctxt "#32199"
+msgid "Suspend Audio"
+msgstr "Αναστολή του Ήχου"
+
+msgctxt "#32200"
+msgid "Minimize Kodi"
+msgstr "Ελαχιστοποίηση του Kodi"
+
+msgctxt "#32201"
+msgid "Path to emu_autoconfig.xml"
+msgstr "Διαδρομή του emu_autoconfig.xml"
+
+msgctxt "#32202"
+msgid "%s (Installed)"
+msgstr "%s (Εγκαταστάθηκε)"
+
+msgctxt "#32203"
+msgid "Available autoconfig emulators"
+msgstr "Διαθέσιμοι εξομοιωτές autoconfig"
+
+msgctxt "#32300"
+msgid "General"
+msgstr "Γενικά"
+
+msgctxt "#32301"
+msgid "RCB skin"
+msgstr "Κέλυφος RCB"
+
+msgctxt "#32302"
+msgid "Log level"
+msgstr "Επίπεδο αρχείου καταγραφής (log)"
+
+msgctxt "#32304"
+msgid "Save viewstate on exit"
+msgstr "Αποθήκευση της κατάστασης κατά την έξοδο"
+
+msgctxt "#32305"
+msgid "Save viewstate on launch emu"
+msgstr "Αποθήκευση της κατάστασης κατά την εκκίνηση του εξομοιωτή"
+
+msgctxt "#32306"
+msgid "Import Games"
+msgstr "Εισαγωγή Παιχνιδιών"
+
+msgctxt "#32307"
+msgid "Import games on Kodi startup"
+msgstr "Εισαγωγή παιχνιδιών κατά την έναρξη του Kodi"
+
+msgctxt "#32308"
+msgid "Show import options dialog"
+msgstr "Εμφάνιση του παραθύρου επιλογών εισαγωγής"
+
+msgctxt "#32309"
+msgid "Scraping mode"
+msgstr "Λειτουργία scrape"
+
+msgctxt "#32312"
+msgid "Don't import games without description"
+msgstr "Να μη γίνει εισαγωγή παιχνιδιών χωρίς περιγραφή"
+
+msgctxt "#32314"
+msgid "Rescrape already imported games"
+msgstr "Επανάληψη scrape ήδη εισηγμένων παιχνιδιών"
+
+msgctxt "#32315"
+msgid "Allow overwrite with null values"
+msgstr "Να επιτρέπεται η αντικατάσταση με κενές τιμές"
+
+msgctxt "#32317"
+msgid "nfo folder path"
+msgstr "Διαδρομή φακέλου nfo"
+
+msgctxt "#32318"
+msgid "Browse Games"
+msgstr "Περιήγηση στα Παιχνίδια"
+
+msgctxt "#32319"
+msgid "Show stars for favorites"
+msgstr "Εμφάνιση αστεριών στα αγαπημένα"
+
+msgctxt "#32320"
+msgid "Show filter All Consoles"
+msgstr "Φίλτρο Όλες οι Παιχνιδομηχανές"
+
+msgctxt "#32321"
+msgid "Show filter All Genres"
+msgstr "Φίλτρο Όλα τα Είδη"
+
+msgctxt "#32322"
+msgid "Show filter All Years"
+msgstr "Φίλτρο Όλα τα Έτη"
+
+msgctxt "#32323"
+msgid "Show filter All Publishers"
+msgstr "Φίλτρο Όλοι οι Εκδότες"
+
+msgctxt "#32324"
+msgid "Show filter All Chars"
+msgstr "Φίλτρο Όλοι οι Χαρακτήρες"
+
+msgctxt "#32325"
+msgid "Prevent unfiltered search"
+msgstr "Αποτροπή αναζητήσεων χωρίς φίλτρα"
+
+msgctxt "#32326"
+msgid "Launch Games"
+msgstr "Έναρξη Παιχνιδιών"
+
+msgctxt "#32327"
+msgid "Escape emulator cmd"
+msgstr "Εντολή Escape εξομοιωτή"
+
+msgctxt "#32400"
+msgid "Year"
+msgstr "Έτος"
+
+msgctxt "#32401"
+msgid "Genre"
+msgstr "Είδος"
+
+msgctxt "#32402"
+msgid "Publisher"
+msgstr "Εκδότης"
+
+msgctxt "#32403"
+msgid "Developer"
+msgstr "Δημιουργός"
+
+msgctxt "#32404"
+msgid "Favorites"
+msgstr "Αγαπημένα"
+
+msgctxt "#32405"
+msgid "Search"
+msgstr "Αναζήτηση"
+
+msgctxt "#32406"
+msgid "Console"
+msgstr "Παιχνιδομηχανή"
+
+msgctxt "#32407"
+msgid "A-Z"
+msgstr "A-Z"
+
+msgctxt "#32408"
+msgid "View"
+msgstr "Προβολή"
+
+msgctxt "#32409"
+msgid "Filter missing infos"
+msgstr "Φιλτράρισμα ελλιπών πληροφοριών"
+
+msgctxt "#32410"
+msgid "Items"
+msgstr "Αντικείμενα"
+
+msgctxt "#32411"
+msgid "Page"
+msgstr "Σελίδα"
+
+msgctxt "#32501"
+msgid "Rescrape selected Game"
+msgstr "Επανάληψη scrape για το επιλεγμένο Παιχνίδι"
+
+msgctxt "#32502"
+msgid "Rescrape Selection"
+msgstr "Επανάληψη scrape για τα Επιλεγμένα"
+
+msgctxt "#32506"
+msgid "Edit Game Command"
+msgstr "Επεξεργασία Εντολής Παιχνιδιού"
+
+msgctxt "#32507"
+msgid "Add Game To Favorites"
+msgstr "Προσθήκη Παιχνιδιών στα Αγαπημένα"
+
+msgctxt "#32508"
+msgid "Add Selection To Favorites"
+msgstr "Προσθήκη Επιλεγμένων στα Αγαπημένα"
+
+msgctxt "#32510"
+msgid "Delete Game"
+msgstr "Διαγραφή Παιχνιδιού"
+
+msgctxt "#32514"
+msgid "Set Gameclient (per Game)"
+msgstr "Ορισμός Πελάτη Παιχνιδιών (ανά Παιχνίδι)"
+
+msgctxt "#32600"
+msgid "Configuration"
+msgstr "Διαμόρφωση"
+
+msgctxt "#32601"
+msgid "Rom Collection"
+msgstr "Συλλογή Rom"
+
+msgctxt "#32602"
+msgid "Import Games"
+msgstr "Εισαγωγή Παιχνιδιών"
+
+msgctxt "#32603"
+msgid "Import Game Data"
+msgstr "Εισαγωγή Δεδομένων Παιχνιδιών"
+
+msgctxt "#32604"
+msgid "Browse Games"
+msgstr "Περιήγηση στα Παιχνίδια"
+
+msgctxt "#32605"
+msgid "Launch Games"
+msgstr "Έναρξη Παιχνιδιών"
+
+msgctxt "#32606"
+msgid "Rom Path"
+msgstr "Διαδρομή Rom"
+
+msgctxt "#32607"
+msgid "Rom File Mask"
+msgstr "Μάσκα Αρχείων Rom"
+
+msgctxt "#32608"
+msgid "Ignore On Scan"
+msgstr "Παράβλεψη κατά τη Σάρωση"
+
+msgctxt "#32609"
+msgid "Allow Update"
+msgstr "Να επιτρέπονται Ενημερώσεις"
+
+msgctxt "#32610"
+msgid "Max Folder Depth"
+msgstr "Μέγ. Βάθος Φακέλου"
+
+msgctxt "#32611"
+msgid "Disk Indicator"
+msgstr "Ένδειξη Δίσκου"
+
+msgctxt "#32612"
+msgid "Use Foldername As Gamename"
+msgstr "Χρήση ονόματος φακέλου ως όνομα Παιχνιδιού"
+
+msgctxt "#32613"
+msgid "Scraper"
+msgstr "Scraper 1"
+
+msgctxt "#32616"
+msgid "Media Type"
+msgstr "Τύπος Πολυμέσου"
+
+msgctxt "#32617"
+msgid "Media Path"
+msgstr "Διαδρομή Πολυμέσου"
+
+msgctxt "#32618"
+msgid "Media File Mask"
+msgstr "Μάσκα Αρχείων Πολυμέσων"
+
+msgctxt "#32619"
+msgid "Remove Media Path"
+msgstr "Αφαίρεση Διαδρομής Πολυμέσου"
+
+msgctxt "#32620"
+msgid "Add Media Path"
+msgstr "Προσθήκη Διαδρομής Πολυμέσου"
+
+msgctxt "#32621"
+msgid "Images (Main window)"
+msgstr "Εικόνες (Κεντρικό παράθυρο)"
+
+msgctxt "#32622"
+msgid "Images (Info window)"
+msgstr "Εικόνες (Παράθυρο Πληροφοριών)"
+
+msgctxt "#32623"
+msgid "Autoplay Video (Main Window)"
+msgstr "Αυτόματη αναπαραγωγή Βίντεο (Κεντρικό Παράθυρο)"
+
+msgctxt "#32624"
+msgid "Emulator Cmd"
+msgstr "Εντολή Εξομοιωτή"
+
+msgctxt "#32625"
+msgid "Emulator Params"
+msgstr "Παράμετροι Εξομοιωτή"
+
+msgctxt "#32626"
+msgid "Use Emulator In Solo Mode"
+msgstr "Χρήση Εξομοιωτή σε Λειτουργία Solo"
+
+msgctxt "#32627"
+msgid "Use Popen To Launch Emulator"
+msgstr "Χρήση του Popen για την Εκκίνηση του Εξομοιωτή"
+
+msgctxt "#32628"
+msgid "Do Not Extract Zip Files"
+msgstr "Να μη γίνεται εξαγωγή αρχείων zip"
+
+msgctxt "#32629"
+msgid "Savestate path"
+msgstr "Διαδρομή Αποθηκευμένων Καταστάσεων"
+
+msgctxt "#32630"
+msgid "Savestate File Mask"
+msgstr "Μάσκα Αρχείων Αποθηκευμένης Κατάστασης"
+
+msgctxt "#32631"
+msgid "Savestate Params"
+msgstr "Παράμετροι Αποθηκευμένης Κατάστασης"
+
+msgctxt "#32632"
+msgid "Pre-Launch Cmd"
+msgstr "Εντολή Πριν την Έναρξη"
+
+msgctxt "#32633"
+msgid "Post-Launch Cmd"
+msgstr "Εντολή Μετά την Έναρξη"
+
+msgctxt "#32634"
+msgid "Save Config"
+msgstr "Αποθήκευση Διαμόρφωσης"
+
+msgctxt "#32635"
+msgid "Cancel"
+msgstr "Ακύρωση"
+
+msgctxt "#32636"
+msgid "Autoplay Video (Info Window)"
+msgstr "Αυτόματη Αναπαραγωγή Βίντεο (Παράθυρο Πληροφοριών)"
+
+msgctxt "#32637"
+msgid "Use RetroPlayer"
+msgstr "Χρήση RetroPlayer"
+
+msgctxt "#32638"
+msgid "Gameclient"
+msgstr "Πελάτης Παιχνιδιών"
+
+msgctxt "#32750"
+msgid "Region"
+msgstr "Περιοχή"
+
+msgctxt "#32751"
+msgid "Media"
+msgstr "Πολυμέσο"
+
+msgctxt "#32752"
+msgid "Controller"
+msgstr "Χειριστήριο"
+
+msgctxt "#32753"
+msgid "Rating"
+msgstr "Καταλληλότητα"
+
+msgctxt "#32754"
+msgid "Max. Players"
+msgstr "Μέγ. Παίκτες"
+
+msgctxt "#32755"
+msgid "Launch count"
+msgstr "Πλήθος Ενάρξεων"
+
+msgctxt "#32756"
+msgid "Play Game"
+msgstr "Έναρξη Παιχνιδιού"
+
+msgctxt "#32800"
+msgid "Import Games"
+msgstr "Εισαγωγή Παιχνιδιών"
+
+msgctxt "#32801"
+msgid "Scraping mode"
+msgstr "Λειτουργία scrape"
+
+msgctxt "#32802"
+msgid "Change scraper for this run"
+msgstr "Αλλαγή scraper αυτήν τη φορά"
+
+msgctxt "#32850"
+msgid "RCB - Missing info filter"
+msgstr "RCB - Φίλτρο ελλιπών πληροφοριών"
+
+msgctxt "#32851"
+msgid "Filter mode"
+msgstr "Λειτουργία φίλτρου"
+
+msgctxt "#32852"
+msgid "Filter games with missing artwork"
+msgstr "Φιλτράρισμα παιχνιδιών από τα οποία λείπουν εικόνες"
+
+msgctxt "#32853"
+msgid "ONE of these items missing"
+msgstr "ΕΝΑ από αυτά τα αντικείμενα λείπει"
+
+msgctxt "#32854"
+msgid "None"
+msgstr "Κανένα"
+
+msgctxt "#32855"
+msgid "Add item"
+msgstr "Προσθήκη αντικειμένου"
+
+msgctxt "#32856"
+msgid "Remove item"
+msgstr "Αφαίρεση αντικειμένου"
+
+msgctxt "#32857"
+msgid "ALL of these items missing"
+msgstr "ΟΛΑ αυτά τα αντικείμενα λείπουν"
+
+msgctxt "#32858"
+msgid "Filter games with missing info"
+msgstr "Φιλτράρισμα παιχνιδιών με ελλιπείς πληροφορίες"
+
+msgctxt "#32900"
+msgid "RCB - Delete Rom Collection"
+msgstr "RCB - Διαγραφή Συλλογής Rom"
+
+msgctxt "#32901"
+msgid "Removal Option"
+msgstr "Επιλογή Αφαίρεσης"
+
+msgctxt "#32902"
+msgid "Delete"
+msgstr "Διαγραφή"
+
+msgctxt "#32999"
+msgid "Rom Collection Browser"
+msgstr "Περιήγηση Συλλογής Rom"
+

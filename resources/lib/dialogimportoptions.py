@@ -1,3 +1,5 @@
+from __future__ import absolute_import
+from builtins import str
 from config import *
 from util import *
 import util
@@ -140,7 +142,7 @@ class ImportOptionsDialog(DialogBase):
 
         siteName = scraperItem.getLabel()
 
-        for rcId in romCollections.keys():
+        for rcId in list(romCollections.keys()):
             romCollection = self.gui.config.romCollections[rcId]
 
             sites = []
