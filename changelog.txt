@@ -1,8 +1,17 @@
 2.2.4 (04/2020)
 ~~~~~~~~~~~~~
+General:
+  * fixed issue with saving changes in view mode on KODI 18 (Leia)
+  
 Import Games:
   * change url to thegamesdb API (v1)
   * remove legacy.thegamesdb.net scraper
+  * fixed issue with games which have dots in its name
+  * fixed issue with local (game-database-info) scraping for games with apostrophe in its name
+  * prepare game names for search with thegamesdb scraper
+  
+Browse Games:
+  * stop video playback when next game has no video
 
 2.2.3 (08/2018)
 ~~~~~~~~~~~~~
