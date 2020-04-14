@@ -85,6 +85,8 @@ class RCBLauncher(object):
 
         # update LaunchCount
         launchCount = gameRow[GameView.COL_launchCount]
+        if launchCount is None:
+           launchCount = 0
         Game(gdb).update(('launchCount',), (launchCount + 1,), gameRow[Game.COL_ID], True)
         gdb.commit()
 
