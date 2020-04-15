@@ -5,16 +5,21 @@ import os, shutil, sys
 import unittest
 
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', '..', 'resources', 'lib'))
+sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', '..', 'resources', 'lib', 'launcher'))
 
 from gamedatabase import GameDataBase, File, GameView
-from launcher import RCBLauncher
+from old_launcher import RCBLauncher
+from base_launcher import AbstractLauncher
 from config import Config
 
 
 class RCBMockGui(object):
     itemCount = 0
-    def writeMsg(self, msg1, msg2, msg3, count=0):
+    def writeMsg(self, msg1):
         return True
+
+    def saveViewState(self, isOnExit):
+        pass
 
 
 class TestLauncher(unittest.TestCase):
@@ -153,3 +158,14 @@ class TestLauncher(unittest.TestCase):
         rcb_launcher.romCollection = conf.romCollections[str(game[GameView.COL_romCollectionId])]
         cmd, precmd, postcmd, roms = rcb_launcher._buildCmd(RCBMockGui(), filename_rows, game, False)
         self.assertEquals(cmd, '"/Path/To/PSX/Emulator" "Bushido Blade.img"')
+
+    def test_get_launcher_by_gameid(self):
+        config_xml_file = os.path.join(os.path.dirname(__file__), 'testdata', 'config',
+                                       'romcollections_launchertests.xml')
+        conf = Config(config_xml_file)
+        conf.readXml()
+
+        gameid = 7
+
+        #newlauncher = AbstractLauncher(self.gdb, conf, RCBMockGui()).get_launcher_by_gameid(gameid)
+        AbstractLauncher(self.gdb, conf, RCBMockGui()).launch_game(gameid)
