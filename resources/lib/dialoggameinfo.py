@@ -3,7 +3,7 @@ from __future__ import absolute_import
 from builtins import str
 import xbmc, xbmcgui
 import helper, util
-from launcher import RCBLauncher
+from base_launcher import AbstractLauncher
 from util import *
 from gamedatabase import *
 
@@ -198,8 +198,7 @@ class UIGameInfoView(xbmcgui.WindowXMLDialog):
 
         Logutil.log("Begin launchEmu UIGameInfoView", util.LOG_LEVEL_INFO)
 
-        launcher = RCBLauncher()
-        launcher.launchEmu(self.gdb, self, self.selectedGameId, self.config, self.selectedGame)
+        AbstractLauncher(self.gdb, self.config, self).launch_game(self.selectedGameId, self.selectedGame)
 
         self.saveViewState(False)
         self.close()

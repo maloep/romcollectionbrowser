@@ -27,6 +27,7 @@ BASE_RESOURCE_PATH = os.path.join(addonPath, "resources")
 
 sys.path.append(os.path.join(BASE_RESOURCE_PATH, "lib"))
 sys.path.append(os.path.join(BASE_RESOURCE_PATH, "lib", "pyscraper"))
+sys.path.append(os.path.join(BASE_RESOURCE_PATH, "lib", "launcher"))
 
 # append the proper platforms folder to our path, xbox is the same as win32
 env = (os.environ.get("OS", "win32"), "win32",)[os.environ.get("OS", "win32") == "xbox"]
@@ -168,7 +169,7 @@ class Main(object):
 
     def launchGame(self, param):
         import util
-        from launcher import RCBLauncher
+        from base_launcher import AbstractLauncher
         from gamedatabase import GameDataBase
         from config import Config
 
@@ -184,7 +185,8 @@ class Main(object):
 
         gui = dummyGUI()
 
-        RCBLauncher().launchEmu(gdb, gui, gameId, config, None)
+        #RCBLauncher().launchEmu(gdb, gui, gameId, config, None)
+        AbstractLauncher(gdb, config, gui).launch_game(gameId, None)
 
 
 if __name__ == "__main__":

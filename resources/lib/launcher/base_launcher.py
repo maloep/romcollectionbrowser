@@ -1,5 +1,6 @@
 
 import os, re, glob
+import traceback
 import zipfile
 
 import util
@@ -39,19 +40,22 @@ class AbstractLauncher(object):
         self.escapeCmd = __addon__.getSetting(util.SETTING_RCB_ESCAPECOMMAND).upper() == 'TRUE'
         self.env = (os.environ.get("OS", "win32"), "win32",)[os.environ.get("OS", "win32") == "xbox"]
 
-    def launch_game(self, gameid):
+    def launch_game(self, gameid, listitem):
+        log.info("AbstractLauncher.launch_game()")
+        try:
+            launcher = self.get_launcher_by_gameid(gameid)
+            if(launcher is None):
+                log.error("Launcher could not be created.")
+                return
 
-        launcher = self.get_launcher_by_gameid(gameid)
-        if(launcher is None):
-            log.error("Launcher could not be created.")
-            return
-
-        launcher.prepare(self.romCollection, self.gameRow)
-        launcher.pre_launch(self.romCollection, self.gameRow)
-        launcher.launch(self.romCollection, self.gameRow)
-        launcher.post_launch(self.romCollection, self.gameRow)
-
-
+            precmd, postcmd, cmd, roms = launcher.prepare(self.romCollection, self.gameRow)
+            launcher.pre_launch(self.romCollection, self.gameRow, precmd)
+            launcher.launch(self.romCollection, self.gameRow, cmd, roms, listitem)
+            launcher.post_launch(self.romCollection, self.gameRow, postcmd)
+        except Exception as exc:
+            error = "%s: %s" %(util.localize(32035), str(exc))
+            traceback.print_exc()
+            self.gui.writeMsg(error)
 
     def get_launcher_by_gameid(self, gameid):
         """Returns the launcher class based on romCollection.useBuiltinEmulator
@@ -59,8 +63,7 @@ class AbstractLauncher(object):
         Args:
             gameid: the id of the game we want to launch
         """
-        log.info("Begin launcher.launchEmu")
-
+        log.info("AbstractLauncher.get_launcher_by_gameid()")
         self.gameRow = GameView(self.gdb).getObjectById(gameid)
         if self.gameRow is None:
             log.error("Game with id %s could not be found in database" % gameid)
@@ -142,22 +145,25 @@ class AbstractLauncher(object):
 
         cmd = self.replace_diskname(cmd, diskName)
 
-        print (cmd)
+        cmd = self.prepare_solomode(romCollection, cmd)
+
+        self.__update_launchcount(gameRow)
+
+        log.info("cmd: " + cmd)
+        log.info("precmd: " + precmd)
+        log.info("postcmd: " + postcmd)
+        return precmd, postcmd, cmd, roms
 
 
-
-
-
-
-    def pre_launch(self, romCollection, gameRow):
+    def pre_launch(self, romCollection, gameRow, precmd):
         log.info("AbstractLauncher.pre_launch()")
         pass
 
-    def launch(self, romCollection, gameRow):
+    def launch(self, romCollection, gameRow, cmd, roms, listitem):
         log.info("AbstractLauncher.launch()")
         pass
 
-    def post_launch(self, romCollection, gameRow):
+    def post_launch(self, romCollection, gameRow, postcmd):
         log.info("AbstractLauncher.post_launch()")
         pass
 
@@ -165,7 +171,7 @@ class AbstractLauncher(object):
         log.info("AbstractLauncher.prepareMultiRomCommand()")
         return "", ""
 
-    def replace_gamecmd(self, emuParams):
+    def replace_gamecmd(self, gameRow, emuParams):
         log.info("AbstractLauncher.replace_gamecmd()")
         return ""
 
@@ -176,6 +182,10 @@ class AbstractLauncher(object):
     def build_cmd(self, romCollection, gameRow, roms, fileindex, emuParams, part_to_repeat_in_emuparams):
         log.info("AbstractLauncher.build_cmd()")
         return "", "", ""
+
+    def prepare_solomode(self, romCollection, cmd):
+        log.info("AbstractLauncher.prepare_solomode()")
+        return cmd
 
 
 
@@ -315,7 +325,7 @@ class AbstractLauncher(object):
         filext = rom.split('.')[-1]
         roms = [rom]
         if filext in self.compressedExtensions and not romCollection.doNotExtractZipFiles and saveStateParams == '' and not self.calledFromSkin:
-            roms = self.__handleCompressedFile(self.gui, filext, rom, emuParams)
+            roms = self.__handleCompressedFile(romCollection, filext, rom, emuParams)
             log.debug("roms compressed = " + str(roms))
             if len(roms) == 0:
                 return None
@@ -416,68 +426,76 @@ class AbstractLauncher(object):
 
         return roms
 
-        # Compressed files functions
-        def __getNames(self, compression_type, filepath):
-            return {'zip': self.__getNamesZip,
-                    '7z': self.__getNames7z}[compression_type](filepath)
+    # Compressed files functions
+    def __getNames(self, compression_type, filepath):
+        return {'zip': self.__getNamesZip,
+                '7z': self.__getNames7z}[compression_type](filepath)
 
-        def __getNames7z(self, filepath):
+    def __getNames7z(self, filepath):
 
-            try:
-                import py7zlib
-            except ImportError as e:
-                # 32039 = Error launching .7z file.
-                # 32129 = Please check kodi.log for details.
-                message = "%s[CR]%s" % (util.localize(32039), util.localize(32129))
-                xbmcgui.Dialog().ok(util.SCRIPTNAME, message)
-                msg = (
-                    "You have tried to launch a .7z file but you are missing required libraries to extract the file. "
-                    "You can download the latest RCB version from RCBs project page. It contains all required libraries.")
-                log.error(msg)
-                log.error("Error: " + str(e))
-                return None
+        try:
+            import py7zlib
+        except ImportError as e:
+            # 32039 = Error launching .7z file.
+            # 32129 = Please check kodi.log for details.
+            message = "%s[CR]%s" % (util.localize(32039), util.localize(32129))
+            xbmcgui.Dialog().ok(util.SCRIPTNAME, message)
+            msg = (
+                "You have tried to launch a .7z file but you are missing required libraries to extract the file. "
+                "You can download the latest RCB version from RCBs project page. It contains all required libraries.")
+            log.error(msg)
+            log.error("Error: " + str(e))
+            return None
 
-            fp = open(str(filepath), 'rb')
-            archive = py7zlib.Archive7z(fp)
-            names = archive.getnames()
-            fp.close()
-            return names
+        fp = open(str(filepath), 'rb')
+        archive = py7zlib.Archive7z(fp)
+        names = archive.getnames()
+        fp.close()
+        return names
 
-        def __getNamesZip(self, filepath):
-            fp = open(str(filepath), 'rb')
-            archive = zipfile.ZipFile(fp)
-            names = archive.namelist()
-            fp.close()
-            return names
+    def __getNamesZip(self, filepath):
+        fp = open(str(filepath), 'rb')
+        archive = zipfile.ZipFile(fp)
+        names = archive.namelist()
+        fp.close()
+        return names
 
-        def __getArchives(self, compression_type, filepath, archiveList):
-            return {'zip': self.__getArchivesZip,
-                    '7z': self.__getArchives7z}[compression_type](filepath, archiveList)
+    def __getArchives(self, compression_type, filepath, archiveList):
+        return {'zip': self.__getArchivesZip,
+                '7z': self.__getArchives7z}[compression_type](filepath, archiveList)
 
-        def __getArchives7z(self, filepath, archiveList):
+    def __getArchives7z(self, filepath, archiveList):
 
-            try:
-                import py7zlib
-            except ImportError:
-                # 32039 = Error launching .7z file.
-                # 32129 = Please check kodi.log for details.
-                message = "%s[CR]%s" % (util.localize(32039), util.localize(32129))
-                xbmcgui.Dialog().ok(util.SCRIPTNAME, message)
-                msg = (
-                    "You have tried to launch a .7z file but you are missing required libraries to extract the file. "
-                    "You can download the latest RCB version from RCBs project page. It contains all required libraries.")
-                log.error(msg)
-                return None
+        try:
+            import py7zlib
+        except ImportError:
+            # 32039 = Error launching .7z file.
+            # 32129 = Please check kodi.log for details.
+            message = "%s[CR]%s" % (util.localize(32039), util.localize(32129))
+            xbmcgui.Dialog().ok(util.SCRIPTNAME, message)
+            msg = (
+                "You have tried to launch a .7z file but you are missing required libraries to extract the file. "
+                "You can download the latest RCB version from RCBs project page. It contains all required libraries.")
+            log.error(msg)
+            return None
 
-            fp = open(str(filepath), 'rb')
-            archive = py7zlib.Archive7z(fp)
-            archivesDecompressed = [(name, archive.getmember(name).read()) for name in archiveList]
-            fp.close()
-            return archivesDecompressed
+        fp = open(str(filepath), 'rb')
+        archive = py7zlib.Archive7z(fp)
+        archivesDecompressed = [(name, archive.getmember(name).read()) for name in archiveList]
+        fp.close()
+        return archivesDecompressed
 
-        def __getArchivesZip(self, filepath, archiveList):
-            fp = open(str(filepath), 'rb')
-            archive = zipfile.ZipFile(fp)
-            archivesDecompressed = [(name, archive.read(name)) for name in archiveList]
-            fp.close()
-            return archivesDecompressed
+    def __getArchivesZip(self, filepath, archiveList):
+        fp = open(str(filepath), 'rb')
+        archive = zipfile.ZipFile(fp)
+        archivesDecompressed = [(name, archive.read(name)) for name in archiveList]
+        fp.close()
+        return archivesDecompressed
+
+    def __update_launchcount(self, gameRow):
+        # update LaunchCount
+        launchCount = gameRow[GameView.COL_launchCount]
+        if launchCount is None:
+            launchCount = 0
+        Game(self.gdb).update(('launchCount',), (launchCount + 1,), gameRow[Game.COL_ID], True)
+        self.gdb.commit()

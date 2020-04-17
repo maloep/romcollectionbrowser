@@ -1010,9 +1010,8 @@ class UIGameDB(xbmcgui.WindowXML):
             #self.player.stoppedByRCB = True
             self.player.stop()
 
-        from launcher import RCBLauncher
-        launcher = RCBLauncher()
-        launcher.launchEmu(self.gdb, self, gameId, self.config, selectedGame)
+        from base_launcher import AbstractLauncher
+        AbstractLauncher(self.gdb, self.config, self).launch_game(gameId, selectedGame)
         Logutil.log("End launchEmu", util.LOG_LEVEL_INFO)
 
     def updateDB(self):
