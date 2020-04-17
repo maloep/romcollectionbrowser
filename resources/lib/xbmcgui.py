@@ -1294,7 +1294,7 @@ class ListItem(object):
         """Returns the listitem's selected status."""
         return bool(1)
 
-    def setInfo(self, infotype, infoLabels):
+    def setInfo(self, type, infoLabels):
         """Sets the listitem's infoLabels.
 
         :param type: string - type of media(video/music/pictures).

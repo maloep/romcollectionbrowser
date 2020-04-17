@@ -11,10 +11,12 @@ from gamedatabase import GameDataBase, File, GameView
 from old_launcher import RCBLauncher
 from base_launcher import AbstractLauncher
 from config import Config
+import xbmc
 
 
 class RCBMockGui(object):
     itemCount = 0
+    player = xbmc.Player()
     def writeMsg(self, msg1):
         return True
 
@@ -44,6 +46,19 @@ class TestLauncher(unittest.TestCase):
         # Cleanup
         cls.gdb.close()
         os.remove(os.path.join(os.path.join(cls.get_testdata_path(), 'database'), 'MyGames.db'))
+
+    def test_get_launcher_by_gameid(self):
+        config_xml_file = os.path.join(os.path.dirname(__file__), 'testdata', 'config',
+                                       'romcollections_launchertests.xml')
+        conf = Config(config_xml_file)
+        conf.readXml()
+
+        gameid = 10
+
+        #newlauncher = AbstractLauncher(self.gdb, conf, RCBMockGui()).get_launcher_by_gameid(gameid)
+        AbstractLauncher(self.gdb, conf, RCBMockGui()).launch_game(gameid, None)
+
+
 
     def test_buildCmd_multidisc(self):
         rcb_launcher = RCBLauncher()
@@ -158,14 +173,3 @@ class TestLauncher(unittest.TestCase):
         rcb_launcher.romCollection = conf.romCollections[str(game[GameView.COL_romCollectionId])]
         cmd, precmd, postcmd, roms = rcb_launcher._buildCmd(RCBMockGui(), filename_rows, game, False)
         self.assertEquals(cmd, '"/Path/To/PSX/Emulator" "Bushido Blade.img"')
-
-    def test_get_launcher_by_gameid(self):
-        config_xml_file = os.path.join(os.path.dirname(__file__), 'testdata', 'config',
-                                       'romcollections_launchertests.xml')
-        conf = Config(config_xml_file)
-        conf.readXml()
-
-        gameid = 7
-
-        #newlauncher = AbstractLauncher(self.gdb, conf, RCBMockGui()).get_launcher_by_gameid(gameid)
-        AbstractLauncher(self.gdb, conf, RCBMockGui()).launch_game(gameid)

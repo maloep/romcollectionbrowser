@@ -28,7 +28,7 @@
             <scraper name="thegamesdb.net" />
         </RomCollection>
     	<RomCollection id="2" name="Atari 2600">
-            <useBuiltinEmulator>False</useBuiltinEmulator>
+            <useBuiltinEmulator>True</useBuiltinEmulator>
             <gameclient />
             <emulatorCmd>/Path/To/Atari2600/Emulator</emulatorCmd>
             <emulatorParams>"%ROM%"</emulatorParams>
@@ -56,7 +56,7 @@
             <scraper name="thegamesdb.net" />
         </RomCollection>
         <RomCollection id="3" name="N64">
-            <useBuiltinEmulator>False</useBuiltinEmulator>
+            <useBuiltinEmulator>True</useBuiltinEmulator>
             <gameclient />
             <emulatorCmd>/Path/To/N64/Emulator</emulatorCmd>
             <emulatorParams>"%ROM%"</emulatorParams>
