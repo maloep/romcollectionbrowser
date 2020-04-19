@@ -2813,7 +2813,7 @@ class Dialog(object):
             dialog = xbmcgui.Dialog()
             d = dialog.input('Enter secret code', type=xbmcgui.INPUT_ALPHANUM, option=xbmcgui.ALPHANUM_HIDE_INPUT)
         """
-        return str()
+        return "Text"
 
     def numeric(self, type, heading, defaultt=''):
         """Show a 'Numeric' dialog.
@@ -2919,6 +2919,10 @@ class Dialog(object):
             dialog = xbmcgui.Dialog()
             ret = dialog.select('Choose a playlist', ['Playlist #1', 'Playlist #2, 'Playlist #3'])
         """
+        #return testspecific data
+        if("Chrono Trigger.state" in list_):
+            return 1
+
         return self.select_result
 
     def contextmenu(self, list_):

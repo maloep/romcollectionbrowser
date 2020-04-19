@@ -180,6 +180,8 @@ def mkdir(path):
 
         success = xbmcfvs.mkdir(path)
     """
+    if(not os.path.exists(path)):
+        os.mkdir(path)
     return bool(1)
 
 
