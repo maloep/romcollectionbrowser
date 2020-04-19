@@ -106,7 +106,6 @@ class AbstractLauncher(object):
         instance.config = self.config
         return instance
 
-
     def prepare(self, romCollection, gameRow):
         log.info("AbstractLauncher.prepare()")
 
@@ -117,10 +116,10 @@ class AbstractLauncher(object):
         log.info("files for current game: " + str(filenameRows))
 
         # handle savestates
-        saveStateParams = self.__checkGameHasSaveStates(romCollection, gameRow, filenameRows)
+        saveStateParams = self.checkGameHasSaveStates(romCollection, gameRow, filenameRows)
 
         # ask for disc number if multidisc game
-        diskName = self.__selectdisc(romCollection, filenameRows, self.calledFromSkin)
+        diskName = self._selectdisc(romCollection, filenameRows, self.calledFromSkin)
 
         # params could be: {-%I% %ROM%}
         # we have to repeat the part inside the brackets and replace the %I% with the current index
@@ -136,7 +135,7 @@ class AbstractLauncher(object):
             rom = fileNameRow[0]
             log.info("rom: " + rom)
 
-            rom = self.__copylocal(romCollection, rom)
+            rom = self._copylocal(romCollection, rom)
 
             roms = self.__extract_archive(romCollection, rom, saveStateParams, emuParams)
 
@@ -153,7 +152,6 @@ class AbstractLauncher(object):
         log.info("precmd: " + precmd)
         log.info("postcmd: " + postcmd)
         return precmd, postcmd, cmd, roms
-
 
     def pre_launch(self, romCollection, gameRow, precmd):
         log.info("AbstractLauncher.pre_launch()")
@@ -187,10 +185,8 @@ class AbstractLauncher(object):
         log.info("AbstractLauncher.prepare_solomode()")
         return cmd
 
-
-
-    def __checkGameHasSaveStates(self, romCollection, gameRow, filenameRows):
-
+    def checkGameHasSaveStates(self, romCollection, gameRow, filenameRows):
+        log.info("AbstractLauncher.checkGameHasSaveStates()")
         stateFile = ''
 
         if romCollection.saveStatePath == '':
@@ -226,63 +222,52 @@ class AbstractLauncher(object):
             saveStateParams = romCollection.saveStateParams
             if self.escapeCmd:
                 stateFile = re.escape(stateFile)
-            saveStateParams = saveStateParams.replace('%statefile%', stateFile)
-            saveStateParams = saveStateParams.replace('%STATEFILE%', stateFile)
-            saveStateParams = saveStateParams.replace('%Statefile%', stateFile)
+
+            pattern = re.compile('%statefile%', re.IGNORECASE)
+            saveStateParams = pattern.sub(stateFile, saveStateParams)
 
         return saveStateParams
 
     def replacePlaceholdersInParams(self, emuParams, rom, gameRow):
 
-        if self.escapeCmd:
-            rom = re.escape(rom)
-
-        # TODO: Wanted to do this with re.sub:
-        # emuParams = re.sub(r'(?i)%rom%', rom, emuParams)
-        # --> but this also replaces \r \n with linefeed and newline etc.
+        #escape \ in rom file names
+        rom = rom.replace('\\', r'\\')
 
         # full rom path ("C:\Roms\rom.zip")
-        emuParams = emuParams.replace('%rom%', rom)
-        emuParams = emuParams.replace('%ROM%', rom)
-        emuParams = emuParams.replace('%Rom%', rom)
+        pattern = re.compile('%rom%', re.IGNORECASE)
+        emuParams = pattern.sub(rom, emuParams)
 
         # romfile ("rom.zip")
         romfile = os.path.basename(rom)
-        emuParams = emuParams.replace('%romfile%', romfile)
-        emuParams = emuParams.replace('%ROMFILE%', romfile)
-        emuParams = emuParams.replace('%Romfile%', romfile)
+        pattern = re.compile('%romfile%', re.IGNORECASE)
+        emuParams = pattern.sub(romfile, emuParams)
 
         # romname ("rom")
         romname = os.path.splitext(os.path.basename(rom))[0]
-        emuParams = emuParams.replace('%romname%', romname)
-        emuParams = emuParams.replace('%ROMNAME%', romname)
-        emuParams = emuParams.replace('%Romname%', romname)
+        pattern = re.compile('%romname%', re.IGNORECASE)
+        emuParams = pattern.sub(romname, emuParams)
 
         # gamename
         gamename = str(gameRow[DataBaseObject.COL_NAME])
-        emuParams = emuParams.replace('%game%', gamename)
-        emuParams = emuParams.replace('%GAME%', gamename)
-        emuParams = emuParams.replace('%Game%', gamename)
+        pattern = re.compile('%game%', re.IGNORECASE)
+        emuParams = pattern.sub(gamename, emuParams)
 
         # ask num
         if re.search('(?i)%ASKNUM%', emuParams):
             options = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9']
             number = str(xbmcgui.Dialog().select(util.localize(32167), options))
-            emuParams = emuParams.replace('%asknum%', number)
-            emuParams = emuParams.replace('%ASKNUM%', number)
-            emuParams = emuParams.replace('%Asknum%', number)
+            pattern = re.compile('%asknum%', re.IGNORECASE)
+            emuParams = pattern.sub(number, emuParams)
 
         # ask text
         if re.search('(?i)%ASKTEXT%', emuParams):
             command = xbmcgui.Dialog().input(util.localize(32168), type=xbmcgui.INPUT_ALPHANUM)
-
-            emuParams = emuParams.replace('%asktext%', command)
-            emuParams = emuParams.replace('%ASKTEXT%', command)
-            emuParams = emuParams.replace('%Asktext%', command)
+            pattern = re.compile('%asktext%', re.IGNORECASE)
+            emuParams = pattern.sub(command, emuParams)
 
         return emuParams
 
-    def __selectdisc(self, romCollection, filenameRows, calledFromSkin):
+    def _selectdisc(self, romCollection, filenameRows, calledFromSkin):
         diskName = ''
         if romCollection.diskPrefix != '' and '%I%' not in romCollection.emulatorParams:
             log.info("Getting Multiple Disc Parameter")
@@ -303,14 +288,17 @@ class AbstractLauncher(object):
                     log.info("Chosen Disc: %s" % diskName)
         return diskName
 
-    def __copylocal(self, romCollection, rom):
+    def _copylocal(self, romCollection, rom):
         if romCollection.makeLocalCopy:
-            localDir = os.path.join(util.getTempDir(), self.romCollection.name)
+            localDir = os.path.join(util.getTempDir(), romCollection.name)
             if xbmcvfs.exists(localDir + '\\'):
                 log.info("Trying to delete local rom files")
                 dirs, files = xbmcvfs.listdir(localDir)
                 for f in files:
                     xbmcvfs.delete(os.path.join(localDir, f))
+            else:
+                log.info("Create temporary folder: " + localDir)
+                xbmcvfs.mkdir(localDir)
             localRom = os.path.join(localDir, os.path.basename(str(rom)))
             log.info("Creating local copy: " + str(localRom))
             if xbmcvfs.copy(rom, localRom):
