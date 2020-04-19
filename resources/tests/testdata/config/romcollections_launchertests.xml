@@ -103,7 +103,7 @@
             <useFoldernameAsGamename>False</useFoldernameAsGamename>
             <maxFolderDepth>99</maxFolderDepth>
             <doNotExtractZipFiles>False</doNotExtractZipFiles>
-            <makeLocalCopy>False</makeLocalCopy>
+            <makeLocalCopy>True</makeLocalCopy>
             <diskPrefix>\(Disc.*\)</diskPrefix>
             <imagePlacingMain>gameinfobig</imagePlacingMain>
             <imagePlacingInfo>gameinfosmall</imagePlacingInfo>
@@ -116,8 +116,8 @@
             <emulatorParams>-v -L /Applications/RetroArch.app/Contents/Resources/cores/bnes_libretro.dylib "%rom%"</emulatorParams>
             <romPath>/Path/To/Roms/GBA/*.zip</romPath>
             <romPath>/Path/To/Roms/GBA/*.smc</romPath>
-            <saveStatePath />
-            <saveStateParams />
+            <saveStatePath>./testdata/savestates/SNES/%GAME%.state</saveStatePath>
+            <saveStateParams>%STATEFILE%</saveStateParams>
             <mediaPath type="boxfront">./testdata/artwork/SNES/%GAME%/boxfront.*</mediaPath>
             <mediaPath type="screenshot">./testdata/artwork/SNES/%GAME%/screenshot.*</mediaPath>
             <preCmd />
