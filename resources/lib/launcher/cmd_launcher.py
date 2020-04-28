@@ -65,21 +65,22 @@ class Cmd_Launcher(AbstractLauncher):
         emuParams = re.sub('(?i)%gamecmd%', gameCmd, emuParams)
         return emuParams
 
-    def replace_diskname(self, cmd, diskName):
+    def replace_diskname(self, romCollection, cmd, diskName):
         # A disk was chosen by the user, select it here
         if diskName:
             log.info("Choosing Disk: " + str(diskName))
-            match = re.search(self.romCollection.diskPrefix.lower(), cmd.lower())
+            match = re.search(romCollection.diskPrefix.lower(), cmd.lower())
             replString = cmd[match.start():match.end()]
             cmd = cmd.replace(replString, diskName)
         return cmd
 
-    def build_cmd(self, romCollection, gameRow, roms, fileindex, emuParams, part_to_repeat_in_emuparams):
+    def build_cmd(self, romCollection, gameRow, roms, emuParams, part_to_repeat_in_emuparams):
 
         emuCommandLine = romCollection.emulatorCmd
         cmd = ''
+        romindex = 0
         for rom in roms:
-            if fileindex == 0:
+            if romindex == 0:
                 emuParams = super().replacePlaceholdersInParams(emuParams, rom, gameRow)
                 if self.escapeCmd:
                     emuCommandLine = re.escape(emuCommandLine)
@@ -87,14 +88,14 @@ class Cmd_Launcher(AbstractLauncher):
                 if romCollection.name in ['Linux', 'Macintosh', 'Windows']:
                     cmd = super().replacePlaceholdersInParams(emuCommandLine, rom, gameRow)
                 else:
-                    cmd = '\"' + emuCommandLine + '\" ' + emuParams.replace('%I%', str(fileindex))
+                    cmd = '\"' + emuCommandLine + '\" ' + emuParams.replace('%I%', str(romindex))
             else:
                 newrepl = part_to_repeat_in_emuparams
                 newrepl = super().replacePlaceholdersInParams(newrepl, rom, gameRow)
                 if self.escapeCmd:
                     emuCommandLine = re.escape(emuCommandLine)
 
-                newrepl = newrepl.replace('%I%', str(fileindex))
+                newrepl = newrepl.replace('%I%', str(romindex))
                 if newrepl:
                     cmd += ' ' + newrepl
 
@@ -105,6 +106,8 @@ class Cmd_Launcher(AbstractLauncher):
 
             precmd = cmdprefix + super().replacePlaceholdersInParams(romCollection.preCmd, rom, gameRow)
             postcmd = cmdprefix + super().replacePlaceholdersInParams(romCollection.postCmd, rom, gameRow)
+
+            romindex += 1
 
         return  precmd, postcmd, cmd
 

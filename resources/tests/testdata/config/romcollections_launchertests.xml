@@ -113,7 +113,7 @@
             <useBuiltinEmulator>False</useBuiltinEmulator>
             <gameclient />
             <emulatorCmd>/Path/To/SNES/Emulator</emulatorCmd>
-            <emulatorParams>-v -L /Applications/RetroArch.app/Contents/Resources/cores/bnes_libretro.dylib "%rom%"</emulatorParams>
+            <emulatorParams>-v -L /Applications/RetroArch.app/Contents/Resources/cores/bnes_libretro.lib "%rom%"</emulatorParams>
             <romPath>/Path/To/Roms/GBA/*.zip</romPath>
             <romPath>/Path/To/Roms/GBA/*.smc</romPath>
             <saveStatePath>./testdata/savestates/SNES/%GAME%.state</saveStatePath>

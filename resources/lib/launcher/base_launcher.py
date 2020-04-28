@@ -137,12 +137,12 @@ class AbstractLauncher(object):
 
             rom = self._copylocal(romCollection, rom)
 
-            roms = self.__extract_archive(romCollection, rom, saveStateParams, emuParams)
+            extracted_roms = self.__extract_archive(romCollection, rom, saveStateParams, emuParams)
+            roms.append(extracted_roms)
 
-            precmd, postcmd, cmd = self.build_cmd(romCollection, gameRow, roms, fileindex, emuParams, part_to_repeat_in_emuparams)
-            fileindex += 1
+        precmd, postcmd, cmd = self.build_cmd(romCollection, gameRow, roms, emuParams, part_to_repeat_in_emuparams)
 
-        cmd = self.replace_diskname(cmd, diskName)
+        cmd = self.replace_diskname(romCollection, cmd, diskName)
 
         cmd = self.prepare_solomode(romCollection, cmd)
 
@@ -173,11 +173,11 @@ class AbstractLauncher(object):
         log.info("AbstractLauncher.replace_gamecmd()")
         return ""
 
-    def replace_diskname(self, cmd, diskName):
+    def replace_diskname(self, romCollection, cmd, diskName):
         log.info("AbstractLauncher.replace_disk_name()")
         return cmd
 
-    def build_cmd(self, romCollection, gameRow, roms, fileindex, emuParams, part_to_repeat_in_emuparams):
+    def build_cmd(self, romCollection, gameRow, roms, emuParams, part_to_repeat_in_emuparams):
         log.info("AbstractLauncher.build_cmd()")
         return "", "", ""
 
@@ -188,6 +188,7 @@ class AbstractLauncher(object):
     def checkGameHasSaveStates(self, romCollection, gameRow, filenameRows):
         log.info("AbstractLauncher.checkGameHasSaveStates()")
         stateFile = ''
+        saveStateParams = ''
 
         if romCollection.saveStatePath == '':
             log.debug("No save state path set")

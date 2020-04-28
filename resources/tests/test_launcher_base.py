@@ -26,7 +26,7 @@ class RCBMockGui(object):
         pass
 
 
-class TestLauncher(unittest.TestCase):
+class TestLauncher_Base(unittest.TestCase):
 
     @classmethod
     def get_testdata_path(cls):
@@ -82,6 +82,9 @@ class TestLauncher(unittest.TestCase):
         romCollection = conf.romCollections[str(gameRow[GameView.COL_romCollectionId])]
         filenameRows = File(self.gdb).getRomsByGameId(gameRow[DataBaseObject.COL_ID])
 
+        from xbmcgui import Dialog
+        Dialog.select_result = 1
+
         abs_launcher = AbstractLauncher(self.gdb, conf, RCBMockGui())
         savestateparams = abs_launcher.checkGameHasSaveStates(romCollection, gameRow, filenameRows)
 
@@ -121,8 +124,9 @@ class TestLauncher(unittest.TestCase):
         self.assertEqual('Chrono Trigger', emuparams)
 
         emulatorParams = '%asknum%'
+        from xbmcgui import Dialog
+        Dialog.select_result = 0
         emuparams = abs_launcher.replacePlaceholdersInParams(emulatorParams, rom, gameRow)
-        # xbmcgui.Dialog.input() returns "0"
         self.assertEqual('0', emuparams)
 
         emulatorParams = '%asktext%'

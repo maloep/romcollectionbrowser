@@ -2919,10 +2919,6 @@ class Dialog(object):
             dialog = xbmcgui.Dialog()
             ret = dialog.select('Choose a playlist', ['Playlist #1', 'Playlist #2, 'Playlist #3'])
         """
-        #return testspecific data
-        if("Chrono Trigger.state" in list_):
-            return 1
-
         return self.select_result
 
     def contextmenu(self, list_):
