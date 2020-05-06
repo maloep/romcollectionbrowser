@@ -138,7 +138,7 @@ class AbstractLauncher(object):
             rom = self._copylocal(romCollection, rom)
 
             extracted_roms = self.__extract_archive(romCollection, rom, saveStateParams, emuParams)
-            roms.append(extracted_roms)
+            roms.extend(extracted_roms)
 
         precmd, postcmd, cmd = self.build_cmd(romCollection, gameRow, roms, emuParams, part_to_repeat_in_emuparams)
 
