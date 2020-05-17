@@ -18,7 +18,7 @@ from config import *
 from gamedatabase import *
 
 #Action Codes
-# See guilib/Key.h
+# See https://github.com/xbmc/xbmc/blob/master/xbmc/input/actions/ActionIDs.h
 ACTION_CANCEL_DIALOG = (9, 10, 51, 92, 110, 122)
 ACTION_MOVEMENT_LEFT = (1,)
 ACTION_MOVEMENT_RIGHT = (2,)
