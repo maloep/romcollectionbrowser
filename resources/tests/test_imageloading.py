@@ -354,14 +354,14 @@ class Test(unittest.TestCase):
         pathToSearch = re.escape(os.path.normpath(pathnameFromFile.replace('.*', '')))
         foundImage = ''
                 
-        timestamp1 = time.clock()
+        timestamp1 = time.process_time()
         pattern = re.compile('%s\..*$' %re.escape(gamenameFromFile))
         for image in imagelist:
             match = pattern.search(image)
             if match:
                 foundImage = image
                 
-        timestamp2 = time.clock()
+        timestamp2 = time.process_time()
         diff = (timestamp2 - timestamp1) * 1000
         print ('pattern.search took %s ms' %diff)
         
@@ -374,10 +374,10 @@ class Test(unittest.TestCase):
         pathToSearch = re.escape(os.path.normpath(pathnameFromFile.replace('.*', '')))
         foundImage = ''
         
-        timestamp1 = time.clock()
+        timestamp1 = time.process_time()
         pattern = re.compile('%s\..*$' %pathToSearch)
         foundImage = list(filter(pattern.match, imagelist))
-        timestamp2 = time.clock()
+        timestamp2 = time.process_time()
         diff = (timestamp2 - timestamp1) * 1000
         print ('filter took %s ms' %diff)
                 

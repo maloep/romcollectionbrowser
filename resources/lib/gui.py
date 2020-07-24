@@ -832,7 +832,7 @@ class UIGameDB(xbmcgui.WindowXML):
 
         showFavoriteStars = self.Settings.getSetting(util.SETTING_RCB_SHOWFAVORITESTARS).upper() == 'TRUE'
 
-        timestamp1 = time.clock()
+        timestamp1 = time.process_time()
 
         likeStatement = self._getGamesListQueryStatement()
         order_by = "ORDER BY %s COLLATE NOCASE %s" %(self.sortMethod, self.sortDirection)
@@ -843,7 +843,7 @@ class UIGameDB(xbmcgui.WindowXML):
                                                 self.selectedMaxPlayers, self.selectedRating, self.selectedRegion,
                                                 isFavorite, likeStatement, order_by, maxNumGames)
 
-        timestamp2 = time.clock()
+        timestamp2 = time.process_time()
         diff = (timestamp2 - timestamp1) * 1000
         print ("showGames: load %d games from db in %d ms" % (len(games), diff))
 
@@ -950,7 +950,7 @@ class UIGameDB(xbmcgui.WindowXML):
             elif int(view_mode) in VIEWS_HORIZONTAL:
                 self.writeMsg(util.localize(32209))
 
-        timestamp3 = time.clock()
+        timestamp3 = time.process_time()
         diff = (timestamp3 - timestamp2) * 1000
         Logutil.log("showGames: load %i games to list in %d ms" % (self.getListSize(), diff), util.LOG_LEVEL_INFO)
 
