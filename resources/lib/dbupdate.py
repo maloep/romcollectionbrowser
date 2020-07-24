@@ -174,7 +174,7 @@ class DBUpdate(object):
                     #Give kodi a chance to interrupt the process
                     #HACK: we should use monitor.abortRequested() or monitor.waitForAbort()
                     #but for some reason only xbmc.abortRequested returns True
-                    if monitor.abortRequested() or xbmc.abortRequested:
+                    if monitor.abortRequested():
                         log.info("Kodi requests abort. Cancel Update.")
                         break
 
@@ -229,7 +229,7 @@ class DBUpdate(object):
                     #Give kodi a chance to interrupt the process
                     #HACK: we should use monitor.abortRequested() or monitor.waitForAbort()
                     #but for some reason only xbmc.abortRequested returns True
-                    if monitor.abortRequested() or xbmc.abortRequested:
+                    if monitor.abortRequested():
                         log.info("Kodi requests abort. Cancel Update.")
                         break
 
