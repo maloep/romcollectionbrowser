@@ -146,17 +146,17 @@ class TestDbGameView(unittest.TestCase):
         gdb.cursor.execute("PRAGMA cache_size = 20000")
 
         import time
-        timestamp1 = time.clock()
+        timestamp1 = time.process_time()
         games = GameView(gdb).getFilteredGames(0, 0, 0, 0, 0, 0, 0, 0, 0, '0 = 0', '', 0)
         #games = Game(gdb).getAll()
-        timestamp2 = time.clock()
+        timestamp2 = time.process_time()
         diff = (timestamp2 - timestamp1) * 1000
         print ("load %d games from db in %d ms" % (len(games), diff))
 
-        timestamp1 = time.clock()
+        timestamp1 = time.process_time()
         #Game(gdb).getGameById(5000)
         row = GameView(gdb).getGameById(5000)
-        timestamp2 = time.clock()
+        timestamp2 = time.process_time()
         diff = (timestamp2 - timestamp1) * 1000
         print ("load 1 game from db in %d ms" % diff)
 
