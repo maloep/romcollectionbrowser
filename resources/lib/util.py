@@ -3,7 +3,7 @@ from builtins import str
 from builtins import object
 import os
 
-import xbmc, xbmcvfs, xbmcaddon, xbmcvfs
+import xbmc, xbmcaddon, xbmcvfs
 
 #
 # CONSTANTS AND GLOBALS #
