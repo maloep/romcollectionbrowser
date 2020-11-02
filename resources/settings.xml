@@ -11,6 +11,7 @@
 		<setting id="rcb_scrapeOnStartupAction" visible="false" type="labelenum" values="update|cancel|nothing" default="nothing"/>
 		<setting id="rcb_favoritesSelected" visible="false" type="bool" default="false"/>
 		<setting id="rcb_searchText" visible="false" value="" type="text"/>
+		<setting id="rcb_currentScreensaver" visible="false" value="" type="text"/>
 	</category>
 	
 	<category label="32306">
@@ -43,6 +44,7 @@
 		<setting id="rcb_suspendAudio" label="32199" type="bool" default="true"/>
 		<setting id="rcb_toggleScreenMode" label="32200" type="bool" default="true"/>
 		<setting id="rcb_pathToEmuAutoConfig" label="32201" type="file" />
+		<setting id="rcb_disableScreensaver" label="32211" type="bool" default="false" />
 	</category>
 
 </settings>

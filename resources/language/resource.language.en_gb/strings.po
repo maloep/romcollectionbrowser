@@ -604,6 +604,10 @@ msgctxt "#32210"
 msgid "downloading artwork"
 msgstr ""
 
+msgctxt "#32211"
+msgid "Disable Screensaver"
+msgstr ""
+
 msgctxt "#32300"
 msgid "General"
 msgstr ""

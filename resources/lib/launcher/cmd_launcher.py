@@ -1,5 +1,6 @@
 
 import os, sys, re
+import json
 
 from base_launcher import AbstractLauncher
 import util
@@ -28,6 +29,7 @@ class Cmd_Launcher(AbstractLauncher):
         self.__executePreCommand(precmd)
         self.__preDelay()
         self.__audioSuspend()
+        self.__disableScreensaver()
 
     def launch(self, romCollection, gameRow, cmd, roms, listitem):
         log.info("Cmd_Launcher.launch()")
@@ -40,6 +42,7 @@ class Cmd_Launcher(AbstractLauncher):
         self.__postDelay()
         self.__audioResume()
         self.__executePostCommand(postcmd)
+        self.__enableScreensaver()
 
         if self.screenModeToggled:
             log.info("Toggle to Full Screen mode")
@@ -208,6 +211,47 @@ class Cmd_Launcher(AbstractLauncher):
             log.debug("Resuming audio")
             xbmc.audioResume()
             xbmc.enableNavSounds(True)
+
+    def __disableScreensaver(self):
+        if __addon__.getSetting(util.SETTING_RCB_DISABLESCREENSAVER).upper() == 'TRUE':
+            log.debug("Disable Screensaver")
+            response = xbmc.executeJSONRPC(
+                '{ "jsonrpc": "2.0", "id": 0, "method": "Settings.getSettingValue", "params": {"setting":"screensaver.mode" } }')
+
+            jsonresult = json.loads(response)
+            screensaver = jsonresult['result']['value']
+            log.debug("Current Screensaver: {0}".format(screensaver))
+
+            __addon__.setSetting(util.SETTING_RCB_CURRENTSCREENSAVER, screensaver)
+
+            log.debug("Set Screensaver to empty value")
+            xbmc.executeJSONRPC(
+                '{ "jsonrpc": "2.0", "id": 0, "method":"Settings.setSettingValue", "params": {"setting":"screensaver.mode", "value":""} } ')
+
+    def __enableScreensaver(self):
+        if __addon__.getSetting(util.SETTING_RCB_DISABLESCREENSAVER).upper() == 'TRUE':
+            log.debug("Enable Screensaver")
+
+            screensaver = __addon__.getSetting(util.SETTING_RCB_CURRENTSCREENSAVER)
+
+            log.debug("Set Screensaver back to: {0}".format(screensaver))
+
+            jsonobj = { "jsonrpc": "2.0", "id": 0, "method":"Settings.setSettingValue", "params": {"setting":"screensaver.mode", "value": screensaver} }
+            xbmc.executeJSONRPC(json.dumps(jsonobj))
+
+            xbmc.sleep(2000)
+
+            response = xbmc.executeJSONRPC(
+                '{"jsonrpc": "2.0", "method": "XBMC.GetInfoBooleans", "params": {"booleans": ["System.ScreenSaverActive"]}, "id": 1}')
+
+            log.debug('Screensaver is active: {0}'.format(response))
+            jsonresult = json.loads(response)
+            screensaver_active = jsonresult['result']['System.ScreenSaverActive']
+
+            log.debug('Screensaver is active: {0}'.format(screensaver_active))
+
+            if(screensaver_active):
+                xbmc.executeJSONRPC('{"jsonrpc": "2.0", "method": "Input.Select", "id": 1}')
 
     def __executeCommand(self, romCollection, cmd):
         log.info('__executeCommand')

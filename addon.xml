@@ -1,12 +1,10 @@
 <addon id="script.games.rom.collection.browser" name="Rom Collection Browser" provider-name="bruny, malte" version="2.3.0">
   <requires>
-    
     <import addon="xbmc.addon" version="17.0.0" />
-    
     <import addon="xbmc.python" version="3.0.0" />
     <import addon="service.rom.collection.browser" version="1.0.0" />
-    
     <import addon="script.module.requests" version="2.18.4" />
+	<import addon="vfs.libarchive" version="1.0.7" />
   </requires>
   <extension library="default.py" point="xbmc.python.script">
     <provides>executable game</provides>
