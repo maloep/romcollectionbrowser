@@ -7,6 +7,7 @@ import util
 from util import Logutil as log
 from util import __addon__
 from gamedatabase import *
+from archive_handler import ArchiveHandler
 
 import xbmc, xbmcgui, xbmcvfs
 
@@ -25,7 +26,6 @@ class AbstractLauncher(object):
     romcollection = None
     gameRow = None
     calledFromSkin = False
-    compressedExtensions = ['7z', 'zip']
 
 
     CMD_LAUNCHER = "Cmd_Launcher"
@@ -131,13 +131,14 @@ class AbstractLauncher(object):
         #iterate rom files
         fileindex = int(0)
         roms = []
+        archive_handler = ArchiveHandler()
         for fileNameRow in filenameRows:
             rom = fileNameRow[0]
             log.info("rom: " + rom)
 
             rom = self._copylocal(romCollection, rom)
 
-            extracted_roms = self.__extract_archive(romCollection, rom, saveStateParams, emuParams)
+            extracted_roms = archive_handler.extract_archive(romCollection, rom, saveStateParams, emuParams, self.calledFromSkin)
             roms.extend(extracted_roms)
 
         precmd, postcmd, cmd = self.build_cmd(romCollection, gameRow, roms, emuParams, part_to_repeat_in_emuparams)
@@ -307,179 +308,6 @@ class AbstractLauncher(object):
             rom = localRom
 
         return rom
-
-    def __extract_archive(self, romCollection, rom, saveStateParams, emuParams):
-        # If it's a .7z file
-        # Don't extract zip files in case of savestate handling and when called From skin
-        filext = rom.split('.')[-1]
-        roms = [rom]
-        if filext in self.compressedExtensions and not romCollection.doNotExtractZipFiles and saveStateParams == '' and not self.calledFromSkin:
-            roms = self.__handleCompressedFile(romCollection, filext, rom, emuParams)
-            log.debug("roms compressed = " + str(roms))
-            if len(roms) == 0:
-                return None
-
-        return roms
-
-    def __handleCompressedFile(self, romCollection, filext, rom, emuParams):
-
-        log.info("__handleCompressedFile")
-
-        # Note: Trying to delete temporary files (from zip or 7z extraction) from last run
-        # Do this before launching a new game. Otherwise game could be deleted before launch
-        tempDir = os.path.join(util.getTempDir(), 'extracted', romCollection.name)
-        # check if folder exists
-        if not xbmcvfs.exists(tempDir + '\\'):
-            log.info("Create temporary folder: " + tempDir)
-            xbmcvfs.mkdir(tempDir)
-
-        try:
-            if xbmcvfs.exists(tempDir + '\\'):
-                log.info("Trying to delete temporary rom files")
-                #can't use xbmcvfs.listdir here as it seems to cache the file list and RetroPlayer won't find newly created files anymore
-                files = os.listdir(tempDir)
-                for f in files:
-                    #RetroPlayer places savestate files next to the roms. Don't delete these files.
-                    fname, ext = os.path.splitext(f)
-                    if ext not in ('.sav', '.xml', '.png'):
-                        xbmcvfs.delete(os.path.join(tempDir, f))
-        except Exception as exc:
-            log.error("Error deleting files after launch emu: " + str(exc))
-            self.gui.writeMsg(util.localize(32036) + ": " + str(exc))
-
-        roms = []
-
-        log.info("Treating file as a compressed archive")
-
-        try:
-            names = self.__getNames(filext, rom)
-        except Exception as exc:
-            log.error("Error handling compressed file: " + str(exc))
-            return []
-
-        if names is None:
-            log.error("Error handling compressed file")
-            return []
-
-        chosenROM = -1
-
-        # check if we should handle multiple roms
-        match = False
-        if romCollection.diskPrefix != '':
-            match = re.search(romCollection.diskPrefix.lower(), str(names).lower())
-
-        if '%I%' in emuParams and match:
-            log.info("Loading %d archives" % len(names))
-
-            try:
-                archives = self.__getArchives(filext, rom, names)
-            except Exception as exc:
-                log.error("Error handling compressed file: " + str(exc))
-                return []
-
-            if archives is None:
-                log.warning("Error handling compressed file")
-                return []
-            for archive in archives:
-                newPath = os.path.join(tempDir, archive[0])
-                fp = open(newPath, 'wb')
-                fp.write(archive[1])
-                fp.close()
-                roms.append(newPath)
-
-        elif len(names) > 1:
-            log.info("The Archive has %d files" % len(names))
-            chosenROM = xbmcgui.Dialog().select('Choose a ROM', names)
-        elif len(names) == 1:
-            log.info("Archive only has one file inside; picking that one")
-            chosenROM = 0
-        else:
-            log.error("Archive had no files inside!")
-            return []
-
-        if chosenROM != -1:
-            # Extract all files to %TMP%
-            archives = self.__getArchives(filext, rom, names)
-            if archives is None:
-                log.warn("Error handling compressed file")
-                return []
-            for archive in archives:
-                newPath = os.path.join(tempDir, archive[0])
-                log.info("Putting extracted file in %s" % newPath)
-                fo = open(str(newPath), 'wb')
-                fo.write(archive[1])
-                fo.close()
-
-            # Point file name to the chosen file and continue as usual
-            roms = [os.path.join(tempDir, names[chosenROM])]
-
-        return roms
-
-    # Compressed files functions
-    def __getNames(self, compression_type, filepath):
-        return {'zip': self.__getNamesZip,
-                '7z': self.__getNames7z}[compression_type](filepath)
-
-    def __getNames7z(self, filepath):
-
-        try:
-            import py7zlib
-        except ImportError as e:
-            # 32039 = Error launching .7z file.
-            # 32129 = Please check kodi.log for details.
-            message = "%s[CR]%s" % (util.localize(32039), util.localize(32129))
-            xbmcgui.Dialog().ok(util.SCRIPTNAME, message)
-            msg = (
-                "You have tried to launch a .7z file but you are missing required libraries to extract the file. "
-                "You can download the latest RCB version from RCBs project page. It contains all required libraries.")
-            log.error(msg)
-            log.error("Error: " + str(e))
-            return None
-
-        fp = open(str(filepath), 'rb')
-        archive = py7zlib.Archive7z(fp)
-        names = archive.getnames()
-        fp.close()
-        return names
-
-    def __getNamesZip(self, filepath):
-        fp = open(str(filepath), 'rb')
-        archive = zipfile.ZipFile(fp)
-        names = archive.namelist()
-        fp.close()
-        return names
-
-    def __getArchives(self, compression_type, filepath, archiveList):
-        return {'zip': self.__getArchivesZip,
-                '7z': self.__getArchives7z}[compression_type](filepath, archiveList)
-
-    def __getArchives7z(self, filepath, archiveList):
-
-        try:
-            import py7zlib
-        except ImportError:
-            # 32039 = Error launching .7z file.
-            # 32129 = Please check kodi.log for details.
-            message = "%s[CR]%s" % (util.localize(32039), util.localize(32129))
-            xbmcgui.Dialog().ok(util.SCRIPTNAME, message)
-            msg = (
-                "You have tried to launch a .7z file but you are missing required libraries to extract the file. "
-                "You can download the latest RCB version from RCBs project page. It contains all required libraries.")
-            log.error(msg)
-            return None
-
-        fp = open(str(filepath), 'rb')
-        archive = py7zlib.Archive7z(fp)
-        archivesDecompressed = [(name, archive.getmember(name).read()) for name in archiveList]
-        fp.close()
-        return archivesDecompressed
-
-    def __getArchivesZip(self, filepath, archiveList):
-        fp = open(str(filepath), 'rb')
-        archive = zipfile.ZipFile(fp)
-        archivesDecompressed = [(name, archive.read(name)) for name in archiveList]
-        fp.close()
-        return archivesDecompressed
 
     def __update_launchcount(self, gameRow):
         # update LaunchCount
