@@ -195,6 +195,8 @@ def mkdirs(path):
 
         success = xbmcvfs.mkdirs(path)
     """
+    if(not os.path.exists(path)):
+        os.makedirs(path)
     return bool(1)
 
 
