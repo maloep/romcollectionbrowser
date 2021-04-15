@@ -82,7 +82,7 @@ class AbstractLauncher(object):
         if(self.romCollection.useBuiltinEmulator):
             launchername = self.RETROPLAYER_LAUNCHER
 
-        #check if we already have instantiated this scraper
+        #check if we already have instantiated this launcher
         instance = None
         try:
             instance = self._instantiated_launcher[launchername]
@@ -138,8 +138,11 @@ class AbstractLauncher(object):
 
             rom = self._copylocal(romCollection, rom)
 
-            extracted_roms = archive_handler.extract_archive(romCollection, rom, saveStateParams, emuParams, self.calledFromSkin)
-            roms.extend(extracted_roms)
+            if(archive_handler.is_archive(rom)):
+                # Don't extract zip files in case of savestate handling and when called From skin
+                if(not romCollection.doNotExtractZipFiles and saveStateParams == '' and not self.calledFromSkin):
+                    extracted_roms = archive_handler.extract_archive(romCollection, rom, emuParams)
+                    roms.extend(extracted_roms)
 
         precmd, postcmd, cmd = self.build_cmd(romCollection, gameRow, roms, emuParams, part_to_repeat_in_emuparams)
 
