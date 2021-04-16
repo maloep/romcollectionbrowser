@@ -10,7 +10,7 @@ from gamename_utils import GameNameUtil
 
 
 class TheGamesDB_Scraper(WebScraper):
-    """TheGamesDB.net has its API described at https://api.thegamesdb.net/
+    """TheGamesDB.net has its API described at https://api.thegamesdb.net/v1
     """
     _name = 'thegamesdb.net'
     _search_url = 'https://api.thegamesdb.net/v1/Games/ByGameName'
