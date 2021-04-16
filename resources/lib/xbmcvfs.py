@@ -180,6 +180,8 @@ def mkdir(path):
 
         success = xbmcfvs.mkdir(path)
     """
+    if(not os.path.exists(path)):
+        os.mkdir(path)
     return bool(1)
 
 
@@ -193,6 +195,8 @@ def mkdirs(path):
 
         success = xbmcvfs.mkdirs(path)
     """
+    if(not os.path.exists(path)):
+        os.makedirs(path)
     return bool(1)
 
 

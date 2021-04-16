@@ -18,7 +18,7 @@ from config import *
 from gamedatabase import *
 
 #Action Codes
-# See guilib/Key.h
+# See https://github.com/xbmc/xbmc/blob/master/xbmc/input/actions/ActionIDs.h
 ACTION_CANCEL_DIALOG = (9, 10, 51, 92, 110, 122)
 ACTION_MOVEMENT_LEFT = (1,)
 ACTION_MOVEMENT_RIGHT = (2,)
@@ -1010,9 +1010,8 @@ class UIGameDB(xbmcgui.WindowXML):
             #self.player.stoppedByRCB = True
             self.player.stop()
 
-        from launcher import RCBLauncher
-        launcher = RCBLauncher()
-        launcher.launchEmu(self.gdb, self, gameId, self.config, selectedGame)
+        from base_launcher import AbstractLauncher
+        AbstractLauncher(self.gdb, self.config, self).launch_game(gameId, selectedGame)
         Logutil.log("End launchEmu", util.LOG_LEVEL_INFO)
 
     def updateDB(self):

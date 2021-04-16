@@ -56,7 +56,7 @@ class AbstractScraper(object):
         #MAME scraper can only be used with MAME platform
         if platform != 'MAME' and platform != None:
             return [s for s in self.offline_scrapers.keys() if s != 'MAME']
-        return self.offline_scrapers.keys()
+        return list(self.offline_scrapers.keys())
 
     def get_scraper_by_name(self, sname):
         """Given a scraper name, returns the scraper class

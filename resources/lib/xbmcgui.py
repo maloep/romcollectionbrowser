@@ -1294,7 +1294,7 @@ class ListItem(object):
         """Returns the listitem's selected status."""
         return bool(1)
 
-    def setInfo(self, infotype, infoLabels):
+    def setInfo(self, type, infoLabels):
         """Sets the listitem's infoLabels.
 
         :param type: string - type of media(video/music/pictures).
@@ -2813,7 +2813,7 @@ class Dialog(object):
             dialog = xbmcgui.Dialog()
             d = dialog.input('Enter secret code', type=xbmcgui.INPUT_ALPHANUM, option=xbmcgui.ALPHANUM_HIDE_INPUT)
         """
-        return str()
+        return "Text"
 
     def numeric(self, type, heading, defaultt=''):
         """Show a 'Numeric' dialog.

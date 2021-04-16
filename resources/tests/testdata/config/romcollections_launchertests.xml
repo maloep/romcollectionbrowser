@@ -28,7 +28,7 @@
             <scraper name="thegamesdb.net" />
         </RomCollection>
     	<RomCollection id="2" name="Atari 2600">
-            <useBuiltinEmulator>False</useBuiltinEmulator>
+            <useBuiltinEmulator>True</useBuiltinEmulator>
             <gameclient />
             <emulatorCmd>/Path/To/Atari2600/Emulator</emulatorCmd>
             <emulatorParams>"%ROM%"</emulatorParams>
@@ -56,7 +56,7 @@
             <scraper name="thegamesdb.net" />
         </RomCollection>
         <RomCollection id="3" name="N64">
-            <useBuiltinEmulator>False</useBuiltinEmulator>
+            <useBuiltinEmulator>True</useBuiltinEmulator>
             <gameclient />
             <emulatorCmd>/Path/To/N64/Emulator</emulatorCmd>
             <emulatorParams>"%ROM%"</emulatorParams>
@@ -103,7 +103,7 @@
             <useFoldernameAsGamename>False</useFoldernameAsGamename>
             <maxFolderDepth>99</maxFolderDepth>
             <doNotExtractZipFiles>False</doNotExtractZipFiles>
-            <makeLocalCopy>False</makeLocalCopy>
+            <makeLocalCopy>True</makeLocalCopy>
             <diskPrefix>\(Disc.*\)</diskPrefix>
             <imagePlacingMain>gameinfobig</imagePlacingMain>
             <imagePlacingInfo>gameinfosmall</imagePlacingInfo>
@@ -113,11 +113,11 @@
             <useBuiltinEmulator>False</useBuiltinEmulator>
             <gameclient />
             <emulatorCmd>/Path/To/SNES/Emulator</emulatorCmd>
-            <emulatorParams>-v -L /Applications/RetroArch.app/Contents/Resources/cores/bnes_libretro.dylib "%rom%"</emulatorParams>
+            <emulatorParams>-v -L /Applications/RetroArch.app/Contents/Resources/cores/bnes_libretro.lib "%rom%"</emulatorParams>
             <romPath>/Path/To/Roms/GBA/*.zip</romPath>
             <romPath>/Path/To/Roms/GBA/*.smc</romPath>
-            <saveStatePath />
-            <saveStateParams />
+            <saveStatePath>./testdata/savestates/SNES/%GAME%.state</saveStatePath>
+            <saveStateParams>%STATEFILE%</saveStateParams>
             <mediaPath type="boxfront">./testdata/artwork/SNES/%GAME%/boxfront.*</mediaPath>
             <mediaPath type="screenshot">./testdata/artwork/SNES/%GAME%/screenshot.*</mediaPath>
             <preCmd />
