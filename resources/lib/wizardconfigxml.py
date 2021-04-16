@@ -179,8 +179,8 @@ class ConfigXmlWizard(RcbXmlReaderWriter):
                 else:
                     emulist = []
 
-                    log.info(u'Running on {0}. Trying to find emulator per autoconfig.'.format(util.current_os))
-                    emulators = autoconfig.findEmulators(util.current_os, romCollection.name, True)
+                    log.info(u'Running on {0}. Trying to find emulator per autoconfig.'.format(util.current_os()))
+                    emulators = autoconfig.findEmulators(util.current_os(), romCollection.name, True)
                     for emulator in emulators:
                         if emulator.isInstalled:
                             emulist.append(util.localize(32202) % emulator.name)
