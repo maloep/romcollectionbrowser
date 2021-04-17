@@ -1,6 +1,5 @@
 from __future__ import print_function
 from __future__ import absolute_import
-from __future__ import division
 from builtins import chr
 from builtins import str
 from builtins import range
@@ -925,7 +924,7 @@ class UIGameDB(xbmcgui.WindowXML):
             #add progress to "loading games" message
             if len(games) > 1000:
                 if counter >= divisor and counter % divisor == 0:
-                    percent = (old_div(len(games), divisor)) * (old_div(counter, divisor))
+                    percent = (len(games) // divisor) * (counter // divisor)
                     #32121 = Loading games...
                     self.writeMsg('%s (%i%%)' % (util.localize(32121), percent))
                 counter = counter + 1
