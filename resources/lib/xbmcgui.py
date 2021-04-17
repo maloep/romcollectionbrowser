@@ -2,8 +2,6 @@
 """
 Classes and functions to work with Kodi GUI
 """
-from __future__ import absolute_import
-
 from builtins import str
 from builtins import object
 import xbmc as _xbmc
