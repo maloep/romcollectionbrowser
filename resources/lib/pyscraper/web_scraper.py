@@ -1,4 +1,3 @@
-from __future__ import absolute_import
 import requests
 from datetime import datetime
 import time

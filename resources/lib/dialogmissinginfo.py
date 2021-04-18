@@ -1,4 +1,3 @@
-from __future__ import absolute_import
 from builtins import range
 from configxmlwriter import *
 from util import *

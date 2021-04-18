@@ -1,4 +1,3 @@
-from __future__ import absolute_import
 from web_scraper import WebScraper
 from rcbexceptions import *
 from util import Logutil as log
