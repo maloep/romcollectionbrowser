@@ -208,7 +208,7 @@ def localize(string_id):
 
 def getAddonDataPath():
     path = u''
-    path = convertToUnicodeString(xbmc.translatePath('special://profile/addon_data/%s' % (SCRIPTID)))
+    path = convertToUnicodeString(xbmcvfs.translatePath('special://profile/addon_data/%s' % (SCRIPTID)))
 
     if not os.path.exists(path):
         try:
