@@ -16,7 +16,6 @@ class GameDataBase(object):
 
     def __init__(self, databaseDir):
         self.dataBasePath = os.path.join(databaseDir, 'MyGames.db')
-        sqlite.register_adapter(str, lambda s: util.convertToUnicodeString(s))
         #use scripts home for reading SQL files
         self.sqlDir = os.path.join(util.RCBHOME, 'resources', 'database')
 
