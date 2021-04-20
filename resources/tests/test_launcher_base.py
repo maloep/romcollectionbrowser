@@ -8,7 +8,6 @@ sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', '..', 'resource
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', '..', 'resources', 'lib', 'launcher'))
 
 from gamedatabase import GameDataBase, File, GameView, DataBaseObject
-from old_launcher import RCBLauncher
 from base_launcher import AbstractLauncher
 from retroplayer_launcher import RetroPlayer_Launcher
 from cmd_launcher import Cmd_Launcher
