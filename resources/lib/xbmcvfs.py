@@ -241,8 +241,24 @@ def listdir(path):
     files = [f for f in os.listdir(path) if os.path.isfile(os.path.join(path, f))]
     #print 'files: %s' %files
     
-    return dirs, files 
+    return dirs, files
 
+def translatePath(path):
+    """
+    Returns the translated path.
+
+    :param path: string or unicode - Path to format
+
+    .. note: Only useful if you are coding for both Linux and Windows.
+
+    Converts ``'special://masterprofile/script_data'`` -> ``'/home/user/XBMC/UserData/script_data'`` on Linux.
+
+    Example::
+
+        fpath = xbmc.translatePath('special://masterprofile/script_data')
+    """
+    b, t = os.path.split(path)
+    return os.path.join(os.getcwd(), t)
 
 class Stat(object):
     """
