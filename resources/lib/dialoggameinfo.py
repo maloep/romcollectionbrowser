@@ -4,6 +4,7 @@ import helper, util
 from base_launcher import AbstractLauncher
 from util import *
 from gamedatabase import *
+from util import Logutil as log
 
 ACTION_CANCEL_DIALOG = (9, 10, 51, 92, 110)
 ACTION_MOVEMENT_LEFT = (1,)
@@ -39,7 +40,7 @@ class UIGameInfoView(xbmcgui.WindowXMLDialog):
     __useRefactoredView = False
 
     def __init__(self, *args, **kwargs):
-        Logutil.log("Init GameInfoView", util.LOG_LEVEL_INFO)
+        log.info("Init GameInfoView")
 
         self.gdb = kwargs["gdb"]
         self.selectedGameId = kwargs["gameId"]
@@ -68,7 +69,7 @@ class UIGameInfoView(xbmcgui.WindowXMLDialog):
 
     def onInit(self):
 
-        Logutil.log("Begin OnInit UIGameInfoView", util.LOG_LEVEL_INFO)
+        log.info("Begin OnInit UIGameInfoView")
 
         self.showGame()
 
@@ -78,24 +79,24 @@ class UIGameInfoView(xbmcgui.WindowXMLDialog):
 
         xbmc.sleep(util.WAITTIME_UPDATECONTROLS)
 
-        Logutil.log("End OnInit UIGameInfoView", util.LOG_LEVEL_INFO)
+        log.info("End OnInit UIGameInfoView")
 
     def onClick(self, controlId):
-        Logutil.log("Begin onClick UIGameInfoView", util.LOG_LEVEL_DEBUG)
+        log.debug("Begin onClick UIGameInfoView")
 
         if (controlId == CONTROL_BUTTON_PLAYGAME):
             self.launchEmu()
 
-        Logutil.log("End onClick UIGameInfoView", util.LOG_LEVEL_DEBUG)
+        log.debug("End onClick UIGameInfoView")
 
     def onFocus(self, controlId):
-        Logutil.log("onFocus UIGameInfoView", util.LOG_LEVEL_DEBUG)
+        log.debug("onFocus UIGameInfoView")
         self.selectedControlId = controlId
 
     def onAction(self, action):
 
         if (action.getId() in ACTION_CANCEL_DIALOG):
-            Logutil.log("onAction exit UIGameInfoView", util.LOG_LEVEL_INFO)
+            log.info("onAction exit UIGameInfoView")
 
             #stop Player (if playing)
             if (xbmc.Player().isPlayingVideo()):
@@ -105,7 +106,7 @@ class UIGameInfoView(xbmcgui.WindowXMLDialog):
 
     def showGame(self):
 
-        Logutil.log("Begin showGameList UIGameInfoView", util.LOG_LEVEL_INFO)
+        log.info("Begin showGameList UIGameInfoView")
 
         self.clearList()
 
@@ -117,8 +118,7 @@ class UIGameInfoView(xbmcgui.WindowXMLDialog):
         try:
             romCollection = self.config.romCollections[romcollection_id]
         except KeyError:
-            Logutil.log('Cannot get rom collection with id: ' + romcollection_id,
-                        util.LOG_LEVEL_ERROR)
+            log.error('Cannot get rom collection with id: ' + romcollection_id)
 
         item.setProperty('romCollectionId', romcollection_id)
         item.setProperty('romcollection', romCollection.name)
@@ -190,22 +190,22 @@ class UIGameInfoView(xbmcgui.WindowXMLDialog):
 
         self.writeMsg("")
 
-        Logutil.log("End showGameList UIGameInfoView", util.LOG_LEVEL_INFO)
+        log.info("End showGameList UIGameInfoView")
 
     def launchEmu(self):
 
-        Logutil.log("Begin launchEmu UIGameInfoView", util.LOG_LEVEL_INFO)
+        log.info("Begin launchEmu UIGameInfoView")
 
         AbstractLauncher(self.gdb, self.config, self).launch_game(self.selectedGameId, self.selectedGame)
 
         self.saveViewState(False)
         self.close()
 
-        Logutil.log("End launchEmu UIGameInfoView", util.LOG_LEVEL_INFO)
+        log.info("End launchEmu UIGameInfoView")
 
     def saveViewState(self, isOnExit):
 
-        Logutil.log("Begin saveViewState UIGameInfoView", util.LOG_LEVEL_INFO)
+        log.info("Begin saveViewState UIGameInfoView")
 
         helper.saveViewState(self.gdb, isOnExit, 'gameInfoView', self.selectedGameIndex, self.selectedConsoleId,
                              self.selectedGenreId, self.selectedPublisherId, self.selectedDeveloperId,
@@ -213,14 +213,13 @@ class UIGameInfoView(xbmcgui.WindowXMLDialog):
                              self.selectedRating, self.selectedRegion, self.sortMethod, self.sortDirection,
                              self.selectedControlIdMainView, self.selectedControlId, self.settings)
 
-        Logutil.log("End saveViewState UIGameInfoView", util.LOG_LEVEL_INFO)
+        log.info("End saveViewState UIGameInfoView")
 
     def getControlById(self, controlId):
         try:
             control = self.getControl(controlId)
         except:
-            Logutil.log("Control with id: %s could not be found. Check WindowXML file." % str(controlId),
-                        util.LOG_LEVEL_ERROR)
+            log.error("Control with id: %s could not be found. Check WindowXML file." % str(controlId))
             self.writeMsg(util.localize(32025) % str(controlId))
             return None
 

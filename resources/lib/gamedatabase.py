@@ -3,11 +3,12 @@ from builtins import range
 from builtins import object
 import os, shutil
 from sqlite3 import dbapi2 as sqlite
+from util import Logutil as log
 
 from util import *
 import util
 
-Logutil.log("Loading sqlite3 as DB engine", util.LOG_LEVEL_INFO)
+log.info("Loading sqlite3 as DB engine")
 
 
 class GameDataBase(object):
@@ -52,7 +53,7 @@ class GameDataBase(object):
             self.cursor = memDB.cursor()
             return True
         except Exception as e:
-            util.Logutil.log("ERROR: %s" % str(e), util.LOG_LEVEL_INFO)
+            log.info("ERROR: %s" % str(e))
             return False
 
     def toDisk(self):
@@ -67,7 +68,7 @@ class GameDataBase(object):
             self.cursor = diskDB.cursor()
             return True
         except Exception as e:
-            util.Logutil.log("ERROR: %s" % str(e), util.LOG_LEVEL_INFO)
+            log.info("ERROR: %s" % str(e))
             return False
 
     def executeSQLScript(self, scriptName):
@@ -166,16 +167,16 @@ class DataBaseObject(object):
                                                                               'args': paramsString}
         self.gdb.cursor.execute(insertString, args)
         if self.gdb.cursor.rowcount == 1:
-            util.Logutil.log("inserted values " + str(args) + self.tableName, util.LOG_LEVEL_DEBUG)
+            log.debug("inserted values " + str(args) + self.tableName)
         else:
-            util.Logutil.log("failed to insert values " + str(args) + self.tableName, util.LOG_LEVEL_WARNING)
+            log.warn("failed to insert values " + str(args) + self.tableName)
 
     #print("Insert INTO %(tablename)s VALUES (%(args)s)" % {'tablename':self.tableName, 'args': ( "?, " * len(args)) })
 
     def update(self, columns, argsOrig, obj_id, updateWithNullValues):
 
         if len(columns) != len(argsOrig):
-            util.Logutil.log("len columns != len args in gdb.update()", util.LOG_LEVEL_WARNING)
+            log.warn("len columns != len args in gdb.update()")
             return
 
         args = []
@@ -566,13 +567,12 @@ class GameView(DataBaseObject):
         if int(maxNumGames) > 0:
             limit = "LIMIT %s" % str(maxNumGames)
         filterQuery = self.filterQuery % (likeStatement, order_by, limit)
-        util.Logutil.log('searching games with query: ' + filterQuery, util.LOG_LEVEL_INFO)
-        util.Logutil.log(
+        log.info('searching games with query: ' + filterQuery)
+        log.info(
             'searching games with args: romCollectionId = %s, genreId = %s, yearId = %s, publisherId = %s, '
             'developerId = %s, maxPlayers = %s, rating = %s, region = %s, isFavorite = %s, likeStatement = %s, '
             'limit = %s' % (str(romCollectionId), str(genreId), str(yearId), str(publisherId), str(developerId),
-                            maxPlayers, str(rating), region, str(isFavorite), likeStatement, limit),
-            util.LOG_LEVEL_INFO)
+                            maxPlayers, str(rating), region, str(isFavorite), likeStatement, limit))
         games = self.getObjectsByWildcardQuery(filterQuery, args)
         #newList = self.encodeUtf8(games)
         return games
@@ -598,14 +598,14 @@ class GameView(DataBaseObject):
     def getFilteredMaxPlayers(self, romCollectionId, genreId, yearId, publisherId, developerId, rating, region, likeStatement):
         args = (romCollectionId, genreId, yearId, publisherId, developerId, rating, region)
         filterQuery = self.filterQueryMaxPlayers % likeStatement
-        util.Logutil.log('searching maxPlayers with query: ' + filterQuery, util.LOG_LEVEL_DEBUG)
+        log.debug('searching maxPlayers with query: ' + filterQuery)
         players = self.getObjectsByWildcardQuery(filterQuery, args)
         return players
 
     def getFilteredRegions(self, romCollectionId, genreId, yearId, publisherId, developerId, maxPlayers, rating, likeStatement):
         args = (romCollectionId, genreId, yearId, publisherId, developerId, maxPlayers, rating)
         filterQuery = self.filterQueryRegions % likeStatement
-        util.Logutil.log('searching regions with query: ' + filterQuery, util.LOG_LEVEL_DEBUG)
+        log.debug('searching regions with query: ' + filterQuery)
         regions = self.getObjectsByWildcardQuery(filterQuery, args)
         return regions
 
@@ -669,7 +669,7 @@ class Genre(DataBaseObject):
     def getFilteredGenres(self, romCollectionId, yearId, publisherId, developerId, maxPlayers, rating, region, likeStatement):
         args = (romCollectionId, yearId, publisherId, developerId, maxPlayers, rating, region)
         filterQuery = self.filterQuery % likeStatement
-        util.Logutil.log('searching genres with query: ' + filterQuery, util.LOG_LEVEL_DEBUG)
+        log.debug('searching genres with query: ' + filterQuery)
         genres = self.getObjectsByWildcardQuery(filterQuery, args)
         return genres
 
@@ -694,9 +694,9 @@ class Genre(DataBaseObject):
         if obj != None:
             for items in obj:
                 if items[1] < 2:
-                    util.Logutil.log("Delete Genre with id %s" % str(items[0]), util.LOG_LEVEL_INFO)
+                    log.info("Delete Genre with id %s" % str(items[0]))
                     self.deleteObjectByQuery(self.genreDeleteQuery, (items[0],))
-        util.Logutil.log("Delete GenreGame with gameId %s" % str(gameId), util.LOG_LEVEL_INFO)
+        log.info("Delete GenreGame with gameId %s" % str(gameId))
         self.deleteObjectByQuery(self.genreGameDeleteQuery, (gameId,))
 
 
@@ -757,7 +757,7 @@ class Year(DataBaseObject):
     def getFilteredYears(self, romCollectionId, genreId, publisherId, developerId, maxPlayers, rating, region, likeStatement):
         args = (romCollectionId, genreId, publisherId, developerId, maxPlayers, rating, region)
         filterQuery = self.filterQuery % likeStatement
-        util.Logutil.log('searching years with query: ' + filterQuery, util.LOG_LEVEL_DEBUG)
+        log.debug('searching years with query: ' + filterQuery)
         years = self.getObjectsByWildcardQuery(filterQuery, args)
         return years
 
@@ -766,7 +766,7 @@ class Year(DataBaseObject):
         if yearId != None:
             obj = self.getObjectByQuery(self.yearIdCountQuery, (yearId,))
             if obj[0] < 2:
-                util.Logutil.log("Delete Year with id %s" % str(yearId), util.LOG_LEVEL_INFO)
+                log.info("Delete Year with id %s" % str(yearId))
                 self.deleteObjectByQuery(self.yearDeleteQuery, (yearId,))
 
 
@@ -826,7 +826,7 @@ class Publisher(DataBaseObject):
     def getFilteredPublishers(self, romCollectionId, genreId, yearId, developerId, maxPlayers, rating, region, likeStatement):
         args = (romCollectionId, genreId, yearId, developerId, maxPlayers, rating, region)
         filterQuery = self.filterQuery % likeStatement
-        util.Logutil.log('searching publishers with query: ' + filterQuery, util.LOG_LEVEL_DEBUG)
+        log.debug('searching publishers with query: ' + filterQuery)
         publishers = self.getObjectsByWildcardQuery(filterQuery, args)
         return publishers
 
@@ -835,7 +835,7 @@ class Publisher(DataBaseObject):
         if publisherId != None:
             obj = self.getObjectByQuery(self.publisherIdCountQuery, (publisherId,))
             if (obj[0] < 2):
-                util.Logutil.log("Delete Publisher with id %s" % str(publisherId), util.LOG_LEVEL_INFO)
+                log.info("Delete Publisher with id %s" % str(publisherId))
                 self.deleteObjectByQuery(self.publisherDeleteQuery, (publisherId,))
 
 
@@ -881,7 +881,7 @@ class Developer(DataBaseObject):
     def getFilteredDevelopers(self, romCollectionId, genreId, yearId, publisherId, maxPlayers, rating, region, likeStatement):
         args = (romCollectionId, genreId, yearId, publisherId, maxPlayers, rating, region)
         filterQuery = self.filterQuery % likeStatement
-        util.Logutil.log('searching developers with query: ' + filterQuery, util.LOG_LEVEL_DEBUG)
+        log.debug('searching developers with query: ' + filterQuery)
         developers = self.getObjectsByWildcardQuery(filterQuery, args)
         return developers
 
@@ -905,7 +905,7 @@ class Developer(DataBaseObject):
         if developerId != None:
             obj = self.getObjectByQuery(self.developerIdCountQuery, (developerId,))
             if obj[0] < 2:
-                util.Logutil.log("Delete Developer with id %s" % str(developerId), util.LOG_LEVEL_INFO)
+                log.info("Delete Developer with id %s" % str(developerId))
                 self.deleteObjectByQuery(self.developerDeleteQuery, (developerId,))
 
 
@@ -981,11 +981,11 @@ class File(DataBaseObject):
         return files
 
     def delete(self, gameId):
-        util.Logutil.log("Delete Files with gameId %s" % str(gameId), util.LOG_LEVEL_INFO)
+        log.info("Delete Files with gameId %s" % str(gameId))
         self.deleteObjectByQuery(self.deleteQuery, (gameId,))
 
     def deleteByFileId(self, fileId):
-        util.Logutil.log("Delete File with id %s" % str(fileId), util.LOG_LEVEL_INFO)
+        log.info("Delete File with id %s" % str(fileId))
         self.deleteObjectByQuery(self.deleteFileQuery, (fileId,))
 
     def getFilesList(self):

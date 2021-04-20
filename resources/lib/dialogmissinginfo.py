@@ -47,14 +47,14 @@ class MissingInfoDialog(DialogBase):
                             util.localize(32161): util.localize(32162)}
 
     def __init__(self, *args, **kwargs):
-        Logutil.log('init dialog missing info', util.LOG_LEVEL_INFO)
+        log.info('init dialog missing info')
 
         self.gui = kwargs["gui"]
 
         self.doModal()
 
     def onInit(self):
-        Logutil.log('onInit dialog missing info', util.LOG_LEVEL_INFO)
+        log.info('onInit dialog missing info')
 
         self.artworkAndList = self.gui.config.missingFilterArtwork.andGroup
         label = self.getControlById(CONTROL_LABEL_ARTWORK_ANDGROUP)
@@ -72,7 +72,7 @@ class MissingInfoDialog(DialogBase):
         label = self.getControlById(CONTROL_LABEL_INFO_ORGROUP)
         label.setLabel(', '.join(self.infoOrList))
 
-        Logutil.log('add show/hide missing info options', util.LOG_LEVEL_INFO)
+        log.info('add show/hide missing info options')
         #showHideOptions = ['Ignore filter', 'Show only games with missing items', 'Hide games with missing items']
         self.addItemsToList(CONTROL_LIST_SHOWHIDEMISSING, list(self.missingFilterOptions.values()))
 
@@ -88,46 +88,46 @@ class MissingInfoDialog(DialogBase):
 
     def onClick(self, controlID):
 
-        Logutil.log('onClick', util.LOG_LEVEL_INFO)
+        log.info('onClick')
 
         if controlID == CONTROL_BUTTON_EXIT:  # Close window button
-            Logutil.log('close', util.LOG_LEVEL_INFO)
+            log.info('close')
             self.close()
         elif controlID == CONTROL_BUTTON_ADD_ARTWORK_ORGROUP:
-            Logutil.log('Add artwork or', util.LOG_LEVEL_INFO)
+            log.info('Add artwork or')
             self.artworkOrList = self.addItemToMissingArtworkList(self.artworkOrList, CONTROL_LABEL_ARTWORK_ORGROUP)
 
         elif controlID == CONTROL_BUTTON_REMOVE_ARTWORK_ORGROUP:
-            Logutil.log('Remove artwork or', util.LOG_LEVEL_INFO)
+            log.info('Remove artwork or')
             self.artworkOrList = self.removeFromMissingList(self.artworkOrList, CONTROL_LABEL_ARTWORK_ORGROUP)
 
         elif controlID == CONTROL_BUTTON_ADD_ARTWORK_ANDGROUP:
-            Logutil.log('Add artwork and', util.LOG_LEVEL_INFO)
+            log.info('Add artwork and')
             self.artworkAndList = self.addItemToMissingArtworkList(self.artworkAndList, CONTROL_LABEL_ARTWORK_ANDGROUP)
 
         elif controlID == CONTROL_BUTTON_REMOVE_ARTWORK_ANDGROUP:
-            Logutil.log('Remove artwork and', util.LOG_LEVEL_INFO)
+            log.info('Remove artwork and')
             self.artworkAndList = self.removeFromMissingList(self.artworkAndList, CONTROL_LABEL_ARTWORK_ANDGROUP)
 
         elif controlID == CONTROL_BUTTON_ADD_INFO_ORGROUP:
-            Logutil.log('Add info or', util.LOG_LEVEL_INFO)
+            log.info('Add info or')
             self.infoOrList = self.addItemToMissingInfoList(self.infoOrList, CONTROL_LABEL_INFO_ORGROUP)
 
         elif controlID == CONTROL_BUTTON_REMOVE_INFO_ORGROUP:
-            Logutil.log('Remove info and', util.LOG_LEVEL_INFO)
+            log.info('Remove info and')
             self.infoOrList = self.removeFromMissingList(self.infoOrList, CONTROL_LABEL_INFO_ORGROUP)
 
         elif controlID == CONTROL_BUTTON_ADD_INFO_ANDGROUP:
-            Logutil.log('Add info and', util.LOG_LEVEL_INFO)
+            log.info('Add info and')
             self.infoAndList = self.addItemToMissingInfoList(self.infoAndList, CONTROL_LABEL_INFO_ANDGROUP)
 
         elif controlID == CONTROL_BUTTON_REMOVE_INFO_ANDGROUP:
-            Logutil.log('Remove info and', util.LOG_LEVEL_INFO)
+            log.info('Remove info and')
             self.infoAndList = self.removeFromMissingList(self.infoAndList, CONTROL_LABEL_INFO_ANDGROUP)
 
         #Save
         elif controlID == CONTROL_BUTTON_SAVE:
-            Logutil.log('save', util.LOG_LEVEL_INFO)
+            log.info('save')
 
             showHideList = self.getControlById(CONTROL_LIST_SHOWHIDEMISSING)
             index = showHideList.getSelectedPosition()
@@ -144,7 +144,7 @@ class MissingInfoDialog(DialogBase):
 
         #Cancel
         elif controlID == CONTROL_BUTTON_CANCEL:
-            Logutil.log('cancel', util.LOG_LEVEL_INFO)
+            log.info('cancel')
             self.close()
 
     def onFocus(self, controlId):

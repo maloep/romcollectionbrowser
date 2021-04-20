@@ -76,7 +76,7 @@ class RemoveRCDialog(xbmcgui.WindowXMLDialog):
                 # Code to Remove Collection
                 if self.romDelete == 'RCollection':
                     self._setRCDeleteStatus(True)
-                    Logutil.log('Removing Rom Collection', util.LOG_LEVEL_INFO)
+                    log.info('Removing Rom Collection')
                     configWriterRCDel = ConfigXmlWriter(False)
                     RCName = str(self.selectedRomCollection.name)
                     success, message = configWriterRCDel.removeRomCollection(RCName)
@@ -128,7 +128,7 @@ class RemoveRCDialog(xbmcgui.WindowXMLDialog):
         return control
 
     def addItemsToList(self, controlId, options, properties=None):
-        Logutil.log('addItemsToList', util.LOG_LEVEL_INFO)
+        log.info('addItemsToList')
 
         control = self.getControlById(controlId)
         control.setVisible(1)

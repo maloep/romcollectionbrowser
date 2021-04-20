@@ -2,6 +2,7 @@ from builtins import str
 from builtins import range
 import xbmc, xbmcgui
 import os
+from util import Logutil as log
 
 import util
 from util import *
@@ -21,7 +22,7 @@ class DialogBase(xbmcgui.WindowXMLDialog):
         return control
 
     def addItemsToList(self, controlId, options):
-        Logutil.log('addItemsToList: ID = ' + str(controlId) + ', values = ' + str(options), util.LOG_LEVEL_INFO)
+        log.info('addItemsToList: ID = ' + str(controlId) + ', values = ' + str(options))
 
         control = self.getControlById(controlId)
         control.setVisible(1)
@@ -86,7 +87,7 @@ class DialogBase(xbmcgui.WindowXMLDialog):
 
     def selectScrapersInList(self, sitesInRomCollection, controlId):
 
-        Logutil.log('selectScrapersInList', util.LOG_LEVEL_INFO)
+        log.info('selectScrapersInList')
 
         for site in sitesInRomCollection:
             if site.default:
@@ -95,7 +96,7 @@ class DialogBase(xbmcgui.WindowXMLDialog):
 
     def selectItemInList(self, itemName, controlId):
 
-        Logutil.log('selectItemInList', util.LOG_LEVEL_INFO)
+        log.info('selectItemInList')
 
         control = self.getControlById(controlId)
 

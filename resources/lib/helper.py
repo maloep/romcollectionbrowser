@@ -1,3 +1,4 @@
+import logging
 from builtins import str
 import json
 import os, re
@@ -26,7 +27,7 @@ def get_file_for_control_from_db(file_types, game):
     :param game:
     :return:
     """
-    Logutil.log("begin get_file_for_control_from_db", util.LOG_LEVEL_DEBUG)
+    log.debug("begin get_file_for_control_from_db")
 
     for file_type in file_types:
         prop = 'COL_fileType%s' %file_type.id
@@ -40,7 +41,7 @@ def saveViewState(gdb, isOnExit, selectedView, selectedGameIndex, selectedConsol
                   selectedPublisherId, selectedDeveloperId, selectedYearId, selectedCharacter, selectedMaxPlayers,
                   selectedRating, selectedRegion, sortMethod, sortDirection,
                   selectedControlIdMainView, selectedControlIdGameInfoView, settings):
-    Logutil.log("Begin helper.saveViewState", util.LOG_LEVEL_INFO)
+    log.info("Begin helper.saveViewState")
 
     if isOnExit:
         #saveViewStateOnExit
@@ -51,7 +52,7 @@ def saveViewState(gdb, isOnExit, selectedView, selectedGameIndex, selectedConsol
 
     rcbSetting = getRCBSetting(gdb)
     if rcbSetting == None:
-        Logutil.log("rcbSetting == None in helper.saveViewState", util.LOG_LEVEL_WARNING)
+        log.warn("rcbSetting == None in helper.saveViewState")
         return
 
     if saveViewState:
@@ -75,30 +76,30 @@ def saveViewState(gdb, isOnExit, selectedView, selectedGameIndex, selectedConsol
 
     gdb.commit()
 
-    Logutil.log("End helper.saveViewState", util.LOG_LEVEL_INFO)
+    log.info("End helper.saveViewState")
 
 
 def createArtworkDirectories(romCollections):
-    Logutil.log('Begin createArtworkDirectories', util.LOG_LEVEL_INFO)
+    log.info('Begin createArtworkDirectories')
 
     for romCollection in list(romCollections.values()):
         for mediaPath in romCollection.mediaPaths:
             # Add the trailing slash that xbmcvfs.exists expects
             dirname = os.path.join(os.path.dirname(mediaPath.path), '')
-            Logutil.log('Check if directory exists: %s' % dirname, util.LOG_LEVEL_INFO)
+            log.info('Check if directory exists: %s' % dirname)
             if xbmcvfs.exists(dirname):
-                Logutil.log('Directory exists.', util.LOG_LEVEL_INFO)
+                log.info('Directory exists.')
                 continue
 
-            Logutil.log('Directory does not exist. Try to create it', util.LOG_LEVEL_INFO)
+            log.info('Directory does not exist. Try to create it')
             success = xbmcvfs.mkdirs(dirname)
-            Logutil.log("Directory successfully created: %s" % success, util.LOG_LEVEL_INFO)
+            log.info("Directory successfully created: %s" % success)
             if not success:
                 #HACK: check if directory was really not created.
                 directoryExists = xbmcvfs.exists(dirname)
-                Logutil.log("2nd check if directory exists: %s" % directoryExists, util.LOG_LEVEL_INFO)
+                log.info("2nd check if directory exists: %s" % directoryExists)
                 if not directoryExists:
-                    Logutil.log("Could not create artwork directory: '%s'" % dirname, util.LOG_LEVEL_ERROR)
+                    log.error("Could not create artwork directory: '%s'" % dirname)
                     #32010: Error: Could not create artwork directory.
                     #32011: Check kodi.log for details.
                     message = "%s[CR]%s" %(dirname, util.localize(32011))
@@ -118,20 +119,20 @@ def getRCBSetting(gdb):
 
 
 def isRetroPlayerSupported():
-    Logutil.log("Begin isRetroPlayerSupported", util.LOG_LEVEL_INFO)
+    log.info("Begin isRetroPlayerSupported")
 
     kodiVersion = KodiVersions.getKodiVersion()
-    Logutil.log("Kodi Version = " + str(kodiVersion), util.LOG_LEVEL_INFO)
+    log.info("Kodi Version = " + str(kodiVersion))
 
     try:
         if KodiVersions.getKodiVersion() > KodiVersions.KRYPTON:
-            Logutil.log("RetroPlayer is supported", util.LOG_LEVEL_INFO)
+            log.info("RetroPlayer is supported")
             return True
     except:
-        Logutil.log("RetroPlayer is not supported", util.LOG_LEVEL_INFO)
+        log.info("RetroPlayer is not supported")
         return False
 
-    Logutil.log("RetroPlayer is not supported", util.LOG_LEVEL_INFO)
+    log.info("RetroPlayer is not supported")
     return False
 
 
@@ -144,10 +145,9 @@ def selectlibretrocore(platform):
         '{ "jsonrpc": "2.0", "id": 1, "method": "Addons.GetAddons", "params": { "type": "kodi.gameclient" } }')
     jsonResult = json.loads(addonsJson)
 
-    Logutil.log("selectlibretrocore: jsonresult = " + str(jsonResult), util.LOG_LEVEL_INFO)
+    log.info("selectlibretrocore: jsonresult = " + str(jsonResult))
     if str(list(jsonResult.keys())).find('error') >= 0:
-        Logutil.log("Error while reading gameclient addons via json. Assume that we are not in RetroPlayer branch.",
-                    util.LOG_LEVEL_WARNING)
+        log.warn("Error while reading gameclient addons via json. Assume that we are not in RetroPlayer branch.")
         return False, None
 
     try:
@@ -156,7 +156,7 @@ def selectlibretrocore(platform):
             addonDetails = xbmc.executeJSONRPC(
                 '{ "jsonrpc": "2.0", "id": 1, "method": "Addons.GetAddonDetails", "params": { "addonid": "%s", "properties" : ["name", "thumbnail"] } }' % addonid)
             jsonResultDetails = json.loads(addonDetails)
-            Logutil.log("selectlibretrocore: jsonResultDetails = " + str(jsonResultDetails), util.LOG_LEVEL_INFO)
+            log.info("selectlibretrocore: jsonResultDetails = " + str(jsonResultDetails))
 
             name = jsonResultDetails[u'result'][u'addon'][u'name']
             thumbnail = jsonResultDetails[u'result'][u'addon'][u'thumbnail']
@@ -178,16 +178,15 @@ def selectlibretrocore(platform):
 
 
 def readLibretroCores():
-    Logutil.log("readLibretroCores", util.LOG_LEVEL_INFO)
+    log.info("readLibretroCores")
 
     addons = []
     addonsJson = xbmc.executeJSONRPC(
         '{ "jsonrpc": "2.0", "id": 1, "method": "Addons.GetAddons", "params": { "type": "kodi.gameclient" } }')
     jsonResult = json.loads(addonsJson)
-    Logutil.log("readLibretroCores: jsonresult = " + str(jsonResult), util.LOG_LEVEL_INFO)
+    log.info("readLibretroCores: jsonresult = " + str(jsonResult))
     if str(list(jsonResult.keys())).find('error') >= 0:
-        Logutil.log("Error while reading gameclient addons via json. Assume that we are not in RetroPlayer branch.",
-                    util.LOG_LEVEL_WARNING)
+        log.warn("Error while reading gameclient addons via json. Assume that we are not in RetroPlayer branch.")
         return False, None
 
     try:
@@ -197,5 +196,5 @@ def readLibretroCores():
     except KeyError:
         #no addons installed or found
         return True, addons
-    Logutil.log("addons: %s" % str(addons), util.LOG_LEVEL_INFO)
+    log.info("addons: %s" % str(addons))
     return True, addons

@@ -19,7 +19,7 @@ class NfoWriter(RcbXmlReaderWriter):
         pass
 
     def exportLibrary(self, gdb, romCollections):
-        Logutil.log("Begin exportLibrary", util.LOG_LEVEL_INFO)
+        log.info("Begin exportLibrary")
 
         progressDialog = dialogprogress.ProgressDialogGUI()
         #32169 = Export library...
@@ -32,7 +32,7 @@ class NfoWriter(RcbXmlReaderWriter):
             messageRomCollections = "%s (%i / %i): %s" % (util.localize(32170), rccount, len(romCollections), romCollection.name)
             rccount = rccount + 1
 
-            Logutil.log("export Rom Collection: " + romCollection.name, util.LOG_LEVEL_INFO)
+            log.info("export Rom Collection: " + romCollection.name)
             gameCount = 1
 
             #get all games for this Rom Collection
@@ -44,7 +44,7 @@ class NfoWriter(RcbXmlReaderWriter):
                 message = "%s[CR]%s: %s" %(messageRomCollections, util.localize(32171), str(game[GameView.COL_NAME]))
                 continueExport = progressDialog.writeMsg(message, gameCount)
                 if not continueExport:
-                    Logutil.log('Game export canceled by user', util.LOG_LEVEL_INFO)
+                    log.info('Game export canceled by user')
                     break
 
                 gameCount = gameCount + 1
@@ -68,7 +68,7 @@ class NfoWriter(RcbXmlReaderWriter):
 
     def createNfoFromDesc(self, game, platform, romFile, gameNameFromFile, artworkfiles, artworkurls):
 
-        Logutil.log("Begin createNfoFromDesc", util.LOG_LEVEL_INFO)
+        log.info("Begin createNfoFromDesc")
 
         nfoFile = self.getNfoFilePath(platform, romFile, gameNameFromFile)
         if nfoFile == '':
@@ -146,7 +146,7 @@ class NfoWriter(RcbXmlReaderWriter):
             try:
                 SubElement(root, 'thumb', {'type': artworktype.name, 'local': local}).text = online
             except Exception as exc:
-                Logutil.log('Error writing artwork url: ' + str(exc), util.LOG_LEVEL_WARNING)
+                log.warn('Error writing artwork url: ' + str(exc))
 
         self.writeNfoElementToFile(root, platform, romFile, gameNameFromFile, nfoFile)
 
@@ -187,7 +187,7 @@ class NfoWriter(RcbXmlReaderWriter):
             # Add the trailing slash that xbmcvfs.exists expects
             nfoFolder = os.path.join(os.path.dirname(nfoFolder), '')
             if not xbmcvfs.exists(nfoFolder):
-                Logutil.log("Path to nfoFolder does not exist: " + nfoFolder, util.LOG_LEVEL_WARNING)
+                log.warn("Path to nfoFolder does not exist: " + nfoFolder)
             else:
                 nfoFolder = os.path.join(nfoFolder, romCollectionName)
                 if not os.path.exists(nfoFolder):
@@ -197,7 +197,7 @@ class NfoWriter(RcbXmlReaderWriter):
 
         if nfoFile == '':
             romDir = os.path.dirname(romFile)
-            Logutil.log('Romdir: ' + romDir, util.LOG_LEVEL_INFO)
+            log.info('Romdir: ' + romDir)
             nfoFile = os.path.join(romDir, gameNameFromFile + '.nfo')
 
         log.debug(u"%s returns %s for %s (%s) on platform %s" % (

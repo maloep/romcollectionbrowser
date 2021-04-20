@@ -97,7 +97,7 @@ class DBUpdate(object):
     _gui = None  # Only retained for displaying message dialog
 
     def __init__(self):
-        Logutil.log("init DBUpdate", util.LOG_LEVEL_INFO)
+        log.info("init DBUpdate")
 
         # self.scrapeResultsFile = ScrapeResultsLogFile()
         self.missingDescFile = MissingDescLogFile()
@@ -1043,7 +1043,7 @@ class DBUpdate(object):
                 # xbmcgui.Dialog().ok(util.localize(32012), util.localize(32011))
                 return False, artworkurls
 
-            Logutil.log("Download finished.", util.LOG_LEVEL_INFO)
+            log.info("Download finished.")
 
         except Exception as exc:
             log.warn("Error in getThumbFromOnlineSource: %s" % exc)

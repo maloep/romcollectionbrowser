@@ -12,7 +12,7 @@ class ConfigXmlWriter(RcbXmlReaderWriter):
 
     def __init__(self, createNew):
 
-        Logutil.log('init ConfigXmlWriter', util.LOG_LEVEL_INFO)
+        log.info('init ConfigXmlWriter')
 
         self.createNew = createNew
 
@@ -22,8 +22,7 @@ class ConfigXmlWriter(RcbXmlReaderWriter):
             configFile = util.getConfigXmlPath()
 
         if not os.path.isfile(configFile):
-            Logutil.log('File config.xml does not exist. Place a valid config file here: ' + str(configFile),
-                        util.LOG_LEVEL_ERROR)
+            log.error('File config.xml does not exist. Place a valid config file here: ' + str(configFile))
         else:
             self.tree = ElementTree().parse(configFile)
 
@@ -74,7 +73,7 @@ class ConfigXmlWriter(RcbXmlReaderWriter):
 
     def writeRomCollections(self, romCollections, isEdit):
 
-        Logutil.log('write Rom Collections', util.LOG_LEVEL_INFO)
+        log.info('write Rom Collections')
 
         romCollectionsXml = self.tree.find('RomCollections')
 
@@ -85,7 +84,7 @@ class ConfigXmlWriter(RcbXmlReaderWriter):
 
         for romCollection in list(romCollections.values()):
 
-            Logutil.log('write Rom Collection: ' + str(romCollection.name), util.LOG_LEVEL_INFO)
+            log.info('write Rom Collection: ' + str(romCollection.name))
 
             romCollectionXml = SubElement(romCollectionsXml, 'RomCollection',
                                           self.getXmlAttributesForRomCollection(romCollection))
@@ -146,7 +145,7 @@ class ConfigXmlWriter(RcbXmlReaderWriter):
 
     def writeMissingFilter(self, showHideOption, artworkOrGroup, artworkAndGroup, infoOrGroup, infoAndGroup):
 
-        Logutil.log('write Missing Info Filter', util.LOG_LEVEL_INFO)
+        log.info('write Missing Info Filter')
 
         missingFilterXml = self.tree.find('MissingFilter')
 
@@ -191,7 +190,7 @@ class ConfigXmlWriter(RcbXmlReaderWriter):
 
     def removeRomCollection(self, RCName):
 
-        Logutil.log('removeRomCollection', util.LOG_LEVEL_INFO)
+        log.info('removeRomCollection')
 
         configFile = util.getConfigXmlPath()
         self.tree = ElementTree().parse(configFile)
@@ -205,7 +204,7 @@ class ConfigXmlWriter(RcbXmlReaderWriter):
         return success, message
 
     def addFileTypesForMame(self):
-        Logutil.log('addFileTypesForMame', util.LOG_LEVEL_INFO)
+        log.info('addFileTypesForMame')
 
         fileTypesXml = self.tree.find('FileTypes')
 
@@ -246,7 +245,7 @@ class ConfigXmlWriter(RcbXmlReaderWriter):
         SubElement(fileType, 'parent').text = parent
 
     def addImagePlacingForMame(self):
-        Logutil.log('addImagePlacingForMame', util.LOG_LEVEL_INFO)
+        log.info('addImagePlacingForMame')
 
         imagePlacingXml = self.tree.find('ImagePlacing')
 
@@ -289,7 +288,7 @@ class ConfigXmlWriter(RcbXmlReaderWriter):
 
     # FIXME TODO This function is only called within this class - raise exception rather than return tuple
     def writeFile(self):
-        Logutil.log('writeFile', util.LOG_LEVEL_INFO)
+        log.info('writeFile')
         #write file
         try:
             configFile = util.getConfigXmlPath()

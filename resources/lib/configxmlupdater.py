@@ -18,23 +18,23 @@ class ConfigxmlUpdater(RcbXmlReaderWriter):
 
         tree = ElementTree().parse(configFile)
         if tree == None:
-            Logutil.log('Could not read config.xml', util.LOG_LEVEL_ERROR)
+            log.error('Could not read config.xml')
             return False, util.localize(32004)
 
         self.tree = tree
 
         configVersion = tree.attrib.get('version')
-        Logutil.log('Reading config version from config.xml: ' + str(configVersion), util.LOG_LEVEL_INFO)
+        log.info('Reading config version from config.xml: ' + str(configVersion))
         if configVersion == None:
             #set to previous version
             configVersion = '0.7.4'
 
         #nothing to do
         if (configVersion == util.CURRENT_CONFIG_VERSION):
-            Logutil.log('Config file is up to date', util.LOG_LEVEL_INFO)
+            log.info('Config file is up to date')
             return True, ''
 
-        Logutil.log('Config file is out of date. Start update', util.LOG_LEVEL_INFO)
+        log.info('Config file is out of date. Start update')
 
         #backup config.xml
         newFileName = configFile + '.backup ' + configVersion
@@ -378,7 +378,7 @@ class ConfigxmlUpdater(RcbXmlReaderWriter):
     def readTextElement(self, parent, elementName):
         element = parent.find(elementName)
         if element != None and element.text != None:
-            Logutil.log('%s: %s' % (elementName, element.text), util.LOG_LEVEL_INFO)
+            log.info('%s: %s' % (elementName, element.text))
             return element.text
         else:
             return ''

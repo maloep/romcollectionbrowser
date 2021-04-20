@@ -409,7 +409,7 @@ class RomCollection(object):
         return fts
 
     def getGamenameFromFilename(self, filename):
-        Logutil.log("current rom file: %s" % filename, util.LOG_LEVEL_DEBUG)
+        log.debug("current rom file: %s" % filename)
 
         # Build friendly romname
         if self.useFoldernameAsGamename:
@@ -417,7 +417,7 @@ class RomCollection(object):
         else:
             gamename = os.path.basename(filename)
 
-        Logutil.log("gamename (file): %s" % gamename, util.LOG_LEVEL_DEBUG)
+        log.debug("gamename (file): %s" % gamename)
 
         # Use regular expression to find disk prefix like '(Disk 1)' etc.
         match = False
@@ -431,7 +431,7 @@ class RomCollection(object):
 
         gamename = gamename.strip()
 
-        Logutil.log("gamename (friendly): %s" % gamename, util.LOG_LEVEL_DEBUG)
+        log.debug("gamename (friendly): %s" % gamename)
 
         return gamename
 
@@ -463,21 +463,20 @@ class Config(RcbXmlReaderWriter):
         self.tree = None
         self.configPath = None
 
-        Logutil.log('Config() set path to %s' % configFile, util.LOG_LEVEL_INFO)
+        log.info('Config() set path to %s' % configFile)
         self.configFile = configFile
 
     def __repr__(self):
         return "<Config: %s>" % self.__dict__
 
     def initXml(self):
-        Logutil.log('initXml', util.LOG_LEVEL_INFO)
+        log.info('initXml')
 
         if not self.configFile:
             self.configFile = util.getConfigXmlPath()
 
         if (not xbmcvfs.exists(self.configFile)):
-            Logutil.log('File config.xml does not exist. Place a valid config file here: %s' % self.configFile,
-                        util.LOG_LEVEL_ERROR)
+            log.error('File config.xml does not exist. Place a valid config file here: %s' % self.configFile)
             return False, util.localize(32003)
 
         # force utf-8
@@ -489,7 +488,7 @@ class Config(RcbXmlReaderWriter):
 
         tree.parse(self.configFile, parser)
         if (tree == None):
-            Logutil.log('Could not read config.xml', util.LOG_LEVEL_ERROR)
+            log.error('Could not read config.xml')
             return False, util.localize(32004)
 
         self.tree = tree
@@ -497,7 +496,7 @@ class Config(RcbXmlReaderWriter):
         return True, ''
 
     def checkRomCollectionsAvailable(self):
-        Logutil.log('checkRomCollectionsAvailable', util.LOG_LEVEL_INFO)
+        log.info('checkRomCollectionsAvailable')
 
         if not self.tree:
             success, errorMsg = self.initXml()
@@ -506,12 +505,12 @@ class Config(RcbXmlReaderWriter):
 
         romCollectionRows = self.tree.findall('RomCollections/RomCollection')
         numRomCollections = len(romCollectionRows)
-        Logutil.log("Number of Rom Collections in config.xml: %i" % numRomCollections, util.LOG_LEVEL_INFO)
+        log.info("Number of Rom Collections in config.xml: %i" % numRomCollections)
 
         return numRomCollections > 0, ''
 
     def readXml(self):
-        Logutil.log('readXml', util.LOG_LEVEL_INFO)
+        log.info('readXml')
 
         if not self.tree:
             success, errorMsg = self.initXml()
@@ -549,14 +548,14 @@ class Config(RcbXmlReaderWriter):
             parsing the tree, None is returned
 
         """
-        Logutil.log('Begin readRomCollections', util.LOG_LEVEL_INFO)
+        log.info('Begin readRomCollections')
 
         romCollections = {}
 
         romCollectionRows = tree.findall('RomCollections/RomCollection')
 
         if len(romCollectionRows) == 0:
-            Logutil.log('Configuration error. config.xml does not contain any RomCollections', util.LOG_LEVEL_ERROR)
+            log.error('Configuration error. config.xml does not contain any RomCollections')
             return None, 'Configuration error. See xbmc.log for details'
 
         for romCollectionRow in romCollectionRows:
@@ -564,26 +563,25 @@ class Config(RcbXmlReaderWriter):
             romCollection = RomCollection()
             romCollection.name = romCollectionRow.attrib.get('name')
             if romCollection.name is None:
-                Logutil.log('Configuration error. RomCollection must have an attribute name', util.LOG_LEVEL_ERROR)
+                log.error('Configuration error. RomCollection must have an attribute name')
                 return None, util.localize(32005)
 
-            Logutil.log('current Rom Collection: ' + str(romCollection.name), util.LOG_LEVEL_INFO)
+            log.info('current Rom Collection: ' + str(romCollection.name))
 
             rcid = romCollectionRow.attrib.get('id', '')
             if rcid == '':
-                Logutil.log('Configuration error. RomCollection %s must have an id' % romCollection.name,
-                            util.LOG_LEVEL_ERROR)
+                log.error('Configuration error. RomCollection %s must have an id' % romCollection.name)
                 return None, util.localize(32005)
 
             if rcid in romCollections:
-                Logutil.log('Error while adding RomCollection. Make sure that the id is unique.', util.LOG_LEVEL_ERROR)
+                log.error('Error while adding RomCollection. Make sure that the id is unique.')
                 return None, util.localize(32006)
 
             romCollection.id = rcid
 
             # romPath
             for romPathRow in romCollectionRow.findall('romPath'):
-                Logutil.log('Rom path: ' + romPathRow.text, util.LOG_LEVEL_INFO)
+                log.info('Rom path: ' + romPathRow.text)
                 if romPathRow.text is not None:
                     romCollection.romPaths.append(romPathRow.text)
 
@@ -592,7 +590,7 @@ class Config(RcbXmlReaderWriter):
                 mediaPath = MediaPath()
                 if mediaPathRow.text is not None:
                     mediaPath.path = mediaPathRow.text
-                Logutil.log('Media path: ' + mediaPath.path, util.LOG_LEVEL_INFO)
+                log.info('Media path: ' + mediaPath.path)
                 fileType, errorMsg = self.get_filetype_by_name(mediaPathRow.attrib.get('type'), tree)
                 if fileType is None:
                     return None, errorMsg
@@ -602,8 +600,7 @@ class Config(RcbXmlReaderWriter):
             #Scraper
             for scraperRow in romCollectionRow.findall('scraper'):
                 if 'name' not in scraperRow.attrib:
-                    Logutil.log('Configuration error. RomCollection/scraper must have an attribute name',
-                                util.LOG_LEVEL_ERROR)
+                    log.error('Configuration error. RomCollection/scraper must have an attribute name')
                     return None, util.localize(32005)
 
                 site = Site()
@@ -621,7 +618,7 @@ class Config(RcbXmlReaderWriter):
             romCollection.imagePlacingMain = ImagePlacing()
             imagePlacingRow = romCollectionRow.find('imagePlacingMain')
             if imagePlacingRow is not None:
-                Logutil.log('Image Placing name: ' + str(imagePlacingRow.text), util.LOG_LEVEL_INFO)
+                log.info('Image Placing name: ' + str(imagePlacingRow.text))
                 fileTypeFor, errorMsg = self.readImagePlacing(imagePlacingRow.text, tree)
                 if fileTypeFor is None:
                     return None, errorMsg
@@ -632,7 +629,7 @@ class Config(RcbXmlReaderWriter):
             romCollection.imagePlacingInfo = ImagePlacing()
             imagePlacingRow = romCollectionRow.find('imagePlacingInfo')
             if imagePlacingRow is not None:
-                Logutil.log('Image Placing name: ' + str(imagePlacingRow.text), util.LOG_LEVEL_INFO)
+                log.info('Image Placing name: ' + str(imagePlacingRow.text))
                 fileTypeFor, errorMsg = self.readImagePlacing(imagePlacingRow.text, tree)
                 if fileTypeFor is None:
                     return None, errorMsg
@@ -664,7 +661,7 @@ class Config(RcbXmlReaderWriter):
 
         fileTypeRow = next((element for element in fileTypeRows if element.attrib.get('name') == name), None)
         if fileTypeRow is None:
-            Logutil.log('Configuration error. FileType %s does not exist in config.xml' % name, util.LOG_LEVEL_ERROR)
+            log.error('Configuration error. FileType %s does not exist in config.xml' % name)
             return None, util.localize(32005)
 
         fileType = FileType()
@@ -675,7 +672,7 @@ class Config(RcbXmlReaderWriter):
             fileType.type = fileTypeRow.find('type').text
             fileType.parent = fileTypeRow.find('parent').text
         except KeyError:
-            Logutil.log('Configuration error. FileType %s must have an id' % name, util.LOG_LEVEL_ERROR)
+            log.error('Configuration error. FileType %s must have an id' % name)
             return None, util.localize(32005)
         except AttributeError:
             pass
@@ -690,9 +687,8 @@ class Config(RcbXmlReaderWriter):
         fileTypeForRow = next(
             (element for element in fileTypeForRows if element.attrib.get('name') == imagePlacingName), None)
         if fileTypeForRow is None:
-            Logutil.log(
-                'Configuration error. ImagePlacing/fileTypeFor %s does not exist in config.xml' % str(imagePlacingName),
-                util.LOG_LEVEL_ERROR)
+            log.error(
+                'Configuration error. ImagePlacing/fileTypeFor %s does not exist in config.xml' % str(imagePlacingName))
             return None, util.localize(32005)
 
         imagePlacing = ImagePlacing()

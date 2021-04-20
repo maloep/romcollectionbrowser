@@ -31,7 +31,7 @@ CONTROL_BUTTON_SCRAPER_DOWN = 5271
 class UpdateArtworkDialog(DialogBase):
     def __init__(self, *args, **kwargs):
         # Don't put GUI sensitive stuff here (as the xml hasn't been read yet)
-        Logutil.log('init ImportOptions', util.LOG_LEVEL_INFO)
+        log.info('init ImportOptions')
 
         self.gui = kwargs["gui"]
         self.doModal()

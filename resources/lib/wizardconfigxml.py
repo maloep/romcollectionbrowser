@@ -43,7 +43,7 @@ class ConfigXmlWizard(RcbXmlReaderWriter):
 
     # Called by context menu
     def addRomCollection(self, configObj):
-        Logutil.log("Begin addRomCollection", util.LOG_LEVEL_INFO)
+        log.info("Begin addRomCollection")
 
         consoleList = sorted(WebScraper().consoleDict.keys())
         new_id = 1
@@ -200,7 +200,7 @@ class ConfigXmlWizard(RcbXmlReaderWriter):
                         romCollection.emulatorCmd = preconfiguredEmulator.emuCmd
                     else:
                         consolePath = dialog.browse(1, util.localize(32178) % console, 'files')
-                        Logutil.log('consolePath: ' + str(consolePath), util.LOG_LEVEL_INFO)
+                        log.info('consolePath: ' + str(consolePath))
                         if consolePath == '':
                             log.info("No consolePath selected. Action canceled.")
                             break

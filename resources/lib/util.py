@@ -253,7 +253,7 @@ def getTempDir():
             os.mkdir(tempDir)
         return tempDir
     except Exception as exc:
-        Logutil.log('Error creating temp dir: ' + str(exc), LOG_LEVEL_ERROR)
+        Logutil.error('Error creating temp dir: ' + str(exc))
         return None
 
 
@@ -264,7 +264,7 @@ def getConfigXmlPath():
     else:
         configFile = os.path.join(getAddonInstallPath(), "resources", "lib", "TestDataBase", "config.xml")
 
-    Logutil.log('Path to configuration file: ' + str(configFile), LOG_LEVEL_INFO)
+    Logutil.info('Path to configuration file: ' + str(configFile))
     return configFile
 
 
@@ -344,34 +344,6 @@ class Logutil(object):
     @classmethod
     def error(cls, message):
         cls.__log(LOG_LEVEL_ERROR, message)
-
-    @staticmethod
-    def log(message, logLevel):
-        # FIXME TODO this is deprecated in favour of the above methods
-        if Logutil.currentLogLevel == None:
-            xbmc.log("RCB: init log level")
-            Logutil.currentLogLevel = Logutil.getCurrentLogLevel()
-            xbmc.log("RCB: current log level: " + str(Logutil.currentLogLevel))
-
-        if logLevel > Logutil.currentLogLevel:
-            return
-
-        prefix = u''
-        if logLevel == LOG_LEVEL_DEBUG:
-            prefix = u'RCB_DEBUG: '
-        elif logLevel == LOG_LEVEL_INFO:
-            prefix = u'RCB_INFO: '
-        elif logLevel == LOG_LEVEL_WARNING:
-            prefix = u'RCB_WARNING: '
-        elif logLevel == LOG_LEVEL_ERROR:
-            prefix = u'RCB_ERROR: '
-
-        try:
-            # should be save as prefix is guaranteed to be unicode
-            m = prefix + message
-            xbmc.log(m.encode("utf-8"))
-        except Exception:
-            pass
 
     @staticmethod
     def getCurrentLogLevel():
