@@ -106,6 +106,7 @@ class UIGameDB(xbmcgui.WindowXML):
     selectedRating = 0
     selectedRegion = 0
     selectedViewModeId = CONTROL_GAMES_GROUP_START
+    lastPosition = 0
 
     SORT_METHODS = {
         GameView.FIELDNAMES[GameView.COL_NAME]: util.localize(32421),
@@ -125,9 +126,6 @@ class UIGameDB(xbmcgui.WindowXML):
     searchTerm = ''
 
     filterChanged = False
-
-    #last selected game position (prevent invoke showgameinfo twice)
-    lastPosition = -1
 
     #dummy to be compatible with ProgressDialogGUI
     itemCount = 0
@@ -819,8 +817,6 @@ class UIGameDB(xbmcgui.WindowXML):
     def showGames(self):
         log.info("Begin showGames")
 
-        self.lastPosition = -1
-
         preventUnfilteredSearch = self.Settings.getSetting(util.SETTING_RCB_PREVENTUNFILTEREDSEARCH).upper() == 'TRUE'
         if preventUnfilteredSearch:
             if self.selectedCharacter == util.localize(32120) \
@@ -1329,16 +1325,9 @@ class UIGameDB(xbmcgui.WindowXML):
             log.warn("ListSize == 0 in saveViewState")
             return
 
-        selectedGameIndex = self.getCurrentListPosition()
-        if selectedGameIndex == -1:
-            selectedGameIndex = 0
-        if selectedGameIndex == None:
-            log.warn("selectedGameIndex == None in saveViewState")
-            return
-
         self.saveViewMode()
 
-        helper.saveViewState(self.gdb, isOnExit, util.VIEW_MAINVIEW, selectedGameIndex, self.selectedConsoleId,
+        helper.saveViewState(self.gdb, isOnExit, util.VIEW_MAINVIEW, self.lastPosition, self.selectedConsoleId,
                              self.selectedGenreId, self.selectedPublisherId, self.selectedDeveloperId,
                              self.selectedYearId, self.selectedCharacter, self.selectedMaxPlayers,
                              self.selectedRating, self.selectedRegion, self.sortMethod, self.sortDirection,
@@ -1473,7 +1462,8 @@ class UIGameDB(xbmcgui.WindowXML):
         # Reset game list
         self.showGames()
 
-        self.setFilterSelection(CONTROL_GAMES_GROUP_START, rcbSetting[RCBSetting.COL_lastSelectedGameIndex])
+        self.lastPosition = rcbSetting[RCBSetting.COL_lastSelectedGameIndex]
+        self.setFilterSelection(CONTROL_GAMES_GROUP_START, self.lastPosition)
 
         #always set focus on game list on start
         focusControl = self.getControlById(CONTROL_GAMES_GROUP_START)
