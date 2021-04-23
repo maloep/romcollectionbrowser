@@ -107,6 +107,7 @@ class UIGameDB(xbmcgui.WindowXML):
     selectedRegion = 0
     selectedViewModeId = CONTROL_GAMES_GROUP_START
     lastPosition = 0
+    selectedFavorite = False
 
     SORT_METHODS = {
         GameView.FIELDNAMES[GameView.COL_NAME]: util.localize(32421),
@@ -389,6 +390,7 @@ class UIGameDB(xbmcgui.WindowXML):
             self.launchEmu()
         elif controlId == CONTROL_BUTTON_FAVORITE:
             log.debug("onClick: Button Favorites")
+            self.selectedFavorite = self.getControlById(CONTROL_BUTTON_FAVORITE).isSelected()
             self.showGames()
         elif controlId == CONTROL_BUTTON_SEARCH:
             log.debug("onClick: Button Search")
@@ -1343,14 +1345,10 @@ class UIGameDB(xbmcgui.WindowXML):
         self.Settings.setSetting(util.SETTING_RCB_VIEW_MODE, repr(self.selectedViewModeId))
 
         #favorites
-        controlFavorites = self.getControlById(CONTROL_BUTTON_FAVORITE)
-        if controlFavorites != None:
-            self.Settings.setSetting(util.SETTING_RCB_FAVORITESSELECTED, str(controlFavorites.isSelected()))
+        self.Settings.setSetting(util.SETTING_RCB_FAVORITESSELECTED, str(self.selectedFavorite))
 
         #searchText
-        controlSearchText = self.getControlById(CONTROL_BUTTON_SEARCH)
-        if controlSearchText != None:
-            self.Settings.setSetting(util.SETTING_RCB_SEARCHTEXT, self.searchTerm)
+        self.Settings.setSetting(util.SETTING_RCB_SEARCHTEXT, self.searchTerm)
 
         log.info("End saveViewMode")
 
@@ -1432,8 +1430,8 @@ class UIGameDB(xbmcgui.WindowXML):
         #favorites
         isFavoriteButton = self.getControlById(CONTROL_BUTTON_FAVORITE)
         if isFavoriteButton != None:
-            favoritesSelected = self.Settings.getSetting(util.SETTING_RCB_FAVORITESSELECTED)
-            isFavoriteButton.setSelected(favoritesSelected == '1')
+            self.selectedFavorite = (self.Settings.getSetting(util.SETTING_RCB_FAVORITESSELECTED) == 'true')
+            isFavoriteButton.setSelected(self.selectedFavorite)
 
         #sort method
         self.sortMethod = rcbSetting[RCBSetting.COL_sortMethod]
