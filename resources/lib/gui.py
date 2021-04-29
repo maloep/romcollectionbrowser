@@ -105,6 +105,7 @@ class UIGameDB(xbmcgui.WindowXML):
     selectedMaxPlayers = 0
     selectedRating = 0
     selectedRegion = 0
+    selectedViewModeId = CONTROL_GAMES_GROUP_START
 
     SORT_METHODS = {
         GameView.FIELDNAMES[GameView.COL_NAME]: util.localize(32421),
@@ -696,6 +697,8 @@ class UIGameDB(xbmcgui.WindowXML):
     def onFocus(self, controlId):
         log.debug("onFocus: " + str(controlId))
         self.selectedControlId = controlId
+        if self.selectedViewModeId != controlId and controlId in range(CONTROL_GAMES_GROUP_START, CONTROL_GAMES_GROUP_END + 1):
+            self.selectedViewModeId = controlId
 
     def _getMaxGamesToDisplay(self):
         # Set a limit of games to show
@@ -945,11 +948,10 @@ class UIGameDB(xbmcgui.WindowXML):
 
         #show navigation hint
         if self.Settings.getSetting(util.SETTING_RCB_SHOWNAVIGATIONHINT).upper() == 'TRUE':
-            view_mode = self.get_selected_view_mode()
-            print ('view_mode = %s' %view_mode)
-            if int(view_mode) in VIEWS_VERTICAL:
+            print ('view_mode = %s' % self.selectedViewModeId)
+            if self.selectedViewModeId in VIEWS_VERTICAL:
                 self.writeMsg(util.localize(32208))
-            elif int(view_mode) in VIEWS_HORIZONTAL:
+            elif self.selectedViewModeId in VIEWS_HORIZONTAL:
                 self.writeMsg(util.localize(32209))
 
         timestamp3 = time.process_time()
@@ -1344,27 +1346,12 @@ class UIGameDB(xbmcgui.WindowXML):
 
         log.info("End saveViewState")
 
-    def get_selected_view_mode(self):
-
-        view_mode = ""
-        for control_id in range(CONTROL_GAMES_GROUP_START, CONTROL_GAMES_GROUP_END + 1):
-            try:
-                if xbmc.getCondVisibility("Control.IsVisible(%i)" % control_id):
-                    view_mode = repr(control_id)
-                    break
-            except:
-                pass
-
-        return view_mode
-
     def saveViewMode(self):
 
         log.info("Begin saveViewMode")
 
-        view_mode = self.get_selected_view_mode()
-        log.debug("view_mode = {0}".format(view_mode))
-
-        self.Settings.setSetting(util.SETTING_RCB_VIEW_MODE, view_mode)
+        log.debug("view_mode = {0}".format(self.selectedViewModeId))
+        self.Settings.setSetting(util.SETTING_RCB_VIEW_MODE, repr(self.selectedViewModeId))
 
         #favorites
         controlFavorites = self.getControlById(CONTROL_BUTTON_FAVORITE)
@@ -1439,12 +1426,13 @@ class UIGameDB(xbmcgui.WindowXML):
 
         #reset view mode
         viewModeId = self.Settings.getSetting(util.SETTING_RCB_VIEW_MODE)
-        if viewModeId != None and viewModeId != '':
-            xbmc.executebuiltin("Container.SetViewMode(%i)" % int(viewModeId))
+        if viewModeId is not None and viewModeId != '':
+            self.selectedViewModeId = int(viewModeId)
+            xbmc.executebuiltin("Container.SetViewMode(%i)" % self.selectedViewModeId)
             # HACK: This second line is required to reset the viewmode at startup in Kodi 18 (Leia)
             # more info here: https://forum.kodi.tv/showthread.php?tid=329208
             if KodiVersions.getKodiVersion() >= KodiVersions.LEIA:
-                xbmc.executebuiltin("Container.SetViewMode(%i)" % int(viewModeId))
+                xbmc.executebuiltin("Container.SetViewMode(%i)" % self.selectedViewModeId)
 
         #searchText
         self.searchTerm = self.Settings.getSetting(util.SETTING_RCB_SEARCHTEXT)
