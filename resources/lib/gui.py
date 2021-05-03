@@ -1323,10 +1323,6 @@ class UIGameDB(xbmcgui.WindowXML):
 
         log.info("Begin saveViewState")
 
-        if self.getListSize() == 0:
-            log.warn("ListSize == 0 in saveViewState")
-            return
-
         self.saveViewMode()
 
         helper.saveViewState(self.gdb, isOnExit, util.VIEW_MAINVIEW, self.lastPosition, self.selectedConsoleId,
