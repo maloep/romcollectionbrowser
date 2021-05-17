@@ -20,7 +20,7 @@ class ArtworkUpdater(object):
         #cache all available artwork
         media_dict = self._cache_mediapaths_for_selection(console_id, {})
 
-        if console_id > 0:
+        if int(console_id) > 0:
             rom_collection = self.config.romCollections[str(console_id)]
             self.dialogheader = util.localize(32954) + " (%i / %i): %s" % (1, 1, rom_collection.name)
             self._update_artwork_cache_for_romcollection(rom_collection, file_type_id, media_dict)
@@ -91,7 +91,7 @@ class ArtworkUpdater(object):
             log.info('MediaPaths for RomCollection %s are already in cache' % console_id)
             return media_dict
 
-        if console_id > 0:
+        if int(console_id) > 0:
             self.progress_dialog.itemCount = 1
             rom_collection = self.config.romCollections[str(console_id)]
             #32953 = Caching Artwork for Rom Collection
