@@ -1,0 +1,1182 @@
+# Kodi Media Center language file
+# Addon Name: Rom Collection Browser
+# Addon id: script.games.rom.collection.browser
+# Addon Provider: bruny, malte
+msgid ""
+msgstr ""
+"Project-Id-Version: Kodi Addons\n"
+"Report-Msgid-Bugs-To: https://forum.kodi.tv/\n"
+"POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: Kodi Translation Team\n"
+"Language-Team: Team-Kodi\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: en_GB\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+msgctxt "#32000"
+msgid "Error: Can not access database."
+msgstr "Error: No se puede acceder a base de datos."
+
+msgctxt "#32001"
+msgid "Error while updating config.xml."
+msgstr "Error mientras actualiza config.xml."
+
+msgctxt "#32002"
+msgid "Error reading config.xml."
+msgstr "Error leyendo config.xml."
+
+msgctxt "#32003"
+msgid "Error: File config.xml does not exist."
+msgstr "Error: Archivo config.xml no existe."
+
+msgctxt "#32004"
+msgid "Error: Could not read config.xml."
+msgstr "Error: No se puede leer config.xml."
+
+msgctxt "#32005"
+msgid "Configuration error. See kodi.log for details."
+msgstr "Error de configuración. Mira kodi.log por detalles."
+
+msgctxt "#32006"
+msgid "Rom Collection ids are not unique."
+msgstr "ids de colección de rom no son únicas."
+
+msgctxt "#32007"
+msgid "Error: Cannot backup config.xml."
+msgstr "Error: No se puede backup config.xml."
+
+msgctxt "#32008"
+msgid "Error: Cannot write config.xml."
+msgstr "Error: No se puede escribir config.xml."
+
+msgctxt "#32009"
+msgid "%s %s could not be found in config.xml."
+msgstr "%s %s no puede ser encontrado en config.xml."
+
+msgctxt "#32010"
+msgid "Error: Could not create artwork directory."
+msgstr "Error: No se puede crear directorio artwork."
+
+msgctxt "#32011"
+msgid "Check kodi.log for details."
+msgstr "Mira kodi.log por detalles."
+
+msgctxt "#32012"
+msgid "Error: Could not create artwork file."
+msgstr "Error: No se puede crear archivo artwork."
+
+msgctxt "#32013"
+msgid "Rescrape game error"
+msgstr "Rescrape error de juego"
+
+msgctxt "#32014"
+msgid "Can't load selected Game"
+msgstr "No se puede cargar juego seleccionado"
+
+msgctxt "#32015"
+msgid "Edit Game Command Error"
+msgstr "Error Edición Comando de Juego"
+
+msgctxt "#32016"
+msgid "Add To Favorites Error"
+msgstr "Error Agregar a Favoritos"
+
+msgctxt "#32017"
+msgid "Delete Game Error"
+msgstr "Error Borrado de Juego"
+
+msgctxt "#32018"
+msgid "Can't delete selected Game"
+msgstr "No se puede borrar el juego seleccionado"
+
+msgctxt "#32019"
+msgid "Error"
+msgstr "Error"
+
+msgctxt "#32020"
+msgid "Error Deleting Rom Collection"
+msgstr "Error Borrando Colección Rom"
+
+msgctxt "#32021"
+msgid "Configuration Error"
+msgstr "Error de Configuración"
+
+msgctxt "#32022"
+msgid "Site %s does not exist in config.xml"
+msgstr "Sitio %s no existe en config.xml"
+
+msgctxt "#32023"
+msgid "Cannot get rom collection with id: %s"
+msgstr "No se puede adquirir colección rom con id: %s"
+
+msgctxt "#32024"
+msgid "Selected game could not be read from database."
+msgstr "Juego seleccionado no puede ser leído de la base de datos."
+
+msgctxt "#32025"
+msgid "Control with id: %s could not be found. Check WindowXML file."
+msgstr "Control con id: %s no puede ser encontrado. Chequea archivo WindowXML."
+
+msgctxt "#32027"
+msgid "Cannot scrape %s games with %s scraper.[CR]Invalid combination of scraper settings."
+msgstr "No se puede scrape %s juegos con %s scraper.[CR]Combinación inválida de opciones de scraper."
+
+msgctxt "#32030"
+msgid "Error: Cannot backup MyGames.db: Backup File exists."
+msgstr "Error: No se puede backup MyGames.db: Archivo Backup existe."
+
+msgctxt "#32031"
+msgid "Error: Cannot backup MyGames.db"
+msgstr "Error: No se puede backup MyGames.db"
+
+msgctxt "#32032"
+msgid "Error: No Update from version %s to %s."
+msgstr "Error: No actualizar de versión %s a %s."
+
+msgctxt "#32034"
+msgid "Error launching game!"
+msgstr "Error lanzando juego!"
+
+msgctxt "#32035"
+msgid "Error while launching emulator"
+msgstr "Error mientras lanzando emulador"
+
+msgctxt "#32036"
+msgid "Error deleting files after launching emulator"
+msgstr "Error borrando archivos después de lanzar emulador"
+
+msgctxt "#32037"
+msgid "Error while launching emulator: File %s does not exist!"
+msgstr "Error mientras se lanza emulador: Archivo %s no existe!"
+
+msgctxt "#32038"
+msgid "Error while creating .cut file. Check kodi.log for details."
+msgstr "Error mientras se crea archivo .cut. Mira kodi.log por detalles."
+
+msgctxt "#32039"
+msgid "Error launching .7z file."
+msgstr "Error lanzando archivo .7z."
+
+msgctxt "#32040"
+msgid "Error: File config_template.xml does not exist"
+msgstr "Error: Archivo config_template.xml no existe"
+
+msgctxt "#32041"
+msgid "RCB can't acces your rom path.[CR]Make sure it does not contain any non-ascii characters."
+msgstr "RCB no puede acceder a su directorio de Rom.[CR]Asegúrese de que no contenga caracteres no ascii."
+
+msgctxt "#32042"
+msgid "RCB can't acces your artwork path.[CR]Make sure it does not contain any non-ascii characters."
+msgstr "RCB no puede acceder a su directorio de artwork.[CR]Asegúrese de que no contenga caracteres no ascii."
+
+msgctxt "#32043"
+msgid "API quota for current scraper exceeded.[CR]Please try again later or use another scraper."
+msgstr "API quota para el scraper excedida.[CR]Por favor intente de nuevo o use otro scraper."
+
+msgctxt "#32100"
+msgid "No config file found."
+msgstr "No se encuentra archivo de configuración."
+
+msgctxt "#32101"
+msgid "Do you want to create one?"
+msgstr "Quiere crear uno?"
+
+msgctxt "#32102"
+msgid "Database and config.xml updated to new version."
+msgstr "Base de Datos y config.xml actualizados a nueva versión."
+
+msgctxt "#32103"
+msgid "Please read the wiki and changelog if you encounter any problems."
+msgstr "Lea wiki y changelog si encuentra problemas."
+
+msgctxt "#32104"
+msgid "Deleting Rom"
+msgstr "Borrando Rom"
+
+msgctxt "#32105"
+msgid "Deleting Roms..."
+msgstr "Borrando Roms"
+
+msgctxt "#32106"
+msgid "Deleting Roms Complete"
+msgstr "Borrando Roms Completado"
+
+msgctxt "#32107"
+msgid "Checking File"
+msgstr "Chequeando Archivos"
+
+msgctxt "#32108"
+msgid "Cleaning Database..."
+msgstr "Limpiando Base de Datos..."
+
+msgctxt "#32109"
+msgid "Compressing Database..."
+msgstr "Comprimiendo Base de Datos..."
+
+msgctxt "#32110"
+msgid "Database Clean-up Complete"
+msgstr "Limpieza de Base de Datos Completa"
+
+msgctxt "#32111"
+msgid "Import Games..."
+msgstr "Importar Juegos..."
+
+msgctxt "#32112"
+msgid "Import in Progress"
+msgstr "Importado en Progreso"
+
+msgctxt "#32113"
+msgid "Do you want to cancel current import?"
+msgstr "Quiere cancelar importación actual?"
+
+msgctxt "#32114"
+msgid "Cancelling in Progress"
+msgstr "Cancelar en Progreso"
+
+msgctxt "#32115"
+msgid "Import is still being cancelled. Please try again later."
+msgstr "La importacíon aún está siendo cancelada. Intente más tarde nuevamente."
+
+msgctxt "#32116"
+msgid "Enter search term"
+msgstr "Ingresa Término de búsqueda"
+
+msgctxt "#32117"
+msgid "Search"
+msgstr "Buscar"
+
+msgctxt "#32118"
+msgid "Do you want to import Games now?"
+msgstr "Quieres importar juegos ahora?"
+
+msgctxt "#32119"
+msgid "loading list..."
+msgstr "Cargando lista..."
+
+msgctxt "#32120"
+msgid "All"
+msgstr "TODO"
+
+msgctxt "#32121"
+msgid "Loading games..."
+msgstr "cargando juegos..."
+
+msgctxt "#32122"
+msgid "Importing Rom Collection"
+msgstr "Importando Colección Rom"
+
+msgctxt "#32123"
+msgid "Importing Game"
+msgstr "Importando Juegos"
+
+msgctxt "#32124"
+msgid "Continue"
+msgstr "Continuar"
+
+msgctxt "#32125"
+msgid "Continue and Ignore Errors"
+msgstr "Continuar e Ignorar Errores"
+
+msgctxt "#32126"
+msgid "Cancel"
+msgstr "Cancelar"
+
+msgctxt "#32127"
+msgid "First 10 games could not be imported."
+msgstr "Primeros 10 juegos no pueden ser importados."
+
+msgctxt "#32128"
+msgid "Import canceled."
+msgstr "Importar cancelado."
+
+msgctxt "#32129"
+msgid "Please check kodi.log for details."
+msgstr "Por favor mira kodi.log por detalles."
+
+msgctxt "#32130"
+msgid "Building file list..."
+msgstr "Construyendo lista de archivos..."
+
+msgctxt "#32131"
+msgid "downloading info"
+msgstr "Descargando info"
+
+msgctxt "#32132"
+msgid "Enter %s"
+msgstr "Ingresar %s"
+
+msgctxt "#32133"
+msgid "Remove Game From Favorites"
+msgstr "Remover Juego de Favoritos"
+
+msgctxt "#32134"
+msgid "Remove Selection From Favorites"
+msgstr "Remover Selección de Favoritos"
+
+msgctxt "#32135"
+msgid "Enter Game Command"
+msgstr "Ingresa comandos para el juego"
+
+msgctxt "#32136"
+msgid "Are you sure you want to delete this game?"
+msgstr "Está seguro que quiere borrar este juego?"
+
+msgctxt "#32137"
+msgid "Delete games and configuration"
+msgstr "Borra juegos y configuración"
+
+msgctxt "#32138"
+msgid "Delete games only"
+msgstr "Sólo borra juegos"
+
+msgctxt "#32139"
+msgid "Emulator"
+msgstr "Emulador"
+
+msgctxt "#32140"
+msgid "Enter Rom File Mask"
+msgstr "Ingresa Extensión de archivo para Rom"
+
+msgctxt "#32141"
+msgid "Path"
+msgstr "Directorio"
+
+msgctxt "#32142"
+msgid "Choose a media path to add"
+msgstr "Elige un directorio de media para adherir"
+
+msgctxt "#32143"
+msgid "Choose a media path to remove"
+msgstr "Elige un directorio de media para remover"
+
+msgctxt "#32144"
+msgid "There already are scrapers for all Rom Collections"
+msgstr "Ya hay scrapers para todas las Colecciones de Roms"
+
+msgctxt "#32145"
+msgid "Edit or delete an existing scraper"
+msgstr "Editar o borrar un scraper existente"
+
+msgctxt "#32146"
+msgid "Select scraper name"
+msgstr "Selecciona nombre de scraper"
+
+msgctxt "#32147"
+msgid "Choose a scraper to remove"
+msgstr "Elija un scraper para remover"
+
+msgctxt "#32148"
+msgid "Scraper %s is already in use and cannot be deleted."
+msgstr "Scraper %s está siendo usado y no puede ser borrado."
+
+msgctxt "#32153"
+msgid "local artwork"
+msgstr "artwork local"
+
+msgctxt "#32154"
+msgid "local nfo"
+msgstr "nfo local"
+
+msgctxt "#32155"
+msgid "Select Artwork type"
+msgstr "Seleccione tipo Artwork"
+
+msgctxt "#32156"
+msgid "Select property"
+msgstr "Seleccione Propiedades"
+
+msgctxt "#32157"
+msgid "ignore"
+msgstr "ignorar"
+
+msgctxt "#32158"
+msgid "Ignore filter"
+msgstr "Ignorar filtro"
+
+msgctxt "#32159"
+msgid "show"
+msgstr "Mostrar"
+
+msgctxt "#32160"
+msgid "Show only games with missing items"
+msgstr "Mostrar sólo juegos con items perdidos"
+
+msgctxt "#32161"
+msgid "hide"
+msgstr "Ocultar"
+
+msgctxt "#32162"
+msgid "Hide games with missing items"
+msgstr "Ocultar juegos con items faltantes"
+
+msgctxt "#32163"
+msgid "Launch Game"
+msgstr "Lanzar juego"
+
+msgctxt "#32164"
+msgid "Please choose disc"
+msgstr "Seleccione Disco"
+
+msgctxt "#32165"
+msgid "Launch game from start"
+msgstr "Lanzar desde el comienzo"
+
+msgctxt "#32166"
+msgid "Launch saved state of this game?"
+msgstr "Lanzar Save State de este juego?"
+
+msgctxt "#32167"
+msgid "Select slot of saved game"
+msgstr "Selecciona slot de juego guardado"
+
+msgctxt "#32168"
+msgid "Enter Command Text"
+msgstr "Ingresa Comando de Texto"
+
+msgctxt "#32169"
+msgid "Export library..."
+msgstr "Exportar librería..."
+
+msgctxt "#32170"
+msgid "Exporting Rom Collection"
+msgstr "Exportando Colección Rom"
+
+msgctxt "#32171"
+msgid "Export game"
+msgstr "Exportar juego"
+
+msgctxt "#32172"
+msgid "Action canceled. Config.xml will not be written."
+msgstr "Acción cancelada. Config.xml no será escrito"
+
+msgctxt "#32173"
+msgid "Choose a scenario"
+msgstr "Elige un escenario"
+
+msgctxt "#32174"
+msgid "Scrape game info and artwork online"
+msgstr "Scrape de info de juego y artwork online"
+
+msgctxt "#32175"
+msgid "Game info and artwork are available locally"
+msgstr "Info de juego y artwork están disponibles localmente"
+
+msgctxt "#32176"
+msgid "Choose a platform"
+msgstr "Elige una plataforma"
+
+msgctxt "#32177"
+msgid "Enter platform name"
+msgstr "Ingresa el nombre de la plataforma"
+
+msgctxt "#32178"
+msgid "Path to %s Emulator"
+msgstr "Directorio a %s Emulador"
+
+msgctxt "#32179"
+msgid "Emulator params ("%ROM%" is used for your rom files)"
+msgstr "Parámetros del Emulador ("%ROM%" se usa para sus archivos roms)"
+
+msgctxt "#32180"
+msgid "Path to %s Roms"
+msgstr "Directorio a %s Roms"
+
+msgctxt "#32181"
+msgid "File mask (comma-separated): e.g. *.zip, *.smc"
+msgstr "Extensión de archivo(separado por coma): e.g. *.zip, *.smc"
+
+msgctxt "#32182"
+msgid "%s Artwork (%s)"
+msgstr "%s Artwork (%s)"
+
+msgctxt "#32183"
+msgid "Choose an artwork type"
+msgstr "Elige un tipo de artwork"
+
+msgctxt "#32184"
+msgid "Do you want to add another Artwork Path?"
+msgstr "Quiere Agregar Otro Directorio Artwork?"
+
+msgctxt "#32185"
+msgid "Structure of your game descriptions"
+msgstr "Estructura de la descripción de tu juego"
+
+msgctxt "#32186"
+msgid "One description file per game"
+msgstr "Un archivo de descripción por cada juego"
+
+msgctxt "#32187"
+msgid "One description file for all games"
+msgstr "Un archivo de descripción para todos los juegos"
+
+msgctxt "#32188"
+msgid "Scrape game info online (or use local nfo)"
+msgstr "Scrape de Info de Juego online (o usar nfo local)"
+
+msgctxt "#32189"
+msgid "%s game description"
+msgstr "%s descripción de juego<"
+
+msgctxt "#32190"
+msgid "Enter description file mask"
+msgstr "Ingresa descripción de extensión de archivo"
+
+msgctxt "#32191"
+msgid "%s parse instruction"
+msgstr "%s instrucción de escaneo"
+
+msgctxt "#32192"
+msgid "Do you want to add another Rom Collection?"
+msgstr "Quiere Agregar Otra Colección de Roms?"
+
+msgctxt "#32193"
+msgid "%s Artwork"
+msgstr "%s Artwork"
+
+msgctxt "#32194"
+msgid "Pre-Launch delay (ms)"
+msgstr "Retraso Pre-Lanzado (ms)"
+
+msgctxt "#32195"
+msgid "Post-Launch delay (ms)"
+msgstr "Retraso Post-Lanzado (ms)"
+
+msgctxt "#32196"
+msgid "Solo mode startup delay (ms)"
+msgstr "Retraso Modo Autónomo (ms)"
+
+msgctxt "#32197"
+msgid "Use VB script in solo mode (Windows only)"
+msgstr "Usar VB script en modo autónomo (Sólo Windows)"
+
+msgctxt "#32198"
+msgid "Use RetroPlayer to launch games?"
+msgstr "Usar RetroPlayer para Lanzar Juegos?"
+
+msgctxt "#32199"
+msgid "Suspend Audio"
+msgstr "Suspender Audio<"
+
+msgctxt "#32200"
+msgid "Minimize Kodi"
+msgstr "Minimizar Kodi"
+
+msgctxt "#32201"
+msgid "Path to emu_autoconfig.xml"
+msgstr "Directorio a emu_autoconfig.xml"
+
+msgctxt "#32202"
+msgid "%s (Installed)"
+msgstr "%s (Instalado)"
+
+msgctxt "#32203"
+msgid "Available autoconfig emulators"
+msgstr "Emuladores Autoconfigurados Disponibles"
+
+msgctxt "#32204"
+msgid "Caching images..."
+msgstr "Cacheando imágenes..."
+
+msgctxt "#32205"
+msgid "Do you want to force cancel current import?"
+msgstr "Quieres Forzar Cancelar la Importación actual?"
+
+msgctxt "#32206"
+msgid "Type of offline scraper"
+msgstr "Tipo de Scraper Offline"
+
+msgctxt "#32207"
+msgid "Scrape game info online and artwork is available locally"
+msgstr "Scrape info de juego online y artwork está disponible localmente"
+
+msgctxt "#32208"
+msgid "Left - Options, Right - Filter, C - Context menu"
+msgstr "Izquierda - Opciones, Derecha - Filtro, C - Menú Contextual"
+
+msgctxt "#32209"
+msgid "Up - Options, Down - Filter, C - Context menu"
+msgstr "Arriba - Opciones, Abajo - Filtro, C - Menú Contextual"
+
+msgctxt "#32210"
+msgid "downloading artwork"
+msgstr "Descargando artwork"
+
+msgctxt "#32300"
+msgid "General"
+msgstr "General"
+
+msgctxt "#32301"
+msgid "RCB skin"
+msgstr "RCB Skin"
+
+msgctxt "#32302"
+msgid "Log level"
+msgstr "Nivel de Log"
+
+msgctxt "#32304"
+msgid "Save viewstate on exit"
+msgstr "Guardar Vista al Salir"
+
+msgctxt "#32305"
+msgid "Save viewstate on launch emu"
+msgstr "Guardar vista al lanzar emu"
+
+msgctxt "#32306"
+msgid "Import Games"
+msgstr "Importar Juegos"
+
+msgctxt "#32307"
+msgid "Import games on Kodi startup"
+msgstr "Importar Juegos al Iniciar Kodi"
+
+msgctxt "#32308"
+msgid "Show import options dialog"
+msgstr "Mostrar Diálogo de Importación"
+
+msgctxt "#32309"
+msgid "Scraping mode"
+msgstr "Modo de Scraping"
+
+msgctxt "#32312"
+msgid "Don't import games without description"
+msgstr "No importar juegos sin descripción"
+
+msgctxt "#32314"
+msgid "Rescrape already imported games"
+msgstr "Rescrape juegos ya importados"
+
+msgctxt "#32315"
+msgid "Allow overwrite with null values"
+msgstr "Permitir Reescribir con Valores Nulos"
+
+msgctxt "#32317"
+msgid "nfo folder path"
+msgstr "Ubicación carpeta nfo"
+
+msgctxt "#32318"
+msgid "Browse Games"
+msgstr "Explorar Juegos"
+
+msgctxt "#32319"
+msgid "Show stars for favorites"
+msgstr "Mostrar Estrellas para Favoritos"
+
+msgctxt "#32320"
+msgid "Show filter All Consoles"
+msgstr "Mostrar filtro Todas las Consolas"
+
+msgctxt "#32321"
+msgid "Show filter All Genres"
+msgstr "Mostrar filtro Todos los Géneros"
+
+msgctxt "#32322"
+msgid "Show filter All Years"
+msgstr "Mostrar filtro Todos los Años"
+
+msgctxt "#32323"
+msgid "Show filter All Publishers"
+msgstr "Mostrar filtro Todos los Publicadores"
+
+msgctxt "#32324"
+msgid "Show filter All Chars"
+msgstr "Mostrar filtro Todos los Caracteres"
+
+msgctxt "#32325"
+msgid "Prevent unfiltered search"
+msgstr "Prevenir búsqueda no filtrada"
+
+msgctxt "#32326"
+msgid "Launch Games"
+msgstr "Lanzar Juegos"
+
+msgctxt "#32327"
+msgid "Escape emulator cmd"
+msgstr "Evitar emulador cmd"
+
+msgctxt "#32328"
+msgid "Max number of games to display"
+msgstr "Máximo número de juegos a mostrar"
+
+msgctxt "#32329"
+msgid "Prefer local nfo file if available"
+msgstr "Preferir info local si está disponible"
+
+msgctxt "#32330"
+msgid "Use clearlogo as list title"
+msgstr "Usar clearlogo como título de lista"
+
+msgctxt "#32331"
+msgid "Show scrollbar in game lists"
+msgstr "Mostrar barra de scroll en lista de juegos"
+
+msgctxt "#32332"
+msgid "Show navigation hint at startup"
+msgstr "Motrar tips de navegación al comienzo"
+
+msgctxt "#32400"
+msgid "Year"
+msgstr "Año"
+
+msgctxt "#32401"
+msgid "Genre"
+msgstr "Género"
+
+msgctxt "#32402"
+msgid "Publisher"
+msgstr "Publicador"
+
+msgctxt "#32403"
+msgid "Developer"
+msgstr "Desarrollador"
+
+msgctxt "#32404"
+msgid "Favorites"
+msgstr "Favoritos"
+
+msgctxt "#32405"
+msgid "Search"
+msgstr "Buscar"
+
+msgctxt "#32406"
+msgid "Console"
+msgstr "Consola"
+
+msgctxt "#32407"
+msgid "A-Z"
+msgstr "A-Z"
+
+msgctxt "#32408"
+msgid "View"
+msgstr "Vista"
+
+msgctxt "#32409"
+msgid "Filter missing infos"
+msgstr "Filtrar infos faltantes"
+
+msgctxt "#32410"
+msgid "Items"
+msgstr "Items"
+
+msgctxt "#32411"
+msgid "Page"
+msgstr "Página"
+
+msgctxt "#32412"
+msgid "No Games found"
+msgstr "No se encontraron juegos"
+
+msgctxt "#32413"
+msgid "View Options"
+msgstr "Opciones de Vista"
+
+msgctxt "#32414"
+msgid "Max Players"
+msgstr "Jugadores Máximos"
+
+msgctxt "#32415"
+msgid "Rating (>=)"
+msgstr "Puntaje (>=)"
+
+msgctxt "#32416"
+msgid "Region"
+msgstr "Región"
+
+msgctxt "#32417"
+msgid "Sort by"
+msgstr "Ordenar por"
+
+msgctxt "#32418"
+msgid "Order"
+msgstr "Ordenar"
+
+msgctxt "#32419"
+msgid "Ascending"
+msgstr "Ascendente"
+
+msgctxt "#32420"
+msgid "Descending"
+msgstr "Descendente"
+
+msgctxt "#32421"
+msgid "Title"
+msgstr "Título"
+
+msgctxt "#32422"
+msgid "Rating"
+msgstr "Puntaje"
+
+msgctxt "#32423"
+msgid "Play count"
+msgstr "Veces Jugado"
+
+msgctxt "#32424"
+msgid "Date added"
+msgstr "Fecha de Adhesión"
+
+msgctxt "#32425"
+msgid "Release Year"
+msgstr "Año de Lanzamiento"
+
+msgctxt "#32426"
+msgid "Select Color File"
+msgstr "Selecciona Archivo de Color"
+
+msgctxt "#32427"
+msgid "Actions"
+msgstr "Acciones"
+
+msgctxt "#32428"
+msgid "Import Games"
+msgstr "Importar Juegos"
+
+msgctxt "#32429"
+msgid "Export Game Database"
+msgstr "Exportar Base de Datos de Juego"
+
+msgctxt "#32430"
+msgid "Clean Database"
+msgstr "Limpiar Base de Datos"
+
+msgctxt "#32431"
+msgid "Scan Artwork Directories"
+msgstr "Escanear Directorios de Artwork"
+
+msgctxt "#32432"
+msgid "Edit Rom Collections"
+msgstr "Editar Colecciones de Rom"
+
+msgctxt "#32433"
+msgid "Open Addon Settings"
+msgstr "Abrir Configuración Addon"
+
+msgctxt "#32501"
+msgid "Rescrape selected Game"
+msgstr "Rescrape Juego Seleccionado"
+
+msgctxt "#32502"
+msgid "Rescrape Selection"
+msgstr "Rescrape Selección"
+
+msgctxt "#32506"
+msgid "Edit Game Command"
+msgstr "Editar Comando de Juego"
+
+msgctxt "#32507"
+msgid "Add Game To Favorites"
+msgstr "Adherir Juego a Favoritos"
+
+msgctxt "#32508"
+msgid "Add Selection To Favorites"
+msgstr "Adherir Selección a Favoritos"
+
+msgctxt "#32510"
+msgid "Delete Game"
+msgstr "Borrar Juego"
+
+msgctxt "#32514"
+msgid "Set Gameclient (per Game)"
+msgstr "Selecciona cliente de juego (por juego)"
+
+msgctxt "#32600"
+msgid "Configuration"
+msgstr "Configuración"
+
+msgctxt "#32601"
+msgid "Rom Collection"
+msgstr "Colección de Rom"
+
+msgctxt "#32602"
+msgid "Import Games"
+msgstr "Importar Juegos"
+
+msgctxt "#32603"
+msgid "Import Game Data"
+msgstr "Importar Datos de Juego"
+
+msgctxt "#32604"
+msgid "Browse Games"
+msgstr "Explorar Juegos"
+
+msgctxt "#32605"
+msgid "Launch Games"
+msgstr "Lanzar Juegos"
+
+msgctxt "#32606"
+msgid "Rom Path"
+msgstr "Directorio de Rom"
+
+msgctxt "#32607"
+msgid "Rom File Mask"
+msgstr "Extensión de Archivo Rom"
+
+msgctxt "#32608"
+msgid "Ignore On Scan"
+msgstr "Ignorar En Escaneo"
+
+msgctxt "#32609"
+msgid "Allow Update"
+msgstr "Permitir Actualización"
+
+msgctxt "#32610"
+msgid "Max Folder Depth"
+msgstr "Max Profundidad de Directorios"
+
+msgctxt "#32611"
+msgid "Disk Indicator"
+msgstr "Indicador N de Disco"
+
+msgctxt "#32612"
+msgid "Use Foldername As Gamename"
+msgstr "Usar Nombre de Carpeta Como Nombre de Juego"
+
+msgctxt "#32613"
+msgid "Scraper"
+msgstr "Scraper"
+
+msgctxt "#32616"
+msgid "Media Type"
+msgstr "Tipo de Media"
+
+msgctxt "#32617"
+msgid "Media Path"
+msgstr "Directorio de Media"
+
+msgctxt "#32618"
+msgid "Media File Mask"
+msgstr "Extensión de archivo Media"
+
+msgctxt "#32619"
+msgid "Remove Media Path"
+msgstr "Remover Directorio de Media"
+
+msgctxt "#32620"
+msgid "Add Media Path"
+msgstr "Adherir Directorio de Media"
+
+msgctxt "#32621"
+msgid "Images (Main window)"
+msgstr "Imágenes (Ventana Principal)"
+
+msgctxt "#32622"
+msgid "Images (Info window)"
+msgstr "Imágenes (Ventana Info)"
+
+msgctxt "#32623"
+msgid "Autoplay Video (Main Window)"
+msgstr "Autoplay Video (Ventana Principal)"
+
+msgctxt "#32624"
+msgid "Emulator Cmd"
+msgstr "Emulador Cmd"
+
+msgctxt "#32625"
+msgid "Emulator Params"
+msgstr "Parámetros Emulador"
+
+msgctxt "#32626"
+msgid "Use Emulator In Solo Mode"
+msgstr "Usar Emulador En Modo Autónomo"
+
+msgctxt "#32627"
+msgid "Use Popen To Launch Emulator"
+msgstr "Usar Popen Para Lanzar Emulador"
+
+msgctxt "#32628"
+msgid "Do Not Extract Zip Files"
+msgstr "No extraer archivos Zip"
+
+msgctxt "#32629"
+msgid "Savestate path"
+msgstr "Directorio a Savestate"
+
+msgctxt "#32630"
+msgid "Savestate File Mask"
+msgstr "Extensión de archivo Savestate"
+
+msgctxt "#32631"
+msgid "Savestate Params"
+msgstr "Parámetros Savestate"
+
+msgctxt "#32632"
+msgid "Pre-Launch Cmd"
+msgstr "Pre-Lanzado Cmd"
+
+msgctxt "#32633"
+msgid "Post-Launch Cmd"
+msgstr "Post-Lanzado Cmd"
+
+msgctxt "#32634"
+msgid "Save Config"
+msgstr "Guardar Configuración"
+
+msgctxt "#32635"
+msgid "Cancel"
+msgstr "Cancelar"
+
+msgctxt "#32636"
+msgid "Autoplay Video (Info Window)"
+msgstr "Autoplay Video (Info Window)"
+
+msgctxt "#32637"
+msgid "Use RetroPlayer"
+msgstr "Usar RetroPlayer"
+
+msgctxt "#32638"
+msgid "Gameclient"
+msgstr "Cliente de Juego"
+
+msgctxt "#32639"
+msgid "Artwork"
+msgstr "Artwork"
+
+msgctxt "#32640"
+msgid "Available Offline Scrapers"
+msgstr "Offline Scrapers Disponible"
+
+msgctxt "#32641"
+msgid "Click to add Offline Scraper"
+msgstr "Click Para Adherir Offline Scraper"
+
+msgctxt "#32642"
+msgid "Select Path to Game description file"
+msgstr "Selecciona Directorio a Archivo de Descripción de Juegos"
+
+msgctxt "#32643"
+msgid "Default Scraper"
+msgstr "Scraper por Defecto"
+
+msgctxt "#32644"
+msgid "Make Local Copy"
+msgstr "Hacer Copia Local"
+
+msgctxt "#32645"
+msgid "Add Collection"
+msgstr "Adherir Colección"
+
+msgctxt "#32646"
+msgid "Remove Collection"
+msgstr "Remover Colección"
+
+msgctxt "#32750"
+msgid "Region"
+msgstr "Región"
+
+msgctxt "#32751"
+msgid "Media"
+msgstr "Media"
+
+msgctxt "#32752"
+msgid "Controller"
+msgstr "Mando"
+
+msgctxt "#32753"
+msgid "Rating"
+msgstr "Puntaje"
+
+msgctxt "#32754"
+msgid "Max. Players"
+msgstr "Max. Jugadores"
+
+msgctxt "#32755"
+msgid "Launch count"
+msgstr "N de Veces Lanzado"
+
+msgctxt "#32756"
+msgid "Play Game"
+msgstr "Jugar Juego"
+
+msgctxt "#32800"
+msgid "Import Games"
+msgstr "Importar Juegos"
+
+msgctxt "#32801"
+msgid "Scraping mode"
+msgstr "Modo de Scraping"
+
+msgctxt "#32802"
+msgid "Change scraper for this run"
+msgstr "Cambia Scrapers para este Escaneo"
+
+msgctxt "#32803"
+msgid "Scrape in background (exit RCB)"
+msgstr "Scrapear en background (exit RCB)"
+
+msgctxt "#32804"
+msgid "Use configured default scrapers"
+msgstr "Usar los scrapers por defecto"
+
+msgctxt "#32850"
+msgid "RCB - Missing info filter"
+msgstr "RCB - Filtro de no info"
+
+msgctxt "#32851"
+msgid "Filter mode"
+msgstr "Modo de Filtrado"
+
+msgctxt "#32852"
+msgid "Filter games with missing artwork"
+msgstr "Filtrar juegos sin artwork"
+
+msgctxt "#32853"
+msgid "ONE of these items missing"
+msgstr "UNO de estos items faltante"
+
+msgctxt "#32854"
+msgid "None"
+msgstr "Ninguno"
+
+msgctxt "#32855"
+msgid "Add item"
+msgstr "Adherir Item"
+
+msgctxt "#32856"
+msgid "Remove item"
+msgstr "Remover Item"
+
+msgctxt "#32857"
+msgid "ALL of these items missing"
+msgstr "TODOS estos items faltantes"
+
+msgctxt "#32858"
+msgid "Filter games with missing info"
+msgstr "Filtrar juegos sin info"
+
+msgctxt "#32900"
+msgid "RCB - Delete Rom Collection"
+msgstr "RCB - Borrar Colección de Rom"
+
+msgctxt "#32901"
+msgid "Removal Option"
+msgstr "Opciones de remoción"
+
+msgctxt "#32902"
+msgid "Delete"
+msgstr "Borrar"
+
+msgctxt "#32950"
+msgid "Scan Artwork"
+msgstr "Escanear Artwork"
+
+msgctxt "#32952"
+msgid "Artwork Type"
+msgstr "Tipo de Artwork"
+
+msgctxt "#32953"
+msgid "Caching Artwork for Rom Collection"
+msgstr "Cacheo Artwork para la Colección de Rom"
+
+msgctxt "#32954"
+msgid "Scan Artwork for Rom Collection"
+msgstr "Escanear Artwork para la Colección de Rom"
+
+msgctxt "#32955"
+msgid "Scan Artwork for Game"
+msgstr "Escanear Artwork para el Juego"
+
+msgctxt "#32999"
+msgid "Rom Collection Browser"
+msgstr "Rom Collection Browser"
+
