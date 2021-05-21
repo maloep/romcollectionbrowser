@@ -117,7 +117,7 @@
 							<texturenofocus></texturenofocus>							
 							<visible>!String.IsEmpty(ListItem.Property(autoplayvideomain)) + !String.IsEmpty(ListItem.Property(gameplaymain))</visible>
 							<animation delay="500" effect="fade" start="100" end="100">Focus</animation>
-							<onfocus condition="!String.IsEmpty(ListItem.Property(autoplayvideomain)) + !String.IsEmpty(ListItem.Property(gameplaymain))">XBMC.PlayMedia($ESCINFO[ListItem.Property(gameplaymain)],1)</onfocus>
+							<onfocus condition="!String.IsEmpty(ListItem.Property(autoplayvideomain)) + !String.IsEmpty(ListItem.Property(gameplaymain))">PlayMedia($ESCINFO[ListItem.Property(gameplaymain)],1)</onfocus>
 						</control>
 					</focusedlayout>
 				</control>
@@ -635,7 +635,7 @@
 								<texturenofocus></texturenofocus>
 								<visible>!String.IsEmpty(ListItem.Property(autoplayvideomain)) + !String.IsEmpty(ListItem.Property(gameplaymain))</visible>
 								<animation delay="500" effect="fade" start="100" end="100">Focus</animation>
-								<onfocus condition="!String.IsEmpty(ListItem.Property(autoplayvideomain)) + !String.IsEmpty(ListItem.Property(gameplaymain))">XBMC.PlayMedia($ESCINFO[ListItem.Property(gameplaymain)],1)</onfocus>
+								<onfocus condition="!String.IsEmpty(ListItem.Property(autoplayvideomain)) + !String.IsEmpty(ListItem.Property(gameplaymain))">PlayMedia($ESCINFO[ListItem.Property(gameplaymain)],1)</onfocus>
 							</control>
 						</focusedlayout>
 					</control>
@@ -1105,7 +1105,7 @@
 								<texturenofocus></texturenofocus>
 								<visible>!String.IsEmpty(ListItem.Property(autoplayvideomain)) + !String.IsEmpty(ListItem.Property(gameplaymain))</visible>
 								<animation delay="500" effect="fade" start="100" end="100">Focus</animation>
-								<onfocus condition="!String.IsEmpty(ListItem.Property(autoplayvideomain)) + !String.IsEmpty(ListItem.Property(gameplaymain))">XBMC.PlayMedia($ESCINFO[ListItem.Property(gameplaymain)],1)</onfocus>
+								<onfocus condition="!String.IsEmpty(ListItem.Property(autoplayvideomain)) + !String.IsEmpty(ListItem.Property(gameplaymain))">PlayMedia($ESCINFO[ListItem.Property(gameplaymain)],1)</onfocus>
 							</control>
 						</focusedlayout>
 					</control>
