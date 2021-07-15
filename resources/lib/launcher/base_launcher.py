@@ -143,6 +143,8 @@ class AbstractLauncher(object):
                 if(not romCollection.doNotExtractZipFiles and saveStateParams == '' and not self.calledFromSkin):
                     extracted_roms = archive_handler.extract_archive(romCollection, rom, emuParams)
                     roms.extend(extracted_roms)
+            else:
+                roms = [rom]
 
         precmd, postcmd, cmd = self.build_cmd(romCollection, gameRow, roms, emuParams, part_to_repeat_in_emuparams)
 
