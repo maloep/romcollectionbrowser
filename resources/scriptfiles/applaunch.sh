@@ -21,7 +21,7 @@ case "$(uname -s)" in
 		Kodi_BIN=$(ps -A | grep Kodi.app | grep -v Helper | grep -v grep | awk '{print $5}')
 		;;
 	Linux)
-		Kodi_PID=$(pidof kodi.bin)
+		Kodi_PID=$(pidof kodi-x11 kodi-gbm kodi-wayland)
 		Kodi_BIN="kodi"
 		;;	
 	*)
